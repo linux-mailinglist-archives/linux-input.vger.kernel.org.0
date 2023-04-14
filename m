@@ -2,119 +2,155 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD33C6E2885
-	for <lists+linux-input@lfdr.de>; Fri, 14 Apr 2023 18:41:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E95646E28D9
+	for <lists+linux-input@lfdr.de>; Fri, 14 Apr 2023 18:59:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229653AbjDNQl2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Apr 2023 12:41:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46550 "EHLO
+        id S229879AbjDNQ7I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Apr 2023 12:59:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229840AbjDNQl0 (ORCPT
+        with ESMTP id S229461AbjDNQ7I (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Apr 2023 12:41:26 -0400
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D168110
-        for <linux-input@vger.kernel.org>; Fri, 14 Apr 2023 09:41:26 -0700 (PDT)
-Received: by mail-ot1-x332.google.com with SMTP id l13-20020a0568302b0d00b006a416ec44ccso4966649otv.2
-        for <linux-input@vger.kernel.org>; Fri, 14 Apr 2023 09:41:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1681490485; x=1684082485;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qCROuI9qGjr1e6FaOJtEHxCuk9OEai2bcsOdmRyfB1c=;
-        b=kyYl6bs2HrKDvZh6E9n298QmLiL7EjVs/iO/39n8M8kJVVNrOKfK2EYRFhTripHtij
-         qVpXzXi5x2YhDQYFYxRZqvEHCwUQWM4tOJ1Y0PyJbYwjQJbegz3y7T8NF4q2kCyragGS
-         PxSm0oqrcTBmRi6y7Bmv8gahjU42BwW8y9KRA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681490485; x=1684082485;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qCROuI9qGjr1e6FaOJtEHxCuk9OEai2bcsOdmRyfB1c=;
-        b=UPS0+Gh6yDauTshENUydqvRi+j6d/CRFgl5NiFQpfu+YqJ5souiGExtHfe7FIWXlns
-         33zgktqyjO88u0HGUwIRSKZeS8W3nvYzn+vJa0H5nm09JDEZYw64NI6FUK9rbN8sVrD7
-         oIeDAGVWGRRFLPH84thSB+LVvmj0L+E1VYRT0EgMXywX82bMehnmgIi90U6rBG8Aognf
-         CGk8s6TppXw83U9WlaqZcS2wO+AveZn0SjWqjiU2NsYBs6gAeOmvT5LH//om3aaNjLyN
-         jxY8FQ451z8cU+CneIJapTyjj/jh4uC/M/qS0ZQ4pm2Dm1LBZI18e9OzsZ5fk3E05rVO
-         GmRg==
-X-Gm-Message-State: AAQBX9c0KGJ5vPppUQ/OmiDx7xIxXoLQ3BtSpxELQrHQPpnYuUnwTKSE
-        gac5atBSvxsCqEHzYXWZwai0qQ==
-X-Google-Smtp-Source: AKy350ag+kyBqmzLO90L50j5ns7SVe4q/2efsusk0PADyjaMpFOY3TbikCHSfyucmDOHnQicca5+sg==
-X-Received: by 2002:a9d:7f0e:0:b0:6a4:2a63:ed64 with SMTP id j14-20020a9d7f0e000000b006a42a63ed64mr2730851otq.0.1681490485395;
-        Fri, 14 Apr 2023 09:41:25 -0700 (PDT)
-Received: from jdenose34.roam.corp.google.com (99-137-158-190.lightspeed.cicril.sbcglobal.net. [99.137.158.190])
-        by smtp.gmail.com with ESMTPSA id u8-20020a056830118800b006a2fd720f82sm1870354otq.7.2023.04.14.09.41.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Apr 2023 09:41:24 -0700 (PDT)
-From:   Jonathan Denose <jdenose@chromium.org>
-X-Google-Original-From: Jonathan Denose <jdenose@google.com>
-To:     lyude@redhat.com
-Cc:     aduggan@synaptics.com, amandhoot12@gmail.com,
-        dmitry.torokhov@gmail.com, jdenose@chromium.org,
-        jdenose@google.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, markpearson@lenovo.com,
-        wsa+renesas@sang-engineering.com
-Subject: [PATCH v2] Input: synaptics - disable intertouch for Lenovo L440
-Date:   Fri, 14 Apr 2023 11:41:15 -0500
-Message-ID: <20230414092353.v2.1.Ieb687047a5b75c7b7ee5dd258207ef5ca9a3b728@changeid>
-X-Mailer: git-send-email 2.40.0.634.g4ca3ef3211-goog
-In-Reply-To: <063c8f77c216ffac463532023009124542d54c19.camel@redhat.com>
-References: <063c8f77c216ffac463532023009124542d54c19.camel@redhat.com>
+        Fri, 14 Apr 2023 12:59:08 -0400
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53C2149F5;
+        Fri, 14 Apr 2023 09:59:06 -0700 (PDT)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+        by mx0b-001ae601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33E71o1D025312;
+        Fri, 14 Apr 2023 11:59:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PODMain02222019;
+ bh=Kzw+l8cqcJr1TSQ6WJDIEKu8YNtPoQdgFhRljLL9mF4=;
+ b=amLmWAZyTN6xFf01M5r/rlOYGl34RaKJVyHU/pz+jNvvrtwcCkUeRWBKJQ7GARU9yI9e
+ y1zkwkpgeq6s538/VXeB4msynI/mGVi8H1tQbDYlsGPu0Hn6NYqXH/64mKvd3aLCDd5N
+ S97ZXFz/5XpJvxZvg6j+JLHXrwa2dy47h05v2SrnSWXxjyeH2EJuJTHQKZnUQYR8I+JK
+ XlXjPOSP15did1kDfwjm3C0vSETiZQX209YQR7p88kNzTZk+yX3nf87gmY4TfjFA7qf4
+ R9qK+7kONata0oOB+S5VKNO69uKTDyu0q2r+HoLZa6iBPBRAODbickRLGP+dldZbP7h1 nw== 
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+        by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3pxm3qa7gk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 14 Apr 2023 11:59:04 -0500
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Fri, 14 Apr
+ 2023 11:59:02 -0500
+Received: from aus-sw-rshr002.ad.cirrus.com (141.131.206.14) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26 via Frontend Transport; Fri, 14 Apr 2023 11:59:02 -0500
+Received: by aus-sw-rshr002.ad.cirrus.com (Postfix, from userid 46936)
+        id D50CA4C0B82; Fri, 14 Apr 2023 16:59:01 +0000 (UTC)
+From:   James Ogletree <james.ogletree@cirrus.com>
+To:     <dmitry.torokhov@gmail.com>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        "James Ogletree" <james.ogletree@cirrus.com>
+Subject: [PATCH] Input: support pre-stored effects
+Date:   Fri, 14 Apr 2023 16:58:42 +0000
+Message-ID: <20230414165842.478748-1-james.ogletree@cirrus.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: aFRE67FGRKhxA_-eARugV2aovNS1HNVc
+X-Proofpoint-GUID: aFRE67FGRKhxA_-eARugV2aovNS1HNVc
+X-Proofpoint-Spam-Reason: safe
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When intertouch is enabled for the L440 a (deep)sleep/resume
-cycle causes the touchpad driver to hang which causes the
-touchpad to become unresponsive. Disable intertouch resolves
-this issue and the touchpad is fine after resume from sleep.
+At present, the best way to define effects that
+pre-exist in device memory is by utilizing
+the custom_data field, which it was not intended
+for, and requires arbitrary interpretation by
+the driver to make meaningful.
 
-Additionally, when the PNP id for the L440 is only removed
-from the topbuttonpad_pnp_ids list, a message is logged to
-enable psmouse.synaptics_intertouch, which would cause the
-sleep/resume issue again. By removing the PNP id from
-topbutton_pnp_ids and then adding it to the
-forcepad_pnp_ids array, intertouch is disabled and the
-message is not logged.
+Provide option for defining pre-stored effects in
+device memory.
 
-Signed-off-by: Jonathan Denose <jdenose@google.com>
+Signed-off-by: James Ogletree <james.ogletree@cirrus.com>
 ---
+ include/uapi/linux/input.h | 32 ++++++++++++++++++++++----------
+ 1 file changed, 22 insertions(+), 10 deletions(-)
 
-Changes in v2:
-- remove debug statement
-
- drivers/input/mouse/synaptics.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
-index fa021af8506e4..b7218b7652c20 100644
---- a/drivers/input/mouse/synaptics.c
-+++ b/drivers/input/mouse/synaptics.c
-@@ -150,7 +150,6 @@ static const char * const topbuttonpad_pnp_ids[] = {
- 	"LEN2001", /* Edge E431 */
- 	"LEN2002", /* Edge E531 */
- 	"LEN2003",
--	"LEN2004", /* L440 */
- 	"LEN2005",
- 	"LEN2006", /* Edge E440/E540 */
- 	"LEN2007",
-@@ -198,6 +197,7 @@ static const char * const smbus_pnp_ids[] = {
- static const char * const forcepad_pnp_ids[] = {
- 	"SYN300D",
- 	"SYN3014",
-+	"LEN2004", /* L440 */
- 	NULL
+diff --git a/include/uapi/linux/input.h b/include/uapi/linux/input.h
+index 2557eb7b0561..689e5fa10647 100644
+--- a/include/uapi/linux/input.h
++++ b/include/uapi/linux/input.h
+@@ -428,17 +428,27 @@ struct ff_rumble_effect {
+ 	__u16 weak_magnitude;
  };
  
++/**
++ * struct ff_prestored_effect - defines parameters of a pre-stored force-feedback effect
++ * @index: index of effect
++ * @bank: memory bank of effect
++ */
++struct ff_prestored_effect {
++	__u16 index;
++	__u16 bank;
++};
++
+ /**
+  * struct ff_effect - defines force feedback effect
+  * @type: type of the effect (FF_CONSTANT, FF_PERIODIC, FF_RAMP, FF_SPRING,
+- *	FF_FRICTION, FF_DAMPER, FF_RUMBLE, FF_INERTIA, or FF_CUSTOM)
++ *	FF_FRICTION, FF_DAMPER, FF_RUMBLE, FF_INERTIA, FF_PRESTORED, or FF_CUSTOM)
+  * @id: an unique id assigned to an effect
+  * @direction: direction of the effect
+  * @trigger: trigger conditions (struct ff_trigger)
+  * @replay: scheduling of the effect (struct ff_replay)
+  * @u: effect-specific structure (one of ff_constant_effect, ff_ramp_effect,
+- *	ff_periodic_effect, ff_condition_effect, ff_rumble_effect) further
+- *	defining effect parameters
++ *	ff_periodic_effect, ff_condition_effect, ff_rumble_effect, ff_prestored_effect)
++ *	further defining effect parameters
+  *
+  * This structure is sent through ioctl from the application to the driver.
+  * To create a new effect application should set its @id to -1; the kernel
+@@ -464,6 +474,7 @@ struct ff_effect {
+ 		struct ff_periodic_effect periodic;
+ 		struct ff_condition_effect condition[2]; /* One for each axis */
+ 		struct ff_rumble_effect rumble;
++		struct ff_prestored_effect prestored;
+ 	} u;
+ };
+ 
+@@ -479,20 +490,21 @@ struct ff_effect {
+ #define FF_DAMPER	0x55
+ #define FF_INERTIA	0x56
+ #define FF_RAMP		0x57
++#define FF_PRESTORED	0x58
+ 
+ #define FF_EFFECT_MIN	FF_RUMBLE
+-#define FF_EFFECT_MAX	FF_RAMP
++#define FF_EFFECT_MAX	FF_PRESTORED
+ 
+ /*
+  * Force feedback periodic effect types
+  */
+ 
+-#define FF_SQUARE	0x58
+-#define FF_TRIANGLE	0x59
+-#define FF_SINE		0x5a
+-#define FF_SAW_UP	0x5b
+-#define FF_SAW_DOWN	0x5c
+-#define FF_CUSTOM	0x5d
++#define FF_SQUARE	0x59
++#define FF_TRIANGLE	0x5a
++#define FF_SINE		0x5b
++#define FF_SAW_UP	0x5c
++#define FF_SAW_DOWN	0x5d
++#define FF_CUSTOM	0x5e
+ 
+ #define FF_WAVEFORM_MIN	FF_SQUARE
+ #define FF_WAVEFORM_MAX	FF_CUSTOM
 -- 
-2.39.2
+2.25.1
 
