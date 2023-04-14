@@ -2,136 +2,132 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8325D6E1D09
-	for <lists+linux-input@lfdr.de>; Fri, 14 Apr 2023 09:22:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B44F6E1D69
+	for <lists+linux-input@lfdr.de>; Fri, 14 Apr 2023 09:44:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229471AbjDNHWK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Apr 2023 03:22:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48718 "EHLO
+        id S229739AbjDNHoT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Apr 2023 03:44:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229579AbjDNHWJ (ORCPT
+        with ESMTP id S229543AbjDNHoQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Apr 2023 03:22:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C7464C06
-        for <linux-input@vger.kernel.org>; Fri, 14 Apr 2023 00:21:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681456884;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=jHlI4DTb/cCkvdxPoy65g67YEcoUlsmTkMzv/kqSTJg=;
-        b=QB7+P9g2PSuo7IuaeXLbMAZW7j2pnHme8PfQ0PkWdeZRWKeIxovFBUIOV561+FwFF7/PVh
-        WZrVy+ckM/MG6TLBz2gJz13Ct2LjAHktf7lrhI0pEIqDaigm/78On8uEbcTtJgE9heMuS5
-        PvlBH8WeFBlWe9EEPrS9r3pA0CS/xJ4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-515-vPxewyHkNVmMLfH_zfKdMA-1; Fri, 14 Apr 2023 03:21:23 -0400
-X-MC-Unique: vPxewyHkNVmMLfH_zfKdMA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C9BF93802AC2;
-        Fri, 14 Apr 2023 07:21:22 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.194.30])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3F5A4492B00;
-        Fri, 14 Apr 2023 07:21:22 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
-Subject: [PATCH] Input: soc_button_array - Add invalid acpi_index DMI quirk handling
-Date:   Fri, 14 Apr 2023 09:21:16 +0200
-Message-Id: <20230414072116.4497-1-hdegoede@redhat.com>
+        Fri, 14 Apr 2023 03:44:16 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1272F44B2
+        for <linux-input@vger.kernel.org>; Fri, 14 Apr 2023 00:44:14 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id rp27so6478622ejb.12
+        for <linux-input@vger.kernel.org>; Fri, 14 Apr 2023 00:44:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681458252; x=1684050252;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xggPyA5Loe1PP8kK256jqhC93KUTQ15DwlgDEOkunfA=;
+        b=lfChVG0kCG4fpYP4QhuqIz/B3aGDMndQAyK5F34Aw9DcYHwWZj2sxxsAdDoUMyECtw
+         Waao+Y7Of9MwB+er1zwTwdFcMR81qJMZsNo5eJUy1aOPd7lunlBS4k1Jjxexk55HxqTh
+         cxicVe6SJ+Aui9RRgVdj1g2YOrgboXSiIJ3zQL0baMb9mCrRbXs3QIWihfEfcondhNS/
+         qdPMG4B+/0gy7av2wtoBx5ubpbcsDWGCUFKAWvcvD6DlAEDYSqM4ahmtk4j0sjeUgKnm
+         bl0NS9l8VgnoMPzgpJBQc0om3NPsuZlkIJdOEm3u90Dw77vUiTJjdlmt54iQBIVSVG7U
+         ltKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681458252; x=1684050252;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xggPyA5Loe1PP8kK256jqhC93KUTQ15DwlgDEOkunfA=;
+        b=GZRmcAho1GO0oLfw/n8RjMlT9rrinmrhKp5TmYVyGIcJV0+JU2wFiypM5oulS9jlVe
+         RRLvyG98MgEgr+h8X9QAAD4ZL2/VfQ4sxG0iom/Mtx11jvC3qdbO6TTIPCDlSw9+WAYT
+         uFFiwfSgrAPulDHxlVUlLUXW0bJi93GyvPAfce7n/ai2D5/25Xpym/QoB5aFm/QDAznx
+         W9dE8KGdBDYo3R4EeFDpJlN/9o5bG0RJpvYuFecOd8klqgnN2XryqGkUR80BYXnMdG7+
+         OZC+6/JiJr3KCrf5HTtTfJDHiv2ja6nOi/bg98LwgOqSnJzbXdIPwe3YxDGpTfgGsDNr
+         TZXg==
+X-Gm-Message-State: AAQBX9cA2Q57IxlpnBDlSjsO5p0EfKJ0t7DpuCsYJL8QijC9WagXRKHI
+        DLOVpnNUxfxnzmnAgvQucuhokg==
+X-Google-Smtp-Source: AKy350YPcZ3BLKpDrlII+wqnI5EW6oBxcl0fHOpJPCrNIqmVgoO5mmHwNDo4YKuiP7xHtB3sEAX9hQ==
+X-Received: by 2002:a17:907:7810:b0:8b1:7ae9:647 with SMTP id la16-20020a170907781000b008b17ae90647mr5407027ejc.76.1681458252561;
+        Fri, 14 Apr 2023 00:44:12 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:8a60:6b0f:105a:eefb? ([2a02:810d:15c0:828:8a60:6b0f:105a:eefb])
+        by smtp.gmail.com with ESMTPSA id gv16-20020a1709072bd000b0094a785e362dsm2118002ejc.141.2023.04.14.00.44.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Apr 2023 00:44:12 -0700 (PDT)
+Message-ID: <046eac79-b97e-9f95-8a2f-05cf00a00f81@linaro.org>
+Date:   Fri, 14 Apr 2023 09:44:10 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v2 1/5] dt-bindings: input: touchscreen: add bindings for
+ focaltech,fts5452
+Content-Language: en-US
+To:     Joel Selvaraj <joelselvaraj.oss@gmail.com>,
+        Caleb Connolly <caleb@connolly.tech>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Jeff LaBundy <jeff@labundy.com>,
+        Markuss Broks <markuss.broks@gmail.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        Job Noorman <job@noorman.info>,
+        Alistair Francis <alistair@alistair23.me>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+References: <20230410160200.57261-1-joelselvaraj.oss@gmail.com>
+ <20230410160200.57261-2-joelselvaraj.oss@gmail.com>
+ <f9552bb6-ea73-93b4-f15d-d5d7c326c708@linaro.org>
+ <b89c39af-da87-8138-9899-fb631ebe76e1@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <b89c39af-da87-8138-9899-fb631ebe76e1@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some devices have a wrong entry in their button array which points to
-a GPIO which is required in another driver, so soc_button_array must
-not claim it.
+On 14/04/2023 02:32, Joel Selvaraj wrote:
+> Hi Krzysztof Kozlowski,
+> 
+> Konrad Dybcio suggested to use interrupts-extended instead interrupts.
 
-A specific example of this is the Lenovo Yoga Book X90F / X90L,
-where the PNP0C40 home button entry points to a GPIO which is not
-a home button and which is required by the lenovo-yogabook driver.
+Sorry,
 
-Add a DMI quirk table which can specify an ACPI GPIO resource index which
-should be skipped; and add an entry for the Lenovo Yoga Book X90F / X90L
-to this new DMI quirk table.
+I have no idea what this email is about.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/input/misc/soc_button_array.c | 30 +++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+There is no context here, no reply, it just appeared alone in my inbox
+without any reference. Please respond inline to existing messages,
+keeping necessary context you are replying to.
 
-diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
-index 09489380afda..e79f5497948b 100644
---- a/drivers/input/misc/soc_button_array.c
-+++ b/drivers/input/misc/soc_button_array.c
-@@ -108,6 +108,27 @@ static const struct dmi_system_id dmi_use_low_level_irq[] = {
- 	{} /* Terminating entry */
- };
- 
-+/*
-+ * Some devices have a wrong entry which points to a GPIO which is
-+ * required in another driver, so this driver must not claim it.
-+ */
-+static const struct dmi_system_id dmi_invalid_acpi_index[] = {
-+	{
-+		/*
-+		 * Lenovo Yoga Book X90F / X90L, the PNP0C40 home button entry
-+		 * points to a GPIO which is not a home button and which is
-+		 * required by the lenovo-yogabook driver.
-+		 */
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "CHERRYVIEW D1 PLATFORM"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "YETI-11"),
-+		},
-+		.driver_data = (void *)1l,
-+	},
-+	{} /* Terminating entry */
-+};
-+
- /*
-  * Get the Nth GPIO number from the ACPI object.
-  */
-@@ -137,6 +158,8 @@ soc_button_device_create(struct platform_device *pdev,
- 	struct platform_device *pd;
- 	struct gpio_keys_button *gpio_keys;
- 	struct gpio_keys_platform_data *gpio_keys_pdata;
-+	const struct dmi_system_id *dmi_id;
-+	int invalid_acpi_index = -1;
- 	int error, gpio, irq;
- 	int n_buttons = 0;
- 
-@@ -154,10 +177,17 @@ soc_button_device_create(struct platform_device *pdev,
- 	gpio_keys = (void *)(gpio_keys_pdata + 1);
- 	n_buttons = 0;
- 
-+	dmi_id = dmi_first_match(dmi_invalid_acpi_index);
-+	if (dmi_id)
-+		invalid_acpi_index = (long)dmi_id->driver_data;
-+
- 	for (info = button_info; info->name; info++) {
- 		if (info->autorepeat != autorepeat)
- 			continue;
- 
-+		if (info->acpi_index == invalid_acpi_index)
-+			continue;
-+
- 		error = soc_button_lookup_gpio(&pdev->dev, info->acpi_index, &gpio, &irq);
- 		if (error || irq < 0) {
- 			/*
--- 
-2.39.1
+> So in my WIP v3, I have updated it in the dts and bindings example.
+> However, I am confused if I should replace the "interrupts" with
+> "interrupts-extended" property in the schema too? I see a lot of schemas
+
+No.
+
+> specifying "interrupts", with examples using "interrupts" or
+> "interrupts-extended". At the same time, I see some specifying both
+> "interrupts" and "interrupts-extended" (like one of these two) and very
+> few others specify only "interrupts-extended" in the schema. Which is
+> the currently recommended way to do this?
+> 
+> In between, the interrupt property should be a required property as the
+> driver will not function without an interrupt. I will fix that in v3.
+> 
+> Thanks,
+> Joel Selvaraj
+
+Best regards,
+Krzysztof
 
