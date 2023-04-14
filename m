@@ -2,69 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C15F6E241B
-	for <lists+linux-input@lfdr.de>; Fri, 14 Apr 2023 15:16:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F15D6E255A
+	for <lists+linux-input@lfdr.de>; Fri, 14 Apr 2023 16:12:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229632AbjDNNQ5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Apr 2023 09:16:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51328 "EHLO
+        id S230286AbjDNOMj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Apr 2023 10:12:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbjDNNQ5 (ORCPT
+        with ESMTP id S230211AbjDNOMi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Apr 2023 09:16:57 -0400
-Received: from mail.posteburundi.bi (mail.posteburundi.bi [196.2.15.142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8185F3A8D;
-        Fri, 14 Apr 2023 06:16:54 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.posteburundi.bi (Postfix) with ESMTP id 0410F21C3EA1;
-        Fri, 14 Apr 2023 14:57:47 +0200 (CAT)
-Received: from mail.posteburundi.bi ([127.0.0.1])
-        by localhost (mail.posteburundi.bi [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id l3mJ685kePPU; Fri, 14 Apr 2023 14:57:46 +0200 (CAT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.posteburundi.bi (Postfix) with ESMTP id B1C4221C4653;
-        Fri, 14 Apr 2023 14:57:46 +0200 (CAT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.posteburundi.bi B1C4221C4653
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteburundi.bi;
-        s=49734F3E-B0A3-11EC-9971-1E25BC38DE0A; t=1681477066;
-        bh=dfzNWNrtmGnDzpFfAqoHDukvC9bBVQxHlsvV6ZwOE+8=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=anzM3foL0am+x2h25cxcLLcvknrJHsSVxF9MKsUN9m1ZpGNN0pUCyU4QGkU1sw2AS
-         KTZbojrEixWZEd8Orkbq7bjo/0MvuzAp2kQ4nHiXs3//ZbjqJd/1EymqL2Iu72LI19
-         O+cd+3a7LNj/AgbXCq9jAQOW+N5ypEUCVaSvLuwDzCfCiYKCUTYw+vizc7F/sglJjv
-         icDchdVH32nyzWDFbLAuO6w03BqzzXB9clo+ngGYm65h4cxnlgjtIJRUgPdXtZ6zWl
-         KCAjCJhTlMocYdGjOlmOmzUPS8loo/nHa9q6+JD/JV9lhJL8OlaYH0QYAwnAM0yDHQ
-         7WtnKiGzL4U4g==
-X-Virus-Scanned: amavisd-new at posteburundi.bi
-Received: from mail.posteburundi.bi ([127.0.0.1])
-        by localhost (mail.posteburundi.bi [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id TCfkmwAJqP-Z; Fri, 14 Apr 2023 14:57:46 +0200 (CAT)
-Received: from [192.168.8.101] (unknown [41.85.163.110])
-        by mail.posteburundi.bi (Postfix) with ESMTPSA id 090AA21C3EA1;
-        Fri, 14 Apr 2023 14:57:38 +0200 (CAT)
-Content-Type: text/plain; charset="iso-8859-1"
+        Fri, 14 Apr 2023 10:12:38 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E39FCB745
+        for <linux-input@vger.kernel.org>; Fri, 14 Apr 2023 07:12:00 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 32F796069B
+        for <linux-input@vger.kernel.org>; Fri, 14 Apr 2023 14:10:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7EFFC433D2;
+        Fri, 14 Apr 2023 14:10:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681481425;
+        bh=0QKH+Gl8bGfeTGhyG2DwMHe0L+MzSHt154QzG1CeDzw=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=R8hdcODC1e7n2Pte8wYbxM4HJ7kAjp6fUV2lWBHPZvgfKgEHd1hQu6xejcxb7NqSs
+         z/xGC+587D3foohQisXSPR+B9ic8UVzaVXyw1pYxZVygGtaWZ/VhWrKxu/zheH/wFi
+         0TBHQIJiDPkqOpg1ik6AOodNJ2Mfk/fNFOfQvldnla9K9M8aEhq16FIKkiqTpCa0VV
+         Ob48pLdY7e7PSXe70AaB4VCQlz21joUmQ+HVAEO2OWMA5FoG1N0QG5xO5yCkd8cSkI
+         hhT8RK1GWxGQDMClwSUFRfDJDEjZhwLjHAxFWV6KKbzrFLG9NgI7n9zQWn7JUjbxxv
+         8s7g+bWjkVoFg==
+Date:   Fri, 14 Apr 2023 16:10:21 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Jason Gerecke <killertofu@gmail.com>
+cc:     linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Joshua Dickens <Joshua@Joshua-Dickens.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH 1/2] HID: wacom: Lazy-init batteries
+In-Reply-To: <20230413181743.7849-1-jason.gerecke@wacom.com>
+Message-ID: <nycvar.YFH.7.76.2304141610040.29760@cbobk.fhfr.pm>
+References: <20230413181743.7849-1-jason.gerecke@wacom.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Representative Needed
-To:     Recipients <info@posteburundi.bi>
-From:   Global Trader Company Ltd UK <info@posteburundi.bi>
-Date:   Fri, 14 Apr 2023 13:57:22 +0100
-Reply-To: potterroger68@gmail.com
-Message-Id: <20230414125739.090AA21C3EA1@mail.posteburundi.bi>
-X-Spam-Status: No, score=3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-My name is , Mrs Rita Potter Rogers we need a Company Representative in you=
-r city location, you can work online or at home and get good payment, conta=
-ct us if interested on this Email: potterroger68@gmail.com
+On Thu, 13 Apr 2023, Jason Gerecke wrote:
 
+> From: Jason Gerecke <killertofu@gmail.com>
+> 
+> Rather than creating batteries as part of the initial device probe, let's
+> make the process lazy. This gives us the opportunity to prevent batteries
+> from being created in situations where they are unnecessary.
+> 
+> There are two cases in particular where batteries are being unnecessarily
+> created at initialization. These are AES sensors (for which we don't know
+> any battery status information until a battery-powered pen actually comes
+> into prox) peripheral tablets which share HID descriptors between the
+> wired-only and wireless-capable SKUs of a family of devices.
+> 
+> This patch will delay battery initialization of the former until a pen
+> actually comes into prox. It will delay battery initialization of the
+> latter until either a pen comes into prox or a "heartbeat" packet is
+> processed.
+> 
+> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+> Tested-by: Mario Limonciello <mario.limonciello@amd.com>
+
+I have added the Link: tags suggested by Mario and applied, thanks.
+
+-- 
+Jiri Kosina
+SUSE Labs
 
