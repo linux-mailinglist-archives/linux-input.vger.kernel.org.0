@@ -2,293 +2,178 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 512DD6E305A
-	for <lists+linux-input@lfdr.de>; Sat, 15 Apr 2023 12:03:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1873E6E30B6
+	for <lists+linux-input@lfdr.de>; Sat, 15 Apr 2023 12:42:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229505AbjDOKDT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 15 Apr 2023 06:03:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56014 "EHLO
+        id S229922AbjDOKmA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 15 Apr 2023 06:42:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229893AbjDOKDS (ORCPT
+        with ESMTP id S230122AbjDOKlt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 15 Apr 2023 06:03:18 -0400
-X-Greylist: delayed 450 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 15 Apr 2023 03:03:15 PDT
-Received: from smtp.smtpout.orange.fr (smtp-13.smtpout.orange.fr [80.12.242.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 99764422F
-        for <linux-input@vger.kernel.org>; Sat, 15 Apr 2023 03:03:15 -0700 (PDT)
-Received: from [192.168.1.18] ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id ncd8pZfQEjYHDncd8piXZK; Sat, 15 Apr 2023 11:55:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
-        s=t20230301; t=1681552543;
-        bh=NKO9tNR3io9sjTd2FMDA22juGbn6zJdEpFITJU0OXnE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=fuIBdC4W9dJfZbELlJg8VLuvFZwdjcUzcdP+QN2Ol20VNRpbOKTuyUyXeZe5gZk4q
-         oyQwgrHpDUksAZ4ugYxrpzJ2KMqymulRBb1+yRwY3SjBGFqbIe1CYZ4WkPbpbIN9TC
-         LZtRwygA06l0FdNialP6jW8rVYv+qlBmNKznwNcrhlf3CsoJiJN1PmcjFLgLkX4VRT
-         AYTrJATbA9J07p1fbvb2KRzLjnwivcX7Z3q2zyVfLT6B5m935k+ojbF4I2cEzXE3Jz
-         +7L7qSTsi7cmSm7sML8CllAvr92KN240WKJqiio7cR+lNGxP4VgwugE+uwAy3wl7qU
-         3qXXRtgqPuKxA==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 15 Apr 2023 11:55:43 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <607cb8bf-4484-b213-0f55-bfa1793144ba@wanadoo.fr>
-Date:   Sat, 15 Apr 2023 11:55:38 +0200
+        Sat, 15 Apr 2023 06:41:49 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1F4B9742
+        for <linux-input@vger.kernel.org>; Sat, 15 Apr 2023 03:41:36 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2a7b08e84d4so3032901fa.3
+        for <linux-input@vger.kernel.org>; Sat, 15 Apr 2023 03:41:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681555294; x=1684147294;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0OE0tiBedvvvMl7tGzJDJSOxX+DvzTjuV5LZpnvcNSA=;
+        b=BTN6+yhtvhXDPIzJuF1zJSeIWVBMAs90iKQ6yQz0rBheHMw/XHG536+/6Fij0xIJHF
+         iwsJhezVlfZ+NUj4X0IrOtddXKlTIEGtKAdnGJvv4xNfXaKOYdrgbTwPy/WkRT/bExG7
+         gBHBcAPOL/BVFvq8Lvfe1xQ6kqAW8JiGxac3GddmiTBgdvfex85w3ewzLEC+qNl1HMOW
+         lTDjJs9SfKkCXpoeZx6cKHaFukaVfW17p4dH+MXW60sSLa1bXT1z8zrp8EFeXZkAcelt
+         jnYJbOOKXKrwJonOjgLOxF3ZS6Paxl/uC1UKpqC5Kr/O3hFuC8/j4Fey6Y0C0wjIVeqa
+         60sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681555294; x=1684147294;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0OE0tiBedvvvMl7tGzJDJSOxX+DvzTjuV5LZpnvcNSA=;
+        b=dtfQzlpUyEvpLsTuhLO0RtTVLJdSI+Cbthl44xC6lmbbxgB6LS3ufhj+w3eUpN2a1s
+         3IHLEeF5IBPITtfd1GORFQTKIf/w+vEQ/QCFY8xOaj5ms0ELQE37dXZnRs23lEvtc1pr
+         CzIueRpn8swHJnSiqJPhYzOTK7e9h2XUFjD5hIB/fUyZidHXRK+9vlmUyQjARzj1QddU
+         HFB0QQ+xSArfO8gMTaWTzetnFSKxKgBBJAQV65PiZthYTgoY7720MLbgk7HMNEZg+AF6
+         uhMoQr9R/AOJwDzSJcbT2zGjZuNAFV4azpXAwT6nyORdVkUHSNahKeXx+OvP4giv3mOy
+         1Ruw==
+X-Gm-Message-State: AAQBX9fzcqQLyNpf/yefz3obJ5QiDs4O9lHBYzKO3ZzztnMttSWSgM5E
+        s1FYjpcIFsLoS7AIr+4CHpw9uQ==
+X-Google-Smtp-Source: AKy350ajyPgQvIV0O8hiDt6qZRVc1die/WObUcgV4uGq1lLwbb9wAc87RJ1NTklugxdFcuEUrDMQdA==
+X-Received: by 2002:ac2:5633:0:b0:4ec:8853:136 with SMTP id b19-20020ac25633000000b004ec88530136mr405409lff.12.1681555294309;
+        Sat, 15 Apr 2023 03:41:34 -0700 (PDT)
+Received: from [192.168.1.101] (abyk99.neoplus.adsl.tpnet.pl. [83.9.30.99])
+        by smtp.gmail.com with ESMTPSA id s21-20020a2e2c15000000b002a76e690aa9sm1266974ljs.73.2023.04.15.03.41.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 15 Apr 2023 03:41:33 -0700 (PDT)
+Message-ID: <1125104e-802a-b582-e279-fd4e9dd1bf97@linaro.org>
+Date:   Sat, 15 Apr 2023 12:41:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3 2/5] Input: add driver for Focaltech FTS touchscreen
-Content-Language: fr
-To:     joelselvaraj.oss@gmail.com
-Cc:     agross@kernel.org, alistair@alistair23.me, andersson@kernel.org,
-        arnd@arndb.de, caleb@connolly.tech, devicetree@vger.kernel.org,
-        dmitry.torokhov@gmail.com, hdegoede@redhat.com, jdelvare@suse.de,
-        jeff@labundy.com, job@noorman.info, konrad.dybcio@linaro.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-arm-msm@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        macromorgan@hotmail.com, markuss.broks@gmail.com,
-        max.krummenacher@toradex.com, mripard@kernel.org,
-        phone-devel@vger.kernel.org, robert.jarzmik@free.fr,
-        robh+dt@kernel.org, rydberg@bitmath.org,
-        ~postmarketos/upstreaming@lists.sr.ht
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v3 3/5] arm64: dts: qcom: sdm845-xiaomi-beryllium-common:
+ add touchscreen related nodes
+To:     Joel Selvaraj <joelselvaraj.oss@gmail.com>,
+        Caleb Connolly <caleb@connolly.tech>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Jeff LaBundy <jeff@labundy.com>,
+        Markuss Broks <markuss.broks@gmail.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        Max Krummenacher <max.krummenacher@toradex.com>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Job Noorman <job@noorman.info>,
+        Alistair Francis <alistair@alistair23.me>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Maxime Ripard <mripard@kernel.org>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
 References: <20230415020222.216232-1-joelselvaraj.oss@gmail.com>
- <20230415020222.216232-3-joelselvaraj.oss@gmail.com>
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20230415020222.216232-3-joelselvaraj.oss@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+ <20230415020222.216232-4-joelselvaraj.oss@gmail.com>
+Content-Language: en-US
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230415020222.216232-4-joelselvaraj.oss@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Le 15/04/2023 à 04:02, Joel Selvaraj a écrit :
-> The Focaltech FTS driver supports several variants of focaltech
-> touchscreens found in ~2018 era smartphones including variants found on
-> the PocoPhone F1 and the SHIFT6mq which are already present in mainline.
-> This driver is loosely based on the original driver from Focaltech
-> but has been simplified and largely reworked.
+
+
+On 15.04.2023 04:02, Joel Selvaraj wrote:
+> Enable qupv3_id_1 and gpi_dma1 as they are required for configuring
+> touchscreen. Also add pinctrl configurations needed for touchscreen.
+> These are common for both the tianma and ebbg touchscreen variant.
+> In the subsequent patch, we will initially enable support for the focaltech
+> touchscreen used in the EBBG variant. This is done in preparation for that.
 > 
-> Co-developed-by: Caleb Connolly <caleb-u60PMpPBjd35c1cvEZuMuQ@public.gmane.org>
-> Signed-off-by: Caleb Connolly <caleb-u60PMpPBjd35c1cvEZuMuQ@public.gmane.org>
-> Signed-off-by: Joel Selvaraj <joelselvaraj.oss-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Signed-off-by: Joel Selvaraj <joelselvaraj.oss@gmail.com>
 > ---
->   MAINTAINERS                                   |   8 +
->   drivers/input/touchscreen/Kconfig             |  12 +
->   drivers/input/touchscreen/Makefile            |   1 +
->   drivers/input/touchscreen/focaltech_fts5452.c | 432 ++++++++++++++++++
->   4 files changed, 453 insertions(+)
->   create mode 100644 drivers/input/touchscreen/focaltech_fts5452.c
+Bit weird to add everything except the touchscreen, but okay..
+
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+
+Konrad
+>  .../qcom/sdm845-xiaomi-beryllium-common.dtsi  | 37 +++++++++++++++++++
+>  1 file changed, 37 insertions(+)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7ec4ce64f66d..1a3ea61e1f52 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -8028,6 +8028,14 @@ L:	linux-input-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
->   S:	Maintained
->   F:	drivers/input/joystick/fsia6b.c
->   
-> +FOCALTECH FTS5452 TOUCHSCREEN DRIVER
-> +M:	Joel Selvaraj <joelselvaraj.oss-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> +M:	Caleb Connolly <caleb-u60PMpPBjd35c1cvEZuMuQ@public.gmane.org>
-> +L:	linux-input-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/input/touchscreen/focaltech,fts5452.yaml
-> +F:	drivers/input/touchscreen/focaltech_fts5452.c
-> +
->   FOCUSRITE SCARLETT GEN 2/3 MIXER DRIVER
->   M:	Geoffrey D. Bennett <g@b4.vu>
->   L:	alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org (moderated for non-subscribers)
-> diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-> index 1feecd7ed3cb..11af91504969 100644
-> --- a/drivers/input/touchscreen/Kconfig
-> +++ b/drivers/input/touchscreen/Kconfig
-> @@ -388,6 +388,18 @@ config TOUCHSCREEN_EXC3000
->   	  To compile this driver as a module, choose M here: the
->   	  module will be called exc3000.
->   
-> +config TOUCHSCREEN_FOCALTECH_FTS5452
-> +	tristate "Focaltech FTS Touchscreen"
-> +	depends on I2C
-> +	help
-> +	  Say Y here to enable support for I2C connected Focaltech FTS
-> +	  based touch panels, including the 5452 and 8917 panels.
-> +
-> +	  If unsure, say N.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called focaltech_fts.
-focaltech_fts5452?
-Or should modifications be done elsewhere so that is does not look too 
-5452 specific?
-
-> +
->   config TOUCHSCREEN_FUJITSU
->   	tristate "Fujitsu serial touchscreen"
->   	select SERIO
-
-[...]
-
-> +struct fts_i2c_chip_data {
-> +	int max_touch_points;
+> diff --git a/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-common.dtsi
+> index 5ed975cc6ecb..b34ba46080ce 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-common.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-common.dtsi
+> @@ -268,6 +268,10 @@ &gmu {
+>  	status = "okay";
+>  };
+>  
+> +&gpi_dma1 {
+> +	status = "okay";
 > +};
 > +
-> +int fts_check_status(struct fts_ts_data *data)
-> +{
-> +	int error, i = 0, count = 0;
-
-No need to init "i".
-
-> +	unsigned int val, id;
+>  &gpu {
+>  	status = "okay";
+>  
+> @@ -376,6 +380,10 @@ &qupv3_id_0 {
+>  	status = "okay";
+>  };
+>  
+> +&qupv3_id_1 {
+> +	status = "okay";
+> +};
 > +
-> +	do {
-> +		error = regmap_read(data->regmap, FTS_REG_CHIP_ID_L, &id);
-> +		if (error)
-> +			dev_err(&data->client->dev, "I2C read failed: %d\n", error);
+>  &sdhc_2 {
+>  	status = "okay";
+>  
+> @@ -481,6 +489,35 @@ sdc2_card_det_n: sd-card-det-n-state {
+>  		function = "gpio";
+>  		bias-pull-up;
+>  	};
 > +
-> +		error = regmap_read(data->regmap, FTS_REG_CHIP_ID_H, &val);
-> +		if (error)
-> +			dev_err(&data->client->dev, "I2C read failed: %d\n", error);
+> +	ts_int_default: ts-int-default-state {
+> +		pins = "gpio31";
+> +		function = "gpio";
+> +		drive-strength = <16>;
+> +		bias-pull-down;
+> +	};
 > +
-> +		id |= val << 8;
+> +	ts_reset_default: ts-reset-default-state {
+> +		pins = "gpio32";
+> +		function = "gpio";
+> +		drive-strength = <16>;
+> +		output-high;
+> +	};
 > +
-> +		for (i = 0; i < ARRAY_SIZE(fts_chip_types); i++)
-> +			if (id == fts_chip_types[i])
-> +				return 0;
+> +	ts_int_sleep: ts-int-sleep-state {
+> +		pins = "gpio31";
+> +		function = "gpio";
+> +		drive-strength = <2>;
+> +		bias-pull-down;
+> +	};
 > +
-> +		count++;
-> +		msleep(FTS_INTERVAL_READ_REG_MS);
-> +	} while ((count * FTS_INTERVAL_READ_REG_MS) < FTS_TIMEOUT_READ_REG_MS);
-> +
-> +	return -EIO;
-> +}
-> +
-> +static int fts_report_touch(struct fts_ts_data *data)
-> +{
-> +	struct input_dev *input_dev = data->input_dev;
-> +	int base;
-> +	unsigned int x, y, z, maj;
-> +	u8 slot, type;
-> +	int error, i = 0;
-
-No need to init "i".
-
-> +
-> +	u8 *buf = data->point_buf;
-> +
-> +	memset(buf, 0, data->point_buf_size);
-> +
-> +	error = regmap_bulk_read(data->regmap, 0, buf, data->point_buf_size);
-> +	if (error) {
-> +		dev_err(&data->client->dev, "I2C read failed: %d\n", error);
-> +		return error;
-> +	}
-> +
-> +	for (i = 0; i < data->max_touch_points; i++) {
-> +		base = FTS_ONE_TOUCH_LEN * i;
-
-[...]
-
-> +static int fts_ts_probe(struct i2c_client *client)
-> +{
-> +	const struct i2c_device_id *id = i2c_client_get_device_id(client);
-> +	const struct fts_i2c_chip_data *chip_data;
-> +	struct fts_ts_data *data;
-> +	int error = 0;
-> +
-> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-> +		dev_err(&client->dev, "I2C not supported");
-> +		return -ENODEV;
-> +	}
-> +
-> +	if (!client->irq) {
-> +		dev_err(&client->dev, "No irq specified\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	data = devm_kzalloc(&client->dev, sizeof(*data), GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	chip_data = device_get_match_data(&client->dev);
-> +	if (!chip_data)
-> +		chip_data = (const struct fts_i2c_chip_data *)id->driver_data;
-> +	if (!chip_data || !chip_data->max_touch_points) {
-> +		dev_err(&client->dev, "invalid or missing chip data\n");
-> +		return -EINVAL;
-> +	}
-> +	if (chip_data->max_touch_points > FTS_MAX_POINTS_SUPPORT) {
-> +		dev_err(&client->dev,
-> +			"invalid chip data, max_touch_points should be less than or equal to %d\n",
-> +			FTS_MAX_POINTS_SUPPORT);
-> +		return -EINVAL;
-> +	}
-> +	data->max_touch_points = chip_data->max_touch_points;
-> +
-> +	data->client = client;
-> +	i2c_set_clientdata(client, data);
-> +
-> +	data->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(data->reset_gpio)) {
-> +		error = PTR_ERR(data->reset_gpio);
-> +		dev_err(&client->dev, "Failed to request reset gpio, error %d\n", error);
-> +		return error;
-> +	}
-> +
-> +	data->regmap = devm_regmap_init_i2c(client, &fts_ts_i2c_regmap_config);
-> +	if (IS_ERR(data->regmap)) {
-> +		error = PTR_ERR(data->regmap);
-> +		dev_err(&client->dev, "regmap allocation failed, error %d\n", error);
-> +		return error;
-> +	}
-> +
-> +	/*
-> +	 * AVDD is the analog voltage supply (2.6V to 3.3V)
-> +	 * VDDIO is the digital voltage supply (1.8V)
-> +	 */
-> +	data->regulators[0].supply = "avdd";
-> +	data->regulators[1].supply = "vddio";
-> +	error = devm_regulator_bulk_get(&client->dev, ARRAY_SIZE(data->regulators),
-> +					data->regulators);
-> +	if (error) {
-> +		dev_err(&client->dev, "Failed to get regulators %d\n", error);
-> +		return error;
-> +	}
-> +
-> +	error = devm_add_action_or_reset(&client->dev, fts_power_off, data);
-> +	if (error) {
-> +		dev_err(&client->dev, "failed to install power off handler\n");
-> +		return error;
-> +	}
-
-Is it really needed?
-This could lead to disable something that is not enabled. This looks 
-harmless, but I wonder if it can occur?
-
-I don't know the pm and input_dev frameworks enough to figure it myself, 
-so this question is just about curiousity.
-
-CJ
-
-> +
-> +	error = devm_request_threaded_irq(&client->dev, client->irq, NULL,
-> +					  fts_ts_interrupt, IRQF_ONESHOT,
-> +					  client->name, data);
-> +	if (error) {
-> +		dev_err(&client->dev, "Failed to request IRQ: %d\n", error);
-> +		return error;
-> +	}
-> +
-> +	error = fts_input_init(data);
-> +	if (error)
-> +		return error;
-> +
-> +	return 0;
-> +}
-[...]
+> +	ts_reset_sleep: ts-reset-sleep-state {
+> +		pins = "gpio32";
+> +		function = "gpio";
+> +		drive-strength = <2>;
+> +		bias-disable;
+> +		output-low;
+> +	};
+>  };
+>  
+>  &uart6 {
