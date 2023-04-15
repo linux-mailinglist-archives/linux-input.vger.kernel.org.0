@@ -2,76 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DD8B6E2FF9
-	for <lists+linux-input@lfdr.de>; Sat, 15 Apr 2023 11:11:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 512DD6E305A
+	for <lists+linux-input@lfdr.de>; Sat, 15 Apr 2023 12:03:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229647AbjDOJLn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 15 Apr 2023 05:11:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40462 "EHLO
+        id S229505AbjDOKDT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 15 Apr 2023 06:03:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229540AbjDOJLm (ORCPT
+        with ESMTP id S229893AbjDOKDS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 15 Apr 2023 05:11:42 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2766A93D1
-        for <linux-input@vger.kernel.org>; Sat, 15 Apr 2023 02:11:05 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id c9so12677064ejz.1
-        for <linux-input@vger.kernel.org>; Sat, 15 Apr 2023 02:11:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681549860; x=1684141860;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bkqhhdKnhncpcXSMYex0XLHXcS1AhaZjY9ZDkZfJ5BM=;
-        b=HDJgWSCZ6DECQVi7mecei8mGzS8DjvsskIRgELeqzfetwiRlukLBHsmYLdS8kI6CCG
-         u+5HhGSAQCth1eFw20xgp/ExLFqMjeg8zDvWAMKKxVpFE95hnHZ+SuYXTcQo7/IZTPYZ
-         yNpxnnA1y2iyqUj/Y4Msu8c2HwkrkLryv7S5/TwFBH+5pak7lVVF6N0GECEhOFLFc7RH
-         oU0ZRA6ewAw3sKBUeRU4MOdlA7cKz46ngoaffBpv/B7usmSYR+ENBQBuP6LgW8EJWfYZ
-         Ryh5sXmfNlTAo2yr0IQ5QTGvklujOvgB2njk+6tDdiHhTFecX9HRtYM7d8B18QZYrvrx
-         VcrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681549860; x=1684141860;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bkqhhdKnhncpcXSMYex0XLHXcS1AhaZjY9ZDkZfJ5BM=;
-        b=JKr5oxJqJxK+9WQ5jd4mF4jEYTKU56FEhfSjdhYoJvmuzuUnIyxbmFbOb5A8uAs5on
-         agzzNWBLGDDG03h4kAfcb7sJG+M5ZNBELZoBFuH8hbsfVnutLlXWjQ2b3K7A6t4d19sP
-         7A+5qaFduTezBIctZ5N+r3HW1vyKPQ/OW4/sOhoRcfOGB6udSP6hh6DBx1pRcI8TgyPB
-         9b8SkD8t51mVco4n6vt+nE8BMgQLwEg8JvXcXyPwAkcJTgK2Vckx/PBfazp4RMgVHCNo
-         /Qm0jpQUFUaTSCip75bh52mkfOQZCGEGUlwFUUj231nyYvCf3AT/NKrIJKC4x8z60uPX
-         VPvA==
-X-Gm-Message-State: AAQBX9dbquP6T5JWkbUnb03aM/NeYjHyD1ZiE4DRFzSX0HucYfZ3vF3G
-        Az5XYZb9/FGCVOcvM5HGnH7JhQ==
-X-Google-Smtp-Source: AKy350ZFG3UTHm3sBP58Fno4kIsIdNDJ0dz7Z5ySjSVhbi2XZCOv8Pvqm17Zayd0KsIGaCYvzcSuAw==
-X-Received: by 2002:a17:907:208c:b0:94e:547b:6322 with SMTP id pv12-20020a170907208c00b0094e547b6322mr1537489ejb.25.1681549860633;
-        Sat, 15 Apr 2023 02:11:00 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:a3bf:4ed:6c53:2a36? ([2a02:810d:15c0:828:a3bf:4ed:6c53:2a36])
-        by smtp.gmail.com with ESMTPSA id gy23-20020a170906f25700b0094f31208918sm92340ejb.108.2023.04.15.02.10.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 15 Apr 2023 02:11:00 -0700 (PDT)
-Message-ID: <8a790966-d985-c0fc-498e-c17e69a6622e@linaro.org>
-Date:   Sat, 15 Apr 2023 11:10:59 +0200
+        Sat, 15 Apr 2023 06:03:18 -0400
+X-Greylist: delayed 450 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 15 Apr 2023 03:03:15 PDT
+Received: from smtp.smtpout.orange.fr (smtp-13.smtpout.orange.fr [80.12.242.13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 99764422F
+        for <linux-input@vger.kernel.org>; Sat, 15 Apr 2023 03:03:15 -0700 (PDT)
+Received: from [192.168.1.18] ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id ncd8pZfQEjYHDncd8piXZK; Sat, 15 Apr 2023 11:55:43 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
+        s=t20230301; t=1681552543;
+        bh=NKO9tNR3io9sjTd2FMDA22juGbn6zJdEpFITJU0OXnE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=fuIBdC4W9dJfZbELlJg8VLuvFZwdjcUzcdP+QN2Ol20VNRpbOKTuyUyXeZe5gZk4q
+         oyQwgrHpDUksAZ4ugYxrpzJ2KMqymulRBb1+yRwY3SjBGFqbIe1CYZ4WkPbpbIN9TC
+         LZtRwygA06l0FdNialP6jW8rVYv+qlBmNKznwNcrhlf3CsoJiJN1PmcjFLgLkX4VRT
+         AYTrJATbA9J07p1fbvb2KRzLjnwivcX7Z3q2zyVfLT6B5m935k+ojbF4I2cEzXE3Jz
+         +7L7qSTsi7cmSm7sML8CllAvr92KN240WKJqiio7cR+lNGxP4VgwugE+uwAy3wl7qU
+         3qXXRtgqPuKxA==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 15 Apr 2023 11:55:43 +0200
+X-ME-IP: 86.243.2.178
+Message-ID: <607cb8bf-4484-b213-0f55-bfa1793144ba@wanadoo.fr>
+Date:   Sat, 15 Apr 2023 11:55:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 1/2] dt-bindings: input: microchip,cap11xx: add advanced
- sensitivity settings
-Content-Language: en-US
-To:     Jiri Valek - 2N <jiriv@axis.com>, dmitry.torokhov@gmail.com,
-        krzysztof.kozlowski+dt@linaro.org
-Cc:     devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, robh+dt@kernel.org,
-        u.kleine-koenig@pengutronix.de
-References: <20230414233815.4004526-1-jiriv@axis.com>
- <20230414233815.4004526-2-jiriv@axis.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230414233815.4004526-2-jiriv@axis.com>
-Content-Type: text/plain; charset=UTF-8
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3 2/5] Input: add driver for Focaltech FTS touchscreen
+Content-Language: fr
+To:     joelselvaraj.oss@gmail.com
+Cc:     agross@kernel.org, alistair@alistair23.me, andersson@kernel.org,
+        arnd@arndb.de, caleb@connolly.tech, devicetree@vger.kernel.org,
+        dmitry.torokhov@gmail.com, hdegoede@redhat.com, jdelvare@suse.de,
+        jeff@labundy.com, job@noorman.info, konrad.dybcio@linaro.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        macromorgan@hotmail.com, markuss.broks@gmail.com,
+        max.krummenacher@toradex.com, mripard@kernel.org,
+        phone-devel@vger.kernel.org, robert.jarzmik@free.fr,
+        robh+dt@kernel.org, rydberg@bitmath.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+References: <20230415020222.216232-1-joelselvaraj.oss@gmail.com>
+ <20230415020222.216232-3-joelselvaraj.oss@gmail.com>
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20230415020222.216232-3-joelselvaraj.oss@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,107 +68,227 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 15/04/2023 01:38, Jiri Valek - 2N wrote:
-> Add support for advanced sensitivity settings and signal guard feature.
+Le 15/04/2023 à 04:02, Joel Selvaraj a écrit :
+> The Focaltech FTS driver supports several variants of focaltech
+> touchscreens found in ~2018 era smartphones including variants found on
+> the PocoPhone F1 and the SHIFT6mq which are already present in mainline.
+> This driver is loosely based on the original driver from Focaltech
+> but has been simplified and largely reworked.
 > 
-> Signed-off-by: Jiri Valek - 2N <jiriv@axis.com>
+> Co-developed-by: Caleb Connolly <caleb-u60PMpPBjd35c1cvEZuMuQ@public.gmane.org>
+> Signed-off-by: Caleb Connolly <caleb-u60PMpPBjd35c1cvEZuMuQ@public.gmane.org>
+> Signed-off-by: Joel Selvaraj <joelselvaraj.oss-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 > ---
->  .../bindings/input/microchip,cap11xx.yaml     | 64 ++++++++++++++++++-
->  1 file changed, 61 insertions(+), 3 deletions(-)
+>   MAINTAINERS                                   |   8 +
+>   drivers/input/touchscreen/Kconfig             |  12 +
+>   drivers/input/touchscreen/Makefile            |   1 +
+>   drivers/input/touchscreen/focaltech_fts5452.c | 432 ++++++++++++++++++
+>   4 files changed, 453 insertions(+)
+>   create mode 100644 drivers/input/touchscreen/focaltech_fts5452.c
 > 
-> diff --git a/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml b/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
-> index 5fa625b5c5fb..08e28226a164 100644
-> --- a/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
-> +++ b/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
-> @@ -45,13 +45,13 @@ properties:
->        Enables the Linux input system's autorepeat feature on the input device.
->  
->    linux,keycodes:
-> -    minItems: 6
-> -    maxItems: 6
-> +    minItems: 3
-> +    maxItems: 8
->      description: |
->        Specifies an array of numeric keycode values to
->        be used for the channels. If this property is
->        omitted, KEY_A, KEY_B, etc are used as defaults.
-> -      The array must have exactly six entries.
-> +      The number of entries must correspond to the number of channels.
->  
->    microchip,sensor-gain:
->      $ref: /schemas/types.yaml#/definitions/uint32
-> @@ -70,6 +70,58 @@ properties:
->        open drain. This property allows using the active
->        high push-pull output.
->  
-> +  microchip,sensitivity-delta-sense:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    default: 32
-> +    enum: [1, 2, 4, 8, 16, 32, 64, 128]
-> +    description: |
-
-Do not need '|' unless you need to preserve formatting.
-
-> +      Optional parameter. Controls the sensitivity multiplier of a touch detection.
-> +      At the more sensitive settings, touches are detected for a smaller delta
-> +      capacitance corresponding to a “lighter” touch.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7ec4ce64f66d..1a3ea61e1f52 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8028,6 +8028,14 @@ L:	linux-input-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+>   S:	Maintained
+>   F:	drivers/input/joystick/fsia6b.c
+>   
+> +FOCALTECH FTS5452 TOUCHSCREEN DRIVER
+> +M:	Joel Selvaraj <joelselvaraj.oss-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> +M:	Caleb Connolly <caleb-u60PMpPBjd35c1cvEZuMuQ@public.gmane.org>
+> +L:	linux-input-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/input/touchscreen/focaltech,fts5452.yaml
+> +F:	drivers/input/touchscreen/focaltech_fts5452.c
 > +
-> +  microchip,sensitivity-base-shift:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    default: 256
-> +    enum: [1, 2, 4, 8, 16, 32, 64, 128, 256]
-> +    description: |
-> +      Optional parameter. Controls data scaling factor.
-> +      The higher the value of these bits, the larger the range and the lower
-> +      the resolution of the data presented. These settings will not affect
-> +      touch detection or sensitivity.
+>   FOCUSRITE SCARLETT GEN 2/3 MIXER DRIVER
+>   M:	Geoffrey D. Bennett <g@b4.vu>
+>   L:	alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org (moderated for non-subscribers)
+> diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
+> index 1feecd7ed3cb..11af91504969 100644
+> --- a/drivers/input/touchscreen/Kconfig
+> +++ b/drivers/input/touchscreen/Kconfig
+> @@ -388,6 +388,18 @@ config TOUCHSCREEN_EXC3000
+>   	  To compile this driver as a module, choose M here: the
+>   	  module will be called exc3000.
+>   
+> +config TOUCHSCREEN_FOCALTECH_FTS5452
+> +	tristate "Focaltech FTS Touchscreen"
+> +	depends on I2C
+> +	help
+> +	  Say Y here to enable support for I2C connected Focaltech FTS
+> +	  based touch panels, including the 5452 and 8917 panels.
 > +
-> +  microchip,signal-guard:
-> +    minItems: 3
-> +    maxItems: 8
-> +    enum: [0, 1]
-> +    default: 0
-
-This was not really tested. Missing ref, mixing scalar and array
-properties. You want items with enum. And drop default.
-
-
-> +    description: |
-> +      Optional parameter supported only for CAP129x.
-
-Then disallow it for others (allOf:if:then: ...
-microchip,signal-guard:false)
-> +      The signal guard isolates the signal from virtual grounds.
-> +      If enabled then the behavior of the channel is changed to signal guard.
-> +      The number of entries must correspond to the number of channels.
+> +	  If unsure, say N.
 > +
-> +  microchip,input-treshold:
-> +    minItems: 3
-> +    maxItems: 8
-> +    minimum: 0
-> +    maximum: 127
-> +    default: 64
-> +    description: |
-> +      Optional parameter. Specifies the delta threshold that is used to
-> +      determine if a touch has been detected.
-> +      The number of entries must correspond to the number of channels.
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called focaltech_fts.
+focaltech_fts5452?
+Or should modifications be done elsewhere so that is does not look too 
+5452 specific?
+
 > +
-> +  microchip,calib-sensitivity:
-> +    minItems: 3
-> +    maxItems: 8
-> +    enum: [1, 2, 4]
-> +    default: 1
-> +    description: |
-> +      Optional parameter supported only for CAP129x. Specifies an array of
-> +      numeric values that controls the gain used by the calibration routine to
-> +      enable sensor inputs to be more sensitive for proximity detection.
-> +      The number of entries must correspond to the number of channels.
+>   config TOUCHSCREEN_FUJITSU
+>   	tristate "Fujitsu serial touchscreen"
+>   	select SERIO
 
-Most of these properties do not look like hardware properties. Policies
-and runtime configuration should not be put into DT. Explain please why
-these are board-specific thus suitable for DT.
+[...]
 
+> +struct fts_i2c_chip_data {
+> +	int max_touch_points;
+> +};
+> +
+> +int fts_check_status(struct fts_ts_data *data)
+> +{
+> +	int error, i = 0, count = 0;
 
-Best regards,
-Krzysztof
+No need to init "i".
 
+> +	unsigned int val, id;
+> +
+> +	do {
+> +		error = regmap_read(data->regmap, FTS_REG_CHIP_ID_L, &id);
+> +		if (error)
+> +			dev_err(&data->client->dev, "I2C read failed: %d\n", error);
+> +
+> +		error = regmap_read(data->regmap, FTS_REG_CHIP_ID_H, &val);
+> +		if (error)
+> +			dev_err(&data->client->dev, "I2C read failed: %d\n", error);
+> +
+> +		id |= val << 8;
+> +
+> +		for (i = 0; i < ARRAY_SIZE(fts_chip_types); i++)
+> +			if (id == fts_chip_types[i])
+> +				return 0;
+> +
+> +		count++;
+> +		msleep(FTS_INTERVAL_READ_REG_MS);
+> +	} while ((count * FTS_INTERVAL_READ_REG_MS) < FTS_TIMEOUT_READ_REG_MS);
+> +
+> +	return -EIO;
+> +}
+> +
+> +static int fts_report_touch(struct fts_ts_data *data)
+> +{
+> +	struct input_dev *input_dev = data->input_dev;
+> +	int base;
+> +	unsigned int x, y, z, maj;
+> +	u8 slot, type;
+> +	int error, i = 0;
+
+No need to init "i".
+
+> +
+> +	u8 *buf = data->point_buf;
+> +
+> +	memset(buf, 0, data->point_buf_size);
+> +
+> +	error = regmap_bulk_read(data->regmap, 0, buf, data->point_buf_size);
+> +	if (error) {
+> +		dev_err(&data->client->dev, "I2C read failed: %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	for (i = 0; i < data->max_touch_points; i++) {
+> +		base = FTS_ONE_TOUCH_LEN * i;
+
+[...]
+
+> +static int fts_ts_probe(struct i2c_client *client)
+> +{
+> +	const struct i2c_device_id *id = i2c_client_get_device_id(client);
+> +	const struct fts_i2c_chip_data *chip_data;
+> +	struct fts_ts_data *data;
+> +	int error = 0;
+> +
+> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+> +		dev_err(&client->dev, "I2C not supported");
+> +		return -ENODEV;
+> +	}
+> +
+> +	if (!client->irq) {
+> +		dev_err(&client->dev, "No irq specified\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	data = devm_kzalloc(&client->dev, sizeof(*data), GFP_KERNEL);
+> +	if (!data)
+> +		return -ENOMEM;
+> +
+> +	chip_data = device_get_match_data(&client->dev);
+> +	if (!chip_data)
+> +		chip_data = (const struct fts_i2c_chip_data *)id->driver_data;
+> +	if (!chip_data || !chip_data->max_touch_points) {
+> +		dev_err(&client->dev, "invalid or missing chip data\n");
+> +		return -EINVAL;
+> +	}
+> +	if (chip_data->max_touch_points > FTS_MAX_POINTS_SUPPORT) {
+> +		dev_err(&client->dev,
+> +			"invalid chip data, max_touch_points should be less than or equal to %d\n",
+> +			FTS_MAX_POINTS_SUPPORT);
+> +		return -EINVAL;
+> +	}
+> +	data->max_touch_points = chip_data->max_touch_points;
+> +
+> +	data->client = client;
+> +	i2c_set_clientdata(client, data);
+> +
+> +	data->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(data->reset_gpio)) {
+> +		error = PTR_ERR(data->reset_gpio);
+> +		dev_err(&client->dev, "Failed to request reset gpio, error %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	data->regmap = devm_regmap_init_i2c(client, &fts_ts_i2c_regmap_config);
+> +	if (IS_ERR(data->regmap)) {
+> +		error = PTR_ERR(data->regmap);
+> +		dev_err(&client->dev, "regmap allocation failed, error %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	/*
+> +	 * AVDD is the analog voltage supply (2.6V to 3.3V)
+> +	 * VDDIO is the digital voltage supply (1.8V)
+> +	 */
+> +	data->regulators[0].supply = "avdd";
+> +	data->regulators[1].supply = "vddio";
+> +	error = devm_regulator_bulk_get(&client->dev, ARRAY_SIZE(data->regulators),
+> +					data->regulators);
+> +	if (error) {
+> +		dev_err(&client->dev, "Failed to get regulators %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	error = devm_add_action_or_reset(&client->dev, fts_power_off, data);
+> +	if (error) {
+> +		dev_err(&client->dev, "failed to install power off handler\n");
+> +		return error;
+> +	}
+
+Is it really needed?
+This could lead to disable something that is not enabled. This looks 
+harmless, but I wonder if it can occur?
+
+I don't know the pm and input_dev frameworks enough to figure it myself, 
+so this question is just about curiousity.
+
+CJ
+
+> +
+> +	error = devm_request_threaded_irq(&client->dev, client->irq, NULL,
+> +					  fts_ts_interrupt, IRQF_ONESHOT,
+> +					  client->name, data);
+> +	if (error) {
+> +		dev_err(&client->dev, "Failed to request IRQ: %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	error = fts_input_init(data);
+> +	if (error)
+> +		return error;
+> +
+> +	return 0;
+> +}
+[...]
