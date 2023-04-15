@@ -2,52 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C79D6E2CF1
-	for <lists+linux-input@lfdr.de>; Sat, 15 Apr 2023 01:38:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53E6A6E2E5D
+	for <lists+linux-input@lfdr.de>; Sat, 15 Apr 2023 04:02:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229450AbjDNXiz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Apr 2023 19:38:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52406 "EHLO
+        id S229890AbjDOCCg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Apr 2023 22:02:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229638AbjDNXiy (ORCPT
+        with ESMTP id S229457AbjDOCCd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Apr 2023 19:38:54 -0400
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16F70558B;
-        Fri, 14 Apr 2023 16:38:51 -0700 (PDT)
+        Fri, 14 Apr 2023 22:02:33 -0400
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71DD84C22;
+        Fri, 14 Apr 2023 19:02:32 -0700 (PDT)
+Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-54f80e173ecso1839317b3.0;
+        Fri, 14 Apr 2023 19:02:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1681515533;
-  x=1713051533;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=6QIxtJ/MY1fTBU4VbKkd3bP6Ke+kH+7tOPWORRgbwss=;
-  b=fY5zqx/Apfu1+6mh8UFt67+iQBrwqAvvpukAqmhhU52iszNhLF06TcIj
-   XtEj2CQgRnbBNz/OVifr6S3fsuve68hE447ZFEuCtea9M90dQ9iMA5Dd/
-   wCjSi4t5vbE0gweIGi+/jGmf7l69z6dCZpw4vLVeEfHKHT5c955/7qRNM
-   m9s5cGOI95kFyvNE/fLpsb4LtUqzvtZwGrfPgTyLN6QQKTbpqMjLTWocU
-   2s8wt5cQ3uVYt1mIhPCa6Qeavy1pr0+gsMF//4tdWHTSXVjOI6V6RkDpq
-   bsbzhld2uKr7GXJYmSU2VuYFRtEJE1HC079gygFjZSawB55OGPW8H2yaN
-   Q==;
-From:   Jiri Valek - 2N <jiriv@axis.com>
-To:     <dmitry.torokhov@gmail.com>, <krzysztof.kozlowski+dt@linaro.org>
-CC:     <jiriv@axis.com>, <devicetree@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <robh+dt@kernel.org>, <u.kleine-koenig@pengutronix.de>
-Subject: [PATCH 2/2] Input: cap11xx - add advanced sensitivity settings
-Date:   Sat, 15 Apr 2023 01:38:15 +0200
-Message-ID: <20230414233815.4004526-3-jiriv@axis.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230414233815.4004526-1-jiriv@axis.com>
-References: <20230414233815.4004526-1-jiriv@axis.com>
+        d=gmail.com; s=20221208; t=1681524151; x=1684116151;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yc9UZCD0Thr43ELkRCLRaL1wv9oH/Wsg9/Asqvkeq74=;
+        b=hNGwWzo5Q3ABHTH1/bHqV8wpeBC3BY9+vFkyLdS4ysjfkGBg6ARqQpLmQg1XhKE1Ad
+         zUwgNg8vej6GzQrU6bA9rvRCr44iwfrn4XiTzg1kGWZs4qx5y84vbEtjfE92HzchF8w0
+         hA5O4Gq54yfu9WUKASvDGDkA462iFUKT0c7dKuHOB58FaJ5bJTgfk6AyuH4LJJs+SFgR
+         6luAkQA4k55mwFk20RsSXL1jTnUdgtchEXVqRBljUK/Yp5I6PY+CN6QHbjqhJlESiD2P
+         a+QmioUIc1vwj2HrWdwf+IbK/vFCXim9p3Fhiygk6KCM5ir7BO4HapVs/4Lt3XKWF2wy
+         3DDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681524151; x=1684116151;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Yc9UZCD0Thr43ELkRCLRaL1wv9oH/Wsg9/Asqvkeq74=;
+        b=Bm1JT0u51ZFfJ1y7fjikiRxSGxNvg6oiDw/rv/bc5OP+MUSjf/WiE5TrvwcEC/wmCe
+         qlDAjT4KO6nBAhdiB5kPQV3HRIYJsnCqaFUZ22a6uKBY1mY7zhwH9H4f+8wNgBhcGrKe
+         aGd8uGCXu+LZqLSu6sK7qPyt2ICrePFXNxbH/DfVwVfim8UuTI2ws5lYT8Ktfpmti+8d
+         Hye7YBCtIPGtK/s5Xe+IuCDsFRSVb5YUsJQoKjyXZTx/IHhzu2TWpHNNVoeohCvUbsJS
+         V2mpcAD1tcVczIOQpm92kb6g9WW43qRUZOEFWdXzLlSkehmQ3HBuZouIfnrDHYpVmGij
+         JtMQ==
+X-Gm-Message-State: AAQBX9dE7slCrAU+oxNGJXGHPDI5LQHe4Pas4/alkYJO1NkXBeQrbbP/
+        4g6AzOX36ugh5YJZt2DIGFs=
+X-Google-Smtp-Source: AKy350YkXBNOHfyjGAwIFs2cRWfuozknDP+ROfbjnUSQ1sGSCBEZQcfRRlX4kPEaEMsAtRkuwZ6/iA==
+X-Received: by 2002:a81:e10:0:b0:54f:a9e4:e79 with SMTP id 16-20020a810e10000000b0054fa9e40e79mr3803040ywo.2.1681524151546;
+        Fri, 14 Apr 2023 19:02:31 -0700 (PDT)
+Received: from JOEL-DESKTOP.. ([2604:2d80:4d87:cd00:9f51:32d7:1177:67d])
+        by smtp.gmail.com with ESMTPSA id 68-20020a810a47000000b00545a081847fsm1593607ywk.15.2023.04.14.19.02.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Apr 2023 19:02:31 -0700 (PDT)
+From:   Joel Selvaraj <joelselvaraj.oss@gmail.com>
+To:     Caleb Connolly <caleb@connolly.tech>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Jeff LaBundy <jeff@labundy.com>,
+        Markuss Broks <markuss.broks@gmail.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        Max Krummenacher <max.krummenacher@toradex.com>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Job Noorman <job@noorman.info>,
+        Alistair Francis <alistair@alistair23.me>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Maxime Ripard <mripard@kernel.org>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Joel Selvaraj <joelselvaraj.oss@gmail.com>
+Subject: [PATCH v3 0/5] Add support for Focaltech FTS Touchscreen
+Date:   Fri, 14 Apr 2023 21:02:17 -0500
+Message-Id: <20230415020222.216232-1-joelselvaraj.oss@gmail.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.0.5.60]
-X-ClientProxiedBy: se-mail02w.axis.com (10.20.40.8) To se-mail01w.axis.com
- (10.20.40.7)
-X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,370 +89,106 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for advanced sensitivity settings that allows more precise
-tunig of touch buttons. Input-treshold allows to set the sensitivity for
-each channel separately. Also add signal guard feature for CAP129x chips.
+Changes in v3:(Suggested by Krzysztof Kozlowski and Konrad Dybcio)
+--------------
+- dts: removed the invalid "input-enable" property
+- dts: replace interrupts with interrupts-extended
+- dts: removed redundant dma configuration
+- dts: reorder pinctrl and pinctrl-names
+- bindings: moved unevaluatedProperties after required
+- bindings: make interrupts a required property (new change from my end)
+- bindings: update example based on dts changes
 
-Signed-off-by: Jiri Valek - 2N <jiriv@axis.com>
----
- drivers/input/keyboard/cap11xx.c | 263 +++++++++++++++++++++++++------
- 1 file changed, 217 insertions(+), 46 deletions(-)
+I have made the interrupts a required property in the bindings as the driver
+will not function without an interrupt. Because of this new change, I have not
+picked up the reviewed by tag of Krzysztof Kozlowski for the bindings.
 
-diff --git a/drivers/input/keyboard/cap11xx.c b/drivers/input/keyboard/cap11xx.c
-index 040696d0e49c..d387754e76f5 100644
---- a/drivers/input/keyboard/cap11xx.c
-+++ b/drivers/input/keyboard/cap11xx.c
-@@ -14,6 +14,7 @@
- #include <linux/regmap.h>
- #include <linux/i2c.h>
- #include <linux/gpio/consumer.h>
-+#include <linux/bitfield.h>
- 
- #define CAP11XX_REG_MAIN_CONTROL	0x00
- #define CAP11XX_REG_MAIN_CONTROL_GAIN_SHIFT	(6)
-@@ -24,6 +25,8 @@
- #define CAP11XX_REG_NOISE_FLAG_STATUS	0x0a
- #define CAP11XX_REG_SENOR_DELTA(X)	(0x10 + (X))
- #define CAP11XX_REG_SENSITIVITY_CONTROL	0x1f
-+#define CAP11XX_REG_SENSITIVITY_CONTROL_DELTA_SENSE_MASK	0x70
-+#define CAP11XX_REG_SENSITIVITY_CONTROL_BASE_SHIFT_MASK	0x0F
- #define CAP11XX_REG_CONFIG		0x20
- #define CAP11XX_REG_SENSOR_ENABLE	0x21
- #define CAP11XX_REG_SENSOR_CONFIG	0x22
-@@ -32,6 +35,7 @@
- #define CAP11XX_REG_CALIBRATION		0x26
- #define CAP11XX_REG_INT_ENABLE		0x27
- #define CAP11XX_REG_REPEAT_RATE		0x28
-+#define CAP11XX_REG_SIGNAL_GUARD_ENABLE	0x29
- #define CAP11XX_REG_MT_CONFIG		0x2a
- #define CAP11XX_REG_MT_PATTERN_CONFIG	0x2b
- #define CAP11XX_REG_MT_PATTERN		0x2d
-@@ -47,6 +51,8 @@
- #define CAP11XX_REG_SENSOR_BASE_CNT(X)	(0x50 + (X))
- #define CAP11XX_REG_LED_POLARITY	0x73
- #define CAP11XX_REG_LED_OUTPUT_CONTROL	0x74
-+#define CAP11XX_REG_CALIB_SENSITIVITY_CONFIG	0x80
-+#define CAP11XX_REG_CALIB_SENSITIVITY_CONFIG2	0x81
- 
- #define CAP11XX_REG_LED_DUTY_CYCLE_1	0x90
- #define CAP11XX_REG_LED_DUTY_CYCLE_2	0x91
-@@ -78,12 +84,21 @@ struct cap11xx_led {
- 
- struct cap11xx_priv {
- 	struct regmap *regmap;
-+	struct device *dev;
- 	struct input_dev *idev;
-+	const struct cap11xx_hw_model *model;
-+	u8 id;
- 
- 	struct cap11xx_led *leds;
- 	int num_leds;
- 
- 	/* config */
-+	u8 analog_gain;
-+	u8 sensitivity_delta_sense;
-+	u8 sensitivity_base_shift;
-+	u8 signal_guard_inputs_mask;
-+	u32 thresholds[8];
-+	u32 calib_sensitivities[8];
- 	u32 keycodes[];
- };
- 
-@@ -181,6 +196,197 @@ static const struct regmap_config cap11xx_regmap_config = {
- 	.volatile_reg = cap11xx_volatile_reg,
- };
- 
-+static int
-+cap11xx_write_calib_sens_config_1(struct cap11xx_priv *priv)
-+{
-+	return regmap_write(priv->regmap,
-+			CAP11XX_REG_CALIB_SENSITIVITY_CONFIG,
-+			(priv->calib_sensitivities[3] << 6) |
-+			(priv->calib_sensitivities[2] << 4) |
-+			(priv->calib_sensitivities[1] << 2) |
-+			priv->calib_sensitivities[0]);
-+}
-+
-+static int
-+cap11xx_write_calib_sens_config_2(struct cap11xx_priv *priv)
-+{
-+	return regmap_write(priv->regmap,
-+			CAP11XX_REG_CALIB_SENSITIVITY_CONFIG2,
-+			(priv->calib_sensitivities[7] << 6) |
-+			(priv->calib_sensitivities[6] << 4) |
-+			(priv->calib_sensitivities[5] << 2) |
-+			priv->calib_sensitivities[4]);
-+}
-+
-+static int
-+cap11xx_init_keys(struct cap11xx_priv *priv)
-+{
-+	struct device_node *node = priv->dev->of_node;
-+	struct device *dev = priv->dev;
-+	int i, error;
-+	u32 u32_val;
-+
-+	if (!node) {
-+		dev_err(dev, "Corresponding DT entry is not available\n");
-+		return -ENODEV;
-+	}
-+
-+	if (!of_property_read_u32(node, "microchip,sensor-gain", &u32_val)) {
-+		if (priv->model->no_gain) {
-+			dev_warn(dev,
-+				 "This model doesn't support 'sensor-gain'\n");
-+		} else if (is_power_of_2(u32_val) && u32_val <= 8) {
-+			priv->analog_gain = (u8)ilog2(u32_val);
-+
-+			error = regmap_update_bits(priv->regmap,
-+				CAP11XX_REG_MAIN_CONTROL,
-+				CAP11XX_REG_MAIN_CONTROL_GAIN_MASK,
-+				priv->analog_gain << CAP11XX_REG_MAIN_CONTROL_GAIN_SHIFT);
-+			if (error)
-+				return error;
-+		} else {
-+			dev_err(dev, "Invalid sensor-gain value %u\n", u32_val);
-+			return -EINVAL;
-+		}
-+	}
-+
-+	if (of_property_read_bool(node, "microchip,irq-active-high")) {
-+		if (priv->id == CAP1106 ||
-+		    priv->id == CAP1126 ||
-+		    priv->id == CAP1188) {
-+			error = regmap_update_bits(priv->regmap,
-+						   CAP11XX_REG_CONFIG2,
-+						   CAP11XX_REG_CONFIG2_ALT_POL,
-+						   0);
-+			if (error)
-+				return error;
-+		} else {
-+			dev_warn(dev,
-+				 "This model doesn't support 'irq-active-high'\n");
-+		}
-+	}
-+
-+	if (!of_property_read_u32(node,
-+				  "microchip,sensitivity-delta-sense", &u32_val)) {
-+		if (!is_power_of_2(u32_val) || u32_val > 128) {
-+			dev_err(dev, "Invalid sensitivity-delta-sense value %u\n", u32_val);
-+			return -EINVAL;
-+		}
-+
-+		priv->sensitivity_delta_sense = (u8)ilog2(u32_val);
-+		u32_val = ~(FIELD_PREP(CAP11XX_REG_SENSITIVITY_CONTROL_DELTA_SENSE_MASK,
-+					priv->sensitivity_delta_sense));
-+
-+		error = regmap_update_bits(priv->regmap,
-+					   CAP11XX_REG_SENSITIVITY_CONTROL,
-+					   CAP11XX_REG_SENSITIVITY_CONTROL_DELTA_SENSE_MASK,
-+					   u32_val);
-+		if (error)
-+			return error;
-+	}
-+
-+	if (!of_property_read_u32(node,
-+				  "microchip,sensitivity-base-shift", &u32_val)) {
-+		if (!is_power_of_2(u32_val) || u32_val > 256) {
-+			dev_err(dev, "Invalid sensitivity-base-shift value %u\n", u32_val);
-+			return -EINVAL;
-+		}
-+
-+		priv->sensitivity_base_shift = (u8)ilog2(u32_val);
-+		u32_val = FIELD_PREP(CAP11XX_REG_SENSITIVITY_CONTROL_BASE_SHIFT_MASK,
-+				     priv->sensitivity_base_shift);
-+
-+		error = regmap_update_bits(priv->regmap,
-+					   CAP11XX_REG_SENSITIVITY_CONTROL,
-+					   CAP11XX_REG_SENSITIVITY_CONTROL_BASE_SHIFT_MASK,
-+					   u32_val);
-+		if (error)
-+			return error;
-+	}
-+
-+	if (!of_property_read_u32_array(node, "microchip,input-treshold",
-+					priv->thresholds, priv->model->num_channels)) {
-+		for (i = 0; i < priv->model->num_channels; i++) {
-+			if (priv->thresholds[i] > 127) {
-+				dev_err(dev, "Invalid input-treshold value %u\n",
-+					priv->thresholds[i]);
-+				return -EINVAL;
-+			}
-+
-+			error = regmap_write(priv->regmap,
-+					     CAP11XX_REG_SENSOR_THRESH(i),
-+					     priv->thresholds[i]);
-+			if (error)
-+				return error;
-+		}
-+	}
-+
-+	if (!of_property_read_u32_array(node, "microchip,calib-sensitivity",
-+					priv->calib_sensitivities, priv->model->num_channels)) {
-+		if (priv->id == CAP1293 || priv->id == CAP1298) {
-+			for (i = 0; i < priv->model->num_channels; i++) {
-+				if (!is_power_of_2(priv->calib_sensitivities[i]) ||
-+				    priv->calib_sensitivities[i] > 4) {
-+					dev_err(dev, "Invalid calib-sensitivity value %u\n",
-+						priv->calib_sensitivities[i]);
-+					return -EINVAL;
-+				}
-+				priv->calib_sensitivities[i] = ilog2(priv->calib_sensitivities[i]);
-+			}
-+
-+			error = cap11xx_write_calib_sens_config_1(priv);
-+			if (error)
-+				return error;
-+
-+			if (priv->id == CAP1298) {
-+				error = cap11xx_write_calib_sens_config_2(priv);
-+				if (error)
-+					return error;
-+			}
-+		} else {
-+			dev_warn(dev,
-+				 "This model doesn't support 'calib-sensitivity'\n");
-+		}
-+	}
-+
-+	for (i = 0; i < priv->model->num_channels; i++) {
-+		if (!of_property_read_u32_index(node, "microchip,signal-guard",
-+						i, &u32_val)) {
-+			if (u32_val > 1)
-+				return -EINVAL;
-+			if (u32_val)
-+				priv->signal_guard_inputs_mask |= 0x01 << i;
-+		}
-+	}
-+
-+	if (priv->signal_guard_inputs_mask) {
-+		if (priv->id == CAP1293 || priv->id == CAP1298) {
-+			error = regmap_write(priv->regmap,
-+					     CAP11XX_REG_SIGNAL_GUARD_ENABLE,
-+					     priv->signal_guard_inputs_mask);
-+			if (error)
-+				return error;
-+		} else {
-+			dev_warn(dev,
-+				 "This model doesn't support 'signal-guard'\n");
-+		}
-+	}
-+
-+	/* Provide some useful defaults */
-+	for (i = 0; i < priv->model->num_channels; i++)
-+		priv->keycodes[i] = KEY_A + i;
-+
-+	of_property_read_u32_array(node, "linux,keycodes",
-+				   priv->keycodes, priv->model->num_channels);
-+
-+	/* Disable autorepeat. The Linux input system has its own handling. */
-+	error = regmap_write(priv->regmap, CAP11XX_REG_REPEAT_RATE, 0);
-+	if (error)
-+		return error;
-+
-+	return 0;
-+}
-+
- static irqreturn_t cap11xx_thread_func(int irq_num, void *data)
- {
- 	struct cap11xx_priv *priv = data;
-@@ -332,11 +538,9 @@ static int cap11xx_i2c_probe(struct i2c_client *i2c_client)
- 	const struct i2c_device_id *id = i2c_client_get_device_id(i2c_client);
- 	struct device *dev = &i2c_client->dev;
- 	struct cap11xx_priv *priv;
--	struct device_node *node;
- 	const struct cap11xx_hw_model *cap;
--	int i, error, irq, gain = 0;
-+	int i, error, irq;
- 	unsigned int val, rev;
--	u32 gain32;
- 
- 	if (id->driver_data >= ARRAY_SIZE(cap11xx_devices)) {
- 		dev_err(dev, "Invalid device ID %lu\n", id->driver_data);
-@@ -355,6 +559,8 @@ static int cap11xx_i2c_probe(struct i2c_client *i2c_client)
- 	if (!priv)
- 		return -ENOMEM;
- 
-+	priv->dev = dev;
-+
- 	priv->regmap = devm_regmap_init_i2c(i2c_client, &cap11xx_regmap_config);
- 	if (IS_ERR(priv->regmap))
- 		return PTR_ERR(priv->regmap);
-@@ -384,50 +590,15 @@ static int cap11xx_i2c_probe(struct i2c_client *i2c_client)
- 		return error;
- 
- 	dev_info(dev, "CAP11XX detected, model %s, revision 0x%02x\n",
--		 id->name, rev);
--	node = dev->of_node;
--
--	if (!of_property_read_u32(node, "microchip,sensor-gain", &gain32)) {
--		if (cap->no_gain)
--			dev_warn(dev,
--				 "This version doesn't support sensor gain\n");
--		else if (is_power_of_2(gain32) && gain32 <= 8)
--			gain = ilog2(gain32);
--		else
--			dev_err(dev, "Invalid sensor-gain value %d\n", gain32);
--	}
-+			 id->name, rev);
- 
--	if (id->driver_data == CAP1106 ||
--	    id->driver_data == CAP1126 ||
--	    id->driver_data == CAP1188) {
--		if (of_property_read_bool(node, "microchip,irq-active-high")) {
--			error = regmap_update_bits(priv->regmap,
--						   CAP11XX_REG_CONFIG2,
--						   CAP11XX_REG_CONFIG2_ALT_POL,
--						   0);
--			if (error)
--				return error;
--		}
--	}
-+	priv->model = cap;
-+	priv->id = id->driver_data;
- 
--	/* Provide some useful defaults */
--	for (i = 0; i < cap->num_channels; i++)
--		priv->keycodes[i] = KEY_A + i;
--
--	of_property_read_u32_array(node, "linux,keycodes",
--				   priv->keycodes, cap->num_channels);
--
--	if (!cap->no_gain) {
--		error = regmap_update_bits(priv->regmap,
--				CAP11XX_REG_MAIN_CONTROL,
--				CAP11XX_REG_MAIN_CONTROL_GAIN_MASK,
--				gain << CAP11XX_REG_MAIN_CONTROL_GAIN_SHIFT);
--		if (error)
--			return error;
--	}
-+	dev_info(dev, "CAP11XX device detected, model %s, revision 0x%02x\n",
-+		 id->name, rev);
- 
--	/* Disable autorepeat. The Linux input system has its own handling. */
--	error = regmap_write(priv->regmap, CAP11XX_REG_REPEAT_RATE, 0);
-+	error = cap11xx_init_keys(priv);
- 	if (error)
- 		return error;
- 
-@@ -439,7 +610,7 @@ static int cap11xx_i2c_probe(struct i2c_client *i2c_client)
- 	priv->idev->id.bustype = BUS_I2C;
- 	priv->idev->evbit[0] = BIT_MASK(EV_KEY);
- 
--	if (of_property_read_bool(node, "autorepeat"))
-+	if (of_property_read_bool(dev->of_node, "autorepeat"))
- 		__set_bit(EV_REP, priv->idev->evbit);
- 
- 	for (i = 0; i < cap->num_channels; i++)
-@@ -474,7 +645,7 @@ static int cap11xx_i2c_probe(struct i2c_client *i2c_client)
- 	if (error)
- 		return error;
- 
--	irq = irq_of_parse_and_map(node, 0);
-+	irq = irq_of_parse_and_map(dev->of_node, 0);
- 	if (!irq) {
- 		dev_err(dev, "Unable to parse or map IRQ\n");
- 		return -ENXIO;
+Changes in v2:
+--------------
+1. dt-bindings changes (Suggested by Krzysztof Kozlowski)
+	- changed file name from focaltech,fts.yaml to focaltech,fts5452.yaml
+	- removed focaltech,max-touch-number property, handled in driver now
+	- removed touchscreen-* properties and used unevaluatedProperties: false
+	instead of additionalProperties: false
+	- fixed the example dts node name to be generic
+	
+2. FTS Touchscreen driver changes (Suggested by Markuss Broks and Jeff LaBundy)
+	- removed repeated license terms since SPDX tag is used
+	- includes are now sorted
+	- added the missing input_mt_sync_frame when reporting touch
+	- focaltech,max-touch-number is no longer read from dts and instead
+	specified in the driver as compatible data.
+	- removed redundant __set_bits
+	- input_mt_init_slots is now called after the axes are defined
+	- irq handler now returns IRQ_NONE when there is an i2c error
+	- other minor fixes and refactoring as suggested
+	- renamed driver filename from focaltech_fts.c to focaltech_fts5452.c
+	(Suggested by Krzysztof Kozlowski)
+	
+3. dts changes (Suggested by Krzysztof Kozlowski)
+	- use generic touchscreen nodes
+	- removed focaltech,max-touch-number property
+	- irq type was specified wrongly for Poco F1 in v1. Changed the irq
+	type to IRQ_TYPE_EDGE_FALLING as that is correct.
+
+Some Clarifications on v1 comments:
+-----------------------------------
+1. Jeff LaBundy suggested I could read chip id with the following:
+	__be16 val;
+	regmap_raw_read(data->regmap, FTS_REG_CHIP_ID_H, &val, sizeof(val));
+But this is not possible because FTS_REG_CHIP_ID_H and FTS_REG_CHIP_ID_L
+are not continuous register, therefore reading it together as 16-bit values
+will not work. So I went with what Markuss Broks suggested:
+	regmap_read(data->regmap, FTS_REG_CHIP_ID_L, &id);
+        regmap_read(data->regmap, FTS_REG_CHIP_ID_H, &val);
+        id |= val << 8;
+
+2. As Markuss Broks suggested, I tried to cast the buffer to struct, but 
+unfortunately was not able to successfully do it. The buffer layout is 
+weirdly split into 4 bits and 12 bits at someplaces which makes it hard 
+to cast into a struct. For example, we can note
+	type = buf[base + 3] >> 6
+	x = ((buf[base + 3] & 0x0F) << 8) + (buf[base + 4] & 0xFF);
+Here at buffer index 3, the first two bits (>>6) are used for denoting
+event type. The next two bits are not used. But the last 4 bits (&0x0F)
+of buffer[3] are added with buffer index 4 to get the x position. 
+I don't know how to handle these when casting to a struct. I tried
+experimenting with bitfields in struct, but to no avail. So I am sticking
+with my initial implementation for now.
+
+Kindly let me know if any further improvements are needed. Thanks.
+
+The Focaltech FTS driver supports several variants of focaltech
+touchscreens found in ~2018 era smartphones including variants found on
+the PocoPhone F1 and the SHIFT6mq which are already present in mainline.
+This driver is loosely based on the original driver from Focaltech and
+the patches submitted by Caleb Connolly previously[1] but has been
+simplified and largely reworked.
+
+[1] https://patchwork.kernel.org/project/linux-input/patch/20220123173650.290349-3-caleb@connolly.tech/
+
+Joel Selvaraj (5):
+  dt-bindings: input: touchscreen: add focaltech,fts5452 touchscreen
+  Input: add driver for Focaltech FTS touchscreen
+  arm64: dts: qcom: sdm845-xiaomi-beryllium-common: add touchscreen
+    related nodes
+  arm64: dts: qcom: sdm845-xiaomi-beryllium-ebbg: introduce support for
+    fts touchscreen
+  arm64: dts: qcom: sdm845-shift-axolotl: update focaltech touchscreen
+    properties
+
+ .../input/touchscreen/focaltech,fts5452.yaml  |  71 +++
+ MAINTAINERS                                   |   8 +
+ .../boot/dts/qcom/sdm845-shift-axolotl.dts    |  18 +-
+ .../qcom/sdm845-xiaomi-beryllium-common.dtsi  |  37 ++
+ .../dts/qcom/sdm845-xiaomi-beryllium-ebbg.dts |  21 +
+ drivers/input/touchscreen/Kconfig             |  12 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/focaltech_fts5452.c | 432 ++++++++++++++++++
+ 8 files changed, 590 insertions(+), 10 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/focaltech,fts5452.yaml
+ create mode 100644 drivers/input/touchscreen/focaltech_fts5452.c
+
 -- 
-2.25.1
+2.40.0
 
