@@ -2,142 +2,184 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 379C76E2E6F
-	for <lists+linux-input@lfdr.de>; Sat, 15 Apr 2023 04:03:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DD8B6E2FF9
+	for <lists+linux-input@lfdr.de>; Sat, 15 Apr 2023 11:11:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230183AbjDOCDB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Apr 2023 22:03:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43754 "EHLO
+        id S229647AbjDOJLn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 15 Apr 2023 05:11:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230107AbjDOCCn (ORCPT
+        with ESMTP id S229540AbjDOJLm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Apr 2023 22:02:43 -0400
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 210DC83D3;
-        Fri, 14 Apr 2023 19:02:42 -0700 (PDT)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-54f8b687a06so1581127b3.0;
-        Fri, 14 Apr 2023 19:02:42 -0700 (PDT)
+        Sat, 15 Apr 2023 05:11:42 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2766A93D1
+        for <linux-input@vger.kernel.org>; Sat, 15 Apr 2023 02:11:05 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id c9so12677064ejz.1
+        for <linux-input@vger.kernel.org>; Sat, 15 Apr 2023 02:11:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681524161; x=1684116161;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QfFLYwoRbIcS+5n1zFSGq1E+iP2KHQOy5/Vbet45Gu4=;
-        b=g/VYV2yqnH2eA0lEeYtVv85WVktmO9HxBMfNW7J4AQ16iR7EJE4Hi3vJTo7C/x7zMo
-         usfA55rBiBVMwtJcRm8avc1L+Q6WT9Nc8Oe8AJN9zOmfH0hiIA8U+cCdS3ku4gHvVTTo
-         WfpXhMQxgWrUwWEFVGhpEcirALG7LCfwniOKRzVc1TYlQOBPsoWaZnb66b1ZwvHSM5c6
-         MtvkqICCDlYW4EXUSPZ58vwbUHP0O5kKYIX7GzAVdNG4hHxZRxss/9c3csUFgc/EshwH
-         D5BljrSYJBTCk7SqDUyV1rzZ8THD+PVsn6SIDciGuKHwcYmQgnXjJuToVof8PUaEwD+z
-         0kIw==
+        d=linaro.org; s=google; t=1681549860; x=1684141860;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bkqhhdKnhncpcXSMYex0XLHXcS1AhaZjY9ZDkZfJ5BM=;
+        b=HDJgWSCZ6DECQVi7mecei8mGzS8DjvsskIRgELeqzfetwiRlukLBHsmYLdS8kI6CCG
+         u+5HhGSAQCth1eFw20xgp/ExLFqMjeg8zDvWAMKKxVpFE95hnHZ+SuYXTcQo7/IZTPYZ
+         yNpxnnA1y2iyqUj/Y4Msu8c2HwkrkLryv7S5/TwFBH+5pak7lVVF6N0GECEhOFLFc7RH
+         oU0ZRA6ewAw3sKBUeRU4MOdlA7cKz46ngoaffBpv/B7usmSYR+ENBQBuP6LgW8EJWfYZ
+         Ryh5sXmfNlTAo2yr0IQ5QTGvklujOvgB2njk+6tDdiHhTFecX9HRtYM7d8B18QZYrvrx
+         VcrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681524161; x=1684116161;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QfFLYwoRbIcS+5n1zFSGq1E+iP2KHQOy5/Vbet45Gu4=;
-        b=beuyYd9Jifd8LXgEAUqMTJDChNHnVBXcr820W3SvstwgtjU0jTDdPfOqYQwHlTct1M
-         kurnswYEvE/9HORrsVNxIhV8zAZhGSVttutsjdd6Rm/VfNnhwWm/UwV3gySGf19mlAQt
-         fTldk853qSEvO0ltK6WuHKzkdNT8D71QU3JxgZTt9gc2TmQ+tLWvcO2dL63Pcd5us9DK
-         z55lgvGBluoM25VmaYmmgO4oE81FNTHcm/1J1n0/8EZhg17lN8IDUlgak/DpcmAFaXK+
-         8LqCQHSJE+Nl+pmOCZAgRym5JaDOhvMNmD4i+L7EAOhhzD8EpGZjAV0LW7b2MbrLFjjX
-         6KmQ==
-X-Gm-Message-State: AAQBX9e8CjOubDBj6bR/4hP02sMqBT3i3qEXdIGE4KchNdr+u/nsCTwf
-        IHQ0F1xSePRK67yTxoDio/A=
-X-Google-Smtp-Source: AKy350Z34NCtOeyDltAA+YqPY7xdtbn3jTq23ob5FORw1LL+hPAy4r721FNIfl2gkhYLEAIW28ad6Q==
-X-Received: by 2002:a81:1252:0:b0:54f:dc9b:c994 with SMTP id 79-20020a811252000000b0054fdc9bc994mr3789942yws.1.1681524161272;
-        Fri, 14 Apr 2023 19:02:41 -0700 (PDT)
-Received: from JOEL-DESKTOP.. ([2604:2d80:4d87:cd00:9f51:32d7:1177:67d])
-        by smtp.gmail.com with ESMTPSA id 68-20020a810a47000000b00545a081847fsm1593607ywk.15.2023.04.14.19.02.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Apr 2023 19:02:41 -0700 (PDT)
-From:   Joel Selvaraj <joelselvaraj.oss@gmail.com>
-To:     Caleb Connolly <caleb@connolly.tech>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Jeff LaBundy <jeff@labundy.com>,
-        Markuss Broks <markuss.broks@gmail.com>,
-        Jean Delvare <jdelvare@suse.de>,
-        Max Krummenacher <max.krummenacher@toradex.com>,
-        Chris Morgan <macromorgan@hotmail.com>,
-        Job Noorman <job@noorman.info>,
-        Alistair Francis <alistair@alistair23.me>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Maxime Ripard <mripard@kernel.org>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Joel Selvaraj <joelselvaraj.oss@gmail.com>
-Subject: [PATCH v3 5/5] arm64: dts: qcom: sdm845-shift-axolotl: update focaltech touchscreen properties
-Date:   Fri, 14 Apr 2023 21:02:22 -0500
-Message-Id: <20230415020222.216232-6-joelselvaraj.oss@gmail.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230415020222.216232-1-joelselvaraj.oss@gmail.com>
-References: <20230415020222.216232-1-joelselvaraj.oss@gmail.com>
+        d=1e100.net; s=20221208; t=1681549860; x=1684141860;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bkqhhdKnhncpcXSMYex0XLHXcS1AhaZjY9ZDkZfJ5BM=;
+        b=JKr5oxJqJxK+9WQ5jd4mF4jEYTKU56FEhfSjdhYoJvmuzuUnIyxbmFbOb5A8uAs5on
+         agzzNWBLGDDG03h4kAfcb7sJG+M5ZNBELZoBFuH8hbsfVnutLlXWjQ2b3K7A6t4d19sP
+         7A+5qaFduTezBIctZ5N+r3HW1vyKPQ/OW4/sOhoRcfOGB6udSP6hh6DBx1pRcI8TgyPB
+         9b8SkD8t51mVco4n6vt+nE8BMgQLwEg8JvXcXyPwAkcJTgK2Vckx/PBfazp4RMgVHCNo
+         /Qm0jpQUFUaTSCip75bh52mkfOQZCGEGUlwFUUj231nyYvCf3AT/NKrIJKC4x8z60uPX
+         VPvA==
+X-Gm-Message-State: AAQBX9dbquP6T5JWkbUnb03aM/NeYjHyD1ZiE4DRFzSX0HucYfZ3vF3G
+        Az5XYZb9/FGCVOcvM5HGnH7JhQ==
+X-Google-Smtp-Source: AKy350ZFG3UTHm3sBP58Fno4kIsIdNDJ0dz7Z5ySjSVhbi2XZCOv8Pvqm17Zayd0KsIGaCYvzcSuAw==
+X-Received: by 2002:a17:907:208c:b0:94e:547b:6322 with SMTP id pv12-20020a170907208c00b0094e547b6322mr1537489ejb.25.1681549860633;
+        Sat, 15 Apr 2023 02:11:00 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:a3bf:4ed:6c53:2a36? ([2a02:810d:15c0:828:a3bf:4ed:6c53:2a36])
+        by smtp.gmail.com with ESMTPSA id gy23-20020a170906f25700b0094f31208918sm92340ejb.108.2023.04.15.02.10.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 15 Apr 2023 02:11:00 -0700 (PDT)
+Message-ID: <8a790966-d985-c0fc-498e-c17e69a6622e@linaro.org>
+Date:   Sat, 15 Apr 2023 11:10:59 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 1/2] dt-bindings: input: microchip,cap11xx: add advanced
+ sensitivity settings
+Content-Language: en-US
+To:     Jiri Valek - 2N <jiriv@axis.com>, dmitry.torokhov@gmail.com,
+        krzysztof.kozlowski+dt@linaro.org
+Cc:     devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+        u.kleine-koenig@pengutronix.de
+References: <20230414233815.4004526-1-jiriv@axis.com>
+ <20230414233815.4004526-2-jiriv@axis.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230414233815.4004526-2-jiriv@axis.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The touchscreen nodes were added before the driver patches were merged.
-Update the focaltech touchscreen properties to match with the upstreamed
-focaltech driver. Also, the touchscreen used is in axolotl is fts5452
-and not fts8719.
+On 15/04/2023 01:38, Jiri Valek - 2N wrote:
+> Add support for advanced sensitivity settings and signal guard feature.
+> 
+> Signed-off-by: Jiri Valek - 2N <jiriv@axis.com>
+> ---
+>  .../bindings/input/microchip,cap11xx.yaml     | 64 ++++++++++++++++++-
+>  1 file changed, 61 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml b/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
+> index 5fa625b5c5fb..08e28226a164 100644
+> --- a/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
+> +++ b/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
+> @@ -45,13 +45,13 @@ properties:
+>        Enables the Linux input system's autorepeat feature on the input device.
+>  
+>    linux,keycodes:
+> -    minItems: 6
+> -    maxItems: 6
+> +    minItems: 3
+> +    maxItems: 8
+>      description: |
+>        Specifies an array of numeric keycode values to
+>        be used for the channels. If this property is
+>        omitted, KEY_A, KEY_B, etc are used as defaults.
+> -      The array must have exactly six entries.
+> +      The number of entries must correspond to the number of channels.
+>  
+>    microchip,sensor-gain:
+>      $ref: /schemas/types.yaml#/definitions/uint32
+> @@ -70,6 +70,58 @@ properties:
+>        open drain. This property allows using the active
+>        high push-pull output.
+>  
+> +  microchip,sensitivity-delta-sense:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    default: 32
+> +    enum: [1, 2, 4, 8, 16, 32, 64, 128]
+> +    description: |
 
-Signed-off-by: Joel Selvaraj <joelselvaraj.oss@gmail.com>
----
- .../boot/dts/qcom/sdm845-shift-axolotl.dts     | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+Do not need '|' unless you need to preserve formatting.
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts b/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
-index b54e304abf71..70286e53e000 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
-@@ -474,23 +474,21 @@ &i2c5 {
- 	status = "okay";
- 
- 	touchscreen@38 {
--		compatible = "focaltech,fts8719";
-+		compatible = "focaltech,fts5452";
- 		reg = <0x38>;
--		wakeup-source;
--		interrupt-parent = <&tlmm>;
--		interrupts = <125 0x2>;
--		vdd-supply = <&vreg_l28a_3p0>;
--		vcc-i2c-supply = <&vreg_l14a_1p88>;
- 
--		pinctrl-names = "default", "suspend";
-+		interrupts-extended = <&tlmm 125 IRQ_TYPE_EDGE_FALLING>;
-+		reset-gpios = <&tlmm 99 GPIO_ACTIVE_LOW>;
-+
-+		avdd-supply = <&vreg_l28a_3p0>;
-+		vddio-supply = <&vreg_l14a_1p88>;
-+
- 		pinctrl-0 = <&ts_int_active &ts_reset_active>;
- 		pinctrl-1 = <&ts_int_suspend &ts_reset_suspend>;
-+		pinctrl-names = "default", "suspend";
- 
--		reset-gpio = <&tlmm 99 GPIO_ACTIVE_HIGH>;
--		irq-gpio = <&tlmm 125 GPIO_TRANSITORY>;
- 		touchscreen-size-x = <1080>;
- 		touchscreen-size-y = <2160>;
--		focaltech,max-touch-number = <5>;
- 	};
- };
- 
--- 
-2.40.0
+> +      Optional parameter. Controls the sensitivity multiplier of a touch detection.
+> +      At the more sensitive settings, touches are detected for a smaller delta
+> +      capacitance corresponding to a “lighter” touch.
+> +
+> +  microchip,sensitivity-base-shift:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    default: 256
+> +    enum: [1, 2, 4, 8, 16, 32, 64, 128, 256]
+> +    description: |
+> +      Optional parameter. Controls data scaling factor.
+> +      The higher the value of these bits, the larger the range and the lower
+> +      the resolution of the data presented. These settings will not affect
+> +      touch detection or sensitivity.
+> +
+> +  microchip,signal-guard:
+> +    minItems: 3
+> +    maxItems: 8
+> +    enum: [0, 1]
+> +    default: 0
+
+This was not really tested. Missing ref, mixing scalar and array
+properties. You want items with enum. And drop default.
+
+
+> +    description: |
+> +      Optional parameter supported only for CAP129x.
+
+Then disallow it for others (allOf:if:then: ...
+microchip,signal-guard:false)
+> +      The signal guard isolates the signal from virtual grounds.
+> +      If enabled then the behavior of the channel is changed to signal guard.
+> +      The number of entries must correspond to the number of channels.
+> +
+> +  microchip,input-treshold:
+> +    minItems: 3
+> +    maxItems: 8
+> +    minimum: 0
+> +    maximum: 127
+> +    default: 64
+> +    description: |
+> +      Optional parameter. Specifies the delta threshold that is used to
+> +      determine if a touch has been detected.
+> +      The number of entries must correspond to the number of channels.
+> +
+> +  microchip,calib-sensitivity:
+> +    minItems: 3
+> +    maxItems: 8
+> +    enum: [1, 2, 4]
+> +    default: 1
+> +    description: |
+> +      Optional parameter supported only for CAP129x. Specifies an array of
+> +      numeric values that controls the gain used by the calibration routine to
+> +      enable sensor inputs to be more sensitive for proximity detection.
+> +      The number of entries must correspond to the number of channels.
+
+Most of these properties do not look like hardware properties. Policies
+and runtime configuration should not be put into DT. Explain please why
+these are board-specific thus suitable for DT.
+
+
+Best regards,
+Krzysztof
 
