@@ -2,127 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 231E76E4730
-	for <lists+linux-input@lfdr.de>; Mon, 17 Apr 2023 14:11:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5687D6E477E
+	for <lists+linux-input@lfdr.de>; Mon, 17 Apr 2023 14:21:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230283AbjDQMLL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 Apr 2023 08:11:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57136 "EHLO
+        id S231153AbjDQMVM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 Apr 2023 08:21:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjDQMLJ (ORCPT
+        with ESMTP id S230525AbjDQMVJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 Apr 2023 08:11:09 -0400
-Received: from hust.edu.cn (unknown [202.114.0.240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A876B9034;
-        Mon, 17 Apr 2023 05:10:38 -0700 (PDT)
-Received: from [IPV6:2001:250:4000:5113:34f3:1550:a448:b8c8] ([172.16.0.254])
-        (user=dzm91@hust.edu.cn mech=PLAIN bits=0)
-        by mx1.hust.edu.cn  with ESMTP id 33HBFNXM017083-33HBFNXN017083
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-        Mon, 17 Apr 2023 19:15:25 +0800
-Message-ID: <f0618995-7d1f-50a6-8729-e64db9df104b@hust.edu.cn>
-Date:   Mon, 17 Apr 2023 19:15:23 +0800
+        Mon, 17 Apr 2023 08:21:09 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C6876E9D;
+        Mon, 17 Apr 2023 05:20:27 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1poNJU-0004S0-5s; Mon, 17 Apr 2023 13:46:28 +0200
+Message-ID: <c1bfe1e7-d256-a444-4cfc-e0a4f9fba036@leemhuis.info>
+Date:   Mon, 17 Apr 2023 13:46:27 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH] Input: xpad - fix GPF in xpad_probe
-To:     Vicki Pfau <vi@endrift.com>, Dan Carpenter <error27@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Pavel Rojtberg <rojtberg@gmail.com>,
-        Nate Yocom <nate@yocom.org>,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        John Butler <radon86dev@gmail.com>,
-        Matthias Benkmann <matthias.benkmann@gmail.com>,
-        Christopher Crockett <chaorace@gmail.com>,
-        Santosh De Massari <s.demassari@gmail.com>,
-        hust-os-kernel-patches@googlegroups.com,
-        syzbot+a3f758b8d8cb7e49afec@syzkaller.appspotmail.com,
-        "Pierre-Loup A. Griffais" <pgriffais@valvesoftware.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230414125603.686123-1-dzm91@hust.edu.cn>
- <c3e0823b-2b03-4dab-b7cb-a8bc5151f0b1@kili.mountain>
- <99794af0-7367-acff-357d-1cd4fa7f832e@hust.edu.cn>
- <38279d91-402c-7f8b-273d-0882a0567a0c@endrift.com>
- <57577302-8d18-231f-062b-b1d262720943@hust.edu.cn>
- <69fc3a73-f18b-0268-6431-1b8b6aeed8ff@endrift.com>
-From:   Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <69fc3a73-f18b-0268-6431-1b8b6aeed8ff@endrift.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-FEAS-AUTH-USER: dzm91@hust.edu.cn
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [regression] Bug 217182 - Dell Latitude E7450 Trackpoint not
+ working as expected
+Content-Language: en-US, de-DE
+From:   "Linux regression tracking #update (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+To:     Linux kernel regressions list <regressions@lists.linux.dev>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>,
+          Linux regressions mailing list 
+          <regressions@lists.linux.dev>
+References: <6625ee0a-31a7-9fef-d299-457c0f98f5a0@leemhuis.info>
+In-Reply-To: <6625ee0a-31a7-9fef-d299-457c0f98f5a0@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1681734027;dfaa7a46;
+X-HE-SMSGID: 1poNJU-0004S0-5s
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+[TLDR: This mail in primarily relevant for Linux regression tracking. A
+change or fix related to the regression discussed in this thread was
+posted or applied, but it did not use a Link: tag to point to the
+report, as Linus and the documentation call for. Things happen, no
+worries -- but now the regression tracking bot needs to be told manually
+about the fix. See link in footer if these mails annoy you.]
 
-On 2023/4/17 19:07, Vicki Pfau wrote:
->
-> On 4/17/23 03:33, Dongliang Mu wrote:
->> On 2023/4/17 18:24, Vicki Pfau wrote:
->>> Hi,
->>>
->>> On 4/17/23 03:01, Dongliang Mu wrote:
->>>> On 2023/4/17 17:25, Dan Carpenter wrote:
->>>>> On Fri, Apr 14, 2023 at 08:55:47PM +0800, Dongliang Mu wrote:
->>>>>> In xpad_probe(), it does not allocate xpad->dev with input_dev type.
->>>>>> Then, when it invokes dev_warn with 1st argument - &xpad->dev->dev, it
->>>>>> would trigger GPF.
->>>>> What is a call tree for this?  Actually I found it from the bug report.
->>>>> drivers/input/joystick/xpad.c
->>>>>      2034                  if (error)
->>>>>      2035                          dev_warn(&xpad->dev->dev,
->>>>>      2036                                   "unable to receive magic message: %d\n",
->>>>>      2037                                   error);
->>>>>      2038          }
->>> Sorry, this appears to be my code, and was merged recently after a few drafts with Dmitry. This code is sensitive to being moved and only affects some controllers, so I'm looking into if I can move it into after creation of the input_dev right now. It's something I'd already thought might be necessary, but I didn't find any evidence for it before. I'll try to get back to you on that soon.
->> If this is necessary, we can change it with another device pointer. Otherwise, we need to move it after the allocation and assignment. Or move the allocation and assignment before which is not suggested.
->>
->> Thanks for your reply. Do I need to submit a v2 patch? Or you will take care of it?
-> I'll take care of it. I have a patch prepared, but I need to do a bit more testing before I can confirm it doesn't break one specific controller. I'll try to file it as soon as possible. Do you have a timeframe you need this by?
-You can follow your own plan since I am an enthusiast who discovers and 
-patches security vulnerabilities, instead of reply on the functionability.
->
->> Dongliang Mu
->>
->>>> Hi Dan,
->>>>
->>>> this only occurs in linux-next tree.
->>>>
->>>> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/input/joystick/xpad.c?n2053#n2053
->>>>
->>>>>> Fix this by allocating xpad->dev, its error handling and cleanup
->>>>>> operations in the remove function.
->>>>>>
->>>>>> Note that this crash does not have any reproducer, so the patch
->>>>>> only passes compilation testing.
->>>>> The xpad->dev = input_dev; already happens in xpad_init_input().  We
->>>>> shouldn't allocate it twice.  I think the fix is to just use a different
->>>>> device pointer for the dev_warn().  Why not use &xpad->intf->dev?
->>>> Yeah, the allocation and assignment is in the last part that I missed before. We have two choices to fix this issue:
->>>>
->>>> 1. Change to another device pointer;
->>>>
->>>> 2. Move the allocation and assignment to a previous code site;
->>>>
->>>> If there is no other places dereferencing this pointer before the allocation and assignment, it's better to use the 1st one.
->>>>
->>>> Let me craft a v2 patch.
->>>>
->>>>>> Reported-by: syzbot+a3f758b8d8cb7e49afec@syzkaller.appspotmail.com
->>>>> Could you use a Link tag to link to the bug report?
->>>>> Link: https://groups.google.com/g/syzkaller-bugs/c/iMhTgpGuIbM
->>>> Sure, no problem.
->>>>> This needs a Fixes tag.
->>>>>
->>>>> Fixes: db7220c48d8d ("Input: xpad - fix support for some third-party controllers")
->>>>>
->>>>> regards,
->>>>> dan carpenter
->>>>>
->>> Vicki
-> Vicki
+On 13.03.23 11:20, Linux regression tracking (Thorsten Leemhuis) wrote:
+> 
+> Hi, Thorsten here, the Linux kernel's regression tracker.
+> 
+> I noticed a regression report in bugzilla.kernel.org. As many (most?)
+> kernel developer don't keep an eye on it, I decided to forward it by
+> mail. Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=217182 :
+
+Tell regzbot about the fix for this:
+
+#regzbot fix: 754ff5060daf5a1cf4474eff9b4edeb6c17ef7ab
+#regzbot ignore-activity
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
+
