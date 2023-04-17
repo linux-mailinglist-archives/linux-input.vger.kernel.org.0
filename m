@@ -2,53 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A48D96E4772
-	for <lists+linux-input@lfdr.de>; Mon, 17 Apr 2023 14:20:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4A156E4980
+	for <lists+linux-input@lfdr.de>; Mon, 17 Apr 2023 15:12:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229547AbjDQMU0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 Apr 2023 08:20:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39756 "EHLO
+        id S231356AbjDQNLr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 Apr 2023 09:11:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbjDQMUZ (ORCPT
+        with ESMTP id S231206AbjDQNLc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 Apr 2023 08:20:25 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B98572BA;
-        Mon, 17 Apr 2023 05:19:54 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1poNRz-0006Cl-1Z; Mon, 17 Apr 2023 13:55:15 +0200
-Message-ID: <993dd537-2f74-3657-1dd3-c3a0a74e37e1@leemhuis.info>
-Date:   Mon, 17 Apr 2023 13:55:14 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [regression] Bug 216946 - Toshiba satellite click mini l9w-b:
- touchscreen: no touch events with kernel 6.1.4
-Content-Language: en-US, de-DE
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?G=c3=a9_Koerkamp?= <ge.koerkamp@gmail.com>
-References: <32a14a8a-9795-4c8c-7e00-da9012f548f8@leemhuis.info>
- <abb495f7-f973-4614-846b-d3922dc0fe25@leemhuis.info>
- <CAO-hwJJ2OMFgpmrXK_Z43z0ddujaS1fNjaAJSWwao4qQN+pJ6w@mail.gmail.com>
- <13c5e60d-d9ba-f840-f43e-40db957a6617@redhat.com>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <13c5e60d-d9ba-f840-f43e-40db957a6617@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+        Mon, 17 Apr 2023 09:11:32 -0400
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9E73B47A;
+        Mon, 17 Apr 2023 06:10:55 -0700 (PDT)
+Received: by mail-oi1-f178.google.com with SMTP id j12so16656448oij.3;
+        Mon, 17 Apr 2023 06:10:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681737031; x=1684329031;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=1Jry06HvGlIuf9DQAjGhESKm49kYLIDW7RCcP+zw4oE=;
+        b=fWxMLEAdxj09ClNjrNoPsH5Z7d1chi6g7AYDSHLfKsPmb0TzhUpv7aq3AAXzmoJr/5
+         tzrlxu3dYJbwiZsHDj7VTcDHvFazxp4rLyeR37fSKAvVVOjDzsc2kmcsiySsGx7XE2vt
+         2hWEWYcEElwQYAwbZO4iGj8wI1HwWuu8BhSHwKNR7ape48YuZPViOgZlpIunuqXMJAig
+         N4DQoVKPh84Kt6bebD5Wv3zCUVf6EOG4QOi+IbtsiSw9HsGZx6RaPiodAIhAiJ6zE3vq
+         N46sEnMFvAgRg+/i01xYKsF3CfN51uRkFh3kG8hVY6mE83dKObtukpRtNmneGLK/PAIg
+         vnwA==
+X-Gm-Message-State: AAQBX9cZJevjiWfL6hZEBU3b9cFgPU5cBczH2MFf5aRyitRLBjr61aHf
+        Mc1jPmVB8FZmrSbXHgyB3A==
+X-Google-Smtp-Source: AKy350Y4aH0hdYr3q3wYIq9II+cnWAjuXLdja9vFbsPQQeVrQsaCDGYVa1LXyUE9McMgjRKYL+2gFg==
+X-Received: by 2002:aca:c44:0:b0:38e:bfa:241e with SMTP id i4-20020aca0c44000000b0038e0bfa241emr1084719oiy.42.1681737031117;
+        Mon, 17 Apr 2023 06:10:31 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id s188-20020acac2c5000000b00383eaea5e88sm4564595oif.38.2023.04.17.06.10.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Apr 2023 06:10:30 -0700 (PDT)
+Received: (nullmailer pid 2588779 invoked by uid 1000);
+        Mon, 17 Apr 2023 13:10:27 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1681733995;2071a30c;
-X-HE-SMSGID: 1poNRz-0006Cl-1Z
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+From:   Rob Herring <robh@kernel.org>
+To:     Jiri Valek - 2N <jiriv@axis.com>
+Cc:     devicetree@vger.kernel.org, dmitry.torokhov@gmail.com,
+        linux-kernel@vger.kernel.org, u.kleine-koenig@pengutronix.de,
+        krzysztof.kozlowski+dt@linaro.org, linux-input@vger.kernel.org,
+        robh+dt@kernel.org
+In-Reply-To: <20230414233815.4004526-2-jiriv@axis.com>
+References: <20230414233815.4004526-1-jiriv@axis.com>
+ <20230414233815.4004526-2-jiriv@axis.com>
+Message-Id: <168173527578.2535543.13078048336293156269.robh@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: input: microchip,cap11xx: add
+ advanced sensitivity settings
+Date:   Mon, 17 Apr 2023 08:10:27 -0500
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -56,139 +68,125 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
-
-On 01.03.23 12:41, Hans de Goede wrote:
-> On 2/28/23 14:26, Benjamin Tissoires wrote:
->> On Tue, Feb 28, 2023 at 12:32 PM Thorsten Leemhuis
->> <regressions@leemhuis.info> wrote:
->>>
->>> On 19.01.23 16:06, Linux kernel regression tracking (Thorsten Leemhuis)
->>> wrote:
->>>> Hi, this is your Linux kernel regression tracker.
->>>>
->>>> I noticed a regression report in bugzilla.kernel.org. As many (most?)
->>>> kernel developer don't keep an eye on it, I decided to forward it by
->>>> mail. Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=216946 :
->>>
->>> The reporter recently confirmed in the ticket that the issue still
->>> happens with 6.2.
->>>
->>> There wasn't any reply from any of the input developers here or in
->>> bugzilla afaics. :-/ Hmmm. Could someone from that camp maybe please
->>> take a minute and at least briefly look into this as answer something
->>> like "that might be due to a problem in subsystem 'foo'", "maybe ask bar
->>> for an option", or "we have no idea what might cause this, this needs to
->>> be bisected"? That would help a lot.
->>
->> The working dmesg shows a line with:
->> hid-generic 0018:0457:10FB.0002: input,hidraw1: I2C HID v1.00 Device
->> [SIS0817:00 0457:10FB] on i2c-SIS0817:00
->> and then
->> hid-multitouch 0018:0457:10FB.0002: input,hidraw1: I2C HID v1.00
->> Device [SIS0817:00 0457:10FB] on i2c-SIS0817:00
->>
->> But these 2 lines do not appear on the 6.1.4 logs.
->>
->> So the device is not properly enumerated by ACPI or I2C. Hans might
->> have an idea on how to debug/solve that issue.
+On Sat, 15 Apr 2023 01:38:14 +0200, Jiri Valek - 2N wrote:
+> Add support for advanced sensitivity settings and signal guard feature.
 > 
-> I actually have a Toshiba satellite click mini l9w-b lying around
-> myself. I already made a note to try and reproduce this
+> Signed-off-by: Jiri Valek - 2N <jiriv@axis.com>
+> ---
+>  .../bindings/input/microchip,cap11xx.yaml     | 64 ++++++++++++++++++-
+>  1 file changed, 61 insertions(+), 3 deletions(-)
 > 
-> But I'm very much swamped with too much kernel work, so no promises
-> when I will get around to this ...
 
-Has anyone made any progress with this? Doesn't look like it, hence I
-wondered if this fall through the cracks; but maybe I'm just missing
-something.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Gé Koerkamp: with a bit of luck Hans sooner or later will have time to
-look into this, but it might speed things up if you could try to bisect
-this.
+yamllint warnings/errors:
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml: properties:microchip,signal-guard: 'enum' should not be valid under {'enum': ['const', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'minimum', 'maximum', 'multipleOf', 'pattern']}
+	hint: Scalar and array keywords cannot be mixed
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml: properties:microchip,signal-guard: 'enum' should not be valid under {'enum': ['const', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'minimum', 'maximum', 'multipleOf', 'pattern']}
+	hint: Scalar and array keywords cannot be mixed
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml: properties:microchip,input-treshold: 'minimum' should not be valid under {'enum': ['const', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'minimum', 'maximum', 'multipleOf', 'pattern']}
+	hint: Scalar and array keywords cannot be mixed
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml: properties:microchip,input-treshold: 'maximum' should not be valid under {'enum': ['const', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'minimum', 'maximum', 'multipleOf', 'pattern']}
+	hint: Scalar and array keywords cannot be mixed
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml: properties:microchip,input-treshold: 'minimum' should not be valid under {'enum': ['const', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'minimum', 'maximum', 'multipleOf', 'pattern']}
+	hint: Scalar and array keywords cannot be mixed
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml: properties:microchip,input-treshold: 'maximum' should not be valid under {'enum': ['const', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'minimum', 'maximum', 'multipleOf', 'pattern']}
+	hint: Scalar and array keywords cannot be mixed
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml: properties:microchip,calib-sensitivity: 'enum' should not be valid under {'enum': ['const', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'minimum', 'maximum', 'multipleOf', 'pattern']}
+	hint: Scalar and array keywords cannot be mixed
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml: properties:microchip,calib-sensitivity: 'enum' should not be valid under {'enum': ['const', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'minimum', 'maximum', 'multipleOf', 'pattern']}
+	hint: Scalar and array keywords cannot be mixed
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml: properties:microchip,signal-guard: 'oneOf' conditional failed, one must be fixed:
+	'type' is a required property
+		hint: A vendor boolean property can use "type: boolean"
+	Additional properties are not allowed ('default', 'enum', 'maxItems', 'minItems' were unexpected)
+		hint: A vendor boolean property can use "type: boolean"
+	Additional properties are not allowed ('default', 'maxItems', 'minItems' were unexpected)
+		hint: A vendor string property with exact values has an implicit type
+	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml: properties:microchip,signal-guard: 'oneOf' conditional failed, one must be fixed:
+		'$ref' is a required property
+		'allOf' is a required property
+		hint: A vendor property needs a $ref to types.yaml
+		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+	0 is not of type 'string'
+		hint: A vendor string property with exact values has an implicit type
+	1 is not of type 'string'
+		hint: A vendor string property with exact values has an implicit type
+	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml: properties:microchip,input-treshold: 'oneOf' conditional failed, one must be fixed:
+	'type' is a required property
+		hint: A vendor boolean property can use "type: boolean"
+	Additional properties are not allowed ('default', 'maxItems', 'maximum', 'minItems', 'minimum' were unexpected)
+		hint: A vendor boolean property can use "type: boolean"
+	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml: properties:microchip,input-treshold: 'oneOf' conditional failed, one must be fixed:
+		'enum' is a required property
+		'const' is a required property
+		hint: A vendor string property with exact values has an implicit type
+		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml: properties:microchip,input-treshold: 'oneOf' conditional failed, one must be fixed:
+		'$ref' is a required property
+		'allOf' is a required property
+		hint: A vendor property needs a $ref to types.yaml
+		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml: properties:microchip,calib-sensitivity: 'oneOf' conditional failed, one must be fixed:
+	'type' is a required property
+		hint: A vendor boolean property can use "type: boolean"
+	Additional properties are not allowed ('default', 'enum', 'maxItems', 'minItems' were unexpected)
+		hint: A vendor boolean property can use "type: boolean"
+	Additional properties are not allowed ('default', 'maxItems', 'minItems' were unexpected)
+		hint: A vendor string property with exact values has an implicit type
+	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml: properties:microchip,calib-sensitivity: 'oneOf' conditional failed, one must be fixed:
+		'$ref' is a required property
+		'allOf' is a required property
+		hint: A vendor property needs a $ref to types.yaml
+		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+	1 is not of type 'string'
+		hint: A vendor string property with exact values has an implicit type
+	2 is not of type 'string'
+		hint: A vendor string property with exact values has an implicit type
+	4 is not of type 'string'
+		hint: A vendor string property with exact values has an implicit type
+	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.example.dtb: touch@28: microchip,signal-guard: [[0, 0, 0, 0, 0, 0]] is too short
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.example.dtb: touch@28: microchip,signal-guard:0: [0, 0, 0, 0, 0, 0] is too long
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.example.dtb: touch@28: microchip,input-treshold: [[21, 18, 46, 46, 46, 21]] is too short
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.example.dtb: touch@28: microchip,input-treshold:0: [21, 18, 46, 46, 46, 21] is too long
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.example.dtb: touch@28: 'microchip,calib-sensitivityj' does not match any of the regexes: '^led@[0-7]$', 'pinctrl-[0-9]+'
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/microchip,cap11xx.yaml
 
-#regzbot poke
+doc reference errors (make refcheckdocs):
 
->>> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
->>> --
->>> Everything you wanna know about Linux kernel regression tracking:
->>> https://linux-regtracking.leemhuis.info/about/#tldr
->>> If I did something stupid, please tell me, as explained on that page.
->>>
->>> #regzbot poke
->>>>>  Gé Koerkamp 2023-01-17 20:21:51 UTC
->>>>>
->>>>> Created attachment 303619 [details]
->>>>> Kernel configuration for v6.1.4/ journalctl (dmesg)/ ACPIdump/lsmod
->>>>>
->>>>> Overview:
->>>>> The touchscreen does not react on touch events.
->>>>> Touchscreen display and touchpad are working.
->>>>>
->>>>> Step to reproduce:
->>>>> Open any UI page
->>>>> Try to use touch on relevant UI controls (buttons etc.)
->>>>>
->>>>> Result:
->>>>> No reaction on screen touches
->>>>>
->>>>> Expected result:
->>>>> Reaction on touched control, same as when using the touch pad or connected mouse (which do work).
->>>>>
->>>>> Build information:
->>>>> The error happens with kernel version 6.1.4
->>>>> After rebuilding with different kernel versions, it appears that it first fails with kernel 5.16
->>>>>
->>>>> Additional builds:
->>>>> The click mini l9w-b still works with kernel 5.10.y LTS and 5.15.y LTS.
->>>>>
->>>>> Important remark:
->>>>> Touchscreen still works fine with kernel 6.1.4 using
->>>>> - an HP x2 detachable 10-p0xx or
->>>>> - a Lenovo yoga 520-14ikb
->>>>>
->>>>> So it could be a hardware dependent issue
->>>>
->>>> See the ticket for more details.
->>>>
->>>>
->>>> [TLDR for the rest of this mail: I'm adding this report to the list of
->>>> tracked Linux kernel regressions; the text you find below is based on a
->>>> few templates paragraphs you might have encountered already in similar
->>>> form.]
->>>>
->>>> BTW, let me use this mail to also add the report to the list of tracked
->>>> regressions to ensure it's doesn't fall through the cracks:
->>>>
->>>> #regzbot introduced: v5.15..v5.16
->>>> https://bugzilla.kernel.org/show_bug.cgi?id=216946
->>>> #regzbot title: hid: touchscreen broken with Toshiba satellite click
->>>> mini l9w-b
->>>> #regzbot ignore-activity
->>>>
->>>> This isn't a regression? This issue or a fix for it are already
->>>> discussed somewhere else? It was fixed already? You want to clarify when
->>>> the regression started to happen? Or point out I got the title or
->>>> something else totally wrong? Then just reply and tell me -- ideally
->>>> while also telling regzbot about it, as explained by the page listed in
->>>> the footer of this mail.
->>>>
->>>> Developers: When fixing the issue, remember to add 'Link:' tags pointing
->>>> to the report (e.g. the buzgzilla ticket and maybe this mail as well, if
->>>> this thread sees some discussion). See page linked in footer for details.
->>>>
->>>> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
->>>> --
->>>> Everything you wanna know about Linux kernel regression tracking:
->>>> https://linux-regtracking.leemhuis.info/about/#tldr
->>>> If I did something stupid, please tell me, as explained on that page.
->>>
->>
-> 
-> 
-> 
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230414233815.4004526-2-jiriv@axis.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
