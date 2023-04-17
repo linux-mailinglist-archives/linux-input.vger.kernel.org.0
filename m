@@ -2,153 +2,247 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C8D06E5102
-	for <lists+linux-input@lfdr.de>; Mon, 17 Apr 2023 21:33:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75B5B6E517A
+	for <lists+linux-input@lfdr.de>; Mon, 17 Apr 2023 22:15:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229887AbjDQTdo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 Apr 2023 15:33:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50184 "EHLO
+        id S229655AbjDQUPE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 Apr 2023 16:15:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbjDQTdm (ORCPT
+        with ESMTP id S229554AbjDQUPD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 Apr 2023 15:33:42 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2041.outbound.protection.outlook.com [40.107.94.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8B4FB0;
-        Mon, 17 Apr 2023 12:33:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GVkL7xCz652gsGeoUHQ7DHPDwUhK0q48lAco3jS+ckGIzZrQz0sQMscw/Ek1jrQNSWp/3jTw/Nxn3eQohcWprz68priRHtpjoyqHtTUnHxfdytMQpd4ogbF0+9uN8DpeQftWUcqN4gtGbnPR/3mdQ/8ix7rQHMZim6gGeP3Ni3Q2y4zwZQ03bpRpjIVkXVQJLhJj/Mnxssmr6s689rGWG4/NzzuaeMLY2lFLn0HQ3wE5hwZ1Adt7CACLaU972ZjYeJLoVVeDnUZLSPh90aemQ3EQe2SciLsuimSfO0HUM+f4wGRF4a4UOWjJHJOjRoQWJ3qW9EUKVz/MgDwnlgpEGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W+6re1kEHGJhIXITcIFg3cg5K0+FUzt/erZ1M3kTwek=;
- b=U8UNxuJjiVMhH+ZCUUPpvB0rp3SIIEDxjJx7owulziEREn1xgoOdnTKlFr5sCdc/4Uau9EfxR5GnczS7XcBTwRz005WgpZ86ZhqPLu6uAJgBc5DO9LCWmEJJ2fbdSZZrmXokDPaEnieYTe0N92tZRl+npjeZhqu7vUDvt4cHxcLyhDsATOMIki/mFmr3lG5XW3frKI/YjXqsx5BbKwMEL7zy5FgODk//hAn46vFIeYg0+rWHJyuDqEsszBbm/CBHT979vLvUXapYomDEHb5hESrfhyLgMZ30g3Leo25hPDCc40US7xhitKnN8P6rrXWOVOEmdGNU44QIYTejdBOOtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W+6re1kEHGJhIXITcIFg3cg5K0+FUzt/erZ1M3kTwek=;
- b=c5p3R0mW1g8wU+xXWtkqz6pPrhpkLIhOWkGEXjfyZiqlWKC1K9FaJnTPdNs2eWfqX20g6IilCIXUkLVYJp8cK7ljqiwO1plfA6h2BXG6dXRE8ORXExlSySjDqWZ1qqP7KC+RD41WWJ4l+Ve2zQ/iGjBax2dt99ohRFJV9RVYY1CqL7vNJrmfVP0FnI2AwIGMPTtWjMIrh6tkGkNq+AlRaeQfqm2AtEC+V3T9bmkJRQCU6RxpYYuZIhxNqx5bJxnRI3G7XUZKUjN9gR5bDnYziIupnHISSHI/Tu2az/nT5qRGgiU+u0u+NDlKNwVO+Bf85JVr3R8UcYzITgmWvAX3kw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
- by CH3PR12MB8188.namprd12.prod.outlook.com (2603:10b6:610:120::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Mon, 17 Apr
- 2023 19:33:39 +0000
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::f6e3:c3af:67f9:91e9]) by BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::f6e3:c3af:67f9:91e9%7]) with mapi id 15.20.6298.030; Mon, 17 Apr 2023
- 19:33:39 +0000
-From:   Rahul Rameshbabu <rrameshbabu@nvidia.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/1] HID: shield: Initial driver implementation with
- Thunderstrike support
-References: <20230417182909.33833-1-rrameshbabu@nvidia.com>
-        <20230417182909.33833-2-rrameshbabu@nvidia.com>
-        <1a754a3e-2a2b-07d5-c94a-0373a1677e4e@infradead.org>
-Date:   Mon, 17 Apr 2023 12:33:29 -0700
-In-Reply-To: <1a754a3e-2a2b-07d5-c94a-0373a1677e4e@infradead.org> (Randy
-        Dunlap's message of "Mon, 17 Apr 2023 12:20:51 -0700")
-Message-ID: <87leiqb8xi.fsf@nvidia.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Content-Type: text/plain
-X-ClientProxiedBy: BY5PR13CA0009.namprd13.prod.outlook.com
- (2603:10b6:a03:180::22) To BYAPR12MB2743.namprd12.prod.outlook.com
- (2603:10b6:a03:61::28)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|CH3PR12MB8188:EE_
-X-MS-Office365-Filtering-Correlation-Id: 71df493e-9b26-47a7-dac1-08db3f7aa4be
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vIwvzqvrtTSeC7tMJH1wmtkSTJjW11gHanpCB4FW2ZnKq6EKikrpMW1cBfMKkzYQEqwImjQ9e9rLhhtqZjeQ+cv4xrasUUQDD51e+X4BZtAanZlgXe2rOkiOB4NF5per05oFKHuwyVh2T+pYq+m1hatHs0IlBDfL6D5uTZH5l4fx6bwQ0UwJf8ebxzUcYLMH65xf39YbOp/EpsL2ldsZfWn8xw+gA3QyP7E+f9kZ9eCDJpQ5WUmzgh5YaYX37n/aAI6pHFLspumZoWrbXh1vEAYRSms9igzLnUP8GwhwcQGnxEfgvl3xQ9Xh932ffy1dDOsBbqIqTKAS7OgTreXiAFVFp0JV80w1ALZz9lNOhAZeDqPmr1RmJ8CLVJHwcQntzDfmibRC0EDaxqZszP/UwpDH5FvkuSUk5qbJwWG6bOmwYws93BilNS8BfBvOvZz5/MtV6Uh7YYaYKNiWZJMzgxd+OJrsGMKyHRlBjD+hQzt8Nvsa2SfDXJt6tl83SL+dc/+0DCRJzaDw3FFBktFLeHxd/MCq8eL94ATp7Wmfy6Vd1Q/7bzpHDPIpmAJS9aH8
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(136003)(346002)(396003)(376002)(39860400002)(451199021)(6916009)(4326008)(54906003)(316002)(66946007)(66476007)(66556008)(6486002)(6666004)(478600001)(8936002)(41300700001)(5660300002)(8676002)(2906002)(86362001)(36756003)(38100700002)(2616005)(6512007)(26005)(186003)(6506007)(83380400001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vJkJ8/aS3rOQYWkftDEmQA46dYwGRMIOTaocqvmygqA0EEfZWX0Ez8IIS4Vv?=
- =?us-ascii?Q?WBDaollysoL+WCJqh0wHwiuS7XqtuxAR0lvdDEiCDjdZe5vz/CHIzeuXBOAn?=
- =?us-ascii?Q?Q1jHOOkHSo/jwdbPO8J3cMobII7mDfNdbO/gnzGrcww1oc4IjIYUWORCsVYi?=
- =?us-ascii?Q?yhpparZp0k/iTd54j0W2Z5M8z6tMfwsMmNLImxHeI9Ac5L1Gm7HsMxZG02a0?=
- =?us-ascii?Q?uPPsa/hivR9fwwf3iF2IY546eIOu7Slb0AdHykl3967mihJ4ximBZvNTcd6f?=
- =?us-ascii?Q?Eg+Cae7dc++JZjxtmb5j6RABZQoJvDJC6vnMcIwiMGZMEQc8Gb0YFgd9lfuA?=
- =?us-ascii?Q?72DABhfITh67rTESOsWq3Hv2lXcqGE2i20vpYtzwG40qJZCuAZ4WERJWD/gq?=
- =?us-ascii?Q?DBN0uD/asl8ZFyMVZ9OR9N+JItqydi3b4TwFc+l4dOH0TZ5gM8cIBXvLsFKi?=
- =?us-ascii?Q?hZ6GDd38RTlbUWBTOQdByWas3+ZUj1Fi7B8nZrKWIV/Pkck6THw1qPvJ8OoQ?=
- =?us-ascii?Q?4yFCHJRIMvThacwuDygZ8eCi3G0GMs4vhWapAehls4QffpeRyy9t2aEoQlvJ?=
- =?us-ascii?Q?EMkw7I9z/qtyL9QDAq/wdxkU4GInjx6DboOS/rRrTJL89LHP80FsW9QiskNE?=
- =?us-ascii?Q?iw2h/1ATdDr9lbvc0jVIDX9nx0kPsXIPaF7mxX/6ewuRinlziQojLcyAp6tT?=
- =?us-ascii?Q?3VpOzLylZSysAqu5n42G8hY12wuu05YGDFv2gbGwIF5HgBhgRn+IH72tBplO?=
- =?us-ascii?Q?fgd2zzszQtuSLD0kg9vZE4bsXuxZHgjebWperEyDAnV5OujgAWIA2PN57CFS?=
- =?us-ascii?Q?1Z6neB2rpKFhDFemye61+/dJnjMLaWQwSUu+4YP2nCJRKOQ+JyGbQHDzCBEU?=
- =?us-ascii?Q?XS4pRJ+DooM/8VIkp29UFCx2Sfliy87GjRrXhpc+ybxEb0oWwv6ihOq9URid?=
- =?us-ascii?Q?CpnTPhApM0lQncjK4GhsmHk5tGl4qSBw3OzRNrzJMVUBmHO7/QBMv918bEWQ?=
- =?us-ascii?Q?cSlV311ag012gBq7d9zahMWghEYxuF/lQRp1S0enLkInMETgrbN05NIhcNze?=
- =?us-ascii?Q?RAADBS9s3v3JAjWozkrv1gH62Za4Eo/Pfops+shILBSKuhUFw7+F0tQKvDfj?=
- =?us-ascii?Q?kNkQ7OAjwrHFHtcA1e1DopKhZy6y3StyqRphwQfAfGEo/33e2Izgu8F7fkAI?=
- =?us-ascii?Q?C7WzbKfpL04u5iqdsWt5MSdGzBpjzn761b6ZBf+6VLcn21Za9EYBXHP57Ks3?=
- =?us-ascii?Q?PY59QdzhRDnXGVZR5yVU7PRCsswpzMXi6eJKUk/ilGF2ctSVzAJbWKRO7YRr?=
- =?us-ascii?Q?GeNOQvVOHKlC71kRigWvd5QZfAp9scAGgFwbz/O5j2Gj81TjybxShnlTBZns?=
- =?us-ascii?Q?BWD8r1XDgbAO+ZbOnCmhYhdBuTyqY8nVH/KOHAWEs4iaOyh7Q7ti/hSkAkXI?=
- =?us-ascii?Q?UTz34ZMmNRMzeN2H9POB00KMN0lK1O3ibY4j1rgZl5jAxyT7+3nJhJ0tbNWc?=
- =?us-ascii?Q?rMzYXhOOj+iJdT/VXlwtDqFd6NT8u5JVG99yRVpjbwjTRRaluP5fnEOYio5t?=
- =?us-ascii?Q?lFQVTBSTG+Yn3wL28s5VscRjjy/WScPhmT6GQnQgN2omjhgT23YW4eVUfrsL?=
- =?us-ascii?Q?yg=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 71df493e-9b26-47a7-dac1-08db3f7aa4be
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2023 19:33:38.7077
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kIW5KhFJ2PkGSeYanIVEzc7P2qk5AIp2yWmTTk9E7HZmzcAc9fGurNWapSPq9WDd94n5f3T2f+dVaMDmEbinBw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8188
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Mon, 17 Apr 2023 16:15:03 -0400
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EECE446AC;
+        Mon, 17 Apr 2023 13:15:00 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 4CB913200991;
+        Mon, 17 Apr 2023 16:14:56 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 17 Apr 2023 16:14:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=duggan.us; h=cc
+        :cc:content-transfer-encoding:content-type:content-type:date
+        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
+        1681762495; x=1681848895; bh=puHS/9Gsnu4EihLPDZetwQwvkbohwlsflAA
+        TKAuIYAY=; b=GjgYs5EUwhDq3E2kJ1Dr9Cvj3F2neXvZ0NxHQOHd7AhyOReFHmZ
+        MosDrgKZB6IEn2ghSLtnOvC1VTSk0fGI2kf4w836OcXBvXCvcrhFxR5J7pk2Ifm3
+        J846h18LI139zRgFiyP4dVhfJO4sHQCjlpKWhxLLbTsK+x/cMxv36OctJUhxrH17
+        WwIY5TWDal8bkJYADKtvdKq711QFDf190pWHPLyAwC0MfUMygI5rSud38gW2BJoH
+        Haht5+feVM6OerXrhaT4oLq5gN6MZU5tWWe8nb2LzS9n7RaVYuaZXMDfhmn94zLT
+        OAKlymtsFFSTEVrdze1WNYWtk38fjaky34g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:content-type:date:date:feedback-id:feedback-id
+        :from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+        1681762495; x=1681848895; bh=puHS/9Gsnu4EihLPDZetwQwvkbohwlsflAA
+        TKAuIYAY=; b=iOJDf/IjxQQr0+qwLaqFi8xLiTgXDvlPkUJj750Ei/5bDPKVEZ6
+        M9dTAoTeBnJk4WLaYcjkwUPUSBdC0/LYXzkEiw3ocaqfe+Sykp+dfTK820d7Mq+G
+        2z/Gi9owyFQV7++sunsZFb9nt7byHNjhhAnJoDAgL0owzJxwwVJlbpuKcDDesx8/
+        PSQHDmONtTwWGMrQKDfrniQnI9bU4fr4Dz6C6x8MDd6lAA9ZYPUvU8++OyPsnDDX
+        RCt2evhLJqFTo5uzEZ+3s9c8SSzBStSvWc8egE2XiB2khDIOLys3sMj4CVBIPGku
+        kq8lXdieoQYnMgGT95r2FgSiI3qQkZW6kug==
+X-ME-Sender: <xms:v6g9ZHvAdMFaXs1TFPGMswTX492b-9rIlOPq3zIbvWG2kW6Luw5Zhw>
+    <xme:v6g9ZIeS_qblLLL7y8kafnU_ST4_sNWGV0bVvecwkrrzbX4mrL_fegG-mZvS9rjIG
+    d9hoFmygAh9p4a6Tg>
+X-ME-Received: <xmr:v6g9ZKwF3u-Yk8gY7TR6jb960iNGdd1Y-4Akpo9CpzwLjOJk9_lJiu2rVf-WAHiiKw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeliedgudegjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpegtggfuhfgjffevgffkfhfvofesthhqmhdthhdtjeenucfhrhhomheptehn
+    ughrvgifucffuhhgghgrnhcuoegrnhgurhgvfiesughughhgrghnrdhusheqnecuggftrf
+    grthhtvghrnhepveehheeuffduteeuhfetfefhleetteekvdehlefgfeekhfekteeujeet
+    teeludetnecuffhomhgrihhnpegsuhhtthhonhhsrdhpshenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesughughhgrghnrdhu
+    sh
+X-ME-Proxy: <xmx:v6g9ZGNeFEJaYfKdydCsbrzi2azBCQDE-6M0pvMxk401gYecHk_YGw>
+    <xmx:v6g9ZH_mAImqGGpZTpwcmoD9AuGYyuh_kexunzfSsZwOxqBsEZ5d5w>
+    <xmx:v6g9ZGXackSYofpmzc7DVT6jmPtST-l9pcAremJo07_BzWuIp-viGA>
+    <xmx:v6g9ZObd2fFoxkZ4fXaT21wnnib8NboxaSXV5oOXyavdxZGY_smo7g>
+Feedback-ID: i06a0429a:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 17 Apr 2023 16:14:53 -0400 (EDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.500.231\))
+Subject: Re: [PATCH v2] Input: synaptics - disable intertouch for Lenovo L440
+From:   Andrew Duggan <andrew@duggan.us>
+In-Reply-To: <CALNJtpV4WsknSSfBBer-MM0y_V=O5Fv2Lc3ei3heEyZwvR2rzQ@mail.gmail.com>
+Date:   Mon, 17 Apr 2023 13:14:42 -0700
+Cc:     Lyude Paul <lyude@redhat.com>,
+        Andrew Duggan <aduggan@synaptics.com>,
+        "amandhoot12@gmail.com" <amandhoot12@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "jdenose@google.com" <jdenose@google.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "markpearson@lenovo.com" <markpearson@lenovo.com>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        benjamin.tissoires@redhat.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <65C23A49-5A55-4CF4-9AFD-2DA504DAABF5@duggan.us>
+References: <063c8f77c216ffac463532023009124542d54c19.camel@redhat.com>
+ <20230414092353.v2.1.Ieb687047a5b75c7b7ee5dd258207ef5ca9a3b728@changeid>
+ <CALNJtpXLHHSV8YshUnk0opLNMUJpT7DgBNRYXoP2Yn-fnA8vPA@mail.gmail.com>
+ <CALNJtpV4WsknSSfBBer-MM0y_V=O5Fv2Lc3ei3heEyZwvR2rzQ@mail.gmail.com>
+To:     Jonathan Denose <jdenose@chromium.org>
+X-Mailer: Apple Mail (2.3731.500.231)
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Randy,
+Hi Lyude and Jonathan,
 
-Thanks for the feedback. You are correct about the styling issue in my
-patch. I will fix this. I do want to bring to attention that there seem
-to be a couple of kernel config options in the Kconfig file for the hid
-subsystem that currently violate the styling rules.
+I was just about to reply and suggest that we look into this issue a =
+little more since the touchpad in the L440 would benefit from the =
+additional data from the intertouch interface. Especially, since it has =
+a large area and several buttons. PS/2 only reports position data for =
+two fingers so three finger gestures is another example.
 
-It probably would make sense to have a clean-up patch for this issue
-overall (separate from this patch, which I will correct in my next
-version).
+Generally, these types of suspend / resume issues are the result of the =
+touchpad resetting and the firmware expecting commands from the PS/2 =
+interface. On resume, the PS/2 driver should send a command over the =
+PS/2 interface to switch the touchpad firmware back into intertouch =
+(SMBus) mode. The logs you provided look like that's what is happening =
+here. The SMBus driver is sending commands, but the touchpad firmware =
+won't respond until it is switch back into intertouch mode. It has been =
+a while since I have worked on these touchpads, but from what I remember =
+I think there is code in the psmouse-smbus driver to handle these =
+situations. I added Benjamin Tissoires to CC since I think he worked on =
+that handling. I thought suspend / resume was tested on with these "top =
+button" touchpads when support for them was added. I don't know if the =
+L440 specifically included in the testing. I'm curious if this is a =
+regression or not.
 
--- Rahul Rameshbabu
+Regarding the patch, I do have one comment below:
 
-On Mon, 17 Apr, 2023 12:20:51 -0700 Randy Dunlap <rdunlap@infradead.org> wrote:
-> According to Documentation/process/coding-style.rst, Kconfig help text should
-> be indented by 2 spaces after the "help" line:
->
-> 10) Kconfig configuration files
-> -------------------------------
->
-> For all of the Kconfig* configuration files throughout the source tree,
-> the indentation is somewhat different.  Lines under a ``config`` definition
-> are indented with one tab, while help text is indented an additional two
-> spaces.  Example::
->
->   config AUDIT
-> 	bool "Auditing support"
-> 	depends on NET
-> 	help
-> 	  Enable auditing infrastructure that can be used with another
-> 	  kernel subsystem, such as SELinux (which requires this for
-> 	  logging of avc messages output).  Does not do system-call
-> 	  auditing without CONFIG_AUDITSYSCALL.
+> On Apr 17, 2023, at 11:52, Jonathan Denose <jdenose@chromium.org> =
+wrote:
+>=20
+> CAUTION: Email originated externally, do not click links or open =
+attachments unless you recognize the sender and know the content is =
+safe.
+>=20
+>=20
+> Sorry, I thought I sent this as plain text but I think maybe not.
+> Trying once more, the message was:
+>=20
+> I think that disabling synaptics_intertouch would resolve the issue
+> mentioned in the commit, but cause a regression in the functionality
+> that intertouch is supposed to bring, like three-finger gestures. I'm
+> attaching some of the logs that I captured when the touchpad was
+> failing on resume. I think the main culprit is
+> i2c_smbus_read_byte_data where the driver is unable to get the SMBus
+> version number. I get the following lines in dmesg:
+>=20
+> [ 2869.745860] rmi4_smbus 0-002c: failed to get SMBus version number!
+> [ 2869.746060] rmi4_physical rmi4-00: rmi_driver_reset_handler: Failed
+> to read current IRQ mask.
+> [ 2869.746260] rmi4_f01 rmi4-00.fn01: Failed to restore normal =
+operation: -6.
+> [ 2869.746262] rmi4_f01 rmi4-00.fn01: Resume failed with code -6.
+> [ 2869.746264] rmi4_physical rmi4-00: Failed to suspend functions: -6
+> [ 2869.746265] rmi4_smbus 0-002c: Failed to resume device: -6
+> [ 2869.746268] rmi4_smbus 0-002c: rmi_smb_resume+0x0/0x6b [rmi_smbus]
+> returned 0 after 549 usecs
+> [ 2869.746446] rmi4_physical rmi4-00: Failed to read irqs, code=3D-6
+>=20
+> Any ideas on what might be causing this, only on resume from deep =
+sleep?
+>=20
+>=20
+> On Mon, Apr 17, 2023 at 1:47=E2=80=AFPM Jonathan Denose =
+<jdenose@chromium.org> wrote:
+>>=20
+>> I think that disabling synaptics_intertouch would resolve the issue =
+mentioned in the commit, but cause a regression in the functionality =
+that intertouch is supposed to bring, like three-finger gestures. I'm =
+attaching some of the logs that I captured when the touchpad was failing =
+on resume. I think the main culprit is i2c_smbus_read_byte_data where =
+the driver is unable to get the SMBus version number. I get the =
+following lines in dmesg:
+>>=20
+>> [ 2869.745860] rmi4_smbus 0-002c: failed to get SMBus version number!
+>> [ 2869.746060] rmi4_physical rmi4-00: rmi_driver_reset_handler: =
+Failed to read current IRQ mask.
+>> [ 2869.746260] rmi4_f01 rmi4-00.fn01: Failed to restore normal =
+operation: -6.
+>> [ 2869.746262] rmi4_f01 rmi4-00.fn01: Resume failed with code -6.
+>> [ 2869.746264] rmi4_physical rmi4-00: Failed to suspend functions: -6
+>> [ 2869.746265] rmi4_smbus 0-002c: Failed to resume device: -6
+>> [ 2869.746268] rmi4_smbus 0-002c: rmi_smb_resume+0x0/0x6b [rmi_smbus] =
+returned 0 after 549 usecs
+>> [ 2869.746446] rmi4_physical rmi4-00: Failed to read irqs, code=3D-6
+>>=20
+>> Any ideas on what might be causing this, only on resume from deep =
+sleep?
+>>=20
+>>=20
+>> On Fri, Apr 14, 2023 at 11:41=E2=80=AFAM Jonathan Denose =
+<jdenose@chromium.org> wrote:
+>>>=20
+>>> When intertouch is enabled for the L440 a (deep)sleep/resume
+>>> cycle causes the touchpad driver to hang which causes the
+>>> touchpad to become unresponsive. Disable intertouch resolves
+>>> this issue and the touchpad is fine after resume from sleep.
+>>>=20
+>>> Additionally, when the PNP id for the L440 is only removed
+>>> from the topbuttonpad_pnp_ids list, a message is logged to
+>>> enable psmouse.synaptics_intertouch, which would cause the
+>>> sleep/resume issue again. By removing the PNP id from
+>>> topbutton_pnp_ids and then adding it to the
+>>> forcepad_pnp_ids array, intertouch is disabled and the
+>>> message is not logged.
+>>>=20
+>>> Signed-off-by: Jonathan Denose <jdenose@google.com>
+>>> ---
+>>>=20
+>>> Changes in v2:
+>>> - remove debug statement
+>>>=20
+>>> drivers/input/mouse/synaptics.c | 2 +-
+>>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>>>=20
+>>> diff --git a/drivers/input/mouse/synaptics.c =
+b/drivers/input/mouse/synaptics.c
+>>> index fa021af8506e4..b7218b7652c20 100644
+>>> --- a/drivers/input/mouse/synaptics.c
+>>> +++ b/drivers/input/mouse/synaptics.c
+>>> @@ -150,7 +150,6 @@ static const char * const topbuttonpad_pnp_ids[] =
+=3D {
+>>>        "LEN2001", /* Edge E431 */
+>>>        "LEN2002", /* Edge E531 */
+>>>        "LEN2003",
+>>> -       "LEN2004", /* L440 */
+>>>        "LEN2005",
+>>>        "LEN2006", /* Edge E440/E540 */
+>>>        "LEN2007",
+>>> @@ -198,6 +197,7 @@ static const char * const smbus_pnp_ids[] =3D {
+>>> static const char * const forcepad_pnp_ids[] =3D {
+>>>        "SYN300D",
+>>>        "SYN3014",
+>>> +       "LEN2004", /* L440 */
+
+While this does seem to elliminate the message, the touchpad in the L440 =
+is not a forcepad. Adding the L440 PnP ID here implies that it is one of =
+these special forcepads which reports "force" data for contacts and that =
+is not the case here.
+
+>>>        NULL
+>>> };
+>>>=20
+>>> =E2=80=94
+>>> 2.39.2
+>>>=20
+
+
+Andrew
+
