@@ -2,207 +2,249 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F5536E7E89
-	for <lists+linux-input@lfdr.de>; Wed, 19 Apr 2023 17:41:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C39A6E7F80
+	for <lists+linux-input@lfdr.de>; Wed, 19 Apr 2023 18:22:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233141AbjDSPl6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Apr 2023 11:41:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33922 "EHLO
+        id S233016AbjDSQWO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Apr 2023 12:22:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232650AbjDSPl5 (ORCPT
+        with ESMTP id S233475AbjDSQWN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Apr 2023 11:41:57 -0400
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0815527E
-        for <linux-input@vger.kernel.org>; Wed, 19 Apr 2023 08:41:55 -0700 (PDT)
-Received: by mail-oi1-x235.google.com with SMTP id 5614622812f47-38ba6bec245so5934b6e.3
-        for <linux-input@vger.kernel.org>; Wed, 19 Apr 2023 08:41:55 -0700 (PDT)
+        Wed, 19 Apr 2023 12:22:13 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F7519773;
+        Wed, 19 Apr 2023 09:21:59 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id fy21so40248305ejb.9;
+        Wed, 19 Apr 2023 09:21:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1681918914; x=1684510914;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QDmw3DOKheKrCuqTG4/mWuNaV4eeLzuLIRCba3L2HpA=;
-        b=Gg4RxpZah5di/iSrLdpwdRSIfMGRBV8IwJrAL27K41P1YYxGVvfDhdppRnNISJOHEz
-         BuOB4GDq3zr9tDF6toTO7ihF7X/1r5pavBAcxjOPg4mOu6ZYYZJsTVcX23pubT7ghAa5
-         vMquJjdHstncLI7p6ZHZpcen6I+w/xTe2YlkQ=
+        d=gmail.com; s=20221208; t=1681921318; x=1684513318;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+BEvd+Ckhfg92pd/KODoBmrL0OH00ykJT8cB5I+RP/8=;
+        b=LblpJsms5ybwCCZcdSpJHeE5wh5fwEK5Dq7hrVBOvCzO0AEZOE78qdsJMvbFgXot0r
+         pKUUa+C2WBQLmLoeSDzyqXyOBzvZhNOGdrVAJmT+mR5CYqg1zN28qidyBa2sIdah6yrU
+         ANql85gy5Y6ec6ne9KukD9xhgVkLUJ/42dmfzUm7R9hUnncW+/gotu7M5Jyc8L8HR9lz
+         tbdKZPyvmQs3ZSkEGYSRPM8BWlee5VW7UDRKaBHYdMW3+u9+551nXhk9ZV3DiYw7SGVx
+         zzYTKVThrvlk066b6woWwnj5Uyalepkgmf//XBhSD4Ed3rgmALQ//AgCRRITsVCxrJcA
+         2nEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681918914; x=1684510914;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1681921318; x=1684513318;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QDmw3DOKheKrCuqTG4/mWuNaV4eeLzuLIRCba3L2HpA=;
-        b=IEC03LC9omeo9soIoiDvkd0w67EGgZKfYYCAUiIyZu3OBBRVT8w8CDDmmM5wYiVhvY
-         jJMV6q3vW1uyWSFolgfGKreQ1tdASh00q/4SmWaFrisbRTJxb7Xp3k14KE6ra+U9hqPL
-         l1n59bH2+5zpe6o3Sl1ljVJkJcjyJbK1IdIRKVCD48TeMvGmwSqDkcysWnvYQWYttKix
-         xXBL/yBsf+A1mZCJKt5qEdd5iqHnrVhbCsv7CIyqHG7ySixl1y6N4NtDpwhbJ1dCeDEt
-         VB8fMiS24rQ1ZfAV4Pig9XvpMkFQWKFF2n1jB8L7hOWfy6mIKiJtYZJgyDriz+u32z9b
-         ZZRQ==
-X-Gm-Message-State: AAQBX9dOynl8W06Z8b5Yukc1C8PRdAB2uk4L31Mmp/wiHK5pV+3rzXYt
-        N5IiINdOttMvc4VF7M03awe98wT3DgJc1bHhqJob5g==
-X-Google-Smtp-Source: AKy350YVrrZI6SZj5f4vEE/luMw28jCvvWDHFPchmXtxvN2oG7/q4QThao5eTm8IDqqNxVHsUCHAjQ==
-X-Received: by 2002:a05:6808:288d:b0:387:3b8:f879 with SMTP id eu13-20020a056808288d00b0038703b8f879mr3087503oib.56.1681918913667;
-        Wed, 19 Apr 2023 08:41:53 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id 21-20020a811615000000b0054c0f46b24bsm4555938yww.5.2023.04.19.08.41.52
-        for <linux-input@vger.kernel.org>
+        bh=+BEvd+Ckhfg92pd/KODoBmrL0OH00ykJT8cB5I+RP/8=;
+        b=Z5+QqbeFMwIvznImBhuwAP35f+pwbc2e87r9UtW7Tauuj5ttMYS8ZueoaewFPp5qY6
+         lsj5OoSomP9urH4G4ns5KGarAJpCZDbUYcv+oGOlt+zGTV+ZHJeSQbQ0gVspyEiMe3Hc
+         wNW/29AFSIlZrOS8gzi6hAPUu/WrVcsi9NXzJPgYqrUEfUfGmdu9fp7q9SxN7K+A4PDt
+         wyLSfkZ8uDQ0KNmUMMVcIY3qmbNGNpBSqWtF1oRCJKWWNLSlzjnBFgePKe6AeEjV7ATM
+         ULFuH30G48ib5E+Kuym8CBfdl1TJfBhVJHIzwl1XnBbKkFaGQSDO4c+tYAKw3rcpLR9k
+         Vm0g==
+X-Gm-Message-State: AAQBX9dpYFcOYKN8cvtz4qGe/koW78RIhWPhkx3O20EvI5GgYlhJGLCg
+        OxDw88vc81JfzS+O1il1a7o=
+X-Google-Smtp-Source: AKy350b06YeOMKY/GSVYDQZ/QrxVBtpQ9wR4js7+KniwtxAqj4Nli9vG7PpXMWczRAVGaexGhqRjJA==
+X-Received: by 2002:a17:907:8a21:b0:94f:3521:394 with SMTP id sc33-20020a1709078a2100b0094f35210394mr13935287ejc.51.1681921317551;
+        Wed, 19 Apr 2023 09:21:57 -0700 (PDT)
+Received: from smtpclient.apple (120.87.196.178.dynamic.wline.res.cust.swisscom.ch. [178.196.87.120])
+        by smtp.gmail.com with ESMTPSA id ry13-20020a1709068d8d00b0094ee3e4c934sm7996459ejc.221.2023.04.19.09.21.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Apr 2023 08:41:52 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-54f21cdfadbso4661907b3.7
-        for <linux-input@vger.kernel.org>; Wed, 19 Apr 2023 08:41:52 -0700 (PDT)
-X-Received: by 2002:a81:ae55:0:b0:545:5f92:f7ee with SMTP id
- g21-20020a81ae55000000b005455f92f7eemr2300152ywk.2.1681918912183; Wed, 19 Apr
- 2023 08:41:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230418124953.3170028-1-fshao@chromium.org> <20230418124953.3170028-2-fshao@chromium.org>
- <ZD8z57MBvcfExJx8@nixie71> <CAC=S1ngBt9DmBobMkQXWhqE1UUxFv2U6iFd42nT=1N7r8+pFUg@mail.gmail.com>
- <CAD=FV=U_i26a8uJYmqYf6PUgmTUgmEB5L2DkVga0zDX_iDcGQg@mail.gmail.com> <ZEAGTiGyvynGA9P1@nixie71>
-In-Reply-To: <ZEAGTiGyvynGA9P1@nixie71>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Wed, 19 Apr 2023 08:41:38 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UB393Z1zhK54Apgr-iRcvgiK0t36jt6-t5-5zz3m8OZQ@mail.gmail.com>
-Message-ID: <CAD=FV=UB393Z1zhK54Apgr-iRcvgiK0t36jt6-t5-5zz3m8OZQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: input: goodix: Add powered-in-suspend property
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     Fei Shao <fshao@chromium.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-mediatek <linux-mediatek@lists.infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Wed, 19 Apr 2023 09:21:56 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+From:   =?utf-8?Q?G=C3=A9_Koerkamp?= <ge.koerkamp@gmail.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [regression] Bug 216946 - Toshiba satellite click mini l9w-b: touchscreen: no touch events with kernel 6.1.4
+Date:   Wed, 19 Apr 2023 18:21:46 +0200
+Message-Id: <E4123C4B-D6C0-4CB2-8328-E0D03599ED16@gmail.com>
+References: <993dd537-2f74-3657-1dd3-c3a0a74e37e1@leemhuis.info>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+In-Reply-To: <993dd537-2f74-3657-1dd3-c3a0a74e37e1@leemhuis.info>
+To:     Linux regressions mailing list <regressions@lists.linux.dev>
+X-Mailer: iPhone Mail (20E252)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Thorsten,
 
-On Wed, Apr 19, 2023 at 8:18=E2=80=AFAM Jeff LaBundy <jeff@labundy.com> wro=
-te:
->
-> Hi Doug and Fei,
->
-> Thank you for the informative discussion; I can empathize with the pain
-> these issues bring.
->
-> On Wed, Apr 19, 2023 at 07:38:13AM -0700, Doug Anderson wrote:
-> > Hi,
-> >
-> > On Wed, Apr 19, 2023 at 3:44=E2=80=AFAM Fei Shao <fshao@chromium.org> w=
-rote:
-> > >
-> > > Hi Jeff,
-> > >
-> > > On Wed, Apr 19, 2023 at 8:21=E2=80=AFAM Jeff LaBundy <jeff@labundy.co=
-m> wrote:
-> > > >
-> > > > Hi Fei,
-> > > >
-> > > > On Tue, Apr 18, 2023 at 08:49:51PM +0800, Fei Shao wrote:
-> > > > > We observed that on Chromebook device Steelix, if Goodix GT7375P
-> > > > > touchscreen is powered in suspend (because, for example, it conne=
-cts to
-> > > > > an always-on regulator) and with the reset GPIO asserted, it will
-> > > > > introduce about 14mW power leakage.
-> > > > >
-> > > > > This property is used to indicate that the touchscreen is powered=
- in
-> > > > > suspend. If it's set, the driver will stop asserting the reset GP=
-IO in
-> > > > > power-down, and it will do it in power-up instead to ensure that =
-the
-> > > > > state is always reset after resuming.
-> > > > >
-> > > > > Signed-off-by: Fei Shao <fshao@chromium.org>
-> > > > > ---
-> > > >
-> > > > This is an interesting problem; were you able to root-cause why the=
- silicon
-> > > > exhibits this behavior? Simply asserting reset should not cause it =
-to draw
-> > > > additional power, let alone 14 mW. This almost sounds like a back-p=
-owering
-> > > > problem during suspend.
-> > > >
-> > > There was a fix for this behavior before so I didn't dig into it on
-> > > the silicon side.
-> > > I can ask internally and see if we can have Goodix to confirm this is
-> > > a known HW erratum.
-> >
-> > Certainly it doesn't hurt to check, but it's not really that shocking
-> > to me that asserting reset could cause a power draw on some hardware.
-> > Reset puts hardware into a default state and that's not necessarily
-> > low power. I guess ideally hardware would act like it's "off" when
-> > reset is asserted and then then init to the default state on the edge
-> > as reset was deasserted, but I not all hardware is designed in an
-> > ideal way.
->
-> While that is true in theory, I have never, ever seen that to be the case
-> when there is not some other underlying problem.
->
-> What I have seen, however, is that asserting reset actually causes the GP=
-IO
-> to sink current from some other supply and through the IC. I loosely susp=
-ect
-> that if you probe the IC's rails and digital I/O during the failure condi=
-tion,
-> you may find one of them resting at some mid-rail voltage or diode drop. =
-It
-> seems you have a similar suspicion.
->
-> In that case, it may mean that some other supply in the system should act=
-ually
-> be kept on, or that supplies are being brought down out of order. In whic=
-h
-> case, the solution should actually be a patch to the affected platform(s)=
- dts
-> and not the mainline driver.
+travelling at the moment, but I=E2=80=99ll try. Not really into bisecting ke=
+rnel issues, but let=E2=80=99s see where this goes. Another issue is, that I=
+ don=E2=80=99t have a Toshiba Mini Click myself, so I need to build the test=
+ Volumio images (volumio.org) with the different 5.16-rc kernel patch versio=
+ns for a colleague to work with, hopefully  he has time to do this.
 
-I agree that it's a bandaid, but I'm not hopeful that a better
-solution will be found.
+Thanks - G=C3=A9
 
-Specifically, I'd expect a current leak in the system when you turn a
-supply off and then assert a GPIO high. That's when the device can
-start backpowering itself from a GPIO. In this case, it's the
-opposite. We're keeping the supply on and asserting the (active low)
-reset GPIO to cause the higher power draw. In another design it was
-confirmed that the power draw went away when we were able to turn the
-regulator off (but still keep the active low reset GPIO asserted).
-We've also confirmed that power is good if we keep the supply on and
-_don't_ assert the reset GPIO. Both of these two experiments provide
-some evidence that the system is configured properly and we're not
-backpowering something.
+Sent from my iPhone
 
-I guess I should revise the above, though. I could believe that there
-is a current leak but on the touchscreen controller board itself,
-which is a black box to us. I have certainly been involved in products
-in the past where the default state of the system at reset caused a
-minor current leak (I remember an EE telling me that as soon as
-software started running I should quickly change the direction of a
-GPIO) and it wouldn't shock me if the touchscreen controller board had
-a problem like this. If there is a problem like this on the
-touchscreen controller board there's not much we can do to workaround
-it.
+> On 17 Apr 2023, at 13:55, Linux regression tracking (Thorsten Leemhuis) <r=
+egressions@leemhuis.info> wrote:
+>=20
+> =EF=BB=BF
+>=20
+>> On 01.03.23 12:41, Hans de Goede wrote:
+>>> On 2/28/23 14:26, Benjamin Tissoires wrote:
+>>> On Tue, Feb 28, 2023 at 12:32=E2=80=AFPM Thorsten Leemhuis
+>>> <regressions@leemhuis.info> wrote:
+>>>>=20
+>>>> On 19.01.23 16:06, Linux kernel regression tracking (Thorsten Leemhuis)=
 
-Unfortunately, if the problem ends up needing a hardware change to fix
-more correctly (which I suspect it does), our hands are tied a bit.
-This is not prototype hardware but is final hardware.
+>>>> wrote:
+>>>>> Hi, this is your Linux kernel regression tracker.
+>>>>>=20
+>>>>> I noticed a regression report in bugzilla.kernel.org. As many (most?)
+>>>>> kernel developer don't keep an eye on it, I decided to forward it by
+>>>>> mail. Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=3D21694=
+6 :
+>>>>=20
+>>>> The reporter recently confirmed in the ticket that the issue still
+>>>> happens with 6.2.
+>>>>=20
+>>>> There wasn't any reply from any of the input developers here or in
+>>>> bugzilla afaics. :-/ Hmmm. Could someone from that camp maybe please
+>>>> take a minute and at least briefly look into this as answer something
+>>>> like "that might be due to a problem in subsystem 'foo'", "maybe ask ba=
+r
+>>>> for an option", or "we have no idea what might cause this, this needs t=
+o
+>>>> be bisected"? That would help a lot.
+>>>=20
+>>> The working dmesg shows a line with:
+>>> hid-generic 0018:0457:10FB.0002: input,hidraw1: I2C HID v1.00 Device
+>>> [SIS0817:00 0457:10FB] on i2c-SIS0817:00
+>>> and then
+>>> hid-multitouch 0018:0457:10FB.0002: input,hidraw1: I2C HID v1.00
+>>> Device [SIS0817:00 0457:10FB] on i2c-SIS0817:00
+>>>=20
+>>> But these 2 lines do not appear on the 6.1.4 logs.
+>>>=20
+>>> So the device is not properly enumerated by ACPI or I2C. Hans might
+>>> have an idea on how to debug/solve that issue.
+>>=20
+>> I actually have a Toshiba satellite click mini l9w-b lying around
+>> myself. I already made a note to try and reproduce this
+>>=20
+>> But I'm very much swamped with too much kernel work, so no promises
+>> when I will get around to this ...
+>=20
+> Has anyone made any progress with this? Doesn't look like it, hence I
+> wondered if this fall through the cracks; but maybe I'm just missing
+> something.
+>=20
+> G=C3=A9 Koerkamp: with a bit of luck Hans sooner or later will have time t=
+o
+> look into this, but it might speed things up if you could try to bisect
+> this.
+>=20
+> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+> --
+> Everything you wanna know about Linux kernel regression tracking:
+> https://linux-regtracking.leemhuis.info/about/#tldr
+> If I did something stupid, please tell me, as explained on that page.
+>=20
+> #regzbot poke
+>=20
+>>>> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat=
+)
+>>>> --
+>>>> Everything you wanna know about Linux kernel regression tracking:
+>>>> https://linux-regtracking.leemhuis.info/about/#tldr
+>>>> If I did something stupid, please tell me, as explained on that page.
+>>>>=20
+>>>> #regzbot poke
+>>>>>> G=C3=A9 Koerkamp 2023-01-17 20:21:51 UTC
+>>>>>>=20
+>>>>>> Created attachment 303619 [details]
+>>>>>> Kernel configuration for v6.1.4/ journalctl (dmesg)/ ACPIdump/lsmod
+>>>>>>=20
+>>>>>> Overview:
+>>>>>> The touchscreen does not react on touch events.
+>>>>>> Touchscreen display and touchpad are working.
+>>>>>>=20
+>>>>>> Step to reproduce:
+>>>>>> Open any UI page
+>>>>>> Try to use touch on relevant UI controls (buttons etc.)
+>>>>>>=20
+>>>>>> Result:
+>>>>>> No reaction on screen touches
+>>>>>>=20
+>>>>>> Expected result:
+>>>>>> Reaction on touched control, same as when using the touch pad or conn=
+ected mouse (which do work).
+>>>>>>=20
+>>>>>> Build information:
+>>>>>> The error happens with kernel version 6.1.4
+>>>>>> After rebuilding with different kernel versions, it appears that it f=
+irst fails with kernel 5.16
+>>>>>>=20
+>>>>>> Additional builds:
+>>>>>> The click mini l9w-b still works with kernel 5.10.y LTS and 5.15.y LT=
+S.
+>>>>>>=20
+>>>>>> Important remark:
+>>>>>> Touchscreen still works fine with kernel 6.1.4 using
+>>>>>> - an HP x2 detachable 10-p0xx or
+>>>>>> - a Lenovo yoga 520-14ikb
+>>>>>>=20
+>>>>>> So it could be a hardware dependent issue
+>>>>>=20
+>>>>> See the ticket for more details.
+>>>>>=20
+>>>>>=20
+>>>>> [TLDR for the rest of this mail: I'm adding this report to the list of=
 
-I guess one further note is that, at least on the project I was
-involved in that had a similar problem, folks in China did a bunch of
-analysis on this and went as far as adding an extra regulator to the
-main board schematic to "fix" it. Had the issue just been something
-where we were misconfiguing GPIOs or leaving a regulator in the wrong
-state then they (probably) would have identified it rather than
-spinning the board.
+>>>>> tracked Linux kernel regressions; the text you find below is based on a=
 
--Doug
+>>>>> few templates paragraphs you might have encountered already in similar=
+
+>>>>> form.]
+>>>>>=20
+>>>>> BTW, let me use this mail to also add the report to the list of tracke=
+d
+>>>>> regressions to ensure it's doesn't fall through the cracks:
+>>>>>=20
+>>>>> #regzbot introduced: v5.15..v5.16
+>>>>> https://bugzilla.kernel.org/show_bug.cgi?id=3D216946
+>>>>> #regzbot title: hid: touchscreen broken with Toshiba satellite click
+>>>>> mini l9w-b
+>>>>> #regzbot ignore-activity
+>>>>>=20
+>>>>> This isn't a regression? This issue or a fix for it are already
+>>>>> discussed somewhere else? It was fixed already? You want to clarify wh=
+en
+>>>>> the regression started to happen? Or point out I got the title or
+>>>>> something else totally wrong? Then just reply and tell me -- ideally
+>>>>> while also telling regzbot about it, as explained by the page listed i=
+n
+>>>>> the footer of this mail.
+>>>>>=20
+>>>>> Developers: When fixing the issue, remember to add 'Link:' tags pointi=
+ng
+>>>>> to the report (e.g. the buzgzilla ticket and maybe this mail as well, i=
+f
+>>>>> this thread sees some discussion). See page linked in footer for detai=
+ls.
+>>>>>=20
+>>>>> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' ha=
+t)
+>>>>> --
+>>>>> Everything you wanna know about Linux kernel regression tracking:
+>>>>> https://linux-regtracking.leemhuis.info/about/#tldr
+>>>>> If I did something stupid, please tell me, as explained on that page.
+>>>>=20
+>>>=20
+>>=20
+>>=20
+>>=20
