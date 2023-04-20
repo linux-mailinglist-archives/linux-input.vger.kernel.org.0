@@ -2,330 +2,257 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1ABF66E9259
-	for <lists+linux-input@lfdr.de>; Thu, 20 Apr 2023 13:23:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E0316E926E
+	for <lists+linux-input@lfdr.de>; Thu, 20 Apr 2023 13:26:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234172AbjDTLXE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 20 Apr 2023 07:23:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47202 "EHLO
+        id S234558AbjDTL0T (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 Apr 2023 07:26:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234286AbjDTLWo (ORCPT
+        with ESMTP id S234108AbjDTL0D (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 20 Apr 2023 07:22:44 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13A1D9778
-        for <linux-input@vger.kernel.org>; Thu, 20 Apr 2023 04:21:01 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id fy21so5468804ejb.9
-        for <linux-input@vger.kernel.org>; Thu, 20 Apr 2023 04:21:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681989650; x=1684581650;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WA0tasA6U86rCWy/tsTCUnCRVKE+XPwgQ4p6mQ9qAKg=;
-        b=yYpguDBzj5Mg4h79k0GeUg9JiD9gLyif+XlCEfRJsU+IPBlBU0+nMllq8aBPKUiYuW
-         7h1G75Oin0XEDSUnWazmHLkrIL6MWh84AidVeAdJ1pLl07YQNILzN/UuRoUM1PUehAfi
-         L9+rXMnn3vr7UJJEv/BOEwUBMdSAcJdFm536BmJlCY6qhl4xq1wc1pFuIq2kd/c9AVx8
-         WHamNjpq31UB5uYZ5ZqrxdWf5h4n7zEu/PmsAtM60He8G4zFm8rn+gzIwpTIlnbo2MdB
-         CKmO2vi9eBo95EEdKq315CiS7lPuFJP16YZiqONPfXdP27TwpgsD4TFu8m0SMCmJM5HU
-         15QA==
+        Thu, 20 Apr 2023 07:26:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9F259ED5
+        for <linux-input@vger.kernel.org>; Thu, 20 Apr 2023 04:24:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681989841;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=3fj2r/TkPzDnAeDyrgLHgNMn11ACqVGaGMoYDpYSS5c=;
+        b=EZxI4LDws2+u45ZfPekL8E1fDQaxqk4VnwAMNzRmjD5SnqRWkGwacHZBbN9QFFmkN00RIw
+        sU7B3SgnSzlmbGfR4OMKu4MgKaCY08wiLoT1Wpn0rW37T46JAxINSKUW6wA/jh1PzzlZwH
+        51d6axvduYjmK519rfVfe/PkO2LpT9s=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-327-h54dxy48PLeH2f0DQx3ysg-1; Thu, 20 Apr 2023 07:17:56 -0400
+X-MC-Unique: h54dxy48PLeH2f0DQx3ysg-1
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-5069f2ae8eeso2352997a12.0
+        for <linux-input@vger.kernel.org>; Thu, 20 Apr 2023 04:17:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681989650; x=1684581650;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WA0tasA6U86rCWy/tsTCUnCRVKE+XPwgQ4p6mQ9qAKg=;
-        b=VuGzct9AxZhZ/fYInPfWNonlY8VlRrVKHlv5iwcOvtaFpZWg2bcuKWvHLlfCfbL6ND
-         7qFtX/rIlMbK6DFUo9YQGuvTioPw6vEpTIvL9fYd/FHuzTrmtnPBmSxx7NKJ4RW2GDQc
-         hiWtd/vkCF23GSBhGrgsler9jKD/yXaT5hqFzg5GD/h5VkNrqM6pMbhJMvRAXfoiwZzt
-         c+SdHKNHnHUyi6FO9CtTBYMi2usxs6zc1JSsUCnT0IYLWO//Km9Nc8RONAr/4dnN9NeI
-         cPhxagqvfCTm0+gC6ag3t5kLdPk31b0MfQbWYmXEKbda/YTg5NkioEacxau3OHLFAdKK
-         x99A==
-X-Gm-Message-State: AAQBX9dq+TzYGDHNFTHtBOTTUODrHVwTS5SRwLu1XDa9Oen3dZ3mVGh3
-        AfjjmMzWswIfGpEZCdMkwxEIkPx5v7UG7Ke0ox4jOfJh
-X-Google-Smtp-Source: AKy350ax2IVjWl2a0PkWlvXki8MdAC5nMMF5AsQMfZw96qPpli1vj2QfaD1dIjR6B3oMQPbcfwZWPQ==
-X-Received: by 2002:adf:f5c7:0:b0:2f7:af3a:72fc with SMTP id k7-20020adff5c7000000b002f7af3a72fcmr1017151wrp.27.1681988836036;
-        Thu, 20 Apr 2023 04:07:16 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id b4-20020a05600010c400b002e45f6ffe63sm1711191wrx.26.2023.04.20.04.07.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Apr 2023 04:07:15 -0700 (PDT)
-Date:   Thu, 20 Apr 2023 14:07:12 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     Dan Carpenter <error27@gmail.com>
-Cc:     Dongliang Mu <dzm91@hust.edu.cn>, Vicki Pfau <vi@endrift.com>,
-        kernel-janitors@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Pavel Rojtberg <rojtberg@gmail.com>,
-        Nate Yocom <nate@yocom.org>,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        John Butler <radon86dev@gmail.com>,
-        Matthias Benkmann <matthias.benkmann@gmail.com>,
-        Christopher Crockett <chaorace@gmail.com>,
-        Santosh De Massari <s.demassari@gmail.com>,
-        hust-os-kernel-patches@googlegroups.com,
-        syzbot+a3f758b8d8cb7e49afec@syzkaller.appspotmail.com,
-        "Pierre-Loup A. Griffais" <pgriffais@valvesoftware.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: xpad - fix GPF in xpad_probe
-Message-ID: <3ccc85bd-0541-4ffb-a207-dfc533a2c0aa@kili.mountain>
-References: <20230414125603.686123-1-dzm91@hust.edu.cn>
- <c3e0823b-2b03-4dab-b7cb-a8bc5151f0b1@kili.mountain>
- <011c00e7-c351-4331-8be4-1c184d5773e1@kili.mountain>
+        d=1e100.net; s=20221208; t=1681989475; x=1684581475;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3fj2r/TkPzDnAeDyrgLHgNMn11ACqVGaGMoYDpYSS5c=;
+        b=gfQtm1kXCiQjM3PdZ6XnnUS2JOYo7i2SFNByyFG7UHUUU3AYhVemR489JaCMWomZEu
+         tux/RI7KjGz1jE89/1at9FtFWnR99eoNr/KUWN7UHqeE6dB69vpgUhSmztkQx2s1hs6D
+         +SmJOkmuo3fFsq6j1zN5lrmgOlIYfadFVJiTFVGMnkdPEdZnFfbzNVojU2VR4X1EzRk+
+         MwsKOHZLuNWmwHy5CBOFhVy4VlHoL5lnsvInujKSjpCkL6YJ4axibv4tPP+jUkC8cNQP
+         uqLR6S7KvCk7kQQGd09cgPlo2DcE855/Irc8SiH2dj0L0P3da4JNsF4THJXIQu+EiKC6
+         dI2A==
+X-Gm-Message-State: AAQBX9c2mSZoW7sBpG09e/i3cr/sjRIzMSYUOjDuSCbyM4MG+iWf8i1W
+        xEXCdvramfVnzpdtpHoFni+jcdDmXmIwLgVJ+7dfnHyHykSCH+codXoswYDht5fMwwsDqmQ/sXo
+        l5Jy8ucD7e5gDTCbQP6GPu5M=
+X-Received: by 2002:a05:6402:42c8:b0:506:72f8:eb10 with SMTP id i8-20020a05640242c800b0050672f8eb10mr6246913edc.0.1681989475190;
+        Thu, 20 Apr 2023 04:17:55 -0700 (PDT)
+X-Google-Smtp-Source: AKy350b3jAqGnAwsth15pGrMGa2D7VuFf1zlUKjfUMNzTwQ2UxXTdq3HGlP1D/tE1wL/TwlBWXjRww==
+X-Received: by 2002:a05:6402:42c8:b0:506:72f8:eb10 with SMTP id i8-20020a05640242c800b0050672f8eb10mr6246896edc.0.1681989474837;
+        Thu, 20 Apr 2023 04:17:54 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id d12-20020a50fb0c000000b004bf999f8e57sm645809edq.19.2023.04.20.04.17.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Apr 2023 04:17:54 -0700 (PDT)
+Message-ID: <06b5119a-63f7-e62b-cc28-0009e17ad4ed@redhat.com>
+Date:   Thu, 20 Apr 2023 13:17:53 +0200
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="wV+AKsNa2L4HcRBH"
-Content-Disposition: inline
-In-Reply-To: <011c00e7-c351-4331-8be4-1c184d5773e1@kili.mountain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [regression] Bug 216946 - Toshiba satellite click mini l9w-b:
+ touchscreen: no touch events with kernel 6.1.4
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     =?UTF-8?Q?G=c3=a9_Koerkamp?= <ge.koerkamp@gmail.com>,
+        Linux regressions mailing list <regressions@lists.linux.dev>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <993dd537-2f74-3657-1dd3-c3a0a74e37e1@leemhuis.info>
+ <E4123C4B-D6C0-4CB2-8328-E0D03599ED16@gmail.com>
+ <07f2417e-9d47-3e73-cae5-3e7c95856f72@redhat.com>
+In-Reply-To: <07f2417e-9d47-3e73-cae5-3e7c95856f72@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi,
 
---wV+AKsNa2L4HcRBH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, Apr 17, 2023 at 01:42:21PM +0300, Dan Carpenter wrote:
-> Btw, we should be thinking about how to detect these sorts of issues
-> using static analysis.  Unfortunately, it's not as simple as saying
-> "We know this variable is NULL so don't dereference it."  The problem
-> with that is that many times Smatch sees where a pointer is set to NULL
-> but not when it is assigned to a different value.
+On 4/19/23 18:40, Hans de Goede wrote:
+> Hi Gé,
 > 
-> What we could do instead is say:
-> 1) If a pointer is dereferenced and we know it is NULL then:
->     set_state_expr(my_id, expr, &suspicious);
-> 2) If we set a pointer to non-NULL and it is marked as suspicious then
->    print a warning.
+> On 4/19/23 18:21, Gé Koerkamp wrote:
+>> Hi Thorsten,
+>>
+>> travelling at the moment, but I’ll try. Not really into bisecting kernel issues, but let’s see where this goes. Another issue is, that I don’t have a Toshiba Mini Click myself, so I need to build the test Volumio images (volumio.org) with the different 5.16-rc kernel patch versions for a colleague to work with, hopefully  he has time to do this.
+> 
+> I have just dug my own Toshiba Mini Click up from the bottom of the storage box it was in.
+> 
+> It is currently charging since the battery was fully flat.
+> 
+> So I suggest you give me a couple of days to take a look before you go to all this trouble.
 
-I was thinking about this and it's not so simple.  Normally after a
-warning we return so the state never transitions from &suspicious to
-non-NULL.
+I have posted a patch fixing this upstream now:
 
-So what we could do is set the state to &suspicious.  Then at the end of
-the function we look at all the states at the return paths.  If the
-state is non-NULL on any return path then print a warning.  This is easy
-enough to do, but requires quite a bit of Smatch knowledge so I have
-done it.  Attached.
+https://lore.kernel.org/linux-acpi/20230420110220.23168-1-hdegoede@redhat.com/T/#u
 
-Unfortunately, it doesn't print a warning in this case because Smatch
-doesn't track that _dev_warn() dereferences the "dev" pointer.  The
-__dev_printk() function only dereferences "dev" if it is non-NULL.
-Smatch only counts it if it *always* dereferences it.
+Regards,
 
-This could be fixed in two steps:
-Step 1: track dereferences based on the return insead just yes/no.
-Step 2: split _dev_warn() returns into two returns based on if dev is
-        NULL or non-NULL.
-
-Step 1 is probably a good idea.  Step 2 is a bad idea, because it makes
-no sense to pass a NULL to dev_warn().
-
-A better approach for this bug is to print a warning if people pass
-the address of the offset from a NULL pointer.  Combine that with the
-same return states filter as earlier to eliminate false positives where
-Smatch thinks a pointer is always NULL.
-
-drivers/input/joystick/xpad.c:2053 xpad_probe() warn: address of NULL pointer 'xpad->dev'
-drivers/media/i2c/ccs/ccs-data.c:524 ccs_data_parse_rules() warn: address of NULL pointer 'rules'
-drivers/scsi/lpfc/lpfc_attr.c:1482 lpfc_reset_pci_bus() warn: address of NULL pointer 'phba->pcidev'
-
-That check is attached too.
-
-regards,
-dan carpenter
+Hans
 
 
---wV+AKsNa2L4HcRBH
-Content-Type: text/x-csrc; charset=us-ascii
-Content-Disposition: attachment; filename="check_deref_before_set.c"
+>>> On 17 Apr 2023, at 13:55, Linux regression tracking (Thorsten Leemhuis) <regressions@leemhuis.info> wrote:
+>>>
+>>> ﻿
+>>>
+>>>> On 01.03.23 12:41, Hans de Goede wrote:
+>>>>> On 2/28/23 14:26, Benjamin Tissoires wrote:
+>>>>> On Tue, Feb 28, 2023 at 12:32 PM Thorsten Leemhuis
+>>>>> <regressions@leemhuis.info> wrote:
+>>>>>>
+>>>>>> On 19.01.23 16:06, Linux kernel regression tracking (Thorsten Leemhuis)
+>>>>>> wrote:
+>>>>>>> Hi, this is your Linux kernel regression tracker.
+>>>>>>>
+>>>>>>> I noticed a regression report in bugzilla.kernel.org. As many (most?)
+>>>>>>> kernel developer don't keep an eye on it, I decided to forward it by
+>>>>>>> mail. Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=216946 :
+>>>>>>
+>>>>>> The reporter recently confirmed in the ticket that the issue still
+>>>>>> happens with 6.2.
+>>>>>>
+>>>>>> There wasn't any reply from any of the input developers here or in
+>>>>>> bugzilla afaics. :-/ Hmmm. Could someone from that camp maybe please
+>>>>>> take a minute and at least briefly look into this as answer something
+>>>>>> like "that might be due to a problem in subsystem 'foo'", "maybe ask bar
+>>>>>> for an option", or "we have no idea what might cause this, this needs to
+>>>>>> be bisected"? That would help a lot.
+>>>>>
+>>>>> The working dmesg shows a line with:
+>>>>> hid-generic 0018:0457:10FB.0002: input,hidraw1: I2C HID v1.00 Device
+>>>>> [SIS0817:00 0457:10FB] on i2c-SIS0817:00
+>>>>> and then
+>>>>> hid-multitouch 0018:0457:10FB.0002: input,hidraw1: I2C HID v1.00
+>>>>> Device [SIS0817:00 0457:10FB] on i2c-SIS0817:00
+>>>>>
+>>>>> But these 2 lines do not appear on the 6.1.4 logs.
+>>>>>
+>>>>> So the device is not properly enumerated by ACPI or I2C. Hans might
+>>>>> have an idea on how to debug/solve that issue.
+>>>>
+>>>> I actually have a Toshiba satellite click mini l9w-b lying around
+>>>> myself. I already made a note to try and reproduce this
+>>>>
+>>>> But I'm very much swamped with too much kernel work, so no promises
+>>>> when I will get around to this ...
+>>>
+>>> Has anyone made any progress with this? Doesn't look like it, hence I
+>>> wondered if this fall through the cracks; but maybe I'm just missing
+>>> something.
+>>>
+>>> Gé Koerkamp: with a bit of luck Hans sooner or later will have time to
+>>> look into this, but it might speed things up if you could try to bisect
+>>> this.
+>>>
+>>> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+>>> --
+>>> Everything you wanna know about Linux kernel regression tracking:
+>>> https://linux-regtracking.leemhuis.info/about/#tldr
+>>> If I did something stupid, please tell me, as explained on that page.
+>>>
+>>> #regzbot poke
+>>>
+>>>>>> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+>>>>>> --
+>>>>>> Everything you wanna know about Linux kernel regression tracking:
+>>>>>> https://linux-regtracking.leemhuis.info/about/#tldr
+>>>>>> If I did something stupid, please tell me, as explained on that page.
+>>>>>>
+>>>>>> #regzbot poke
+>>>>>>>> Gé Koerkamp 2023-01-17 20:21:51 UTC
+>>>>>>>>
+>>>>>>>> Created attachment 303619 [details]
+>>>>>>>> Kernel configuration for v6.1.4/ journalctl (dmesg)/ ACPIdump/lsmod
+>>>>>>>>
+>>>>>>>> Overview:
+>>>>>>>> The touchscreen does not react on touch events.
+>>>>>>>> Touchscreen display and touchpad are working.
+>>>>>>>>
+>>>>>>>> Step to reproduce:
+>>>>>>>> Open any UI page
+>>>>>>>> Try to use touch on relevant UI controls (buttons etc.)
+>>>>>>>>
+>>>>>>>> Result:
+>>>>>>>> No reaction on screen touches
+>>>>>>>>
+>>>>>>>> Expected result:
+>>>>>>>> Reaction on touched control, same as when using the touch pad or connected mouse (which do work).
+>>>>>>>>
+>>>>>>>> Build information:
+>>>>>>>> The error happens with kernel version 6.1.4
+>>>>>>>> After rebuilding with different kernel versions, it appears that it first fails with kernel 5.16
+>>>>>>>>
+>>>>>>>> Additional builds:
+>>>>>>>> The click mini l9w-b still works with kernel 5.10.y LTS and 5.15.y LTS.
+>>>>>>>>
+>>>>>>>> Important remark:
+>>>>>>>> Touchscreen still works fine with kernel 6.1.4 using
+>>>>>>>> - an HP x2 detachable 10-p0xx or
+>>>>>>>> - a Lenovo yoga 520-14ikb
+>>>>>>>>
+>>>>>>>> So it could be a hardware dependent issue
+>>>>>>>
+>>>>>>> See the ticket for more details.
+>>>>>>>
+>>>>>>>
+>>>>>>> [TLDR for the rest of this mail: I'm adding this report to the list of
+>>>>>>> tracked Linux kernel regressions; the text you find below is based on a
+>>>>>>> few templates paragraphs you might have encountered already in similar
+>>>>>>> form.]
+>>>>>>>
+>>>>>>> BTW, let me use this mail to also add the report to the list of tracked
+>>>>>>> regressions to ensure it's doesn't fall through the cracks:
+>>>>>>>
+>>>>>>> #regzbot introduced: v5.15..v5.16
+>>>>>>> https://bugzilla.kernel.org/show_bug.cgi?id=216946
+>>>>>>> #regzbot title: hid: touchscreen broken with Toshiba satellite click
+>>>>>>> mini l9w-b
+>>>>>>> #regzbot ignore-activity
+>>>>>>>
+>>>>>>> This isn't a regression? This issue or a fix for it are already
+>>>>>>> discussed somewhere else? It was fixed already? You want to clarify when
+>>>>>>> the regression started to happen? Or point out I got the title or
+>>>>>>> something else totally wrong? Then just reply and tell me -- ideally
+>>>>>>> while also telling regzbot about it, as explained by the page listed in
+>>>>>>> the footer of this mail.
+>>>>>>>
+>>>>>>> Developers: When fixing the issue, remember to add 'Link:' tags pointing
+>>>>>>> to the report (e.g. the buzgzilla ticket and maybe this mail as well, if
+>>>>>>> this thread sees some discussion). See page linked in footer for details.
+>>>>>>>
+>>>>>>> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+>>>>>>> --
+>>>>>>> Everything you wanna know about Linux kernel regression tracking:
+>>>>>>> https://linux-regtracking.leemhuis.info/about/#tldr
+>>>>>>> If I did something stupid, please tell me, as explained on that page.
+>>>>>>
+>>>>>
+>>>>
+>>>>
+>>>>
+>>
+> 
 
-/*
- * Copyright 2023 Linaro Ltd.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, see http://www.gnu.org/copyleft/gpl.txt
- */
-
-#include "smatch.h"
-#include "smatch_extra.h"
-#include "smatch_slist.h"
-
-static int my_id;
-
-STATE(suspicious);
-
-static void deref_hook(struct expression *expr)
-{
-	sval_t sval;
-
-	if (!get_implied_value(expr, &sval) || sval.value != 0)
-		return;
-	set_state_expr(my_id, expr, &suspicious);
-}
-
-static void check_variable(struct sm_state *sm)
-{
-	struct sm_state *extra_sm, *tmp;
-
-	extra_sm = get_sm_state(SMATCH_EXTRA, sm->name, sm->sym);
-	if (!extra_sm)
-		return;
-
-	FOR_EACH_PTR(extra_sm->possible, tmp) {
-		if (!estate_rl(tmp->state))
-			continue;
-		if (rl_min(estate_rl(tmp->state)).value != 0) {
-			sm_warning_line(sm->line,
-				"pointer dereferenced without being set '%s'",
-				sm->name);
-			return;
-		}
-	} END_FOR_EACH_PTR(tmp);
-}
-
-static void process_states(void)
-{
-	struct sm_state *tmp;
-
-	FOR_EACH_MY_SM(my_id, __get_cur_stree(), tmp) {
-		check_variable(tmp);
-	} END_FOR_EACH_SM(tmp);
-}
-
-void check_deref_before_set(int id)
-{
-	my_id = id;
-
-	add_dereference_hook(deref_hook);
-	all_return_states_hook(&process_states);
-}
-
---wV+AKsNa2L4HcRBH
-Content-Type: text/x-csrc; charset=us-ascii
-Content-Disposition: attachment; filename="check_bogus_address_param.c"
-
-/*
- * Copyright (C) 2019 Oracle.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, see http://www.gnu.org/copyleft/gpl.txt
- */
-
-#include "smatch.h"
-#include "smatch_extra.h"
-#include "smatch_slist.h"
-
-static int my_id;
-
-STATE(suspicious);
-
-static void check_param(struct expression *expr)
-{
-	struct expression *tmp;
-	sval_t sval;
-
-	tmp = get_assigned_expr(expr);
-	if (tmp)
-		expr = tmp;
-	expr = strip_expr(expr);
-	if (!expr || expr->type != EXPR_PREOP || expr->op != '&')
-		return;
-	if (!get_implied_value(expr, &sval) ||
-	    sval.value == 0 || sval.uvalue > 4096)
-		return;
-
-	expr = strip_expr(expr->unop);
-	while (expr->type == EXPR_DEREF) {
-		expr = strip_expr(expr->deref);
-		if (expr->type == EXPR_PREOP && expr->op == '*')
-			expr = strip_expr(expr->unop);
-		if (local_debug) {
-			struct range_list *rl;
-			get_absolute_rl(expr, &rl);
-			sm_msg("%s: expr='%s' type=%d rl='%s'", __func__, expr_to_str(expr), expr->type, show_rl(rl));
-		}
-		if (get_implied_value(expr, &sval) && sval.value == 0) {
-			set_state_expr(my_id, expr, &suspicious);
-			return;
-		}
-	}
-}
-
-static void match_call(struct expression *expr)
-{
-	struct expression *arg;
-
-	FOR_EACH_PTR(expr->args, arg) {
-		check_param(arg);
-	} END_FOR_EACH_PTR(arg);
-}
-
-static void check_variable(struct sm_state *sm)
-{
-	struct sm_state *extra_sm, *tmp;
-	int line = sm->line;
-
-	extra_sm = get_sm_state(SMATCH_EXTRA, sm->name, sm->sym);
-	if (!extra_sm)
-		return;
-
-	FOR_EACH_PTR(sm->possible, tmp) {
-		if (tmp->state == &suspicious)
-			line = tmp->line;
-	} END_FOR_EACH_PTR(tmp);
-
-	FOR_EACH_PTR(extra_sm->possible, tmp) {
-		if (!estate_rl(tmp->state))
-			continue;
-		if (rl_min(estate_rl(tmp->state)).value != 0) {
-			sm_warning_line(line, "address of NULL pointer '%s'",
-				        sm->name);
-			return;
-		}
-	} END_FOR_EACH_PTR(tmp);
-}
-
-static void process_states(void)
-{
-	struct sm_state *tmp;
-
-	FOR_EACH_MY_SM(my_id, __get_cur_stree(), tmp) {
-		check_variable(tmp);
-	} END_FOR_EACH_SM(tmp);
-}
-
-void check_bogus_address_param(int id)
-{
-	my_id = id;
-
-	add_hook(&match_call, FUNCTION_CALL_HOOK);
-	all_return_states_hook(&process_states);
-}
-
---wV+AKsNa2L4HcRBH--
