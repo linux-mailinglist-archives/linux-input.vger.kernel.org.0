@@ -2,175 +2,127 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC5D26EAAFD
-	for <lists+linux-input@lfdr.de>; Fri, 21 Apr 2023 14:54:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C49906EAE9E
+	for <lists+linux-input@lfdr.de>; Fri, 21 Apr 2023 18:02:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231838AbjDUMyK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Apr 2023 08:54:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57096 "EHLO
+        id S232592AbjDUQC4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Apr 2023 12:02:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231561AbjDUMyI (ORCPT
+        with ESMTP id S232745AbjDUQCz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Apr 2023 08:54:08 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A35E44A8
-        for <linux-input@vger.kernel.org>; Fri, 21 Apr 2023 05:54:07 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-95678d891d6so217760466b.1
-        for <linux-input@vger.kernel.org>; Fri, 21 Apr 2023 05:54:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682081645; x=1684673645;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tffwA8++0LsNwftCbiEQFGa9DgonCFTm4qBM4xY4JiU=;
-        b=M9Z+o0HtdOl6XzeRkruMn2N07d1iGBTGPdyM8avbk+9ZExrAqBurI5x8btMXFDhdob
-         7YdgMaVFqb2LwuhxSQ0UD9QgczzFHGYlvZ3dmGoPJ2g47S1izqDiuW4m/HhVrMujF7Ic
-         q79HWC1gxo2YBO39t6mB1xPjWL/0zXqjQn8/7KrFgVBH8q/4m2vjVuRDArq76K8RI86H
-         Xpf1zvC8sHa2fTJlcPLU+VXEl7SBVtu2pc8eK8lm2r66pEeqM8kX+Qiks+uOVNNodBSG
-         q96bJ+nMOV1lv18AiQFcb6Fl0pwEAPs9NalHbs4+K1nV5Eyj6LLWoBXGA/YEyIWlgOq1
-         VsAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682081645; x=1684673645;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tffwA8++0LsNwftCbiEQFGa9DgonCFTm4qBM4xY4JiU=;
-        b=UD3Um3qzWgc7ughDIe1CrO23Ind9of/0dj2eBXm/o3J1q7VbBNkFh6pY34tQxpHq6c
-         x2iCSnwxUvfXCj9hayAkQ/1d5lsUPDGDfIgj1z04MIycUgAruIUaWPvzPAqqIO0fVE7Q
-         DUN5f2t21flcJH7AZh60BiVcWP0/t0sgF8vxAnQJsa1eZOUwUMsh6zQrevqSUTRQoXSB
-         hKmtNGak4f2K5x6ey3pJbF4MHg9EhITGXKwx6Or5vFj8Zp8GBegbfhfqMQAQ7kwut35V
-         1xA9WHddQkAaezqpUHwHvYh9nkTZVpzanm5EH8PYvAZ3MlaHajqV1TKulpyAFhgIWYKE
-         osLA==
-X-Gm-Message-State: AAQBX9cOsUbOt03V+hof4ZYPWKgM4OtQkfd5lVm3GR/lZy8rzdvc2+Ix
-        6F5kiWeBJdwjN3XEa5skZ7UuK2xhjqmji+H9cYjP71pZ
-X-Google-Smtp-Source: AKy350YVN3XEReA/ISSMlvmq+sc5ZX4eguAkNfQz/GNXJZbWJLzMIfP74yRlwYW/OebenWsxG4Mf/9P9SutvHGwFWpU=
-X-Received: by 2002:a17:907:1046:b0:94f:161d:e927 with SMTP id
- oy6-20020a170907104600b0094f161de927mr2385110ejb.41.1682081645503; Fri, 21
- Apr 2023 05:54:05 -0700 (PDT)
+        Fri, 21 Apr 2023 12:02:55 -0400
+Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E786813F83;
+        Fri, 21 Apr 2023 09:02:49 -0700 (PDT)
+Date:   Fri, 21 Apr 2023 16:02:32 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
+        s=protonmail; t=1682092964; x=1682352164;
+        bh=s7clfCNoIQVJvWOf4u9l4ZWIS1sr2kMZRsQ0SC1x9pY=;
+        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID:BIMI-Selector;
+        b=Hy9QtStWSLNw1oqg3r69lKx9QEkqL/14Gu++LOg2xcZwkwhFoT9F6dd7qVZYiljlD
+         +rJn1gG0vwKxCIUkqrDpkGEQRmUWjjowonIN+lM6d3joIBsMwZ+gSXoWXXS7X+azNt
+         DXti8JaxV+qYf8SjHwEhdiSObu3pq0phTEppb4wk=
+To:     Joel Selvaraj <joelselvaraj.oss@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Jeff LaBundy <jeff@labundy.com>,
+        Markuss Broks <markuss.broks@gmail.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        Max Krummenacher <max.krummenacher@toradex.com>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Job Noorman <job@noorman.info>,
+        Alistair Francis <alistair@alistair23.me>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Maxime Ripard <mripard@kernel.org>
+From:   Caleb Connolly <caleb@connolly.tech>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+Subject: Re: [PATCH v3 5/5] arm64: dts: qcom: sdm845-shift-axolotl: update focaltech touchscreen properties
+Message-ID: <853c694f-c3d3-f61c-2e5d-0b9b8fd2a326@connolly.tech>
+In-Reply-To: <20230415020222.216232-6-joelselvaraj.oss@gmail.com>
+References: <20230415020222.216232-1-joelselvaraj.oss@gmail.com> <20230415020222.216232-6-joelselvaraj.oss@gmail.com>
+Feedback-ID: 10753939:user:proton
 MIME-Version: 1.0
-References: <CAPNj2HJdA6uZ9xvvHsVNAFjS88-xALwOCXT1Hv4A5AG-HismAQ@mail.gmail.com>
-In-Reply-To: <CAPNj2HJdA6uZ9xvvHsVNAFjS88-xALwOCXT1Hv4A5AG-HismAQ@mail.gmail.com>
-From:   =?UTF-8?B?RnLDqWTDqXJpYyBMYW1vcmNl?= <frederic.lamorce@gmail.com>
-Date:   Fri, 21 Apr 2023 08:53:39 -0400
-Message-ID: <CAPNj2HJfbYXk1AOt-sX85sG_x90vG++=aLg8QN1kFL059srwnQ@mail.gmail.com>
-Subject: [BUG] sysfs: cannot create duplicate filename, with Lenovo keyboard
-To:     linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-kernel warning about a duplicate filename in sysfs after a resume.
-
-CPU: AMD 5600H
-distro : MX-21.3_ahs_x64 Wildflower September 18  2022 base: Debian
-GNU/Linux 11 (bullseye)
-kernel tested: 6.1.0-6mx-amd64 ; 6.1.0-7mx-amd64 ;
-6.2.10-1-liquorix-amd64 ; 6.2.11-3-liquorix-amd64
-
-I am using a Lenovo TrackPoint Keyboard II, it's a keyboard with an
-integrated trackpad. It is paired in bluetooth mode. It is using the
-hid-lenovo module.
-Bluetooth is using mediatek mt7921e and btusb
-
-After a suspend/resume, sometimes, there is a kernel warning in dmesg.
-Maybe because the keyboard and mouse are using the same MAC address
-and it tries to re-create the battery info?
 
 
-[22706.169919] sysfs: cannot create duplicate filename
-'/class/power_supply/hid-d8:ab:24:63:e7:77-battery'
-[22706.169928] CPU: 2 PID: 41456 Comm: kworker/2:1 Tainted: P
- O       6.2.11-3-liquorix-amd64 #1  liquorix 6.2-16~mx21+1
-[22706.169934] Hardware name: AZW SER/SER, BIOS V1.15_P4C7M43_Blink 09/17/2022
-[22706.169937] Workqueue: events uhid_device_add_worker [uhid]
-[22706.169955] Call Trace:
-[22706.169960]  <TASK>
-[22706.169962]  dump_stack_lvl+0x44/0x60
-[22706.169973]  sysfs_warn_dup+0x57/0x70
-[22706.169979]  sysfs_create_link+0xc2/0xd0
-[22706.169983]  device_add+0x208/0xb70
-[22706.169991]  __power_supply_register+0x27b/0x420
-[22706.169999]  hidinput_setup_battery.isra.0+0x19e/0x240
-[22706.170007]  hidinput_connect+0x1326/0x4e60
-[22706.170016]  hid_connect+0x581/0x5d0
-[22706.170021]  hid_hw_start+0x41/0x70
-[22706.170025]  lenovo_probe+0x30/0x670 [hid_lenovo]
-[22706.170038]  hid_device_probe+0xf4/0x190
-[22706.170044]  really_probe+0x1d6/0x3c0
-[22706.170050]  __driver_probe_device+0x72/0xe0
-[22706.170054]  driver_probe_device+0x1e/0x170
-[22706.170058]  __device_attach_driver+0xac/0x160
-[22706.170063]  ? __pfx___device_attach_driver+0x10/0x10
-[22706.170068]  bus_for_each_drv+0x7e/0xd0
-[22706.170073]  device_initial_probe+0xfd/0x1e0
-[22706.170079]  bus_probe_device+0xa8/0xc0
-[22706.170083]  device_add+0x3ec/0xb70
-[22706.170088]  hid_add_device+0xf8/0x3b0
-[22706.170092]  ? od_dbs_update+0xb9/0x190
-[22706.170099]  uhid_device_add_worker+0x15/0x60 [uhid]
-[22706.170108]  process_one_work+0x1dc/0x3e0
-[22706.170115]  worker_thread+0x4d/0x460
-[22706.170121]  ? __pfx_worker_thread+0x10/0x10
-[22706.170126]  kthread+0xd8/0x100
-[22706.170131]  ? __pfx_kthread+0x10/0x10
-[22706.170134]  ret_from_fork+0x2c/0x50
-[22706.170142]  </TASK>
-[22706.170168] lenovo 0005:17EF:60E1.001D: can't register power supply: -17
-[22706.170305] input: TrackPoint Keyboard II as
-/devices/virtual/misc/uhid/0005:17EF:60E1.001D/input/input42
-[22706.171437] lenovo 0005:17EF:60E1.001D: input,hidraw4: BLUETOOTH
-HID v0.47 Keyboard [TrackPoint Keyboard II] on 4c:d5:77:f0:c3:6c
-[22734.816970] Bluetooth: hci0: ACL packet for unknown connection handle 512
-[22735.849582] input: SANWA Gravi Mouse as
-/devices/virtual/misc/uhid/0005:1915:0040.001E/input/input43
-[22735.850012] input: SANWA Gravi Consumer Control as
-/devices/virtual/misc/uhid/0005:1915:0040.001E/input/input44
-[22735.851199] hid-generic 0005:1915:0040.001E: input,hidraw2:
-BLUETOOTH HID v0.01 Mouse [SANWA Gravi] on 4c:d5:77:f0:c3:6c
-[22760.786365] sysfs: cannot create duplicate filename
-'/class/power_supply/hid-d8:ab:24:63:e7:77-battery'
-[22760.786372] CPU: 6 PID: 37516 Comm: kworker/6:2 Tainted: P
- O       6.2.11-3-liquorix-amd64 #1  liquorix 6.2-16~mx21+1
-[22760.786378] Hardware name: AZW SER/SER, BIOS V1.15_P4C7M43_Blink 09/17/2022
-[22760.786380] Workqueue: events uhid_device_add_worker [uhid]
-[22760.786396] Call Trace:
-[22760.786400]  <TASK>
-[22760.786402]  dump_stack_lvl+0x44/0x60
-[22760.786411]  sysfs_warn_dup+0x57/0x70
-[22760.786416]  sysfs_create_link+0xc2/0xd0
-[22760.786419]  device_add+0x208/0xb70
-[22760.786427]  __power_supply_register+0x27b/0x420
-[22760.786434]  hidinput_setup_battery.isra.0+0x19e/0x240
-[22760.786441]  hidinput_connect+0x1326/0x4e60
-[22760.786449]  hid_connect+0x581/0x5d0
-[22760.786454]  hid_hw_start+0x41/0x70
-[22760.786459]  lenovo_probe+0x30/0x670 [hid_lenovo]
-[22760.786469]  hid_device_probe+0xf4/0x190
-[22760.786474]  really_probe+0x1d6/0x3c0
-[22760.786478]  __driver_probe_device+0x72/0xe0
-[22760.786483]  driver_probe_device+0x1e/0x170
-[22760.786487]  __device_attach_driver+0xac/0x160
-[22760.786491]  ? __pfx___device_attach_driver+0x10/0x10
-[22760.786495]  bus_for_each_drv+0x7e/0xd0
-[22760.786499]  device_initial_probe+0xfd/0x1e0
-[22760.786504]  bus_probe_device+0xa8/0xc0
-[22760.786507]  device_add+0x3ec/0xb70
-[22760.786513]  hid_add_device+0xf8/0x3b0
-[22760.786517]  uhid_device_add_worker+0x15/0x60 [uhid]
-[22760.786526]  process_one_work+0x1dc/0x3e0
-[22760.786534]  worker_thread+0x4d/0x460
-[22760.786540]  ? __pfx_worker_thread+0x10/0x10
-[22760.786545]  kthread+0xd8/0x100
-[22760.786549]  ? __pfx_kthread+0x10/0x10
-[22760.786553]  ret_from_fork+0x2c/0x50
-[22760.786561]  </TASK>
-[22760.786575] lenovo 0005:17EF:60E1.001F: can't register power supply: -17
-[22760.786781] input: TrackPoint Keyboard II as
-/devices/virtual/misc/uhid/0005:17EF:60E1.001F/input/input45
-[22760.787191] lenovo 0005:17EF:60E1.001F: input,hidraw4: BLUETOOTH
-HID v0.47 Keyboard [TrackPoint Keyboard II] on 4c:d5:77:f0:c3:6c
+On 15/04/2023 03:02, Joel Selvaraj wrote:
+> The touchscreen nodes were added before the driver patches were merged.
+> Update the focaltech touchscreen properties to match with the upstreamed
+> focaltech driver. Also, the touchscreen used is in axolotl is fts5452
+> and not fts8719.
+>
+> Signed-off-by: Joel Selvaraj <joelselvaraj.oss@gmail.com>
+
+Reviewed-by: Caleb Connolly <caleb@connolly.tech>
+> ---
+>  .../boot/dts/qcom/sdm845-shift-axolotl.dts     | 18 ++++++++----------
+>  1 file changed, 8 insertions(+), 10 deletions(-)
+>
+> diff --git a/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts b/arch/arm=
+64/boot/dts/qcom/sdm845-shift-axolotl.dts
+> index b54e304abf71..70286e53e000 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
+> +++ b/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
+> @@ -474,23 +474,21 @@ &i2c5 {
+>  =09status =3D "okay";
+>
+>  =09touchscreen@38 {
+> -=09=09compatible =3D "focaltech,fts8719";
+> +=09=09compatible =3D "focaltech,fts5452";
+>  =09=09reg =3D <0x38>;
+> -=09=09wakeup-source;
+> -=09=09interrupt-parent =3D <&tlmm>;
+> -=09=09interrupts =3D <125 0x2>;
+> -=09=09vdd-supply =3D <&vreg_l28a_3p0>;
+> -=09=09vcc-i2c-supply =3D <&vreg_l14a_1p88>;
+>
+> -=09=09pinctrl-names =3D "default", "suspend";
+> +=09=09interrupts-extended =3D <&tlmm 125 IRQ_TYPE_EDGE_FALLING>;
+> +=09=09reset-gpios =3D <&tlmm 99 GPIO_ACTIVE_LOW>;
+> +
+> +=09=09avdd-supply =3D <&vreg_l28a_3p0>;
+> +=09=09vddio-supply =3D <&vreg_l14a_1p88>;
+> +
+>  =09=09pinctrl-0 =3D <&ts_int_active &ts_reset_active>;
+>  =09=09pinctrl-1 =3D <&ts_int_suspend &ts_reset_suspend>;
+> +=09=09pinctrl-names =3D "default", "suspend";
+>
+> -=09=09reset-gpio =3D <&tlmm 99 GPIO_ACTIVE_HIGH>;
+> -=09=09irq-gpio =3D <&tlmm 125 GPIO_TRANSITORY>;
+>  =09=09touchscreen-size-x =3D <1080>;
+>  =09=09touchscreen-size-y =3D <2160>;
+> -=09=09focaltech,max-touch-number =3D <5>;
+>  =09};
+>  };
+>
+> --
+> 2.40.0
+>
+
+--
+Kind Regards,
+Caleb
+
