@@ -2,262 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C91E86E9DA0
-	for <lists+linux-input@lfdr.de>; Thu, 20 Apr 2023 23:04:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD4FE6EA1B3
+	for <lists+linux-input@lfdr.de>; Fri, 21 Apr 2023 04:36:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231845AbjDTVE0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 20 Apr 2023 17:04:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40938 "EHLO
+        id S233370AbjDUCgH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 Apr 2023 22:36:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232050AbjDTVEW (ORCPT
+        with ESMTP id S231889AbjDUCgG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 20 Apr 2023 17:04:22 -0400
-Received: from smtprelay06.ispgateway.de (smtprelay06.ispgateway.de [80.67.18.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91BB544AF;
-        Thu, 20 Apr 2023 14:04:11 -0700 (PDT)
-Received: from [92.206.161.29] (helo=note-book.lan)
-        by smtprelay06.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <git@apitzsch.eu>)
-        id 1ppbRm-0006yb-L2; Thu, 20 Apr 2023 23:04:06 +0200
-From:   =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
-Date:   Thu, 20 Apr 2023 23:03:51 +0200
-Subject: [PATCH RESEND v2 2/2] Input: atmel_mxt_ts - support capacitive
- keys
+        Thu, 20 Apr 2023 22:36:06 -0400
+Received: from endrift.com (endrift.com [173.255.198.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9BE33A92
+        for <linux-input@vger.kernel.org>; Thu, 20 Apr 2023 19:36:02 -0700 (PDT)
+Received: from [192.168.0.22] (unknown [50.47.218.115])
+        by endrift.com (Postfix) with ESMTPSA id 780A6A269;
+        Thu, 20 Apr 2023 19:36:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=endrift.com; s=2020;
+        t=1682044561; bh=a+m0eRsBoFr2HZkm/cBaRCRA2ZGa4lexDy6d9e4s+ec=;
+        h=Date:To:From:Subject:Cc:From;
+        b=ukeZmxJizl98oczwS1FmBdEd6lnpYHxJ1z7CkUw6sGi4SWsrWluK/5ZhfSP0xZtI3
+         U+/n+n7JOdNupU80v306yWW+H9qKU481YTVWjSdxVi/zkMNFM9RhAwzi+lPZRYv3RP
+         oo1X+vWxiL3PPNUzCKonZdpknAm6z+r1o3Z6oqTL5PYgz9KQF/tihcLN8dBykqYMQb
+         8uNINb97ZwWWI9qkTEn0SoXt9WqN0F2t3o8i5eal1mFFchvb5BU1QLbYqilgTh5Lkh
+         RPNwkyZOcsTsqr05C5OG07OnRY0Tqzvzy9cWV1sMS/rk0oExJQ2thbLAlh+C8b1leV
+         tr3KZZXaqZtVw==
+Message-ID: <a3b1f768-27e9-c9d5-ad2c-c56a48522d41@endrift.com>
+Date:   Thu, 20 Apr 2023 19:36:00 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20230407-atmel_keys-v2-2-e7b016886109@apitzsch.eu>
-References: <20230407-atmel_keys-v2-0-e7b016886109@apitzsch.eu>
-In-Reply-To: <20230407-atmel_keys-v2-0-e7b016886109@apitzsch.eu>
-To:     Nick Dyer <nick@shmanahar.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
-X-Mailer: b4 0.12.2
-X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Content-Language: en-US
+To:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+From:   Vicki Pfau <vi@endrift.com>
+Subject: Proposal: Add a means to disable kernel driver logic when associated
+ hidraw is opened
+Cc:     Pierre-Loup Griffais <pgriffais@valvesoftware.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for touch keys found in some Atmel touch controller
-configurations.
+Hello,
 
-Reviewed-by: Claudiu Beznea <claudiu.beznea@microchip.com>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: André Apitzsch <git@apitzsch.eu>
----
- drivers/input/touchscreen/atmel_mxt_ts.c | 85 ++++++++++++++++++++++++++++++++
- 1 file changed, 85 insertions(+)
+Following up on a conversation from last year (cf. https://lore.kernel.or=
+g/linux-input/CAO-hwJLfY+D0NyCUCncrjcXETKwOBqj1CuHtB_mtGhYfKV0Bww@mail.gm=
+ail.com/) about how to approach differing opinions about how drivers shou=
+ld work between userspace and kernel, we're looking for a way to effectiv=
+ely stop the kernel from doing anything "smart" with a a HID device, e.g.=
+ a hid-sony device, when the associated hidraw is opened. At the moment, =
+we have a specialized daemon that will find the mouse evdev associated wi=
+th the controller when it's created and inhibit it, but this is anything =
+but ideal and only handles the mouse itself, not the kernel logic in gene=
+ral. You can also see the hackish way this is implemented in the hid-stea=
+m driver, which uses an intermediary hid ll_driver to intercept the open =
+and close commands and stop passing data if the hidraw gets opened. I con=
+sider this implementation to be very much a hack and an anti-pattern, and=
+ I think other HID implementers would agree, but I'm not sure there's a c=
+leaner way to detect this in the kernel at the moment.
 
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 996bf434e1cb..eb368dd1abf0 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -55,6 +55,7 @@
- #define MXT_TOUCH_KEYARRAY_T15		15
- #define MXT_TOUCH_PROXIMITY_T23		23
- #define MXT_TOUCH_PROXKEY_T52		52
-+#define MXT_TOUCH_PTC_KEYS_T97		97
- #define MXT_PROCI_GRIPFACE_T20		20
- #define MXT_PROCG_NOISE_T22		22
- #define MXT_PROCI_ONETOUCH_T24		24
-@@ -326,9 +327,13 @@ struct mxt_data {
- 	u16 T71_address;
- 	u8 T9_reportid_min;
- 	u8 T9_reportid_max;
-+	u8 T15_reportid_min;
-+	u8 T15_reportid_max;
- 	u16 T18_address;
- 	u8 T19_reportid;
- 	u16 T44_address;
-+	u8 T97_reportid_min;
-+	u8 T97_reportid_max;
- 	u8 T100_reportid_min;
- 	u8 T100_reportid_max;
- 
-@@ -344,6 +349,9 @@ struct mxt_data {
- 	u32 *t19_keymap;
- 	unsigned int t19_num_keys;
- 
-+	u32 *t15_keymap;
-+	unsigned int t15_num_keys;
-+
- 	enum mxt_suspend_mode suspend_mode;
- 
- 	u32 wakeup_method;
-@@ -375,6 +383,7 @@ static bool mxt_object_readable(unsigned int type)
- 	case MXT_TOUCH_KEYARRAY_T15:
- 	case MXT_TOUCH_PROXIMITY_T23:
- 	case MXT_TOUCH_PROXKEY_T52:
-+	case MXT_TOUCH_PTC_KEYS_T97:
- 	case MXT_TOUCH_MULTITOUCHSCREEN_T100:
- 	case MXT_PROCI_GRIPFACE_T20:
- 	case MXT_PROCG_NOISE_T22:
-@@ -891,6 +900,25 @@ static void mxt_proc_t9_message(struct mxt_data *data, u8 *message)
- 	data->update_input = true;
- }
- 
-+static void mxt_proc_t15_messages(struct mxt_data *data, u8 *message)
-+{
-+	struct input_dev *input_dev = data->input_dev;
-+	unsigned long keystates = get_unaligned_le32(&message[2]);
-+	int key;
-+
-+	for (key = 0; key < data->t15_num_keys; key++) {
-+		input_report_key(input_dev, data->t15_keymap[key],
-+			!!(keystates & BIT(key)));
-+	}
-+
-+	data->update_input = true;
-+}
-+
-+static void mxt_proc_t97_messages(struct mxt_data *data, u8 *message)
-+{
-+	mxt_proc_t15_messages(data, message);
-+}
-+
- static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
- {
- 	struct device *dev = &data->client->dev;
-@@ -1017,6 +1045,12 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
- 	} else if (report_id >= data->T9_reportid_min &&
- 		   report_id <= data->T9_reportid_max) {
- 		mxt_proc_t9_message(data, message);
-+	} else if (report_id >= data->T15_reportid_min &&
-+		   report_id <= data->T15_reportid_max) {
-+		mxt_proc_t15_messages(data, message);
-+	} else if (report_id >= data->T97_reportid_min &&
-+		   report_id <= data->T97_reportid_max) {
-+		mxt_proc_t97_messages(data, message);
- 	} else if (report_id >= data->T100_reportid_min &&
- 		   report_id <= data->T100_reportid_max) {
- 		mxt_proc_t100_message(data, message);
-@@ -1689,9 +1723,13 @@ static void mxt_free_object_table(struct mxt_data *data)
- 	data->T71_address = 0;
- 	data->T9_reportid_min = 0;
- 	data->T9_reportid_max = 0;
-+	data->T15_reportid_min = 0;
-+	data->T15_reportid_max = 0;
- 	data->T18_address = 0;
- 	data->T19_reportid = 0;
- 	data->T44_address = 0;
-+	data->T97_reportid_min = 0;
-+	data->T97_reportid_max = 0;
- 	data->T100_reportid_min = 0;
- 	data->T100_reportid_max = 0;
- 	data->max_reportid = 0;
-@@ -1764,6 +1802,10 @@ static int mxt_parse_object_table(struct mxt_data *data,
- 						object->num_report_ids - 1;
- 			data->num_touchids = object->num_report_ids;
- 			break;
-+		case MXT_TOUCH_KEYARRAY_T15:
-+			data->T15_reportid_min = min_id;
-+			data->T15_reportid_max = max_id;
-+			break;
- 		case MXT_SPT_COMMSCONFIG_T18:
- 			data->T18_address = object->start_address;
- 			break;
-@@ -1773,6 +1815,10 @@ static int mxt_parse_object_table(struct mxt_data *data,
- 		case MXT_SPT_GPIOPWM_T19:
- 			data->T19_reportid = min_id;
- 			break;
-+		case MXT_TOUCH_PTC_KEYS_T97:
-+			data->T97_reportid_min = min_id;
-+			data->T97_reportid_max = max_id;
-+			break;
- 		case MXT_TOUCH_MULTITOUCHSCREEN_T100:
- 			data->multitouch = MXT_TOUCH_MULTITOUCHSCREEN_T100;
- 			data->T100_reportid_min = min_id;
-@@ -2050,6 +2096,7 @@ static int mxt_initialize_input_device(struct mxt_data *data)
- 	int error;
- 	unsigned int num_mt_slots;
- 	unsigned int mt_flags = 0;
-+	int i;
- 
- 	switch (data->multitouch) {
- 	case MXT_TOUCH_MULTI_T9:
-@@ -2095,6 +2142,10 @@ static int mxt_initialize_input_device(struct mxt_data *data)
- 	input_dev->open = mxt_input_open;
- 	input_dev->close = mxt_input_close;
- 
-+	input_dev->keycode = data->t15_keymap;
-+	input_dev->keycodemax = data->t15_num_keys;
-+	input_dev->keycodesize = sizeof(data->t15_keymap[0]);
-+
- 	input_set_capability(input_dev, EV_KEY, BTN_TOUCH);
- 
- 	/* For single touch */
-@@ -2162,6 +2213,12 @@ static int mxt_initialize_input_device(struct mxt_data *data)
- 				     0, 255, 0, 0);
- 	}
- 
-+	/* For T15 and T97 Key Array */
-+	if (data->T15_reportid_min || data->T97_reportid_min) {
-+		for (i = 0; i < data->t15_num_keys; i++)
-+			input_set_capability(input_dev, EV_KEY, data->t15_keymap[i]);
-+	}
-+
- 	input_set_drvdata(input_dev, data);
- 
- 	error = input_register_device(input_dev);
-@@ -3080,8 +3137,10 @@ static void mxt_input_close(struct input_dev *dev)
- static int mxt_parse_device_properties(struct mxt_data *data)
- {
- 	static const char keymap_property[] = "linux,gpio-keymap";
-+	static const char buttons_property[] = "linux,keycodes";
- 	struct device *dev = &data->client->dev;
- 	u32 *keymap;
-+	u32 *buttonmap;
- 	int n_keys;
- 	int error;
- 
-@@ -3111,6 +3170,32 @@ static int mxt_parse_device_properties(struct mxt_data *data)
- 		data->t19_num_keys = n_keys;
- 	}
- 
-+	if (device_property_present(dev, buttons_property)) {
-+		n_keys = device_property_count_u32(dev, buttons_property);
-+		if (n_keys <= 0) {
-+			error = n_keys < 0 ? n_keys : -EINVAL;
-+			dev_err(dev, "invalid/malformed '%s' property: %d\n",
-+				buttons_property, error);
-+			return error;
-+		}
-+
-+		buttonmap = devm_kmalloc_array(dev, n_keys, sizeof(*buttonmap),
-+					       GFP_KERNEL);
-+		if (!buttonmap)
-+			return -ENOMEM;
-+
-+		error = device_property_read_u32_array(dev, buttons_property,
-+						       buttonmap, n_keys);
-+		if (error) {
-+			dev_err(dev, "failed to parse '%s' property: %d\n",
-+				buttons_property, error);
-+			return error;
-+		}
-+
-+		data->t15_keymap = buttonmap;
-+		data->t15_num_keys = n_keys;
-+	}
-+
- 	return 0;
- }
- 
+I see a bit of a difference of opinion as to what should be happening her=
+e between developers on our end and the kernel end. Our position is "we h=
+ave a userspace driver that does everything we want, we'd like the kernel=
+ to stop trying to be smart when our driver is active", and I expect the =
+kernel developer opinion is "why should you have a userspace driver at al=
+l when our kernel driver is fine, and if it's not you can upstream patche=
+s?", so there's probably some need to find a middle ground if we want thi=
+ngs to work well for users in the end.
 
--- 
-2.40.0
+We'd previously discussed an ioctl for the hidraw, or perhaps an eBPF app=
+roach, though I think at the time of that discussion, eBPF wasn't mature =
+for the HID subsystem. I don't know the current state of that, or if it's=
+ possible to do this with just write access to the hidraw device (the ide=
+al case for how we want to handle this--root is pretty much out of the qu=
+estion for an "ideal case"). Since we still don't have a good answer for =
+this, as far as I'm aware, I'd like to try to reach an approach that's am=
+icable for both sides.
 
+I know that the ioctl approach meant having to introduce logic for progra=
+ms in userspace, but in this specific case, and possibly others, that's a=
+ctually what we're looking for. Further, the reason root is out is becaus=
+e Steam isn't the OS (in most cases), and we want this to only happen whe=
+n Steam is running. Having to run a daemon as root underneath Steam would=
+ require something like a setuid binary or custom sudo/polkit rules, whic=
+h of course need root to set up anyway. So while eBPF may fit some use ca=
+ses, e.g. full control over the system via DE or systemd, etc, it's not w=
+hat we're looking for here.
+
+Does anyone have opinions on how to proceed from here?
+
+Vicki
