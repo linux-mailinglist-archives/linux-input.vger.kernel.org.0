@@ -2,113 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B4856EA5EF
-	for <lists+linux-input@lfdr.de>; Fri, 21 Apr 2023 10:34:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40D106EA698
+	for <lists+linux-input@lfdr.de>; Fri, 21 Apr 2023 11:12:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231633AbjDUIew (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Apr 2023 04:34:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58038 "EHLO
+        id S230094AbjDUJMA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Apr 2023 05:12:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231461AbjDUIev (ORCPT
+        with ESMTP id S229884AbjDUJL7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Apr 2023 04:34:51 -0400
-X-Greylist: delayed 310 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 21 Apr 2023 01:34:48 PDT
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 629475B8F;
-        Fri, 21 Apr 2023 01:34:48 -0700 (PDT)
-Received: from ubuntu.localdomain (unknown [106.117.98.24])
-        by mail-app4 (Coremail) with SMTP id cS_KCgCn+bFfSUJkjtmAAA--.53646S2;
-        Fri, 21 Apr 2023 16:29:28 +0800 (CST)
-From:   Duoming Zhou <duoming@zju.edu.cn>
-To:     linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linus.walleij@linaro.org,
-        dmitry.torokhov@gmail.com, Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH] Input: cyttsp4_core - change del_timer_sync() to timer_shutdown_sync()
-Date:   Fri, 21 Apr 2023 16:29:19 +0800
-Message-Id: <20230421082919.8471-1-duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cS_KCgCn+bFfSUJkjtmAAA--.53646S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ar17CF43AF13Ar13Kr1kAFb_yoW8tr18p3
-        y3Cr13Jw48GFWUtr17J3s7ZF95Cw15KFyUKF47Gws5Zrn3AryrAF1FyrWfGFW3JFZ8ZFn3
-        Jr4Fv3y5GF9Ykr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUka14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4U
-        JVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_GFyl
-        42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
-        WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAK
-        I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r
-        4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
-        6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUIzuXUUUUU=
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwIMAWRBVNslyAAasR
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Fri, 21 Apr 2023 05:11:59 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C1CF1B1;
+        Fri, 21 Apr 2023 02:11:57 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1ppmo7-0007z4-LR; Fri, 21 Apr 2023 11:11:55 +0200
+Message-ID: <5fa67291-98d0-c8d5-ca71-5a86b9adff41@leemhuis.info>
+Date:   Fri, 21 Apr 2023 11:11:53 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Content-Language: en-US, de-DE
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+To:     Bastien Nocera <hadess@hadess.net>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux kernel regressions list <regressions@lists.linux.dev>
+Subject: [REGRESSION] Bug 217353 - Logitech MX Anywhere 3 scroll wheel works
+ incorrectly over USB dongle
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1682068317;0287aaf2;
+X-HE-SMSGID: 1ppmo7-0007z4-LR
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The watchdog_timer can schedule tx_timeout_task and watchdog_work
-can also arm watchdog_timer. The process is shown below:
+Hi, Thorsten here, the Linux kernel's regression tracker.
 
------------ timer schedules work ------------
-cyttsp4_watchdog_timer() //timer handler
-  schedule_work(&cd->watchdog_work)
+I noticed a regression report in bugzilla.kernel.org. As many (most?)
+kernel developers don't keep an eye on it, I decided to forward it by mail.
 
------------ work arms timer ------------
-cyttsp4_watchdog_work() //workqueue callback function
-  cyttsp4_start_wd_timer()
-    mod_timer(&cd->watchdog_timer, ...)
+Bastien, from the bug report it to me sounds like it might be another
+case caused by 908d325e166 ("HID: logitech-hidpp: Detect hi-res
+scrolling support"), but I might be totally wrong with that (and the
+reporter didn't even explicitly state that it's a regression, but it
+sounds like one). If I got something wrong I apologize in advance.
 
-Although del_timer_sync() and cancel_work_sync() are called in
-cyttsp4_remove(), the timer and workqueue could still be rearmed.
-As a result, the possible use after free bugs could happen. The
-process is shown below:
+Note, you have to use bugzilla to reach the reporter, as I sadly[1] can
+not CCed them in mails like this.
 
-  (cleanup routine)           |  (timer and workqueue routine)
-cyttsp4_remove()              | cyttsp4_watchdog_timer() //timer
-  cyttsp4_stop_wd_timer()     |   schedule_work()
-    del_timer_sync()          |
-                              | cyttsp4_watchdog_work() //worker
-                              |   cyttsp4_start_wd_timer()
-                              |     mod_timer()
-    cancel_work_sync()        |
-                              | cyttsp4_watchdog_timer() //timer
-                              |   schedule_work()
-    del_timer_sync()          |
-  kfree(cd) //FREE            |
-                              | cyttsp4_watchdog_work() // reschedule!
-                              |   cd-> //USE
+Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=217353 :
 
-This patch changes del_timer_sync() to timer_shutdown_sync(),
-which could prevent rearming of the timer from the workqueue.
+>  vova7890 2023-04-18 22:40:07 UTC
+> 
+> Need a solution similar as for
+> https://bugzilla.kernel.org/show_bug.cgi?id=216885 but for the usb dongle.
+> 
+> hid_is_usb(hidpp->hid_dev) always return 0 for the usb dongle. Through
+> bluetooth it's working fine as hid_logitech_hidpp is not loading for
+> this mouse with over BT mode.
 
-Fixes: 17fb1563d69b ("Input: cyttsp4 - add core driver for Cypress TMA4XX touchscreen devices")
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
----
- drivers/input/touchscreen/cyttsp4_core.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+See the ticket for more details.
 
-diff --git a/drivers/input/touchscreen/cyttsp4_core.c b/drivers/input/touchscreen/cyttsp4_core.c
-index 0cd6f626ade..7cb26929dc7 100644
---- a/drivers/input/touchscreen/cyttsp4_core.c
-+++ b/drivers/input/touchscreen/cyttsp4_core.c
-@@ -1263,9 +1263,8 @@ static void cyttsp4_stop_wd_timer(struct cyttsp4 *cd)
- 	 * Ensure we wait until the watchdog timer
- 	 * running on a different CPU finishes
- 	 */
--	del_timer_sync(&cd->watchdog_timer);
-+	timer_shutdown_sync(&cd->watchdog_timer);
- 	cancel_work_sync(&cd->watchdog_work);
--	del_timer_sync(&cd->watchdog_timer);
- }
- 
- static void cyttsp4_watchdog_timer(struct timer_list *t)
--- 
-2.17.1
 
+[TLDR for the rest of this mail: I'm adding this report to the list of
+tracked Linux kernel regressions; the text you find below is based on a
+few templates paragraphs you might have encountered already in similar
+form.]
+
+BTW, let me use this mail to also add the report to the list of tracked
+regressions to ensure it's doesn't fall through the cracks:
+
+#regzbot introduced: 908d325e1665
+https://bugzilla.kernel.org/show_bug.cgi?id=217353
+#regzbot title: hid: Logitech MX Anywhere 3 scroll wheel works
+incorrectly over USB dongle
+#regzbot ignore-activity
+
+This isn't a regression? This issue or a fix for it are already
+discussed somewhere else? It was fixed already? You want to clarify when
+the regression started to happen? Or point out I got the title or
+something else totally wrong? Then just reply and tell me -- ideally
+while also telling regzbot about it, as explained by the page listed in
+the footer of this mail.
+
+Developers: When fixing the issue, remember to add 'Link:' tags pointing
+to the report (e.g. the buzgzilla ticket and maybe this mail as well, if
+this thread sees some discussion). See page linked in footer for details.
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
+
+[1] because bugzilla.kernel.org tells users upon registration their
+"email address will never be displayed to logged out users"
