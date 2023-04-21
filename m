@@ -2,64 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C49906EAE9E
-	for <lists+linux-input@lfdr.de>; Fri, 21 Apr 2023 18:02:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F31B6EB328
+	for <lists+linux-input@lfdr.de>; Fri, 21 Apr 2023 22:55:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232592AbjDUQC4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Apr 2023 12:02:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54026 "EHLO
+        id S232925AbjDUUzo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Apr 2023 16:55:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232745AbjDUQCz (ORCPT
+        with ESMTP id S231282AbjDUUzm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Apr 2023 12:02:55 -0400
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E786813F83;
-        Fri, 21 Apr 2023 09:02:49 -0700 (PDT)
-Date:   Fri, 21 Apr 2023 16:02:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
-        s=protonmail; t=1682092964; x=1682352164;
-        bh=s7clfCNoIQVJvWOf4u9l4ZWIS1sr2kMZRsQ0SC1x9pY=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=Hy9QtStWSLNw1oqg3r69lKx9QEkqL/14Gu++LOg2xcZwkwhFoT9F6dd7qVZYiljlD
-         +rJn1gG0vwKxCIUkqrDpkGEQRmUWjjowonIN+lM6d3joIBsMwZ+gSXoWXXS7X+azNt
-         DXti8JaxV+qYf8SjHwEhdiSObu3pq0phTEppb4wk=
-To:     Joel Selvaraj <joelselvaraj.oss@gmail.com>,
+        Fri, 21 Apr 2023 16:55:42 -0400
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B5BA1FD8;
+        Fri, 21 Apr 2023 13:55:40 -0700 (PDT)
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6a437526b7cso2265961a34.1;
+        Fri, 21 Apr 2023 13:55:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682110539; x=1684702539;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3qSiryvYVKTt/1kFC1/HjBS+lPj08Bg2k7k8FYWUmPY=;
+        b=BciiQFPbekVkCAnmPStembT0oBOT/ap2fDNATVnLOHBJNtQb/ijTulJ3sMnXKql2Gg
+         phCrC06j7QFBNWUBSbG8Rl/Ob2c92kSr4BepVCc6wIZLDlWFxESeHrCBnMVctVN+/Y7X
+         HJtsQHJcs305j1YquS10R4fV8iq/Q+Wtn+i/wSwscWRZ2pTPlmgqH3kE6w+hq3QW/06T
+         A+J+isw4lhctTY/IXQM0tT6vHRus9bXdDjVwpZXHKXdkILhex7354zLtgAMwNtnI5I+/
+         wlcS+p4wsM17lPhcEVmi6zIORaxicQxjda7L/tRWW83LT/BTAdU3yzDOaAda+0HHGXWm
+         MZSg==
+X-Gm-Message-State: AAQBX9cl0ECESnUXtQ9915mZ5k9YB0ihIYfFng+vHq/tRLgHUYSnxGQE
+        PH/I7nxtJJL1gopOMRtbQ1Nlm+nNEQ==
+X-Google-Smtp-Source: AKy350YI7yqSFFMC7Eccl5RxhLFXnu5rQs5BiCv2qRSux2adqKdkSVoQrmTbX3B2Q53Tny4uu7rkEQ==
+X-Received: by 2002:a9d:694d:0:b0:6a1:369f:c489 with SMTP id p13-20020a9d694d000000b006a1369fc489mr3837273oto.33.1682110539435;
+        Fri, 21 Apr 2023 13:55:39 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id t4-20020a9d66c4000000b006a4244d2a7asm369406otm.9.2023.04.21.13.55.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Apr 2023 13:55:39 -0700 (PDT)
+Received: (nullmailer pid 1750988 invoked by uid 1000);
+        Fri, 21 Apr 2023 20:55:38 -0000
+Date:   Fri, 21 Apr 2023 15:55:38 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc:     Jarrah Gosbell <kernel@undef.tools>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Jeff LaBundy <jeff@labundy.com>,
-        Markuss Broks <markuss.broks@gmail.com>,
-        Jean Delvare <jdelvare@suse.de>,
-        Max Krummenacher <max.krummenacher@toradex.com>,
-        Chris Morgan <macromorgan@hotmail.com>,
-        Job Noorman <job@noorman.info>,
-        Alistair Francis <alistair@alistair23.me>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Maxime Ripard <mripard@kernel.org>
-From:   Caleb Connolly <caleb@connolly.tech>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-Subject: Re: [PATCH v3 5/5] arm64: dts: qcom: sdm845-shift-axolotl: update focaltech touchscreen properties
-Message-ID: <853c694f-c3d3-f61c-2e5d-0b9b8fd2a326@connolly.tech>
-In-Reply-To: <20230415020222.216232-6-joelselvaraj.oss@gmail.com>
-References: <20230415020222.216232-1-joelselvaraj.oss@gmail.com> <20230415020222.216232-6-joelselvaraj.oss@gmail.com>
-Feedback-ID: 10753939:user:proton
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Stephen Boyd <sboyd@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: Re: [PATCH] dt-bindings: input: touchscreen: goodix: clarify
+ irq-gpios misleading text
+Message-ID: <168211053800.1750927.15213873309578673308.robh@kernel.org>
+References: <20230419171849.946986-1-luca.ceresoli@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230419171849.946986-1-luca.ceresoli@bootlin.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -67,62 +70,23 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
-
-On 15/04/2023 03:02, Joel Selvaraj wrote:
-> The touchscreen nodes were added before the driver patches were merged.
-> Update the focaltech touchscreen properties to match with the upstreamed
-> focaltech driver. Also, the touchscreen used is in axolotl is fts5452
-> and not fts8719.
->
-> Signed-off-by: Joel Selvaraj <joelselvaraj.oss@gmail.com>
-
-Reviewed-by: Caleb Connolly <caleb@connolly.tech>
+On Wed, 19 Apr 2023 19:18:49 +0200, Luca Ceresoli wrote:
+> The irq-gpios description misleading, apparently saying that driving the
+> IRQ GPIO resets the device, which is even more puzzling as there is a reset
+> GPIO as well.
+> 
+> In reality the IRQ pin can be driven during the reset sequence to configure
+> the client address, as it becomes clear after checking both the datasheet
+> and the driver code. Improve the text to clarify that.
+> 
+> Also rephrase to remove reference to the driver, which is not appropriate
+> in the bindings.
+> 
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > ---
->  .../boot/dts/qcom/sdm845-shift-axolotl.dts     | 18 ++++++++----------
->  1 file changed, 8 insertions(+), 10 deletions(-)
->
-> diff --git a/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts b/arch/arm=
-64/boot/dts/qcom/sdm845-shift-axolotl.dts
-> index b54e304abf71..70286e53e000 100644
-> --- a/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
-> +++ b/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
-> @@ -474,23 +474,21 @@ &i2c5 {
->  =09status =3D "okay";
->
->  =09touchscreen@38 {
-> -=09=09compatible =3D "focaltech,fts8719";
-> +=09=09compatible =3D "focaltech,fts5452";
->  =09=09reg =3D <0x38>;
-> -=09=09wakeup-source;
-> -=09=09interrupt-parent =3D <&tlmm>;
-> -=09=09interrupts =3D <125 0x2>;
-> -=09=09vdd-supply =3D <&vreg_l28a_3p0>;
-> -=09=09vcc-i2c-supply =3D <&vreg_l14a_1p88>;
->
-> -=09=09pinctrl-names =3D "default", "suspend";
-> +=09=09interrupts-extended =3D <&tlmm 125 IRQ_TYPE_EDGE_FALLING>;
-> +=09=09reset-gpios =3D <&tlmm 99 GPIO_ACTIVE_LOW>;
-> +
-> +=09=09avdd-supply =3D <&vreg_l28a_3p0>;
-> +=09=09vddio-supply =3D <&vreg_l14a_1p88>;
-> +
->  =09=09pinctrl-0 =3D <&ts_int_active &ts_reset_active>;
->  =09=09pinctrl-1 =3D <&ts_int_suspend &ts_reset_suspend>;
-> +=09=09pinctrl-names =3D "default", "suspend";
->
-> -=09=09reset-gpio =3D <&tlmm 99 GPIO_ACTIVE_HIGH>;
-> -=09=09irq-gpio =3D <&tlmm 125 GPIO_TRANSITORY>;
->  =09=09touchscreen-size-x =3D <1080>;
->  =09=09touchscreen-size-y =3D <2160>;
-> -=09=09focaltech,max-touch-number =3D <5>;
->  =09};
->  };
->
-> --
-> 2.40.0
->
+>  .../devicetree/bindings/input/touchscreen/goodix.yaml         | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
 
---
-Kind Regards,
-Caleb
+Reviewed-by: Rob Herring <robh@kernel.org>
 
