@@ -2,48 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD4FE6EA1B3
-	for <lists+linux-input@lfdr.de>; Fri, 21 Apr 2023 04:36:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B4856EA5EF
+	for <lists+linux-input@lfdr.de>; Fri, 21 Apr 2023 10:34:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233370AbjDUCgH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 20 Apr 2023 22:36:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37018 "EHLO
+        id S231633AbjDUIew (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Apr 2023 04:34:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231889AbjDUCgG (ORCPT
+        with ESMTP id S231461AbjDUIev (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 20 Apr 2023 22:36:06 -0400
-Received: from endrift.com (endrift.com [173.255.198.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9BE33A92
-        for <linux-input@vger.kernel.org>; Thu, 20 Apr 2023 19:36:02 -0700 (PDT)
-Received: from [192.168.0.22] (unknown [50.47.218.115])
-        by endrift.com (Postfix) with ESMTPSA id 780A6A269;
-        Thu, 20 Apr 2023 19:36:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=endrift.com; s=2020;
-        t=1682044561; bh=a+m0eRsBoFr2HZkm/cBaRCRA2ZGa4lexDy6d9e4s+ec=;
-        h=Date:To:From:Subject:Cc:From;
-        b=ukeZmxJizl98oczwS1FmBdEd6lnpYHxJ1z7CkUw6sGi4SWsrWluK/5ZhfSP0xZtI3
-         U+/n+n7JOdNupU80v306yWW+H9qKU481YTVWjSdxVi/zkMNFM9RhAwzi+lPZRYv3RP
-         oo1X+vWxiL3PPNUzCKonZdpknAm6z+r1o3Z6oqTL5PYgz9KQF/tihcLN8dBykqYMQb
-         8uNINb97ZwWWI9qkTEn0SoXt9WqN0F2t3o8i5eal1mFFchvb5BU1QLbYqilgTh5Lkh
-         RPNwkyZOcsTsqr05C5OG07OnRY0Tqzvzy9cWV1sMS/rk0oExJQ2thbLAlh+C8b1leV
-         tr3KZZXaqZtVw==
-Message-ID: <a3b1f768-27e9-c9d5-ad2c-c56a48522d41@endrift.com>
-Date:   Thu, 20 Apr 2023 19:36:00 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Content-Language: en-US
-To:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-From:   Vicki Pfau <vi@endrift.com>
-Subject: Proposal: Add a means to disable kernel driver logic when associated
- hidraw is opened
-Cc:     Pierre-Loup Griffais <pgriffais@valvesoftware.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        Fri, 21 Apr 2023 04:34:51 -0400
+X-Greylist: delayed 310 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 21 Apr 2023 01:34:48 PDT
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 629475B8F;
+        Fri, 21 Apr 2023 01:34:48 -0700 (PDT)
+Received: from ubuntu.localdomain (unknown [106.117.98.24])
+        by mail-app4 (Coremail) with SMTP id cS_KCgCn+bFfSUJkjtmAAA--.53646S2;
+        Fri, 21 Apr 2023 16:29:28 +0800 (CST)
+From:   Duoming Zhou <duoming@zju.edu.cn>
+To:     linux-input@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linus.walleij@linaro.org,
+        dmitry.torokhov@gmail.com, Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH] Input: cyttsp4_core - change del_timer_sync() to timer_shutdown_sync()
+Date:   Fri, 21 Apr 2023 16:29:19 +0800
+Message-Id: <20230421082919.8471-1-duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: cS_KCgCn+bFfSUJkjtmAAA--.53646S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Ar17CF43AF13Ar13Kr1kAFb_yoW8tr18p3
+        y3Cr13Jw48GFWUtr17J3s7ZF95Cw15KFyUKF47Gws5Zrn3AryrAF1FyrWfGFW3JFZ8ZFn3
+        Jr4Fv3y5GF9Ykr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUka14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4U
+        JVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_GFyl
+        42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
+        WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAK
+        I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r
+        4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
+        6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUIzuXUUUUU=
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwIMAWRBVNslyAAasR
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -51,52 +53,62 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+The watchdog_timer can schedule tx_timeout_task and watchdog_work
+can also arm watchdog_timer. The process is shown below:
 
-Following up on a conversation from last year (cf. https://lore.kernel.or=
-g/linux-input/CAO-hwJLfY+D0NyCUCncrjcXETKwOBqj1CuHtB_mtGhYfKV0Bww@mail.gm=
-ail.com/) about how to approach differing opinions about how drivers shou=
-ld work between userspace and kernel, we're looking for a way to effectiv=
-ely stop the kernel from doing anything "smart" with a a HID device, e.g.=
- a hid-sony device, when the associated hidraw is opened. At the moment, =
-we have a specialized daemon that will find the mouse evdev associated wi=
-th the controller when it's created and inhibit it, but this is anything =
-but ideal and only handles the mouse itself, not the kernel logic in gene=
-ral. You can also see the hackish way this is implemented in the hid-stea=
-m driver, which uses an intermediary hid ll_driver to intercept the open =
-and close commands and stop passing data if the hidraw gets opened. I con=
-sider this implementation to be very much a hack and an anti-pattern, and=
- I think other HID implementers would agree, but I'm not sure there's a c=
-leaner way to detect this in the kernel at the moment.
+----------- timer schedules work ------------
+cyttsp4_watchdog_timer() //timer handler
+  schedule_work(&cd->watchdog_work)
 
-I see a bit of a difference of opinion as to what should be happening her=
-e between developers on our end and the kernel end. Our position is "we h=
-ave a userspace driver that does everything we want, we'd like the kernel=
- to stop trying to be smart when our driver is active", and I expect the =
-kernel developer opinion is "why should you have a userspace driver at al=
-l when our kernel driver is fine, and if it's not you can upstream patche=
-s?", so there's probably some need to find a middle ground if we want thi=
-ngs to work well for users in the end.
+----------- work arms timer ------------
+cyttsp4_watchdog_work() //workqueue callback function
+  cyttsp4_start_wd_timer()
+    mod_timer(&cd->watchdog_timer, ...)
 
-We'd previously discussed an ioctl for the hidraw, or perhaps an eBPF app=
-roach, though I think at the time of that discussion, eBPF wasn't mature =
-for the HID subsystem. I don't know the current state of that, or if it's=
- possible to do this with just write access to the hidraw device (the ide=
-al case for how we want to handle this--root is pretty much out of the qu=
-estion for an "ideal case"). Since we still don't have a good answer for =
-this, as far as I'm aware, I'd like to try to reach an approach that's am=
-icable for both sides.
+Although del_timer_sync() and cancel_work_sync() are called in
+cyttsp4_remove(), the timer and workqueue could still be rearmed.
+As a result, the possible use after free bugs could happen. The
+process is shown below:
 
-I know that the ioctl approach meant having to introduce logic for progra=
-ms in userspace, but in this specific case, and possibly others, that's a=
-ctually what we're looking for. Further, the reason root is out is becaus=
-e Steam isn't the OS (in most cases), and we want this to only happen whe=
-n Steam is running. Having to run a daemon as root underneath Steam would=
- require something like a setuid binary or custom sudo/polkit rules, whic=
-h of course need root to set up anyway. So while eBPF may fit some use ca=
-ses, e.g. full control over the system via DE or systemd, etc, it's not w=
-hat we're looking for here.
+  (cleanup routine)           |  (timer and workqueue routine)
+cyttsp4_remove()              | cyttsp4_watchdog_timer() //timer
+  cyttsp4_stop_wd_timer()     |   schedule_work()
+    del_timer_sync()          |
+                              | cyttsp4_watchdog_work() //worker
+                              |   cyttsp4_start_wd_timer()
+                              |     mod_timer()
+    cancel_work_sync()        |
+                              | cyttsp4_watchdog_timer() //timer
+                              |   schedule_work()
+    del_timer_sync()          |
+  kfree(cd) //FREE            |
+                              | cyttsp4_watchdog_work() // reschedule!
+                              |   cd-> //USE
 
-Does anyone have opinions on how to proceed from here?
+This patch changes del_timer_sync() to timer_shutdown_sync(),
+which could prevent rearming of the timer from the workqueue.
 
-Vicki
+Fixes: 17fb1563d69b ("Input: cyttsp4 - add core driver for Cypress TMA4XX touchscreen devices")
+Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+---
+ drivers/input/touchscreen/cyttsp4_core.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/input/touchscreen/cyttsp4_core.c b/drivers/input/touchscreen/cyttsp4_core.c
+index 0cd6f626ade..7cb26929dc7 100644
+--- a/drivers/input/touchscreen/cyttsp4_core.c
++++ b/drivers/input/touchscreen/cyttsp4_core.c
+@@ -1263,9 +1263,8 @@ static void cyttsp4_stop_wd_timer(struct cyttsp4 *cd)
+ 	 * Ensure we wait until the watchdog timer
+ 	 * running on a different CPU finishes
+ 	 */
+-	del_timer_sync(&cd->watchdog_timer);
++	timer_shutdown_sync(&cd->watchdog_timer);
+ 	cancel_work_sync(&cd->watchdog_work);
+-	del_timer_sync(&cd->watchdog_timer);
+ }
+ 
+ static void cyttsp4_watchdog_timer(struct timer_list *t)
+-- 
+2.17.1
+
