@@ -2,91 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F31B6EB328
-	for <lists+linux-input@lfdr.de>; Fri, 21 Apr 2023 22:55:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6F776EB7F3
+	for <lists+linux-input@lfdr.de>; Sat, 22 Apr 2023 10:09:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232925AbjDUUzo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Apr 2023 16:55:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45060 "EHLO
+        id S229554AbjDVIJQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 22 Apr 2023 04:09:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231282AbjDUUzm (ORCPT
+        with ESMTP id S229451AbjDVIJP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Apr 2023 16:55:42 -0400
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B5BA1FD8;
-        Fri, 21 Apr 2023 13:55:40 -0700 (PDT)
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6a437526b7cso2265961a34.1;
-        Fri, 21 Apr 2023 13:55:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682110539; x=1684702539;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3qSiryvYVKTt/1kFC1/HjBS+lPj08Bg2k7k8FYWUmPY=;
-        b=BciiQFPbekVkCAnmPStembT0oBOT/ap2fDNATVnLOHBJNtQb/ijTulJ3sMnXKql2Gg
-         phCrC06j7QFBNWUBSbG8Rl/Ob2c92kSr4BepVCc6wIZLDlWFxESeHrCBnMVctVN+/Y7X
-         HJtsQHJcs305j1YquS10R4fV8iq/Q+Wtn+i/wSwscWRZ2pTPlmgqH3kE6w+hq3QW/06T
-         A+J+isw4lhctTY/IXQM0tT6vHRus9bXdDjVwpZXHKXdkILhex7354zLtgAMwNtnI5I+/
-         wlcS+p4wsM17lPhcEVmi6zIORaxicQxjda7L/tRWW83LT/BTAdU3yzDOaAda+0HHGXWm
-         MZSg==
-X-Gm-Message-State: AAQBX9cl0ECESnUXtQ9915mZ5k9YB0ihIYfFng+vHq/tRLgHUYSnxGQE
-        PH/I7nxtJJL1gopOMRtbQ1Nlm+nNEQ==
-X-Google-Smtp-Source: AKy350YI7yqSFFMC7Eccl5RxhLFXnu5rQs5BiCv2qRSux2adqKdkSVoQrmTbX3B2Q53Tny4uu7rkEQ==
-X-Received: by 2002:a9d:694d:0:b0:6a1:369f:c489 with SMTP id p13-20020a9d694d000000b006a1369fc489mr3837273oto.33.1682110539435;
-        Fri, 21 Apr 2023 13:55:39 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id t4-20020a9d66c4000000b006a4244d2a7asm369406otm.9.2023.04.21.13.55.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Apr 2023 13:55:39 -0700 (PDT)
-Received: (nullmailer pid 1750988 invoked by uid 1000);
-        Fri, 21 Apr 2023 20:55:38 -0000
-Date:   Fri, 21 Apr 2023 15:55:38 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc:     Jarrah Gosbell <kernel@undef.tools>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Stephen Boyd <sboyd@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [PATCH] dt-bindings: input: touchscreen: goodix: clarify
- irq-gpios misleading text
-Message-ID: <168211053800.1750927.15213873309578673308.robh@kernel.org>
-References: <20230419171849.946986-1-luca.ceresoli@bootlin.com>
+        Sat, 22 Apr 2023 04:09:15 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C16481981;
+        Sat, 22 Apr 2023 01:09:14 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pq8Iy-0005eX-Sj; Sat, 22 Apr 2023 10:09:12 +0200
+Message-ID: <834c05ee-287d-e5bf-be07-dec0d6f4b4b4@leemhuis.info>
+Date:   Sat, 22 Apr 2023 10:09:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230419171849.946986-1-luca.ceresoli@bootlin.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [REGRESSION] Bug 217353 - Logitech MX Anywhere 3 scroll wheel
+ works incorrectly over USB dongle
+Content-Language: en-US, de-DE
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+To:     Bastien Nocera <hadess@hadess.net>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux kernel regressions list <regressions@lists.linux.dev>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>,
+          Linux regressions mailing list 
+          <regressions@lists.linux.dev>
+References: <5fa67291-98d0-c8d5-ca71-5a86b9adff41@leemhuis.info>
+In-Reply-To: <5fa67291-98d0-c8d5-ca71-5a86b9adff41@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1682150954;660c1b54;
+X-HE-SMSGID: 1pq8Iy-0005eX-Sj
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Lo!
 
-On Wed, 19 Apr 2023 19:18:49 +0200, Luca Ceresoli wrote:
-> The irq-gpios description misleading, apparently saying that driving the
-> IRQ GPIO resets the device, which is even more puzzling as there is a reset
-> GPIO as well.
+On 21.04.23 11:11, Linux regression tracking (Thorsten Leemhuis) wrote:
 > 
-> In reality the IRQ pin can be driven during the reset sequence to configure
-> the client address, as it becomes clear after checking both the datasheet
-> and the driver code. Improve the text to clarify that.
+> Bastien, from the bug report it to me sounds like it might be another
+> case caused by 908d325e166 ("HID: logitech-hidpp: Detect hi-res
+> scrolling support"), but I might be totally wrong with that (and the
+> reporter didn't even explicitly state that it's a regression, but it
+> sounds like one). If I got something wrong I apologize in advance.
 > 
-> Also rephrase to remove reference to the driver, which is not appropriate
-> in the bindings.
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> ---
->  .../devicetree/bindings/input/touchscreen/goodix.yaml         | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
+> Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=217353 :
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Ignore that mail, user in between noticed it's a userspace problem.
+Sorry for the noise.
+
+#regzbot resolved: userspace problem according to the reporter
+#regzbot ignore-activity
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
+
+
+
 
