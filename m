@@ -2,239 +2,152 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C483E6ED24D
-	for <lists+linux-input@lfdr.de>; Mon, 24 Apr 2023 18:21:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75E926ED431
+	for <lists+linux-input@lfdr.de>; Mon, 24 Apr 2023 20:15:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231713AbjDXQVg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Apr 2023 12:21:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42540 "EHLO
+        id S232270AbjDXSPv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Apr 2023 14:15:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231349AbjDXQVf (ORCPT
+        with ESMTP id S230525AbjDXSPt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Apr 2023 12:21:35 -0400
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F395E7682;
-        Mon, 24 Apr 2023 09:21:33 -0700 (PDT)
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6a5f765d595so3300907a34.0;
-        Mon, 24 Apr 2023 09:21:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682353293; x=1684945293;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        Mon, 24 Apr 2023 14:15:49 -0400
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9E2C49FF
+        for <linux-input@vger.kernel.org>; Mon, 24 Apr 2023 11:15:12 -0700 (PDT)
+Received: by mail-il1-x129.google.com with SMTP id e9e14a558f8ab-32b102ca487so40117735ab.2
+        for <linux-input@vger.kernel.org>; Mon, 24 Apr 2023 11:15:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1682360110; x=1684952110;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eoT+kdyxnJujAisWNJ4HLdKkUTicQoCAJbKRfR/et9E=;
-        b=e5pWJToy4oiqief6b+urLZMGAYFBpUFwkmZ1Ce+ug2aN129UAGXIHic3EiNn4DWkj6
-         KzGe403X5kGvsfRY3M1or+JTyq0DVWnR81OAYAL9gVb1CWYFvYxGWypxMnjffG1SIJi2
-         wYGSOm8hxVyvR0dGDSob+TWlZzle9hORCyAd0VR1Cp3PdjzMpzqDZZYa27We1SXn3Kpn
-         43x5YeH+NLXXVXbUCtEAbeIVXj1Q+1Cc4J0aDpUJsjgoCgKSG1jK7DDveoFNnD/x2Q+E
-         GVnLtVGdMPxIbD9jlPvnpXa8jNNmHmzGMtEcMp0fRAhsKUsJ9JxV2qNGYoXPtYg08cAM
-         lyBg==
-X-Gm-Message-State: AAQBX9ewOe/7UnovGan1yt7WQxJvb76V5XNVnxnQ7mn7wYBaj93fi99J
-        3p/Trb00suWqFKp4vWpYug==
-X-Google-Smtp-Source: AKy350Zgr9J+Hf+LrRv/fgTxmvbesbR5Y1r2uqr28g8Z6oSndGrMIrhWU783HCCTuEr1qv0aWly3Xg==
-X-Received: by 2002:a05:6808:310:b0:38c:5c1e:48f5 with SMTP id i16-20020a056808031000b0038c5c1e48f5mr7628321oie.2.1682353292400;
-        Mon, 24 Apr 2023 09:21:32 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id v19-20020a4ac913000000b005255e556399sm1403946ooq.43.2023.04.24.09.21.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Apr 2023 09:21:32 -0700 (PDT)
-Received: (nullmailer pid 2772491 invoked by uid 1000);
-        Mon, 24 Apr 2023 16:21:31 -0000
-Date:   Mon, 24 Apr 2023 11:21:31 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Nikita Shubin <nikita.shubin@maquefel.me>
-Cc:     Arnd Bergmann <arnd@kernel.org>, Linus Walleij <linusw@kernel.org>,
-        Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+        bh=blVk5F8wi1jpNsCC6o8Ei6j9sVKcdv4aLvP/rqf73i4=;
+        b=Hv6C9zeyJ7FAaoxMJTATINYuKa9zQsaQlTAzWbRmHNWnXWGihxKY6LHruRufkvsuzo
+         5NO1FifkUkfHDEWWJPKKBrGcCWT1Fzp+X8pDNEv5dFHzVQwfyShlotWN/zj9Vx0eJr5z
+         4Ei9KuT1drUAbMOHwRpzb8ev4T6f+o8CVRc50=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682360110; x=1684952110;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=blVk5F8wi1jpNsCC6o8Ei6j9sVKcdv4aLvP/rqf73i4=;
+        b=AiuEIf+Aln1T9kG1GMX5r7oSx6yeGzKr7TUFnZZZKI0bqpotK6gJjgoTFMYuDGAdiD
+         REgNALC6zu2tumLTbUtcxf3qoWTFBsxsq/oO+989YmH1VQMUG2nPgTnS4S3Ckn5Gnx7Y
+         eOkg2lNrOQVOkNQJcCq7beQFxooo7NUBwF+08m3jEIACuPnwWTgOsUzxw1dRndB1sevz
+         61iQFkUYdz/oE34L8B3jxr+ng6KbbT3fdHWjiypw1g+B+7nU8ijIPTN3YIoGsujtxocQ
+         HgHtOeWOr7shD7dOljx+2Ej4HKbdt1BIwx6E8M6IL3/vsnwyweHlAhtzbZWZL7g2x5xQ
+         KJ2w==
+X-Gm-Message-State: AAQBX9d4l03J79Hk9tYXz7M+B2pRnI4XHi7+bMrYq/pN3OwxMxIskHvB
+        FjZKq2lKAho2fsq7Jt9GyilMDFtbxeElBjaphyg=
+X-Google-Smtp-Source: AKy350bhZQlJwhuumFLh7pwd7RubXCIZwGMli11oMxI2bfyqRCRkLV8zzMe/LLFBNnT056qICNZ/7A==
+X-Received: by 2002:a92:2804:0:b0:32b:681d:b1e7 with SMTP id l4-20020a922804000000b0032b681db1e7mr7259441ilf.8.1682360110285;
+        Mon, 24 Apr 2023 11:15:10 -0700 (PDT)
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com. [209.85.166.179])
+        by smtp.gmail.com with ESMTPSA id m14-20020a923f0e000000b0032648a86067sm3155639ila.4.2023.04.24.11.15.08
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Apr 2023 11:15:09 -0700 (PDT)
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-329577952c5so1093285ab.1
+        for <linux-input@vger.kernel.org>; Mon, 24 Apr 2023 11:15:08 -0700 (PDT)
+X-Received: by 2002:a05:6e02:1d09:b0:32e:561d:b42d with SMTP id
+ i9-20020a056e021d0900b0032e561db42dmr34592ila.16.1682360107716; Mon, 24 Apr
+ 2023 11:15:07 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230418124953.3170028-1-fshao@chromium.org> <20230418124953.3170028-2-fshao@chromium.org>
+ <ZD8z57MBvcfExJx8@nixie71> <CAC=S1ngBt9DmBobMkQXWhqE1UUxFv2U6iFd42nT=1N7r8+pFUg@mail.gmail.com>
+ <CAD=FV=U_i26a8uJYmqYf6PUgmTUgmEB5L2DkVga0zDX_iDcGQg@mail.gmail.com>
+ <ZEAGTiGyvynGA9P1@nixie71> <CAD=FV=UB393Z1zhK54Apgr-iRcvgiK0t36jt6-t5-5zz3m8OZQ@mail.gmail.com>
+ <CAC=S1nj8VTXOovvianPWDYnsrbek0APD76SBNquFObaw8Vg4BQ@mail.gmail.com> <ZEX4BEVMf6GtvaAP@nixie71>
+In-Reply-To: <ZEX4BEVMf6GtvaAP@nixie71>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Mon, 24 Apr 2023 11:14:55 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VtrJDVB0gQp-O82V3mgU6MFVMSGrvzh0fRa7sYAt_Pqw@mail.gmail.com>
+Message-ID: <CAD=FV=VtrJDVB0gQp-O82V3mgU6MFVMSGrvzh0fRa7sYAt_Pqw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: input: goodix: Add powered-in-suspend property
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     Fei Shao <fshao@chromium.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-mediatek <linux-mediatek@lists.infradead.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 26/43] dt-bindings: input: Add DT bindings ep93xx keypad
-Message-ID: <20230424162131.GH2701399-robh@kernel.org>
-References: <20230424123522.18302-1-nikita.shubin@maquefel.me>
- <20230424123522.18302-27-nikita.shubin@maquefel.me>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230424123522.18302-27-nikita.shubin@maquefel.me>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Apr 24, 2023 at 03:34:42PM +0300, Nikita Shubin wrote:
-> Add YAML bindings ep93xx SoC.
-> 
-> Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
-> ---
-> 
-> Notes:
->     Linus Walleij:
->     - replaced hex with proper <KEY_UP>, etc
-> 
->  .../bindings/input/cirrus,ep93xx-keypad.yaml  | 123 ++++++++++++++++++
->  1 file changed, 123 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/cirrus,ep93xx-keypad.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/cirrus,ep93xx-keypad.yaml b/Documentation/devicetree/bindings/input/cirrus,ep93xx-keypad.yaml
-> new file mode 100644
-> index 000000000000..0310114de22e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/cirrus,ep93xx-keypad.yaml
-> @@ -0,0 +1,123 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/cirrus,ep93xx-keypad.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cirrus ep93xx keypad
-> +
-> +maintainers:
-> +  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> +  - Alexander Sverdlin <alexander.sverdlin@gmail.com>
-> +
-> +allOf:
-> +  - $ref: "/schemas/input/matrix-keymap.yaml#"
+Hi,
 
-Drop quotes.
+On Sun, Apr 23, 2023 at 8:31=E2=80=AFPM Jeff LaBundy <jeff@labundy.com> wro=
+te:
+>
+> Back-powering can come in two forms:
+>
+> 1. The one you've described, which is by far the most common. As you ment=
+ion,
+> it is not the case here since the issue happens only when we drive the GP=
+IO
+> low and not high.
+>
+> 2. Through a forbidden power supply sequence, an input pin of an IC with
+> multiple power supplies becomes a weak power supply itself. Grounding the
+> GPIO then sinks current into the SoC.
+>
+> This problem smelled like (2), especially since asserting the GPIO or pow=
+ering
+> down the supply alleviates the symptom. Most Goodix controllers I've work=
+ed
+> with have two or more supplies, and the datasheet requires them to be ena=
+bled
+> or disabled in a specific order.
+>
+> Based on Fei's feedback, however, this IC does not seem to be one of thos=
+e
+> since there is reportedly only a single rail. I guess either vdd or vddio=
+ is
+> tied to a dummy regulator? If so, then perhaps we can scratch this theory=
+.
 
-> +
-> +description: |
-> +  The KPP is designed to interface with a keypad matrix with 2-point contact
-> +  or 3-point contact keys. The KPP is designed to simplify the software task
-> +  of scanning a keypad matrix. The KPP is capable of detecting, debouncing,
-> +  and decoding one or multiple keys pressed simultaneously on a keypad.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - cirrus,ep9301-keypad
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    enum:
-> +      - ep93xx-keypad
-> +
-> +  debounce:
+There is one rail provided from the main board, but there can be two
+voltage levels involved depending on stuffings on the touchscreen
+itself. I talked a bit about this in commit 1d18c1f3b7d9
+("dt-bindings: HID: i2c-hid: goodix: Add mainboard-vddio-supply").
 
-I think we have a common property for this.
 
-> +    description: |
-> +          Time in microseconds that key must be pressed or
-> +          released for state change interrupt to trigger.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +  prescale:
-> +    description: row/column counter pre-scaler load value
-> +    $ref: /schemas/types.yaml#/definitions/uint32
+> Fair enough, I was simply sketpical that this was the _right_ workaround.
+> Were this an issue of only supply A left on yet the IC datasheet requires
+> supply B to remain on if supply A is on, I would rather see this solved b=
+y
+> updating a regulator dts node, trusted FW sequence, etc.
 
-constraints? Or 0-2^32 is valid?
+Right. That type of stuff was looked at in detail by two separate
+teams, so I don't think this is the issue.
 
-> +
-> +  clk-rate:
 
-No, have standard bindings for this.
+> Thanks for your due diligence; if this really is a silicon issue, then
+> the driver should indeed accommodate it.
+>
+> That being said, the name 'powered-in-suspend' seems a bit conflated. We
+> should not be duplicating regulator policy in this driver; the existing
+> naming also may cause confusion for other HW configurations that do leave
+> vdd and vddio on during suspend, but don't have this problem.
+>
+> Here, we actually mean to control the behavior of the reset GPIO through
+> suspend and therefore something like 'goodix,no-reset-during-suspend' is
+> closer to what I understand us to intend to do. I will add more details
+> in patch [2/2].
 
-> +    description: clock rate setting
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +  disable-3-key:
+I'd be fine with that name. ...ah, and adding the "goodix," prefix is
+a good call.
 
-Needs a vendor prefix.
-
-> +    type: boolean
-> +    description:
-> +      Disable 3 Key reset. Setting this disables the three key reset
-> +      output to the watchdog reset block.
-> +
-> +  diag-mode:
-
-Why do we need this in DT. Shouldn't this be a runtime setting.
-
-> +    type: boolean
-> +    description:
-> +      Key scan diagnostic mode. Setting this allows key scanning to be
-> +      directly controlled through the key register by writes from the
-> +      ARM Core.
-> +
-> +  back-drive:
-
-Needs a vendor prefix.
-
-> +    type: boolean
-> +    description:
-> +      Key scan back driving enable. Setting this enables the key
-> +      scanning logic to back drive the row and column pins of the
-> +      chip high during the first two column counts in the
-> +      row/column counter.
-> +
-> +  test-mode:
-
-Why do we need this in DT. Shouldn't this be a runtime setting.
-
-> +    type: boolean
-> +    description:
-> +      Test mode. When this is set, the counter RC_COUNT is advanced
-> +      by 8 counts when EN is active. The effect is that only column 0
-> +      is checked in each row. This test mode allows a faster test
-> +      of the ROW pins.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - linux,keymap
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/cirrus,ep93xx-clock.h>
-> +    #include <dt-bindings/input/input.h>
-> +    keypad@800f0000 {
-> +        compatible = "cirrus,ep9301-keypad";
-> +        reg = <0x800f0000 0x0c>;
-> +        interrupt-parent = <&vic0>;
-> +        interrupts = <29>;
-> +        clocks = <&syscon EP93XX_CLK_KEYPAD>;
-> +        clock-names = "ep93xx-keypad";
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&keypad_default_pins>;
-> +        linux,keymap = <KEY_UP>,
-> +                       <KEY_DOWN>,
-> +                       <KEY_VOLUMEDOWN>,
-> +                       <KEY_HOME>,
-> +                       <KEY_RIGHT>,
-> +                       <KEY_LEFT>,
-> +                       <KEY_ENTER>,
-> +                       <KEY_VOLUMEUP>,
-> +                       <KEY_F6>,
-> +                       <KEY_F8>,
-> +                       <KEY_F9>,
-> +                       <KEY_F10>,
-> +                       <KEY_F1>,
-> +                       <KEY_F2>,
-> +                       <KEY_F3>,
-> +                       <KEY_POWER>;
-> +    };
-> +
-> -- 
-> 2.39.2
-> 
+-Doug
