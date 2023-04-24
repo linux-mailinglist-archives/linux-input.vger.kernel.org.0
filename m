@@ -2,51 +2,51 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 775896ECA43
-	for <lists+linux-input@lfdr.de>; Mon, 24 Apr 2023 12:22:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD3396ECA18
+	for <lists+linux-input@lfdr.de>; Mon, 24 Apr 2023 12:20:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231842AbjDXKWu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Apr 2023 06:22:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46540 "EHLO
+        id S231667AbjDXKUq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Apr 2023 06:20:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231791AbjDXKVy (ORCPT
+        with ESMTP id S231608AbjDXKUn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Apr 2023 06:21:54 -0400
-Received: from forward502b.mail.yandex.net (forward502b.mail.yandex.net [IPv6:2a02:6b8:c02:900:1:45:d181:d502])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B91B540DC;
-        Mon, 24 Apr 2023 03:20:54 -0700 (PDT)
+        Mon, 24 Apr 2023 06:20:43 -0400
+Received: from forward501c.mail.yandex.net (forward501c.mail.yandex.net [178.154.239.209])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B6B71BE6
+        for <linux-input@vger.kernel.org>; Mon, 24 Apr 2023 03:20:42 -0700 (PDT)
 Received: from mail-nwsmtp-smtp-production-main-39.myt.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-39.myt.yp-c.yandex.net [IPv6:2a02:6b8:c12:261e:0:640:2e3d:0])
-        by forward502b.mail.yandex.net (Yandex) with ESMTP id C6FE65EC79;
-        Mon, 24 Apr 2023 12:36:01 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-39.myt.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id JZBb1pbWwKo0-0eocMuTW;
-        Mon, 24 Apr 2023 12:36:01 +0300
+        by forward501c.mail.yandex.net (Yandex) with ESMTP id 3F6505EEE7;
+        Mon, 24 Apr 2023 12:36:11 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-39.myt.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id JZBb1pbWwKo0-uIzrV9z0;
+        Mon, 24 Apr 2023 12:36:10 +0300
 X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maquefel.me; s=mail; t=1682328961;
-        bh=lZRbxaS0xiq44T/zESI4eXsgKm1tQjdSQS2qMC8kcOI=;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maquefel.me; s=mail; t=1682328970;
+        bh=ILW7HQf2U6XIRRdddf7sXhZXt2NIlcnnFnvadaw+a9k=;
         h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
-        b=VdZETi2KvvQVolaU2tPAozmUDXDxbWuIqXQuqwLYYAVRFgPXhBOcgRFd8tqDq9W6E
-         38AA8AadndV18s2PlZ9Q1ZT0aMqB0D1a7uu9SoAg4ra7qe0fC05mzGKp0hTXP3aKUr
-         186NKY8klPejc8zFQ71UM9OHh33ulANePgB6ArZM=
+        b=j5UN+nR4GxEPvjO303ZhccRQk/FFjdl6xNS8wrHhKOIAVHUoBwMU6Gx7cYyymH9yq
+         hJqGkbWtQthzZTOLoCE75g/B4AUQtHYHOGc2luGeBAkiA/wps5ntf+0E7BNwgrmBRG
+         uNmRACHMKjVHOO0DJo3RxdCYjDOByFIfLZp0PMG0=
 Authentication-Results: mail-nwsmtp-smtp-production-main-39.myt.yp-c.yandex.net; dkim=pass header.i=@maquefel.me
 From:   Nikita Shubin <nikita.shubin@maquefel.me>
 Cc:     Arnd Bergmann <arnd@kernel.org>, Linus Walleij <linusw@kernel.org>,
         Alexander Sverdlin <alexander.sverdlin@gmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         Lv Ruyi <lv.ruyi@zte.com.cn>, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 27/43] input: keypad: ep93xx: add DT support for Cirrus EP93xx
-Date:   Mon, 24 Apr 2023 15:34:43 +0300
-Message-Id: <20230424123522.18302-28-nikita.shubin@maquefel.me>
+Subject: [PATCH 37/43] input: keypad: ep93xx: drop legacy pinctrl
+Date:   Mon, 24 Apr 2023 15:34:53 +0300
+Message-Id: <20230424123522.18302-38-nikita.shubin@maquefel.me>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230424123522.18302-1-nikita.shubin@maquefel.me>
 References: <20230424123522.18302-1-nikita.shubin@maquefel.me>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,52 +55,48 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-- get keymap from the device tree
-- find register range from the device tree
-- get interrupts from device tree
+Drop legacy acquire/release since we are using
+pinctrl for this now.
 
 Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
 ---
-
-Notes:
-    Arnd Bergmann:
-    - wildcards ep93xx to something meaningful, i.e. ep9301
-    - drop wrappers
-
- drivers/input/keyboard/ep93xx_keypad.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/input/keyboard/ep93xx_keypad.c | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
 diff --git a/drivers/input/keyboard/ep93xx_keypad.c b/drivers/input/keyboard/ep93xx_keypad.c
-index 55075addcac2..bf77754fa4c7 100644
+index bf77754fa4c7..a5f5d7d453e7 100644
 --- a/drivers/input/keyboard/ep93xx_keypad.c
 +++ b/drivers/input/keyboard/ep93xx_keypad.c
-@@ -20,6 +20,8 @@
- #include <linux/bits.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-+#include <linux/of.h>
-+#include <linux/of_platform.h>
- #include <linux/interrupt.h>
- #include <linux/clk.h>
- #include <linux/io.h>
-@@ -315,10 +317,17 @@ static int ep93xx_keypad_remove(struct platform_device *pdev)
- 	return 0;
- }
+@@ -222,13 +222,6 @@ static int ep93xx_keypad_resume(struct device *dev)
+ static DEFINE_SIMPLE_DEV_PM_OPS(ep93xx_keypad_pm_ops,
+ 				ep93xx_keypad_suspend, ep93xx_keypad_resume);
  
-+static const struct of_device_id ep93xx_keypad_of_ids[] = {
-+	{ .compatible = "cirrus,ep9301-keypad" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, ep93xx_keypad_of_ids);
-+
- static struct platform_driver ep93xx_keypad_driver = {
- 	.driver		= {
- 		.name	= "ep93xx-keypad",
- 		.pm	= pm_sleep_ptr(&ep93xx_keypad_pm_ops),
-+		.of_match_table = ep93xx_keypad_of_ids,
- 	},
- 	.probe		= ep93xx_keypad_probe,
- 	.remove		= ep93xx_keypad_remove,
+-static void ep93xx_keypad_release_gpio_action(void *_pdev)
+-{
+-	struct platform_device *pdev = _pdev;
+-
+-	ep93xx_keypad_release_gpio(pdev);
+-}
+-
+ static int ep93xx_keypad_probe(struct platform_device *pdev)
+ {
+ 	struct ep93xx_keypad *keypad;
+@@ -256,15 +249,6 @@ static int ep93xx_keypad_probe(struct platform_device *pdev)
+ 	if (IS_ERR(keypad->mmio_base))
+ 		return PTR_ERR(keypad->mmio_base);
+ 
+-	err = ep93xx_keypad_acquire_gpio(pdev);
+-	if (err)
+-		return err;
+-
+-	err = devm_add_action_or_reset(&pdev->dev,
+-				       ep93xx_keypad_release_gpio_action, pdev);
+-	if (err)
+-		return err;
+-
+ 	keypad->clk = devm_clk_get(&pdev->dev, NULL);
+ 	if (IS_ERR(keypad->clk))
+ 		return PTR_ERR(keypad->clk);
 -- 
 2.39.2
 
