@@ -2,77 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB0046ED43C
-	for <lists+linux-input@lfdr.de>; Mon, 24 Apr 2023 20:17:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6C9C6ED51C
+	for <lists+linux-input@lfdr.de>; Mon, 24 Apr 2023 21:11:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231418AbjDXSRH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Apr 2023 14:17:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55354 "EHLO
+        id S231993AbjDXTLn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Apr 2023 15:11:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231371AbjDXSRG (ORCPT
+        with ESMTP id S231137AbjDXTLn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Apr 2023 14:17:06 -0400
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20476900C
-        for <linux-input@vger.kernel.org>; Mon, 24 Apr 2023 11:16:24 -0700 (PDT)
-Received: by mail-il1-x135.google.com with SMTP id e9e14a558f8ab-32adf94ac1bso13423885ab.0
-        for <linux-input@vger.kernel.org>; Mon, 24 Apr 2023 11:16:24 -0700 (PDT)
+        Mon, 24 Apr 2023 15:11:43 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F15941B1
+        for <linux-input@vger.kernel.org>; Mon, 24 Apr 2023 12:11:40 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-4eff4ea8e39so1125065e87.1
+        for <linux-input@vger.kernel.org>; Mon, 24 Apr 2023 12:11:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1682360183; x=1684952183;
+        d=chromium.org; s=google; t=1682363499; x=1684955499;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=j798mRgzagav4OXiZ0yBmBHNPfVDqUqZ2VrQzSezYUw=;
-        b=G9KdJUHkkTe/bsKhq9J+4u0KFgFeFlCihRF4Y4sDSojvSCKNKBYWjVPGn4hUv2QAOt
-         HaEbHGEhDVK4SDeNjFnDo4iuM5w1pYk3ZsnS4tlp2M53c7dzr6a51F2A4gQB+IgzDSyF
-         0UtGy+7aTo2bjwqw63zoPf4pyKYVWE3MBtywk=
+        bh=wD0Di0Fitz4uA3U0bu+BQKjY/3OPz9pKNYaL+s8xOn4=;
+        b=k3h4nmc9zu55vmz/rg9Y1zsKjvuC8usHDIY4bIQxfljinV4PtyASFpMUJ4Xhr9uh66
+         p7Z8M344IP9e1DpyLBq1fKwuiBYIXY8Lt+szKOmoxieYTrd8Rhh07QIGGZgu3WvMfG9V
+         gIwLbtE32yv3MIkupiFUIxYxKTx7RsgUOpUlc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682360183; x=1684952183;
+        d=1e100.net; s=20221208; t=1682363499; x=1684955499;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=j798mRgzagav4OXiZ0yBmBHNPfVDqUqZ2VrQzSezYUw=;
-        b=iC5N2Bg4EGQlPBYcomoBpwtv9KIxWUwv3Zs3gi9fNB2rz70M10h27rEK2kTgGcGuby
-         rlULrJJ/NnxZms0ilDCirOkOZuuUcAjAy8lDWBVLuifJvRBvz5PV5zpAgL81pCfLl7qU
-         vbkXoUchOxDwLPcyWOVmvf2bskiqCpVLUaG6Udfk5TZ7K9nVdX0lvk2elnTTh+/YjhIi
-         Ot0+O+dVXGPSphe9WdofmNprFW/ML/piEbPUcz080BDW9Y+tMWQhtOUaJY5wLGKdq216
-         BD3BLil8OBoWthfVHro3HTLbAB0gcyJ8KpccBTfvOkFm8c25aDlA/2QWF05h/Z/cqMYs
-         mKKg==
-X-Gm-Message-State: AAQBX9fMBWlak/jx6NhG8IZ/Ma7ouT+SyXQ03w2pm41IWqNK03p7/nWf
-        pfCA0/10zGjFa02PyqmwauiXvIbzw6veCB+nIOc=
-X-Google-Smtp-Source: AKy350ZsqNA8IEjC3UCv2JM6pRoiUtq2jCAyCTDT7Hd8NXmZfh8drzTznaYrtyIm9pY4ZeXb6MLrQQ==
-X-Received: by 2002:a05:6e02:60e:b0:32a:bc1d:5417 with SMTP id t14-20020a056e02060e00b0032abc1d5417mr6482705ils.12.1682360182800;
-        Mon, 24 Apr 2023 11:16:22 -0700 (PDT)
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com. [209.85.166.176])
-        by smtp.gmail.com with ESMTPSA id cs19-20020a056638471300b0040f9c1c1461sm3558189jab.48.2023.04.24.11.16.21
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Apr 2023 11:16:22 -0700 (PDT)
-Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-325f728402cso1100275ab.1
-        for <linux-input@vger.kernel.org>; Mon, 24 Apr 2023 11:16:21 -0700 (PDT)
-X-Received: by 2002:a05:6e02:1b83:b0:32a:f2a9:d1b7 with SMTP id
- h3-20020a056e021b8300b0032af2a9d1b7mr19498ili.10.1682360181408; Mon, 24 Apr
- 2023 11:16:21 -0700 (PDT)
+        bh=wD0Di0Fitz4uA3U0bu+BQKjY/3OPz9pKNYaL+s8xOn4=;
+        b=ZW38p/tBxbtUfQFI/OwHi2fGifnTmdD14EdSubWD7/D8cF3QSBJ0aeEvKfHQeouOQC
+         gEqACzbzOfYnh2trjNANC/HW6SlSFD62OBjp61Q0Z112PPPkiFq9O1KHMXp+FvU0tSZB
+         Q+b4FKBaTwRCO9wnZg5GvVOacxN4gXVTjEO93mE+fzSFIIkDf/7r/uJheUIyRJ0pv7qc
+         FSKS/LBx8DrcT6I7FQAGFcn08UkmP4lccyP3o39HB66JTgRdPlQUNW6FaLKAfimjmQzu
+         8J2dhKq85iQ/0d92AgfH7rPB60w7oEbnQF/NStSDj+XNlbQk2kcZuCLLhfNwpH8f4xyx
+         mzfg==
+X-Gm-Message-State: AAQBX9dnCMjfJmCpvWHcx+S4v5t3wCgx17q+QBcg7Das6s9523paTLRq
+        cU6aIvIDn1Eb5BIXxLcIq/wPpVXB49J8C+bnAQUdNw==
+X-Google-Smtp-Source: AKy350YQIW7VVLVLVr9A6il9z434/BheTBBSm4idTXqokyJ5uGRdnFKUUfzhamKa6zz53OpZDMtbtFYDlYvH6S7nefw=
+X-Received: by 2002:a19:f509:0:b0:4dd:a73f:aede with SMTP id
+ j9-20020a19f509000000b004dda73faedemr3102210lfb.10.1682363499182; Mon, 24 Apr
+ 2023 12:11:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230418124953.3170028-1-fshao@chromium.org> <20230418124953.3170028-3-fshao@chromium.org>
- <ZEX5tc2LSZoVswc2@nixie71>
-In-Reply-To: <ZEX5tc2LSZoVswc2@nixie71>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Mon, 24 Apr 2023 11:16:10 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XnrSskS=0UKRGGPBxSnPYQtUkJeoBm44bDnwKVBHJLyA@mail.gmail.com>
-Message-ID: <CAD=FV=XnrSskS=0UKRGGPBxSnPYQtUkJeoBm44bDnwKVBHJLyA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] HID: i2c-hid: goodix: Add support for
- powered-in-suspend property
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     Fei Shao <fshao@chromium.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-mediatek <linux-mediatek@lists.infradead.org>,
+References: <063c8f77c216ffac463532023009124542d54c19.camel@redhat.com>
+ <20230414092353.v2.1.Ieb687047a5b75c7b7ee5dd258207ef5ca9a3b728@changeid>
+ <CALNJtpXLHHSV8YshUnk0opLNMUJpT7DgBNRYXoP2Yn-fnA8vPA@mail.gmail.com>
+ <CALNJtpV4WsknSSfBBer-MM0y_V=O5Fv2Lc3ei3heEyZwvR2rzQ@mail.gmail.com> <65C23A49-5A55-4CF4-9AFD-2DA504DAABF5@duggan.us>
+In-Reply-To: <65C23A49-5A55-4CF4-9AFD-2DA504DAABF5@duggan.us>
+From:   Jonathan Denose <jdenose@chromium.org>
+Date:   Mon, 24 Apr 2023 14:11:28 -0500
+Message-ID: <CALNJtpWOPRB3-0Jw+GJt_D-vjEhbhDRw-Kb3boC0dOU+525fFQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Input: synaptics - disable intertouch for Lenovo L440
+To:     Andrew Duggan <andrew@duggan.us>
+Cc:     Lyude Paul <lyude@redhat.com>,
+        Andrew Duggan <aduggan@synaptics.com>,
+        "amandhoot12@gmail.com" <amandhoot12@gmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Stephen Kitt <steve@sk2.org>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        "jdenose@google.com" <jdenose@google.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "markpearson@lenovo.com" <markpearson@lenovo.com>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        benjamin.tissoires@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -85,64 +77,158 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Andrew,
 
-On Sun, Apr 23, 2023 at 8:38=E2=80=AFPM Jeff LaBundy <jeff@labundy.com> wro=
-te:
+Thanks for your reply. As an update, I was able to try the patch here:
+https://lore.kernel.org/all/YgHTYrODoo2ou49J@google.com/ and it
+resolves the suspend/resume issue on this device. I'm not sure what
+the status of the linked patch is, to me it doesn't look like it was
+merged anywhere.
+
+On Mon, Apr 17, 2023 at 3:14=E2=80=AFPM Andrew Duggan <andrew@duggan.us> wr=
+ote:
 >
-> > @@ -37,13 +38,34 @@ static int goodix_i2c_hid_power_up(struct i2chid_op=
-s *ops)
-> >               container_of(ops, struct i2c_hid_of_goodix, ops);
-> >       int ret;
+> Hi Lyude and Jonathan,
+>
+> I was just about to reply and suggest that we look into this issue a litt=
+le more since the touchpad in the L440 would benefit from the additional da=
+ta from the intertouch interface. Especially, since it has a large area and=
+ several buttons. PS/2 only reports position data for two fingers so three =
+finger gestures is another example.
+>
+> Generally, these types of suspend / resume issues are the result of the t=
+ouchpad resetting and the firmware expecting commands from the PS/2 interfa=
+ce. On resume, the PS/2 driver should send a command over the PS/2 interfac=
+e to switch the touchpad firmware back into intertouch (SMBus) mode. The lo=
+gs you provided look like that's what is happening here. The SMBus driver i=
+s sending commands, but the touchpad firmware won't respond until it is swi=
+tch back into intertouch mode. It has been a while since I have worked on t=
+hese touchpads, but from what I remember I think there is code in the psmou=
+se-smbus driver to handle these situations. I added Benjamin Tissoires to C=
+C since I think he worked on that handling. I thought suspend / resume was =
+tested on with these "top button" touchpads when support for them was added=
+. I don't know if the L440 specifically included in the testing. I'm curiou=
+s if this is a regression or not.
+>
+> Regarding the patch, I do have one comment below:
+>
+> > On Apr 17, 2023, at 11:52, Jonathan Denose <jdenose@chromium.org> wrote=
+:
 > >
-> > -     ret =3D regulator_enable(ihid_goodix->vdd);
-> > -     if (ret)
-> > -             return ret;
-> > -
-> > -     ret =3D regulator_enable(ihid_goodix->vddio);
-> > -     if (ret)
-> > -             return ret;
-> > +     /*
-> > +      * This is to ensure that the reset GPIO will be asserted and the
-> > +      * regulators will be enabled for all cases.
-> > +      */
-> > +     if (ihid_goodix->powered_in_suspend) {
-> > +             /*
-> > +              * This is not mandatory, but we assert reset here (inste=
-ad of
-> > +              * in power-down) to ensure that the device will have a c=
-lean
-> > +              * state later on just like the normal scenarios would ha=
-ve.
-> > +              *
-> > +              * Also, since the regulators were not disabled in power-=
-down,
-> > +              * we don't need to enable them here.
-> > +              */
-> > +             gpiod_set_value_cansleep(ihid_goodix->reset_gpio, 1);
-> > +     } else {
-> > +             /*
-> > +              * In this case, the reset is already asserted (either in
-> > +              * probe or power-down).
-> > +              * All we need is to enable the regulators.
-> > +              */
-> > +             ret =3D regulator_enable(ihid_goodix->vdd);
-> > +             if (ret)
-> > +                     return ret;
-> > +
-> > +             ret =3D regulator_enable(ihid_goodix->vddio);
-> > +             if (ret)
-> > +                     return ret;
-> > +     }
+> > CAUTION: Email originated externally, do not click links or open attach=
+ments unless you recognize the sender and know the content is safe.
+> >
+> >
+> > Sorry, I thought I sent this as plain text but I think maybe not.
+> > Trying once more, the message was:
+> >
+> > I think that disabling synaptics_intertouch would resolve the issue
+> > mentioned in the commit, but cause a regression in the functionality
+> > that intertouch is supposed to bring, like three-finger gestures. I'm
+> > attaching some of the logs that I captured when the touchpad was
+> > failing on resume. I think the main culprit is
+> > i2c_smbus_read_byte_data where the driver is unable to get the SMBus
+> > version number. I get the following lines in dmesg:
+> >
+> > [ 2869.745860] rmi4_smbus 0-002c: failed to get SMBus version number!
+> > [ 2869.746060] rmi4_physical rmi4-00: rmi_driver_reset_handler: Failed
+> > to read current IRQ mask.
+> > [ 2869.746260] rmi4_f01 rmi4-00.fn01: Failed to restore normal operatio=
+n: -6.
+> > [ 2869.746262] rmi4_f01 rmi4-00.fn01: Resume failed with code -6.
+> > [ 2869.746264] rmi4_physical rmi4-00: Failed to suspend functions: -6
+> > [ 2869.746265] rmi4_smbus 0-002c: Failed to resume device: -6
+> > [ 2869.746268] rmi4_smbus 0-002c: rmi_smb_resume+0x0/0x6b [rmi_smbus]
+> > returned 0 after 549 usecs
+> > [ 2869.746446] rmi4_physical rmi4-00: Failed to read irqs, code=3D-6
+> >
+> > Any ideas on what might be causing this, only on resume from deep sleep=
+?
+> >
+> >
+> > On Mon, Apr 17, 2023 at 1:47=E2=80=AFPM Jonathan Denose <jdenose@chromi=
+um.org> wrote:
+> >>
+> >> I think that disabling synaptics_intertouch would resolve the issue me=
+ntioned in the commit, but cause a regression in the functionality that int=
+ertouch is supposed to bring, like three-finger gestures. I'm attaching som=
+e of the logs that I captured when the touchpad was failing on resume. I th=
+ink the main culprit is i2c_smbus_read_byte_data where the driver is unable=
+ to get the SMBus version number. I get the following lines in dmesg:
+> >>
+> >> [ 2869.745860] rmi4_smbus 0-002c: failed to get SMBus version number!
+> >> [ 2869.746060] rmi4_physical rmi4-00: rmi_driver_reset_handler: Failed=
+ to read current IRQ mask.
+> >> [ 2869.746260] rmi4_f01 rmi4-00.fn01: Failed to restore normal operati=
+on: -6.
+> >> [ 2869.746262] rmi4_f01 rmi4-00.fn01: Resume failed with code -6.
+> >> [ 2869.746264] rmi4_physical rmi4-00: Failed to suspend functions: -6
+> >> [ 2869.746265] rmi4_smbus 0-002c: Failed to resume device: -6
+> >> [ 2869.746268] rmi4_smbus 0-002c: rmi_smb_resume+0x0/0x6b [rmi_smbus] =
+returned 0 after 549 usecs
+> >> [ 2869.746446] rmi4_physical rmi4-00: Failed to read irqs, code=3D-6
+> >>
+> >> Any ideas on what might be causing this, only on resume from deep slee=
+p?
+> >>
+> >>
+> >> On Fri, Apr 14, 2023 at 11:41=E2=80=AFAM Jonathan Denose <jdenose@chro=
+mium.org> wrote:
+> >>>
+> >>> When intertouch is enabled for the L440 a (deep)sleep/resume
+> >>> cycle causes the touchpad driver to hang which causes the
+> >>> touchpad to become unresponsive. Disable intertouch resolves
+> >>> this issue and the touchpad is fine after resume from sleep.
+> >>>
+> >>> Additionally, when the PNP id for the L440 is only removed
+> >>> from the topbuttonpad_pnp_ids list, a message is logged to
+> >>> enable psmouse.synaptics_intertouch, which would cause the
+> >>> sleep/resume issue again. By removing the PNP id from
+> >>> topbutton_pnp_ids and then adding it to the
+> >>> forcepad_pnp_ids array, intertouch is disabled and the
+> >>> message is not logged.
+> >>>
+> >>> Signed-off-by: Jonathan Denose <jdenose@google.com>
+> >>> ---
+> >>>
+> >>> Changes in v2:
+> >>> - remove debug statement
+> >>>
+> >>> drivers/input/mouse/synaptics.c | 2 +-
+> >>> 1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/sy=
+naptics.c
+> >>> index fa021af8506e4..b7218b7652c20 100644
+> >>> --- a/drivers/input/mouse/synaptics.c
+> >>> +++ b/drivers/input/mouse/synaptics.c
+> >>> @@ -150,7 +150,6 @@ static const char * const topbuttonpad_pnp_ids[] =
+=3D {
+> >>>        "LEN2001", /* Edge E431 */
+> >>>        "LEN2002", /* Edge E531 */
+> >>>        "LEN2003",
+> >>> -       "LEN2004", /* L440 */
+> >>>        "LEN2005",
+> >>>        "LEN2006", /* Edge E440/E540 */
+> >>>        "LEN2007",
+> >>> @@ -198,6 +197,7 @@ static const char * const smbus_pnp_ids[] =3D {
+> >>> static const char * const forcepad_pnp_ids[] =3D {
+> >>>        "SYN300D",
+> >>>        "SYN3014",
+> >>> +       "LEN2004", /* L440 */
 >
-> Please let me know in case I have misunderstood, but I don't see a need
-> to change the regulator_enable/disable() logic if this property is set.
-> If the regulators are truly always-on, the regulator core already knows
-> what to do and we should not duplicate that logic here.
+> While this does seem to elliminate the message, the touchpad in the L440 =
+is not a forcepad. Adding the L440 PnP ID here implies that it is one of th=
+ese special forcepads which reports "force" data for contacts and that is n=
+ot the case here.
 >
-> Based on the alleged silicon erratum discussed in patch [1/2], it seems
-> we only want to control the behavior of the reset GPIO. Therefore, only
-> the calls to gpiod_set_value_cansleep() should be affected and the name
-> of the property updated to reflect what it's actually doing.
-
-This would be OK w/ me.
+> >>>        NULL
+> >>> };
+> >>>
+> >>> =E2=80=94
+> >>> 2.39.2
+> >>>
+>
+>
+> Andrew
+>
