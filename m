@@ -2,161 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5D3C6EDE4B
-	for <lists+linux-input@lfdr.de>; Tue, 25 Apr 2023 10:40:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 487A76EDE9F
+	for <lists+linux-input@lfdr.de>; Tue, 25 Apr 2023 11:01:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233595AbjDYIkc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 Apr 2023 04:40:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57568 "EHLO
+        id S233081AbjDYJBG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 Apr 2023 05:01:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234065AbjDYIkJ (ORCPT
+        with ESMTP id S229927AbjDYJBF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Apr 2023 04:40:09 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49D0114F5E
-        for <linux-input@vger.kernel.org>; Tue, 25 Apr 2023 01:38:21 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-94a39f6e8caso1019657066b.0
-        for <linux-input@vger.kernel.org>; Tue, 25 Apr 2023 01:38:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1682411849; x=1685003849;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=35rY/v6zf6GtIET4fBOnZv9nYjXqazObgmroXAHCvWo=;
-        b=IbFEWZMaLeo9gL3Fnhqb/dfjJleRavs7Fbz2ayDxgLNZt9F9InIHDPhZC1yvBMjiDl
-         dltpobCqtqSb3dW9KRXtTNjS2wIKjtP0AxhXcw0TIbPB8SNsk1cnMZTdy5lCjVeA5wzF
-         ofwXDEBMMurgbOq8Xk2aznBDOGJElJ8pHwmlk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682411849; x=1685003849;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=35rY/v6zf6GtIET4fBOnZv9nYjXqazObgmroXAHCvWo=;
-        b=h1TTd6PzPjko7Ynu2Qw1zEA86ra1UnOCqXuRv+yp/+iZfwvIgbncs/no7rxcsBvVYS
-         FEgAOgxyTRhYnhwhfoV/E+VVvYFRwMhAHCU7Wt6LtWvfuajRiFJAqyfjbZE5hmEVPB4i
-         0nvPLa/8Tbtjmt4hXBFNhu5wNBZXDyvSAXKvvFJ13mUdy36cICQK5Ssxk1NtRbEHtRVf
-         1XytWoW3JdZlX13CRB2eMz3iImcoJvjgg9ow/Sx9+6T3rxFMIdVHFvsanssa14QxCiy2
-         WIzRhlxryqJEPZqMmUJnoBKLwzR0aOeSO4QlI7evbIQ6vqrr5DfW4thMpBBVRTeNWcQh
-         dR0A==
-X-Gm-Message-State: AAQBX9ejTnjFV/y6+xa4B4vkDBMxV0jPS2c7ZPcKT8o29ZwDRj/pDDeS
-        TdgjLT24u1Xa/QRDWd282eoEWlhLVlgKZ3j1BUJT7A==
-X-Google-Smtp-Source: AKy350bZg2TjcgKPDKTV3V+BMLzX85khGqt6RtCxR09uvde6TMUun2ZUpWYx5EK3GtQLZJtKBxmu1A==
-X-Received: by 2002:a17:906:2457:b0:94f:5d1b:d33a with SMTP id a23-20020a170906245700b0094f5d1bd33amr11491236ejb.40.1682411849580;
-        Tue, 25 Apr 2023 01:37:29 -0700 (PDT)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com. [209.85.221.42])
-        by smtp.gmail.com with ESMTPSA id 28-20020a170906225c00b0094ee88207d5sm6434163ejr.191.2023.04.25.01.37.28
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Apr 2023 01:37:28 -0700 (PDT)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-2f7a7f9667bso3288909f8f.1
-        for <linux-input@vger.kernel.org>; Tue, 25 Apr 2023 01:37:28 -0700 (PDT)
-X-Received: by 2002:adf:d091:0:b0:2f9:338:743d with SMTP id
- y17-20020adfd091000000b002f90338743dmr9864217wrh.23.1682411847907; Tue, 25
- Apr 2023 01:37:27 -0700 (PDT)
+        Tue, 25 Apr 2023 05:01:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63F58185
+        for <linux-input@vger.kernel.org>; Tue, 25 Apr 2023 02:00:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1682413219;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Usnm6DnohrX9DxOgO3R9HbvGNuxt4ihVRNuuRqzRJ7g=;
+        b=Q/qg4JwZnOPxWQx8CcAkuiF0fMFQ2lw171kErNo04+itfFAaCr5o0yGZnih8bG5fiZXXrr
+        OFUojy0cL3QVEeUvt5d0OUOMgpqY1Xdpyzn56WOvhV+E+wioO4/m5+iFy6JFFzmYshzYUr
+        p6h4Tm7IYCyr8u9r6I/DnS3M+zOWA4I=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-136-WjWOSxD4P6ujA8zRsPB51Q-1; Tue, 25 Apr 2023 05:00:17 -0400
+X-MC-Unique: WjWOSxD4P6ujA8zRsPB51Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A869FA0F381;
+        Tue, 25 Apr 2023 09:00:16 +0000 (UTC)
+Received: from [192.168.110.200] (unknown [10.45.227.56])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0D5E740C2064;
+        Tue, 25 Apr 2023 09:00:15 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     jikos@kernel.org, linux-input@vger.kernel.org,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+In-Reply-To: <20230424160406.2579888-1-Basavaraj.Natikar@amd.com>
+References: <20230424160406.2579888-1-Basavaraj.Natikar@amd.com>
+Subject: Re: [PATCH linux-next] HID: amd_sfh: Fix max supported HID devices
+Message-Id: <168241321566.254035.14430221681174426932.b4-ty@redhat.com>
+Date:   Tue, 25 Apr 2023 11:00:15 +0200
 MIME-Version: 1.0
-References: <20230418124953.3170028-1-fshao@chromium.org> <20230418124953.3170028-3-fshao@chromium.org>
- <ZEX5tc2LSZoVswc2@nixie71> <CAD=FV=XnrSskS=0UKRGGPBxSnPYQtUkJeoBm44bDnwKVBHJLyA@mail.gmail.com>
-In-Reply-To: <CAD=FV=XnrSskS=0UKRGGPBxSnPYQtUkJeoBm44bDnwKVBHJLyA@mail.gmail.com>
-From:   Fei Shao <fshao@chromium.org>
-Date:   Tue, 25 Apr 2023 16:36:50 +0800
-X-Gmail-Original-Message-ID: <CAC=S1njkYWfvqs5x4nYk0YxoFEcivunKP1T0pG3pO_tapfHivA@mail.gmail.com>
-Message-ID: <CAC=S1njkYWfvqs5x4nYk0YxoFEcivunKP1T0pG3pO_tapfHivA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] HID: i2c-hid: goodix: Add support for
- powered-in-suspend property
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Jeff LaBundy <jeff@labundy.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-mediatek <linux-mediatek@lists.infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Stephen Kitt <steve@sk2.org>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Mon, 24 Apr 2023 21:34:06 +0530, Basavaraj Natikar wrote:
+> commit 4bd763568dbd ("HID: amd_sfh: Support for additional light sensor")
+> adds additional sensor devices, but forgets to add the number of HID
+> devices to match. Thus, the number of HID devices does not match the
+> actual number of sensors.
+> 
+> In order to prevent corruption and system hangs when more than the
+> allowed number of HID devices are accessed, the number of HID devices is
+> increased accordingly.
+> 
+> [...]
 
-On Tue, Apr 25, 2023 at 2:16=E2=80=AFAM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Sun, Apr 23, 2023 at 8:38=E2=80=AFPM Jeff LaBundy <jeff@labundy.com> w=
-rote:
-> >
-> > > @@ -37,13 +38,34 @@ static int goodix_i2c_hid_power_up(struct i2chid_=
-ops *ops)
-> > >               container_of(ops, struct i2c_hid_of_goodix, ops);
-> > >       int ret;
-> > >
-> > > -     ret =3D regulator_enable(ihid_goodix->vdd);
-> > > -     if (ret)
-> > > -             return ret;
-> > > -
-> > > -     ret =3D regulator_enable(ihid_goodix->vddio);
-> > > -     if (ret)
-> > > -             return ret;
-> > > +     /*
-> > > +      * This is to ensure that the reset GPIO will be asserted and t=
-he
-> > > +      * regulators will be enabled for all cases.
-> > > +      */
-> > > +     if (ihid_goodix->powered_in_suspend) {
-> > > +             /*
-> > > +              * This is not mandatory, but we assert reset here (ins=
-tead of
-> > > +              * in power-down) to ensure that the device will have a=
- clean
-> > > +              * state later on just like the normal scenarios would =
-have.
-> > > +              *
-> > > +              * Also, since the regulators were not disabled in powe=
-r-down,
-> > > +              * we don't need to enable them here.
-> > > +              */
-> > > +             gpiod_set_value_cansleep(ihid_goodix->reset_gpio, 1);
-> > > +     } else {
-> > > +             /*
-> > > +              * In this case, the reset is already asserted (either =
-in
-> > > +              * probe or power-down).
-> > > +              * All we need is to enable the regulators.
-> > > +              */
-> > > +             ret =3D regulator_enable(ihid_goodix->vdd);
-> > > +             if (ret)
-> > > +                     return ret;
-> > > +
-> > > +             ret =3D regulator_enable(ihid_goodix->vddio);
-> > > +             if (ret)
-> > > +                     return ret;
-> > > +     }
-> >
-> > Please let me know in case I have misunderstood, but I don't see a need
-> > to change the regulator_enable/disable() logic if this property is set.
-> > If the regulators are truly always-on, the regulator core already knows
-> > what to do and we should not duplicate that logic here.
+Applied to hid/hid.git (for-6.4/amd-sfh), thanks!
 
-Your understanding is totally right, let me restore that in the next
-revision. Thanks!
+[1/1] HID: amd_sfh: Fix max supported HID devices
+      https://git.kernel.org/hid/hid/c/37386669887d
 
-Regards,
-Fei
+Cheers,
+-- 
+Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-> >
-> > Based on the alleged silicon erratum discussed in patch [1/2], it seems
-> > we only want to control the behavior of the reset GPIO. Therefore, only
-> > the calls to gpiod_set_value_cansleep() should be affected and the name
-> > of the property updated to reflect what it's actually doing.
->
-> This would be OK w/ me.
