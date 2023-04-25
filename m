@@ -2,69 +2,131 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21A246EE612
-	for <lists+linux-input@lfdr.de>; Tue, 25 Apr 2023 18:49:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC4386EE67B
+	for <lists+linux-input@lfdr.de>; Tue, 25 Apr 2023 19:18:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234740AbjDYQtU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 Apr 2023 12:49:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42198 "EHLO
+        id S230429AbjDYRS1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 Apr 2023 13:18:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234732AbjDYQtS (ORCPT
+        with ESMTP id S229915AbjDYRS0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Apr 2023 12:49:18 -0400
-Received: from harvie.cz (harvie.cz [77.87.242.242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EEE29CC1E;
-        Tue, 25 Apr 2023 09:49:17 -0700 (PDT)
-Received: from anemophobia.amit.cz (unknown [31.30.84.130])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by harvie.cz (Postfix) with ESMTPSA id 22B761801B3;
-        Tue, 25 Apr 2023 18:49:16 +0200 (CEST)
-From:   Tomas Mudrunka <tomas.mudrunka@gmail.com>
-To:     jeff@labundy.com
-Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, tomas.mudrunka@gmail.com
-Subject: [PATCH v2] Fix freeze in lm8333 i2c keyboard driver
-Date:   Tue, 25 Apr 2023 18:49:03 +0200
-Message-Id: <20230425164903.610455-1-tomas.mudrunka@gmail.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <ZEf0RYdD5jhE9JEk@nixie71>
-References: <ZEf0RYdD5jhE9JEk@nixie71>
+        Tue, 25 Apr 2023 13:18:26 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9464E5F;
+        Tue, 25 Apr 2023 10:18:25 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id 41be03b00d2f7-5144a9c11c7so6124300a12.2;
+        Tue, 25 Apr 2023 10:18:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682443105; x=1685035105;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/17J/S6eU+FZeHfmVQyUAEEmZwYeCmiWS2BcpDMa1Qs=;
+        b=gEZ8m2oXwCMFlbevdc/pxoJPcoUIqerxocj8c5fqEivuz/FlNRia9YA5Bggdq8Kf3B
+         g5LYNsOH/KzOgWvaHCw0o/OIk+kN7IZMSj0mYIhqZoGka3RK1txklhCQ1Ci8lXZV9Ri9
+         Hy00Ul+0TaX1sOHpgTyU8N6V0sqXe4XBnusJkrCJdesCbOtRQwbIcW91HXOKO9nay+eR
+         PiF6rl/taWgKcTfGJkEYP5ot8sQ/eh4SDOatE7S1ZpXqeTJNOd65+iTO4CxwNV6g6g6p
+         dMSOVTiegGqBeqnBKY4Ll3V/H+BWcrvpQ3OqfvKcxBjVecgD58/o0vnvbYlh7YHzbbkX
+         TzWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682443105; x=1685035105;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/17J/S6eU+FZeHfmVQyUAEEmZwYeCmiWS2BcpDMa1Qs=;
+        b=TLTxkOWAZ8sz0c5sL99DenQ7Vswz+n+6M9szeuHCqgbboJsIHvnYKvzCE1eHkN/c+m
+         LHCI3sWjQe0bE5pKb07N1Pd/+o+P49DzEAHZus9xx5WYVUDJaZ6y+0yGO9jg0g/OpZOU
+         pK8DaGToK6VRrbSwDHUG4877vOhgIjz6CcOJzUorf5y1gUSykxGkmJ0EeRq2h8NXKNWS
+         HPFL3WNIH5NBpeK53EugBdjLzbNmIZ0lalMSxt3ADvUVqM0JjYpcE9/sKUTfvGfk+i18
+         5qk/A8MdHmObWKSF+fsEbY1mVGHiG+GEU569BTud2zLwIvPTVPTdHdljshn86v6zKRO6
+         UU2w==
+X-Gm-Message-State: AAQBX9e9WKabsh/hd5KWXhxuG+KlHt5f2l5T5AKmxc043iq+pnY5K+na
+        ONT/KqKw+bJ9L3l0Uvc69kWIn7kPkQlII6njrj/BxpZ/VHgyr0Oe
+X-Google-Smtp-Source: AKy350Y6vIHyXSBx8rUF1ctIPirpYIG+UI+Vb/yjuDkAwQ4kXDuvG7sRdQmsGyIMqdPIZtOQBSz3ehn3Nf5o4tXYQCQ=
+X-Received: by 2002:a17:90b:fc1:b0:247:101b:b532 with SMTP id
+ gd1-20020a17090b0fc100b00247101bb532mr17338130pjb.28.1682443104942; Tue, 25
+ Apr 2023 10:18:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.7 required=5.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-        FORGED_GMAIL_RCVD,FREEMAIL_FROM,NML_ADSP_CUSTOM_MED,SPF_HELO_PASS,
-        SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+References: <20230412171441.18958-1-zyytlz.wz@163.com> <2bd0143cf0e638c88f57409f854c0529a1b12b6b.camel@linux.intel.com>
+In-Reply-To: <2bd0143cf0e638c88f57409f854c0529a1b12b6b.camel@linux.intel.com>
+From:   Zheng Hacker <hackerzheng666@gmail.com>
+Date:   Wed, 26 Apr 2023 01:18:12 +0800
+Message-ID: <CAJedcCzptvdgk8vMO5F==NS79gTZdWaL1id8GcbUn2UsbQr8Xg@mail.gmail.com>
+Subject: Re: [PATCH] HID: intel-ish-hid: pci-ish: Fix use after free bug in
+ ish_remove due to race condition
+To:     srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     Zheng Wang <zyytlz.wz@163.com>, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, rafael@kernel.org,
+        hdegoede@redhat.com, gregkh@linuxfoundation.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        1395428693sheep@gmail.com, alex000young@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-LM8333 uses gpio interrupt line which is activated by falling edge.
-When button is pressed before driver is loaded,
-driver will miss the edge and never respond again.
-To fix this we clear the interrupt via i2c after registering IRQ.
+srinivas pandruvada <srinivas.pandruvada@linux.intel.com> =E4=BA=8E2023=E5=
+=B9=B44=E6=9C=8825=E6=97=A5=E5=91=A8=E4=BA=8C 23:55=E5=86=99=E9=81=93=EF=BC=
+=9A
+>
+> On Thu, 2023-04-13 at 01:14 +0800, Zheng Wang wrote:
+> > In ish_probe, it calls ish_dev_init to init the device. In this
+> > function,
+> > ishtp_device_init is called and &dev->bh_hbm_work is bound with
+> > bh_hbm_work_fn. recv_hbm may be called to start the timer work.
+> >
+> > If we remove the module which will call ish_remove to make cleanup,
+> > there may be an unfinished work. The possible sequence is as follows:
+> >
+> > Fix it by canceling the work before cleanup in
+> > ishtp_bus_remove_all_clients
+> >
+> > CPU0                  CPUc1
+> >
+> >                     |bh_hbm_work_fn
+> > ish_remove      |
+> > ishtp_bus_remove_all_clients  |
+> > kfree(ishtp_dev->fw_clients); |
+> >                     |
+> >                     |&dev->fw_clients[...]
+> >                     |   //use
+> >
+> > Fixes: 3703f53b99e4 ("HID: intel_ish-hid: ISH Transport layer")
+> > Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+>
+> It is a extremely rare case, so it is OK to not mark for stable.
 
-Signed-off-by: Tomas Mudrunka <tomas.mudrunka@gmail.com>
----
- drivers/input/keyboard/lm8333.c | 2 ++
- 1 file changed, 2 insertions(+)
+Got it, thanks!
 
-diff --git a/drivers/input/keyboard/lm8333.c b/drivers/input/keyboard/lm8333.c
-index 7457c3220..9a810ca00 100644
---- a/drivers/input/keyboard/lm8333.c
-+++ b/drivers/input/keyboard/lm8333.c
-@@ -184,6 +184,8 @@ static int lm8333_probe(struct i2c_client *client)
- 	if (err)
- 		goto free_mem;
- 
-+	lm8333_read8(lm8333, LM8333_READ_INT);
-+
- 	err = input_register_device(input);
- 	if (err)
- 		goto free_irq;
--- 
-2.40.0
+Best regards,
+Zheng
+
+>
+> > ---
+> >  drivers/hid/intel-ish-hid/ishtp/bus.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/hid/intel-ish-hid/ishtp/bus.c
+> > b/drivers/hid/intel-ish-hid/ishtp/bus.c
+> > index 81385ab37fa9..ada7cd08dbeb 100644
+> > --- a/drivers/hid/intel-ish-hid/ishtp/bus.c
+> > +++ b/drivers/hid/intel-ish-hid/ishtp/bus.c
+> > @@ -744,6 +744,7 @@ void ishtp_bus_remove_all_clients(struct
+> > ishtp_device *ishtp_dev,
+> >                  */
+> >         }
+> >         spin_unlock_irqrestore(&ishtp_dev->cl_list_lock, flags);
+> > +       cancel_work_sync(&ishtp_dev->bh_hbm_work);
+> >
+> >         /* Release DMA buffers for client messages */
+> >         ishtp_cl_free_dma_buf(ishtp_dev);
+>
