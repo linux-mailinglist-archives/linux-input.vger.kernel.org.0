@@ -2,137 +2,169 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F5676EDDE8
-	for <lists+linux-input@lfdr.de>; Tue, 25 Apr 2023 10:26:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7DC46EDE40
+	for <lists+linux-input@lfdr.de>; Tue, 25 Apr 2023 10:38:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233597AbjDYI0W convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Tue, 25 Apr 2023 04:26:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47174 "EHLO
+        id S233841AbjDYIiK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 Apr 2023 04:38:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233238AbjDYI0V (ORCPT
+        with ESMTP id S233073AbjDYIht (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Apr 2023 04:26:21 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 830FB5242;
-        Tue, 25 Apr 2023 01:26:18 -0700 (PDT)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id D4CE52000F;
-        Tue, 25 Apr 2023 08:26:15 +0000 (UTC)
-Message-ID: <6faea48203e5fe2f4c95106dd95ffceed8c5f236.camel@hadess.net>
-Subject: Re: [PATCH v3] Add rumble support to latest xbox controllers
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Siarhei Vishniakou <svv@google.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Tue, 25 Apr 2023 10:26:15 +0200
-In-Reply-To: <20230425010618.2303982-1-svv@google.com>
-References: <20230425010618.2303982-1-svv@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.48.0 (3.48.0-1.fc38) 
+        Tue, 25 Apr 2023 04:37:49 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E999914F48
+        for <linux-input@vger.kernel.org>; Tue, 25 Apr 2023 01:35:50 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-959a626b622so320905066b.0
+        for <linux-input@vger.kernel.org>; Tue, 25 Apr 2023 01:35:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1682411696; x=1685003696;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V8YLT0UnqpNi70lcfgxzgtqlJHlXNg/RRy71f8KnOqk=;
+        b=PIo9Y2l7ySzRWf4ElHDwGrVNhiJjaKop46hMvkg/AIu96nJAE2BER9LarKqol+RBgP
+         uN1jlV3ymft+bKn6Gs9wzs/hhFteJEdLc1/qvsubkSJByL1UVP6moi8KErw3bmzAcEGW
+         xuHFYEqwZtjH8Fi288v1GPbyJ3gzk7Wof/sDM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682411696; x=1685003696;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=V8YLT0UnqpNi70lcfgxzgtqlJHlXNg/RRy71f8KnOqk=;
+        b=coqKlgcQrusguGIuAou/LboIDVqQoe5pcDezcdcYh4dXoVsSYc/klT35v0vIDtfJhZ
+         lvOGhu9L614CvfJVPH69eg9BBWipMhBa7XQ85aDbo8JaR9qkuau0PaYaGwKJVwkxka3w
+         DLzp6nbnRKUtYKn1BNK6AxxUZeZPSgbuNTdryDQXknr8QFX7K6euU0JLSjZZVcLiUqUz
+         tvgYvc6fh6zXB+yvYkZkfFGzfl/gmZR6/Qf6g4Y9o0sdE9GUH2lW3EkEaw9g6h0IZo73
+         O/p533j2AhJt5ER+e/Lc8Rz3zSqAe41mNQCxYM5X1YpXKDpPrVyV5fxT1g5+tdDsa47w
+         fOpA==
+X-Gm-Message-State: AAQBX9cByTcY7xnLPe3uEUDDHnFFzysjKnj3TpcluxEUl75N1EoNlz7L
+        B6b2pmYCxvrPOQkltwMXmB/EgrkUgulwPwjc9JB/3Q==
+X-Google-Smtp-Source: AKy350bTpFCkDVAx9gvrI9kPP4jO8j1CtkTTlIqoWgX/KiJcIodNhbozllkt+8APMo5WQKS4+ngvKg==
+X-Received: by 2002:a17:906:3f91:b0:931:ad32:79ed with SMTP id b17-20020a1709063f9100b00931ad3279edmr11656802ejj.12.1682411696349;
+        Tue, 25 Apr 2023 01:34:56 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com. [209.85.128.52])
+        by smtp.gmail.com with ESMTPSA id la5-20020a170906ad8500b0094e877ec197sm6602318ejb.148.2023.04.25.01.34.54
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Apr 2023 01:34:54 -0700 (PDT)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-3f182d745deso54566705e9.0
+        for <linux-input@vger.kernel.org>; Tue, 25 Apr 2023 01:34:54 -0700 (PDT)
+X-Received: by 2002:a5d:428d:0:b0:2fa:c982:dd6a with SMTP id
+ k13-20020a5d428d000000b002fac982dd6amr11970067wrq.64.1682411693905; Tue, 25
+ Apr 2023 01:34:53 -0700 (PDT)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <20230418124953.3170028-1-fshao@chromium.org> <20230418124953.3170028-2-fshao@chromium.org>
+ <ZD8z57MBvcfExJx8@nixie71> <CAC=S1ngBt9DmBobMkQXWhqE1UUxFv2U6iFd42nT=1N7r8+pFUg@mail.gmail.com>
+ <CAD=FV=U_i26a8uJYmqYf6PUgmTUgmEB5L2DkVga0zDX_iDcGQg@mail.gmail.com>
+ <ZEAGTiGyvynGA9P1@nixie71> <CAD=FV=UB393Z1zhK54Apgr-iRcvgiK0t36jt6-t5-5zz3m8OZQ@mail.gmail.com>
+ <CAC=S1nj8VTXOovvianPWDYnsrbek0APD76SBNquFObaw8Vg4BQ@mail.gmail.com>
+ <ZEX4BEVMf6GtvaAP@nixie71> <CAD=FV=VtrJDVB0gQp-O82V3mgU6MFVMSGrvzh0fRa7sYAt_Pqw@mail.gmail.com>
+In-Reply-To: <CAD=FV=VtrJDVB0gQp-O82V3mgU6MFVMSGrvzh0fRa7sYAt_Pqw@mail.gmail.com>
+From:   Fei Shao <fshao@chromium.org>
+Date:   Tue, 25 Apr 2023 16:34:16 +0800
+X-Gmail-Original-Message-ID: <CAC=S1nhFNq_kK5zJCWQiGBuJbDXiC8BstJ5BT7pi5O8hLDQSfA@mail.gmail.com>
+Message-ID: <CAC=S1nhFNq_kK5zJCWQiGBuJbDXiC8BstJ5BT7pi5O8hLDQSfA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: input: goodix: Add powered-in-suspend property
+To:     Doug Anderson <dianders@chromium.org>
+Cc:     Jeff LaBundy <jeff@labundy.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-mediatek <linux-mediatek@lists.infradead.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 2023-04-24 at 18:06 -0700, Siarhei Vishniakou wrote:
-> Currently, rumble is only supported via bluetooth on a single xbox
-> controller, called 'model 1708'. On the back of the device, it's named
-> 'wireless controller for xbox one'. However, in 2021, Microsoft released
-> a firmware update for this controller. As part of this update, the HID
-> descriptor of the device changed. The product ID was also changed from
-> 0x02fd to 0x0b20. On this controller, rumble was supported via
-> hid-microsoft, which matched against the old product id (0x02fd). As a
-> result, the firmware update broke rumble support on this controller.
-> 
-> The hid-microsoft driver actually supports rumble on the new firmware,
-> as well. So simply adding new product id is sufficient to bring back
-> this support.
-> 
-> After discussing further with the xbox team, it was pointed out that
-> another xbox controller, xbox elite series 2, can be supported in a
-> similar way.
-> 
-> Add rumble support for all of these devices in this patch. Two of the
-> devices have received firmware updates that caused their product id's to
-> change. Both old and new firmware versions of these devices were tested.
-> 
-> The tested controllers are:
-> 
-> 1. 'wireless controller for xbox one', model 1708
-> 2. 'xbox wireless controller', model 1914. This is also sometimes
->    referred to as 'xbox series S|X'.
-> 3. 'elite series 2', model 1797.
-> 
-> The tested configurations are:
-> 1. model 1708, pid 0x02fd (old firmware)
-> 2. model 1708, pid 0x0b20 (new firmware)
-> 3. model 1914, pid 0x0b13
-> 4. model 1797, pid 0x0b05 (old firmware)
-> 5. model 1797, pid 0x0b22 (new firmware)
-> 
-> I verified rumble support on both bluetooth and usb.
-> 
-> Reviewed-by: Bastien Nocera <hadess@hadess.net>
-> Signed-off-by: Siarhei Vishniakou <svv@google.com>
-> ---
->  drivers/hid/hid-ids.h       |  8 +++++++-
->  drivers/hid/hid-microsoft.c | 11 ++++++++++-
->  2 files changed, 17 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> index 053853a891c5..5d98b2a3a5e4 100644
-> --- a/drivers/hid/hid-ids.h
-> +++ b/drivers/hid/hid-ids.h
-> @@ -903,7 +903,13 @@
->  #define USB_DEVICE_ID_MS_TYPE_COVER_2    0x07a9
->  #define USB_DEVICE_ID_MS_POWER_COVER     0x07da
->  #define USB_DEVICE_ID_MS_SURFACE3_COVER                0x07de
-> -#define USB_DEVICE_ID_MS_XBOX_ONE_S_CONTROLLER 0x02fd
-> +// For a description of the Xbox controller models, refer to:
-> +// https://en.wikipedia.org/wiki/Xbox_Wireless_Controller#Summary
+On Tue, Apr 25, 2023 at 2:15=E2=80=AFAM Doug Anderson <dianders@chromium.or=
+g> wrote:
+>
+> Hi,
+>
+> On Sun, Apr 23, 2023 at 8:31=E2=80=AFPM Jeff LaBundy <jeff@labundy.com> w=
+rote:
+> >
+> > Back-powering can come in two forms:
+> >
+> > 1. The one you've described, which is by far the most common. As you me=
+ntion,
+> > it is not the case here since the issue happens only when we drive the =
+GPIO
+> > low and not high.
+> >
+> > 2. Through a forbidden power supply sequence, an input pin of an IC wit=
+h
+> > multiple power supplies becomes a weak power supply itself. Grounding t=
+he
+> > GPIO then sinks current into the SoC.
+> >
+> > This problem smelled like (2), especially since asserting the GPIO or p=
+owering
+> > down the supply alleviates the symptom. Most Goodix controllers I've wo=
+rked
+> > with have two or more supplies, and the datasheet requires them to be e=
+nabled
+> > or disabled in a specific order.
+> >
+> > Based on Fei's feedback, however, this IC does not seem to be one of th=
+ose
+> > since there is reportedly only a single rail. I guess either vdd or vdd=
+io is
+> > tied to a dummy regulator? If so, then perhaps we can scratch this theo=
+ry.
+>
+> There is one rail provided from the main board, but there can be two
+> voltage levels involved depending on stuffings on the touchscreen
+> itself. I talked a bit about this in commit 1d18c1f3b7d9
+> ("dt-bindings: HID: i2c-hid: goodix: Add mainboard-vddio-supply").
+>
+>
+> > Fair enough, I was simply sketpical that this was the _right_ workaroun=
+d.
+> > Were this an issue of only supply A left on yet the IC datasheet requir=
+es
+> > supply B to remain on if supply A is on, I would rather see this solved=
+ by
+> > updating a regulator dts node, trusted FW sequence, etc.
+>
+> Right. That type of stuff was looked at in detail by two separate
+> teams, so I don't think this is the issue.
+>
+>
+> > Thanks for your due diligence; if this really is a silicon issue, then
+> > the driver should indeed accommodate it.
+> >
+> > That being said, the name 'powered-in-suspend' seems a bit conflated. W=
+e
+> > should not be duplicating regulator policy in this driver; the existing
+> > naming also may cause confusion for other HW configurations that do lea=
+ve
+> > vdd and vddio on during suspend, but don't have this problem.
+> >
+> > Here, we actually mean to control the behavior of the reset GPIO throug=
+h
+> > suspend and therefore something like 'goodix,no-reset-during-suspend' i=
+s
+> > closer to what I understand us to intend to do. I will add more details
+> > in patch [2/2].
+>
+> I'd be fine with that name. ...ah, and adding the "goodix," prefix is
+> a good call.
+>
+> -Doug
 
-The kernel doesn't use C++ style comments, but C-style comments.
-Checking your patch with checkpatch.pl should warn about it:
-https://docs.kernel.org/process/submitting-patches.html#style-check-your-changes
+That sounds good to me, too. I'll update the name in the next patch.
 
-> +#define USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1708    0x02fd
-> +#define USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1708_BLE        0x0b20
-
-The 1708 model uses Bluetooth Classic, not Bluetooth LE.
-
-> +#define USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1914    0x0b13
-> +#define USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1797    0x0b05
-> +#define USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1797_BLE        0x0b22
->  #define USB_DEVICE_ID_MS_PIXART_MOUSE    0x00cb
->  #define USB_DEVICE_ID_8BITDO_SN30_PRO_PLUS      0x02e0
->  
-> diff --git a/drivers/hid/hid-microsoft.c b/drivers/hid/hid-microsoft.c
-> index 071fd093a5f4..9345e2bfd56e 100644
-> --- a/drivers/hid/hid-microsoft.c
-> +++ b/drivers/hid/hid-microsoft.c
-> @@ -446,7 +446,16 @@ static const struct hid_device_id ms_devices[] = {
->                 .driver_data = MS_PRESENTER },
->         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, 0x091B),
->                 .driver_data = MS_SURFACE_DIAL },
-> -       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_XBOX_ONE_S_CONTROLLER),
-> +
-> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1708),
-> +               .driver_data = MS_QUIRK_FF },
-> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1708_BLE),
-> +               .driver_data = MS_QUIRK_FF },
-> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1914),
-> +               .driver_data = MS_QUIRK_FF },
-> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1797),
-> +               .driver_data = MS_QUIRK_FF },
-> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1797_BLE),
->                 .driver_data = MS_QUIRK_FF },
->         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_8BITDO_SN30_PRO_PLUS),
->                 .driver_data = MS_QUIRK_FF },
-
+Regards,
+Fei
