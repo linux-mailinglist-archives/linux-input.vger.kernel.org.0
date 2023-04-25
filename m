@@ -2,111 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3B026EDD27
-	for <lists+linux-input@lfdr.de>; Tue, 25 Apr 2023 09:49:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F5676EDDE8
+	for <lists+linux-input@lfdr.de>; Tue, 25 Apr 2023 10:26:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232240AbjDYHt6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 Apr 2023 03:49:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56254 "EHLO
+        id S233597AbjDYI0W convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Tue, 25 Apr 2023 04:26:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231280AbjDYHt5 (ORCPT
+        with ESMTP id S233238AbjDYI0V (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Apr 2023 03:49:57 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDC6C18D;
-        Tue, 25 Apr 2023 00:49:55 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-51b603bb360so5530022a12.2;
-        Tue, 25 Apr 2023 00:49:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682408995; x=1685000995;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wlv8uOscUQTkFimk+Z+36ap1X5k01cfrmLi0iGMV0kg=;
-        b=kjC9ImGiGBAnfUAAkUsFjHzZa1uW61vra+8cFcvjZGuwjLKVHJoRLIGEKXuf+NaMBA
-         QPk+izgXy5XtKLcHrdSf9v/IZHe4KDYPpKTzrFimI4/vEJ+ONjR/REmVu502DD6nw1Pl
-         uyirRTrnikBfBbMf4Tt01ug1y6V6xwYAI92WwV7f5LASKNbBp2zQxWlTmDC5822GS9xs
-         6U0G4EhbDDorkXCnUKzyPr35y366UjBsEwXanGSK8t+8HkKHX6q0iyc+XWyYO+KcD/hd
-         nAFipe17w1Uue6QxqKoXcf5zmc/P8/2wrjAQazX7kcxLSi8rIhIa4gZ50MKlGs4DgQ54
-         v8PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682408995; x=1685000995;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Wlv8uOscUQTkFimk+Z+36ap1X5k01cfrmLi0iGMV0kg=;
-        b=b7WpWuzXumhjgNqZFUs2LUqY566smE+ToOWq7v0TEovUgOMGxSqhPx+iJ3fKJhV16G
-         /lo9fGh4qWdGYYMxFbJ+3FYNaaLQ6KDG9dkZqG7kgLmxuMa7/K38cPAntdyBw2GdmeAD
-         +G0+WhUXuxAFUV9UIRvCgcmCz4O1Ye7cC0TWZkeAVyIraDwSiaxKgg77xEY2S5HSJeIy
-         OGnihu6mSIPgCMDl0MOJcRYBdHEj9DB0mMtbgOGdVmIs9wwtSnCEoEl7CbwwYLuTNe1F
-         dcMrsVcK4sDFSq3up6w0T/L1rzHUyq/A7/5VCpHfT2yoYpm6DtKYhT8L1qIdkPV9Ei4v
-         Hibg==
-X-Gm-Message-State: AAQBX9ev2rQzLmNMKEAwsgLqszhRnl+Bxly4fz/a6R5mwZ7K7NwZS9+C
-        3jZZo1uWnUOz8qtXADjZYjmSGtHjKt0=
-X-Google-Smtp-Source: AKy350bFvUSVTYlb7ngEsykKihkWd80xu7KOLDXAz0y9uXgqcqFRuJoe5WPv4AkcreUt43C8F2OAiQ==
-X-Received: by 2002:a17:90b:341:b0:247:42f6:e8ca with SMTP id fh1-20020a17090b034100b0024742f6e8camr16703764pjb.12.1682408995109;
-        Tue, 25 Apr 2023 00:49:55 -0700 (PDT)
-Received: from localhost.localdomain ([106.39.42.1])
-        by smtp.gmail.com with ESMTPSA id l8-20020a17090a3f0800b0022335f1dae2sm7387081pjc.22.2023.04.25.00.49.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Apr 2023 00:49:54 -0700 (PDT)
-From:   starmiku1207184332@gmail.com
-To:     dmitry.torokhov@gmail.com, rydberg@bitmath.org
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Teng Qi <starmiku1207184332@gmail.com>
-Subject: [PATCH] drivers: input: input: Fix possible sleep-in-atomic bug in input_alloc_absinfo()
-Date:   Tue, 25 Apr 2023 07:49:51 +0000
-Message-Id: <20230425074951.1042694-1-starmiku1207184332@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 25 Apr 2023 04:26:21 -0400
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 830FB5242;
+        Tue, 25 Apr 2023 01:26:18 -0700 (PDT)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id D4CE52000F;
+        Tue, 25 Apr 2023 08:26:15 +0000 (UTC)
+Message-ID: <6faea48203e5fe2f4c95106dd95ffceed8c5f236.camel@hadess.net>
+Subject: Re: [PATCH v3] Add rumble support to latest xbox controllers
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Siarhei Vishniakou <svv@google.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Tue, 25 Apr 2023 10:26:15 +0200
+In-Reply-To: <20230425010618.2303982-1-svv@google.com>
+References: <20230425010618.2303982-1-svv@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.48.0 (3.48.0-1.fc38) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Teng Qi <starmiku1207184332@gmail.com>
+On Mon, 2023-04-24 at 18:06 -0700, Siarhei Vishniakou wrote:
+> Currently, rumble is only supported via bluetooth on a single xbox
+> controller, called 'model 1708'. On the back of the device, it's named
+> 'wireless controller for xbox one'. However, in 2021, Microsoft released
+> a firmware update for this controller. As part of this update, the HID
+> descriptor of the device changed. The product ID was also changed from
+> 0x02fd to 0x0b20. On this controller, rumble was supported via
+> hid-microsoft, which matched against the old product id (0x02fd). As a
+> result, the firmware update broke rumble support on this controller.
+> 
+> The hid-microsoft driver actually supports rumble on the new firmware,
+> as well. So simply adding new product id is sufficient to bring back
+> this support.
+> 
+> After discussing further with the xbox team, it was pointed out that
+> another xbox controller, xbox elite series 2, can be supported in a
+> similar way.
+> 
+> Add rumble support for all of these devices in this patch. Two of the
+> devices have received firmware updates that caused their product id's to
+> change. Both old and new firmware versions of these devices were tested.
+> 
+> The tested controllers are:
+> 
+> 1. 'wireless controller for xbox one', model 1708
+> 2. 'xbox wireless controller', model 1914. This is also sometimes
+>    referred to as 'xbox series S|X'.
+> 3. 'elite series 2', model 1797.
+> 
+> The tested configurations are:
+> 1. model 1708, pid 0x02fd (old firmware)
+> 2. model 1708, pid 0x0b20 (new firmware)
+> 3. model 1914, pid 0x0b13
+> 4. model 1797, pid 0x0b05 (old firmware)
+> 5. model 1797, pid 0x0b22 (new firmware)
+> 
+> I verified rumble support on both bluetooth and usb.
+> 
+> Reviewed-by: Bastien Nocera <hadess@hadess.net>
+> Signed-off-by: Siarhei Vishniakou <svv@google.com>
+> ---
+>  drivers/hid/hid-ids.h       |  8 +++++++-
+>  drivers/hid/hid-microsoft.c | 11 ++++++++++-
+>  2 files changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> index 053853a891c5..5d98b2a3a5e4 100644
+> --- a/drivers/hid/hid-ids.h
+> +++ b/drivers/hid/hid-ids.h
+> @@ -903,7 +903,13 @@
+>  #define USB_DEVICE_ID_MS_TYPE_COVER_2    0x07a9
+>  #define USB_DEVICE_ID_MS_POWER_COVER     0x07da
+>  #define USB_DEVICE_ID_MS_SURFACE3_COVER                0x07de
+> -#define USB_DEVICE_ID_MS_XBOX_ONE_S_CONTROLLER 0x02fd
+> +// For a description of the Xbox controller models, refer to:
+> +// https://en.wikipedia.org/wiki/Xbox_Wireless_Controller#Summary
 
-input_alloc_absinfo() may cause the kernel to sleep by calling kcalloc() with
-the GFP_KERNEL flag. It may be called by input_event() holding spinlock through
-the following call path: 
+The kernel doesn't use C++ style comments, but C-style comments.
+Checking your patch with checkpatch.pl should warn about it:
+https://docs.kernel.org/process/submitting-patches.html#style-check-your-changes
 
-input_event(), 433
-input_handle_event(), 399
-input_get_disposition(), 294
-input_handle_abs_event(), 232
-input_abs_set_val(), Clang suggests it calls input_alloc_absinfo()
-	unconditionally
-input_alloc_absinfo(), 483
-kcalloc(..., GFP_KERNEL)
+> +#define USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1708    0x02fd
+> +#define USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1708_BLE        0x0b20
 
-This call path can potentially trigger a sleep-in-atomic bug. To prevent this
-potential bug, we modify input_alloc_absinfo() to use the GFP_ATOMIC flag
-instead of the GFP_KERNEL flag.
-The possible bug is detected by a static code analysis tool.
+The 1708 model uses Bluetooth Classic, not Bluetooth LE.
 
-Signed-off-by: Teng Qi <starmiku1207184332@gmail.com>
----
- drivers/input/input.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/input/input.c b/drivers/input/input.c
-index 37e876d45eb9..eefc4c85a693 100644
---- a/drivers/input/input.c
-+++ b/drivers/input/input.c
-@@ -480,7 +480,7 @@ void input_alloc_absinfo(struct input_dev *dev)
- 	if (dev->absinfo)
- 		return;
- 
--	dev->absinfo = kcalloc(ABS_CNT, sizeof(*dev->absinfo), GFP_KERNEL);
-+	dev->absinfo = kcalloc(ABS_CNT, sizeof(*dev->absinfo), GFP_ATOMIC);
- 	if (!dev->absinfo) {
- 		dev_err(dev->dev.parent ?: &dev->dev,
- 			"%s: unable to allocate memory\n", __func__);
--- 
-2.25.1
+> +#define USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1914    0x0b13
+> +#define USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1797    0x0b05
+> +#define USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1797_BLE        0x0b22
+>  #define USB_DEVICE_ID_MS_PIXART_MOUSE    0x00cb
+>  #define USB_DEVICE_ID_8BITDO_SN30_PRO_PLUS      0x02e0
+>  
+> diff --git a/drivers/hid/hid-microsoft.c b/drivers/hid/hid-microsoft.c
+> index 071fd093a5f4..9345e2bfd56e 100644
+> --- a/drivers/hid/hid-microsoft.c
+> +++ b/drivers/hid/hid-microsoft.c
+> @@ -446,7 +446,16 @@ static const struct hid_device_id ms_devices[] = {
+>                 .driver_data = MS_PRESENTER },
+>         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, 0x091B),
+>                 .driver_data = MS_SURFACE_DIAL },
+> -       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_XBOX_ONE_S_CONTROLLER),
+> +
+> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1708),
+> +               .driver_data = MS_QUIRK_FF },
+> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1708_BLE),
+> +               .driver_data = MS_QUIRK_FF },
+> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1914),
+> +               .driver_data = MS_QUIRK_FF },
+> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1797),
+> +               .driver_data = MS_QUIRK_FF },
+> +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_XBOX_CONTROLLER_MODEL_1797_BLE),
+>                 .driver_data = MS_QUIRK_FF },
+>         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_8BITDO_SN30_PRO_PLUS),
+>                 .driver_data = MS_QUIRK_FF },
 
