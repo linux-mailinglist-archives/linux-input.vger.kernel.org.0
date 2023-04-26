@@ -2,73 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26D066EF13C
-	for <lists+linux-input@lfdr.de>; Wed, 26 Apr 2023 11:33:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA7DC6EF351
+	for <lists+linux-input@lfdr.de>; Wed, 26 Apr 2023 13:21:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240340AbjDZJdo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Apr 2023 05:33:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57172 "EHLO
+        id S240554AbjDZLVp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Apr 2023 07:21:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240289AbjDZJdm (ORCPT
+        with ESMTP id S240560AbjDZLVo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Apr 2023 05:33:42 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29EE01BE4
-        for <linux-input@vger.kernel.org>; Wed, 26 Apr 2023 02:33:41 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-63b7096e2e4so5714935b3a.2
-        for <linux-input@vger.kernel.org>; Wed, 26 Apr 2023 02:33:41 -0700 (PDT)
+        Wed, 26 Apr 2023 07:21:44 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A69804EC5
+        for <linux-input@vger.kernel.org>; Wed, 26 Apr 2023 04:21:42 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-4edc63c82d1so7117012e87.0
+        for <linux-input@vger.kernel.org>; Wed, 26 Apr 2023 04:21:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1682501620; x=1685093620;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GbkTP3zHcJFJuVybS9KupjRL2tPIXD5dw4xi+AbtQaw=;
-        b=C8LAqlu6DToCZB9Khh7AJe4KKQMWtFvMtBzAAACPvEmA1+DBreI552kDfQTb3Q2Ut2
-         9m+esTfiRzAeUqVB12gteiAuVqPePd+h2FTlmetMy85ujIIAEcG/uplvGHmGt/4Ql1oO
-         IVX72xlund0sCV7s9Co3GT2hmPe6NI97Y1VZE=
+        d=linaro.org; s=google; t=1682508101; x=1685100101;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=G9naGDk48Zj+PlZ+Jp1u6lFmP1KTwqXU2XbLPAygHrI=;
+        b=eqcXXYmFnj/dE5MQy0eqvxRenOIf3Z5w0huIAj08pe9EuYktVgOpHNkRQl8wT1jn3I
+         XXDUJL0HnftlZTRlZKuhAJy4m7b7lpQU7AreWOgWmdfAhiAXaEzQSMzPUWHHESLy34YD
+         5m20EeE+Wl7tUMgCB9j9GS6Y4NENmrvk5SVXd4yHV8IVr4pfeQfFaY+m7PxA7a+K4hNo
+         Rh06I9iWHUQl+NT9tIejugGmuIQmzXfjgZVf5sQbKarcAdVlHYsThSMF6ATbIBlHXU5O
+         bRg11fPfPvjO/uOPsF4/zOxxqNJmBs9Woyg+EgHr+wVA/LUUPL+yDU7AmZ1G+A9eMiDf
+         TuEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682501620; x=1685093620;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GbkTP3zHcJFJuVybS9KupjRL2tPIXD5dw4xi+AbtQaw=;
-        b=cIxUdsQ2cHl8oOXcSzPrJe+LLaHyw3EAo8LPRGiEZBsnLSvlscp/jegtM3TgFONmzq
-         0sfenlm12GWPVWGXaQoL2gXnbJgh5HXJ5/3TNa8sh11EOwT80U9059jTpuMJM/dJobkx
-         w80gRhrCnFhD/CnwML9ew4bS3FRdwNHW/3UxeecvFdfVvJeuRdD2oDMzJvT2HTU7Paca
-         RhKY/nc/PpSdpqfUoJ0QIZy8ipwpOdXkzq8diqhmF9WiQKCiO9WofWiPgWaFnvrnPLIf
-         yhFuVsDsblQmpW1j3phTQtCrDfNsqrGAEwWuQSqqa2JEPVEZzmU7PpcUJAAm6xu5h3wk
-         0RUw==
-X-Gm-Message-State: AAQBX9de4Tjf4v8wk7H9wjLdeLF10C6VP5yavVM7n/jKF5c1mn+1TEIa
-        DbOxe/VTt54Vvd4K2sLAGTh7la/2UeBI78A+qYg=
-X-Google-Smtp-Source: AKy350YrCareTvj+eDZ+fbTN6x5p6afQ7jO7RDXDEbJX15Wm3ZZLFh0VsSVNstRbc8sSNOzhz1r+9Q==
-X-Received: by 2002:a05:6a00:2da7:b0:625:ea57:389b with SMTP id fb39-20020a056a002da700b00625ea57389bmr27528444pfb.5.1682501620593;
-        Wed, 26 Apr 2023 02:33:40 -0700 (PDT)
-Received: from fshao-glinux.tpe.corp.google.com ([2401:fa00:1:10:dcf6:797f:140d:6d])
-        by smtp.gmail.com with ESMTPSA id g1-20020a056a00078100b005810c4286d6sm10730075pfu.0.2023.04.26.02.33.38
+        d=1e100.net; s=20221208; t=1682508101; x=1685100101;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G9naGDk48Zj+PlZ+Jp1u6lFmP1KTwqXU2XbLPAygHrI=;
+        b=K2IpnAADR7nSYLAPbMnTthKGnLuajCmj1cHYjZykVf9vfavU2w6rIcB75+HmKMnSSL
+         XC1PtgskdrrUHiqM+KU57ILFlbB9WGQl8fr092+eWAGd8/CIy3/gwjGdx3oA85iFD3rb
+         T+nrPv0eEn703mCIYSzOoDkObKcpKiwgl5ubJDOBAu/8fMp/KNdBp7ZcHAqvUwmf3+lC
+         Q/x3lWXzJn64P9+y+2oayt2B9n5Zk6lEz48ZLEoXMvmjFaCpfRjev4wpu22V5gKOxK5n
+         7qUM4RaAQIHbieo2p7fv960C89amwole4aIedieZrvGQ7jfaQOFEXEwxosYJc58poxdc
+         w3DQ==
+X-Gm-Message-State: AAQBX9drkNe+FtViGhLmd7XQSOK5RvpYyd1eD8YMCIB93kh2bYA6BXvz
+        bE0ApIXAPk8aq3O56pQmZfYh8p4YJWYjsbiI1z0=
+X-Google-Smtp-Source: AKy350Z4JDBnZVGtAj1Of/ojtlbjuivI9YyfI2Ny9UUwpUefKlwDymDGD1MQW/sISWtNsuN/8HTHJg==
+X-Received: by 2002:ac2:4ade:0:b0:4e9:c627:195d with SMTP id m30-20020ac24ade000000b004e9c627195dmr5125919lfp.57.1682508100620;
+        Wed, 26 Apr 2023 04:21:40 -0700 (PDT)
+Received: from [127.0.1.1] ([85.235.12.238])
+        by smtp.gmail.com with ESMTPSA id u28-20020a056512041c00b004ec84d24818sm2453237lfk.282.2023.04.26.04.21.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Apr 2023 02:33:40 -0700 (PDT)
-From:   Fei Shao <fshao@chromium.org>
-To:     Jeff LaBundy <jeff@labundy.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-mediatek <linux-mediatek@lists.infradead.org>,
-        Fei Shao <fshao@chromium.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Stephen Kitt <steve@sk2.org>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] HID: i2c-hid: goodix: Add support for "goodix,no-reset-during-suspend" property
-Date:   Wed, 26 Apr 2023 17:32:30 +0800
-Message-ID: <20230426093231.1466984-3-fshao@chromium.org>
-X-Mailer: git-send-email 2.40.1.495.gc816e09b53d-goog
-In-Reply-To: <20230426093231.1466984-1-fshao@chromium.org>
-References: <20230426093231.1466984-1-fshao@chromium.org>
+        Wed, 26 Apr 2023 04:21:40 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH v2 0/2] STMPE device tree bindings
+Date:   Wed, 26 Apr 2023 13:21:37 +0200
+Message-Id: <20230426-stmpe-dt-bindings-v2-0-2f85a1fffcda@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEEJSWQC/z3NQQrCQAyF4auUrA3UtFj1KtJFZhLbgB3LpIhSe
+ nenLlz+PD7eCq7Z1OFarZD1ZW7PVIIOFcSR06BoUhqopqZu6YS+TLOiLBgsiaXBMTZtdxHpjkx
+ nKC6wK4bMKY67/IMPT499n7Pe7f37vPXb9gUhrSZ3gwAAAA==
+To:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee@kernel.org>,
+        Philippe Schenker <philippe.schenker@toradex.com>,
+        Stefan Agner <stefan@agner.ch>, Marek Vasut <marex@denx.de>,
+        Steffen Trumtrar <s.trumtrar@pengutronix.de>
+Cc:     linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.12.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -77,101 +85,30 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In the beginning, commit 18eeef46d359 ("HID: i2c-hid: goodix: Tie the
-reset line to true state of the regulator") introduced a change to tie
-the reset line of the Goodix touchscreen to the state of the regulator
-to fix a power leakage issue in suspend.
+This adds the missing GPIO bindings for the STMPE port expander
+and converts the existing MFD binding to YAML.
 
-After some time, the change was deemed unnecessary and was reverted in
-commit 557e05fa9fdd ("HID: i2c-hid: goodix: Stop tying the reset line to
-the regulator") due to difficulties in managing regulator notifiers for
-designs like Evoker, which provides a second power rail to touchscreen.
+ChangeLog v1->v2:
+- Split off a separate GPIO binding
+- Updated the MFD binding according to feedback
 
-However, the revert caused a power regression on another Chromebook
-device Steelix in the field, which has a dedicated always-on regulator
-for touchscreen and was covered by the workaround in the first commit.
-
-To address both cases, this patch adds the support for the new
-"goodix,no-reset-during-suspend" property in the driver:
-- When set to true, the driver does not assert the reset GPIO during
-  power-down.
-  Instead, the GPIO will be asserted during power-up to ensure the
-  touchscreen always has a clean start and consistent behavior after
-  resuming.
-  This is for designs with a dedicated always-on regulator.
-- When set to false or unset, the driver uses the original control flow
-  and asserts GPIO and disable regulators normally.
-  This is for the two-regulator and shared-regulator designs.
-
-Signed-off-by: Fei Shao <fshao@chromium.org>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
+Linus Walleij (2):
+      dt-bindings: gpio: Add STMPE YAML DT schema
+      dt-bindings: MFD: Convert STMPE to YAML schema
 
-Changes in v2:
-- Do not change the regulator_enable logic during power-up.
+ .../devicetree/bindings/gpio/st,stmpe-gpio.yaml    |  60 +++++
+ .../devicetree/bindings/input/stmpe-keypad.txt     |  41 ---
+ .../bindings/input/touchscreen/stmpe.txt           | 108 --------
+ .../devicetree/bindings/mfd/st,stmpe.yaml          | 298 +++++++++++++++++++++
+ Documentation/devicetree/bindings/mfd/stmpe.txt    |  42 ---
+ 5 files changed, 358 insertions(+), 191 deletions(-)
+---
+base-commit: 457391b0380335d5e9a5babdec90ac53928b23b4
+change-id: 20230426-stmpe-dt-bindings-c3479dd71a28
 
- drivers/hid/i2c-hid/i2c-hid-of-goodix.c | 26 +++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
-
-diff --git a/drivers/hid/i2c-hid/i2c-hid-of-goodix.c b/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
-index 0060e3dcd775..fc4532fcadcc 100644
---- a/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
-@@ -28,6 +28,7 @@ struct i2c_hid_of_goodix {
- 	struct regulator *vdd;
- 	struct regulator *vddio;
- 	struct gpio_desc *reset_gpio;
-+	bool no_reset_during_suspend;
- 	const struct goodix_i2c_hid_timing_data *timings;
- };
- 
-@@ -37,6 +38,20 @@ static int goodix_i2c_hid_power_up(struct i2chid_ops *ops)
- 		container_of(ops, struct i2c_hid_of_goodix, ops);
- 	int ret;
- 
-+	if (ihid_goodix->no_reset_during_suspend) {
-+		/*
-+		 * This is not mandatory, but we assert reset here (instead of
-+		 * during power-down) to ensure the device will have a clean
-+		 * state after powering up, just like the normal scenarios will
-+		 * have.
-+		 *
-+		 * Note that in this case we assume the regulators should be
-+		 * (marked as) always-on, so the regulator core knows what to
-+		 * do with them in the following regulator_enable() calls
-+		 * despite regulator_disable() was not called previously.
-+		 */
-+		gpiod_set_value_cansleep(ihid_goodix->reset_gpio, 1);
-+	}
- 	ret = regulator_enable(ihid_goodix->vdd);
- 	if (ret)
- 		return ret;
-@@ -60,6 +75,14 @@ static void goodix_i2c_hid_power_down(struct i2chid_ops *ops)
- 	struct i2c_hid_of_goodix *ihid_goodix =
- 		container_of(ops, struct i2c_hid_of_goodix, ops);
- 
-+	/*
-+	 * Don't assert reset GPIO if it's set.
-+	 * Also, it's okay to skip the following regulator_disable() calls
-+	 * because the regulators should be always-on in this case.
-+	 */
-+	if (ihid_goodix->no_reset_during_suspend)
-+		return;
-+
- 	gpiod_set_value_cansleep(ihid_goodix->reset_gpio, 1);
- 	regulator_disable(ihid_goodix->vddio);
- 	regulator_disable(ihid_goodix->vdd);
-@@ -91,6 +114,9 @@ static int i2c_hid_of_goodix_probe(struct i2c_client *client)
- 	if (IS_ERR(ihid_goodix->vddio))
- 		return PTR_ERR(ihid_goodix->vddio);
- 
-+	ihid_goodix->no_reset_during_suspend =
-+		of_property_read_bool(client->dev.of_node, "goodix,no-reset-during-suspend");
-+
- 	ihid_goodix->timings = device_get_match_data(&client->dev);
- 
- 	return i2c_hid_core_probe(client, &ihid_goodix->ops, 0x0001, 0);
+Best regards,
 -- 
-2.40.1.495.gc816e09b53d-goog
+Linus Walleij <linus.walleij@linaro.org>
 
