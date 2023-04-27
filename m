@@ -2,131 +2,147 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A2DB6EFDEE
-	for <lists+linux-input@lfdr.de>; Thu, 27 Apr 2023 01:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FF676EFE29
+	for <lists+linux-input@lfdr.de>; Thu, 27 Apr 2023 02:03:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239605AbjDZXQK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Apr 2023 19:16:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39470 "EHLO
+        id S242672AbjD0ADj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Apr 2023 20:03:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239435AbjDZXQI (ORCPT
+        with ESMTP id S242613AbjD0ADi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Apr 2023 19:16:08 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E79EA30DA;
-        Wed, 26 Apr 2023 16:16:05 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-64115eef620so865411b3a.1;
-        Wed, 26 Apr 2023 16:16:05 -0700 (PDT)
+        Wed, 26 Apr 2023 20:03:38 -0400
+Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com [IPv6:2a00:1450:4864:20::449])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06D783AA4
+        for <linux-input@vger.kernel.org>; Wed, 26 Apr 2023 17:03:37 -0700 (PDT)
+Received: by mail-wr1-x449.google.com with SMTP id ffacd0b85a97d-2f2981b8364so4292255f8f.1
+        for <linux-input@vger.kernel.org>; Wed, 26 Apr 2023 17:03:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682550965; x=1685142965;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GmZe4XQJ0YjP7cw54uBUO68nCbJ9qNgc+ctEcUOTuDs=;
-        b=RHERRUh1+lK0ociFRpJqgqwyeNOtTDg9+ksYO4pn+050hYcMe9qMLFxAMUavAyTG3j
-         KTG++bzIwXJeEg5vksXpcOspRhvqhS4zkgL+8GzrpYw7lL1ZRywrOiJI2Eyhf5Ahmy3d
-         ckvcPiMPkXaJs+6hbSiKLVuAK0W3gf3391IgTNNxKdOGiKfn1iBf5ZdOVR8N8DvTG5Mf
-         vwX0nsQS5VlFezaFPEcGpyq47ye7DrwStNVVz/BMjpaIxSfAs9eC90PG0XNkhJM4eG/y
-         JHRRBgyzsYUruP57UEMe9sc8Vf9Wa+R/enDK9DsHJgsMc8bg3ln471M+qlosVawtc/ka
-         0QvA==
+        d=google.com; s=20221208; t=1682553815; x=1685145815;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=PVGkNH8SAKHyU4ewQ+OfZZlAvgFTi0J5Tx9tCjECJi0=;
+        b=qq6MyjDBvDrT46K2IB42/jAKgB5xhC8HvE5DZGK6hjyPBDDtneGzvHyIYbiwGccGv5
+         fJyFSWaUyl+mcymLHIZXLyZ9O00lQ5+oShA7w3pNNGC+wVICXFtDNPp6cphy0PNc82Ud
+         6u2f51op1AZXjuqdYzWF7LRo7djpIUC9DZ4O24zazkV5r3oJH5NVUIy9jsFgolizBHf7
+         FXIh2ietB3cwNX3Nsyp/2/V3hSeRjVqxjEUrwrVy7b1myoeVkTcEQI6E+dVdV4Qlqhs1
+         zPSzQK1zZHyALmBO8HKeNzgTPwiEFlTuZeT2F89+mNY6ikG2mUkJzZFozRaufOG/Oz6v
+         J2zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682550965; x=1685142965;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GmZe4XQJ0YjP7cw54uBUO68nCbJ9qNgc+ctEcUOTuDs=;
-        b=GkFUl4j7PUnz/o6IqSnTLrKtc/sBjmEM+hqnQAu9rCil684y7VZRtUVGmPw+j4HO/a
-         P4bxHxctbx/+EsIJPzL1SJTqRAo7my1nTZlgpj4NaQi6+PoyRoRz6yeVdgF6+u/c5N+o
-         Qd5opHvRAAxlECVnGL8VrqpjiFJfuWo38EddgkEoDVpMqd1ES5X+MQ3LbVSAqM/9Sj/O
-         Husrg8BL5t4RFRNgITKiRVAsA1kl1HKcxCWU2TVDUmLrrQOD+U60XklNoc2cirlI38aF
-         AHOXZv0rR7dh0YYwJcfLs5uyp3Jkpo83LrRMv9kYkiqdWa9dwpoS4s7UDdAZpGuyubsw
-         xE7Q==
-X-Gm-Message-State: AC+VfDwPae2QNYs9J+xvLknqqHmTlHPTf9G0GoRkXVJ5UI0wCMnXZkRI
-        gZmBcRF8dTNIvqmaZqOtEl69MqybfUY=
-X-Google-Smtp-Source: ACHHUZ7PG7OCVBC8tva2mrwPsZE1pPlfMOdjpYZkTBapPTz3o9o9TTEBt9g8DRlwTx66VrM056By8w==
-X-Received: by 2002:a17:902:f688:b0:1a6:4c2b:9e7f with SMTP id l8-20020a170902f68800b001a64c2b9e7fmr4792217plg.1.1682550965206;
-        Wed, 26 Apr 2023 16:16:05 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:f84b:79ee:8ff:d568])
-        by smtp.gmail.com with ESMTPSA id bv21-20020a17090af19500b002465e66256asm10300282pjb.11.2023.04.26.16.16.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Apr 2023 16:16:04 -0700 (PDT)
-Date:   Wed, 26 Apr 2023 16:16:01 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     Tomas Mudrunka <tomas.mudrunka@gmail.com>,
+        d=1e100.net; s=20221208; t=1682553815; x=1685145815;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PVGkNH8SAKHyU4ewQ+OfZZlAvgFTi0J5Tx9tCjECJi0=;
+        b=ZgR5tHd4JQ3dmgQGrCM8kZHHkcTQq93hzAD9wqshu9uVbuTKgmpXSj9Wqcg9eArPqR
+         X5KrtXV7OTPFImZd066WRiuSHd3ihUT8gyJWAoDWdFo3ckbnaMGddV+kuOkmQj2u+Fdb
+         6s9EV1NNR7Zutce8DdSGaiU6m1TXZXOsS+zYcN2tCGqf4ei75ciVfU/ENtZTnKyBQLW+
+         HGcANV0zArqe9/EVWnKZMlhAZelXrnU/Sxcv5lSnt1Lqn5TgDdIQjQL67WuSbqOzS06g
+         pFCB0b5wOhoYz2HlAjvCd/nc8xxDeGOb/eRbcm4pL6M2nRSJZpFvT4udFEk5UszDeRab
+         sODA==
+X-Gm-Message-State: AAQBX9eN08myQNNPsQAPY5VYUl04WYQvp6BwSOdRZGlNjNe/tLNTF+oq
+        iQg8nhDXknBsThJE2WZry+i6jkZHDx33bDU=
+X-Google-Smtp-Source: AKy350Zw3Ute47L0gD1VFsgVF3P9E6084pjj//BU9w/HxIMThvUdu2T/A5FcAwwZgKBhKGFsopfcfb4Ipsod/Ek=
+X-Received: from palandroid.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:350f])
+ (user=biswarupp job=sendgmr) by 2002:a5d:4fcd:0:b0:2f8:5130:522e with SMTP id
+ h13-20020a5d4fcd000000b002f85130522emr2823320wrw.8.1682553815546; Wed, 26 Apr
+ 2023 17:03:35 -0700 (PDT)
+Date:   Thu, 27 Apr 2023 00:01:51 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.1.495.gc816e09b53d-goog
+Message-ID: <20230427000152.1407471-1-biswarupp@google.com>
+Subject: [PATCH] Call input_set_timestamp for events injected using uinput
+From:   Biswarup Pal <biswarupp@google.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Biswarup Pal <biswarupp@google.com>, kernel-team@android.com,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Fix freeze in lm8333 i2c keyboard driver
-Message-ID: <ZEmwsViIjUVPZ4Cd@google.com>
-References: <20230425130054.591007-1-tomas.mudrunka@gmail.com>
- <ZEf0RYdD5jhE9JEk@nixie71>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZEf0RYdD5jhE9JEk@nixie71>
-X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jeff, Tomas,
+Currently, uinput doesn't use the input_set_timestamp API, so any
+event injected using uinput is not accurately timestamped in terms of
+measuring when the actual event happened. Hence, call the
+input_set_timestamp API from uinput in order to provide a more
+accurate sense of time for the event. Propagate only the timestamps
+which are a) positive, b) within a pre-defined offset (10 secs) from
+the current time, and c) not in the future.
 
-On Tue, Apr 25, 2023 at 10:39:49AM -0500, Jeff LaBundy wrote:
-> Hi Tomas,
-> 
-> On Tue, Apr 25, 2023 at 03:00:53PM +0200, Tomas Mudrunka wrote:
-> > LM8333 uses gpio interrupt line which is active-low.
-> > When interrupt is set to FALLING edge and button is pressed
-> > before driver loads, driver will miss the edge and never respond.
-> > To fix this we handle ONESHOT LOW interrupt rather than edge.
-> > 
-> > Signed-off-by: Tomas Mudrunka <tomas.mudrunka@gmail.com>
-> > ---
-> >  drivers/input/keyboard/lm8333.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/input/keyboard/lm8333.c b/drivers/input/keyboard/lm8333.c
-> > index 7457c3220..c5770ebb2 100644
-> > --- a/drivers/input/keyboard/lm8333.c
-> > +++ b/drivers/input/keyboard/lm8333.c
-> > @@ -179,7 +179,7 @@ static int lm8333_probe(struct i2c_client *client)
-> >  	}
-> >  
-> >  	err = request_threaded_irq(client->irq, NULL, lm8333_irq_thread,
-> > -				   IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-> > +				   IRQF_TRIGGER_LOW | IRQF_ONESHOT,
-> >  				   "lm8333", lm8333);
-> >  	if (err)
-> >  		goto free_mem;
-> 
-> Thanks for the patch, but this is a NAK in my opinion.
-> 
-> First of all, we should not be hard-coding interrupt polarity in the
-> first place; that is an existing piece of technical debt in this driver.
+Signed-off-by: Biswarup Pal <biswarupp@google.com>
+---
+ drivers/input/misc/uinput.c | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-Yes, I wonder if the original hardware was limited to the edge
-interrupts.
-
-> 
-> Second, changing from edge-triggered to level-triggered interrupts runs
-> the risk of creating an interrupt storm depending on the time it takes
-> the device to deassert the irq following the I2C read and the point at
-> which the threaded handler returns. Have you measured this?
-
-IRQF_ONESHOT ensures that the level interrupt is unmasked only when the
-threaded handler returns.
-
-> 
-> Can we not simply read the interrupt status registers once at start-up
-> to clear any pending status? This is essentially what your change does
-> anyway, albeit indirectly.
-> 
-
-Thanks.
-
+diff --git a/drivers/input/misc/uinput.c b/drivers/input/misc/uinput.c
+index f2593133e524..d98212d55108 100644
+--- a/drivers/input/misc/uinput.c
++++ b/drivers/input/misc/uinput.c
+@@ -33,6 +33,7 @@
+ #define UINPUT_NAME		"uinput"
+ #define UINPUT_BUFFER_SIZE	16
+ #define UINPUT_NUM_REQUESTS	16
++#define UINPUT_TIMESTAMP_ALLOWED_OFFSET_SECS 10
+ 
+ enum uinput_state { UIST_NEW_DEVICE, UIST_SETUP_COMPLETE, UIST_CREATED };
+ 
+@@ -569,11 +570,40 @@ static int uinput_setup_device_legacy(struct uinput_device *udev,
+ 	return retval;
+ }
+ 
++/*
++ * Returns true if the given timestamp is valid (i.e., if all the following
++ * conditions are satisfied), false otherwise.
++ * 1) given timestamp is positive
++ * 2) it's within the allowed offset before the current time
++ * 3) it's not in the future
++ */
++static bool is_valid_timestamp(const ktime_t timestamp)
++{
++	ktime_t zero_time;
++	ktime_t current_time;
++	ktime_t min_time;
++	ktime_t offset;
++
++	zero_time = ktime_set(0, 0);
++	if (ktime_compare(zero_time, timestamp) >= 0)
++		return false;
++
++	current_time = ktime_get();
++	offset = ktime_set(UINPUT_TIMESTAMP_ALLOWED_OFFSET_SECS, 0);
++	min_time = ktime_sub(current_time, offset);
++
++	if (ktime_after(min_time, timestamp) || ktime_after(timestamp, current_time))
++		return false;
++
++	return true;
++}
++
+ static ssize_t uinput_inject_events(struct uinput_device *udev,
+ 				    const char __user *buffer, size_t count)
+ {
+ 	struct input_event ev;
+ 	size_t bytes = 0;
++	ktime_t timestamp;
+ 
+ 	if (count != 0 && count < input_event_size())
+ 		return -EINVAL;
+@@ -588,6 +618,10 @@ static ssize_t uinput_inject_events(struct uinput_device *udev,
+ 		if (input_event_from_user(buffer + bytes, &ev))
+ 			return -EFAULT;
+ 
++		timestamp = ktime_set(ev.input_event_sec, ev.input_event_usec * NSEC_PER_USEC);
++		if (is_valid_timestamp(timestamp))
++			input_set_timestamp(udev->dev, timestamp);
++
+ 		input_event(udev->dev, ev.type, ev.code, ev.value);
+ 		bytes += input_event_size();
+ 		cond_resched();
 -- 
-Dmitry
+2.40.1.495.gc816e09b53d-goog
+
