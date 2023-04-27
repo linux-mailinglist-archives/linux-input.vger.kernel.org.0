@@ -2,36 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BBDEB6F067A
-	for <lists+linux-input@lfdr.de>; Thu, 27 Apr 2023 15:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71A596F08E4
+	for <lists+linux-input@lfdr.de>; Thu, 27 Apr 2023 17:59:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243404AbjD0NPk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Apr 2023 09:15:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37670 "EHLO
+        id S243864AbjD0P7y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Apr 2023 11:59:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243466AbjD0NPf (ORCPT
+        with ESMTP id S244290AbjD0P7u (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Apr 2023 09:15:35 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CEF84495;
-        Thu, 27 Apr 2023 06:15:22 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 7172C1C0D22; Thu, 27 Apr 2023 15:15:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1682601320;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Q2nKoZvt8N7LqYBmdBABrzailml1kvoxUqiS++FYAV8=;
-        b=c37fUE6a0M9uFWN2LlcazPiUTJM3Hp8dmgmsfw2+FasKoOGIYrgBW+E2R6rUHWfhfcUa7j
-        2SXrN0bd5BV6eLYhp36Ye/u2gdrP42DF9n2uQr114LiY+GyHyeq7y0wfwyBH6cJ+YojcG8
-        Y0mba4PstW7od0yu81hagZQbHLTSpCE=
-Date:   Thu, 27 Apr 2023 15:15:19 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Michael Riesch <michael.riesch@wolfvision.net>
-Cc:     Javier Carrasco <javier.carrasco@wolfvision.net>,
-        phone-devel@vger.kernel.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thu, 27 Apr 2023 11:59:50 -0400
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2089.outbound.protection.outlook.com [40.107.20.89])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28B921989;
+        Thu, 27 Apr 2023 08:59:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EeSVpf6fgAk9RbfuwoUqxOYKDtIIy+C9HYNZCmlqi+90Pj4995I2iesCRpGLOO1XlC75Tx9gEiyZcnuWBifJMJz0LcAMK7pqVqBHbDRu9lqNl/htB7vU+uwL3yzuSLkQhyBxnyWf9M+5rTWsjeoO5kmxO2uXF1TUBAIEjEy/W+rWhdfgRPV+a1/cePS9QeWuzCe3qR2oXRRTGipepVdcrJ3d/AR72MAZCDu/PO3SOev7wpRvFI/uZWEgMrdIkKVA2hrP53p08ULrO5pkYzJ/YltOrmkSUChBNqPOPPFU+K6lwQ2wWHAVAgKNXaJlEbL+ThDVPe2dBWr9rj/85tItIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fYJEJ1pfXBm8i0RBqYnM9qja+ijU93cy2jQiKNVXj5w=;
+ b=E6Dzsgzg7dYaJqI7cju7gc7np/cWqixFG1pGcPwi4v5mgBfxwjETQjo4T8L4SSfvquzd+0lFzPJYwybYkaAw82YctSe0bS28s9jt9U1NYqdsh1ey2V3IyC9Mmoz0uxyDlMBxv89Q+YKzyyezcgDjyEU6z6IEAp8JlMRP78qQZ3rPcumwrV7wtQJC4pc6uOVycqn8Fw87C1SqAhWo452RENLBD/9yLXhcI8/h2qTm6mJsOV0XaLXwdXbp43Xf/oWaDiT44boH0GSAGl2Z8tjn9944fyH3g3+P2GeDnGmTkPEYUxVtJyhKBanRLXxJg5zLkqzFR5Nkv+kt5idAJtjlww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fYJEJ1pfXBm8i0RBqYnM9qja+ijU93cy2jQiKNVXj5w=;
+ b=Zrwe+G89Xmu2+2iSQFsCBnARRC+EhcLYnIEGTH+0QX/ku6UwB+WHo30NoM7f7IvCTciATBEoQgMpd2F21sVegmhFqClmLazgK6kakk7ckkDaUmMvnhuW5Y6og/Jz2050vW7oCVmfh4OMuJFYu6pnl3PhDwrud7ySqJMDKtgH9gY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from AM6PR08MB4966.eurprd08.prod.outlook.com (2603:10a6:20b:d4::23)
+ by DBAPR08MB5831.eurprd08.prod.outlook.com (2603:10a6:10:1a8::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.22; Thu, 27 Apr
+ 2023 15:59:46 +0000
+Received: from AM6PR08MB4966.eurprd08.prod.outlook.com
+ ([fe80::b0b:e088:c212:d47b]) by AM6PR08MB4966.eurprd08.prod.outlook.com
+ ([fe80::b0b:e088:c212:d47b%6]) with mapi id 15.20.6340.021; Thu, 27 Apr 2023
+ 15:59:44 +0000
+Message-ID: <aa6125d9-1233-7aab-1811-29acd4ad49a5@wolfvision.net>
+Date:   Thu, 27 Apr 2023 17:59:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [RFC v1 0/4] Input: support virtual objects on touchscreens
+Content-Language: en-US
+To:     Jeff LaBundy <jeff@labundy.com>,
+        =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <thomas@t-8ch.de>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -43,83 +62,154 @@ Cc:     Javier Carrasco <javier.carrasco@wolfvision.net>,
         Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         Uwe Kleine-g <u.kleine-koenig@pengutronix.de>,
-        Bastian Hecht <hechtb@gmail.com>
-Subject: Re: [RFC v1 0/4] Input: support virtual objects on touchscreens
-Message-ID: <ZEp1Z08/CQ+waw8+@duo.ucw.cz>
+        Bastian Hecht <hechtb@gmail.com>,
+        Michael Riesch <michael.riesch@wolfvision.net>
 References: <20230425115049.870003-1-javier.carrasco@wolfvision.net>
- <ZEpWrWpzkI9kNTkr@duo.ucw.cz>
- <de87d6ae-3449-5581-3e17-4aae72e8197a@wolfvision.net>
+ <419c9d72-9791-46ff-8317-b4dfe2e2d0a3@t-8ch.de> <ZEf5rfzs22HtQivB@nixie71>
+From:   Javier Carrasco <javier.carrasco@wolfvision.net>
+In-Reply-To: <ZEf5rfzs22HtQivB@nixie71>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: VI1PR0701CA0040.eurprd07.prod.outlook.com
+ (2603:10a6:800:90::26) To AM6PR08MB4966.eurprd08.prod.outlook.com
+ (2603:10a6:20b:d4::23)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="CwltbjgpA33UBO1n"
-Content-Disposition: inline
-In-Reply-To: <de87d6ae-3449-5581-3e17-4aae72e8197a@wolfvision.net>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4966:EE_|DBAPR08MB5831:EE_
+X-MS-Office365-Filtering-Correlation-Id: ed6dd45c-49fc-4b19-49dc-08db47386b0a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: oPMbIMyGdBq/gjZFnHk1nA+M50LBtn7t0BCY5BIpRqVv/ICwt5HbHYit1PHpk1+jAK8o4kp9vvnF7TZR/k9oxSjzMdcEu42qy6rUgki3mOYxQ0gLsC8uJbgTZJ0J8T6oWGxTZ7Y8GIhuthgXy3bgMH+NjJDYHgpW8mMkPXtL+TS9CyESZEiIzeYvMW1Z7DaQWzS24AlgLBFy6He6UAwqBC3gh0CYok3JMXVGyMKfWl8TW6SMx7vszecJOWSkpfsf6PlliKK5Cc7/w86nW74ROwATMmGXh6FiyuSgdsOi5UdyGZZj6/0apjXSz1qajFEsA+bnKoet+NyqMoUWlPfOYzKU/NUO0hj3UPpIe04I8Efa5C8d1MT9J81i8lmABaqIY6Dl5TcDP5s5TAvClaa7yp6OLKdtWvtmrED31vRiMzPB/gDo99zsYlsdy6h6CAww15EBo89DKjQPCaOUk0/VQ2egEdylRvxmAHBn+tsdw0wXCdJChwNLf/Vj7hqABzrfBFbcxQNUDb79YcC4qTBqvqLoO1tDQZEIxlQmRxoNXYWQ/KvoTV5bUlsFzHjyY+AsXxI3ms2325gQHwN2UnNiuJH0I3b8pG9YZ1dWZ0E5zml+NmITb9FOzPE32O/nZYm8A7wjWT1xXffCpcpWnLvkLA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR08MB4966.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(39840400004)(376002)(136003)(346002)(366004)(451199021)(110136005)(4326008)(66946007)(478600001)(54906003)(7416002)(8936002)(8676002)(38100700002)(41300700001)(316002)(5660300002)(66574015)(186003)(2616005)(83380400001)(6486002)(45080400002)(53546011)(966005)(66556008)(6506007)(26005)(66476007)(107886003)(6512007)(86362001)(31696002)(2906002)(36756003)(44832011)(31686004)(66899021)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bWFrZDZ2S3dBMnpRc2RhRFlvbVY4RDl2NXJadXdBMllRcWNIZnBpdlBVQnNN?=
+ =?utf-8?B?a2JhS2ZJTzUwanJiUVZrZ1FaR0hSZ2oxZjA5THFQNUpyZmZmTnExMmppUHBK?=
+ =?utf-8?B?ZGc1azNIUGJ0bGI5d2ZFMEZybWs3Y0NPZ2srVTcwTDdxRnlMYnUyZEtPUjJa?=
+ =?utf-8?B?V2N3NFFaUm1XbktiY0FBeFV5Z25kcnNYZlczeW9lUnRmOC9lUDdlc3V1cG4y?=
+ =?utf-8?B?UDZmcTQxT0dZdzR6a2dvVElOZmcxdDk2SGxzT3QxNkNZTXNEVlh4cm1jWnhp?=
+ =?utf-8?B?dGxNNnp4OW9PVWovRnprNDc3OXRFbFVYb0xJcEoyTlJaeUZHenY1V3dCcXBC?=
+ =?utf-8?B?T3luaG42b1VJSXZjSWxkSWZLZkFteTI2Sjk4MGt2Z2hXaG0yTXJWS0xiNHV6?=
+ =?utf-8?B?QlJPVTA5UWpiYkFGN01iQ2tySVNnOXNRR1R2K3J3Wk5ickQ1VUZ1U04xTjVk?=
+ =?utf-8?B?RHdFcS9nd0VoZWJIQ25IallPUmZ0YW42TlkzUnh1Z1Jmb2V2S29vNGliNHlw?=
+ =?utf-8?B?ZC9MMGdia0tVUzZhZVZXNDJVSTZ5TXIwbmNXblY5V20yUFdvWWlWSkU4RGJi?=
+ =?utf-8?B?RktSdzdlWVI0QjdSbGVybFFXd0QyMU1hZHRmN05tWGsrd1VJUUJsUFlGQlV1?=
+ =?utf-8?B?OEtSZTBOYWZ6eHZyU0h5SEc5NkcrSTdLdXlrQk5NMUVqazN3YS9PUFJjL0Yx?=
+ =?utf-8?B?MUhtZWdGbEYvOTFYODdhNXJDVDdsS0s3TVRveE1BZC9RQlY3UWxyM1ROY1ZK?=
+ =?utf-8?B?ZEx0eEVVNDlkcmdBN1Npd1paZ2tUeklXNXVUTEV6Snk2TE5xb3BlOWwzdE9W?=
+ =?utf-8?B?TGl0cmR2OFZKWk9obDdNTmdyaFVrMnMwRzFIU2NVVWlXOWE3MkNRMXg2V0Ix?=
+ =?utf-8?B?STJhMkpUR3BmbzBOSGZJNjBtaVRDblovWlZlL3Y0dkd0UGVtZkpvS3VUQy9v?=
+ =?utf-8?B?T3Y1eHlEaEpHY1hNQUoyUTNkQVJnTjJSejVnbG5lelRuNXFNSXppYkhzU1M2?=
+ =?utf-8?B?VWdHS0tvbmhwS2ZKOUNOemxCbTc4VkROVGYwUjZYUzJ5UnU3T3BXZ2prRjJU?=
+ =?utf-8?B?bTFRSGJEVlV6TlZWMXk0TExWdXFlSE10alRmenVObHQ5dytsd2s3SnhqQ2l1?=
+ =?utf-8?B?c0h2RWl5Vk5ycmRiS0svZlBwbXA5b0tXK25JRTlRT0sxYzhMYTVXZzRyak1U?=
+ =?utf-8?B?TldNNTRaK0ZIWFJ3OVhLeFdxNW5OdzB5eVljRXAzYXA2Y2xKaFNXUXhPeS83?=
+ =?utf-8?B?RkNJczNVb0xNVXNIZWY3a1NFM2sxQzNVTU5GRXBBVlZzRVNhcGt5djZPa3B3?=
+ =?utf-8?B?eCtGMkx1WkU1UmxQK2l0ODJaNkF1UEVwN3lnWUZ3RWM1Yzk1Z3RFVFlhUnNM?=
+ =?utf-8?B?bUtIbWltVjFqQ0VRNjk2UFpkNXV1WXJyWGh4dWMzc1cyTEphc3ByajcwZmJ3?=
+ =?utf-8?B?UWd3UFZwVE93WGh3MXpWRFJTYjVBRUFKV1o1QjNMaS8yVUkwTk83bXNLeTdr?=
+ =?utf-8?B?bFhrdzlsZzJnbU4rbUVwditvODhHTElpaHhVRFBndlJEeHdkbEFTMlhyNGlU?=
+ =?utf-8?B?U0ZwMDFmZklPRTU4YXZXUVVxSkV6SWJTNVJDSU5GU2FVRVh3SVYvcmgrMXFz?=
+ =?utf-8?B?endQSmorbS9Pa01pT2lTT3l4Y3ZUK09MQW1Dd3pxbVM5amZMbVJXaHZ4ZEVE?=
+ =?utf-8?B?cGRiR1NoYm8rZmtncGlOeWI0L3A5VG9nS1dtQmRwM1d1aittU0tiMk1Yb3p2?=
+ =?utf-8?B?WDQzeUltTXllcW56OFNLbXpMUVk4NjZ4clNvMTh0MmpoUGQrM2U4WS9IVDB2?=
+ =?utf-8?B?VXpvVFAvT25PcjhFNzM2TDgrc29xdis0Wlo4QitXSHlyQkpRNGxwblNPY1Vp?=
+ =?utf-8?B?RWJ3U0JTMjVvQnA3VmdGZ25NOEpwSTRiU2x1bVBuL1Q3SGFKNFBZYjhBUDNy?=
+ =?utf-8?B?RytZc3NtTzJTUGdJNEFLc1hrMkJIUDMxOHlkRGltb2pqd2dnTldCd3Y5Q00w?=
+ =?utf-8?B?REZHWE1KZzdndENIVkw0M2pObG9RTWhENzl5ZHdJMnVzK0JjZFdIYmQyd0RL?=
+ =?utf-8?B?b2RQd3VpcWZSWGZKajZsWUZpL1NFVzBYR3p1aHJ6My9QZ0o3OTl5d3kyeWFB?=
+ =?utf-8?B?ckloTG5vdGh1QkpEcmtla0J1QnN6SXlyTXVSdUEzcWVvYlpra3hId25HNzE2?=
+ =?utf-8?B?Qnc9PQ==?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed6dd45c-49fc-4b19-49dc-08db47386b0a
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4966.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2023 15:59:44.4106
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RtovrspnXg9ijxgHxreaUzQzgu+35SDz9WXjB3pknCdMiApnaMm7oWPFMvI8s7gmcFkZEJ4/9bcgjJ0BqNlv1x6IB5ew+sDV5/cfgp7MJ+8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR08MB5831
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi,
 
---CwltbjgpA33UBO1n
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 25.04.23 18:02, Jeff LaBundy wrote:
+> Hi Thomas,
+> 
+> On Tue, Apr 25, 2023 at 05:29:39PM +0200, Thomas Weißschuh wrote:
+>> Hi Javier,
+>>
+>> On 2023-04-25 13:50:45+0200, Javier Carrasco wrote:
+>>> Some touchscreens are shipped with a physical layer on top of them where
+>>> a number of buttons and a resized touchscreen surface might be available.
+>>>
+>>> In order to generate proper key events by overlay buttons and adjust the
+>>> touch events to a clipped surface, these patches offer a documented,
+>>> device-tree-based solution by means of helper functions.
+>>> An implementation for a specific touchscreen driver is also included.
+>>>
+>>> The functions in ts-virtobj provide a simple workflow to acquire
+>>> physical objects from the device tree, map them into the device driver
+>>> structures as virtual objects and generate events according to
+>>> the object descriptions.
+>>>
+>>> This solution has been tested with a JT240MHQS-E3 display, which uses
+>>> the st1624 as a touchscreen and provides two overly buttons and a frame
+>>> that clips its effective surface.
+>>
+>> There are quite a few of notebooks from Asus that feature a printed
+>> numpad on their touchpad [0]. The mapping from the touch events to the
+>> numpad events needs to happen in software.
+> 
+> That example seems a kind of fringe use-case in my opinion; I think the
+> gap filled by this RFC is the case where a touchscreen has a printed
+> overlay with a key that represents a fixed function.
 
-Hi!
+ Exactly, this RFC addresses exactly such printed overlays.
+> 
+> One problem I do see here is something like libinput or multitouch taking
+> hold of the input device, and swallowing the key presses because it sees
+> the device as a touchscreen and is not interested in these keys.
 
-> >=20
-> >> Some touchscreens are shipped with a physical layer on top of them whe=
-re
-> >> a number of buttons and a resized touchscreen surface might be
-> >> available.
-> >=20
-> > Yes, it is quite comon, for example Motorola Droid 4 has 4 virtual
-> > buttons below touchscreen.
->=20
-> Are those buttons configurable in some way? Or do they have a fixed purpo=
-se?
+Unfortunately I do not know libinput or multitouch and I might be
+getting you wrong, but I guess the same would apply to any event
+consumer that takes touchscreens as touch event producers and nothing else.
 
-Fixed.
+Should they not check the supported events from the device instead of
+making such assumptions? This RFC adds key events defined in the device
+tree and they are therefore available and published as device
+capabilities. That is for example what evtest does to report the
+supported events and they are then notified accordingly. Is that not the
+right way to do it?
 
-> How does Android handle those buttons, BTW?
-
-No idea.
-
-> > One question is if this should be handled inside the kernel. It will
-> > make it compatible with existing software, but it will also reduce
-> > flexibility.
->=20
-> I would say that it should be described in device tree if the purpose is
-> fixed. For example, if there is no display behind the touch screen at a
-> certain point but a printed sheet (e.g., with a home or return symbol)
-> then it is clear that this button is not going to change. In such a case
-> I doubt that flexibility is required.
-
-I agree it should be in the device tree.
-
-AFAICT hardware can do drags between the buttons, and drag between the
-buttons and touchscreen. Turning it into buttons prevents that.
-
-Plus, real buttons can do simultaneous presses on all of them,
-touchscreens will have problems with that.
-
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---CwltbjgpA33UBO1n
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZEp1ZwAKCRAw5/Bqldv6
-8oX2AKCHvc05pxAHX0VL5xbfmkbx9sLhkACfesnbnxpyU4K1Q08cSevtLEkKtlg=
-=80om
------END PGP SIGNATURE-----
-
---CwltbjgpA33UBO1n--
+Thanks a lot for your feedback!
+> 
+> Therefore, my first impression is that the virtual keypad may be better
+> served by registering its own input device.
+> 
+> Great work by the way, Javier!
+> 
+>>
+>> Do you think your solution is general enough to also support this
+>> usecase?
+>>
+>> The differences I see are
+>> * not device-tree based
+>> * touchpads instead of touchscreens
+>>
+>>> [..]
+>>
+>> [0] https://unix.stackexchange.com/q/494400
+> 
+> Kind regards,
+> Jeff LaBundy
