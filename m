@@ -2,39 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B182A6F0516
-	for <lists+linux-input@lfdr.de>; Thu, 27 Apr 2023 13:43:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D2026F0523
+	for <lists+linux-input@lfdr.de>; Thu, 27 Apr 2023 13:48:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243444AbjD0LnR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Apr 2023 07:43:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44996 "EHLO
+        id S243560AbjD0Lrx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Apr 2023 07:47:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243215AbjD0LnQ (ORCPT
+        with ESMTP id S243492AbjD0Lrw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Apr 2023 07:43:16 -0400
-X-Greylist: delayed 327 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 27 Apr 2023 04:43:13 PDT
+        Thu, 27 Apr 2023 07:47:52 -0400
 Received: from mx.swemel.ru (mx.swemel.ru [95.143.211.150])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CD054C12;
-        Thu, 27 Apr 2023 04:43:13 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15E85E7;
+        Thu, 27 Apr 2023 04:47:49 -0700 (PDT)
 From:   Denis Arefev <arefev@swemel.ru>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=swemel.ru; s=mail;
-        t=1682595460;
+        t=1682596065;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding;
         bh=BPz+sCdj0zEEm34nzbfMEWWZqvUZAC80l+biy0y2rpg=;
-        b=VnLpo/D9lGIFFeTXwOFt5vZe/y6MC0ulbrm+cMyBdC4LOkh5XMPULeV9ca0nDyrJYNxs2M
-        v6p7xchAvVMdrRN8jA5JUwcMF9c60/5zGkMVXBJi/DSkvpFuz49M9HzbVKXrBTwshtQP7+
-        EkiVXZgjPJKMQ3ycWgJ/pXA6GUrBLuk=
+        b=XY9UqjkvFlyevL4fYzw6AZpw2XsfcMue5NcxP/+4Fx+s4rqkxDlQl19tW1Tg6Cm6nkQMJt
+        qgyB33ESgGLKCJ+4VRZhqBt2xJY4N7zLnl6IXYEGLGkH/XxDxN58zjFS8o6NBfjpld8ocv
+        sz3/Jej09teSGb0MtLyFcaXPqnKWqJ8=
 To:     Ping Cheng <ping.cheng@wacom.com>
 Cc:     Jason Gerecke <jason.gerecke@wacom.com>,
         Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        trufanov@swemel.ru, vfh@swemel.ru
+        lvc-project@linuxtesting.org, trufanov@swemel.ru, vfh@swemel.ru
 Subject: [PATCH] HID: wacom: Added error check
-Date:   Thu, 27 Apr 2023 14:37:40 +0300
-Message-Id: <20230427113740.52811-1-arefev@swemel.ru>
+Date:   Thu, 27 Apr 2023 14:47:45 +0300
+Message-Id: <20230427114745.53136-1-arefev@swemel.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
