@@ -2,61 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B74236F025D
-	for <lists+linux-input@lfdr.de>; Thu, 27 Apr 2023 10:13:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 112196F026E
+	for <lists+linux-input@lfdr.de>; Thu, 27 Apr 2023 10:19:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242959AbjD0INn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Apr 2023 04:13:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37796 "EHLO
+        id S243066AbjD0IT4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Apr 2023 04:19:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232094AbjD0INh (ORCPT
+        with ESMTP id S243077AbjD0ITx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Apr 2023 04:13:37 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87E252D79;
-        Thu, 27 Apr 2023 01:13:36 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-2febac9cacdso4989293f8f.1;
-        Thu, 27 Apr 2023 01:13:36 -0700 (PDT)
+        Thu, 27 Apr 2023 04:19:53 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FABE3A9A;
+        Thu, 27 Apr 2023 01:19:52 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-2fa36231b1cso5048438f8f.2;
+        Thu, 27 Apr 2023 01:19:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682583215; x=1685175215;
+        d=gmail.com; s=20221208; t=1682583591; x=1685175591;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=W2YdJ16upKTR7fyZcjH5Yz52tSKzgQbMIFH5U7k9qM4=;
-        b=kSTts5ONirlPcLsG3bXihpXCeWHIR1Xzd+Rv6O3764HUcW3eO/Xn4nVfliLtTlBYkU
-         TliokqyisW0v9BeuR7U5GO/jzFsQ/BBtCO1tsfPBInElguvy+mrUelD2TvWbo1XO9MhG
-         L+/Ezz7Zjy6U/BJrKtQ7XHEaGZP3N9PdIchpMKvTtAJ9zREwnBHCRDG9E73Pf66i61Mq
-         DMhXppshDc/VidnhD0CMUqBkdOvUHW7WREg3uf2Q0SafHg+fO9Ojg93qXHImaJjvW1SZ
-         /asPgLvXqPzEjev3qzWNlbb7qnmTUIArP/McUBzg9oEI2jYF6IYZ8O3IlJvp4yawNEVy
-         vMrw==
+        bh=gzFxCmCViEMHXU5pJcqB4vl+bQBH8MRNorgL7voOk4s=;
+        b=LWvz2ZPnfvG2hf+HjF8rsGqkWnAStW32Cgrx9nJgmk+Ur3BQBcsBcHS0t3XIGc0n4a
+         OdBdVB08Y9NS8yXu82+FqsIfptZceNRaQ2bsBl83aNJVqxN6EAx6ucZGdzJdvm/qiaSR
+         eQ/OLKYc8j3RoiBEf73MG1LzUGD6yqHRFDrcZAvzlYh2VEKQExB3pW4UJ+QPcEef4eT3
+         8KAc7d+kLG7LI/2VV1fUubxLaceVm1HNdL9xXxR0e2LJ7aEixMOJNtfbaPL8xmBrw4bv
+         rldWwA+HFyIIFW/WyT1fCK8fY8igQ9IfANwxGDgqTp2eZlkR+CXuBFw+LeWtGuzztiOR
+         ol3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682583215; x=1685175215;
+        d=1e100.net; s=20221208; t=1682583591; x=1685175591;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=W2YdJ16upKTR7fyZcjH5Yz52tSKzgQbMIFH5U7k9qM4=;
-        b=lzthvELC8Knx5oGzNPocN8lcTNHp1iywUO0VUzxJj0+sqMDPsgCORVHZeV5itDz0wv
-         ukH6KNUyB5jYl6jeb23EDmr33yrPpS1A+0FKdPe5N9bKqP/t5fzdyf4YdpFyM6WHXr8y
-         auNEGem5J7e0gCdCnvN/Vbyw6UZhb+ohqwAXyOz/dhf6iHaC/eml+3G67yhPJRpUbkWH
-         ryvH8Mv6CzVkL3tStVX3c82eTDv1ct8zlZPYubPTlrcL3d7XFQtkPFu7eOqkFpnj3JN7
-         l8UAmmkztq2MWDjTMSA4mtcASm5ZVmU7NelTClcts1R6FP/bB5EvjHMStFTitparohDd
-         ABrw==
-X-Gm-Message-State: AC+VfDxJ/Qr0gG9RYXj6XnD0cNTSIjvN/oFzd0+zQygI6VXouNrCoOwC
-        nNc5CK2bWFaZaf+AVgvBEVYg15lMPE1xkomRzh8uEFX6aw==
-X-Google-Smtp-Source: ACHHUZ58CNSZ5iF3CO8HsMCZB+ylZ0Z3HNxrAMDIrzf3j9WXyC5gDT2ffSabtTzc2mfk8VG58xgJXDL+IdfUb0lPOt8=
-X-Received: by 2002:adf:edc2:0:b0:2ff:c0c0:532a with SMTP id
- v2-20020adfedc2000000b002ffc0c0532amr592937wro.25.1682583214884; Thu, 27 Apr
- 2023 01:13:34 -0700 (PDT)
+        bh=gzFxCmCViEMHXU5pJcqB4vl+bQBH8MRNorgL7voOk4s=;
+        b=gFpjMzs2QOjadocMfpEnKYyRp4LvwdcsA58PWFOVc0S3WQkT/Ekb8Yc+b9SIQATWtt
+         RFbYS8cURUax8uAQA2UeSa+uMUY3jOYQuP1ZZw8Jw7ckcIOxFqgvKBF0jPBBYYOck0ta
+         J/n84Cqxtx5hxAQzOrbHNWAMsSnDdX7Hii8QfF+OTh5v2YCSg6XAbKlZ8B5DeA/kCde/
+         uLSuIEsEvotNuc60PFfMAHXtZDzQ7nivB3XDPumB2Kmap2oYn6bIfvhcm67acnJ739DP
+         lmxcsoZZrHR6b9vBcm6E2gX1UDLY0cG4t3q7D/GM0EDGXUj7gYcc+CV+4eYBEHyqB9EU
+         EEZg==
+X-Gm-Message-State: AC+VfDxc3QdsHc07DmCcmD56yI64Okw135fkPf5pUnT+DWkG3iPqWvsa
+        NsKljRWklQqOrjp2eEzTwas2JOguHzd2EU8uaw==
+X-Google-Smtp-Source: ACHHUZ4oLyd8EpikyeMDBjp/0mXOBX8YzZrSOILK/qEv30qbv0kjhzl8WY2s3xULUcVM5j5atJvCMPFRNljPp3w9DT0=
+X-Received: by 2002:adf:da47:0:b0:2f4:4e1a:bea2 with SMTP id
+ r7-20020adfda47000000b002f44e1abea2mr583218wrl.59.1682583590838; Thu, 27 Apr
+ 2023 01:19:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <ZEf0RYdD5jhE9JEk@nixie71> <20230425164903.610455-1-tomas.mudrunka@gmail.com>
- <ZEnErxfnSn2JOpvm@nixie71>
-In-Reply-To: <ZEnErxfnSn2JOpvm@nixie71>
+References: <20230425130054.591007-1-tomas.mudrunka@gmail.com>
+ <ZEf0RYdD5jhE9JEk@nixie71> <ZEmwsViIjUVPZ4Cd@google.com> <ZEnBZs9VYxriT1Or@nixie71>
+In-Reply-To: <ZEnBZs9VYxriT1Or@nixie71>
 From:   =?UTF-8?B?VG9tw6HFoSBNdWRydcWIa2E=?= <tomas.mudrunka@gmail.com>
-Date:   Thu, 27 Apr 2023 10:13:22 +0200
-Message-ID: <CAH2-hcLOA0ECg7ubKh_r9BryRuGPjJ1Cv1ErUpMmQ+Yag5qnWA@mail.gmail.com>
-Subject: Re: [PATCH v2] Fix freeze in lm8333 i2c keyboard driver
+Date:   Thu, 27 Apr 2023 10:19:38 +0200
+Message-ID: <CAH2-hcJa_vL9iWTARUAD+adrvQAjzr1N4bQ=cN+8kbE0arVwZw@mail.gmail.com>
+Subject: Re: [PATCH] Fix freeze in lm8333 i2c keyboard driver
 To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -68,33 +68,25 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello, thanks for your notes.
-
-> This is the right idea. I am sort of splitting hairs here, however I
-> think it makes sense to place this read before the IRQ is requested
-> and not after.
+> Yes that's correct; what I mean to say is that depending on the nature of
+> the read-to-clear mechanism in the part, there is a chance that the IRQ
+> has not been deasserted by the time the threaded handler returns. On some
+> devices for example, the IRQ is not deasserted until some time after the
+> read's stop condition.
 >
->
-> As written, there is room for an ever-so-tiny race condition wherein
-> the IRQ is asserted just after it is requested. Before the threaded
-> handler has run however, the new read in probe swallows the IRQ status
-> before the threaded handler can read it and react to errors.
+> For these cases, I consider it best practice to measure the I2C and IRQ
+> lines on a scope and if necessary, add a small delay before the interrupt
+> handler returns. This is especially true for open-drain interrupts that
+> may need a few hundred extra us for the pin to rise.
 
-In fact i believe quite the opposite case to be true.
-If i read before registering IRQ there will be ever-so-tiny race condition that
-would allow to miss the edge (exactly the bug this patch is fixing,
-but limited).
+Well before posting the patch i did some testing.
+I was watching the /proc/interrupts and checked that IRQ counter for
+lm8333 matches number of keypresses.
+Which i've only tested for like 20-30 times, but haven't seem any glitch.
 
-In the case you describe the worst scenario is likely that the interrupt handler
-will be called only to re-read status and immediately return on this condition:
-
-if (!status) return IRQ_NONE;
-
-> Also, I think you should at least capture and evaluate lm8333_read8()'s
-> return value as is already done for the calls to lm8333_write8().
-
-Well. If you think this will bring any benefits, i might as well just call
-lm8333_irq_thread() instead of lm8333_read8()
-Would that be acceptable solution?
-
-Tom.
+But i still recognize the fact that the gpio line getting stuck for
+some reason (short circuit on PCB?) might cause troubles by
+unnecessarily loading the CPU, while with edge trigger it's more
+likely to affect only the function of keyboard itself rather than
+bringing down whole system. But i am not sure if this case is supposed
+to be expected and handled in SW.
