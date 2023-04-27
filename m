@@ -2,91 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 112196F026E
-	for <lists+linux-input@lfdr.de>; Thu, 27 Apr 2023 10:19:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 178A06F04AB
+	for <lists+linux-input@lfdr.de>; Thu, 27 Apr 2023 13:04:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243066AbjD0IT4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Apr 2023 04:19:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41096 "EHLO
+        id S243317AbjD0LEV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Apr 2023 07:04:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243077AbjD0ITx (ORCPT
+        with ESMTP id S243269AbjD0LEU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Apr 2023 04:19:53 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FABE3A9A;
-        Thu, 27 Apr 2023 01:19:52 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-2fa36231b1cso5048438f8f.2;
-        Thu, 27 Apr 2023 01:19:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682583591; x=1685175591;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gzFxCmCViEMHXU5pJcqB4vl+bQBH8MRNorgL7voOk4s=;
-        b=LWvz2ZPnfvG2hf+HjF8rsGqkWnAStW32Cgrx9nJgmk+Ur3BQBcsBcHS0t3XIGc0n4a
-         OdBdVB08Y9NS8yXu82+FqsIfptZceNRaQ2bsBl83aNJVqxN6EAx6ucZGdzJdvm/qiaSR
-         eQ/OLKYc8j3RoiBEf73MG1LzUGD6yqHRFDrcZAvzlYh2VEKQExB3pW4UJ+QPcEef4eT3
-         8KAc7d+kLG7LI/2VV1fUubxLaceVm1HNdL9xXxR0e2LJ7aEixMOJNtfbaPL8xmBrw4bv
-         rldWwA+HFyIIFW/WyT1fCK8fY8igQ9IfANwxGDgqTp2eZlkR+CXuBFw+LeWtGuzztiOR
-         ol3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682583591; x=1685175591;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gzFxCmCViEMHXU5pJcqB4vl+bQBH8MRNorgL7voOk4s=;
-        b=gFpjMzs2QOjadocMfpEnKYyRp4LvwdcsA58PWFOVc0S3WQkT/Ekb8Yc+b9SIQATWtt
-         RFbYS8cURUax8uAQA2UeSa+uMUY3jOYQuP1ZZw8Jw7ckcIOxFqgvKBF0jPBBYYOck0ta
-         J/n84Cqxtx5hxAQzOrbHNWAMsSnDdX7Hii8QfF+OTh5v2YCSg6XAbKlZ8B5DeA/kCde/
-         uLSuIEsEvotNuc60PFfMAHXtZDzQ7nivB3XDPumB2Kmap2oYn6bIfvhcm67acnJ739DP
-         lmxcsoZZrHR6b9vBcm6E2gX1UDLY0cG4t3q7D/GM0EDGXUj7gYcc+CV+4eYBEHyqB9EU
-         EEZg==
-X-Gm-Message-State: AC+VfDxc3QdsHc07DmCcmD56yI64Okw135fkPf5pUnT+DWkG3iPqWvsa
-        NsKljRWklQqOrjp2eEzTwas2JOguHzd2EU8uaw==
-X-Google-Smtp-Source: ACHHUZ4oLyd8EpikyeMDBjp/0mXOBX8YzZrSOILK/qEv30qbv0kjhzl8WY2s3xULUcVM5j5atJvCMPFRNljPp3w9DT0=
-X-Received: by 2002:adf:da47:0:b0:2f4:4e1a:bea2 with SMTP id
- r7-20020adfda47000000b002f44e1abea2mr583218wrl.59.1682583590838; Thu, 27 Apr
- 2023 01:19:50 -0700 (PDT)
+        Thu, 27 Apr 2023 07:04:20 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE44410E;
+        Thu, 27 Apr 2023 04:04:16 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id E89D11C0E6E; Thu, 27 Apr 2023 13:04:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1682593453;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=gCx6799fPD1mvbmBrIDrAMnxIBHFIp4o9m2BUKCs55s=;
+        b=iGQ3rxURs2j7UDZIKpZa2LfnryQV7Vyw7frtEnKUiCP1USATzOSHsjw9FGggesZRDsmYVA
+        gKLEgNRd5Vaua6p6LgrvDf4V3QIkJW5MCItd/Fev+qDF9H6dOd4jCtNl2ug4VqwqcggW/+
+        32mJaq+rPII/OVLH694uK55/LASSSQY=
+Date:   Thu, 27 Apr 2023 13:04:13 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Javier Carrasco <javier.carrasco@wolfvision.net>,
+        phone-devel@vger.kernel.org
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Uwe Kleine-g <u.kleine-koenig@pengutronix.de>,
+        Bastian Hecht <hechtb@gmail.com>,
+        Michael Riesch <michael.riesch@wolfvision.net>
+Subject: Re: [RFC v1 0/4] Input: support virtual objects on touchscreens
+Message-ID: <ZEpWrWpzkI9kNTkr@duo.ucw.cz>
+References: <20230425115049.870003-1-javier.carrasco@wolfvision.net>
 MIME-Version: 1.0
-References: <20230425130054.591007-1-tomas.mudrunka@gmail.com>
- <ZEf0RYdD5jhE9JEk@nixie71> <ZEmwsViIjUVPZ4Cd@google.com> <ZEnBZs9VYxriT1Or@nixie71>
-In-Reply-To: <ZEnBZs9VYxriT1Or@nixie71>
-From:   =?UTF-8?B?VG9tw6HFoSBNdWRydcWIa2E=?= <tomas.mudrunka@gmail.com>
-Date:   Thu, 27 Apr 2023 10:19:38 +0200
-Message-ID: <CAH2-hcJa_vL9iWTARUAD+adrvQAjzr1N4bQ=cN+8kbE0arVwZw@mail.gmail.com>
-Subject: Re: [PATCH] Fix freeze in lm8333 i2c keyboard driver
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="C8RZd6IZ7KbnjRDA"
+Content-Disposition: inline
+In-Reply-To: <20230425115049.870003-1-javier.carrasco@wolfvision.net>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-> Yes that's correct; what I mean to say is that depending on the nature of
-> the read-to-clear mechanism in the part, there is a chance that the IRQ
-> has not been deasserted by the time the threaded handler returns. On some
-> devices for example, the IRQ is not deasserted until some time after the
-> read's stop condition.
->
-> For these cases, I consider it best practice to measure the I2C and IRQ
-> lines on a scope and if necessary, add a small delay before the interrupt
-> handler returns. This is especially true for open-drain interrupts that
-> may need a few hundred extra us for the pin to rise.
 
-Well before posting the patch i did some testing.
-I was watching the /proc/interrupts and checked that IRQ counter for
-lm8333 matches number of keypresses.
-Which i've only tested for like 20-30 times, but haven't seem any glitch.
+--C8RZd6IZ7KbnjRDA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-But i still recognize the fact that the gpio line getting stuck for
-some reason (short circuit on PCB?) might cause troubles by
-unnecessarily loading the CPU, while with edge trigger it's more
-likely to affect only the function of keyboard itself rather than
-bringing down whole system. But i am not sure if this case is supposed
-to be expected and handled in SW.
+Hi!
+
+> Some touchscreens are shipped with a physical layer on top of them where
+> a number of buttons and a resized touchscreen surface might be
+> available.
+
+Yes, it is quite comon, for example Motorola Droid 4 has 4 virtual
+buttons below touchscreen.
+
+One question is if this should be handled inside the kernel. It will
+make it compatible with existing software, but it will also reduce
+flexibility.
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--C8RZd6IZ7KbnjRDA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZEpWrQAKCRAw5/Bqldv6
+8sedAKCiULYxV9Tl2uWqI7oesubhsrSGugCbBS0adKSsnML10omfQxfe3amV/KU=
+=Jsf+
+-----END PGP SIGNATURE-----
+
+--C8RZd6IZ7KbnjRDA--
