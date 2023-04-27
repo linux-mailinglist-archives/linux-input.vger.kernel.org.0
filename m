@@ -2,109 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B5016EFE87
-	for <lists+linux-input@lfdr.de>; Thu, 27 Apr 2023 02:28:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0BAB6EFE91
+	for <lists+linux-input@lfdr.de>; Thu, 27 Apr 2023 02:41:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242816AbjD0A1i (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Apr 2023 20:27:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53532 "EHLO
+        id S242821AbjD0Al3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Apr 2023 20:41:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242821AbjD0A1c (ORCPT
+        with ESMTP id S239903AbjD0Al2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Apr 2023 20:27:32 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2078.outbound.protection.outlook.com [40.107.223.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB7FB30CD;
-        Wed, 26 Apr 2023 17:27:26 -0700 (PDT)
+        Wed, 26 Apr 2023 20:41:28 -0400
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2070.outbound.protection.outlook.com [40.107.100.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6510930D3;
+        Wed, 26 Apr 2023 17:41:27 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q9h4qyusjM/MHvi8CSwF19t8N7fhbau+B6ed2MjrbUDQl6PS2hjGFUTEsPrlnqnlHgKPiRpHlfZMD5K/DP634QiPaBzjMKz5QrrmJugk66EPkiYha0MAeoG0frR8K+StCuC3natVzeXnVdPWS/JA7cKtIkZ1Bw+Tvvhi39guyFjLADw+ujr33m5c/RKUa659/W/BeDLdS2eCTlwFfWh85VEozibp6qwuJzC1Vg6PtupaotShsAa0bu7Iu6oEfZ0kL/wm1z5p+YGJMBjE0DZTYdRJNm2N0btO0H+kwCipMa6g4+OgDop9O8kRreEInikxtVrUlbfXv2ibVN3PtXmPQQ==
+ b=ktrUXV5pD+GS7rgTmWk9ded1zyGdYhyL6lKYYMEsA1gnUgb3q5AsR/afHx5Hwv9Jkq0jTYvCP3i4L8p8LO7tOskFRjRhReOGwXMS9zgyhDiBsCb3GUjfFuTlMi7bh5G2fv0hBvBJcRWBs05ityE6FUsoPtVU2MZEdg6ljv6Kc2DokQ5ZWyUn11v4W8ZFcMEG0JEf0NFV9IUagR5Q55qRcvF3brxGow37YlKjwhfrmE/p3TjXtHeha4s+XheebGQR57UWQBtr5YAB8mFKuuwIvzySoDUQXcXVwzAhZcDRnFsHSc4TLEumdqT5GbIn1o69dR9PMyOnrzRHqQdY7h2SNw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Gbe5Fv1Ltpa0z8vwDOHdrIu+6/sOd3G8y/emkNIJoF4=;
- b=NeJdxVT4NWrdGJh2rbmeHC1OaYSe2TyXC/N9z74Q68xgVqJrAavzU6oHkLdO2uUIrjGB1KVI3IwMsqISriWfF11VTWFhXpyegZPqMhzulbF1AoqQeJ2nULcC669qm4G8rKCXF6HiZBJyeZ7sI/2rFUEro/VM54y+YjTgAQ20qjg77I1dfGg8QyzUeUN+udUKx3HCIoTwxKWoV4uqKWfiY/ufmuokvpDMFsODzCoqyX1MZ8mc6o4R7lWgPfe8MFC0S1hMzZcFjpJfzdyPzAwZ7VjVdGH1RItGmXnKqkA6ysYAV7yGU3MuALwOzBOfhVGLspEoZUFOKg7vyTDS1rKGQA==
+ bh=xjTM8GH7LdcBQ0j9P4vrCertBZcJ5HnYdRz8KcryHFY=;
+ b=j/df6f/V9TJhnHtcLbW13gCtI7O7wtKYey+hlhwYTOdpbE9dCBWqfgK8nA0TyNiTsXV5OhG0faSfGHLzoMNvXo5LULmHBh5AEXIaorChw26xBuyqnC8j/zE/aULZZagGAxX/5Q5nQKjq7UelkY7c+BmW3jEtVH/WfuNTAi3wWDrfkL6YrxROBCzRup7JglEwZPDKdzR1++SiEmMYJLrOpPuOxdalSULd0LKEYEUnaEYwA7rC7z4dyDBJiJv7Z6rNJWSdODWXGoexGjhBQIa9VbDfCvtpyJsJf2DeCvpiy8fEJ7X3TZDJ3EvHkIS9kyJraHRGgpQv2VLdE8EAfuEHHg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Gbe5Fv1Ltpa0z8vwDOHdrIu+6/sOd3G8y/emkNIJoF4=;
- b=QNG5jQ/IMuNW5+4F8xgT+6SzWz1MHbkr/giWdt4u5JQqBilJxb0XPxqDPPl27+Sj0HbVu8hhtJAOGClagGYAyUE3srLiBnv651l+Sj43yvjOVRgwftEVoLNt8uAN+dt95T+91MqYa4r3cUfbYC4RfG1N2toS3TJog5YoxrLHSds=
+ bh=xjTM8GH7LdcBQ0j9P4vrCertBZcJ5HnYdRz8KcryHFY=;
+ b=Wtq1euZ8QOz1CW/BaXwrbk/9DBA9e8WkuhN36KZtKQApEv21Suokwz+aM9t2cbxTlGKnWir34Rzc16L5yVDk8JF//+Ka7+OcvV5GTjKJ1UBLMQgwuPqS4FFDzFhfv+bPJq/qv6Da9DNdxAhgBt/vckDSFs3+/F90FJw8uiCS+Kk=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=labundy.com;
 Received: from DM5PR0801MB3767.namprd08.prod.outlook.com (2603:10b6:4:7c::37)
- by PH0PR08MB8274.namprd08.prod.outlook.com (2603:10b6:510:16c::8) with
+ by PH0PR08MB7796.namprd08.prod.outlook.com (2603:10b6:510:f7::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.21; Thu, 27 Apr
- 2023 00:27:22 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.34; Thu, 27 Apr
+ 2023 00:41:24 +0000
 Received: from DM5PR0801MB3767.namprd08.prod.outlook.com
  ([fe80::20b4:97da:18df:16dc]) by DM5PR0801MB3767.namprd08.prod.outlook.com
  ([fe80::20b4:97da:18df:16dc%3]) with mapi id 15.20.6340.021; Thu, 27 Apr 2023
- 00:27:22 +0000
-Date:   Wed, 26 Apr 2023 19:27:18 -0500
+ 00:41:24 +0000
+Date:   Wed, 26 Apr 2023 19:41:19 -0500
 From:   Jeff LaBundy <jeff@labundy.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Tomas Mudrunka <tomas.mudrunka@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Fix freeze in lm8333 i2c keyboard driver
-Message-ID: <ZEnBZs9VYxriT1Or@nixie71>
-References: <20230425130054.591007-1-tomas.mudrunka@gmail.com>
- <ZEf0RYdD5jhE9JEk@nixie71>
- <ZEmwsViIjUVPZ4Cd@google.com>
+To:     Tomas Mudrunka <tomas.mudrunka@gmail.com>
+Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Fix freeze in lm8333 i2c keyboard driver
+Message-ID: <ZEnErxfnSn2JOpvm@nixie71>
+References: <ZEf0RYdD5jhE9JEk@nixie71>
+ <20230425164903.610455-1-tomas.mudrunka@gmail.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZEmwsViIjUVPZ4Cd@google.com>
-X-ClientProxiedBy: SA0PR13CA0009.namprd13.prod.outlook.com
- (2603:10b6:806:130::14) To DM5PR0801MB3767.namprd08.prod.outlook.com
+In-Reply-To: <20230425164903.610455-1-tomas.mudrunka@gmail.com>
+X-ClientProxiedBy: SA1PR05CA0006.namprd05.prod.outlook.com
+ (2603:10b6:806:2d2::10) To DM5PR0801MB3767.namprd08.prod.outlook.com
  (2603:10b6:4:7c::37)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR0801MB3767:EE_|PH0PR08MB8274:EE_
-X-MS-Office365-Filtering-Correlation-Id: b5e1187f-b5da-473b-585c-08db46b62ad2
+X-MS-TrafficTypeDiagnostic: DM5PR0801MB3767:EE_|PH0PR08MB7796:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6104b42f-4a1a-4525-43e5-08db46b820be
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MnfBoAvpKgB43voXAM3bZBUfZDoeWSL96Hf4lV3+z9pi/pmvdxoObee/cI0zix81OJdCn/PVyZ9NMR5O8baqS9QHxC3MGVjqD9GCdPY8zOJ9ON+1NRLjcBWgfDA4JhAXhkP6kAp9q3hpIqmTpmNtOpDaMLDo82uDthPCc0wHZjrYrw/xfiiRv8o5zyeHByyCtEBmobYCf9SsAS8T6dPlRDiLSRIJUf2vhKmjUrHtjMxiPkPWMBciYk9B4cnFHFZQTrrglUiDbpTs3wbTO3I3vIh6FtrBNAPuWtWOi3gM10ZJrR4E9Q3Jwevf/bo65Pztso4zbzDyqFBbZzUL4fVyk35xXP4sNT46buFiX4J44PlybH9h6S2wHuXRfPxld/K2nvsZPvGKrIl76fXtS2JKjzgcUbNayE8GUXpfCAzfvCQvd2Z4ICgdH+ad3lmT/EimQX2vB40FFo+6InDUShrEqBE8QiL41iXPFFgvL/aO2sVs4Xm+6LBYoVQAX5jiNOgXg0Av/T/qJYJ1kNdRXAlOThqHnMVRI5jdvZ08sqctCGOL+WjgBoDhoV7vaYLb8Am+
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR0801MB3767.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(39830400003)(366004)(136003)(346002)(376002)(396003)(451199021)(41300700001)(66556008)(6916009)(66476007)(478600001)(66946007)(8936002)(4326008)(8676002)(316002)(38100700002)(5660300002)(186003)(83380400001)(6666004)(6486002)(26005)(9686003)(6512007)(6506007)(33716001)(2906002)(86362001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: jZL1vxaO5ojBFE83i1jVPMC5T3YnfNNZLH7dt/YfWhu+BdPiS+mS0MbsSmb5ZYaVXLTNHNpPqqXli483wUFLScvC96xtxUCVbzdoq+18mCv/we9zfCqXnBMwwqwStWc2n9TVJj2qt9kchAsFu6alZ19q1AB4Cti8HzUP3jiac8X0AvftbFB54vRzrcx+FDcjVEhmIlEjjz1TU/6/O8lk5mEhOdO/DMEXBLXywWKG23z01l0h4WeDomAm/SOmDglAh9eoUc1K9pQKmJrfl+20vP7SD0IZqPJa2GxQtJ1Q1Xj1sCnBPsAw8rv6YISTDrQb5ngMqnBp1PKPHgaNWjG21cFdieA+LNtumWpvDrmP35UJQc1ehs6VHPAEgCrkdVUwbL7NNHs1NoIuaRs/N9zCFIQCJRQCLgN4Zxteg4aVW1eQr2l2WoUfGRFQ/gHJ1GlXa8741yG9qvcmQCs1QE2jsUi7XWVAQVeJsY9iWkSyiuHGXFiY2aiHTePZsxZKhSZDQLQJ0CLchrk2QH5Llotw/3nLHRc/p5MQTQV1kU7XGGaLIc0vcjpwnOhOEj7NzCGJ
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR0801MB3767.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(366004)(346002)(136003)(39830400003)(376002)(396003)(451199021)(41300700001)(5660300002)(316002)(66946007)(6916009)(66476007)(66556008)(4326008)(8676002)(8936002)(2906002)(83380400001)(478600001)(6666004)(6486002)(9686003)(6512007)(186003)(6506007)(26005)(33716001)(38100700002)(86362001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xkW0GQJMgJzZfVSYp+thbmzaRD7PZxg8ISkEcLsSvnvQpvdwhxqxCsd110SG?=
- =?us-ascii?Q?sfu4IwYtWRUWucPbJi3kzXVu4Gkdl+CIjBtgCDT2PI6OgHm3vrllI9eVY5pz?=
- =?us-ascii?Q?2rSXnpIgcv02ea/mdr2JLVa7c/tPfjYR6Cv6YdE4/CqPPNCVhq3aaZbx2UFs?=
- =?us-ascii?Q?mfm7Ut8CrAvkuG7D6zmvui3UvGRMkuW8A0E3gpMJJ3mNKPf6h217jBIkunHn?=
- =?us-ascii?Q?6OUU1TiJb2Jn1hIcVoJ7ugFPItVvfWIUXwhQ9/TIlY03h4oAgXTZst6lo+ut?=
- =?us-ascii?Q?RVSml63FioCSbICSsp9GJSZA8Nn5VeR4/x7o1CSXpcy1SgXefdWj6AWZ0Uqa?=
- =?us-ascii?Q?r6qYIJzpXOCgDvFgpyggswCHaphYFw2hlNF5WNfjD/ltbqo0Zf/J5DdCe0Ys?=
- =?us-ascii?Q?CZMCwWl0FjaduIUaFg4krLdQn9dt9MGDsuX1M887q2yNYy6Kj0O1CkGCl2W+?=
- =?us-ascii?Q?yZOBmup78951jWPE1WlnL2KzzwdM4jAw/XN5+0LIEFDWg52nVwvISCGZ5kao?=
- =?us-ascii?Q?XeHVH/jO+S8eyJNpk4+JUUrMSHn9lSVXICj7zJ6Yk+IKcEU+DVRdYnpBZJEr?=
- =?us-ascii?Q?OWXWoG0n339QPJ7tBI6I4D5eyaKCnvSTHgAxOvkq1/LC8gHDnlmTb12XcDAY?=
- =?us-ascii?Q?ERI77nVSVqtEmUeMxmqkC27FQCl8m0k9qGqPH35e3uFuDXd4O62nPA+c/RBl?=
- =?us-ascii?Q?AgMtcW6mI5vJLEM4ui7goa3ySLAPipE5N/kT3WbXbe6DXeWMCbrHyGpQHCdX?=
- =?us-ascii?Q?Vsz0n7Jv+3zjCE8/V/uMTUmGjSIfFYK+a6Xe7lJHmRStmtQEnKc+I/VMAOJL?=
- =?us-ascii?Q?Oz8F6KpWcK/7hEbSIDyxP3CCrJFbAkDueB5+gLuAdXmDsLB6lUypoA0qcWLb?=
- =?us-ascii?Q?xEKDMyGiaAr3MTPP48xhMgfJoXGoQEaMOuEl8m9Q0s2YJOL+D9jA08usLu56?=
- =?us-ascii?Q?5bmMDDroWYSiV3JbxhnNzJf5aHJjMlDwm7dYjxyYJhdR6rUOCC4hFJ8MD1hd?=
- =?us-ascii?Q?RaWwWRO3ZOhP1eKUvEjC9kk78LJVduOK0fe/JbvDwnypV0md5bi8WdMA4ocl?=
- =?us-ascii?Q?PeCYik1QIB5m9c+mBaf78+/wempHiuvuFls9ieD4CQNAs0+0YtHlh0bfjHM1?=
- =?us-ascii?Q?Q7ZqMxZkvPk/OXEe0ti9SSrA110hfSkWJAwX6YRkY4iFIF5c7R3G2pvigGPG?=
- =?us-ascii?Q?N6SVH24wa9M/FD59q6Mbyw99vvpDQ5VgZZwh43VgLd1ltlH0V3Q+lhUkqFZd?=
- =?us-ascii?Q?5XEECeDYRsMyz9/vqjONZs51uNiGMsc+sSb3P6nZakEhW8uC8TjgrR76uiGO?=
- =?us-ascii?Q?AgFpLE9hBYRomWb8qLa+NDNxpQIAB/H/1X8Lt/FXoxcFghdaYoWBL7f5CNO3?=
- =?us-ascii?Q?m3SVikDlOELu/Z8KQMUzuWTATW1Nj7O9BS6jGHKn+cTVQ9xpJbSy3kVY96b9?=
- =?us-ascii?Q?xo50dtaOv0MzW5lFvTblr6/drvEcoU34JmW9gZwT+af/y7wIAFNTmTy64mIq?=
- =?us-ascii?Q?dEH9mnY2HDhnt0Kf0Ivu98wicqbru+LmCTOzDpZBiT43VcRC1ArbwH4Sv0JK?=
- =?us-ascii?Q?ir8yKtmKWiQdthojyIqC671y5XCdtXiQ5DKVcXsU?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?L7OhlZJYEZM6IscKEuWdjjCiUBlP9yiKCMSwjkjm2bXJ5Xh4U3W5ZDv6Ya7t?=
+ =?us-ascii?Q?KaFqwwih41ApnNrFD5DWvaAgCExcU2AicZpk7YB6KvvXXveePen71YtvGl7p?=
+ =?us-ascii?Q?2UJ+8gIOAyR2oWZ07aNlnaR+qzbdFbuTLgQFTB5Z4ngGstImsMIBZx9ZffJ5?=
+ =?us-ascii?Q?k9YHY+czrnPWt9BEW/NtS79+BJfgS8quvnzKtQNnEN3SOGCsIVRHTACh5QA3?=
+ =?us-ascii?Q?V+Yck4MJHe6MwMzLqs9AyupxMMOKKuLAzj8+kHrLvaHApRzMCzw54bSvw4h5?=
+ =?us-ascii?Q?09eGMIyy63lOT2vSUGijb3iwbjjl39pdowVsHW1QNJfEmYUNnwn8tK0YVfa4?=
+ =?us-ascii?Q?cBzlZsfeeysfk9ai4nwG4ctPLLGw8xZn++ftxNYtxVrvJJuzzNV+OdXERkDi?=
+ =?us-ascii?Q?i+HXHbQPre8XCKler+jEAOEzFBsq2e33ce9B/trOAVWMSDaYIWXy8VPKiTI4?=
+ =?us-ascii?Q?5awD/QZ4GeAGRw01KaWDHWtJ7djlnQV2WwRmwHkCNgPGhCYBTqrsWHA7fPd6?=
+ =?us-ascii?Q?KzkG3VmRKhUZfqTzFfvKnQC5iciEFvRm2Naq00a+qRzY5qWg5ZKmNIA0irjB?=
+ =?us-ascii?Q?19xqV6BkRkt/xyvaMhZIJ27sXWyeQCysdQDyMS0lvVy79w6jawLqrAlNbvjm?=
+ =?us-ascii?Q?jGETkgTqaKSDM7SHhXkvINoMZOE5ltwZhuib8n+vgVAoyx95CRdS4wAZEw/2?=
+ =?us-ascii?Q?RHVN+gfadV9zRDkpZjvBVNS9jgykJb7wfp5VqSBr87/cuamHhHWqpVLB7deK?=
+ =?us-ascii?Q?MFm+1Co1l6x5tlcK3hK7rg7zFmRZM63ksXHarvpOjPqLm5g2OwiaklRsQmkT?=
+ =?us-ascii?Q?ERAGZgBvQumg+7FzHjbcozpEZjT0yXMmsMZ09d4FGSblBbptD+YeLDUYJOct?=
+ =?us-ascii?Q?2D5ASvBauM79MXfb/tSAfNsVrzPudPzdNabz+6B4Q1AG67DktYL16u8sksPV?=
+ =?us-ascii?Q?kznhRK8hFW7shK6Wji/Hlr6fRJQ9u3VlY2zc5V7Y8095MYo1uBgIGyE3RLiJ?=
+ =?us-ascii?Q?ue0YSlJ8ardXPa+KCvKpw3JG9BHbtytm6LyjcDa9m8W7w3+rEaviKOw4deci?=
+ =?us-ascii?Q?jKTb7fvYwbsx5GHMMStSQVOssb58gsOs81Dzz9DiJmyqW3CpXGYXe6H1jdyu?=
+ =?us-ascii?Q?wF1hgprxg79Nlba+I+m6B1AFyn5ks25a6GHklSXH9U/1T9Ylo83xFsdVlwxC?=
+ =?us-ascii?Q?/RftbtYXkN/zlksJEOyiuAIkkXeADs9tptqKkQtd9i8tJaqQeUWaZPcxwpXu?=
+ =?us-ascii?Q?CHeleFG9W/1V5b7rfIeeTEaoghNGUkslYHq5KoRNaYHOIHGjNXJAdUnfoJPR?=
+ =?us-ascii?Q?h08/y+jqkRrwMdDVl3MIUF/gcc3XrrV4d1GYy7gfFbmKItctmdaSVVw3n6hP?=
+ =?us-ascii?Q?ezkkaTmmrq9gMPBPqk8jFWR/8NZDqlAilOv+CfcBLZ6eASmM447h5SefRWbx?=
+ =?us-ascii?Q?O6JLYGpeCGdfNkPkz1RQfkV1ZvJDnL8hyOx6K+33QdpGl/1T8iaTPtN/q41f?=
+ =?us-ascii?Q?xfl0Q8wAIsjGI6kyDlk/sV5uHKOWSqPsoNqDiFQcsKni7qYHhj39coyCHn6d?=
+ =?us-ascii?Q?n9ZHWsNmedbwFghvx9vtc9F4yrJhl9N3e7f5f1/l?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5e1187f-b5da-473b-585c-08db46b62ad2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6104b42f-4a1a-4525-43e5-08db46b820be
 X-MS-Exchange-CrossTenant-AuthSource: DM5PR0801MB3767.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2023 00:27:22.1512
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2023 00:41:24.2636
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ThjBGyWe2v4jX4+ATKxubooDqXLQ22XgOscAY6s4IcqZss727w20/dqUjH2rM4W3M75+JyM2tu3oJNmFCBMkFg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR08MB8274
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5WseIDI1iU116pb2u64bnS2oZsrFuLAUjiUdP5vVZ634NbO5Rq8vWEvot2j/wDBL+zzgUv+pH4GAPe8Npv37jg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR08MB7796
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -114,78 +113,47 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+Hi Tomas,
 
-On Wed, Apr 26, 2023 at 04:16:01PM -0700, Dmitry Torokhov wrote:
-> Hi Jeff, Tomas,
+On Tue, Apr 25, 2023 at 06:49:03PM +0200, Tomas Mudrunka wrote:
+> LM8333 uses gpio interrupt line which is activated by falling edge.
+> When button is pressed before driver is loaded,
+> driver will miss the edge and never respond again.
+> To fix this we clear the interrupt via i2c after registering IRQ.
 > 
-> On Tue, Apr 25, 2023 at 10:39:49AM -0500, Jeff LaBundy wrote:
-> > Hi Tomas,
-> > 
-> > On Tue, Apr 25, 2023 at 03:00:53PM +0200, Tomas Mudrunka wrote:
-> > > LM8333 uses gpio interrupt line which is active-low.
-> > > When interrupt is set to FALLING edge and button is pressed
-> > > before driver loads, driver will miss the edge and never respond.
-> > > To fix this we handle ONESHOT LOW interrupt rather than edge.
-> > > 
-> > > Signed-off-by: Tomas Mudrunka <tomas.mudrunka@gmail.com>
-> > > ---
-> > >  drivers/input/keyboard/lm8333.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/input/keyboard/lm8333.c b/drivers/input/keyboard/lm8333.c
-> > > index 7457c3220..c5770ebb2 100644
-> > > --- a/drivers/input/keyboard/lm8333.c
-> > > +++ b/drivers/input/keyboard/lm8333.c
-> > > @@ -179,7 +179,7 @@ static int lm8333_probe(struct i2c_client *client)
-> > >  	}
-> > >  
-> > >  	err = request_threaded_irq(client->irq, NULL, lm8333_irq_thread,
-> > > -				   IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-> > > +				   IRQF_TRIGGER_LOW | IRQF_ONESHOT,
-> > >  				   "lm8333", lm8333);
-> > >  	if (err)
-> > >  		goto free_mem;
-> > 
-> > Thanks for the patch, but this is a NAK in my opinion.
-> > 
-> > First of all, we should not be hard-coding interrupt polarity in the
-> > first place; that is an existing piece of technical debt in this driver.
+> Signed-off-by: Tomas Mudrunka <tomas.mudrunka@gmail.com>
+> ---
+>  drivers/input/keyboard/lm8333.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> Yes, I wonder if the original hardware was limited to the edge
-> interrupts.
-> 
-> > 
-> > Second, changing from edge-triggered to level-triggered interrupts runs
-> > the risk of creating an interrupt storm depending on the time it takes
-> > the device to deassert the irq following the I2C read and the point at
-> > which the threaded handler returns. Have you measured this?
-> 
-> IRQF_ONESHOT ensures that the level interrupt is unmasked only when the
-> threaded handler returns.
+> diff --git a/drivers/input/keyboard/lm8333.c b/drivers/input/keyboard/lm8333.c
+> index 7457c3220..9a810ca00 100644
+> --- a/drivers/input/keyboard/lm8333.c
+> +++ b/drivers/input/keyboard/lm8333.c
+> @@ -184,6 +184,8 @@ static int lm8333_probe(struct i2c_client *client)
+>  	if (err)
+>  		goto free_mem;
+>  
+> +	lm8333_read8(lm8333, LM8333_READ_INT);
+> +
 
-Yes that's correct; what I mean to say is that depending on the nature of
-the read-to-clear mechanism in the part, there is a chance that the IRQ
-has not been deasserted by the time the threaded handler returns. On some
-devices for example, the IRQ is not deasserted until some time after the
-read's stop condition.
+This is the right idea. I am sort of splitting hairs here, however I
+think it makes sense to place this read before the IRQ is requested
+and not after.
 
-For these cases, I consider it best practice to measure the I2C and IRQ
-lines on a scope and if necessary, add a small delay before the interrupt
-handler returns. This is especially true for open-drain interrupts that
-may need a few hundred extra us for the pin to rise.
+As written, there is room for an ever-so-tiny race condition wherein
+the IRQ is asserted just after it is requested. Before the threaded
+handler has run however, the new read in probe swallows the IRQ status
+before the threaded handler can read it and react to errors.
 
-> 
-> > 
-> > Can we not simply read the interrupt status registers once at start-up
-> > to clear any pending status? This is essentially what your change does
-> > anyway, albeit indirectly.
-> > 
-> 
-> Thanks.
-> 
+Also, I think you should at least capture and evaluate lm8333_read8()'s
+return value as is already done for the calls to lm8333_write8().
+
+>  	err = input_register_device(input);
+>  	if (err)
+>  		goto free_irq;
 > -- 
-> Dmitry
+> 2.40.0
 
 Kind regards,
 Jeff LaBundy
