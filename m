@@ -2,100 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9130E6F0F0E
-	for <lists+linux-input@lfdr.de>; Fri, 28 Apr 2023 01:35:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31B406F1048
+	for <lists+linux-input@lfdr.de>; Fri, 28 Apr 2023 04:22:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344236AbjD0Xf3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Apr 2023 19:35:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41876 "EHLO
+        id S229963AbjD1CWR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Apr 2023 22:22:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344315AbjD0XfY (ORCPT
+        with ESMTP id S1344621AbjD1CWP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Apr 2023 19:35:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 943CC2D6B
-        for <linux-input@vger.kernel.org>; Thu, 27 Apr 2023 16:34:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1682638477;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=WAbmGag01n5DmSI3CzgProTjcse9Z3IcWuvX59Ri6Jg=;
-        b=MOrWLxFdXApybiuFt3Vg9kLxQUjpXHw8cw0js24W0dO5kftNfGpvhnrX9zVGCxbD4H1CW+
-        c3e2+a/eEGAXdNnO8rLVPywXWve2ozjyONJkjHBwMMnlpcu9LTRijqGkMqhzmzOA2bZFSL
-        OScKLdzZs/w438dL5EG9FqniadtRZlE=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-648-2lm2uhlKPBabn2WMDpkxjQ-1; Thu, 27 Apr 2023 19:34:36 -0400
-X-MC-Unique: 2lm2uhlKPBabn2WMDpkxjQ-1
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-54f88a34bd6so129322257b3.2
-        for <linux-input@vger.kernel.org>; Thu, 27 Apr 2023 16:34:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682638475; x=1685230475;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WAbmGag01n5DmSI3CzgProTjcse9Z3IcWuvX59Ri6Jg=;
-        b=jrJbf3UOvKgFZLKTzmZ+BIcnW4iFike1TwL9gP+wGh8wE3dc+uit9WqrWIbm3iqX82
-         CNZ5DE77PTSvQ0E1e2n2RFdYI4ZF1jPp6Z2ZyG0+vxravuPGn7HdXAd2ScXPEOYYvGtz
-         3mwrNj2rlOFSJOUjSYmfnFGFZYPGxdRqCXq8IuzQA7PIWbnH89cM/+HjbQqMecnZHaf3
-         JzyYyP7F0X388hqfT+j1VUjG5QPuNNL/W+Km6WgEfu+skiWZOmF/8k0EJy99UvmY4926
-         8q5UR44zXHA+73NWXo9B3/Gu12B3HFGRgk74ayUUorjzCy0zcPx10AwHrhMmdMpW/xi8
-         BOtA==
-X-Gm-Message-State: AC+VfDxMSfv3i9gqsXerKUln5YnmdxR58340XlYNitOCoovKwPFC9Rfx
-        O47T8rB/Os4h97QHtEYMf0of7hT25LlWq6oRhRxjDAW0F8k1zlf8uW73vdSed4oGdc3ho+3wr4I
-        vaVYHYaHjeqQUWoR64C6eplY=
-X-Received: by 2002:a0d:c946:0:b0:556:c672:3455 with SMTP id l67-20020a0dc946000000b00556c6723455mr2381993ywd.40.1682638475579;
-        Thu, 27 Apr 2023 16:34:35 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ73hjwG6+Ltq+wLdLn36T+dLP3PI+N06414PCgAVqJLApv/bdsLxACX1f3tsLzSETOMQ8YF9A==
-X-Received: by 2002:a0d:c946:0:b0:556:c672:3455 with SMTP id l67-20020a0dc946000000b00556c6723455mr2381963ywd.40.1682638474836;
-        Thu, 27 Apr 2023 16:34:34 -0700 (PDT)
-Received: from x1 (c-73-214-169-22.hsd1.pa.comcast.net. [73.214.169.22])
-        by smtp.gmail.com with ESMTPSA id h190-20020a0dc5c7000000b00545a08184f8sm5137345ywd.136.2023.04.27.16.34.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Apr 2023 16:34:34 -0700 (PDT)
-Date:   Thu, 27 Apr 2023 19:34:32 -0400
-From:   Brian Masney <bmasney@redhat.com>
-To:     Luca Weiss <luca@z3ntu.xyz>
-Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Brian Masney <masneyb@onstation.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 4/4] ARM: dts: qcom: msm8974-hammerhead: Add vibrator
-Message-ID: <ZEsGiERTqoMJVh/h@x1>
-References: <20230427-hammerhead-vibra-v1-0-e87eeb94da51@z3ntu.xyz>
- <20230427-hammerhead-vibra-v1-4-e87eeb94da51@z3ntu.xyz>
+        Thu, 27 Apr 2023 22:22:15 -0400
+Received: from emcscan.emc.com.tw (emcscan.emc.com.tw [192.72.220.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4A29D270C
+        for <linux-input@vger.kernel.org>; Thu, 27 Apr 2023 19:22:11 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.99,233,1677513600"; 
+   d="scan'208";a="2695110"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 28 Apr 2023 10:21:56 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(80156:0:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Fri, 28 Apr 2023 10:21:55 +0800 (CST)
+Received: from 192.168.33.11
+        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(118229:0:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Fri, 28 Apr 2023 10:21:53 +0800 (CST)
+From:   "Jingle.Wu" <jingle.wu@emc.com.tw>
+To:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>
+Cc:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <phoenix@emc.com.tw>, <josh.chen@emc.com.tw>,
+        <dave.wang@emc.com.tw>
+References: <20230320011456.986321-1-jingle.wu@emc.com.tw> <ZDBKwo4UMUm+TSnj@penguin> <000001d96b4b$6b30cda0$419268e0$@emc.com.tw> <ZEmsc0HyZuXlJARq@google.com>
+In-Reply-To: <ZEmsc0HyZuXlJARq@google.com>
+Subject: RE: [PATCH] Input: elan_i2c - Implement inhibit/uninhibit functions.
+Date:   Fri, 28 Apr 2023 10:21:53 +0800
+Message-ID: <000b01d97978$32775ca0$976615e0$@emc.com.tw>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230427-hammerhead-vibra-v1-4-e87eeb94da51@z3ntu.xyz>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain;
+        charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 15.0
+Thread-Index: AQJF62IY79PwBMHzbH32rexKKwKtngJcjz5NAs42hOUB1Ms3zK4vGXpg
+Content-Language: zh-tw
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDYwMTFcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy02ZmQyMzM4NS1lNTZiLTExZWQtYTg2MC1mMDc5NTk2OWU3NWVcYW1lLXRlc3RcNmZkMjMzODYtZTU2Yi0xMWVkLWE4NjAtZjA3OTU5NjllNzVlYm9keS50eHQiIHN6PSIxOTM1IiB0PSIxMzMyNzEyMjExMjg5MjYxNzUiIGg9ImdWd2ZKYTFwbXluYU5yTFBxWHBBUGFCMHBVTT0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: true
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Apr 27, 2023 at 10:34:29PM +0200, Luca Weiss wrote:
-> The Nexus 5 has a vibrator connected to the clock output of GP1_CLK
-> which we can use with the clk-pwm driver, then we can use that pwm with
-> pwm-vibrator to get haptics functionality.
-> 
-> This patch is based on Brian Masney's previous patch with clk-vibrator.
-> 
-> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+Hi Dmitry:
+	During the initial process and when the users open/close device,
+having the elan uninhibit/inhibit commands (low power mode) was not what
+Elan expects to happen. Due to that touchpad would do the calibration in
+uninhibit moment , we don't want the calibration to be affected by fingers
+on the touchpad.
+	However, the LID inhibit/uninhibit functions in the Linux kernel
+driver calls open/close(), so we need to separate the inhibit/uninhibit
+behavior from open/close() function
+	
+https://elixir.bootlin.com/linux/latest/source/drivers/input/input.c#L1783
+	
+https://elixir.bootlin.com/linux/latest/source/drivers/input/input.c#L1813
 
-Reviewed-by: Brian Masney <bmasney@redhat.com>
+THANKS
+JINGLE
+
+-----Original Message-----
+From: 'Dmitry Torokhov' [mailto:dmitry.torokhov@gmail.com] 
+Sent: Thursday, April 27, 2023 6:58 AM
+To: Jingle.Wu <jingle.wu@emc.com.tw>
+Cc: linux-kernel@vger.kernel.org; linux-input@vger.kernel.org;
+phoenix@emc.com.tw; josh.chen@emc.com.tw; dave.wang@emc.com.tw
+Subject: Re: [PATCH] Input: elan_i2c - Implement inhibit/uninhibit
+functions.
+
+Hi Jingle,
+
+On Mon, Apr 10, 2023 at 09:26:04AM +0800, Jingle.Wu wrote:
+> HI Dmitry:
+> 
+> > +static void elan_close(struct input_dev *input_dev) {
+> > +	if ((input_dev->users) && (!input_dev->inhibited))
+> > +		elan_inhibit(input_dev);
+> 
+> This check is for "only inhibit request", and elan_open() its check is 
+> for "only uninhibit request".
+> Because input_dev-> open() close() will be executed 2-3 times when
+initial.
+
+I do not see why this would be an issue if what you are doing is putting the
+device into a low power mode.
+
+If this issue is about need to re-calibrate after opening the lid on certain
+devices, then I think we need to do the same that we did for the I2C-HID
+connected devices on Redrix and hook this functionality to a LID handler.
+
+Thanks.
+
+--
+Dmitry
 
