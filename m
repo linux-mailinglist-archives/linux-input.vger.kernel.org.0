@@ -2,85 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8594C6F1D51
-	for <lists+linux-input@lfdr.de>; Fri, 28 Apr 2023 19:22:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74BF46F1D7B
+	for <lists+linux-input@lfdr.de>; Fri, 28 Apr 2023 19:32:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346417AbjD1RWq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Apr 2023 13:22:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52404 "EHLO
+        id S1344556AbjD1Rcg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 Apr 2023 13:32:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346392AbjD1RWp (ORCPT
+        with ESMTP id S230353AbjD1Rcf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Apr 2023 13:22:45 -0400
-Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB92E4EC7;
-        Fri, 28 Apr 2023 10:22:42 -0700 (PDT)
-Received: by mail-qt1-x835.google.com with SMTP id d75a77b69052e-3ef49c15454so726201cf.0;
-        Fri, 28 Apr 2023 10:22:42 -0700 (PDT)
+        Fri, 28 Apr 2023 13:32:35 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82CBE524A
+        for <linux-input@vger.kernel.org>; Fri, 28 Apr 2023 10:32:23 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3f1cfed93e2so75047705e9.3
+        for <linux-input@vger.kernel.org>; Fri, 28 Apr 2023 10:32:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682702562; x=1685294562;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AAiiv9GsxvY8biLmdAscKWHe+NudNnl/0EZJjn39MN8=;
-        b=ZLl+Ok+qlmf88oDwoCLd4n3mf8DUZyFA12liJOivOE9QAh6PozBMDc0nQ8vMhgix8c
-         2pxr+fz01ZcGEGZ/Wzz+8Fd/CbiH/PpHbrPIIcc0+V28CR5+TnqHl6h+4SHWdXK/QwNu
-         zsz9hjOhQBf1EZmH6a5TIAmyKfH2o9lNvWQoSeHMlC5vuaZ5BIL5yANHvphpo/1R8wKx
-         BnRwK9UbG8kFdrBHvAT64LMdAM2RmZbrcduD/qBsXeagddO+wX8JFKW/nYpAhlsjjvy3
-         6mPO2hAebWYjZrE5qoUxqO+X1iHuR6h+5Mntf2d2fdDOCjRWqz+emA6q1sv9V4rxAnYo
-         VcUQ==
+        d=gmail.com; s=20221208; t=1682703142; x=1685295142;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iKRwhXMIVy76UJwdB0ULG1Oxbcp28/BLr128eQUP+sw=;
+        b=dkMKHiT1vW9PQ8+nYH1K/1p7YlhTNK4eGNBgBAlNp+FyuDkRvP55MsyVYBmIM3eHTR
+         ftC7f6Xg0Rmc3AREVv5ztMhvNHA60cy4PVH6+WURjzmMaKeEb7PrVKCXB+Upkc/BTHLD
+         W4eqQh2j0nncqYlEWAeqVjRmr7mS8axCdpUBURMszAxTeSwuxDtupQDJPxH+f2pJSJ1g
+         Xipg4IuQYP3AXfdG+o0xp2kXRj+92tbbA1kBy6QTV4ezLlF2+cUXHXZYQ3DENPNK5UKt
+         Jw3QLK+uanMpTQ12vyHEzNqOitLevz8gL4geA8qLGl1LHfyKxA07n9rmi4J3V7TQQLxl
+         /E+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682702562; x=1685294562;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AAiiv9GsxvY8biLmdAscKWHe+NudNnl/0EZJjn39MN8=;
-        b=QCALr4d0YMlDH0o7s8/Gh+L0rojyW37qJ8EiTqQHXnIET3arz1HAeHqnMSnHah3u0y
-         ynrsUCM6pA08fPY7P95cGNBpb3Dn/9kWzlpDW8CLhf0dFL42bG7MzsGpmG/C2OWEJ8Mc
-         XMSGfoSRFxUokKZmgSbS5JZDuwdgZXFLgaasuRVXVEZxt+5n12hFCfLcO8bPiYJLG77h
-         MAx1/pJWLscYsJk3xQOuC/LV7vrlOEcTe/eerLu0gYuhde379w9tYF61lF6NVVHkz5/Q
-         XvVGnJ116vUMKNOdXtsOpaZnCl35w9+ZZea8srDmAbq3M9imS4pSv6ntFVO9zenRtjDm
-         V1qA==
-X-Gm-Message-State: AC+VfDwAPx0NXxRxaAo4Qyk7V6icEkG/bFLA7SsOYwMcx99Hv9HSFe6d
-        ndayXjLpaetYsJ79Q5XyX7E=
-X-Google-Smtp-Source: ACHHUZ6p1oLq98ooWnU/CgTxQZ4bd6HPSPRfojYddHilL+gAML+8D2BODYINVNuUN0yExpMdu7og/A==
-X-Received: by 2002:a05:622a:1819:b0:3ec:47d5:ec65 with SMTP id t25-20020a05622a181900b003ec47d5ec65mr9562526qtc.60.1682702561936;
-        Fri, 28 Apr 2023 10:22:41 -0700 (PDT)
-Received: from [192.168.12.239] ([172.56.185.106])
-        by smtp.gmail.com with ESMTPSA id f15-20020ac8470f000000b003ef33e02eb9sm7195198qtp.83.2023.04.28.10.22.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Apr 2023 10:22:41 -0700 (PDT)
-Message-ID: <6a3d7b4e-7350-e52a-6139-e14eb64191ed@gmail.com>
-Date:   Fri, 28 Apr 2023 10:22:37 -0700
+        d=1e100.net; s=20221208; t=1682703142; x=1685295142;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iKRwhXMIVy76UJwdB0ULG1Oxbcp28/BLr128eQUP+sw=;
+        b=HKkEyQIlzc0KMHVnpeAoJs3RD+D7p/bUsd6yvav+CrNYbHHxYx7WHuUG+jpK4/gjd0
+         pDd0Fz9X2H5dJZcBVN9tSfI9u12ZJyM2Qy+vMIJ8YR1TAY6RxJett/Yp3LhCtkzTIpO/
+         ut6K9W9P+Ni6Gz4vvmG76pKI5zcnWyvv0SA6p2Hi4HwSKJzZtkHUXqiv85gK0U1x17nc
+         Mh9Gsb/5m4hqzEbzwEM2Ca/l+ODubITbkyz7+lQNkMh6JOKr/9VwK6YgEYemv2FR+cSJ
+         yTdOpyKDi45F4+LGVjOpfZor7Si/oKmjP1r5wV5R90GeTjbQctwNS2d6DwWjkDIr9tVV
+         zCkQ==
+X-Gm-Message-State: AC+VfDyZXrnZl0Y52FhTDtAa3exNEfbJEMTjDB19o2dPm/5lhYW+VDgg
+        a1/L6Ra6k82z87xXeKP48yTNR9puJOlOXr20VevYQGFDaqo=
+X-Google-Smtp-Source: ACHHUZ4G2l0iCSlpD/53cvO1eBCsbd29OgvGDdU/HAsnYIEKJNivmbUJ4W1HnmFkQv2+rmKkFrJ9dXcZWzGUIrXgpqI=
+X-Received: by 2002:a05:600c:b41:b0:3f1:79ad:f3a8 with SMTP id
+ k1-20020a05600c0b4100b003f179adf3a8mr4748170wmr.16.1682703141562; Fri, 28 Apr
+ 2023 10:32:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [RFC PATCH 3/3] Revert "input: gpio-keys - use
- device_pm_move_to_tail"
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Gergo Koteles <soyer@irl.hu>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kees Cook <keescook@chromium.org>,
-        Saravana Kannan <saravanak@google.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-References: <20230427221625.116050-1-opendmb@gmail.com>
- <20230427221625.116050-4-opendmb@gmail.com> <ZEtP3uRX5Ib1W_Kd@kroah.com>
- <CAJZ5v0jFAkBUAhNj8hbpM+6n1F3ETTtpxeP_QDsmKWdE=uueFw@mail.gmail.com>
-Content-Language: en-US
-From:   Doug Berger <opendmb@gmail.com>
-In-Reply-To: <CAJZ5v0jFAkBUAhNj8hbpM+6n1F3ETTtpxeP_QDsmKWdE=uueFw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+References: <20230414182210.383218-1-jason.gerecke@wacom.com>
+In-Reply-To: <20230414182210.383218-1-jason.gerecke@wacom.com>
+From:   Jason Gerecke <killertofu@gmail.com>
+Date:   Fri, 28 Apr 2023 10:32:10 -0700
+Message-ID: <CANRwn3RbuXvYGJ24_=36J3JDroMvCvSxL2kc3iSS+2JbbhXXPQ@mail.gmail.com>
+Subject: Re: [PATCH] HID: wacom: Check for string overflow from strscpy calls
+To:     linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>
+Cc:     Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Joshua Dickens <Joshua@joshua-dickens.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        Ping Cheng <ping.cheng@wacom.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -89,29 +74,79 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 4/28/2023 4:40 AM, Rafael J. Wysocki wrote:
-> On Fri, Apr 28, 2023 at 6:47 AM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
->>
->> On Thu, Apr 27, 2023 at 03:16:25PM -0700, Doug Berger wrote:
->>> This reverts commit 2569873096f7eb1acf63624e9772d82b23923bf4.
->>
->> You have to give a reason why you are reverting it please...
-> 
-> Also, the commit ID above doesn't match any commits in the mainline.
+On Fri, Apr 14, 2023 at 11:22=E2=80=AFAM Jason Gerecke <killertofu@gmail.co=
+m> wrote:
+>
+> From: Jason Gerecke <killertofu@gmail.com>
+>
+> The strscpy function is able to return an error code when a copy would
+> overflow the size of the destination. The copy is stopped and the buffer
+> terminated before overflow actually occurs so it is safe to continue
+> execution, but we should still produce a warning should this occur.
+>
+> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+> Reviewed-by: Ping Cheng <ping.cheng@wacom.com>
+> ---
+>  drivers/hid/wacom_sys.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+> index 8214896adadad..7192970d199a0 100644
+> --- a/drivers/hid/wacom_sys.c
+> +++ b/drivers/hid/wacom_sys.c
+> @@ -2224,7 +2224,9 @@ static void wacom_update_name(struct wacom *wacom, =
+const char *suffix)
+>                 } else if (strstr(product_name, "Wacom") ||
+>                            strstr(product_name, "wacom") ||
+>                            strstr(product_name, "WACOM")) {
+> -                       strscpy(name, product_name, sizeof(name));
+> +                       if (strscpy(name, product_name, sizeof(name)) < 0=
+) {
+> +                               hid_warn(wacom->hdev, "String overflow wh=
+ile assembling device name");
+> +                       }
+>                 } else {
+>                         snprintf(name, sizeof(name), "Wacom %s", product_=
+name);
+>                 }
+> @@ -2242,7 +2244,9 @@ static void wacom_update_name(struct wacom *wacom, =
+const char *suffix)
+>                 if (name[strlen(name)-1] =3D=3D ' ')
+>                         name[strlen(name)-1] =3D '\0';
+>         } else {
+> -               strscpy(name, features->name, sizeof(name));
+> +               if (strscpy(name, features->name, sizeof(name)) < 0) {
+> +                       hid_warn(wacom->hdev, "String overflow while asse=
+mbling device name");
+> +               }
+>         }
+>
+>         snprintf(wacom_wac->name, sizeof(wacom_wac->name), "%s%s",
+> @@ -2500,8 +2504,10 @@ static void wacom_wireless_work(struct work_struct=
+ *work)
+>                                 goto fail;
+>                 }
+>
+> -               strscpy(wacom_wac->name, wacom_wac1->name,
+> -                       sizeof(wacom_wac->name));
+> +               if (strscpy(wacom_wac->name, wacom_wac1->name,
+> +                       sizeof(wacom_wac->name)) < 0) {
+> +                       hid_warn(wacom->hdev, "String overflow while asse=
+mbling device name");
+> +               }
+>         }
+>
+>         return;
+> --
+> 2.40.0
+>
 
-Apologies. I attempted to explain this in the cover letter, but as 
-anticipated it caused confusion. The relevant text was:
-   Both commits shouldn't really exist in the same kernel so the
-   third patch reverts the first in an attempt to make that clear
-   (though it may be a source of confusion for some).
+Poking this thread again in case it got lost in the inbox...
 
-This commit ID is the ID of the first patch of this set in my tree. It 
-slipped my mind that of course that wouldn't be conveyed through 
-send-mail :). D'oh!
-
-To be clear, this is really a "straw man" request for comment with hope 
-of finding a more elegant solution to the issue.
-
-Thanks,
-     Doug
+Jason
+---
+Now instead of four in the eights place /
+you=E2=80=99ve got three, =E2=80=98Cause you added one  /
+(That is to say, eight) to the two,     /
+But you can=E2=80=99t take seven from three,    /
+So you look at the sixty-fours....
