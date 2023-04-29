@@ -2,390 +2,175 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1513F6F23C2
-	for <lists+linux-input@lfdr.de>; Sat, 29 Apr 2023 11:02:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E89F6F24ED
+	for <lists+linux-input@lfdr.de>; Sat, 29 Apr 2023 15:47:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230184AbjD2JCG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 29 Apr 2023 05:02:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34642 "EHLO
+        id S231185AbjD2Nrq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 29 Apr 2023 09:47:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbjD2JCF (ORCPT
+        with ESMTP id S229658AbjD2Nrp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 29 Apr 2023 05:02:05 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F1D81BCD
-        for <linux-input@vger.kernel.org>; Sat, 29 Apr 2023 02:02:03 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-95678d891d6so136259366b.1
-        for <linux-input@vger.kernel.org>; Sat, 29 Apr 2023 02:02:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682758922; x=1685350922;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=MD6FsLRMb44SS2IRF4Js3f7Flq6D4RRnuj4SUAZ8zmA=;
-        b=P8MAA3ppJiqoF11u4tkUxWgU2/ECyfI0fuW5f1RqoEy+CdXOM65qOEiaXLwItMZT0r
-         AdSNI/EgqaB3nN1IVr7Wz1c575RqdT6wVjeOrmLm3exeze9hRqK9DITFh5oS4CEjwU8m
-         OOVTBSB/GIuhTTFSaWZ2rj6QY9dhnS8cBgFUMtCaSzFoSK6Z5UW2YvdeN+ESmORqJSE3
-         8+U/8M2szRtD5DK78+Mqtjonujsh58m/qVcg3TDtVdA6ssGfAbx6U4Ev1BXwfrnfyovP
-         ZMh7kOzJLTAx/Yvi5B+o8fiX3wXCIVpU62YUypHvmi2wK86bxQY3kyelAD7Tc6jl/p/S
-         QNKw==
+        Sat, 29 Apr 2023 09:47:45 -0400
+Received: from mail-il1-f205.google.com (mail-il1-f205.google.com [209.85.166.205])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE0CA19A2
+        for <linux-input@vger.kernel.org>; Sat, 29 Apr 2023 06:47:43 -0700 (PDT)
+Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-32a86b6ab85so4362545ab.3
+        for <linux-input@vger.kernel.org>; Sat, 29 Apr 2023 06:47:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682758922; x=1685350922;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MD6FsLRMb44SS2IRF4Js3f7Flq6D4RRnuj4SUAZ8zmA=;
-        b=iaaQI2oEM9hDjzFEsoQbzu5MfRNQYkKOHKvAcMfIY8hSYaOlB8KNDP3eWbntyi6TcS
-         uueWE9Z2sSrYfhf9cxI3AHGPPIrFkwF/U5MRp+WmIwS+8lL1RjYPQKp1ld9OeV5Zq00k
-         xTqD8dzxAqaDCysFCaV0jLZxFG5cLt2icKuSxW/Kf8BYpx3EHEVMvj2jf87mcvAZfTu5
-         iFbLgGlQaWYQq7i8xlRxza9guLlDHqSM6a9g3ZUzcguimW1naL2y4IMLQ8ftNpPIVScQ
-         3r/rRAHjM8LvC4R9decCXV339eMmrKMBkMvUxGb7NpYH15pFaZXLoIkNV5Js/IdUilbf
-         HDEw==
-X-Gm-Message-State: AC+VfDwRjFH6/myV4POD8DV6fBMhUvXGAshgjWTT7hmqoQntdyZVfTHA
-        FJu7ezrIkdpczxSmyO/kZYBcP0VwpLz7O55ujX1rfvDyC/hWGw==
-X-Google-Smtp-Source: ACHHUZ5oaie81zAKzZPt/tx1AdA6BQhVHbbInaKKAwSXrl5psvaGTPsv0wddh7aZZ0NKLVM2HcGVZNxWwlB1BJYhRaI=
-X-Received: by 2002:a17:906:eec8:b0:94a:9c4e:d2e9 with SMTP id
- wu8-20020a170906eec800b0094a9c4ed2e9mr8324640ejb.0.1682758921462; Sat, 29 Apr
- 2023 02:02:01 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1682776063; x=1685368063;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sJBbSPNx33O3Uic3H5MvMN9TsVhJ4u9iqfXiFHPsAdM=;
+        b=cTXlEn6jIb/hp5O0L+fQMm8lghXndF0XoZIDWqLCEPXrNi8ISNvzYmR884yTEToJHf
+         esXTdy6QhHNmyDiinBChBrOrawrUyzk04Pqa9hf/XIJiz9zFDrKPBUoxPsBtxdde7iK5
+         urPk7gfa+F5Pdaprn3nMGhHMWTV7AT2E8DLuzsRFtkMgTW0EqIeyKqvGLh44LxQfWiNL
+         oar+7CUe/M/p6TtBysWY+uIaVtKNbwYvojWUIENvoEMh+FeSr0qK8pnJvDu9v69RX9lm
+         JYbR8NMr0D/JQz/0uWE4BYvgmUxRk+EwlAF4KVy+pNGteBN98PaF4jALfnJUGqQhxtaT
+         N/Lw==
+X-Gm-Message-State: AC+VfDw9C+5JJNSL8cAFJAoS0525gmti8F+yh6kbDBKuLq8MFcGTpAJ+
+        2eWtypr/9Q6Q7OdaqBUkzTTpuRQsdCS4gcDSe5pd0JVEHb/l
+X-Google-Smtp-Source: ACHHUZ6NrAij3mdCxRTCsmmtSLAFpBUg1S40oGpD56jfCLH3ICqiTN+yRX8KpM01UvB32tDIGixdQO14FzvUNrhq519S4Gj0iyLs
 MIME-Version: 1.0
-From:   "Alexander E. Patrakov" <patrakov@gmail.com>
-Date:   Sat, 29 Apr 2023 17:01:34 +0800
-Message-ID: <CAN_LGv0cS-mR7HxCfAwO4U9CG+r6mfrxty-woQuYxfvjZ8SBbw@mail.gmail.com>
-Subject: Quirks needed for Dell Inspiron 7415 2-in-1 touchscreen
-To:     Benjamin Tissoires <btissoir@redhat.com>,
-        linux-input@vger.kernel.org
+X-Received: by 2002:a92:d448:0:b0:32b:4584:7316 with SMTP id
+ r8-20020a92d448000000b0032b45847316mr4656801ilm.3.1682776063227; Sat, 29 Apr
+ 2023 06:47:43 -0700 (PDT)
+Date:   Sat, 29 Apr 2023 06:47:43 -0700
+In-Reply-To: <00000000000083d76d05f909f716@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000007c3e1f05fa79d594@google.com>
+Subject: Re: [syzbot] [usb?] general protection fault in xpad_probe
+From:   syzbot <syzbot+a3f758b8d8cb7e49afec@syzkaller.appspotmail.com>
+To:     chaorace@gmail.com, dan.carpenter@linaro.org,
+        dmitry.torokhov@gmail.com, dzm91@hust.edu.cn, error27@gmail.com,
+        gregkh@linuxfoundation.org,
+        hust-os-kernel-patches@googlegroups.com,
+        kernel-janitors@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        matthias.benkmann@gmail.com, mkorpershoek@baylibre.com,
+        mudongliangabcd@gmail.com, nate@yocom.org,
+        pgriffais@valvesoftware.com, radon86dev@gmail.com,
+        rafael@kernel.org, rojtberg@gmail.com, s.demassari@gmail.com,
+        syzkaller-bugs@googlegroups.com, vi@endrift.com
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+syzbot has found a reproducer for the following issue on:
 
-A few days ago, I bought a new laptop, Dell Inspiron 7415 2-in-1. It
-has a touchscreen that works out of the box - until you buy a stylus
-recommended by Dell. The stylus is "Dell Active Pen PN350M", which
-uses Microsoft Pen Protocol.
+HEAD commit:    92e815cf07ed Add linux-next specific files for 20230428
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=104cb844280000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c8c8ae4d47d23592
+dashboard link: https://syzkaller.appspot.com/bug?extid=a3f758b8d8cb7e49afec
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14a5408c280000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10d3b0e4280000
 
-The problem is that, when I lift the pen off the screen, the touch
-point remains active, but jumps into one of the corners. This
-persists, and makes doing anything in the GUI impossible, until the
-laptop is powered off.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/c9e94856e6c9/disk-92e815cf.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/4c1c05a548a7/vmlinux-92e815cf.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/2a1bff6a133b/bzImage-92e815cf.xz
 
-I have looked into hid-multitouch.c, and found that there is a quirk
-that might be relevant: MT_QUIRK_VALID_IS_INRANGE. Unfortunately, it
-does not really help, see below.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+a3f758b8d8cb7e49afec@syzkaller.appspotmail.com
 
-The default quirks for this touchscreen are 0x51c10, which means
-MT_QUIRK_ALWAYS_VALID | MT_QUIRK_IGNORE_DUPLICATES | MT_QUIRK_HOVERING
-| MT_QUIRK_CONTACT_CNT_ACCURATE | MT_QUIRK_STICKY_FINGERS |
-MT_QUIRK_WIN8_PTP_BUTTONS. So I guessed I should remove
-MT_QUIRK_ALWAYS_VALID and add MT_QUIRK_VALID_IS_INRANGE, which results
-in 0x51c20.
-
-So:
-
-echo 0x51c20 > /sys/devices/platform/AMDI0010:00/i2c-0/i2c-04F31234:00/0018:04F3:2C68.0004/quirks
-
-Result: the touchscreen now tracks the stylus correctly, but does not
-react to fingers anymore.
-
-I am willing to try kernel patches, but have too much other work to
-try writing myself a new quirk that applies the "in range means valid"
-logic for stylus only.
-
-If you need any other debug info, please tell me.
-
-The /proc/bus/input/devices file contains:
-============================
-I: Bus=0019 Vendor=0000 Product=0001 Version=0000
-N: Name="Power Button"
-P: Phys=PNP0C0C/button/input0
-S: Sysfs=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0C:00/input/input0
-U: Uniq=
-H: Handlers=kbd event0
-B: PROP=0
-B: EV=3
-B: KEY=10000000000000 0
-
-I: Bus=0019 Vendor=0000 Product=0005 Version=0000
-N: Name="Lid Switch"
-P: Phys=PNP0C0D/button/input0
-S: Sysfs=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0D:00/input/input1
-U: Uniq=
-H: Handlers=event1
-B: PROP=0
-B: EV=21
-B: SW=1
-
-I: Bus=0019 Vendor=0000 Product=0003 Version=0000
-N: Name="Sleep Button"
-P: Phys=PNP0C0E/button/input0
-S: Sysfs=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0E:00/input/input2
-U: Uniq=
-H: Handlers=kbd event2
-B: PROP=0
-B: EV=3
-B: KEY=4000 0 0
-
-I: Bus=0011 Vendor=0001 Product=0001 Version=ab41
-N: Name="AT Translated Set 2 keyboard"
-P: Phys=isa0060/serio0/input0
-S: Sysfs=/devices/platform/i8042/serio0/input/input3
-U: Uniq=
-H: Handlers=sysrq kbd leds event3
-B: PROP=0
-B: EV=120013
-B: KEY=1100f02902000 8380307cf910f001 feffffdfffefffff fffffffffffffffe
-B: MSC=10
-B: LED=7
-
-I: Bus=0019 Vendor=0000 Product=0006 Version=0000
-N: Name="Video Bus"
-P: Phys=LNXVIDEO/video/input0
-S: Sysfs=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/device:10/LNXVIDEO:00/input/input5
-U: Uniq=
-H: Handlers=kbd event4
-B: PROP=0
-B: EV=3
-B: KEY=3e000b00000000 0 0 0
-
-I: Bus=0019 Vendor=0000 Product=0000 Version=0000
-N: Name="DELL Wireless hotkeys"
-P: Phys=dellabce/input0
-S: Sysfs=/devices/virtual/input/input6
-U: Uniq=
-H: Handlers=kbd event5 rfkill
-B: PROP=0
-B: EV=3
-B: KEY=80000000000000 0 0 0
-
-I: Bus=0010 Vendor=001f Product=0001 Version=0100
-N: Name="PC Speaker"
-P: Phys=isa0061/input0
-S: Sysfs=/devices/platform/pcspkr/input/input7
-U: Uniq=
-H: Handlers=kbd event6
-B: PROP=0
-B: EV=40001
-B: SND=6
-
-I: Bus=0019 Vendor=0000 Product=0000 Version=0000
-N: Name="Dell WMI hotkeys"
-P: Phys=
-S: Sysfs=/devices/platform/PNP0C14:00/wmi_bus/wmi_bus-PNP0C14:00/9DBB5994-A997-11DA-B012-B622A1EF5492/input/input18
-U: Uniq=
-H: Handlers=kbd event7 rfkill
-B: PROP=0
-B: EV=13
-B: KEY=800000000000 0 0 101500b00000c00 1200300000 e000000000000 0
-B: MSC=10
-
-I: Bus=0003 Vendor=0c45 Product=6a10 Version=0271
-N: Name="Integrated_Webcam_HD: Integrate"
-P: Phys=usb-0000:03:00.4-1/button
-S: Sysfs=/devices/pci0000:00/0000:00:08.1/0000:03:00.4/usb3/3-1/3-1:1.0/input/input19
-U: Uniq=
-H: Handlers=kbd event8
-B: PROP=0
-B: EV=3
-B: KEY=100000 0 0 0
-
-I: Bus=0000 Vendor=0000 Product=0000 Version=0000
-N: Name="HD-Audio Generic HDMI/DP,pcm=3"
-P: Phys=ALSA
-S: Sysfs=/devices/pci0000:00/0000:00:08.1/0000:03:00.1/sound/card0/input20
-U: Uniq=
-H: Handlers=event9
-B: PROP=0
-B: EV=21
-B: SW=140
-
-I: Bus=0018 Vendor=06cb Product=ce26 Version=0100
-N: Name="DELL0A8C:00 06CB:CE26 Mouse"
-P: Phys=i2c-DELL0A8C:00
-S: Sysfs=/devices/platform/AMDI0010:03/i2c-1/i2c-DELL0A8C:00/0018:06CB:CE26.0005/input/input22
-U: Uniq=
-H: Handlers=event11 mouse0
-B: PROP=0
-B: EV=17
-B: KEY=30000 0 0 0 0
-B: REL=3
-B: MSC=10
-
-I: Bus=0000 Vendor=0000 Product=0000 Version=0000
-N: Name="HD-Audio Generic HDMI/DP,pcm=7"
-P: Phys=ALSA
-S: Sysfs=/devices/pci0000:00/0000:00:08.1/0000:03:00.1/sound/card0/input21
-U: Uniq=
-H: Handlers=event10
-B: PROP=0
-B: EV=21
-B: SW=140
-
-I: Bus=0018 Vendor=06cb Product=ce26 Version=0100
-N: Name="DELL0A8C:00 06CB:CE26 Touchpad"
-P: Phys=i2c-DELL0A8C:00
-S: Sysfs=/devices/platform/AMDI0010:03/i2c-1/i2c-DELL0A8C:00/0018:06CB:CE26.0005/input/input23
-U: Uniq=
-H: Handlers=event12 mouse1
-B: PROP=5
-B: EV=1b
-B: KEY=e520 10000 0 0 0 0
-B: ABS=2e0800000000003
-B: MSC=20
-
-I: Bus=0018 Vendor=04f3 Product=2c68 Version=0100
-N: Name="04F31234:00 04F3:2C68"
-P: Phys=i2c-04F31234:00
-S: Sysfs=/devices/platform/AMDI0010:00/i2c-0/i2c-04F31234:00/0018:04F3:2C68.0004/input/input25
-U: Uniq=
-H: Handlers=event13 mouse2
-B: PROP=2
-B: EV=1b
-B: KEY=400 0 0 0 0 0
-B: ABS=3273800000000003
-B: MSC=20
-
-I: Bus=0018 Vendor=04f3 Product=2c68 Version=0100
-N: Name="04F31234:00 04F3:2C68 UNKNOWN"
-P: Phys=i2c-04F31234:00
-S: Sysfs=/devices/platform/AMDI0010:00/i2c-0/i2c-04F31234:00/0018:04F3:2C68.0004/input/input26
-U: Uniq=
-H: Handlers=event14
-B: PROP=0
-B: EV=9
-B: ABS=10000000000
-
-I: Bus=0018 Vendor=04f3 Product=2c68 Version=0100
-N: Name="04F31234:00 04F3:2C68 UNKNOWN"
-P: Phys=i2c-04F31234:00
-S: Sysfs=/devices/platform/AMDI0010:00/i2c-0/i2c-04F31234:00/0018:04F3:2C68.0004/input/input27
-U: Uniq=
-H: Handlers=event15
-B: PROP=0
-B: EV=100001
-
-I: Bus=0018 Vendor=04f3 Product=2c68 Version=0100
-N: Name="04F31234:00 04F3:2C68 Stylus"
-P: Phys=i2c-04F31234:00
-S: Sysfs=/devices/platform/AMDI0010:00/i2c-0/i2c-04F31234:00/0018:04F3:2C68.0004/input/input28
-U: Uniq=
-H: Handlers=event16 mouse3
-B: PROP=2
-B: EV=1b
-B: KEY=c03 0 0 0 0 0
-B: ABS=1000d000003
-B: MSC=10
-
-I: Bus=0000 Vendor=0000 Product=0000 Version=0000
-N: Name="HD-Audio Generic Headphone Mic"
-P: Phys=ALSA
-S: Sysfs=/devices/pci0000:00/0000:00:08.1/0000:03:00.6/sound/card1/input31
-U: Uniq=
-H: Handlers=event17
-B: PROP=0
-B: EV=21
-B: SW=4
-============================
-
-Here is some udevadm info, just in case, too:
-
-============================
-
-Udevadm info starts with the device specified by the devpath and then
-walks up the chain of parent devices. It prints for every device
-found, all possible attributes in the udev rules key format.
-A rule to match, can be composed by the attributes of the device
-and the attributes from one single parent device.
-
-  looking at device
-'/devices/platform/AMDI0010:00/i2c-0/i2c-04F31234:00/0018:04F3:2C68.0004/input/input28':
-    KERNEL=="input28"
-    SUBSYSTEM=="input"
-    DRIVER==""
-    ATTR{capabilities/abs}=="1000d000003"
-    ATTR{capabilities/ev}=="1b"
-    ATTR{capabilities/ff}=="0"
-    ATTR{capabilities/key}=="c03 0 0 0 0 0"
-    ATTR{capabilities/led}=="0"
-    ATTR{capabilities/msc}=="10"
-    ATTR{capabilities/rel}=="0"
-    ATTR{capabilities/snd}=="0"
-    ATTR{capabilities/sw}=="0"
-    ATTR{id/bustype}=="0018"
-    ATTR{id/product}=="2c68"
-    ATTR{id/vendor}=="04f3"
-    ATTR{id/version}=="0100"
-    ATTR{inhibited}=="0"
-    ATTR{name}=="04F31234:00 04F3:2C68 Stylus"
-    ATTR{phys}=="i2c-04F31234:00"
-    ATTR{power/control}=="auto"
-    ATTR{power/runtime_active_time}=="0"
-    ATTR{power/runtime_status}=="unsupported"
-    ATTR{power/runtime_suspended_time}=="0"
-    ATTR{properties}=="2"
-    ATTR{uniq}==""
-
-  looking at parent device
-'/devices/platform/AMDI0010:00/i2c-0/i2c-04F31234:00/0018:04F3:2C68.0004':
-    KERNELS=="0018:04F3:2C68.0004"
-    SUBSYSTEMS=="hid"
-    DRIVERS=="hid-multitouch"
-    ATTRS{country}=="00"
-    ATTRS{power/control}=="auto"
-    ATTRS{power/runtime_active_time}=="0"
-    ATTRS{power/runtime_status}=="unsupported"
-    ATTRS{power/runtime_suspended_time}=="0"
-    ATTRS{quirks}=="334880"
-
-  looking at parent device
-'/devices/platform/AMDI0010:00/i2c-0/i2c-04F31234:00':
-    KERNELS=="i2c-04F31234:00"
-    SUBSYSTEMS=="i2c"
-    DRIVERS=="i2c_hid_acpi"
-    ATTRS{name}=="04F31234:00"
-    ATTRS{power/control}=="auto"
-    ATTRS{power/runtime_active_time}=="0"
-    ATTRS{power/runtime_status}=="unsupported"
-    ATTRS{power/runtime_suspended_time}=="0"
-
-  looking at parent device '/devices/platform/AMDI0010:00/i2c-0':
-    KERNELS=="i2c-0"
-    SUBSYSTEMS=="i2c"
-    DRIVERS==""
-    ATTRS{delete_device}=="(not readable)"
-    ATTRS{name}=="Synopsys DesignWare I2C adapter"
-    ATTRS{new_device}=="(not readable)"
-    ATTRS{waiting_for_supplier}=="0"
-
-  looking at parent device '/devices/platform/AMDI0010:00':
-    KERNELS=="AMDI0010:00"
-    SUBSYSTEMS=="platform"
-    DRIVERS=="i2c_designware"
-    ATTRS{driver_override}=="(null)"
-    ATTRS{power/autosuspend_delay_ms}=="1000"
-    ATTRS{power/control}=="auto"
-    ATTRS{power/runtime_active_time}=="1809937"
-    ATTRS{power/runtime_status}=="active"
-    ATTRS{power/runtime_suspended_time}=="74571"
-
-  looking at parent device '/devices/platform':
-    KERNELS=="platform"
-    SUBSYSTEMS==""
-    DRIVERS==""
-    ATTRS{power/control}=="auto"
-    ATTRS{power/runtime_active_time}=="0"
-    ATTRS{power/runtime_status}=="unsupported"
-    ATTRS{power/runtime_suspended_time}=="0"
-
-============================
+usb 1-1: config 0 has no interface number 0
+usb 1-1: New USB device found, idVendor=1949, idProduct=5e70, bcdDevice=d7.a2
+usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+usb 1-1: config 0 descriptor??
+usb 1-1: string descriptor 0 read error: -71
+general protection fault, probably for non-canonical address 0xdffffc0000000068: 0000 [#1] PREEMPT SMP KASAN
+KASAN: null-ptr-deref in range [0x0000000000000340-0x0000000000000347]
+CPU: 0 PID: 9 Comm: kworker/0:1 Not tainted 6.3.0-next-20230428-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/14/2023
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:dev_name include/linux/device.h:706 [inline]
+RIP: 0010:__dev_printk+0x3b/0x270 drivers/base/core.c:4863
+Code: f5 53 e8 c8 c3 6b fc 48 85 ed 0f 84 cb 01 00 00 e8 ba c3 6b fc 48 8d 7d 50 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 d7 01 00 00 48 8b 5d 50 48 85 db 0f 84 b5 00 00
+RSP: 0018:ffffc900000e6f70 EFLAGS: 00010202
+RAX: dffffc0000000000 RBX: fffff5200001cdf5 RCX: 0000000000000000
+RDX: 0000000000000068 RSI: ffffffff85188a06 RDI: 0000000000000340
+RBP: 00000000000002f0 R08: 0000000000000005 R09: 0000000000000000
+R10: 00000000ffffffb9 R11: ffffffff81d6ff05 R12: ffffffff8ace98e0
+R13: ffffc900000e6fc8 R14: ffff88801ed25a64 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f1361dc1111 CR3: 00000000210fe000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ _dev_warn+0xdc/0x120 drivers/base/core.c:4907
+ xpad_probe+0x197e/0x2020 drivers/input/joystick/xpad.c:2053
+ usb_probe_interface+0x30f/0x960 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x240/0xca0 drivers/base/dd.c:658
+ __driver_probe_device+0x1df/0x4b0 drivers/base/dd.c:800
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
+ __device_attach_driver+0x1d4/0x2e0 drivers/base/dd.c:958
+ bus_for_each_drv+0x149/0x1d0 drivers/base/bus.c:457
+ __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1030
+ bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
+ device_add+0x112d/0x1a40 drivers/base/core.c:3625
+ usb_set_configuration+0x1196/0x1bc0 drivers/usb/core/message.c:2211
+ usb_generic_driver_probe+0xcf/0x130 drivers/usb/core/generic.c:238
+ usb_probe_device+0xd8/0x2c0 drivers/usb/core/driver.c:293
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x240/0xca0 drivers/base/dd.c:658
+ __driver_probe_device+0x1df/0x4b0 drivers/base/dd.c:800
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
+ __device_attach_driver+0x1d4/0x2e0 drivers/base/dd.c:958
+ bus_for_each_drv+0x149/0x1d0 drivers/base/bus.c:457
+ __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1030
+ bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
+ device_add+0x112d/0x1a40 drivers/base/core.c:3625
+ usb_new_device+0xcb2/0x19d0 drivers/usb/core/hub.c:2575
+ hub_port_connect drivers/usb/core/hub.c:5407 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5551 [inline]
+ port_event drivers/usb/core/hub.c:5711 [inline]
+ hub_event+0x2d9e/0x4e40 drivers/usb/core/hub.c:5793
+ process_one_work+0x99a/0x15e0 kernel/workqueue.c:2405
+ worker_thread+0x67d/0x10c0 kernel/workqueue.c:2552
+ kthread+0x344/0x440 kernel/kthread.c:379
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:dev_name include/linux/device.h:706 [inline]
+RIP: 0010:__dev_printk+0x3b/0x270 drivers/base/core.c:4863
+Code: f5 53 e8 c8 c3 6b fc 48 85 ed 0f 84 cb 01 00 00 e8 ba c3 6b fc 48 8d 7d 50 48 b8 00 00 00 00 00 fc ff df 48 89
+----------------
+Code disassembly (best guess):
+   0:	f5                   	cmc
+   1:	53                   	push   %rbx
+   2:	e8 c8 c3 6b fc       	callq  0xfc6bc3cf
+   7:	48 85 ed             	test   %rbp,%rbp
+   a:	0f 84 cb 01 00 00    	je     0x1db
+  10:	e8 ba c3 6b fc       	callq  0xfc6bc3cf
+  15:	48 8d 7d 50          	lea    0x50(%rbp),%rdi
+  19:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  20:	fc ff df
+  23:	48 89 fa             	mov    %rdi,%rdx
+  26:	48 c1 ea 03          	shr    $0x3,%rdx
+* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
+  2e:	0f 85 d7 01 00 00    	jne    0x20b
+  34:	48 8b 5d 50          	mov    0x50(%rbp),%rbx
+  38:	48 85 db             	test   %rbx,%rbx
+  3b:	0f                   	.byte 0xf
+  3c:	84                   	.byte 0x84
+  3d:	b5 00                	mov    $0x0,%ch
 
 
-
-
--- 
-Alexander E. Patrakov
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
