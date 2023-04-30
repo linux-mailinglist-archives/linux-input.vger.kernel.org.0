@@ -2,120 +2,127 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F0F26F2803
-	for <lists+linux-input@lfdr.de>; Sun, 30 Apr 2023 10:01:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F39716F282E
+	for <lists+linux-input@lfdr.de>; Sun, 30 Apr 2023 11:22:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229461AbjD3IBU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 30 Apr 2023 04:01:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44584 "EHLO
+        id S229814AbjD3JWX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 30 Apr 2023 05:22:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbjD3IBS (ORCPT
+        with ESMTP id S229452AbjD3JWV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 30 Apr 2023 04:01:18 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4853213F
-        for <linux-input@vger.kernel.org>; Sun, 30 Apr 2023 01:01:16 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id 38308e7fff4ca-2a8bcfbf276so12993201fa.3
-        for <linux-input@vger.kernel.org>; Sun, 30 Apr 2023 01:01:16 -0700 (PDT)
+        Sun, 30 Apr 2023 05:22:21 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA92D10DB
+        for <linux-input@vger.kernel.org>; Sun, 30 Apr 2023 02:22:19 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-4efec123b28so2008485e87.1
+        for <linux-input@vger.kernel.org>; Sun, 30 Apr 2023 02:22:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682841674; x=1685433674;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KzHCdUldIUq8/QYyBbGX3bl3HJePW361rnxBXZ4lJBo=;
-        b=FCrF/tVB7x7jGc6xxNEZjXmql9I/wEpI10kYuzgdM9FuLD0Nh0Q3rESzombBxEPqMN
-         ZX8yemYYNTgvcF6cTBMuiIhnkXgwZAYlQkcYmie5z95CWdnVcV+c9r5DhgXTwg1nNLnv
-         vMya3sOFFVQzgjzIzFfMZ3M4Ke5JZl+8k232/AZ3uoaAmcLxMuhnGdVcL9NyeKS98fjt
-         ODRGdyEThcAQuvAaKuOAI9KD0YEJWFQsj7h4MeymsECNKjK8GfDFgz4dgU5lLY6wJ5d1
-         hCg+LTM5jiAjUus2rMkYuphstoWiyheNM93b4VgCFqbOmP1QVjHzcExBssi8Q2zNI5Tx
-         c7TA==
+        d=linaro.org; s=google; t=1682846538; x=1685438538;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+XYiqBkbxAPVH0i8/+HRFP2RyVqV+Ef0zJV3FNvWAug=;
+        b=jZ7a8oFyUCEhBD/VYSGnvEywFuGPvXH9CkIQCaZnzRa10FvuqTYPkuwk4Lr3soy+Qw
+         cS/D0EwhBBUqMR5QQKaqfmx4m0kWRk3oABnWGNXyLHRvDSWrt6ukZY0NkqUKmJmmX/nw
+         Yl7pcDjR/CT5ywrNBOUcy952x1dJUkuMXWe451YbNlJcdFDdyzVg+Cy3z1JF9t0oRBHq
+         awtSzBNcnJ14K79hYFeYNS5m6Z28nX0Xbb17AT9fiVojefU056TtrNFkVhkFdedrpvvH
+         6wGlbtTUhiHKJSkIX7vueG8HW6++JWhTTUjetYyB2LrjYa1dhlrR1NByhkAXSKd4Z+sY
+         JseA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682841674; x=1685433674;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KzHCdUldIUq8/QYyBbGX3bl3HJePW361rnxBXZ4lJBo=;
-        b=c4/uLNSINGhB5RfSLum2S/0SnuQx+f7luX5p7RS4hNd9RE/zWYXqpMK29DwDiMfRBQ
-         T9T4KTuAadHViOfehSVNjForuq2xhnzWLrjZRqHtHInZL5rC8AdgBpgGFADQqSgNP1AI
-         HgncD2S6bb81yeTXzjUivOxp8o6AR8hZWiyY50Vx1iSjxdXv4DlAvxEYgdzHOdTvPfPB
-         RTCuuUt1IjYuq+Q9Y5/JMgbELlwSqSx2HpbBt3KC1QJxzK47fEKxJgwKZ8d2I4IGczAx
-         y5NuHcs9ek7xklc2nHHfgwtagZlYbIjZXROZZPVQ1wzv59WEQJHipyYTa74Ismxp1hz5
-         x0/A==
-X-Gm-Message-State: AC+VfDySY9KxhkX7pAX/iOegZZhbUdv/Ih5r9qqVL3GpTzaVvpgmdyLH
-        QkoAE140Lp2DzWdZnFmjsxUK9XUbiPdVdA==
-X-Google-Smtp-Source: ACHHUZ6r4FWFLByQB/5zytuCncjh0iAzi5ELPZJJ9VFZTIFrvtont6aUN6eoEuq7V2i8QBhbd+CkTA==
-X-Received: by 2002:a2e:9ec1:0:b0:2a7:9b39:eff8 with SMTP id h1-20020a2e9ec1000000b002a79b39eff8mr2861574ljk.6.1682841674677;
-        Sun, 30 Apr 2023 01:01:14 -0700 (PDT)
-Received: from avdeevavpc ([5.227.26.109])
-        by smtp.gmail.com with ESMTPSA id n19-20020a2eb793000000b002a76e600228sm4070489ljo.47.2023.04.30.01.01.13
-        for <linux-input@vger.kernel.org>
+        d=1e100.net; s=20221208; t=1682846538; x=1685438538;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+XYiqBkbxAPVH0i8/+HRFP2RyVqV+Ef0zJV3FNvWAug=;
+        b=XtzwubkwOymHqbO15TTCe9BDc6WVrjTzg/EYk1aCR8CNKackAh3MHx5QnlyTHGE3L2
+         EEC0PK8oiggY9d9/ev7wOGIYvZn/96rCNWqM5/Kxn/O4LFVSsl2tJeHGT1HM8H1IjLT5
+         dId1vDKf1eev0lpNatFvyREWhagmbrjB86ZaAyNi8OlQ12rPd+1abUu/8TkfLRQRMNJo
+         tCTiBjuA+k9EFMj7g9V2C/msuIjYbATbrQ7CB8UOL8JD2PVFaAQlZnkpGmlRfui6m7YP
+         JjSLl6j/TMN+9R30rBqtjeo8oPLc4xx7looNACWhRrX2TxZVeZhZA7PRyaHl/7Iwpf7a
+         8a+A==
+X-Gm-Message-State: AC+VfDx0rAdC/rQymkD0sOWY0toq7BwbfMoaDqGd8ZCDKje/OoDzc0QW
+        zfUl+GDg0SME9eHfJD9/Hydtfg==
+X-Google-Smtp-Source: ACHHUZ7ucxXpCoxlsl8Xi/raDdSh8iRbO7nc1MRAHlpM1B6zhSYps+j7m4I3APPsFeVbaBj0fqnijA==
+X-Received: by 2002:a19:7003:0:b0:4ef:f017:e52 with SMTP id h3-20020a197003000000b004eff0170e52mr2741998lfc.5.1682846538033;
+        Sun, 30 Apr 2023 02:22:18 -0700 (PDT)
+Received: from [127.0.1.1] ([85.235.12.238])
+        by smtp.gmail.com with ESMTPSA id o2-20020a05651238a200b004ec62d9a7f9sm4077327lft.62.2023.04.30.02.22.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Apr 2023 01:01:13 -0700 (PDT)
-Date:   Sun, 30 Apr 2023 11:01:10 +0300
-From:   Andrey Avdeev <jamesstoun@gmail.com>
-To:     linux-input@vger.kernel.org
-Subject: [PATCH] touchscreen_dmi: Add info for the Dexp Ursus KX210i
-Message-ID: <ZE4gRgzRQCjXFYD0@avdeevavpc>
+        Sun, 30 Apr 2023 02:22:17 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH 0/4] Fix up Nokia 770 regression
+Date:   Sun, 30 Apr 2023 11:22:15 +0200
+Message-Id: <20230430-nokia770-regression-v1-0-97704e36b094@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEczTmQC/x2N0QrCMAxFf2Xk2UDsJmX+iviQ1rgFsZNEZDD27
+ 2t9PJx7uBu4mIrDtdvA5KeuS6lwPnWQZy6ToD4qQ6DQ09ATluWlHCOhyWTibY8hXZjiMEbJI9Q
+ ysQsm45Ln1r7Zv2JNfEyeuv7vbvd9PwB3HfOZfgAAAA==
+To:     Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Andreas Kemnade <andreas@kemnade.info>,
+        Helge Deller <deller@gmx.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-mmc@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.12.1
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add touchscreen info for the Dexp Ursus KX210i
+A recent change to use dynamic GPIO base allocation in the
+OMAP GPIO driver caused a regression in some OMAP1 boards.
+This series fixes up the Nokia 770 board from 2005:
+https://en.wikipedia.org/wiki/Nokia_770_Internet_Tablet
 
-Signed-off-by: Andrey Avdeev <jamesstoun@gmail.com>
+I don't know how urgent the fix is, you decide. For me,
+it is fair if fringe systems get fixed in due time, as
+they are hardly anyones main development laptop.
+
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/platform/x86/touchscreen_dmi.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+Linus Walleij (4):
+      Input/ARM: ads7846: Get pendown IRQ from descriptors
+      fbdev/ARM: Fix up LCD MIPID GPIO usage
+      ARM/mmc: Convert old mmci-omap to GPIO descriptors
+      ARM: omap1: Fix up the Nokia 770 board device IRQs
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 13802a3c3591..0d3ac1e7a43c 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -336,6 +336,22 @@ static const struct ts_dmi_data dexp_ursus_7w_data = {
- 	.properties	= dexp_ursus_7w_props,
- };
- 
-+static const struct property_entry dexp_ursus_kx210i_props[] = {
-+	PROPERTY_ENTRY_U32("touchscreen-min-x", 5),
-+	PROPERTY_ENTRY_U32("touchscreen-min-y",  2),
-+	PROPERTY_ENTRY_U32("touchscreen-size-x", 1720),
-+	PROPERTY_ENTRY_U32("touchscreen-size-y", 1137),
-+	PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-dexp-ursus-kx210i.fw"),
-+	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
-+	PROPERTY_ENTRY_BOOL("silead,home-button"),
-+	{ }
-+};
-+
-+static const struct ts_dmi_data dexp_ursus_kx210i_data = {
-+	.acpi_name	= "MSSL1680:00",
-+	.properties	= dexp_ursus_kx210i_props,
-+};
-+
- static const struct property_entry digma_citi_e200_props[] = {
- 	PROPERTY_ENTRY_U32("touchscreen-size-x", 1980),
- 	PROPERTY_ENTRY_U32("touchscreen-size-y", 1500),
-@@ -1185,6 +1201,14 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "7W"),
- 		},
- 	},
-+	{
-+		/* DEXP Ursus KX210i */
-+		.driver_data = (void *)&dexp_ursus_kx210i_data,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "INSYDE Corp."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "S107I"),
-+		},
-+	},
- 	{
- 		/* Digma Citi E200 */
- 		.driver_data = (void *)&digma_citi_e200_data,
+ arch/arm/mach-omap1/board-nokia770.c    | 136 ++++++++++++++++++--------------
+ arch/arm/mach-omap1/board-sx1-mmc.c     |   1 -
+ arch/arm/mach-omap2/board-n8x0.c        |  85 ++++++--------------
+ arch/arm/mach-pxa/spitz.c               |  11 ++-
+ arch/mips/alchemy/devboards/db1000.c    |  11 ++-
+ drivers/input/touchscreen/ads7846.c     |  32 ++------
+ drivers/mmc/host/omap.c                 |  46 ++++++++++-
+ drivers/video/fbdev/omap/lcd_mipid.c    |  10 +++
+ include/linux/platform_data/lcd-mipid.h |   2 -
+ include/linux/platform_data/mmc-omap.h  |   2 -
+ include/linux/spi/ads7846.h             |   2 -
+ 11 files changed, 186 insertions(+), 152 deletions(-)
+---
+base-commit: 825a0714d2b3883d4f8ff64f6933fb73ee3f1834
+change-id: 20230430-nokia770-regression-2b5a07497ec9
+
+Best regards,
 -- 
-2.40.0
+Linus Walleij <linus.walleij@linaro.org>
 
