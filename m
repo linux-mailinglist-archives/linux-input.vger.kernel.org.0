@@ -2,68 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1004C6F3A52
-	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 00:11:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 459A16F3B05
+	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 01:24:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231903AbjEAWLM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 May 2023 18:11:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55204 "EHLO
+        id S231799AbjEAXYW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 May 2023 19:24:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229664AbjEAWLL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 1 May 2023 18:11:11 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAA341FEB
-        for <linux-input@vger.kernel.org>; Mon,  1 May 2023 15:11:10 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-24df4ecdb87so1219954a91.0
-        for <linux-input@vger.kernel.org>; Mon, 01 May 2023 15:11:10 -0700 (PDT)
+        with ESMTP id S229379AbjEAXYV (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 1 May 2023 19:24:21 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDAC930D6;
+        Mon,  1 May 2023 16:24:19 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-63b5ce4f069so3672886b3a.1;
+        Mon, 01 May 2023 16:24:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682979070; x=1685571070;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=qZIzTcFqPyBAaQTd0NSVgs9kKBvqGfZ+KBNzCtVkBMk=;
-        b=P5F6oIHTXAdX7UghOW0zcqlSBlNDuCZN8k3ZhYPqtogA9WDA30UyRsowFFS6G6bm6e
-         Yf6RYVpZ2NRHitV61JtZvmyWkfxIT2J7i6XUnCGGre0Awk5UPTBAEXq/9FDL+2DhX3J9
-         4KtC48q1Gw5zl6H2t+jHGi4c6SXqFrEWq/zMM2TGW0Bvt9HxflLaPbxKC5GEO0dtAE4H
-         WoDaS/r6FM/SXCZDU4QOZaZCcCnmzXBqQR2qFZP6msDCt8Thoy3MGhghrrXZk9wdYwy6
-         lTZN5Be8kJWzASuCY4INSuI/EW3lv14LTTHMFRYaOS6t8vckWV6YLVji6bH2L5kOcZAA
-         HdeQ==
+        d=gmail.com; s=20221208; t=1682983459; x=1685575459;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=37wjJ+t9Peo7GlT5iWpqp5Yq+wn31hxx/6euJ04tpws=;
+        b=AxutNgviCJ7rZlbiih9yaqFeMnMS3VoIDDa/DbH6GHGFO2lJOdGNv4mO2Luacdr82D
+         5D/8hrDaY2ydnZFJpK86svHSpzZTlrK60VNbwVB7DpVVwUtdQg1pO5ODrxRcyykl2fxi
+         5vsMAP0df0SwRPmxWC3SegtqbGbtGBVnr8lrAPzuH9V2BbnNE3SRBe2JPERgEbHQVxTP
+         LHyD6KrB/LJRzbg91xNpN9BkXf882+muJlwwGAlnnmVtkqBJP1mqZQQP/iPsXxOmql5P
+         jKQ3Y5gDqEBecpfc2nNPpDbl9c5ekQwsH6GSItDKguKg31vuP70kYLhycPiywd2L15SN
+         FBHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682979070; x=1685571070;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qZIzTcFqPyBAaQTd0NSVgs9kKBvqGfZ+KBNzCtVkBMk=;
-        b=Sw6K845bbGLEAmsxpSuZDB3ppumaiuAEOVE61c9accfJfEgpwUZYXFBsJtGJ8HT6y6
-         2/WRHY3VO9ql2ZdstDKmA1LWUOMAQZYLngte4Jwp+iFExaZbu519+EFhnt+msxw1PICt
-         0HldaOcLgs6pNhrZ20rjCR/qFwngpWsZ6ARgihNiSyditThArFxuvwFJE2fHBStuey6l
-         jmORnYUXptjEs+0B2SmK/LsSxV2o3A4HEH5HK6KneAD5fjj3GNsx2POwfmkrqBiBDRqP
-         iC1y8Ajlr9FmsdT0HrIboXwaYq2yg8lzLZPnLHRTlYQH4DSur/Q5SVbMSj3TjuUtqUlA
-         KMbg==
-X-Gm-Message-State: AC+VfDxGBeXJr2/CZt9RWDp+osvQcu1I0UUxuD9hqcwLicMCSPBq1VgO
-        0deDSmn/uushN2LzzfJ96T0=
-X-Google-Smtp-Source: ACHHUZ7AAit3+phkaU+pncZmMv2RK6Wi0BQYE38X7FaQBVMtODxLlWAL1znZ/8oVuGpvBQelCYyqOA==
-X-Received: by 2002:a17:903:1112:b0:1ab:a30:c89d with SMTP id n18-20020a170903111200b001ab0a30c89dmr270456plh.51.1682979070143;
-        Mon, 01 May 2023 15:11:10 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1682983459; x=1685575459;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=37wjJ+t9Peo7GlT5iWpqp5Yq+wn31hxx/6euJ04tpws=;
+        b=XCCsEXms0Q7snEKVGsffAA7N1CJYMf/uDxiP5xDKuhBGXhKjt8vq2Xo0E8cqJu8lja
+         FdwduyxEfZz/dz3Bd76GQVTSaKv0+gOh35jBDEg1GsAf2j8+EAcmEIYYKVxbwMm/rMnh
+         abjVTumz+6XoktgPAPFVpm2OnxBmTpB8E5AhoIzPpAIkr+shgWonj3DXbpXcfpGsMegO
+         8Y/1EeSBfB2MdA2wYKcs8m6823+7Ais+5A6i1pP31Dc/o4Yhcjwi6bzlhXHTWx8DFs5w
+         pmlEKoBXfEjMcapXhlW0neRjkqahc2ECvzRQyN6KZ7xiL3QycrBdKoB+A5UzsnsekuZF
+         gHVQ==
+X-Gm-Message-State: AC+VfDxtai0xLj5Gfaz8/GkTyzpNtgq/238oy/NK6uJmrMQmanbjAvcu
+        6TWl8wnnr2ZiDFfOd3+Z4jTgQTStIek=
+X-Google-Smtp-Source: ACHHUZ6fYtvZlMnpZ/WC0uPwhXizEpmZFapVFHWWmwErLSw03skFI6AyDE/xlX+4IKu+1/fcKLPK9g==
+X-Received: by 2002:a05:6a00:2490:b0:63f:7663:3a3a with SMTP id c16-20020a056a00249000b0063f76633a3amr22167711pfv.32.1682983459236;
+        Mon, 01 May 2023 16:24:19 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:b6ce:736b:e4f7:adb])
-        by smtp.gmail.com with ESMTPSA id q11-20020a170902bd8b00b001a96a6877fdsm14258056pls.3.2023.05.01.15.11.09
+        by smtp.gmail.com with ESMTPSA id w22-20020a63f516000000b0052873a7cecesm148102pgh.0.2023.05.01.16.24.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 May 2023 15:11:09 -0700 (PDT)
-Date:   Mon, 1 May 2023 15:11:06 -0700
+        Mon, 01 May 2023 16:24:18 -0700 (PDT)
+Date:   Mon, 1 May 2023 16:24:15 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Vicki Pfau <vi@endrift.com>
-Cc:     Dan Carpenter <error27@gmail.com>,
-        Dongliang Mu <dzm91@hust.edu.cn>, linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: xpad - Move Xbox 360 magic packet sending
-Message-ID: <ZFA4+ly5e3ggLFP4@google.com>
-References: <20230419022414.1790979-1-vi@endrift.com>
- <facb01dd-e704-4900-8f4c-6d6972e75176@kili.mountain>
- <2be8ff85-57d3-fd80-adcd-a7dc50c2e27d@endrift.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v6.4-rc0
+Message-ID: <ZFBKHyTky9YhQv+s@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2be8ff85-57d3-fd80-adcd-a7dc50c2e27d@endrift.com>
 X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -75,44 +70,158 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Apr 28, 2023 at 04:15:01PM -0700, Vicki Pfau wrote:
-> Hi Dmitry,
-> 
-> On 4/18/23 21:28, Dan Carpenter wrote:
-> > On Tue, Apr 18, 2023 at 07:24:14PM -0700, Vicki Pfau wrote:
-> >> This moves the sending of the magic packet introduced in db7220c48d8d from
-> >> xpad_probe to xpad_start_input to ensure that xpad->dev->dev exists in the
-> >> event that an error occurs. This should also fix issues with suspend that may
-> >> occur with some controllers.
-> >>
-> >> Fixes: db7220c48d8d ("Input: xpad - fix support for some third-party controllers")
-> >> Signed-off-by: Vicki Pfau <vi@endrift.com>
-> > 
-> > Can you add the syzbot stuff as well and a Reported-by tag for
-> > Dongliang Mu as well.
-> > 
-> > Reported-by: syzbot+a3f758b8d8cb7e49afec@syzkaller.appspotmail.com
-> > Reported-by: Dongliang Mu <dzm91@hust.edu.cn>
-> > Link: https://groups.google.com/g/syzkaller-bugs/c/iMhTgpGuIbM
-> 
-> Do I need to add these to the commit myself and resend, or, barring code revisions, can this be added when you cherry-pick into the tree?
-> 
+Hi Linus,
 
-This not only have not been tested on hardware, it was not even
-compiled:
+Please pull from:
 
-  CC [M]  drivers/input/joystick/xpad.o
-  drivers/input/joystick/xpad.c: In function ‘xpad_start_input’:
-  drivers/input/joystick/xpad.c:1733:46: error: ‘udev’ undeclared (first use in this function); did you mean ‘cdev’?
-   1733 |                 error = usb_control_msg_recv(udev, 0,
-        |                                              ^~~~
-        |                                              cdev
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.4-rc0
 
+to receive updates for the input subsystem. You will get:
 
-At this point I will simply revert the original patch introducing the issue and
-we can try landing this again once it is all rested.
+- a new driver for Novatek touch controllers
+- a new driver for power button for NXP BBNSM
+- a skeleton KUnit tests for the input core
+- improvements to Xpad game controller driver to support more devices
+- improvements to edt-ft5x06, hideep and other drivers
+
+Changelog:
+---------
+
+Andy Shevchenko (1):
+      Input: matrix_keypad - replace header inclusions by forward declarations
+
+Benjamin Bara (1):
+      Input: tsc2007 - enable cansleep pendown GPIO
+
+Daniel Golle (1):
+      Input: edt-ft5x06 - select REGMAP_I2C
+
+Dario Binacchi (9):
+      Input: edt-ft5x06 - fix indentation
+      Input: edt-ft5x06 - remove unnecessary blank lines
+      Input: edt-ft5x06 - add spaces to ensure format specification
+      Input: edt-ft5x06 - don't recalculate the CRC
+      Input: edt-ft5x06 - remove code duplication
+      Input: edt-ft5x06 - don't print error messages with dev_dbg()
+      Input: edt-ft5x06 - convert to use regmap API
+      Input: edt-ft5x06 - unify the crc check
+      Input: edt-ft5x06 - calculate points data length only once
+
+Dmitry Torokhov (2):
+      ARM: spitz: include header defining input event codes
+      Revert "Input: xpad - fix support for some third-party controllers"
+
+Gergo Koteles (1):
+      Input: gpio-keys - add support for linux,input-value DTS property
+
+Hans de Goede (3):
+      Input: hideep - silence error in SW_RESET()
+      Input: hideep - optionally reset controller work mode to native HiDeep protocol
+      Input: add a new Novatek NVT-ts driver
+
+Jacky Bai (1):
+      Input: bbnsm_pwrkey - add bbnsm power key support
+
+Javier Martinez Canillas (1):
+      Input: Add KUnit tests for some of the input core helper functions
+
+Jiapeng Chong (2):
+      Input: cma3000_d0x - remove unneeded code
+      Input: synaptics-rmi4 - fix function name in kerneldoc
+
+JungHoon Hyun (1):
+      Input: melfas_mip4 - report palm touches
+
+Krzysztof Kozlowski (4):
+      Input: st-keyscan - drop of_match_ptr for ID table
+      Input: tm2-touchkey - drop of_match_ptr for ID table
+      Input: sun4i-ts - drop of_match_ptr for ID table
+      Input: bcm_iproc_tsc - drop of_match_ptr for ID table
+
+Linus Walleij (1):
+      dt-bindings: google,cros-ec-keyb: Fix spelling error
+
+Miaoqian Lin (1):
+      Input: raspberrypi-ts - fix refcount leak in rpi_ts_probe
+
+Peng Fan (1):
+      dt-bindings: input: pwm-beeper: convert to dt schema
+
+Pierre-Loup A. Griffais (1):
+      Input: xpad - treat Qanba controllers as Xbox360 controllers
+
+Randy Dunlap (1):
+      Input: hp_sdc_rtc - mark an unused function as __maybe_unused
+
+Rob Herring (3):
+      Input: Use of_property_read_bool() for boolean properties
+      Input: zinitix - use of_property_present() for testing DT property presence
+      dt-bindings: input: Drop unneeded quotes
+
+Uwe Kleine-K�nig (1):
+      Input: iqs62x-keys - suppress duplicated error message in .remove()
+
+Vicki Pfau (5):
+      Input: xpad - remove unused field in VID/PID table
+      Input: xpad - add VID for Turtle Beach controllers
+      Input: xpad - fix support for some third-party controllers
+      Input: xpad - add constants for GIP interface numbers
+      Input: xpad - fix PowerA EnWired Controller guide button
+
+Yang Li (1):
+      Input: hideep - clean up some inconsistent indenting
+
+Diffstat:
+--------
+
+ .../bindings/input/google,cros-ec-keyb.yaml        |   2 +-
+ .../devicetree/bindings/input/pwm-beeper.txt       |  24 -
+ .../devicetree/bindings/input/pwm-beeper.yaml      |  41 ++
+ MAINTAINERS                                        |   6 +
+ arch/arm/mach-pxa/spitz.c                          |   1 +
+ drivers/input/Kconfig                              |  10 +
+ drivers/input/Makefile                             |   1 +
+ drivers/input/joystick/xpad.c                      |  23 +-
+ drivers/input/keyboard/gpio_keys.c                 |   3 +
+ drivers/input/keyboard/iqs62x-keys.c               |   2 +-
+ drivers/input/keyboard/matrix_keypad.c             |   6 +-
+ drivers/input/keyboard/omap4-keypad.c              |   3 +-
+ drivers/input/keyboard/samsung-keypad.c            |   3 +-
+ drivers/input/keyboard/st-keyscan.c                |   2 +-
+ drivers/input/keyboard/tegra-kbc.c                 |   3 +-
+ drivers/input/keyboard/tm2-touchkey.c              |   2 +-
+ drivers/input/misc/Kconfig                         |  11 +
+ drivers/input/misc/Makefile                        |   1 +
+ drivers/input/misc/cma3000_d0x.c                   |   2 -
+ drivers/input/misc/hp_sdc_rtc.c                    |   2 +-
+ drivers/input/misc/nxp-bbnsm-pwrkey.c              | 193 ++++++++
+ drivers/input/rmi4/rmi_bus.c                       |   2 +-
+ drivers/input/tests/.kunitconfig                   |   3 +
+ drivers/input/tests/Makefile                       |   3 +
+ drivers/input/tests/input_test.c                   | 150 +++++++
+ drivers/input/touchscreen/Kconfig                  |  11 +
+ drivers/input/touchscreen/Makefile                 |   1 +
+ drivers/input/touchscreen/bcm_iproc_tsc.c          |   2 +-
+ drivers/input/touchscreen/edt-ft5x06.c             | 496 +++++++++++----------
+ drivers/input/touchscreen/hideep.c                 |  33 +-
+ drivers/input/touchscreen/melfas_mip4.c            |  19 +-
+ drivers/input/touchscreen/novatek-nvt-ts.c         | 301 +++++++++++++
+ drivers/input/touchscreen/raspberrypi-ts.c         |   3 +-
+ drivers/input/touchscreen/sun4i-ts.c               |   2 +-
+ drivers/input/touchscreen/tsc2007_core.c           |  17 +-
+ drivers/input/touchscreen/zinitix.c                |   2 +-
+ include/linux/input/matrix_keypad.h                |   5 +-
+ 37 files changed, 1067 insertions(+), 324 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/pwm-beeper.txt
+ create mode 100644 Documentation/devicetree/bindings/input/pwm-beeper.yaml
+ create mode 100644 drivers/input/misc/nxp-bbnsm-pwrkey.c
+ create mode 100644 drivers/input/tests/.kunitconfig
+ create mode 100644 drivers/input/tests/Makefile
+ create mode 100644 drivers/input/tests/input_test.c
+ create mode 100644 drivers/input/touchscreen/novatek-nvt-ts.c
 
 Thanks.
+
 
 -- 
 Dmitry
