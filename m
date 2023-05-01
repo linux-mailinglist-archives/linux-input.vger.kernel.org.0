@@ -2,287 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B776E6F307C
-	for <lists+linux-input@lfdr.de>; Mon,  1 May 2023 13:31:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEEED6F30E6
+	for <lists+linux-input@lfdr.de>; Mon,  1 May 2023 14:32:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232380AbjEALba (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 May 2023 07:31:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37950 "EHLO
+        id S232470AbjEAMcu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 May 2023 08:32:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232366AbjEALbZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 1 May 2023 07:31:25 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E46081723;
-        Mon,  1 May 2023 04:31:10 -0700 (PDT)
-Received: from koko.localdomain ([213.196.213.13]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MO9qz-1pdrrg0X7Z-00OVFt; Mon, 01 May 2023 13:31:01 +0200
-From:   Maximilian Weigand <mweigand@mweigand.net>
-To:     Linus Walleij <linus.walleij@linaro.org>,
+        with ESMTP id S232439AbjEAMct (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 1 May 2023 08:32:49 -0400
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B5421B4
+        for <linux-input@vger.kernel.org>; Mon,  1 May 2023 05:32:47 -0700 (PDT)
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-55a76ed088aso5056937b3.2
+        for <linux-input@vger.kernel.org>; Mon, 01 May 2023 05:32:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1682944366; x=1685536366;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=saLlI1ZIdIuVeBvItkdx6UO8jJPiYG/StXLOyKUam/c=;
+        b=UtQJppbIaeWCJZCe5kzV5SxS+teZdro5jVVEsFZWePDKPiWqLNCvnQgLNycS8A5kqb
+         qi82n20oDXLhuftGQ4MssEcuL8VNzrn9PGf0HM+nLrTO7Mm94Ego1P32nzjMH6WZKpqm
+         cokZsywkNBnbZeKgRjrSGEBdfhKYVEo6fMv0O+Snw1Jb5KMvCWVcjdWDZuyvHzUtMTFS
+         e1iBgG2ifCTmsAE8ue1r4AaKRJp67gOQvIKmGxGEN9JaHhFUEb740VXFisjZJY4oUQhr
+         3fEDUyggMqK3E6BIPEW1z69OCVx2kUw2ZsdzkU4xOKSvkU0vrxx/R2ateWQ+LBjUVcfY
+         AM5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682944366; x=1685536366;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=saLlI1ZIdIuVeBvItkdx6UO8jJPiYG/StXLOyKUam/c=;
+        b=S5LPg+3dGjKZPka0HUl0e9yD6I8h4zXO2B8WPgop70W25wAcHAZGRXZKdQg7zEj77v
+         jkujLnxzO/S7LuINbw5AhT652nnk0Aq9ElBBV5rX9WJeBVw588o5buRy5aHa4aumTrNU
+         XVI9t7tvkdxq0WpXxshPektr6jnJTNcMs0jEH+/oyGcQLoIxb5MLLos0TPhvlmF4+B3h
+         qYjU/X9je1K8PLvzG90cny4U9rFlVzaXgkJ3BwBerQtSiyt8EIph5ZxaUAiQ1LUgMTD1
+         vepueTRmW3hiUxQn20YveRFvInILSZ6JYE5TLVQw40gYkFyUbEjhy5RkaXwEatcG0uYh
+         8zow==
+X-Gm-Message-State: AC+VfDyl3FNpNyMs7G5qn74eTwVdykoj+k45htH0azPgYfVV7EUB6xGl
+        w2SgQl4f0PWc3YA9vpxjMu23v1TRliHnEC0kWD2pqg==
+X-Google-Smtp-Source: ACHHUZ6LQTpwPVCXtPWDxlmBfW91jf3TvTjmIYbwnoqnGegBd2aXJK0pOhf7P3F43EveBNYhHX59vTH3zulYGcWljYw=
+X-Received: by 2002:a81:a187:0:b0:55a:6080:9882 with SMTP id
+ y129-20020a81a187000000b0055a60809882mr1947780ywg.25.1682944366146; Mon, 01
+ May 2023 05:32:46 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230425115049.870003-1-javier.carrasco@wolfvision.net>
+In-Reply-To: <20230425115049.870003-1-javier.carrasco@wolfvision.net>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 1 May 2023 14:32:34 +0200
+Message-ID: <CACRpkdYWJdyLkgNaSJx+ZzoCjrLA2wNiRnirfHUqS04XGLqx=g@mail.gmail.com>
+Subject: Re: [RFC v1 0/4] Input: support virtual objects on touchscreens
+To:     Javier Carrasco <javier.carrasco@wolfvision.net>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     Maximilian Weigand <mweigand@mweigand.net>,
-        Alistair Francis <alistair@alistair23.me>
-Subject: [PATCH v2 6/6] Input: cyttsp5 - implement proper sleep and wakeup procedures
-Date:   Mon,  1 May 2023 13:30:10 +0200
-Message-Id: <20230501113010.891786-7-mweigand@mweigand.net>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230501113010.891786-1-mweigand@mweigand.net>
-References: <20230501113010.891786-1-mweigand@mweigand.net>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XL0v2ES8g8q0dThN462agTUzufe9lz34rx0S/2pSjfd2vFBgOd/
- LWrD7t7dCXLffsV9NaENe6slSJA+piuVgWIuLCDiUhoB7IREifmFfIe0vdajm4s9Fc9V6Yw
- OY9/49IzqNFxXuj14+aIOOklml4LIajqb3vTSAFyfhYxnsHCHz9nZb7JcqNXdqqc+0MWHbo
- 6tGROWV9xaLbpDBDLRueg==
-UI-OutboundReport: notjunk:1;M01:P0:tRmD21IPVUI=;mddkxV4mNxJWnERB80hQ9qDoLTM
- YDblznRvcy87R0Vo5XF4P88JMGGrgmzh9ItTLIwVVQowaSQLHEACLQeE7VcULTALKqEC3nwXF
- 5r/AwuKQDYqdCBVmgFLivGgHfGlfciL5n3zlDb41nllEaZtIXoV6RhmQ545nw4nWzR3h0RJH5
- k6Yf3wsLk3hand2jymrk8GjXwFZo9fxu/8czTizW+9ZRLT3QY3eBtdjMylNzhHDdRa8D9DMYJ
- NURen27SDt7lfP1DkAO8WXiQdFAYSClrXYLLZol6ujiox4qnYxD0FXVKFFNTwMU8CF4AKvcKh
- W6VoJFT0ZUhWxWXwfDf6sUXrQvDvPVF6C8c0RxyLfXt/VegqgOzMhN3N8SDiemAPkIeg2Gg0X
- p9I0tNXzltUN3qqIQjkrnhXFhktZctVbmSgjMgvtGKYXCz3NG0YLymDzV/QX4kuur8DCCfSaL
- d45p+olGtkXFMAhNrz0YLyXxbDd5Xb/UpFDlWvjFvF+UpSz70jAh1xRmkHJX8bYTsOYO7Sb1i
- 4NE3uoM00BxsUNfgoHiDHMHefZ8e0YvVPUG4MBKe23qrGCKHt164dRe86HhWIFSNd7lic90QM
- SJgGsNKrxVg/dEm/6mbaIevcA+0DlbCHlgEMIQJRr1meWNTJwGMG9ie16RI8HZWFotjOU3zIw
- RjdmvQdTBKIoe7yHxcyzM1/wtXEV1dRHF46R2Sg3+A==
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Uwe Kleine-g <u.kleine-koenig@pengutronix.de>,
+        Bastian Hecht <hechtb@gmail.com>,
+        Michael Riesch <michael.riesch@wolfvision.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The touchscreen can be put into a deep sleep state that prevents it from
-emitting touch irqs. Put the touchscreen into deep sleep during suspend
-if it is not marked as a wakeup source.
+On Tue, Apr 25, 2023 at 1:51=E2=80=AFPM Javier Carrasco
+<javier.carrasco@wolfvision.net> wrote:
 
-This also fixes a problem with the touchscreen getting unresponsive after
-system resume because it pulled the interrupt line low during sleep in
-response to a touch event, thereby effectively disabling the interrupt
-handling (which triggers on the falling edge).
+> Some touchscreens are shipped with a physical layer on top of them where
+> a number of buttons and a resized touchscreen surface might be available.
 
-Signed-off-by: Maximilian Weigand <mweigand@mweigand.net>
-Reviewed-by: Alistair Francis <alistair@alistair23.me>
----
- drivers/input/touchscreen/cyttsp5.c | 125 +++++++++++++++++++++++++++-
- 1 file changed, 124 insertions(+), 1 deletion(-)
+The APQ8060 DragonBoard even shipped with two different
+stickers to be put over the touchscreen: one for Android and
+another one for Windows Mobile.
 
-diff --git a/drivers/input/touchscreen/cyttsp5.c b/drivers/input/touchscreen/cyttsp5.c
-index f701125357f0..54b1c9512e4d 100644
---- a/drivers/input/touchscreen/cyttsp5.c
-+++ b/drivers/input/touchscreen/cyttsp5.c
-@@ -43,6 +43,7 @@
- #define HID_DESC_REG				0x1
- #define HID_INPUT_REG				0x3
- #define HID_OUTPUT_REG				0x4
-+#define HID_COMMAND_REG             0x5
- 
- #define REPORT_ID_TOUCH				0x1
- #define REPORT_ID_BTN				0x3
-@@ -68,6 +69,7 @@
- #define HID_APP_OUTPUT_REPORT_ID		0x2F
- #define HID_BL_RESPONSE_REPORT_ID		0x30
- #define HID_BL_OUTPUT_REPORT_ID			0x40
-+#define HID_RESPONSE_REPORT_ID      0xF0
- 
- #define HID_OUTPUT_RESPONSE_REPORT_OFFSET	2
- #define HID_OUTPUT_RESPONSE_CMD_OFFSET		4
-@@ -78,9 +80,15 @@
- #define HID_SYSINFO_BTN_MASK			GENMASK(7, 0)
- #define HID_SYSINFO_MAX_BTN			8
- 
-+#define HID_CMD_SET_POWER           0x8
-+
-+#define HID_POWER_ON                0x0
-+#define HID_POWER_SLEEP             0x1
-+
- #define CY_HID_OUTPUT_TIMEOUT_MS		200
- #define CY_HID_OUTPUT_GET_SYSINFO_TIMEOUT_MS	3000
- #define CY_HID_GET_HID_DESCRIPTOR_TIMEOUT_MS	4000
-+#define CY_HID_SET_POWER_TIMEOUT		500
- 
- /* maximum number of concurrent tracks */
- #define TOUCH_REPORT_SIZE			10
-@@ -100,6 +108,14 @@
- #define TOUCH_REPORT_USAGE_PG_MIN		0xFF010063
- #define TOUCH_COL_USAGE_PG			0x000D0022
- 
-+#define SET_CMD_LOW(byte, bits) \
-+	((byte) = (((byte) & 0xF0) | ((bits) & 0x0F)))
-+#define SET_CMD_HIGH(byte, bits)\
-+	((byte) = (((byte) & 0x0F) | ((bits) & 0xF0)))
-+#define SET_CMD_OPCODE(byte, opcode) SET_CMD_LOW(byte, opcode)
-+#define SET_CMD_REPORT_TYPE(byte, type) SET_CMD_HIGH(byte, ((type) << 4))
-+#define SET_CMD_REPORT_ID(byte, id) SET_CMD_LOW(byte, id)
-+
- /* System Information interface definitions */
- struct cyttsp5_sensing_conf_data_dev {
- 	u8 electrodes_x;
-@@ -180,6 +196,7 @@ struct cyttsp5_hid_desc {
- struct cyttsp5 {
- 	struct device *dev;
- 	struct completion cmd_done;
-+	struct completion cmd_command_done;
- 	struct cyttsp5_sysinfo sysinfo;
- 	struct cyttsp5_hid_desc hid_desc;
- 	u8 cmd_buf[CYTTSP5_PREALLOCATED_CMD_BUFFER];
-@@ -192,6 +209,7 @@ struct cyttsp5 {
- 	struct regmap *regmap;
- 	struct touchscreen_properties prop;
- 	struct regulator *vdd;
-+	bool is_wakeup_source;
- };
- 
- /*
-@@ -557,6 +575,82 @@ static int cyttsp5_hid_output_get_sysinfo(struct cyttsp5 *ts)
- 	return cyttsp5_get_sysinfo_regs(ts);
- }
- 
-+static int cyttsp5_enter_sleep(struct cyttsp5 *ts)
-+{
-+	int rc;
-+	u8 cmd[2];
-+
-+	memset(cmd, 0, sizeof(cmd));
-+
-+	SET_CMD_REPORT_TYPE(cmd[0], 0);
-+	SET_CMD_REPORT_ID(cmd[0], HID_POWER_SLEEP);
-+	SET_CMD_OPCODE(cmd[1], HID_CMD_SET_POWER);
-+
-+	rc = cyttsp5_write(ts, HID_COMMAND_REG, cmd, 2);
-+	if (rc) {
-+		dev_err(ts->dev, "Failed to write command %d", rc);
-+		return rc;
-+	}
-+
-+	rc = wait_for_completion_interruptible_timeout(&ts->cmd_command_done,
-+				msecs_to_jiffies(CY_HID_SET_POWER_TIMEOUT));
-+	if (rc <= 0) {
-+		dev_err(ts->dev, "HID output cmd execution timed out\n");
-+		rc = -ETIMEDOUT;
-+		return rc;
-+	}
-+
-+	/* validate */
-+	if ((ts->response_buf[2] != HID_RESPONSE_REPORT_ID)
-+			|| ((ts->response_buf[3] & 0x3) != HID_POWER_SLEEP)
-+			|| ((ts->response_buf[4] & 0xF) != HID_CMD_SET_POWER)) {
-+		rc = -EINVAL;
-+		dev_err(ts->dev, "Validation of the sleep response failed\n");
-+		return rc;
-+	}
-+
-+	return 0;
-+
-+}
-+
-+static int cyttsp5_wakeup(struct cyttsp5 *ts)
-+{
-+	int rc;
-+	u8 cmd[2];
-+
-+	memset(cmd, 0, sizeof(cmd));
-+
-+	SET_CMD_REPORT_TYPE(cmd[0], 0);
-+	SET_CMD_REPORT_ID(cmd[0], HID_POWER_ON);
-+	SET_CMD_OPCODE(cmd[1], HID_CMD_SET_POWER);
-+
-+	rc = cyttsp5_write(ts, HID_COMMAND_REG, cmd, 2);
-+	if (rc) {
-+		dev_err(ts->dev, "Failed to write command %d", rc);
-+		return rc;
-+	}
-+
-+	rc = wait_for_completion_interruptible_timeout(&ts->cmd_command_done,
-+				msecs_to_jiffies(CY_HID_SET_POWER_TIMEOUT));
-+	if (rc <= 0) {
-+		dev_err(ts->dev, "HID output cmd execution timed out\n");
-+		rc = -ETIMEDOUT;
-+		return rc;
-+	}
-+
-+	/* validate */
-+	if ((ts->response_buf[2] != HID_RESPONSE_REPORT_ID)
-+			|| ((ts->response_buf[3] & 0x3) != HID_POWER_ON)
-+			|| ((ts->response_buf[4] & 0xF) != HID_CMD_SET_POWER)) {
-+		rc = -EINVAL;
-+		dev_err(ts->dev, "Validation of the sleep response failed\n");
-+		return rc;
-+	}
-+
-+	return 0;
-+
-+}
-+
- static int cyttsp5_hid_output_bl_launch_app(struct cyttsp5 *ts)
- {
- 	int rc;
-@@ -670,6 +764,10 @@ static irqreturn_t cyttsp5_handle_irq(int irq, void *handle)
- 	case HID_BTN_REPORT_ID:
- 		cyttsp5_btn_attention(ts->dev);
- 		break;
-+	case HID_RESPONSE_REPORT_ID:
-+		memcpy(ts->response_buf, ts->input_buf, size);
-+		complete(&ts->cmd_command_done);
-+		break;
- 	default:
- 		/* It is not an input but a command response */
- 		memcpy(ts->response_buf, ts->input_buf, size);
-@@ -784,6 +882,7 @@ static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
- 	dev_set_drvdata(dev, ts);
- 
- 	init_completion(&ts->cmd_done);
-+	init_completion(&ts->cmd_command_done);
- 
- 	/* Power up the device */
- 	ts->vdd = devm_regulator_get(dev, "vdd");
-@@ -830,8 +929,11 @@ static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
- 		return error;
- 	}
- 
--	if (device_property_read_bool(dev, "wakeup-source"))
-+	if (device_property_read_bool(dev, "wakeup-source")) {
- 		device_init_wakeup(dev, true);
-+		ts->is_wakeup_source = true;
-+	} else
-+		ts->is_wakeup_source = false;
- 
- 	error = cyttsp5_startup(ts);
- 	if (error) {
-@@ -884,6 +986,27 @@ static const struct i2c_device_id cyttsp5_i2c_id[] = {
- };
- MODULE_DEVICE_TABLE(i2c, cyttsp5_i2c_id);
- 
-+static int __maybe_unused cyttsp5_suspend(struct device *dev)
-+{
-+	struct cyttsp5 *ts = dev_get_drvdata(dev);
-+
-+	if (!ts->is_wakeup_source)
-+		cyttsp5_enter_sleep(ts);
-+	return 0;
-+}
-+
-+static int __maybe_unused cyttsp5_resume(struct device *dev)
-+{
-+	struct cyttsp5 *ts = dev_get_drvdata(dev);
-+
-+	if (!ts->is_wakeup_source)
-+		cyttsp5_wakeup(ts);
-+
-+	return 0;
-+}
-+
-+static SIMPLE_DEV_PM_OPS(cyttsp5_pm, cyttsp5_suspend, cyttsp5_resume);
-+
- static struct i2c_driver cyttsp5_i2c_driver = {
- 	.driver = {
- 		.name = CYTTSP5_NAME,
--- 
-2.39.2
+True story!
 
+Yours,
+Linus Walleij
