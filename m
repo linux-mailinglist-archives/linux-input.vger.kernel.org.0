@@ -2,31 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 24EE86F470F
-	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 17:24:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75D086F4731
+	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 17:29:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234544AbjEBPYz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 May 2023 11:24:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42288 "EHLO
+        id S234160AbjEBP3n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 May 2023 11:29:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234555AbjEBPYs (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 11:24:48 -0400
+        with ESMTP id S234072AbjEBP3m (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 11:29:42 -0400
 Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 974C2D7;
-        Tue,  2 May 2023 08:24:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61AEA1BC7;
+        Tue,  2 May 2023 08:29:26 -0700 (PDT)
 Received: from g550jk.localnet (unknown [62.108.10.64])
-        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 770B8C76A8;
-        Tue,  2 May 2023 15:24:45 +0000 (UTC)
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id C1350CEC2E;
+        Tue,  2 May 2023 15:28:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1683041085; bh=I4YH0QUgucwT4uc2YEZJwhH8Sc7vUD+EOfEVy1pje6g=;
+        t=1683041334; bh=4Nf/Tso4ftEbFHYRGvD0XTZDY95O9PUTrhjQ+iuYvVQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=TJEg+z4W2c402E+BIoIKKoPkijwmwHPsPKWhrXs0GUDZ0zsFdZ4p7acjJtX38lYwE
-         TEQbmNXprxLn1/p6gGejI+iD71rlqCEkmN6HNuypI3kyS5//fLkH6LLt50Ypc7IbZW
-         IcOklYrjDGto3mpf6AEGQrkARMhHum6umHdZ7m7Y=
+        b=gtzSt7i1Jw+jiE3ltae0qC2vQUnz+LLmY0eZMjLaBky2ER45XW/VIwR1aGcP7PL66
+         5HYKhn9c6cic8QM6KNdbEeSuwyHg3oP9im6Fl83uYVjaWPJrFGZxe7g+cLJDQsOAwz
+         t3fYv8t1Z2Wzrg/NJJysw/AYidJi3HjfbTkjUPjk=
 From:   Luca Weiss <luca@z3ntu.xyz>
-To:     Brian Masney <bmasney@redhat.com>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+To:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -34,15 +32,16 @@ Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
         Brian Masney <masneyb@onstation.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 3/4] Input: pwm-vibra - add support for enable GPIO
-Date:   Tue, 02 May 2023 17:24:44 +0200
-Message-ID: <45489141.fMDQidcC6G@z3ntu.xyz>
-In-Reply-To: <8a54d0ec-8a22-9ffd-43a4-55da988fbeb1@linaro.org>
+Subject: Re: [PATCH 4/4] ARM: dts: qcom: msm8974-hammerhead: Add vibrator
+Date:   Tue, 02 May 2023 17:28:53 +0200
+Message-ID: <112204300.nniJfEyVGO@z3ntu.xyz>
+In-Reply-To: <fc22fd34-6cce-c175-d845-cf4435b4b0be@linaro.org>
 References: <20230427-hammerhead-vibra-v1-0-e87eeb94da51@z3ntu.xyz>
- <8250064.NyiUUSuA9g@z3ntu.xyz>
- <8a54d0ec-8a22-9ffd-43a4-55da988fbeb1@linaro.org>
+ <20230427-hammerhead-vibra-v1-4-e87eeb94da51@z3ntu.xyz>
+ <fc22fd34-6cce-c175-d845-cf4435b4b0be@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -55,46 +54,46 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Dienstag, 2. Mai 2023 12:39:10 CEST Konrad Dybcio wrote:
-> On 28.04.2023 18:06, Luca Weiss wrote:
-> > On Freitag, 28. April 2023 01:29:27 CEST Brian Masney wrote:
-> >> On Thu, Apr 27, 2023 at 10:34:28PM +0200, Luca Weiss wrote:
-> >>> Some pwm vibrators have a dedicated enable GPIO that needs to be set
-> >>> high so that the vibrator works. Add support for that optionally.
-> >>> 
-> >>> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> >> 
-> >> Hi Luca,
-> >> 
-> >> Thank you for picking up this work!
-> >> 
-> >>> +	vibrator->enable_gpio = devm_gpiod_get_optional(&pdev->dev,
+On Dienstag, 2. Mai 2023 12:40:40 CEST Konrad Dybcio wrote:
+> On 27.04.2023 22:34, Luca Weiss wrote:
+> > The Nexus 5 has a vibrator connected to the clock output of GP1_CLK
+> > which we can use with the clk-pwm driver, then we can use that pwm with
+> > pwm-vibrator to get haptics functionality.
 > > 
-> > "enable",
+> > This patch is based on Brian Masney's previous patch with clk-vibrator.
 > > 
-> >>> +
+> > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+> > ---
 > > 
-> > GPIOD_OUT_LOW);
+> >  .../dts/qcom-msm8974-lge-nexus5-hammerhead.dts     | 35
+> >  ++++++++++++++++++++++ 1 file changed, 35 insertions(+)
 > > 
-> >>> +	err = PTR_ERR_OR_ZERO(vibrator->enable_gpio);
-> >>> +	if (err) {
-> >>> +		if (err != -EPROBE_DEFER)
-> >>> +			dev_err(&pdev->dev, "Failed to request enable
+> > diff --git a/arch/arm/boot/dts/qcom-msm8974-lge-nexus5-hammerhead.dts
+> > b/arch/arm/boot/dts/qcom-msm8974-lge-nexus5-hammerhead.dts index
+> > ab35f2d644c0..fea8a6be9021 100644
+> > --- a/arch/arm/boot/dts/qcom-msm8974-lge-nexus5-hammerhead.dts
+> > +++ b/arch/arm/boot/dts/qcom-msm8974-lge-nexus5-hammerhead.dts
+> > @@ -41,6 +41,25 @@ key-volume-down {
 > > 
-> > gpio: %d\n",
+> >  		};
+> >  	
+> >  	};
 > > 
-> >>> +				err);
-> >>> +		return err;
-> >>> +	}
-> >>> +
+> > +	clk_pwm: pwm {
+> > +		compatible = "clk-pwm";
+> > +		clocks = <&mmcc CAMSS_GP1_CLK>;
 > 
-> Looks like your email client messes with the replies.. perhaps it tries
-> to round them to n characters forcefully?
+> Are you sure it's <&mmcc CAMSS_GP1_CLK> and not <&gcc GCC_GP1_CLK>?
 
-Quite possible, I'm using KMail with Options -> Wordwrap turned on, otherwise 
-I have to manually wrap everything but with this on there doesn't seem to be a 
-way to get over that limit, even when posting links etc - or when quoting 
-existing text.
+Quite sure.
+
+The driver uses:
+
+	cam_gp1_clk = clk_get(&pdev->dev, "cam_gp1_clk");
+
+and this comes from the clock-8974.c driver
+
+	CLK_LOOKUP("cam_gp1_clk", camss_gp1_clk.c, "vibrator"),
 
 Regards
 Luca
@@ -102,17 +101,55 @@ Luca
 > 
 > Konrad
 > 
-> >> Take a look at dev_err_probe() to remove the -EPROBE_DEFER check.
+> > +
+> > +		pinctrl-0 = <&vibrator_pin>;
+> > +		pinctrl-names = "default";
+> > +
+> > +		#pwm-cells = <2>;
+> > +	};
+> > +
+> > +	vibrator {
+> > +		compatible = "pwm-vibrator";
+> > +		pwms = <&clk_pwm 0 100000>;
+> > +		pwm-names = "enable";
+> > +
+> > +		vcc-supply = <&pm8941_l19>;
+> > +		enable-gpios = <&tlmm 60 GPIO_ACTIVE_HIGH>;
+> > +	};
+> > +
 > > 
-> > The input subsystem doesn't like dev_err_probe for some reason, you should
-> > quickly find examples of that being rejected on the mailing list (or see
-> > "git grep dev_err_probe drivers/input/")
+> >  	vreg_wlan: wlan-regulator {
+> >  	
+> >  		compatible = "regulator-fixed";
 > > 
-> >> With that fixed:
-> >> 
-> >> Reviewed-by: Brian Masney <bmasney@redhat.com>
+> > @@ -637,6 +656,22 @@ shutdown-pins {
 > > 
-> > Thanks for the reviews!
+> >  			function = "gpio";
+> >  		
+> >  		};
+> >  	
+> >  	};
+> > 
+> > +
+> > +	vibrator_pin: vibrator-state {
+> > +		core-pins {
+> > +			pins = "gpio27";
+> > +			function = "gp1_clk";
+> > +			drive-strength = <6>;
+> > +			bias-disable;
+> > +		};
+> > +
+> > +		enable-pins {
+> > +			pins = "gpio60";
+> > +			function = "gpio";
+> > +			drive-strength = <2>;
+> > +			bias-disable;
+> > +		};
+> > +	};
+> > 
+> >  };
+> >  
+> >  &usb {
 
 
 
