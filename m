@@ -2,28 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CC726F45F2
-	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 16:22:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC65A6F45FE
+	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 16:24:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233849AbjEBOV6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 May 2023 10:21:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39328 "EHLO
+        id S234506AbjEBOYD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 May 2023 10:24:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234255AbjEBOV5 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 10:21:57 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8270AE9;
-        Tue,  2 May 2023 07:21:56 -0700 (PDT)
-Received: from [192.168.1.131] ([89.1.213.9]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MFshF-1q1pl938Xv-00HMw8; Tue, 02 May 2023 16:21:36 +0200
-Message-ID: <d25cb52e-568c-637e-2708-e5d5d8b43b73@mweigand.net>
-Date:   Tue, 2 May 2023 16:21:35 +0200
+        with ESMTP id S233998AbjEBOYA (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 10:24:00 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C597191;
+        Tue,  2 May 2023 07:23:59 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id ffacd0b85a97d-306342d7668so967294f8f.1;
+        Tue, 02 May 2023 07:23:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683037437; x=1685629437;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kfItElVK3b/VLS4J5wK0572UKi844kpJ9g4fvuAZ23g=;
+        b=U1xlpkbonMZA1UHiVaKAc3+O86Jbhu+NtZS4LuwiOXhl2iBchXEFPWErADUExIv9IP
+         8sL2Kqn7giAmdRn8y0dDeQGgq10XBISvYJy5xoVi8H/mHc6yCYWXZC8frxuuEk1wmYeF
+         FIhhNGQDtfULIZ0r/HpOmKBNKnKatHaO3IbQ93UQyZ+PQ7KtR5PN6W6mvoofSir9NZch
+         KHgSpIIBssTNwpxN0bhhL4JqkdONzc9eqhlQrOQZ5lmqmmnvn4k6304TfCXCw6ge/JVR
+         XImbO8I3twcGwm18nSIKIHd8VJXkIXMtFwBPpvUPhUqd5R4goPZfGZI3JAPmVRxGV+Qu
+         8TdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683037437; x=1685629437;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kfItElVK3b/VLS4J5wK0572UKi844kpJ9g4fvuAZ23g=;
+        b=efsexEEpL48taS/anN77SwR6BKuLEHh5CENnC8+SWzBW2T2RZR4ctspvx1U2HqLJl/
+         ZhEecT+j0MJtIzozrkG8qvRkg8bHu+qOuOUN+qMQfFmeiUeInFzVvBVUtPR+qdJq8ipp
+         Of7iiDMnRyOxgo6vV7/Op65GDP3uCW+zVh1W9vDWw92kmMGbXSaah2RtR4y/0fFhm9cU
+         giqwMvJBx3bS6svGC1/niKfEXfoQlL2VPxPrHB5VMHWXbdltyayFoZZA3+WtSdd4REp/
+         Iw3NjExZ12belozKVkhxDvQQM+QciP4ywTIPSCDJHm2eQP2BloNZq4p+CHMMCEpleR1U
+         bOrw==
+X-Gm-Message-State: AC+VfDzoyia8VjKEsDezoo+oRyajNKVVhOrMPk9N/dSQ6K1qJDYVP4+y
+        vjZf2gQN9jGDyOryRNQ+P8s=
+X-Google-Smtp-Source: ACHHUZ4vnS5LbIAZPa1gxZd2ymGV28rja7jG4Eb6qXU5MVmFiPH6p1L++UB74M6pF6QGggxbnu89gg==
+X-Received: by 2002:a05:6000:110f:b0:306:35fa:202b with SMTP id z15-20020a056000110f00b0030635fa202bmr1937849wrw.6.1683037437253;
+        Tue, 02 May 2023 07:23:57 -0700 (PDT)
+Received: from [192.168.1.131] (cgn-89-1-213-9.nc.de. [89.1.213.9])
+        by smtp.gmail.com with ESMTPSA id a13-20020a056000100d00b003063c130ef1sm147115wrx.112.2023.05.02.07.23.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 May 2023 07:23:56 -0700 (PDT)
+Message-ID: <5aaba4d1-f7e2-9d30-5f15-0713f9fc6a8c@gmail.com>
+Date:   Tue, 2 May 2023 16:23:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v2 6/6] Input: cyttsp5 - implement proper sleep and wakeup
- procedures
+Subject: Re: [PATCH v2 3/6] dt-bindings: input: cypress,tt21000 - fix
+ interrupt type in dts example
 Content-Language: en-US
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
@@ -33,28 +65,14 @@ Cc:     Linus Walleij <linus.walleij@linaro.org>,
         devicetree@vger.kernel.org,
         Alistair Francis <alistair@alistair23.me>
 References: <20230501113010.891786-1-mweigand@mweigand.net>
- <20230501113010.891786-7-mweigand@mweigand.net> <ZFBXvz17jDhEPI6c@google.com>
-From:   Maximilian Weigand <mweigand@mweigand.net>
-In-Reply-To: <ZFBXvz17jDhEPI6c@google.com>
+ <20230501113010.891786-4-mweigand@mweigand.net> <ZFBYIZc5zKs6dpHF@google.com>
+From:   Maximilian Weigand <mweigand2017@gmail.com>
+In-Reply-To: <ZFBYIZc5zKs6dpHF@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:k4ULv17YXMKTOkv6rlSNa1PjfF/ZPiL5SEta1j2EQ9eWxP9Ayvk
- ZbeeVxNbJaaeatLJDIHAoDPUzZFRarKWFCvF8xBYgrdVzut5xoZqj2P836URrnb/6Pjb31y
- NqEoBIMTdgJayqqLqBhOszUafQXY7gN6gqrKo6CLXzhSmiTUfbVUlNgsuFcJX2tFEeYJt5x
- +BqFgU8671+OTk0vCutZw==
-UI-OutboundReport: notjunk:1;M01:P0:7h04iMSCeOE=;3W+iz5QPr9D5XEnfuIce8D5mr4l
- OW9KIWFyf+vQRozEthO6X6GHsHDDFJ0kfgWFaVelTth1DYBIk9FmEneVwVA4AXtp7H9OrIFOi
- r6568X7M8UvkR0rWK7HJJ7TesGdcbx2qgcmHL3wrUIdWExCsMn+FZcQCswn0J1g7e9y8Xa7Zv
- nUTQFYUqkCEqStFhH8jL/9fUewdpAg+gWAbPp1rP6M1Aaooel/cY+E11VyosC94Fq4QASp170
- eWkmvmmxG1W8UZo5e3ZsSTQVdsoXmmnEztP4GeQrE3SbqqWJdo/XQgfPDHZMvKcYLWMq8+Zxl
- M2XUPEs1TJvRER1ruDqbznTyTUblS7/3h+dX8V1Uv568nDoh1GISk+LUnEo9PU2SkG41tTSta
- ecYGH0WoIJNySUsrxb1Lvi53Sh1N2g7SyR2y7URQtqAjkjC8tidVhGjvii5jagKft/+obZAsr
- vC5bfGsuTZ71ugobcRtpa3G+e1juzhjIQWOU17SxLtwdnzukk4iOgg2QhcM1kUzmM+ILNUss5
- y3gkHA5J8nwMrHZ/o/KQUOPi7+XPvYk+jXle871MSikIptZ1SASu5EqYK4lnBfB6pREl2nMf7
- 052WmXxCh6i3SFIjuC3DJCUEc09AE0tk7X9vwF8uE7ih6HopTboQs9Ca/qgmvmdTnacQDuNQj
- 8jkC6XfyVwkEVRICA1N7kyhca5bLbeDjW+KrXwLF1Q==
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,30 +82,22 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Hi,
 
-On 02.05.23 02:22, Dmitry Torokhov wrote:
-> On Mon, May 01, 2023 at 01:30:10PM +0200, Maximilian Weigand wrote:
->>  struct cyttsp5 {
->>  	struct device *dev;
->>  	struct completion cmd_done;
->> +	struct completion cmd_command_done;
+On 02.05.23 02:24, Dmitry Torokhov wrote:
+> On Mon, May 01, 2023 at 01:30:07PM +0200, Maximilian Weigand wrote:
+>> Triggering the interrupt of the IRQ_TYPE_LEVEL_LOW type can lead to
+>> probing issues with the device for the current driver (encountered on
+>> the Pine64 PineNote). Basically the interrupt would be triggered before
+>> certain commands were sent to the device, leading to a race between the
+>> device responding fast enough and the irq handler fetching a data frame
+>> from it. Actually all devices currently using the driver already use a
+>> falling edge trigger.
 > 
-> Why do we need separate comletion? Do you observe some additional
-> traffic from the controller when powering it off and on?
+> I'd prefer we adjusted the driver to handle level interrupts properly.
 
-I checked and indeed there is no overlap in the different command types,
-so one completion will work. I will reformat correspondingly.
+Ok, I will have a look at that. Just to be clear: The driver should work
+only with level interrupts, or should it optimally support both level
+and falling edge triggers?
 
->> +static int __maybe_unused cyttsp5_suspend(struct device *dev)
->> +{
->> +	struct cyttsp5 *ts = dev_get_drvdata(dev);
->> +
->> +	if (!ts->is_wakeup_source)
-> 
-> I believe the idiomatic way to check this is to call
-> device_may_wakeup().
-
-Thanks for pointing that out. I will fix that, too.
-
-Thanks for the feedback and best regards
+Thanks and best regards
 
 Maximilian
