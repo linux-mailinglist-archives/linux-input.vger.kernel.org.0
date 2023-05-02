@@ -2,65 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A63D66F3B9D
-	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 03:03:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C76D36F3BA6
+	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 03:06:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230491AbjEBBD6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 May 2023 21:03:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51114 "EHLO
+        id S230484AbjEBBGO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 May 2023 21:06:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229822AbjEBBD5 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 1 May 2023 21:03:57 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67BF73581;
-        Mon,  1 May 2023 18:03:56 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1aad6f2be8eso26100965ad.3;
-        Mon, 01 May 2023 18:03:56 -0700 (PDT)
+        with ESMTP id S233284AbjEBBGL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 1 May 2023 21:06:11 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 634723C38;
+        Mon,  1 May 2023 18:06:03 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-24deb9c5ffcso1458622a91.1;
+        Mon, 01 May 2023 18:06:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682989436; x=1685581436;
+        d=gmail.com; s=20221208; t=1682989563; x=1685581563;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q6lzbnAwJquhvg8Kc/5cCYxx0EHomQmC+dFR+xtNtk8=;
-        b=Vai3xjNJJUuYG3xmFiuayY6WSUKQjZcnx04cUUXf3vd5WvxTTngtIrxhtU5HH7qoAr
-         EWHpEU/ElKl69rJxRpRHTWBssTVrGmAZPu/7LLdBnQtIy334h2HRY0yy4cLEjDTcx+C5
-         qOGl18lGo1jROw8h9brzNux2gkcRcUokz1Sf1rUhsgBCUeYPNX4JbnatgjkIBCY0ifbG
-         BUWeXS2wY7+CCXnbAb6ePlN5Pu2QGPONELqGsxuKRsigWzGZWgQrL12weILoWetpCQaf
-         0vr0vCLjl1GmRHUJ+Bygaj+Z3RxeSJXU3jOOfuwp7T0ZDO/jZFfauERhqDXNLUhN95TF
-         fBVw==
+        bh=+lSO/8LcuzTpil2mDcDfzMXywH3IDiwphyL36ayya6U=;
+        b=c2jhRIEEXVY8jhJDIA5ikrMDQGR34IpLS8C2qoA0NQe/Eg938kMpP8VAytGGUwWXcH
+         7ytjNYKi0wCacuhQbC9fY4ZpE/v7bU8US0OSe0uuzOqWwsdb9ZYC17xEVBb/8/bmXv3N
+         iz+c6AV7+rMf4PjXCM4dt4uKAAvPzAcKf0bIN2uEQlZ2P2brEOQrKKRcDwoVLWcHeuw7
+         fK4WBnnLDSk3icSXejWn7fU+Tze+ZdRe7dpa5NK0XAJVMEoGaPoj+UIAm2xPQlW/ZrIi
+         zpO2HLhLmOEGoLgadMYTOAdSXSafG7lI8pyLxvxCbSaCUW9zObFwy5ebshhpwaF1Yx17
+         Qc3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682989436; x=1685581436;
+        d=1e100.net; s=20221208; t=1682989563; x=1685581563;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q6lzbnAwJquhvg8Kc/5cCYxx0EHomQmC+dFR+xtNtk8=;
-        b=N8bkq9ZI9PtfP3gYZwC/e3MLB296NvGw329PNIfZg36AcvnWac5ZV5MyTrV/LWzY9a
-         VUi9fOV6TCAdzYRMVSsGXYt3bzx37UnoESGLemUBCmOMq3N7mCrX8s7weTqhlg+ohBS3
-         iVAp1vekFion69BFDUcZGUY+5HePtSeznEsSJq/iRC8wTqKCcMcIdF7oLHDuD/YM868p
-         +Uzoqo41956nNopEprCjCbq+JGsIuJ5u57pq+Jxi8cloikGgwiRNMxwXYq39I0luINoc
-         s4C/mySgYh/knGxZv4aoTqIj5Set95+7jlOwXCAeYnPHpl4B5TcBM7HQuVYU4BK1B93y
-         xS1A==
-X-Gm-Message-State: AC+VfDwshMDKwI+Vl4oYwGoSRCRF0tI6JUmEJEfF/g67mRlscVFpzrNJ
-        /hxE03uqdZabLeziGnwEUlE=
-X-Google-Smtp-Source: ACHHUZ5nfwVUGRCYPoQqfWJL6ELphCOi/xskoMP9EeTdBpXuF9SCfq6t5qNDRBkyWuQgK4obUOw90g==
-X-Received: by 2002:a17:903:1210:b0:1aa:cddd:57d8 with SMTP id l16-20020a170903121000b001aacddd57d8mr12101778plh.30.1682989435775;
-        Mon, 01 May 2023 18:03:55 -0700 (PDT)
+        bh=+lSO/8LcuzTpil2mDcDfzMXywH3IDiwphyL36ayya6U=;
+        b=USpPnOPXo73lSs8zV8aJmZUBEXi5d6Z7xH/WBIdYLPyk2WTh1yum7JRwbyeel1invR
+         f8XPhXpZ0C1ARBlv0oou1LWwdHlgMfP/pU0tDSThslBakTfsPlTDiYgXk37leD+IZy9a
+         ptpv+w9ag0BG6XeRt6TP3diqVhVcaTEFPAHZogU+mKX9/r6hcUk9sWXW/0qVXNg7iNgW
+         drIlYjPo/cluSyqVOZbJ2fHxLdRulB6WLmKNxq85E4BYg+jHftNFe+7m32rsc9Y24e71
+         mUOaRAeFXkLXUmHK+2IlgfS6EomJp38KegJA+bat3aPYxnq88yc0vTX6JeedA2ek3b8m
+         zeXQ==
+X-Gm-Message-State: AC+VfDwU3mnbyQ4Mai4oUIiEQtpsdbRYi8nVkn27B9V1pHi40rz4olKf
+        QSDmSoNBeyYvtYzQjvVlraA=
+X-Google-Smtp-Source: ACHHUZ7G8197k6a+XDAjuKJXKHZWRoJ3jpVaTgu8Oyidq4oY4RlxtUs07MeK/S5AeKFrzPKX1kmawQ==
+X-Received: by 2002:a17:90b:190d:b0:24e:9e6:7067 with SMTP id mp13-20020a17090b190d00b0024e09e67067mr3873335pjb.7.1682989562632;
+        Mon, 01 May 2023 18:06:02 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:b6ce:736b:e4f7:adb])
-        by smtp.gmail.com with ESMTPSA id d6-20020a170902b70600b001a934af187esm18245064pls.153.2023.05.01.18.03.54
+        by smtp.gmail.com with ESMTPSA id y22-20020a17090abd1600b00246b7b8b43asm6362938pjr.49.2023.05.01.18.06.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 May 2023 18:03:55 -0700 (PDT)
-Date:   Mon, 1 May 2023 18:03:52 -0700
+        Mon, 01 May 2023 18:06:01 -0700 (PDT)
+Date:   Mon, 1 May 2023 18:05:59 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     starmiku1207184332@gmail.com
-Cc:     rydberg@bitmath.org, linux-input@vger.kernel.org,
+To:     Biswarup Pal <biswarupp@google.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>
+Cc:     kernel-team@android.com, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drivers: input: input: Fix possible sleep-in-atomic bug
- in input_alloc_absinfo()
-Message-ID: <ZFBheCRW5fbzVK1V@google.com>
-References: <20230425074951.1042694-1-starmiku1207184332@gmail.com>
+Subject: Re: [PATCH] Call input_set_timestamp for events injected using uinput
+Message-ID: <ZFBh948No3IAV2hf@google.com>
+References: <20230427000152.1407471-1-biswarupp@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230425074951.1042694-1-starmiku1207184332@gmail.com>
+In-Reply-To: <20230427000152.1407471-1-biswarupp@google.com>
 X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -72,58 +72,92 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Teng Qi,
+On Thu, Apr 27, 2023 at 12:01:51AM +0000, Biswarup Pal wrote:
+> Currently, uinput doesn't use the input_set_timestamp API, so any
+> event injected using uinput is not accurately timestamped in terms of
+> measuring when the actual event happened. Hence, call the
+> input_set_timestamp API from uinput in order to provide a more
+> accurate sense of time for the event. Propagate only the timestamps
+> which are a) positive, b) within a pre-defined offset (10 secs) from
+> the current time, and c) not in the future.
 
-On Tue, Apr 25, 2023 at 07:49:51AM +0000, starmiku1207184332@gmail.com wrote:
-> From: Teng Qi <starmiku1207184332@gmail.com>
-> 
-> input_alloc_absinfo() may cause the kernel to sleep by calling kcalloc() with
-> the GFP_KERNEL flag. It may be called by input_event() holding spinlock through
-> the following call path: 
-> 
-> input_event(), 433
-> input_handle_event(), 399
-> input_get_disposition(), 294
-> input_handle_abs_event(), 232
-> input_abs_set_val(), Clang suggests it calls input_alloc_absinfo()
-> 	unconditionally
-> input_alloc_absinfo(), 483
-> kcalloc(..., GFP_KERNEL)
-> 
-> This call path can potentially trigger a sleep-in-atomic bug. To prevent this
-> potential bug, we modify input_alloc_absinfo() to use the GFP_ATOMIC flag
-> instead of the GFP_KERNEL flag.
+This makes sense to me. Peter, do you see any issues?
 
-This can not happen in practice, and changing the allocation type to
-GFP_ATOMIC hurts the other code. We can avoid the issue by not using the
-helper and have input core access the slot info directly. I CCed you on
-a patch doing so.
+Thanks!
 
-> The possible bug is detected by a static code analysis tool.
 > 
-> Signed-off-by: Teng Qi <starmiku1207184332@gmail.com>
+> Signed-off-by: Biswarup Pal <biswarupp@google.com>
 > ---
->  drivers/input/input.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/input/misc/uinput.c | 34 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
 > 
-> diff --git a/drivers/input/input.c b/drivers/input/input.c
-> index 37e876d45eb9..eefc4c85a693 100644
-> --- a/drivers/input/input.c
-> +++ b/drivers/input/input.c
-> @@ -480,7 +480,7 @@ void input_alloc_absinfo(struct input_dev *dev)
->  	if (dev->absinfo)
->  		return;
+> diff --git a/drivers/input/misc/uinput.c b/drivers/input/misc/uinput.c
+> index f2593133e524..d98212d55108 100644
+> --- a/drivers/input/misc/uinput.c
+> +++ b/drivers/input/misc/uinput.c
+> @@ -33,6 +33,7 @@
+>  #define UINPUT_NAME		"uinput"
+>  #define UINPUT_BUFFER_SIZE	16
+>  #define UINPUT_NUM_REQUESTS	16
+> +#define UINPUT_TIMESTAMP_ALLOWED_OFFSET_SECS 10
 >  
-> -	dev->absinfo = kcalloc(ABS_CNT, sizeof(*dev->absinfo), GFP_KERNEL);
-> +	dev->absinfo = kcalloc(ABS_CNT, sizeof(*dev->absinfo), GFP_ATOMIC);
->  	if (!dev->absinfo) {
->  		dev_err(dev->dev.parent ?: &dev->dev,
->  			"%s: unable to allocate memory\n", __func__);
+>  enum uinput_state { UIST_NEW_DEVICE, UIST_SETUP_COMPLETE, UIST_CREATED };
+>  
+> @@ -569,11 +570,40 @@ static int uinput_setup_device_legacy(struct uinput_device *udev,
+>  	return retval;
+>  }
+>  
+> +/*
+> + * Returns true if the given timestamp is valid (i.e., if all the following
+> + * conditions are satisfied), false otherwise.
+> + * 1) given timestamp is positive
+> + * 2) it's within the allowed offset before the current time
+> + * 3) it's not in the future
+> + */
+> +static bool is_valid_timestamp(const ktime_t timestamp)
+> +{
+> +	ktime_t zero_time;
+> +	ktime_t current_time;
+> +	ktime_t min_time;
+> +	ktime_t offset;
+> +
+> +	zero_time = ktime_set(0, 0);
+> +	if (ktime_compare(zero_time, timestamp) >= 0)
+> +		return false;
+> +
+> +	current_time = ktime_get();
+> +	offset = ktime_set(UINPUT_TIMESTAMP_ALLOWED_OFFSET_SECS, 0);
+> +	min_time = ktime_sub(current_time, offset);
+> +
+> +	if (ktime_after(min_time, timestamp) || ktime_after(timestamp, current_time))
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+>  static ssize_t uinput_inject_events(struct uinput_device *udev,
+>  				    const char __user *buffer, size_t count)
+>  {
+>  	struct input_event ev;
+>  	size_t bytes = 0;
+> +	ktime_t timestamp;
+>  
+>  	if (count != 0 && count < input_event_size())
+>  		return -EINVAL;
+> @@ -588,6 +618,10 @@ static ssize_t uinput_inject_events(struct uinput_device *udev,
+>  		if (input_event_from_user(buffer + bytes, &ev))
+>  			return -EFAULT;
+>  
+> +		timestamp = ktime_set(ev.input_event_sec, ev.input_event_usec * NSEC_PER_USEC);
+> +		if (is_valid_timestamp(timestamp))
+> +			input_set_timestamp(udev->dev, timestamp);
+> +
+>  		input_event(udev->dev, ev.type, ev.code, ev.value);
+>  		bytes += input_event_size();
+>  		cond_resched();
 > -- 
-> 2.25.1
+> 2.40.1.495.gc816e09b53d-goog
 > 
-
-Thanks.
 
 -- 
 Dmitry
