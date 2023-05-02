@@ -2,112 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3DF46F3C5B
-	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 05:23:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AC5C6F3CB3
+	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 06:28:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231728AbjEBDXr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 May 2023 23:23:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58932 "EHLO
+        id S233329AbjEBE2z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 May 2023 00:28:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230202AbjEBDXq (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 1 May 2023 23:23:46 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF51830FB;
-        Mon,  1 May 2023 20:23:45 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-64115eef620so31492647b3a.1;
-        Mon, 01 May 2023 20:23:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682997825; x=1685589825;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=1M9netRuCAis4Ssb9iZBb2Idx5gyfZLsjCy0pMBEHYo=;
-        b=YJzkTVzXK+8tD8Ly4Ttq161CvsWjUQO76pao3OUXo/+jrIBbvjeNlgp5k2HtjoiMOF
-         IPdBFoU1J+IvQvU5s5fZUAOi+CjmZzBgag165e0yV8m53R1zEsJeUZohs3VFHr2igXD7
-         htQCiI+seW1IBUmsKSq0PGHR0HD+OyL9kWIVYzqtKNIaSbj1zKXVIkqDYw8eiLkE4BLD
-         IwqTu4Zj4nxRg/vMa/2kT+EcquO4LUyCSd98fI0kqe+IDYTdKtEhClBDP/WbaTNrt4T6
-         idiSitzq0N1SaIUy4L0q6DfjRAx2CExwfbmzp8OQunMi9RbmQnOh88W5y4zWCrga7FOA
-         pMVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682997825; x=1685589825;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1M9netRuCAis4Ssb9iZBb2Idx5gyfZLsjCy0pMBEHYo=;
-        b=foEsxQbAiyJPVuy0b26L0S2TDHdEDmKBDLco6dhcpebpFe4mrxOCNlWeNLQR0VL78H
-         n1oGO1sfoO04X8Eb47Ge7LIvOu60sEAJIfbQK0yiHaTrdUUn7JP46OfCw86+u/XcoVxn
-         ZMnT/ygcKH6cHfBIyLsI+kpwlVzs5OLHlJOYRJ4Bz4M0F9IdWqm9waF30WpWhtTK1jQD
-         6OnxNgvNhriLd/7Y+ruTTlOt1jFkHZrR8alnmQhbyltZhVDouJbnGZQPUz0gqT83yV0O
-         MVqBQZ+xzsyK5FKW64TBH3h9LSRUAgliwc4gSrV5zxHtBRqybaEw5wdgYtltWmVaRnOX
-         Jr4Q==
-X-Gm-Message-State: AC+VfDy7ltZBUdpXjnRjzMVtaM5ZF8/mwmndsRdVl/GivEe+7nXILqz3
-        yFIeX6Z/PKYraeWCTVCZKJg=
-X-Google-Smtp-Source: ACHHUZ5G7DJgWgs42CE4FqAe2cAv+UM+sRx1HskAhK5ezw+vVPBw6Gxm81+CfN5beodfdEKD/v4yoA==
-X-Received: by 2002:a05:6a00:2e91:b0:63b:54e4:871b with SMTP id fd17-20020a056a002e9100b0063b54e4871bmr20146376pfb.8.1682997824947;
-        Mon, 01 May 2023 20:23:44 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:b6ce:736b:e4f7:adb])
-        by smtp.gmail.com with ESMTPSA id i11-20020a63130b000000b00524dde7231dsm7880326pgl.9.2023.05.01.20.23.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 May 2023 20:23:44 -0700 (PDT)
-Date:   Mon, 1 May 2023 20:23:41 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     =?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-Cc:     Nick Dyer <nick@shmanahar.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2 0/2] Input: atmel_mxt_ts - support capacitive keys
-Message-ID: <ZFCCPcKb9xaBZQee@google.com>
-References: <20230407-atmel_keys-v2-0-92446a4343cb@apitzsch.eu>
+        with ESMTP id S232598AbjEBE2y (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 00:28:54 -0400
+Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6EC9273F;
+        Mon,  1 May 2023 21:28:50 -0700 (PDT)
+From:   =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+        s=mail; t=1683001728;
+        bh=BeFg8v8OfXssu4fkWhQYkGpmzVPUGjmIEtd1FeQhc8U=;
+        h=From:Subject:Date:To:Cc:From;
+        b=Y/RM9qYZYG1vXcOkB1sQ6demroY5aO+7spKfFHOWniVG95z0WfUBjsI5jjL09FHYL
+         xmJCIJ/mIvPjVtG+VgAH4SzSXSVA3/Hcj3PqVQMMcVR82ArQakHZpwTU5XSQ8/ZWEZ
+         1IKAzprGpAlEDHYGbTj4suEfPv9Z5s7PL7xmZow0=
+Subject: [PATCH v2 0/2] power: supply: remove unneeded include of
+ linux/leds.h
+Date:   Tue, 02 May 2023 06:28:43 +0200
+Message-Id: <20230212-include-power_supply-leds-v2-0-e9910a3f5837@weissschuh.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230407-atmel_keys-v2-0-92446a4343cb@apitzsch.eu>
-X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-B4-Tracking: v=1; b=H4sIAHuRUGQC/42NWwrDIBBFtxL8rkVtQOhX91FC8TGpA2LEiUlDy
+ N5rs4J+ngP3np0RFARi925nBRYknFIDdemYCya9gaNvzJRQN6Gk4phcrB54nlYoL6o5x41H8MR
+ HkF5Lp622irW9NQTcFpNcaA+pxthkLjDi5ww+h8YBaZ7KdvYX+bP/pBbJJdfG21H3qhdCPVZAI
+ nKhhmuCmQ3HcXwBG5UhpNwAAAA=
+To:     Sebastian Reichel <sre@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, kernel test robot <lkp@intel.com>,
+        =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1683001727; l=859;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=BeFg8v8OfXssu4fkWhQYkGpmzVPUGjmIEtd1FeQhc8U=;
+ b=3+mN3pNtjfFOty41fg/pdL2xROrRxzG7AWRWGktbgwNJoQiDdhSdyGil+xklBSo8FhSsJnblD
+ iHlfL7p6hOZBrHOj4Pz19pvKzlXlRLMJIPWRze9Nho4GFm/S2sZDoBx
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Apr 07, 2023 at 02:44:23PM +0200, André Apitzsch wrote:
-> Add support for touch keys found in some Atmel touch controller
-> configurations.
-> 
-> Signed-off-by: André Apitzsch <git@apitzsch.eu>
-> ---
-> Changes in v2:
->   * Added A-b, R-b tags
+Currently power_supply.h includes leds.h to get access to
+struct led_trigger.
+This propagates the inclusion unnecessarily to all users of
+power_supply.h.
 
-Applied the lot, thank you.
+Replace this inclusion by a single forward declaration.
 
-> 
-> ---
-> André Apitzsch (2):
->       dt-bindings: input: atmel,maxtouch: add linux,keycodes
->       Input: atmel_mxt_ts - support capacitive keys
-> 
->  .../devicetree/bindings/input/atmel,maxtouch.yaml  |  7 ++
->  drivers/input/touchscreen/atmel_mxt_ts.c           | 85 ++++++++++++++++++++++
->  2 files changed, 92 insertions(+)
-> ---
-> base-commit: f2afccfefe7be1f7346564fe619277110d341f9b
-> change-id: 20230407-atmel_keys-7a49c6b677b2
-> 
-> Best regards,
-> -- 
-> André Apitzsch <git@apitzsch.eu>
-> 
+---
+Changes in v2:
+- Add an explicit include to drivers/hid/hid-lg4ff.c
+- Link to v1: https://lore.kernel.org/r/20230212-include-power_supply-leds-v1-1-7adbf7424002@weissschuh.net
 
+---
+Thomas WeiÃŸschuh (2):
+      HID: lg4ff: explicitly include linux/leds.h
+      power: supply: remove unneeded include of linux/leds.h
+
+ drivers/hid/hid-lg4ff.c      | 1 +
+ include/linux/power_supply.h | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+---
+base-commit: 865fdb08197e657c59e74a35fa32362b12397f58
+change-id: 20230212-include-power_supply-leds-fe1d71c7b7b2
+
+Best regards,
 -- 
-Dmitry
+Thomas WeiÃŸschuh <linux@weissschuh.net>
+
