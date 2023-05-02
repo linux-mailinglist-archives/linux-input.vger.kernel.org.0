@@ -2,81 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 091BC6F40AA
-	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 12:09:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 139566F40E8
+	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 12:17:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233593AbjEBKJS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 May 2023 06:09:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52830 "EHLO
+        id S233633AbjEBKRS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 May 2023 06:17:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233286AbjEBKJR (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 06:09:17 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B41C187
-        for <linux-input@vger.kernel.org>; Tue,  2 May 2023 03:09:16 -0700 (PDT)
+        with ESMTP id S229703AbjEBKRR (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 06:17:17 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 472A630C6
+        for <linux-input@vger.kernel.org>; Tue,  2 May 2023 03:17:12 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:f07a:92a2:297:162b])
-        by laurent.telenet-ops.be with bizsmtp
-        id rm9D2900A5FQxRj01m9Dcf; Tue, 02 May 2023 12:09:14 +0200
+        by baptiste.telenet-ops.be with bizsmtp
+        id rmHA290065FQxRj01mHA2s; Tue, 02 May 2023 12:17:10 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1ptmwX-000ylh-Ag;
-        Tue, 02 May 2023 12:09:13 +0200
+        id 1ptn4D-000ymU-UK;
+        Tue, 02 May 2023 12:17:10 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1ptmwb-00AtKF-Ao;
-        Tue, 02 May 2023 12:09:13 +0200
+        id 1ptn4H-00AtQ3-Sh;
+        Tue, 02 May 2023 12:17:09 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
         Brendan Higgins <brendan.higgins@linux.dev>,
         David Gow <davidgow@google.com>
 Cc:     linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
         kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] HID: uclogic: Modular KUnit tests should not depend on KUNIT=y
-Date:   Tue,  2 May 2023 12:08:59 +0200
-Message-Id: <36ddf432f0f46530875fa15f002012c921a380a3.1683022021.git.geert+renesas@glider.be>
+Subject: [PATCH 0/2] Input: tests - miscellaneous fixes
+Date:   Tue,  2 May 2023 12:17:01 +0200
+Message-Id: <cover.1683022164.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-While KUnit tests that cannot be built as a loadable module must depend
-on "KUNIT=y", this is not true for modular tests, where it adds an
-unnecessary limitation.
+	Hi all,
 
-Fix this by relaxing the dependency to "KUNIT".
+This patch series fixes a crash in the new input selftest, and makes the
+test available when the KUnit framework is modular.
 
-Fixes: 08809e482a1c44d9 ("HID: uclogic: KUnit best practices and naming conventions")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/hid/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Unfortunately test 3 still fails for me (tested on Koelsch (R-Car M2-W)
+and ARAnyM):
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 4ce012f83253ec9f..b977450cac75265d 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -1285,7 +1285,7 @@ config HID_MCP2221
- 
- config HID_KUNIT_TEST
- 	tristate "KUnit tests for HID" if !KUNIT_ALL_TESTS
--	depends on KUNIT=y
-+	depends on KUNIT
- 	depends on HID_BATTERY_STRENGTH
- 	depends on HID_UCLOGIC
- 	default KUNIT_ALL_TESTS
+        KTAP version 1
+        # Subtest: input_core
+        1..3
+    input: Test input device as /devices/virtual/input/input1
+        ok 1 input_test_polling
+    input: Test input device as /devices/virtual/input/input2
+        ok 2 input_test_timestamp
+    input: Test input device as /devices/virtual/input/input3
+        # input_test_match_device_id: ASSERTION FAILED at # drivers/input/tests/input_test.c:99
+        Expected input_match_device_id(input_dev, &id) to be true, but is false
+        not ok 3 input_test_match_device_id
+    # input_core: pass:2 fail:1 skip:0 total:3
+    # Totals: pass:2 fail:1 skip:0 total:3
+    not ok 1 input_core
+
+Thanks!
+
+Geert Uytterhoeven (2):
+  Input: tests - fix use-after-free and refcount underflow in
+    input_test_exit()
+  Input: tests - modular KUnit tests should not depend on KUNIT=y
+
+ drivers/input/Kconfig            | 2 +-
+ drivers/input/tests/input_test.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
 -- 
 2.34.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
