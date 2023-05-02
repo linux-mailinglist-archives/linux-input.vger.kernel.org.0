@@ -2,80 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A20916F4754
-	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 17:35:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1946C6F480E
+	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 18:10:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234359AbjEBPfk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 May 2023 11:35:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50510 "EHLO
+        id S233521AbjEBQKu convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Tue, 2 May 2023 12:10:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234212AbjEBPfj (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 11:35:39 -0400
-Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB172E7;
-        Tue,  2 May 2023 08:35:37 -0700 (PDT)
-Received: from g550jk.localnet (unknown [62.108.10.64])
-        by mail.z3ntu.xyz (Postfix) with ESMTPSA id C6C53C76A8;
-        Tue,  2 May 2023 15:35:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1683041706; bh=R9A1qU0xozFT1PTNbx8XF9Yii7u7muqM0dWSf6l21ug=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=jFIjUf8jPNHIGqUtQXcb8eZaH6a3cBc0gsQnwtR3J6XeKHROAfT8XhpfZKOzuGZUS
-         yZR6YajptRLzaksDUpkSSO0xitf2v3baxLFVVj/o6lOLNJAdgNvfU9i1dLacrFivVZ
-         3IORo94VhcuvJTJr3OFMmXTniCwvBXIXx/4V18Cs=
-From:   Luca Weiss <luca@z3ntu.xyz>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Brian Masney <masneyb@onstation.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 3/4] Input: pwm-vibra - add support for enable GPIO
-Date:   Tue, 02 May 2023 17:35:04 +0200
-Message-ID: <841522397.0ifERbkFSE@z3ntu.xyz>
-In-Reply-To: <ZFBdobY1yxMXYfFt@google.com>
-References: <20230427-hammerhead-vibra-v1-0-e87eeb94da51@z3ntu.xyz>
- <20230427-hammerhead-vibra-v1-3-e87eeb94da51@z3ntu.xyz>
- <ZFBdobY1yxMXYfFt@google.com>
+        with ESMTP id S233694AbjEBQKN (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 12:10:13 -0400
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AADB11997;
+        Tue,  2 May 2023 09:10:05 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-5529f3b8623so37529507b3.2;
+        Tue, 02 May 2023 09:10:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683043805; x=1685635805;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4B0HvX2nGzxUhkZvCD432MN6qQWUyvh7KEoB0EI6v8I=;
+        b=K/diUuseYVVyggeT9nylJBglUBxd5PPk72D3anqdElFClsXbdip6II6v3FUnX8avRl
+         tDu1SLsQInUXtEqPGQ1u8OZRShTVlF6vYHix73j+MO0XwDtvmQFAcrAFN6L+vj5WJnNH
+         X1f9Co65KPtfB7Xa2tXi6eyOVyQ9cZoYm1fXhd7a9x694ntbAdy49SPQ86jWEPqjir7D
+         vRFbu8Xd28h9I+5z5YHM9UKuWJQQVz2EaE4TXyAoPQADzCsTLivgcshpaYBWCHIpRkTx
+         dDfJLN8N0tQ3si+sidWfk7xz2yoWf4yVuVuVoeFO9wzotbtvhtsAaQlpwef2dD04UtZY
+         mlGQ==
+X-Gm-Message-State: AC+VfDyeCkGeCp8wA6ATJbQUW7bx0x4cpcPil3o/3cJ4vMoaGZLXFRHT
+        WbfrH26sm0foICenqdbWXL6TJ17QwUyapA==
+X-Google-Smtp-Source: ACHHUZ6j7sPS+7ctgZXxn7Mqb3pA6gtYjitizY4pnWxMo9S7RBTN04OPNGcgaIx2spG6okK/iTyrVA==
+X-Received: by 2002:a25:ea04:0:b0:b9a:7693:93f7 with SMTP id p4-20020a25ea04000000b00b9a769393f7mr15651671ybd.45.1683043804666;
+        Tue, 02 May 2023 09:10:04 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id 62-20020a251241000000b00b9db62abff3sm1837597ybs.58.2023.05.02.09.10.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 May 2023 09:10:03 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-55a829411b5so16329407b3.1;
+        Tue, 02 May 2023 09:10:02 -0700 (PDT)
+X-Received: by 2002:a25:142:0:b0:b9e:7613:fcb1 with SMTP id
+ 63-20020a250142000000b00b9e7613fcb1mr1967815ybb.63.1683043802650; Tue, 02 May
+ 2023 09:10:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <cover.1683022164.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1683022164.git.geert+renesas@glider.be>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 2 May 2023 18:09:50 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVmfj8L24QbMGn54jW96rYkvX1gizmvgvEB7T3Jwevd+g@mail.gmail.com>
+Message-ID: <CAMuHMdVmfj8L24QbMGn54jW96rYkvX1gizmvgvEB7T3Jwevd+g@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Input: tests - miscellaneous fixes
+To:     Javier Martinez Canillas <javierm@redhat.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        David Gow <davidgow@google.com>, linux-input@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Dienstag, 2. Mai 2023 02:47:29 CEST Dmitry Torokhov wrote:
-> On Thu, Apr 27, 2023 at 10:34:28PM +0200, Luca Weiss wrote:
-> > Some pwm vibrators have a dedicated enable GPIO that needs to be set
-> > high so that the vibrator works. Add support for that optionally.
-> 
-> So this is not simply a power supply in your case controlled by a GPIO?
-> We truly can have both GPIO and a separate regulator?
+Hi Javier,
 
-Yes it appears to be the EN pin on the ISA1000A, see
-https://electronics.stackexchange.com/q/380475
+On Tue, May 2, 2023 at 12:17 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> This patch series fixes a crash in the new input selftest, and makes the
+> test available when the KUnit framework is modular.
+>
+> Unfortunately test 3 still fails for me (tested on Koelsch (R-Car M2-W)
+> and ARAnyM):
+>
+>         KTAP version 1
+>         # Subtest: input_core
+>         1..3
+>     input: Test input device as /devices/virtual/input/input1
+>         ok 1 input_test_polling
+>     input: Test input device as /devices/virtual/input/input2
+>         ok 2 input_test_timestamp
+>     input: Test input device as /devices/virtual/input/input3
+>         # input_test_match_device_id: ASSERTION FAILED at # drivers/input/tests/input_test.c:99
+>         Expected input_match_device_id(input_dev, &id) to be true, but is false
+>         not ok 3 input_test_match_device_id
+>     # input_core: pass:2 fail:1 skip:0 total:3
+>     # Totals: pass:2 fail:1 skip:0 total:3
+>     not ok 1 input_core
 
-On apq8026-lg-lenok there is a similar setup for the vibration motor although 
-there I don't know whether it's actually a fixed-regulator or not, but since 
-the two devices were built in a similar time (without checking further) I 
-could assume they both contain the same IC.
+Adding more debug code shows that it's the test on evbit [1] in
+input_match_device_id() that fails.
+Looking at your input_test_match_device_id(), I think you expect
+the checks for the various bitmaps to be gated by
+"if (id->flags & INPUT_DEVICE_ID_MATCH_EVBIT)", like is done for the
+other checks?
 
-Regards
-Luca
+[1] https://elixir.bootlin.com/linux/latest/source/drivers/input/input.c#L1021
 
-> 
-> Thanks.
+Gr{oetje,eeting}s,
 
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
