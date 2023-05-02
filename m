@@ -2,61 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D20A6F4B6E
-	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 22:34:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 518E76F4B9D
+	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 22:51:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229829AbjEBUee (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 May 2023 16:34:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59074 "EHLO
+        id S229569AbjEBUvy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 May 2023 16:51:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbjEBUed (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 16:34:33 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A1E41997;
-        Tue,  2 May 2023 13:34:32 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-63b5c830d5eso3077573b3a.2;
-        Tue, 02 May 2023 13:34:32 -0700 (PDT)
+        with ESMTP id S229464AbjEBUvx (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 16:51:53 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A08419BE;
+        Tue,  2 May 2023 13:51:52 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1aae5c2423dso35500655ad.3;
+        Tue, 02 May 2023 13:51:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683059671; x=1685651671;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KQ3mjNB18PJwmZ+twuLFKpTCTV95U8I5JkqBE5yVBMg=;
-        b=O/xM7pixRfF3HafraVk7nXYz/EE1YDhNpopV/fr89Rz4GEAu1dce4tmBZtNShCvyMY
-         WvDcGCFtQz7Yxs0dNBvbyEoxZDRNKrNB0qJ5ZBc+2ZXr6SWEO6GI9N3H9TQVvxPLF6hX
-         hYwvgl5Chq1+Hn5yHFEuJoYtHUw3w1XnKrVIhQi5xBoLUfAV/61zSjhI5WJ0lHRLt79B
-         6VRbwkmu13cOxekg2n88TCmG7zma36whMBI7ZWE2aORQrifva3iK1k2hrcvLaOfLpRhA
-         vP7XiXK0YYi/YRWw9exMIImsGe3vnA1anbX+ZDx9DvxJoGmvxyokwdaNe2GDwvwdK4T2
-         H5Yw==
+        d=gmail.com; s=20221208; t=1683060712; x=1685652712;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=y3o1/gGfAuM1GgmlkdkXFFdhfCcUzmKygNLMFJFzDzk=;
+        b=RRgWhWnSHeshZj2YLkMZ0tddZTgKwe+pqjGtIDLYMZrYbNxwQG5Q6ovkEHFTA+3YJs
+         X93v3qf0mQpHSRE7t2X5E9WwSad/4jQNLaI9X834EAg1WRmiJORx35g+9Fi6G5tXl31F
+         PklwEVgm7vHTn+NFR8ndwl8XbNlzbINxOFAwqfOH/EMuP+1/BQtfwdqSLOa5uKSuf7xL
+         xa7gaHO6zBXATWF5DWH+3hkAqitFcVBFQWstTtw/oNFs0zqpTL6A7OBzMcSEo5b2GFVl
+         em5bsTMO93QN9QRgs1bkv4ZQeF0DCGcD5hZv+7FFEJp/1M6wLHpgzJ5o6247/Ba/bqKo
+         cEnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683059671; x=1685651671;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KQ3mjNB18PJwmZ+twuLFKpTCTV95U8I5JkqBE5yVBMg=;
-        b=bjKFMjpQcQ5/qLRfZHPiBCey1kKx98LD5Y35tnPhGpqdMR/c8CA86B758bRbPCDfFN
-         lzisK5lwOkYUVeORmaxR+KdJ6vTg16PCeluwW7gtosoSGQEgBIl+IvHwZ5Hb89jxBG/D
-         arzXPb9JMXLD7OO1WaA2wdZrXfNTxr1R1+WrL4tCgKjxeWoaKA8BYzhpVHfTgm/YzIAj
-         24K1tRU8fo4cZCyQ6fOvo8MFuWeB9G9GmsOoRrzcNoNvWXnLE5bMqfkoCqaJJ4qJSB33
-         xSIu2bIJRBKd9o9LCo2tiyjOE4+emRPOxrb5JagjLyrLXBthfR1pe0AScDEjECYTccUo
-         YAQQ==
-X-Gm-Message-State: AC+VfDxvV1lQ/0Ul321CTWnK8MBNDzBrga14TFJmiSqjY1qvzTHWk60/
-        xdCK1zOQgbC4V0hrPSWKQLU0/kymNAk=
-X-Google-Smtp-Source: ACHHUZ7KWTtXy4fKW93zEk4BISCpysB9KrHIKp0qZq2IucUJLiCKVJvbqlqfhMl4WOa3Ktq1p5gomQ==
-X-Received: by 2002:a05:6a21:168c:b0:f2:be63:23ed with SMTP id np12-20020a056a21168c00b000f2be6323edmr20181013pzb.35.1683059670531;
-        Tue, 02 May 2023 13:34:30 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1683060712; x=1685652712;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y3o1/gGfAuM1GgmlkdkXFFdhfCcUzmKygNLMFJFzDzk=;
+        b=FrvhpjPnpLhokNCi+Hs/dL/yZlefx1pD0CSgy3+o5326xwTdqFpOH1fEb6uuie0Fo0
+         eqwseAZcnKT1Xxr/3fsb0zprteeUuYR/bdEyScSdb70IZxNCA+RTxlNtp97E9TECsfN9
+         CBlZE4HeaYZcxq3mlXJUQhNDh0lCeXt0gcs8xjVDffT2maeS8oeFXE3EWY7rIOrsRmj2
+         q9WJaa3fKGU8XFwl1wnAaopZ7Wh9BKNkXNx8AyDV1zFtZ3M1q5G2HRqcQTslya0/EsLs
+         Rl4Bl0g6Or7rmnArHuATWSJdGMwZhCPBCvAi28QcNZvHxBpaMP5141mY5UmDNdcCPiRI
+         UJCQ==
+X-Gm-Message-State: AC+VfDwQmqW4MkakB8Gb6PxIpRqqEYetiibtHFNSJk8tM+OJYs153UlN
+        mDnQ3IuDWaoNhl2SmA/YuWM=
+X-Google-Smtp-Source: ACHHUZ6u7jjyF8dsPzHmxLaowBUYNXThg4DzZuIZQ4+Z1iyATJWzoHLB4mLLHKx+g3SHU5Vlsf1Xnw==
+X-Received: by 2002:a17:903:11cf:b0:1a9:95fa:1fa8 with SMTP id q15-20020a17090311cf00b001a995fa1fa8mr22748295plh.41.1683060711925;
+        Tue, 02 May 2023 13:51:51 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:6edf:1ae0:55be:72db])
-        by smtp.gmail.com with ESMTPSA id z21-20020a62d115000000b0063d24fcc2b7sm22180639pfg.1.2023.05.02.13.34.29
+        by smtp.gmail.com with ESMTPSA id u12-20020a17090282cc00b001ab0278a788sm2914973plz.65.2023.05.02.13.51.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 May 2023 13:34:29 -0700 (PDT)
-Date:   Tue, 2 May 2023 13:34:27 -0700
+        Tue, 02 May 2023 13:51:51 -0700 (PDT)
+Date:   Tue, 2 May 2023 13:51:48 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Peter Hutterer <peter.hutterer@who-t.net>
-Subject: [PATCH] Input: fix open count when closing inhibited device
-Message-ID: <ZFFz0xAdPNSL3PT7@google.com>
+To:     Maximilian Weigand <mweigand2017@gmail.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Alistair Francis <alistair@alistair23.me>
+Subject: Re: [PATCH v2 3/6] dt-bindings: input: cypress,tt21000 - fix
+ interrupt type in dts example
+Message-ID: <ZFF35BpA7xf0OBF/@google.com>
+References: <20230501113010.891786-1-mweigand@mweigand.net>
+ <20230501113010.891786-4-mweigand@mweigand.net>
+ <ZFBYIZc5zKs6dpHF@google.com>
+ <5aaba4d1-f7e2-9d30-5f15-0713f9fc6a8c@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <5aaba4d1-f7e2-9d30-5f15-0713f9fc6a8c@gmail.com>
 X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -68,32 +79,28 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Because the kernel increments device's open count in input_open_device()
-even if device is inhibited, the counter should always be decremented in
-input_close_device() to keep it balanced.
+On Tue, May 02, 2023 at 04:23:54PM +0200, Maximilian Weigand wrote:
+> Hi,
+> 
+> On 02.05.23 02:24, Dmitry Torokhov wrote:
+> > On Mon, May 01, 2023 at 01:30:07PM +0200, Maximilian Weigand wrote:
+> >> Triggering the interrupt of the IRQ_TYPE_LEVEL_LOW type can lead to
+> >> probing issues with the device for the current driver (encountered on
+> >> the Pine64 PineNote). Basically the interrupt would be triggered before
+> >> certain commands were sent to the device, leading to a race between the
+> >> device responding fast enough and the irq handler fetching a data frame
+> >> from it. Actually all devices currently using the driver already use a
+> >> falling edge trigger.
+> > 
+> > I'd prefer we adjusted the driver to handle level interrupts properly.
+> 
+> Ok, I will have a look at that. Just to be clear: The driver should work
+> only with level interrupts, or should it optimally support both level
+> and falling edge triggers?
 
-Fixes: a181616487db ("Input: Add "inhibited" property")
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/input.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Optimally a driver would work well with both.
 
-diff --git a/drivers/input/input.c b/drivers/input/input.c
-index f791d14ecf23..8c5fdb0f858a 100644
---- a/drivers/input/input.c
-+++ b/drivers/input/input.c
-@@ -705,7 +705,7 @@ void input_close_device(struct input_handle *handle)
- 
- 	__input_release_device(handle);
- 
--	if (!dev->inhibited && !--dev->users) {
-+	if (!--dev->users && !dev->inhibited) {
- 		if (dev->poller)
- 			input_dev_poller_stop(dev->poller);
- 		if (dev->close)
--- 
-2.40.1.495.gc816e09b53d-goog
-
+Thanks.
 
 -- 
 Dmitry
