@@ -2,80 +2,152 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D962A6F40E9
-	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 12:17:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A45B66F416F
+	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 12:23:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233675AbjEBKRS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 May 2023 06:17:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57060 "EHLO
+        id S233982AbjEBKXw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 May 2023 06:23:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229863AbjEBKRR (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 06:17:17 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 479E135A8
-        for <linux-input@vger.kernel.org>; Tue,  2 May 2023 03:17:12 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:f07a:92a2:297:162b])
-        by albert.telenet-ops.be with bizsmtp
-        id rmHA290075FQxRj06mHAk0; Tue, 02 May 2023 12:17:10 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ptn4D-000ymZ-Vj;
-        Tue, 02 May 2023 12:17:10 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ptn4H-00AtQA-WA;
-        Tue, 02 May 2023 12:17:10 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        David Gow <davidgow@google.com>
-Cc:     linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/2] Input: tests - modular KUnit tests should not depend on KUNIT=y
-Date:   Tue,  2 May 2023 12:17:03 +0200
-Message-Id: <483c4f520e4acc6357ebba3e605977b4c56374df.1683022164.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1683022164.git.geert+renesas@glider.be>
-References: <cover.1683022164.git.geert+renesas@glider.be>
+        with ESMTP id S233887AbjEBKW2 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 06:22:28 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 849DB5241
+        for <linux-input@vger.kernel.org>; Tue,  2 May 2023 03:21:48 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-4f001a2f3aeso4423783e87.2
+        for <linux-input@vger.kernel.org>; Tue, 02 May 2023 03:21:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683022906; x=1685614906;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=A6iWdYn1dcUhTIsj5RYFdeRghsw/Iy67Uv3eHtIWqsQ=;
+        b=GBXf7uJqRLVgCEQuhaqRbNLu2HX5JOFlcjoxgxBs8ihGDi6buL35TwEMuyyQlgboep
+         PFQ3LwtZk0hMF2twx754tB/mO6hmHp2FFn+Mcs5/oQ4MSfgIDSgLfy0Y/2pcTqMG7YC1
+         3pz0Dp3D5sI/twmNGV5dX2DYb/F79clUhPePJo+8KkfGSimTeuZKQzd27fESVmt/nHPV
+         F4y8wZdIUbHU3ZH1kk572Gl1Tz34RIqHUdhTZbqaUzuThIs/ZiowKDNzMWKzBru7Ryny
+         ezME+pwUjVJ6w+x4XttVwEoSsEs1VrNHS0J4zcDqxPQ3kQQCNvSJ95EryWKSbjvl+vMT
+         cgCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683022906; x=1685614906;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=A6iWdYn1dcUhTIsj5RYFdeRghsw/Iy67Uv3eHtIWqsQ=;
+        b=IFqMyC/KD6/5HXxURT+fhi/kXvBsEKX2FT+qZreFdaMuOKQCmfmb/0wYbXvqpbhSnd
+         2wzScQViP7oiVJTjNV6XnQPr8Nqav6tQCW6xQxS2KOwEGSxZ25NRnndkrESztXMlU5Wa
+         uPbaoe05VHXBtfuP1VAJtdKP/v+90QMtTISxaHP1W3aLCvALojSOkkXIDlE/YHYWfLfU
+         x+VkvqweFGVyuNun912tKvPL3JWWXaVsup+IPaSk5r1gIQtfIeI+9maJ9iLSDxEs2+eI
+         cszyY/qlV+EOyic0zjTvtcIhQSJeHikxOdjoA1p4IYoEz30oM/7709x4kKxReqDkOlFe
+         AD1g==
+X-Gm-Message-State: AC+VfDzFBbZYPLy79OYR6WaQlEsrpeuYyrW4qHHLdSLTQJWFe7tqmXEp
+        zOGsK4QHd9Lwh+MxM626x0wykQ==
+X-Google-Smtp-Source: ACHHUZ7Dr3yuZVF+v4zq2mUOzL+pDisjYi+394uEAnNsl3ACAjNZM3ankYHN3yOfvhJyTSu2lSuWZQ==
+X-Received: by 2002:ac2:53b5:0:b0:4e8:485c:6a13 with SMTP id j21-20020ac253b5000000b004e8485c6a13mr4372301lfh.21.1683022906512;
+        Tue, 02 May 2023 03:21:46 -0700 (PDT)
+Received: from [192.168.1.101] (abyl248.neoplus.adsl.tpnet.pl. [83.9.31.248])
+        by smtp.gmail.com with ESMTPSA id u5-20020ac243c5000000b004f012977b65sm2374584lfl.249.2023.05.02.03.21.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 May 2023 03:21:46 -0700 (PDT)
+Message-ID: <efacbaab-3d47-8b6f-9804-6009373396e1@linaro.org>
+Date:   Tue, 2 May 2023 12:21:44 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH 5/5] ARM: dts: qcom: apq8026-huawei-sturgeon: Add vibrator
+Content-Language: en-US
+To:     Luca Weiss <luca@z3ntu.xyz>, ~postmarketos/upstreaming@lists.sr.ht,
+        phone-devel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Raffaele Tranquillini <raffaele.tranquillini@gmail.com>,
+        Yassine Oudjana <y.oudjana@protonmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+References: <20230430-drv260x-improvements-v1-0-1fb28b4cc698@z3ntu.xyz>
+ <20230430-drv260x-improvements-v1-5-1fb28b4cc698@z3ntu.xyz>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230430-drv260x-improvements-v1-5-1fb28b4cc698@z3ntu.xyz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-While KUnit tests that cannot be built as a loadable module must depend
-on "KUNIT=y", this is not true for modular tests, where it adds an
-unnecessary limitation.
 
-Fix this by relaxing the dependency to "KUNIT".
 
-Fixes: fdefcbdd6f361841 ("Input: Add KUnit tests for some of the input core helper functions")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/input/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 30.04.2023 20:20, Luca Weiss wrote:
+> The watch has a DRV2605 for haptics. Add a node for it based on the
+> values found in the downstream board file.
+> 
+> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+> ---
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-diff --git a/drivers/input/Kconfig b/drivers/input/Kconfig
-index 735f90b74ee5ad44..3bdbd34314b3495a 100644
---- a/drivers/input/Kconfig
-+++ b/drivers/input/Kconfig
-@@ -168,7 +168,7 @@ config INPUT_EVBUG
- 
- config INPUT_KUNIT_TEST
- 	tristate "KUnit tests for Input" if !KUNIT_ALL_TESTS
--	depends on INPUT && KUNIT=y
-+	depends on INPUT && KUNIT
- 	default KUNIT_ALL_TESTS
- 	help
- 	  Say Y here if you want to build the KUnit tests for the input
--- 
-2.34.1
-
+Konrad
+>  arch/arm/boot/dts/qcom-apq8026-huawei-sturgeon.dts | 28 ++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/qcom-apq8026-huawei-sturgeon.dts b/arch/arm/boot/dts/qcom-apq8026-huawei-sturgeon.dts
+> index d64096028ab1..eb73b992a696 100644
+> --- a/arch/arm/boot/dts/qcom-apq8026-huawei-sturgeon.dts
+> +++ b/arch/arm/boot/dts/qcom-apq8026-huawei-sturgeon.dts
+> @@ -7,6 +7,7 @@
+>  
+>  #include "qcom-msm8226.dtsi"
+>  #include "qcom-pm8226.dtsi"
+> +#include <dt-bindings/input/ti-drv260x.h>
+>  
+>  /delete-node/ &adsp_region;
+>  
+> @@ -68,6 +69,26 @@ &adsp {
+>  	status = "okay";
+>  };
+>  
+> +&blsp1_i2c2 {
+> +	clock-frequency = <384000>;
+> +
+> +	status = "okay";
+> +
+> +	vibrator@5a {
+> +		compatible = "ti,drv2605";
+> +		reg = <0x5a>;
+> +		enable-gpios = <&tlmm 60 GPIO_ACTIVE_HIGH>;
+> +
+> +		mode = <DRV260X_ERM_MODE>;
+> +		library-sel = <DRV260X_ERM_LIB_D>;
+> +		vib-rated-mv = <2765>;
+> +		vib-overdrive-mv = <3525>;
+> +
+> +		pinctrl-0 = <&vibrator_default_state>;
+> +		pinctrl-names = "default";
+> +	};
+> +};
+> +
+>  &blsp1_i2c5 {
+>  	clock-frequency = <384000>;
+>  
+> @@ -347,6 +368,13 @@ reset-pins {
+>  		};
+>  	};
+>  
+> +	vibrator_default_state: vibrator-default-state {
+> +		pins = "gpio59", "gpio60";
+> +		function = "gpio";
+> +		drive-strength = <2>;
+> +		bias-pull-down;
+> +	};
+> +
+>  	wlan_hostwake_default_state: wlan-hostwake-default-state {
+>  		pins = "gpio66";
+>  		function = "gpio";
+> 
