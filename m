@@ -2,188 +2,129 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D37286F3BFB
-	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 04:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 212F16F3C44
+	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 05:12:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231222AbjEBCNU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 May 2023 22:13:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42046 "EHLO
+        id S233331AbjEBDMM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 May 2023 23:12:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230484AbjEBCNT (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 1 May 2023 22:13:19 -0400
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 539943AA1;
-        Mon,  1 May 2023 19:13:15 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id 6761C32009C1;
-        Mon,  1 May 2023 22:13:12 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Mon, 01 May 2023 22:13:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; t=1682993592; x=1683079992; bh=Zw
-        QOGXyH976reVvtHf/drdDDqvM/gzeddwkfAWhnysg=; b=iYnrUyMaKRRDLpli1p
-        okM2naedtNZKVePrq0/f2NPcT9DS/NSiwp5a19fEyhIoxtBWSr+4hnE3g6YQ/pYw
-        JZU0Rj9kwnaTnEgtsM7hVIZ6NIhnEa1MJDwtYbCOK3sPpkPUx3J6xLMSbryoWTXn
-        K19eWQ7DM2Et7nFa9zQ5lZoupii42bReJw+JPrPqr0b1WKuF0a2IPsxx6A+K6+IM
-        Bn2uVfVXGwWyoXENbmMUKzLw6QQIlTzfwCYwWI1GRt5zlNvTbT0kT/myZlaI31pe
-        NDbLPvnwPIDI5+DkKUVwuWuZR3ytHkaK59aYQg6l9W7tYwrHqJR90UZ6i2LW5mhX
-        XXhA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; t=1682993592; x=1683079992; bh=ZwQOGXyH976re
-        VvtHf/drdDDqvM/gzeddwkfAWhnysg=; b=IWQD49l/9/wpBAbKvFo0iCH4lqJ4i
-        9Cur5dQJjUSwd6/d6DkrdztdAlXNS/7bRhNTlc7Bw5blrs111zdbtZ1Td2JcWJEz
-        m+6ooDW/fQkvNt4f4Aq5JDBsqGAmdGO7/HpIYtfTTsDyUKKudQghPBV4s+JkpkMZ
-        AsTCqopwtbNdk3KVRLHtChP8ITEUmKVVge02mT9OkZEHzCSLwWLi4s97P9aAOkjI
-        cJ2UyuUCJh9YPASPZI480HGrq0VmsMZlIz7fLBhSHh40Fb+7H/yiYds3B9FRb1iV
-        s2yYSG9yQxfeqaXeYKgOqcq86GYifc/iyYeRQ1dzuJHXbBf8Ao3ExUG+A==
-X-ME-Sender: <xms:t3FQZHEGWcDEVllbpJQrbk1ln2qjrZcxjPiocvc2QPxFfv9aVyrxgw>
-    <xme:t3FQZEVg0xewT9z1UZUG0uhclRy1LW5Ps-ErNhH5u-awBMr2KEOaH4ATgQ90MlPXM
-    FGYCFDbq4GUtctj01c>
-X-ME-Received: <xmr:t3FQZJJTepqOtLidERGkJ5625tps85BahwwObptvktU5OrPdCAtQimNlRDwe3yFgtoLXcQCvPFy7NoScQmZ77hoQ7LBY18XT_ETj>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedvhedgheeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgv
-    rhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvg
-    htqeenucggtffrrghtthgvrhhnpeekvdekgeehfeejgfdvudffhfevheejffevgfeigfek
-    hfduieefudfgtedugfetgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
-    grihhlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
-X-ME-Proxy: <xmx:t3FQZFEtpph31Hwr6PUl0v-F_wiUIFqjvtKSkmdQgUOC08KYkhxw_g>
-    <xmx:t3FQZNXVZ4zBB4hSDALTYXEZud2LbzuOGHJMjVZ8jzMAtduYwCaTHw>
-    <xmx:t3FQZAMGlmmlxnmr4Q5lsOSo3J5UVMgDISp-0qo_3PPZyHwOvHMgBg>
-    <xmx:uHFQZAQJKmsB1X6e2NYYJ2D-rxu1UhWhKecq9e3BnV27HQLN8xWcwA>
-Feedback-ID: i7ce144cd:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 1 May 2023 22:13:09 -0400 (EDT)
-Date:   Tue, 2 May 2023 12:13:05 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Biswarup Pal <biswarupp@google.com>, kernel-team@android.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Call input_set_timestamp for events injected using uinput
-Message-ID: <20230502021305.GA798180@quokka>
-References: <20230427000152.1407471-1-biswarupp@google.com>
- <ZFBh948No3IAV2hf@google.com>
+        with ESMTP id S229653AbjEBDMH (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 1 May 2023 23:12:07 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C6D7359A;
+        Mon,  1 May 2023 20:12:04 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-63d2ba63dddso2457921b3a.2;
+        Mon, 01 May 2023 20:12:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682997123; x=1685589123;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=R+tSkDxhHqbUUxjWfqVzBHhBZlJ2vQiPlfYmSSAFcgY=;
+        b=pawwxWEyX7yBxnTyfuexDKSaJwCpbr94vJXgZgN2EbBgy8PPtXCcgHBv7pf07H4/F9
+         73hzIFEnKZOpXt35+NrxeHAzsPL7BvFqdi1tobl4k/ITk37GG5nnlHShIH2TNOAi8uOt
+         HLtw0W/kEI4LLWewbcXAIxA3dtJV0eF6pam0Ueci1uxaYczdezJAz6zEoy6a2F7/Urt0
+         fefJll4qUznSmdhBiMzkP+tNJGGrZ51HPW4GExe8dAtBRrpJuYjIgVRtz3JuK3VB49Wc
+         m2HQRLXACVLuZYOSAsJt51fZwd/t48SyC+/WMlO+zUrNRlqUugONQjeKv99W8sBE3qp0
+         JVhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682997123; x=1685589123;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R+tSkDxhHqbUUxjWfqVzBHhBZlJ2vQiPlfYmSSAFcgY=;
+        b=imC9Xj3o6GX4oCNGMxm0Y7EeCehya1dT7QasonXc9jWEh/k9p37RSMUd3AgqbjKOjX
+         JrXe1aaWgyOD7P3yOIm9tYNcTrUFQSmfx33wR9S7atry9UU1wzdf49laxMkNQZSlDhWY
+         fbKiecqx42E/oQk4XMxFrgZU4NAVg15a2wMnye9/qwD0yjoFN9hLXFs7VpQYdotJoJVk
+         i9U6NaHY+2zlIkcrA+WWKqlEW7C7EGgFKm9q7Nfe0YA2dw2uoN31qow/ctYIsSik4xw2
+         1Izf8qVIcjbFD4+zbccxQQ7FKpVpTlbISV1xhNQ6V9+V6gXjoj61TToe61LdcoEnp6hf
+         cP6Q==
+X-Gm-Message-State: AC+VfDzYJAhyx/1FXxaSbQQCvaFzTMLhm14KOX/4AImcXnjRrtGK/tkY
+        yNVpuwX1JCnHuFEeGlg2PBw=
+X-Google-Smtp-Source: ACHHUZ6LREUiqvaDkCvsB/9IymOddD/j6zF11Z87rXtMOaeU22unwV+/IPzPFEPaxJhs3lPmSaTsRw==
+X-Received: by 2002:a05:6a00:1684:b0:63b:1708:10aa with SMTP id k4-20020a056a00168400b0063b170810aamr24353933pfc.34.1682997123279;
+        Mon, 01 May 2023 20:12:03 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:b6ce:736b:e4f7:adb])
+        by smtp.gmail.com with ESMTPSA id o64-20020a62cd43000000b0063d642dcd12sm21279676pfg.16.2023.05.01.20.12.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 May 2023 20:12:02 -0700 (PDT)
+Date:   Mon, 1 May 2023 20:11:59 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Jonathan Denose <jdenose@chromium.org>
+Cc:     Andrew Duggan <andrew@duggan.us>, Lyude Paul <lyude@redhat.com>,
+        Andrew Duggan <aduggan@synaptics.com>,
+        "amandhoot12@gmail.com" <amandhoot12@gmail.com>,
+        "jdenose@google.com" <jdenose@google.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "markpearson@lenovo.com" <markpearson@lenovo.com>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        benjamin.tissoires@redhat.com
+Subject: Re: [PATCH v2] Input: synaptics - disable intertouch for Lenovo L440
+Message-ID: <ZFB/f0cvwGlr7VeF@google.com>
+References: <063c8f77c216ffac463532023009124542d54c19.camel@redhat.com>
+ <20230414092353.v2.1.Ieb687047a5b75c7b7ee5dd258207ef5ca9a3b728@changeid>
+ <CALNJtpXLHHSV8YshUnk0opLNMUJpT7DgBNRYXoP2Yn-fnA8vPA@mail.gmail.com>
+ <CALNJtpV4WsknSSfBBer-MM0y_V=O5Fv2Lc3ei3heEyZwvR2rzQ@mail.gmail.com>
+ <65C23A49-5A55-4CF4-9AFD-2DA504DAABF5@duggan.us>
+ <CALNJtpWOPRB3-0Jw+GJt_D-vjEhbhDRw-Kb3boC0dOU+525fFQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZFBh948No3IAV2hf@google.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <CALNJtpWOPRB3-0Jw+GJt_D-vjEhbhDRw-Kb3boC0dOU+525fFQ@mail.gmail.com>
+X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Thanks for the CC, I would've missed that.
-
-On Mon, May 01, 2023 at 06:05:59PM -0700, Dmitry Torokhov wrote:
-> On Thu, Apr 27, 2023 at 12:01:51AM +0000, Biswarup Pal wrote:
-> > Currently, uinput doesn't use the input_set_timestamp API, so any
-> > event injected using uinput is not accurately timestamped in terms of
-> > measuring when the actual event happened. Hence, call the
-> > input_set_timestamp API from uinput in order to provide a more
-> > accurate sense of time for the event. Propagate only the timestamps
-> > which are a) positive, b) within a pre-defined offset (10 secs) from
-> > the current time, and c) not in the future.
+On Mon, Apr 24, 2023 at 02:11:28PM -0500, Jonathan Denose wrote:
+> Hi Andrew,
 > 
-> This makes sense to me. Peter, do you see any issues?
+> Thanks for your reply. As an update, I was able to try the patch here:
+> https://lore.kernel.org/all/YgHTYrODoo2ou49J@google.com/ and it
+> resolves the suspend/resume issue on this device. I'm not sure what
+> the status of the linked patch is, to me it doesn't look like it was
+> merged anywhere.
 
-nope, this looks good and has my 
-Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net> 
+This patch shoudl have been superseded by:
 
-afaict any code that has compiler warnings enabled should have this on
-zero anyway. It'd be really nice to pass a timestamp down to uinput but
-that's obviously a lot more involved.
+commit 7b1f781f2d2460693f43d5f764198df558e3494b
+Author: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Date:   Tue Feb 15 13:32:26 2022 -0800
 
-Cheers,
-  Peter
+    Input: psmouse - set up dependency between PS/2 and SMBus companions
 
-> 
-> Thanks!
-> 
-> > 
-> > Signed-off-by: Biswarup Pal <biswarupp@google.com>
-> > ---
-> >  drivers/input/misc/uinput.c | 34 ++++++++++++++++++++++++++++++++++
-> >  1 file changed, 34 insertions(+)
-> > 
-> > diff --git a/drivers/input/misc/uinput.c b/drivers/input/misc/uinput.c
-> > index f2593133e524..d98212d55108 100644
-> > --- a/drivers/input/misc/uinput.c
-> > +++ b/drivers/input/misc/uinput.c
-> > @@ -33,6 +33,7 @@
-> >  #define UINPUT_NAME		"uinput"
-> >  #define UINPUT_BUFFER_SIZE	16
-> >  #define UINPUT_NUM_REQUESTS	16
-> > +#define UINPUT_TIMESTAMP_ALLOWED_OFFSET_SECS 10
-> >  
-> >  enum uinput_state { UIST_NEW_DEVICE, UIST_SETUP_COMPLETE, UIST_CREATED };
-> >  
-> > @@ -569,11 +570,40 @@ static int uinput_setup_device_legacy(struct uinput_device *udev,
-> >  	return retval;
-> >  }
-> >  
-> > +/*
-> > + * Returns true if the given timestamp is valid (i.e., if all the following
-> > + * conditions are satisfied), false otherwise.
-> > + * 1) given timestamp is positive
-> > + * 2) it's within the allowed offset before the current time
-> > + * 3) it's not in the future
-> > + */
-> > +static bool is_valid_timestamp(const ktime_t timestamp)
-> > +{
-> > +	ktime_t zero_time;
-> > +	ktime_t current_time;
-> > +	ktime_t min_time;
-> > +	ktime_t offset;
-> > +
-> > +	zero_time = ktime_set(0, 0);
-> > +	if (ktime_compare(zero_time, timestamp) >= 0)
-> > +		return false;
-> > +
-> > +	current_time = ktime_get();
-> > +	offset = ktime_set(UINPUT_TIMESTAMP_ALLOWED_OFFSET_SECS, 0);
-> > +	min_time = ktime_sub(current_time, offset);
-> > +
-> > +	if (ktime_after(min_time, timestamp) || ktime_after(timestamp, current_time))
-> > +		return false;
-> > +
-> > +	return true;
-> > +}
-> > +
-> >  static ssize_t uinput_inject_events(struct uinput_device *udev,
-> >  				    const char __user *buffer, size_t count)
-> >  {
-> >  	struct input_event ev;
-> >  	size_t bytes = 0;
-> > +	ktime_t timestamp;
-> >  
-> >  	if (count != 0 && count < input_event_size())
-> >  		return -EINVAL;
-> > @@ -588,6 +618,10 @@ static ssize_t uinput_inject_events(struct uinput_device *udev,
-> >  		if (input_event_from_user(buffer + bytes, &ev))
-> >  			return -EFAULT;
-> >  
-> > +		timestamp = ktime_set(ev.input_event_sec, ev.input_event_usec * NSEC_PER_USEC);
-> > +		if (is_valid_timestamp(timestamp))
-> > +			input_set_timestamp(udev->dev, timestamp);
-> > +
-> >  		input_event(udev->dev, ev.type, ev.code, ev.value);
-> >  		bytes += input_event_size();
-> >  		cond_resched();
-> > -- 
-> > 2.40.1.495.gc816e09b53d-goog
-> > 
-> 
-> -- 
-> Dmitry
+    When we switch from emulated PS/2 to native (RMI4 or Elan) protocols, we
+    create SMBus companion devices that are attached to I2C/SMBus controllers.
+    However, when suspending and resuming, we also need to make sure that we
+    take into account the PS/2 device they are associated with, so that PS/2
+    device is suspended after the companion and resumed before it, otherwise
+    companions will not work properly. Before I2C devices were marked for
+    asynchronous suspend/resume, this ordering happened naturally, but now we
+    need to enforce it by establishing device links, with PS/2 devices being
+    suppliers and SMBus companions being consumers.
+
+    Fixes: 172d931910e1 ("i2c: enable async suspend/resume on i2c client devices")
+    Reported-and-tested-by: Hugh Dickins <hughd@google.com>
+    Tested-by: Jarkko Nikula <jarkko.nikula@linux.intel.com>
+    Link: https://lore.kernel.org/r/89456fcd-a113-4c82-4b10-a9bcaefac68f@google.com
+    Link: https://lore.kernel.org/r/YgwQN8ynO88CPMju@google.com
+    Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+Which should have ensured that PS/2 device is resumed first, before
+trying to resume RMI interface. I wonder why it is not working for you.
+
+Can you enable logging and see if the order of resume is correct or not.
+If it is still wrong we need to figure out why setting the link between
+the devices does not have the desired effect.
+
+Thanks.
+
+-- 
+Dmitry
