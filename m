@@ -2,53 +2,53 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 545396F3B44
-	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 02:15:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 076726F3B5B
+	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 02:22:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233168AbjEBAPY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 May 2023 20:15:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37346 "EHLO
+        id S232532AbjEBAWa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 May 2023 20:22:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233163AbjEBAPX (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 1 May 2023 20:15:23 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD6913C30;
-        Mon,  1 May 2023 17:15:17 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-63b46186c03so3628475b3a.3;
-        Mon, 01 May 2023 17:15:17 -0700 (PDT)
+        with ESMTP id S229863AbjEBAW3 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 1 May 2023 20:22:29 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CB7110E9;
+        Mon,  1 May 2023 17:22:28 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1aad6f2be8eso25780455ad.3;
+        Mon, 01 May 2023 17:22:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682986516; x=1685578516;
+        d=gmail.com; s=20221208; t=1682986948; x=1685578948;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O66y4EhLiB3zI7CJaRKSoh2ZCuKs43N5L91HnMbMbKU=;
-        b=nMNY6/iFzb+DwbSmpUGsvL/7P3CfgSjME4ZM65Fj67Z4OvK+UJ6nBeGIwzYJCTTVhC
-         VHbocC+MOPPRAiBY0SNsqB+pVMEBtt6qcpYW39hEfEbweah3/FiOxEvscInkoNrYAh9X
-         lKnfhY/ysJ7JYIE2QQ3A3KjToE8krJG46Tbu9qab+EeBAnlkM7giTKurpsNJYPLPwJKn
-         bRUo6JXLHXSk0rvZUW++TFN8cZO3b5fI5KLbDIoQKynY8zsZXHuYIpoDTua/ujcQW+Xc
-         WEgUioosxpjY5WUxLwUi3egveftgbE/JBiRbvjhYejYrCpEB3pFS1cx2ObLh2PnFintd
-         dSzw==
+        bh=SEMtZF0VN0xwVsvNM/awj6CEFn2nLNLPzgXwSp1mSEw=;
+        b=gqO+s7nzSwtFbMVqr8LJCptEz9BKlNeP6x7v0Bi2h9b3c+egbQH6WOhidVDBel2pm6
+         Ne0ZFed250Pw1773fu3nlAmgOOQ7xmO3F0FT2k7DAA3IPyKfmZJrPkKptSMivk4adScf
+         TI21mjcJLqHvkySmGJK0ZZuoDDyoMolqnhWPGdYRS5WvR3KNfN5WO1g8pgsOyJ2+uFIn
+         Cdx0Xwx9xYHQWBBluFz+/IJoKAxBxafr3s3boX7VVPyaFirMOA5DCHy3K8ebJx9A0L6F
+         VHJkMXvticNyQ+/EW3CF1244Uo89yHkzYTN84BjS8xMIt/FMK9YK1jZXwRVxnB9UGukm
+         RLMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682986516; x=1685578516;
+        d=1e100.net; s=20221208; t=1682986948; x=1685578948;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O66y4EhLiB3zI7CJaRKSoh2ZCuKs43N5L91HnMbMbKU=;
-        b=Ir+QACQzdPlWgu6lcGvJK0HUS/HKo7GiNNlq1oeTCAiFws2rDrEwtFZlbVDIFhpgGE
-         bRaFBa8dBLcv6nRLXxe6YgBJdnqkrlh1iwqneabThdcfAyzfALXGHpKMuUDFLbPlD0Nc
-         Ep87XcXs2IQ3+IZ9DKhjfAmkbiLkO1nqJhnnfiATVxQ85bQhUfyav/r1hkOhZU3UMDSx
-         8L6X8pVtlOHPaVpjHD4SuV1xcWg7uWob5WGKrjMXkxdX5uTsG79av8kN5ApBI/9MJHcn
-         x/5fnq3X9zTqGUysDBc6O07+hGNa8ouK8Qm02XvaGfajzdX5IVBst3lNioC/1In68H01
-         8/JQ==
-X-Gm-Message-State: AC+VfDypcUIrXiRFnsvZXuwbfjRPlj9p98yRvBmjJBxfBxvuvXWdk2LQ
-        D4VOHnId6igTomkIytGnVnc=
-X-Google-Smtp-Source: ACHHUZ4zvtKdDBoGtcRHdoYPOndXjeiLzD1YzvJcApBvZ4Dh59FChQj0BRcsOkrGVR90B9wVw4xolA==
-X-Received: by 2002:a05:6a20:a68d:b0:f0:929c:e8c5 with SMTP id ba13-20020a056a20a68d00b000f0929ce8c5mr16980344pzb.35.1682986515960;
-        Mon, 01 May 2023 17:15:15 -0700 (PDT)
+        bh=SEMtZF0VN0xwVsvNM/awj6CEFn2nLNLPzgXwSp1mSEw=;
+        b=jvCJK15sOrLE5IEVVk9KYAukdRLdBDkErSv6nQA/eY18GuXM2QCqAbKpaZFhPawuLv
+         byxb95HWOxawhRPA3Gfj/AqMhrB+t5nHbixIDglpwq18j5zpatNxRty6zygvJztYDlZX
+         xEPiZIaVtpibyNJA91qSgFzA7+Kjda0Zd9E6v0qHZNMooXBEwBv83IVclC5+VOUa1msc
+         umnGepGxudND64TrqJ8oudKWUtYKPs3jvYhjxJE+zpk0F6FbXpYyv2jmHlIWFsCONowd
+         DmGE06b5RWgVPsV5A4r1jZkYo8FpnbB9o/m6xFHd+DChP9MGfG7hx/ISEKaTmb/7kgEz
+         zn5Q==
+X-Gm-Message-State: AC+VfDxhsrWD741pOYXaK6bJJsBWezqrS4zUU3bwIbdPxQpdCG/JK0qX
+        MwhIXGlqSsSOV77iTe/TzLPEgLAHe5w=
+X-Google-Smtp-Source: ACHHUZ6do7fAY3wk/MYY6wxlgl+TUrx6FqEwZ0hc5CW8vC3gEURl0rewZs0kWpdJNqZJoFwOxdZQMg==
+X-Received: by 2002:a17:903:234c:b0:1a6:b247:4316 with SMTP id c12-20020a170903234c00b001a6b2474316mr19639948plh.62.1682986947701;
+        Mon, 01 May 2023 17:22:27 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:b6ce:736b:e4f7:adb])
-        by smtp.gmail.com with ESMTPSA id ei55-20020a056a0080f700b0063efe2f3ecdsm11394805pfb.204.2023.05.01.17.15.14
+        by smtp.gmail.com with ESMTPSA id r21-20020a170902ea5500b001a988a71617sm11660577plg.192.2023.05.01.17.22.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 May 2023 17:15:15 -0700 (PDT)
-Date:   Mon, 1 May 2023 17:15:12 -0700
+        Mon, 01 May 2023 17:22:26 -0700 (PDT)
+Date:   Mon, 1 May 2023 17:22:23 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Maximilian Weigand <mweigand@mweigand.net>
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
@@ -57,14 +57,15 @@ Cc:     Linus Walleij <linus.walleij@linaro.org>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org,
         Alistair Francis <alistair@alistair23.me>
-Subject: Re: [PATCH v2 2/6] Input: cyttsp5 - remove unused code
-Message-ID: <ZFBWEEzix/sZxiLO@google.com>
+Subject: Re: [PATCH v2 6/6] Input: cyttsp5 - implement proper sleep and
+ wakeup procedures
+Message-ID: <ZFBXvz17jDhEPI6c@google.com>
 References: <20230501113010.891786-1-mweigand@mweigand.net>
- <20230501113010.891786-3-mweigand@mweigand.net>
+ <20230501113010.891786-7-mweigand@mweigand.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230501113010.891786-3-mweigand@mweigand.net>
+In-Reply-To: <20230501113010.891786-7-mweigand@mweigand.net>
 X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -76,14 +77,29 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 01, 2023 at 01:30:06PM +0200, Maximilian Weigand wrote:
-> The removed lines are remnants of the vendor driver and are not used in
-> the upstream driver.
-> 
-> Signed-off-by: Maximilian Weigand <mweigand@mweigand.net>
-> Reviewed-by: Alistair Francis <alistair@alistair23.me>
+On Mon, May 01, 2023 at 01:30:10PM +0200, Maximilian Weigand wrote:
+>  struct cyttsp5 {
+>  	struct device *dev;
+>  	struct completion cmd_done;
+> +	struct completion cmd_command_done;
 
-Applied, thank you.
+Why do we need separate comletion? Do you observe some additional
+traffic from the controller when powering it off and on?
+
+> +static int __maybe_unused cyttsp5_suspend(struct device *dev)
+> +{
+> +	struct cyttsp5 *ts = dev_get_drvdata(dev);
+> +
+> +	if (!ts->is_wakeup_source)
+
+I believe the idiomatic way to check this is to call
+device_may_wakeup().
+
+> +		cyttsp5_enter_sleep(ts);
+> +	return 0;
+> +}
+
+Thanks.
 
 -- 
 Dmitry
