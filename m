@@ -2,155 +2,167 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0B956F4ECD
-	for <lists+linux-input@lfdr.de>; Wed,  3 May 2023 04:19:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 291636F4EF5
+	for <lists+linux-input@lfdr.de>; Wed,  3 May 2023 05:02:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229644AbjECCTe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 May 2023 22:19:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42376 "EHLO
+        id S229627AbjECDCn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 May 2023 23:02:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjECCTd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 22:19:33 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 541C62D54
-        for <linux-input@vger.kernel.org>; Tue,  2 May 2023 19:19:32 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1a950b982d4so161705ad.0
-        for <linux-input@vger.kernel.org>; Tue, 02 May 2023 19:19:32 -0700 (PDT)
+        with ESMTP id S229609AbjECDCg (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 23:02:36 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2066.outbound.protection.outlook.com [40.107.237.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CA501FCD;
+        Tue,  2 May 2023 20:02:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bQWsJMf51ElXDHsa/X9tMHln4132eJaUYYoZoO7kKKUmyOPxOJpGMQWAlIy5avLsd4gUykyQ5s3cdN5N/tPKmyDGVrXx6VRJmvL4QXdcCZNcA8AsG9U7YIvX6a0jB0IR7VQYK628xEjTuW4GrfZ2WSzKwWPAM4+9iJmHbcq8v3Q+HYu0D20/xXqpvk8xtZ8mp9/o6q5pfgm+XNfqYvv75FBYJuAv1KbMfmt7BC5y/CuD8+97hyEKir+YZjW/E/9IT0fwSK3JYx7LLtBx7dNOt+pBsnfFSwsZWCzAwSKPILV7RRDcDHNpi2okoHrce65KLjtR9oaXn9bqU5aSiEqOdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZvUIeX62wwSPxxKxiN7bLriVsU4Gy7579N+cgMFHHDo=;
+ b=UuuW58NOodgMEj4NgZ6phureWUiJza6Zvtsyn+VlPTQ0bkjOGly25M0ZGHwdmyn1TRE8dwJhxj4FnWJoY9ibgWde3aV7qGvjI4yDZnleJ68R8cbO6lT42398+sQ5m6xsxNxUCIbi2tUELQ7yHpZbtISIuBT06CONtOo++Rh3dXa/E5P6ntvvMZ4np/Jx9oeOC5/cH5JO6K78tkuF9s/eAPLTOTyKj5dnMANiIDG80kJmjsSHqLVVZoWb44hnVajR2DSabxq5uIwDJNY8EUwbmeuZm2D/sjGgJeKxZfG012wJCiwi7UYn4kmKDyj2PQJ3/w/5XL4WsR622NqwMHu4vA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1683080372; x=1685672372;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ctb1R3fy35Ln0l9ZfEUNBbFNpKA3q8wClyqzrQTbJpg=;
-        b=21rXa6BKPsH1Q9DLffrghLCDtdO0rxkfIfXzRBY90U2BKxFSxAilOuBXsbhudPcv3r
-         4QloLZeDs+Yzqgxyb6xfURzZRHYcsF1T3ICzP98bkBVwp8QlqwZqUKot6sfzZrAod4wA
-         RnBM15xsIT31n8nDArb9G1R8SHb2Ll/jnt5P77w86TOmhoT5dbyewEnjwKRrQGO9NJU3
-         5ELCU3L2UB8vAsU3nILJzhTq2BNmgtA8gK4S9Bm7ZQodM1D3jq7jfjBs/4Iq/v/Y/QJW
-         WYMl6Mmuc5HH/xFkh0y8mqVfJjcTDAkSZ1jnM4XSpFf5mfjEv/P4g+23kyw78tFTVqX2
-         hfBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683080372; x=1685672372;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ctb1R3fy35Ln0l9ZfEUNBbFNpKA3q8wClyqzrQTbJpg=;
-        b=MTpP6WCvyaCMbluoJ+lkpWL69gaua3ErMcwoEdaCwsjOp2g2rNTn3TjEKQVftoOai5
-         ABCLtsgFOPY4pxB5/Tv+vC9bYDVx6SMc/foJ+mWfFlek35OhwZ5kWdr0JezyD1V9IuZ5
-         6F+vE2Q1EIbTMj6z6Lhr4aL+0UIhFRR0ijSufX6wyC+9+7GVCT2LacoE7CRqS7OSt0pY
-         dC0/PMk9LnNUg6A4bpxpqkyGOz2XSdwR4DU5q6vo/Q+BbxXJU0S7Yqrs+hqHY9bBGir/
-         Znd+ShqFlURCb2gjxfStts6VhEwLSvYhQZU/627N1nJG9BmArG0ZoUyPcKZgIvpTh2R4
-         efSw==
-X-Gm-Message-State: AC+VfDxqA+Lji8XZrIORA8cDQy+a+xrtsiV/oPfSoCuuXvorauT7X2YZ
-        VTI33ZIOqqjhDjzT/X+g9Do0KC+lfNXbrTrfqu0FbQ==
-X-Google-Smtp-Source: ACHHUZ4fW/UoAhnH6cLXbSIFupRrZXAhv+Av7tDVYL+xqu26Hu3gvOim8JtCuM7qsSSd3wIitG82hSp9P5pzrQjtto8=
-X-Received: by 2002:a17:902:ce8b:b0:1a6:760c:af3d with SMTP id
- f11-20020a170902ce8b00b001a6760caf3dmr139870plg.16.1683080371574; Tue, 02 May
- 2023 19:19:31 -0700 (PDT)
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZvUIeX62wwSPxxKxiN7bLriVsU4Gy7579N+cgMFHHDo=;
+ b=KBPKnGmStApTZndPlBXQp1pJeFI2iTghiqs34583t1ZFhXvMnFzD8O/N21vG9oDMTQHCxSWd6DFVmDyfV2D5Ef7XnF6QFLRumeTwD0hGHaUnky2Lune1bZ13/3YEnq6D/UzOfghoMx4G3AowoFRppn39PexpFRqFUhZyJUZ4CFI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=labundy.com;
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ (2603:10b6:803:43::21) by SA1PR08MB7214.namprd08.prod.outlook.com
+ (2603:10b6:806:18b::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.32; Wed, 3 May
+ 2023 03:02:32 +0000
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::d2d1:7af4:ef32:542]) by SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::d2d1:7af4:ef32:542%3]) with mapi id 15.20.6340.030; Wed, 3 May 2023
+ 03:02:32 +0000
+Date:   Tue, 2 May 2023 22:02:24 -0500
+From:   Jeff LaBundy <jeff@labundy.com>
+To:     Tomas Mudrunka <tomas.mudrunka@gmail.com>
+Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] Fix freeze in lm8333 i2c keyboard driver
+Message-ID: <ZFHOwEu6tKDjoPA4@nixie71>
+References: <ZEnErxfnSn2JOpvm@nixie71>
+ <20230428102015.810686-1-tomas.mudrunka@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230428102015.810686-1-tomas.mudrunka@gmail.com>
+X-ClientProxiedBy: SN1PR12CA0101.namprd12.prod.outlook.com
+ (2603:10b6:802:21::36) To SN4PR0801MB3774.namprd08.prod.outlook.com
+ (2603:10b6:803:43::21)
 MIME-Version: 1.0
-References: <20230427221625.116050-1-opendmb@gmail.com> <CAGETcx-gDcqY7-_Ud0_rOtgvk7NbzevSa4UCV=NcqiV9zjAv7w@mail.gmail.com>
-In-Reply-To: <CAGETcx-gDcqY7-_Ud0_rOtgvk7NbzevSa4UCV=NcqiV9zjAv7w@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Tue, 2 May 2023 19:18:55 -0700
-Message-ID: <CAGETcx_xjNT1Tp0GeqoddFwGFpv3O33hZZpEiThNg1wwWcfEQw@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/3] input: gpio-keys - fix pm ordering
-To:     Doug Berger <opendmb@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Gergo Koteles <soyer@irl.hu>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kees Cook <keescook@chromium.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Android Kernel Team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|SA1PR08MB7214:EE_
+X-MS-Office365-Filtering-Correlation-Id: d12f2c65-f5d8-4f10-bbe2-08db4b82d691
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nnCTtfeFufjbCq6NMLKpssmjTeXrxHIf0Pp3NXxhkHebg4rY4ZfM1YjcicxwhA3X1cxYyrbLcT5tmVIg277Yj5IknKGUZkurDYi4wcEggU+B7KLXEvct5TS/3HW/HgD0TYVacsUYi7V2CN2hfzL/QBNN2tp5QsbnXgmbfwtVnd+8/ZD+OAQeaghF9/P1sllT5/eebN0ekqPHDFCTYRUV1BH3P9MBUv524c7QZAuHMCJ1cQDsREAhxfXOwLAru6JLvE5+J367y98BPZSExpGvmR8J+KHvPPB7HV92XbSC1QhmrSiPnRRlzSmE/T0iIHrX5W0rFCrrTz5TIJSmGY4eo0gTu3evc8tgY7iNLa8iZZMUTYEJQBlq31e31ybX42SBBZlq2WLcZ7aFngLCybNz1Qrd7co6OFkhrUdjS8OEqbZj1AQ47QbdCyyanw3R/hc2qDddtNdyVaOC9dsZiH+pbH14fTHaz+X4DoaHUjF74sPsI1MbpPd54vf60NQHgd1wv0kPpfd2jFvqQ//cjyHcdOvgMjJhnqFyoXg88fr8taJoinESILF6jK8r57d8o86w
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(396003)(376002)(346002)(136003)(39830400003)(366004)(451199021)(6916009)(6666004)(186003)(6486002)(83380400001)(26005)(33716001)(6512007)(9686003)(6506007)(478600001)(4326008)(66476007)(66946007)(66556008)(316002)(38100700002)(8676002)(8936002)(5660300002)(41300700001)(86362001)(2906002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gQHsAFAPeB4waTIB/SZTKyrEHg0FvrGTegbo9EVYJ3F2uk+YKH0I605OlnFt?=
+ =?us-ascii?Q?ZpgiXInzG/vwrNV6IZnJdN5kwvysybNItn2LeZ+4SWnIWN+VOw5GK5yKXVru?=
+ =?us-ascii?Q?Qft4DkInxve0ztltPXyks3OJLXJC9OfIHG/Y/gIywYXcR44v7h1oCWuoAw+m?=
+ =?us-ascii?Q?V1GSb4WgAZ91GmAL6GNAHQdqN/oKFpFTOrxiMM63PGt+NUbR/J56aMABf1U9?=
+ =?us-ascii?Q?ah3s7jHduO5jtE2S8rWSwKiO71GUv/IJT+mMyYLqxmFOne87Lfo54iDOO9gm?=
+ =?us-ascii?Q?F4amCSjOFkONSk+4dGjDfjusizDOQUzd/zFT5E/HmCnfMaY+6Zt0usWhfCZg?=
+ =?us-ascii?Q?lV5gSZ4yYYIhvBtYvqOT4+pHJDRY1SZ7LuNg934MEv+daEcS5V88xhS0DO91?=
+ =?us-ascii?Q?jwMWVmbQX2Xb8rY5/h3V1MV91vcvOuuSBWAUt7TbyuEIccITE62KY2bqksxH?=
+ =?us-ascii?Q?NbuNptqA4yuARMRge9adlyp3A86sm9SReiQlNwfncsQupssefuFKnvqoF58S?=
+ =?us-ascii?Q?gBsahIhjIhmPE+ioCR1M86xc3CVWMDh5aMUr3Zx7MJOGVgQHNiHRodpZB8Rr?=
+ =?us-ascii?Q?ggDQjMKcydRLqYTUlY2H8xBp8+0PfuP5zGY5SNfCNPRI5ppdiqMgS+Ol0dQl?=
+ =?us-ascii?Q?Sx/P0ylXspgU9lG0XM0k1qpiXkpqbejWJO/WyHsbkuzWvstsfeI06F8k0mN5?=
+ =?us-ascii?Q?V4ToarEgfhuRCovVy7pW4AIqiJ1lNT7O49EgJAxh6JcypaIxQis8eAiMYHk6?=
+ =?us-ascii?Q?FHoetNQ/GlUbi6HRWix+8t91hZ454ccz3opvFa93HqqDy5khNMooCesKeMXj?=
+ =?us-ascii?Q?TnjzaoLpm8z8xzl5hpntKCk1z2eflV92ng9nq5inRAJ7GWKYkLkmosUqoNH0?=
+ =?us-ascii?Q?hE7gcWSXfJ+htGIPkMXRmtTefHtgwBG0PA9ebnpbyPTOCS9kbyHEv/earmfp?=
+ =?us-ascii?Q?uV96G9XroSuwHA6dHM4qw+3mlkywM/FcQs0sW+5YvnGDiHXbAjEiZ0f5zh8/?=
+ =?us-ascii?Q?rplY/8XKNCT6B+Isrdy+3qo+HSZmNr0dR2bBA0A8JXVNfMeogdRw4V9RT4PL?=
+ =?us-ascii?Q?RoNqwuZK8BhKFV4SCUFMuvWKyHU7cUXkNk8sK8dZuFz3UyWS3YgsjcgnG7wf?=
+ =?us-ascii?Q?PTR/WCTSn9Lm66Jg+ossG2Xipq4bYq2/yrQ3zv7Ez1fwN5WYrYm+E5YXlsu+?=
+ =?us-ascii?Q?AB8+RiV0Ip21EhkHoTwJ3oFINrhCdvhVQhkx2lLHzrFFgpkQTxYsYYh3752/?=
+ =?us-ascii?Q?z6wJ0PNI7tmJhfEpScOsjZ1dmjWQi+4pRi8Ujm8mKfg42F0TVivXfRS3pssg?=
+ =?us-ascii?Q?vhNXumIdk9oIMgGBDr7e01hC4YbQupurO3cbiKlO3C7peAOzywWVdMUhuUDz?=
+ =?us-ascii?Q?GA6bHHlrHicFlXp3gtEPNBWIN/c0saCVPHSIxaGWfJ/E1IjWYwnRexfCx1jR?=
+ =?us-ascii?Q?q3EnVTBO29Vb7hp0uRaixd0PuFHe+RHWV58NbGUFCvi9y9P6R9Ucd+2Noozg?=
+ =?us-ascii?Q?cTlzx5MraAdw92YM3eRSOMo8TORmsQgvewIgVLs72vRTvV+P/LutqgFN6njb?=
+ =?us-ascii?Q?CZdP9mirXUBNnb7zRDrD1tBIBCKi+5hQbSTCiAF/?=
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d12f2c65-f5d8-4f10-bbe2-08db4b82d691
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 May 2023 03:02:32.2560
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Iig3eWN92VpzEuHrNaNodnasX2vwRzacEAaW6UApjG/YvhmEUIk7uRF52N+P83Giyr73Ihyob1DUyueAgFHVnw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR08MB7214
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 1, 2023 at 1:40=E2=80=AFPM Saravana Kannan <saravanak@google.co=
-m> wrote:
->
-> On Thu, Apr 27, 2023 at 3:18=E2=80=AFPM Doug Berger <opendmb@gmail.com> w=
-rote:
-> >
-> > Commit 52cdbdd49853 ("driver core: correct device's shutdown
-> > order") allowed for proper sequencing of the gpio-keys device
-> > shutdown callbacks by moving the device to the end of the
-> > devices_kset list at probe which was delayed by child
-> > dependencies.
-> >
-> > However, commit 722e5f2b1eec ("driver core: Partially revert
-> > "driver core: correct device's shutdown order"") removed this
-> > portion of that commit causing a reversion in the gpio-keys
-> > behavior which can prevent waking from shutdown.
-> >
-> > This RFC is an attempt to find a better solution for properly
-> > creating gpio-keys device links to ensure its suspend/resume and
-> > shutdown services are invoked before those of its suppliers.
-> >
-> > The first patch here is pretty brute force but simple and has
-> > the advantage that it should be easily backportable to the
-> > versions where the regression first occurred.
->
-> We really shouldn't be calling device_pm_move_to_tail() in drivers
-> because device link uses device_pm_move_to_tail() for ordering too.
-> And it becomes a "race" between device links and when the driver calls
-> device_pm_move_to_tail() and I'm not sure we'll get the same ordering
-> every time.
->
-> >
-> > The second patch is perhaps better in spirit though still a bit
-> > inelegant, but it can only be backported to versions of the
-> > kernel that contain the commit in its 'Fixes:' tag. That isn't
-> > really a valid 'Fixes:' tag since that commit did not cause the
-> > regression, but it does represent how far the patch could be
-> > backported.
-> >
-> > Both commits shouldn't really exist in the same kernel so the
-> > third patch reverts the first in an attempt to make that clear
-> > (though it may be a source of confusion for some).
-> >
-> > Hopefully someone with a better understanding of device links
-> > will see a less intrusive way to automatically capture these
-> > dependencies for parent device drivers that implement the
-> > functions of child node devices.
->
-> Can you give a summary of the issue on a real system? I took a look at
-> the two commits you've referenced above and it's not clear what's
-> still broken in the 6.3+
->
-> But I'd think that just teaching fw_devlink about some property should
-> be sufficient. If you are facing a real issue, have you made sure you
-> have fw_devlink=3Don (this is the default unless you turned it off in
-> the commandline when it had issues in the past).
->
+Hi Tomas,
 
-I took a closer look at how gpio-keys work and I can see why
-fw_devlink doesn't pick up the GPIO dependencies. It's because the
-gpio dependencies are listed under child "key-x" device nodes under
-the main "gpio-keys" device tree node. fw_devlink doesn't consider
-dependencies under child nodes as mandatory dependencies of the parent
-node.
+On Fri, Apr 28, 2023 at 12:20:15PM +0200, Tomas Mudrunka wrote:
+> LM8333 uses gpio interrupt line which is triggered by falling edge.
+> When button is pressed before driver is loaded,
+> driver will miss the edge and never respond again.
+> To fix this we run the interrupt handler after registering IRQ
+> to clear the interrupt via i2c command.
+> 
+> Signed-off-by: Tomas Mudrunka <tomas.mudrunka@gmail.com>
+> ---
+>  drivers/input/keyboard/lm8333.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/input/keyboard/lm8333.c b/drivers/input/keyboard/lm8333.c
+> index 7457c3220..9a810ca00 100644
+> --- a/drivers/input/keyboard/lm8333.c
+> +++ b/drivers/input/keyboard/lm8333.c
+> @@ -184,6 +184,8 @@ static int lm8333_probe(struct i2c_client *client)
+>  	if (err)
+>  		goto free_mem;
+>  
+> +	lm8333_irq_thread(client->irq, lm8333);
 
-The main reason for this was because of how fw_devlink used to work.
-But I might be able to change fw_devlink to pick this up
-automatically. I need to think a bit more about this because in some
-cases, ignoring those dependencies is the right thing to do. Give me a
-few weeks to think through and experiment with this on my end.
+Just to clarify, my stance is that this call should go _before_ the handler
+is registered. Your earlier statement that doing so would steal any pending
+status from the handler is correct; however, it is a moot point because the
+handler cannot do anything with that status until the input device has been
+registered anyway.
 
--Saravana
+Any events that come before then are off the table, and this is OK because
+user space isn't going to start consuming key events until well after this
+driver has probed anyway.
+
+The reason behind my assertion is that as a matter of best practice, you
+should not have two asynchronous threads that can in theory access the same
+register. You are correct that the handler would simply return IRQ_NONE in
+such a race, but it sets a bad precedent and opens room for bugs in case
+this driver is modified in the future. It also creates one unnecessary I2C
+read.
+
+This is why it is much more common to register the handler _after_ manually
+accessing read-to-clear registers; the register access remains synchronous.
+In case you feel I have misunderstood, please let me know.
+
+> +
+>  	err = input_register_device(input);
+>  	if (err)
+>  		goto free_irq;
+> -- 
+> 2.40.0
+
+Kind regards,
+Jeff LaBundy
