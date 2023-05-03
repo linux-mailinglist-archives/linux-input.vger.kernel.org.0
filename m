@@ -2,158 +2,156 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 58E126F4F3D
-	for <lists+linux-input@lfdr.de>; Wed,  3 May 2023 05:47:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E55E46F506A
+	for <lists+linux-input@lfdr.de>; Wed,  3 May 2023 08:53:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229586AbjECDry (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 May 2023 23:47:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33712 "EHLO
+        id S229536AbjECGx6 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 3 May 2023 02:53:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbjECDrs (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 23:47:48 -0400
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 066F33C14;
-        Tue,  2 May 2023 20:47:46 -0700 (PDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id 1801D3200B88;
-        Tue,  2 May 2023 23:47:45 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Tue, 02 May 2023 23:47:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
-        :cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm1; t=1683085664; x=
-        1683172064; bh=qJF/y3PUtn5/2JZtl7kI9dJefyoiVSOcY3IKgthNpIc=; b=z
-        ySnQ1rBAnzidl6iL0pwfcaV7q1BhJw7K8Z7Gnxg+eWmliFMapKVb5x4C5tMnYIeI
-        cGCvsTxLAV4Bxi5DuvP60YET7SQYI0Cve51cwXF5DOypi9VECATBXGq9KEatcUHY
-        Oe1WT9JwIBJBMwx8opbIxeSA4xSniYADfOiQaMKp1LxcbngPLEvlJ0HW07C++HJp
-        6ihMgw5X8VwpBEu8uWbrz5JXf6xX3ZENWQZXh+fTshrLedsGzStgwCXFya/GiO0w
-        Cjcunb7cz5X9Qpjf2pQoH3ZLjzIH3VFz7z1jbz1roJjErX48qq3qqeCfTyVs15Wu
-        bMJq8bTP7KlzYUzutz+YQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1683085664; x=
-        1683172064; bh=qJF/y3PUtn5/2JZtl7kI9dJefyoiVSOcY3IKgthNpIc=; b=F
-        q4CSQVoiVKJBh109TYziJStlzxq1sjjUmGriCCBd38wb9kuFlkd3E08E4XGFhfZ9
-        NYbVWIIpEmBmEupXYwGoF4Q7hjROkHISgaGAF38xDJTv+lIVVusS4qvj2SBY16vH
-        m4ncYsmRxv88s/Eyv3CtKaiMAlWoc9t2cIqybsZDmNgF11IJ60a/3nA4XGx9wvNA
-        xsi+1H0eEN0SR0cNSSsstVdOVWwbTIhYEh1IJaqg6XaJUSimuoeVDAZQJw/ulWaY
-        SedOObQrBG48FFcktNmyIj8GGzBCvgSLAM6P+QrKm8RDUs6RPZV/LufLMJCDZ9Vn
-        P3/rM+MNEKyAdVOXcHPgg==
-X-ME-Sender: <xms:YNlRZBEFbFuN_2YGOoSjn0odGphkeebWYlk1-3ZgTgL4v-CpfGE0mA>
-    <xme:YNlRZGWKLav97EaSgh7cUr_84y7l7ldC2mLIn_iozexPGp2Mk6aV0caIHMDzdxX8I
-    7vpzLLToRs_RBosY4U>
-X-ME-Received: <xmr:YNlRZDIDN-8Z4Z7Q6oVrNjraN_0pprjhM5hpBdVcpZaRpJFElgRMUZbSQv27>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedvjedgjeefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
-    ertdertddtnecuhfhrohhmpedfnfhukhgvucffrdculfhonhgvshdfuceolhhukhgvsehl
-    jhhonhgvshdruggvvheqnecuggftrfgrthhtvghrnhepgfetfedugfetudeuheetjefhue
-    fggfelleetvdevtefhueeujeefvdegleevhefgnecuvehluhhsthgvrhfuihiivgepuden
-    ucfrrghrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvh
-X-ME-Proxy: <xmx:YNlRZHG0RtoAcJjiVoXXTYLT20r_w2IsLriJmA0_yIL0Vx21ZEi8Rg>
-    <xmx:YNlRZHUeqAjaZf0E9tf5HBY2snKSPsSPzvFWxwceNfK_VOqtyGZGnw>
-    <xmx:YNlRZCOytMVG7m_0pt38xUxRmkihz2dqus9i8iimYp9zGDLbyoAytA>
-    <xmx:YNlRZCQZphj9di9Rep5XOKq2CFkwNLPNnlIhM-hf1fT-ncug7cbZPQ>
-Feedback-ID: i5ec1447f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 2 May 2023 23:47:41 -0400 (EDT)
-From:   "Luke D. Jones" <luke@ljones.dev>
-To:     linux-input@vger.kernel.org
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        rydberg@bitmath.org, linux-kernel@vger.kernel.org,
-        "Luke D. Jones" <luke@ljones.dev>
-Subject: [PATCH 3/3] HID: asus: reformat the hotkey mapping block
-Date:   Wed,  3 May 2023 15:47:11 +1200
-Message-Id: <20230503034711.253439-3-luke@ljones.dev>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230503034711.253439-1-luke@ljones.dev>
-References: <20230503034711.253439-1-luke@ljones.dev>
+        with ESMTP id S229686AbjECGx4 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 3 May 2023 02:53:56 -0400
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1A1840F0;
+        Tue,  2 May 2023 23:53:46 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-55a20a56a01so62623187b3.3;
+        Tue, 02 May 2023 23:53:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683096826; x=1685688826;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ycoy11ds1uuECa7nLWAsDmiVFu/7yLRJRdJ8VPxevb0=;
+        b=HtUWWMMwJh/4gi7Yba4vIP8reQHnoUHaYjOe7jY6AWg69L6xjz/dH6lt7ibh6qC+kZ
+         PCYgjudwKIe2SgyFjrznGkVCVtTcV38GgewO+4sQWijwF2NAuxLjL8k2CLKgQXUD6eX7
+         3Jqfnwcu4DVuF3YbTChy0rqOWtNLnv6FElz6/UZioKU4WdN8j2t51zJJVs+MheGzaHzr
+         fNYfbhSFQ+7+SjscJ7MTFq1xNXTdYxSM3BTogkmWeWR/HN0tiR0B07nC/qp9yMXXa836
+         r7DLZB6xzWknmr/AQCKTznYIIxqJ6jMmLj4oLPmKAQ57HpwsLS96v5/Mk/MsSrVyG1+c
+         2Ijg==
+X-Gm-Message-State: AC+VfDwa6yXV/siGPfvNin492aZrpl34caSa5KyZWaIoJg8nyhLsCquA
+        mYR4dfsrzFiBXU+MrOX13zUTyPPcZ6AlLA==
+X-Google-Smtp-Source: ACHHUZ7tOq8GcY/KFL9NYrN/t/tzhwf1stUB9PTf1oiToxjxkb7abiStAKiPDTjLT4mrfoEuUTmkZw==
+X-Received: by 2002:a0d:ef42:0:b0:539:1b13:3d64 with SMTP id y63-20020a0def42000000b005391b133d64mr18387832ywe.48.1683096825826;
+        Tue, 02 May 2023 23:53:45 -0700 (PDT)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
+        by smtp.gmail.com with ESMTPSA id g140-20020a0ddd92000000b00545a081849esm2986295ywe.46.2023.05.02.23.53.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 May 2023 23:53:45 -0700 (PDT)
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-b9dcd91a389so6020405276.2;
+        Tue, 02 May 2023 23:53:44 -0700 (PDT)
+X-Received: by 2002:a25:d84c:0:b0:b9d:5691:3ef6 with SMTP id
+ p73-20020a25d84c000000b00b9d56913ef6mr16412844ybg.27.1683096824680; Tue, 02
+ May 2023 23:53:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <cover.1683022164.git.geert+renesas@glider.be> <CAMuHMdVmfj8L24QbMGn54jW96rYkvX1gizmvgvEB7T3Jwevd+g@mail.gmail.com>
+ <878re6y9s8.fsf@minerva.mail-host-address-is-not-set> <ZFFCzHwJqyeXB52w@google.com>
+In-Reply-To: <ZFFCzHwJqyeXB52w@google.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 3 May 2023 08:53:32 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW_K9R7L9M_=M+HyWKivK6S2_Bhb5jvwdGv_oqZ06-NxA@mail.gmail.com>
+Message-ID: <CAMuHMdW_K9R7L9M_=M+HyWKivK6S2_Bhb5jvwdGv_oqZ06-NxA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Input: tests - miscellaneous fixes
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Javier Martinez Canillas <javierm@redhat.com>,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        David Gow <davidgow@google.com>, linux-input@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Older formatting of this block was beginning to get somewhat cluttered.
-Condensing the block and putting comments to the side makes it easier
-to read and scan the scancodes plus keycodes.
+Hi Dmitry,
 
-Signed-off-by: Luke D. Jones <luke@ljones.dev>
----
- drivers/hid/hid-asus.c | 44 ++++++++++++------------------------------
- 1 file changed, 12 insertions(+), 32 deletions(-)
+On Tue, May 2, 2023 at 7:05 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+> On Tue, May 02, 2023 at 06:31:51PM +0200, Javier Martinez Canillas wrote:
+> > Geert Uytterhoeven <geert@linux-m68k.org> writes:
+> > > On Tue, May 2, 2023 at 12:17 PM Geert Uytterhoeven
+> > > <geert+renesas@glider.be> wrote:
+> > >> This patch series fixes a crash in the new input selftest, and makes the
+> > >> test available when the KUnit framework is modular.
+> > >>
+> > >> Unfortunately test 3 still fails for me (tested on Koelsch (R-Car M2-W)
+> > >> and ARAnyM):
+> > >>
+> > >>         KTAP version 1
+> > >>         # Subtest: input_core
+> > >>         1..3
+> > >>     input: Test input device as /devices/virtual/input/input1
+> > >>         ok 1 input_test_polling
+> > >>     input: Test input device as /devices/virtual/input/input2
+> > >>         ok 2 input_test_timestamp
+> > >>     input: Test input device as /devices/virtual/input/input3
+> > >>         # input_test_match_device_id: ASSERTION FAILED at # drivers/input/tests/input_test.c:99
+> > >>         Expected input_match_device_id(input_dev, &id) to be true, but is false
+> > >>         not ok 3 input_test_match_device_id
+> > >>     # input_core: pass:2 fail:1 skip:0 total:3
+> > >>     # Totals: pass:2 fail:1 skip:0 total:3
+> > >>     not ok 1 input_core
+> > >
+> > > Adding more debug code shows that it's the test on evbit [1] in
+> > > input_match_device_id() that fails.
+> > > Looking at your input_test_match_device_id(), I think you expect
+> > > the checks for the various bitmaps to be gated by
+> > > "if (id->flags & INPUT_DEVICE_ID_MATCH_EVBIT)", like is done for the
+> > > other checks?
+> > >
+> > > [1] https://elixir.bootlin.com/linux/latest/source/drivers/input/input.c#L1021
+> > >
+> >
+> > That's correct. In input_test_init(), the input dev is marked as capable
+> > of emitting EV_KEY BTN_LEFT and BTN_RIGHT. The goal of that test was to
+> > check this.
+> >
+> > That is, check if matches by the input dev capabilities in which case the
+> > __set_bit(EV_KEY, ...) would make the match true and __set_bit(EV_ABS, ..)
+> > would make the condition false.
+> >
+> > But maybe I misunderstood how the input_set_capability() and __set_bit()
+> > functions work ?
+> >
+> > I'll take a look to this tomorrow, thanks a lot for your report!
+>
+> Unfortunately (?) INPUT_DEVICE_ID_MATCH_*BIT have never had any effect,
+> the kernel always used bitmaps when matching (with the assumption that
+> if one does not care about given bitmap they can simply pass empty one),
+> so I think what we need to change is:
+>
+> diff --git a/drivers/input/tests/input_test.c b/drivers/input/tests/input_test.c
+> index 8b8ac3412a70..0540225f0288 100644
+> --- a/drivers/input/tests/input_test.c
+> +++ b/drivers/input/tests/input_test.c
+> @@ -87,7 +87,7 @@ static void input_test_timestamp(struct kunit *test)
+>  static void input_test_match_device_id(struct kunit *test)
+>  {
+>         struct input_dev *input_dev = test->priv;
+> -       struct input_device_id id;
+> +       struct input_device_id id = { 0 };
+>
+>         /*
+>          * Must match when the input device bus, vendor, product, version
+>
+> to avoid having garbage in the match data.
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 918d0d05ca88..2bc14e076739 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -885,38 +885,18 @@ static int asus_input_mapping(struct hid_device *hdev,
- 		case 0xc5: asus_map_key_clear(KEY_KBDILLUMDOWN);		break;
- 		case 0xc7: asus_map_key_clear(KEY_KBDILLUMTOGGLE);	break;
- 
--		/* ASUS touchpad toggle */
--		case 0x6b: asus_map_key_clear(KEY_F21);			break;
-+		case 0x6b: asus_map_key_clear(KEY_F21);		break; /* ASUS touchpad toggle */
-+		case 0x38: asus_map_key_clear(KEY_PROG1);	break; /* ROG key */
-+		case 0xba: asus_map_key_clear(KEY_PROG2);	break; /* Fn+C ASUS Splendid */
-+		case 0x5c: asus_map_key_clear(KEY_PROG3);	break; /* Fn+Space Power4Gear */
-+		case 0x99: asus_map_key_clear(KEY_PROG4);	break; /* Fn+F5 "fan" symbol */
-+		case 0xae: asus_map_key_clear(KEY_PROG4);	break; /* Fn+F5 "fan" symbol */
-+		case 0x92: asus_map_key_clear(KEY_CALC);	break; /* Fn+Ret "Calc" symbol */
-+		case 0xb2: asus_map_key_clear(KEY_PROG2);	break; /* Fn+Left previous aura */
-+		case 0xb3: asus_map_key_clear(KEY_PROG3);	break; /* Fn+Left next aura */
-+		case 0x6a: asus_map_key_clear(KEY_F13);		break; /* Screenpad toggle */
-+		case 0x4b: asus_map_key_clear(KEY_F14);		break; /* Arrows/Pg-Up/Dn toggle */
- 
--		/* ROG key */
--		case 0x38: asus_map_key_clear(KEY_PROG1);		break;
--
--		/* Fn+C ASUS Splendid */
--		case 0xba: asus_map_key_clear(KEY_PROG2);		break;
--
--		/* Fn+Space Power4Gear Hybrid */
--		case 0x5c: asus_map_key_clear(KEY_PROG3);		break;
--
--		/* Fn+F5 "fan" symbol on FX503VD */
--		case 0x99: asus_map_key_clear(KEY_PROG4);		break;
--
--		/* Fn+F5 "fan" symbol on N-Key keyboard */
--		case 0xae: asus_map_key_clear(KEY_PROG4);		break;
--
--		/* Fn+Ret "Calc" symbol on N-Key keyboard */
--		case 0x92: asus_map_key_clear(KEY_CALC);		break;
--
--		/* Fn+Left Aura mode previous on N-Key keyboard */
--		case 0xb2: asus_map_key_clear(KEY_PROG2);		break;
--
--		/* Fn+Right Aura mode next on N-Key keyboard */
--		case 0xb3: asus_map_key_clear(KEY_PROG3);		break;
--
--		/* Screenpad toggle on N-Key keyboard */
--		case 0x6a: asus_map_key_clear(KEY_F13);		break;
--
--		/* Arrows/Page-up/Down toggle on N-Key keyboard */
--		case 0x4b: asus_map_key_clear(KEY_F14);		break;
- 
- 		default:
- 			/* ASUS lazily declares 256 usages, ignore the rest,
-@@ -1319,4 +1299,4 @@ static struct hid_driver asus_driver = {
- };
- module_hid_driver(asus_driver);
- 
--MODULE_LICENSE("GPL");
-+MODULE_LICENSE("GPL");
-\ No newline at end of file
+Thanks, that did the trick! 3/3 tests pass.
+
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.40.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
