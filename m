@@ -2,62 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1174D6F4BA1
-	for <lists+linux-input@lfdr.de>; Tue,  2 May 2023 22:52:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0B956F4ECD
+	for <lists+linux-input@lfdr.de>; Wed,  3 May 2023 04:19:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229742AbjEBUwx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 May 2023 16:52:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38596 "EHLO
+        id S229644AbjECCTe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 May 2023 22:19:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbjEBUww (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 16:52:52 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCE5D1BC1
-        for <linux-input@vger.kernel.org>; Tue,  2 May 2023 13:52:50 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-4edc63c82d1so4968370e87.0
-        for <linux-input@vger.kernel.org>; Tue, 02 May 2023 13:52:50 -0700 (PDT)
+        with ESMTP id S229441AbjECCTd (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 May 2023 22:19:33 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 541C62D54
+        for <linux-input@vger.kernel.org>; Tue,  2 May 2023 19:19:32 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1a950b982d4so161705ad.0
+        for <linux-input@vger.kernel.org>; Tue, 02 May 2023 19:19:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683060769; x=1685652769;
-        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SxSZ5HWiRzoGYWLexaqAjBCEITiYObIFiQevUjVdyLc=;
-        b=GQZRrS7eQXqRP9OXC9feaHdl2+5I6D9Aku77/5Vff6etgiWJBft1KHjFh4dk/N5bKP
-         2ZOp9OA7OuD4X6mnNdGZblgZ/cWKN4byXe7BRWGkPESTTRF37DGHqV40wJdsjGAeCJuc
-         HROycDC0qMI3DMpyCdsTWMMOb+quFV86xAEh5NcK/HIhSZYrYjTdE25o/U3p0YuVzxwl
-         4WfF8Zrby27xav9r5pyVoFgBQLa5hqCH/H0W0/JSeSe6mkh9Ht+Quz6XeEGBWL4q5Jb7
-         V8ub9sju0VeIYRfDtDTiPna23c1KOcyw47koz5q1Ui3CgtEb0VzOIZODxSy51xExZv5r
-         066Q==
+        d=google.com; s=20221208; t=1683080372; x=1685672372;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ctb1R3fy35Ln0l9ZfEUNBbFNpKA3q8wClyqzrQTbJpg=;
+        b=21rXa6BKPsH1Q9DLffrghLCDtdO0rxkfIfXzRBY90U2BKxFSxAilOuBXsbhudPcv3r
+         4QloLZeDs+Yzqgxyb6xfURzZRHYcsF1T3ICzP98bkBVwp8QlqwZqUKot6sfzZrAod4wA
+         RnBM15xsIT31n8nDArb9G1R8SHb2Ll/jnt5P77w86TOmhoT5dbyewEnjwKRrQGO9NJU3
+         5ELCU3L2UB8vAsU3nILJzhTq2BNmgtA8gK4S9Bm7ZQodM1D3jq7jfjBs/4Iq/v/Y/QJW
+         WYMl6Mmuc5HH/xFkh0y8mqVfJjcTDAkSZ1jnM4XSpFf5mfjEv/P4g+23kyw78tFTVqX2
+         hfBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683060769; x=1685652769;
-        h=to:subject:message-id:date:from:sender:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SxSZ5HWiRzoGYWLexaqAjBCEITiYObIFiQevUjVdyLc=;
-        b=ZTUAK14PhQRcJLiokz/a24E5Vyw2I2hBHb+GSHM4Zh6rA01hFMI9B5NttrpnWiEaDC
-         6JJIvXdS6giIBAbyn6152wMinymzTohVpteRQ1UUuE5C54Da2FHTksXBYrIqQVA5wQac
-         y4y1sVB9qsqT2e6HM1grV4/4a0msTMFxbF0Bvg4f7fiw8Kmso4PeOD+3Ewp0IspnbD+2
-         NAo5mqw3wYfUUdSvU+LUdZy8+CxlXAMKwd8gBbySu8cqiwLYTHGdwBqqc9X//ofIADDB
-         RJE6hNsEMBqqL06oLtOkCFh6a81DZE6MO0uA7xPZBSW51RaVhXdON4OmmYrPn0ptwlKY
-         mGPQ==
-X-Gm-Message-State: AC+VfDyw+z5PYbFrk4Zj7NngIU8JJOrDk1dcuT0yHoR+jqahb37z00kl
-        osTeSqXpiMVJq7zOmf0cjd9TAQcdQiisPk9I9v8=
-X-Google-Smtp-Source: ACHHUZ6yCTO4qWaZ+elCFgZsYDwva29nPWDed2bqNBmuq05XgsEOe/kiAjaGY7XMikEplfBcTy1qpg8otj1A0ml0zpQ=
-X-Received: by 2002:ac2:4d19:0:b0:4e9:b64a:b87d with SMTP id
- r25-20020ac24d19000000b004e9b64ab87dmr266324lfi.9.1683060768962; Tue, 02 May
- 2023 13:52:48 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1683080372; x=1685672372;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ctb1R3fy35Ln0l9ZfEUNBbFNpKA3q8wClyqzrQTbJpg=;
+        b=MTpP6WCvyaCMbluoJ+lkpWL69gaua3ErMcwoEdaCwsjOp2g2rNTn3TjEKQVftoOai5
+         ABCLtsgFOPY4pxB5/Tv+vC9bYDVx6SMc/foJ+mWfFlek35OhwZ5kWdr0JezyD1V9IuZ5
+         6F+vE2Q1EIbTMj6z6Lhr4aL+0UIhFRR0ijSufX6wyC+9+7GVCT2LacoE7CRqS7OSt0pY
+         dC0/PMk9LnNUg6A4bpxpqkyGOz2XSdwR4DU5q6vo/Q+BbxXJU0S7Yqrs+hqHY9bBGir/
+         Znd+ShqFlURCb2gjxfStts6VhEwLSvYhQZU/627N1nJG9BmArG0ZoUyPcKZgIvpTh2R4
+         efSw==
+X-Gm-Message-State: AC+VfDxqA+Lji8XZrIORA8cDQy+a+xrtsiV/oPfSoCuuXvorauT7X2YZ
+        VTI33ZIOqqjhDjzT/X+g9Do0KC+lfNXbrTrfqu0FbQ==
+X-Google-Smtp-Source: ACHHUZ4fW/UoAhnH6cLXbSIFupRrZXAhv+Av7tDVYL+xqu26Hu3gvOim8JtCuM7qsSSd3wIitG82hSp9P5pzrQjtto8=
+X-Received: by 2002:a17:902:ce8b:b0:1a6:760c:af3d with SMTP id
+ f11-20020a170902ce8b00b001a6760caf3dmr139870plg.16.1683080371574; Tue, 02 May
+ 2023 19:19:31 -0700 (PDT)
 MIME-Version: 1.0
-Sender: affoarimyaou@gmail.com
-Received: by 2002:ab3:6297:0:b0:229:e329:a0c with HTTP; Tue, 2 May 2023
- 13:52:47 -0700 (PDT)
-From:   Kayla Manthey <sgtkylamanthey73@gmail.com>
-Date:   Tue, 2 May 2023 20:52:47 +0000
-X-Google-Sender-Auth: 1_3GgLnvnmNzcNMdBqRod3KrcE0
-Message-ID: <CA+erknwkuw169uQcdf0fudoHkvE0ptPK411MseMej+4Y+78oUQ@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
+References: <20230427221625.116050-1-opendmb@gmail.com> <CAGETcx-gDcqY7-_Ud0_rOtgvk7NbzevSa4UCV=NcqiV9zjAv7w@mail.gmail.com>
+In-Reply-To: <CAGETcx-gDcqY7-_Ud0_rOtgvk7NbzevSa4UCV=NcqiV9zjAv7w@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Tue, 2 May 2023 19:18:55 -0700
+Message-ID: <CAGETcx_xjNT1Tp0GeqoddFwGFpv3O33hZZpEiThNg1wwWcfEQw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/3] input: gpio-keys - fix pm ordering
+To:     Doug Berger <opendmb@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Gergo Koteles <soyer@irl.hu>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kees Cook <keescook@chromium.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Android Kernel Team <kernel-team@android.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,4 +82,75 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello, Please did you get the previous message? thank  you.
+On Mon, May 1, 2023 at 1:40=E2=80=AFPM Saravana Kannan <saravanak@google.co=
+m> wrote:
+>
+> On Thu, Apr 27, 2023 at 3:18=E2=80=AFPM Doug Berger <opendmb@gmail.com> w=
+rote:
+> >
+> > Commit 52cdbdd49853 ("driver core: correct device's shutdown
+> > order") allowed for proper sequencing of the gpio-keys device
+> > shutdown callbacks by moving the device to the end of the
+> > devices_kset list at probe which was delayed by child
+> > dependencies.
+> >
+> > However, commit 722e5f2b1eec ("driver core: Partially revert
+> > "driver core: correct device's shutdown order"") removed this
+> > portion of that commit causing a reversion in the gpio-keys
+> > behavior which can prevent waking from shutdown.
+> >
+> > This RFC is an attempt to find a better solution for properly
+> > creating gpio-keys device links to ensure its suspend/resume and
+> > shutdown services are invoked before those of its suppliers.
+> >
+> > The first patch here is pretty brute force but simple and has
+> > the advantage that it should be easily backportable to the
+> > versions where the regression first occurred.
+>
+> We really shouldn't be calling device_pm_move_to_tail() in drivers
+> because device link uses device_pm_move_to_tail() for ordering too.
+> And it becomes a "race" between device links and when the driver calls
+> device_pm_move_to_tail() and I'm not sure we'll get the same ordering
+> every time.
+>
+> >
+> > The second patch is perhaps better in spirit though still a bit
+> > inelegant, but it can only be backported to versions of the
+> > kernel that contain the commit in its 'Fixes:' tag. That isn't
+> > really a valid 'Fixes:' tag since that commit did not cause the
+> > regression, but it does represent how far the patch could be
+> > backported.
+> >
+> > Both commits shouldn't really exist in the same kernel so the
+> > third patch reverts the first in an attempt to make that clear
+> > (though it may be a source of confusion for some).
+> >
+> > Hopefully someone with a better understanding of device links
+> > will see a less intrusive way to automatically capture these
+> > dependencies for parent device drivers that implement the
+> > functions of child node devices.
+>
+> Can you give a summary of the issue on a real system? I took a look at
+> the two commits you've referenced above and it's not clear what's
+> still broken in the 6.3+
+>
+> But I'd think that just teaching fw_devlink about some property should
+> be sufficient. If you are facing a real issue, have you made sure you
+> have fw_devlink=3Don (this is the default unless you turned it off in
+> the commandline when it had issues in the past).
+>
+
+I took a closer look at how gpio-keys work and I can see why
+fw_devlink doesn't pick up the GPIO dependencies. It's because the
+gpio dependencies are listed under child "key-x" device nodes under
+the main "gpio-keys" device tree node. fw_devlink doesn't consider
+dependencies under child nodes as mandatory dependencies of the parent
+node.
+
+The main reason for this was because of how fw_devlink used to work.
+But I might be able to change fw_devlink to pick this up
+automatically. I need to think a bit more about this because in some
+cases, ignoring those dependencies is the right thing to do. Give me a
+few weeks to think through and experiment with this on my end.
+
+-Saravana
