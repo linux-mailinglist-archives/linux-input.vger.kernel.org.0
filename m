@@ -2,85 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A20E6F7EF4
-	for <lists+linux-input@lfdr.de>; Fri,  5 May 2023 10:24:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3768E6F7FF5
+	for <lists+linux-input@lfdr.de>; Fri,  5 May 2023 11:28:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231490AbjEEIYb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 May 2023 04:24:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51540 "EHLO
+        id S231788AbjEEJ2O (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 May 2023 05:28:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231503AbjEEIXj (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 5 May 2023 04:23:39 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73F4E18FC1
-        for <linux-input@vger.kernel.org>; Fri,  5 May 2023 01:23:09 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-4f00d41df22so14686395e87.1
-        for <linux-input@vger.kernel.org>; Fri, 05 May 2023 01:23:09 -0700 (PDT)
+        with ESMTP id S231394AbjEEJ16 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 5 May 2023 05:27:58 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FC801634E
+        for <linux-input@vger.kernel.org>; Fri,  5 May 2023 02:27:56 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-3f315735514so90775865e9.1
+        for <linux-input@vger.kernel.org>; Fri, 05 May 2023 02:27:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683274987; x=1685866987;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=g5G0cJUf9U5b39gQ8vAQOCiDix67GOEadK5YgCw6Yxo=;
-        b=BSDtuJvBpLPeVoP5Mrl8D2KmSwNOLyuEFtmL2qv+nmY+uEQomIy8Gtt0Ofd1aVQ/TN
-         WQE+7c6b/8ay0uAbwQwXOrq2krF2M8qk7+EXoELfMgVtaycjgIT+GLQkAhGWA052dDWz
-         q18P97yPKNymERSnVLr9lWM14RVinLIr8sAzmqtiYxM5AIJOLY1ztrOwUPkLDFLXQkcF
-         Rb1QIozImPlpBm6OTjMo3RDMRXQrj1QnP3J4p8OUgwIUKND2qDamsYQGwBxTNOkje3PT
-         UkKoj+9fCEeCtb0/k1NeA6EibY7QLB34qitg7scU2w8x5cD4WFgOWPGO2SsX/uN9G2iq
-         RsJA==
+        d=chromium.org; s=google; t=1683278875; x=1685870875;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tG3khmz+PbUqtRe6nuzCK18UTDQxmqQ5JyV5eU/cEaQ=;
+        b=YaN4DPMt6ugogOGME6oBtigy2j0IIygV1eXqyQJlKk5EkXDxHAqItp5sSFTyStNqZl
+         wbGTdjhP1/WE5EJSY4j4KzW3Tp999avbCpV0TRuC4/BrqR/rlBFoZn4us30/0hxiVzCL
+         p77mhMNm8NxGD8iZIj1UvsgpY8s25thExh5qE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683274987; x=1685866987;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g5G0cJUf9U5b39gQ8vAQOCiDix67GOEadK5YgCw6Yxo=;
-        b=Zm55Luyl2E+k/7+kQy5hZcDggzmYRMGFNgpFswcNylxrGsz5av3kn8t2WQOkmZ0i9a
-         iz/h1vZkIR5CUqV6YrYTP4IptRG2Lakalw4dsh3mWYnKVrjfNkw1It/n9SgehZ/KkE4n
-         1blam7d/7Ef9yiQLsOTZuRKOWv4d84ZPkR9xAbNc2bkKhsUO6OEtmvJY0tWjBDHzh1CA
-         /TtfCrrD+ul9pFBClRZyfU7Y/L5uV6yX6LzmKy2onzxSvYJ+gvQL6d7I8J5IGVvBsIDq
-         oy+CKw61xZcXnvO7WeOLMipmGnB0GW2ybhB6T0Lg9PfMyUVA+GOMrcGmxbKRkiFq11gj
-         vk1A==
-X-Gm-Message-State: AC+VfDw2tAIFxocSKJ0IyDj3OC1UsgKZxrMW+9aygvnKDG7Us79LQZUv
-        ECkqhJVKVpkpaHEkqwbHi74IWg==
-X-Google-Smtp-Source: ACHHUZ4ntuLtpxogEmFZl1hNzi6UMBcMw9LwaHrl5FOZUqpjjHXCeB+aLaboJ3fnDq3UPQt5rlmwAQ==
-X-Received: by 2002:a05:6512:2202:b0:4ed:c64a:4aa8 with SMTP id h2-20020a056512220200b004edc64a4aa8mr1867732lfu.6.1683274987516;
-        Fri, 05 May 2023 01:23:07 -0700 (PDT)
-Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id h8-20020ac250c8000000b004d023090504sm200647lfm.84.2023.05.05.01.23.06
+        d=1e100.net; s=20221208; t=1683278875; x=1685870875;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tG3khmz+PbUqtRe6nuzCK18UTDQxmqQ5JyV5eU/cEaQ=;
+        b=YUjr84fUI92PqI/L3f/LI87b1s99NgyanP4+5nIFubiKTc863qJXP66NKS4Bdba4cN
+         gRYTv0BmHMu34W0/EmqNVbVxWA7hU9Metmt2aMLI+cpwDWhOjo3UMbW2qtSND26zKBim
+         X1k1jDPIAxynWS69CRzxpugMgRIFfPOkuL2ugjyv8v0N1EZo/T6EjJP3IHa9Qk66CAXc
+         4Egu33xiTgGT7eT68LbSNdyYrEk70o6m8ZBi3EjvyDsR2qZ33jatKGQVVe9001tA7kuG
+         uCjo1h+wdARdgT2LXPVr2MjlWWz2JMMZ19Ii00htU85/44ZZTmwTQjYAUr46PfZAdnHt
+         pDQA==
+X-Gm-Message-State: AC+VfDz9eQQcnhVTbvxbLOWxZfpWHG0V9kwB+bwyAhH35uuT8SNZd4sn
+        OvlRFFDpjpO7Hrz4yG+QGLb9NA==
+X-Google-Smtp-Source: ACHHUZ7VmDpxy51iKFmBgcIzBanKS6A0k5QVsBNNrnddg9+v/l1RbR2aQentuci2hew2P3fMKLTIoQ==
+X-Received: by 2002:a5d:5689:0:b0:304:7bbf:7c1e with SMTP id f9-20020a5d5689000000b003047bbf7c1emr4240011wrv.4.1683278874844;
+        Fri, 05 May 2023 02:27:54 -0700 (PDT)
+Received: from google.com ([37.228.205.50])
+        by smtp.gmail.com with ESMTPSA id s7-20020a1cf207000000b003f1733feb3dsm7491394wmc.0.2023.05.05.02.27.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 May 2023 01:23:07 -0700 (PDT)
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 05 May 2023 10:23:02 +0200
-Subject: [PATCH v2 3/3] ARM: omap1: Fix up the Nokia 770 board device IRQs
+        Fri, 05 May 2023 02:27:54 -0700 (PDT)
+Date:   Fri, 5 May 2023 09:27:52 +0000
+From:   Fabio Baltieri <fabiobaltieri@chromium.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: hid-stadiaff: add support for Stadia force feedback
+Message-ID: <ZFTMGKwbH2P3uMIp@google.com>
+References: <20230403103324.1746758-1-fabiobaltieri@chromium.org>
+ <20230413160033.buwdbysbbc2hgu6o@mail.corp.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230430-nokia770-regression-v2-3-984ed3ca5444@linaro.org>
-References: <20230430-nokia770-regression-v2-0-984ed3ca5444@linaro.org>
-In-Reply-To: <20230430-nokia770-regression-v2-0-984ed3ca5444@linaro.org>
-To:     Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Andreas Kemnade <andreas@kemnade.info>,
-        Helge Deller <deller@gmx.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-mmc@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>
-X-Mailer: b4 0.12.1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230413160033.buwdbysbbc2hgu6o@mail.corp.redhat.com>
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -88,116 +68,52 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The platform devices on the Nokia 770 is using some
-board-specific IRQs that get statically assigned to platform
-devices in the boardfile.
+Hi,
 
-This does not work with dynamic IRQ chip bases.
+On Thu, Apr 13, 2023 at 06:00:33PM +0200, Benjamin Tissoires wrote:
+> >  drivers/hid/Kconfig        |   7 ++
+> >  drivers/hid/Makefile       |   1 +
+> >  drivers/hid/hid-ids.h      |   1 +
+> >  drivers/hid/hid-stadiaff.c | 132 +++++++++++++++++++++++++++++++++++++
+> 
+> Mind renaming this hid-google-stadiaff.c?
+> It's hard to know that stadia is from Google otherwise.
 
-Utilize the NULL device to define some board-specific
-GPIO lookups and use these to immediately look up the
-same GPIOs, convert to IRQ numbers and pass as resources
-to the devices. This is ugly but should work.
+Sure thing.
 
-Fixes: 92bf78b33b0b ("gpio: omap: use dynamic allocation of base")
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- arch/arm/mach-omap1/board-nokia770.c | 57 ++++++++++++++++++++++++++++--------
- 1 file changed, 44 insertions(+), 13 deletions(-)
+> > +static int stadiaff_play(struct input_dev *dev, void *data,
+> > +			 struct ff_effect *effect)
+> > +{
+> > +	struct hid_device *hid = input_get_drvdata(dev);
+> > +	struct stadiaff_device *stadiaff = hid_get_drvdata(hid);
+> > +	struct hid_field *rumble_field = stadiaff->report->field[0];
+> > +
+> > +	rumble_field->value[0] = effect->u.rumble.strong_magnitude;
+> > +	rumble_field->value[1] = effect->u.rumble.weak_magnitude;
+> > +
+> > +	schedule_work(&stadiaff->work);
+> 
+> It seems weird that you don't have any locking in place here.
+> What if you are sending a report (in stadiaff_work) while having your
+> _play() function called at the same time?
 
-diff --git a/arch/arm/mach-omap1/board-nokia770.c b/arch/arm/mach-omap1/board-nokia770.c
-index dc37ea30bbcf..27bd5522e1de 100644
---- a/arch/arm/mach-omap1/board-nokia770.c
-+++ b/arch/arm/mach-omap1/board-nokia770.c
-@@ -6,7 +6,7 @@
-  */
- #include <linux/clkdev.h>
- #include <linux/irq.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/gpio/machine.h>
- #include <linux/gpio/property.h>
- #include <linux/kernel.h>
-@@ -250,19 +250,25 @@ static struct i2c_board_info nokia770_i2c_board_info_2[] __initdata = {
- 
- static void __init nokia770_cbus_init(void)
- {
--	const int retu_irq_gpio = 62;
--	const int tahvo_irq_gpio = 40;
--
--	if (gpio_request_one(retu_irq_gpio, GPIOF_IN, "Retu IRQ"))
--		return;
--	if (gpio_request_one(tahvo_irq_gpio, GPIOF_IN, "Tahvo IRQ")) {
--		gpio_free(retu_irq_gpio);
--		return;
-+	struct gpio_desc *d;
-+	int irq;
-+
-+	d = gpiod_get(NULL, "retu_irq", GPIOD_IN);
-+	if (IS_ERR(d)) {
-+		pr_err("Unable to get CBUS Retu IRQ GPIO descriptor\n");
-+	} else {
-+		irq = gpiod_to_irq(d);
-+		irq_set_irq_type(irq, IRQ_TYPE_EDGE_RISING);
-+		nokia770_i2c_board_info_2[0].irq = irq;
-+	}
-+	d = gpiod_get(NULL, "tahvo_irq", GPIOD_IN);
-+	if (IS_ERR(d)) {
-+		pr_err("Unable to get CBUS Tahvo IRQ GPIO descriptor\n");
-+	} else {
-+		irq = gpiod_to_irq(d);
-+		irq_set_irq_type(irq, IRQ_TYPE_EDGE_RISING);
-+		nokia770_i2c_board_info_2[1].irq = irq;
- 	}
--	irq_set_irq_type(gpio_to_irq(retu_irq_gpio), IRQ_TYPE_EDGE_RISING);
--	irq_set_irq_type(gpio_to_irq(tahvo_irq_gpio), IRQ_TYPE_EDGE_RISING);
--	nokia770_i2c_board_info_2[0].irq = gpio_to_irq(retu_irq_gpio);
--	nokia770_i2c_board_info_2[1].irq = gpio_to_irq(tahvo_irq_gpio);
- 	i2c_register_board_info(2, nokia770_i2c_board_info_2,
- 				ARRAY_SIZE(nokia770_i2c_board_info_2));
- 	device_create_managed_software_node(&nokia770_cbus_device.dev,
-@@ -275,8 +281,25 @@ static void __init nokia770_cbus_init(void)
- }
- #endif /* CONFIG_I2C_CBUS_GPIO */
- 
-+static struct gpiod_lookup_table nokia770_irq_gpio_table = {
-+	.dev_id = NULL,
-+	.table = {
-+		/* GPIO used by SPI device 1 */
-+		GPIO_LOOKUP("gpio-0-15", 15, "ads7846_irq",
-+			    GPIO_ACTIVE_HIGH),
-+		/* GPIO used for retu IRQ */
-+		GPIO_LOOKUP("gpio-48-63", 15, "retu_irq",
-+			    GPIO_ACTIVE_HIGH),
-+		/* GPIO used for tahvo IRQ */
-+		GPIO_LOOKUP("gpio-32-47", 8, "tahvo_irq",
-+			    GPIO_ACTIVE_HIGH),
-+	},
-+};
-+
- static void __init omap_nokia770_init(void)
- {
-+	struct gpio_desc *d;
-+
- 	/* On Nokia 770, the SleepX signal is masked with an
- 	 * MPUIO line by default.  It has to be unmasked for it
- 	 * to become functional */
-@@ -288,6 +311,14 @@ static void __init omap_nokia770_init(void)
- 
- 	software_node_register_node_group(nokia770_gpiochip_nodes);
- 	platform_add_devices(nokia770_devices, ARRAY_SIZE(nokia770_devices));
-+
-+	gpiod_add_lookup_table(&nokia770_irq_gpio_table);
-+	d = gpiod_get(NULL, "ads7846_irq", GPIOD_IN);
-+	if (IS_ERR(d))
-+		pr_err("Unable to get ADS7846 IRQ GPIO descriptor\n");
-+	else
-+		nokia770_spi_board_info[1].irq = gpiod_to_irq(d);
-+
- 	spi_register_board_info(nokia770_spi_board_info,
- 				ARRAY_SIZE(nokia770_spi_board_info));
- 	omap_serial_init();
+Yeah you are right, I somehow missed the whole locking story, sending a
+v2 with that added.
+
+> > +static void stadia_remove(struct hid_device *hid)
+> > +{
+> > +	struct stadiaff_device *stadiaff = hid_get_drvdata(hid);
+> > +
+> > +	cancel_work_sync(&stadiaff->work);
+> 
+> What if you have a ff play event scheduled right here? Don't you need
+> some way of forcing the work to not be scheduled once again?
+
+Good point, adding that as well for v2, took the pattern from other
+existing drivers.
+
+Thanks for the review,
+Fabio
 
 -- 
-2.34.1
-
+Fabio Baltieri
