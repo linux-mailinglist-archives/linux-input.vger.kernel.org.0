@@ -2,71 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4D916F88EA
-	for <lists+linux-input@lfdr.de>; Fri,  5 May 2023 20:48:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B4686F88F5
+	for <lists+linux-input@lfdr.de>; Fri,  5 May 2023 20:49:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232137AbjEESsP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 May 2023 14:48:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55186 "EHLO
+        id S233343AbjEEStJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 May 2023 14:49:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233118AbjEESsP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 5 May 2023 14:48:15 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EB1C18859;
-        Fri,  5 May 2023 11:48:14 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-643990c5319so1354628b3a.2;
-        Fri, 05 May 2023 11:48:14 -0700 (PDT)
+        with ESMTP id S233322AbjEEStB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 5 May 2023 14:49:01 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E5E921540
+        for <linux-input@vger.kernel.org>; Fri,  5 May 2023 11:49:00 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-64115e652eeso21815187b3a.0
+        for <linux-input@vger.kernel.org>; Fri, 05 May 2023 11:49:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683312494; x=1685904494;
+        d=gmail.com; s=20221208; t=1683312539; x=1685904539;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O/ZSD3qVmnjgI8CLCJbb/H/o7q7YENLY/p8MYrwTe60=;
-        b=iW5l1IzDT/jT2aAVpLQa9T5II3XZ+LCgczoeIrc1acjv7D6v6zR9N/IG5EoGxOqb6v
-         KFTkyRMqaj4gyFm/tCxRIyD7KimB7SCvVOWM6QzRJwOVDbnPXaSLJW0/zMa9W3CLmhOl
-         sAmcsSHV0yggBW6LDrfV6perkgDHMhJZpzWRVgf1jlugQMjm1WY72VZMA62fgisITO+/
-         2gY5YgK4HYxYLDN95i/tgtWuMUu1L45IdYQaIOAnPAGncLxtlFbqCNW/cjNmscIyfb08
-         +iPSZGKAVLxFRJi/XUsROkfZWhttoDDSh2ZCYdJlDIli5kVgi5i8JhxquYqthDECTTa/
-         jgeA==
+        bh=sFb6RViasZ5khMTDjpPAsdq0eju7722XpGIED6KZKsE=;
+        b=N9bAmkwSkpHYFpMBML4qVIfcQXbFgvyL0Zt6kU0qG01CyqlFt7R+SUrLRqPT7KzeXt
+         t9Lw0Sagv+mzVZg2VoqLL88XweE1O5ogO8skoObyZOqinoejWOp6Cer0+N/41iglA7+s
+         3122XJRapecdUjEAlutjL2RBHekNagw55opOeyTHrSlEggrNivCx6PlFysK28HeN8gcu
+         BWuArlpwZuFo1ZdvQ/oAhEt1AitH54B9APR646ld3GVglkuDHHy3vM1imFtL/96UVhgn
+         3v/Fqj4Ik+hzD1Z6+lzLnE5ETzx3pIxpnpIDFYgIooOYcZWhSnKxhnI1VOY5IfFTFezw
+         jL7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683312494; x=1685904494;
+        d=1e100.net; s=20221208; t=1683312539; x=1685904539;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O/ZSD3qVmnjgI8CLCJbb/H/o7q7YENLY/p8MYrwTe60=;
-        b=jJYuj0XyvAy4CWZ/wfR9FKN6dtPz2PpHXzz88i7E181MUkT6dKWW5cbW6dGLkgP5M8
-         muxTdW+8LBUq7YZN+4zhgF/6N5JGY+udvQr8+yMxFOG7JDy7Yh5QN263mfG2sOnfg8XS
-         dmbEVPe9u3zbM9g8tftok2a8HAgq5HEbsE115RCThuraWNOaClI2qFU6ZmWUAlAjUubB
-         TUSpwxiernRK9d28pR8w44A5BPXykMGXuFpt7QksO6IsyKsH8P+X1QJ0NaKRvZzDfYuq
-         sqi5PJysJc2hea/pzFR84DhKx0XN+n2RmL+EmB02F0P1ecd4p35Gdm1azD3lrk9Muueq
-         xSPw==
-X-Gm-Message-State: AC+VfDzD0UsGkJ87V/ta+sADKEeTZZYPGTTzGAZ79tvYe8aNyQSBSRNs
-        qj4hlJoO9XeWVAnDUGjW4ZQ=
-X-Google-Smtp-Source: ACHHUZ6Npq2QjU7NSXbb3o4MAO4ao/WWYrGM8gk6BfTW9PlI0WYnptP02fu4fjSJk6A6JDBAicCkPg==
-X-Received: by 2002:a05:6a20:244d:b0:f5:9f72:1aaa with SMTP id t13-20020a056a20244d00b000f59f721aaamr3189440pzc.19.1683312493725;
-        Fri, 05 May 2023 11:48:13 -0700 (PDT)
+        bh=sFb6RViasZ5khMTDjpPAsdq0eju7722XpGIED6KZKsE=;
+        b=iR4y2fH5iclKmtSRJ4ZAhufFNjkwXeWKSGqKo8qea0eYKQG6Ku11Kv0hrAKXgwA/yJ
+         PDfQlDrXaXDsLIIUO6Bl/TLN41c7OpQlQaCPns6sid/DAEP8odEB1QOrj9cVFv+1I8sY
+         wdY63GAFeOyDAEy9MJtSPK4TQulWtFZnIwRd5JePc2OF/yZ/TiOSOnUoNvPIGKe5HtkM
+         w33AsWasrb7YrBznm+ZSTSkcPqoE4/tOmLf34Bz5HvplOE9m9S1HPRm7wsZW2t/MZShu
+         fjytseVdkdrzg2cxXxevg3RuaGuVRN4hD0ZntmeG05l5RJw0ggrKvuZEYDkeWpbo3WVJ
+         5l7w==
+X-Gm-Message-State: AC+VfDy10rpYLpeO8cLsS4gBw2qNgcwtNUtCRr2yBvr0fqlfHh28Jn1O
+        FlTnORaJ7yd4UGUYVeZpEY/leYQ3Aa0=
+X-Google-Smtp-Source: ACHHUZ7tlLGGYbRDuExA/L81Op/SwJss9jK+ihYaTStLPnX8DxjAV2NaIm0g6A/RdQCNXTqH0dbbOQ==
+X-Received: by 2002:a17:902:cecd:b0:1a2:a904:c42e with SMTP id d13-20020a170902cecd00b001a2a904c42emr3263199plg.24.1683312539543;
+        Fri, 05 May 2023 11:48:59 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:5658:95c:e1cf:a1b0])
-        by smtp.gmail.com with ESMTPSA id j9-20020aa79289000000b0063a5837d9e8sm1939941pfa.156.2023.05.05.11.48.12
+        by smtp.gmail.com with ESMTPSA id v4-20020a1709029a0400b001aafe56ea70sm2134054plp.5.2023.05.05.11.48.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 May 2023 11:48:13 -0700 (PDT)
-Date:   Fri, 5 May 2023 11:48:10 -0700
+        Fri, 05 May 2023 11:48:58 -0700 (PDT)
+Date:   Fri, 5 May 2023 11:48:56 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Maximilian Weigand <mweigand2017@gmail.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Maximilian Weigand <mweigand@mweigand.net>,
-        Alistair Francis <alistair@alistair23.me>
-Subject: Re: [PATCH v3 1/1] Input: cyttsp5 - implement proper sleep and
- wakeup procedures
-Message-ID: <ZFVPaqSy6Vu7LPVB@google.com>
-References: <20230504120316.408687-1-mweigand2017@gmail.com>
- <20230504120316.408687-2-mweigand2017@gmail.com>
+To:     Philipp Puschmann <p.puschmann@pironex.com>
+Cc:     linux-input@vger.kernel.org, dario.binacchi@amarulasolutions.com,
+        michael@amarulasolutions.com
+Subject: Re: [PATCH] Input: edt-ft5x06: Add delay after waking up
+Message-ID: <ZFVPmKaqnskF/F1D@google.com>
+References: <20230505115823.545803-1-p.puschmann@pironex.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230504120316.408687-2-mweigand2017@gmail.com>
+In-Reply-To: <20230505115823.545803-1-p.puschmann@pironex.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -77,15 +70,18 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Maximilian,
+On Fri, May 05, 2023 at 01:58:24PM +0200, Philipp Puschmann wrote:
+> The touch controller needs some time to wake-up after setting the wake-up
+> gpio. Without having a delay after wake-up probing regularly fails in
+> edt_ft5x06_ts_identify() with an error (i.e. EREMOTEIO) that was caused
+> by a failed i2c transfer.
+> 
+> The datasheet sets the wake-up time to 5 ms, although it is not entirely
+> clear.
+> 
+> Signed-off-by: Philipp Puschmann <p.puschmann@pironex.com>
 
-On Thu, May 04, 2023 at 02:03:16PM +0200, Maximilian Weigand wrote:
-> +static int cyttsp5_enter_sleep(struct cyttsp5 *ts)
-...
-> +static int cyttsp5_wakeup(struct cyttsp5 *ts)
-
-These 2 look like twins, I collapsed them into cyttsp5_power_control()
-and applied the patch, thank you.
+Applied, thank you.
 
 -- 
 Dmitry
