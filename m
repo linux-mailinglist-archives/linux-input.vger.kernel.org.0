@@ -2,63 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3D2F6F7FF7
-	for <lists+linux-input@lfdr.de>; Fri,  5 May 2023 11:28:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C2CF6F8037
+	for <lists+linux-input@lfdr.de>; Fri,  5 May 2023 11:41:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231648AbjEEJ2Y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 May 2023 05:28:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38562 "EHLO
+        id S231807AbjEEJlT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 May 2023 05:41:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231754AbjEEJ2D (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 5 May 2023 05:28:03 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51C9519D71
-        for <linux-input@vger.kernel.org>; Fri,  5 May 2023 02:28:01 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-50bc075d6b2so2917161a12.0
-        for <linux-input@vger.kernel.org>; Fri, 05 May 2023 02:28:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1683278880; x=1685870880;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fuYKv/P2hfscQ4ckaEQs4vCgikUTgPM3kKVkqY8o7PA=;
-        b=c1MU+WV+XR6gBT27phZY+Cvna819hv6mgzd5IlXdvM2AwRC86c94fBYnjedv+oTk8x
-         9juRqmf3Rm+BupeTSFsiW9yw+coSWY/EV4NnpyjHsk1MfiX2L3OznuihPxPIaj93iiDS
-         xrcFFbvlNvHmGAnNNJFwVetONk2qVed/utcC0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683278880; x=1685870880;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fuYKv/P2hfscQ4ckaEQs4vCgikUTgPM3kKVkqY8o7PA=;
-        b=GwhKYELdYe+V7MI0qoCk7gihDemdns+W5rCg9LjjYaEimbrEhq2ulDRYtRGFFRSGeK
-         ZTxhGkdMdbY+AqsIiXZfovZPp+tAxEo73VAeKYphaaag2dm4zeAFLQEQjdoQ5BXm1kcx
-         vdyT5+f4f9UL230Qu+IxH+h2GKWCUIlCKmj4A/FoyiYF7SZrlpRGUlTumvkVPZ6kq1+k
-         aglkdoTER8aBHvAG6MYg3EXeNMGO2U3bjVdvryO8d9UFnxnPFguU3naVG2fMvflkjHp0
-         m+/KuZtFTJmtBsp+1UVAer9v9Yfl36bB97UaLpZAIeEyRKcwKJNzJA4Pj4T4+fspVGDe
-         eXZQ==
-X-Gm-Message-State: AC+VfDwgbnywLC5WC5ZbTwH6lyUXbA+rdsfgGOIGRSoO8YNidOx/YWdE
-        kJUBpReA/knFAVCi7zlWT/0W13lhq0LnSPk2c3EiGA==
-X-Google-Smtp-Source: ACHHUZ4Kw548LKOXK6tVAN5DxHxDnft50gxlPQF5zumkBmgAthvUsK2JTz/ex6RVS5kQv4FRxW9AfA==
-X-Received: by 2002:a17:906:ef0e:b0:965:c2ab:7014 with SMTP id f14-20020a170906ef0e00b00965c2ab7014mr555659ejs.35.1683278879613;
-        Fri, 05 May 2023 02:27:59 -0700 (PDT)
-Received: from balto.c.googlers.com.com (64.227.90.34.bc.googleusercontent.com. [34.90.227.64])
-        by smtp.gmail.com with ESMTPSA id t16-20020a1709064f1000b009571293d6acsm702746eju.59.2023.05.05.02.27.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 May 2023 02:27:59 -0700 (PDT)
-From:   Fabio Baltieri <fabiobaltieri@chromium.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Fabio Baltieri <fabiobaltieri@chromium.org>
-Subject: [PATCH v2] HID: hid-google-stadiaff: add support for Stadia force feedback
-Date:   Fri,  5 May 2023 09:27:54 +0000
-Message-ID: <20230505092754.1972083-1-fabiobaltieri@chromium.org>
-X-Mailer: git-send-email 2.40.1.521.gf1e218fcd8-goog
+        with ESMTP id S231267AbjEEJlR (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 5 May 2023 05:41:17 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEA46150E6;
+        Fri,  5 May 2023 02:41:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683279676; x=1714815676;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=D7UA2lx+EkPLMAJoV5cMenjK7P7GwwqdLMhdFNpcpUw=;
+  b=AtQnPgrEWRcRAzpEoTkDxVmh2sAaZffQ3RfB4yCuzYwID/q5MEM/vL20
+   aneKNgg2WVYBLl2nvWclG6u3pO/N3JEkdjxb/c0qV2F+CkSNoBGfwboZh
+   DOsHmb3RoViiuO5ty9dnpRicRYsOYYKBObnWngpF/KZoKDkhrI1dHUM9I
+   bLaDj+93ClLC3Ne3NWIyL+JfCGHBfAJwY6asPw+nv8a0RCkjenhN3jq17
+   fChNTxB9CKNF9G9FJTs10QP7ldNo/BCdoE6DDECLn2JhyVmXTDWv9DKXX
+   0Fl5Q1HQCF7v1e62Mx0LGKZzRlTG7K4dMb9PJMoOUmjTREosREWk2grN9
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="328794858"
+X-IronPort-AV: E=Sophos;i="5.99,251,1677571200"; 
+   d="scan'208";a="328794858"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 02:41:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="943777751"
+X-IronPort-AV: E=Sophos;i="5.99,251,1677571200"; 
+   d="scan'208";a="943777751"
+Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 05 May 2023 02:41:11 -0700
+Received: from kbuild by fe5d646e317d with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1purw6-0000TB-1W;
+        Fri, 05 May 2023 09:41:10 +0000
+Date:   Fri, 5 May 2023 17:40:14 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Andreas Kemnade <andreas@kemnade.info>,
+        Helge Deller <deller@gmx.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-fbdev@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-spi@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 1/3] Input: ads7846 - Convert to use software nodes
+Message-ID: <202305051726.wOn3I3W1-lkp@intel.com>
+References: <20230430-nokia770-regression-v2-1-984ed3ca5444@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230430-nokia770-regression-v2-1-984ed3ca5444@linaro.org>
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,234 +81,54 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add a hid-stadiaff module to support rumble based force feedback on the
-Google Stadia controller. This works using the HID output endpoint
-exposed on both the USB and BLE interface.
+Hi Linus,
 
-Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
----
+kernel test robot noticed the following build errors:
 
-Hi, this adds rumble support to the stadia controller using the input
-interface. Up to now this has only been implemented at application level
-using hidraw:
+[auto build test ERROR on 348551ddaf311c76b01cdcbaf61b6fef06a49144]
 
-https://source.chromium.org/chromium/chromium/src/+/main:device/gamepad/hid_haptic_gamepad.cc
+url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/Input-ads7846-Convert-to-use-software-nodes/20230505-162601
+base:   348551ddaf311c76b01cdcbaf61b6fef06a49144
+patch link:    https://lore.kernel.org/r/20230430-nokia770-regression-v2-1-984ed3ca5444%40linaro.org
+patch subject: [PATCH v2 1/3] Input: ads7846 - Convert to use software nodes
+config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20230505/202305051726.wOn3I3W1-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/9708c9277cc820e52916ddf795926d3254bb5eed
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Linus-Walleij/Input-ads7846-Convert-to-use-software-nodes/20230505-162601
+        git checkout 9708c9277cc820e52916ddf795926d3254bb5eed
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/input/touchscreen/
 
-Tested with fftest, works both over USB and BLE.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305051726.wOn3I3W1-lkp@intel.com/
 
-Changes from v1:
-- renamed the module to hid-google-stadiaff.c
-- added locking for passing the state to the worker code
-- added a module removed check to prevent the work from rescheduling
+All errors (new ones prefixed by >>):
 
- drivers/hid/Kconfig               |   7 ++
- drivers/hid/Makefile              |   1 +
- drivers/hid/hid-google-stadiaff.c | 153 ++++++++++++++++++++++++++++++
- drivers/hid/hid-ids.h             |   1 +
- 4 files changed, 162 insertions(+)
- create mode 100644 drivers/hid/hid-google-stadiaff.c
+>> drivers/input/touchscreen/ads7846.c:1406:35: error: 'ads7846_dt_ids' undeclared here (not in a function); did you mean 'ads7846_cmds'?
+    1406 |                 .of_match_table = ads7846_dt_ids,
+         |                                   ^~~~~~~~~~~~~~
+         |                                   ads7846_cmds
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 82f64fb31fda..f4f75d8a28ac 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -412,6 +412,13 @@ config HID_GOOGLE_HAMMER
- 	help
- 	Say Y here if you have a Google Hammer device.
- 
-+config HID_GOOGLE_STADIA_FF
-+	tristate "Google Stadia force feedback"
-+	select INPUT_FF_MEMLESS
-+	help
-+	Say Y here if you want to enable force feedback support for the Google
-+	Stadia controller.
-+
- config HID_VIVALDI
- 	tristate "Vivaldi Keyboard"
- 	select HID_VIVALDI_COMMON
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index 5d37cacbde33..18e9a3afecab 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -55,6 +55,7 @@ obj-$(CONFIG_HID_GFRM)		+= hid-gfrm.o
- obj-$(CONFIG_HID_GLORIOUS)  += hid-glorious.o
- obj-$(CONFIG_HID_VIVALDI_COMMON) += hid-vivaldi-common.o
- obj-$(CONFIG_HID_GOOGLE_HAMMER)	+= hid-google-hammer.o
-+obj-$(CONFIG_HID_GOOGLE_STADIA_FF)	+= hid-google-stadiaff.o
- obj-$(CONFIG_HID_VIVALDI)	+= hid-vivaldi.o
- obj-$(CONFIG_HID_GT683R)	+= hid-gt683r.o
- obj-$(CONFIG_HID_GYRATION)	+= hid-gyration.o
-diff --git a/drivers/hid/hid-google-stadiaff.c b/drivers/hid/hid-google-stadiaff.c
-new file mode 100644
-index 000000000000..2628099e802c
---- /dev/null
-+++ b/drivers/hid/hid-google-stadiaff.c
-@@ -0,0 +1,153 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Stadia controller rumble support.
-+ *
-+ * Copyright 2023 Google LLC
-+ */
-+
-+#include <linux/hid.h>
-+#include <linux/input.h>
-+#include <linux/slab.h>
-+#include <linux/module.h>
-+
-+#include "hid-ids.h"
-+
-+#define STADIA_FF_REPORT_ID 5
-+
-+struct stadiaff_device {
-+	struct hid_device *hid;
-+	struct hid_report *report;
-+	spinlock_t lock;
-+	bool removed;
-+	uint16_t strong_magnitude;
-+	uint16_t weak_magnitude;
-+	struct work_struct work;
-+};
-+
-+static void stadiaff_work(struct work_struct *work)
-+{
-+	struct stadiaff_device *stadiaff =
-+		container_of(work, struct stadiaff_device, work);
-+	struct hid_field *rumble_field = stadiaff->report->field[0];
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&stadiaff->lock, flags);
-+	rumble_field->value[0] = stadiaff->strong_magnitude;
-+	rumble_field->value[1] = stadiaff->weak_magnitude;
-+	spin_unlock_irqrestore(&stadiaff->lock, flags);
-+
-+	hid_hw_request(stadiaff->hid, stadiaff->report, HID_REQ_SET_REPORT);
-+}
-+
-+static int stadiaff_play(struct input_dev *dev, void *data,
-+			 struct ff_effect *effect)
-+{
-+	struct hid_device *hid = input_get_drvdata(dev);
-+	struct stadiaff_device *stadiaff = hid_get_drvdata(hid);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&stadiaff->lock, flags);
-+	if (!stadiaff->removed) {
-+		stadiaff->strong_magnitude = effect->u.rumble.strong_magnitude;
-+		stadiaff->weak_magnitude = effect->u.rumble.weak_magnitude;
-+		schedule_work(&stadiaff->work);
-+	}
-+	spin_unlock_irqrestore(&stadiaff->lock, flags);
-+
-+	return 0;
-+}
-+
-+static int stadiaff_init(struct hid_device *hid)
-+{
-+	struct stadiaff_device *stadiaff;
-+	struct hid_report *report;
-+	struct hid_input *hidinput;
-+	struct input_dev *dev;
-+	int error;
-+
-+	if (list_empty(&hid->inputs)) {
-+		hid_err(hid, "no inputs found\n");
-+		return -ENODEV;
-+	}
-+	hidinput = list_entry(hid->inputs.next, struct hid_input, list);
-+	dev = hidinput->input;
-+
-+	report = hid_validate_values(hid, HID_OUTPUT_REPORT,
-+				     STADIA_FF_REPORT_ID, 0, 2);
-+	if (!report)
-+		return -ENODEV;
-+
-+	stadiaff = devm_kzalloc(&hid->dev, sizeof(struct stadiaff_device),
-+				GFP_KERNEL);
-+	if (!stadiaff)
-+		return -ENOMEM;
-+
-+	hid_set_drvdata(hid, stadiaff);
-+
-+	input_set_capability(dev, EV_FF, FF_RUMBLE);
-+
-+	error = input_ff_create_memless(dev, NULL, stadiaff_play);
-+	if (error)
-+		return error;
-+
-+	stadiaff->removed = false;
-+	stadiaff->hid = hid;
-+	stadiaff->report = report;
-+	INIT_WORK(&stadiaff->work, stadiaff_work);
-+	spin_lock_init(&stadiaff->lock);
-+
-+	hid_info(hid, "Force Feedback for Google Stadia controller\n");
-+
-+	return 0;
-+}
-+
-+static int stadia_probe(struct hid_device *hdev, const struct hid_device_id *id)
-+{
-+	int ret;
-+
-+	ret = hid_parse(hdev);
-+	if (ret) {
-+		hid_err(hdev, "parse failed\n");
-+		return ret;
-+	}
-+
-+	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT & ~HID_CONNECT_FF);
-+	if (ret) {
-+		hid_err(hdev, "hw start failed\n");
-+		return ret;
-+	}
-+
-+	stadiaff_init(hdev);
-+
-+	return 0;
-+}
-+
-+static void stadia_remove(struct hid_device *hid)
-+{
-+	struct stadiaff_device *stadiaff = hid_get_drvdata(hid);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&stadiaff->lock, flags);
-+	stadiaff->removed = true;
-+	spin_unlock_irqrestore(&stadiaff->lock, flags);
-+
-+	cancel_work_sync(&stadiaff->work);
-+	hid_hw_stop(hid);
-+}
-+
-+static const struct hid_device_id stadia_devices[] = {
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_STADIA) },
-+	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_STADIA) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(hid, stadia_devices);
-+
-+static struct hid_driver stadia_driver = {
-+	.name = "stadia",
-+	.id_table = stadia_devices,
-+	.probe = stadia_probe,
-+	.remove = stadia_remove,
-+};
-+module_hid_driver(stadia_driver);
-+
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 63545cd307e5..cffd4ac609a0 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -525,6 +525,7 @@
- #define USB_DEVICE_ID_GOOGLE_MOONBALL	0x5044
- #define USB_DEVICE_ID_GOOGLE_DON	0x5050
- #define USB_DEVICE_ID_GOOGLE_EEL	0x5057
-+#define USB_DEVICE_ID_GOOGLE_STADIA	0x9400
- 
- #define USB_VENDOR_ID_GOTOP		0x08f2
- #define USB_DEVICE_ID_SUPER_Q2		0x007f
+
+vim +1406 drivers/input/touchscreen/ads7846.c
+
+  1401	
+  1402	static struct spi_driver ads7846_driver = {
+  1403		.driver = {
+  1404			.name	= "ads7846",
+  1405			.pm	= pm_sleep_ptr(&ads7846_pm),
+> 1406			.of_match_table = ads7846_dt_ids,
+  1407		},
+  1408		.probe		= ads7846_probe,
+  1409		.remove		= ads7846_remove,
+  1410	};
+  1411	
+
 -- 
-2.40.1.521.gf1e218fcd8-goog
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
