@@ -2,81 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C0F16F8868
-	for <lists+linux-input@lfdr.de>; Fri,  5 May 2023 20:09:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4D916F88EA
+	for <lists+linux-input@lfdr.de>; Fri,  5 May 2023 20:48:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233092AbjEESI6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 May 2023 14:08:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36206 "EHLO
+        id S232137AbjEESsP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 May 2023 14:48:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230473AbjEESI5 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 5 May 2023 14:08:57 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3353E1A1FD;
-        Fri,  5 May 2023 11:08:56 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-64115eef620so21468643b3a.1;
-        Fri, 05 May 2023 11:08:56 -0700 (PDT)
+        with ESMTP id S233118AbjEESsP (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 5 May 2023 14:48:15 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EB1C18859;
+        Fri,  5 May 2023 11:48:14 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-643990c5319so1354628b3a.2;
+        Fri, 05 May 2023 11:48:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683310135; x=1685902135;
+        d=gmail.com; s=20221208; t=1683312494; x=1685904494;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3jmjCmOGhJKcTExgQHxoFdrZdNhIimvrG1KlJ+O2CnA=;
-        b=K0PiobN2K0CD1x/aK0LGxU/27Ndiiy3fP21rS2BmtRQcHEefRBzEKjTsRLJYEahi6T
-         0p6efnM3dGeXACImp1TH/0sv7ROoQguhATGB15wUfaJqt6NnRkN4yS4tvwXkq6JfGvKb
-         d6QPkljAU+BM2MzUZJLhEOlAA23YvvJKD6IPmyzANrbKlv6Vcsq1o67/Z2h4ICSmHJU9
-         pZmZk0xCt3FMh5MDlyo49MrZFNEQ6eoBpv4J2oFk+YjFJpqrfuLYbhBguRIZm3bztujZ
-         wSGZQkiG5PKBU9dUjNN//Zm+y0wc6Jj3mMr45r8z60uFXLcgftWIyJIku59qkOuRtlg/
-         3Qbw==
+        bh=O/ZSD3qVmnjgI8CLCJbb/H/o7q7YENLY/p8MYrwTe60=;
+        b=iW5l1IzDT/jT2aAVpLQa9T5II3XZ+LCgczoeIrc1acjv7D6v6zR9N/IG5EoGxOqb6v
+         KFTkyRMqaj4gyFm/tCxRIyD7KimB7SCvVOWM6QzRJwOVDbnPXaSLJW0/zMa9W3CLmhOl
+         sAmcsSHV0yggBW6LDrfV6perkgDHMhJZpzWRVgf1jlugQMjm1WY72VZMA62fgisITO+/
+         2gY5YgK4HYxYLDN95i/tgtWuMUu1L45IdYQaIOAnPAGncLxtlFbqCNW/cjNmscIyfb08
+         +iPSZGKAVLxFRJi/XUsROkfZWhttoDDSh2ZCYdJlDIli5kVgi5i8JhxquYqthDECTTa/
+         jgeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683310135; x=1685902135;
+        d=1e100.net; s=20221208; t=1683312494; x=1685904494;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3jmjCmOGhJKcTExgQHxoFdrZdNhIimvrG1KlJ+O2CnA=;
-        b=KhGL17LwJmYny7XEnOb3tueFnBGnYJnfnZhT2tdbZ7ceccVBXYobc/4QVk/OGH5+yr
-         KmCHTeMdU5qRftI/3q7nGulUxMaZBTpr7RCfK+25X89OuR900aOj2mCtHC/ikb57VpSl
-         fLyL2R5ECGp0zq8KKFEWcgm5mcs7UaTxhe0MTOJ+pKHIYxdcAv05yvEPiiUgHeOsZExT
-         ECR7F4Hp4iX6LXC9hbtCJSXvwwY/JY8NlkLwv0v/TV8gCkZLkg/8BKTVQJGP1oEOeYwh
-         GdfgEVm86MxvEqeO8XDEEBDYoeIs4xBebr2g/tPC4GksLorqL0TYuKtMVhbGSaF7tP5l
-         6ubA==
-X-Gm-Message-State: AC+VfDyqxIWRBJH0F0XSXxTqNMmTo8nSILW2l5e8zYQO4iG+GWu2Iki3
-        tPwyMIG38m4Kssyhfs4s3WCbq+GsIpI=
-X-Google-Smtp-Source: ACHHUZ7Li5NhkqOE1+eiPls/+snjqcBfxl+Gcf+qRka4n1VUPtkhMwlUzgkzNuivRGulByJQdOt0tA==
-X-Received: by 2002:a17:90a:a595:b0:247:14ac:4d3a with SMTP id b21-20020a17090aa59500b0024714ac4d3amr2917795pjq.20.1683310135403;
-        Fri, 05 May 2023 11:08:55 -0700 (PDT)
+        bh=O/ZSD3qVmnjgI8CLCJbb/H/o7q7YENLY/p8MYrwTe60=;
+        b=jJYuj0XyvAy4CWZ/wfR9FKN6dtPz2PpHXzz88i7E181MUkT6dKWW5cbW6dGLkgP5M8
+         muxTdW+8LBUq7YZN+4zhgF/6N5JGY+udvQr8+yMxFOG7JDy7Yh5QN263mfG2sOnfg8XS
+         dmbEVPe9u3zbM9g8tftok2a8HAgq5HEbsE115RCThuraWNOaClI2qFU6ZmWUAlAjUubB
+         TUSpwxiernRK9d28pR8w44A5BPXykMGXuFpt7QksO6IsyKsH8P+X1QJ0NaKRvZzDfYuq
+         sqi5PJysJc2hea/pzFR84DhKx0XN+n2RmL+EmB02F0P1ecd4p35Gdm1azD3lrk9Muueq
+         xSPw==
+X-Gm-Message-State: AC+VfDzD0UsGkJ87V/ta+sADKEeTZZYPGTTzGAZ79tvYe8aNyQSBSRNs
+        qj4hlJoO9XeWVAnDUGjW4ZQ=
+X-Google-Smtp-Source: ACHHUZ6Npq2QjU7NSXbb3o4MAO4ao/WWYrGM8gk6BfTW9PlI0WYnptP02fu4fjSJk6A6JDBAicCkPg==
+X-Received: by 2002:a05:6a20:244d:b0:f5:9f72:1aaa with SMTP id t13-20020a056a20244d00b000f59f721aaamr3189440pzc.19.1683312493725;
+        Fri, 05 May 2023 11:48:13 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:5658:95c:e1cf:a1b0])
-        by smtp.gmail.com with ESMTPSA id j6-20020a17090aeb0600b002500df72713sm3186230pjz.7.2023.05.05.11.08.53
+        by smtp.gmail.com with ESMTPSA id j9-20020aa79289000000b0063a5837d9e8sm1939941pfa.156.2023.05.05.11.48.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 May 2023 11:08:54 -0700 (PDT)
-Date:   Fri, 5 May 2023 11:08:50 -0700
+        Fri, 05 May 2023 11:48:13 -0700 (PDT)
+Date:   Fri, 5 May 2023 11:48:10 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Mark Brown <broonie@kernel.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Andreas Kemnade <andreas@kemnade.info>,
-        Helge Deller <deller@gmx.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-mmc@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] Input: ads7846 - Convert to use software nodes
-Message-ID: <ZFVGMiuRT+e2eVXw@google.com>
-References: <20230430-nokia770-regression-v3-0-a6d0a89ffa8b@linaro.org>
- <20230430-nokia770-regression-v3-1-a6d0a89ffa8b@linaro.org>
+To:     Maximilian Weigand <mweigand2017@gmail.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Maximilian Weigand <mweigand@mweigand.net>,
+        Alistair Francis <alistair@alistair23.me>
+Subject: Re: [PATCH v3 1/1] Input: cyttsp5 - implement proper sleep and
+ wakeup procedures
+Message-ID: <ZFVPaqSy6Vu7LPVB@google.com>
+References: <20230504120316.408687-1-mweigand2017@gmail.com>
+ <20230504120316.408687-2-mweigand2017@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230430-nokia770-regression-v3-1-a6d0a89ffa8b@linaro.org>
+In-Reply-To: <20230504120316.408687-2-mweigand2017@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -87,63 +77,15 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
-On Fri, May 05, 2023 at 01:16:55PM +0200, Linus Walleij wrote:
-> 
-> Populate the devices on the Nokia 770 CBUS I2C using software
-> nodes instead of platform data quirks. This includes the LCD
-> and the ADS7846 touchscreen so the conversion just brings the LCD
-> along with it as software nodes is an all-or-nothing design
-> pattern.
+Hi Maximilian,
 
-Wow, so that worked , awesome!
+On Thu, May 04, 2023 at 02:03:16PM +0200, Maximilian Weigand wrote:
+> +static int cyttsp5_enter_sleep(struct cyttsp5 *ts)
+...
+> +static int cyttsp5_wakeup(struct cyttsp5 *ts)
 
-> +static const struct property_entry nokia770_ads7846_props[] = {
-> +	PROPERTY_ENTRY_U32("touchscreen-size-x", 4096),
-> +	PROPERTY_ENTRY_U32("touchscreen-size-y", 4096),
-> +	PROPERTY_ENTRY_U32("touchscreen-max-pressure", 256),
-> +	PROPERTY_ENTRY_U32("touchscreen-average-samples", 10),
-> +	PROPERTY_ENTRY_U16("ti,x-plate-ohms", 180),
-> +	PROPERTY_ENTRY_U16("ti,debounce-tol", 3),
-> +	PROPERTY_ENTRY_U16("ti,debounce-rep", 1),
-> +	PROPERTY_ENTRY_GPIO("pendown-gpios", &nokia770_gpiochip1_node,
-> +			    ADS7846_PENDOWN_GPIO, GPIO_ACTIVE_HIGH),
-
-Looking at the driver this actually needs to be GPIO_ACTIVE_LOW.
-
->  
-> +static struct gpiod_lookup_table spitz_ads7846_gpio_table = {
-> +	.dev_id = "spi2.0",
-> +	.table = {
-> +		GPIO_LOOKUP("gpio-pxa", SPITZ_GPIO_TP_INT,
-> +			    "pendown", GPIO_ACTIVE_HIGH),
-
-GPIO_ACTIVE_LOW here too.
-
-> +static struct gpiod_lookup_table db1100_touch_gpio_table = {
-> +	.dev_id = "spi0.0",
-> +	.table = {
-> +		GPIO_LOOKUP("alchemy-gpio2", 21,
-> +			    "pendown", GPIO_ACTIVE_HIGH),
-
-And here as well.
-
-> @@ -223,7 +220,7 @@ static int get_pendown_state(struct ads7846 *ts)
->  	if (ts->get_pendown_state)
->  		return ts->get_pendown_state();
->  
-> -	return !gpio_get_value(ts->gpio_pendown);
-> +	return !gpiod_get_value(ts->gpio_pendown);
-
-This needs to be
-
-	return !gpiod_get_value_raw(ts->gpio_pendown);
-
-I looked at various DTSes we have and they use a mix of active high and
-active low annotations, so we have to go with the "raw" variant for now,
-and then update to normal one once we update bad DTSes.
-
-Thanks!
+These 2 look like twins, I collapsed them into cyttsp5_power_control()
+and applied the patch, thank you.
 
 -- 
 Dmitry
