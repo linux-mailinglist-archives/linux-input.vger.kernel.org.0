@@ -2,202 +2,141 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1143B6F8173
-	for <lists+linux-input@lfdr.de>; Fri,  5 May 2023 13:17:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3637A6F8268
+	for <lists+linux-input@lfdr.de>; Fri,  5 May 2023 14:00:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231934AbjEELRU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 May 2023 07:17:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57320 "EHLO
+        id S231322AbjEEMA0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 May 2023 08:00:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231894AbjEELRN (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 5 May 2023 07:17:13 -0400
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8635A1A49D
-        for <linux-input@vger.kernel.org>; Fri,  5 May 2023 04:17:05 -0700 (PDT)
-Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2ac836f4447so11117731fa.2
-        for <linux-input@vger.kernel.org>; Fri, 05 May 2023 04:17:05 -0700 (PDT)
+        with ESMTP id S231539AbjEEMAZ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 5 May 2023 08:00:25 -0400
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2110.outbound.protection.outlook.com [40.107.7.110])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AD441A606
+        for <linux-input@vger.kernel.org>; Fri,  5 May 2023 05:00:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bP5ghNQ16ry98yUep0LZq8PPy1kx+da42HaOUIUNIxwvtiWKtVO7etU70BjZ9UtQCOnkxnQee2aIpC5VaONnKu2dTzfO/ATOzRRaPq5zmaPQfYB57D+Pf+U1jZkj1Zet8eYEpeYK/jCyd2+fZk6Snr6DNfZwp0j5zFCR/xWs2UOaCrLqGXF7+Uajb2kMLLUok0/ZIMfYfZAF9az6FeiHP2oUhv5RGaZ+GoJ6y3hTto8DnOmVvU7Ra/4LEDixI9G1E6lpcOxOjvd5AiVsU11gjmI3XbEcJXVVV9+3G/4fQi2p0g07VwjdZ7oq81+gbJJXIONCxmJn2UMkxXMAq5parg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aX8qekvsz+j7TYlXlZ99everJyV4qXJTXur/t+IZD74=;
+ b=CbhxaJCjxeEwwJPc6VhTVYx2cJWfLiEZ0KfcxtIlaMKubh4iyM1kELm0r+wrLU9orK+ByYiQrEr7nPoNvDp3NVBCtTTIJ8QrY4gJkIcZU52oqOKXiv8J08ca/FR/aejlqFGRcxc7V3cwlPnweTJFkNgdkEiEXKSYLWeahFRpvU4i9wTak8jXeIKKMacRz2irInXo+K9UApa0slAqaCdoXEnFcMVSNIZWKevGnnzUsTnC2UuXC8p3ZRscK8CYdw5Tl5CAa/J6OBGmdPOfL/qTDAypCelW/6yiue3YQkXtLZ6+YQETpZh/X2SonoEN0zYQdMCOO5uBt/KapR3V3g7oOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=pironex.com; dmarc=pass action=none header.from=pironex.com;
+ dkim=pass header.d=pironex.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683285424; x=1685877424;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=g5G0cJUf9U5b39gQ8vAQOCiDix67GOEadK5YgCw6Yxo=;
-        b=wxs0KBb51JuDnKAnoY/S3edUOYpY0H+SPYPDCze+MDOmb+fhTmA3ahW60qWs3AFnGH
-         911gSlgSQEIzfQrJNnyKGa+PIe4bRd37U3qtqFPteIbRsyciY/cK+yMtEC/Is+6SlPiT
-         WzEk5CTi7zst9SHIN/RzA6eYw7YYUHtyEYpa74TZC8pADhZhnC7DPfnp3wVbIQTMseYU
-         DH0dWhGbt6ebD65TshcXAeX5Sb03CIaruIKr4kdzJ367KRYBIWCjHIa1roMUnEG/TbcL
-         Qn1UkafJOEws6GtC5zpWOLbyq+Q82+2okDwrx8beJPqcP6cpQoX6Gf4eUGoaBcdMxFh2
-         4dYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683285424; x=1685877424;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g5G0cJUf9U5b39gQ8vAQOCiDix67GOEadK5YgCw6Yxo=;
-        b=AFNRisxgw15hh3BhPRzN0G1vVUndJyTNG9ai77WuBBF2J5ey/qiZJoRILkq+WxFv0R
-         oNMAOS1EbNN/Lpa9MpiLqakeFBhCFywT4YHqihDj1PSlWcLaTHumdm6LgA6fFUL8bawR
-         Cj0+gqa//SXN/zqh2c/bwuv6XZaeNy7HxsYv6j+TgbdBuVyMBfbjY1qGAEIclZ4iNSg5
-         DiBwHqNsodzOTRKJmj3cwndAf6qq23tE6C83XS/N1fPTzfqrN2LbZ0venOkZfEupNvCg
-         MZ/QSRXue6JlBmv9ZCaGPfILJPx27M4AEfkgPED+xRbZecdO4wg7q8eHutGQkkgIR0OW
-         oeUA==
-X-Gm-Message-State: AC+VfDzYphqfHpVejrAfap1dysuKE0vKlB4GN5CCY/Rrico1BgnX9P5B
-        yOVNNPYtnH4KOeapJBF3sDB6Yw==
-X-Google-Smtp-Source: ACHHUZ6pmyzS8g8EM3kWs/gqLNsNok0orHUrp/XlT9ma+BM9xCZKgxMO8JuAoLy0oCneRC+SXNvWow==
-X-Received: by 2002:ac2:5d65:0:b0:4d8:8ad1:a05f with SMTP id h5-20020ac25d65000000b004d88ad1a05fmr456312lft.48.1683285423744;
-        Fri, 05 May 2023 04:17:03 -0700 (PDT)
-Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id d7-20020a05651221c700b004edbf013fe7sm251665lft.49.2023.05.05.04.17.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 May 2023 04:17:03 -0700 (PDT)
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 05 May 2023 13:16:57 +0200
-Subject: [PATCH v3 3/3] ARM: omap1: Fix up the Nokia 770 board device IRQs
+ d=pironexGmbH.onmicrosoft.com; s=selector2-pironexGmbH-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aX8qekvsz+j7TYlXlZ99everJyV4qXJTXur/t+IZD74=;
+ b=O80bPxUejBHg22DO99dMJGjBnaoBZGQlo4w4TkcRmuY1n9ou1GKrIGq4AZ1JzVpl8IxJIyRzq5O1Y7x4FVbcOQckpzWZv9nbAr2MI/QoxR+NFqi0SfSWo3DSplq4dfvdlBfX60OeFc4LjaxnTZE3FnkjCY4i4uUD7An3Tp2Aqdk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=pironex.com;
+Received: from AM0PR10MB3601.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:158::19)
+ by GV2PR10MB7486.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:d1::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.26; Fri, 5 May
+ 2023 12:00:08 +0000
+Received: from AM0PR10MB3601.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::816c:a252:20d9:e2a3]) by AM0PR10MB3601.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::816c:a252:20d9:e2a3%7]) with mapi id 15.20.6363.027; Fri, 5 May 2023
+ 12:00:08 +0000
+From:   Philipp Puschmann <p.puschmann@pironex.com>
+To:     linux-input@vger.kernel.org
+Cc:     dmitry.torokhov@gmail.com, dario.binacchi@amarulasolutions.com,
+        michael@amarulasolutions.com,
+        Philipp Puschmann <p.puschmann@pironex.com>
+Subject: [PATCH] Input: edt-ft5x06: Add delay after waking up
+Date:   Fri,  5 May 2023 13:58:24 +0200
+Message-Id: <20230505115823.545803-1-p.puschmann@pironex.com>
+X-Mailer: git-send-email 2.40.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: FR2P281CA0030.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::17) To AM0PR10MB3601.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:20b:158::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230430-nokia770-regression-v3-3-a6d0a89ffa8b@linaro.org>
-References: <20230430-nokia770-regression-v3-0-a6d0a89ffa8b@linaro.org>
-In-Reply-To: <20230430-nokia770-regression-v3-0-a6d0a89ffa8b@linaro.org>
-To:     Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Andreas Kemnade <andreas@kemnade.info>,
-        Helge Deller <deller@gmx.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-mmc@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>
-X-Mailer: b4 0.12.1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR10MB3601:EE_|GV2PR10MB7486:EE_
+X-MS-Office365-Filtering-Correlation-Id: 298f60a6-8fcd-44d1-fb29-08db4d6045cd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1m/rsIE76fP6uldxHLvF3x1bJf1lT7PIMquxHJu/ggam2zDafmbCKQVEjgF3J9E3eZqNH+m1y//+xM7WF62FDnqL/FxlKVzcElxfQyGtOd8BsgBM0FTKPHOen76nQpfB7KqQgr93v5zYIfQwQbjmZXJpbltowHmg9Lz9DDaUHOQ53E8O57JkmCfGNOHU6fmdOl6YUs0Aq2ym5E1KJaJhdu8H48w80V6s22a4dWijQNy4rVChWWg9PBS54W7HzChD0OQCEL5ax0UIQLdmURBNi7ahrd78gN/ZR6O8T8CAizEVFi69S6o+q3ghoVEI/Kq/I4fo0NCSizfn7m1JAT+dcVFvC6ei+6lVTAgg6sIQtvSahnivs1J/94GKTt2q2lwTr5aJzXDt/AfAj1FS+BuD95k6bpaq1Y/J/DhKLcGYCqEe8X+Qzt7vioRPP4nPUOyQLlwam+Bk/wAB2ds540r0bnpa8mBipl+UhUJNMMXbIKyAcGvVAzPUfg3Kl75s7gFIGD++Z7G7/lVP3/Fad/Cpq+XkmqTOLG68MNJgmzLCi0lsubLl/rP21Bt6tx1Xh21C2X4rTIHUk8c0qUvtyXa+eo9fm9oYJeCY/meslXH4OCZCOMdpmmSS5+FsOG+SFT8i
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB3601.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(396003)(366004)(346002)(39830400003)(136003)(376002)(451199021)(107886003)(26005)(8676002)(86362001)(5660300002)(38350700002)(4326008)(316002)(4744005)(41300700001)(2906002)(8936002)(66946007)(66556008)(478600001)(38100700002)(6916009)(66476007)(1076003)(6506007)(6486002)(6666004)(6512007)(52116002)(36756003)(186003)(2616005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4NW/VlNZIyjbzCWFP8Bcz0cSpAgBUQqGCxchYcSlWw0jRki3gUo4JZSB4pxm?=
+ =?us-ascii?Q?GqIq0O0RVx6m2sU1PcwpG4Rj7Q7wJQ4xh1eGHXVrp/hfPyd221nlYjB5ddxm?=
+ =?us-ascii?Q?r6IdZ/JksSjXYPVxKNUxsbm8Sdn1PMlgO4Po7ulI30TgJYJfaT8kV3BdpryS?=
+ =?us-ascii?Q?6avb5EIrkrsPcqy4hjzhFXvyPch16abeGhq0pg9Sg/cG71m7kwTWPx/nSh7M?=
+ =?us-ascii?Q?iyDvFyuXbOUPK7ARscvi2Nql8ptKaAZr0MtdMWa4z9xpT7pQGGMHE7b/ca9d?=
+ =?us-ascii?Q?ULnLr0MVAeBU7GZdZgNlAtqg8HL0O2bBxhN5PT3c3SLOotj/9E0gQX+MKBwV?=
+ =?us-ascii?Q?ozkwkKlop6impi+KaVEdCsiEkiaIyA1KxtoRNpW7M1ZJ1LdrXozNfEXt6vzU?=
+ =?us-ascii?Q?aAlFNf7eJ0+vaCYwNSw6+Sf9cYRplnsLAHB5GwMfLIUuc5/tumDJARdi19yf?=
+ =?us-ascii?Q?uDzvib5WIVK1N0JUGZNBWIj4PZUz1V29mF3CQMVKZ0ci+WzOaaXAkMs3erCW?=
+ =?us-ascii?Q?8VJNubWMWzfoXM3JWLsVXfinQryx+SI6JN8ccw989uWBwsVqfN2BE2aHLXwz?=
+ =?us-ascii?Q?UosffeJBYESMhw72bbXRXby9Rxwm9w/G3DI4xsvuGBiD3S06oWQdm3PCbYUH?=
+ =?us-ascii?Q?vAV1SWsthz+eECs5l9jPUCq2500JoOaxEfQg1Ai9uwklXYtxbQFobdGqIWA4?=
+ =?us-ascii?Q?2gwikoBUz+CZDv4Ux1RYGjjk691/oHbZi5hWehZljdpegS275gQHIOAhyWlB?=
+ =?us-ascii?Q?IrwXrWKWcuW+ZM5+axk6T7JVntrH545NVbcmLzBk6jAemomDaFFH2MTi6iGm?=
+ =?us-ascii?Q?M+YlOqxq+UuCM/MPIUdYot4kARhRW91PlqoSD1g7eLaMl5BF8JzQQxzg3DLP?=
+ =?us-ascii?Q?RFU/LJqo+FI4+KNgMiPrpmZ0P/xUjnMSTQQaiBGPBVOtrgN0G2f7YHTXBTDn?=
+ =?us-ascii?Q?NpOuoRGCXPoG1z1CEk/CKCUuvW/T/qbUeT8a7G583xdJMopVJPoIYZWqQwdh?=
+ =?us-ascii?Q?Rlhb6sFhk0gijdBiX7NneEwjcTEFnK7qVLcuk29kGbcKuQrDzYO6dy4gGi3d?=
+ =?us-ascii?Q?pO7syeUAM6GYi006iYuMTFzJv3DnLD1Mm/SVlNt8yTccjREuGFNZySGXf2lM?=
+ =?us-ascii?Q?23tEL0188OdOz7uL4QmT5Lrrqt/Gdyf6imoq6DfrfSlufk8qi52OPKWJn1Fs?=
+ =?us-ascii?Q?Unxhfd6Jl5j9t4UK9DtumtSISebfEWnnBCCDT+IxkCHSYcQmReStJbki4LnG?=
+ =?us-ascii?Q?ifKVj6BWWLlCpwVJqSj68w1SCbZTlwH6J/Fud1Le1a8U4zNztlYD7962W5vX?=
+ =?us-ascii?Q?f7VeTeFPYkG9W7+SPuS9P7rubcDOJnw866E8tJHo6HCAERXmJNggXBI6ywT/?=
+ =?us-ascii?Q?Zj8LFXXcGwAT8vVQz7zziRnoN2lELfXiSnaXy3Lf/vqAG+v5ePYPiiUVgpaK?=
+ =?us-ascii?Q?Vr53J5mjLM8+ippW6TmrTJblq1STrxqgNf4uhFzQbrBuUN6ESXBDAD1fvDMn?=
+ =?us-ascii?Q?t2jxHHx5Jab85ae+rbkFUeLbmRoozLwrJXkm1JgMJK8yhv+gEurQh767m7WM?=
+ =?us-ascii?Q?JyjJQh+lhWU7Jkiltna5hjPZdFhnCHXDTzS/LwtzR/09zTBS4z+6zZyrC9Gb?=
+ =?us-ascii?Q?ug=3D=3D?=
+X-OriginatorOrg: pironex.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 298f60a6-8fcd-44d1-fb29-08db4d6045cd
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB3601.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2023 12:00:08.7707
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00aa8e52-eebe-489a-8263-3195e0a468ca
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xgyE5muzdEWV1qSa6ocSm33EFhbcVK/HWEcTjgXWXmBKP94lVSgF3egAYJSpMZPZKcqJvkjLgsfPyGDJLANwXA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR10MB7486
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The platform devices on the Nokia 770 is using some
-board-specific IRQs that get statically assigned to platform
-devices in the boardfile.
+The touch controller needs some time to wake-up after setting the wake-up
+gpio. Without having a delay after wake-up probing regularly fails in
+edt_ft5x06_ts_identify() with an error (i.e. EREMOTEIO) that was caused
+by a failed i2c transfer.
 
-This does not work with dynamic IRQ chip bases.
+The datasheet sets the wake-up time to 5 ms, although it is not entirely
+clear.
 
-Utilize the NULL device to define some board-specific
-GPIO lookups and use these to immediately look up the
-same GPIOs, convert to IRQ numbers and pass as resources
-to the devices. This is ugly but should work.
-
-Fixes: 92bf78b33b0b ("gpio: omap: use dynamic allocation of base")
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Philipp Puschmann <p.puschmann@pironex.com>
 ---
- arch/arm/mach-omap1/board-nokia770.c | 57 ++++++++++++++++++++++++++++--------
- 1 file changed, 44 insertions(+), 13 deletions(-)
+ drivers/input/touchscreen/edt-ft5x06.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/mach-omap1/board-nokia770.c b/arch/arm/mach-omap1/board-nokia770.c
-index dc37ea30bbcf..27bd5522e1de 100644
---- a/arch/arm/mach-omap1/board-nokia770.c
-+++ b/arch/arm/mach-omap1/board-nokia770.c
-@@ -6,7 +6,7 @@
-  */
- #include <linux/clkdev.h>
- #include <linux/irq.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/gpio/machine.h>
- #include <linux/gpio/property.h>
- #include <linux/kernel.h>
-@@ -250,19 +250,25 @@ static struct i2c_board_info nokia770_i2c_board_info_2[] __initdata = {
- 
- static void __init nokia770_cbus_init(void)
- {
--	const int retu_irq_gpio = 62;
--	const int tahvo_irq_gpio = 40;
--
--	if (gpio_request_one(retu_irq_gpio, GPIOF_IN, "Retu IRQ"))
--		return;
--	if (gpio_request_one(tahvo_irq_gpio, GPIOF_IN, "Tahvo IRQ")) {
--		gpio_free(retu_irq_gpio);
--		return;
-+	struct gpio_desc *d;
-+	int irq;
-+
-+	d = gpiod_get(NULL, "retu_irq", GPIOD_IN);
-+	if (IS_ERR(d)) {
-+		pr_err("Unable to get CBUS Retu IRQ GPIO descriptor\n");
-+	} else {
-+		irq = gpiod_to_irq(d);
-+		irq_set_irq_type(irq, IRQ_TYPE_EDGE_RISING);
-+		nokia770_i2c_board_info_2[0].irq = irq;
-+	}
-+	d = gpiod_get(NULL, "tahvo_irq", GPIOD_IN);
-+	if (IS_ERR(d)) {
-+		pr_err("Unable to get CBUS Tahvo IRQ GPIO descriptor\n");
-+	} else {
-+		irq = gpiod_to_irq(d);
-+		irq_set_irq_type(irq, IRQ_TYPE_EDGE_RISING);
-+		nokia770_i2c_board_info_2[1].irq = irq;
+diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+index 24ab9e9f5b21..3a1a5e76cd68 100644
+--- a/drivers/input/touchscreen/edt-ft5x06.c
++++ b/drivers/input/touchscreen/edt-ft5x06.c
+@@ -1241,6 +1241,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client)
+ 	if (tsdata->wake_gpio) {
+ 		usleep_range(5000, 6000);
+ 		gpiod_set_value_cansleep(tsdata->wake_gpio, 1);
++		usleep_range(5000, 6000);
  	}
--	irq_set_irq_type(gpio_to_irq(retu_irq_gpio), IRQ_TYPE_EDGE_RISING);
--	irq_set_irq_type(gpio_to_irq(tahvo_irq_gpio), IRQ_TYPE_EDGE_RISING);
--	nokia770_i2c_board_info_2[0].irq = gpio_to_irq(retu_irq_gpio);
--	nokia770_i2c_board_info_2[1].irq = gpio_to_irq(tahvo_irq_gpio);
- 	i2c_register_board_info(2, nokia770_i2c_board_info_2,
- 				ARRAY_SIZE(nokia770_i2c_board_info_2));
- 	device_create_managed_software_node(&nokia770_cbus_device.dev,
-@@ -275,8 +281,25 @@ static void __init nokia770_cbus_init(void)
- }
- #endif /* CONFIG_I2C_CBUS_GPIO */
  
-+static struct gpiod_lookup_table nokia770_irq_gpio_table = {
-+	.dev_id = NULL,
-+	.table = {
-+		/* GPIO used by SPI device 1 */
-+		GPIO_LOOKUP("gpio-0-15", 15, "ads7846_irq",
-+			    GPIO_ACTIVE_HIGH),
-+		/* GPIO used for retu IRQ */
-+		GPIO_LOOKUP("gpio-48-63", 15, "retu_irq",
-+			    GPIO_ACTIVE_HIGH),
-+		/* GPIO used for tahvo IRQ */
-+		GPIO_LOOKUP("gpio-32-47", 8, "tahvo_irq",
-+			    GPIO_ACTIVE_HIGH),
-+	},
-+};
-+
- static void __init omap_nokia770_init(void)
- {
-+	struct gpio_desc *d;
-+
- 	/* On Nokia 770, the SleepX signal is masked with an
- 	 * MPUIO line by default.  It has to be unmasked for it
- 	 * to become functional */
-@@ -288,6 +311,14 @@ static void __init omap_nokia770_init(void)
- 
- 	software_node_register_node_group(nokia770_gpiochip_nodes);
- 	platform_add_devices(nokia770_devices, ARRAY_SIZE(nokia770_devices));
-+
-+	gpiod_add_lookup_table(&nokia770_irq_gpio_table);
-+	d = gpiod_get(NULL, "ads7846_irq", GPIOD_IN);
-+	if (IS_ERR(d))
-+		pr_err("Unable to get ADS7846 IRQ GPIO descriptor\n");
-+	else
-+		nokia770_spi_board_info[1].irq = gpiod_to_irq(d);
-+
- 	spi_register_board_info(nokia770_spi_board_info,
- 				ARRAY_SIZE(nokia770_spi_board_info));
- 	omap_serial_init();
-
+ 	if (tsdata->reset_gpio) {
 -- 
-2.34.1
+2.40.0
 
