@@ -2,48 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E93B6F8F7F
-	for <lists+linux-input@lfdr.de>; Sat,  6 May 2023 08:47:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2943A6F8FC6
+	for <lists+linux-input@lfdr.de>; Sat,  6 May 2023 09:16:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230412AbjEFGrp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 6 May 2023 02:47:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51538 "EHLO
+        id S229655AbjEFHQO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 6 May 2023 03:16:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229889AbjEFGro (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 6 May 2023 02:47:44 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9011DA5C1;
-        Fri,  5 May 2023 23:47:40 -0700 (PDT)
-Received: from [185.238.219.2] (helo=[192.168.44.27]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pvBhh-0001It-5W; Sat, 06 May 2023 08:47:37 +0200
-Message-ID: <5df240d4-03f1-31cd-03e1-a6cfddd5cc1d@leemhuis.info>
-Date:   Sat, 6 May 2023 08:47:35 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Content-Language: en-US, de-DE
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "Limonciello, Mario" <mlimonci@amd.com>
-Cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
-        Chuanhong Guo <gch981213@gmail.com>,
-        linux-input@vger.kernel.org,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <01ea5c8e-ed2f-7568-f6ed-896329e7b673@leemhuis.info>
- <68d017d9-d815-01d4-23c1-49c0aaf5f20b@amd.com> <ZFKvVKMesT+3NthN@google.com>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [regression] Bug 217394 - IRQ override skipping breaks the Aya
- Neo Air Plus 6800U keyboard buttons
-In-Reply-To: <ZFKvVKMesT+3NthN@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1683355660;c3ee3033;
-X-HE-SMSGID: 1pvBhh-0001It-5W
-X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        with ESMTP id S229906AbjEFHQN (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 6 May 2023 03:16:13 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8786811617
+        for <linux-input@vger.kernel.org>; Sat,  6 May 2023 00:16:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683357366; x=1714893366;
+  h=date:from:to:cc:subject:message-id;
+  bh=sb2TejaDpPmpGK1iPvcOMGR438W/YFH1zUUWiZG04fo=;
+  b=X8nk7Ce3Le/vIkCvkODxTF1yOJeooiYV2JsmYBOs+vgtI7oH+rmlUp1T
+   hT0TfjXGayfOF4eJZtSdzVmuMMV/5SAOx6KLiHHUBGFZ2Rr+BKlVO8cVS
+   Qp6uzEud5EOWA3AEvsVxbWzlqLkV541SgcbA0oT/s4oFK5cLr6ZoPnh4Z
+   iunxTaSJtKcyzkOEtzih/061WFMn8VKeeBXBUxLJs4+G7wVLEJeY2qZKM
+   Q2NwVUQgfOYhYpvDX0Vg/ewtmOTKrb81wxp6QjlIFJ45n9Z61if9470BB
+   z/TT0K/mFqulYbNAoTm30d4yXIjbv+2TFEETFpIvFmayjNJpZmvaxfPz3
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="435675953"
+X-IronPort-AV: E=Sophos;i="5.99,254,1677571200"; 
+   d="scan'208";a="435675953"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 00:16:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="944195911"
+X-IronPort-AV: E=Sophos;i="5.99,254,1677571200"; 
+   d="scan'208";a="944195911"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 06 May 2023 00:16:05 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pvC9E-00001d-1r;
+        Sat, 06 May 2023 07:16:04 +0000
+Date:   Sat, 06 May 2023 15:15:17 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 978134c4b192ed04ecf699be3e1b4d23b5d20457
+Message-ID: <20230506071517.WZha8%lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -51,76 +59,169 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 03.05.23 21:00, Dmitry Torokhov wrote:
-> On Wed, May 03, 2023 at 11:11:33AM -0500, Limonciello, Mario wrote:
->> On 5/3/2023 7:58 AM, Linux regression tracking (Thorsten Leemhuis) wrote:
->>>
->>> I noticed a regression report in bugzilla.kernel.org. As many (most?)
->>> kernel developers don't keep an eye on it, I decided to forward it by mail.
->>>
->>> Chuanhong Guo, apparently it's cause by a change of yours.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 978134c4b192ed04ecf699be3e1b4d23b5d20457  Input: fix open count when closing inhibited device
 
-BTW, there is another report caused by the change:
-https://bugzilla.kernel.org/show_bug.cgi?id=217406
+elapsed time: 721m
 
-```
-I have an HP Pavilion Aero 13 laptop that comes with an AMD Ryzen 7735U
-CPU and an up-to-date BIOS. Using any kernel version that is strictly
-greater than 5.19.9 on it is causing the typing with the integrated
-keyboard to be extremely slow. "Slow" is subjective but let's say [...]"
-```
+configs tested: 150
+configs skipped: 16
 
-/me wonders how many machines out there show problems we never hear about
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Anyway:
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r001-20230502   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r003-20230501   gcc  
+alpha                randconfig-r003-20230505   gcc  
+alpha                randconfig-r012-20230501   gcc  
+alpha                randconfig-r013-20230502   gcc  
+arc                              allyesconfig   gcc  
+arc          buildonly-randconfig-r006-20230502   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r011-20230430   gcc  
+arc                  randconfig-r012-20230505   gcc  
+arc                  randconfig-r024-20230506   gcc  
+arc                  randconfig-r043-20230430   gcc  
+arc                  randconfig-r043-20230501   gcc  
+arc                  randconfig-r043-20230505   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r002-20230430   clang
+arm                  randconfig-r002-20230501   clang
+arm                  randconfig-r046-20230430   gcc  
+arm                  randconfig-r046-20230501   gcc  
+arm                  randconfig-r046-20230505   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r001-20230501   gcc  
+arm64                randconfig-r015-20230430   clang
+arm64                randconfig-r015-20230501   clang
+csky         buildonly-randconfig-r001-20230505   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r006-20230502   gcc  
+csky                 randconfig-r025-20230506   gcc  
+csky                 randconfig-r026-20230506   gcc  
+csky                 randconfig-r036-20230430   gcc  
+hexagon              randconfig-r001-20230430   clang
+hexagon              randconfig-r005-20230502   clang
+hexagon              randconfig-r006-20230501   clang
+hexagon              randconfig-r016-20230501   clang
+hexagon              randconfig-r041-20230430   clang
+hexagon              randconfig-r041-20230501   clang
+hexagon              randconfig-r041-20230505   clang
+hexagon              randconfig-r045-20230430   clang
+hexagon              randconfig-r045-20230501   clang
+hexagon              randconfig-r045-20230505   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-a001-20230501   gcc  
+i386                 randconfig-a002-20230501   gcc  
+i386                 randconfig-a003-20230501   gcc  
+i386                 randconfig-a004-20230501   gcc  
+i386                 randconfig-a005-20230501   gcc  
+i386                 randconfig-a006-20230501   gcc  
+i386                 randconfig-a011-20230501   clang
+i386                 randconfig-a012-20230501   clang
+i386                 randconfig-a013-20230501   clang
+i386                 randconfig-a014-20230501   clang
+i386                 randconfig-a015-20230501   clang
+i386                 randconfig-a016-20230501   clang
+i386                 randconfig-r032-20230501   gcc  
+ia64                             allmodconfig   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r015-20230502   gcc  
+ia64                 randconfig-r016-20230430   gcc  
+ia64                 randconfig-r023-20230506   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r014-20230505   gcc  
+loongarch            randconfig-r021-20230506   gcc  
+m68k                             allmodconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r006-20230430   gcc  
+microblaze   buildonly-randconfig-r003-20230505   gcc  
+microblaze           randconfig-r034-20230430   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                 randconfig-r004-20230502   gcc  
+mips                 randconfig-r011-20230505   gcc  
+mips                 randconfig-r036-20230501   clang
+nios2                               defconfig   gcc  
+nios2                randconfig-r006-20230505   gcc  
+nios2                randconfig-r013-20230501   gcc  
+nios2                randconfig-r022-20230506   gcc  
+nios2                randconfig-r031-20230430   gcc  
+openrisc             randconfig-r014-20230501   gcc  
+openrisc             randconfig-r033-20230430   gcc  
+openrisc             randconfig-r035-20230430   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r001-20230502   gcc  
+parisc               randconfig-r005-20230430   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc              randconfig-r012-20230430   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv        buildonly-randconfig-r005-20230505   clang
+riscv                               defconfig   gcc  
+riscv                randconfig-r011-20230502   gcc  
+riscv                randconfig-r042-20230430   clang
+riscv                randconfig-r042-20230501   clang
+riscv                randconfig-r042-20230505   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390         buildonly-randconfig-r005-20230502   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r032-20230430   gcc  
+s390                 randconfig-r044-20230430   clang
+s390                 randconfig-r044-20230501   clang
+s390                 randconfig-r044-20230505   clang
+sh                               allmodconfig   gcc  
+sh                   randconfig-r001-20230505   gcc  
+sh                   randconfig-r004-20230430   gcc  
+sh                   randconfig-r005-20230505   gcc  
+sh                   randconfig-r015-20230505   gcc  
+sh                   randconfig-r016-20230505   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r003-20230430   gcc  
+sparc                randconfig-r003-20230502   gcc  
+sparc                randconfig-r012-20230502   gcc  
+sparc                randconfig-r014-20230430   gcc  
+sparc64              randconfig-r005-20230501   gcc  
+sparc64              randconfig-r013-20230430   gcc  
+sparc64              randconfig-r013-20230505   gcc  
+sparc64              randconfig-r031-20230501   gcc  
+sparc64              randconfig-r035-20230501   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230501   gcc  
+x86_64               randconfig-a002-20230501   gcc  
+x86_64               randconfig-a003-20230501   gcc  
+x86_64               randconfig-a004-20230501   gcc  
+x86_64               randconfig-a005-20230501   gcc  
+x86_64               randconfig-a006-20230501   gcc  
+x86_64               randconfig-a011-20230501   clang
+x86_64               randconfig-a012-20230501   clang
+x86_64               randconfig-a013-20230501   clang
+x86_64               randconfig-a014-20230501   clang
+x86_64               randconfig-a015-20230501   clang
+x86_64               randconfig-a016-20230501   clang
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r014-20230502   gcc  
+xtensa               randconfig-r033-20230501   gcc  
 
->>> Note, you have to use bugzilla to reach the reporter, as I sadly[1] can
->>> not CCed them in mails like this.
->>>
->>> Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=217394 :
->>>
->>>>   Matthew 2023-05-03 02:28:33 UTC
->>>>
->>>> Reverting the changes found in this patch fixes the issue:
->>>>> https://lore.kernel.org/all/20220712020058.90374-1-gch981213@gmail.com/
->>>> With that patch the AT Translated Set 2 Keyboard doesn't show up with the evtest and is not usable.
->>>>
->>>> Hardware:
->>>>
->>>> Aya Neo Air Plus
->>>> AMD Ryzen 7 6800U
->>> See the ticket for more details.
->>>
->>> BTW: there apparently is another IRQ override needed for a different
->>> machine. See https://bugzilla.kernel.org/show_bug.cgi?id=216804#c8 for
->>> details (ignore the comments before that, the quirk entry for that
->>> machine was merged; comment 8 and all related to it really should have a
->>> separate bug; that's also why this partly fall through the cracks here
->>> :-/ ). The user is currently trying to create a patch.
->>>
->> Something I'm wondering about is if it's possible for i8042 to detect the
->> polarity is incorrect when it probes and
->> to try to correct it.
->>
->> If we could do that we can probably drop 9946e39fe8d0 ("ACPI: resource: skip
->> IRQ override on AMD Zen platforms")
->> to fix this issue along with all the other quirks that have collected over
->> time on i8042 polarity issues.
-> 
-> 8042 is shared between multiple platforms and is quite fragile as it is.
-> If there are issues in AMD firmware and you know the polarity that is
-> needed for 8042 on these platforms you should add a proper fixup for
-> override. Maybe you should only skip override for IRQ 1?
-
-Stupid question from the peanut gallery: does anyone know what Windows
-is doing on those machines? I wonder if this is one of those situation
-where we just must follow suite to make things work reliably long term
-for users, even if that might mean 8042 needs to be modified.
-
-Or is the problem likely to go away with new hardware?
-
-Ciao, Thorsten
-
-P.S.: BTW:
-
-#regzbot link: https://bugzilla.kernel.org/show_bug.cgi?id=217406
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
