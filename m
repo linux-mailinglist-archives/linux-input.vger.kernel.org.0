@@ -2,159 +2,154 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E242B6F9601
-	for <lists+linux-input@lfdr.de>; Sun,  7 May 2023 02:39:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A2C26F9617
+	for <lists+linux-input@lfdr.de>; Sun,  7 May 2023 02:40:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230118AbjEGAjJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 6 May 2023 20:39:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57714 "EHLO
+        id S229619AbjEGAjl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 6 May 2023 20:39:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232429AbjEGAiX (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 6 May 2023 20:38:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FA4586A7;
-        Sat,  6 May 2023 17:36:48 -0700 (PDT)
+        with ESMTP id S231637AbjEGAig (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 6 May 2023 20:38:36 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5460D2E069;
+        Sat,  6 May 2023 17:36:54 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B58EB61569;
-        Sun,  7 May 2023 00:36:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2A07C4339E;
-        Sun,  7 May 2023 00:36:23 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7F5B261504;
+        Sun,  7 May 2023 00:36:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28517C4339C;
+        Sun,  7 May 2023 00:36:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683419785;
-        bh=WmzpuR8wV5KYhV0TMNIkUHDeLt1E1/0BEyqDugYCzSo=;
+        s=k20201202; t=1683419807;
+        bh=3G35kd6T4kS2rg35txsY0C3k2e5PT1s9hEOIzlHqrBA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mrKcdoqqhGV+RSX73aOx1lZX8o9gF89sV2xFZgqARtIs/9o6CWZyi7dDvdyLeJarK
-         8RgEYKsQ+johXaBK+bga72kXPIOsGTXu0zpyMagjiUDsCGeAWSABXxTLQ99CCssnWB
-         bkV7RS0ulaj3kQ3hMtcnNEbKQbDoFSkRvDZyC6VDlqFsB2Iha2VTOiSWMrDuD0qzYu
-         LXRbg/9yVd1iuDZv3M5fY6i+aNVZKyCH7RAxGMapJuG22tG5tlNYxaoeOkv/Rvm4HG
-         1YriicXu/0BHWAlaopaaROcXLBcsnLAyymwME741NHlDI95jtw++Or60TnbcMi+ncM
-         WhYflWpgWQhWg==
+        b=nLNN8SFMi8D5PfLOt00rtCGp6gSnMfPUUmUoYPB0rdH/aOrBqvEIk1NlnrumL5hRl
+         O8SyuyBWTO9VhGBzm9AVOTOS+Q5r59R0sEdDu7ma5RZL3NTEh8acrCLpyhy6/sAppk
+         KAZzHMxQkvtJJgek3wBPcmgAPVjHCtC0lfMPUVZqfrx5UQKE4w9vmOXQt0ci9k2b66
+         wrM65kctjLvCOT1wfvHKkdiAb1mZFlvJaWo4j/iV93/9n5M3ftHi5HiElS8dmUXI5h
+         w5OCqzRs4NudDEMB7a9bU6z6FhHXWdmiVaxsFiiK7sdROyUCyfUC7hWcXVnTQ+++mB
+         q0DKpnr+SZCcg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jason Gerecke <killertofu@gmail.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        ping.cheng@wacom.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 6/9] HID: wacom: generic: Set battery quirk only when we see battery data
-Date:   Sat,  6 May 2023 20:36:06 -0400
-Message-Id: <20230507003609.4079746-6-sashal@kernel.org>
+Cc:     Bastien Nocera <hadess@hadess.net>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 3/9] HID: logitech-hidpp: Don't use the USB serial for USB devices
+Date:   Sat,  6 May 2023 20:36:30 -0400
+Message-Id: <20230507003637.4080781-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230507003609.4079746-1-sashal@kernel.org>
-References: <20230507003609.4079746-1-sashal@kernel.org>
+In-Reply-To: <20230507003637.4080781-1-sashal@kernel.org>
+References: <20230507003637.4080781-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jason Gerecke <killertofu@gmail.com>
+From: Bastien Nocera <hadess@hadess.net>
 
-[ Upstream commit bea407a427baa019758f29f4d31b26f008bb8cc6 ]
+[ Upstream commit 7ad1fe0da0fa91bf920b79ab05ae97bfabecc4f4 ]
 
-Some devices will include battery status usages in the HID descriptor
-but we won't see that battery data for one reason or another. For example,
-AES sensors won't send battery data unless an AES pen is in proximity.
-If a user does not have an AES pen but instead only interacts with the
-AES touchscreen with their fingers then there is no need for us to create
-a battery object. Similarly, if a family of peripherals shares the same
-HID descriptor between wired-only and wireless-capable SKUs, users of the
-former may never see a battery event and will not want a power_supply
-object created.
+For devices that support the 0x0003 feature (Device Information) version 4,
+set the serial based on the output of that feature, rather than relying
+on the usbhid code setting the USB serial.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=217062
-Link: https://gitlab.gnome.org/GNOME/gnome-control-center/-/issues/2354
-Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
-Tested-by: Mario Limonciello <mario.limonciello@amd.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+This should allow the serial when connected through USB to (nearly)
+match the one when connected through a unifying receiver.
+
+For example, on the serials on a G903 wired/wireless mouse:
+- Unifying: 4067-e8-ce-cd-45
+- USB before patch: 017C385C3837
+- USB after patch: c086-e8-ce-cd-45
+
+Signed-off-by: Bastien Nocera <hadess@hadess.net>
+Link: https://lore.kernel.org/r/20230302130117.3975-1-hadess@hadess.net
+Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/wacom_wac.c | 33 +++++++++++----------------------
- 1 file changed, 11 insertions(+), 22 deletions(-)
+ drivers/hid/hid-logitech-hidpp.c | 51 ++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index aa477a43a3123..13f39a2dd9040 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -1893,18 +1893,7 @@ static void wacom_map_usage(struct input_dev *input, struct hid_usage *usage,
- static void wacom_wac_battery_usage_mapping(struct hid_device *hdev,
- 		struct hid_field *field, struct hid_usage *usage)
- {
--	struct wacom *wacom = hid_get_drvdata(hdev);
--	struct wacom_wac *wacom_wac = &wacom->wacom_wac;
--	struct wacom_features *features = &wacom_wac->features;
--	unsigned equivalent_usage = wacom_equivalent_usage(usage->hid);
--
--	switch (equivalent_usage) {
--	case HID_DG_BATTERYSTRENGTH:
--	case WACOM_HID_WD_BATTERY_LEVEL:
--	case WACOM_HID_WD_BATTERY_CHARGING:
--		features->quirks |= WACOM_QUIRK_BATTERY;
--		break;
--	}
-+	return;
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index 504e8917b06f3..a4d9ee9170998 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -777,6 +777,55 @@ static bool hidpp_is_connected(struct hidpp_device *hidpp)
+ 	return ret == 0;
  }
  
- static void wacom_wac_battery_event(struct hid_device *hdev, struct hid_field *field,
-@@ -1925,18 +1914,21 @@ static void wacom_wac_battery_event(struct hid_device *hdev, struct hid_field *f
- 			wacom_wac->hid_data.bat_connected = 1;
- 			wacom_wac->hid_data.bat_status = WACOM_POWER_SUPPLY_STATUS_AUTO;
- 		}
-+		wacom_wac->features.quirks |= WACOM_QUIRK_BATTERY;
- 		break;
- 	case WACOM_HID_WD_BATTERY_LEVEL:
- 		value = value * 100 / (field->logical_maximum - field->logical_minimum);
- 		wacom_wac->hid_data.battery_capacity = value;
- 		wacom_wac->hid_data.bat_connected = 1;
- 		wacom_wac->hid_data.bat_status = WACOM_POWER_SUPPLY_STATUS_AUTO;
-+		wacom_wac->features.quirks |= WACOM_QUIRK_BATTERY;
- 		break;
- 	case WACOM_HID_WD_BATTERY_CHARGING:
- 		wacom_wac->hid_data.bat_charging = value;
- 		wacom_wac->hid_data.ps_connected = value;
- 		wacom_wac->hid_data.bat_connected = 1;
- 		wacom_wac->hid_data.bat_status = WACOM_POWER_SUPPLY_STATUS_AUTO;
-+		wacom_wac->features.quirks |= WACOM_QUIRK_BATTERY;
- 		break;
- 	}
- }
-@@ -1952,18 +1944,15 @@ static void wacom_wac_battery_report(struct hid_device *hdev,
- {
- 	struct wacom *wacom = hid_get_drvdata(hdev);
- 	struct wacom_wac *wacom_wac = &wacom->wacom_wac;
--	struct wacom_features *features = &wacom_wac->features;
++/* -------------------------------------------------------------------------- */
++/* 0x0003: Device Information                                                 */
++/* -------------------------------------------------------------------------- */
++
++#define HIDPP_PAGE_DEVICE_INFORMATION			0x0003
++
++#define CMD_GET_DEVICE_INFO				0x00
++
++static int hidpp_get_serial(struct hidpp_device *hidpp, u32 *serial)
++{
++	struct hidpp_report response;
++	u8 feature_type;
++	u8 feature_index;
++	int ret;
++
++	ret = hidpp_root_get_feature(hidpp, HIDPP_PAGE_DEVICE_INFORMATION,
++				     &feature_index,
++				     &feature_type);
++	if (ret)
++		return ret;
++
++	ret = hidpp_send_fap_command_sync(hidpp, feature_index,
++					  CMD_GET_DEVICE_INFO,
++					  NULL, 0, &response);
++	if (ret)
++		return ret;
++
++	/* See hidpp_unifying_get_serial() */
++	*serial = *((u32 *)&response.rap.params[1]);
++	return 0;
++}
++
++static int hidpp_serial_init(struct hidpp_device *hidpp)
++{
++	struct hid_device *hdev = hidpp->hid_dev;
++	u32 serial;
++	int ret;
++
++	ret = hidpp_get_serial(hidpp, &serial);
++	if (ret)
++		return ret;
++
++	snprintf(hdev->uniq, sizeof(hdev->uniq), "%04x-%4phD",
++		 hdev->product, &serial);
++	dbg_hid("HID++ DeviceInformation: Got serial: %s\n", hdev->uniq);
++
++	return 0;
++}
++
+ /* -------------------------------------------------------------------------- */
+ /* 0x0005: GetDeviceNameType                                                  */
+ /* -------------------------------------------------------------------------- */
+@@ -3040,6 +3089,8 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
  
--	if (features->quirks & WACOM_QUIRK_BATTERY) {
--		int status = wacom_wac->hid_data.bat_status;
--		int capacity = wacom_wac->hid_data.battery_capacity;
--		bool charging = wacom_wac->hid_data.bat_charging;
--		bool connected = wacom_wac->hid_data.bat_connected;
--		bool powered = wacom_wac->hid_data.ps_connected;
-+	int status = wacom_wac->hid_data.bat_status;
-+	int capacity = wacom_wac->hid_data.battery_capacity;
-+	bool charging = wacom_wac->hid_data.bat_charging;
-+	bool connected = wacom_wac->hid_data.bat_connected;
-+	bool powered = wacom_wac->hid_data.ps_connected;
+ 	if (hidpp->quirks & HIDPP_QUIRK_UNIFYING)
+ 		hidpp_unifying_init(hidpp);
++	else if (hid_is_usb(hidpp->hid_dev))
++		hidpp_serial_init(hidpp);
  
--		wacom_notify_battery(wacom_wac, status, capacity, charging,
--				     connected, powered);
--	}
-+	wacom_notify_battery(wacom_wac, status, capacity, charging,
-+			     connected, powered);
- }
- 
- static void wacom_wac_pad_usage_mapping(struct hid_device *hdev,
+ 	connected = hidpp_is_connected(hidpp);
+ 	atomic_set(&hidpp->connected, connected);
 -- 
 2.39.2
 
