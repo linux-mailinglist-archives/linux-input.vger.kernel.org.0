@@ -2,56 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 001E06F9523
-	for <lists+linux-input@lfdr.de>; Sun,  7 May 2023 02:05:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 405DE6F952E
+	for <lists+linux-input@lfdr.de>; Sun,  7 May 2023 02:30:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229793AbjEGAFR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 6 May 2023 20:05:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48510 "EHLO
+        id S230146AbjEGAak (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 6 May 2023 20:30:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbjEGAFQ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 6 May 2023 20:05:16 -0400
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A010A16374
-        for <linux-input@vger.kernel.org>; Sat,  6 May 2023 17:05:15 -0700 (PDT)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        with ESMTP id S230145AbjEGAaj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 6 May 2023 20:30:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5987018FFB;
+        Sat,  6 May 2023 17:30:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 6FCFB846AB;
-        Sun,  7 May 2023 02:05:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1683417913;
-        bh=cexmqlb+FxHuIEiXRzXHxRbadMCG4LgK9DBGjKks7wc=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Mp093lLhnhjqpQkCPmNtFW1U+Mk4p95qFdVtHxXCAHgJg5YEahODDA/GOmOFAC6XN
-         ZuCmzPX7pIAMM1nUtsC0CDarQ4bLCLgB+jDfeT6juJzk4jZu5E+Ks++RNez737yh+L
-         xx+aJLkMEy8YkUqNXl59nWb0R2PU5/dvw+Hj/9plZMJ4hFEuxepYNoztO1BO3A13dh
-         UFbtozcK9I+H7GO8IxK1VEAqVhL2bc7J/eOWUG7OwlY+TbaCxfu3/pyfv45eBC3ajx
-         VOmZzqVAIzsTSuAEJyVRQ63GYJHxkJJycBWpCp9pP6jucSkptVLUEhAyzS6L1bcLls
-         Kbth9GLgseu7A==
-Message-ID: <4388be18-057e-0e7d-2b81-e9689821a96e@denx.de>
-Date:   Sun, 7 May 2023 02:05:12 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C9CED6137B;
+        Sun,  7 May 2023 00:30:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43E5DC4339C;
+        Sun,  7 May 2023 00:30:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1683419436;
+        bh=ajKsYQpmO9FKRliDeMZd5Diq2mOChh08+oyFoZcu1AQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=FxSmpM1DXdKxtfmpOe/s5ed17zUFVQycnGSQ022fOEybKPW4/qRLOlvOJsBjHp8Ub
+         SnSgnDx60bsvUA/NmBJR9VMLuvALlrWIxodBHVH+2jmzHZHKVAh6yS/tfiZPGAbScE
+         6YfnBSehoGH5MxD7k6b8Db17YgOu7RzktUKqRbyM6LnPxa8alKo2Dl+iYYi1bPcSaW
+         WghicW+a97V8PDjqplD3eDe8Ki5vDBeLRf4fhsIKlkqDyU028s3RHzwTJkqewLqZWe
+         oWRGCjkYum2PeXAoskw6sgbGzPpQ8k7TaJfoxN1RFHxTWnX6Lt9Djl1nOViOBHkhp3
+         qR6GUTpNVhRNw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Alex Henrie <alexhenrie24@gmail.com>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.3 03/24] HID: apple: Set the tilde quirk flag on the Geyser 4 and later
+Date:   Sat,  6 May 2023 20:29:59 -0400
+Message-Id: <20230507003022.4070535-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230507003022.4070535-1-sashal@kernel.org>
+References: <20230507003022.4070535-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2] Input: ili210x - Probe even if no resolution
- information
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, Joe Hung <joe_hung@ilitek.com>,
-        Luca Hsu <luca_hsu@ilitek.com>
-References: <20230217025200.203833-1-marex@denx.de>
- <ZFagieka6H2cRRXi@google.com>
-Content-Language: en-US
-From:   Marek Vasut <marex@denx.de>
-In-Reply-To: <ZFagieka6H2cRRXi@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-8.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UPPERCASE_50_75
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,14 +58,95 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 5/6/23 20:46, Dmitry Torokhov wrote:
-> On Fri, Feb 17, 2023 at 03:52:00AM +0100, Marek Vasut wrote:
->> Probe the touch controller driver even if resolution information is not
->> available. This can happen e.g. in case the touch controller suffered a
->> failed firmware update and is stuck in bootloader mode.
->>
->> Signed-off-by: Marek Vasut <marex@denx.de>
-> 
-> Applied, thank you.
+From: Alex Henrie <alexhenrie24@gmail.com>
 
-Much appreciated, thanks !
+[ Upstream commit c3388ddc74a863466c7c3fa24d3a9cea9c9bca53 ]
+
+I recently tested several old MacBooks and as far as I can tell, all
+MacBooks that have an ISO keyboard have the tilde key quirk:
+
+Product    Model  Year  System      CPU    Shape  Labels     Country  Quirky
+============================================================================
+05ac:021b  A1181  2006  MacBook2,1  T5600  ISO    British    13       Yes
+05ac:021b  A1181  2007  MacBook2,1  T7200  ISO    Québécois  13       Yes
+05ac:0229  A1181  2007  MacBook4,1  T8300  ANSI   Usonian    33       No
+05ac:022a  A1181  2007  MacBook4,1  T8100  ISO    English    13       Yes
+05ac:022a  A1181  2007  MacBook5,2  P7350  ISO    Québécois  13       Yes
+05ac:0237  A1278  2008  MacBook5,1  P7350  ISO    Dutch      13       Yes
+05ac:0237  A1278  2009  MacBook5,5  P7550  ISO    British    13       Yes
+
+The model number and year are from the laptop case. Since Apple printed
+the same model and year on many different laptops, the system name (as
+reported in the SMBIOS tables) and CPU form a more precise identifier.
+
+Signed-off-by: Alex Henrie <alexhenrie24@gmail.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/hid/hid-apple.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+index 1ccab8aa326cd..5c145775482bc 100644
+--- a/drivers/hid/hid-apple.c
++++ b/drivers/hid/hid-apple.c
+@@ -882,7 +882,8 @@ static const struct hid_device_id apple_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER4_ANSI),
+ 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER4_ISO),
+-		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
++		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN |
++			APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER4_JIS),
+ 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN |
+ 			APPLE_RDESC_JIS },
+@@ -901,7 +902,8 @@ static const struct hid_device_id apple_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER4_HF_ANSI),
+ 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER4_HF_ISO),
+-		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
++		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN |
++			APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER4_HF_JIS),
+ 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN |
+ 			APPLE_RDESC_JIS },
+@@ -942,31 +944,31 @@ static const struct hid_device_id apple_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING2_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING2_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING2_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING3_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING3_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING3_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING4_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING4_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING4_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING4A_ANSI),
+ 		.driver_data = APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING4A_ISO),
+-		.driver_data = APPLE_HAS_FN },
++		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING4A_JIS),
+ 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING5_ANSI),
+-- 
+2.39.2
+
