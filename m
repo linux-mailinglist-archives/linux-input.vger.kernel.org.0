@@ -2,44 +2,44 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C064A6F954F
-	for <lists+linux-input@lfdr.de>; Sun,  7 May 2023 02:31:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23B156F955D
+	for <lists+linux-input@lfdr.de>; Sun,  7 May 2023 02:33:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230496AbjEGAbq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 6 May 2023 20:31:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54710 "EHLO
+        id S231146AbjEGAdY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 6 May 2023 20:33:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231143AbjEGAbg (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 6 May 2023 20:31:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36CCD18FE8;
-        Sat,  6 May 2023 17:31:17 -0700 (PDT)
+        with ESMTP id S230506AbjEGAdX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 6 May 2023 20:33:23 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AB441992F;
+        Sat,  6 May 2023 17:33:01 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BDCA561468;
-        Sun,  7 May 2023 00:30:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75CD3C4339C;
-        Sun,  7 May 2023 00:30:56 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E4D876147C;
+        Sun,  7 May 2023 00:32:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D81AC433EF;
+        Sun,  7 May 2023 00:32:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683419457;
-        bh=w4+yCuMJNQr9OLAGviXwLRSRn8mENaqAbjJrsAYOyt8=;
+        s=k20201202; t=1683419527;
+        bh=rHX3+4HNWpaIyjXC4vG2Ai1ck+Uw7+0j3VesE1SKAFk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ogXcumlYeestyXPPlqP3NsEIwwKH3LOOu0c+6+dwNG+79vCbYCzqd+9DeW0Ay1J6/
-         ziwyP19SD4gSiy5ZpQ+dt6HW+4iPigdwR0RqfnJRbXOsxdZndolfJusDMP4WorceOH
-         VwTjPD5+Nomj4Sy1Xdh6nBJJK2HthwmGzIxzFMCte/9Uw+R2e/N7Iio6D9tlBfVy/3
-         uU78j/vMBZh3UBe3FbnTDouNjiL8Hv4Z2BTGvWQCOUmOrZ5wwlIxGnKLO4vqR9jGLG
-         ESpq0kc6kfB+faTn6EJ5HPPqm7BLW+g3xIb4dCGvRj6+752izlOD4gB+BYKAJvrS75
-         giNZRJS0wlluA==
+        b=dYUa61dBoGVJ1AQUAF7aAqsEIXLYKh8K4dOUnz3iek/SW/co8Fq7t4Dk5vuDHzLz+
+         K4xnMCadCu1rBJvmDrcpafo7w/Fub+rruuGNkqde0iOkPbLGk+4v+dQUxPYhjCqSun
+         8hlKsoHeuBRqFgG+W5JU4Q7X3YS9LT4EebvkRRq1+pzeuUSfxdjY0bhoNicF2fJEYk
+         RsIeWTtaSRslGZSYHkGngHMc3poeyG7XFzvgt4FAAlgo33KD6uB6nTVJnlzkpumMy1
+         XCpPx01+Ob6sMPcmPOXM/dLBBnl1uIqzOCpBeYmcKUgoWnmgzlUXCUXw8CHc35zPBa
+         UokE3SXmul+dA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Bastien Nocera <hadess@hadess.net>,
+Cc:     Alex Henrie <alexhenrie24@gmail.com>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.3 12/24] HID: logitech-hidpp: Reconcile USB and Unifying serials
-Date:   Sat,  6 May 2023 20:30:08 -0400
-Message-Id: <20230507003022.4070535-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.3 19/24] HID: apple: Set the tilde quirk flag on the Geyser 3
+Date:   Sat,  6 May 2023 20:30:15 -0400
+Message-Id: <20230507003022.4070535-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230507003022.4070535-1-sashal@kernel.org>
 References: <20230507003022.4070535-1-sashal@kernel.org>
@@ -47,8 +47,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -57,53 +57,39 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Bastien Nocera <hadess@hadess.net>
+From: Alex Henrie <alexhenrie24@gmail.com>
 
-[ Upstream commit 5b3691d15e04b6d5a32c915577b8dbc5cfb56382 ]
+[ Upstream commit 29e1ecc197d410ee59c8877098d54cf417075f7d ]
 
-Now that USB HID++ devices can gather a serial number that matches the
-one that would be gathered when connected through a Unifying receiver,
-remove the last difference by dropping the product ID as devices
-usually have different product IDs when connected through USB or
-Unifying.
+I was finally able to obtain a MacBook1,1 to test and I've now confirmed
+that it has the tilde key quirk as well:
 
-For example, on the serials on a G903 wired/wireless mouse:
-- Unifying before patch: 4067-e8-ce-cd-45
-- USB before patch: c086-e8-ce-cd-45
-- Unifying and USB after patch: e8-ce-cd-45
+Product    Model  Year  System      CPU    Shape  Labels     Country  Quirky
+============================================================================
+05ac:0218  A1181  2006  MacBook1,1  T2500  ISO    British    13       Yes
 
-Signed-off-by: Bastien Nocera <hadess@hadess.net>
-Link: https://lore.kernel.org/r/20230302130117.3975-2-hadess@hadess.net
+Signed-off-by: Alex Henrie <alexhenrie24@gmail.com>
+Link: https://lore.kernel.org/r/20230404024829.13982-1-alexhenrie24@gmail.com
 Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-logitech-hidpp.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/hid/hid-apple.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index 66380876937f6..da89e84c9cbeb 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -853,8 +853,7 @@ static int hidpp_unifying_init(struct hidpp_device *hidpp)
- 	if (ret)
- 		return ret;
- 
--	snprintf(hdev->uniq, sizeof(hdev->uniq), "%04x-%4phD",
--		 hdev->product, &serial);
-+	snprintf(hdev->uniq, sizeof(hdev->uniq), "%4phD", &serial);
- 	dbg_hid("HID++ Unifying: Got serial: %s\n", hdev->uniq);
- 
- 	name = hidpp_unifying_get_name(hidpp);
-@@ -989,8 +988,7 @@ static int hidpp_serial_init(struct hidpp_device *hidpp)
- 	if (ret)
- 		return ret;
- 
--	snprintf(hdev->uniq, sizeof(hdev->uniq), "%04x-%4phD",
--		 hdev->product, &serial);
-+	snprintf(hdev->uniq, sizeof(hdev->uniq), "%4phD", &serial);
- 	dbg_hid("HID++ DeviceInformation: Got serial: %s\n", hdev->uniq);
- 
- 	return 0;
+diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+index 5c145775482bc..e2c73a78b5972 100644
+--- a/drivers/hid/hid-apple.c
++++ b/drivers/hid/hid-apple.c
+@@ -875,7 +875,8 @@ static const struct hid_device_id apple_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER3_ANSI),
+ 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER3_ISO),
+-		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
++		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN |
++			APPLE_ISO_TILDE_QUIRK },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_GEYSER3_JIS),
+ 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN |
+ 			APPLE_RDESC_JIS },
 -- 
 2.39.2
 
