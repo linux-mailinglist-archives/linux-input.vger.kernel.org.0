@@ -2,125 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E73A6F9C7D
-	for <lists+linux-input@lfdr.de>; Mon,  8 May 2023 00:26:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E500D6F9E53
+	for <lists+linux-input@lfdr.de>; Mon,  8 May 2023 05:45:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231685AbjEGW0B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 7 May 2023 18:26:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33344 "EHLO
+        id S231879AbjEHDpS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 7 May 2023 23:45:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230348AbjEGW0A (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 7 May 2023 18:26:00 -0400
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 533E6100DC;
-        Sun,  7 May 2023 15:25:59 -0700 (PDT)
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-6ab087111faso32949a34.3;
-        Sun, 07 May 2023 15:25:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683498358; x=1686090358;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=VpWqNIlJw+7CO0eWEfIgZRQ39Q5s0pfacaQXx8477ls=;
-        b=DC9oylRfmH/DRYdWAXC8heKqfU8Ce9YyfztIaSPhjlGP44EKHh+Z4rYXq4BHijntsV
-         hm53RSddh+UoF/kKk6CQ/krG8H/Y3YUedgnmiBzZ9IBsF7HN5ssTbJjL3tb431Sxc/zO
-         EEoYW4F+zRmmU/ZavgICvlAklgKb5K6vMeJM97sTrd/f2ITLurz6d7ktmvFPHn7ZUNVo
-         hluOrlQplW81lHBwR4d36yLF079oOhgadQPzspGlOzSy5UERMEOqrJ873SXArSjBbq7x
-         JaEYumL6/rIOHHVUGniIYSUvBV11VOEbPkYe8Tz6IkJVKCc6yL9ZfwqtfGuto20FdHW0
-         1aJA==
-X-Gm-Message-State: AC+VfDzR0GtfGZKyY2VWacBiq516B5f7Nb2T7brGEzHJvphnMLgkdyBD
-        CiaaoO8BbVVEGPdyaUD7bA==
-X-Google-Smtp-Source: ACHHUZ4fdihyY3NFB3jckF8J6LZVmJemoKIWNMGmuDyNK5vUTaBRQcXBFBdMOpnNbmwbzuVba8b4Kw==
-X-Received: by 2002:a05:6830:1357:b0:6aa:f549:2472 with SMTP id r23-20020a056830135700b006aaf5492472mr2230260otq.14.1683498358476;
-        Sun, 07 May 2023 15:25:58 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id k3-20020a9d7603000000b006a44338c8efsm3572194otl.44.2023.05.07.15.25.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 May 2023 15:25:57 -0700 (PDT)
-Received: (nullmailer pid 3623288 invoked by uid 1000);
-        Sun, 07 May 2023 22:25:56 -0000
+        with ESMTP id S229814AbjEHDpQ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 7 May 2023 23:45:16 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A86DE59E0;
+        Sun,  7 May 2023 20:45:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2D5E361E4F;
+        Mon,  8 May 2023 03:45:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7A211C4339C;
+        Mon,  8 May 2023 03:45:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1683517514;
+        bh=f2Av221AoBzvVpsH70Hd2B/gNLrcWY+8qXBN329HBxg=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=nEMBgVLhaQ/GoILqUrKV2WfNuBDu5mLPOOj9sViK68lLfyn6E0fZntmkvnEMNczw5
+         EbF5rNVhHN+XhMIfqzf1UNOJAvGLFf1PZVgzcgIPbPUE+EwIJWNZrxKVVu1yFZrOhf
+         s8S+L6xb14/7tsLMxJDA7y8wc3jJ9+7cIDk3pHrL6rtse3xqHds20s1LvdzMi69CX3
+         sD1NUw/iq+udiMYY3F7egaakUU8HvudVxijwt2VMDUN+uQboAs0MBTyeA+XTCUEqzf
+         NoXJ9Hu6Gkj4k8e+xl8irP1QcmcNT3m3V1HVwOj2I/NLdVEEvvhzuSZLo4r3peUdU6
+         9jGWM/RANoSkw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4B4C7C395C8;
+        Mon,  8 May 2023 03:45:14 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] dt-bindings: google,cros-ec-keyb: Fix spelling error
+From:   patchwork-bot+chrome-platform@kernel.org
+Message-Id: <168351751430.5651.15940266526657898557.git-patchwork-notify@kernel.org>
+Date:   Mon, 08 May 2023 03:45:14 +0000
+References: <20230220135531.1987351-1-linus.walleij@linaro.org>
+In-Reply-To: <20230220135531.1987351-1-linus.walleij@linaro.org>
 To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        linux-gpio@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Steffen Trumtrar <s.trumtrar@pengutronix.de>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Philippe Schenker <philippe.schenker@toradex.com>,
-        Stefan Agner <stefan@agner.ch>, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, Marek Vasut <marex@denx.de>,
-        Lee Jones <lee@kernel.org>
-In-Reply-To: <20230426-stmpe-dt-bindings-v3-1-eac1d736e488@linaro.org>
-References: <20230426-stmpe-dt-bindings-v3-0-eac1d736e488@linaro.org>
- <20230426-stmpe-dt-bindings-v3-1-eac1d736e488@linaro.org>
-Message-Id: <168349835606.3623231.4270033272905089508.robh@kernel.org>
-Subject: Re: [PATCH v3 1/2] dt-bindings: gpio: Add STMPE YAML DT schema
-Date:   Sun, 07 May 2023 17:25:56 -0500
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        bleung@chromium.org, groeck@chromium.org,
+        devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hello:
 
-On Sun, 07 May 2023 23:19:19 +0200, Linus Walleij wrote:
-> This adds a schema for the STMPE GPIO that while it is used a
-> lot in the kernel tree is anyway missing its bindings.
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Dmitry Torokhov <dmitry.torokhov@gmail.com>:
+
+On Mon, 20 Feb 2023 14:55:31 +0100 you wrote:
+> The dependency had an obvious spelling error. Fix it.
 > 
 > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
-> ChangeLog v2->v3:
-> - Use a compact hog node schema backed by the standard hog
->   schema.
-> ChangeLog v1->v2:
-> - New patch split off from the MFD patch.
-> ---
->  .../devicetree/bindings/gpio/st,stmpe-gpio.yaml    | 51 ++++++++++++++++++++++
->  1 file changed, 51 insertions(+)
-> 
+>  .../devicetree/bindings/input/google,cros-ec-keyb.yaml          | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Here is the summary with links:
+  - dt-bindings: google,cros-ec-keyb: Fix spelling error
+    https://git.kernel.org/chrome-platform/c/c6f3b684c2c4
 
-yamllint warnings/errors:
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ovti,ov2685.example.dtb: camera-sensor@3c: port:endpoint:data-lanes: [[1]] is too short
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ovti,ov2685.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/rockchip-isp1.example.dtb: camera@3c: port:endpoint:data-lanes: [[1]] is too short
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ovti,ov2685.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/fsl,imx6q-pcie-ep.example.dtb: pcie-ep@33800000: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/fsl,imx6q-pcie-ep.yaml
-
-doc reference errors (make refcheckdocs):
-Documentation/usb/gadget_uvc.rst: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
-MAINTAINERS: Documentation/devicetree/bindings/pwm/pwm-apple.yaml
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230426-stmpe-dt-bindings-v3-1-eac1d736e488@linaro.org
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
 
