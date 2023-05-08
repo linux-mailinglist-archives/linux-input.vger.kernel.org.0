@@ -2,79 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 661826FB029
-	for <lists+linux-input@lfdr.de>; Mon,  8 May 2023 14:35:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE9256FB1A1
+	for <lists+linux-input@lfdr.de>; Mon,  8 May 2023 15:34:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234188AbjEHMfV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 May 2023 08:35:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35244 "EHLO
+        id S233869AbjEHNem (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 May 2023 09:34:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232949AbjEHMfR (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 8 May 2023 08:35:17 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55D2139495
-        for <linux-input@vger.kernel.org>; Mon,  8 May 2023 05:35:14 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-4f14f266b72so2723248e87.1
-        for <linux-input@vger.kernel.org>; Mon, 08 May 2023 05:35:14 -0700 (PDT)
+        with ESMTP id S234267AbjEHNei (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 May 2023 09:34:38 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D991930AE8
+        for <linux-input@vger.kernel.org>; Mon,  8 May 2023 06:34:35 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-965d2749e2eso589076566b.1
+        for <linux-input@vger.kernel.org>; Mon, 08 May 2023 06:34:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683549312; x=1686141312;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jQ1qf2e03WlPLJuXOlZ1OBamEh8pCtH4w3SZqhsTCas=;
-        b=X1gjYl1f+C9uS+BnSDmuZ0EkVCALhlpymWRvpt0n6pshD8Pf4BjEWLb0Q6ik2zkoNG
-         vpgLsI1nu0oMhYL2iuFmBEXmxoWv5XfB+cRng0gS9J7d7ZXGX8clJoQTN0j9fbOx+7GQ
-         qmTRLsvyC879m8ABTniJhZrVGSyhgJnpE+E8Q5KXiQOYp43/+ONjNuy79q+jVXKQqiTe
-         Qo+AlcvvANNAUhB2NyCXZrFoTDDEf1cbXcrtx768syrEZVsAowBBvkXHMenHBSVyNa71
-         qw4AhMZ3SxDN/LPRF15aQ0eCyNPc2RubAnL/qA892wDO+Xdf/+yurMy/N2UvjJH7z3rG
-         uwoA==
+        d=linaro.org; s=google; t=1683552874; x=1686144874;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dNv2I8D8lHC3anjLGdCgDfw3zwn1qSi0/Ip3IkTMaV0=;
+        b=tOIFXK+lcH2ykBPyI8q9+jKClkFjlnFfoO3N14ovB/CYtesjCHJJmlb8dkToJGhO+6
+         QAoykSOtKQLG/ZLkx2qFyD5crlXQayazRidED74shOgBwO7S7mLTWot8pXyn/Z4WrIT3
+         Zjh+dqDt91gUt+MmbO4U+9WmhPnWBlmapabIIbvZ3OS8t4dERqAJULeiNk6F1GyqhaXT
+         TRoZNTgnQ+J20M9zAtT94kpiYNITnDeqMKbGrBsiUnswaIMCrIssL4/NJ8dqIcmx7Tlw
+         GHl4VPGWiAxP0IBV11SvPpOhb+y0pghAA3EIfXMk4hLXPJsvM5Tzn+qLLT2gNtE+I4tp
+         9bDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683549312; x=1686141312;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jQ1qf2e03WlPLJuXOlZ1OBamEh8pCtH4w3SZqhsTCas=;
-        b=awg25ftPzEitph/g5ctYqBr6Jr5pRpMkHmvxAZ8sEae0BJ645vmtvh26IbD3+E2btj
-         RDJ69J9yLk1FkboIhHwzFkteAXQ3/y26XP3wrKVJQGUgyn6LfJKIGiZJAwJNgZTxSHaZ
-         ZJgnEDy4y5SVTY8FZOZGypV2sxU1AF5P3cqe8dHdTsGdT+gubZ+XtWzwonuxZFo8ETlG
-         1uNmpiIkiJWlDs6igHtuiBgme9JRTrsuTQaUebkxBhatZPgd4K+M3zc2pBnkeM8PPPdh
-         /CumEre78efEBoj9PRV7g1VDgIIUICCmNLBwYu7tL0hOY6o91gQNJFxXNKeDYJlvxtIU
-         AxjA==
-X-Gm-Message-State: AC+VfDytA5lNxrd5P8+VqmUtBN6Lk4OlgplzU9d7pkLI6CB+Xfu4Io+x
-        7ijh9TS0O/gmIJUGr/p1b9VQgA==
-X-Google-Smtp-Source: ACHHUZ7qRYKEqB7/XpiGpe3apn3BdFTbobqx6B1CZPNb579NQIuf7jLRLjJoxGZ80SU/mT3wm8dVZg==
-X-Received: by 2002:ac2:42c9:0:b0:4dd:9ddc:4463 with SMTP id n9-20020ac242c9000000b004dd9ddc4463mr2608842lfl.5.1683549312454;
-        Mon, 08 May 2023 05:35:12 -0700 (PDT)
-Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id q2-20020ac25fc2000000b004b55ddeb7e3sm1289593lfg.309.2023.05.08.05.35.11
+        d=1e100.net; s=20221208; t=1683552874; x=1686144874;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dNv2I8D8lHC3anjLGdCgDfw3zwn1qSi0/Ip3IkTMaV0=;
+        b=VVkuqqol02L3Kd9Uzmgt6zjiVA3zyXHl8NtqsK3BXaIHcTpjweOSRxWC0Qdn73Azqn
+         gzjIhMCUsdrnkbicuPaKj6KmPzauJQ4NOFxWcCk9PL1a+fEPvZbKFwrS3H0bX7AA0MU7
+         6r7SE//ZF3bmUlxFKA5xCwwxorTR9F8zyI/MO4b2tB6AszcOMjT2rpKke310i8vkXWQG
+         KwEIBQZvPircdtYi9FfgN3FuLTXHbdiWcoJ+zNxPTQ5vmVaK/0zvC2c5rY3TRBtbDLqZ
+         SwrNR32b/pW9VDXLVcI7r7DDxsE5yhk2V/svvaciqbvRb1K16kq8m9w1j10uxRyKjDsF
+         SU4g==
+X-Gm-Message-State: AC+VfDy1epSb2wxes2swCYLRmEmWYdswH6MjWP73me3Qe3xE8DaHPBYn
+        vYVIz2Yf5nwUfmhK0CyO7a35tw==
+X-Google-Smtp-Source: ACHHUZ4ccIzX5gazJRfi3DwQwRaXaprMkRCzcmHzIhwgt0MLpsVSjOBy5X0r6zj7lZcpfTtUfJAYQA==
+X-Received: by 2002:a17:907:5ca:b0:965:6cb9:b768 with SMTP id wg10-20020a17090705ca00b009656cb9b768mr7216816ejb.31.1683552874325;
+        Mon, 08 May 2023 06:34:34 -0700 (PDT)
+Received: from krzk-bin ([2a02:810d:15c0:828:50e0:ebdf:b755:b300])
+        by smtp.gmail.com with ESMTPSA id ib11-20020a1709072c6b00b00965ac1510f8sm5007185ejc.185.2023.05.08.06.34.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 May 2023 05:35:12 -0700 (PDT)
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 08 May 2023 14:35:10 +0200
-Subject: [PATCH v4 2/2] dt-bindings: MFD: Convert STMPE to YAML schema
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230426-stmpe-dt-bindings-v4-2-36fdd53d9919@linaro.org>
-References: <20230426-stmpe-dt-bindings-v4-0-36fdd53d9919@linaro.org>
-In-Reply-To: <20230426-stmpe-dt-bindings-v4-0-36fdd53d9919@linaro.org>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Rob Herring <robh+dt@kernel.org>,
+        Mon, 08 May 2023 06:34:33 -0700 (PDT)
+Date:   Mon, 8 May 2023 15:34:31 +0200
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Rob Herring <robh+dt@kernel.org>, linux-gpio@vger.kernel.org,
+        linux-input@vger.kernel.org, Rob Herring <robh@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
         Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee@kernel.org>,
+        Marek Vasut <marex@denx.de>,
         Philippe Schenker <philippe.schenker@toradex.com>,
-        Stefan Agner <stefan@agner.ch>, Marek Vasut <marex@denx.de>,
-        Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Cc:     linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Steffen Trumtrar <s.trumtrar@pengutronix.de>,
+        devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        linux-kernel@vger.kernel.org, Stefan Agner <stefan@agner.ch>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
         linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh@kernel.org>
-X-Mailer: b4 0.12.1
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 2/2] dt-bindings: MFD: Convert STMPE to YAML schema
+Message-ID: <20230508133431.tqi7jmgcmfs5c3cf@krzk-bin>
+References: <20230426-stmpe-dt-bindings-v4-0-36fdd53d9919@linaro.org>
+ <20230426-stmpe-dt-bindings-v4-2-36fdd53d9919@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230426-stmpe-dt-bindings-v4-2-36fdd53d9919@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
@@ -85,559 +83,75 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This converts the STMPE MFD device tree bindings to the YAML
-schema.
+On Mon, 08 May 2023 14:35:10 +0200, Linus Walleij wrote:
+> This converts the STMPE MFD device tree bindings to the YAML
+> schema.
+> 
+> Reference the existing schema for the ADC, just define the
+> other subnode schemas directly in the MFD schema.
+> 
+> Add two examples so we have examples covering both the simple
+> GPIO expander and the more complex with ADC and touchscreen.
+> 
+> Some in-tree users do not follow the naming conventions for nodes
+> so these DTS files need to be augmented to use proper node names
+> like "adc", "pwm", "gpio", "keyboard-controller" etc before the
+> bindings take effect on them.
+> 
+> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> ChangeLog v2->v3:
+> - Drop the required pwm properties already required by the
+>   template pwm schema.
+> - Add the number of PWM cells as const.
+> ChangeLog v1->v2:
+> - Split off the GPIO bindings to their own schema, as the old
+>   bindings didn't even have any GPIO bindings. Put the GPIO
+>   schema before this schema so we can use GPIO in the examples.
+> - Drop nodename and pattern as STMPE is not a generic name.
+> - Add maxItems to the resets.
+> - Make wakeup-source just :true, as it is a generic property.
+> - Move unevaluatedProperties for subnodes right before properties
+>   as requested.
+> - Name devices "port-expander" in the examples.
+> - Use lowercase hex in line init.
+> ---
+>  .../devicetree/bindings/input/stmpe-keypad.txt     |  41 ---
+>  .../bindings/input/touchscreen/stmpe.txt           | 108 --------
+>  .../devicetree/bindings/mfd/st,stmpe.yaml          | 297 +++++++++++++++++++++
+>  Documentation/devicetree/bindings/mfd/stmpe.txt    |  42 ---
+>  4 files changed, 297 insertions(+), 191 deletions(-)
+> 
 
-Reference the existing schema for the ADC, just define the
-other subnode schemas directly in the MFD schema.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Add two examples so we have examples covering both the simple
-GPIO expander and the more complex with ADC and touchscreen.
+yamllint warnings/errors:
 
-Some in-tree users do not follow the naming conventions for nodes
-so these DTS files need to be augmented to use proper node names
-like "adc", "pwm", "gpio", "keyboard-controller" etc before the
-bindings take effect on them.
+dtschema/dtc warnings/errors:
+./Documentation/devicetree/bindings/mfd/st,stmpe.yaml: Unable to find schema file matching $id: http://devicetree.org/schemas/gpio/st,stmpe-gpio.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/st,stmpe.example.dtb: port-expander@43: gpio: False schema does not allow {'compatible': ['st,stmpe-gpio'], 'gpio-controller': True, '#gpio-cells': [[2]], 'interrupt-controller': True, '#interrupt-cells': [[2]], 'st,norequest-mask': [[15790082]]}
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/st,stmpe.yaml
+Documentation/devicetree/bindings/mfd/st,stmpe.example.dtb: /example-0/i2c/port-expander@43/gpio: failed to match any schema with compatible: ['st,stmpe-gpio']
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/st,stmpe.example.dtb: port-expander@41: gpio: False schema does not allow {'compatible': ['st,stmpe-gpio'], 'gpio-controller': True, '#gpio-cells': [[2]], 'interrupt-controller': True, '#interrupt-cells': [[2]]}
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/st,stmpe.yaml
+Documentation/devicetree/bindings/mfd/st,stmpe.example.dtb: /example-0/i2c/port-expander@41/gpio: failed to match any schema with compatible: ['st,stmpe-gpio']
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-ChangeLog v2->v3:
-- Drop the required pwm properties already required by the
-  template pwm schema.
-- Add the number of PWM cells as const.
-ChangeLog v1->v2:
-- Split off the GPIO bindings to their own schema, as the old
-  bindings didn't even have any GPIO bindings. Put the GPIO
-  schema before this schema so we can use GPIO in the examples.
-- Drop nodename and pattern as STMPE is not a generic name.
-- Add maxItems to the resets.
-- Make wakeup-source just :true, as it is a generic property.
-- Move unevaluatedProperties for subnodes right before properties
-  as requested.
-- Name devices "port-expander" in the examples.
-- Use lowercase hex in line init.
----
- .../devicetree/bindings/input/stmpe-keypad.txt     |  41 ---
- .../bindings/input/touchscreen/stmpe.txt           | 108 --------
- .../devicetree/bindings/mfd/st,stmpe.yaml          | 297 +++++++++++++++++++++
- Documentation/devicetree/bindings/mfd/stmpe.txt    |  42 ---
- 4 files changed, 297 insertions(+), 191 deletions(-)
+doc reference errors (make refcheckdocs):
+Documentation/usb/gadget_uvc.rst: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
+MAINTAINERS: Documentation/devicetree/bindings/pwm/pwm-apple.yaml
 
-diff --git a/Documentation/devicetree/bindings/input/stmpe-keypad.txt b/Documentation/devicetree/bindings/input/stmpe-keypad.txt
-deleted file mode 100644
-index 12bb771d66d4..000000000000
---- a/Documentation/devicetree/bindings/input/stmpe-keypad.txt
-+++ /dev/null
-@@ -1,41 +0,0 @@
--* STMPE Keypad
--
--Required properties:
-- - compatible               : "st,stmpe-keypad"
-- - linux,keymap             : See ./matrix-keymap.txt
--
--Optional properties:
-- - debounce-interval        : Debouncing interval time in milliseconds
-- - st,scan-count            : Scanning cycles elapsed before key data is updated
-- - st,no-autorepeat         : If specified device will not autorepeat
-- - keypad,num-rows          : See ./matrix-keymap.txt
-- - keypad,num-columns       : See ./matrix-keymap.txt
--
--Example:
--
--	stmpe_keypad {
--		compatible = "st,stmpe-keypad";
--
--		debounce-interval = <64>;
--		st,scan-count = <8>;
--		st,no-autorepeat;
--
--		linux,keymap = <0x205006b
--				0x4010074
--				0x3050072
--				0x1030004
--				0x502006a
--				0x500000a
--				0x5008b
--				0x706001c
--				0x405000b
--				0x6070003
--				0x3040067
--				0x303006c
--				0x60400e7
--				0x602009e
--				0x4020073
--				0x5050002
--				0x4030069
--				0x3020008>;
--	};
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/stmpe.txt b/Documentation/devicetree/bindings/input/touchscreen/stmpe.txt
-deleted file mode 100644
-index 238b51555c04..000000000000
---- a/Documentation/devicetree/bindings/input/touchscreen/stmpe.txt
-+++ /dev/null
-@@ -1,108 +0,0 @@
--STMPE Touchscreen
------------------
--
--Required properties:
-- - compatible: "st,stmpe-ts"
--
--Optional properties:
--- st,ave-ctrl		: Sample average control
--				0 -> 1 sample
--				1 -> 2 samples
--				2 -> 4 samples
--				3 -> 8 samples
--- st,touch-det-delay	: Touch detect interrupt delay (recommended is 3)
--				0 -> 10 us
--				1 -> 50 us
--				2 -> 100 us
--				3 -> 500 us
--				4 -> 1 ms
--				5 -> 5 ms
--				6 -> 10 ms
--				7 -> 50 ms
--- st,settling		: Panel driver settling time (recommended is 2)
--				0 -> 10 us
--				1 -> 100 us
--				2 -> 500 us
--				3 -> 1 ms
--				4 -> 5 ms
--				5 -> 10 ms
--				6 -> 50 ms
--				7 -> 100 ms
--- st,fraction-z		: Length of the fractional part in z (recommended is 7)
--			  (fraction-z ([0..7]) = Count of the fractional part)
--- st,i-drive		: current limit value of the touchscreen drivers
--				0 -> 20 mA (typical 35mA max)
--				1 -> 50 mA (typical 80 mA max)
--
--Optional properties common with MFD (deprecated):
-- - st,sample-time	: ADC conversion time in number of clock.
--				0 -> 36 clocks
--				1 -> 44 clocks
--				2 -> 56 clocks
--				3 -> 64 clocks
--				4 -> 80 clocks (recommended)
--				5 -> 96 clocks
--				6 -> 124 clocks
-- - st,mod-12b		: ADC Bit mode
--				0 -> 10bit ADC
--				1 -> 12bit ADC
-- - st,ref-sel		: ADC reference source
--				0 -> internal
--				1 -> external
-- - st,adc-freq		: ADC Clock speed
--				0 -> 1.625 MHz
--				1 -> 3.25 MHz
--				2 || 3 -> 6.5 MHz
--
--Node should be child node of stmpe node to which it belongs.
--
--Note that common ADC settings of stmpe_touchscreen (child) will take precedence
--over the settings done in MFD.
--
--Example:
--
--stmpe811@41 {
--	compatible = "st,stmpe811";
--	pinctrl-names = "default";
--	pinctrl-0 = <&pinctrl_touch_int>;
--	#address-cells = <1>;
--	#size-cells = <0>;
--	reg = <0x41>;
--	interrupts = <10 IRQ_TYPE_LEVEL_LOW>;
--	interrupt-parent = <&gpio4>;
--	interrupt-controller;
--	id = <0>;
--	blocks = <0x5>;
--	irq-trigger = <0x1>;
--	/* Common ADC settings */
--	/* 3.25 MHz ADC clock speed */
--	st,adc-freq = <1>;
--	/* 12-bit ADC */
--	st,mod-12b = <1>;
--	/* internal ADC reference */
--	st,ref-sel = <0>;
--	/* ADC converstion time: 80 clocks */
--	st,sample-time = <4>;
--
--	stmpe_touchscreen {
--		compatible = "st,stmpe-ts";
--		reg = <0>;
--		/* 8 sample average control */
--		st,ave-ctrl = <3>;
--		/* 5 ms touch detect interrupt delay */
--		st,touch-det-delay = <5>;
--		/* 1 ms panel driver settling time */
--		st,settling = <3>;
--		/* 7 length fractional part in z */
--		st,fraction-z = <7>;
--		/*
--		 * 50 mA typical 80 mA max touchscreen drivers
--		 * current limit value
--		 */
--		st,i-drive = <1>;
--	};
--	stmpe_adc {
--		compatible = "st,stmpe-adc";
--		st,norequest-mask = <0x0F>;
--	};
--};
-diff --git a/Documentation/devicetree/bindings/mfd/st,stmpe.yaml b/Documentation/devicetree/bindings/mfd/st,stmpe.yaml
-new file mode 100644
-index 000000000000..b77cc3f3075d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/mfd/st,stmpe.yaml
-@@ -0,0 +1,297 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: STMicroelectonics Port Expander (STMPE)
-+
-+description: STMicroelectronics Port Expander (STMPE) is a series of slow
-+  bus controllers for various expanded peripherals such as GPIO, keypad,
-+  touchscreen, ADC, PWM or rotator. It can contain one or several different
-+  peripherals connected to SPI or I2C.
-+
-+maintainers:
-+  - Linus Walleij <linus.walleij@linaro.org>
-+
-+allOf:
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - st,stmpe601
-+      - st,stmpe801
-+      - st,stmpe811
-+      - st,stmpe1600
-+      - st,stmpe1601
-+      - st,stmpe2401
-+      - st,stmpe2403
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  vcc-supply: true
-+
-+  vio-supply: true
-+
-+  reset-gpios:
-+    maxItems: 1
-+
-+  wakeup-source: true
-+
-+  st,autosleep-timeout:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 4, 16, 32, 64, 128, 256, 512, 1024 ]
-+    description: Time idle before going to automatic sleep to save power
-+
-+  st,sample-time:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 0, 1, 2, 3, 4, 5, 6 ]
-+    description: |
-+      Sample time per iteration
-+      0 = 36 clock ticks
-+      1 = 44 clock ticks
-+      2 = 56 clock ticks
-+      3 = 64 clock ticks
-+      4 = 80 clock ticks - recommended
-+      5 = 96 clock ticks
-+      6 = 124 clock ticks
-+
-+  st,mod-12b:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 0, 1 ]
-+    description: ADC bit mode 0 = 10bit ADC, 1 = 12bit ADC
-+
-+  st,ref-sel:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 0, 1 ]
-+    description: ADC reference source 0 = internal, 1 = external
-+
-+  st,adc-freq:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 0, 1, 2, 3 ]
-+    description: |
-+      ADC clock speed
-+      0 = 1.625 MHz
-+      1 = 3.25 MHz
-+      2, 3 = 6.5 MHz
-+
-+  adc:
-+    type: object
-+    $ref: /schemas/iio/adc/st,stmpe-adc.yaml#
-+
-+  gpio:
-+    type: object
-+    $ref: /schemas/gpio/st,stmpe-gpio.yaml#
-+
-+  keyboard-controller:
-+    type: object
-+    $ref: /schemas/input/matrix-keymap.yaml#
-+
-+    unevaluatedProperties: false
-+
-+    properties:
-+      compatible:
-+        const: st,stmpe-keypad
-+
-+      debounce-interval:
-+        description: Debouncing interval in milliseconds
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+
-+      st,no-autorepeat:
-+        description: If present, the keys will not autorepeat when pressed
-+        $ref: /schemas/types.yaml#/definitions/flag
-+
-+      st,scan-count:
-+        description: Scanning cycles elapsed before key data is updated
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+
-+    required:
-+      - compatible
-+      - linux,keymap
-+
-+  pwm:
-+    type: object
-+    $ref: /schemas/pwm/pwm.yaml#
-+
-+    unevaluatedProperties: false
-+
-+    properties:
-+      compatible:
-+        const: st,stmpe-pwm
-+
-+      "#pwm-cells":
-+        const: 2
-+
-+  touchscreen:
-+    type: object
-+    $ref: /schemas/input/touchscreen/touchscreen.yaml#
-+
-+    unevaluatedProperties: false
-+
-+    properties:
-+      compatible:
-+        const: st,stmpe-ts
-+
-+      st,ave-ctrl:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        enum: [ 0, 1, 2, 3 ]
-+        description: |
-+          Sample average control
-+          0 = 1 sample
-+          1 = 2 samples
-+          2 = 4 samples
-+          3 = 8 samples
-+
-+      st,touch-det-delay:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        enum: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-+        description: |
-+          Touch detection delay
-+          0 = 10 us
-+          1 = 50 us
-+          2 = 100 us
-+          3 = 500 us - recommended
-+          4 = 1 ms
-+          5 = 5 ms
-+          6 = 10 ms
-+          7 = 50 ms
-+
-+      st,settling:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        enum: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-+        description: |
-+          Panel driver settling time
-+          0 = 10 us
-+          1 = 100 us
-+          2 = 500 us - recommended
-+          3 = 1 ms
-+          4 = 5 ms
-+          5 = 10 ms
-+          6 = 50 ms
-+          7 = 100 ms
-+
-+      st,fraction-z:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        enum: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-+        description: Length of the fractional part in z, recommended is 7
-+          (fraction-z ([0..7]) = Count of the fractional part)
-+
-+      st,i-drive:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        enum: [ 0, 1 ]
-+        description: |
-+          current limit value of the touchscreen drivers
-+          0 = 20 mA (typical 35 mA max)
-+          1 = 50 mA (typical 80 mA max)
-+
-+    required:
-+      - compatible
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/input/input.h>
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      port-expander@43 {
-+        compatible = "st,stmpe2401";
-+        reg = <0x43>;
-+        reset-gpios = <&gpio 13 GPIO_ACTIVE_LOW>;
-+        interrupts = <26 IRQ_TYPE_EDGE_FALLING>;
-+        interrupt-parent = <&gpio>;
-+        vcc-supply = <&db8500_vsmps2_reg>;
-+        vio-supply = <&db8500_vsmps2_reg>;
-+        wakeup-source;
-+        st,autosleep-timeout = <1024>;
-+
-+        gpio {
-+          compatible = "st,stmpe-gpio";
-+          gpio-controller;
-+          #gpio-cells = <2>;
-+          interrupt-controller;
-+          #interrupt-cells = <2>;
-+          st,norequest-mask = <0xf0f002>;
-+        };
-+
-+        keyboard-controller {
-+          compatible = "st,stmpe-keypad";
-+          debounce-interval = <64>;
-+          st,scan-count = <8>;
-+          st,no-autorepeat;
-+          keypad,num-rows = <8>;
-+          keypad,num-columns = <8>;
-+          linux,keymap = <
-+              MATRIX_KEY(0x00, 0x00, KEY_1)
-+              MATRIX_KEY(0x00, 0x01, KEY_2)
-+              MATRIX_KEY(0x00, 0x02, KEY_3)
-+              MATRIX_KEY(0x00, 0x03, KEY_4)
-+              MATRIX_KEY(0x00, 0x04, KEY_5)
-+              MATRIX_KEY(0x00, 0x05, KEY_6)
-+              MATRIX_KEY(0x00, 0x06, KEY_7)
-+              MATRIX_KEY(0x00, 0x07, KEY_8)
-+              MATRIX_KEY(0x00, 0x08, KEY_9)
-+              MATRIX_KEY(0x00, 0x09, KEY_0)
-+          >;
-+        };
-+
-+        pwm {
-+          compatible = "st,stmpe-pwm";
-+          #pwm-cells = <2>;
-+        };
-+      };
-+
-+      port-expander@41 {
-+        compatible = "st,stmpe811";
-+        reg = <0x41>;
-+        interrupts = <10 IRQ_TYPE_LEVEL_LOW>;
-+        interrupt-parent = <&gpio>;
-+        st,adc-freq = <1>;
-+        st,mod-12b = <1>;
-+        st,ref-sel = <0>;
-+        st,sample-time = <4>;
-+
-+        adc {
-+          compatible = "st,stmpe-adc";
-+          st,norequest-mask = <0x0f>;
-+          #io-channel-cells = <1>;
-+        };
-+
-+        gpio {
-+          compatible = "st,stmpe-gpio";
-+          gpio-controller;
-+          #gpio-cells = <2>;
-+          interrupt-controller;
-+          #interrupt-cells = <2>;
-+        };
-+
-+        pwm {
-+          compatible = "st,stmpe-pwm";
-+          #pwm-cells = <2>;
-+        };
-+
-+        touchscreen {
-+          compatible = "st,stmpe-ts";
-+          st,ave-ctrl = <3>;
-+          st,touch-det-delay = <5>;
-+          st,settling = <3>;
-+          st,fraction-z = <7>;
-+          st,i-drive = <1>;
-+        };
-+      };
-+    };
-+...
-diff --git a/Documentation/devicetree/bindings/mfd/stmpe.txt b/Documentation/devicetree/bindings/mfd/stmpe.txt
-deleted file mode 100644
-index d4408a417193..000000000000
---- a/Documentation/devicetree/bindings/mfd/stmpe.txt
-+++ /dev/null
-@@ -1,42 +0,0 @@
--* ST Microelectronics STMPE Multi-Functional Device
--
--STMPE is an MFD device which may expose the following inbuilt devices: gpio,
--keypad, touchscreen, adc, pwm, rotator.
--
--Required properties:
-- - compatible			: "st,stmpe[610|801|811|1600|1601|2401|2403]"
-- - reg				: I2C/SPI address of the device
--
--Optional properties:
-- - interrupts			: The interrupt outputs from the controller
-- - interrupt-controller		: Marks the device node as an interrupt controller
-- - wakeup-source		: Marks the input device as wakable
-- - st,autosleep-timeout		: Valid entries (ms); 4, 16, 32, 64, 128, 256, 512 and 1024
-- - irq-gpio			: If present, which GPIO to use for event IRQ
--
--Optional properties for devices with touch and ADC (STMPE811|STMPE610):
-- - st,sample-time		: ADC conversion time in number of clock.
--					0 -> 36 clocks		4 -> 80 clocks (recommended)
--					1 -> 44 clocks		5 -> 96 clocks
--					2 -> 56 clocks		6 -> 124 clocks
--					3 -> 64 clocks
-- - st,mod-12b			: ADC Bit mode
--					0 -> 10bit ADC		1 -> 12bit ADC
-- - st,ref-sel			: ADC reference source
--					0 -> internal		1 -> external
-- - st,adc-freq			: ADC Clock speed
--					0 -> 1.625 MHz		2 || 3 -> 6.5 MHz
--					1 -> 3.25 MHz
--
--Example:
--
--	stmpe1601: stmpe1601@40 {
--		compatible = "st,stmpe1601";
--		reg = <0x40>;
--		interrupts = <26 0x4>;
--		interrupt-parent = <&gpio6>;
--		interrupt-controller;
--
--		wakeup-source;
--		st,autosleep-timeout = <1024>;
--	};
+See https://patchwork.ozlabs.org/patch/1778351
 
--- 
-2.34.1
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
