@@ -2,92 +2,163 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E9116FB35D
-	for <lists+linux-input@lfdr.de>; Mon,  8 May 2023 17:01:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A5E86FB38D
+	for <lists+linux-input@lfdr.de>; Mon,  8 May 2023 17:17:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234245AbjEHPBT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 May 2023 11:01:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33448 "EHLO
+        id S234448AbjEHPRN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 May 2023 11:17:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230263AbjEHPBS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 8 May 2023 11:01:18 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71918107;
-        Mon,  8 May 2023 08:01:17 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-24ded4b33d7so3174593a91.3;
-        Mon, 08 May 2023 08:01:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683558077; x=1686150077;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BwuEFswjwM39alefSERoo8uDLiBlpgOGT7lCw+29x0M=;
-        b=j3fCI18IFdDkCfixXqPyFMHXC11/ozVPiBVQ+btIvST69Q+FkYsDG2p47TdtUnMmeG
-         xKsaO08e+ltVDvrSRYpPfcrC+8FBG5wMvxpPVNC9PTvJkVQcwbz8cOOtn6l5R4iMqMTd
-         OAZlFN1FhJtYvrzEgg5gXq1hv6oFdZZjzBRqDtjeh6CgZRLH5KFHpQKxrNtftkQpaGXd
-         /VihLM9z0KczXtgyMf25185dswV7PEx85kYC/EHiLsUKn6dp2fPUU7I1IhJznCtnIqN4
-         vQuCwpnnArDsZ5J8Vjn14YMsaIu1k5BtN0AhN8CYPsmX75+j7Y+oNZxK2AkAO3pGVvP6
-         HE6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683558077; x=1686150077;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BwuEFswjwM39alefSERoo8uDLiBlpgOGT7lCw+29x0M=;
-        b=fIJbmwwp7tXyUQJjULKBTwnxIv/BlXzv/p+wPaFZ98H84y7VJOCwyFIYNlGHkOVkgO
-         kAVqxNNvXp0k+0lsZdvPZEcSx9tCIh09stf67l/Z/sIGWqGAeffr5bYm93XG8j3lTsWJ
-         ZvP9iso7xSiuUXdYkeP1ozjBiK8isxbFAQfM1r7lsTXluXH0JQqaAqT2pte+cXWQD1c6
-         9HKHU93R6kEW8V554aH2Iz2GaUqVs9plxoymV6KQMLYgUGw2DXDeqgTSuanjWhXi6nw8
-         z6fMGdALsxOqRJ21KHtam+2sWlJwYMb5NCe6M1d5KqFDlGcf8MXFkziBtr4s04roSLq6
-         CpsA==
-X-Gm-Message-State: AC+VfDzRR4khOhVwiPWPFKXXahOsPsBx6n58jBw2yaPz55C3rzExcgaY
-        FWnwY1YO6inRea7i321rIt8=
-X-Google-Smtp-Source: ACHHUZ7X8/aecoEG354Z34PKQq/LvS3YTbQK2ojSvJMkJzjIifNYcQ5CdvSsG+MI6RNaGU9GZXwVlQ==
-X-Received: by 2002:a17:90a:a798:b0:24e:3c23:9650 with SMTP id f24-20020a17090aa79800b0024e3c239650mr10308663pjq.44.1683558076595;
-        Mon, 08 May 2023 08:01:16 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:4d1:db5a:dbba:cd34])
-        by smtp.gmail.com with ESMTPSA id x15-20020a17090a46cf00b0025069c8a151sm3078260pjg.53.2023.05.08.08.01.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 May 2023 08:01:15 -0700 (PDT)
-Date:   Mon, 8 May 2023 08:01:12 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Teng Qi <starmiku1207184332@gmail.com>
-Cc:     rydberg@bitmath.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drivers: input: input: Fix possible sleep-in-atomic bug
- in input_alloc_absinfo()
-Message-ID: <ZFkOuOmkIiYuQBpz@google.com>
-References: <20230425074951.1042694-1-starmiku1207184332@gmail.com>
- <ZFBheCRW5fbzVK1V@google.com>
- <CALyQVay-_StW8ZghzF0DUp75UFZvssh-RcPC-DvHPgFLt0np=w@mail.gmail.com>
+        with ESMTP id S234441AbjEHPRM (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 May 2023 11:17:12 -0400
+X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 08 May 2023 08:17:07 PDT
+Received: from fgw20-7.mail.saunalahti.fi (fgw20-7.mail.saunalahti.fi [62.142.5.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3298676AE
+        for <linux-input@vger.kernel.org>; Mon,  8 May 2023 08:17:06 -0700 (PDT)
+Received: from localhost (88-113-26-95.elisa-laajakaista.fi [88.113.26.95])
+        by fgw20.mail.saunalahti.fi (Halon) with ESMTP
+        id 3dcf1144-edb3-11ed-b3cf-005056bd6ce9;
+        Mon, 08 May 2023 18:16:02 +0300 (EEST)
+From:   andy.shevchenko@gmail.com
+Date:   Mon, 8 May 2023 18:16:00 +0300
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Andreas Kemnade <andreas@kemnade.info>,
+        Helge Deller <deller@gmx.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-mmc@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] Input: ads7846 - Convert to use software nodes
+Message-ID: <ZFkSMBhw5UaWdpsM@surfacebook>
+References: <20230430-nokia770-regression-v3-0-a6d0a89ffa8b@linaro.org>
+ <20230430-nokia770-regression-v3-1-a6d0a89ffa8b@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CALyQVay-_StW8ZghzF0DUp75UFZvssh-RcPC-DvHPgFLt0np=w@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230430-nokia770-regression-v3-1-a6d0a89ffa8b@linaro.org>
+X-Spam-Status: No, score=0.7 required=5.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+        FORGED_GMAIL_RCVD,FREEMAIL_FROM,NML_ADSP_CUSTOM_MED,SPF_HELO_NONE,
+        SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 08, 2023 at 03:13:19PM +0800, Teng Qi wrote:
-> Thank you for an alternative solution. I will take a closer look at the
-> patch
-> you CCed me on.
-> However, I am still confused about why this cannot happen in practice.
-> Could you provide more information?
+Fri, May 05, 2023 at 01:16:55PM +0200, Linus Walleij kirjoitti:
+> The Nokia 770 is using GPIOs from the global numberspace on the
+> CBUS node to pass down to the LCD controller. This regresses when we
+> let the OMAP GPIO driver use dynamic GPIO base.
+> 
+> The Nokia 770 now has dynamic allocation of IRQ numbers, so this
+> needs to be fixed for it to work.
+> 
+> As this is the only user of LCD MIPID we can easily augment the
+> driver to use a GPIO descriptor instead and resolve the issue.
+> 
+> The platform data .shutdown() callback wasn't even used in the
+> code, but we encode a shutdown asserting RESET in the remove()
+> callback for completeness sake.
+> 
+> The CBUS also has the ADS7846 touchscreen attached.
+> 
+> Populate the devices on the Nokia 770 CBUS I2C using software
+> nodes instead of platform data quirks. This includes the LCD
+> and the ADS7846 touchscreen so the conversion just brings the LCD
+> along with it as software nodes is an all-or-nothing design
+> pattern.
+> 
+> The ADS7846 has some limited support for using GPIO descriptors,
+> let's convert it over completely to using device properties and then
+> fix all remaining boardfile users to provide all platform data using
+> software nodes.
+> 
+> Dump the of includes and of_match_ptr() in the ADS7846 driver as part
+> of the job.
+> 
+> Since we have to move ADS7846 over to obtaining the GPIOs it is
+> using exclusively from descriptors, we provide descriptor tables
+> for the two remaining in-kernel boardfiles using ADS7846:
+> 
+> - PXA Spitz
+> - MIPS Alchemy DB1000 development board
+> 
+> It was too hard for me to include software node conversion of
+> these two remaining users at this time: the spitz is using a
+> hscync callback in the platform data that would require further
+> GPIO descriptor conversion of the Spitz, and moving the hsync
+> callback down into the driver: it will just become too big of
+> a job, but it can be done separately.
+> 
+> The MIPS Alchemy DB1000 is simply something I cannot test, so take
+> the easier approach of just providing some GPIO descriptors in
+> this case as I don't want the patch to grow too intrusive.
 
-The only call to input_abs_set_val() in the event processing code that
-is running in an atomic context (under spinlock) is done for
-ABS_MT_SLOT, and the call is protected by checks ensuring that
-multitouch was set up properly for the device. This includes allocating
-absinfo. Therefore while the code may trip up static analyzers the
-problem will not happen in practice with the current code.
+...
 
-Thanks.
+>  #include <linux/gpio.h>
+
+Do we need it after this patch?
+
+>  #include <linux/gpio/machine.h>
+> +#include <linux/gpio/property.h>
+
+...
+
+> +static const struct software_node *nokia770_gpiochip_nodes[] = {
+> +	&nokia770_mpuio_gpiochip_node,
+> +	&nokia770_gpiochip1_node,
+> +	&nokia770_gpiochip2_node,
+> +	NULL,
+
+Comma is redundant for the terminator entry.
+
+> +};
+
+...
+
+> +static struct gpiod_lookup_table spitz_ads7846_gpio_table = {
+> +	.dev_id = "spi2.0",
+> +	.table = {
+> +		GPIO_LOOKUP("gpio-pxa", SPITZ_GPIO_TP_INT,
+> +			    "pendown", GPIO_ACTIVE_HIGH),
+> +		{ },
+
+Ditto.
+
+> +	},
+> +};
+
+...
+
+> +static struct gpiod_lookup_table db1100_touch_gpio_table = {
+> +	.dev_id = "spi0.0",
+> +	.table = {
+> +		GPIO_LOOKUP("alchemy-gpio2", 21,
+> +			    "pendown", GPIO_ACTIVE_HIGH),
+> +		{ },
+
+Ditto.
+
+> +	},
+> +};
 
 -- 
-Dmitry
+With Best Regards,
+Andy Shevchenko
+
+
