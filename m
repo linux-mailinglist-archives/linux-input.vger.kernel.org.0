@@ -2,52 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F05BC6FB21E
-	for <lists+linux-input@lfdr.de>; Mon,  8 May 2023 16:01:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E9116FB35D
+	for <lists+linux-input@lfdr.de>; Mon,  8 May 2023 17:01:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233491AbjEHOBV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 May 2023 10:01:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41934 "EHLO
+        id S234245AbjEHPBT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 May 2023 11:01:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233475AbjEHOBV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 8 May 2023 10:01:21 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E330C348B5;
-        Mon,  8 May 2023 07:01:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 78DF962D9B;
-        Mon,  8 May 2023 14:01:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BDCEC433EF;
-        Mon,  8 May 2023 14:01:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1683554475;
-        bh=O8tjsOi+oKea2wipKtbwhwqOEm7vtb389lfsVLc4ECo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ymgv1cowBjCfDf/5ikYFlNvu2+D2jnmp7vR8c95Fs+X+AO9Z9RAYUOf1OlPwVxept
-         XHDgQUFJxDL98IXbSNLc2U1JKnisBGWsYm51DJ4IHGYzDojlv1On+XTfmI4RPFvvN/
-         be00CmCOf7hXa1tkn7Ni0VP7Fa4OSn8dnJMw6SZQ=
-Date:   Mon, 8 May 2023 16:01:12 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Mirsad Goran Todorovac <mirsad.goran.todorovac@alu.hr>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>
-Subject: Re: [BUG] Kmemleak, possibly hiddev_connect(), in 6.3.0+ torvalds
- tree commit gfc4354c6e5c2
-Message-ID: <2023050854-collage-dreamt-660c@gregkh>
-References: <f64b17fa-d509-ad30-6e8d-e4c979818047@alu.unizg.hr>
- <2023050824-juiciness-catching-9290@gregkh>
+        with ESMTP id S230263AbjEHPBS (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 May 2023 11:01:18 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71918107;
+        Mon,  8 May 2023 08:01:17 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-24ded4b33d7so3174593a91.3;
+        Mon, 08 May 2023 08:01:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683558077; x=1686150077;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BwuEFswjwM39alefSERoo8uDLiBlpgOGT7lCw+29x0M=;
+        b=j3fCI18IFdDkCfixXqPyFMHXC11/ozVPiBVQ+btIvST69Q+FkYsDG2p47TdtUnMmeG
+         xKsaO08e+ltVDvrSRYpPfcrC+8FBG5wMvxpPVNC9PTvJkVQcwbz8cOOtn6l5R4iMqMTd
+         OAZlFN1FhJtYvrzEgg5gXq1hv6oFdZZjzBRqDtjeh6CgZRLH5KFHpQKxrNtftkQpaGXd
+         /VihLM9z0KczXtgyMf25185dswV7PEx85kYC/EHiLsUKn6dp2fPUU7I1IhJznCtnIqN4
+         vQuCwpnnArDsZ5J8Vjn14YMsaIu1k5BtN0AhN8CYPsmX75+j7Y+oNZxK2AkAO3pGVvP6
+         HE6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683558077; x=1686150077;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BwuEFswjwM39alefSERoo8uDLiBlpgOGT7lCw+29x0M=;
+        b=fIJbmwwp7tXyUQJjULKBTwnxIv/BlXzv/p+wPaFZ98H84y7VJOCwyFIYNlGHkOVkgO
+         kAVqxNNvXp0k+0lsZdvPZEcSx9tCIh09stf67l/Z/sIGWqGAeffr5bYm93XG8j3lTsWJ
+         ZvP9iso7xSiuUXdYkeP1ozjBiK8isxbFAQfM1r7lsTXluXH0JQqaAqT2pte+cXWQD1c6
+         9HKHU93R6kEW8V554aH2Iz2GaUqVs9plxoymV6KQMLYgUGw2DXDeqgTSuanjWhXi6nw8
+         z6fMGdALsxOqRJ21KHtam+2sWlJwYMb5NCe6M1d5KqFDlGcf8MXFkziBtr4s04roSLq6
+         CpsA==
+X-Gm-Message-State: AC+VfDzRR4khOhVwiPWPFKXXahOsPsBx6n58jBw2yaPz55C3rzExcgaY
+        FWnwY1YO6inRea7i321rIt8=
+X-Google-Smtp-Source: ACHHUZ7X8/aecoEG354Z34PKQq/LvS3YTbQK2ojSvJMkJzjIifNYcQ5CdvSsG+MI6RNaGU9GZXwVlQ==
+X-Received: by 2002:a17:90a:a798:b0:24e:3c23:9650 with SMTP id f24-20020a17090aa79800b0024e3c239650mr10308663pjq.44.1683558076595;
+        Mon, 08 May 2023 08:01:16 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:4d1:db5a:dbba:cd34])
+        by smtp.gmail.com with ESMTPSA id x15-20020a17090a46cf00b0025069c8a151sm3078260pjg.53.2023.05.08.08.01.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 May 2023 08:01:15 -0700 (PDT)
+Date:   Mon, 8 May 2023 08:01:12 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Teng Qi <starmiku1207184332@gmail.com>
+Cc:     rydberg@bitmath.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drivers: input: input: Fix possible sleep-in-atomic bug
+ in input_alloc_absinfo()
+Message-ID: <ZFkOuOmkIiYuQBpz@google.com>
+References: <20230425074951.1042694-1-starmiku1207184332@gmail.com>
+ <ZFBheCRW5fbzVK1V@google.com>
+ <CALyQVay-_StW8ZghzF0DUp75UFZvssh-RcPC-DvHPgFLt0np=w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2023050824-juiciness-catching-9290@gregkh>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_FILL_THIS_FORM_SHORT,T_SCC_BODY_TEXT_LINE
+In-Reply-To: <CALyQVay-_StW8ZghzF0DUp75UFZvssh-RcPC-DvHPgFLt0np=w@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,85 +73,21 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 08, 2023 at 08:51:55AM +0200, Greg Kroah-Hartman wrote:
-> On Mon, May 08, 2023 at 08:30:07AM +0200, Mirsad Goran Todorovac wrote:
-> > Hi,
-> > 
-> > There seems to be a kernel memory leak in the USB keyboard driver.
-> > 
-> > The leaked memory allocs are 96 and 512 bytes.
-> > 
-> > The platform is Ubuntu 22.04 LTS on a assembled AMD Ryzen 9 with X670E PG
-> > Lightning mobo,
-> > and Genius SlimStar i220 GK-080012 keyboard.
-> > 
-> > (Logitech M100 HID mouse is not affected by the bug.)
-> > 
-> > BIOS is:
-> > 
-> >      *-firmware
-> >           description: BIOS
-> >           vendor: American Megatrends International, LLC.
-> >           physical id: 0
-> >           version: 1.21
-> >           date: 04/26/2023
-> >           size: 64KiB
-> > 
-> > The kernel is 6.3.0-torvalds-<id>-13466-gfc4354c6e5c2.
-> > 
-> > The keyboard is recognised as Chicony:
-> > 
-> >                  *-usb
-> >                       description: Keyboard
-> >                       product: CHICONY USB Keyboard
-> >                       vendor: CHICONY
-> >                       physical id: 2
-> >                       bus info: usb@5:2
-> >                       logical name: input35
-> >                       logical name: /dev/input/event4
-> >                       logical name: input35::capslock
-> >                       logical name: input35::numlock
-> >                       logical name: input35::scrolllock
-> >                       logical name: input36
-> >                       logical name: /dev/input/event5
-> >                       logical name: input37
-> >                       logical name: /dev/input/event6
-> >                       logical name: input38
-> >                       logical name: /dev/input/event8
-> >                       version: 2.30
-> >                       capabilities: usb-2.00 usb
-> >                       configuration: driver=usbhid maxpower=100mA
-> > speed=1Mbit/s
-> > 
-> > The bug is easily reproduced by unplugging the USB keyboard, waiting about a
-> > couple of seconds,
-> > and then reconnect and scan for memory leaks twice.
-> > 
-> > The kmemleak log is as follows [edited privacy info]:
-> > 
-> > root@hostname:/home/username# cat /sys/kernel/debug/kmemleak
-> > unreferenced object 0xffff8dd020037c00 (size 96):
-> >   comm "systemd-udevd", pid 435, jiffies 4294892550 (age 8909.356s)
-> >   hex dump (first 32 bytes):
-> >     5d 8e 4e b9 ff ff ff ff 00 00 00 00 00 00 00 00 ].N.............
-> >     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
-> >   backtrace:
-> >     [<ffffffffb81a74be>] __kmem_cache_alloc_node+0x22e/0x2b0
-> >     [<ffffffffb8127b6e>] kmalloc_trace+0x2e/0xa0
-> >     [<ffffffffb87543d9>] class_create+0x29/0x80
-> >     [<ffffffffb8880d24>] usb_register_dev+0x1d4/0x2e0
-> 
-> As the call to class_create() in this path is now gone in 6.4-rc1, can
-> you retry that release to see if this is still there or not?
+On Mon, May 08, 2023 at 03:13:19PM +0800, Teng Qi wrote:
+> Thank you for an alternative solution. I will take a closer look at the
+> patch
+> you CCed me on.
+> However, I am still confused about why this cannot happen in practice.
+> Could you provide more information?
 
-No, wait, it's still there, I was looking at a development branch of
-mine that isn't sent upstream yet.  And syzbot just reported the same
-thing:
-	https://lore.kernel.org/r/00000000000058d15f05fb264013@google.com
+The only call to input_abs_set_val() in the event processing code that
+is running in an atomic context (under spinlock) is done for
+ABS_MT_SLOT, and the call is protected by checks ensuring that
+multitouch was set up properly for the device. This includes allocating
+absinfo. Therefore while the code may trip up static analyzers the
+problem will not happen in practice with the current code.
 
-So something's wrong here, let me dig into it tomorrow when I get a
-chance...
+Thanks.
 
-thanks,
-
-greg k-h
+-- 
+Dmitry
