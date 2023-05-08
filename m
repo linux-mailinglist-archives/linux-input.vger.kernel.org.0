@@ -2,156 +2,138 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE9256FB1A1
-	for <lists+linux-input@lfdr.de>; Mon,  8 May 2023 15:34:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F05BC6FB21E
+	for <lists+linux-input@lfdr.de>; Mon,  8 May 2023 16:01:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233869AbjEHNem (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 May 2023 09:34:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51016 "EHLO
+        id S233491AbjEHOBV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 May 2023 10:01:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234267AbjEHNei (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 8 May 2023 09:34:38 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D991930AE8
-        for <linux-input@vger.kernel.org>; Mon,  8 May 2023 06:34:35 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-965d2749e2eso589076566b.1
-        for <linux-input@vger.kernel.org>; Mon, 08 May 2023 06:34:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683552874; x=1686144874;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dNv2I8D8lHC3anjLGdCgDfw3zwn1qSi0/Ip3IkTMaV0=;
-        b=tOIFXK+lcH2ykBPyI8q9+jKClkFjlnFfoO3N14ovB/CYtesjCHJJmlb8dkToJGhO+6
-         QAoykSOtKQLG/ZLkx2qFyD5crlXQayazRidED74shOgBwO7S7mLTWot8pXyn/Z4WrIT3
-         Zjh+dqDt91gUt+MmbO4U+9WmhPnWBlmapabIIbvZ3OS8t4dERqAJULeiNk6F1GyqhaXT
-         TRoZNTgnQ+J20M9zAtT94kpiYNITnDeqMKbGrBsiUnswaIMCrIssL4/NJ8dqIcmx7Tlw
-         GHl4VPGWiAxP0IBV11SvPpOhb+y0pghAA3EIfXMk4hLXPJsvM5Tzn+qLLT2gNtE+I4tp
-         9bDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683552874; x=1686144874;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dNv2I8D8lHC3anjLGdCgDfw3zwn1qSi0/Ip3IkTMaV0=;
-        b=VVkuqqol02L3Kd9Uzmgt6zjiVA3zyXHl8NtqsK3BXaIHcTpjweOSRxWC0Qdn73Azqn
-         gzjIhMCUsdrnkbicuPaKj6KmPzauJQ4NOFxWcCk9PL1a+fEPvZbKFwrS3H0bX7AA0MU7
-         6r7SE//ZF3bmUlxFKA5xCwwxorTR9F8zyI/MO4b2tB6AszcOMjT2rpKke310i8vkXWQG
-         KwEIBQZvPircdtYi9FfgN3FuLTXHbdiWcoJ+zNxPTQ5vmVaK/0zvC2c5rY3TRBtbDLqZ
-         SwrNR32b/pW9VDXLVcI7r7DDxsE5yhk2V/svvaciqbvRb1K16kq8m9w1j10uxRyKjDsF
-         SU4g==
-X-Gm-Message-State: AC+VfDy1epSb2wxes2swCYLRmEmWYdswH6MjWP73me3Qe3xE8DaHPBYn
-        vYVIz2Yf5nwUfmhK0CyO7a35tw==
-X-Google-Smtp-Source: ACHHUZ4ccIzX5gazJRfi3DwQwRaXaprMkRCzcmHzIhwgt0MLpsVSjOBy5X0r6zj7lZcpfTtUfJAYQA==
-X-Received: by 2002:a17:907:5ca:b0:965:6cb9:b768 with SMTP id wg10-20020a17090705ca00b009656cb9b768mr7216816ejb.31.1683552874325;
-        Mon, 08 May 2023 06:34:34 -0700 (PDT)
-Received: from krzk-bin ([2a02:810d:15c0:828:50e0:ebdf:b755:b300])
-        by smtp.gmail.com with ESMTPSA id ib11-20020a1709072c6b00b00965ac1510f8sm5007185ejc.185.2023.05.08.06.34.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 May 2023 06:34:33 -0700 (PDT)
-Date:   Mon, 8 May 2023 15:34:31 +0200
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>, linux-gpio@vger.kernel.org,
-        linux-input@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Marek Vasut <marex@denx.de>,
-        Philippe Schenker <philippe.schenker@toradex.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Steffen Trumtrar <s.trumtrar@pengutronix.de>,
-        devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
-        linux-kernel@vger.kernel.org, Stefan Agner <stefan@agner.ch>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 2/2] dt-bindings: MFD: Convert STMPE to YAML schema
-Message-ID: <20230508133431.tqi7jmgcmfs5c3cf@krzk-bin>
-References: <20230426-stmpe-dt-bindings-v4-0-36fdd53d9919@linaro.org>
- <20230426-stmpe-dt-bindings-v4-2-36fdd53d9919@linaro.org>
+        with ESMTP id S233475AbjEHOBV (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 May 2023 10:01:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E330C348B5;
+        Mon,  8 May 2023 07:01:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 78DF962D9B;
+        Mon,  8 May 2023 14:01:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BDCEC433EF;
+        Mon,  8 May 2023 14:01:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1683554475;
+        bh=O8tjsOi+oKea2wipKtbwhwqOEm7vtb389lfsVLc4ECo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ymgv1cowBjCfDf/5ikYFlNvu2+D2jnmp7vR8c95Fs+X+AO9Z9RAYUOf1OlPwVxept
+         XHDgQUFJxDL98IXbSNLc2U1JKnisBGWsYm51DJ4IHGYzDojlv1On+XTfmI4RPFvvN/
+         be00CmCOf7hXa1tkn7Ni0VP7Fa4OSn8dnJMw6SZQ=
+Date:   Mon, 8 May 2023 16:01:12 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mirsad Goran Todorovac <mirsad.goran.todorovac@alu.hr>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>
+Subject: Re: [BUG] Kmemleak, possibly hiddev_connect(), in 6.3.0+ torvalds
+ tree commit gfc4354c6e5c2
+Message-ID: <2023050854-collage-dreamt-660c@gregkh>
+References: <f64b17fa-d509-ad30-6e8d-e4c979818047@alu.unizg.hr>
+ <2023050824-juiciness-catching-9290@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230426-stmpe-dt-bindings-v4-2-36fdd53d9919@linaro.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2023050824-juiciness-catching-9290@gregkh>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_FILL_THIS_FORM_SHORT,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 08 May 2023 14:35:10 +0200, Linus Walleij wrote:
-> This converts the STMPE MFD device tree bindings to the YAML
-> schema.
+On Mon, May 08, 2023 at 08:51:55AM +0200, Greg Kroah-Hartman wrote:
+> On Mon, May 08, 2023 at 08:30:07AM +0200, Mirsad Goran Todorovac wrote:
+> > Hi,
+> > 
+> > There seems to be a kernel memory leak in the USB keyboard driver.
+> > 
+> > The leaked memory allocs are 96 and 512 bytes.
+> > 
+> > The platform is Ubuntu 22.04 LTS on a assembled AMD Ryzen 9 with X670E PG
+> > Lightning mobo,
+> > and Genius SlimStar i220 GK-080012 keyboard.
+> > 
+> > (Logitech M100 HID mouse is not affected by the bug.)
+> > 
+> > BIOS is:
+> > 
+> >      *-firmware
+> >           description: BIOS
+> >           vendor: American Megatrends International, LLC.
+> >           physical id: 0
+> >           version: 1.21
+> >           date: 04/26/2023
+> >           size: 64KiB
+> > 
+> > The kernel is 6.3.0-torvalds-<id>-13466-gfc4354c6e5c2.
+> > 
+> > The keyboard is recognised as Chicony:
+> > 
+> >                  *-usb
+> >                       description: Keyboard
+> >                       product: CHICONY USB Keyboard
+> >                       vendor: CHICONY
+> >                       physical id: 2
+> >                       bus info: usb@5:2
+> >                       logical name: input35
+> >                       logical name: /dev/input/event4
+> >                       logical name: input35::capslock
+> >                       logical name: input35::numlock
+> >                       logical name: input35::scrolllock
+> >                       logical name: input36
+> >                       logical name: /dev/input/event5
+> >                       logical name: input37
+> >                       logical name: /dev/input/event6
+> >                       logical name: input38
+> >                       logical name: /dev/input/event8
+> >                       version: 2.30
+> >                       capabilities: usb-2.00 usb
+> >                       configuration: driver=usbhid maxpower=100mA
+> > speed=1Mbit/s
+> > 
+> > The bug is easily reproduced by unplugging the USB keyboard, waiting about a
+> > couple of seconds,
+> > and then reconnect and scan for memory leaks twice.
+> > 
+> > The kmemleak log is as follows [edited privacy info]:
+> > 
+> > root@hostname:/home/username# cat /sys/kernel/debug/kmemleak
+> > unreferenced object 0xffff8dd020037c00 (size 96):
+> >   comm "systemd-udevd", pid 435, jiffies 4294892550 (age 8909.356s)
+> >   hex dump (first 32 bytes):
+> >     5d 8e 4e b9 ff ff ff ff 00 00 00 00 00 00 00 00 ].N.............
+> >     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+> >   backtrace:
+> >     [<ffffffffb81a74be>] __kmem_cache_alloc_node+0x22e/0x2b0
+> >     [<ffffffffb8127b6e>] kmalloc_trace+0x2e/0xa0
+> >     [<ffffffffb87543d9>] class_create+0x29/0x80
+> >     [<ffffffffb8880d24>] usb_register_dev+0x1d4/0x2e0
 > 
-> Reference the existing schema for the ADC, just define the
-> other subnode schemas directly in the MFD schema.
-> 
-> Add two examples so we have examples covering both the simple
-> GPIO expander and the more complex with ADC and touchscreen.
-> 
-> Some in-tree users do not follow the naming conventions for nodes
-> so these DTS files need to be augmented to use proper node names
-> like "adc", "pwm", "gpio", "keyboard-controller" etc before the
-> bindings take effect on them.
-> 
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
-> ChangeLog v2->v3:
-> - Drop the required pwm properties already required by the
->   template pwm schema.
-> - Add the number of PWM cells as const.
-> ChangeLog v1->v2:
-> - Split off the GPIO bindings to their own schema, as the old
->   bindings didn't even have any GPIO bindings. Put the GPIO
->   schema before this schema so we can use GPIO in the examples.
-> - Drop nodename and pattern as STMPE is not a generic name.
-> - Add maxItems to the resets.
-> - Make wakeup-source just :true, as it is a generic property.
-> - Move unevaluatedProperties for subnodes right before properties
->   as requested.
-> - Name devices "port-expander" in the examples.
-> - Use lowercase hex in line init.
-> ---
->  .../devicetree/bindings/input/stmpe-keypad.txt     |  41 ---
->  .../bindings/input/touchscreen/stmpe.txt           | 108 --------
->  .../devicetree/bindings/mfd/st,stmpe.yaml          | 297 +++++++++++++++++++++
->  Documentation/devicetree/bindings/mfd/stmpe.txt    |  42 ---
->  4 files changed, 297 insertions(+), 191 deletions(-)
-> 
+> As the call to class_create() in this path is now gone in 6.4-rc1, can
+> you retry that release to see if this is still there or not?
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+No, wait, it's still there, I was looking at a development branch of
+mine that isn't sent upstream yet.  And syzbot just reported the same
+thing:
+	https://lore.kernel.org/r/00000000000058d15f05fb264013@google.com
 
-yamllint warnings/errors:
+So something's wrong here, let me dig into it tomorrow when I get a
+chance...
 
-dtschema/dtc warnings/errors:
-./Documentation/devicetree/bindings/mfd/st,stmpe.yaml: Unable to find schema file matching $id: http://devicetree.org/schemas/gpio/st,stmpe-gpio.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/st,stmpe.example.dtb: port-expander@43: gpio: False schema does not allow {'compatible': ['st,stmpe-gpio'], 'gpio-controller': True, '#gpio-cells': [[2]], 'interrupt-controller': True, '#interrupt-cells': [[2]], 'st,norequest-mask': [[15790082]]}
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/st,stmpe.yaml
-Documentation/devicetree/bindings/mfd/st,stmpe.example.dtb: /example-0/i2c/port-expander@43/gpio: failed to match any schema with compatible: ['st,stmpe-gpio']
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/st,stmpe.example.dtb: port-expander@41: gpio: False schema does not allow {'compatible': ['st,stmpe-gpio'], 'gpio-controller': True, '#gpio-cells': [[2]], 'interrupt-controller': True, '#interrupt-cells': [[2]]}
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/st,stmpe.yaml
-Documentation/devicetree/bindings/mfd/st,stmpe.example.dtb: /example-0/i2c/port-expander@41/gpio: failed to match any schema with compatible: ['st,stmpe-gpio']
+thanks,
 
-doc reference errors (make refcheckdocs):
-Documentation/usb/gadget_uvc.rst: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
-MAINTAINERS: Documentation/devicetree/bindings/pwm/pwm-apple.yaml
-
-See https://patchwork.ozlabs.org/patch/1778351
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+greg k-h
