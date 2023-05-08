@@ -2,69 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D39C66FA135
-	for <lists+linux-input@lfdr.de>; Mon,  8 May 2023 09:41:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E0776FA337
+	for <lists+linux-input@lfdr.de>; Mon,  8 May 2023 11:26:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232274AbjEHHlA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 May 2023 03:41:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49304 "EHLO
+        id S233052AbjEHJ0m (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 May 2023 05:26:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233288AbjEHHk7 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 8 May 2023 03:40:59 -0400
-Received: from domac.alu.hr (domac.alu.unizg.hr [IPv6:2001:b68:2:2800::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F5C361B0;
-        Mon,  8 May 2023 00:40:57 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by domac.alu.hr (Postfix) with ESMTP id 5A8D360161;
-        Mon,  8 May 2023 09:40:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
-        t=1683531653; bh=LcsRoVzy2DsfLxqYmDIf21xsrKudxm9I91adDGLAktY=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=kpkbbbhysbx7FV4r4GiMggC8S1aYH1cojJpKgwLbFwSBOmBYMLxTqAm2BHKhcVAah
-         o0vFAPc1vSafkN2TZC3csVTiF6i+YLCeBZZ4pZ4+pRuFsPN3/2HOy7svI5r04iuXdk
-         Rcl+InBsuzzR8f9hUfv69sh9c0VHYwRuWMM5JcQT28aBflvW2HwpWDuNhybCunMLHK
-         7kBgAa9YVYw1ATlRuUeFlXuYDHfOmr/4GMpudA7lpexe4wFTeqnlgQ55llNPE07Wq8
-         YCGoSCVH2MJQXqOZUG2LFAXysoOGKmzhAhIdojMAWGPiGzVLAvYS0YnNZGXZnHlsHA
-         QahDqaKbVfLgA==
-X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
-Received: from domac.alu.hr ([127.0.0.1])
-        by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id FxHpJaKemVL8; Mon,  8 May 2023 09:40:50 +0200 (CEST)
-Received: from [193.198.186.200] (pc-mtodorov.slava.alu.hr [193.198.186.200])
-        by domac.alu.hr (Postfix) with ESMTPSA id 7AF3360173;
-        Mon,  8 May 2023 09:40:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
-        t=1683531648; bh=LcsRoVzy2DsfLxqYmDIf21xsrKudxm9I91adDGLAktY=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=kllWp5gmJ4eJtIj26EGwrYCvMrhQkydfHbZwwwqsM/HcXj54ba7RaDjLu3naLfdxq
-         60FZijE5iX7CrqK0S8/Vv7c7XUvyb+UqgdY96jOBrpEvf3yizyVQK7N8WIlStbyC7j
-         pjEVVT5LnQUhzhmj4FV0cIVh53w8rDp0umNu0hbQ0usYZJp7PvTBON/Pe9gyLvstdk
-         EdMtnIUXWcZiINrIF2WtcUbf/cXC/iZv5G/UgnyN+CGfqh3yz1DdGaoy/bFitVJRKx
-         a6aHqhvGaxvFb+Ee7F88phLr9BQ8xxnSLtu2HoO2Ls+EGVPkEmz2l7Z75znhBOe+x6
-         wXguearYfSlDA==
-Message-ID: <30daba6b-e264-5141-221f-5daed103b4ce@alu.unizg.hr>
-Date:   Mon, 8 May 2023 09:40:33 +0200
+        with ESMTP id S233259AbjEHJ0k (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 May 2023 05:26:40 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8134D1BEF
+        for <linux-input@vger.kernel.org>; Mon,  8 May 2023 02:26:38 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-50be0d835aaso7841314a12.3
+        for <linux-input@vger.kernel.org>; Mon, 08 May 2023 02:26:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683537997; x=1686129997;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MiCCw6JVpqLvBjxuPw1yzCHzKR/sVakiwZutl82ltXI=;
+        b=m9j3yNB/3j3E/6fpurCNLFASZERGHi46OQt8kzyW9FNlCQ1FNT2GhqeqzkgnwNp0bv
+         lw1gBq9VdCQKkLzQRSqETJxJLMMy3swM+q/f3uF3Nkx3x+Tn1s1YcvrCigyW/Iz/9pVu
+         HiOfeFM3VG36hNPUEcLEmYl7mVxJP0FxMaFs7Np7IfVzK47SgiuD3/PVGPXd2L/JBAOo
+         8jNVmbkaQ8f6+qPEnzjIEkWBfmFUKSarsZjwAzQ22pZDHAkP/h9tjrVOH05Sgpy9a01J
+         prvhC+u28HxUK8MtETLvXyKbbbH5St35kNER3QA3rrVDEkVm+KqT9x3uWKvN4AtkmnLM
+         ht6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683537997; x=1686129997;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MiCCw6JVpqLvBjxuPw1yzCHzKR/sVakiwZutl82ltXI=;
+        b=EqunJIDASe/RRffPqXTwF5lsnQl+9NLrYjpUafmH70+hDVkFbCu8M509jX79b91Vnq
+         T2RKPnn0htVDbCoJqtUEHxYW4ZDhAW82emRECKhv8fgSBWcXgZEKCGA//tgF6LEikKf7
+         kfCyVgxFyf4ynCmg1qT12dDrS+a550CoDFx/VHNra00JNeJcXCyd6XL8/8sWFx3abOW4
+         4PSw10ENazGzanbWhchaMgdgxNNBicrp+Y/xXTIvf/sQSfsFgNFrtekArfghGlhAIVOA
+         k3Dx3JphNYa0JC398m5RhnEbL3Wy9IzTXywUHjp0bkBf7NLg6kn1E5z4OEe16wwfEo0Q
+         0RhA==
+X-Gm-Message-State: AC+VfDyNYqsl5ZJPIakBenEZmIpeS1F00TKj9zz8lYmq++bW+CTCV/E4
+        BeIGNq9jiygROhrLeJuLbI8jQw==
+X-Google-Smtp-Source: ACHHUZ4oSPt/qB3Tyl8i9/yHcjt2sV4nl/PsiHtr0b18C6HMzsQHpCse2qMCin1fQ33JLgiu0JjN+g==
+X-Received: by 2002:a05:6402:28d:b0:506:fcd5:6159 with SMTP id l13-20020a056402028d00b00506fcd56159mr7754402edv.21.1683537997025;
+        Mon, 08 May 2023 02:26:37 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:50e0:ebdf:b755:b300? ([2a02:810d:15c0:828:50e0:ebdf:b755:b300])
+        by smtp.gmail.com with ESMTPSA id f18-20020a056402151200b0050daa883545sm578585edw.64.2023.05.08.02.26.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 May 2023 02:26:36 -0700 (PDT)
+Message-ID: <1da9fbcb-07c7-5bf8-4461-dc6578101f84@linaro.org>
+Date:   Mon, 8 May 2023 11:26:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [BUG] Kmemleak, possibly hiddev_connect(), in 6.3.0+ torvalds
- tree commit gfc4354c6e5c2
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mirsad Goran Todorovac <mirsad.goran.todorovac@alu.hr>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>
-References: <f64b17fa-d509-ad30-6e8d-e4c979818047@alu.unizg.hr>
- <2023050824-juiciness-catching-9290@gregkh>
-Content-Language: en-US, hr
-From:   Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
-In-Reply-To: <2023050824-juiciness-catching-9290@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3 1/2] dt-bindings: gpio: Add STMPE YAML DT schema
+Content-Language: en-US
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        linux-gpio@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Steffen Trumtrar <s.trumtrar@pengutronix.de>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Philippe Schenker <philippe.schenker@toradex.com>,
+        Stefan Agner <stefan@agner.ch>, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, Marek Vasut <marex@denx.de>,
+        Lee Jones <lee@kernel.org>
+References: <20230426-stmpe-dt-bindings-v3-0-eac1d736e488@linaro.org>
+ <20230426-stmpe-dt-bindings-v3-1-eac1d736e488@linaro.org>
+ <168349835606.3623231.4270033272905089508.robh@kernel.org>
+ <CACRpkdZsC6s3MjX5Mkr5u763CYSAotJKcK5wZMwCQxgEzvw+vQ@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CACRpkdZsC6s3MjX5Mkr5u763CYSAotJKcK5wZMwCQxgEzvw+vQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-        T_FILL_THIS_FORM_SHORT,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,91 +90,44 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 5/8/23 08:51, Greg Kroah-Hartman wrote:
-> On Mon, May 08, 2023 at 08:30:07AM +0200, Mirsad Goran Todorovac wrote:
->> Hi,
->>
->> There seems to be a kernel memory leak in the USB keyboard driver.
->>
->> The leaked memory allocs are 96 and 512 bytes.
->>
->> The platform is Ubuntu 22.04 LTS on a assembled AMD Ryzen 9 with X670E PG
->> Lightning mobo,
->> and Genius SlimStar i220 GK-080012 keyboard.
->>
->> (Logitech M100 HID mouse is not affected by the bug.)
->>
->> BIOS is:
->>
->>       *-firmware
->>            description: BIOS
->>            vendor: American Megatrends International, LLC.
->>            physical id: 0
->>            version: 1.21
->>            date: 04/26/2023
->>            size: 64KiB
->>
->> The kernel is 6.3.0-torvalds-<id>-13466-gfc4354c6e5c2.
->>
->> The keyboard is recognised as Chicony:
->>
->>                   *-usb
->>                        description: Keyboard
->>                        product: CHICONY USB Keyboard
->>                        vendor: CHICONY
->>                        physical id: 2
->>                        bus info: usb@5:2
->>                        logical name: input35
->>                        logical name: /dev/input/event4
->>                        logical name: input35::capslock
->>                        logical name: input35::numlock
->>                        logical name: input35::scrolllock
->>                        logical name: input36
->>                        logical name: /dev/input/event5
->>                        logical name: input37
->>                        logical name: /dev/input/event6
->>                        logical name: input38
->>                        logical name: /dev/input/event8
->>                        version: 2.30
->>                        capabilities: usb-2.00 usb
->>                        configuration: driver=usbhid maxpower=100mA
->> speed=1Mbit/s
->>
->> The bug is easily reproduced by unplugging the USB keyboard, waiting about a
->> couple of seconds,
->> and then reconnect and scan for memory leaks twice.
->>
->> The kmemleak log is as follows [edited privacy info]:
->>
->> root@hostname:/home/username# cat /sys/kernel/debug/kmemleak
->> unreferenced object 0xffff8dd020037c00 (size 96):
->>    comm "systemd-udevd", pid 435, jiffies 4294892550 (age 8909.356s)
->>    hex dump (first 32 bytes):
->>      5d 8e 4e b9 ff ff ff ff 00 00 00 00 00 00 00 00 ].N.............
->>      00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
->>    backtrace:
->>      [<ffffffffb81a74be>] __kmem_cache_alloc_node+0x22e/0x2b0
->>      [<ffffffffb8127b6e>] kmalloc_trace+0x2e/0xa0
->>      [<ffffffffb87543d9>] class_create+0x29/0x80
->>      [<ffffffffb8880d24>] usb_register_dev+0x1d4/0x2e0
+On 08/05/2023 08:30, Linus Walleij wrote:
+> On Mon, May 8, 2023 at 12:26 AM Rob Herring <robh@kernel.org> wrote:
+>> On Sun, 07 May 2023 23:19:19 +0200, Linus Walleij wrote:
 > 
-> As the call to class_create() in this path is now gone in 6.4-rc1, can
-> you retry that release to see if this is still there or not?
+>>> This adds a schema for the STMPE GPIO that while it is used a
+>>> lot in the kernel tree is anyway missing its bindings.
+>>>
+>>> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+>>> ---
+>>> ChangeLog v2->v3:
+>>> - Use a compact hog node schema backed by the standard hog
+>>>   schema.
+>>> ChangeLog v1->v2:
+>>> - New patch split off from the MFD patch.
+>>> ---
+>>>  .../devicetree/bindings/gpio/st,stmpe-gpio.yaml    | 51 ++++++++++++++++++++++
+>>>  1 file changed, 51 insertions(+)
+>>>
+>>
+>> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+>> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+>>
+>> yamllint warnings/errors:
+>>
+>> dtschema/dtc warnings/errors:
+>> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ovti,ov2685.example.dtb: camera-sensor@3c: port:endpoint:data-lanes: [[1]] is too short
+>>         From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ovti,ov2685.yaml
+>> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/rockchip-isp1.example.dtb: camera@3c: port:endpoint:data-lanes: [[1]] is too short
+>>         From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ovti,ov2685.yaml
+>> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/fsl,imx6q-pcie-ep.example.dtb: pcie-ep@33800000: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
+>>         From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/fsl,imx6q-pcie-ep.yaml
+> 
+> Looks like these are not mine...
 
-Certainly, but probably not before 6 PM UTC+02.
+Yep, these are coming from other issues, now happening in Linus' master.
+I fixed the PCI and I will send it together with the fix for media to Linus.
+
 
 Best regards,
-Mirsad
+Krzysztof
 
--- 
-Mirsad Goran Todorovac
-Sistem inženjer
-Grafički fakultet | Akademija likovnih umjetnosti
-Sveučilište u Zagrebu
-
-System engineer
-Faculty of Graphic Arts | Academy of Fine Arts
-University of Zagreb, Republic of Croatia
-
-"What’s this thing suddenly coming towards me very fast? Very very fast.
-... I wonder if it will be friends with me?"
