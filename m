@@ -2,55 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B8396F9E69
-	for <lists+linux-input@lfdr.de>; Mon,  8 May 2023 05:56:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6D2A6F9FF0
+	for <lists+linux-input@lfdr.de>; Mon,  8 May 2023 08:30:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232176AbjEHD4F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 7 May 2023 23:56:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54684 "EHLO
+        id S229716AbjEHGae (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 May 2023 02:30:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229986AbjEHD4E (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 7 May 2023 23:56:04 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19D025B99;
-        Sun,  7 May 2023 20:56:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9B89A6109A;
-        Mon,  8 May 2023 03:56:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CB283C433D2;
-        Mon,  8 May 2023 03:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683518161;
-        bh=HYMao/VV+DNw3yoZ1/SAY3oulWQRGxabBJ87rUG0m18=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=OVz/0UidLKqF3SJm5FLtXH5qtEUZUTFmshQP3KT/E6Zi0fEfmwEzp/7N4+nqv1YQR
-         UHG9MyOZSF8DUkOXSlQUaKl2wdWvO9hBOhPggIZ9PJl312ckzqzhf5ai2q571RHiw+
-         fE61qFzxFI4EiGaEh38XEoKE0uL96ychqBJihINgm3sJuMAkHh0hdpfykHarHKjuJF
-         HLG3CZKMHnPdtCZDWpLU50VZvrEVYNpaVGlLgxf6EAPbzjHZKX559tgrYfGmrhpsA2
-         +6t0Yun07+s9/FblecZKEFPAik4jRlWRu8EytWHuxDZLCX8IfxeDArcBbDhLVZPhOL
-         MKXx5Yyt81HOA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B14B0E26D25;
-        Mon,  8 May 2023 03:56:01 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S232804AbjEHGab (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 May 2023 02:30:31 -0400
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2469191C9
+        for <linux-input@vger.kernel.org>; Sun,  7 May 2023 23:30:22 -0700 (PDT)
+Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-55cc8aadc97so61699527b3.3
+        for <linux-input@vger.kernel.org>; Sun, 07 May 2023 23:30:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683527421; x=1686119421;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EiW0EErM60L5kKyN8Tg1XRCsrwIPCFSbfaR0hDH4fIM=;
+        b=PD5U7ZMhII+6+SjvgyG4A5wFy7HdkIORS9BQEGaFBmJjE9+oMN0Vx8HqiWZs4eVOPs
+         afuHj1WMTyyw/hS0ED2tANEKGvJ4ptWToyfBrqtRdOtAe6SfT5kQODSfuLqgeUr4tX7o
+         mU0JgACABNru85+HGLVuNmKLvj1xgeGQDFlGX5IprfGDeoDm/jnmj3MtccOX8TBDvXPK
+         65cCc7knVFso0feyk/QJtDFhd+2nFo4LbgZjLF+Z/r0gtsRAtmxkcyrkqyyMOTHznhrg
+         gcRiVhptcrcmE32WIR6JYFjATJ6rWFR9+WRi0NzOlRuGV0gLL9vNkyAM3kH9UFCIAMNo
+         hang==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683527421; x=1686119421;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EiW0EErM60L5kKyN8Tg1XRCsrwIPCFSbfaR0hDH4fIM=;
+        b=Buya96R/gaCMnHLWXFHONc3vrhfhMcqWg8upH3eS8/Z3WRIvYWfFKjm1kwtFUeX+Lw
+         PaBirv6C7R0K8Z02VvrcAvDT5ThpPcuBN39IpUPI5tfNA2eiVYX4GxNXXE5Nx1COdtSQ
+         f9PrHIlqTQH3mcQmk086c7HlfoOMCFCjwDCnqpJc3hZmANf0kqqfQ2RAO+lPyQShbs/z
+         sbbqY20CMePTwGu+YwxgH3fBBoobV+dR5JnVFoV6KT3dF0swM6uFnLmIP35YBUneydBJ
+         k8d4XmpM0gr2tAQ04p0YmvhD6vb8aECqkKfQXdqu0CQlf/FNkRe4hjtucO4f3Zk/TR06
+         oPZA==
+X-Gm-Message-State: AC+VfDxgoblRdqe/h2QF2XqB1aK2s9B5eNaWNf1J0/isHoiyaRQ5cy17
+        0E/2rynJ+Ma4VbM8KvM861TqjEFc5SKgzyuwCb2aOQ==
+X-Google-Smtp-Source: ACHHUZ56+p3cOj5Ygdf5gAj+LPJUGFCGrlnUoUN/TeVRSYGs3dJ22juJvikJC8sZjsPhzK4znwJaCoGPzbb8PFzrKkw=
+X-Received: by 2002:a81:6587:0:b0:555:cee3:d143 with SMTP id
+ z129-20020a816587000000b00555cee3d143mr10089004ywb.4.1683527421593; Sun, 07
+ May 2023 23:30:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] dt-bindings: google,cros-ec-keyb: Fix spelling error
-From:   patchwork-bot+chrome-platform@kernel.org
-Message-Id: <168351816172.5651.4021809655388820945.git-patchwork-notify@kernel.org>
-Date:   Mon, 08 May 2023 03:56:01 +0000
-References: <20230220135531.1987351-1-linus.walleij@linaro.org>
-In-Reply-To: <20230220135531.1987351-1-linus.walleij@linaro.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        bleung@chromium.org, groeck@chromium.org,
-        devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+References: <20230426-stmpe-dt-bindings-v3-0-eac1d736e488@linaro.org>
+ <20230426-stmpe-dt-bindings-v3-1-eac1d736e488@linaro.org> <168349835606.3623231.4270033272905089508.robh@kernel.org>
+In-Reply-To: <168349835606.3623231.4270033272905089508.robh@kernel.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 8 May 2023 08:30:10 +0200
+Message-ID: <CACRpkdZsC6s3MjX5Mkr5u763CYSAotJKcK5wZMwCQxgEzvw+vQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: gpio: Add STMPE YAML DT schema
+To:     Rob Herring <robh@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        linux-gpio@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Steffen Trumtrar <s.trumtrar@pengutronix.de>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Philippe Schenker <philippe.schenker@toradex.com>,
+        Stefan Agner <stefan@agner.ch>, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, Marek Vasut <marex@denx.de>,
+        Lee Jones <lee@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,26 +81,50 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello:
+On Mon, May 8, 2023 at 12:26=E2=80=AFAM Rob Herring <robh@kernel.org> wrote=
+:
+> On Sun, 07 May 2023 23:19:19 +0200, Linus Walleij wrote:
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Dmitry Torokhov <dmitry.torokhov@gmail.com>:
+> > This adds a schema for the STMPE GPIO that while it is used a
+> > lot in the kernel tree is anyway missing its bindings.
+> >
+> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> > ---
+> > ChangeLog v2->v3:
+> > - Use a compact hog node schema backed by the standard hog
+> >   schema.
+> > ChangeLog v1->v2:
+> > - New patch split off from the MFD patch.
+> > ---
+> >  .../devicetree/bindings/gpio/st,stmpe-gpio.yaml    | 51 ++++++++++++++=
+++++++++
+> >  1 file changed, 51 insertions(+)
+> >
+>
+> My bot found errors running 'make DT_CHECKER_FLAGS=3D-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+>
+> yamllint warnings/errors:
+>
+> dtschema/dtc warnings/errors:
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/m=
+edia/i2c/ovti,ov2685.example.dtb: camera-sensor@3c: port:endpoint:data-lane=
+s: [[1]] is too short
+>         From schema: /builds/robherring/dt-review-ci/linux/Documentation/=
+devicetree/bindings/media/i2c/ovti,ov2685.yaml
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/m=
+edia/rockchip-isp1.example.dtb: camera@3c: port:endpoint:data-lanes: [[1]] =
+is too short
+>         From schema: /builds/robherring/dt-review-ci/linux/Documentation/=
+devicetree/bindings/media/i2c/ovti,ov2685.yaml
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/p=
+ci/fsl,imx6q-pcie-ep.example.dtb: pcie-ep@33800000: Unevaluated properties =
+are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigne=
+d-clocks' were unexpected)
+>         From schema: /builds/robherring/dt-review-ci/linux/Documentation/=
+devicetree/bindings/pci/fsl,imx6q-pcie-ep.yaml
 
-On Mon, 20 Feb 2023 14:55:31 +0100 you wrote:
-> The dependency had an obvious spelling error. Fix it.
-> 
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
->  .../devicetree/bindings/input/google,cros-ec-keyb.yaml          | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Looks like these are not mine...
 
-Here is the summary with links:
-  - dt-bindings: google,cros-ec-keyb: Fix spelling error
-    https://git.kernel.org/chrome-platform/c/c6f3b684c2c4
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Yours,
+Linus Walleij
