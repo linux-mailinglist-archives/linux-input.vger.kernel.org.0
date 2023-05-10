@@ -2,67 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FA036FE437
-	for <lists+linux-input@lfdr.de>; Wed, 10 May 2023 20:51:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4AE46FE47A
+	for <lists+linux-input@lfdr.de>; Wed, 10 May 2023 21:27:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235511AbjEJSvr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 May 2023 14:51:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44274 "EHLO
+        id S235979AbjEJT1g (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 May 2023 15:27:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbjEJSvo (ORCPT
+        with ESMTP id S229661AbjEJT1f (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 May 2023 14:51:44 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0F6465A0
-        for <linux-input@vger.kernel.org>; Wed, 10 May 2023 11:51:33 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id 38308e7fff4ca-2acb6571922so58537081fa.0
-        for <linux-input@vger.kernel.org>; Wed, 10 May 2023 11:51:33 -0700 (PDT)
+        Wed, 10 May 2023 15:27:35 -0400
+Received: from mail-io1-xd49.google.com (mail-io1-xd49.google.com [IPv6:2607:f8b0:4864:20::d49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19EED65AA
+        for <linux-input@vger.kernel.org>; Wed, 10 May 2023 12:27:34 -0700 (PDT)
+Received: by mail-io1-xd49.google.com with SMTP id ca18e2360f4ac-76984376366so1116720239f.3
+        for <linux-input@vger.kernel.org>; Wed, 10 May 2023 12:27:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1683744692; x=1686336692;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cFGqFppUzpxmVkjUZvC53QtHHywz1Qo6h6Pn4F/DeOo=;
-        b=dRetkPZ+CeYM6y+N3A8Ue6DO/zDRu6faoqdZKsAf8J0KFGPmPjyIb/EaIzvvHRFc7i
-         gRqproQ/h3YhAJewP4g9I0vsejKFo309PgYdV6Po+9PH+QxCEcEYV6wH/4rbzbRccguZ
-         6lJcN2QJTjEmkQhVUIDgAwqEac85hDIektPK0=
+        d=google.com; s=20221208; t=1683746853; x=1686338853;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=+inPJYpepp+ACSZW6BIAIkEOqyig746NS3gZIOmFwLQ=;
+        b=zAfktYe/8hlDQRg91R5fUACj36UXWDHKU/UIuEYzUEIk9dDY8wfLWMXG5vSC6exkMH
+         0+QVCoHESA6ZzzB+eh1uqdT6Xv9b4Gp5yrJVf7LB7ZcfMVLw0WDt3F5kPoIi7YKe6Uv/
+         bo/qeYoqkBFePfOglnJ3I7Az3aq4uWI+H0rO9eKhwHJqAuWD4MlnqsCWgckrUktuYFyb
+         0KftK9Qj5XguVZ5y2eWS9t2mJkTFIIWn9v2ZKRrcfwOye7NSIqemsoamkbBI2o6gCSqk
+         ZWUMl8h18R+q53P56RwclMicEaDlYdEdxxtq0qDVedDGTMy9aFbGJ0OQf/A/ei+tsJ2d
+         3nrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683744692; x=1686336692;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cFGqFppUzpxmVkjUZvC53QtHHywz1Qo6h6Pn4F/DeOo=;
-        b=K2Lp20Hr2sYQyFp2SG8fVXEzeMF1uP3uLfeL1jwndvHcv4MYH+jl8YGns+ztzlIz1W
-         rye+JwVEIkBnZiiE+7g6G4HzXEEuL5mtYlr/Z5P0iUC2RjihMxntDoCODPX+gXmOlaO6
-         oadK/PaScO8HpeBdDy1IFX9gXBr4OExY1hTDzE1sSBe2clXaV0jhA/dt321IdvCm6Zae
-         5LVCGRkdkROIIcCMhtRM8B2BRf3QU1FJJFsWZLfl9nL8DXWAQJ08Zx1iAExAAkHztTN/
-         729cxH56GBye7z0uwJPZQm++Rhd1BjQSwLuJr5SG+z7ga2U9AWjMix0/jatfgHVfE/IE
-         39cA==
-X-Gm-Message-State: AC+VfDw9jzXSBQGIPh9ee0XhPHRVrsIYvX23KylzFhNjDo5Gw13d+dwa
-        gbnvmVTThwXQswl5Q2vfWIdekXN50YRBQdrSB/7Gfg==
-X-Google-Smtp-Source: ACHHUZ7cJmHdcg31stA7TUYM2h7LeBE8zcTDEECiPZW7O5XhIGQzsrGE5q/Ubu5bYuEnl7rZE2HLL97g1M62iyv0Swk=
-X-Received: by 2002:a2e:878c:0:b0:2ad:8cc6:135a with SMTP id
- n12-20020a2e878c000000b002ad8cc6135amr2563024lji.33.1683744691683; Wed, 10
- May 2023 11:51:31 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 10 May 2023 11:51:31 -0700
-MIME-Version: 1.0
-In-Reply-To: <ZFWZ785FRHDii/+5@google.com>
-References: <20230505232417.1377393-1-swboyd@chromium.org> <ZFWZ785FRHDii/+5@google.com>
-From:   Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date:   Wed, 10 May 2023 11:51:31 -0700
-Message-ID: <CAE-0n521MhmdWjEb0-xwnPLQz07bMCGyXokZ3L87azYcw6_C_Q@mail.gmail.com>
-Subject: Re: [PATCH] HID: google: Don't use devm for hid_hw_stop()
+        d=1e100.net; s=20221208; t=1683746853; x=1686338853;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+inPJYpepp+ACSZW6BIAIkEOqyig746NS3gZIOmFwLQ=;
+        b=LopEisdkMRnXNQ4h+8NccSq5sLyOYXuScAi1IHgcnrJEXzGUPLb1XsJks/XAE9Pj+0
+         QKJAbazsBWXq/pmRUWzBAoFkH5ZJGXVKIcqIKayvtnCNMEBzdz98HG64me6QkmhREQ/L
+         WZxz7x/A4y/QpQ+6hMyN3XT5+jo8U3dF0xeKJFpy4Gf+DqU8pcCbdbEvqx3VKc15IlGz
+         6wHMxzsaL52HtC09oFQSXGQyPB3O0J0gaXXu8fUX+dVzlxzoOyzI/Ax8LJAEa58dtjwQ
+         TXLNbJZQnZ4aXEQQb6FZH50Fd3VBp5xm6DfwEVuvJkLRZlyw2nQJLwUSWWw4UH0fRE9v
+         bl5A==
+X-Gm-Message-State: AC+VfDzpBKrXIKzaiQJHiKv13Zr9/ezaBGY9xLpBPTYnJaVwZlLua22B
+        bzFZ+FXWj8pYxL5rhZa5xY3x8is9iNLhQjLKISA4
+X-Google-Smtp-Source: ACHHUZ5fUmC0jL3VmaEhyRVfEVXyS7Zoj1O33yPSXCgoxzEUOxS+A7eDVyegeF8lL3pumdyUt/HOlmRpfNJJtuhYhwB/
+X-Received: from horchata.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:5b3])
+ (user=jefferymiller job=sendgmr) by 2002:a5e:dd05:0:b0:760:efd4:9582 with
+ SMTP id t5-20020a5edd05000000b00760efd49582mr8964611iop.2.1683746853439; Wed,
+ 10 May 2023 12:27:33 -0700 (PDT)
+Date:   Wed, 10 May 2023 19:27:22 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.1.606.ga4b1b128d6-goog
+Message-ID: <20230510192731.300786-1-jefferymiller@google.com>
+Subject: [PATCH] Input: synaptics-rmi4 - retry reading SMBus version on resume
+From:   Jeffery Miller <jefferymiller@google.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        linux-input@vger.kernel.org
+Cc:     Andrew Duggan <andrew@duggan.us>,
+        Jonathan Denose <jdenose@chromium.org>, jdenose@google.com,
+        Lyude Paul <lyude@redhat.com>, loic.poulain@linaro.org,
+        benjamin.tissoires@redhat.com,
+        Andrew Duggan <aduggan@synaptics.com>,
+        Jeffery Miller <jefferymiller@google.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        "=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?=" 
+        <u.kleine-koenig@pengutronix.de>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,130 +76,107 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Quoting Dmitry Torokhov (2023-05-05 17:06:07)
-> On Fri, May 05, 2023 at 04:24:16PM -0700, Stephen Boyd wrote:
-> >
-> ...
-> > Unfortunately, the hid google hammer driver hand rolls a devm function
-> > to call hid_hw_stop() when the driver is unbound and implements an
-> > hid_driver::remove() function. The driver core doesn't call the devm
-> > release functions until _after_ the bus unbinds the driver, so the order
-> > of operations is like this:
->
-> Excellent analysis, but the problem is not limited to the hammer driver
-> (potentially) and shalt be dealt with appropriately, at the HID bus
-> level.
+On resume there can be a period of time after the
+preceding serio_resume -> psmouse_deactivate call
+where calls to rmi_smb_get_version fail with
+-ENXIO.
 
-Thanks. I thought of the bus level approach as well, but I was trying to
-keep the fix isolated to the driver that had the problem. I'd like to
-get the fix into the stable kernel, as this fixes a regression
-introduced by commit d950db3f80a8 ("HID: google: switch to devm when
-registering keyboard backlight LED") in v5.18.
+The call path in rmi_smb_resume is rmi_smb_resume -> rmi_smb_reset ->
+rmi_smb_enable_smbus_mode -> rmi_smb_get_version where
+this failure would occur.
 
-Is the bus level approach going to be acceptable as a stable backport?
+Adding a retry loop ensures that after rmi_smb_reset returns
+the following rmi_driver_resume calls in rmi_smbus_resume can
+succeed.
 
-Is it a problem to call hid_hw_stop() directly? I suppose for the
-hid-google-hammer driver we don't want to leave the led sysfs node
-hanging around after the hid_hw_stop() function has been called either,
-so some sort of forced ejection of the devm led device is needed and the
-bus level approach helps there.
+This behavior was seen on a Lenovo T440p machine that required
+a delay of approximately 7-12ms.
+The retry limit of 5 is chosen to be larger than
+this observed delay.
 
-I was curious to see if anything else had this problem so I did this
-poor grep to find code that isn't calling hid_hw_stop() from probe or
-remove:
+With this patch the trimmed resume logs look similar to:
+```
+psmouse serio1: PM: calling serio_resume+0x0/0x8c @ 5399, parent: i8042
+[5399] libps2:__ps2_command:316: psmouse serio1: f5 [] - 0/00000000 []
+psmouse serio1: PM: serio_resume+0x0/0x8c returned 0 after 3259 usecs
+...
+rmi4_smbus 0-002c: PM: calling rmi_smb_resume ... @ 5454, parent: i2c-0
+...
+[5454] i2c_i801:i801_check_post:414: i801_smbus 0000:00:1f.3: No response
+smbus_result: i2c-0 a=02c f=0000 c=fd BYTE_DATA rd res=-6
+rmi4_smbus 0-002c: failed to get SMBus version number!
+rmi4_smbus 0-002c: sleeping to retry getting the SMBus version number
+...
+rmi4_smbus 0-002c: PM: rmi_smb_resume ... returned 0 after 21351 usecs
+```
 
-  git grep -W hid_hw_stop | grep .c= | grep -v probe | grep -v remove
+Signed-off-by: Jeffery Miller <jefferymiller@google.com>
+---
 
-and I got this list (minus hid core which doesn't matter):
+Early boot dmesg include:
+```
+rmi4_smbus 0-002c: registering SMbus-connected sensor
+rmi4_f01 rmi4-00.fn01: found RMI device, manufacturer: Synaptics, product: TM2722-001, fw id: 0
+```
 
- drivers/hid/hid-google-hammer.c=static void hammer_stop(void *hdev)
- drivers/hid/hid-mcp2221.c=static void mcp2221_hid_unregister(void *ptr)
- drivers/hid/hid-wiimote-core.c=static void wiimote_destroy(struct
-wiimote_data *wdata)
- drivers/hid/wacom_sys.c=static int wacom_parse_and_register(struct
-wacom *wacom, bool wireless)
- drivers/hid/wacom_sys.c=static void wacom_wireless_work(struct
-work_struct *work)
- drivers/hid/wacom_sys.c=static void wacom_mode_change_work(struct
-work_struct *work)
+The resume order looks correct. The `psmouse serio1` resume returns
+before the rmi_smb_resume is called showing the patch from
+https://lore.kernel.org/all/89456fcd-a113-4c82-4b10-a9bcaefac68f@google.com/
+is applied and working for that ordering.
 
-The wacom_sys.c ones look OK because they're during workqueues that are
-probably flushed, and wiimote_destroy() is called from an error path or
-driver remove, so it is also OK. But mcp2221_hid_unregister() has the
-same problem.
+I attempted to try to rule out some interaction between the concurrent
+input resume calls for other i8042 devices.
+Adding a 7ms delay after psmouse_deactivate which is called in the
+preceding psmouse serio1 serio_resume function also allows
+this version call to succeed.
 
-If you look at drivers/hid/hid-mcp2221.c you'll see this comment above
-mcp2221_remove() too:
+If the rmi_smb_probe device_disable_async_suspend patch is applied
+it will also avoid this issue. However the time between
+the psmouse_deactivate call for serio_resume and rmi_smb_resume
+was over 60ms on my test machine. This would naturally be long
+enough to avoid this particular delay.
 
- /* This is needed to be sure hid_hw_stop() isn't called twice by the
-subsystem */
- static void mcp2221_remove(struct hid_device *hdev)
 
-which is kinda weird. Why can't we have a devm_hid_hw_start() API that
-tells the hid bus to not call hid_hw_stop() at all in
-hid_device_remove()? That would allow us to avoid this pitfall where
-everything is moved to devm and the driver has no remove function at all
-and we forget to populate an empty one. Instead, the bus layer can know
-that hardware will be stopped with devm later.
+ drivers/input/rmi4/rmi_smbus.c | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
->
-> Actually, it is not even limited to HID, but exists in most buses with
-> non-trivial ->remove() implementation. For example I fixed similar issue
-> in I2C in 5b5475826c52 ("i2c: ensure timely release of driver-allocated
-> resources"). I tried fixing it in SPI but Mark has some objections, and
-> wanted to fix it in the driver core, so I was thinking about it and then
-> dropped the ball. At this time I do not think fixing it at driver core
-> makes logic any clearer, so I think we just need to fix a handful of
-> buses.
+diff --git a/drivers/input/rmi4/rmi_smbus.c b/drivers/input/rmi4/rmi_smbus.c
+index 4bf0e1df6a4a..386e80ae141b 100644
+--- a/drivers/input/rmi4/rmi_smbus.c
++++ b/drivers/input/rmi4/rmi_smbus.c
+@@ -43,15 +43,26 @@ static int rmi_smb_get_version(struct rmi_smb_xport *rmi_smb)
+ {
+ 	struct i2c_client *client = rmi_smb->client;
+ 	int retval;
++	int tries = 0;
+ 
+ 	/* Check if for SMBus new version device by reading version byte. */
+-	retval = i2c_smbus_read_byte_data(client, SMB_PROTOCOL_VERSION_ADDRESS);
+-	if (retval < 0) {
+-		dev_err(&client->dev, "failed to get SMBus version number!\n");
+-		return retval;
+-	}
++	do {
++		if (tries > 0) {
++			dev_warn(&client->dev, "sleeping to retry getting the SMBus version number\n");
++			fsleep(5000);
++		}
++		retval = i2c_smbus_read_byte_data(client,
++				SMB_PROTOCOL_VERSION_ADDRESS);
++		if (retval >= 0)
++			return retval + 1;
+ 
+-	return retval + 1;
++		dev_err(&client->dev, "failed to get SMBus version number!\n");
++		/* On resume the read of the version can
++		 * momentarily return -ENXIO.
++		 * Retry to allow additional time for it to succeed.
++		 */
++	} while (retval == -ENXIO && tries++ < 5);
++	return retval;
+ }
+ 
+ /* SMB block write - wrapper over ic2_smb_write_block */
+-- 
+2.40.1.606.ga4b1b128d6-goog
 
-Do you have a link to that discussion?
-
--------
-
-This got me thinking that maybe both of these approaches are wrong.
-Maybe the call to hid_close_report() should be removed from
-hid_device_remove() instead.
-
-The device is being removed from the bus when hid_device_remove() is
-called, but it hasn't been released yet. Other devices like the hidinput
-device are referencing the hdev device because they set the hdev as
-their parent. Basically, child devices are still bound to some sort of
-driver or subsystem when the parent hdev is unbound from its driver,
-leading to a state where the child drivers could still access the hdev
-while it is being destroyed. If we remove the hid_close_report() call
-from this function it will eventually be called by hid_device_release()
-when the last reference to the device is dropped, i.e. when the child
-devices all get destroyed. In the case of hid-google-hammer, that would
-be when hid_hw_stop() is called from the devm release function by driver
-core.
-
-The benefit of this approach is that we don't allocate a devres group
-for all the hid devices when only two drivers need it. The possible
-downside is that we keep the report around while the device exists but
-has no driver bound to it.
-
-Here's a totally untested patch for that.
-
----8<----
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index 22623eb4f72f..93905e200cae 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -1211,8 +1211,8 @@ int hid_open_report(struct hid_device *device)
- 		hid_parser_reserved
- 	};
-
--	if (WARN_ON(device->status & HID_STAT_PARSED))
--		return -EBUSY;
-+	if (device->status & HID_STAT_PARSED)
-+		hid_close_report(device);
-
- 	start = device->dev_rdesc;
- 	if (WARN_ON(!start))
-@@ -2662,7 +2662,6 @@ static void hid_device_remove(struct device *dev)
- 			hdrv->remove(hdev);
- 		else /* default remove */
- 			hid_hw_stop(hdev);
--		hid_close_report(hdev);
- 		hdev->driver = NULL;
- 	}
