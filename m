@@ -2,71 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5E816FE890
-	for <lists+linux-input@lfdr.de>; Thu, 11 May 2023 02:25:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24DE36FE8A8
+	for <lists+linux-input@lfdr.de>; Thu, 11 May 2023 02:28:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229580AbjEKAZI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 May 2023 20:25:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60714 "EHLO
+        id S229554AbjEKA2p (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 May 2023 20:28:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbjEKAZI (ORCPT
+        with ESMTP id S236563AbjEKA2o (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 May 2023 20:25:08 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D38BC558D;
-        Wed, 10 May 2023 17:25:06 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-64115eef620so54107901b3a.1;
-        Wed, 10 May 2023 17:25:06 -0700 (PDT)
+        Wed, 10 May 2023 20:28:44 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D33CF1BEE
+        for <linux-input@vger.kernel.org>; Wed, 10 May 2023 17:28:42 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-52c6f81193cso5561966a12.1
+        for <linux-input@vger.kernel.org>; Wed, 10 May 2023 17:28:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683764706; x=1686356706;
+        d=gmail.com; s=20221208; t=1683764922; x=1686356922;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NiIAKS0VeNTa0Mpe7u/4NIaUrufb6wO/HHXswmRGRIQ=;
-        b=D6ZVr8L5gm2c6Qrq+kA00eiTsg5rBpmsfXi9fenQ0gNlZZ8pjMcDY5F0LcGwVe5m1c
-         ZlNY1pTqDOh/Sdf3JJHuwU2SqXmTUiXD4tznuUwPnzXOq+wlmAJTMX/s+ETnP39OKyPA
-         MW1R4sgwYXh4euC0Qy4GDOcS2yIPoXJDSIxSqJh0YglohoKveKeZLF/qYDesMD/cJ/WO
-         iEQU1gfl3UM8uA6u0Wv2sawFK/cw0P5kunYnDN1IuuwJZPUQv2SSmModvt329ibayPth
-         pcLChR3avq77eEklPDgP7Sk7KLIodNJWal96Kf6qohTgQZ28DMvwL3+NypmWANhL4j3D
-         Q+ew==
+        bh=kjv9krHRpHWBa3BfKJivUmYHH2PXCcG9GaNKVrGNWKs=;
+        b=OmGkpkErRVbxaZnZpHqFYtDWZTxzJKIZvLzoTKaXPEGgb25XqgrJV23oRBMYYHgz9b
+         OdJxkmCwMqP8fxznqA+oIRuBgm6KP0blL5ibBvLcjEXn/buLoWyK/X9a/RzIjJ3aIuEm
+         HiegApILx9V9wSNCFrKkfBxZKcVP+ts25u95lrMja/2A3jNWWXSXjtY+RmzsaYOsgeMB
+         9rtTUEsAtNZKnzGJ+fpTG7wB3EIMZHtIQWX/QRjeBbHkZFUblFZUfXN9ro5ydSgHcWpH
+         TNU+ES0SOTZv1jVkvUHvY7Be3ol4JhErtAf/t92W5PexutlK6ImcVnY0u7ywAuEFD7UP
+         yqcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683764706; x=1686356706;
+        d=1e100.net; s=20221208; t=1683764922; x=1686356922;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NiIAKS0VeNTa0Mpe7u/4NIaUrufb6wO/HHXswmRGRIQ=;
-        b=iL/hF//28QbcL/zovAMQZqzzl9nBpeocZtejrvYaravh4j/GsxIdlkVaJV53UEIZLY
-         AHBz/XRkEY45unQulPem8Iy8IDF0FIndRnycn7wt2PBOfsECrEc8ygET/8P55ThuMzZK
-         ztYmzCcIzrXvNliqNqlS5DznDUnFPSypKOJsvGO07dqP9ud4TIUzDs9LKYzFDSZ/jtqo
-         I9M64t4o5+8JYYtcTmxNBF7H/0ZT2BojQgnp2TFhL2zhxznl9Af/GBZjVjaBpAhbWUSJ
-         jVa0b9+jRo8cGPUdiCdZIB5sX0fY74zwB2YK1Zcda1oH2zP5NFF0VluyOePY9fUZSozs
-         fBjw==
-X-Gm-Message-State: AC+VfDyRNAZj+nt9M/g9TbEADn4Vth/sqXUX2fjJdsU8tpIWQN08bGYh
-        zXC2bp00vs0vx72I6KsjhqQ=
-X-Google-Smtp-Source: ACHHUZ4xdFMjnxzjvjJ1Fd7ldfzzLJIyyYXtJr+gghVAO38rUN0DBRdC8d6E6cSW+9qzfZpLdHvkeA==
-X-Received: by 2002:a17:902:ea0e:b0:1ac:7d8a:35a with SMTP id s14-20020a170902ea0e00b001ac7d8a035amr14529498plg.12.1683764705845;
-        Wed, 10 May 2023 17:25:05 -0700 (PDT)
+        bh=kjv9krHRpHWBa3BfKJivUmYHH2PXCcG9GaNKVrGNWKs=;
+        b=Hc9flsxssikcyd1Vh9YLCBRMMk/D5FQ9XCYijVx/XmKkTlW0BQo2LZBBfxTLCxpy8p
+         c6roYWsXpOZbdFpLusLAEbRisxNXXPBki/iuHIKIlQLcxj7CUrSHysnvK1NufXxd3iOi
+         pcuw8POjfE+xBDe0jlOBFeleodoykt4MnJ3AkteSfANzBt4XtuybdP9IAez8mxvHCwPy
+         P3n2JVR//HjXxYYzlE07kEOgZT6AVRtK8kzAi5/yFLUAPmnDQXxTfmtdJGKUPJ5ymqIE
+         9CLN1aj3+pW3DZuegcFucjnCxu1pswr+VH4ulxIMkZvnnWfAFvH+9rnWkX82MLH1iPZv
+         J34g==
+X-Gm-Message-State: AC+VfDwAiLE0mBUn7OKwe2ylwViOkk2wkX/sbjpwq5S5U9//jqatudoH
+        Swzy5hHEkGwKGB7L2Fg3FrvHniZi5BA=
+X-Google-Smtp-Source: ACHHUZ42g50ISR6r3h/JA4aAc7Kia63ESzlDCiW7GsONo39Krm/Z+0b/d3A0lFtYeXQRapNIHi2Iog==
+X-Received: by 2002:a17:902:9897:b0:1ab:1bdd:b307 with SMTP id s23-20020a170902989700b001ab1bddb307mr18060420plp.51.1683764921743;
+        Wed, 10 May 2023 17:28:41 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:84a:ed9c:4024:c347])
-        by smtp.gmail.com with ESMTPSA id jn22-20020a170903051600b001a80ad9c599sm4386641plb.294.2023.05.10.17.25.04
+        by smtp.gmail.com with ESMTPSA id 13-20020a170902c10d00b001aaf1679c9fsm4377364pli.221.2023.05.10.17.28.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 May 2023 17:25:05 -0700 (PDT)
-Date:   Wed, 10 May 2023 17:25:02 -0700
+        Wed, 10 May 2023 17:28:41 -0700 (PDT)
+Date:   Wed, 10 May 2023 17:28:38 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] HID: google: Don't use devm for hid_hw_stop()
-Message-ID: <ZFw13uv7/q5jsLWE@google.com>
-References: <20230505232417.1377393-1-swboyd@chromium.org>
- <ZFWZ785FRHDii/+5@google.com>
- <CAE-0n521MhmdWjEb0-xwnPLQz07bMCGyXokZ3L87azYcw6_C_Q@mail.gmail.com>
- <ZFv9aKZlZbfK1cVr@google.com>
- <CAE-0n52bv1-VaQikOV6hdFmuRyPBX6YV7MT=2+xrpReJecrgbQ@mail.gmail.com>
+To:     Marek Vasut <marex@denx.de>
+Cc:     linux-input@vger.kernel.org,
+        Michael Hennerich <michael.hennerich@analog.com>
+Subject: Re: [PATCH] Input: adxl34x - do not hardcode interrupt trigger type
+Message-ID: <ZFw2tnfhA5g6CAWt@google.com>
+References: <20230509203555.549158-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAE-0n52bv1-VaQikOV6hdFmuRyPBX6YV7MT=2+xrpReJecrgbQ@mail.gmail.com>
+In-Reply-To: <20230509203555.549158-1-marex@denx.de>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -77,106 +71,14 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, May 10, 2023 at 01:50:01PM -0700, Stephen Boyd wrote:
-> Quoting Dmitry Torokhov (2023-05-10 13:24:08)
-> > On Wed, May 10, 2023 at 11:51:31AM -0700, Stephen Boyd wrote:
-> > > Quoting Dmitry Torokhov (2023-05-05 17:06:07)
-> > > > On Fri, May 05, 2023 at 04:24:16PM -0700, Stephen Boyd wrote:
-> > > > >
-> > > > ...
-> > > > > Unfortunately, the hid google hammer driver hand rolls a devm function
-> > > > > to call hid_hw_stop() when the driver is unbound and implements an
-> > > > > hid_driver::remove() function. The driver core doesn't call the devm
-> > > > > release functions until _after_ the bus unbinds the driver, so the order
-> > > > > of operations is like this:
-> > > >
-> > > > Excellent analysis, but the problem is not limited to the hammer driver
-> > > > (potentially) and shalt be dealt with appropriately, at the HID bus
-> > > > level.
-> > >
-> > > Thanks. I thought of the bus level approach as well, but I was trying to
-> > > keep the fix isolated to the driver that had the problem. I'd like to
-> > > get the fix into the stable kernel, as this fixes a regression
-> > > introduced by commit d950db3f80a8 ("HID: google: switch to devm when
-> > > registering keyboard backlight LED") in v5.18.
-> > >
-> > > Is the bus level approach going to be acceptable as a stable backport?
-> >
-> > Sure, why not given the kind of stuff flowing into stable kernels. At
-> > least this would be fixing real issue that can be triggered with a real
-> > device.
+On Tue, May 09, 2023 at 10:35:55PM +0200, Marek Vasut wrote:
+> Instead of hardcoding IRQ trigger type to IRQF_TRIGGER_HIGH, let's
+> respect the settings specified in the firmware description.
 > 
-> Hmm, ok. I was worried it would be too much "new code" vs. fixing
-> something.
-> 
-> > >
-> > > This got me thinking that maybe both of these approaches are wrong.
-> > > Maybe the call to hid_close_report() should be removed from
-> > > hid_device_remove() instead.
-> > >
-> > > The device is being removed from the bus when hid_device_remove() is
-> > > called, but it hasn't been released yet. Other devices like the hidinput
-> > > device are referencing the hdev device because they set the hdev as
-> > > their parent. Basically, child devices are still bound to some sort of
-> > > driver or subsystem when the parent hdev is unbound from its driver,
-> > > leading to a state where the child drivers could still access the hdev
-> > > while it is being destroyed. If we remove the hid_close_report() call
-> > > from this function it will eventually be called by hid_device_release()
-> > > when the last reference to the device is dropped, i.e. when the child
-> > > devices all get destroyed. In the case of hid-google-hammer, that would
-> > > be when hid_hw_stop() is called from the devm release function by driver
-> > > core.
-> > >
-> > > The benefit of this approach is that we don't allocate a devres group
-> > > for all the hid devices when only two drivers need it. The possible
-> > > downside is that we keep the report around while the device exists but
-> > > has no driver bound to it.
-> > >
-> > > Here's a totally untested patch for that.
-> > >
-> > > ---8<----
-> > > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> > > index 22623eb4f72f..93905e200cae 100644
-> > > --- a/drivers/hid/hid-core.c
-> > > +++ b/drivers/hid/hid-core.c
-> > > @@ -1211,8 +1211,8 @@ int hid_open_report(struct hid_device *device)
-> > >               hid_parser_reserved
-> > >       };
-> > >
-> > > -     if (WARN_ON(device->status & HID_STAT_PARSED))
-> > > -             return -EBUSY;
-> > > +     if (device->status & HID_STAT_PARSED)
-> > > +             hid_close_report(device);
-> > >
-> > >       start = device->dev_rdesc;
-> > >       if (WARN_ON(!start))
-> > > @@ -2662,7 +2662,6 @@ static void hid_device_remove(struct device *dev)
-> > >                       hdrv->remove(hdev);
-> > >               else /* default remove */
-> > >                       hid_hw_stop(hdev);
-> > > -             hid_close_report(hdev);
-> > >               hdev->driver = NULL;
-> > >       }
-> >
-> > This will probably work, but it I consider this still being fragile as
-> > at some point we might want to add some more unwinding, and we'll run
-> > into this issue again. I would feel much safer if the order of release
-> > followed (inversely) order of allocations more closely.
-> >
-> 
-> Sorry, I'm not following here. How is it fragile? Are you saying that if
-> we want to add devm calls into the bus layer itself the order of release
-> won't be inverse of allocation/creation?
+> Fixes: e27c729219ad2 ("Input: add driver for ADXL345/346 Digital Accelerometers")
+> Signed-off-by: Marek Vasut <marex@denx.de>
 
-What I was trying to say is that later someone else might be tempted to
-add more traditional-style resources and non-devm-unwinding for them.
-Having an explicit devres groups gives exact point when driver-allocated resources
-are released, and makes patch authors take it into consideration.
-
-If everything is devm-controlled then we do not need a separate devres
-group.
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
