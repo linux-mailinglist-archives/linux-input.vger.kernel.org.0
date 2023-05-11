@@ -2,69 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C10D6FF984
-	for <lists+linux-input@lfdr.de>; Thu, 11 May 2023 20:38:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EFE86FF992
+	for <lists+linux-input@lfdr.de>; Thu, 11 May 2023 20:53:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238769AbjEKShj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 May 2023 14:37:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52742 "EHLO
+        id S238853AbjEKSw7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 11 May 2023 14:52:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239059AbjEKShQ (ORCPT
+        with ESMTP id S238844AbjEKSw6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 May 2023 14:37:16 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A687735A5;
-        Thu, 11 May 2023 11:37:15 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1ab14cb3aaeso64077005ad.2;
-        Thu, 11 May 2023 11:37:15 -0700 (PDT)
+        Thu, 11 May 2023 14:52:58 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC4EC19A6;
+        Thu, 11 May 2023 11:52:57 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1ab14cb3aaeso64199455ad.2;
+        Thu, 11 May 2023 11:52:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683830235; x=1686422235;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mo08lR/lndoev9zDyfO8bS5MbMffpTCzQ0BQI7W4HeU=;
-        b=ZjufzySMFT0IpCJ6hm1J5F0bwBF0SS1P2pZFAkgBRsJlugPRD6HS3z98JKFKriKQvN
-         I+tTybvdohQu/ozmMbzRQwOFNSLvti+M84qRnRO7p4wpJMIeoQ3ckzTZj2EVyj5N1gU3
-         UueF3ecP1mthhXDYlywKGUgvCdNOywp8UwQg6NqBkl+Fm01bs0lk/nm3M3W1kmlbQtyj
-         zfzDAFDaWL1ncb2z6NJfHqrVATquCbPovH3qM3WGRbRpifGrI05zYcb7NDDbn4K+mde2
-         R7D+hT+BAgWQHphdMFc0sqRC2/aWXhZ6rNQDdHILJ7Wvlxxo0dbCZHlQoQatGBBchkNp
-         mS0w==
+        d=gmail.com; s=20221208; t=1683831177; x=1686423177;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=g1OGVtXVQvPChs/XxOnJ0aZQSf8cpL9VPdh6V0PVqy4=;
+        b=oFrGP2iZUfP6VrTA6ErH0DZL6UpbGeRNvakvfinXX45LiBrni8o2l/AHkZSnz7zSdL
+         oTreJMaVFXe5YOJpfbX+wyx+1sesCcWB+5ke86Whzgz3T8JdSWI6at8ZoWECzkHO8G/f
+         3Ypts86TthLpr+5p0Q0T9ZS9loL9+fdsJKgsq6I32vht/RB8HSTw8Vb23eWHECYeOES/
+         tIizU68uQoxq8JjCkpalJFOie0uRfGOa6d1kwPN24pMGFHNW/do2YH/UznQqiZvGbkCk
+         FwuZSsi9CYN6rNpHKWWpdWNWAOdf7RNDS4E9QR3+4S7BzVP81WeiW10JyD3zMTo2XOPW
+         sv2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683830235; x=1686422235;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mo08lR/lndoev9zDyfO8bS5MbMffpTCzQ0BQI7W4HeU=;
-        b=kxJu11GOcRnHWXxvwW3VrViGWgRw2t5US3Z7yiySv/OV2vZY2iBh/rs/1CZxzvRdYy
-         ONVQTTv9/EMQiu1B3TTkqJx9+S/3c2uG5c1NHJexuamI3KIGbAf29hV+b/8h7Oz72PMV
-         IqKsQBb9xriF87aE+HK0rKjAXXCD2DJ7LJapmUCMBrg8eIZlpU7en5ZeBylMwUcAWLm3
-         kUE5v/DrPmjuyMDLVuiA5ggnAwsExJinHGk4bFYxELAgeGvYhpb5YqnNz4O4ZFZBSI0A
-         pb+Pw2GG10qzAkPmqMfHQuRVJFDOliKDSpnAlD24irtvmsWiKCrmcowzM+Qd4ho40YM8
-         LO5Q==
-X-Gm-Message-State: AC+VfDySssxoycJ5ShvCGM4i8vx6xhA35Sr9EFjZkw7JyerHsYOHH7kR
-        cLjCKJiiP8XlpuKdNRN45Rw=
-X-Google-Smtp-Source: ACHHUZ6y9IQWE9dUS3itkOFqCtNsapKpGul15zAsgOE4bbPy/cpxYsOfeABeBdbyYqd9ZoS1EgdBEQ==
-X-Received: by 2002:a17:902:aa8d:b0:1a6:db0a:8003 with SMTP id d13-20020a170902aa8d00b001a6db0a8003mr22022175plr.23.1683830234878;
-        Thu, 11 May 2023 11:37:14 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:84a:ed9c:4024:c347])
-        by smtp.gmail.com with ESMTPSA id b13-20020a170902b60d00b001aafdf8063dsm6264348pls.157.2023.05.11.11.37.13
+        d=1e100.net; s=20221208; t=1683831177; x=1686423177;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=g1OGVtXVQvPChs/XxOnJ0aZQSf8cpL9VPdh6V0PVqy4=;
+        b=ZaP8/kXzlPcdrESJE1qVI8RMHRpzUdlSsTffardEihWlX6Q1Cece10dM2C/aH1z0Tk
+         LFVUlS58/xYlp3jnxdqV0wIXdNFlWcrdClWoV2D0u1vR+HZgU2q6qavIUjWQUyas+Rze
+         K5UJjwx9foLxol9jtndKTKwmuyICsSlk0zOCYlfEWybDEd5eK1Q79OzvN8UmEjbQlznv
+         j5iouZiaKEDN1W8CU1OOmSwl8O6aSKxTHNY2y1lPrtVlgxwCCZK7S2rCtbtxkMqbHQyI
+         Tw2XWN42YnFGJfUUBhJUuhG2mHIK2UvnsIvWMUDVqxShE8MgomTR8n0Yf5En6oZIghy5
+         MD0g==
+X-Gm-Message-State: AC+VfDwnqjv6IaxJG6q100NctJ14bCDPgWUbzkzCOakA4VVTW+CwrV+o
+        igL7GfdydABM8IogHGAsguAEML2is+c=
+X-Google-Smtp-Source: ACHHUZ513krqIZyyS4cXJCjR38+o7ToSF/JOoNDKGVmsB75AzQuCvIwqYQr4onXb1kyjyQj3M1gGWw==
+X-Received: by 2002:a17:902:e549:b0:1a6:bb04:a020 with SMTP id n9-20020a170902e54900b001a6bb04a020mr30592656plf.46.1683831176659;
+        Thu, 11 May 2023 11:52:56 -0700 (PDT)
+Received: from dtor-ws.mtv.corp.google.com ([2620:15c:9d:2:84a:ed9c:4024:c347])
+        by smtp.gmail.com with ESMTPSA id q5-20020a170902788500b001a980a23804sm6288995pll.4.2023.05.11.11.52.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 11:37:13 -0700 (PDT)
-Date:   Thu, 11 May 2023 11:37:10 -0700
+        Thu, 11 May 2023 11:52:56 -0700 (PDT)
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>
-Subject: Re: [RESEND PATCH] dt-bindings: input: cypress,cyapa: convert to
- dtschema
-Message-ID: <ZF011h0Ho0qUI/U8@google.com>
-References: <20230511102559.175088-1-krzysztof.kozlowski@linaro.org>
+To:     linux-input@vger.kernel.org
+Cc:     Raul E Rangel <rrangel@chromium.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] libps2: be more tolerant when processing commands
+Date:   Thu, 11 May 2023 11:52:40 -0700
+Message-ID: <20230511185252.386941-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.40.1.606.ga4b1b128d6-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230511102559.175088-1-krzysztof.kozlowski@linaro.org>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -75,14 +68,47 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, May 11, 2023 at 12:25:59PM +0200, Krzysztof Kozlowski wrote:
-> Convert the Cypress All Points Addressable (APA) I2C Touchpad / Trackpad
-> bindings to DT schema.
-> 
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Hi,
 
-Applied, thank you.
+The main reason for this patch series is to deal with the case when
+EC/keyboard controller has already latched a scancode in the output
+buffer at the same time the host (kernel) is sending a PS/2 command to
+the controller/device. The device should stop scanning (keyboard) or
+sending coordinate data (mouse), and instead send acknowledge (0xfa) and
+then potentially command response, but if the output buffer already
+contains scancode byte it can not be substituted with an ACK byte.
+
+The typical scenario for this is user activating a CapsLock function,
+with host sending command to toggle CapsLock LED. If at the same time
+the keyboard transmitting break code for the key the kernel may mistake
+it for garbage command response and get confused.
+
+To work around this scenario, instead of simply dropping the non-ACK/NAK
+byte we will pass it on to atkbd/psmouse for normal processing.
+
+In addition to the above there a couple more assorted cleanups and
+fixes.
+
+Thanks.
+
+Dmitry Torokhov (7):
+  Input: libps2 - attach ps2dev instances as serio port's drvdata
+  Input: libps2 - remove special handling of ACK for command byte
+  Input: libps2 - rework handling of command response
+  Input: libps2 - fix NAK handling
+  Input: libps2 - fix aborting PS/2 commands
+  Input: libps2 - introduce common interrupt handler
+  Input: libps2 - do not discard non-ack bytes when controlling LEDs
+
+ drivers/input/keyboard/atkbd.c     |  94 ++++-----
+ drivers/input/mouse/psmouse-base.c |  86 +++++----
+ drivers/input/mouse/psmouse.h      |   2 +
+ drivers/input/mouse/synaptics.c    |  10 +-
+ drivers/input/mouse/trackpoint.c   |   2 +-
+ drivers/input/serio/libps2.c       | 293 +++++++++++++++++++++--------
+ include/linux/libps2.h             |  62 +++---
+ 7 files changed, 350 insertions(+), 199 deletions(-)
 
 -- 
 Dmitry
+
