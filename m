@@ -2,170 +2,257 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC3E16FF99C
-	for <lists+linux-input@lfdr.de>; Thu, 11 May 2023 20:53:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E9A26FFAD2
+	for <lists+linux-input@lfdr.de>; Thu, 11 May 2023 21:49:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238927AbjEKSxO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 May 2023 14:53:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57588 "EHLO
+        id S239324AbjEKTs7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 11 May 2023 15:48:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238932AbjEKSxL (ORCPT
+        with ESMTP id S239337AbjEKTsf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 May 2023 14:53:11 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E281C49FA;
-        Thu, 11 May 2023 11:53:07 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1aad5245632so64988175ad.3;
-        Thu, 11 May 2023 11:53:07 -0700 (PDT)
+        Thu, 11 May 2023 15:48:35 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43B0C35AA
+        for <linux-input@vger.kernel.org>; Thu, 11 May 2023 12:48:08 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1aaebed5bd6so65065635ad.1
+        for <linux-input@vger.kernel.org>; Thu, 11 May 2023 12:48:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683831187; x=1686423187;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b3FHdxcnZDHBJfwaP/5YmMMNOS9nBKD4If1FaL3R/o8=;
-        b=ec49sEyTE5xx2tkdVvEwvcakKrHRzVcHLnXJA2iPrdp29iMdhPkl+peowh9GGhMeby
-         RyzV24uF5jeUp7LYejufSY9mWDxWI0GHjGcZDvBVbRCcue5ofVy+wLNq1UX13CWUbgj6
-         xycCENFG8MLMeQ3KvsZa1MTXqJ4aVnME/GvxhYpDGf0WH/ewu4zOzL+tJ27cpRX4KUCW
-         Hs11e0UtOZLlNdbAEJnCWSG9dLqCpbfmtInVdZ5SzKnnIpuolJQo6YtOV3vjp3E+qtVP
-         Dv0iKOx1atQtPn4E2Gz0tb5GB4u4eS4Wda3TZIOCXUJiUpxgNPO5zXlCVDeQcJWLGInE
-         P5Hg==
+        d=joshua-dickens-com.20221208.gappssmtp.com; s=20221208; t=1683834485; x=1686426485;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1vC0rNuPx0IWbkz7Fn9Bis5ExEOwUS4ha7xvVAnEDyM=;
+        b=I1q+KtIplOawBCueb+mem/TAK2t/+um0VWOCqSPNt/WyUHCcuXOtzHf6jAPHVH+XAi
+         5d8dJQRwAhKl0Rv5yMR50ogpHJkt0G26lu/Pwwy4A09oze4Vhv7Mg7wNHjNGR0i4psrS
+         sNUv1+k1ZZi99GOp4OjTOI/USxuOamqb+BqZ6Vi8MOqADhXwkwjlbAGBixxsA7J9Td4D
+         BPTpK9yETIkxdSjgaMwP7vI+HopevevEaPldT3/98Ay7VcViGBVSaCMoexD5tl/Z5DIB
+         HHat+2voV1aPhj+psWi39G/0kQL3c4febkmJdsZyCUbjcWN8xXFljh6sONvuUxsyI53l
+         C9qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683831187; x=1686423187;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b3FHdxcnZDHBJfwaP/5YmMMNOS9nBKD4If1FaL3R/o8=;
-        b=NEHLjq5L9RAhqBV9GBgK3vnawOkRWkI5jfyn2fCaU3CLnIDnUL2HOVF5G9WKuHmlWx
-         klleMQXLycEJu4thQ0LTh7dw/wYxObLAgi6Ws9YHE6nHICOIzGyHXYU+k/RRcSdgUnX2
-         31Ax8hixl6fLb/sXA0qAa8EpKhMX2crRvptOV8NP3S+Q5e4LOKE8qbxFSOJD05QkG2Oe
-         BcZ40ZRiPSSQ/dLpflPvblVszY8jm8MB7VBXBm6iqM4HSiDhhaHZnN0VglHy2oW0Cmjt
-         umlO8yLlFcZt1/varPiIr/RQgTaz/LXrvPbL0IrEoTxpqrFk2P0zln2A+f/5sD2+4vwR
-         Vezg==
-X-Gm-Message-State: AC+VfDw8kqF2AzuJCKpAdG8BjAkgU/0LhCXtcGPLvtUoxetn+fsOzKpP
-        wjMYNyY1Tf7+A5tvd8wz6pQjucPxbz4=
-X-Google-Smtp-Source: ACHHUZ5PFqhArb3xXxeEE0naJWLQMFeiWuCjw2lAkk4uUP+2VZdnKQwzTZbSviNJEokbv5vbMHBrqQ==
-X-Received: by 2002:a17:903:44c:b0:1ab:27e7:ad76 with SMTP id iw12-20020a170903044c00b001ab27e7ad76mr21361943plb.45.1683831186628;
-        Thu, 11 May 2023 11:53:06 -0700 (PDT)
-Received: from dtor-ws.mtv.corp.google.com ([2620:15c:9d:2:84a:ed9c:4024:c347])
-        by smtp.gmail.com with ESMTPSA id q5-20020a170902788500b001a980a23804sm6288995pll.4.2023.05.11.11.53.05
+        d=1e100.net; s=20221208; t=1683834485; x=1686426485;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1vC0rNuPx0IWbkz7Fn9Bis5ExEOwUS4ha7xvVAnEDyM=;
+        b=J9KMFWFjRtDbbhozy0KQ39L8N7gr0kpBbhs284Q2QODtewQR1+iBY17GeHaeW+q6U1
+         dJOSru3iN5AZM9dEtAN8CcGD3IAWsH+NMDcsA3zuF/3Ky31k3VrkbsbxuHqixkb6BXqE
+         kv4jKA/mm5j+UppElMXuo14ehY4wbK3nWQtMT2J/TA1awKZFQlRuRv5UAdiMAuzNye8J
+         ywOVyGUh/iPiJ8slVZ34onTgHgJT6/rJ1FfagP48pj/O1lTbC5+YkL78FUwpT/VwPH7w
+         QeWrOej+Q6DD2tX8MyAnx2Y31GJ37IvBYsy8NgJ+jyg2OUa0buqRYMECz3gAfFCuA3do
+         SqaA==
+X-Gm-Message-State: AC+VfDxtPDS8U1qBEzyrv/eusoUkcKzVnj1oNKthfBRAgbyThjXhcZWU
+        QiAVBgaNuVOgORxPUJWhDQW9XPxtI34/Ci/KAczL7Q==
+X-Google-Smtp-Source: ACHHUZ4+tb0QDGfnO/UIx7po9h291CGcIhAnaLbbS/pmgWKFLBiossUkNC8w/zOhVOLWNTUNG2fqEQ==
+X-Received: by 2002:a17:902:db04:b0:1ac:8dae:d842 with SMTP id m4-20020a170902db0400b001ac8daed842mr16298503plx.46.1683834485356;
+        Thu, 11 May 2023 12:48:05 -0700 (PDT)
+Received: from fedora.. ([50.39.134.154])
+        by smtp.gmail.com with ESMTPSA id b17-20020a170903229100b001ab39cd885esm6288744plh.212.2023.05.11.12.48.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 11:53:06 -0700 (PDT)
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     Raul E Rangel <rrangel@chromium.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] Input: libps2 - do not discard non-ack bytes when controlling LEDs
-Date:   Thu, 11 May 2023 11:52:47 -0700
-Message-ID: <20230511185252.386941-8-dmitry.torokhov@gmail.com>
-X-Mailer: git-send-email 2.40.1.606.ga4b1b128d6-goog
-In-Reply-To: <20230511185252.386941-1-dmitry.torokhov@gmail.com>
-References: <20230511185252.386941-1-dmitry.torokhov@gmail.com>
+        Thu, 11 May 2023 12:48:04 -0700 (PDT)
+From:   Joshua Dickens <joshua@joshua-dickens.com>
+X-Google-Original-From: Joshua Dickens <Joshua@Joshua-Dickens.com>
+To:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <killertofu@gmail.com>,
+        Joshua Dickens <Joshua@Joshua-Dickens.com>,
+        Joshua Dickens <joshua.dickens@wacom.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>
+Subject: [PATCH] selftests: hid: Add touch tests for Wacom devices
+Date:   Thu, 11 May 2023 12:47:54 -0700
+Message-Id: <20230511194754.129571-1-Joshua@Joshua-Dickens.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Upon receiving a PS/2 command the device and controller are supposed to
-stop sending normal data (scancodes or movement packets) and instead
-immediately start delivering ACK/NAK and command response. Unfortunately
-often EC has an output buffer which may contain latched data by the time
-the EC receives a command from the host. The kernel used to ignore such
-data, but that may cause "stuck" keys if the data dropped happens to be a
-break code or a part of a break code. This occasionally happens, for
-example, on Chromebooks when the kernel tries to toggle CapsLock LED on
-a keyboard while user releases Alt+Search keyboard shortcut.
+Adding a wacom touch device to use the test_multitouch tests.
+Adding a 2 additional tests.
+ - A test to check if a touch event is sent when the contact_id of the even=
+t is 0.
+ - A test to check if a touch event is not sent when confidence is set to 0.
 
-Fix this by passing the first non-ACK byte to the normal handler for a
-handful of PS/2 commands that are expected to be used during normal device
-operation (as opposed to probe/configuration time).
-
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Joshua Dickens <joshua.dickens@wacom.com>
+Reviewed-by: Jason Gerecke <jason.gerecke@wacom.com>
 ---
- drivers/input/serio/libps2.c | 36 ++++++++++++++++++++++++++++++++----
- 1 file changed, 32 insertions(+), 4 deletions(-)
+ .../selftests/hid/tests/test_wacom_generic.py | 84 ++++++++++++++++++-
+ 1 file changed, 81 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/input/serio/libps2.c b/drivers/input/serio/libps2.c
-index 7c5fc853072a..6d78a1fe00c1 100644
---- a/drivers/input/serio/libps2.c
-+++ b/drivers/input/serio/libps2.c
-@@ -21,7 +21,10 @@
- 
- #define PS2_CMD_SETSCALE11	0x00e6
- #define PS2_CMD_SETRES		0x10e8
-+#define PS2_CMD_EX_SETLEDS	0x20eb
-+#define PS2_CMD_SETLEDS		0x10ed
- #define PS2_CMD_GETID		0x02f2
-+#define PS2_CMD_SETREP		0x10f3 /* Set repeat rate/set report rate */
- #define PS2_CMD_RESET_BAT	0x02ff
- 
- #define PS2_RET_BAT		0xaa
-@@ -35,6 +38,7 @@
- #define PS2_FLAG_CMD1		BIT(2)	/* Waiting for the first byte of command response */
- #define PS2_FLAG_WAITID		BIT(3)	/* Command executing is GET ID */
- #define PS2_FLAG_NAK		BIT(4)	/* Last transmission was NAKed */
-+#define PS2_FLAG_PASS_NOACK	BIT(5)	/* Pass non-ACK byte to receive handler */
- 
- static int ps2_do_sendbyte(struct ps2dev *ps2dev, u8 byte,
- 			   unsigned int timeout, unsigned int max_attempts)
-@@ -281,9 +285,28 @@ int __ps2_command(struct ps2dev *ps2dev, u8 *param, unsigned int command)
- 
- 	serio_pause_rx(ps2dev->serio);
- 
--	/* Some mice do not ACK the "get ID" command, prepare to handle this. */
--	ps2dev->flags = command == PS2_CMD_GETID ? PS2_FLAG_WAITID : 0;
- 	ps2dev->cmdcnt = receive;
+diff --git a/tools/testing/selftests/hid/tests/test_wacom_generic.py b/tool=
+s/testing/selftests/hid/tests/test_wacom_generic.py
+index b1eb2bc787fc..f92fe8e02c1b 100644
+--- a/tools/testing/selftests/hid/tests/test_wacom_generic.py
++++ b/tools/testing/selftests/hid/tests/test_wacom_generic.py
+@@ -31,6 +31,7 @@ from enum import Enum
+ from hidtools.hut import HUT
+ from hidtools.hid import HidUnit
+ from . import base
++from . import test_multitouch
+ import libevdev
+ import pytest
+=20
+@@ -517,7 +518,7 @@ class BaseTest:
+                 for usage in get_report_usages(report):
+                     yield usage
+=20
+-        def assertName(self, uhdev):
++        def assertName(self, uhdev, type):
+             """
+             Assert that the name is as we expect.
+=20
+@@ -526,7 +527,7 @@ class BaseTest:
+             this assertion from the base class to work properly.
+             """
+             evdev =3D uhdev.get_evdev()
+-            expected_name =3D uhdev.name + " Pen"
++            expected_name =3D uhdev.name + type
+             if "wacom" not in expected_name.lower():
+                 expected_name =3D "Wacom " + expected_name
+             assert evdev.name =3D=3D expected_name
+@@ -549,6 +550,12 @@ class BaseTest:
+                 usage_id("Generic Desktop", "Y"): PhysRange(
+                     PhysRange.CENTIMETER, 5, 150
+                 ),
++                usage_id("Digitizers", "Width"): PhysRange(
++                    PhysRange.CENTIMETER, 5, 150
++                ),
++                usage_id("Digitizers", "Height"): PhysRange(
++                    PhysRange.CENTIMETER, 5, 150
++                ),
+                 usage_id("Digitizers", "X Tilt"): PhysRange(PhysRange.DEGR=
+EE, 90, 180),
+                 usage_id("Digitizers", "Y Tilt"): PhysRange(PhysRange.DEGR=
+EE, 90, 180),
+                 usage_id("Digitizers", "Twist"): PhysRange(PhysRange.DEGRE=
+E, 358, 360),
+@@ -603,7 +610,17 @@ class BaseTest:
+             pass
+=20
+=20
+-class TestOpaqueTablet(BaseTest.TestTablet):
++class PenTabletTest(BaseTest.TestTablet):
++    def assertName(self, uhdev):
++        super().assertName(uhdev, " Pen")
 +
-+	switch (command) {
-+	case PS2_CMD_GETID:
-+		/*
-+		 * Some mice do not ACK the "get ID" command, prepare to
-+		 * handle this.
-+		 */
-+		ps2dev->flags = PS2_FLAG_WAITID;
-+		break;
 +
-+	case PS2_CMD_SETLEDS:
-+	case PS2_CMD_EX_SETLEDS:
-+	case PS2_CMD_SETREP:
-+		ps2dev->flags = PS2_FLAG_PASS_NOACK;
-+		break;
++class TouchTabletTest(BaseTest.TestTablet):
++    def assertName(self, uhdev):
++        super().assertName(uhdev, " Finger")
 +
-+	default:
-+		ps2dev->flags = 0;
-+		break;
-+	}
 +
- 	if (receive) {
- 		/* Indicate that we expect response to the command. */
- 		ps2dev->flags |= PS2_FLAG_CMD | PS2_FLAG_CMD1;
-@@ -512,14 +535,19 @@ static void ps2_handle_ack(struct ps2dev *ps2dev, u8 data)
- 		 * Do not signal errors if we get unexpected reply while
- 		 * waiting for an ACK to the initial (first) command byte:
- 		 * the device might not be quiesced yet and continue
--		 * delivering data.
-+		 * delivering data. For certain commands (such as set leds and
-+		 * set repeat rate) that can be used during normal device
-+		 * operation, we even pass this data byte to the normal receive
-+		 * handler.
- 		 * Note that we reset PS2_FLAG_WAITID flag, so the workaround
- 		 * for mice not acknowledging the Get ID command only triggers
- 		 * on the 1st byte; if device spews data we really want to see
- 		 * a real ACK from it.
- 		 */
- 		dev_dbg(&ps2dev->serio->dev, "unexpected %#02x\n", data);
--		ps2dev->flags &= ~PS2_FLAG_WAITID;
-+		if (ps2dev->flags & PS2_FLAG_PASS_NOACK)
-+			ps2dev->receive_handler(ps2dev, data);
-+		ps2dev->flags &= ~(PS2_FLAG_WAITID | PS2_FLAG_PASS_NOACK);
- 		return;
- 	}
- 
--- 
-2.40.1.606.ga4b1b128d6-goog
++class TestOpaqueTablet(PenTabletTest):
+     def create_device(self):
+         return OpaqueTablet()
+=20
+@@ -842,3 +859,64 @@ class TestPTHX60_Pen(TestOpaqueCTLTablet):
+                 libevdev.InputEvent(libevdev.EV_KEY.BTN_0, 0),
+             ],
+         )
++
++
++class TestDTH2452Tablet(test_multitouch.BaseTest.TestMultitouch, TouchTabl=
+etTest):
++    def create_device(self):
++        return test_multitouch.Digitizer(
++            "DTH 2452",
++            rdesc=3D"05 0d 09 04 a1 01 85 0c 95 01 75 08 15 00 26 ff 00 81=
+ 03 09 54 81 02 09 22 a1 02 05 0d 95 01 75 01 25 01 09 42 81 02 81 03 09 47=
+ 81 02 95 05 81 03 09 51 26 ff 00 75 10 95 01 81 02 35 00 65 11 55 0e 05 01=
+ 09 30 26 a0 44 46 96 14 81 42 09 31 26 9a 26 46 95 0b 81 42 05 0d 75 08 95=
+ 01 15 00 09 48 26 5f 00 46 7c 14 81 02 09 49 25 35 46 7d 0b 81 02 45 00 65=
+ 00 55 00 c0 05 0d 09 22 a1 02 05 0d 95 01 75 01 25 01 09 42 81 02 81 03 09=
+ 47 81 02 95 05 81 03 09 51 26 ff 00 75 10 95 01 81 02 35 00 65 11 55 0e 05=
+ 01 09 30 26 a0 44 46 96 14 81 42 09 31 26 9a 26 46 95 0b 81 42 05 0d 75 08=
+ 95 01 15 00 09 48 26 5f 00 46 7c 14 81 02 09 49 25 35 46 7d 0b 81 02 45 00=
+ 65 00 55 00 c0 05 0d 09 22 a1 02 05 0d 95 01 75 01 25 01 09 42 81 02 81 03=
+ 09 47 81 02 95 05 81 03 09 51 26 ff 00 75 10 95 01 81 02 35 00 65 11 55 0e=
+ 05 01 09 30 26 a0 44 46 96 14 81 42 09 31 26 9a 26 46 95 0b 81 42 05 0d 75=
+ 08 95 01 15 00 09 48 26 5f 00 46 7c 14 81 02 09 49 25 35 46 7d 0b 81 02 45=
+ 00 65 00 55 00 c0 05 0d 09 22 a1 02 05 0d 95 01 75 01 25 01 09 42 81 02 81=
+ 03 09 47 81 02 95 05 81 03 09 51 26 ff 00 75 10 95 01 81 02 35 00 65 11 55=
+ 0e 05 01 09 30 26 a0 44 46 96 14 81 42 09 31 26 9a 26 46 95 0b 81 42 05 0d=
+ 75 08 95 01 15 00 09 48 26 5f 00 46 7c 14 81 02 09 49 25 35 46 7d 0b 81 02=
+ 45 00 65 00 55 00 c0 05 0d 09 22 a1 02 05 0d 95 01 75 01 25 01 09 42 81 02=
+ 81 03 09 47 81 02 95 05 81 03 09 51 26 ff 00 75 10 95 01 81 02 35 00 65 11=
+ 55 0e 05 01 09 30 26 a0 44 46 96 14 81 42 09 31 26 9a 26 46 95 0b 81 42 05=
+ 0d 75 08 95 01 15 00 09 48 26 5f 00 46 7c 14 81 02 09 49 25 35 46 7d 0b 81=
+ 02 45 00 65 00 55 00 c0 05 0d 27 ff ff 00 00 75 10 95 01 09 56 81 02 75 08=
+ 95 0e 81 03 09 55 26 ff 00 75 08 b1 02 85 0a 06 00 ff 09 c5 96 00 01 b1 02=
+ c0 06 00 ff 09 01 a1 01 09 01 85 13 15 00 26 ff 00 75 08 95 3f 81 02 06 00=
+ ff 09 01 15 00 26 ff 00 75 08 95 3f 91 02 c0",
++            input_info=3D(0x3, 0x056A, 0x0383),
++        )
++
++    def test_contact_id_0(self):
++        """
++        Bring a finger in contact with the tablet, then hold it down and r=
+emove it.
++
++        Ensure that even with contact ID =3D 0 which is usually given as a=
+n invalid
++        touch event by most tablets with the exception of a few, that give=
+n the
++        confidence bit is set to 1 it should process it as a valid touch t=
+o cover
++        the few tablets using contact ID =3D 0 as a valid touch value.
++        """
++        uhdev =3D self.uhdev
++        evdev =3D uhdev.get_evdev()
++
++        t0 =3D test_multitouch.Touch(0, 50, 100)
++        r =3D uhdev.event([t0])
++        events =3D uhdev.next_sync_events()
++        self.debug_reports(r, uhdev, events)
++
++        slot =3D self.get_slot(uhdev, t0, 0)
++
++        assert libevdev.InputEvent(libevdev.EV_KEY.BTN_TOUCH, 1) in events
++        assert evdev.slots[slot][libevdev.EV_ABS.ABS_MT_TRACKING_ID] =3D=
+=3D 0
++        assert evdev.slots[slot][libevdev.EV_ABS.ABS_MT_POSITION_X] =3D=3D=
+ 50
++        assert evdev.slots[slot][libevdev.EV_ABS.ABS_MT_POSITION_Y] =3D=3D=
+ 100
++
++        t0.tipswitch =3D False
++        if uhdev.quirks is None or "VALID_IS_INRANGE" not in uhdev.quirks:
++            t0.inrange =3D False
++        r =3D uhdev.event([t0])
++        events =3D uhdev.next_sync_events()
++        self.debug_reports(r, uhdev, events)
++        assert libevdev.InputEvent(libevdev.EV_KEY.BTN_TOUCH, 0) in events
++        assert evdev.slots[slot][libevdev.EV_ABS.ABS_MT_TRACKING_ID] =3D=
+=3D -1
++
++    def test_confidence_false(self):
++        """
++        Bring a finger in contact with the tablet with confidence set to f=
+alse.
++
++        Ensure that the confidence bit being set to false should not resul=
+t in a touch event.
++        """
++        uhdev =3D self.uhdev
++        evdev =3D uhdev.get_evdev()
++
++        t0 =3D test_multitouch.Touch(1, 50, 100)
++        t0.confidence =3D False
++        r =3D uhdev.event([t0])
++        events =3D uhdev.next_sync_events()
++        self.debug_reports(r, uhdev, events)
++
++        slot =3D self.get_slot(uhdev, t0, 0)
++
++        assert not events
+\ No newline at end of file
+--=20
+2.40.0
 
