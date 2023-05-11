@@ -2,64 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2544E6FFBCE
-	for <lists+linux-input@lfdr.de>; Thu, 11 May 2023 23:22:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7513B6FFD70
+	for <lists+linux-input@lfdr.de>; Fri, 12 May 2023 01:44:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238452AbjEKVWg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 May 2023 17:22:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34136 "EHLO
+        id S239118AbjEKXoP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 11 May 2023 19:44:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238254AbjEKVWW (ORCPT
+        with ESMTP id S239497AbjEKXoO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 May 2023 17:22:22 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28CAE1992
-        for <linux-input@vger.kernel.org>; Thu, 11 May 2023 14:22:17 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-307d58b3efbso186555f8f.0
-        for <linux-input@vger.kernel.org>; Thu, 11 May 2023 14:22:17 -0700 (PDT)
+        Thu, 11 May 2023 19:44:14 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EF30618E;
+        Thu, 11 May 2023 16:44:13 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-64a9335a8e7so1873640b3a.0;
+        Thu, 11 May 2023 16:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683840135; x=1686432135;
-        h=content-transfer-encoding:content-language:to:subject:from
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wFxpKCsnCVqJTCkJKl13fpfrFkIdoOr7ThMZwIONZ9M=;
-        b=kluJPGNWXL66E2bnjD1CJjA1pWCLlIGUcE/SkbXUTsXtKjcN36xXh4fBVoH4ntzD6i
-         1WG3h1FWNdbnTmBldKBxPgwUjStaJbXkvhBAdfgNfGKOimS/mLHgw/Q0Oj4BJx3Ky+d7
-         Djq57SQVIqH1IxFOo0R18/1x0y1Ml1mp0/EtZcuosSXHqlIwM1U6ZqJ71Lt69WuLp+mj
-         60h0zMknxuugH4vvPsuuFRuqYxp1/UhG4jBbqHnWieH+22+YL89lzImb9nHBU4T9Tf6n
-         8EesKwkaSrCxAQJmIpkkF0YqTvIH9oka3YvXLTkjQKVmvW+6XvQpu0aVeMjbgqavjXVc
-         xLWg==
+        d=gmail.com; s=20221208; t=1683848653; x=1686440653;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=18inJAfZaaCjkmT/TfMQ+71j6QtEo1Rk/unRTNBLoVE=;
+        b=cUqc8UGQ8fqvCcOZic5D+5ntXzn3rmbpJzEJZ6a3JRpJ3gHxZbGT5tCIABwA/FRThK
+         BfMcxlTtkj1PdwHtWu63/+wtLcuToXDQujcrjeF8yV+Pd9hePKU5tpwq0Ew6rpLRBiCT
+         LJuJ8HF1UYu+y8wgQVArw0PojhNfaz+r2A/lVvfS24gtiSipEJNQoGQYTcoIR6eCkJEZ
+         bQRSJEY39maorYO2RyEtDhWT/nL2I6TMRypFR9K7Na0rsK9/HpFJzg0FHgati2nHFlIL
+         fJYmoA3kmKws7zVd2cMRqq4Jo8Pe/bao5HlZUh370dKHQsyRZTdgWwjVXDzdgDwB55YJ
+         U7yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683840135; x=1686432135;
-        h=content-transfer-encoding:content-language:to:subject:from
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=wFxpKCsnCVqJTCkJKl13fpfrFkIdoOr7ThMZwIONZ9M=;
-        b=lT/cle8YYJyhPrTs6kY4VmP5M7qygpe2Hq6ecTWDKrsCiWX7mSxNv3mRwOZfmNHkp5
-         VHM1XyecuOWEhey4VjWc264gJsAYG5HtEDWSQnJXj5fPTk/7NRD5pU4+iBwmNpZJxz87
-         qfX0zQkADf0Kw2M1qGs4dZnBro0aDK3jhmn1U2UUHmGvhk1OK2lZbjvjb1TB0L7YytWP
-         FurVjXtvTe8FDDkMKN5nYJ3kzq8Ckp2uaFTJf/p+G8NINKwGWnLo1Xvv/YBzr+b/xGJN
-         htTJye5ssmXhnAjygICXmoCyRcZuN4Q6BN55T+O3jSitS7MBiSsMt0IgfOjIw0MMo2zz
-         3g6g==
-X-Gm-Message-State: AC+VfDwZlkiSCjPCaIc56m0hla+SCiuUmjvkG62X+XgNdjV4o3FdY7dr
-        fMXa2wYLomY+BkLa/X+EXM4ud4Ld+w9j
-X-Google-Smtp-Source: ACHHUZ4gQGa7UrIfwKbJMmP7BdFpUtinyoj+6vQwl2yuP6KXOiU2kJ+Ie0Pm7yqY+jIozXFQXVf75w==
-X-Received: by 2002:a5d:4c85:0:b0:307:904b:29e1 with SMTP id z5-20020a5d4c85000000b00307904b29e1mr11407196wrs.20.1683840135417;
-        Thu, 11 May 2023 14:22:15 -0700 (PDT)
-Received: from localhost (170.red-80-39-255.dynamicip.rima-tde.net. [80.39.255.170])
-        by smtp.gmail.com with ESMTPSA id q15-20020adff94f000000b003078b3e2845sm17224685wrr.31.2023.05.11.14.22.14
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 May 2023 14:22:15 -0700 (PDT)
-Message-ID: <eeb19342-3499-a1fb-388f-d4670472b16c@gmail.com>
-Date:   Thu, 11 May 2023 23:22:13 +0200
+        d=1e100.net; s=20221208; t=1683848653; x=1686440653;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=18inJAfZaaCjkmT/TfMQ+71j6QtEo1Rk/unRTNBLoVE=;
+        b=G2zlT/T2bIIh20L4bmEUGKWqQAbZ8t7tV2vkoH8/jUDgD2fmWxh/6SVU6yY+cO/QUR
+         AB9lLvwBx8BKqHgUDsV+lj6pjw5KUAmUI4brMgUNKQ/mKFNI0RuGavRtBvPRnfTP29X0
+         LI1t7+j/0y9Kf5jJEqMuCXDaE31juis9t5wGI2g5N8D3fSDNH44awrFhJ3ru6aoqh7kb
+         0xyFUlsT2qZegzT85OiWoCSUMR8VV3y7fYdFbgJo3JXgzK1GJtBBWqYLRAkTpWgIcVMV
+         QXYpanLd0QXbOFwPzLWMVlPQ+FecXqOihp/SNlQvm+sVzPRvnB/nscXGzbxoy6XMqo6A
+         xXDQ==
+X-Gm-Message-State: AC+VfDyq1cIkbnaqmqc/OtgJQE9h4wgs3LADVLiO/Uoa19/6mZPBCUHO
+        /vTkA17ge8FjPWr9UqY1n5d/5ma6fj4=
+X-Google-Smtp-Source: ACHHUZ455lyPD+IZanZEzNs7bCf1nFg1YHHnWTcIjNzqTlLuR0VFcr5T8rPNTyDs25381YWhT9l7nw==
+X-Received: by 2002:a17:902:d2c9:b0:1ac:7245:ba55 with SMTP id n9-20020a170902d2c900b001ac7245ba55mr18012957plc.6.1683848652443;
+        Thu, 11 May 2023 16:44:12 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:53f7:c9da:338e:6206])
+        by smtp.gmail.com with ESMTPSA id t4-20020a1709027fc400b001a95c743ca2sm6571696plb.94.2023.05.11.16.44.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 May 2023 16:44:11 -0700 (PDT)
+Date:   Thu, 11 May 2023 16:44:08 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     Tomas Mudrunka <tomas.mudrunka@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] Fix freeze in lm8333 i2c keyboard driver
+Message-ID: <ZF19yOojiaSbo3vS@google.com>
+References: <CAH2-hcJYVpBNwnMS6qUp4=MW8kSryDAz7G5cNA8R00QabC9bjg@mail.gmail.com>
+ <20230503153231.1136114-1-tomas.mudrunka@gmail.com>
+ <ZFMN5nmqLAX170SE@nixie71>
 MIME-Version: 1.0
-From:   Xose Vazquez Perez <xose.vazquez@gmail.com>
-Subject: [BUG: 6.3 kernel] Logitech Trackball M575 misidentified
-To:     linux-input@vger.kernel.org
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZFMN5nmqLAX170SE@nixie71>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -70,19 +73,46 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Wed, May 03, 2023 at 08:44:06PM -0500, Jeff LaBundy wrote:
+> Hi Tomas,
+> 
+> On Wed, May 03, 2023 at 05:32:31PM +0200, Tomas Mudrunka wrote:
+> > LM8333 uses gpio interrupt line which is triggered by falling edge.
+> > When button is pressed before driver is loaded,
+> > driver will miss the edge and never respond again.
+> > To fix this we run the interrupt handler before registering IRQ
+> > to clear the interrupt via i2c command.
+> > 
+> > Signed-off-by: Tomas Mudrunka <tomas.mudrunka@gmail.com>
+> > ---
+> 
+> Reviewed-by: Jeff LaBundy <jeff@labundy.com>
+> 
+> >  drivers/input/keyboard/lm8333.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/drivers/input/keyboard/lm8333.c b/drivers/input/keyboard/lm8333.c
+> > index 7457c3220..52108c370 100644
+> > --- a/drivers/input/keyboard/lm8333.c
+> > +++ b/drivers/input/keyboard/lm8333.c
+> > @@ -178,6 +178,8 @@ static int lm8333_probe(struct i2c_client *client)
+> >  			dev_warn(&client->dev, "Unable to set active time\n");
+> >  	}
+> >  
+> > +	lm8333_irq_thread(client->irq, lm8333);
 
-6.3.2 kernel identifies "Logitech" "ERGO M575" as "Logitech" "(\xc9_O\x04)",
-6.2.15 works fine.
+So this is still racy, isn't it? The interrupt may come after read is
+done, but before we register the handler.
 
-
-6.2.15 boot log:
-input: Logitech ERGO M575 as /devices/pci0000:00/0000:00:1a.0/usb3/3-1/3-1.3/3-1.3:1.2/0003:046D:C52B.0003/0003:046D:4096.0005/input/input15
-logitech-hidpp-device 0003:046D:4096.0005: input,hidraw1: USB HID v1.11 Mouse [Logitech ERGO M575] on usb-0000:00:1a.0-1.3/input2:1
-
-6.3.2 boot log:
-input: Logitech \xc9_O\x04 as /devices/pci0000:00/0000:00:1a.0/usb3/3-1/3-1.3/3-1.3:1.2/0003:046D:C52B.0003/0003:046D:4096.0005/input/input15
-logitech-hidpp-device 0003:046D:4096.0005: input,hidraw2: USB HID v1.11 Mouse [Logitech \xc9_O\x04] on usb-0000:00:1a.0-1.3/input2:1
-
+> > +
+> >  	err = request_threaded_irq(client->irq, NULL, lm8333_irq_thread,
+> >  				   IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+> >  				   "lm8333", lm8333);
+> > -- 
+> > 2.40.1
+> 
 
 Thanks.
+
+-- 
+Dmitry
