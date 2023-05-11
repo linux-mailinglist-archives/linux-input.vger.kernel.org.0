@@ -2,80 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 188606FEF0B
-	for <lists+linux-input@lfdr.de>; Thu, 11 May 2023 11:45:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 403056FEFDD
+	for <lists+linux-input@lfdr.de>; Thu, 11 May 2023 12:26:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237436AbjEKJpf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 May 2023 05:45:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60898 "EHLO
+        id S237807AbjEKK0H (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 11 May 2023 06:26:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229609AbjEKJpe (ORCPT
+        with ESMTP id S229624AbjEKK0G (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 May 2023 05:45:34 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F17E659F4
-        for <linux-input@vger.kernel.org>; Thu, 11 May 2023 02:45:32 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-96598a7c5e0so1339979566b.3
-        for <linux-input@vger.kernel.org>; Thu, 11 May 2023 02:45:32 -0700 (PDT)
+        Thu, 11 May 2023 06:26:06 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C8C1E5A
+        for <linux-input@vger.kernel.org>; Thu, 11 May 2023 03:26:04 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-50bc3a2d333so12739539a12.0
+        for <linux-input@vger.kernel.org>; Thu, 11 May 2023 03:26:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683798331; x=1686390331;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FVklFj7U6Us5/5iCgZWUpMAaVr3nHAvDuh0XewUtxGE=;
-        b=DZA64C0XJqlT5OqY+mlCVW3VVuLSI560yLFNsvc/luowPAKQYcEOEw0+FQ6KYVRdcZ
-         58iIgYc46qtqNwSxyKE6XXuMMTD3Q/D1ILKZ/DH9PCMsD65xZpaRFQuwjjVQAVQ6lYYR
-         UxILuyn+SeEdE50fIKIfm7ipNJnGIXz8pvmrnIm0IGC3mPwlKYATbz0C7ZzkgUDhjvvM
-         0K23Chm0xe/8IDInmULumOYMfmPZd4PBxHGLz6Xg/HC4h8gKxdYcv9OMwGu134+tWRYT
-         aL+bLt6oDQ7K5+PYKqQO5Pc4MxG/0GgXHEBdmeLtNyBCWjlrr1ojA81Hm84dk2y6m6dl
-         Uiqw==
+        d=linaro.org; s=google; t=1683800763; x=1686392763;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ah9vrmwXkmgBXYxu0weg0/evB6b5zH+I5OTrqcCotE4=;
+        b=rXxX/EZCr13k7OrOt467ssxzf2X9J/TlPGkcCk2Lmi0YzVGXnItA9qzHiPDqRgxckk
+         E1BYRXPqAWPpFm1HwrGrxurvp+kh0C6JZW4HX2sq+x2TdsC6CFqxz69Cy8TSci0pCaQ3
+         A5/R4DglPc6NLnrLlYl47Xk2akLwGXB1UXYCzUmewAicNFBn5vYjkIZlt1pJ+C8q98xc
+         Mv19Of4l4dBD4jrMFTWIJF1CrnVFCU5xZ8zKHvMbhr0Yckl0LgofYNw+Qvq2jVC3luJf
+         mdPRcUIHRV8zegspfQF8GwAhWcuX1eJFobzfVazRVG8GzRQsxLaRgjVTcbPEaEYQBczC
+         sllw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683798331; x=1686390331;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FVklFj7U6Us5/5iCgZWUpMAaVr3nHAvDuh0XewUtxGE=;
-        b=QSxUyc6eex1abWpIr/FE2g8zFvC7lwPwVlCJUK+/eJXIoSOvOxC0TGNvjDobsNofzo
-         rXTIrHTRZQ0HO7gs8ebj3rTjweneLygHBn4zP2U7XJhVeo30tD6oTLe5zNQoVVsuCdpi
-         YWrmHrh03Pao6JAIj3YHMeGAT0TVwdIxJDsmXlgKpEQNAQOHnweK8DQZnhtBntLjCMf7
-         ryqDdU03do7Lh/WEtTTPgMeCStij1dyykuWWpEwOT0seGgbkheGU+E+gAbyXMQE/erqI
-         MjR+qv549RXMspPe5DG8wnvq0gYVkBimTT5+9PsMlW6MGuBBkS2/1ylGeba8ywCd8zl0
-         6Vow==
-X-Gm-Message-State: AC+VfDzMNK3JKVtL2uWuGZQf8b4e8MB4iudpezMB3zdcOe86fXwxxINN
-        Q2FlWkGthcNwtlECVsVZ03UXRw==
-X-Google-Smtp-Source: ACHHUZ5puz34l6mf5xAAvpQpPZm3VVXafZedBH60KNs+c4WzTDBh5xyLKx0lYqv5/c0qjsjW5pGJIA==
-X-Received: by 2002:a17:906:5d16:b0:960:f1a6:69df with SMTP id g22-20020a1709065d1600b00960f1a669dfmr22528551ejt.36.1683798330968;
-        Thu, 11 May 2023 02:45:30 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:7e61:f14a:c3a4:809e? ([2a02:810d:15c0:828:7e61:f14a:c3a4:809e])
-        by smtp.gmail.com with ESMTPSA id v16-20020a170906381000b009545230e682sm3772276ejc.91.2023.05.11.02.45.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 May 2023 02:45:29 -0700 (PDT)
-Message-ID: <280ab18d-bbfa-9920-5f1b-d069fd866e1f@linaro.org>
-Date:   Thu, 11 May 2023 11:45:28 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 2/4] dt-bindings: touchscreen: add virtual-touchscreen and
- virtual-buttons properties
-Content-Language: en-US
-To:     Javier Carrasco <javier.carrasco@wolfvision.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        d=1e100.net; s=20221208; t=1683800763; x=1686392763;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ah9vrmwXkmgBXYxu0weg0/evB6b5zH+I5OTrqcCotE4=;
+        b=g9hyFQPMBMz0v+EAjDTiUMfh7scwemm+ZA+bBCu3Uhd0XF02tZpfobptL6zbPDLn3c
+         ++KO7rKYvUR4Im65vax/1PA6hYIvnk0UvkiIOuYjEcS02c+9hLc1fy/xG+wo1jrKA+xB
+         PKCfRq1E1je+jqIy9fFufu3NX1N3q4b3KVm23WnrbAEGmW+DxUs91XtjXMxQWiYg/0Fo
+         /+3QhgVT48rKmkgF19/H0obudpyHGGzLUYvkAjmJQSlWRQeP8IQ6R+DxTiW/En/QoynR
+         mD8pIpZ1h4xey0n4/o0J2BgVAW6JFK4fQLuy9LqQUSrWnOw/EXcXyf0JIf1O0InD/WSR
+         fY2A==
+X-Gm-Message-State: AC+VfDwdpw5NqmE/BKNR4PZ1JuyB9hmolaNiWiNiOF1QI36XbXfbV5/Q
+        WG26nbp/36/nUrNZac34xmWxnw==
+X-Google-Smtp-Source: ACHHUZ6v0q0rkYOVzfy1x5Zv7HMvJ0TR86ZQeUQKPw/eThfnEv2XBPqTzZdzQPuVsKkt4nRhZYtWTA==
+X-Received: by 2002:a05:6402:1056:b0:506:86aa:78ed with SMTP id e22-20020a056402105600b0050686aa78edmr17255596edu.20.1683800762902;
+        Thu, 11 May 2023 03:26:02 -0700 (PDT)
+Received: from krzk-bin.. ([2a02:810d:15c0:828:41e7:1b68:d38e:1348])
+        by smtp.gmail.com with ESMTPSA id d5-20020a50fe85000000b004fbf6b35a56sm2894642edt.76.2023.05.11.03.26.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 May 2023 03:26:02 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Bastian Hecht <hechtb@gmail.com>,
-        Michael Riesch <michael.riesch@wolfvision.net>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org
-References: <20230510-feature-ts_virtobj_patch-v1-0-5ae5e81bc264@wolfvision.net>
- <20230510-feature-ts_virtobj_patch-v1-2-5ae5e81bc264@wolfvision.net>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230510-feature-ts_virtobj_patch-v1-2-5ae5e81bc264@wolfvision.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh@kernel.org>
+Subject: [RESEND PATCH] dt-bindings: input: cypress,cyapa: convert to dtschema
+Date:   Thu, 11 May 2023 12:25:59 +0200
+Message-Id: <20230511102559.175088-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -84,26 +74,121 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 10/05/2023 15:50, Javier Carrasco wrote:
-> The virtual-touchscreen object defines an area within the touchscreen
-> where touch events are reported and their coordinates get converted to
-> the virtual origin. This object avoids getting events from areas that
-> are physically hidden by overlay frames.
-> 
-> For touchscreens where overlay buttons on the touchscreen surface are
-> provided, the virtual-buttons object contains a node for every button
-> and the key event that should be reported when pressed.
+Convert the Cypress All Points Addressable (APA) I2C Touchpad / Trackpad
+bindings to DT schema.
 
-Hm, I don't understand - are these separate physical buttons? If so, why
-would they be part of touchscreen? Where do the wires go?
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../bindings/input/cypress,cyapa.txt          | 42 ----------------
+ .../bindings/input/cypress,cyapa.yaml         | 49 +++++++++++++++++++
+ 2 files changed, 49 insertions(+), 42 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/cypress,cyapa.txt
+ create mode 100644 Documentation/devicetree/bindings/input/cypress,cyapa.yaml
 
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
-> ---
->  .../bindings/input/touchscreen/touchscreen.yaml    | 54 ++++++++++++++++++++++
->  1 file changed, 54 insertions(+)
-> 
-
-Best regards,
-Krzysztof
+diff --git a/Documentation/devicetree/bindings/input/cypress,cyapa.txt b/Documentation/devicetree/bindings/input/cypress,cyapa.txt
+deleted file mode 100644
+index d3db65916a36..000000000000
+--- a/Documentation/devicetree/bindings/input/cypress,cyapa.txt
++++ /dev/null
+@@ -1,42 +0,0 @@
+-Cypress I2C Touchpad
+-
+-Required properties:
+-- compatible: must be "cypress,cyapa".
+-- reg: I2C address of the chip.
+-- interrupts: interrupt to which the chip is connected (see interrupt
+-	binding[0]).
+-
+-Optional properties:
+-- wakeup-source: touchpad can be used as a wakeup source.
+-- pinctrl-names: should be "default" (see pinctrl binding [1]).
+-- pinctrl-0: a phandle pointing to the pin settings for the device (see
+-	pinctrl binding [1]).
+-- vcc-supply: a phandle for the regulator supplying 3.3V power.
+-
+-[0]: Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
+-[1]: Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
+-
+-Example:
+-	&i2c0 {
+-		/* ... */
+-
+-		/* Cypress Gen3 touchpad */
+-		touchpad@67 {
+-			compatible = "cypress,cyapa";
+-			reg = <0x67>;
+-			interrupt-parent = <&gpio>;
+-			interrupts = <2 IRQ_TYPE_EDGE_FALLING>;	/* GPIO 2 */
+-			wakeup-source;
+-		};
+-
+-		/* Cypress Gen5 and later touchpad */
+-		touchpad@24 {
+-			compatible = "cypress,cyapa";
+-			reg = <0x24>;
+-			interrupt-parent = <&gpio>;
+-			interrupts = <2 IRQ_TYPE_EDGE_FALLING>;	/* GPIO 2 */
+-			wakeup-source;
+-		};
+-
+-		/* ... */
+-	};
+diff --git a/Documentation/devicetree/bindings/input/cypress,cyapa.yaml b/Documentation/devicetree/bindings/input/cypress,cyapa.yaml
+new file mode 100644
+index 000000000000..29515151abe9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/cypress,cyapa.yaml
+@@ -0,0 +1,49 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/cypress,cyapa.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Cypress All Points Addressable (APA) I2C Touchpad / Trackpad
++
++maintainers:
++  - Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
++
++properties:
++  compatible:
++    const: cypress,cyapa
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  wakeup-source: true
++
++  vcc-supply:
++    description: 3.3V power
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        trackpad@67 {
++            reg = <0x67>;
++            compatible = "cypress,cyapa";
++            interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
++            interrupt-parent = <&gpx1>;
++            wakeup-source;
++        };
++    };
+-- 
+2.34.1
 
