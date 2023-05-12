@@ -2,255 +2,148 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 41BBD6FFE18
-	for <lists+linux-input@lfdr.de>; Fri, 12 May 2023 02:43:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D82A6FFE38
+	for <lists+linux-input@lfdr.de>; Fri, 12 May 2023 03:02:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230257AbjELAnf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 May 2023 20:43:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47264 "EHLO
+        id S239672AbjELBCf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 11 May 2023 21:02:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229654AbjELAnf (ORCPT
+        with ESMTP id S230085AbjELBCf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 May 2023 20:43:35 -0400
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 909BF2101;
-        Thu, 11 May 2023 17:43:33 -0700 (PDT)
-Received: by mail-yb1-xb32.google.com with SMTP id 3f1490d57ef6-b8bf64a4999so1420489276.1;
-        Thu, 11 May 2023 17:43:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683852213; x=1686444213;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xA9GTBUaLlTL5Dbrc7x2OWFAgSUirYMQNpAhJ3u77zc=;
-        b=H6aBAxY3wFF6Kt5Q/Y8uQ7NlsoJyI40Fa4BBxOhfdK+6FQIjv7OWSZ0IWj4xWsGTv/
-         m6RgetZqbEuwK/8+DAisyYV+yLEnhVqT01ChTlllvMTndZI1mCZjIOfPwxDvgHo7XNm4
-         ffuRw2hS698UDlRVNfZGdg+gPq5aRJZ9FLkxxm3b9Z6hNMB+mrVSAoHaywADN4LMpjbW
-         WIUIYNdkM2iPx4LSaWDfGk41QJPjOo7RPlWiyNsBHLGGBc8QwwxSy8R0BUl3jYFGi1HJ
-         Y8OkEDMLwKN7e2srUMI6gNo7sAQsqYWcAXR8WXS2cQG82RQcv+H1hetKvVORqzNDGOJQ
-         ZyNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683852213; x=1686444213;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xA9GTBUaLlTL5Dbrc7x2OWFAgSUirYMQNpAhJ3u77zc=;
-        b=clzgGGSG/g1iR7HUz/URka4pdrGxHZOC13myn79ooNFCYUjkUCwNWTgGadKaz1o1Cz
-         Z3vtJjgRaonOXfMU9TxOiU0S2Z8bSAK7D8IxJkOPE5yu6oFHEJ3RvywxWzhmLtsr8V7N
-         JSi1ouJHkP+pCK5cevxaoio2yVbDlJGaWntvEypeZpiRRrZVVGoYhz2GP2Fh8jt8TsNE
-         33SEndhMP2QGL10aNWpoJxC8XYHMi+zI2OIjNHFCjd/NP3vFNdorAKxI4qRCGgBtc3uw
-         kH8LHpEs7nc9xM1KzZkeKf4ueBEne0n6jBMWsShcHnadJN8k1cV6dRfDf1Q1e10rh5O6
-         Pmhg==
-X-Gm-Message-State: AC+VfDz1JM61VGnue1Y/7k8lv+jYFtxWB5LYqNxtR6ntLf0LKvZ5tmxO
-        ve0ljTxJ05RayJH6mWPnps8=
-X-Google-Smtp-Source: ACHHUZ7lIqTYfEZVb6Rcz5y0htJbbqBQfSC+qrZdesnQVQbgeZE5eKfJD2KZM2NkkjD1OO0o6+hf/g==
-X-Received: by 2002:a81:1ad7:0:b0:55d:9a9c:f19e with SMTP id a206-20020a811ad7000000b0055d9a9cf19emr21949258ywa.0.1683852212629;
-        Thu, 11 May 2023 17:43:32 -0700 (PDT)
-Received: from ?IPV6:2604:2d80:4d87:cd00:e2d5:5eff:fe88:4a55? ([2604:2d80:4d87:cd00:e2d5:5eff:fe88:4a55])
-        by smtp.gmail.com with ESMTPSA id l62-20020a0de241000000b00560c2e3ec63sm2377401ywe.77.2023.05.11.17.43.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 May 2023 17:43:32 -0700 (PDT)
-Message-ID: <e25468f4-e3a3-bcf7-c2c0-826edb0600c2@gmail.com>
-Date:   Thu, 11 May 2023 19:43:28 -0500
+        Thu, 11 May 2023 21:02:35 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14D441FE0;
+        Thu, 11 May 2023 18:02:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683853354; x=1715389354;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dCRxN8GRlqazVUhRpYDi45qn973c860pPkgbS7cXHpY=;
+  b=DfjZ6wvvIyyVdxsGGFehKpLcIF2wBWq7/wqnx+F5Y+1/4e4wMPuaU9D2
+   aFCNItNST2r9BpPXEnjtLs1qHe7rwt6ybNGvqSK2yI8C7LcJisIDSMgKr
+   MmjiR51hJyN+Oo+7F9Whm2xPN9GJdg1wWxMtdVP3GY4fudH5TrmRPIudf
+   nZ3Unm3oOA8+WyhHP/ZWJ0MW6lihobD1W1Ese1N1apsB3LS0lb0JQS1dF
+   nf/YKrItqC4bguy8cIkJoEl1VbV/sD8cVHZ6MhlrXMKkkWIHhXasB9Clw
+   PwEyGVuOGNBBKhjSvOMNUW6k5yCqleuHOdQZJ4I2Z0+hWwRR4BxZe3ws7
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="335181908"
+X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; 
+   d="scan'208";a="335181908"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 18:02:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="730613312"
+X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; 
+   d="scan'208";a="730613312"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 11 May 2023 18:02:32 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pxHB1-0004MJ-11;
+        Fri, 12 May 2023 01:02:31 +0000
+Date:   Fri, 12 May 2023 09:01:57 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        Raul E Rangel <rrangel@chromium.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/7] Input: libps2 - introduce common interrupt handler
+Message-ID: <202305120818.unCn8fQ9-lkp@intel.com>
+References: <20230511185252.386941-7-dmitry.torokhov@gmail.com>
 MIME-Version: 1.0
-User-Agent: Thunderbird Daily
-Subject: Re: [PATCH v3 2/5] Input: add driver for Focaltech FTS touchscreen
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     Caleb Connolly <caleb@connolly.tech>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Markuss Broks <markuss.broks@gmail.com>,
-        Jean Delvare <jdelvare@suse.de>,
-        Max Krummenacher <max.krummenacher@toradex.com>,
-        Chris Morgan <macromorgan@hotmail.com>,
-        Job Noorman <job@noorman.info>,
-        Alistair Francis <alistair@alistair23.me>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-References: <20230415020222.216232-1-joelselvaraj.oss@gmail.com>
- <20230415020222.216232-3-joelselvaraj.oss@gmail.com>
- <ZEXr1hC+Q5Bo/3Tc@nixie71>
-Content-Language: en-US
-From:   Joel Selvaraj <joelselvaraj.oss@gmail.com>
-In-Reply-To: <ZEXr1hC+Q5Bo/3Tc@nixie71>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230511185252.386941-7-dmitry.torokhov@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jeff LaBundy,
+Hi Dmitry,
 
-On 4/23/23 21:39, Jeff LaBundy wrote:
-> Hi Joel,
-> 
-> Great work so far! It's coming along nicely. Please find my latest
-> feedback below.
+kernel test robot noticed the following build errors:
 
-Sorry for the late reply, university semester end got me hooked up.
-I have a sad kind of good news... As pointed out by Hans de Goede, the 
-edt-ft5x06 driver works out of the box for the fts8719 touchscreen in my 
-device. So I think this patch series is no longer needed. I did have a 
-look at the driver once when working on this patch series, but it looked 
-different/not compatible at that time. After mentioned by Hans de Goede, 
-I had a more closer look and the main touch buffer handling seems to be 
-the same.
+[auto build test ERROR on dtor-input/next]
+[also build test ERROR on dtor-input/for-linus hid/for-next linus/master v6.4-rc1 next-20230511]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I am sorry as we put some considerable time in this patch series. I 
-should have noted more carefully. Thank you though as I learnt things 
-working on this patch series.
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Torokhov/Input-libps2-attach-ps2dev-instances-as-serio-port-s-drvdata/20230512-025431
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20230511185252.386941-7-dmitry.torokhov%40gmail.com
+patch subject: [PATCH 6/7] Input: libps2 - introduce common interrupt handler
+config: mips-randconfig-r031-20230510 (https://download.01.org/0day-ci/archive/20230512/202305120818.unCn8fQ9-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mipsel-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/1f2ba3a941e6f6a3ad745fa780825ac56570616e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dmitry-Torokhov/Input-libps2-attach-ps2dev-instances-as-serio-port-s-drvdata/20230512-025431
+        git checkout 1f2ba3a941e6f6a3ad745fa780825ac56570616e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/input/keyboard/
 
-I guess I will send a different patch to add the compatible data to the 
-existing edt-ft5x06 driver and dts changes to include that driver to my 
-device.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305120818.unCn8fQ9-lkp@intel.com/
 
-> On Fri, Apr 14, 2023 at 09:02:19PM -0500, Joel Selvaraj wrote:
->> The Focaltech FTS driver supports several variants of focaltech
->> touchscreens found in ~2018 era smartphones including variants found on
->> the PocoPhone F1 and the SHIFT6mq which are already present in mainline.
->> This driver is loosely based on the original driver from Focaltech
->> but has been simplified and largely reworked.
->>
->> Co-developed-by: Caleb Connolly <caleb@connolly.tech>
->> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
->> Signed-off-by: Joel Selvaraj <joelselvaraj.oss@gmail.com>
->> ---
->>   MAINTAINERS                                   |   8 +
->>   drivers/input/touchscreen/Kconfig             |  12 +
->>   drivers/input/touchscreen/Makefile            |   1 +
->>   drivers/input/touchscreen/focaltech_fts5452.c | 432 ++++++++++++++++++
->>   4 files changed, 453 insertions(+)
->>   create mode 100644 drivers/input/touchscreen/focaltech_fts5452.c
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 7ec4ce64f66d..1a3ea61e1f52 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -8028,6 +8028,14 @@ L:	linux-input@vger.kernel.org
->>   S:	Maintained
->>   F:	drivers/input/joystick/fsia6b.c
->>   
->> +FOCALTECH FTS5452 TOUCHSCREEN DRIVER
->> +M:	Joel Selvaraj <joelselvaraj.oss@gmail.com>
->> +M:	Caleb Connolly <caleb@connolly.tech>
->> +L:	linux-input@vger.kernel.org
->> +S:	Maintained
->> +F:	Documentation/devicetree/bindings/input/touchscreen/focaltech,fts5452.yaml
->> +F:	drivers/input/touchscreen/focaltech_fts5452.c
->> +
->>   FOCUSRITE SCARLETT GEN 2/3 MIXER DRIVER
->>   M:	Geoffrey D. Bennett <g@b4.vu>
->>   L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
->> diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
->> index 1feecd7ed3cb..11af91504969 100644
->> --- a/drivers/input/touchscreen/Kconfig
->> +++ b/drivers/input/touchscreen/Kconfig
->> @@ -388,6 +388,18 @@ config TOUCHSCREEN_EXC3000
->>   	  To compile this driver as a module, choose M here: the
->>   	  module will be called exc3000.
->>   
->> +config TOUCHSCREEN_FOCALTECH_FTS5452
->> +	tristate "Focaltech FTS Touchscreen"
->> +	depends on I2C
->> +	help
->> +	  Say Y here to enable support for I2C connected Focaltech FTS
->> +	  based touch panels, including the 5452 and 8917 panels.
-> 
-> This language is a bit misleading, as it seems to suggest three or more
-> models are supported. It seems the title should simply be "FocalTech
-> FTS5452 touchscreen controller" with the description as "...FocalTech
-> FTS5452 and compatible touchscreen controllers."
-> 
-> As more are found to be compatible (e.g. FTS8917), the compatible strings
-> can simply be appended.
-> 
->> +
->> +	  If unsure, say N.
->> +
->> +	  To compile this driver as a module, choose M here: the
->> +	  module will be called focaltech_fts.
->> +
->>   config TOUCHSCREEN_FUJITSU
->>   	tristate "Fujitsu serial touchscreen"
->>   	select SERIO
->> diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
->> index 159cd5136fdb..47d78c9cff21 100644
->> --- a/drivers/input/touchscreen/Makefile
->> +++ b/drivers/input/touchscreen/Makefile
->> @@ -45,6 +45,7 @@ obj-$(CONFIG_TOUCHSCREEN_ELO)		+= elo.o
->>   obj-$(CONFIG_TOUCHSCREEN_EGALAX)	+= egalax_ts.o
->>   obj-$(CONFIG_TOUCHSCREEN_EGALAX_SERIAL)	+= egalax_ts_serial.o
->>   obj-$(CONFIG_TOUCHSCREEN_EXC3000)	+= exc3000.o
->> +obj-$(CONFIG_TOUCHSCREEN_FOCALTECH_FTS5452)	+= focaltech_fts5452.o
->>   obj-$(CONFIG_TOUCHSCREEN_FUJITSU)	+= fujitsu_ts.o
->>   obj-$(CONFIG_TOUCHSCREEN_GOODIX)	+= goodix_ts.o
->>   obj-$(CONFIG_TOUCHSCREEN_HIDEEP)	+= hideep.o
->> diff --git a/drivers/input/touchscreen/focaltech_fts5452.c b/drivers/input/touchscreen/focaltech_fts5452.c
->> new file mode 100644
->> index 000000000000..abf8a2f271ca
->> --- /dev/null
->> +++ b/drivers/input/touchscreen/focaltech_fts5452.c
->> @@ -0,0 +1,432 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * FocalTech touchscreen driver.
->> + *
->> + * Copyright (c) 2010-2017, FocalTech Systems, Ltd., all rights reserved.
->> + * Copyright (C) 2018 XiaoMi, Inc.
->> + * Copyright (c) 2021 Caleb Connolly <caleb@connolly.tech>
->> + * Copyright (c) 2023 Joel Selvaraj <joelselvaraj.oss@gmail.com>
->> + */
+All errors (new ones prefixed by >>):
 
-[skip]
+>> drivers/input/keyboard/atkbd.c:424:3: error: must use 'struct' tag to refer to type 'atkbd'
+                   atkbd->resend = false;
+                   ^
+                   struct 
+>> drivers/input/keyboard/atkbd.c:424:3: error: expected expression
+   2 errors generated.
 
->> +static const struct of_device_id fts_of_match[] = {
->> +	{ .compatible = "focaltech,fts5452", .data = &fts5452_chip_data },
->> +	{ .compatible = "focaltech,fts8719", .data = &fts8719_chip_data },
->> +	{ /* sentinel */ }
->> +};
->> +
->> +MODULE_DEVICE_TABLE(of, fts_of_match);
->> +
->> +static struct i2c_driver fts_ts_driver = {
->> +	.probe_new = fts_ts_probe,
->> +	.id_table = fts_i2c_id,
->> +	.driver = {
->> +		.name = FTS_DRIVER_NAME,
->> +		.pm = pm_sleep_ptr(&fts_dev_pm_ops),
->> +		.of_match_table = fts_of_match,
->> +	},
->> +};
->> +module_i2c_driver(fts_ts_driver);
->> +
->> +MODULE_AUTHOR("Joel Selvaraj <joelselvaraj.oss@gmail.com>");
->> +MODULE_AUTHOR("Caleb Connolly <caleb@connolly.tech>");
->> +MODULE_DESCRIPTION("Focaltech Touchscreen Driver");
-> 
-> Nit: mixing 'FocalTech' and 'Focaltech' throughout.
-> 
->> +MODULE_LICENSE("GPL");
->> -- 
->> 2.40.0
->>
-> 
-> Kind regards,
-> Jeff LaBundy
 
-Thank you,
-Joel Selvaraj
+vim +424 drivers/input/keyboard/atkbd.c
+
+^1da177e4c3f41 Linus Torvalds  2005-04-16  400  
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  401  static enum ps2_disposition atkbd_pre_receive_byte(struct ps2dev *ps2dev,
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  402  						   u8 data, unsigned int flags)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  403  {
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  404  	struct serio *serio = ps2dev->serio;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  405  
+a9a1f9c315c27f Dmitry Torokhov 2010-01-06  406  	dev_dbg(&serio->dev, "Received %02x flags %02x\n", data, flags);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  407  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  408  #if !defined(__i386__) && !defined (__x86_64__)
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  409  	if ((flags & (SERIO_FRAME | SERIO_PARITY)) &&
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  410  	    (~flags & SERIO_TIMEOUT)) {
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  411  		struct atkbd *atkbd = container_of(ps2dev, struct atkbd,
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  412  						   ps2dev);
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  413  
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  414  		if (!atkbd->resend && atkbd->write) {
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  415  			dev_warn(&serio->dev,
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  416  				 "Frame/parity error: %02x\n", flags);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  417  			serio_write(serio, ATKBD_CMD_RESEND);
+a9a1f9c315c27f Dmitry Torokhov 2010-01-06  418  			atkbd->resend = true;
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  419  			return PS2_IGNORE;
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  420  		}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  421  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  422  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  423  	if (!flags && data == ATKBD_RET_ACK)
+a9a1f9c315c27f Dmitry Torokhov 2010-01-06 @424  		atkbd->resend = false;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  425  #endif
+^1da177e4c3f41 Linus Torvalds  2005-04-16  426  
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  427  	return PS2_PROCESS;
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  428  }
+^1da177e4c3f41 Linus Torvalds  2005-04-16  429  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
