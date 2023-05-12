@@ -2,155 +2,210 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8847F70014D
-	for <lists+linux-input@lfdr.de>; Fri, 12 May 2023 09:21:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2843A7001F2
+	for <lists+linux-input@lfdr.de>; Fri, 12 May 2023 09:56:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240327AbjELHVE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 12 May 2023 03:21:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33126 "EHLO
+        id S240323AbjELH4f (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 12 May 2023 03:56:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240225AbjELHUJ (ORCPT
+        with ESMTP id S239868AbjELH4J (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 12 May 2023 03:20:09 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D262A1AC
-        for <linux-input@vger.kernel.org>; Fri, 12 May 2023 00:20:06 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-9660af2499dso1478467066b.0
-        for <linux-input@vger.kernel.org>; Fri, 12 May 2023 00:20:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683876005; x=1686468005;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WlguJbcdCNMathxuQaT8K1ShmJFBrwncaunh1gm2DMA=;
-        b=zjZZlcSx9bRLm7NbRTThmkTzkg6bZAe2fzIMzQG7yK9ZQxEGgMdJ8YRXv/ExXqGGy8
-         53J76c6RZ01PDztd4+wRS0qnQSuOAU4EuKqJXt7v7XxfFaW+rKLUMg4AQKIYwxzeo3yf
-         87d0MBoshdRtjOD17HdXHQyXlDgAfPceSbwvKHR6ObXMAuwkpXdQ8E9ktapySertXzwO
-         3m8tZUo6x+WYJNmmUet/uYBaikJHufa3SwQpXD4fxDJJlaYSzvlupAKQsgjUs7hxK3ZW
-         rPR4Knx4coKMiNgrZM6ex39R8Ka2NvwFNjQNYHniVJRt5zP5Nj+om9GAh9I6DS7787HX
-         1d2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683876005; x=1686468005;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WlguJbcdCNMathxuQaT8K1ShmJFBrwncaunh1gm2DMA=;
-        b=ESBJTDaAvuZl9qm+/5DDnMFwlyszqBfK1OWpXA4TN1rilb7mrPqFAN32ANi9TzRAhU
-         tOQz5khmQdTLOuo+95vRQcfe+grT59cba/ur/yqTNeoyzcK6BeHsdcpfnmP7OXc6yJJ4
-         /UU4ZMXyO23TZePYNxYorDjTDstnH0d7QlS+tKH5CfGR6SkceR04XeeCMv+1iq/byT/c
-         mltUxVkFDsL6FwUI0Do+jUn/k6039aGt097TeJx7svmJcgHu5siKBl0O0uBNOcxYg+/D
-         qSrhG74RjxmV1/OU5gCOtGpQ1g+Ta4qkvgr57gwq7gRlqFZsmYAQxJVQYjDkYChFttqO
-         UbaQ==
-X-Gm-Message-State: AC+VfDyAoeFFDml8FM/9SM6p/7nBb5hE+ttz2xMNlENoUhKSqq+CYDos
-        gAgkZES5SMZqWEA5OVXS7NtXIQ==
-X-Google-Smtp-Source: ACHHUZ6kHpYm/ztsDr4Tt/aKxMxZJ/ipvJtZl7+U0eec21VCikd5eB6PtaLIK6EKdEJz94Ji8ssSxA==
-X-Received: by 2002:a17:907:94d3:b0:96a:58a:6cd8 with SMTP id dn19-20020a17090794d300b0096a058a6cd8mr11609156ejc.9.1683876005348;
-        Fri, 12 May 2023 00:20:05 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:7ede:fc7b:2328:3883? ([2a02:810d:15c0:828:7ede:fc7b:2328:3883])
-        by smtp.gmail.com with ESMTPSA id r16-20020a170906c29000b0094f3e169ca5sm4998094ejz.158.2023.05.12.00.20.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 May 2023 00:20:04 -0700 (PDT)
-Message-ID: <cdcd5656-2c7f-23bf-d016-fff79a279ebb@linaro.org>
-Date:   Fri, 12 May 2023 09:20:03 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 2/4] dt-bindings: touchscreen: add virtual-touchscreen and
- virtual-buttons properties
-Content-Language: en-US
-To:     Michael Riesch <michael.riesch@wolfvision.net>,
-        Javier Carrasco <javier.carrasco@wolfvision.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Bastian Hecht <hechtb@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org
-References: <20230510-feature-ts_virtobj_patch-v1-0-5ae5e81bc264@wolfvision.net>
- <20230510-feature-ts_virtobj_patch-v1-2-5ae5e81bc264@wolfvision.net>
- <280ab18d-bbfa-9920-5f1b-d069fd866e1f@linaro.org>
- <18526d2a-ac5f-2b26-9ed3-5a82f20cac86@wolfvision.net>
- <a7261bc1-902d-99f9-aa3e-2c90dd264c8d@linaro.org>
- <eb3f40e6-a604-39f2-eb49-8b41590a65d4@wolfvision.net>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <eb3f40e6-a604-39f2-eb49-8b41590a65d4@wolfvision.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Fri, 12 May 2023 03:56:09 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D489E72B
+        for <linux-input@vger.kernel.org>; Fri, 12 May 2023 00:55:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683878152; x=1715414152;
+  h=date:from:to:cc:subject:message-id;
+  bh=pC36jZtfqI3iiyM/X7LIhNliKCgj7LkCktn0U5eZXFU=;
+  b=nOFyzBF/VkUDKj6Yq19OY5QRykQfYptv3EhVWYC+x0jj6/2W3//Snx2m
+   VbzN9FDrkYUGfjsc7L8A6tfp469VIm+P6vdH2Ojh0XlWAw83IdTdfuGJG
+   Bi9K2/eSEe79uOQZq90UTEHBVPnFtopqcfDiFf0awv94EOlxd0RUU1OY8
+   Dxm1El2En/4ELtxDScSIFrR9zQz0EJ8Vdm5nwHvrKe3lX5SpiXtqz5BRk
+   VO89MDccAvauILFQIMEt8SFNM3xtKo3otwTxqrKynMsrtswFP3HY2RnXn
+   rNq2TjISK7MfFKnajh4xsoQKJOcUR3HBeoN8OPZBP+XwGgxQLMND/llxP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="352978006"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
+   d="scan'208";a="352978006"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 00:55:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="694135274"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
+   d="scan'208";a="694135274"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 12 May 2023 00:55:42 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pxNcr-0004fN-1Q;
+        Fri, 12 May 2023 07:55:41 +0000
+Date:   Fri, 12 May 2023 15:55:03 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 7b63a88bb62ba2ddf5fcd956be85fe46624628b9
+Message-ID: <20230512075503.J7EtE%lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 12/05/2023 09:08, Michael Riesch wrote:
-> Hi Krzysztof,
-> 
->>> These buttons are actually physical i.e. printed and with a given
->>> functionality, but still part of the touchscreen as the physical device
->>> is not aware of them. Therefore they only make sense in the touchscreen
->>> context.
->>
->> So basically you still have the same touchscreen under the buttons and
->> these are not separate devices. Whether someone put a sticker on
->> touchscreen, does not really change hardware behavior and it's up to
->> system to handle this. What you are trying to do here is to create
->> virtual buttons through Devicetree and DT is not for that.
-> 
-> I have already addressed a similar statement here:
-> https://lore.kernel.org/lkml/20230504042927.GA1129520@quokka/t/#m1a93595c36535312df0061459a1da5e062de6c44
-> but let me extend this comment a bit.
-> 
-> The notion of "someone putting a sticker on touchscreen" does not really
-> reflect the use case we have in mind. We are talking about devices that
-> are shipped from the factory in a particular configuration, e.g.,
-> 
-> +-----------------------+---------+
-> |                       |  power  |
-> |                       |  button |
-> |   touchscreen         +---------+
-> |   (behind: display)   |  return |
-> |                       |  button |
-> +-----------------------+---------+
-> 
-> Here, the real touchscreen is larger than the display. The display is
-> behind the "touchscreen" part. Behind the buttons there are symbols
-> engraved in metal or printed foils or what not. I just would like to
-> make it clear that these symbols are not going to change.
-> 
-> We believe that the engraved or printed symbols actually define the
-> (expected) hardware behavior. Of course there is a virtual notion to
-> that, and of course it would be possible to let the power button work as
-> return button and vice versa in software. However, the user sees the
-> engraved or printed symbols (which are not going to change) and expects
-> the device to react appropriately.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 7b63a88bb62ba2ddf5fcd956be85fe46624628b9  Input: psmouse - fix OOB access in Elantech protocol
 
-OK, I actually missed the concept that display is not equal to the
-touchscreen ("screen" actually suggests display :) ). In your case here
-it sounds good, but please put some parts of this description into this
-common binding. The sketch above is nice, especially if you can point
-where the virtual origin x/y are. Picture is thousands words.
+elapsed time: 729m
 
-> 
-> Now if you suggest that the system (that is user space, right?) should
-> handle this, then the question would be which component is supposed to
-> handle the touchscreen events and react accordingly. I don't have an
-> answer to that and hope I don't need to find one. But independent of
-> that, a configuration file is required that defines the area of the
-> virtual buttons etc. Wouldn't this be similar to the (mostly) beloved
-> xorg.conf containing the definitions of input devices?
+configs tested: 132
+configs skipped: 7
 
-If the case was a bit different - e.g. display is everywhere - I could
-easily imagine that on the device rotation you want to move
-(re-position) the buttons. Or if user has some accessibility option
-enabled, you want bigger buttons. Then it would be a prove that it must
-be configured and managed from user-space. How, I don't know.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Best regards,
-Krzysztof
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r002-20230511   gcc  
+alpha                randconfig-r006-20230511   gcc  
+alpha                randconfig-r011-20230509   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r003-20230509   gcc  
+arc                  randconfig-r023-20230509   gcc  
+arc                  randconfig-r043-20230509   gcc  
+arc                  randconfig-r043-20230511   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r016-20230509   gcc  
+arm                  randconfig-r031-20230511   gcc  
+arm                  randconfig-r033-20230509   clang
+arm                  randconfig-r046-20230509   gcc  
+arm                  randconfig-r046-20230511   clang
+arm64                            allyesconfig   gcc  
+arm64        buildonly-randconfig-r005-20230511   clang
+arm64        buildonly-randconfig-r006-20230511   clang
+arm64                               defconfig   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r005-20230511   gcc  
+hexagon              randconfig-r004-20230509   clang
+hexagon              randconfig-r024-20230509   clang
+hexagon              randconfig-r024-20230511   clang
+hexagon              randconfig-r034-20230511   clang
+hexagon              randconfig-r036-20230509   clang
+hexagon              randconfig-r041-20230509   clang
+hexagon              randconfig-r041-20230511   clang
+hexagon              randconfig-r045-20230509   clang
+hexagon              randconfig-r045-20230511   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                          randconfig-a001   gcc  
+i386                          randconfig-a002   clang
+i386                          randconfig-a003   gcc  
+i386                          randconfig-a004   clang
+i386                          randconfig-a005   gcc  
+i386                          randconfig-a006   clang
+i386                          randconfig-a011   clang
+i386                          randconfig-a012   gcc  
+i386                          randconfig-a013   clang
+i386                          randconfig-a014   gcc  
+i386                          randconfig-a015   clang
+i386                          randconfig-a016   gcc  
+ia64                             allmodconfig   gcc  
+ia64         buildonly-randconfig-r005-20230509   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r006-20230509   gcc  
+ia64                 randconfig-r035-20230511   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r021-20230509   gcc  
+loongarch            randconfig-r021-20230511   gcc  
+m68k                             allmodconfig   gcc  
+m68k         buildonly-randconfig-r003-20230511   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r001-20230509   gcc  
+m68k                 randconfig-r012-20230509   gcc  
+m68k                 randconfig-r025-20230509   gcc  
+m68k                 randconfig-r032-20230509   gcc  
+microblaze   buildonly-randconfig-r001-20230511   gcc  
+microblaze           randconfig-r013-20230509   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                 randconfig-r004-20230511   gcc  
+mips                 randconfig-r011-20230511   clang
+mips                 randconfig-r015-20230509   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r022-20230511   gcc  
+nios2                randconfig-r033-20230511   gcc  
+nios2                randconfig-r035-20230509   gcc  
+parisc       buildonly-randconfig-r002-20230509   gcc  
+parisc       buildonly-randconfig-r003-20230509   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r025-20230511   gcc  
+parisc               randconfig-r026-20230511   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc              randconfig-r003-20230511   clang
+powerpc              randconfig-r005-20230509   gcc  
+powerpc              randconfig-r034-20230509   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r026-20230509   clang
+riscv                randconfig-r042-20230509   clang
+riscv                randconfig-r042-20230511   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r013-20230509   clang
+s390                 randconfig-r032-20230511   clang
+s390                 randconfig-r044-20230509   clang
+s390                 randconfig-r044-20230511   gcc  
+sh                               allmodconfig   gcc  
+sh                   randconfig-r014-20230509   gcc  
+sh                   randconfig-r022-20230509   gcc  
+sh                   randconfig-r023-20230511   gcc  
+sparc        buildonly-randconfig-r004-20230509   gcc  
+sparc        buildonly-randconfig-r006-20230509   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r002-20230509   gcc  
+sparc                randconfig-r031-20230509   gcc  
+sparc64      buildonly-randconfig-r002-20230511   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64                        randconfig-a001   clang
+x86_64                        randconfig-a002   gcc  
+x86_64                        randconfig-a003   clang
+x86_64                        randconfig-a004   gcc  
+x86_64                        randconfig-a005   clang
+x86_64                        randconfig-a006   gcc  
+x86_64                        randconfig-a011   gcc  
+x86_64                        randconfig-a012   clang
+x86_64                        randconfig-a013   gcc  
+x86_64                        randconfig-a014   clang
+x86_64                        randconfig-a015   gcc  
+x86_64                        randconfig-a016   clang
+x86_64                               rhel-8.3   gcc  
+xtensa       buildonly-randconfig-r004-20230511   gcc  
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
