@@ -2,173 +2,191 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4516702FA6
-	for <lists+linux-input@lfdr.de>; Mon, 15 May 2023 16:25:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D86F7030CE
+	for <lists+linux-input@lfdr.de>; Mon, 15 May 2023 17:01:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229568AbjEOOZh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 15 May 2023 10:25:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53056 "EHLO
+        id S240538AbjEOPBP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 May 2023 11:01:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239732AbjEOOZg (ORCPT
+        with ESMTP id S240266AbjEOPBM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 15 May 2023 10:25:36 -0400
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2065.outbound.protection.outlook.com [40.107.237.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B314FB;
-        Mon, 15 May 2023 07:25:35 -0700 (PDT)
+        Mon, 15 May 2023 11:01:12 -0400
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2079.outbound.protection.outlook.com [40.107.7.79])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B359E76;
+        Mon, 15 May 2023 08:01:11 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mFXsFnO24xudEotq7rnnDk8Kp2q07cksOjWr+pUn4NbXS0dTVw/kih4pmhPARSXiEJxh94aS8sPyv8cSJHfMEa77ZXzj37yGnQ2EGXf5TpTa4PbehuZFNej9hHU5yymeU1xD8evPYICg5blk1lzUtEbGthzN85G7g08Fs2/YWAh2VBED7T/2BEMLuE0bQfYWQA7Sbkhx9RgIJdgfEM9GhzN59egXWJSv/HZN3JjLYI8SvyCzr3RaXh5fYUuj+Zq+JwCy1vK+qufONdFbayWEAvo6k7wE5y5eLndz+aFafJ/bJ37qvjzJCLM67b1cWX0njv89lDBkkzkVIBTJW7/nug==
+ b=CSCjf+zsD30erHC9ZRS+Ze7B36dc8K3lISyojWeiVyhJRPiENdjuSZqeIyqGj3e+7hukTM61RQgDMMrxPBue92+xkakYES2N6yNzSe3nr+WNaYeBIZzQ18tzZCiq1nK1ZRXkhvH01liHDtLPOB+uTN1jfQOvZ/swu/8cY+ToIhn1MLA153QNw4/lgtLVt63ZBzj1ws+IXkoiGDHyjVnw1w9rJ+OAE5dr6xNeMc0oMDnIpLKXHyoNDKXWp6FMlX/nF4WJWr9Px/IpqTBHYEXtFEzi3h3YwoCrGfyBMmRHjQxStD9kUPUkg2YCB2iL9AsaiAQeHOtGMfyKFVJop4h0JQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zQ0rvZDOr6OoU/FnLbXVDzc18MVxswNAXEchXwJm0c4=;
- b=QTktz2Iop41WtyxJ+8kVWeEyIYvJLNUMNBS89ZBRiiubRN9du7UGr6oqEsLuct91nmZdDB3JkF+e325Q6rQ0eU/nV1bd2GiayRIed4t368TPDbd1elmMfAXjqXnAmyzXNjYrH87wJfI4B8bNgUaIqgRURjwVeCwXR7DW/RzSClGrCXhr71IlS/8emTxCZw6tjZOEzqeHZZHhkuosVmkqACKi5xgjcdcTcH0adOpm7Qgo9w41KupKudEp3YaL95Y9SCvD3C2ZQOqymIzpDDIHH0tzkpJGywFQBfiiX2tD6k8xuRU0JVwwBzkHEO8edE+1JKkkstPCj9Db3ZHL5xqc4w==
+ bh=7uXd1f6WLsr4xPGXy95i4lRpgF7jWEYyV9TrkD3/xxE=;
+ b=BT+B769dYCdwLiaJcRyZ3sz2tqT2BUYDv9mIqexHetBQ7ovpmsaOutTaUCzH88oTBOsdvedxpVoyj0MQAqBcDF1lMhqgBJpRgOV0Cou71ibhgT9wbySpzMOktS4cxV1f3XpXJO4LzVftgSKTfg6l7d8jpGxAVge2K+8QxL9gScI81ue/ode42KYZFdmqlGESJV3/D3TObbZVyJu8PBrVzJmbZGptT4+6xMIoXh66sHiNKfaxIwKir2uAO2t/f36DVMXMRxNi2MVu0W4P61TLh1ltD7AbYsjplgTdUBDOVfPZuI2OeYKAg/YBqksm3Jhd7TpInOwFS41z8qcNnyvSpg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zQ0rvZDOr6OoU/FnLbXVDzc18MVxswNAXEchXwJm0c4=;
- b=pp5iQ6YMpex/ksEtTlGYOdzBzmiaQpSVg3sgR0Y5RI5zgPezzMN4cgNs6DQ4Rg1vlsHNwfRdGBRcuU96IEG112AqJkfEJYyXSdkL1cYRaUj/r3p5iv7ZUxcQNu6icz+N/BTIbenJa6kI/KDXzHsMsEejjpKNznhr01CKnV4k71A=
+ bh=7uXd1f6WLsr4xPGXy95i4lRpgF7jWEYyV9TrkD3/xxE=;
+ b=GMjx/uBT7W9wepjOIvmfUB0o57TnmNM0tuVI8G/WGbkpi0OmzbcL6uyGTbZt5o6if1nqHdm6sJz53NHnBBcqGIpx9saVOpuuvq6V2GfHbjIqcVkGI1ZTZHSUwbiMmW3RudJsQQSCHY0poA+O/w00ANVvt1ZKiBswzg2ip5fWiMU=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=labundy.com;
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by SN4PR0801MB7744.namprd08.prod.outlook.com
- (2603:10b6:806:203::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.30; Mon, 15 May
- 2023 14:25:32 +0000
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::d2d1:7af4:ef32:542]) by SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::d2d1:7af4:ef32:542%3]) with mapi id 15.20.6387.030; Mon, 15 May 2023
- 14:25:32 +0000
-Date:   Mon, 15 May 2023 09:25:28 -0500
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Marek Vasut <marex@denx.de>
-Cc:     Traut Manuel LCPF-CH <Manuel.Traut@mt.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>
-Subject: Re: AW: EXTERNAL - [PATCH] Input: pwm-beeper - Support volume
- setting via sysfs
-Message-ID: <ZGJA2M+V8ualidHH@nixie71>
-References: <20230512185551.183049-1-marex@denx.de>
- <AS8PR03MB76211DFFD1261B00E55FF50BFA789@AS8PR03MB7621.eurprd03.prod.outlook.com>
- <a5293af4-8d02-ed8f-52d1-722c71d47f37@denx.de>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a5293af4-8d02-ed8f-52d1-722c71d47f37@denx.de>
-X-ClientProxiedBy: DM6PR02CA0106.namprd02.prod.outlook.com
- (2603:10b6:5:1f4::47) To SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
+ by VI1PR08MB9982.eurprd08.prod.outlook.com (2603:10a6:800:1c4::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.29; Mon, 15 May
+ 2023 15:01:05 +0000
+Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
+ ([fe80::bd0e:a139:9e67:b86d]) by VE1PR08MB4974.eurprd08.prod.outlook.com
+ ([fe80::bd0e:a139:9e67:b86d%4]) with mapi id 15.20.6387.030; Mon, 15 May 2023
+ 15:01:05 +0000
+From:   Javier Carrasco <javier.carrasco@wolfvision.net>
+Subject: [PATCH v2 0/4] Input: support virtual objects on touchscreens
+Date:   Mon, 15 May 2023 17:00:57 +0200
+Message-Id: <20230510-feature-ts_virtobj_patch-v2-0-f68a6bfe7a0f@wolfvision.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAClJYmQC/42PQQ7CIBBFr2JYSwMIrXHlPUzTAE4FY6AZEDVN7
+ y6tF3D5ZvL/m5lJAvSQyGk3E4Tik4+hgtjviHU63ID6a2UimDgwxRkdQecnAs1pKB5zNPdh0tk
+ 6CqLtlGRaQydJjRudgBrUwbq1oLSNpGj5upoQRv/erJe+svMpR/xsRxS+Tv/wFU4ZVRoUHLmxo
+ pXnV3yMvw+aAJn0y7J8AeIRKI/gAAAA
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Bastian Hecht <hechtb@gmail.com>,
+        Michael Riesch <michael.riesch@wolfvision.net>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Javier Carrasco <javier.carrasco@wolfvision.net>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1684162864; l=2419;
+ i=javier.carrasco@wolfvision.net; s=20230509; h=from:subject:message-id;
+ bh=kDLvW4MNdchFQrzoH6ZWFFnmP+Odi+a9gcFMheCzoMo=;
+ b=Ad5Mnvl83skIQmz0scJ2VyMIB2JRJrqtAY0o5qosDG5Jm5wAZbXQDre8/bVIoK1wZReHHUrl3
+ ZLWcRsvDUwJB2w1ntZTH9IQp2NAeecx0t5h5Y0Ykq/yYMBpuRkcRYqz
+X-Developer-Key: i=javier.carrasco@wolfvision.net; a=ed25519;
+ pk=tIGJV7M+tCizagNijF0eGMBGcOsPD+0cWGfKjl4h6K8=
+X-ClientProxiedBy: VI1P195CA0039.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:802:5a::28) To VE1PR08MB4974.eurprd08.prod.outlook.com
+ (2603:10a6:803:111::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|SN4PR0801MB7744:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1f811ca6-8505-47a0-a9f1-08db55503d43
+X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|VI1PR08MB9982:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0cf8a861-faeb-42b4-4c6c-08db555534c3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jo4Yurm7qAwQXBGOOZfM5gXyGvwDj4ufqYBki5m6RFs2RxLP1gaWxMgZwDxHfYv7+cGsiQ57hlNl68VIYm25K61HgRo4oADb8FsaUaCcD7dRfj8KJQ2tsbmaFX1TAEbmvR0OCizs4XA4oIMK+fengKvce+X/V05r109bIRFHGkGUtfeNfuq1T6wMhxmYIuybxRdRE9aMBaXjzeiGe2O9H7SjeK2kjUiyBLFV02B1OTamyfZr8qTFakr1uenKdWQdONp3LtPYuj1ig1Fu9O3vNzRs96SqZBzgw4pK1r8MmhRdy1Ptn0YKSw7ouWPrq2QhRO0Ohu9cpu3kRhORwRPVc0RAByVUwKCFufqe1J/TNnCckB2rpZU75kfRJma9lj4/rRq05wYuH6vWKzz2ZqMe/n77KrgQRUVQJsXSsGA+5xiPLimxYn+Am/O5DyCV2re+gDNHr66RTDSkWciSE68VVGdsp9GoFw/CPnX1nRsCpq/T1j9m02doj13yfijAlFtMOu18dK8o3K6NcdMIQopkS1AQ1Xxk5LY8mgWya3AJ4jI/q+W7v/vRy0qfj/hXMLl2gxRWvir1n0zO83gxU85WdM079bOwz+DG0/cq7L+dcRw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(346002)(136003)(366004)(376002)(39830400003)(396003)(451199021)(54906003)(66899021)(478600001)(41300700001)(8676002)(8936002)(38100700002)(5660300002)(2906002)(316002)(4326008)(6916009)(66476007)(66946007)(66556008)(6506007)(6512007)(26005)(53546011)(9686003)(86362001)(186003)(33716001)(83380400001)(6486002)(966005)(6666004)(67856001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 9NL5vBIuE2cdBBX+55gG5zScQ9G1PK6PsJ4LIR4qL1ONz+vGcKhdGFzG7tw5G3lg+whla27JutrgMWXIZTOSLdhu8QE3Xu32xm9kCq6CX5hp2Hz6YYBDtS8taPcY6zY4MQ9gAI84X1C9NiMHC9CmkLlvVaK0Bjkpv0cM1iZALDv0DwUWvYYoge2e242p11Kz/y6jH+hgTxD//skQjnRxrCO65tOvmV4Cl0KmcKfmlqH2CFvczWzUpufsZwdvmi59DXBBMOSti+OFbc2qMeUiqbfDj2ifUQ4Iy9MEkLY3d+xvI4wMt7KyUBLJXe4/+EvgFyKqxomCUbb8ra7ScTPam8P80MFaA+W3sYHethpx62+QM0GqMtS7EekdGfbNfTRDPDa68cw/4bc/xeNqjfvg7mAkGfPJ2UnripRshs7Rs8w0lpoluREpZ4JI0Tss2ZPq8T7ew6/wO+chy29FC/TgAamjBCHuT4Mmj6InNgV5pP6Ow06Up25IDwpNO9nDIJYy0yZevBfv6MKwJtpw68Isme8q/wc8AfpUwmF+UkOOeNPPNbgUCS25idUFIDvkOhTkqGyYYcQ15HEXJGFgT7gtb/A6TqWI19398bl8aEcNUYs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4974.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(396003)(346002)(366004)(39840400004)(451199021)(478600001)(2616005)(86362001)(6486002)(83380400001)(6512007)(6506007)(26005)(186003)(38100700002)(38350700002)(107886003)(36756003)(52116002)(966005)(6666004)(110136005)(2906002)(66946007)(66476007)(66556008)(5660300002)(316002)(6636002)(4326008)(44832011)(8676002)(8936002)(41300700001)(66899021);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?V74BADbnwmvS9SFvDU6QGoWU7CYrWhJoC+ZJnqioaqZLg102yHOrYTs1GGSF?=
- =?us-ascii?Q?qtTk5N+U2MAJRDYV24WABK+1qd3aZHh8hA4GvVau7L7NP89NzoOpneSWpukU?=
- =?us-ascii?Q?ZFcOeo+2VJp3oYYJOj7Dc9ocRS7fQ7Qhv47LR2E95XC9X8CGiZ9rkvAm3qjN?=
- =?us-ascii?Q?333lDJ69G+PZpNXeruuaA2XNXqXIKaGpBGKHbteMdEDumbQZXl29Gcwjw+5z?=
- =?us-ascii?Q?rf+0TO/K5Df3K9IMpgLG6IJgl4DC3VboaUOJsA1qhPynOnwVwazxG113n1UU?=
- =?us-ascii?Q?MufwkTu+vav9Z3+s1rhN33ZPuwuND2j7CYgFJ/XfSsl169a5TZHlqdZCj7Yu?=
- =?us-ascii?Q?uRgjQj8RSkCJZxJSZnYp0NWWVsWqy+tgtcbDkthipzE9Tkw+Nwvp9EnFvPcr?=
- =?us-ascii?Q?POdkjgwzxeNWpRr767tgJuw9LeCQMZYH35i6tTjNEyH+nUq6xQ8PLx2L03x8?=
- =?us-ascii?Q?1sAM14xDWNDtyFNmZpGSl61+nGUwmzFdj9Or1+M7ctHcWWj+VVV7KKzQc2ph?=
- =?us-ascii?Q?QisZlY9Em9DTY8Bo2We7jZqCsqR618a0kpSNO/6PFOoGULHGhSEC18rYMz5z?=
- =?us-ascii?Q?EbMcMsuszYPdA0iQICho0DOe1Ef6XGbigjtlFrEDelNgD04vNTzs6R//tCf4?=
- =?us-ascii?Q?06qubJxZMuj5cODWpTDzxGUfo6tvjnHxJpawKk65NbHMu+sUK2fwEHa2cXO9?=
- =?us-ascii?Q?qs3n7gOB9TV6UKeopmJON6i0IT0DwLP/Ox8HMLiwFlCCLCteUA7MeBkpXLAP?=
- =?us-ascii?Q?lIxXG28QFwCd1F3tqPHTc2iaYC25iaNLUsNTNlJfhAg8/FV66oM2PpsC6efB?=
- =?us-ascii?Q?Y84Q28MrUv09wjnUtzLUg5nFMDL60Gai7hOIGloIDHoSKUidI9G+fS/+YPhj?=
- =?us-ascii?Q?kV2fEi40d+dWkm1wQOIOVxmJ9NGpgybJ7MAY/NtpfPQg6IyI0e/afJ5nHyox?=
- =?us-ascii?Q?yqT2LRNAuefR67t8ogyp19a/MZWkiS2+PQomEhXyaHc+gqLe2m/wrpqWn7Nx?=
- =?us-ascii?Q?CaEip1l4kQvFzK/xuOOilkT4jFuiPOLr26YAOpDXy9o5YKnyzZ1jdfnCbnGO?=
- =?us-ascii?Q?UuNHhh0DMaEiH1zUPA9lbQpNDP+zpb7H/MEOgCS64++P+emPBbWRKyER9QI4?=
- =?us-ascii?Q?E/jIg7Eu6WDdVUPo6mIYteLD1d03io90+hpjM0d9fpsPcAlXMRqYFg20rAR1?=
- =?us-ascii?Q?Sraieyzp6ilr09AHexomXkQh+522cICB2ncCnG80TJKBVodFcHaWA53SZKdr?=
- =?us-ascii?Q?yDKsS0If9YF/ERf6FdGZH0vMaX0eG3vLfBvCQHksz1PbcyZiLeIpkjuM1rw2?=
- =?us-ascii?Q?vzG2V5KoCAMbVeVcZvJYOCZTH6x43FrKeJ/oSbJPwNc8J0W1NwL15J0YfoXc?=
- =?us-ascii?Q?2Zujs0lCcVDwGX2ygLar+dRZ5qibcfCr0wTPwKMpX+FHuoXDlhImUkXXWKzz?=
- =?us-ascii?Q?YrbJMZfSBRgDkRTv+W1alknG0+cxAj20vj5a6Etn5qAf8+b32rwF5OoEqED/?=
- =?us-ascii?Q?6Cpi6u5LHH3hCYm7zb+tcTapSks41VaQNN12P0Fny1NbQ2zJYQRyj9jCkYbf?=
- =?us-ascii?Q?YAv2vyEwHZuB+2c9tny0DqCceXG7l9YQD2ho1LEZ?=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f811ca6-8505-47a0-a9f1-08db55503d43
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QU1abWl0UmRHMy9Jdkg0ZEtBWGlrM21sY0tvUTJhajF1RHJkUnB5R1BPS0JL?=
+ =?utf-8?B?MmxDaE83am1iWWh5elpTREFEd1JhL0RvRUpRMGI0cTEyaFBUWVAzaU8yOFlP?=
+ =?utf-8?B?djNibCt3djRVNm50eHdmR05EVkhkSTdUZjBzam55Z0RLUFlncGVrUWN2bkh6?=
+ =?utf-8?B?cEQ3VFNrai9KTmE1V2tlTEN6M2F2VXphSHV0ckszbjlWMTF2NjdoYkFqdERl?=
+ =?utf-8?B?M2VncnFTbGh2K2JPR1VrZEt1S2xhTERtaklDUWVkYkVFRmRHUVlqNW04c1o1?=
+ =?utf-8?B?UVVWeUY3MmxEV0cxaGtQTk9MTER6OWhLNGswbExBd0U3dnlhUFh0YklaZDR0?=
+ =?utf-8?B?T2M3cDAyZ21INU1YNDhxL1piRHJycFkzdXFWREFPcHV6SnFWRXhLb09ORElm?=
+ =?utf-8?B?TUlsUDBjdEszcWhZaFA5VFZ1ampxNnpJMXJURG9DZ3UrYVRpTnNiVG9hR0Ex?=
+ =?utf-8?B?bWVFeldESXFQa2gvQzVnd0lUNEUxZCtoSWZlWXZUTXZHN1JtUkxCT0UxTHF6?=
+ =?utf-8?B?RUdHWU85bk84SE1sb242MmxveFRUVGJMU1ZzZU1PWTZaREh2VUZIZmhjV3BC?=
+ =?utf-8?B?djBDdThoUHBLWXRwZ1UrdXhFZmlBRTd3TlU5Ky91WGhrUXVRZEJ6MlpGZXFD?=
+ =?utf-8?B?WnZuZ0Z6S3E3dGtzS2duaE9JYURUeUhYNDVQTEVDN2RjSjhtTTE0ZmtKbzRO?=
+ =?utf-8?B?eGxLYTNYdHdSL1AvLzlETkZzWmVLVFd2RWVnQzIxZmZlcXI3UXhKOEwyaFR5?=
+ =?utf-8?B?Kzh5S0YrQlp5cDAxTXlZY0pCSUhSaUk3bGdMTldFeFpvRCtTMkFKQmUyVWNi?=
+ =?utf-8?B?aTdTeWxCTWFWQ0RtazdKd1FPMUtJQVczMHVBWTRBWkNhM09CbHVpT0U2V2NH?=
+ =?utf-8?B?N2JiWFBrNGFjcVU5S2Z5MEs4aUJhRmNENnAvYjZTaUloVTF2cjZ6YmdIRnNV?=
+ =?utf-8?B?NDVUMWJsSEc2V2dSR0RQRjNQSVBvZDh0ZkFxa1hlUDFLZE9STExBQ21TbU90?=
+ =?utf-8?B?eUY4cVZ0TW4vUDRwekkrVUUyMTVmb0RFVkZ1dFpVdUJWZ2V2eVhSWFN3dlVP?=
+ =?utf-8?B?UTRlVlpJaXVWUGt5UVFROElqUXFqRFRnUVFZVW02S1F6K3RDUWZxRldwQ3cr?=
+ =?utf-8?B?S29qRG9zckJzUjFSZ2FiZy9HM1BES2xoV1gwR1p6aE1TWEJBQytKclA2azJm?=
+ =?utf-8?B?ZzRKSjg0eDVUV25PLzV4MVVHQ25vUW92eEhXbDRKamgzdzI0WDFwajA2VmtC?=
+ =?utf-8?B?UHduL0xCcXMxTGF3UUdKUklMR1N0NmZ0N1FveDJGUnFIWGdmZ1drUDVvcUgv?=
+ =?utf-8?B?TDZPVS9UOFBNNE9GeCtDM1dEb0FTdlVuOS9vblQ0OGt6c2l1aE5UaDVvQVVi?=
+ =?utf-8?B?aXJROTBNOUM4RWhxaEF2OUozN09OSFhtdzQ5N0M4R3piR2JkZDZBcDhxWFcz?=
+ =?utf-8?B?QUxIRy9JY2NNUGF3engyVmE0V1hsdkcrbThRZ0hiV1ZYb3Y5VjZXTTJ6MWJP?=
+ =?utf-8?B?NlljckJsSkYwVzlYNkJvVCs4KzUvVWFyN1NOZTlZeWhERklZVXJuSVVEeXNh?=
+ =?utf-8?B?WnNxWGYvcjVnakRMSnhZd1lhckpFckJudVh5YU9nWjdISUFqOSsvNUFvSnlQ?=
+ =?utf-8?B?KzZTRFdQMVlpM3duQk1aM3YzWDJuQ1M4OG01d0tIV2YxN3ZzNlQ2SlNHQXdX?=
+ =?utf-8?B?VW5NK08rNHA1OUdDck9uMDl6OHFhUGpUeHkyT05NYWFTN2NDWll1eC9sZjFj?=
+ =?utf-8?B?c1hZS0lnU0VyQWV0TDhGcm8rVitxZHc3U0JJTUJJM1pRajBseHo3SVNucUlQ?=
+ =?utf-8?B?K0NjTGZhU1M2ekx4elRzeExiVE40TG80blFKYzdMRDI0RksyRkxJaTdCN0xy?=
+ =?utf-8?B?OUZwdTlQZHVTdHhyeDFnNHJ3eForZk5LWVdoVmR2aGxPdWQzS3M5eTRDYVow?=
+ =?utf-8?B?WlllSEN0ais4U0xZYXFGSmhSQWNnSVB4UWRMOE1lSEd4cDRzY2dKREQ2Qm9X?=
+ =?utf-8?B?RWx5MmZxUkNWV3R6VmdqZFVOZmtzYjh6Z2Y4alRSUXJkbEFrQTFJa3QrZ3pa?=
+ =?utf-8?B?NWVJeittNnFKQ1E4djVGOWwwc2UyS3dWaG1sVWV1d0xNZ2h5V3FTb08wQ1kr?=
+ =?utf-8?B?RkpZRkV1NDBYVHdWTTNNY2U0SXIycEJ5aCtnYWpwcE9xQUJBUUdEUXQ5aTJT?=
+ =?utf-8?Q?aNMRqgZ3CcF6AEQlCSUS4ZY=3D?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0cf8a861-faeb-42b4-4c6c-08db555534c3
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2023 14:25:31.9421
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2023 15:01:05.0394
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3UwSAGPP8yOeGo7YQB0WGKRCL8OEbEUX3Dkccixcxqi9XBzcgyX3dWB+P1l8oIUcHXi9j/1BdSFCeJRds4Sv4A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR0801MB7744
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-UserPrincipalName: I/+09m+lUo0WfEowSWipv0KEFmnDfBt5TDkov8YFi8aZSBRavzyj0vdwp7lpzm7if4plk26NcHJ6zzub4vBVBew+KPNISWZaAEByp0WujYg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB9982
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Marek and Traut,
+Some touchscreens are shipped with a physical layer on top of them where
+a number of buttons and a resized touchscreen surface might be available.
 
-On Mon, May 15, 2023 at 03:36:02PM +0200, Marek Vasut wrote:
-> On 5/15/23 08:50, Traut Manuel LCPF-CH wrote:
-> > Hi Marek,
-> 
-> Hi,
-> 
-> > > The PWM beeper volume can be controlled by adjusting the PWM duty cycle, expose volume setting via sysfs, so users can make the beeper quieter.
-> > > This patch adds sysfs attribute 'volume' in range 0..50000, i.e. from 0 to 50% in 1/1000th of percent steps, this resolution should be sufficient.
-> > > 
-> > > The reason for 50000 cap on volume or PWM duty cycle is because duty cycle above 50% again reduces the loudness, the PWM wave form is inverted > wave form of the one for duty cycle below 50% and the beeper gets quieter the closer the setting is to 100% . Hence, 50% cap where the wave form yields the loudest result.
-> > > 
-> > >   Signed-off-by: Marek Vasut <marex@denx.de>
-> > > ---
-> > > An alternative option would be to extend the userspace input ABI, e.g. by using SND_TONE top 16bits to encode the duty cycle in 0..50000 range, and bottom 16bit to encode the existing frequency in Hz . Since frequency in Hz is likely to be below some 25 kHz for audible bell, this fits in 16bits just fine. Thoughts ?
-> > 
-> > I tend to not change existing user-space interfaces. I would prefer to have an additional event or using sysfs.
-> 
-> I am increasingly concerned about the race condition between change of
-> volume (via sysfs) and frequency (via SND_TONE) . So I would be banking
-> toward additional event, like SND_TONE_WITH_VOLUME or something along those
-> lines.
+In order to generate proper key events by overlay buttons and adjust the
+touch events to a clipped surface, these patches offer a documented,
+device-tree-based solution by means of helper functions.
+An implementation for a specific touchscreen driver is also included.
 
-This is just my $.02, but I don't see anything wrong with proposing an
-_additive_ change to the ABI such as this. My only concern is that this
-kind of change seems useful to any effect (e.g. SND_BEEP) and not limited
-to only tones. Unless volume adjustment is less useful for those?
+The functions in ts-virtobj provide a simple workflow to acquire
+physical objects from the device tree, map them into the device driver
+structures as virtual objects and generate events according to
+the object descriptions.
 
-> 
-> > > ---
-> > > NOTE: This uses approach similar to [1], except it is much simpler.
-> > >       [1] https://patchwork.kernel.org/project/linux-input/cover/20230201152128.614439-1-manuel.traut@mt.com/
-> > 
-> > This one is more complex, because the mapping between duty cycle and volume is not linear. Probably it depends also on the used beeper hardware which values are doing a significant change in volume. Therefore the patchset introduced a mapping between volume levels and duty cycle times in the device-tree to allow user-space applications to control the beeper volume hardware independently.
-> 
-> I wonder whether this mapping shouldn't be considered policy and left to
-> userspace to deal with, instead of swamping the kernel or DT with it ?
+This feature has been tested with a JT240MHQS-E3 display, which consists
+of an st1624 as the base touchscreen and an overlay with two buttons and
+a frame that clips its effective surface mounted on it.
 
-I agree that the kernel need not try and linearize the values; in fact LEDs
-already have the same problem. I still feel however that imposing a unique
-maximum value (e.g. 50,000) is inappropriate because the range should remain
-the same regardless of the underlying HW implementation (PWM, class A/B, etc.).
+Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+---
+Changes in v2:
+- PATCH 1/4: remove preprocessor directives (the module is selected by
+  the drivers that support the feature). Typo in the commit message.
+- PATCH 2/4: more detailed documentation. Images and examples were added.
+- PATCH 3/4: select ts-virtobj automatically.
+- Link to v1: https://lore.kernel.org/r/20230510-feature-ts_virtobj_patch-v1-0-5ae5e81bc264@wolfvision.net
 
-> 
-> -- 
-> Best regards,
-> Marek Vasut
+---
+Javier Carrasco (4):
+      Input: ts-virtobj - Add touchscreen virtual object handling
+      dt-bindings: touchscreen: add virtual-touchscreen and virtual-buttons properties
+      Input: st1232 - add virtual touchscreen and buttons handling
+      dt-bindings: input: touchscreen: st1232: add example with ts-virtobj
 
-Kind regards,
-Jeff LaBundy
+ .../input/touchscreen/sitronix,st1232.yaml         |  40 +++
+ .../bindings/input/touchscreen/touchscreen.yaml    | 139 ++++++++
+ MAINTAINERS                                        |   7 +
+ drivers/input/touchscreen/Kconfig                  |  10 +
+ drivers/input/touchscreen/Makefile                 |   1 +
+ drivers/input/touchscreen/st1232.c                 |  87 +++--
+ drivers/input/touchscreen/ts-virtobj.c             | 356 +++++++++++++++++++++
+ include/linux/input/ts-virtobj.h                   |  43 +++
+ 8 files changed, 665 insertions(+), 18 deletions(-)
+---
+base-commit: ac9a78681b921877518763ba0e89202254349d1b
+change-id: 20230510-feature-ts_virtobj_patch-e267540aae74
+
+Best regards,
+-- 
+Javier Carrasco <javier.carrasco@wolfvision.net>
+
