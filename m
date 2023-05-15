@@ -2,98 +2,307 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85A9C702E3C
-	for <lists+linux-input@lfdr.de>; Mon, 15 May 2023 15:36:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5AC1702F27
+	for <lists+linux-input@lfdr.de>; Mon, 15 May 2023 16:02:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242151AbjEONgH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 15 May 2023 09:36:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49004 "EHLO
+        id S240031AbjEOOC2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 May 2023 10:02:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242071AbjEONgG (ORCPT
+        with ESMTP id S239569AbjEOOCM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 15 May 2023 09:36:06 -0400
-Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F17F269D;
-        Mon, 15 May 2023 06:36:05 -0700 (PDT)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id DF812865B9;
-        Mon, 15 May 2023 15:36:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1684157763;
-        bh=VvwtXNmqT+9Xv9njSAwrHnTTGKYxSQ01nyZaDrzJaj4=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=yT/pnU8MPVOx1PpOoqWtluzsZz5/0bIclcRnIXH0J9Pjzrkjy3bXArNn/u828p8t6
-         AudEt1vaiKHxP+VGsJm4IZozhjn76n0lgZdp+HD0OZWn1eIAsLQkIyprGAqM4T5Lgc
-         s7ivXcUFXM5bcU7Y65PMLdsGGg6OzPDNn0w6Ou08G+B7FqbnQ+goBshP9WsUQOj1wI
-         NbTLz8zSkEv4ugn1CcPMAwj5dwXaalbjkzfqiStVP7XF/nbLjc65UOqF7BPZ9/k3U7
-         1iwPrrrDOwW7O1DX6VhGHz6MJ46XYvoCMfDBTUurC+LgZfPVyp/ES42/W++V9VHANu
-         jrEAgWBaSHOuA==
-Message-ID: <a5293af4-8d02-ed8f-52d1-722c71d47f37@denx.de>
-Date:   Mon, 15 May 2023 15:36:02 +0200
+        Mon, 15 May 2023 10:02:12 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C8051BCC;
+        Mon, 15 May 2023 07:01:54 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-52c759b7d45so11783741a12.3;
+        Mon, 15 May 2023 07:01:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684159293; x=1686751293;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oRoP5jqWCAmzc8rrXSIbsnSWE9zHZOIDm3FBRH44e6w=;
+        b=ZQP6vE+hbTxer4jaN+LsDydMZJljPw2h2se0UxdcQjRWqtvaP+XqGe0xpe8wRnl9iO
+         JubtBnEWNYA8OVFpdAhgPez1EQv9Ru58utaAE/TWDKsmCzHTUK4uclMNHUfGNJp3OajH
+         VICUCI7EFKcOTN0JpfxFzP9tgiivWsofnDVJsqxKRQh94B4kFDFSsZipA45+6Cavs7c5
+         lIsf59Bq9+WwOzorYWRvs0Pxvff4IN9wevK/2ODx3NelFItZNyQ4NfNajm/GYg8n+lhF
+         B3sz3W+znF8PWfxcwnkL/b9cyu41sHAnkUTCshDsvYAu6XEt69rlB8M9Rb/re8VsezUs
+         ssYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684159293; x=1686751293;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oRoP5jqWCAmzc8rrXSIbsnSWE9zHZOIDm3FBRH44e6w=;
+        b=VjILtQYJ35YBRkRZaGj2xlnynJY2hWodgRl3KJ5H34M1Usq+YGT8s5zSRgUEpDUnbh
+         jc6o4/HZ7WBT7GXyOtMs75V0yxPoXpNXvf0IaCiumSlOzXSkZPGkdJE4vkppA2GtAMcj
+         MGW7PTTGxxv00Wha5Bc2cPN+p1N1auEmR+TnUQLMsk5PgvYPz6GPK6hrgh2HCpGHkXIN
+         2ISBLOoYErEvUwLFi5XV/lZwL/thIJ4GuXteOvCBKf3z/pN6uZQP35sT5FQO9UsJdyRY
+         e13bxdOQEdjWOHCF0ZWZWfMe7mmDdiS2b/YychdbpVWrA3S/8kBlFcVPFKy7Jsv9ErGK
+         dQSg==
+X-Gm-Message-State: AC+VfDybUWQZry3S3TB4MXk6Imt0ZZE4RLCcXjrcWg63YSWBdPqI9TQq
+        puzQuVaFA1qX2rpRY5X9Y2s=
+X-Google-Smtp-Source: ACHHUZ57WwbmwA3T0tT0zJT+1UICvdFrCcL//NUBElSjAV0S/whbsEqDHbZ6xe8MohJTk3oyKNaDrA==
+X-Received: by 2002:a17:902:a604:b0:1ac:b363:83b3 with SMTP id u4-20020a170902a60400b001acb36383b3mr18322825plq.41.1684159291950;
+        Mon, 15 May 2023 07:01:31 -0700 (PDT)
+Received: from localhost.localdomain ([103.133.201.162])
+        by smtp.gmail.com with ESMTPSA id l8-20020a170903120800b001a674fb0dd8sm13520949plh.247.2023.05.15.07.01.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 May 2023 07:01:31 -0700 (PDT)
+From:   Mubashshir <ahmubashshir@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     huseyinbiyik@hotmail.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v5] staging: HID: Add ShanWan USB WirelessGamepad driver
+Date:   Mon, 15 May 2023 20:01:22 +0600
+Message-Id: <c213f2100e8f99b422b3014f1d5419d06cc61d00.1684159036.git.ahmubashshir@gmail.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <39b44678dc54b519fa469b69d80757b36ab3cf25.1681118245.git.ahmubashshir@gmail.com>
+References: <39b44678dc54b519fa469b69d80757b36ab3cf25.1681118245.git.ahmubashshir@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: AW: EXTERNAL - [PATCH] Input: pwm-beeper - Support volume setting
- via sysfs
-Content-Language: en-US
-To:     Traut Manuel LCPF-CH <Manuel.Traut@mt.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Cc:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>
-References: <20230512185551.183049-1-marex@denx.de>
- <AS8PR03MB76211DFFD1261B00E55FF50BFA789@AS8PR03MB7621.eurprd03.prod.outlook.com>
-From:   Marek Vasut <marex@denx.de>
-In-Reply-To: <AS8PR03MB76211DFFD1261B00E55FF50BFA789@AS8PR03MB7621.eurprd03.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-8.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 5/15/23 08:50, Traut Manuel LCPF-CH wrote:
-> Hi Marek,
+This device has a quirky initialization process.
+Depending on how it was initialized, behaves completely differently.
+In default mode, it behaves as expected, but in fallback it disables
+force-feedback, analog stick configurations and L3/R3.
 
-Hi,
+Different OEMs manufactures joypads with same vid:pid but different
+axis/button mapping[1], and I don't know which one has which layout,
+so, we'll let hid-core figure that out, and handle only FF here.
 
->> The PWM beeper volume can be controlled by adjusting the PWM duty cycle, expose volume setting via sysfs, so users can make the beeper quieter.
->> This patch adds sysfs attribute 'volume' in range 0..50000, i.e. from 0 to 50% in 1/1000th of percent steps, this resolution should be sufficient.
->>
->> The reason for 50000 cap on volume or PWM duty cycle is because duty cycle above 50% again reduces the loudness, the PWM wave form is inverted > wave form of the one for duty cycle below 50% and the beeper gets quieter the closer the setting is to 100% . Hence, 50% cap where the wave form yields the loudest result.
->>
->>   Signed-off-by: Marek Vasut <marex@denx.de>
->> ---
->> An alternative option would be to extend the userspace input ABI, e.g. by using SND_TONE top 16bits to encode the duty cycle in 0..50000 range, and bottom 16bit to encode the existing frequency in Hz . Since frequency in Hz is likely to be below some 25 kHz for audible bell, this fits in 16bits just fine. Thoughts ?
-> 
-> I tend to not change existing user-space interfaces. I would prefer to have an additional event or using sysfs.
+ * The one I have has different axis layout than the one of Huseyin.
 
-I am increasingly concerned about the race condition between change of 
-volume (via sysfs) and frequency (via SND_TONE) . So I would be banking 
-toward additional event, like SND_TONE_WITH_VOLUME or something along 
-those lines.
+Signed-off-by: Huseyin BIYIK <huseyinbiyik@hotmail.com>
+Signed-off-by: Mubashshir <ahmubashshir@gmail.com>
+---
+v5: Use hid_{get,set}_drvdata to pass data to `->play()`
 
->> ---
->> NOTE: This uses approach similar to [1], except it is much simpler.
->>       [1] https://patchwork.kernel.org/project/linux-input/cover/20230201152128.614439-1-manuel.traut@mt.com/
-> 
-> This one is more complex, because the mapping between duty cycle and volume is not linear. Probably it depends also on the used beeper hardware which values are doing a significant change in volume. Therefore the patchset introduced a mapping between volume levels and duty cycle times in the device-tree to allow user-space applications to control the beeper volume hardware independently.
+ drivers/hid/Kconfig       |  19 +++++
+ drivers/hid/Makefile      |   1 +
+ drivers/hid/hid-ids.h     |   3 +
+ drivers/hid/hid-shanwan.c | 145 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 168 insertions(+)
+ create mode 100644 drivers/hid/hid-shanwan.c
 
-I wonder whether this mapping shouldn't be considered policy and left to 
-userspace to deal with, instead of swamping the kernel or DT with it ?
-
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 4ce012f83253..e6c8aa855252 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -990,6 +990,25 @@ config HID_SEMITEK
+ 	- Woo-dy
+ 	- X-Bows Nature/Knight
+ 
++config HID_SHANWAN
++	tristate "ShanWan USB WirelessGamepad"
++	depends on USB_HID
++	help
++	Support for Shanwan USB WirelessGamepad (and clones).
++
++	This device has a quirky initialization process.
++	Depending on how it was initialized, it behaves completely differently.
++	In default mode, it behaves as expected, but in fallback it disables
++	force-feedback, analog stick configurations and L3/R3.
++
++config SHANWAN_FF
++	bool "ShanWan USB WirelessGamepad force feedback support"
++	depends on HID_SHANWAN
++	select INPUT_FF_MEMLESS
++	help
++	Say Y here if you have a ShanWan USB WirelessGamepad and want to enable
++	force feedback support for it.
++
+ config HID_SIGMAMICRO
+ 	tristate "SiGma Micro-based keyboards"
+ 	depends on USB_HID
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index 5d37cacbde33..52878455fc10 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -116,6 +116,7 @@ obj-$(CONFIG_HID_RMI)		+= hid-rmi.o
+ obj-$(CONFIG_HID_SAITEK)	+= hid-saitek.o
+ obj-$(CONFIG_HID_SAMSUNG)	+= hid-samsung.o
+ obj-$(CONFIG_HID_SEMITEK)	+= hid-semitek.o
++obj-$(CONFIG_HID_SHANWAN)	+= hid-shanwan.o
+ obj-$(CONFIG_HID_SIGMAMICRO)	+= hid-sigmamicro.o
+ obj-$(CONFIG_HID_SMARTJOYPLUS)	+= hid-sjoy.o
+ obj-$(CONFIG_HID_SONY)		+= hid-sony.o
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index d79e946acdcb..04c3324dc453 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -627,6 +627,9 @@
+ #define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_0641	0x0641
+ #define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_1f4a	0x1f4a
+ 
++#define USB_VENDOR_ID_SHANWAN 0x2563
++#define USB_PRODUCT_ID_SHANWAN_USB_WIRELESSGAMEPAD 0x0575
++
+ #define USB_VENDOR_ID_HUION		0x256c
+ #define USB_DEVICE_ID_HUION_TABLET	0x006e
+ #define USB_DEVICE_ID_HUION_TABLET2	0x006d
+diff --git a/drivers/hid/hid-shanwan.c b/drivers/hid/hid-shanwan.c
+new file mode 100644
+index 000000000000..c80bfcac5dc7
+--- /dev/null
++++ b/drivers/hid/hid-shanwan.c
+@@ -0,0 +1,145 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Force feedback support for Shanwan USB WirelessGamepad
++ *
++ * Copyright (c) 2022-2023	Huseyin BIYIK	<huseyinbiyik@hotmail.com>
++ * Copyright (c) 2023	Ahmad Hasan Mubashshir	<ahmubashshir@gmail.com>
++ *
++ */
++
++#include <linux/input.h>
++#include <linux/slab.h>
++#include <linux/hid.h>
++#include <linux/module.h>
++#include <linux/moduleparam.h>
++#include <linux/string.h>
++
++#include "hid-ids.h"
++
++static bool swap_motors;
++module_param_named(swap, swap_motors, bool, 0);
++MODULE_PARM_DESC(swap, "Swap Weak/Strong Feedback motors");
++
++#ifdef CONFIG_SHANWAN_FF
++static int shanwan_play_effect(struct input_dev *dev, void *data, struct ff_effect *effect)
++{
++	struct hid_device *hid    = input_get_drvdata(dev);
++	struct hid_report *report = hid_get_drvdata(hid);
++	struct hid_field  *field0 = report->field[0];
++	s32 payload_template[] = {
++		0x02,  // 2 = rumble effect message
++		0x08, // reserved value, always 8
++		0x00, // rumble value
++		0x00, // rumble value
++		0xff  // duration 0-254 (255 = nonstop)
++	};
++
++	if (effect->type != FF_RUMBLE)
++		return 0;
++
++	memcpy_and_pad(field0->value,
++		       (sizeof(s32) * 8),
++		       payload_template,
++		       (sizeof(s32) * 4),
++		       0x00);
++
++	if (swap_motors) {
++		/* weak rumble / strong rumble */
++		field0->value[2] = effect->u.rumble.strong_magnitude / 256;
++		field0->value[3] = effect->u.rumble.weak_magnitude / 256;
++	} else {
++		/* strong rumble / weak rumble */
++		field0->value[2] = effect->u.rumble.weak_magnitude / 256;
++		field0->value[3] = effect->u.rumble.strong_magnitude / 256;
++	}
++
++	hid_hw_request(hid, report, HID_REQ_SET_REPORT);
++
++	return 0;
++}
++
++static int shanwan_init_ff(struct hid_device *hid)
++{
++	struct hid_report *report;
++	struct hid_input *hidinput;
++	struct list_head *report_list = &hid->report_enum[HID_OUTPUT_REPORT].report_list;
++	struct input_dev *dev;
++
++	if (list_empty(&hid->inputs)) {
++		hid_err(hid, "no inputs found\n");
++		return -ENODEV;
++	}
++	hidinput = list_first_entry(&hid->inputs, struct hid_input, list);
++	dev = hidinput->input;
++
++	if (list_empty(report_list)) {
++		hid_err(hid, "no output reports found\n");
++		return -ENODEV;
++	}
++
++	report = list_first_entry(report_list, struct hid_report, list);
++	hid_set_drvdata(hid, report);
++
++	set_bit(FF_RUMBLE, dev->ffbit);
++	if (input_ff_create_memless(dev, NULL, shanwan_play_effect))
++		return -ENODEV;
++
++	return 0;
++}
++#else
++static int shanwan_init_ff(struct hid_device *hid)
++{
++	return 0;
++}
++#endif
++
++static int shanwan_probe(struct hid_device *hdev, const struct hid_device_id *id)
++{
++	int ret;
++
++	ret = hid_parse(hdev);
++	if (ret) {
++		hid_err(hdev, "parse failed\n");
++		return ret;
++	}
++
++	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT & ~HID_CONNECT_FF);
++	if (ret) {
++		hid_err(hdev, "hw start failed\n");
++		return ret;
++	}
++
++	ret = shanwan_init_ff(hdev);
++	if (ret)
++		hid_warn(hdev, "Failed to enable force feedback support, error: %d\n", ret);
++
++	ret = hid_hw_open(hdev);
++	if (ret) {
++		dev_err(&hdev->dev, "hw open failed\n");
++		hid_hw_stop(hdev);
++		return ret;
++	}
++
++	hid_hw_close(hdev);
++	return ret;
++}
++
++static const struct hid_device_id shanwan_devices[] = {
++	{ HID_USB_DEVICE(USB_VENDOR_ID_SHANWAN, USB_PRODUCT_ID_SHANWAN_USB_WIRELESSGAMEPAD) },
++	{ }
++};
++MODULE_DEVICE_TABLE(hid, shanwan_devices);
++
++static struct hid_driver shanwan_driver = {
++	.name			= "shanwan",
++	.id_table		= shanwan_devices,
++	.probe			= shanwan_probe,
++};
++module_hid_driver(shanwan_driver);
++
++MODULE_AUTHOR("Huseyin BIYIK <huseyinbiyik@hotmail.com>");
++MODULE_AUTHOR("Ahmad Hasan Mubashshir <ahmubashshir@gmail.com>");
++MODULE_DESCRIPTION("Force feedback support for Shanwan USB WirelessGamepad");
++MODULE_LICENSE("GPL");
++
++// vim: ts=8:noet
 -- 
-Best regards,
-Marek Vasut
+2.40.1
+
