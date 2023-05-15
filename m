@@ -2,123 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3104D7032F6
-	for <lists+linux-input@lfdr.de>; Mon, 15 May 2023 18:31:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 773B970384D
+	for <lists+linux-input@lfdr.de>; Mon, 15 May 2023 19:31:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242739AbjEOQb3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 15 May 2023 12:31:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33504 "EHLO
+        id S244296AbjEORbb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 May 2023 13:31:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242718AbjEOQb0 (ORCPT
+        with ESMTP id S244288AbjEORam (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 15 May 2023 12:31:26 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACA3C10F3;
-        Mon, 15 May 2023 09:31:17 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-306281edf15so12324816f8f.1;
-        Mon, 15 May 2023 09:31:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684168276; x=1686760276;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=xj0LlUHkMs1f/PPwjZMnEi9vur/RUIxqtgTnxaH1HHs=;
-        b=Tej0A0SVFNljYQvApjPnFcxl/jMGuS4pY5Ha2t/wxklAj5BDMFqwnWeo4iWAqBlEBf
-         flToiFDTEQLXIJsENh8Gf373G1RY7yWUx5xsP4ZebDJjJkJT3BEbUrjeiC1EV1VHoTtF
-         /vKy/iZcG6d6Rdg3n+pmWu5HJm1lxcR3HU9LTMU2/KGJe7i608OmKmkfACFMxxMcmjkp
-         MLxFXOQdKOXqMH72A3hPIlD5zGkpGbmpK9X5IWL1MQsp+xmaGaPDP7CdJiAlfQTsn0Ow
-         lSIR0hJqBtxJLzIH4aQEGQxKRF78gqRo0lU4f6b6fXixUcI0UfN9u1hUykmqsiX4dQPe
-         dIrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684168276; x=1686760276;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xj0LlUHkMs1f/PPwjZMnEi9vur/RUIxqtgTnxaH1HHs=;
-        b=iCUKK09LkbZ77epxwirx5UD4NLwh6QbwVBFu885VyO7T1ke40bbZFEdNxxe806ZzuD
-         7umEbc/IF3q6m+3V6V0Wlxuk/CDo6kKF2Mm66doulSBmzemxmIC/XuGjUd4sJV4uqf9f
-         7vpUaw8kUDCaAxHjAOQLItJsPEag42ZHU5iiyyrHdggLKK25WyDltJiBj+E9RneBv910
-         B6QPmin+NsMA0Jt+YC/2hgs7BKi2s2z0csBPQVdusMD8cSY5eB4vzQzgFkMgAN111RFo
-         SVI+ciyZOY6WS96eWwGSwKY8Z2FTbHq2f96emaMJRXZtM74gFU8sT+Ad4CD+1/Qmf8ns
-         s5zA==
-X-Gm-Message-State: AC+VfDxzKSrRT9Y4U2d8wh5q+GbSwhd3UQZ1glbhT9NfUgwoxJOJaOTb
-        Z9scVndsOJMWKRMDpktPfMc=
-X-Google-Smtp-Source: ACHHUZ4exiePmSzMSaub/V47LjNfg6KE9x175cxCNihSkCYAUDOuWxIYk+H2LH/BQb2PrKb5025TYQ==
-X-Received: by 2002:adf:e351:0:b0:306:2eab:fb8c with SMTP id n17-20020adfe351000000b003062eabfb8cmr26143380wrj.42.1684168275652;
-        Mon, 15 May 2023 09:31:15 -0700 (PDT)
-Received: from fedora ([94.73.33.248])
-        by smtp.gmail.com with ESMTPSA id 3-20020a05600c028300b003f4e4f51f64sm14756542wmk.7.2023.05.15.09.31.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 May 2023 09:31:15 -0700 (PDT)
-Date:   Mon, 15 May 2023 18:31:13 +0200
-From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To:     David Gow <davidgow@google.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: uclogic: Modular KUnit tests should not depend on
- KUNIT=y
-Message-ID: <ZGJeUd76XaFqHhN0@fedora>
-References: <36ddf432f0f46530875fa15f002012c921a380a3.1683022021.git.geert+renesas@glider.be>
- <CABVgOSmYapFcpnrC60o4r5LznT92TpjteNb=1MQejvMDWC+2vw@mail.gmail.com>
+        Mon, 15 May 2023 13:30:42 -0400
+Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15ECB13C22;
+        Mon, 15 May 2023 10:27:55 -0700 (PDT)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 1888E8478A;
+        Mon, 15 May 2023 19:27:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1684171641;
+        bh=euDgCkO4r8bbwet9NVtgE1o4qDkednG2I68NfVUeIwo=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=nerVXWmkqhfEzPEOdz7N1oZg+XLqBDNPDdq51oTObWz55Ic5LtvyyZeAw3eyG3gKT
+         gOpZ0I7maKLEQrPfqSJ2/bFiMP78BBg1xqRVlMxbkVzZlcA3jMmc3c9hnnt+DbZHrA
+         M+UN1/vAkAlV1lDEWo1SFwyREzb/c8E4NVyy+hsALe/9CtUosN6o7yAEV4eO2kEYDx
+         7+e5jMS5hTe1m7k9mJyAOHMeQBOfyOku7zKDIY1Pmysyr9c+c3BAbl14xMzmIZ7sTy
+         GzCCv5fUQ07kIQjhy81YIkF1VciUDqQWZhTQis1EO5FFWcSHoRpoMnpFPxdbhZUqmV
+         NMZM5/weu7+8g==
+Message-ID: <5e11dd95-f087-336e-bff2-7d5de3c02319@denx.de>
+Date:   Mon, 15 May 2023 19:27:20 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABVgOSmYapFcpnrC60o4r5LznT92TpjteNb=1MQejvMDWC+2vw@mail.gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: AW: EXTERNAL - [PATCH] Input: pwm-beeper - Support volume setting
+ via sysfs
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     Traut Manuel LCPF-CH <Manuel.Traut@mt.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Frieder Schrempf <frieder.schrempf@kontron.de>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>
+References: <20230512185551.183049-1-marex@denx.de>
+ <AS8PR03MB76211DFFD1261B00E55FF50BFA789@AS8PR03MB7621.eurprd03.prod.outlook.com>
+ <a5293af4-8d02-ed8f-52d1-722c71d47f37@denx.de> <ZGJA2M+V8ualidHH@nixie71>
+Content-Language: en-US
+From:   Marek Vasut <marex@denx.de>
+In-Reply-To: <ZGJA2M+V8ualidHH@nixie71>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-8.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, May 04, 2023 at 02:04:18PM +0800, David Gow wrote:
-> On Tue, 2 May 2023 at 18:09, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
-> >
-> > While KUnit tests that cannot be built as a loadable module must depend
-> > on "KUNIT=y", this is not true for modular tests, where it adds an
-> > unnecessary limitation.
-> >
-> > Fix this by relaxing the dependency to "KUNIT".
-> >
-> > Fixes: 08809e482a1c44d9 ("HID: uclogic: KUnit best practices and naming conventions")
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> 
-> This works here, and I definitely agree we should get rid of these
-> unnecessary constraints.
-> 
-> Let me know if this should go in via the kselftest/kunit tree, or if
-> it makes sense to take this via input?
-> 
-> Reviewed-by: David Gow <davidgow@google.com>
-> 
-> Cheers,
-> -- David
-> 
-> >  drivers/hid/Kconfig | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> > index 4ce012f83253ec9f..b977450cac75265d 100644
-> > --- a/drivers/hid/Kconfig
-> > +++ b/drivers/hid/Kconfig
-> > @@ -1285,7 +1285,7 @@ config HID_MCP2221
-> >
-> >  config HID_KUNIT_TEST
-> >         tristate "KUnit tests for HID" if !KUNIT_ALL_TESTS
-> > -       depends on KUNIT=y
-> > +       depends on KUNIT
+On 5/15/23 16:25, Jeff LaBundy wrote:
+> Hi Marek and Traut,
 
-Tested here as well with different configurations for the UCLogic
-driver and it is working.
+Hi,
 
-Reviewed-by: José Expósito <jose.exposito89@gmail.com>
+> On Mon, May 15, 2023 at 03:36:02PM +0200, Marek Vasut wrote:
+>> On 5/15/23 08:50, Traut Manuel LCPF-CH wrote:
+>>> Hi Marek,
+>>
+>> Hi,
+>>
+>>>> The PWM beeper volume can be controlled by adjusting the PWM duty cycle, expose volume setting via sysfs, so users can make the beeper quieter.
+>>>> This patch adds sysfs attribute 'volume' in range 0..50000, i.e. from 0 to 50% in 1/1000th of percent steps, this resolution should be sufficient.
+>>>>
+>>>> The reason for 50000 cap on volume or PWM duty cycle is because duty cycle above 50% again reduces the loudness, the PWM wave form is inverted > wave form of the one for duty cycle below 50% and the beeper gets quieter the closer the setting is to 100% . Hence, 50% cap where the wave form yields the loudest result.
+>>>>
+>>>>    Signed-off-by: Marek Vasut <marex@denx.de>
+>>>> ---
+>>>> An alternative option would be to extend the userspace input ABI, e.g. by using SND_TONE top 16bits to encode the duty cycle in 0..50000 range, and bottom 16bit to encode the existing frequency in Hz . Since frequency in Hz is likely to be below some 25 kHz for audible bell, this fits in 16bits just fine. Thoughts ?
+>>>
+>>> I tend to not change existing user-space interfaces. I would prefer to have an additional event or using sysfs.
+>>
+>> I am increasingly concerned about the race condition between change of
+>> volume (via sysfs) and frequency (via SND_TONE) . So I would be banking
+>> toward additional event, like SND_TONE_WITH_VOLUME or something along those
+>> lines.
+> 
+> This is just my $.02, but I don't see anything wrong with proposing an
+> _additive_ change to the ABI such as this. My only concern is that this
+> kind of change seems useful to any effect (e.g. SND_BEEP) and not limited
+> to only tones. Unless volume adjustment is less useful for those?
+
+I would say the volume should also apply to SND_BEEP, sure.
+
+>>>> ---
+>>>> NOTE: This uses approach similar to [1], except it is much simpler.
+>>>>        [1] https://patchwork.kernel.org/project/linux-input/cover/20230201152128.614439-1-manuel.traut@mt.com/
+>>>
+>>> This one is more complex, because the mapping between duty cycle and volume is not linear. Probably it depends also on the used beeper hardware which values are doing a significant change in volume. Therefore the patchset introduced a mapping between volume levels and duty cycle times in the device-tree to allow user-space applications to control the beeper volume hardware independently.
+>>
+>> I wonder whether this mapping shouldn't be considered policy and left to
+>> userspace to deal with, instead of swamping the kernel or DT with it ?
+> 
+> I agree that the kernel need not try and linearize the values; in fact LEDs
+> already have the same problem. I still feel however that imposing a unique
+> maximum value (e.g. 50,000) is inappropriate because the range should remain
+> the same regardless of the underlying HW implementation (PWM, class A/B, etc.).
+
+We can easily just say 0..65536 if we agree the 16 MSbits are the volume 
+, that's really not a problem.
