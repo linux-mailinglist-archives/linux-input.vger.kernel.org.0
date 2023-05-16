@@ -2,120 +2,119 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E53BE704DD8
-	for <lists+linux-input@lfdr.de>; Tue, 16 May 2023 14:33:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1F3C704F3C
+	for <lists+linux-input@lfdr.de>; Tue, 16 May 2023 15:25:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232357AbjEPMd2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 May 2023 08:33:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50106 "EHLO
+        id S233495AbjEPNZq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 May 2023 09:25:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231887AbjEPMd1 (ORCPT
+        with ESMTP id S232905AbjEPNZk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 May 2023 08:33:27 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A44B109;
-        Tue, 16 May 2023 05:33:26 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pytro-0005Hc-6i; Tue, 16 May 2023 14:33:24 +0200
-Message-ID: <8941c5f2-3861-da68-06ca-adc68a37e53b@leemhuis.info>
-Date:   Tue, 16 May 2023 14:33:23 +0200
+        Tue, 16 May 2023 09:25:40 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D55F3659E;
+        Tue, 16 May 2023 06:25:16 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1ae3ed1b08eso5081385ad.0;
+        Tue, 16 May 2023 06:25:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684243508; x=1686835508;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iWi01wLtIOXbHfuhqqUADsTGGpStITYjGOsZBd8BFHI=;
+        b=F46T2dm5MmhIigb7SmI+F6+F24NfgjE9C5Ci92aGV0CTfTqSzrGiLkaV2ajmCg5QJh
+         aTn7AOsPYxw8tqhqbj3hZ96PeYBKF1SXgKSt5Z7wEJz+XJXSwaY6/0MgaPRwEuLfBSpi
+         VXbd3Vhp+lNA/dVXIcjpKiS9ERqKPWrEXc36+EC+8AruHkHD3MDvyINZ8uXd/zHSAal6
+         jpaOql4Ca4m3isbkw3+mVp8JuIzDI18jR+bDoMY1oJyAo/mL/DyPsHrTW8VzlV12u3RA
+         F5e+KTdz6mtg/u2kbKYAsD8dNVaYg6xausq4crFfmmBP7ykSt62TxP96GdUww8njJ8QA
+         eWUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684243508; x=1686835508;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iWi01wLtIOXbHfuhqqUADsTGGpStITYjGOsZBd8BFHI=;
+        b=RgGIiW4/4VXEhY/AkQe66Fai2SW+xMK1397co/zWGNilKrQAsI/or0kYM78xoCrlXn
+         5LstBHQjXWXU5cHuEXI/F+BngYtyBzY3OuzCEvNs9TtJBmEUdchOxTc5H6XM4+3Zo71F
+         lMVzh7prJHjuQK+6pvIZmwVIez8f0ldmF5kBGnglRAsaPT+PS2vNfs9KhJxW4SH/sEJR
+         2YRrXG8+dufmVENDrwXbuklrWoTPdrZmXBGzjg6UrAueaqjzM5U4kjVbUWOiqR79poDc
+         E104uZFwj5Wedq0mIKK+Baqubjuxf6FnNw0xF5J3ZAkF8G1aawaUUVwfTBjf293PGaIK
+         3ydw==
+X-Gm-Message-State: AC+VfDyiNZ1f0zJU4VAbVQ3X2LrnwMVhJjStUj9Jve5dAC6W/9UJHPo8
+        bVo3MRuJ5pexp74ld23nb5w=
+X-Google-Smtp-Source: ACHHUZ7aBAFcHczn4rLTZMgINQxwx3tkwtYj0wUopEiBuA89F88McrE0RR+vlickR6fNAfeTbsBEqw==
+X-Received: by 2002:a17:903:2445:b0:1ad:c627:87de with SMTP id l5-20020a170903244500b001adc62787demr24864570pls.32.1684243508387;
+        Tue, 16 May 2023 06:25:08 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-8.three.co.id. [180.214.232.8])
+        by smtp.gmail.com with ESMTPSA id y18-20020a17090322d200b001a1a82fc6d3sm15453358plg.268.2023.05.16.06.25.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 May 2023 06:25:07 -0700 (PDT)
+Message-ID: <b7717c43-74bf-b91d-d3ce-874493df602c@gmail.com>
+Date:   Tue, 16 May 2023 20:24:51 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Subject: Re: [BUG: 6.3 kernel] Logitech Trackball M575 misidentified
-Content-Language: en-US, de-DE
-To:     Xose Vazquez Perez <xose.vazquez@gmail.com>,
-        linux-input@vger.kernel.org
-References: <eeb19342-3499-a1fb-388f-d4670472b16c@gmail.com>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Cc:     Linux kernel regressions list <regressions@lists.linux.dev>,
-        Bastien Nocera <hadess@hadess.net>,
+ Thunderbird/102.11.0
+Subject: Re: [regression] Since kernel 6.3.1 logitech unify receiver not
+ working properly
+To:     Linux regressions mailing list <regressions@lists.linux.dev>,
         =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
+        Bastien Nocera <hadess@hadess.net>,
         Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>
-In-Reply-To: <eeb19342-3499-a1fb-388f-d4670472b16c@gmail.com>
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, guy.b@bluewin.ch
+References: <9b987585-0834-bb8c-3414-283c29f3f2ab@leemhuis.info>
+ <bec024d5-4088-00ae-f7b5-7188868b1707@leemhuis.info>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <bec024d5-4088-00ae-f7b5-7188868b1707@leemhuis.info>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1684240406;c7f7ccdc;
-X-HE-SMSGID: 1pytro-0005Hc-6i
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-[CCing a few people and the the regression list, as it should be in the
-loop for regressions:
-https://docs.kernel.org/admin-guide/reporting-regressions.html]
-
-On 11.05.23 23:22, Xose Vazquez Perez wrote:
+On 5/11/23 18:58, Thorsten Leemhuis wrote:
+> Hi, Thorsten here, the Linux kernel's regression tracker.
 > 
-> 6.3.2 kernel identifies "Logitech" "ERGO M575" as "Logitech"
-> "(\xc9_O\x04)",
-> 6.2.15 works fine.
+> On 08.05.23 11:55, Linux regression tracking (Thorsten Leemhuis) wrote:
+>> Hi, Thorsten here, the Linux kernel's regression tracker.
+>>
+>> I noticed a regression report in bugzilla.kernel.org. As many (most?)
+>> kernel developers don't keep an eye on it, I decided to forward it by mail.
+>>
+>> Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=217412 :
 > 
+> TWIMC: a few other users (three or four iirc) showed up in that ticket
+> and reported problems with the receiver, albeit the symptoms are not
+> exactly the same for all of them, so there might be more than one problem.
 > 
-> 6.2.15 boot log:
-> input: Logitech ERGO M575 as
-> /devices/pci0000:00/0000:00:1a.0/usb3/3-1/3-1.3/3-1.3:1.2/0003:046D:C52B.0003/0003:046D:4096.0005/input/input15
-> logitech-hidpp-device 0003:046D:4096.0005: input,hidraw1: USB HID v1.11
-> Mouse [Logitech ERGO M575] on usb-0000:00:1a.0-1.3/input2:1
+> I'll try to motivate the affected users to perform a bisection. But
+> would be great if those with more knowledge about this code could
+> briefly look into the ticket, maybe the details the users shared allows
+> one of you to guess what causes this.
 > 
-> 6.3.2 boot log:
-> input: Logitech \xc9_O\x04 as
-> /devices/pci0000:00/0000:00:1a.0/usb3/3-1/3-1.3/3-1.3:1.2/0003:046D:C52B.0003/0003:046D:4096.0005/input/input15
-> logitech-hidpp-device 0003:046D:4096.0005: input,hidraw2: USB HID v1.11
-> Mouse [Logitech \xc9_O\x04] on usb-0000:00:1a.0-1.3/input2:1
 
-I wonder if this if this is some related to this issue:
-https://bugzilla.kernel.org/show_bug.cgi?id=217412
-("Since kernel 6.3.1 logitech unify receiver not working properly")
+Hmm,
 
-That one so far seems to be ignored by the developers. Your report one
-also didn't get any reply yet.
+You noted in the similar report [1] that developers involved here
+ignore this regressions. I wonder if Linus has to be hired in
+this case, and if it is the case, let's take a look and hear closely what
+he will say.
 
-Could you maybe perform a bisection to get down to this?
-
-Side note: there is also
-https://bugzilla.kernel.org/show_bug.cgi?id=217330
-("Broken Logitech unifying battery names in hid-next tree")
+Thanks.
 
 
-Anyway, for the rest of this mail:
+[1]: https://lore.kernel.org/regressions/8941c5f2-3861-da68-06ca-adc68a37e53b@leemhuis.info/
 
-[TLDR: I'm adding this report to the list of tracked Linux kernel
-regressions; the text you find below is based on a few templates
-paragraphs you might have encountered already in similar form.
-See link in footer if these mails annoy you.]
+-- 
+An old man doll... just what I always wanted! - Clara
 
-Thanks for the report. To be sure the issue doesn't fall through the
-cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
-tracking bot:
-
-#regzbot ^introduced v6.2..v6.3
-#regzbot title input: Logitech Trackball M575 misidentified
-#regzbot ignore-activity
-
-This isn't a regression? This issue or a fix for it are already
-discussed somewhere else? It was fixed already? You want to clarify when
-the regression started to happen? Or point out I got the title or
-something else totally wrong? Then just reply and tell me -- ideally
-while also telling regzbot about it, as explained by the page listed in
-the footer of this mail.
-
-Developers: When fixing the issue, remember to add 'Link:' tags pointing
-to the report (the parent of this mail). See page linked in footer for
-details.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
