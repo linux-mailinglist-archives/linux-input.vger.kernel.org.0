@@ -2,149 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6741C70468E
-	for <lists+linux-input@lfdr.de>; Tue, 16 May 2023 09:38:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AC1C704770
+	for <lists+linux-input@lfdr.de>; Tue, 16 May 2023 10:11:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231379AbjEPHiJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 May 2023 03:38:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38422 "EHLO
+        id S231445AbjEPIK6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 May 2023 04:10:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230388AbjEPHiI (ORCPT
+        with ESMTP id S231260AbjEPIKy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 May 2023 03:38:08 -0400
-Received: from forward501b.mail.yandex.net (forward501b.mail.yandex.net [IPv6:2a02:6b8:c02:900:1:45:d181:d501])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9329C423C;
-        Tue, 16 May 2023 00:38:05 -0700 (PDT)
-Received: from mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net [IPv6:2a02:6b8:c14:2991:0:640:bb47:0])
-        by forward501b.mail.yandex.net (Yandex) with ESMTP id 6695D5F29E;
-        Tue, 16 May 2023 10:38:03 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id rbVsqF6Wo4Y0-UkaxrYJI;
-        Tue, 16 May 2023 10:38:01 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maquefel.me; s=mail; t=1684222681;
-        bh=R3NyR73k7IhF7nI84HX4UghfXKGpid2SwwTSfXwtO70=;
-        h=References:Date:In-Reply-To:Cc:To:From:Subject:Message-ID;
-        b=QotG58g6dFkLdzg/jCTCPqPNHWfIFJSnx9H8OHC12M2roLLuxVWKx6W2h25dkjVSe
-         HRwtXoqfClom0cLuEY16ejoh6MbeEy+uPI8UAhwOs+j0NQ/gw1AVexLnYUBpraFKDp
-         l0egQl1rEQANggrBncTSCi4j3ZinsQfxms2ylvX4=
-Authentication-Results: mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net; dkim=pass header.i=@maquefel.me
-Message-ID: <4f81a96b826344f45d0994539e3b3fe94fe7eb50.camel@maquefel.me>
-Subject: Re: [PATCH 00/43] ep93xx device tree conversion
-From:   Nikita Shubin <nikita.shubin@maquefel.me>
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     Arnd Bergmann <arnd@kernel.org>, Linus Walleij <linusw@kernel.org>,
-        Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan =?ISO-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Brian Norris <briannorris@chromium.org>,
-        Chuanhong Guo <gch981213@gmail.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Damien Le Moal <dlemoal@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Eric Dumazet <edumazet@google.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Hartley Sweeten <hsweeten@visionengravers.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Jean Delvare <jdelvare@suse.de>, Joel Stanley <joel@jms.id.au>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Le Moal <damien.lemoal@opensource.wdc.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Liang Yang <liang.yang@amlogic.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Lukasz Majewski <lukma@denx.de>, Lv Ruyi <lv.ruyi@zte.com.cn>,
-        Mark Brown <broonie@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Qin Jian <qinjian@cqplus1.com>,
-        Richard Weinberger <richard@nod.at>,
-        Rob Herring <robh+dt@kernel.org>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Russell King <linux@armlinux.org.uk>,
-        Sebastian Reichel <sre@kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Sumanth Korikkar <sumanthk@linux.ibm.com>,
-        Sven Peter <sven@svenpeter.dev>, Takashi Iwai <tiwai@suse.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Walker Chen <walker.chen@starfivetech.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Yinbo Zhu <zhuyinbo@loongson.cn>, alsa-devel@alsa-project.org,
-        devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        netdev@vger.kernel.org, soc@kernel.org
-Date:   Tue, 16 May 2023 13:37:54 +0300
-In-Reply-To: <1ff2333a-8f78-c066-0158-9c8a1a17684f@gmail.com>
-References: <20230424123522.18302-1-nikita.shubin@maquefel.me>
-         <1ff2333a-8f78-c066-0158-9c8a1a17684f@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 
+        Tue, 16 May 2023 04:10:54 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19F143C1F
+        for <linux-input@vger.kernel.org>; Tue, 16 May 2023 01:10:53 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-96652cb7673so1718780966b.0
+        for <linux-input@vger.kernel.org>; Tue, 16 May 2023 01:10:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1684224651; x=1686816651;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+u5eqxdXKxpH9G8swDFcXxzS8uBC5aYWUindq5S9iOc=;
+        b=ZDg3qBq5ZWDojOZ4C96nJ4ua4/uaITbveiWX3HDxqmWplNmue6rt22UT5Ys1TE28Zg
+         QG6PqryZsXDHfrFdZJdKa3VZWWu2aN/CBQTc+w7faitzAYCQpAjwHzFVDsKXCIq7kj4w
+         XhY1kRlgFIvgG6vMnKk0RoQt525R6XLApHqfivL3h0BLoEB6PoGOy0PXgJNzgu4ADQBI
+         hvuQcJpSmBsmu0OVQ95xMMw5oZ6Oiqi8Kz8jyBS8QzPG2vJH6S7Ccubq/xs/kIvtwM8r
+         b7swMLP2paRfDbpRfJ/cbjiB8tW3MzuKgEfAPI2pTqag+2kCUdeapzXHEa7On7tDUpGQ
+         Lzjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684224651; x=1686816651;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+u5eqxdXKxpH9G8swDFcXxzS8uBC5aYWUindq5S9iOc=;
+        b=kS2lhMCIfpWwAKAU0oSCpt9FF8/v1L/HXvcNJ5PbpcO59MjtVsLd5zDgs66h5/mxb4
+         fNegI42tt6Hf3df2urdO2vLkauYM+5k8+1YBugI77DBzXgnI+zxH+smAjXXgEHkTUPZO
+         /4eezh1AwzHz1eXpvpQxGZ/zM8BR5Xg+NiQ50S+zi9MYQsQZW5BbFqykeM/CS9lEIl4S
+         Bvck2fc8SppDjdHYf6CMXm50pj+L+KdJxM1jPF++TvaSs2bpT+nwkQCvfLr9Z7lpLJ6Z
+         3VCQI8RxtHbL9yqtb0GIoJmhRC1pMAmqbXa1Uyr/SmoeSSGsxgVh6QtudT2HtUPTcaj0
+         rnwA==
+X-Gm-Message-State: AC+VfDxbW2Zg9FdcQUKtZZSYxgVLffmPEdLlCF8RN37lNAiNTkk+KDiu
+        kJnOCBdj+sDAFI/LrC2jEoXlYQ==
+X-Google-Smtp-Source: ACHHUZ4pjwH1t5yz5UMRpimxEfgzvajgIgNb7ZEsPigonxWf0pKfZvpfggIx9u3pL6B1CF32361xqQ==
+X-Received: by 2002:a17:907:7f25:b0:94a:937a:58f1 with SMTP id qf37-20020a1709077f2500b0094a937a58f1mr39845803ejc.1.1684224649616;
+        Tue, 16 May 2023 01:10:49 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:4d4a:9b97:62e:1439? ([2a02:810d:15c0:828:4d4a:9b97:62e:1439])
+        by smtp.gmail.com with ESMTPSA id z11-20020a1709067e4b00b00965f6ad266bsm10535003ejr.119.2023.05.16.01.10.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 May 2023 01:10:49 -0700 (PDT)
+Message-ID: <58c8b822-8b47-3269-3b78-334b53c20bff@linaro.org>
+Date:   Tue, 16 May 2023 10:10:48 +0200
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 2/4] dt-bindings: touchscreen: add virtual-touchscreen
+ and virtual-buttons properties
+Content-Language: en-US
+To:     Javier Carrasco <javier.carrasco@wolfvision.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Bastian Hecht <hechtb@gmail.com>,
+        Michael Riesch <michael.riesch@wolfvision.net>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org
+References: <20230510-feature-ts_virtobj_patch-v2-0-f68a6bfe7a0f@wolfvision.net>
+ <20230510-feature-ts_virtobj_patch-v2-2-f68a6bfe7a0f@wolfvision.net>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230510-feature-ts_virtobj_patch-v2-2-f68a6bfe7a0f@wolfvision.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Florian!
+On 15/05/2023 17:00, Javier Carrasco wrote:
+> The virtual-touchscreen object defines an area within the touchscreen
+> where touch events are reported and their coordinates get converted to
+> the virtual origin. This object avoids getting events from areas that
+> are physically hidden by overlay frames.
+> 
+> For touchscreens where overlay buttons on the touchscreen surface are
+> provided, the virtual-buttons object contains a node for every button
+> and the key event that should be reported when pressed.
+> 
+> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+> ---
 
-On Mon, 2023-05-15 at 20:47 -0700, Florian Fainelli wrote:
->=20
->=20
-> On 4/24/2023 5:34 AM, Nikita Shubin wrote:
-> > This series aims to convert ep93xx from platform to full device
-> > tree support.
-> >=20
-> > Tested on ts7250 64 RAM/128 MiB Nand flash, edb9302.
-> >=20
-> > Thank you Linus and Arnd for your support, review and comments,
-> > sorry if i missed something -
-> > these series are quite big for me.
-> >=20
-> > Big thanks to Alexander Sverdlin for his testing, support, review,
-> > fixes and patches.
->=20
-> If anyone is interested I still have a TS-7300 board [1] that is
-> fully=20
-> functional and could be sent out to a new home.
 
-Thank you kindly, i'll keep this in mind !
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
->=20
-> https://www.embeddedts.com/products/TS-7300
+Best regards,
+Krzysztof
 
