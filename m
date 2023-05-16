@@ -2,180 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54D02704B69
-	for <lists+linux-input@lfdr.de>; Tue, 16 May 2023 13:02:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E53BE704DD8
+	for <lists+linux-input@lfdr.de>; Tue, 16 May 2023 14:33:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232587AbjEPLB6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 May 2023 07:01:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53808 "EHLO
+        id S232357AbjEPMd2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 May 2023 08:33:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232560AbjEPLBn (ORCPT
+        with ESMTP id S231887AbjEPMd1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 May 2023 07:01:43 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA6C44C27;
-        Tue, 16 May 2023 04:01:11 -0700 (PDT)
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34GAdNN0010615;
-        Tue, 16 May 2023 11:00:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=fiI3qCBQBrgOe49H09tQUlcrUGoyTcWs/PwUWE9ULEk=;
- b=f49fyV6/pED05zX+rPZ3xV1moe5EkZXukU/pwxTPKXl++VfCALj7zpUKaQmbiyvz4x9/
- A/Gr1s35JtNVwmXtEo0JsNFHn52x6YEq3gvaB9qB2N5ue0l4s5909BquYyoQpOSMXCxi
- PXdoBDAtTBNDwu7jVSCgVDi9+yDLjS3U3kz6WVD60RJwg/eFZ/w3HUkcRbqOJg/X84Ma
- TZkL5VF1ASZNNWSYLDr4Zxmxe1iQwMh/SDnL9oVCH2+Bp3KSC7TQCCh8TvImgLe7UgCv
- IlF8EbR1ORbdJCm1SuNSldveMwpgTS1BG2OHaYi/ezi/37DsdZtx94Fy5KHPxXjsHxY7 wA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qm7kfsmq3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 16 May 2023 11:00:57 +0000
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34GAuebJ014229;
-        Tue, 16 May 2023 11:00:56 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qm7kfsmn9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 16 May 2023 11:00:56 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
-        by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34G68P8l001731;
-        Tue, 16 May 2023 11:00:53 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-        by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3qj264sanc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 16 May 2023 11:00:53 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-        by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34GB0oJR53608760
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 16 May 2023 11:00:50 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C45E02005A;
-        Tue, 16 May 2023 11:00:50 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6EFF720043;
-        Tue, 16 May 2023 11:00:50 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-        by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Tue, 16 May 2023 11:00:50 +0000 (GMT)
-From:   Niklas Schnelle <schnelle@linux.ibm.com>
-To:     Arnd Bergmann <arnd@arndb.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
-        linux-input@vger.kernel.org
-Subject: [PATCH v4 14/41] Input: gameport: add ISA and HAS_IOPORT dependencies
-Date:   Tue, 16 May 2023 13:00:10 +0200
-Message-Id: <20230516110038.2413224-15-schnelle@linux.ibm.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230516110038.2413224-1-schnelle@linux.ibm.com>
-References: <20230516110038.2413224-1-schnelle@linux.ibm.com>
+        Tue, 16 May 2023 08:33:27 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A44B109;
+        Tue, 16 May 2023 05:33:26 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pytro-0005Hc-6i; Tue, 16 May 2023 14:33:24 +0200
+Message-ID: <8941c5f2-3861-da68-06ca-adc68a37e53b@leemhuis.info>
+Date:   Tue, 16 May 2023 14:33:23 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: vkCL6W6tF84T0sectLlO5ht3tqil2grA
-X-Proofpoint-ORIG-GUID: 2JC4JeQBFOJOurUdmTaFRLwQtrjCTV1U
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-16_04,2023-05-16_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
- lowpriorityscore=0 mlxlogscore=999 impostorscore=0 mlxscore=0 phishscore=0
- bulkscore=0 suspectscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305160089
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: Re: [BUG: 6.3 kernel] Logitech Trackball M575 misidentified
+Content-Language: en-US, de-DE
+To:     Xose Vazquez Perez <xose.vazquez@gmail.com>,
+        linux-input@vger.kernel.org
+References: <eeb19342-3499-a1fb-388f-d4670472b16c@gmail.com>
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Cc:     Linux kernel regressions list <regressions@lists.linux.dev>,
+        Bastien Nocera <hadess@hadess.net>,
+        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>
+In-Reply-To: <eeb19342-3499-a1fb-388f-d4670472b16c@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1684240406;c7f7ccdc;
+X-HE-SMSGID: 1pytro-0005Hc-6i
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
-not being declared. As ISA already implies HAS_IOPORT we can simply add
-this dependency and guard sections of code using inb()/outb() as
-alternative access methods.
+[CCing a few people and the the regression list, as it should be in the
+loop for regressions:
+https://docs.kernel.org/admin-guide/reporting-regressions.html]
 
-Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
----
-Note: The HAS_IOPORT Kconfig option was added in v6.4-rc1 so
-      per-subsystem patches may be applied independently
+On 11.05.23 23:22, Xose Vazquez Perez wrote:
+> 
+> 6.3.2 kernel identifies "Logitech" "ERGO M575" as "Logitech"
+> "(\xc9_O\x04)",
+> 6.2.15 works fine.
+> 
+> 
+> 6.2.15 boot log:
+> input: Logitech ERGO M575 as
+> /devices/pci0000:00/0000:00:1a.0/usb3/3-1/3-1.3/3-1.3:1.2/0003:046D:C52B.0003/0003:046D:4096.0005/input/input15
+> logitech-hidpp-device 0003:046D:4096.0005: input,hidraw1: USB HID v1.11
+> Mouse [Logitech ERGO M575] on usb-0000:00:1a.0-1.3/input2:1
+> 
+> 6.3.2 boot log:
+> input: Logitech \xc9_O\x04 as
+> /devices/pci0000:00/0000:00:1a.0/usb3/3-1/3-1.3/3-1.3:1.2/0003:046D:C52B.0003/0003:046D:4096.0005/input/input15
+> logitech-hidpp-device 0003:046D:4096.0005: input,hidraw2: USB HID v1.11
+> Mouse [Logitech \xc9_O\x04] on usb-0000:00:1a.0-1.3/input2:1
 
- drivers/input/gameport/Kconfig | 4 +++-
- include/linux/gameport.h       | 9 +++++++--
- 2 files changed, 10 insertions(+), 3 deletions(-)
+I wonder if this if this is some related to this issue:
+https://bugzilla.kernel.org/show_bug.cgi?id=217412
+("Since kernel 6.3.1 logitech unify receiver not working properly")
 
-diff --git a/drivers/input/gameport/Kconfig b/drivers/input/gameport/Kconfig
-index 5a2c2fb3217d..fe73b26e647a 100644
---- a/drivers/input/gameport/Kconfig
-+++ b/drivers/input/gameport/Kconfig
-@@ -25,6 +25,7 @@ if GAMEPORT
- 
- config GAMEPORT_NS558
- 	tristate "Classic ISA and PnP gameport support"
-+	depends on ISA
- 	help
- 	  Say Y here if you have an ISA or PnP gameport.
- 
-@@ -35,6 +36,7 @@ config GAMEPORT_NS558
- 
- config GAMEPORT_L4
- 	tristate "PDPI Lightning 4 gamecard support"
-+	depends on ISA
- 	help
- 	  Say Y here if you have a PDPI Lightning 4 gamecard.
- 
-@@ -53,7 +55,7 @@ config GAMEPORT_EMU10K1
- 
- config GAMEPORT_FM801
- 	tristate "ForteMedia FM801 gameport support"
--	depends on PCI
-+	depends on PCI && HAS_IOPORT
- 	help
- 	  Say Y here if you have ForteMedia FM801 PCI audio controller
- 	  (Abit AU10, Genius Sound Maker, HP Workstation zx2000,
-diff --git a/include/linux/gameport.h b/include/linux/gameport.h
-index 8c2f00018e89..4d5720022b63 100644
---- a/include/linux/gameport.h
-+++ b/include/linux/gameport.h
-@@ -167,16 +167,21 @@ static inline void gameport_trigger(struct gameport *gameport)
- {
- 	if (gameport->trigger)
- 		gameport->trigger(gameport);
-+#ifdef CONFIG_HAS_IOPORT
- 	else
- 		outb(0xff, gameport->io);
-+#endif
- }
- 
- static inline unsigned char gameport_read(struct gameport *gameport)
- {
- 	if (gameport->read)
- 		return gameport->read(gameport);
--	else
--		return inb(gameport->io);
-+#ifdef CONFIG_HAS_IOPORT
-+	return inb(gameport->io);
-+#else
-+	return 0xff;
-+#endif
- }
- 
- static inline int gameport_cooked_read(struct gameport *gameport, int *axes, int *buttons)
--- 
-2.39.2
+That one so far seems to be ignored by the developers. Your report one
+also didn't get any reply yet.
 
+Could you maybe perform a bisection to get down to this?
+
+Side note: there is also
+https://bugzilla.kernel.org/show_bug.cgi?id=217330
+("Broken Logitech unifying battery names in hid-next tree")
+
+
+Anyway, for the rest of this mail:
+
+[TLDR: I'm adding this report to the list of tracked Linux kernel
+regressions; the text you find below is based on a few templates
+paragraphs you might have encountered already in similar form.
+See link in footer if these mails annoy you.]
+
+Thanks for the report. To be sure the issue doesn't fall through the
+cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
+tracking bot:
+
+#regzbot ^introduced v6.2..v6.3
+#regzbot title input: Logitech Trackball M575 misidentified
+#regzbot ignore-activity
+
+This isn't a regression? This issue or a fix for it are already
+discussed somewhere else? It was fixed already? You want to clarify when
+the regression started to happen? Or point out I got the title or
+something else totally wrong? Then just reply and tell me -- ideally
+while also telling regzbot about it, as explained by the page listed in
+the footer of this mail.
+
+Developers: When fixing the issue, remember to add 'Link:' tags pointing
+to the report (the parent of this mail). See page linked in footer for
+details.
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
