@@ -2,142 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0F21704F65
-	for <lists+linux-input@lfdr.de>; Tue, 16 May 2023 15:35:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFBE3704FEF
+	for <lists+linux-input@lfdr.de>; Tue, 16 May 2023 15:53:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232376AbjEPNfX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 May 2023 09:35:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46986 "EHLO
+        id S232889AbjEPNxi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 May 2023 09:53:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232315AbjEPNfX (ORCPT
+        with ESMTP id S232951AbjEPNxg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 May 2023 09:35:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D329210DA
-        for <linux-input@vger.kernel.org>; Tue, 16 May 2023 06:34:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1684244078;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=45UqYriNQVtdBFesR+jleqsSy4ksjE6lhJMxVSYplvo=;
-        b=Ehb1piAv6hiUFgCacAtYrNifBEZoU1lxL8Ymx7f4c0fG4wY5/I0ZN8FWFZ0g4RlW9wqjMp
-        NB55vj02dtxpPc0dSbpM0vJbohaoBPHxActpS+CGGrXIdssJL1dMCRJ4i/glvKOcl5xcsF
-        CG/HHvrRcKboIJC23fpO6k9387ABa7w=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-463-3x4-NGBqMMOemqLtbaGMAg-1; Tue, 16 May 2023 09:34:36 -0400
-X-MC-Unique: 3x4-NGBqMMOemqLtbaGMAg-1
-Received: by mail-yb1-f197.google.com with SMTP id 3f1490d57ef6-ba712bb7b28so5210710276.1
-        for <linux-input@vger.kernel.org>; Tue, 16 May 2023 06:34:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684244076; x=1686836076;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=45UqYriNQVtdBFesR+jleqsSy4ksjE6lhJMxVSYplvo=;
-        b=fvmWttVMlyFklsGDlHV/9LkA58hjWCATnstvel5UgtDrUtkeoTjxeB9RA1fcZH445w
-         2s4VwOW0by5WC7weZISXAFeIftFzs6Ll5Bg87j11jYAgICunLuhBh0SZevGag796OI1c
-         +mxUBZiTQGF6xpM8tU1Ge7xVw2HzlaVlaSqB+lpdMthQmM+Os3kv0LgxAwfXhqDRrv3+
-         0jDF8Cv8GIchnExliTL6+pd8XVfZI0KmXkX3BDWUMeUeYSaUozCnxlz7VNkZRTGDcrHM
-         yc/oKsqwcRnGTGpxa+9+SSRffR14/JjV5oT8noySBrl2HmzPTBYguGQ6DAn4TNL3f4lI
-         a9gQ==
-X-Gm-Message-State: AC+VfDwZ4p0dxOhh5QIBjXwv+IQhFAUKDFgQHZakU1r0WR3bPjdzmWE9
-        eFm8JaTNHp/jiYwcghJme6fCm0sk+9x/hAMSSI6BZVRH46FwCPtrjOft4hfRvvrFfWR1MNUnp3F
-        lkDH96KJj1EXucpCIHOF4Uq+FsDuLNaFFTjPqg48=
-X-Received: by 2002:a0d:d847:0:b0:561:b246:77df with SMTP id a68-20020a0dd847000000b00561b24677dfmr491851ywe.16.1684244075581;
-        Tue, 16 May 2023 06:34:35 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5a8XsAcCfmDEhTwmeBSPI5gRAlk+fKBy37/4QgPjAyDxSQYLttDSUO8ua8sZeUNWVP3Ts21WU0gwhJWqir3M4=
-X-Received: by 2002:a0d:d847:0:b0:561:b246:77df with SMTP id
- a68-20020a0dd847000000b00561b24677dfmr491841ywe.16.1684244075332; Tue, 16 May
- 2023 06:34:35 -0700 (PDT)
+        Tue, 16 May 2023 09:53:36 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76DFF7ED4;
+        Tue, 16 May 2023 06:53:07 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pyv6s-0005No-Jr; Tue, 16 May 2023 15:53:02 +0200
+Message-ID: <1f07cd1f-2553-9194-78d4-fcfbc1fd2abb@leemhuis.info>
+Date:   Tue, 16 May 2023 15:53:02 +0200
 MIME-Version: 1.0
-References: <9b987585-0834-bb8c-3414-283c29f3f2ab@leemhuis.info>
- <bec024d5-4088-00ae-f7b5-7188868b1707@leemhuis.info> <b7717c43-74bf-b91d-d3ce-874493df602c@gmail.com>
-In-Reply-To: <b7717c43-74bf-b91d-d3ce-874493df602c@gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 16 May 2023 15:34:24 +0200
-Message-ID: <CAO-hwJ+At1J_yUpX2q_dJekzZ-PoTDAvxmkTk_e4Yu0Z338bEA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
 Subject: Re: [regression] Since kernel 6.3.1 logitech unify receiver not
  working properly
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
-        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@riseup.net>,
+Content-Language: en-US, de-DE
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linux regressions mailing list <regressions@lists.linux.dev>,
+        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
         Bastien Nocera <hadess@hadess.net>,
         Jiri Kosina <jikos@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>, guy.b@bluewin.ch
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <9b987585-0834-bb8c-3414-283c29f3f2ab@leemhuis.info>
+ <bec024d5-4088-00ae-f7b5-7188868b1707@leemhuis.info>
+ <b7717c43-74bf-b91d-d3ce-874493df602c@gmail.com>
+From:   Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <b7717c43-74bf-b91d-d3ce-874493df602c@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1684245187;2d7357ed;
+X-HE-SMSGID: 1pyv6s-0005No-Jr
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, May 16, 2023 at 3:25=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.com=
-> wrote:
->
+On 16.05.23 15:24, Bagas Sanjaya wrote:
 > On 5/11/23 18:58, Thorsten Leemhuis wrote:
-> > Hi, Thorsten here, the Linux kernel's regression tracker.
-> >
-> > On 08.05.23 11:55, Linux regression tracking (Thorsten Leemhuis) wrote:
-> >> Hi, Thorsten here, the Linux kernel's regression tracker.
-> >>
-> >> I noticed a regression report in bugzilla.kernel.org. As many (most?)
-> >> kernel developers don't keep an eye on it, I decided to forward it by =
-mail.
-> >>
-> >> Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=3D217412 :
-> >
-> > TWIMC: a few other users (three or four iirc) showed up in that ticket
-> > and reported problems with the receiver, albeit the symptoms are not
-> > exactly the same for all of them, so there might be more than one probl=
-em.
-> >
-> > I'll try to motivate the affected users to perform a bisection. But
-> > would be great if those with more knowledge about this code could
-> > briefly look into the ticket, maybe the details the users shared allows
-> > one of you to guess what causes this.
-> >
->
+>> Hi, Thorsten here, the Linux kernel's regression tracker.
+>>
+>> On 08.05.23 11:55, Linux regression tracking (Thorsten Leemhuis) wrote:
+>>> Hi, Thorsten here, the Linux kernel's regression tracker.
+>>>
+>>> I noticed a regression report in bugzilla.kernel.org. As many (most?)
+>>> kernel developers don't keep an eye on it, I decided to forward it by mail.
+>>>
+>>> Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=217412 :
+>>
+>> TWIMC: a few other users (three or four iirc) showed up in that ticket
+>> and reported problems with the receiver, albeit the symptoms are not
+>> exactly the same for all of them, so there might be more than one problem.
+>>
+>> I'll try to motivate the affected users to perform a bisection. But
+>> would be great if those with more knowledge about this code could
+>> briefly look into the ticket, maybe the details the users shared allows
+>> one of you to guess what causes this.
+> 
 > Hmm,
->
+> 
 > You noted in the similar report [1] that developers involved here
 > ignore this regressions. I wonder if Linus has to be hired in
 > this case, and if it is the case, let's take a look and hear closely what
 > he will say.
+> 
+> [1]: https://lore.kernel.org/regressions/8941c5f2-3861-da68-06ca-adc68a37e53b@leemhuis.info/
 
-Sigh... Not answering an email is bad, but maybe you can also
-understand that developers can take days off?
+You CCed him so maybe we'll learn soon.
 
-And it turns out that I was waiting for Bastien to chime in, but I can
-access his calendar too and just found out that he was AFK for the
-entire month, except for the first week, which I wasn't aware. May is
-a time where people in France have a lot of public holidays and is
-also the cut to use those time off or they expire.
+I expect he doesn't like the situation, but at the same time I guess
+there is nothing much he will do (which is why I do not CC him in cases
+like this, unless they are urgent/severe or something like that).
 
-For me, I'll also be taking time off the rest of this week, so I won't
-be able to have a look at this until next week at the earliest.
+That's because as far as I know in the end it is the duty of the
+reporter(s) to find the the culprit.
 
-Cheers,
-Benjamin
+Because in the end developers and subsystem maintainers are volunteers,
+too -- and making them bisect each and every report would make the job
+way to hard. And the question "which developer/subsystem maintainer
+needs to perform the bisection" would often become quickly complicated
+as well, as an issue in one area of the kernel can be caused by a change
+in a totally different area (for file-systems that is way more likely
+than for input drivers, but still). Not to mention that developer and
+subsystem maintainers might not even have the environment at hand to
+reproduce the issue.
 
->
-> Thanks.
->
->
-> [1]: https://lore.kernel.org/regressions/8941c5f2-3861-da68-06ca-adc68a37=
-e53b@leemhuis.info/
->
-> --
-> An old man doll... just what I always wanted! - Clara
->
+That being said: I think a quick "We looked into these three reports
+that might be related, but we have no idea what might cause this;
+somebody needs to bisect things" from one of the involved
+developers/maintainers would have been nice (appropriate?).
 
+Ciao, Thorsten
