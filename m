@@ -2,134 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DBC77053B4
-	for <lists+linux-input@lfdr.de>; Tue, 16 May 2023 18:26:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85B6C7055AE
+	for <lists+linux-input@lfdr.de>; Tue, 16 May 2023 20:09:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230071AbjEPQ01 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 May 2023 12:26:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51682 "EHLO
+        id S231417AbjEPSJf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 May 2023 14:09:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230018AbjEPQ00 (ORCPT
+        with ESMTP id S229464AbjEPSJe (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 May 2023 12:26:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A96A30C4
-        for <linux-input@vger.kernel.org>; Tue, 16 May 2023 09:25:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1684254285;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=a3FIsBwvLJd8bGvVv7dnr0FhAmLIXHj6zTtEadqChU4=;
-        b=ESy4CMLQ4vc9r3t4fhjdjc4GqngI/20bXEBcVN2mIK/xG+SezrqQvhRKTl01PzHy+GV4VE
-        xnnMGMX2I/i+5+fpVVb9BZzEZfeZ8/le1Yt+tGJu4OUTNjjR+U0TTbKYmW1E+aegkGDy62
-        Lp3zvp9biavgNeKQ79E87oV+gzImVEo=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-361-W3vYL-KmPbikLaaa9sxEaA-1; Tue, 16 May 2023 12:24:44 -0400
-X-MC-Unique: W3vYL-KmPbikLaaa9sxEaA-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-9663552473fso1450888966b.1
-        for <linux-input@vger.kernel.org>; Tue, 16 May 2023 09:24:44 -0700 (PDT)
+        Tue, 16 May 2023 14:09:34 -0400
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C97EBE
+        for <linux-input@vger.kernel.org>; Tue, 16 May 2023 11:09:33 -0700 (PDT)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-55a00da4e53so249045487b3.0
+        for <linux-input@vger.kernel.org>; Tue, 16 May 2023 11:09:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1684260572; x=1686852572;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HOOCBtnPBFwUcTzbyrJ0D+u8r9EEiyuqpPeng26UuJw=;
+        b=qmxo71Iu51dxFxvJUFwzFuvE5d4/yYabhhGeWleeEm4S88WH1eWl0ErD0jyC4E4Yw4
+         kTAlQonYg0MmNr6Lvn8vC+nHf2rA+KvFG+LWsMiS0LBHhEFghvMt8DKhK8ViUaFADlfy
+         LgUNrPAHtqz0J/rOZuJLs6YHWWXNsyH5TMAwK2hQG+K+7JuqIl6X4+iOmZri0mYKJrkS
+         vQfel+hfcdz3pLMvRD+0xBDdGTGaN9gCNPp4eRf3Yiy7WW9bTH+Nxd6snpjBwcr6/LXB
+         F2T46T91x4YRYJakVsZrBKMVK9YMbm7l+sLh1ogMnYSjVAI8XOFtNd3Ghx0Ot/yr84ca
+         nAaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684254283; x=1686846283;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=a3FIsBwvLJd8bGvVv7dnr0FhAmLIXHj6zTtEadqChU4=;
-        b=IPGdMZZWXyZgb5g21nWhNAsa16sscSZN34f5tUSMVItadE2G4Xt011AhcnGE6HgO+y
-         lPmki5TWTBfAxCl5Sbe9D12DqarMigbXHCgtX4OtK4fjpKtw6TTktk4tK27R4tOk63of
-         dTfKTPAwgxn5hfDnPsUTVUaTWT/l0AVosAKq16d1aQrrmOVY3uTDdWYrNYH+/xW+zwKY
-         UrJSz5+QJiKbLQHHtznjBKrHmaDLCv3ic7IEkH3jkEGL7AKU9Be1LsLTsEWv8IlTk3aU
-         s/QvHYHIDUacyJQeQRivWzkQYUC695mTsqi67q1AlrpaPjDFk+LKGYjVOBn1BaRxCD+A
-         N1Og==
-X-Gm-Message-State: AC+VfDxGxjt9y2L08SwztofaoHcz/56EyII90L0oHfGXbxULPEQW6tAB
-        d4VAGuCEFtQ4Xi8ejXmrhNcuhVemgVtWlbngNnirdmCPcdg1lLIuvVWh4lP3IttdInvydQeuOe6
-        94IVbPvflXYRqX1d2LTKrLLY=
-X-Received: by 2002:a17:907:ea1:b0:96a:7cc9:d038 with SMTP id ho33-20020a1709070ea100b0096a7cc9d038mr20985627ejc.37.1684254283177;
-        Tue, 16 May 2023 09:24:43 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5VJEFkuiXqs1L2y9Byop/2x0Fk2/VbMoPdJeW2FbwCObi+PgEHAQ+KfKHQZOE6KJh5Qxl6Ww==
-X-Received: by 2002:a17:907:ea1:b0:96a:7cc9:d038 with SMTP id ho33-20020a1709070ea100b0096a7cc9d038mr20985598ejc.37.1684254282819;
-        Tue, 16 May 2023 09:24:42 -0700 (PDT)
-Received: from fedora.redhat.com ([2a06:c701:476e:4300:fe29:2a5c:9188:df81])
-        by smtp.gmail.com with ESMTPSA id ks16-20020a170906f85000b00947740a4373sm10953098ejb.81.2023.05.16.09.24.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 May 2023 09:24:41 -0700 (PDT)
-From:   Dana Elfassy <delfassy@redhat.com>
-X-Google-Original-From: Dana Elfassy <dangel101@gmail.com>
-To:     eballetb@redhat.com, dmitry.torokhov@gmail.com, javierm@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Dana Elfassy <dangel101@gmail.com>
-Subject: [PATCH] Input: tests: add test to cover all input_grab_device() function
-Date:   Tue, 16 May 2023 19:24:12 +0300
-Message-Id: <20230516162412.461066-1-dangel101@gmail.com>
-X-Mailer: git-send-email 2.40.1
+        d=1e100.net; s=20221208; t=1684260572; x=1686852572;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HOOCBtnPBFwUcTzbyrJ0D+u8r9EEiyuqpPeng26UuJw=;
+        b=QALBTGe76yHi4/BpMKM4nB04OLYZmG34UMVsOn7SnBFNExruFZINlqRKWfqWD+bwlY
+         zKFphrixEBdbLF4YjonEm2OUgKG6JYaPliXDO5xm5Ne2BsLnyBsD0leJWgST/TlAQA4W
+         CX6JZzVh1hNp/GeKyIzI1QK9RMfhExw18ZNY5jQUoB/48B30iPaIKM75dUYOqQDzB0ZD
+         +baCq7gHWCZ8exCY/YlKMTSvhRjfzMU+dSmuEF7hyk5gLLRZIa2/p5TdfMjzHKbu90OD
+         wP/uoVuCDCm+mI/2lQUL9M8X+WckqI5m4mTHxVuyXqztEbjBfs+5oaWYjiNAxrbc4Ugz
+         yEng==
+X-Gm-Message-State: AC+VfDxuawLqXlDEab4Xl1ScJWkiHOwkalRGxF7fg1MBjT6C8IFJTjIQ
+        XQttukMEok1C6cgnmq9BNv05ZmSrqdHZqWhIS5+tsQ==
+X-Google-Smtp-Source: ACHHUZ7XF6q2Bm1/49+wSfDCry1UkLwKzxIvfA8o0ztp9zAXasmfZmqYoLT5ce/cEdz0K4L4NDqNhKlG99yf44fNy44=
+X-Received: by 2002:a81:6c45:0:b0:561:bae4:c377 with SMTP id
+ h66-20020a816c45000000b00561bae4c377mr255712ywc.14.1684260572560; Tue, 16 May
+ 2023 11:09:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+References: <20230426-stmpe-dt-bindings-v4-0-36fdd53d9919@linaro.org>
+ <20230426-stmpe-dt-bindings-v4-1-36fdd53d9919@linaro.org> <CAMRc=MdsBiV3AvzSPtCuR58w0N9z7o+hUrBDtXUC4a++pECb8w@mail.gmail.com>
+ <CACRpkdaJrB1f13LB4aHSWys63448a4NQZORgwdk8z=C8qe-BDA@mail.gmail.com> <CAMRc=Mf+RsU6PT7fwm=r9OLbmxNjiv9Ru8HEfpMEAqDN5-0Qig@mail.gmail.com>
+In-Reply-To: <CAMRc=Mf+RsU6PT7fwm=r9OLbmxNjiv9Ru8HEfpMEAqDN5-0Qig@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 16 May 2023 20:09:21 +0200
+Message-ID: <CACRpkdbCiEtiXkhaoUMCqeqcOaTYu0hSp0cDTy8NzzwitfQL+g@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] dt-bindings: gpio: Convert STMPE GPIO to YAML schema
+To:     Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Philippe Schenker <philippe.schenker@toradex.com>,
+        Stefan Agner <stefan@agner.ch>, Marek Vasut <marex@denx.de>,
+        Steffen Trumtrar <s.trumtrar@pengutronix.de>,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Currently input_grab_device() isn't covered by any tests
-Thus, adding a test to cover the cases:
-1. The device is grabbed successfully
-2. Trying to grab a device that is already grabbed by another input
-   handle
+On Tue, May 16, 2023 at 5:34=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl>=
+ wrote:
+> On Thu, May 11, 2023 at 10:39=E2=80=AFPM Linus Walleij <linus.walleij@lin=
+aro.org> wrote:
+> >
+> > On Thu, May 11, 2023 at 4:58=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev=
+.pl> wrote:
+> >
+> > > Applied, thanks!
+> >
+> > That works ... but patch 2/2 depends on this one. (uses $ref).
+> > You'd have to give Lee an immutable branch that he can pull
+> > before applying patch 2/2 so he has the dependency, or let him
+> > apply both.
+> >
+> > Yours,
+> > Linus Walleij
+>
+> Sure:
+>
+> The following changes since commit ac9a78681b921877518763ba0e89202254349d=
+1b:
+>
+>   Linux 6.4-rc1 (2023-05-07 13:34:35 -0700)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git
+> tags/v6.4-stmpe-gpio
+>
+> for you to fetch changes up to 6c19974d1e83fba2cca1cbea2fbf250f093eb5ed:
+>
+>   dt-bindings: gpio: Convert STMPE GPIO to YAML schema (2023-05-11
+> 16:58:04 +0200)
 
-Signed-off-by: Dana Elfassy <dangel101@gmail.com>
----
- drivers/input/tests/input_test.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+Hey cool :D
 
-diff --git a/drivers/input/tests/input_test.c b/drivers/input/tests/input_test.c
-index 25bbf51b5c87..cd4db365e9fa 100644
---- a/drivers/input/tests/input_test.c
-+++ b/drivers/input/tests/input_test.c
-@@ -124,10 +124,38 @@ static void input_test_match_device_id(struct kunit *test)
- 	KUNIT_ASSERT_FALSE(test, input_match_device_id(input_dev, &id));
- }
- 
-+
-+static void input_test_grab(struct kunit *test)
-+{
-+	struct input_dev *input_dev = test->priv;
-+	struct input_handle test_handle;
-+	struct input_handler handler;
-+	struct input_handle handle;
-+	struct input_device_id id;
-+	int res;
-+
-+	handler.name = "handler";
-+	handler.id_table = &id;
-+
-+	handle.dev = input_get_device(input_dev);
-+	handle.name = dev_name(&input_dev->dev);
-+	handle.handler = &handler;
-+	res = input_grab_device(&handle);
-+	KUNIT_ASSERT_TRUE(test, input_grab_device(&handle));
-+
-+	test_handle.dev = input_get_device(input_dev);
-+	test_handle.name = dev_name(&input_dev->dev);
-+	test_handle.handler = &handler;
-+
-+	res = input_grab_device(&test_handle);
-+	KUNIT_ASSERT_EQ(test, res, -EBUSY);
-+}
-+
- static struct kunit_case input_tests[] = {
- 	KUNIT_CASE(input_test_polling),
- 	KUNIT_CASE(input_test_timestamp),
- 	KUNIT_CASE(input_test_match_device_id),
-+	KUNIT_CASE(input_test_grab),
- 	{ /* sentinel */ }
- };
- 
--- 
-2.40.1
+Lee if you pull this in you can apply 2/2 on top if it checks out.
 
+Yours,
+Linus Walleij
