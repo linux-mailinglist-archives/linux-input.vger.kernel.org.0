@@ -2,58 +2,57 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3815C707394
-	for <lists+linux-input@lfdr.de>; Wed, 17 May 2023 23:12:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D7CD707410
+	for <lists+linux-input@lfdr.de>; Wed, 17 May 2023 23:21:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229675AbjEQVL7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 17 May 2023 17:11:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51210 "EHLO
+        id S229928AbjEQVVs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 17 May 2023 17:21:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229591AbjEQVL6 (ORCPT
+        with ESMTP id S229907AbjEQVVr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 17 May 2023 17:11:58 -0400
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 583546596
-        for <linux-input@vger.kernel.org>; Wed, 17 May 2023 14:11:56 -0700 (PDT)
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-561bcd35117so14575657b3.3
-        for <linux-input@vger.kernel.org>; Wed, 17 May 2023 14:11:56 -0700 (PDT)
+        Wed, 17 May 2023 17:21:47 -0400
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E7A57289
+        for <linux-input@vger.kernel.org>; Wed, 17 May 2023 14:21:19 -0700 (PDT)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-5617d793160so15937977b3.2
+        for <linux-input@vger.kernel.org>; Wed, 17 May 2023 14:21:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684357915; x=1686949915;
+        d=linaro.org; s=google; t=1684358434; x=1686950434;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+ESbY04o8nMiMylkhFsmBCHORahVNqly1l+b0KOa640=;
-        b=v5SexcE/rX2IDDr2Q+Jg71qCnOgAEyqh82pmkfwBGRhxmmH1TRMWr90nRSxjjoCF1r
-         hGYuFJu1daRVqli8IXLNSBOXNnNwKzOdeANaee76IbW06Pf/BTOfIUH2zHOWfF/wUeLr
-         c9kW4YK0gfMM5I4x7QJZ47n0t+18qK5ugWD6CJ4BotPw8/dhlvZv24u9ZNAgwO59exXX
-         MWvs3Bh2AC8sMAG2Hx/UD7eVqmCETIqXr/Ve9A2Pb9L+Cr7EBH415lQBjobg5AAXwpbz
-         Sd7PazZFNAZ/ItAcx6G3TlD/PshhlglA0pY56ts9Lx8xkxwMk/sofpb/+T6wZqAd4tS0
-         oXLQ==
+        bh=c/xRTFfbK4NYimyDUxrCUmH9rx6aZeiSGuBiaYTmxbw=;
+        b=ahFgt2u2X9w9clM14mYo/38fBow6nCB8b73iuZFrZfxREkniMjSDCp8HWAKBaRYMxi
+         LUOLzS54YDfp+Fr/Mwn3HnxydyKpcX0KE3NKHTuPrpZvYD8fIYxwCdWVB9sRG7z33pEY
+         hVS/nrIbGldQAmcwS2yjW26/kKIUEF9XVCAhAnyUgze5yZAgsyK/sbClPjsrltulIobF
+         9GoO31H6UiWQyrTETXhpad2945FX2wlbEy1FGuoQgPINKjZsXR4QBP9cNQq2o+tpCDlW
+         yHA9FLI7M4w2wJfkJkDGncg57spNyhccK5KPLDkzxuc6ZieyQGgmFy2/Q8tFJV2I10SV
+         QPxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684357915; x=1686949915;
+        d=1e100.net; s=20221208; t=1684358434; x=1686950434;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+ESbY04o8nMiMylkhFsmBCHORahVNqly1l+b0KOa640=;
-        b=F7jLF37q5KlI6aZZtg5gG0I7YY1vLmdT8ejVDZLedBK7ReRo7PjVsYDdyYYNcRMPIY
-         CxUHgx7vEIIrsx5fP5VQqPSRDhGOuCcN0L6opJl7e/MXNgypU3n+OFFzRVRQIYOrPXNJ
-         QRPaRqmJiSdNM6D6b3PpK4gtHfivvi7o2NgckRY6INd4aIIQ0/HljhV+x+QmCESElien
-         5KGxTWcS+v943sJE86OYTEwRXqe0UH/KpHl9ktnCrCmBpvAmA3v6spYrmJ02wM3G/vqD
-         lBaLM3POGaQauxp2hFPTozeBgDTeeskv6VNpDSFwBgm2Z5LI44Lzia3xvvYNWM/ss7Oe
-         XTKw==
-X-Gm-Message-State: AC+VfDzCqU5DKPY64DPEciX1j6cPsNHM76xsIcQGBmyhPFxScK3mBvlT
-        UlDapUDx9fNAbewnW3wTU6wXHcpZ8YXH+TFZXCJVmA==
-X-Google-Smtp-Source: ACHHUZ4WiU/7XNv5tV812IdEVaHBoQ+14tMHeWf4rv+lcocaQlv66/13I8fR3QBFOtF5w7UHYni2NBlJ2CKlqIUUMBE=
-X-Received: by 2002:a0d:e84f:0:b0:55a:679f:1d90 with SMTP id
- r76-20020a0de84f000000b0055a679f1d90mr43201104ywe.2.1684357915574; Wed, 17
- May 2023 14:11:55 -0700 (PDT)
+        bh=c/xRTFfbK4NYimyDUxrCUmH9rx6aZeiSGuBiaYTmxbw=;
+        b=imYYmKtioLGEepH6uyFgYPjqE8rswBas64dDA6/bEmlgJqk+X7oLdHpc8hTUTPGEgQ
+         Fp2IjGW7z9GZ+QltvuIRgtyO3rv7AI8Hyd5vbJVTxIvDiKD7t3oLtde5Ccu3XYEdjNpq
+         7woen/zTEd49HT803okLqHr/BqP/CruvUo3WNQZCtbIkmKXAMkF4aSy1vMpyD93XGZBc
+         wKlbeHaqT7BvIuFN+XwvJHe7eitVgCiuSdkpfRlz28tQB+BfgceHNCqFrFBnKopnntCY
+         bcCKPZQuOWUIVXpv/q2ZelfZ6m8FCYiFHH8OTag4TbgW2QeU0URS1GO0Pqb06fZbCdOo
+         83jg==
+X-Gm-Message-State: AC+VfDzN3u3R5e5ZW7ESg5RyofSIwG5HhaTfjgNQ92so1/HK1Wt/IwYL
+        uuMy6HjJVhEFjypFTZrEzMeDmoQ9Rig9ouTIILnsNQ==
+X-Google-Smtp-Source: ACHHUZ4te0AaK/JzTEsMGDqUpCCjq8nPtW1UY5HTyKVkPeqxtL5BAZZNlI0T3h3SEvEB44eVdaFAHp0j8rMQPrfGTL8=
+X-Received: by 2002:a0d:d6c9:0:b0:561:c9c1:ce with SMTP id y192-20020a0dd6c9000000b00561c9c100cemr2679247ywd.8.1684358434224;
+ Wed, 17 May 2023 14:20:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230430-nokia770-regression-v4-0-9b6dc5536b17@linaro.org>
- <20230430-nokia770-regression-v4-1-9b6dc5536b17@linaro.org> <20230517195911.GG271152@darkstar.musicnaut.iki.fi>
-In-Reply-To: <20230517195911.GG271152@darkstar.musicnaut.iki.fi>
+ <20230430-nokia770-regression-v4-1-9b6dc5536b17@linaro.org> <20230517203953.GI271152@darkstar.musicnaut.iki.fi>
+In-Reply-To: <20230517203953.GI271152@darkstar.musicnaut.iki.fi>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 17 May 2023 23:11:43 +0200
-Message-ID: <CACRpkdaxQQ3fJeYRs+M29MYA4=f+ha26m5Xa2+uV_MejtEdwUQ@mail.gmail.com>
+Date:   Wed, 17 May 2023 23:20:22 +0200
+Message-ID: <CACRpkdbv6hb6KTTSPMhzYJrS_TGoPdeTUO4CZVjaTH0R=G66=w@mail.gmail.com>
 Subject: Re: [PATCH v4 1/4] Input: ads7846 - Convert to use software nodes
 To:     Aaro Koskinen <aaro.koskinen@iki.fi>
 Cc:     Janusz Krzysztofik <jmkrzyszt@gmail.com>,
@@ -86,41 +85,28 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, May 17, 2023 at 9:59=E2=80=AFPM Aaro Koskinen <aaro.koskinen@iki.fi=
-> wrote:
+On Wed, May 17, 2023 at 10:39=E2=80=AFPM Aaro Koskinen <aaro.koskinen@iki.f=
+i> wrote:
 
-> This does not compile as nokia770_ads7846_props is declared twice,
-> and nokia770_cbus_props and nokia770_mpuio_gpiochip_swnode are missing.
-
-Hmmmm I think we should probably update omap1_defconfig to enable
-all the OMAP1 drivers so we have good compile coverage. It's the
-ifdefs that fool me into believeing the code actually compiles ...
-
-> On Mon, May 08, 2023 at 11:20:06PM +0200, Linus Walleij wrote:
-> > +static const struct software_node_ref_args nokia770_cbus_gpio_refs[] =
-=3D {
-> > +     SOFTWARE_NODE_REFERENCE(&nokia770_mpuio_gpiochip_swnode, 9, 0),
-> > +     SOFTWARE_NODE_REFERENCE(&nokia770_mpuio_gpiochip_swnode, 10, 0),
-> > +     SOFTWARE_NODE_REFERENCE(&nokia770_mpuio_gpiochip_swnode, 11, 0),
-> > +};
+> When tested w/gpio-descriptors-omap branch, the touchscreen probe fails:
 >
-> These should be nokia770_mpuio_gpiochip_node.
+> [    2.378540] SPI driver ads7846 has no spi_device_id for ti,tsc2046
+> [    2.391906] SPI driver ads7846 has no spi_device_id for ti,ads7843
+> [    2.405029] SPI driver ads7846 has no spi_device_id for ti,ads7845
+> [    2.418151] SPI driver ads7846 has no spi_device_id for ti,ads7873
 
-Fixed it.
+This is just regular noise from SPI device drivers that are missing
+spi_device_id.
 
-> > +static const struct property_entry nokia770_ads7846_props[] =3D {
-> > +     PROPERTY_ENTRY_REF_ARRAY("gpios", nokia770_cbus_gpio_refs),
-> > +     { }
-> >  };
+> [    2.432556] ads7846 spi2.0: Unknown device model
+> [    2.443817] ads7846: probe of spi2.0 failed with error -22
 >
-> This should be nokia770_cbus_props.
+> I don't know if that's caused by any the patches in the branch or some
+> other regression. With v6.2 it probes OK.
 
-Fixed it.
+The device is missing compatible. I fixed it.
 
-Also enabled CONFIG_I2C_CBUS_GPIO and recompiled.
-
-Yours,
-Linus Walleij
+Will push the branch after looking at the rest of the comments.
 
 Yours,
 Linus Walleij
