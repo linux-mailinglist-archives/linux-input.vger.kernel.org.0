@@ -2,74 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 251427062B1
-	for <lists+linux-input@lfdr.de>; Wed, 17 May 2023 10:24:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE337706379
+	for <lists+linux-input@lfdr.de>; Wed, 17 May 2023 11:00:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230248AbjEQIYL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 17 May 2023 04:24:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42430 "EHLO
+        id S229901AbjEQJAv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 17 May 2023 05:00:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229717AbjEQIX7 (ORCPT
+        with ESMTP id S231179AbjEQJAf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 17 May 2023 04:23:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A16D73AA2
-        for <linux-input@vger.kernel.org>; Wed, 17 May 2023 01:23:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1684311789;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VPgFwMHasDb9bvAH4GI6Rm6bz1uRxsTcEFjFfM1iNLQ=;
-        b=a90Ni1nWAFO+Z/9s3fhiYX5mqPX+0sjdrqhKno2w6FH58kLTqzzM9TmhXrsl2FZ9t1FaYb
-        ep9GYBLJ58omn87GHXYu6Fwx3ZWK85JcO3WTCTpt/Lk2Pvzes+QAjVut+q+USJPd+npMuR
-        U9T2k0P6RhXo16vLfTz2CcciGueg0Bg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-141-53flK0iZNCec9Los4ZjiaA-1; Wed, 17 May 2023 04:23:08 -0400
-X-MC-Unique: 53flK0iZNCec9Los4ZjiaA-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-30640be4fd0so175428f8f.1
-        for <linux-input@vger.kernel.org>; Wed, 17 May 2023 01:23:07 -0700 (PDT)
+        Wed, 17 May 2023 05:00:35 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0395D5FE4
+        for <linux-input@vger.kernel.org>; Wed, 17 May 2023 02:00:08 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-965cc5170bdso72085866b.2
+        for <linux-input@vger.kernel.org>; Wed, 17 May 2023 02:00:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1684314001; x=1686906001;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5aP1Bwp5qtJwbT+wMpc6pfdKQuEptg+56ugwOAw4oCA=;
+        b=XrrUZh6f6LmSNquholGVqzn938gZHWYRTbCZkcVjUJ4Wf0nZycEjEZEt2+SY5Pu+/z
+         vXBnih3T1ywKel4QD7mW58KC/Z/zF925I369fzsy1dadd5fmxFd2JHWcw56afkzMYhV4
+         UDRc0Tcsd+r9Fwsq2qMqgEhUzH+DaDxZn0FPUyNoM+hqWClchWyrkWT8B/sXQUISsux8
+         LsoBTfhb8YL5weK3PyoH6God5xLPCE1cXXO1u/ylTcX+WKgodI8WknoCyqgCba4eizhq
+         Yq3vUyUyyAFAshubzmKJmB6oMei/iWtnB1ksiQpjlFlE2VAfTpa6JHws8je+76ISj5+j
+         k2hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684311787; x=1686903787;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VPgFwMHasDb9bvAH4GI6Rm6bz1uRxsTcEFjFfM1iNLQ=;
-        b=D1VqhX/t9EgD6sHvfoZrcHOvfzeLoQaLM0roVq2nqDIyn5I8YzzL0kXZXoc7eX57pk
-         g65gEISDuR8XV71b0dCC6DMxcThEI5hMTi3QPJtJ2b4Z371aEGCxOZcITMJHszys/uH2
-         SH0YQbrriTigCLuERpC5F6RMAUjSyoQ0XvYdk9SoR8Sz4K4mFqT4zFXZPyAwl8QcR3H4
-         cDnc/17vsgzXEbs8kikkfVb4W4pKXsq/uRAQkGkLBnK7TYOyHUOrWVMwhXH5XWG59ljL
-         e9OaSMFvq0Ygrq5nUVof3qYjYG6pnksUXv7qBtlwymuWfxUJI1jh06/fViKR9yPYcA2m
-         MHDg==
-X-Gm-Message-State: AC+VfDx0rlNL9aXX9mj0nnkvUXra7F2FlNtgtiBTUgir9xR6bPDqBADH
-        Klx8bD7AeGhfSX7uImHr9j1byA/Z9aKlOhuSct5HAPDXcGF6E8Iavzool0joeDH2pD+4ZO7zSLg
-        9AFoPfqrdwrU7PvY4uFSMk3w=
-X-Received: by 2002:a5d:51c4:0:b0:306:37ec:656c with SMTP id n4-20020a5d51c4000000b0030637ec656cmr28918910wrv.66.1684311786830;
-        Wed, 17 May 2023 01:23:06 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6M2uLU82YgDtnZphHrdIC+Rvaqz4YsdmT6TRA4ZG9SePYW6tS+JLljZ93sqdsd1l3FA7fDOg==
-X-Received: by 2002:a5d:51c4:0:b0:306:37ec:656c with SMTP id n4-20020a5d51c4000000b0030637ec656cmr28918891wrv.66.1684311786493;
-        Wed, 17 May 2023 01:23:06 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id z3-20020a5d6543000000b002fda1b12a0bsm1962102wrv.2.2023.05.17.01.23.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 May 2023 01:23:06 -0700 (PDT)
-From:   Javier Martinez Canillas <javierm@redhat.com>
-To:     Dana Elfassy <delfassy@redhat.com>, eballetb@redhat.com,
-        dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Dana Elfassy <dangel101@gmail.com>
-Subject: Re: [PATCH] Input: tests: add test to cover all input_grab_device()
- function
-In-Reply-To: <20230516162412.461066-1-dangel101@gmail.com>
-References: <20230516162412.461066-1-dangel101@gmail.com>
-Date:   Wed, 17 May 2023 10:23:05 +0200
-Message-ID: <87a5y39xjq.fsf@minerva.mail-host-address-is-not-set>
+        d=1e100.net; s=20221208; t=1684314001; x=1686906001;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5aP1Bwp5qtJwbT+wMpc6pfdKQuEptg+56ugwOAw4oCA=;
+        b=FHn3gqpAErZPFZg5sI219ai49540Ux57pgcD1g144zZJSGQWG+N8m/6ZiY7kBBj9pX
+         yTrfe60A+b/shmsxV4xW7b77RDZsnNY1fJkn2TaG4ZxuMisIC11XoRjqDcmRkYu2+Cp1
+         q/YKXjx3st4G7Ba09TaBD2soHuazRs6wj7nB4tqiPeUzrdeBuutHXuL+hLfn63zPL//D
+         GMD7u9sZ8xlClXl7CTOKby074Mu48zBYEZ8YIT77LGVgcr8a9HpjHPea+RZEOHeyCE1F
+         1Z/pwDIzPHEWECCo87HzB26bv/M3Bz8Pbd87BbMEJryZqy+uuesfhLfpFjJs9vfXniNI
+         BZ+A==
+X-Gm-Message-State: AC+VfDy1t0UdfAeJ21d4uY0VBd4xDSgh8hImqkVFgaJ5LgSGtG1ydPBx
+        h0dxqTuqpnZhYCzx5xMg5gXwHQ==
+X-Google-Smtp-Source: ACHHUZ728nsYzi+7djXn5Bst0NSuHUjAvX6KxFbPzVdbd8gv9WeH6uqMfQXGa6/NdvavuigyguQdcw==
+X-Received: by 2002:a17:907:2d1f:b0:968:db2f:383 with SMTP id gs31-20020a1709072d1f00b00968db2f0383mr29248733ejc.53.1684314001021;
+        Wed, 17 May 2023 02:00:01 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:c9ff:4c84:dd21:568d? ([2a02:810d:15c0:828:c9ff:4c84:dd21:568d])
+        by smtp.gmail.com with ESMTPSA id mc11-20020a170906eb4b00b00969f25b96basm11269272ejb.204.2023.05.17.01.59.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 May 2023 02:00:00 -0700 (PDT)
+Message-ID: <ac6d8bcb-b16b-6c50-a9b6-975560059bdc@linaro.org>
+Date:   Wed, 17 May 2023 10:59:59 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 2/4] dt-bindings: touchscreen: add virtual-touchscreen
+ and virtual-buttons properties
+Content-Language: en-US
+To:     Javier Carrasco <javier.carrasco@wolfvision.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Bastian Hecht <hechtb@gmail.com>,
+        Michael Riesch <michael.riesch@wolfvision.net>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org
+References: <20230510-feature-ts_virtobj_patch-v2-0-f68a6bfe7a0f@wolfvision.net>
+ <20230510-feature-ts_virtobj_patch-v2-2-f68a6bfe7a0f@wolfvision.net>
+ <58c8b822-8b47-3269-3b78-334b53c20bff@linaro.org>
+ <99e39fb6-26e0-eb9a-3c07-e07d1fa4122c@linaro.org>
+ <d32e46aa-af50-ad60-7679-5c235487039e@wolfvision.net>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <d32e46aa-af50-ad60-7679-5c235487039e@wolfvision.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,95 +87,77 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dana Elfassy <delfassy@redhat.com> writes:
+On 16/05/2023 11:03, Javier Carrasco wrote:
+> On 16.05.23 10:13, Krzysztof Kozlowski wrote:
+>> On 16/05/2023 10:10, Krzysztof Kozlowski wrote:
+>>> On 15/05/2023 17:00, Javier Carrasco wrote:
+>>>> The virtual-touchscreen object defines an area within the touchscreen
+>>>> where touch events are reported and their coordinates get converted to
+>>>> the virtual origin. This object avoids getting events from areas that
+>>>> are physically hidden by overlay frames.
+>>>>
+>>>> For touchscreens where overlay buttons on the touchscreen surface are
+>>>> provided, the virtual-buttons object contains a node for every button
+>>>> and the key event that should be reported when pressed.
+>>>>
+>>>> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+>>>> ---
+>>>
+>>>
+>>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>
+>> Apologies, second thoughts - why calling all this binding and properties
+>> "virtual"? That's the word which immediately raises questions, because
+>> bindings are only for real things, not virtual.
+>>
+>> Touchscreen is just clipped, not virtual, so maybe "clipped-area"
+>> instead of virtual-touchscreen? Buttons are real, so maybe just "buttons"?
+>>
+>> Best regards,
+>> Krzysztof
+>>
+> I guess it is a matter of perspective. For a user the buttons and the
+> clipped area are 100% real, but for a driver developer they are virtual
+> in the sense that there is not an "active" hardware behind apart from
+> the original touchscreen.
 
-Hello Dana,
 
-Is great to see more input Kunit tests being added, thanks!
+The feature describes the hardware, not driver. To understand what does
+it mean, look from hardware point of view - does it have some virtual
+area or clipped area?
 
-> Currently input_grab_device() isn't covered by any tests
-> Thus, adding a test to cover the cases:
-> 1. The device is grabbed successfully
-> 2. Trying to grab a device that is already grabbed by another input
->    handle
->
-> Signed-off-by: Dana Elfassy <dangel101@gmail.com>
-> ---
+> 
+> I just wanted to avoid misunderstandings when implementing this feature
+> for other drivers. One might wonder if the touchscreen now has
+> mechanical keys attached to it. With the "virtual-" prefix it is clear
+> that the objects are not additional pieces of hardware or extensions of
+> the touchscreen functionality.
 
-I tested this and it worked for me:
+But what if actual physical buttons are added there? You still would
+have clipped/virtual area, just without virtual buttons.
 
-$ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/input/tests/.kunitconfig
-...
-[09:36:42] Starting KUnit Kernel (1/1)...
-[09:36:42] ============================================================
-[09:36:43] ================= input_core (4 subtests) ==================
-[09:36:43] [PASSED] input_test_polling
-[09:36:43] [PASSED] input_test_timestamp
-[09:36:43] [PASSED] input_test_match_device_id
-[09:36:43] [PASSED] input_test_grab
-[09:36:43] =================== [PASSED] input_core ====================
-[09:36:43] ============================================================
-[09:36:43] Testing complete. Ran 4 tests: passed: 4
-[09:36:43] Elapsed time: 129.985s total, 5.005s configuring, 124.864s building, 0.062s running
+> 
+> For the virtual-touchscreen your point is stronger because there is
+> indeed a real touchscreen hardware no matter the area you define, but my
+> approach was keeping homogeneous names for the different objects in case
+> some new ones might appear in the future: every object that gets on top
+> of the touchscreen area is virtual, so add a new object type and name it
+> virtual-xxx.
 
->  drivers/input/tests/input_test.c | 28 ++++++++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
->
-> diff --git a/drivers/input/tests/input_test.c b/drivers/input/tests/input_test.c
-> index 25bbf51b5c87..cd4db365e9fa 100644
-> --- a/drivers/input/tests/input_test.c
-> +++ b/drivers/input/tests/input_test.c
-> @@ -124,10 +124,38 @@ static void input_test_match_device_id(struct kunit *test)
->  	KUNIT_ASSERT_FALSE(test, input_match_device_id(input_dev, &id));
->  }
->  
-> +
-> +static void input_test_grab(struct kunit *test)
-> +{
-> +	struct input_dev *input_dev = test->priv;
-> +	struct input_handle test_handle;
-> +	struct input_handler handler;
-> +	struct input_handle handle;
-> +	struct input_device_id id;
-> +	int res;
-> +
-> +	handler.name = "handler";
-> +	handler.id_table = &id;
-> +
-> +	handle.dev = input_get_device(input_dev);
-> +	handle.name = dev_name(&input_dev->dev);
-> +	handle.handler = &handler;
-> +	res = input_grab_device(&handle);
-> +	KUNIT_ASSERT_TRUE(test, input_grab_device(&handle));
-> +
+To me, word "virtual" suggests something which does not exist. Kind of
+something abstracted or symbolic. Opposite to "real". Here all this
+really exists. You have physical stickers on the touchscreen.
 
-I think you need to add a input_put_device(input_dev) here ?
+Maybe this should be then "dedicated"? or "isolated"?
 
-Otherwise the reference counter won't be decremented.
+Or just "overlay-area"?
 
-> +	test_handle.dev = input_get_device(input_dev);
-> +	test_handle.name = dev_name(&input_dev->dev);
-> +	test_handle.handler = &handler;
-> +
+> 
+> I have nothing against about doing some renaming and I will do it if it
+> is required, but with the documentation I think it is now more clear
+> what everything means and in the end it might make more sense for the
+> drivers so they can differentiate between real and virtual devices.
 
-I think you can just reuse the handle variable that was set-up before ?
-
-There's no need to another test_handle variable as far as I can tell.
-
-> +	res = input_grab_device(&test_handle);
-> +	KUNIT_ASSERT_EQ(test, res, -EBUSY);
-
-And here add an input_put_device(input_dev) call too.
-
-Other than that the patch looks good to me.
-
-Tested-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
 Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Krzysztof
 
