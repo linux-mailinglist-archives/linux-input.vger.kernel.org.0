@@ -2,104 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C3AA70746C
-	for <lists+linux-input@lfdr.de>; Wed, 17 May 2023 23:36:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86A76707B44
+	for <lists+linux-input@lfdr.de>; Thu, 18 May 2023 09:44:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229630AbjEQVgo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 17 May 2023 17:36:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45200 "EHLO
+        id S229816AbjERHoE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 18 May 2023 03:44:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbjEQVgn (ORCPT
+        with ESMTP id S229808AbjERHoC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 17 May 2023 17:36:43 -0400
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2869B30ED
-        for <linux-input@vger.kernel.org>; Wed, 17 May 2023 14:36:39 -0700 (PDT)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-56186035b61so15608997b3.3
-        for <linux-input@vger.kernel.org>; Wed, 17 May 2023 14:36:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684359398; x=1686951398;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cY/eQ57fs7dlsVatS+jhyTGHg7yG2gHeDPH1M03tXUo=;
-        b=irhJRAZwAa+Gz1ebjP8wNR2BRjZ5Zj07hEtQe4UvjcUFgzjGovspvZeA/w3QdqXsS+
-         lJJbkj+3CaoQ+fAEvdkw4718cc3C3dx6NYhWfOJ1i8oYKYlkR9TPkLuiYZLgdW8hsG8t
-         XWe9WwmmeT20MQwLbZ6Q3D3vHXl93BrmscrfPN0tDA1Tx+CkAI/aN+Ci8Ak6Rl0iS9Pn
-         idxE4AUkf+FVu7lfpHsVt+wtoFI81duKbgfNn3xHbH5V+Me84d6ISJVf37U5UU+1m4AU
-         ieEV8WtukMZAEkzoJzomR6uwI8vYg8OVdyOorRQU3YNGZ11A8/p8eTt9YQEojj4/AEWh
-         F5Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684359398; x=1686951398;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cY/eQ57fs7dlsVatS+jhyTGHg7yG2gHeDPH1M03tXUo=;
-        b=Ds0Etulejv9NmXxCOO0JlBcWBJMZL144v/ritpbS0QKr5XaIGnEQBRB7LcPRVCU1jf
-         Ykw/bDXO4SrlOrEC2QedxUOwbHM6OZrZCX59h2c0VYD35K/qAO+/eBXXTkqWg3FV2BhM
-         g69a7fkueRpLRvE03R/F772lhgqIaW5GVLceu5HiWB58ppbXkiyo1PCPluRFjc1W8+2I
-         Tc2jlqU/xw22LOsiV0vajlHekP/zESLsMhlzum3X5E2KLET6xlnpXxgH1684Z1oAeF22
-         SCR7nHSHFtm2ypM9fE+11PEY4rG4HvfKd8esUtwOKeH6jFYFVcjYaNMnc0gOLqtf892w
-         Hxrg==
-X-Gm-Message-State: AC+VfDwzjZ2byXOwqcQ0IYmO0Ro+eHlutaV/1IjFV/ll2UadRR+vH6Mf
-        Mle6gapBnpgUi9s6Ew52C3ExojEbFUdqbI5+vbpUMA==
-X-Google-Smtp-Source: ACHHUZ4pIBn19+BLD6UElqlgO1dKdZPd0Ga1Aky4aWI+i3dEfXBJQZ1abYF5itannmQlr0DCkYCOVvzdFktxBrZVq/A=
-X-Received: by 2002:a0d:cc56:0:b0:561:e7bb:1b20 with SMTP id
- o83-20020a0dcc56000000b00561e7bb1b20mr1351592ywd.34.1684359398379; Wed, 17
- May 2023 14:36:38 -0700 (PDT)
+        Thu, 18 May 2023 03:44:02 -0400
+Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3FE42115
+        for <linux-input@vger.kernel.org>; Thu, 18 May 2023 00:44:00 -0700 (PDT)
+Received: by mail.lokoho.com (Postfix, from userid 1001)
+        id 7A29F8861B; Thu, 18 May 2023 08:41:23 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
+        t=1684395683; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
+        h=Date:From:To:Subject:From;
+        b=J4VOtyULaVd6qkAP6jun/pggHEmUBg10gNZZuQCbuafm6TVonRI1FcxL37i1IIY7a
+         0G1ZMitPrDr77mo3rPj3kspozDky/0Ez4sgg9YXKpeVpUvUabPF756n7SfDd9H/nzw
+         7X3tJ5zbThs6+xIbaZOImWbO9Eopf1IR99EOMgJratSwXkYOc6Svdjd4NhydVgOTrP
+         USYu7xT1s3viXJdTO5sCruEpYayVljCfgVQiVZwjmgoQzoSp50ByVvkjaZykaHaW7r
+         k6ykirN5diiz1St7shF/Pt/osSiqGgvVNC+EDIQhZDLdCK2u1ihSCvoeFNYef7Fjnf
+         ULV0XVNC7nsmg==
+Received: by mail.lokoho.com for <linux-input@vger.kernel.org>; Thu, 18 May 2023 07:41:22 GMT
+Message-ID: <20230518074503-0.1.61.29wda.0.10peus8xdf@lokoho.com>
+Date:   Thu, 18 May 2023 07:41:22 GMT
+From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
+To:     <linux-input@vger.kernel.org>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
+X-Mailer: mail.lokoho.com
 MIME-Version: 1.0
-References: <20230430-nokia770-regression-v4-0-9b6dc5536b17@linaro.org>
- <20230430-nokia770-regression-v4-2-9b6dc5536b17@linaro.org> <20230517203011.GH271152@darkstar.musicnaut.iki.fi>
-In-Reply-To: <20230517203011.GH271152@darkstar.musicnaut.iki.fi>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 17 May 2023 23:36:26 +0200
-Message-ID: <CACRpkdb0uSkfQZxZ_mpesGSjvf0gZzaZyw5iV1haAovH8cfngA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] ARM/mmc: Convert old mmci-omap to GPIO descriptors
-To:     Aaro Koskinen <aaro.koskinen@iki.fi>
-Cc:     Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Andreas Kemnade <andreas@kemnade.info>,
-        Helge Deller <deller@gmx.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-mmc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, May 17, 2023 at 10:30=E2=80=AFPM Aaro Koskinen <aaro.koskinen@iki.f=
-i> wrote:
+Dzie=C5=84 dobry,
 
-> This one has some issue as mmci-omap is unable to find the GPIOs on 770.
->
-> On Mon, May 08, 2023 at 11:20:07PM +0200, Linus Walleij wrote:
-> > +static struct gpiod_lookup_table nokia770_mmc_gpio_table =3D {
-> > +     .dev_id =3D "mmci-omap",
->
-> Changing this to "mmci-omap.1" helped, not sure if that is a correct way.
-> Most likely N800 and N810 are broken as well.
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
 
-Yep looked over it, OMAP1 has mmci-omap.1 and OMAP2 has
-mmci-omap.0.
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
 
-Yours,
-Linus Walleij
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+
+
+Pozdrawiam
+Adam Charachuta
