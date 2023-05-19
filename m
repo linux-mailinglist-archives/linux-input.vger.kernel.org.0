@@ -2,75 +2,138 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 579E4709627
-	for <lists+linux-input@lfdr.de>; Fri, 19 May 2023 13:18:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E092670981B
+	for <lists+linux-input@lfdr.de>; Fri, 19 May 2023 15:19:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231694AbjESLSK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 May 2023 07:18:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53928 "EHLO
+        id S229525AbjESNTs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 May 2023 09:19:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231738AbjESLSG (ORCPT
+        with ESMTP id S231470AbjESNTr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 May 2023 07:18:06 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54061170B
-        for <linux-input@vger.kernel.org>; Fri, 19 May 2023 04:18:04 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-50c8d87c775so4535022a12.3
-        for <linux-input@vger.kernel.org>; Fri, 19 May 2023 04:18:04 -0700 (PDT)
+        Fri, 19 May 2023 09:19:47 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 173D4F5;
+        Fri, 19 May 2023 06:19:46 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-64d3fbb8c1cso177703b3a.3;
+        Fri, 19 May 2023 06:19:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684495083; x=1687087083;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YmxaI1amCfTksu6ynk2557PwK0HJxrBQmYIx/Pz5hBs=;
-        b=Wt/WzQmS095ww6zzUgoSSAlrCDxwL2gSoVBMsVxHRKn23YcliDiJyBLjqweTRoToj1
-         ufUOgV4j5pHE/9SR+dsRPr9gpju7XpaMYkUmYe1T6vrhoZIvsQDtFJjwfPWr0ZA8MwEK
-         A8xkN8RoXHrnV8mxXNMusUB3EToMcUvt2JPOXJbMgVYPwdz45S3ERx+Nyqo+cmGrrOa8
-         vd+RSV3BkQDybrevFx7U7UuvnFt+9sOfqdHCxo6t6nUsXpAQmNebiCtg7JMDFdLkqxgM
-         8PXBgbynXWRxC6QXqoh8bbtvc/aqA5Z2+Ycz9m8q7U5s8LdUBFb9kcl7MTOhQK2ZKsRi
-         q6Tg==
+        d=gmail.com; s=20221208; t=1684502385; x=1687094385;
+        h=content-transfer-encoding:cc:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PNZa4ZUMMTvbUod6znd3wvg9/UWL/p4a2pQAi7M2zVw=;
+        b=Tjrk99BRY28Fy8/OjZNMP8CiMQ6zmFrMXQL10thchpXS9detrOCrK1IGYiRrbYzhVO
+         zZWgRORL6Vo1JuL8ToPXNHE1MQdRgSzbz0oBKJN7O6RKsuuZyf4iknt3hNShh77400Vw
+         np77K8+ficWm8RlwW5j/sLMxK6G9akwUPWOlvZNDitIzXEavwnEDe5HBI8YkAKvX8R2c
+         /na81XIjC1Yd8QxLI0blip5op5dSEIwITsZXugLcZbgVk/3n8z5/fCaOOogmhU3Jxico
+         Or2/5SdX91MIyP/MLUT2hiljx0TfEp3RoeDIiobBmQ1QLOkZd1LPqlSXbyjCj4PTObs2
+         5Twg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684495083; x=1687087083;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YmxaI1amCfTksu6ynk2557PwK0HJxrBQmYIx/Pz5hBs=;
-        b=BQSezQFDWzZIY14RKRLRCYTFfH9ooOwusglfQ77q0K6TMvHXHEJQ2JVdnT8Gu6kiFh
-         d1aMxmDcLg4Ih4X0U7jCEZzs38mj6d+jvkNm88MSLc5JvyxfkRj87E/ormmGb0/ZJ4tQ
-         exn4wjo3T8qBsZsTkHciQe2ytwE6z663ocIMipCK47iIjcDEzPGIkmO6yUhGGuOgezzV
-         q30CAJmM2HC8qG6Q+a6mh6HeBx3oFpz4czTyEv1qlU+2tEoXmZAznmBFCP3nY+HWkD6e
-         K70P6oKqe2ya61HetTWMv7akWMofLsTCEujfke7PCFS6aIbWsiPbGoSqBExVL1x9hZo2
-         rAMg==
-X-Gm-Message-State: AC+VfDzwucAQA2pU49EofsryuAm/WvG7VrQexwt1C9OuCXuUQKF3J/Yz
-        5h+fObBakPD9KbH3bhkZqe3vjJcZP1JhcNulT18=
-X-Google-Smtp-Source: ACHHUZ4u0RD9o3Kl8FtNeecPkKIUUkqQP5EKCQy8Odb3BCVRQ/plvct7PNXp53hldLkfZ7jyXh0W2roGP4wdAWIFYf4=
-X-Received: by 2002:a17:906:af64:b0:966:5730:c3fe with SMTP id
- os4-20020a170906af6400b009665730c3femr1223003ejb.52.1684495082502; Fri, 19
- May 2023 04:18:02 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1684502385; x=1687094385;
+        h=content-transfer-encoding:cc:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=PNZa4ZUMMTvbUod6znd3wvg9/UWL/p4a2pQAi7M2zVw=;
+        b=Xaa4vqHspQbklD+k73oMU6WmxqWM/mFyOvC6qhNNjT6ZD/nf7+24kC48uxgk1ZB0HH
+         Yua75tSQgEb7RXYw6CZ5rs2c/c8dcXJk9zu8HrUbsjliv6se6Xmi6MvTipUd1sDLgk71
+         jD0Xd0sV/PIj4vkFOWdTKBg+dV7qqiJ+xe1qFu83/NzRpLFT12BCoUFYWbvgdNDEfMLI
+         GpQvHvAg0hSOUxeUbjyD9mcVxR47qvMUUmYUjBoJQo7Ilnitxpt9++frouSnpguFgOF7
+         6E1ohG1aeQzJfUtllX4QPeSvgQHTKcygfBWWxY6qA2lbCtp/wLvv3VuiaobMHp5CZ0Ak
+         n5qw==
+X-Gm-Message-State: AC+VfDwycigIb/qgCflep4MpbXqoSdTB9h5bM0TTQ8G7KwDwk2vY40GO
+        ExFnrjXhAIHTc+2uD/q4N5XzkKVX9OE=
+X-Google-Smtp-Source: ACHHUZ5QF8RST84gVY23LOwTXUDqa2rVOApCMeiJNnggae4EC8S0ssgapsdL48wiE9f2cSirgy7pXw==
+X-Received: by 2002:a05:6a00:15c7:b0:64d:2e8a:4cc1 with SMTP id o7-20020a056a0015c700b0064d2e8a4cc1mr3149325pfu.27.1684502385276;
+        Fri, 19 May 2023 06:19:45 -0700 (PDT)
+Received: from [192.168.43.80] (subs32-116-206-28-19.three.co.id. [116.206.28.19])
+        by smtp.gmail.com with ESMTPSA id f18-20020aa782d2000000b00571cdbd0771sm2981023pfn.102.2023.05.19.06.19.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 May 2023 06:19:44 -0700 (PDT)
+Message-ID: <73883c7d-42db-7ac6-fa43-b9be45cdc795@gmail.com>
+Date:   Fri, 19 May 2023 20:19:39 +0700
 MIME-Version: 1.0
-Received: by 2002:a17:907:7dab:b0:94f:7d03:8e8b with HTTP; Fri, 19 May 2023
- 04:18:02 -0700 (PDT)
-Reply-To: ninacoulibaly03@myself.com
-From:   nina coulibaly <ninacoulibaly199@gmail.com>
-Date:   Fri, 19 May 2023 04:18:02 -0700
-Message-ID: <CAM7Z2JAs+q6RsD5Hw352ZDFruUVR5ngjAamir+4ZCakNdZyceg@mail.gmail.com>
-Subject: from nina coulibaly
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Content-Language: en-US
+To:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Regressions <regressions@lists.linux.dev>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Linux i2c Devices <linux-i2c@vger.kernel.org>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Fwd: ThinkPad L540: suspend not working (deep / S3 / standby,
+ regression Linux 4.19 -> 6.1)
+Cc:     Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        kolAflash@kolahilft.de
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear,
+Hi,
 
-Please grant me permission to share a very crucial discussion with
-you. I am looking forward to hearing from you at your earliest
-convenience.
+I notice a regression report on Bugzilla [1]. Quoting from it:
 
-Mrs. Nina Coulibal
+> ThinkPad L540 failed suspend deep dmesg output - Linux-6.1.27 from Debian-12
+> 
+> Since updating from Linux-4.19 to Linux-6.1.27 suspend deep is not working anymore.
+> (a.k.a. S3, standby or suspend to ram)
+> 
+> Notebook: ThinkPad L540 20AU-S00N00
+> OS: Debian-12 "Bookworm" (was Debian-10 "Buster" before)
+> Kernel: Linux-6.1.27 from Debian-12 (was Linux-4.19 from Debian-10 before)
+> 
+> Can I provide any other helpful information?
+> Do you need a test with a vanilla Linux-6.1 kernel?
+> Should I perform any other tests or maybe try out boot parameters?
+> 
+> Full dmesg output attached.
+> Excerpt:
+> rmi4_f01 rmi4-00.fn01: Failed to write sleep mode: -6.
+> rmi4_f01 rmi4-00.fn01: Suspend failed with code -6.
+> rmi4_physical rmi4-00: Failed to suspend functions: -6
+> rmi4_smbus 0-002c: Failed to suspend device: -6
+> rmi4_smbus 0-002c: PM: dpm_run_callback(): rmi_smb_suspend+0x0/0x40 [rmi_smbus] returns -6
+> rmi4_smbus 0-002c: PM: failed to suspend async: error -6
+> sd 4:0:0:0: [sda] Synchronizing SCSI cache
+> sd 4:0:0:0: [sda] Stopping disk
+> PM: Some devices failed to suspend, or early wake event detected
+> sd 4:0:0:0: [sda] Starting disk
+> OOM killer enabled.
+> Restarting tasks ... 
+> rmi4_physical rmi4-00: rmi_driver_set_irq_bits: Failed to change enabled interrupts!
+> psmouse: probe of serio2 failed with error -1
+> 
+> 
+> 
+> Maybe related:
+> 
+> 5.17-rc regression: X1 Carbon touchpad not resumed
+> https://lore.kernel.org/lkml/YgF%2F0QGFN4SppLKg@shikoro/T/
+
+FYI, I guess the regression is also introduced by 172d931910e1db
+("i2c: enable async suspend/resume on i2c client devices") and
+should have been fixed by 7b1f781f2d2460 ("Input: psmouse - set up
+dependency between PS/2 and SMBus companions"), but it doesn't
+fix the reporter's issue.
+
+Anyway, I'm adding this to regzbot:
+
+#regzbot introduced: v4.19..v6.1 https://bugzilla.kernel.org/show_bug.cgi?id=217462
+#regzbot title: psmouse suspend failed on ThinkPad L540
+
+Thanks.
+
+[1]: https://bugzilla.kernel.org/show_bug.cgi?id=217462
+
+-- 
+An old man doll... just what I always wanted! - Clara
