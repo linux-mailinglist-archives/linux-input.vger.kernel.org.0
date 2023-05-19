@@ -2,66 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 829C57086BB
-	for <lists+linux-input@lfdr.de>; Thu, 18 May 2023 19:24:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B429708F2E
+	for <lists+linux-input@lfdr.de>; Fri, 19 May 2023 07:08:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229882AbjERRYv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 18 May 2023 13:24:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54888 "EHLO
+        id S229489AbjESFI1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 May 2023 01:08:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229955AbjERRYs (ORCPT
+        with ESMTP id S229557AbjESFI0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 18 May 2023 13:24:48 -0400
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD000136
-        for <linux-input@vger.kernel.org>; Thu, 18 May 2023 10:24:47 -0700 (PDT)
-Received: by mail-il1-x130.google.com with SMTP id e9e14a558f8ab-3382b8b3c33so17403615ab.2
-        for <linux-input@vger.kernel.org>; Thu, 18 May 2023 10:24:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1684430687; x=1687022687;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hywhvRw5FPWeQqeSjCDIST6iJlDQulZr0/+R915twUw=;
-        b=IYeiL9EihSFckDbegyPZ4kzoYz0iHP59St91qSK0vum7W3w+gOnaVjwyoZZPZ31kzf
-         H3kSvTnY5sMRy/1mc5f45lmgksA+QBOGdCcBc/hnbJFXNauftlKgvXRvGEz2AB/S3xEa
-         OxshL3JZAlpyzPR8qZGwExTejSecgT0zj60G4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684430687; x=1687022687;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hywhvRw5FPWeQqeSjCDIST6iJlDQulZr0/+R915twUw=;
-        b=J7kMZNbBQswzC0I3evgKXFgVfLfPB3FMgCFtOnBtlZNNG9P+BvwwnIKTJVWzGuGRC+
-         N5hUTNyyyiAdH9VhJyzBv/BE9FecsF0sCVWMw4SJzct5sEsZEHVOROrpNcLoxPwfkllc
-         nrq78CklV6NEafvufVo56IZCg7uJuibyZ28a5RJMCB6in4heTUC4x9+WnQ+F1fE3SOiQ
-         9cBPJQsyxrr9EQsI0sqrmh/u6FVPGbz+mvIhZs7S/lc9mBOuAQUaFtjSABREBj+jQUIJ
-         36rKoAlokiUeKRJ5Cbd12QQBiv9G6eGZp/MdRQcrfKVaKKw+dbxz2vFfhK79n2+Eo52C
-         9FcQ==
-X-Gm-Message-State: AC+VfDxNFdei3RsXqIYGia5NKRPiXVAhNHtmJrpJKGz1xtUSTR+ha1gY
-        ppAwn7mPBiFMbWc1g35S8TfQWQ==
-X-Google-Smtp-Source: ACHHUZ5pKHDVk60vj7I8yaEz5EBMcA4h/dwM6fOQSeBRzzl7digIzqatgIRbVvmqdGwDTkEmyAIUqQ==
-X-Received: by 2002:a92:d247:0:b0:335:c68d:bef1 with SMTP id v7-20020a92d247000000b00335c68dbef1mr5487410ilg.8.1684430687083;
-        Thu, 18 May 2023 10:24:47 -0700 (PDT)
-Received: from google.com (h24-56-189-219.arvdco.broadband.dynamic.tds.net. [24.56.189.219])
-        by smtp.gmail.com with ESMTPSA id z16-20020a92ced0000000b00313ca4be5e1sm469641ilq.12.2023.05.18.10.24.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 May 2023 10:24:46 -0700 (PDT)
-Date:   Thu, 18 May 2023 11:24:44 -0600
-From:   Raul E Rangel <rrangel@chromium.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/7] Input: libps2 - do not discard non-ack bytes when
- controlling LEDs
-Message-ID: <ZGZfXOwnEi8hYKlv@google.com>
-References: <20230511185252.386941-1-dmitry.torokhov@gmail.com>
- <20230511185252.386941-8-dmitry.torokhov@gmail.com>
+        Fri, 19 May 2023 01:08:26 -0400
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA40BE45
+        for <linux-input@vger.kernel.org>; Thu, 18 May 2023 22:08:22 -0700 (PDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id B68895C00B6;
+        Fri, 19 May 2023 01:08:19 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Fri, 19 May 2023 01:08:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm3; t=1684472899; x=1684559299; bh=x7
+        PTZCCZ/z8wDI8lOlbDcWLsPldCkllVhFePRYxWqO0=; b=0886cnJ6Yky++G/ILk
+        x4dL7YlJoblldT/IsVZ6vx850GgLzXm4PxlCe+BdMTSzdHdAHZKqZRHGoKUuVdqJ
+        h6yqBqoUGjYW3FuZWilup9GD5tlwrrVmKLbKvymAgEsftWsrR5jCByMb59jX8dLB
+        objLhNaFFSpa7apyF4tMuFPXOhUOCzkOLN7ofArRpkV86MYbg08LHQ0Sxyny/crV
+        MYTLDYBcYaVifZG1x05EsGSwpt1e1GeuW+WyXvkTqXapiabOlECqLlcfIazBKDJC
+        dlYnpkZNzOE0HRPHh28sDicbZqKo38UDZw0vA/Ll4PH5GpIV9Rh368GH3+DgQFTh
+        VYZg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; t=1684472899; x=1684559299; bh=x7PTZCCZ/z8wD
+        I8lOlbDcWLsPldCkllVhFePRYxWqO0=; b=y5GJi2JPZt3mfSt9IfTMpWfgigdeZ
+        4U0DqoWnzE0bH/K7UnuoWRCo5lQxLQHyCLer0Zpe+N/obvY5P7k0JWm+DIaIVlvo
+        n2JgzfCq34Ru7vda068lPR9iXgqSTmpB7qgFiTbQVazrlyWKJ0rCbrWP7N4le2mf
+        0srEVs+e7m5Ne0zpzkGlYmbwfQHeo8ZX3RQvY13aBXQGQLw6aDK5UKMKiGmklgQe
+        xX5Vw3ZF7BWiqQlPO23sgx6XR6lAneGfenennpGYqIHAMygZPkCZWkKQlL/CZAzg
+        0s/yeL9AoSfHS55ShKCusfWVKwtENttkTqrIN63znVYx5VG0oqe9VpXaA==
+X-ME-Sender: <xms:QwRnZOPXefe8uas8NxhWtkwsJlPxmDUcZO7d4TT3Qqjv3mnJLIb8Mg>
+    <xme:QwRnZM_5EP5CwfGgSJuOXdpMGwTJfxaAyvaNBIsITuXHsnLcFxjZ8pv42giwQV47O
+    wf8vB3KK3EuVM47QXk>
+X-ME-Received: <xmr:QwRnZFSv3jFznUPwkcWxzRv8EnV3zHK1TWwxytjvHcDAFlFvQhbz-cFDpsrx6iKFF7xbNOXw48ExtNmHrnKNB9Kktb29P_-rpmbk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeeigedgledvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgv
+    rhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvg
+    htqeenucggtffrrghtthgvrhhnpeekvdekgeehfeejgfdvudffhfevheejffevgfeigfek
+    hfduieefudfgtedugfetgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+    grihhlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+X-ME-Proxy: <xmx:QwRnZOuKqQty7Pa2KQIVtST-xw-9l_ZfS7NCvvsE6x6GFVF-ocRZWQ>
+    <xmx:QwRnZGcM52DdHoc21-zubbj9uMoDGu8JJn1VBAtu_PCx6wDSsHMGhQ>
+    <xmx:QwRnZC1uXxl18tKhsBbkH6TWeo5mwWizrYv0n0mzc65W5_4BI6VeEw>
+    <xmx:QwRnZKHocPL33nvWFWGtpLMTWlyWn5PogQGhgc07OEPDC2W_xh7Drg>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 19 May 2023 01:08:17 -0400 (EDT)
+Date:   Fri, 19 May 2023 15:08:12 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: novatek-nvt-ts - fix input_register_device()
+ failure error message
+Message-ID: <20230519050812.GA432263@quokka>
+References: <20230513131712.259057-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230511185252.386941-8-dmitry.torokhov@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+In-Reply-To: <20230513131712.259057-1-hdegoede@redhat.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,103 +85,34 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, May 11, 2023 at 11:52:47AM -0700, Dmitry Torokhov wrote:
-> Upon receiving a PS/2 command the device and controller are supposed to
-> stop sending normal data (scancodes or movement packets) and instead
-> immediately start delivering ACK/NAK and command response. Unfortunately
-> often EC has an output buffer which may contain latched data by the time
-> the EC receives a command from the host. The kernel used to ignore such
-> data, but that may cause "stuck" keys if the data dropped happens to be a
-> break code or a part of a break code. This occasionally happens, for
-> example, on Chromebooks when the kernel tries to toggle CapsLock LED on
-> a keyboard while user releases Alt+Search keyboard shortcut.
+On Sat, May 13, 2023 at 03:17:12PM +0200, Hans de Goede wrote:
+> Fix input_register_device() failure logging "failed to request irq"
+> as error message.
 > 
-> Fix this by passing the first non-ACK byte to the normal handler for a
-> handful of PS/2 commands that are expected to be used during normal device
-> operation (as opposed to probe/configuration time).
-> 
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+
+Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
+
+Cheers,
+ Peter
+
 > ---
->  drivers/input/serio/libps2.c | 36 ++++++++++++++++++++++++++++++++----
->  1 file changed, 32 insertions(+), 4 deletions(-)
+>  drivers/input/touchscreen/novatek-nvt-ts.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/input/serio/libps2.c b/drivers/input/serio/libps2.c
-> index 7c5fc853072a..6d78a1fe00c1 100644
-> --- a/drivers/input/serio/libps2.c
-> +++ b/drivers/input/serio/libps2.c
-> @@ -21,7 +21,10 @@
+> diff --git a/drivers/input/touchscreen/novatek-nvt-ts.c b/drivers/input/touchscreen/novatek-nvt-ts.c
+> index 3e551f9d31d7..e7f30eeb91ca 100644
+> --- a/drivers/input/touchscreen/novatek-nvt-ts.c
+> +++ b/drivers/input/touchscreen/novatek-nvt-ts.c
+> @@ -272,7 +272,7 @@ static int nvt_ts_probe(struct i2c_client *client)
 >  
->  #define PS2_CMD_SETSCALE11	0x00e6
->  #define PS2_CMD_SETRES		0x10e8
-> +#define PS2_CMD_EX_SETLEDS	0x20eb
-> +#define PS2_CMD_SETLEDS		0x10ed
->  #define PS2_CMD_GETID		0x02f2
-> +#define PS2_CMD_SETREP		0x10f3 /* Set repeat rate/set report rate */
->  #define PS2_CMD_RESET_BAT	0x02ff
->  
->  #define PS2_RET_BAT		0xaa
-> @@ -35,6 +38,7 @@
->  #define PS2_FLAG_CMD1		BIT(2)	/* Waiting for the first byte of command response */
->  #define PS2_FLAG_WAITID		BIT(3)	/* Command executing is GET ID */
->  #define PS2_FLAG_NAK		BIT(4)	/* Last transmission was NAKed */
-> +#define PS2_FLAG_PASS_NOACK	BIT(5)	/* Pass non-ACK byte to receive handler */
->  
->  static int ps2_do_sendbyte(struct ps2dev *ps2dev, u8 byte,
->  			   unsigned int timeout, unsigned int max_attempts)
-> @@ -281,9 +285,28 @@ int __ps2_command(struct ps2dev *ps2dev, u8 *param, unsigned int command)
->  
->  	serio_pause_rx(ps2dev->serio);
->  
-> -	/* Some mice do not ACK the "get ID" command, prepare to handle this. */
-> -	ps2dev->flags = command == PS2_CMD_GETID ? PS2_FLAG_WAITID : 0;
->  	ps2dev->cmdcnt = receive;
-> +
-> +	switch (command) {
-> +	case PS2_CMD_GETID:
-> +		/*
-> +		 * Some mice do not ACK the "get ID" command, prepare to
-> +		 * handle this.
-> +		 */
-> +		ps2dev->flags = PS2_FLAG_WAITID;
-> +		break;
-> +
-> +	case PS2_CMD_SETLEDS:
-> +	case PS2_CMD_EX_SETLEDS:
-> +	case PS2_CMD_SETREP:
-> +		ps2dev->flags = PS2_FLAG_PASS_NOACK;
-> +		break;
-> +
-> +	default:
-> +		ps2dev->flags = 0;
-> +		break;
-> +	}
-> +
->  	if (receive) {
->  		/* Indicate that we expect response to the command. */
->  		ps2dev->flags |= PS2_FLAG_CMD | PS2_FLAG_CMD1;
-> @@ -512,14 +535,19 @@ static void ps2_handle_ack(struct ps2dev *ps2dev, u8 data)
->  		 * Do not signal errors if we get unexpected reply while
->  		 * waiting for an ACK to the initial (first) command byte:
->  		 * the device might not be quiesced yet and continue
-> -		 * delivering data.
-> +		 * delivering data. For certain commands (such as set leds and
-> +		 * set repeat rate) that can be used during normal device
-> +		 * operation, we even pass this data byte to the normal receive
-> +		 * handler.
->  		 * Note that we reset PS2_FLAG_WAITID flag, so the workaround
->  		 * for mice not acknowledging the Get ID command only triggers
->  		 * on the 1st byte; if device spews data we really want to see
->  		 * a real ACK from it.
->  		 */
->  		dev_dbg(&ps2dev->serio->dev, "unexpected %#02x\n", data);
-> -		ps2dev->flags &= ~PS2_FLAG_WAITID;
-> +		if (ps2dev->flags & PS2_FLAG_PASS_NOACK)
-> +			ps2dev->receive_handler(ps2dev, data);
-> +		ps2dev->flags &= ~(PS2_FLAG_WAITID | PS2_FLAG_PASS_NOACK);
->  		return;
+>  	error = input_register_device(input);
+>  	if (error) {
+> -		dev_err(dev, "failed to request irq: %d\n", error);
+> +		dev_err(dev, "failed to register input device: %d\n", error);
+>  		return error;
 >  	}
 >  
-
-Great refactoring. It made this final patch super simple!
-
-Reviewed-by: Raul E Rangel <rrangel@chromium.org>
+> -- 
+> 2.40.1
+> 
