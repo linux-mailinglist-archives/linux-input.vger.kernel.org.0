@@ -2,117 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B429708F2E
-	for <lists+linux-input@lfdr.de>; Fri, 19 May 2023 07:08:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5F80709266
+	for <lists+linux-input@lfdr.de>; Fri, 19 May 2023 11:02:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229489AbjESFI1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 May 2023 01:08:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56552 "EHLO
+        id S230144AbjESJCn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 May 2023 05:02:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229557AbjESFI0 (ORCPT
+        with ESMTP id S229688AbjESJCm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 May 2023 01:08:26 -0400
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA40BE45
-        for <linux-input@vger.kernel.org>; Thu, 18 May 2023 22:08:22 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id B68895C00B6;
-        Fri, 19 May 2023 01:08:19 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Fri, 19 May 2023 01:08:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1684472899; x=1684559299; bh=x7
-        PTZCCZ/z8wDI8lOlbDcWLsPldCkllVhFePRYxWqO0=; b=0886cnJ6Yky++G/ILk
-        x4dL7YlJoblldT/IsVZ6vx850GgLzXm4PxlCe+BdMTSzdHdAHZKqZRHGoKUuVdqJ
-        h6yqBqoUGjYW3FuZWilup9GD5tlwrrVmKLbKvymAgEsftWsrR5jCByMb59jX8dLB
-        objLhNaFFSpa7apyF4tMuFPXOhUOCzkOLN7ofArRpkV86MYbg08LHQ0Sxyny/crV
-        MYTLDYBcYaVifZG1x05EsGSwpt1e1GeuW+WyXvkTqXapiabOlECqLlcfIazBKDJC
-        dlYnpkZNzOE0HRPHh28sDicbZqKo38UDZw0vA/Ll4PH5GpIV9Rh368GH3+DgQFTh
-        VYZg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; t=1684472899; x=1684559299; bh=x7PTZCCZ/z8wD
-        I8lOlbDcWLsPldCkllVhFePRYxWqO0=; b=y5GJi2JPZt3mfSt9IfTMpWfgigdeZ
-        4U0DqoWnzE0bH/K7UnuoWRCo5lQxLQHyCLer0Zpe+N/obvY5P7k0JWm+DIaIVlvo
-        n2JgzfCq34Ru7vda068lPR9iXgqSTmpB7qgFiTbQVazrlyWKJ0rCbrWP7N4le2mf
-        0srEVs+e7m5Ne0zpzkGlYmbwfQHeo8ZX3RQvY13aBXQGQLw6aDK5UKMKiGmklgQe
-        xX5Vw3ZF7BWiqQlPO23sgx6XR6lAneGfenennpGYqIHAMygZPkCZWkKQlL/CZAzg
-        0s/yeL9AoSfHS55ShKCusfWVKwtENttkTqrIN63znVYx5VG0oqe9VpXaA==
-X-ME-Sender: <xms:QwRnZOPXefe8uas8NxhWtkwsJlPxmDUcZO7d4TT3Qqjv3mnJLIb8Mg>
-    <xme:QwRnZM_5EP5CwfGgSJuOXdpMGwTJfxaAyvaNBIsITuXHsnLcFxjZ8pv42giwQV47O
-    wf8vB3KK3EuVM47QXk>
-X-ME-Received: <xmr:QwRnZFSv3jFznUPwkcWxzRv8EnV3zHK1TWwxytjvHcDAFlFvQhbz-cFDpsrx6iKFF7xbNOXw48ExtNmHrnKNB9Kktb29P_-rpmbk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeeigedgledvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgv
-    rhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvg
-    htqeenucggtffrrghtthgvrhhnpeekvdekgeehfeejgfdvudffhfevheejffevgfeigfek
-    hfduieefudfgtedugfetgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
-    grihhlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
-X-ME-Proxy: <xmx:QwRnZOuKqQty7Pa2KQIVtST-xw-9l_ZfS7NCvvsE6x6GFVF-ocRZWQ>
-    <xmx:QwRnZGcM52DdHoc21-zubbj9uMoDGu8JJn1VBAtu_PCx6wDSsHMGhQ>
-    <xmx:QwRnZC1uXxl18tKhsBbkH6TWeo5mwWizrYv0n0mzc65W5_4BI6VeEw>
-    <xmx:QwRnZKHocPL33nvWFWGtpLMTWlyWn5PogQGhgc07OEPDC2W_xh7Drg>
-Feedback-ID: i7ce144cd:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 19 May 2023 01:08:17 -0400 (EDT)
-Date:   Fri, 19 May 2023 15:08:12 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: novatek-nvt-ts - fix input_register_device()
- failure error message
-Message-ID: <20230519050812.GA432263@quokka>
-References: <20230513131712.259057-1-hdegoede@redhat.com>
+        Fri, 19 May 2023 05:02:42 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EECCE42
+        for <linux-input@vger.kernel.org>; Fri, 19 May 2023 02:02:41 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-643a1fed360so2182529b3a.3
+        for <linux-input@vger.kernel.org>; Fri, 19 May 2023 02:02:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=huaqin-corp-partner-google-com.20221208.gappssmtp.com; s=20221208; t=1684486960; x=1687078960;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dgyhdD0Z5uIMOVTz0Ju4X2/oVNPW1i/oYYXsh7N4X4M=;
+        b=OWYBiz6WlIh1V/l9X/Gdf+xPSgBsF7e7sXV6UyuHEndXrapxhmrB3TkC8R3zfq/hCB
+         3z1Q1aBMLMESjZAzDRx7Fh+BF0rEqnRHgzz5uOvdWZ4uvQAK7lp95KBQdSKKsfs+YH/m
+         paaxoRemHtRz+QfjeLSxWOHRgbF+QdNq7CjbMhxHIn8lIjjDCXynHoJDi58uoqzKNgFW
+         tkTVDKAoA/kBReaBp0KaewU/1eYhT+5kRq0V9jQjW0VxL2hI8oqlMQFyfGHbCuB5DE3G
+         q9UO7sUdKNhlxskD0bSC80KJPycUjuPk7oU92vWmsykPaF+RaTr0FMys670hQoP9Aizb
+         sx4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684486960; x=1687078960;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dgyhdD0Z5uIMOVTz0Ju4X2/oVNPW1i/oYYXsh7N4X4M=;
+        b=I6mn+Au2tY2fEsDRywpvQZ+GH+pEah0Wz+skjdUrz5OlxQtzJs+pNZbYRDNxUGw1EY
+         bfFXD74mVmTsJmNUm81yqgGsv0wskrP0kORazqAXXRj0MVXpJKpf7i2XS/XOtv5SmDPP
+         xGBHvpiZzbuPjNWJh+nd7I4+NfNKTXUzbyLHSpVgUqdhebaAclCae37C5XiIwe0n6Mel
+         NKBnYk+rRIjXW2ZnLrfCQBFQpcOTpSL+MZ1YXDu/BsKwFDd/0xTIigAVDw2xtDer+5w5
+         03fAiIRDUdwSOlWeJi4VS9IfgFqJLPaZ9y3Y6vCdnDfHE6QB9Gqe++hlXB4wJexMSPLA
+         j4fQ==
+X-Gm-Message-State: AC+VfDxKNkdpPWAp3UwV6mlGz0ajMWM4vztc0/tKgV2+ZIoPgTUmAOmP
+        2Su5oCJFjsBc8WKorb9Ca5b3Ag==
+X-Google-Smtp-Source: ACHHUZ7wFFt/rKk0Cxr4ucwSXRW4PIJaDmBYFThv9U1k7G56FqIDDwZ4dNN/aLv5j+zmomsAxW5B7A==
+X-Received: by 2002:a05:6a00:8c7:b0:64d:1215:a0f5 with SMTP id s7-20020a056a0008c700b0064d1215a0f5mr2448868pfu.34.1684486960613;
+        Fri, 19 May 2023 02:02:40 -0700 (PDT)
+Received: from yc.huaqin.com ([101.78.151.214])
+        by smtp.gmail.com with ESMTPSA id c24-20020aa78e18000000b00622e01989cbsm2649274pfr.176.2023.05.19.02.02.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 May 2023 02:02:40 -0700 (PDT)
+From:   Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        dianders@chromium.org, mka@chromium.org, dmitry.torokhov@gmail.com,
+        hsinyi@google.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Subject: [PATCH] HID: i2c-hid: goodix: Add ili9882t timing
+Date:   Fri, 19 May 2023 17:01:49 +0800
+Message-Id: <20230519090149.4407-1-yangcong5@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230513131712.259057-1-hdegoede@redhat.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, May 13, 2023 at 03:17:12PM +0200, Hans de Goede wrote:
-> Fix input_register_device() failure logging "failed to request irq"
-> as error message.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+The ili9882t is a TDDI IC ((Touch with Display Driver)). It requires the
+panel reset gpio to be high before i2c commands. Use a longer delay in
+post_power_delay_ms to ensure the poweron sequence.
 
-Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
+Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+---
+ drivers/hid/i2c-hid/i2c-hid-of-goodix.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Cheers,
- Peter
+diff --git a/drivers/hid/i2c-hid/i2c-hid-of-goodix.c b/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
+index 0060e3dcd775..c5870b683a26 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
++++ b/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
+@@ -101,8 +101,14 @@ static const struct goodix_i2c_hid_timing_data goodix_gt7375p_timing_data = {
+ 	.post_gpio_reset_delay_ms = 180,
+ };
+ 
++static const struct goodix_i2c_hid_timing_data ilitek_ili9882t_timing_data = {
++	.post_power_delay_ms = 200,
++	.post_gpio_reset_delay_ms = 180,
++};
++
+ static const struct of_device_id goodix_i2c_hid_of_match[] = {
+ 	{ .compatible = "goodix,gt7375p", .data = &goodix_gt7375p_timing_data },
++	{ .compatible = "ilitek,ili9882t", .data = &ilitek_ili9882t_timing_data },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, goodix_i2c_hid_of_match);
+-- 
+2.25.1
 
-> ---
->  drivers/input/touchscreen/novatek-nvt-ts.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/touchscreen/novatek-nvt-ts.c b/drivers/input/touchscreen/novatek-nvt-ts.c
-> index 3e551f9d31d7..e7f30eeb91ca 100644
-> --- a/drivers/input/touchscreen/novatek-nvt-ts.c
-> +++ b/drivers/input/touchscreen/novatek-nvt-ts.c
-> @@ -272,7 +272,7 @@ static int nvt_ts_probe(struct i2c_client *client)
->  
->  	error = input_register_device(input);
->  	if (error) {
-> -		dev_err(dev, "failed to request irq: %d\n", error);
-> +		dev_err(dev, "failed to register input device: %d\n", error);
->  		return error;
->  	}
->  
-> -- 
-> 2.40.1
-> 
