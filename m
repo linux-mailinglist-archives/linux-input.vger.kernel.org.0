@@ -2,87 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61E3970A432
-	for <lists+linux-input@lfdr.de>; Sat, 20 May 2023 03:15:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DC6770A497
+	for <lists+linux-input@lfdr.de>; Sat, 20 May 2023 04:16:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229673AbjETBPE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 May 2023 21:15:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41966 "EHLO
+        id S230420AbjETCQ2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 May 2023 22:16:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbjETBPD (ORCPT
+        with ESMTP id S230415AbjETCQ1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 May 2023 21:15:03 -0400
-Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com [IPv6:2607:f8b0:4864:20::c32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08A2A1AC
-        for <linux-input@vger.kernel.org>; Fri, 19 May 2023 18:15:03 -0700 (PDT)
-Received: by mail-oo1-xc32.google.com with SMTP id 006d021491bc7-54ff84bdbd8so1122225eaf.0
-        for <linux-input@vger.kernel.org>; Fri, 19 May 2023 18:15:02 -0700 (PDT)
+        Fri, 19 May 2023 22:16:27 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AC35E5F;
+        Fri, 19 May 2023 19:16:22 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-5346d150972so2478178a12.3;
+        Fri, 19 May 2023 19:16:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684545301; x=1687137301;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p7cU181GhVhZmOQtTdJU8G70Aag0nVkvCe6Os3IR4UA=;
-        b=G6Kstsx6k8nWkoBFVfaeVfVsqJ5MGlWb9ji8eMyPzE2iDffOAlxJKVdmxb6uAdxtf2
-         aTDS13NE0fF9Z2EMCNypRRfP46kESdh/YgN6+VyTeShHVXbKAhhxlBaU/AGtlJMxOIeC
-         6k/ub7kBFGHr6lfF0kOpoTnZNSf+L7WpBYaTQfuZm/9/DtDLCrxlreeBgaI7EwlZMaSM
-         w47o6EX0NbV+xKl+0bdxihsy63vgPr+czWHmee1nOM7gkjoFrUqkdDwhx0QcadPQmmSB
-         WUFFfxC3XxUtx3AWFbk1/X/MDny2e9yHJIBBR23mKHwynQ19qyN0xIdxAGzPEvDnHRf+
-         l7ug==
+        d=gmail.com; s=20221208; t=1684548981; x=1687140981;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lFgyeYw4uPK6HO8hs9FRdVOfgCGNivxnwmXr9VMJrDo=;
+        b=DoD8GwmF2nlWu+yHJ3xHDVInM293//B2zW3ZK73ZkXnOZeVJNv1G91PULPGAOZJLRX
+         wzxIwTxaouX37dwag+QW0ieFMFiiVmx0RWrD6jUjOH6fv1xHGzn7k/E2Oj8YPeHXBBkX
+         u0fShKanlW6S+FA9ENGR/kpgjexVAXoWjJJ7PJxN81rYNljeE3NmnivGaBtoJlvcfIPv
+         Om/06THeksmrbjY7sW4hdtbTvc2xG/zBLKrZ6LFq7WFPYcjv99sTUYaIGkLYnEHHlu9m
+         4dW3aYROEM8yzwHPuBdCekQ16zm2Hv1DEDHYbdUlh6CLFVMKklt0c3odVWBDtzgNFOQE
+         KwZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684545301; x=1687137301;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=p7cU181GhVhZmOQtTdJU8G70Aag0nVkvCe6Os3IR4UA=;
-        b=YOLeNHHRusLHuMNMG/H7UZTJCxJmkZea26Z1vR9KWuzt76rY+m6q0iz3x97uTEpV/e
-         FnhDuU6udL8F8AhiiU+suIFa/ohiarNKsQmV1gy/QSkmh4q8H7BvBy1Igt1TojUcW0rU
-         kaVO3OhAb2wvqpbek+HT7zU20ZgsqYUyxTkcnxlBnV/u/7L6gmdHiEAn1Dv+lqYuFdfa
-         jr6O4MTEexOYGUIofb6Ke0H0LMM9koNzXGUY0ywXI61YYVLfxlf+dUMjsvZ4FxZAAzZy
-         dPVrGAxATuMO1HaMHzeg8V5e9mk6wPgX+xVO4KvREHP+T8JCQdGcSIPST80DWyCm6v08
-         ZxXw==
-X-Gm-Message-State: AC+VfDxSalP6sgX5uklZBqnhTrJJw/3YOc8YYPOGsN+XNogWjxVbrWKR
-        vZsHue0oltVYHBLJaNEg0d2/5hLonKrMTw==
-X-Google-Smtp-Source: ACHHUZ6BABDvec0eL2vGBlnrhLGHNAw8FLteMRK2k6Bd+XvvTSvLVC36La/evwk4O8TBy1qVfxtT/g==
-X-Received: by 2002:a4a:6f06:0:b0:547:4f15:6147 with SMTP id h6-20020a4a6f06000000b005474f156147mr1287877ooc.0.1684545301089;
-        Fri, 19 May 2023 18:15:01 -0700 (PDT)
-Received: from [192.168.1.9] (201-35-78-198.user3p.brasiltelecom.net.br. [201.35.78.198])
-        by smtp.gmail.com with ESMTPSA id k28-20020a05680808dc00b00383d9700294sm149901oij.40.2023.05.19.18.14.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 May 2023 18:15:00 -0700 (PDT)
-Message-ID: <9a17e1ba-b36a-feb8-27cf-f4ff063ec275@gmail.com>
-Date:   Fri, 19 May 2023 22:14:57 -0300
+        d=1e100.net; s=20221208; t=1684548981; x=1687140981;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lFgyeYw4uPK6HO8hs9FRdVOfgCGNivxnwmXr9VMJrDo=;
+        b=Re1K68ZWgLt4Rcb376P5dRIwmJO+S0VQYtoYHu6ze99sl/O1JwCrewp8xldSw89g3z
+         9A2dapAkGu2YkpITYzgzKa2x83GE2l+EUGv60e/DVcC/73OHU36IWB832lV+L0948lGt
+         9Wu/m0tiuFxnkKzvCslJnF0JIqLry0nIAkKQYRSuPTQe1V4L+Ua9bEbGtuzE4UBMwbOX
+         XNtiApg8EVLXnNE0d0kNg66asA/yE4udl9+XNzL0mDgsJMsCAlFymWvHEDriork2+gLt
+         YUOj6ezgWpkR+RHkIu9log9XlpdJDEMIGojhYaZJYqTPqSSHJ9ZkFC5TiQBbbiwNQTFz
+         sFxA==
+X-Gm-Message-State: AC+VfDzntF1N2euuicR0NyiFfuBRREKpY274UXjQMd9Gubse6ejhPavO
+        8NiiG9mWlgnVP0e46DRJ7MA=
+X-Google-Smtp-Source: ACHHUZ5uDX9A05fqyl3r2z7ZsQfBkXnB/zDTEtuHhK4CITCJcUviCGg40/57dB4lFG3yVKDfjiQfow==
+X-Received: by 2002:a17:902:d382:b0:1ae:3991:e4f9 with SMTP id e2-20020a170902d38200b001ae3991e4f9mr3897402pld.61.1684548981433;
+        Fri, 19 May 2023 19:16:21 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-25.three.co.id. [180.214.233.25])
+        by smtp.gmail.com with ESMTPSA id jh12-20020a170903328c00b001a19f3a661esm295628plb.138.2023.05.19.19.16.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 May 2023 19:16:20 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 988531069E8; Sat, 20 May 2023 09:16:17 +0700 (WIB)
+Date:   Sat, 20 May 2023 09:16:17 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Regressions <regressions@lists.linux.dev>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Linux i2c Devices <linux-i2c@vger.kernel.org>
+Cc:     Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        kolAflash@kolahilft.de
+Subject: Re: Fwd: ThinkPad L540: suspend not working (deep / S3 / standby,
+ regression Linux 4.19 -> 6.1)
+Message-ID: <ZGgtcaGIECpaXKvp@debian.me>
+References: <73883c7d-42db-7ac6-fa43-b9be45cdc795@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Content-Language: en-US
-To:     HID CORE LAYER <linux-input@vger.kernel.org>,
-        dmitry.torokhov@gmail.com
-From:   Marcos Alano <marcoshalano@gmail.com>
-Subject: Approval of patch related to fix to "Xbox" spell in Linux kernel
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="wREUupUIgHJ2Wbjf"
+Content-Disposition: inline
+In-Reply-To: <73883c7d-42db-7ac6-fa43-b9be45cdc795@gmail.com>
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
 
-Could we approve, or at least discuss more, these changes Ismael 
-submitted last week?
+--wREUupUIgHJ2Wbjf
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I can't see anything wrong with it, I just think it maybe fell in the 
-cracks.
+On Fri, May 19, 2023 at 08:19:39PM +0700, Bagas Sanjaya wrote:
+> #regzbot introduced: v4.19..v6.1 https://bugzilla.kernel.org/show_bug.cgi=
+?id=3D217462
+> #regzbot title: psmouse suspend failed on ThinkPad L540
+>=20
 
-Here is the original discussion: 
-https://patchwork.kernel.org/project/linux-input/patch/e864b39b-27e0-c6f2-76e8-db465916f310@gmail.com/
+The reporter had narrowed down possible culprit commit range [1],
+thus telling regzbot:
 
-Thanks,
--- 
-Marcos Alano
+#regzbot introduced: v5.16.18..v5.17-rc3
+
+Thanks.
+
+[1]: https://bugzilla.kernel.org/show_bug.cgi?id=3D217462#c3
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--wREUupUIgHJ2Wbjf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZGgtZQAKCRD2uYlJVVFO
+o9aLAQC6hU7NN4GSTfBKgKeqs8JmCvfJgpTt6DbB6FgDW1030AD/cTZsWR+xE1xU
+pw87w0X/mt7M0TWhJbvezzYs/i/cIg8=
+=s0ct
+-----END PGP SIGNATURE-----
+
+--wREUupUIgHJ2Wbjf--
