@@ -2,176 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C938570C519
-	for <lists+linux-input@lfdr.de>; Mon, 22 May 2023 20:24:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EBF970C567
+	for <lists+linux-input@lfdr.de>; Mon, 22 May 2023 20:41:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233355AbjEVSYS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 22 May 2023 14:24:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39766 "EHLO
+        id S229555AbjEVSlK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 22 May 2023 14:41:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233092AbjEVSYP (ORCPT
+        with ESMTP id S229576AbjEVSlJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 22 May 2023 14:24:15 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 745AD189
-        for <linux-input@vger.kernel.org>; Mon, 22 May 2023 11:24:13 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-969f90d71d4so969652866b.3
-        for <linux-input@vger.kernel.org>; Mon, 22 May 2023 11:24:13 -0700 (PDT)
+        Mon, 22 May 2023 14:41:09 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13518FE;
+        Mon, 22 May 2023 11:41:08 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id 38308e7fff4ca-2af1ae3a21fso57827711fa.0;
+        Mon, 22 May 2023 11:41:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1684779852; x=1687371852;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OYRWgCDntd6M6zPwTuoO6FVTAIFdNPknpscZnk3SHyI=;
-        b=Ofksx1ADeKMt2VcKR5PNj8h2rWgSuMI5ykhm0eqik/MiT4Dfvufymy9EFS7S4B0WnG
-         +ja1fF6b/7b44u3KNTqt/AobDaxSfNW8gDphCQRQCC93k/ubNkG4NODNsH+sOiGxlID7
-         iOnw9AwNl7aIxVGQ75QaKU+gJ35P38UGSVI2M=
+        d=gmail.com; s=20221208; t=1684780866; x=1687372866;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ChQvPHKY02/sq+5jFcPC0VdUg8JPBNHBqatZ3qRVvFs=;
+        b=nj/dXwpD+7WpwGFnnxSTFpYeW65IM5Bl0ML639vJ/mhhJljqbZqH+oUs7COZZPW+UM
+         uxvs1hzhg7QYems62LZw70e++ffxcxSJQNMh1wB33yQ60o5LGBnUjmYYFgc6KGVSN2X6
+         9lOGSJY1t7gDz1AiLFX6gRhLd7jbeXAlV9keE9r0zMcYDY8z9V8NLPtb2M/H5yrIkrqP
+         Br6xALOc8wOcaxjvNCyBmwpzBUNrfpmmvJ3/sRF3/vy7rtOkjq19w1+4PvEm89aJEBnJ
+         WHjc45Qbg6gWowfPuO7nL8kzK9ZFTRs/lbQQnNLL9B49yg6/EPP7DiKhrBE3T7HsnNvp
+         KDRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684779852; x=1687371852;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1684780866; x=1687372866;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OYRWgCDntd6M6zPwTuoO6FVTAIFdNPknpscZnk3SHyI=;
-        b=Xrl3YElpvNagTPGHacpoWZkpVZmB+bs98xbcMQDOm1teAz+L/fzLN6nry55rYsrDJa
-         8HtdKcglJUvYvAozTJoizqNbB9mnp4j13lc/KM1GMwuqyBt6kb/JoJbncqLpP8USxelZ
-         k0j7XHyD1kItky1jL+ju13YyvWOH7gXxBQiiTgMOl9c4nhD2JhVSUSi9BW3TlZBuBMZh
-         M7Jq80me6Ry1x2/pN4BOUF45w53xZWjmBDDEUBsWGi1p7c4yp0093wzxw9Jl0NWOwRyT
-         s4a6IDiRvydkhJqY/ImYyc6r0Z95pTO86IR5ss3dRdRG7K26tyisHcelVA9qJou8K6y6
-         xB3g==
-X-Gm-Message-State: AC+VfDyr0FEVPnS3FzhSb9IBKKi5zyRm2gJc6gKMRtOawbg2bW5YD5K0
-        wUNV9lTXN1dSuL6a9Dhx6SD6C47F8QRWRJIuJKWEayHG
-X-Google-Smtp-Source: ACHHUZ69SLP6BIlmDxwNp5L8RKro5viTU28Nd5glGxJ+4LfXfeaXmNeHu3GqX2/+8Ihjx0f7Dy6gBQ==
-X-Received: by 2002:a17:906:b044:b0:96f:4927:7a96 with SMTP id bj4-20020a170906b04400b0096f49277a96mr9741435ejb.70.1684779851702;
-        Mon, 22 May 2023 11:24:11 -0700 (PDT)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
-        by smtp.gmail.com with ESMTPSA id my37-20020a1709065a6500b0096f0c8beebbsm3434246ejc.79.2023.05.22.11.24.10
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 May 2023 11:24:10 -0700 (PDT)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-96fd3a658eeso256405266b.1
-        for <linux-input@vger.kernel.org>; Mon, 22 May 2023 11:24:10 -0700 (PDT)
-X-Received: by 2002:a17:907:86a2:b0:96f:a39c:86d6 with SMTP id
- qa34-20020a17090786a200b0096fa39c86d6mr8145445ejc.8.1684779850024; Mon, 22
- May 2023 11:24:10 -0700 (PDT)
+        bh=ChQvPHKY02/sq+5jFcPC0VdUg8JPBNHBqatZ3qRVvFs=;
+        b=J3xLloK9E43nZSYYSBHZ1g2lmauc78gzDDiE7/rNdc0PdgKW7FPL2gJ+tSIeRPiMUW
+         6H/EOai+JlmbfA/VX3XrhpaxRIPkX4ndMltjkvExJQEh2ZxyiJ/4r24zoU2eTScIKXoW
+         aWP0Oh7n4n0oXfi1ScdR7VEWhC7DRYoxdjXGw9yEI5qPuQemg8JNsXQrOstf82Oij09l
+         lmLPPLYz4BnXdG02yD5Z7ZUBgbhDM5BdEc8e/SidkMQl0qYfCeA0qjZcQ62B8uV6jyUc
+         g5Dc7MPvKKHvjCkHAD+q9KHBEOV/phPBcHBxB9/sEe3OI85xmd9pP1zngOEudedW2xH2
+         HnWA==
+X-Gm-Message-State: AC+VfDxekm6Fz/4alBqLA5jeki3Uo2yVHZOY82K344zg88tKGjXIsHsE
+        aTApvPhhmTWZZplEy1mDGNs=
+X-Google-Smtp-Source: ACHHUZ6NoJ8Sxzlrhbi+NQtEAmqiI6/mheCqjrzh7KYvma1zxNHOHiH08RwlWfL12+hPXT+FEkzl5A==
+X-Received: by 2002:a2e:8ec4:0:b0:2af:160d:888a with SMTP id e4-20020a2e8ec4000000b002af160d888amr4024465ljl.1.1684780866016;
+        Mon, 22 May 2023 11:41:06 -0700 (PDT)
+Received: from armor.home ([2a01:799:13ab:8700:e72a:18b2:75e3:fbcc])
+        by smtp.gmail.com with ESMTPSA id b12-20020a2e894c000000b002ada0c38963sm1216543ljk.62.2023.05.22.11.41.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 May 2023 11:41:05 -0700 (PDT)
+From:   Lasse Brun <bruners@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Lasse Brun <bruners@gmail.com>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] HID: apple: Option to swap only left side mod keys
+Date:   Mon, 22 May 2023 20:40:12 +0200
+Message-Id: <20230522184013.42621-1-bruners@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <9b987585-0834-bb8c-3414-283c29f3f2ab@leemhuis.info>
- <bec024d5-4088-00ae-f7b5-7188868b1707@leemhuis.info> <b7717c43-74bf-b91d-d3ce-874493df602c@gmail.com>
- <CAO-hwJ+At1J_yUpX2q_dJekzZ-PoTDAvxmkTk_e4Yu0Z338bEA@mail.gmail.com> <55dda0bb-fe42-6dee-28ea-00121554d092@leemhuis.info>
-In-Reply-To: <55dda0bb-fe42-6dee-28ea-00121554d092@leemhuis.info>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 22 May 2023 11:23:53 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whvhkSk6m8_AidhofgR9nq0Md+HbNad5r1RE69tZgbv6Q@mail.gmail.com>
-Message-ID: <CAHk-=whvhkSk6m8_AidhofgR9nq0Md+HbNad5r1RE69tZgbv6Q@mail.gmail.com>
-Subject: Re: [regression] Since kernel 6.3.1 logitech unify receiver not
- working properly
-To:     Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@riseup.net>,
-        Bastien Nocera <hadess@hadess.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, guy.b@bluewin.ch
-Content-Type: multipart/mixed; boundary="0000000000007cd31e05fc4c60e2"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---0000000000007cd31e05fc4c60e2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On the Keychron K8 keyboard, and probably others, the right side keys
+should not be swapped to maintain PC layout.
 
-On Mon, May 22, 2023 at 5:38=E2=80=AFAM Linux regression tracking (Thorsten
-Leemhuis) <regressions@leemhuis.info> wrote:
->
-> FWIW, in case anybody is interested in a status update: one reporter
-> bisected the problem down to 586e8fede79 ("HID: logitech-hidpp: Retry
-> commands when device is busy"); reverting that commit on-top of 6.3
-> fixes the problem for that reporter. For that reporter things also work
-> on 6.4-rc; but for someone else that is affected that's not the case.
+Swapping the right side keys moves 'Super' before 'Alt gr' which is not
+intended by the default Keychron layout or the ISO layout.
 
-Hmm. It's likely timing-dependent.
+Signed-off-by: Lasse Brun <bruners@gmail.com>
+---
+ drivers/hid/hid-apple.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-But that code is clearly buggy.
+diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+index cc535d2d6e8c..d7b932925730 100644
+--- a/drivers/hid/hid-apple.c
++++ b/drivers/hid/hid-apple.c
+@@ -58,7 +58,7 @@ static unsigned int swap_opt_cmd;
+ module_param(swap_opt_cmd, uint, 0644);
+ MODULE_PARM_DESC(swap_opt_cmd, "Swap the Option (\"Alt\") and Command (\"Flag\") keys. "
+ 		"(For people who want to keep Windows PC keyboard muscle memory. "
+-		"[0] = as-is, Mac layout. 1 = swapped, Windows layout.)");
++		"[0] = as-is, Mac layout. 1 = swapped, Windows layout., 2 = swapped, Swap only left side)");
+ 
+ static unsigned int swap_ctrl_cmd;
+ module_param(swap_ctrl_cmd, uint, 0644);
+@@ -319,6 +319,12 @@ static const struct apple_key_translation swapped_option_cmd_keys[] = {
+ 	{ }
+ };
+ 
++static const struct apple_key_translation swapped_option_cmd_left_keys[] = {
++	{ KEY_LEFTALT,	KEY_LEFTMETA },
++	{ KEY_LEFTMETA,	KEY_LEFTALT },
++	{ }
++};
++
+ static const struct apple_key_translation swapped_ctrl_cmd_keys[] = {
+ 	{ KEY_LEFTCTRL,	KEY_LEFTMETA },
+ 	{ KEY_LEFTMETA,	KEY_LEFTCTRL },
+@@ -416,7 +422,10 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+ 	}
+ 
+ 	if (swap_opt_cmd) {
+-		trans = apple_find_translation(swapped_option_cmd_keys, code);
++		if (swap_opt_cmd == 2)
++			trans = apple_find_translation(swapped_option_cmd_left_keys, code);
++		else
++			trans = apple_find_translation(swapped_option_cmd_keys, code);
+ 
+ 		if (trans)
+ 			code = trans->to;
+-- 
+2.40.1
 
-If the wait_event_timeout() returns early, the device hasn't replied,
-but the code does
-
-                if (!wait_event_timeout(hidpp->wait, hidpp->answer_availabl=
-e,
-                                        5*HZ)) {
-                        dbg_hid("%s:timeout waiting for response\n", __func=
-__);
-                        memset(response, 0, sizeof(struct hidpp_report));
-                        ret =3D -ETIMEDOUT;
-                }
-
-and then continues to look at the response _anyway_.
-
-Now, depending on out hardening options, that response may have been
-initialized by the compiler, or may just be random stack contents.
-
-That bug is pre-existing (ie the problem was not introduced by that
-commit), but who knows if the retry makes things worse (ie if it then
-triggers on a retry, the response data will be the *previous*
-response).
-
-The whole "goto exit" games should be removed too, because we're in a
-for-loop, and instead of "goto exit" it should just do "break".
-
-IOW, something like this might be worth testing.
-
-That said, while I think the code is buggy, I doubt this is the actual
-cause of the problem people are reporting. But it would be lovely to
-hear if the attached patch makes any difference, and I think this is
-fixing a real - but unlikely - problem anyway.
-
-And obviously it might be helpful to actually enable those dbg_hid()
-messages, but I didn't look at what the magic config option to do so
-was.
-
-NOTE! Patch below *ENTIRELY* untested. I just looked at the code when
-that commit was mentioned, and went "that's not right"...
-
-                     Linus
-
---0000000000007cd31e05fc4c60e2
-Content-Type: text/x-patch; charset="US-ASCII"; name="patch.diff"
-Content-Disposition: attachment; filename="patch.diff"
-Content-Transfer-Encoding: base64
-Content-ID: <f_lhz6dxva0>
-X-Attachment-Id: f_lhz6dxva0
-
-IGRyaXZlcnMvaGlkL2hpZC1sb2dpdGVjaC1oaWRwcC5jIHwgOCArKysrLS0tLQogMSBmaWxlIGNo
-YW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2
-ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlkcHAuYyBiL2RyaXZlcnMvaGlkL2hpZC1sb2dpdGVjaC1o
-aWRwcC5jCmluZGV4IDBmY2ZkODVmZWEwZi4uNzJiZDYyZDJmOTg0IDEwMDY0NAotLS0gYS9kcml2
-ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlkcHAuYworKysgYi9kcml2ZXJzL2hpZC9oaWQtbG9naXRl
-Y2gtaGlkcHAuYwpAQCAtMzA2LDcgKzMwNiw3IEBAIHN0YXRpYyBpbnQgaGlkcHBfc2VuZF9tZXNz
-YWdlX3N5bmMoc3RydWN0IGhpZHBwX2RldmljZSAqaGlkcHAsCiAJCWlmIChyZXQpIHsKIAkJCWRi
-Z19oaWQoIl9faGlkcHBfc2VuZF9yZXBvcnQgcmV0dXJuZWQgZXJyOiAlZFxuIiwgcmV0KTsKIAkJ
-CW1lbXNldChyZXNwb25zZSwgMCwgc2l6ZW9mKHN0cnVjdCBoaWRwcF9yZXBvcnQpKTsKLQkJCWdv
-dG8gZXhpdDsKKwkJCWJyZWFrOwogCQl9CiAKIAkJaWYgKCF3YWl0X2V2ZW50X3RpbWVvdXQoaGlk
-cHAtPndhaXQsIGhpZHBwLT5hbnN3ZXJfYXZhaWxhYmxlLApAQCAtMzE0LDEzICszMTQsMTQgQEAg
-c3RhdGljIGludCBoaWRwcF9zZW5kX21lc3NhZ2Vfc3luYyhzdHJ1Y3QgaGlkcHBfZGV2aWNlICpo
-aWRwcCwKIAkJCWRiZ19oaWQoIiVzOnRpbWVvdXQgd2FpdGluZyBmb3IgcmVzcG9uc2VcbiIsIF9f
-ZnVuY19fKTsKIAkJCW1lbXNldChyZXNwb25zZSwgMCwgc2l6ZW9mKHN0cnVjdCBoaWRwcF9yZXBv
-cnQpKTsKIAkJCXJldCA9IC1FVElNRURPVVQ7CisJCQlicmVhazsKIAkJfQogCiAJCWlmIChyZXNw
-b25zZS0+cmVwb3J0X2lkID09IFJFUE9SVF9JRF9ISURQUF9TSE9SVCAmJgogCQkgICAgcmVzcG9u
-c2UtPnJhcC5zdWJfaWQgPT0gSElEUFBfRVJST1IpIHsKIAkJCXJldCA9IHJlc3BvbnNlLT5yYXAu
-cGFyYW1zWzFdOwogCQkJZGJnX2hpZCgiJXM6Z290IGhpZHBwIGVycm9yICUwMlhcbiIsIF9fZnVu
-Y19fLCByZXQpOwotCQkJZ290byBleGl0OworCQkJYnJlYWs7CiAJCX0KIAogCQlpZiAoKHJlc3Bv
-bnNlLT5yZXBvcnRfaWQgPT0gUkVQT1JUX0lEX0hJRFBQX0xPTkcgfHwKQEAgLTMyOSwxMyArMzMw
-LDEyIEBAIHN0YXRpYyBpbnQgaGlkcHBfc2VuZF9tZXNzYWdlX3N5bmMoc3RydWN0IGhpZHBwX2Rl
-dmljZSAqaGlkcHAsCiAJCQlyZXQgPSByZXNwb25zZS0+ZmFwLnBhcmFtc1sxXTsKIAkJCWlmIChy
-ZXQgIT0gSElEUFAyMF9FUlJPUl9CVVNZKSB7CiAJCQkJZGJnX2hpZCgiJXM6Z290IGhpZHBwIDIu
-MCBlcnJvciAlMDJYXG4iLCBfX2Z1bmNfXywgcmV0KTsKLQkJCQlnb3RvIGV4aXQ7CisJCQkJYnJl
-YWs7CiAJCQl9CiAJCQlkYmdfaGlkKCIlczpnb3QgYnVzeSBoaWRwcCAyLjAgZXJyb3IgJTAyWCwg
-cmV0cnlpbmdcbiIsIF9fZnVuY19fLCByZXQpOwogCQl9CiAJfQogCi1leGl0OgogCW11dGV4X3Vu
-bG9jaygmaGlkcHAtPnNlbmRfbXV0ZXgpOwogCXJldHVybiByZXQ7CiAK
---0000000000007cd31e05fc4c60e2--
