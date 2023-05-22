@@ -2,113 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2A7A70BE8D
-	for <lists+linux-input@lfdr.de>; Mon, 22 May 2023 14:39:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05F3070C259
+	for <lists+linux-input@lfdr.de>; Mon, 22 May 2023 17:28:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233880AbjEVMjn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 22 May 2023 08:39:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42930 "EHLO
+        id S234499AbjEVP15 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 22 May 2023 11:27:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234061AbjEVMja (ORCPT
+        with ESMTP id S234397AbjEVP14 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 22 May 2023 08:39:30 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 950A4FE;
-        Mon, 22 May 2023 05:39:11 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1q14oH-0006AD-S6; Mon, 22 May 2023 14:38:45 +0200
-Message-ID: <55dda0bb-fe42-6dee-28ea-00121554d092@leemhuis.info>
-Date:   Mon, 22 May 2023 14:38:45 +0200
+        Mon, 22 May 2023 11:27:56 -0400
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 802E9103
+        for <linux-input@vger.kernel.org>; Mon, 22 May 2023 08:27:53 -0700 (PDT)
+Received: by mail-io1-xd2e.google.com with SMTP id ca18e2360f4ac-7747df5b674so5340839f.3
+        for <linux-input@vger.kernel.org>; Mon, 22 May 2023 08:27:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1684769271; x=1687361271;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=STtYLVHbrxls9+TET2taw4/CcCJWytrlGIrbAGYi3j8=;
+        b=nEOMLUpL3wZMWld/o04Gj+KH6QUZxbYsw3cQ5GsPg9QGbB8mLXRuwslmpRDo84OW2Q
+         RbUP9FzhBCPyhTrW605ee3vYg4USmV6dEE6B9LEX27Blvf4oXwdi410AXxDXXsocZFhJ
+         7TxVFazBiKMOLXMhTmWdNhBmi8AghUpmtD/IU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684769271; x=1687361271;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=STtYLVHbrxls9+TET2taw4/CcCJWytrlGIrbAGYi3j8=;
+        b=Fg5nZDsCozlTj9LrXa5IkBRJZsMrqfm6iYb7Oag+IlJBtynawbd3gpMA0Krpe9kDNH
+         OQYpnMw2by9Cw1fX25KcOVMBcVd5ITO3uwFIvZxgj0YaPwsGZM+PUZtj1tk2gSK5UsME
+         lv3E2mL9RD9baM9vH01fnij3XbYlzvZBQhHl07AqsGK7Up1OU/RLVpcyc3O2TJ2R5dl1
+         LpujX9zN587oYK0zR07o6GCgjRiIECLs1fuNZ/4GdaDlhVTWnADChD7Eswflf3FwIlH2
+         TBz7edvmQUTTxlSLp1GtvlOFe7LLAuTm4EDE+WXGlb2rv0h8A0AR81iAzej46wpsal/1
+         yJJw==
+X-Gm-Message-State: AC+VfDwc+bK+aP9RTYd4Y0BWxhZ0roGXzJgN+Y7AMMTsR828cEMlsTqc
+        tWcEB5bFvV6MX0Zbp4zt9W1odquuZQl6x+KlD5Q=
+X-Google-Smtp-Source: ACHHUZ6SuKQaR0osJp5KwjL9KhBm1bkOZPT7WMuTYW1AysHPVyNlj221lvwj/rBJKvOay4yRUfEClQ==
+X-Received: by 2002:a92:611:0:b0:334:1d33:17 with SMTP id x17-20020a920611000000b003341d330017mr7027365ilg.14.1684769270802;
+        Mon, 22 May 2023 08:27:50 -0700 (PDT)
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com. [209.85.166.176])
+        by smtp.gmail.com with ESMTPSA id dp40-20020a0566381ca800b0041ab222394csm1779513jab.3.2023.05.22.08.27.49
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 May 2023 08:27:50 -0700 (PDT)
+Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-338458a9304so266775ab.1
+        for <linux-input@vger.kernel.org>; Mon, 22 May 2023 08:27:49 -0700 (PDT)
+X-Received: by 2002:a05:6e02:2189:b0:337:c9ec:4ca with SMTP id
+ j9-20020a056e02218900b00337c9ec04camr449049ila.2.1684769269411; Mon, 22 May
+ 2023 08:27:49 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [regression] Since kernel 6.3.1 logitech unify receiver not
- working properly
-Content-Language: en-US, de-DE
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
-        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
-        Bastien Nocera <hadess@hadess.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, guy.b@bluewin.ch
-References: <9b987585-0834-bb8c-3414-283c29f3f2ab@leemhuis.info>
- <bec024d5-4088-00ae-f7b5-7188868b1707@leemhuis.info>
- <b7717c43-74bf-b91d-d3ce-874493df602c@gmail.com>
- <CAO-hwJ+At1J_yUpX2q_dJekzZ-PoTDAvxmkTk_e4Yu0Z338bEA@mail.gmail.com>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <CAO-hwJ+At1J_yUpX2q_dJekzZ-PoTDAvxmkTk_e4Yu0Z338bEA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1684759151;9c913b9b;
-X-HE-SMSGID: 1q14oH-0006AD-S6
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <CAD=FV=VYfPSwar2AXBxB3vX0dV1kjQ5bZMxsEBFhUnMNRXbBCw@mail.gmail.com>
+ <20230520050649.2494497-1-yangcong5@huaqin.corp-partner.google.com> <20230520050649.2494497-2-yangcong5@huaqin.corp-partner.google.com>
+In-Reply-To: <20230520050649.2494497-2-yangcong5@huaqin.corp-partner.google.com>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Mon, 22 May 2023 08:27:38 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Xpe=zOeq2pG17Q0n_SZZHAFmaE+6C=SnuHqnHN6uObog@mail.gmail.com>
+Message-ID: <CAD=FV=Xpe=zOeq2pG17Q0n_SZZHAFmaE+6C=SnuHqnHN6uObog@mail.gmail.com>
+Subject: Re: [v2 1/2] HID: i2c-hid: elan: Add ili9882t timing
+To:     Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Cc:     benjamin.tissoires@redhat.com, devicetree@vger.kernel.org,
+        dmitry.torokhov@gmail.com, hsinyi@google.com, jikos@kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mka@chromium.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 16.05.23 15:34, Benjamin Tissoires wrote:
-> On Tue, May 16, 2023 at 3:25 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->> On 5/11/23 18:58, Thorsten Leemhuis wrote:
->>> On 08.05.23 11:55, Linux regression tracking (Thorsten Leemhuis) wrote:
->>>> I noticed a regression report in bugzilla.kernel.org. As many (most?)
->>>> kernel developers don't keep an eye on it, I decided to forward it by mail.
->>>>
->>>> Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=217412 :
->>>
->>> TWIMC: a few other users (three or four iirc) showed up in that ticket
->>> and reported problems with the receiver, albeit the symptoms are not
->>> exactly the same for all of them, so there might be more than one problem.
->>>
->>> I'll try to motivate the affected users to perform a bisection. But
->>> would be great if those with more knowledge about this code could
->>> briefly look into the ticket, maybe the details the users shared allows
->>> one of you to guess what causes this.
->>
->> Hmm,
->>
->> You noted in the similar report [1] that developers involved here
->> ignore this regressions. I wonder if Linus has to be hired in
->> this case, and if it is the case, let's take a look and hear closely what
->> he will say.
-> 
-> Sigh... Not answering an email is bad, but maybe you can also
-> understand that developers can take days off?
+Hi,
 
-Yup, also a totally valid reason I forgot to mention in my reply last week.
+On Fri, May 19, 2023 at 10:07=E2=80=AFPM Cong Yang
+<yangcong5@huaqin.corp-partner.google.com> wrote:
+>
+> The ili9882t is a TDDI IC ((Touch with Display Driver)). It requires the
+> panel reset gpio to be high before i2c commands. Use a longer delay in
+> post_power_delay_ms to ensure the poweron sequence.
+>
+> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> ---
+>  drivers/hid/i2c-hid/i2c-hid-of-elan.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 
-> And it turns out that I was waiting for Bastien to chime in, but I can
-> access his calendar too and just found out that he was AFK for the
-> entire month, except for the first week, which I wasn't aware. May is
-> a time where people in France have a lot of public holidays and is
-> also the cut to use those time off or they expire.
+This seems OK to me. The one thing I'd also do is to update the
+Kconfig description to say that this driver is also used for Ilitek. I
+think it's fine to keep the symbol name as I2C_HID_OF_ELAN but just
+change the description.
 
-Thx for that, knowing that Bastien is unavailable is really helpful.
-
-> For me, I'll also be taking time off the rest of this week, so I won't
-> be able to have a look at this until next week at the earliest.
-
-Hope your enjoyed your days off!
-
-FWIW, in case anybody is interested in a status update: one reporter
-bisected the problem down to 586e8fede79 ("HID: logitech-hidpp: Retry
-commands when device is busy"); reverting that commit on-top of 6.3
-fixes the problem for that reporter. For that reporter things also work
-on 6.4-rc; but for someone else that is affected that's not the case.
-
-Makes me wonder if we deal with two different issues here. Just asked
-where 6.4 does not work if reverting 586e8fede79 fixes things for them
-as well.
-
-For more details, see https://bugzilla.kernel.org/show_bug.cgi?id=217412
-
-Ciao, Thorsten
+-Doug
