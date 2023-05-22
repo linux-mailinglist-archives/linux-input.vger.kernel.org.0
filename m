@@ -2,41 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A7D270B1EC
-	for <lists+linux-input@lfdr.de>; Mon, 22 May 2023 00:59:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA99E70B9C1
+	for <lists+linux-input@lfdr.de>; Mon, 22 May 2023 12:15:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231393AbjEUW7z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 21 May 2023 18:59:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50252 "EHLO
+        id S232402AbjEVKPm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 22 May 2023 06:15:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231534AbjEUW7v (ORCPT
+        with ESMTP id S229667AbjEVKPl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 21 May 2023 18:59:51 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17AEAC1;
-        Sun, 21 May 2023 15:59:49 -0700 (PDT)
-Received: (Authenticated sender: contact@artur-rojek.eu)
-        by mail.gandi.net (Postfix) with ESMTPSA id 35D0E1C0004;
-        Sun, 21 May 2023 22:59:47 +0000 (UTC)
-From:   Artur Rojek <contact@artur-rojek.eu>
-To:     Paul Cercueil <paul@crapouillou.net>,
+        Mon, 22 May 2023 06:15:41 -0400
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D73B8BE;
+        Mon, 22 May 2023 03:15:40 -0700 (PDT)
+Received: by mail-qk1-x729.google.com with SMTP id af79cd13be357-75b14216386so34019885a.0;
+        Mon, 22 May 2023 03:15:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684750540; x=1687342540;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kQFJJglwb8UC3vbX+bVe8wmmxX+DWMka1YOsU9Z1BbU=;
+        b=Ry04oRkBDzCflbHhH3PaVCKdTzhRC/ZtFQlHljIK07hNVZRK7c9Pq1ggd6BOYtuhgf
+         I17i3yqg6N4+CWjKTN6hK8FWs22PgySZCdt/F+JjZG0CNXp1jHOBZIf0XfPt9vD1E6Qv
+         rqZ7HKaesDzDVqux7QuZ9I9Kz1Ti9p3OCbPvZeU05g1kghXPToaSS/dvgiTRLZaJ10KD
+         TcCPYIHTgY44uMKiBCbMpAmnOB+DAT3uamgChYvtycPTFpewSshva5EyIBnJChVv7n4I
+         g6JS5NCmoRsyFeIunLkJwsKuACL2rM/Y7zm76ks6sPMOk3j32dFAzdH0uUSmK0enPwgS
+         2GoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684750540; x=1687342540;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kQFJJglwb8UC3vbX+bVe8wmmxX+DWMka1YOsU9Z1BbU=;
+        b=QNGrxZaiPvywiTDx1Fmc93H34u9WpXGOsFaWPBbX7dSVxe7Ykvu56Br0cy0incW2W+
+         vIadcP9Tfjygd9cA8aOBmYn/iGV47zFGTPAqqN9eu34C7TNa8FEHhrYCe85v0tp2mJaq
+         K4lWCtlvpKsj6cZlT71QsJ26Y0j6RUR+v5m0Y4sC0qmc4MNaFrA8azbI5h7MTU3GZQWg
+         wI0HKaxTW6y56EgNGTYRe56XwijLcarj5FRHNRdVABhJgFkTZU/p0ye/mP7zJZqDe6+y
+         0XmwRsoAuAlI4rsalPNBKhYWaQW5m299ztQullh60ZFbbb4xLJvd3QvowpHkOstdZIcp
+         b7SQ==
+X-Gm-Message-State: AC+VfDxqwgV5K7ZOMgbk9SQ5NCFM2uOAco2zkY7FySXApDLCazWFB9Ds
+        kUxuiRu2sgVX33s7ym6d02PU+LWuq9JcV1eFnMU=
+X-Google-Smtp-Source: ACHHUZ5mQ99YKkCOLeyzMJoiM4YNvaRBRDSU0Ni+XchUkgtp30ZEOR7KZIOFrp+NW59vkXmtJXPew3qZZ0DPAd9xLMc=
+X-Received: by 2002:a05:620a:22b8:b0:75b:23a0:e7d2 with SMTP id
+ p24-20020a05620a22b800b0075b23a0e7d2mr21864qkh.51.1684750539901; Mon, 22 May
+ 2023 03:15:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230521225901.388455-1-contact@artur-rojek.eu> <20230521225901.388455-2-contact@artur-rojek.eu>
+In-Reply-To: <20230521225901.388455-2-contact@artur-rojek.eu>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 22 May 2023 13:15:03 +0300
+Message-ID: <CAHp75VeLRHwcKQALwnBb-gqVeyxxH=_F40TserRXqo_kbaZzoQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] iio/adc: ingenic: Fix channel offsets in buffer
+To:     Artur Rojek <contact@artur-rojek.eu>
+Cc:     Paul Cercueil <paul@crapouillou.net>,
         Jonathan Cameron <jic23@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Chris Morgan <macromorgan@hotmail.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     linux-mips@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Artur Rojek <contact@artur-rojek.eu>
-Subject: [PATCH v2 2/2] input: joystick: Fix buffer data parsing
-Date:   Mon, 22 May 2023 00:59:01 +0200
-Message-Id: <20230521225901.388455-3-contact@artur-rojek.eu>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230521225901.388455-1-contact@artur-rojek.eu>
-References: <20230521225901.388455-1-contact@artur-rojek.eu>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        linux-mips@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -44,206 +73,62 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Don't try to access buffer data of a channel by its scan index. Instead,
-calculate its offset in the buffer.
+On Mon, May 22, 2023 at 1:59=E2=80=AFAM Artur Rojek <contact@artur-rojek.eu=
+> wrote:
+>
+> Consumers expect the buffer to only contain enabled channels. While
+> preparing the buffer, the driver makes two mistakes:
+> 1) It inserts empty data for disabled channels.
+> 2) Each ADC readout contains samples for two 16-bit channels. If either
+>    of them is active, the whole 32-bit sample is pushed into the buffer
+>    as-is.
+>
+> Both of those issues cause the active channels to appear at the wrong
+> offsets in the buffer. Fix the above by demuxing samples for active
+> channels only.
+>
+> This has remained unnoticed, as all the consumers so far were only using
+> channels 0 and 1, leaving them unaffected by changes introduced in this
+> commit.
 
-This is necessary, as the scan index of a channel does not represent its
-position in a buffer - the buffer will contain data for enabled channels
-only, affecting data offsets and alignment.
+...
 
-While at it, also fix minor style issue in probe.
+> +       u16 tdat[6];
+> +       u32 val;
+> +
+> +       memset(tdat, 0, ARRAY_SIZE(tdat));
 
-Reported-by: Chris Morgan <macromorgan@hotmail.com>
-Closes: https://lore.kernel.org/linux-input/20220408212857.9583-1-macroalpha82@gmail.com/
-Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
-Tested-by: Paul Cercueil <paul@crapouillou.net>
----
+Yeah, as LKP tells us this should be sizeof() instead of ARRAY_SIZE().
 
-v2: - provide new implementation for calculating channel offsets 
-    - cache the resulting offsets
-    - fix minor style issue in probe
-    - drop the "Fixes" tag
+> +       for (i =3D 0; mask && i < ARRAY_SIZE(tdat); mask >>=3D 2) {
+> +               if (mask & 0x3) {
 
- drivers/input/joystick/adc-joystick.c | 102 +++++++++++++++++++++++---
- 1 file changed, 90 insertions(+), 12 deletions(-)
+(for the consistency it has to be GENMASK(), but see below)
 
-diff --git a/drivers/input/joystick/adc-joystick.c b/drivers/input/joystick/adc-joystick.c
-index c0deff5d4282..2f9f0cae8f95 100644
---- a/drivers/input/joystick/adc-joystick.c
-+++ b/drivers/input/joystick/adc-joystick.c
-@@ -10,6 +10,7 @@
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/property.h>
-+#include <linux/sort.h>
- 
- #include <asm/unaligned.h>
- 
-@@ -25,6 +26,7 @@ struct adc_joystick {
- 	struct iio_cb_buffer *buffer;
- 	struct adc_joystick_axis *axes;
- 	struct iio_channel *chans;
-+	int *offsets;
- 	int num_chans;
- 	bool polled;
- };
-@@ -47,35 +49,38 @@ static int adc_joystick_handle(const void *data, void *private)
- {
- 	struct adc_joystick *joy = private;
- 	enum iio_endian endianness;
--	int bytes, msb, val, idx, i;
--	const u16 *data_u16;
-+	int bytes, msb, val, off, i;
-+	const u8 *chan_data;
- 	bool sign;
- 
- 	bytes = joy->chans[0].channel->scan_type.storagebits >> 3;
- 
- 	for (i = 0; i < joy->num_chans; ++i) {
--		idx = joy->chans[i].channel->scan_index;
- 		endianness = joy->chans[i].channel->scan_type.endianness;
- 		msb = joy->chans[i].channel->scan_type.realbits - 1;
- 		sign = tolower(joy->chans[i].channel->scan_type.sign) == 's';
-+		off = joy->offsets[i];
-+
-+		if (off < 0)
-+			return -EINVAL;
-+
-+		chan_data = (const u8 *)data + off;
- 
- 		switch (bytes) {
- 		case 1:
--			val = ((const u8 *)data)[idx];
-+			val = *chan_data;
- 			break;
- 		case 2:
--			data_u16 = (const u16 *)data + idx;
--
- 			/*
- 			 * Data is aligned to the sample size by IIO core.
- 			 * Call `get_unaligned_xe16` to hide type casting.
- 			 */
- 			if (endianness == IIO_BE)
--				val = get_unaligned_be16(data_u16);
-+				val = get_unaligned_be16(chan_data);
- 			else if (endianness == IIO_LE)
--				val = get_unaligned_le16(data_u16);
-+				val = get_unaligned_le16(chan_data);
- 			else /* IIO_CPU */
--				val = *data_u16;
-+				val = *(const u16 *)chan_data;
- 			break;
- 		default:
- 			return -EINVAL;
-@@ -94,6 +99,69 @@ static int adc_joystick_handle(const void *data, void *private)
- 	return 0;
- }
- 
-+static int adc_joystick_si_cmp(const void *a, const void *b, const void *priv)
-+{
-+	const struct iio_channel *chans = priv;
-+
-+	return chans[*(int *)a].channel->scan_index -
-+	       chans[*(int *)b].channel->scan_index;
-+}
-+
-+static int *adc_joystick_get_chan_offsets(struct iio_channel *chans, int count)
-+{
-+	struct iio_dev *indio_dev = chans[0].indio_dev;
-+	const struct iio_chan_spec *ch;
-+	int *offsets, *si_order;
-+	int idx, i, si, length, offset = 0;
-+
-+	offsets = kmalloc_array(count, sizeof(int), GFP_KERNEL);
-+	if (!offsets)
-+		return ERR_PTR(-ENOMEM);
-+
-+	si_order = kmalloc_array(count, sizeof(int), GFP_KERNEL);
-+	if (!si_order) {
-+		kfree(offsets);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+
-+	for (i = 0; i < count; ++i)
-+		si_order[i] = i;
-+	/* Channels in buffer are ordered by scan index. Sort to match that. */
-+	sort_r(si_order, count, sizeof(int), adc_joystick_si_cmp, NULL, chans);
-+
-+	for (i = 0; i < count; ++i) {
-+		idx = si_order[i];
-+		ch = chans[idx].channel;
-+		si = ch->scan_index;
-+
-+		if (si < 0 || !test_bit(si, indio_dev->active_scan_mask)) {
-+			offsets[idx] = -1;
-+			continue;
-+		}
-+
-+		/* Channels sharing scan indices also share the samples. */
-+		if (idx > 0 && si == chans[idx - 1].channel->scan_index) {
-+			offsets[idx] = offsets[idx - 1];
-+			continue;
-+		}
-+
-+		offsets[idx] = offset;
-+
-+		length = ch->scan_type.storagebits / 8;
-+		if (ch->scan_type.repeat > 1)
-+			length *= ch->scan_type.repeat;
-+
-+		/* Account for channel alignment. */
-+		if (offset % length)
-+			offset += length - (offset % length);
-+		offset += length;
-+	}
-+
-+	kfree(si_order);
-+
-+	return offsets;
-+}
-+
- static int adc_joystick_open(struct input_dev *dev)
- {
- 	struct adc_joystick *joy = input_get_drvdata(dev);
-@@ -101,10 +169,19 @@ static int adc_joystick_open(struct input_dev *dev)
- 	int ret;
- 
- 	ret = iio_channel_start_all_cb(joy->buffer);
--	if (ret)
-+	if (ret) {
- 		dev_err(devp, "Unable to start callback buffer: %d\n", ret);
-+		return ret;
-+	}
- 
--	return ret;
-+	joy->offsets = adc_joystick_get_chan_offsets(joy->chans,
-+						     joy->num_chans);
-+	if (IS_ERR(joy->offsets)) {
-+		dev_err(devp, "Unable to allocate channel offsets\n");
-+		return PTR_ERR(joy->offsets);
-+	}
-+
-+	return 0;
- }
- 
- static void adc_joystick_close(struct input_dev *dev)
-@@ -112,6 +189,7 @@ static void adc_joystick_close(struct input_dev *dev)
- 	struct adc_joystick *joy = input_get_drvdata(dev);
- 
- 	iio_channel_stop_all_cb(joy->buffer);
-+	kfree(joy->offsets);
- }
- 
- static void adc_joystick_cleanup(void *data)
-@@ -269,7 +347,7 @@ static int adc_joystick_probe(struct platform_device *pdev)
- 
- 		error = devm_add_action_or_reset(dev, adc_joystick_cleanup,
- 						 joy->buffer);
--		if (error)  {
-+		if (error) {
- 			dev_err(dev, "Unable to add action\n");
- 			return error;
- 		}
--- 
-2.40.1
+First of all, strictly speaking we should use the full mask without
+limiting it to the 0 element in the array (I'm talking about
+active_scan_mask).
 
+That said, we may actually use bit operations here in a better way, i.e.
+
+  unsigned long mask =3D active_scan_mask[0] & (active_scan_mask[0] - 1);
+
+  j =3D 0;
+  for_each_set_bit(i, active_scan_mask, ...) {
+    val =3D readl(...);
+    /* Two channels per sample. Demux active. */
+    tdat[j++] =3D val >> (16 * (i % 2));
+  }
+
+> +                       val =3D readl(adc->base + JZ_ADC_REG_ADTCH);
+> +                       /* Two channels per sample. Demux active. */
+> +                       if (mask & BIT(0))
+> +                               tdat[i++] =3D val & 0xffff;
+> +                       if (mask & BIT(1))
+> +                               tdat[i++] =3D val >> 16;
+> +               }
+>         }
+
+--=20
+With Best Regards,
+Andy Shevchenko
