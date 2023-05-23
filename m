@@ -2,48 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 069E970DD3F
-	for <lists+linux-input@lfdr.de>; Tue, 23 May 2023 15:12:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABC9770DD55
+	for <lists+linux-input@lfdr.de>; Tue, 23 May 2023 15:17:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231878AbjEWNMZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 23 May 2023 09:12:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47112 "EHLO
+        id S235628AbjEWNR6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 May 2023 09:17:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236562AbjEWNMN (ORCPT
+        with ESMTP id S232705AbjEWNR5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 23 May 2023 09:12:13 -0400
+        Tue, 23 May 2023 09:17:57 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BFCA109;
-        Tue, 23 May 2023 06:12:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E9F2FF;
+        Tue, 23 May 2023 06:17:57 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id ECC2760B2C;
-        Tue, 23 May 2023 13:12:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E37BC433EF;
-        Tue, 23 May 2023 13:12:08 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B9EC163254;
+        Tue, 23 May 2023 13:17:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAEBAC4339B;
+        Tue, 23 May 2023 13:17:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684847530;
-        bh=nVNVKCroG2DRvFC/0imQI8MOw3h1mDhbsG3ornLiA1k=;
+        s=k20201202; t=1684847876;
+        bh=vxl5bCUQozOg0lQEVTKyxWkdWVuZfH+OvLvE8rLc2TI=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=GDQ+ipEmwgAM4KkwIlbeNpcF11aXBoZgQo5Utfi0u4R24Ktdk9PI/2nImGwpKMJgy
-         TY2Kq121LeNckPgZI3+jbXp/hFaqN6AuNnsW/NAl4TB0SkIgCGkFKpbsDOLjloo8yC
-         0wqQtjGGuH48mrKOuIxWHPK5z/z3JZTjrLN/vP1v+b8vBc2EYyMz14MHooItn26O8w
-         J6KnepEi7B0V8qO2MFl+4gSoluxgckryEyj8g52nDWGC25vLy5O+u9VN+Ssf+h3sRz
-         oEBs6GGZvNEJeSaya5NjS1EWJbN4CQ48t5Z5c3N0P0p4WjS+6V+dZTGosGvFe7QVam
-         DdaBNVOtxuOqw==
-Date:   Tue, 23 May 2023 15:12:06 +0200 (CEST)
+        b=Njkqwv/YF/gfaD4a7t6Lti63d52FQZzvFS1M/ZRu13pLErKt7d+U0kDdpzBcK1OWC
+         n026yb3PLX6t7X4LNgLHWt882JFw3PRqQFcRNexCFB7eH56ZqhTWvmpUfiadHQ0GHw
+         AoycxfZTWGpjNOb9awfVxS6CuVQuGngLwB3oBTbXly5steCL/7dkvfoDC9HGe/1Q8N
+         QLp6rdfDXqpJKydTPH8+kFKaMlqWOGLc0zx8bYk9bTOgTYPtmKMBpwFQ+QHDbBZdv6
+         GS9zk8j2iiw7SKz7jLnnTXxun+M9ON9E3lqysbbMiwcB+7q1+YKpcS6Mh8oZbNRvsd
+         /02/EzAXrmQEw==
+Date:   Tue, 23 May 2023 15:17:52 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Denis Arefev <arefev@swemel.ru>
-cc:     Ping Cheng <ping.cheng@wacom.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lvc-project@linuxtesting.org, trufanov@swemel.ru, vfh@swemel.ru
-Subject: Re: [PATCH] HID: wacom: Added error check
-In-Reply-To: <20230427114745.53136-1-arefev@swemel.ru>
-Message-ID: <nycvar.YFH.7.76.2305231511590.29760@cbobk.fhfr.pm>
-References: <20230427114745.53136-1-arefev@swemel.ru>
+To:     "Luke D. Jones" <luke@ljones.dev>
+cc:     linux-input@vger.kernel.org, benjamin.tissoires@redhat.com,
+        rydberg@bitmath.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] HID: asus: Add support for ASUS ROG Z13 keyboard
+In-Reply-To: <20230503034711.253439-1-luke@ljones.dev>
+Message-ID: <nycvar.YFH.7.76.2305231517430.29760@cbobk.fhfr.pm>
+References: <20230503034711.253439-1-luke@ljones.dev>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -57,14 +54,14 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 27 Apr 2023, Denis Arefev wrote:
+On Wed, 3 May 2023, Luke D. Jones wrote:
 
->    Added a variable check and
->    transition in case of an error
+> Add support for the ROG Z13 keyboard. This is a variant of the last
+> few ASUS ROG keyboards and has much of the same functionality.
 > 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> Signed-off-by: Luke D. Jones <luke@ljones.dev>
 
-Applied, thanks.
+Applied, thanks Luke.
 
 -- 
 Jiri Kosina
