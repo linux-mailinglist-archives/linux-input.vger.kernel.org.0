@@ -2,67 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D257D70CF88
-	for <lists+linux-input@lfdr.de>; Tue, 23 May 2023 02:40:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D74C70CFC8
+	for <lists+linux-input@lfdr.de>; Tue, 23 May 2023 02:47:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235001AbjEWAkH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 22 May 2023 20:40:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38340 "EHLO
+        id S234917AbjEWArM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 22 May 2023 20:47:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235082AbjEWAMz (ORCPT
+        with ESMTP id S234913AbjEWAq4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 22 May 2023 20:12:55 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37B2C2105;
-        Mon, 22 May 2023 17:00:48 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1ae3ed1b0d6so46850925ad.3;
-        Mon, 22 May 2023 17:00:48 -0700 (PDT)
+        Mon, 22 May 2023 20:46:56 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72D62423C;
+        Mon, 22 May 2023 17:30:01 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-253340db64fso6198705a91.2;
+        Mon, 22 May 2023 17:30:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684800047; x=1687392047;
+        d=gmail.com; s=20221208; t=1684801801; x=1687393801;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RfShBrimcvfQvoSW9H7VPg8y8VhC7yAuAl2Q2us2MOE=;
-        b=Gn7T5NOLRH94HNqln1r1fynHLmaqyP3yvCtlj45POcIfD4MhgTa0WxwhIRmsftXEMk
-         Z7S8y5+Uqz9WUp7ztJWYEemAg0kwXHi21LruY3EPB04Gp40Wt9vSMseMkcNgOVI5w2zY
-         r1ZoLfNCge13xiYGhlg4RPCSWkKv7+KobtGOZaPkihe8V7PYaXIycKH3rqsPg/nEbqeY
-         Ek9aZdI99CXlRxegKY5K8BpHJEDs4NKJRO5z5mDs0tsi7heczzjrwz7vAmAEEqjVT6DQ
-         /vfdTSj098EnGa2feb+Rg2Gz13YaGL3QItCrHvp2MMZhBP2bJ9SGW+F79VsndBN2uhI5
-         JRog==
+        bh=HEifJEBSj843qwkcWh042z8MQfZIbIFpzgNR/nZXc5s=;
+        b=PjMYjRIziDSPvIlo9uMabR3TcCLJABTa7b5x2+c2JcD3JRZ60jrEAQafRzLNHwwV+I
+         enUO/HEFYmmQgZcCuq6wb/35dF/6jUolpkPPW34vPT3AOfBIGogDIIo9cqrjHY90XTY+
+         PXZGtxAta++G1i94Z4nT9DOtmrPiCRZ8iQrqgyYfpyHqWs9v804Y7btk9ga1u/gxoRfI
+         DJCUc0PyN4ZTEBXIYLQ5kRorIvYr0Pa2R2HgCFz4UDUwWgm5Q90LGBID+8D0W2Aiss9D
+         1iQE6V2mqAGOj7mwKTMjKWZpUyzMDjTa/NKWCWypDA0WsqpeffcdGvaXLuG+CfuC8wzY
+         nqig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684800048; x=1687392048;
+        d=1e100.net; s=20221208; t=1684801801; x=1687393801;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RfShBrimcvfQvoSW9H7VPg8y8VhC7yAuAl2Q2us2MOE=;
-        b=ET2tg4Dl0V8u1u45eYFJKtqVUQC06myifn6TgNl/FWXNyTu0aWuEmCSvYXEIyfpkGe
-         vLBuvt6mpFTJ5i8Y0/QTRqnt2hxxLVRX+rEuljzqpuCcATpk+oIutNWq0e9jlHgV2xEF
-         FYa+2jk4OD4Yo0GZlIkDRS+Z8q2t3KmYlshGlZhbxtTwW9DbfEPTCzH8xDx92x89y9c4
-         8sZpEZqpv+nDefO7WXd70MRUZr+8EqW86CkDDsMRs4eVZQPsMlF1cRxEJyHdOdt1L7XK
-         PCaY3pBZSgKT2m9C9NSZOru1h079p0xZdnS+Ehc41EqHzbUPvQ4oXwKWY9DkD5Z/qd4Z
-         QaPA==
-X-Gm-Message-State: AC+VfDxsKr6rNX+2fZ/LmiP0P0w3/N9KTmeaR3OYhRBsJQBMv/dmn5DI
-        g7l+FGQul4f2qmf5y7BxjT+iev+92YQ=
-X-Google-Smtp-Source: ACHHUZ76t7JP0WL3FW9gcb6W5j0OuuhYuEntEmFDq/p38FuWTG7i3mSCL6Ax6ojcZaIUHNGGkbXWrw==
-X-Received: by 2002:a17:902:c20c:b0:1ab:d2c:a1a6 with SMTP id 12-20020a170902c20c00b001ab0d2ca1a6mr11179857pll.69.1684800047465;
-        Mon, 22 May 2023 17:00:47 -0700 (PDT)
+        bh=HEifJEBSj843qwkcWh042z8MQfZIbIFpzgNR/nZXc5s=;
+        b=Vba19XvgG6OcRW8gyi4eLLnVTUgnJaFz1Zmj5FcSDsuIh1KhYVvXnqGSzS9b8JY8c5
+         GkJ/IHo+wJO9ehPHvld/kOnZI+yVkV+KMHW7PLM5ndInGjTCZVy6pSfTN3XntVZl1b3B
+         Ng4velwVTX5hdPaHsXYajn3SHuz49GjtAdTT5HOPiKLXnqWQOC46OxmFHB180+uy/zpQ
+         HfIGoRRBynllV12qNJ9Ivmz/7J5x+LSoq2lnjFXDligJHs5OeloWemxsUDHChjzn8kXP
+         ahbPSvEXvufMH/YFr1sULCjcZwNrDu2cX0JWJ+J+nHVFWDvcUfK1/e91npqVoyAqTMdq
+         HPmA==
+X-Gm-Message-State: AC+VfDwxaQL2015z7FFFpo4W8SCrXIFNxyq/9UCdhxFskBRY/jevhqQt
+        7oYo03XwyeBrVwTCR9tOFho=
+X-Google-Smtp-Source: ACHHUZ7wWyVCJpxZmHsghH/6/RZ4D9JiWJJ7UL2PxapwGvf1T3n3EcRWA2L20zNwu0GC2oCe+8joqg==
+X-Received: by 2002:a17:90b:2292:b0:253:83d8:e487 with SMTP id kx18-20020a17090b229200b0025383d8e487mr10976879pjb.0.1684801800788;
+        Mon, 22 May 2023 17:30:00 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:54fa:e8a7:76de:888d])
-        by smtp.gmail.com with ESMTPSA id p13-20020a1709028a8d00b001a674fb0dd8sm5356394plo.247.2023.05.22.17.00.46
+        by smtp.gmail.com with ESMTPSA id gj13-20020a17090b108d00b00250ad795d72sm4590532pjb.44.2023.05.22.17.29.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 May 2023 17:00:46 -0700 (PDT)
-Date:   Mon, 22 May 2023 17:00:43 -0700
+        Mon, 22 May 2023 17:30:00 -0700 (PDT)
+Date:   Mon, 22 May 2023 17:29:57 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Dana Elfassy <delfassy@redhat.com>
-Cc:     eballetb@redhat.com, javierm@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dana Elfassy <dangel101@gmail.com>
-Subject: Re: [PATCH v3] Input: tests: add test to cover all
- input_grab_device() function
-Message-ID: <ZGwCK3A+pFldJ23r@google.com>
-References: <20230522215514.722564-1-dangel101@gmail.com>
+To:     Ismael Ferreras Morezuelas <swyterzone@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-input@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Cameron Gutman <aicommander@gmail.com>,
+        Marcos Alano <marcoshalano@gmail.com>
+Subject: Re: [PATCH v2] xpad: Spelling fixes for "Xbox", improve and
+ proofread the listed xpad device names
+Message-ID: <ZGwJBTFd4JRKzocu@google.com>
+References: <401b1d94-1348-15fd-b48f-a80e8885c7a4@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230522215514.722564-1-dangel101@gmail.com>
+In-Reply-To: <401b1d94-1348-15fd-b48f-a80e8885c7a4@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -73,86 +74,21 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, May 23, 2023 at 12:55:14AM +0300, Dana Elfassy wrote:
-> Currently input_grab_device() isn't covered by any tests
-> Thus, adding a test to cover the cases:
-> 1. The device is grabbed successfully
-> 2. Trying to grab a device that is already grabbed by another input
->    handle
+On Wed, Jan 05, 2022 at 12:30:20AM +0100, Ismael Ferreras Morezuelas wrote:
+> The Linux kernel is notorious for misspelling X-Box, X-box, XBox or XBOX;
+> the official spelling is actually just Xbox. Plain and simple.
 > 
-> Signed-off-by: Dana Elfassy <dangel101@gmail.com>
-> Tested-by: Javier Martinez Canillas <javierm@redhat.com>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> Reviewed-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Tried to respect the existing notes but still following the style guide.
+> No functional changes intended. This only affects ancillary parts.
+> 
+> Sounds trivial, but this makes it easier to search the correct
+> entries in xmenu by name. It has always been a pet peeve of mine.
+> 
+> Signed-off-by: Ismael Ferreras Morezuelas <swyterzone@gmail.com>
 > ---
-> Changes in v3:
-> 1. Retrieve test_handle variable to try and grab the device that's
-> currently grabbed by another handle
-> 2. Add verification that test_handle can indeed grab the device after
-> it's released by the handle that grabbed it
-> 3. Remove duplicated call for input_grab_device() in KUNIT_ASSERT_TRUE()
-> functions
-> Changes in v2:
-> - Use input_put_device() to decrement the refcount increased by get().
-> - Remove unnecessary struct input_handle test_handle variable.
-> 
->  drivers/input/tests/input_test.c | 32 ++++++++++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
-> 
-> diff --git a/drivers/input/tests/input_test.c b/drivers/input/tests/input_test.c
-> index 25bbf51b5c87..1939cc12bae0 100644
-> --- a/drivers/input/tests/input_test.c
-> +++ b/drivers/input/tests/input_test.c
-> @@ -124,10 +124,42 @@ static void input_test_match_device_id(struct kunit *test)
->  	KUNIT_ASSERT_FALSE(test, input_match_device_id(input_dev, &id));
->  }
->  
-> +static void input_test_grab(struct kunit *test)
-> +{
-> +	struct input_dev *input_dev = test->priv;
-> +	struct input_handle test_handle;
-> +	struct input_handler handler;
-> +	struct input_handle handle;
-> +	struct input_device_id id;
-> +	int res;
-> +
-> +	handler.name = "handler";
-> +	handler.id_table = &id;
-> +
-> +	handle.dev = input_get_device(input_dev);
-> +	handle.name = dev_name(&input_dev->dev);
-> +	handle.handler = &handler;
-> +	res = input_grab_device(&handle);
-> +	KUNIT_ASSERT_TRUE(test, res == 0);
 
-Could you please tell me why you are using KUNIT_ASSERT_TRUE() here but
-KUNIT_ASSERT_EQ() below?
-
-> +
-> +	test_handle.dev = input_get_device(input_dev);
-> +	test_handle.name = dev_name(&input_dev->dev);
-> +	test_handle.handler = &handler;
-> +	res = input_grab_device(&test_handle);
-> +	KUNIT_ASSERT_EQ(test, res, -EBUSY);
-> +
-> +	input_release_device(&handle);
-> +	input_put_device(input_dev);
-> +	res = input_grab_device(&test_handle);
-> +	KUNIT_ASSERT_TRUE(test, res == 0);
-> +	input_put_device(input_dev);
-> +}
-> +
->  static struct kunit_case input_tests[] = {
->  	KUNIT_CASE(input_test_polling),
->  	KUNIT_CASE(input_test_timestamp),
->  	KUNIT_CASE(input_test_match_device_id),
-> +	KUNIT_CASE(input_test_grab),
->  	{ /* sentinel */ }
->  };
->  
-> -- 
-> 2.40.1
-> 
+Adjusted the patch description a little to remove mention searching by
+name (since user-visible names are not touched), and applied.
 
 Thanks.
 
