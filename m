@@ -2,70 +2,132 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9AEC70D738
-	for <lists+linux-input@lfdr.de>; Tue, 23 May 2023 10:23:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98EA070DC9B
+	for <lists+linux-input@lfdr.de>; Tue, 23 May 2023 14:31:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235790AbjEWIWt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 23 May 2023 04:22:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41960 "EHLO
+        id S235903AbjEWMbW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 May 2023 08:31:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236140AbjEWIW1 (ORCPT
+        with ESMTP id S236863AbjEWMbW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 23 May 2023 04:22:27 -0400
-X-Greylist: delayed 514 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 23 May 2023 01:19:28 PDT
-Received: from mail.kasaioranje.com (mail.kasaioranje.com [135.125.203.239])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40B3F10EF
-        for <linux-input@vger.kernel.org>; Tue, 23 May 2023 01:19:28 -0700 (PDT)
-Received: by mail.kasaioranje.com (Postfix, from userid 1002)
-        id D447DA2549; Tue, 23 May 2023 08:10:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kasaioranje.com;
-        s=mail; t=1684829436;
-        bh=4sLj/wUe0zSqd+u2iqAPxhAVUaF7hb8Lyb4TstC6xV8=;
-        h=Date:From:To:Subject:From;
-        b=WqwP0zD1lgxy8xGgp5yI9y+pZ2SN1s5T/5JRpscnd0WoZvvmmZpq7ZymD/OH367EL
-         K6+QFNyMY9ffrqd2iZcPis3fw0h8VdndGU3HNyxugc9wIPPJkm0zJHm6YvCrdDC29S
-         9l4im+Bb7litCE1Xvp+4EFDrn9HRSj67ujT5e4h7kZoKFCBoLZmBxQsaqOByiEAGb8
-         8jVgGuAeA/UK4t0OYEATCsWUjzakWxcL2YTcuepV649blZSoxxHj8prRdyolcb4Mj+
-         C1Fsz9QQ7rfHqYr5/0A31WOVfNl4eNkSbjSbqvoT5V351jz1cL17mdE4jHOM6zCEc4
-         DHqAtFr9cugGw==
-Received: by kasaioranje.com for <linux-input@vger.kernel.org>; Tue, 23 May 2023 08:10:25 GMT
-Message-ID: <20230523063020-0.1.7a.teov.0.31qowt3509@kasaioranje.com>
-Date:   Tue, 23 May 2023 08:10:25 GMT
-From:   "Oliver Brown" <oliver.brown@kasaioranje.com>
-To:     <linux-input@vger.kernel.org>
-Subject: We are looking for resellers to cooperate
-X-Mailer: mail.kasaioranje.com
+        Tue, 23 May 2023 08:31:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A516D126;
+        Tue, 23 May 2023 05:31:20 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 33F5C631DA;
+        Tue, 23 May 2023 12:31:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4987C433EF;
+        Tue, 23 May 2023 12:31:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684845079;
+        bh=g2m24cQ4gdROItmruRoaFFe92RJLnSrCp+y/ymODJ8s=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=L+0fOCK34D1zmuin8Wl7I2gS8xbpwc+/hTe4sw9jiQW0h2b20dbAJPF0a34lmLh/F
+         XmrAxb1GibB/Dxs3YT6w0dZlJyUOmhUwbidEUmlevoXGzRk38O/ww9tnPxgB0HkyJl
+         ae0ROulk07UdRyR5wjzJ2IbmfQhdWXvdaGIfFRJfllboDOkuiBfNj3dUAQ1GESJcxR
+         2t2wxumoQwJTHLWFtHU/ZTtOholkBfcBLDm62TGI6it7X1TYjcZWCPeR9PnSccK4nH
+         MgoI7Mi7VM5x6dPhpms9OWUTA4srYIpad+p/SuyT8FPt59/rj/vNoR5hulsmjWYKZn
+         VSPTIjGlA+krQ==
+Date:   Tue, 23 May 2023 14:31:15 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>,
+        Bastien Nocera <hadess@hadess.net>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, guy.b@bluewin.ch
+Subject: Re: [regression] Since kernel 6.3.1 logitech unify receiver not
+ working properly
+In-Reply-To: <CAHk-=whvhkSk6m8_AidhofgR9nq0Md+HbNad5r1RE69tZgbv6Q@mail.gmail.com>
+Message-ID: <nycvar.YFH.7.76.2305231422180.29760@cbobk.fhfr.pm>
+References: <9b987585-0834-bb8c-3414-283c29f3f2ab@leemhuis.info> <bec024d5-4088-00ae-f7b5-7188868b1707@leemhuis.info> <b7717c43-74bf-b91d-d3ce-874493df602c@gmail.com> <CAO-hwJ+At1J_yUpX2q_dJekzZ-PoTDAvxmkTk_e4Yu0Z338bEA@mail.gmail.com>
+ <55dda0bb-fe42-6dee-28ea-00121554d092@leemhuis.info> <CAHk-=whvhkSk6m8_AidhofgR9nq0Md+HbNad5r1RE69tZgbv6Q@mail.gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello!
+On Mon, 22 May 2023, Linus Torvalds wrote:
 
-Have you been wondering what solution can help you effectively build new =
-sales networks?
+> > FWIW, in case anybody is interested in a status update: one reporter
+> > bisected the problem down to 586e8fede79 ("HID: logitech-hidpp: Retry
+> > commands when device is busy"); reverting that commit on-top of 6.3
+> > fixes the problem for that reporter. For that reporter things also work
+> > on 6.4-rc; but for someone else that is affected that's not the case.
 
-Knowing the market and your industry well, we know how difficult it is to=
- stay ahead of the competition and generate higher profits at the same ti=
-me.
+FWIW, I was pretty much away for past few weeks as well, same as Benjamin 
+as Bastien. Which is unfortunate timing, but that's how things pan out 
+sometimes.
 
-That is why we would like to offer you the opportunity to cooperate as re=
-sellers of one of the best auditing applications, thanks to which you can=
- expand your portfolio of clients and build new markets.
+> Hmm. It's likely timing-dependent.
+> 
+> But that code is clearly buggy.
+> 
+> If the wait_event_timeout() returns early, the device hasn't replied,
+> but the code does
+> 
+>                 if (!wait_event_timeout(hidpp->wait, hidpp->answer_available,
+>                                         5*HZ)) {
+>                         dbg_hid("%s:timeout waiting for response\n", __func__);
+>                         memset(response, 0, sizeof(struct hidpp_report));
+>                         ret = -ETIMEDOUT;
+>                 }
+> 
+> and then continues to look at the response _anyway_.
 
-This cloud and mobile solution enjoys high market interest, which makes i=
-t an ideal tool for building an additional or basic business.
+Yeah; we are zeroing it out, but that doesn't really make things any 
+better in principle, given all the dereferences later.
 
-Let me know if you are open to talking about potential cooperation.
+The issue seems to be existing ever since 2f31c52529 ("HID: Introduce 
+hidpp, a module to handle Logitech hid++ devices") when this whole driver 
+was introduced, as far as I can tell.
 
+> Now, depending on out hardening options, that response may have been 
+> initialized by the compiler, or may just be random stack contents.
 
-Regards
-Oliver Brown
+Again, as in case of timeout the buffer is just zeroed out, I'd just much 
+more expect NULL pointer dereference in such case. Which is not what we 
+are seeing here.
+
+> That bug is pre-existing (ie the problem was not introduced by that 
+> commit), but who knows if the retry makes things worse (ie if it then 
+> triggers on a retry, the response data will be the *previous* response).
+> 
+> The whole "goto exit" games should be removed too, because we're in a
+> for-loop, and instead of "goto exit" it should just do "break".
+> 
+> IOW, something like this might be worth testing.
+> 
+> That said, while I think the code is buggy, I doubt this is the actual
+> cause of the problem people are reporting. But it would be lovely to
+> hear if the attached patch makes any difference, and I think this is
+> fixing a real - but unlikely - problem anyway.
+> 
+> And obviously it might be helpful to actually enable those dbg_hid()
+> messages, but I didn't look at what the magic config option to do so
+> was.
+
+dbg_hid() is just pr_debug(), which means that on kernels with 
+CONFIG_DYNAMIC_DEBUG, this makes use of the dynamic debug facility; 
+otherwsie it just becomes printk(KERN_DEBUG...).
+
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
+
