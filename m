@@ -2,125 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8B8970E7FA
-	for <lists+linux-input@lfdr.de>; Tue, 23 May 2023 23:50:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B06C470E838
+	for <lists+linux-input@lfdr.de>; Tue, 23 May 2023 23:58:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238434AbjEWVuY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 23 May 2023 17:50:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42456 "EHLO
+        id S233337AbjEWV6W (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 May 2023 17:58:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238624AbjEWVuX (ORCPT
+        with ESMTP id S229457AbjEWV6V (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 23 May 2023 17:50:23 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 667BFE49;
-        Tue, 23 May 2023 14:49:27 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-64d3fdcadb8so11158b3a.3;
-        Tue, 23 May 2023 14:49:27 -0700 (PDT)
+        Tue, 23 May 2023 17:58:21 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9B41BF;
+        Tue, 23 May 2023 14:58:20 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-64d3e5e5980so35398b3a.2;
+        Tue, 23 May 2023 14:58:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684878566; x=1687470566;
+        d=gmail.com; s=20221208; t=1684879100; x=1687471100;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+QuyMrYX/v4kGUEcU1dQFkTC9RvlOlPJYB46X1ZcevA=;
-        b=eGPMcDGfpdxUEcD/xs1YeWyP5mBSlFduLUdhSjS/pFmi0jeQzbZeS1yDcu48NcsXa4
-         G9C7sywrKkY0Stz2RD48b0EMMGwaygdI36zu3+YiMtGKCpintLcVfoKCAHj4381LWYiA
-         J3CB4PrLIn25kEa0vpKIjdK0LydkNiMyD7VE7ByE0w/FswJbDtvK12VYSJtDh2/zESrf
-         8wdJ6A4HNw46bzo73ApnGlf17bKugA3hPRhj3oWL/wCnx+3WAiQKpK+6MvwN3DGf31ut
-         pTimNrpwIA7UwsdsyO2zWEvmXVHLGr+uCGyh+jQF4NEUf4/jdt22awDORwJXlQuU7eA/
-         DhPg==
+        bh=luGFiBCmA9lpLLhi7oUt0xIbuMttQH5Ausy1dExaPMw=;
+        b=F8/0+34K6um1siiPTE8Gi9gf2r0302AS4sPgav9S8ex4nDcClcNrDuULKtcZmfDjNe
+         u5SYDw628h26yJeBDREWUWivr2jCqGdBAfdPFSBQ5Y33sEK6/8wW6P4LVeOsddEjVLBK
+         Ve3Oz8q7t4WtWTg4sSFVNNy6o8myscNQcLm7dCVE9VW8ZiAHkrxiFdNBLveCW6i/sUGv
+         Ff0WfyJEl8OlaTmPvqCrkyZsKpUmv/p1ppvDrl1rveloodSEj81Q5XnaUfu6Ctz0tOTx
+         CYKN688r7BCZOXtXUGYZCUCrmfmyK7kq6oMW+AVi2ITAjErnJDY81Cvb43zeloNYmH9C
+         JF2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684878566; x=1687470566;
+        d=1e100.net; s=20221208; t=1684879100; x=1687471100;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+QuyMrYX/v4kGUEcU1dQFkTC9RvlOlPJYB46X1ZcevA=;
-        b=aFrse5ViZteerZ3cjglEbVmou72Cr0676Ki3ewvFsAiqTdrjhsXcv5+M8RyqzhUoCg
-         JrVCjxC1XV0OilOrq0q7EL/7F8qm6XYr8adJtbHoRIKy0u47CmJtdsP4yIZOtfOtqCeg
-         Ivcr1T6MKScuPlthgh5u9fJdb6PzRKmGMi59WRZ21+PlxXnDM8N2RMpPeNsd5zZcVS4O
-         EuCjSx/LBfqQTYKOFccJk72eEoy45DvlXMEDckCB/376bC7KMhoYhv/aAROIGLmYNSr5
-         dXJGICE6Npil4v5WTDAebzROCVbLo5Gx0GGV0CLXNstMPyd5rPSEw1oDdJMquDtUum0R
-         UFrg==
-X-Gm-Message-State: AC+VfDyroYILdNstYcPnbnu4STbVValjfMoyt8aRIMnK6m5PmGA5sMpv
-        PxmWSpo/vyT1IUH53q1ag7o=
-X-Google-Smtp-Source: ACHHUZ7Ozssw445PC8iwedslvsvPghexHc5rQ108rKJnFmm1K7/BFPo4pUyK7cG3HCT621zIgREOug==
-X-Received: by 2002:a05:6a20:7f8c:b0:104:4c7d:25f8 with SMTP id d12-20020a056a207f8c00b001044c7d25f8mr17379983pzj.3.1684878565956;
-        Tue, 23 May 2023 14:49:25 -0700 (PDT)
+        bh=luGFiBCmA9lpLLhi7oUt0xIbuMttQH5Ausy1dExaPMw=;
+        b=U3/58W2fda8xFemIzAQnVsVBNfjSWWX2/wW9dvGql+L0CnWEvgfQtPf9gtczmz5ocE
+         iU/2tpywgzCnGp4Gm/WgU6BF/c/Jt1UiduT+Msv+56L5+i8bd8VvXeNwgh4M0tkvVswG
+         nrb+bLR51tJvqirBcLw/m4Rf6njCo1Ux/JS8oGyAFMP7z/QZJimjV5lHj62eRNxwJVZ8
+         if6me+QN0v0GPYf/wTOxkBBEx/7OcZvJS/KK+hklBoIcHYdVnv9EwwvFQMST3I4P+NTF
+         5w35ay1B/eoFD65x32zBnyuh4pUhYdUE4pUY/WX1/Frw1F6+Gm54676WHh7o6mAJ0ak4
+         pv7A==
+X-Gm-Message-State: AC+VfDz7tSmcXbVBPInb14/ICNUVaaqYYLa8UVshFE73sBONfr4cWikm
+        QbGR9pd1ehfTbjIJXGTYq8g=
+X-Google-Smtp-Source: ACHHUZ5WYpsOqZ+clEEIIg5dGNbsJXwwYmsVxjI0uT11Sh84qJxwLmj6u3ehWM7xjsUA2oBCz63zLQ==
+X-Received: by 2002:a05:6a00:218b:b0:643:9ca:3c7d with SMTP id h11-20020a056a00218b00b0064309ca3c7dmr660812pfi.4.1684879100115;
+        Tue, 23 May 2023 14:58:20 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:3913:9c00:6a9e:2c95])
-        by smtp.gmail.com with ESMTPSA id m15-20020a17090a3f8f00b0024b79a69361sm26352pjc.32.2023.05.23.14.49.24
+        by smtp.gmail.com with ESMTPSA id m2-20020aa79002000000b0064d3446df87sm6197846pfo.183.2023.05.23.14.58.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 May 2023 14:49:25 -0700 (PDT)
-Date:   Tue, 23 May 2023 14:49:22 -0700
+        Tue, 23 May 2023 14:58:19 -0700 (PDT)
+Date:   Tue, 23 May 2023 14:58:16 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Ismael Ferreras Morezuelas <swyterzone@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Cameron Gutman <aicommander@gmail.com>
-Subject: Re: [PATCH v2] Input: xpad: Delete a Razer DeathAdder mouse VID/PID
- entry from the gamepad list
-Message-ID: <ZG004m62A06vXm74@google.com>
-References: <5c12dbdb-5774-fc68-5c58-ca596383663e@gmail.com>
+To:     Dana Elfassy <delfassy@redhat.com>
+Cc:     eballetb@redhat.com, javierm@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dana Elfassy <dangel101@gmail.com>
+Subject: Re: [PATCH v3] Input: tests: add test to cover all
+ input_grab_device() function
+Message-ID: <ZG02+KBnqwBEv8Am@google.com>
+References: <20230522215514.722564-1-dangel101@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5c12dbdb-5774-fc68-5c58-ca596383663e@gmail.com>
+In-Reply-To: <20230522215514.722564-1-dangel101@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jan 05, 2022 at 01:28:09AM +0100, Ismael Ferreras Morezuelas wrote:
-> While doing my research to improve the xpad device names I noticed
-> that the 1532:0037 VID/PID seems to be used by the DeathAdder 2013,
-> so that Razer Sabertooth instance looked wrong and very suspect to
-> me. I didn't see any mention in the official drivers, either.
+On Tue, May 23, 2023 at 12:55:14AM +0300, Dana Elfassy wrote:
+> Currently input_grab_device() isn't covered by any tests
+> Thus, adding a test to cover the cases:
+> 1. The device is grabbed successfully
+> 2. Trying to grab a device that is already grabbed by another input
+>    handle
 > 
-> After doing more research, it turns out that the xpad list
-> is used by many other projects (like Steam) as-is [1], this
-> issue was reported [2] and Valve/Sam Lantinga fixed it [3]:
-> 
-> [1]: https://github.com/libsdl-org/SDL/blob/dcc5eef0e2395854b254ea2873a4899edab347c6/src/joystick/controller_type.h#L251
-> [2]: https://steamcommunity.com/app/353380/discussions/0/1743392486228754770/
-> [3]: https://hg.libsdl.org/SDL/rev/29809f6f0271
-> 
-> (With multiple Internet users reporting similar issues, not linked here)
-> 
-> After not being able to find the correct VID/PID combination anywhere
-> on the Internet and not receiving any reply from Razer support I did
-> some additional detective work, it seems like it presents itself as
-> "Razer Sabertooth Gaming Controller (XBOX360)", code 1689:FE00.
-> 
-> Leaving us with this:
->  * Razer Sabertooth (1689:fe00)
->  * Razer Sabertooth Elite (24c6:5d04)
->  * Razer DeathAdder 2013 (1532:0037) [note: not a gamepad]
-> 
-> So, to sum things up; remove this conflicting/duplicate entry:
-> 
-> { 0x1532, 0x0037, "Razer Sabertooth", 0, XTYPE_XBOX360 },
-> 
-> As the real/correct one is already present there, even if
-> the Internet as a whole insists on presenting it as the
-> Razer Sabertooth Elite, which (by all accounts) is not:
-> 
-> { 0x1689, 0xfe00, "Razer Sabertooth", 0, XTYPE_XBOX360 },
-> 
-> Actual change in SDL2 referencing this kernel issue:
-> https://github.com/libsdl-org/SDL/commit/e5e54169754ca5d3e86339d968b20126d9da0a15
-> 
-> For more information of the device, take a look here:
-> https://github.com/xboxdrv/xboxdrv/pull/59
-> 
-> You can see a lsusb dump here: https://github.com/xboxdrv/xboxdrv/files/76581/Qa6dBcrv.txt
-> 
-> Cc: stable@vger.kernel.org
-> Cc: Cameron Gutman <aicommander@gmail.com>
-> Fixes: f554f619b70 ("Input: xpad - sync device IDs with xboxdrv")
-> Signed-off-by: Ismael Ferreras Morezuelas <swyterzone@gmail.com>
-> Reviewed-by: Cameron Gutman <aicommander@gmail.com>
+> Signed-off-by: Dana Elfassy <dangel101@gmail.com>
+> Tested-by: Javier Martinez Canillas <javierm@redhat.com>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Reviewed-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
 Applied, thank you.
 
