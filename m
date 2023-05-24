@@ -2,175 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC48270EC04
-	for <lists+linux-input@lfdr.de>; Wed, 24 May 2023 05:45:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3245F70EC37
+	for <lists+linux-input@lfdr.de>; Wed, 24 May 2023 05:58:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239346AbjEXDpV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 23 May 2023 23:45:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53618 "EHLO
+        id S239169AbjEXD62 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 May 2023 23:58:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239121AbjEXDpT (ORCPT
+        with ESMTP id S239427AbjEXD60 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 23 May 2023 23:45:19 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B2DEA3
-        for <linux-input@vger.kernel.org>; Tue, 23 May 2023 20:45:18 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-64d2da69fdfso404699b3a.0
-        for <linux-input@vger.kernel.org>; Tue, 23 May 2023 20:45:18 -0700 (PDT)
+        Tue, 23 May 2023 23:58:26 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DD63E6;
+        Tue, 23 May 2023 20:58:25 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-51b33c72686so321073a12.1;
+        Tue, 23 May 2023 20:58:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1684899918; x=1687491918;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mNAx86DC0MbJEeALPDvpUMasnonSntghXNH2OAhpxaM=;
-        b=RtKZkyqNLvMx8iPH0pj6iwQFHl015JFQI3TE7qXpfm0+J4nWvloy56LofH+EoS3TP2
-         fuYdgY9vVgXAPiA8ntzrE1ufVBOG0ah5OwOtuOCqhH0AtxXf3w5Yz392c0cbAW36prlX
-         WbrIOn4nLiGngXLu6jH8FLXbTnqeNNfKojIBI=
+        d=gmail.com; s=20221208; t=1684900704; x=1687492704;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=eoFUq15BfcYMvDYkbbe5qe+ZjxrdZ/BZL1FuqpuGwYI=;
+        b=NPPQHhxaY0hpKceunhe5E93G5vLNcXTCZl0myVLNJpzoM5OOYU2rLMn0jk2PhAJJhE
+         YePOJZUxLRhZixUMSjoPqLYNt2uSMkAPGnXWbG0EF8hplN9DGzVObkBxrvHOwduGtT2R
+         /qqYApyVQKHeCTzI1sMmDKFgOGB80MybLgWMTccZVvJUIA5qpO72g/PfY52YEVn+ANnc
+         N+9nWkoPAivd68El2FLGAYA0ZLNKdkcUS5mjtfz2EW6GAQYkMbXa18aZFvJT8N1uobCe
+         oFqgvDX6kLnPNwwW1qRBi/Qmi0mWMWZRzc2o/D0xbFFz2w+LTDPvu2QEjh8ly2b5BD/e
+         rGuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684899918; x=1687491918;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mNAx86DC0MbJEeALPDvpUMasnonSntghXNH2OAhpxaM=;
-        b=QztpntOJAWMdVPKBdTny2TVtBBlJg03oTmIFUBC2q0AvwjqLK+hqJ4xrCp/+ANWINH
-         SSv2BoftQFxzkoK/RxMhkLj6lEQ7NvsvVtlwHJbySjJrx/g39jOPzXep2qExp95nn9MI
-         bngJ1hlwtUnQC4YBHbEtzLSdRtH18vpzBEYSoFUAvAyKv8aQQD5QvL6NkwJTIEdoPEpl
-         kGHfWNApdqVgkzj79v0gLzt6Wlku0QS5EldQ3hNi7VmikUKcDqlp/LSH0cb1wbk1uj1c
-         a6XrGbmVfN5FJMDyqEXcCr1kd1MkIITlgU5ll2S5yagxTdJ+sLnL2lmblYAkBdM2y4Je
-         sX0A==
-X-Gm-Message-State: AC+VfDwAFH33FCx474cBRjpHVnGUv8Cta/Qh2kDzwZeGJWil+LCZNA02
-        9RX4IrsV/QH0xTMfxAD2lm+lyw==
-X-Google-Smtp-Source: ACHHUZ7lrSSe5gvwtJikgn0Nq+usQfhiJN+qC1SEtW5cx202V0e0ayVFLx1Fi16bLXeQ8mZlyAGxhQ==
-X-Received: by 2002:a05:6a00:2488:b0:643:980:65b with SMTP id c8-20020a056a00248800b006430980065bmr1773437pfv.2.1684899918278;
-        Tue, 23 May 2023 20:45:18 -0700 (PDT)
-Received: from fshao-p620.tpe.corp.google.com ([2401:fa00:1:10:3b18:4c0c:a178:5536])
-        by smtp.gmail.com with ESMTPSA id d3-20020aa78683000000b0064cb1fe7e44sm6357616pfo.219.2023.05.23.20.45.16
+        d=1e100.net; s=20221208; t=1684900704; x=1687492704;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eoFUq15BfcYMvDYkbbe5qe+ZjxrdZ/BZL1FuqpuGwYI=;
+        b=S3LzdIOxQutcr6DzIcJnTL3YOicOOnD/OQiuPnofyCalmr83Gj+bsjC5XipxdPeK0C
+         Rn/Lzes3diA3T7fKSyrzt+MjfeUxjRUDkI5GfeTX70im0fm0hqFJchadG+5JpjXCDS39
+         +ZhsycsgoxkcocBCiQw1tn1H+9E3oL/yVoHoRpjfDPMmDcBaZOX9ohDuAHCJDmQsIQ+r
+         ArEBlxxIR7cJaezZPgrvRF+yimC84l/vab0CI+9TYNLPR0XKcSUzpcvoJas5FwD3O428
+         eAnEF/KjUlVJgYdx4S6QDdk8WnpWdBWM3uk5mMRV8Oj6znsY936vb1r+Wiz5kNL1/GxQ
+         7zwQ==
+X-Gm-Message-State: AC+VfDy9aBoGQG6P9YaB0fxkJ9gsAqocaFrJ1le4t4Tj47nduoJ9xoz4
+        plsq/UGWv5TCw5t8QCfshw+5NVKH234=
+X-Google-Smtp-Source: ACHHUZ74R9rTWqtJ3JwYDu9EiI/76WjbYN939ePLnJ/gNaNyOyE6aZuV+jiidKERNWRW6RKgOQEi+g==
+X-Received: by 2002:a17:902:ea0f:b0:1ad:fa2e:17fc with SMTP id s15-20020a170902ea0f00b001adfa2e17fcmr18549234plg.2.1684900704188;
+        Tue, 23 May 2023 20:58:24 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-68.three.co.id. [180.214.232.68])
+        by smtp.gmail.com with ESMTPSA id jc1-20020a17090325c100b001a1b66af22fsm7582775plb.62.2023.05.23.20.58.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 May 2023 20:45:17 -0700 (PDT)
-From:   Fei Shao <fshao@chromium.org>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Jeff LaBundy <jeff@labundy.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Fei Shao <fshao@chromium.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Stephen Kitt <steve@sk2.org>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND v4 2/2] HID: i2c-hid: goodix: Add support for "goodix,no-reset-during-suspend" property
-Date:   Wed, 24 May 2023 11:42:37 +0800
-Message-ID: <20230524114233.RESEND.v4.2.I424e840ae6de3cdbd67394cf4efd24534f6434ba@changeid>
-X-Mailer: git-send-email 2.40.1.698.g37aff9b760-goog
-In-Reply-To: <20230524114233.RESEND.v4.2.I424e840ae6de3cdbd67394cf4efd24534f6434ba@changeid>
-References: <20230524114233.RESEND.v4.2.I424e840ae6de3cdbd67394cf4efd24534f6434ba@changeid>
+        Tue, 23 May 2023 20:58:23 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 2981B1069C0; Wed, 24 May 2023 10:58:21 +0700 (WIB)
+Date:   Wed, 24 May 2023 10:58:20 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Haochen Tong <linux@hexchain.org>, stable@vger.kernel.org
+Cc:     regressions@lists.linux.dev, linux-input@vger.kernel.org,
+        Basavaraj Natikar <basavaraj.natikar@amd.com>
+Subject: Re: amd_sfh driver causes kernel oops during boot
+Message-ID: <ZG2LXN2+Sa2PWJqz@debian.me>
+References: <f40e3897-76f1-2cd0-2d83-e48d87130eab@hexchain.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="YBhjpwkXDbp8U+2d"
+Content-Disposition: inline
+In-Reply-To: <f40e3897-76f1-2cd0-2d83-e48d87130eab@hexchain.org>
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In the beginning, commit 18eeef46d359 ("HID: i2c-hid: goodix: Tie the
-reset line to true state of the regulator") introduced a change to tie
-the reset line of the Goodix touchscreen to the state of the regulator
-to fix a power leakage issue in suspend.
 
-After some time, the change was deemed unnecessary and was reverted in
-commit 557e05fa9fdd ("HID: i2c-hid: goodix: Stop tying the reset line to
-the regulator") due to difficulties in managing regulator notifiers for
-designs like Evoker, which provides a second power rail to touchscreen.
+--YBhjpwkXDbp8U+2d
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-However, the revert caused a power regression on another Chromebook
-device Steelix in the field, which has a dedicated always-on regulator
-for touchscreen and was covered by the workaround in the first commit.
+On Wed, May 24, 2023 at 01:27:57AM +0800, Haochen Tong wrote:
+> Hi,
+>=20
+> Since kernel 6.3.0 (and also 6.4rc3), on a ThinkPad Z13 system with Arch
+> Linux, I've noticed that the amd_sfh driver spews a lot of stack traces
+> during boot. Sometimes it is an oops:
 
-To address both cases, this patch adds the support for the new
-"goodix,no-reset-during-suspend" property in the driver:
-- When set to true, the driver does not assert the reset GPIO during
-  power-down.
-  Instead, the GPIO will be asserted during power-up to ensure the
-  touchscreen always has a clean start and consistent behavior after
-  resuming.
-  This is for designs with a dedicated always-on regulator.
-- When set to false or unset, the driver uses the original control flow
-  and asserts GPIO and disables regulators normally.
-  This is for the two-regulator and shared-regulator designs.
+What last kernel version before this regression occurs? Do you mean
+v6.2?
 
-Signed-off-by: Fei Shao <fshao@chromium.org>
-Suggested-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Jeff LaBundy <jeff@labundy.com>
+Thanks.
 
----
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Changes in v4:
-- Minor coding style improvement
+--YBhjpwkXDbp8U+2d
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Changes in v3:
-- In power-down, only skip the GPIO but not the regulator calls if the
-  flag is set
+-----BEGIN PGP SIGNATURE-----
 
-Changes in v2:
-- Drop the change to regulator_enable logic during power-up
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZG2LWAAKCRD2uYlJVVFO
+o7V9AQC0xTz1VBHy4yB1nKdpCOLGimzuKpfUKeRBzGsZaiiIAAD+MGxV4LLpO9Wb
+cbsOdM8WB+gLP+Nu/W/lvhtvcoyJDQo=
+=B11Z
+-----END PGP SIGNATURE-----
 
- drivers/hid/i2c-hid/i2c-hid-of-goodix.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/i2c-hid/i2c-hid-of-goodix.c b/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
-index 0060e3dcd775..db4639db9840 100644
---- a/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
-@@ -28,6 +28,7 @@ struct i2c_hid_of_goodix {
- 	struct regulator *vdd;
- 	struct regulator *vddio;
- 	struct gpio_desc *reset_gpio;
-+	bool no_reset_during_suspend;
- 	const struct goodix_i2c_hid_timing_data *timings;
- };
- 
-@@ -37,6 +38,14 @@ static int goodix_i2c_hid_power_up(struct i2chid_ops *ops)
- 		container_of(ops, struct i2c_hid_of_goodix, ops);
- 	int ret;
- 
-+	/*
-+	 * We assert reset GPIO here (instead of during power-down) to ensure
-+	 * the device will have a clean state after powering up, just like the
-+	 * normal scenarios will have.
-+	 */
-+	if (ihid_goodix->no_reset_during_suspend)
-+		gpiod_set_value_cansleep(ihid_goodix->reset_gpio, 1);
-+
- 	ret = regulator_enable(ihid_goodix->vdd);
- 	if (ret)
- 		return ret;
-@@ -60,7 +69,9 @@ static void goodix_i2c_hid_power_down(struct i2chid_ops *ops)
- 	struct i2c_hid_of_goodix *ihid_goodix =
- 		container_of(ops, struct i2c_hid_of_goodix, ops);
- 
--	gpiod_set_value_cansleep(ihid_goodix->reset_gpio, 1);
-+	if (!ihid_goodix->no_reset_during_suspend)
-+		gpiod_set_value_cansleep(ihid_goodix->reset_gpio, 1);
-+
- 	regulator_disable(ihid_goodix->vddio);
- 	regulator_disable(ihid_goodix->vdd);
- }
-@@ -91,6 +102,9 @@ static int i2c_hid_of_goodix_probe(struct i2c_client *client)
- 	if (IS_ERR(ihid_goodix->vddio))
- 		return PTR_ERR(ihid_goodix->vddio);
- 
-+	ihid_goodix->no_reset_during_suspend =
-+		of_property_read_bool(client->dev.of_node, "goodix,no-reset-during-suspend");
-+
- 	ihid_goodix->timings = device_get_match_data(&client->dev);
- 
- 	return i2c_hid_core_probe(client, &ihid_goodix->ops, 0x0001, 0);
--- 
-2.40.1.698.g37aff9b760-goog
-
+--YBhjpwkXDbp8U+2d--
