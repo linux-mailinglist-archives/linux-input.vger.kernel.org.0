@@ -2,71 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8D5370EAEB
-	for <lists+linux-input@lfdr.de>; Wed, 24 May 2023 03:43:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFD7770EBFF
+	for <lists+linux-input@lfdr.de>; Wed, 24 May 2023 05:45:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239038AbjEXBnp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 23 May 2023 21:43:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40048 "EHLO
+        id S239326AbjEXDpQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 May 2023 23:45:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232367AbjEXBno (ORCPT
+        with ESMTP id S235017AbjEXDpO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 23 May 2023 21:43:44 -0400
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EB99130
-        for <linux-input@vger.kernel.org>; Tue, 23 May 2023 18:43:44 -0700 (PDT)
-Received: by mail-oo1-xc33.google.com with SMTP id 006d021491bc7-55239f43426so279594eaf.1
-        for <linux-input@vger.kernel.org>; Tue, 23 May 2023 18:43:44 -0700 (PDT)
+        Tue, 23 May 2023 23:45:14 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89F90C1
+        for <linux-input@vger.kernel.org>; Tue, 23 May 2023 20:45:13 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-64d2da69fdfso404548b3a.0
+        for <linux-input@vger.kernel.org>; Tue, 23 May 2023 20:45:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1684892623; x=1687484623;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vIsHGl9ozYTs5rseV1pZIPnBfkYTn/eydd61k1gZ4kY=;
-        b=pLwp87/vqopONOkkrzPU6qQ6zJ8KPVxPyg22hCWjpBqwGzn22X6q3lTDlYMpbn796x
-         K/0aGIgCoM7ETnMVA64Io0b0SfUtaKPa3x/oj6CurCkeu7uMN//wXIQKaGE6gd549Eia
-         7P/aoPeEEA/3BFWUgRrLLw8jlebmlePBaPkrGRsFK2oW62mss1nkdsEe8cWXHWZ5GJtj
-         FO3Xl0mxt49+OUDCT01bjmrnXYrunDimnCi7N0cyRUiBdHOF0Na2Y3ViFp6OCsEW6Q72
-         CNf/A/FFmnmyWHWEZzfnS8Jtgw600DBxXSAO8ddEe+VGLFlJUan5VYu863QxsgR1cIxa
-         xn+w==
+        d=chromium.org; s=google; t=1684899913; x=1687491913;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hbA/T1wO1qAyesSWdO0/kj1YL/bMGtGocXpaz0d8yIU=;
+        b=VeBvQWErwn1MbzsyYFSjCJED65iyYAEZEdvLFM6dbmQuJTJ57UcMGrUP4f0bgPGfsq
+         HlqoeMRLdlrFRGRtAhSJH6ZjWb2tThPW4ZaG8xzODYpHpYyQllT8J75KjZVBq2Bmbm17
+         lJFgu97CjFoiv8UB6P2HHnp1+9ka+R3Ktowu8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684892623; x=1687484623;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1684899913; x=1687491913;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vIsHGl9ozYTs5rseV1pZIPnBfkYTn/eydd61k1gZ4kY=;
-        b=Sy8DvZImFIVNBakY5zrdLPvE4nsXAmX9k7YR5vJsgpPiPbNQZ/XU85adi+dMmXu48s
-         FzMHCckE4yR/D2N6ODCJMCyTcF16Sqzcxbf9rpPKdgVuZGsDStsLYa+wD2tR0EXTELTc
-         9v+IJz/FnpLLSImBy+H2auBs18t1HbnxG8zOrTrnA9l2RKq+PQI01r19q2iJl9dzGYKT
-         llPQ73BQa7xlClsFw0775p9i1uu1Ln6pugFLu2rvuBnT+UpQ7+08Yzgb+Lnsw6tVCk2Y
-         7W6O0q9aFVp6yQJpyh/UOHcgYIcf1rgbik6d0+CrlR7QNZPuUPmlBAHh2R+CJPw/6Ojz
-         GQUQ==
-X-Gm-Message-State: AC+VfDyX0WBgw4sCIR/fW7VCUL3M0xd+amiGexCbGeHg9DaQZ2bpN/rV
-        ysmuJy+jpA6NatDumOSDrfvbiT9lxA9VnATGhWwspj4VYo7eg1eKFSE=
-X-Google-Smtp-Source: ACHHUZ7IlZhQvUKEN4pSCLn3RkFv1vgGnysjyfWgfayTnvcDIaBFXW/3I3uvS76281hYfdhoty5Ed1SCQGde8f+80Lk=
-X-Received: by 2002:aca:1a17:0:b0:395:fae4:7da4 with SMTP id
- a23-20020aca1a17000000b00395fae47da4mr7596498oia.5.1684892623386; Tue, 23 May
- 2023 18:43:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230425163844.3711710-1-svv@google.com>
-In-Reply-To: <20230425163844.3711710-1-svv@google.com>
-From:   Siarhei Vishniakou <svv@google.com>
-Date:   Tue, 23 May 2023 18:43:32 -0700
-Message-ID: <CAKF84v1oq6F5KK029rfZJyPa6ZetJKAA_Fvsh7Z=DyfLAUNqFg@mail.gmail.com>
-Subject: Re: [PATCH v4] Add rumble support to latest xbox controllers
-To:     Jiri Kosina <jikos@kernel.org>,
+        bh=hbA/T1wO1qAyesSWdO0/kj1YL/bMGtGocXpaz0d8yIU=;
+        b=HmyQ01M9ghwF8PrO/S1F8lLj6qyUg/1g+2OcWA8UAN4kXb62voaHweHEd83l97ny7L
+         n/9jLUgPXtOi7mYGkw+Y5zdU7RhR5peQ6RVhAlYVOIhACDHR/XSbCaf2hNzJpN8RxjHv
+         qqKrkJugmyw6FtwAXSFXliJYjLb29AXMWTrAKIEIWm3xa7En7+hLQk3d6MPa1tkThEL0
+         C2KYI/+gnds1caCYjyWHhNZ33Ak7yBm03oc8TITg3tLiTQ3OQ6x0nu2lJm1xJ2/l/cbr
+         2yGe0lCR23dJR2gYkO9v2qTEInp/c1UC67W5wMhZZOprC/Tbl1eTkm1B0lAT3z8zKTpH
+         tdLw==
+X-Gm-Message-State: AC+VfDxo0I+oNFDqztmLVC5Si7u43K04NZ8+DJviO4VPOw7FGK7t3nps
+        oNZIpnqNSGGbZdNNwxWtCji5YA==
+X-Google-Smtp-Source: ACHHUZ4sRjgaPzPxgJEkTuRdXIRIqTO36IIjJDWQCl5rH1I7eGu7CYzvObK22BZghfdqAFohs1OuPQ==
+X-Received: by 2002:a05:6a00:1488:b0:64d:2ea4:937a with SMTP id v8-20020a056a00148800b0064d2ea4937amr1857653pfu.7.1684899913048;
+        Tue, 23 May 2023 20:45:13 -0700 (PDT)
+Received: from fshao-p620.tpe.corp.google.com ([2401:fa00:1:10:3b18:4c0c:a178:5536])
+        by smtp.gmail.com with ESMTPSA id d3-20020aa78683000000b0064cb1fe7e44sm6357616pfo.219.2023.05.23.20.45.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 May 2023 20:45:12 -0700 (PDT)
+From:   Fei Shao <fshao@chromium.org>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Jeff LaBundy <jeff@labundy.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        Fei Shao <fshao@chromium.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Stephen Kitt <steve@sk2.org>, devicetree@vger.kernel.org,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Bastien Nocera <hadess@hadess.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+Subject: [PATCH RESEND v4 0/2] Fix Goodix touchscreen power leakage for MT8186 boards
+Date:   Wed, 24 May 2023 11:42:35 +0800
+Message-ID: <20230524114233.RESEND.v4.2.I424e840ae6de3cdbd67394cf4efd24534f6434ba@changeid>
+X-Mailer: git-send-email 2.40.1.698.g37aff9b760-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Friendly ping on this CL, thanks!
+These changes are based on the series in [1], which modified the
+i2c-hid-of-goodix driver and removed the workaround for a power leakage
+issue, so the issue revisits on Mediatek MT8186 boards (Steelix).
+
+The root cause is that the touchscreen can be powered in different ways
+depending on the hardware designs, and it's not as easy to come up with
+a solution that is both simple and elegant for all the known designs.
+
+To address the issue, I ended up adding a new boolean property for the
+driver so that we can control the power up/down sequence depending on
+that.
+
+Adding a new property might not be the cleanest approach for this, but
+at least the intention would be easy enough to understand, and it
+introduces relatively small change to the code and fully preserves the
+original control flow.
+
+[1] https://lore.kernel.org/all/20230207024816.525938-1-dianders@chromium.org/
+
+Changes in v4:
+- Rebase on top of next-20230523
+- Collect the review tags
+- Minor coding style improvement
+
+Changes in v3:
+- In power-down, only skip the GPIO but not the regulator calls if the
+  flag is set
+
+Changes in v2:
+- Use a more accurate property name and with "goodix," prefix
+- Drop the change to regulator_enable logic during power-up
+
+Fei Shao (2):
+  dt-bindings: input: goodix: Add "goodix,no-reset-during-suspend"
+    property
+  HID: i2c-hid: goodix: Add support for "goodix,no-reset-during-suspend"
+    property
+
+ .../bindings/input/goodix,gt7375p.yaml           |  9 +++++++++
+ drivers/hid/i2c-hid/i2c-hid-of-goodix.c          | 16 +++++++++++++++-
+ 2 files changed, 24 insertions(+), 1 deletion(-)
+
+-- 
+2.40.1.698.g37aff9b760-goog
+
