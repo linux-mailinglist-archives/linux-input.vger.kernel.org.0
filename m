@@ -2,54 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AF4C71221B
-	for <lists+linux-input@lfdr.de>; Fri, 26 May 2023 10:22:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 280E0712A0B
+	for <lists+linux-input@lfdr.de>; Fri, 26 May 2023 17:56:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242184AbjEZIWU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 May 2023 04:22:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60560 "EHLO
+        id S243506AbjEZP4w (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 26 May 2023 11:56:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236878AbjEZIWU (ORCPT
+        with ESMTP id S237519AbjEZP4v (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 May 2023 04:22:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9914BD9;
-        Fri, 26 May 2023 01:22:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 17F5064DF7;
-        Fri, 26 May 2023 08:22:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC7ECC433D2;
-        Fri, 26 May 2023 08:22:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685089337;
-        bh=z68pfjdEhosaPEsjtJpzRfNnBwTmmXtSizLI17MVt90=;
-        h=From:To:Cc:Subject:Date:From;
-        b=tH0+LdPG5GHk0K0zQGVYcMQ8UUUtQaZUEQphsdeqeybxs3s+1gc8zbvKYQNfbaONw
-         GdaZr/F0LTinx+0VEbUq1tjNlfmI019nDWtxmg17yH0vMSzL1Tjii2n1ZWZyRYB/jo
-         HQPwBfUXpu8CWVDNvPDSdjvtDSotVV/9uXlCY1jsJIH7Ye266qrc/nqlXpzavPJekK
-         lTkxbamBP91cJMuaRBO3U/xg7zpXA8C+hC/N7QHNRX7gy8g4qWthaSdDGGu1+nOMRY
-         THWELS1p0rm4/PrKC0KEA3/GxzeHz+xl382KvvE3MWbpuUDP2RpMU/nIUW6hQGxR3N
-         gZi+wtkmeOfjA==
-From:   eballetbo@kernel.org
-To:     linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Shuah Khan <shuah@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Dana Elfassy <delfassy@redhat.com>,
-        linux-input@vger.kernel.org, phuttere@redhat.com,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Enric Balletbo i Serra <eballetbo@kernel.org>
-Subject: [PATCH] selftests/input: Introduce basic tests for evdev ioctls
-Date:   Fri, 26 May 2023 10:22:05 +0200
-Message-Id: <20230526082205.6297-1-eballetbo@kernel.org>
-X-Mailer: git-send-email 2.40.1
+        Fri, 26 May 2023 11:56:51 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76EBB10A
+        for <linux-input@vger.kernel.org>; Fri, 26 May 2023 08:56:50 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q2Zo8-0006tZ-R2; Fri, 26 May 2023 17:56:48 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q2Zo7-002zHL-Uq; Fri, 26 May 2023 17:56:47 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q2Zo7-008Chq-B9; Fri, 26 May 2023 17:56:47 +0200
+Date:   Fri, 26 May 2023 17:56:47 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     kernel@pengutronix.de, linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: Switch i2c drivers back to use .probe()
+Message-ID: <20230526155647.vanaz65gkmo3ffgy@pengutronix.de>
+References: <20230517164645.162294-1-u.kleine-koenig@pengutronix.de>
+ <ZGUImQNUL9uNNHmO@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ct6hr5itey4j6a3g"
+Content-Disposition: inline
+In-Reply-To: <ZGUImQNUL9uNNHmO@google.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -58,360 +53,64 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Enric Balletbo i Serra <eballetbo@kernel.org>
 
-This provides a basic infrastructure for the creation of tests for the evdev
-interface. Most of this is code is adapted from the libevdev wrapper
-library. While most of evdev ioctls are covered and tested using
-libevdev tests there are some evdev ioctls that aren't because are not
-supported (and will not be supported) by libevdev. So, adding, at least
-those tests, would make sense.
+--ct6hr5itey4j6a3g
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The test creates an uinput device (and an evdev device) so you can
-call the wanted ioctl from userspace. So, to run those tests you need
-to have support for uinput and evdev as well.
+Hello Dmitry,
 
-Signed-off-by: Enric Balletbo i Serra <eballetbo@kernel.org>
----
- tools/testing/selftests/Makefile           |   1 +
- tools/testing/selftests/input/.gitignore   |   2 +
- tools/testing/selftests/input/Makefile     |   5 +
- tools/testing/selftests/input/config       |   3 +
- tools/testing/selftests/input/evioc-test.c | 282 +++++++++++++++++++++
- 5 files changed, 293 insertions(+)
- create mode 100644 tools/testing/selftests/input/.gitignore
- create mode 100644 tools/testing/selftests/input/Makefile
- create mode 100644 tools/testing/selftests/input/config
- create mode 100644 tools/testing/selftests/input/evioc-test.c
+On Wed, May 17, 2023 at 10:02:17AM -0700, Dmitry Torokhov wrote:
+> On Wed, May 17, 2023 at 06:46:45PM +0200, Uwe Kleine-K=F6nig wrote:
+> > After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> > call-back type"), all drivers being converted to .probe_new() and then
+> > 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") conve=
+rt
+> > back to (the new) .probe() to be able to eventually drop .probe_new() f=
+rom
+> > struct i2c_driver.
+> >=20
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> > ---
+> > Hello,
+> >=20
+> > this patch was generated using coccinelle, but I aligned the result to
+> > the per-file indention. Other than that it's just s/probe_new/probe/.
+> >=20
+> > I used v6.4-rc1 as base for it, there are a few patches in next that
+> > conflict slightly with it, but for me git can sort it all out.
+> > Feel free to just drop all conflicting hunks if it doesn't go so smooth
+> > for you, I'll care about the fallout later.
+>=20
+> I think I saw only 1 clash in cyttsp5 driver, and I resolved it.
+> Hopefully I did not miss anything else.
+>=20
+> This is now applied for the next merge window.
 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 90a62cf75008..29fc77168aa7 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -28,6 +28,7 @@ TARGETS += futex
- TARGETS += gpio
- TARGETS += hid
- TARGETS += intel_pstate
-+TARGETS += input
- TARGETS += iommu
- TARGETS += ipc
- TARGETS += ir
-diff --git a/tools/testing/selftests/input/.gitignore b/tools/testing/selftests/input/.gitignore
-new file mode 100644
-index 000000000000..37f5dff3255b
---- /dev/null
-+++ b/tools/testing/selftests/input/.gitignore
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0
-+evioc-test
-diff --git a/tools/testing/selftests/input/Makefile b/tools/testing/selftests/input/Makefile
-new file mode 100644
-index 000000000000..031729be0628
---- /dev/null
-+++ b/tools/testing/selftests/input/Makefile
-@@ -0,0 +1,5 @@
-+# SPDX-License-Identifier: GPL-2.0
-+CFLAGS +=  -D_GNU_SOURCE -std=gnu99 -Wl,-no-as-needed -Wall $(KHDR_INCLUDES)
-+
-+TEST_GEN_PROGS := evioc-test
-+include ../lib.mk
-diff --git a/tools/testing/selftests/input/config b/tools/testing/selftests/input/config
-new file mode 100644
-index 000000000000..b7512f3e6d8d
---- /dev/null
-+++ b/tools/testing/selftests/input/config
-@@ -0,0 +1,3 @@
-+CONFIG_INPUT=y
-+CONFIG_INPUT_EVDEV=y
-+CONFIG_INPUT_UINPUT=m
-diff --git a/tools/testing/selftests/input/evioc-test.c b/tools/testing/selftests/input/evioc-test.c
-new file mode 100644
-index 000000000000..4c0c8ebed378
---- /dev/null
-+++ b/tools/testing/selftests/input/evioc-test.c
-@@ -0,0 +1,282 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright © 2023 Red Hat, Inc.
-+ *
-+ * Part of the code in this file is inspired and copied from the libevdev wrapper library
-+ * for evdev devices written by Peter Hutterer.
-+ */
-+
-+#include <dirent.h>
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <linux/uinput.h>
-+#include <poll.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/stat.h>
-+#include <time.h>
-+#include <unistd.h>
-+
-+#include "../kselftest_harness.h"
-+
-+#define TEST_DEVICE_NAME "selftest input device"
-+
-+struct selftest_uinput {
-+	int uinput_fd; /** file descriptor to uinput */
-+	int evdev_fd; /** file descriptor to evdev */
-+	char *name; /** device name */
-+	char *syspath; /** /sys path */
-+	char *devnode; /** device node */
-+};
-+
-+static int is_event_device(const struct dirent *dent)
-+{
-+	return strncmp("event", dent->d_name, 5) == 0;
-+}
-+
-+static char *fetch_device_node(const char *path)
-+{
-+	struct dirent **namelist;
-+	char *devnode = NULL;
-+	int ndev, i;
-+
-+	ndev = scandir(path, &namelist, is_event_device, alphasort);
-+	if (ndev <= 0)
-+		return NULL;
-+
-+	/* ndev should only ever be 1 */
-+
-+	for (i = 0; i < ndev; i++) {
-+		if (!devnode && asprintf(&devnode, "/dev/input/%s",
-+					 namelist[i]->d_name) == -1)
-+			devnode = NULL;
-+		free(namelist[i]);
-+	}
-+
-+	free(namelist);
-+
-+	return devnode;
-+}
-+
-+static int is_input_device(const struct dirent *dent)
-+{
-+	return strncmp("input", dent->d_name, 5) == 0;
-+}
-+
-+/*
-+ * Device node is guessed based on the sysfs path, the sysfs path contains a
-+ * eventN file, that corresponds to our /dev/input/eventN number.
-+ */
-+static int fetch_syspath_and_devnode(struct selftest_uinput *uidev)
-+{
-+#define SYS_INPUT_DIR "/sys/devices/virtual/input/"
-+	struct dirent **namelist;
-+	int ndev, i;
-+	int rc;
-+	char buf[sizeof(SYS_INPUT_DIR) + 64] = SYS_INPUT_DIR;
-+
-+	rc = ioctl(uidev->uinput_fd,
-+		   UI_GET_SYSNAME(sizeof(buf) - strlen(SYS_INPUT_DIR)),
-+		   &buf[strlen(SYS_INPUT_DIR)]);
-+	if (rc != -1) {
-+		uidev->syspath = strdup(buf);
-+		uidev->devnode = fetch_device_node(buf);
-+		return 0;
-+	}
-+
-+	ndev = scandir(SYS_INPUT_DIR, &namelist, is_input_device, alphasort);
-+	if (ndev <= 0)
-+		return -1;
-+
-+	for (i = 0; i < ndev; i++) {
-+		int fd, len;
-+
-+		rc = snprintf(buf, sizeof(buf), "%s%s/name", SYS_INPUT_DIR,
-+			      namelist[i]->d_name);
-+		if (rc < 0 || (size_t)rc >= sizeof(buf))
-+			continue;
-+
-+		/* created within time frame */
-+		fd = open(buf, O_RDONLY);
-+		if (fd < 0)
-+			continue;
-+
-+		len = read(fd, buf, sizeof(buf));
-+		close(fd);
-+		if (len <= 0)
-+			continue;
-+
-+		buf[len - 1] = '\0'; /* file contains \n */
-+		if (strcmp(buf, uidev->name) == 0) {
-+			if (uidev->syspath) {
-+				fprintf(stderr,
-+					"multiple identical devices found. syspath is unreliable\n");
-+				break;
-+			}
-+
-+			rc = snprintf(buf, sizeof(buf), "%s%s", SYS_INPUT_DIR,
-+				      namelist[i]->d_name);
-+
-+			if (rc < 0 || (size_t)rc >= sizeof(buf)) {
-+				fprintf(stderr,
-+					"Invalid syspath, syspath is unreliable\n");
-+				break;
-+			}
-+
-+			uidev->syspath = strdup(buf);
-+			uidev->devnode = fetch_device_node(buf);
-+		}
-+	}
-+
-+	for (i = 0; i < ndev; i++)
-+		free(namelist[i]);
-+	free(namelist);
-+
-+	return uidev->devnode ? 0 : -1;
-+#undef SYS_INPUT_DIR
-+}
-+
-+void selftest_uinput_destroy(struct selftest_uinput *uidev)
-+{
-+	if (!uidev)
-+		return;
-+
-+	if (uidev->uinput_fd >= 0)
-+		ioctl(uidev->uinput_fd, UI_DEV_DESTROY, NULL);
-+
-+	close(uidev->evdev_fd);
-+	close(uidev->uinput_fd);
-+
-+	free(uidev->syspath);
-+	free(uidev->devnode);
-+	free(uidev->name);
-+	free(uidev);
-+}
-+
-+int selftest_uinput_create_device(struct selftest_uinput **uidev, ...)
-+{
-+	struct selftest_uinput *new_device;
-+	struct uinput_setup setup;
-+	va_list args;
-+	int rc, fd;
-+	int type;
-+
-+	new_device = calloc(1, sizeof(struct selftest_uinput));
-+	if (!new_device)
-+		return -ENOMEM;
-+
-+	memset(&setup, 0, sizeof(setup));
-+	strncpy(setup.name, TEST_DEVICE_NAME, UINPUT_MAX_NAME_SIZE - 1);
-+	setup.id.vendor = 0x1234; /* sample vendor */
-+	setup.id.product = 0x5678; /* sample product */
-+	setup.id.bustype = BUS_USB;
-+
-+	fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
-+	if (fd < 0) {
-+		fprintf(stderr, "cannot open uinput (%d): %m\n", errno);
-+		goto error;
-+	}
-+
-+	va_start(args, uidev);
-+	rc = 0;
-+	do {
-+		type = va_arg(args, int);
-+		if (type == -1)
-+			break;
-+		rc = ioctl(fd, UI_SET_EVBIT, type);
-+	} while (rc == 0);
-+	va_end(args);
-+
-+	rc = ioctl(fd, UI_DEV_SETUP, &setup);
-+	if (rc == -1)
-+		goto error;
-+
-+	rc = ioctl(fd, UI_DEV_CREATE, NULL);
-+	if (rc == -1)
-+		goto error;
-+
-+	new_device->name = strdup(TEST_DEVICE_NAME);
-+	new_device->uinput_fd = fd;
-+
-+	if (fetch_syspath_and_devnode(new_device) == -1) {
-+		fprintf(stderr, "unable to fetch syspath or device node.\n");
-+		errno = ENODEV;
-+		goto error;
-+	}
-+
-+	fd = open(new_device->devnode, O_RDONLY);
-+	if (fd < 0) {
-+		fprintf(stderr, "cannot open uinput (%d): %m\n", errno);
-+		goto error;
-+	}
-+	new_device->evdev_fd = fd;
-+
-+	*uidev = new_device;
-+
-+	return 0;
-+
-+error:
-+	rc = -errno;
-+	selftest_uinput_destroy(new_device);
-+	return rc;
-+}
-+
-+const char *selftest_uinput_get_devnode(struct selftest_uinput *uidev)
-+{
-+	return uidev->devnode;
-+}
-+
-+TEST(eviocgname_get_device_name)
-+{
-+	struct selftest_uinput *uidev;
-+	char buf[256];
-+	int rc;
-+
-+	rc = selftest_uinput_create_device(&uidev);
-+	ASSERT_EQ(0, rc);
-+	ASSERT_NE(NULL, uidev);
-+
-+	memset(buf, 0, sizeof(buf));
-+	/* ioctl to get the name */
-+	rc = ioctl(uidev->evdev_fd, EVIOCGNAME(sizeof(buf) - 1), buf);
-+	ASSERT_GE(rc, 0);
-+	ASSERT_STREQ(TEST_DEVICE_NAME, buf);
-+
-+	selftest_uinput_destroy(uidev);
-+}
-+
-+TEST(eviocgrep_get_repeat_settings)
-+{
-+	struct selftest_uinput *uidev;
-+	int rep_values[2];
-+	int rc;
-+
-+	memset(rep_values, 0, sizeof(rep_values));
-+
-+	rc = selftest_uinput_create_device(&uidev);
-+	ASSERT_EQ(0, rc);
-+	ASSERT_NE(NULL, uidev);
-+
-+	/* ioctl to get the repeat rates values */
-+	rc = ioctl(uidev->evdev_fd, EVIOCSREP, rep_values);
-+	/* should fail because EV_REP is not set */
-+	ASSERT_EQ(-1, rc);
-+
-+	selftest_uinput_destroy(uidev);
-+
-+	rc = selftest_uinput_create_device(&uidev, EV_REP);
-+	ASSERT_EQ(0, rc);
-+	ASSERT_NE(NULL, uidev);
-+
-+	/* ioctl to get the repeat rates values */
-+	rc = ioctl(uidev->evdev_fd, EVIOCGREP, rep_values);
-+	ASSERT_EQ(0, rc);
-+	/* should get the default delay an period values set by the kernel */
-+	ASSERT_EQ(rep_values[0], 250);
-+	ASSERT_EQ(rep_values[1], 33);
-+
-+	selftest_uinput_destroy(uidev);
-+}
-+
-+TEST_HARNESS_MAIN
--- 
-2.40.1
+FTR: Looking at commit d8bde56dfd86 ("Input: Switch i2c drivers back to
+use .probe()") which is in next-20230525, everything seems to be right.
 
+Thanks
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--ct6hr5itey4j6a3g
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmRw1r4ACgkQj4D7WH0S
+/k5gzAf9GpBSHBounN78OuLHDYc7dUbbUxo+F/SbDjohwiDTOAqI5pJ9tmH5fKFq
+mXVHfuSzXvslBwNHrMDlsJVt4tY1DQ3TyhS2MSmphp0rLfEMZYDshk3PwagGxjLG
+KA3YnoGzaJeMY9a7KLef5Lenx3xhxq4kmR1JMw41sDEvgAh97NJ1k5HokTHN+Z/2
+vzveOM/0pDf5GuK2y+oxsQWuycBFzg43y09dK7FkrEug4SGAqgvjCiS/EQB+N9si
+JAjRwOyi2Q4FY2B9VpZVWGHtE1bNeGT4DqvI5/hK14a38qoWyxtBsbWUawyGgYd+
+hImSvL2U0hBDuDa8O0Zckjv2pMdxKQ==
+=VLOY
+-----END PGP SIGNATURE-----
+
+--ct6hr5itey4j6a3g--
