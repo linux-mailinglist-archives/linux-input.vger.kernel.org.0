@@ -2,108 +2,212 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B513711835
-	for <lists+linux-input@lfdr.de>; Thu, 25 May 2023 22:36:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A5C7711AF1
+	for <lists+linux-input@lfdr.de>; Fri, 26 May 2023 02:04:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240695AbjEYUgb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 25 May 2023 16:36:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43178 "EHLO
+        id S233951AbjEZAEp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 May 2023 20:04:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233384AbjEYUg3 (ORCPT
+        with ESMTP id S230099AbjEZAEo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 25 May 2023 16:36:29 -0400
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6F0512F
-        for <linux-input@vger.kernel.org>; Thu, 25 May 2023 13:36:27 -0700 (PDT)
-Received: by mail-il1-x12c.google.com with SMTP id e9e14a558f8ab-3313fe59a61so77255ab.0
-        for <linux-input@vger.kernel.org>; Thu, 25 May 2023 13:36:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1685046986; x=1687638986;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=soslfsYscN0o7BQUo7VzzwQqW0dKx6g+kZ5IiQeRHRg=;
-        b=DnpAG40GlW/Fn3J5pq0+EhqWklWgcwW20pxNMQxWf2Wa3viTjwomwmZEXHbg0o1Qo4
-         BHvcUfcuAJuEkURhB3F/0fRlrJX9g9ADmqDnc88LiLQ8q6Ae2xhv6HOv7yNDn6cARwiL
-         ZtW6dCnOPcr06kd+cU1gucsgbDOST+xdLh6xk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685046986; x=1687638986;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=soslfsYscN0o7BQUo7VzzwQqW0dKx6g+kZ5IiQeRHRg=;
-        b=MmtJxGnGBl2q2p5WYdRDErsiZc785v9dX9glGuaS+G4D2Tx2ZbfjmI7oZxt0wEhjGw
-         2iRLG8/QBxLbTmvRHJkTHcXmcwdlzX4lJ0jIgrNP5H83WN1DE3itw19rsZFDQlMewDvI
-         QfiAgnEkepxmzqHg8vlNA9SrNnSKekQQrCcmCZ/r1YJd6WhoYcvNGw9+UcREgtY4O+Z+
-         HEYbIEInskngU2FaYA8UtBdgKY0kL+/e2x+wR7A+NecFjO/2Hse9zHm8exRpqN4KSTAS
-         5f+cFzxF8ySS5p6xrBrwRRaHP6dQYwid0vHd2KB+J83xiGgE5ujJ68RB42PYRDQerX1+
-         50dA==
-X-Gm-Message-State: AC+VfDxJbe8F4DE85U5BJR6SzURtmhjJBTfZ7MBPCB0725FcLHt06r3b
-        UJE8mJGMFNcLJtG+aOv23/xohaAy6hrDMQuuLlU=
-X-Google-Smtp-Source: ACHHUZ4XYp9bO9yGukgVbMSot66gxsKKFqQqqahMpM+q7ht4aCEmuUhUGNRnla+dvETqUZOPJmMz9w==
-X-Received: by 2002:a92:4b0e:0:b0:338:a648:9c8 with SMTP id m14-20020a924b0e000000b00338a64809c8mr14594672ilg.17.1685046986004;
-        Thu, 25 May 2023 13:36:26 -0700 (PDT)
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com. [209.85.166.177])
-        by smtp.gmail.com with ESMTPSA id n6-20020a92d9c6000000b0032a8e1ba829sm540562ilq.16.2023.05.25.13.36.25
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 May 2023 13:36:25 -0700 (PDT)
-Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-33164ec77ccso38685ab.0
-        for <linux-input@vger.kernel.org>; Thu, 25 May 2023 13:36:25 -0700 (PDT)
-X-Received: by 2002:a05:6e02:1ba3:b0:330:eb79:91ad with SMTP id
- n3-20020a056e021ba300b00330eb7991admr65214ili.9.1685046984652; Thu, 25 May
- 2023 13:36:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230525203202.646669-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230525203202.646669-1-u.kleine-koenig@pengutronix.de>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Thu, 25 May 2023 13:36:12 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VB3KTFUxe_6hx2dZqObkmP-9+Kbuz1EVFJ5uBe0mzELQ@mail.gmail.com>
-Message-ID: <CAD=FV=VB3KTFUxe_6hx2dZqObkmP-9+Kbuz1EVFJ5uBe0mzELQ@mail.gmail.com>
-Subject: Re: [PATCH] HID: i2c-hid: Switch i2c drivers back to use .probe()
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Raul E Rangel <rrangel@chromium.org>,
+        Thu, 25 May 2023 20:04:44 -0400
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A40199C;
+        Thu, 25 May 2023 17:04:42 -0700 (PDT)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+        by mx0b-001ae601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34PNsGSO016759;
+        Thu, 25 May 2023 19:04:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type;
+ s=PODMain02222019; bh=jTAjC6w0E17uXA85LdmOi45eFKPWHp+38y4g2iSpRbI=;
+ b=AU6Y79geaGg5Yvu+0Jq8EYuHNyypmkff5CSfpRdViBtqIMmrfZTwyybbZnqg6BjtZBpC
+ B/o3BgO8yqExeq/l36iNVOjHbjXSabXpcWY5trJ7iNMyhHA50VooPgiPyyL+hbnFWjqj
+ VfZMeN1/9oiQCqZ4N7fSZ+iS0YYrtj8O1kNdsfiC/VTt8B9m5/6ZNgluai4zFwl0/6Mp
+ FKwl8RM8EzNI0xYZaBMeYD4np2d053FYd3QGDsBTSYX8Hr+v7MYESfIwFonWBFLyoCuT
+ L+Hf5PdjYJiCA+qn6UVV6F+bXE1gcy5ijSv8oHbHMaQpiM5RnhS/lwfCQZ7Dkos7n9u/ 2g== 
+Received: from ausex01.ad.cirrus.com ([141.131.3.19])
+        by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3qptmm7qhn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 25 May 2023 19:04:36 -0500
+Received: from ausex02.ad.cirrus.com (141.131.37.96) by ausex01.ad.cirrus.com
+ (141.131.37.95) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Thu, 25 May
+ 2023 19:04:35 -0500
+Received: from ftrev.crystal.cirrus.com (141.131.38.212) by
+ anon-ausex02.ad.cirrus.com (141.131.37.96) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 25 May 2023 19:04:35 -0500
+From:   Fred Treven <fred.treven@cirrus.com>
+To:     Fred Treven <fred.treven@cirrus.com>,
+        Ben Bright <ben.bright@cirrus.com>,
+        James Ogletree <james.ogletree@cirrus.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Stephen Kitt <steve@sk2.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        linux-input@vger.kernel.org, kernel@pengutronix.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Simon Trimmer <simont@opensource.cirrus.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        <patches@opensource.cirrus.com>, <linux-input@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     <lee@kernel.org>
+Subject: [PATCH v2 1/5] dt-bindings: input: cirrus,cs40l26: Support for CS40L26
+Date:   Thu, 25 May 2023 19:04:27 -0500
+Message-ID: <1685059471-9598-1-git-send-email-fred.treven@cirrus.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: SfDZn0Lm3-5hMH6U450QRAmUFsbFaJpk
+X-Proofpoint-GUID: SfDZn0Lm3-5hMH6U450QRAmUFsbFaJpk
+X-Proofpoint-Spam-Reason: orgsafe
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Introduce required basic devicetree parameters for the
+initial commit of CS40L26.
 
-On Thu, May 25, 2023 at 1:32=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
->
-> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type"), all drivers being converted to .probe_new() and then
-> 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") convert
-> back to (the new) .probe() to be able to eventually drop .probe_new() fro=
-m
-> struct i2c_driver.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
->  drivers/hid/i2c-hid/i2c-hid-acpi.c      | 2 +-
->  drivers/hid/i2c-hid/i2c-hid-of-elan.c   | 2 +-
->  drivers/hid/i2c-hid/i2c-hid-of-goodix.c | 2 +-
->  drivers/hid/i2c-hid/i2c-hid-of.c        | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
+Signed-off-by: Fred Treven <fred.treven@cirrus.com>
+---
+ .../devicetree/bindings/input/cirrus,cs40l26.yaml  | 102 +++++++++++++++++++++
+ MAINTAINERS                                        |  10 ++
+ 2 files changed, 112 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/cirrus,cs40l26.yaml
 
-In case it's useful:
+diff --git a/Documentation/devicetree/bindings/input/cirrus,cs40l26.yaml b/Documentation/devicetree/bindings/input/cirrus,cs40l26.yaml
+new file mode 100644
+index 000000000000..9cbc964ebded
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/cirrus,cs40l26.yaml
+@@ -0,0 +1,102 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/cirrus,cs40l26.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Cirrus Logic CS40L26 Boosted Haptic Amplifier
++
++maintainers:
++  - Fred Treven <fred.treven@cirrus.com>
++
++description:
++  CS40L26 is a Boosted Haptic Driver with Integrated DSP and Waveform Memory
++  with Advanced Closed Loop Algorithms and LRA protection
++
++properties:
++  compatible:
++    enum:
++      - cirrus,cs40l26a
++      - cirrus,cs40l26b
++      - cirrus,cs40l27a
++      - cirrus,cs40l27b
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++
++  VA-supply:
++    description: Regulator for VA analog voltage
++
++  VP-supply:
++    description: Regulator for VP peak voltage
++
++  cirrus,bst-ipk-microamp:
++    description:
++      Maximum amount of current that can be drawn by the device's boost converter.
++    multipleOf: 50000
++    minimum: 1600000
++    maximum: 4800000
++    default: 4500000
++
++  cirrus,bst-ctl-microvolt:
++    description: Maximum target voltage to which DSP may increase the VBST supply.
++    multipleOf: 50000
++    minimum: 2550000
++    maximum: 11000000
++    default: 11000000
++
++  cirrus,bst-exploratory-mode-disable:
++    description:
++      Disable boost exploratory mode.
++
++      In exploratory mode the analog maximum peak current limit of 4.5 A
++      (tolerance of + 160 mA) will be applied. This is required for the
++      device to successfully detect a boost inductor short.
++
++      Boost exploratory mode allows the device to overshoot the set boost peak
++      current limit (i.e. if current peak limit is set to 2.5 A to protect the
++      battery inductor, the current limit will be opened up to 4.5 A for
++      several milliseconds at boost startup).
++      This has potential to damage the boost inductor.
++
++      Disabling this mode will prevent this from happening; it will also
++      prevent the device from detecting boost inductor short errors.
++    type: boolean
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - reset-gpios
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/input/input.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      cs40l26@58 {
++        compatible = "cirrus,cs40l26a";
++        reg = <0x58>;
++        interrupt-parent = <&gpio>;
++        interrupts = <57 IRQ_TYPE_LEVEL_LOW>;
++        reset-gpios = <&gpio 54 GPIO_ACTIVE_LOW>;
++        VA-supply = <&dummy_vreg>;
++        VP-supply = <&dummy_vreg>;
++        cirrus,bst-ctl-microvolt = <2600000>;
++        cirrus,bst-ipk-microamp = <1650000>;
++        cirrus,bst-exploratory-mode-disable;
++      };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2b073facf399..d72ed4957b0b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4926,6 +4926,16 @@ L:	netdev@vger.kernel.org
+ S:	Maintained
+ F:	drivers/net/ethernet/cirrus/ep93xx_eth.c
+ 
++CIRRUS LOGIC HAPTICS DRIVER
++M:	Fred Treven <fred.treven@cirrus.com>
++M:	Ben Bright <ben.bright@cirrus.com>
++M:	James Ogletree <james.ogletree@cirrus.com>
++L:	patches@opensource.cirrus.com
++S:	Supported
++W:	https://github.com/CirrusLogic/linux-drivers/wiki
++T:	git https://github.com/CirrusLogic/linux-drivers.git
++F:	Documentation/devicetree/bindings/input/cirrus,cs40l26.yaml
++
+ CIRRUS LOGIC LOCHNAGAR DRIVER
+ M:	Charles Keepax <ckeepax@opensource.cirrus.com>
+ M:	Richard Fitzgerald <rf@opensource.cirrus.com>
+-- 
+2.7.4
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
