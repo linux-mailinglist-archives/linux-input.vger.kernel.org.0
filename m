@@ -2,63 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EE6C712D6E
-	for <lists+linux-input@lfdr.de>; Fri, 26 May 2023 21:27:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2209E712D78
+	for <lists+linux-input@lfdr.de>; Fri, 26 May 2023 21:29:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237514AbjEZT1i (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 May 2023 15:27:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46718 "EHLO
+        id S243254AbjEZT3x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 26 May 2023 15:29:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229999AbjEZT1h (ORCPT
+        with ESMTP id S243968AbjEZT3v (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 May 2023 15:27:37 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7729913D;
-        Fri, 26 May 2023 12:27:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CEDDF652F2;
-        Fri, 26 May 2023 19:27:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8380CC4339B;
-        Fri, 26 May 2023 19:27:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685129249;
-        bh=3uRdBp40YhYXT8GRorK2WbmkmiCKqXai1mhNyaEzUFA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Aw8QBIKuDebB99fs+5bwbbOHNnpgYjXo39IRgpRsXFjDJFoXlZ3yvWBT5biMQF7HB
-         kA0pogT51fjNT2zANbz/7sWES5gNnooq5OeVozMFSOe20JT7RzuYqV4nXnmbItETkY
-         XLra+6Jv8yvPRki9CsWCWH2a2p1kYV+EziKTSBjjsDu6Do+1BAHj5Ux5JGYt7lZCpv
-         KYTzjn40wmg0i+W9pXMK+wX3IDHVDcCeFt5odv738KN3qat1BZPvgtQtD64JWWdaYl
-         2zyBuVWdr6St0Hq9qlsllQpUNzb2Vp8q9Lgusl+5XkCfVnFUrd5iuxkk5lH/i3n5kn
-         0AnMLFMVrLo9A==
-Date:   Fri, 26 May 2023 20:27:24 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Fred Treven <fred.treven@cirrus.com>
-Cc:     Ben Bright <ben.bright@cirrus.com>,
-        James Ogletree <james.ogletree@cirrus.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Fri, 26 May 2023 15:29:51 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C40781B1
+        for <linux-input@vger.kernel.org>; Fri, 26 May 2023 12:29:48 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2af29e51722so11727601fa.1
+        for <linux-input@vger.kernel.org>; Fri, 26 May 2023 12:29:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685129387; x=1687721387;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0ynDYbGdsZF04vCXi/fdD62cVu/XTnLlDnsDcsQE+gU=;
+        b=tDYpQbK97CNlp93ZtO102/5etvWLI+iwenW470Z0lkqaexV58qGOY4pSVIglOWqyTB
+         8TyAzZMNP+h4ImdIg2nqsAaUCgEVihijTgZv0yMBb7qBO2/yG6MKKcdA1zgWzvaF1yAe
+         6IE5ViHJkjV9sbrEmwYMF2aiwc/8rYpbyC260bHb9ezMHRxrF2IzyuvLf89PArkNh6K0
+         OP938Mv/CoAX3H3HoE76DG01Z0DhbPmpmtsZmXn/SNLXbvoBRPILmq+jWAhNM5skk0uA
+         PeYTM4idJcy/BaMqsx5GzewZK/SxbC3z8aSDltvjU0W3O/yeywDX3PsHnqWjBNIT/QSW
+         40jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685129387; x=1687721387;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0ynDYbGdsZF04vCXi/fdD62cVu/XTnLlDnsDcsQE+gU=;
+        b=lHlO7uhfbWANqap4LGgrGS+uuTbIHTqbf6PFdHI1EkgYTMNvW/8Zx3NHeT/Zp9SwDC
+         Rz5YQ9L6siOEj7/O2WDskWfzDxhRhERHdnTblUclvpD2hbQqo2ZO5zs34KBfFvVOW3WQ
+         nSgk9NkzNaruuIy0HrDY0LsYnipDj6dMlMz3/5JPpoKzsNJIWSj5IsDc36AjS5JRDFr3
+         VrqJSOewPAV3uuWDNEOj+H9s6v5Bm7e/F6KcbleMY3qS2jhFeJvzXUGLEJU4azThW7w6
+         T1XQUQt6pkRuaz4z3OBC10AxLS8HNarmWGdQvBhf7y3lkryw86ZIh+1srs1G/wAO6D0x
+         c6rw==
+X-Gm-Message-State: AC+VfDyVhGg4EdNl65CAuF0taY+b4rVAcAnQNmmKNXg3XTJSrQiZJAcn
+        80j4WLRptWpPKnWhCCgy8PP5iA==
+X-Google-Smtp-Source: ACHHUZ5oiBIQA7Cc8vvOrtzZxw/Y5yQgzUfNrym68GiY4GckllJgnoA3zmZ8t8cNnVOcuy+UbltYaw==
+X-Received: by 2002:a2e:884a:0:b0:2ad:d9bd:1d2 with SMTP id z10-20020a2e884a000000b002add9bd01d2mr1012719ljj.16.1685129386991;
+        Fri, 26 May 2023 12:29:46 -0700 (PDT)
+Received: from [192.168.1.101] (abyj77.neoplus.adsl.tpnet.pl. [83.9.29.77])
+        by smtp.gmail.com with ESMTPSA id u4-20020a2ea164000000b002a929484fa0sm862756ljl.68.2023.05.26.12.29.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 May 2023 12:29:46 -0700 (PDT)
+Message-ID: <0837856f-bdd5-e8b7-3a08-01244843dbd8@linaro.org>
+Date:   Fri, 26 May 2023 21:29:44 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 0/9] drm/panel and i2c-hid: Allow panels and touchscreens
+ to power sequence together
+Content-Language: en-US
+To:     Douglas Anderson <dianders@chromium.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bjorn Andersson <andersson@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Simon Trimmer <simont@opensource.cirrus.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        patches@opensource.cirrus.com, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lee@kernel.org
-Subject: Re: [PATCH v2 1/5] dt-bindings: input: cirrus,cs40l26: Support for
- CS40L26
-Message-ID: <20230526-swapping-clay-d114144380a4@spud>
-References: <1685059471-9598-1-git-send-email-fred.treven@cirrus.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="tV7bW6DEZdfhDFt9"
-Content-Disposition: inline
-In-Reply-To: <1685059471-9598-1-git-send-email-fred.treven@cirrus.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        Conor Dooley <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>, hsinyi@google.com,
+        devicetree@vger.kernel.org,
+        yangcong5@huaqin.corp-partner.google.com,
+        linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        linux-arm-msm@vger.kernel.org, cros-qcom-dts-watchers@chromium.org
+References: <20230523193017.4109557-1-dianders@chromium.org>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230523193017.4109557-1-dianders@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -66,237 +92,52 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
---tV7bW6DEZdfhDFt9
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Yo Fred,
+On 23.05.2023 21:27, Douglas Anderson wrote:
+> 
+> The big motivation for this patch series is mostly described in the patch
+> ("drm/panel: Add a way for other devices to follow panel state"), but to
+> quickly summarize here: for touchscreens that are connected to a panel we
+> need the ability to power sequence the two device together. This is not a
+> new need, but so far we've managed to get by through a combination of
+> inefficiency, added costs, or perhaps just a little bit of brokenness.
+> It's time to do better. This patch series allows us to do better.
+Panels with integrated touchscreens have been shipping in mainstream devices
+since at least 2016. Thanks a lot for looking into this!
 
-Tooling does not like your series very much, prob the missing v2's on
-some patches:
-	Grabbing thread from lore.kernel.org/all/1685059471-9598-1-git-send-email-=
-fred.treven%40cirrus.com/t.mbox.gz
-	Checking for newer revisions
-	Grabbing search results from lore.kernel.org
-	Analyzing 6 messages in the thread
-	Will use the latest revision: v2
-	You can pick other revisions using the -vN flag
-	Checking attestation on all messages, may take a moment...
-	---
-	  =E2=9C=93 [PATCH v2 1/5] dt-bindings: input: cirrus,cs40l26: Support for=
- CS40L26
-	    =E2=9C=93 Signed: DKIM/cirrus.com
-	    + Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-	  =E2=9C=93 [PATCH v2 2/5] Input: cs40l26 - Support for CS40L26 Haptic Dev=
-ice
-	    =E2=9C=93 Signed: DKIM/cirrus.com
-	    + Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-	  ERROR: missing [3/5]!
-	  ERROR: missing [4/5]!
-	  ERROR: missing [5/5]!
-=09
-On Thu, May 25, 2023 at 07:04:27PM -0500, Fred Treven wrote:
-> Introduce required basic devicetree parameters for the
-> initial commit of CS40L26.
->=20
-> Signed-off-by: Fred Treven <fred.treven@cirrus.com>
-> ---
->  .../devicetree/bindings/input/cirrus,cs40l26.yaml  | 102 +++++++++++++++=
-++++++
->  MAINTAINERS                                        |  10 ++
->  2 files changed, 112 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/cirrus,cs40l2=
-6.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/input/cirrus,cs40l26.yaml =
-b/Documentation/devicetree/bindings/input/cirrus,cs40l26.yaml
-> new file mode 100644
-> index 000000000000..9cbc964ebded
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/cirrus,cs40l26.yaml
-> @@ -0,0 +1,102 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/cirrus,cs40l26.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cirrus Logic CS40L26 Boosted Haptic Amplifier
-> +
-> +maintainers:
-> +  - Fred Treven <fred.treven@cirrus.com>
-> +
-> +description:
-> +  CS40L26 is a Boosted Haptic Driver with Integrated DSP and Waveform Me=
-mory
-> +  with Advanced Closed Loop Algorithms and LRA protection
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - cirrus,cs40l26a
-> +      - cirrus,cs40l26b
-> +      - cirrus,cs40l27a
-> +      - cirrus,cs40l27b
-
-I had a _brief_ look at the driver - you don't seem to have any match
-data, so are all of these devices actually compatible with eachother?
-
-IOW, should this be:
-properties:
-  compatible:
-    oneOf:
-      - items:
-          - enum:
-              - cirrus,cs40l26b
-              - cirrus,cs40l27a
-              - cirrus,cs40l27b
-          - const: cirrus,cs40l26a
-
-      - const: cirrus,cs40l26a
-
-And then drop all but the cs40l26a in the driver? Apologies if I missed
-some difference in there.
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +  VA-supply:
-> +    description: Regulator for VA analog voltage
-> +
-> +  VP-supply:
-> +    description: Regulator for VP peak voltage
-> +
-> +  cirrus,bst-ipk-microamp:
-
-Are these namings ripped from a datasheet? "bst-ipk" doesn't immediately
-mean anything to me, but I am not familiar with these devices.
-
-> +    description:
-> +      Maximum amount of current that can be drawn by the device's boost =
-converter.
-> +    multipleOf: 50000
-> +    minimum: 1600000
-> +    maximum: 4800000
-> +    default: 4500000
-> +
-> +  cirrus,bst-ctl-microvolt:
-
-Ditto here. If there aren't rips, then maybe it'd be a good idea to use
-full words.
-
-> +    description: Maximum target voltage to which DSP may increase the VB=
-ST supply.
-> +    multipleOf: 50000
-> +    minimum: 2550000
-> +    maximum: 11000000
-> +    default: 11000000
-> +
-> +  cirrus,bst-exploratory-mode-disable:
-
-This one is a lot better ;)
-
-> +    description:
-> +      Disable boost exploratory mode.
-> +
-> +      In exploratory mode the analog maximum peak current limit of 4.5 A
-> +      (tolerance of + 160 mA) will be applied. This is required for the
-> +      device to successfully detect a boost inductor short.
-> +
-> +      Boost exploratory mode allows the device to overshoot the set boos=
-t peak
-> +      current limit (i.e. if current peak limit is set to 2.5 A to prote=
-ct the
-> +      battery inductor, the current limit will be opened up to 4.5 A for
-> +      several milliseconds at boost startup).
-> +      This has potential to damage the boost inductor.
-> +
-> +      Disabling this mode will prevent this from happening; it will also
-> +      prevent the device from detecting boost inductor short errors.
-> +    type: boolean
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - reset-gpios
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/input/input.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    i2c {
-> +      #address-cells =3D <1>;
-> +      #size-cells =3D <0>;
-> +
-> +      cs40l26@58 {
-
-Generally using generic node names what we want, so something matching
-the class of device. Section 2.2.2 "Generic Names Recommendation" of the
-dt spec contains a bunch of ones to pick from, but I don't really know
-where "haptic amplifier" fits in!
-
-Cheers,
-Conor.
-
-> +        compatible =3D "cirrus,cs40l26a";
-> +        reg =3D <0x58>;
-> +        interrupt-parent =3D <&gpio>;
-> +        interrupts =3D <57 IRQ_TYPE_LEVEL_LOW>;
-> +        reset-gpios =3D <&gpio 54 GPIO_ACTIVE_LOW>;
-> +        VA-supply =3D <&dummy_vreg>;
-> +        VP-supply =3D <&dummy_vreg>;
-> +        cirrus,bst-ctl-microvolt =3D <2600000>;
-> +        cirrus,bst-ipk-microamp =3D <1650000>;
-> +        cirrus,bst-exploratory-mode-disable;
-> +      };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 2b073facf399..d72ed4957b0b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -4926,6 +4926,16 @@ L:	netdev@vger.kernel.org
->  S:	Maintained
->  F:	drivers/net/ethernet/cirrus/ep93xx_eth.c
-> =20
-> +CIRRUS LOGIC HAPTICS DRIVER
-> +M:	Fred Treven <fred.treven@cirrus.com>
-> +M:	Ben Bright <ben.bright@cirrus.com>
-> +M:	James Ogletree <james.ogletree@cirrus.com>
-> +L:	patches@opensource.cirrus.com
-> +S:	Supported
-> +W:	https://github.com/CirrusLogic/linux-drivers/wiki
-> +T:	git https://github.com/CirrusLogic/linux-drivers.git
-> +F:	Documentation/devicetree/bindings/input/cirrus,cs40l26.yaml
-> +
->  CIRRUS LOGIC LOCHNAGAR DRIVER
->  M:	Charles Keepax <ckeepax@opensource.cirrus.com>
->  M:	Richard Fitzgerald <rf@opensource.cirrus.com>
-> --=20
-> 2.7.4
->=20
-
---tV7bW6DEZdfhDFt9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZHEIGwAKCRB4tDGHoIJi
-0t6QAP9E9dWzbERra4geP23ilLfikDeJOJuvzCU/Wj4emI0vxgEAijltpWlRkGHl
-sHf604wO5huXKXqOPeaKJeTN4KpeEQA=
-=Gwos
------END PGP SIGNATURE-----
-
---tV7bW6DEZdfhDFt9--
+Konrad
+> 
+> Assuming that people think this patch series looks OK, we'll have to
+> figure out the right way to land it. The panel patches and i2c-hid
+> patches will go through very different trees and so either we'll need
+> an Ack from one side or the other or someone to create a tag for the
+> other tree to pull in. This will _probably_ require the true drm-misc
+> maintainers to get involved, not a lowly committer. ;-)
+> 
+> 
+> Douglas Anderson (9):
+>   dt-bindings: HID: i2c-hid: Add "panel" property to i2c-hid backed
+>     panels
+>   drm/panel: Check for already prepared/enabled in drm_panel
+>   drm/panel: Add a way for other devices to follow panel state
+>   HID: i2c-hid: Switch to SYSTEM_SLEEP_PM_OPS()
+>   HID: i2c-hid: Rearrange probe() to power things up later
+>   HID: i2c-hid: Make suspend and resume into helper functions
+>   HID: i2c-hid: Support being a panel follower
+>   HID: i2c-hid: Do panel follower work on the system_wq
+>   arm64: dts: qcom: sc7180: Link trogdor touchscreens to the panels
+> 
+>  .../bindings/input/elan,ekth6915.yaml         |   6 +
+>  .../bindings/input/goodix,gt7375p.yaml        |   6 +
+>  .../bindings/input/hid-over-i2c.yaml          |   6 +
+>  .../boot/dts/qcom/sc7180-trogdor-coachz.dtsi  |   1 +
+>  .../dts/qcom/sc7180-trogdor-homestar.dtsi     |   1 +
+>  .../boot/dts/qcom/sc7180-trogdor-lazor.dtsi   |   1 +
+>  .../boot/dts/qcom/sc7180-trogdor-pompom.dtsi  |   1 +
+>  .../qcom/sc7180-trogdor-quackingstick.dtsi    |   1 +
+>  .../dts/qcom/sc7180-trogdor-wormdingler.dtsi  |   1 +
+>  drivers/gpu/drm/drm_panel.c                   | 194 +++++++++-
+>  drivers/hid/i2c-hid/i2c-hid-core.c            | 330 +++++++++++++-----
+>  include/drm/drm_panel.h                       |  89 +++++
+>  12 files changed, 542 insertions(+), 95 deletions(-)
+> 
