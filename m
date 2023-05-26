@@ -2,115 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 280E0712A0B
-	for <lists+linux-input@lfdr.de>; Fri, 26 May 2023 17:56:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2A2D712CA8
+	for <lists+linux-input@lfdr.de>; Fri, 26 May 2023 20:41:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243506AbjEZP4w (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 May 2023 11:56:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52562 "EHLO
+        id S230251AbjEZSlx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 26 May 2023 14:41:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237519AbjEZP4v (ORCPT
+        with ESMTP id S229966AbjEZSlw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 May 2023 11:56:51 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76EBB10A
-        for <linux-input@vger.kernel.org>; Fri, 26 May 2023 08:56:50 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1q2Zo8-0006tZ-R2; Fri, 26 May 2023 17:56:48 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1q2Zo7-002zHL-Uq; Fri, 26 May 2023 17:56:47 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1q2Zo7-008Chq-B9; Fri, 26 May 2023 17:56:47 +0200
-Date:   Fri, 26 May 2023 17:56:47 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     kernel@pengutronix.de, linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: Switch i2c drivers back to use .probe()
-Message-ID: <20230526155647.vanaz65gkmo3ffgy@pengutronix.de>
-References: <20230517164645.162294-1-u.kleine-koenig@pengutronix.de>
- <ZGUImQNUL9uNNHmO@google.com>
+        Fri, 26 May 2023 14:41:52 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F130E56;
+        Fri, 26 May 2023 11:41:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 37A8D65225;
+        Fri, 26 May 2023 18:41:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B14DFC433D2;
+        Fri, 26 May 2023 18:41:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685126476;
+        bh=5b2JyJNLieTChhmtAE4raBp+An+8BDiNRs/oMlONZAw=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=IqUr9Rc44MRQ1oCw8P2bGY9GlQfOpSETdMDtKPYY7spdFzZ5YDatmg6BydqJkor+N
+         35lWm2zBKjJ6G/Zs/Xe19C7XUm5twAF4yCKifnVbx37Fc4c9KQEE+SQS4kBkFYSD8E
+         c21SzLXr8qIeU+W7KcZsoJOZQ36d7xnsQSkAr17ss35klGsT11APzBSFJ0GZUFZbd3
+         2EwKGSyL3rvqKBkaWDSge6nA2j4414tAbC7OkUJnfKi2nwJCS/30vBSmgMQZZKz/9/
+         4D93Ji6xr+GB6p4QXGqUrK9xHwkp3SjmO5uOzyZN70Wfek2/pJRmrIPsszi2Oqs986
+         hnPLing7N9Zew==
+Date:   Fri, 26 May 2023 20:41:12 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux regressions mailing list <regressions@lists.linux.dev>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>,
+        Bastien Nocera <hadess@hadess.net>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, guy.b@bluewin.ch
+Subject: Re: [regression] Since kernel 6.3.1 logitech unify receiver not
+ working properly
+In-Reply-To: <nycvar.YFH.7.76.2305251308471.29760@cbobk.fhfr.pm>
+Message-ID: <nycvar.YFH.7.76.2305262040330.29760@cbobk.fhfr.pm>
+References: <9b987585-0834-bb8c-3414-283c29f3f2ab@leemhuis.info> <bec024d5-4088-00ae-f7b5-7188868b1707@leemhuis.info> <b7717c43-74bf-b91d-d3ce-874493df602c@gmail.com> <CAO-hwJ+At1J_yUpX2q_dJekzZ-PoTDAvxmkTk_e4Yu0Z338bEA@mail.gmail.com>
+ <55dda0bb-fe42-6dee-28ea-00121554d092@leemhuis.info> <CAHk-=whvhkSk6m8_AidhofgR9nq0Md+HbNad5r1RE69tZgbv6Q@mail.gmail.com> <nycvar.YFH.7.76.2305231422180.29760@cbobk.fhfr.pm> <CAO-hwJ+MTRu9KxqwQc7UYFBsa0kkrnYfwVB30KsLZnw=wfcOMg@mail.gmail.com>
+ <nycvar.YFH.7.76.2305251308471.29760@cbobk.fhfr.pm>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ct6hr5itey4j6a3g"
-Content-Disposition: inline
-In-Reply-To: <ZGUImQNUL9uNNHmO@google.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Thu, 25 May 2023, Jiri Kosina wrote:
 
---ct6hr5itey4j6a3g
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > > > That bug is pre-existing (ie the problem was not introduced by that
+> > > > commit), but who knows if the retry makes things worse (ie if it then
+> > > > triggers on a retry, the response data will be the *previous* response).
+> > > >
+> > > > The whole "goto exit" games should be removed too, because we're in a
+> > > > for-loop, and instead of "goto exit" it should just do "break".
+> > > >
+> > > > IOW, something like this might be worth testing.
+> > > >
+> > > > That said, while I think the code is buggy, I doubt this is the actual
+> > > > cause of the problem people are reporting. But it would be lovely to
+> > > > hear if the attached patch makes any difference, and I think this is
+> > > > fixing a real - but unlikely - problem anyway.
+> > 
+> > FWIW, Linus, your patch is
+> > Reviewed-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > 
+> > Feel free to submit it to us or to apply it directly if you prefer as
+> > this is clearly a fix for a code path issue.
+> 
+> It would be nice to hear from the people who were able to reproduce the 
+> issue whether this makes any observable difference in behavior though. I 
+> don't currently think it would, as it fixes a potential NULL pointer 
+> dereference, which is not what has been reported.
+> 
+> Has anyone of the affected people tried to bisect the issue?
 
-Hello Dmitry,
+Could anyone who is able to reproduce the issue please check whether 
+reverting
 
-On Wed, May 17, 2023 at 10:02:17AM -0700, Dmitry Torokhov wrote:
-> On Wed, May 17, 2023 at 06:46:45PM +0200, Uwe Kleine-K=F6nig wrote:
-> > After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> > call-back type"), all drivers being converted to .probe_new() and then
-> > 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") conve=
-rt
-> > back to (the new) .probe() to be able to eventually drop .probe_new() f=
-rom
-> > struct i2c_driver.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > ---
-> > Hello,
-> >=20
-> > this patch was generated using coccinelle, but I aligned the result to
-> > the per-file indention. Other than that it's just s/probe_new/probe/.
-> >=20
-> > I used v6.4-rc1 as base for it, there are a few patches in next that
-> > conflict slightly with it, but for me git can sort it all out.
-> > Feel free to just drop all conflicting hunks if it doesn't go so smooth
-> > for you, I'll care about the fallout later.
->=20
-> I think I saw only 1 clash in cyttsp5 driver, and I resolved it.
-> Hopefully I did not miss anything else.
->=20
-> This is now applied for the next merge window.
+	586e8fede7953b16 ("HID: logitech-hidpp: Retry commands when device is busy")
 
-FTR: Looking at commit d8bde56dfd86 ("Input: Switch i2c drivers back to
-use .probe()") which is in next-20230525, everything seems to be right.
+has any observable effect?
 
-Thanks
-Uwe
+Thanks,
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+-- 
+Jiri Kosina
+SUSE Labs
 
---ct6hr5itey4j6a3g
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmRw1r4ACgkQj4D7WH0S
-/k5gzAf9GpBSHBounN78OuLHDYc7dUbbUxo+F/SbDjohwiDTOAqI5pJ9tmH5fKFq
-mXVHfuSzXvslBwNHrMDlsJVt4tY1DQ3TyhS2MSmphp0rLfEMZYDshk3PwagGxjLG
-KA3YnoGzaJeMY9a7KLef5Lenx3xhxq4kmR1JMw41sDEvgAh97NJ1k5HokTHN+Z/2
-vzveOM/0pDf5GuK2y+oxsQWuycBFzg43y09dK7FkrEug4SGAqgvjCiS/EQB+N9si
-JAjRwOyi2Q4FY2B9VpZVWGHtE1bNeGT4DqvI5/hK14a38qoWyxtBsbWUawyGgYd+
-hImSvL2U0hBDuDa8O0Zckjv2pMdxKQ==
-=VLOY
------END PGP SIGNATURE-----
-
---ct6hr5itey4j6a3g--
