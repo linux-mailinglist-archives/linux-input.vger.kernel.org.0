@@ -2,183 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 505BD712FB4
-	for <lists+linux-input@lfdr.de>; Sat, 27 May 2023 00:06:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2048271312A
+	for <lists+linux-input@lfdr.de>; Sat, 27 May 2023 03:03:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237297AbjEZWGA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 May 2023 18:06:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56930 "EHLO
+        id S238127AbjE0BD4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 26 May 2023 21:03:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230326AbjEZWGA (ORCPT
+        with ESMTP id S238025AbjE0BDz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 May 2023 18:06:00 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42F1410A;
-        Fri, 26 May 2023 15:05:21 -0700 (PDT)
+        Fri, 26 May 2023 21:03:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24A9B19A;
+        Fri, 26 May 2023 18:03:54 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DD9F565427;
-        Fri, 26 May 2023 22:03:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D596C4339E;
-        Fri, 26 May 2023 22:03:30 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F20A1654C9;
+        Sat, 27 May 2023 01:03:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53C1FC4339B;
+        Sat, 27 May 2023 01:03:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685138613;
-        bh=BwvcSxw09qrYnzwTnJsHPC1O/6lwzjzErbn1rRv/HJM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cJKBuRUX+S1sdM3L1pd36dzdDiHXNAzoMvzsBuK39o3AcqQTyiP8b7NEfSNjURcm4
-         pvWaoFjeY6HWCxQDuLHe0O5AX+7xK6TlAiJuHu9eOdgAHKy+wJ1sdvGTnP0ucbmjlQ
-         9el20HJpymz4bdudaV+r1GsRwa5dOBScqIRJCJEuYcLn6YKOQSaw5lVa3rE2LYMKHY
-         2+8sM/rYKo0KvAqdYph19zB685b8JBnR/6ho7n3Xzy20AdYNAXETEQwVcqnwnDw0Ry
-         D7AsO6Dee9i7L4pXCv3XFSSOrZr6Ar+JBxUz9WhAachu99IW0ge8ItfDfyYnfP7S7u
-         XcpRDrb9mMNwg==
-Date:   Fri, 26 May 2023 23:03:28 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Fred Treven <Fred.Treven@cirrus.com>
-Cc:     Ben Bright <Ben.Bright@cirrus.com>,
-        James Ogletree <James.Ogletree@cirrus.com>,
+        s=k20201202; t=1685149433;
+        bh=fxYWXexHjqMsOELaFczQ5u72qTfpRnCt7eHfSifnC2k=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Yuykaj5RKxbCSk+uxlKl2m0aQPZGNjZDtnLBMcy4KjHfVAqu0H7uYggJT5era2Cpo
+         u8lGXsajJdyjLbM9EIe79pWN3GhgB3jCyet4S6/rpRe0ZUcgdFEKl325VfpxqDncBh
+         VfYe64xLlAoQQyl3hhaO99ys4mg1l1d9VGsWLolsMwgFVz+1ZkMwFP91dOaRMmgYiF
+         yHLp9prljwstX/eaDUccOj3hKZ+uk0qFsE86Dho4buEJ7SnigRJjt3iRjCeHRxls51
+         pUMH3l5jYhQDxA2efs69Li/jEZT+0YK1xfpTkbl9mn+IRqJZJwqcqms5VBs+WmRs6F
+         0DgVp9tjMaiBw==
+From:   Bjorn Andersson <andersson@kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>, Dan Murphy <dmurphy@ti.com>,
+        Yassine Oudjana <y.oudjana@protonmail.com>,
+        Luca Weiss <luca@z3ntu.xyz>, phone-devel@vger.kernel.org,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Raffaele Tranquillini <raffaele.tranquillini@gmail.com>,
+        Andy Gross <agross@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Simon Trimmer <simont@opensource.cirrus.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "lee@kernel.org" <lee@kernel.org>
-Subject: Re: [PATCH v2 1/5] dt-bindings: input: cirrus,cs40l26: Support for
- CS40L26
-Message-ID: <20230526-vowel-precise-12f644b57d85@spud>
-References: <1685059471-9598-1-git-send-email-fred.treven@cirrus.com>
- <20230526-swapping-clay-d114144380a4@spud>
- <BBCD72CC-8312-4D57-9814-0E3A7F260F00@cirrus.com>
+        ~postmarketos/upstreaming@lists.sr.ht,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: (subset) [PATCH 0/5] Improvements for drv260x driver and add to Huawei Watch
+Date:   Fri, 26 May 2023 18:07:28 -0700
+Message-Id: <168514964951.348612.17473479796367169535.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230430-drv260x-improvements-v1-0-1fb28b4cc698@z3ntu.xyz>
+References: <20230430-drv260x-improvements-v1-0-1fb28b4cc698@z3ntu.xyz>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="2jKjhS3G2UCFZYTf"
-Content-Disposition: inline
-In-Reply-To: <BBCD72CC-8312-4D57-9814-0E3A7F260F00@cirrus.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Sun, 30 Apr 2023 20:20:52 +0200, Luca Weiss wrote:
+> Clean up some issues with the driver I've noticed while working on it,
+> then fix the magnitude handling which previously resulted the driver
+> discarding the upper 8 bits of the magnitude value, and finally we can
+> add the drv260x to the APQ8026 Huawei Watch.
+> 
+> While the "fix magnitude handling" commit technically changes behavior
+> and could change behavior of existing user space applications that deal
+> with this quirky behavior, it's definitely not correct and results in
+> very unexpected behavior if the user space doesn't look out for it
+> (meaning only use 0x00-0xFF magnitude, and also know that the magnitude
+> was interpreted as signed value, see more details in the commit message
+> there).
+> 
+> [...]
 
---2jKjhS3G2UCFZYTf
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied, thanks!
 
-On Fri, May 26, 2023 at 09:32:36PM +0000, Fred Treven wrote:
-> > On May 26, 2023, at 2:27 PM, Conor Dooley <conor@kernel.org> wrote:
-> > Tooling does not like your series very much, prob the missing v2's on
-> > some patches:
-> > Grabbing thread from lore.kernel.org/all/1685059471-9598-1-git-send-ema=
-il-fred.treven%40cirrus.com/t.mbox.gz
-> > Checking for newer revisions
-> > Grabbing search results from lore.kernel.org
-> > Analyzing 6 messages in the thread
-> > Will use the latest revision: v2
-> > You can pick other revisions using the -vN flag
-> > Checking attestation on all messages, may take a moment...
-> > ---
-> >   =E2=9C=93 [PATCH v2 1/5] dt-bindings: input: cirrus,cs40l26: Support =
-for CS40L26
-> >     =E2=9C=93 Signed: DKIM/cirrus.com
-> >     + Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> >   =E2=9C=93 [PATCH v2 2/5] Input: cs40l26 - Support for CS40L26 Haptic =
-Device
-> >     =E2=9C=93 Signed: DKIM/cirrus.com
-> >     + Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> >   ERROR: missing [3/5]!
-> >   ERROR: missing [4/5]!
-> >   ERROR: missing [5/5]!
->=20
-> Understood. I was uncertain if this was just needed for patches that had
-> been edited or for all new patches. I will resubmit with some other code
-> changes to address other comments I=E2=80=99ve received and will mark the=
- patches
-> with the same version number.=20
+[5/5] ARM: dts: qcom: apq8026-huawei-sturgeon: Add vibrator
+      commit: ad318f9ce5a2e815816bfcf7f187a3ac32905523
 
-I just whack an N into git format-patch's --reroll-count/-v option, and
-use the same across the whole series. Makes people's and tool's lives
-easier :)
-
-> >> +properties:
-> >> +  compatible:
-> >> +    enum:
-> >> +      - cirrus,cs40l26a
-> >> +      - cirrus,cs40l26b
-> >> +      - cirrus,cs40l27a
-> >> +      - cirrus,cs40l27b
-> >=20
-> > I had a _brief_ look at the driver - you don't seem to have any match
-> > data, so are all of these devices actually compatible with eachother?
-> >=20
-> > IOW, should this be:
-> > properties:
-> >  compatible:
-> >    oneOf:
-> >      - items:
-> >          - enum:
-> >              - cirrus,cs40l26b
-> >              - cirrus,cs40l27a
-> >              - cirrus,cs40l27b
-> >          - const: cirrus,cs40l26a
-> >=20
-> >      - const: cirrus,cs40l26a
-> >=20
-> > And then drop all but the cs40l26a in the driver? Apologies if I missed
-> > some difference in there.
->=20
-> They are all compatible, yes. There is match data in cs40l26-i2c.c and
-> cs40l26-spi.c if you are referring to the of_device_id struct.
-> Please let me know if I=E2=80=99m misunderstanding your meaning here.
-
-What I saw looking in the driver was:
-+static const struct of_device_id cs40l26_of_match[CS40L26_NUM_DEVS + 1] =
-=3D {
-+	{ .compatible =3D "cirrus,cs40l26a" },
-+	{ .compatible =3D "cirrus,cs40l26b" },
-+	{ .compatible =3D "cirrus,cs40l27a" },
-+	{ .compatible =3D "cirrus,cs40l27b" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, cs40l26_of_match);
-
-So you have a bunch of compatibles, but didn't immediately appear to be
-doing anything different depending on which one of them you get.
-What I meant was populating the data field of of_device_id with something
-different depending on the compatible.
-If the programming model is the same, you can document that they are all
-compatible with "cirrus,cs40l26a", rather than having to add new entries
-to the match table. Also has the advantage that if you bring out a
-cirrus,cs40l27c that is compatible with the existing devices, then no
-changes are needed to software to support it ;)
-
-Or perhaps you are doing something different based on the compatible
-that I just did not notice.
-
-Cheers,
-Conor.
-
-(The [CS40L26_NUM_DEVS + 1] is also usually just [] btw)
-
---2jKjhS3G2UCFZYTf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZHEsrwAKCRB4tDGHoIJi
-0m7vAQDPzkfu91KtDUkEA7ub+4y9eLte9nVAnGrARvlVVXgIKwEAkpltvYoRM5aU
-qpe0T2WtOMV0O1ZhF3C3JeZw97aPswU=
-=MSmA
------END PGP SIGNATURE-----
-
---2jKjhS3G2UCFZYTf--
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
