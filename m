@@ -2,118 +2,129 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 06AF771396B
-	for <lists+linux-input@lfdr.de>; Sun, 28 May 2023 14:21:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ACE5713B21
+	for <lists+linux-input@lfdr.de>; Sun, 28 May 2023 19:33:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229476AbjE1MVP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 28 May 2023 08:21:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46078 "EHLO
+        id S229510AbjE1RdT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 28 May 2023 13:33:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjE1MVO (ORCPT
+        with ESMTP id S229448AbjE1RdT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 28 May 2023 08:21:14 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16C34B6;
-        Sun, 28 May 2023 05:21:12 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1q3FOT-0003Co-9K; Sun, 28 May 2023 14:21:05 +0200
-Message-ID: <746720e5-318c-6d9e-2d5a-a6ebf6b4b0c6@leemhuis.info>
-Date:   Sun, 28 May 2023 14:21:02 +0200
+        Sun, 28 May 2023 13:33:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7AC1BD;
+        Sun, 28 May 2023 10:33:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 70B6160DFC;
+        Sun, 28 May 2023 17:33:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33080C433EF;
+        Sun, 28 May 2023 17:33:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685295196;
+        bh=qzJfjzEEjZiZQ5UutuKr+0+hvV5RgYLuzJPm3/PtkBE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=UXtD9ZFB/1BoG67nX257ClGZvhetKEoCIktc3yq7ycXgBpJJi1/C9aoLCes39jG8R
+         fPgYnl0X49kJEyTZ10gYxvKqMhFNsBii/GEl6qKVrEgMy82whBIvqSzCjiiUJQ4cmj
+         eiIQbMT4PyKROjCcoMrchGNdGPErG6DwXzSN1hvkf/Vm9uslvb+8O9YwygTqazfXgi
+         exaFiXwTEP25yWd+LHL+VSRN8TI8gWL5fan9NHmhVRO5EpPWp11kVsOA8SxII55xwC
+         /L2G/NN7bJC7YRGZHQ4T3CO7wPrYpVstgUeCgkAPnQRWIiaDC27VGU0+sj6aF7opRN
+         i5poptqSBLXJg==
+Date:   Sun, 28 May 2023 18:49:35 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Artur Rojek <contact@artur-rojek.eu>
+Cc:     Paul Cercueil <paul@crapouillou.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-mips@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] iio/adc: ingenic: Fix channel offsets in buffer
+Message-ID: <20230528184935.15dd91fa@jic23-huawei>
+In-Reply-To: <20230521225901.388455-2-contact@artur-rojek.eu>
+References: <20230521225901.388455-1-contact@artur-rojek.eu>
+        <20230521225901.388455-2-contact@artur-rojek.eu>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [regression] Since kernel 6.3.1 logitech unify receiver not
- working properly
-Content-Language: en-US, de-DE
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux regressions mailing list <regressions@lists.linux.dev>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
-        Bastien Nocera <hadess@hadess.net>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, guy.b@bluewin.ch
-References: <9b987585-0834-bb8c-3414-283c29f3f2ab@leemhuis.info>
- <bec024d5-4088-00ae-f7b5-7188868b1707@leemhuis.info>
- <b7717c43-74bf-b91d-d3ce-874493df602c@gmail.com>
- <CAO-hwJ+At1J_yUpX2q_dJekzZ-PoTDAvxmkTk_e4Yu0Z338bEA@mail.gmail.com>
- <55dda0bb-fe42-6dee-28ea-00121554d092@leemhuis.info>
- <CAHk-=whvhkSk6m8_AidhofgR9nq0Md+HbNad5r1RE69tZgbv6Q@mail.gmail.com>
- <nycvar.YFH.7.76.2305231422180.29760@cbobk.fhfr.pm>
- <CAO-hwJ+MTRu9KxqwQc7UYFBsa0kkrnYfwVB30KsLZnw=wfcOMg@mail.gmail.com>
- <nycvar.YFH.7.76.2305251308471.29760@cbobk.fhfr.pm>
- <nycvar.YFH.7.76.2305262040330.29760@cbobk.fhfr.pm>
-From:   Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <nycvar.YFH.7.76.2305262040330.29760@cbobk.fhfr.pm>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1685276472;91502ff5;
-X-HE-SMSGID: 1q3FOT-0003Co-9K
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Mon, 22 May 2023 00:59:00 +0200
+Artur Rojek <contact@artur-rojek.eu> wrote:
 
-
-On 26.05.23 20:41, Jiri Kosina wrote:
-> On Thu, 25 May 2023, Jiri Kosina wrote:
+> Consumers expect the buffer to only contain enabled channels. While
+> preparing the buffer, the driver makes two mistakes:
+> 1) It inserts empty data for disabled channels.
+> 2) Each ADC readout contains samples for two 16-bit channels. If either
+>    of them is active, the whole 32-bit sample is pushed into the buffer
+>    as-is.
 > 
->>>>> That bug is pre-existing (ie the problem was not introduced by that
->>>>> commit), but who knows if the retry makes things worse (ie if it then
->>>>> triggers on a retry, the response data will be the *previous* response).
->>>>>
->>>>> The whole "goto exit" games should be removed too, because we're in a
->>>>> for-loop, and instead of "goto exit" it should just do "break".
->>>>>
->>>>> IOW, something like this might be worth testing.
->>>>>
->>>>> That said, while I think the code is buggy, I doubt this is the actual
->>>>> cause of the problem people are reporting. But it would be lovely to
->>>>> hear if the attached patch makes any difference, and I think this is
->>>>> fixing a real - but unlikely - problem anyway.
->>>
->>> FWIW, Linus, your patch is
->>> Reviewed-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
->>>
->>> Feel free to submit it to us or to apply it directly if you prefer as
->>> this is clearly a fix for a code path issue.
->>
->> It would be nice to hear from the people who were able to reproduce the 
->> issue whether this makes any observable difference in behavior though. I 
->> don't currently think it would, as it fixes a potential NULL pointer 
->> dereference, which is not what has been reported.
->>
->> Has anyone of the affected people tried to bisect the issue?
+> Both of those issues cause the active channels to appear at the wrong
+> offsets in the buffer. Fix the above by demuxing samples for active
+> channels only.
 > 
-> Could anyone
-
-Reminder: a lot of the affected users can only be reached through the
-bugzilla ticket (https://bugzilla.kernel.org/show_bug.cgi?id=217412 )
-that made me start this thread. Sorry for this mess, but I can't simply
-CC them because on account creation users are told that the "email
-address will never be displayed to logged out users". Bugbot will
-hopefully soon make this sort of problems history.
-
-> who is able to reproduce the issue please check whether 
-> reverting
+> This has remained unnoticed, as all the consumers so far were only using
+> channels 0 and 1, leaving them unaffected by changes introduced in this
+> commit.
 > 
-> 	586e8fede7953b16 ("HID: logitech-hidpp: Retry commands when device is busy")
+> Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
+> Tested-by: Paul Cercueil <paul@crapouillou.net>
+
+Lazy me suggestions that, as we didn't notice this before, clearly the
+vast majority of times the channels are both enabled.
+As such you 'could' just set available_scan_masks and burn the overhead
+of reading channels you don't want, instead letting the IIO core demux
+deal with the data movement if needed.
+
+> ---
 > 
-> has any observable effect?
+> v2: - demux active channels from ADC readouts 
+>     - clarify in the commit description that this patch doesn't impact
+>       existing consumers of this driver
+> 
+>  drivers/iio/adc/ingenic-adc.c | 20 +++++++++++++-------
+>  1 file changed, 13 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/ingenic-adc.c b/drivers/iio/adc/ingenic-adc.c
+> index a7325dbbb99a..093710a7ad4c 100644
+> --- a/drivers/iio/adc/ingenic-adc.c
+> +++ b/drivers/iio/adc/ingenic-adc.c
+> @@ -802,13 +802,19 @@ static irqreturn_t ingenic_adc_irq(int irq, void *data)
+>  	struct ingenic_adc *adc = iio_priv(iio_dev);
+>  	unsigned long mask = iio_dev->active_scan_mask[0];
+>  	unsigned int i;
+> -	u32 tdat[3];
+> -
+> -	for (i = 0; i < ARRAY_SIZE(tdat); mask >>= 2, i++) {
+> -		if (mask & 0x3)
+> -			tdat[i] = readl(adc->base + JZ_ADC_REG_ADTCH);
+> -		else
+> -			tdat[i] = 0;
+> +	u16 tdat[6];
+> +	u32 val;
+> +
+> +	memset(tdat, 0, ARRAY_SIZE(tdat));
+> +	for (i = 0; mask && i < ARRAY_SIZE(tdat); mask >>= 2) {
+> +		if (mask & 0x3) {
+> +			val = readl(adc->base + JZ_ADC_REG_ADTCH);
+> +			/* Two channels per sample. Demux active. */
+> +			if (mask & BIT(0))
+> +				tdat[i++] = val & 0xffff;
+> +			if (mask & BIT(1))
+> +				tdat[i++] = val >> 16;
+> +		}
+>  	}
+>  
+>  	iio_push_to_buffers(iio_dev, tdat);
 
-See https://bugzilla.kernel.org/show_bug.cgi?id=217412#c26 and later –
-it at least solved the problem for one user.
-
-But it's all a mess (at least afaics). Earlier in that ticket some other
-user said things work with 6.4-rc kernel, while for another confirmed
-things are still broken. So maybe we deal with more than one problem. Or
-testing went sideways for some of the users.
-
-Ciao, Thorsten
