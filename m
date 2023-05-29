@@ -2,163 +2,135 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CEF9715016
-	for <lists+linux-input@lfdr.de>; Mon, 29 May 2023 21:55:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78CD97151C5
+	for <lists+linux-input@lfdr.de>; Tue, 30 May 2023 00:21:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229621AbjE2TzS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 May 2023 15:55:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36662 "EHLO
+        id S229864AbjE2WVJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 May 2023 18:21:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229748AbjE2TzR (ORCPT
+        with ESMTP id S229587AbjE2WVH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 May 2023 15:55:17 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B5F911A
-        for <linux-input@vger.kernel.org>; Mon, 29 May 2023 12:55:10 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-309382efe13so2261148f8f.2
-        for <linux-input@vger.kernel.org>; Mon, 29 May 2023 12:55:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685390108; x=1687982108;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=w0aZ5p38I8kGX/b4ujTIQb0+CgzOUSjO4R9Z3nmx/B0=;
-        b=Nl5hN6WIcwrkM/W4vP0xtrM3JIaapuSG+YWFJdovnzE+q6WKTRQD0EccvJ16YgONZi
-         /SipZIEFcxmiHlNlqnr2+VmU7ZNeu/PRmiWDdx2EpDrwMGs7Qq4Ytgb+Y6fNUPFS569I
-         3v+l8w3uwjQ7X1a/NVKzfTYFdm4hHjw17OrXkEMX1uIOEBco0hvGrynBwly2umgWs4bn
-         LoE+8xcsDGiKBq7ZL8zu4UOVWvKVIgNTK5n1+Jh/z2FOYn7QhV/lS/Xa0+PgYIQ4MCqN
-         mB1BtvDg7AgcVbPwIjjtAfFH4gsCpSVFHDTXHjZuoKRW7zSNyaasDN913rDFI+9fjffS
-         4ANw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685390108; x=1687982108;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=w0aZ5p38I8kGX/b4ujTIQb0+CgzOUSjO4R9Z3nmx/B0=;
-        b=VfWjE0nf784cjV3rlQaTqxUyGYzzt3wlbhvg1AVLbJ/wZo7A2F5L1s40iMx8izCPz7
-         IkOWtql9ngW30FL37ocTzwKHzgHsuZATaeR4/5oyuRHAFFgpK4LQnTF+smcQQ8abVUTL
-         j+5ZcwcC2a5U5bOYobb+hyb/oBs7gJfUPn66gDkfM8tBJjb0fGvigNc3nf5LjNNpVn3c
-         hpTyLXpfywws/zW3DtuzbHMteidrOjfECvx+BkBmEV1gIFr0RwgNm+o1s3mHlenojhfC
-         4nSltNkJiUvw5maVfusaOSlJEogoxghqNvt0cp9a1mlUVxjaBS4v8MD7W6xLXQhWPNkF
-         OqIg==
-X-Gm-Message-State: AC+VfDwWP6+cRcHFHlE6kT128aa89l7Cntn1v7I3WJyt1WRadOH/KESz
-        6tTerjjoUCPBbuZF6HXD7e3LJA==
-X-Google-Smtp-Source: ACHHUZ5scsnRAa6maUSyB+VGI1WUs37mgaAQKqz8cg8ttQni03kekKKe6WOhnuk1PRvBxDLPlT9Kaw==
-X-Received: by 2002:a5d:6545:0:b0:306:32c4:7e7b with SMTP id z5-20020a5d6545000000b0030632c47e7bmr9098898wrv.41.1685390108735;
-        Mon, 29 May 2023 12:55:08 -0700 (PDT)
-Received: from lion.localdomain (cpc76484-cwma10-2-0-cust274.7-3.cable.virginm.net. [82.31.201.19])
-        by smtp.gmail.com with ESMTPSA id t7-20020a5d4607000000b0030647449730sm887364wrq.74.2023.05.29.12.55.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 May 2023 12:55:08 -0700 (PDT)
-From:   Caleb Connolly <caleb.connolly@linaro.org>
-Date:   Mon, 29 May 2023 20:55:07 +0100
-Subject: [PATCH 2/2] Input: pm8941-powerkey - fix debounce on gen2+ PMICs
+        Mon, 29 May 2023 18:21:07 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2075.outbound.protection.outlook.com [40.107.223.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D472EA0;
+        Mon, 29 May 2023 15:21:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Na6hSHHAipT4dU7X3XmFMu+HhdIIRK+rUWlLOU6HZPiAo9xY9x0TG43UbVjVXqFLP9iwhzok09zCqFYiJyRyvEEc3929poyEFCztvy9KTG9PZK+AQWARv8dc7DHtEBiKVaIZYvf0H7v08a1p25P6mP73YSF2JDCkOP0yCMeNQvh7w+mbAdowSUhdS8j7mu55HYfezaYK4ERnfhr5siZD8DR1R4msvmAaUuxni2z4yRIPbayDxTpfLo6K5itpM9459aDgKG+PQWRSfkkw2QAzzyOxtXqGTxAFuH/jIpoTqsFMAr9cSTxJlu0+gZJLv1Q+s0a7RWG4PgNmYohL7ZKzgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Hr6Hu+XIhMXZhfpvUZ3dlh1Rrs3bYziUTbV9Nv7mIAI=;
+ b=FeSRAmpsjvWPIIYEfhdcwXmrDL1zFJ0QSRtpxbNGNvi9nIsjMLrGocoqDGJj6mt7WjQrzAlcBRHVGGtnxvv+OTGVLXtUpRWGD3e5dnxXkDC9uJR7MIFNmdpEbSz+/odu9anShRGNbLgCtNQEyWxVin968McYHxO2YCzVLgoxEE7vKxs9rT4lFWbygL5+b/25dCaVO8XO2N1EvHT6IjabSFD4Rz5ht6DYgw+uxtWZn53gCjjb6h9iHwM+91gItYz85Jwi9/vsRQxVMrTms6CWyPcUJJWIwhWwwJXY7YWU6ScJs9jORif0d2NQBHGGf6ynpNMxO8/gMgwfiO+8zSch9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Hr6Hu+XIhMXZhfpvUZ3dlh1Rrs3bYziUTbV9Nv7mIAI=;
+ b=VZ20FPU2tv3JZCJdRilwn/jabA6+wMUGd0C2BiHMiXFQQTprZ1fcOS2aMZBzJx74EZiQBLL5mc2trd/Ygx7I7Ni6BFTQ4TlnEJYiHtE7ys3ZPy5nUQfSRt4UsDLcrcckLeYy+hSiT88RZsdrLR9w+iouiqBlEYhHGIZ7vYqx+cnlzBaLtxo0OcuZeR5sTGRc8HoE7hZ41XBETCXeMuXwTB+ZpVileHNknu5rYbIy/Shr78/W45WrOTWKWbrsAegkUXyHjJ3xxW7N2R7Fd6ZPjdBZcSzo7SknfWNwyPhRccMO8RgvY2a8YtztZ1vKkkjXJthni7SDus2mgxk4CT1xlg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
+ by BN9PR12MB5355.namprd12.prod.outlook.com (2603:10b6:408:104::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.23; Mon, 29 May
+ 2023 22:21:02 +0000
+Received: from BYAPR12MB2743.namprd12.prod.outlook.com
+ ([fe80::f3d4:f48a:1bfc:dbf1]) by BYAPR12MB2743.namprd12.prod.outlook.com
+ ([fe80::f3d4:f48a:1bfc:dbf1%5]) with mapi id 15.20.6433.018; Mon, 29 May 2023
+ 22:21:02 +0000
+From:   Rahul Rameshbabu <rrameshbabu@nvidia.com>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rahul Rameshbabu <rrameshbabu@nvidia.com>
+Subject: [PATCH RFC v1 0/3] HID: nvidia-shield: More functionality on top of initial driver
+Date:   Mon, 29 May 2023 15:20:49 -0700
+Message-Id: <20230529222052.68913-1-rrameshbabu@nvidia.com>
+X-Mailer: git-send-email 2.38.4
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR21CA0004.namprd21.prod.outlook.com
+ (2603:10b6:a03:114::14) To BYAPR12MB2743.namprd12.prod.outlook.com
+ (2603:10b6:a03:61::28)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230529-pm8941-pwrkey-debounce-v1-2-c043a6d5c814@linaro.org>
-References: <20230529-pm8941-pwrkey-debounce-v1-0-c043a6d5c814@linaro.org>
-In-Reply-To: <20230529-pm8941-pwrkey-debounce-v1-0-c043a6d5c814@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc:     linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        phone-devel@vger.kernel.org,
-        Caleb Connolly <caleb.connolly@linaro.org>
-X-Mailer: b4 0.13-dev-46309
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2348;
- i=caleb.connolly@linaro.org; h=from:subject:message-id;
- bh=921JPz9IiVwykXMRmrs9/Yug9/udoa0UJjhfiNsKYF4=;
- b=owEBbQKS/ZANAwAIAQWDMSsZX2S2AcsmYgBkdQMaOd/WMyUunFsyvX4zsfUwXfUwuiBLOZjKZ
- Bhlyi4jofSJAjMEAAEIAB0WIQS2UaFGPGq+0GkMVc0FgzErGV9ktgUCZHUDGgAKCRAFgzErGV9k
- tmO2D/9yRPBbl07O79CjqtknN1c0Dx2W7x9CpRo90zxJe9EQr1GRO1+NFD4v9Zy4ujlxJuo7Hyh
- np+RVQP+bpzbelXslgsDZjYp7fTz0y2Df8dBkoDZP4RKxhSKK5JVe0onmj5eqokOEDE37BQL6RS
- Lt9XY1DRm9Ay3O35WHc4GRYjl58QSE0PcP5Oct/m8fHGvrY+z7mhatURr72SpC4WVjaJFxdESqk
- /GU8Edtcb/wRkDczVuB2ojmN9fM3o0xcPTDuwDE3SkOe5RPOHs3S1CVS99wLYEIBEsL7frDtvOJ
- RwILxNyE1oxEaDDNfp+WHAmM9yP+/XOM4Lm5DYf07n/Gh8xDh/DUG2bN6t9/FdBN/kzEf5ttFOm
- tK/k0MsAt2DEM0PMVAG2qrWn74uqi0w65FQHiBAMOwk28qDQz/cT7rBXWfR8r6Gs6QMCDtxnxnG
- TxiQz8220pmIZALwnj7eOLwqMrohgYiyt7UFggMUtyb/2zT+JECYgiFVq6Mqcqdo9QfBMC3MOjy
- 0SpzHW1aEu9OmEF6XBbooBefdLIn/eEbEpWzSbUQMRK9tCLpgtT5ZmmVSFCyqm3DuZjZmuMEuss
- KnPalhVKgkrDl0//20kHTGG7sGDRtznwkm5rUTSpbJD4IRRRCu7cDdBKWEob8t6BWBQgOlbuRRv
- NWYWDUhq+q0dJZg==
-X-Developer-Key: i=caleb.connolly@linaro.org; a=openpgp;
- fpr=83B24DA7FE145076BC38BB250CD904EB673A7C47
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|BN9PR12MB5355:EE_
+X-MS-Office365-Filtering-Correlation-Id: d49755b5-acb4-4b61-d377-08db6092fcac
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PqLg/fcXigGzT+dUWOult6KjgVFe2tFHqk//AHJQUQ5ylutN/NCdU1B5PNslmTOlAMkGp2gRL5w2K9TtUZAXzF3kf6/H47HZjJXZHFYlk4vPHsKmi6PXoAEr3kjhVWzH/515uwop180nfHCpf0WA87HWsVqdj+xP7JSyOwCcsYHZ7AMChXn0L/n0Xo9MKTZs9mp/cJD++LeVuHeKp6StCTWtCxld8MNk76uwWJFTJAicMCggABa9mWH5fXf0IcJCpHU5uXV6pHQcJEfQEjaJ9niZ95Dll/Vi7a0GZJtzHD7y9H9fteJjIL9iY+pfnqKF0O3fqjljH1CNtmOxrkxagojWNU107zr6vTTtk5puc0bBbPle80B2FI14cNTRAP8GmqBsEaZm10o0JClLqPcQummuevYx1Nt64CAZnRmtIJgdfqDO8Fgbf6T2G4AcaWFe5T2ejLoddDvUoeEUhGVPW8CGk0C0Ie3Z/Rb9b943Zy+OF8gQLkYS/hAHYvpOppnQaR6urnk20UIYuhxhxIJ+1XlKFfPKPJeHEgnad5PuwLsnLWv6jrT9wbZIKUiCdX3H84mOAEHqP1ASJEDd936cJeQiMMA7c5rHh2ejza+AJwM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(39860400002)(396003)(346002)(376002)(136003)(451199021)(6506007)(6512007)(4744005)(186003)(2906002)(2616005)(110136005)(478600001)(26005)(1076003)(83380400001)(8676002)(41300700001)(38100700002)(8936002)(6486002)(966005)(86362001)(6666004)(316002)(66946007)(5660300002)(66476007)(66556008)(36756003)(107886003)(4326008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Gez0mq2wH3HbHPdn7BRN6QOZIYVYuOa6MbVkpmxUeyfxCrrb5ifYtHs0DQwl?=
+ =?us-ascii?Q?XMh0piiF+JddhaCCP/U7pba5B5wVUCqGfG7EBJ264xdmY6GKmoGT6Ig8Rv5e?=
+ =?us-ascii?Q?za5O31IW2LzE/mcJXKAhMTK+dItCBYoY1jqNP3bZs1TsRS/mMcJW9mocFbaO?=
+ =?us-ascii?Q?bYyjhYCEyMCizNEzPpQmKMi5mMpb2s9cwcuBGicj+YYaHf/8QHHyfQqIlqh1?=
+ =?us-ascii?Q?N9ebn0m2+GHqHWHHiVFJH8+QcxAzzt5ocgsbXR9ZABff0TnTiAnLeqZfKNNx?=
+ =?us-ascii?Q?0RK/yR3aEI12B84bTlks2s/P9iak5uxhlU7HV48OVrjEM4h+UofMQ/pdTk4g?=
+ =?us-ascii?Q?+eTG6HPEdWvQnYsOPAjJrKHASoNYtKmeBTT3JTZBW9xqoyS3uRHq3/toRthe?=
+ =?us-ascii?Q?QGZB/mDZE2nwNqvbQWku++j3VxY3SaRJlUjbwW9upFzysRMl/u57+n2ayHqg?=
+ =?us-ascii?Q?2eUzSCpS9vPQWhi0lCaqcnPxo5DtH9uXJ8yIPWpNbtZw4mnZ7qnFnrH86XCc?=
+ =?us-ascii?Q?vYazZsg75G4I9EQy+d45V0jg8TDgS4Ht7dhQ/WU3eN6dQCa3QblY1acBPgvY?=
+ =?us-ascii?Q?oqfw1T2vV0+0S44NYqJXhOkeGLqCx0LC0fiKXd5096UDFNjZVrgTgvTgYRW6?=
+ =?us-ascii?Q?34hvEoxvlOYn+iRAQhyUsRV98vNwfitEPukhEPobh/5rJmLTWwq4mGSvsP+d?=
+ =?us-ascii?Q?QCuWb/A6HeZMCuhtZ2j2aSc9HTM734M+rZIQ4bMKL2HJb61X+KQMYaTOIvxj?=
+ =?us-ascii?Q?2DRUlrzAJ1wmZPPJpmhRvD+INOlAMIfBhRk4xr80b7cEcOlUm/biNmZPeNC2?=
+ =?us-ascii?Q?oLsCvRT9EFiQ3JPiYu3XokzuFgBiiQM7Msv+IyRjKRyRCHJ5p42YFwGtjpin?=
+ =?us-ascii?Q?fIvieZJlDKWIAL+KrB9lx/1XLfsmZc80JQS1Rnt/KXQ22HhomSh8OnTpw9qF?=
+ =?us-ascii?Q?EfdlrblWaH8RoLZAuaNo073bHuhNlskWbiyx1FbM8G7ekQgkgoXuUWrLWRup?=
+ =?us-ascii?Q?fT7DNKU8ZKbU5lqtGdte0Dyvib+uaGMjflPYYkot0Pw3Fd9VFbS/wlL0hGhp?=
+ =?us-ascii?Q?vo5jO2o0jK6/zCu0OaSYgODZ0FaWy3DqCiBEDWaZB1s+j84Yl4yVE/Bz4wt5?=
+ =?us-ascii?Q?a1ymx6bbePxyjpf19t0f7p+Yn15PaNqJ/TmatTJyprdvyQR54Rtn35Z60ptF?=
+ =?us-ascii?Q?0Fcv5KV7mnO1v8hrMzRtq2wtMEfzyEMXGoS3ABXtI+wYAI+D9BtpUKrUrPKv?=
+ =?us-ascii?Q?iCUk/t93nQNVjLJTzp9Md15Ta4kDncecFg2wNrfGxz89e8ng002P+Trpempv?=
+ =?us-ascii?Q?ofjBs+UF49jt2KAWN/XWV9/ym2pKgl8SCq7kfaPbxKqlMEOv5MRrevtSmCbY?=
+ =?us-ascii?Q?dGVSH1f+tPbKH7zJHPhIa5dSt0MzOlBrHq2Nrh0b95bD07ysEFDdVLn2CoyY?=
+ =?us-ascii?Q?qYGNT03jHSOOZueS2Prh7ootc8uAITI4d/azKIpAxcdpb5J2cy3x+rW/S+4x?=
+ =?us-ascii?Q?tmJgUTEAgqq+142b/WeG68ieRyhhoKoeI52dC8kcZA5fnWV1vNpwa2vfDPr5?=
+ =?us-ascii?Q?HjFODXttXrGpGjAuu/xsYFepG08JtVNNygNpk6rHhfP3sdDu5uyy+c8RCVvk?=
+ =?us-ascii?Q?cg=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d49755b5-acb4-4b61-d377-08db6092fcac
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2023 22:21:02.4768
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SJM7lPZzn5mFw67SIWRx1h380rc9f7xTfuh0s4u9iHQrLpXBtCA0Pysra5QvAhi8zCpEBLLdXbUDM8wPs96Sng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5355
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Since PM8998/PM660, the power key debounce register was redefined to
-support shorter debounce times. On PM8941 the shortest debounce time
-(represented by register value 0) was 15625us, on PM8998 the shortest
-debounce time is 62us, with the default being 2ms.
+This patch series introduces more functionality on top of the initial
+nvidia-shield HID driver sent to the linux-input mailing list. The android
+media buttons, capacitive slider, and led on the Thunderstrike controller
+are now supported. If possible, would appreciate an acknowledgment of the
+initial driver patch or more feedback if needed.
 
-Adjust the bit shift to correctly program debounce on PM8998 and newer.
+Link: https://lore.kernel.org/linux-input/20230418203747.24000-1-rrameshbabu@nvidia.com/
 
-Fixes: 68c581d5e7d8 ("Input: add Qualcomm PM8941 power key driver")
-Signed-off-by: Caleb Connolly <caleb.connolly@linaro.org>
----
-This patch shouldn't be backported earlier then 5.4, as that is the
-first kernel with support for PM8998.
----
- drivers/input/misc/pm8941-pwrkey.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+Rahul Rameshbabu (3):
+  HID: nvidia-shield: Add mappings for consumer HID USAGE buttons
+  HID: nvidia-shield: Support LED functionality for Thunderstrike
+  HID: nvidia-shield: Remove space prefix from label in
+    shield_haptics_create
 
-diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
-index b6a27ebae977..74d77d8aaeff 100644
---- a/drivers/input/misc/pm8941-pwrkey.c
-+++ b/drivers/input/misc/pm8941-pwrkey.c
-@@ -50,7 +50,10 @@
- #define  PON_RESIN_PULL_UP		BIT(0)
- 
- #define PON_DBC_CTL			0x71
--#define  PON_DBC_DELAY_MASK		0x7
-+#define  PON_DBC_DELAY_MASK_GEN1	0x7
-+#define  PON_DBC_DELAY_MASK_GEN2	0xf
-+#define  PON_DBC_SHIFT_GEN1		6
-+#define  PON_DBC_SHIFT_GEN2		14
- 
- struct pm8941_data {
- 	unsigned int	pull_up_bit;
-@@ -247,7 +250,7 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
- 	struct device *parent;
- 	struct device_node *regmap_node;
- 	const __be32 *addr;
--	u32 req_delay;
-+	u32 req_delay, mask, delay_shift;
- 	int error;
- 
- 	if (of_property_read_u32(pdev->dev.of_node, "debounce", &req_delay))
-@@ -336,12 +339,20 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
- 	pwrkey->input->phys = pwrkey->data->phys;
- 
- 	if (pwrkey->data->supports_debounce_config) {
--		req_delay = (req_delay << 6) / USEC_PER_SEC;
-+		if (pwrkey->subtype >= PON_SUBTYPE_GEN2_PRIMARY) {
-+			mask = PON_DBC_DELAY_MASK_GEN2;
-+			delay_shift = PON_DBC_SHIFT_GEN2;
-+		} else {
-+			mask = PON_DBC_DELAY_MASK_GEN1;
-+			delay_shift = PON_DBC_SHIFT_GEN1;
-+		}
-+
-+		req_delay = (req_delay << delay_shift) / USEC_PER_SEC;
- 		req_delay = ilog2(req_delay);
- 
- 		error = regmap_update_bits(pwrkey->regmap,
- 					   pwrkey->baseaddr + PON_DBC_CTL,
--					   PON_DBC_DELAY_MASK,
-+					   mask,
- 					   req_delay);
- 		if (error) {
- 			dev_err(&pdev->dev, "failed to set debounce: %d\n",
+ drivers/hid/hid-nvidia-shield.c | 173 ++++++++++++++++++++++++++++++--
+ 1 file changed, 162 insertions(+), 11 deletions(-)
 
 -- 
-2.40.1
+2.38.4
 
