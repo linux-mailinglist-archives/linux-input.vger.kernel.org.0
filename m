@@ -2,132 +2,148 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B11F716757
-	for <lists+linux-input@lfdr.de>; Tue, 30 May 2023 17:43:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85A63716A13
+	for <lists+linux-input@lfdr.de>; Tue, 30 May 2023 18:52:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230061AbjE3Pn1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 May 2023 11:43:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34638 "EHLO
+        id S232855AbjE3Qwl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 May 2023 12:52:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232210AbjE3Pn0 (ORCPT
+        with ESMTP id S230171AbjE3Qwk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 May 2023 11:43:26 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B147C7;
-        Tue, 30 May 2023 08:43:25 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-64d2a613ec4so3368563b3a.1;
-        Tue, 30 May 2023 08:43:25 -0700 (PDT)
+        Tue, 30 May 2023 12:52:40 -0400
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C78669D
+        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 09:52:38 -0700 (PDT)
+Received: by mail-io1-xd35.google.com with SMTP id ca18e2360f4ac-7748d634a70so333714139f.2
+        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 09:52:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685461405; x=1688053405;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vele4YWsi+J6d+qVbhW/qc7qJ7IPCeYE5nE6Y6xvDXM=;
-        b=fDoGxdsiVbe2gJMJIUnQSnKcLmMpYfdGpuptA/y6nb9/co5YEJ7o+mc5scJG5NxP5v
-         IZi+h0MJKcRskMFiBR6Ny2X+43XZQoruOZk0qBEP4MZNTS9Y8IEynVMGTsSH+T/GyG+b
-         5xmC5L4BFgRoWOzrGkUNlslVuehZNEnMTHmMNUNeGvulD/aJZDmUMCZU32gUdm6DzzZH
-         rduTfSs4CChc1MKin1wxNYnTYYdVagh1JICanbqDxQGA4cRSjfD7ZvAns8et9/UvPMEw
-         QGv7O+MSep9vVlbu6c/8nJw64zLAIS19dGMQNFKSmS1jo1pZ8/VRKzMaLq7VonvfeJpX
-         4+rQ==
+        d=chromium.org; s=google; t=1685465558; x=1688057558;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jfTlpnHMOZxiUbtco4W6+o8TVl366P2iW1YkCqnywqM=;
+        b=aJ+aohhXMeeCIfS1f0lskYblnpOpzi0i+o8fMr4QUma/Oxo/KiAYRFyEtfDjMb0N/2
+         5rjfuTjLK8MICLbt9Z+5MZ9xtzJgY2x7lFrJqilQHK+c1uYEDdS7nKO8zddV3/Fy0IIl
+         aeHfl6vZQCP43QDB0/gM+y6n6nLwJD/WWNvvs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685461405; x=1688053405;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vele4YWsi+J6d+qVbhW/qc7qJ7IPCeYE5nE6Y6xvDXM=;
-        b=U+Bhjzy8GZk/f4gipqdtSgIQAZ/CpGbTX6+Lfvo3ynYjTWALDkb1/Yg7OlbjwcKhzI
-         /DPEG+TXi0XmDVaE2BsiSFha1DMZ2TnYUAu6JHzT5wmlyfKfT4cS8sRi08NuSVXmxGBR
-         8yEk2d8G43HL01MWZUCt//HbL1ugu7F4nI6XboiBoXYzSZ0o8elnMWdifaHFYBjIGPN5
-         4N+IPHe+bgYXTEf4az4KBYGDCFCk1iI6ZomUgyyqJdOJzX7NEFQxxl7fS7EDxJVd9uou
-         a/3T00NfWOYCbtvEmhzdIZ5howBi5FwxfV5xeKim4EAxBqo/RhKCkat0k8ldKaQvRSnJ
-         9Jcw==
-X-Gm-Message-State: AC+VfDwTYkXX5E+NcezJmjzK0W4t0L4Sxs29nC8ENmYHron2fvk+6fGb
-        OPRKdDG5DE1EisBPTS7vinQ=
-X-Google-Smtp-Source: ACHHUZ4mZMh7SZcKu7kRR4Y9KeZjfqyrDm6IHpe411QC5Woi/2wq0u94xAnlMvtwCyz9+TBRwNEYxA==
-X-Received: by 2002:a05:6a20:c191:b0:10b:f590:5a26 with SMTP id bg17-20020a056a20c19100b0010bf5905a26mr2796135pzb.26.1685461404529;
-        Tue, 30 May 2023 08:43:24 -0700 (PDT)
-Received: from Osmten.. ([103.84.150.71])
-        by smtp.gmail.com with ESMTPSA id d24-20020aa78e58000000b0064d34ace753sm1799642pfr.114.2023.05.30.08.43.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 May 2023 08:43:24 -0700 (PDT)
-From:   Osama Muhammad <osmtendev@gmail.com>
-To:     david.rheinsberg@gmail.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Osama Muhammad <osmtendev@gmail.com>
-Subject: [PATCH v2] hid-wiimote-debug.c: Drop error checking for debugfs_create_file
-Date:   Tue, 30 May 2023 20:42:52 +0500
-Message-Id: <20230530154252.7895-1-osmtendev@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20221208; t=1685465558; x=1688057558;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jfTlpnHMOZxiUbtco4W6+o8TVl366P2iW1YkCqnywqM=;
+        b=bZ027yHnlzkUlNXNOmeKCi1Ygo2g8hcMiip3MmSYK/+n7Q9qfRoI9YgbsrYnl9OiRG
+         EXAT9yNljeRzhLk8ROty7f8qh+BZsk/w7NGGXjDeptwr/wGcxz9C6cZlfiSbCtZ6Mpjl
+         SHCwW6l6mZ8smPLdWkFljZGw9983tp1pgKbCHtGa9uT6UaKKO5C1yoeuw/wcjmceLgqC
+         CNIQeY/32U2iCq4sWNH85Q10B1oyyFKwC90nPrPJxOFuOjiXQbH0ybXTPRZXrPNsIAEs
+         LzYfclVwOm23Rjb22II6J9k3/suUqyoMiTvZ3UTzktBWFly81JTocjwdnSiu5yKlWnlF
+         e42w==
+X-Gm-Message-State: AC+VfDzRZq8lYWKBoALEgN93vraZMAI2Mx8030p9wePFt5itjgDfsoVq
+        1vfk5+ShYnTZ2CBigMGbGl2F9fyesPupDtAL5YA=
+X-Google-Smtp-Source: ACHHUZ7LTBAAA79nRQjvjeuaW2Z+VYKqAqrqUXg7IQrn/Apn0JyEhJzBm9Co6cBR4TmBOBVVu/UNMQ==
+X-Received: by 2002:a92:d352:0:b0:333:eae9:c3f8 with SMTP id a18-20020a92d352000000b00333eae9c3f8mr146549ilh.7.1685465558241;
+        Tue, 30 May 2023 09:52:38 -0700 (PDT)
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com. [209.85.166.182])
+        by smtp.gmail.com with ESMTPSA id i39-20020a056638382700b0040bbf478147sm824507jav.163.2023.05.30.09.52.37
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 May 2023 09:52:38 -0700 (PDT)
+Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-33b7f217dd0so4375ab.0
+        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 09:52:37 -0700 (PDT)
+X-Received: by 2002:a92:c24e:0:b0:338:3b6a:4719 with SMTP id
+ k14-20020a92c24e000000b003383b6a4719mr165620ilo.17.1685465557498; Tue, 30 May
+ 2023 09:52:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <20230523193017.4109557-1-dianders@chromium.org>
+ <20230523122802.1.Id68e30343bb1e11470582a9078b086176cfec46b@changeid> <10457cab-f9b0-c38b-9f11-36853b71c7e8@linaro.org>
+In-Reply-To: <10457cab-f9b0-c38b-9f11-36853b71c7e8@linaro.org>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Tue, 30 May 2023 09:52:25 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XJhVaFNcLZ_wA=vnYCVVxjq1NFxdV794C0mmxpqvPL6g@mail.gmail.com>
+Message-ID: <CAD=FV=XJhVaFNcLZ_wA=vnYCVVxjq1NFxdV794C0mmxpqvPL6g@mail.gmail.com>
+Subject: Re: [PATCH 1/9] dt-bindings: HID: i2c-hid: Add "panel" property to
+ i2c-hid backed panels
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>, hsinyi@google.com,
+        devicetree@vger.kernel.org,
+        yangcong5@huaqin.corp-partner.google.com,
+        linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        linux-arm-msm@vger.kernel.org, cros-qcom-dts-watchers@chromium.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch removes the error checking for debugfs_create_file
-in hid-wiimote-debug.c.c. This is because the debugfs_create_file()
-does not return NULL but an ERR_PTR after an error.
-The DebugFS kernel API is developed in a way that the
-caller can safely ignore the errors that occur during
-the creation of DebugFS nodes.The debugfs Api handles
-it gracefully. The check is unnecessary.
+Hi,
 
-Link to the comment above debugfs_create_file:
-https://elixir.bootlin.com/linux/latest/source/fs/debugfs/inode.c#L451
+On Tue, May 30, 2023 at 8:34=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 23/05/2023 21:27, Douglas Anderson wrote:
+> > As talked about in the patch ("drm/panel: Add a way for other devices
+> > to follow panel state"), touchscreens that are connected to panels are
+> > generally expected to be power sequenced together with the panel
+> > they're attached to. Today, nothing provides information allowing you
+> > to find out that a touchscreen is connected to a panel. Let's add a
+> > phandle for this.
+> >
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > ---
+> >
+> >  Documentation/devicetree/bindings/input/elan,ekth6915.yaml  | 6 ++++++
+> >  Documentation/devicetree/bindings/input/goodix,gt7375p.yaml | 6 ++++++
+> >  Documentation/devicetree/bindings/input/hid-over-i2c.yaml   | 6 ++++++
+> >  3 files changed, 18 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml=
+ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> > index 05e6f2df604c..d55b03bd3ec4 100644
+> > --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> > +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> > @@ -24,6 +24,12 @@ properties:
+> >    interrupts:
+> >      maxItems: 1
+> >
+> > +  panel:
+> > +    description: If this is a touchscreen, the panel it's connected to=
+. This
+>
+> Hm, can there be different setup? Touchscreen without panel? What would
+> it be then?
 
-Signed-off-by: Osama Muhammad <osmtendev@gmail.com>
+For a touchscreen that's a discrete device (not sharing logic / power
+rails with the panel) you'd just leave off the panel node like we've
+always done. Assuming folks like this series in general, I'll try to
+improve the wording for v2.
 
----
-changes since v1
-	-In v1 the IS_ERR was used for error checking which is dropped now.
----
- drivers/hid/hid-wiimote-debug.c | 10 ----------
- 1 file changed, 10 deletions(-)
 
-diff --git a/drivers/hid/hid-wiimote-debug.c b/drivers/hid/hid-wiimote-debug.c
-index a99dcca2e099..00f9be55f148 100644
---- a/drivers/hid/hid-wiimote-debug.c
-+++ b/drivers/hid/hid-wiimote-debug.c
-@@ -173,7 +173,6 @@ int wiidebug_init(struct wiimote_data *wdata)
- {
- 	struct wiimote_debug *dbg;
- 	unsigned long flags;
--	int ret = -ENOMEM;
- 
- 	dbg = kzalloc(sizeof(*dbg), GFP_KERNEL);
- 	if (!dbg)
-@@ -183,13 +182,9 @@ int wiidebug_init(struct wiimote_data *wdata)
- 
- 	dbg->eeprom = debugfs_create_file("eeprom", S_IRUSR,
- 		dbg->wdata->hdev->debug_dir, dbg, &wiidebug_eeprom_fops);
--	if (!dbg->eeprom)
--		goto err;
- 
- 	dbg->drm = debugfs_create_file("drm", S_IRUSR,
- 			dbg->wdata->hdev->debug_dir, dbg, &wiidebug_drm_fops);
--	if (!dbg->drm)
--		goto err_drm;
- 
- 	spin_lock_irqsave(&wdata->state.lock, flags);
- 	wdata->debug = dbg;
-@@ -197,11 +192,6 @@ int wiidebug_init(struct wiimote_data *wdata)
- 
- 	return 0;
- 
--err_drm:
--	debugfs_remove(dbg->eeprom);
--err:
--	kfree(dbg);
--	return ret;
- }
- 
- void wiidebug_deinit(struct wiimote_data *wdata)
--- 
-2.34.1
+> Why only these touchscreens? This looks generic, so maybe in
+> touchscreen.yaml?
 
+Ah, that makes sense. I guess we need to add an include of that file
+from the elan and goodix bindings. The hid-over-i2c.yaml already has
+it, though. I'm not 100% sure the existing "hid-over-i2c" driver in
+Linux actually calls the function to parse all those properties, but I
+guess that's a Linux problem and not a DT bindings problem. ;-)
+
+-Doug
