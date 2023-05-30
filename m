@@ -2,109 +2,129 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F6787164B0
-	for <lists+linux-input@lfdr.de>; Tue, 30 May 2023 16:46:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAEE37164F5
+	for <lists+linux-input@lfdr.de>; Tue, 30 May 2023 16:49:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231264AbjE3OqV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 May 2023 10:46:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54194 "EHLO
+        id S232891AbjE3Otc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 May 2023 10:49:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230349AbjE3OqU (ORCPT
+        with ESMTP id S232683AbjE3OtU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 May 2023 10:46:20 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B50959C;
-        Tue, 30 May 2023 07:46:15 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-30aa1eb95a0so4640418f8f.1;
-        Tue, 30 May 2023 07:46:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685457974; x=1688049974;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3y1medTyj/hZKdN9AO+Oz7IaxQHqeigKWyUw6axzy28=;
-        b=TlWu7lDHzDInHB21R9hoHJEBNVqOQIuiRjEGKteI1jepyktLsKA7yEmkRvOuNBQ/x6
-         V8W4WqSkHhMamOx3/y3MaXMdbfNYyVeeAVedLX9yleyjlPAnRzduRd+9svCu68L+GiNR
-         qcvmuvn/RMiJPmtTTrS6mKBWw+PJYJFNQ4op+uKruKCmZ+rOFNQ0BjmfexCW7qN5GsI6
-         8WfDv0cD7PUPhVFheBpdCY/IyzPLPvZTrIkOvX92pjl28ivoIx6yMBoKe/ayxjssRndy
-         iQSHVdBEkMdXQESy3iEvAtmlgdCJJixP3FHf7nu7d52FO9a2y5IBwBe+8heDO5qr3M8Y
-         dWwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685457974; x=1688049974;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3y1medTyj/hZKdN9AO+Oz7IaxQHqeigKWyUw6axzy28=;
-        b=EId4/zbtP78oQCIap6EgA5sygN1ZLZXr0CBIEvk+25WYpI0t+FzUGWIhdmaaHWnPEV
-         8IC4JA3HCD6bwVoOeL3nIz/ZmwtwURrPjLEbj+pXqzpvV3eCvyF5fPDytnF/noMfgF3B
-         +5BXFMrzm/x3TrPwstLhxk9tfybA3z15SQT7GnugUrpplQST7PSJxyBbv0YGEyZIoX/L
-         HhszWYaYzPTGaRjKQdDpFl21kljMRNURnMIoQFdO+xeHZ/mEJ27Qwq0GdgqY/25wgoWH
-         e+HTneQ7sO/yTVPXykk9qE6Z0WKPxYknmCyi3ZCw/MKkNn5tqwibL2hfDkf9GmY03zNn
-         8VEg==
-X-Gm-Message-State: AC+VfDxmmb9Q+MQMP5UtKlEhsQxN6X8xcAcC9Ui8VE/vF9U5wA+QKHFU
-        Lg+lRh3gESeZJ000DVbtMKc=
-X-Google-Smtp-Source: ACHHUZ4kUtwOKbIB/YZ19q9WmcPWqc/0MZVoBTLQm/OPDHomYVxgUd6RIkcLDTCHdbaEfL7fQootCQ==
-X-Received: by 2002:a5d:4d02:0:b0:30a:e369:5acb with SMTP id z2-20020a5d4d02000000b0030ae3695acbmr1661065wrt.68.1685457974073;
-        Tue, 30 May 2023 07:46:14 -0700 (PDT)
-Received: from localhost.localdomain (cpc157791-rdng31-2-0-cust585.15-3.cable.virginm.net. [86.24.214.74])
-        by smtp.gmail.com with ESMTPSA id d1-20020adfe881000000b0030631a599a0sm3573136wrm.24.2023.05.30.07.46.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 May 2023 07:46:13 -0700 (PDT)
-From:   Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
-Cc:     stuarthayhurst <stuart.a.hayhurst@gmail.com>, jikos@kernel.org,
-        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bastien Nocera <hadess@hadess.net>
-Subject: [PATCH v2] HID: logitech-hidpp: Add USB and Bluetooth IDs for the Logitech G915 TKL Keyboard
-Date:   Tue, 30 May 2023 15:44:28 +0100
-Message-ID: <20230530144427.24732-1-stuart.a.hayhurst@gmail.com>
-X-Mailer: git-send-email 2.40.1.521.gf1e218fcd8
+        Tue, 30 May 2023 10:49:20 -0400
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12E0E10D;
+        Tue, 30 May 2023 07:49:13 -0700 (PDT)
+Received: from [192.168.178.25] (host-212-18-30-247.customer.m-online.net [212.18.30.247])
+        (Authenticated sender: wse@tuxedocomputers.com)
+        by mail.tuxedocomputers.com (Postfix) with ESMTPSA id D6B8B2FC0065;
+        Tue, 30 May 2023 16:49:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+        s=default; t=1685458152;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=AMUqh28DgoFTNwRf6KsF7Z16+cJUk83SN2OZrbC5UfY=;
+        b=CsXaqUGPPErC5qEw9d5SXfmT0Ku9JVVf1MO6KhlZEJ/j5+jUtZnsH7K5/nS3Ju38fF4mAP
+        TL2ruMHSSEOk5kJ6zHmmhiNqQ3i/BIA16lCU/qaCv8bpnkrqwYzKd2fDqJ4RJeHZQMfzk7
+        I7e99U7pPhqNVcQEPj4QkwjJHYmqXMo=
+Authentication-Results: mail.tuxedocomputers.com;
+        auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <ba9085ce-ce3a-9c3a-f32c-df2995fd84a1@tuxedocomputers.com>
+Date:   Tue, 30 May 2023 16:49:11 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] input: Add new keyboard backlight control keys to match
+ modern notebooks
+Content-Language: en-US
+From:   Werner Sembach <wse@tuxedocomputers.com>
+To:     Bastien Nocera <hadess@hadess.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230530110550.18289-1-wse@tuxedocomputers.com>
+ <d4d6eb1da42de6536e708331100fc33e9cfae140.camel@hadess.net>
+ <44574d05-3a2a-2249-b808-7e929feea36d@tuxedocomputers.com>
+In-Reply-To: <44574d05-3a2a-2249-b808-7e929feea36d@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: stuarthayhurst <stuart.a.hayhurst@gmail.com>
-
-Adds the USB and Bluetooth IDs for the Logitech G915 TKL keyboard, for device detection
-For this device, this provides battery reporting on top of hid-generic
-
-Reviewed-by: Bastien Nocera <hadess@hadess.net>
-Signed-off-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
----
- drivers/hid/hid-logitech-hidpp.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index b2cd7527de19..28761272afe5 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -4403,6 +4403,8 @@ static const struct hid_device_id hidpp_devices[] = {
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC086) },
- 	{ /* Logitech G903 Hero Gaming Mouse over USB */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC091) },
-+	{ /* Logitech G915 TKL Keyboard over USB */
-+	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC343) },
- 	{ /* Logitech G920 Wheel over USB */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_G920_WHEEL),
- 		.driver_data = HIDPP_QUIRK_CLASS_G920 | HIDPP_QUIRK_FORCE_OUTPUT_REPORTS},
-@@ -4418,6 +4420,8 @@ static const struct hid_device_id hidpp_devices[] = {
- 	{ /* MX5500 keyboard over Bluetooth */
- 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb30b),
- 	  .driver_data = HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
-+	{ /* Logitech G915 TKL keyboard over Bluetooth */
-+	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb35f) },
- 	{ /* M-RCQ142 V470 Cordless Laser Mouse over Bluetooth */
- 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb008) },
- 	{ /* MX Master mouse over Bluetooth */
--- 
-2.40.1.521.gf1e218fcd8
-
+Am 30.05.23 um 16:28 schrieb Werner Sembach:
+> Hi,
+>
+> Am 30.05.23 um 15:33 schrieb Bastien Nocera:
+>> On Tue, 2023-05-30 at 13:05 +0200, Werner Sembach wrote:
+>>> The old three KEY_KBDILLUM* keycodes don't reflect the current
+>>> situation
+>>> modern notebooks anymore. Especially the ones with RGB keyboards.
+>>>
+>>> e.g.
+>>> - Clevo NL50NU has a toggle, an up, a down and a color-cycle key
+>>> - TongFang PH4ARX1 doesn't have a toggle key, but one that cycles
+>>> through
+>>>    off, half-brightness, and full-brightness.
+>>>
+>>> Also, on some devices these keys are already implemented in firmware.
+>>> It
+>>> would still be nice if there is a way to let userspace know when one
+>>> of
+>>> these keys is pressed to display the OSD, but don't advice it to
+>>> actually
+>>> do anything. This is the intended purpose of the KEY_KBDILLUMCHANGE
+>>> define.
+>>>
+>>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+>> Can you please point to the user-space patches (or issues filed) that
+>> would integrate the support for those keycodes, and make the key
+>> presses do something?
+>
+> I'm sorry to say that these don't exist yet. So I guess the process is similar 
+> to DRM uAPI additions? 
+> https://docs.kernel.org/gpu/drm-uapi.html#open-source-userspace-requirements
+I asked the KDE and Gnome maintainers for feedback: 
+https://bugs.kde.org/show_bug.cgi?id=470453 
+https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/issues/746
+>
+>>
+>> Has anyone tested that those keycodes are fit for purpose when mixed
+>> with other brightness changes that don't happen through key presses?
+>
+> Color control is not yet implemented in any DE afaik, so there is not yet a 
+> collision with the color cycle key.
+>
+> For the brightness cycle key, I would assume that it functions the same as the 
+> brightness up key unless brightness == brightness max. In this case it sets 
+> brightness to 0. I don't see a logical collision here as brightness up and 
+> brightness down are already implemented just fine in most DEs
+>
+>>
+>>> ---
+>>>   include/uapi/linux/input-event-codes.h | 4 ++++
+>>>   1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/include/uapi/linux/input-event-codes.h
+>>> b/include/uapi/linux/input-event-codes.h
+>>> index 022a520e31fc2..05287bf9a77f7 100644
+>>> --- a/include/uapi/linux/input-event-codes.h
+>>> +++ b/include/uapi/linux/input-event-codes.h
+>>> @@ -803,6 +803,10 @@
+>>>   #define BTN_TRIGGER_HAPPY39            0x2e6
+>>>   #define BTN_TRIGGER_HAPPY40            0x2e7
+>>>   +#define KEY_KBDILLUMCYCLE              0x2e8
+>>> +#define KEY_KBDILLUMCOLORCYCLE         0x2e9
+>>> +#define KEY_KBDILLUMCHANGE             0x2ea
+>>> +
+>>>   /* We avoid low common keys in module aliases so they don't get
+>>> huge. */
+>>>   #define KEY_MIN_INTERESTING    KEY_MUTE
+>>>   #define KEY_MAX                        0x2ff
