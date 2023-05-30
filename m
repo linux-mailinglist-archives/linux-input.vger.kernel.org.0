@@ -2,92 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85A63716A13
-	for <lists+linux-input@lfdr.de>; Tue, 30 May 2023 18:52:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36412716A38
+	for <lists+linux-input@lfdr.de>; Tue, 30 May 2023 18:58:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232855AbjE3Qwl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 May 2023 12:52:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60060 "EHLO
+        id S232971AbjE3Q6a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 May 2023 12:58:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230171AbjE3Qwk (ORCPT
+        with ESMTP id S233039AbjE3Q6W (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 May 2023 12:52:40 -0400
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C78669D
-        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 09:52:38 -0700 (PDT)
-Received: by mail-io1-xd35.google.com with SMTP id ca18e2360f4ac-7748d634a70so333714139f.2
-        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 09:52:38 -0700 (PDT)
+        Tue, 30 May 2023 12:58:22 -0400
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1EA6FE
+        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 09:58:18 -0700 (PDT)
+Received: by mail-oi1-x229.google.com with SMTP id 5614622812f47-397f13944f2so3190599b6e.0
+        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 09:58:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1685465558; x=1688057558;
+        d=chromium.org; s=google; t=1685465897; x=1688057897;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jfTlpnHMOZxiUbtco4W6+o8TVl366P2iW1YkCqnywqM=;
-        b=aJ+aohhXMeeCIfS1f0lskYblnpOpzi0i+o8fMr4QUma/Oxo/KiAYRFyEtfDjMb0N/2
-         5rjfuTjLK8MICLbt9Z+5MZ9xtzJgY2x7lFrJqilQHK+c1uYEDdS7nKO8zddV3/Fy0IIl
-         aeHfl6vZQCP43QDB0/gM+y6n6nLwJD/WWNvvs=
+        bh=gQLTtDtW2MQvZzbg1+YtroMwuASMRT+NGV7h3iEinfc=;
+        b=KPpV7KIHiRgRhCfSurWnefrgFdQCOOriY0eGtUYd/Ws3Zuuzj8nr0tetWLK4t52294
+         zC4x6UXLkfWqQNoUTI4nMh9JIxDnk6iBcBO5ypSj5hda711h1cVNNg/8NrYqGhDNblY6
+         64h/UMnQC7+tpxQA42y6DKoFmh2R7jw6wKPWg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685465558; x=1688057558;
+        d=1e100.net; s=20221208; t=1685465897; x=1688057897;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jfTlpnHMOZxiUbtco4W6+o8TVl366P2iW1YkCqnywqM=;
-        b=bZ027yHnlzkUlNXNOmeKCi1Ygo2g8hcMiip3MmSYK/+n7Q9qfRoI9YgbsrYnl9OiRG
-         EXAT9yNljeRzhLk8ROty7f8qh+BZsk/w7NGGXjDeptwr/wGcxz9C6cZlfiSbCtZ6Mpjl
-         SHCwW6l6mZ8smPLdWkFljZGw9983tp1pgKbCHtGa9uT6UaKKO5C1yoeuw/wcjmceLgqC
-         CNIQeY/32U2iCq4sWNH85Q10B1oyyFKwC90nPrPJxOFuOjiXQbH0ybXTPRZXrPNsIAEs
-         LzYfclVwOm23Rjb22II6J9k3/suUqyoMiTvZ3UTzktBWFly81JTocjwdnSiu5yKlWnlF
-         e42w==
-X-Gm-Message-State: AC+VfDzRZq8lYWKBoALEgN93vraZMAI2Mx8030p9wePFt5itjgDfsoVq
-        1vfk5+ShYnTZ2CBigMGbGl2F9fyesPupDtAL5YA=
-X-Google-Smtp-Source: ACHHUZ7LTBAAA79nRQjvjeuaW2Z+VYKqAqrqUXg7IQrn/Apn0JyEhJzBm9Co6cBR4TmBOBVVu/UNMQ==
-X-Received: by 2002:a92:d352:0:b0:333:eae9:c3f8 with SMTP id a18-20020a92d352000000b00333eae9c3f8mr146549ilh.7.1685465558241;
-        Tue, 30 May 2023 09:52:38 -0700 (PDT)
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com. [209.85.166.182])
-        by smtp.gmail.com with ESMTPSA id i39-20020a056638382700b0040bbf478147sm824507jav.163.2023.05.30.09.52.37
+        bh=gQLTtDtW2MQvZzbg1+YtroMwuASMRT+NGV7h3iEinfc=;
+        b=WmORPFxpJvQKwsVzInIFg7DXLwf9noCZYJjXxIZZyztLXbh2113XlfQeBtF7kqXh+c
+         ecOLsodll5tM5b+OHFKTcNkMyejVlvUmyHQji+kHsgppqRRQWyRS0N1cyP2Wbkw0JchJ
+         DSXby/E2tgbfXbz2YI7FUMSwTr38NJIHpLA5037bkymk2GvzrlA/Fidd3QrUOSMwAJqI
+         2S38DSoXrl77GknR7Qcf9YhQ+viznB9iWhYuksYFd4c6ZWmuqXp36rzQWCXZgfDajYqD
+         kW5i/GwQHQZlIz2Lqu2laeDBgzorglZYU/rB+ETeQbJyuBVctJpe6MboNWsRlTy1vYkR
+         arFQ==
+X-Gm-Message-State: AC+VfDyDh1OfjcWpqLSUeHypF/Sb2jKPQYBHep6LwKf8Sy5u4KN2GsWD
+        9Lc1wZZwGIzeCq+y2ONXn1WWtZ/EA4K/kcAcQ38=
+X-Google-Smtp-Source: ACHHUZ6wuCyna8Zd52txRCV6SXmAXpW7Yv9f5w+CMBxHE5Pws5O/yqTzShmqNG6iN4lOxBgWZBrV/A==
+X-Received: by 2002:a05:6808:1b0b:b0:396:3b9d:7ee0 with SMTP id bx11-20020a0568081b0b00b003963b9d7ee0mr1717418oib.41.1685465896808;
+        Tue, 30 May 2023 09:58:16 -0700 (PDT)
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com. [209.85.166.170])
+        by smtp.gmail.com with ESMTPSA id z36-20020a0293a7000000b00418af04e405sm801963jah.116.2023.05.30.09.58.14
         for <linux-input@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 May 2023 09:52:38 -0700 (PDT)
-Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-33b7f217dd0so4375ab.0
-        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 09:52:37 -0700 (PDT)
-X-Received: by 2002:a92:c24e:0:b0:338:3b6a:4719 with SMTP id
- k14-20020a92c24e000000b003383b6a4719mr165620ilo.17.1685465557498; Tue, 30 May
- 2023 09:52:37 -0700 (PDT)
+        Tue, 30 May 2023 09:58:14 -0700 (PDT)
+Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-33baee0235cso3205ab.1
+        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 09:58:14 -0700 (PDT)
+X-Received: by 2002:a05:6e02:b24:b0:338:9f6a:d546 with SMTP id
+ e4-20020a056e020b2400b003389f6ad546mr181095ilu.20.1685465893122; Tue, 30 May
+ 2023 09:58:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230523193017.4109557-1-dianders@chromium.org>
- <20230523122802.1.Id68e30343bb1e11470582a9078b086176cfec46b@changeid> <10457cab-f9b0-c38b-9f11-36853b71c7e8@linaro.org>
-In-Reply-To: <10457cab-f9b0-c38b-9f11-36853b71c7e8@linaro.org>
+References: <CAD=FV=VYfPSwar2AXBxB3vX0dV1kjQ5bZMxsEBFhUnMNRXbBCw@mail.gmail.com>
+ <20230520050649.2494497-1-yangcong5@huaqin.corp-partner.google.com>
+ <20230520050649.2494497-3-yangcong5@huaqin.corp-partner.google.com>
+ <CAD=FV=Wm_SK0V6WJUkuvu8yFfiP60JBuOdw9cy=0Ck2Jbn-X2A@mail.gmail.com> <bd19f71b-59ee-80e7-9ff1-1cc26ecc49a7@kernel.org>
+In-Reply-To: <bd19f71b-59ee-80e7-9ff1-1cc26ecc49a7@kernel.org>
 From:   Doug Anderson <dianders@chromium.org>
-Date:   Tue, 30 May 2023 09:52:25 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XJhVaFNcLZ_wA=vnYCVVxjq1NFxdV794C0mmxpqvPL6g@mail.gmail.com>
-Message-ID: <CAD=FV=XJhVaFNcLZ_wA=vnYCVVxjq1NFxdV794C0mmxpqvPL6g@mail.gmail.com>
-Subject: Re: [PATCH 1/9] dt-bindings: HID: i2c-hid: Add "panel" property to
- i2c-hid backed panels
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>, hsinyi@google.com,
-        devicetree@vger.kernel.org,
-        yangcong5@huaqin.corp-partner.google.com,
-        linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        linux-arm-msm@vger.kernel.org, cros-qcom-dts-watchers@chromium.org
+Date:   Tue, 30 May 2023 09:58:01 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WaVXUr8=4MrZQgA7t=yUBDt-iMvOFSeWhsKZ8XHJAREA@mail.gmail.com>
+Message-ID: <CAD=FV=WaVXUr8=4MrZQgA7t=yUBDt-iMvOFSeWhsKZ8XHJAREA@mail.gmail.com>
+Subject: Re: [v2 2/2] dt-bindings: input: touchscreen: Add ilitek 9882T
+ touchscreen chip
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+        benjamin.tissoires@redhat.com, devicetree@vger.kernel.org,
+        dmitry.torokhov@gmail.com, hsinyi@google.com, jikos@kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mka@chromium.org, Rob Herring <robh+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -96,54 +86,35 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Hi,
 
-On Tue, May 30, 2023 at 8:34=E2=80=AFAM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
+On Tue, May 30, 2023 at 4:56=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
 >
-> On 23/05/2023 21:27, Douglas Anderson wrote:
-> > As talked about in the patch ("drm/panel: Add a way for other devices
-> > to follow panel state"), touchscreens that are connected to panels are
-> > generally expected to be power sequenced together with the panel
-> > they're attached to. Today, nothing provides information allowing you
-> > to find out that a touchscreen is connected to a panel. Let's add a
-> > phandle for this.
+> On 22/05/2023 17:33, Doug Anderson wrote:
+> > Hi,
 > >
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > ---
+> > On Fri, May 19, 2023 at 10:07=E2=80=AFPM Cong Yang
+> > <yangcong5@huaqin.corp-partner.google.com> wrote:
+> >>
+> >> Add an ilitek touch screen chip ili9882t.
+> >>
+> >> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> >> ---
+> >>  .../devicetree/bindings/input/elan,ekth6915.yaml         | 9 +++++++-=
+-
+> >>  1 file changed, 7 insertions(+), 2 deletions(-)
 > >
-> >  Documentation/devicetree/bindings/input/elan,ekth6915.yaml  | 6 ++++++
-> >  Documentation/devicetree/bindings/input/goodix,gt7375p.yaml | 6 ++++++
-> >  Documentation/devicetree/bindings/input/hid-over-i2c.yaml   | 6 ++++++
-> >  3 files changed, 18 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml=
- b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> > index 05e6f2df604c..d55b03bd3ec4 100644
-> > --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> > +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> > @@ -24,6 +24,12 @@ properties:
-> >    interrupts:
-> >      maxItems: 1
-> >
-> > +  panel:
-> > +    description: If this is a touchscreen, the panel it's connected to=
-. This
+> > I'm curious about the DT maintainers opinion here. Should this be a
+> > new bindings file, or should it be together in the elan file. If
+> > nothing else, I think the secondary voltage rail name is wrong. I took
+> > a quick peek at a datasheet I found and I don't even see a 3.3V rail
+> > going to the ili9882t. That makes it weird to reuse "vcc33-supply" for
+> > a second supply...
 >
-> Hm, can there be different setup? Touchscreen without panel? What would
-> it be then?
+> It's easier if they are CCed...
 
-For a touchscreen that's a discrete device (not sharing logic / power
-rails with the panel) you'd just leave off the panel node like we've
-always done. Assuming folks like this series in general, I'll try to
-improve the wording for v2.
+Crud. I just assumed and didn't check the CC list. Cong: can you
+resend and make sure you're CCing the people that get_maintainers
+points at. One way to find that would be:
 
-
-> Why only these touchscreens? This looks generic, so maybe in
-> touchscreen.yaml?
-
-Ah, that makes sense. I guess we need to add an include of that file
-from the elan and goodix bindings. The hid-over-i2c.yaml already has
-it, though. I'm not 100% sure the existing "hid-over-i2c" driver in
-Linux actually calls the function to parse all those properties, but I
-guess that's a Linux problem and not a DT bindings problem. ;-)
-
--Doug
+./scripts/get_maintainer.pl -f
+Documentation/devicetree/bindings/input/elan,ekth6915.yaml
