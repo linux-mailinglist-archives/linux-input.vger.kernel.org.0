@@ -2,96 +2,130 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC88B716715
-	for <lists+linux-input@lfdr.de>; Tue, 30 May 2023 17:30:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9592C716726
+	for <lists+linux-input@lfdr.de>; Tue, 30 May 2023 17:35:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229667AbjE3Pay (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 May 2023 11:30:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56560 "EHLO
+        id S229667AbjE3PfE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 May 2023 11:35:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229630AbjE3Pax (ORCPT
+        with ESMTP id S231690AbjE3Pey (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 May 2023 11:30:53 -0400
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93794C7;
-        Tue, 30 May 2023 08:30:51 -0700 (PDT)
-Received: from [192.168.178.25] (host-212-18-30-247.customer.m-online.net [212.18.30.247])
-        (Authenticated sender: wse@tuxedocomputers.com)
-        by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 877E82FC0073;
-        Tue, 30 May 2023 17:30:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-        s=default; t=1685460649;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=NAekkNJ91ucrLIslysTWlQCuNuST6srDBKEWW2bK6Mo=;
-        b=qEZDK44NVdqpg1+rzrDXlcwupOzeJedAwpZi32dVcZJ5L59k3L3Y6S/zSjvarosO+wFE6X
-        vETY2DoX/0G447KKZvmfO//RCgDCceb6LPWHp+p3KX18hgTsGUr5DENv8/Bh+h0Yk2Y/Gy
-        mYNDl5uPl5OALX7rYL4hxcfgU35xotw=
-Authentication-Results: mail.tuxedocomputers.com;
-        auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <fe88e20b-d192-4c35-5e54-53027b36797e@tuxedocomputers.com>
-Date:   Tue, 30 May 2023 17:30:48 +0200
+        Tue, 30 May 2023 11:34:54 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 704A7C7
+        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 08:34:52 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-4f4b2bc1565so5078473e87.2
+        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 08:34:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685460891; x=1688052891;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=i2URTcYLzfS3uayG6hfWA3AHqGO0fmjAhKx1B1Sb2rM=;
+        b=mWVVzeJOqvdZKotjn24LlOTsbVHuks3mjQrNCBTgVMi6WHDE+eBCxalJiaLICMS3WO
+         sZ7dw3d0s6b7D8JxZnJLTSC7RsSFo149WVQXN6zHPAmWxqnyHFX1WVy0p9httXIJyHrb
+         vtj+4z5S4m3vES9aWTzOcrUQdTmRK4Nn2MovEafL9mJ9gtou5LjtN4XeDWyA1O+P86xR
+         5ug8pdlnpq5mggZ2ME2n3og6rrJFuXI1iZqry0NUMkn99l4IBterbAINmOmjVlAevt9B
+         HpS5VJ7z86yvYxTW6s1lchneiwb6q2cjFQTzvPTJrdr2jKd05lSQ8YKP/0QyMpWWjrm1
+         1yRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685460891; x=1688052891;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=i2URTcYLzfS3uayG6hfWA3AHqGO0fmjAhKx1B1Sb2rM=;
+        b=FaWb088DP+VEXKMqCDGK0VKgLz5h8OTol6tDa5c+74Ra46XX+4oypzp4ytC54Xkkfr
+         6UplqYloGYZWBhMqAc+pkdC1Qe2E8iL398FrOK9tzg1TiZHGHbiJujZPP5havx/01pn6
+         3Ke6FMJBUfivOVfF15PgC6mmia6SOigclSCZiQoQS/l1QmiRFvAYRYJuUi45+SZJ1Okd
+         guVMlAfYT1VnLzvQs5/FDTDhjrguT+4Ycz3BdZXCcA1Gmp9ECZlrmBb2TQxxQvCuStyG
+         nq5wIiETRdr5R5K5/LwLDfD82DRRplQh0L/tabR8dv2k4DIiyN6HM88bcCIxaU3h2DWe
+         svbw==
+X-Gm-Message-State: AC+VfDxHyMaYW1QJVfJ2tH0QWf8aK2TQOo80xHmcswpotAf5d+pRsXRX
+        7l6uIIYySCxZ4U4W0GaGsI3h9w==
+X-Google-Smtp-Source: ACHHUZ4FyrPbuO3w8Yz55IQ8tPNl8p1FQbjxB/VnRrEwPytlMXkKP4diVJeC1A4YfCKLd8PG92PMzQ==
+X-Received: by 2002:a05:6512:150:b0:4ed:b842:3a99 with SMTP id m16-20020a056512015000b004edb8423a99mr1137818lfo.59.1685460890667;
+        Tue, 30 May 2023 08:34:50 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.199.204])
+        by smtp.gmail.com with ESMTPSA id s2-20020aa7cb02000000b005105f002fd1sm4554734edt.66.2023.05.30.08.34.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 May 2023 08:34:50 -0700 (PDT)
+Message-ID: <10457cab-f9b0-c38b-9f11-36853b71c7e8@linaro.org>
+Date:   Tue, 30 May 2023 17:34:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH] input: Add new keyboard backlight control keys to match
- modern notebooks
+Subject: Re: [PATCH 1/9] dt-bindings: HID: i2c-hid: Add "panel" property to
+ i2c-hid backed panels
 Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Bastien Nocera <hadess@hadess.net>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230530110550.18289-1-wse@tuxedocomputers.com>
-From:   Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <20230530110550.18289-1-wse@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Douglas Anderson <dianders@chromium.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>, hsinyi@google.com,
+        devicetree@vger.kernel.org,
+        yangcong5@huaqin.corp-partner.google.com,
+        linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        linux-arm-msm@vger.kernel.org, cros-qcom-dts-watchers@chromium.org
+References: <20230523193017.4109557-1-dianders@chromium.org>
+ <20230523122802.1.Id68e30343bb1e11470582a9078b086176cfec46b@changeid>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230523122802.1.Id68e30343bb1e11470582a9078b086176cfec46b@changeid>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SCC_BODY_URI_ONLY,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Am 30.05.23 um 13:05 schrieb Werner Sembach:
-> The old three KEY_KBDILLUM* keycodes don't reflect the current situation
-> modern notebooks anymore. Especially the ones with RGB keyboards.
->
-> e.g.
-> - Clevo NL50NU has a toggle, an up, a down and a color-cycle key
-> - TongFang PH4ARX1 doesn't have a toggle key, but one that cycles through
->    off, half-brightness, and full-brightness.
->
-> Also, on some devices these keys are already implemented in firmware. It
-> would still be nice if there is a way to let userspace know when one of
-> these keys is pressed to display the OSD, but don't advice it to actually
-> do anything. This is the intended purpose of the KEY_KBDILLUMCHANGE define.
-Nevermind the KEY_KBDILLUMCHANGE. I just found out there is already a way to 
-communicate this from kernel to userspace via sysfs 
-https://docs.kernel.org/leds/leds-class.html#led-registration-api -> 
-brightness_hw_changed
->
-> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+On 23/05/2023 21:27, Douglas Anderson wrote:
+> As talked about in the patch ("drm/panel: Add a way for other devices
+> to follow panel state"), touchscreens that are connected to panels are
+> generally expected to be power sequenced together with the panel
+> they're attached to. Today, nothing provides information allowing you
+> to find out that a touchscreen is connected to a panel. Let's add a
+> phandle for this.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > ---
->   include/uapi/linux/input-event-codes.h | 4 ++++
->   1 file changed, 4 insertions(+)
->
-> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-> index 022a520e31fc2..05287bf9a77f7 100644
-> --- a/include/uapi/linux/input-event-codes.h
-> +++ b/include/uapi/linux/input-event-codes.h
-> @@ -803,6 +803,10 @@
->   #define BTN_TRIGGER_HAPPY39		0x2e6
->   #define BTN_TRIGGER_HAPPY40		0x2e7
->   
-> +#define KEY_KBDILLUMCYCLE		0x2e8
-> +#define KEY_KBDILLUMCOLORCYCLE		0x2e9
-> +#define KEY_KBDILLUMCHANGE		0x2ea
-> +
->   /* We avoid low common keys in module aliases so they don't get huge. */
->   #define KEY_MIN_INTERESTING	KEY_MUTE
->   #define KEY_MAX			0x2ff
+> 
+>  Documentation/devicetree/bindings/input/elan,ekth6915.yaml  | 6 ++++++
+>  Documentation/devicetree/bindings/input/goodix,gt7375p.yaml | 6 ++++++
+>  Documentation/devicetree/bindings/input/hid-over-i2c.yaml   | 6 ++++++
+>  3 files changed, 18 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> index 05e6f2df604c..d55b03bd3ec4 100644
+> --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> @@ -24,6 +24,12 @@ properties:
+>    interrupts:
+>      maxItems: 1
+>  
+> +  panel:
+> +    description: If this is a touchscreen, the panel it's connected to. This
+
+Hm, can there be different setup? Touchscreen without panel? What would
+it be then?
+
+Why only these touchscreens? This looks generic, so maybe in
+touchscreen.yaml?
+
+Best regards,
+Krzysztof
+
