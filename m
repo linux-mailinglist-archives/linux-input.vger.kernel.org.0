@@ -2,119 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36412716A38
-	for <lists+linux-input@lfdr.de>; Tue, 30 May 2023 18:58:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C6E7716FA6
+	for <lists+linux-input@lfdr.de>; Tue, 30 May 2023 23:25:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232971AbjE3Q6a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 May 2023 12:58:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35490 "EHLO
+        id S231390AbjE3VZG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 May 2023 17:25:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233039AbjE3Q6W (ORCPT
+        with ESMTP id S233426AbjE3VYi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 May 2023 12:58:22 -0400
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1EA6FE
-        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 09:58:18 -0700 (PDT)
-Received: by mail-oi1-x229.google.com with SMTP id 5614622812f47-397f13944f2so3190599b6e.0
-        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 09:58:18 -0700 (PDT)
+        Tue, 30 May 2023 17:24:38 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 647D310A;
+        Tue, 30 May 2023 14:24:37 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-64d5b4c400fso5587335b3a.1;
+        Tue, 30 May 2023 14:24:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1685465897; x=1688057897;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gQLTtDtW2MQvZzbg1+YtroMwuASMRT+NGV7h3iEinfc=;
-        b=KPpV7KIHiRgRhCfSurWnefrgFdQCOOriY0eGtUYd/Ws3Zuuzj8nr0tetWLK4t52294
-         zC4x6UXLkfWqQNoUTI4nMh9JIxDnk6iBcBO5ypSj5hda711h1cVNNg/8NrYqGhDNblY6
-         64h/UMnQC7+tpxQA42y6DKoFmh2R7jw6wKPWg=
+        d=gmail.com; s=20221208; t=1685481877; x=1688073877;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lf4Z9YM584RxPxtekhg1O6Jg1+vKk3NS50lQs9HLET4=;
+        b=SxPcpA0RkDSh6WW0LTYkjemKG5TpashrZVstG+xtYM3+f23QmPJE23JMDI5tPMu9Gd
+         pH1zPJwBss/pHu6VYOU0GVespUNX3d77fVQ1o/BatEok/5gm8MYjBqask0J7H+AzgOYn
+         1r7UBzv4H1BFY61jq2T77bzP9p6Yt9wzQ/3QK57EwqOfw2hCH9YwbPZNPtGmacamK65m
+         3e0W6UibP62f3n6YUbgIb4Btcye3SVr7G4ZYObHCx0ZDV/82lpZTNmU6lkf+vdpIA6CV
+         wTJnDx2S2lRhOhQSt9K0njHLo9lW5Hu8YAKX+Jzbp74C3n5NRAIRUxeLFK6OL6DCRhi6
+         Tjmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685465897; x=1688057897;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gQLTtDtW2MQvZzbg1+YtroMwuASMRT+NGV7h3iEinfc=;
-        b=WmORPFxpJvQKwsVzInIFg7DXLwf9noCZYJjXxIZZyztLXbh2113XlfQeBtF7kqXh+c
-         ecOLsodll5tM5b+OHFKTcNkMyejVlvUmyHQji+kHsgppqRRQWyRS0N1cyP2Wbkw0JchJ
-         DSXby/E2tgbfXbz2YI7FUMSwTr38NJIHpLA5037bkymk2GvzrlA/Fidd3QrUOSMwAJqI
-         2S38DSoXrl77GknR7Qcf9YhQ+viznB9iWhYuksYFd4c6ZWmuqXp36rzQWCXZgfDajYqD
-         kW5i/GwQHQZlIz2Lqu2laeDBgzorglZYU/rB+ETeQbJyuBVctJpe6MboNWsRlTy1vYkR
-         arFQ==
-X-Gm-Message-State: AC+VfDyDh1OfjcWpqLSUeHypF/Sb2jKPQYBHep6LwKf8Sy5u4KN2GsWD
-        9Lc1wZZwGIzeCq+y2ONXn1WWtZ/EA4K/kcAcQ38=
-X-Google-Smtp-Source: ACHHUZ6wuCyna8Zd52txRCV6SXmAXpW7Yv9f5w+CMBxHE5Pws5O/yqTzShmqNG6iN4lOxBgWZBrV/A==
-X-Received: by 2002:a05:6808:1b0b:b0:396:3b9d:7ee0 with SMTP id bx11-20020a0568081b0b00b003963b9d7ee0mr1717418oib.41.1685465896808;
-        Tue, 30 May 2023 09:58:16 -0700 (PDT)
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com. [209.85.166.170])
-        by smtp.gmail.com with ESMTPSA id z36-20020a0293a7000000b00418af04e405sm801963jah.116.2023.05.30.09.58.14
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 May 2023 09:58:14 -0700 (PDT)
-Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-33baee0235cso3205ab.1
-        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 09:58:14 -0700 (PDT)
-X-Received: by 2002:a05:6e02:b24:b0:338:9f6a:d546 with SMTP id
- e4-20020a056e020b2400b003389f6ad546mr181095ilu.20.1685465893122; Tue, 30 May
- 2023 09:58:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAD=FV=VYfPSwar2AXBxB3vX0dV1kjQ5bZMxsEBFhUnMNRXbBCw@mail.gmail.com>
- <20230520050649.2494497-1-yangcong5@huaqin.corp-partner.google.com>
- <20230520050649.2494497-3-yangcong5@huaqin.corp-partner.google.com>
- <CAD=FV=Wm_SK0V6WJUkuvu8yFfiP60JBuOdw9cy=0Ck2Jbn-X2A@mail.gmail.com> <bd19f71b-59ee-80e7-9ff1-1cc26ecc49a7@kernel.org>
-In-Reply-To: <bd19f71b-59ee-80e7-9ff1-1cc26ecc49a7@kernel.org>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Tue, 30 May 2023 09:58:01 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WaVXUr8=4MrZQgA7t=yUBDt-iMvOFSeWhsKZ8XHJAREA@mail.gmail.com>
-Message-ID: <CAD=FV=WaVXUr8=4MrZQgA7t=yUBDt-iMvOFSeWhsKZ8XHJAREA@mail.gmail.com>
-Subject: Re: [v2 2/2] dt-bindings: input: touchscreen: Add ilitek 9882T
- touchscreen chip
-To:     Krzysztof Kozlowski <krzk@kernel.org>
+        d=1e100.net; s=20221208; t=1685481877; x=1688073877;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lf4Z9YM584RxPxtekhg1O6Jg1+vKk3NS50lQs9HLET4=;
+        b=Rjzv98+VN8M673B0PLfv1511K8nB6RIho+EKW1Ttj4fkZdXMLU3Pzvl+09kRO0gaHQ
+         BnKCuMD4ZuXRd7lEYcnhDX3APhGi6DGj7jIg6FdkEDxgyrFTc9omCif59ni2tYMCXn9N
+         3Hz7I7xZB2i8pVCgOXikzfpVDNFcJfKV1eJOnG4uM/CJTpylJ6bryG4NL6ShLvW4ZmB+
+         QS1cqI6KVnN0BGTfwLeob41+UsNAVHW+MrXumTQxjK7XMCTf6u0UnLS7rQA9fHt5MiKM
+         2lPxQmJM7n6vUJlUTd6uywil1UsgJwmaCzygMup0N2HU4vAzkBKMUOrx8kACoWCIv0ak
+         aSYw==
+X-Gm-Message-State: AC+VfDwAOkPdjcT9nLGAVGmtNa6O4Yfs8zghob9JYqPJ6apIJddsE51q
+        BQMfLlwkxgfs10Fec/+dh0c=
+X-Google-Smtp-Source: ACHHUZ5FdDfHq5uzHHtqc3wO2ef3hvpWGLBPKVLe1B1D8eGU1Bwp2L78yxgx9QztJNICOVd5caoh5Q==
+X-Received: by 2002:a05:6a00:9a0:b0:63b:8eeb:77b8 with SMTP id u32-20020a056a0009a000b0063b8eeb77b8mr4227571pfg.13.1685481876642;
+        Tue, 30 May 2023 14:24:36 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:7987:7b1c:51b:39d1])
+        by smtp.gmail.com with ESMTPSA id c4-20020aa781c4000000b0064d413ca7desm2111649pfn.171.2023.05.30.14.24.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 May 2023 14:24:35 -0700 (PDT)
+Date:   Tue, 30 May 2023 14:24:32 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Doug Anderson <dianders@chromium.org>
 Cc:     Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
         benjamin.tissoires@redhat.com, devicetree@vger.kernel.org,
-        dmitry.torokhov@gmail.com, hsinyi@google.com, jikos@kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mka@chromium.org, Rob Herring <robh+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        hsinyi@google.com, jikos@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mka@chromium.org
+Subject: Re: [v2 1/2] HID: i2c-hid: elan: Add ili9882t timing
+Message-ID: <ZHZpkGYYkYK4SrHX@google.com>
+References: <CAD=FV=VYfPSwar2AXBxB3vX0dV1kjQ5bZMxsEBFhUnMNRXbBCw@mail.gmail.com>
+ <20230520050649.2494497-1-yangcong5@huaqin.corp-partner.google.com>
+ <20230520050649.2494497-2-yangcong5@huaqin.corp-partner.google.com>
+ <CAD=FV=Xpe=zOeq2pG17Q0n_SZZHAFmaE+6C=SnuHqnHN6uObog@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD=FV=Xpe=zOeq2pG17Q0n_SZZHAFmaE+6C=SnuHqnHN6uObog@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On Tue, May 30, 2023 at 4:56=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On 22/05/2023 17:33, Doug Anderson wrote:
-> > Hi,
+On Mon, May 22, 2023 at 08:27:38AM -0700, Doug Anderson wrote:
+> Hi,
+> 
+> On Fri, May 19, 2023 at 10:07 PM Cong Yang
+> <yangcong5@huaqin.corp-partner.google.com> wrote:
 > >
-> > On Fri, May 19, 2023 at 10:07=E2=80=AFPM Cong Yang
-> > <yangcong5@huaqin.corp-partner.google.com> wrote:
-> >>
-> >> Add an ilitek touch screen chip ili9882t.
-> >>
-> >> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> >> ---
-> >>  .../devicetree/bindings/input/elan,ekth6915.yaml         | 9 +++++++-=
--
-> >>  1 file changed, 7 insertions(+), 2 deletions(-)
+> > The ili9882t is a TDDI IC ((Touch with Display Driver)). It requires the
+> > panel reset gpio to be high before i2c commands. Use a longer delay in
+> > post_power_delay_ms to ensure the poweron sequence.
 > >
-> > I'm curious about the DT maintainers opinion here. Should this be a
-> > new bindings file, or should it be together in the elan file. If
-> > nothing else, I think the secondary voltage rail name is wrong. I took
-> > a quick peek at a datasheet I found and I don't even see a 3.3V rail
-> > going to the ili9882t. That makes it weird to reuse "vcc33-supply" for
-> > a second supply...
->
-> It's easier if they are CCed...
+> > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> > ---
+> >  drivers/hid/i2c-hid/i2c-hid-of-elan.c | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> 
+> This seems OK to me. The one thing I'd also do is to update the
+> Kconfig description to say that this driver is also used for Ilitek. I
+> think it's fine to keep the symbol name as I2C_HID_OF_ELAN but just
+> change the description.
 
-Crud. I just assumed and didn't check the CC list. Cong: can you
-resend and make sure you're CCing the people that get_maintainers
-points at. One way to find that would be:
+Does ilitek have the same set of regulators, etc, or is it only the
+timing? I'd probably make it a separate mini-driver...
 
-./scripts/get_maintainer.pl -f
-Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+Thanks.
+
+-- 
+Dmitry
