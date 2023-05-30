@@ -2,130 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5D12716473
-	for <lists+linux-input@lfdr.de>; Tue, 30 May 2023 16:40:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F6787164B0
+	for <lists+linux-input@lfdr.de>; Tue, 30 May 2023 16:46:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232001AbjE3Ok2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 May 2023 10:40:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49562 "EHLO
+        id S231264AbjE3OqV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 May 2023 10:46:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230446AbjE3Ok0 (ORCPT
+        with ESMTP id S230349AbjE3OqU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 May 2023 10:40:26 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F3218F;
-        Tue, 30 May 2023 07:40:25 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-96f50e26b8bso843929466b.2;
-        Tue, 30 May 2023 07:40:25 -0700 (PDT)
+        Tue, 30 May 2023 10:46:20 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B50959C;
+        Tue, 30 May 2023 07:46:15 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-30aa1eb95a0so4640418f8f.1;
+        Tue, 30 May 2023 07:46:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685457624; x=1688049624;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1HVONGtru1vqvpdwj35njbJ3xnsiF5SXH/XspKxAtbg=;
-        b=q8fJ9qbk7Jl0YnHgeMW8pNsQXiwZIpXef54bS0SDVbrPKo8Bn+bhixJkmC1bpx6wfI
-         Eu3rr8syVVzCLQhQwMckDJOLarruJVOglg/qQGCcUJDhxQ+fayWtAe4CIdG/OhqpO1gB
-         3fVbPnshlKcTsfmOzE6zN8Ff8+sGDs/OcuT3+tDLBOzGuu/pPtkp+mIKNdlD7oBhoVvV
-         Xq2IOTzr0ClJodPE5Xf1a6GpqkHSM9bjMoRSaxPqQ9u+24FXWUAiGIPS3TRrn22SmTfW
-         7OBrUPrC493kTpeUqG9ut88Mq2f5xEchyn8+M2W4+n/qJesr6fpchXYmtv7Tfqc7tQRO
-         zS3g==
+        d=gmail.com; s=20221208; t=1685457974; x=1688049974;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3y1medTyj/hZKdN9AO+Oz7IaxQHqeigKWyUw6axzy28=;
+        b=TlWu7lDHzDInHB21R9hoHJEBNVqOQIuiRjEGKteI1jepyktLsKA7yEmkRvOuNBQ/x6
+         V8W4WqSkHhMamOx3/y3MaXMdbfNYyVeeAVedLX9yleyjlPAnRzduRd+9svCu68L+GiNR
+         qcvmuvn/RMiJPmtTTrS6mKBWw+PJYJFNQ4op+uKruKCmZ+rOFNQ0BjmfexCW7qN5GsI6
+         8WfDv0cD7PUPhVFheBpdCY/IyzPLPvZTrIkOvX92pjl28ivoIx6yMBoKe/ayxjssRndy
+         iQSHVdBEkMdXQESy3iEvAtmlgdCJJixP3FHf7nu7d52FO9a2y5IBwBe+8heDO5qr3M8Y
+         dWwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685457624; x=1688049624;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1HVONGtru1vqvpdwj35njbJ3xnsiF5SXH/XspKxAtbg=;
-        b=REvPbwgW1Oc8Kx1XGc7TZqBV1h4jvl7OE0D220HKSbDAearYnujGlsuDg5kZysQR3t
-         DKITBjmWqtmzG2TWo/a9n4emNBXoH8wO9UZTbYU5FhK1vcijELpXN7roc9Tdf4tbnfpd
-         WokG3iR3oy5pgP4tOU1QoFqZ94BQ1vlMkiR7Cj9gXvRHKqaBdhXX4BXINa7m87BF0jZA
-         hDne9HsG2BTOgLTWBia+Q9JhpHVraPglv+VcMv4QeCcie/YhJWsRBLyf4cakfG1Rabat
-         QUKJLl3XSwwu1KFiIjsqgQIiuQCqiF/osxN0nhDnn/NwBWnkp1UiVPJSeWjpmCNV99Wk
-         FMgA==
-X-Gm-Message-State: AC+VfDy8Q9diP4jQfASw6TPfu/cQlpV+TLXAOCUq7N6Bz3neld+IohEp
-        GBQaDV77jd8njbIjl6jluxarhYjDGy6J1+i5LQ0G+Rtf5RI=
-X-Google-Smtp-Source: ACHHUZ6MaLMf6pv8NDIqccGUAHJSY+NbmyhyMtDCDskXV7kiWQZ7e7M553OQKfSBWSHc6ESBpV2gSfwJ1rLyfFAvlTg=
-X-Received: by 2002:a17:907:72d6:b0:96f:45cd:6c21 with SMTP id
- du22-20020a17090772d600b0096f45cd6c21mr2838871ejc.30.1685457624017; Tue, 30
- May 2023 07:40:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <f395a434756b7f35336b541cdbdb61ef5b6fe0b1.camel@hadess.net>
- <20230530141628.21290-1-stuart.a.hayhurst@gmail.com> <8d3ba2cf2bf09af9e15a1453212d68bfd41f9399.camel@hadess.net>
-In-Reply-To: <8d3ba2cf2bf09af9e15a1453212d68bfd41f9399.camel@hadess.net>
-From:   Stuart <stuart.a.hayhurst@gmail.com>
-Date:   Tue, 30 May 2023 15:40:13 +0100
-Message-ID: <CALTg27kYqXXWZr2vsUg5ofgTH5XVdKMOat3MAG3Dn+eRYJ5+Cg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] HID: logitech-hidpp: Add USB and Bluetooth IDs for
- the Logitech G915 TKL Keyboard
-To:     Bastien Nocera <hadess@hadess.net>
-Cc:     jikos@kernel.org, =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@riseup.net>,
+        d=1e100.net; s=20221208; t=1685457974; x=1688049974;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3y1medTyj/hZKdN9AO+Oz7IaxQHqeigKWyUw6axzy28=;
+        b=EId4/zbtP78oQCIap6EgA5sygN1ZLZXr0CBIEvk+25WYpI0t+FzUGWIhdmaaHWnPEV
+         8IC4JA3HCD6bwVoOeL3nIz/ZmwtwURrPjLEbj+pXqzpvV3eCvyF5fPDytnF/noMfgF3B
+         +5BXFMrzm/x3TrPwstLhxk9tfybA3z15SQT7GnugUrpplQST7PSJxyBbv0YGEyZIoX/L
+         HhszWYaYzPTGaRjKQdDpFl21kljMRNURnMIoQFdO+xeHZ/mEJ27Qwq0GdgqY/25wgoWH
+         e+HTneQ7sO/yTVPXykk9qE6Z0WKPxYknmCyi3ZCw/MKkNn5tqwibL2hfDkf9GmY03zNn
+         8VEg==
+X-Gm-Message-State: AC+VfDxmmb9Q+MQMP5UtKlEhsQxN6X8xcAcC9Ui8VE/vF9U5wA+QKHFU
+        Lg+lRh3gESeZJ000DVbtMKc=
+X-Google-Smtp-Source: ACHHUZ4kUtwOKbIB/YZ19q9WmcPWqc/0MZVoBTLQm/OPDHomYVxgUd6RIkcLDTCHdbaEfL7fQootCQ==
+X-Received: by 2002:a5d:4d02:0:b0:30a:e369:5acb with SMTP id z2-20020a5d4d02000000b0030ae3695acbmr1661065wrt.68.1685457974073;
+        Tue, 30 May 2023 07:46:14 -0700 (PDT)
+Received: from localhost.localdomain (cpc157791-rdng31-2-0-cust585.15-3.cable.virginm.net. [86.24.214.74])
+        by smtp.gmail.com with ESMTPSA id d1-20020adfe881000000b0030631a599a0sm3573136wrm.24.2023.05.30.07.46.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 May 2023 07:46:13 -0700 (PDT)
+From:   Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+Cc:     stuarthayhurst <stuart.a.hayhurst@gmail.com>, jikos@kernel.org,
+        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bastien Nocera <hadess@hadess.net>
+Subject: [PATCH v2] HID: logitech-hidpp: Add USB and Bluetooth IDs for the Logitech G915 TKL Keyboard
+Date:   Tue, 30 May 2023 15:44:28 +0100
+Message-ID: <20230530144427.24732-1-stuart.a.hayhurst@gmail.com>
+X-Mailer: git-send-email 2.40.1.521.gf1e218fcd8
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Oops, didn't realise it needed a v2, sorry.
+From: stuarthayhurst <stuart.a.hayhurst@gmail.com>
 
-Thanks,
-Stuart
+Adds the USB and Bluetooth IDs for the Logitech G915 TKL keyboard, for device detection
+For this device, this provides battery reporting on top of hid-generic
 
-On Tue, May 30, 2023 at 3:33=E2=80=AFPM Bastien Nocera <hadess@hadess.net> =
-wrote:
->
-> On Tue, 2023-05-30 at 15:16 +0100, Stuart Hayhurst wrote:
-> > Adds the USB and Bluetooth IDs for the Logitech G915 TKL keyboard,
-> > for device detection
-> > For this device, this provides battery reporting on top of hid-
-> > generic
-> >
-> > Signed-off-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
->
-> You can add my:
->
-> Reviewed-by: Bastien Nocera <hadess@hadess.net>
->
-> to the v2 patch that you should send, otherwise the tree maintainers
-> will get confused.
->
-> Cheers
->
-> > ---
-> >  drivers/hid/hid-logitech-hidpp.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-
-> > logitech-hidpp.c
-> > index b2cd7527de19..28761272afe5 100644
-> > --- a/drivers/hid/hid-logitech-hidpp.c
-> > +++ b/drivers/hid/hid-logitech-hidpp.c
-> > @@ -4403,6 +4403,8 @@ static const struct hid_device_id
-> > hidpp_devices[] =3D {
-> >           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC086) },
-> >         { /* Logitech G903 Hero Gaming Mouse over USB */
-> >           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC091) },
-> > +       { /* Logitech G915 TKL Keyboard over USB */
-> > +         HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC343) },
-> >         { /* Logitech G920 Wheel over USB */
-> >           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
-> > USB_DEVICE_ID_LOGITECH_G920_WHEEL),
-> >                 .driver_data =3D HIDPP_QUIRK_CLASS_G920 |
-> > HIDPP_QUIRK_FORCE_OUTPUT_REPORTS},
-> > @@ -4418,6 +4420,8 @@ static const struct hid_device_id
-> > hidpp_devices[] =3D {
-> >         { /* MX5500 keyboard over Bluetooth */
-> >           HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb30b),
-> >           .driver_data =3D HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
-> > +       { /* Logitech G915 TKL keyboard over Bluetooth */
-> > +         HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb35f) },
-> >         { /* M-RCQ142 V470 Cordless Laser Mouse over Bluetooth */
-> >           HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb008) },
-> >         { /* MX Master mouse over Bluetooth */
->
+Reviewed-by: Bastien Nocera <hadess@hadess.net>
+Signed-off-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+---
+ drivers/hid/hid-logitech-hidpp.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index b2cd7527de19..28761272afe5 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -4403,6 +4403,8 @@ static const struct hid_device_id hidpp_devices[] = {
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC086) },
+ 	{ /* Logitech G903 Hero Gaming Mouse over USB */
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC091) },
++	{ /* Logitech G915 TKL Keyboard over USB */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC343) },
+ 	{ /* Logitech G920 Wheel over USB */
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_G920_WHEEL),
+ 		.driver_data = HIDPP_QUIRK_CLASS_G920 | HIDPP_QUIRK_FORCE_OUTPUT_REPORTS},
+@@ -4418,6 +4420,8 @@ static const struct hid_device_id hidpp_devices[] = {
+ 	{ /* MX5500 keyboard over Bluetooth */
+ 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb30b),
+ 	  .driver_data = HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
++	{ /* Logitech G915 TKL keyboard over Bluetooth */
++	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb35f) },
+ 	{ /* M-RCQ142 V470 Cordless Laser Mouse over Bluetooth */
+ 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb008) },
+ 	{ /* MX Master mouse over Bluetooth */
+-- 
+2.40.1.521.gf1e218fcd8
+
