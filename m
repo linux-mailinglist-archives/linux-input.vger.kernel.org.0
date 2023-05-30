@@ -2,130 +2,253 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9592C716726
-	for <lists+linux-input@lfdr.de>; Tue, 30 May 2023 17:35:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC75671673E
+	for <lists+linux-input@lfdr.de>; Tue, 30 May 2023 17:39:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229667AbjE3PfE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 May 2023 11:35:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58322 "EHLO
+        id S229524AbjE3PjC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 May 2023 11:39:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231690AbjE3Pey (ORCPT
+        with ESMTP id S231904AbjE3PjB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 May 2023 11:34:54 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 704A7C7
-        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 08:34:52 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-4f4b2bc1565so5078473e87.2
-        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 08:34:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685460891; x=1688052891;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=i2URTcYLzfS3uayG6hfWA3AHqGO0fmjAhKx1B1Sb2rM=;
-        b=mWVVzeJOqvdZKotjn24LlOTsbVHuks3mjQrNCBTgVMi6WHDE+eBCxalJiaLICMS3WO
-         sZ7dw3d0s6b7D8JxZnJLTSC7RsSFo149WVQXN6zHPAmWxqnyHFX1WVy0p9httXIJyHrb
-         vtj+4z5S4m3vES9aWTzOcrUQdTmRK4Nn2MovEafL9mJ9gtou5LjtN4XeDWyA1O+P86xR
-         5ug8pdlnpq5mggZ2ME2n3og6rrJFuXI1iZqry0NUMkn99l4IBterbAINmOmjVlAevt9B
-         HpS5VJ7z86yvYxTW6s1lchneiwb6q2cjFQTzvPTJrdr2jKd05lSQ8YKP/0QyMpWWjrm1
-         1yRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685460891; x=1688052891;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=i2URTcYLzfS3uayG6hfWA3AHqGO0fmjAhKx1B1Sb2rM=;
-        b=FaWb088DP+VEXKMqCDGK0VKgLz5h8OTol6tDa5c+74Ra46XX+4oypzp4ytC54Xkkfr
-         6UplqYloGYZWBhMqAc+pkdC1Qe2E8iL398FrOK9tzg1TiZHGHbiJujZPP5havx/01pn6
-         3Ke6FMJBUfivOVfF15PgC6mmia6SOigclSCZiQoQS/l1QmiRFvAYRYJuUi45+SZJ1Okd
-         guVMlAfYT1VnLzvQs5/FDTDhjrguT+4Ycz3BdZXCcA1Gmp9ECZlrmBb2TQxxQvCuStyG
-         nq5wIiETRdr5R5K5/LwLDfD82DRRplQh0L/tabR8dv2k4DIiyN6HM88bcCIxaU3h2DWe
-         svbw==
-X-Gm-Message-State: AC+VfDxHyMaYW1QJVfJ2tH0QWf8aK2TQOo80xHmcswpotAf5d+pRsXRX
-        7l6uIIYySCxZ4U4W0GaGsI3h9w==
-X-Google-Smtp-Source: ACHHUZ4FyrPbuO3w8Yz55IQ8tPNl8p1FQbjxB/VnRrEwPytlMXkKP4diVJeC1A4YfCKLd8PG92PMzQ==
-X-Received: by 2002:a05:6512:150:b0:4ed:b842:3a99 with SMTP id m16-20020a056512015000b004edb8423a99mr1137818lfo.59.1685460890667;
-        Tue, 30 May 2023 08:34:50 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.199.204])
-        by smtp.gmail.com with ESMTPSA id s2-20020aa7cb02000000b005105f002fd1sm4554734edt.66.2023.05.30.08.34.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 May 2023 08:34:50 -0700 (PDT)
-Message-ID: <10457cab-f9b0-c38b-9f11-36853b71c7e8@linaro.org>
-Date:   Tue, 30 May 2023 17:34:47 +0200
+        Tue, 30 May 2023 11:39:01 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A6CC109
+        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 08:38:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+        t=1685461136; i=friedrich.vock@gmx.de;
+        bh=eY466nP/g7MQjKWbGT6bLS+1BuoRmaHBWLSnxAB6gyI=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=FjqHzBWAHJhhoQIb+hMBR3+d/AzPnyy4HWjivOVtFe3SrOyHwg7DCrH16EPNS73yu
+         hQgufPflyo3OraK9MlnfzXy6K0UYzfgnSpDxwuJGvrbi6QJWBw+gD+OV+kb/CsZVHU
+         ihzJzu2JxIJhQ2BUPIi6Af3N2/B05u267+/idwvLL75fJ8NvTMCm3RIDDUz+tvCuYf
+         FsQGC0tAOZHkN0bvNWSLD8NiLvopRnCQVmIKLSRFXVhZEHBCsKE1a7pEg/2vKPoq6k
+         qbv+dEvu2bPCVS5w6K++KeHJGNpgyJoRzWfMBagZiBshuXADnC7SV16MXu9VAIKtCw
+         6Bx2m/Awz1tMw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from sus.fritz.box ([213.152.115.159]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mo6qv-1qS5vI3Zoh-00pdjg; Tue, 30
+ May 2023 17:38:55 +0200
+From:   Friedrich Vock <friedrich.vock@gmx.de>
+To:     linux-input@vger.kernel.org
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Friedrich Vock <friedrich.vock@gmx.de>
+Subject: [PATCH] Input: i8042 - Add quirk for polling the KBD port
+Date:   Tue, 30 May 2023 17:36:44 +0200
+Message-Id: <20230530153644.17262-1-friedrich.vock@gmx.de>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 1/9] dt-bindings: HID: i2c-hid: Add "panel" property to
- i2c-hid backed panels
-Content-Language: en-US
-To:     Douglas Anderson <dianders@chromium.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>, hsinyi@google.com,
-        devicetree@vger.kernel.org,
-        yangcong5@huaqin.corp-partner.google.com,
-        linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        linux-arm-msm@vger.kernel.org, cros-qcom-dts-watchers@chromium.org
-References: <20230523193017.4109557-1-dianders@chromium.org>
- <20230523122802.1.Id68e30343bb1e11470582a9078b086176cfec46b@changeid>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230523122802.1.Id68e30343bb1e11470582a9078b086176cfec46b@changeid>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:nq4IbBmU2DYQwHw5nHo4VmnCxUzxqIC/GGlHcHTs2Y8DYZnDnTU
+ eR5qpYwim0oT7oP011e6vTALNVbOK7IkkcD93drk1qL3S+RO6s4w3ps7Rr/q+t141Wq3Mq/
+ 3STJFhe8uL0R4yfu29fy39UDtWTHERmfGVU5oD8pR/uEiKv44Cx0nj6Ddqfcdg5UxxHn9uh
+ MF81R9WHRsEFlohnU3BqA==
+UI-OutboundReport: notjunk:1;M01:P0:U33LS48FkuY=;YLQ3levY1Qt/eNGrkyN4H9kwx9B
+ 2UBUkT1T1vyQJHQ8eeNfbTbwioEqKSyP3F5K0mb8xFV1iuhlJc654lydWHK/UtYmqJvN7Z4FI
+ xoMeUgZZaVYmqARpUManRZdI2Hd2e7XNjdr+dMhCDawzZ5SoD1ybLzyiYHduL4zXoe0lfCxVF
+ aNZ5Q4eRFBzIlUWgdcHLkCCn/QjNcIa/RMaQAa3SiteUHC5xoSQKMYHfK/XSyyMpT57552pcw
+ iqJOtmoYRKlZQZWl22sRumZT0pNS2Xy4HiMSFdq0Wp27UPAQhgye7+R1cFYXMKX9YNPyeXEbY
+ UgCaY5FJWZNhs7sjr2HA63iM9QvWS3jmOOclZ0IYRAlWiZNE+4rFDthjWskP7e2d2Zs7sX2ng
+ W4kYqIjx7GaUYHZdpMpSm/JLKZ1M22lTl0eZDMgK0Nhw58ckk3Ll89IhVUILwwygOMheQR66i
+ q+oeks6Yk5qAodVlPGwVnknEMDAhXAb9p5uQCkLB3Tt9ak/j3+VLmDbLtRzUan5VkPiXg0/oz
+ R28S8zq3RSMOdwU3FyOS2qphapgwXpx3qYGUClcoc14hCzgFihkNCNbn2bY7xmuaErfh5gTCJ
+ lYpHj3Rk9woUVSCFZz2lDr25y508IWs4uB9R3Jc+NzoL44ypG8LRlRVEcLmJSLcpTmbmBGezb
+ eMnSxDM3xQeqid717OrxSgiRWy1ueVJHWztOnISRvRfqiIm6rZlqQVMGFvU4iSDGf3giRA/Dy
+ 7mceG5j0LDKSdiKRJw8AIe4KniJi1JTD2xeniND55/tl0lpSPtQeZPtw3azUAw7iMNIeuS/zz
+ cK9CV3ERomQJc9WvsM1/csQ9bjUQjJr7VovFdO5F5alKDQxA85YX2ub9qaH+ZY5oyaROeTmEF
+ 2w0RGQkZsk9AjMYVzEuK34p85ouGVDjtAFkVc1eesV5IWu7GscUXmKmG3SxYlzXhaNXicMm8/
+ hevSr0B1MDFqX+6pFqr7cnneZfw=
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 23/05/2023 21:27, Douglas Anderson wrote:
-> As talked about in the patch ("drm/panel: Add a way for other devices
-> to follow panel state"), touchscreens that are connected to panels are
-> generally expected to be power sequenced together with the panel
-> they're attached to. Today, nothing provides information allowing you
-> to find out that a touchscreen is connected to a panel. Let's add a
-> phandle for this.
-> 
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-> 
->  Documentation/devicetree/bindings/input/elan,ekth6915.yaml  | 6 ++++++
->  Documentation/devicetree/bindings/input/goodix,gt7375p.yaml | 6 ++++++
->  Documentation/devicetree/bindings/input/hid-over-i2c.yaml   | 6 ++++++
->  3 files changed, 18 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> index 05e6f2df604c..d55b03bd3ec4 100644
-> --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> @@ -24,6 +24,12 @@ properties:
->    interrupts:
->      maxItems: 1
->  
-> +  panel:
-> +    description: If this is a touchscreen, the panel it's connected to. This
+It seems like there are some devices in the ASUS TUF A16 laptops that
+just don't send any keyboard interrupts until you read from the KBD port.
 
-Hm, can there be different setup? Touchscreen without panel? What would
-it be then?
+Signed-off-by: Friedrich Vock <friedrich.vock@gmx.de>
+=2D--
+ drivers/input/serio/i8042-acpipnpio.h | 30 +++++++++++++++--
+ drivers/input/serio/i8042.c           | 47 ++++++++++++++++++++++-----
+ drivers/input/serio/i8042.h           |  2 +-
+ 3 files changed, 67 insertions(+), 12 deletions(-)
 
-Why only these touchscreens? This looks generic, so maybe in
-touchscreen.yaml?
+diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i=
+8042-acpipnpio.h
+index 028e45bd050b..be2e72aaa658 100644
+=2D-- a/drivers/input/serio/i8042-acpipnpio.h
++++ b/drivers/input/serio/i8042-acpipnpio.h
+@@ -83,6 +83,7 @@ static inline void i8042_write_command(int val)
+ #define SERIO_QUIRK_KBDRESET		BIT(12)
+ #define SERIO_QUIRK_DRITEK		BIT(13)
+ #define SERIO_QUIRK_NOPNP		BIT(14)
++#define SERIO_QUIRK_POLL_KBD            BIT(15)
 
-Best regards,
-Krzysztof
+ /* Quirk table for different mainboards. Options similar or identical to =
+i8042
+  * module parameters.
+@@ -99,6 +100,26 @@ static const struct dmi_system_id i8042_dmi_quirk_tabl=
+e[] __initconst =3D {
+ 		},
+ 		.driver_data =3D (void *)(SERIO_QUIRK_NOMUX)
+ 	},
++	/* Some laptops seem to not trigger any keyboard interrupts at all,
++	 * even when there is data available. On these devices, manually
++	 * polling the keyboard port is required.
++	 */
++	{
++		/* ASUS TUF Gaming A16 with Ryzen 7 7735HS */
++		.matches =3D {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "FA617NS"),
++		},
++		.driver_data =3D (void *)(SERIO_QUIRK_POLL_KBD)
++	},
++	{
++		/* ASUS TUF Gaming A16 with Ryzen 9 7940HS */
++		.matches =3D {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "FA617XS"),
++		},
++		.driver_data =3D (void *)(SERIO_QUIRK_POLL_KBD)
++	},
+ 	{
+ 		.matches =3D {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+@@ -1634,6 +1655,8 @@ static void __init i8042_check_quirks(void)
+ 	if (quirks & SERIO_QUIRK_NOPNP)
+ 		i8042_nopnp =3D true;
+ #endif
++	if (quirks & SERIO_QUIRK_POLL_KBD)
++		i8042_poll_kbd =3D true;
+ }
+ #else
+ static inline void i8042_check_quirks(void) {}
+@@ -1667,7 +1690,7 @@ static int __init i8042_platform_init(void)
+
+ 	i8042_check_quirks();
+
+-	pr_debug("Active quirks (empty means none):%s%s%s%s%s%s%s%s%s%s%s%s%s\n"=
+,
++	pr_debug("Active quirks (empty means none):%s%s%s%s%s%s%s%s%s%s%s%s%s%s\=
+n",
+ 		i8042_nokbd ? " nokbd" : "",
+ 		i8042_noaux ? " noaux" : "",
+ 		i8042_nomux ? " nomux" : "",
+@@ -1687,10 +1710,11 @@ static int __init i8042_platform_init(void)
+ 		"",
+ #endif
+ #ifdef CONFIG_PNP
+-		i8042_nopnp ? " nopnp" : "");
++		i8042_nopnp ? " nopnp" : "",
+ #else
+-		"");
++		"",
+ #endif
++		i8042_poll_kbd ? "poll_kbd" : "");
+
+ 	retval =3D i8042_pnp_init();
+ 	if (retval)
+diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+index 6dac7c1853a5..7212263d3a41 100644
+=2D-- a/drivers/input/serio/i8042.c
++++ b/drivers/input/serio/i8042.c
+@@ -115,6 +115,10 @@ module_param_named(nopnp, i8042_nopnp, bool, 0);
+ MODULE_PARM_DESC(nopnp, "Do not use PNP to detect controller settings");
+ #endif
+
++static bool i8042_poll_kbd;
++module_param_named(poll_kbd, i8042_poll_kbd, bool, 0);
++MODULE_PARM_DESC(poll_kbd, "Continuously poll the KBD port instead of rel=
+ying on interrupts");
++
+ #define DEBUG
+ #ifdef DEBUG
+ static bool i8042_debug;
+@@ -178,6 +182,24 @@ static irqreturn_t i8042_interrupt(int irq, void *dev=
+_id);
+ static bool (*i8042_platform_filter)(unsigned char data, unsigned char st=
+r,
+ 				     struct serio *serio);
+
++#define POLL_TIME 1
++static void i8042_poll_func(struct timer_list *timer)
++{
++	unsigned char status;
++	unsigned long flags;
++
++	do {
++		spin_lock_irqsave(&i8042_lock, flags);
++		status =3D i8042_read_status();
++		spin_unlock_irqrestore(&i8042_lock, flags);
++		if (status & I8042_STR_OBF)
++			i8042_interrupt(0, NULL);
++	} while (status & I8042_STR_OBF);
++	mod_timer(timer, jiffies + msecs_to_jiffies(POLL_TIME));
++}
++
++DEFINE_TIMER(poll_timer, i8042_poll_func);
++
+ void i8042_lock_chip(void)
+ {
+ 	mutex_lock(&i8042_mutex);
+@@ -1437,13 +1459,15 @@ static void i8042_unregister_ports(void)
+ 	}
+ }
+
++
+ static void i8042_free_irqs(void)
+ {
+ 	if (i8042_aux_irq_registered)
+ 		free_irq(I8042_AUX_IRQ, i8042_platform_device);
+-	if (i8042_kbd_irq_registered)
++	if (i8042_poll_kbd)
++		del_timer(&poll_timer);
++	else if (i8042_kbd_irq_registered)
+ 		free_irq(I8042_KBD_IRQ, i8042_platform_device);
+-
+ 	i8042_aux_irq_registered =3D i8042_kbd_irq_registered =3D false;
+ }
+
+@@ -1497,10 +1521,14 @@ static int i8042_setup_kbd(void)
+ 	if (error)
+ 		return error;
+
+-	error =3D request_irq(I8042_KBD_IRQ, i8042_interrupt, IRQF_SHARED,
+-			    "i8042", i8042_platform_device);
+-	if (error)
+-		goto err_free_port;
++	if (i8042_poll_kbd)
++		mod_timer(&poll_timer, msecs_to_jiffies(POLL_TIME));
++	else {
++		error =3D request_irq(I8042_KBD_IRQ, i8042_interrupt, IRQF_SHARED,
++				    "i8042", i8042_platform_device);
++		if (error)
++			goto err_free_port;
++	}
+
+ 	error =3D i8042_enable_kbd_port();
+ 	if (error)
+@@ -1510,8 +1538,11 @@ static int i8042_setup_kbd(void)
+ 	return 0;
+
+  err_free_irq:
+-	free_irq(I8042_KBD_IRQ, i8042_platform_device);
+- err_free_port:
++	if (i8042_poll_kbd)
++		del_timer(&poll_timer);
++	else
++		free_irq(I8042_KBD_IRQ, i8042_platform_device);
++err_free_port:
+ 	i8042_free_kbd_port();
+ 	return error;
+ }
+=2D-
+2.40.1
 
