@@ -2,140 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B96E17176EB
-	for <lists+linux-input@lfdr.de>; Wed, 31 May 2023 08:35:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D707F717A40
+	for <lists+linux-input@lfdr.de>; Wed, 31 May 2023 10:37:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234122AbjEaGff (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 31 May 2023 02:35:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39654 "EHLO
+        id S230201AbjEaIho (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 31 May 2023 04:37:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230001AbjEaGfe (ORCPT
+        with ESMTP id S232512AbjEaIhn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 31 May 2023 02:35:34 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F48399;
-        Tue, 30 May 2023 23:35:32 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-96f53c06babso918497666b.3;
-        Tue, 30 May 2023 23:35:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685514931; x=1688106931;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MT/ursCZpYWc+U/ss5xdCpQN33pNzAamORszl4z68Ow=;
-        b=lNMtmamOO2e1wvzgrMy+UcK+VWeJeCrcl3wmYu6uAry5CZ1KJz7U6Ndg/QIjGdbK1A
-         tj/wfAIRPI/J4R2dQh4XqtrssizdRRQ4Ab2he1QAQ6UTq3xy20HiwvumCPJYTdHcrwPj
-         QzTOJ6izHzvkT0p+Z26cuh7XqRTPEKN50JWbzcaHwvIrQG4KckxKlRIqE1oIH6yqniRT
-         i8oK+UudyDh7A07FuNhIKjsbEh2kYKOEi/WHLpXGmPNMl/oQx7wvXzsKSaapzOTMqdYj
-         2I4cka+3HmgIUZqP66vK3ZvbW1EJXlg7tdrylvd9KIFyp9IC+NrfXIVqglgMUHPRTAo1
-         D2Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685514931; x=1688106931;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MT/ursCZpYWc+U/ss5xdCpQN33pNzAamORszl4z68Ow=;
-        b=AeRPOZPAwg4Q9RALsMA+OzaqiMFzo2cVxE0FijmKJWS8mTLil3sQQ3o/c+t1FsH8Hd
-         SmJPUfToJcC+R7II5lS5EnOr0py24rnNtTehBdVg30UCC488XKNKx2HWOz+ZuWvrER2c
-         C9WbOp17AGOsJAcrGJA5GKoLWJHUMRD0aQ8IAgErXO8ZQIm4aJtrx9Suj63iz7hifSZ+
-         B0lNA7LbG6/R5DQeyswaQmflZfl+8LDuHWvKOyduplGAWKghXTFeO1NRO+E/z2UOBiYu
-         qnn7uc3SgWWW3/QEsj9zltP0LCHWGRCybtn7/cr4yl0IbXO/cD5dDObSbHK8MTJtPOpM
-         y5CQ==
-X-Gm-Message-State: AC+VfDwBuEnYWUIYyONKy+loMzr6cWA3IkwdeD7lhYSjmnuKfYahyo0A
-        YLlhYlsWp+JRgDN2CSjKmRKZr3P/lO2+5p0L5OsmfS7eDl0=
-X-Google-Smtp-Source: ACHHUZ7TBEY/rdeuLDDeZUIfY2WE5Jm0aucrTE73JNXR6+PzOMvzNGpM8XQdSJdpkAgMbR2VHVDBcGzUMN7RYCZa8dU=
-X-Received: by 2002:a17:907:d16:b0:960:ddba:e5c3 with SMTP id
- gn22-20020a1709070d1600b00960ddbae5c3mr4616805ejc.32.1685514930685; Tue, 30
- May 2023 23:35:30 -0700 (PDT)
+        Wed, 31 May 2023 04:37:43 -0400
+X-Greylist: delayed 854 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 31 May 2023 01:37:39 PDT
+Received: from mail.ettrick.pl (mail.ettrick.pl [141.94.21.111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 929B410B
+        for <linux-input@vger.kernel.org>; Wed, 31 May 2023 01:37:39 -0700 (PDT)
+Received: by mail.ettrick.pl (Postfix, from userid 1002)
+        id EE640AA9FC; Wed, 31 May 2023 08:16:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ettrick.pl; s=mail;
+        t=1685520965; bh=ZOVeXw1jXE9TbyZP9aLdRwM96AORcRfum8b+rry5JMw=;
+        h=Date:From:To:Subject:From;
+        b=VeLwJpPFCIMnuNfIy+saUODt5xj/raPm6C/ClLQZ13ksMx624CDgdWIlS+s+I/jjc
+         hG4m3JGbr1xhg6/XZeD9kBH3KyR9zirhnZ3NaGMXMYlg0s/bV6+CoWMbGxvfc289mL
+         OTjAOJdi7dfylk2e+C9g3j8D9mls3LrQc8d6WNX9Zxt/Sc7wmblVItUgyN8/leFvaU
+         kVR9aSWsqI3jmi5CxmFbBQ5WYJ2fQ0EyrMeM5JyR9XoJ9hzi8BopqTqjbmDudlbkA3
+         sPBEZA8Hh2nIFILYK937wM+XX2GTUFVObfGhgknn6n2QYrDiozb3KwB811lCKkOIis
+         mZAeUjOz1nYzQ==
+Received: by mail.ettrick.pl for <linux-input@vger.kernel.org>; Wed, 31 May 2023 08:15:40 GMT
+Message-ID: <20230531064500-0.1.ax.4blvm.0.e9ohsprps2@ettrick.pl>
+Date:   Wed, 31 May 2023 08:15:40 GMT
+From:   "Norbert Karecki" <norbert.karecki@ettrick.pl>
+To:     <linux-input@vger.kernel.org>
+Subject: Fotowoltaika- propozycja instalacji
+X-Mailer: mail.ettrick.pl
 MIME-Version: 1.0
-References: <20230530154252.7895-1-osmtendev@gmail.com>
-In-Reply-To: <20230530154252.7895-1-osmtendev@gmail.com>
-From:   David Rheinsberg <david.rheinsberg@gmail.com>
-Date:   Wed, 31 May 2023 08:35:18 +0200
-Message-ID: <CADyDSO6nY2=UONuHk0PMszWJ_Hnpg6h-VYX40xGtU2CnhTcy+w@mail.gmail.com>
-Subject: Re: [PATCH v2] hid-wiimote-debug.c: Drop error checking for debugfs_create_file
-To:     Osama Muhammad <osmtendev@gmail.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_ABUSE_SURBL,URIBL_BLOCKED,
+        URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: *  0.0 URIBL_BLOCKED ADMINISTRATOR NOTICE: The query to URIBL was
+        *      blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [URIs: ettrick.pl]
+        *  1.2 URIBL_ABUSE_SURBL Contains an URL listed in the ABUSE SURBL
+        *      blocklist
+        *      [URIs: ettrick.pl]
+        *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
+        *      blocklist
+        *      [URIs: ettrick.pl]
+        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [141.94.21.111 listed in zen.spamhaus.org]
+        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
+        *      blocklist
+        *      [URIs: ettrick.pl]
+        * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+        *      [score: 0.0000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi
+Dzie=C5=84 dobry,
+=20
+Czy rozwa=C5=BCali Pa=C5=84stwo monta=C5=BC systemu fotowoltaicznego?
+=20
+Instalacja fotowoltaiczna jest najlepszym sposobem na obni=C5=BCenie wyso=
+ko=C5=9Bci rachunk=C3=B3w za pr=C4=85d (pozostaj=C4=85 tylko op=C5=82aty =
+sta=C5=82e) i zabezpieczenie si=C4=99 przed rosn=C4=85cymi cenami energii=
+ elektrycznej. Jest to w pe=C5=82ni odnawialne i bezemisyjne =C5=BAr=C3=B3=
+d=C5=82o energii, dzi=C4=99ki czemu przyczyniamy si=C4=99 do ochrony =C5=9B=
+rodowiska naturalnego.
+=20
+Dzia=C5=82amy od wielu lat na rynku energetycznym. Przygotujemy projekt, =
+wycen=C4=99 oraz kompleksowo wykonamy i zg=C5=82osimy realizacj=C4=99 do =
+zak=C5=82adu energetycznego.=20
+=20
+Czy chc=C4=85 Pa=C5=84stwo pozna=C4=87 nasz=C4=85 propozycj=C4=99? =20
 
-On Tue, 30 May 2023 at 17:43, Osama Muhammad <osmtendev@gmail.com> wrote:
->
-> This patch removes the error checking for debugfs_create_file
-> in hid-wiimote-debug.c.c. This is because the debugfs_create_file()
-> does not return NULL but an ERR_PTR after an error.
-> The DebugFS kernel API is developed in a way that the
-> caller can safely ignore the errors that occur during
-> the creation of DebugFS nodes.The debugfs Api handles
-> it gracefully. The check is unnecessary.
->
-> Link to the comment above debugfs_create_file:
-> https://elixir.bootlin.com/linux/latest/source/fs/debugfs/inode.c#L451
->
-> Signed-off-by: Osama Muhammad <osmtendev@gmail.com>
 
-Looks good, thanks!
-
-Reviewed-by: David Rheinsberg <david@readahead.eu>
-
-Thanks
-David
-
-> ---
-> changes since v1
->         -In v1 the IS_ERR was used for error checking which is dropped now.
-> ---
->  drivers/hid/hid-wiimote-debug.c | 10 ----------
->  1 file changed, 10 deletions(-)
->
-> diff --git a/drivers/hid/hid-wiimote-debug.c b/drivers/hid/hid-wiimote-debug.c
-> index a99dcca2e099..00f9be55f148 100644
-> --- a/drivers/hid/hid-wiimote-debug.c
-> +++ b/drivers/hid/hid-wiimote-debug.c
-> @@ -173,7 +173,6 @@ int wiidebug_init(struct wiimote_data *wdata)
->  {
->         struct wiimote_debug *dbg;
->         unsigned long flags;
-> -       int ret = -ENOMEM;
->
->         dbg = kzalloc(sizeof(*dbg), GFP_KERNEL);
->         if (!dbg)
-> @@ -183,13 +182,9 @@ int wiidebug_init(struct wiimote_data *wdata)
->
->         dbg->eeprom = debugfs_create_file("eeprom", S_IRUSR,
->                 dbg->wdata->hdev->debug_dir, dbg, &wiidebug_eeprom_fops);
-> -       if (!dbg->eeprom)
-> -               goto err;
->
->         dbg->drm = debugfs_create_file("drm", S_IRUSR,
->                         dbg->wdata->hdev->debug_dir, dbg, &wiidebug_drm_fops);
-> -       if (!dbg->drm)
-> -               goto err_drm;
->
->         spin_lock_irqsave(&wdata->state.lock, flags);
->         wdata->debug = dbg;
-> @@ -197,11 +192,6 @@ int wiidebug_init(struct wiimote_data *wdata)
->
->         return 0;
->
-> -err_drm:
-> -       debugfs_remove(dbg->eeprom);
-> -err:
-> -       kfree(dbg);
-> -       return ret;
->  }
->
->  void wiidebug_deinit(struct wiimote_data *wdata)
-> --
-> 2.34.1
->
+Pozdrawiam,
+Norbert Karecki
