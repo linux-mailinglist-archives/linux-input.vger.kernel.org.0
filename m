@@ -2,105 +2,140 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1C9D717400
-	for <lists+linux-input@lfdr.de>; Wed, 31 May 2023 05:00:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B96E17176EB
+	for <lists+linux-input@lfdr.de>; Wed, 31 May 2023 08:35:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231230AbjEaDAg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 May 2023 23:00:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36002 "EHLO
+        id S234122AbjEaGff (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 31 May 2023 02:35:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230296AbjEaDAf (ORCPT
+        with ESMTP id S230001AbjEaGfe (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 May 2023 23:00:35 -0400
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D481F9
-        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 20:00:34 -0700 (PDT)
-Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2af2c7f2883so55962891fa.3
-        for <linux-input@vger.kernel.org>; Tue, 30 May 2023 20:00:34 -0700 (PDT)
+        Wed, 31 May 2023 02:35:34 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F48399;
+        Tue, 30 May 2023 23:35:32 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-96f53c06babso918497666b.3;
+        Tue, 30 May 2023 23:35:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685502032; x=1688094032;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/rL+TycpMQLfB5P4Zn9xgGfUWg8yPCNTwrE46ZNldMM=;
-        b=b0iSPlEIEdT0K9oGJvI/5wIcecgeFqLpeLhBel6OeMF3EdBZYI6ifQdPl3euIJdo0k
-         PMJdv8HhdRPL4YBfw2ypWly7AMEKVY2NsIMyLw1UublWw6HDCzSutkyzdzF6w5B5aVlE
-         6rbKd5bevL6f7Sjpdr0cVjoERtmKw0K71wJK57Ud/S8uwy4k9+obxkVLcc2+yv0LmD5E
-         LPhQH3DpK6gFibLkmqgVGpBSuAmISNTbuV/VuDoqE4Ye7lsQMJ08b/b1JM8wrqku7CBD
-         zey8M0PDkKcK/gDysKkGgeGUfL57+Rn3A9GulETEIiV12TVIHpRFkGDgqQFgFUZVU059
-         PnWA==
+        d=gmail.com; s=20221208; t=1685514931; x=1688106931;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=MT/ursCZpYWc+U/ss5xdCpQN33pNzAamORszl4z68Ow=;
+        b=lNMtmamOO2e1wvzgrMy+UcK+VWeJeCrcl3wmYu6uAry5CZ1KJz7U6Ndg/QIjGdbK1A
+         tj/wfAIRPI/J4R2dQh4XqtrssizdRRQ4Ab2he1QAQ6UTq3xy20HiwvumCPJYTdHcrwPj
+         QzTOJ6izHzvkT0p+Z26cuh7XqRTPEKN50JWbzcaHwvIrQG4KckxKlRIqE1oIH6yqniRT
+         i8oK+UudyDh7A07FuNhIKjsbEh2kYKOEi/WHLpXGmPNMl/oQx7wvXzsKSaapzOTMqdYj
+         2I4cka+3HmgIUZqP66vK3ZvbW1EJXlg7tdrylvd9KIFyp9IC+NrfXIVqglgMUHPRTAo1
+         D2Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685502032; x=1688094032;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/rL+TycpMQLfB5P4Zn9xgGfUWg8yPCNTwrE46ZNldMM=;
-        b=V2/E9RapYlApB9f6YYfDmXWtxqBoP50mYETjh5Y4SW0Z60tnHvf0WtyVBRX1J1UrEV
-         jyXZlGhPdLNPONzIWrMqWRPCv5AaaczHo3z8s8ZSNJ0ZKGTHKi8GzVeBuHNFuORjn2/2
-         Civg3GrcewyTd2Ms35ITkDL4NLRQvkAOJIiObFksaOBlouigMMC7nFMwix9FrjB7Mx6Z
-         wFQpktum+x8QZVaGt95YdifL+DiqGD7s7ts3aHQ3YVbMJmIDK5AoL9KUxqXajQxpIRzU
-         sWqHlUwq5mqaIReiaI5teeJXVfE0HZycMfSVlB9X3TovjA/AdWFcDp8eScng7ZMCWxaV
-         y+8Q==
-X-Gm-Message-State: AC+VfDzVibAUjAqLh23XJn/JZy2t/AJe7HL0FY/N6K4ZAfJnpP+q5mq/
-        DnEEhEv2iEh2tUZQaWx41jjiiLPxDn/zRuiGlag=
-X-Google-Smtp-Source: ACHHUZ5CZvMkv2I1kRF65UZXTV08WTgTXt/UwoT+xOE0O0HCDQZv9DEKmPtUZ5zkynq7KlT7hQP1LxL0yFE0a8TBGQQ=
-X-Received: by 2002:a2e:a414:0:b0:2ac:dd01:e169 with SMTP id
- p20-20020a2ea414000000b002acdd01e169mr1632036ljn.40.1685502031900; Tue, 30
- May 2023 20:00:31 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1685514931; x=1688106931;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MT/ursCZpYWc+U/ss5xdCpQN33pNzAamORszl4z68Ow=;
+        b=AeRPOZPAwg4Q9RALsMA+OzaqiMFzo2cVxE0FijmKJWS8mTLil3sQQ3o/c+t1FsH8Hd
+         SmJPUfToJcC+R7II5lS5EnOr0py24rnNtTehBdVg30UCC488XKNKx2HWOz+ZuWvrER2c
+         C9WbOp17AGOsJAcrGJA5GKoLWJHUMRD0aQ8IAgErXO8ZQIm4aJtrx9Suj63iz7hifSZ+
+         B0lNA7LbG6/R5DQeyswaQmflZfl+8LDuHWvKOyduplGAWKghXTFeO1NRO+E/z2UOBiYu
+         qnn7uc3SgWWW3/QEsj9zltP0LCHWGRCybtn7/cr4yl0IbXO/cD5dDObSbHK8MTJtPOpM
+         y5CQ==
+X-Gm-Message-State: AC+VfDwBuEnYWUIYyONKy+loMzr6cWA3IkwdeD7lhYSjmnuKfYahyo0A
+        YLlhYlsWp+JRgDN2CSjKmRKZr3P/lO2+5p0L5OsmfS7eDl0=
+X-Google-Smtp-Source: ACHHUZ7TBEY/rdeuLDDeZUIfY2WE5Jm0aucrTE73JNXR6+PzOMvzNGpM8XQdSJdpkAgMbR2VHVDBcGzUMN7RYCZa8dU=
+X-Received: by 2002:a17:907:d16:b0:960:ddba:e5c3 with SMTP id
+ gn22-20020a1709070d1600b00960ddbae5c3mr4616805ejc.32.1685514930685; Tue, 30
+ May 2023 23:35:30 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a2e:b601:0:b0:2ad:837f:da67 with HTTP; Tue, 30 May 2023
- 20:00:31 -0700 (PDT)
-Reply-To: dravasmith27@gmail.com
-From:   Dr Ava Smith <hde46246@gmail.com>
-Date:   Tue, 30 May 2023 20:00:31 -0700
-Message-ID: <CAC1T3Q_RHGDSCU9WeKqM8arMsEQtKFwKKdpFNPeQAhEuDbBUTQ@mail.gmail.com>
-Subject: GREETINGS FROM DR AVA SMITH
-To:     undisclosed-recipients:;
+References: <20230530154252.7895-1-osmtendev@gmail.com>
+In-Reply-To: <20230530154252.7895-1-osmtendev@gmail.com>
+From:   David Rheinsberg <david.rheinsberg@gmail.com>
+Date:   Wed, 31 May 2023 08:35:18 +0200
+Message-ID: <CADyDSO6nY2=UONuHk0PMszWJ_Hnpg6h-VYX40xGtU2CnhTcy+w@mail.gmail.com>
+Subject: Re: [PATCH v2] hid-wiimote-debug.c: Drop error checking for debugfs_create_file
+To:     Osama Muhammad <osmtendev@gmail.com>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:231 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4998]
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [dravasmith27[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [hde46246[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [hde46246[at]gmail.com]
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.0 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
--- 
-Hello Dear,
-how are you today?hope you are fine
-My name is Dr Ava Smith ,Am an English and French nationalities.
-I will give you pictures and more details about me as soon as i hear from you
+Hi
+
+On Tue, 30 May 2023 at 17:43, Osama Muhammad <osmtendev@gmail.com> wrote:
+>
+> This patch removes the error checking for debugfs_create_file
+> in hid-wiimote-debug.c.c. This is because the debugfs_create_file()
+> does not return NULL but an ERR_PTR after an error.
+> The DebugFS kernel API is developed in a way that the
+> caller can safely ignore the errors that occur during
+> the creation of DebugFS nodes.The debugfs Api handles
+> it gracefully. The check is unnecessary.
+>
+> Link to the comment above debugfs_create_file:
+> https://elixir.bootlin.com/linux/latest/source/fs/debugfs/inode.c#L451
+>
+> Signed-off-by: Osama Muhammad <osmtendev@gmail.com>
+
+Looks good, thanks!
+
+Reviewed-by: David Rheinsberg <david@readahead.eu>
+
 Thanks
-Ava
+David
+
+> ---
+> changes since v1
+>         -In v1 the IS_ERR was used for error checking which is dropped now.
+> ---
+>  drivers/hid/hid-wiimote-debug.c | 10 ----------
+>  1 file changed, 10 deletions(-)
+>
+> diff --git a/drivers/hid/hid-wiimote-debug.c b/drivers/hid/hid-wiimote-debug.c
+> index a99dcca2e099..00f9be55f148 100644
+> --- a/drivers/hid/hid-wiimote-debug.c
+> +++ b/drivers/hid/hid-wiimote-debug.c
+> @@ -173,7 +173,6 @@ int wiidebug_init(struct wiimote_data *wdata)
+>  {
+>         struct wiimote_debug *dbg;
+>         unsigned long flags;
+> -       int ret = -ENOMEM;
+>
+>         dbg = kzalloc(sizeof(*dbg), GFP_KERNEL);
+>         if (!dbg)
+> @@ -183,13 +182,9 @@ int wiidebug_init(struct wiimote_data *wdata)
+>
+>         dbg->eeprom = debugfs_create_file("eeprom", S_IRUSR,
+>                 dbg->wdata->hdev->debug_dir, dbg, &wiidebug_eeprom_fops);
+> -       if (!dbg->eeprom)
+> -               goto err;
+>
+>         dbg->drm = debugfs_create_file("drm", S_IRUSR,
+>                         dbg->wdata->hdev->debug_dir, dbg, &wiidebug_drm_fops);
+> -       if (!dbg->drm)
+> -               goto err_drm;
+>
+>         spin_lock_irqsave(&wdata->state.lock, flags);
+>         wdata->debug = dbg;
+> @@ -197,11 +192,6 @@ int wiidebug_init(struct wiimote_data *wdata)
+>
+>         return 0;
+>
+> -err_drm:
+> -       debugfs_remove(dbg->eeprom);
+> -err:
+> -       kfree(dbg);
+> -       return ret;
+>  }
+>
+>  void wiidebug_deinit(struct wiimote_data *wdata)
+> --
+> 2.34.1
+>
