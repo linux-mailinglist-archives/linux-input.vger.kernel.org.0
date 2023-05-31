@@ -2,242 +2,362 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 775997187BE
-	for <lists+linux-input@lfdr.de>; Wed, 31 May 2023 18:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 212A7718861
+	for <lists+linux-input@lfdr.de>; Wed, 31 May 2023 19:22:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229915AbjEaQqp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 31 May 2023 12:46:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35678 "EHLO
+        id S229941AbjEaRWo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 31 May 2023 13:22:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229922AbjEaQql (ORCPT
+        with ESMTP id S229996AbjEaRWk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 31 May 2023 12:46:41 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A33018C;
-        Wed, 31 May 2023 09:46:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685551600; x=1717087600;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OHgj5x9BlTOsr+jbuUC5FRn0FouRgE7wpNKD+K6wmEE=;
-  b=BkvpiWvW1b5fy4WXr/CbxjmDeGjAtSeBgvsm1IPeyWa8MAlRb3q0Y7L7
-   LcVspy0hTzBYjEku8mvMIsxnQST6ajD9+cgP4oaLPewvhe9IfAnjS0ox1
-   KzbQOO1JgHGwCBd6rrd5tHzY7lPzJX2zAyX9Ftge8doYOcOhOhBjbCPIQ
-   9iaDcOzZmhFjAZcrSZR2zJBmIxHNQx5TbDzTgwOP7E77BVw59bOj48Xox
-   Z975FgVOAwmv14wiOzYcnGDrANYGOWdCOuWbiePty/hYdVrRCu607ZCSC
-   e+SzIvBvp30EnEbD4Nn4CDxaVhnWNFK5dfAIElj11AEf4BOBMHP5ND9RW
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="354138620"
-X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="354138620"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 09:46:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="796775221"
-X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="796775221"
-Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 31 May 2023 09:46:34 -0700
-Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1q4Oy1-0001Uv-1V;
-        Wed, 31 May 2023 16:46:33 +0000
-Date:   Thu, 1 Jun 2023 00:45:56 +0800
-From:   kernel test robot <lkp@intel.com>
+        Wed, 31 May 2023 13:22:40 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D1A0134;
+        Wed, 31 May 2023 10:22:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9C8C561CEB;
+        Wed, 31 May 2023 17:22:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E045C433D2;
+        Wed, 31 May 2023 17:22:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685553756;
+        bh=Xbo5V+LK1wjUvKeRT/R7gfdA4QJ3aZAJoVxJTqbImTI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=qJdxLmqU+pO5EjnPnj0NYc16IA99UVzvZ4fxCkNkvyGrJ+xQvl8D6tzPxYN5CNcRk
+         Xxes0qzazo49PFB0+hKlKRj38ppPiLOic6ABjsqKgWcETNIfsJgMeITmmeL47bJojP
+         CVutiufSmdRTAK4ukyspIKlyoVj2vL1QgRtHI0CYpYRStEi9Ft/zGLWlcN+FqqQ4UC
+         tmoDVBC+1AobeYFIu4CMxigOcuZwRF/BiDCZo3dKCw9j74M9Awuw+dgEAr5fBeW1AV
+         tupSxXWttXzSTQeQQb9qowAaa+ujURWmWEv/U0tMv57ZqrEUqKvdU8PK5s+XpzT0UI
+         9fWcMfhw4WkMQ==
+Message-ID: <e3b35a40-daf2-c06a-1de4-1d2fdd1c68c8@kernel.org>
+Date:   Wed, 31 May 2023 19:22:31 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 1/2] dt-bindings: input: iqs7222: Add properties for
+ Azoteq IQS7222D
+Content-Language: en-US
 To:     Jeff LaBundy <jeff@labundy.com>, dmitry.torokhov@gmail.com,
         robh+dt@kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, jeff@labundy.com
-Subject: Re: [PATCH 2/2] Input: iqs7222 - add support for Azoteq IQS7222D
-Message-ID: <202306010012.Dmk3yaas-lkp@intel.com>
-References: <ZHaoFCIpUM6ocPKO@nixie71>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZHaoFCIpUM6ocPKO@nixie71>
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org
+References: <ZHanv+8fOYhpyMEC@nixie71>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <ZHanv+8fOYhpyMEC@nixie71>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jeff,
+On 31/05/2023 03:49, Jeff LaBundy wrote:
+> Extend the common binding to include a new variant of the silicon.
+> 
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 
-kernel test robot noticed the following build warnings:
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC.  It might happen, that command when run on an older
+kernel, gives you outdated entries.  Therefore please be sure you base
+your patches on recent Linux kernel.
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus robh/for-next hid/for-next linus/master v6.4-rc4 next-20230531]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+It's not the first time - you keep ignoring maintainers output all the time.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeff-LaBundy/Input-iqs7222-add-support-for-Azoteq-IQS7222D/20230531-095226
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/ZHaoFCIpUM6ocPKO%40nixie71
-patch subject: [PATCH 2/2] Input: iqs7222 - add support for Azoteq IQS7222D
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230601/202306010012.Dmk3yaas-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/b8b40762779cc4c0208ff51ef9fbb2d8015ba164
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jeff-LaBundy/Input-iqs7222-add-support-for-Azoteq-IQS7222D/20230531-095226
-        git checkout b8b40762779cc4c0208ff51ef9fbb2d8015ba164
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/input/misc/
+> ---
+>  .../bindings/input/azoteq,iqs7222.yaml        | 202 +++++++++++++++++-
+>  1 file changed, 192 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml b/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
+> index 9ddba7f2e7aa..a4c251a430fa 100644
+> --- a/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
+> +++ b/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
+> @@ -4,14 +4,14 @@
+>  $id: http://devicetree.org/schemas/input/azoteq,iqs7222.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: Azoteq IQS7222A/B/C Capacitive Touch Controller
+> +title: Azoteq IQS7222A/B/C/D Capacitive Touch Controller
+>  
+>  maintainers:
+>    - Jeff LaBundy <jeff@labundy.com>
+>  
+>  description: |
+> -  The Azoteq IQS7222A, IQS7222B and IQS7222C are multichannel capacitive touch
+> -  controllers that feature additional sensing capabilities.
+> +  The Azoteq IQS7222A, IQS7222B, IQS7222C and IQS7222D are multichannel capac-
+> +  itive touch controllers that feature additional sensing capabilities.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306010012.Dmk3yaas-lkp@intel.com/
+Don't split words.
 
-All warnings (new ones prefixed by >>):
+>  
+>    Link to datasheets: https://www.azoteq.com/
+>  
+> @@ -21,6 +21,7 @@ properties:
+>        - azoteq,iqs7222a
+>        - azoteq,iqs7222b
+>        - azoteq,iqs7222c
+> +      - azoteq,iqs7222d
+>  
+>    reg:
+>      maxItems: 1
+> @@ -173,6 +174,148 @@ properties:
+>      maximum: 3000
+>      description: Specifies the report rate (in ms) during ultra-low-power mode.
+>  
+> +  touchscreen-size-x: true
+> +  touchscreen-size-y: true
+> +  touchscreen-inverted-x: true
+> +  touchscreen-inverted-y: true
+> +  touchscreen-swapped-x-y: true
 
-   drivers/input/misc/iqs7222.c: In function 'iqs7222_parse_tpad':
->> drivers/input/misc/iqs7222.c:2574:36: warning: unused variable 'val' [-Wunused-variable]
-    2574 |         unsigned int chan_sel[12], val;
-         |                                    ^~~
+Why? Aren't they coming from common schema?
 
+> +
+> +  trackpad:
+> +    type: object
+> +    description: Represents all channels associated with the trackpad.
+> +
+> +    properties:
+> +      azoteq,channel-select:
+> +        $ref: /schemas/types.yaml#/definitions/uint32-array
+> +        minItems: 1
+> +        maxItems: 12
+> +        items:
+> +          minimum: 0
+> +          maximum: 13
+> +        description:
+> +          Specifies the order of the channels that participate in the trackpad.
+> +          Specify 255 to omit a given channel for the purpose of mapping a non-
+> +          rectangular trackpad.
+> +
+> +      azoteq,num-rows:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 1
+> +        maximum: 12
+> +        description: Specifies the number of rows that comprise the trackpad.
+> +
+> +      azoteq,num-cols:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 1
+> +        maximum: 12
+> +        description: Specifies the number of columns that comprise the trackpad.
+> +
+> +      azoteq,top-speed:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        multipleOf: 4
+> +        minimum: 0
+> +        maximum: 1020
+> +        description:
+> +          Specifies the speed of movement after which coordinate filtering is
+> +          no longer applied.
 
-vim +/val +2574 drivers/input/misc/iqs7222.c
+Units?
 
-  2563	
-  2564	static int iqs7222_parse_tpad(struct iqs7222_private *iqs7222,
-  2565				      struct fwnode_handle *tpad_node, int tpad_index)
-  2566	{
-  2567		const struct iqs7222_dev_desc *dev_desc = iqs7222->dev_desc;
-  2568		struct touchscreen_properties *prop = &iqs7222->prop;
-  2569		struct i2c_client *client = iqs7222->client;
-  2570		int num_chan = dev_desc->reg_grps[IQS7222_REG_GRP_CHAN].num_row;
-  2571		int count, error, i;
-  2572		u16 *event_mask = &iqs7222->sys_setup[dev_desc->event_offset];
-  2573		u16 *tpad_setup = iqs7222->tpad_setup;
-> 2574		unsigned int chan_sel[12], val;
-  2575	
-  2576		error = iqs7222_parse_props(iqs7222, tpad_node, tpad_index,
-  2577					    IQS7222_REG_GRP_TPAD,
-  2578					    IQS7222_REG_KEY_NONE);
-  2579		if (error)
-  2580			return error;
-  2581	
-  2582		count = fwnode_property_count_u32(tpad_node, "azoteq,channel-select");
-  2583		if (count < 0) {
-  2584			dev_err(&client->dev, "Failed to count %s channels: %d\n",
-  2585				fwnode_get_name(tpad_node), count);
-  2586			return count;
-  2587		} else if (!count || count > ARRAY_SIZE(chan_sel)) {
-  2588			dev_err(&client->dev, "Invalid number of %s channels\n",
-  2589				fwnode_get_name(tpad_node));
-  2590			return -EINVAL;
-  2591		}
-  2592	
-  2593		error = fwnode_property_read_u32_array(tpad_node,
-  2594						       "azoteq,channel-select",
-  2595						       chan_sel, count);
-  2596		if (error) {
-  2597			dev_err(&client->dev, "Failed to read %s channels: %d\n",
-  2598				fwnode_get_name(tpad_node), error);
-  2599			return error;
-  2600		}
-  2601	
-  2602		tpad_setup[6] &= ~GENMASK(num_chan - 1, 0);
-  2603	
-  2604		for (i = 0; i < ARRAY_SIZE(chan_sel); i++) {
-  2605			tpad_setup[8 + i] = 0;
-  2606			if (i >= count || chan_sel[i] == U8_MAX)
-  2607				continue;
-  2608	
-  2609			if (chan_sel[i] >= num_chan) {
-  2610				dev_err(&client->dev, "Invalid %s channel: %u\n",
-  2611					fwnode_get_name(tpad_node), chan_sel[i]);
-  2612				return -EINVAL;
-  2613			}
-  2614	
-  2615			/*
-  2616			 * The following fields indicate which channels participate in
-  2617			 * the trackpad, as well as each channel's relative placement.
-  2618			 */
-  2619			tpad_setup[6] |= BIT(chan_sel[i]);
-  2620			tpad_setup[8 + i] = chan_sel[i] * 34 + 1072;
-  2621		}
-  2622	
-  2623		tpad_setup[7] = dev_desc->touch_link;
-  2624		if (fwnode_property_present(tpad_node, "azoteq,use-prox"))
-  2625			tpad_setup[7] -= 2;
-  2626	
-  2627		for (i = 0; i < ARRAY_SIZE(iqs7222_tp_events); i++)
-  2628			tpad_setup[20] &= ~(iqs7222_tp_events[i].strict |
-  2629					    iqs7222_tp_events[i].enable);
-  2630	
-  2631		for (i = 0; i < ARRAY_SIZE(iqs7222_tp_events); i++) {
-  2632			const char *event_name = iqs7222_tp_events[i].name;
-  2633			struct fwnode_handle *event_node;
-  2634	
-  2635			event_node = fwnode_get_named_child_node(tpad_node, event_name);
-  2636			if (!event_node)
-  2637				continue;
-  2638	
-  2639			if (fwnode_property_present(event_node,
-  2640						    "azoteq,gesture-angle-tighten"))
-  2641				tpad_setup[20] |= iqs7222_tp_events[i].strict;
-  2642	
-  2643			tpad_setup[20] |= iqs7222_tp_events[i].enable;
-  2644	
-  2645			error = iqs7222_parse_event(iqs7222, event_node, tpad_index,
-  2646						    IQS7222_REG_GRP_TPAD,
-  2647						    iqs7222_tp_events[i].reg_key,
-  2648						    iqs7222_tp_events[i].link, 1566,
-  2649						    NULL,
-  2650						    &iqs7222->tp_code[i]);
-  2651			fwnode_handle_put(event_node);
-  2652			if (error)
-  2653				return error;
-  2654	
-  2655			if (!dev_desc->event_offset)
-  2656				continue;
-  2657	
-  2658			/*
-  2659			 * The press/release event is determined based on whether the
-  2660			 * coordinate fields report 0xFFFF and solely relies on touch
-  2661			 * or proximity interrupts to be unmasked.
-  2662			 */
-  2663			if (i)
-  2664				*event_mask |= IQS7222_EVENT_MASK_TPAD;
-  2665			else if (tpad_setup[7] == dev_desc->touch_link)
-  2666				*event_mask |= IQS7222_EVENT_MASK_TOUCH;
-  2667			else
-  2668				*event_mask |= IQS7222_EVENT_MASK_PROX;
-  2669		}
-  2670	
-  2671		if (!iqs7222->tp_code[0])
-  2672			return 0;
-  2673	
-  2674		input_set_abs_params(iqs7222->keypad, ABS_X,
-  2675				     0, (tpad_setup[4] ? : 1) - 1, 0, 0);
-  2676	
-  2677		input_set_abs_params(iqs7222->keypad, ABS_Y,
-  2678				     0, (tpad_setup[5] ? : 1) - 1, 0, 0);
-  2679	
-  2680		touchscreen_parse_properties(iqs7222->keypad, false, prop);
-  2681	
-  2682		if (prop->max_x >= U16_MAX || prop->max_y >= U16_MAX) {
-  2683			dev_err(&client->dev, "Invalid trackpad size: %u*%u\n",
-  2684				prop->max_x, prop->max_y);
-  2685			return -EINVAL;
-  2686		}
-  2687	
-  2688		tpad_setup[4] = prop->max_x + 1;
-  2689		tpad_setup[5] = prop->max_y + 1;
-  2690	
-  2691		return 0;
-  2692	}
-  2693	
+> +
+> +      azoteq,bottom-speed:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 0
+> +        maximum: 255
+> +        description:
+> +          Specifies the speed of movement after which coordinate filtering is
+> +          linearly reduced.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Units?
+
+> +
+> +      azoteq,use-prox:
+> +        type: boolean
+> +        description:
+> +          Directs the trackpad to respond to the proximity states of the se-
+> +          lected channels instead of their corresponding touch states. Note
+
+Don't split the words.
+
+> +          the trackpad cannot report granular coordinates during a state of
+> +          proximity.
+> +
+> +    patternProperties:
+> +      "^azoteq,lower-cal-(x|y)$":
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 0
+> +        maximum: 255
+> +        description: Specifies the trackpad's lower starting points.
+
+Why would you need this property? Why does this represent hardware property?
+
+> +
+> +      "^azoteq,upper-cal-(x|y)$":
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 0
+> +        maximum: 255
+> +        description: Specifies the trackpad's upper starting points.
+> +
+> +      "^event-(press|tap|(swipe|flick)-(x|y)-(pos|neg))$":
+> +        type: object
+> +        $ref: input.yaml#
+> +        description:
+> +          Represents a press or gesture event reported by the trackpad. Specify
+> +          'linux,code' under the press event to report absolute coordinates.
+> +
+> +        properties:
+> +          linux,code: true
+> +
+> +          azoteq,gesture-angle-tighten:
+> +            type: boolean
+> +            description:
+> +              Limits the tangent of the gesture angle to 0.5 (axial gestures
+> +              only). If specified in one direction, the effect is applied in
+> +              either direction.
+> +
+> +          azoteq,gesture-max-ms:
+> +            multipleOf: 16
+> +            minimum: 0
+> +            maximum: 4080
+> +            description:
+> +              Specifies the length of time (in ms) within which a tap, swipe
+> +              or flick gesture must be completed in order to be acknowledged
+> +              by the device. The number specified for any one swipe or flick
+> +              gesture applies to all other swipe or flick gestures.
+> +
+> +          azoteq,gesture-min-ms:
+> +            multipleOf: 16
+> +            minimum: 0
+> +            maximum: 4080
+> +            description:
+> +              Specifies the length of time (in ms) for which a tap gesture must
+> +              be held in order to be acknowledged by the device.
+> +
+> +          azoteq,gesture-dist:
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +            minimum: 0
+> +            maximum: 65535
+> +            description:
+> +              Specifies the distance across which a tap, swipe or flick gesture
+> +              must travel in order to be acknowledged by the device. The number
+> +              specified for any one swipe or flick gesture applies to all other
+> +              swipe or flick gestures.
+> +
+> +          azoteq,gpio-select:
+> +            $ref: /schemas/types.yaml#/definitions/uint32-array
+> +            minItems: 1
+> +            maxItems: 3
+> +            items:
+> +              minimum: 0
+> +              maximum: 2
+> +            description: |
+> +              Specifies one or more GPIO mapped to the event as follows:
+> +              0: GPIO0
+> +              1: GPIO3
+> +              2: GPIO4
+> +
+> +              Note that although multiple events can be mapped to a single
+> +              GPIO, they must all be of the same type (proximity, touch or
+> +              trackpad gesture).
+> +
+> +        additionalProperties: false
+> +
+> +    required:
+> +      - azoteq,channel-select
+> +
+> +    additionalProperties: false
+> +
+>  patternProperties:
+>    "^cycle-[0-9]$":
+>      type: object
+> @@ -288,6 +431,10 @@ patternProperties:
+>            Activates the reference channel in response to proximity events
+>            instead of touch events.
+>  
+> +      azoteq,counts-filt-enable:
+> +        type: boolean
+> +        description: Applies counts filtering to the channel.
+> +
+>        azoteq,ati-band:
+>          $ref: /schemas/types.yaml#/definitions/uint32
+>          enum: [0, 1, 2, 3]
+> @@ -432,12 +579,12 @@ patternProperties:
+>              description: |
+>                Specifies one or more GPIO mapped to the event as follows:
+>                0: GPIO0
+> -              1: GPIO3 (IQS7222C only)
+> -              2: GPIO4 (IQS7222C only)
+> +              1: GPIO3
+> +              2: GPIO4
+
+Why changing this? Is it valid for IQS7222A?
+>  
+>                Note that although multiple events can be mapped to a single
+>                GPIO, they must all be of the same type (proximity, touch or
+> -              slider gesture).
+> +              slider/trackpad gesture).
+>  
+>            azoteq,thresh:
+>              $ref: /schemas/types.yaml#/definitions/uint32
+> @@ -610,8 +757,8 @@ patternProperties:
+>              description: |
+>                Specifies one or more GPIO mapped to the event as follows:
+>                0: GPIO0
+> -              1: GPIO3 (IQS7222C only)
+> -              2: GPIO4 (IQS7222C only)
+> +              1: GPIO3
+> +              2: GPIO4
+>  
+>                Note that although multiple events can be mapped to a single
+>                GPIO, they must all be of the same type (proximity, touch or
+> @@ -629,8 +776,8 @@ patternProperties:
+>      description: |
+>        Represents a GPIO mapped to one or more events as follows:
+>        gpio-0: GPIO0
+> -      gpio-1: GPIO3 (IQS7222C only)
+> -      gpio-2: GPIO4 (IQS7222C only)
+> +      gpio-1: GPIO3
+> +      gpio-2: GPIO4
+>  
+>      allOf:
+>        - $ref: ../pinctrl/pincfg-node.yaml#
+> @@ -641,6 +788,41 @@ patternProperties:
+>      additionalProperties: false
+>  
+>  allOf:
+> +  - $ref: touchscreen/touchscreen.yaml#
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: azoteq,iqs7222d
+> +
+> +    then:
+> +      patternProperties:
+> +        "^cycle-[0-9]$":
+> +          properties:
+> +            azoteq,iref-enable: false
+> +
+> +        "^channel-([0-9]|1[0-9])$":
+> +          properties:
+> +            azoteq,ref-select: false
+> +
+> +        "^slider-[0-1]$": false
+> +
+> +    else:
+> +      properties:
+> +        touchscreen-size-x: false
+> +        touchscreen-size-y: false
+> +        touchscreen-inverted-x: false
+> +        touchscreen-inverted-y: false
+> +        touchscreen-swapped-x-y: false
+> +
+> +        trackpad: false
+
+The binding got quite complicated. Are you sure these are similar devices?
+
+Best regards,
+Krzysztof
+
