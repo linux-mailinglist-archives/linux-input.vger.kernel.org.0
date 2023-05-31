@@ -2,98 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D707F717A40
-	for <lists+linux-input@lfdr.de>; Wed, 31 May 2023 10:37:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFBA17179F8
+	for <lists+linux-input@lfdr.de>; Wed, 31 May 2023 10:24:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230201AbjEaIho (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 31 May 2023 04:37:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56076 "EHLO
+        id S234595AbjEaIYg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 31 May 2023 04:24:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232512AbjEaIhn (ORCPT
+        with ESMTP id S234862AbjEaIYe (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 31 May 2023 04:37:43 -0400
-X-Greylist: delayed 854 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 31 May 2023 01:37:39 PDT
-Received: from mail.ettrick.pl (mail.ettrick.pl [141.94.21.111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 929B410B
-        for <linux-input@vger.kernel.org>; Wed, 31 May 2023 01:37:39 -0700 (PDT)
-Received: by mail.ettrick.pl (Postfix, from userid 1002)
-        id EE640AA9FC; Wed, 31 May 2023 08:16:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ettrick.pl; s=mail;
-        t=1685520965; bh=ZOVeXw1jXE9TbyZP9aLdRwM96AORcRfum8b+rry5JMw=;
-        h=Date:From:To:Subject:From;
-        b=VeLwJpPFCIMnuNfIy+saUODt5xj/raPm6C/ClLQZ13ksMx624CDgdWIlS+s+I/jjc
-         hG4m3JGbr1xhg6/XZeD9kBH3KyR9zirhnZ3NaGMXMYlg0s/bV6+CoWMbGxvfc289mL
-         OTjAOJdi7dfylk2e+C9g3j8D9mls3LrQc8d6WNX9Zxt/Sc7wmblVItUgyN8/leFvaU
-         kVR9aSWsqI3jmi5CxmFbBQ5WYJ2fQ0EyrMeM5JyR9XoJ9hzi8BopqTqjbmDudlbkA3
-         sPBEZA8Hh2nIFILYK937wM+XX2GTUFVObfGhgknn6n2QYrDiozb3KwB811lCKkOIis
-         mZAeUjOz1nYzQ==
-Received: by mail.ettrick.pl for <linux-input@vger.kernel.org>; Wed, 31 May 2023 08:15:40 GMT
-Message-ID: <20230531064500-0.1.ax.4blvm.0.e9ohsprps2@ettrick.pl>
-Date:   Wed, 31 May 2023 08:15:40 GMT
-From:   "Norbert Karecki" <norbert.karecki@ettrick.pl>
-To:     <linux-input@vger.kernel.org>
-Subject: Fotowoltaika- propozycja instalacji
-X-Mailer: mail.ettrick.pl
+        Wed, 31 May 2023 04:24:34 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44D3BBE;
+        Wed, 31 May 2023 01:24:32 -0700 (PDT)
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 219601BF20B;
+        Wed, 31 May 2023 08:24:28 +0000 (UTC)
+From:   Bastien Nocera <hadess@hadess.net>
+To:     linux-input@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
+        =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>,
+        Mark Lord <mlord@pobox.com>
+Subject: [PATCH] HID: logitech-hidpp: Handle timeout differently from busy
+Date:   Wed, 31 May 2023 10:24:28 +0200
+Message-Id: <20230531082428.21763-1-hadess@hadess.net>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_ABUSE_SURBL,URIBL_BLOCKED,
-        URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: *  0.0 URIBL_BLOCKED ADMINISTRATOR NOTICE: The query to URIBL was
-        *      blocked.  See
-        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-        *      for more information.
-        *      [URIs: ettrick.pl]
-        *  1.2 URIBL_ABUSE_SURBL Contains an URL listed in the ABUSE SURBL
-        *      blocklist
-        *      [URIs: ettrick.pl]
-        *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
-        *      blocklist
-        *      [URIs: ettrick.pl]
-        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
-        *      [141.94.21.111 listed in zen.spamhaus.org]
-        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
-        *      blocklist
-        *      [URIs: ettrick.pl]
-        * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-        *      [score: 0.0000]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-X-Spam-Level: *****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dzie=C5=84 dobry,
-=20
-Czy rozwa=C5=BCali Pa=C5=84stwo monta=C5=BC systemu fotowoltaicznego?
-=20
-Instalacja fotowoltaiczna jest najlepszym sposobem na obni=C5=BCenie wyso=
-ko=C5=9Bci rachunk=C3=B3w za pr=C4=85d (pozostaj=C4=85 tylko op=C5=82aty =
-sta=C5=82e) i zabezpieczenie si=C4=99 przed rosn=C4=85cymi cenami energii=
- elektrycznej. Jest to w pe=C5=82ni odnawialne i bezemisyjne =C5=BAr=C3=B3=
-d=C5=82o energii, dzi=C4=99ki czemu przyczyniamy si=C4=99 do ochrony =C5=9B=
-rodowiska naturalnego.
-=20
-Dzia=C5=82amy od wielu lat na rynku energetycznym. Przygotujemy projekt, =
-wycen=C4=99 oraz kompleksowo wykonamy i zg=C5=82osimy realizacj=C4=99 do =
-zak=C5=82adu energetycznego.=20
-=20
-Czy chc=C4=85 Pa=C5=84stwo pozna=C4=87 nasz=C4=85 propozycj=C4=99? =20
+If an attempt at contacting a receiver or a device fails because the
+receiver or device never responds, don't restart the communication, only
+restart it if the receiver or device answers that it's busy, as originally
+intended.
 
+This was the behaviour on communication timeout before commit 586e8fede795
+("HID: logitech-hidpp: Retry commands when device is busy").
 
-Pozdrawiam,
-Norbert Karecki
+This fixes some overly long waits in a critical path on boot, when
+checking whether the device is connected by getting its HID++ version.
+
+Signed-off-by: Bastien Nocera <hadess@hadess.net>
+Suggested-by: Mark Lord <mlord@pobox.com>
+Fixes: 586e8fede795 ("HID: logitech-hidpp: Retry commands when device is busy")
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=217412
+---
+ drivers/hid/hid-logitech-hidpp.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index 0fcfd85fea0f..2246044b1639 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -314,6 +314,7 @@ static int hidpp_send_message_sync(struct hidpp_device *hidpp,
+ 			dbg_hid("%s:timeout waiting for response\n", __func__);
+ 			memset(response, 0, sizeof(struct hidpp_report));
+ 			ret = -ETIMEDOUT;
++			goto exit;
+ 		}
+ 
+ 		if (response->report_id == REPORT_ID_HIDPP_SHORT &&
+-- 
+2.40.1
+
