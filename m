@@ -2,60 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8856717A5D
-	for <lists+linux-input@lfdr.de>; Wed, 31 May 2023 10:43:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80C21717A8A
+	for <lists+linux-input@lfdr.de>; Wed, 31 May 2023 10:46:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234371AbjEaInQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 31 May 2023 04:43:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59890 "EHLO
+        id S235030AbjEaIq4 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 31 May 2023 04:46:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230039AbjEaInP (ORCPT
+        with ESMTP id S235042AbjEaIqg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 31 May 2023 04:43:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6678ABE;
-        Wed, 31 May 2023 01:43:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 01DA363834;
-        Wed, 31 May 2023 08:43:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 548D3C433EF;
-        Wed, 31 May 2023 08:43:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685522593;
-        bh=s4t+Z4bQTlyFJ05G5k3BJkFvhBy3z6GR9euUFM8vS+8=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=dmKSoM0FNyamDabmjd+4lt6NXDgd8/pkAFJcTaWxSfRgBp9CRN903J+Oqkt7M3ZaT
-         NEBF48UN6cT6A6kMOSnYjUIciotz3JovgCsqv2N8F8cFRmkuhf3MU8A0/DQZ9r1WLB
-         uRy69iYzC2hrGqX6WsQGtOi7kS/He+mo2o7pfEabX7jO7bDElxOnMRTmDicGMl/ZY/
-         twX1TAF7IezoVYDCz2re4IAeFaYJMR+XgP92T6DPOzZwEj8DxixPiYBK7aLtUjZgeX
-         2a5lFEGlUSUAVBnMmxr1/bTuf2XoZhvJ0Mc9txxnRiQ7Pzn9tirpEQvl8dWhlEllx0
-         xnDBNn43qPRZg==
-Date:   Wed, 31 May 2023 10:43:08 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Thorsten Leemhuis <regressions@leemhuis.info>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux regressions mailing list <regressions@lists.linux.dev>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>,
-        Bastien Nocera <hadess@hadess.net>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, guy.b@bluewin.ch
+        Wed, 31 May 2023 04:46:36 -0400
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97EF0186;
+        Wed, 31 May 2023 01:46:06 -0700 (PDT)
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+Received: by mail.gandi.net (Postfix) with ESMTPSA id F232A1C0008;
+        Wed, 31 May 2023 08:46:02 +0000 (UTC)
+Message-ID: <6d911cceaaf894754a1183a449d6d3deaf354bd8.camel@hadess.net>
 Subject: Re: [regression] Since kernel 6.3.1 logitech unify receiver not
  working properly
-In-Reply-To: <746720e5-318c-6d9e-2d5a-a6ebf6b4b0c6@leemhuis.info>
-Message-ID: <nycvar.YFH.7.76.2305311042150.29760@cbobk.fhfr.pm>
-References: <9b987585-0834-bb8c-3414-283c29f3f2ab@leemhuis.info> <bec024d5-4088-00ae-f7b5-7188868b1707@leemhuis.info> <b7717c43-74bf-b91d-d3ce-874493df602c@gmail.com> <CAO-hwJ+At1J_yUpX2q_dJekzZ-PoTDAvxmkTk_e4Yu0Z338bEA@mail.gmail.com>
- <55dda0bb-fe42-6dee-28ea-00121554d092@leemhuis.info> <CAHk-=whvhkSk6m8_AidhofgR9nq0Md+HbNad5r1RE69tZgbv6Q@mail.gmail.com> <nycvar.YFH.7.76.2305231422180.29760@cbobk.fhfr.pm> <CAO-hwJ+MTRu9KxqwQc7UYFBsa0kkrnYfwVB30KsLZnw=wfcOMg@mail.gmail.com>
- <nycvar.YFH.7.76.2305251308471.29760@cbobk.fhfr.pm> <nycvar.YFH.7.76.2305262040330.29760@cbobk.fhfr.pm> <746720e5-318c-6d9e-2d5a-a6ebf6b4b0c6@leemhuis.info>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux regressions mailing list <regressions@lists.linux.dev>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, guy.b@bluewin.ch
+Date:   Wed, 31 May 2023 10:46:02 +0200
+In-Reply-To: <CAHk-=whvhkSk6m8_AidhofgR9nq0Md+HbNad5r1RE69tZgbv6Q@mail.gmail.com>
+References: <9b987585-0834-bb8c-3414-283c29f3f2ab@leemhuis.info>
+         <bec024d5-4088-00ae-f7b5-7188868b1707@leemhuis.info>
+         <b7717c43-74bf-b91d-d3ce-874493df602c@gmail.com>
+         <CAO-hwJ+At1J_yUpX2q_dJekzZ-PoTDAvxmkTk_e4Yu0Z338bEA@mail.gmail.com>
+         <55dda0bb-fe42-6dee-28ea-00121554d092@leemhuis.info>
+         <CAHk-=whvhkSk6m8_AidhofgR9nq0Md+HbNad5r1RE69tZgbv6Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+User-Agent: Evolution 3.48.2 (3.48.2-1.fc38) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -64,28 +59,87 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 28 May 2023, Thorsten Leemhuis wrote:
-
-> > who is able to reproduce the issue please check whether 
-> > reverting
+On Mon, 2023-05-22 at 11:23 -0700, Linus Torvalds wrote:
+> On Mon, May 22, 2023 at 5:38 AM Linux regression tracking (Thorsten
+> Leemhuis) <regressions@leemhuis.info> wrote:
 > > 
-> > 	586e8fede7953b16 ("HID: logitech-hidpp: Retry commands when device is busy")
-> > 
-> > has any observable effect?
+> > FWIW, in case anybody is interested in a status update: one
+> > reporter
+> > bisected the problem down to 586e8fede79 ("HID: logitech-hidpp:
+> > Retry
+> > commands when device is busy"); reverting that commit on-top of 6.3
+> > fixes the problem for that reporter. For that reporter things also
+> > work
+> > on 6.4-rc; but for someone else that is affected that's not the
+> > case.
 > 
-> See https://bugzilla.kernel.org/show_bug.cgi?id=217412#c26 and later –
-> it at least solved the problem for one user.
+> Hmm. It's likely timing-dependent.
 > 
-> But it's all a mess (at least afaics). Earlier in that ticket some other
-> user said things work with 6.4-rc kernel, while for another confirmed
-> things are still broken. So maybe we deal with more than one problem. Or
-> testing went sideways for some of the users.
+> But that code is clearly buggy.
+> 
+> If the wait_event_timeout() returns early, the device hasn't replied,
+> but the code does
+> 
+>                 if (!wait_event_timeout(hidpp->wait, hidpp-
+> >answer_available,
+>                                         5*HZ)) {
+>                         dbg_hid("%s:timeout waiting for response\n",
+> __func__);
+>                         memset(response, 0, sizeof(struct
+> hidpp_report));
+>                         ret = -ETIMEDOUT;
+>                 }
+> 
+> and then continues to look at the response _anyway_.
+> 
+> Now, depending on out hardening options, that response may have been
+> initialized by the compiler, or may just be random stack contents.
 
-The patch that needs to be tested now by the affected users is here:
+It's kzalloc()'ed in the 2 places it's used, hidpp_send_message_sync().
 
-	https://patchwork.kernel.org/project/linux-input/patch/20230531082428.21763-1-hadess@hadess.net/
+> That bug is pre-existing (ie the problem was not introduced by that
+> commit), but who knows if the retry makes things worse (ie if it then
+> triggers on a retry, the response data will be the *previous*
+> response).
+> 
+> The whole "goto exit" games should be removed too, because we're in a
+> for-loop, and instead of "goto exit" it should just do "break".
+> 
+> IOW, something like this might be worth testing.
+> 
+> That said, while I think the code is buggy, I doubt this is the
+> actual
+> cause of the problem people are reporting. But it would be lovely to
+> hear if the attached patch makes any difference, and I think this is
+> fixing a real - but unlikely - problem anyway.
+> 
+> And obviously it might be helpful to actually enable those dbg_hid()
+> messages, but I didn't look at what the magic config option to do so
+> was.
 
--- 
-Jiri Kosina
-SUSE Labs
+Thomas Weißschuh's patch ("HID: use standard debug APIs") linked all
+those debug calls to the dynamic debugging system, so something like
+this will work after boot:
+echo 'file hid-logitech-hidpp.c +p' > /sys/kernel/debug/dynamic_debug/control
+
+Adding this to the kernel command-line to get some debug during boot
+should work:
+dyndbg="file hid-logitech-hidpp.c +p"
+
+In both cases, check it's enabled and that the messages can be printed
+with:
+grep -i hidpp /sys/kernel/debug/dynamic_debug/control
+
+> NOTE! Patch below *ENTIRELY* untested. I just looked at the code when
+> that commit was mentioned, and went "that's not right"...
+
+I sent a similar patch before seeing your version, in answer to a
+separate report I was sent. It doesn't change the style of the code,
+and just fixes that one omission:
+https://patchwork.kernel.org/project/linux-input/patch/20230531082428.21763-1-hadess@hadess.net/
+
+Cheers
+
+> 
+>                      Linus
 
