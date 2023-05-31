@@ -2,19 +2,19 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80C21717A8A
-	for <lists+linux-input@lfdr.de>; Wed, 31 May 2023 10:46:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F38C0717AB1
+	for <lists+linux-input@lfdr.de>; Wed, 31 May 2023 10:51:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235030AbjEaIq4 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Wed, 31 May 2023 04:46:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32922 "EHLO
+        id S234446AbjEaIvJ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 31 May 2023 04:51:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235042AbjEaIqg (ORCPT
+        with ESMTP id S235149AbjEaIuq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 31 May 2023 04:46:36 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97EF0186;
-        Wed, 31 May 2023 01:46:06 -0700 (PDT)
+        Wed, 31 May 2023 04:50:46 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4A14121;
+        Wed, 31 May 2023 01:50:41 -0700 (PDT)
 X-GND-Sasl: hadess@hadess.net
 X-GND-Sasl: hadess@hadess.net
 X-GND-Sasl: hadess@hadess.net
@@ -22,124 +22,127 @@ X-GND-Sasl: hadess@hadess.net
 X-GND-Sasl: hadess@hadess.net
 X-GND-Sasl: hadess@hadess.net
 X-GND-Sasl: hadess@hadess.net
-X-GND-Sasl: hadess@hadess.net
-X-GND-Sasl: hadess@hadess.net
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F232A1C0008;
-        Wed, 31 May 2023 08:46:02 +0000 (UTC)
-Message-ID: <6d911cceaaf894754a1183a449d6d3deaf354bd8.camel@hadess.net>
-Subject: Re: [regression] Since kernel 6.3.1 logitech unify receiver not
- working properly
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C31C3FF803;
+        Wed, 31 May 2023 08:50:38 +0000 (UTC)
+Message-ID: <8308180826ba9a5478bf568396034b8dc7fb6e72.camel@hadess.net>
+Subject: Re: [BUG: 6.3 kernel] Logitech Trackball M575 misidentified
 From:   Bastien Nocera <hadess@hadess.net>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
+To:     Linux regressions mailing list <regressions@lists.linux.dev>,
+        Xose Vazquez Perez <xose.vazquez@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>,
         Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, guy.b@bluewin.ch
-Date:   Wed, 31 May 2023 10:46:02 +0200
-In-Reply-To: <CAHk-=whvhkSk6m8_AidhofgR9nq0Md+HbNad5r1RE69tZgbv6Q@mail.gmail.com>
-References: <9b987585-0834-bb8c-3414-283c29f3f2ab@leemhuis.info>
-         <bec024d5-4088-00ae-f7b5-7188868b1707@leemhuis.info>
-         <b7717c43-74bf-b91d-d3ce-874493df602c@gmail.com>
-         <CAO-hwJ+At1J_yUpX2q_dJekzZ-PoTDAvxmkTk_e4Yu0Z338bEA@mail.gmail.com>
-         <55dda0bb-fe42-6dee-28ea-00121554d092@leemhuis.info>
-         <CAHk-=whvhkSk6m8_AidhofgR9nq0Md+HbNad5r1RE69tZgbv6Q@mail.gmail.com>
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>
+Date:   Wed, 31 May 2023 10:50:38 +0200
+In-Reply-To: <8941c5f2-3861-da68-06ca-adc68a37e53b@leemhuis.info>
+References: <eeb19342-3499-a1fb-388f-d4670472b16c@gmail.com>
+         <8941c5f2-3861-da68-06ca-adc68a37e53b@leemhuis.info>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 User-Agent: Evolution 3.48.2 (3.48.2-1.fc38) 
 MIME-Version: 1.0
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 2023-05-22 at 11:23 -0700, Linus Torvalds wrote:
-> On Mon, May 22, 2023 at 5:38 AM Linux regression tracking (Thorsten
-> Leemhuis) <regressions@leemhuis.info> wrote:
+On Tue, 2023-05-16 at 14:33 +0200, Linux regression tracking (Thorsten
+Leemhuis) wrote:
+> [CCing a few people and the the regression list, as it should be in
+> the
+> loop for regressions:
+> https://docs.kernel.org/admin-guide/reporting-regressions.html]
+> 
+> On 11.05.23 23:22, Xose Vazquez Perez wrote:
 > > 
-> > FWIW, in case anybody is interested in a status update: one
-> > reporter
-> > bisected the problem down to 586e8fede79 ("HID: logitech-hidpp:
-> > Retry
-> > commands when device is busy"); reverting that commit on-top of 6.3
-> > fixes the problem for that reporter. For that reporter things also
-> > work
-> > on 6.4-rc; but for someone else that is affected that's not the
-> > case.
+> > 6.3.2 kernel identifies "Logitech" "ERGO M575" as "Logitech"
+> > "(\xc9_O\x04)",
+> > 6.2.15 works fine.
+> > 
+> > 
+> > 6.2.15 boot log:
+> > input: Logitech ERGO M575 as
+> > /devices/pci0000:00/0000:00:1a.0/usb3/3-1/3-1.3/3-
+> > 1.3:1.2/0003:046D:C52B.0003/0003:046D:4096.0005/input/input15
+> > logitech-hidpp-device 0003:046D:4096.0005: input,hidraw1: USB HID
+> > v1.11
+> > Mouse [Logitech ERGO M575] on usb-0000:00:1a.0-1.3/input2:1
+> > 
+> > 6.3.2 boot log:
+> > input: Logitech \xc9_O\x04 as
+> > /devices/pci0000:00/0000:00:1a.0/usb3/3-1/3-1.3/3-
+> > 1.3:1.2/0003:046D:C52B.0003/0003:046D:4096.0005/input/input15
+> > logitech-hidpp-device 0003:046D:4096.0005: input,hidraw2: USB HID
+> > v1.11
+> > Mouse [Logitech \xc9_O\x04] on usb-0000:00:1a.0-1.3/input2:1
 > 
-> Hmm. It's likely timing-dependent.
+> I wonder if this if this is some related to this issue:
+> https://bugzilla.kernel.org/show_bug.cgi?id=217412
+> ("Since kernel 6.3.1 logitech unify receiver not working properly")
 > 
-> But that code is clearly buggy.
+> That one so far seems to be ignored by the developers. Your report
+> one
+> also didn't get any reply yet.
 > 
-> If the wait_event_timeout() returns early, the device hasn't replied,
-> but the code does
+> Could you maybe perform a bisection to get down to this?
 > 
->                 if (!wait_event_timeout(hidpp->wait, hidpp-
-> >answer_available,
->                                         5*HZ)) {
->                         dbg_hid("%s:timeout waiting for response\n",
-> __func__);
->                         memset(response, 0, sizeof(struct
-> hidpp_report));
->                         ret = -ETIMEDOUT;
->                 }
-> 
-> and then continues to look at the response _anyway_.
-> 
-> Now, depending on out hardening options, that response may have been
-> initialized by the compiler, or may just be random stack contents.
+> Side note: there is also
+> https://bugzilla.kernel.org/show_bug.cgi?id=217330
+> ("Broken Logitech unifying battery names in hid-next tree")
 
-It's kzalloc()'ed in the 2 places it's used, hidpp_send_message_sync().
+The device name problem is tracked in 217330, which I filed.
 
-> That bug is pre-existing (ie the problem was not introduced by that
-> commit), but who knows if the retry makes things worse (ie if it then
-> triggers on a retry, the response data will be the *previous*
-> response).
-> 
-> The whole "goto exit" games should be removed too, because we're in a
-> for-loop, and instead of "goto exit" it should just do "break".
-> 
-> IOW, something like this might be worth testing.
-> 
-> That said, while I think the code is buggy, I doubt this is the
-> actual
-> cause of the problem people are reporting. But it would be lovely to
-> hear if the attached patch makes any difference, and I think this is
-> fixing a real - but unlikely - problem anyway.
-> 
-> And obviously it might be helpful to actually enable those dbg_hid()
-> messages, but I didn't look at what the magic config option to do so
-> was.
+A bisection would definitely help me if you have time, otherwise I'll
+get to it, but it's probably not going to be before a couple of weeks.
 
-Thomas Weißschuh's patch ("HID: use standard debug APIs") linked all
-those debug calls to the dynamic debugging system, so something like
-this will work after boot:
-echo 'file hid-logitech-hidpp.c +p' > /sys/kernel/debug/dynamic_debug/control
-
-Adding this to the kernel command-line to get some debug during boot
-should work:
-dyndbg="file hid-logitech-hidpp.c +p"
-
-In both cases, check it's enabled and that the messages can be printed
-with:
-grep -i hidpp /sys/kernel/debug/dynamic_debug/control
-
-> NOTE! Patch below *ENTIRELY* untested. I just looked at the code when
-> that commit was mentioned, and went "that's not right"...
-
-I sent a similar patch before seeing your version, in answer to a
-separate report I was sent. It doesn't change the style of the code,
-and just fixes that one omission:
+You can also test this patch on top of the latest kernel tree:
 https://patchwork.kernel.org/project/linux-input/patch/20230531082428.21763-1-hadess@hadess.net/
+although I don't expect it to make a difference.
 
 Cheers
 
 > 
->                      Linus
+> 
+> Anyway, for the rest of this mail:
+> 
+> [TLDR: I'm adding this report to the list of tracked Linux kernel
+> regressions; the text you find below is based on a few templates
+> paragraphs you might have encountered already in similar form.
+> See link in footer if these mails annoy you.]
+> 
+> Thanks for the report. To be sure the issue doesn't fall through the
+> cracks unnoticed, I'm adding it to regzbot, the Linux kernel
+> regression
+> tracking bot:
+> 
+> #regzbot ^introduced v6.2..v6.3
+> #regzbot title input: Logitech Trackball M575 misidentified
+> #regzbot ignore-activity
+> 
+> This isn't a regression? This issue or a fix for it are already
+> discussed somewhere else? It was fixed already? You want to clarify
+> when
+> the regression started to happen? Or point out I got the title or
+> something else totally wrong? Then just reply and tell me -- ideally
+> while also telling regzbot about it, as explained by the page listed
+> in
+> the footer of this mail.
+> 
+> Developers: When fixing the issue, remember to add 'Link:' tags
+> pointing
+> to the report (the parent of this mail). See page linked in footer
+> for
+> details.
+> 
+> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker'
+> hat)
+> --
+> Everything you wanna know about Linux kernel regression tracking:
+> https://linux-regtracking.leemhuis.info/about/#tldr
+> That page also explains what to do if mails like this annoy you.
 
