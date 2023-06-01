@@ -2,53 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B30F4719296
-	for <lists+linux-input@lfdr.de>; Thu,  1 Jun 2023 07:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4968D71956F
+	for <lists+linux-input@lfdr.de>; Thu,  1 Jun 2023 10:24:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231609AbjFAFrU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 1 Jun 2023 01:47:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53232 "EHLO
+        id S231550AbjFAIYU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 1 Jun 2023 04:24:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231319AbjFAFqp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Jun 2023 01:46:45 -0400
-Received: from forward102a.mail.yandex.net (forward102a.mail.yandex.net [178.154.239.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09392197;
-        Wed, 31 May 2023 22:46:20 -0700 (PDT)
-Received: from mail-nwsmtp-smtp-production-main-51.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-51.vla.yp-c.yandex.net [IPv6:2a02:6b8:c1f:5e51:0:640:23ee:0])
-        by forward102a.mail.yandex.net (Yandex) with ESMTP id 3BEA346C8B;
-        Thu,  1 Jun 2023 08:46:17 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-51.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id pjGDMhnDduQ0-83pJjdCs;
-        Thu, 01 Jun 2023 08:46:16 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maquefel.me; s=mail; t=1685598376;
-        bh=DE0PuhGLjmts/t1BvDTS/OGhf3InURtuByTCtC1VZZk=;
-        h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
-        b=fqC30tuy+udEfYHlfq6RiYhu8CameR2zMYXEoQEdcTtfZ9fnEz+VO3k76/oBjJsG1
-         PDu44vzD4Be7sHvTdOEgQqudvgNcvlfywfzfd8alcyORE4c+hFf1IRdTBZONmQrsiU
-         F4+lil+QNt1g8JC3pOsd7T20nP8lrxFXy6PApp+c=
-Authentication-Results: mail-nwsmtp-smtp-production-main-51.vla.yp-c.yandex.net; dkim=pass header.i=@maquefel.me
-From:   Nikita Shubin <nikita.shubin@maquefel.me>
-To:     Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Nikita Shubin <nikita.shubin@maquefel.me>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc:     Michael Peters <mpeters@embeddedTS.com>,
-        Kris Bahnsen <kris@embeddedTS.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 28/43] input: keypad: ep93xx: add DT support for Cirrus EP93xx
-Date:   Thu,  1 Jun 2023 08:45:33 +0300
-Message-Id: <20230601054549.10843-10-nikita.shubin@maquefel.me>
-X-Mailer: git-send-email 2.37.4
-In-Reply-To: <20230424123522.18302-1-nikita.shubin@maquefel.me>
-References: <20230424123522.18302-1-nikita.shubin@maquefel.me>
-MIME-Version: 1.0
+        with ESMTP id S229927AbjFAIYT (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Jun 2023 04:24:19 -0400
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20C389F;
+        Thu,  1 Jun 2023 01:24:18 -0700 (PDT)
+Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-7770b7c2fa5so30066339f.0;
+        Thu, 01 Jun 2023 01:24:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685607857; x=1688199857;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=gazYzevqDLyrG+qGr3GI/LyG1WYAHb9INyzNCzwmvyc=;
+        b=Il8qOPO1WBaNfz48WK80lLtWPy2C6N8TtI3ufKVt8x+831ujmdNKszhZ2SS83b+FJB
+         myZc/f3sYI8zUF9FjqkXeQEBGkJkFUmM/A9sPbRV3RoBAbDlrPbCdHSDNzMk2lVMifwO
+         HK/R3pVAWcMePMt8D7/9gP2Nhi8dewP+J0N1saygpZ7ToSBhEyHceqSJdMayWRzbvKL1
+         eumeHVsOb04Pvfw6z9zLQNWtlzegQbkKVC3T01OcxDG9SMN1ah/l3blHaux2p5VlFlEA
+         7ugbvxzKqW/g4ieJ4ADx3smNiSReGoAoeX6UzkAypsV/WETZOQoTXsSThS64mBrwRRgW
+         1tCg==
+X-Gm-Message-State: AC+VfDwhmyWlQLBXGdrL8T1MkyQ1IzwSjcHuB62R00Ygk81fsRt1xl+m
+        ZsipNYraCoWslghc9oB9Vg==
+X-Google-Smtp-Source: ACHHUZ72HMFJrNP45MDZaHcwAYDi9bIP9etREBHxugVwme18lNW5tPq76fVbnKuCrVpt+dm7PaOGDQ==
+X-Received: by 2002:a6b:d90c:0:b0:766:48cf:6ca9 with SMTP id r12-20020a6bd90c000000b0076648cf6ca9mr7105603ioc.12.1685607857269;
+        Thu, 01 Jun 2023 01:24:17 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.254])
+        by smtp.gmail.com with ESMTPSA id e18-20020a6bf112000000b00760e7a343c1sm4359706iog.30.2023.06.01.01.24.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Jun 2023 01:24:16 -0700 (PDT)
+Received: (nullmailer pid 4111361 invoked by uid 1000);
+        Thu, 01 Jun 2023 08:24:15 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+MIME-Version: 1.0
+From:   Rob Herring <robh@kernel.org>
+To:     Nikita Shubin <nikita.shubin@maquefel.me>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-kernel@vger.kernel.org,
+        Michael Peters <mpeters@embeddedTS.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Kris Bahnsen <kris@embeddedTS.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+In-Reply-To: <20230601054549.10843-9-nikita.shubin@maquefel.me>
+References: <20230424123522.18302-1-nikita.shubin@maquefel.me>
+ <20230601054549.10843-9-nikita.shubin@maquefel.me>
+Message-Id: <168560785494.4110862.6938379895148443324.robh@kernel.org>
+Subject: Re: [PATCH v1 27/43] dt-bindings: input: Add Cirrus EP93xx keypad
+Date:   Thu, 01 Jun 2023 02:24:15 -0600
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,210 +71,55 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-- get keymap from the device tree
-- find register range from the device tree
-- get interrupts from device tree
 
-Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
----
+On Thu, 01 Jun 2023 08:45:32 +0300, Nikita Shubin wrote:
+> Add YAML bindings for ep93xx SoC keypad.
+> 
+> Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
+> ---
+> 
+> Notes:
+>     v0 -> v1:
+> 
+>     - remove almost all but debounce-delay-ms and prescale
+>     - s/ep9301-keypad/ep9307-keypad/ it's actually only for
+>       ep9307, ep9312, ep9315
+> 
+>     Krzysztof Kozlowski:
+>     - renamed file
+>     - changed maintainers
+>     - dropped quotes
+>     - dropped clock-names
+>     - use fallback compatible and list all possible compatibles
+>     - fix ident
+> 
+>  .../bindings/input/cirrus,ep9307-keypad.yaml  | 86 +++++++++++++++++++
+>  1 file changed, 86 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/cirrus,ep9307-keypad.yaml
+> 
 
-Notes:
-    v0 -> v1:
-    
-    - fixed header
-    - dropped coma in id table
-    - take debounce, prescale from dt
-    - remove ep93xx_keypad_platform_data
-    - move flags to module params
-    - drop setting clock rate, it's useless, as was never used,
-      it seems we are okay with default clk rate used
-    - move usefull defines from platform file here
-    - drop platform header
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
- drivers/input/keyboard/ep93xx_keypad.c | 78 +++++++++++++-------------
- 1 file changed, 40 insertions(+), 38 deletions(-)
+yamllint warnings/errors:
 
-diff --git a/drivers/input/keyboard/ep93xx_keypad.c b/drivers/input/keyboard/ep93xx_keypad.c
-index 55075addcac2..8b0e73f56216 100644
---- a/drivers/input/keyboard/ep93xx_keypad.c
-+++ b/drivers/input/keyboard/ep93xx_keypad.c
-@@ -20,6 +20,7 @@
- #include <linux/bits.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/interrupt.h>
- #include <linux/clk.h>
- #include <linux/io.h>
-@@ -27,7 +28,6 @@
- #include <linux/input/matrix_keypad.h>
- #include <linux/slab.h>
- #include <linux/soc/cirrus/ep93xx.h>
--#include <linux/platform_data/keypad-ep93xx.h>
- #include <linux/pm_wakeirq.h>
- 
- /*
-@@ -61,12 +61,18 @@
- #define KEY_REG_KEY1_MASK	GENMASK(5, 0)
- #define KEY_REG_KEY1_SHIFT	0
- 
-+#define EP93XX_MATRIX_ROWS		(8)
-+#define EP93XX_MATRIX_COLS		(8)
-+
- #define EP93XX_MATRIX_SIZE	(EP93XX_MATRIX_ROWS * EP93XX_MATRIX_COLS)
- 
- struct ep93xx_keypad {
--	struct ep93xx_keypad_platform_data *pdata;
- 	struct input_dev *input_dev;
- 	struct clk *clk;
-+	unsigned int	debounce;
-+	unsigned int	prescale;
-+	unsigned int	flags;
-+	unsigned int	clk_rate;
- 
- 	void __iomem *mmio_base;
- 
-@@ -80,6 +86,17 @@ struct ep93xx_keypad {
- 	bool enabled;
- };
- 
-+/* flags for the ep93xx_keypad driver */
-+#define EP93XX_KEYPAD_DISABLE_3_KEY	(1<<0)	/* disable 3-key reset */
-+#define EP93XX_KEYPAD_DIAG_MODE		(1<<1)	/* diagnostic mode */
-+#define EP93XX_KEYPAD_BACK_DRIVE	(1<<2)	/* back driving mode */
-+#define EP93XX_KEYPAD_TEST_MODE		(1<<3)	/* scan only column 0 */
-+#define EP93XX_KEYPAD_AUTOREPEAT	(1<<4)	/* enable key autorepeat */
-+
-+static int ep93xx_keypad_flags;
-+module_param(ep93xx_keypad_flags, int, 0);
-+MODULE_PARM_DESC(ep93xx_keypad_flags, "EP93XX keypad flags.");
-+
- static irqreturn_t ep93xx_keypad_irq_handler(int irq, void *dev_id)
- {
- 	struct ep93xx_keypad *keypad = dev_id;
-@@ -133,23 +150,20 @@ static irqreturn_t ep93xx_keypad_irq_handler(int irq, void *dev_id)
- 
- static void ep93xx_keypad_config(struct ep93xx_keypad *keypad)
- {
--	struct ep93xx_keypad_platform_data *pdata = keypad->pdata;
- 	unsigned int val = 0;
- 
--	clk_set_rate(keypad->clk, pdata->clk_rate);
--
--	if (pdata->flags & EP93XX_KEYPAD_DISABLE_3_KEY)
-+	if (keypad->flags & EP93XX_KEYPAD_DISABLE_3_KEY)
- 		val |= KEY_INIT_DIS3KY;
--	if (pdata->flags & EP93XX_KEYPAD_DIAG_MODE)
-+	if (keypad->flags & EP93XX_KEYPAD_DIAG_MODE)
- 		val |= KEY_INIT_DIAG;
--	if (pdata->flags & EP93XX_KEYPAD_BACK_DRIVE)
-+	if (keypad->flags & EP93XX_KEYPAD_BACK_DRIVE)
- 		val |= KEY_INIT_BACK;
--	if (pdata->flags & EP93XX_KEYPAD_TEST_MODE)
-+	if (keypad->flags & EP93XX_KEYPAD_TEST_MODE)
- 		val |= KEY_INIT_T2;
- 
--	val |= ((pdata->debounce << KEY_INIT_DBNC_SHIFT) & KEY_INIT_DBNC_MASK);
-+	val |= ((keypad->debounce << KEY_INIT_DBNC_SHIFT) & KEY_INIT_DBNC_MASK);
- 
--	val |= ((pdata->prescale << KEY_INIT_PRSCL_SHIFT) & KEY_INIT_PRSCL_MASK);
-+	val |= ((keypad->prescale << KEY_INIT_PRSCL_SHIFT) & KEY_INIT_PRSCL_MASK);
- 
- 	__raw_writel(val, keypad->mmio_base + KEY_INIT);
- }
-@@ -220,17 +234,10 @@ static int ep93xx_keypad_resume(struct device *dev)
- static DEFINE_SIMPLE_DEV_PM_OPS(ep93xx_keypad_pm_ops,
- 				ep93xx_keypad_suspend, ep93xx_keypad_resume);
- 
--static void ep93xx_keypad_release_gpio_action(void *_pdev)
--{
--	struct platform_device *pdev = _pdev;
--
--	ep93xx_keypad_release_gpio(pdev);
--}
--
- static int ep93xx_keypad_probe(struct platform_device *pdev)
- {
-+	struct device_node *np = pdev->dev.of_node;
- 	struct ep93xx_keypad *keypad;
--	const struct matrix_keymap_data *keymap_data;
- 	struct input_dev *input_dev;
- 	int err;
- 
-@@ -238,14 +245,6 @@ static int ep93xx_keypad_probe(struct platform_device *pdev)
- 	if (!keypad)
- 		return -ENOMEM;
- 
--	keypad->pdata = dev_get_platdata(&pdev->dev);
--	if (!keypad->pdata)
--		return -EINVAL;
--
--	keymap_data = keypad->pdata->keymap_data;
--	if (!keymap_data)
--		return -EINVAL;
--
- 	keypad->irq = platform_get_irq(pdev, 0);
- 	if (keypad->irq < 0)
- 		return keypad->irq;
-@@ -254,19 +253,15 @@ static int ep93xx_keypad_probe(struct platform_device *pdev)
- 	if (IS_ERR(keypad->mmio_base))
- 		return PTR_ERR(keypad->mmio_base);
- 
--	err = ep93xx_keypad_acquire_gpio(pdev);
--	if (err)
--		return err;
--
--	err = devm_add_action_or_reset(&pdev->dev,
--				       ep93xx_keypad_release_gpio_action, pdev);
--	if (err)
--		return err;
--
- 	keypad->clk = devm_clk_get(&pdev->dev, NULL);
- 	if (IS_ERR(keypad->clk))
- 		return PTR_ERR(keypad->clk);
- 
-+	keypad->flags = ep93xx_keypad_flags;
-+
-+	of_property_read_u32(np, "cirrus,debounce-delay-ms", &keypad->debounce);
-+	of_property_read_u32(np, "cirrus,prescale", &keypad->prescale);
-+
- 	input_dev = devm_input_allocate_device(&pdev->dev);
- 	if (!input_dev)
- 		return -ENOMEM;
-@@ -278,13 +273,13 @@ static int ep93xx_keypad_probe(struct platform_device *pdev)
- 	input_dev->open = ep93xx_keypad_open;
- 	input_dev->close = ep93xx_keypad_close;
- 
--	err = matrix_keypad_build_keymap(keymap_data, NULL,
-+	err = matrix_keypad_build_keymap(NULL, NULL,
- 					 EP93XX_MATRIX_ROWS, EP93XX_MATRIX_COLS,
- 					 keypad->keycodes, input_dev);
- 	if (err)
- 		return err;
- 
--	if (keypad->pdata->flags & EP93XX_KEYPAD_AUTOREPEAT)
-+	if (keypad->flags & EP93XX_KEYPAD_AUTOREPEAT)
- 		__set_bit(EV_REP, input_dev->evbit);
- 	input_set_drvdata(input_dev, keypad);
- 
-@@ -315,10 +310,17 @@ static int ep93xx_keypad_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static const struct of_device_id ep93xx_keypad_of_ids[] = {
-+	{ .compatible = "cirrus,ep9307-keypad" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ep93xx_keypad_of_ids);
-+
- static struct platform_driver ep93xx_keypad_driver = {
- 	.driver		= {
- 		.name	= "ep93xx-keypad",
- 		.pm	= pm_sleep_ptr(&ep93xx_keypad_pm_ops),
-+		.of_match_table = ep93xx_keypad_of_ids,
- 	},
- 	.probe		= ep93xx_keypad_probe,
- 	.remove		= ep93xx_keypad_remove,
--- 
-2.37.4
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/input/cirrus,ep9307-keypad.example.dtb: /example-0/keypad@800f0000: failed to match any schema with compatible: ['cirrus,ep9301-keypad']
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230601054549.10843-9-nikita.shubin@maquefel.me
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
