@@ -2,47 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC56A71A276
-	for <lists+linux-input@lfdr.de>; Thu,  1 Jun 2023 17:23:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8445571A2C9
+	for <lists+linux-input@lfdr.de>; Thu,  1 Jun 2023 17:33:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232357AbjFAPXU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 1 Jun 2023 11:23:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34094 "EHLO
+        id S233776AbjFAPde (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 1 Jun 2023 11:33:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233018AbjFAPXS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Jun 2023 11:23:18 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FC0EB3;
-        Thu,  1 Jun 2023 08:23:06 -0700 (PDT)
+        with ESMTP id S233546AbjFAPdd (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Jun 2023 11:33:33 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2A73E2;
+        Thu,  1 Jun 2023 08:33:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685632986; x=1717168986;
+  t=1685633611; x=1717169611;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gVvYAmz4hzU58KtAxeCJlCFJgLqSrt6q5V7koKnLAso=;
-  b=SXikThb2cPAiNRfE89gvnNmRBfTw30xAg9U2VsvVayuCSD3MoWUW/MoC
-   w3QmjQMfUUCPYGXJ+FLUtsp7aK6JjKMgpuzEyCpPUrtviWmvAWFQfE9qF
-   kJve0KeZek+Tf4dTlMuvIUZ7plPzPHAgSkhxLJE5rvns88lBo0bWpJf42
-   sxLEiZKMuT1kTlyXPKhR7r7l2pnfygrQDawdzVgqzzOVFg+pB4+pFAho3
-   zrtBhFs/EBBH0gJMmyi5oisSutAouDrF4btiaFG8ZkJWOfv33dSR99FRN
-   DcB5hxsPAUnSBk9pTRM8MtL+XlxeXXZMmkt2Ihi/L6YJgSKpW7ESKlkat
+  bh=s+Y19gC8Hjb03qGTU291+6b1qsc+Qr5QoRUVeyRcaMg=;
+  b=CjLi5IF3F620MbvwWQLsg1ROO/uz5tgtptdXVy2mnIm0zwH0LaFdx3y2
+   E8IH138o4HMBsUJlgeE/6nLUH7W50Fp9ujMOoNSwviTjyzWaGAs14p/FE
+   d8CQgfIeh4WbQSW0wDZ7mVh+ytOVaE/nLPfalAsAyOcqBMDHAPh002SUa
+   k1WZkmQonW1fheV22Wg/bs1tjv5ecDXp4Bc3HCKN2PX6UlHDwQ12uvI5Y
+   MYXmy6aN1/8MdYF5Rz78pQcSAEcO2E/FUx3/hGefM7CDYYrqq16OHIVe2
+   6LVzteQihdGPaX0UCOmqexcixPMCWslz/lEWByIAdXKYY74IxL21M6krG
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="335941913"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="421402504"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="335941913"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 08:21:47 -0700
+   d="scan'208";a="421402504"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 08:32:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="657836521"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="740400916"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="657836521"
+   d="scan'208";a="740400916"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 01 Jun 2023 08:21:27 -0700
+  by orsmga001.jf.intel.com with ESMTP; 01 Jun 2023 08:32:27 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1q4k7C-0002Pe-1w;
-        Thu, 01 Jun 2023 15:21:26 +0000
-Date:   Thu, 1 Jun 2023 23:20:58 +0800
+        id 1q4kHq-0002Q6-2u;
+        Thu, 01 Jun 2023 15:32:26 +0000
+Date:   Thu, 1 Jun 2023 23:31:50 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Nikita Shubin <nikita.shubin@maquefel.me>,
         Alexander Sverdlin <alexander.sverdlin@gmail.com>,
@@ -51,13 +51,13 @@ To:     Nikita Shubin <nikita.shubin@maquefel.me>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc:     oe-kbuild-all@lists.linux.dev,
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
         Michael Peters <mpeters@embeddedts.com>,
         Kris Bahnsen <kris@embeddedts.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v1 28/43] input: keypad: ep93xx: add DT support for
  Cirrus EP93xx
-Message-ID: <202306012336.68kZBdn0-lkp@intel.com>
+Message-ID: <202306012327.f8AIwhqv-lkp@intel.com>
 References: <20230601054549.10843-10-nikita.shubin@maquefel.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -88,8 +88,8 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Nikita-Shubin/dt-bindings
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
 patch link:    https://lore.kernel.org/r/20230601054549.10843-10-nikita.shubin%40maquefel.me
 patch subject: [PATCH v1 28/43] input: keypad: ep93xx: add DT support for Cirrus EP93xx
-config: arm-randconfig-r046-20230531 (https://download.01.org/0day-ci/archive/20230601/202306012336.68kZBdn0-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+config: hexagon-randconfig-r045-20230531 (https://download.01.org/0day-ci/archive/20230601/202306012327.f8AIwhqv-lkp@intel.com/config)
+compiler: clang version 15.0.4 (https://github.com/llvm/llvm-project 5c68a1cb123161b54b72ce90e7975d95a8eaf2a4)
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
@@ -100,20 +100,67 @@ reproduce (this is a W=1 build):
         git checkout 79136093fef692a2db3c48c2d30e37310599131f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/input/keyboard/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/input/keyboard/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306012336.68kZBdn0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306012327.f8AIwhqv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/input/keyboard/ep93xx_keypad.c: In function 'ep93xx_keypad_probe':
->> drivers/input/keyboard/ep93xx_keypad.c:262:9: error: implicit declaration of function 'of_property_read_u32' [-Werror=implicit-function-declaration]
-     262 |         of_property_read_u32(np, "cirrus,debounce-delay-ms", &keypad->debounce);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/input/keyboard/ep93xx_keypad.c:24:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/input/keyboard/ep93xx_keypad.c:24:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/input/keyboard/ep93xx_keypad.c:24:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/input/keyboard/ep93xx_keypad.c:262:2: error: call to undeclared function 'of_property_read_u32'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           of_property_read_u32(np, "cirrus,debounce-delay-ms", &keypad->debounce);
+           ^
+   6 warnings and 1 error generated.
 
 
 vim +/of_property_read_u32 +262 drivers/input/keyboard/ep93xx_keypad.c
