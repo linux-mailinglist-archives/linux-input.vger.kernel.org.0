@@ -2,148 +2,153 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15062720406
-	for <lists+linux-input@lfdr.de>; Fri,  2 Jun 2023 16:11:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 948C4720425
+	for <lists+linux-input@lfdr.de>; Fri,  2 Jun 2023 16:19:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236026AbjFBOLE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 2 Jun 2023 10:11:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56924 "EHLO
+        id S234989AbjFBOTW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 2 Jun 2023 10:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235905AbjFBOLB (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Jun 2023 10:11:01 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59A1EE53
-        for <linux-input@vger.kernel.org>; Fri,  2 Jun 2023 07:10:59 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-53f70f7c2d2so1201097a12.3
-        for <linux-input@vger.kernel.org>; Fri, 02 Jun 2023 07:10:59 -0700 (PDT)
+        with ESMTP id S234594AbjFBOTU (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Jun 2023 10:19:20 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97AD819B
+        for <linux-input@vger.kernel.org>; Fri,  2 Jun 2023 07:19:18 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-9745ba45cd1so169403966b.1
+        for <linux-input@vger.kernel.org>; Fri, 02 Jun 2023 07:19:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=huaqin-corp-partner-google-com.20221208.gappssmtp.com; s=20221208; t=1685715058; x=1688307058;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NafLjDBYefQHH3Gad7ICKC/rnUp/PXcgqV+CuJGbaps=;
-        b=G7kmqJz8jCezobMbu8i6NSsiDBWE8Nu5IDJjwICyJCFL907aGO+ZpuBmM25Jc9wHxt
-         5t9IsVzcivgt4rjzub87CWfsaVBo2HcHdoCiD9yFiQeRdSm+swaAc/g2qyVOZ3HV8JZS
-         NNsuEJJlOitgLpuBovi8lrgqY5tD3gufcNCuRuA0SV+sLPHcY12jMlN5dAFpvYiw3UnV
-         5i0XsbSwU5T4NDTM4dQD7tQaYdmlu/p4Y933wxKq0ojC89ZArNWlT3wGXMy6FhrT9SOz
-         c4dTunGUi7SeU2mRS861ndMLUszrJ/Q6cvWR/lf5lLPw/rhu4tYqhSaxCLKXM+FWvuwy
-         iOQw==
+        d=linaro.org; s=google; t=1685715557; x=1688307557;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LTa69TMDPmdaiXEQ8KHtyu73N8TtVWeb4hLxgfpprJA=;
+        b=cSuMWqqt1llDOJJM3+DcVgcFSRbIhe6Spwn4rtD/UtpmOujurEuwLKNJTnJINmp0gP
+         HW0wY5n2xkQ5np1e44OkNB49SfGf+0mxMaTJXXjBYgUH9LVvGTfLAVaWNMrTdHGEQdVV
+         qCehqsPo5miz5GAs01G7io0ulfPR5sbwXtNY1aKsIZJWyrOop/XkPIMc5DAawILhtOSv
+         tXkdKf6iOBYISEMD2WS0VCIyZVST5NG3Dpz+F8MV/bjBc2FPHKVaTrwTaxNRSPgiDYtb
+         fwn4LEsHAHuNn1hYASKD4A7DntVa1WKblZoKKtL3UaIVpYn976jrIL1KZdFms0aYoasT
+         8wGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685715058; x=1688307058;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NafLjDBYefQHH3Gad7ICKC/rnUp/PXcgqV+CuJGbaps=;
-        b=GBltc+thXyHc49lqpmu/RdRZmajUq175qc5FBwlEux17wCl/BwL+SkrwFAe+YtomB/
-         J+yOhquoe/52GquFnH51fIc/rE36xf3j8aBospqASSkFfv9EuvLodyPwzhprIOwY9eQc
-         WwV/dwZWyJV38b8Rdx36FpMbkTwj4QhKd48bOEhxY8qejaPi0E8omf+yZDbUJ9oMGq1z
-         21fZrw4hY5yH0rOsDosBMhlxoG25FQ0jJaKRWKjSCzKY+pc5RlT8nwnQxv28p9VHT1XU
-         s1EOMTqcVuxygKINhGFoSPMlx+3RBgaiFg2pks8D1QSAeJkqXyCOHoR7OrTWBeJEYD3t
-         qZag==
-X-Gm-Message-State: AC+VfDxNaEIGTyjiI/8eCmwJ5c8MuJ+w8+VezsC+7TGH65R12lHuqp9t
-        YY8GMvIoqbDn4RzDj7SxmntHag==
-X-Google-Smtp-Source: ACHHUZ52BrujIzK6kYeA5tQXGF1lbCqUIvbRUYtUuz8q4fWfpA/Mfde3UrbPhhQNlxYJEXzviP9IfA==
-X-Received: by 2002:a17:902:a3ce:b0:1b0:34a1:9946 with SMTP id q14-20020a170902a3ce00b001b034a19946mr66110plb.46.1685715058598;
-        Fri, 02 Jun 2023 07:10:58 -0700 (PDT)
-Received: from yc.huaqin.com ([101.78.151.214])
-        by smtp.gmail.com with ESMTPSA id c11-20020a170902d48b00b0019e60c645b1sm1370878plg.305.2023.06.02.07.10.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Jun 2023 07:10:58 -0700 (PDT)
-From:   Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        d=1e100.net; s=20221208; t=1685715557; x=1688307557;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LTa69TMDPmdaiXEQ8KHtyu73N8TtVWeb4hLxgfpprJA=;
+        b=RjzS7IX03mARK8Tm5Kol/eooT5nfu3MyLNgJYKWCmHXHhDruvMNpn78S8m0e4VsTw1
+         GeKXEvTHo2HUOqDTf1LcEdpfQnE6QgGC4D/T9mDH0vT/4FujQmTRPUpjKdMe9uYysows
+         el4/A/9RYHIIVmu4lwl64GfLRyL/ysUh4UKC9n8MTR1TUPOe64HWfN81kgoXQURhdfvS
+         ef0aWmrdiJZ3PoTjmhGOQQNPwI6lYlvlNsbPVcq3ajD0Wa7LYK+Jx6txRackUTUiNN1w
+         ELx6l1vPZ0LaRPU7JXVJupdFX2NqSTXDiney+6TH3BFHHREZSQ2ylrZlbjUxDMETMH/K
+         +04Q==
+X-Gm-Message-State: AC+VfDyrWNwH4WfDV6F/oBrgtIGI8o6t3D3uqJbFK5HcAi2eBPCKAOKr
+        f5I3LpI0ytYxn29L07Wl6yM6CA==
+X-Google-Smtp-Source: ACHHUZ4t/LypzBlEtLR9YZ+51hGCwZLTtLW9N/+gXiVyH9YZTyAJyhCZZ+QPEUZiHubr5H2XUOFZWw==
+X-Received: by 2002:a17:906:9b83:b0:96f:ee6d:fed5 with SMTP id dd3-20020a1709069b8300b0096fee6dfed5mr10742995ejc.72.1685715557125;
+        Fri, 02 Jun 2023 07:19:17 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.199.204])
+        by smtp.gmail.com with ESMTPSA id s20-20020a170906bc5400b009745b0cb326sm808244ejv.109.2023.06.02.07.19.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Jun 2023 07:19:16 -0700 (PDT)
+Message-ID: <afd610cf-954f-afc2-00da-86da9fe4192d@linaro.org>
+Date:   Fri, 2 Jun 2023 16:19:14 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH 1/2] dt-bindings: input: touchscreen: Add ilitek 9882T
+ touchscreen chip
+Content-Language: en-US
+To:     Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
         conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
         benjamin.tissoires@redhat.com, dianders@chromium.org,
         hsinyi@google.com
 Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Subject: [PATCH 2/2] HID: i2c-hid: elan: Add ili9882t timing
-Date:   Fri,  2 Jun 2023 22:09:48 +0800
-Message-Id: <20230602140948.2138668-3-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230602140948.2138668-1-yangcong5@huaqin.corp-partner.google.com>
+        linux-kernel@vger.kernel.org
 References: <20230602140948.2138668-1-yangcong5@huaqin.corp-partner.google.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+ <20230602140948.2138668-2-yangcong5@huaqin.corp-partner.google.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230602140948.2138668-2-yangcong5@huaqin.corp-partner.google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The ili9882t is a TDDI IC (Touch with Display Driver). The datasheet
-specifies there should be 60ms between touch SDA sleep and panel RESX.
-Doug's series[1] allows panels and touchscreens to power on/off together,
-so we can add the 65 ms delay in i2c_hid_core_suspend before panel_unprepare.
+On 02/06/2023 16:09, Cong Yang wrote:
+> Add an ilitek touch screen chip ili9882t.
+> 
+> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 
-[1]: https: //lore.kernel.org/all/20230523193017.4109557-1-dianders@chromium.org/
+It does not look like you tested the bindings, at least after quick
+look. Please run `make dt_binding_check` (see
+Documentation/devicetree/bindings/writing-schema.rst for instructions).
+Maybe you need to update your dtschema and yamllint.
 
-Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
----
- drivers/hid/i2c-hid/i2c-hid-of-elan.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+There is no way this would work and if you test you will see error msg.
+Feel free to ping if message is unclear.
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-of-elan.c b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-index 76ddc8be1cbb..411d7ea2725d 100644
---- a/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-@@ -18,7 +18,8 @@
- #include "i2c-hid.h"
- 
- struct elan_i2c_hid_chip_data {
--	unsigned int post_gpio_reset_delay_ms;
-+	unsigned int post_gpio_reset_on_delay_ms;
-+	unsigned int post_gpio_reset_off_delay_ms;
- 	unsigned int post_power_delay_ms;
- 	u16 hid_descriptor_address;
- };
-@@ -52,8 +53,8 @@ static int elan_i2c_hid_power_up(struct i2chid_ops *ops)
- 		msleep(ihid_elan->chip_data->post_power_delay_ms);
- 
- 	gpiod_set_value_cansleep(ihid_elan->reset_gpio, 0);
--	if (ihid_elan->chip_data->post_gpio_reset_delay_ms)
--		msleep(ihid_elan->chip_data->post_gpio_reset_delay_ms);
-+	if (ihid_elan->chip_data->post_gpio_reset_on_delay_ms)
-+		msleep(ihid_elan->chip_data->post_gpio_reset_on_delay_ms);
- 
- 	return 0;
- }
-@@ -64,6 +65,9 @@ static void elan_i2c_hid_power_down(struct i2chid_ops *ops)
- 		container_of(ops, struct i2c_hid_of_elan, ops);
- 
- 	gpiod_set_value_cansleep(ihid_elan->reset_gpio, 1);
-+	if (ihid_elan->chip_data->post_gpio_reset_off_delay_ms)
-+		msleep(ihid_elan->chip_data->post_gpio_reset_off_delay_ms);
-+
- 	regulator_disable(ihid_elan->vccio);
- 	regulator_disable(ihid_elan->vcc33);
- }
-@@ -101,12 +105,20 @@ static int i2c_hid_of_elan_probe(struct i2c_client *client)
- 
- static const struct elan_i2c_hid_chip_data elan_ekth6915_chip_data = {
- 	.post_power_delay_ms = 1,
--	.post_gpio_reset_delay_ms = 300,
-+	.post_gpio_reset_on_delay_ms = 300,
-+	.hid_descriptor_address = 0x0001,
-+};
-+
-+static const struct elan_i2c_hid_chip_data ilitek_ili9882t_chip_data = {
-+	.post_power_delay_ms = 1,
-+	.post_gpio_reset_on_delay_ms = 200,
-+	.post_gpio_reset_off_delay_ms = 65,
- 	.hid_descriptor_address = 0x0001,
- };
- 
- static const struct of_device_id elan_i2c_hid_of_match[] = {
- 	{ .compatible = "elan,ekth6915", .data = &elan_ekth6915_chip_data },
-+	{ .compatible = "ilitek,ili9882t", .data = &ilitek_ili9882t_chip_data },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, elan_i2c_hid_of_match);
--- 
-2.25.1
+> ---
+>  .../bindings/input/elan,ekth6915.yaml         | 36 ++++++++++++++-----
+>  1 file changed, 27 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> index 05e6f2df604c..73e94cb6c4e0 100644
+> --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> @@ -15,11 +15,15 @@ description:
+>  
+>  properties:
+>    compatible:
+> -    items:
+> -      - const: elan,ekth6915
+> +    oneOf:
+
+It's not oneOf. Just enum
+
+> +      - enum:
+> +        - elan,ekth6915
+> +        - ilitek,ili9882t
+>  
+>    reg:
+> -    const: 0x10
+> +    enum:
+> +      - 0x10
+> +      - 0x41
+>  
+>    interrupts:
+>      maxItems: 1
+> @@ -29,17 +33,31 @@ properties:
+>  
+>    vcc33-supply:
+>      description: The 3.3V supply to the touchscreen.
+> +                 If using ili9882t then this supply will not be needed.
+
+Are you sure these are compatible devices then? What does it mean "not
+needed"? Is the pin there or is not?
+
+>  
+>    vccio-supply:
+>      description:
+>        The IO supply to the touchscreen. Need not be specified if this is the
+>        same as the 3.3V supply.
+> -
+> -required:
+> -  - compatible
+> -  - reg
+> -  - interrupts
+> -  - vcc33-supply
+> +      If using ili9882t, the IO supply is required.
+> +
+> +  required:
+
+NAK. Really. Test patches before sending.
+
+Best regards,
+Krzysztof
 
