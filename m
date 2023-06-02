@@ -2,153 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 948C4720425
-	for <lists+linux-input@lfdr.de>; Fri,  2 Jun 2023 16:19:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB57C7205A8
+	for <lists+linux-input@lfdr.de>; Fri,  2 Jun 2023 17:14:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234989AbjFBOTW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 2 Jun 2023 10:19:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58968 "EHLO
+        id S235804AbjFBPO3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 2 Jun 2023 11:14:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234594AbjFBOTU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Jun 2023 10:19:20 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97AD819B
-        for <linux-input@vger.kernel.org>; Fri,  2 Jun 2023 07:19:18 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-9745ba45cd1so169403966b.1
-        for <linux-input@vger.kernel.org>; Fri, 02 Jun 2023 07:19:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685715557; x=1688307557;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LTa69TMDPmdaiXEQ8KHtyu73N8TtVWeb4hLxgfpprJA=;
-        b=cSuMWqqt1llDOJJM3+DcVgcFSRbIhe6Spwn4rtD/UtpmOujurEuwLKNJTnJINmp0gP
-         HW0wY5n2xkQ5np1e44OkNB49SfGf+0mxMaTJXXjBYgUH9LVvGTfLAVaWNMrTdHGEQdVV
-         qCehqsPo5miz5GAs01G7io0ulfPR5sbwXtNY1aKsIZJWyrOop/XkPIMc5DAawILhtOSv
-         tXkdKf6iOBYISEMD2WS0VCIyZVST5NG3Dpz+F8MV/bjBc2FPHKVaTrwTaxNRSPgiDYtb
-         fwn4LEsHAHuNn1hYASKD4A7DntVa1WKblZoKKtL3UaIVpYn976jrIL1KZdFms0aYoasT
-         8wGg==
+        with ESMTP id S232743AbjFBPO1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Jun 2023 11:14:27 -0400
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28929E6A;
+        Fri,  2 Jun 2023 08:14:04 -0700 (PDT)
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-33d31ab00bdso6054245ab.3;
+        Fri, 02 Jun 2023 08:14:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685715557; x=1688307557;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LTa69TMDPmdaiXEQ8KHtyu73N8TtVWeb4hLxgfpprJA=;
-        b=RjzS7IX03mARK8Tm5Kol/eooT5nfu3MyLNgJYKWCmHXHhDruvMNpn78S8m0e4VsTw1
-         GeKXEvTHo2HUOqDTf1LcEdpfQnE6QgGC4D/T9mDH0vT/4FujQmTRPUpjKdMe9uYysows
-         el4/A/9RYHIIVmu4lwl64GfLRyL/ysUh4UKC9n8MTR1TUPOe64HWfN81kgoXQURhdfvS
-         ef0aWmrdiJZ3PoTjmhGOQQNPwI6lYlvlNsbPVcq3ajD0Wa7LYK+Jx6txRackUTUiNN1w
-         ELx6l1vPZ0LaRPU7JXVJupdFX2NqSTXDiney+6TH3BFHHREZSQ2ylrZlbjUxDMETMH/K
-         +04Q==
-X-Gm-Message-State: AC+VfDyrWNwH4WfDV6F/oBrgtIGI8o6t3D3uqJbFK5HcAi2eBPCKAOKr
-        f5I3LpI0ytYxn29L07Wl6yM6CA==
-X-Google-Smtp-Source: ACHHUZ4t/LypzBlEtLR9YZ+51hGCwZLTtLW9N/+gXiVyH9YZTyAJyhCZZ+QPEUZiHubr5H2XUOFZWw==
-X-Received: by 2002:a17:906:9b83:b0:96f:ee6d:fed5 with SMTP id dd3-20020a1709069b8300b0096fee6dfed5mr10742995ejc.72.1685715557125;
-        Fri, 02 Jun 2023 07:19:17 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.199.204])
-        by smtp.gmail.com with ESMTPSA id s20-20020a170906bc5400b009745b0cb326sm808244ejv.109.2023.06.02.07.19.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Jun 2023 07:19:16 -0700 (PDT)
-Message-ID: <afd610cf-954f-afc2-00da-86da9fe4192d@linaro.org>
-Date:   Fri, 2 Jun 2023 16:19:14 +0200
+        d=1e100.net; s=20221208; t=1685718843; x=1688310843;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lNz7EHfJCZ4aAXNJupCemelGLErGlUkCq/uI3p2KECg=;
+        b=mGN6DKD2642hDOuCB9yKNkoQk5RNghflHBRSJDvQzRhDkg9NxsE9W0cCK19ZY5UJ+e
+         6Tu7528QeY41jsNGUHO0ARre4Ll4bH26sMsV668R61aD/Q1CktPvvipFlBqwHVtM1EEk
+         VBS87jDbbjaMT5Bz+0z+1rpijHMOhG7LVcRI9eWFPQHhuQuyrSWr0aSYyu1352uFVR//
+         CVhOsVaWQFmWVcmipiNxfi2V7KeawiAne2Ep/lj/TfLSONZqHSoDEy98VuT0SA1WH949
+         Yj0iwHrehFYU1N+CswdnUkfyvEcpTg1sMmPKNcmBksoxd8BLJHdtYaSY2g6L31jONGnm
+         WnVw==
+X-Gm-Message-State: AC+VfDzBJ78m7SP0A7ZpD9eEsCHK2C6IAmCB6XV3fSHsVTVuScwae4Rv
+        I4NNZ0M8BbAwmpgzBGOgEFWykFJGew==
+X-Google-Smtp-Source: ACHHUZ5hifGlPbShyifnNwL6jsL1rlCdiGUoMjSlMjkQA5lNYQz6/XQU9zNiJLKcr2k7S4Myxlx1xQ==
+X-Received: by 2002:a92:d1c3:0:b0:33b:6f65:2dd0 with SMTP id u3-20020a92d1c3000000b0033b6f652dd0mr9427113ilg.29.1685718843212;
+        Fri, 02 Jun 2023 08:14:03 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id l11-20020a92290b000000b003351835c53fsm357919ilg.19.2023.06.02.08.14.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Jun 2023 08:14:02 -0700 (PDT)
+Received: (nullmailer pid 1767457 invoked by uid 1000);
+        Fri, 02 Jun 2023 15:14:00 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH 1/2] dt-bindings: input: touchscreen: Add ilitek 9882T
- touchscreen chip
-Content-Language: en-US
-To:     Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, dianders@chromium.org,
-        hsinyi@google.com
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+From:   Rob Herring <robh@kernel.org>
+To:     Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Cc:     dmitry.torokhov@gmail.com, jikos@kernel.org, conor+dt@kernel.org,
+        linux-input@vger.kernel.org, benjamin.tissoires@redhat.com,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        hsinyi@google.com, krzysztof.kozlowski+dt@linaro.org,
+        robh+dt@kernel.org, dianders@chromium.org
+In-Reply-To: <20230602140948.2138668-2-yangcong5@huaqin.corp-partner.google.com>
 References: <20230602140948.2138668-1-yangcong5@huaqin.corp-partner.google.com>
  <20230602140948.2138668-2-yangcong5@huaqin.corp-partner.google.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230602140948.2138668-2-yangcong5@huaqin.corp-partner.google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Message-Id: <168571884052.1767438.8020984972654545636.robh@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: input: touchscreen: Add ilitek 9882T
+ touchscreen chip
+Date:   Fri, 02 Jun 2023 09:14:00 -0600
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 02/06/2023 16:09, Cong Yang wrote:
+
+On Fri, 02 Jun 2023 22:09:47 +0800, Cong Yang wrote:
 > Add an ilitek touch screen chip ili9882t.
 > 
 > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-
-It does not look like you tested the bindings, at least after quick
-look. Please run `make dt_binding_check` (see
-Documentation/devicetree/bindings/writing-schema.rst for instructions).
-Maybe you need to update your dtschema and yamllint.
-
-There is no way this would work and if you test you will see error msg.
-Feel free to ping if message is unclear.
-
 > ---
 >  .../bindings/input/elan,ekth6915.yaml         | 36 ++++++++++++++-----
 >  1 file changed, 27 insertions(+), 9 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> index 05e6f2df604c..73e94cb6c4e0 100644
-> --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> @@ -15,11 +15,15 @@ description:
->  
->  properties:
->    compatible:
-> -    items:
-> -      - const: elan,ekth6915
-> +    oneOf:
 
-It's not oneOf. Just enum
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-> +      - enum:
-> +        - elan,ekth6915
-> +        - ilitek,ili9882t
->  
->    reg:
-> -    const: 0x10
-> +    enum:
-> +      - 0x10
-> +      - 0x41
->  
->    interrupts:
->      maxItems: 1
-> @@ -29,17 +33,31 @@ properties:
->  
->    vcc33-supply:
->      description: The 3.3V supply to the touchscreen.
-> +                 If using ili9882t then this supply will not be needed.
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/input/elan,ekth6915.yaml:20:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
 
-Are you sure these are compatible devices then? What does it mean "not
-needed"? Is the pin there or is not?
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/elan,ekth6915.yaml: properties:required: ['compatible', 'reg', 'interrupts', 'vcc33-supply'] is not of type 'object', 'boolean'
+	from schema $id: http://json-schema.org/draft-07/schema#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/elan,ekth6915.yaml: properties: 'required' should not be valid under {'$ref': '#/definitions/json-schema-prop-names'}
+	hint: A json-schema keyword was found instead of a DT property name.
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/elan,ekth6915.yaml: ignoring, error in schema: properties: required
+Documentation/devicetree/bindings/input/elan,ekth6915.example.dtb: /example-0/i2c/touchscreen@10: failed to match any schema with compatible: ['elan,ekth6915']
 
->  
->    vccio-supply:
->      description:
->        The IO supply to the touchscreen. Need not be specified if this is the
->        same as the 3.3V supply.
-> -
-> -required:
-> -  - compatible
-> -  - reg
-> -  - interrupts
-> -  - vcc33-supply
-> +      If using ili9882t, the IO supply is required.
-> +
-> +  required:
+doc reference errors (make refcheckdocs):
 
-NAK. Really. Test patches before sending.
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230602140948.2138668-2-yangcong5@huaqin.corp-partner.google.com
 
-Best regards,
-Krzysztof
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
