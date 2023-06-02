@@ -2,69 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03ACD720FA3
-	for <lists+linux-input@lfdr.de>; Sat,  3 Jun 2023 12:50:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28E78720405
+	for <lists+linux-input@lfdr.de>; Fri,  2 Jun 2023 16:11:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231562AbjFCKue (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 3 Jun 2023 06:50:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55160 "EHLO
+        id S235838AbjFBOKv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 2 Jun 2023 10:10:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231819AbjFCKuc (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 3 Jun 2023 06:50:32 -0400
-X-Greylist: delayed 4206 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 03 Jun 2023 03:49:58 PDT
-Received: from mail.webtopbits.pl (mail.webtopbits.pl [195.231.64.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41CA810D1
-        for <linux-input@vger.kernel.org>; Sat,  3 Jun 2023 03:49:58 -0700 (PDT)
-Received: by mail.webtopbits.pl (Postfix, from userid 1001)
-        id C32C8A39CD; Fri,  2 Jun 2023 10:00:35 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=webtopbits.pl;
-        s=mail; t=1685696438;
-        bh=Eh8ECMiYd4baGAwPAzhz8mhJACXX7NSRkYjh+plaY18=;
-        h=Date:From:To:Subject:From;
-        b=JZEAzRO0EFgcW1YpZehzIrxEdiD/cP7EznYEpdfq0zW+tgCidsCv+SUntq6l/E/Z9
-         9tajVF+2W4WCXuUp8Vn0bj95VLLHToIHjphyNb3kUDTox+KBGfliEbDRq9TGsQVfh7
-         mZLUrgx6M6FIaSVYL0yi/KpQwYGH3k5EOljNLnjsRGFAFB+4ybIMZs/7oRBMitX4VD
-         PdTXwi1WHWYAvQFUFCw9yBAM6qLg6GuY3v5CmIM0K8BvLr0z760BDI407QyXRHC/kk
-         TWk7lXzCyFU9SAru8TnxPWa0dh4HdIsp7w4E/egI08qS7nWZedEH9A5O7R/YXE9LNh
-         q4NQb86jekz1w==
-Received: by mail.webtopbits.pl for <linux-input@vger.kernel.org>; Fri,  2 Jun 2023 09:00:32 GMT
-Message-ID: <20230602085530-0.1.8w.5l88.0.jwhpvbozoh@webtopbits.pl>
-Date:   Fri,  2 Jun 2023 09:00:32 GMT
-From:   "Kamil Durjasz" <kamil.durjasz@webtopbits.pl>
-To:     <linux-input@vger.kernel.org>
-Subject: =?UTF-8?Q?Wy=C5=BCsza_konwersja_w_e-sklepie_?=
-X-Mailer: mail.webtopbits.pl
+        with ESMTP id S234281AbjFBOKs (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Jun 2023 10:10:48 -0400
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 182E9197
+        for <linux-input@vger.kernel.org>; Fri,  2 Jun 2023 07:10:40 -0700 (PDT)
+Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-528cdc9576cso1185109a12.0
+        for <linux-input@vger.kernel.org>; Fri, 02 Jun 2023 07:10:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=huaqin-corp-partner-google-com.20221208.gappssmtp.com; s=20221208; t=1685715039; x=1688307039;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KVK6hsAkr2t2TtBLH/UasFkOv83y2FFgyEi4rUpiTPY=;
+        b=5hRIGvKGBI4Q/6isoE6tLWyNH6CT5/+uchB5fWu0dzJu7sanhCiuiixE7XQgIDvNOU
+         RJwlYQKaWkRlFJ6orp1IUrWEpb7ormdJWXnMl2FR37z0PK6MTrcyhr/JGgmn69YAW/66
+         OLZzMhgaAAzP+VC0xrm6DxxZdJkXiedQIgTQBIqG88FyfssIHQIAbsHyly9TnTfbXF/K
+         5n97YjbLgRadx7mWXIupLOLjg3ppLhwUr0raM2BBz94USYeRnU01cKRW17PB+bfzYCLO
+         r0BDobNUJYoYAsw1xvCNSXocybJjYCbF4vsqSheiCIUorrxFIeaZCtXp0Yb1l4IzUoQt
+         Q3lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685715039; x=1688307039;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KVK6hsAkr2t2TtBLH/UasFkOv83y2FFgyEi4rUpiTPY=;
+        b=PdYzQI5Uwu2mVw4py7rYezRSWI6tbxi8FZCaCQapBG1LBjagicf+ZVIhwNG0IgHLI/
+         OTQlcPciwuHkPTOQ53a/z0qJOSOXYlPRsTjBd4iVmxi416JAE3BYjCQjIM09vh7QuTCc
+         4geRymLmiZirr/31aZfaCCzzce5YooPQmEHf2+tHOWO4ViuD1PH5B98xu/sSL+wGjAcy
+         qLM9HzCtbOKMxaYE/1RSQVhkM3JyDiE8vGZbNvrUvJxthc4YbOPRBMz50xgHJIrSYFQy
+         Vvupt9eEfPAaWDZQoSU2espCicrP7H61JCyCSLeEu7AM/W2mnO/vgqVl8UKpMWvQsbi6
+         1Eig==
+X-Gm-Message-State: AC+VfDxqO/JEJ7AEow4vzAFzvZ1AvJ9FZ+cKb7yzuJhU1NpsOA4crEvd
+        VioetEjnVKWEICMnbJmZXDsf2YTkvQHFCXZV3ic=
+X-Google-Smtp-Source: ACHHUZ47rMkWSf8RU6yNVYqIGemVMae35FKf2485NhgAFsmoMvUsgA1ZCYUJcV1PB2Z2JJAc/et04w==
+X-Received: by 2002:a17:902:d489:b0:1b0:46af:7f15 with SMTP id c9-20020a170902d48900b001b046af7f15mr23079plg.64.1685715039585;
+        Fri, 02 Jun 2023 07:10:39 -0700 (PDT)
+Received: from yc.huaqin.com ([101.78.151.214])
+        by smtp.gmail.com with ESMTPSA id c11-20020a170902d48b00b0019e60c645b1sm1370878plg.305.2023.06.02.07.10.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Jun 2023 07:10:38 -0700 (PDT)
+From:   Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, dianders@chromium.org,
+        hsinyi@google.com
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Subject: [PATCH 0/2] Add ili9882t timing
+Date:   Fri,  2 Jun 2023 22:09:46 +0800
+Message-Id: <20230602140948.2138668-1-yangcong5@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Add ili9882t dt-bindings and timing
 
-w jaki spos=C3=B3b docieraj=C4=85 Pa=C5=84stwo do odbiorc=C3=B3w?
+Cong Yang (2):
+  dt-bindings: input: touchscreen: Add ilitek 9882T touchscreen chip
+  HID: i2c-hid: elan: Add ili9882t timing
 
-Tworzymy pot=C4=99=C5=BCne narz=C4=99dzia sprzeda=C5=BCy, kt=C3=B3re pozw=
-alaj=C4=85 kompleksowo rozwi=C4=85za=C4=87 problemy potencjalnych klient=C3=
-=B3w i skutecznie wp=C5=82yn=C4=85=C4=87 na ich decyzje zakupowe.=20
+ .../bindings/input/elan,ekth6915.yaml         | 36 ++++++++++++++-----
+ drivers/hid/i2c-hid/i2c-hid-of-elan.c         | 20 ++++++++---
+ 2 files changed, 43 insertions(+), 13 deletions(-)
 
-Skupiamy si=C4=99 na Pa=C5=84stwa potrzebach zwi=C4=85zanych z obs=C5=82u=
-g=C4=85 sklepu, oczekiwaniach i planach sprzeda=C5=BCowych. Szczeg=C3=B3=C5=
-=82owo dopasowujemy grafik=C4=99, funkcjonalno=C5=9Bci, struktur=C4=99 i =
-mikrointerakcje do Pa=C5=84stwa grupy docelowej, co przek=C5=82ada si=C4=99=
- na oczekiwane rezultaty.
+-- 
+2.25.1
 
-Ch=C4=99tnie przedstawi=C4=99 dotychczasowe realizacje, aby mogli Pa=C5=84=
-stwo przekona=C4=87 si=C4=99 o naszych mo=C5=BCliwo=C5=9Bciach. Mog=C4=99=
- si=C4=99 skontaktowa=C4=87?
-
-
-Pozdrawiam
-Kamil Durjasz
