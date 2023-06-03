@@ -2,49 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCD63720CA4
-	for <lists+linux-input@lfdr.de>; Sat,  3 Jun 2023 02:36:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70BD0721018
+	for <lists+linux-input@lfdr.de>; Sat,  3 Jun 2023 14:41:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236238AbjFCAf6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 2 Jun 2023 20:35:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33502 "EHLO
+        id S230281AbjFCMlN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 3 Jun 2023 08:41:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229802AbjFCAf5 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Jun 2023 20:35:57 -0400
-Received: from endrift.com (endrift.com [173.255.198.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56AA7E40
-        for <linux-input@vger.kernel.org>; Fri,  2 Jun 2023 17:35:56 -0700 (PDT)
-Received: from [192.168.0.22] (unknown [50.47.218.115])
-        by endrift.com (Postfix) with ESMTPSA id 46124A283;
-        Fri,  2 Jun 2023 17:35:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=endrift.com; s=2020;
-        t=1685752554; bh=ZAZpPwxkoZ7ZPdtOxaDFvfiY16asilkEqtlPOYHzwvU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=HUnTpOKYAafwyBtJtNQufabkSMb82W/m/tqb4Q9sHqc7vOr/riGtM7K+uQPyH4Jsq
-         X/DFfgelXDKtct+GKDmmI+uBaHbGUMvOL+tK/vk2C2Qudbo8teLIBeaVWoXNbGc/YV
-         xOltiWu0uMN+LwgaTgHTjU2WN2rTlN1I6r6Sx7896Pa8JBP2CU1ws2UYb6rA+Y08JC
-         oCuIEsyTHa9YNdgxcQiQqZfmsDlm3PEpOJZjLBifZ2mGI8IiX89UoxPl8LzdjmiwfD
-         pUHudtWtkgkrmzT1b7YnE4KaB8Vv9dkmzUCYBYvlAC/oWm1IbRFsv7JGMuZ0c8PCFN
-         xj6q0hkAXv+eQ==
-Message-ID: <81e284e7-7d2d-6ccd-8bac-e20616ede754@endrift.com>
-Date:   Fri, 2 Jun 2023 17:35:52 -0700
+        with ESMTP id S230185AbjFCMlM (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 3 Jun 2023 08:41:12 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94BC0F5;
+        Sat,  3 Jun 2023 05:41:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1DE1B60AC1;
+        Sat,  3 Jun 2023 12:41:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE49BC433EF;
+        Sat,  3 Jun 2023 12:41:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685796070;
+        bh=syWTleteIP/DnA6u1wvwOOdt0s9GcQOyPIaILs8YIpE=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=F6FhRhDqej0X8NRtLC1Sl2jTS20q9zp5CAG13iWboBApH2tb294iljcnsS/CAupa2
+         y3fpTnf4bFOvWF4NU2ltR41xqwuwV+QljF5ZI10SKgEsj3kyAwF9DmWNTZ8UKm/MHm
+         CLZozKSLAUxEKiYmcGPw6RiGwBSlzJ9PrsHTtS8uoY2R1awiokZHU1kQEJxmLBIWWm
+         WwPkOmJMoYSLEUcsv2ZZFRcJt/Df9LBdRMkAArZtLU4NJK0fSYbglED+dylV9Vz5Zn
+         VqOtaDnip2lRNzFpFn5sAySa4imamn+aDtMvPQVJrv1ZIowaDVDvH9CW6DvlPFYgKa
+         fYkOf+qnQhmcw==
+Date:   Sat, 3 Jun 2023 14:41:06 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Bastien Nocera <hadess@hadess.net>
+cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
+        =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>,
+        Mark Lord <mlord@pobox.com>
+Subject: Re: [PATCH] HID: logitech-hidpp: Handle timeout differently from
+ busy
+In-Reply-To: <nycvar.YFH.7.76.2305311606160.29760@cbobk.fhfr.pm>
+Message-ID: <nycvar.YFH.7.76.2306031440380.29760@cbobk.fhfr.pm>
+References: <20230531082428.21763-1-hadess@hadess.net> <nycvar.YFH.7.76.2305311606160.29760@cbobk.fhfr.pm>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] Input: xpad - Move Xbox 360 magic packet sending
-Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dongliang Mu <dzm91@hust.edu.cn>, linux-input@vger.kernel.org
-Cc:     Dan Carpenter <error27@gmail.com>,
-        syzbot+a3f758b8d8cb7e49afec@syzkaller.appspotmail.com
-References: <20230502031202.1018440-1-vi@endrift.com>
-From:   Vicki Pfau <vi@endrift.com>
-In-Reply-To: <20230502031202.1018440-1-vi@endrift.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,52 +58,46 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 5/1/23 20:12, Vicki Pfau wrote:
-> This moves the sending of the magic packet introduced in db7220c48d8d from
-> xpad_probe to xpad_start_input to ensure that xpad->dev->dev exists in the
-> event that an error occurs. This should also fix issues with suspend that may
-> occur with some controllers.
-> 
-> Fixes: db7220c48d8d ("Input: xpad - fix support for some third-party controllers")
-> Reported-by: syzbot+a3f758b8d8cb7e49afec@syzkaller.appspotmail.com
-> Reported-by: Dongliang Mu <dzm91@hust.edu.cn>
-> Link: https://groups.google.com/g/syzkaller-bugs/c/iMhTgpGuIbM
-> Signed-off-by: Vicki Pfau <vi@endrift.com>
-> ---
->  drivers/input/joystick/xpad.c | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
-> 
-> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-> index 50ecff681b89..40abea92c393 100644
-> --- a/drivers/input/joystick/xpad.c
-> +++ b/drivers/input/joystick/xpad.c
-> @@ -1720,6 +1720,27 @@ static int xpad_start_input(struct usb_xpad *xpad)
->  			return error;
->  		}
->  	}
-> +	if (xpad->xtype == XTYPE_XBOX360) {
-> +		/*
-> +		 * Some third-party controllers Xbox 360-style controllers
-> +		 * require this message to finish initialization.
-> +		*/
-> +		u8 dummy[20];
-> +
-> +		error = usb_control_msg_recv(xpad->udev, 0,
-> +					     /* bRequest */ 0x01,
-> +					     /* bmRequestType */
-> +					     USB_TYPE_VENDOR | USB_DIR_IN |
-> +						USB_RECIP_INTERFACE,
-> +					     /* wValue */ 0x100,
-> +					     /* wIndex */ 0x00,
-> +					     dummy, sizeof(dummy),
-> +					     25, GFP_KERNEL);
-> +		if (error)
-> +			dev_warn(&xpad->dev->dev,
-> +				 "unable to receive magic message: %d\n",
-> +				 error);
-> +	}
->  
->  	return 0;
->  }
+On Wed, 31 May 2023, Jiri Kosina wrote:
 
-It's been a month and this fixed version of the patch never got any replies. Did it just get overlooked? Or does the fact that the old version got reverted mean I need to change the description in some capacity?
+> > If an attempt at contacting a receiver or a device fails because the
+> > receiver or device never responds, don't restart the communication, only
+> > restart it if the receiver or device answers that it's busy, as originally
+> > intended.
+> > 
+> > This was the behaviour on communication timeout before commit 586e8fede795
+> > ("HID: logitech-hidpp: Retry commands when device is busy").
+> > 
+> > This fixes some overly long waits in a critical path on boot, when
+> > checking whether the device is connected by getting its HID++ version.
+> > 
+> > Signed-off-by: Bastien Nocera <hadess@hadess.net>
+> > Suggested-by: Mark Lord <mlord@pobox.com>
+> > Fixes: 586e8fede795 ("HID: logitech-hidpp: Retry commands when device is busy")
+> > Link: https://bugzilla.kernel.org/show_bug.cgi?id=217412
+> > ---
+> >  drivers/hid/hid-logitech-hidpp.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+> > index 0fcfd85fea0f..2246044b1639 100644
+> > --- a/drivers/hid/hid-logitech-hidpp.c
+> > +++ b/drivers/hid/hid-logitech-hidpp.c
+> > @@ -314,6 +314,7 @@ static int hidpp_send_message_sync(struct hidpp_device *hidpp,
+> >  			dbg_hid("%s:timeout waiting for response\n", __func__);
+> >  			memset(response, 0, sizeof(struct hidpp_report));
+> >  			ret = -ETIMEDOUT;
+> > +			goto exit;
+> >  		}
+> >  
+> 
+> I have applied this even before getting confirmation from the reporters in 
+> bugzilla, as it's the right thing to do anyway.
+
+Unfortunately it doesn't seem to cure the reported issue (while reverting 
+586e8fede79 does): https://bugzilla.kernel.org/show_bug.cgi?id=217523#c2
+
+-- 
+Jiri Kosina
+SUSE Labs
+
