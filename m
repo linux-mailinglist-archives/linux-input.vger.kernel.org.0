@@ -2,114 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EEF5721029
-	for <lists+linux-input@lfdr.de>; Sat,  3 Jun 2023 15:22:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 692867213B8
+	for <lists+linux-input@lfdr.de>; Sun,  4 Jun 2023 00:43:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229530AbjFCNWZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 3 Jun 2023 09:22:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47174 "EHLO
+        id S229518AbjFCWny (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 3 Jun 2023 18:43:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbjFCNWY (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 3 Jun 2023 09:22:24 -0400
-X-Greylist: delayed 270 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 03 Jun 2023 06:22:23 PDT
-Received: from sasl.smtp.pobox.com (pb-sasl1.pobox.com [64.147.108.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 300C1C2;
-        Sat,  3 Jun 2023 06:22:23 -0700 (PDT)
-Received: from sasl.smtp.pobox.com (unknown [127.0.0.1])
-        by pb-sasl1.pobox.com (Postfix) with ESMTP id 9C58D996A3;
-        Sat,  3 Jun 2023 09:17:50 -0400 (EDT)
-        (envelope-from mlord@pobox.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=subject:to
-        :cc:references:from:message-id:date:mime-version:in-reply-to
-        :content-type:content-transfer-encoding; s=sasl; bh=OZUDGYxRTwe6
-        bb82E3UXGydn6LlFxW0xP2ntyWrNLkI=; b=Ysv8gOvUXWDhc2szzbDZ6FjR8VWk
-        uiL7x05oQ7ohLe4uuH01lHPcqvGBWC5DwYn/P59IbCNm0JrrmvLErok/kDaldnAl
-        OO5/Lx8zelINeM+KnVx5humJRaXb7WkyQ/7qAHYIp7gDeIFfUTzdoa1vQDBCcXrs
-        3RPbDx8q52Dj8yg=
-Received: from pb-sasl1.nyi.icgroup.com (unknown [127.0.0.1])
-        by pb-sasl1.pobox.com (Postfix) with ESMTP id 89018996A0;
-        Sat,  3 Jun 2023 09:17:50 -0400 (EDT)
-        (envelope-from mlord@pobox.com)
-Received: from [10.0.0.9] (unknown [24.156.181.9])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by pb-sasl1.pobox.com (Postfix) with ESMTPSA id 8DEB69969E;
-        Sat,  3 Jun 2023 09:17:49 -0400 (EDT)
-        (envelope-from mlord@pobox.com)
-Subject: Re: [PATCH] HID: logitech-hidpp: Handle timeout differently from busy
-To:     Jiri Kosina <jikos@kernel.org>, Bastien Nocera <hadess@hadess.net>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
-        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-References: <20230531082428.21763-1-hadess@hadess.net>
- <nycvar.YFH.7.76.2305311606160.29760@cbobk.fhfr.pm>
- <nycvar.YFH.7.76.2306031440380.29760@cbobk.fhfr.pm>
-From:   Mark Lord <mlord@pobox.com>
-Message-ID: <ccae168a-4be0-f085-8d8e-03bfbd71ac8f@pobox.com>
-Date:   Sat, 3 Jun 2023 09:17:48 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        with ESMTP id S229463AbjFCWny (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 3 Jun 2023 18:43:54 -0400
+Received: from mail-oo1-xc41.google.com (mail-oo1-xc41.google.com [IPv6:2607:f8b0:4864:20::c41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51700ED
+        for <linux-input@vger.kernel.org>; Sat,  3 Jun 2023 15:43:53 -0700 (PDT)
+Received: by mail-oo1-xc41.google.com with SMTP id 006d021491bc7-5559cd68b67so2445968eaf.3
+        for <linux-input@vger.kernel.org>; Sat, 03 Jun 2023 15:43:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685832232; x=1688424232;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4E4Mp1GrKX2u0IjD00DsN7S7IMP8ee75oyqUE4OyWTM=;
+        b=eqNCLNDm2Mcde4tJe5Lw0X8cNiRyceBaGJjsUYT0R4FpzQNFuqRXa0s/ufDBy8KNef
+         IpzxQIwEXQtyqE1ttBH6Xyb2xTl4Fzy+qv27+gjRmOW7kfoHjLDUjbZP+5tQX/oPLQa4
+         xAEtkHgiTziIzwwNdxM/FgPC3gJm2tuNbYIStXtVMui783OQAJYThD6Iw5DljgcbIJ6B
+         9BEMFOGgj12PkOOd7qwu1aHGOlqgxsx2Jj36v5qwb/nCaEwbKNNPaECFU6gOTJqPCwSv
+         nCoyDNw8ybxxr3on/ZK6LOSPC3MDF6c9PNJ0HmKWUsDBcmtAiH5URtma58T8av+giGNA
+         s+QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685832232; x=1688424232;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4E4Mp1GrKX2u0IjD00DsN7S7IMP8ee75oyqUE4OyWTM=;
+        b=b+vK1wQo52iS4zRNHRIWhuIkKUC7rR8h4R+SIDptC5hnPadLs0v0yuU5JjnFdF1FZr
+         dQL9vlWqkjz0PbgZjl/okOGC5ZxQubYH2Hb18Nu5EooclEj1Umm7CTcT7jQphxN1Pug0
+         JxFbsoZzlUgvAL8de7FLTfxmsKgA0T0MP6tqWDv8FQ5UWF+cielvxALrlhSL8kzHZ+01
+         VqA+jJGgVaQR289u1Yld5EmjpjN2YdkwNe5cCfvX/eoQ9A2mrGVTTBkDvDb0K+5abNVC
+         Aq0FwWkjOrGzp76EwwrEiZRUWGeU7OcTOKKoOOcwZ7CYp18QQeq7hzsWlxpTOYWl2/yw
+         LgAw==
+X-Gm-Message-State: AC+VfDztWhmzofnl2TyFuhpmuQD/XMUxWpN0rJUG97I4lGHdhe4d4wT9
+        vdZoUIJIGgpoehGxyCazSlxAImHvDKPZ0cpsuk8=
+X-Google-Smtp-Source: ACHHUZ4ahFazWonGD3p7WfIz+hQ1AP7uJMx4ZAIdj8iY8bP+OSVgonTyms/CjQVPO8p/WeAJN9okQeWw88VI15Ak43w=
+X-Received: by 2002:a4a:1401:0:b0:555:722e:3ce with SMTP id
+ 1-20020a4a1401000000b00555722e03cemr9899210ood.9.1685832232426; Sat, 03 Jun
+ 2023 15:43:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <nycvar.YFH.7.76.2306031440380.29760@cbobk.fhfr.pm>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Pobox-Relay-ID: 09FCAC5E-0211-11EE-B4CA-8E2B5958DECB-82205200!pb-sasl1.pobox.com
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6359:1015:b0:104:453a:58c1 with HTTP; Sat, 3 Jun 2023
+ 15:43:52 -0700 (PDT)
+Reply-To: mrs.feleciajonathan001@gmail.com
+From:   "Mrs.Felecia Jonathan" <mondaygood4292@gmail.com>
+Date:   Sat, 3 Jun 2023 15:43:52 -0700
+Message-ID: <CAM-7_HFYQQ31E5G_GuH-Bf5eG+S8bzmyqFn3Hv=ErtUg7RGpHw@mail.gmail.com>
+Subject: Greetings beloved
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2023-06-03 08:41 AM, Jiri Kosina wrote:
-> On Wed, 31 May 2023, Jiri Kosina wrote:
-> 
->>> If an attempt at contacting a receiver or a device fails because the
->>> receiver or device never responds, don't restart the communication, only
->>> restart it if the receiver or device answers that it's busy, as originally
->>> intended.
->>>
->>> This was the behaviour on communication timeout before commit 586e8fede795
->>> ("HID: logitech-hidpp: Retry commands when device is busy").
->>>
->>> This fixes some overly long waits in a critical path on boot, when
->>> checking whether the device is connected by getting its HID++ version.
->>>
->>> Signed-off-by: Bastien Nocera <hadess@hadess.net>
->>> Suggested-by: Mark Lord <mlord@pobox.com>
->>> Fixes: 586e8fede795 ("HID: logitech-hidpp: Retry commands when device is busy")
->>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217412
->>> ---
->>>  drivers/hid/hid-logitech-hidpp.c | 1 +
->>>  1 file changed, 1 insertion(+)
->>>
->>> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
->>> index 0fcfd85fea0f..2246044b1639 100644
->>> --- a/drivers/hid/hid-logitech-hidpp.c
->>> +++ b/drivers/hid/hid-logitech-hidpp.c
->>> @@ -314,6 +314,7 @@ static int hidpp_send_message_sync(struct hidpp_device *hidpp,
->>>  			dbg_hid("%s:timeout waiting for response\n", __func__);
->>>  			memset(response, 0, sizeof(struct hidpp_report));
->>>  			ret = -ETIMEDOUT;
->>> +			goto exit;
->>>  		}
->>>  
->>
->> I have applied this even before getting confirmation from the reporters in 
->> bugzilla, as it's the right thing to do anyway.
-> 
-> Unfortunately it doesn't seem to cure the reported issue (while reverting 
-> 586e8fede79 does): https://bugzilla.kernel.org/show_bug.cgi?id=217523#c2
+I Am a dying woman here in the hospital, i was diagnose as a Cancer
+patient over 2 Years ago. I am A business woman how
+dealing with Gold Exportation. I Am from Us California
+I have a charitable and unfufilment
 
-I wonder if this code could be re-worked to not even do this (waiting)
-from the _probe() function?  It ought to be able to throw it on a workqueue
-or something, rather than stalling system boot for a minimum of 5-seconds
-(or much longer as as-is).
--- 
-Mark Lord
+project that am about to handover to you, if you are interested please
+Reply, hope to hear from you.
+
+Please Reply Me with my private Email for Faster Communication
+mrs.feleciajonathan001@gmail.com
+From Mrs.Felecia Jonathan
