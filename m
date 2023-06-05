@@ -2,63 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B1437228C6
-	for <lists+linux-input@lfdr.de>; Mon,  5 Jun 2023 16:28:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0AA4722925
+	for <lists+linux-input@lfdr.de>; Mon,  5 Jun 2023 16:46:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233736AbjFEO17 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Jun 2023 10:27:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51600 "EHLO
+        id S233293AbjFEOqy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Jun 2023 10:46:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233665AbjFEO14 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 10:27:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DF1899
-        for <linux-input@vger.kernel.org>; Mon,  5 Jun 2023 07:27:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1685975231;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VqvDjKPajBQJ0jhTbAvNmVVCOt81m2LxIym/sZ9cqd8=;
-        b=au7CoyDiI4YjEwJXDoqrb2uhbVB07ezEfcAqZuS6TeeLL022CXagAbmpihVhAqjkmUkHG1
-        B6muTqV9xqaEEe59JNP1rDYZWGIi8isY7XPnY6mCdBtCPcYJBl88fZWzhr0JP/1pt+2MnE
-        6/c5145hHY8lkDPCvZhKdZBMQii3L1o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-390-O_8wkhTTOjSn0hsnxZkI9w-1; Mon, 05 Jun 2023 10:27:08 -0400
-X-MC-Unique: O_8wkhTTOjSn0hsnxZkI9w-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S233866AbjFEOqw (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 10:46:52 -0400
+X-Greylist: delayed 600 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 05 Jun 2023 07:46:51 PDT
+Received: from sasl.smtp.pobox.com (pb-sasl20.pobox.com [173.228.157.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CE8B83;
+        Mon,  5 Jun 2023 07:46:51 -0700 (PDT)
+Received: from sasl.smtp.pobox.com (unknown [127.0.0.1])
+        by pb-sasl20.pobox.com (Postfix) with ESMTP id 1FDAF1BE33;
+        Mon,  5 Jun 2023 10:31:47 -0400 (EDT)
+        (envelope-from mlord@pobox.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=subject:to
+        :cc:references:from:message-id:date:mime-version:in-reply-to
+        :content-type:content-transfer-encoding; s=sasl; bh=U0Tis20OpqUo
+        3bpus5BxRJzVibsUNUNZ8qYd/qWYHo8=; b=V5U/M9wEN4M3LSgk1ldC94U/nfLE
+        Ihd1FxWmLnoCL0RBi7VxHtoaUPSp1pm9yMMTEdDI3BhCkaIzoBaovVHYTDuIi8ih
+        0t9nQU5ycTliej6379Vwxwp0FrvbLVMeW8vfLn4iE8BIJmFWXHWCs5QaQvnZ5qST
+        dG9yGJzJOj/MY/Y=
+Received: from pb-sasl20.sea.icgroup.com (unknown [127.0.0.1])
+        by pb-sasl20.pobox.com (Postfix) with ESMTP id 17C1B1BE32;
+        Mon,  5 Jun 2023 10:31:47 -0400 (EDT)
+        (envelope-from mlord@pobox.com)
+Received: from [10.0.0.9] (unknown [24.156.181.9])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EC0D48030CD;
-        Mon,  5 Jun 2023 14:27:05 +0000 (UTC)
-Received: from mail.corp.redhat.com (unknown [10.45.225.227])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 04BE84A927E;
-        Mon,  5 Jun 2023 14:27:03 +0000 (UTC)
-Date:   Mon, 5 Jun 2023 16:27:01 +0200
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Linux regressions mailing list <regressions@lists.linux.dev>
+        by pb-sasl20.pobox.com (Postfix) with ESMTPSA id 826031BE2F;
+        Mon,  5 Jun 2023 10:31:43 -0400 (EDT)
+        (envelope-from mlord@pobox.com)
+Subject: Re: [PATCH] HID: logitech-hidpp: Handle timeout differently from busy
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc:     Jiri Kosina <jikos@kernel.org>, Bastien Nocera <hadess@hadess.net>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
-        Filipe =?utf-8?B?TGHDrW5z?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>,
-        Mark Lord <mlord@pobox.com>
-Subject: Re: [PATCH] HID: logitech-hidpp: Handle timeout differently from busy
-Message-ID: <7ko33em3pqdaeghkt6wumzks6fz2lzztmqyhyzvv3kisjovmvr@mojlmkmrqlml>
+        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>
 References: <20230531082428.21763-1-hadess@hadess.net>
  <nycvar.YFH.7.76.2305311606160.29760@cbobk.fhfr.pm>
  <nycvar.YFH.7.76.2306031440380.29760@cbobk.fhfr.pm>
- <15bb2507-a145-7f1b-8e84-58aeb02484b9@leemhuis.info>
+ <ccae168a-4be0-f085-8d8e-03bfbd71ac8f@pobox.com>
+ <jafrw2wirzegnf7v2pcm52sao5yc4futa7ok4ccmywigj3y2c4@pep4b3ebus7s>
+From:   Mark Lord <mlord@pobox.com>
+Message-ID: <87a3b3fd-e7b0-d6b5-af80-f14557cbbc33@pobox.com>
+Date:   Mon, 5 Jun 2023 10:31:39 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <15bb2507-a145-7f1b-8e84-58aeb02484b9@leemhuis.info>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+In-Reply-To: <jafrw2wirzegnf7v2pcm52sao5yc4futa7ok4ccmywigj3y2c4@pep4b3ebus7s>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Pobox-Relay-ID: B1E2CF46-03AD-11EE-9269-89925CB417C6-82205200!pb-sasl20.pobox.com
+X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,66 +69,31 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-
-On Jun 05 2023, Linux regression tracking (Thorsten Leemhuis) wrote:
+On 2023-06-05 10:20 AM, Benjamin Tissoires wrote:
 > 
-> On 03.06.23 14:41, Jiri Kosina wrote:
-> > On Wed, 31 May 2023, Jiri Kosina wrote:
-> > 
-> >>> If an attempt at contacting a receiver or a device fails because the
-> >>> receiver or device never responds, don't restart the communication, only
-> >>> restart it if the receiver or device answers that it's busy, as originally
-> >>> intended.
-> >>>
-> >>> This was the behaviour on communication timeout before commit 586e8fede795
-> >>> ("HID: logitech-hidpp: Retry commands when device is busy").
-> >>>
-> >>> This fixes some overly long waits in a critical path on boot, when
-> >>> checking whether the device is connected by getting its HID++ version.
-> >>>
-> >>> Signed-off-by: Bastien Nocera <hadess@hadess.net>
-> >>> Suggested-by: Mark Lord <mlord@pobox.com>
-> >>> Fixes: 586e8fede795 ("HID: logitech-hidpp: Retry commands when device is busy")
-> >>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217412
-> > [...]  
-> >>
-> >> I have applied this even before getting confirmation from the reporters in 
-> >> bugzilla, as it's the right thing to do anyway.
-> > 
-> > Unfortunately it doesn't seem to cure the reported issue (while reverting 
-> > 586e8fede79 does):
+> On Jun 03 2023, Mark Lord wrote:
+..
+>> I wonder if this code could be re-worked to not even do this (waiting)
+>> from the _probe() function?  It ought to be able to throw it on a workqueue
+>> or something, rather than stalling system boot for a minimum of 5-seconds
+>> (or much longer as as-is).
 > 
-> BTW, remind me again: was fixing this by reverting 586e8fede79 for now a
-> option? I guess it's not, but if I'm wrong I wonder if that might at
-> this point be the best way forward.
-
-Could be. I don't think we thought at simply reverting it because it is
-required for some new supoprted devices because they might differ
-slightly from what we currently supported.
-
-That being said, Bastien will be unavailable for at least a week AFAIU,
-so maybe we should revert that patch.
-
+> That's an option, but the fact that I can not replicate locally with the
+> exact same hardware seems to indicate that we would just be papering
+> over the issue.
 > 
-> > https://bugzilla.kernel.org/show_bug.cgi?id=217523#c2
+> Here, I admittely have the USB receiver running through USB-C ports, and
+> the communication never fails and I get immediate bring ups of the
+> devices. Which means I am not hitting that path.
 > 
-> FWIW, another comment showed up there:
-> 
-> ```
-> > --- Comment #6 from vova7890 ---
-> > Same problem. I researched this some time ago. I noticed that if I add a small
-> > delay between commands to the dongle - everything goes fine. Repeated
-> > request(586e8fede7953b1695b5ccc6112eff9b052e79ac) made the situation more
-> > visible
+> The hidpp driver should have everything ready to delay the init in a
+> workqueue, but the impacted users would still get a delay when they plug
+> in the device (which is better than stalling the boot, I agree).
+..
 
-I don't think I ever had to add any delays between commands. The USB
-stack should be capable of forwarding the commands just fine. So unless
-the receiver is of a different hardware (but same VID/PID) that might
-expose a problem elsewhere (in the USB controller maybe???). Just a long
-shot, but maybe getting the config of the impacted users and what are
-the USB controllers/drivers they are using might gives us a better
-understanding.
-
-Cheers,
-Benjamin
-
+Oddly, it's only a boot-time thing.
+If I unplug the Logitech Unifying receiver, wait a few seconds,
+and then plug it back in.. my mouse, keyboard, and touchpad all work immediately.
+Unlike during boot.
+-- 
+Mark Lord
