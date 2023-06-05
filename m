@@ -2,103 +2,166 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BFC2722148
-	for <lists+linux-input@lfdr.de>; Mon,  5 Jun 2023 10:44:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47E9472234B
+	for <lists+linux-input@lfdr.de>; Mon,  5 Jun 2023 12:20:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230264AbjFEIoZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Jun 2023 04:44:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36178 "EHLO
+        id S229604AbjFEKUo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Jun 2023 06:20:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230259AbjFEIoV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 04:44:21 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 324B81A8;
-        Mon,  5 Jun 2023 01:44:15 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1q65ow-0000MX-J4; Mon, 05 Jun 2023 10:44:10 +0200
-Message-ID: <15bb2507-a145-7f1b-8e84-58aeb02484b9@leemhuis.info>
-Date:   Mon, 5 Jun 2023 10:44:09 +0200
+        with ESMTP id S231937AbjFEKUl (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 06:20:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92492FD;
+        Mon,  5 Jun 2023 03:20:26 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 28B5362212;
+        Mon,  5 Jun 2023 10:20:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23461C433EF;
+        Mon,  5 Jun 2023 10:20:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685960425;
+        bh=/cc3Lxtjhnshzas93h8lfMSDu79QRTle3EAAxFuPinY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=k9iuXvWWVaEKOqomn3cNiN4Rbxsy6wQ//rVWRUAiWd08xjdjTe1GJwUCPmwFRfS6h
+         M1JXHsltb54Pmu9SNc/zfXUd8SmsikioCyzQP7HHX9TkYnXV36Gmubk682lA7smNPt
+         nggVbyePi5IA/m69OQnx/ddrv+kS/G2Ge3eKQqMTCdEGYvUrMLt4Vtl9qW8fyd4BP4
+         oik8fcFsfPZO3mbad/D81WavXcX0JZMg8/IbC7hLrD+PfGtA1Cqa3eyQQ7zfGuZVAB
+         ltf0huf4V1+60aortDxD6bItn5o19bgNTRK62z1sd5FpH6ZlLaWKfmIgk1+4mhYicl
+         abq9CFZLzaVgw==
+Date:   Mon, 5 Jun 2023 11:20:20 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, dianders@chromium.org,
+        hsinyi@google.com, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: Add ilitek 9882T
+ touchscreen chip
+Message-ID: <20230605-anyway-grab-f7a35aa199fb@spud>
+References: <20230605060524.1178164-1-yangcong5@huaqin.corp-partner.google.com>
+ <20230605060524.1178164-2-yangcong5@huaqin.corp-partner.google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Subject: Re: [PATCH] HID: logitech-hidpp: Handle timeout differently from busy
-To:     Jiri Kosina <jikos@kernel.org>, Bastien Nocera <hadess@hadess.net>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
-        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>,
-        Mark Lord <mlord@pobox.com>,
-        Linux kernel regressions list <regressions@lists.linux.dev>
-References: <20230531082428.21763-1-hadess@hadess.net>
- <nycvar.YFH.7.76.2305311606160.29760@cbobk.fhfr.pm>
- <nycvar.YFH.7.76.2306031440380.29760@cbobk.fhfr.pm>
-Content-Language: en-US, de-DE
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-In-Reply-To: <nycvar.YFH.7.76.2306031440380.29760@cbobk.fhfr.pm>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1685954656;1fc30558;
-X-HE-SMSGID: 1q65ow-0000MX-J4
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="NIrAV5ud3oWKyYCx"
+Content-Disposition: inline
+In-Reply-To: <20230605060524.1178164-2-yangcong5@huaqin.corp-partner.google.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 03.06.23 14:41, Jiri Kosina wrote:
-> On Wed, 31 May 2023, Jiri Kosina wrote:
-> 
->>> If an attempt at contacting a receiver or a device fails because the
->>> receiver or device never responds, don't restart the communication, only
->>> restart it if the receiver or device answers that it's busy, as originally
->>> intended.
->>>
->>> This was the behaviour on communication timeout before commit 586e8fede795
->>> ("HID: logitech-hidpp: Retry commands when device is busy").
->>>
->>> This fixes some overly long waits in a critical path on boot, when
->>> checking whether the device is connected by getting its HID++ version.
->>>
->>> Signed-off-by: Bastien Nocera <hadess@hadess.net>
->>> Suggested-by: Mark Lord <mlord@pobox.com>
->>> Fixes: 586e8fede795 ("HID: logitech-hidpp: Retry commands when device is busy")
->>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217412
-> [...]  
->>
->> I have applied this even before getting confirmation from the reporters in 
->> bugzilla, as it's the right thing to do anyway.
-> 
-> Unfortunately it doesn't seem to cure the reported issue (while reverting 
-> 586e8fede79 does):
 
-BTW, remind me again: was fixing this by reverting 586e8fede79 for now a
-option? I guess it's not, but if I'm wrong I wonder if that might at
-this point be the best way forward.
+--NIrAV5ud3oWKyYCx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> https://bugzilla.kernel.org/show_bug.cgi?id=217523#c2
+Hey Cong Yang,
 
-FWIW, another comment showed up there:
+On Mon, Jun 05, 2023 at 02:05:23PM +0800, Cong Yang wrote:
+> Add an ilitek touch screen chip ili9882t.
 
-```
-> --- Comment #6 from vova7890 ---
-> Same problem. I researched this some time ago. I noticed that if I add a small
-> delay between commands to the dongle - everything goes fine. Repeated
-> request(586e8fede7953b1695b5ccc6112eff9b052e79ac) made the situation more
-> visible
-```
+Could you add a comment here mentioning the relationship between these
+chips?
+On Mon, Jun 05, 2023 at 02:05:23PM +0800, Cong Yang wrote:
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> ---
+>  .../bindings/input/elan,ekth6915.yaml         | 23 ++++++++++++++++---
+>  1 file changed, 20 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b=
+/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> index 05e6f2df604c..f0e7ffdce605 100644
+> --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> @@ -15,11 +15,14 @@ description:
+> =20
+>  properties:
+>    compatible:
+> -    items:
+> -      - const: elan,ekth6915
+> +    enum:
+> +      - elan,ekth6915
+> +      - ilitek,ili9882t
+> =20
+>    reg:
+> -    const: 0x10
+> +    enum:
+> +      - 0x10
+> +      - 0x41
 
-#regzbot ^backmonitor:
-https://lore.kernel.org/all/15e5d50f-95fc-c7c9-0918-015f24c6fc6d@leemhuis.info/
+Is 0x10 only valid for the elan,ekth6915 & 0x41 for the ilitek one?
+If so, please add some enforcement of the values based on the
+compatible.
+
+> =20
+>    interrupts:
+>      maxItems: 1
+> @@ -29,11 +32,13 @@ properties:
+> =20
+
+
+>    vcc33-supply:
+>      description: The 3.3V supply to the touchscreen.
+> +                 If using ili9882t then this supply will not be needed.
+> =20
+>    vccio-supply:
+>      description:
+>        The IO supply to the touchscreen. Need not be specified if this is=
+ the
+>        same as the 3.3V supply.
+> +      If using ili9882t, the IO supply is required.
+
+There's no need for these sort of comments, you can rely on the required
+sections to describe these relationships.
+
+Cheers,
+Conor.
+
+> =20
+>  required:
+>    - compatible
+> @@ -41,6 +46,18 @@ required:
+>    - interrupts
+>    - vcc33-supply
+> =20
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        const: ilitek,ili9882t
+> +then:
+> +  required:
+> +    - compatible
+> +    - reg
+> +    - interrupts
+> +    - vccio-supply
+> +
+>  additionalProperties: false
+> =20
+>  examples:
+> --=20
+> 2.25.1
+
+--NIrAV5ud3oWKyYCx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZH225AAKCRB4tDGHoIJi
+0uk/AQC2F8qzuvOoE6qxN/tA6dj/INeX/SXEf2vZKdqr4Lt/3AD/V1VeXYPk9tfV
+hYMIbc/uN+m1FM3MgY0ua3GTpeiBSAU=
+=EB1E
+-----END PGP SIGNATURE-----
+
+--NIrAV5ud3oWKyYCx--
