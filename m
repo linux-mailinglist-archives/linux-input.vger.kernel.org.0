@@ -2,148 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 95930721DD9
-	for <lists+linux-input@lfdr.de>; Mon,  5 Jun 2023 08:06:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BFC2722148
+	for <lists+linux-input@lfdr.de>; Mon,  5 Jun 2023 10:44:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbjFEGGE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Jun 2023 02:06:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40780 "EHLO
+        id S230264AbjFEIoZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Jun 2023 04:44:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229579AbjFEGGB (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 02:06:01 -0400
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C824110
-        for <linux-input@vger.kernel.org>; Sun,  4 Jun 2023 23:05:58 -0700 (PDT)
-Received: by mail-oi1-x229.google.com with SMTP id 5614622812f47-390723f815fso2238047b6e.3
-        for <linux-input@vger.kernel.org>; Sun, 04 Jun 2023 23:05:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=huaqin-corp-partner-google-com.20221208.gappssmtp.com; s=20221208; t=1685945157; x=1688537157;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NafLjDBYefQHH3Gad7ICKC/rnUp/PXcgqV+CuJGbaps=;
-        b=bYsw33Yw4q4Fc/XuiRKnniS7T8cCWejB2X4rnmMacWbnQjwtHSD+hZEmOfKjZAMOx5
-         hyvg8ajElijvJS6m5SfIRPij/V1L5CST6egio3Pu0zUENUTSz73yEDu1Kd867+/13hmx
-         +tXd35KwbsoMhYDglfK6RapqEwvTRRfd7WHtPDrB79Y4Y+3dqidngVBOfEzKdD1UpMxu
-         IEh3SG9tdY9qT8Dj7AyFUmIqxTIBBVtunj2FD1TKVeKKjnLe0sZDxVEiXwvX1wwVqJP+
-         MAF5/FQSekHxg75ZAKwbSNPwCis35hwaiWAmI03FwKZyssxnnhMCZ10hR2ZBoo/yOO5H
-         hOog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685945157; x=1688537157;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NafLjDBYefQHH3Gad7ICKC/rnUp/PXcgqV+CuJGbaps=;
-        b=RnHiKEcy66ifulNhP7CwFlXDUCXi4Cd/Cw122/QdqI3rlt65FXvKH2OgRbkYuHLd4r
-         O68+N32nz5tjFxy+ztEDCdM7vvbaUY1Gsx02aBDr+Eow4Q6EWb9LgXIqc65htD9OSndS
-         pOwHiZlB5PZxpvGdx13KCshfLcSheyNchyCi1vB10GrqZahN6MzX4vIyd2V4DTf+Uhwz
-         hU7OgNO9ERizk3bL7yPrI6F8LnWUirttw2lE+Pg66NnVEUfijm5rnuKnO++gtru58JxA
-         wIe71AJa3vtzbZQmDXJzBu/Du8aqbOJNgj/Wq69LGBtByuOtgn3jZhsNTJxBxKyiTQAe
-         djyg==
-X-Gm-Message-State: AC+VfDyHi74T2eviUF+z+LfgpGfLZgmwcIU3R3Iof7K9vJWjx3YEuwta
-        +PYozySaWmHmevcfm+fQAK3dpw==
-X-Google-Smtp-Source: ACHHUZ55zMj/HVRzMaN8WfmCHJjg81JjjNRWwiQ6+/v8ENDHdZY37NOWgrcJ0d+tJm9E5tWpNAkGHA==
-X-Received: by 2002:a05:6358:e91d:b0:129:c4a6:8892 with SMTP id gk29-20020a056358e91d00b00129c4a68892mr638202rwb.17.1685945157177;
-        Sun, 04 Jun 2023 23:05:57 -0700 (PDT)
-Received: from yc.huaqin.com ([101.78.151.214])
-        by smtp.gmail.com with ESMTPSA id 128-20020a630786000000b0053ba104c113sm5031379pgh.72.2023.06.04.23.05.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jun 2023 23:05:56 -0700 (PDT)
-From:   Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, dianders@chromium.org,
-        hsinyi@google.com
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Subject: [PATCH v2 2/2] HID: i2c-hid: elan: Add ili9882t timing
-Date:   Mon,  5 Jun 2023 14:05:24 +0800
-Message-Id: <20230605060524.1178164-3-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230605060524.1178164-1-yangcong5@huaqin.corp-partner.google.com>
-References: <20230605060524.1178164-1-yangcong5@huaqin.corp-partner.google.com>
+        with ESMTP id S230259AbjFEIoV (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 04:44:21 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 324B81A8;
+        Mon,  5 Jun 2023 01:44:15 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1q65ow-0000MX-J4; Mon, 05 Jun 2023 10:44:10 +0200
+Message-ID: <15bb2507-a145-7f1b-8e84-58aeb02484b9@leemhuis.info>
+Date:   Mon, 5 Jun 2023 10:44:09 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: Re: [PATCH] HID: logitech-hidpp: Handle timeout differently from busy
+To:     Jiri Kosina <jikos@kernel.org>, Bastien Nocera <hadess@hadess.net>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
+        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>,
+        Mark Lord <mlord@pobox.com>,
+        Linux kernel regressions list <regressions@lists.linux.dev>
+References: <20230531082428.21763-1-hadess@hadess.net>
+ <nycvar.YFH.7.76.2305311606160.29760@cbobk.fhfr.pm>
+ <nycvar.YFH.7.76.2306031440380.29760@cbobk.fhfr.pm>
+Content-Language: en-US, de-DE
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+In-Reply-To: <nycvar.YFH.7.76.2306031440380.29760@cbobk.fhfr.pm>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1685954656;1fc30558;
+X-HE-SMSGID: 1q65ow-0000MX-J4
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The ili9882t is a TDDI IC (Touch with Display Driver). The datasheet
-specifies there should be 60ms between touch SDA sleep and panel RESX.
-Doug's series[1] allows panels and touchscreens to power on/off together,
-so we can add the 65 ms delay in i2c_hid_core_suspend before panel_unprepare.
+On 03.06.23 14:41, Jiri Kosina wrote:
+> On Wed, 31 May 2023, Jiri Kosina wrote:
+> 
+>>> If an attempt at contacting a receiver or a device fails because the
+>>> receiver or device never responds, don't restart the communication, only
+>>> restart it if the receiver or device answers that it's busy, as originally
+>>> intended.
+>>>
+>>> This was the behaviour on communication timeout before commit 586e8fede795
+>>> ("HID: logitech-hidpp: Retry commands when device is busy").
+>>>
+>>> This fixes some overly long waits in a critical path on boot, when
+>>> checking whether the device is connected by getting its HID++ version.
+>>>
+>>> Signed-off-by: Bastien Nocera <hadess@hadess.net>
+>>> Suggested-by: Mark Lord <mlord@pobox.com>
+>>> Fixes: 586e8fede795 ("HID: logitech-hidpp: Retry commands when device is busy")
+>>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217412
+> [...]  
+>>
+>> I have applied this even before getting confirmation from the reporters in 
+>> bugzilla, as it's the right thing to do anyway.
+> 
+> Unfortunately it doesn't seem to cure the reported issue (while reverting 
+> 586e8fede79 does):
 
-[1]: https: //lore.kernel.org/all/20230523193017.4109557-1-dianders@chromium.org/
+BTW, remind me again: was fixing this by reverting 586e8fede79 for now a
+option? I guess it's not, but if I'm wrong I wonder if that might at
+this point be the best way forward.
 
-Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
----
- drivers/hid/i2c-hid/i2c-hid-of-elan.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+> https://bugzilla.kernel.org/show_bug.cgi?id=217523#c2
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-of-elan.c b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-index 76ddc8be1cbb..411d7ea2725d 100644
---- a/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-@@ -18,7 +18,8 @@
- #include "i2c-hid.h"
- 
- struct elan_i2c_hid_chip_data {
--	unsigned int post_gpio_reset_delay_ms;
-+	unsigned int post_gpio_reset_on_delay_ms;
-+	unsigned int post_gpio_reset_off_delay_ms;
- 	unsigned int post_power_delay_ms;
- 	u16 hid_descriptor_address;
- };
-@@ -52,8 +53,8 @@ static int elan_i2c_hid_power_up(struct i2chid_ops *ops)
- 		msleep(ihid_elan->chip_data->post_power_delay_ms);
- 
- 	gpiod_set_value_cansleep(ihid_elan->reset_gpio, 0);
--	if (ihid_elan->chip_data->post_gpio_reset_delay_ms)
--		msleep(ihid_elan->chip_data->post_gpio_reset_delay_ms);
-+	if (ihid_elan->chip_data->post_gpio_reset_on_delay_ms)
-+		msleep(ihid_elan->chip_data->post_gpio_reset_on_delay_ms);
- 
- 	return 0;
- }
-@@ -64,6 +65,9 @@ static void elan_i2c_hid_power_down(struct i2chid_ops *ops)
- 		container_of(ops, struct i2c_hid_of_elan, ops);
- 
- 	gpiod_set_value_cansleep(ihid_elan->reset_gpio, 1);
-+	if (ihid_elan->chip_data->post_gpio_reset_off_delay_ms)
-+		msleep(ihid_elan->chip_data->post_gpio_reset_off_delay_ms);
-+
- 	regulator_disable(ihid_elan->vccio);
- 	regulator_disable(ihid_elan->vcc33);
- }
-@@ -101,12 +105,20 @@ static int i2c_hid_of_elan_probe(struct i2c_client *client)
- 
- static const struct elan_i2c_hid_chip_data elan_ekth6915_chip_data = {
- 	.post_power_delay_ms = 1,
--	.post_gpio_reset_delay_ms = 300,
-+	.post_gpio_reset_on_delay_ms = 300,
-+	.hid_descriptor_address = 0x0001,
-+};
-+
-+static const struct elan_i2c_hid_chip_data ilitek_ili9882t_chip_data = {
-+	.post_power_delay_ms = 1,
-+	.post_gpio_reset_on_delay_ms = 200,
-+	.post_gpio_reset_off_delay_ms = 65,
- 	.hid_descriptor_address = 0x0001,
- };
- 
- static const struct of_device_id elan_i2c_hid_of_match[] = {
- 	{ .compatible = "elan,ekth6915", .data = &elan_ekth6915_chip_data },
-+	{ .compatible = "ilitek,ili9882t", .data = &ilitek_ili9882t_chip_data },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, elan_i2c_hid_of_match);
--- 
-2.25.1
+FWIW, another comment showed up there:
 
+```
+> --- Comment #6 from vova7890 ---
+> Same problem. I researched this some time ago. I noticed that if I add a small
+> delay between commands to the dongle - everything goes fine. Repeated
+> request(586e8fede7953b1695b5ccc6112eff9b052e79ac) made the situation more
+> visible
+```
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
+
+#regzbot ^backmonitor:
+https://lore.kernel.org/all/15e5d50f-95fc-c7c9-0918-015f24c6fc6d@leemhuis.info/
