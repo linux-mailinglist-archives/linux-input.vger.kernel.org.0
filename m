@@ -2,55 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47E9472234B
-	for <lists+linux-input@lfdr.de>; Mon,  5 Jun 2023 12:20:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0076B7223A2
+	for <lists+linux-input@lfdr.de>; Mon,  5 Jun 2023 12:35:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229604AbjFEKUo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Jun 2023 06:20:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46336 "EHLO
+        id S232237AbjFEKfk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Jun 2023 06:35:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231937AbjFEKUl (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 06:20:41 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92492FD;
-        Mon,  5 Jun 2023 03:20:26 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 28B5362212;
-        Mon,  5 Jun 2023 10:20:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23461C433EF;
-        Mon,  5 Jun 2023 10:20:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685960425;
-        bh=/cc3Lxtjhnshzas93h8lfMSDu79QRTle3EAAxFuPinY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=k9iuXvWWVaEKOqomn3cNiN4Rbxsy6wQ//rVWRUAiWd08xjdjTe1GJwUCPmwFRfS6h
-         M1JXHsltb54Pmu9SNc/zfXUd8SmsikioCyzQP7HHX9TkYnXV36Gmubk682lA7smNPt
-         nggVbyePi5IA/m69OQnx/ddrv+kS/G2Ge3eKQqMTCdEGYvUrMLt4Vtl9qW8fyd4BP4
-         oik8fcFsfPZO3mbad/D81WavXcX0JZMg8/IbC7hLrD+PfGtA1Cqa3eyQQ7zfGuZVAB
-         ltf0huf4V1+60aortDxD6bItn5o19bgNTRK62z1sd5FpH6ZlLaWKfmIgk1+4mhYicl
-         abq9CFZLzaVgw==
-Date:   Mon, 5 Jun 2023 11:20:20 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, dianders@chromium.org,
-        hsinyi@google.com, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+        with ESMTP id S231839AbjFEKfP (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 06:35:15 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F161E52
+        for <linux-input@vger.kernel.org>; Mon,  5 Jun 2023 03:34:59 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-5149b63151aso6937629a12.3
+        for <linux-input@vger.kernel.org>; Mon, 05 Jun 2023 03:34:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685961298; x=1688553298;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uFq5oGkqVQ3sub4JCKqcWdAZJhLFL2YkYQs99Cty04o=;
+        b=eZ9V+gIQetiODGpzOE/DVwsx5nXiBXaMfrU86OFR0YpPaivq3MAh5SkrE6C2GjhgNL
+         /lOeKCSVH0Y0VbG+T3zyaTPzGd9pdjSwBTyuBw20kIgFSTBrFcfBilo6V84kwfKCQe/1
+         7lr//Ay0N4QwKwdIN2CKcrC3hbQwaJeyn9tiT0EjWbTcp5nbIMYC5NFp+eLSI9ynjNAd
+         6k1sfoZj/qzgtcny0Jq3tjOoQHe/mPmd+YAee1GrUpYui2TM0f7NAoaKO7DkdDsJlTjt
+         sTzmBj9ZcxGJUdDNVJPNiGnyqBKTizHPc8iChG1HbXPpsblGrzb8hIqmOSeFAM2lvSVQ
+         Tp5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685961298; x=1688553298;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uFq5oGkqVQ3sub4JCKqcWdAZJhLFL2YkYQs99Cty04o=;
+        b=cmrZlbJHbG813PbpGVcvmzUAsR5VeR9KKKo1Z59I1jrHh/gS6ohOT82iVCK1XlFuq7
+         HiNeyVJ+z3HXYAngKLXTcm4T27DDoo/BZIp+tTHFhEfLCVK+yl0I5o/C7YmCuRcr78se
+         XlJ4CcaN2suviTOPKiwIeV8IINMTUFOaolXhddbmWNkrgX/P1CP64U7yCNE04s+ysi2H
+         5S+HXhWLWMtiQIDb8ED4OF/pn9qAwMrLxTTdkSpV9XtqZ9wMubopMa4qZAV09lBjD8zD
+         9OJXs1UixB+bKGuD9xWXXo1uhvfKUZPKTsNt4FBmie/RlBFES2f3HRTtIXQLeFHY6C1S
+         krkg==
+X-Gm-Message-State: AC+VfDygprTgqnZwPDNohIgGr76l0mbClIjkDioNZex1eBqBKN81pmTV
+        AdH8Lmv2dJRhPNyF+v1CH882cA==
+X-Google-Smtp-Source: ACHHUZ5+XtjfkEfVdH+SHr9LWWN02kLyYG3gz7kWxBFVXGEK6U0G8WHiam5TJMMbVl0NoG1DZ9XjbQ==
+X-Received: by 2002:a05:6402:6d4:b0:514:9528:6e6f with SMTP id n20-20020a05640206d400b0051495286e6fmr8643302edy.7.1685961297889;
+        Mon, 05 Jun 2023 03:34:57 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id s18-20020a056402165200b00510b5051f95sm3680533edx.90.2023.06.05.03.34.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Jun 2023 03:34:57 -0700 (PDT)
+Message-ID: <6818f4b0-4222-c3bb-c55f-bc0d26d7a681@linaro.org>
+Date:   Mon, 5 Jun 2023 12:34:54 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
 Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: Add ilitek 9882T
  touchscreen chip
-Message-ID: <20230605-anyway-grab-f7a35aa199fb@spud>
+Content-Language: en-US
+To:     Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, dianders@chromium.org,
+        hsinyi@google.com
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 References: <20230605060524.1178164-1-yangcong5@huaqin.corp-partner.google.com>
  <20230605060524.1178164-2-yangcong5@huaqin.corp-partner.google.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="NIrAV5ud3oWKyYCx"
-Content-Disposition: inline
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 In-Reply-To: <20230605060524.1178164-2-yangcong5@huaqin.corp-partner.google.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -59,33 +80,20 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-
---NIrAV5ud3oWKyYCx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hey Cong Yang,
-
-On Mon, Jun 05, 2023 at 02:05:23PM +0800, Cong Yang wrote:
+On 05/06/2023 08:05, Cong Yang wrote:
 > Add an ilitek touch screen chip ili9882t.
-
-Could you add a comment here mentioning the relationship between these
-chips?
-On Mon, Jun 05, 2023 at 02:05:23PM +0800, Cong Yang wrote:
-
+> 
 > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 > ---
 >  .../bindings/input/elan,ekth6915.yaml         | 23 ++++++++++++++++---
 >  1 file changed, 20 insertions(+), 3 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b=
-/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
 > index 05e6f2df604c..f0e7ffdce605 100644
 > --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
 > +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
 > @@ -15,11 +15,14 @@ description:
-> =20
+>  
 >  properties:
 >    compatible:
 > -    items:
@@ -93,49 +101,47 @@ On Mon, Jun 05, 2023 at 02:05:23PM +0800, Cong Yang wrote:
 > +    enum:
 > +      - elan,ekth6915
 > +      - ilitek,ili9882t
-> =20
+>  
 >    reg:
 > -    const: 0x10
 > +    enum:
 > +      - 0x10
 > +      - 0x41
-
-Is 0x10 only valid for the elan,ekth6915 & 0x41 for the ilitek one?
-If so, please add some enforcement of the values based on the
-compatible.
-
-> =20
+>  
 >    interrupts:
 >      maxItems: 1
 > @@ -29,11 +32,13 @@ properties:
-> =20
-
-
+>  
 >    vcc33-supply:
 >      description: The 3.3V supply to the touchscreen.
 > +                 If using ili9882t then this supply will not be needed.
-> =20
+
+What does it mean "will not be needed"? Describe the hardware, not your
+drivers.
+
+I don't think you tested your DTS. Submit DTS users, because I do not
+believe you are testing your patches. You already got such comment and I
+don't see much of improvements here.
+
+>  
 >    vccio-supply:
 >      description:
->        The IO supply to the touchscreen. Need not be specified if this is=
- the
+>        The IO supply to the touchscreen. Need not be specified if this is the
 >        same as the 3.3V supply.
 > +      If using ili9882t, the IO supply is required.
 
-There's no need for these sort of comments, you can rely on the required
-sections to describe these relationships.
-
-Cheers,
-Conor.
-
-> =20
+Don't repeat constraints in free form text.
+>  
 >  required:
 >    - compatible
 > @@ -41,6 +46,18 @@ required:
 >    - interrupts
 >    - vcc33-supply
-> =20
+>  
 > +if:
+
+Keep it in allOf. Will save you one indentation later.
+
 > +  properties:
 > +    compatible:
 > +      contains:
@@ -145,23 +151,12 @@ Conor.
 > +    - compatible
 > +    - reg
 > +    - interrupts
+
+Don't duplicate.
+
 > +    - vccio-supply
-> +
->  additionalProperties: false
-> =20
->  examples:
-> --=20
-> 2.25.1
 
---NIrAV5ud3oWKyYCx
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+Best regards,
+Krzysztof
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZH225AAKCRB4tDGHoIJi
-0uk/AQC2F8qzuvOoE6qxN/tA6dj/INeX/SXEf2vZKdqr4Lt/3AD/V1VeXYPk9tfV
-hYMIbc/uN+m1FM3MgY0ua3GTpeiBSAU=
-=EB1E
------END PGP SIGNATURE-----
-
---NIrAV5ud3oWKyYCx--
