@@ -2,161 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0076B7223A2
-	for <lists+linux-input@lfdr.de>; Mon,  5 Jun 2023 12:35:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D841B7224AF
+	for <lists+linux-input@lfdr.de>; Mon,  5 Jun 2023 13:35:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232237AbjFEKfk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Jun 2023 06:35:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52854 "EHLO
+        id S231292AbjFELfV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Jun 2023 07:35:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231839AbjFEKfP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 06:35:15 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F161E52
-        for <linux-input@vger.kernel.org>; Mon,  5 Jun 2023 03:34:59 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-5149b63151aso6937629a12.3
-        for <linux-input@vger.kernel.org>; Mon, 05 Jun 2023 03:34:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685961298; x=1688553298;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uFq5oGkqVQ3sub4JCKqcWdAZJhLFL2YkYQs99Cty04o=;
-        b=eZ9V+gIQetiODGpzOE/DVwsx5nXiBXaMfrU86OFR0YpPaivq3MAh5SkrE6C2GjhgNL
-         /lOeKCSVH0Y0VbG+T3zyaTPzGd9pdjSwBTyuBw20kIgFSTBrFcfBilo6V84kwfKCQe/1
-         7lr//Ay0N4QwKwdIN2CKcrC3hbQwaJeyn9tiT0EjWbTcp5nbIMYC5NFp+eLSI9ynjNAd
-         6k1sfoZj/qzgtcny0Jq3tjOoQHe/mPmd+YAee1GrUpYui2TM0f7NAoaKO7DkdDsJlTjt
-         sTzmBj9ZcxGJUdDNVJPNiGnyqBKTizHPc8iChG1HbXPpsblGrzb8hIqmOSeFAM2lvSVQ
-         Tp5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685961298; x=1688553298;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uFq5oGkqVQ3sub4JCKqcWdAZJhLFL2YkYQs99Cty04o=;
-        b=cmrZlbJHbG813PbpGVcvmzUAsR5VeR9KKKo1Z59I1jrHh/gS6ohOT82iVCK1XlFuq7
-         HiNeyVJ+z3HXYAngKLXTcm4T27DDoo/BZIp+tTHFhEfLCVK+yl0I5o/C7YmCuRcr78se
-         XlJ4CcaN2suviTOPKiwIeV8IINMTUFOaolXhddbmWNkrgX/P1CP64U7yCNE04s+ysi2H
-         5S+HXhWLWMtiQIDb8ED4OF/pn9qAwMrLxTTdkSpV9XtqZ9wMubopMa4qZAV09lBjD8zD
-         9OJXs1UixB+bKGuD9xWXXo1uhvfKUZPKTsNt4FBmie/RlBFES2f3HRTtIXQLeFHY6C1S
-         krkg==
-X-Gm-Message-State: AC+VfDygprTgqnZwPDNohIgGr76l0mbClIjkDioNZex1eBqBKN81pmTV
-        AdH8Lmv2dJRhPNyF+v1CH882cA==
-X-Google-Smtp-Source: ACHHUZ5+XtjfkEfVdH+SHr9LWWN02kLyYG3gz7kWxBFVXGEK6U0G8WHiam5TJMMbVl0NoG1DZ9XjbQ==
-X-Received: by 2002:a05:6402:6d4:b0:514:9528:6e6f with SMTP id n20-20020a05640206d400b0051495286e6fmr8643302edy.7.1685961297889;
-        Mon, 05 Jun 2023 03:34:57 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id s18-20020a056402165200b00510b5051f95sm3680533edx.90.2023.06.05.03.34.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Jun 2023 03:34:57 -0700 (PDT)
-Message-ID: <6818f4b0-4222-c3bb-c55f-bc0d26d7a681@linaro.org>
-Date:   Mon, 5 Jun 2023 12:34:54 +0200
+        with ESMTP id S232447AbjFELfT (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 07:35:19 -0400
+X-Greylist: delayed 144 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 05 Jun 2023 04:35:08 PDT
+Received: from mailout.blnma.de (mailout.blnma.de [116.203.12.22])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2DE31B4;
+        Mon,  5 Jun 2023 04:35:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=starostik.de; s=dkim210803; h=Content-Type:Content-Transfer-Encoding:
+        MIME-Version:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:References:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=Q9kK4FWpujilN7N4KgicC38GOFmjovQF+Cg7lFXJo9s=; t=1685964909; x=1686828909; 
+        b=mIm3mtKmWcTuJfqW/ecAVt8OkMD/YqueYAo8Y1qURP9nYkpPXhBJFD3ocU0VV8C/wOK9wsVwafR
+        2htn/Diaks36Z4QB0hvtNtGodOpcwSrQRmNB/uklxZJQXSJcWxn6kUrgyqnSvZ1LANNy8TQhFmdc7
+        GjRDYoUNYEGJxqnh0MqsWmYbDd5cjloiwB4V6lQcWqHjJeoRwBOSNSDWu0cX8Jnch3SZZJRtQQ6HO
+        tSGe2FHhS4tPmYsezsaUBU8iBGDXZmbMbMQLT0/9WJAXlk9q2isSPz1NydI2Cp4F1isPPTqfWgbn1
+        50nm/bqb+Cr5HDDaLBCy3zAEmTONXMDyNGHQ==;
+Received: from dovecot-0.dovecot.mail.svc.cluster.local ([10.244.6.208] helo=mail.blnma.de)
+        by mail.blnma.de with esmtp (Exim 4.96)
+        (envelope-from <malte@starostik.de>)
+        id 1q68K2-000D3H-2j;
+        Mon, 05 Jun 2023 11:24:26 +0000
+Received: from zen.localnet ([62.214.179.90])
+        by mail.blnma.de with ESMTPSA
+        id hgEtK+nFfWQPPwAA399c4A
+        (envelope-from <malte@starostik.de>); Mon, 05 Jun 2023 11:24:25 +0000
+From:   Malte Starostik <malte@starostik.de>
+To:     bagasdotme@gmail.com
+Cc:     basavaraj.natikar@amd.com, linux-input@vger.kernel.org,
+        linux@hexchain.org, regressions@lists.linux.dev,
+        stable@vger.kernel.org
+Subject: Re: amd_sfh driver causes kernel oops during boot
+Date:   Mon, 05 Jun 2023 13:24:25 +0200
+Message-ID: <3250319.ancTxkQ2z5@zen>
+In-Reply-To: <ZG3ipauL9FTnQJiC@debian.me>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: Add ilitek 9882T
- touchscreen chip
-Content-Language: en-US
-To:     Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, dianders@chromium.org,
-        hsinyi@google.com
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230605060524.1178164-1-yangcong5@huaqin.corp-partner.google.com>
- <20230605060524.1178164-2-yangcong5@huaqin.corp-partner.google.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230605060524.1178164-2-yangcong5@huaqin.corp-partner.google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 05/06/2023 08:05, Cong Yang wrote:
-> Add an ilitek touch screen chip ili9882t.
+Hello,
+
+chiming in here as I'm experiencing what looks like the exact same issue, also 
+on a Lenovo Z13 notebook, also on Arch:
+Oops during startup in task udev-worker followed by udev-worker blocking all 
+attempts to suspend or cleanly shutdown/reboot the machine - in fact I first 
+noticed because the machine surprised with repeatedly running out of battery 
+after it had supposedly been in standby but couldn't. Only then I noticed the 
+error on boot.
+
+bisect result:
+904e28c6de083fa4834cdbd0026470ddc30676fc is the first bad commit
+commit 904e28c6de083fa4834cdbd0026470ddc30676fc
+Merge: a738688177dc 2f7f4efb9411
+Author: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed Feb 22 10:44:31 2023 +0100
+
+    Merge branch 'for-6.3/hid-bpf' into for-linus
+    
+    Initial support of HID-BPF (Benjamin Tissoires)
+    
+    The history is a little long for this series, as it was intended to be
+    sent for v6.2. However some last minute issues forced us to postpone it
+    to v6.3.
+    
+    Conflicts:
+    * drivers/hid/i2c-hid/Kconfig:
+      commit bf7660dab30d ("HID: stop drivers from selecting CONFIG_HID")
+      conflicts with commit 2afac81dd165 ("HID: fix I2C_HID not selected
+      when I2C_HID_OF_ELAN is")
+      the resolution is simple enough: just drop the "default" and "select"
+      lines as the new commit from Arnd is doing
+
+
+BR Malte
+
+> On Wed, May 24, 2023 at 02:10:31PM +0800, Haochen Tong wrote:
+> > > What last kernel version before this regression occurs? Do you mean
+> > > v6.2?
+> > > 
+> > 
+> > I was using 6.2.12 (Arch Linux distro kernel) before seeing this 
+regression.
 > 
-> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> ---
->  .../bindings/input/elan,ekth6915.yaml         | 23 ++++++++++++++++---
->  1 file changed, 20 insertions(+), 3 deletions(-)
+> Can you perform bisection to find the culprit that introduces the
+> regression? Since you're on Arch Linux, see its wiki article [1] for
+> instructions.
 > 
-> diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> index 05e6f2df604c..f0e7ffdce605 100644
-> --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> @@ -15,11 +15,14 @@ description:
->  
->  properties:
->    compatible:
-> -    items:
-> -      - const: elan,ekth6915
-> +    enum:
-> +      - elan,ekth6915
-> +      - ilitek,ili9882t
->  
->    reg:
-> -    const: 0x10
-> +    enum:
-> +      - 0x10
-> +      - 0x41
->  
->    interrupts:
->      maxItems: 1
-> @@ -29,11 +32,13 @@ properties:
->  
->    vcc33-supply:
->      description: The 3.3V supply to the touchscreen.
-> +                 If using ili9882t then this supply will not be needed.
-
-What does it mean "will not be needed"? Describe the hardware, not your
-drivers.
-
-I don't think you tested your DTS. Submit DTS users, because I do not
-believe you are testing your patches. You already got such comment and I
-don't see much of improvements here.
-
->  
->    vccio-supply:
->      description:
->        The IO supply to the touchscreen. Need not be specified if this is the
->        same as the 3.3V supply.
-> +      If using ili9882t, the IO supply is required.
-
-Don't repeat constraints in free form text.
->  
->  required:
->    - compatible
-> @@ -41,6 +46,18 @@ required:
->    - interrupts
->    - vcc33-supply
->  
-> +if:
-
-Keep it in allOf. Will save you one indentation later.
-
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        const: ilitek,ili9882t
-> +then:
-> +  required:
-> +    - compatible
-> +    - reg
-> +    - interrupts
-
-Don't duplicate.
-
-> +    - vccio-supply
+> Thanks.
+> 
+> [1]: https://wiki.archlinux.org/title/Bisecting_bugs_with_Git
 
 
-Best regards,
-Krzysztof
 
