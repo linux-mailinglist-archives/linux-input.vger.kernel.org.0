@@ -2,65 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0AA4722925
-	for <lists+linux-input@lfdr.de>; Mon,  5 Jun 2023 16:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47B74722C4B
+	for <lists+linux-input@lfdr.de>; Mon,  5 Jun 2023 18:15:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233293AbjFEOqy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Jun 2023 10:46:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35066 "EHLO
+        id S230223AbjFEQPG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Jun 2023 12:15:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233866AbjFEOqw (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 10:46:52 -0400
-X-Greylist: delayed 600 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 05 Jun 2023 07:46:51 PDT
-Received: from sasl.smtp.pobox.com (pb-sasl20.pobox.com [173.228.157.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CE8B83;
-        Mon,  5 Jun 2023 07:46:51 -0700 (PDT)
-Received: from sasl.smtp.pobox.com (unknown [127.0.0.1])
-        by pb-sasl20.pobox.com (Postfix) with ESMTP id 1FDAF1BE33;
-        Mon,  5 Jun 2023 10:31:47 -0400 (EDT)
-        (envelope-from mlord@pobox.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=subject:to
-        :cc:references:from:message-id:date:mime-version:in-reply-to
-        :content-type:content-transfer-encoding; s=sasl; bh=U0Tis20OpqUo
-        3bpus5BxRJzVibsUNUNZ8qYd/qWYHo8=; b=V5U/M9wEN4M3LSgk1ldC94U/nfLE
-        Ihd1FxWmLnoCL0RBi7VxHtoaUPSp1pm9yMMTEdDI3BhCkaIzoBaovVHYTDuIi8ih
-        0t9nQU5ycTliej6379Vwxwp0FrvbLVMeW8vfLn4iE8BIJmFWXHWCs5QaQvnZ5qST
-        dG9yGJzJOj/MY/Y=
-Received: from pb-sasl20.sea.icgroup.com (unknown [127.0.0.1])
-        by pb-sasl20.pobox.com (Postfix) with ESMTP id 17C1B1BE32;
-        Mon,  5 Jun 2023 10:31:47 -0400 (EDT)
-        (envelope-from mlord@pobox.com)
-Received: from [10.0.0.9] (unknown [24.156.181.9])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by pb-sasl20.pobox.com (Postfix) with ESMTPSA id 826031BE2F;
-        Mon,  5 Jun 2023 10:31:43 -0400 (EDT)
-        (envelope-from mlord@pobox.com)
-Subject: Re: [PATCH] HID: logitech-hidpp: Handle timeout differently from busy
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>, Bastien Nocera <hadess@hadess.net>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
-        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-References: <20230531082428.21763-1-hadess@hadess.net>
- <nycvar.YFH.7.76.2305311606160.29760@cbobk.fhfr.pm>
- <nycvar.YFH.7.76.2306031440380.29760@cbobk.fhfr.pm>
- <ccae168a-4be0-f085-8d8e-03bfbd71ac8f@pobox.com>
- <jafrw2wirzegnf7v2pcm52sao5yc4futa7ok4ccmywigj3y2c4@pep4b3ebus7s>
-From:   Mark Lord <mlord@pobox.com>
-Message-ID: <87a3b3fd-e7b0-d6b5-af80-f14557cbbc33@pobox.com>
-Date:   Mon, 5 Jun 2023 10:31:39 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        with ESMTP id S231276AbjFEQPF (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 12:15:05 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8115DB7
+        for <linux-input@vger.kernel.org>; Mon,  5 Jun 2023 09:15:04 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q6CrG-0002xV-2w; Mon, 05 Jun 2023 18:15:02 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q6CrF-005JVx-0K; Mon, 05 Jun 2023 18:15:01 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q6CrE-00BRjx-3f; Mon, 05 Jun 2023 18:15:00 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Markus Schneider-Pargmann <msp@baylibre.com>,
+        linux-input@vger.kernel.org, kernel@pengutronix.de
+Subject: [PATCH 1/2] Input: tps65219-pwrbutton - Convert to .remove_new()
+Date:   Mon,  5 Jun 2023 18:14:57 +0200
+Message-Id: <20230605161458.117361-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-In-Reply-To: <jafrw2wirzegnf7v2pcm52sao5yc4futa7ok4ccmywigj3y2c4@pep4b3ebus7s>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Pobox-Relay-ID: B1E2CF46-03AD-11EE-9269-89925CB417C6-82205200!pb-sasl20.pobox.com
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2387; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=c2q+gKaVNzQOhIVcIymxoyjmyVEMJOqoSQ10fFtSj3s=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkfgoA/p0IuYTWou4nh68kYJMjnKcnrqt1urdVY 66/YwufgwaJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZH4KAAAKCRCPgPtYfRL+ Tm2YCACaScZdmXygTrKIELwagS5KevB3h0KwqxdwJdWdanghede9wF0koqkwTLs948TSxiRcB0h bBcjXis0X3quj5cZHWzUC1aHZ6tNtF0VbH8dIw1v8BN+OAO82LaQyfdsoFiCc9g9od15zG+Qg0W 06R7jrRDT5wErhxZNN/hu2pTwHWXgNEfUKsbjYxCDEKpOSbN1XWexAdBW2OTYzYdXC1wUy0ciYI OoTbC7AzAb8k2BxbJ6AmkztOqK5+/lWsXmdDpGWt1hT+Jjt+TKHmTCcoU7Yu99jQwQnc83rh5Ae HckwKyMiDhLLEMoWACIBa8VXzJUcPwt/WsKwtdatFAOJ/2yG
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -69,31 +53,63 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2023-06-05 10:20 AM, Benjamin Tissoires wrote:
-> 
-> On Jun 03 2023, Mark Lord wrote:
-..
->> I wonder if this code could be re-worked to not even do this (waiting)
->> from the _probe() function?  It ought to be able to throw it on a workqueue
->> or something, rather than stalling system boot for a minimum of 5-seconds
->> (or much longer as as-is).
-> 
-> That's an option, but the fact that I can not replicate locally with the
-> exact same hardware seems to indicate that we would just be papering
-> over the issue.
-> 
-> Here, I admittely have the USB receiver running through USB-C ports, and
-> the communication never fails and I get immediate bring ups of the
-> devices. Which means I am not hitting that path.
-> 
-> The hidpp driver should have everything ready to delay the init in a
-> workqueue, but the impacted users would still get a delay when they plug
-> in the device (which is better than stalling the boot, I agree).
-..
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is ignored (apart from
+emitting a warning).
 
-Oddly, it's only a boot-time thing.
-If I unplug the Logitech Unifying receiver, wait a few seconds,
-and then plug it back in.. my mouse, keyboard, and touchpad all work immediately.
-Unlike during boot.
+To improve here there is a quest to make the remove callback return void.
+In the first step of this quest all drivers are converted to .remove_new()
+which already returns void. Eventually after all drivers are converted,
+.remove_new() is renamed to .remove().
+
+Before this driver might have returned an error. In this case emit a
+warning that tells more about the problem than the generic warning by
+the core, and instead of making the remove callback return zero
+unconditionally, convert to .remove_new() which is equivalent.
+
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/input/misc/tps65219-pwrbutton.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/input/misc/tps65219-pwrbutton.c b/drivers/input/misc/tps65219-pwrbutton.c
+index 245134bdb59e..b2d9e5d2bcfd 100644
+--- a/drivers/input/misc/tps65219-pwrbutton.c
++++ b/drivers/input/misc/tps65219-pwrbutton.c
+@@ -117,14 +117,17 @@ static int tps65219_pb_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static int tps65219_pb_remove(struct platform_device *pdev)
++static void tps65219_pb_remove(struct platform_device *pdev)
+ {
+ 	struct tps65219 *tps = dev_get_drvdata(pdev->dev.parent);
++	int ret;
+ 
+ 	/* Disable interrupt for the pushbutton */
+-	return regmap_update_bits(tps->regmap, TPS65219_REG_MASK_CONFIG,
+-				  TPS65219_REG_MASK_INT_FOR_PB_MASK,
+-				  TPS65219_REG_MASK_INT_FOR_PB_MASK);
++	ret = regmap_update_bits(tps->regmap, TPS65219_REG_MASK_CONFIG,
++				 TPS65219_REG_MASK_INT_FOR_PB_MASK,
++				 TPS65219_REG_MASK_INT_FOR_PB_MASK);
++	if (ret)
++		dev_warn(&pdev->dev, "Failed to disable irq (%pe)\n", ERR_PTR(ret));
+ }
+ 
+ static const struct platform_device_id tps65219_pwrbtn_id_table[] = {
+@@ -135,7 +138,7 @@ MODULE_DEVICE_TABLE(platform, tps65219_pwrbtn_id_table);
+ 
+ static struct platform_driver tps65219_pb_driver = {
+ 	.probe = tps65219_pb_probe,
+-	.remove = tps65219_pb_remove,
++	.remove_new = tps65219_pb_remove,
+ 	.driver = {
+ 		.name = "tps65219_pwrbutton",
+ 	},
+
+base-commit: ac9a78681b921877518763ba0e89202254349d1b
 -- 
-Mark Lord
+2.39.2
+
