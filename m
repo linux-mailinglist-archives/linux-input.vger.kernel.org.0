@@ -2,115 +2,172 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F288F724AB0
-	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 19:58:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F325724AF9
+	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 20:12:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233000AbjFFR6e (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Jun 2023 13:58:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53328 "EHLO
+        id S232583AbjFFSMT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Jun 2023 14:12:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233537AbjFFR6d (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Jun 2023 13:58:33 -0400
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7293F10CA;
-        Tue,  6 Jun 2023 10:58:32 -0700 (PDT)
-Received: by mail-ot1-x32d.google.com with SMTP id 46e09a7af769-6b0d38ce700so4799677a34.2;
-        Tue, 06 Jun 2023 10:58:32 -0700 (PDT)
+        with ESMTP id S236239AbjFFSMP (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Jun 2023 14:12:15 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 895881707
+        for <linux-input@vger.kernel.org>; Tue,  6 Jun 2023 11:12:07 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-30c4775d05bso4788249f8f.2
+        for <linux-input@vger.kernel.org>; Tue, 06 Jun 2023 11:12:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686074311; x=1688666311;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RF5ru2LGTiIKHMD68g8nkck885E+N9o191hpk/S2YYk=;
-        b=i1HLXl0Bc/QvqsfJVj9LXi6s8Kh9zVynjjm8WOscavsU8JsQjrVIvTpzvBvzf3fd6R
-         AUyfK8eTj/NgreTHI9s2mi6RAcT7+VuR8uQADYZ+iYJGbRDFNfbeuCr7V7HwxywV8OPv
-         BQvBGUrcssWGMqEc0YH+iycPkoiC230cwdPmZtCzlumg9VfDRedYzQFlHguBtLqPVejh
-         IAUk1eQScnnQi0Z0FmW6aMHyz/xUZOwPzQVipjUuJHWvVAVXTPVj0551AJoDIJ2kd6WE
-         rhqIa/0KkLgvNI/bihoCWl1PDa2ux5PEliYkgHfSXozGnaB3s7/exWDoAlpf91dJg3RI
-         BXqg==
+        d=linaro.org; s=google; t=1686075126; x=1688667126;
+        h=content-transfer-encoding:in-reply-to:subject:organization
+         :references:cc:to:content-language:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kYoqAND0o4BTOUj5sWEzm+/BHDSbhCWoaP3pRrbOvnA=;
+        b=bnio+IJxvuO9HXe0vGhyEhDhF6pAAy7aBhSPJDOJzsCiZZGe9PAkzHeROllMfCXdpH
+         V36EzPcr1yVaLDOgUTBiiQ7jyXiWvLdGwoO7F1ZthZHxMG1Tcgh+Ro+7cc2NJEHJabpJ
+         JsySQycsMVypyhq6yM3Am+EbPoV9rtrNTwARsAi567Fhk+v3wiTD8a2Z9JaLtnDYG4do
+         agE67HcVt8HKI5YPZ0MxTItLm80+4WNsZNV2ic65li1BguKhFTUs8/u6izZhaar3Ge83
+         O3PH82aK/FWVb0vWY3JnyaVvtYJK+u90m7FIjreMslf/RBJNgYQNXG3uvGUnxwKomkRh
+         0Kdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686074311; x=1688666311;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RF5ru2LGTiIKHMD68g8nkck885E+N9o191hpk/S2YYk=;
-        b=fat0hn5ayidAFtdeu+Stk1Pv2KViD2yA30eLT1eIPLwQG/rVT3LqFAhVEu+xfaYfDG
-         74sSczpzL1ZJMUYBXRGo34y3O5NaVs6CFZ6mlOzX4yGUbMY9NiKSW46qZKLB/Le6O7ob
-         MdZH1eu90IBFtP9zy3uwI4DlMwFh4WuBkxEJK/vAJR7d6tZTxewJKKGoInBlCgzYlIlr
-         RFzbGb7MNoqo+leErTDF2qgB0h2RttzP7W3GzmWC/m9tAyRv02VZF3cTJNEHFskCPbnR
-         bztaismV8BpiF/wrRnVmN+mY5uMIpQ7D4nuIX/WtuGKOdHRIKJXQGJK4ChoKa3UxW84Q
-         YT9Q==
-X-Gm-Message-State: AC+VfDxBHvX8J9jvGnMIHNioViHkfepuZWYbp2uPoLVX6FVJjVS8YduG
-        7UivuY5zIKVHT/99X4/UjLxAr1RA11A=
-X-Google-Smtp-Source: ACHHUZ79VcjpgkIKaa9W/nVIKsjOkN+n1/EhVlZgB9B/FTRvdY7FcSrOd6m2vTv7wwWYQc1TLqr9pg==
-X-Received: by 2002:a05:6830:13c6:b0:6af:95c0:fe1e with SMTP id e6-20020a05683013c600b006af95c0fe1emr3113844otq.5.1686074311149;
-        Tue, 06 Jun 2023 10:58:31 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:f59e:5ad5:28cc:2003])
-        by smtp.gmail.com with ESMTPSA id x22-20020aa784d6000000b0065980654baasm4140830pfn.130.2023.06.06.10.58.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jun 2023 10:58:30 -0700 (PDT)
-Date:   Tue, 6 Jun 2023 10:58:27 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v6.4-rc5
-Message-ID: <ZH9zwxXvAd3kacKH@google.com>
+        d=1e100.net; s=20221208; t=1686075126; x=1688667126;
+        h=content-transfer-encoding:in-reply-to:subject:organization
+         :references:cc:to:content-language:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=kYoqAND0o4BTOUj5sWEzm+/BHDSbhCWoaP3pRrbOvnA=;
+        b=B5X9+Kv72dd4kEhktQN5+fAqT8Z3OmNRUrq4+FWkkP0h2KLhgzloskNdjvDDezkAvU
+         LNPMEE5FHLhz05yar9HV4LCED/DgAdOnUf9BVjnqa21y0tabWypu0jFrY5/xlaC+Sejm
+         OAoyewhIwY1okTzFz8tNt7eGAZCGQDB9sAoyj6XUlqVc7whKjvZ3IQN0NZIG0CqnxrSL
+         91NUYPD8OnWhRi6VSbQ7wriUImma0gjHsBE0+JWlxYViEciyYMM7y3bWO0SR1LgV9eRd
+         wlE78ZhjKSSpzgfK1Jhb+9vdtLtuq009LqdZADteusW+D+zLW/LhKNklcuHe/P2m/RcK
+         TqHA==
+X-Gm-Message-State: AC+VfDyxqIMugokBElEloOnvDaZnJleEK+TgHUmIMMWlMrELf2towJdy
+        8JvcYPrlRXvTa6p/rTMw2TjMih1PEUYKul4QyxOHe5Fp
+X-Google-Smtp-Source: ACHHUZ6HSztp6UVppsTYnipYHlgsZqFOwW2WmOoYocekK9mHRxrdmR0MwdUdA5lCgkvEmSXCq6mphA==
+X-Received: by 2002:a05:6000:149:b0:306:297b:927f with SMTP id r9-20020a056000014900b00306297b927fmr2094739wrx.25.1686075125909;
+        Tue, 06 Jun 2023 11:12:05 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:4973:1165:b171:fa69? ([2a01:e0a:982:cbb0:4973:1165:b171:fa69])
+        by smtp.gmail.com with ESMTPSA id y6-20020a5d4ac6000000b002c70ce264bfsm13397523wrs.76.2023.06.06.11.12.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Jun 2023 11:12:05 -0700 (PDT)
+Message-ID: <2677ae8c-59d3-b658-dc3f-918838ac0fb6@linaro.org>
+Date:   Tue, 6 Jun 2023 20:12:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+From:   Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Content-Language: en-US
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bastien Nocera <hadess@hadess.net>,
+        Henrik Rydberg <rydberg@bitmath.org>
+Cc:     linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230606-topic-goodix-berlin-upstream-initial-v1-0-4a0741b8aefd@linaro.org>
+ <f5f20de8-851a-fe20-4664-62b6de14ebd7@redhat.com>
+Organization: Linaro Developer Services
+Subject: Re: [PATCH RFC 0/4] input: touchscreen: add initial support for
+ Goodix Berlin touchscreen IC
+In-Reply-To: <f5f20de8-851a-fe20-4664-62b6de14ebd7@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+Hi,
 
-Please pull from:
+On 06/06/2023 17:31, Hans de Goede wrote:
+> Hi Neil,
+> 
+> On 6/6/23 16:31, Neil Armstrong wrote:
+>> These touchscreen ICs support SPI, I2C and I3C interface, up to
+>> 10 finger touch, stylus and gestures events.
+>>
+>> This initial driver is derived from the Goodix goodix_ts_berlin
+>> available at [1] and [2] and only supports the GT9916 IC
+>> present on the Qualcomm SM8550 MTP & QRD touch panel.
+>>
+>> The current implementation only supports BerlinD, aka GT9916.
+>>
+>> Support for advanced features like:
+>> - Firmware & config update
+>> - Stylus events
+>> - Gestures events
+>> - Previous revisions support (BerlinA or BerlinB)
+>> is not included in current version.
+>>
+>> The current support will work with currently flashed firmware
+>> and config, and bail out if firmware or config aren't flashed yet.
+> 
+> What I'm missing here / in the commit msg of
+> "input: touchscreen: add core support for Goodix Berlin Touchscreen IC"
+> 
+> is an explanation why this is a new driver instead of adding
+> support to the existing goodix.c code.
+> 
+> I assume you have good reasons for this, but it would be good
+> if you can write the reasons for this down.
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.4-rc5
+Sure, should I write it down here and/or update the commit message in a new revision ?
 
-to receive updates for the input subsystem. You will receive:
+Anyway, here's the reasons:
+- globally the event handling "looks like" the current goodix.c, but again the offsets
+are again different and none of the register address are the same, and unlike the current
+support all registers are provided by the "ic_info" structure
+- while with the current code it *could* be possible to merge it, with a lot of changes,
+the firmware management looks really different, and it would be really hard to merge.
 
-- a fix for unbalanced open count for inhibited input devices
+But I may be wrong, and may be misleaded by the goodix driver structure (even if it
+went through a really heavy cleaning process).
 
-- fixups in Elantech PS/2 and Cyppress TTSP v5 drivers
+Globally it seems they tried to match the "event handling" process of the previous
+generations, but the firmware interface is completely different.
 
-- a quirk to soc_button_array driver to make it work with
-  Lenovo Yoga Book X90F / X90L
+Neil
 
-- a removal of erroneous entry from xpad driver.
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+>>
+>> [1] https://github.com/goodix/goodix_ts_berlin
+>> [2] https://git.codelinaro.org/clo/la/platform/vendor/opensource/touch-drivers
+>>
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> ---
+>> Neil Armstrong (4):
+>>        dt-bindings: input: document Goodix Berlin Touchscreen IC
+>>        input: touchscreen: add core support for Goodix Berlin Touchscreen IC
+>>        input: touchscreen: add I2C support for Goodix Berlin Touchscreen IC
+>>        input: touchscreen: add SPI support for Goodix Berlin Touchscreen IC
+>>
+>>   .../bindings/input/touchscreen/goodix-berlin.yaml  |  81 ++
+>>   drivers/input/touchscreen/Kconfig                  |  33 +
+>>   drivers/input/touchscreen/Makefile                 |   3 +
+>>   drivers/input/touchscreen/goodix_berlin.h          | 228 +++++
+>>   drivers/input/touchscreen/goodix_berlin_core.c     | 935 +++++++++++++++++++++
+>>   drivers/input/touchscreen/goodix_berlin_i2c.c      |  76 ++
+>>   drivers/input/touchscreen/goodix_berlin_spi.c      | 183 ++++
+>>   7 files changed, 1539 insertions(+)
+>> ---
+>> base-commit: 6db29e14f4fb7bce9eb5290288e71b05c2b0d118
+>> change-id: 20230606-topic-goodix-berlin-upstream-initial-ba97e8ec8f4c
+>>
+>> Best regards,
+> 
 
-Changelog:
----------
-
-Dmitry Torokhov (2):
-      Input: fix open count when closing inhibited device
-      Input: psmouse - fix OOB access in Elantech protocol
-
-Hans de Goede (1):
-      Input: soc_button_array - add invalid acpi_index DMI quirk handling
-
-Ismael Ferreras Morezuelas (1):
-      Input: xpad - delete a Razer DeathAdder mouse VID/PID entry
-
-Maximilian Weigand (1):
-      Input: cyttsp5 - fix array length
-
-Diffstat:
---------
-
- drivers/input/input.c                 |  2 +-
- drivers/input/joystick/xpad.c         |  1 -
- drivers/input/misc/soc_button_array.c | 30 ++++++++++++++++++++++++++++++
- drivers/input/mouse/elantech.c        |  9 +++++----
- drivers/input/touchscreen/cyttsp5.c   |  2 +-
- 5 files changed, 37 insertions(+), 7 deletions(-)
-
-Thanks.
-
-
--- 
-Dmitry
