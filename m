@@ -2,349 +2,221 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18D04724614
-	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 16:32:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEFFC7247A1
+	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 17:25:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237849AbjFFOcq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Jun 2023 10:32:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36886 "EHLO
+        id S237816AbjFFPZ2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Jun 2023 11:25:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237939AbjFFOcX (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Jun 2023 10:32:23 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5366D10D7
-        for <linux-input@vger.kernel.org>; Tue,  6 Jun 2023 07:32:07 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-3f7a8089709so25535325e9.1
-        for <linux-input@vger.kernel.org>; Tue, 06 Jun 2023 07:32:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686061925; x=1688653925;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AAHo2Ft1e4SvLLm6iTKloBaUK4EchMGqUU8Wjhy/k70=;
-        b=gxqEzE5DKF2zKRp7AXjoAqJXMSTZbGjQfyv3kzUQEuT0wOKja/9r8UGNgJugFcZfJJ
-         /goIRBmzss9mEoDjf/dRaQ6y8PaTxMl0lkcY/vnJ/wQ7mQRb1B455WCRHSKQYnCFdX3q
-         S44oxRx6PZN4Qe64p5hOHNUt3nfciohU7H1X7rE4RXhbgOxWMWaddoy+kPZwAgcYvghH
-         wMl1n500nGhBjLrF3oBAl0r3/mCN1qpzwknf6ErFRE73tIgCEPMG3gFuiN9QIlkVs4us
-         i1Y4/sicV6rYT9+Y/SQ33iLoXIuWvquuivQX4Xj1YBjCCF6JRb07m7dTJCsg2JlLBwcE
-         JwCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686061925; x=1688653925;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AAHo2Ft1e4SvLLm6iTKloBaUK4EchMGqUU8Wjhy/k70=;
-        b=LSYf8tL0wj1Hck8AQQoLM3kK6YTPxUpcClsAuT8GdW4k9hvX4RcyhFFxNOCturklt2
-         RdlG0RHxmJ3jzdvn3+JvSuniimr4EOpNOX59hTAN8qdnkpDWb2j+I2B6kxzM6p7E4GtJ
-         g4w8j4Ec8hEp/UpqdDrr/egpNISTFrTC4Wenq1kufUUCRnqFkiQ6jwbH25x8nklip9YF
-         3U7/odpReV5UwkWbsa7j8KrpdKh2Q2GIMkyqvW0Ik+P9KX7YMXd9FYPJqu8vDRqUXpy0
-         mhNrXmA++8WTt+FASDSAgWGKeRwEwRXDz76xsDTDXtLPniX0+uLI8FpOMVZzW0ge/NGZ
-         TyMg==
-X-Gm-Message-State: AC+VfDwQ2Vznug6CgeEeEgV2oOtBsalndiOLtTFtlpdcBPxPYWIGD3HL
-        KQJNEdiNPIOmqPhGrXVsTAChqBOf6GpUiNeZS/enF7LT
-X-Google-Smtp-Source: ACHHUZ65Rt0pJyezM2Tl8YuCIG2oNvDJONeF0pQC1k3stBKHW6YpNweuacyHAcVHvem4ha8kuDcTYA==
-X-Received: by 2002:a05:600c:b45:b0:3f4:d18f:b2fb with SMTP id k5-20020a05600c0b4500b003f4d18fb2fbmr2481431wmr.8.1686061925651;
-        Tue, 06 Jun 2023 07:32:05 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id fc14-20020a05600c524e00b003f61177faffsm3883600wmb.0.2023.06.06.07.32.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jun 2023 07:32:05 -0700 (PDT)
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Tue, 06 Jun 2023 16:31:59 +0200
-Subject: [PATCH RFC 4/4] input: touchscreen: add SPI support for Goodix
- Berlin Touchscreen IC
+        with ESMTP id S237600AbjFFPZX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Jun 2023 11:25:23 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2074.outbound.protection.outlook.com [40.107.237.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A271810D5;
+        Tue,  6 Jun 2023 08:25:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oPdXET9iyQ8MlJCthXaWRlvcEz/qrWS+b9yOLKJawG6Ribay1KUztIxtcMZ5Jm6lx0cfmtLYS4o+/7lNEwQEGUwiw7UVAXl4O936Z/itnDnY5LVIzNeUN/VuFsuU/4vPB55JL27DazY8muJXE5GTXxYPta7OL8rzxGtEvw2oHkvlJZX6BpfEDV1GqLS3VKKKr2MTfF1eK/TVV0z/eUserguJzpat9OxlV6qQirHapfdS2XBy39sjBT2wZskGZnLby7Fq8SjUbY2tjSdivIKWwS84mBvzJ5FyzWlWxDUenVLJ79mN2Hjf//DACjcqtnQTX8k94PctrHTgWavoviAmvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ip6D39rdQCR3C+2MyOU1IylSmcLr73cpoxkqvWCvPUs=;
+ b=eEnruEBjn7a+o2FSNOVWCKiSXX6j8kW3Gg9HesKngxxlCZu+9dQwApzh2SYFc5/Zs+IIkupBBPgq+hxhcy3+7Djc8ScSjFihBIXv5GxBb/mtHQ58GI795sz1/Qeo6WA0RJAPs38sWBBvGArX0q7VFi8urgns1zLabFe5Fpok+HfVOcwZycAS73jg+lI04L0GhKj+VIWRK5vWdISiVCsEsxZxdgKc/8XtKSKyaLLsWmR/Tg/aybb3JffQ8kqQGpdIAL60sgw3DOUdKqR0RZmzh4osVsm5CQSqsUVSRzWa8sKP7lGW9slvgaJOuM7SQy9wB9nRvFhlzKRxiu4tfyLIww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ip6D39rdQCR3C+2MyOU1IylSmcLr73cpoxkqvWCvPUs=;
+ b=fe24FTlhKmfYBqi8LetSwU/+hII6ez15/qO5ACPEu6BhVi31V0DyPbCXQZO2McotyPKKpKEA6t3fPL1LwgBfkTZTUmcItjZeGVC131zF85GYwRTaYQcTYXHDdgqnpXU8w9Ys6ISRLBz4FsAY+4VD0r5pqp+WfPndTXfZBgBqNI4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by CO6PR12MB5492.namprd12.prod.outlook.com (2603:10b6:5:35d::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Tue, 6 Jun
+ 2023 15:25:17 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::43b2:55d7:9958:390e]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::43b2:55d7:9958:390e%5]) with mapi id 15.20.6455.030; Tue, 6 Jun 2023
+ 15:25:17 +0000
+Message-ID: <79bd270e-4a0d-b4be-992b-73c65d085624@amd.com>
+Date:   Tue, 6 Jun 2023 10:25:13 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: amd_sfh driver causes kernel oops during boot
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Linux regressions mailing list <regressions@lists.linux.dev>
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Malte Starostik <malte@starostik.de>,
+        basavaraj.natikar@amd.com, linux-input@vger.kernel.org,
+        linux@hexchain.org, stable@vger.kernel.org
+References: <ZG3ipauL9FTnQJiC@debian.me> <3250319.ancTxkQ2z5@zen>
+ <ZH6buB8TcMd5aT_1@debian.me>
+ <46d5acd2-5961-a496-4c1a-68e5c47021fb@leemhuis.info>
+ <aci7a4jnosozypn6sffsdoaezg4p42zgjy5dwnjyvnbav7chdm@wettfjwb4enw>
+Content-Language: en-US
+From:   "Limonciello, Mario" <mario.limonciello@amd.com>
+In-Reply-To: <aci7a4jnosozypn6sffsdoaezg4p42zgjy5dwnjyvnbav7chdm@wettfjwb4enw>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: DS7PR06CA0001.namprd06.prod.outlook.com
+ (2603:10b6:8:2a::12) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230606-topic-goodix-berlin-upstream-initial-v1-4-4a0741b8aefd@linaro.org>
-References: <20230606-topic-goodix-berlin-upstream-initial-v1-0-4a0741b8aefd@linaro.org>
-In-Reply-To: <20230606-topic-goodix-berlin-upstream-initial-v1-0-4a0741b8aefd@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Henrik Rydberg <rydberg@bitmath.org>
-Cc:     linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7697;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=vn7duBP7sfXMbumxh4swTtaBAVKnUxfLgRt1So/mze8=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBkf0Ng06P6FQgdVTW3g+9T+7UF1C2g0KM+3+N0Zltm
- QPbDh/2JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZH9DYAAKCRB33NvayMhJ0YjhEA
- C6nwIRpZK0MNlYr4k7ypGtVDu4d1S4ESVBQ4+4z9/GVYV/XfGPn1uE1gSG7XWYrdoK4xzoC34dxDAz
- crMw8S83+OLAF2lGMpBqWX4tZMpyE/2NuZR2hLlV8PpqUYK5YohbCAoHOOVhh4aaic9h3HYhvciqGK
- JPd27nq2mvNEME76uId3mvcZCTkOBcr7Tk3LQXBQXOQoML/79xIZWWC4MLld9pHLJ5NAfZgdUSym/A
- zAOH795HyLMK6ShMPcclujqrIW8LjScuEXhgGyXLP+Tp3xP47XO5gv5NmXW7uZh8Z7LcbwDJWE7LrT
- LMajy8rMmsQGbnx1EIl3x8Ls3EAXD5FxCFm0alAMduMWaPRE5xG5sbCNiJkt44H2K7OCJhb2ji2dRA
- idjd0gXbOKyAqT03/uKlUV2Y6vcf8nVPJ/nvXgum8oMNFQHtzQ9//74J9oe6raK5UM/Pwa9v36mE74
- QAMejwwVgUjXgAP0zGGaTdDcH1hWbltQrVeUrnLF37is7tX5EgTWN/qtlxwY1V987aHnUVaEJycxql
- cG+pxpgUEb3Vhoxo6Op5l0ZkijGZbqvxAen/kCAcsdh7fgXtQ28rVm/OpdbwmZQm3RtETgMn8i1e+N
- aEjp7f3uqw00eklQdojjwBN1BwnHh7rSN74Bei9EayVj52XQnL7/9JOM4XSg==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|CO6PR12MB5492:EE_
+X-MS-Office365-Filtering-Correlation-Id: 74357832-a049-4747-0c5a-08db66a23b4a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AsXsKMz0FK7NBwSiseIt/tCfjKLKY9RUtLETvAuB5QEaB3HFl/zeHuo3oO8nQQvKmpDYFWawBVWCLvO7I4+thI6l357vOZak9qF2d/NzgyUHGn4+3WtBJp7xrP2IkFflp8EZk6RnDwb6GwJAKML4xyYkrkbbrF6JQFerWI0xPykuZMCVCQl+ufjXVNuqnUd+AydKssnGwAs9D0Admt+HN8SQbkhXl2TZ90RmNfzeD4164SIQjsthVMhGNx2t+jym+roilWAkit+E7NDctEZo+ALExdFPbJFaGjqSGaaiJ6TAdaP9rnEa0BZuEbDMQThqCix4qNN9kSm9lbBh3Frs3IJkSOSBr0Z1YcqY6OJtuXvf6BatdHFz8flSyuWXJDwVlEJqjtxhviXRuo2AC+4FouLvsMswRl8X4S5bhQfE3SRhlasbT+VFlgXV9QBguK0nlKiiA5NeusAaNIvb9mTsxRqdsAqX8eikuqKe3z3eQiWki1t3im2obREkG3cdj69G3+vnHJQRZcc+n0lEE9AyqumT6lqs6j0YssYjqzInEv2RyR68O+3EW7AhnLOHfym2Ggl5b8BA6TuTf4Z/vp+Z4hWhXTvSHebppfhtrxBPVHFfvyybzZs4s0qQuBoy7AuT43f3HxjBv59piOPpJH02Rw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(39860400002)(396003)(376002)(346002)(136003)(451199021)(6506007)(6512007)(26005)(53546011)(31686004)(83380400001)(31696002)(316002)(2906002)(36756003)(186003)(5660300002)(86362001)(8676002)(8936002)(2616005)(41300700001)(966005)(66946007)(66556008)(66476007)(6666004)(38100700002)(54906003)(4326008)(478600001)(110136005)(6486002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VGlqTDdVS3NpSGVYVWxWS0FIT2tmaHlQMGFjQ3hwNjZ4Mnc3NkdZVmozcldm?=
+ =?utf-8?B?QkEvL3hTODNkWjBPejVmWEQ3S2g2cnBOU0ZkZG9EUk00MDRyTk4wdEs1L2lV?=
+ =?utf-8?B?MGx2QUpjYldCdFlOamJIWmo3bjcwVndOUkVSWW5kNm1ERW9WbG01eGd4d1p4?=
+ =?utf-8?B?Si9WbE85M0hMQ0ozVmpYNm1aSWFTbXc2VHYvRWhjK0gzcUd2L1k0c2o3by9o?=
+ =?utf-8?B?WnJXK2xVTnJRL2NWVCthY3lyeGE0ME05dDhSWTVzUU1sOVNPdVZlQ1ZET01Y?=
+ =?utf-8?B?WWdVa2tkUjdMUk9aM1AyYU5LTGNLTHpRRkc2a0dsSE43NlpnaHdrczdvc2Vt?=
+ =?utf-8?B?NkIxQzFSUmZLbS9lbWFEMXFGMlRaZmRicWF5UjN2OGdBT1FuWU1lVXJ4UFNV?=
+ =?utf-8?B?Ujk1RVNGd1B4cXVWN2ZTNldRaUgvWHJkRVZmKzZkNmhFSnNGL0szZjBVbmo3?=
+ =?utf-8?B?Vnprd0JrK1FkTmNRdVVIbG5qYzRERDUyQ3doN3phUG8rL0o1YzlDa1I0OTFP?=
+ =?utf-8?B?cHVjWFp3SzF1aTJvcFRTZ2hnZHlkSys3TXdHY2tqL2RzSjJGc09hTTJVR2hU?=
+ =?utf-8?B?OFNrVVEyMXZRQytuV1FickdKbnQ5QkY4cEl4LzAzSnk1WHR6MmFvcGptcGt5?=
+ =?utf-8?B?VWJVUTMvSEUrQWpxNzZUQ0ppcGwzWlN6ZU1Wd29UTmlqelJvenBjZWlTM2tQ?=
+ =?utf-8?B?K09wQUd6REJ1dDFWUjkyVlMrU2RqamQxNnh2K1dSUW1YVnI2SjJwQ2Y5ZDZn?=
+ =?utf-8?B?ak5LbG9rZUhvTXNCcDZaOHBCdGN3VHNqZm9NcjNYam9yVjVjSDkyUUNOb3dZ?=
+ =?utf-8?B?SWZmdHVtU1o4b3ZzaFJsODFiTUpnaEpVdHNnMmZzZkhDWWMzVmZoNkF0YS96?=
+ =?utf-8?B?Uk1BVVBDYjE2MHc0M0dyM04zWnRTaUswT09ueFpadHNRalYvYVhQZHVqTS9V?=
+ =?utf-8?B?Ujk4V3VUYnIwYVJUTmI3dVA3d0VUT1RWc0VBaWh3ZlVUeUJyZ1NXVzR6LzRM?=
+ =?utf-8?B?NkN1NGoxdUNYY0p5SjNIYjNyeGk0R3RHRXZEbHBGUllmZlowWTlaUmhwdy94?=
+ =?utf-8?B?ZUJnUitQb2s5cVJyZTUwaHM3QnBTVGxadFFkL1N4R3dmN0E5dWhLS0RSYVpM?=
+ =?utf-8?B?d0M3WkwyMkhzbHpMTWhFMUxMQThwMFBhTXhadGtvT0w4bzRyVEtrK2J3UVdH?=
+ =?utf-8?B?MnlZSWFBUnBqYkpBRDc5SDBRclZnazBjRkNPNmdnTTBLQStReHZqbGJGRlFD?=
+ =?utf-8?B?YmdBcTIzbVNueTd5c0svQlVCd1FuU3paUHRPdzc0OG9heVhaODl6QWNjMGgw?=
+ =?utf-8?B?V3pUVzVOTlVoZU9qcWZYOGFkd1dYQVlDNERnVUNJUVRCTjVFNjJFRnFOU1p4?=
+ =?utf-8?B?L0NPdEhLOXJzVlN4ZS82b3ArSVNYQ3I0b3N6L1JrekFna2I4OGlOMXFQbUtJ?=
+ =?utf-8?B?QXVuSHNTMnR5T25Md3F1TmtqMU9Rb29qOWlLMU40cVZxZUVoQ0R2aU54N0dP?=
+ =?utf-8?B?QXM4eDMwbVVnaTBqZGNXbGtYT2x4QWcrTEQwSDFVcm5rM2xESjg1WWRVS01w?=
+ =?utf-8?B?QzdqU0VzZXQrK0MzajIrMlhuNUxLUTR5YkNPYWRPb0FxSWgyVWF2QlpSdlVa?=
+ =?utf-8?B?cjJBN1VEbEx1SFVQSU03cXlyZm1FUUhQRmpFNHBoSHRkc0pOLzQybForR3Js?=
+ =?utf-8?B?ay9sTTNIOVdjcmNRSER1UjV0SlB6R0JMK3ljQTVubGM5Z2UwZC80SFdkZUxI?=
+ =?utf-8?B?bW5sc1FHb3V4aFJqWWdxOVhjMEZzc1ZES2Q3MFRsSDNieURWck81aVdpeXpx?=
+ =?utf-8?B?eGNzMGtTcXJYUTRnUDF1VjJweWFJbTlmZm1PMHlIUVR1Y3c4b3hwVXFmMWh0?=
+ =?utf-8?B?d1Y4Q1RiNUZCUDA5UCtKOXJTVW1jS3RmU3lsTzJrd0M2VDJYTXVyTHR0cm5w?=
+ =?utf-8?B?dFJpTkl3VUsxa1hBaFBUYys4bzBXRXRzbDhJQVlFak84QWtFV1pqQ3NTY25m?=
+ =?utf-8?B?UFNqUVBjZ2tDYVIzNlIwT2htYW9uVURlazI2a0RYTHhod0FyUFJpcHR6RzBv?=
+ =?utf-8?B?TUJBQm1kdGYrYmV2VEFjZXh2YThYNCsxdGozQm4xZml0SktqWVNUc2lNN2Z6?=
+ =?utf-8?Q?1LmtLDsDX5s+XsD2KC0kYuJTR?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 74357832-a049-4747-0c5a-08db66a23b4a
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2023 15:25:16.9492
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5u/ByVXP1SGPqxKSWeTcU+EbRDXXq8flYYMrvryIUWT2YM59Gsbg5soCoc51FeA2/PnDu8KOW2J2k0KbIQiS5g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5492
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add initial support for the new Goodix "Berlin" touchscreen ICs
-over the SPI interface.
 
-The driver doesn't use the regmap_spi code since the SPI messages
-needs to be prefixed, thus this custom regmap code.
+On 6/6/2023 3:08 AM, Benjamin Tissoires wrote:
+> On Jun 06 2023, Linux regression tracking (Thorsten Leemhuis) wrote:
+>> On 06.06.23 04:36, Bagas Sanjaya wrote:
+>>> On Mon, Jun 05, 2023 at 01:24:25PM +0200, Malte Starostik wrote:
+>>>> Hello,
+>>>>
+>>>> chiming in here as I'm experiencing what looks like the exact same issue, also
+>>>> on a Lenovo Z13 notebook, also on Arch:
+>>>> Oops during startup in task udev-worker followed by udev-worker blocking all
+>>>> attempts to suspend or cleanly shutdown/reboot the machine - in fact I first
+>>>> noticed because the machine surprised with repeatedly running out of battery
+>>>> after it had supposedly been in standby but couldn't. Only then I noticed the
+>>>> error on boot.
+>>>>
+>>>> bisect result:
+>>>> 904e28c6de083fa4834cdbd0026470ddc30676fc is the first bad commit
+>>>> commit 904e28c6de083fa4834cdbd0026470ddc30676fc
+>>>> Merge: a738688177dc 2f7f4efb9411
+>>>> Author: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+>>>> Date:   Wed Feb 22 10:44:31 2023 +0100
+>>>>
+>>>>      Merge branch 'for-6.3/hid-bpf' into for-linus
+>>> Hmm, seems like bad bisect (bisected to HID-BPF which IMO isn't related
+>>> to amd_sfh). Can you repeat the bisection?
+>> Well, amd_sfh afaics apparently interacts with HID (see trace earlier in
+>> the thread), so it's not that far away. But it's a merge commit, which
+>> is possible, but doesn't happen every day. So a recheck might really be
+>> a good idea.
+> Let's not rule out that there is a bad interaction between HID-BPF and
+> AMD SFH. HID-BPF is able to process any incoming HID event, whether it
+> comes from AND SFH, USB, BT, I2C or anything else.
+>
+> However, looking at the stack trace in the initial report[0], it seems
+> we are getting the oops/stack traces while we are still in amd_sfh:
+>
+> list_add corruption. next is NULL.
+> WARNING: CPU: 5 PID: 433 at lib/list_debug.c:25 __list_add_valid+0x57/0xa0
+> ...
+> RIP: 0010:__list_add_valid+0x57/0xa0
+> ...
+> Call Trace:
+>    <TASK>
+>    amd_sfh_get_report+0xba/0x110 [amd_sfh 78bf82e66cdb2ccf24cbe871a0835ef4eedddb17]
+> ...
+>
+> If HID-BPF were involved, we should see a call to hid_input_report() IMO.
+> Also AMD SFH calls hid_input_report() in a workqueue, so I would expect
+> a different stack trace.
+>
+> I have a suspicion on commit 7bcfdab3f0c6 ("HID: amd_sfh: if no sensors are enabled,
+> clean up") because the stack trace says that there is a bad list_add,
+> which could happen if the object is not correctly initialized.
+>
+> However, that commit was present in v6.2, so it might not be that one.
+>
+> Back to the merge commit: the hid-bpf tree was merged in the hid tree
+> while it took its branch during the v6.1 cycle. So that might be the
+> reason you get this as a result of bisection because the AMD SFH code in
+> the hid-bpf branch is the one from the v6.1 kernel, and when you merge
+> it to the v6.2+ branch, you get a different code for that driver.
+>
+> Cheers,
+> Benjamin
+>
+> [0] https://lore.kernel.org/regressions/f40e3897-76f1-2cd0-2d83-e48d87130eab@hexchain.org/#t
+If I'm not mistaken the Z13 doesn't actually have any
+sensors connected to SFH.  So I think the suspicion on
+7bcfdab3f0c6 and theory this is triggered by HID init makes
+a lot of sense.
 
-This initial driver is derived from the Goodix goodix_ts_berlin
-available at [1] and [2] and only supports the GT9916 IC
-present on the Qualcomm SM8550 MTP & QRD touch panel.
+Can you try this patch?
 
-The current implementation only supports BerlinD, aka GT9916.
-
-[1] https://github.com/goodix/goodix_ts_berlin
-[2] https://git.codelinaro.org/clo/la/platform/vendor/opensource/touch-drivers
-
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- drivers/input/touchscreen/Kconfig             |  14 ++
- drivers/input/touchscreen/Makefile            |   1 +
- drivers/input/touchscreen/goodix_berlin_spi.c | 183 ++++++++++++++++++++++++++
- 3 files changed, 198 insertions(+)
-
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index da6d5d75c42d..ffe0c0a4cd15 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -435,6 +435,20 @@ config TOUCHSCREEN_GOODIX_BERLIN_I2C
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called goodix_berlin_i2c.
- 
-+config TOUCHSCREEN_GOODIX_BERLIN_SPI
-+	tristate "Goodix Berlin SPI touchscreen"
-+	depends on SPI_MASTER
-+	depends on REGMAP
-+	select TOUCHSCREEN_GOODIX_BERLIN_CORE
-+	help
-+	  Say Y here if you have the a touchscreen connected to your
-+	  system using the Goodix Berlin IC connection via SPI.
-+
-+	  If unsure, say N.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called goodix_berlin_spi.
-+
- config TOUCHSCREEN_HIDEEP
- 	tristate "HiDeep Touch IC"
- 	depends on I2C
-diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-index 921a2da0c2be..29524e8a83db 100644
---- a/drivers/input/touchscreen/Makefile
-+++ b/drivers/input/touchscreen/Makefile
-@@ -49,6 +49,7 @@ obj-$(CONFIG_TOUCHSCREEN_FUJITSU)	+= fujitsu_ts.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX)	+= goodix_ts.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_CORE)	+= goodix_berlin_core.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_I2C)	+= goodix_berlin_i2c.o
-+obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_SPI)	+= goodix_berlin_spi.o
- obj-$(CONFIG_TOUCHSCREEN_HIDEEP)	+= hideep.o
- obj-$(CONFIG_TOUCHSCREEN_HYNITRON_CSTXXX)	+= hynitron_cstxxx.o
- obj-$(CONFIG_TOUCHSCREEN_ILI210X)	+= ili210x.o
-diff --git a/drivers/input/touchscreen/goodix_berlin_spi.c b/drivers/input/touchscreen/goodix_berlin_spi.c
-new file mode 100644
-index 000000000000..0f4f650fdf3f
---- /dev/null
-+++ b/drivers/input/touchscreen/goodix_berlin_spi.c
-@@ -0,0 +1,183 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Goodix Berlin Touchscreen Driver
-+ *
-+ * Copyright (C) 2020 - 2021 Goodix, Inc.
-+ * Copyright (C) 2023 Linaro Ltd.
-+ *
-+ * Based on goodix_ts_berlin driver.
-+ */
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/spi/spi.h>
-+#include <linux/regmap.h>
-+#include <asm/unaligned.h>
-+
-+#include "goodix_berlin.h"
-+
-+#define SPI_TRANS_PREFIX_LEN	1
-+#define REGISTER_WIDTH		4
-+#define SPI_READ_DUMMY_LEN	3
-+#define SPI_READ_PREFIX_LEN	(SPI_TRANS_PREFIX_LEN + REGISTER_WIDTH + SPI_READ_DUMMY_LEN)
-+#define SPI_WRITE_PREFIX_LEN	(SPI_TRANS_PREFIX_LEN + REGISTER_WIDTH)
-+
-+#define SPI_WRITE_FLAG		0xF0
-+#define SPI_READ_FLAG		0xF1
-+
-+static int goodix_berlin_spi_read(void *context, const void *reg_buf,
-+				  size_t reg_size, void *val_buf,
-+				  size_t val_size)
-+{
-+	struct spi_device *spi = context;
-+	struct spi_transfer xfers;
-+	struct spi_message spi_msg;
-+	const u32 *reg = reg_buf; /* reg is stored as native u32 at start of buffer */
-+	u8 *buf = NULL;
-+	int ret = 0;
-+
-+	if (reg_size != REGISTER_WIDTH)
-+		return -EINVAL;
-+
-+	buf = kzalloc(SPI_READ_PREFIX_LEN + val_size, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	spi_message_init(&spi_msg);
-+	memset(&xfers, 0, sizeof(xfers));
-+
-+	/* buffer format: 0xF1 + addr(4bytes) + dummy(3bytes) + data */
-+	buf[0] = SPI_READ_FLAG;
-+	put_unaligned_be32(*reg, buf + SPI_TRANS_PREFIX_LEN);
-+	memset(buf + SPI_TRANS_PREFIX_LEN + REGISTER_WIDTH, 0xff,
-+	       SPI_READ_DUMMY_LEN);
-+
-+	xfers.tx_buf = buf;
-+	xfers.rx_buf = buf;
-+	xfers.len = SPI_READ_PREFIX_LEN + val_size;
-+	xfers.cs_change = 0;
-+	spi_message_add_tail(&xfers, &spi_msg);
-+
-+	ret = spi_sync(spi, &spi_msg);
-+	if (ret < 0) {
-+		dev_err(&spi->dev, "transfer error:%d", ret);
-+		goto exit;
-+	}
-+
-+	memcpy(val_buf, buf + SPI_READ_PREFIX_LEN, val_size);
-+exit:
-+	kfree(buf);
-+	return ret;
-+}
-+
-+static int goodix_berlin_spi_write(void *context, const void *data,
-+				   size_t count)
-+{
-+	unsigned int len = count - REGISTER_WIDTH;
-+	struct spi_device *spi = context;
-+	struct spi_transfer xfers;
-+	struct spi_message spi_msg;
-+	const u32 *reg = data; /* reg is stored as native u32 at start of buffer */
-+	u8 *buf = NULL;
-+	int ret = 0;
-+
-+	buf = kzalloc(SPI_WRITE_PREFIX_LEN + len, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	spi_message_init(&spi_msg);
-+	memset(&xfers, 0, sizeof(xfers));
-+
-+	buf[0] = SPI_WRITE_FLAG;
-+	put_unaligned_be32(*reg, buf + SPI_TRANS_PREFIX_LEN);
-+	memcpy(buf + SPI_WRITE_PREFIX_LEN, data + REGISTER_WIDTH, len);
-+
-+	xfers.tx_buf = buf;
-+	xfers.len = SPI_WRITE_PREFIX_LEN + len;
-+	xfers.cs_change = 0;
-+	spi_message_add_tail(&xfers, &spi_msg);
-+
-+	ret = spi_sync(spi, &spi_msg);
-+	if (ret < 0)
-+		dev_err(&spi->dev, "transfer error:%d", ret);
-+
-+	kfree(buf);
-+	return ret;
-+}
-+
-+static const struct regmap_config goodix_berlin_spi_regmap_conf = {
-+	.reg_bits = 32,
-+	.val_bits = 8,
-+	.read = goodix_berlin_spi_read,
-+	.write = goodix_berlin_spi_write,
-+};
-+
-+static const struct input_id goodix_berlin_spi_input_id = {
-+	.bustype = BUS_SPI,
-+	.vendor = 0x0416,
-+	.product = 0x1001,
-+};
-+
-+static int goodix_berlin_spi_probe(struct spi_device *spi)
-+{
-+	struct regmap_config *cfg;
-+	struct regmap *map;
-+	size_t max_size;
-+	int ret = 0;
-+
-+	cfg = devm_kmemdup(&spi->dev, &goodix_berlin_spi_regmap_conf,
-+			   sizeof(*cfg), GFP_KERNEL);
-+	if (!cfg)
-+		return -ENOMEM;
-+
-+	spi->mode = SPI_MODE_0;
-+	spi->bits_per_word = 8;
-+	ret = spi_setup(spi);
-+	if (ret)
-+		return ret;
-+
-+	max_size = spi_max_transfer_size(spi);
-+	cfg->max_raw_read = max_size - SPI_READ_PREFIX_LEN;
-+	cfg->max_raw_write = max_size - SPI_WRITE_PREFIX_LEN;
-+
-+	map = devm_regmap_init(&spi->dev, NULL, spi, cfg);
-+	if (IS_ERR(map))
-+		return PTR_ERR(map);
-+
-+	return goodix_berlin_probe(&spi->dev, spi->irq,
-+				   &goodix_berlin_spi_input_id, map);
-+}
-+
-+static void goodix_berlin_spi_remove(struct spi_device *spi)
-+{
-+	goodix_berlin_remove(&spi->dev);
-+}
-+
-+static const struct of_device_id goodix_berlin_spi_of_match[] = {
-+	{
-+		.compatible = "goodix,gt9916",
-+	},
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, goodix_berlin_spi_of_match);
-+
-+static const struct spi_device_id goodix_berlin_spi_ids[] = {
-+	{ "gt9916" },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(spi, goodix_berlin_spi_ids);
-+
-+static struct spi_driver goodix_berlin_spi_driver = {
-+	.driver = {
-+		.name = "goodix-berlin-spi",
-+		.of_match_table = goodix_berlin_spi_of_match,
-+		.pm = pm_sleep_ptr(&goodix_berlin_pm_ops),
-+	},
-+	.id_table = goodix_berlin_spi_ids,
-+	.probe = goodix_berlin_spi_probe,
-+	.remove = goodix_berlin_spi_remove,
-+};
-+module_spi_driver(goodix_berlin_spi_driver);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("Goodix Berlin SPI Touchscreen driver");
-+MODULE_AUTHOR("Neil Armstrong <neil.armstrong@linaro.org>");
-
--- 
-2.34.1
+diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_client.c 
+b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+index d9b7b01900b5..fa693a5224c6 100644
+--- a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
++++ b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
+@@ -324,6 +324,7 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev 
+*privdata)
+                         devm_kfree(dev, cl_data->report_descr[i]);
+                 }
+                 dev_warn(dev, "Failed to discover, sensors not enabled 
+is %d\n", cl_data->is_any_sensor_enabled);
++               cl_data->num_hid_devices = 0;
+                 return -EOPNOTSUPP;
+         }
+         schedule_delayed_work(&cl_data->work_buffer, 
+msecs_to_jiffies(AMD_SFH_IDLE_LOOP));
 
