@@ -2,163 +2,142 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89D06723696
-	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 07:04:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C38172378F
+	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 08:22:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231419AbjFFFEm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Jun 2023 01:04:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39784 "EHLO
+        id S235213AbjFFGWU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Jun 2023 02:22:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230516AbjFFFEl (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Jun 2023 01:04:41 -0400
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 454F6196;
-        Mon,  5 Jun 2023 22:04:40 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id 26F2B3200A93;
-        Tue,  6 Jun 2023 01:04:39 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Tue, 06 Jun 2023 01:04:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1686027878; x=1686114278; bh=WP
-        3yKSXu55VaU9s/qiTySC2G3aZBpjBEicEtRyfVroM=; b=R2JYD0ZHbVmfBBIKFN
-        RBlHtlXT3VutVokCtWVUOHhNkBrqk8JufwnmB8D3dpvKOVE2hXg95sXRLPF369am
-        TL/eCHMfsSd53jpz7zbYjZe/uSzPybJMm9u8sTNxf+dT+h3ffWAI/gvEScZfIM+G
-        RGfD8u8kPyQCFhIG4daSBQnyV7ug5a1xVDe/mijGPR6/FCLPGsY3rNmTbhjlDQ1V
-        bRxLeyY/mkCi6L1wREyjLA4PRuNEOKNvvNFf0qioM50T5MlQJcpGinpWUBX1Dbtk
-        Mv9mzWu2oEYTB0hBXpA8dUl/5n45ZdWTBFT7If4s1rq5NDmYmuCMyBIToYfuzQW+
-        kVQA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; t=1686027878; x=1686114278; bh=WP3yKSXu55VaU
-        9s/qiTySC2G3aZBpjBEicEtRyfVroM=; b=YLpyzhIdzUf9Gc39Njz/Lnyf4Ezbm
-        MOkqio4XC34ZwDF6AXj1PFUjLZpEhDQSRGdZKOCTr4M6+s2q8engIw3/cdI693aT
-        o+gq08KkEPBi0nm2VnZd8yVUloGzj1m6UD66Iz+WMITerOYuOWe/0OqyYzKiVvee
-        SVoc1hy1Y3vUy4P6r8MjrUcAcffKfJr0lJqyHOK7eFs8IBuKhC5e17QvclCWoxQE
-        jofxPaFrItDZOe/IVm7akvT/LvO7oP3iwqgRREekvtrOxJdGPCKNJmITgn67Hjlb
-        aJXGb1Cf8ci/sLMVgLFRiRKjAM/eEP2ZTpRMBdU9xgKAT2gJUmtmzSZSw==
-X-ME-Sender: <xms:Zr5-ZIpvRqMcynQqaXbPnDytAE4bWHhiAuWFZTjB_i-o08IIhnZaLw>
-    <xme:Zr5-ZOqVYZTmUq0k9l7fzT2VL3GvJATnYlIfzFJmbr4rTbqo7mRIRLCBErKD0dHiI
-    vgrXnqdduQzpjGbUyA>
-X-ME-Received: <xmr:Zr5-ZNNoVfGcpoAor35pBytvOjcGDwASD29xZyzE0cmuY-sywQ3CQWpx2AKVQVY935M-aN8Q-ex-AcYo0MV1HJKua8mUPioshoOX>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgedttddgkeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgv
-    rhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvg
-    htqeenucggtffrrghtthgvrhhnpeekvdekgeehfeejgfdvudffhfevheejffevgfeigfek
-    hfduieefudfgtedugfetgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
-    grihhlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
-X-ME-Proxy: <xmx:Zr5-ZP6f8l4EYgNnJG_hd3-aBqbXrQPP8oKDDwaDAofR3S2IF59NnA>
-    <xmx:Zr5-ZH4XeGfdXfH7aBvediKrKISKfUG1Kt2nmi4SYH1XdGLUtpAIXg>
-    <xmx:Zr5-ZPjQS2C8gRRDSqy6Mi_9k-V9W5JyNDdeB7KeyGcXHJDC_F8omg>
-    <xmx:Zr5-ZBsszMhPYYAdDH8Zs9Ar5rSmkLhNbCXvvNsokELd_MH-M3kVbQ>
-Feedback-ID: i7ce144cd:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 6 Jun 2023 01:04:34 -0400 (EDT)
-Date:   Tue, 6 Jun 2023 15:04:31 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Enric Balletbo i Serra <eballetbo@kernel.org>
-Cc:     linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Dana Elfassy <delfassy@redhat.com>,
-        linux-input@vger.kernel.org, phuttere@redhat.com,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH v2] selftests/input: Introduce basic tests for evdev
- ioctls
-Message-ID: <20230606050431.GA3789903@quokka>
-References: <20230530102627.87284-1-eballetbo@kernel.org>
+        with ESMTP id S235236AbjFFGVY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Jun 2023 02:21:24 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B645BE76
+        for <linux-input@vger.kernel.org>; Mon,  5 Jun 2023 23:21:14 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-5149e65c244so7531247a12.3
+        for <linux-input@vger.kernel.org>; Mon, 05 Jun 2023 23:21:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686032473; x=1688624473;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EKXvzn2poVGJdsfYKbvuXacn3q92H1IebHnIe7X+uN0=;
+        b=jlJ3EkL3KfeusIjNW1MwW8L0u5QdNAbDTCOSSlvaa4+8ByqWx8eKehlhPyVomF14YR
+         Q4yMNx/ZNO+tbA06TnmOt5ZbY4skTbuT7ciVuRnISUxPLfBBAOU86l4FJEHL+O5YDD1D
+         Ay7k2m4XLJtb+5S1L+//MRgJMhsab0PcpkMjuHulBXJLjdXDL6aSMlkna1zmqRZnfnjN
+         /+DBT0Om4KsggecIH6iJ/94zgTzD9Fmnn32tzXLzRVnpPgynouzfNvjoSioFWfNywY8j
+         3f8F3zKmVF/tJ5MXUWj3LeLgQ7mTAcTf+TYlzDFyAGnoAjF6qDvsyTCV97bsw69Oykzi
+         PgSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686032473; x=1688624473;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EKXvzn2poVGJdsfYKbvuXacn3q92H1IebHnIe7X+uN0=;
+        b=O6WGFB50Aipadu6+iaO9fdfQz295vj7VhPdXmU868z5W7XqkS/sibXlLU7y19ojq/W
+         kgEmHraXWmoksPVeZTbis19FUpUNAhe0sNaVFVvqrRr9p8B0CtnXVwsEdpGE4Y9J6mIy
+         ojNveuo8NsmTN+uHCHYLNSXN/dnkgyTc+YHGhF6CfKUkdJWMKV/0CraiOesoLBYCktN9
+         BbEsJ+X+tSdaXO4bKGpyTQ3AptV4WG3MFVX8OCzC/Rufu5Lzw4Zc8CBGVyNrksxRCm5N
+         3xBRS4wXLMRioYLKbzaGEuvHhoiwRhXksa8SoY20/hatsCOjGiP1XXeAuKgtGcZoxK8H
+         jvPA==
+X-Gm-Message-State: AC+VfDx5paC4NJ/wEDXCqapH1b/fL3xOLyLuMdOXW4yoCj+/URxik+0S
+        WYSSzuC9RVf+r0slIWR9j7zvxA==
+X-Google-Smtp-Source: ACHHUZ6LrRzgCaH4R/n3oEQswN/bZeXWD6KgFX1d8mHfrscBkVJdCfpXHpiKQnpgvPEbD5V6/MdiVw==
+X-Received: by 2002:a17:907:96a7:b0:967:d161:61c6 with SMTP id hd39-20020a17090796a700b00967d16161c6mr1476109ejc.3.1686032473046;
+        Mon, 05 Jun 2023 23:21:13 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id d5-20020aa7ce05000000b0051632dc69absm4649926edv.86.2023.06.05.23.21.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Jun 2023 23:21:12 -0700 (PDT)
+Message-ID: <1ba84b37-ae64-ef0b-b7cd-8941916962ca@linaro.org>
+Date:   Tue, 6 Jun 2023 08:21:10 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230530102627.87284-1-eballetbo@kernel.org>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: Add ilitek 9882T
+ touchscreen chip
+Content-Language: en-US
+To:     cong yang <yangcong5@huaqin.corp-partner.google.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, dianders@chromium.org,
+        hsinyi@google.com, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230605060524.1178164-1-yangcong5@huaqin.corp-partner.google.com>
+ <20230605060524.1178164-2-yangcong5@huaqin.corp-partner.google.com>
+ <6818f4b0-4222-c3bb-c55f-bc0d26d7a681@linaro.org>
+ <CAHwB_NLOrecxxP0kGS2ycXAw93XOSOiR+qPo50D292tDNKiqQQ@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAHwB_NLOrecxxP0kGS2ycXAw93XOSOiR+qPo50D292tDNKiqQQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, May 30, 2023 at 12:26:27PM +0200, Enric Balletbo i Serra wrote:
-> This provides a basic infrastructure for the creation of tests for the evdev
-> interface. Most of this code is adapted from the libevdev wrapper library. While
-> most of evdev ioctls are covered and tested using libevdev tests there are some
-> evdev ioctls that aren't because are not supported (and will not be supported)
-> by libevdev [1]. So, adding, at least those tests, would make sense.
+On 06/06/2023 04:18, cong yang wrote:
+> Hi,Krzysztof
 > 
-> The test creates an uinput device (and an evdev device) so you can
-> call the wanted ioctl from userspace. So, to run those tests you need
-> to have support for uinput and evdev as well.
+> On Mon, Jun 5, 2023 at 6:34 PM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+>>
+>> On 05/06/2023 08:05, Cong Yang wrote:
+>>> Add an ilitek touch screen chip ili9882t.
+>>>
+>>> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+>>> ---
+>>>  .../bindings/input/elan,ekth6915.yaml         | 23 ++++++++++++++++---
+>>>  1 file changed, 20 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+>>> index 05e6f2df604c..f0e7ffdce605 100644
+>>> --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+>>> +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+>>> @@ -15,11 +15,14 @@ description:
+>>>
+>>>  properties:
+>>>    compatible:
+>>> -    items:
+>>> -      - const: elan,ekth6915
+>>> +    enum:
+>>> +      - elan,ekth6915
+>>> +      - ilitek,ili9882t
+>>>
+>>>    reg:
+>>> -    const: 0x10
+>>> +    enum:
+>>> +      - 0x10
+>>> +      - 0x41
+>>>
+>>>    interrupts:
+>>>      maxItems: 1
+>>> @@ -29,11 +32,13 @@ properties:
+>>>
+>>>    vcc33-supply:
+>>>      description: The 3.3V supply to the touchscreen.
+>>> +                 If using ili9882t then this supply will not be needed.
+>>
+>> What does it mean "will not be needed"? Describe the hardware, not your
+>> drivers.
+>>
+>> I don't think you tested your DTS. Submit DTS users, because I do not
+>> believe you are testing your patches. You already got such comment and I
+>> don't see much of improvements here.
 > 
-> [1] For example, libevdev doesn't support setting EV_REP because it's inherently
-> racy - one libevdev context to set those values via the ioctl would cause all
-> other libevdev contexts on the same device to be out of sync. Since we do not
-> get notifications when the values changed, libevdev's buffered values for EV_REP
-> will remain whatever they were initially.
-> 
-> Signed-off-by: Enric Balletbo i Serra <eballetbo@kernel.org>
+> I ran make dt_binding_check in the codebase root directory before
+> sending the V2 Patch, and there were no errors or warnings (the V1
+> version run reported some errors). Is there some other way to test DTS
+> ?
 
-thanks, this mostly LGTM but there's still a bug left in the vararg
-handling.
+https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
 
-[...]
 
-> +#include <dirent.h>
-> +#include <errno.h>
-> +#include <fcntl.h>
-> +#include <linux/uinput.h>
-> +#include <poll.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <sys/stat.h>
-> +#include <time.h>
-> +#include <unistd.h>
-> +
-> +#include "../kselftest_harness.h"
-> +
-> +#define TEST_DEVICE_NAME "selftest input device"
-> +
-> +struct selftest_uinput {
-> +	int uinput_fd; /** file descriptor to uinput */
-> +	int evdev_fd; /** file descriptor to evdev */
-> +	char *name; /** device name */
-> +	char *syspath; /** /sys path */
-> +	char *devnode; /** device node */
+Best regards,
+Krzysztof
 
-nitpick: none of name, syspath, devnode are used in the tests and it's
-likely they'll never need to be so there's no reason to strdup them
-here. You could change fetch_syspath_and_devnode() to open_devnode() and
-return the opened fd, meaning you can reduce the code even more.
-
-[...]
-
-> +
-> +TEST(eviocgname_get_device_name)
-> +{
-> +	struct selftest_uinput *uidev;
-> +	char buf[256];
-> +	int rc;
-> +
-> +	rc = selftest_uinput_create_device(&uidev);
-
-this one and the others without extra arguments need to be:
-
-	rc = selftest_uinput_create_device(&uidev, -1);
-
-otherwise the vararg loop is going to keep the room warm for no reason.
-
-Cheers,
-  Peter
-
- 
