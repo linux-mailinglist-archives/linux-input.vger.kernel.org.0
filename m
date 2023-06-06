@@ -2,121 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49B2B723561
-	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 04:40:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9D317235D9
+	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 05:41:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232823AbjFFCj6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Jun 2023 22:39:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56466 "EHLO
+        id S230215AbjFFDlq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Jun 2023 23:41:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230499AbjFFCj5 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 22:39:57 -0400
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BD0F11A;
-        Mon,  5 Jun 2023 19:39:56 -0700 (PDT)
-Received: by mail-ot1-x32e.google.com with SMTP id 46e09a7af769-6af6f49e41cso5217373a34.2;
-        Mon, 05 Jun 2023 19:39:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686019195; x=1688611195;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HudLhhQw0CyzPSOXSNYv2RJ0GRqjCLaZxmXAo7zTprI=;
-        b=m8tAff0s0ZmbO4sfii4uwinG6UKjvkQjWCvQPYnHsvEyZC83vYXZHJxL/+1OdEwAWu
-         v/1s7Ss5GMcGhVxpxywVDWC7PnlbU4mWycvfTuB5MZxdZbPCKQAcVTQ6E9V7lFSbJ2Mm
-         Dqm0aTufQ19wUhtT1PIpNyVjt2y+zkYypEJvgYoxE1uM/It018zYlANi17ufo525Hf+2
-         p/KuwDru1L8sSjkmCqu8/beEZDdnAsf2XMRz2d7aGcbMjoVn7SamZ1910s2/qUP5aeIg
-         pSC3MWakOSLfptilD0/aqrRn80/Oz+Wxdqs8RR3s7pa3Gf+KFobkA+Np44lmBU4t56+9
-         B27g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686019195; x=1688611195;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HudLhhQw0CyzPSOXSNYv2RJ0GRqjCLaZxmXAo7zTprI=;
-        b=PX76MGNyVKzttGEP0YBvTmS2m+sIGya+oOfFq/H99egZEioRLDMp1udB/lshxNo7EY
-         iutKj2GDTiu9m5Es2hFvrgOLVEmWgwZmZr7BWHILFdKUdgQIr4n0Op/ZNoGBhrQ+CG1S
-         0mOczgTfCYuifbyEvB3WidJqsjLCmqTBXtaTvGOIXFpl//wlmbiwg8TcddxrrsGkj3Ax
-         Ba3s9hq/dlhvipw3dCcAj5F2MbBLjZbDkPF2SUuvaG+gkSQXxTFwQo/qnsgJi2/XCe4I
-         LQd96j7SdyvJSSY+Y3qu5CbSLTmbEVqJFm7aRC72lNjDy3SErX3S2GkhUKBDNAbgHlCw
-         BwZQ==
-X-Gm-Message-State: AC+VfDxoSpU6/w49BINn11xjCqHa2rCHcvSPO7J/3sh2A7uYMjnfM2Xq
-        SZ+COyNFCixb1n0yrh1f3Yk=
-X-Google-Smtp-Source: ACHHUZ4Ee5dxpgc/ZHDdlY8gkRF+ZkPCp3ACiuIXCw4d9/JGzqbuf/ENPB7DbeGGwbvsgvijC2NJHA==
-X-Received: by 2002:a05:6830:1682:b0:6af:887d:a517 with SMTP id k2-20020a056830168200b006af887da517mr780996otr.15.1686019195368;
-        Mon, 05 Jun 2023 19:39:55 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-36.three.co.id. [116.206.28.36])
-        by smtp.gmail.com with ESMTPSA id u4-20020aa78484000000b0064381853bfcsm5784370pfn.89.2023.06.05.19.39.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jun 2023 19:39:54 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 947721069FD; Tue,  6 Jun 2023 09:39:51 +0700 (WIB)
-Date:   Tue, 6 Jun 2023 09:39:51 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Haochen Tong <linux@hexchain.org>, stable@vger.kernel.org,
+        with ESMTP id S229681AbjFFDlp (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 23:41:45 -0400
+Received: from so254-18.mailgun.net (so254-18.mailgun.net [198.61.254.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 715E412D
+        for <linux-input@vger.kernel.org>; Mon,  5 Jun 2023 20:41:43 -0700 (PDT)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=hexchain.org;
+ q=dns/txt; s=smtp; t=1686022903; x=1686030103; h=Content-Transfer-Encoding:
+ Content-Type: In-Reply-To: From: From: References: Cc: To: To: Subject:
+ Subject: MIME-Version: Date: Message-ID: Sender: Sender;
+ bh=u1pvXUWtIwz2eD+X69oV/OSCEU6o+DhbuWvUQQ5s1ZI=;
+ b=ajJ1iB6cy4Px4WNdllJxJfH1ZxK4k/hX0lCXCwZ4hk2ta8LHmD9sklwjdyrahOopHe9zwkGuDzXg6e0V0il53ew7IHzn+swqARaqPID9U4cZF+XqAKXox2vK3DOtCuNgCjWihxpB56DVCdfEPUS/JXla/mbA9z6uXl255o5lJzTD4fpzzLCny8l1RCZG2At2PHEvrdKeyzYSgS5uD0oSqIZeGtm+KMJ8Y/fNbM5C1gDIXlcwCNJS6p5g77ciARoDKuGt4DYVPLZ3RA8xoRptV8CKFXneRmoOQa+WL6TjBlWntLWhR5kDsO3kjkFKy66Ip4l93QzwmcWNskzFGd0n/w==
+X-Mailgun-Sending-Ip: 198.61.254.18
+X-Mailgun-Sid: WyI5NzJmZCIsImxpbnV4LWlucHV0QHZnZXIua2VybmVsLm9yZyIsIjE5MjUxOCJd
+Received: from [10.22.69.162] (122.11.166-8.unknown.starhub.net.sg [122.11.166.8]) by
+ 84706ca86aed with SMTP id 647eaaf68b2ac595faf0cd6c; Tue, 06 Jun 2023 03:41:42
+ GMT
+Sender: linux@hexchain.org
+Message-ID: <d354c90c-03cb-1919-e587-a2cfd0511add@hexchain.org>
+Date:   Tue, 6 Jun 2023 11:41:39 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: amd_sfh driver causes kernel oops during boot
+To:     Bagas Sanjaya <bagasdotme@gmail.com>, stable@vger.kernel.org,
         "Linux regression tracking (Thorsten Leemhuis)" 
         <regressions@leemhuis.info>
 Cc:     regressions@lists.linux.dev, linux-input@vger.kernel.org,
         Basavaraj Natikar <basavaraj.natikar@amd.com>
-Subject: Re: amd_sfh driver causes kernel oops during boot
-Message-ID: <ZH6cd6_8EUrRY0W0@debian.me>
 References: <f40e3897-76f1-2cd0-2d83-e48d87130eab@hexchain.org>
  <ZG2LXN2+Sa2PWJqz@debian.me>
  <ee2c30a5-3927-d892-2a66-00cd513c3899@hexchain.org>
- <ZG3ipauL9FTnQJiC@debian.me>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="JF2M1o8gEDukYGMt"
-Content-Disposition: inline
-In-Reply-To: <ZG3ipauL9FTnQJiC@debian.me>
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+ <ZG3ipauL9FTnQJiC@debian.me> <ZH6cd6_8EUrRY0W0@debian.me>
+Content-Language: en-US
+From:   Haochen Tong <linux@hexchain.org>
+In-Reply-To: <ZH6cd6_8EUrRY0W0@debian.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On 6/6/23 10:39, Bagas Sanjaya wrote:
+> On Wed, May 24, 2023 at 05:10:45PM +0700, Bagas Sanjaya wrote:
+>> On Wed, May 24, 2023 at 02:10:31PM +0800, Haochen Tong wrote:
+>>>> What last kernel version before this regression occurs? Do you mean
+>>>> v6.2?
+>>>>
+>>>
+>>> I was using 6.2.12 (Arch Linux distro kernel) before seeing this regression.
+>>
+>> Can you perform bisection to find the culprit that introduces the
+>> regression? Since you're on Arch Linux, see its wiki article [1] for
+>> instructions.
+>>
+> 
+> Haochen, any news on this? Has the bisection been done and any result?
+> Another reporter had concluded possibly bad bisect [1].
+> 
+> Thanks.
+> 
+> [1]: https://lore.kernel.org/regressions/3250319.ancTxkQ2z5@zen/
+> 
 
---JF2M1o8gEDukYGMt
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Wed, May 24, 2023 at 05:10:45PM +0700, Bagas Sanjaya wrote:
-> On Wed, May 24, 2023 at 02:10:31PM +0800, Haochen Tong wrote:
-> > > What last kernel version before this regression occurs? Do you mean
-> > > v6.2?
-> > >=20
-> >=20
-> > I was using 6.2.12 (Arch Linux distro kernel) before seeing this regres=
-sion.
->=20
-> Can you perform bisection to find the culprit that introduces the
-> regression? Since you're on Arch Linux, see its wiki article [1] for
-> instructions.
->=20
+Sorry for the late reply. I haven't gotten enough time for it yet.
 
-Haochen, any news on this? Has the bisection been done and any result?
-Another reporter had concluded possibly bad bisect [1].
+I took a look at the git logs, and it doesn't look like the modules 
+involved in the original stack trace (amd_sfh, hid_sensor_hub, 
+hid_sensor_iio_common, hid_sensor_gyro_3d) has received any significant 
+changes between v6.2 and v6.3. IMHO, the bisect done by Malte might 
+indicate that the issue could be a problem outside of these modules.
 
-Thanks.
+Also, I've upgrade from 6.3.3 to 6.3.5 a week ago and this issue hasn't 
+happened so far in 4 reboots. However, there still doesn't seem to be 
+any changes regarding these modules, so I'm not sure if it's fixed 
+elsewhere or I'm just being lucky. It would be nice if someone can 
+confirm or disprove this.
 
-[1]: https://lore.kernel.org/regressions/3250319.ancTxkQ2z5@zen/
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---JF2M1o8gEDukYGMt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZH6cdwAKCRD2uYlJVVFO
-o2rWAP98fX2zkHHntO95NM5SMK7DUevIhNi61RNbIWyXVV6w6gD/VxLe1LqAY1ON
-byv2GX1uOKQPIySD3rIZcgX/LKKduwQ=
-=thJx
------END PGP SIGNATURE-----
-
---JF2M1o8gEDukYGMt--
+Thanks,
