@@ -2,109 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3339B723D11
-	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 11:21:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1418723E74
+	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 11:54:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237406AbjFFJVC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Jun 2023 05:21:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33616 "EHLO
+        id S237231AbjFFJyF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Jun 2023 05:54:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237361AbjFFJU7 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Jun 2023 05:20:59 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F8A418E
-        for <linux-input@vger.kernel.org>; Tue,  6 Jun 2023 02:20:34 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-9745c5fed21so709102366b.3
-        for <linux-input@vger.kernel.org>; Tue, 06 Jun 2023 02:20:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1686043231; x=1688635231;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ODPjFeDq340WLi5UOARvLF+Rx0ZDRYbK48jcAr9eoRY=;
-        b=hK8ukrBgSpwneongCkdsRkZM/4+lNppKrRSz6ALvnsStN1XiXeA9JcpLPMU59R4ay+
-         CWnvrOZHhRP8gHweEW05vqBVbp8RA6PSeB9l4UG+m2xRm/vo+JVRdK+nD0uZmhQR0yrF
-         EBsNTLRlizZYRgXD2a9RHqlJ5O7gCCGh8U5DS6bR1JhYFUt5KSYdlO6YVBeRscKeW132
-         APX3CLd/xXLuzuTx2wve+pGZ5c6D83l0/6hg3upSsCc3F2Ry3hO3k35VcgkXoWQQQlBE
-         r/Hy5SLRG46DLVVGJqBFy8p/llFxWjHxk8RE4eU4v0//bsCLpfZZ+IOLu9Kc3egOPJDT
-         TUoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686043231; x=1688635231;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ODPjFeDq340WLi5UOARvLF+Rx0ZDRYbK48jcAr9eoRY=;
-        b=mH6SE+ETGG0iudbYi62cUBJiSH15pnVsu6xJbLEin4c2mpiSjJwfZX1Jt44gIjMI/F
-         +Tc+wFvzMBDv5SQWNrz8ux3YJvC/Ib+dx6LXF1GqoTayLurxy35QMwkkrcqLZ7bTdQqq
-         B2XYRzb8cVR2uqn6StAKE9eEsWwR5mGNEisf/0TlreJaNB1d9WfGkjZ4uw4DmQVDRF6c
-         956AreZH0iAryFVvNf1W9oVE3zVRIC9z0Gb82tvzFdQ+laA4hNwh4p0/5jOFIWGltzQn
-         0Ny04yPKlkn5Czkw9t/U5FXWd6caEAk3TSNt6vXyPPKrkc5ZrxMKoiQlCuvboOJu3ZBn
-         NAdA==
-X-Gm-Message-State: AC+VfDybR4gVE7MgoLGdhY5sOaISkxQI6uxTPcWS1mD9inUW4CuvD4Ah
-        c2aun1/MkCdpcMz/6FQU6Ppa4SYOwA0p/vg0ptE=
-X-Google-Smtp-Source: ACHHUZ6mmI64XB23ONgjEKq3PuZChu7I56K0PZdkcnE7vFSLSs7f1aDCQztlPrs4sBBkPz9t6Nc5mw==
-X-Received: by 2002:a17:907:2da9:b0:966:5730:c3fe with SMTP id gt41-20020a1709072da900b009665730c3femr2037539ejc.52.1686043231193;
-        Tue, 06 Jun 2023 02:20:31 -0700 (PDT)
-Received: from blmsp ([2001:4090:a245:802c:7f03:2fe0:bd27:d746])
-        by smtp.gmail.com with ESMTPSA id g19-20020a170906869300b0097461a7ebdcsm5293720ejx.82.2023.06.06.02.20.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jun 2023 02:20:30 -0700 (PDT)
-Date:   Tue, 6 Jun 2023 11:20:30 +0200
-From:   Markus Schneider-Pargmann <msp@baylibre.com>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 2/2] Input: tps65219-pwrbutton - Use regmap_set_bits()
-Message-ID: <20230606092030.d7gvg3vdurlyeii6@blmsp>
-References: <20230605161458.117361-1-u.kleine-koenig@pengutronix.de>
- <20230605161458.117361-2-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S236624AbjFFJyB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Jun 2023 05:54:01 -0400
+Received: from mailout.blnma.de (mailout.blnma.de [116.203.12.22])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0565C10D2;
+        Tue,  6 Jun 2023 02:53:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=starostik.de; s=dkim210803; h=Content-Type:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=pTeb9LbTMrna13GViWC3h4XpyHzIp37dyOLsWSuYVME=; t=1686045238; x=1686909238; 
+        b=fozQ2v6b4D3ZjPUnWiY1Y/wsy09VlXfIb0azApNfp2FVoEvlh/xvC8KqsYoEseC5zR5H4KnS/+l
+        XPn6lT+3pxPXAxX5LbNAbCV6qsYwHx3aUz/tFbEQKbsY8OOH54AS7EHyzJ0eYtUQO9XZT5FdxbYzj
+        hlqczKZ70ROlNwTkKKqhh0I4QvxfB/Z9zQe6sQExtVrI3C3bGYvLhLeRfq/tEVDLZm33VkowvdGdG
+        NxW/F75s/NZ5Sc2pNZIv9s60c9WoM21rOm1AZ5xqwWhhJWQ/eKCPFpyh6IPqI+m1WqkBRjKpasAei
+        NIiq+LbcK2wSw+Ek6zH62eDi3mcHGAqu5qZg==;
+Received: from dovecot-0.dovecot.mail.svc.cluster.local ([10.244.6.208] helo=mail.blnma.de)
+        by mail.blnma.de with esmtp (Exim 4.96)
+        (envelope-from <malte@starostik.de>)
+        id 1q6TNs-000EMX-0d;
+        Tue, 06 Jun 2023 09:53:48 +0000
+Received: from zen.localnet ([62.214.179.90])
+        by mail.blnma.de with ESMTPSA
+        id PbH6LCoCf2TpSwAA399c4A
+        (envelope-from <malte@starostik.de>); Tue, 06 Jun 2023 09:53:46 +0000
+From:   Malte Starostik <malte@starostik.de>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Linux regressions mailing list <regressions@lists.linux.dev>,
+        regressions@lists.linux.dev
+Cc:     basavaraj.natikar@amd.com, linux-input@vger.kernel.org,
+        linux@hexchain.org
+Subject: Re: amd_sfh driver causes kernel oops during boot
+Date:   Tue, 06 Jun 2023 11:53:32 +0200
+Message-ID: <2784681.mvXUDI8C0e@zen>
+In-Reply-To: <46d5acd2-5961-a496-4c1a-68e5c47021fb@leemhuis.info>
+References: <ZG3ipauL9FTnQJiC@debian.me> <ZH6buB8TcMd5aT_1@debian.me>
+ <46d5acd2-5961-a496-4c1a-68e5c47021fb@leemhuis.info>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230605161458.117361-2-u.kleine-koenig@pengutronix.de>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jun 05, 2023 at 06:14:58PM +0200, Uwe Kleine-König wrote:
-> regmap_set_bits() is equivalent to regmap_update_bits() if mask == val.
-> The probe function uses regmap_clear_bits() to enable irqs, so
-> symmetrically make use of regmap_set_bits() to disable them. There is no
-> semantic difference.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Am Dienstag, 6. Juni 2023, 08:56:16 CEST schrieb Linux regression tracking 
+(Thorsten Leemhuis):
+> On 06.06.23 04:36, Bagas Sanjaya wrote:
+> > On Mon, Jun 05, 2023 at 01:24:25PM +0200, Malte Starostik wrote:
+> >> chiming in here as I'm experiencing what looks like the exact same issue,
+> >> also on a Lenovo Z13 notebook, also on Arch:
 
-Reviewed-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> >> bisect result:
+> >> 904e28c6de083fa4834cdbd0026470ddc30676fc is the first bad commit
+> >> commit 904e28c6de083fa4834cdbd0026470ddc30676fc
+> >> Merge: a738688177dc 2f7f4efb9411
+> >> Author: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> >> Date:   Wed Feb 22 10:44:31 2023 +0100
+> >> 
+> >>     Merge branch 'for-6.3/hid-bpf' into for-linus
+> > 
+> > Hmm, seems like bad bisect (bisected to HID-BPF which IMO isn't related
+> > to amd_sfh). Can you repeat the bisection?
 
-Best,
-Markus
+I'm digging further. That merge is what git bisect ended at, but admittedly my 
+git skills and especially with a large codebase aren't too advanced.
+While at 904e28c6de083fa4834cdbd0026470ddc30676fc, git show only shows the diff 
+for tools/testing/selftests/Makefile which can't really be the culprit. 
+However, git diff @~..@ has changes in drivers/hid/amd-sfh-hid/Kconfig (seems 
+innocuous, too), but also some changes to drivers/hid/hid-core.c. Nothing 
+obvious either, but at least it's not too far from the trace.
 
-> ---
->  drivers/input/misc/tps65219-pwrbutton.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+> Well, amd_sfh afaics apparently interacts with HID (see trace earlier in
+> the thread), so it's not that far away. But it's a merge commit, which
+> is possible, but doesn't happen every day. So a recheck might really be
+> a good idea.
+
+I will recheck some more, the Oops only happens with roughly 30 % chance 
+during boot. When it doesn't, there seem to be no other issues until the next 
+boot either. I made sure to reboot a few times after each bisect step, will 
+look deeper into the area.
+
+> > Anyway, tl;dr:
+> >> A: http://en.wikipedia.org/wiki/Top_post
+> >> Q: Were do I find info about this thing called top-posting?
+> > 
+> > [...]
 > 
-> diff --git a/drivers/input/misc/tps65219-pwrbutton.c b/drivers/input/misc/tps65219-pwrbutton.c
-> index b2d9e5d2bcfd..eeb9f2334ab4 100644
-> --- a/drivers/input/misc/tps65219-pwrbutton.c
-> +++ b/drivers/input/misc/tps65219-pwrbutton.c
-> @@ -123,9 +123,8 @@ static void tps65219_pb_remove(struct platform_device *pdev)
->  	int ret;
->  
->  	/* Disable interrupt for the pushbutton */
-> -	ret = regmap_update_bits(tps->regmap, TPS65219_REG_MASK_CONFIG,
-> -				 TPS65219_REG_MASK_INT_FOR_PB_MASK,
-> -				 TPS65219_REG_MASK_INT_FOR_PB_MASK);
-> +	ret = regmap_set_bits(tps->regmap, TPS65219_REG_MASK_CONFIG,
-> +			      TPS65219_REG_MASK_INT_FOR_PB_MASK);
->  	if (ret)
->  		dev_warn(&pdev->dev, "Failed to disable irq (%pe)\n", ERR_PTR(ret));
->  }
-> -- 
-> 2.39.2
-> 
+> BTW, I'm not sure if this really is helpful. Teaching this to upcoming
+> kernel developers is definitely worth it, but I wonder if pushing this
+> on all reporters might do more harm than good. I also wonder if asking
+> them a bit more kindly might be wiser (e.g. instead of "Anyway, tl;dr:"
+> something like "BTW, please do not top-post:" or something like that maybe).
+
+Thanks, and I agree in general. However, my case was in fact even worse :-) 
+I'm totally aware of the badness of top-posting. It happened because I had a 
+draft of the reply. Set In-Reply-To from the link in the wev archive and 
+pasted the previous message from there. Couple days later, I just pasted the 
+result on top and disregarded the existing text.
+
+BR Malte
+
+
