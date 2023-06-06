@@ -2,98 +2,163 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9D317235D9
-	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 05:41:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89D06723696
+	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 07:04:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230215AbjFFDlq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Jun 2023 23:41:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46682 "EHLO
+        id S231419AbjFFFEm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Jun 2023 01:04:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229681AbjFFDlp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 23:41:45 -0400
-Received: from so254-18.mailgun.net (so254-18.mailgun.net [198.61.254.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 715E412D
-        for <linux-input@vger.kernel.org>; Mon,  5 Jun 2023 20:41:43 -0700 (PDT)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=hexchain.org;
- q=dns/txt; s=smtp; t=1686022903; x=1686030103; h=Content-Transfer-Encoding:
- Content-Type: In-Reply-To: From: From: References: Cc: To: To: Subject:
- Subject: MIME-Version: Date: Message-ID: Sender: Sender;
- bh=u1pvXUWtIwz2eD+X69oV/OSCEU6o+DhbuWvUQQ5s1ZI=;
- b=ajJ1iB6cy4Px4WNdllJxJfH1ZxK4k/hX0lCXCwZ4hk2ta8LHmD9sklwjdyrahOopHe9zwkGuDzXg6e0V0il53ew7IHzn+swqARaqPID9U4cZF+XqAKXox2vK3DOtCuNgCjWihxpB56DVCdfEPUS/JXla/mbA9z6uXl255o5lJzTD4fpzzLCny8l1RCZG2At2PHEvrdKeyzYSgS5uD0oSqIZeGtm+KMJ8Y/fNbM5C1gDIXlcwCNJS6p5g77ciARoDKuGt4DYVPLZ3RA8xoRptV8CKFXneRmoOQa+WL6TjBlWntLWhR5kDsO3kjkFKy66Ip4l93QzwmcWNskzFGd0n/w==
-X-Mailgun-Sending-Ip: 198.61.254.18
-X-Mailgun-Sid: WyI5NzJmZCIsImxpbnV4LWlucHV0QHZnZXIua2VybmVsLm9yZyIsIjE5MjUxOCJd
-Received: from [10.22.69.162] (122.11.166-8.unknown.starhub.net.sg [122.11.166.8]) by
- 84706ca86aed with SMTP id 647eaaf68b2ac595faf0cd6c; Tue, 06 Jun 2023 03:41:42
- GMT
-Sender: linux@hexchain.org
-Message-ID: <d354c90c-03cb-1919-e587-a2cfd0511add@hexchain.org>
-Date:   Tue, 6 Jun 2023 11:41:39 +0800
+        with ESMTP id S230516AbjFFFEl (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Jun 2023 01:04:41 -0400
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 454F6196;
+        Mon,  5 Jun 2023 22:04:40 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 26F2B3200A93;
+        Tue,  6 Jun 2023 01:04:39 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Tue, 06 Jun 2023 01:04:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm3; t=1686027878; x=1686114278; bh=WP
+        3yKSXu55VaU9s/qiTySC2G3aZBpjBEicEtRyfVroM=; b=R2JYD0ZHbVmfBBIKFN
+        RBlHtlXT3VutVokCtWVUOHhNkBrqk8JufwnmB8D3dpvKOVE2hXg95sXRLPF369am
+        TL/eCHMfsSd53jpz7zbYjZe/uSzPybJMm9u8sTNxf+dT+h3ffWAI/gvEScZfIM+G
+        RGfD8u8kPyQCFhIG4daSBQnyV7ug5a1xVDe/mijGPR6/FCLPGsY3rNmTbhjlDQ1V
+        bRxLeyY/mkCi6L1wREyjLA4PRuNEOKNvvNFf0qioM50T5MlQJcpGinpWUBX1Dbtk
+        Mv9mzWu2oEYTB0hBXpA8dUl/5n45ZdWTBFT7If4s1rq5NDmYmuCMyBIToYfuzQW+
+        kVQA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; t=1686027878; x=1686114278; bh=WP3yKSXu55VaU
+        9s/qiTySC2G3aZBpjBEicEtRyfVroM=; b=YLpyzhIdzUf9Gc39Njz/Lnyf4Ezbm
+        MOkqio4XC34ZwDF6AXj1PFUjLZpEhDQSRGdZKOCTr4M6+s2q8engIw3/cdI693aT
+        o+gq08KkEPBi0nm2VnZd8yVUloGzj1m6UD66Iz+WMITerOYuOWe/0OqyYzKiVvee
+        SVoc1hy1Y3vUy4P6r8MjrUcAcffKfJr0lJqyHOK7eFs8IBuKhC5e17QvclCWoxQE
+        jofxPaFrItDZOe/IVm7akvT/LvO7oP3iwqgRREekvtrOxJdGPCKNJmITgn67Hjlb
+        aJXGb1Cf8ci/sLMVgLFRiRKjAM/eEP2ZTpRMBdU9xgKAT2gJUmtmzSZSw==
+X-ME-Sender: <xms:Zr5-ZIpvRqMcynQqaXbPnDytAE4bWHhiAuWFZTjB_i-o08IIhnZaLw>
+    <xme:Zr5-ZOqVYZTmUq0k9l7fzT2VL3GvJATnYlIfzFJmbr4rTbqo7mRIRLCBErKD0dHiI
+    vgrXnqdduQzpjGbUyA>
+X-ME-Received: <xmr:Zr5-ZNNoVfGcpoAor35pBytvOjcGDwASD29xZyzE0cmuY-sywQ3CQWpx2AKVQVY935M-aN8Q-ex-AcYo0MV1HJKua8mUPioshoOX>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgedttddgkeelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgv
+    rhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvg
+    htqeenucggtffrrghtthgvrhhnpeekvdekgeehfeejgfdvudffhfevheejffevgfeigfek
+    hfduieefudfgtedugfetgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+    grihhlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+X-ME-Proxy: <xmx:Zr5-ZP6f8l4EYgNnJG_hd3-aBqbXrQPP8oKDDwaDAofR3S2IF59NnA>
+    <xmx:Zr5-ZH4XeGfdXfH7aBvediKrKISKfUG1Kt2nmi4SYH1XdGLUtpAIXg>
+    <xmx:Zr5-ZPjQS2C8gRRDSqy6Mi_9k-V9W5JyNDdeB7KeyGcXHJDC_F8omg>
+    <xmx:Zr5-ZBsszMhPYYAdDH8Zs9Ar5rSmkLhNbCXvvNsokELd_MH-M3kVbQ>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 6 Jun 2023 01:04:34 -0400 (EDT)
+Date:   Tue, 6 Jun 2023 15:04:31 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Enric Balletbo i Serra <eballetbo@kernel.org>
+Cc:     linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Dana Elfassy <delfassy@redhat.com>,
+        linux-input@vger.kernel.org, phuttere@redhat.com,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: [PATCH v2] selftests/input: Introduce basic tests for evdev
+ ioctls
+Message-ID: <20230606050431.GA3789903@quokka>
+References: <20230530102627.87284-1-eballetbo@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: amd_sfh driver causes kernel oops during boot
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, stable@vger.kernel.org,
-        "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Cc:     regressions@lists.linux.dev, linux-input@vger.kernel.org,
-        Basavaraj Natikar <basavaraj.natikar@amd.com>
-References: <f40e3897-76f1-2cd0-2d83-e48d87130eab@hexchain.org>
- <ZG2LXN2+Sa2PWJqz@debian.me>
- <ee2c30a5-3927-d892-2a66-00cd513c3899@hexchain.org>
- <ZG3ipauL9FTnQJiC@debian.me> <ZH6cd6_8EUrRY0W0@debian.me>
-Content-Language: en-US
-From:   Haochen Tong <linux@hexchain.org>
-In-Reply-To: <ZH6cd6_8EUrRY0W0@debian.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230530102627.87284-1-eballetbo@kernel.org>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 6/6/23 10:39, Bagas Sanjaya wrote:
-> On Wed, May 24, 2023 at 05:10:45PM +0700, Bagas Sanjaya wrote:
->> On Wed, May 24, 2023 at 02:10:31PM +0800, Haochen Tong wrote:
->>>> What last kernel version before this regression occurs? Do you mean
->>>> v6.2?
->>>>
->>>
->>> I was using 6.2.12 (Arch Linux distro kernel) before seeing this regression.
->>
->> Can you perform bisection to find the culprit that introduces the
->> regression? Since you're on Arch Linux, see its wiki article [1] for
->> instructions.
->>
+On Tue, May 30, 2023 at 12:26:27PM +0200, Enric Balletbo i Serra wrote:
+> This provides a basic infrastructure for the creation of tests for the evdev
+> interface. Most of this code is adapted from the libevdev wrapper library. While
+> most of evdev ioctls are covered and tested using libevdev tests there are some
+> evdev ioctls that aren't because are not supported (and will not be supported)
+> by libevdev [1]. So, adding, at least those tests, would make sense.
 > 
-> Haochen, any news on this? Has the bisection been done and any result?
-> Another reporter had concluded possibly bad bisect [1].
+> The test creates an uinput device (and an evdev device) so you can
+> call the wanted ioctl from userspace. So, to run those tests you need
+> to have support for uinput and evdev as well.
 > 
-> Thanks.
+> [1] For example, libevdev doesn't support setting EV_REP because it's inherently
+> racy - one libevdev context to set those values via the ioctl would cause all
+> other libevdev contexts on the same device to be out of sync. Since we do not
+> get notifications when the values changed, libevdev's buffered values for EV_REP
+> will remain whatever they were initially.
 > 
-> [1]: https://lore.kernel.org/regressions/3250319.ancTxkQ2z5@zen/
-> 
+> Signed-off-by: Enric Balletbo i Serra <eballetbo@kernel.org>
 
-Hi,
+thanks, this mostly LGTM but there's still a bug left in the vararg
+handling.
 
-Sorry for the late reply. I haven't gotten enough time for it yet.
+[...]
 
-I took a look at the git logs, and it doesn't look like the modules 
-involved in the original stack trace (amd_sfh, hid_sensor_hub, 
-hid_sensor_iio_common, hid_sensor_gyro_3d) has received any significant 
-changes between v6.2 and v6.3. IMHO, the bisect done by Malte might 
-indicate that the issue could be a problem outside of these modules.
+> +#include <dirent.h>
+> +#include <errno.h>
+> +#include <fcntl.h>
+> +#include <linux/uinput.h>
+> +#include <poll.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <sys/stat.h>
+> +#include <time.h>
+> +#include <unistd.h>
+> +
+> +#include "../kselftest_harness.h"
+> +
+> +#define TEST_DEVICE_NAME "selftest input device"
+> +
+> +struct selftest_uinput {
+> +	int uinput_fd; /** file descriptor to uinput */
+> +	int evdev_fd; /** file descriptor to evdev */
+> +	char *name; /** device name */
+> +	char *syspath; /** /sys path */
+> +	char *devnode; /** device node */
 
-Also, I've upgrade from 6.3.3 to 6.3.5 a week ago and this issue hasn't 
-happened so far in 4 reboots. However, there still doesn't seem to be 
-any changes regarding these modules, so I'm not sure if it's fixed 
-elsewhere or I'm just being lucky. It would be nice if someone can 
-confirm or disprove this.
+nitpick: none of name, syspath, devnode are used in the tests and it's
+likely they'll never need to be so there's no reason to strdup them
+here. You could change fetch_syspath_and_devnode() to open_devnode() and
+return the opened fd, meaning you can reduce the code even more.
 
+[...]
 
-Thanks,
+> +
+> +TEST(eviocgname_get_device_name)
+> +{
+> +	struct selftest_uinput *uidev;
+> +	char buf[256];
+> +	int rc;
+> +
+> +	rc = selftest_uinput_create_device(&uidev);
+
+this one and the others without extra arguments need to be:
+
+	rc = selftest_uinput_create_device(&uidev, -1);
+
+otherwise the vararg loop is going to keep the room warm for no reason.
+
+Cheers,
+  Peter
+
+ 
