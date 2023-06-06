@@ -2,176 +2,298 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13CE8724BED
-	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 20:56:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6319C724BF0
+	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 20:57:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239159AbjFFS4z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Jun 2023 14:56:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35172 "EHLO
+        id S239009AbjFFS5Z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Jun 2023 14:57:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239155AbjFFS4u (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Jun 2023 14:56:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B8E3106
-        for <linux-input@vger.kernel.org>; Tue,  6 Jun 2023 11:56:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686077764;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=LE0zlkK0Esy2QlS2Gp22uMzjSQSBkqRGf4r5LqwTAGQ=;
-        b=eW82TLC4ZosgOjBluXPTckRAzV1rxxxe+NogTFvXzGvPcrTqaOxz7a48EUwePDqBaJgryE
-        Q4u+m7zwa6IC9C0doBN1fMUtBp5qJwM+rQxczxy8UNeqACtfOeR/oEHtcpwtnBIgtD+9Zl
-        xiqR4CO5YeRW/sQwMjWWY10u3dtK0fk=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-658-QP7Zy0fDOMaw1e6Tp3EI5A-1; Tue, 06 Jun 2023 14:56:03 -0400
-X-MC-Unique: QP7Zy0fDOMaw1e6Tp3EI5A-1
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-5142da822cbso11556a12.2
-        for <linux-input@vger.kernel.org>; Tue, 06 Jun 2023 11:56:03 -0700 (PDT)
+        with ESMTP id S238525AbjFFS5Y (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Jun 2023 14:57:24 -0400
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8052E5E;
+        Tue,  6 Jun 2023 11:57:23 -0700 (PDT)
+Received: by mail-oi1-x22b.google.com with SMTP id 5614622812f47-38c35975545so5675728b6e.1;
+        Tue, 06 Jun 2023 11:57:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686077843; x=1688669843;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nv8Ks5VknCrBV7fguzxWAsRwOt3HZe11aW2Iq4UrTBg=;
+        b=mzF7dlcjs1aqIOKqMUcngvetyn348AsS+v/JNutN/G4doXsdC2+o8E5nZ61gtA9Wal
+         Y4/PqmeBWQzJdNX6IS6Q0/lBhUU6PfhXwf0qnAvww4JcYJxGh8+seIbokCyhxSXKHngd
+         f14CA1dCTckMVJNqVgMVunxUiWJC+GjVzfJ99GxnFyQ6STpyHWW2bXahoNXq0+MjgS28
+         JK38r2MCjpDp2zTKmcly+i7tZRd+qnkIEl1hm6JVI0Vj6NWf56Fp6nmhOUqiwLDS9WS4
+         y4quww4pCraqVYoEhKWS7L/AzjnvAsii5em2IxsbG2m3ac87uwdXY9PwQoy0HQOPipad
+         4duQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686077761; x=1688669761;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LE0zlkK0Esy2QlS2Gp22uMzjSQSBkqRGf4r5LqwTAGQ=;
-        b=Z6zJN3GsdhrAn8vO8wpzyOJoNcOsuz5UQS0zWgw31iiVKP3HHfiAD2mEPmxTwkYrOP
-         n92kKb/cXxrwsnpCpb63YqL8HW8XPQwXEnp0It8oE1HZkqBzwnVtpN6cWkGnZEpipkUY
-         ej5HlX7HYQeqf1Wsuk2L907TjqfihEUdkLfiMAyE8KDuVHQNz1ALBQb5CZk3PhnbMd6P
-         AxC63Hy2cMKqLiSltPeAboD4kBBSEJBoBFf8WhHSKNMvPjXlhKtXTtVqqRP5yIZ7Ul52
-         toXBYfB7dVBcLTFmQj3+FKo4kSU3qdn58ht2O2xMMmPTzXAs8PUylL6wIfm8oYcIPheR
-         Uhdg==
-X-Gm-Message-State: AC+VfDzVRCYZDwCD96e3o8H/c5s3yMYtmPeK4tlKeRaaNKUvgmUk38CL
-        FMnc/TuH7/fTuLjQ38oPwg/yZpVYE6Pvx7a7LkTFGjFFtwluh0wAcebjYMG1/nRLSbwHAXRQ8GQ
-        WOwms672wBenGx7VRZAKIgXb5qgJPVlg=
-X-Received: by 2002:a17:907:94d6:b0:96f:905e:6117 with SMTP id dn22-20020a17090794d600b0096f905e6117mr3640951ejc.56.1686077761710;
-        Tue, 06 Jun 2023 11:56:01 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6cXhiJ5i+1LwJ/b/vtSM76Z2jdjV+ztB2B6zIEYsNRP1PxHkp/3US7hq/6SbKn7rQ9ptdINw==
-X-Received: by 2002:a17:907:94d6:b0:96f:905e:6117 with SMTP id dn22-20020a17090794d600b0096f905e6117mr3640938ejc.56.1686077761370;
-        Tue, 06 Jun 2023 11:56:01 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:2a07:3a01:67e5:daf9:cec0:df6? (2001-1c00-2a07-3a01-67e5-daf9-cec0-0df6.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:67e5:daf9:cec0:df6])
-        by smtp.gmail.com with ESMTPSA id u12-20020a1709060b0c00b009749b769c95sm5606394ejg.158.2023.06.06.11.56.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Jun 2023 11:56:00 -0700 (PDT)
-Message-ID: <1a7bdcc1-c737-83c4-24af-eb0028ed45f4@redhat.com>
-Date:   Tue, 6 Jun 2023 20:55:59 +0200
+        d=1e100.net; s=20221208; t=1686077843; x=1688669843;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Nv8Ks5VknCrBV7fguzxWAsRwOt3HZe11aW2Iq4UrTBg=;
+        b=i+SVMHggsSHJJp/g+8otfcTSBd2HqEpByFiL81gn+zGQQB4xSGxMuoajCo5mUiSr+M
+         yxe/j5zRClhqDvIehinpNQiZMjxxCbgVbFRJoGSQ/MvWqxLRlyutmeCi0rAFXooH+UgN
+         zYTcrBT+bOl2E6E88hL2+85DQ1R9u6/eu8vFWE5dXyXI21sWMgB8HtHtPYmBsajVvGsd
+         hGADh4AvhhoPv0ZLNpvy63a1/tGaYsv23GD9VDfexq9xeQwUo/74yLRR+BiTFR2xd807
+         HMNzgXElDujTDWwW8KT9+w5IaSY3Lrgi39G5RoudEovfVAsuN9rtz/05GenP2YyhmlMT
+         rTgg==
+X-Gm-Message-State: AC+VfDxKT1SNj9pFI8Kj06lu3012AgjcT6FXKBbUuT4MYt0Udf18A0Eo
+        0NXT4tmMCEmvxIZV+WvGFjI=
+X-Google-Smtp-Source: ACHHUZ6B/A/3nViomnN8HTpuupYrWqpCSRaMyl/QKITf0tbPxrbJpZCpZkZjeD8b26SOo2XvGVjWsA==
+X-Received: by 2002:a54:4893:0:b0:39a:b35b:a06c with SMTP id r19-20020a544893000000b0039ab35ba06cmr3088402oic.30.1686077842810;
+        Tue, 06 Jun 2023 11:57:22 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:f59e:5ad5:28cc:2003])
+        by smtp.gmail.com with ESMTPSA id w14-20020aa7858e000000b0064ca1fa8442sm7381091pfn.178.2023.06.06.11.57.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jun 2023 11:57:22 -0700 (PDT)
+Date:   Tue, 6 Jun 2023 11:57:19 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Nikita Shubin <nikita.shubin@maquefel.me>
+Cc:     Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Michael Peters <mpeters@embeddedts.com>,
+        Kris Bahnsen <kris@embeddedts.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 28/43] input: keypad: ep93xx: add DT support for
+ Cirrus EP93xx
+Message-ID: <ZH+Bj7T7SvE4Os/p@google.com>
+References: <20230424123522.18302-1-nikita.shubin@maquefel.me>
+ <20230601054549.10843-10-nikita.shubin@maquefel.me>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH RFC 0/4] input: touchscreen: add initial support for
- Goodix Berlin touchscreen IC
-To:     neil.armstrong@linaro.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Henrik Rydberg <rydberg@bitmath.org>
-Cc:     linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230606-topic-goodix-berlin-upstream-initial-v1-0-4a0741b8aefd@linaro.org>
- <f5f20de8-851a-fe20-4664-62b6de14ebd7@redhat.com>
- <2677ae8c-59d3-b658-dc3f-918838ac0fb6@linaro.org>
-Content-Language: en-US
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <2677ae8c-59d3-b658-dc3f-918838ac0fb6@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230601054549.10843-10-nikita.shubin@maquefel.me>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On 6/6/23 20:12, Neil Armstrong wrote:
-> Hi,
+On Thu, Jun 01, 2023 at 08:45:33AM +0300, Nikita Shubin wrote:
+> - get keymap from the device tree
+> - find register range from the device tree
+> - get interrupts from device tree
 > 
-> On 06/06/2023 17:31, Hans de Goede wrote:
->> Hi Neil,
->>
->> On 6/6/23 16:31, Neil Armstrong wrote:
->>> These touchscreen ICs support SPI, I2C and I3C interface, up to
->>> 10 finger touch, stylus and gestures events.
->>>
->>> This initial driver is derived from the Goodix goodix_ts_berlin
->>> available at [1] and [2] and only supports the GT9916 IC
->>> present on the Qualcomm SM8550 MTP & QRD touch panel.
->>>
->>> The current implementation only supports BerlinD, aka GT9916.
->>>
->>> Support for advanced features like:
->>> - Firmware & config update
->>> - Stylus events
->>> - Gestures events
->>> - Previous revisions support (BerlinA or BerlinB)
->>> is not included in current version.
->>>
->>> The current support will work with currently flashed firmware
->>> and config, and bail out if firmware or config aren't flashed yet.
->>
->> What I'm missing here / in the commit msg of
->> "input: touchscreen: add core support for Goodix Berlin Touchscreen IC"
->>
->> is an explanation why this is a new driver instead of adding
->> support to the existing goodix.c code.
->>
->> I assume you have good reasons for this, but it would be good
->> if you can write the reasons for this down.
+> Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
+> ---
 > 
-> Sure, should I write it down here and/or update the commit message in a new revision ?
-
-Yes please add this to the commit msg for the next version.
-
-> Anyway, here's the reasons:
-> - globally the event handling "looks like" the current goodix.c, but again the offsets
-> are again different and none of the register address are the same, and unlike the current
-> support all registers are provided by the "ic_info" structure
-> - while with the current code it *could* be possible to merge it, with a lot of changes,
-> the firmware management looks really different, and it would be really hard to merge.
+> Notes:
+>     v0 -> v1:
+>     
+>     - fixed header
+>     - dropped coma in id table
+>     - take debounce, prescale from dt
+>     - remove ep93xx_keypad_platform_data
+>     - move flags to module params
+>     - drop setting clock rate, it's useless, as was never used,
+>       it seems we are okay with default clk rate used
+>     - move usefull defines from platform file here
+>     - drop platform header
 > 
-> But I may be wrong, and may be misleaded by the goodix driver structure (even if it
-> went through a really heavy cleaning process).
+>  drivers/input/keyboard/ep93xx_keypad.c | 78 +++++++++++++-------------
+>  1 file changed, 40 insertions(+), 38 deletions(-)
+> 
+> diff --git a/drivers/input/keyboard/ep93xx_keypad.c b/drivers/input/keyboard/ep93xx_keypad.c
+> index 55075addcac2..8b0e73f56216 100644
+> --- a/drivers/input/keyboard/ep93xx_keypad.c
+> +++ b/drivers/input/keyboard/ep93xx_keypad.c
+> @@ -20,6 +20,7 @@
+>  #include <linux/bits.h>
+>  #include <linux/module.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/mod_devicetable.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/clk.h>
+>  #include <linux/io.h>
+> @@ -27,7 +28,6 @@
+>  #include <linux/input/matrix_keypad.h>
+>  #include <linux/slab.h>
+>  #include <linux/soc/cirrus/ep93xx.h>
+> -#include <linux/platform_data/keypad-ep93xx.h>
+>  #include <linux/pm_wakeirq.h>
+>  
+>  /*
+> @@ -61,12 +61,18 @@
+>  #define KEY_REG_KEY1_MASK	GENMASK(5, 0)
+>  #define KEY_REG_KEY1_SHIFT	0
+>  
+> +#define EP93XX_MATRIX_ROWS		(8)
+> +#define EP93XX_MATRIX_COLS		(8)
+> +
+>  #define EP93XX_MATRIX_SIZE	(EP93XX_MATRIX_ROWS * EP93XX_MATRIX_COLS)
+>  
+>  struct ep93xx_keypad {
+> -	struct ep93xx_keypad_platform_data *pdata;
+>  	struct input_dev *input_dev;
+>  	struct clk *clk;
+> +	unsigned int	debounce;
+> +	unsigned int	prescale;
+> +	unsigned int	flags;
+> +	unsigned int	clk_rate;
+>  
+>  	void __iomem *mmio_base;
+>  
+> @@ -80,6 +86,17 @@ struct ep93xx_keypad {
+>  	bool enabled;
+>  };
+>  
+> +/* flags for the ep93xx_keypad driver */
+> +#define EP93XX_KEYPAD_DISABLE_3_KEY	(1<<0)	/* disable 3-key reset */
+> +#define EP93XX_KEYPAD_DIAG_MODE		(1<<1)	/* diagnostic mode */
+> +#define EP93XX_KEYPAD_BACK_DRIVE	(1<<2)	/* back driving mode */
+> +#define EP93XX_KEYPAD_TEST_MODE		(1<<3)	/* scan only column 0 */
+> +#define EP93XX_KEYPAD_AUTOREPEAT	(1<<4)	/* enable key autorepeat */
+> +
+> +static int ep93xx_keypad_flags;
+> +module_param(ep93xx_keypad_flags, int, 0);
+> +MODULE_PARM_DESC(ep93xx_keypad_flags, "EP93XX keypad flags.");
+> +
+>  static irqreturn_t ep93xx_keypad_irq_handler(int irq, void *dev_id)
+>  {
+>  	struct ep93xx_keypad *keypad = dev_id;
+> @@ -133,23 +150,20 @@ static irqreturn_t ep93xx_keypad_irq_handler(int irq, void *dev_id)
+>  
+>  static void ep93xx_keypad_config(struct ep93xx_keypad *keypad)
+>  {
+> -	struct ep93xx_keypad_platform_data *pdata = keypad->pdata;
+>  	unsigned int val = 0;
+>  
+> -	clk_set_rate(keypad->clk, pdata->clk_rate);
+> -
+> -	if (pdata->flags & EP93XX_KEYPAD_DISABLE_3_KEY)
+> +	if (keypad->flags & EP93XX_KEYPAD_DISABLE_3_KEY)
+>  		val |= KEY_INIT_DIS3KY;
+> -	if (pdata->flags & EP93XX_KEYPAD_DIAG_MODE)
+> +	if (keypad->flags & EP93XX_KEYPAD_DIAG_MODE)
+>  		val |= KEY_INIT_DIAG;
+> -	if (pdata->flags & EP93XX_KEYPAD_BACK_DRIVE)
+> +	if (keypad->flags & EP93XX_KEYPAD_BACK_DRIVE)
+>  		val |= KEY_INIT_BACK;
+> -	if (pdata->flags & EP93XX_KEYPAD_TEST_MODE)
+> +	if (keypad->flags & EP93XX_KEYPAD_TEST_MODE)
+>  		val |= KEY_INIT_T2;
+>  
+> -	val |= ((pdata->debounce << KEY_INIT_DBNC_SHIFT) & KEY_INIT_DBNC_MASK);
+> +	val |= ((keypad->debounce << KEY_INIT_DBNC_SHIFT) & KEY_INIT_DBNC_MASK);
+>  
+> -	val |= ((pdata->prescale << KEY_INIT_PRSCL_SHIFT) & KEY_INIT_PRSCL_MASK);
+> +	val |= ((keypad->prescale << KEY_INIT_PRSCL_SHIFT) & KEY_INIT_PRSCL_MASK);
+>  
+>  	__raw_writel(val, keypad->mmio_base + KEY_INIT);
+>  }
+> @@ -220,17 +234,10 @@ static int ep93xx_keypad_resume(struct device *dev)
+>  static DEFINE_SIMPLE_DEV_PM_OPS(ep93xx_keypad_pm_ops,
+>  				ep93xx_keypad_suspend, ep93xx_keypad_resume);
+>  
+> -static void ep93xx_keypad_release_gpio_action(void *_pdev)
+> -{
+> -	struct platform_device *pdev = _pdev;
+> -
+> -	ep93xx_keypad_release_gpio(pdev);
+> -}
+> -
+>  static int ep93xx_keypad_probe(struct platform_device *pdev)
+>  {
+> +	struct device_node *np = pdev->dev.of_node;
+>  	struct ep93xx_keypad *keypad;
+> -	const struct matrix_keymap_data *keymap_data;
+>  	struct input_dev *input_dev;
+>  	int err;
+>  
+> @@ -238,14 +245,6 @@ static int ep93xx_keypad_probe(struct platform_device *pdev)
+>  	if (!keypad)
+>  		return -ENOMEM;
+>  
+> -	keypad->pdata = dev_get_platdata(&pdev->dev);
+> -	if (!keypad->pdata)
+> -		return -EINVAL;
+> -
+> -	keymap_data = keypad->pdata->keymap_data;
+> -	if (!keymap_data)
+> -		return -EINVAL;
+> -
+>  	keypad->irq = platform_get_irq(pdev, 0);
+>  	if (keypad->irq < 0)
+>  		return keypad->irq;
+> @@ -254,19 +253,15 @@ static int ep93xx_keypad_probe(struct platform_device *pdev)
+>  	if (IS_ERR(keypad->mmio_base))
+>  		return PTR_ERR(keypad->mmio_base);
+>  
+> -	err = ep93xx_keypad_acquire_gpio(pdev);
+> -	if (err)
+> -		return err;
+> -
+> -	err = devm_add_action_or_reset(&pdev->dev,
+> -				       ep93xx_keypad_release_gpio_action, pdev);
+> -	if (err)
+> -		return err;
+> -
+>  	keypad->clk = devm_clk_get(&pdev->dev, NULL);
+>  	if (IS_ERR(keypad->clk))
+>  		return PTR_ERR(keypad->clk);
+>  
+> +	keypad->flags = ep93xx_keypad_flags;
+> +
+> +	of_property_read_u32(np, "cirrus,debounce-delay-ms", &keypad->debounce);
+> +	of_property_read_u32(np, "cirrus,prescale", &keypad->prescale);
 
-No doing a new separate driver sounds about right to me. The current goodix driver already has a lot of different code-paths. So since there does not seem to be a whole lot of code sharing potential adding yet more special case handling / paths is not desirable IMHO.
+Please use device_property_read_*() API for this.
 
-Regards,
+> +
+>  	input_dev = devm_input_allocate_device(&pdev->dev);
+>  	if (!input_dev)
+>  		return -ENOMEM;
+> @@ -278,13 +273,13 @@ static int ep93xx_keypad_probe(struct platform_device *pdev)
+>  	input_dev->open = ep93xx_keypad_open;
+>  	input_dev->close = ep93xx_keypad_close;
+>  
+> -	err = matrix_keypad_build_keymap(keymap_data, NULL,
+> +	err = matrix_keypad_build_keymap(NULL, NULL,
+>  					 EP93XX_MATRIX_ROWS, EP93XX_MATRIX_COLS,
+>  					 keypad->keycodes, input_dev);
+>  	if (err)
+>  		return err;
+>  
+> -	if (keypad->pdata->flags & EP93XX_KEYPAD_AUTOREPEAT)
+> +	if (keypad->flags & EP93XX_KEYPAD_AUTOREPEAT)
+>  		__set_bit(EV_REP, input_dev->evbit);
 
-Hans
+I think this should be controlled by "autorepeat" device property.
 
-
-
->>> [1] https://github.com/goodix/goodix_ts_berlin
->>> [2] https://git.codelinaro.org/clo/la/platform/vendor/opensource/touch-drivers
->>>
->>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>> ---
->>> Neil Armstrong (4):
->>>        dt-bindings: input: document Goodix Berlin Touchscreen IC
->>>        input: touchscreen: add core support for Goodix Berlin Touchscreen IC
->>>        input: touchscreen: add I2C support for Goodix Berlin Touchscreen IC
->>>        input: touchscreen: add SPI support for Goodix Berlin Touchscreen IC
->>>
->>>   .../bindings/input/touchscreen/goodix-berlin.yaml  |  81 ++
->>>   drivers/input/touchscreen/Kconfig                  |  33 +
->>>   drivers/input/touchscreen/Makefile                 |   3 +
->>>   drivers/input/touchscreen/goodix_berlin.h          | 228 +++++
->>>   drivers/input/touchscreen/goodix_berlin_core.c     | 935 +++++++++++++++++++++
->>>   drivers/input/touchscreen/goodix_berlin_i2c.c      |  76 ++
->>>   drivers/input/touchscreen/goodix_berlin_spi.c      | 183 ++++
->>>   7 files changed, 1539 insertions(+)
->>> ---
->>> base-commit: 6db29e14f4fb7bce9eb5290288e71b05c2b0d118
->>> change-id: 20230606-topic-goodix-berlin-upstream-initial-ba97e8ec8f4c
->>>
->>> Best regards,
->>
+>  	input_set_drvdata(input_dev, keypad);
+>  
+> @@ -315,10 +310,17 @@ static int ep93xx_keypad_remove(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> +static const struct of_device_id ep93xx_keypad_of_ids[] = {
+> +	{ .compatible = "cirrus,ep9307-keypad" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, ep93xx_keypad_of_ids);
+> +
+>  static struct platform_driver ep93xx_keypad_driver = {
+>  	.driver		= {
+>  		.name	= "ep93xx-keypad",
+>  		.pm	= pm_sleep_ptr(&ep93xx_keypad_pm_ops),
+> +		.of_match_table = ep93xx_keypad_of_ids,
+>  	},
+>  	.probe		= ep93xx_keypad_probe,
+>  	.remove		= ep93xx_keypad_remove,
+> -- 
+> 2.37.4
 > 
 
+Thanks.
+
+-- 
+Dmitry
