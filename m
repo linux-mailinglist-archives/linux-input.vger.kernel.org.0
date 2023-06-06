@@ -2,78 +2,178 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC44A7230A0
-	for <lists+linux-input@lfdr.de>; Mon,  5 Jun 2023 22:03:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D281723500
+	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 04:06:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229614AbjFEUDg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Jun 2023 16:03:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39384 "EHLO
+        id S233516AbjFFCGT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Jun 2023 22:06:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229544AbjFEUDg (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 16:03:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA0A198;
-        Mon,  5 Jun 2023 13:03:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4748962A36;
-        Mon,  5 Jun 2023 20:03:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E62B7C433EF;
-        Mon,  5 Jun 2023 20:03:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685995414;
-        bh=WJhJS6jTOVxBpVhHBmqByAVw0RYngt62X3Zy0ClDkQM=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=gKLfmAcBFdHcovw75B1DnpghjHujR36Sp7oR52D63yGXR/98BctoRseUEhDyOastW
-         k+fQjWsPRn30dCIhQv/HIKMFhA7bz+lj5fGLjAHu7uph/VVaRLsOhJcyRA2MASDS1e
-         OqCvAOCuQy2a6HZQgKMhg7aKouH5V3wBfw/fxuHP1WMv9zPayoIcoiXNLMjwxgSQGa
-         hIn7ZY4daOauAj/gF+vRk4RxyvEtqKz7caYGBeI1wAxbZPlawEJfwqiUN43qcBuiQp
-         DSIc3D6OSfw5VfOW7ST4UR+DQqs8BX5HAJxozIKKnoPJQ2LvT2t7CwVA8Vo+gvvUdB
-         zWgHOwJs3Dijg==
-Date:   Mon, 5 Jun 2023 22:03:30 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Mark Lord <mlord@pobox.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bastien Nocera <hadess@hadess.net>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
-        =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-Subject: Re: [PATCH] HID: logitech-hidpp: Handle timeout differently from
- busy
-In-Reply-To: <8c65b3a0-6040-52e7-7e6d-1a18cbe7a22e@pobox.com>
-Message-ID: <nycvar.YFH.7.76.2306052201260.29760@cbobk.fhfr.pm>
-References: <20230531082428.21763-1-hadess@hadess.net> <nycvar.YFH.7.76.2305311606160.29760@cbobk.fhfr.pm> <nycvar.YFH.7.76.2306031440380.29760@cbobk.fhfr.pm> <15bb2507-a145-7f1b-8e84-58aeb02484b9@leemhuis.info> <7ko33em3pqdaeghkt6wumzks6fz2lzztmqyhyzvv3kisjovmvr@mojlmkmrqlml>
- <2c10eb8f-8804-d47f-7b15-5da56ffb5414@pobox.com> <ansxam7w4aiyyqh4e2g2elnd37qfbeywkl4q4rcezasw64kqc4@2c54ppsnhegm> <8c65b3a0-6040-52e7-7e6d-1a18cbe7a22e@pobox.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        with ESMTP id S232168AbjFFCGS (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 22:06:18 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B18A511A
+        for <linux-input@vger.kernel.org>; Mon,  5 Jun 2023 19:06:17 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-256cda5c1c1so2553365a91.1
+        for <linux-input@vger.kernel.org>; Mon, 05 Jun 2023 19:06:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1686017177; x=1688609177;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wW68YijPC5M/xCRpMcVO/BAMrMv1lIZeTHggFsWAt3k=;
+        b=Pq4XeiWh+lt9vOCi+qa+rwki0ALN2wovdTXzj/yfLh6mcIwEK7tz36PZoeODDyeVyY
+         5IVp7VF/3+bVlNhLh2I7bkMRtoDtKdajzIvABZzoFoCc9uCwlxxYum5WqcBFBiiju6uS
+         F7l7pXUDcT9DfV1rSZCb7VWPwbTuKycuoiDcHXKBI8UEY/6xomtSIYdGiGazzXXrLsKC
+         jpXLlWOzarRebIxCt0posCCgYb45rxxubvH69KwTVk4t/Tkbzu6qArecsLw4rGb00r6j
+         Xs9Pm1NTUfG4IQvYUGLGpmT7setkDeEtLQnWWfFYikIw4WfJ58bknXw3awJTrF4O8eet
+         Gc6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686017177; x=1688609177;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wW68YijPC5M/xCRpMcVO/BAMrMv1lIZeTHggFsWAt3k=;
+        b=IET+/cDhqIvwOaEbZZg5ARwZFW2tK8rGcXNgy0ei2faLksePMotBgHWQaGZm3HZK7r
+         WdF4zXC8QW6OtXWHkhXfO3y2d6cJiCXg34dU4mG2XYp7syudQ6oC1K/eLCspxzX8tz25
+         H+uHJkHlZO1zkY+O/mupt4YTZkO84D/ARBali2M8jwyew6iHhlrEWbna+SLI0d16omko
+         9ejpqxvywv1T546lmWNpIoHbpGTVPsyQDtyWzTzc8OGivSZSG5MhlP6++FcFAMufuQie
+         Rl2Mpwsy6+9nFE9vF5CiPgOh8VoIDGZT6IHmQG9/igxvYxx7RH9LeZtENC4LYJnZfyz4
+         QW3w==
+X-Gm-Message-State: AC+VfDz/xtt8zWcifIeJSodOVRkLY+c7AiHfe4/6zctpPrZ3leX9WCrT
+        5nZTNzw3WcL0TGIHM8NS8f5hlQ2J8YVljakhW1D13g==
+X-Google-Smtp-Source: ACHHUZ7KiGCkrKfrTiI8e3B0XsDL6OBdSXWbPBmvfSKZ8Xi7N2zKyEhVQXjxnnhXYn1HPOsTnC3vANQxkzd4E01FlJY=
+X-Received: by 2002:a17:90b:2353:b0:256:f86:fa6e with SMTP id
+ ms19-20020a17090b235300b002560f86fa6emr214511pjb.48.1686017177023; Mon, 05
+ Jun 2023 19:06:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230605060524.1178164-1-yangcong5@huaqin.corp-partner.google.com>
+ <20230605060524.1178164-2-yangcong5@huaqin.corp-partner.google.com> <20230605-anyway-grab-f7a35aa199fb@spud>
+In-Reply-To: <20230605-anyway-grab-f7a35aa199fb@spud>
+From:   cong yang <yangcong5@huaqin.corp-partner.google.com>
+Date:   Tue, 6 Jun 2023 10:06:05 +0800
+Message-ID: <CAHwB_NK_j1SJ1BBkVqafFM_+fWSyvwjCpMmHQxjLjnz_KHR=KA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: Add ilitek 9882T
+ touchscreen chip
+To:     Conor Dooley <conor@kernel.org>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, dianders@chromium.org,
+        hsinyi@google.com, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 5 Jun 2023, Mark Lord wrote:
+Hi,Conor,
 
-> Tested-by: Mark Lord <mlord@pobox.com>
-> 
-> That works fine for me on top of 6.3.6, and I don't even see the 
-> ETIMEDOUT happening there either (added a printk() for it).
-> 
-> I am unable to test on 6.4.0-rc5, because that kernel doesn't work with 
-> my USB3 docking station.
+On Mon, Jun 5, 2023 at 6:20=E2=80=AFPM Conor Dooley <conor@kernel.org> wrot=
+e:
+>
+> Hey Cong Yang,
+>
+> On Mon, Jun 05, 2023 at 02:05:23PM +0800, Cong Yang wrote:
+> > Add an ilitek touch screen chip ili9882t.
+>
+> Could you add a comment here mentioning the relationship between these
+> chips?
 
-Thanks a lot, Mark!
+Okay, I will add in V3 version.
 
-Applied and will be sending to Linus soon.
+> On Mon, Jun 05, 2023 at 02:05:23PM +0800, Cong Yang wrote:
+>
+> > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> > ---
+> >  .../bindings/input/elan,ekth6915.yaml         | 23 ++++++++++++++++---
+> >  1 file changed, 20 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml=
+ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> > index 05e6f2df604c..f0e7ffdce605 100644
+> > --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> > +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> > @@ -15,11 +15,14 @@ description:
+> >
+> >  properties:
+> >    compatible:
+> > -    items:
+> > -      - const: elan,ekth6915
+> > +    enum:
+> > +      - elan,ekth6915
+> > +      - ilitek,ili9882t
+> >
+> >    reg:
+> > -    const: 0x10
+> > +    enum:
+> > +      - 0x10
+> > +      - 0x41
+>
+> Is 0x10 only valid for the elan,ekth6915 & 0x41 for the ilitek one?
+> If so, please add some enforcement of the values based on the
+> compatible.
 
--- 
-Jiri Kosina
-SUSE Labs
+I don't think 0x10 is the only address for ekth6915,(nor is 0x41 the
+only address for ili9882t). It depends on the hardware design.
 
+>
+> >
+> >    interrupts:
+> >      maxItems: 1
+> > @@ -29,11 +32,13 @@ properties:
+> >
+>
+>
+> >    vcc33-supply:
+> >      description: The 3.3V supply to the touchscreen.
+> > +                 If using ili9882t then this supply will not be needed=
+.
+> >
+> >    vccio-supply:
+> >      description:
+> >        The IO supply to the touchscreen. Need not be specified if this =
+is the
+> >        same as the 3.3V supply.
+> > +      If using ili9882t, the IO supply is required.
+>
+> There's no need for these sort of comments, you can rely on the required
+> sections to describe these relationships.
+
+Got it ,thanks.
+
+
+>
+> Cheers,
+> Conor.
+>
+> >
+> >  required:
+> >    - compatible
+> > @@ -41,6 +46,18 @@ required:
+> >    - interrupts
+> >    - vcc33-supply
+> >
+> > +if:
+> > +  properties:
+> > +    compatible:
+> > +      contains:
+> > +        const: ilitek,ili9882t
+> > +then:
+> > +  required:
+> > +    - compatible
+> > +    - reg
+> > +    - interrupts
+> > +    - vccio-supply
+> > +
+> >  additionalProperties: false
+> >
+> >  examples:
+> > --
+> > 2.25.1
