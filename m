@@ -2,120 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1418723E74
-	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 11:54:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63A4E724460
+	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 15:27:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237231AbjFFJyF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Jun 2023 05:54:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57388 "EHLO
+        id S233188AbjFFN1v (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Jun 2023 09:27:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236624AbjFFJyB (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Jun 2023 05:54:01 -0400
-Received: from mailout.blnma.de (mailout.blnma.de [116.203.12.22])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0565C10D2;
-        Tue,  6 Jun 2023 02:53:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=starostik.de; s=dkim210803; h=Content-Type:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=pTeb9LbTMrna13GViWC3h4XpyHzIp37dyOLsWSuYVME=; t=1686045238; x=1686909238; 
-        b=fozQ2v6b4D3ZjPUnWiY1Y/wsy09VlXfIb0azApNfp2FVoEvlh/xvC8KqsYoEseC5zR5H4KnS/+l
-        XPn6lT+3pxPXAxX5LbNAbCV6qsYwHx3aUz/tFbEQKbsY8OOH54AS7EHyzJ0eYtUQO9XZT5FdxbYzj
-        hlqczKZ70ROlNwTkKKqhh0I4QvxfB/Z9zQe6sQExtVrI3C3bGYvLhLeRfq/tEVDLZm33VkowvdGdG
-        NxW/F75s/NZ5Sc2pNZIv9s60c9WoM21rOm1AZ5xqwWhhJWQ/eKCPFpyh6IPqI+m1WqkBRjKpasAei
-        NIiq+LbcK2wSw+Ek6zH62eDi3mcHGAqu5qZg==;
-Received: from dovecot-0.dovecot.mail.svc.cluster.local ([10.244.6.208] helo=mail.blnma.de)
-        by mail.blnma.de with esmtp (Exim 4.96)
-        (envelope-from <malte@starostik.de>)
-        id 1q6TNs-000EMX-0d;
-        Tue, 06 Jun 2023 09:53:48 +0000
-Received: from zen.localnet ([62.214.179.90])
-        by mail.blnma.de with ESMTPSA
-        id PbH6LCoCf2TpSwAA399c4A
-        (envelope-from <malte@starostik.de>); Tue, 06 Jun 2023 09:53:46 +0000
-From:   Malte Starostik <malte@starostik.de>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        with ESMTP id S237514AbjFFN1r (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Jun 2023 09:27:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87AD610F0;
+        Tue,  6 Jun 2023 06:27:43 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9115B62B73;
+        Tue,  6 Jun 2023 13:27:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05D2DC433D2;
+        Tue,  6 Jun 2023 13:27:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686058062;
+        bh=Y5tGaEDCfykOC2/4URAbvKrhGg4KX5KOyjmQhsNzC8c=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=YmljVAsfkKIDZ+t4UlyRN5aekGZdC9+HIxGCMfnrY3T6jWyNbpMQX3ux6EKNaGYvn
+         75+djZcOEKYYfZumWK0oEoIpSa2rJeneqEljKnpLxgEEFJdfHWJeYOMHUCYqwrcx/u
+         wjDQSfMhgElR1oV2W1QGokmVFvb2ActK1U7EH4Eajoa/pWPQUBwGOOZQiomPgsKpg8
+         tv04eUOpm3HGgY3ak6l+MgRPj+kivJe/hSoKXkp5W/nmXojFpz1nT2AVWyo7RQnr7M
+         mbfbB2A5tSpFZA8rhDRFL1GNTdYk7qGdAMLDHtxTJmBZ7LfQXRpci4wg+jXZiW+nFL
+         dtJNHavJBMyUg==
+Date:   Tue, 6 Jun 2023 15:27:37 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Linux regressions mailing list <regressions@lists.linux.dev>
+cc:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Linux regressions mailing list <regressions@lists.linux.dev>,
-        regressions@lists.linux.dev
-Cc:     basavaraj.natikar@amd.com, linux-input@vger.kernel.org,
-        linux@hexchain.org
-Subject: Re: amd_sfh driver causes kernel oops during boot
-Date:   Tue, 06 Jun 2023 11:53:32 +0200
-Message-ID: <2784681.mvXUDI8C0e@zen>
-In-Reply-To: <46d5acd2-5961-a496-4c1a-68e5c47021fb@leemhuis.info>
-References: <ZG3ipauL9FTnQJiC@debian.me> <ZH6buB8TcMd5aT_1@debian.me>
- <46d5acd2-5961-a496-4c1a-68e5c47021fb@leemhuis.info>
+        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
+        =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>,
+        Mark Lord <mlord@pobox.com>
+Subject: Re: [PATCH] HID: logitech-hidpp: Handle timeout differently from
+ busy
+In-Reply-To: <15bb2507-a145-7f1b-8e84-58aeb02484b9@leemhuis.info>
+Message-ID: <nycvar.YFH.7.76.2306061527080.29760@cbobk.fhfr.pm>
+References: <20230531082428.21763-1-hadess@hadess.net> <nycvar.YFH.7.76.2305311606160.29760@cbobk.fhfr.pm> <nycvar.YFH.7.76.2306031440380.29760@cbobk.fhfr.pm> <15bb2507-a145-7f1b-8e84-58aeb02484b9@leemhuis.info>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Am Dienstag, 6. Juni 2023, 08:56:16 CEST schrieb Linux regression tracking 
-(Thorsten Leemhuis):
-> On 06.06.23 04:36, Bagas Sanjaya wrote:
-> > On Mon, Jun 05, 2023 at 01:24:25PM +0200, Malte Starostik wrote:
-> >> chiming in here as I'm experiencing what looks like the exact same issue,
-> >> also on a Lenovo Z13 notebook, also on Arch:
+On Mon, 5 Jun 2023, Linux regression tracking (Thorsten Leemhuis) wrote:
 
-> >> bisect result:
-> >> 904e28c6de083fa4834cdbd0026470ddc30676fc is the first bad commit
-> >> commit 904e28c6de083fa4834cdbd0026470ddc30676fc
-> >> Merge: a738688177dc 2f7f4efb9411
-> >> Author: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> >> Date:   Wed Feb 22 10:44:31 2023 +0100
-> >> 
-> >>     Merge branch 'for-6.3/hid-bpf' into for-linus
+> >>> If an attempt at contacting a receiver or a device fails because the
+> >>> receiver or device never responds, don't restart the communication, only
+> >>> restart it if the receiver or device answers that it's busy, as originally
+> >>> intended.
+> >>>
+> >>> This was the behaviour on communication timeout before commit 586e8fede795
+> >>> ("HID: logitech-hidpp: Retry commands when device is busy").
+> >>>
+> >>> This fixes some overly long waits in a critical path on boot, when
+> >>> checking whether the device is connected by getting its HID++ version.
+> >>>
+> >>> Signed-off-by: Bastien Nocera <hadess@hadess.net>
+> >>> Suggested-by: Mark Lord <mlord@pobox.com>
+> >>> Fixes: 586e8fede795 ("HID: logitech-hidpp: Retry commands when device is busy")
+> >>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217412
+> > [...]  
+> >>
+> >> I have applied this even before getting confirmation from the reporters in 
+> >> bugzilla, as it's the right thing to do anyway.
 > > 
-> > Hmm, seems like bad bisect (bisected to HID-BPF which IMO isn't related
-> > to amd_sfh). Can you repeat the bisection?
-
-I'm digging further. That merge is what git bisect ended at, but admittedly my 
-git skills and especially with a large codebase aren't too advanced.
-While at 904e28c6de083fa4834cdbd0026470ddc30676fc, git show only shows the diff 
-for tools/testing/selftests/Makefile which can't really be the culprit. 
-However, git diff @~..@ has changes in drivers/hid/amd-sfh-hid/Kconfig (seems 
-innocuous, too), but also some changes to drivers/hid/hid-core.c. Nothing 
-obvious either, but at least it's not too far from the trace.
-
-> Well, amd_sfh afaics apparently interacts with HID (see trace earlier in
-> the thread), so it's not that far away. But it's a merge commit, which
-> is possible, but doesn't happen every day. So a recheck might really be
-> a good idea.
-
-I will recheck some more, the Oops only happens with roughly 30 % chance 
-during boot. When it doesn't, there seem to be no other issues until the next 
-boot either. I made sure to reboot a few times after each bisect step, will 
-look deeper into the area.
-
-> > Anyway, tl;dr:
-> >> A: http://en.wikipedia.org/wiki/Top_post
-> >> Q: Were do I find info about this thing called top-posting?
-> > 
-> > [...]
+> > Unfortunately it doesn't seem to cure the reported issue (while reverting 
+> > 586e8fede79 does):
 > 
-> BTW, I'm not sure if this really is helpful. Teaching this to upcoming
-> kernel developers is definitely worth it, but I wonder if pushing this
-> on all reporters might do more harm than good. I also wonder if asking
-> them a bit more kindly might be wiser (e.g. instead of "Anyway, tl;dr:"
-> something like "BTW, please do not top-post:" or something like that maybe).
+> BTW, remind me again: was fixing this by reverting 586e8fede79 for now a
+> option? I guess it's not, but if I'm wrong I wonder if that might at
+> this point be the best way forward.
 
-Thanks, and I agree in general. However, my case was in fact even worse :-) 
-I'm totally aware of the badness of top-posting. It happened because I had a 
-draft of the reply. Set In-Reply-To from the link in the wev archive and 
-pasted the previous message from there. Couple days later, I just pasted the 
-result on top and disregarded the existing text.
+This should now all be fixed by
 
-BR Malte
+    https://git.kernel.org/linus/7c28afd5512e371773dbb2bf95a31ed5625651d9
 
+> > https://bugzilla.kernel.org/show_bug.cgi?id=217523#c2
+> 
+> FWIW, another comment showed up there:
+> 
+> ```
+> > --- Comment #6 from vova7890 ---
+> > Same problem. I researched this some time ago. I noticed that if I add a small
+> > delay between commands to the dongle - everything goes fine. Repeated
+> > request(586e8fede7953b1695b5ccc6112eff9b052e79ac) made the situation more
+> > visible
+> 
+
+-- 
+Jiri Kosina
+SUSE Labs
 
