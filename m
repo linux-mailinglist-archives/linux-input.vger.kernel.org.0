@@ -2,70 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6768C72352B
-	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 04:19:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3688723559
+	for <lists+linux-input@lfdr.de>; Tue,  6 Jun 2023 04:36:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233866AbjFFCTK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Jun 2023 22:19:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49728 "EHLO
+        id S234148AbjFFCgr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Jun 2023 22:36:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233794AbjFFCTI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 22:19:08 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3936F11C
-        for <linux-input@vger.kernel.org>; Mon,  5 Jun 2023 19:19:07 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id 98e67ed59e1d1-256a41d3e81so4759740a91.1
-        for <linux-input@vger.kernel.org>; Mon, 05 Jun 2023 19:19:07 -0700 (PDT)
+        with ESMTP id S230491AbjFFCgq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 5 Jun 2023 22:36:46 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECA1910F;
+        Mon,  5 Jun 2023 19:36:45 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-2566ed9328eso4766770a91.2;
+        Mon, 05 Jun 2023 19:36:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1686017946; x=1688609946;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SSBB+TeKkPXz17eYvgCRhaR0tPZlT7t+oy06lLtdV3o=;
-        b=guxz2C3LpRr3yHFCPMCRRP1cf1VHEaG5ZYn9jzfpbOaDbu2wK0W81AqxdxKHvF5Dz8
-         QC8+vJ4ArOaeWdDD6V/7j7x6zlCMIZhR7hsjXkL+qpRSFFyfK1ZSAfxI9JUYmUFogFK+
-         XOWM5lZfFfv7rY8nB3obpf1Thyy48G/hLCs6YxmKcrRvaVx8Kc4kiqYMO6MhD91qswtz
-         ceNrDn8Jdf+rZhNYr2Twccts+qn+9ZH8hQL7tTDnemu7LGELG6/AI5IwFtke7hrEfims
-         DgZLGnuk+nkeDEN7u89uE8nZDYH+AGnXfe1iyEdlhm752Od3ZLeUN+5+8KZv2wjNyb8v
-         4DeA==
+        d=gmail.com; s=20221208; t=1686019005; x=1688611005;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=forzF7x9ap1s3sdBeXdIPn+wCjalJOzafD/pj6NI2Fw=;
+        b=kOMx0UElNi84z3O0qQZ2mHwe8w7eb7/owU5M5V5n0lu66ExmjY8u66ku+lSaux59Mq
+         wXP9OxaAFfdD5tPl544z6U+7FL+nWwHmE0jdYSI9JngVF3P4fqCGrJB//zE43cfLAhNt
+         e9WQJkxjuw+ip5g54xJLKNdzi7TtjD7zOu2p+73t7JcphCUTxB3rmRk9BNVj1KGcTnvy
+         60tYRexKPckhPU0gWkk91jw9yOQpQkDG3ItR+mvEdCcBdiiQLle4BLW5vKApXl6Qd0U1
+         gdruDyKsVvgNRPQiDsZoN8x/WXz/gpdLMaYtQMgvzMUkvKXmr1986FbOV02ysJmElWzz
+         skJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686017946; x=1688609946;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SSBB+TeKkPXz17eYvgCRhaR0tPZlT7t+oy06lLtdV3o=;
-        b=Vmt+3R4/CrrKSYGZoczhI95DNb4UYZNkcZXDHJT2JEpH+k/iPrtQlO0SOrVefWLSeE
-         Pyl2xLhLtHlB+BEUMhJ3wnHsr9qWK7CN3ZffCalr2HDx4Ln2H8RVjdNpW7ENzuRS7I0b
-         ggNkBsNssgxVgyGsLck6YOhvkeiw8LMTVjVpeNTg2g4XhuYaFLieiv/J2xXahNVQOS4x
-         m8diwAB7YYnlvdGK16ZC97Rijun/H7zJkYPZmDJiWpL6eTexchFqQs2EtJRgiScKlIbb
-         ORfDAnZYCIx7uemDjFRth7jKphZGvb5NiXAQ0Q0dh2YwIvE5nsgbp5Z4vNQsfTnROLE1
-         1ahw==
-X-Gm-Message-State: AC+VfDyqiY4TdCdIbZb9FKBRER80Qnl6zrmA+xUJJoydJAbA2e/bdqzK
-        LgXo3dMagl9h7H9SbZwqEM2rPxPkJgmekqHL68IM6w==
-X-Google-Smtp-Source: ACHHUZ77jgRRpLTAVUGoEg6GR0CaMPypTruqaTUqdwmOkGhcRVu1EWuKeL8uGlKC+rblFVX3v/qj7M+sM0as4xrsRXk=
-X-Received: by 2002:a17:90b:682:b0:250:132a:5d93 with SMTP id
- m2-20020a17090b068200b00250132a5d93mr364634pjz.49.1686017946716; Mon, 05 Jun
- 2023 19:19:06 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686019005; x=1688611005;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=forzF7x9ap1s3sdBeXdIPn+wCjalJOzafD/pj6NI2Fw=;
+        b=VklIWjSp4FELwcriO0JUZxJinziclVf7A8enH+otUIL5iMvxdjmxol8exZy78jQ7a7
+         YrFQ39hNA2XwIVFMkehTQyC5HbfmdgY6bB5nAE5t3/D2d8ljyp9e0dbJYZDrxffZBo8r
+         cPoj4hujuT4puQ46/XO6EmAsbwSLseAxp8da2bUhs/TjEWSEhdx8KxnpyeXuwoRztHBW
+         rN//KWBV7tZ6ICHNbq7RAqDFVUoifbIRTVXF2OiCBcb1Yc7CDJyRR9yK44uZBDCW+Zoe
+         7c19yFPk0ZYvTLa6IHIFvthwUtbhfKtHX4mJPrd7LEJK2MjtjiHzdDXdP2ZQcn/Ga7OK
+         uS5Q==
+X-Gm-Message-State: AC+VfDz56t7m6Kc2Af8xmtgbvZCB/P2XQGvLtmWd0BuPCkp8/4WG+311
+        llKXtabfw3RWeLwsntfeOGHM7I8wreI=
+X-Google-Smtp-Source: ACHHUZ4SZCnx+FzAyFclv7fZhrBmmdhun7a2MFnH6JMBAalLr543sknoipxj2SMTfTz/A8xx6IW17A==
+X-Received: by 2002:a17:90b:788:b0:256:544a:74c9 with SMTP id l8-20020a17090b078800b00256544a74c9mr535481pjz.25.1686019005262;
+        Mon, 05 Jun 2023 19:36:45 -0700 (PDT)
+Received: from debian.me (subs32-116-206-28-36.three.co.id. [116.206.28.36])
+        by smtp.gmail.com with ESMTPSA id m6-20020a17090a34c600b00256471db12bsm6893567pjf.8.2023.06.05.19.36.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jun 2023 19:36:44 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 101AB1069FD; Tue,  6 Jun 2023 09:36:40 +0700 (WIB)
+Date:   Tue, 6 Jun 2023 09:36:40 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Malte Starostik <malte@starostik.de>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     basavaraj.natikar@amd.com, linux-input@vger.kernel.org,
+        linux@hexchain.org, regressions@lists.linux.dev,
+        stable@vger.kernel.org
+Subject: Re: amd_sfh driver causes kernel oops during boot
+Message-ID: <ZH6buB8TcMd5aT_1@debian.me>
+References: <ZG3ipauL9FTnQJiC@debian.me>
+ <3250319.ancTxkQ2z5@zen>
 MIME-Version: 1.0
-References: <20230605060524.1178164-1-yangcong5@huaqin.corp-partner.google.com>
- <20230605060524.1178164-2-yangcong5@huaqin.corp-partner.google.com> <6818f4b0-4222-c3bb-c55f-bc0d26d7a681@linaro.org>
-In-Reply-To: <6818f4b0-4222-c3bb-c55f-bc0d26d7a681@linaro.org>
-From:   cong yang <yangcong5@huaqin.corp-partner.google.com>
-Date:   Tue, 6 Jun 2023 10:18:55 +0800
-Message-ID: <CAHwB_NLOrecxxP0kGS2ycXAw93XOSOiR+qPo50D292tDNKiqQQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: Add ilitek 9882T
- touchscreen chip
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, dianders@chromium.org,
-        hsinyi@google.com, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="CUrTcfzVaW+dVdl5"
+Content-Disposition: inline
+In-Reply-To: <3250319.ancTxkQ2z5@zen>
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,106 +77,74 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,Krzysztof
 
-On Mon, Jun 5, 2023 at 6:34=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 05/06/2023 08:05, Cong Yang wrote:
-> > Add an ilitek touch screen chip ili9882t.
-> >
-> > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> > ---
-> >  .../bindings/input/elan,ekth6915.yaml         | 23 ++++++++++++++++---
-> >  1 file changed, 20 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml=
- b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> > index 05e6f2df604c..f0e7ffdce605 100644
-> > --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> > +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> > @@ -15,11 +15,14 @@ description:
-> >
-> >  properties:
-> >    compatible:
-> > -    items:
-> > -      - const: elan,ekth6915
-> > +    enum:
-> > +      - elan,ekth6915
-> > +      - ilitek,ili9882t
-> >
-> >    reg:
-> > -    const: 0x10
-> > +    enum:
-> > +      - 0x10
-> > +      - 0x41
-> >
-> >    interrupts:
-> >      maxItems: 1
-> > @@ -29,11 +32,13 @@ properties:
-> >
-> >    vcc33-supply:
-> >      description: The 3.3V supply to the touchscreen.
-> > +                 If using ili9882t then this supply will not be needed=
-.
->
-> What does it mean "will not be needed"? Describe the hardware, not your
-> drivers.
->
-> I don't think you tested your DTS. Submit DTS users, because I do not
-> believe you are testing your patches. You already got such comment and I
-> don't see much of improvements here.
+--CUrTcfzVaW+dVdl5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I ran make dt_binding_check in the codebase root directory before
-sending the V2 Patch, and there were no errors or warnings (the V1
-version run reported some errors). Is there some other way to test DTS
-?
+On Mon, Jun 05, 2023 at 01:24:25PM +0200, Malte Starostik wrote:
+> Hello,
+>=20
+> chiming in here as I'm experiencing what looks like the exact same issue,=
+ also=20
+> on a Lenovo Z13 notebook, also on Arch:
+> Oops during startup in task udev-worker followed by udev-worker blocking =
+all=20
+> attempts to suspend or cleanly shutdown/reboot the machine - in fact I fi=
+rst=20
+> noticed because the machine surprised with repeatedly running out of batt=
+ery=20
+> after it had supposedly been in standby but couldn't. Only then I noticed=
+ the=20
+> error on boot.
+>=20
+> bisect result:
+> 904e28c6de083fa4834cdbd0026470ddc30676fc is the first bad commit
+> commit 904e28c6de083fa4834cdbd0026470ddc30676fc
+> Merge: a738688177dc 2f7f4efb9411
+> Author: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Date:   Wed Feb 22 10:44:31 2023 +0100
+>=20
+>     Merge branch 'for-6.3/hid-bpf' into for-linus
 
->
-> >
-> >    vccio-supply:
-> >      description:
-> >        The IO supply to the touchscreen. Need not be specified if this =
-is the
-> >        same as the 3.3V supply.
-> > +      If using ili9882t, the IO supply is required.
->
-> Don't repeat constraints in free form text.
+Hmm, seems like bad bisect (bisected to HID-BPF which IMO isn't related
+to amd_sfh). Can you repeat the bisection?
 
-Got it.thanks.
+Anyway, tl;dr:
 
-> >
-> >  required:
-> >    - compatible
-> > @@ -41,6 +46,18 @@ required:
-> >    - interrupts
-> >    - vcc33-supply
-> >
-> > +if:
->
-> Keep it in allOf. Will save you one indentation later.
+> A: http://en.wikipedia.org/wiki/Top_post
+> Q: Were do I find info about this thing called top-posting?
+> A: Because it messes up the order in which people normally read text.
+> Q: Why is top-posting such a bad thing?
+> A: Top-posting.
+> Q: What is the most annoying thing in e-mail?
+>=20
+> A: No.
+> Q: Should I include quotations after my reply?
+>=20
+> http://daringfireball.net/2007/07/on_top
 
-Got it.thanks.
+And telling regzbot:
 
->
-> > +  properties:
-> > +    compatible:
-> > +      contains:
-> > +        const: ilitek,ili9882t
-> > +then:
-> > +  required:
-> > +    - compatible
-> > +    - reg
-> > +    - interrupts
->
-> Don't duplicate.
+#regzbot introduced: 904e28c6de083f
+#regzbot title: HID-BPF feature causes amd_sfh kernel oops during boot and =
+suspend/reboot
 
-Got it.thanks.
+Thanks.
 
->
-> > +    - vccio-supply
->
->
-> Best regards,
-> Krzysztof
->
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--CUrTcfzVaW+dVdl5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZH6bswAKCRD2uYlJVVFO
+o2xDAP9An3ggMkqbJ3oROKgX0EvakxIZ71rfdE5jiwCJL0qbkQD/UOdP+fyrj4hL
+jjftmyl+chnthfoPbYDIWG8939UFqgc=
+=3GF2
+-----END PGP SIGNATURE-----
+
+--CUrTcfzVaW+dVdl5--
