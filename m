@@ -2,221 +2,182 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC8B2725610
-	for <lists+linux-input@lfdr.de>; Wed,  7 Jun 2023 09:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 255EC7257F3
+	for <lists+linux-input@lfdr.de>; Wed,  7 Jun 2023 10:36:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237800AbjFGHmB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Jun 2023 03:42:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37468 "EHLO
+        id S237701AbjFGIgH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Jun 2023 04:36:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237764AbjFGHle (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Jun 2023 03:41:34 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBD3D1FD0
-        for <linux-input@vger.kernel.org>; Wed,  7 Jun 2023 00:39:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686123540; x=1717659540;
-  h=date:from:to:cc:subject:message-id;
-  bh=GtIqi44ZT2aHC3gVrx7B9VN4xo2gXnhi21e5g/lzY60=;
-  b=MXG5aO123ta7aAVKLm5Fqgom9Dc4juU0b+x+eIFSghyAGFKqwjSUBqD4
-   2SuenJ5j0N92sujqo7JBh1mWLDUU9Ayr+vrWhNuHOT4yu/HPjdYohRCKo
-   RHuqg+QLK47NMDHKr4ISUsLhsG/OR0R2XJd2OoraxmVnoCM1tGw9DC1Ms
-   6uga1EEcstnBg3BazVn6YW9C11V1HcOalDhEfRzbpWYiDc9jHKOrHGzNr
-   9aG5ZB9OY6tYaRnbwXPzkkiBHyv1Mrw1RzjtYVVD1ZHpGn0Nsb3fTDZTF
-   pTSMrnjIQCSD6OxHs1GmBYreZasyYsKvVoJZhLKBt2aA8PPTf7bpgD8Ld
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="385231920"
-X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; 
-   d="scan'208";a="385231920"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 00:38:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="883638768"
-X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; 
-   d="scan'208";a="883638768"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 07 Jun 2023 00:38:48 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1q6nkl-0006Ju-2C;
-        Wed, 07 Jun 2023 07:38:47 +0000
-Date:   Wed, 07 Jun 2023 15:37:58 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 8c9cce9cb81b5fdc6e66bf3f129727b89e8daab7
-Message-ID: <20230607073758.GKuJL%lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        with ESMTP id S235647AbjFGIgG (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Jun 2023 04:36:06 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1018B1725
+        for <linux-input@vger.kernel.org>; Wed,  7 Jun 2023 01:36:02 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-9786fc23505so244855866b.2
+        for <linux-input@vger.kernel.org>; Wed, 07 Jun 2023 01:36:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686126960; x=1688718960;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OrBypWeubMbxcljEMrbhcsqFO6qImvP/mf4G4xcloiA=;
+        b=CoMG7GGoFmIb27F5iwkC4dcYhIURDa0iz6nd23TcOi2jGSO4YPEry92mXnx7Sbv0pz
+         PXphDr6sBgSRaeX2p2vZMXJFejvbI6jEVHXxW+BjH9L8qKMoVC+lqeYdvegV+lvar0Lm
+         JtBgrUsyc+ZL+Dx2yuLTtAjr9M4sxFZ14wulNTQH/gHXzHwVXhiosAPTQ6suM+IbGz8W
+         pmP84dFIypCg8SHVAaCZPy3ncxVyLSBp5x/lkh7K0QdSST4GopSwlZSaJhXO2gyKR2Qb
+         Snv8L1h05nwICLtL1x3a0sePYfsJmsJHMzVlPGwJ8z/aKpuz7pGO5KgFDyUUYy+6b0Cs
+         P59w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686126960; x=1688718960;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OrBypWeubMbxcljEMrbhcsqFO6qImvP/mf4G4xcloiA=;
+        b=WLEnXYo1A3akPiXAyd2H1zkpNKUpMvvJvENbhjPuwmvDnddntJ5IPUXuO+fJ3jMPhs
+         Y8Ei8YaIVaDTu6by3E1iZ99AqsDuJ7T9q80xnsoL0iMqQympHw/8vNxkGqCKSv7Ssch6
+         WuCoRspggzVID+5BJRXJgdQLovJQt4KqyEKLRAFfFIDoCMntPALK9CPGUH+FIoloezlU
+         qOhh2xfoJQRFAyL0zVV0jM/MvxEkx4Aeznzetrj1tnghlN4lB1WpK0lkytuBLWOGUaSe
+         VKosUXpaZ1PXaKicsEWqrzhuBU4FJwS53w3r4WqNyVp6uR9HfMyLWW3CM79t8lZc6wBB
+         fX2Q==
+X-Gm-Message-State: AC+VfDz2bm847PccHoK2GLDS63Un5Bu4zZWhgvvj7ptcITx20ZaQ/O1m
+        dtEXrsfXM13VLwB64S3/3WJJUQ==
+X-Google-Smtp-Source: ACHHUZ6ykvSByCH8/v69gOuWKopinDUva0RGEVG+ZsvSnFjn4B71tLz6YtG8xCXT/qyHkEG3v92gBw==
+X-Received: by 2002:a17:907:8a08:b0:974:419d:7837 with SMTP id sc8-20020a1709078a0800b00974419d7837mr6143995ejc.34.1686126960414;
+        Wed, 07 Jun 2023 01:36:00 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id lo12-20020a170906fa0c00b0094f07545d40sm6536109ejb.220.2023.06.07.01.35.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Jun 2023 01:35:59 -0700 (PDT)
+Message-ID: <45ad07cf-c046-876f-1374-0a83fa561107@linaro.org>
+Date:   Wed, 7 Jun 2023 10:35:57 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH RFC 1/4] dt-bindings: input: document Goodix Berlin
+ Touchscreen IC
+Content-Language: en-US
+To:     Neil Armstrong <neil.armstrong@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bastien Nocera <hadess@hadess.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Henrik Rydberg <rydberg@bitmath.org>
+Cc:     linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230606-topic-goodix-berlin-upstream-initial-v1-0-4a0741b8aefd@linaro.org>
+ <20230606-topic-goodix-berlin-upstream-initial-v1-1-4a0741b8aefd@linaro.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230606-topic-goodix-berlin-upstream-initial-v1-1-4a0741b8aefd@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 8c9cce9cb81b5fdc6e66bf3f129727b89e8daab7  Input: pm8941-powerkey - fix debounce on gen2+ PMICs
+On 06/06/2023 16:31, Neil Armstrong wrote:
+> Document the Goodix GT9916 wich is part of the "Berlin" serie
+> of Touchscreen controllers IC from Goodix.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  .../bindings/input/touchscreen/goodix-berlin.yaml  | 81 ++++++++++++++++++++++
 
-elapsed time: 722m
+Filename like compatible, so at least with vendor,device style.
+Preferably named exactly like compatible, since you have only one.
 
-configs tested: 144
-configs skipped: 5
+>  1 file changed, 81 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix-berlin.yaml b/Documentation/devicetree/bindings/input/touchscreen/goodix-berlin.yaml
+> new file mode 100644
+> index 000000000000..4c24a541e919
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/goodix-berlin.yaml
+> @@ -0,0 +1,81 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/goodix-berlin.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Goodix Belin series touchscreen controller
+> +
+> +maintainers:
+> +  - Neil Armstrong <neil.armstrong@linaro.org>
+> +
+> +allOf:
+> +  - $ref: touchscreen.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - goodix,gt9916
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  avdd-supply:
+> +    description: Analog power supply regulator on AVDD pin
+> +
+> +  vddio-supply:
+> +    description: GPIO power supply regulator on VDDIO pin
+> +
+> +  spi-max-frequency: true
+> +  touchscreen-inverted-x: true
+> +  touchscreen-inverted-y: true
+> +  touchscreen-size-x: true
+> +  touchscreen-size-y: true
+> +  touchscreen-swapped-x-y: true
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+I bet supplies are required - at least one of them. If hardware needs
+them, they should be required by the bindings.
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha        buildonly-randconfig-r006-20230606   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r036-20230606   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r012-20230606   gcc  
-arc                  randconfig-r016-20230606   gcc  
-arc                  randconfig-r043-20230606   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                  randconfig-r035-20230606   clang
-arm                  randconfig-r046-20230606   gcc  
-arm64                            allyesconfig   gcc  
-arm64        buildonly-randconfig-r001-20230606   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r021-20230606   clang
-csky                                defconfig   gcc  
-csky                 randconfig-r014-20230606   gcc  
-csky                 randconfig-r021-20230606   gcc  
-csky                 randconfig-r022-20230606   gcc  
-csky                 randconfig-r031-20230606   gcc  
-hexagon      buildonly-randconfig-r005-20230606   clang
-hexagon              randconfig-r011-20230606   clang
-hexagon              randconfig-r041-20230606   clang
-hexagon              randconfig-r045-20230606   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230606   gcc  
-i386                 randconfig-i002-20230606   gcc  
-i386                 randconfig-i003-20230606   gcc  
-i386                 randconfig-i004-20230606   gcc  
-i386                 randconfig-i005-20230606   gcc  
-i386                 randconfig-i006-20230606   gcc  
-i386                 randconfig-i011-20230606   clang
-i386                 randconfig-i012-20230606   clang
-i386                 randconfig-i013-20230606   clang
-i386                 randconfig-i014-20230606   clang
-i386                 randconfig-i015-20230606   clang
-i386                 randconfig-i016-20230606   clang
-i386                 randconfig-i051-20230606   gcc  
-i386                 randconfig-i052-20230606   gcc  
-i386                 randconfig-i053-20230606   gcc  
-i386                 randconfig-i054-20230606   gcc  
-i386                 randconfig-i055-20230606   gcc  
-i386                 randconfig-i056-20230606   gcc  
-i386                 randconfig-i061-20230606   gcc  
-i386                 randconfig-i062-20230606   gcc  
-i386                 randconfig-i063-20230606   gcc  
-i386                 randconfig-i064-20230606   gcc  
-i386                 randconfig-i065-20230606   gcc  
-i386                 randconfig-i066-20230606   gcc  
-i386                 randconfig-r013-20230606   clang
-i386                 randconfig-r015-20230606   clang
-i386                 randconfig-r024-20230606   clang
-i386                 randconfig-r034-20230606   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r022-20230606   gcc  
-loongarch            randconfig-r026-20230606   gcc  
-loongarch            randconfig-r032-20230606   gcc  
-m68k                             allmodconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r016-20230606   gcc  
-microblaze   buildonly-randconfig-r004-20230606   gcc  
-microblaze           randconfig-r015-20230606   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips         buildonly-randconfig-r002-20230606   clang
-mips         buildonly-randconfig-r006-20230606   clang
-mips                 randconfig-r001-20230606   clang
-mips                 randconfig-r025-20230606   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r014-20230606   gcc  
-nios2                randconfig-r032-20230606   gcc  
-openrisc             randconfig-r003-20230606   gcc  
-parisc       buildonly-randconfig-r001-20230606   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r011-20230606   gcc  
-parisc               randconfig-r012-20230606   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc              randconfig-r033-20230606   gcc  
-powerpc              randconfig-r034-20230606   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv        buildonly-randconfig-r003-20230606   clang
-riscv                               defconfig   gcc  
-riscv                randconfig-r013-20230606   clang
-riscv                randconfig-r025-20230606   clang
-riscv                randconfig-r036-20230606   gcc  
-riscv                randconfig-r042-20230606   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r044-20230606   clang
-sh                               allmodconfig   gcc  
-sh                   randconfig-r006-20230606   gcc  
-sh                   randconfig-r023-20230606   gcc  
-sh                   randconfig-r035-20230606   gcc  
-sparc                               defconfig   gcc  
-sparc64              randconfig-r031-20230606   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r004-20230606   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230606   gcc  
-x86_64               randconfig-a002-20230606   gcc  
-x86_64               randconfig-a003-20230606   gcc  
-x86_64               randconfig-a004-20230606   gcc  
-x86_64               randconfig-a005-20230606   gcc  
-x86_64               randconfig-a006-20230606   gcc  
-x86_64               randconfig-a011-20230606   clang
-x86_64               randconfig-a012-20230606   clang
-x86_64               randconfig-a013-20230606   clang
-x86_64               randconfig-a014-20230606   clang
-x86_64               randconfig-a015-20230606   clang
-x86_64               randconfig-a016-20230606   clang
-x86_64               randconfig-r005-20230606   gcc  
-x86_64               randconfig-r026-20230606   clang
-x86_64               randconfig-x051-20230606   clang
-x86_64               randconfig-x052-20230606   clang
-x86_64               randconfig-x053-20230606   clang
-x86_64               randconfig-x054-20230606   clang
-x86_64               randconfig-x055-20230606   clang
-x86_64               randconfig-x056-20230606   clang
-x86_64               randconfig-x061-20230606   clang
-x86_64               randconfig-x062-20230606   clang
-x86_64               randconfig-x063-20230606   clang
-x86_64               randconfig-x064-20230606   clang
-x86_64               randconfig-x065-20230606   clang
-x86_64               randconfig-x066-20230606   clang
-x86_64                               rhel-8.3   gcc  
-xtensa       buildonly-randconfig-r005-20230606   gcc  
-xtensa               randconfig-r002-20230606   gcc  
-xtensa               randconfig-r024-20230606   gcc  
-xtensa               randconfig-r033-20230606   gcc  
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +      gt9916@5d {
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Node names should be generic. See also explanation and list of examples
+in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+touchscreen?
+
+> +        compatible = "goodix,gt9916";
+> +        reg = <0x5d>;
+> +        interrupt-parent = <&gpio>;
+> +        interrupts = <25 IRQ_TYPE_LEVEL_LOW>;
+> +        reset-gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
+> +      };
+> +    };
+
+
+Best regards,
+Krzysztof
+
