@@ -2,149 +2,407 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86CDA7261DD
-	for <lists+linux-input@lfdr.de>; Wed,  7 Jun 2023 15:59:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0C977264B5
+	for <lists+linux-input@lfdr.de>; Wed,  7 Jun 2023 17:32:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240335AbjFGN7m (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Jun 2023 09:59:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38202 "EHLO
+        id S235657AbjFGPca (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Jun 2023 11:32:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240240AbjFGN7l (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Jun 2023 09:59:41 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C4FA1FF3
-        for <linux-input@vger.kernel.org>; Wed,  7 Jun 2023 06:59:22 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-973f78329e3so1202429766b.3
-        for <linux-input@vger.kernel.org>; Wed, 07 Jun 2023 06:59:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686146360; x=1688738360;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RFkWycW6XB7DoQU4+95hgOLZaJ9MmCqICTZvyaEpZIQ=;
-        b=SSFsJiZ2QNhdfivj8wIBcOvp2mvz3U7ksiMOIbUuDJHz1Njd+i0eUjquASK61xr5Y4
-         RxpypbPzfSe7ZtbnZ4M13nvUEzzOet4ihVRFfIv1QR8PqHgD9AZsjT35qOsw/nOh2Dj2
-         Vkz19SgOYGj6YlEWv30zIKHtjU7dDHP+xU2LiJug88NNvnbLidJc50S8bAOVvEZ2MJuX
-         h/dT2Ykm48wpYlKDQUWjZHa4tBwYa2+MEsfX1y7w9ud2aBV/j1uIQjnax71kV6kAI44J
-         mhpzflmNQXy/woniEXj3XLlQ76toGSh+mW0xuClNxAsS9kyS9traJZcjC9lw3P02LCNQ
-         9VwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686146360; x=1688738360;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RFkWycW6XB7DoQU4+95hgOLZaJ9MmCqICTZvyaEpZIQ=;
-        b=VEkAXGZdBc3zHhBGJNoeQ3RiQTfHWg05rhJrTv4yso8CQVqTuBeNkt/ozCQXdAqoyf
-         SajTXxUIP8bv00Qyz0oVZELWqdh1yagpQeDfqtX/m9knQaaz5M/doghdbsrfMcGnTJ4M
-         FtE7ZpgdLae51+X01CwCsdyCyDJmRBMGE0XFAyXBqxr3M9tgT7je3fASKewBLxunNSY7
-         bkPiXnhPImM0LLA9tassCbMpujR2kVyYuD0d0YX6wefQZbzilnC6IcctbHLMzimlCIgq
-         h9a9o/OSgY5fE/gukTSvF1mdhU0ljYEhqqT8wR39yLYKDwXx7vjUuqXrl3WGjf65ybQQ
-         nSlw==
-X-Gm-Message-State: AC+VfDwayqWnb+5tTgl8ieJLEIJAcwyMKx9mSK2SutGcaiIPRbrqjxxb
-        /3pkLSqqf/kvKueFszRflZ6X/w==
-X-Google-Smtp-Source: ACHHUZ7cl+L2KXdFp2rG5iVWinOrwOQOqHXvKEINORKaqwRPBu4nKgHpT831KsNV51xiwHZybriR6g==
-X-Received: by 2002:a17:907:a426:b0:94f:2852:1d2b with SMTP id sg38-20020a170907a42600b0094f28521d2bmr5966494ejc.72.1686146360623;
-        Wed, 07 Jun 2023 06:59:20 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id h26-20020aa7de1a000000b005148f0e8568sm6202646edv.39.2023.06.07.06.59.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jun 2023 06:59:20 -0700 (PDT)
-Message-ID: <f591d7d3-a728-af1f-d74d-24aec140fd46@linaro.org>
-Date:   Wed, 7 Jun 2023 15:59:18 +0200
+        with ESMTP id S241052AbjFGPc2 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Jun 2023 11:32:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7899F188;
+        Wed,  7 Jun 2023 08:32:25 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 062B961790;
+        Wed,  7 Jun 2023 15:32:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A36C433D2;
+        Wed,  7 Jun 2023 15:32:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686151944;
+        bh=5hhZRxX2WWgW0sPLPamoyhkZr9xNbcuFiVquE58MnA4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=r5cyogrjCKLhqXI1ii7LXr6kUxd70C1Souo5RNpulj79nqY/szsqwu/hmhlkRJtLP
+         p1PYr5K4SQCY2C3RpCf2rVbMpxEScHPTRkJTU5iRRJB1JnDapPmTB3db60HSEQmFnR
+         SQGQTGPXu7aJaYaCXBAlCvm4Zc/lQCgxuhivyAPtfy9U2vyCE7R6+ALFgEBdI5oO2m
+         dVWXdgbiJtIjfOALESgsxfPADGBLRylbPGBxe0hEaaH1U2UGnumSyxsaKbw2MDCxdC
+         4LUuI5x5qJHo6uQ5o9Q/sdkyaAb0ZMFCUjhhZU7I4woVquAzJNKwt2mvCR56wF4qXX
+         75kGjRN+qPsAA==
+From:   Enric Balletbo i Serra <eballetbo@kernel.org>
+To:     linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Shuah Khan <shuah@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Dana Elfassy <delfassy@redhat.com>,
+        linux-input@vger.kernel.org, phuttere@redhat.com,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Enric Balletbo i Serra <eballetbo@kernel.org>,
+        Muhammad Usama Anjum <usama.anjum@collabora.com>
+Subject: [PATCH v3] selftests/input: Introduce basic tests for evdev ioctls
+Date:   Wed,  7 Jun 2023 17:32:14 +0200
+Message-Id: <20230607153214.15933-1-eballetbo@kernel.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v3 1/2] dt-bindings: HID: i2c-hid: ilitek: Introduce
- bindings for Ilitek ili9882t
-Content-Language: en-US
-To:     Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, dianders@chromium.org,
-        hsinyi@google.com
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230607133458.4075667-1-yangcong5@huaqin.corp-partner.google.com>
- <20230607133458.4075667-2-yangcong5@huaqin.corp-partner.google.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230607133458.4075667-2-yangcong5@huaqin.corp-partner.google.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 07/06/2023 15:34, Cong Yang wrote:
-> The ili9882t touch screen chip same as Elan eKTH6915 controller
-> has a reset gpio. The difference is that ili9882t needs to use
-> vccio-supply instead of vcc33-supply. Doug's series[1] allows panels
-> and touchscreens to power on/off together, let's add a phandle for this.
-> 
-> [1]: https: //lore.kernel.org/all/20230523193017.4109557-1-dianders@chromium.org/
-> 
-> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> ---
->  .../bindings/input/ilitek,ili9882t.yaml       | 67 +++++++++++++++++++
->  1 file changed, 67 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/ilitek,ili9882t.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/ilitek,ili9882t.yaml b/Documentation/devicetree/bindings/input/ilitek,ili9882t.yaml
-> new file mode 100644
-> index 000000000000..f69fa3aaf4c5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/ilitek,ili9882t.yaml
-> @@ -0,0 +1,67 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/ilitek,ili9882t.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Ilitek ili9882t touchscreen controller
-> +
-> +maintainers:
-> +  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> +
-> +description:
-> +  Supports the Ilitek ili9882t touchscreen controller.
-> +  This touchscreen controller uses the i2c-hid protocol with a reset GPIO.
-> +
-> +properties:
-> +  compatible:
-> +    items:
+This provides a basic infrastructure for the creation of tests for the evdev
+interface. Most of this code is adapted from the libevdev wrapper library. While
+most of evdev ioctls are covered and tested using libevdev tests there are some
+evdev ioctls that aren't because are not supported (and will not be supported)
+by libevdev [1]. So, adding, at least those tests, would make sense.
 
-Drop items, just const.
+The test creates an uinput device (and an evdev device) so you can
+call the wanted ioctl from userspace. So, to run those tests you need
+to have support for uinput and evdev as well.
 
-> +      - const: ilitek,ili9882t
-> +
-> +  reg:
-> +    const: 0x41
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  panel:
-> +    description: If this is a touchscreen, the panel it's connected to. This
-> +      indicates that the panel and touchscreen are expected to be power
-> +      sequenced together.
-> +    $ref: /schemas/types.yaml#/definitions/phandle
+[1] For example, libevdev doesn't support setting EV_REP because it's inherently
+racy - one libevdev context to set those values via the ioctl would cause all
+other libevdev contexts on the same device to be out of sync. Since we do not
+get notifications when the values changed, libevdev's buffered values for EV_REP
+will remain whatever they were initially.
 
-"If this is a touchscreen"? Doesn't you description say this is
-touchscreen controller? Then how this could be also not a touchscreen?
+Signed-off-by: Enric Balletbo i Serra <eballetbo@kernel.org>
+Acked-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+---
+Test output:
 
-> +
-> +  reset-gpios:
-> +    description: Reset GPIO.
+	TAP version 13
+	1..3
+	# Starting 3 tests from 1 test cases.
+	#  RUN           global.eviocgname_get_device_name ...
+	#            OK  global.eviocgname_get_device_name
+	ok 1 global.eviocgname_get_device_name
+	#  RUN           global.eviocgrep_get_repeat_settings ...
+	#            OK  global.eviocgrep_get_repeat_settings
+	ok 2 global.eviocgrep_get_repeat_settings
+	#  RUN           global.eviocsrep_set_repeat_settings ...
+	#            OK  global.eviocsrep_set_repeat_settings
+	ok 3 global.eviocsrep_set_repeat_settings
+	# PASSED: 3 / 3 tests passed.
+	# Totals: pass:3 fail:0 xfail:0 xpass:0 skip:0 error:0
 
-missing maxItems
+Changes since v1:
+- As UI_GET_SYSNAME has been around 3.15 remove the fallback code that
+  pre-dates that ioctl.
+- Fix a bug in the va-args handling in selftest_uinput_create_device
+  calls.
+- Fix typo s/an/and
+- Implement a test case for EVIOCSREP.
 
+Changes since v2:
+- Fix a buf left in the va-args handling in
+  selftest_uinput_create_device calls.
+- Replace fetch_syspath_and_devnode() function to open_devnode()
+  function that return the openend file descriptor, so we can reduce the
+  code.
 
-Best regards,
-Krzysztof
+ tools/testing/selftests/Makefile           |   1 +
+ tools/testing/selftests/input/.gitignore   |   2 +
+ tools/testing/selftests/input/Makefile     |   5 +
+ tools/testing/selftests/input/config       |   3 +
+ tools/testing/selftests/input/evioc-test.c | 237 +++++++++++++++++++++
+ 5 files changed, 248 insertions(+)
+ create mode 100644 tools/testing/selftests/input/.gitignore
+ create mode 100644 tools/testing/selftests/input/Makefile
+ create mode 100644 tools/testing/selftests/input/config
+ create mode 100644 tools/testing/selftests/input/evioc-test.c
+
+diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
+index 90a62cf75008..29fc77168aa7 100644
+--- a/tools/testing/selftests/Makefile
++++ b/tools/testing/selftests/Makefile
+@@ -28,6 +28,7 @@ TARGETS += futex
+ TARGETS += gpio
+ TARGETS += hid
+ TARGETS += intel_pstate
++TARGETS += input
+ TARGETS += iommu
+ TARGETS += ipc
+ TARGETS += ir
+diff --git a/tools/testing/selftests/input/.gitignore b/tools/testing/selftests/input/.gitignore
+new file mode 100644
+index 000000000000..37f5dff3255b
+--- /dev/null
++++ b/tools/testing/selftests/input/.gitignore
+@@ -0,0 +1,2 @@
++# SPDX-License-Identifier: GPL-2.0
++evioc-test
+diff --git a/tools/testing/selftests/input/Makefile b/tools/testing/selftests/input/Makefile
+new file mode 100644
+index 000000000000..031729be0628
+--- /dev/null
++++ b/tools/testing/selftests/input/Makefile
+@@ -0,0 +1,5 @@
++# SPDX-License-Identifier: GPL-2.0
++CFLAGS +=  -D_GNU_SOURCE -std=gnu99 -Wl,-no-as-needed -Wall $(KHDR_INCLUDES)
++
++TEST_GEN_PROGS := evioc-test
++include ../lib.mk
+diff --git a/tools/testing/selftests/input/config b/tools/testing/selftests/input/config
+new file mode 100644
+index 000000000000..b7512f3e6d8d
+--- /dev/null
++++ b/tools/testing/selftests/input/config
+@@ -0,0 +1,3 @@
++CONFIG_INPUT=y
++CONFIG_INPUT_EVDEV=y
++CONFIG_INPUT_UINPUT=m
+diff --git a/tools/testing/selftests/input/evioc-test.c b/tools/testing/selftests/input/evioc-test.c
+new file mode 100644
+index 000000000000..ad7b93fe39cf
+--- /dev/null
++++ b/tools/testing/selftests/input/evioc-test.c
+@@ -0,0 +1,237 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright © 2023 Red Hat, Inc.
++ *
++ * Part of the code in this file is inspired and copied from the libevdev wrapper library
++ * for evdev devices written by Peter Hutterer.
++ */
++
++#include <dirent.h>
++#include <errno.h>
++#include <fcntl.h>
++#include <linux/uinput.h>
++#include <poll.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/stat.h>
++#include <time.h>
++#include <unistd.h>
++
++#include "../kselftest_harness.h"
++
++#define TEST_DEVICE_NAME "selftest input device"
++
++struct selftest_uinput {
++	int uinput_fd; /** file descriptor to uinput */
++	int evdev_fd; /** file descriptor to evdev */
++};
++
++static int is_event_device(const struct dirent *dent)
++{
++	return strncmp("event", dent->d_name, 5) == 0;
++}
++
++static int open_devnode(struct selftest_uinput *uidev)
++{
++#define SYS_INPUT_DIR "/sys/devices/virtual/input/"
++	char buf[sizeof(SYS_INPUT_DIR) + 64] = SYS_INPUT_DIR;
++	struct dirent **namelist;
++	char *devnode = NULL;
++	int ndev, i;
++	int rc;
++
++	rc = ioctl(uidev->uinput_fd,
++		   UI_GET_SYSNAME(sizeof(buf) - strlen(SYS_INPUT_DIR)),
++		   &buf[strlen(SYS_INPUT_DIR)]);
++	if (rc == -1) {
++		fprintf(stderr, "cannot get the sysfs name of the uinput device (%d)\n", rc);
++		return rc;
++	}
++
++	ndev = scandir(buf, &namelist, is_event_device, alphasort);
++	if (ndev <= 0)
++		return -1;
++
++	/* ndev should only ever be 1 */
++
++	for (i = 0; i < ndev; i++) {
++		if (!devnode && asprintf(&devnode, "/dev/input/%s",
++					 namelist[i]->d_name) == -1)
++			devnode = NULL;
++		free(namelist[i]);
++	}
++
++	free(namelist);
++
++	return open(devnode, O_RDONLY);
++#undef SYS_INPUT_DIR
++}
++
++static void selftest_uinput_destroy(struct selftest_uinput *uidev)
++{
++	if (!uidev)
++		return;
++
++	if (uidev->uinput_fd >= 0)
++		ioctl(uidev->uinput_fd, UI_DEV_DESTROY, NULL);
++
++	close(uidev->evdev_fd);
++	close(uidev->uinput_fd);
++
++	free(uidev);
++}
++
++static int selftest_uinput_create_device(struct selftest_uinput **uidev, ...)
++{
++	struct selftest_uinput *new_device;
++	struct uinput_setup setup;
++	va_list args;
++	int rc, fd;
++	int type;
++
++	new_device = calloc(1, sizeof(struct selftest_uinput));
++	if (!new_device)
++		return -ENOMEM;
++
++	memset(&setup, 0, sizeof(setup));
++	strncpy(setup.name, TEST_DEVICE_NAME, UINPUT_MAX_NAME_SIZE - 1);
++	setup.id.vendor = 0x1234; /* sample vendor */
++	setup.id.product = 0x5678; /* sample product */
++	setup.id.bustype = BUS_USB;
++
++	fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
++	if (fd < 0) {
++		fprintf(stderr, "cannot open uinput (%d): %m\n", errno);
++		goto error;
++	}
++
++	va_start(args, uidev);
++	rc = 0;
++	do {
++		type = va_arg(args, int);
++		if (type == -1)
++			break;
++		rc = ioctl(fd, UI_SET_EVBIT, type);
++	} while (rc == 0);
++	va_end(args);
++
++	rc = ioctl(fd, UI_DEV_SETUP, &setup);
++	if (rc == -1)
++		goto error;
++
++	rc = ioctl(fd, UI_DEV_CREATE, NULL);
++	if (rc == -1)
++		goto error;
++
++	new_device->uinput_fd = fd;
++
++	fd = open_devnode(new_device);
++	if (fd < 0) {
++		fprintf(stderr, "cannot open event device node (%d): %m\n", errno);
++		goto error;
++	}
++
++	new_device->evdev_fd = fd;
++	*uidev = new_device;
++
++	return 0;
++
++error:
++	rc = -errno;
++	selftest_uinput_destroy(new_device);
++	return rc;
++}
++
++TEST(eviocgname_get_device_name)
++{
++	struct selftest_uinput *uidev;
++	char buf[256];
++	int rc;
++
++	rc = selftest_uinput_create_device(&uidev);
++	ASSERT_EQ(0, rc);
++	ASSERT_NE(NULL, uidev);
++
++	memset(buf, 0, sizeof(buf));
++	/* ioctl to get the name */
++	rc = ioctl(uidev->evdev_fd, EVIOCGNAME(sizeof(buf) - 1), buf);
++	ASSERT_GE(rc, 0);
++	ASSERT_STREQ(TEST_DEVICE_NAME, buf);
++
++	selftest_uinput_destroy(uidev);
++}
++
++TEST(eviocgrep_get_repeat_settings)
++{
++	struct selftest_uinput *uidev;
++	int rep_values[2];
++	int rc;
++
++	memset(rep_values, 0, sizeof(rep_values));
++
++	rc = selftest_uinput_create_device(&uidev, -1);
++	ASSERT_EQ(0, rc);
++	ASSERT_NE(NULL, uidev);
++
++	/* ioctl to get the repeat rates values */
++	rc = ioctl(uidev->evdev_fd, EVIOCGREP, rep_values);
++	/* should fail because EV_REP is not set */
++	ASSERT_EQ(-1, rc);
++
++	selftest_uinput_destroy(uidev);
++
++	rc = selftest_uinput_create_device(&uidev, EV_REP, -1);
++	ASSERT_EQ(0, rc);
++	ASSERT_NE(NULL, uidev);
++
++	/* ioctl to get the repeat rates values */
++	rc = ioctl(uidev->evdev_fd, EVIOCGREP, rep_values);
++	ASSERT_EQ(0, rc);
++	/* should get the default delay and period values set by the kernel */
++	ASSERT_EQ(rep_values[0], 250);
++	ASSERT_EQ(rep_values[1], 33);
++
++	selftest_uinput_destroy(uidev);
++}
++
++TEST(eviocsrep_set_repeat_settings)
++{
++	struct selftest_uinput *uidev;
++	int rep_values[2];
++	int rc;
++
++	memset(rep_values, 0, sizeof(rep_values));
++
++	rc = selftest_uinput_create_device(&uidev, -1);
++	ASSERT_EQ(0, rc);
++	ASSERT_NE(NULL, uidev);
++
++	/* ioctl to set the repeat rates values */
++	rc = ioctl(uidev->evdev_fd, EVIOCSREP, rep_values);
++	/* should fail because EV_REP is not set */
++	ASSERT_EQ(-1, rc);
++
++	selftest_uinput_destroy(uidev);
++
++	rc = selftest_uinput_create_device(&uidev, EV_REP, -1);
++	ASSERT_EQ(0, rc);
++	ASSERT_NE(NULL, uidev);
++
++	/* ioctl to set the repeat rates values */
++	rep_values[0] = 500;
++	rep_values[1] = 200;
++	rc = ioctl(uidev->evdev_fd, EVIOCSREP, rep_values);
++	ASSERT_EQ(0, rc);
++
++	/* ioctl to get the repeat rates values */
++	rc = ioctl(uidev->evdev_fd, EVIOCGREP, rep_values);
++	ASSERT_EQ(0, rc);
++	/* should get the delay and period values set previously */
++	ASSERT_EQ(rep_values[0], 500);
++	ASSERT_EQ(rep_values[1], 200);
++
++	selftest_uinput_destroy(uidev);
++}
++
++TEST_HARNESS_MAIN
+-- 
+2.40.1
 
