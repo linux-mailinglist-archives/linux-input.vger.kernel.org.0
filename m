@@ -2,189 +2,173 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13CAA7270F5
-	for <lists+linux-input@lfdr.de>; Wed,  7 Jun 2023 23:54:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB03E727231
+	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 00:55:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232505AbjFGVyL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Jun 2023 17:54:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54996 "EHLO
+        id S233270AbjFGWzE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Jun 2023 18:55:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232430AbjFGVxp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Jun 2023 17:53:45 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1387E26A1
-        for <linux-input@vger.kernel.org>; Wed,  7 Jun 2023 14:53:31 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-543cc9541feso1864267a12.2
-        for <linux-input@vger.kernel.org>; Wed, 07 Jun 2023 14:53:31 -0700 (PDT)
+        with ESMTP id S233167AbjFGWzB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Jun 2023 18:55:01 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34FD4268C
+        for <linux-input@vger.kernel.org>; Wed,  7 Jun 2023 15:54:55 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-977d0288fd2so2135866b.1
+        for <linux-input@vger.kernel.org>; Wed, 07 Jun 2023 15:54:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1686174810; x=1688766810;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tXrYtUuCuWvkbV7L1gPu5v5c01AxUbntKP7msewlmBY=;
-        b=VPtavFwrSLAnsChx0O9sOQZYBq1ojrqZEAOSN9K2H5D+oyhkPzKm1AqgA4P47Pf5oh
-         O8BG7TF+uwHJXH1rO/mOL9Oga2y26MvCYhRwbSAF/7bdKs8d+B6F5pZXdFPrDqgi3EQP
-         EzWvrRr+x12vJ7tl4U0Canch7ihXb8a8DBjks=
+        d=gmail.com; s=20221208; t=1686178493; x=1688770493;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lwmqmz3SLTAm/5XHn54kA2Qkz1KiGdBlOiEDAaxIk1A=;
+        b=ZyieX1JAoOA7e6VkLdF85cS2BY4cQvDbL6o+xYaiiDE75fbNNMeoWverOzT52D4k2S
+         UYxoSJ2sm5xGBh8kGc5D0kAtYSbrkHKN7yaUsJGKRZoZXYrBXYeNkJg7vpsqI0ZjAmch
+         3x4lCBRFtDEICvCdIQ19CxXIxIMp7RqH7HgNNtZzrb+GNtp7UmkWpCYK0Mqw+TGqa2DT
+         Wvk1MhQkef7IdoZAN3IJWtskq7+eTMruF3Uq3kN0Wjfw07kba3wtEsWoMqE1Zay+Onj3
+         n2iJopnA3FIssXaBEX6Uelz+337ycjqTLZUyQ07MpeQf4qzAhsJurfOMFWTBWT4Ke8x2
+         t7lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686174810; x=1688766810;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tXrYtUuCuWvkbV7L1gPu5v5c01AxUbntKP7msewlmBY=;
-        b=ZUw24HOkofff+xVk6F3lHGw3t76jr8AYt0+Ldy8K73znGhqgVcv4QubblzPZe1k8rD
-         nroTp/ed2HvTVdll3iEvWTgZny0zsUzEKKAoG6+plYiNnLmT30uWA3MvAQJHVvox+vex
-         CWbyFw9BkffXknNg9SP2PtFyhc8TJo4Gmzuj6/eZylRsiSS8OEGGknhxkTb4LmRPIoXp
-         JCcOJzTiP62/FxQgRwnbGYXvEJVd+Mlz5tslr+imwNRQ+cnFWQTyrU1dDKkf+XK95IGt
-         QQSQ4XIVZaxRu/44my2J04NF/oQvYbOvWvIZ4UOq5dwo8JDycgIhjlPDc86jWbPzZdLN
-         Z8Ug==
-X-Gm-Message-State: AC+VfDwifK6+Q3OiyYNP+lWfMaZbpexuzQ+EV+nJOORpTwI4Pg8tx5Bi
-        qC4NPvKywwd9iI9JofrmnyrsAQ==
-X-Google-Smtp-Source: ACHHUZ5bFX6isITbSdGTCwRLcU7Gw3ebiIVWNaaFurz8NR3mHaewyosZt0XNEE7p9+xHiFDr1q+2Qg==
-X-Received: by 2002:a05:6a20:9384:b0:111:92ef:314e with SMTP id x4-20020a056a20938400b0011192ef314emr2361644pzh.35.1686174810186;
-        Wed, 07 Jun 2023 14:53:30 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com ([2620:15c:9d:2:34b2:b638:6b53:f6c2])
-        by smtp.gmail.com with ESMTPSA id j25-20020aa78d19000000b0065dd1e7c2c1sm1376486pfe.63.2023.06.07.14.53.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jun 2023 14:53:29 -0700 (PDT)
-From:   Douglas Anderson <dianders@chromium.org>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     dri-devel@lists.freedesktop.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        linux-kernel@vger.kernel.org, hsinyi@google.com,
-        cros-qcom-dts-watchers@chromium.org, devicetree@vger.kernel.org,
-        yangcong5@huaqin.corp-partner.google.com,
-        linux-arm-msm@vger.kernel.org,
-        Chris Morgan <macroalpha82@gmail.com>,
-        Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v2 10/10] arm64: dts: qcom: sc7180: Link trogdor touchscreens to the panels
-Date:   Wed,  7 Jun 2023 14:49:32 -0700
-Message-ID: <20230607144931.v2.10.Ia06c340e3482563e6bfd3106ecd0d3139f173ca4@changeid>
-X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
-In-Reply-To: <20230607215224.2067679-1-dianders@chromium.org>
-References: <20230607215224.2067679-1-dianders@chromium.org>
+        d=1e100.net; s=20221208; t=1686178493; x=1688770493;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lwmqmz3SLTAm/5XHn54kA2Qkz1KiGdBlOiEDAaxIk1A=;
+        b=Ex5JVCNJkoGINdu6IXJ4tWc0sqnvq3XnRqdzOGDoEBGaCfZ36GfIEV9bGbVtxa9OnB
+         cVPQpBNouzF6u16K6TY4ATV6eBKBqdnkqhEdMJRGDk6Uz5lL589/3bp9u3zT6+bnhSrd
+         oi1vcxgH/sCC/mndA3+xnwCmAOc2QTHtEc5/hAsEdQkU75cMxq64UG/nVv91N0PPwu5J
+         EybA3qrxXN/f7Q8Ok7Q4EF2087E9OPkDwiqCFjbH849Q8Vc/SUDBrLDUrlS/i18eJFAH
+         ihIqecc36q/gZupaim4xhLmpNsFwFR7Ju1+YDFCjbAKVLnxmGzCiKv2CW06c4qn+pH4L
+         VXwg==
+X-Gm-Message-State: AC+VfDx2DrGzyXPnMw032RMZZVr8jqSwzKqy0yyvWpxH7YK2TiYFo916
+        /tuSxbUK1ub4j5QxDeex6/n1Kffl+3Ny8qBF+zcxZSVhgwLIlA==
+X-Google-Smtp-Source: ACHHUZ5q9v5E8VuN7LGrTh1boUYVANIIUnJnBwlK4YNL8XVT+z7GalrAexguq0b795Op+2qoCUEoHnMN8sFXq0M0ebg=
+X-Received: by 2002:a17:907:8a15:b0:96f:d154:54f7 with SMTP id
+ sc21-20020a1709078a1500b0096fd15454f7mr7113590ejc.42.1686178492570; Wed, 07
+ Jun 2023 15:54:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Received: by 2002:a54:2409:0:b0:217:72a9:f646 with HTTP; Wed, 7 Jun 2023
+ 15:54:52 -0700 (PDT)
+Reply-To: unitednationcompensationcoordinatortreasury@hotmail.com
+From:   "UNITED NATION DEPUTY SECRETARY-GENERAL (U.N)" 
+        <successikolo@gmail.com>
+Date:   Wed, 7 Jun 2023 15:54:52 -0700
+Message-ID: <CADFNGJ8vkgORi1jPvvhP+FQnPCNqs4cr588+_a-ywDXpqf+qKA@mail.gmail.com>
+Subject: CONTACT DHL OFFICE IMMEDIATELY FOR YOUR ATM MASTER CARD 1.5 MILLION,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=6.6 required=5.0 tests=ADVANCE_FEE_3_NEW_FRM_MNY,
+        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FILL_THIS_FORM,FORM_FRAUD_5,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        LOTS_OF_MONEY,MONEY_FORM,MONEY_FRAUD_5,MONEY_FREEMAIL_REPTO,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,
+        T_FILL_THIS_FORM_LOAN,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:634 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [successikolo[at]gmail.com]
+        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  0.2 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  0.0 FILL_THIS_FORM Fill in a form with personal information
+        *  0.0 T_FILL_THIS_FORM_LOAN Answer loan question(s)
+        *  0.0 MONEY_FORM Lots of money if you fill out a form
+        *  1.3 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+        *  0.0 ADVANCE_FEE_3_NEW_FRM_MNY Advance Fee fraud form and lots of
+        *      money
+        *  0.2 MONEY_FRAUD_5 Lots of money and many fraud phrases
+        *  0.0 FORM_FRAUD_5 Fill a form and many fraud phrases
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Let's provide the proper link from the touchscreen to the panel on
-trogdor devices where the touchscreen support it. This allows the OS
-to power sequence the touchscreen more properly.
+UNITED NATION DEPUTY SECRETARY-GENERAL.
 
-For the most part, this is just expected to marginally improve power
-consumption while the screen is off. However, in at least one trogdor
-model (wormdingler) it's suspected that this will fix some behavorial
-corner cases when the panel power cycles (like for a modeset) without
-the touchscreen power cycling.
+This is to official inform you that we have been having meetings for
+the past three (3) weeks which ended two days ago with MR. JIM YONG
+KIM the world bank president and other seven continent presidents on
+the congress we treated on solution to scam victim problems.
 
-NOTE: some trogdor variants use touchscreens that don't (yet) support
-linking the touchscreen and the panel. Those variants are left alone.
+ Note: we have decided to contact you following the reports we
+received from anti-fraud international monitoring group your
+name/email has been submitted to us therefore the united nations have
+agreed to compensate you with the sum of (USD$ 1.5 Million) this
+compensation is also including international business that failed you
+in the past due to government problems etc.
 
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
+ We have arranged your payment through our ATM Master Card and
+deposited it in DHL Office to deliver it to you which is the latest
+instruction from the World Bank president MR. JIM YONG KIM, For your
+information=E2=80=99s, the delivery charges already paid by U.N treasury, t=
+he
+only money you will send to DHL office south Korea is
+($500). for security keeping fee, U.N coordinator already paid for
+others charges fees for delivery except the security keeping fee, the
+director of DHL refused to collect the security keeping fee from U.N
+coordinator, the Director of DHL office said that they don=E2=80=99t know
+exactly time you will contact them to reconfirm your details to avoid
+counting demur-rage that is why they refused collecting the ($500) .
+for security keeping fee.
 
-(no changes since v1)
+ Therefore be advice to contact DHL Office agent south Korea. Rev:John
+Lee Tae-seok
+who is in position to deliver your ATM
+Master Card to your location address, contact DHL Office immediately
+with the bellow email & phone number as listed below.
 
- arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz.dtsi        | 1 +
- arch/arm64/boot/dts/qcom/sc7180-trogdor-homestar.dtsi      | 1 +
- arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi         | 1 +
- arch/arm64/boot/dts/qcom/sc7180-trogdor-pompom.dtsi        | 1 +
- arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick.dtsi | 1 +
- arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler.dtsi   | 1 +
- 6 files changed, 6 insertions(+)
+ Contact name: John Lee Tae-seok
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz.dtsi
-index 8b8ea8af165d..b4f328d3e1f6 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz.dtsi
-@@ -104,6 +104,7 @@ ap_ts: touchscreen@5d {
- 		interrupt-parent = <&tlmm>;
- 		interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
- 
-+		panel = <&panel>;
- 		reset-gpios = <&tlmm 8 GPIO_ACTIVE_LOW>;
- 
- 		vdd-supply = <&pp3300_ts>;
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-homestar.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor-homestar.dtsi
-index b3ba23a88a0b..88aeb415bd5b 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-homestar.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-homestar.dtsi
-@@ -116,6 +116,7 @@ ap_ts: touchscreen@14 {
- 		interrupt-parent = <&tlmm>;
- 		interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
- 
-+		panel = <&panel>;
- 		reset-gpios = <&tlmm 8 GPIO_ACTIVE_LOW>;
- 
- 		vdd-supply = <&pp3300_touch>;
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi
-index 269007d73162..c65f18ea3e5c 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi
-@@ -43,6 +43,7 @@ ap_ts: touchscreen@10 {
- 		interrupt-parent = <&tlmm>;
- 		interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
- 
-+		panel = <&panel>;
- 		post-power-on-delay-ms = <20>;
- 		hid-descr-addr = <0x0001>;
- 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-pompom.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor-pompom.dtsi
-index 6c5287bd27d6..d2aafd1ea672 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-pompom.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-pompom.dtsi
-@@ -102,6 +102,7 @@ ap_ts: touchscreen@10 {
- 		interrupt-parent = <&tlmm>;
- 		interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
- 
-+		panel = <&panel>;
- 		post-power-on-delay-ms = <20>;
- 		hid-descr-addr = <0x0001>;
- 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick.dtsi
-index 8e7b42f843d4..0785873d1345 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick.dtsi
-@@ -99,6 +99,7 @@ ap_ts: touchscreen@10 {
- 		interrupt-parent = <&tlmm>;
- 		interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
- 
-+		panel = <&panel>;
- 		post-power-on-delay-ms = <20>;
- 		hid-descr-addr = <0x0001>;
- 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler.dtsi
-index 262d6691abd9..f70f5b42c845 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler.dtsi
-@@ -154,6 +154,7 @@ ap_ts: touchscreen@1 {
- 		interrupt-parent = <&tlmm>;
- 		interrupts = <9 IRQ_TYPE_EDGE_FALLING>;
- 
-+		panel = <&panel>;
- 		post-power-on-delay-ms = <70>;
- 		hid-descr-addr = <0x0001>;
- 
--- 
-2.41.0.162.gfafddb0af9-goog
+ Email:( dhlgeneralheadquartersrepublic@gmail.com )
 
+ Do not hesitate to Contact Rev: John Lee Tae-seok, as soon as you
+
+ read this message. Email:( dhlgeneralheadquartersrepublic@gmail.com )
+
+ Make sure you reconfirmed DHL Office your details ASAP as stated
+below to avoid wrong delivery.
+
+ Your full name..........
+
+ Home address:.........
+
+ Your country...........
+
+ Your city..............
+
+ Telephone......
+
+ Occupation:.......
+
+ Age:=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6..
+
+ Let us know as soon as possible you receive your ATM MasterCard
+for proper verification.
+
+ Regards,
+
+ Mrs Vivian kakadu.
+
+ DEPUTY SECRETARY-GENERAL (U.N)
