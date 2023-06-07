@@ -2,93 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC16D7250C1
-	for <lists+linux-input@lfdr.de>; Wed,  7 Jun 2023 01:24:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C619725184
+	for <lists+linux-input@lfdr.de>; Wed,  7 Jun 2023 03:28:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240291AbjFFXYG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Jun 2023 19:24:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55656 "EHLO
+        id S240418AbjFGB2p (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Jun 2023 21:28:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240281AbjFFXYF (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Jun 2023 19:24:05 -0400
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53D3718F
-        for <linux-input@vger.kernel.org>; Tue,  6 Jun 2023 16:24:04 -0700 (PDT)
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-33db528e4faso1604855ab.0
-        for <linux-input@vger.kernel.org>; Tue, 06 Jun 2023 16:24:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686093843; x=1688685843;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Y8CqwaoQMp8koT1y/4L+V2p8+V0yIrknMU3sHwi8ZeU=;
-        b=EBdnv5AlSYkMVed9wIn9r8b+CaJNxHcgW9AOg0wDemPIUe2CH2lGUgCuZ+oRys9FD1
-         9SqR7HcwrGylpUL+D5aEZXixAbQrvXLhbm7bKpGirYGiuBIB73VZIGJoChlFecEZFGTA
-         3j/m1IrFgw7EPwVeNriop53YNuqeQpmumuO0WTB4b2TIPWfhU4y7Sx9/87+Qnbwx+WVI
-         A5P9BijxVcxJG11J8aAoERu09LFVCGUcaF/03p5QfrpP4Zk5X8QvsUyRRUxa/+hPqIix
-         F2G8kFP0qCImbHm/z6ZUXrrMMdISLpMgE+yvGUXULCLXDR6Fn8OPyF7AQ290MCm5ALFT
-         zGdg==
-X-Gm-Message-State: AC+VfDwwnxlAxzffQdp19JgPWiZtB2Z7qd7HjOtrVspG6zBhcgpkZvWC
-        uQbN5VTQy/g/9FXaoNSjE+EquaRDQRGebUHFBij2IwE5xkrl+qE=
-X-Google-Smtp-Source: ACHHUZ5mYE9/uhe8bp7BILr29R1D9tOecYyO7yR8dSZ7wSPIHAhyMlyhGTWsp6lJ7nxDwe/GM8KNh8konvYm4LHHB9r5q3/I1aKE
+        with ESMTP id S234753AbjFGB2o (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Jun 2023 21:28:44 -0400
+Received: from endrift.com (endrift.com [173.255.198.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F1DB199D
+        for <linux-input@vger.kernel.org>; Tue,  6 Jun 2023 18:28:43 -0700 (PDT)
+Received: from nebulosa.vulpes.eutheria.net (unknown [50.47.218.115])
+        by endrift.com (Postfix) with ESMTPSA id D4165A27B;
+        Tue,  6 Jun 2023 18:28:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=endrift.com; s=2020;
+        t=1686101322; bh=z/0xt8yMbbtcsefOTPQDzqHGcx+UQdKy096uNFuxUdE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=fi/C5u0wpNs2Fj+OOxFMKKCfoj+Fqwwza1bnE8Bp1PpqgxS+PooPgeR5t1JcjxWSr
+         oC5ZswNr8tqvKJcYqqsZ6edhrJeNMdJWlIWjytxLiFesdyIL9jLIDaxZOdIn7/e4Vx
+         dr2CTUVISBc258srZE+EHOET7n6StaAzd2OoKm+E4iprbvfahJIDxGUhlBxdxlR43n
+         tKTDDtkLsWzn31kTff/6rPKjz2SqdUXTBoaaJj4ikbpmJ5il27MF/mrCwYvtT9TC8o
+         W1P+/wPV5lQNYlJoEKkJshqmgQ0QGzZucfFuyZxuNUmvp37Bjom1yikTYVbFtnoNJi
+         fTQKo/0m87mSg==
+From:   Vicki Pfau <vi@endrift.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Vicki Pfau <vi@endrift.com>, Pavel Rojtberg <rojtberg@gmail.com>
+Subject: [PATCH 0/2] Input: xpad - Additional controller support
+Date:   Tue,  6 Jun 2023 18:28:10 -0700
+Message-Id: <20230607012812.379640-1-vi@endrift.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-X-Received: by 2002:a92:dc8a:0:b0:33a:2863:2c4d with SMTP id
- c10-20020a92dc8a000000b0033a28632c4dmr1524232iln.2.1686093843630; Tue, 06 Jun
- 2023 16:24:03 -0700 (PDT)
-Date:   Tue, 06 Jun 2023 16:24:03 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000009b935805fd7e50f1@google.com>
-Subject: [syzbot] Monthly input report (Jun 2023)
-From:   syzbot <syzbot+list67b2ee4d787a5062b35f@syzkaller.appspotmail.com>
-To:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello input maintainers/developers,
+This series includes two patches: one is a fixed resubmit of a previously
+reverted patch (first applied as db7220c48d8d), and the other is a simple
+addition to the VID table for Xbox One controllers.
 
-This is a 31-day syzbot report for the input subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/input
+Sam Lantinga (1):
+  Input: xpad - Add GameSir VID for Xbox One controllers
 
-During the period, 0 new issues were detected and 0 were fixed.
-In total, 9 issues are still open and 48 have been fixed so far.
+Vicki Pfau (1):
+  Input: xpad - fix support for some third-party controllers
 
-Some of the still happening issues:
+ drivers/input/joystick/xpad.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-Ref Crashes Repro Title
-<1> 2519    Yes   WARNING in input_mt_init_slots
-                  https://syzkaller.appspot.com/bug?extid=0122fa359a69694395d5
-<2> 935     Yes   WARNING in implement
-                  https://syzkaller.appspot.com/bug?extid=38e7237add3712479d65
-<3> 98      Yes   WARNING in cm109_urb_irq_callback/usb_submit_urb
-                  https://syzkaller.appspot.com/bug?extid=2d6d691af5ab4b7e66df
-<4> 94      Yes   general protection fault in hidraw_release
-                  https://syzkaller.appspot.com/bug?extid=953a33deaf38c66a915e
-<5> 49      Yes   inconsistent lock state in find_vmap_area
-                  https://syzkaller.appspot.com/bug?extid=8d19062486784d15dda9
-<6> 34      Yes   WARNING in bcm5974_start_traffic/usb_submit_urb
-                  https://syzkaller.appspot.com/bug?extid=348331f63b034f89b622
-<7> 13      Yes   KASAN: use-after-free Read in powermate_config_complete (4)
-                  https://syzkaller.appspot.com/bug?extid=0434ac83f907a1dbdd1e
+-- 
+2.40.1
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
