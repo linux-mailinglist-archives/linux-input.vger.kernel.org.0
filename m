@@ -2,71 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A46877270AC
-	for <lists+linux-input@lfdr.de>; Wed,  7 Jun 2023 23:42:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E43707270BE
+	for <lists+linux-input@lfdr.de>; Wed,  7 Jun 2023 23:53:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229556AbjFGVm0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Jun 2023 17:42:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51250 "EHLO
+        id S231318AbjFGVxJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Jun 2023 17:53:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231761AbjFGVmY (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Jun 2023 17:42:24 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 324FC1FEB
-        for <linux-input@vger.kernel.org>; Wed,  7 Jun 2023 14:42:17 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-bb0d11a56abso10945930276.2
-        for <linux-input@vger.kernel.org>; Wed, 07 Jun 2023 14:42:17 -0700 (PDT)
+        with ESMTP id S229775AbjFGVxI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Jun 2023 17:53:08 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2095F1BFF
+        for <linux-input@vger.kernel.org>; Wed,  7 Jun 2023 14:53:07 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-652a6cf1918so3988573b3a.1
+        for <linux-input@vger.kernel.org>; Wed, 07 Jun 2023 14:53:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1686174136; x=1688766136;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xLLWjQzhR5KtVfvlHwNOB5pnbBRQmuqU1z90zT2+9H8=;
-        b=2eFLJucADSMMVc2guRyqQ0GyD5m8DkbMPfOGF1jdZ//AXmEjRJ463djgtXezxD+tIz
-         74O8h4MFI0uzXMC9vCPj0aiDngBE0yAJCNY9Rvr6qzvsqG/Nh1skGO+GysXFIX4XPnfF
-         Ioh0izJW/oIwQs2wHAXEDVQaiGAuP8ANZb+tY1H0uqSaSSf+DMvTSNe/e+erwc6R2MwD
-         c7fEEqKB8wfkjmvOWOzW5Po7qGE5n5Mez8JRw2q8zCVPaCYDLiQxoOIOtP/W+CynWK44
-         w2vGXpspIR5MQnZ4rQm7Aergg9QbgcCiY8PdjEqQXx2mAVKv5BPkjtfCoIbUcn0l+Ffa
-         Yx+A==
+        d=chromium.org; s=google; t=1686174786; x=1688766786;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zyvg8QoYW74O3dONADg7EXfdyKnd4yv7Gmv6YiJL6Jc=;
+        b=iePh4xT2Yhrear5qpZ3eugazHSxMjjqSEgKmar+Ut8XG0gUXqV3+DPWIWO09stke09
+         0sr+XWhd8OagjvtCkuJCoF6Om04OkLWuToCO2Gt6TAD4ec0pmpgF/GmtqJihDHZ8KABU
+         x8jE5yePkFVZ6kuRL45vOx05NhD4JAgE/H3Zk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686174136; x=1688766136;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xLLWjQzhR5KtVfvlHwNOB5pnbBRQmuqU1z90zT2+9H8=;
-        b=S5cjlc7/AXT7niqM48X58fAkrkn5sl+hyzR86T7fQva+yoEtBwUG5/3UJTuWWjntLO
-         8uhx+d2mjMm4NbrzABQ4N1yOixDkQgXRrGNGorlT5u0vJqYuljjwGNh3f7us0cNrut0p
-         grtzXLMzRDNuQbbpab2C44RBjBaBzwJ+UHOPJURpFp4KaOxjZ67aMRNhdIHnjFIjie07
-         hYwo61JELHUzUVOGeezJPc/mgHm1L0v2MSpK+rNqW7zSa7o+zn2xKqigKpnTlm5IjgwB
-         hghqCSUz3FeWK3JfjFUWph0wOWflWnbFkCAx/A6+nBbxa/wcRzw74ojxFe2n/vgjhuXW
-         JGuA==
-X-Gm-Message-State: AC+VfDz6Va4jLaSAmiC86BnEwmiyg617vTOMSHg9481H3ru9dNRBWQ3p
-        XYan3J4CkrJZUMkJe74AyhehmfjEK1MWoVjIzbC7
-X-Google-Smtp-Source: ACHHUZ5sdWItSYG+ej7HlCgTVMP9bESe2sKYIRai5787TQm4dTZdxWlyRIHa32AZGLWI3BKxFSvAuHYpQt6uQgMkljtt
-X-Received: from horchata.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:5b3])
- (user=jefferymiller job=sendgmr) by 2002:a05:6902:100c:b0:bad:155a:1004 with
- SMTP id w12-20020a056902100c00b00bad155a1004mr4008262ybt.2.1686174136379;
- Wed, 07 Jun 2023 14:42:16 -0700 (PDT)
-Date:   Wed,  7 Jun 2023 21:41:57 +0000
-Mime-Version: 1.0
+        d=1e100.net; s=20221208; t=1686174786; x=1688766786;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zyvg8QoYW74O3dONADg7EXfdyKnd4yv7Gmv6YiJL6Jc=;
+        b=ERJqrrCgElecV6yO802uwVKHXE3ql+Gy9oPkiURUd0Mvgu/7tP0DuEVSgA1G1hMw2u
+         5jq/hvi9yVryTdCjyvmsBBNTLYy7QTGWcCTswfTFiJe80xPip8k4eRZqeE7bvE0F2y4a
+         R9mrItIvtoQ8i9ld8c6waNpR9CE4kBkFyy1giq1IKLMpzRweDYspKZ/JwzECMXGU0/bt
+         xBHA8ZM4hSrJm1/c6bKi7gqlITiy7ZI5vYzmJ9hclVBx+JzPyR2c9g5/uxglrBnKxR3/
+         J8MIEn70AG8wQVBnepDDZyunTZK7+qOpgv5GRqPl+4K9dJ8UDA4nbl/rMTuN4+Xhb3G+
+         FfjA==
+X-Gm-Message-State: AC+VfDyS849oZ00KW+Kl/XxxMgSl5dkTdT5TlZin0LWCYctu3gFTBbQW
+        VS6sWg2pKTpMsKG3YEVGB1gKKg==
+X-Google-Smtp-Source: ACHHUZ6H7ZkK58BxyoTwnLorjymlRn/oik+FiO502U+pJ/YGoiUFqx9sXjwVAXid4XKljYd63Yhfgw==
+X-Received: by 2002:a05:6a20:9384:b0:10b:f590:5a26 with SMTP id x4-20020a056a20938400b0010bf5905a26mr2885518pzh.26.1686174786491;
+        Wed, 07 Jun 2023 14:53:06 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:9d:2:34b2:b638:6b53:f6c2])
+        by smtp.gmail.com with ESMTPSA id j25-20020aa78d19000000b0065dd1e7c2c1sm1376486pfe.63.2023.06.07.14.53.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jun 2023 14:53:05 -0700 (PDT)
+From:   Douglas Anderson <dianders@chromium.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     dri-devel@lists.freedesktop.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        linux-kernel@vger.kernel.org, hsinyi@google.com,
+        cros-qcom-dts-watchers@chromium.org, devicetree@vger.kernel.org,
+        yangcong5@huaqin.corp-partner.google.com,
+        linux-arm-msm@vger.kernel.org,
+        Chris Morgan <macroalpha82@gmail.com>,
+        Douglas Anderson <dianders@chromium.org>
+Subject: [PATCH v2 00/10] drm/panel and i2c-hid: Allow panels and touchscreens to power sequence together
+Date:   Wed,  7 Jun 2023 14:49:22 -0700
+Message-ID: <20230607215224.2067679-1-dianders@chromium.org>
 X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
-Message-ID: <20230607214212.461815-1-jefferymiller@google.com>
-Subject: [PATCH v2] Input: synaptics-rmi4 - retry reading SMBus version on resume
-From:   Jeffery Miller <jefferymiller@google.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Denose <jdenose@chromium.org>, loic.poulain@linaro.org,
-        benjamin.tissoires@redhat.com, Andrew Duggan <andrew@duggan.us>,
-        Andrew Duggan <aduggan@synaptics.com>,
-        Lyude Paul <lyude@redhat.com>, jdenose@google.com,
-        Jeffery Miller <jefferymiller@google.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        "=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?=" 
-        <u.kleine-koenig@pengutronix.de>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,108 +84,71 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On resume there can be a period of time after the
-preceding serio_resume -> psmouse_deactivate call
-where calls to rmi_smb_get_version fail with
--ENXIO.
 
-The call path in rmi_smb_resume is rmi_smb_resume -> rmi_smb_reset ->
-rmi_smb_enable_smbus_mode -> rmi_smb_get_version where
-this failure would occur.
+The big motivation for this patch series is mostly described in the patch
+("drm/panel: Add a way for other devices to follow panel state"), but to
+quickly summarize here: for touchscreens that are connected to a panel we
+need the ability to power sequence the two device together. This is not a
+new need, but so far we've managed to get by through a combination of
+inefficiency, added costs, or perhaps just a little bit of brokenness.
+It's time to do better. This patch series allows us to do better.
 
-Add a 30ms delay and retry in the ENXIO case to ensure the following
-rmi_driver_resume calls in rmi_smbus_resume can succeed.
+Assuming that people think this patch series looks OK, we'll have to
+figure out the right way to land it. The panel patches and i2c-hid
+patches will go through very different trees and so either we'll need
+an Ack from one side or the other or someone to create a tag for the
+other tree to pull in. This will _probably_ require the true drm-misc
+maintainers to get involved, not a lowly committer. ;-)
 
-This behavior was seen on a Lenovo T440p machine that required
-a delay of approximately 7-12ms.
-The 30ms delay was chosen based on [1].
+Version 2 of this patch series doesn't change too much. At a high level:
+* I added all the forgotten "static" to functions.
+* I've hopefully made the bindings better.
+* I've integrated into fw_devlink.
+* I cleaned up a few descriptions / comments.
 
-With this patch the trimmed resume logs look similar to:
-```
-psmouse serio1: PM: calling serio_resume+0x0/0x8c @ 5399, parent: i8042
-[5399] libps2:__ps2_command:316: psmouse serio1: f5 [] - 0/00000000 []
-psmouse serio1: PM: serio_resume+0x0/0x8c returned 0 after 3259 usecs
-...
-rmi4_smbus 0-002c: PM: calling rmi_smb_resume ... @ 5454, parent: i2c-0
-...
-[5454] i2c_i801:i801_check_post:414: i801_smbus 0000:00:1f.3: No response
-smbus_result: i2c-0 a=02c f=0000 c=fd BYTE_DATA rd res=-6
-rmi4_smbus 0-002c: failed to get SMBus version number!
-rmi4_smbus 0-002c: sleeping to retry getting the SMBus version number
-...
-rmi4_smbus 0-002c: PM: rmi_smb_resume ... returned 0 after 41351 usecs
-```
-
-[1]: https://lore.kernel.org/all/BYAPR03MB47572F2C65E52ED673238D41B2439@BYAPR03MB4757.namprd03.prod.outlook.com/
-
-Signed-off-by: Jeffery Miller <jefferymiller@google.com>
----
-
-Early boot dmesg include:
-```
-rmi4_smbus 0-002c: registering SMbus-connected sensor
-rmi4_f01 rmi4-00.fn01: found RMI device, manufacturer: Synaptics, product: TM2722-001, fw id: 0
-```
-
-The resume order looks correct. The `psmouse serio1` resume returns
-before the rmi_smb_resume is called showing the patch from
-https://lore.kernel.org/all/89456fcd-a113-4c82-4b10-a9bcaefac68f@google.com/
-is applied and working for that ordering.
-
-I attempted to try to rule out some interaction between the concurrent
-input resume calls for other i8042 devices.
-Adding a 7ms delay after psmouse_deactivate which is called in the
-preceding psmouse serio1 serio_resume function also allows
-this version call to succeed.
-
-If the rmi_smb_probe device_disable_async_suspend patch is applied
-it will also avoid this issue. However the time between
-the psmouse_deactivate call for serio_resume and rmi_smb_resume
-was over 60ms on my test machine. This would naturally be long
-enough to avoid this particular delay.
-
+This still needs someone to say that the idea looks OK or to suggest
+an alternative that solves the problems. ;-)
 
 Changes in v2:
-- Changed to a single retry of 30ms based on previous feedback.
+- Move the description to the generic touchscreen.yaml.
+- Update the desc to make it clearer it's only for integrated devices.
+- Add even more text to the commit message.
+- A few comment cleanups.
+- ("Add a devlink for panel followers") new for v2.
+- i2c_hid_core_initial_power_up() is now static.
+- i2c_hid_core_panel_prepared() and ..._unpreparing() are now static.
+- ihid_core_panel_prepare_work() is now static.
+- Improve documentation for smp_wmb().
 
- drivers/input/rmi4/rmi_smbus.c | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+Douglas Anderson (10):
+  dt-bindings: HID: i2c-hid: Add "panel" property to i2c-hid backed
+    touchscreens
+  drm/panel: Check for already prepared/enabled in drm_panel
+  drm/panel: Add a way for other devices to follow panel state
+  of: property: fw_devlink: Add a devlink for panel followers
+  HID: i2c-hid: Switch to SYSTEM_SLEEP_PM_OPS()
+  HID: i2c-hid: Rearrange probe() to power things up later
+  HID: i2c-hid: Make suspend and resume into helper functions
+  HID: i2c-hid: Support being a panel follower
+  HID: i2c-hid: Do panel follower work on the system_wq
+  arm64: dts: qcom: sc7180: Link trogdor touchscreens to the panels
 
-diff --git a/drivers/input/rmi4/rmi_smbus.c b/drivers/input/rmi4/rmi_smbus.c
-index 4bf0e1df6a4a..b6d90c92e8a2 100644
---- a/drivers/input/rmi4/rmi_smbus.c
-+++ b/drivers/input/rmi4/rmi_smbus.c
-@@ -45,13 +45,25 @@ static int rmi_smb_get_version(struct rmi_smb_xport *rmi_smb)
- 	int retval;
- 
- 	/* Check if for SMBus new version device by reading version byte. */
--	retval = i2c_smbus_read_byte_data(client, SMB_PROTOCOL_VERSION_ADDRESS);
--	if (retval < 0) {
-+	for (int i = 0; i < 2; i++) {
-+		if (i > 0) {
-+			dev_warn(&client->dev, "sleeping to retry getting the SMBus version number\n");
-+			fsleep(30000);
-+		}
-+		retval = i2c_smbus_read_byte_data(client,
-+				SMB_PROTOCOL_VERSION_ADDRESS);
-+		if (retval >= 0)
-+			return retval + 1;
-+
- 		dev_err(&client->dev, "failed to get SMBus version number!\n");
--		return retval;
-+		/* There can be a delay on resume where the read returns
-+		 * -ENXIO. Retry to allow additional time for the read
-+		 *  to become responsive.
-+		 */
-+		if (retval != -ENXIO)
-+			break;
- 	}
--
--	return retval + 1;
-+	return retval;
- }
- 
- /* SMB block write - wrapper over ic2_smb_write_block */
+ .../bindings/input/elan,ekth6915.yaml         |   5 +
+ .../bindings/input/goodix,gt7375p.yaml        |   5 +
+ .../bindings/input/hid-over-i2c.yaml          |   2 +
+ .../input/touchscreen/touchscreen.yaml        |   7 +
+ .../boot/dts/qcom/sc7180-trogdor-coachz.dtsi  |   1 +
+ .../dts/qcom/sc7180-trogdor-homestar.dtsi     |   1 +
+ .../boot/dts/qcom/sc7180-trogdor-lazor.dtsi   |   1 +
+ .../boot/dts/qcom/sc7180-trogdor-pompom.dtsi  |   1 +
+ .../qcom/sc7180-trogdor-quackingstick.dtsi    |   1 +
+ .../dts/qcom/sc7180-trogdor-wormdingler.dtsi  |   1 +
+ drivers/gpu/drm/drm_panel.c                   | 196 +++++++++-
+ drivers/hid/i2c-hid/i2c-hid-core.c            | 338 +++++++++++++-----
+ drivers/of/property.c                         |   2 +
+ include/drm/drm_panel.h                       |  89 +++++
+ 14 files changed, 555 insertions(+), 95 deletions(-)
+
 -- 
 2.41.0.162.gfafddb0af9-goog
 
