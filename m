@@ -2,176 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D272F7280D0
-	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 15:02:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B458572823E
+	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 16:07:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236637AbjFHNCR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Jun 2023 09:02:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41772 "EHLO
+        id S236756AbjFHOHQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Jun 2023 10:07:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236624AbjFHNCO (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Jun 2023 09:02:14 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8420D198B
-        for <linux-input@vger.kernel.org>; Thu,  8 Jun 2023 06:02:10 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-652dd220d67so482358b3a.3
-        for <linux-input@vger.kernel.org>; Thu, 08 Jun 2023 06:02:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=huaqin-corp-partner-google-com.20221208.gappssmtp.com; s=20221208; t=1686229330; x=1688821330;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rr7qFKla7ah6JbnEELuOA7uWn8ojmtA0e2WLzBHM1Do=;
-        b=SyBSCPHikj8dMbiuAtY5QTeMPExmSxmHARZuvnR3p3D9EP+kTpT5fGCB0WrXgYrSr1
-         iwGCJsfBkp/X4JCYrA5YBl38hoigm2BTjdcl4Dj7pjhAlJJ/UrT+sqXz9CxXreY5oyvv
-         priIRTGQ739eTZAwzxa1kd/t1ouWI9fBCem75lJd85hmQluOFevbWa+U+H/68wcse0wC
-         y5Bj+rxP8QCn3aNUw55v/9wmLLiBbKdq32Tf0jnQyEU/l+XgFMxm2tVzMWNIAqYpH4U+
-         zegFgq77c7qGukiMxQQcwNKLLHm9aVNTE3pIEc+nlV7WC6X2JbR4PBJK539gKxQ9DUO5
-         lPQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686229330; x=1688821330;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rr7qFKla7ah6JbnEELuOA7uWn8ojmtA0e2WLzBHM1Do=;
-        b=JBo2O6s+euZdCjtIGNZqc/rOo/wCra96ERB9NBrx+ETZ/uECtTTr/CCbobM9TAn1AK
-         Fv42yfIOITcWOBtZkvKy6yZI9519XKQfkpPuev9f5V6OqHblwWAvw5wg9w/uzi5oEfr2
-         mw4TdwbyA80oc16kEty9s/mu4x9f2dyTypKb0kUDnwbkWugjAtSdXkbo9f1XI/h6tN95
-         pFJAuUxEO6jArVOM0BoHqCYYtxRJovXsh9fault6+JlkI9r16tb0R+AmkyMHJGZfx7VS
-         Ebbr3QoJI0onwtOnrdHANQfFalR4pG9qkNKaP8ZEhmg/+k3vYcG4tZzpOYhBQ7/KONx+
-         aKyQ==
-X-Gm-Message-State: AC+VfDxTP3xmv4jeGG4VfzPicJd8Z9iBSZMZnuQqrXpi7Uv/09Stbs42
-        wqe6RTWRi1Llgo8hDYX1TxZJ2w==
-X-Google-Smtp-Source: ACHHUZ69hMnJYjVL4lhiAv1kB3A2hivI5Bf8vWLWCsJPoBF0ymRcowxCGaxUHg3tJs/AR7UX8baE8A==
-X-Received: by 2002:a05:6a00:2d09:b0:658:8eae:a8de with SMTP id fa9-20020a056a002d0900b006588eaea8demr10426297pfb.4.1686229329266;
-        Thu, 08 Jun 2023 06:02:09 -0700 (PDT)
-Received: from yc.huaqin.com ([101.78.151.214])
-        by smtp.gmail.com with ESMTPSA id g12-20020a62e30c000000b0065438394fa4sm1111371pfh.90.2023.06.08.06.02.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jun 2023 06:02:08 -0700 (PDT)
-From:   Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, dianders@chromium.org,
-        hsinyi@google.com
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        with ESMTP id S236859AbjFHOHM (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Jun 2023 10:07:12 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 816C830C7;
+        Thu,  8 Jun 2023 07:07:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686233226; x=1717769226;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Oa6x8KM0eNi6FTDPQxF93G9pAVh+iU8hs4FXo1R4OIU=;
+  b=Zn4Eytj6OY+MIRunDRmQT19ayQ8JAKoSBMyKMnt2JBnH0uQCY6nF3YEF
+   5kk5C1yhnPkCmmNaTSNErekZ5Dflb7xQWo9llM/LEyTvrESn6ANuxk/K+
+   5AnO6dg3uC1H5j3/13nESNmoZjq+Ouk5tkXmfe2d87pAeNVgZukq5Z+2d
+   JABEUrGPHAVCFQaCEWs6OcVwipVYqhsKAmqTohyXe+xQ0erIRqxyzixGB
+   1o9XbJZ7c/bZm/wjuP4Ae0y9flWYGSOs8ZpiCKU90Ky2XEpEFzL5vzz0a
+   5/s6Tw7Wvsq7uS4w0FrH7owA3A9L0Eea5pv2zAnyiZ3GmzY6dMVTmC7vX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="423176152"
+X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
+   d="scan'208";a="423176152"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 06:36:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="660379152"
+X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
+   d="scan'208";a="660379152"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 08 Jun 2023 06:36:13 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1q7FoD-0007qC-0q;
+        Thu, 08 Jun 2023 13:36:13 +0000
+Date:   Thu, 8 Jun 2023 21:35:16 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Jason Gerecke <killertofu@gmail.com>, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Subject: [PATCH v4 2/2] HID: i2c-hid: elan: Add ili9882t timing
-Date:   Thu,  8 Jun 2023 21:01:47 +0800
-Message-Id: <20230608130147.2835818-3-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230608130147.2835818-1-yangcong5@huaqin.corp-partner.google.com>
-References: <20230608130147.2835818-1-yangcong5@huaqin.corp-partner.google.com>
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>
+Cc:     oe-kbuild-all@lists.linux.dev, Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Joshua Dickens <Joshua@joshua-dickens.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>
+Subject: Re: [PATCH] HID: wacom: Use ktime_t rather than int when dealing
+ with timestamps
+Message-ID: <202306082127.6r7qAALi-lkp@intel.com>
+References: <20230607214102.2113-1-jason.gerecke@wacom.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230607214102.2113-1-jason.gerecke@wacom.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The ili9882t is a TDDI IC (Touch with Display Driver). The
-datasheet specifies there should be 60ms between touch SDA
-sleep and panel RESX. Doug's series[1] allows panels and
-touchscreens to power on/off together, so we can add the 65 ms
-delay in i2c_hid_core_suspend before panel_unprepare.
+Hi Jason,
 
-Beacuse ilitek9882 touchscrgeen is a panel follower, and
-needs to use vccio-supply instead of vcc33-supply, so set
-it "null" to ili9882t_chip_data, then using dummy regulator.
+kernel test robot noticed the following build errors:
 
-[1]: https://lore.kernel.org/r/20230607215224.2067679-1-dianders@chromium.org
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on linus/master v6.4-rc5 next-20230608]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
----
- drivers/hid/i2c-hid/i2c-hid-of-elan.c | 33 +++++++++++++++++++++------
- 1 file changed, 26 insertions(+), 7 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Gerecke/HID-wacom-Use-ktime_t-rather-than-int-when-dealing-with-timestamps/20230608-054255
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20230607214102.2113-1-jason.gerecke%40wacom.com
+patch subject: [PATCH] HID: wacom: Use ktime_t rather than int when dealing with timestamps
+config: arc-randconfig-c003-20230608 (https://download.01.org/0day-ci/archive/20230608/202306082127.6r7qAALi-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add hid https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
+        git fetch hid for-next
+        git checkout hid/for-next
+        b4 shazam https://lore.kernel.org/r/20230607214102.2113-1-jason.gerecke@wacom.com
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-of-elan.c b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-index 76ddc8be1cbb..40e6b8ebe8d1 100644
---- a/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-@@ -18,9 +18,11 @@
- #include "i2c-hid.h"
- 
- struct elan_i2c_hid_chip_data {
--	unsigned int post_gpio_reset_delay_ms;
-+	unsigned int post_gpio_reset_on_delay_ms;
-+	unsigned int post_gpio_reset_off_delay_ms;
- 	unsigned int post_power_delay_ms;
- 	u16 hid_descriptor_address;
-+	const char *main_supply_name;
- };
- 
- struct i2c_hid_of_elan {
-@@ -52,8 +54,8 @@ static int elan_i2c_hid_power_up(struct i2chid_ops *ops)
- 		msleep(ihid_elan->chip_data->post_power_delay_ms);
- 
- 	gpiod_set_value_cansleep(ihid_elan->reset_gpio, 0);
--	if (ihid_elan->chip_data->post_gpio_reset_delay_ms)
--		msleep(ihid_elan->chip_data->post_gpio_reset_delay_ms);
-+	if (ihid_elan->chip_data->post_gpio_reset_on_delay_ms)
-+		msleep(ihid_elan->chip_data->post_gpio_reset_on_delay_ms);
- 
- 	return 0;
- }
-@@ -64,6 +66,9 @@ static void elan_i2c_hid_power_down(struct i2chid_ops *ops)
- 		container_of(ops, struct i2c_hid_of_elan, ops);
- 
- 	gpiod_set_value_cansleep(ihid_elan->reset_gpio, 1);
-+	if (ihid_elan->chip_data->post_gpio_reset_off_delay_ms)
-+		msleep(ihid_elan->chip_data->post_gpio_reset_off_delay_ms);
-+
- 	regulator_disable(ihid_elan->vccio);
- 	regulator_disable(ihid_elan->vcc33);
- }
-@@ -89,24 +94,38 @@ static int i2c_hid_of_elan_probe(struct i2c_client *client)
- 	if (IS_ERR(ihid_elan->vccio))
- 		return PTR_ERR(ihid_elan->vccio);
- 
--	ihid_elan->vcc33 = devm_regulator_get(&client->dev, "vcc33");
-+	ihid_elan->chip_data = device_get_match_data(&client->dev);
-+
-+	ihid_elan->vcc33 = devm_regulator_get(&client->dev, ihid_elan->chip_data->main_supply_name);
- 	if (IS_ERR(ihid_elan->vcc33))
- 		return PTR_ERR(ihid_elan->vcc33);
- 
--	ihid_elan->chip_data = device_get_match_data(&client->dev);
--
- 	return i2c_hid_core_probe(client, &ihid_elan->ops,
- 				  ihid_elan->chip_data->hid_descriptor_address, 0);
- }
- 
- static const struct elan_i2c_hid_chip_data elan_ekth6915_chip_data = {
- 	.post_power_delay_ms = 1,
--	.post_gpio_reset_delay_ms = 300,
-+	.post_gpio_reset_on_delay_ms = 300,
-+	.hid_descriptor_address = 0x0001,
-+	.main_supply_name = "vcc33",
-+};
-+
-+static const struct elan_i2c_hid_chip_data ilitek_ili9882t_chip_data = {
-+	.post_power_delay_ms = 1,
-+	.post_gpio_reset_on_delay_ms = 200,
-+	.post_gpio_reset_off_delay_ms = 65,
- 	.hid_descriptor_address = 0x0001,
-+	/* this touchscreen is tightly integrated with the panel and assumes
-+	 * that the relevant power rails (other than the IO rail) have already
-+	 * been turned on by the panel driver because we're a panel follower.
-+	 */
-+	.main_supply_name = "null",
- };
- 
- static const struct of_device_id elan_i2c_hid_of_match[] = {
- 	{ .compatible = "elan,ekth6915", .data = &elan_ekth6915_chip_data },
-+	{ .compatible = "ilitek,ili9882t", .data = &ilitek_ili9882t_chip_data },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, elan_i2c_hid_of_match);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306082127.6r7qAALi-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "__divdi3" [drivers/hid/wacom.ko] undefined!
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
