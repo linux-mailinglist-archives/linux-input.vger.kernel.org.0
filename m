@@ -2,50 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D621728261
-	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 16:11:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 491A2728283
+	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 16:20:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236923AbjFHOLE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Jun 2023 10:11:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48698 "EHLO
+        id S235828AbjFHOUa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Jun 2023 10:20:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236926AbjFHOLE (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Jun 2023 10:11:04 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 329212726;
-        Thu,  8 Jun 2023 07:11:03 -0700 (PDT)
+        with ESMTP id S229848AbjFHOU3 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Jun 2023 10:20:29 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D22561730;
+        Thu,  8 Jun 2023 07:20:26 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BD9ED64AAE;
-        Thu,  8 Jun 2023 14:11:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03A54C433D2;
-        Thu,  8 Jun 2023 14:11:00 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5E19864AE0;
+        Thu,  8 Jun 2023 14:20:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA543C433EF;
+        Thu,  8 Jun 2023 14:20:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686233462;
-        bh=0fbVVZxbX+7uBgaaZMvGPxIbYG32eywvC3Mz0AqXISM=;
+        s=k20201202; t=1686234025;
+        bh=Th1LxrT8KdmLSh3YIuh2Q25jf9THPmdHaJyxevJaMSo=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=TigkBz+YRO/u3oLmHQKwkHwj4QrP4ft+JZV3ZXtwhNeFhRm1GaZNDa0B9/f2X0A1/
-         Tw+IlYUnslamhSw5nPXeMWNAeKSQ33lefHzmbLvvJhnGXqydAkf0tZCLMg7COvk/1G
-         pnKJ1JYKToBNfjjZFbewCIVljf9lNDaBt5sWvRrk6YKQ6O720wW48C3JWdMKKk59R5
-         BLd+NiBkVuhOVcm4eJvb5KFgjvK3tL6xixKxzLoUH5f3z6Ujf/7cZC1Jp/wuF8aMl/
-         FkGU4TPM5NWJsds/qAW3bMrlMA5OOeAJDyzFNeY8JKTuatD6Rti8851XZa3mAHOnlk
-         fx9da291xNTpQ==
-Date:   Thu, 8 Jun 2023 16:10:58 +0200 (CEST)
+        b=rTUDLf9qOVFeZzKzI8cahDWYq5vldNr97JiP2rUutibt8l76hmUuot/905aAv91iM
+         Tsdvp8LqZ5x/4fYbVPOaPJujmOtLx3YTv1dxppAPQTc2RVZTc4Aoy3pP/PZEiLdgj1
+         ydRlumN2v4zSUsYf43NHnMCpq0x0wA2CmcZckRgCtnqknj/zgsvATxXZM8WjTa5doz
+         F/IlysnPgKhT+4bYt2Dz1XT513JS+ix6GGG5xvr7EuzmUzzog9kwOasRqK7LbVkfUR
+         Yb7ljPaJ5ruM+5Tk0NSaUkM01wxdllsI/yNAUdBmwFokTJpi1uDmABIpHSCLSPu7U4
+         OVmiEUrlmIkdw==
+Date:   Thu, 8 Jun 2023 16:20:11 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Siarhei Vishniakou <svv@google.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bastien Nocera <hadess@hadess.net>
-Subject: Re: [PATCH v4] Add rumble support to latest xbox controllers
-In-Reply-To: <20230425163844.3711710-1-svv@google.com>
-Message-ID: <nycvar.YFH.7.76.2306081610380.29760@cbobk.fhfr.pm>
-References: <20230425163844.3711710-1-svv@google.com>
+To:     Fei Shao <fshao@chromium.org>
+cc:     Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Jeff LaBundy <jeff@labundy.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Stephen Kitt <steve@sk2.org>, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v4 0/2] Fix Goodix touchscreen power leakage for
+ MT8186 boards
+In-Reply-To: <20230524114233.RESEND.v4.2.I424e840ae6de3cdbd67394cf4efd24534f6434ba@changeid>
+Message-ID: <nycvar.YFH.7.76.2306081619470.5716@cbobk.fhfr.pm>
+References: <20230524114233.RESEND.v4.2.I424e840ae6de3cdbd67394cf4efd24534f6434ba@changeid>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -54,52 +63,26 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 25 Apr 2023, Siarhei Vishniakou wrote:
+On Wed, 24 May 2023, Fei Shao wrote:
 
-> Currently, rumble is only supported via bluetooth on a single xbox
-> controller, called 'model 1708'. On the back of the device, it's named
-> 'wireless controller for xbox one'. However, in 2021, Microsoft released
-> a firmware update for this controller. As part of this update, the HID
-> descriptor of the device changed. The product ID was also changed from
-> 0x02fd to 0x0b20. On this controller, rumble was supported via
-> hid-microsoft, which matched against the old product id (0x02fd). As a
-> result, the firmware update broke rumble support on this controller.
+> These changes are based on the series in [1], which modified the
+> i2c-hid-of-goodix driver and removed the workaround for a power leakage
+> issue, so the issue revisits on Mediatek MT8186 boards (Steelix).
 > 
-> See:
-> https://news.xbox.com/en-us/2021/09/08/xbox-controller-firmware-update-rolling-out-to-insiders-starting-today/
+> The root cause is that the touchscreen can be powered in different ways
+> depending on the hardware designs, and it's not as easy to come up with
+> a solution that is both simple and elegant for all the known designs.
 > 
-> The hid-microsoft driver actually supports rumble on the new firmware,
-> as well. So simply adding new product id is sufficient to bring back
-> this support.
+> To address the issue, I ended up adding a new boolean property for the
+> driver so that we can control the power up/down sequence depending on
+> that.
 > 
-> After discussing further with the xbox team, it was pointed out that
-> another xbox controller, xbox elite series 2, can be supported in a
-> similar way.
-> 
-> Add rumble support for all of these devices in this patch. Two of the
-> devices have received firmware updates that caused their product id's to
-> change. Both old and new firmware versions of these devices were tested.
-> 
-> The tested controllers are:
-> 
-> 1. 'wireless controller for xbox one', model 1708
-> 2. 'xbox wireless controller', model 1914. This is also sometimes
->    referred to as 'xbox series S|X'.
-> 3. 'elite series 2', model 1797.
-> 
-> The tested configurations are:
-> 1. model 1708, pid 0x02fd (old firmware)
-> 2. model 1708, pid 0x0b20 (new firmware)
-> 3. model 1914, pid 0x0b13
-> 4. model 1797, pid 0x0b05 (old firmware)
-> 5. model 1797, pid 0x0b22 (new firmware)
-> 
-> I verified rumble support on both bluetooth and usb.
-> 
-> Reviewed-by: Bastien Nocera <hadess@hadess.net>
-> Signed-off-by: Siarhei Vishniakou <svv@google.com>
+> Adding a new property might not be the cleanest approach for this, but
+> at least the intention would be easy enough to understand, and it
+> introduces relatively small change to the code and fully preserves the
+> original control flow.
 
-Applied, sorry for the delay.
+Please apologize the delay. Now applied.
 
 -- 
 Jiri Kosina
