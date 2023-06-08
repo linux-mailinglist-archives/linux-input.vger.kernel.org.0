@@ -2,152 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C313F727546
-	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 04:51:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9617B727695
+	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 07:18:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233815AbjFHCv2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Jun 2023 22:51:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51562 "EHLO
+        id S234311AbjFHFSl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Jun 2023 01:18:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233812AbjFHCvV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Jun 2023 22:51:21 -0400
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A16E31BDF;
-        Wed,  7 Jun 2023 19:51:17 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.west.internal (Postfix) with ESMTP id AD50832007BE;
-        Wed,  7 Jun 2023 22:51:15 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Wed, 07 Jun 2023 22:51:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1686192675; x=1686279075; bh=fe
-        G13tHn2eFFa/kfOQnMAGH3Yu0x2pEJQhtv4nEbQgY=; b=oGSi83rhDGLe3v8JDu
-        hvAZ6SSI/Rj1lort7dp9CaDIuwuJOtfd4sM1idvqDee/bvTgpHUm76q5wKliAay5
-        14+rkSI8xc8mof0elbKdBA12/yNFSUuxEKGRAhzmeTzxqxrnce+Rao3hI9j7rlH2
-        nxQACgTw2T1vwa0pFrY8iw+VRjlAOoKjXQan4c77avGk+siJYBat3R8E6c0qj3s1
-        RFHKhFmznH20qgGAWwBpNhpCBl8r7GnvePwDYIySSHXfhGJo/XT4yiquyuXMEQ9g
-        AgTebApTlFcMm6/0izRFoX8gB21MZqwWvVn7/XPIJags0ku+5EbTFBdngb1KBewl
-        HEsQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; t=1686192675; x=1686279075; bh=feG13tHn2eFFa
-        /kfOQnMAGH3Yu0x2pEJQhtv4nEbQgY=; b=EoIgrdkOh/4UTUBOd/IsLvhFDhfNz
-        PqlxYPnmzEffPTME77d205NcE28ebANJ2uw1usiQv76+Inv4T8BtaS+MOdH3q6i/
-        8hEyfGm1Tbs+XSWhJt99+xvKVxtgb2A+qT6wT4gGpLXtDqNX5k3/kZ5pCH0q9gNv
-        GHs65Nnc4VJTgI7vbdLkN1xVKWdjmzTLogSZ3SmrI05dnWoZeCWZyaIDZXXV5ED5
-        bikx6+1YFsPNMTYS/LmtWJIQp8lnP4nmX6kL4T80pjolnVhIsrIirGl02ylWKzua
-        k8m5rSW8KuT5Loqpuv+StmP0t1j36JuKyOtcDbsPjFkVSKzmRv+1b9beA==
-X-ME-Sender: <xms:I0KBZPYUwZUi_jJc2AlClMK4xWOkuzPaeJQ6l8iFxqqlQk1sM-R1sA>
-    <xme:I0KBZOYMySpr2kyYK_mX3MVx4Dv97HlZNZIt_eocZbIgW6TgOwNP_v3pXQ5SCi2b5
-    o6tTMNscLbHunAw6WQ>
-X-ME-Received: <xmr:I0KBZB96mSiPonHl8Mgk7gOhOOvHuEugtykpubXHvN_57Li6ALO1KOkqnkFn5Sg1HppcN-HaNFSHyTQS60LXhtaQ04hEka2LQAJO>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgedthedgieefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgv
-    rhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvg
-    htqeenucggtffrrghtthgvrhhnpeefgfejvefgudfhfeevudekueegtdeutdejhffhhfdv
-    keejhfehheefgfehteejffenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrgh
-    enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvght
-    vghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
-X-ME-Proxy: <xmx:I0KBZFpFiOh9JY8VoFEgngsxAix05PFdCk1qvSLxIg7NcGhmBzhHHQ>
-    <xmx:I0KBZKonkKce1iWDK9ii14ds5jWX8NwOlXAQ7Por3FMO3k8waRaGjQ>
-    <xmx:I0KBZLQ7olkUZQApq3fNcSyHR68Kk7qnliE_cf4A_E0Rrb77SQ_Edg>
-    <xmx:I0KBZKKcx3nGlpxkBKL6HtWkyzmOcNtA1MqkLdpc9MQCuudEZSBZJg>
-Feedback-ID: i7ce144cd:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Jun 2023 22:51:12 -0400 (EDT)
-Date:   Thu, 8 Jun 2023 12:51:06 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Jason Gerecke <killertofu@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        with ESMTP id S233573AbjFHFSi (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Jun 2023 01:18:38 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D9C526B8;
+        Wed,  7 Jun 2023 22:18:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686201514; x=1717737514;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cHXrEY01bYvheOLH7fG7jjiblWcaaSIEo6dV4ZMjUe0=;
+  b=LocKE1V9IsHhQOMmoyx+6Xu8aCJCT/IkxHeS2XhU57zhfTKCKzMh0F6K
+   ABCuJQnaPti6QoMosND/6tIMxAfGI4Yn13SbcAGAGOOxlWODFSHP26bjr
+   klQJuQjwkkMnCJDcy6A/uIkYD8QxlEHcYyIcbLMCXKsD92JbJ/Dzp3coc
+   Y5qifYizJtpJb3hHlV+GJQ8ATxksDpXpk6cH6ha4CwP7IEzt4LDQFlt7j
+   drpdnplxb2dTLH/N/gb7RgQV3jeq0/g+j6xG8BtBE/R7ILouEqzD9sAqZ
+   ZNb9xUqE6UG00LLAY6L5kysA27BIGgBss9NfhhtzsLn7A8x5oFBTqlEaA
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="357213723"
+X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
+   d="scan'208";a="357213723"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 22:18:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="703942649"
+X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
+   d="scan'208";a="703942649"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 07 Jun 2023 22:18:27 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1q782U-0007Ih-2L;
+        Thu, 08 Jun 2023 05:18:26 +0000
+Date:   Thu, 8 Jun 2023 13:18:07 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Douglas Anderson <dianders@chromium.org>,
         Jiri Kosina <jikos@kernel.org>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Joshua Dickens <Joshua@joshua-dickens.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>
-Subject: Re: [PATCH] HID: wacom: Use ktime_t rather than int when dealing
- with timestamps
-Message-ID: <20230608025106.GA4142460@quokka>
-References: <20230607214102.2113-1-jason.gerecke@wacom.com>
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Douglas Anderson <dianders@chromium.org>,
+        devicetree@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
+        linux-arm-msm@vger.kernel.org,
+        yangcong5@huaqin.corp-partner.google.com,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Chris Morgan <macroalpha82@gmail.com>,
+        linux-input@vger.kernel.org, hsinyi@google.com
+Subject: Re: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
+Message-ID: <202306081344.M0jNn0Ce-lkp@intel.com>
+References: <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230607214102.2113-1-jason.gerecke@wacom.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jun 07, 2023 at 02:41:02PM -0700, Jason Gerecke wrote:
-> Code which interacts with timestamps needs to use the ktime_t type
-> returned by functions like ktime_get. The int type does not offer
-> enough space to store these values, and attempting to use it is a
-> recipe for problems. In this particular case, overflows would occur
-> when calculating/storing timestamps leading to incorrect values being
-> reported to userspace. In some cases these bad timestamps cause input
-> handling in userspace to appear hung.
-> 
-> Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/901
-> Fixes: 17d793f3ed53 ("HID: wacom: insert timestamp to packed Bluetooth (BT) events")
-> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+Hi Douglas,
 
-Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
+kernel test robot noticed the following build errors:
 
-Cheers,
-  Peter
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on hid/for-next dtor-input/next dtor-input/for-linus]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> ---
->  drivers/hid/wacom_wac.c | 4 ++--
->  drivers/hid/wacom_wac.h | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-> index 2ccf83837134..2f16e47e4b69 100644
-> --- a/drivers/hid/wacom_wac.c
-> +++ b/drivers/hid/wacom_wac.c
-> @@ -1314,7 +1314,7 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_wac *wacom)
->  	struct input_dev *pen_input = wacom->pen_input;
->  	unsigned char *data = wacom->data;
->  	int number_of_valid_frames = 0;
-> -	int time_interval = 15000000;
-> +	ktime_t time_interval = 15000000;
->  	ktime_t time_packet_received = ktime_get();
->  	int i;
->  
-> @@ -1359,7 +1359,7 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_wac *wacom)
->  		bool range = frame[0] & 0x20;
->  		bool invert = frame[0] & 0x10;
->  		int frames_number_reversed = number_of_valid_frames - i - 1;
-> -		int event_timestamp = time_packet_received - frames_number_reversed * time_interval;
-> +		ktime_t event_timestamp = time_packet_received - frames_number_reversed * time_interval;
->  
->  		if (!valid)
->  			continue;
-> diff --git a/drivers/hid/wacom_wac.h b/drivers/hid/wacom_wac.h
-> index 1a40bb8c5810..ee21bb260f22 100644
-> --- a/drivers/hid/wacom_wac.h
-> +++ b/drivers/hid/wacom_wac.h
-> @@ -324,7 +324,7 @@ struct hid_data {
->  	int ps_connected;
->  	bool pad_input_event_flag;
->  	unsigned short sequence_number;
-> -	int time_delayed;
-> +	ktime_t time_delayed;
->  };
->  
->  struct wacom_remote_data {
-> -- 
-> 2.41.0
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Douglas-Anderson/dt-bindings-HID-i2c-hid-Add-panel-property-to-i2c-hid-backed-touchscreens/20230608-055515
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15%40changeid
+patch subject: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
+config: arc-randconfig-r021-20230607 (https://download.01.org/0day-ci/archive/20230608/202306081344.M0jNn0Ce-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+        git fetch robh for-next
+        git checkout robh/for-next
+        b4 shazam https://lore.kernel.org/r/20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306081344.M0jNn0Ce-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   `.exit.text' referenced in section `__jump_table' of lib/test_dynamic_debug.o: defined in discarded section `.exit.text' of lib/test_dynamic_debug.o
+   `.exit.text' referenced in section `__jump_table' of lib/test_dynamic_debug.o: defined in discarded section `.exit.text' of lib/test_dynamic_debug.o
+   `.exit.text' referenced in section `__jump_table' of drivers/misc/phantom.o: defined in discarded section `.exit.text' of drivers/misc/phantom.o
+   `.exit.text' referenced in section `__jump_table' of drivers/misc/phantom.o: defined in discarded section `.exit.text' of drivers/misc/phantom.o
+   `.exit.text' referenced in section `__jump_table' of drivers/target/target_core_configfs.o: defined in discarded section `.exit.text' of drivers/target/target_core_configfs.o
+   `.exit.text' referenced in section `__jump_table' of drivers/target/target_core_configfs.o: defined in discarded section `.exit.text' of drivers/target/target_core_configfs.o
+   arceb-elf-ld: drivers/hid/i2c-hid/i2c-hid-core.o: in function `i2c_hid_core_remove':
+   drivers/hid/i2c-hid/i2c-hid-core.c:1218: undefined reference to `drm_panel_remove_follower'
+>> arceb-elf-ld: drivers/hid/i2c-hid/i2c-hid-core.c:1218: undefined reference to `drm_panel_remove_follower'
+   arceb-elf-ld: drivers/hid/i2c-hid/i2c-hid-core.o: in function `i2c_hid_core_probe':
+   drivers/hid/i2c-hid/i2c-hid-core.c:1159: undefined reference to `drm_panel_add_follower'
+>> arceb-elf-ld: drivers/hid/i2c-hid/i2c-hid-core.c:1159: undefined reference to `drm_panel_add_follower'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
