@@ -2,67 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0DC972832F
-	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 17:01:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7205272834C
+	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 17:11:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236399AbjFHPBc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Jun 2023 11:01:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43926 "EHLO
+        id S236223AbjFHPLR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Jun 2023 11:11:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230033AbjFHPBa (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Jun 2023 11:01:30 -0400
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B0891FFE;
-        Thu,  8 Jun 2023 08:01:29 -0700 (PDT)
-Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-33c37f62e24so2283115ab.3;
-        Thu, 08 Jun 2023 08:01:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686236488; x=1688828488;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        with ESMTP id S235928AbjFHPLQ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Jun 2023 11:11:16 -0400
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 734332D5F
+        for <linux-input@vger.kernel.org>; Thu,  8 Jun 2023 08:11:14 -0700 (PDT)
+Received: by mail-oi1-x235.google.com with SMTP id 5614622812f47-39a523e8209so492084b6e.0
+        for <linux-input@vger.kernel.org>; Thu, 08 Jun 2023 08:11:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1686237073; x=1688829073;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W2HO+Cce6dz6N2YsSHeGk4YtxY8g0B2gxVxKGt9RYO8=;
-        b=KuCMfxonJNTi5eg/6XuoqlZTX66r1A0BRY+89OyyIuoiRKTdtU4JhOrhwibLdf5os1
-         YSXCGEuSkKzvxTYaprALs9qXSbw3Txl7FizQURId+gIBxqPMXLP8qj/3tx9INdGUi4V5
-         M10lXoTG5ECBzImR52VKoSVjjgJTOETubn8/vKAfDRhFq+58kvEK9U4GdLDKGi/JknfA
-         rBFV2pRtkAZ15dQZE4hvoXsRiwaq3KU/ZEccMsmFMO80stjN09yjdQjFqyjYfR5ZZ8RM
-         mH1ND5IKvZR2g6+fMrNFOUPS7fnztHAnFV2kPYCeXvtg9l+9+Rj/gZNnvAgQIiCNX0s/
-         lNqg==
-X-Gm-Message-State: AC+VfDwyLW5T017+9Px5wOHfHqn979Hq1u2hcrwa8Koy73+sFRF0Vwf1
-        xa0+/oQM6AaMnd0ey7Chyw==
-X-Google-Smtp-Source: ACHHUZ4IwaHl69Kvs9PbKKXIEy+QH3g/M6NOgsYXS2bWPK+eqQDjoRUxG5TZVArsyYoo+4VtmV61tg==
-X-Received: by 2002:a92:da8c:0:b0:339:f9d:9f6b with SMTP id u12-20020a92da8c000000b003390f9d9f6bmr8567944iln.1.1686236488619;
-        Thu, 08 Jun 2023 08:01:28 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id x9-20020a92dc49000000b0033d2b3928d1sm449911ilq.51.2023.06.08.08.01.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jun 2023 08:01:27 -0700 (PDT)
-Received: (nullmailer pid 2625861 invoked by uid 1000);
-        Thu, 08 Jun 2023 15:01:26 -0000
-Date:   Thu, 8 Jun 2023 09:01:26 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Nikita Shubin <nikita.shubin@maquefel.me>
-Cc:     Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Michael Peters <mpeters@embeddedts.com>,
-        Kris Bahnsen <kris@embeddedts.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 27/43] dt-bindings: input: Add Cirrus EP93xx keypad
-Message-ID: <20230608150126.GA2621694-robh@kernel.org>
-References: <20230424123522.18302-1-nikita.shubin@maquefel.me>
- <20230601054549.10843-9-nikita.shubin@maquefel.me>
+        bh=XKYIY8lnLeesFrrYGM6yGBBcxp2DdDvQNqXJ/GPrn+0=;
+        b=BmAm0rXM4KZbTYym0HXYlOClgT/zGWm4ze6fwFqXwAqD1ItkmTYBl/+afhC3UDFEZl
+         uuRCKPD6RgfoUkFKIWZwzbDtBFAA1JCrB8QIqhbKWGVLgphLs9tCNZ4dqqMrQJ95EdDS
+         +7AZci3CA88AqfAQL6mijMM679CIZt98Z/tco=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686237073; x=1688829073;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XKYIY8lnLeesFrrYGM6yGBBcxp2DdDvQNqXJ/GPrn+0=;
+        b=AZdObMa+wJorkHPdNKUvPMuSp1Il4vqZsEbKskqK9pmUSD0oTtZgs67kfMd8yPTXOq
+         1oqFpP/nyTSWcahuPF8x4Sgt5cENdePqeNOf7e6pIS9pUc8x6eK99H+Hok3so7kGfise
+         ElZXJ65yPHRaZhCMffn0TIr7pI4FkKadpTG7BYmlsrDg1R22CR1cjRGkfz2UTF7o27SF
+         1cp1dTb3FIADz7oCUxAFJVLNuyzIEpitmIfQVpWHtYq0jKEWcFWw736CKT3BR6v/gRb6
+         2gYp+EPWhAJh7hbSEVOxb+9/FlFtAczPGSElLZ+rN0rnGIZGGbxYoYF0SWNbQGy4z575
+         2isw==
+X-Gm-Message-State: AC+VfDzFUnzqFUMQK3f6wt4ojaDsYJvIWZF/qN5+frtq+bX76dC0mr8V
+        YmE4eMc52+kKFweDkSH89a9RDkzo9L6v90IkiwU=
+X-Google-Smtp-Source: ACHHUZ6TwDSRoyRfopc0fvkTlyx4ebqTJopnfYqPHnIFUg3N36PkyBcys1/a6AYQAWjIH7u89yMwhw==
+X-Received: by 2002:aca:130d:0:b0:394:3f93:ce0e with SMTP id e13-20020aca130d000000b003943f93ce0emr6861097oii.24.1686237072890;
+        Thu, 08 Jun 2023 08:11:12 -0700 (PDT)
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com. [209.85.160.181])
+        by smtp.gmail.com with ESMTPSA id kr30-20020a0562142b9e00b00626286e41ccsm457663qvb.77.2023.06.08.08.11.12
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Jun 2023 08:11:12 -0700 (PDT)
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-3f9b7de94e7so218681cf.0
+        for <linux-input@vger.kernel.org>; Thu, 08 Jun 2023 08:11:12 -0700 (PDT)
+X-Received: by 2002:a92:c549:0:b0:33d:929c:af67 with SMTP id
+ a9-20020a92c549000000b0033d929caf67mr120694ilj.17.1686237051541; Thu, 08 Jun
+ 2023 08:10:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230601054549.10843-9-nikita.shubin@maquefel.me>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+References: <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
+ <202306081419.Dzz0T4iW-lkp@intel.com>
+In-Reply-To: <202306081419.Dzz0T4iW-lkp@intel.com>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Thu, 8 Jun 2023 08:10:39 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UMryHK+8j9FCKtSxykB8Tc-tU_B7MXMQPxpkdP2h8mJA@mail.gmail.com>
+Message-ID: <CAD=FV=UMryHK+8j9FCKtSxykB8Tc-tU_B7MXMQPxpkdP2h8mJA@mail.gmail.com>
+Subject: Re: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
+To:     kernel test robot <lkp@intel.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>, llvm@lists.linux.dev,
+        oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+        cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org,
+        yangcong5@huaqin.corp-partner.google.com,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Chris Morgan <macroalpha82@gmail.com>,
+        linux-input@vger.kernel.org, hsinyi@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,132 +94,81 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jun 01, 2023 at 08:45:32AM +0300, Nikita Shubin wrote:
-> Add YAML bindings for ep93xx SoC keypad.
-> 
-> Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
-> ---
-> 
-> Notes:
->     v0 -> v1:
->     
->     - remove almost all but debounce-delay-ms and prescale
->     - s/ep9301-keypad/ep9307-keypad/ it's actually only for
->       ep9307, ep9312, ep9315
->     
->     Krzysztof Kozlowski:
->     - renamed file
->     - changed maintainers
->     - dropped quotes
->     - dropped clock-names
->     - use fallback compatible and list all possible compatibles
->     - fix ident
-> 
->  .../bindings/input/cirrus,ep9307-keypad.yaml  | 86 +++++++++++++++++++
->  1 file changed, 86 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/cirrus,ep9307-keypad.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/cirrus,ep9307-keypad.yaml b/Documentation/devicetree/bindings/input/cirrus,ep9307-keypad.yaml
-> new file mode 100644
-> index 000000000000..c7eb10a84a6b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/cirrus,ep9307-keypad.yaml
-> @@ -0,0 +1,86 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/cirrus,ep9307-keypad.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cirrus ep93xx keypad
-> +
-> +maintainers:
-> +  - Alexander Sverdlin <alexander.sverdlin@gmail.com>
-> +
-> +allOf:
-> +  - $ref: /schemas/input/matrix-keymap.yaml#
-> +
-> +description: |
+Hi,
 
-Don't need '|'.
+On Thu, Jun 8, 2023 at 12:15=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Douglas,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on robh/for-next]
+> [also build test ERROR on hid/for-next dtor-input/next dtor-input/for-lin=
+us drm-misc/drm-misc-next linus/master v6.4-rc5 next-20230607]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Douglas-Anderson/d=
+t-bindings-HID-i2c-hid-Add-panel-property-to-i2c-hid-backed-touchscreens/20=
+230608-055515
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git fo=
+r-next
+> patch link:    https://lore.kernel.org/r/20230607144931.v2.8.Ib1a98309c45=
+5cd7e26b931c69993d4fba33bbe15%40changeid
+> patch subject: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follo=
+wer
+> config: i386-randconfig-i003-20230607 (https://download.01.org/0day-ci/ar=
+chive/20230608/202306081419.Dzz0T4iW-lkp@intel.com/config)
+> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git =
+8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> reproduce (this is a W=3D1 build):
+>         mkdir -p ~/bin
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         git remote add robh https://git.kernel.org/pub/scm/linux/kernel/g=
+it/robh/linux.git
+>         git fetch robh for-next
+>         git checkout robh/for-next
+>         b4 shazam https://lore.kernel.org/r/20230607144931.v2.8.Ib1a98309=
+c455cd7e26b931c69993d4fba33bbe15@changeid
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.cr=
+oss W=3D1 O=3Dbuild_dir ARCH=3Di386 olddefconfig
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.cr=
+oss W=3D1 O=3Dbuild_dir ARCH=3Di386 SHELL=3D/bin/bash
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202306081419.Dzz0T4iW-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> ld.lld: error: undefined symbol: drm_panel_add_follower
+>    >>> referenced by i2c-hid-core.c:1159 (drivers/hid/i2c-hid/i2c-hid-cor=
+e.c:1159)
+>    >>>               drivers/hid/i2c-hid/i2c-hid-core.o:(i2c_hid_core_pro=
+be) in archive vmlinux.a
+> --
+> >> ld.lld: error: undefined symbol: drm_panel_remove_follower
+>    >>> referenced by i2c-hid-core.c:1218 (drivers/hid/i2c-hid/i2c-hid-cor=
+e.c:1218)
+>    >>>               drivers/hid/i2c-hid/i2c-hid-core.o:(i2c_hid_core_rem=
+ove) in archive vmlinux.a
 
-> +  The KPP is designed to interface with a keypad matrix with 2-point contact
-> +  or 3-point contact keys. The KPP is designed to simplify the software task
-> +  of scanning a keypad matrix. The KPP is capable of detecting, debouncing,
-> +  and decoding one or multiple keys pressed simultaneously on a keypad.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - const: cirrus,ep9307-keypad
-> +      - items:
-> +          - enum:
-> +              - cirrus,ep9312-keypad
-> +              - cirrus,ep9315-keypad
-> +          - const: cirrus,ep9307-keypad
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  cirrus,debounce-delay-ms:
+Thanks for the report! Ugh, I guess I forgot that even though
+DRM_PANEL is bool, it gets bundled up into all of DRM which can be a
+module. Assuming that this series looks mostly the same in the next
+version, I'll plan to add this:
 
-Use the somewhat standard 'debounce-delay-ms'.
+depends on DRM || !DRM # if DRM=3Dm, this can't be 'y'
 
-> +    description: |
-> +          Time in microseconds that key must be pressed or
-> +          released for state change interrupt to trigger.
-> +
-> +  cirrus,prescale:
-> +    description: row/column counter pre-scaler load value
-> +    $ref: /schemas/types.yaml#/definitions/uint32
+...to each of the i2c-hid subclasses.
 
-Constraints?
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - linux,keymap
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/cirrus,ep93xx-clock.h>
-> +    #include <dt-bindings/input/input.h>
-> +    keypad@800f0000 {
-> +      compatible = "cirrus,ep9301-keypad";
-> +      reg = <0x800f0000 0x0c>;
-> +      interrupt-parent = <&vic0>;
-> +      interrupts = <29>;
-> +      clocks = <&syscon EP93XX_CLK_KEYPAD>;
-> +      pinctrl-names = "default";
-> +      pinctrl-0 = <&keypad_default_pins>;
-> +      linux,keymap = <KEY_UP>,
-> +                     <KEY_DOWN>,
-> +                     <KEY_VOLUMEDOWN>,
-> +                     <KEY_HOME>,
-> +                     <KEY_RIGHT>,
-> +                     <KEY_LEFT>,
-> +                     <KEY_ENTER>,
-> +                     <KEY_VOLUMEUP>,
-> +                     <KEY_F6>,
-> +                     <KEY_F8>,
-> +                     <KEY_F9>,
-> +                     <KEY_F10>,
-> +                     <KEY_F1>,
-> +                     <KEY_F2>,
-> +                     <KEY_F3>,
-> +                     <KEY_POWER>;
-> +    };
-> -- 
-> 2.37.4
-> 
+-Doug
