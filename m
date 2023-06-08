@@ -2,59 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 491A2728283
-	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 16:20:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F8F972828F
+	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 16:23:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235828AbjFHOUa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Jun 2023 10:20:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53410 "EHLO
+        id S235462AbjFHOXG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Jun 2023 10:23:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229848AbjFHOU3 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Jun 2023 10:20:29 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D22561730;
-        Thu,  8 Jun 2023 07:20:26 -0700 (PDT)
+        with ESMTP id S234608AbjFHOXE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Jun 2023 10:23:04 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 056AA198B
+        for <linux-input@vger.kernel.org>; Thu,  8 Jun 2023 07:23:00 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5E19864AE0;
-        Thu,  8 Jun 2023 14:20:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA543C433EF;
-        Thu,  8 Jun 2023 14:20:22 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9028964E14
+        for <linux-input@vger.kernel.org>; Thu,  8 Jun 2023 14:22:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6139C433EF;
+        Thu,  8 Jun 2023 14:22:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686234025;
-        bh=Th1LxrT8KdmLSh3YIuh2Q25jf9THPmdHaJyxevJaMSo=;
+        s=k20201202; t=1686234178;
+        bh=CmN11RF3f/lPLGLDXfXDqrKrTZyB7sWxOWxuUhMLjUU=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=rTUDLf9qOVFeZzKzI8cahDWYq5vldNr97JiP2rUutibt8l76hmUuot/905aAv91iM
-         Tsdvp8LqZ5x/4fYbVPOaPJujmOtLx3YTv1dxppAPQTc2RVZTc4Aoy3pP/PZEiLdgj1
-         ydRlumN2v4zSUsYf43NHnMCpq0x0wA2CmcZckRgCtnqknj/zgsvATxXZM8WjTa5doz
-         F/IlysnPgKhT+4bYt2Dz1XT513JS+ix6GGG5xvr7EuzmUzzog9kwOasRqK7LbVkfUR
-         Yb7ljPaJ5ruM+5Tk0NSaUkM01wxdllsI/yNAUdBmwFokTJpi1uDmABIpHSCLSPu7U4
-         OVmiEUrlmIkdw==
-Date:   Thu, 8 Jun 2023 16:20:11 +0200 (CEST)
+        b=LfHRbv4JegLDIAEEOS3EPSF1PuYegASZQCvP2Jj95Sz8bMWhkWKC5qpuTFF9TLw8p
+         OHFHQn8YlB8V6iK59fYKJjyyzRa1gxTcQkPdSyj5d6Fed7PSEexrEpi+biEI4AHWUN
+         eiNlKxxC9MBXEzqXd6lCJ02yQEYwLcyrmSiT+rqWoprQzRXUwO3Tj0czlDVUdY07Bo
+         qy1cikZPhcUfXbuXyPIo6cUxivvsE7JsP4jVcZD5VsAhPf+az9gdLgwygchhRiPMbF
+         oSUXC2wia+kDgdi3xE70bICW3LdlWBRJqmv8v+r3zLrod1yHOXBXy80Ig/CURh8EQD
+         BG/eI84gua64Q==
+Date:   Thu, 8 Jun 2023 16:22:54 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Fei Shao <fshao@chromium.org>
-cc:     Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Jeff LaBundy <jeff@labundy.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Conor Dooley <conor+dt@kernel.org>,
+To:     =?ISO-8859-15?Q?Uwe_Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Raul E Rangel <rrangel@chromium.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Matthias Kaehlcke <mka@chromium.org>,
-        Stephen Kitt <steve@sk2.org>, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v4 0/2] Fix Goodix touchscreen power leakage for
- MT8186 boards
-In-Reply-To: <20230524114233.RESEND.v4.2.I424e840ae6de3cdbd67394cf4efd24534f6434ba@changeid>
-Message-ID: <nycvar.YFH.7.76.2306081619470.5716@cbobk.fhfr.pm>
-References: <20230524114233.RESEND.v4.2.I424e840ae6de3cdbd67394cf4efd24534f6434ba@changeid>
+        Stephen Kitt <steve@sk2.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-input@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH] HID: i2c-hid: Switch i2c drivers back to use .probe()
+In-Reply-To: <20230525203202.646669-1-u.kleine-koenig@pengutronix.de>
+Message-ID: <nycvar.YFH.7.76.2306081622340.5716@cbobk.fhfr.pm>
+References: <20230525203202.646669-1-u.kleine-koenig@pengutronix.de>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -63,26 +62,17 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 24 May 2023, Fei Shao wrote:
+On Thu, 25 May 2023, Uwe Kleine-König wrote:
 
-> These changes are based on the series in [1], which modified the
-> i2c-hid-of-goodix driver and removed the workaround for a power leakage
-> issue, so the issue revisits on Mediatek MT8186 boards (Steelix).
+> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> call-back type"), all drivers being converted to .probe_new() and then
+> 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") convert
+> back to (the new) .probe() to be able to eventually drop .probe_new() from
+> struct i2c_driver.
 > 
-> The root cause is that the touchscreen can be powered in different ways
-> depending on the hardware designs, and it's not as easy to come up with
-> a solution that is both simple and elegant for all the known designs.
-> 
-> To address the issue, I ended up adding a new boolean property for the
-> driver so that we can control the power up/down sequence depending on
-> that.
-> 
-> Adding a new property might not be the cleanest approach for this, but
-> at least the intention would be easy enough to understand, and it
-> introduces relatively small change to the code and fully preserves the
-> original control flow.
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-Please apologize the delay. Now applied.
+Applied, thanks.
 
 -- 
 Jiri Kosina
