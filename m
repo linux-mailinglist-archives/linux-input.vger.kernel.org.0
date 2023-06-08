@@ -2,141 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 554CB727888
-	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 09:17:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F1607280C9
+	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 15:02:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233988AbjFHHRc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Jun 2023 03:17:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54160 "EHLO
+        id S235944AbjFHNB7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Jun 2023 09:01:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233779AbjFHHRb (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Jun 2023 03:17:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A96CA9E;
-        Thu,  8 Jun 2023 00:17:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 466FB60C50;
-        Thu,  8 Jun 2023 07:17:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26DEEC433EF;
-        Thu,  8 Jun 2023 07:17:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686208649;
-        bh=DgNy7Z0KKn8MMOgxNGldNvVHSpHtF7LqXA6FiWXacwU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KS66tAZlXQrUKAebbEfqLOkWE5Pz7Q2p9tPKdNpc1SniYL0900czyqPb2TaiYL7Ye
-         DEwwMeIHAFnTj3cuw0BHO6UhjnLImLhIn2eACfmDVwIugq4cLOt2rL4KNLPyATWDs4
-         T241J5sSwtzNEssZf8WdI7orYGadgjn/4DOibGpQoAnMl2tdxT1niTSxkyln1UeY52
-         vRl3eimY0u7D4eKKGd+Sh78Dd1OujFDZsoLARWFlVlw1+PYKmz9FF/UGSEfz5TkjTh
-         bC2AboPTkpyqXTixmVaorks6BN2QLX7MmtpaHyVSW+LV0jcCIpXqR7elwdjGHU6pKz
-         O9NmFP7cxLMTQ==
-Date:   Thu, 8 Jun 2023 09:17:26 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Douglas Anderson <dianders@chromium.org>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        linux-kernel@vger.kernel.org, hsinyi@google.com,
-        cros-qcom-dts-watchers@chromium.org, devicetree@vger.kernel.org,
-        yangcong5@huaqin.corp-partner.google.com,
-        linux-arm-msm@vger.kernel.org,
-        Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH v2 00/10] drm/panel and i2c-hid: Allow panels and
- touchscreens to power sequence together
-Message-ID: <jehxiy3z4aieop5qgzmlon4u76n7gvt3kc6knxhb5yqkiz3rsp@mx27m75sx43r>
-References: <20230607215224.2067679-1-dianders@chromium.org>
+        with ESMTP id S234582AbjFHNB6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Jun 2023 09:01:58 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 205B4E6C
+        for <linux-input@vger.kernel.org>; Thu,  8 Jun 2023 06:01:57 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-6532671ccc7so504380b3a.2
+        for <linux-input@vger.kernel.org>; Thu, 08 Jun 2023 06:01:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=huaqin-corp-partner-google-com.20221208.gappssmtp.com; s=20221208; t=1686229316; x=1688821316;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CczotM/yiFejXKQ5wSdLM5OKy5Qv4X9z1E65EJBS8FU=;
+        b=FMmfi3P7cp8pDZDeTVq3gFRD4893tsmBekCgNT7PIzRedsKSenwLvtSCcMLiPBmcZm
+         MfZsC5nnFcwu80++w8Hp1mUkkhns0uhSczNxQYqsGCAqLqKfMHDdJPFtCHLw3Iv5+oss
+         DdM72SfUU9WedtD6aBw/tUklKrai3tUlgFBvxPrxw2l5P5zH0sVOJD+ZrBx9NhHhgYGo
+         L8BMVO/4dEubC8sPMean52JC5EFh0VmRP4pUbpM0auGnGokkR6q7fyPDkFAMtgGojIru
+         nUVGXY4l+Ydhzs9EgVvMtNjGI5cBVvR9UC7HNiM5E0pOJcy1dYOh8uAhZ+l/linwwWvB
+         j+1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686229316; x=1688821316;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CczotM/yiFejXKQ5wSdLM5OKy5Qv4X9z1E65EJBS8FU=;
+        b=D9bkuyAntMRNq2bKDekVry+RuxZfLykynQSG/v1cJoJi8wn3meztooFmO05BlBZg99
+         ZdPb0UO7HwmUoY/l22XaIzdk7HTlrkTUBTWOGJ6wRw4tQ4HT97+vUzF5dIeH+y0Q/fKI
+         1H7q+YwkuDJHoT31X7kNNKKYT3ypn8dYW3ewWCFwBi3+/mnJ6igrs9IB5epTyzePT2i3
+         Rub3BJFyyQt90Z2zruENlMciMKseEylJtCw7ZQYRKEOyxfPfWBDcyY4sA6StuoTstA83
+         3+GWYmUcWGVZ1rD6LiD8MOqBPZQf4F9O+Zp1sTrjsO95Mnh33WvMyocKXE8/1mmRV0zo
+         hyEg==
+X-Gm-Message-State: AC+VfDzRhleBeTn3iIMkbQSfeIWxuTnyaqGEFX0fzvkuXDNX4LfF+YLU
+        Erb5lsZtX9OdAUu2pR9smKcp1w==
+X-Google-Smtp-Source: ACHHUZ5FZ8HnjKLIhnJ64OdZnmQDd5zyMQJ4d14uUFTPZUOMs76T97WSzEpFSBJzrSROXCpvZllh8g==
+X-Received: by 2002:a05:6a00:1250:b0:659:7d45:a52c with SMTP id u16-20020a056a00125000b006597d45a52cmr9689573pfi.30.1686229316533;
+        Thu, 08 Jun 2023 06:01:56 -0700 (PDT)
+Received: from yc.huaqin.com ([101.78.151.214])
+        by smtp.gmail.com with ESMTPSA id g12-20020a62e30c000000b0065438394fa4sm1111371pfh.90.2023.06.08.06.01.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jun 2023 06:01:56 -0700 (PDT)
+From:   Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, dianders@chromium.org,
+        hsinyi@google.com
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Subject: [PATCH v4 0/2] Add ili9882t bindings and timing
+Date:   Thu,  8 Jun 2023 21:01:45 +0800
+Message-Id: <20230608130147.2835818-1-yangcong5@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="dfmbtdcuvmsnsbt5"
-Content-Disposition: inline
-In-Reply-To: <20230607215224.2067679-1-dianders@chromium.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Add bindings for Ilitek. The ili9882t touch screen chip same as
+Elan eKTH6915 controller has a reset gpio. The difference is that
+ilitek9882 needs to use vccio-supply instead of vcc33-supply. 
+From Dmitry suggestion, it would make more sense to distinguish the
+binging of ili9882 and eKTH6915.
 
---dfmbtdcuvmsnsbt5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From The datasheet specifies there should be 60ms between touch SDA
+sleep and panel RESX. so we can add the 65 ms delay in i2c_hid_core_suspend.
 
-Hi Douglas,
 
-On Wed, Jun 07, 2023 at 02:49:22PM -0700, Douglas Anderson wrote:
->=20
-> The big motivation for this patch series is mostly described in the patch
-> ("drm/panel: Add a way for other devices to follow panel state"), but to
-> quickly summarize here: for touchscreens that are connected to a panel we
-> need the ability to power sequence the two device together. This is not a
-> new need, but so far we've managed to get by through a combination of
-> inefficiency, added costs, or perhaps just a little bit of brokenness.
-> It's time to do better. This patch series allows us to do better.
->=20
-> Assuming that people think this patch series looks OK, we'll have to
-> figure out the right way to land it. The panel patches and i2c-hid
-> patches will go through very different trees and so either we'll need
-> an Ack from one side or the other or someone to create a tag for the
-> other tree to pull in. This will _probably_ require the true drm-misc
-> maintainers to get involved, not a lowly committer. ;-)
->=20
-> Version 2 of this patch series doesn't change too much. At a high level:
-> * I added all the forgotten "static" to functions.
-> * I've hopefully made the bindings better.
-> * I've integrated into fw_devlink.
-> * I cleaned up a few descriptions / comments.
->=20
-> This still needs someone to say that the idea looks OK or to suggest
-> an alternative that solves the problems. ;-)
+Changes in v4:
+- PATCH 1/2: Remove compatible items and add reset maxItems.
+- PATCH 1/2: Refer to the panel description in Doug serias[1].
+  [1] https://lore.kernel.org/all/20230607144931.v2.1.Id68e30343bb1e11470582a9078b086176cfec46b@changeid/ 
+- PATCH 2/2: Set a "null" to ili9882t_chip_data for vcc33-supply, then using dummy regulator.
+- Link to v3: https://lore.kernel.org/all/20230607133458.4075667-1-yangcong5@huaqin.corp-partner.google.com/
 
-Thanks for working on this.
+Changes in v3:
+- PATCH 1/2: Introduce bindings for Ilitek.
+- Link to v2: https://lore.kernel.org/all/20230605060524.1178164-1-yangcong5@huaqin.corp-partner.google.com/
 
-I haven't seen in any of your commit messages how the panels were
-actually "packaged" together?
+Changes in v2:
+- PATCH 1/2: fix ran make dt_binding_check warnings/errors.
+- PATCH 1/2: remove oneOf,just enum.
+- Link to v1: https://lore.kernel.org/all/20230602140948.2138668-1-yangcong5@huaqin.corp-partner.google.com/
 
-Do a panel model typically come together with the i2c-hid support, or is
-it added at manufacture time?
+Cong Yang (2):
+  dt-bindings: HID: i2c-hid: ilitek: Introduce bindings for Ilitek
+    ili9882t
+  HID: i2c-hid: elan: Add ili9882t timing
 
-If it's the latter, it's indeed a fairly loose connection and we need
-your work.
+ .../bindings/input/ilitek,ili9882t.yaml       | 66 +++++++++++++++++++
+ drivers/hid/i2c-hid/i2c-hid-of-elan.c         | 33 ++++++++--
+ 2 files changed, 92 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/ilitek,ili9882t.yaml
 
-If it's the former though and we don't expect a given panel reference to
-always (or never) come with a touchscreen attached, I guess we can have
-something much simpler with a bunch of helpers that would register a
-i2c-hid device and would be called by the panel driver itself.
+-- 
+2.25.1
 
-And then, since everything is self-contained managing the power state
-becomes easier as well.
-
-Maxime
-
---dfmbtdcuvmsnsbt5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIGAhgAKCRDj7w1vZxhR
-xXYWAP9FSFylcQPn7fz6xgDKld7G4GeHoOUOkRIHq74ilGrD7QEA/4Zn/Rzcqgwa
-aYb2ySZimrrn0J5IOURj78PWDxWA7QY=
-=aUVL
------END PGP SIGNATURE-----
-
---dfmbtdcuvmsnsbt5--
