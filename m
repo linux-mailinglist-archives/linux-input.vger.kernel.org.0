@@ -2,91 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7205272834C
-	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 17:11:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CF8F7283D2
+	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 17:37:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236223AbjFHPLR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Jun 2023 11:11:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46960 "EHLO
+        id S236783AbjFHPhv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Jun 2023 11:37:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235928AbjFHPLQ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Jun 2023 11:11:16 -0400
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 734332D5F
-        for <linux-input@vger.kernel.org>; Thu,  8 Jun 2023 08:11:14 -0700 (PDT)
-Received: by mail-oi1-x235.google.com with SMTP id 5614622812f47-39a523e8209so492084b6e.0
-        for <linux-input@vger.kernel.org>; Thu, 08 Jun 2023 08:11:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1686237073; x=1688829073;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XKYIY8lnLeesFrrYGM6yGBBcxp2DdDvQNqXJ/GPrn+0=;
-        b=BmAm0rXM4KZbTYym0HXYlOClgT/zGWm4ze6fwFqXwAqD1ItkmTYBl/+afhC3UDFEZl
-         uuRCKPD6RgfoUkFKIWZwzbDtBFAA1JCrB8QIqhbKWGVLgphLs9tCNZ4dqqMrQJ95EdDS
-         +7AZci3CA88AqfAQL6mijMM679CIZt98Z/tco=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686237073; x=1688829073;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XKYIY8lnLeesFrrYGM6yGBBcxp2DdDvQNqXJ/GPrn+0=;
-        b=AZdObMa+wJorkHPdNKUvPMuSp1Il4vqZsEbKskqK9pmUSD0oTtZgs67kfMd8yPTXOq
-         1oqFpP/nyTSWcahuPF8x4Sgt5cENdePqeNOf7e6pIS9pUc8x6eK99H+Hok3so7kGfise
-         ElZXJ65yPHRaZhCMffn0TIr7pI4FkKadpTG7BYmlsrDg1R22CR1cjRGkfz2UTF7o27SF
-         1cp1dTb3FIADz7oCUxAFJVLNuyzIEpitmIfQVpWHtYq0jKEWcFWw736CKT3BR6v/gRb6
-         2gYp+EPWhAJh7hbSEVOxb+9/FlFtAczPGSElLZ+rN0rnGIZGGbxYoYF0SWNbQGy4z575
-         2isw==
-X-Gm-Message-State: AC+VfDzFUnzqFUMQK3f6wt4ojaDsYJvIWZF/qN5+frtq+bX76dC0mr8V
-        YmE4eMc52+kKFweDkSH89a9RDkzo9L6v90IkiwU=
-X-Google-Smtp-Source: ACHHUZ6TwDSRoyRfopc0fvkTlyx4ebqTJopnfYqPHnIFUg3N36PkyBcys1/a6AYQAWjIH7u89yMwhw==
-X-Received: by 2002:aca:130d:0:b0:394:3f93:ce0e with SMTP id e13-20020aca130d000000b003943f93ce0emr6861097oii.24.1686237072890;
-        Thu, 08 Jun 2023 08:11:12 -0700 (PDT)
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com. [209.85.160.181])
-        by smtp.gmail.com with ESMTPSA id kr30-20020a0562142b9e00b00626286e41ccsm457663qvb.77.2023.06.08.08.11.12
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Jun 2023 08:11:12 -0700 (PDT)
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-3f9b7de94e7so218681cf.0
-        for <linux-input@vger.kernel.org>; Thu, 08 Jun 2023 08:11:12 -0700 (PDT)
-X-Received: by 2002:a92:c549:0:b0:33d:929c:af67 with SMTP id
- a9-20020a92c549000000b0033d929caf67mr120694ilj.17.1686237051541; Thu, 08 Jun
- 2023 08:10:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
- <202306081419.Dzz0T4iW-lkp@intel.com>
-In-Reply-To: <202306081419.Dzz0T4iW-lkp@intel.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Thu, 8 Jun 2023 08:10:39 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UMryHK+8j9FCKtSxykB8Tc-tU_B7MXMQPxpkdP2h8mJA@mail.gmail.com>
-Message-ID: <CAD=FV=UMryHK+8j9FCKtSxykB8Tc-tU_B7MXMQPxpkdP2h8mJA@mail.gmail.com>
-Subject: Re: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
-To:     kernel test robot <lkp@intel.com>
+        with ESMTP id S236136AbjFHPhu (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Jun 2023 11:37:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C0362D5F
+        for <linux-input@vger.kernel.org>; Thu,  8 Jun 2023 08:37:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686238627;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=dnOFROsF7B7sQwXM8eGHqjnV3KCLoennVYcraYtkdpA=;
+        b=e9BrpgHUeRqsYVDbOKgDaffvvq4qTHKi34eoWczxH6cH0mGCPnVMC6Z3TlNAo8Z7x1Xb30
+        NK9ixhg9yw4SNKbnkEkGYeCVIPbaqvZgW/klnjibRtEicP0GAzVFEwpM1CWUAgiH9BIHLC
+        MU9JpbDcQLB2odW10rMh1l2sk4lUU6E=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-361-dWYUHhdGMQGx6oW_hdGnxQ-1; Thu, 08 Jun 2023 11:37:05 -0400
+X-MC-Unique: dWYUHhdGMQGx6oW_hdGnxQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 09B34282CCAA;
+        Thu,  8 Jun 2023 15:37:04 +0000 (UTC)
+Received: from mail.corp.redhat.com (unknown [10.45.224.77])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6216B492B0A;
+        Thu,  8 Jun 2023 15:36:59 +0000 (UTC)
+Date:   Thu, 8 Jun 2023 17:36:56 +0200
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     Douglas Anderson <dianders@chromium.org>
 Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Bjorn Andersson <andersson@kernel.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
         Frank Rowand <frowand.list@gmail.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
         Neil Armstrong <neil.armstrong@linaro.org>,
         Sam Ravnborg <sam@ravnborg.org>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>, llvm@lists.linux.dev,
-        oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-        cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org,
-        yangcong5@huaqin.corp-partner.google.com,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Chris Morgan <macroalpha82@gmail.com>,
-        linux-input@vger.kernel.org, hsinyi@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        linux-input@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        linux-kernel@vger.kernel.org, hsinyi@google.com,
+        cros-qcom-dts-watchers@chromium.org, devicetree@vger.kernel.org,
+        yangcong5@huaqin.corp-partner.google.com,
+        linux-arm-msm@vger.kernel.org,
+        Chris Morgan <macroalpha82@gmail.com>
+Subject: Re: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
+Message-ID: <y3l4x3kv7jgog3miexati5wbveaynnryzqvj6sc4ul6625f2if@w7nqgojfavfw>
+References: <20230607215224.2067679-1-dianders@chromium.org>
+ <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -94,81 +78,195 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
 
-On Thu, Jun 8, 2023 at 12:15=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Douglas,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on robh/for-next]
-> [also build test ERROR on hid/for-next dtor-input/next dtor-input/for-lin=
-us drm-misc/drm-misc-next linus/master v6.4-rc5 next-20230607]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Douglas-Anderson/d=
-t-bindings-HID-i2c-hid-Add-panel-property-to-i2c-hid-backed-touchscreens/20=
-230608-055515
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git fo=
-r-next
-> patch link:    https://lore.kernel.org/r/20230607144931.v2.8.Ib1a98309c45=
-5cd7e26b931c69993d4fba33bbe15%40changeid
-> patch subject: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follo=
-wer
-> config: i386-randconfig-i003-20230607 (https://download.01.org/0day-ci/ar=
-chive/20230608/202306081419.Dzz0T4iW-lkp@intel.com/config)
-> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git =
-8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-> reproduce (this is a W=3D1 build):
->         mkdir -p ~/bin
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         git remote add robh https://git.kernel.org/pub/scm/linux/kernel/g=
-it/robh/linux.git
->         git fetch robh for-next
->         git checkout robh/for-next
->         b4 shazam https://lore.kernel.org/r/20230607144931.v2.8.Ib1a98309=
-c455cd7e26b931c69993d4fba33bbe15@changeid
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.cr=
-oss W=3D1 O=3Dbuild_dir ARCH=3Di386 olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.cr=
-oss W=3D1 O=3Dbuild_dir ARCH=3Di386 SHELL=3D/bin/bash
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202306081419.Dzz0T4iW-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> ld.lld: error: undefined symbol: drm_panel_add_follower
->    >>> referenced by i2c-hid-core.c:1159 (drivers/hid/i2c-hid/i2c-hid-cor=
-e.c:1159)
->    >>>               drivers/hid/i2c-hid/i2c-hid-core.o:(i2c_hid_core_pro=
-be) in archive vmlinux.a
-> --
-> >> ld.lld: error: undefined symbol: drm_panel_remove_follower
->    >>> referenced by i2c-hid-core.c:1218 (drivers/hid/i2c-hid/i2c-hid-cor=
-e.c:1218)
->    >>>               drivers/hid/i2c-hid/i2c-hid-core.o:(i2c_hid_core_rem=
-ove) in archive vmlinux.a
+On Jun 07 2023, Douglas Anderson wrote:
+> 
+> As talked about in the patch ("drm/panel: Add a way for other devices
+> to follow panel state"), we really want to keep the power states of a
+> touchscreen and the panel it's attached to in sync with each other. In
+> that spirit, add support to i2c-hid to be a panel follower. This will
+> let the i2c-hid driver get informed when the panel is powered on and
+> off. From there we can match the i2c-hid device's power state to that
+> of the panel.
+> 
+> NOTE: this patch specifically _doesn't_ use pm_runtime to keep track
+> of / manage the power state of the i2c-hid device, even though my
+> first instinct said that would be the way to go. Specific problems
+> with using pm_runtime():
+> * The initial power up couldn't happen in a runtime resume function
+>   since it create sub-devices and, apparently, that's not good to do
+>   in your resume function.
+> * Managing our power state with pm_runtime meant fighting to make the
+>   right thing happen at system suspend to prevent the system from
+>   trying to resume us only to suspend us again. While this might be
+>   able to be solved, it added complexity.
+> Overall the code without pm_runtime() ended up being smaller and
+> easier to understand.
 
-Thanks for the report! Ugh, I guess I forgot that even though
-DRM_PANEL is bool, it gets bundled up into all of DRM which can be a
-module. Assuming that this series looks mostly the same in the next
-version, I'll plan to add this:
+Generally speaking, I'm not that happy when we need to coordinate with
+other subsystems for bringing up resources...
 
-depends on DRM || !DRM # if DRM=3Dm, this can't be 'y'
+Anyway, a remark inlined (at least):
 
-...to each of the i2c-hid subclasses.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> 
+> Changes in v2:
+> - i2c_hid_core_panel_prepared() and ..._unpreparing() are now static.
+> 
+>  drivers/hid/i2c-hid/i2c-hid-core.c | 82 +++++++++++++++++++++++++++++-
+>  1 file changed, 81 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+> index fa8a1ca43d7f..368db3ae612f 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+> @@ -38,6 +38,8 @@
+>  #include <linux/mutex.h>
+>  #include <asm/unaligned.h>
+>  
+> +#include <drm/drm_panel.h>
+> +
+>  #include "../hid-ids.h"
+>  #include "i2c-hid.h"
+>  
+> @@ -107,6 +109,8 @@ struct i2c_hid {
+>  	struct mutex		reset_lock;
+>  
+>  	struct i2chid_ops	*ops;
+> +	struct drm_panel_follower panel_follower;
+> +	bool			is_panel_follower;
+>  };
+>  
+>  static const struct i2c_hid_quirks {
+> @@ -1058,6 +1062,34 @@ static int i2c_hid_core_initial_power_up(struct i2c_hid *ihid)
+>  	return ret;
+>  }
+>  
+> +static int i2c_hid_core_panel_prepared(struct drm_panel_follower *follower)
+> +{
+> +	struct i2c_hid *ihid = container_of(follower, struct i2c_hid, panel_follower);
+> +	struct hid_device *hid = ihid->hid;
+> +
+> +	/*
+> +	 * hid->version is set on the first power up. If it's still zero then
+> +	 * this is the first power on so we should perform initial power up
+> +	 * steps.
+> +	 */
+> +	if (!hid->version)
+> +		return i2c_hid_core_initial_power_up(ihid);
+> +
+> +	return i2c_hid_core_resume(ihid);
+> +}
+> +
+> +static int i2c_hid_core_panel_unpreparing(struct drm_panel_follower *follower)
+> +{
+> +	struct i2c_hid *ihid = container_of(follower, struct i2c_hid, panel_follower);
+> +
+> +	return i2c_hid_core_suspend(ihid);
+> +}
+> +
+> +static const struct drm_panel_follower_funcs i2c_hid_core_panel_follower_funcs = {
+> +	.panel_prepared = i2c_hid_core_panel_prepared,
+> +	.panel_unpreparing = i2c_hid_core_panel_unpreparing,
+> +};
 
--Doug
+Can we make that above block at least behind a Kconfig?
+
+i2c-hid is often used for touchpads, and the notion of drm panel has
+nothing to do with them. So I'd be more confident if we could disable
+that code if not required.
+
+Actually, I'd be even more happier if it were in a different compilation
+unit. Not necessary a different module, but at least a different file.
+
+Cheers,
+Benjamin
+
+> +
+>  int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+>  		       u16 hid_descriptor_address, u32 quirks)
+>  {
+> @@ -1119,6 +1151,41 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+>  	hid->bus = BUS_I2C;
+>  	hid->initial_quirks = quirks;
+>  
+> +	/*
+> +	 * See if we're following a panel. If drm_panel_add_follower()
+> +	 * returns no error then we are.
+> +	 */
+> +	ihid->panel_follower.funcs = &i2c_hid_core_panel_follower_funcs;
+> +	ret = drm_panel_add_follower(&client->dev, &ihid->panel_follower);
+> +	if (!ret) {
+> +		/* We're a follower. That means we'll power things up later. */
+> +		ihid->is_panel_follower = true;
+> +
+> +		/*
+> +		 * If we're not in control of our own power up/power down then
+> +		 * we can't do the logic to manage wakeups. Give a warning if
+> +		 * a user thought that was possible then force the capability
+> +		 * off.
+> +		 */
+> +		if (device_can_wakeup(&client->dev)) {
+> +			dev_warn(&client->dev, "Can't wakeup if following panel\n");
+> +			device_set_wakeup_capable(&client->dev, false);
+> +		}
+> +
+> +		return 0;
+> +	}
+> +
+> +	/*
+> +	 * -ENODEV means that we're not following a panel, so any other error
+> +	 * is a real problem (like -EPROBE_DEFER, -ENOMEM, ...).
+> +	 */
+> +	if (ret != -ENODEV)
+> +		goto err_mem_free;
+> +
+> +	/*
+> +	 * We're not following a panel. That's fine and means that we
+> +	 * can power up right away.
+> +	 */
+>  	ret = i2c_hid_core_initial_power_up(ihid);
+>  	if (ret)
+>  		goto err_mem_free;
+> @@ -1143,7 +1210,14 @@ void i2c_hid_core_remove(struct i2c_client *client)
+>  	struct i2c_hid *ihid = i2c_get_clientdata(client);
+>  	struct hid_device *hid;
+>  
+> -	i2c_hid_core_power_down(ihid);
+> +	/*
+> +	 * If we're a follower, the act of unfollowing will cause us to be
+> +	 * powered down. Otherwise we need to manually do it.
+> +	 */
+> +	if (ihid->is_panel_follower)
+> +		drm_panel_remove_follower(&ihid->panel_follower);
+> +	else
+> +		i2c_hid_core_power_down(ihid);
+>  
+>  	hid = ihid->hid;
+>  	hid_destroy_device(hid);
+> @@ -1171,6 +1245,9 @@ static int i2c_hid_core_pm_suspend(struct device *dev)
+>  	struct i2c_client *client = to_i2c_client(dev);
+>  	struct i2c_hid *ihid = i2c_get_clientdata(client);
+>  
+> +	if (ihid->is_panel_follower)
+> +		return 0;
+> +
+>  	return i2c_hid_core_suspend(ihid);
+>  }
+>  
+> @@ -1179,6 +1256,9 @@ static int i2c_hid_core_pm_resume(struct device *dev)
+>  	struct i2c_client *client = to_i2c_client(dev);
+>  	struct i2c_hid *ihid = i2c_get_clientdata(client);
+>  
+> +	if (ihid->is_panel_follower)
+> +		return 0;
+> +
+>  	return i2c_hid_core_resume(ihid);
+>  }
+>  
+> -- 
+> 2.41.0.162.gfafddb0af9-goog
+> 
+
