@@ -2,107 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFB03728191
-	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 15:39:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 918987281C2
+	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 15:50:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235583AbjFHNjV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Jun 2023 09:39:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58114 "EHLO
+        id S234608AbjFHNuV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Jun 2023 09:50:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236178AbjFHNi5 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Jun 2023 09:38:57 -0400
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 178FF26BA
-        for <linux-input@vger.kernel.org>; Thu,  8 Jun 2023 06:38:56 -0700 (PDT)
-Received: by mail-io1-xd2a.google.com with SMTP id ca18e2360f4ac-777a2ef8d45so19145139f.2
-        for <linux-input@vger.kernel.org>; Thu, 08 Jun 2023 06:38:56 -0700 (PDT)
+        with ESMTP id S236270AbjFHNuT (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Jun 2023 09:50:19 -0400
+Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46052269F;
+        Thu,  8 Jun 2023 06:50:17 -0700 (PDT)
+Received: by mail-ua1-x935.google.com with SMTP id a1e0cc1a2514c-7872d7b79e1so238361241.0;
+        Thu, 08 Jun 2023 06:50:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1686231534; x=1688823534;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XO1CigyiND3L02YzTiuKf1ibThwImhtncqElbj41kYc=;
-        b=mnHhy4uzqnlQiGkCkIdasUBEdOiJcb/6vH26Sw+GbrtHdDdEIS3hHONhkFrxIORY2m
-         Ll1kWdqdxYs9gpF2pnw2lK0/wN7SBRS+zVN3lJzyE378w7ylgNFjHQC3feoiVh8gset5
-         FtK/0uQSGf93L3qLkCnQeWnkKn5jBFSWa7h+U=
+        d=gmail.com; s=20221208; t=1686232216; x=1688824216;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JefbxwS8aqfuO0sltL/BjEgEJCmd7+lJraBN297Csfc=;
+        b=gI44YAxQgTnjznzQn2SDbJz/ROox9M3dDZY1tM//RKFoqqa48pSfL4my+cg/eVO/SK
+         Jq4Pqe+bFR3HxJHI32UEgE05DFuCBEjH2UOlk+5ob8WzuQNjU5G4wONpOnoZ/y9F4iuP
+         +KTwEoIDM836YxVhfGJNGbFXyC4AIQMXpd8JgFZaj23c9EtSsnDK/YiQfIAyOjadLhrg
+         PfYZO9dBqaEVlISq0Jhndl8aLYw2lHRXMbMV5QYfgOQijcSuyt82lI3AHdrB+13ND8rt
+         uyfcqtjKJ7w7j0fABf/OIoqn2LY+Osjp7fwxOKtRSJxiAs71inyiDlk2M/NhZ4MqQL2v
+         KyRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686231534; x=1688823534;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XO1CigyiND3L02YzTiuKf1ibThwImhtncqElbj41kYc=;
-        b=Yy5Yy3VRkC/Gleujgotgk9vooKxULY1EqVWpmmc848c1sPgtfPIEpKrOpbCCbqXgRf
-         PwQxsAUk0H4kgsZlCECP8U6OQ5ixKsXuTkztCUgNSfqSONwjUsYtf+QBkUCboZ+CWC4K
-         D3KGFchtFc50Jx9u62V9BqELKXhNoYoN9NI63XormMUXnKcKxJOAnVPMsUH2FzqxBbnW
-         SR+Ch2Uac3xQGZdHD2GdiIab2PHdhS9psCWL4ODKKEgSeRf2UJ/ziAvtlUMwfq6xM3qH
-         T2yqCeFSHt8Qp8kEdUzt6UJLDC5bcIMNtkLJ9QXSjKLbuBuy2mfLcGeIz3eK1CWwP8LZ
-         6www==
-X-Gm-Message-State: AC+VfDzijrZakmCiJoV6BUxMQNdKOYYA5+VuqI6pwZdW4+oNwuvzPVUb
-        HUYHbeEF7PLp5PNkrllmFkEKSx9cbrTrxG7v5BU=
-X-Google-Smtp-Source: ACHHUZ5cn9+oCti+FZ8/bNBZvyFRJHBQW8BeoI+lnoqg3CjSS5sYZC69d7b/NY62z1uYfvKS26PCaQ==
-X-Received: by 2002:a6b:4f19:0:b0:779:1e26:2fef with SMTP id d25-20020a6b4f19000000b007791e262fefmr8839468iob.0.1686231534245;
-        Thu, 08 Jun 2023 06:38:54 -0700 (PDT)
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com. [209.85.166.178])
-        by smtp.gmail.com with ESMTPSA id f12-20020a02cacc000000b0041ac54cbc60sm281485jap.56.2023.06.08.06.38.53
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Jun 2023 06:38:53 -0700 (PDT)
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-33b7f217dd0so136695ab.0
-        for <linux-input@vger.kernel.org>; Thu, 08 Jun 2023 06:38:53 -0700 (PDT)
-X-Received: by 2002:a05:6e02:12cb:b0:33d:8444:c071 with SMTP id
- i11-20020a056e0212cb00b0033d8444c071mr221148ilm.5.1686231532849; Thu, 08 Jun
- 2023 06:38:52 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686232216; x=1688824216;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JefbxwS8aqfuO0sltL/BjEgEJCmd7+lJraBN297Csfc=;
+        b=RQ9zxb+H6VHe8GkQLLm5Dcn22Ux+AW6W37k7VF+wwaaeubt8B7TBJbCMwD08fV6mJ9
+         DvYW+DFOTau+x8jXYWrDe4lFeMKfCgOOkOyLDcFFbS2PLdgPEDkhK2oJaM2czZxUeiOO
+         agwC3c6kZZOyQX0/SjiYKm1UVeDnSO76X5mNcRafnl/RISQUASNuYqOrIbFgMNfnkWdd
+         z4ftSqSJsLCcYMPEkCfbeMVkYDIC9HolXsUKC6RM/1WqldexEVjDIoDYxdfSDpvfRwhR
+         X9gtK7q4WV+T0omitDbxMQdGo4h7dihfqMRKgYSkFsxXacnWsif9Dfcsm+TjMEHX9dyY
+         KCqw==
+X-Gm-Message-State: AC+VfDwkU09jroSBrf61CFw35EGSsRBx0OX5L0Ups/ZnNrUDNDhwRvkR
+        aBpb930pcpe2dOZPs3ZppOYbbyY3L7HWW/ogeC0=
+X-Google-Smtp-Source: ACHHUZ7gmWtDKl/M4FY7lf0bQE7Qk1T1opApqqFmC/gXZVCVC1vLjjRwuye0BqBPLkv0dfGiMHDYgrWP5SHUAe+0KQI=
+X-Received: by 2002:a67:fdd5:0:b0:43b:2fa9:eb3a with SMTP id
+ l21-20020a67fdd5000000b0043b2fa9eb3amr2002066vsq.9.1686232216233; Thu, 08 Jun
+ 2023 06:50:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230608130147.2835818-1-yangcong5@huaqin.corp-partner.google.com>
- <20230608130147.2835818-3-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20230608130147.2835818-3-yangcong5@huaqin.corp-partner.google.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Thu, 8 Jun 2023 06:38:40 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VsmAzxSx9LN5pe6DjMF9C6AJHX5kwZyNG=deUpW1jyRg@mail.gmail.com>
-Message-ID: <CAD=FV=VsmAzxSx9LN5pe6DjMF9C6AJHX5kwZyNG=deUpW1jyRg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] HID: i2c-hid: elan: Add ili9882t timing
-To:     Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, hsinyi@google.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+References: <1427388117-20101-1-git-send-email-benjamin.tissoires@redhat.com> <alpine.LNX.2.00.1504021432310.843@pobox.suse.cz>
+In-Reply-To: <alpine.LNX.2.00.1504021432310.843@pobox.suse.cz>
+From:   =?UTF-8?B?0JvQtdC20LDQvdC60LjQvSDQmNCy0LDQvQ==?= 
+        <abyss.7@gmail.com>
+Date:   Thu, 8 Jun 2023 16:50:05 +0300
+Message-ID: <CAJc7LbpGLaFhmSKzPdrr4k+Mf-x5-W30nO8Eq4LQmEJYDhS_XQ@mail.gmail.com>
+Subject: Re: [PATCH] HID: logitech-hidpp: add a module parameter to keep
+ firmware gestures
+To:     Jiri Kosina <jkosina@suse.cz>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hello again!
 
-On Thu, Jun 8, 2023 at 6:02=E2=80=AFAM Cong Yang
-<yangcong5@huaqin.corp-partner.google.com> wrote:
+I recently rebooted my laptop just to find out that my touchpad
+stopped working: no more gestures, no more button clicks supported,
+tap-to-click is very laggy.
+Just checked the module history and found commit
+https://github.com/torvalds/linux/commit/cae253d6033da885e71c29c1591b22838a52de76
+with description about "desktop environments can and
+should support touchpad gestures through libinput". Unfortunately my
+environment (Fedora 39 KDE) doesn't support it out-of-the-box, and I
+don't know how to return all the handful features that my touchpad
+provided.
+
+Right now it's slightly better than useless.
+
+Is there a way to return this option back? Or provide any guides on
+how to properly setup all the features?
+
+P.S. Sorry for the duplicate - the mail-lists rejected my previous
+message because of an accidental HTML subpart.
+
+On Thu, 2 Apr 2015 at 15:32, Jiri Kosina <jkosina@suse.cz> wrote:
 >
-> +static const struct elan_i2c_hid_chip_data ilitek_ili9882t_chip_data =3D=
- {
-> +       .post_power_delay_ms =3D 1,
-> +       .post_gpio_reset_on_delay_ms =3D 200,
-> +       .post_gpio_reset_off_delay_ms =3D 65,
->         .hid_descriptor_address =3D 0x0001,
-> +       /* this touchscreen is tightly integrated with the panel and assu=
-mes
-> +        * that the relevant power rails (other than the IO rail) have al=
-ready
-> +        * been turned on by the panel driver because we're a panel follo=
-wer.
-> +        */
-
-I don't think the above is the right block comment style for this
-file. The first "/*" should be on a line on its own.
-
-
-> +       .main_supply_name =3D "null",
-
-This should actually be NULL without the quotes. ...then you should
-change the code not to try to grab the regulator in that case.
+> On Thu, 26 Mar 2015, Benjamin Tissoires wrote:
+>
+> > The Logitech T650 used to report 3 fingers swipes to the up as a press on
+> > the Super key. When we switched the touchpad to the raw mode, we also
+> > disable such firmware gesture and some users may rely on it.
+> >
+> > Unfortunately, 3 finger swipes are still not supported in most of the
+> > Linux environments, which means that we disabled a feature of the touchpad.
+> >
+> > Allow users to revert the raw reporting mode and keep going with the
+> > firmware gestures by providing a new module parameter.
+> >
+> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+>
+> Applied to for-4.1/logitech.
+>
+> --
+> Jiri Kosina
+> SUSE Labs
