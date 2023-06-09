@@ -2,99 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 679BF72A516
-	for <lists+linux-input@lfdr.de>; Fri,  9 Jun 2023 23:05:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7484872A61A
+	for <lists+linux-input@lfdr.de>; Sat, 10 Jun 2023 00:03:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230435AbjFIVFz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 9 Jun 2023 17:05:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51112 "EHLO
+        id S229555AbjFIWDn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 9 Jun 2023 18:03:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229709AbjFIVFz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Jun 2023 17:05:55 -0400
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26F083590
-        for <linux-input@vger.kernel.org>; Fri,  9 Jun 2023 14:05:54 -0700 (PDT)
-Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-565a3cdba71so20277927b3.0
-        for <linux-input@vger.kernel.org>; Fri, 09 Jun 2023 14:05:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686344753; x=1688936753;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3r39wuzTsS9xYxplRKTYr5FPCI7llaPoOWnnNkuMMsk=;
-        b=oWqsFt8rrI2cTkrMOZDO63fKjzVonN2R6CRpJ4Qpv8VrEC9PwLLRdo6fvIDXzMqbWU
-         MCL9JQEYMgGi1cAfDfnBxqXXRhFirceGmIh9iL60Ch2/AzS09A7x84n60XzAcXG7kkvI
-         E/dL1t27A+8gqa5n2KAuJdGMzDDLbUwLnwS1Vny61JNzRWzUW4/llupUDpAAQRfdzTSI
-         PdezuqxMd5C/VOccVnUEzUHKA3ylazNH9wgPNpzbtXI+5a13GmfJ+e9pKnt5zeTkpwTK
-         fw70De7FHPwgvcwqrGfTv48YpBDrha1t7PB3/CxPt1N0DLI0/bwJNVhCnkwN6QtvTav7
-         zX8Q==
+        with ESMTP id S232498AbjFIWDi (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Jun 2023 18:03:38 -0400
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 232DB3A85;
+        Fri,  9 Jun 2023 15:03:37 -0700 (PDT)
+Received: by mail-il1-f181.google.com with SMTP id e9e14a558f8ab-33b00ce51caso9566775ab.2;
+        Fri, 09 Jun 2023 15:03:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686344753; x=1688936753;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3r39wuzTsS9xYxplRKTYr5FPCI7llaPoOWnnNkuMMsk=;
-        b=Y/v4pL2qz12+UgfaHdojZoy+2aNAZKI0J13ukNtbrN8+rTdIn6vTXrPGiLIAnn+JYg
-         E2y/S9z740SqMtHk6l3GAiQMhE380EoupW3DYAvfU0yTO5Uh7knNvO+wN1N0U0RlC9vA
-         BY8PB3BVob5u2eXWuWR9n/uUwUKAApQm6bCN5GsbTRdCw5qKQGw/SpeWk7g5JXHUhclT
-         NUByjXwk3fhepqof0Bee78iU+aNqSQrkCen9mh0GCea5puRna9VmF511M7PEurDk/CXl
-         n3VdvjvGASzh3xIsA4Vd7wx7cs9B5EmFGI6KgwcuigVfjzMUZbBXFWV6d5LjNkJnnoVU
-         a6aA==
-X-Gm-Message-State: AC+VfDzyU003EGhKCF5bNkprviYV5diJGmSCxhpOMGvOsDKw4jFZHjCh
-        ZcBxMRT9pbZXEyjT+Hw19qShi11qZg+mE8dcZoaoXQ==
-X-Google-Smtp-Source: ACHHUZ6zAJw3vwna8czLhvW2LNWOrVkyLLE4YwmYrh3Hvv6IxuJyqP5M/++p7ZXt9nC/2LmuHtMkYzyLbtN5tKWm40o=
-X-Received: by 2002:a81:d345:0:b0:559:deed:f363 with SMTP id
- d5-20020a81d345000000b00559deedf363mr2563607ywl.2.1686344753319; Fri, 09 Jun
- 2023 14:05:53 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686348216; x=1688940216;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lbWnd1453WWYSB5tZKL9wA4jRIrmIbrZJ2ihOV5eBj0=;
+        b=TBHh6znyAU/BT3zhMBrlohsoeyzuaClSrcP/AF6GXv9EAcBNW5EA7CyMvAmfMi9Vsu
+         zV1gJ1eCucA6gt43nYxhDbYgZIRzMvQXUashjVt7rK776lq5w59K4JUfJz+0J5G3+f5e
+         1xlyznfLszm0GKz3I6AEsjTtJW/eXRc5F9CXf/R64szlHVADbm4mrzP+0rxy4PLagSyK
+         I8BhiMBX38lL5eeqeMISF8Yq6XkeuZd05rSGJFK5HijqbMftgNKuDKMVdO3BGas/Xfeu
+         bAxU+PZLYd4jjEUAJF8l9yNUKoAuYLviVy4oDJVWzWAi9OE97qKlc+qKRYI3pK8qdSQD
+         jHiw==
+X-Gm-Message-State: AC+VfDw3jnL0BMFtXgj02zfIskupu63ZzJSDoSE1MDWN4LQvejJnyWRP
+        7HKEMXqzVZrOFQnWsvPsyw==
+X-Google-Smtp-Source: ACHHUZ5g/3hAO2umBs2VXYQ0I2em+F4t0rg+2lA6/YO5SiWMldXnF+mwfMfvbJytyDA5GLeINIOA/g==
+X-Received: by 2002:a92:dc08:0:b0:33d:1c2b:b558 with SMTP id t8-20020a92dc08000000b0033d1c2bb558mr2366041iln.22.1686348216369;
+        Fri, 09 Jun 2023 15:03:36 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id g9-20020a926b09000000b0033e4937640esm1310594ilc.80.2023.06.09.15.03.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jun 2023 15:03:35 -0700 (PDT)
+Received: (nullmailer pid 2542654 invoked by uid 1000);
+        Fri, 09 Jun 2023 22:03:33 -0000
+Date:   Fri, 9 Jun 2023 16:03:33 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     cong yang <yangcong5@huaqin.corp-partner.google.com>
+Cc:     Conor Dooley <conor@kernel.org>, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, dianders@chromium.org,
+        hsinyi@google.com, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: Add ilitek 9882T
+ touchscreen chip
+Message-ID: <20230609220333.GA2535896-robh@kernel.org>
+References: <20230605060524.1178164-1-yangcong5@huaqin.corp-partner.google.com>
+ <20230605060524.1178164-2-yangcong5@huaqin.corp-partner.google.com>
+ <20230605-anyway-grab-f7a35aa199fb@spud>
+ <CAHwB_NK_j1SJ1BBkVqafFM_+fWSyvwjCpMmHQxjLjnz_KHR=KA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230609202722.3634721-1-arnd@kernel.org>
-In-Reply-To: <20230609202722.3634721-1-arnd@kernel.org>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 9 Jun 2023 23:05:40 +0200
-Message-ID: <CACRpkdZhad+Hk-ES_ptx1HFoSv=L2WWcUsS5huGN25fj0nK0iA@mail.gmail.com>
-Subject: Re: [PATCH] Input: ads7846 - fix pointer cast warning
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        kernel test robot <lkp@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Luca Ellero <l.ellero@asem.it>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHwB_NK_j1SJ1BBkVqafFM_+fWSyvwjCpMmHQxjLjnz_KHR=KA@mail.gmail.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jun 9, 2023 at 10:27=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wro=
-te:
+On Tue, Jun 06, 2023 at 10:06:05AM +0800, cong yang wrote:
+> Hi,Conor,
+> 
+> On Mon, Jun 5, 2023 at 6:20 PM Conor Dooley <conor@kernel.org> wrote:
+> >
+> > Hey Cong Yang,
+> >
+> > On Mon, Jun 05, 2023 at 02:05:23PM +0800, Cong Yang wrote:
+> > > Add an ilitek touch screen chip ili9882t.
+> >
+> > Could you add a comment here mentioning the relationship between these
+> > chips?
+> 
+> Okay, I will add in V3 version.
+> 
+> > On Mon, Jun 05, 2023 at 02:05:23PM +0800, Cong Yang wrote:
+> >
+> > > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> > > ---
+> > >  .../bindings/input/elan,ekth6915.yaml         | 23 ++++++++++++++++---
+> > >  1 file changed, 20 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> > > index 05e6f2df604c..f0e7ffdce605 100644
+> > > --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> > > +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> > > @@ -15,11 +15,14 @@ description:
+> > >
+> > >  properties:
+> > >    compatible:
+> > > -    items:
+> > > -      - const: elan,ekth6915
+> > > +    enum:
+> > > +      - elan,ekth6915
+> > > +      - ilitek,ili9882t
+> > >
+> > >    reg:
+> > > -    const: 0x10
+> > > +    enum:
+> > > +      - 0x10
+> > > +      - 0x41
+> >
+> > Is 0x10 only valid for the elan,ekth6915 & 0x41 for the ilitek one?
+> > If so, please add some enforcement of the values based on the
+> > compatible.
+> 
+> I don't think 0x10 is the only address for ekth6915,(nor is 0x41 the
+> only address for ili9882t). It depends on the hardware design.
 
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The previous bugfix caused a warning on 64-bit builds:
->
-> drivers/input/touchscreen/ads7846.c:1126:17: warning: cast to smaller int=
-eger type 'u32' (aka 'unsigned int') from 'const void *' [-Wvoid-pointer-to=
--int-cast]
->
-> Change the cast back to something that works on both 32-bit and 64-bit
-> kernels.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202306100442.jStknDT1-lkp@i=
-ntel.com/
-> Fixes: 8f7913c04f6a7 ("Input: ads7846 - Fix usage of match data")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+I'd just drop the values as we don't typically enforce 'reg' values.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Excellent fix, thanks! Sorry for not predicting this.
-
-Yours,
-Linus Walleij
+Rob
