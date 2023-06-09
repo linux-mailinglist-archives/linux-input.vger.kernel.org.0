@@ -2,55 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6B0F729ECC
-	for <lists+linux-input@lfdr.de>; Fri,  9 Jun 2023 17:41:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 055E1729ED5
+	for <lists+linux-input@lfdr.de>; Fri,  9 Jun 2023 17:42:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232429AbjFIPkb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 9 Jun 2023 11:40:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37178 "EHLO
+        id S241810AbjFIPmG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 9 Jun 2023 11:42:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241807AbjFIPkW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Jun 2023 11:40:22 -0400
+        with ESMTP id S241802AbjFIPlf (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Jun 2023 11:41:35 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89B7B30E8;
-        Fri,  9 Jun 2023 08:40:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D51D83588;
+        Fri,  9 Jun 2023 08:41:32 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 240A864F9F;
-        Fri,  9 Jun 2023 15:40:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 712AAC433D2;
-        Fri,  9 Jun 2023 15:40:18 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6E8BA6594A;
+        Fri,  9 Jun 2023 15:41:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD8DEC433EF;
+        Fri,  9 Jun 2023 15:41:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686325220;
-        bh=aWwWVlIdLAswMPtKgr8T82Oc7QOw3fCer0hiAPNuURo=;
+        s=k20201202; t=1686325291;
+        bh=D9BRGojXtiVX/FpQDfUF2IkmBGVctRI5JTe2iHqd9Mk=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=bXLgYqOOBKyDsPHeQFUz36oxicv7EJQ7Bl8AkybdNqwW+TNqqqiTM+iG2wBRysaAf
-         OM1wWrGQ/IbIqOpYJBirW5HVrTkX06kPSUxkvVkZda6YErQs5CiGcI3CDX/8NQ54eu
-         dYG+kzlhK46m0uh2cEmV19F2vBxtxh3jLJNygT8ok/qsgAoGPj2X8yqPH15jLgrHk+
-         zw9Mx0nIDReJqjCOWV+IGDddvlkZ76ia/MSHz3H4C2yxtfCmUQ+9O4zwotoUZhONPB
-         iehc+k5zIKelyCHTJiSlGMCshJppSTn9ro82F2vFHC7G+7oAguZSWLnH/5byObphnn
-         jOkwE9sqiS4CA==
-Date:   Fri, 9 Jun 2023 17:40:15 +0200 (CEST)
+        b=AUjBxF6pYnEFCfHl2RA1q9jo1v+DdzmiXm+FdJZZiKXQ4uxOigl0tfJH1sAeVYKTj
+         i46bEkpys88X4CoQt9gUEoUrQs2jT2BfbSOzgVgfyd9EXW+bhjujPokJx7tEgVv1aq
+         +s7folPg5KIloE5Qm0za8hB5eTGLxukCgJlr0xsjq6Z65GF5d/EI4NZnjR6XaapHYe
+         dlf58qAVVPn2SlmnEjzEETlYU36HBPcWTrudjUJMRGYeA5jzJnCB6zdxfYrL74q77W
+         vqflsw3G4FiGDwNJJ7kqrCc68XbBzDkh4xrbgFNYWqaKaIxgdYTRrwqTtTSXRrhC3j
+         ywAYCaL0X11vA==
+Date:   Fri, 9 Jun 2023 17:41:28 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        David Gow <davidgow@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com
-Subject: Re: [PATCH v2] HID: uclogic: Modular KUnit tests should not depend
- on KUNIT=y
-In-Reply-To: <f325bf521f1cdc498dbd48b14191d186bdf7b602.1684854545.git.geert+renesas@glider.be>
-Message-ID: <nycvar.YFH.7.76.2306091740080.5716@cbobk.fhfr.pm>
-References: <f325bf521f1cdc498dbd48b14191d186bdf7b602.1684854545.git.geert+renesas@glider.be>
+To:     Lasse Brun <bruners@gmail.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] HID: apple: Option to swap only left side mod keys
+In-Reply-To: <20230522184013.42621-1-bruners@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2306091741170.5716@cbobk.fhfr.pm>
+References: <20230522184013.42621-1-bruners@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -61,20 +53,17 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 23 May 2023, Geert Uytterhoeven wrote:
+On Mon, 22 May 2023, Lasse Brun wrote:
 
-> While KUnit tests that cannot be built as a loadable module must depend
-> on "KUNIT=y", this is not true for modular tests, where it adds an
-> unnecessary limitation.
+> On the Keychron K8 keyboard, and probably others, the right side keys
+> should not be swapped to maintain PC layout.
 > 
-> Fix this by relaxing the dependency to "KUNIT".
+> Swapping the right side keys moves 'Super' before 'Alt gr' which is not
+> intended by the default Keychron layout or the ISO layout.
 > 
-> Fixes: 08809e482a1c44d9 ("HID: uclogic: KUnit best practices and naming conventions")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: David Gow <davidgow@google.com>
-> Reviewed-by: José Expósito <jose.exposito89@gmail.com>
+> Signed-off-by: Lasse Brun <bruners@gmail.com>
 
-Applied, thanks.
+Applied, thanks, and sorry for the delay.
 
 -- 
 Jiri Kosina
