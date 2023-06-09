@@ -2,76 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8356729F76
-	for <lists+linux-input@lfdr.de>; Fri,  9 Jun 2023 18:00:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 942EA729F81
+	for <lists+linux-input@lfdr.de>; Fri,  9 Jun 2023 18:01:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231249AbjFIQAI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 9 Jun 2023 12:00:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51006 "EHLO
+        id S240734AbjFIQBF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 9 Jun 2023 12:01:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242096AbjFIQAF (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Jun 2023 12:00:05 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5AC1213C
-        for <linux-input@vger.kernel.org>; Fri,  9 Jun 2023 09:00:03 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-5147f5efeb5so3429306a12.0
-        for <linux-input@vger.kernel.org>; Fri, 09 Jun 2023 09:00:03 -0700 (PDT)
+        with ESMTP id S241511AbjFIQBD (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Jun 2023 12:01:03 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D96B35B0
+        for <linux-input@vger.kernel.org>; Fri,  9 Jun 2023 09:01:01 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-9788faaca2dso318505166b.0
+        for <linux-input@vger.kernel.org>; Fri, 09 Jun 2023 09:01:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686326402; x=1688918402;
+        d=linaro.org; s=google; t=1686326459; x=1688918459;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=JmrAWEdTpAeUeR5jc+sXk5q7UDP7Hqefj8kJ8Wfci+g=;
-        b=EF1aDuVS0spbASUoWKBw3ObmFq+ketWV5bhRQZTs1rDLKXm9bmoPjD4VzhM/i78O3x
-         d9sHnlZamwbhbeZOf6xv7rfURhkIL+cvIh7UyCbQcjydGeYXQcKtF4uYQpy3wvDikKQ8
-         Clp1zQyBY9IVZhFuZxE57JlY8/I019ajLCsKNQT4Q18pmqxAC3BfmK1WlIAiWbJbIoa7
-         Qmib7m6g1y2yiz6fkRrQOuALm3KZnoyKgHMS/NPrClXH/xgh/wRAOrfnZ4Utt4KHBPbV
-         E+aOLn0N9SNlP9kTkma2D41KqD12caxw1PoaAPcO9Lu2cFtXKZaxV11Pwox6p7yE8EYA
-         iMtQ==
+        bh=JJHKGlV47afxhESmn4M8emdIU67tKEEb2KjyNS3Cyy8=;
+        b=YwxbeP9Z1jnP1x3v5Xf+YEUjQFZwEf032mOgVxMfemo1HoEhK5v/oJAT0gfnF0RU5F
+         2o08W8Ddz2BVJdDAVuKu2lGMYh6OkaHbWQnxGKwfIJkirJRbqH4ARKbys3ME1R1XKQ2i
+         tiHbXpHhvD7G1I2ed9MqQIOLDHU3YqkJ1LrqA2MleUw798uqxQ6PxuObwTcElplSF3SW
+         G9Xv7GocLoi+ylI6iQo1ljUz2J8OC/txFLLZXSetIxuqijFx5PlHX8vucxVHDvoghlvW
+         SEyzDgtoWpFG46I6zbZLfmvbPGuqF43g/uwkUBcNz2DRT60oz+4ShsbZAC1klp/jfdBF
+         NhzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686326402; x=1688918402;
+        d=1e100.net; s=20221208; t=1686326459; x=1688918459;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JmrAWEdTpAeUeR5jc+sXk5q7UDP7Hqefj8kJ8Wfci+g=;
-        b=D/itHhs3iXicTTwjSx0eJ3cAu0WeYBG+eQbfYDhkYgyDAovUpl1RaE35D6u6Tbj7B3
-         G4ZUk0LQJmlb0xnBjs9y7hRrGrC6I+tdNPSX9F3ZY+KWE1nARJVttD5R5K3j+V99JzZ7
-         A4YuvcrAyX7w8Z29MH8NBT848Rk+WnGlrRU3MsWGnZBtzrXu/I5MqneRirMhqnF/cxx1
-         eDGVtQU8Q6nI+91vZ9fOptPJ7Z8skxYcOoLXV2FxxJhCHDPZ+zJufZNRx1LXnNztJqMe
-         1fm1CRMVVYU4sgJKQYMOuSVqqL1T5dToDQgKqnQpq9fKpq0crqvHlpqwDzPbiaUvAQkU
-         hkvg==
-X-Gm-Message-State: AC+VfDzHFMGzQYOdggj11bDySUK7P1JNfAW2iWShkF8DpA9yWS3QMEz1
-        Nw0Rk4f1fVr07BzfKjwBcT/lHA==
-X-Google-Smtp-Source: ACHHUZ6GwVdCIRU7CfRXzPk7HYiBLG2sXksC6LHRwueZZm3/HF/GmbGsFA2i7pItACSHSVlJmuP9Tw==
-X-Received: by 2002:a17:907:748:b0:974:5ce6:f9f6 with SMTP id xc8-20020a170907074800b009745ce6f9f6mr2365505ejb.10.1686326402437;
-        Fri, 09 Jun 2023 09:00:02 -0700 (PDT)
+        bh=JJHKGlV47afxhESmn4M8emdIU67tKEEb2KjyNS3Cyy8=;
+        b=iJ59/XlQuyxIHjYduVweEh1VHq+arNO+v/X+8k9ccntNQOMlwMpLFSSkeupQ4IFvEa
+         e0wNqKVKXjcRRYj0G5yfbhWuDCyVGXxcBpnkvaV/Oc9LQ8g2pCjDRT2NWSpYufgcsqB1
+         eFYmiP7pVhXG7hpRtsmf7J2H7VtxlceHF49Ft5n/p+2jFj4bgJvSVs9gfuEPT0leHJVy
+         Zlbrsf3ZsLrIXwcNTLRg4FYkvqoGCM6I6lGCdlxJXIN/IXAba+zyEjwJNiQFFDXR5JTQ
+         pOQe9OscAXXzsva8Oe0pKsR5WngnvQZSARmGY7Rtybh3Zk1K/kOFIhwtXB3DWgPir3J4
+         3ZdQ==
+X-Gm-Message-State: AC+VfDzpHbY2kA2BAFTa3NscKRhJYksxfHSgzoEBjNMue0+ysXVGJIqD
+        nPC/W7xoZ1uraXD3snsThhJqEg==
+X-Google-Smtp-Source: ACHHUZ4MNMzOVPyOZds2RmjGMSDMu8ErQik4SCpzMcmtDR930mLUJy8Vxh/s1fzyIeO2OeXqSiaynQ==
+X-Received: by 2002:a17:907:7da9:b0:973:8cb7:4d81 with SMTP id oz41-20020a1709077da900b009738cb74d81mr2136036ejc.49.1686326459617;
+        Fri, 09 Jun 2023 09:00:59 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id i16-20020aa7c9d0000000b0050d83a39e6fsm1940293edt.4.2023.06.09.09.00.00
+        by smtp.gmail.com with ESMTPSA id h26-20020a170906829a00b00965c529f103sm1437369ejx.86.2023.06.09.09.00.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Jun 2023 09:00:01 -0700 (PDT)
-Message-ID: <ce119df1-f846-2556-dc52-a54e7a0635be@linaro.org>
-Date:   Fri, 9 Jun 2023 17:59:59 +0200
+        Fri, 09 Jun 2023 09:00:59 -0700 (PDT)
+Message-ID: <949a2d21-eb14-3ef8-a7be-9c12152cd15a@linaro.org>
+Date:   Fri, 9 Jun 2023 18:00:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.2
-Subject: Re: [PATCH v4 1/2] dt-bindings: HID: i2c-hid: ilitek: Introduce
+Subject: Re: [PATCH v5 1/2] dt-bindings: HID: i2c-hid: ilitek: Introduce
  bindings for Ilitek ili9882t
 Content-Language: en-US
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+To:     Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
         robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
         conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, hsinyi@google.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        benjamin.tissoires@redhat.com, dianders@chromium.org,
+        hsinyi@google.com
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-References: <20230608130147.2835818-1-yangcong5@huaqin.corp-partner.google.com>
- <20230608130147.2835818-2-yangcong5@huaqin.corp-partner.google.com>
- <77dce4ec-89aa-8802-b169-744f6c11b177@linaro.org>
- <CAD=FV=UxQPWm6BNSeTAJWq1Cc8qFL2WTJHFiOrca5mnTEPHMvQ@mail.gmail.com>
+References: <20230609063615.758676-1-yangcong5@huaqin.corp-partner.google.com>
+ <20230609063615.758676-2-yangcong5@huaqin.corp-partner.google.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAD=FV=UxQPWm6BNSeTAJWq1Cc8qFL2WTJHFiOrca5mnTEPHMvQ@mail.gmail.com>
+In-Reply-To: <20230609063615.758676-2-yangcong5@huaqin.corp-partner.google.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
@@ -82,32 +80,37 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 09/06/2023 17:56, Doug Anderson wrote:
-> Hi,
+On 09/06/2023 08:36, Cong Yang wrote:
+> The ili9882t touch screen chip same as Elan eKTH6915 controller
+> has a reset gpio. The difference is that ili9882t needs to use
+> vccio-supply instead of vcc33-supply. Doug's series[1] allows panels
+> and touchscreens to power on/off together, let's add a phandle for this.
 > 
-> On Fri, Jun 9, 2023 at 8:50 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->>
->>> +  vccio-supply:
->>> +    description: The 1.8V supply to the touchscreen.
->>> +
->>> +required:
->>> +  - compatible
->>> +  - reg
->>> +  - interrupts
->>> +  - vccio-supply
->>> +
->>> +additionalProperties: false
->>
->> Why do you disallow all properties from toouchscreen.yaml? Aren't they
->> applicable?
+> [1]: https://lore.kernel.org/r/20230607215224.2067679-1-dianders@chromium.org
 > 
-> This matches what hid-over-i2c.yaml does. It only picks
-> `touchscreen-inverted-x` and `touchscreen-inverted-y` from the common
-> file, which aren't needed here. I assume that the rest of the things
-> from the common file can be probed using the i2c-hid protocol?
+> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 
-OK
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+If there is going to be new version, then:
+A nit, subject: drop second/last, redundant "bindings for". The
+"dt-bindings" prefix is already stating that these are bindings.
+
+
+---
+
+This is an automated instruction, just in case, because many review tags
+are being ignored. If you do not know the process, here is a short
+explanation:
+
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions, under or above your Signed-off-by tag. Tools like b4 can help
+here. However, there's no need to repost patches *only* to add the tags.
+The upstream maintainer will do that for acks received on the version
+they apply.
+
+https://elixir.bootlin.com/linux/v5.17/source/Documentation/process/submitting-patches.rst#L540
 
 Best regards,
 Krzysztof
