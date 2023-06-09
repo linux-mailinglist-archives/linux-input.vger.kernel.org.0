@@ -2,145 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BBDFE728A52
-	for <lists+linux-input@lfdr.de>; Thu,  8 Jun 2023 23:38:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26A5B729002
+	for <lists+linux-input@lfdr.de>; Fri,  9 Jun 2023 08:36:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236166AbjFHVif (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Jun 2023 17:38:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39368 "EHLO
+        id S237997AbjFIGg2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 9 Jun 2023 02:36:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234340AbjFHVie (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Jun 2023 17:38:34 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA24E2D76;
-        Thu,  8 Jun 2023 14:38:33 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id 3f1490d57ef6-ba829e17aacso1216609276.0;
-        Thu, 08 Jun 2023 14:38:33 -0700 (PDT)
+        with ESMTP id S230239AbjFIGg1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Jun 2023 02:36:27 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3D701FE6
+        for <linux-input@vger.kernel.org>; Thu,  8 Jun 2023 23:36:25 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-5428f63c73aso377621a12.1
+        for <linux-input@vger.kernel.org>; Thu, 08 Jun 2023 23:36:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686260312; x=1688852312;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mNSTXKmj7hUlHOCo/xW5hZUWoBrrqUdvHn7X8LT0uEo=;
-        b=rZIcXZyCfGooVGGpLJeChBFLN7dybtTQQD+7IN5Ah2gDaJGh/7o5lF95DKFVrZsmau
-         JcQ65/GsP+NRet2RK+xat+jPJeJldBX+ajWq3AXStMP+NjrkQCBwhWDUHBWLgTrvLiW9
-         Zly30kTox+RY3fR2R+F6WxGyDP4RFLQgkC7lcsortV2U6N0eXXtJ1UW8HkAJH5Zbp61/
-         nXeFFq7CyIBapVygOmu9XOVRXN9kaw1HPg6dgsts8kvtrpirYegNqztW50RQlW7bszQo
-         /IRoSYsI2qP7dc3xmZAYjVl9OEaUtA+82pznAY7RWkkBEtUlLMh+xZIQ9YFcNu2DZI+N
-         TrfA==
+        d=huaqin-corp-partner-google-com.20221208.gappssmtp.com; s=20221208; t=1686292585; x=1688884585;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OArSVKdP8kKZATYp3NGYxhiynyocbj6EsYiLTo9tnQ0=;
+        b=ZJGfku3g8Z/kgfGN2s9BOlz/s/4Vqvp5qale9NSrkcJZAXxeQpaerp68KZeIgHPfI9
+         86FzYj8v1LucC/9p+b/uQ/VsCKuoJWWrhJvmaOWirupHubWwxBD4PLEEk8rK4LQczB5X
+         auCEszeK7jLlx/6Sh9gKkVEocQB86K7AZsbWHgE1oYY7Tmu4SybrcafnAo2lepd3T9Bl
+         rIyG74+3/DYq4/gWweEyXdtfrvhPCZlW2IxPX2vZKe8SW9zue85rTqeHJcndu0hBuCeh
+         S2quC+aQMVvwgITvqW7G5OhXes3J2edOdDFZAh77pVTz1dYOPcEwraG1z5eKLXciB6uW
+         d3mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686260312; x=1688852312;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mNSTXKmj7hUlHOCo/xW5hZUWoBrrqUdvHn7X8LT0uEo=;
-        b=YnlziMDHh3v0mVoWXz2x4dLNgSUQmKBsL044ZMTN4ecqnrMW56/bsdftVjkpLSPDsM
-         pzBrtpwbfCMKCp/Y2d4iJ1l54feO0bP1xfYCbvoiEVYYlb2mkxMy6fsw0T2X0MustoD/
-         gCsJKvWGl70UCVOakBx0PQlay79nJphCrU8cxdMdZk7T8LL47ePE8OchDWogkod30Wsg
-         7hDmdsv1zj1WV+8gbDVanHabPXYkI2A3tUQEzOnVvEa1IhPU8c7DJWuJowbyHwmKMDQz
-         rxjYr+szVs8O308DSgFcF2MdIwBmGU4SdO1f2sZn6oBGTKDfjwDv5DRVVcXETQseyQaI
-         wjWQ==
-X-Gm-Message-State: AC+VfDxwjiV7+8dg3kGMMzH/1lBk10YJx7fS9nGUb1FvlvlL6/0ojKIR
-        soS62SuTutqjy2B+tYwUWky3ItrQtbiEmg==
-X-Google-Smtp-Source: ACHHUZ64nz/89TF4yOsANzK3DPKHXPY8azQ0YKED8rWPYKwjdTat0cV7rT7fhdPR0mnUoTDTSHU0fg==
-X-Received: by 2002:a81:49c6:0:b0:561:e7bb:1b27 with SMTP id w189-20020a8149c6000000b00561e7bb1b27mr585571ywa.52.1686260312608;
-        Thu, 08 Jun 2023 14:38:32 -0700 (PDT)
-Received: from horus.lan (75-164-186-145.ptld.qwest.net. [75.164.186.145])
-        by smtp.gmail.com with ESMTPSA id e130-20020a816988000000b00545b02d4af5sm189158ywc.48.2023.06.08.14.38.30
+        d=1e100.net; s=20221208; t=1686292585; x=1688884585;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OArSVKdP8kKZATYp3NGYxhiynyocbj6EsYiLTo9tnQ0=;
+        b=jwg4IlJBHfbHV2QyugxGHLB3vZCLXgwN6XX/oo1tV6Q4wJWOzy+YMk/d4qN32Omqex
+         IvmB4w/trWYoMXOuZpjSLIedrfvLpIQKm7CQeV2VfYYeFESpbTB22vRJ5zPy6akf5X8G
+         jGWu9AG+NPEAhZHDMEmxEA8v9tfMjBolpK5+LVe3cf1AROipGut0Z4bWvsGYooyAJ+4R
+         3QK872TW85X67v//gsasR71kOAEqDgtiJd0648vnmpMMkdWUsNR2Xnd/eJ627IWUd6/Z
+         3RmZwPdIJC4QOx/bqz/Fti87r0mCdTcqatAg311ZkosLDJyF3gsuNXzap5zbb0z5Xodi
+         R+8Q==
+X-Gm-Message-State: AC+VfDyOO3HARfPQskFoQacEgkCj9UyByWSDdoxwPwoO6RTIn5sFC1Z3
+        utoxNEWtx/FmdihiSFVilGx5wKsIudAiKRw+Emo=
+X-Google-Smtp-Source: ACHHUZ52oahsoZDVkU6EF4yj3h0eG1pLsRBq3kv3+ADvE6u/W5sWKX9yU8ZR2vkCgKm/ciflmvhLEg==
+X-Received: by 2002:a17:903:493:b0:1b2:4df5:c00e with SMTP id jj19-20020a170903049300b001b24df5c00emr251138plb.35.1686292585194;
+        Thu, 08 Jun 2023 23:36:25 -0700 (PDT)
+Received: from yc.huaqin.com ([101.78.151.214])
+        by smtp.gmail.com with ESMTPSA id o15-20020a170902d4cf00b001b211283294sm2445709plg.163.2023.06.08.23.36.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jun 2023 14:38:32 -0700 (PDT)
-From:   Jason Gerecke <killertofu@gmail.com>
-X-Google-Original-From: Jason Gerecke <jason.gerecke@wacom.com>
-To:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>
-Cc:     Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Joshua Dickens <Joshua@Joshua-Dickens.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        Jason Gerecke <jason.gerecke@wacom.com>, stable@vger.kernel.org
-Subject: [PATCH v2] HID: wacom: Use ktime_t rather than int when dealing with timestamps
-Date:   Thu,  8 Jun 2023 14:38:28 -0700
-Message-ID: <20230608213828.2108-1-jason.gerecke@wacom.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230607214102.2113-1-jason.gerecke@wacom.com>
-References: <20230607214102.2113-1-jason.gerecke@wacom.com>
+        Thu, 08 Jun 2023 23:36:24 -0700 (PDT)
+From:   Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, dianders@chromium.org,
+        hsinyi@google.com
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Subject: [PATCH v5 0/2] Add ili9882t bindings and timing
+Date:   Fri,  9 Jun 2023 14:36:13 +0800
+Message-Id: <20230609063615.758676-1-yangcong5@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Code which interacts with timestamps needs to use the ktime_t type
-returned by functions like ktime_get. The int type does not offer
-enough space to store these values, and attempting to use it is a
-recipe for problems. In this particular case, overflows would occur
-when calculating/storing timestamps leading to incorrect values being
-reported to userspace. In some cases these bad timestamps cause input
-handling in userspace to appear hung.
+Add bindings for Ilitek. The ili9882t touch screen chip same as
+Elan eKTH6915 controller has a reset gpio. The difference is that
+ilitek9882 needs to use vccio-supply instead of vcc33-supply. 
+From Dmitry suggestion, it would make more sense to distinguish the
+binging of ili9882 and eKTH6915.
 
-Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/901
-Fixes: 17d793f3ed53 ("HID: wacom: insert timestamp to packed Bluetooth (BT) events")
-CC: stable@vger.kernel.org
-Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
----
-v2: Use div_u64 to perform division to deal with ARC and ARM architectures
-    (as found by the kernel test robot)
+From The datasheet specifies there should be 60ms between touch SDA
+sleep and panel RESX. so we can add the 65 ms delay in i2c_hid_core_suspend.
 
- drivers/hid/wacom_wac.c | 6 +++---
- drivers/hid/wacom_wac.h | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+Changes in v5:
+- PATCH 1/2: Add panel as a required in property and examples.
+- PATCH 2/2: Set a NULL to ili9882t_chip_data for vcc33-supply, then not use vcc33 regulator.
+- Link to v4: https://lore.kernel.org/all/20230608130147.2835818-1-yangcong5@huaqin.corp-partner.google.com/
 
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index 2ccf838371343..174bf03908d7c 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -1314,7 +1314,7 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_wac *wacom)
- 	struct input_dev *pen_input = wacom->pen_input;
- 	unsigned char *data = wacom->data;
- 	int number_of_valid_frames = 0;
--	int time_interval = 15000000;
-+	ktime_t time_interval = 15000000;
- 	ktime_t time_packet_received = ktime_get();
- 	int i;
- 
-@@ -1348,7 +1348,7 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_wac *wacom)
- 	if (number_of_valid_frames) {
- 		if (wacom->hid_data.time_delayed)
- 			time_interval = ktime_get() - wacom->hid_data.time_delayed;
--		time_interval /= number_of_valid_frames;
-+		time_interval = div_u64(time_interval, number_of_valid_frames);
- 		wacom->hid_data.time_delayed = time_packet_received;
- 	}
- 
-@@ -1359,7 +1359,7 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_wac *wacom)
- 		bool range = frame[0] & 0x20;
- 		bool invert = frame[0] & 0x10;
- 		int frames_number_reversed = number_of_valid_frames - i - 1;
--		int event_timestamp = time_packet_received - frames_number_reversed * time_interval;
-+		ktime_t event_timestamp = time_packet_received - frames_number_reversed * time_interval;
- 
- 		if (!valid)
- 			continue;
-diff --git a/drivers/hid/wacom_wac.h b/drivers/hid/wacom_wac.h
-index 1a40bb8c5810c..ee21bb260f22f 100644
---- a/drivers/hid/wacom_wac.h
-+++ b/drivers/hid/wacom_wac.h
-@@ -324,7 +324,7 @@ struct hid_data {
- 	int ps_connected;
- 	bool pad_input_event_flag;
- 	unsigned short sequence_number;
--	int time_delayed;
-+	ktime_t time_delayed;
- };
- 
- struct wacom_remote_data {
+Changes in v4:
+- PATCH 1/2: Remove compatible items and add reset maxItems.
+- PATCH 1/2: Refer to the panel description in Doug serias[1].
+  [1] https://lore.kernel.org/all/20230607144931.v2.1.Id68e30343bb1e11470582a9078b086176cfec46b@changeid/ 
+- PATCH 2/2: Set a "null" to ili9882t_chip_data for vcc33-supply, then using dummy regulator.
+- Link to v3: https://lore.kernel.org/all/20230607133458.4075667-1-yangcong5@huaqin.corp-partner.google.com/
+
+Changes in v3:
+- PATCH 1/2: Introduce bindings for Ilitek.
+- Link to v2: https://lore.kernel.org/all/20230605060524.1178164-1-yangcong5@huaqin.corp-partner.google.com/
+
+Changes in v2:
+- PATCH 1/2: fix ran make dt_binding_check warnings/errors.
+- PATCH 1/2: remove oneOf,just enum.
+- Link to v1: https://lore.kernel.org/all/20230602140948.2138668-1-yangcong5@huaqin.corp-partner.google.com/
+
+Cong Yang (2):
+  dt-bindings: HID: i2c-hid: ilitek: Introduce bindings for Ilitek
+    ili9882t
+  HID: i2c-hid: elan: Add ili9882t timing
+
+ .../bindings/input/ilitek,ili9882t.yaml       | 67 +++++++++++++++++++
+ drivers/hid/i2c-hid/i2c-hid-of-elan.c         | 50 ++++++++++----
+ 2 files changed, 105 insertions(+), 12 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/ilitek,ili9882t.yaml
+
 -- 
-2.41.0
+2.25.1
 
