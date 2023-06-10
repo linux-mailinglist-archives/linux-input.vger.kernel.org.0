@@ -2,123 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7484872A61A
-	for <lists+linux-input@lfdr.de>; Sat, 10 Jun 2023 00:03:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A921C72AF93
+	for <lists+linux-input@lfdr.de>; Sun, 11 Jun 2023 00:46:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229555AbjFIWDn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 9 Jun 2023 18:03:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39426 "EHLO
+        id S232369AbjFJWqQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 10 Jun 2023 18:46:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232498AbjFIWDi (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Jun 2023 18:03:38 -0400
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 232DB3A85;
-        Fri,  9 Jun 2023 15:03:37 -0700 (PDT)
-Received: by mail-il1-f181.google.com with SMTP id e9e14a558f8ab-33b00ce51caso9566775ab.2;
-        Fri, 09 Jun 2023 15:03:37 -0700 (PDT)
+        with ESMTP id S229746AbjFJWqP (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sat, 10 Jun 2023 18:46:15 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42D1335A9;
+        Sat, 10 Jun 2023 15:46:14 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-30e412a852dso2007239f8f.0;
+        Sat, 10 Jun 2023 15:46:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686437173; x=1689029173;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4QoD2JHmjS+XykjPjXzCexgQPx0u9rmZzOabrfVfkmk=;
+        b=BSqzhVOwihGPnMwm6/Md0ZmgxQ4dngXJu95Al93AGsVJ6F/szHC7orjlza0QR2XsH5
+         +wTb+vYU1MkRGZvyqkootl+QCt3sLm3HHMO7zPs8Zad67wVnDEi+2Wv8dEnNViKBVS9P
+         RF9YXQMm9tTNFvanrHCSLU+ncxEmFpbOBZ2K9Bb9NZBY2soPN1rX92xrVs5Opr1CyLrW
+         /6PKIf6F8KVaQLx6iXlFQ04qsZSIFlzTTt7qL3o27rTdqCwNQrieLmo4dDwo0UCAhJPO
+         yKom1vR7iqjLucQ3x5E04T0Yihx391cn+I6RXgzr88x4J30EfiEXOQB3mqvHPqajmH8Q
+         +FJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686348216; x=1688940216;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20221208; t=1686437173; x=1689029173;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lbWnd1453WWYSB5tZKL9wA4jRIrmIbrZJ2ihOV5eBj0=;
-        b=TBHh6znyAU/BT3zhMBrlohsoeyzuaClSrcP/AF6GXv9EAcBNW5EA7CyMvAmfMi9Vsu
-         zV1gJ1eCucA6gt43nYxhDbYgZIRzMvQXUashjVt7rK776lq5w59K4JUfJz+0J5G3+f5e
-         1xlyznfLszm0GKz3I6AEsjTtJW/eXRc5F9CXf/R64szlHVADbm4mrzP+0rxy4PLagSyK
-         I8BhiMBX38lL5eeqeMISF8Yq6XkeuZd05rSGJFK5HijqbMftgNKuDKMVdO3BGas/Xfeu
-         bAxU+PZLYd4jjEUAJF8l9yNUKoAuYLviVy4oDJVWzWAi9OE97qKlc+qKRYI3pK8qdSQD
-         jHiw==
-X-Gm-Message-State: AC+VfDw3jnL0BMFtXgj02zfIskupu63ZzJSDoSE1MDWN4LQvejJnyWRP
-        7HKEMXqzVZrOFQnWsvPsyw==
-X-Google-Smtp-Source: ACHHUZ5g/3hAO2umBs2VXYQ0I2em+F4t0rg+2lA6/YO5SiWMldXnF+mwfMfvbJytyDA5GLeINIOA/g==
-X-Received: by 2002:a92:dc08:0:b0:33d:1c2b:b558 with SMTP id t8-20020a92dc08000000b0033d1c2bb558mr2366041iln.22.1686348216369;
-        Fri, 09 Jun 2023 15:03:36 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id g9-20020a926b09000000b0033e4937640esm1310594ilc.80.2023.06.09.15.03.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 15:03:35 -0700 (PDT)
-Received: (nullmailer pid 2542654 invoked by uid 1000);
-        Fri, 09 Jun 2023 22:03:33 -0000
-Date:   Fri, 9 Jun 2023 16:03:33 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     cong yang <yangcong5@huaqin.corp-partner.google.com>
-Cc:     Conor Dooley <conor@kernel.org>, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, dianders@chromium.org,
-        hsinyi@google.com, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: input: touchscreen: Add ilitek 9882T
- touchscreen chip
-Message-ID: <20230609220333.GA2535896-robh@kernel.org>
-References: <20230605060524.1178164-1-yangcong5@huaqin.corp-partner.google.com>
- <20230605060524.1178164-2-yangcong5@huaqin.corp-partner.google.com>
- <20230605-anyway-grab-f7a35aa199fb@spud>
- <CAHwB_NK_j1SJ1BBkVqafFM_+fWSyvwjCpMmHQxjLjnz_KHR=KA@mail.gmail.com>
+        bh=4QoD2JHmjS+XykjPjXzCexgQPx0u9rmZzOabrfVfkmk=;
+        b=ApM378XhWtJoqaVcRbLMjy+Kq/ZgdnjoElRksRapW8p42X8H6ntbfGVBa7hN/e2/06
+         tO30gs4lhcAEYjSIwf+YOPB3yuMvdo3KBuT+lV339BiOFjX1ghZzCCbRbasMbnp1RTGB
+         gzi6oPJwzhtXy4WHEeaq7fgnEgo1gImeOFbqYfNXP0VA09itl8Qg5eI5J+4E3oxQEbS+
+         bUb/V8mlu5nGqUSis/46rofUiYSeiDzhJUj+Zv0OI66mirPyUNiTMYvUlx1OH10Mr34+
+         S+T0iPiNhwY81WWnnjKza6LL3w6PcPV22eko5gdYIrnGQoS5VpNURxuCDNKou4imIu31
+         CKPw==
+X-Gm-Message-State: AC+VfDxhkDV0IbjmDDNGcxiAt70XVYz11vK2tekT/fvJgDSFkf4E80sT
+        9R8dBzWBK75m+84BJ0lmRA==
+X-Google-Smtp-Source: ACHHUZ6eTc2p0XNUM14Lcjh4ro3Kn6xg8mm+gl8p4RFbWuyCsAOTVHWdX9YgIUpbxXH71NfpfjESWw==
+X-Received: by 2002:a5d:4387:0:b0:30e:4265:c903 with SMTP id i7-20020a5d4387000000b0030e4265c903mr1553849wrq.66.1686437172351;
+        Sat, 10 Jun 2023 15:46:12 -0700 (PDT)
+Received: from localhost (112.red-81-44-165.dynamicip.rima-tde.net. [81.44.165.112])
+        by smtp.gmail.com with ESMTPSA id s1-20020a5d4ec1000000b002c70ce264bfsm8096671wrv.76.2023.06.10.15.46.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 10 Jun 2023 15:46:11 -0700 (PDT)
+Message-ID: <5b48af9d-300b-b024-dd44-600562eb7b59@gmail.com>
+Date:   Sun, 11 Jun 2023 00:46:09 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHwB_NK_j1SJ1BBkVqafFM_+fWSyvwjCpMmHQxjLjnz_KHR=KA@mail.gmail.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Subject: Re: [BUG: 6.3 kernel] Logitech Trackball M575 misidentified
+To:     Bastien Nocera <hadess@hadess.net>,
+        Linux regressions mailing list <regressions@lists.linux.dev>,
+        linux-input@vger.kernel.org
+Cc:     =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <eeb19342-3499-a1fb-388f-d4670472b16c@gmail.com>
+ <8941c5f2-3861-da68-06ca-adc68a37e53b@leemhuis.info>
+ <8308180826ba9a5478bf568396034b8dc7fb6e72.camel@hadess.net>
+Content-Language: en-US
+From:   Xose Vazquez Perez <xose.vazquez@gmail.com>
+In-Reply-To: <8308180826ba9a5478bf568396034b8dc7fb6e72.camel@hadess.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jun 06, 2023 at 10:06:05AM +0800, cong yang wrote:
-> Hi,Conor,
-> 
-> On Mon, Jun 5, 2023 at 6:20 PM Conor Dooley <conor@kernel.org> wrote:
-> >
-> > Hey Cong Yang,
-> >
-> > On Mon, Jun 05, 2023 at 02:05:23PM +0800, Cong Yang wrote:
-> > > Add an ilitek touch screen chip ili9882t.
-> >
-> > Could you add a comment here mentioning the relationship between these
-> > chips?
-> 
-> Okay, I will add in V3 version.
-> 
-> > On Mon, Jun 05, 2023 at 02:05:23PM +0800, Cong Yang wrote:
-> >
-> > > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> > > ---
-> > >  .../bindings/input/elan,ekth6915.yaml         | 23 ++++++++++++++++---
-> > >  1 file changed, 20 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> > > index 05e6f2df604c..f0e7ffdce605 100644
-> > > --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> > > +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> > > @@ -15,11 +15,14 @@ description:
-> > >
-> > >  properties:
-> > >    compatible:
-> > > -    items:
-> > > -      - const: elan,ekth6915
-> > > +    enum:
-> > > +      - elan,ekth6915
-> > > +      - ilitek,ili9882t
-> > >
-> > >    reg:
-> > > -    const: 0x10
-> > > +    enum:
-> > > +      - 0x10
-> > > +      - 0x41
-> >
-> > Is 0x10 only valid for the elan,ekth6915 & 0x41 for the ilitek one?
-> > If so, please add some enforcement of the values based on the
-> > compatible.
-> 
-> I don't think 0x10 is the only address for ekth6915,(nor is 0x41 the
-> only address for ili9882t). It depends on the hardware design.
+On 5/31/23 10:50, Bastien Nocera wrote:
 
-I'd just drop the values as we don't typically enforce 'reg' values.
+> The device name problem is tracked in 217330, which I filed.
+> 
+> A bisection would definitely help me if you have time, otherwise I'll
+> get to it, but it's probably not going to be before a couple of weeks.
+> 
+> You can also test this patch on top of the latest kernel tree:
+> https://patchwork.kernel.org/project/linux-input/patch/20230531082428.21763-1-hadess@hadess.net/
+> although I don't expect it to make a difference.
 
-Rob
+It was fixed in 6.3.7.
+
+Thank you.
