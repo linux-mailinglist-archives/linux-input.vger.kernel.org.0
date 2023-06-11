@@ -2,40 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DBAA72B25A
-	for <lists+linux-input@lfdr.de>; Sun, 11 Jun 2023 16:55:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBB5972B2E3
+	for <lists+linux-input@lfdr.de>; Sun, 11 Jun 2023 18:48:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229497AbjFKOzy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 11 Jun 2023 10:55:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46434 "EHLO
+        id S229449AbjFKQs2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 11 Jun 2023 12:48:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbjFKOzy (ORCPT
+        with ESMTP id S229441AbjFKQs1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 11 Jun 2023 10:55:54 -0400
-X-Greylist: delayed 424 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 11 Jun 2023 07:55:51 PDT
+        Sun, 11 Jun 2023 12:48:27 -0400
 Received: from mail.gnu-linux.rocks (unknown [82.165.184.165])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D05DBD9;
-        Sun, 11 Jun 2023 07:55:51 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF8FF1AD;
+        Sun, 11 Jun 2023 09:48:24 -0700 (PDT)
 Received: from UM-350.Speedport_W_723V_1_49_000 (p5def8a02.dip0.t-ipconnect.de [93.239.138.2])
-        by mail.gnu-linux.rocks (Postfix) with ESMTPSA id 247CC3FC10;
-        Sun, 11 Jun 2023 14:48:46 +0000 (UTC)
+        by mail.gnu-linux.rocks (Postfix) with ESMTPSA id C67F43FC10;
+        Sun, 11 Jun 2023 16:48:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnu-linux.rocks;
-        s=mail; t=1686494926;
-        bh=XL/XfbadzBgsiAGyei1/Uvu4s8eJmjO/Ak3jUUsu8E8=;
+        s=mail; t=1686502103;
+        bh=Ywgv5LV7jC7+wPdotWtFzxEEOYvA3C3jUmMXkxJPViQ=;
         h=From:To:Cc:Subject:Date:From;
-        b=iCykig8A0srXTHBDbhhuzgZGlK01Ss7q2z6er2Ml1FmtQ4DepUljJd76UhizXsBZW
-         iDmbEYhAPRmcsZbEgmQ45jqhQ9EtA4xdvdFOnbnlJ35ctPSUw5ziVn9b10NZHjlIc3
-         mdrrMfH0rV1+xa4Rq8YzIO/RF4WlB0wrE4mB19sFG8HrNeotlIpQQSxerv7DZSZrNT
-         e3ZJ/LYaDlIYa/HS1V38BWtAkSoDOxrQiJAVoljHFR2J1EsgIEnLVj6I1UcXlUNyJE
-         zDg43sa4Yt9r1KjoJd/tWbfpz7hYo1RA63JgaaDKsclq6B8INd0yDUWudIhp7nsIQz
-         p27Dc+VEe8svQ==
+        b=YP0+cnduk9qgmDwUy6dvy7XLYEi+mNKYTtD3c7zptI1Oz9Ie3PXV0/gTRmdcT59j7
+         R9TVU0U0MttqgND+/+7DsNslkN3gKiQ6lGNUSOZBJ7j8msDCdfnk6GMYm7S9Hj+Cu3
+         5/0VV4rokJDSi9H3LphEewajoawOXeJPDT8YAvi3CrKLJrCeRahaFmWNacrfXLg0l4
+         eqnjA/HsskZO/qIZ1T8Oa7v9YHUmBQLTa5nihJvwkQtU5cmQ7elVnbMC+fGxoKIi/d
+         9u/1E/U+3fxRqilGtSH/CUm4iMAs8nC43ovU3yxVXfNHHd9YbXs9AdQmemTPnK8aPU
+         9Bl4fF8pQgUIQ==
 From:   Johannes Roith <johannes@gnu-linux.rocks>
 To:     jikos@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         Johannes Roith <johannes@gnu-linux.rocks>
-Subject: [PATCH] hid-mcp2200 added driver for MCP2200 GPIOs
-Date:   Sun, 11 Jun 2023 16:48:31 +0200
-Message-ID: <20230611144831.41238-1-johannes@gnu-linux.rocks>
+Subject: [PATCH 1/2] hid-mcp2200 added driver for MCP2200 GPIOs
+Date:   Sun, 11 Jun 2023 18:48:10 +0200
+Message-ID: <20230611164811.1388-1-johannes@gnu-linux.rocks>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -64,11 +63,7 @@ rates. This is a hardware problem of the MCP2200 and is not caused by
 the driver.
 
 Signed-off-by: Johannes Roith <johannes@gnu-linux.rocks>
----
- drivers/hid/Kconfig       |  10 +
- drivers/hid/Makefile      |   1 +
- drivers/hid/hid-mcp2200.c | 421 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 432 insertions(+)
+
  create mode 100644 drivers/hid/hid-mcp2200.c
 
 diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
