@@ -2,34 +2,34 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 686E472CB7C
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jun 2023 18:27:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F12172CBA6
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jun 2023 18:35:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236695AbjFLQ1y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Jun 2023 12:27:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32794 "EHLO
+        id S234187AbjFLQf4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 12 Jun 2023 12:35:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236492AbjFLQ1t (ORCPT
+        with ESMTP id S230467AbjFLQfz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Jun 2023 12:27:49 -0400
+        Mon, 12 Jun 2023 12:35:55 -0400
 Received: from mail.gnu-linux.rocks (unknown [82.165.184.165])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F04A1739;
-        Mon, 12 Jun 2023 09:27:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20D21E41;
+        Mon, 12 Jun 2023 09:35:54 -0700 (PDT)
 Received: from localhost (ip5f5be8c3.dynamic.kabel-deutschland.de [95.91.232.195])
-        by mail.gnu-linux.rocks (Postfix) with ESMTPSA id 902AD4027B;
-        Mon, 12 Jun 2023 16:27:43 +0000 (UTC)
+        by mail.gnu-linux.rocks (Postfix) with ESMTPSA id C3C5740291;
+        Mon, 12 Jun 2023 16:35:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnu-linux.rocks;
-        s=mail; t=1686587263;
-        bh=c/4JjmJ45ZkiQZgNYBFXe9OTRXvupIaPpAdcPeF4Qlk=;
+        s=mail; t=1686587752;
+        bh=NTuOxrag/sBYLR3On/BRk6l+Ztu7Bbdn2dfEVTAw8Ug=;
         h=Date:Subject:From:To:Cc:From;
-        b=d21DZCTcvAV7eVmnPtWr1W/JJyeD2Axbn5J2Y1vWesLZp2MW4YlwoesqpJUrkB/Y2
-         1Z5ORW/WMi+03NivX1guxwFd9q4rx7FJWvtX2n39EGRyZe8smwtyDYkjw6FaqHV6v8
-         xc3uGYQqR3uKXjt1PXF+78IQsQOwTZQKK1Y346nEqFdzKPPmD69QPVKzJijYEYyfCu
-         QUiwFeHGDYmz+DVKERb5FsXFJMe+QBAuXjkuT+LtlHusmy82dTas4RvPU3OWuoErAS
-         i3ozWiuf4mH8L6iHuavLAg5I3H8Wa48VPOPJk8BePSIfiT88sM8tj4giUpXkMha2yB
-         BpvNbT2U7oxZA==
-Date:   Mon, 12 Jun 2023 18:27:34 +0200
-Message-ID: <1365bda1dccfa4b6f146c5a0551a803d.johannes@gnu-linux.rocks>
+        b=JFC7PiWDPZ/zgkiosI+JeMPf5hUlHwSkn5tet/bZyRDYcX//8+4EYMC4oRy2naCzJ
+         ggkH/tcYIPo08vbbP1TRPh4sKeKnlJ93Y7Qb6cIRQjraLKR8x3yNctHwYymRIlbYu4
+         X7tZppnCsZRwfb8Wkuz/33MMyU+1oX1jXpo1pja9NVn24SQBrR/MYwFHskMrtmAS0s
+         W8laRDrDGOxh06zi9dfyF9reqib0cuYJ+ZP3O86scgC2J2sA+gGNsUiL1TEqtsk45v
+         HrAxRV43Q9FDECFakW3rEna4rPj1NlvrT6W/S0f6Jdy6KuKc0d/4Pz3yRQ/y5PZlTG
+         JSCDqk2rR7Z9Q==
+Date:   Mon, 12 Jun 2023 18:35:47 +0200
+Message-ID: <aa373ce414b4f2d584d561a140285908.johannes@gnu-linux.rocks>
 Subject: Re:Re: [PATCH 1/2] hid-mcp2200 added driver for MCP2200 GPIOs
 From:   johannes@gnu-linux.rocks
 To:     christophe.jaillet@wanadoo.fr
@@ -109,6 +109,11 @@ X-Mailing-List: linux-input@vger.kernel.org
 >Does some
 >	#define xxx BIT(n)
 >would make more sense than this enum?
+
+I have changed the enum to defines. But I kept the hexadecimal format
+as the commands comes from the HID appnote and I think it is more readable
+that way.
+
 >
 >> +
 >> +/* MCP GPIO direction encoding */
@@ -403,6 +408,9 @@ X-Mailing-List: linux-input@vger.kernel.org
 >> +	ret = gpiochip_add_data(&mcp->gc, mcp);
 >
 >devm_gpiochip_add_data() and no .remove function?
+
+The gpiochip will be removed in mcp2200_remove
+
 >
 >> +	if (ret < 0) {
 >> +		dev_err(&hdev->dev, "Unable to register gpiochip\n");
@@ -413,6 +421,10 @@ X-Mailing-List: linux-input@vger.kernel.org
 >
 >hid_hw_stop() would be called twice. Once here and once because of the 
 >devm_add_action_or_reset() above.
+
+I think it is only called once. It will be called when gpiochip_add_data or
+hid_hw_open returns an error or when the mcp2200_hid_unregister gets called.
+
 >
 >
 >Just my 2c,
@@ -434,13 +446,13 @@ thanks for your feedback. I have added most of it in my Kernel module. For the
 view things, I haven't added, I add a comment under your comment.
 
 I am sorry for the error in hid-ids.h. It seems I forgot to run a git add hid-ids.h
-to rename the second USB_DEVICE_ID_MCP2221 into USB_DEVICE_ID_MCP2200. 
+to rename the second USB_DEVICE_ID_MCP2221 into USB_DEVICE_ID_MCP2200.
 
 What do you think is the best way to deliver my driver? Should I create a new
-patch containg everything I have changed or should I go with the two already
-created patches, reorder them, fixing the error in hid-ids.h and adding a new
-patch including the comments from your review? This is my first contribution,
-that's why I am asking.
+single patch containg everything I have changed or should I go with the two
+already created patches, reorder them, fixing the error in hid-ids.h and adding
+a new patch including the comments from your review? This is my first
+contribution, that's why I am asking.
 
 Best regards,
 Johannes
