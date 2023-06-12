@@ -2,111 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 887F072B50B
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jun 2023 03:06:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BFB972B568
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jun 2023 04:27:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229523AbjFLBGi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 11 Jun 2023 21:06:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48670 "EHLO
+        id S233463AbjFLC1B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 11 Jun 2023 22:27:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbjFLBGh (ORCPT
+        with ESMTP id S232777AbjFLC1B (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 11 Jun 2023 21:06:37 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38BBD12D;
-        Sun, 11 Jun 2023 18:06:35 -0700 (PDT)
+        Sun, 11 Jun 2023 22:27:01 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2043.outbound.protection.outlook.com [40.107.92.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC4DCA4;
+        Sun, 11 Jun 2023 19:26:59 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JWd0I090naWF8mGBQCZ96LtpFudgpTw7+fZ+CY4IbZIS7tUeCss8Fo7FSymgDlW1sosc3FNLGbqdH2wHLz/o+29HZsrqCDjZsEZYW0MokUW4we0bbfEStSR+EcueIzSEaSfPuX+fw++cxyFSYIOv/dyaJh8MsKAy/bDiSF8D3VKW5DacGh/y+fv1NtkNexl43NbEHpACAH+mwKVIShf2BX8LtxG9hXmZi/8PZsxCfxki/HdweLtZcm571MwcKr4ugWiVaI70S48Dn1uisqxDuHk1CKPAZJ9l9wgApbyirO0XkcJ9xMr/ofpAVpN5MWZ90CPJ7XtPWDChI58k21P6Sg==
+ b=eu5fi6YHpRnRyRbvMrecRgVUq5tVc8+DSq1Pwg+lzphCaxWtGohySkcuuraAjC9AVSPz2TCCDNDLkkSyCAQZXHhtoRf53D8s5glYY+whOsnlkhN2HNVNHsCvccbOcVapOKrGeZFbmuRjYcul5ZzdIQ0DSTQ4cOGRWJB2KzQy1KQbkiajHk0eIM7Zr73X43kK7JNF7r5ni9k7i2Dr6MptDhPnjQuB23JSsq+T2QiM3Gtj/j7pKpr+7mpuJU2LLCo0aW/IvtIo3+OiP0HoHe1+uGaE05yhAK2+JEQgzZ59Gs+QGVOt/9YIyFBabPDzgwu0o0aNN9NxrSzOOb2VykknYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ULFmjent1KJ87cyf48CnrsJBiil03YDIZr7TMwfS1/o=;
- b=gaqFVgsxIF8rhRBPN71bmxE/sEEQZy9qfNFhThD7IefrJl95slwNesIXlNggjkKFrpVdzR19QwQ8uFxAzdAAuoJ6kFpkQG5AyjRNImzDTVHQwJ81E7scrvNggWHRePokZKb55JSJaFyMx3wynrmDHCwYSiHb44F2yncOYHM8aj6NyGO8L8Y8rheWZjrHIU5/oLi168Ab2osSRppTDv+8HVQymwYUoXprlt8SouL4Or6C0XX4ImTc3FsmMH/8f+r8C4MS6zwjQ2uSpU2jAswYpB+ExU6lNWwl5YE54u1NZTGNIibsQyEas48tO0fLUAbzoKZdA8Z0TWQVSxiMbapptw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
+ bh=/acxFV5WYJetHLiChIfApaoz3J1/EP44+SK1PX6q+AY=;
+ b=JlsJ14+SfKRCPkBCPYQk4XeVK9T3emJdsMkNQqbLhuqlHpPi/oIWrQtutQ99jJGddz/hKi6GEV4+igKKeRL4qlA+PgIHXThF8gpiHEScjzAVQTk4wZGGyi+IDtkHiQUBf/3fppO7DEFYmvPdYd25ZvB0APaqMtkCaaNPqbZMPUqdT8VTVpsyuTFWaaRuUbobLEAkh1QwJUF6yK5wrNHCMWAtUSYj0qZVdqzn7lYuoS4k44LutkFpkJhDBVjZaUtbyAGRNcxAk4YLWEGInnRkB2hJVpoXB8ALbX2xrhlQdiin1xGjyE/24k9ZXisT8SNfABOiLGKepvXo6qp63rh+JA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.147.44.15) smtp.rcpttodomain=vger.kernel.org
+ smtp.mailfrom=tw.synaptics.com; dmarc=pass (p=none sp=none pct=100)
+ action=none header.from=tw.synaptics.com; dkim=none (message not signed);
+ arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ULFmjent1KJ87cyf48CnrsJBiil03YDIZr7TMwfS1/o=;
- b=uhQOaA4H6xaw1aE631UKperY74NzANT28QdpcVkoW88G1FwLTRyxEl8P9/19hEmN6ag0zC1tuiu30bckAp7gx5Z+bKC9Kdu1261JZBSATJOphFrEIWRPXPi7l/t+MBn3ZWlto5bSdr/QpT0R/NGN47zqkTAsVzhqMAULze+C5FU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=labundy.com;
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by SJ0PR08MB8457.namprd08.prod.outlook.com
- (2603:10b6:a03:4e0::6) with Microsoft SMTP Server (version=TLS1_2,
+ bh=/acxFV5WYJetHLiChIfApaoz3J1/EP44+SK1PX6q+AY=;
+ b=TwAay8n/fhuWhxb9z4Rd4cNJvtrDoq3G+m4u5YCm3yWWDBPgnjPetHt54BnK9D/dw0GlKNghacxL1eZmK+bbGucduwi60n92YAbVXMSN8D6uDXXMJ14GFvqO3pWy9Zuq8TJqVK46WLD2RRJmmyYNGOHvk1xF1C+n3TPC1raZcM0=
+Received: from BN9PR03CA0400.namprd03.prod.outlook.com (2603:10b6:408:111::15)
+ by PH7PR03MB7488.namprd03.prod.outlook.com (2603:10b6:510:2eb::19) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Mon, 12 Jun
- 2023 01:06:32 +0000
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::ca3a:84ac:381c:1506]) by SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::ca3a:84ac:381c:1506%4]) with mapi id 15.20.6455.043; Mon, 12 Jun 2023
- 01:06:32 +0000
-Date:   Sun, 11 Jun 2023 20:06:24 -0500
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: input: Add bindings for Azoteq
- IQS7210A/7211A/E
-Message-ID: <ZIZvkGqr4a0kOGnR@nixie71>
-References: <ZHVD/9OgRTAwBhqx@nixie71>
- <ZHVEa0yM1LLUJEfO@nixie71>
- <20230609142538.GA878396-robh@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230609142538.GA878396-robh@kernel.org>
-X-ClientProxiedBy: DM6PR06CA0061.namprd06.prod.outlook.com
- (2603:10b6:5:54::38) To SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21)
+ 2023 02:26:55 +0000
+Received: from BN8NAM11FT063.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:111:cafe::33) by BN9PR03CA0400.outlook.office365.com
+ (2603:10b6:408:111::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.33 via Frontend
+ Transport; Mon, 12 Jun 2023 02:26:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.147.44.15)
+ smtp.mailfrom=tw.synaptics.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=tw.synaptics.com;
+Received-SPF: Pass (protection.outlook.com: domain of tw.synaptics.com
+ designates 192.147.44.15 as permitted sender)
+ receiver=protection.outlook.com; client-ip=192.147.44.15;
+ helo=sjc1wvp-mail01.synaptics-inc.local; pr=C
+Received: from sjc1wvp-mail01.synaptics-inc.local (192.147.44.15) by
+ BN8NAM11FT063.mail.protection.outlook.com (10.13.177.110) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.6500.21 via Frontend Transport; Mon, 12 Jun 2023 02:26:54 +0000
+Received: from sjc1wvp-mail04.synaptics-inc.local (10.20.24.185) by
+ sjc1wvp-mail01.synaptics-inc.local (10.20.24.252) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Sun, 11 Jun 2023 19:26:12 -0700
+Received: from sjc1wvp-mail01.synaptics-inc.local (10.20.24.252) by
+ sjc1wvp-mail04.synaptics-inc.local (10.20.24.185) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Sun, 11 Jun 2023 19:26:11 -0700
+Received: from sjc1uvd-bld04.synaptics.com (10.20.70.64) by
+ sjc1wvp-mail01.synaptics-inc.local (10.20.24.252) with Microsoft SMTP Server
+ id 15.0.1497.2 via Frontend Transport; Sun, 11 Jun 2023 19:26:11 -0700
+From:   Marge Yang <marge.yang@tw.synaptics.com>
+To:     <dmitry.torokhov@gmail.com>, <linux-input@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <marge.yang@tw.synaptics.com>
+CC:     <david.chiu@tw.synaptics.com>, <derek.cheng@tw.synaptics.com>,
+        <sam.tsai@synaptics.com>, <vincent.huang@tw.synaptics.com>
+Subject: [PATCH V2] Input: synaptics-rmi4- Add a new feature for Forepad.
+Date:   Mon, 12 Jun 2023 02:26:07 +0000
+Message-ID: <20230612022607.315149-1-marge.yang@tw.synaptics.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|SJ0PR08MB8457:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ef3479d-8ca8-4c4e-31fe-08db6ae1428d
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT063:EE_|PH7PR03MB7488:EE_
+X-MS-Office365-Filtering-Correlation-Id: 663ba9f7-5996-4e2d-453f-08db6aec7d50
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5E6qlyXJ4+VDTcFy/26sUGFxnhr57MJbFD3sGPMvlA31tczrpB0pHJQN7ckKIrly5sjuwZy44yo0dYhYEA2BuSyjuLePKD4tnD0x86tC8kbtuXn3MNHGI/5rYGDkextBg5u2oy/X0X3mn7AlwwNVwSPo1+lhMMziQaE3TCShOdLHcPpyt1xTnbWk56qEZZVt7OnbsDrSSaXCzh51bZZre0kB3wTWEU5/V3xEqkr6ueg+RvQmCYJxQOaLJrT4We0VdDWkwxiN6dkCXX/AReRfM2hjMQuTGpafwwBQlSjJ2R66Idq1P4VIwSBZ0ApZ15Su+CatQ0kOZjfO1QAeK+RELsv9Le3zzgNvYB9xyOY0XoUf4bbTjOTRmOjMWlAZZ4S/X0Qy9qoEO3PIkLOAt5Sx0JGB0p/LNtKpNVLJFI5M/jDPnEK+pD/EW1hkWlEo2H5REjb2tHxwnxqyhrlsuY4+J1bRKOVimKqHK81PZB/SelqOqnl2cD5QnYST8WFtBZkpuWZDuoNgrX8EQvDGXwGmJDdOTsINYcBcYWUTlFIQjf4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(396003)(39830400003)(366004)(376002)(136003)(346002)(84040400005)(451199021)(66946007)(6506007)(9686003)(966005)(6512007)(6666004)(26005)(478600001)(186003)(83380400001)(6486002)(6916009)(66476007)(316002)(8676002)(38100700002)(8936002)(66556008)(5660300002)(2906002)(4326008)(41300700001)(86362001)(33716001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8btW9eYEB0JSubIPvLEKPitSG1QOf+A6n10qx5xnCMarmPar0ClR0aLqBg1x?=
- =?us-ascii?Q?6Z6v7SeL14xInGumSGnO2Tw9PQI7EOXJCCUEcaiBOB+9RI6vVWrrpOsL77Ap?=
- =?us-ascii?Q?AX69BuG4yn6GdrsOaF8ItwNpg2l3ofWF+Tas5JaF+zHB2KA4y853y6Btv6kh?=
- =?us-ascii?Q?X2wKJZq8xGTcB+bEXUOVSDF7HbRxK8NGPvKs844eYkUkIta/gYY4/Dvx1lxt?=
- =?us-ascii?Q?ERKbhEAIngOSOANenQZTSIiN6mSXkon7dGD/H3eLHdmGl3VpFD29NT7um7iH?=
- =?us-ascii?Q?Sagq4iaEvqAOpf138owviF6qpXdnzVA1zgpPn23WswfSsqYM2LI7fC7rf4nJ?=
- =?us-ascii?Q?0BwexVRi6CHASS+NeK/JiuUrQ6fPUP4880s3t8hpNW0w5Sb7xpTxGFnmPZ9V?=
- =?us-ascii?Q?OOdtILHtL29B3k8EOiDRzfCc8EiValKQhee4BhKTdHZ6yBQuZb6QdGRPKrGu?=
- =?us-ascii?Q?zospNcSauGOEo35AHp8qHnKU0XEwjFMgS/9dq/tCFUPbIcQm4JmqaahY3//3?=
- =?us-ascii?Q?ZMffwKx8nHbMcmL+iDcqJO7NkuJYuDCWtYVDp1F2VoSiMPJB78uGELzo12Ji?=
- =?us-ascii?Q?/fxgiB9dpds1jZ8P1CqeYizOQENE37Ca50Ml9g3pijZn5q3kCg1st8MO6Oxp?=
- =?us-ascii?Q?N1WS8itKGDGXypjftp89eSHlraapKXlXV/38X1lttp1OvY23IkA5AJxl5ZF+?=
- =?us-ascii?Q?igFY7xSnmkHyUa0i4kBEpEgbxDSI7pc/U57d+d5O5c4K4eJUwIRTx5LOa/oD?=
- =?us-ascii?Q?PYpJaANRi/GIBkwBIJnSC1DIZtJRwIOgv0N6h+yu88VPI834WhQsl/WO654T?=
- =?us-ascii?Q?qcZqbmP/GwhRNVbafJ9iWU16ZQHFyBMDUVxgb5Q9aZgEokLBa7j7oYuNgbt/?=
- =?us-ascii?Q?IhbTL76kKd8KYBDkJT3zLCTMBGRJVqao5tJVJ8QseT0WEGompQU+Vm7PviBF?=
- =?us-ascii?Q?Hl0eA8dlu2Pz7nLvSxo22ZOqsx2OEpqdvPXXx5HC+bOFADEx9tg9K7qWsOkT?=
- =?us-ascii?Q?CwdfEx1/PbqktEZqw2s+CsjuCTsNn2kl3ijQiroHQVi5f7codLBWRZ70WngX?=
- =?us-ascii?Q?5CjfYKxm0A347QHRq/bPHFtZFhCXlzg/nwOa+p73q/5jm7XLa5Xj/jIeWRG2?=
- =?us-ascii?Q?qYF5vuKqhGamPFssV70bD1+1KGi2KEzYZOYduRQtJS9yfqCuf0VXfVdnjN0w?=
- =?us-ascii?Q?mRBU4syBzRP0XmrdtRWVq3yrFEbtxl6Ox89oAn0vok4yvPKEQ9VuiY3/Ry0q?=
- =?us-ascii?Q?coPvgwZREsi+Qcuw6qRXDP315Ov7st8hwVsRmGJlngUbdDqZLt8i9x9YJhb4?=
- =?us-ascii?Q?+oXuTBZX/Wtp4WVftvS77IYFl0g4z2VesLX7dKELcPQTZL0Z/258efeFcEan?=
- =?us-ascii?Q?64bqellboJj27zt+j7bVVPCtiAxlCNeJ36pDs80molsLQQMoLwXKGvyCTRRI?=
- =?us-ascii?Q?9Kzu1VkxsNIwcNCZveI5C+NvtvXaqq79ywEqXt2rykRooou8RnpzCUlY4mcA?=
- =?us-ascii?Q?/anUZDpHjY1g6DXg2hHr3+e9VJLi78wIRiqfGL1xc/p8p7lOgq6mRQa0tZ8w?=
- =?us-ascii?Q?D7pps2JpnlUmXbbUu8U+HzjwDqudJeaKg/RhuXUu?=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ef3479d-8ca8-4c4e-31fe-08db6ae1428d
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2023 01:06:32.1426
+X-Microsoft-Antispam-Message-Info: q4Z55aMczf/+0rJ17y1uFqnw5LuTz8XDmGRsSB3RF3h/TaK3RLkce7Z5v4eML2DcoCrs/w1QPfKJwIHDaO6cm12wVhQG0E1lavY9weKueEVVkQjKGsWR1eB7G0vHzZew5A8Jcc6/cexG+kHNSp3iZ4yXkvjl9wJ7Etmexp2S1Xxl5e76QGKoNdEatfEceJ0odMdtgKvpvU1exVblfnMmrF9Hxi71sbpfXHPdTvREWaALU9HpdIwCXNpHwD1T6U+/m/a0yH8bHil96N1eoR6ds2SjCOMvhRbyXQHtGErV2dpkgEN1rKcNLf4upjPmHW0eVhMUSOgih2SJVkCRz//ZWL8M3Z4d91o5ljYQoyACvd4+GL0mU5o/kw4w7fbmfSs/0l2c2nIhTstVh6VVLnmGwNswh3voZDZTM5FQllvxWP4o/Nr939Vyp7+l6aZSSMsplXDaWtByWoq8eSGKC5G1GbnnV20rAfna8E5O/ids/soih8gwlyX3JCQH3UMMkEvhAzSzWSIEiHWN9kjnoCpmK7he4TYZM35HYAcLssHkCjn/qP6LcnSTrVLBGUTdFop0nY5Tk+eHibFIXIMxxNz5KoB1T36zTg+76b/usoqlSRsgL0MqpOwDmNjrNXNDBpuK5e8dwv2klYN28gDPRS0q07VVB7+obFiKShrypfYmbdG62SLxsM4HPFZfbdCgJH5FQzs2nOhvn1ReuGbwKZlL4X2h6L7d0xmI6tFC/9N+prP1mmpIztRFmdTUp9YZuAif
+X-Forefront-Antispam-Report: CIP:192.147.44.15;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:sjc1wvp-mail01.synaptics-inc.local;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(346002)(39850400004)(396003)(136003)(376002)(451199021)(46966006)(36840700001)(8936002)(44832011)(8676002)(5660300002)(4326008)(70586007)(70206006)(316002)(54906003)(110136005)(2906002)(41300700001)(7049001)(36860700001)(6666004)(478600001)(81166007)(40480700001)(356005)(26005)(107886003)(1076003)(336012)(83380400001)(186003)(47076005)(82740400003)(82310400005)(2616005)(86362001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: tw.synaptics.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2023 02:26:54.8108
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hKHdWENV19Ik+Jq0amGQibTbccInnc1j6c3KA+q/zk/D3tEKoY9Npu+xsix8HGTKoT3A2W7Srjg1KI1sq5hUqQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR08MB8457
+X-MS-Exchange-CrossTenant-Network-Message-Id: 663ba9f7-5996-4e2d-453f-08db6aec7d50
+X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=335d1fbc-2124-4173-9863-17e7051a2a0e;Ip=[192.147.44.15];Helo=[sjc1wvp-mail01.synaptics-inc.local]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT063.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR03MB7488
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -116,86 +102,204 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Rob,
+Forcepad devices will use F21, for click simulation
+due to lack of a metal button, so we add F21 support
+to make forcepad support click function.
 
-On Fri, Jun 09, 2023 at 08:25:38AM -0600, Rob Herring wrote:
-> On Mon, May 29, 2023 at 07:33:47PM -0500, Jeff LaBundy wrote:
-> > Add bindings for the Azoteq IQS7210A/7211A/E family of trackpad/
-> > touchscreen controllers.
-> > 
-> > Signed-off-by: Jeff LaBundy <jeff@labundy.com>
-> > ---
-> > Changes in v2:
-> >  - Renamed 'azoteq,default-comms' to 'azoteq,forced-comms-default' and redefined
-> >    0, 1 and 2 as unspecified, 0 and 1, respectively
-> >  - Defined ATI upon its first occurrence
-> >  - Redefined 'azoteq,gesture-angle' in units of degrees
-> >  - Declared 'azoteq,rx-enable' to depend upon 'azoteq,tx-enable' within the
-> >    'trackpad' node
-> > 
-> > Hi Rob,
-> > 
-> > I attempted to reference existing properties from a common binding [1] as per
-> > your feedback in [2], however 'make DT_CHECKER_FLAGS=-m dt_binding_check' fails
-> > with the message 'Vendor specific properties must have a type and description
-> > unless they have a defined, common suffix.'
-> 
-> Is that because you have differing constraints in each case?
+Signed-off-by: Marge Yang <marge.yang@tw.synaptics.com>
+---
+ drivers/input/rmi4/Kconfig      |   8 +++
+ drivers/input/rmi4/Makefile     |   1 +
+ drivers/input/rmi4/rmi_bus.c    |   3 +
+ drivers/input/rmi4/rmi_driver.h |   5 +-
+ drivers/input/rmi4/rmi_f21.c    | 110 ++++++++++++++++++++++++++++++++
+ 5 files changed, 126 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/input/rmi4/rmi_f21.c
 
-In the failing example [2], I have started with a simple boolean that carries
-nothing but a type and description. From the new azoteq,common.yaml:
+diff --git a/drivers/input/rmi4/Kconfig b/drivers/input/rmi4/Kconfig
+index c0163b983ce6..37e2ba4918fd 100644
+--- a/drivers/input/rmi4/Kconfig
++++ b/drivers/input/rmi4/Kconfig
+@@ -108,6 +108,14 @@ config RMI4_F3A
+ 	  Function 3A provides GPIO support for RMI4 devices. This includes
+ 	  support for buttons on TouchPads and ClickPads.
+ 
++config RMI4_F21
++	bool "RMI4 Function 21 (PRESSURE)"
++	help
++	  Say Y here if you want to add support for RMI4 function 21.
++
++	  Function 21 provides buttons/pressure for RMI4 devices. This includes
++	  support for buttons/pressure on PressurePad.
++
+ config RMI4_F54
+ 	bool "RMI4 Function 54 (Analog diagnostics)"
+ 	depends on VIDEO_DEV=y || (RMI4_CORE=m && VIDEO_DEV=m)
+diff --git a/drivers/input/rmi4/Makefile b/drivers/input/rmi4/Makefile
+index 02f14c846861..ec4f08513d8b 100644
+--- a/drivers/input/rmi4/Makefile
++++ b/drivers/input/rmi4/Makefile
+@@ -11,6 +11,7 @@ rmi_core-$(CONFIG_RMI4_F12) += rmi_f12.o
+ rmi_core-$(CONFIG_RMI4_F30) += rmi_f30.o
+ rmi_core-$(CONFIG_RMI4_F34) += rmi_f34.o rmi_f34v7.o
+ rmi_core-$(CONFIG_RMI4_F3A) += rmi_f3a.o
++rmi_core-$(CONFIG_RMI4_F21) += rmi_f21.o
+ rmi_core-$(CONFIG_RMI4_F54) += rmi_f54.o
+ rmi_core-$(CONFIG_RMI4_F55) += rmi_f55.o
+ 
+diff --git a/drivers/input/rmi4/rmi_bus.c b/drivers/input/rmi4/rmi_bus.c
+index f2e093b0b998..e12033aa7517 100644
+--- a/drivers/input/rmi4/rmi_bus.c
++++ b/drivers/input/rmi4/rmi_bus.c
+@@ -369,6 +369,9 @@ static struct rmi_function_handler *fn_handlers[] = {
+ #ifdef CONFIG_RMI4_F3A
+ 	&rmi_f3a_handler,
+ #endif
++#ifdef CONFIG_RMI4_F21
++	&rmi_f21_handler,
++#endif
+ #ifdef CONFIG_RMI4_F54
+ 	&rmi_f54_handler,
+ #endif
+diff --git a/drivers/input/rmi4/rmi_driver.h b/drivers/input/rmi4/rmi_driver.h
+index 1c6c6086c0e5..57f258371bab 100644
+--- a/drivers/input/rmi4/rmi_driver.h
++++ b/drivers/input/rmi4/rmi_driver.h
+@@ -114,7 +114,9 @@ static inline int rmi_f03_overwrite_button(struct rmi_function *fn,
+ }
+ static inline void rmi_f03_commit_buttons(struct rmi_function *fn) {}
+ #endif
+-
++#ifdef CONFIG_RMI4_F21
++int rmi_f21_report_pressure(struct rmi_function *fn, int i);
++#endif
+ #ifdef CONFIG_RMI4_F34
+ int rmi_f34_create_sysfs(struct rmi_device *rmi_dev);
+ void rmi_f34_remove_sysfs(struct rmi_device *rmi_dev);
+@@ -136,6 +138,7 @@ extern struct rmi_function_handler rmi_f12_handler;
+ extern struct rmi_function_handler rmi_f30_handler;
+ extern struct rmi_function_handler rmi_f34_handler;
+ extern struct rmi_function_handler rmi_f3a_handler;
++extern struct rmi_function_handler rmi_f21_handler;
+ extern struct rmi_function_handler rmi_f54_handler;
+ extern struct rmi_function_handler rmi_f55_handler;
+ #endif
+diff --git a/drivers/input/rmi4/rmi_f21.c b/drivers/input/rmi4/rmi_f21.c
+new file mode 100644
+index 000000000000..5657bf4a2026
+--- /dev/null
++++ b/drivers/input/rmi4/rmi_f21.c
+@@ -0,0 +1,110 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2012-2020 Synaptics Incorporated
++ */
++
++#include <linux/kernel.h>
++#include <linux/rmi.h>
++#include <linux/input.h>
++#include <linux/slab.h>
++#include "rmi_driver.h"
++
++#define RMI_F21_FORCE_CLICK_OFFSET	8
++#define RMI_f21_FORCE_CLICK			0x01
++#define RMI_f21_DATA_REGS_MAX_SIZE	1
++#define RMI_f21_FORCEPAD_BUTTON_COUNT	1
++
++struct f21_data {
++	/* Query Data */
++	u8 data_regs[RMI_f21_DATA_REGS_MAX_SIZE];
++	struct input_dev *input;
++	u16 key_code;
++};
++
++static irqreturn_t rmi_f21_attention(int irq, void *ctx)
++{
++	struct rmi_function *fn = ctx;
++	struct f21_data *f21 = dev_get_drvdata(&fn->dev);
++	int error;
++
++	error = rmi_read_block(fn->rmi_dev,
++				fn->fd.data_base_addr+RMI_F21_FORCE_CLICK_OFFSET,
++				f21->data_regs, 1);
++	if (error) {
++		dev_err(&fn->dev,
++			"%s: Failed to read f21 data registers: %d\n",
++			__func__, error);
++		return IRQ_RETVAL(error);
++	}
++
++	if (!!(f21->data_regs[0] & RMI_f21_FORCE_CLICK))
++		input_report_key(f21->input, f21->key_code, true);
++	else
++		input_report_key(f21->input, f21->key_code, false);
++	return IRQ_HANDLED;
++}
++
++static int rmi_f21_config(struct rmi_function *fn)
++{
++	struct f21_data *f21 = dev_get_drvdata(&fn->dev);
++	struct rmi_driver *drv = fn->rmi_dev->driver;
++
++	if (!f21)
++		return 0;
++
++	drv->set_irq_bits(fn->rmi_dev, fn->irq_mask);
++
++	return 0;
++}
++
++static int rmi_f21_initialize(struct rmi_function *fn, struct f21_data *f21)
++{
++	struct input_dev *input = f21->input;
++	unsigned int button = BTN_LEFT;
++
++	f21->key_code = button;
++	input_set_capability(input, EV_KEY, f21->key_code);
++	input->keycode = &(f21->key_code);
++	input->keycodesize = sizeof(f21->key_code);
++	input->keycodemax = RMI_f21_FORCEPAD_BUTTON_COUNT;
++
++	__set_bit(INPUT_PROP_BUTTONPAD, input->propbit);
++
++	return 0;
++}
++
++static int rmi_f21_probe(struct rmi_function *fn)
++{
++	struct rmi_device *rmi_dev = fn->rmi_dev;
++	struct rmi_driver_data *drv_data = dev_get_drvdata(&rmi_dev->dev);
++	struct f21_data *f21;
++	int error;
++
++	if (!drv_data->input) {
++		dev_info(&fn->dev, "f21: no input device found, ignoring\n");
++		return -ENXIO;
++	}
++
++	f21 = devm_kzalloc(&fn->dev, sizeof(*f21), GFP_KERNEL);
++	if (!f21)
++		return -ENOMEM;
++
++	f21->input = drv_data->input;
++
++	error = rmi_f21_initialize(fn, f21);
++	if (error)
++		return error;
++
++	dev_set_drvdata(&fn->dev, f21);
++	return 0;
++}
++
++struct rmi_function_handler rmi_f21_handler = {
++	.driver = {
++		.name = "rmi4_f21",
++	},
++	.func = 0x21,
++	.probe = rmi_f21_probe,
++	.config = rmi_f21_config,
++	.attention = rmi_f21_attention,
++};
+-- 
+2.25.1
 
-properties:
-  [...]
-
-  azoteq,use-prox:
-    type: boolean
-    description: foo
-
-And from the first consumer:
-
-patternProperties:
-  "^hall-switch-(north|south)$":
-    type: object
-    allOf:
-      - $ref: input.yaml#
-      - $ref: azoteq,common.yaml#
-    description: bar
-
-    properties:
-      linux,code: true
-      azoteq,use-prox: true
-
-However, the tooling presents the following:
-
-  CHKDT   Documentation/devicetree/bindings/processed-schema.json
-/home/jlabundy/work/linux/Documentation/devicetree/bindings/input/iqs62x-keys.yaml: patternProperties:^hall-switch-(north|south)$:properties:azoteq,use-prox: True is not of type 'object'
-	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
-	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
-
-[...]
-
-I am committed to addressing your feedback; to help me do so, can you help me
-identify what I've done wrong, and/or point me to an example that successfully
-passes dt_binding_check?
-
-> 
-> > This seems related to the discussion in [3], where you warned that the tooling
-> > cannot yet deduce that vendor-specific properties have already been typed in an
-> > externally $ref'd binding. The only other example of a common vendor schema is
-> > [4], but in that case the common properties are defined under arbitraily named
-> > pinmux config nodes. As such, they are part of 'additionalProperties' instead of
-> > 'properties' and hence exempt from this particular validation.
-> > 
-> > Please let me know if I am mistaken (surprise!), in which case I will continue
-> > on this path and send a v3. Otherwise, I would like to suggest that the review
-> > moves forward under the premise that I will happily consolidate these bindings
-> > once the tooling supports this idea.
-> > 
-> > Kind regards,
-> > Jeff LaBundy
-
-[2] https://github.com/jlabundy/linux/tree/azoteq-common
-
-Kind regards,
-Jeff LaBundy
