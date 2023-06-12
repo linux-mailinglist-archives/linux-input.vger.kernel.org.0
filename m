@@ -2,85 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5D2A72C39B
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jun 2023 14:01:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F42572C584
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jun 2023 15:08:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231352AbjFLMBs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Jun 2023 08:01:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43894 "EHLO
+        id S231899AbjFLNIP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 12 Jun 2023 09:08:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231337AbjFLMBo (ORCPT
+        with ESMTP id S229555AbjFLNIO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Jun 2023 08:01:44 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77CA8AC
-        for <linux-input@vger.kernel.org>; Mon, 12 Jun 2023 05:01:41 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-30adc51b65cso3871147f8f.0
-        for <linux-input@vger.kernel.org>; Mon, 12 Jun 2023 05:01:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686571300; x=1689163300;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=G1+iPoV6ViWmToxGfVYwSS0HBq77okNMum1crJ5ZSmQ=;
-        b=yyQVB8cdV1JAqx5WeYkS4eQFMgztDyalxHTTSOWBBP2X7HmdBmYnrC3EUkhbLxD+m0
-         CTFHzDLOWwSncYSvNNsqicvpUnYR0VALOtOVBkleEKA5bMh0/0bvVyWhv59gXIPT9J7E
-         3By8cXIJ01GITa0zN+ZUZbiha+fqW2QFcZPYXXBM0D3I4mdUtwYn4ZMxc0uz54MNtKiO
-         QcYPvYVUmFg2huG9sf13Fb4MBtGbCt4andfD5NG7cPg2egfj30pSSIXfgFv//xUghKLU
-         HTLN9X/ld3GMJjVGsImj96KU9S5ShRszcXllra3en3THPpUa6PGaAxt6sxnsfwenoG+O
-         J/7w==
+        Mon, 12 Jun 2023 09:08:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E3E0B1
+        for <linux-input@vger.kernel.org>; Mon, 12 Jun 2023 06:07:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686575249;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=q/MiI9QXiK+kGw2VuWEMjDPg8aH3Xvd+G1TkY8ef5uQ=;
+        b=cZyYZNghWlB18OiQNn0/JkGPiVaJGlYIdVrEBb04+qWVQkn/wH/Ja/U/FoTQNbgo6QccyB
+        n79gaMVFbJ4AgVUSJsfceaKoh4zi9dkiydT7xx3Aj0r3d+l5RJlwB+dzuk1JOLfv2vtIQ4
+        QAJvQbs0aa1IunJKMyQLowirispYyb8=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-207-P7HD4ILnNvG7TkaoWUq7iA-1; Mon, 12 Jun 2023 09:07:27 -0400
+X-MC-Unique: P7HD4ILnNvG7TkaoWUq7iA-1
+Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-6b2c801ac6cso2745331a34.1
+        for <linux-input@vger.kernel.org>; Mon, 12 Jun 2023 06:07:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686571300; x=1689163300;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=G1+iPoV6ViWmToxGfVYwSS0HBq77okNMum1crJ5ZSmQ=;
-        b=PsWELrskr4CnzhRJhPTCOBVO/kkKlYHqaEWyX4EUR2ob2fA8WsoQd7/T6HdI/hguhV
-         QXbI1QkYkV7803LoikMCOh+wZLsFKEye8t/f6KuwWRwU0vjIo4M/IzxwuGdo31XZq4uD
-         NDWJ7Tx8O+UHI8BCcWXD4Q+Bvw4WYsN08gEFzkvjWKt3LWE5xu+L2cRYCry1HxTKGz7I
-         2mc+tqPbzK9IqBQ+T5tV6LVMKZNFwtSmdrxyo3We7yXrwCSwKvHY7B5AueqoLfC+WirJ
-         oDPwONTOm0w2ttXCbYEaxpirpC2Vem7k8qA0Vkwlc/EGJ7JZa8pb6r4AcjpigXxWfIyw
-         9xhg==
-X-Gm-Message-State: AC+VfDzeB/3sS8hNgBfwdEv3UEW+opP++qHvPuZgYNX0d1teVbNrZfBF
-        8/F6TjGbcln0Pkb6+a9vgdeAdA==
-X-Google-Smtp-Source: ACHHUZ5ILXgfpbIliK4rXcCJxJ9F2icWza3Xgg3La2aYBaUo3CQy/LgOZpQ0/vY+oBoY3A8vhdNf3g==
-X-Received: by 2002:adf:f5d1:0:b0:309:e24:57b3 with SMTP id k17-20020adff5d1000000b003090e2457b3mr5080955wrp.4.1686571299613;
-        Mon, 12 Jun 2023 05:01:39 -0700 (PDT)
-Received: from [192.168.7.189] (679773502.box.freepro.com. [212.114.21.58])
-        by smtp.gmail.com with ESMTPSA id n26-20020a1c721a000000b003f78fd2cf5esm11208204wmc.40.2023.06.12.05.01.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jun 2023 05:01:39 -0700 (PDT)
-Message-ID: <a87160e5-b895-3dae-bba0-94fc67c92679@linaro.org>
-Date:   Mon, 12 Jun 2023 14:01:38 +0200
+        d=1e100.net; s=20221208; t=1686575247; x=1689167247;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=q/MiI9QXiK+kGw2VuWEMjDPg8aH3Xvd+G1TkY8ef5uQ=;
+        b=BCE50qHw2HVjI9cVCv20aipSRLcMOb5HCrExm0sQPmXE3W0/7aoDvwDwN5OMzMeUBq
+         l/wUW7chHK1RParkQ5hNc/xeIA0x2WeCODKjnvhnugG6KXAInfNFU5DkmTUYTCI3aaIl
+         UjjfP5aYdNHtjFxkLu3c4zG/A8fDYurFYaLuwhMhPnh9UPRZ6O+kkVrQmmlqUuE748gn
+         q+o+WmIQNmGiQqHgkKELa4cxdo/932vpFzJF9cxwcE6//l20dIejbUirZUOTp1uZ+bf0
+         2doqYrHUVF7DGQ5MhRncEO4N/AXfR0+5l4d9Y1NgvfYVX6tcNiUb51m0eHPahLT3RAxc
+         iezg==
+X-Gm-Message-State: AC+VfDzosBvNnFBAF1xy3T4kWjb5b3A6MQcb3tNRW+w4uSDa/TnCGloJ
+        FEdgz61zqpZJzqC1PI+8EDoWpdm+e3tO9D8h13WJkbt31oVLNGWWcq77eOB1zFLEaH37RrTsv3l
+        aO7PXS4Ae+EgFU6FLABYpD6uVXs4U2NMeCRQJJJY=
+X-Received: by 2002:a05:6830:1312:b0:6b1:6cb5:f704 with SMTP id p18-20020a056830131200b006b16cb5f704mr6321165otq.1.1686575247017;
+        Mon, 12 Jun 2023 06:07:27 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ44nt1oEoMTHGETcXQ9agWXqZJNAxv/1SAonjkGFyWybxdBPjmV4E3Q9MlSrNOhmReZlMk+SLDpqbrL0Ywjwrk=
+X-Received: by 2002:a05:6830:1312:b0:6b1:6cb5:f704 with SMTP id
+ p18-20020a056830131200b006b16cb5f704mr6321140otq.1.1686575246678; Mon, 12 Jun
+ 2023 06:07:26 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH RFC 4/4] input: touchscreen: add SPI support for Goodix
- Berlin Touchscreen IC
-Content-Language: en-US
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230606-topic-goodix-berlin-upstream-initial-v1-0-4a0741b8aefd@linaro.org>
- <20230606-topic-goodix-berlin-upstream-initial-v1-4-4a0741b8aefd@linaro.org>
- <ZIaRoTHar/s5yZAh@nixie71>
-Organization: Linaro Developer Services
-In-Reply-To: <ZIaRoTHar/s5yZAh@nixie71>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+References: <5673fd15-b3f2-7911-6eea-39e5126f4874@polimi.it>
+In-Reply-To: <5673fd15-b3f2-7911-6eea-39e5126f4874@polimi.it>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 12 Jun 2023 15:07:15 +0200
+Message-ID: <CAO-hwJKNqosABrr-VGSUVPs8CKRpQNTL0xgNLeT4yg453ADWZA@mail.gmail.com>
+Subject: Re: Tree dumb questions from an occasional
+To:     Marco Morandini <marco.morandini@polimi.it>
+Cc:     Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -88,328 +74,166 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Marco,
 
-On 12/06/2023 05:31, Jeff LaBundy wrote:
-> Hi Neil,
-> 
-> On Tue, Jun 06, 2023 at 04:31:59PM +0200, Neil Armstrong wrote:
->> Add initial support for the new Goodix "Berlin" touchscreen ICs
->> over the SPI interface.
->>
->> The driver doesn't use the regmap_spi code since the SPI messages
->> needs to be prefixed, thus this custom regmap code.
->>
->> This initial driver is derived from the Goodix goodix_ts_berlin
->> available at [1] and [2] and only supports the GT9916 IC
->> present on the Qualcomm SM8550 MTP & QRD touch panel.
->>
->> The current implementation only supports BerlinD, aka GT9916.
->>
->> [1] https://github.com/goodix/goodix_ts_berlin
->> [2] https://git.codelinaro.org/clo/la/platform/vendor/opensource/touch-drivers
->>
->> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->> ---
->>   drivers/input/touchscreen/Kconfig             |  14 ++
->>   drivers/input/touchscreen/Makefile            |   1 +
->>   drivers/input/touchscreen/goodix_berlin_spi.c | 183 ++++++++++++++++++++++++++
->>   3 files changed, 198 insertions(+)
->>
->> diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
->> index da6d5d75c42d..ffe0c0a4cd15 100644
->> --- a/drivers/input/touchscreen/Kconfig
->> +++ b/drivers/input/touchscreen/Kconfig
->> @@ -435,6 +435,20 @@ config TOUCHSCREEN_GOODIX_BERLIN_I2C
->>   	  To compile this driver as a module, choose M here: the
->>   	  module will be called goodix_berlin_i2c.
->>   
->> +config TOUCHSCREEN_GOODIX_BERLIN_SPI
->> +	tristate "Goodix Berlin SPI touchscreen"
->> +	depends on SPI_MASTER
->> +	depends on REGMAP
-> 
-> As TOUCHSCREEN_GOODIX_BERLIN_CORE already depends on REGMAP; is this
-> line necessary?
-> 
-> I was about to ask why not to select REGMAP_SPI; thank you for the
-> additional information in the commit message.
-> 
->> +	select TOUCHSCREEN_GOODIX_BERLIN_CORE
->> +	help
->> +	  Say Y here if you have the a touchscreen connected to your
->> +	  system using the Goodix Berlin IC connection via SPI.
-> 
-> Same comment here with regard to diction.
-> 
->> +
->> +	  If unsure, say N.
->> +
->> +	  To compile this driver as a module, choose M here: the
->> +	  module will be called goodix_berlin_spi.
->> +
->>   config TOUCHSCREEN_HIDEEP
->>   	tristate "HiDeep Touch IC"
->>   	depends on I2C
->> diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
->> index 921a2da0c2be..29524e8a83db 100644
->> --- a/drivers/input/touchscreen/Makefile
->> +++ b/drivers/input/touchscreen/Makefile
->> @@ -49,6 +49,7 @@ obj-$(CONFIG_TOUCHSCREEN_FUJITSU)	+= fujitsu_ts.o
->>   obj-$(CONFIG_TOUCHSCREEN_GOODIX)	+= goodix_ts.o
->>   obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_CORE)	+= goodix_berlin_core.o
->>   obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_I2C)	+= goodix_berlin_i2c.o
->> +obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_SPI)	+= goodix_berlin_spi.o
->>   obj-$(CONFIG_TOUCHSCREEN_HIDEEP)	+= hideep.o
->>   obj-$(CONFIG_TOUCHSCREEN_HYNITRON_CSTXXX)	+= hynitron_cstxxx.o
->>   obj-$(CONFIG_TOUCHSCREEN_ILI210X)	+= ili210x.o
->> diff --git a/drivers/input/touchscreen/goodix_berlin_spi.c b/drivers/input/touchscreen/goodix_berlin_spi.c
->> new file mode 100644
->> index 000000000000..0f4f650fdf3f
->> --- /dev/null
->> +++ b/drivers/input/touchscreen/goodix_berlin_spi.c
->> @@ -0,0 +1,183 @@
->> +// SPDX-License-Identifier: GPL-2.0-or-later
->> +/*
->> + * Goodix Berlin Touchscreen Driver
->> + *
->> + * Copyright (C) 2020 - 2021 Goodix, Inc.
->> + * Copyright (C) 2023 Linaro Ltd.
->> + *
->> + * Based on goodix_ts_berlin driver.
->> + */
->> +#include <linux/kernel.h>
->> +#include <linux/module.h>
->> +#include <linux/spi/spi.h>
->> +#include <linux/regmap.h>
-> 
-> Please alphabetize these to aid readability.
-> 
->> +#include <asm/unaligned.h>
->> +
->> +#include "goodix_berlin.h"
->> +
->> +#define SPI_TRANS_PREFIX_LEN	1
->> +#define REGISTER_WIDTH		4
->> +#define SPI_READ_DUMMY_LEN	3
->> +#define SPI_READ_PREFIX_LEN	(SPI_TRANS_PREFIX_LEN + REGISTER_WIDTH + SPI_READ_DUMMY_LEN)
->> +#define SPI_WRITE_PREFIX_LEN	(SPI_TRANS_PREFIX_LEN + REGISTER_WIDTH)
->> +
->> +#define SPI_WRITE_FLAG		0xF0
->> +#define SPI_READ_FLAG		0xF1
->> +
->> +static int goodix_berlin_spi_read(void *context, const void *reg_buf,
->> +				  size_t reg_size, void *val_buf,
->> +				  size_t val_size)
->> +{
->> +	struct spi_device *spi = context;
->> +	struct spi_transfer xfers;
->> +	struct spi_message spi_msg;
->> +	const u32 *reg = reg_buf; /* reg is stored as native u32 at start of buffer */
->> +	u8 *buf = NULL;
->> +	int ret = 0;
-> 
-> No need to initialize these, only to forcibly assign them later.
-> 
->> +
->> +	if (reg_size != REGISTER_WIDTH)
->> +		return -EINVAL;
->> +
->> +	buf = kzalloc(SPI_READ_PREFIX_LEN + val_size, GFP_KERNEL);
->> +	if (!buf)
->> +		return -ENOMEM;
->> +
->> +	spi_message_init(&spi_msg);
->> +	memset(&xfers, 0, sizeof(xfers));
->> +
->> +	/* buffer format: 0xF1 + addr(4bytes) + dummy(3bytes) + data */
->> +	buf[0] = SPI_READ_FLAG;
->> +	put_unaligned_be32(*reg, buf + SPI_TRANS_PREFIX_LEN);
->> +	memset(buf + SPI_TRANS_PREFIX_LEN + REGISTER_WIDTH, 0xff,
->> +	       SPI_READ_DUMMY_LEN);
->> +
->> +	xfers.tx_buf = buf;
->> +	xfers.rx_buf = buf;
->> +	xfers.len = SPI_READ_PREFIX_LEN + val_size;
->> +	xfers.cs_change = 0;
->> +	spi_message_add_tail(&xfers, &spi_msg);
->> +
->> +	ret = spi_sync(spi, &spi_msg);
->> +	if (ret < 0) {
->> +		dev_err(&spi->dev, "transfer error:%d", ret);
->> +		goto exit;
->> +	}
-> 
-> My comment is purely idiomatic, but this seems cleaner:
-> 
-> 	ret = ...
-> 	if (ret)
-> 		dev_err(...);
-> 	else
-> 		memcpy(...);
-> 
-> 	kfree(...);
-> 	return ret;
-> 
->> +
->> +	memcpy(val_buf, buf + SPI_READ_PREFIX_LEN, val_size);
->> +exit:
->> +	kfree(buf);
->> +	return ret;
->> +}
->> +
->> +static int goodix_berlin_spi_write(void *context, const void *data,
->> +				   size_t count)
->> +{
->> +	unsigned int len = count - REGISTER_WIDTH;
->> +	struct spi_device *spi = context;
->> +	struct spi_transfer xfers;
->> +	struct spi_message spi_msg;
->> +	const u32 *reg = data; /* reg is stored as native u32 at start of buffer */
->> +	u8 *buf = NULL;
->> +	int ret = 0;
-> 
-> Same comment here with regard to initialization.
-> 
->> +
->> +	buf = kzalloc(SPI_WRITE_PREFIX_LEN + len, GFP_KERNEL);
->> +	if (!buf)
->> +		return -ENOMEM;
->> +
->> +	spi_message_init(&spi_msg);
->> +	memset(&xfers, 0, sizeof(xfers));
->> +
->> +	buf[0] = SPI_WRITE_FLAG;
->> +	put_unaligned_be32(*reg, buf + SPI_TRANS_PREFIX_LEN);
->> +	memcpy(buf + SPI_WRITE_PREFIX_LEN, data + REGISTER_WIDTH, len);
->> +
->> +	xfers.tx_buf = buf;
->> +	xfers.len = SPI_WRITE_PREFIX_LEN + len;
->> +	xfers.cs_change = 0;
->> +	spi_message_add_tail(&xfers, &spi_msg);
->> +
->> +	ret = spi_sync(spi, &spi_msg);
->> +	if (ret < 0)
->> +		dev_err(&spi->dev, "transfer error:%d", ret);
->> +
->> +	kfree(buf);
->> +	return ret;
->> +}
->> +
->> +static const struct regmap_config goodix_berlin_spi_regmap_conf = {
->> +	.reg_bits = 32,
->> +	.val_bits = 8,
->> +	.read = goodix_berlin_spi_read,
->> +	.write = goodix_berlin_spi_write,
->> +};
->> +
->> +static const struct input_id goodix_berlin_spi_input_id = {
->> +	.bustype = BUS_SPI,
->> +	.vendor = 0x0416,
->> +	.product = 0x1001,
-> 
-> After having seen these in the I2C counterpart; consider defining them
-> in goodix_berlin.h.
 
-To be honest, I blindly copied it from goodix.c because the vendor
-driver puts random values here.
+On Mon, Jun 12, 2023 at 12:29=E2=80=AFPM Marco Morandini
+<marco.morandini@polimi.it> wrote:
+>
+> First of all, please bear with me for writing this.
+>
+> Should this appear email to be a criticism toward any of you,
+> be assured that this is not the intention. I'm
+> really grateful to all you guys, who keep improving the kernel
+> and allows us to use a free operating system.
+>
+> My questions here below are basically along the lines of
+> "would it make sense to write this and that?". This is not
+> because I'd like someone else to do the work for me, but
+> because I really don't know whether it makes sense or not.
+> Should be wrong to make such type of questions without
+> accompanying proofs of concept, then please ignore me, and
+> I'll go back into my cave.
 
-input_dev->id.product = 0xDEAD;
-input_dev->id.vendor = 0xBEEF;
+Asking questions is always fine. And given that you already did a lot
+of homework, not answering would be rude ;)
 
-So what should I set ?
+>
+> Some background: I've recently bought a laser digital pointer
+> from HP. It connects through Bluetooth.
+> Since it did not work, I made a point to have it working,
+> even if I'm not a kernel developer, and do not plan to become a
+> kernel developer.
+> At the end, this turned out to be a two-line patch, adding
+> the HID_QUIRK_MULTI_INPUT for such device. Something that
+> would likely require less than 5 minutes
+> of a not-so proficient kernel developer.
 
-Neil
+Yeah, right. This is the kind of situation where it's usually easy
+enough to detect with hid-tools[0]. We can record the device on your
+machine, then we can replay it locally on ours, and make several
+attempts.
 
-> 
->> +};
->> +
->> +static int goodix_berlin_spi_probe(struct spi_device *spi)
->> +{
->> +	struct regmap_config *cfg;
-> 
-> regmap_config
-> 
->> +	struct regmap *map;
-> 
-> regmap
-> 
-> (see more examples in MFD where such dual-mode devices are common).
-> 
->> +	size_t max_size;
->> +	int ret = 0;
->> +
->> +	cfg = devm_kmemdup(&spi->dev, &goodix_berlin_spi_regmap_conf,
->> +			   sizeof(*cfg), GFP_KERNEL);
->> +	if (!cfg)
->> +		return -ENOMEM;
->> +
->> +	spi->mode = SPI_MODE_0;
->> +	spi->bits_per_word = 8;
->> +	ret = spi_setup(spi);
->> +	if (ret)
->> +		return ret;
->> +
->> +	max_size = spi_max_transfer_size(spi);
->> +	cfg->max_raw_read = max_size - SPI_READ_PREFIX_LEN;
->> +	cfg->max_raw_write = max_size - SPI_WRITE_PREFIX_LEN;
->> +
->> +	map = devm_regmap_init(&spi->dev, NULL, spi, cfg);
->> +	if (IS_ERR(map))
->> +		return PTR_ERR(map);
->> +
->> +	return goodix_berlin_probe(&spi->dev, spi->irq,
->> +				   &goodix_berlin_spi_input_id, map);
->> +}
->> +
->> +static void goodix_berlin_spi_remove(struct spi_device *spi)
->> +{
->> +	goodix_berlin_remove(&spi->dev);
->> +}
->> +
->> +static const struct of_device_id goodix_berlin_spi_of_match[] = {
->> +	{
->> +		.compatible = "goodix,gt9916",
->> +	},
-> 
-> This format is different than its I2C counterpart.
-> 
->> +	{ },
-> 
-> Nit: same comment with regards to trailing commas.
-> 
->> +};
->> +MODULE_DEVICE_TABLE(of, goodix_berlin_spi_of_match);
->> +
->> +static const struct spi_device_id goodix_berlin_spi_ids[] = {
->> +	{ "gt9916" },
->> +	{ },
-> 
-> And here.
-> 
->> +};
->> +MODULE_DEVICE_TABLE(spi, goodix_berlin_spi_ids);
->> +
->> +static struct spi_driver goodix_berlin_spi_driver = {
->> +	.driver = {
->> +		.name = "goodix-berlin-spi",
->> +		.of_match_table = goodix_berlin_spi_of_match,
->> +		.pm = pm_sleep_ptr(&goodix_berlin_pm_ops),
->> +	},
->> +	.id_table = goodix_berlin_spi_ids,
->> +	.probe = goodix_berlin_spi_probe,
->> +	.remove = goodix_berlin_spi_remove,
->> +};
->> +module_spi_driver(goodix_berlin_spi_driver);
->> +
->> +MODULE_LICENSE("GPL");
->> +MODULE_DESCRIPTION("Goodix Berlin SPI Touchscreen driver");
->> +MODULE_AUTHOR("Neil Armstrong <neil.armstrong@linaro.org>");
->>
->> -- 
->> 2.34.1
->>
-> 
-> Kind regards,
-> Jeff LaBundy
+>
+> However, the process for me was much more cumbersome:
+> I had to navigate a lot o wrong or misleading documentation
+> in different forums, try to make sense of the kernel documentation,
+> understand what a HID descriptor is,
+> understand how to parse it, try to make sense of some
+> unknown kernel code (mostly unsuccessfully),
+> try with ebpf, try this and that... you get the idea.
+
+Heh, you tried hid-bpf :) thanks!
+
+>
+> Now, I'm writing because I _think_ I've learned something
+> in the process, and perhaps it could be useful to share it.
+>
+> Thus the questions:
+>
+> 1) do you think it would make sense to have some basic documentation
+> describing what a hid descriptor is, where to download the documents
+> defining it (https://www.usb.org/ is linked from the docs,
+> but this is not enough to get started, at least for someone like me),
+> how to actually read it from the hardware, how to parse it... ?
+
+Yes, very much yes. At least having pointers to various projects that
+can read HID descriptors and parse them would be already better.
+
+> Very basic things, that, if I'm not wrong, are not currently
+> covered by the kernel documentation, and that could allow
+> someone else like me to get started more quickly?
+> If yes, I can try to write a skeleton for that, but I'm not sure
+> there will not be errors and/or omissions, thus it would likely need
+> to be fixed by someone more knowledgeable than me.
+
+Sure. Please write (if you want) your first draft, we can review it
+and we can iterate from there. Do not forget to add the linux doc
+mailing list in CC in case some people from there want to also add
+things.
+
+>
+> 2) if I got it right, one can add a quirk like HID_QUIRK_MULTI_INPUT
+> while loading the usb_hid module, but not while loading the usb_generic
+> one (that turned out to be the module that manages my HP pointer),
+> even if the statically defined quirks were moved into their own file.
+> Would it make sense to add the possibility to
+> add quirks while loading hid_generic? Is this the right place for
+> such code? If yes, I can try in my spare time to do this,
+> even if I'm not sure I'll be able to get it right.
+
+I'm not 100% sure of what you mean, but currently dynamic quirks can
+be added to the *usbhid* module (not usb_hid or usb_generic), which is
+the transport layer driver for HID.
+This module is responsible for creating a HID device, which can be
+handled by HID drivers, hid_generic being one of them.
+
+As the name says, hid_generic is supposed to be generic, and I do not
+want to see special cases handled there, because it would not be
+generic anymore.
+
+However, other drivers, (hid_multitouch for instance) can have a
+.driver_data dynamically set too, which allows for quirking a device.
+But the quirk is local to the driver.
+
+Given that HID_QUIRK_MULTI_INPUT is a global HID quirk, it makes sense
+IMO to add it at the usbhid level because you are just using the
+hid-generic implementation.
+
+Furthermore, if you submit your patch to the LKML, the quirk will
+likely end up in driver/hid/hid-quirks.c which is exactly the static
+equivalent of the dynamic one from usbhid.
+
+So I don't think having such a new quirk mechanism makes sense.
+Furthermore, that quirk mechanism allows for quick and dirty testing
+of the impact on the kernel, but a proper submission as a kernel patch
+ensures that everybody gets the same fix, so I'd rather not have a
+forum that explains in details what to do for a given HID product when
+we can just quirk it in the tree and forget.
+
+>
+> 3) always if I get it right, currently it is not possible to inject quirk=
+s
+> using ebpf, but only to modify the HID descriptor.
+> Is this correct?
+
+You can also change the events and filter them out if you want, but
+yes that's pretty much the extent of HID_BPF nowadays.
+
+> If yes, do you think it would be feasible and reasonable
+> to add such a  possibility? If yes, I can try in my spare time to do this=
+,
+> even if I'm not sure I'll be able to get it right.
+
+Long story short: I would rather not have such bpf call.
+
+The fundamental of HID-BPF is that you take a HID thingy, and you
+output another HID thingy. Messing up with the kernel drivers is out
+of the scope.
+
+But furthermore, what would be the benefit compared to the already
+available dynamic quirks the kernel allows to have? You can simply add
+a configuration file to your system to locally have the dynamic quirk
+set, and then it gets re-applied on every reboot.
+
+As much as I'd like bpf to be the universal answer, this doesn't seem
+to be a good replacement to what we currently have.
+
+HID-BPF seems to be a good answer to replace (some) drivers, but I
+don't think it should replace the generic kernel processing. So that's
+why I don't think this is a good idea.
+
+>
+> Apologize again for this long email:
+> I understand it's full of good intentions but without any
+> significant contribution :(
+
+No need to apologize. You are actually proposing ideas and your help
+to make things better for end-users, which is extremely valuable in
+itself :)
+
+Cheers,
+Benjamin
+
+[0] https://gitlab.freedesktop.org/libevdev/hid-tools
 
