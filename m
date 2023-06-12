@@ -2,156 +2,209 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1656272CFC9
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jun 2023 21:44:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DE0D72D33A
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jun 2023 23:25:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230337AbjFLToX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Jun 2023 15:44:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60700 "EHLO
+        id S235390AbjFLVYr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 12 Jun 2023 17:24:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236652AbjFLToW (ORCPT
+        with ESMTP id S237433AbjFLVY3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Jun 2023 15:44:22 -0400
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F3D4E71;
-        Mon, 12 Jun 2023 12:44:20 -0700 (PDT)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-        by mx0b-001ae601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35CJJiRQ013846;
-        Mon, 12 Jun 2023 14:44:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PODMain02222019;
- bh=Kzw+l8cqcJr1TSQ6WJDIEKu8YNtPoQdgFhRljLL9mF4=;
- b=B+kJPsIEvSzIPIgUDDmIdHOmyKiJo6zfd0t4jJQfNDO5AEXhvsSIVzgSBhPoIWQmyCJb
- XHKOC8iKbsyxyrAlX8kRBMAwmbCiPfB+6R+6o4EC7PJiXz7drh5qZv3FkNsvz9Vu7X9Z
- jzDzG+2yBe8iBuch4suLp9/7hOGWa9ql33xZ7PIpN7PHOu2L34Ea5HcDuFmprU1jtlOV
- 5tbbVufiMtHBoGliAfi3oc98c9XMTeyJWImThLoEgkPggSepkYgQln6jKLEAguW9q/R1
- 1tZQXjzYWUdjV83RdB/ff6vfUgOVjHX67Yu/cLRtdvzT/4el4pz1zujGrzNoVrBYmBpG Fw== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-        by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3r4nkmaann-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 12 Jun 2023 14:44:18 -0500
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Mon, 12 Jun
- 2023 20:44:17 +0100
-Received: from aus-sw-rshr002.ad.cirrus.com (141.131.206.14) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26 via Frontend Transport; Mon, 12 Jun 2023 20:44:17 +0100
-Received: by aus-sw-rshr002.ad.cirrus.com (Postfix, from userid 46936)
-        id 191F24C0872; Mon, 12 Jun 2023 19:44:16 +0000 (UTC)
-From:   James Ogletree <james.ogletree@cirrus.com>
-CC:     James Ogletree <james.ogletree@cirrus.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [RESEND] Input: support pre-stored effects
-Date:   Mon, 12 Jun 2023 19:43:57 +0000
-Message-ID: <20230612194357.1022137-1-james.ogletree@cirrus.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 12 Jun 2023 17:24:29 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6FBE65B4
+        for <linux-input@vger.kernel.org>; Mon, 12 Jun 2023 14:20:43 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-978863fb00fso851845866b.3
+        for <linux-input@vger.kernel.org>; Mon, 12 Jun 2023 14:20:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1686604841; x=1689196841;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=piafe3QLAC9LHm4AYATazedwVeQ9NAHsKdbJCFfjx24=;
+        b=PeNucb6NYxZnGjuiofKWbMBWzIeWkiUSxQI3zKtONTz8DXtpJ+RO+XZDbwCDtUUXBx
+         6HwHvlcv6bP8GsqO81EY4zzN0A1SuOJgdaQonvLyiNo22lizGy3HPnznHu4C99A3EdX5
+         jy0naMPagB2J+ZvSlcZ0CwsvAffYik2QgFMO0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686604841; x=1689196841;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=piafe3QLAC9LHm4AYATazedwVeQ9NAHsKdbJCFfjx24=;
+        b=VUrjjy7TBsYJZ4OWAXTQ8cABJn8Gh5zEoEWOVA4tgys1eseJtYS3vKRmO80G2h9Wb1
+         YruC1c4f0zsaBdKxBDnvxQccttayhiu6+VR/hnefPUBwWwpH4dF6ZDmfTAn+3TVSJgH9
+         Wuuqxk7ujUlHbQsP2RgRwa6JceBCJYxpFucyda/ttvZhXf9kzPy87JaoUuyIHImPpT4b
+         Yyoc7zj9GD12ZI9L4vIifY6HOXy+HjVNAUZoy4ZayZdWYY7HqKH0t3NeOdkVF2VBtySv
+         FeLmeUhBtAbNXdVV8s3QnozB+StPHwBhHAw67/IP4nJULYZcjJ3Kfh4DHGkmR7fQRVm7
+         apBQ==
+X-Gm-Message-State: AC+VfDzX9Ia70Izrbs0KUlWRqs0IBzY00n+164RuRHZqDdStZFkZ+0f1
+        iV/BqLt1p/UKi7OOFdneXSbXgbtlGrI9FnGlVIcYUQ==
+X-Google-Smtp-Source: ACHHUZ402b7uI/BqbAK4a6SPsMv6h3X2Plz3fWWfD3Su7EFZhlStyEmrA1t00T+MX1ky3qwDsND0uw==
+X-Received: by 2002:a17:907:60c9:b0:94a:7979:41f5 with SMTP id hv9-20020a17090760c900b0094a797941f5mr12015502ejc.71.1686604841615;
+        Mon, 12 Jun 2023 14:20:41 -0700 (PDT)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com. [209.85.208.50])
+        by smtp.gmail.com with ESMTPSA id mh2-20020a170906eb8200b0097404f4a124sm5738779ejb.2.2023.06.12.14.20.41
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Jun 2023 14:20:41 -0700 (PDT)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-514ad92d1e3so1252a12.1
+        for <linux-input@vger.kernel.org>; Mon, 12 Jun 2023 14:20:41 -0700 (PDT)
+X-Received: by 2002:a50:9e81:0:b0:514:95d4:c2bb with SMTP id
+ a1-20020a509e81000000b0051495d4c2bbmr51305edf.2.1686604438620; Mon, 12 Jun
+ 2023 14:13:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: AMd_uphl9xJCB2ikfAMpATb0Q939xxLq
-X-Proofpoint-ORIG-GUID: AMd_uphl9xJCB2ikfAMpATb0Q939xxLq
-X-Proofpoint-Spam-Reason: safe
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230607215224.2067679-1-dianders@chromium.org>
+ <jehxiy3z4aieop5qgzmlon4u76n7gvt3kc6knxhb5yqkiz3rsp@mx27m75sx43r>
+ <CAD=FV=Wr7Xatw1LsofiZ5Xx7WBvAuMMdq4D5Po1yJUC1VdtZdg@mail.gmail.com> <z7wi4z4lxpkhvooqhihlkpubyvueb37gvrpmwk6v7xwj2lm6jn@b7rwyr5ic5x5>
+In-Reply-To: <z7wi4z4lxpkhvooqhihlkpubyvueb37gvrpmwk6v7xwj2lm6jn@b7rwyr5ic5x5>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Mon, 12 Jun 2023 14:13:46 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XnANRM=+2D9+DzcXx9Gw6iKKQsgkAiq8=izNEN-91f_Q@mail.gmail.com>
+Message-ID: <CAD=FV=XnANRM=+2D9+DzcXx9Gw6iKKQsgkAiq8=izNEN-91f_Q@mail.gmail.com>
+Subject: Re: [PATCH v2 00/10] drm/panel and i2c-hid: Allow panels and
+ touchscreens to power sequence together
+To:     Maxime Ripard <mripard@kernel.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        linux-kernel@vger.kernel.org, hsinyi@google.com,
+        cros-qcom-dts-watchers@chromium.org, devicetree@vger.kernel.org,
+        yangcong5@huaqin.corp-partner.google.com,
+        linux-arm-msm@vger.kernel.org,
+        Chris Morgan <macroalpha82@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-At present, the best way to define effects that
-pre-exist in device memory is by utilizing
-the custom_data field, which it was not intended
-for, and requires arbitrary interpretation by
-the driver to make meaningful.
+Hi,
 
-Provide option for defining pre-stored effects in
-device memory.
+On Mon, Jun 12, 2023 at 9:03=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+>
+> > > I guess we can have
+> > > something much simpler with a bunch of helpers that would register a
+> > > i2c-hid device and would be called by the panel driver itself.
+> > >
+> > > And then, since everything is self-contained managing the power state
+> > > becomes easier as well.
+> >
+> > Can you give me more details about how you think this would work?
+> >
+> > When you say that the panel would register an i2c-hid device itself,
+> > do you mean that we'd do something like give a phandle to the i2c bus
+> > to the panel and then the panel would manually instantiate the i2c-hid
+> > device on it? ...and I guess it would need to be a "subclass" of
+> > i2c-hid that knew about the connection to the panel code? This
+> > subclass and the panel code would communicate with each other about
+> > power sequencing needs through some private API (like MFD devices
+> > usually do?). Assuming I'm understanding correctly, I think that could
+> > work.
+>
+> I guess what I had in mind is to do something similar to what we're
+> doing with hdmi-codec already for example.
 
-Signed-off-by: James Ogletree <james.ogletree@cirrus.com>
----
- include/uapi/linux/input.h | 32 ++++++++++++++++++++++----------
- 1 file changed, 22 insertions(+), 10 deletions(-)
+By this you mean "rockchip,hdmi-codec" and "mediatek,hdmi-codec", right?
 
-diff --git a/include/uapi/linux/input.h b/include/uapi/linux/input.h
-index 2557eb7b0561..689e5fa10647 100644
---- a/include/uapi/linux/input.h
-+++ b/include/uapi/linux/input.h
-@@ -428,17 +428,27 @@ struct ff_rumble_effect {
- 	__u16 weak_magnitude;
- };
- 
-+/**
-+ * struct ff_prestored_effect - defines parameters of a pre-stored force-feedback effect
-+ * @index: index of effect
-+ * @bank: memory bank of effect
-+ */
-+struct ff_prestored_effect {
-+	__u16 index;
-+	__u16 bank;
-+};
-+
- /**
-  * struct ff_effect - defines force feedback effect
-  * @type: type of the effect (FF_CONSTANT, FF_PERIODIC, FF_RAMP, FF_SPRING,
-- *	FF_FRICTION, FF_DAMPER, FF_RUMBLE, FF_INERTIA, or FF_CUSTOM)
-+ *	FF_FRICTION, FF_DAMPER, FF_RUMBLE, FF_INERTIA, FF_PRESTORED, or FF_CUSTOM)
-  * @id: an unique id assigned to an effect
-  * @direction: direction of the effect
-  * @trigger: trigger conditions (struct ff_trigger)
-  * @replay: scheduling of the effect (struct ff_replay)
-  * @u: effect-specific structure (one of ff_constant_effect, ff_ramp_effect,
-- *	ff_periodic_effect, ff_condition_effect, ff_rumble_effect) further
-- *	defining effect parameters
-+ *	ff_periodic_effect, ff_condition_effect, ff_rumble_effect, ff_prestored_effect)
-+ *	further defining effect parameters
-  *
-  * This structure is sent through ioctl from the application to the driver.
-  * To create a new effect application should set its @id to -1; the kernel
-@@ -464,6 +474,7 @@ struct ff_effect {
- 		struct ff_periodic_effect periodic;
- 		struct ff_condition_effect condition[2]; /* One for each axis */
- 		struct ff_rumble_effect rumble;
-+		struct ff_prestored_effect prestored;
- 	} u;
- };
- 
-@@ -479,20 +490,21 @@ struct ff_effect {
- #define FF_DAMPER	0x55
- #define FF_INERTIA	0x56
- #define FF_RAMP		0x57
-+#define FF_PRESTORED	0x58
- 
- #define FF_EFFECT_MIN	FF_RUMBLE
--#define FF_EFFECT_MAX	FF_RAMP
-+#define FF_EFFECT_MAX	FF_PRESTORED
- 
- /*
-  * Force feedback periodic effect types
-  */
- 
--#define FF_SQUARE	0x58
--#define FF_TRIANGLE	0x59
--#define FF_SINE		0x5a
--#define FF_SAW_UP	0x5b
--#define FF_SAW_DOWN	0x5c
--#define FF_CUSTOM	0x5d
-+#define FF_SQUARE	0x59
-+#define FF_TRIANGLE	0x5a
-+#define FF_SINE		0x5b
-+#define FF_SAW_UP	0x5c
-+#define FF_SAW_DOWN	0x5d
-+#define FF_CUSTOM	0x5e
- 
- #define FF_WAVEFORM_MIN	FF_SQUARE
- #define FF_WAVEFORM_MAX	FF_CUSTOM
--- 
-2.25.1
 
+> We have several logical components already, in separate drivers, that
+> still need some cooperation.
+>
+> If the panel and touchscreen are on the same i2c bus, I think we could
+> even just get a reference to the panel i2c adapter, get a reference, and
+> pass that to i2c-hid (with a nice layer of helpers).
+
+Just for reference: the panel and touchscreen aren't on the same i2c
+bus. In the cases that I've looked at the panel is either controlled
+entirely by eDP or MIPI signals and isn't on any i2c bus at all. The
+touchscreen is on the i2c bus in the cases I've looked at, though I
+suppose I could imagine one that used a different bus.
+
+
+> What I'm trying to say is: could we just make it work by passing a bunch
+> of platform_data, 2-3 callbacks and a device registration from the panel
+> driver directly?
+
+I think I'm still confused about what you're proposing. Sorry! :( Let
+me try rephrasing why I'm confused and perhaps we can get on the same
+page. :-)
+
+First, I guess I'm confused about how you have one of these devices
+"register" the other device.
+
+I can understand how one device might "register" its sub-devices in
+the MFD case. To make it concrete, we can look at a PMIC like
+max77686.c. The parent MFD device gets probed and then it's in charge
+of creating all of its sub-devices. These sub-devices are intimately
+tied to one another. They have shared data structures and can
+coordinate power sequencing and whatnot. All good.
+
+...but here, we really have something different in two fundamental ways:
+
+a) In this case, the two components (panel and touchscreen) both use
+separate primary communication methods. In DT the primary
+communication method determines where the device is described in the
+hierarchy. For eDP, this means that the DT node for the panel should
+be under the eDP controller. For an i2c touchscreen, this means that
+the DT node for the touchscreen should be under the i2c controller.
+Describing things like this causes the eDP controller to "register"
+the panel and the i2c controller to "register" the touchscreen. If we
+wanted the panel driver to "register" the touchscreen then it would
+get really awkward. Do we leave the touchscreen DT node under the i2c
+controller but somehow tell the i2c subsytem not to register it? Do we
+try to dynamically construct the touchscreen i2c node? Do we make a
+fake i2c controller under our panel DT node and somehow tell the i2c
+core to look at it?
+
+b) Things are different because the two devices here are not nearly as
+intimately tied to one another. At least in the case of "homestar",
+the only reason that the devices were tied to one another was because
+the board designers chose to share power rails, but otherwise the
+drivers were both generic.
+
+
+In any case, is there any chance that we're in violent agreement and
+that if you dig into my design more you might like it? Other than the
+fact that the panel doesn't "register" the touchscreen device, it
+kinda sounds as if what my patches are already doing is roughly what
+you're describing. The touchscreen and panel driver are really just
+coordinating with each other through a shared data structure (struct
+drm_panel_follower) that has a few callback functions. Just like with
+"hdmi-codec", the devices probe separately but find each other through
+a phandle. The coordination between the two happens through a few
+simple helper functions.
+
+
+> > Is it cleaner than my current approach, though?
+>
+> "cleaner" is subjective, really, but it's a more "mainstream" approach
+> that one can follow more easily through function calls.
+>
+> > I guess, alternatively, we could put the "panel" directly under the
+> > i2c bus in this case. That would probably work for Cong Yang's current
+> > needs, but we'd end up in trouble if we ever had a similar situation
+> > with an eDP panel since eDP panels need to be under the DP-AUX bus.
+>
+> I don't know DP-AUX very well, what is the issue that you're mentioning?
+
+Hopefully I've explained what I meant above (see point "a)").
