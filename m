@@ -2,152 +2,238 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3A0972CC10
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jun 2023 19:08:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 963BB72CF9C
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jun 2023 21:33:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236368AbjFLRIM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Jun 2023 13:08:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53050 "EHLO
+        id S238255AbjFLTdo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 12 Jun 2023 15:33:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230348AbjFLRIL (ORCPT
+        with ESMTP id S238256AbjFLTdn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Jun 2023 13:08:11 -0400
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2082.outbound.protection.outlook.com [40.107.102.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54800E7E;
-        Mon, 12 Jun 2023 10:08:08 -0700 (PDT)
+        Mon, 12 Jun 2023 15:33:43 -0400
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2080.outbound.protection.outlook.com [40.107.20.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 468A51B8
+        for <linux-input@vger.kernel.org>; Mon, 12 Jun 2023 12:33:36 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=czBrTJdH/jk+V3SHS5axofx+JNsXKnDNQ0QmwOn79QwoCwmb/UU1Rha4LcP3/mclY6hrLUAxhiR98x84xygcGbxBli2QFnc3zc+X3CoN3k/UvT33cRAkOrSKvXtV1MfnUHDJgs9W6EhcHUkgMEA0Ul8YVErbsOWWOLB1U/9JDmNwIhIhjt6Wjtw7nj4lYdxfJLr8rX15gSoO/m3hSDY7DCdfnneXuY1FwiTQswuvLVE1sbHM+M5edOzaZE7ARJWkHm4HVP3/W7e2pOs/s3aCS4PqN4fjzeCbgpj2AtD1RT5UD90WFX8OJwCkKyZ5kcl8CwmLtAJjl7c/6oDxiB79uA==
+ b=djmXEx95T0Pigz1Ws8Ot5oItF+KAulhHjew8b+2iOSdb01W5lO/ITHTsffjmuhJl3Xqivoniw9b1fjWoCeJT01weuU7JiqQoT4ogjgqj4NHMto6gpIrGLJUfbxF8OXjXtRifWs9IAWNn7dG4OQuoE09sP6UbICLBVcdqYZLw15N2Diqummu7/UZln8Tl+4n8WxyIfERttai810YgopsJldvgWwQxlJDLPzhpci0P1JDtZiBOgAgUMifqRI4YeikjO+QUp8WBAB+F4HozXAe1I9grmp4DSRBBJqnCEKSDYwsTopPzHRAo6lqUmofABqABIyAXHfPQixCmavc0hnrjIg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yxML0lwYDUUX1Mv1UAzgC/N5+fraMMgJl/sjNGPZdzE=;
- b=n0FXxJmFnanzjOWOEkA42hfN4S3Gz+vvZnLBn1SHetnQCVjG6Zz07enVlYfarQiMbZSVaaOY831SGnJo8+JdhH2SUTu+r9i+xrmzVy8tBU1AR7Nhg+kkN1K0e2omE2o4w94whAGEScVtO33hnEWJGW18U8ZqPGr72tRTV+5WVSemBxi1K/7s5un9iUCH2IfrfXiSdCcfENbB5mJQZ2ZZJYmOs97+/J1uV++P1rN117vUwQNZEElwdmsz0eKotYzCqb+EvSF4d35YZqKAnDyuByxeexOugzaihtsYzsmGhq/OHDUkFt+zWosA1ok0XL+jUFqV0kKd61X6IUw3YUBH9g==
+ bh=e6nX4vLHw0tgWqfB4KI9PkeiRB0J+xFBJ1f/OZ7dZ3M=;
+ b=OZP9ayxRJtcXtH46zUVg7jCGbMZh44hCbYVkhHD63AnHUkzd/Xi3b3md0AUKefZzDZrcNbp5MHk0lrzLEWpSKAT6Sfab8HqCOpye25aEPEmh1pd8CdH4zLBE8+OyTPgKzivh/xNwyB8yqy0PFmFeJLRpxH5vIz0krvEm/A7ZEx2jDw2qOeq4UR2L4B8n2vVra/Cgrbl0BtOe+W1kRQgbSGsXAg9c4rTWTGpw/WmdLUWV4qLUaYsoi3TzD6nMoyLRpKIW5+3NVvbWgDegc1qZGLJlpnyo+WJvqU7aLBWE/kIO4bGPrFQ23r+xFbhTBYn2ZDdjBaxMjca1rastGZJUgA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ smtp.mailfrom=polimi.it; dmarc=pass action=none header.from=polimi.it;
+ dkim=pass header.d=polimi.it; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=polimi.it;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yxML0lwYDUUX1Mv1UAzgC/N5+fraMMgJl/sjNGPZdzE=;
- b=mGYlRuMt6NCUmvNi22guM8w5qIZtOIF+zA3gR9ZMJvykkrFn62wBCW6A8y75puaPVLb0nfkIaDF6wIBDWqyx4qYv9jjhdpggfbMUnhrTmO/8H1gF/Jc7Y9Pm1oXWy5rWXC15cE+NtD8HRCldeRt2SGtWBPrIh7Gh6bZvyeRL9dc=
+ bh=e6nX4vLHw0tgWqfB4KI9PkeiRB0J+xFBJ1f/OZ7dZ3M=;
+ b=A7AcSbUuL61lgtoY8MhEeFRnRWwCBrQhW5t28TRhjWT8Vva3BHZ6UnzDsRtj30JR6v+tURopFzbpSQXvUZF5u285c6yuAsCTcLCQKceZAhT208AZdRpQQFwhkipruI9MD+D9E9xrwJrwTFFhICM+kvBsXuAUmamcpPk85mCTZGHKa6ENU2cPSNxkfbdncGJ+b4hoLNvSmL/I7XohOPoXefIqk6+G7pJfTGBYpNRVp490ivwHxb7ciGU6OzVFwrJ1dDZqX8O4R3WpbrmvjeemTLTdTc8hbm9abIfcT9zUo+Xuop9i/DlzZJcT07aynuS/qnkt6/Tz48X38m97ZOf3cg==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=labundy.com;
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by SJ0PR08MB8389.namprd08.prod.outlook.com
- (2603:10b6:a03:4e5::19) with Microsoft SMTP Server (version=TLS1_2,
+ header.d=none;dmarc=none action=none header.from=polimi.it;
+Received: from AS8P251MB0339.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:404::9)
+ by AS1P251MB0525.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:4a1::16) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.29; Mon, 12 Jun
- 2023 17:08:02 +0000
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::ca3a:84ac:381c:1506]) by SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::ca3a:84ac:381c:1506%4]) with mapi id 15.20.6455.043; Mon, 12 Jun 2023
- 17:08:02 +0000
-Date:   Mon, 12 Jun 2023 12:07:59 -0500
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Neil Armstrong <neil.armstrong@linaro.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 4/4] input: touchscreen: add SPI support for Goodix
- Berlin Touchscreen IC
-Message-ID: <ZIdQ723G8/a0tNEZ@nixie71>
-References: <20230606-topic-goodix-berlin-upstream-initial-v1-0-4a0741b8aefd@linaro.org>
- <20230606-topic-goodix-berlin-upstream-initial-v1-4-4a0741b8aefd@linaro.org>
- <ZIaRoTHar/s5yZAh@nixie71>
- <a87160e5-b895-3dae-bba0-94fc67c92679@linaro.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a87160e5-b895-3dae-bba0-94fc67c92679@linaro.org>
-X-ClientProxiedBy: SN6PR08CA0034.namprd08.prod.outlook.com
- (2603:10b6:805:66::47) To SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21)
+ 2023 19:33:34 +0000
+Received: from AS8P251MB0339.EURP251.PROD.OUTLOOK.COM
+ ([fe80::d088:f8:7b89:2974]) by AS8P251MB0339.EURP251.PROD.OUTLOOK.COM
+ ([fe80::d088:f8:7b89:2974%4]) with mapi id 15.20.6477.028; Mon, 12 Jun 2023
+ 19:33:34 +0000
+Message-ID: <cce96d0b-1642-bf52-b9e6-64e40e8ae275@polimi.it>
+Date:   Mon, 12 Jun 2023 21:33:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: Tree dumb questions from an occasional
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org
+References: <5673fd15-b3f2-7911-6eea-39e5126f4874@polimi.it>
+ <CAO-hwJKNqosABrr-VGSUVPs8CKRpQNTL0xgNLeT4yg453ADWZA@mail.gmail.com>
+Content-Language: en-US, it
+From:   Marco Morandini <marco.morandini@polimi.it>
+In-Reply-To: <CAO-hwJKNqosABrr-VGSUVPs8CKRpQNTL0xgNLeT4yg453ADWZA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MR1P264CA0061.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:501:3e::25) To AS8P251MB0339.EURP251.PROD.OUTLOOK.COM
+ (2603:10a6:20b:404::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|SJ0PR08MB8389:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1ee2f39e-ef8e-4757-bcba-08db6b6794be
+X-MS-TrafficTypeDiagnostic: AS8P251MB0339:EE_|AS1P251MB0525:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8aa55111-e7c5-49f3-95da-08db6b7be933
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8wvCwYZW/8F2MPixtC3ae3tyEX2BMtis8auMt6O+vAc3Guo+OK0MDIt1xvF7oOQpeSPssI4TxWGf3msjd2TWddYAMJ8wuOVRU3L00T51akK7zu4sJl2xwVpOYmykfxgM2RQR3uN0qdxIl012Gn12wFFVoZO2gb8RNmdpDb8W8L3bABablLong3MDO506xftYNuHkaY5LB/jZOHymOm00SuYRBQCyvHMPPYBE141xZzSHWAb6PYbAgaKTh7yhIqiO1fl1Yaxk7MslSQMEfaZyFStW9RvABz/0Yz7vXANFgnI68eCYw6WqSXdmjCw9329lu/ldqheUV+qA01JZAJAOES7H5DtJ/ij1ccjGWZxCE6zkggXZcmGlSylZjHB6CH5zpPAlZHuv4RpM0Ut9fFVM8lWim6jzD1telckW6JKup33UsvA+mOrU+V8TCC9JDu8uu3pIzt20qcauAis56HeJj6kspxP/Zuq4R5IL67NUtVTXhgqher6/dMKT41x4rY2eEOKJ9sXamzqAQ12YpuC7SPkmA6SXPSDdtB743Ukmnaz6cRoWAUqyvg4Sz3Ywmahj
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(366004)(346002)(136003)(376002)(396003)(39830400003)(451199021)(86362001)(38100700002)(33716001)(478600001)(54906003)(4326008)(6666004)(6486002)(8936002)(8676002)(4744005)(2906002)(5660300002)(7416002)(66556008)(66946007)(66476007)(6916009)(41300700001)(316002)(186003)(6506007)(6512007)(9686003)(26005);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: kS8M0jHujK/OeOXIKjbU03FBW8My4tXrSj8mLdBTscdyTEFJEXuKkPJAUEiBTAbwqPgADtFCY7OiyDGcZ6OFTaCBGtIrgfuD4xhQoD91/8mDJw3ngoNlYb2TK6xIBJIw8YxICjncD3TsQU57yEo8mOVHhlNs0hlBwUxYzFDAV77QcHsy0yGrFipO21/CLNcTHVLKy7iqfVsfWlio6btldaA1ppB5WWkXjBMLKugtMRjLNb0BWwmHovCp8gNsXR8HLKY42OXgfQhoXMuJ3PEXib3tPdppNt+r62go5bf1JLZ/timoYhCqVfTqE/wjufvIz/buiOOw8vy6SfloWceqnihYCPxeK0DpP/GtTNuuS1CLUXMWSqyu62WDk9sl3GLgw5tNKIVJB+0g3lPxpY66Rm/o06bGdWAA44hFmTj1PmbebkUK5D1rObCEpjn+elXnbM/PG37dphlb7gc+vMpz8gAwykxKP3QDasOBSJ5LjWs/VPtj7mJWiquADUYJydnioRz5UBAQi/+WSIQzuRv01WsXBuGf+4jTQAJLow5FbCx9r/9Bt3Azchu6J1/21J/d3wypdkyZMk9y4AAC1nG/u1DqFa8r4NGr1W+paTpClue5wwAJmv7om82iIoCEg2iJXnWDq6vugSon30IcOw2Kkw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P251MB0339.EURP251.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(39860400002)(136003)(346002)(376002)(396003)(451199021)(66946007)(66476007)(66556008)(478600001)(8676002)(5660300002)(8936002)(36756003)(6916009)(6666004)(31686004)(4326008)(786003)(41300700001)(6486002)(316002)(38100700002)(186003)(6506007)(44832011)(86362001)(2906002)(2616005)(31696002)(83380400001)(6512007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iqhEF7col5armp7pK2+F+1WY7XuksrqFJE5V/oLEOd9NiNJmmsBCtlTzqx18?=
- =?us-ascii?Q?ncVDmTdeXTMWSDqu6kkwXdvF2JNEcYL0Ri+9l9rgiZ+H5Z8qc0i6DIL8yA7l?=
- =?us-ascii?Q?m8fMD2nyhi02E35npY3oT2FAQsyWgbkh5x3Ii2SzjghPWu2WJWBrOAnQXc4V?=
- =?us-ascii?Q?TYn19OpOVWIcPGEFtX+VYzJ4FQECWXdskbq6BeggwdtYH5mkMM2CA6UxteMP?=
- =?us-ascii?Q?MvDENwEstX9J7G7QL4VQMko8dRwaIbR9Qz0UD6hnTH8qz//1+5LEGfhtdAPD?=
- =?us-ascii?Q?6uwaDVBJb5ouAIIFgXe3TIpltlU9gT15O9oDz+WHNf9jUk5HxA8pMxBNAiHY?=
- =?us-ascii?Q?8zphR1Zc801QgGIwTHgXLVc7bir+yb9mQP+kVMSDVET2Uf/dsksgM3g/anz7?=
- =?us-ascii?Q?sSe4SnMGpZ3KY4JL9MMlxY4fnBYF3oCtbLO/9ZQ9zYD4YzxvP5P7VvTkPTZ4?=
- =?us-ascii?Q?jq7nt9dpS5bK99Olz1qk1QeozuqQ7JjaSH3/Ld2s1o9QcLT7zVU53MEB8xHf?=
- =?us-ascii?Q?4DZyzr9sQorrOFCxDP9s87WEqahp5GJVQwBnHDWT1bqU98i5zxZkCULvBZ79?=
- =?us-ascii?Q?1oc1fkjgZOs9YfcfpaqSwdFzOd542g1fGVUdd/CCA2YMt2KR+KvLCtRUPcSx?=
- =?us-ascii?Q?zGxup/40WZujgQ6vXlMjCHTkxGT4SBfMcJjq6Yi6p4CFsbqkV3D30nNF+63r?=
- =?us-ascii?Q?Nzrh0+j1Uq7bqVSwDBdjyUTxgV0bBKMaSB1+mMa5ysmqjuv3nqBu4PPoR4Y8?=
- =?us-ascii?Q?U1qdZSc/C5ClAlF+Ma+FBtmoVcP+cu+T+yTwXXjVf3QPUp3fDJdG/ZlGYtoS?=
- =?us-ascii?Q?RoqI1R9FI7tQ/luG3oO56/NJklhshl3Vji934rZbdyR/ULGxepB9suYAz94/?=
- =?us-ascii?Q?CVLuBQG6+oEK7EuVHEGUUn5qscNcBz2AoyBNn23tqVF6qgr2IcoyEoDy0RM9?=
- =?us-ascii?Q?xEsm6+BOhAcrHN5fXZ5IB6LS/LMGUw/iaQAs/7VJkXYpXbdriAZ5BXXoR67b?=
- =?us-ascii?Q?nos21qQ1x+M9bGE4GRSWnkgxGm/GCtV6xASkku3Nnx72c2YI4pF4OrMY4796?=
- =?us-ascii?Q?y3dlvmoD/8NLKgMLIydbA0jSOH0jFW9hIufG6f2hD/qcF1Ynxne2e2Su5pwo?=
- =?us-ascii?Q?vlscUC/Rx+YYnoeWvYlKHfycpH34Ge3ljrNQccFCB166sJEDuAh42nuqnEAZ?=
- =?us-ascii?Q?O8L6GO/ob2Kn2Y43N9JOp1nlN/4+iWpB9uGGlnu/HuDLkE5PUt7UByQMqCP9?=
- =?us-ascii?Q?pHwK1WENnUEDcOCs7Y4lMnNdxNxosUlG/il5hH2bsXn5iqf7baoa2W3M01l2?=
- =?us-ascii?Q?MkQ/Rv23vDQb1iIiGtmCqI1fIZe+JyGYTMlcr9WZZimYZeWgU6iqtetsZEUY?=
- =?us-ascii?Q?iO+cLbMo1UlGpg0XhF14QurUzWJ2ABshyIdEJ8cLAznSj/wVlNacjNWnwAHG?=
- =?us-ascii?Q?RJhBZxnULpz+okGnVcmVjbHWv0T0Mbpx5DNCOVAnWi4O4/Ko1XlqHIc/9/cH?=
- =?us-ascii?Q?aztiL+AZ63fMJPBmhs15PSTa9lg3YF0aB/lE7it3ndlqNN/J0/GBNKj4FFCu?=
- =?us-ascii?Q?cmbvD/hWX0yXvtu2f3dtgXKtfBdiqH6RBVy1Uqv0?=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1ee2f39e-ef8e-4757-bcba-08db6b6794be
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eXRocHh5dmsyQWE5SStiWmpLdk9HN213QU1wSjRpbEFuRWRHOHg4VVdORHFL?=
+ =?utf-8?B?b3pMVi9LQ1dDN0dseVlnc0ZUUFY2NHg3K25BRDA1dkNxR1VUOE1EWnNjWmU2?=
+ =?utf-8?B?MStiVndId2gyODdXV25EWVhRTTl5TWtvNzRidk8rUFBIZEYvZnFMYis3UTEr?=
+ =?utf-8?B?QmRhYjFFRGN4RkJqdmRvZERZSjMyR3hQVXFsUU53a05zSTU5bGx3Ylltc0sv?=
+ =?utf-8?B?aGZGVVF4MGgxSEJRbWpEWHlSd2hsMmNFcDNPa0VmM3lyNHFIY01VVkNwVHN0?=
+ =?utf-8?B?UkdVM0ZRa2p5aFN2alM4WU9qdmZXWERadnVRSDQ4WlNWYUF4YXBuUE9JK2FO?=
+ =?utf-8?B?cTNlRUcveUZZRjZQYnBQbUY2S241UmNGeTEvODlwcVA4NEV0b0w1OHRqbGVC?=
+ =?utf-8?B?VExsOWY2REgybUQzZCtmWWpPVjZIOEtSSEpZUWtBTWw5RHpWcFQ5VzFpaHJm?=
+ =?utf-8?B?dGoyeTlWYlN5R0xCQU44UlhLYXFwVzNqUVpHNUJTa2k1cU0wL2VqQ1NZanVH?=
+ =?utf-8?B?SmhVWEZ4VVQzblQ5WVZwelM4RjIyZUtTOGpaeThWMzIzK1djZWpPQ0dNWjVU?=
+ =?utf-8?B?RWk5YXFsMVcvdDd0bGt1bWE0UmM5ZVVIcENNN3Z5a3c3RkhaekdhZ0lOQ1g3?=
+ =?utf-8?B?czNkN0N3MUxNOE5IaUR4dlFvcjBZVDFjZ3hWRzRpSUJwa2VWcXMwK0hMeHh5?=
+ =?utf-8?B?ekhSa2VCL1pERUE1V3Fkb1BvNHp6Q1VqeitlMEVZV0tMbERHcHIvcnNWOWUv?=
+ =?utf-8?B?R1hVM1UreHhwL0RMbmhkT1pZTWUwSVRmR0JzMk11QjdySnJzYmY2cCtBWUln?=
+ =?utf-8?B?SGJvM3FrcGExRllpUkVObUY2WTM1UU91WlVBZGxZY0NFRDF6QWdHaXowTXNp?=
+ =?utf-8?B?c2VWU242K21OV2NWM2ttSGhIdGhRNnRyeGhaL1BBaUdOb0NQV2tLdmN4bitR?=
+ =?utf-8?B?UXdEZ1ovU1RMbTZDdG40VUVGMFFpVHpDdytFOW5sVE1MVTR5R2hnUDgydURC?=
+ =?utf-8?B?bjJpQmRhOVJXckNUeXZJY3ozM1Y4ZnhteWQvejVXTkozRmkraWNHVEhWN1No?=
+ =?utf-8?B?QUxEUUFRdWlQazYzT09FMEQzMzFvV01rM0s2R2VMbmxOU0RxTUIxSjQrZ25v?=
+ =?utf-8?B?ZllQVGNnNyt1RkM1Yy9kZVlzTnNNaDRtOE1kVlloZkRPMjNuV1k3aEhVYUJD?=
+ =?utf-8?B?aE15L1Y5Z2lTRngvQjEvK1ZRQWY3N1VxNU9wdTBsSi8yUFpBTlNqTWg5NUM5?=
+ =?utf-8?B?dmx4WDhURXpVSnJUNjdLV2lXUXpENGVENHhVSDhWN1VQSVZKZXZ4SE5pd1lZ?=
+ =?utf-8?B?K1M3bXEyZnJpdnNvc1ZpZ3dlUHRuOW1QS1ZXcVJFbkR6M2h2V21Fa3dSdlNU?=
+ =?utf-8?B?RDFMZUVRamtkdDJEQXR0QjRCNEZ6WUx0YmVPYjVpbzR6cGw2VFhvelFXaXFr?=
+ =?utf-8?B?aDQ3NFFQaWd4aFNUclQ1bFpubXNZaVlVcXNheWZvUFRQeCtya3NrV0NSZVcx?=
+ =?utf-8?B?Zk9iaFNtNWxXQ2V1TEIzZW9CSmErWHBYSzZJOW1rRjlPOWthSmFQKzdsT0RR?=
+ =?utf-8?B?Q3RVcE5ZdlVmOUdwZFd2QkJnS0tJam1QQlpRWVUzbE5iWGp3Q09ycXpCcG5w?=
+ =?utf-8?B?bTNxVURHQktMeW14am1lMU1zUnZ4V1hFQU5XOVQ1eG4zZitVeHlWanB6ejYy?=
+ =?utf-8?B?dDk3M1JXbDZTWXVsWFpPSWVWWVJpTjBzeUFDRnV1bG1XZlZscGtJakVFTWsx?=
+ =?utf-8?B?S0xYdlJ6Y1JZaGxNZW5zZTNBOW82N3dIeGZ0L2Y5Ukg5WWZiNEpuL25QRmhW?=
+ =?utf-8?B?ekVON0xNMWczQXh2Z0ZveU9QaEFKbU5zMDB0OWptelVZYlhCY0VGSWI1WEl1?=
+ =?utf-8?B?cXBkRzQ5N3BRZHd2ZWFNOVliNTJlVWc3UFYyUGxVbVp1Lzk3QjNRbVFrd0ho?=
+ =?utf-8?B?RkxXRjFraFpQT0VENGEzdG5ZTnBUOWZyLzBsUGpUeWJTUy9GZ2QvVjR3NzNO?=
+ =?utf-8?B?VVFLcUN6eGJSZWJLQkIxV2pkN2pCL2VYUDNySGlnSTZDTzl5eFpzUW5lRHRr?=
+ =?utf-8?B?RDQzemxNSUUxYnovRnJRbE1RaDB2RlV6NHVibS8rTDBlMG1YT21EL1Y2SFBK?=
+ =?utf-8?B?Q3BKSGF4K3h0Y1VBTUlJRFJtYzF3UmZrL0g5cmZ5NmJpMG1YZnZ4TUlWeTNr?=
+ =?utf-8?Q?6ps+9YSB0ObVGw2eN4/NAUDfMqZQN5ftIAxGNwGlAaoC?=
+X-OriginatorOrg: polimi.it
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8aa55111-e7c5-49f3-95da-08db6b7be933
+X-MS-Exchange-CrossTenant-AuthSource: AS8P251MB0339.EURP251.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2023 17:08:02.5630
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2023 19:33:34.2083
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-Id: 0a17712b-6df3-425d-808e-309df28a5eeb
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 23KPo6q3tfYI7okA+c2sjkDd5RUJYwL6EBCE2vkfrpMRwBqaRwAWxHd4A13jXmv2tPyvAxfxBbf1NDl3R04OKw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR08MB8389
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-UserPrincipalName: BDLRvHxVN90GoJ5FzFMxcOWmfWVbH305GGlh5HVDQZdkYUTXzImoemG3m7lNsJMlEtqlPdQJnYHUC3j8yih2xg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1P251MB0525
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Neil,
+> Yeah, right. This is the kind of situation where it's usually easy
+> enough to detect with hid-tools[0]. We can record the device on your
+> machine, then we can replay it locally on ours, and make several
+> attempts.
 
-[...]
+I was not aware of hid-tools, I will mention it in my doc attempt!
 
-> > > +static const struct input_id goodix_berlin_spi_input_id = {
-> > > +	.bustype = BUS_SPI,
-> > > +	.vendor = 0x0416,
-> > > +	.product = 0x1001,
-> > 
-> > After having seen these in the I2C counterpart; consider defining them
-> > in goodix_berlin.h.
+> Sure. Please write (if you want) your first draft, we can review it
+> and we can iterate from there. Do not forget to add the linux doc
+> mailing list in CC in case some people from there want to also add
+> things.
+
+Ok, will try.
+
+>> 2) if I got it right, one can add a quirk like HID_QUIRK_MULTI_INPUT
+>> while loading the usb_hid module, but not while loading the usb_generic
+>> one (that turned out to be the module that manages my HP pointer),
+>> even if the statically defined quirks were moved into their own file.
+>> Would it make sense to add the possibility to
+>> add quirks while loading hid_generic? Is this the right place for
+>> such code? If yes, I can try in my spare time to do this,
+>> even if I'm not sure I'll be able to get it right.
 > 
-> To be honest, I blindly copied it from goodix.c because the vendor
-> driver puts random values here.
-> 
-> input_dev->id.product = 0xDEAD;
-> input_dev->id.vendor = 0xBEEF;
-> 
-> So what should I set ?
+> I'm not 100% sure of what you mean, but currently dynamic quirks can
+> be added to the *usbhid* module (not usb_hid or usb_generic), which is
+> the transport layer driver for HID.
+> This module is responsible for creating a HID device, which can be
+> handled by HID drivers, hid_generic being one of them.
 
-If there is no explicit guidance from the vendor, I would simply leave
-these unassigned; in theory one would imagine that this controller would
-have a different product ID than other models.
+You are right, I should have written usbhid.
+I was convinced that hid_generic
+did not get the quirks that were set at loading time by usbhid, but only those
+defined in quirks.c .
 
-[...]
+What I really meant was that the quirk I ended up adding is
 
-Kind regards,
-Jeff LaBundy
+{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_HP, 0x464a), HID_QUIRK_MULTI_INPUT }
+
+If I got it right usbhid can add only quirks with
+
+BUS_USB (and not BUS_BLUETOOTH, like the above)
+
+because of the code in usbhid/hid-core.c 
+
+(
+
+retval = hid_quirks_init(quirks_param, BUS_USB, MAX_USBHID_BOOT_QUIRKS); 
+
+is this the right line in hid_init ?
+
+)
+
+and the fact that one cannot specify the
+bus that should be used (whatever this "bus" means in the kernel, I
+still need to get it):
+
+MODULE_PARM_DESC(quirks, "Add/modify USB HID quirks by specifying "
+                " quirks=vendorID:productID:quirks"
+                " where vendorID, productID, and quirks are all in"
+                " 0x-prefixed hex");
+
+Long story short: if I
+
+- either boot with 
+
+usbhid.quirks=0x3f0:0x464a:0x40
+
+- or, alternatively try to
+
+sun:/home/marco/READMEs/HPElitePresenterMouse # rmmod usbhid 
+sun:/home/marco/READMEs/HPElitePresenterMouse # modprobe -v usbhid "quirks=0x03f0:0x464a:0x40"
+insmod /lib/modules/6.3.6-1-default/kernel/drivers/hid/usbhid/usbhid.ko.zst quirks=0x03f0:0x464a:0x40
+
+my device does not work correctly, but with the added 
+
+{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_HP, 0x464a), HID_QUIRK_MULTI_INPUT }
+
+it does work. 
+
+Hoping that I got it right and HID_QUIRK_MULTI_INPUT corresponds to
+0x40, otherwise all what I've written make no sense, and I should go back
+and re-do my homework....
+
+At any rate: if there is a way to specify the correct quirk for a device like the one
+I stumbled upon, while waiting for the correct upstream fix to percolate down
+to the distributions, then of course my questions 2) and 3) (add the options to
+specify quirks while loading hid-generic (question 2) and by resorting to ebpf (question 3))
+do not make sense.
+
+> As the name says, hid_generic is supposed to be generic, and I do not
+> want to see special cases handled there, because it would not be
+> generic anymore.
+
+Understood, thank you.
+
+ 
+> Furthermore, if you submit your patch to the LKML, the quirk will
+> likely end up in driver/hid/hid-quirks.c which is exactly the static
+> equivalent of the dynamic one from usbhid.
+
+Not exactly, because of the bus issue (again, assuming I got it right).
+
+> No need to apologize. You are actually proposing ideas and your help
+> to make things better for end-users, which is extremely valuable in
+> itself :)
+
+Thank you, you are very kind. I only hope I've not written too much
+nonsense here above.
+
+Marco
+
