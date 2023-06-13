@@ -2,209 +2,237 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DE0D72D33A
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jun 2023 23:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04A7472D6AA
+	for <lists+linux-input@lfdr.de>; Tue, 13 Jun 2023 02:59:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235390AbjFLVYr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Jun 2023 17:24:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42452 "EHLO
+        id S236989AbjFMA7I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 12 Jun 2023 20:59:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237433AbjFLVY3 (ORCPT
+        with ESMTP id S229480AbjFMA7H (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Jun 2023 17:24:29 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6FBE65B4
-        for <linux-input@vger.kernel.org>; Mon, 12 Jun 2023 14:20:43 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-978863fb00fso851845866b.3
-        for <linux-input@vger.kernel.org>; Mon, 12 Jun 2023 14:20:43 -0700 (PDT)
+        Mon, 12 Jun 2023 20:59:07 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2040.outbound.protection.outlook.com [40.107.220.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC28E10DF;
+        Mon, 12 Jun 2023 17:59:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=epzLUGXens/f9Ynp+sdtAMazKxykcfbvdydKAQN7XKRThNLESjOPQp6jBCx/sn2rcbNkZl9FOynbijNMf2MRc9mhRRW97rOom7aIl6SaezdKR9RKaNu2ol3+evIYWKR6mC8CwQtKl9BczqSLNGlTvT6yB7hgnBahz5eXr1d/5hL76nn0jx5I1aCht88K8qlDYnKVhj94AYzg4XuHjI5O+v4nxy0o8PmsilayV4uMilnTB/cq7A0UTctL0Dj6WFCAaOfrD2vJxLKSEuXGT2ZoD/bgk3joBsU633SRYt3kwqK4dxkLDbjT2orjJ+y8otU+62qgExNlGvLPFdMsVpLYAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EZOzp9HXB0AA2B9xTdrP2cMoTWThFlChj3txzohXvfg=;
+ b=MN8gsF9Az0awLGVX/0RfHA1yvWjdTfh4Ya+QQkj95gT3gJ6DMjAezcEEbGitgXHtsLeGcwI4LE9SAWc/tnrZgWoFwOUrNjym+8dCwTY0oo7V4T4hdlfmZI7Vg1cqeaCS6OEh42Qfh98GODgciGQPzh7bHJHPmoMlJUl5qAQ2ZFk5teXa1kfte0wjQuNlx/yFKj9MHqXfp91vw+a/4mdg9CAu/R2rA91Nt37CgUgi5Z0LPDPvjxesOH0/0PVNdiIlx8uXN19G2VUtNexxWqAHyl4eEuCt3cmTzHKr7FcWTipBZ2ZYiXusH+8l9npizrrLoGULYvrACB75ZB/Oldvd0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1686604841; x=1689196841;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=piafe3QLAC9LHm4AYATazedwVeQ9NAHsKdbJCFfjx24=;
-        b=PeNucb6NYxZnGjuiofKWbMBWzIeWkiUSxQI3zKtONTz8DXtpJ+RO+XZDbwCDtUUXBx
-         6HwHvlcv6bP8GsqO81EY4zzN0A1SuOJgdaQonvLyiNo22lizGy3HPnznHu4C99A3EdX5
-         jy0naMPagB2J+ZvSlcZ0CwsvAffYik2QgFMO0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686604841; x=1689196841;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=piafe3QLAC9LHm4AYATazedwVeQ9NAHsKdbJCFfjx24=;
-        b=VUrjjy7TBsYJZ4OWAXTQ8cABJn8Gh5zEoEWOVA4tgys1eseJtYS3vKRmO80G2h9Wb1
-         YruC1c4f0zsaBdKxBDnvxQccttayhiu6+VR/hnefPUBwWwpH4dF6ZDmfTAn+3TVSJgH9
-         Wuuqxk7ujUlHbQsP2RgRwa6JceBCJYxpFucyda/ttvZhXf9kzPy87JaoUuyIHImPpT4b
-         Yyoc7zj9GD12ZI9L4vIifY6HOXy+HjVNAUZoy4ZayZdWYY7HqKH0t3NeOdkVF2VBtySv
-         FeLmeUhBtAbNXdVV8s3QnozB+StPHwBhHAw67/IP4nJULYZcjJ3Kfh4DHGkmR7fQRVm7
-         apBQ==
-X-Gm-Message-State: AC+VfDzX9Ia70Izrbs0KUlWRqs0IBzY00n+164RuRHZqDdStZFkZ+0f1
-        iV/BqLt1p/UKi7OOFdneXSbXgbtlGrI9FnGlVIcYUQ==
-X-Google-Smtp-Source: ACHHUZ402b7uI/BqbAK4a6SPsMv6h3X2Plz3fWWfD3Su7EFZhlStyEmrA1t00T+MX1ky3qwDsND0uw==
-X-Received: by 2002:a17:907:60c9:b0:94a:7979:41f5 with SMTP id hv9-20020a17090760c900b0094a797941f5mr12015502ejc.71.1686604841615;
-        Mon, 12 Jun 2023 14:20:41 -0700 (PDT)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com. [209.85.208.50])
-        by smtp.gmail.com with ESMTPSA id mh2-20020a170906eb8200b0097404f4a124sm5738779ejb.2.2023.06.12.14.20.41
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jun 2023 14:20:41 -0700 (PDT)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-514ad92d1e3so1252a12.1
-        for <linux-input@vger.kernel.org>; Mon, 12 Jun 2023 14:20:41 -0700 (PDT)
-X-Received: by 2002:a50:9e81:0:b0:514:95d4:c2bb with SMTP id
- a1-20020a509e81000000b0051495d4c2bbmr51305edf.2.1686604438620; Mon, 12 Jun
- 2023 14:13:58 -0700 (PDT)
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EZOzp9HXB0AA2B9xTdrP2cMoTWThFlChj3txzohXvfg=;
+ b=iGWBuwzBTb0khaMwb9oiCMdIzP90Hi0kuPrD7fHAZWzU5ABQScLSS/tr6CGR8N48B913L3PhVH9MOyc0nrRh/oqibDO/X4+Jm5qUerVD6Z3dijHh4wNiz6eyg+vj1OZBJEeP9S46Z96odxwLnpiUYek3moMqYl9nmDCkI43o/j4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=labundy.com;
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ (2603:10b6:803:43::21) by CO1PR08MB6997.namprd08.prod.outlook.com
+ (2603:10b6:303:d4::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.46; Tue, 13 Jun
+ 2023 00:59:02 +0000
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::ca3a:84ac:381c:1506]) by SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::ca3a:84ac:381c:1506%4]) with mapi id 15.20.6455.043; Tue, 13 Jun 2023
+ 00:59:01 +0000
+Date:   Mon, 12 Jun 2023 19:58:54 -0500
+From:   Jeff LaBundy <jeff@labundy.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: input: Add bindings for Azoteq
+ IQS7210A/7211A/E
+Message-ID: <ZIe/Ti7u+2VHlahA@nixie71>
+References: <ZHVD/9OgRTAwBhqx@nixie71>
+ <ZHVEa0yM1LLUJEfO@nixie71>
+ <20230609142538.GA878396-robh@kernel.org>
+ <ZIZvkGqr4a0kOGnR@nixie71>
+ <20230612152925.GA65549-robh@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230612152925.GA65549-robh@kernel.org>
+X-ClientProxiedBy: DM6PR01CA0001.prod.exchangelabs.com (2603:10b6:5:296::6) To
+ SN4PR0801MB3774.namprd08.prod.outlook.com (2603:10b6:803:43::21)
 MIME-Version: 1.0
-References: <20230607215224.2067679-1-dianders@chromium.org>
- <jehxiy3z4aieop5qgzmlon4u76n7gvt3kc6knxhb5yqkiz3rsp@mx27m75sx43r>
- <CAD=FV=Wr7Xatw1LsofiZ5Xx7WBvAuMMdq4D5Po1yJUC1VdtZdg@mail.gmail.com> <z7wi4z4lxpkhvooqhihlkpubyvueb37gvrpmwk6v7xwj2lm6jn@b7rwyr5ic5x5>
-In-Reply-To: <z7wi4z4lxpkhvooqhihlkpubyvueb37gvrpmwk6v7xwj2lm6jn@b7rwyr5ic5x5>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Mon, 12 Jun 2023 14:13:46 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XnANRM=+2D9+DzcXx9Gw6iKKQsgkAiq8=izNEN-91f_Q@mail.gmail.com>
-Message-ID: <CAD=FV=XnANRM=+2D9+DzcXx9Gw6iKKQsgkAiq8=izNEN-91f_Q@mail.gmail.com>
-Subject: Re: [PATCH v2 00/10] drm/panel and i2c-hid: Allow panels and
- touchscreens to power sequence together
-To:     Maxime Ripard <mripard@kernel.org>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        linux-kernel@vger.kernel.org, hsinyi@google.com,
-        cros-qcom-dts-watchers@chromium.org, devicetree@vger.kernel.org,
-        yangcong5@huaqin.corp-partner.google.com,
-        linux-arm-msm@vger.kernel.org,
-        Chris Morgan <macroalpha82@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|CO1PR08MB6997:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7cfe263a-6053-4c36-f622-08db6ba96082
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AfeShJx+wkH38GXWTLJSpM/jXHQgjMzR/2q6xm6lG27YLbFuuRIW8yHt0dWAN0/epUuhmnbVLGkAs92ilimjKjUrHtLS802Va09Rmr9abaLpKfsm+eWgkQ5SYnTFYIjNWFuf20+zXINkXcloc0dI3IW9tVyEvIQnv/1EzB2Smi0/G9uNgDqixllA3CPKyRVsr877ebKvXNtXT4e8L9HAZ4Jo1PJaJDX0raZ+U3wJoiAIP3VGmAUmVOOsY+cbp2QriThpAphok4A8yYdY2GQ6cx0Y5QU911XCd13G5HpWsx8zgtIlotQjq/lPjW9x6J6WTqW1pFqspYxiPFo3LY7UeJXY1xwdbbAzqge9GkJrFPA5Dm/zymqLrk19Snaa7f4pzw9tjRCkHy5KQ8OgCt9hip6+q5uwlAZ2H/k4qGhPiTv9jI3xf3IAAtbNydfLvt1cA6qQ24k+btjYncukLbP3Xeluu3+6H6pHV27w7flzrq65b9hDeOCHQVK2BlZE7p4ybT/epKbMi2VKkEAqpk4Fi7IazbD8wMmsHEDdw3tJDSQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(136003)(396003)(346002)(39830400003)(366004)(376002)(84040400005)(451199021)(6916009)(966005)(41300700001)(8676002)(8936002)(4326008)(66556008)(66946007)(66476007)(478600001)(316002)(38100700002)(5660300002)(186003)(83380400001)(6666004)(6486002)(26005)(6506007)(9686003)(6512007)(86362001)(33716001)(2906002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5xjBU/paMsRssl6QSO7zVNXV+ZSwcCCAuQdmaljqIYC/qhV9i4OeYnhXICjo?=
+ =?us-ascii?Q?091nUh0+B5+JX3glvqltgrDEeqIfSTikX7oRbC1EhG1LiSnE+xA60mAFvnSh?=
+ =?us-ascii?Q?Xr5DY6HqNwr6ACmXGwOiMHAtQ4U4sFMdUFqajbA39+gM5JunZ5UeTIp39SJH?=
+ =?us-ascii?Q?neLSHdOYDiqaE80Rttj8RUhGw7dZBNmB5TKz1dwZl04vQg/XyFIonHU0JD1I?=
+ =?us-ascii?Q?tDv1bjpcvy/37/5yJJ1kFIZWX/+junwXvXZ9x+LIbKYB9khdtkWBX5LdUw2Z?=
+ =?us-ascii?Q?rhtrCGV5mG2103PUc9hVQoPJJ29PWkgRMC8JD+jSRA4Omgt4N/4fY1IgxLhb?=
+ =?us-ascii?Q?sPPAyDVdBdOd0B4IThzmUMh4zX+w2Due7abqSr3JLItoqcrO2vFEQEM6WDWV?=
+ =?us-ascii?Q?FMv0KSLGQMfQky8syKmQFceokQ5as1V8npYr+jfiIWYWpdA9qZzUxXVgtUZ7?=
+ =?us-ascii?Q?5hnN9ZRkoj2KyDAkC1UYLDgqEybvwmE9XE0zVQAfM3MFk1gVbc2sHo2kJyWX?=
+ =?us-ascii?Q?+KNeo+wSgivKa1OMzRvyssmuj/GY3MpiLqIjP9UXQI+8rYyd8qZWi22+HnFm?=
+ =?us-ascii?Q?2na/GXNbxs8UJkTgPF023CDp6gni7321uGEvFXcgFXCh2CgsF78PKp9JkvoY?=
+ =?us-ascii?Q?gtyv+QUbdlbuKk6cS1b4T+M4CcGBRa3a+W3NjDot1MPgvGPy0/+0v0p+DXF7?=
+ =?us-ascii?Q?sUiv9PJSMyY+K6qIwttoGkB0wlQzl2vhmxXAbkWRDIQATH1laYfPB1QYFxk6?=
+ =?us-ascii?Q?6KHsntt2VLTUd4LbGD5sD0G/euBHqgB4w239Rz7D1D7O+X1knuxjXYae7IT5?=
+ =?us-ascii?Q?QBn3kXIW1STEPE8Kgm9gkepw1ragmn7nE5uyHRD/BF7KELBiWW53L/+Df5gx?=
+ =?us-ascii?Q?nM35+7J9TQjodg5Vnz3wEX8qV7DsJFfhsMuOeq7jQkq/OxGzNWfNw2pB+hbU?=
+ =?us-ascii?Q?3bGAYu0uvDsOPryp94SoYHmVm/ZrwpljHUs6NQYLOiEZHjD3wU5/Bu5Leb6Q?=
+ =?us-ascii?Q?fuH4Y56TXALIN63iuc+xFpKOzjBjnxGsuAGFt2Hwk6TMPmlenlRYW3D0IHTK?=
+ =?us-ascii?Q?p4GLXz2P903SiCuYuqqw6yfrWWU2WzJONDWYOapBdxGkXxzT0Nekkw0L88Wr?=
+ =?us-ascii?Q?nVt5O6fnm7kg1N/CDMYMIh577eY0QFDIVQCu3Zsd+kpp5M+Xome2WnGTXUHt?=
+ =?us-ascii?Q?2AKPmKh1+QGkHwjOSWR4II66P4rGRbSeMDpwsY9qSHxyDAeDakVHdPVo6I4w?=
+ =?us-ascii?Q?k6keNIEUxMjyqAlRBdH9aXAV67edtVVwLQsCaKkSKMBxKARtFOQlmYpONsUd?=
+ =?us-ascii?Q?MCakTpvQphhBNNhZQVTMdVNlhYRm/vx4JkVCfnFm2c/weXu1kV/UrPwc0FVc?=
+ =?us-ascii?Q?lSfwsnu494OrRw4zhrwca/invRHUlZr3xodTq0vYXDMCPLEeBtUfPA428rnz?=
+ =?us-ascii?Q?XoCb5Do6iC39Ci9IadaBu+sqVRhFbDJ16vCPCpAdeTnV9WHirwKyVR1Frin+?=
+ =?us-ascii?Q?w4DLijt1cMp6Xy2IIBb7l0RgZT7Acaylrn1StFcd6B7I1rkxui9mJWtb1NXs?=
+ =?us-ascii?Q?0ACCzcJLtKUjuYPJp8yNNefs1anHLUweBd+PfhL8?=
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7cfe263a-6053-4c36-f622-08db6ba96082
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2023 00:59:01.8987
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: j17xnyCcPkzm+RENA1DsgknbKOP+KOgCxPfVxoBTBlKCtuOgtA4ojCagiSTN9riUD+kHd8xDZiGNhYAtMANlPQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR08MB6997
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Rob,
 
-On Mon, Jun 12, 2023 at 9:03=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
-wrote:
->
-> > > I guess we can have
-> > > something much simpler with a bunch of helpers that would register a
-> > > i2c-hid device and would be called by the panel driver itself.
-> > >
-> > > And then, since everything is self-contained managing the power state
-> > > becomes easier as well.
-> >
-> > Can you give me more details about how you think this would work?
-> >
-> > When you say that the panel would register an i2c-hid device itself,
-> > do you mean that we'd do something like give a phandle to the i2c bus
-> > to the panel and then the panel would manually instantiate the i2c-hid
-> > device on it? ...and I guess it would need to be a "subclass" of
-> > i2c-hid that knew about the connection to the panel code? This
-> > subclass and the panel code would communicate with each other about
-> > power sequencing needs through some private API (like MFD devices
-> > usually do?). Assuming I'm understanding correctly, I think that could
-> > work.
->
-> I guess what I had in mind is to do something similar to what we're
-> doing with hdmi-codec already for example.
+On Mon, Jun 12, 2023 at 09:29:25AM -0600, Rob Herring wrote:
+> On Sun, Jun 11, 2023 at 08:06:24PM -0500, Jeff LaBundy wrote:
+> > Hi Rob,
+> > 
+> > On Fri, Jun 09, 2023 at 08:25:38AM -0600, Rob Herring wrote:
+> > > On Mon, May 29, 2023 at 07:33:47PM -0500, Jeff LaBundy wrote:
+> > > > Add bindings for the Azoteq IQS7210A/7211A/E family of trackpad/
+> > > > touchscreen controllers.
+> > > > 
+> > > > Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> > > > ---
+> > > > Changes in v2:
+> > > >  - Renamed 'azoteq,default-comms' to 'azoteq,forced-comms-default' and redefined
+> > > >    0, 1 and 2 as unspecified, 0 and 1, respectively
+> > > >  - Defined ATI upon its first occurrence
+> > > >  - Redefined 'azoteq,gesture-angle' in units of degrees
+> > > >  - Declared 'azoteq,rx-enable' to depend upon 'azoteq,tx-enable' within the
+> > > >    'trackpad' node
+> > > > 
+> > > > Hi Rob,
+> > > > 
+> > > > I attempted to reference existing properties from a common binding [1] as per
+> > > > your feedback in [2], however 'make DT_CHECKER_FLAGS=-m dt_binding_check' fails
+> > > > with the message 'Vendor specific properties must have a type and description
+> > > > unless they have a defined, common suffix.'
+> > > 
+> > > Is that because you have differing constraints in each case?
+> > 
+> > In the failing example [2], I have started with a simple boolean that carries
+> > nothing but a type and description. From the new azoteq,common.yaml:
+> > 
+> > properties:
+> >   [...]
+> > 
+> >   azoteq,use-prox:
+> >     type: boolean
+> >     description: foo
+> > 
+> > And from the first consumer:
+> > 
+> > patternProperties:
+> >   "^hall-switch-(north|south)$":
+> >     type: object
+> >     allOf:
+> >       - $ref: input.yaml#
+> >       - $ref: azoteq,common.yaml#
+> >     description: bar
+> > 
+> >     properties:
+> >       linux,code: true
+> >       azoteq,use-prox: true
+> > 
+> > However, the tooling presents the following:
+> > 
+> >   CHKDT   Documentation/devicetree/bindings/processed-schema.json
+> > /home/jlabundy/work/linux/Documentation/devicetree/bindings/input/iqs62x-keys.yaml: patternProperties:^hall-switch-(north|south)$:properties:azoteq,use-prox: True is not of type 'object'
+> > 	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+> > 	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+> > 
+> > [...]
+> > 
+> > I am committed to addressing your feedback; to help me do so, can you help me
+> > identify what I've done wrong, and/or point me to an example that successfully
+> > passes dt_binding_check?
+> 
+> You're not doing anything wrong. There's 2 options here. The first is we 
+> could just relax the check to allow boolean schema for vendor 
+> properties. The main issue with that is we then have to look for that 
+> improperly used and it doesn't help if you do have additional 
+> constraints to add on top of the common definition. The former can 
+> mostly be addressed by checking there is a type associated with the 
+> property. I'm going to look into adding that.
 
-By this you mean "rockchip,hdmi-codec" and "mediatek,hdmi-codec", right?
+Thank you for your feedback. I started with a boolean property at first to
+simply test the idea before moving too far forward. In reality however, the
+common binding has many uint32's and uint32-arrays as well, often with
+different constraints among consumers. For this option to be effective, it
+would need to be extended to all types IMO.
 
+> 
+> Alternatively, you could drop listing the properties and 
+> use 'unevaluatedProperties'. That's not quite equal to what you have. 
+> Presumably, you have 'additionalProperties' in this case, so listing 
+> them serves the purpose of defining what subset of properties each node 
+> uses from the referenced schema. We frequently don't worry if there are 
+> common properties not used by a specific schema. This also wouldn't work 
+> if you have additional constraints to add.
 
-> We have several logical components already, in separate drivers, that
-> still need some cooperation.
->
-> If the panel and touchscreen are on the same i2c bus, I think we could
-> even just get a reference to the panel i2c adapter, get a reference, and
-> pass that to i2c-hid (with a nice layer of helpers).
+Because of varying constraints among each consumer, I do not believe this
+option is viable either.
 
-Just for reference: the panel and touchscreen aren't on the same i2c
-bus. In the cases that I've looked at the panel is either controlled
-entirely by eDP or MIPI signals and isn't on any i2c bus at all. The
-touchscreen is on the i2c bus in the cases I've looked at, though I
-suppose I could imagine one that used a different bus.
+I also think adopting 'unevaluatedProperties' here would be confusing from
+a customer perspective in this case. The new common binding has dozens of
+properties for which some are shared between devices A and B but not C, or
+devices B and C but not A.
 
+Without each device's binding explicitly opting in for supported properties,
+it's difficult for customers to know what is supported for a given device.
+These particular devices are highly configurable yet void of nonvolatile
+memory, so there is simply no way around having so many properties. Most are
+touched in some way throughout various downstream applications.
 
-> What I'm trying to say is: could we just make it work by passing a bunch
-> of platform_data, 2-3 callbacks and a device registration from the panel
-> driver directly?
+Therefore I'd like to propose option (3), which is to move forward with patch
+[1/2] as-is and decouple the merging of this driver from future enhancements
+to the tooling. While patch [1/2] is admittedly a big binding with some repeat
+descriptions, none of the duplicate properties introduce a conflicting type.
 
-I think I'm still confused about what you're proposing. Sorry! :( Let
-me try rephrasing why I'm confused and perhaps we can get on the same
-page. :-)
+If in the future option (1) can support all property types and handle varying
+constraints among consumers, I would be happy to be one of the first guinea
+pigs. Does this path seem like a reasonable compromise?
 
-First, I guess I'm confused about how you have one of these devices
-"register" the other device.
+> 
+> Rob
 
-I can understand how one device might "register" its sub-devices in
-the MFD case. To make it concrete, we can look at a PMIC like
-max77686.c. The parent MFD device gets probed and then it's in charge
-of creating all of its sub-devices. These sub-devices are intimately
-tied to one another. They have shared data structures and can
-coordinate power sequencing and whatnot. All good.
-
-...but here, we really have something different in two fundamental ways:
-
-a) In this case, the two components (panel and touchscreen) both use
-separate primary communication methods. In DT the primary
-communication method determines where the device is described in the
-hierarchy. For eDP, this means that the DT node for the panel should
-be under the eDP controller. For an i2c touchscreen, this means that
-the DT node for the touchscreen should be under the i2c controller.
-Describing things like this causes the eDP controller to "register"
-the panel and the i2c controller to "register" the touchscreen. If we
-wanted the panel driver to "register" the touchscreen then it would
-get really awkward. Do we leave the touchscreen DT node under the i2c
-controller but somehow tell the i2c subsytem not to register it? Do we
-try to dynamically construct the touchscreen i2c node? Do we make a
-fake i2c controller under our panel DT node and somehow tell the i2c
-core to look at it?
-
-b) Things are different because the two devices here are not nearly as
-intimately tied to one another. At least in the case of "homestar",
-the only reason that the devices were tied to one another was because
-the board designers chose to share power rails, but otherwise the
-drivers were both generic.
-
-
-In any case, is there any chance that we're in violent agreement and
-that if you dig into my design more you might like it? Other than the
-fact that the panel doesn't "register" the touchscreen device, it
-kinda sounds as if what my patches are already doing is roughly what
-you're describing. The touchscreen and panel driver are really just
-coordinating with each other through a shared data structure (struct
-drm_panel_follower) that has a few callback functions. Just like with
-"hdmi-codec", the devices probe separately but find each other through
-a phandle. The coordination between the two happens through a few
-simple helper functions.
-
-
-> > Is it cleaner than my current approach, though?
->
-> "cleaner" is subjective, really, but it's a more "mainstream" approach
-> that one can follow more easily through function calls.
->
-> > I guess, alternatively, we could put the "panel" directly under the
-> > i2c bus in this case. That would probably work for Cong Yang's current
-> > needs, but we'd end up in trouble if we ever had a similar situation
-> > with an eDP panel since eDP panels need to be under the DP-AUX bus.
->
-> I don't know DP-AUX very well, what is the issue that you're mentioning?
-
-Hopefully I've explained what I meant above (see point "a)").
+Kind regards,
+Jeff LaBundy
