@@ -2,53 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2500C72ED4A
-	for <lists+linux-input@lfdr.de>; Tue, 13 Jun 2023 22:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB28572ED93
+	for <lists+linux-input@lfdr.de>; Tue, 13 Jun 2023 23:05:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231363AbjFMUtC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Jun 2023 16:49:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48646 "EHLO
+        id S239641AbjFMVFG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Jun 2023 17:05:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229642AbjFMUtC (ORCPT
+        with ESMTP id S239438AbjFMVE4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Jun 2023 16:49:02 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D90810CB;
-        Tue, 13 Jun 2023 13:49:01 -0700 (PDT)
+        Tue, 13 Jun 2023 17:04:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8151199C;
+        Tue, 13 Jun 2023 14:04:55 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0B84F61766;
-        Tue, 13 Jun 2023 20:49:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9549C433C0;
-        Tue, 13 Jun 2023 20:48:58 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5D2026170D;
+        Tue, 13 Jun 2023 21:04:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D2E4C433C0;
+        Tue, 13 Jun 2023 21:04:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686689339;
-        bh=LZ97z1+GXSKxEYwgCKzZ2M26Iq4Z4fYmY+AtBbPX4jU=;
+        s=k20201202; t=1686690294;
+        bh=VBPiqTRrsIFfKk/fO/C3p90Jg4hrTEWW72mMyNqP8Bw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=egSlXNlxxAKAQanOSQh+hPBzHCaBVRvixNxVcK2PJLzPdac6XjuvJiFqmo1PbHKZJ
-         Ep97EhFKsafUAwSTb8qqUCtG9te6TFq9SWAHJowvncUZsHKulS4eASY3NMq0/PWXZB
-         7UMWhPcj+ugQbMihh7minnDiwKgznugCS5mPCwN8PqtwXFOXC4NvaM+6rmlvpurxL9
-         jVgPZJwHl/CiQgsMqft2H2PA0ZCia8a6C8Ebi+na/1ui3DfqJlclh32at2veSCA+o0
-         nK7ZJczVXDZ6SuAUsMNq9rHKMbNYb4llkARuZQKa0mjnaunkw1W4ecGEtKKMBkWpQK
-         Qf+m3EQ9dn6Bg==
-Date:   Tue, 13 Jun 2023 22:48:55 +0200
-From:   Andi Shyti <andi.shyti@kernel.org>
-To:     Marge Yang <marge.yang@tw.synaptics.com>
-Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, david.chiu@tw.synaptics.com,
-        derek.cheng@tw.synaptics.com, sam.tsai@synaptics.com,
-        vincent.huang@tw.synaptics.com
-Subject: Re: [PATCH V2] Input: synaptics-rmi4- Add a new feature for Forepad.
-Message-ID: <20230613204855.bm4wxneamkd76heq@intel.intel>
-References: <20230612022607.315149-1-marge.yang@tw.synaptics.com>
+        b=o4S9KTQPHV5/MUgpI5lJaIPPqruvLjgsqcJkFh6ESTRrsJ5vmpgqutzv5WbtVeDak
+         FNTlVB0SU5ls6XfiWGKQg7AR6cKCS/TcGZODeMv013IguCIYYGa1s5UOG5Ac6VVIde
+         HbeJiMNFw7P+NLaGpjkt2trxu3qama0hoob7NvuJnye8F6wODJUDtuVRMWmvNvXA1B
+         zwranu9PVWVCfAhuGhLY1YGlMtgeEx6ta0hY4PPSN9RRkp7sgbkk35gLH8/YRpKd30
+         33LsU2gv6rRKrMldaReoRx2YaSChFufpYBbrGm6Ls9eqdVWWRmFeTBojh9QLxBWQz2
+         m2xzyDwrzRHLw==
+Date:   Tue, 13 Jun 2023 22:04:50 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Chen Zhong <chen.zhong@mediatek.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] dt-bindings: input: mediatek,pmic-keys: Fix typo in
+ "linux,keycodes" property name
+Message-ID: <20230613-gyration-cruelness-76f4bbaff421@spud>
+References: <20230613201040.2823802-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="bCcdyfHFgv1454zA"
 Content-Disposition: inline
-In-Reply-To: <20230612022607.315149-1-marge.yang@tw.synaptics.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+In-Reply-To: <20230613201040.2823802-1-robh@kernel.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -57,34 +65,31 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Marge,
 
-[...]
+--bCcdyfHFgv1454zA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> +static irqreturn_t rmi_f21_attention(int irq, void *ctx)
-> +{
-> +	struct rmi_function *fn = ctx;
-> +	struct f21_data *f21 = dev_get_drvdata(&fn->dev);
-> +	int error;
-> +
-> +	error = rmi_read_block(fn->rmi_dev,
-> +				fn->fd.data_base_addr+RMI_F21_FORCE_CLICK_OFFSET,
-> +				f21->data_regs, 1);
-> +	if (error) {
-> +		dev_err(&fn->dev,
-> +			"%s: Failed to read f21 data registers: %d\n",
-> +			__func__, error);
-> +		return IRQ_RETVAL(error);
-> +	}
-> +
-> +	if (!!(f21->data_regs[0] & RMI_f21_FORCE_CLICK))
+On Tue, Jun 13, 2023 at 02:10:40PM -0600, Rob Herring wrote:
+> "linux-keycodes" is the wrong property name and is unused. It should be
+> "linux,keycodes" instead.
 
-no need for double negation here.
+Nothing in-tree at least, looks like they use the correct property
+already.
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-Andi
+Cheers,
+Conor.
 
-> +		input_report_key(f21->input, f21->key_code, true);
-> +	else
-> +		input_report_key(f21->input, f21->key_code, false);
-> +	return IRQ_HANDLED;
-> +}
+--bCcdyfHFgv1454zA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZIjZ8gAKCRB4tDGHoIJi
+0otUAP0eUymc3D3skmsQWKQ/oO7+LbtvdtektOzxuO0m2uAF2wEAzYvSHucAROnW
+HzZ5CWNeAPTLYXKs05aIkCxdFDfv2wo=
+=OBNz
+-----END PGP SIGNATURE-----
+
+--bCcdyfHFgv1454zA--
