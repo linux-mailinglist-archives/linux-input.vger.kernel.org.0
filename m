@@ -2,255 +2,302 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1F7C72E734
-	for <lists+linux-input@lfdr.de>; Tue, 13 Jun 2023 17:30:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D5BD72E7CD
+	for <lists+linux-input@lfdr.de>; Tue, 13 Jun 2023 18:05:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242928AbjFMP3D (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Jun 2023 11:29:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47662 "EHLO
+        id S243017AbjFMQDW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Jun 2023 12:03:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242949AbjFMP3A (ORCPT
+        with ESMTP id S242987AbjFMQDL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Jun 2023 11:29:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16E6EDC
-        for <linux-input@vger.kernel.org>; Tue, 13 Jun 2023 08:28:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686670097;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=wJEC09yQalJKUXlJeh+NJY27alAb7rmApKKaqnBztmc=;
-        b=DZ7b0ktcecEsJMZhmdJvoC1ChLbTW3tA5bTv839AP80wfF99fisqGAgujFbIo7PuBiP7G8
-        MJ4381VggznDxvVvMow46gxmf+L3o9Xwl4Le0+TIpsV2LEe2AfUkvvADlBmWInFRQgIk9g
-        Uw8rn7VfMv6IEHUCNkpp1uXWSu7YVkY=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-134-jGY39UadMm20C8Fk9G2X2w-1; Tue, 13 Jun 2023 11:28:15 -0400
-X-MC-Unique: jGY39UadMm20C8Fk9G2X2w-1
-Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-56cf9a86277so47646947b3.3
-        for <linux-input@vger.kernel.org>; Tue, 13 Jun 2023 08:28:15 -0700 (PDT)
+        Tue, 13 Jun 2023 12:03:11 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C95A21985
+        for <linux-input@vger.kernel.org>; Tue, 13 Jun 2023 09:03:08 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-4f619c2ba18so6743646e87.1
+        for <linux-input@vger.kernel.org>; Tue, 13 Jun 2023 09:03:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1686672187; x=1689264187;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GpvBukCW5szqrqAUwk8OFwEaxItlFEJC9hZkX293WdQ=;
+        b=Hoj0w/aSvUPDLRc19gWqzJB11CQ3pSbywxYBtUL28XQWJyQPIJ8tnYRsKKUTeYoQrM
+         72B4YBe8WqNPJYewkB06+BC0cDoUVcY5jCd3EUkCYm/YBXL0r0qLj8AEOqAdj6p3JdD4
+         ntk3c6QWob0X5yjuawiD33UqfGiJUWQUbIWv8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686670094; x=1689262094;
+        d=1e100.net; s=20221208; t=1686672187; x=1689264187;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wJEC09yQalJKUXlJeh+NJY27alAb7rmApKKaqnBztmc=;
-        b=bV+2dbX9u5MIKAxUbsOK8AuAmqFvyELvuLn733BZFNBNaO6tbVrxdPeiwX7Ud+NVk/
-         J0XmAachOIsnyhQ29WtHhZyPh3gK6gGkSjxnLdNvDZ4iz0MJtsQiHktlIveY7lzhZPYG
-         xp/VXL/Rx/n1tqiSUUE/fL2QjXq29B932pO6Lhjcn2jzGCX+tW9cl6Lt4LpBANdSJ/ah
-         3Hfdz7ZS8frjWhuHePXY2Uo32djdJh2gMe3ZsBveQ5m/Bk1Gm93Dx+D3dYh6DmA+3l/P
-         R/fc9EAKOgoj51D60S6xub4fYZE5vlnAkvDT3spX7xIN0o0e1y2yu00fOtOpZGM4yunT
-         MwoA==
-X-Gm-Message-State: AC+VfDwe11jDWYUh826NsxZsXtFLAdeW6vnt4k1Mrm5opkeKxT2PnZVX
-        ITbF6umzmqWqoD6ArGe7/QnS07GDJELfWDF+NWpea4PPzMnej75T0w2VLymXFX4mxBHR5LOF1gx
-        oMGq78ueXOdKY5QqOIH4vbOzQ0CQ/n0uxo2eAZbHdmeu56Y0=
-X-Received: by 2002:a05:6902:1350:b0:bce:9515:b904 with SMTP id g16-20020a056902135000b00bce9515b904mr1584978ybu.2.1686670094238;
-        Tue, 13 Jun 2023 08:28:14 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4NV8oqS1dX40Qwz2YM8gG0Y9hjjtGBn6xzxWHoKAUNsUDtljbysXSG2sWtsrZws5WKb0EuPa+RNuO3IQ5DNR0=
-X-Received: by 2002:a05:6902:1350:b0:bce:9515:b904 with SMTP id
- g16-20020a056902135000b00bce9515b904mr1584966ybu.2.1686670093888; Tue, 13 Jun
- 2023 08:28:13 -0700 (PDT)
+        bh=GpvBukCW5szqrqAUwk8OFwEaxItlFEJC9hZkX293WdQ=;
+        b=eRfV08Z2WAgFwBh8/zF7H5gLyyT+ruDk00APlYwBVsHTHQxrLpMRMYV0/PT3dD06X+
+         QTQCVMspN7In1ZhomN9oQ3Dv+9vKjHcizI3jVv0+Uc4bIq4Sjhsk1qE7cIiDYg8paCjF
+         z37poLXExd8GxE0BN5lloTZe0UesDGbiERgsosmjpjN9EANjjutPlq5gG5MDdD3WcY7G
+         wZaE570hENoFRpAiRK0CWQmDuGkGRQc0lVxxomEYY8nDyqj/rkYHwbRnEjKnjJIcFvMt
+         u+PWA9LqtE+DxT5UGyzy5mJ3rA8L/qGWzEQfhqsnZK2UW49OQJpP4Ov/cnw8ZSYpS81N
+         1Ivw==
+X-Gm-Message-State: AC+VfDzCL8cN27MX22rTlkA3URUyjUPIwSxuCmVKMtXzbYNBF8q1hAx+
+        gqU0nct79OepZpFBUyTBOzzzmOm/H0kDBmhBJsDiJOKY
+X-Google-Smtp-Source: ACHHUZ61ws7PHOqQ5QPxIkosSRn52HNZg4guMqVQ4vUEi1TnUZe+zj3VYQEOaSZrQPEP5fLWNZyX0Q==
+X-Received: by 2002:a19:2d4d:0:b0:4f6:33c3:4678 with SMTP id t13-20020a192d4d000000b004f633c34678mr6185915lft.40.1686672186574;
+        Tue, 13 Jun 2023 09:03:06 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com. [209.85.167.41])
+        by smtp.gmail.com with ESMTPSA id b10-20020a056512024a00b004f382f34f05sm1823113lfo.254.2023.06.13.09.03.06
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Jun 2023 09:03:06 -0700 (PDT)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-4f76386e0daso57e87.1
+        for <linux-input@vger.kernel.org>; Tue, 13 Jun 2023 09:03:06 -0700 (PDT)
+X-Received: by 2002:a50:9f0f:0:b0:514:95d4:c2bb with SMTP id
+ b15-20020a509f0f000000b0051495d4c2bbmr99881edf.2.1686671812516; Tue, 13 Jun
+ 2023 08:56:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <5673fd15-b3f2-7911-6eea-39e5126f4874@polimi.it>
- <CAO-hwJKNqosABrr-VGSUVPs8CKRpQNTL0xgNLeT4yg453ADWZA@mail.gmail.com> <cce96d0b-1642-bf52-b9e6-64e40e8ae275@polimi.it>
-In-Reply-To: <cce96d0b-1642-bf52-b9e6-64e40e8ae275@polimi.it>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 13 Jun 2023 17:28:02 +0200
-Message-ID: <CAO-hwJKvO3PLpDYBNE0PvVns3UaAzZJ1Xp3EHgDTBd+a_EpJwg@mail.gmail.com>
-Subject: Re: Tree dumb questions from an occasional
-To:     Marco Morandini <marco.morandini@polimi.it>
-Cc:     Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org
+References: <20230607215224.2067679-1-dianders@chromium.org>
+ <jehxiy3z4aieop5qgzmlon4u76n7gvt3kc6knxhb5yqkiz3rsp@mx27m75sx43r>
+ <CAD=FV=Wr7Xatw1LsofiZ5Xx7WBvAuMMdq4D5Po1yJUC1VdtZdg@mail.gmail.com>
+ <z7wi4z4lxpkhvooqhihlkpubyvueb37gvrpmwk6v7xwj2lm6jn@b7rwyr5ic5x5>
+ <CAD=FV=XnANRM=+2D9+DzcXx9Gw6iKKQsgkAiq8=izNEN-91f_Q@mail.gmail.com> <boqzlmbrp5rvepmckkqht4h5auspjlbt5leam4xivy7a4bqxnj@iuxxhooxcphk>
+In-Reply-To: <boqzlmbrp5rvepmckkqht4h5auspjlbt5leam4xivy7a4bqxnj@iuxxhooxcphk>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Tue, 13 Jun 2023 08:56:39 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VO=GE5BEw6kKK19Qj9tcia509Pb-bvMcq0uA05sVLvHw@mail.gmail.com>
+Message-ID: <CAD=FV=VO=GE5BEw6kKK19Qj9tcia509Pb-bvMcq0uA05sVLvHw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/10] drm/panel and i2c-hid: Allow panels and
+ touchscreens to power sequence together
+To:     Maxime Ripard <mripard@kernel.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        linux-kernel@vger.kernel.org, hsinyi@google.com,
+        cros-qcom-dts-watchers@chromium.org, devicetree@vger.kernel.org,
+        yangcong5@huaqin.corp-partner.google.com,
+        linux-arm-msm@vger.kernel.org,
+        Chris Morgan <macroalpha82@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jun 12, 2023 at 9:33=E2=80=AFPM Marco Morandini
-<marco.morandini@polimi.it> wrote:
->
-> > Yeah, right. This is the kind of situation where it's usually easy
-> > enough to detect with hid-tools[0]. We can record the device on your
-> > machine, then we can replay it locally on ours, and make several
-> > attempts.
->
-> I was not aware of hid-tools, I will mention it in my doc attempt!
->
-> > Sure. Please write (if you want) your first draft, we can review it
-> > and we can iterate from there. Do not forget to add the linux doc
-> > mailing list in CC in case some people from there want to also add
-> > things.
->
-> Ok, will try.
+Hi,
 
-\o/
-
+On Tue, Jun 13, 2023 at 5:06=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
 >
-> >> 2) if I got it right, one can add a quirk like HID_QUIRK_MULTI_INPUT
-> >> while loading the usb_hid module, but not while loading the usb_generi=
-c
-> >> one (that turned out to be the module that manages my HP pointer),
-> >> even if the statically defined quirks were moved into their own file.
-> >> Would it make sense to add the possibility to
-> >> add quirks while loading hid_generic? Is this the right place for
-> >> such code? If yes, I can try in my spare time to do this,
-> >> even if I'm not sure I'll be able to get it right.
+> > > What I'm trying to say is: could we just make it work by passing a bu=
+nch
+> > > of platform_data, 2-3 callbacks and a device registration from the pa=
+nel
+> > > driver directly?
 > >
-> > I'm not 100% sure of what you mean, but currently dynamic quirks can
-> > be added to the *usbhid* module (not usb_hid or usb_generic), which is
-> > the transport layer driver for HID.
-> > This module is responsible for creating a HID device, which can be
-> > handled by HID drivers, hid_generic being one of them.
+> > I think I'm still confused about what you're proposing. Sorry! :( Let
+> > me try rephrasing why I'm confused and perhaps we can get on the same
+> > page. :-)
+> >
+> > First, I guess I'm confused about how you have one of these devices
+> > "register" the other device.
+> >
+> > I can understand how one device might "register" its sub-devices in
+> > the MFD case. To make it concrete, we can look at a PMIC like
+> > max77686.c. The parent MFD device gets probed and then it's in charge
+> > of creating all of its sub-devices. These sub-devices are intimately
+> > tied to one another. They have shared data structures and can
+> > coordinate power sequencing and whatnot. All good.
 >
-> You are right, I should have written usbhid.
-> I was convinced that hid_generic
-> did not get the quirks that were set at loading time by usbhid, but only =
-those
-> defined in quirks.c .
->
-> What I really meant was that the quirk I ended up adding is
->
-> { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_HP, 0x464a), HID_QUIRK_MULTI_INPUT }
->
-> If I got it right usbhid can add only quirks with
->
-> BUS_USB (and not BUS_BLUETOOTH, like the above)
+> We don't necessarily need to use MFD, but yeah, we could just register a
+> device for the i2c-hid driver to probe from (using
+> i2c_new_client_device?)
 
-Yes, that is correct
+I think this can work for devices where the panel and touchscreen are
+truly integrated where the panel driver knows enough about the related
+touchscreen to fully describe and instantiate it. It doesn't work
+quite as well for cases where the power and reset lines are shared
+just because of what a given board designer did. To handle that, each
+panel driver would need to get enough DT properties added to it so
+that it could fully describe any arbitrary touchscreen, right?
 
->
-> because of the code in usbhid/hid-core.c
->
-> (
->
-> retval =3D hid_quirks_init(quirks_param, BUS_USB, MAX_USBHID_BOOT_QUIRKS)=
-;
->
-> is this the right line in hid_init ?
->
-> )
->
-> and the fact that one cannot specify the
-> bus that should be used (whatever this "bus" means in the kernel, I
-> still need to get it):
+Let's think about the generic panel-edp driver. This driver runs the
+panel on many sc7180-trogdor laptops, including coachz, lazor, and
+pompom. All three of those boards have a shared power rail for the
+touchscreen and panel. If you look at "sc7180-trogdor-coachz.dtsi",
+you can see the touchscreen currently looks like this:
 
-The bus is the transport layer that exposes the HID device.
+ap_ts: touchscreen@5d {
+    compatible =3D "goodix,gt7375p";
+    reg =3D <0x5d>;
+    pinctrl-names =3D "default";
+    pinctrl-0 =3D <&ts_int_l>, <&ts_reset_l>;
 
-If you plug in your mouse over USB, then the bus is BUS_USB. If the
-mouse is wirelessly connected through Bluetooth, then it's
-BUS_BLUETOOTH, and if your touchpad is integrated in the laptop and is
-using I2C to communicate, the bus is BUS_I2C :)
+    interrupt-parent =3D <&tlmm>;
+    interrupts =3D <9 IRQ_TYPE_LEVEL_LOW>;
 
-Each bus has its own transport driver (usbhid, i2c_hid, hidp
-(Bluetooth classic), uhid (BLE)) and they all translate the data from
-the original bus into HID.
+    reset-gpios =3D <&tlmm 8 GPIO_ACTIVE_LOW>;
 
->
-> MODULE_PARM_DESC(quirks, "Add/modify USB HID quirks by specifying "
->                 " quirks=3DvendorID:productID:quirks"
->                 " where vendorID, productID, and quirks are all in"
->                 " 0x-prefixed hex");
->
-> Long story short: if I
->
-> - either boot with
->
-> usbhid.quirks=3D0x3f0:0x464a:0x40
->
-> - or, alternatively try to
->
-> sun:/home/marco/READMEs/HPElitePresenterMouse # rmmod usbhid
-> sun:/home/marco/READMEs/HPElitePresenterMouse # modprobe -v usbhid "quirk=
-s=3D0x03f0:0x464a:0x40"
-> insmod /lib/modules/6.3.6-1-default/kernel/drivers/hid/usbhid/usbhid.ko.z=
-st quirks=3D0x03f0:0x464a:0x40
->
-> my device does not work correctly, but with the added
->
-> { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_HP, 0x464a), HID_QUIRK_MULTI_INPUT }
->
-> it does work.
+    vdd-supply =3D <&pp3300_ts>;
+};
 
-That is correct, because usbhid is only responsible for USB devices
-(which is the vast majority of devices), and hidp (nor uhid) doesn't
-have such dynamic quirks.
+In "sc7180-trogdor-lazor.dtsi" we have:
 
->
-> Hoping that I got it right and HID_QUIRK_MULTI_INPUT corresponds to
-> 0x40, otherwise all what I've written make no sense, and I should go back
-> and re-do my homework....
->
-> At any rate: if there is a way to specify the correct quirk for a device =
-like the one
-> I stumbled upon, while waiting for the correct upstream fix to percolate =
-down
-> to the distributions, then of course my questions 2) and 3) (add the opti=
-ons to
-> specify quirks while loading hid-generic (question 2) and by resorting to=
- ebpf (question 3))
-> do not make sense.
+ap_ts: touchscreen@10 {
+    compatible =3D "hid-over-i2c";
+    reg =3D <0x10>;
+    pinctrl-names =3D "default";
+    pinctrl-0 =3D <&ts_int_l>, <&ts_reset_l>;
 
-OK. The missing point was that you were using a Bluetooth device, and
-not a USB one. And that makes a big difference, because yes, you can
-not dynamically quirk devices for anything but USB.
+    interrupt-parent =3D <&tlmm>;
+    interrupts =3D <9 IRQ_TYPE_LEVEL_LOW>;
 
-I still stand by the fact that hid_generic is not the correct place.
-These kinds of quirks are global to the device, and putting them in
-hid_generic would make it the wrong place IMO.
+    post-power-on-delay-ms =3D <20>;
+    hid-descr-addr =3D <0x0001>;
 
-Actually, the one place where it would make sense to have such dynamic
-quirks is in the hid-core (hid.ko) module itself. It would make sense
-to have a BUS:VID:PID:QUIRKS parameter.
-But having such a parameter is not without constraints, because it's
-not really "dynamic", and we can only set a limited number of quirks.
+    vdd-supply =3D <&pp3300_ts>;
+};
 
-In your particular case, we might as well use an HID-BPF program that
-tweaks the report descriptor which would force the kernel to "use" the
-multi-input quirk.
+In both cases "pp3300_ts" is simply another name for "pp3300_dx_edp"
 
-Would you mind attaching the output of hid-recorder while you do some
-HID events and where you show the bug?
+So I think to do what you propose, we need to add this information to
+the panel-edp DT node so that it could dynamically construct the i2c
+device for the touchscreen:
 
-Also, FWIW, the number of MULTI_INPUT quirk required in the kernel is
-probably a sign that we are not using the best default implementation,
-and I've already been pinged to change that. I couldn't find the time
-to get back to this, but your device might also help me in having a
-broader range of use cases so that we can ditch that quirk once and
-for all.
+a) Which touchscreen is actually connected (generic hid-over-i2c,
+goodix, ...). I guess this would be a "compatible" string?
 
-Cheers.
-Benjamin
+b) Which i2c bus that device is hooked up to.
 
->
-> > As the name says, hid_generic is supposed to be generic, and I do not
-> > want to see special cases handled there, because it would not be
-> > generic anymore.
->
-> Understood, thank you.
->
->
-> > Furthermore, if you submit your patch to the LKML, the quirk will
-> > likely end up in driver/hid/hid-quirks.c which is exactly the static
-> > equivalent of the dynamic one from usbhid.
->
-> Not exactly, because of the bus issue (again, assuming I got it right).
->
-> > No need to apologize. You are actually proposing ideas and your help
-> > to make things better for end-users, which is extremely valuable in
-> > itself :)
->
-> Thank you, you are very kind. I only hope I've not written too much
-> nonsense here above.
->
-> Marco
->
+c) Which i2c address that device is hooked up to.
 
+d) What the touchscreen interrupt GPIO is.
+
+e) Possibly what the "hid-descr-addr" for the touchscreen is.
+
+f) Any extra timing information needed to be passed to the touchscreen
+driver, like "post-power-on-delay-ms"
+
+The "pinctrl" stuff would be easy to subsume into the panel's DT node,
+at least. ...and, in this case, we could skip the "vdd-supply" since
+the panel and eDP are sharing power rails (which is what got us into
+this situation). ...but, the above is still a lot. At this point, it
+would make sense to have a sub-node under the panel to describe it,
+which we could do but it starts to feel weird. We'd essentially be
+describing an i2c device but not under the i2c controller it belongs
+to.
+
+I guess I'd also say that the above design also need additional code
+if/when someone had a touchscreen that used a different communication
+method, like SPI.
+
+
+So I guess the tl;dr of all the above is that I think it could all work if:
+
+1. We described the touchscreen in a sub-node of the panel.
+
+2. We added a property to the panel saying what the true parent of the
+touchscreen was (an I2C controller, a SPI controller, ...) and what
+type of controller it was ("SPI" vs "I2C").
+
+3. We added some generic helpers that panels could call that would
+understand how to instantiate the touchscreen under the appropriate
+controller.
+
+4. From there, we added a new private / generic API between panels and
+touchscreens letting them know that the panel was turning on/off.
+
+That seems much more complex to me, though. It also seems like an
+awkward way to describe it in DT.
+
+
+> > In any case, is there any chance that we're in violent agreement
+>
+> Is it even violent? Sorry if it came across that way, it's really isn't
+> on my end.
+
+Sorry, maybe a poor choice of words on my end. I've heard that term
+thrown about when two people spend a lot of time discussing something
+/ trying to persuade the other person only to find out in the end that
+they were both on the same side of the issue. ;-)
+
+
+> > and that if you dig into my design more you might like it? Other than
+> > the fact that the panel doesn't "register" the touchscreen device, it
+> > kinda sounds as if what my patches are already doing is roughly what
+> > you're describing. The touchscreen and panel driver are really just
+> > coordinating with each other through a shared data structure (struct
+> > drm_panel_follower) that has a few callback functions. Just like with
+> > "hdmi-codec", the devices probe separately but find each other through
+> > a phandle. The coordination between the two happens through a few
+> > simple helper functions.
+>
+> I guess we very much agree on the end-goal, and I'd really like to get
+> this addressed somehow. There's a couple of things I'm not really
+> sold on with your proposal though:
+>
+>  - It creates a ad-hoc KMS API for some problem that looks fairly
+>    generic. It's also redundant with the notifier mechanism without
+>    using it (probably for the best though).
+>
+>  - MIPI-DSI panel probe sequence is already fairly complex and fragile
+>    (See https://www.kernel.org/doc/html/latest/gpu/drm-kms-helpers.html#s=
+pecial-care-with-mipi-dsi-bridges).
+>    I'd rather avoid creating a new dependency in that graph.
+>
+>  - And yeah, to some extent it's inconsistent with how we dealt with
+>    secondary devices in KMS so far.
+
+Hmmmm. To a large extent, my current implementation actually has no
+impact on the DRM probe sequence. The panel itself never looks for the
+touchscreen code and everything DRM-related can register without a
+care in the world. From reading your bullet points, I guess that's
+both a strength and a weakness of my current proposal. It's really
+outside the world of bridge chains and DRM components which makes it a
+special snowflake that people need to understand on its own. ...but,
+at the same time, the fact that it is outside all the rest of that
+stuff means it doesn't add complexity to an already complex system.
+
+I guess I'd point to the panel backlight as a preexisting design
+that's not totally unlike what I'm doing. The backlight is not part of
+the DRM bridge chain and doesn't fit in like other components. This
+actually makes sense since the backlight doesn't take in or put out
+video data and it's simply something associated with the panel. The
+backlight also has a loose connection to the panel driver and a given
+panel could be associated with any number of different backlight
+drivers depending on the board design. I guess one difference between
+the backlight and what I'm doing with "panel follower" is that we
+typically don't let the panel probe until after the backlight has
+probed. In the case of my "panel follower" proposal it's the opposite.
+As per above, from a DRM probe point of view this actually makes my
+proposal less intrusive. I guess also a difference between backlight
+and "panel follower" is that I allow an arbitrary number of followers
+but there's only one backlight.
+
+One additional note: if I actually make the panel probe function start
+registering the touchscreen, that actually _does_ add more complexity
+to the already complex DRM probe ordering. It's yet another thing that
+could fail and/or defer...
+
+Also, I'm curious: would my proposal be more or less palatable if I
+made it less generic? Instead of "panel follower", I could hardcode it
+to "touchscreen" and then remove all the list management. From a DRM
+point of view this would make it even more like the preexisting
+"backlight" except for the ordering difference.
+
+-Doug
