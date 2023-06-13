@@ -2,245 +2,165 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9709A72E272
-	for <lists+linux-input@lfdr.de>; Tue, 13 Jun 2023 14:06:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF3B772E43A
+	for <lists+linux-input@lfdr.de>; Tue, 13 Jun 2023 15:36:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235323AbjFMMG0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Jun 2023 08:06:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52024 "EHLO
+        id S239339AbjFMNfr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Jun 2023 09:35:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234648AbjFMMGZ (ORCPT
+        with ESMTP id S236188AbjFMNfq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Jun 2023 08:06:25 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75888C5;
-        Tue, 13 Jun 2023 05:06:24 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 037276200B;
-        Tue, 13 Jun 2023 12:06:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5685C433EF;
-        Tue, 13 Jun 2023 12:06:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686657983;
-        bh=BIozQFeKN2aJ2jZ8p8QET0oaMrJoGdkmGxw7siSplFg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OkR4DKQ0GbOQL2zHAL3MwYkCx8Z06jPZxzdYzUjNUfgLdd8hdRv3F2M0ytfUApHAE
-         isEoOaYSdyvNDdEf8lvBBirbqd7P7N6drBz6wAB/xuXD/Mcb5JFutURj8ZLagV9wYi
-         k1f983F/a4l32CQzltJbP9wyAxhUpSkEZXlED73KePN7e1xNwTBpjtSA2O312iDzb1
-         7hoNLZYBbNaNmdCLFEA+9mPbHz0vQCrpNQgoXvZRgD8YROuDpaxhh40KLNA0pNKPCE
-         KQDe3cxh0+li6i7tTY9CR/xZZ59de+lv7wXvTcfFT+8CDa/w5X4NDszYWZGH7526sg
-         foa38RB5gH6GQ==
-Date:   Tue, 13 Jun 2023 14:06:20 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        linux-kernel@vger.kernel.org, hsinyi@google.com,
-        cros-qcom-dts-watchers@chromium.org, devicetree@vger.kernel.org,
-        yangcong5@huaqin.corp-partner.google.com,
-        linux-arm-msm@vger.kernel.org,
-        Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH v2 00/10] drm/panel and i2c-hid: Allow panels and
- touchscreens to power sequence together
-Message-ID: <boqzlmbrp5rvepmckkqht4h5auspjlbt5leam4xivy7a4bqxnj@iuxxhooxcphk>
-References: <20230607215224.2067679-1-dianders@chromium.org>
- <jehxiy3z4aieop5qgzmlon4u76n7gvt3kc6knxhb5yqkiz3rsp@mx27m75sx43r>
- <CAD=FV=Wr7Xatw1LsofiZ5Xx7WBvAuMMdq4D5Po1yJUC1VdtZdg@mail.gmail.com>
- <z7wi4z4lxpkhvooqhihlkpubyvueb37gvrpmwk6v7xwj2lm6jn@b7rwyr5ic5x5>
- <CAD=FV=XnANRM=+2D9+DzcXx9Gw6iKKQsgkAiq8=izNEN-91f_Q@mail.gmail.com>
+        Tue, 13 Jun 2023 09:35:46 -0400
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1EEBE5;
+        Tue, 13 Jun 2023 06:35:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1686663344;
+  x=1718199344;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=9X1LVPKSkMPZErlcbEMfy+2TuN44oV6pjzZe524RYJ4=;
+  b=Hb2d3stU48lYY58hcgrsN0RCaNyCWJeDqMaqkm0K/x2+mEprMV7Vv0gG
+   c9bxmQMYTtEEtglqHWl+jxHtISSAAnIo5RdYyZ4NOEBLRFKgi+yLJmMC1
+   MKJZVkNkBEQz3mkqUnXaJnv3kQod4q/xSVlaTIWd8DRVCgHl0+fIZw67u
+   Xn3kMcNq1YDXUn5oLfW+MBE9ntk1rFPXSMlxwwO7QQ3TCpx8N5CB7nTNO
+   w4OXLWwGI+iP2q4IFgpe8XnPwkhYiifyXnPvVHmrtUoT+4E//JPM/lXmA
+   Y7WaB/H/NilNT/7v34YV/afqaegLzMOmq38auFIevMASt5qEXv/QX9wQp
+   w==;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=buk7TJmMgFjVbKc5Dk02YWPhorP0hf9o0AtP3x8o9e3unENWwjAwji15iuHDR0f6thMW9wpqS7g1WbQUJ5OEctnkYLEQxV/7D5cSLEK7YlbnsB7Kkhw1lUawiGf5f6wvIg51mB3n0oQWOQqpTLkhqVxDKZ3nzGVCQUgWXtpdgzx4PXXrUYbnGn0me8576wgOpvXgeOA2ePDIj77apIpGLcpWp4DwJbtrVgUEhrDyw2M285MX/cOZp5U0Qqrvjm9rL+CxTSZ+RtzTeGZztKlKoo+H9UgLIA1jaUR5NuijKtvpkUYfeti+pC/PJzNhyT5kYtGJovyh05ENsF6OkoPmIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9X1LVPKSkMPZErlcbEMfy+2TuN44oV6pjzZe524RYJ4=;
+ b=bxO2Fh2uT2ilWbKXWA4FW+Gh9VYnwbod0VZPu/HAMZC8UTmJIvjlehXAKGnKRo3lbogyjzWoBDdU3nHAj8rPfDheU7qCZWDFPGQQeECGvnyrVONUKRwgiDfRNc34hlrJAfDPQa+XFITb5bK3tHVSdBqUS+TYr9Fhbq+R8l99eFuRip5z53qLyqzOZiBiPh90NCmR+zuggalq52dkR2T2pA6vs4hdK65pCZQmbOMikgRS79uapf6IHwnl6UTZINHPQJkNh6iw/eLTqZf5cJ8ZpZGWUs01fLAwyDCp7tQNafu9+QMyKWeOYzrHlc3f0d7SWq9Iiv6JqEm8MM7DZeVZSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=2n.com; dmarc=pass action=none header.from=axis.com; dkim=pass
+ header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=axis365.onmicrosoft.com; s=selector2-axis365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9X1LVPKSkMPZErlcbEMfy+2TuN44oV6pjzZe524RYJ4=;
+ b=Rg2HxKDkTaphTAddP2d1EhYvWbAPOBQyIrbr/u40quUnAA11a3O6oYlKUEyajvW6JfAIQ7Wd60hMlIuoMZ8Z8AiZQQOtTvWs82jC9pY97wyEeEqx8B0Wmfbk7+D8QFErzDaGhCofjyZ/ujag+qifxwkc5qvu6ht7Tqnq71iyGyc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+Message-ID: <99582640-7486-7771-9fd0-c417e283051e@axis.com>
+Date:   Tue, 13 Jun 2023 15:35:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/2] Input: cap11xx - add advanced sensitivity settings
+Content-Language: en-US
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC:     <krzysztof.kozlowski+dt@linaro.org>, <devicetree@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <robh+dt@kernel.org>, <u.kleine-koenig@pengutronix.de>
+References: <20230414233815.4004526-1-jiriv@axis.com>
+ <20230414233815.4004526-3-jiriv@axis.com> <ZF2A/STY66sqoOLX@google.com>
+From:   Jiri Valek - 2N <jiriv@axis.com>
+In-Reply-To: <ZF2A/STY66sqoOLX@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1P194CA0043.EURP194.PROD.OUTLOOK.COM
+ (2603:10a6:803:3c::32) To PAXPR02MB7263.eurprd02.prod.outlook.com
+ (2603:10a6:102:1c5::18)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="yl5nvno6lnks7ke3"
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=XnANRM=+2D9+DzcXx9Gw6iKKQsgkAiq8=izNEN-91f_Q@mail.gmail.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR02MB7263:EE_|AM7PR02MB6386:EE_
+X-MS-Office365-Filtering-Correlation-Id: daba78ea-c6c3-44a2-520b-08db6c13147e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ccLaw5PN9OsNgMfQQQamWyr7nS2+Tyl/eZJgmhNQBUmq82IhraQc6GtCAjPxeYrzlS1OPaLLBNoQmBo+xKslvlf4wOr3kB6bFbp2B8d2jtdLUdFkSouh5gr18ljc50PBFXHXyLGmLgkxZQhSg2doJ/89ra0uIZK4QaLk++E5jI5oeSdZQMnI9Qjc6JGoA9uoYBv4piw51BdGJGFOmQE4M84U9R3N8cEua/ltICVUE5EbNo6EicXNPSuHXLrUYEwWukxSD2JSWcn/U/UMrVtq5tjIs8fqI7MsmEoP8r41ZV+SJNBtEliPWrrKbN4GE1d5eF+f6XG6xuof5AbwuVif9w5qzYKOPGMEUu72HUZKGBSe7EILxDKdrcYCEYWHVImYUOAUKe/D0fodYRv56gVlsgyVy7LkaR9WLSu0m2bDhlcZmE8sKfTPcBzZM1u1L9ZTOfocv/FavLPNbgorMYxHcucu/i5siU4f3QKLtXqECrv/cJdZgXRl0seB4zvOOc3G0QyEBgVSBJEqikk8ZdiEy3VY+ybiE90L3CHEpgGOykP7FQUqawZ5mldf75LMEsLFaotrmHqE1NYKi58YBmEWpeerI5WEKhH9iEOpgGwazWDGuXfB9IV8ceJJP1e2K9O7xpJeNPRMlFrTuswS8Y4Zumsklj9qADK258GToUGQZtNs0m1yzMNW4JR1whYyipKpJHkHBtYemJf9cEYjUryXtw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR02MB7263.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(366004)(346002)(39850400004)(136003)(396003)(451199021)(66476007)(66556008)(2906002)(6916009)(38100700002)(36756003)(41300700001)(4326008)(66946007)(4744005)(5660300002)(31696002)(316002)(8676002)(8936002)(6486002)(83170400001)(26005)(6512007)(53546011)(6506007)(186003)(478600001)(83380400001)(2616005)(42882007)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZjVKdlBMT1d2d3UxYlhmKzBKemxxOWtBY0RUZFdwUlBMWkRUcStuM09Cekh3?=
+ =?utf-8?B?cXpqVUhqalpkT0p0d0JtMTFNOTJQczJBc205d291VDJMZUNpVHhXdlk2bGZG?=
+ =?utf-8?B?Ly9zNnRPRnlyQXhvSnloRG5zU0lzTytub0w1T2h5VVZ5dXZkVWVhUlZkSE4z?=
+ =?utf-8?B?ZnR5ZjcxNytpNjIyem0wcHJxQTlYNUdMMDRxQlJ5SW1XNU1OQm5udG1uL0pQ?=
+ =?utf-8?B?ZDE2QTVFU3BmbHdIZjNXK1dkT05UanhuSVRJU2dIUCttRGNoSGVVdUtycWhp?=
+ =?utf-8?B?UkVPTUkvUGIwQi9oai8zbUhXSG5mT210bEJLdTJpb3hVV05MVVRVVEQ3V2Ju?=
+ =?utf-8?B?a1ZWS1ZFTGQvS3doaWM1RTYyTjFJbXpGNVRsTlk5N2pxMUlhaTlLQUNWVVFW?=
+ =?utf-8?B?REVMcnpTWFpMSG5jOHV3bG1ST1lZT3BmRnFiVW5yVjAwLy9VVWlXMnFFWVN6?=
+ =?utf-8?B?VUV0WHhIbXpCU1V1ellIejdHYnhQWXdUdGdZb0xtd3hLc2tQRnZIcnhpUDln?=
+ =?utf-8?B?ZnpITFJCVjlnY1FaRWYvaCs1WUt1Yk5WNnE1ZDUrejRhcmFvTU1GbkJpczJI?=
+ =?utf-8?B?MUk0U2Y4Q1dORndzNkx4ZkdDU3h6QmQxWTd0UUpoMHdwYkRNRGhUWFRNWHQ5?=
+ =?utf-8?B?YTFOcStWaW9xMm9VUDhlNVV4bXRNcFpBcmFIamJMYVhhVHBIVEZGenF4YVdw?=
+ =?utf-8?B?Vzd2bktzanhibyt3WTBHVXJhOGwrSndYSmVKQVdCbzlQNWI2UUY4UG9JbTVF?=
+ =?utf-8?B?ZkM5c0JKNnRYaExiazN2MDRYc0g2WlpWaEtKZlVEdXVjSVJ3Yy9Sa1FxV0tV?=
+ =?utf-8?B?d000MEl4cW8wTytLc2JlOGNFSEM2NFJUYkhxSUx4TkYzbUUvRFJMd0pXQlNJ?=
+ =?utf-8?B?bmVlV3JEbm4raWU4bjBhUVhkS1Bxa2h6UmFlTGlCckhwaWIvOTFEZW5mY0Mx?=
+ =?utf-8?B?OEJ5bFE1bU5IZkdTVU0rK1RuYTVNbEtTSXg4SmczcXFmMzlIZzUwMG9Ccngv?=
+ =?utf-8?B?c1d0S1QzeFNPUkM2eHhiT3ZCNzMxUENWdVRxWUJIaXp5djdxbjJBc3VHOUJu?=
+ =?utf-8?B?WEJ6Rk9qeUxlWTNiSnhGdUlnOWlrY2RRdTN5M21Pc2pVNUFJTEFWc0JmNW9C?=
+ =?utf-8?B?MTdCVjRkZk9OZS9pMVB3ZzdDSU9QS0RkaHFNM2JmMXJLbjZHN2FZaHRWY0t1?=
+ =?utf-8?B?djVlUkpBYk9OV09odFZTQWNpQlFubkRVQ0RXTjBFOHpPZUlJU2hxN0dGRnI4?=
+ =?utf-8?B?VEIzekpWdHpLV00rOTVkZnhiSFg4T295UDZqSVdLaW11UmF1V2pTVnI1MFRh?=
+ =?utf-8?B?L04xbFVPK0JtRkFWajNuYVczT2ErbENneFJLZFhKdmsyQ1BhZmZNVlYrYnJV?=
+ =?utf-8?B?dDdyWnFxUExqWVZaSjlmUy9nSE1ERzF0VEJOTURNQWt1OWpOT0h0RHpKS2Vm?=
+ =?utf-8?B?ZTJoaGltMDgzMkwrU0xGcnI5bERDbVVjRzB1eUVTN2lBcXBtK3VSbE9BdVF1?=
+ =?utf-8?B?akQ3T1dJY2ZFcllJMlJNdnovNjZlL3pxcmhrMXNJL0JqS1lPd1dLR0c3ZVRr?=
+ =?utf-8?B?THIxVnRpanR3MTdtM0xmUktOWDJsMGFCcHJJMm9XVjB5V3lGZ0VtWmtSQ0Vo?=
+ =?utf-8?B?NHUwZU1uZDk5L1VDZTYvcGExSDlMNWdnNlZtVVRFQ0pBYjFXRDBwZUcrcWVS?=
+ =?utf-8?B?cisrdStsOW1JbUVhSWMvcWQ4bU45b2k3eUFJaWFhb0hhUVRQeldteDMvSitR?=
+ =?utf-8?B?YnNUdGxqZTNCSllqazZndEttRS9lcHl6cjNTdm1CTTJ6RER0em10UXNlNFpq?=
+ =?utf-8?B?c0dkd1RNLzcrQ3JSSTJjR0dkM2NrSFBWOXdSM2xQSUtDY2puUllwOVJja1di?=
+ =?utf-8?B?WDRCZGhiRjkwQXVpMlh3N1g1ZWFBTkxEazZONDRkVEtBNjJ3UXo1VzVFVmty?=
+ =?utf-8?B?ZXZMd1hBV3l4OUZlSUNQeGlkeUVVWkZER3YyMXBiZGJOU2tLcjYvdlVpdkZF?=
+ =?utf-8?B?NW0wTzdWSDFNTG9VaWpRZE1Hd0NOTVQ5QTFteWFjK0lpQ1FXTDZOZGlCeWt0?=
+ =?utf-8?B?cDFaL2cyWEllazJWY3hGVGh6WU1sWDJvTmZOaFlZRnQ1OXEzbEdxZW50NWpa?=
+ =?utf-8?Q?JuFEg/SOfhCgkF3QKUjmfUoXv?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: daba78ea-c6c3-44a2-520b-08db6c13147e
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR02MB7263.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2023 13:35:40.8519
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dx3e/x10F20HEziKjdfB+q21VsXXp3UdNIojv5gTdvnuc9m1rV116lNcxj7AgDZi
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR02MB6386
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Dmitry,
 
---yl5nvno6lnks7ke3
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 5/12/23 01:57, Dmitry Torokhov wrote:
+> Hi Jiri,
+> 
+> On Sat, Apr 15, 2023 at 01:38:15AM +0200, Jiri Valek - 2N wrote:
+>> @@ -474,7 +645,7 @@ static int cap11xx_i2c_probe(struct i2c_client *i2c_client)
+>>  	if (error)
+>>  		return error;
+>>  
+>> -	irq = irq_of_parse_and_map(node, 0);
+>> +	irq = irq_of_parse_and_map(dev->of_node, 0);
+> 
+> Do you know if this is actually needed or we can rely on I2C core to
+> figure out the interrupt for us?
 
-On Mon, Jun 12, 2023 at 02:13:46PM -0700, Doug Anderson wrote:
-> Hi,
->=20
-> On Mon, Jun 12, 2023 at 9:03=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> >
-> > > > I guess we can have
-> > > > something much simpler with a bunch of helpers that would register a
-> > > > i2c-hid device and would be called by the panel driver itself.
-> > > >
-> > > > And then, since everything is self-contained managing the power sta=
-te
-> > > > becomes easier as well.
-> > >
-> > > Can you give me more details about how you think this would work?
-> > >
-> > > When you say that the panel would register an i2c-hid device itself,
-> > > do you mean that we'd do something like give a phandle to the i2c bus
-> > > to the panel and then the panel would manually instantiate the i2c-hid
-> > > device on it? ...and I guess it would need to be a "subclass" of
-> > > i2c-hid that knew about the connection to the panel code? This
-> > > subclass and the panel code would communicate with each other about
-> > > power sequencing needs through some private API (like MFD devices
-> > > usually do?). Assuming I'm understanding correctly, I think that could
-> > > work.
-> >
-> > I guess what I had in mind is to do something similar to what we're
-> > doing with hdmi-codec already for example.
->=20
-> By this you mean "rockchip,hdmi-codec" and "mediatek,hdmi-codec", right?
+Agree and verified that's really not needed. I2C core do the job.
+I will remove it.
 
-No, sorry it was a bit ambiguous. I meant how we instantiate the
-hdmi-codec driver here for example:
+> 
+> Also, could I ask you to move the driver from of_property_*() to
+> device_property_*() API?
 
-https://elixir.bootlin.com/linux/v6.3.7/source/drivers/gpu/drm/exynos/exyno=
-s_hdmi.c#L1665
-https://elixir.bootlin.com/linux/v6.3.7/source/drivers/gpu/drm/vc4/vc4_hdmi=
-=2Ec#L2539
-https://elixir.bootlin.com/linux/v6.3.7/source/drivers/gpu/drm/tegra/hdmi.c=
-#L1525
+And yes. I can move it to device_property API.
 
-> > We have several logical components already, in separate drivers, that
-> > still need some cooperation.
-> >
-> > If the panel and touchscreen are on the same i2c bus, I think we could
-> > even just get a reference to the panel i2c adapter, get a reference, and
-> > pass that to i2c-hid (with a nice layer of helpers).
->=20
-> Just for reference: the panel and touchscreen aren't on the same i2c
-> bus. In the cases that I've looked at the panel is either controlled
-> entirely by eDP or MIPI signals and isn't on any i2c bus at all. The
-> touchscreen is on the i2c bus in the cases I've looked at, though I
-> suppose I could imagine one that used a different bus.
+I prepare the changes as separate commits after I solve issues
+with my "add advanced sensitivity settings" patch.
 
-Ok, so we would indeed need a phandle to the i2c controller
+> 
+> Thanks.
+> 
 
-> > What I'm trying to say is: could we just make it work by passing a bunch
-> > of platform_data, 2-3 callbacks and a device registration from the panel
-> > driver directly?
->=20
-> I think I'm still confused about what you're proposing. Sorry! :( Let
-> me try rephrasing why I'm confused and perhaps we can get on the same
-> page. :-)
->=20
-> First, I guess I'm confused about how you have one of these devices
-> "register" the other device.
->=20
-> I can understand how one device might "register" its sub-devices in
-> the MFD case. To make it concrete, we can look at a PMIC like
-> max77686.c. The parent MFD device gets probed and then it's in charge
-> of creating all of its sub-devices. These sub-devices are intimately
-> tied to one another. They have shared data structures and can
-> coordinate power sequencing and whatnot. All good.
-
-We don't necessarily need to use MFD, but yeah, we could just register a
-device for the i2c-hid driver to probe from (using
-i2c_new_client_device?)
-
-> ...but here, we really have something different in two fundamental ways:
->=20
-> a) In this case, the two components (panel and touchscreen) both use
-> separate primary communication methods. In DT the primary
-> communication method determines where the device is described in the
-> hierarchy. For eDP, this means that the DT node for the panel should
-> be under the eDP controller. For an i2c touchscreen, this means that
-> the DT node for the touchscreen should be under the i2c controller.
-> Describing things like this causes the eDP controller to "register"
-> the panel and the i2c controller to "register" the touchscreen. If we
-> wanted the panel driver to "register" the touchscreen then it would
-> get really awkward. Do we leave the touchscreen DT node under the i2c
-> controller but somehow tell the i2c subsytem not to register it? Do we
-> try to dynamically construct the touchscreen i2c node? Do we make a
-> fake i2c controller under our panel DT node and somehow tell the i2c
-> core to look at it?
-
-I would expect not to have any DT node for the touchscreen, but we would
-register a new i2c device on the bus that it's connected to.
-
-In essence, it's also fairly similar to what we're doing with
-i2c_new_ancillary_device() on some bridges. Except the primary device
-isn't necessarily controlled through the I2C bus (but could be, I'm
-pretty sure we have that situation for RGB or LVDS panels too).
-
-The plus side would also be that we don't really need a DT to make it
-work either. We just need the panel driver to probe somehow and a
-pointer to the i2c_adapter.
-
-> b) Things are different because the two devices here are not nearly as
-> intimately tied to one another. At least in the case of "homestar",
-> the only reason that the devices were tied to one another was because
-> the board designers chose to share power rails, but otherwise the
-> drivers were both generic.
-
-Yeah, and that's fine I guess?
-
-> In any case, is there any chance that we're in violent agreement
-
-Is it even violent? Sorry if it came across that way, it's really isn't
-on my end.
-
-> and that if you dig into my design more you might like it? Other than
-> the fact that the panel doesn't "register" the touchscreen device, it
-> kinda sounds as if what my patches are already doing is roughly what
-> you're describing. The touchscreen and panel driver are really just
-> coordinating with each other through a shared data structure (struct
-> drm_panel_follower) that has a few callback functions. Just like with
-> "hdmi-codec", the devices probe separately but find each other through
-> a phandle. The coordination between the two happens through a few
-> simple helper functions.
-
-I guess we very much agree on the end-goal, and I'd really like to get
-this addressed somehow. There's a couple of things I'm not really
-sold on with your proposal though:
-
- - It creates a ad-hoc KMS API for some problem that looks fairly
-   generic. It's also redundant with the notifier mechanism without
-   using it (probably for the best though).
-
- - MIPI-DSI panel probe sequence is already fairly complex and fragile
-   (See https://www.kernel.org/doc/html/latest/gpu/drm-kms-helpers.html#spe=
-cial-care-with-mipi-dsi-bridges).
-   I'd rather avoid creating a new dependency in that graph.
-
- - And yeah, to some extent it's inconsistent with how we dealt with
-   secondary devices in KMS so far.
-
-Maxime
-
---yl5nvno6lnks7ke3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIhbvAAKCRDj7w1vZxhR
-xXIAAQCiA6UpybaCLDHQkulMGBLH5FKxWq5xq17fc71pttcy+AEA8RVO666uTh5l
-w20OfxJELeyiCmUVWLP2lpv8iqIY9Q4=
-=cOpc
------END PGP SIGNATURE-----
-
---yl5nvno6lnks7ke3--
+BR,
+Jiri Valek
