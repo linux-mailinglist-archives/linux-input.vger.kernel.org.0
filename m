@@ -2,125 +2,182 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B757C72FBDB
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jun 2023 13:02:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D683172FE18
+	for <lists+linux-input@lfdr.de>; Wed, 14 Jun 2023 14:13:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235661AbjFNLCm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Jun 2023 07:02:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60856 "EHLO
+        id S244032AbjFNMNc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Jun 2023 08:13:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235146AbjFNLCl (ORCPT
+        with ESMTP id S244146AbjFNMMx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Jun 2023 07:02:41 -0400
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 917D01BC3
-        for <linux-input@vger.kernel.org>; Wed, 14 Jun 2023 04:02:40 -0700 (PDT)
-Received: by mail-oi1-x22d.google.com with SMTP id 5614622812f47-39c873a5127so3841666b6e.1
-        for <linux-input@vger.kernel.org>; Wed, 14 Jun 2023 04:02:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1686740560; x=1689332560;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B7n28fOV0ec1Tw2+qWmFSFZwMwZ5UkpPV/M6nrRgIrY=;
-        b=O9WNazqTO3lUTcjFKo+mMX+lO0KaH4Aqp7PfLKjDds3HB/ihZVzbxLLVm2FzxtQLuZ
-         m2xMT/YfYgoCbkOWJsn/C7kyrrqbveOnMXPRv3kAevimACTJiFUvqdRQ5VVYvBLff+pB
-         TepOU554ykwGt3AeiFAczf0bctpG/p+qPDulZgMTdc6Kqko3T100yrT2YYFHlBvL451y
-         e0Xw//XQPT+xQa5mubCNROIHsU83LmYAxVKB9iNUZS2SFbg0Qcbc3mUoXmkEDKD9YAbv
-         laPt/AUt/FWBIoOvOUH1T1mbHCHVw5xMDnontfdwuw2PoCPi/mrGVWuHLA+TlwYlxXGu
-         A1rw==
+        Wed, 14 Jun 2023 08:12:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 688A2213F
+        for <linux-input@vger.kernel.org>; Wed, 14 Jun 2023 05:11:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686744713;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=FLmEY5G+jeEh/GDoafPE2Bh4OLm7hUTxCiket7t1C8Q=;
+        b=edP7XqqCP/Ogt19J6gvnvXTdX3ApQ680gFWWF2Qa6pQt6dn+8xjKUFo/Kn7HvsVe2QdWet
+        yqZcqaA19EvKDarJ9ZTIM7PPVKzfPaTdqt09c7+61CyYwO8CaWcZaH6DcsDd7l5Nr+qiui
+        eT7OeKr7ry1u9uUb1VHjG90RZXYhFaY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-145-mqMe_nHENS-Pw2OFq83vng-1; Wed, 14 Jun 2023 08:11:52 -0400
+X-MC-Unique: mqMe_nHENS-Pw2OFq83vng-1
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-30fbaeec4c1so2447102f8f.0
+        for <linux-input@vger.kernel.org>; Wed, 14 Jun 2023 05:11:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686740560; x=1689332560;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=B7n28fOV0ec1Tw2+qWmFSFZwMwZ5UkpPV/M6nrRgIrY=;
-        b=DZipnO+0pxdnstFZsLpc+VUx841JF2/iDLOJmt+R9cpya5rAqkfgc8rf429nDdQI1b
-         tf7yQuN9y6+zkKSLlUsuTiDZLzDgkKEvWm8tHkl3LY9y4J8NNyvSmRnwK+/1La0Ck4v/
-         KruAXAtcAyOz+NaeoKMkVhJ9w+w2zzAl9tAC056T5GqF1hxvJDjN8kMVcmvF2nRKkCqO
-         3X0CFOWj4yS6IgfBbKBAWSKuX5NscEg5rhkCa1Vxdh+SNtHne99nS64pzlB8z5IFNPKH
-         FAbq21Ii7V50041FV6UPATKcChI28fK4zAtRmuSSGtj8hchHIp1oxoheHJALJmJFUtOB
-         aJ3w==
-X-Gm-Message-State: AC+VfDwBIkp0wsQ1WbC6Y46DwSNomzEdc319KRAXqCby1lSooZwtAMtp
-        cDsOTR/Qu0qrx609xaue2kUngbNKFJRbnCa9CYxdbQ==
-X-Google-Smtp-Source: ACHHUZ4mY8nx43hAFWe4CQB5v7vGWAlyy4P6dhWyMk8YiOo/gBQVm0YzK2YgRY0RdDIQ76ozPyVPQPVUCxL6RL2PR/M=
-X-Received: by 2002:a05:6808:284:b0:397:f82f:90a4 with SMTP id
- z4-20020a056808028400b00397f82f90a4mr9759150oic.3.1686740558467; Wed, 14 Jun
- 2023 04:02:38 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686744710; x=1689336710;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FLmEY5G+jeEh/GDoafPE2Bh4OLm7hUTxCiket7t1C8Q=;
+        b=j+qCaAEUuXy9NT/tF2oIKQQjFhEQHQYvyFSBSgrWLaiPvtCiELZcswoyCIh9kjBSMl
+         Gnwuu6lR/TD7Yn2FW24pCTvGytqknrGK6jRRx72nTCIFgSM2FM6/8ylLUM+4pLGq0u7B
+         wfRuu6sr7qlpWztGHvT49vwH8+f+HJsIEKb++4b5zWX4IdTvghidkA/QiH+hL6nNuO8z
+         ZpYEFt0dp65GgjQXWEwJcQkEQOp9soSlz0A6k7YP+E1KBhq0JIs6nnGl7VcvjwTqHhS8
+         PneGkC1l4wunFYhe9O1rx5tfxFBCY+74NfniJicoLE/8ca4bAoBQK2Hz2KFofDX9KW+w
+         dN5Q==
+X-Gm-Message-State: AC+VfDx+AFCcusvCGYOF1VAvMk5qycCVLF5MhE9nN6Jx/REKluAvOOSh
+        6IqhIKx9DELk0tom0numXrGVQdGBseBK/3fLg93Vgk55NkVCEst0XREm5aZNFnfuXNDrgPS3ZzB
+        7qQ1zn3cKjSc41HVm02DsYzxV5DnhZ8M=
+X-Received: by 2002:a5d:4704:0:b0:30f:d14b:a806 with SMTP id y4-20020a5d4704000000b0030fd14ba806mr2707714wrq.63.1686744710585;
+        Wed, 14 Jun 2023 05:11:50 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7x3UY7fK+oBso4szcxaV8IETHbZaAhlpYozg3rVC8cOz7oXElAS1ONTM89Vt1BrXWo7JWXGA==
+X-Received: by 2002:a5d:4704:0:b0:30f:d14b:a806 with SMTP id y4-20020a5d4704000000b0030fd14ba806mr2707703wrq.63.1686744710265;
+        Wed, 14 Jun 2023 05:11:50 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:2bc:381::432? ([2a01:e0a:2bc:381::432])
+        by smtp.gmail.com with ESMTPSA id v16-20020adfe4d0000000b00307a83ea722sm18140026wrm.58.2023.06.14.05.11.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Jun 2023 05:11:49 -0700 (PDT)
+Message-ID: <68b1415c-1e27-5ee6-9514-e65f94500a9e@redhat.com>
+Date:   Wed, 14 Jun 2023 14:11:49 +0200
 MIME-Version: 1.0
-References: <20230609063615.758676-1-yangcong5@huaqin.corp-partner.google.com>
- <20230609063615.758676-2-yangcong5@huaqin.corp-partner.google.com> <949a2d21-eb14-3ef8-a7be-9c12152cd15a@linaro.org>
-In-Reply-To: <949a2d21-eb14-3ef8-a7be-9c12152cd15a@linaro.org>
-From:   cong yang <yangcong5@huaqin.corp-partner.google.com>
-Date:   Wed, 14 Jun 2023 19:02:27 +0800
-Message-ID: <CAHwB_NKQuxBBCHrHs24CZ=r2HS9U=4BYu9gJQnkqLRYQGu1uzQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] dt-bindings: HID: i2c-hid: ilitek: Introduce
- bindings for Ilitek ili9882t
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, dianders@chromium.org,
-        hsinyi@google.com, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: Tree dumb questions from an occasional
+To:     Marco Morandini <marco.morandini@polimi.it>
+Cc:     Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org
+References: <5673fd15-b3f2-7911-6eea-39e5126f4874@polimi.it>
+ <CAO-hwJKNqosABrr-VGSUVPs8CKRpQNTL0xgNLeT4yg453ADWZA@mail.gmail.com>
+ <cce96d0b-1642-bf52-b9e6-64e40e8ae275@polimi.it>
+ <CAO-hwJKvO3PLpDYBNE0PvVns3UaAzZJ1Xp3EHgDTBd+a_EpJwg@mail.gmail.com>
+ <c2c116cf-56e7-12e3-f0e7-f726a0f3f0da@polimi.it>
+Content-Language: en-US
+In-Reply-To: <c2c116cf-56e7-12e3-f0e7-f726a0f3f0da@polimi.it>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED,URI_DOTEDU autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,Krzysztof
 
-On Sat, Jun 10, 2023 at 12:01=E2=80=AFAM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
+
+On Wed, Jun 14, 2023 at 12:18 PM Marco Morandini <marco.morandini@polimi.it> wrote:
 >
-> On 09/06/2023 08:36, Cong Yang wrote:
-> > The ili9882t touch screen chip same as Elan eKTH6915 controller
-> > has a reset gpio. The difference is that ili9882t needs to use
-> > vccio-supply instead of vcc33-supply. Doug's series[1] allows panels
-> > and touchscreens to power on/off together, let's add a phandle for this=
-.
+> > Actually, the one place where it would make sense to have such dynamic
+> > quirks is in the hid-core (hid.ko) module itself. It would make sense
+> > to have a BUS:VID:PID:QUIRKS parameter.
+> > But having such a parameter is not without constraints, because it's
+> > not really "dynamic", and we can only set a limited number of quirks.
+>
+> Ok
+>
 > >
-> > [1]: https://lore.kernel.org/r/20230607215224.2067679-1-dianders@chromi=
-um.org
-> >
-> > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> > In your particular case, we might as well use an HID-BPF program that
+> > tweaks the report descriptor which would force the kernel to "use" the
+> > multi-input quirk.
 >
->
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
-> If there is going to be new version, then:
-> A nit, subject: drop second/last, redundant "bindings for". The
-> "dt-bindings" prefix is already stating that these are bindings.
+> If this means that it could be a nice example (something you would put in
+> samples/hid) for HID-BPF, this would be great
+> (and I would be curious to understand how to do it).
+> But don't waste time for me: the patch is already in your
+> for-next and for-6.4/upstream-fixes branches, and for sure I can wait
+> and deal with what I have right now.
 
-As Doug  said,makes sense to land if the panel follower patch series [1] la=
-nds.
-If  Doug's series[1] land,  i will update this and commit message link in V=
-6.
+The program is actually simple: knowing that the kernel splits by
+application collection, we can replace the second collection from being
+exported as a mouse into a pointer:
 
-Thank you.
+See the branch hp_elite_presenter of https://gitlab.freedesktop.org/bentiss/udev-hid-bpf/-/tree/hp_elite_presenter
+
+The program just replaces the byte 79 from 0x02 (mouse) to 0x01
+(presenter):
+
+---
+SEC("fmod_ret/hid_bpf_rdesc_fixup")
+int BPF_PROG(hid_fix_rdesc, struct hid_bpf_ctx *hctx)
+{
+	__u8 *data = hid_bpf_get_data(hctx, 0 /* offset */, 4096 /* size */);
+
+	if (!data)
+		return 0; /* EPERM check */
+
+	/* replace application mouse by application pointer on the second collection */
+	if (data[79] == 0x02)
+		data[79] = 0x01;
+
+	return 0;
+}
+---
+
 >
+> > Would you mind attaching the output of hid-recorder while you do some
+> > HID events and where you show the bug?
 >
-> ---
+> Attached; I've tried to use all the mouses/buttons. Do you need the same
+> kind of recording taken with the patched kernel?
+
+Nope, no need. hid-recorder is what comes from the device, so the kernel
+processing depends on my current tree, which explains how I can test the
+various quirks :)
+
 >
-> This is an automated instruction, just in case, because many review tags
-> are being ignored. If you do not know the process, here is a short
-> explanation:
+> You'll notice that the HID descriptor advertises two mouses and
+> two consumer controls, each with different Report IDs.
+> This is because this device can be used in two different
+> configurations: one is a traditional mouse, that you use on your desk.
+> If you turn the device, then you access the second one,
+> where you are dealing with a virtual pointer:
+> two gyroscopes sense the change of attitude of the device,
+> and you can control the cursor by waving around the pointer.
+> The buttons that you use in the two different configurations
+> are different as well.
 >
-> Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-> versions, under or above your Signed-off-by tag. Tools like b4 can help
-> here. However, there's no need to repost patches *only* to add the tags.
-> The upstream maintainer will do that for acks received on the version
-> they apply.
+> > Also, FWIW, the number of MULTI_INPUT quirk required in the kernel is
+> > probably a sign that we are not using the best default implementation,
+> > and I've already been pinged to change that. I couldn't find the time
+> > to get back to this, but your device might also help me in having a
+> > broader range of use cases so that we can ditch that quirk once and
+> > for all.
 >
-> https://elixir.bootlin.com/linux/v5.17/source/Documentation/process/submi=
-tting-patches.rst#L540
+> I was clumsy looking around trying to understand why it's better
+> not to have it as a default, but for sure there are good reason
+> for the actual behavior. Perhaps this has to do with the fact that
+> you don't want to have duplicated OUTPUTs (if there are any)?
+> e.g. https://lkml.iu.edu/hypermail/linux/kernel/0701.1/1132.html ?
 >
-> Best regards,
-> Krzysztof
->
+
+IIRC it was mostly because some devices were having separate
+declarations for their input/output and features, and they were not
+especially grouped together. The multi_input quirk splits features/input
+/output in different devices, making it harder to configure (in case of
+the multitouch ones, where to need to set an operating mode), and the
+default was just having one input node for the whole HID device.
+
+Cheers,
+Benjamin
+
