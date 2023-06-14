@@ -2,48 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D411E72F51A
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jun 2023 08:45:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C91E72F56B
+	for <lists+linux-input@lfdr.de>; Wed, 14 Jun 2023 09:05:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242260AbjFNGpX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Jun 2023 02:45:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51920 "EHLO
+        id S232697AbjFNHFK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Jun 2023 03:05:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242198AbjFNGpU (ORCPT
+        with ESMTP id S243263AbjFNHEd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Jun 2023 02:45:20 -0400
+        Wed, 14 Jun 2023 03:04:33 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17BF010C2
-        for <linux-input@vger.kernel.org>; Tue, 13 Jun 2023 23:45:18 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDE4A1FCB
+        for <linux-input@vger.kernel.org>; Wed, 14 Jun 2023 00:04:31 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1q9KFm-0006iV-9S; Wed, 14 Jun 2023 08:45:14 +0200
+        id 1q9KYC-0000oB-KR; Wed, 14 Jun 2023 09:04:16 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1q9KFj-007IIE-WF; Wed, 14 Jun 2023 08:45:12 +0200
+        id 1q9KY9-007IK9-8z; Wed, 14 Jun 2023 09:04:13 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1q9KFj-00E7bn-4s; Wed, 14 Jun 2023 08:45:11 +0200
-Date:   Wed, 14 Jun 2023 08:45:10 +0200
+        id 1q9KY8-00E8Az-HT; Wed, 14 Jun 2023 09:04:12 +0200
+Date:   Wed, 14 Jun 2023 09:04:12 +0200
 From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Marek Vasut <marex@denx.de>
-Cc:     linux-input@vger.kernel.org,
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
-        Manuel Traut <manuel.traut@mt.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        linux-pwm@vger.kernel.org
-Subject: Re: [PATCH] Input: pwm-beeper - Support volume setting via sysfs
-Message-ID: <20230614064510.nm3hhokjxe37hrjo@pengutronix.de>
-References: <20230512185551.183049-1-marex@denx.de>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-input@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: Re: [PATCH v2 6/7] docs: update some straggling Documentation/arm
+ references
+Message-ID: <20230614070412.ts5yd47uefkvhlet@pengutronix.de>
+References: <20230529144856.102755-1-corbet@lwn.net>
+ <20230529144856.102755-7-corbet@lwn.net>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="oabiqhvlhn4qzbtb"
+        protocol="application/pgp-signature"; boundary="p4c3uocja4ru6qiz"
 Content-Disposition: inline
-In-Reply-To: <20230512185551.183049-1-marex@denx.de>
+In-Reply-To: <20230529144856.102755-7-corbet@lwn.net>
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
 X-SA-Exim-Mail-From: ukl@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
@@ -58,107 +64,33 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
---oabiqhvlhn4qzbtb
+--p4c3uocja4ru6qiz
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 12, 2023 at 08:55:51PM +0200, Marek Vasut wrote:
-> The PWM beeper volume can be controlled by adjusting the PWM duty cycle,
-> expose volume setting via sysfs, so users can make the beeper quieter.
-> This patch adds sysfs attribute 'volume' in range 0..50000, i.e. from 0
-> to 50% in 1/1000th of percent steps, this resolution should be sufficient.
+Hello,
+
+On Mon, May 29, 2023 at 08:48:55AM -0600, Jonathan Corbet wrote:
+> The Arm documentation has moved to Documentation/arch/arm; update the
+> last remaining references to match.
 >=20
-> The reason for 50000 cap on volume or PWM duty cycle is because duty cycle
-> above 50% again reduces the loudness, the PWM wave form is inverted wave
-> form of the one for duty cycle below 50% and the beeper gets quieter the
-> closer the setting is to 100% . Hence, 50% cap where the wave form yields
-> the loudest result.
->=20
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> An alternative option would be to extend the userspace input ABI, e.g. by
-> using SND_TONE top 16bits to encode the duty cycle in 0..50000 range, and
-> bottom 16bit to encode the existing frequency in Hz . Since frequency in
-> Hz is likely to be below some 25 kHz for audible bell, this fits in 16bits
-> just fine. Thoughts ?
-> ---
-> NOTE: This uses approach similar to [1], except it is much simpler.
->       [1] https://patchwork.kernel.org/project/linux-input/cover/20230201=
-152128.614439-1-manuel.traut@mt.com/
-> ---
-> Cc: "Uwe Kleine-K=F6nig" <u.kleine-koenig@pengutronix.de>
 > Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
-> Cc: Manuel Traut <manuel.traut@mt.com>
-> Cc: Marek Vasut <marex@denx.de>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Samuel Holland <samuel@sholland.org>
 > Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: "Uwe Kleine-K=F6nig" <u.kleine-koenig@pengutronix.de>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > Cc: linux-input@vger.kernel.org
+> Cc: linux-sunxi@lists.linux.dev
 > Cc: linux-pwm@vger.kernel.org
-> ---
->  drivers/input/misc/pwm-beeper.c | 58 ++++++++++++++++++++++++++++++++-
->  1 file changed, 57 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/input/misc/pwm-beeper.c b/drivers/input/misc/pwm-bee=
-per.c
-> index 3cf1812384e6a..f63d0ebbaf573 100644
-> --- a/drivers/input/misc/pwm-beeper.c
-> +++ b/drivers/input/misc/pwm-beeper.c
-> @@ -21,6 +21,7 @@ struct pwm_beeper {
->  	struct regulator *amplifier;
->  	struct work_struct work;
->  	unsigned long period;
-> +	unsigned long duty_cycle;
->  	unsigned int bell_frequency;
->  	bool suspended;
->  	bool amplifier_on;
-> @@ -37,7 +38,7 @@ static int pwm_beeper_on(struct pwm_beeper *beeper, uns=
-igned long period)
-> =20
->  	state.enabled =3D true;
->  	state.period =3D period;
-> -	pwm_set_relative_duty_cycle(&state, 50, 100);
-> +	pwm_set_relative_duty_cycle(&state, beeper->duty_cycle, 100000);
-> =20
->  	error =3D pwm_apply_state(beeper->pwm, &state);
->  	if (error)
-> @@ -119,6 +120,53 @@ static void pwm_beeper_close(struct input_dev *input)
->  	pwm_beeper_stop(beeper);
->  }
-> =20
-> +static ssize_t volume_show(struct device *dev,
-> +			   struct device_attribute *attr,
-> +			   char *buf)
-> +{
-> +	struct pwm_beeper *beeper =3D dev_get_drvdata(dev);
-> +
-> +	return sysfs_emit(buf, "%ld\n", beeper->duty_cycle);
-> +}
-> +
-> +static ssize_t volume_store(struct device *dev,
-> +			    struct device_attribute *attr,
-> +			    const char *buf, size_t count)
-> +{
-> +	struct pwm_beeper *beeper =3D dev_get_drvdata(dev);
-> +	unsigned long val;
-> +
-> +	if (kstrtoul(buf, 0, &val) < 0)
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * Volume is really PWM duty cycle in pcm (per cent mille, 1/1000th
-> +	 * of percent). This value therefore ranges from 0 to 50000 . Duty
-> +	 * cycle of 50% =3D 50000pcm is the maximum volume .
-> +	 */
-> +	val =3D clamp(val, 0UL, 50000UL);
+> Cc: linux-serial@vger.kernel.org
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
-I wonder if you want to refuse values here that are not in the specified
-range, that is, something like:
+If you respin this series, you can add my:
 
-	if (val !=3D clamp(val, 0UL, 50000UL))
-		return -EINVAL;
-
-I think this is more in line who other sysfs properties work?!
+Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de> # for pwm
 
 Best regards
 Uwe
@@ -167,19 +99,19 @@ Uwe
 Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
 Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
---oabiqhvlhn4qzbtb
+--p4c3uocja4ru6qiz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSJYfYACgkQj4D7WH0S
-/k4WDggAsRPviTQmYHGrsB+ITujDXMk7fmUOBgXeEz5F5LrKdSDgHvE2uJXRfuVu
-J5JrWsHzU2Sup5UVd7nnZp5ZryG6dp8vxHSpSQSJbKA9P6151piWg9uxstrcwiuP
-BtZyfQoH6xDOOeNaiz0j4I/6fAMhdb9Xekv/OeDiNq7/EEx6vKWQNfdyPGCN6pyo
-mV5oUjJJQzOlhUp49EXJPhGvklc9mbUDmzXnAE9c94tqulpENXeddF/DNw0BSxzp
-yRevwaPIwXZuvlXgB6tQ1VYSHzwyIuLgx5pK3tzkVRyx/PvZ40Rv4UotgNaEfOio
-PGngBpdOuu26mzUEPksWaL+Jhhxm5A==
-=bbjy
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSJZmsACgkQj4D7WH0S
+/k7I6Qf/RuLkOuJd0YIg1k8zFTfaS2bByaI7jkNapwz2cj6IM37CjKT8PnJl0khU
+USzG5sc02bVd0COaO0E69Pv1+l86wxBMqx/wRW65PSkBz6krz2skusoIGek56vDe
+LKz/YRIGjP3gcIx6fVKjPVgWb3pgQAJyi6iN+yEac+AAgBbK5NtjvRSqrjpKPSC8
++BSS5Tb7JmOthh3NMEwKUOeiBgsjuHCD//UNmenONHQBIWet3+5gOxB+sKVQQZmc
+H+bw4c8bVF8elViKHnk/omalp7oIL4l2tFITkpcR0np44NRwr8D4MSsrlEkiSxuy
+KAFqHYnkJtypcQQCYJ21VCVOBoU1ig==
+=kqLy
 -----END PGP SIGNATURE-----
 
---oabiqhvlhn4qzbtb--
+--p4c3uocja4ru6qiz--
