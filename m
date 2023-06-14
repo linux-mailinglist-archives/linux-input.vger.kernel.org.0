@@ -2,160 +2,184 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AE2872F49F
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jun 2023 08:20:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D411E72F51A
+	for <lists+linux-input@lfdr.de>; Wed, 14 Jun 2023 08:45:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243099AbjFNGUT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Jun 2023 02:20:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39194 "EHLO
+        id S242260AbjFNGpX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Jun 2023 02:45:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242637AbjFNGUS (ORCPT
+        with ESMTP id S242198AbjFNGpU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Jun 2023 02:20:18 -0400
-Received: from mail.208.org (unknown [183.242.55.162])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 720091FE2
-        for <linux-input@vger.kernel.org>; Tue, 13 Jun 2023 23:19:55 -0700 (PDT)
-Received: from mail.208.org (email.208.org [127.0.0.1])
-        by mail.208.org (Postfix) with ESMTP id 4QgwJ8171BzBQJYg
-        for <linux-input@vger.kernel.org>; Wed, 14 Jun 2023 14:19:52 +0800 (CST)
-Authentication-Results: mail.208.org (amavisd-new); dkim=pass
-        reason="pass (just generated, assumed good)" header.d=208.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
-        content-transfer-encoding:content-type:message-id:user-agent
-        :references:in-reply-to:subject:to:from:date:mime-version; s=
-        dkim; t=1686723591; x=1689315592; bh=jNVldVMSRTJ6ERLuIjU7xi8o/Nk
-        +m5sjKQw9Qa9l4DI=; b=ja8WQ9UOHSQKpZzPIZrwzX++2FVPfBYan44yxnNcJG1
-        5s6PPQblMOn2GZMG2KTm44VHy8+IPkJMa1W1Lol7ht10DD+3rEIMxat0fTPPALWc
-        7cH+2+lpiiQldIkd75KzPtaGMT5ieULtUw9TB30ogUuFOXCWxFtBuJbyuxyP8q6V
-        TkMOYojjALJFLAYTVeotK1NsYt4c9AImnrjcpcGldJdsPPjhb8cw8/JCgJyKHU8Y
-        IaR8nikp8+G1w5QXnG+GvD9B6WQY/0a+7QP0UpIJdjnPIJFrymu9yVvJlnu6ccYC
-        D0DE+/KQ7N4PSS13iXHoYXyhAPg5IxId/6eyVNUGHRA==
-X-Virus-Scanned: amavisd-new at mail.208.org
-Received: from mail.208.org ([127.0.0.1])
-        by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id svBVKby-6RAn for <linux-input@vger.kernel.org>;
-        Wed, 14 Jun 2023 14:19:51 +0800 (CST)
-Received: from localhost (email.208.org [127.0.0.1])
-        by mail.208.org (Postfix) with ESMTPSA id 4QgwJ75kvyzBJLB3;
-        Wed, 14 Jun 2023 14:19:51 +0800 (CST)
+        Wed, 14 Jun 2023 02:45:20 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17BF010C2
+        for <linux-input@vger.kernel.org>; Tue, 13 Jun 2023 23:45:18 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q9KFm-0006iV-9S; Wed, 14 Jun 2023 08:45:14 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q9KFj-007IIE-WF; Wed, 14 Jun 2023 08:45:12 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q9KFj-00E7bn-4s; Wed, 14 Jun 2023 08:45:11 +0200
+Date:   Wed, 14 Jun 2023 08:45:10 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Marek Vasut <marex@denx.de>
+Cc:     linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Frieder Schrempf <frieder.schrempf@kontron.de>,
+        Manuel Traut <manuel.traut@mt.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-pwm@vger.kernel.org
+Subject: Re: [PATCH] Input: pwm-beeper - Support volume setting via sysfs
+Message-ID: <20230614064510.nm3hhokjxe37hrjo@pengutronix.de>
+References: <20230512185551.183049-1-marex@denx.de>
 MIME-Version: 1.0
-Date:   Wed, 14 Jun 2023 14:19:51 +0800
-From:   wuyonggang001@208suo.com
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH] HID: lenovo: Replacing snprintf with scnprintf
-In-Reply-To: <af4c99853e8abcbba13e406e6e432148@208suo.com>
-References: <20230613070323.60965-1-zhanglibing@cdjrlc.com>
- <af4c99853e8abcbba13e406e6e432148@208suo.com>
-User-Agent: Roundcube Webmail
-Message-ID: <0b350326a7dcf246c8a63449b35e9ea4@208suo.com>
-X-Sender: wuyonggang001@208suo.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RDNS_NONE,SPF_HELO_FAIL,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="oabiqhvlhn4qzbtb"
+Content-Disposition: inline
+In-Reply-To: <20230512185551.183049-1-marex@denx.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fix the following coccicheck warning:
 
-drivers/hid/hid-lenovo.c:786:8-16: WARNING: use scnprintf or sprintf
+--oabiqhvlhn4qzbtb
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Yonggang Wu <wuyonggang001@208suo.com>
----
-  drivers/hid/hid-lenovo.c | 16 ++++++++--------
-  1 file changed, 8 insertions(+), 8 deletions(-)
+On Fri, May 12, 2023 at 08:55:51PM +0200, Marek Vasut wrote:
+> The PWM beeper volume can be controlled by adjusting the PWM duty cycle,
+> expose volume setting via sysfs, so users can make the beeper quieter.
+> This patch adds sysfs attribute 'volume' in range 0..50000, i.e. from 0
+> to 50% in 1/1000th of percent steps, this resolution should be sufficient.
+>=20
+> The reason for 50000 cap on volume or PWM duty cycle is because duty cycle
+> above 50% again reduces the loudness, the PWM wave form is inverted wave
+> form of the one for duty cycle below 50% and the beeper gets quieter the
+> closer the setting is to 100% . Hence, 50% cap where the wave form yields
+> the loudest result.
+>=20
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> An alternative option would be to extend the userspace input ABI, e.g. by
+> using SND_TONE top 16bits to encode the duty cycle in 0..50000 range, and
+> bottom 16bit to encode the existing frequency in Hz . Since frequency in
+> Hz is likely to be below some 25 kHz for audible bell, this fits in 16bits
+> just fine. Thoughts ?
+> ---
+> NOTE: This uses approach similar to [1], except it is much simpler.
+>       [1] https://patchwork.kernel.org/project/linux-input/cover/20230201=
+152128.614439-1-manuel.traut@mt.com/
+> ---
+> Cc: "Uwe Kleine-K=F6nig" <u.kleine-koenig@pengutronix.de>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
+> Cc: Manuel Traut <manuel.traut@mt.com>
+> Cc: Marek Vasut <marex@denx.de>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-pwm@vger.kernel.org
+> ---
+>  drivers/input/misc/pwm-beeper.c | 58 ++++++++++++++++++++++++++++++++-
+>  1 file changed, 57 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/input/misc/pwm-beeper.c b/drivers/input/misc/pwm-bee=
+per.c
+> index 3cf1812384e6a..f63d0ebbaf573 100644
+> --- a/drivers/input/misc/pwm-beeper.c
+> +++ b/drivers/input/misc/pwm-beeper.c
+> @@ -21,6 +21,7 @@ struct pwm_beeper {
+>  	struct regulator *amplifier;
+>  	struct work_struct work;
+>  	unsigned long period;
+> +	unsigned long duty_cycle;
+>  	unsigned int bell_frequency;
+>  	bool suspended;
+>  	bool amplifier_on;
+> @@ -37,7 +38,7 @@ static int pwm_beeper_on(struct pwm_beeper *beeper, uns=
+igned long period)
+> =20
+>  	state.enabled =3D true;
+>  	state.period =3D period;
+> -	pwm_set_relative_duty_cycle(&state, 50, 100);
+> +	pwm_set_relative_duty_cycle(&state, beeper->duty_cycle, 100000);
+> =20
+>  	error =3D pwm_apply_state(beeper->pwm, &state);
+>  	if (error)
+> @@ -119,6 +120,53 @@ static void pwm_beeper_close(struct input_dev *input)
+>  	pwm_beeper_stop(beeper);
+>  }
+> =20
+> +static ssize_t volume_show(struct device *dev,
+> +			   struct device_attribute *attr,
+> +			   char *buf)
+> +{
+> +	struct pwm_beeper *beeper =3D dev_get_drvdata(dev);
+> +
+> +	return sysfs_emit(buf, "%ld\n", beeper->duty_cycle);
+> +}
+> +
+> +static ssize_t volume_store(struct device *dev,
+> +			    struct device_attribute *attr,
+> +			    const char *buf, size_t count)
+> +{
+> +	struct pwm_beeper *beeper =3D dev_get_drvdata(dev);
+> +	unsigned long val;
+> +
+> +	if (kstrtoul(buf, 0, &val) < 0)
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * Volume is really PWM duty cycle in pcm (per cent mille, 1/1000th
+> +	 * of percent). This value therefore ranges from 0 to 50000 . Duty
+> +	 * cycle of 50% =3D 50000pcm is the maximum volume .
+> +	 */
+> +	val =3D clamp(val, 0UL, 50000UL);
 
-diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
-index 44763c0da444..147fcf69d235 100644
---- a/drivers/hid/hid-lenovo.c
-+++ b/drivers/hid/hid-lenovo.c
-@@ -537,7 +537,7 @@ static ssize_t attr_fn_lock_show(struct device *dev,
-      struct hid_device *hdev = to_hid_device(dev);
-      struct lenovo_drvdata *data = hid_get_drvdata(hdev);
+I wonder if you want to refuse values here that are not in the specified
+range, that is, something like:
 
--    return snprintf(buf, PAGE_SIZE, "%u\n", data->fn_lock);
-+    return scnprintf(buf, PAGE_SIZE, "%u\n", data->fn_lock);
-  }
+	if (val !=3D clamp(val, 0UL, 50000UL))
+		return -EINVAL;
 
-  static ssize_t attr_fn_lock_store(struct device *dev,
-@@ -581,7 +581,7 @@ static ssize_t attr_sensitivity_show_cptkbd(struct 
-device *dev,
-      struct hid_device *hdev = to_hid_device(dev);
-      struct lenovo_drvdata *cptkbd_data = hid_get_drvdata(hdev);
+I think this is more in line who other sysfs properties work?!
 
--    return snprintf(buf, PAGE_SIZE, "%u\n",
-+    return scnprintf(buf, PAGE_SIZE, "%u\n",
-          cptkbd_data->sensitivity);
-  }
+Best regards
+Uwe
 
-@@ -753,7 +753,7 @@ static ssize_t 
-attr_press_to_select_show_tpkbd(struct device *dev,
-      struct hid_device *hdev = to_hid_device(dev);
-      struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
--    return snprintf(buf, PAGE_SIZE, "%u\n", 
-data_pointer->press_to_select);
-+    return scnprintf(buf, PAGE_SIZE, "%u\n", 
-data_pointer->press_to_select);
-  }
+--oabiqhvlhn4qzbtb
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  static ssize_t attr_press_to_select_store_tpkbd(struct device *dev,
-@@ -783,7 +783,7 @@ static ssize_t attr_dragging_show_tpkbd(struct 
-device *dev,
-      struct hid_device *hdev = to_hid_device(dev);
-      struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
+-----BEGIN PGP SIGNATURE-----
 
--    return snprintf(buf, PAGE_SIZE, "%u\n", data_pointer->dragging);
-+    return scnprintf(buf, PAGE_SIZE, "%u\n", data_pointer->dragging);
-  }
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSJYfYACgkQj4D7WH0S
+/k4WDggAsRPviTQmYHGrsB+ITujDXMk7fmUOBgXeEz5F5LrKdSDgHvE2uJXRfuVu
+J5JrWsHzU2Sup5UVd7nnZp5ZryG6dp8vxHSpSQSJbKA9P6151piWg9uxstrcwiuP
+BtZyfQoH6xDOOeNaiz0j4I/6fAMhdb9Xekv/OeDiNq7/EEx6vKWQNfdyPGCN6pyo
+mV5oUjJJQzOlhUp49EXJPhGvklc9mbUDmzXnAE9c94tqulpENXeddF/DNw0BSxzp
+yRevwaPIwXZuvlXgB6tQ1VYSHzwyIuLgx5pK3tzkVRyx/PvZ40Rv4UotgNaEfOio
+PGngBpdOuu26mzUEPksWaL+Jhhxm5A==
+=bbjy
+-----END PGP SIGNATURE-----
 
-  static ssize_t attr_dragging_store_tpkbd(struct device *dev,
-@@ -813,7 +813,7 @@ static ssize_t 
-attr_release_to_select_show_tpkbd(struct device *dev,
-      struct hid_device *hdev = to_hid_device(dev);
-      struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
-
--    return snprintf(buf, PAGE_SIZE, "%u\n", 
-data_pointer->release_to_select);
-+    return scnprintf(buf, PAGE_SIZE, "%u\n", 
-data_pointer->release_to_select);
-  }
-
-  static ssize_t attr_release_to_select_store_tpkbd(struct device *dev,
-@@ -843,7 +843,7 @@ static ssize_t attr_select_right_show_tpkbd(struct 
-device *dev,
-      struct hid_device *hdev = to_hid_device(dev);
-      struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
-
--    return snprintf(buf, PAGE_SIZE, "%u\n", 
-data_pointer->select_right);
-+    return scnprintf(buf, PAGE_SIZE, "%u\n", 
-data_pointer->select_right);
-  }
-
-  static ssize_t attr_select_right_store_tpkbd(struct device *dev,
-@@ -873,7 +873,7 @@ static ssize_t attr_sensitivity_show_tpkbd(struct 
-device *dev,
-      struct hid_device *hdev = to_hid_device(dev);
-      struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
-
--    return snprintf(buf, PAGE_SIZE, "%u\n",
-+    return scnprintf(buf, PAGE_SIZE, "%u\n",
-          data_pointer->sensitivity);
-  }
-
-@@ -902,7 +902,7 @@ static ssize_t attr_press_speed_show_tpkbd(struct 
-device *dev,
-      struct hid_device *hdev = to_hid_device(dev);
-      struct lenovo_drvdata *data_pointer = hid_get_drvdata(hdev);
-
--    return snprintf(buf, PAGE_SIZE, "%u\n",
-+    return scnprintf(buf, PAGE_SIZE, "%u\n",
-          data_pointer->press_speed);
-  }
+--oabiqhvlhn4qzbtb--
