@@ -2,45 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E77357307DE
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jun 2023 21:13:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2999E7307F4
+	for <lists+linux-input@lfdr.de>; Wed, 14 Jun 2023 21:18:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230214AbjFNTNu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Jun 2023 15:13:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43884 "EHLO
+        id S235841AbjFNTSO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Jun 2023 15:18:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229728AbjFNTNt (ORCPT
+        with ESMTP id S229703AbjFNTSN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Jun 2023 15:13:49 -0400
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2A571BFD;
-        Wed, 14 Jun 2023 12:13:48 -0700 (PDT)
-Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-77b6e2f0c9fso74778839f.1;
-        Wed, 14 Jun 2023 12:13:48 -0700 (PDT)
+        Wed, 14 Jun 2023 15:18:13 -0400
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F4DF2682;
+        Wed, 14 Jun 2023 12:18:12 -0700 (PDT)
+Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-777a78739ccso387408039f.3;
+        Wed, 14 Jun 2023 12:18:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686770028; x=1689362028;
+        d=1e100.net; s=20221208; t=1686770292; x=1689362292;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=69i3gF2aa9gLEhqJ8vGcBYKwa3/nKacy0WKaQtHM3c8=;
-        b=T4mzzyzPzA1aTjPjm8me0awLWoePMHEQWh83ohM8YpEbhDCwP5N1MFca7KVz1qM9yT
-         zGAaqMSpi+ulRSFf6EWd6AjGx47xIBMDCZEPx2y7ssNnTbZ8h7rUgOFFkEmcVKmCQuW4
-         WPoBj4wTB7t6Pl8gEjWG8rpDfR75Tu4ZuFdXLR64DE2+LFyETwikKSw6+nXHi/mSA5Nw
-         /JBefYPHQJi4WNJuYcC/zTmMxTKrNoa2GZhAXCzw+3XwC8z22s24tNaEaAa9nQv3MAKd
-         9zLptYPB84IRcSbAiijBb8MSBEChgBoG9/vAWbvLWIvXF+PziCa3C0ZCtDi1ddjGPDUE
-         9WRA==
-X-Gm-Message-State: AC+VfDwY62tQSVehScMY+b+lQsJ5wg3NAKItON+d/kRkcIOCe/s8arm2
-        urMB+x2rMH5GFHnOujCmd0Y8WinrsQ==
-X-Google-Smtp-Source: ACHHUZ6fEDxxe0686b9vWNAnOOTsDBT8D+eDaFY+2OLBohxA0tNlwwAEuLob8bMoz+GfFsSeeXXv5Q==
-X-Received: by 2002:a6b:ef0b:0:b0:776:2ee:4c63 with SMTP id k11-20020a6bef0b000000b0077602ee4c63mr12117781ioh.15.1686770028056;
-        Wed, 14 Jun 2023 12:13:48 -0700 (PDT)
+        bh=YBpMMsjcbe1wo6wOZhJlr/oSYFVntydqWqDrNGep1l0=;
+        b=BqhS7xA7T6RbrmqgQMKjBoqmWZ1RQwQxUcJ1HwbrBIQpo7J1Ech+GIvw3+nrmKux5x
+         b2sWZ0FLaTadYyaKIC/J74/XRpuABvGw09cQ5gCzKp1P132FBzjblYON6ZBSa9l4rQNn
+         qCHRO3oe3fjXsYxs7yI6Jtwh7ZxkTsjrbCstJybrhFYYHMNOlinL9VN+iRWJ8kq6HLZ1
+         /Qa3DAhtPWA0pDV7E0LE5Zy6Sy7LcN3oC1U9rCUJwn+Pot7LiF18d4v/RsJ4cODUznkv
+         3g3ZzIHgGA5MuboJ/DhHQRrniU01/bcVmdO9hf5AUcoCwgDc17ccvtzOFr5oA82o8Qu8
+         8w1g==
+X-Gm-Message-State: AC+VfDzlPpeV70SVe2a8G2hR976hUdWxw3Mx7as+UNOaFLR25cHIPJv0
+        Bgw1mSnTZ0GQAExvwttTFQ==
+X-Google-Smtp-Source: ACHHUZ5c57N/o0GzC8aXwuQsvNktRZIXbCA+u83AThjFLnR3buYrBFGMs/uzsSp0OtJJ2l8Rq3rG3w==
+X-Received: by 2002:a05:6602:299a:b0:776:cfd8:b44a with SMTP id o26-20020a056602299a00b00776cfd8b44amr16111912ior.8.1686770291867;
+        Wed, 14 Jun 2023 12:18:11 -0700 (PDT)
 Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id t13-20020a5edd0d000000b0076373f90e46sm5561234iop.33.2023.06.14.12.13.45
+        by smtp.gmail.com with ESMTPSA id b8-20020a02c988000000b0041f5ff08660sm5160476jap.141.2023.06.14.12.18.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jun 2023 12:13:47 -0700 (PDT)
-Received: (nullmailer pid 2581244 invoked by uid 1000);
-        Wed, 14 Jun 2023 19:13:44 -0000
-Date:   Wed, 14 Jun 2023 13:13:44 -0600
+        Wed, 14 Jun 2023 12:18:11 -0700 (PDT)
+Received: (nullmailer pid 2587113 invoked by uid 1000);
+        Wed, 14 Jun 2023 19:18:08 -0000
+Date:   Wed, 14 Jun 2023 13:18:08 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Oleksij Rempel <o.rempel@pengutronix.de>
 Cc:     Abel Vesa <abelvesa@kernel.org>,
@@ -67,15 +67,15 @@ Cc:     Abel Vesa <abelvesa@kernel.org>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-crypto@vger.kernel.org, linux-input@vger.kernel.org,
         linux-mmc@vger.kernel.org
-Subject: Re: [PATCH v1 5/7] dt-bindings: clock: imx6ul: Support optional
- enet*_ref_pad clocks
-Message-ID: <20230614191344.GA2579146-robh@kernel.org>
+Subject: Re: [PATCH v1 6/7] dt-bindings: clock: imx6q: Allow single optional
+ clock and add enet_ref_pad
+Message-ID: <20230614191808.GA2581397-robh@kernel.org>
 References: <20230601101451.357662-1-o.rempel@pengutronix.de>
- <20230601101451.357662-6-o.rempel@pengutronix.de>
+ <20230601101451.357662-7-o.rempel@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230601101451.357662-6-o.rempel@pengutronix.de>
+In-Reply-To: <20230601101451.357662-7-o.rempel@pengutronix.de>
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
@@ -87,50 +87,65 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jun 01, 2023 at 12:14:49PM +0200, Oleksij Rempel wrote:
-> Extend the 'clocks' and 'clock-names' properties to support optional
-> 'enet1_ref_pad' and 'enet2_ref_pad' clocks to resolve the following
+On Thu, Jun 01, 2023 at 12:14:50PM +0200, Oleksij Rempel wrote:
+> All clocks for this driver are optional, so this change allows the
+
+It's not about what the driver supports, but the h/w. You are saying 
+this SoC can operate with only 1 of any of the clock inputs?
+
+> 'clocks' and 'clock-names' properties to accept a single clock.
+> Additionally, 'enet_ref_pad' clock is added. This resolves the following
 > dtbs_check warning:
->   imx6ul-prti6g.dtb: clock-controller@20c4000: clocks: [[17], [18], [19],
->     [20], [21]] is too long
->   From schema: Documentation/devicetree/bindings/clock/imx6ul-clock.yaml
+>   imx6dl-alti6p.dtb: clock-controller@20c4000: clocks: [[24]] is too short
+>   From schema: Documentation/devicetree/bindings/clock/imx6q-clock.yaml
 > 
->   imx6ul-prti6g.dtb: clock-controller@20c4000: clock-names: ['ckil',
->     'osc', 'ipp_di0', 'ipp_di1', 'enet1_ref_pad'] is too long
->   From schema: Documentation/devicetree/bindings/clock/imx6ul-clock.yaml
+>   imx6dl-alti6p.dtb: clock-controller@20c4000: clock-names:0: 'osc' was
+>     expected
+>   From schema: Documentation/devicetree/bindings/clock/imx6q-clock.yaml
+> 
+>   imx6dl-alti6p.dtb: clock-controller@20c4000: clock-names:
+>     ['enet_ref_pad'] is too short
+>   From schema: Documentation/devicetree/bindings/clock/imx6q-clock.yaml
 > 
 > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 > ---
->  Documentation/devicetree/bindings/clock/imx6ul-clock.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  .../devicetree/bindings/clock/imx6q-clock.yaml    | 15 +++++++++------
+>  1 file changed, 9 insertions(+), 6 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/clock/imx6ul-clock.yaml b/Documentation/devicetree/bindings/clock/imx6ul-clock.yaml
-> index be54d4df5afa..d6a36fe575d3 100644
-> --- a/Documentation/devicetree/bindings/clock/imx6ul-clock.yaml
-> +++ b/Documentation/devicetree/bindings/clock/imx6ul-clock.yaml
-> @@ -28,18 +28,24 @@ properties:
+> diff --git a/Documentation/devicetree/bindings/clock/imx6q-clock.yaml b/Documentation/devicetree/bindings/clock/imx6q-clock.yaml
+> index bae4fcb3aacc..ed65d19c2e0e 100644
+> --- a/Documentation/devicetree/bindings/clock/imx6q-clock.yaml
+> +++ b/Documentation/devicetree/bindings/clock/imx6q-clock.yaml
+> @@ -28,20 +28,23 @@ properties:
 >      const: 1
 >  
 >    clocks:
-> +    minItems: 4
+> +    minItems: 1
 >      items:
->        - description: 32k osc
 >        - description: 24m osc
->        - description: ipp_di0 clock input
->        - description: ipp_di1 clock input
-> +      - description: Optional lenet1_ref_pad or enet2_ref_pad clocks
-> +      - description: Optional lenet1_ref_pad or enet2_ref_pad clocks
+>        - description: 32k osc
+>        - description: ckih1 clock input
+>        - description: anaclk1 clock input
+>        - description: anaclk2 clock input
+> +      - description: enet_ref_pad
 >  
 >    clock-names:
-> +    minItems: 4
->      items:
->        - const: ckil
->        - const: osc
->        - const: ipp_di0
->        - const: ipp_di1
-> +      - enum: [enet1_ref_pad, enet2_ref_pad]
-> +      - enum: [enet1_ref_pad, enet2_ref_pad]
-
-pattern: '^enet[12]_ref_pad$'
-
-Rob
+> -    items:
+> -      - const: osc
+> -      - const: ckil
+> -      - const: ckih1
+> -      - const: anaclk1
+> -      - const: anaclk2
+> +    enum:
+> +      - osc
+> +      - ckil
+> +      - ckih1
+> +      - anaclk1
+> +      - anaclk2
+> +      - enet_ref_pad
+>  
+>    fsl,pmic-stby-poweroff:
+>      $ref: /schemas/types.yaml#/definitions/flag
+> -- 
+> 2.39.2
+> 
