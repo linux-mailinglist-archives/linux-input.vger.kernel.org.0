@@ -2,85 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B70E730808
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jun 2023 21:21:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25089730A8F
+	for <lists+linux-input@lfdr.de>; Thu, 15 Jun 2023 00:28:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233470AbjFNTVh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Jun 2023 15:21:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47390 "EHLO
+        id S232068AbjFNW2K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Jun 2023 18:28:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229496AbjFNTVf (ORCPT
+        with ESMTP id S231971AbjFNW2I (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Jun 2023 15:21:35 -0400
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4A0426B7;
-        Wed, 14 Jun 2023 12:21:16 -0700 (PDT)
-Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-33cb82122c7so29528265ab.1;
-        Wed, 14 Jun 2023 12:21:16 -0700 (PDT)
+        Wed, 14 Jun 2023 18:28:08 -0400
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B51A268B;
+        Wed, 14 Jun 2023 15:28:06 -0700 (PDT)
+Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-340a05c22deso4175085ab.1;
+        Wed, 14 Jun 2023 15:28:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686770476; x=1689362476;
+        d=1e100.net; s=20221208; t=1686781685; x=1689373685;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sHiFqUH8Ns99cL4Q7Lgq6jxmGIJl/IBWeuGMsrbyXnU=;
-        b=bT5p3MIEHc53heYTrW6QWDnCa9Cf7EIJhU2CgyPBAP0G4M0EkSQxVi3bKErCD1g4cm
-         wV0oG8rlU+2mXrDq0rnZ8Y5YBiFq6pJkfrgJoSuW2oM1PuW1UyRztjqlg5G2UqcqIJAk
-         RHcZBvFOjUaKwiFlwo3aJva9HBsPElWmV//mR+qlnWvnAL3XdlLCi+NDtl99udyccLps
-         hJAy88cQOMozWCqqBJEmAcSqFzll4JR5z0Er43VfQYmg8Yo+7avQtGEPmEy3npUqMfSp
-         sqqNjD+emKSqhG/1zYLswm0aHR9HHgV0LuM0UOW0PXemC1IWtcx/PwujEJ7VJt7xwspp
-         KOXw==
-X-Gm-Message-State: AC+VfDyNPR+wwOL5pHMHIY8INXAhgqn7pJu8ep7mskZjynw3YwMdBUqM
-        XaTuvkXUA79deL1cOeCldg==
-X-Google-Smtp-Source: ACHHUZ4+oCaDJAL2TyNKe9N2ZuahMJpTVt2MjofPkLtQyNt9QOfQlpzr2x39gYaMHbPNmmJx9oNtlQ==
-X-Received: by 2002:a05:6e02:5c7:b0:33f:dfd1:fe49 with SMTP id l7-20020a056e0205c700b0033fdfd1fe49mr10449290ils.6.1686770475971;
-        Wed, 14 Jun 2023 12:21:15 -0700 (PDT)
+        bh=yajQGWba7cBbv2yEGLzVuT0yMU8/vEnbzI0aW4uhFjs=;
+        b=U1uKIJucVTm+UDz1cFWgSNn2bnRV1gQ9LUB1Z0bMurhVIfe3WrpTga5ewJB8UnRdNX
+         rv3yCRe+kLWzxBXJIX+dUG9kO8xGYH/rPh5vA6p19iJ3osPNLnU8J7r+dND4rxTC+QJf
+         JfRTTExoJtK+TRJ0k04V0HUzfR2uQWVm5FvrpHTaK31rH06RYq0fFpE8eDBJJChEvDMy
+         ykS8pCYpysTAvWLFgFOHmgZg2ZpvYGUi7zJFytUT/TpH/FKASnZ2L/NUKNovw6xwmtOS
+         hMsEdd/n/GExj7RkcPCe3aLy3Vh3JUtM0La8GcSZYkH78U8PIDMPZGWRom/Mh1/Ypqa/
+         jgeg==
+X-Gm-Message-State: AC+VfDxtLpt1zckeeRdvBc9likQHSwOHArZzsYlOhav+W8ON0TNJqexU
+        ZBADIjFOZNABR9C4b6jdpQ==
+X-Google-Smtp-Source: ACHHUZ5YM/cTrc06AeRT+CeT2VeoTeDKlGPOdZ8xCjU5GY97ctXm6YigYxsxbe9HTrdCeC1hWwXauw==
+X-Received: by 2002:a92:cd0e:0:b0:340:a3b4:1bda with SMTP id z14-20020a92cd0e000000b00340a3b41bdamr2685802iln.2.1686781685590;
+        Wed, 14 Jun 2023 15:28:05 -0700 (PDT)
 Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id i18-20020a02c612000000b004230e6377f3sm190722jan.177.2023.06.14.12.21.13
+        by smtp.gmail.com with ESMTPSA id d13-20020a92d78d000000b0033b3348519bsm5668384iln.69.2023.06.14.15.28.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jun 2023 12:21:15 -0700 (PDT)
-Received: (nullmailer pid 2591199 invoked by uid 1000);
-        Wed, 14 Jun 2023 19:21:12 -0000
-Date:   Wed, 14 Jun 2023 13:21:12 -0600
+        Wed, 14 Jun 2023 15:28:04 -0700 (PDT)
+Received: (nullmailer pid 2979093 invoked by uid 1000);
+        Wed, 14 Jun 2023 22:28:03 -0000
+Date:   Wed, 14 Jun 2023 16:28:03 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-mmc@vger.kernel.org, Abel Vesa <abelvesa@kernel.org>,
-        devicetree@vger.kernel.org, linux-crypto@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Fabio Estevam <festevam@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, linux-input@vger.kernel.org,
-        Stephen Boyd <sboyd@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-clk@vger.kernel.org, Anson Huang <Anson.Huang@nxp.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        linux-kernel@vger.kernel.org, kernel@pengutronix.de,
-        Thomas Gleixner <tglx@linutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-        Peng Fan <peng.fan@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
+To:     Neil Armstrong <neil.armstrong@linaro.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Michael Trimarchi <michael@amarulasolutions.com>,
-        Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v1 7/7] dt-bindings: input: touchscreen: edt-ft5x06: Add
- 'threshold' property
-Message-ID: <168677047226.2591141.8223363796946763544.robh@kernel.org>
-References: <20230601101451.357662-1-o.rempel@pengutronix.de>
- <20230601101451.357662-8-o.rempel@pengutronix.de>
+        Conor Dooley <conor+dt@kernel.org>,
+        Bastien Nocera <hadess@hadess.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 1/4] dt-bindings: input: document Goodix Berlin
+ Touchscreen IC
+Message-ID: <20230614222803.GA2974729-robh@kernel.org>
+References: <20230606-topic-goodix-berlin-upstream-initial-v1-0-4a0741b8aefd@linaro.org>
+ <20230606-topic-goodix-berlin-upstream-initial-v1-1-4a0741b8aefd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230601101451.357662-8-o.rempel@pengutronix.de>
+In-Reply-To: <20230606-topic-goodix-berlin-upstream-initial-v1-1-4a0741b8aefd@linaro.org>
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -88,21 +71,119 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Tue, Jun 06, 2023 at 04:31:56PM +0200, Neil Armstrong wrote:
+> Document the Goodix GT9916 wich is part of the "Berlin" serie
 
-On Thu, 01 Jun 2023 12:14:51 +0200, Oleksij Rempel wrote:
-> Add a new property 'threshold' to the edt-ft5x06 touchscreen binding.
-> This property allows setting the "click"-threshold in the range from 0
-> to 255. This change addresses the following dtbs_check warning:
->   imx6dl-lanmcu.dtb: touchscreen@38: 'threshold' does not match any of the
->     regexes: 'pinctrl-[0-9]+'
->   From schema:
->     Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
+series
+
+> of Touchscreen controllers IC from Goodix.
 > 
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 > ---
->  .../devicetree/bindings/input/touchscreen/edt-ft5x06.yaml   | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  .../bindings/input/touchscreen/goodix-berlin.yaml  | 81 ++++++++++++++++++++++
+>  1 file changed, 81 insertions(+)
 > 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix-berlin.yaml b/Documentation/devicetree/bindings/input/touchscreen/goodix-berlin.yaml
+> new file mode 100644
+> index 000000000000..4c24a541e919
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/goodix-berlin.yaml
+> @@ -0,0 +1,81 @@
+> +# SPDX-License-Identifier: GPL-2.0
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Dual license
 
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/goodix-berlin.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Goodix Belin series touchscreen controller
+
+Berlin?
+
+> +
+> +maintainers:
+> +  - Neil Armstrong <neil.armstrong@linaro.org>
+
+Would be nice to have a description which includes that the device has 
+both I2C and SPI interfaces.
+
+> +
+> +allOf:
+> +  - $ref: touchscreen.yaml#
+
+SPI devices should include spi-peripheral-props.yaml
+
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - goodix,gt9916
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  avdd-supply:
+> +    description: Analog power supply regulator on AVDD pin
+> +
+> +  vddio-supply:
+> +    description: GPIO power supply regulator on VDDIO pin
+> +
+> +  spi-max-frequency: true
+> +  touchscreen-inverted-x: true
+> +  touchscreen-inverted-y: true
+> +  touchscreen-size-x: true
+> +  touchscreen-size-y: true
+> +  touchscreen-swapped-x-y: true
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +      gt9916@5d {
+> +        compatible = "goodix,gt9916";
+> +        reg = <0x5d>;
+> +        interrupt-parent = <&gpio>;
+> +        interrupts = <25 IRQ_TYPE_LEVEL_LOW>;
+> +        reset-gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
+> +      };
+> +    };
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    spi {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +      num-cs = <1>;
+> +      cs-gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
+> +      gt9916@0 {
+> +        compatible = "goodix,gt9916";
+> +        reg = <0>;
+> +        interrupt-parent = <&gpio>;
+> +        interrupts = <25 IRQ_TYPE_LEVEL_LOW>;
+> +        reset-gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
+> +      };
+> +    };
+> +
+> +...
+> 
+> -- 
+> 2.34.1
+> 
