@@ -2,56 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 88D9F731764
-	for <lists+linux-input@lfdr.de>; Thu, 15 Jun 2023 13:42:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A8FC73179D
+	for <lists+linux-input@lfdr.de>; Thu, 15 Jun 2023 13:43:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344234AbjFOLmc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Jun 2023 07:42:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53144 "EHLO
+        id S1344194AbjFOLn4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Jun 2023 07:43:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344297AbjFOLlm (ORCPT
+        with ESMTP id S1344230AbjFOLnN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Jun 2023 07:41:42 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F125F358E;
-        Thu, 15 Jun 2023 04:39:29 -0700 (PDT)
+        Thu, 15 Jun 2023 07:43:13 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 851AB3AA9;
+        Thu, 15 Jun 2023 04:40:05 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AA4AF639BA;
-        Thu, 15 Jun 2023 11:39:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21EAFC433C8;
-        Thu, 15 Jun 2023 11:39:25 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1F9F861B8D;
+        Thu, 15 Jun 2023 11:39:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD075C433CB;
+        Thu, 15 Jun 2023 11:39:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686829166;
-        bh=yWiSuxZDz6Vc0AXizlDt3DGzDcIoBGwE1wbMAGTk158=;
+        s=k20201202; t=1686829185;
+        bh=n83YZv8wLuLtFKpdKE8JIDNngMwK+FjRX1OMW/pqegI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=u6mPUIPlQO6BaTy0Dcx5MchfGDugIq8Y2zBfRs5KCcDlYgCqyi5JXxDDboPcRZrSp
-         N4T6aKgoABa9GYwnPIK/fcAowIjpbJh472D4duKhcq1J0PzJc70tRxUyqmXMyfSqOb
-         QWKmhybQvmfWp8cxtuDcTOBHOWMh1AYRelgNogvEzh47EziO8kerJbaPnzSpyyWZpS
-         RiwXqbBCfQAyli9dui53msN6ATdmprfk8i2U8ji396Igvj2FZqISbNBoyolkEBThOX
-         TQFas1dlg3Ho+ZjZ0AyE1LpkXbRHlNG3wTLse53sB8J8bgssrviuPYVhA21vaAbi4h
-         Fm1MsXK2EGcKw==
+        b=kMvYWO1W2aKZH6y3ekAx+JdfSwOEKZ4YjfmbcDslTMGHtHRL7iLnFj+dBCHLgjm6d
+         BDuZpeNliiOMP0uizBKEGKSEn+0t6ftET1t7KdCjebaYW/HDNWQl6m1TqBQ7WA2+VI
+         3++T1XwCQDBbOWLETfXDMVwy9g+m7aayX2HrvXg10RcbFVQ8fMddeUPETSOZZFPPgW
+         aLsTFamXRH4zGs7j6cUF1FkI6mIzi5CH+4LNq4UX+1OvcO+9dI904vfA420BjAlUhs
+         tn5tdyS7Fj57HJNKmPO5C/ArC/O+JgHW6YbGXMo80NSr9w+21S92/7FUrr/ETIAKSC
+         9uObFxZxlQqJQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Denis Arefev <arefev@swemel.ru>, Ping Cheng <ping.cheng@wacom.com>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        jason.gerecke@wacom.com, jikos@kernel.org,
+Cc:     Sung-Chi Li <lschyi@chromium.org>, Jiri Kosina <jkosina@suse.cz>,
+        Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
         benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 4/9] HID: wacom: Add error check to wacom_parse_and_register()
-Date:   Thu, 15 Jun 2023 07:39:12 -0400
-Message-Id: <20230615113917.649505-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 3/8] HID: google: add jewel USB id
+Date:   Thu, 15 Jun 2023 07:39:33 -0400
+Message-Id: <20230615113938.649627-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230615113917.649505-1-sashal@kernel.org>
-References: <20230615113917.649505-1-sashal@kernel.org>
+In-Reply-To: <20230615113938.649627-1-sashal@kernel.org>
+References: <20230615113938.649627-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.184
+X-stable-base: Linux 5.4.247
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -60,42 +59,45 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Denis Arefev <arefev@swemel.ru>
+From: Sung-Chi Li <lschyi@chromium.org>
 
-[ Upstream commit 16a9c24f24fbe4564284eb575b18cc20586b9270 ]
+[ Upstream commit ed84c4517a5bc536e8572a01dfa11bc22a280d06 ]
 
-   Added a variable check and
-   transition in case of an error
+Add 1 additional hammer-like device.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
-
-Signed-off-by: Denis Arefev <arefev@swemel.ru>
-Reviewed-by: Ping Cheng <ping.cheng@wacom.com>
+Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/wacom_sys.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/hid/hid-google-hammer.c | 2 ++
+ drivers/hid/hid-ids.h           | 1 +
+ 2 files changed, 3 insertions(+)
 
-diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
-index a93070f5b214c..36cb456709ed7 100644
---- a/drivers/hid/wacom_sys.c
-+++ b/drivers/hid/wacom_sys.c
-@@ -2419,8 +2419,13 @@ static int wacom_parse_and_register(struct wacom *wacom, bool wireless)
- 		goto fail_quirks;
- 	}
+diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
+index b6947d7573473..2ebad3ed4e3af 100644
+--- a/drivers/hid/hid-google-hammer.c
++++ b/drivers/hid/hid-google-hammer.c
+@@ -473,6 +473,8 @@ static const struct hid_device_id hammer_devices[] = {
+ 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_EEL) },
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+ 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_HAMMER) },
++	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
++		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_JEWEL) },
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+ 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_MAGNEMITE) },
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index b883423a89c5d..479516bbb61bf 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -490,6 +490,7 @@
+ #define USB_DEVICE_ID_GOOGLE_MOONBALL	0x5044
+ #define USB_DEVICE_ID_GOOGLE_DON	0x5050
+ #define USB_DEVICE_ID_GOOGLE_EEL	0x5057
++#define USB_DEVICE_ID_GOOGLE_JEWEL	0x5061
  
--	if (features->device_type & WACOM_DEVICETYPE_WL_MONITOR)
-+	if (features->device_type & WACOM_DEVICETYPE_WL_MONITOR) {
- 		error = hid_hw_open(hdev);
-+		if (error) {
-+			hid_err(hdev, "hw open failed\n");
-+			goto fail_quirks;
-+		}
-+	}
- 
- 	wacom_set_shared_values(wacom_wac);
- 	devres_close_group(&hdev->dev, wacom);
+ #define USB_VENDOR_ID_GOTOP		0x08f2
+ #define USB_DEVICE_ID_SUPER_Q2		0x007f
 -- 
 2.39.2
 
