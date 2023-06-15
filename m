@@ -2,87 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7380F731099
-	for <lists+linux-input@lfdr.de>; Thu, 15 Jun 2023 09:30:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA1F173107F
+	for <lists+linux-input@lfdr.de>; Thu, 15 Jun 2023 09:24:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238527AbjFOHaq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Jun 2023 03:30:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47600 "EHLO
+        id S232713AbjFOHYN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Jun 2023 03:24:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238540AbjFOHan (ORCPT
+        with ESMTP id S237848AbjFOHYM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Jun 2023 03:30:43 -0400
-X-Greylist: delayed 10287 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 15 Jun 2023 00:30:41 PDT
-Received: from mail.sitirkam.com (mail.aurorateknoglobal.com [103.126.10.58])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2898312E;
-        Thu, 15 Jun 2023 00:30:41 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.sitirkam.com (Postfix) with ESMTP id 137E24E7BE86;
-        Thu, 15 Jun 2023 08:32:09 +0700 (WIB)
-Received: from mail.sitirkam.com ([127.0.0.1])
-        by localhost (mail.sitirkam.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id TI0pmiUZZ583; Thu, 15 Jun 2023 08:32:08 +0700 (WIB)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.sitirkam.com (Postfix) with ESMTP id 9AE184E7B19D;
-        Thu, 15 Jun 2023 08:32:03 +0700 (WIB)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.sitirkam.com 9AE184E7B19D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sitirkam.com;
-        s=B8AB377C-ED3B-11EA-8736-9248CAEF674E; t=1686792723;
-        bh=q7vDHy+gLAr4GKZUDI+hjt8I93kvW09nNmGJORUTyfg=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=dFdTPJycpJmgou/MhEbWyDym6M0WdU7NrsxT8ZckOfUSB2oGAZE0XYGX/SF+sDMxv
-         4eitajis0BU5mQm3ZSquoz13vgtOn6XXefenT3O7CdhmzdL/uPYXXfg/2d3MXc9aZK
-         OOmEzeXxeB/9bw3LwcawQuNVjyyTJdN1zs9HyzUsINWKOgW4TmpOfMgciHQYg3GbUB
-         sJ/xiki6lWhxJRs7M+vfnQxi8d8IF82+vIcxJXMPou7rOG6G9QT+/dJVRMnDU5xTHg
-         55V8oKqEZu8Ws1oCurj43MyJqDsrnfLSlgpQQCsDrAWnkTbP3tSRecNiuybK3gGO17
-         9DcgiALydjzGA==
-X-Virus-Scanned: amavisd-new at mail.sitirkam.com
-Received: from mail.sitirkam.com ([127.0.0.1])
-        by localhost (mail.sitirkam.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 09RgNCqtcJrY; Thu, 15 Jun 2023 08:32:03 +0700 (WIB)
-Received: from [185.169.4.111] (unknown [185.169.4.111])
-        by mail.sitirkam.com (Postfix) with ESMTPSA id D830A4E7ACFF;
-        Thu, 15 Jun 2023 08:31:55 +0700 (WIB)
-Content-Type: text/plain; charset="utf-8"
+        Thu, 15 Jun 2023 03:24:12 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC7E212E;
+        Thu, 15 Jun 2023 00:24:10 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1q9hKw-0007ow-FO; Thu, 15 Jun 2023 09:24:06 +0200
+Message-ID: <53903462-2552-b707-3831-cad3ef873b0d@leemhuis.info>
+Date:   Thu, 15 Jun 2023 09:24:05 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Spende
-To:     Recipients <admin@sitirkam.com>
-From:   "Maria-Elisabeth Schaeffler" <admin@sitirkam.com>
-Date:   Wed, 14 Jun 2023 18:34:03 -0700
-Reply-To: schaefflermariaelisabeth1941@gmail.com
-Message-Id: <20230615013155.D830A4E7ACFF@mail.sitirkam.com>
-X-Spam-Status: Yes, score=5.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,NIXSPAM_IXHASH,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [schaefflermariaelisabeth1941[at]gmail.com]
-        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  3.0 NIXSPAM_IXHASH http://www.nixspam.org/
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-X-Spam-Level: *****
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] HID: logitech-hidpp: Handle timeout differently from busy
+Content-Language: en-US, de-DE
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+To:     Jiri Kosina <jikos@kernel.org>, Bastien Nocera <hadess@hadess.net>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
+        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>,
+        Mark Lord <mlord@pobox.com>,
+        Linux regressions mailing list <regressions@lists.linux.dev>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+References: <20230531082428.21763-1-hadess@hadess.net>
+ <nycvar.YFH.7.76.2305311606160.29760@cbobk.fhfr.pm>
+ <nycvar.YFH.7.76.2306031440380.29760@cbobk.fhfr.pm>
+ <15bb2507-a145-7f1b-8e84-58aeb02484b9@leemhuis.info>
+ <nycvar.YFH.7.76.2306061527080.29760@cbobk.fhfr.pm>
+ <42b6e582-f642-7521-135a-449140984211@leemhuis.info>
+In-Reply-To: <42b6e582-f642-7521-135a-449140984211@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1686813850;36874d03;
+X-HE-SMSGID: 1q9hKw-0007ow-FO
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Your email account has been selected for a donation of =E2=82=AC1,700,000. =
-Please contact me for more information.
+On 06.06.23 20:18, Linux regression tracking (Thorsten Leemhuis) wrote:
+> On 06.06.23 15:27, Jiri Kosina wrote:
+>> On Mon, 5 Jun 2023, Linux regression tracking (Thorsten Leemhuis) wrote:
+>>>>>> If an attempt at contacting a receiver or a device fails because the
+>>>>>> receiver or device never responds, don't restart the communication, only
+>>>>>> restart it if the receiver or device answers that it's busy, as originally
+>>>>>> intended.
+>>>>>> Signed-off-by: Bastien Nocera <hadess@hadess.net>
+> [...]  
+>>>> Unfortunately it doesn't seem to cure the reported issue (while reverting 
+>>>> 586e8fede79 does):
+> [...]
+>> This should now all be fixed by
+>>
+>>     https://git.kernel.org/linus/7c28afd5512e371773dbb2bf95a31ed5625651d9
+> 
+> Jiri, Benjamin, many many thx for working on this.
 
-Mrs Maria Elisabeth Schaeffler
-CEO SCHAEFFLER.
+FWIW, it seems things work for many people, but something still is not
+completely right:
+
+```
+https://bugzilla.kernel.org/show_bug.cgi?id=217412
+
+--- Comment #47 from Mark Blakeney ---
+@Juha, kernel 6.3.7 adds the 2 patches intended to fix this bug and the
+startup delay is now gone. However, I have had 2 cases over the last 5
+days in which I have been running 6.3.7 where my mouse fails to be
+detected at all after startup. I have to pull the Logitech receiver
+out/in to get the mouse working. Never seen this issue before so I
+suspect the patches are not right.
+```
+
+Ciao, Thorsten
