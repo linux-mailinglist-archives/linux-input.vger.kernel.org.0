@@ -2,69 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9701731675
-	for <lists+linux-input@lfdr.de>; Thu, 15 Jun 2023 13:24:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75C137316EC
+	for <lists+linux-input@lfdr.de>; Thu, 15 Jun 2023 13:38:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245239AbjFOLYZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Jun 2023 07:24:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46740 "EHLO
+        id S1344046AbjFOLi2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Jun 2023 07:38:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240978AbjFOLYW (ORCPT
+        with ESMTP id S1343952AbjFOLh7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Jun 2023 07:24:22 -0400
-Received: from sasl.smtp.pobox.com (pb-sasl1.pobox.com [64.147.108.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 209012949;
-        Thu, 15 Jun 2023 04:24:20 -0700 (PDT)
-Received: from sasl.smtp.pobox.com (unknown [127.0.0.1])
-        by pb-sasl1.pobox.com (Postfix) with ESMTP id 6AA32AA013;
-        Thu, 15 Jun 2023 07:24:17 -0400 (EDT)
-        (envelope-from mlord@pobox.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=subject:to
-        :cc:references:from:message-id:date:mime-version:in-reply-to
-        :content-type:content-transfer-encoding; s=sasl; bh=R9REBIl2cJpk
-        vNtAOVV6nK22FQwV/7KTOjLjZ7mcB48=; b=tS3ATrgD8sVwNv2VFlvLuLwPJnm/
-        0cBHpbCJkX1iBUdvh06MVqEO0N1JHvHKds0p8PaXPkWlg8CjQOnxGuo1Zvqo+cfZ
-        LKUFdgiSvg0/pmZlH09g2hDKelNxaTFQcOqlwJddw8kVS6EqwXUXznlzWtDrjCSb
-        0SvjRzUzTaI6PLk=
-Received: from pb-sasl1.nyi.icgroup.com (unknown [127.0.0.1])
-        by pb-sasl1.pobox.com (Postfix) with ESMTP id 508E6AA011;
-        Thu, 15 Jun 2023 07:24:17 -0400 (EDT)
-        (envelope-from mlord@pobox.com)
-Received: from [10.0.0.9] (unknown [24.156.181.9])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        Thu, 15 Jun 2023 07:37:59 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A4902D53;
+        Thu, 15 Jun 2023 04:37:45 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by pb-sasl1.pobox.com (Postfix) with ESMTPSA id 41322AA010;
-        Thu, 15 Jun 2023 07:24:16 -0400 (EDT)
-        (envelope-from mlord@pobox.com)
-Subject: Re: [PATCH] HID: logitech-hidpp: Handle timeout differently from busy
-To:     Linux regressions mailing list <regressions@lists.linux.dev>,
-        Jiri Kosina <jikos@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
-        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-References: <20230531082428.21763-1-hadess@hadess.net>
- <nycvar.YFH.7.76.2305311606160.29760@cbobk.fhfr.pm>
- <nycvar.YFH.7.76.2306031440380.29760@cbobk.fhfr.pm>
- <15bb2507-a145-7f1b-8e84-58aeb02484b9@leemhuis.info>
- <nycvar.YFH.7.76.2306061527080.29760@cbobk.fhfr.pm>
- <42b6e582-f642-7521-135a-449140984211@leemhuis.info>
- <53903462-2552-b707-3831-cad3ef873b0d@leemhuis.info>
-From:   Mark Lord <mlord@pobox.com>
-Message-ID: <aa0e3371-dad1-3296-18fb-1957b92aa4d1@pobox.com>
-Date:   Thu, 15 Jun 2023 07:24:15 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1A3A36394F;
+        Thu, 15 Jun 2023 11:37:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B564DC433C9;
+        Thu, 15 Jun 2023 11:37:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686829064;
+        bh=Uwx6jqMfRXcjlCUZOeMWleS1Dm5/sKSC6b4Uao9C4b4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=S5I2iROtVumgrZQG4L88jDRXzXCqU+XyKBO/OeEsDEBQeeoGfVBWY6c0BrSLQfY4K
+         xeWw8hwLDhD9Q4/Uyvp0qqqiF+Yc4+4oqlJMAdOywZpkYdU4aZCsQjAQOJSvHG0lOU
+         Sc7QOWEu2/ECJPCpq+qsTYmZJs71BhIxNsFhk361cd/unnpwSOaPDs+ocbcwnr9AOf
+         KR4JJs0tQw4xAC+2PL8IzUet2/Mu4+vF2r4lHOrQEgVykDj/Ahrf6BP3LykcalJlFT
+         P8gBBdYk2kq1nO2hw1628lVaRolkkYXQPBfRkacngDGxSkfZHC+0y6FxLTY2FqTCMX
+         UhOQrXjuDWeCw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Sung-Chi Li <lschyi@chromium.org>, Jiri Kosina <jkosina@suse.cz>,
+        Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.3 06/19] HID: google: add jewel USB id
+Date:   Thu, 15 Jun 2023 07:37:06 -0400
+Message-Id: <20230615113719.648862-6-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230615113719.648862-1-sashal@kernel.org>
+References: <20230615113719.648862-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <53903462-2552-b707-3831-cad3ef873b0d@leemhuis.info>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Pobox-Relay-ID: 29ECEAB2-0B6F-11EE-A78A-8E2B5958DECB-82205200!pb-sasl1.pobox.com
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.3.8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -73,28 +59,45 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2023-06-15 03:24 AM, Linux regression tracking (Thorsten Leemhuis) wrote:
->
-...
-> https://bugzilla.kernel.org/show_bug.cgi?id=217412
-> 
-> --- Comment #47 from Mark Blakeney ---
-> @Juha, kernel 6.3.7 adds the 2 patches intended to fix this bug and the
-> startup delay is now gone. However, I have had 2 cases over the last 5
-> days in which I have been running 6.3.7 where my mouse fails to be
-> detected at all after startup. I have to pull the Logitech receiver
-> out/in to get the mouse working. Never seen this issue before so I
-> suspect the patches are not right.
-> ```
+From: Sung-Chi Li <lschyi@chromium.org>
 
-I too have had that happen with recent kernels, but have not yet put
-a finger to a specific version or cause.
+[ Upstream commit ed84c4517a5bc536e8572a01dfa11bc22a280d06 ]
 
-Just toggling the power button on the wireless mouse is enough for
-it to "re-appear".
+Add 1 additional hammer-like device.
 
-The 5.4.xx kernels never had this issue.  I went straight from those
-to the 6.3.xx ones, where it does happen sometimes, both with and without
-the recent "delay" fixes.
+Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/hid/hid-google-hammer.c | 2 ++
+ drivers/hid/hid-ids.h           | 1 +
+ 2 files changed, 3 insertions(+)
+
+diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
+index 7ae5f27df54dd..c6bdb9c4ef3e0 100644
+--- a/drivers/hid/hid-google-hammer.c
++++ b/drivers/hid/hid-google-hammer.c
+@@ -586,6 +586,8 @@ static const struct hid_device_id hammer_devices[] = {
+ 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_EEL) },
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+ 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_HAMMER) },
++	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
++		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_JEWEL) },
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+ 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_MAGNEMITE) },
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 8f3e0a5d5f834..2e23018c9f23d 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -529,6 +529,7 @@
+ #define USB_DEVICE_ID_GOOGLE_MOONBALL	0x5044
+ #define USB_DEVICE_ID_GOOGLE_DON	0x5050
+ #define USB_DEVICE_ID_GOOGLE_EEL	0x5057
++#define USB_DEVICE_ID_GOOGLE_JEWEL	0x5061
+ 
+ #define USB_VENDOR_ID_GOTOP		0x08f2
+ #define USB_DEVICE_ID_SUPER_Q2		0x007f
 -- 
-Mark Lord
+2.39.2
+
