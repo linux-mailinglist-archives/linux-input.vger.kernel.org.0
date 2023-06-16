@@ -2,53 +2,53 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F225D732DFD
-	for <lists+linux-input@lfdr.de>; Fri, 16 Jun 2023 12:28:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90DE9732E8A
+	for <lists+linux-input@lfdr.de>; Fri, 16 Jun 2023 12:33:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344396AbjFPK2x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Jun 2023 06:28:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50768 "EHLO
+        id S1345188AbjFPKdN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Jun 2023 06:33:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344398AbjFPK17 (ORCPT
+        with ESMTP id S1344926AbjFPKcd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Jun 2023 06:27:59 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA8924699;
-        Fri, 16 Jun 2023 03:26:28 -0700 (PDT)
+        Fri, 16 Jun 2023 06:32:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B83C44A4;
+        Fri, 16 Jun 2023 03:28:03 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BB094635C4;
-        Fri, 16 Jun 2023 10:26:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 503A6C433C9;
-        Fri, 16 Jun 2023 10:26:27 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5146563628;
+        Fri, 16 Jun 2023 10:27:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD34C433C8;
+        Fri, 16 Jun 2023 10:27:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686911188;
-        bh=0CVterN2oNR0snu/uDzo3u9HlQDH7EmEEvZabB0r2sE=;
+        s=k20201202; t=1686911243;
+        bh=tJx8afwHV6Ld0IeRrbLffo1EPhLFV0Glp6NzQDUm3Ns=;
         h=From:To:Cc:Subject:Date:From;
-        b=Q7TrR2KEc1rTOORDCMa7Btb9mPNqrBNwuRGEyZOyunqhM4MhR5OjRrqclgCqqP8a6
-         bxvqc/t+66se3YW2ICmYV1F87jZI0nSWTF78fPo+MN4pkIn3diip2uCaVnbERfurLV
-         Qc59adtatsPfiezK6uRLzG1ZJWjgebS29r8OKSzDdCxr59WOSI+oRZ8PwnNhGKC7BM
-         wLoMeyhfavLTDQrYYg8j8p2aQEj06WPmtROPQ/ZF0YXGL0Sq7SVxWbhHfpoYyk9bK5
-         EhT7CIZ7lgLk1A14vWFlYcsz7zR3oBIUe4PN1cgtXlj7p1rn1yMcLg2a55lgLF9MRJ
-         UP+1jXNg99F9A==
+        b=kt3xP/y1fsa8saq0O+ZRa5JBm4HjbpK1Ct12lF/nyMPtUGMSAM9vJVFSsw6lMG6fy
+         40apq9Svf0ejId8+H6o92QJuanYVLGSMtf4dfByVZwmr6Gt4011JcP5/hrrYl7shLA
+         S69HBdQbJi3gD9tAZbH6Tr5XxPyhD8B5zo5CUBtb2XNBegwMIsaVaqrHGPHOD45EgE
+         UO2YUtxO3wWAQrYN7O1mE6yfEcuy3AotOgZ/VcW21D5Ba4e1flw2Ytno/+IGS8d/Aq
+         xSwRqPTVZgHbtmazr4idj8HTBG9LLQltviAOUE/1Yxk1Hb8BkogzhHoGiNbUTMmjUg
+         36X4hEfPaGBdw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 01/26] Input: soc_button_array - add invalid acpi_index DMI quirk handling
-Date:   Fri, 16 Jun 2023 06:25:58 -0400
-Message-Id: <20230616102625.673454-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 01/16] Input: soc_button_array - add invalid acpi_index DMI quirk handling
+Date:   Fri, 16 Jun 2023 06:27:04 -0400
+Message-Id: <20230616102721.673775-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.34
+X-stable-base: Linux 5.15.117
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -82,7 +82,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 30 insertions(+)
 
 diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
-index 09489380afda7..e79f5497948b8 100644
+index 31c02c2019c1c..67a134c8448d2 100644
 --- a/drivers/input/misc/soc_button_array.c
 +++ b/drivers/input/misc/soc_button_array.c
 @@ -108,6 +108,27 @@ static const struct dmi_system_id dmi_use_low_level_irq[] = {
