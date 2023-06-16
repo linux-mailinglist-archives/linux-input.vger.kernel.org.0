@@ -2,50 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1739B732D7B
-	for <lists+linux-input@lfdr.de>; Fri, 16 Jun 2023 12:25:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F225D732DFD
+	for <lists+linux-input@lfdr.de>; Fri, 16 Jun 2023 12:28:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234156AbjFPKZ2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Jun 2023 06:25:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49456 "EHLO
+        id S1344396AbjFPK2x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Jun 2023 06:28:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232377AbjFPKZ1 (ORCPT
+        with ESMTP id S1344398AbjFPK17 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Jun 2023 06:25:27 -0400
+        Fri, 16 Jun 2023 06:27:59 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24F32C5;
-        Fri, 16 Jun 2023 03:25:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA8924699;
+        Fri, 16 Jun 2023 03:26:28 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9D7B5611D8;
-        Fri, 16 Jun 2023 10:25:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44231C433C8;
-        Fri, 16 Jun 2023 10:25:23 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BB094635C4;
+        Fri, 16 Jun 2023 10:26:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 503A6C433C9;
+        Fri, 16 Jun 2023 10:26:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686911123;
+        s=k20201202; t=1686911188;
         bh=0CVterN2oNR0snu/uDzo3u9HlQDH7EmEEvZabB0r2sE=;
         h=From:To:Cc:Subject:Date:From;
-        b=LkwUUIOJjiQvT4SFNy4jRZ2IRh6udJtf+ugdJfx1iYQOvMPSGG+dj1IXThKE1Aviq
-         WUV+Yv5ZuRcIYRzAfhb2bWfzkeX8cVud5+2W4d2EzkJFCvteV9lUX9T2WRPu8Mcv0a
-         RP3YYt2ZVRCfb4130fIiQPrgXnhu5eC65lJFUiOjsRAO1ZyYgrwEMHwtvqZG2PU4da
-         5Pp+U6f12ACElv5m4xooYN4nxQIudlh5/W3HYOD9th8mPgterRlwgIvRN5tvMx8PzF
-         RgxjJCE57d6dqoM7qAGpbTc+LzSie4f3h5539uD4KWyV+SPU+5aQAkYTBMUg9CBbsQ
-         zEtGkZmn1AiHw==
+        b=Q7TrR2KEc1rTOORDCMa7Btb9mPNqrBNwuRGEyZOyunqhM4MhR5OjRrqclgCqqP8a6
+         bxvqc/t+66se3YW2ICmYV1F87jZI0nSWTF78fPo+MN4pkIn3diip2uCaVnbERfurLV
+         Qc59adtatsPfiezK6uRLzG1ZJWjgebS29r8OKSzDdCxr59WOSI+oRZ8PwnNhGKC7BM
+         wLoMeyhfavLTDQrYYg8j8p2aQEj06WPmtROPQ/ZF0YXGL0Sq7SVxWbhHfpoYyk9bK5
+         EhT7CIZ7lgLk1A14vWFlYcsz7zR3oBIUe4PN1cgtXlj7p1rn1yMcLg2a55lgLF9MRJ
+         UP+1jXNg99F9A==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.3 01/30] Input: soc_button_array - add invalid acpi_index DMI quirk handling
-Date:   Fri, 16 Jun 2023 06:24:49 -0400
-Message-Id: <20230616102521.673087-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 01/26] Input: soc_button_array - add invalid acpi_index DMI quirk handling
+Date:   Fri, 16 Jun 2023 06:25:58 -0400
+Message-Id: <20230616102625.673454-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.3.8
+X-stable-base: Linux 6.1.34
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
