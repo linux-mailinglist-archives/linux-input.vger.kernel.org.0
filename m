@@ -2,144 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CC96732E81
-	for <lists+linux-input@lfdr.de>; Fri, 16 Jun 2023 12:33:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4E4A733EFD
+	for <lists+linux-input@lfdr.de>; Sat, 17 Jun 2023 09:05:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344697AbjFPKc7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Jun 2023 06:32:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58230 "EHLO
+        id S233254AbjFQHFw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 17 Jun 2023 03:05:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344696AbjFPKc1 (ORCPT
+        with ESMTP id S229562AbjFQHFv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Jun 2023 06:32:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F33784239;
-        Fri, 16 Jun 2023 03:27:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BBAE4635D4;
-        Fri, 16 Jun 2023 10:27:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DF48C433C0;
-        Fri, 16 Jun 2023 10:27:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686911276;
-        bh=tJx8afwHV6Ld0IeRrbLffo1EPhLFV0Glp6NzQDUm3Ns=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Dd+vulIcF0H07D6yPHzCI5HAqIg8lPr9yo2XXOXsUW+bbi/IIGwOh9+XdI/327WU/
-         UqUYsmjw0oci23spS+8Llldu26v53+AIQ2Sqs9Qcs3gNL+VNkJtWhi5KMHYKmWtr3u
-         nHGqc1mQs7dF+LoweQ0ZdzTYXjxtFGCTSLYZxwB/lqN+snU18u3wqk+VvqNPE49sBk
-         SfUnYLLwqiLZudD4CTijmxeMu/RtvwUO78miYIwdyGGI6JUJSH0W6k6LMghumpDikf
-         /nTLBwcbFVyoXuqrIAq7ND2m5LQmPbgckrngeqNt/tGFdHaioNsKr7/NDmEwD97ZuC
-         icFeCPCjfoD+w==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 01/14] Input: soc_button_array - add invalid acpi_index DMI quirk handling
-Date:   Fri, 16 Jun 2023 06:27:38 -0400
-Message-Id: <20230616102753.673975-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        Sat, 17 Jun 2023 03:05:51 -0400
+Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5603319A0
+        for <linux-input@vger.kernel.org>; Sat, 17 Jun 2023 00:05:48 -0700 (PDT)
+Received: from pop-os.home ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id AQ0GqVBftuHEfAQ0GqXvsF; Sat, 17 Jun 2023 09:05:45 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1686985545;
+        bh=WaC9vyc9s/L0ETpLjq5kGLLrHASUjYwQHKod4eCpJlU=;
+        h=From:To:Cc:Subject:Date;
+        b=GFs52UZqJ5HBgxIzvwFp6LVefUM8MKHIcQqzw6/CZrHwJ72SKuFYKHijoq+Gp75kO
+         92YzOja+1G0FOSvOskZ2cEPt5n72zmOftpEijMX/XEQ8AuStFeQpdob9kTdmKRKaZy
+         siSRXW0KnjOOSVPna4alpFFswLOvsqBLtFgA/iNbOUSFQdhtx14iexQp2II5lPmv9/
+         qP+dPHcVHJyAztJp5CaynhGuGFAroQ/w4ESOFEfpuFwTodR0dvhxLKShaplrDD2+Eb
+         brXe1lwGXq9qjvkn/SlNpTLFinjsom07z2m7/zIv69yIjIzuElqY7NKY0wNmj6SW7x
+         aNO1oy8jqKPuQ==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 17 Jun 2023 09:05:45 +0200
+X-ME-IP: 86.243.2.178
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Samuel Holland <samuel@sholland.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-input@vger.kernel.org
+Subject: [PATCH] Input: pinephone-keyboard - Use devm_regulator_get_enable()
+Date:   Sat, 17 Jun 2023 09:05:42 +0200
+Message-Id: <78d7a4719ed7c372a7aa62afb66d4f1561799b5f.1686985515.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.184
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+Use devm_regulator_get_enable() instead of hand writing it. It saves some
+line of code.
 
-[ Upstream commit 20a99a291d564a559cc2fd013b4824a3bb3f1db7 ]
-
-Some devices have a wrong entry in their button array which points to
-a GPIO which is required in another driver, so soc_button_array must
-not claim it.
-
-A specific example of this is the Lenovo Yoga Book X90F / X90L,
-where the PNP0C40 home button entry points to a GPIO which is not
-a home button and which is required by the lenovo-yogabook driver.
-
-Add a DMI quirk table which can specify an ACPI GPIO resource index which
-should be skipped; and add an entry for the Lenovo Yoga Book X90F / X90L
-to this new DMI quirk table.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://lore.kernel.org/r/20230414072116.4497-1-hdegoede@redhat.com
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- drivers/input/misc/soc_button_array.c | 30 +++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ drivers/input/keyboard/pinephone-keyboard.c | 20 +-------------------
+ 1 file changed, 1 insertion(+), 19 deletions(-)
 
-diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
-index 31c02c2019c1c..67a134c8448d2 100644
---- a/drivers/input/misc/soc_button_array.c
-+++ b/drivers/input/misc/soc_button_array.c
-@@ -108,6 +108,27 @@ static const struct dmi_system_id dmi_use_low_level_irq[] = {
- 	{} /* Terminating entry */
- };
+diff --git a/drivers/input/keyboard/pinephone-keyboard.c b/drivers/input/keyboard/pinephone-keyboard.c
+index 038ff3549a7a..147b1f288a33 100644
+--- a/drivers/input/keyboard/pinephone-keyboard.c
++++ b/drivers/input/keyboard/pinephone-keyboard.c
+@@ -318,40 +318,22 @@ static void ppkb_close(struct input_dev *input)
+ 	ppkb_set_scan(client, false);
+ }
  
-+/*
-+ * Some devices have a wrong entry which points to a GPIO which is
-+ * required in another driver, so this driver must not claim it.
-+ */
-+static const struct dmi_system_id dmi_invalid_acpi_index[] = {
-+	{
-+		/*
-+		 * Lenovo Yoga Book X90F / X90L, the PNP0C40 home button entry
-+		 * points to a GPIO which is not a home button and which is
-+		 * required by the lenovo-yogabook driver.
-+		 */
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "CHERRYVIEW D1 PLATFORM"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "YETI-11"),
-+		},
-+		.driver_data = (void *)1l,
-+	},
-+	{} /* Terminating entry */
-+};
-+
- /*
-  * Get the Nth GPIO number from the ACPI object.
-  */
-@@ -137,6 +158,8 @@ soc_button_device_create(struct platform_device *pdev,
- 	struct platform_device *pd;
- 	struct gpio_keys_button *gpio_keys;
- 	struct gpio_keys_platform_data *gpio_keys_pdata;
-+	const struct dmi_system_id *dmi_id;
-+	int invalid_acpi_index = -1;
- 	int error, gpio, irq;
- 	int n_buttons = 0;
+-static void ppkb_regulator_disable(void *regulator)
+-{
+-	regulator_disable(regulator);
+-}
+-
+ static int ppkb_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+ 	unsigned int phys_rows, phys_cols;
+ 	struct pinephone_keyboard *ppkb;
+-	struct regulator *vbat_supply;
+ 	u8 info[PPKB_MATRIX_SIZE + 1];
+ 	struct device_node *i2c_bus;
+ 	int ret;
+ 	int error;
  
-@@ -154,10 +177,17 @@ soc_button_device_create(struct platform_device *pdev,
- 	gpio_keys = (void *)(gpio_keys_pdata + 1);
- 	n_buttons = 0;
+-	vbat_supply = devm_regulator_get(dev, "vbat");
+-	error = PTR_ERR_OR_ZERO(vbat_supply);
++	error = devm_regulator_get_enable(dev, "vbat");
+ 	if (error) {
+ 		dev_err(dev, "Failed to get VBAT supply: %d\n", error);
+ 		return error;
+ 	}
  
-+	dmi_id = dmi_first_match(dmi_invalid_acpi_index);
-+	if (dmi_id)
-+		invalid_acpi_index = (long)dmi_id->driver_data;
-+
- 	for (info = button_info; info->name; info++) {
- 		if (info->autorepeat != autorepeat)
- 			continue;
- 
-+		if (info->acpi_index == invalid_acpi_index)
-+			continue;
-+
- 		error = soc_button_lookup_gpio(&pdev->dev, info->acpi_index, &gpio, &irq);
- 		if (error || irq < 0) {
- 			/*
+-	error = regulator_enable(vbat_supply);
+-	if (error) {
+-		dev_err(dev, "Failed to enable VBAT: %d\n", error);
+-		return error;
+-	}
+-
+-	error = devm_add_action_or_reset(dev, ppkb_regulator_disable,
+-					 vbat_supply);
+-	if (error)
+-		return error;
+-
+ 	ret = i2c_smbus_read_i2c_block_data(client, 0, sizeof(info), info);
+ 	if (ret != sizeof(info)) {
+ 		error = ret < 0 ? ret : -EIO;
 -- 
-2.39.2
+2.34.1
 
