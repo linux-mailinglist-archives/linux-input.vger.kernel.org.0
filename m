@@ -2,107 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8299A733F03
-	for <lists+linux-input@lfdr.de>; Sat, 17 Jun 2023 09:12:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39485734251
+	for <lists+linux-input@lfdr.de>; Sat, 17 Jun 2023 18:55:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233026AbjFQHMI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 17 Jun 2023 03:12:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40722 "EHLO
+        id S231279AbjFQQzK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 17 Jun 2023 12:55:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229643AbjFQHMI (ORCPT
+        with ESMTP id S230404AbjFQQzJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 17 Jun 2023 03:12:08 -0400
-Received: from smtp.smtpout.orange.fr (smtp-30.smtpout.orange.fr [80.12.242.30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BC1B213B
-        for <linux-input@vger.kernel.org>; Sat, 17 Jun 2023 00:12:06 -0700 (PDT)
-Received: from pop-os.home ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id AQ6OqsOdNhQKVAQ6OqaPHj; Sat, 17 Jun 2023 09:12:05 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1686985925;
-        bh=uwjvZj5RduTr+IL/itfPrhtkCpiCiq3BjJuJN5U78E8=;
-        h=From:To:Cc:Subject:Date;
-        b=Q/XB/le1cPA7lV0lwHKtheheqImQ1ZC+UbmBb0RrLc5UUPy0ApWfj8i+ezLJggG61
-         MrPi/9TLFjqBilDykja7HpJCw9l0Ys1/tpSW0E1ShgsgKWHVl26PLf+HLxY0/WzZGN
-         0I/RbY3K0/VvylXKDIb0Js6FWQfR7GC8sPCC6C4t66qaQy55ZxoW4Zv0jtJcGa9qcX
-         hwkfloujL0ivqu1ygVejbFVMGc7IZW4VskCT5IgA3ofTSCTcQkq4e1Mjz9cePLCu71
-         RZquMs4za+u16/DKyE3eBKvCH3aX4WZnFyaEkSKoRziCaA1y2Nn/MLLytcLDPjuEVZ
-         gfPZLMLPt13HA==
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 17 Jun 2023 09:12:05 +0200
-X-ME-IP: 86.243.2.178
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     Michael Hennerich <michael.hennerich@analog.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-input@vger.kernel.org
-Subject: [PATCH] Input: adp5588-keys - Use devm_regulator_get_enable()
-Date:   Sat, 17 Jun 2023 09:12:03 +0200
-Message-Id: <af343b5b0d740cc9f8863264c30e3da4215721d7.1686985911.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+        Sat, 17 Jun 2023 12:55:09 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3FC61999
+        for <linux-input@vger.kernel.org>; Sat, 17 Jun 2023 09:55:06 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-51a20138617so2718743a12.2
+        for <linux-input@vger.kernel.org>; Sat, 17 Jun 2023 09:55:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687020905; x=1689612905;
+        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YgsQjPYSA4x9EUAST26pLIMgzwk5/fmUNEDBBVE+P4A=;
+        b=B7G7BepedhNo6t13ST6j2exw0x1ZwmPLVEEL3yxeHecRh038gzTrDkWWrtQmqVS3YY
+         /TF2soaIOjayutNM5vRnbbrURmOkTvG32YHkiqOWlSlrgOt0PPfJfcsthvrEP0taYCRD
+         gQlq1vPdNotdIXCMXJjmnfl2ndziy0omZ3xjLY/A8lmvOJCTX6mNudyTMnmGPXYlsNGa
+         SFUlVFLDM9TDGIDCuURZ749AA75BYPM1yqy/zFBZM/bEBkNs/TzoywCUI9GBsl+7knrf
+         ALRzVNGxJiZwybeZpbktw/E5jAWOAcdBl/UdW1eAcnu2hyYNRyekxtuBwVr/9vK1lvC8
+         gWdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687020905; x=1689612905;
+        h=to:subject:message-id:date:from:sender:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YgsQjPYSA4x9EUAST26pLIMgzwk5/fmUNEDBBVE+P4A=;
+        b=YnTmXMdSLZOnbfsvCb/tKsDsayaG2GQPS/P9DxJl/Y5jXhUvb7K9Auy9wQEIKXLQl5
+         m3e2FeBWr6aggrmoEK7TVeOswfPQxaYlEOlkFnWII5RPPoTHvxqiVBFlrVebFxB9PjFz
+         OrOjYmePDxNGfTreRX+pDtQQGujJvItTQm7FE1brUh1NYmbKA9D2CpmewZncyNLOAbVd
+         PQjUdfWl1pwMztVG8Yn4mEdjR+rJXzeU2SB0vpf/Xy+fR+qAqHFLuaNFrppJ4gXZXwdN
+         k+/ZQO5+2xQxLjvRCT4df7TUgOOAHLejDRYtCXf/SvpQ4RFejhLK+k0ywnv6xYWDLGc1
+         3gMA==
+X-Gm-Message-State: AC+VfDxshi+z4wAur5213W2C2uLLIUGvxgewMnmchTzJ11tBg6ZRZ1jq
+        dc1GsNFCRa+idGqBjEh0RO/vktONNViswdq4jGs=
+X-Google-Smtp-Source: ACHHUZ4vEX+inrtqwHd+bRSNE4Vl63pRotTdLXX6y1F+F4HxtrUIYCthBlskJGvNksHnytK6olEOfYgR6VPBeamEGlI=
+X-Received: by 2002:a17:906:da8b:b0:982:26c5:6525 with SMTP id
+ xh11-20020a170906da8b00b0098226c56525mr5401200ejb.60.1687020904881; Sat, 17
+ Jun 2023 09:55:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Sender: princeeminentunuebholo@gmail.com
+Received: by 2002:a50:718d:0:b0:21d:e168:6561 with HTTP; Sat, 17 Jun 2023
+ 09:55:04 -0700 (PDT)
+From:   Dr Lisa Williams <lw4666555@gmail.com>
+Date:   Sat, 17 Jun 2023 09:55:04 -0700
+X-Google-Sender-Auth: EL0NkoyJdlUROZ0VFp0rOFL_6dY
+Message-ID: <CAK0EZHQuR_Fh7-p5pqVzqbQd=4OLJtJJthAQUxoV08CqbXwgzw@mail.gmail.com>
+Subject: Hi,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_40,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Use devm_regulator_get_enable() instead of hand writing it. It saves some
-line of code.
+Hi,
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/input/keyboard/adp5588-keys.c | 17 +----------------
- 1 file changed, 1 insertion(+), 16 deletions(-)
+My name is Dr. Lisa Williams, from the United States, currently living
+in the United Kingdom.
 
-diff --git a/drivers/input/keyboard/adp5588-keys.c b/drivers/input/keyboard/adp5588-keys.c
-index 896a5a989ddc..61e8e43e9c2b 100644
---- a/drivers/input/keyboard/adp5588-keys.c
-+++ b/drivers/input/keyboard/adp5588-keys.c
-@@ -713,17 +713,11 @@ static int adp5588_fw_parse(struct adp5588_kpad *kpad)
- 	return 0;
- }
- 
--static void adp5588_disable_regulator(void *reg)
--{
--	regulator_disable(reg);
--}
--
- static int adp5588_probe(struct i2c_client *client)
- {
- 	struct adp5588_kpad *kpad;
- 	struct input_dev *input;
- 	struct gpio_desc *gpio;
--	struct regulator *vcc;
- 	unsigned int revid;
- 	int ret;
- 	int error;
-@@ -749,16 +743,7 @@ static int adp5588_probe(struct i2c_client *client)
- 	if (error)
- 		return error;
- 
--	vcc = devm_regulator_get(&client->dev, "vcc");
--	if (IS_ERR(vcc))
--		return PTR_ERR(vcc);
--
--	error = regulator_enable(vcc);
--	if (error)
--		return error;
--
--	error = devm_add_action_or_reset(&client->dev,
--					 adp5588_disable_regulator, vcc);
-+	error = devm_regulator_get_enable(&client->dev, "vcc");
- 	if (error)
- 		return error;
- 
--- 
-2.34.1
+I hope you consider my friend request. I will share some of my photos
+and more details about me when I get your reply.
 
+With love
+Lisa
