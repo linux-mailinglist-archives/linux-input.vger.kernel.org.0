@@ -2,73 +2,178 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1942873446E
-	for <lists+linux-input@lfdr.de>; Sun, 18 Jun 2023 01:47:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A60E273455A
+	for <lists+linux-input@lfdr.de>; Sun, 18 Jun 2023 10:08:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229583AbjFQXrm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 17 Jun 2023 19:47:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37008 "EHLO
+        id S229456AbjFRIIP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 18 Jun 2023 04:08:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbjFQXrl (ORCPT
+        with ESMTP id S229480AbjFRIIO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 17 Jun 2023 19:47:41 -0400
-X-Greylist: delayed 2238 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 17 Jun 2023 16:47:39 PDT
-Received: from vuizook.err.no (vuizook.err.no [IPv6:2a02:20c8:2640::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3BF010DB
-        for <linux-input@vger.kernel.org>; Sat, 17 Jun 2023 16:47:39 -0700 (PDT)
-Received: from [2400:4160:1877:2b00:f8a5:bd32:1108:a1af] (helo=glandium.org)
-        by vuizook.err.no with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.96)
-        (envelope-from <mh@glandium.org>)
-        id 1qAf3U-00CkNO-1z;
-        Sat, 17 Jun 2023 23:10:07 +0000
-Received: from glandium by goemon.lan with local (Exim 4.96)
-        (envelope-from <mh@glandium.org>)
-        id 1qAf3N-000Rrd-0T;
-        Sun, 18 Jun 2023 08:09:57 +0900
-Date:   Sun, 18 Jun 2023 08:09:57 +0900
-From:   Mike Hommey <mh@glandium.org>
-To:     linux-input@vger.kernel.org
-Cc:     Filipe =?utf-8?B?TGHDrW5z?= <lains@riseup.net>,
-        Jiri Kosina <jikos@kernel.org>,
+        Sun, 18 Jun 2023 04:08:14 -0400
+Received: from smtp.smtpout.orange.fr (smtp-13.smtpout.orange.fr [80.12.242.13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BF3310F7
+        for <linux-input@vger.kernel.org>; Sun, 18 Jun 2023 01:08:12 -0700 (PDT)
+Received: from pop-os.home ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id AnSCqLxfhonlZAnSCqJfqb; Sun, 18 Jun 2023 10:08:09 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1687075689;
+        bh=6WU86U56M483R8yCdnQ94w/Wv9IX0lwEV7xy79EtEyk=;
+        h=From:To:Cc:Subject:Date;
+        b=N36yDDgSCRkLrphXPqmm/dtSd1JNg5zw6b7jMluim6E3cM2Mo7DPbRvojniGDsKi8
+         Tw6UGwhlHpoil/CCQfP9b9xGo78DEAZ+jbFfSPJYFnkwe+sNLr9XORsu1zIzV0dsh5
+         8idwfq2cXOtQPdXM5dMvSlR2XKus3vAuC6KbMiChu1Am2VWr1GiYPRJWvUHinq8Nqx
+         muQe+61ICsMm6NxJg2P7kGmoQndO3g88eLfvbyaayRNn8iI8IW5HKlvxbP1Gp6J3Py
+         tSLijylbvIbIZH8eYncu53QEXmEPZBt14U68FVZ/juQ56V3k4EBqE30Z2RSmEYf+Ej
+         YpFfIPuMpgmiA==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 18 Jun 2023 10:08:09 +0200
+X-ME-IP: 86.243.2.178
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH] HID: logitech-hidpp: add HIDPP_QUIRK_DELAYED_INIT for the
- T651.
-Message-ID: <20230617230957.6mx73th4blv7owqk@glandium.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-input@vger.kernel.org
+Subject: [PATCH] HID: Reorder fields in 'struct hid_field'
+Date:   Sun, 18 Jun 2023 10:08:07 +0200
+Message-Id: <a804f2e91bc32cc5e17e012ed90972415606db4e.1687075665.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-498ba20690357691103de0f766960355247c78be put restarting communication
-behind that flag, and this was apparently necessary on the T651, but the
-flag was not set for it.
+Group some variables based on their sizes to reduce hole and avoid padding.
+On x86_64, this shrinks the size of 'struct hid_field'
+from 136 to 128 bytes.
 
-Signed-off-by: Mike Hommey <mh@glandium.org>
+It saves a few bytes of memory and is more cache-line friendly.
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- drivers/hid/hid-logitech-hidpp.c | 2 +-
+Using pahole
+
+Before:
+======
+struct hid_field {
+	unsigned int               physical;             /*     0     4 */
+	unsigned int               logical;              /*     4     4 */
+	unsigned int               application;          /*     8     4 */
+
+	/* XXX 4 bytes hole, try to pack */
+
+	struct hid_usage *         usage;                /*    16     8 */
+	unsigned int               maxusage;             /*    24     4 */
+	unsigned int               flags;                /*    28     4 */
+	unsigned int               report_offset;        /*    32     4 */
+	unsigned int               report_size;          /*    36     4 */
+	unsigned int               report_count;         /*    40     4 */
+	unsigned int               report_type;          /*    44     4 */
+	__s32 *                    value;                /*    48     8 */
+	__s32 *                    new_value;            /*    56     8 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+	__s32 *                    usages_priorities;    /*    64     8 */
+	__s32                      logical_minimum;      /*    72     4 */
+	__s32                      logical_maximum;      /*    76     4 */
+	__s32                      physical_minimum;     /*    80     4 */
+	__s32                      physical_maximum;     /*    84     4 */
+	__s32                      unit_exponent;        /*    88     4 */
+	unsigned int               unit;                 /*    92     4 */
+	bool                       ignored;              /*    96     1 */
+
+	/* XXX 7 bytes hole, try to pack */
+
+	struct hid_report *        report;               /*   104     8 */
+	unsigned int               index;                /*   112     4 */
+
+	/* XXX 4 bytes hole, try to pack */
+
+	struct hid_input *         hidinput;             /*   120     8 */
+	/* --- cacheline 2 boundary (128 bytes) --- */
+	__u16                      dpad;                 /*   128     2 */
+
+	/* XXX 2 bytes hole, try to pack */
+
+	unsigned int               slot_idx;             /*   132     4 */
+
+	/* size: 136, cachelines: 3, members: 25 */
+	/* sum members: 119, holes: 4, sum holes: 17 */
+	/* last cacheline: 8 bytes */
+};
+
+
+After:
+=====
+struct hid_field {
+	unsigned int               physical;             /*     0     4 */
+	unsigned int               logical;              /*     4     4 */
+	unsigned int               application;          /*     8     4 */
+
+	/* XXX 4 bytes hole, try to pack */
+
+	struct hid_usage *         usage;                /*    16     8 */
+	unsigned int               maxusage;             /*    24     4 */
+	unsigned int               flags;                /*    28     4 */
+	unsigned int               report_offset;        /*    32     4 */
+	unsigned int               report_size;          /*    36     4 */
+	unsigned int               report_count;         /*    40     4 */
+	unsigned int               report_type;          /*    44     4 */
+	__s32 *                    value;                /*    48     8 */
+	__s32 *                    new_value;            /*    56     8 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+	__s32 *                    usages_priorities;    /*    64     8 */
+	__s32                      logical_minimum;      /*    72     4 */
+	__s32                      logical_maximum;      /*    76     4 */
+	__s32                      physical_minimum;     /*    80     4 */
+	__s32                      physical_maximum;     /*    84     4 */
+	__s32                      unit_exponent;        /*    88     4 */
+	unsigned int               unit;                 /*    92     4 */
+	struct hid_report *        report;               /*    96     8 */
+	unsigned int               index;                /*   104     4 */
+	bool                       ignored;              /*   108     1 */
+
+	/* XXX 3 bytes hole, try to pack */
+
+	struct hid_input *         hidinput;             /*   112     8 */
+	__u16                      dpad;                 /*   120     2 */
+
+	/* XXX 2 bytes hole, try to pack */
+
+	unsigned int               slot_idx;             /*   124     4 */
+
+	/* size: 128, cachelines: 2, members: 25 */
+	/* sum members: 119, holes: 3, sum holes: 9 */
+};
+---
+ include/linux/hid.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index fdb66dc06582..4f227bc5c6b0 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -4299,7 +4299,7 @@ static const struct hid_device_id hidpp_devices[] = {
- 	{ /* wireless touchpad T651 */
- 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH,
- 		USB_DEVICE_ID_LOGITECH_T651),
--	  .driver_data = HIDPP_QUIRK_CLASS_WTP },
-+	  .driver_data = HIDPP_QUIRK_CLASS_WTP | HIDPP_QUIRK_DELAYED_INIT },
- 	{ /* Mouse Logitech Anywhere MX */
- 	  LDJ_DEVICE(0x1017), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_1P0 },
- 	{ /* Mouse logitech M560 */
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index 39e21e3815ad..5be5e671c263 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -480,9 +480,9 @@ struct hid_field {
+ 	__s32     physical_maximum;
+ 	__s32     unit_exponent;
+ 	unsigned  unit;
+-	bool      ignored;		/* this field is ignored in this event */
+ 	struct hid_report *report;	/* associated report */
+ 	unsigned index;			/* index into report->field[] */
++	bool      ignored;		/* this field is ignored in this event */
+ 	/* hidinput data */
+ 	struct hid_input *hidinput;	/* associated input structure */
+ 	__u16 dpad;			/* dpad input code */
 -- 
-2.41.0.6.ge371d37104
+2.34.1
 
