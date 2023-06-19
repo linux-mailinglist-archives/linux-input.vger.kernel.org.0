@@ -2,166 +2,184 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D90B1735AE8
-	for <lists+linux-input@lfdr.de>; Mon, 19 Jun 2023 17:14:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0299B735C6E
+	for <lists+linux-input@lfdr.de>; Mon, 19 Jun 2023 18:51:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229649AbjFSPOU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Jun 2023 11:14:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35170 "EHLO
+        id S229629AbjFSQvb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 19 Jun 2023 12:51:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231151AbjFSPOT (ORCPT
+        with ESMTP id S229518AbjFSQva (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Jun 2023 11:14:19 -0400
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BCCCBD
-        for <linux-input@vger.kernel.org>; Mon, 19 Jun 2023 08:14:17 -0700 (PDT)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-570808d8ddeso34371427b3.0
-        for <linux-input@vger.kernel.org>; Mon, 19 Jun 2023 08:14:17 -0700 (PDT)
+        Mon, 19 Jun 2023 12:51:30 -0400
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14D4CCC
+        for <linux-input@vger.kernel.org>; Mon, 19 Jun 2023 09:51:29 -0700 (PDT)
+Received: by mail-qk1-x736.google.com with SMTP id af79cd13be357-76241c98586so281879585a.0
+        for <linux-input@vger.kernel.org>; Mon, 19 Jun 2023 09:51:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687187656; x=1689779656;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1687193488; x=1689785488;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V1P80GLbB1P+QCLo9sePDKKOVfDoXpG6ABk1BvxOeoo=;
-        b=OngT6cRRJHc0AQ2pPOWCU/RshBXzk/4uDe5CNNOsC9EdEPtg/X+0G8OUcN55f/XTUc
-         QKQRE185oFvR0YDjhcXcumkWRl911lzzJUDsrohK680Nz6ZTfcv3oKZAlyQOHlkWzTDj
-         JOprueuu1AR8l4GPEMRoqbiQAAG9gtpAd51LrwkUzPdZH1vbrvAU6pT+qy3v/0DV2f1+
-         Rwt8yKFG4Er+blKbVjQOHosYB8Gu8XIxNS6VmjAdf6kfJjjVS9ASYMFr4Sk4W0ehpxNF
-         1gzHi5kBkyqIBtx7YDrBIw1qcTlN290/E3pQgHxGIbcdJsvbBn69lFLatPfbFh/Pf5qy
-         JubQ==
+        bh=gScQU+xkOHU0bdCn9mprbn93oFdgYf/fzvTScYy2R+w=;
+        b=QtCzfhNXYYua4xlOc5x5kq1YI/NeXLy9oubdR9lpZi3FLMHbfO600jyPJjcwe5i9r1
+         LdSA99elSf0Hb7vXSt/qUnkdiNwY8BihhyQExRf3CBP5gvv9bDlTVr42qZCwaAjFXxgq
+         bqxwv0Qpk9eOkx4k3ssqVHVrfCfWQKExpdvTg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687187656; x=1689779656;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1687193488; x=1689785488;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=V1P80GLbB1P+QCLo9sePDKKOVfDoXpG6ABk1BvxOeoo=;
-        b=TtfEKPRRXPyd8F9qK4TbLjjU+xr/lieduc+LEKs9kpz/h6Y1ASS2MLihdJwY/8X1Mg
-         K/kuQlKPMSm/yXEXTcIAMZErnSuI24GGPwFDd2TfeWkG6dJFtDp7fMX6esMtIMkqPQ70
-         UbH70qep4xiTosxiW5GPtA7yKCW0pmHP+u9KgptyDXUQ0wex1uanPmuHAXkr5AbRNUIX
-         gT8nX0UyMRpkXMRv7vXhXIDhyG8vohu/P4BX+IbJXZRg9bwKP/keuzIyww0wNzLEvx17
-         SC6Q8BxbCZyq+Ebhpcz1vrCaWW5VbKvTlhsf7Yv8dST3p697SaUyGFWy4IdGt8+RLsFL
-         uURw==
-X-Gm-Message-State: AC+VfDxeaQr6ak+kaCqj2D67zm5JKiP/6hiYXOGva5KhdRdYQ2ud9Udi
-        NHsIaSxmUGeYzVD29b/4lL1LX65T+ZabJhwJSsCXGyze5p52YA==
-X-Google-Smtp-Source: ACHHUZ4DKh6yX4ASYKccIQRRx/fV31dTUfKzqZroN/Foytud5WTXHD18mC4Od6bkI1mNjar9SXHsW9k2rEUP37PAa/8=
-X-Received: by 2002:a25:e786:0:b0:b9e:b9b4:bb12 with SMTP id
- e128-20020a25e786000000b00b9eb9b4bb12mr6887466ybh.48.1687187655947; Mon, 19
- Jun 2023 08:14:15 -0700 (PDT)
+        bh=gScQU+xkOHU0bdCn9mprbn93oFdgYf/fzvTScYy2R+w=;
+        b=heG1mUCNK2g06N9My+m2ZfLQU+3BFwE749PVVLKD8fOSTPdojmHffV64Zm0RCQASvF
+         eWtJ5kt15Qow98o94P5TlydgPF8a7OKniHfgXvppuMluS5ar2R614pYtklzw47BOVlse
+         oslf4SQlYn1oNvwa+b19nB7oF2uhACIL8hrTHkmE4SeYVYlOprSMOKNH4DCHuYswyTAT
+         YjK//ZSZshlJIvGL79t5Y7XVtMFW/70f7c5U1GQYBXXsY8wFT+DdlNQ06h2s45wLnbuF
+         kUfl8YYXkDCECOUGl6O4UK38u1EQrmvzFqscHzBR5zHaW5otiBAOR8da6uuUwfT+fMsr
+         AD1w==
+X-Gm-Message-State: AC+VfDxYLBdRsQMdgsYpj53qDPBsb9nvsRtk94lSRSCrx4DsVZ5wUz4I
+        eogQqhCdsHa13mL1rgK/VrREq/2AJwRqnEy1EyMaNQ==
+X-Google-Smtp-Source: ACHHUZ7iWkxuZgK3RulbEo6k2ClMBXK6zDB5cJsjAXt2oDApKCFLpBeM7OtiaSn2Swipk3RQdsyTrQ==
+X-Received: by 2002:a05:6214:2aa4:b0:631:eb39:b7a6 with SMTP id js4-20020a0562142aa400b00631eb39b7a6mr1671245qvb.33.1687193488210;
+        Mon, 19 Jun 2023 09:51:28 -0700 (PDT)
+Received: from seobrien.c.googlers.com.com (128.174.85.34.bc.googleusercontent.com. [34.85.174.128])
+        by smtp.gmail.com with ESMTPSA id m1-20020a0ce6e1000000b006238b37fb05sm115428qvn.119.2023.06.19.09.51.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jun 2023 09:51:27 -0700 (PDT)
+From:   Sean O'Brien <seobrien@chromium.org>
+To:     acz@semihalf.com
+Cc:     benjamin.tissoires@redhat.com, dmitry.torokhov@gmail.com,
+        jikos@kernel.org, linux-input@vger.kernel.org,
+        upstream@semihalf.com
+Subject: Re: [PATCH v4 00/17] *** Implement simple haptic HID support ***
+Date:   Mon, 19 Jun 2023 16:51:24 +0000
+Message-ID: <20230619165124.2308303-1-seobrien@chromium.org>
+X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
+In-Reply-To: <CAB4aORW2-Bgvgro4SzSNPBUHBLG4=w9-uD3kQ+87ZZ6dvqBNPA@mail.gmail.com>
+References: <CAB4aORW2-Bgvgro4SzSNPBUHBLG4=w9-uD3kQ+87ZZ6dvqBNPA@mail.gmail.com>
 MIME-Version: 1.0
-References: <CAGjSPUA1A0RVrf1OmgUKL3prOBuNFvhPJXJ4n7YbKrPLZb5h9A@mail.gmail.com>
- <CAGjSPUAosFY7svBoqAU3xsDD-ij2Qa3nZ2nf+jF4i2yC7sWpWw@mail.gmail.com>
-In-Reply-To: <CAGjSPUAosFY7svBoqAU3xsDD-ij2Qa3nZ2nf+jF4i2yC7sWpWw@mail.gmail.com>
-From:   Xiaofan Chen <xiaofanc@gmail.com>
-Date:   Mon, 19 Jun 2023 23:14:04 +0800
-Message-ID: <CAGjSPUCBPSXTHji-aSs64QHNYjBms9-WhohBYuc9Tiom5KaSow@mail.gmail.com>
-Subject: Re: Clarification about the hidraw documentation on HIDIOCGFEATURE
-To:     linux-input@vger.kernel.org
-Cc:     Ihor Dutchak <ihor.youw@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jun 19, 2023 at 2:09=E2=80=AFPM Xiaofan Chen <xiaofanc@gmail.com> w=
-rote:
->
-> I know that thurrent documentation has been there since it was created by
-> Alan Ott many years ago. And he started the HIDAPI project around that
-> time as well. However, I am starting to doubt whether it is correct or no=
-t
-> based on the testing using HIDAPI.
->
-> Please help to clarify. Thanks.
->
-> https://docs.kernel.org/hid/hidraw.html
-> +++++++++++++++++++++++++++++++++++++++++++++++++++++
-> HIDIOCGFEATURE(len):
->
-> Get a Feature Report
->
-> This ioctl will request a feature report from the device using the
-> control endpoint. The first byte of the supplied buffer should be
-> set to the report number of the requested report. For devices
-> which do not use numbered reports, set the first byte to 0. The
-> returned report buffer will contain the report number in the first
-> byte, followed by the report data read from the device. For devices
-> which do not use numbered reports, the report data will begin at the
-> first byte of the returned buffer.
-> ++++++++++++++++++++++++++++++++++++++++++++++++++++++
->
-> I have doubts about the last sentence. It seems to me that for
-> devices which do not use numbered reports, the first byte will
-> be 0 and the report data begins in the second byte.
->
-> This is based on testing results using hidapi and hidapitester, which
-> use the ioctl.
-> int HID_API_EXPORT hid_get_feature_report(hid_device *dev, unsigned
-> char *data, size_t length)
-> {
->     int res;
->
->     register_device_error(dev, NULL);
->
->     res =3D ioctl(dev->device_handle, HIDIOCGFEATURE(length), data);
->     if (res < 0)
->          register_device_error_format(dev, "ioctl (GFEATURE): %s",
-> strerror(errno));
->
->     return res;
-> }
->
-> Reference discussion:
-> https://github.com/libusb/hidapi/issues/589
->
-> Test device is Jan Axelson's generic HID example which I have tested usin=
-g
-> libusb and hidapi across platforms as well as using Windows HID API.
-> So I believe the FW is good.
-> http://janaxelson.com/hidpage.htm#MyExampleCode (USB PIC MCU)
->
+On Fri, Oct 7, 2022 at 8:30 PM Angela Czubak <acz@semihalf.com> wrote:
+> 
+> This patch series introduces changes necessary to support devices
+> using simple haptic HID pages.
+> Implementation attempts to follow the discussion below:
+> https://www.spinics.net/lists/linux-input/msg61091.html
+> 
+> Introduce new haptic defines as specified in HID Usage Tables.
+> 
+> Add new force feedback effect type in order to facilitate using
+> simple haptic force feedback.
+> 
+> Add INPUT_PROP_HAPTIC_TOUCHPAD to mark touchpad exposing simple haptic
+> support.
+> 
+> Add new struct hid_haptic_device so as to gather simple haptic related
+> configuration and current state of the device.
+> 
+> Add new functions to be triggered during HID input mapping and
+> configuration in order to detect simple haptic devices.
+> 
+> Modify HID input so that haptic output reports are parsed.
+> 
+> Initialize a haptic device.
+> 
+> Modify FF core so that effect IDs can be shared between multiple open file
+> handles.
+> 
+> Add shared release and press effects for a simple haptic device.
+> 
+> Calculate pressure resolution if units are grams or newtons.
+> 
+> Add support for kernel-driven mode of simple haptic device.
+> 
+> Toggle ABS_PRESSURE generation by input-mt on request.
+> 
+> Implement functions allowing switching between kernel-managed mode
+> and autonomous mode.
+> 
+> Add simple haptic support for hid-multitouch driver.
+> 
+> Implement EVIOCFF(TAKE|RELEASE)CONTROL ioctls so that userspace can take
+> and release control of shared release and press effects.
+> 
+> v2:
+> - Describe INPUT_PROP_HAPTIC_TOUCHPAD in
+>   Documentation/input/event-codes.rst
+> - Do not extract mt_get_feature(), use hid_hw_wait() instead
+> - Define HID_UNIT_GRAM and HID_UNIT_NEWTON
+> - Calculate pressure sum in input-mt if INPUT_MT_TOTAL_FORCE flags set
+> - Use u* instead of __u* in struct hid_haptic_device
+> - Solve problems with report IDS >= 0xF as Dmitry suggests
+> 
+> v3:
+> - Get rid of INPUT_PROP_HAPTIC_TOUCHPAD property as haptic device does not
+>   gave to be a touchpad
+> - Introduce notion of haptic forcepads; generate haptic feedback in kernel
+>   mode only for forcepads
+> - Generate clicks based on maximum pressure across slots instead of the sum
+> - Fix off-by-one bug in hid_haptic_upload_effect()
+> - Fix resume/suspend: issue hid_haptic_resume() in mt_resume() and
+>   hid_haptic_suspend() in mt_suspend()
+> - Add reset callback for HID i2c devices
+> - Implement reset callback for HID multitouch haptic devices
+> - Implement lid handler triggering touchpad recalibration for Redrix
+> 
+> v4:
+> - Fix mt_reset callback to end earlier if no input devices have been
+>   configured yet to avoid iterating over uninitialized hid->inputs list
+> 
+> Angela Czubak (17):
+>   HID: add haptics page defines
+>   Input: add FF_HID effect type
+>   HID: haptic: introduce hid_haptic_device
+>   HID: input: allow mapping of haptic output
+>   HID: haptic: initialize haptic device
+>   Input: add shared effects
+>   HID: haptic: implement release and press effects
+>   HID: input: calculate resolution for pressure
+>   HID: haptic: add functions handling events
+>   Input: MT - add INPUT_MT_MAX_FORCE flags
+>   HID: haptic: add hid_haptic_switch_mode
+>   HID: multitouch: add haptic multitouch support
+>   Input: introduce EVIOCFF(TAKE|RELEASE)CONTROL
+>   HID: haptic: add hid_haptic_change_control
+>   HID: add HID device reset callback
+>   HID: haptic: implement HID haptic reset callback
+>   HID: multitouch: Add lid handler for touchpad on Redrix chromebook
+> 
+>  drivers/hid/Kconfig                |  14 +
+>  drivers/hid/Makefile               |   1 +
+>  drivers/hid/hid-haptic.c           | 753 +++++++++++++++++++++++++++++
+>  drivers/hid/hid-haptic.h           | 152 ++++++
+>  drivers/hid/hid-input.c            |  18 +-
+>  drivers/hid/hid-multitouch.c       | 313 +++++++++++-
+>  drivers/hid/i2c-hid/i2c-hid-core.c |  21 +
+>  drivers/input/evdev.c              |   6 +
+>  drivers/input/ff-core.c            | 129 ++++-
+>  drivers/input/input-mt.c           |  16 +-
+>  include/linux/hid.h                |  31 ++
+>  include/linux/input.h              |   5 +
+>  include/linux/input/mt.h           |   1 +
+>  include/uapi/linux/input.h         |  26 +-
+>  14 files changed, 1469 insertions(+), 17 deletions(-)
+>  create mode 100644 drivers/hid/hid-haptic.c
+>  create mode 100644 drivers/hid/hid-haptic.h
 
-Modified testing code from the following Linux kernel
-samples/hidraw/hid-example.c
-https://github.com/libusb/hidapi/issues/589#issuecomment-1597356054
+Hello Jiri,
 
-Results are shown here. We can clearly see that the "Fake Report ID" 0 is
-in the first byte of the returned buffer, matching the output from
-hidapi/hidapitester,
+Will you be able to review this series?
 
-mcuee@UbuntuSwift3:~/build/hid/hidraw$ gcc -o myhid-example myhid-example.c
-
-mcuee@UbuntuSwift3:~/build/hid/hidraw$ sudo ./myhid-example
-Report Descriptor Size: 47
-Report Descriptor:
-6 a0 ff 9 1 a1 1 9 3 15 0 26 ff 0 75 8 95 3f 81 2 9 4 15 0 26 ff 0 75
-8 95 3f 91 2 9 5 15 0 26 ff 0 75 8 95 3f b1 2 c0
-
-Raw Name: Microchip Technology Inc. Generic HID
-Raw Phys: usb-0000:00:14.0-1/input0
-Raw Info:
-bustype: 3 (USB)
-vendor: 0x0925
-product: 0x7001
-ioctl HIDIOCSFEATURE returned: 64
-ioctl HIDIOCGFEATURE returned: 64
-Report data:
-0 41 42 43 44 45 46 47 48 14 4 18 4 4d 72 31 50 51 52 53 54 55 56 57
-58 59 5a 5b 5c 5d 5e 5f 60 61 62 63 64 65 66 67 68 69 6a 6b 6c 6d 6e
-6f 70 71 72 73 74 75 76 77 78 79 7a 7b 7c 7d 7e 7f
-
-write() wrote 64 bytes
-read() read 63 bytes:
-21 22 23 24 25 26 27 28 29 2a 2b 2c 2d 2e 2f 30 31 32 33 34 35 36 37
-38 39 3a 3b 3c 3d 3e 3f 40 41 42 43 44 45 46 47 48 49 4a 4b 4c 4d 4e
-4f 50 51 52 53 54 55 56 57 58 59 5a 5b 5c 5d 5e 5f
-
-
---=20
-Xiaofan
+Best,
+Sean
