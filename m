@@ -2,56 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6088E734C11
-	for <lists+linux-input@lfdr.de>; Mon, 19 Jun 2023 09:06:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84BD97359B3
+	for <lists+linux-input@lfdr.de>; Mon, 19 Jun 2023 16:36:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230026AbjFSHGN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Jun 2023 03:06:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54782 "EHLO
+        id S229784AbjFSOgN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 19 Jun 2023 10:36:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229943AbjFSHGN (ORCPT
+        with ESMTP id S231314AbjFSOgM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Jun 2023 03:06:13 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20518199;
-        Mon, 19 Jun 2023 00:06:11 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id D1DD31C0AAC; Mon, 19 Jun 2023 09:06:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1687158369;
+        Mon, 19 Jun 2023 10:36:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17DC7124
+        for <linux-input@vger.kernel.org>; Mon, 19 Jun 2023 07:35:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1687185324;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=qBKY6rDl+2l5pERVpM4Y1EIIJKI7uRWoOFGHX9VdwhI=;
-        b=fdlxs4MsPgvF64lGkjdfTTpiE3iWdAahByhRmjfJdp2vx0MXQm+4dKPXr3U9q9KaMSdiN0
-        zLUp6K+8KawXiHlw7Rxy/anLu/jEpIFFXw8Ctps5k1zeDNUZGAU3+hRAvrHbsRWGDCISE8
-        HZjyg5AtI7TqckiHNoxaxR4sW6wKO/4=
-Date:   Mon, 19 Jun 2023 09:06:09 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     neil.armstrong@linaro.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 0/4] input: touchscreen: add initial support for
- Goodix Berlin touchscreen IC
-Message-ID: <ZI/+YYZ0SYAmtvtR@duo.ucw.cz>
-References: <20230606-topic-goodix-berlin-upstream-initial-v1-0-4a0741b8aefd@linaro.org>
- <f5f20de8-851a-fe20-4664-62b6de14ebd7@redhat.com>
- <2677ae8c-59d3-b658-dc3f-918838ac0fb6@linaro.org>
- <1a7bdcc1-c737-83c4-24af-eb0028ed45f4@redhat.com>
+        bh=ke2aZ6yIyxqxd7jg9okSkx2Bff6qX87dYOpxYejjVyE=;
+        b=Ac/WFvYtdzVrnFBvz7srIjT3TuOyRH840/pNQ39Epd5u1rvMXzUUvrXI6n18mkf3YrTdwG
+        XM+YJUs+1eKOIMkclT0SpLu1sud/tT0am5exelmm5lOTXXsmL0Xxf3niwi3yGgTYiNoiI5
+        rBzGHEqKVou8HtxQsxiU6D3NJBjB5uw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-20-FuZj9odhPlOKW-sgB42F7A-1; Mon, 19 Jun 2023 10:35:19 -0400
+X-MC-Unique: FuZj9odhPlOKW-sgB42F7A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8CB5280120F;
+        Mon, 19 Jun 2023 14:35:18 +0000 (UTC)
+Received: from [192.168.110.200] (unknown [10.45.225.218])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B7585C164EC;
+        Mon, 19 Jun 2023 14:35:17 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     linux-input@vger.kernel.org, Mike Hommey <mh@glandium.org>
+Cc:     =?utf-8?q?Filipe_La=C3=ADns?= <lains@riseup.net>,
+        Jiri Kosina <jikos@kernel.org>
+In-Reply-To: <20230617230957.6mx73th4blv7owqk@glandium.org>
+References: <20230617230957.6mx73th4blv7owqk@glandium.org>
+Subject: Re: [PATCH] HID: logitech-hidpp: add HIDPP_QUIRK_DELAYED_INIT for
+ the T651.
+Message-Id: <168718531736.2920085.7885355785622180367.b4-ty@redhat.com>
+Date:   Mon, 19 Jun 2023 16:35:17 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="w9pW6tvblwV0iO2W"
-Content-Disposition: inline
-In-Reply-To: <1a7bdcc1-c737-83c4-24af-eb0028ed45f4@redhat.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,35 +62,19 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Sun, 18 Jun 2023 08:09:57 +0900, Mike Hommey wrote:
+> 498ba20690357691103de0f766960355247c78be put restarting communication
+> behind that flag, and this was apparently necessary on the T651, but the
+> flag was not set for it.
+> 
+> 
 
---w9pW6tvblwV0iO2W
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to hid/hid.git (for-6.4/upstream-fixes), thanks!
 
-Hi!
+[1/1] HID: logitech-hidpp: add HIDPP_QUIRK_DELAYED_INIT for the T651.
+      https://git.kernel.org/hid/hid/c/5fe251112646
 
-> > Sure, should I write it down here and/or update the commit message in a=
- new revision ?
->=20
-> Yes please add this to the commit msg for the next version.
+Cheers,
+-- 
+Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-Actually, putting this into comment in the driver itself might be
-good.
-
-BR,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---w9pW6tvblwV0iO2W
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZI/+YQAKCRAw5/Bqldv6
-8gthAJoDm1czkivRzCk/nxa3lCri/ps7sgCdFzZyoVdRqGX30p/yqxvDAhkF6iE=
-=WGAo
------END PGP SIGNATURE-----
-
---w9pW6tvblwV0iO2W--
