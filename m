@@ -2,140 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3614E736E3E
-	for <lists+linux-input@lfdr.de>; Tue, 20 Jun 2023 16:03:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B7B97371B8
+	for <lists+linux-input@lfdr.de>; Tue, 20 Jun 2023 18:34:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232910AbjFTOD1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Jun 2023 10:03:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57460 "EHLO
+        id S231860AbjFTQed (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Jun 2023 12:34:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232894AbjFTOD0 (ORCPT
+        with ESMTP id S232292AbjFTQeU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Jun 2023 10:03:26 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0F99C7;
-        Tue, 20 Jun 2023 07:03:25 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qBbHb-00037T-Nz; Tue, 20 Jun 2023 15:20:31 +0200
-Message-ID: <1b3fd148-44d7-d476-e9e6-f9d8c8ec0ee6@leemhuis.info>
-Date:   Tue, 20 Jun 2023 15:20:31 +0200
+        Tue, 20 Jun 2023 12:34:20 -0400
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A44F21994;
+        Tue, 20 Jun 2023 09:34:19 -0700 (PDT)
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-341d62e78d3so23300715ab.3;
+        Tue, 20 Jun 2023 09:34:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687278859; x=1689870859;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MYYM1B8WZ008PRRYsWGZJgntHIjgR8NgheJyM+29+wI=;
+        b=atd5XzzxQMmTbssBWc2AruBUCVIWutwsThpf4lVqLqyxctDa0WKUWbEKerDdj/D3rX
+         ocbLjSrFdQeWCMAGqGPGou5Jq29VmuwPeUo+0xdWd7GkD5M91MSYNqcGPJb0r5cVMXNS
+         r2B832rLCl8MdKgwD1ZG7nutvI4APFGt5qTfbGLa2S6YNY0SG+PlbLWCeRWCjLaIKJ0f
+         yXrXzNV3gxlVpV1XUpZ+MD1Pf875OmYh9geygU3SpOADw3CnKasvjRvER8XLCM77d0bo
+         uS/+xm2CXUFZWzItz0R6nYgU8AUN8LKTVgrLUjZVz67tKC0tu8Wrf77ldP2MMWHHXvcD
+         mRbA==
+X-Gm-Message-State: AC+VfDwbGhZZBuU2E80NWmwrbc9j1O0PZFa+OW4ZaS3KpRg3fQW+bXXw
+        x5iUUjejpAX5Rb2o195i+g==
+X-Google-Smtp-Source: ACHHUZ6+t2UPXqAsSFQKWOOlowteotBbfJ5qQLgww4AsGzPCbj1xYEXbMQ3AlemNlkbQyMZkKSSZkg==
+X-Received: by 2002:a92:cc0f:0:b0:33e:6d38:8f88 with SMTP id s15-20020a92cc0f000000b0033e6d388f88mr12570534ilp.2.1687278858875;
+        Tue, 20 Jun 2023 09:34:18 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id b18-20020a92dcd2000000b003312915e615sm704171ilr.28.2023.06.20.09.34.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jun 2023 09:34:18 -0700 (PDT)
+Received: (nullmailer pid 3784097 invoked by uid 1000);
+        Tue, 20 Jun 2023 16:34:15 -0000
+Date:   Tue, 20 Jun 2023 10:34:15 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Neil Armstrong <neil.armstrong@linaro.org>
+Cc:     Bastien Nocera <hadess@hadess.net>,
+        Rob Herring <robh+dt@kernel.org>, linux-input@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-arm-msm@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+        devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-kernel@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: input: document Goodix Berlin
+ Touchscreen IC
+Message-ID: <168727885502.3784019.6096341617892638945.robh@kernel.org>
+References: <20230606-topic-goodix-berlin-upstream-initial-v2-0-26bc8fe1e90e@linaro.org>
+ <20230606-topic-goodix-berlin-upstream-initial-v2-1-26bc8fe1e90e@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: amd_sfh driver causes kernel oops during boot
-Content-Language: en-US, de-DE
-To:     Malte Starostik <malte@starostik.de>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Linux regressions mailing list <regressions@lists.linux.dev>,
-        "Limonciello, Mario" <mario.limonciello@amd.com>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, basavaraj.natikar@amd.com,
-        linux-input@vger.kernel.org, linux@hexchain.org,
-        stable@vger.kernel.org
-References: <ZG3ipauL9FTnQJiC@debian.me>
- <aci7a4jnosozypn6sffsdoaezg4p42zgjy5dwnjyvnbav7chdm@wettfjwb4enw>
- <79bd270e-4a0d-b4be-992b-73c65d085624@amd.com> <5980752.YW5z2jdOID@zen>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <5980752.YW5z2jdOID@zen>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1687269805;2ad691bc;
-X-HE-SMSGID: 1qBbHb-00037T-Nz
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230606-topic-goodix-berlin-upstream-initial-v2-1-26bc8fe1e90e@linaro.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
-for once, to make this easily accessible to everyone.
 
-What happens to this? From here it looks like there was no progress to
-resolve the regression in the past two weeks, but maybe I just missed
-something.
+On Thu, 15 Jun 2023 12:27:00 +0200, Neil Armstrong wrote:
+> Document the Goodix GT9916 wich is part of the "Berlin" serie
+> of Touchscreen controllers IC from Goodix.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  .../bindings/input/touchscreen/goodix,gt9916.yaml  | 95 ++++++++++++++++++++++
+>  1 file changed, 95 insertions(+)
+> 
 
-On 07.06.23 00:57, Malte Starostik wrote:
-> Am Dienstag, 6. Juni 2023, 17:25:13 CEST schrieb Limonciello, Mario:
->> On 6/6/2023 3:08 AM, Benjamin Tissoires wrote:
->>> On Jun 06 2023, Linux regression tracking (Thorsten Leemhuis) wrote:
->>>>> On Mon, Jun 05, 2023 at 01:24:25PM +0200, Malte Starostik wrote:
->>>>>> Hello,
->>>>>>
->>>>>> chiming in here as I'm experiencing what looks like the exact same
->>>>>> issue, also on a Lenovo Z13 notebook, also on Arch:
->>>>>> Oops during startup in task udev-worker followed by udev-worker
->>>>>> blocking all attempts to suspend or cleanly shutdown/reboot the
->>>>>> machine
-> 
->>> I have a suspicion on commit 7bcfdab3f0c6 ("HID: amd_sfh: if no sensors
->>> are enabled, clean up") because the stack trace says that there is a bad
->>> list_add, which could happen if the object is not correctly initialized.
->>>
->>> However, that commit was present in v6.2, so it might not be that one.
->>>
->> If I'm not mistaken the Z13 doesn't actually have any
->> sensors connected to SFH.  So I think the suspicion on
->> 7bcfdab3f0c6 and theory this is triggered by HID init makes
->> a lot of sense.
->>
->> Can you try this patch?
->>
->> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
->> b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
->> index d9b7b01900b5..fa693a5224c6 100644
->> --- a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
->> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
->> @@ -324,6 +324,7 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev
->> *privdata)
->>                          devm_kfree(dev, cl_data->report_descr[i]);
->>                  }
->>                  dev_warn(dev, "Failed to discover, sensors not enabled
->> is %d\n", cl_data->is_any_sensor_enabled);
->> +               cl_data->num_hid_devices = 0;
->>                  return -EOPNOTSUPP;
->>          }
->>          schedule_delayed_work(&cl_data->work_buffer,
->> msecs_to_jiffies(AMD_SFH_IDLE_LOOP));
-> 
-> I applied this to 9e87b63ed37e202c77aa17d4112da6ae0c7c097c now, which was the 
-> origin when I started the whole bisection. Clean rebuild, issue still 
-> persists.
-> 
-> Out of 50 boots, I got:
-> 
-> 25 clean
-> 22 Oops as posted by the OP
-> 1 same Oops, followed by a panic
-> 1 lockup [1]
-> 1 hanging with just a blank screen
-> 
-> Not sure whether the lockups are related, but [1] mentions modprobe and udev-
-> worker as well and all problems including the blank screen one appear roughly 
-> at the same time during boot. As this is before a graphics mode switch, I 
-> suspect the last mentioned case may be like [1] while the screen was blanked.
-> To support the timing correlation: the UVC error for the IR cam shown in the 
-> photo (normal boot noise) also appears right before the BUG in the non-lockup 
-> bad case.
-> 
-> I do see the dev_warn in dmesg, so the code path modified in your patch is 
-> indeed hit:
-> [   10.897521] pcie_mp2_amd 0000:63:00.7: Failed to discover, sensors not 
-> enabled is 1
-> [   10.897533] pcie_mp2_amd: probe of 0000:63:00.7 failed with error -95
-> 
-> BR Malte
-> 
-> [1] https://photos.app.goo.gl/2FAvQ7DqBsHEF6Bd8
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
-
-#regzbot poke
