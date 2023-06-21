@@ -2,155 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B510273912F
-	for <lists+linux-input@lfdr.de>; Wed, 21 Jun 2023 22:57:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59AC073932D
+	for <lists+linux-input@lfdr.de>; Thu, 22 Jun 2023 01:41:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229762AbjFUU5l (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Jun 2023 16:57:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37876 "EHLO
+        id S229692AbjFUXl5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Jun 2023 19:41:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229652AbjFUU5k (ORCPT
+        with ESMTP id S229504AbjFUXl4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Jun 2023 16:57:40 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 164831FCF;
-        Wed, 21 Jun 2023 13:57:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4E3D9616D6;
-        Wed, 21 Jun 2023 20:56:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16FDBC433C9;
-        Wed, 21 Jun 2023 20:56:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687381011;
-        bh=uUMIRg6z98KEl6ZuwozW2mAxxkwDl0n2oYknJb1Q4cI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OcK4BpgOWQ2tti4tGUbSn+Hyepk8P6MyyKF2t8O+lYTg3R+UOn3BbBQP4G5bcRYBO
-         MbJyQpZjAq6bVAVK6n8+VW+yxP5upQtrlLGMAxTTQsauLt7VzceMBdHWrwTSjdMdnx
-         EyhxXMbK3Ol9zYh2g+h6pPs+4p/a6UWuAeQ/duhv3eJnBIhPhHbo38ZPp+pBeKKWHK
-         CG1ccGoJGdr0rb7gUVbSjeaestvIoN9gDuPJ1va4dweyFUF/8bXVCdIbKiV8ID4c5Q
-         TZ6w80ZMBlyNzqWZsQT/oItZB6+M3+tD/FhcAxlImmBGSmsd6H/76izpi2CdxUv8zW
-         I54HcBFG+8+NA==
-Date:   Wed, 21 Jun 2023 21:56:43 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     Abel Vesa <abelvesa@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>, kernel@pengutronix.de,
-        Peng Fan <peng.fan@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Michael Trimarchi <michael@amarulasolutions.com>,
-        Mark Brown <broonie@kernel.org>,
-        Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-        Marek Vasut <marex@denx.de>, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-mmc@vger.kernel.org
-Subject: Re: [PATCH v2 4/5] dt-bindings: clock: imx6ul: Support optional
- enet*_ref_pad clocks
-Message-ID: <20230621-upheld-numerous-b15d77f5b1e1@spud>
-References: <20230621093245.78130-1-o.rempel@pengutronix.de>
- <20230621093245.78130-5-o.rempel@pengutronix.de>
+        Wed, 21 Jun 2023 19:41:56 -0400
+Received: from mailout.blnma.de (mailout.blnma.de [116.203.12.22])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9999F1721;
+        Wed, 21 Jun 2023 16:41:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=starostik.de; s=dkim210803; h=Content-Type:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=uu+2SHhBiQ1uimHyfpXUI941L2mRtfYPG3HcNeup1dM=; t=1687390913; x=1688254913; 
+        b=m4nRbWh6ME77w1Ore2zaHICL5mByHD7cyh42EXpadS/HGKZs/cdHR4W9gs5T29qIe1IFqV1MGRc
+        buiZsGy+55PIEqM3cx8hWy2IgQReRvDqrHXQ1jj0q66AsqqFUm+zwJM0TuXHSmng07w01pDg15pUU
+        0abEZ/NOCvcFXZTPAn83UrR48dfiQ73zzm7aaGqc2mkZS1q6sG8igj5qGcnxtPPrZ1UbdjeKMO2Mu
+        mxBXJWoCtHVaP/LoldVWOZZuPK8TF+uzTr2CzqthDFX4vTHGguoZEbb7GT/kS1S00Ps74NRkEHwsm
+        uFaJHA+sDXNiqgJdHMER5cdcirf2N2GC2rxQ==;
+Received: from dovecot-0.dovecot.mail.svc.cluster.local ([10.244.6.208] helo=mail.blnma.de)
+        by mail.blnma.de with esmtp (Exim 4.96)
+        (envelope-from <malte@starostik.de>)
+        id 1qC7SJ-00075k-1l;
+        Wed, 21 Jun 2023 23:41:43 +0000
+Received: from zen.localnet ([85.183.148.49])
+        by mail.blnma.de with ESMTPSA
+        id tNNfCLaKk2SEGgEA399c4A
+        (envelope-from <malte@starostik.de>); Wed, 21 Jun 2023 23:41:42 +0000
+From:   Malte Starostik <malte@starostik.de>
+To:     Linux regressions mailing list <regressions@lists.linux.dev>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "Limonciello, Mario" <mario.limonciello@amd.com>
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, basavaraj.natikar@amd.com,
+        linux-input@vger.kernel.org, linux@hexchain.org,
+        stable@vger.kernel.org
+Subject: Re: amd_sfh driver causes kernel oops during boot
+Date:   Thu, 22 Jun 2023 01:41:41 +0200
+Message-ID: <2426092.W91McpcXCD@zen>
+In-Reply-To: <602504a5-334d-92e8-2fd3-f7e8662b714e@amd.com>
+References: <ZG3ipauL9FTnQJiC@debian.me> <f677a16e-1fa2-3f45-2b44-5acbf67aad3c@amd.com>
+ <602504a5-334d-92e8-2fd3-f7e8662b714e@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="owWJ4crf85zQgxme"
-Content-Disposition: inline
-In-Reply-To: <20230621093245.78130-5-o.rempel@pengutronix.de>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Am Dienstag, 20. Juni 2023, 22:03:00 CEST schrieb Limonciello, Mario:
+> On 6/20/2023 1:50 PM, Limonciello, Mario wrote:
+> > Anyways; I just double checked the Z13 I have on my hand.  I don't
+> > have the PCI device for SFH (1022:164a) present on the system.
+> > 
+> > Can you please double check you are on the latest BIOS?
+> > 
+> > I'm on the latest release from LVFS, 0.1.57 according to fwupdmgr.
 
---owWJ4crf85zQgxme
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I was on 0.1.27 while running the tests.
+At least when I saw the errors first, there was no update offered. Haven't re-
+checked until now.
 
-On Wed, Jun 21, 2023 at 11:32:44AM +0200, Oleksij Rempel wrote:
-> Extend the 'clocks' and 'clock-names' properties to support optional
-> 'enet1_ref_pad' and 'enet2_ref_pad' clocks to resolve the following
-> dtbs_check warning:
-> imx6ul-prti6g.dtb: clock-controller@20c4000: clocks: [[17], [18], [19], [=
-20], [21]] is too long
-> imx6ul-prti6g.dtb: clock-controller@20c4000: clock-names: ['ckil', 'osc',=
- 'ipp_di0', 'ipp_di1', 'enet1_ref_pad'] is too long
->=20
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> ---
->  Documentation/devicetree/bindings/clock/imx6ul-clock.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/clock/imx6ul-clock.yaml b/=
-Documentation/devicetree/bindings/clock/imx6ul-clock.yaml
-> index be54d4df5afa2..3b71ebc100bf6 100644
-> --- a/Documentation/devicetree/bindings/clock/imx6ul-clock.yaml
-> +++ b/Documentation/devicetree/bindings/clock/imx6ul-clock.yaml
-> @@ -28,18 +28,24 @@ properties:
->      const: 1
-> =20
->    clocks:
-> +    minItems: 4
->      items:
->        - description: 32k osc
->        - description: 24m osc
->        - description: ipp_di0 clock input
->        - description: ipp_di1 clock input
-> +      - description: Optional lenet1_ref_pad or enet2_ref_pad clocks
-> +      - description: Optional lenet1_ref_pad or enet2_ref_pad clocks
-                                 ^
-Is the l intentional?
-Otherwise,
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Hopefully the newer BIOS fixes it for you, but if it doesn't I did come
+> up with another patch I've sent out that I guess could be another
+> solution.
 
-Cheers,
-Conor.
+After updating to 0.1.57, it looks like I cannot reproduce the error anymore 
+either.
+ 
+> https://lore.kernel.org/linux-input/20230620200117.22261-1-mario.limonciello
+> @amd.com/T/#u
 
-> =20
->    clock-names:
-> +    minItems: 4
->      items:
->        - const: ckil
->        - const: osc
->        - const: ipp_di0
->        - const: ipp_di1
-> +      - pattern: '^enet[12]_ref_pad$'
-> +      - pattern: '^enet[12]_ref_pad$'
-> =20
->  required:
->    - compatible
-> --=20
-> 2.39.2
->=20
+I tested your patch before performing the firmware update. Still got the Oops 
+just like before.
 
---owWJ4crf85zQgxme
-Content-Type: application/pgp-signature; name="signature.asc"
+BR Malte
 
------BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZJNkCwAKCRB4tDGHoIJi
-0k5nAP47t0q8ImnClSi84ieDatbmvbBowQPSfGluP2hK9UcplgEA4uEpQgHdKMoi
-vohLztlsb6xWY9kiRChHlJ2UoWINtw4=
-=5ZOK
------END PGP SIGNATURE-----
-
---owWJ4crf85zQgxme--
