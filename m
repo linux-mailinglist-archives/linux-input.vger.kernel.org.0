@@ -2,104 +2,131 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 652717381D4
-	for <lists+linux-input@lfdr.de>; Wed, 21 Jun 2023 13:12:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 283C273835D
+	for <lists+linux-input@lfdr.de>; Wed, 21 Jun 2023 14:14:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232634AbjFUKwK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Jun 2023 06:52:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59342 "EHLO
+        id S232487AbjFULTm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Jun 2023 07:19:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231734AbjFUKvn (ORCPT
+        with ESMTP id S229964AbjFULT1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Jun 2023 06:51:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD4271BE6;
-        Wed, 21 Jun 2023 03:50:28 -0700 (PDT)
+        Wed, 21 Jun 2023 07:19:27 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A89BF1BE3;
+        Wed, 21 Jun 2023 04:18:53 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F1062614E9;
-        Wed, 21 Jun 2023 10:50:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB37BC433C8;
-        Wed, 21 Jun 2023 10:50:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1687344627;
-        bh=cGQrS2SFrCOw8DMVAnIO4+fl2u2O+y02ZnnotmrAlDI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nG3Lb+8ZRwlReRXhUe9bnlJ/cH3779QLwSAvm9T8c0eCnkcx0Tp29YPVxvc0e7ep1
-         CuuFRPqzXv9l6vDxBjyCHtNmW28F5Dcn0MDwAjKYv9PH4EFcwyeuoj+LSrcv45HeIx
-         NYwy3qlt8J6UPcvqCfVQbyLjQigXKA94bB9yCJYc=
-Date:   Wed, 21 Jun 2023 12:50:21 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Filipe =?iso-8859-1?Q?La=EDns?= <lains@riseup.net>,
-        Bastien Nocera <hadess@hadess.net>,
-        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] HID: logitech-hidpp: rework one more time the retries
- attempts
-Message-ID: <2023062156-trespass-pandemic-7f4f@gregkh>
-References: <20230621-logitech-fixes-v1-1-32e70933c0b0@redhat.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4538F61509;
+        Wed, 21 Jun 2023 11:18:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A1618C433CB;
+        Wed, 21 Jun 2023 11:18:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687346332;
+        bh=awRUEIsBz7jICYn6S0zzZ2KjEVA3QGWX7J+A7/FWXeA=;
+        h=From:Date:Subject:To:Cc:Reply-To:From;
+        b=M77EO/MFnPqoH7ShIjHrFSpp9rIdVnvHODeAGlQca24+4N+VEK9/GuEgtS4BbY6Yz
+         mq2L+SO7XauWUWOdIQoOZfQDsj6rhInBISI2QWKyEQBUb3JPlqkf+0dpz8m9+Vhd/4
+         eaSSzVRMzX5T3ugRC/rMW5AmAOomD6czNcMT6lm4Zb2HgY12VCVs2TfPl7EMklD3EQ
+         daCTu8LKGSqVMys+wkD6QQLK46rnPpzHMEjy8otVaA15tBgRC1x293cy4VpJnwbYdS
+         HxANm45a6cK5UonnP6FW/0r+3YXsjdVupkNxvSE6UtI3xktQps6BE3RvSs6neL3XRW
+         FFzwkn0pwmyrQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by smtp.lore.kernel.org (Postfix) with ESMTP id 825D6EB64D7;
+        Wed, 21 Jun 2023 11:18:52 +0000 (UTC)
+From:   Ludvig Michaelsson via B4 Relay 
+        <devnull+ludvig.michaelsson.yubico.com@kernel.org>
+Date:   Wed, 21 Jun 2023 13:17:43 +0200
+Subject: [PATCH] HID: hidraw: fix data race on device refcount
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230621-logitech-fixes-v1-1-32e70933c0b0@redhat.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230621-hidraw-race-v1-1-a58e6ac69bab@yubico.com>
+X-B4-Tracking: v=1; b=H4sIAFbckmQC/x2NQQqEMAxFryJZT8FUxoVXGVykbbRZ2JFEHEG8u
+ 3WW730e/wRjFTYYmhOUdzH5lgr4aiBmKjM7SZXBt75re48uS1L6OaXILrwxIIYJkRPUIpBVqVR
+ ifpqFbGN9hlV5kuN/8xmv6waz9WPwdgAAAA==
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ludvig Michaelsson <ludvig.michaelsson@yubico.com>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1903;
+ i=ludvig.michaelsson@yubico.com; h=from:subject:message-id;
+ bh=H+F1GtqsL31H9za8Cp+DCcNUqK2U4w+0+a9OPk49764=;
+ b=owJ4nJvAy8zAJWab5fnkyINtxYyn1ZIYUibdmRlX2tG4s3tDGdfyaQ+1fizccmSzmKnMjKvTT
+ 51TYl94IECno5SFQYyLQVZMkWVzAfN/0QUZS4SfcsvAzGFlAhnCwMUpABMpEmT4pyN1vSThYWFb
+ Oss69VsFraGikyKTnh3ao7tnT6jToYPV3Qz/q2W85zi8F1t3TW73EdkjXJ0+M9enGVU5GYSZVlj
+ G8IjwAgB2p0pI
+X-Developer-Key: i=ludvig.michaelsson@yubico.com; a=openpgp;
+ fpr=78D997D53E9C0A2A205392ED14A19784723C9988
+X-Endpoint-Received: by B4 Relay for ludvig.michaelsson@yubico.com/default with auth_id=54
+X-Original-From: Ludvig Michaelsson <ludvig.michaelsson@yubico.com>
+Reply-To: <ludvig.michaelsson@yubico.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jun 21, 2023 at 11:42:30AM +0200, Benjamin Tissoires wrote:
-> Make the code looks less like Pascal.
-> 
-> Extract the internal code inside a helper function, fix the
-> initialization of the parameters used in the helper function
-> (`hidpp->answer_available` was not reset and `*response` wasn't too),
-> and use a `do {...} while();` loop.
-> 
-> Fixes: 586e8fede795 ("HID: logitech-hidpp: Retry commands when device is busy")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> ---
-> as requested by https://lore.kernel.org/all/CAHk-=wiMbF38KCNhPFiargenpSBoecSXTLQACKS2UMyo_Vu2ww@mail.gmail.com/
-> This is a rewrite of that particular piece of code.
-> ---
->  drivers/hid/hid-logitech-hidpp.c | 102 +++++++++++++++++++++++----------------
->  1 file changed, 61 insertions(+), 41 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-> index dfe8e09a18de..3d1ffe199f08 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -275,21 +275,20 @@ static int __hidpp_send_report(struct hid_device *hdev,
->  }
->  
->  /*
-> - * hidpp_send_message_sync() returns 0 in case of success, and something else
-> - * in case of a failure.
-> - * - If ' something else' is positive, that means that an error has been raised
-> - *   by the protocol itself.
-> - * - If ' something else' is negative, that means that we had a classic error
-> - *   (-ENOMEM, -EPIPE, etc...)
-> + * Effectively send the message to the device, waiting for its answer.
-> + *
-> + * Must be called with hidpp->send_mutex locked
-> + *
-> + * Same return protocol than hidpp_send_message_sync():
-> + * - success on 0
-> + * - negative error means transport error
-> + * - positive value means protocol error
->   */
-> -static int hidpp_send_message_sync(struct hidpp_device *hidpp,
-> +static int __do_hidpp_send_message_sync(struct hidpp_device *hidpp,
->  	struct hidpp_report *message,
->  	struct hidpp_report *response)
+From: Ludvig Michaelsson <ludvig.michaelsson@yubico.com>
 
-__must_hold(&hidpp->send_mutex)  ?
+The hidraw_open() function increments the hidraw device reference
+counter. The counter has no dedicated synchronization mechanism,
+resulting in a potential data race when concurrently opening a device.
+
+The race is a regression introduced by commit 8590222e4b02 ("HID:
+hidraw: Replace hidraw device table mutex with a rwsem"). While
+minors_rwsem is intended to protect the hidraw_table itself, by instead
+acquiring the lock for writing, the reference counter is also protected.
+This is symmetrical to hidraw_release().
+
+Link: https://github.com/systemd/systemd/issues/27947
+Fixes: 8590222e4b02 ("HID: hidraw: Replace hidraw device table mutex with a rwsem")
+Signed-off-by: Ludvig Michaelsson <ludvig.michaelsson@yubico.com>
+---
+ drivers/hid/hidraw.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/hid/hidraw.c b/drivers/hid/hidraw.c
+index 93e62b161501..e63c56a0d57f 100644
+--- a/drivers/hid/hidraw.c
++++ b/drivers/hid/hidraw.c
+@@ -272,7 +272,12 @@ static int hidraw_open(struct inode *inode, struct file *file)
+ 		goto out;
+ 	}
+ 
+-	down_read(&minors_rwsem);
++	/*
++	 * Technically not writing to the hidraw_table but a write lock is
++	 * required to protect the device refcount. This is symmetrical to
++	 * hidraw_release().
++	 */
++	down_write(&minors_rwsem);
+ 	if (!hidraw_table[minor] || !hidraw_table[minor]->exist) {
+ 		err = -ENODEV;
+ 		goto out_unlock;
+@@ -301,7 +306,7 @@ static int hidraw_open(struct inode *inode, struct file *file)
+ 	spin_unlock_irqrestore(&hidraw_table[minor]->list_lock, flags);
+ 	file->private_data = list;
+ out_unlock:
+-	up_read(&minors_rwsem);
++	up_write(&minors_rwsem);
+ out:
+ 	if (err < 0)
+ 		kfree(list);
+
+---
+base-commit: 45a3e24f65e90a047bef86f927ebdc4c710edaa1
+change-id: 20230621-hidraw-race-b51b11bf11ed
+
+Best regards,
+-- 
+Ludvig Michaelsson <ludvig.michaelsson@yubico.com>
 
