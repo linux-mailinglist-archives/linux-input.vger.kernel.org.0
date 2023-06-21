@@ -2,75 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB8EC737955
-	for <lists+linux-input@lfdr.de>; Wed, 21 Jun 2023 04:46:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85449738070
+	for <lists+linux-input@lfdr.de>; Wed, 21 Jun 2023 13:10:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229628AbjFUCqo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Jun 2023 22:46:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51420 "EHLO
+        id S231991AbjFUJi1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Jun 2023 05:38:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229838AbjFUCqn (ORCPT
+        with ESMTP id S232016AbjFUJiK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Jun 2023 22:46:43 -0400
-Received: from rs225.mailgun.us (rs225.mailgun.us [209.61.151.225])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC8BD10F1
-        for <linux-input@vger.kernel.org>; Tue, 20 Jun 2023 19:46:42 -0700 (PDT)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=hexchain.org;
- q=dns/txt; s=smtp; t=1687315601; x=1687322801; h=Content-Transfer-Encoding:
- Content-Type: In-Reply-To: From: From: References: Cc: To: To: Subject:
- Subject: MIME-Version: Date: Message-ID: Sender: Sender;
- bh=5stQnICSelnzp1yyIPPD1WlmY4XcWQOBfdxQvv1XFbw=;
- b=FFaVNFSZw4a9h0FWJ422Z1MD4yS/Z0mPKWy5NO4DU3aNWsf4YVdBUEHXlHnGBL7JSRt55QhnbJxzZzypMRIH/ScLh03E4Tj9kf1FfHFN0wi2Ygnjj0sWRZi8Pfg+v07xGpjktW2Gwy+L97o5Y5nowDEe0oir/1tod1aErwakCNu6UIfuz+0ZfQgZQBDThpeAmJ/rjgq3qYxewOs8yU9l7P3L23xLbslyo6p5lqxU+zq1LDc5i25W4QbeMGchlh2m4nxcG5gYQuiiXNDgfs3d0zAQbzoS6Ze68w53n9Nvg9MMcM9N0BYijpBfaiIm+Tj5mg+fdN7J1UD/lEQthb9U/w==
-X-Mailgun-Sending-Ip: 209.61.151.225
-X-Mailgun-Sid: WyI5NzJmZCIsImxpbnV4LWlucHV0QHZnZXIua2VybmVsLm9yZyIsIjE5MjUxOCJd
-Received: from [10.22.69.180] (122.11.166-8.unknown.starhub.net.sg [122.11.166.8]) by
- 0b3e52753156 with SMTP id 6492649145220fab9318d1bb; Wed, 21 Jun 2023 02:46:41
- GMT
-Sender: linux@hexchain.org
-Message-ID: <653274b4-7b69-8f3f-4214-e0be36f7102e@hexchain.org>
-Date:   Wed, 21 Jun 2023 10:46:37 +0800
+        Wed, 21 Jun 2023 05:38:10 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6FC335AE
+        for <linux-input@vger.kernel.org>; Wed, 21 Jun 2023 02:36:23 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1qBuCp-0006Qb-Su; Wed, 21 Jun 2023 11:32:52 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ore@pengutronix.de>)
+        id 1qBuCl-00906Q-Nl; Wed, 21 Jun 2023 11:32:47 +0200
+Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ore@pengutronix.de>)
+        id 1qBuCk-000KKp-Oq; Wed, 21 Jun 2023 11:32:46 +0200
+From:   Oleksij Rempel <o.rempel@pengutronix.de>
+To:     Abel Vesa <abelvesa@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
+        Peng Fan <peng.fan@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Michael Trimarchi <michael@amarulasolutions.com>,
+        Mark Brown <broonie@kernel.org>,
+        Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+        Marek Vasut <marex@denx.de>, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-mmc@vger.kernel.org
+Subject: [PATCH v1 0/7] Add support for various features to i.MX6 bindings
+Date:   Wed, 21 Jun 2023 11:32:40 +0200
+Message-Id: <20230621093245.78130-1-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: amd_sfh driver causes kernel oops during boot
-To:     Linux regressions mailing list <regressions@lists.linux.dev>,
-        Malte Starostik <malte@starostik.de>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "Limonciello, Mario" <mario.limonciello@amd.com>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, basavaraj.natikar@amd.com,
-        linux-input@vger.kernel.org, linux@hexchain.org,
-        stable@vger.kernel.org
-References: <ZG3ipauL9FTnQJiC@debian.me>
- <aci7a4jnosozypn6sffsdoaezg4p42zgjy5dwnjyvnbav7chdm@wettfjwb4enw>
- <79bd270e-4a0d-b4be-992b-73c65d085624@amd.com> <5980752.YW5z2jdOID@zen>
- <1b3fd148-44d7-d476-e9e6-f9d8c8ec0ee6@leemhuis.info>
-Content-Language: en-US
-From:   Haochen Tong <linux@hexchain.org>
-In-Reply-To: <1b3fd148-44d7-d476-e9e6-f9d8c8ec0ee6@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 6/20/23 21:20, Linux regression tracking (Thorsten Leemhuis) wrote:
-> Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
-> for once, to make this easily accessible to everyone.
-> 
-> What happens to this? From here it looks like there was no progress to
-> resolve the regression in the past two weeks, but maybe I just missed
-> something.
+changes v2:
+- fix warning samples in the commit messages
+- drop patches which needs more work
+- address requested changes 
 
-Hi,
+This patch series is aimed at addressing several dtbs_check warnings by
+introducing additional support in the device tree bindings for i.MX6
+series SoCs. The warnings surfaced while validating some i.MX6 boards.
+The issues were predominantly around unrecognized compatibility strings
+and missing properties in the device trees.
 
-I just looked at the journal again and this problem seemed to go away 
-after upgrading from 6.3.3 to 6.3.5. At that time the BIOS version was 
-still 1.27. Now, on 1.57, the device 1022:164a is indeed no longer 
-present anymore.
+Oleksij Rempel (5):
+  dt-bindings: mmc: fsl-imx-esdhc: Add imx6ul support
+  dt-bindings: timer: gpt: Add i.MX6UL support
+  dt-bindings: timer: gpt: Support 3rd clock for i.MX6DL
+  dt-bindings: clock: imx6ul: Support optional enet*_ref_pad clocks
+  dt-bindings: input: touchscreen: edt-ft5x06: Add 'threshold' property
+
+ Documentation/devicetree/bindings/clock/imx6ul-clock.yaml  | 6 ++++++
+ .../devicetree/bindings/input/touchscreen/edt-ft5x06.yaml  | 6 ++++++
+ Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml   | 1 +
+ Documentation/devicetree/bindings/timer/fsl,imxgpt.yaml    | 7 +++++++
+ 4 files changed, 20 insertions(+)
+
+-- 
+2.39.2
+
