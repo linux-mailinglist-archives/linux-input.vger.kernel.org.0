@@ -2,58 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E998C738CEB
-	for <lists+linux-input@lfdr.de>; Wed, 21 Jun 2023 19:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D144D7390F2
+	for <lists+linux-input@lfdr.de>; Wed, 21 Jun 2023 22:42:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229783AbjFURTm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Jun 2023 13:19:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58172 "EHLO
+        id S230046AbjFUUmy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Jun 2023 16:42:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbjFURTl (ORCPT
+        with ESMTP id S229521AbjFUUmx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Jun 2023 13:19:41 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5971CE2;
-        Wed, 21 Jun 2023 10:19:38 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qC1UL-00010x-87; Wed, 21 Jun 2023 19:19:25 +0200
-Message-ID: <cfe89ae9-90a6-2b04-a1ee-20569dc42ab4@leemhuis.info>
-Date:   Wed, 21 Jun 2023 19:19:24 +0200
+        Wed, 21 Jun 2023 16:42:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2898B10D2;
+        Wed, 21 Jun 2023 13:42:52 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9BC796152D;
+        Wed, 21 Jun 2023 20:42:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76AD5C433C0;
+        Wed, 21 Jun 2023 20:42:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687380171;
+        bh=6mOvkf1tp0MaXc78Yx6yn5b2RwNgMbnASYqk7mMraHY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oHsypfLla1qIozwVaf6pPL0hFaTxPr2r08Af/ATLBEFwIkLbb3itX5nmgUuQhbeJv
+         OTSTwEEUkdUIMZb+9uiXI5Emjr6BtAWYPLakMixJWhLffDBqYXJ791CQG3UUhrm/5y
+         UZ64WWzHjHE9RefbopX4YrwBD2E0qvXWGwDv7xrR8l9ksERieQ568NgJaIS/5gh2GW
+         XSXTSBh+pWS3TZPuNaw08r8fVipvUrhtB+PewlTA2IUYSq97IoqfufVasnVHOZ7j/6
+         RKElVCwr9XwkeRv4w97pBJ8UXvybN6BWn7RLyzr56B+YWrrJYOgDOn7ByXvnsRCm+v
+         Vfjqb/GBHjWKg==
+Date:   Wed, 21 Jun 2023 21:42:43 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Abel Vesa <abelvesa@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>, kernel@pengutronix.de,
+        Peng Fan <peng.fan@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Michael Trimarchi <michael@amarulasolutions.com>,
+        Mark Brown <broonie@kernel.org>,
+        Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+        Marek Vasut <marex@denx.de>, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-mmc@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] dt-bindings: mmc: fsl-imx-esdhc: Add imx6ul
+ support
+Message-ID: <20230621-data-smirk-36bba6f815ad@spud>
+References: <20230621093245.78130-1-o.rempel@pengutronix.de>
+ <20230621093245.78130-2-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] HID: logitech-hidpp: Handle timeout differently from busy
-Content-Language: en-US, de-DE
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     Mark Lord <mlord@pobox.com>, Jiri Kosina <jikos@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
-        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-References: <20230531082428.21763-1-hadess@hadess.net>
- <nycvar.YFH.7.76.2305311606160.29760@cbobk.fhfr.pm>
- <nycvar.YFH.7.76.2306031440380.29760@cbobk.fhfr.pm>
- <15bb2507-a145-7f1b-8e84-58aeb02484b9@leemhuis.info>
- <nycvar.YFH.7.76.2306061527080.29760@cbobk.fhfr.pm>
- <42b6e582-f642-7521-135a-449140984211@leemhuis.info>
- <53903462-2552-b707-3831-cad3ef873b0d@leemhuis.info>
- <aa0e3371-dad1-3296-18fb-1957b92aa4d1@pobox.com>
- <ed27ca39-3609-695c-9f04-65c0bad343c2@leemhuis.info>
- <CAO-hwJLyA==_Wkyi-gTn-FOAAne2JKDfNMY2EaELoFDo5Qbe-A@mail.gmail.com>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <CAO-hwJLyA==_Wkyi-gTn-FOAAne2JKDfNMY2EaELoFDo5Qbe-A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1687367978;f40bdf3e;
-X-HE-SMSGID: 1qC1UL-00010x-87
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="J8TbsuUfMTbP6whp"
+Content-Disposition: inline
+In-Reply-To: <20230621093245.78130-2-o.rempel@pengutronix.de>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -61,71 +81,57 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
+--J8TbsuUfMTbP6whp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 21.06.23 17:10, Benjamin Tissoires wrote:
-> On Wed, Jun 21, 2023 at 4:09 PM Linux regression tracking (Thorsten
-> Leemhuis) <regressions@leemhuis.info> wrote:
->>
->> On 15.06.23 13:24, Mark Lord wrote:
->>> On 2023-06-15 03:24 AM, Linux regression tracking (Thorsten Leemhuis) wrote:
->>> ...
->>>> https://bugzilla.kernel.org/show_bug.cgi?id=217412
->>>>
->>>> --- Comment #47 from Mark Blakeney ---
->>>> @Juha, kernel 6.3.7 adds the 2 patches intended to fix this bug and the
->>>> startup delay is now gone. However, I have had 2 cases over the last 5
->>>> days in which I have been running 6.3.7 where my mouse fails to be
->>>> detected at all after startup. I have to pull the Logitech receiver
->>>> out/in to get the mouse working. Never seen this issue before so I
->>>> suspect the patches are not right.
->>>> ```
->>>
->>> I too have had that happen with recent kernels,
->>
->> Ahh, good to know!
->>
->>> but have not yet put
->>> a finger to a specific version or cause.
->>>
->>> Just toggling the power button on the wireless mouse is enough for
->>> it to "re-appear".
->>>
->>> The 5.4.xx kernels never had this issue.  I went straight from those
->>> to the 6.3.xx ones, where it does happen sometimes, both with and without
->>> the recent "delay" fixes.
->>
->> From Mark Blakeney it sounded a lot like this is something that started
->> with 6.3, but would be good to confirm. Which brings me to the reason
->> why I write this mail:
->>
->> Is anyone still working on this? There was radio silence already for a
->> week now. Okay, it's not really urgent, but I guess this should not fall
->> through the cracks.
-> 
-> Sorry for the radio silence.
+On Wed, Jun 21, 2023 at 11:32:41AM +0200, Oleksij Rempel wrote:
+> Add the 'fsl,imx6ul-usdhc' value to the compatible properties list in
+> the fsl-imx-esdhc.yaml file. This is required to match the compatible
+> strings present in the 'mmc@2190000' node of 'imx6ul-prti6g.dtb'. This
+> commit addresses the following dtbs_check warning:
+> imx6ul-prti6g.dtb:0:0: /soc/bus@2100000/mmc@2190000: failed to match any =
+schema with compatible: ['fsl,imx6ul-usdhc', 'fsl,imx6sx-usdhc']
+>=20
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
-No worries, we all have much to do. But I thought it was time for a
-quick status inquiry.
+Seems harmless...
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-> I worked on hidpp yesterday and submitted
-> a new patch for a problem that was overlooked in the previous fixes:
-> https://lore.kernel.org/linux-input/20230621-logitech-fixes-v1-1-32e70933c0b0@redhat.com/
+Cheers,
+Conor.
 
-Great, many thx!
+> ---
+>  Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml b/D=
+ocumentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml
+> index fbfd822b92707..82eb7a24c8578 100644
+> --- a/Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml
+> +++ b/Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml
+> @@ -42,6 +42,7 @@ properties:
+>            - enum:
+>                - fsl,imx6sll-usdhc
+>                - fsl,imx6ull-usdhc
+> +              - fsl,imx6ul-usdhc
+>            - const: fsl,imx6sx-usdhc
+>        - items:
+>            - const: fsl,imx7d-usdhc
+> --=20
+> 2.39.2
+>=20
 
-> The loop was not properly initializing all its local states, meaning
-> that when we encountered a "please retry" from the device, we could
-> never do the actual retry and returned a different error than in the
-> 6.2 series.
-> 
-> Would anyone give it a shot?
+--J8TbsuUfMTbP6whp
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Might be worth mentioning it in the bugzilla ticket, as I sadly can't CC
-those people here. I'll do this for once (konstantin's bugbot will soon
-solve this problem...)
+-----BEGIN PGP SIGNATURE-----
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZJNgwwAKCRB4tDGHoIJi
+0i1RAQCBFDAYqoL3pPW8t2IB/dJd8QozfffhqAJ1rwSqKOZ1OAD9GX1AAM2VhBky
+PxulAKMfPnn876al0CLlGePgEVXE+AI=
+=ouzy
+-----END PGP SIGNATURE-----
+
+--J8TbsuUfMTbP6whp--
