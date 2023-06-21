@@ -2,31 +2,31 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED17B7380BB
-	for <lists+linux-input@lfdr.de>; Wed, 21 Jun 2023 13:10:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3147738110
+	for <lists+linux-input@lfdr.de>; Wed, 21 Jun 2023 13:11:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232019AbjFUJib (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Jun 2023 05:38:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39078 "EHLO
+        id S231878AbjFUJic (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Jun 2023 05:38:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232014AbjFUJiR (ORCPT
+        with ESMTP id S231782AbjFUJiT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Jun 2023 05:38:17 -0400
+        Wed, 21 Jun 2023 05:38:19 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82BFE10F8
-        for <linux-input@vger.kernel.org>; Wed, 21 Jun 2023 02:36:30 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98015170C
+        for <linux-input@vger.kernel.org>; Wed, 21 Jun 2023 02:36:32 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ore@pengutronix.de>)
-        id 1qBuCp-0006Qg-Sp; Wed, 21 Jun 2023 11:32:51 +0200
+        id 1qBuCp-0006Qe-Sn; Wed, 21 Jun 2023 11:32:51 +0200
 Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ore@pengutronix.de>)
-        id 1qBuCm-00906c-DY; Wed, 21 Jun 2023 11:32:48 +0200
+        id 1qBuCm-00906Z-0G; Wed, 21 Jun 2023 11:32:48 +0200
 Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ore@pengutronix.de>)
-        id 1qBuCk-000KLJ-RE; Wed, 21 Jun 2023 11:32:46 +0200
+        id 1qBuCk-000KLT-Ru; Wed, 21 Jun 2023 11:32:46 +0200
 From:   Oleksij Rempel <o.rempel@pengutronix.de>
 To:     Abel Vesa <abelvesa@kernel.org>,
         Michael Turquette <mturquette@baylibre.com>,
@@ -53,9 +53,9 @@ Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
         linux-input@vger.kernel.org, linux-mmc@vger.kernel.org
-Subject: [PATCH v2 3/5] dt-bindings: timer: gpt: Support 3rd clock for i.MX6DL
-Date:   Wed, 21 Jun 2023 11:32:43 +0200
-Message-Id: <20230621093245.78130-4-o.rempel@pengutronix.de>
+Subject: [PATCH v2 4/5] dt-bindings: clock: imx6ul: Support optional enet*_ref_pad clocks
+Date:   Wed, 21 Jun 2023 11:32:44 +0200
+Message-Id: <20230621093245.78130-5-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230621093245.78130-1-o.rempel@pengutronix.de>
 References: <20230621093245.78130-1-o.rempel@pengutronix.de>
@@ -74,36 +74,43 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for a 3rd clock, 'osc_per', for i.MX6DL to the 'fsl,imxgpt'
-binding to resolve the following dtbs_check warning:
-imx6dl-alti6p.dtb: timer@2098000: clocks: [[2, 119], [2, 120], [2, 237]] is too long
-imx6dl-alti6p.dtb: timer@2098000: clock-names: ['ipg', 'per', 'osc_per'] is too long
+Extend the 'clocks' and 'clock-names' properties to support optional
+'enet1_ref_pad' and 'enet2_ref_pad' clocks to resolve the following
+dtbs_check warning:
+imx6ul-prti6g.dtb: clock-controller@20c4000: clocks: [[17], [18], [19], [20], [21]] is too long
+imx6ul-prti6g.dtb: clock-controller@20c4000: clock-names: ['ckil', 'osc', 'ipp_di0', 'ipp_di1', 'enet1_ref_pad'] is too long
 
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
- Documentation/devicetree/bindings/timer/fsl,imxgpt.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/devicetree/bindings/clock/imx6ul-clock.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/timer/fsl,imxgpt.yaml b/Documentation/devicetree/bindings/timer/fsl,imxgpt.yaml
-index 685137338ac99..34c62d152be81 100644
---- a/Documentation/devicetree/bindings/timer/fsl,imxgpt.yaml
-+++ b/Documentation/devicetree/bindings/timer/fsl,imxgpt.yaml
-@@ -45,14 +45,18 @@ properties:
-     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/clock/imx6ul-clock.yaml b/Documentation/devicetree/bindings/clock/imx6ul-clock.yaml
+index be54d4df5afa2..3b71ebc100bf6 100644
+--- a/Documentation/devicetree/bindings/clock/imx6ul-clock.yaml
++++ b/Documentation/devicetree/bindings/clock/imx6ul-clock.yaml
+@@ -28,18 +28,24 @@ properties:
+     const: 1
  
    clocks:
-+    minItems: 2
++    minItems: 4
      items:
-       - description: SoC GPT ipg clock
-       - description: SoC GPT per clock
-+      - description: SoC GPT osc_per clock
+       - description: 32k osc
+       - description: 24m osc
+       - description: ipp_di0 clock input
+       - description: ipp_di1 clock input
++      - description: Optional lenet1_ref_pad or enet2_ref_pad clocks
++      - description: Optional lenet1_ref_pad or enet2_ref_pad clocks
  
    clock-names:
-+    minItems: 2
++    minItems: 4
      items:
-       - const: ipg
-       - const: per
-+      - const: osc_per
+       - const: ckil
+       - const: osc
+       - const: ipp_di0
+       - const: ipp_di1
++      - pattern: '^enet[12]_ref_pad$'
++      - pattern: '^enet[12]_ref_pad$'
  
  required:
    - compatible
