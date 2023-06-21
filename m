@@ -2,155 +2,158 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90E29738897
-	for <lists+linux-input@lfdr.de>; Wed, 21 Jun 2023 17:16:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 604FA7388C6
+	for <lists+linux-input@lfdr.de>; Wed, 21 Jun 2023 17:21:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233201AbjFUPQE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Jun 2023 11:16:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56046 "EHLO
+        id S233236AbjFUPVW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Jun 2023 11:21:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233176AbjFUPPt (ORCPT
+        with ESMTP id S233320AbjFUPUx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Jun 2023 11:15:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5C88210B
-        for <linux-input@vger.kernel.org>; Wed, 21 Jun 2023 08:11:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687360240;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6FRgTCG4Y3quFGRPEFw6nH4nOnDuylcRDDOyFLT5gkg=;
-        b=aDq2n7b7H4dac1Aq1HS4vZSNNiTliTEW4dKt6CW3D4LaenFc4oxAk1l4QOHU2KuWHxE9GU
-        D52rSnUK6Yw4Y0GQySsXF0yXn0ofKvbAMRF4tLjNHpNnZMt8fKkOOgQ4hwU9m5TsllSePX
-        +MWDyD9/PkgKwyFHQkXTHR/WTNUBuGM=
-Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
- [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-307-nt44w3pZODmCNFL1yPzmcA-1; Wed, 21 Jun 2023 11:10:30 -0400
-X-MC-Unique: nt44w3pZODmCNFL1yPzmcA-1
-Received: by mail-yb1-f200.google.com with SMTP id 3f1490d57ef6-bed58c96206so5846520276.1
-        for <linux-input@vger.kernel.org>; Wed, 21 Jun 2023 08:10:26 -0700 (PDT)
+        Wed, 21 Jun 2023 11:20:53 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 968B41BF5;
+        Wed, 21 Jun 2023 08:18:22 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-4f8775126d3so3943182e87.1;
+        Wed, 21 Jun 2023 08:18:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687360700; x=1689952700;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oSen+zBAIg18Rp9jlGNUtOajx7SmCBDVFIEONdBtLJ8=;
+        b=kP95B7iNAo4PTHQy1CUM8QHZcb5D8EGkG9PB0zTlSOEX0ORI6UBQBCN2tvE2x84YSH
+         fmfsxRvrICJYuTCMAvx0teUgOzuJCi9tsKZMK2jlh20YpHDvPL5o+IaUWyR0L1u2Pz4Y
+         GaezGubGfrVa1jZK796btfZhmAcTG6Ji66xVwlALZrulos6hmPdIjCAbVMTbGUG+ft3E
+         nT/e3GiYoUSOzWspLI1kqD6em5PKJ12f6ulcmmJ0gKvX1J9RG0mvHosYfFwhKDsic0bA
+         wsWZct13WdkMxxnoIKs/IEVsg2iIB4AIDZjbizzXroK9PiXuQIdhQSzpEdbnq+DumpDx
+         w9eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687360226; x=1689952226;
+        d=1e100.net; s=20221208; t=1687360700; x=1689952700;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6FRgTCG4Y3quFGRPEFw6nH4nOnDuylcRDDOyFLT5gkg=;
-        b=iAeU+NsL9cFcJUfvDk8r173B02j32c6nxHsolivsm/dgiJqoROIf1pW/9KATkVrnYx
-         PMvtJu/kPjgBzaba5UYbeCmmeHH/ZdvVA+fDeNSsXJcERfz/1GPgERnTs4SWupzmmEzx
-         VgIgFVrH+YW56/OAjLJspwH2wK+x6q31Q5mbfe5ewFRGp0di4D6Oz5dJ2spPXU42rkZ5
-         kV1HwcfdXnwcCfSzJKt9i1HyP1aQ683mAaIhaIjeRfCahpxls8tneu18TQppcxmk+8ho
-         ivjouqKpeMEp+ylCeJZeY1XM3NjahZPyiR4DqpQMUU5FYXIXWNKP36T0wY+muwKimj8m
-         rWmA==
-X-Gm-Message-State: AC+VfDwmTpFGEO0ArgIDwj1vof6IQheYok5xuQmWLgkCPvcUaGmZG/O5
-        Rx1l5cD+ALwXBZRsSD/vvS1ePGw4ikifUl7wND+sR6OnyY57wTgzK+457wkXq/Umfbxs9EqQQYW
-        cMWFgGv/vQtsOZS4+5a3jJDyz0kE7ae8Q5ERBOXg=
-X-Received: by 2002:a25:ad56:0:b0:beb:39a9:2be6 with SMTP id l22-20020a25ad56000000b00beb39a92be6mr11024986ybe.51.1687360226139;
-        Wed, 21 Jun 2023 08:10:26 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5ERQQsUqi5FzWoigxI2kl3qagbhHSk5UQ6FecX1jCfga89rhypFQmWtKSMcLTXHfnYobhUxhB0ZS1nDa7S9ek=
-X-Received: by 2002:a25:ad56:0:b0:beb:39a9:2be6 with SMTP id
- l22-20020a25ad56000000b00beb39a92be6mr11024969ybe.51.1687360225908; Wed, 21
- Jun 2023 08:10:25 -0700 (PDT)
+        bh=oSen+zBAIg18Rp9jlGNUtOajx7SmCBDVFIEONdBtLJ8=;
+        b=OlbM7CbNVQboZVVooLLJK0Olk0yfyVTusmLYay57sYwfuUxmpxjQgupMRPWSlEZ4Ym
+         dZbQnwsTVlfl/6lPnZMJmhh4q7EqGK0l7Vsbj7CNHkA6Em1r5Y0DJ7m00r7OAa9xnvdz
+         llaGyYJlhBgvGCuJCNxa2YIt/VxGcLueiXF0dAGXnATMRk5YugQIYxuHKjWCGGbI4LVv
+         cNl3dCqnJLB28IgrwuiU1h6q83WLKDXmXXBoGSSg8aqdDssK1mr7IA1nlRnYTtb3S4YG
+         ppU7TMgcdepWm156F1oGCAT+NWgnPOLENmJIeJWA/LyJoULMZgEiPC8RcYGk8Q9iHt+s
+         bGxA==
+X-Gm-Message-State: AC+VfDzPYKGYhVVjL6jfuJkYrD8y65t6KWPgToVZcSJIgaaISneBTKcg
+        u0SONJbFJYZB8SAR9+HNvaTHTCHeXY74be4Wz6SvhTCe
+X-Google-Smtp-Source: ACHHUZ5Q+boYEtKLhRKO9zR4Wwu+QRmt9F4DaCw3EB8iFelWGcVJFWtqt0ElqfrniHY8S/jp4EAZaKh5G+4tDsCppag=
+X-Received: by 2002:a19:f203:0:b0:4f5:f736:cb9f with SMTP id
+ q3-20020a19f203000000b004f5f736cb9fmr9842715lfh.67.1687360700051; Wed, 21 Jun
+ 2023 08:18:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230531082428.21763-1-hadess@hadess.net> <nycvar.YFH.7.76.2305311606160.29760@cbobk.fhfr.pm>
- <nycvar.YFH.7.76.2306031440380.29760@cbobk.fhfr.pm> <15bb2507-a145-7f1b-8e84-58aeb02484b9@leemhuis.info>
- <nycvar.YFH.7.76.2306061527080.29760@cbobk.fhfr.pm> <42b6e582-f642-7521-135a-449140984211@leemhuis.info>
- <53903462-2552-b707-3831-cad3ef873b0d@leemhuis.info> <aa0e3371-dad1-3296-18fb-1957b92aa4d1@pobox.com>
- <ed27ca39-3609-695c-9f04-65c0bad343c2@leemhuis.info>
-In-Reply-To: <ed27ca39-3609-695c-9f04-65c0bad343c2@leemhuis.info>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 21 Jun 2023 17:10:14 +0200
-Message-ID: <CAO-hwJLyA==_Wkyi-gTn-FOAAne2JKDfNMY2EaELoFDo5Qbe-A@mail.gmail.com>
-Subject: Re: [PATCH] HID: logitech-hidpp: Handle timeout differently from busy
-To:     Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     Mark Lord <mlord@pobox.com>, Jiri Kosina <jikos@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Peter F . Patel-Schneider" <pfpschneider@gmail.com>,
-        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@riseup.net>,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
+References: <20230607214102.2113-1-jason.gerecke@wacom.com> <20230608213828.2108-1-jason.gerecke@wacom.com>
+In-Reply-To: <20230608213828.2108-1-jason.gerecke@wacom.com>
+From:   Jason Gerecke <killertofu@gmail.com>
+Date:   Wed, 21 Jun 2023 08:18:08 -0700
+Message-ID: <CANRwn3R-XbfB+mP9AQ-J7R_19jLi4eS3MhswaWjL+LCEih-7pg@mail.gmail.com>
+Subject: Re: [PATCH v2] HID: wacom: Use ktime_t rather than int when dealing
+ with timestamps
+To:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>
+Cc:     Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Joshua Dickens <Joshua@joshua-dickens.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        Jason Gerecke <jason.gerecke@wacom.com>, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jun 21, 2023 at 4:09=E2=80=AFPM Linux regression tracking (Thorsten
-Leemhuis) <regressions@leemhuis.info> wrote:
->
-> On 15.06.23 13:24, Mark Lord wrote:
-> > On 2023-06-15 03:24 AM, Linux regression tracking (Thorsten Leemhuis) w=
-rote:
-> > ...
-> >> https://bugzilla.kernel.org/show_bug.cgi?id=3D217412
-> >>
-> >> --- Comment #47 from Mark Blakeney ---
-> >> @Juha, kernel 6.3.7 adds the 2 patches intended to fix this bug and th=
-e
-> >> startup delay is now gone. However, I have had 2 cases over the last 5
-> >> days in which I have been running 6.3.7 where my mouse fails to be
-> >> detected at all after startup. I have to pull the Logitech receiver
-> >> out/in to get the mouse working. Never seen this issue before so I
-> >> suspect the patches are not right.
-> >> ```
-> >
-> > I too have had that happen with recent kernels,
->
-> Ahh, good to know!
->
-> > but have not yet put
-> > a finger to a specific version or cause.
-> >
-> > Just toggling the power button on the wireless mouse is enough for
-> > it to "re-appear".
-> >
-> > The 5.4.xx kernels never had this issue.  I went straight from those
-> > to the 6.3.xx ones, where it does happen sometimes, both with and witho=
-ut
-> > the recent "delay" fixes.
->
-> From Mark Blakeney it sounded a lot like this is something that started
-> with 6.3, but would be good to confirm. Which brings me to the reason
-> why I write this mail:
->
-> Is anyone still working on this? There was radio silence already for a
-> week now. Okay, it's not really urgent, but I guess this should not fall
-> through the cracks.
+Following up since no action seems to have been taken on this patch yet.
 
-Sorry for the radio silence. I worked on hidpp yesterday and submitted
-a new patch for a problem that was overlooked in the previous fixes:
-https://lore.kernel.org/linux-input/20230621-logitech-fixes-v1-1-32e70933c0=
-b0@redhat.com/
-
-The loop was not properly initializing all its local states, meaning
-that when we encountered a "please retry" from the device, we could
-never do the actual retry and returned a different error than in the
-6.2 series.
-
-Would anyone give it a shot?
-
-Cheers,
-Benjamin
-
+On Thu, Jun 8, 2023 at 2:38=E2=80=AFPM Jason Gerecke <killertofu@gmail.com>=
+ wrote:
 >
-> Bastian, are you back?
+> Code which interacts with timestamps needs to use the ktime_t type
+> returned by functions like ktime_get. The int type does not offer
+> enough space to store these values, and attempting to use it is a
+> recipe for problems. In this particular case, overflows would occur
+> when calculating/storing timestamps leading to incorrect values being
+> reported to userspace. In some cases these bad timestamps cause input
+> handling in userspace to appear hung.
 >
-> If not: Does anyone know if there is hope that Bastien will be able to
-> look into this in the not too far future?
+> Link: https://gitlab.freedesktop.org/libinput/libinput/-/issues/901
+> Fixes: 17d793f3ed53 ("HID: wacom: insert timestamp to packed Bluetooth (B=
+T) events")
+> CC: stable@vger.kernel.org
+> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+> ---
+> v2: Use div_u64 to perform division to deal with ARC and ARM architecture=
+s
+>     (as found by the kernel test robot)
 >
-> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+>  drivers/hid/wacom_wac.c | 6 +++---
+>  drivers/hid/wacom_wac.h | 2 +-
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+> index 2ccf838371343..174bf03908d7c 100644
+> --- a/drivers/hid/wacom_wac.c
+> +++ b/drivers/hid/wacom_wac.c
+> @@ -1314,7 +1314,7 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_w=
+ac *wacom)
+>         struct input_dev *pen_input =3D wacom->pen_input;
+>         unsigned char *data =3D wacom->data;
+>         int number_of_valid_frames =3D 0;
+> -       int time_interval =3D 15000000;
+> +       ktime_t time_interval =3D 15000000;
+>         ktime_t time_packet_received =3D ktime_get();
+>         int i;
+>
+> @@ -1348,7 +1348,7 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_w=
+ac *wacom)
+>         if (number_of_valid_frames) {
+>                 if (wacom->hid_data.time_delayed)
+>                         time_interval =3D ktime_get() - wacom->hid_data.t=
+ime_delayed;
+> -               time_interval /=3D number_of_valid_frames;
+> +               time_interval =3D div_u64(time_interval, number_of_valid_=
+frames);
+>                 wacom->hid_data.time_delayed =3D time_packet_received;
+>         }
+>
+> @@ -1359,7 +1359,7 @@ static void wacom_intuos_pro2_bt_pen(struct wacom_w=
+ac *wacom)
+>                 bool range =3D frame[0] & 0x20;
+>                 bool invert =3D frame[0] & 0x10;
+>                 int frames_number_reversed =3D number_of_valid_frames - i=
+ - 1;
+> -               int event_timestamp =3D time_packet_received - frames_num=
+ber_reversed * time_interval;
+> +               ktime_t event_timestamp =3D time_packet_received - frames=
+_number_reversed * time_interval;
+>
+>                 if (!valid)
+>                         continue;
+> diff --git a/drivers/hid/wacom_wac.h b/drivers/hid/wacom_wac.h
+> index 1a40bb8c5810c..ee21bb260f22f 100644
+> --- a/drivers/hid/wacom_wac.h
+> +++ b/drivers/hid/wacom_wac.h
+> @@ -324,7 +324,7 @@ struct hid_data {
+>         int ps_connected;
+>         bool pad_input_event_flag;
+>         unsigned short sequence_number;
+> -       int time_delayed;
+> +       ktime_t time_delayed;
+>  };
+>
+>  struct wacom_remote_data {
 > --
-> Everything you wanna know about Linux kernel regression tracking:
-> https://linux-regtracking.leemhuis.info/about/#tldr
-> If I did something stupid, please tell me, as explained on that page.
+> 2.41.0
 >
-
