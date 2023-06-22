@@ -2,183 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 512DB739C70
-	for <lists+linux-input@lfdr.de>; Thu, 22 Jun 2023 11:17:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 809AB739C94
+	for <lists+linux-input@lfdr.de>; Thu, 22 Jun 2023 11:22:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232260AbjFVJRW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Jun 2023 05:17:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59216 "EHLO
+        id S232109AbjFVJWN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Jun 2023 05:22:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230264AbjFVJQ4 (ORCPT
+        with ESMTP id S232089AbjFVJVl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Jun 2023 05:16:56 -0400
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 180762D57
-        for <linux-input@vger.kernel.org>; Thu, 22 Jun 2023 02:09:00 -0700 (PDT)
-Received: by mail-yb1-xb2f.google.com with SMTP id 3f1490d57ef6-bc476bf5239so6777425276.2
-        for <linux-input@vger.kernel.org>; Thu, 22 Jun 2023 02:09:00 -0700 (PDT)
+        Thu, 22 Jun 2023 05:21:41 -0400
+Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com [IPv6:2607:f8b0:4864:20::a2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98C9665AF
+        for <linux-input@vger.kernel.org>; Thu, 22 Jun 2023 02:12:11 -0700 (PDT)
+Received: by mail-vk1-xa2c.google.com with SMTP id 71dfb90a1353d-471632450d1so1976481e0c.0
+        for <linux-input@vger.kernel.org>; Thu, 22 Jun 2023 02:12:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687424938; x=1690016938;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rS4vrBt74sGHErSh5k3beKHxuHfkjfXtkU/3q7uLokE=;
-        b=jweiG3iIp9OKSJNHywOaDLrILv9ii6uMq/ShC5C7eI0arl20mLkMXGbDn50/kvUFBa
-         tSmCJjvpcpiW1MeiK4JjB6ZQhm31MMci5t/ctuX5XOelUadAa7+F1tJnlK53M9nqLkCK
-         N1KhUYuo5reMmSWvNjq5yugrLBh9blV3WRpRTSxf4Sz6LYhLt3abqgGu+MEwtsytxhEZ
-         oRL/PtXYPwBHsdAhCXhhXmfhM9pRxyPBEMyEmey/L7OZUdkw1Dw+QDfXMS6bujQ+H3ms
-         fjPJeklmfiQ3Pff8Xrt3aiMvePCGjNEw23r7bttc33wlj7Tbe7HovOElHZqReCc9WDJp
-         VRqQ==
+        d=linaro.org; s=google; t=1687425130; x=1690017130;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=LAUOQODzdCeUTcrDvoPMBORZt9+ufR2Q6MlQ8V9HqcA=;
+        b=mXPKXfCQ5AqfGGN7eLis7zio/LUO4dolZMn9tGoBWo9lQ/0YSYOantIpV+5Aknn1uh
+         3J4AAW5FwrtrCjPqExngKvRZGdsEMMnXiWLjxSlxcZ4Z4hrIKAqnf3JGXGjDgW9P3bL1
+         pFNgcMjEIcXauA2TF31JXquLUpbL+xqhM2fQ9hmTnukCcFG1Mle2eakMHU8X4YmkO6LO
+         bAhMo5m/gWYLFCsmeuIdoTLd4aVKzBQXkX6znVpbHzzsNtQEyUyVQaAV7jfwZ4Hpde4C
+         pcPlmHg9x/K3XVnBI0Byou5ihxHLvg+InoKTxxb2YQ/iI8WDHTP84M7mjcSJauXDobPV
+         PPNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687424938; x=1690016938;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rS4vrBt74sGHErSh5k3beKHxuHfkjfXtkU/3q7uLokE=;
-        b=XnLCAxcdjhowKftN8fHP5T/yDRbdByaoSgFHxVOK25aWkLmlZkI0Oy27pj6E1WrWPC
-         B8Bq86d/C3cwg6gZpdkLm8QelkH8HD0TW9cD+UnDzSgZHgO0LYVvdyCA1xqbpASi/he1
-         FlVsC4dP3tNMZhv9sdIYGc69Y9oNWpQjJ8S9SocXCINj1nkT3c5ui2Q/c6OGccUtLdLA
-         XdTLz3sva3858N1vKztU57FGKsMiwLbDGZ2r12z4YOlfIL6ApCo5bQCl5QK58QImiSXV
-         GaBUT2PveUc+Y33KipU1hXFRIJRsrxtlrw5IRgYkz9oCOEqhyuuUdhNUUbTRqxQULU1C
-         L/yA==
-X-Gm-Message-State: AC+VfDzsA8/t1hPC9DEOm425YPODEWz8vFna4OBQ8S+SVJvAHwsISXiM
-        8E2NLNXpXM0lancdooeFZMPv7M3CH7dA67WuwGU=
-X-Google-Smtp-Source: ACHHUZ6WPh8GIKHUAzdcyo8ild28tVRrNvS6dJYcwgLnWgTi0K/6CMqYjL1n0G4fHiOSfroHj3f6c1Q8+murRj+TUDw=
-X-Received: by 2002:a5b:88e:0:b0:bab:b3e3:d4e1 with SMTP id
- e14-20020a5b088e000000b00babb3e3d4e1mr14809627ybq.12.1687424938607; Thu, 22
- Jun 2023 02:08:58 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1687425130; x=1690017130;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LAUOQODzdCeUTcrDvoPMBORZt9+ufR2Q6MlQ8V9HqcA=;
+        b=PqFygVbrqlPJ4CmM/KEb0H1eq99mVh2wkVAElbxRtYxWHoHMnhZLa7GTj42saFCcyy
+         QfZD1tZO4wapLs+0N6VupZx34m2nRg/YWrsUwE0H91fbMWMEwuGdI2qJWnTKcSjmp8DA
+         Cgw/MMzrAdGrmMJ+tdVANzjgMMj4o1t9iVyFd8+LeIfB1AnP8N01W7sGThMTTv+44Ct1
+         tUUPai1pRIcXYHoZmmEgJb3iiWZL8nj7M+oQf5FD3Axl73Mi+285ikaFNhqAkzBaqtU0
+         1s3U/+JMVas8KFgvDLmo85AQVkcwyFJ4EABZqBQcmQQS9NKvTjVFIQqGRLCNk2VEkroj
+         SnMQ==
+X-Gm-Message-State: AC+VfDx099eAhebLMN0S7u6QRANLG2eLQJJHcVDf4IEJxtKHfr3ujN7l
+        KW6jeMqx1OHegnQERRP7KyxlRmpZqnisbwDJHNzX9g==
+X-Google-Smtp-Source: ACHHUZ7Jjoae1j3de5QaDkn+NVntLKV6op75KhbpCaUpXW852Raha07Xg8nXWZ9iLhTkIRdAW16BPNsvDSHUyHVrFYM=
+X-Received: by 2002:a1f:4801:0:b0:471:cfa1:5065 with SMTP id
+ v1-20020a1f4801000000b00471cfa15065mr4808788vka.3.1687425130628; Thu, 22 Jun
+ 2023 02:12:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAGjSPUA1A0RVrf1OmgUKL3prOBuNFvhPJXJ4n7YbKrPLZb5h9A@mail.gmail.com>
- <CAGjSPUAosFY7svBoqAU3xsDD-ij2Qa3nZ2nf+jF4i2yC7sWpWw@mail.gmail.com>
- <CAGjSPUCBPSXTHji-aSs64QHNYjBms9-WhohBYuc9Tiom5KaSow@mail.gmail.com>
- <CAGjSPUAnGndHOzEkux2DcjOKZ14BKv+Cccn0Hk3=VhMzoTbC5A@mail.gmail.com>
- <CAGjSPUC4q_tGmC8EZ4CMTVGa7e9AV9jkWOgwexJAtE-=rFDHHA@mail.gmail.com> <1f24c83c-fe36-d2ab-c755-e83fc6a265eb@redhat.com>
-In-Reply-To: <1f24c83c-fe36-d2ab-c755-e83fc6a265eb@redhat.com>
-From:   Xiaofan Chen <xiaofanc@gmail.com>
-Date:   Thu, 22 Jun 2023 17:08:47 +0800
-Message-ID: <CAGjSPUCE_zs4L7+5skEhgwjZ-u_yr-J34SoFKCEEkrwzQ5rfEg@mail.gmail.com>
-Subject: Re: Clarification about the hidraw documentation on HIDIOCGFEATURE
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>, Ihor Dutchak <ihor.youw@gmail.com>,
-        linux-input@vger.kernel.org
+References: <20230621093245.78130-1-o.rempel@pengutronix.de> <20230621093245.78130-2-o.rempel@pengutronix.de>
+In-Reply-To: <20230621093245.78130-2-o.rempel@pengutronix.de>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Thu, 22 Jun 2023 11:11:33 +0200
+Message-ID: <CAPDyKFqYfuQNCTPiEM56jrzUBe2jevY+MuTOj6K-7OkpO0_daA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] dt-bindings: mmc: fsl-imx-esdhc: Add imx6ul support
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Abel Vesa <abelvesa@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        kernel@pengutronix.de, Peng Fan <peng.fan@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Michael Trimarchi <michael@amarulasolutions.com>,
+        Mark Brown <broonie@kernel.org>,
+        Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+        Marek Vasut <marex@denx.de>, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-mmc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jun 21, 2023 at 11:05=E2=80=AFPM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
+On Wed, 21 Jun 2023 at 11:32, Oleksij Rempel <o.rempel@pengutronix.de> wrote:
 >
-> On Wed, Jun 21, 2023 at 1:27=E2=80=AFPM Xiaofan Chen <xiaofanc@gmail.com>=
- wrote:
-> >
-> > On Tue, Jun 20, 2023 at 7:28=E2=80=AFAM Xiaofan Chen <xiaofanc@gmail.co=
-m> wrote:
-> > >
-> > > On Mon, Jun 19, 2023 at 11:14=E2=80=AFPM Xiaofan Chen <xiaofanc@gmail=
-.com> wrote:
-> > > >
-> > > > On Mon, Jun 19, 2023 at 2:09=E2=80=AFPM Xiaofan Chen <xiaofanc@gmai=
-l.com> wrote:
-> > > > >
-> > > > > I know that thurrent documentation has been there since it was cr=
-eated by
-> > > > > Alan Ott many years ago. And he started the HIDAPI project around=
- that
-> > > > > time as well. However, I am starting to doubt whether it is corre=
-ct or not
-> > > > > based on the testing using HIDAPI.
-> > > > >
-> > > > > Please help to clarify. Thanks.
-> > > > >
-> > > > > https://docs.kernel.org/hid/hidraw.html
-> > > > > +++++++++++++++++++++++++++++++++++++++++++++++++++++
-> > > > > HIDIOCGFEATURE(len):
-> > > > >
-> > > > > Get a Feature Report
-> > > > >
-> > > > > This ioctl will request a feature report from the device using th=
-e
-> > > > > control endpoint. The first byte of the supplied buffer should be
-> > > > > set to the report number of the requested report. For devices
-> > > > > which do not use numbered reports, set the first byte to 0. The
-> > > > > returned report buffer will contain the report number in the firs=
-t
-> > > > > byte, followed by the report data read from the device. For devic=
-es
-> > > > > which do not use numbered reports, the report data will begin at =
-the
-> > > > > first byte of the returned buffer.
+> Add the 'fsl,imx6ul-usdhc' value to the compatible properties list in
+> the fsl-imx-esdhc.yaml file. This is required to match the compatible
+> strings present in the 'mmc@2190000' node of 'imx6ul-prti6g.dtb'. This
+> commit addresses the following dtbs_check warning:
+> imx6ul-prti6g.dtb:0:0: /soc/bus@2100000/mmc@2190000: failed to match any schema with compatible: ['fsl,imx6ul-usdhc', 'fsl,imx6sx-usdhc']
 >
->
-> Yep, this is wrong.
->
-> This should be read:
-> ```
-> The returned report buffer will contain the report number in the first
-> byte or 0 when the device doesn't use numbered reports. The data read
-> from the device will be stored in the following bytes.
-> ```
->
-> FWIW, the difficulty to find out what the code does is because this part
-> is handled in each HID transport driver: USB, Bluetooth, I2C.
->
-> Looking at drivers/hid/usbhid/hid-core.c, lines 869+, the function
-> usbhid_get_raw_report() is the one used by hidraw in the end and is
-> still the original code from Alan:
->
-> ```
-> /* Byte 0 is the report number. Report data starts at byte 1.*/
-> buf[0] =3D report_number;
-> if (report_number =3D=3D 0x0) {
->         /* Offset the return buffer by 1, so that the report ID
->            will remain in byte 0. */
->         buf++;
->         count--;
->         skipped_report_id =3D 1;
-> }
-> ```
->
-> > Hi Jiri and Benjamin,
-> >
-> > Sorry to ping the two maintainers, hopefully you two can give the
-> > answer. Thanks.
->
-> See above, I also think the documentation is wrong.
->
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
-Thanks a lot for the confirmation.
+Applied for next, thanks!
 
-On the same note, I think it is the same for HIDIOCGINPUT as well, but ther=
-e
-is no need to update the documentation once the documentation is fixed
-for HIDIOCGFEATURE.
-
-++++++++++++++
-HIDIOCGINPUT(len):
-
-Get an Input Report
-
-This ioctl will request an input report from the device using the
-control endpoint. This
-is slower on most devices where a dedicated In endpoint exists for
-regular input reports,
-but allows the host to request the value of a specific report number.
-Typically, this is
-used to request the initial states of an input report of a device,
-before an application
-listens for normal reports via the regular device read() interface.
-The format of the
-buffer issued with this report is identical to that of HIDIOCGFEATURE.
-++++++++++++++
+Kind regards
+Uffe
 
 
---=20
-Xiaofan
+> ---
+>  Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml b/Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml
+> index fbfd822b92707..82eb7a24c8578 100644
+> --- a/Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml
+> +++ b/Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml
+> @@ -42,6 +42,7 @@ properties:
+>            - enum:
+>                - fsl,imx6sll-usdhc
+>                - fsl,imx6ull-usdhc
+> +              - fsl,imx6ul-usdhc
+>            - const: fsl,imx6sx-usdhc
+>        - items:
+>            - const: fsl,imx7d-usdhc
+> --
+> 2.39.2
+>
