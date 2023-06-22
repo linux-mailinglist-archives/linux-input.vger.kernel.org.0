@@ -2,85 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 809AB739C94
-	for <lists+linux-input@lfdr.de>; Thu, 22 Jun 2023 11:22:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFF9E73A2FE
+	for <lists+linux-input@lfdr.de>; Thu, 22 Jun 2023 16:29:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232109AbjFVJWN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Jun 2023 05:22:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60856 "EHLO
+        id S231225AbjFVO3K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Jun 2023 10:29:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232089AbjFVJVl (ORCPT
+        with ESMTP id S231147AbjFVO3J (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Jun 2023 05:21:41 -0400
-Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com [IPv6:2607:f8b0:4864:20::a2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98C9665AF
-        for <linux-input@vger.kernel.org>; Thu, 22 Jun 2023 02:12:11 -0700 (PDT)
-Received: by mail-vk1-xa2c.google.com with SMTP id 71dfb90a1353d-471632450d1so1976481e0c.0
-        for <linux-input@vger.kernel.org>; Thu, 22 Jun 2023 02:12:11 -0700 (PDT)
+        Thu, 22 Jun 2023 10:29:09 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BA1F19BE
+        for <linux-input@vger.kernel.org>; Thu, 22 Jun 2023 07:29:05 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-31297125334so763153f8f.0
+        for <linux-input@vger.kernel.org>; Thu, 22 Jun 2023 07:29:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687425130; x=1690017130;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LAUOQODzdCeUTcrDvoPMBORZt9+ufR2Q6MlQ8V9HqcA=;
-        b=mXPKXfCQ5AqfGGN7eLis7zio/LUO4dolZMn9tGoBWo9lQ/0YSYOantIpV+5Aknn1uh
-         3J4AAW5FwrtrCjPqExngKvRZGdsEMMnXiWLjxSlxcZ4Z4hrIKAqnf3JGXGjDgW9P3bL1
-         pFNgcMjEIcXauA2TF31JXquLUpbL+xqhM2fQ9hmTnukCcFG1Mle2eakMHU8X4YmkO6LO
-         bAhMo5m/gWYLFCsmeuIdoTLd4aVKzBQXkX6znVpbHzzsNtQEyUyVQaAV7jfwZ4Hpde4C
-         pcPlmHg9x/K3XVnBI0Byou5ihxHLvg+InoKTxxb2YQ/iI8WDHTP84M7mjcSJauXDobPV
-         PPNA==
+        d=linaro.org; s=google; t=1687444144; x=1690036144;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=q6puVKPodb7fnIeZGT3HM/7egIk8BBqCuZeufHWrWv8=;
+        b=SQZkU8PWShGK9tcx+dKSW9GaiMEwtYANr84T5ngYhUXsQjIk355HFzKYNdoGu9xpkH
+         iND5YGrYa3Ke1vQ0z0esXjkoVquYMqvsQuaJov3EKr4714JdbA+OtdrVFurSZjVy+mVA
+         5Rz0II7IEFUy5ihBIEyNy2lfuf4oMJf3Dxqb6HyI+F6t619EcaL8SasoQp1OoSMRDiDJ
+         sDJAOchSQQ5sbqWT0tTzlNKPEv6LDDY6bMFdprN+ex6tTaaEYVB1alwkqgRwczI8Vma+
+         gpN9T75RVL1nCs1w7cgTtU8KcB8uG86DCPdeMSlyN6CUy0r4onqNI0zbvAA8Vv9Nwtb8
+         I0ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687425130; x=1690017130;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1687444144; x=1690036144;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LAUOQODzdCeUTcrDvoPMBORZt9+ufR2Q6MlQ8V9HqcA=;
-        b=PqFygVbrqlPJ4CmM/KEb0H1eq99mVh2wkVAElbxRtYxWHoHMnhZLa7GTj42saFCcyy
-         QfZD1tZO4wapLs+0N6VupZx34m2nRg/YWrsUwE0H91fbMWMEwuGdI2qJWnTKcSjmp8DA
-         Cgw/MMzrAdGrmMJ+tdVANzjgMMj4o1t9iVyFd8+LeIfB1AnP8N01W7sGThMTTv+44Ct1
-         tUUPai1pRIcXYHoZmmEgJb3iiWZL8nj7M+oQf5FD3Axl73Mi+285ikaFNhqAkzBaqtU0
-         1s3U/+JMVas8KFgvDLmo85AQVkcwyFJ4EABZqBQcmQQS9NKvTjVFIQqGRLCNk2VEkroj
-         SnMQ==
-X-Gm-Message-State: AC+VfDx099eAhebLMN0S7u6QRANLG2eLQJJHcVDf4IEJxtKHfr3ujN7l
-        KW6jeMqx1OHegnQERRP7KyxlRmpZqnisbwDJHNzX9g==
-X-Google-Smtp-Source: ACHHUZ7Jjoae1j3de5QaDkn+NVntLKV6op75KhbpCaUpXW852Raha07Xg8nXWZ9iLhTkIRdAW16BPNsvDSHUyHVrFYM=
-X-Received: by 2002:a1f:4801:0:b0:471:cfa1:5065 with SMTP id
- v1-20020a1f4801000000b00471cfa15065mr4808788vka.3.1687425130628; Thu, 22 Jun
- 2023 02:12:10 -0700 (PDT)
+        bh=q6puVKPodb7fnIeZGT3HM/7egIk8BBqCuZeufHWrWv8=;
+        b=h5PaZdQgeiJnygTX9S738fWXztPiQpWxDRO8LgR/TtJPwdGfKhA8dZ34yFEj2x29tu
+         EFpUGOlreEv3bhSVSVDawIx06FKzFAcVg8mXDOD+x1VxPY2aY79cz88zGZCa//mIRxhH
+         dZZw6WJNp3zDDrq4j0YrXkckyFMXrMc1wmuRDA+KbT3DWRnd+YIJfKyG7wrg0aa2kDUy
+         pcw6pjq70RnoJyrMOQHjSROCpMjGk/yBgEXIGDdPVBZ98F1vB5yguf6M4aZG0GYBscyi
+         0rvS+qfN7JQQ7ZTCTdvRIViXg73IQNCTS/mKNlxuWcCEyrot+bLz4RBmI0niFeb4f1Au
+         72Mg==
+X-Gm-Message-State: AC+VfDznhvczM4FGY5W839xXW3W5vHqT8rxuC6U5nx6fekGQeIbbUMUP
+        x0aR8Ttw49bdKs5TQM9gbbFYuw==
+X-Google-Smtp-Source: ACHHUZ6qSes5SnF8qkXG81bCzq/oLfmzOh46JCuPmFOxmQsw2jRNwsKvdMnSuzg0JkcIqqKJZ7RsLQ==
+X-Received: by 2002:a5d:50cb:0:b0:30f:d07f:5a3b with SMTP id f11-20020a5d50cb000000b0030fd07f5a3bmr22092877wrt.9.1687444143835;
+        Thu, 22 Jun 2023 07:29:03 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id w18-20020a5d6812000000b0030ae69920c9sm7168361wru.53.2023.06.22.07.29.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jun 2023 07:29:03 -0700 (PDT)
+From:   Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v3 0/4] input: touchscreen: add initial support for Goodix
+ Berlin touchscreen IC
+Date:   Thu, 22 Jun 2023 16:28:58 +0200
+Message-Id: <20230606-topic-goodix-berlin-upstream-initial-v3-0-f0577cead709@linaro.org>
 MIME-Version: 1.0
-References: <20230621093245.78130-1-o.rempel@pengutronix.de> <20230621093245.78130-2-o.rempel@pengutronix.de>
-In-Reply-To: <20230621093245.78130-2-o.rempel@pengutronix.de>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 22 Jun 2023 11:11:33 +0200
-Message-ID: <CAPDyKFqYfuQNCTPiEM56jrzUBe2jevY+MuTOj6K-7OkpO0_daA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] dt-bindings: mmc: fsl-imx-esdhc: Add imx6ul support
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     Abel Vesa <abelvesa@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKpalGQC/52PMQ7CMAxFr4IyY5SGqhQm7oEYnNRtLZWkctoKh
+ Hp3DBsjjO/Lev/7aTIJUzanzdMILZw5RYX9dmNCj7Ej4EbZOOv2trIVTGnkAF1KDd/BkwwcYR7
+ zJIQ34MgT4wAejweqKdRtGYyqPGYCLxhDr7I4D4OGo1DL90/35arcc56SPD5TluKd/ti6FGChR
+ HsoC18jtc1Zz1DSLkln3g2L+8fq1Ooqr89QQUdLX9Z1XV8CerPhRAEAAA==
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        kernel@pengutronix.de, Peng Fan <peng.fan@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Michael Trimarchi <michael@amarulasolutions.com>,
-        Mark Brown <broonie@kernel.org>,
-        Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-        Marek Vasut <marex@denx.de>, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-mmc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Bastien Nocera <hadess@hadess.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Jeff LaBundy <jeff@labundy.com>
+Cc:     linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Rob Herring <robh@kernel.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3366;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=85RQ3QfjPlDD8JRppLNrio/v0iNTp1dj7AjRx+bbrjQ=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBklFqst+pd8aEBjksWinDt4TKoDjP/MjimwpVa+hyo
+ tWlznvGJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZJRarAAKCRB33NvayMhJ0SL4D/
+ 9W4/Bbp4anUA+tEHkNMr99bmWddXuiK7iXuLJe3Nq1s8JZMgRGwiEvwN1uMkEBtJrjib0B7ITckJqE
+ A5369lS1NxjtFrUKqi+1+r//IWXK+FsLxqbpvbHfolNa134T4zfTGb9PcmoFkAQCS/p6TexbTkCFDE
+ 3ABnzyyfO8Gu5eZr1p1zFqmNT8Z2es+GOxvEVcp4qsomyplD0nNux6EVHs1l4yi5aIaT8hEN9211VU
+ dmo2+ukZ/h7/JSAWkoNPmu/kiVcNkgUAz9RmZKDyppBRqpHxw5EYcR7lNmBSqABbsacbyfSQKtmzpm
+ kbLgSLvyeaRy0/AhQ/4NPwywcdXY1aoEf4GykcjxrFCPHbiXntgybioF1lC6mP52zItbFforhCCV2R
+ fnmTYv59971+ULf4mCT8Ts18c5eduXoq05mvOVSiqEDi0Yak8CqLkXQcijyAn9NLy2Dye9CXHF//50
+ ZC1VCqWZXyuX5Rt+g/9M8LMUydidl0sKDVglAfEvkRGJyu6t8iTsTloJ1x/c78+r6z7tAyQTUwUvMJ
+ zREs544YqiBwtTPHAsp46zmMnPSJ3ywwV3WB2fRNCUMhGtQr25yNCg7Vh3SoVRPH3e4eNI4Q3wzs2G
+ 37caPqhvnSeuL4EK9jgQgJURevZr17lJwVc7xmvxLxaivyJzWUmUyxhFCLfQ==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -88,38 +100,84 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 21 Jun 2023 at 11:32, Oleksij Rempel <o.rempel@pengutronix.de> wrote:
->
-> Add the 'fsl,imx6ul-usdhc' value to the compatible properties list in
-> the fsl-imx-esdhc.yaml file. This is required to match the compatible
-> strings present in the 'mmc@2190000' node of 'imx6ul-prti6g.dtb'. This
-> commit addresses the following dtbs_check warning:
-> imx6ul-prti6g.dtb:0:0: /soc/bus@2100000/mmc@2190000: failed to match any schema with compatible: ['fsl,imx6ul-usdhc', 'fsl,imx6sx-usdhc']
->
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+These touchscreen ICs support SPI, I2C and I3C interface, up to
+10 finger touch, stylus and gestures events.
 
-Applied for next, thanks!
+This initial driver is derived from the Goodix goodix_ts_berlin
+available at [1] and [2] and only supports the GT9916 IC
+present on the Qualcomm SM8550 MTP & QRD touch panel.
 
-Kind regards
-Uffe
+The current implementation only supports BerlinD, aka GT9916.
 
+Support for advanced features like:
+- Firmware & config update
+- Stylus events
+- Gestures events
+- Previous revisions support (BerlinA or BerlinB)
+is not included in current version.
 
-> ---
->  Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml b/Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml
-> index fbfd822b92707..82eb7a24c8578 100644
-> --- a/Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml
-> @@ -42,6 +42,7 @@ properties:
->            - enum:
->                - fsl,imx6sll-usdhc
->                - fsl,imx6ull-usdhc
-> +              - fsl,imx6ul-usdhc
->            - const: fsl,imx6sx-usdhc
->        - items:
->            - const: fsl,imx7d-usdhc
-> --
-> 2.39.2
->
+The current support will work with currently flashed firmware
+and config, and bail out if firmware or config aren't flashed yet.
+
+[1] https://github.com/goodix/goodix_ts_berlin
+[2] https://git.codelinaro.org/clo/la/platform/vendor/opensource/touch-drivers
+
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Changes in v3:
+- Another guge cleanups after Jeff's review:
+ - appended goodix_berlin_ before all defines
+ - removed some unused defines
+ - removed retries on most of read functions, can be added back later
+ - added __le to ic_info structures
+ - reworked and simplified irq handling, dropped enum and ts_event structs
+ - added struct for touch data
+ - simplified and cleaned goodix_berlin_check_checksum & goodix_berlin_is_dummy_data
+ - moved touch_data_addr to the end of the main code_data
+ - reworked probe to get_irq last and right before setip input device
+ - cleaned probe by removing the "cd->dev"
+ - added short paragraph to justify new driver for berlin devices
+ - defined all offsets & masks
+- Added bindings review tag
+- Link to v2: https://lore.kernel.org/r/20230606-topic-goodix-berlin-upstream-initial-v2-0-26bc8fe1e90e@linaro.org
+
+Changes in v2:
+- Huge cleanups after Jeff's review:
+ - switch to error instead of ret
+ - drop dummy vendor/product ids
+ - drop unused defined/enums
+ - drop unused ic_info and only keep needes values
+ - cleanup namings and use goodix_berlin_ everywhere
+ - fix regulator setup
+ - fix default variables value when assigned afterwars
+ - removed indirections
+ - dropped debugfs
+ - cleaned input_dev setup
+ - dropped _remove()
+ - sync'ed i2c and spi drivers
+- fixed yaml bindings
+- Link to v1: https://lore.kernel.org/r/20230606-topic-goodix-berlin-upstream-initial-v1-0-4a0741b8aefd@linaro.org
+
+---
+Neil Armstrong (4):
+      dt-bindings: input: document Goodix Berlin Touchscreen IC
+      input: touchscreen: add core support for Goodix Berlin Touchscreen IC
+      input: touchscreen: add I2C support for Goodix Berlin Touchscreen IC
+      input: touchscreen: add SPI support for Goodix Berlin Touchscreen IC
+
+ .../bindings/input/touchscreen/goodix,gt9916.yaml  |  95 ++++
+ drivers/input/touchscreen/Kconfig                  |  32 ++
+ drivers/input/touchscreen/Makefile                 |   3 +
+ drivers/input/touchscreen/goodix_berlin.h          | 159 ++++++
+ drivers/input/touchscreen/goodix_berlin_core.c     | 584 +++++++++++++++++++++
+ drivers/input/touchscreen/goodix_berlin_i2c.c      |  69 +++
+ drivers/input/touchscreen/goodix_berlin_spi.c      | 172 ++++++
+ 7 files changed, 1114 insertions(+)
+---
+base-commit: 6db29e14f4fb7bce9eb5290288e71b05c2b0d118
+change-id: 20230606-topic-goodix-berlin-upstream-initial-ba97e8ec8f4c
+
+Best regards,
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
+
