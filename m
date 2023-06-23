@@ -2,63 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DBD673B2CB
-	for <lists+linux-input@lfdr.de>; Fri, 23 Jun 2023 10:38:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6F5573B33F
+	for <lists+linux-input@lfdr.de>; Fri, 23 Jun 2023 11:08:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229451AbjFWIip (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Jun 2023 04:38:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36612 "EHLO
+        id S230440AbjFWJIi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Jun 2023 05:08:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230168AbjFWIio (ORCPT
+        with ESMTP id S230358AbjFWJId (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Jun 2023 04:38:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E88C9E6E
-        for <linux-input@vger.kernel.org>; Fri, 23 Jun 2023 01:38:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687509481;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ptejR8lbUvAso4nSZTEHuxuZqlk7XN4zpapla+ipUe8=;
-        b=b2hrh6v5WFHkyGvuPNyh9sNqvaBROayd+QDMhkq7aQb2lvLRM6t6kvgTPodUOu1NuH0k62
-        Wsm0JzBZGcQ+Myz8vUY5gtgotmJoXa0FvtsEBxiOxdfN+FsKfhoOi5UaBHJ13DKKrU2E5D
-        Gs4KYmxen3IjxUG7R3npedw8hvLTz3o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645-9IRqxVdFPPmco9PIfXr3bQ-1; Fri, 23 Jun 2023 04:37:53 -0400
-X-MC-Unique: 9IRqxVdFPPmco9PIfXr3bQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        Fri, 23 Jun 2023 05:08:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F4119AB;
+        Fri, 23 Jun 2023 02:08:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D49978CC202;
-        Fri, 23 Jun 2023 08:37:52 +0000 (UTC)
-Received: from mail.corp.redhat.com (unknown [10.45.225.205])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4050740C6CD1;
-        Fri, 23 Jun 2023 08:37:51 +0000 (UTC)
-Date:   Fri, 23 Jun 2023 10:37:48 +0200
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Filipe =?utf-8?B?TGHDrW5z?= <lains@riseup.net>,
-        Bastien Nocera <hadess@hadess.net>,
-        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] HID: logitech-hidpp: rework one more time the retries
- attempts
-Message-ID: <qbvmv3eexohswyagmllfh3xsxoftwa3wbmsdafmwak2bxlnlft@jz74dijlfxlz>
-References: <20230621-logitech-fixes-v1-1-32e70933c0b0@redhat.com>
- <2023062156-trespass-pandemic-7f4f@gregkh>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2F5AD619C6;
+        Fri, 23 Jun 2023 09:08:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCA2DC433C0;
+        Fri, 23 Jun 2023 09:08:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687511310;
+        bh=XDe+QpmXX6ZcmTCp4Pqic6C3Q49nghoQCRwh4dRmpUU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BqvIt0bC0bF8EFUlTMtyW/XKDnuHrJ0oreIq6vIRnAqFhkGBOm2Gt75Ch4cMoWVRO
+         W2ZvdkvLo5n0AM9ToAlzIPyd433I3knQzQN42KqbPvUCWKOAA9rJtlslA10vpocZUx
+         mo2AHzJ6iSCOFa4g0nop4a9wXLreDdgufJxQeVde4zpMELwloI0yGeZ5NhsmGGufpd
+         VadbC2Ogqa/ruMpHB6npS8INUSqbqBs0C9cXloGSYXUGoO5thHrSGYoCvmhUu9O4eg
+         jsaI3hDjWo5LxnbT4jADCMd+zBeG0J8bAXKTcaQ6fFp60RufsrYZF+8FUEvZxdAdWM
+         zSuZpNSD6KCNg==
+Date:   Fri, 23 Jun 2023 11:08:26 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Doug Anderson <dianders@chromium.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        linux-kernel@vger.kernel.org, hsinyi@google.com,
+        cros-qcom-dts-watchers@chromium.org, devicetree@vger.kernel.org,
+        yangcong5@huaqin.corp-partner.google.com,
+        linux-arm-msm@vger.kernel.org,
+        Chris Morgan <macroalpha82@gmail.com>
+Subject: Re: [PATCH v2 00/10] drm/panel and i2c-hid: Allow panels and
+ touchscreens to power sequence together
+Message-ID: <gkwymmfkdy2p2evz22wmbwgw42ii4wnvmvu64m3bghmj2jhv7x@4mbstjxnagxd>
+References: <20230607215224.2067679-1-dianders@chromium.org>
+ <jehxiy3z4aieop5qgzmlon4u76n7gvt3kc6knxhb5yqkiz3rsp@mx27m75sx43r>
+ <CAD=FV=Wr7Xatw1LsofiZ5Xx7WBvAuMMdq4D5Po1yJUC1VdtZdg@mail.gmail.com>
+ <z7wi4z4lxpkhvooqhihlkpubyvueb37gvrpmwk6v7xwj2lm6jn@b7rwyr5ic5x5>
+ <CAD=FV=XnANRM=+2D9+DzcXx9Gw6iKKQsgkAiq8=izNEN-91f_Q@mail.gmail.com>
+ <boqzlmbrp5rvepmckkqht4h5auspjlbt5leam4xivy7a4bqxnj@iuxxhooxcphk>
+ <CAD=FV=VO=GE5BEw6kKK19Qj9tcia509Pb-bvMcq0uA05sVLvHw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="k3mpzbb6xqnkqo6k"
 Content-Disposition: inline
-In-Reply-To: <2023062156-trespass-pandemic-7f4f@gregkh>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <CAD=FV=VO=GE5BEw6kKK19Qj9tcia509Pb-bvMcq0uA05sVLvHw@mail.gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -66,63 +82,230 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
-On Jun 21 2023, Greg KH wrote:
-> 
-> On Wed, Jun 21, 2023 at 11:42:30AM +0200, Benjamin Tissoires wrote:
-> > Make the code looks less like Pascal.
-> > 
-> > Extract the internal code inside a helper function, fix the
-> > initialization of the parameters used in the helper function
-> > (`hidpp->answer_available` was not reset and `*response` wasn't too),
-> > and use a `do {...} while();` loop.
-> > 
-> > Fixes: 586e8fede795 ("HID: logitech-hidpp: Retry commands when device is busy")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > ---
-> > as requested by https://lore.kernel.org/all/CAHk-=wiMbF38KCNhPFiargenpSBoecSXTLQACKS2UMyo_Vu2ww@mail.gmail.com/
-> > This is a rewrite of that particular piece of code.
-> > ---
-> >  drivers/hid/hid-logitech-hidpp.c | 102 +++++++++++++++++++++++----------------
-> >  1 file changed, 61 insertions(+), 41 deletions(-)
-> > 
-> > diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-> > index dfe8e09a18de..3d1ffe199f08 100644
-> > --- a/drivers/hid/hid-logitech-hidpp.c
-> > +++ b/drivers/hid/hid-logitech-hidpp.c
-> > @@ -275,21 +275,20 @@ static int __hidpp_send_report(struct hid_device *hdev,
-> >  }
-> >  
-> >  /*
-> > - * hidpp_send_message_sync() returns 0 in case of success, and something else
-> > - * in case of a failure.
-> > - * - If ' something else' is positive, that means that an error has been raised
-> > - *   by the protocol itself.
-> > - * - If ' something else' is negative, that means that we had a classic error
-> > - *   (-ENOMEM, -EPIPE, etc...)
-> > + * Effectively send the message to the device, waiting for its answer.
-> > + *
-> > + * Must be called with hidpp->send_mutex locked
-> > + *
-> > + * Same return protocol than hidpp_send_message_sync():
-> > + * - success on 0
-> > + * - negative error means transport error
-> > + * - positive value means protocol error
-> >   */
-> > -static int hidpp_send_message_sync(struct hidpp_device *hidpp,
-> > +static int __do_hidpp_send_message_sync(struct hidpp_device *hidpp,
-> >  	struct hidpp_report *message,
-> >  	struct hidpp_report *response)
-> 
-> __must_hold(&hidpp->send_mutex)  ?
-> 
+--k3mpzbb6xqnkqo6k
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Good point. I'll add this in v2.
+On Tue, Jun 13, 2023 at 08:56:39AM -0700, Doug Anderson wrote:
+> Hi,
+>=20
+> On Tue, Jun 13, 2023 at 5:06=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
+> wrote:
+> >
+> > > > What I'm trying to say is: could we just make it work by passing a =
+bunch
+> > > > of platform_data, 2-3 callbacks and a device registration from the =
+panel
+> > > > driver directly?
+> > >
+> > > I think I'm still confused about what you're proposing. Sorry! :( Let
+> > > me try rephrasing why I'm confused and perhaps we can get on the same
+> > > page. :-)
+> > >
+> > > First, I guess I'm confused about how you have one of these devices
+> > > "register" the other device.
+> > >
+> > > I can understand how one device might "register" its sub-devices in
+> > > the MFD case. To make it concrete, we can look at a PMIC like
+> > > max77686.c. The parent MFD device gets probed and then it's in charge
+> > > of creating all of its sub-devices. These sub-devices are intimately
+> > > tied to one another. They have shared data structures and can
+> > > coordinate power sequencing and whatnot. All good.
+> >
+> > We don't necessarily need to use MFD, but yeah, we could just register a
+> > device for the i2c-hid driver to probe from (using
+> > i2c_new_client_device?)
+>=20
+> I think this can work for devices where the panel and touchscreen are
+> truly integrated where the panel driver knows enough about the related
+> touchscreen to fully describe and instantiate it. It doesn't work
+> quite as well for cases where the power and reset lines are shared
+> just because of what a given board designer did. To handle that, each
+> panel driver would need to get enough DT properties added to it so
+> that it could fully describe any arbitrary touchscreen, right?
+>=20
+> Let's think about the generic panel-edp driver. This driver runs the
+> panel on many sc7180-trogdor laptops, including coachz, lazor, and
+> pompom. All three of those boards have a shared power rail for the
+> touchscreen and panel. If you look at "sc7180-trogdor-coachz.dtsi",
+> you can see the touchscreen currently looks like this:
+>=20
+> ap_ts: touchscreen@5d {
+>     compatible =3D "goodix,gt7375p";
+>     reg =3D <0x5d>;
+>     pinctrl-names =3D "default";
+>     pinctrl-0 =3D <&ts_int_l>, <&ts_reset_l>;
+>=20
+>     interrupt-parent =3D <&tlmm>;
+>     interrupts =3D <9 IRQ_TYPE_LEVEL_LOW>;
+>=20
+>     reset-gpios =3D <&tlmm 8 GPIO_ACTIVE_LOW>;
+>=20
+>     vdd-supply =3D <&pp3300_ts>;
+> };
+>=20
+> In "sc7180-trogdor-lazor.dtsi" we have:
+>=20
+> ap_ts: touchscreen@10 {
+>     compatible =3D "hid-over-i2c";
+>     reg =3D <0x10>;
+>     pinctrl-names =3D "default";
+>     pinctrl-0 =3D <&ts_int_l>, <&ts_reset_l>;
+>=20
+>     interrupt-parent =3D <&tlmm>;
+>     interrupts =3D <9 IRQ_TYPE_LEVEL_LOW>;
+>=20
+>     post-power-on-delay-ms =3D <20>;
+>     hid-descr-addr =3D <0x0001>;
+>=20
+>     vdd-supply =3D <&pp3300_ts>;
+> };
+>=20
+> In both cases "pp3300_ts" is simply another name for "pp3300_dx_edp"
+>=20
+> So I think to do what you propose, we need to add this information to
+> the panel-edp DT node so that it could dynamically construct the i2c
+> device for the touchscreen:
+>=20
+> a) Which touchscreen is actually connected (generic hid-over-i2c,
+> goodix, ...). I guess this would be a "compatible" string?
+>=20
+> b) Which i2c bus that device is hooked up to.
+>=20
+> c) Which i2c address that device is hooked up to.
+>=20
+> d) What the touchscreen interrupt GPIO is.
+>=20
+> e) Possibly what the "hid-descr-addr" for the touchscreen is.
+>=20
+> f) Any extra timing information needed to be passed to the touchscreen
+> driver, like "post-power-on-delay-ms"
+>=20
+> The "pinctrl" stuff would be easy to subsume into the panel's DT node,
+> at least. ...and, in this case, we could skip the "vdd-supply" since
+> the panel and eDP are sharing power rails (which is what got us into
+> this situation). ...but, the above is still a lot. At this point, it
+> would make sense to have a sub-node under the panel to describe it,
+> which we could do but it starts to feel weird. We'd essentially be
+> describing an i2c device but not under the i2c controller it belongs
+> to.
+>=20
+> I guess I'd also say that the above design also need additional code
+> if/when someone had a touchscreen that used a different communication
+> method, like SPI.
+>
+> So I guess the tl;dr of all the above is that I think it could all work i=
+f:
+>=20
+> 1. We described the touchscreen in a sub-node of the panel.
+>=20
+> 2. We added a property to the panel saying what the true parent of the
+> touchscreen was (an I2C controller, a SPI controller, ...) and what
+> type of controller it was ("SPI" vs "I2C").
+>=20
+> 3. We added some generic helpers that panels could call that would
+> understand how to instantiate the touchscreen under the appropriate
+> controller.
+>=20
+> 4. From there, we added a new private / generic API between panels and
+> touchscreens letting them know that the panel was turning on/off.
+>=20
+> That seems much more complex to me, though. It also seems like an
+> awkward way to describe it in DT.
 
-I'm still waiting for some feedback from the people who particpated in
-the original BZ, but the new bug is harder to reproduce. Anyway, there
-is no rush IMO.
+Yeah, I guess you're right. I wish we had something simpler, but I can't
+think of any better way.
 
-Cheers,
-Benjamin
+Sorry for the distraction.
 
+> > > In any case, is there any chance that we're in violent agreement
+> >
+> > Is it even violent? Sorry if it came across that way, it's really isn't
+> > on my end.
+>=20
+> Sorry, maybe a poor choice of words on my end. I've heard that term
+> thrown about when two people spend a lot of time discussing something
+> / trying to persuade the other person only to find out in the end that
+> they were both on the same side of the issue. ;-)
+>=20
+> > > and that if you dig into my design more you might like it? Other than
+> > > the fact that the panel doesn't "register" the touchscreen device, it
+> > > kinda sounds as if what my patches are already doing is roughly what
+> > > you're describing. The touchscreen and panel driver are really just
+> > > coordinating with each other through a shared data structure (struct
+> > > drm_panel_follower) that has a few callback functions. Just like with
+> > > "hdmi-codec", the devices probe separately but find each other through
+> > > a phandle. The coordination between the two happens through a few
+> > > simple helper functions.
+> >
+> > I guess we very much agree on the end-goal, and I'd really like to get
+> > this addressed somehow. There's a couple of things I'm not really
+> > sold on with your proposal though:
+> >
+> >  - It creates a ad-hoc KMS API for some problem that looks fairly
+> >    generic. It's also redundant with the notifier mechanism without
+> >    using it (probably for the best though).
+> >
+> >  - MIPI-DSI panel probe sequence is already fairly complex and fragile
+> >    (See https://www.kernel.org/doc/html/latest/gpu/drm-kms-helpers.html=
+#special-care-with-mipi-dsi-bridges).
+> >    I'd rather avoid creating a new dependency in that graph.
+> >
+> >  - And yeah, to some extent it's inconsistent with how we dealt with
+> >    secondary devices in KMS so far.
+>=20
+> Hmmmm. To a large extent, my current implementation actually has no
+> impact on the DRM probe sequence. The panel itself never looks for the
+> touchscreen code and everything DRM-related can register without a
+> care in the world. From reading your bullet points, I guess that's
+> both a strength and a weakness of my current proposal. It's really
+> outside the world of bridge chains and DRM components which makes it a
+> special snowflake that people need to understand on its own. ...but,
+> at the same time, the fact that it is outside all the rest of that
+> stuff means it doesn't add complexity to an already complex system.
+>=20
+> I guess I'd point to the panel backlight as a preexisting design
+> that's not totally unlike what I'm doing. The backlight is not part of
+> the DRM bridge chain and doesn't fit in like other components. This
+> actually makes sense since the backlight doesn't take in or put out
+> video data and it's simply something associated with the panel. The
+> backlight also has a loose connection to the panel driver and a given
+> panel could be associated with any number of different backlight
+> drivers depending on the board design. I guess one difference between
+> the backlight and what I'm doing with "panel follower" is that we
+> typically don't let the panel probe until after the backlight has
+> probed. In the case of my "panel follower" proposal it's the opposite.
+> As per above, from a DRM probe point of view this actually makes my
+> proposal less intrusive. I guess also a difference between backlight
+> and "panel follower" is that I allow an arbitrary number of followers
+> but there's only one backlight.
+>=20
+> One additional note: if I actually make the panel probe function start
+> registering the touchscreen, that actually _does_ add more complexity
+> to the already complex DRM probe ordering. It's yet another thing that
+> could fail and/or defer...
+>=20
+> Also, I'm curious: would my proposal be more or less palatable if I
+> made it less generic? Instead of "panel follower", I could hardcode it
+> to "touchscreen" and then remove all the list management. From a DRM
+> point of view this would make it even more like the preexisting
+> "backlight" except for the ordering difference.
+
+No, that's fine. I guess I don't have any objections to your work, so
+feel free to send a v2 :)
+
+Maxime
+
+--k3mpzbb6xqnkqo6k
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZJVhCgAKCRDj7w1vZxhR
+xW+5APwJp/mnUVm6p+WU2acbD2UpQ96WlsVnv+rw+bcWT7s5PAEAmMPgVJKB18RU
+kj8QoiN4WNWP0PvCrWcYPAvffCfYeA4=
+=WfaZ
+-----END PGP SIGNATURE-----
+
+--k3mpzbb6xqnkqo6k--
