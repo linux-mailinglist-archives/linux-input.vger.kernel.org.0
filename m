@@ -2,310 +2,359 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6F5573B33F
-	for <lists+linux-input@lfdr.de>; Fri, 23 Jun 2023 11:08:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26EA973B5A8
+	for <lists+linux-input@lfdr.de>; Fri, 23 Jun 2023 12:46:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230440AbjFWJIi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Jun 2023 05:08:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47564 "EHLO
+        id S231290AbjFWKqB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Jun 2023 06:46:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230358AbjFWJId (ORCPT
+        with ESMTP id S230117AbjFWKp7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Jun 2023 05:08:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F4119AB;
-        Fri, 23 Jun 2023 02:08:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2F5AD619C6;
-        Fri, 23 Jun 2023 09:08:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCA2DC433C0;
-        Fri, 23 Jun 2023 09:08:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687511310;
-        bh=XDe+QpmXX6ZcmTCp4Pqic6C3Q49nghoQCRwh4dRmpUU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BqvIt0bC0bF8EFUlTMtyW/XKDnuHrJ0oreIq6vIRnAqFhkGBOm2Gt75Ch4cMoWVRO
-         W2ZvdkvLo5n0AM9ToAlzIPyd433I3knQzQN42KqbPvUCWKOAA9rJtlslA10vpocZUx
-         mo2AHzJ6iSCOFa4g0nop4a9wXLreDdgufJxQeVde4zpMELwloI0yGeZ5NhsmGGufpd
-         VadbC2Ogqa/ruMpHB6npS8INUSqbqBs0C9cXloGSYXUGoO5thHrSGYoCvmhUu9O4eg
-         jsaI3hDjWo5LxnbT4jADCMd+zBeG0J8bAXKTcaQ6fFp60RufsrYZF+8FUEvZxdAdWM
-         zSuZpNSD6KCNg==
-Date:   Fri, 23 Jun 2023 11:08:26 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Jiri Kosina <jikos@kernel.org>,
+        Fri, 23 Jun 2023 06:45:59 -0400
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2064.outbound.protection.outlook.com [40.107.20.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 697FBE75;
+        Fri, 23 Jun 2023 03:45:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HRYmgWNRzgH+wTWzhuhoGhYnMxuofhuiiPoRK7n+8ywR9Bst2jdCMZfCrWM1tjChaRRQggFqUUb6C3K+MrZ6AzA9LO15VaTgQUdqyoFsF9LLFmOY5ZJVE0C8LFQWZErql2z2tJ0Wi7P8j6Nk5pQM5O/H93U6iwxn13imSXWGGC6GgzvNfvNScdbjzkpZKAvVT3aGRMELssXWDSWDQ1AzC2kvCP/2GLIgcJBNzELlW6e+mO7BwwhFtq3wv67S7pJqyqSrmTEmMjV11c+dUc33ZNqXqsDwpb8GnxOpV+Eb3flUhEJxMmrPqrkdTyZqj5DcXgpSx2EgotEN1qcKIMZpwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=H41hKN1mDc4hBikBVmQX/UqLDLgEve0lroI6QBSSfkE=;
+ b=HO6O2HaW8nwAgchv37cPE7KgM2dqNFhb/d+hKZPyeiUIwoCYsY2fE+L3eqyyNZPSWWkfNoEs3YWt+Rhvg4ajS2e0YyMt0t4lsMNTbeQWKhGaYGDauGrUgQ45zmUT9NAXoO+2HeRKXgfCxVdTIIvqMvInKxw+mjxWa8ZOC+yFDoR1um5DYrNEMrjPqLXguCk2qGHh4NdMfpPlsMTh8OimtFmrRFyY944GOnRTFAxoWlNnG96Wq1ldc52GbXPWAmBMqbfYKexaQ3FE8sd8JLN7F6PSvoM0O9DwO+n5S2/Yv8RFO1x78LTEkptA+MQF+vo6MTyrhxFEVZNBRfpADCDM0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=polimi.it; dmarc=pass action=none header.from=polimi.it;
+ dkim=pass header.d=polimi.it; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=polimi.it;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H41hKN1mDc4hBikBVmQX/UqLDLgEve0lroI6QBSSfkE=;
+ b=I4cGJY4QTjXk9fVvt4u8GRHyquEOEjDKlwK3jiv3y483W0Fw7HfJ0bJ/zUNNtYxZg07E1Z6OTnKtYQLNH6GSQqF61tpAKoZa++0/UC4G0DgacovrwEyjwhH804l/UqfIiOjWuSSiILtJSeD93poQyhHdGr7lwkF+raqp0RmvohwRGH0a/GtCJonObXrF1VpmAl2HlxMqlr3C5Kr96ikowXkdeWhIiFdV7biRGwZ2y1evVuHIU6MbLxChI6wZK7lvr+vhe2evXubj3SFgspBCV11oMyuKPkks3rmqgxb2bm4iRtuF945U/kLIEXdqcXIZWyk5beuTkr/yvMhsXZmo2w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=polimi.it;
+Received: from AM9P251MB0350.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:416::10)
+ by PAXP251MB0520.EURP251.PROD.OUTLOOK.COM (2603:10a6:102:276::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.44; Fri, 23 Jun
+ 2023 10:45:54 +0000
+Received: from AM9P251MB0350.EURP251.PROD.OUTLOOK.COM
+ ([fe80::651:7435:58fc:9db8]) by AM9P251MB0350.EURP251.PROD.OUTLOOK.COM
+ ([fe80::651:7435:58fc:9db8%3]) with mapi id 15.20.6521.026; Fri, 23 Jun 2023
+ 10:45:54 +0000
+Message-ID: <45d68dcb-7625-8592-fde6-60c9fbd5eaca@polimi.it>
+Date:   Fri, 23 Jun 2023 12:45:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v2] HID: Add introduction about HID for non-kernel
+ programmers
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        linux-kernel@vger.kernel.org, hsinyi@google.com,
-        cros-qcom-dts-watchers@chromium.org, devicetree@vger.kernel.org,
-        yangcong5@huaqin.corp-partner.google.com,
-        linux-arm-msm@vger.kernel.org,
-        Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH v2 00/10] drm/panel and i2c-hid: Allow panels and
- touchscreens to power sequence together
-Message-ID: <gkwymmfkdy2p2evz22wmbwgw42ii4wnvmvu64m3bghmj2jhv7x@4mbstjxnagxd>
-References: <20230607215224.2067679-1-dianders@chromium.org>
- <jehxiy3z4aieop5qgzmlon4u76n7gvt3kc6knxhb5yqkiz3rsp@mx27m75sx43r>
- <CAD=FV=Wr7Xatw1LsofiZ5Xx7WBvAuMMdq4D5Po1yJUC1VdtZdg@mail.gmail.com>
- <z7wi4z4lxpkhvooqhihlkpubyvueb37gvrpmwk6v7xwj2lm6jn@b7rwyr5ic5x5>
- <CAD=FV=XnANRM=+2D9+DzcXx9Gw6iKKQsgkAiq8=izNEN-91f_Q@mail.gmail.com>
- <boqzlmbrp5rvepmckkqht4h5auspjlbt5leam4xivy7a4bqxnj@iuxxhooxcphk>
- <CAD=FV=VO=GE5BEw6kKK19Qj9tcia509Pb-bvMcq0uA05sVLvHw@mail.gmail.com>
+        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+References: <70fdef05-d3b8-e24b-77be-901bd5be369e@polimi.it>
+ <d34eae36-0d43-6cd5-f8c0-57e1bd30f338@infradead.org>
+Content-Language: en-US, it
+From:   Marco Morandini <marco.morandini@polimi.it>
+In-Reply-To: <d34eae36-0d43-6cd5-f8c0-57e1bd30f338@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ZR0P278CA0031.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:1c::18) To AM9P251MB0350.EURP251.PROD.OUTLOOK.COM
+ (2603:10a6:20b:416::10)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="k3mpzbb6xqnkqo6k"
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=VO=GE5BEw6kKK19Qj9tcia509Pb-bvMcq0uA05sVLvHw@mail.gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9P251MB0350:EE_|PAXP251MB0520:EE_
+X-MS-Office365-Filtering-Correlation-Id: 18429fd4-d4fb-4f98-db0a-08db73d704ea
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pxHcvMg1zU2kEPm/Wq9c2wdwKC5cEzuCymk1pt5538LjDq9H3rH8/GCV+pVqPrnvXgQR4zmePvWraORTjeIZ6U0L/3xsYPivFf5N5WvIWmA/rW+WfRVeClDeWMNvrSwKKhDR6yPcWB4wQmgizobQPeT95hETy+nRTHhPgvYjD2SyakMD663Xt3QnjNOC8RKcUhYCEMcpnlHcxCOebQn81Uy8AQZDKVO5hM2iZnlAIJ1nuvCLPjnJth+qceLBqsB30uL6bEKBZ9lYQIymN/Jwj/KfjyJ2PEI2mKnlwJN8FOifX1OG8hK8TKCVH0YU4j4p/13Aa3yNK1EY7qY4ZthHWQ2RbU4JU8TuKaYWrKzQpHzPBcLOvlJrcrX7mr+6vl6DP5OqPeYr/2HaDd0Idt+Ft0JL4yj2A7fWnGXMb66x2w4xCKkU+lyJdNwXcOzo23JxDjyP9HmQDrIqi9saPI+H8dArOw6Q7FUxKp0IurAkAwniTOoPzn2ficTCGt3zEvGQ0jojr2Q13VIoq59s4QtCwyWPdFpqH+88vbkWvMc8LBSUi8tNk+K2C4RD9DwadwUb3xozDl+kSQts3M5TvMGmGi2x10NqLvFzAg743e39Ew4T1iykNQMQ5ZKUT8J/qMi0DhhZ9VBgH7PzbjO71vGtKg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P251MB0350.EURP251.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(366004)(136003)(396003)(39860400002)(451199021)(966005)(478600001)(110136005)(186003)(6486002)(86362001)(31696002)(26005)(6512007)(6506007)(316002)(2616005)(31686004)(786003)(66556008)(66476007)(38100700002)(66946007)(8676002)(66899021)(8936002)(44832011)(5660300002)(2906002)(41300700001)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q0s3SHdjaDRONENUT1lzaTBxYmpBTHN3UDFmZk9zOVUwdTRVaU5meE9FMTll?=
+ =?utf-8?B?SjkwTmR6eVBEaElDd3E0RVNTc1NqV0V3Z0M2bnpOQW9PeGZ5cFFXVW1DKzl2?=
+ =?utf-8?B?R1VBRUlsZythSWRtaGdxQ0IxbVBscEVaQllXaVRrQmljdG4yZUJTLytGTUhS?=
+ =?utf-8?B?WElPbTB0UzZKZFJCRDArQ01MNnJPdW44UDcxSk5yQ2NoR3I1N1R6VlRDYTZJ?=
+ =?utf-8?B?YVJLQnlrSFZ4Z3pKVTNXYmxadGR4VlBFRHpRYnlmNFdPa01hN3ZsNERrcFJY?=
+ =?utf-8?B?bUFHYWE4d2ZsenUxZTBoL0tQbUgyS1lzNXlvNU54czh5SmxaN1hwRmtoSzZX?=
+ =?utf-8?B?dnp5bFYwUUhmSVliVTRMdlZlRTFabXJ3cFJNTW1hOGUvR0ZDb0ZRb0NEY01i?=
+ =?utf-8?B?dEJOTkZqNjZBb2pGdk85S0Fpeld3MmwwTU1iK3h6b013aVJ3czBpSFhubWpt?=
+ =?utf-8?B?QkF2RW95bHZxak9QaW9mblc4YmtDY0I1T1pzMHA1NDNiM08wSXdGNi80Tkd1?=
+ =?utf-8?B?YUF1eEwyNzBJSHpQaE9NNCszV2I2M2xUQjQ4blBNTGNsZDI5cHF3dnFxQTlW?=
+ =?utf-8?B?WnBDd3VHcy80THo2cS9IK2pVclBYSDYzaXhlNklVNFZNTnV4K0dtSXV0VUR2?=
+ =?utf-8?B?ZGs3OEU4bVA3cFNqd2R4WEJ2VkNjeG1xVDg3RlJhdEg5eEhXVkN0a29QWDYx?=
+ =?utf-8?B?emdiR1pXTXk2MThQYXV0QlF1b2wxekJxNFRqVk1iaWZvN0c2M0g4aE5HSFdE?=
+ =?utf-8?B?NWphMFYxemxodS80WGxrVkE3cXF4c1NSZWtkT2p4bUZjbllxbkUxQ3pscXNp?=
+ =?utf-8?B?QVNTVmprUjJ1RlAyM2NLa09ETytQeEltUi9QV2RFdHJGcHVtSE12ak1Xdi9o?=
+ =?utf-8?B?SlFiM3MvZE1vMlFiblQyZkx6VWIyeXdOdzdlOFpEdzJmTVFXRW5ETnQrNzJZ?=
+ =?utf-8?B?L1cyZkgyUkdZYjBTWjVoZlBUd1ByMGdReXh3di9NeENHalFjR01rb1k4cUJv?=
+ =?utf-8?B?UFRaTXBuNHMzcXU5TEFtVXpJZzgzK1NvOW02bGhiUUNxT3dSRmRqMnpWRW9K?=
+ =?utf-8?B?UkJFalBrMHhPREdkYzdNZ0psMUxGK2tHRTBSTTZpdHA2a25xZ1k0Zk5IVUhW?=
+ =?utf-8?B?QkRybVVpckhUZWw2cjBHcUthdUdRM1BpUjUzTlg2WXV1UFBkZHpYcmtOTDBk?=
+ =?utf-8?B?RTlWNldwNWxQZVFrRXRHRGJZVlhXY0s2MFpiWDdKRm1sV2s5djJYTjZ5NFlD?=
+ =?utf-8?B?NFpaR1F1Ukh0cWxEcWszMHA1Y1hjdTVIWWNDbkNUUGJvMHNYK2Vab3VPVUN4?=
+ =?utf-8?B?V1FQTWwzRURnb3NkKzgzRm9MTi9DcDErZk90RFZxWVo4ZDVKRHRRUUoyeVl2?=
+ =?utf-8?B?czRsT3YvSk1oemMrTmY4d3J3aHZ4MGJOcVNCRytTVUNJRys3QWxDTnJwQUht?=
+ =?utf-8?B?UW5veitmVzlETmU4aGVYTUFLYlRpV2RxRFUvUnh3R0Q0V3UwTkUvaE14WVdy?=
+ =?utf-8?B?Y2Fkd25mUjZlSFU0QkN6YkpIL0hQUDdnT3E4VmdRNWhDQzBWQkVFenJyeVJP?=
+ =?utf-8?B?Mit3eHpISGhEaXJGS3BLNkJ1TGErc0ZqSENLRVBaUS8xazJBQ29MZjFweTBJ?=
+ =?utf-8?B?QVRhUFdNOFRoT1MvTnQvSnMrc2pOVHRoWDNKMzlLOG9rRGRUVjhOZGZ2YmRi?=
+ =?utf-8?B?VkxvVmNzSXpXVTZTUWR0SWo2ZmxRRFJTYk8xRDlrTm5nU2JibWsrc1B4bDJR?=
+ =?utf-8?B?L25hdUVFN2VGLy9mc2dvZitlS3ZKTllHcHF2b1dVN2Y4Q2p6U1dPZVdNdjRv?=
+ =?utf-8?B?QWVteFZiUFQrVGIxNDVwOGZwWlppbHEyTmtrTDlqVnRLbitNUkt3aTVNcUZH?=
+ =?utf-8?B?bkRFTFNWaDdKeGx3eWZkNkhFTnpTRVJzTXNZVUxuaEJxNkR6MzI5dXdRYVZL?=
+ =?utf-8?B?TmhISXFscVNPUGMvSWZMM0lQcnlXZjRkSVNDWEFzMmwvM3lZRmRVTXBUUG84?=
+ =?utf-8?B?aktRRExJN2dlN210TEVoN1VZd0hoUjQwVXZ0R2FHN3NCcnpHY05IMHBJNlJO?=
+ =?utf-8?B?ckdvUGVON0NNM1ZBM2hHYlloR3NXKzZ5dFhZazBlKy85dHhlOVFnUWx1RHRR?=
+ =?utf-8?Q?9eWffsDowyujY6m29+u2GvrwV?=
+X-OriginatorOrg: polimi.it
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18429fd4-d4fb-4f98-db0a-08db73d704ea
+X-MS-Exchange-CrossTenant-AuthSource: AM9P251MB0350.EURP251.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2023 10:45:54.1923
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0a17712b-6df3-425d-808e-309df28a5eeb
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: skpSviVM3HhIt8R82UwEnPwn1A5dUrqx3kx9Ok7ezpQcd4FZ2cTP623YHd4aV29S6hesfqdt6vY1M8IXPOdVYg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXP251MB0520
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Thank you very much for your corrections.
+I've applied almost everything (see below),
+but I have two questions below.
 
---k3mpzbb6xqnkqo6k
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Marco
 
-On Tue, Jun 13, 2023 at 08:56:39AM -0700, Doug Anderson wrote:
-> Hi,
->=20
-> On Tue, Jun 13, 2023 at 5:06=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> >
-> > > > What I'm trying to say is: could we just make it work by passing a =
-bunch
-> > > > of platform_data, 2-3 callbacks and a device registration from the =
-panel
-> > > > driver directly?
-> > >
-> > > I think I'm still confused about what you're proposing. Sorry! :( Let
-> > > me try rephrasing why I'm confused and perhaps we can get on the same
-> > > page. :-)
-> > >
-> > > First, I guess I'm confused about how you have one of these devices
-> > > "register" the other device.
-> > >
-> > > I can understand how one device might "register" its sub-devices in
-> > > the MFD case. To make it concrete, we can look at a PMIC like
-> > > max77686.c. The parent MFD device gets probed and then it's in charge
-> > > of creating all of its sub-devices. These sub-devices are intimately
-> > > tied to one another. They have shared data structures and can
-> > > coordinate power sequencing and whatnot. All good.
-> >
-> > We don't necessarily need to use MFD, but yeah, we could just register a
-> > device for the i2c-hid driver to probe from (using
-> > i2c_new_client_device?)
->=20
-> I think this can work for devices where the panel and touchscreen are
-> truly integrated where the panel driver knows enough about the related
-> touchscreen to fully describe and instantiate it. It doesn't work
-> quite as well for cases where the power and reset lines are shared
-> just because of what a given board designer did. To handle that, each
-> panel driver would need to get enough DT properties added to it so
-> that it could fully describe any arbitrary touchscreen, right?
->=20
-> Let's think about the generic panel-edp driver. This driver runs the
-> panel on many sc7180-trogdor laptops, including coachz, lazor, and
-> pompom. All three of those boards have a shared power rail for the
-> touchscreen and panel. If you look at "sc7180-trogdor-coachz.dtsi",
-> you can see the touchscreen currently looks like this:
->=20
-> ap_ts: touchscreen@5d {
->     compatible =3D "goodix,gt7375p";
->     reg =3D <0x5d>;
->     pinctrl-names =3D "default";
->     pinctrl-0 =3D <&ts_int_l>, <&ts_reset_l>;
->=20
->     interrupt-parent =3D <&tlmm>;
->     interrupts =3D <9 IRQ_TYPE_LEVEL_LOW>;
->=20
->     reset-gpios =3D <&tlmm 8 GPIO_ACTIVE_LOW>;
->=20
->     vdd-supply =3D <&pp3300_ts>;
-> };
->=20
-> In "sc7180-trogdor-lazor.dtsi" we have:
->=20
-> ap_ts: touchscreen@10 {
->     compatible =3D "hid-over-i2c";
->     reg =3D <0x10>;
->     pinctrl-names =3D "default";
->     pinctrl-0 =3D <&ts_int_l>, <&ts_reset_l>;
->=20
->     interrupt-parent =3D <&tlmm>;
->     interrupts =3D <9 IRQ_TYPE_LEVEL_LOW>;
->=20
->     post-power-on-delay-ms =3D <20>;
->     hid-descr-addr =3D <0x0001>;
->=20
->     vdd-supply =3D <&pp3300_ts>;
-> };
->=20
-> In both cases "pp3300_ts" is simply another name for "pp3300_dx_edp"
->=20
-> So I think to do what you propose, we need to add this information to
-> the panel-edp DT node so that it could dynamically construct the i2c
-> device for the touchscreen:
->=20
-> a) Which touchscreen is actually connected (generic hid-over-i2c,
-> goodix, ...). I guess this would be a "compatible" string?
->=20
-> b) Which i2c bus that device is hooked up to.
->=20
-> c) Which i2c address that device is hooked up to.
->=20
-> d) What the touchscreen interrupt GPIO is.
->=20
-> e) Possibly what the "hid-descr-addr" for the touchscreen is.
->=20
-> f) Any extra timing information needed to be passed to the touchscreen
-> driver, like "post-power-on-delay-ms"
->=20
-> The "pinctrl" stuff would be easy to subsume into the panel's DT node,
-> at least. ...and, in this case, we could skip the "vdd-supply" since
-> the panel and eDP are sharing power rails (which is what got us into
-> this situation). ...but, the above is still a lot. At this point, it
-> would make sense to have a sub-node under the panel to describe it,
-> which we could do but it starts to feel weird. We'd essentially be
-> describing an i2c device but not under the i2c controller it belongs
-> to.
->=20
-> I guess I'd also say that the above design also need additional code
-> if/when someone had a touchscreen that used a different communication
-> method, like SPI.
->
-> So I guess the tl;dr of all the above is that I think it could all work i=
-f:
->=20
-> 1. We described the touchscreen in a sub-node of the panel.
->=20
-> 2. We added a property to the panel saying what the true parent of the
-> touchscreen was (an I2C controller, a SPI controller, ...) and what
-> type of controller it was ("SPI" vs "I2C").
->=20
-> 3. We added some generic helpers that panels could call that would
-> understand how to instantiate the touchscreen under the appropriate
-> controller.
->=20
-> 4. From there, we added a new private / generic API between panels and
-> touchscreens letting them know that the panel was turning on/off.
->=20
-> That seems much more complex to me, though. It also seems like an
-> awkward way to describe it in DT.
 
-Yeah, I guess you're right. I wish we had something simpler, but I can't
-think of any better way.
+>> +This chapter is meant to give a broad overview
+>> +of what HID report descriptors are, and of how a casual (non kernel)
+> 
+>                                                            (non-kernel)
 
-Sorry for the distraction.
+Ok, thank you!
 
-> > > In any case, is there any chance that we're in violent agreement
-> >
-> > Is it even violent? Sorry if it came across that way, it's really isn't
-> > on my end.
->=20
-> Sorry, maybe a poor choice of words on my end. I've heard that term
-> thrown about when two people spend a lot of time discussing something
-> / trying to persuade the other person only to find out in the end that
-> they were both on the same side of the issue. ;-)
->=20
-> > > and that if you dig into my design more you might like it? Other than
-> > > the fact that the panel doesn't "register" the touchscreen device, it
-> > > kinda sounds as if what my patches are already doing is roughly what
-> > > you're describing. The touchscreen and panel driver are really just
-> > > coordinating with each other through a shared data structure (struct
-> > > drm_panel_follower) that has a few callback functions. Just like with
-> > > "hdmi-codec", the devices probe separately but find each other through
-> > > a phandle. The coordination between the two happens through a few
-> > > simple helper functions.
-> >
-> > I guess we very much agree on the end-goal, and I'd really like to get
-> > this addressed somehow. There's a couple of things I'm not really
-> > sold on with your proposal though:
-> >
-> >  - It creates a ad-hoc KMS API for some problem that looks fairly
-> >    generic. It's also redundant with the notifier mechanism without
-> >    using it (probably for the best though).
-> >
-> >  - MIPI-DSI panel probe sequence is already fairly complex and fragile
-> >    (See https://www.kernel.org/doc/html/latest/gpu/drm-kms-helpers.html=
-#special-care-with-mipi-dsi-bridges).
-> >    I'd rather avoid creating a new dependency in that graph.
-> >
-> >  - And yeah, to some extent it's inconsistent with how we dealt with
-> >    secondary devices in KMS so far.
->=20
-> Hmmmm. To a large extent, my current implementation actually has no
-> impact on the DRM probe sequence. The panel itself never looks for the
-> touchscreen code and everything DRM-related can register without a
-> care in the world. From reading your bullet points, I guess that's
-> both a strength and a weakness of my current proposal. It's really
-> outside the world of bridge chains and DRM components which makes it a
-> special snowflake that people need to understand on its own. ...but,
-> at the same time, the fact that it is outside all the rest of that
-> stuff means it doesn't add complexity to an already complex system.
->=20
-> I guess I'd point to the panel backlight as a preexisting design
-> that's not totally unlike what I'm doing. The backlight is not part of
-> the DRM bridge chain and doesn't fit in like other components. This
-> actually makes sense since the backlight doesn't take in or put out
-> video data and it's simply something associated with the panel. The
-> backlight also has a loose connection to the panel driver and a given
-> panel could be associated with any number of different backlight
-> drivers depending on the board design. I guess one difference between
-> the backlight and what I'm doing with "panel follower" is that we
-> typically don't let the panel probe until after the backlight has
-> probed. In the case of my "panel follower" proposal it's the opposite.
-> As per above, from a DRM probe point of view this actually makes my
-> proposal less intrusive. I guess also a difference between backlight
-> and "panel follower" is that I allow an arbitrary number of followers
-> but there's only one backlight.
->=20
-> One additional note: if I actually make the panel probe function start
-> registering the touchscreen, that actually _does_ add more complexity
-> to the already complex DRM probe ordering. It's yet another thing that
-> could fail and/or defer...
->=20
-> Also, I'm curious: would my proposal be more or less palatable if I
-> made it less generic? Instead of "panel follower", I could hardcode it
-> to "touchscreen" and then remove all the list management. From a DRM
-> point of view this would make it even more like the preexisting
-> "backlight" except for the ordering difference.
+> 
+>> +programmer can deal with an HID device that
+> 
+>                             a HID device that
 
-No, that's fine. I guess I don't have any objections to your work, so
-feel free to send a v2 :)
+-> with HID devices
 
-Maxime
+as suggested by Peter
 
---k3mpzbb6xqnkqo6k
-Content-Type: application/pgp-signature; name="signature.asc"
+>> +may a wheel; movement sensitivity differs between different
+> 
+>    may have a wheel;
+> 
 
------BEGIN PGP SIGNATURE-----
+Ok
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZJVhCgAKCRDj7w1vZxhR
-xW+5APwJp/mnUVm6p+WU2acbD2UpQ96WlsVnv+rw+bcWT7s5PAEAmMPgVJKB18RU
-kj8QoiN4WNWP0PvCrWcYPAvffCfYeA4=
-=WfaZ
------END PGP SIGNATURE-----
+>> +The format of HID report descriptors is described by two documents,
+>> +available from the `USB Implementers Forum <https://www.usb.org/>`_
+>> +at `this <https://www.usb.org/hid>`_ addresses:
+> 
+>        these
 
---k3mpzbb6xqnkqo6k--
+Not sure about this.
+"this" here was meant to be https://www.usb.org/hid , while the two documents are listed below.
+
+Would 
+
+The format of HID report descriptors is described by two documents,
+available from the `USB Implementers Forum <https://www.usb.org/>`_
+`HID web page <https://www.usb.org/hid>`_:
+
+be ok?
+
+>> +In practice you should not do parse HID report descriptors by hand; 
+> 
+>                           s/do //
+
+Ok
+
+> and drop the line's trailing space. (Do that on any lines that have a
+> trailing space.)
+> 
+
+I forgot to run checkpatch, my bad. Will do for v3.
+
+>> +    It is being actively developed by the Linux HID subsystem mantainers.
+> 
+>                                                                  maintainers.
+
+Ok
+
+>> +
+>> +    # 0x81, 0x02, 		     //	Input (Data,Var,Abs)		   24
+>> + it's actual Data (not constant padding), they represent 
+> 
+>     its
+> ?
+> "its" is possessive. "it's" means "it is".
+> 
+
+-> these bits are actual data 
+
+ok?
+
+>> + a single variable (Var) and the value are Absolute (not relative); 
+> 
+>                                     value is
+>                         or          values are
+> 
+
+values are
+
+thank you!
+
+>> + This time the data is Relative (Rel), i.e. it represent 
+> 
+>                                                   represents
+> 
+>> +An HID devices can have Input Reports, like
+> 
+>    A HID device
+> 
+
+-> HID devices that are not ....
+
+as suggested by Peter
+Ok?
+
+
+>> +Note that, however, that you can have different Report IDs
+> 
+>    Note, however, that
+> 
+
+Thank you!
+
+>> +
+>> +There can be a number of reasons for why a device does not behave
+> 
+> s/for //
+> 
+
+Ok, thank you
+
+>> +* the HID report descriptor may need some "quirks" (see later on);
+> 
+>                                                                  on).
+
+Ok
+
+>> +
+>> +As a consequence, a suitable ``/dev/input/event*`` will not created 
+> 
+>                                                            not be created
+> 
+
+Ok
+
+>> +for each Application Collection, and/or the events 
+>> +there will match what you would expect.
+> 
+>          will not
+> ?
+> 
+
+will not
+
+
+>> +
+>> +
+>> +Quirks
+>> +------
+>> +
+>> +There are some known peculiarities of HID devices that the kernel
+>> +knows how to fix - these are called the HID quirks and a list of those
+>> +are available in `include/linux/hid.h`.
+> 
+>    is available
+> 
+
+Ok
+
+>> +
+>> +Should this be the case,
+>> +it should be enough to add the required quirk,
+> 
+>                                            quirk
+> (no comma)
+> 
+
+Ok
+
+>> +should go into hid-quirks.c and **submitted upstream**.
+> 
+>                                    **be submitted upstream**.
+> 
+
+Ok
+
+>> +See, again, Documentation/process/submitting-patches.rst
+>> +for guidelines on how to do submit a patch.
+> 
+>                      how to submit a patch.
+> 
+
+Ok
+
+>> +for your code, see e.g. `samples/hid_mouse.bpf.c`::
+> 
+>                             samples/hid/hid_mouse.bpf.c
+> 
+
+
+Right.
+
+
+>> +Check Documentation/hid/hidreport-parsing.rst
+>> +if you need an help navigating the HID manuals and
+> 
+>                any
+> 
+
+Ok
+
+>> +and that particular HID device will will start
+> 
+>                                   will start
+> 
+
+Ok
+
+>> +
+>> +.. [#hidraw] reading hidraw: see Documentation/hid/hidraw.rst and
+> 
+>                 read
+> 
+
+Ok
+
+
+>> +We have an ``Usage Page``, thus we need to refer to HUT Sec. 3,
+> 
+>       have a
+> 
+
+Ok
+
+>> +is given in the HID spec Sec. 6.2.2.8 "Local Items", so that we have an ``Usage``.
+> 
+>                                                                    have a
+
+Ok
+
+
