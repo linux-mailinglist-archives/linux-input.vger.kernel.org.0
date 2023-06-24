@@ -2,118 +2,273 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 957C773BB64
-	for <lists+linux-input@lfdr.de>; Fri, 23 Jun 2023 17:17:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C10F73C678
+	for <lists+linux-input@lfdr.de>; Sat, 24 Jun 2023 05:17:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232088AbjFWPRl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Jun 2023 11:17:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34222 "EHLO
+        id S229529AbjFXDRA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Jun 2023 23:17:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232153AbjFWPRY (ORCPT
+        with ESMTP id S229493AbjFXDQ7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Jun 2023 11:17:24 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A82C635BD;
-        Fri, 23 Jun 2023 08:16:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-        bh=N3smy6Zp96zb/56FOleD7t4iHGn3m5ujv35yRmbmja8=; b=AWAHdqhKgpBNeh1ReecXi/vhOV
-        1WwGGujDC1g8Xml0ppCQz4gJqANGq3FtnuI0hqTMRgpAOSixr4UCLdW07EfHlMFQJI+XElH34CUuB
-        A+MBTpdSTmxoUKIoQxqKl1RDvajc2fUp3g8lYP5JAhvlejRget3/5tugFA+pqg269n4Q3kFxQ9yGy
-        P1yTNtdtNvJYhtLiHYgmsEHqqkSkq2znDHYOiDomfP12A4YbpcRZlKLvlE2cdE9oknpZQZq49YgHF
-        rmLfJt1EzZqn0ZEZUsF5Mr8R1TrmkIzJuqgiDDQWMgBIvJNn8JslZKbzRS8YJNvORHWA72xjZDDjV
-        fkFiJgLw==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qCiWH-003uYG-1H;
-        Fri, 23 Jun 2023 15:16:17 +0000
-Message-ID: <f53e756f-7c81-1c79-23ea-b9009fdd2ef4@infradead.org>
-Date:   Fri, 23 Jun 2023 08:16:15 -0700
+        Fri, 23 Jun 2023 23:16:59 -0400
+Received: from mail-io1-f80.google.com (mail-io1-f80.google.com [209.85.166.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 513A6197
+        for <linux-input@vger.kernel.org>; Fri, 23 Jun 2023 20:16:57 -0700 (PDT)
+Received: by mail-io1-f80.google.com with SMTP id ca18e2360f4ac-77de452f2a1so75874039f.2
+        for <linux-input@vger.kernel.org>; Fri, 23 Jun 2023 20:16:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687576616; x=1690168616;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=k65zINyUz9GkzIfZNmLbjtYyNeo+GXwEgSmlVobXADY=;
+        b=F5iKGKLVedWCl6aLi9JMDYt/4narkh8Z4fSvtPpe80aIWv7HKRGgPILE3eokxru44P
+         ThYW97aqJfiCcnKxSHbbfHbgGUtDe+uwf9h7R1yADASXdjwmrQ+k6yAmLNQyX9ODgH9+
+         nJd83iLxFWs4N4XqH2Bsx3HmfH5hVWZv14nnmPHog2t25OrXSAcHWhuP36aZKnT/MXtu
+         dNespX9kFKrMwWgt+kO0qEyoCSJvG8VXn4CmB0r9JXu4Y+rMoArWYHdcj0HQo4pODG4X
+         6Ybuz32yIb0JYOABHlPLY2NIE95ryvNuj2kNU8ZAo9aL65JX3iRwiPka9z2nUG4RLdSH
+         ePvw==
+X-Gm-Message-State: AC+VfDzENlDbMZoeOD8dOTWpjcTjyfHl7Y+d27UeSszQQiymV7pzGwt6
+        ueNUTfLSxTJZ1oZ2l+9FJwQSG0KzPFla9CKqpD15QEaCByt0
+X-Google-Smtp-Source: ACHHUZ5Oe1gRuTSgev790sJM1V7hB6XmjlxQQOe+yIH0qUyb4vV4L4B+BBQMEukZH8XNqm04rhFEsyu1P0hQx+vF4AqD6Pd03sLE
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2] HID: Add introduction about HID for non-kernel
- programmers
-Content-Language: en-US
-To:     Marco Morandini <marco.morandini@polimi.it>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-References: <70fdef05-d3b8-e24b-77be-901bd5be369e@polimi.it>
- <d34eae36-0d43-6cd5-f8c0-57e1bd30f338@infradead.org>
- <45d68dcb-7625-8592-fde6-60c9fbd5eaca@polimi.it>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <45d68dcb-7625-8592-fde6-60c9fbd5eaca@polimi.it>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Received: by 2002:a6b:db17:0:b0:763:5f92:afc3 with SMTP id
+ t23-20020a6bdb17000000b007635f92afc3mr8066870ioc.0.1687576616574; Fri, 23 Jun
+ 2023 20:16:56 -0700 (PDT)
+Date:   Fri, 23 Jun 2023 20:16:56 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000c329d505fed78c74@google.com>
+Subject: [syzbot] [input?] INFO: task hung in uhid_char_release
+From:   syzbot <syzbot+8fe2d362af0e1cba8735@syzkaller.appspotmail.com>
+To:     benjamin.tissoires@redhat.com, david.rheinsberg@gmail.com,
+        jikos@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Marco,
+Hello,
 
-On 6/23/23 03:45, Marco Morandini wrote:
+syzbot found the following issue on:
 
->>> +The format of HID report descriptors is described by two documents,
->>> +available from the `USB Implementers Forum <https://www.usb.org/>`_
->>> +at `this <https://www.usb.org/hid>`_ addresses:
->>
->>        these
-> 
-> Not sure about this.
-> "this" here was meant to be https://www.usb.org/hid , while the two documents are listed below.
-> 
-> Would 
-> 
-> The format of HID report descriptors is described by two documents,
-> available from the `USB Implementers Forum <https://www.usb.org/>`_
-> `HID web page <https://www.usb.org/hid>`_:
-> 
-> be ok?
+HEAD commit:    f7efed9f38f8 Add linux-next specific files for 20230616
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=11ec12f3280000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=60b1a32485a77c16
+dashboard link: https://syzkaller.appspot.com/bug?extid=8fe2d362af0e1cba8735
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=152875ef280000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1629f75b280000
 
-Yes, that's good.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/95bcbee03439/disk-f7efed9f.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/6fd295caa4de/vmlinux-f7efed9f.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/69c038a34b5f/bzImage-f7efed9f.xz
 
->>> +    # 0x81, 0x02, 		     //	Input (Data,Var,Abs)		   24
->>> + it's actual Data (not constant padding), they represent 
->>
->>     its
->> ?
->> "its" is possessive. "it's" means "it is".
->>
-> 
-> -> these bits are actual data 
-> 
-> ok?
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+8fe2d362af0e1cba8735@syzkaller.appspotmail.com
 
-Yes.
+INFO: task syz-executor188:5032 blocked for more than 143 seconds.
+      Not tainted 6.4.0-rc6-next-20230616-syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:syz-executor188 state:D
+ stack:27424 pid:5032  ppid:5028   flags:0x00004002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5380 [inline]
+ __schedule+0x1d15/0x5790 kernel/sched/core.c:6709
+ schedule+0xde/0x1a0 kernel/sched/core.c:6785
+ schedule_timeout+0x276/0x2b0 kernel/time/timer.c:2143
+ do_wait_for_common kernel/sched/completion.c:85 [inline]
+ __wait_for_common+0x1ce/0x5c0 kernel/sched/completion.c:106
+ __flush_work+0x595/0xb60 kernel/workqueue.c:3383
+ __cancel_work_timer+0x3f9/0x570 kernel/workqueue.c:3470
+ uhid_dev_destroy drivers/hid/uhid.c:585 [inline]
+ uhid_char_release+0xca/0x210 drivers/hid/uhid.c:663
+ __fput+0x289/0xac0 fs/file_table.c:378
+ task_work_run+0x16f/0x270 kernel/task_work.c:179
+ exit_task_work include/linux/task_work.h:38 [inline]
+ do_exit+0xadc/0x2a30 kernel/exit.c:874
+ do_group_exit+0xd4/0x2a0 kernel/exit.c:1024
+ __do_sys_exit_group kernel/exit.c:1035 [inline]
+ __se_sys_exit_group kernel/exit.c:1033 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1033
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7fa196a81b19
+RSP: 002b:00007ffc33991898 EFLAGS: 00000246
+ ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007fa196af5330 RCX: 00007fa196a81b19
+RDX: 000000000000003c RSI: 00000000000000e7 RDI: 0000000000000000
+RBP: 0000000000000000 R08: ffffffffffffffc0 R09: 0000000000000001
+R10: 00007ffc33991360 R11: 0000000000000246 R12: 00007fa196af5330
+R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
+ </TASK>
+INFO: task syz-executor188:5038 blocked for more than 145 seconds.
+      Not tainted 6.4.0-rc6-next-20230616-syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:syz-executor188 state:D
+ stack:28176 pid:5038  ppid:5036   flags:0x00004002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5380 [inline]
+ __schedule+0x1d15/0x5790 kernel/sched/core.c:6709
+ schedule+0xde/0x1a0 kernel/sched/core.c:6785
+ schedule_timeout+0x276/0x2b0 kernel/time/timer.c:2143
+ do_wait_for_common kernel/sched/completion.c:85 [inline]
+ __wait_for_common+0x1ce/0x5c0 kernel/sched/completion.c:106
+ __flush_work+0x595/0xb60 kernel/workqueue.c:3383
+ __cancel_work_timer+0x3f9/0x570 kernel/workqueue.c:3470
+ uhid_dev_destroy drivers/hid/uhid.c:585 [inline]
+ uhid_char_release+0xca/0x210 drivers/hid/uhid.c:663
+ __fput+0x289/0xac0 fs/file_table.c:378
+ task_work_run+0x16f/0x270 kernel/task_work.c:179
+ exit_task_work include/linux/task_work.h:38 [inline]
+ do_exit+0xadc/0x2a30 kernel/exit.c:874
+ do_group_exit+0xd4/0x2a0 kernel/exit.c:1024
+ __do_sys_exit_group kernel/exit.c:1035 [inline]
+ __se_sys_exit_group kernel/exit.c:1033 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1033
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7fa196a81b19
+RSP: 002b:00007ffc33991898 EFLAGS: 00000246
+ ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007fa196af5330 RCX: 00007fa196a81b19
+RDX: 000000000000003c RSI: 00000000000000e7 RDI: 0000000000000000
+RBP: 0000000000000000 R08: ffffffffffffffc0 R09: 0000000000000001
+R10: 00007ffc33991360 R11: 0000000000000246 R12: 00007fa196af5330
+R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
+ </TASK>
+INFO: task syz-executor188:5042 blocked for more than 147 seconds.
+      Not tainted 6.4.0-rc6-next-20230616-syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:syz-executor188 state:D stack:27136 pid:5042  ppid:5037   flags:0x00004002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5380 [inline]
+ __schedule+0x1d15/0x5790 kernel/sched/core.c:6709
+ schedule+0xde/0x1a0 kernel/sched/core.c:6785
+ schedule_timeout+0x276/0x2b0 kernel/time/timer.c:2143
+ do_wait_for_common kernel/sched/completion.c:85 [inline]
+ __wait_for_common+0x1ce/0x5c0 kernel/sched/completion.c:106
+ __flush_work+0x595/0xb60 kernel/workqueue.c:3383
+ __cancel_work_timer+0x3f9/0x570 kernel/workqueue.c:3470
+ uhid_dev_destroy drivers/hid/uhid.c:585 [inline]
+ uhid_char_release+0xca/0x210 drivers/hid/uhid.c:663
+ __fput+0x289/0xac0 fs/file_table.c:378
+ task_work_run+0x16f/0x270 kernel/task_work.c:179
+ exit_task_work include/linux/task_work.h:38 [inline]
+ do_exit+0xadc/0x2a30 kernel/exit.c:874
+ do_group_exit+0xd4/0x2a0 kernel/exit.c:1024
+ __do_sys_exit_group kernel/exit.c:1035 [inline]
+ __se_sys_exit_group kernel/exit.c:1033 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1033
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7fa196a81b19
+RSP: 002b:00007ffc33991898 EFLAGS: 00000246
+ ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007fa196af5330 RCX: 00007fa196a81b19
+RDX: 000000000000003c RSI: 00000000000000e7 RDI: 0000000000000000
+RBP: 0000000000000000 R08: ffffffffffffffc0 R09: 0000000000000001
+R10: 00007ffc33991360 R11: 0000000000000246 R12: 00007fa196af5330
+R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
+ </TASK>
+INFO: task syz-executor188:5046 blocked for more than 150 seconds.
+      Not tainted 6.4.0-rc6-next-20230616-syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:syz-executor188 state:D stack:28048 pid:5046  ppid:5029   flags:0x00004002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5380 [inline]
+ __schedule+0x1d15/0x5790 kernel/sched/core.c:6709
+ schedule+0xde/0x1a0 kernel/sched/core.c:6785
+ schedule_timeout+0x276/0x2b0 kernel/time/timer.c:2143
+ do_wait_for_common kernel/sched/completion.c:85 [inline]
+ __wait_for_common+0x1ce/0x5c0 kernel/sched/completion.c:106
+ __flush_work+0x595/0xb60 kernel/workqueue.c:3383
+ __cancel_work_timer+0x3f9/0x570 kernel/workqueue.c:3470
+ uhid_dev_destroy drivers/hid/uhid.c:585 [inline]
+ uhid_char_release+0xca/0x210 drivers/hid/uhid.c:663
+ __fput+0x289/0xac0 fs/file_table.c:378
+ task_work_run+0x16f/0x270 kernel/task_work.c:179
+ exit_task_work include/linux/task_work.h:38 [inline]
+ do_exit+0xadc/0x2a30 kernel/exit.c:874
+ do_group_exit+0xd4/0x2a0 kernel/exit.c:1024
+ __do_sys_exit_group kernel/exit.c:1035 [inline]
+ __se_sys_exit_group kernel/exit.c:1033 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1033
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7fa196a81b19
+RSP: 002b:00007ffc33991898 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007fa196af5330 RCX: 00007fa196a81b19
+RDX: 000000000000003c RSI: 00000000000000e7 RDI: 0000000000000000
+RBP: 0000000000000000 R08: ffffffffffffffc0 R09: 0000000000000001
+R10: 00007ffc33991360 R11: 0000000000000246 R12: 00007fa196af5330
+R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
+ </TASK>
 
->>> + This time the data is Relative (Rel), i.e. it represent 
->>
->>                                                   represents
->>
->>> +An HID devices can have Input Reports, like
->>
->>    A HID device
->>
-> 
-> -> HID devices that are not ....
-> 
-> as suggested by Peter
-> Ok?
+Showing all locks held in the system:
+3 locks held by kworker/0:0/7:
+1 lock held by rcu_tasks_kthre/13:
+ #0: 
+ffffffff8c9a1ab0
+ (
+rcu_tasks.tasks_gp_mutex){+.+.}-{3:3}, at: rcu_tasks_one_gp+0x31/0xe60 kernel/rcu/tasks.h:568
+1 lock held by rcu_tasks_trace/14:
+ #0: 
+ffffffff8c9a1770
+ (
+rcu_tasks_trace.tasks_gp_mutex){+.+.}-{3:3}
+, at: rcu_tasks_one_gp+0x31/0xe60 kernel/rcu/tasks.h:568
+3 locks held by kworker/1:0/22:
+1 lock held by khungtaskd/28:
+ #0: ffffffff8c9a26c0 (rcu_read_lock
+){....}-{1:2}
+, at: debug_show_all_locks+0x51/0x390 kernel/locking/lockdep.c:6615
+3 locks held by kworker/1:2/776:
+3 locks held by kworker/0:2/919:
+3 locks held by kworker/0:3/3948:
+2 locks held by getty/4779:
+ #0: 
+ffff88814a6b7098
 
-Sure.
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-thanks.
--- 
-~Randy
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to change bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
