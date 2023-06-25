@@ -2,54 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ADC773D248
-	for <lists+linux-input@lfdr.de>; Sun, 25 Jun 2023 18:29:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C8AC73D24B
+	for <lists+linux-input@lfdr.de>; Sun, 25 Jun 2023 18:29:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231401AbjFYQ3o (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 25 Jun 2023 12:29:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58434 "EHLO
+        id S231522AbjFYQ3p (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 25 Jun 2023 12:29:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231488AbjFYQ3e (ORCPT
+        with ESMTP id S231506AbjFYQ3f (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 25 Jun 2023 12:29:34 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAB0C269A
-        for <linux-input@vger.kernel.org>; Sun, 25 Jun 2023 09:29:09 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-98e25fa6f5bso160121366b.3
-        for <linux-input@vger.kernel.org>; Sun, 25 Jun 2023 09:29:09 -0700 (PDT)
+        Sun, 25 Jun 2023 12:29:35 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3092D2
+        for <linux-input@vger.kernel.org>; Sun, 25 Jun 2023 09:29:11 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-98746d7f35dso372793466b.2
+        for <linux-input@vger.kernel.org>; Sun, 25 Jun 2023 09:29:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687710527; x=1690302527;
+        d=linaro.org; s=google; t=1687710528; x=1690302528;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=S/rzC2uY92Y7QjHEbrLYHKQpIVmtiRBB2yJYhOpPt9Y=;
-        b=kWNVgHVXaDznJi3aUv40cg0WDHjPqeQbE7ooAhNpc2QVWxrle12iAqj9L+h1TWwXDk
-         dtkI3ow6FX5XwNM2MAed6C8itsSEWMtYnbIJocwNd873waZ/vDuEnPIfCTdcgUwZM7Cl
-         O+qvTaWV3lFRymsHglHnxKJhxBytkBk83943nXaapTsWi20aON/w+L1Wl0hcPzvfFXhD
-         /OlecmPqtoZ9NICiamf4EhZWcMr7NqgEDXVoHqOWJu+xyh0hI2gSKxXB4uOnWywbCveZ
-         D/XizEWkdsh50oE8aorQCbqCr6iWPg//rU0BnBlaG1jXMHaEztkDAJJylN6+CM+8AZYV
-         /ZwA==
+        bh=wzpB2JeeP/+5LJQoX+DM+hKB46MUVJk8x7crRJkVgqQ=;
+        b=trHNOk0opvYLVYmVhzWT2Po6oKItnmcPPNCDu1Fx2rMr8oCf1DH/9UCFefDEAKU+Ky
+         AKS4L4xB1IOig9scwrJH7yctsWIPoE4nIkf6I8UrGBlOx9Iu9SN/Xw7lJBRa6K4GH/OH
+         ai8TkQzbEqsHroNbB1V3M9DD9yNwvK3tXiw/uXgT+Ogo5sbVW6g+oCYn2c453Nqd3zVB
+         v9ShFIjp2rqleT3Iv8/HCuNFcvPIlU11NtGmdz5Et7PSZcxIfrcLU+ftp0EO3e6T6r+N
+         6WSwG4pSp1v6Ve2gQL00M0XoZYf8+XE4FrWVhQJI0OHJqc+qYe8tu769sjRaZVsuSYxe
+         Kb9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687710527; x=1690302527;
+        d=1e100.net; s=20221208; t=1687710528; x=1690302528;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=S/rzC2uY92Y7QjHEbrLYHKQpIVmtiRBB2yJYhOpPt9Y=;
-        b=BS7CAbGuEAw+40aoYt3uoC+w5Q4sGeAScBkPFaoYwb7hmq4w8euk2EAs8rB1CkvjIH
-         E3VIA5UcAIGbnAC2IGC41lz5tWOM25pwf3ZfEHdyKXPDXtDlG7eckBT11h4bPmexf5z4
-         noPisYyP0bpVae1rFd/4mpObvsQ4/TSe6B+Gg1a9zAU3Mzak0Od7biN8AdXEmJM6OZcQ
-         G13bq7Qtekh19FTLTG++pD2gPCCSMXuQAn3myo3WAJk+u/dQiwpK9zaI9tyj/R/HpZjU
-         OgPPM/wQIM0xja6nlgSoZErKL623ESbxf0GBhvVgGqD4AxnV/12Hp/GXTYrbphxpcXYm
-         Da6w==
-X-Gm-Message-State: AC+VfDzupyLxNcxnBw7Bgd5tR++DYABxtT5tPdvaVTbBvyxFyuh2zNHI
-        cFkURqHIn4GU/hQD7nOJw6G4Rw==
-X-Google-Smtp-Source: ACHHUZ4BOguJGgvQUdBr/7tJsm58YGWNa+vqxnxV1YpaTPhoPeHr/NE4gBjdMj0HYjBTCHK6qE943g==
-X-Received: by 2002:a17:907:d0f:b0:94e:4489:f24d with SMTP id gn15-20020a1709070d0f00b0094e4489f24dmr26387029ejc.61.1687710526920;
-        Sun, 25 Jun 2023 09:28:46 -0700 (PDT)
+        bh=wzpB2JeeP/+5LJQoX+DM+hKB46MUVJk8x7crRJkVgqQ=;
+        b=NLO8hscLdFKXeW/RYA+v/6+Hv3yaCMflZmyb8DO9xJp8mKbJw2dL+hfOyQIwyHrLw5
+         KmS3rHXnHlDCwH56QWUnVEHu662VX6Cp/32abSyeSqt0mKvZ8IucMlLZh8165YoEBAGP
+         nTvAYXAJixFlYjcLtNZvqYtaQVahZnydu5U2DF7xwDE+T57zNTWSFxg4uBeCsK4w7ts4
+         PhGDfnSdwof7yYxrQqoPR4lfgUk+mgRqeaRm/32dIbVp+8L8w4qFZ/016A/dg2CoWWO0
+         iEzexrZ2sDjrAHHzL4OnR12BdKqVPJH5Q+2B5CtVZ3LmIsXnDzXP+KXaClRmToD/idUm
+         sVkw==
+X-Gm-Message-State: AC+VfDyIy69rZYPpMR2cuE5Jc7B/fFBcYe9vUY6gpDAtW/o9/wKYLQN8
+        zDgqL+qX5ssVRWRrP2Mnwv7Tew==
+X-Google-Smtp-Source: ACHHUZ4KBfW7Fea7Y3FrHDdHbT5K0EUE07fzP91vtVhy9/tp4/vXfwQsSojK+LMA4y8QpGfb34uEiA==
+X-Received: by 2002:a17:907:7256:b0:988:56d1:10d8 with SMTP id ds22-20020a170907725600b0098856d110d8mr19292632ejc.53.1687710528697;
+        Sun, 25 Jun 2023 09:28:48 -0700 (PDT)
 Received: from krzk-bin.. ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id ec10-20020a170906b6ca00b00982be08a9besm2277731ejb.172.2023.06.25.09.28.45
+        by smtp.gmail.com with ESMTPSA id ec10-20020a170906b6ca00b00982be08a9besm2277731ejb.172.2023.06.25.09.28.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Jun 2023 09:28:46 -0700 (PDT)
+        Sun, 25 Jun 2023 09:28:48 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -64,9 +64,9 @@ Cc:     Andi Shyti <andi.shyti@kernel.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v4 13/24] Input: goodix - Simplify with dev_err_probe()
-Date:   Sun, 25 Jun 2023 18:28:06 +0200
-Message-Id: <20230625162817.100397-14-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v4 14/24] Input: melfas_mip4 - Simplify with dev_err_probe()
+Date:   Sun, 25 Jun 2023 18:28:07 +0200
+Message-Id: <20230625162817.100397-15-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230625162817.100397-1-krzysztof.kozlowski@linaro.org>
 References: <20230625162817.100397-1-krzysztof.kozlowski@linaro.org>
@@ -74,7 +74,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -89,80 +89,29 @@ Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- drivers/input/touchscreen/goodix.c | 40 ++++++++----------------------
- 1 file changed, 11 insertions(+), 29 deletions(-)
+ drivers/input/touchscreen/melfas_mip4.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-index f5aa240739f9..85d4249f1065 100644
---- a/drivers/input/touchscreen/goodix.c
-+++ b/drivers/input/touchscreen/goodix.c
-@@ -935,7 +935,6 @@ static int goodix_add_acpi_gpio_mappings(struct goodix_ts_data *ts)
-  */
- static int goodix_get_gpio_config(struct goodix_ts_data *ts)
- {
--	int error;
- 	struct device *dev;
- 	struct gpio_desc *gpiod;
- 	bool added_acpi_mappings = false;
-@@ -951,33 +950,20 @@ static int goodix_get_gpio_config(struct goodix_ts_data *ts)
- 	ts->gpiod_rst_flags = GPIOD_IN;
+diff --git a/drivers/input/touchscreen/melfas_mip4.c b/drivers/input/touchscreen/melfas_mip4.c
+index 32896e5085bd..2ac4483fbc25 100644
+--- a/drivers/input/touchscreen/melfas_mip4.c
++++ b/drivers/input/touchscreen/melfas_mip4.c
+@@ -1451,13 +1451,8 @@ static int mip4_probe(struct i2c_client *client)
  
- 	ts->avdd28 = devm_regulator_get(dev, "AVDD28");
--	if (IS_ERR(ts->avdd28)) {
--		error = PTR_ERR(ts->avdd28);
+ 	ts->gpio_ce = devm_gpiod_get_optional(&client->dev,
+ 					      "ce", GPIOD_OUT_LOW);
+-	if (IS_ERR(ts->gpio_ce)) {
+-		error = PTR_ERR(ts->gpio_ce);
 -		if (error != -EPROBE_DEFER)
--			dev_err(dev,
--				"Failed to get AVDD28 regulator: %d\n", error);
+-			dev_err(&client->dev,
+-				"Failed to get gpio: %d\n", error);
 -		return error;
 -	}
-+	if (IS_ERR(ts->avdd28))
-+		return dev_err_probe(dev, PTR_ERR(ts->avdd28), "Failed to get AVDD28 regulator\n");
++	if (IS_ERR(ts->gpio_ce))
++		return dev_err_probe(&client->dev, PTR_ERR(ts->gpio_ce), "Failed to get gpio\n");
  
- 	ts->vddio = devm_regulator_get(dev, "VDDIO");
--	if (IS_ERR(ts->vddio)) {
--		error = PTR_ERR(ts->vddio);
--		if (error != -EPROBE_DEFER)
--			dev_err(dev,
--				"Failed to get VDDIO regulator: %d\n", error);
--		return error;
--	}
-+	if (IS_ERR(ts->vddio))
-+		return dev_err_probe(dev, PTR_ERR(ts->vddio), "Failed to get VDDIO regulator\n");
- 
- retry_get_irq_gpio:
- 	/* Get the interrupt GPIO pin number */
- 	gpiod = devm_gpiod_get_optional(dev, GOODIX_GPIO_INT_NAME, GPIOD_IN);
--	if (IS_ERR(gpiod)) {
--		error = PTR_ERR(gpiod);
--		if (error != -EPROBE_DEFER)
--			dev_err(dev, "Failed to get %s GPIO: %d\n",
--				GOODIX_GPIO_INT_NAME, error);
--		return error;
--	}
-+	if (IS_ERR(gpiod))
-+		return dev_err_probe(dev, PTR_ERR(gpiod), "Failed to get %s GPIO\n",
-+				     GOODIX_GPIO_INT_NAME);
-+
- 	if (!gpiod && has_acpi_companion(dev) && !added_acpi_mappings) {
- 		added_acpi_mappings = true;
- 		if (goodix_add_acpi_gpio_mappings(ts) == 0)
-@@ -988,13 +974,9 @@ static int goodix_get_gpio_config(struct goodix_ts_data *ts)
- 
- 	/* Get the reset line GPIO pin number */
- 	gpiod = devm_gpiod_get_optional(dev, GOODIX_GPIO_RST_NAME, ts->gpiod_rst_flags);
--	if (IS_ERR(gpiod)) {
--		error = PTR_ERR(gpiod);
--		if (error != -EPROBE_DEFER)
--			dev_err(dev, "Failed to get %s GPIO: %d\n",
--				GOODIX_GPIO_RST_NAME, error);
--		return error;
--	}
-+	if (IS_ERR(gpiod))
-+		return dev_err_probe(dev, PTR_ERR(gpiod), "Failed to get %s GPIO\n",
-+				     GOODIX_GPIO_RST_NAME);
- 
- 	ts->gpiod_rst = gpiod;
- 
+ 	error = mip4_power_on(ts);
+ 	if (error)
 -- 
 2.34.1
 
