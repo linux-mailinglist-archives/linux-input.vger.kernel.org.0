@@ -2,1172 +2,872 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FF3B73EF84
-	for <lists+linux-input@lfdr.de>; Tue, 27 Jun 2023 01:59:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A87B73F431
+	for <lists+linux-input@lfdr.de>; Tue, 27 Jun 2023 08:04:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229597AbjFZX7e (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 26 Jun 2023 19:59:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37764 "EHLO
+        id S229748AbjF0GEu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 27 Jun 2023 02:04:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjFZX7d (ORCPT
+        with ESMTP id S229790AbjF0GEt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 26 Jun 2023 19:59:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81F45E5A;
-        Mon, 26 Jun 2023 16:59:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F253F60F77;
-        Mon, 26 Jun 2023 23:59:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAA65C433C8;
-        Mon, 26 Jun 2023 23:59:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687823969;
-        bh=H4rhj2+2cTpAOPLW4e85Gj411ii0GGcoqCnuiTpjnLM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=hANgrdzvIVnCDvlQ1mjA4PMWkejgGrTM6pPIB62Be/23xEoto+WYGm6pNOjGpsDNv
-         NqhZ2hvcbPqmbQ4GLKv2tKsF3cPlwlGtHpOymbrV1HD49+Nsa/eIsf8gT5DvjZGm+y
-         YonNqPTIFHrAkMijrEJ2yi9Oy62adPejT41PQHq2EzoruDB/UqcDDRKHF0KfSNpi4F
-         KWmgTLsu+iZCxxCYvQ/ftPdQkomKEhw0KuLEOPXJ4NG8DI/35xGx5C4wvpz8A+Wsws
-         9HZyb25pkS9YFLbEbtN4AUrtoquSlPiFRQPcYHHEzXQARICma/HqeuNQDj+N22sbvH
-         TgaZVwyjFSMpA==
-Message-ID: <4a62437d-02b7-d061-0a40-127c56b553b9@kernel.org>
-Date:   Tue, 27 Jun 2023 01:59:23 +0200
+        Tue, 27 Jun 2023 02:04:49 -0400
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78E611BEB;
+        Mon, 26 Jun 2023 23:04:45 -0700 (PDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id D8B9C5C0211;
+        Tue, 27 Jun 2023 02:04:44 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Tue, 27 Jun 2023 02:04:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm1; t=1687845884; x=1687932284; bh=0G
+        cLZQNv5EVerMOgOn438ZdvfaiwtS6W8EoDrKeEJfc=; b=AgN1x2Ro2L0P8c2BjI
+        PhgmnHSFCFyQ/1+b4r0/qUBKYuf1EfGKxbzOiNxa60qj/YGGiTL6RIH6SDuKYKcG
+        jMHBIPkHbMVKncAChhMLRqRFE6xOW1uZo4IX99Xa0O3/tn35nZmI9WOi/91eRFbo
+        +GIRDELPW33pMh9PPtbDE8dbG0H68eZZvJX+4jlkxi0BU6YsvBXM62wicN4yc7f1
+        2MqorON/cVgXI9CVWvk13EzQlFl4Wo+a2DmORX13PIY0Q0bxzxOreIY/Cyv9FHaG
+        Szxe8btgmJIdBlR3EhzCXPD54NSxrOU9b+OfxBkMg/cGLNK/EZAcVLFgexzsNqcV
+        MR5A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1687845884; x=1687932284; bh=0GcLZQNv5EVer
+        MOgOn438ZdvfaiwtS6W8EoDrKeEJfc=; b=MB2rsjZpZI96QJgW4Zuv4xMPpCvEX
+        ns8ggPEFqhIVoIFNCX760QbO3xsNhDgMViMn52FL91RXQF3sEguF5xR9dpQz/mj6
+        gLz9+Dgm3OgzydJxTj4/HEQAsHZZvLCFygui94XAlCsH6kxlgW+4plCQe7BxgzVV
+        u5C70d1mvsF7CPnMKhxJSw/6bilLu0AsC1eCzKKoIYSXq+WPZxzdZKww59IE1Bi+
+        O+m8skPPrsMbDR2T/NLkLJYyHitwcrS/St7deNHMYLxakfh6a1TcTM0YnRaWNFYT
+        70Rx6etps6b7fWKuw+KfIjiaQuRWPfwdmFa0M9iAm1kI8hivJSOTe8FZQ==
+X-ME-Sender: <xms:_HuaZCBsA7phmj9rI6zUwgWgD55bkXompCavraL4qpmNzvOal8rtkQ>
+    <xme:_HuaZMjlD_wSFWnWdXVZhpmsN_iDtZavYlT3iHJreCrPdazppaDnOws7IZ7kacL7Y
+    cr_GRR5wvMdEILG10Y>
+X-ME-Received: <xmr:_HuaZFne9tZagBZjVtnLACSRyeZOWP06xkwcHPIpxC-JvS4f_OPCy8m5rprAZokQXOjDATelWz133IX-y3JgOPsmBq0ngA1exZ7u>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeehgedguddtvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enogfuuhhsphgvtghtffhomhgrihhnucdlgeelmdenucfjughrpeffhffvvefukfhfgggt
+    uggjsehttdertddttddvnecuhfhrohhmpefrvghtvghrucfjuhhtthgvrhgvrhcuoehpvg
+    htvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvtheqnecuggftrfgrthhtvghrnhep
+    feefhfelgeeghffgtedthfekhefhvedtleetjeejuedtueevueeuheelkeehgfejnecuff
+    homhgrihhnpehkvghrnhgvlhdrohhrghdpuhhssgdrohhrghdpvghlvggttggvlhgvrhgr
+    thhorhdrtghomhdpghhithhhuhgsrdgtohhmpdhfrhgvvgguvghskhhtohhprdhorhhgne
+    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgv
+    rhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvght
+X-ME-Proxy: <xmx:_HuaZAwO0L_YjIToenSKhI-x1bBY5Y6YX0b27nkn68HQVrqNx0qxjA>
+    <xmx:_HuaZHSHiC_XAM6T2L9oVdLHdvlnejcH9-21-QxOR1igYo7px404JQ>
+    <xmx:_HuaZLaAqt4hW3TQUj1b-QBcuxls5pxLBOQNbUeDC-FMAuoLA7tMmw>
+    <xmx:_HuaZFNOY63BmDMvL4xWliy5EryfqdNWYoHTlDyjYfUWQIifQH4YQA>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 27 Jun 2023 02:04:41 -0400 (EDT)
+Date:   Tue, 27 Jun 2023 16:04:37 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Marco Morandini <marco.morandini@polimi.it>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] HID: Add introduction about HID for non-kernel
+ programmers
+Message-ID: <20230627060437.GA726439@quokka>
+References: <70fdef05-d3b8-e24b-77be-901bd5be369e@polimi.it>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v9 2/3] Input: Add Novatek NT36xxx touchscreen driver
-Content-Language: en-US
-To:     kholk11@gmail.com, dmitry.torokhov@gmail.com,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     robh+dt@kernel.org, rydberg@bitmath.org, priv.luk@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        marijns95@gmail.com, martin.botka1@gmail.com,
-        phone-devel@vger.kernel.org, devicetree@vger.kernel.org,
-        krzk@kernel.org, andy.shevchenko@gmail.com
-References: <20201028221302.66583-1-kholk11@gmail.com>
- <20201028221302.66583-3-kholk11@gmail.com>
-From:   Konrad Dybcio <konradybcio@kernel.org>
-In-Reply-To: <20201028221302.66583-3-kholk11@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <70fdef05-d3b8-e24b-77be-901bd5be369e@polimi.it>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 28.10.2020 23:13, kholk11@gmail.com wrote:
-
-> This is a driver for the Novatek in-cell touch controller and
-> supports various chips from the NT36xxx family, currently
-> including NT36525, NT36672A, NT36676F, NT36772 and NT36870.
+On Thu, Jun 22, 2023 at 10:39:15PM +0200, Marco Morandini wrote:
+> Add an introduction about HID
+> meant for the casual programmers that is trying
+> either to fix his device or to understand what
+> is going wrong.
 > 
-> Functionality like wake gestures and firmware flashing is not
-> included: I am not aware of any of these DrIC+Touch combo
-> chips not including a non-volatile memory and it should be
-> highly unlikely to find one, since the touch firmware is
-> embedded into the DriverIC one, which is obviously necessary
-> to drive the display unit.
-> 
-> However, the necessary address for the firmware update
-> procedure was included into the address table in this driver
-> so, in the event that someone finds the need to implement it
-> for a reason or another, it will be pretty straightforward to.
-> 
-> This driver is lightly based on the downstream implementation [1].
-> [1] https://github.com/Rasenkai/caf-tsoft-Novatek-nt36xxx
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
+> Signed-off-by: Marco Morandini <marco.morandini@polimi.it>
 > ---
-So.. this patchset has gone stale for.. a bit.. hopefully to age like
-fine wine!
+> v1: https://lore.kernel.org/linux-input/3mbw67akm2xzd2kgzb6sdfh4dly6im5jrz5umuvczjvrgxtf46@q5ooib3zkmfq/T/#m00b625a4d2c605dd7f62a866df7bf97ef2921d63
 
-Dmitry, are there any other major outstanding issues you see with it?
-I'd be happy to pick it up, fix them up and resubmit. Quite some recent
--ish phones use this touchpanel. And tablets. And other smart rocks!
+Thanks for all the fixes, much easier to read and follow already. A few
+nitpicks like last time but this is coming together!
 
-FWIW there was some discussion regarding regmap usage:
-
-https://patchwork.kernel.org/project/linux-input/patch/20201028221302.66583-3-kholk11@gmail.com/
-
-Konrad
->  drivers/input/touchscreen/Kconfig   |  12 +
->  drivers/input/touchscreen/Makefile  |   1 +
->  drivers/input/touchscreen/nt36xxx.c | 894 ++++++++++++++++++++++++++++
->  drivers/input/touchscreen/nt36xxx.h | 122 ++++
->  4 files changed, 1029 insertions(+)
->  create mode 100644 drivers/input/touchscreen/nt36xxx.c
->  create mode 100644 drivers/input/touchscreen/nt36xxx.h
+>  Documentation/hid/hidintro.rst          | 543 ++++++++++++++++++++++++
+>  Documentation/hid/hidreport-parsing.rst |  52 +++
+>  Documentation/hid/index.rst             |   1 +
+>  include/linux/hid.h                     |  23 +
+>  4 files changed, 619 insertions(+)
+>  create mode 100644 Documentation/hid/hidintro.rst
+>  create mode 100644 Documentation/hid/hidreport-parsing.rst
 > 
-> diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-> index 35c867b2d9a7..6d118b967021 100644
-> --- a/drivers/input/touchscreen/Kconfig
-> +++ b/drivers/input/touchscreen/Kconfig
-> @@ -605,6 +605,18 @@ config TOUCHSCREEN_MTOUCH
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called mtouch.
+> diff --git a/Documentation/hid/hidintro.rst b/Documentation/hid/hidintro.rst
+> new file mode 100644
+> index 000000000000..cdaa09479147
+> --- /dev/null
+> +++ b/Documentation/hid/hidintro.rst
+> @@ -0,0 +1,543 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +======================================
+> +Introduction to HID report descriptors
+> +======================================
+> +
+> +This chapter is meant to give a broad overview
+> +of what HID report descriptors are, and of how a casual (non kernel)
+> +programmer can deal with an HID device that
+> +is not working well with Linux.
+> +
+> +.. contents::
+> +    :local:
+> +    :depth: 2
+> +
+> +.. toctree::
+> +   :maxdepth: 2
+> +   
+> +   hidreport-parsing
+> +
+> +
+> +Introduction
+> +============
+> +
+> +HID stands for Human Interface Device, and can be whatever device
+> +you are using to interact with a computer, be it a mouse,
+> +a touchpad, a tablet, a microphone.
+> +
+> +Many HID devices work out the box, even if their hardware is different.
+> +For example, mice can have any number of buttons; they
+> +may a wheel; movement sensitivity differs between different
+> +models, and so on. Nonetheless,
+> +most of the time everything just works, without the need
+> +to have specialized code in the kernel for every mouse model
+> +developed since 1970.
+
+A general request - can you reformat the paragraphs please to be roughly
+the max (or just the same-ish) line lengths. Some of these paragraphs 
+read more like a poem
+with superfluous
+linebreaks
+sprinkled all over it.
+
+> +
+> +This is because modern HID devices do advertise
+> +their capabilities through the *HID report descriptor*, a
+> +fixed set of bytes describing exactly what *HID reports*
+> +may be sent between the device and the host and the meaning of each
+> +individual bit in those reports. For example, a HID Report Descriptor
+> +may specify that "in a report with ID 3 the second byte is the delta x
+> +coordinate of a mouse".
+
+staring at this and if you're doing a v3 anyway, I'd say "bits 8 to 15"
+instead of "second byte" to emphasise that HID reports are usually more
+bit-y than byte-y. But that's a minor nitpick that doesn't matter too
+much.
+
+
+> + 
+> +The HID report itself then merely carries the actual data values
+> +without any extra meta information. Note that HID reports may be sent
+> +from the device ("Input Reports", i.e. input events), to the device
+> +("Output Reports" to e.g. change LEDs) or used for device
+> +configuration ("Feature reports"). A device may support one or more
+> +HID reports.
+> +
+> +The HID subsystem is in charge of parsing the HID report descriptors,
+> +and converts HID events into normal input
+> +device interfaces (see Documentation/hid/hid-transport.rst).
+> +Devices may misbehave because the HID report descriptor
+> +provided by the device is wrong,
+> +or because it needs to be dealt with in a special way,
+> +or because some special device or interaction mode
+> +is not handled by the default code.
+> +
+> +The format of HID report descriptors is described by two documents,
+> +available from the `USB Implementers Forum <https://www.usb.org/>`_
+> +at `this <https://www.usb.org/hid>`_ addresses:
+> +
+> + * the `HID USB Device Class Definition 
+> +   <https://www.usb.org/document-library/device-class-definition-hid-111>`_ (HID Spec from now on)
+> + * the `HID Usage Tables <https://usb.org/document-library/hid-usage-tables-14>`_ (HUT from now on)
+> +
+> +This does not mean that the HID subsystem can deal with USB devices only;
+> +rather, different transport drivers, such as I2C or Bluetooth, can be dealt
+> +with, see Documentation/hid/hid-transport.rst.
+
+Simpler wording: "The HID subsystem can deal with different transport drivers
+(USB, I2C, Bluetooth, etc.). See Documentation/hid/hid-transport.rst."
+
+> +
+> +Parsing HID report descriptors
+> +==============================
+> +
+> +The current list of HID devices can be found at ``/sys/bus/hid/devices/``.
+> +For each device, say ``/sys/bus/hid/devices/0003\:093A\:2510.0002/``,
+> +one can read the corresponding report descriptor::
+> +
+> +  marco@sun:~> hexdump -C /sys/bus/hid/devices/0003\:093A\:2510.0002/report_descriptor
+> +  00000000  05 01 09 02 a1 01 09 01  a1 00 05 09 19 01 29 03  |..............).|
+> +  00000010  15 00 25 01 75 01 95 03  81 02 75 05 95 01 81 01  |..%.u.....u.....|
+> +  00000020  05 01 09 30 09 31 09 38  15 81 25 7f 75 08 95 03  |...0.1.8..%.u...|
+> +  00000030  81 06 c0 c0                                       |....|
+> +  00000034
+> +
+> +Optional stuff: the HID report descriptor can be read also by 
+> +directly accessing the hidraw driver [#hidraw]_.
+> +
+> +The basic structure of HID report descriptors is defined in the HID spec, while
+> +HUT "defines constants that can be interpreted by an application to
+> +identify the purpose and meaning of a data
+> +field in a HID report". Each entry is defined by at least two bytes,
+> +where the first one defines what type of value is following,
+> +and is described in the HID spec,
+
+no comma before "and" in this case
+
+> +while the second one carries the actual value,
+
+superfluous comma-man to the rescue! :)
+
+> +and is described in the HUT.
+> +
+> +HID report descriptors can, in principle, be painstakingly
+> +parsed by hand, byte by byte. 
+> +
+> +A short introduction
+> +on how to do this is sketched in Documentation/hid/hidreport-parsing.rst;
+> +you need to understand it only if you need to patch HID report descriptors.
+
+I think this should be "you only need to ..." (but I'm ESL too)
+
+> +
+> +In practice you should not do parse HID report descriptors by hand; 
+> +rather, you should use an existing parser. 
+> +Among all the available ones
+> +
+> +  * the online `USB Descriptor and Request Parser
+> +    <http://eleccelerator.com/usbdescreqparser/>`_;
+> +  * `hidrdd <https://github.com/abend0c1/hidrdd>`_,
+> +    that provides very detailed and somewhat verbose descriptions
+> +    (verbosity can be useful if you are not familiar with HID report descriptors);
+> +  * `hid-tools <https://gitlab.freedesktop.org/libevdev/hid-tools>`_,
+> +    a complete utility set that allows, among other things,
+> +    to record and replay the raw HID reports and to debug
+> +    and replay HID devices.
+> +    It is being actively developed by the Linux HID subsystem mantainers.
+> +
+> +Parsing the mouse HID report descriptor with `hid-tools <https://gitlab.freedesktop.org/libevdev/hid-tools>`_ leads to
+> +(explanations interposed)::
+> +
+> +    marco@sun:~/Programmi/linux/hid-tools (master =)> ./hid-decode /sys/bus/hid/devices/0003\:093A\:2510.0002/report_descriptor
+
+shorten the prompt to just "$ hid-decode ..." and it'll fit better on a
+single line
+
+
+> +    # device 0:0
+> +    # 0x05, 0x01,		     // Usage Page (Generic Desktop)	    0
+> +    # 0x09, 0x02,		     // Usage (Mouse)			    2
+> +    # 0xa1, 0x01,		     // Collection (Application)	    4
+> +    # 0x09, 0x01,		     // Usage (Pointer)		    	    6
+> +    # 0xa1, 0x00,		     // Collection (Physical)  	    	    8
+> +    # 0x05, 0x09, 		     //	Usage Page (Button)		   10
+> + what follows is a button
+> +
+> +    # 0x19, 0x01, 		     //	Usage Minimum (1)		   12
+> +    # 0x29, 0x03, 		     //	Usage Maximum (3)		   14
+> + first button is button number 1, last button is button number 3
+> +
+> +    # 0x15, 0x00, 		     //	Logical Minimum (0)		   16
+> +    # 0x25, 0x01, 		     //	Logical Maximum (1)		   18
+> + each button can send values from 0 up to including 1
+> + (i.e. they are binary buttons)
+> +
+> +    # 0x75, 0x01, 		     //	Report Size (1) 		   20
+> + each button is sent as exactly one bit
+> +
+> +    # 0x95, 0x03, 		     //	Report Count (3)		   22
+> + and there are three of those bits 
+> + (matching the three buttons)
+> +
+> +    # 0x81, 0x02, 		     //	Input (Data,Var,Abs)		   24
+> + it's actual Data (not constant padding), they represent 
+> + a single variable (Var) and the value are Absolute (not relative); 
+> + See HID spec Sec. 6.2.2.5 "Input, Output, and Feature Items
+> +
+> +    # 0x75, 0x05, 		     //	Report Size (5) 		   26
+> + five additional padding bits, needed to reach a byte
+> +
+> +    # 0x95, 0x01, 		     //	Report Count (1)		   28
+> + those five bits are repeated only once
+> +
+> +    # 0x81, 0x01, 		     //	Input (Cnst,Arr,Abs)		   30
+> + and take Constant (Cnst) values
+
+"i.e. they can be ignored"
+
+> +
+> +    # 0x05, 0x01,		     // Usage Page (Generic Desktop)       32
+> +    # 0x09, 0x30,		     // Usage (X)			   34
+> +    # 0x09, 0x31,		     // Usage (Y)			   36
+> +    # 0x09, 0x38,		     // Usage (Wheel) 		    	   38
+> + The mouse has also two physical positions   (``Usage (X)``, ``Usage (Y)``) 
+
+too many spaces here
+
+> + and a wheel (Usage (Wheel))
+> +
+> +    # 0x15, 0x81, 		     //	Logical Minimum (-127)  	   40
+> +    # 0x25, 0x7f, 		     //	Logical Maximum (127)		   42
+> + each of them can send values ranging from -127 up to including 127
+> +
+> +    # 0x75, 0x08, 		     //	Report Size (8) 		   44
+> + is represented by eight bits
+> +
+> +    # 0x95, 0x03, 		     //	Report Count (3)		   46
+> + and there are three of those eight bits, matching X, Y and Wheel
+> +
+> +    # 0x81, 0x06,		     // Input (Data,Var,Rel)  	    	   48
+> + This time the data is Relative (Rel), i.e. it represent 
+> + the change from the previous configuration
+
+"the previously sent report (event)"
+
+> +
+> +    # 0xc0,			     // End Collection 		    	   50
+> +    # 0xc0,			     // End Collection  		   51
+> +    #
+> +    R: 52 05 01 09 02 a1 01 09 01 a1 00 05 09 19 01 29 03 15 00 25 01 75 01 95 03 81 02 75 05 95 01 81 01 05 01 09 30 09 31 09 38 15 81 25 7f 75 08 95 03 81 06 c0 c0
+> +    N: device 0:0
+> +    I: 3 0001 0001
+> +
+> +
+> +This Report Descriptor tells us that the mouse input will be
+> +transmitted using four bytes:
+> +the first one for the buttons (three bits used, five for padding),
+> +the last three for the mouse X, Y and wheel changes, respectively.
+> +
+> +Indeed, for any event, the mouse will send a *report* of four bytes.
+> +We can check the values sent by resorting e.g.
+> +to the `hid-recorder` tool, from `hid-tools
+> +<https://gitlab.freedesktop.org/libevdev/hid-tools>`_:
+> +The sequence of bytes sent by clicking and releasing
+> +button 1, then button 2, then button 3 is::
+> +
+> +  marco@sun:~/> sudo ./hid-recorder /dev/hidraw1
+
+for consistency please change the prompt here to `$` as well
+
+> +
+> +  ....
+> +  output of hid-decode
+> +  ....
+> +
+> +  #  Button: 1  0  0 | # | X:	 0 | Y:    0 | Wheel:	 0
+> +  E: 000000.000000 4 01 00 00 00
+> +  #  Button: 0  0  0 | # | X:	 0 | Y:    0 | Wheel:	 0
+> +  E: 000000.183949 4 00 00 00 00
+> +  #  Button: 0  1  0 | # | X:	 0 | Y:    0 | Wheel:	 0
+> +  E: 000001.959698 4 02 00 00 00
+> +  #  Button: 0  0  0 | # | X:	 0 | Y:    0 | Wheel:	 0
+> +  E: 000002.103899 4 00 00 00 00
+> +  #  Button: 0  0  1 | # | X:	 0 | Y:    0 | Wheel:	 0
+> +  E: 000004.855799 4 04 00 00 00
+> +  #  Button: 0  0  0 | # | X:    0 | Y:    0 | Wheel:    0
+> +  E: 000005.103864 4 00 00 00 00
+> +
+> +This example shows that when button 2 is clicked, 
+> +the bytes ``02 00 00 00`` are sent, and the immediately subsequent
+> +event (``00 00 00 00``) is the release of button 2 (no buttons are pressed,
+> +remember that the data is *absolute*).
+> +
+> +If instead one clicks and holds button 1, then clicks and holds button 2,
+> +releases button 1, and finally releases button 2, the reports are::
+> +
+> +  #  Button: 1  0  0 | # | X:    0 | Y:    0 | Wheel:    0
+> +  E: 000044.175830 4 01 00 00 00
+> +  #  Button: 1  1  0 | # | X:    0 | Y:    0 | Wheel:    0
+> +  E: 000045.975997 4 03 00 00 00
+> +  #  Button: 0  1  0 | # | X:    0 | Y:    0 | Wheel:    0
+> +  E: 000047.407930 4 02 00 00 00
+> +  #  Button: 0  0  0 | # | X:    0 | Y:    0 | Wheel:    0
+> +  E: 000049.199919 4 00 00 00 00
+> +
+> +where with ``03 00 00 00`` both buttons are pressed, and with the
+> +subsequent ``02 00 00 00`` button 1 is released while button 2 is still
+> +active.
+> +
+> +Output, Input and Feature Reports
+> +---------------------------------
+> +
+> +An HID devices can have Input Reports, like
+> +in the mouse example, Output Reports, and Features Reports.
+
+s/Features/Feature/
+
+> +"Output" means that the information is fed
+
+s/fed/sent/
+
+> +to the device. For example,
+> +a joystick with force feedback will have
+> +some output; the led of a keyboard would 
+> +need an output as well.
+> +"Input" means that data
+> +come from the device.
+
+s/come/comes/ 
+Not sure, never got the hang of singular vs plural data, whatever
+is used in the rest of the documentation.
+
+> +
+> +"Feature"s are not meant to be consumed by the end user
+> +and define configuration options for the device.
+> +They can be queried from the host;
+> +when declared as *Volatile* 
+> +they should be changed by the host.
+> +
+> +
+> +Collections, Report IDs and Evdev events
+> +========================================
+> +
+> +A single device can logically group
+> +data into different, independent sets,
+> +called *Collection*.
+
+"called a *Collection*"
+
+> +Collections can be nested, and there 
+> +are different types of collections
+> +(see the HID spec 6.2.2.6 
+> +"Collection, End Collection Items" for details).
+> +
+> +Different reports are identified by means
+> +of different *Report ID* fields, i.e. a number identifying
+> +the structure of the immediately following report. 
+> +Whenever a Report ID
+> +is needed it is transmitted as the first byte of any report.
+
+"A device with only one supported HID report (like the mouse example above)
+ may omit the report ID."
+
+> +
+> +Consider the following HID report descriptor::
+> +
+> +  05 01 09 02 A1 01 85 01 05 09 19 01 29 05 15 00
+> +  25 01 95 05 75 01 81 02 95 01 75 03 81 01 05 01
+> +  09 30 09 31 16 00 F8 26 FF 07 75 0C 95 02 81 06
+> +  09 38 15 80 25 7F 75 08 95 01 81 06 05 0C 0A 38
+> +  02 15 80 25 7F 75 08 95 01 81 06 C0 05 01 09 02
+> +  A1 01 85 02 05 09 19 01 29 05 15 00 25 01 95 05
+> +  75 01 81 02 95 01 75 03 81 01 05 01 09 30 09 31
+> +  16 00 F8 26 FF 07 75 0C 95 02 81 06 09 38 15 80
+> +  25 7F 75 08 95 01 81 06 05 0C 0A 38 02 15 80 25
+> +  7F 75 08 95 01 81 06 C0 05 01 09 07 A1 01 85 05
+> +  05 07 15 00 25 01 09 29 09 3E 09 4B 09 4E 09 E3
+> +  09 E8 09 E8 09 E8 75 01 95 08 81 02 95 00 81 01
+> +  C0 05 0C 09 01 A1 01 85 06 15 00 25 01 75 01 95
+> +  01 09 3F 81 06 09 3F 81 06 09 3F 81 06 09 3F 81
+> +  06 09 3F 81 06 09 3F 81 06 09 3F 81 06 09 3F 81
+> +  06 C0 05 0C 09 01 A1 01 85 03 09 05 15 00 26 FF
+> +  00 75 08 95 02 B1 02 C0
+> +
+> +After parsing it (try to parse it on your own using
+> +the suggested tools!)
+> +one can see that the device presents two ``Mouse`` 
+> +Application Collections
+> +(with reports identified by Reports IDs 1 and 2, respectively),
+> +a ``Keypad`` Application Collection (whose report is identified
+> +by the Report ID 5) and two ``Consumer Controls``
+> +Application Collections,
+> +(with Report IDs 6 and 3, respectively).
+> +Note that, however, that you can have different Report IDs
+> +for the same Application Collection.
+> +
+> +The data sent will begin with the Report ID byte, and will be followed
+> +by the corresponding information. For example, the
+> +data transmitted for the last consumer
+> +control::
+> +
+> +  0x05, 0x0C,        // Usage Page (Consumer)
+> +  0x09, 0x01,        // Usage (Consumer Control)
+> +  0xA1, 0x01,        // Collection (Application)
+> +  0x85, 0x03,        //   Report ID (3)
+> +  0x09, 0x05,        //   Usage (Headphone)
+> +  0x15, 0x00,        //   Logical Minimum (0)
+> +  0x26, 0xFF, 0x00,  //   Logical Maximum (255)
+> +  0x75, 0x08,        //   Report Size (8)
+> +  0x95, 0x02,        //   Report Count (2)
+> +  0xB1, 0x02,        //   Feature (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position,Non-volatile)
+> +  0xC0,              // End Collection
+> +
+> +will be of three bytes: the first for the Report ID (3), the next two
+> +for the headphone, with two (``Report Count (2)``) bytes
+> +(``Report Size (8)``), each ranging from 0 (``Logical Minimum (0)`` to 255
+> +(``Logical Maximum (255)``).
+> +
+> +All the Input data sent by the device should be translated into corresponding
+> +Evdev events, so that the remaining part of the stack can know what is going on,
+> +e.g. that a mouse button was pressed, rather 
+> +than a mouse has been moved in the X direction.
+
+This example is so obvious that it's actually confusing, a better
+example may be: "e.g. the bit for the first button translates into the
+EV_KEY/BTN_LEFT  evdev event and relative x movement translates into the
+EV_REL/REL_X evdev event".
+
+
+> +
+> +Events
+> +======
+> +
+> +In Linux, one ``/dev/input/event*`` is created for each
+> +``Application Collection``.
+> +Going back to the mouse example, and repeating the sequence where
+> +one clicks and holds button 1, then clicks and holds button 2,
+> +releases button 1, and finally releases button 2, one gets::
+> +
+> +  marco@sun:~> sudo libinput record /dev/input/event1
+
+$ prompt reminder
+
+> +  # libinput record
+> +  version: 1
+> +  ndevices: 1
+> +  libinput:
+> +    version: "1.23.0"
+> +    git: "unknown"
+> +  system:
+> +    os: "opensuse-tumbleweed:20230619"
+> +    kernel: "6.3.7-1-default"
+> +    dmi: "dmi:bvnHP:bvrU77Ver.01.05.00:bd03/24/2022:br5.0:efr20.29:svnHP:pnHPEliteBook64514inchG9NotebookPC:pvr:rvnHP:rn89D2:rvrKBCVersion14.1D.00:cvnHP:ct10:cvr:sku5Y3J1EA#ABZ:"
+> +  devices:
+> +  - node: /dev/input/event1
+> +    evdev:
+> +      # Name: PixArt HP USB Optical Mouse
+> +      # ID: bus 0x3 vendor 0x3f0 product 0x94a version 0x111
+> +      # Supported Events:
+> +      # Event type 0 (EV_SYN)
+> +      # Event type 1 (EV_KEY)
+> +      #   Event code 272 (BTN_LEFT)
+> +      #   Event code 273 (BTN_RIGHT)
+> +      #   Event code 274 (BTN_MIDDLE)
+> +      # Event type 2 (EV_REL)
+> +      #   Event code 0 (REL_X)
+> +      #   Event code 1 (REL_Y)
+> +      #   Event code 8 (REL_WHEEL)
+> +      #   Event code 11 (REL_WHEEL_HI_RES)
+> +      # Event type 4 (EV_MSC)
+> +      #   Event code 4 (MSC_SCAN)
+> +      # Properties:
+> +      name: "PixArt HP USB Optical Mouse"
+> +      id: [3, 1008, 2378, 273]
+> +      codes:
+> +  	0: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] # EV_SYN
+> +  	1: [272, 273, 274] # EV_KEY
+> +  	2: [0, 1, 8, 11] # EV_REL
+> +  	4: [4] # EV_MSC
+> +      properties: []
+> +    hid: [
+> +      0x05, 0x01, 0x09, 0x02, 0xa1, 0x01, 0x09, 0x01, 0xa1, 0x00, 0x05, 0x09, 0x19, 0x01, 0x29, 0x03, 
+> +      0x15, 0x00, 0x25, 0x01, 0x95, 0x08, 0x75, 0x01, 0x81, 0x02, 0x05, 0x01, 0x09, 0x30, 0x09, 0x31, 
+> +      0x09, 0x38, 0x15, 0x81, 0x25, 0x7f, 0x75, 0x08, 0x95, 0x03, 0x81, 0x06, 0xc0, 0xc0
+> +    ]
+> +    udev:
+> +      properties:
+> +      - ID_INPUT=1
+> +      - ID_INPUT_MOUSE=1
+> +      - LIBINPUT_DEVICE_GROUP=3/3f0/94a:usb-0000:05:00.3-2
+> +    quirks:
+> +    events:
+> +    # Current time is 12:31:56
+> +    - evdev:
+> +      - [  0,	   0,	4,   4,      30] # EV_MSC / MSC_SCAN		     30 (obfuscated)
+> +      - [  0,	   0,	1, 272,       1] # EV_KEY / BTN_LEFT		      1
+> +      - [  0,	   0,	0,   0,       0] # ------------ SYN_REPORT (0) ---------- +0ms
+> +    - evdev:
+> +      - [  1, 207892,	4,   4,      30] # EV_MSC / MSC_SCAN		     30 (obfuscated)
+> +      - [  1, 207892,	1, 273,       1] # EV_KEY / BTN_RIGHT		      1
+> +      - [  1, 207892,	0,   0,       0] # ------------ SYN_REPORT (0) ---------- +1207ms
+> +    - evdev:
+> +      - [  2, 367823,	4,   4,      30] # EV_MSC / MSC_SCAN		     30 (obfuscated)
+> +      - [  2, 367823,	1, 272,       0] # EV_KEY / BTN_LEFT		      0
+> +      - [  2, 367823,	0,   0,       0] # ------------ SYN_REPORT (0) ---------- +1160ms
+> +    # Current time is 12:32:00
+> +    - evdev:
+> +      - [  3, 247617,	4,   4,      30] # EV_MSC / MSC_SCAN		     30 (obfuscated)
+> +      - [  3, 247617,	1, 273,       0] # EV_KEY / BTN_RIGHT		      0
+> +      - [  3, 247617,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +880ms
+> +
+> +Note: if ``libinput`` is not available on your system try using ``evemu-record``.
+> +
+> +When something does not work
+> +============================
+> +
+> +There can be a number of reasons for why a device does not behave
+> +correctly. For example
+> +
+> +* The HID report descriptor provided by the HID device may be wrong
+> +  because e.g.
+> +
+> +  * it does not follow the standard, so that the kernel 
+> +    will not able to make sense of the HID report descriptor;
+> +  * it is possible to verify, by reading the raw HID data, that
+> +    the HID report descriptor *does not match* what is actually 
+> +    sent by the device;
+
+  * the HID report descriptor *does not match* what is actually 
+		sent by the device (this can be verified by reading the raw HID
+    data),
+
+> +    
+> +or
+> +
+
+skip the or, we're already in an enumeration anyway so this can be a
+single list
+
+> +* the HID report descriptor may need some "quirks" (see later on);
+> +
+> +As a consequence, a suitable ``/dev/input/event*`` will not created 
+
+s/suitable//
+s/will/may/
+
+> +for each Application Collection, and/or the events 
+> +there will match what you would expect.
+
+s/will/may not/
+
+> +
+> +
+> +Quirks
+> +------
+> +
+> +There are some known peculiarities of HID devices that the kernel
+> +knows how to fix - these are called the HID quirks and a list of those
+> +are available in `include/linux/hid.h`.
+> +
+> +Should this be the case,
+> +it should be enough to add the required quirk,
+> +in the kernel, for the HID device at hand.
+> +This can be done in file `drivers/hid/hid-quirks.c`.
+
+s/file/the file/
+
+> +How to do it should be relatively straightforward 
+> +after looking into the file.
+> +
+> +The list of currently defined quirks, from
+> +`include/linux/hid.h`, is
+> +
+> +.. kernel-doc:: include/linux/hid.h
+> +   :doc: HID quirks
+> +
+> +Quirks for USB devices can be specified 
+> +while loading the usbhid module,
+> +see ``modinfo usbhid``, although the proper fix
+> +should go into hid-quirks.c and **submitted upstream**.
+> +See, again, Documentation/process/submitting-patches.rst
+
+s/, again,// (sounds too patronising otherwise)
+
+> +for guidelines on how to do submit a patch.
+> +Quirks for other busses need to go into hid-quirks.c
+> +
+> +Fixing HID report descriptors
+> +-----------------------------
+> +
+> +Should you need to patch HID report descriptors
+> +the easiest way is to resort to eBPF, as described
+> +in Documentation/hid/hid-bpf.rst.
+> +
+> +Basically, you can change any byte of the original HID report descriptor.
+> +The examples in samples/hid should be a good starting point
+> +for your code, see e.g. `samples/hid_mouse.bpf.c`::
+> +
+> +  SEC("fmod_ret/hid_bpf_rdesc_fixup")
+> +  int BPF_PROG(hid_rdesc_fixup, struct hid_bpf_ctx *hctx)
+> +  {
+> +    ....
+> +       data[39] = 0x31;
+> +       data[41] = 0x30;
+> +    return 0;
+> +  }
+> +
+> +Of course this can be also done within the kernel source
+> +code, see e.g. `drivers/hid/hid-aureal.c` or
+> +`drivers/hid/hid-samsung.c` for a slightly more complex file.
+> +
+> +Check Documentation/hid/hidreport-parsing.rst
+> +if you need an help navigating the HID manuals and
+> +understanding the exact meaning of
+> +the HID report descriptor hex numbers.
+> +
+> +Whatever solution you come up with, please remember to **submit the 
+> +fix to the HID maintainers**, so that it can be directly 
+> +integrated in the kernel
+> +and that particular HID device will will start
+> +working for everyone else.
+> +See Documentation/process/submitting-patches.rst
+> +for guidelines on how to do this.
+> +
+> +
+> +Modifying the transmitted data on the fly
+> +-----------------------------------------
+> +
+> +Using eBPF it is also possible to modify the data exchanged
+> +with the device. See again the examples in `samples/hid`.
+> +
+> +Again, **please post your fix**, so that
+> +it can be integrated in the kernel!
+> +
+> +Writing a specialized driver
+> +----------------------------
+> +
+> +This should really be your last resort.
+> +
+> +
+> +.. rubric:: Footnotes
+> +
+> +.. [#hidraw] reading hidraw: see Documentation/hid/hidraw.rst and
+> +  file `samples/hidraw/hid-example.c` for an example.
+> +  The output of ``hid-example`` would be, for the same mouse::
+> +
+> +    marco@sun:~> sudo ./hid-example
+
+$ prompt reminder
+
+> +    Report Descriptor Size: 52
+> +    Report Descriptor:
+> +    5 1 9 2 a1 1 9 1 a1 0 5 9 19 1 29 3 15 0 25 1 75 1 95 3 81 2 75 5 95 1 81 1 5 1 9 30 9 31 9 38 15 81 25 7f 75 8 95 3 81 6 c0 c0
+> +
+> +    Raw Name: PixArt USB Optical Mouse
+> +    Raw Phys: usb-0000:05:00.4-2.3/input0
+> +    Raw Info:
+> +            bustype: 3 (USB)
+> +            vendor: 0x093a
+> +            product: 0x2510
+> +    ...
+> diff --git a/Documentation/hid/hidreport-parsing.rst b/Documentation/hid/hidreport-parsing.rst
+> new file mode 100644
+> index 000000000000..a31a7aec5947
+> --- /dev/null
+> +++ b/Documentation/hid/hidreport-parsing.rst
+> @@ -0,0 +1,52 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +========================================
+> +Manual parsing of HID report descriptors
+> +========================================
+> +
+> +Consider again the mouse HID report descriptor
+> +introduced in Documentation/hid/hidintro.rst::
+> +
+> +  marco@sun:~> hexdump -C /sys/bus/hid/devices/0003\:093A\:2510.0002/report_descriptor
+> +  00000000  05 01 09 02 a1 01 09 01  a1 00 05 09 19 01 29 03  |..............).|
+> +  00000010  15 00 25 01 75 01 95 03  81 02 75 05 95 01 81 01  |..%.u.....u.....|
+> +  00000020  05 01 09 30 09 31 09 38  15 81 25 7f 75 08 95 03  |...0.1.8..%.u...|
+> +  00000030  81 06 c0 c0                                       |....|
+> +  00000034
+> +
+> +and try to parse it by hand.
+> +
+> +Start with the first number, 0x05: according to
+> +the HID spec, Sec. 6.2.2.2, "Short Items"
+> +
+> +Start with the first number, 0x05 which carries 2 bits for the
+> +length of the item, 2 bits for the type of the item and 4 bits for the
+> +function::
+> +
+> +  +----------+
+> +  | 00000101 |
+> +  +----------+
+> +  	  ^^
+> +	  ---- Length of data (see HID spec 6.2.2.2)
+> +	^^
+> +	------ Type of the item (see HID spec 6.2.2.7)
+> +   ^^^^
+> +   --------- Function of the item (see HUT Sec 3)
+
+this is misaligned
+
+Cheers,
+  Peter
+
+> +
+> +In our case, the length is 1 byte, the type is ``Global`` and the function
+> +is ``Usage Page``, thus we need to refer to HUT Sec 3 which indicates that
+> +the value 0x01 in the second byte stands for ``Generic Desktop Page``.
+> +
+> +The second number is the actual data, and its meaning can
+> +be found in the HUT.
+> +We have an ``Usage Page``, thus we need to refer to HUT Sec. 3,
+> +"Usage Pages"; from there, one sees that the ``0x01``
+> +stands for ``Generic Desktop Page``.
+> +
+> +Moving now to the second two bytes, and following the same scheme, ``0x09``
+> +(i.e. ``00001001``) will be followed by one byte (``01``)
+> +and is a ``Local`` item.
+> +Thus, the meaning of the remaining four bits (``0000``)
+> +is given in the HID spec Sec. 6.2.2.8 "Local Items", so that we have an ``Usage``.
+> +
+> +The following numbers can be parsed in the same way.
+> diff --git a/Documentation/hid/index.rst b/Documentation/hid/index.rst
+> index b2028f382f11..af02cf7cfa82 100644
+> --- a/Documentation/hid/index.rst
+> +++ b/Documentation/hid/index.rst
+> @@ -7,6 +7,7 @@ Human Interface Devices (HID)
+>  .. toctree::
+>     :maxdepth: 1
 >  
-> +config TOUCHSCREEN_NT36XXX
-> +	tristate "Novatek NT36XXX In-Cell I2C touchscreen controller"
-> +	depends on I2C
-> +	help
-> +	  Say Y here if you have a Novatek NT36xxx series In-Cell
-> +	  touchscreen connected to your system over I2C.
-> +
-> +	  If unsure, say N.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called nt36xxx.
-> +
->  config TOUCHSCREEN_IMX6UL_TSC
->  	tristate "Freescale i.MX6UL touchscreen controller"
->  	depends on (OF && GPIOLIB) || COMPILE_TEST
-> diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-> index 30d1e1b42492..424a555e03d5 100644
-> --- a/drivers/input/touchscreen/Makefile
-> +++ b/drivers/input/touchscreen/Makefile
-> @@ -61,6 +61,7 @@ obj-$(CONFIG_TOUCHSCREEN_MIGOR)		+= migor_ts.o
->  obj-$(CONFIG_TOUCHSCREEN_MMS114)	+= mms114.o
->  obj-$(CONFIG_TOUCHSCREEN_MTOUCH)	+= mtouch.o
->  obj-$(CONFIG_TOUCHSCREEN_MK712)		+= mk712.o
-> +obj-$(CONFIG_TOUCHSCREEN_NT36XXX)	+= nt36xxx.o
->  obj-$(CONFIG_TOUCHSCREEN_HP600)		+= hp680_ts_input.o
->  obj-$(CONFIG_TOUCHSCREEN_HP7XX)		+= jornada720_ts.o
->  obj-$(CONFIG_TOUCHSCREEN_IPAQ_MICRO)	+= ipaq-micro-ts.o
-> diff --git a/drivers/input/touchscreen/nt36xxx.c b/drivers/input/touchscreen/nt36xxx.c
-> new file mode 100644
-> index 000000000000..a572d2b87464
-> --- /dev/null
-> +++ b/drivers/input/touchscreen/nt36xxx.c
-> @@ -0,0 +1,894 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Driver for Novatek NT36xxx series touchscreens
-> + *
-> + * Copyright (C) 2010 - 2017 Novatek, Inc.
-> + * Copyright (C) 2020 AngeloGioacchino Del Regno <kholk11@gmail.com>
-> + */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/i2c.h>
-> +#include <linux/input/mt.h>
-> +#include <linux/input/touchscreen.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <asm/unaligned.h>
-> +
-> +/* FW Param address */
-> +#define NT36XXX_FW_ADDR 0x01
-> +
-> +/* Number of bytes for chip identification */
-> +#define NT36XXX_ID_LEN_MAX	6
-> +
-> +/* Touch info */
-> +#define TOUCH_DEFAULT_MAX_WIDTH  1080
-> +#define TOUCH_DEFAULT_MAX_HEIGHT 2246
-> +#define TOUCH_MAX_FINGER_NUM	 10
-> +#define TOUCH_MAX_PRESSURE	 1000
-> +
-> +/* Point data length */
-> +#define POINT_DATA_LEN		65
-> +
-> +/* Global pages */
-> +#define NT36XXX_PAGE_CHIP_INFO	0x0001f64e
-> +#define NT36XXX_PAGE_CRC	0x0003f135
-> +
-> +/* Misc */
-> +#define NT36XXX_NUM_SUPPLIES	 2
-> +#define NT36XXX_MAX_RETRIES	 5
-> +#define NT36XXX_MAX_FW_RST_RETRY 50
-> +
-> +struct nt36xxx_abs_object {
-> +	u16 x;
-> +	u16 y;
-> +	u16 z;
-> +	u8 tm;
-> +};
-> +
-> +struct nt36xxx_fw_info {
-> +	u8 fw_ver;
-> +	u8 x_num;
-> +	u8 y_num;
-> +	u8 max_buttons;
-> +	u16 abs_x_max;
-> +	u16 abs_y_max;
-> +	u16 nvt_pid;
-> +};
-> +
-> +struct nt36xxx_mem_map {
-> +	u32 evtbuf_addr;
-> +	u32 pipe0_addr;
-> +	u32 pipe1_addr;
-> +	u32 flash_csum_addr;
-> +	u32 flash_data_addr;
-> +};
-> +
-> +struct nt36xxx_i2c {
-> +	struct i2c_client *hw_client;
-> +	struct i2c_client *fw_client;
-> +	struct regmap *regmap;
-> +	struct regmap *fw_regmap;
-> +	struct input_dev *input;
-> +	struct regulator_bulk_data *supplies;
-> +	struct gpio_desc *reset_gpio;
-> +
-> +	struct mutex lock;
-> +
-> +	struct touchscreen_properties prop;
-> +	struct nt36xxx_fw_info fw_info;
-> +	struct nt36xxx_abs_object abs_obj;
-> +
-> +	const struct nt36xxx_mem_map *mmap;
-> +};
-> +
-> +enum nt36xxx_chips {
-> +	NT36525_IC = 0,
-> +	NT36672A_IC,
-> +	NT36676F_IC,
-> +	NT36772_IC,
-> +	NT36870_IC,
-> +	NTMAX_IC,
-> +};
-> +
-> +struct nt36xxx_trim_table {
-> +	u8 id[NT36XXX_ID_LEN_MAX];
-> +	u8 mask[NT36XXX_ID_LEN_MAX];
-> +	enum nt36xxx_chips mapid;
-> +};
-> +
-> +enum nt36xxx_cmds {
-> +	NT36XXX_CMD_ENTER_SLEEP = 0x11,
-> +	NT36XXX_CMD_ENTER_WKUP_GESTURE = 0x13,
-> +	NT36XXX_CMD_UNLOCK = 0x35,
-> +	NT36XXX_CMD_BOOTLOADER_RESET = 0x69,
-> +	NT36XXX_CMD_SW_RESET = 0xa5,
-> +	NT36XXX_CMD_SET_PAGE = 0xff,
-> +};
-> +
-> +/**
-> + * enum nt36xxx_fw_state - Firmware state
-> + * @NT36XXX_STATE_INIT: IC Reset
-> + * @NT36XXX_STATE_REK: ReK baseline
-> + * @NT36XXX_STATE_REK_FINISH: Baseline is ready
-> + * @NT36XXX_STATE_NORMAL_RUN: Firmware is running
-> + */
-> +enum nt36xxx_fw_state {
-> +	NT36XXX_STATE_INIT = 0xa0,
-> +	NT36XXX_STATE_REK,
-> +	NT36XXX_STATE_REK_FINISH,
-> +	NT36XXX_STATE_NORMAL_RUN,
-> +	NT36XXX_STATE_MAX = 0xaf
-> +};
-> +
-> +enum nt36xxx_i2c_events {
-> +	NT36XXX_EVT_REPORT = 0x00,
-> +	NT36XXX_EVT_CRC = 0x35,
-> +	NT36XXX_EVT_CHIPID = 0x4e,
-> +	NT36XXX_EVT_HOST_CMD = 0x50,
-> +	NT36XXX_EVT_HS_OR_SUBCMD = 0x51,   /* Handshake or subcommand byte */
-> +	NT36XXX_EVT_RESET_COMPLETE = 0x60,
-> +	NT36XXX_EVT_FWINFO = 0x78,
-> +	NT36XXX_EVT_PROJECTID = 0x9a,
-> +};
-> +
-> +static const struct nt36xxx_mem_map nt36xxx_memory_maps[] = {
-> +	[NT36525_IC]  = { 0x11a00, 0x10000, 0x12000, 0x14000, 0x14002 },
-> +	[NT36672A_IC] = { 0x21c00, 0x20000, 0x23000, 0x24000, 0x24002 },
-> +	[NT36676F_IC] = { 0x11a00, 0x10000, 0x12000, 0x14000, 0x14002 },
-> +	[NT36772_IC]  = { 0x11e00, 0x10000, 0x12000, 0x14000, 0x14002 },
-> +	[NT36870_IC]  = { 0x25000, 0x20000, 0x23000, 0x24000, 0x24002 },
-> +};
-> +
-> +static const struct nt36xxx_trim_table trim_id_table[] = {
-> +	{
-> +	 .id = { 0x0A, 0xFF, 0xFF, 0x72, 0x66, 0x03 },
-> +	 .mask = { 1, 0, 0, 1, 1, 1 },
-> +	 .mapid = NT36672A_IC,
-> +	},
-> +	{
-> +	 .id = { 0x55, 0x00, 0xFF, 0x00, 0x00, 0x00 },
-> +	 .mask = { 1, 1, 0, 1, 1, 1 },
-> +	 .mapid = NT36772_IC,
-> +	},
-> +	{
-> +	 .id = { 0x55, 0x72, 0xFF, 0x00, 0x00, 0x00 },
-> +	 .mask = { 1, 1, 0, 1, 1, 1 },
-> +	 .mapid = NT36772_IC,
-> +	},
-> +	{
-> +	 .id = { 0xAA, 0x00, 0xFF, 0x00, 0x00, 0x00 },
-> +	 .mask = { 1, 1, 0, 1, 1, 1 },
-> +	 .mapid = NT36772_IC,
-> +	},
-> +	{
-> +	 .id = { 0xAA, 0x72, 0xFF, 0x00, 0x00, 0x00 },
-> +	 .mask = { 1, 1, 0, 1, 1, 1 },
-> +	 .mapid = NT36772_IC,
-> +	},
-> +	{
-> +	 .id = { 0xFF, 0xFF, 0xFF, 0x72, 0x67, 0x03 },
-> +	 .mask = { 0, 0, 0, 1, 1, 1 },
-> +	 .mapid = NT36772_IC,
-> +	},
-> +	{
-> +	 .id = { 0xFF, 0xFF, 0xFF, 0x70, 0x66, 0x03 },
-> +	 .mask = { 0, 0, 0, 1, 1, 1 },
-> +	 .mapid = NT36772_IC,
-> +	},
-> +	{
-> +	 .id = { 0xFF, 0xFF, 0xFF, 0x70, 0x67, 0x03 },
-> +	 .mask = { 0, 0, 0, 1, 1, 1 },
-> +	 .mapid = NT36772_IC,
-> +	},
-> +	{
-> +	 .id = { 0xFF, 0xFF, 0xFF, 0x72, 0x66, 0x03 },
-> +	 .mask = { 0, 0, 0, 1, 1, 1 },
-> +	 .mapid = NT36772_IC,
-> +	},
-> +	{
-> +	 .id = { 0xFF, 0xFF, 0xFF, 0x25, 0x65, 0x03 },
-> +	 .mask = { 0, 0, 0, 1, 1, 1 },
-> +	 .mapid = NT36772_IC,
-> +	},
-> +	{
-> +	 .id = { 0xFF, 0xFF, 0xFF, 0x70, 0x68, 0x03 },
-> +	 .mask = { 0, 0, 0, 1, 1, 1 },
-> +	 .mapid = NT36772_IC,
-> +	},
-> +	{
-> +	 .id = { 0xFF, 0xFF, 0xFF, 0x76, 0x66, 0x03 },
-> +	 .mask = { 0, 0, 0, 1, 1, 1 },
-> +	 .mapid = NT36676F_IC,
-> +	},
-> +};
-> +
-> +/**
-> + * nt36xxx_set_page - Set page number for read/write
-> + * @ts: Main driver structure
-> + *
-> + * Return: Always zero for success, negative number for error
-> + */
-> +static int nt36xxx_set_page(struct nt36xxx_i2c *ts, u32 pageaddr)
-> +{
-> +	u32 data = cpu_to_be32(pageaddr) >> 8;
-> +	int ret;
-> +
-> +	ret = regmap_noinc_write(ts->fw_regmap, NT36XXX_CMD_SET_PAGE,
-> +				 &data, sizeof(data));
-> +	if (ret)
-> +		return ret;
-> +
-> +	usleep_range(100, 200);
-> +	return ret;
-> +}
-> +
-> +/**
-> + * nt36xxx_sw_reset_idle - Warm restart the firmware
-> + * @ts: Main driver structure
-> + *
-> + * This function restarts the running firmware without rebooting to
-> + * the bootloader (warm restart)
-> + *
-> + * Return: Always zero for success, negative number for error
-> + */
-> +static int nt36xxx_sw_reset_idle(struct nt36xxx_i2c *ts)
-> +{
-> +	int ret;
-> +
-> +	ret = regmap_write(ts->regmap, ts->hw_client->addr,
-> +			   NT36XXX_CMD_SW_RESET);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Wait until the MCU resets the fw state */
-> +	usleep_range(15000, 16000);
-> +	return ret;
-> +}
-> +
-> +/**
-> + * nt36xxx_bootloader_reset - Reset MCU to bootloader
-> + * @ts: Main driver structure
-> + *
-> + * Return: Always zero for success, negative number for error
-> + */
-> +static int nt36xxx_bootloader_reset(struct nt36xxx_i2c *ts)
-> +{
-> +	int ret;
-> +
-> +	ret = regmap_write(ts->regmap, ts->hw_client->addr,
-> +			   NT36XXX_CMD_BOOTLOADER_RESET);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* MCU has to reboot from bootloader: this is the typical boot time */
-> +	msleep(35);
-> +	return ret;
-> +}
-> +
-> +/**
-> + * nt36xxx_check_reset_state - Check the boot state during reset
-> + * @ts: Main driver structure
-> + * @fw_state: Enumeration containing firmware states
-> + *
-> + * Return: Always zero for success, negative number for error
-> + */
-> +static int nt36xxx_check_reset_state(struct nt36xxx_i2c *ts,
-> +				     enum nt36xxx_fw_state fw_state)
-> +{
-> +	u8 buf[2] = { 0 };
-> +	int ret, retry = NT36XXX_MAX_FW_RST_RETRY;
-> +
-> +	do {
-> +		ret = regmap_noinc_read(ts->fw_regmap,
-> +					NT36XXX_EVT_RESET_COMPLETE,
-> +					buf, sizeof(buf));
-> +		if (likely(ret == 0) &&
-> +		    (buf[0] >= fw_state) &&
-> +		    (buf[0] <= NT36XXX_STATE_MAX)) {
-> +			ret = 0;
-> +			break;
-> +		}
-> +		usleep_range(10000, 11000);
-> +	} while (--retry);
-> +
-> +	if (!retry) {
-> +		dev_err(&ts->hw_client->dev, "Firmware reset failed.\n");
-> +		ret = -EBUSY;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +/**
-> + * nt36xxx_read_pid - Read Novatek Project ID
-> + * @ts: Main driver structure
-> + *
-> + * Return: Always zero for success, negative number for error
-> + */
-> +static int nt36xxx_read_pid(struct nt36xxx_i2c *ts)
-> +{
-> +	__be16 pid;
-> +	int ret;
-> +
-> +	ret = nt36xxx_set_page(ts, ts->mmap->evtbuf_addr);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_noinc_read(ts->fw_regmap, NT36XXX_EVT_PROJECTID,
-> +				&pid, sizeof(pid));
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ts->fw_info.nvt_pid = be16_to_cpu(pid);
-> +	return 0;
-> +}
-> +
-> +/**
-> + * __nt36xxx_get_fw_info - Get working params from firmware
-> + * @ts: Main driver structure
-> + *
-> + * Return: Always zero for success, negative number for error
-> + */
-> +static int __nt36xxx_get_fw_info(struct nt36xxx_i2c *ts)
-> +{
-> +	struct nt36xxx_fw_info *fwi = &ts->fw_info;
-> +	u8 buf[11] = { 0 };
-> +	int ret = 0;
-> +
-> +	ret = nt36xxx_set_page(ts, ts->mmap->evtbuf_addr);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_noinc_read(ts->fw_regmap, NT36XXX_EVT_FWINFO,
-> +				buf, sizeof(buf));
-> +	if (ret)
-> +		return ret;
-> +
-> +	fwi->fw_ver = buf[0];
-> +	fwi->x_num = buf[2];
-> +	fwi->y_num = buf[3];
-> +	fwi->abs_x_max = get_unaligned_be16(&buf[4]);
-> +	fwi->abs_y_max = get_unaligned_be16(&buf[6]);
-> +	fwi->max_buttons = buf[10];
-> +
-> +	/* Check fw info integrity and clear x_num, y_num if broken */
-> +	if ((buf[0] + buf[1]) != 0xFF) {
-> +		dev_err(&ts->hw_client->dev,
-> +			"FW info is broken! fw_ver=0x%02X, ~fw_ver=0x%02X\n",
-> +			buf[0], buf[1]);
-> +		fwi->fw_ver = 0;
-> +		fwi->x_num = 18;
-> +		fwi->y_num = 32;
-> +		fwi->abs_x_max = TOUCH_DEFAULT_MAX_WIDTH;
-> +		fwi->abs_y_max = TOUCH_DEFAULT_MAX_HEIGHT;
-> +		fwi->max_buttons = 0;
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* Get Novatek ProjectID */
-> +	return nt36xxx_read_pid(ts);
-> +}
-> +
-> +static int nt36xxx_get_fw_info(struct nt36xxx_i2c *ts)
-> +{
-> +	struct nt36xxx_fw_info *fwi = &ts->fw_info;
-> +	int i, ret = 0;
-> +
-> +	for (i = 0; i < NT36XXX_MAX_RETRIES; i++) {
-> +		ret = __nt36xxx_get_fw_info(ts);
-> +		if (ret == 0)
-> +			break;
-> +	}
-> +
-> +	dev_dbg(&ts->hw_client->dev,
-> +		"FW Info: PID=0x%x, ver=0x%x res=%ux%u max=%ux%u buttons=%u",
-> +		fwi->nvt_pid, fwi->fw_ver, fwi->x_num, fwi->y_num,
-> +		fwi->abs_x_max, fwi->abs_y_max, fwi->max_buttons);
-> +
-> +	return ret;
-> +}
-> +
-> +/**
-> + * nt36xxx_report - Report touch events
-> + * @ts: Main driver structure
-> + *
-> + * Return: Always zero for success, negative number for error
-> + */
-> +static void nt36xxx_report(struct nt36xxx_i2c *ts)
-> +{
-> +	struct nt36xxx_abs_object *obj = &ts->abs_obj;
-> +	struct input_dev *input = ts->input;
-> +	u8 input_id = 0;
-> +	u8 point[POINT_DATA_LEN + 1] = { 0 };
-> +	unsigned int ppos = 0;
-> +	int i, ret, finger_cnt = 0;
-> +
-> +	mutex_lock(&ts->lock);
-> +
-> +	ret = regmap_noinc_read(ts->fw_regmap, NT36XXX_EVT_REPORT,
-> +				point, sizeof(point));
-> +	if (ret < 0) {
-> +		dev_err(&ts->hw_client->dev,
-> +			"Cannot read touch point data: %d\n", ret);
-> +		goto xfer_error;
-> +	}
-> +
-> +	for (i = 0; i < TOUCH_MAX_FINGER_NUM; i++) {
-> +		ppos = 6 * i;
-> +		input_id = point[ppos + 0] >> 3;
-> +		if ((input_id == 0) || (input_id > TOUCH_MAX_FINGER_NUM))
-> +			continue;
-> +
-> +		if (((point[ppos] & 0x07) == 0x01) ||
-> +		    ((point[ppos] & 0x07) == 0x02)) {
-> +			obj->x = (point[ppos + 1] << 4) +
-> +				 (point[ppos + 3] >> 4);
-> +			obj->y = (point[ppos + 2] << 4) +
-> +				 (point[ppos + 3] & 0xf);
-> +			if ((obj->x > ts->prop.max_x) ||
-> +			    (obj->y > ts->prop.max_y))
-> +				continue;
-> +
-> +			obj->tm = point[ppos + 4];
-> +			if (obj->tm == 0)
-> +				obj->tm = 1;
-> +
-> +			obj->z = point[ppos + 5];
-> +			if (i < 2) {
-> +				obj->z += point[i + 63] << 8;
-> +				if (obj->z > TOUCH_MAX_PRESSURE)
-> +					obj->z = TOUCH_MAX_PRESSURE;
-> +			}
-> +
-> +			if (obj->z == 0)
-> +				obj->z = 1;
-> +
-> +			input_mt_slot(input, input_id - 1);
-> +			input_mt_report_slot_state(input,
-> +						   MT_TOOL_FINGER, true);
-> +			touchscreen_report_pos(input, &ts->prop, obj->x,
-> +					       obj->y, true);
-> +
-> +			input_report_abs(input, ABS_MT_TOUCH_MAJOR, obj->tm);
-> +			input_report_abs(input, ABS_MT_PRESSURE, obj->z);
-> +
-> +			finger_cnt++;
-> +		}
-> +	}
-> +	input_mt_sync_frame(input);
-> +	input_sync(input);
-> +
-> +xfer_error:
-> +	enable_irq(ts->hw_client->irq);
-> +
-> +	mutex_unlock(&ts->lock);
-> +}
-> +
-> +static irqreturn_t nt36xxx_i2c_irq_handler(int irq, void *dev_id)
-> +{
-> +	struct nt36xxx_i2c *ts = dev_id;
-> +
-> +	disable_irq_nosync(ts->hw_client->irq);
-> +	nt36xxx_report(ts);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static bool nt36xxx_in_crc_reboot_loop(u8 *buf)
-> +{
-> +	return ((buf[0] == 0xFC) && (buf[1] == 0xFC) && (buf[2] == 0xFC)) ||
-> +	       ((buf[0] == 0xFF) && (buf[1] == 0xFF) && (buf[2] == 0xFF));
-> +}
-> +
-> +/**
-> + * nt36xxx_stop_crc_reboot - Stop CRC reboot loop and warm-reboot the firmware
-> + * @ts: Main driver structure
-> + *
-> + * Return: Always zero for success, negative number for error
-> + */
-> +static int nt36xxx_stop_crc_reboot(struct nt36xxx_i2c *ts)
-> +{
-> +	u8 buf[3] = { 0 };
-> +	u8 val;
-> +	int ret, retry = NT36XXX_MAX_RETRIES;
-> +
-> +	/* Read dummy buffer to check CRC fail reboot is happening or not */
-> +
-> +	/* Change I2C index to prevent getting 0xFF, but not 0xFC */
-> +	ret = nt36xxx_set_page(ts, NT36XXX_PAGE_CHIP_INFO);
-> +	if (ret) {
-> +		dev_dbg(&ts->hw_client->dev,
-> +			"CRC reset failed: Cannot select page.\n");
-> +		return ret;
-> +	}
-> +
-> +	/* If ChipID command returns 0xFC or 0xFF, the MCU is in CRC reboot */
-> +	ret = regmap_noinc_read(ts->fw_regmap, NT36XXX_EVT_CHIPID,
-> +				buf, sizeof(buf));
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!nt36xxx_in_crc_reboot_loop(buf))
-> +		return 0;
-> +
-> +	/* IC is in CRC fail reboot loop, needs to be stopped! */
-> +	do {
-> +		/* Special reset-idle sequence for CRC failure */
-> +		ret = regmap_write(ts->regmap, ts->hw_client->addr,
-> +				   NT36XXX_CMD_SW_RESET);
-> +		if (ret)
-> +			dev_dbg(&ts->hw_client->dev,
-> +				"SW Reset 1 failed: may not recover\n");
-> +
-> +		ret = regmap_write(ts->regmap, ts->hw_client->addr,
-> +				   NT36XXX_CMD_SW_RESET);
-> +		if (ret)
-> +			dev_dbg(&ts->hw_client->dev,
-> +				"SW Reset 2 failed: may not recover\n");
-> +		usleep_range(1000, 1100);
-> +
-> +		/* Clear CRC_ERR_FLAG */
-> +		ret = nt36xxx_set_page(ts, NT36XXX_PAGE_CRC);
-> +		if (ret)
-> +			continue;
-> +
-> +		val = 0xA5;
-> +		ret = regmap_raw_write(ts->fw_regmap, NT36XXX_EVT_CRC,
-> +				       &val, sizeof(val));
-> +		if (ret)
-> +			continue;
-> +
-> +		/* Check CRC_ERR_FLAG */
-> +		ret = nt36xxx_set_page(ts, NT36XXX_PAGE_CRC);
-> +		if (ret)
-> +			continue;
-> +
-> +		ret = regmap_noinc_read(ts->fw_regmap, NT36XXX_EVT_CRC,
-> +					&buf, sizeof(buf));
-> +		if (ret)
-> +			continue;
-> +
-> +		if (buf[0] == 0xA5)
-> +			break;
-> +	} while (--retry);
-> +
-> +	if (retry == 0) {
-> +		dev_err(&ts->hw_client->dev,
-> +			"CRC reset failed: buf=0x%2ph\n", buf);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +/**
-> + * nt36xxx_i2c_chip_version_init - Detect Novatek NT36xxx family IC
-> + * @ts: Main driver structure
-> + *
-> + * This function reads the ChipID from the IC and sets the right
-> + * memory map for the detected chip.
-> + *
-> + * Return: Always zero for success, negative number for error
-> + */
-> +static int nt36xxx_i2c_chip_version_init(struct nt36xxx_i2c *ts)
-> +{
-> +	u8 buf[7] = { 0 };
-> +	int retry = NT36XXX_MAX_RETRIES;
-> +	int sz = sizeof(trim_id_table) / sizeof(struct nt36xxx_trim_table);
-> +	int i, list, mapid, ret;
-> +
-> +	ret = nt36xxx_bootloader_reset(ts);
-> +	if (ret) {
-> +		dev_err(&ts->hw_client->dev, "Can't reset the nvt IC\n");
-> +		return ret;
-> +	}
-> +
-> +	do {
-> +		ret = nt36xxx_sw_reset_idle(ts);
-> +		if (ret)
-> +			continue;
-> +
-> +		ret = regmap_write(ts->regmap, ts->hw_client->addr, NT36XXX_CMD_UNLOCK);
-> +		if (ret)
-> +			continue;
-> +		usleep_range(10000, 11000);
-> +
-> +		ret = nt36xxx_set_page(ts, NT36XXX_PAGE_CHIP_INFO);
-> +		if (ret)
-> +			continue;
-> +
-> +		memset(buf, 0, ARRAY_SIZE(buf));
-> +		ret = regmap_noinc_read(ts->fw_regmap, NT36XXX_EVT_CHIPID,
-> +					buf, sizeof(buf));
-> +		if (ret)
-> +			continue;
-> +
-> +		/* Compare read chip id with trim list */
-> +		for (list = 0; list < sz; list++) {
-> +			/* Compare each not masked byte */
-> +			for (i = 0; i < NT36XXX_ID_LEN_MAX; i++) {
-> +				if (trim_id_table[list].mask[i] &&
-> +				    buf[i] != trim_id_table[list].id[i])
-> +					break;
-> +			}
-> +
-> +			if (i == NT36XXX_ID_LEN_MAX) {
-> +				mapid = trim_id_table[list].mapid;
-> +				ts->mmap = &nt36xxx_memory_maps[mapid];
-> +				return 0;
-> +			}
-> +
-> +			ts->mmap = NULL;
-> +			ret = -ENOENT;
-> +		}
-> +
-> +		/* Stop CRC check to prevent IC auto reboot */
-> +		if (nt36xxx_in_crc_reboot_loop(buf)) {
-> +			ret = nt36xxx_stop_crc_reboot(ts);
-> +			if (ret)
-> +				continue;
-> +		}
-> +
-> +		usleep_range(10000, 11000);
-> +	} while (--retry);
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct regmap_config nt36xxx_i2c_regmap_hw_config = {
-> +	.name = "nt36xxx_i2c_hw",
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +	.cache_type = REGCACHE_NONE,
-> +};
-> +
-> +static const struct regmap_config nt36xxx_i2c_regmap_fw_config = {
-> +	.name = "nt36xxx_i2c_fw",
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +	.cache_type = REGCACHE_NONE,
-> +};
-> +
-> +static void nt36xxx_disable_regulators(void *data)
-> +{
-> +	struct nt36xxx_i2c *ts = data;
-> +
-> +	regulator_bulk_disable(NT36XXX_NUM_SUPPLIES, ts->supplies);
-> +}
-> +
-> +static int nt36xxx_i2c_probe(struct i2c_client *hw_client,
-> +			     const struct i2c_device_id *id)
-> +{
-> +	struct nt36xxx_i2c *ts;
-> +	struct input_dev *input;
-> +	int ret;
-> +
-> +	if (!i2c_check_functionality(hw_client->adapter, I2C_FUNC_I2C)) {
-> +		dev_err(&hw_client->dev, "i2c_check_functionality error\n");
-> +		return -EIO;
-> +	}
-> +
-> +	if (!hw_client->irq) {
-> +		dev_err(&hw_client->dev, "No irq specified\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	ts = devm_kzalloc(&hw_client->dev, sizeof(*ts), GFP_KERNEL);
-> +	if (!ts)
-> +		return -ENOMEM;
-> +
-> +	ts->supplies = devm_kcalloc(&hw_client->dev,
-> +				    NT36XXX_NUM_SUPPLIES,
-> +				    sizeof(*ts->supplies),
-> +				    GFP_KERNEL);
-> +	if (!ts->supplies)
-> +		return -ENOMEM;
-> +
-> +	input = devm_input_allocate_device(&hw_client->dev);
-> +	if (!input)
-> +		return -ENOMEM;
-> +
-> +	ts->fw_client = i2c_new_dummy_device(hw_client->adapter,
-> +					     NT36XXX_FW_ADDR);
-> +	if (IS_ERR(ts->fw_client)) {
-> +		dev_err(&hw_client->dev, "Cannot add FW I2C device\n");
-> +		return PTR_ERR(ts->fw_client);
-> +	}
-> +
-> +	ts->hw_client = hw_client;
-> +	ts->input = input;
-> +	i2c_set_clientdata(ts->hw_client, ts);
-> +	i2c_set_clientdata(ts->fw_client, ts);
-> +
-> +	ts->reset_gpio = devm_gpiod_get_optional(&hw_client->dev, "reset",
-> +						 GPIOD_OUT_HIGH);
-> +	if (IS_ERR(ts->reset_gpio))
-> +		return PTR_ERR(ts->reset_gpio);
-> +	gpiod_set_consumer_name(ts->reset_gpio, "nt36xxx reset");
-> +
-> +	/* These supplies are optional */
-> +	ts->supplies[0].supply = "vdd";
-> +	ts->supplies[1].supply = "vio";
-> +	ret = devm_regulator_bulk_get(&hw_client->dev,
-> +				      NT36XXX_NUM_SUPPLIES,
-> +				      ts->supplies);
-> +	if (ret)
-> +		return dev_err_probe(&hw_client->dev, ret,
-> +				     "Cannot get supplies: %d\n", ret);
-> +
-> +	ts->regmap = devm_regmap_init_i2c(ts->hw_client,
-> +					  &nt36xxx_i2c_regmap_hw_config);
-> +	if (IS_ERR(ts->regmap)) {
-> +		dev_err(&hw_client->dev, "regmap (hw-addr) init failed\n");
-> +		return PTR_ERR(ts->regmap);
-> +	}
-> +
-> +	ts->fw_regmap = devm_regmap_init_i2c(ts->fw_client,
-> +					     &nt36xxx_i2c_regmap_fw_config);
-> +	if (IS_ERR(ts->fw_regmap)) {
-> +		dev_err(&hw_client->dev, "regmap (fw-addr) init failed\n");
-> +		return PTR_ERR(ts->fw_regmap);
-> +	}
-> +
-> +	ret = regulator_bulk_enable(NT36XXX_NUM_SUPPLIES, ts->supplies);
-> +	if (ret)
-> +		return ret;
-> +
-> +	usleep_range(10000, 11000);
-> +
-> +	ret = devm_add_action_or_reset(&hw_client->dev,
-> +				       nt36xxx_disable_regulators, ts);
-> +	if (ret)
-> +		return ret;
-> +
-> +	mutex_init(&ts->lock);
-> +
-> +	/* Set memory maps for the specific chip version */
-> +	ret = nt36xxx_i2c_chip_version_init(ts);
-> +	if (ret) {
-> +		dev_err(&hw_client->dev, "Failed to check chip version\n");
-> +		return ret;
-> +	}
-> +
-> +	/* Reset the MCU */
-> +	ret = nt36xxx_bootloader_reset(ts);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Check and eventually wait until the MCU goes in reset state */
-> +	ret = nt36xxx_check_reset_state(ts, NT36XXX_STATE_INIT);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Get informations from the TS firmware */
-> +	ret = nt36xxx_get_fw_info(ts);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	input->phys = devm_kasprintf(&hw_client->dev, GFP_KERNEL,
-> +				     "%s/input0", dev_name(&hw_client->dev));
-> +	if (!input->phys)
-> +		return -ENOMEM;
-> +
-> +	input->name = "Novatek NT36XXX Touchscreen";
-> +	input->id.bustype = BUS_I2C;
-> +	input->dev.parent = &hw_client->dev;
-> +
-> +	__set_bit(EV_KEY, input->evbit);
-> +	__set_bit(EV_ABS, input->evbit);
-> +	input_set_capability(input, EV_KEY, BTN_TOUCH);
-> +
-> +	ret = input_mt_init_slots(input, TOUCH_MAX_FINGER_NUM,
-> +				  INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
-> +	if (ret) {
-> +		dev_err(&hw_client->dev, "Cannot init MT slots (%d)\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	input_set_abs_params(input, ABS_MT_PRESSURE, 0,
-> +			     TOUCH_MAX_PRESSURE, 0, 0);
-> +	input_set_abs_params(input, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
-> +
-> +	input_set_abs_params(input, ABS_MT_POSITION_X, 0,
-> +			     ts->fw_info.abs_x_max - 1, 0, 0);
-> +	input_set_abs_params(input, ABS_MT_POSITION_Y, 0,
-> +			     ts->fw_info.abs_y_max - 1, 0, 0);
-> +
-> +	/* Override the firmware defaults, if needed */
-> +	touchscreen_parse_properties(input, true, &ts->prop);
-> +
-> +	input_set_drvdata(input, ts);
-> +
-> +	ret = input_register_device(ts->input);
-> +	if (ret) {
-> +		dev_err(&hw_client->dev, "Failed to register input device: %d\n",
-> +			ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = devm_request_threaded_irq(&hw_client->dev, hw_client->irq, NULL,
-> +					nt36xxx_i2c_irq_handler, IRQF_ONESHOT,
-> +					hw_client->name, ts);
-> +	if (ret) {
-> +		dev_err(&hw_client->dev, "request irq failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int __maybe_unused nt36xxx_i2c_suspend(struct device *dev)
-> +{
-> +	struct nt36xxx_i2c *ts = i2c_get_clientdata(to_i2c_client(dev));
-> +	int ret;
-> +
-> +	disable_irq(ts->hw_client->irq);
-> +
-> +	ret = regmap_write(ts->fw_regmap, NT36XXX_EVT_HOST_CMD,
-> +			   NT36XXX_CMD_ENTER_SLEEP);
-> +	if (ret) {
-> +		dev_err(&ts->hw_client->dev, "Cannot enter suspend!!\n");
-> +		return ret;
-> +	}
-> +
-> +	gpiod_set_value(ts->reset_gpio, 1);
-> +
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused nt36xxx_i2c_resume(struct device *dev)
-> +{
-> +	struct nt36xxx_i2c *ts = i2c_get_clientdata(to_i2c_client(dev));
-> +	int ret;
-> +
-> +	mutex_lock(&ts->lock);
-> +
-> +	gpiod_set_value(ts->reset_gpio, 0);
-> +
-> +	/* Reboot the MCU (also recalibrates the TS) */
-> +	ret = nt36xxx_bootloader_reset(ts);
-> +	if (ret < 0)
-> +		goto end;
-> +
-> +	ret = nt36xxx_check_reset_state(ts, NT36XXX_STATE_REK);
-> +	if (ret < 0)
-> +		goto end;
-> +
-> +	enable_irq(ts->hw_client->irq);
-> +end:
-> +	mutex_unlock(&ts->lock);
-> +	return ret;
-> +}
-> +
-> +static SIMPLE_DEV_PM_OPS(nt36xxx_i2c_pm,
-> +			 nt36xxx_i2c_suspend, nt36xxx_i2c_resume);
-> +
-> +static const struct of_device_id nt36xxx_of_match[] = {
-> +	{ .compatible = "novatek,nt36525" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, nt36xxx_of_match);
-> +
-> +static const struct i2c_device_id nt36xxx_i2c_ts_id[] = {
-> +	{ "NVT-ts", 0 },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, nt36xxx_i2c_ts_id);
-> +
-> +static struct i2c_driver nt36xxx_i2c_ts_driver = {
-> +	.driver = {
-> +		.name	= "nt36xxx_ts",
-> +		.pm	= &nt36xxx_i2c_pm,
-> +		.of_match_table = nt36xxx_of_match,
-> +	},
-> +	.id_table	= nt36xxx_i2c_ts_id,
-> +	.probe		= nt36xxx_i2c_probe,
-> +};
-> +module_i2c_driver(nt36xxx_i2c_ts_driver);
-> +
-> +MODULE_LICENSE("GPL v2");
-> +MODULE_DESCRIPTION("Novatek NT36XXX Touchscreen Driver");
-> +MODULE_AUTHOR("AngeloGioacchino Del Regno <kholk11@gmail.com>");
-> diff --git a/drivers/input/touchscreen/nt36xxx.h b/drivers/input/touchscreen/nt36xxx.h
-> new file mode 100644
-> index 000000000000..6f03dfb45656
-> --- /dev/null
-> +++ b/drivers/input/touchscreen/nt36xxx.h
-> @@ -0,0 +1,122 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2010 - 2017 Novatek, Inc.
-> + * Copyright (C) 2020 AngeloGioacchino Del Regno <kholk11@gmail.com>
-> + */
-> +
-> +#ifndef NT36XXX_H
-> +#define NT36XXX_H
-> +
-> +#define NT36XXX_INPUT_DEVICE_NAME	"Novatek NT36XXX Touch Sensor"
-> +
-> +/* These chips have this fixed address when in bootloader 🙁 */
-> +#define NT36XXX_BLDR_ADDR 0x01
-> +
-> +/* Input device info */
-> +#define NVT_TS_NAME "NVTCapacitiveTouchScreen"
-> +
-> +/* Number of bytes for chip identification */
-> +#define NT36XXX_ID_LEN_MAX	6
-> +
-> +/* Touch info */
-> +#define TOUCH_DEFAULT_MAX_WIDTH  1080
-> +#define TOUCH_DEFAULT_MAX_HEIGHT 2246
-> +#define TOUCH_MAX_FINGER_NUM	 10
-> +#define TOUCH_MAX_PRESSURE	 1000
-> +
-> +/* Point data length */
-> +#define POINT_DATA_LEN		65
-> +
-> +/* Global pages */
-> +#define NT36XXX_PAGE_CHIP_INFO	0x0001f64e
-> +#define NT36XXX_PAGE_CRC	0x0003f135
-> +
-> +/* Misc */
-> +#define NT36XXX_NUM_SUPPLIES	 2
-> +#define NT36XXX_MAX_RETRIES	 5
-> +#define NT36XXX_MAX_FW_RST_RETRY 50
-> +
-> +struct nt36xxx_abs_object {
-> +	u16 x;
-> +	u16 y;
-> +	u16 z;
-> +	u8 tm;
-> +};
-> +
-> +struct nt36xxx_fw_info {
-> +	u8 fw_ver;
-> +	u8 x_num;
-> +	u8 y_num;
-> +	u8 max_buttons;
-> +	u16 abs_x_max;
-> +	u16 abs_y_max;
-> +	u16 nvt_pid;
-> +};
-> +
-> +struct nt36xxx_mem_map {
-> +	u32 evtbuf_addr;
-> +	u32 pipe0_addr;
-> +	u32 pipe1_addr;
-> +	u32 flash_csum_addr;
-> +	u32 flash_data_addr;
-> +};
-> +
-> +struct nt36xxx_i2c {
-> +	struct i2c_client *client;
-> +	struct input_dev *input;
-> +	struct regulator_bulk_data *supplies;
-> +	struct gpio_desc *reset_gpio;
-> +
-> +	struct work_struct ts_work;
-> +	struct workqueue_struct *ts_workq;
-> +	struct mutex lock;
-> +
-> +	struct nt36xxx_fw_info fw_info;
-> +	struct nt36xxx_abs_object abs_obj;
-> +
-> +	const struct nt36xxx_mem_map *mmap;
-> +	u8 max_fingers;
-> +};
-> +
-> +enum nt36xxx_chips {
-> +	NT36525_IC = 0,
-> +	NT36672A_IC,
-> +	NT36676F_IC,
-> +	NT36772_IC,
-> +	NT36870_IC,
-> +	NTMAX_IC,
-> +};
-> +
-> +struct nt36xxx_trim_table {
-> +	u8 id[NT36XXX_ID_LEN_MAX];
-> +	u8 mask[NT36XXX_ID_LEN_MAX];
-> +	enum nt36xxx_chips mapid;
-> +};
-> +
-> +enum nt36xxx_cmds {
-> +	NT36XXX_CMD_ENTER_SLEEP = 0x11,
-> +	NT36XXX_CMD_ENTER_WKUP_GESTURE = 0x13,
-> +	NT36XXX_CMD_UNLOCK = 0x35,
-> +	NT36XXX_CMD_BOOTLOADER_RESET = 0x69,
-> +	NT36XXX_CMD_SW_RESET = 0xa5,
-> +	NT36XXX_CMD_SET_PAGE = 0xff,
-> +};
-> +
-> +enum nt36xxx_fw_state {
-> +	NT36XXX_STATE_INIT = 0xa0,	/* IC reset */
-> +	NT36XXX_STATE_REK,		/* ReK baseline */
-> +	NT36XXX_STATE_REK_FINISH,	/* Baseline is ready */
-> +	NT36XXX_STATE_NORMAL_RUN,	/* Normal run */
-> +	NT36XXX_STATE_MAX = 0xaf
-> +};
-> +
-> +enum nt36xxx_i2c_events {
-> +	NT36XXX_EVT_CHIPID = 0x4e,
-> +	NT36XXX_EVT_HOST_CMD = 0x50,
-> +	NT36XXX_EVT_HS_OR_SUBCMD = 0x51,   /* Handshake or subcommand byte */
-> +	NT36XXX_EVT_RESET_COMPLETE = 0x60,
-> +	NT36XXX_EVT_FWINFO = 0x78,
-> +	NT36XXX_EVT_PROJECTID = 0x9a,
-> +};
-> +
-> +#endif
+> +   hidintro
+>     hiddev
+>     hidraw
+>     hid-sensor
+> diff --git a/include/linux/hid.h b/include/linux/hid.h
+> index 7f2e8ba7d783..ad12a36d9993 100644
+> --- a/include/linux/hid.h
+> +++ b/include/linux/hid.h
+> @@ -341,6 +341,29 @@ struct hid_item {
+>   */
+>  #define MAX_USBHID_BOOT_QUIRKS 4
+>  
+> +/** 
+> +* DOC: HID quirks
+> +* | @HID_QUIRK_NOTOUCH:
+> +* | @HID_QUIRK_IGNORE: ignore this device
+> +* | @HID_QUIRK_NOGET:
+> +* | @HID_QUIRK_HIDDEV_FORCE:
+> +* | @HID_QUIRK_BADPAD:
+> +* | @HID_QUIRK_MULTI_INPUT:
+> +* | @HID_QUIRK_HIDINPUT_FORCE:
+> +* | @HID_QUIRK_ALWAYS_POLL:
+> +* | @HID_QUIRK_INPUT_PER_APP:
+> +* | @HID_QUIRK_X_INVERT:
+> +* | @HID_QUIRK_Y_INVERT:
+> +* | @HID_QUIRK_SKIP_OUTPUT_REPORTS:
+> +* | @HID_QUIRK_SKIP_OUTPUT_REPORT_ID:
+> +* | @HID_QUIRK_NO_OUTPUT_REPORTS_ON_INTR_EP:
+> +* | @HID_QUIRK_HAVE_SPECIAL_DRIVER:
+> +* | @HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE:
+> +* | @HID_QUIRK_FULLSPEED_INTERVAL:
+> +* | @HID_QUIRK_NO_INIT_REPORTS:
+> +* | @HID_QUIRK_NO_IGNORE:
+> +* | @HID_QUIRK_NO_INPUT_SYNC:
+> +*/
+>  /* BIT(0) reserved for backward compatibility, was HID_QUIRK_INVERT */
+>  #define HID_QUIRK_NOTOUCH			BIT(1)
+>  #define HID_QUIRK_IGNORE			BIT(2)
+> -- 
+> 2.41.0
 > 
