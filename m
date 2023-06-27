@@ -2,68 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36A4473F681
-	for <lists+linux-input@lfdr.de>; Tue, 27 Jun 2023 10:10:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C635173F6D1
+	for <lists+linux-input@lfdr.de>; Tue, 27 Jun 2023 10:20:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229969AbjF0IKI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 27 Jun 2023 04:10:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52176 "EHLO
+        id S230413AbjF0IUC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 27 Jun 2023 04:20:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231492AbjF0IKC (ORCPT
+        with ESMTP id S231669AbjF0IT7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 27 Jun 2023 04:10:02 -0400
-X-Greylist: delayed 524 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 27 Jun 2023 01:09:48 PDT
-Received: from mail.clydespay.com (mail.clydespay.com [135.125.235.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5746026A9
-        for <linux-input@vger.kernel.org>; Tue, 27 Jun 2023 01:09:48 -0700 (PDT)
-Received: by mail.clydespay.com (Postfix, from userid 1002)
-        id 2D2EAA2593; Tue, 27 Jun 2023 08:00:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=clydespay.com;
-        s=mail; t=1687852862;
-        bh=vvfT5KcxKPIjxXFqSm5MOJ+qRY14VuG/yg8Lav3pcWQ=;
-        h=Date:From:To:Subject:From;
-        b=IdkLuLHv0/RImXNxnAk7AdA9PUuIGr7tIM+DtWE8I5FfF6MPH6bpeTTLrc79FemtR
-         P04DS8Ewga4/Wr6Kvig7vcwBEFU3e9EF2Wygu5caL0HPiIy+y7GegjwLcVMFjwVlFp
-         JaQItG7p3D1ByRAOhoRDKW5ZOqxpGEn0o/owuYO1QuZa1m0TFycYGV6s3N5h/GhySD
-         oTUyDxIDXix0UUlUrxSaUe9O5Mqh4vprkSnl0ku4zSTBgtVNOPBiyqXnUy5gEuLGsA
-         av4njAuLpyeJbIm7y0DHeEAd/R5nJ0dRRslpSXf2H6GBNOw2b4//GpPT1t2pU6vMMi
-         kRoAN6qTwDY+Q==
-Received: by clydespay.com for <linux-input@vger.kernel.org>; Tue, 27 Jun 2023 08:00:48 GMT
-Message-ID: <20230627064520-0.1.8l.2acg7.0.qedhjqk5jp@clydespay.com>
-Date:   Tue, 27 Jun 2023 08:00:48 GMT
-From:   "Miguel Garcia" <miguel.garcia@clydespay.com>
-To:     <linux-input@vger.kernel.org>
-Subject: Consumo de combustible
-X-Mailer: mail.clydespay.com
+        Tue, 27 Jun 2023 04:19:59 -0400
+Received: from mail.208.org (unknown [183.242.55.162])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4370B109
+        for <linux-input@vger.kernel.org>; Tue, 27 Jun 2023 01:19:58 -0700 (PDT)
+Received: from mail.208.org (email.208.org [127.0.0.1])
+        by mail.208.org (Postfix) with ESMTP id 4QqyLd3xpbzBJBWv
+        for <linux-input@vger.kernel.org>; Tue, 27 Jun 2023 16:19:53 +0800 (CST)
+Authentication-Results: mail.208.org (amavisd-new); dkim=pass
+        reason="pass (just generated, assumed good)" header.d=208.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
+        content-transfer-encoding:content-type:message-id:user-agent
+        :subject:to:from:date:mime-version; s=dkim; t=1687853993; x=
+        1690445994; bh=jY7GM3rqeJ9VfWC97Fh6x7E9dEWzSb9DMFgD9naR1Xw=; b=f
+        rQn6QORX2aaHA3uO3Dp87wfgGsBZX+8jQhRVXRoa/mBpSsFoxx0v3kYH8css+YFk
+        +54o5TFG5yGODOLnkzXQC/H2PB6QOs/b5UpuNUbhYOAKAtnU/0+UOKxi+mVnxAMV
+        MQ9Jw2npILrHRXyGcCiuWcS+xelsjdwuxKEisHgfbdr/ALA35lvMkzXz/Dkk8xNq
+        0s7It/1rDXqCyD6UCGjOEmZqIcR4YTovr3l4+bMTaW/n6XCAXknNg18AMz1rEQn6
+        HyxwT0Jsm5lq4uvixc33K322YShJcFlBwzUPaIT/sY4jc3ii47OuDma4NX/kVdj0
+        MX/t9V1ZtFbM2hkQ6M+Aw==
+X-Virus-Scanned: amavisd-new at mail.208.org
+Received: from mail.208.org ([127.0.0.1])
+        by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id PD4x1znJ5x0c for <linux-input@vger.kernel.org>;
+        Tue, 27 Jun 2023 16:19:53 +0800 (CST)
+Received: from localhost (email.208.org [127.0.0.1])
+        by mail.208.org (Postfix) with ESMTPSA id 4QqyLd0Jb5zBJBHT;
+        Tue, 27 Jun 2023 16:19:53 +0800 (CST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_40,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Date:   Tue, 27 Jun 2023 16:19:52 +0800
+From:   baomingtong001@208suo.com
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] samples/hid: hid_surface_dial: Remove unneeded semicolon
+User-Agent: Roundcube Webmail
+Message-ID: <8a1926c8717b152be6a7051c47959a50@208suo.com>
+X-Sender: baomingtong001@208suo.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RDNS_NONE,SPF_HELO_FAIL,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Buenos dias
+./samples/hid/hid_surface_dial.c:170:5-6: Unneeded semicolon
 
-Le escribo sobre la gesti=C3=B3n de los autom=C3=B3viles de la empresa.
+Signed-off-by: Mingtong Bao <baomingtong001@208suo.com>
+---
+  samples/hid/hid_surface_dial.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Gracias a las abundantes funcionalidades de la herramienta GPS, que monit=
-orea cada autom=C3=B3vil de manera continua, puede registrar la posici=C3=
-=B3n, el tiempo y el kilometraje de los autom=C3=B3viles en tiempo real.
+diff --git a/samples/hid/hid_surface_dial.c 
+b/samples/hid/hid_surface_dial.c
+index 4bc97373a708..704f2b639492 100644
+--- a/samples/hid/hid_surface_dial.c
++++ b/samples/hid/hid_surface_dial.c
+@@ -167,7 +167,7 @@ int main(int argc, char **argv)
+  						"invalid r option %s - expecting a number\n",
+  						optarg ? optarg : "");
+  					exit(EXIT_FAILURE);
+-				};
++				}
 
-Como resultado, los costos de mantenimiento de la flota de la compa=C3=B1=
-=C3=ADa se reducen en un 20% y el tiempo de viaje o la planificaci=C3=B3n=
- de la entrega se reduce significativamente. 49 mil est=C3=A1n detr=C3=A1=
-s del =C3=A9xito de nuestras soluciones. Empresas que cooperan con nosotr=
-os.
+  				resolution = (int) l;
+  				break;
+-- 
+2.40.1
 
-Si el tema le parece interesante, cont=C3=A1ctame.
-
-
-Atentamente,
-Miguel Garcia
