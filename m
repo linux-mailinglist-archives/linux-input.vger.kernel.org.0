@@ -2,70 +2,57 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38E257418A0
-	for <lists+linux-input@lfdr.de>; Wed, 28 Jun 2023 21:07:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18C3F7419F8
+	for <lists+linux-input@lfdr.de>; Wed, 28 Jun 2023 23:01:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230445AbjF1TGh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 28 Jun 2023 15:06:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55074 "EHLO
+        id S231908AbjF1VBN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 28 Jun 2023 17:01:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231996AbjF1TGU (ORCPT
+        with ESMTP id S232006AbjF1VBK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 28 Jun 2023 15:06:20 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44BB6E4;
-        Wed, 28 Jun 2023 12:06:19 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-263253063f9so1442262a91.1;
-        Wed, 28 Jun 2023 12:06:19 -0700 (PDT)
+        Wed, 28 Jun 2023 17:01:10 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D20962113
+        for <linux-input@vger.kernel.org>; Wed, 28 Jun 2023 14:01:07 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2b6a6f224a1so4508931fa.1
+        for <linux-input@vger.kernel.org>; Wed, 28 Jun 2023 14:01:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687979178; x=1690571178;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=paHX3Iae9acGKLhSH26DZU14Gz3gF8upgejcn3o6KiI=;
-        b=C0BRN//vSTkyhBmMaTR0CaSA9MrlSPGVuT9kb0dUkTysLD4LneAvC1r0kDdQDBBaBM
-         4nXoPQK+CLs4lEXRyenQXJ8xkQUqPRGK5MXx0voqWXx2F+iCdgB++5YppcQNg35jpyH4
-         RO19u5zf2nvmTsPVNDKULIX+llwl+VaBHbqQIP6ezZEFlzIvyEQ7V13P1XceoaW0YO2E
-         x1n0f6XGFXrhlNvcYUhPmlFmbmXnNdwmlGXCpcb5MGIidTxzUmxo45niZcC4ios9MZ3j
-         GxROEmwsUJ/Cni6Mk/tmxMselQYvG1Vu2ztToJScRHLNXN4kHiPIEnoZGF9mo5BoDyS0
-         ToFQ==
+        d=chromium.org; s=google; t=1687986065; x=1690578065;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=tYrr9alTaXYuU/MkZkhHuZa1UvZlC7jD58KiXpwKE50=;
+        b=N7hOwG15FH3n/Nn4j/iK1zDL+o4oCg3GQibeDsOCYwHI8AA79BCSnof8dZaFC4BWCW
+         709O6XQbIvJ+LECsnfBVsbszCDUNiCOzov9FImnLftyyvFGrbGJ82PRSzKZfAaQMdy8O
+         COLDCzxY8kxAS1qfldsOU1Es8A8JsL6HAobQE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687979178; x=1690571178;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=paHX3Iae9acGKLhSH26DZU14Gz3gF8upgejcn3o6KiI=;
-        b=D+QkDeQhBwWiQUHlXfW0BeuTxOSe4b7hkUxKbtnDvnAC7S4NTI2DzOHjJsuIZCISkg
-         /h2KSk9/5f6A8jtJSY06fk81XY6qKG017iycWDEVtHAAlM6dK7cf/Z9vAuZ89M+wPh2J
-         ZY5RKlGPqso5IfhyGJBEVt/sdCPJAoVJXM7epOU2XNtACslxi+4THiaN2pSbw7dnP5O1
-         XG1n/R3q90Ke35/dtTQzWCnOyiQKi0ww+o/eMcc8vymg0INJo5Qo/a9R/48+I3Qp6PSh
-         8T3tWh8vL35OTwVho08L74MDFdHDt8bGxea+sIEIfsLD6BYvSDvjFJKVjg5msqlZ4WTd
-         3qUw==
-X-Gm-Message-State: AC+VfDy+xim2QtOojwYBR+QA1sx5t9N7qF5Y/GG8nZc65/59d5ASu2Kl
-        eCGmbx5llc/Xi3pHq/DQ7HU=
-X-Google-Smtp-Source: ACHHUZ6LJ12DxLlblcInWmUxgPjgvhzSgwDwlucA/Gew9Vz3zYm3H0OAMop0dj5mjUNiSt4xMfAAIA==
-X-Received: by 2002:a17:90b:3906:b0:263:945:61ae with SMTP id ob6-20020a17090b390600b00263094561aemr7150878pjb.23.1687979178266;
-        Wed, 28 Jun 2023 12:06:18 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:95ec:4c43:368:77b0])
-        by smtp.gmail.com with ESMTPSA id p16-20020a17090adf9000b0025bf330903esm3986824pjv.1.2023.06.28.12.06.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jun 2023 12:06:17 -0700 (PDT)
-Date:   Wed, 28 Jun 2023 12:06:14 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jiri Valek - 2N <jiriv@axis.com>
-Cc:     krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        robh+dt@kernel.org, u.kleine-koenig@pengutronix.de
-Subject: Re: [PATCH v4 2/2] Input: cap11xx - add advanced sensitivity settings
-Message-ID: <ZJyEpuat1A8Z+Ft4@google.com>
-References: <20230627065316.1065911-1-jiriv@axis.com>
- <20230627065316.1065911-3-jiriv@axis.com>
+        d=1e100.net; s=20221208; t=1687986065; x=1690578065;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tYrr9alTaXYuU/MkZkhHuZa1UvZlC7jD58KiXpwKE50=;
+        b=dMwYmY4i34hAfaql9u5SJZO8sX0vNJz4Eoxbtv4JbZhe31pWzltw0huIxf+6cS/Fvx
+         9jWYDt1WQ5iZ3KVFUVn9bPN8zcPesbQvSi+Mqgr9ZsmmuwRJJb1Czb0wZodU10y756hN
+         NT0pf+UfGRALI5AZbBB35MmNEc8K4Upc3updFfInV1w01KAaIpKA4abc8cus+0WMJnYo
+         s7h5eXUJt3gXlfSSM9+1ISjDBjytnN4cnjQ2o6IAMxuJnJ0dbVfFuF3fM+lUSvLYzZ7+
+         i+dFTy7JQfexamk855asZN8wQFleb4Msy2hLpJ6d4os5RjGSj/c+BiSkhdxNaUHss4MF
+         Q/iQ==
+X-Gm-Message-State: AC+VfDx0IK/8s6nJKcH22sQOCpCWTUYFFGKlTJBplmxp9VdaT08AyhrT
+        euSJ1lRtswbjqrklx/iim2GmIXBU7Ay/3roLEO2t5rx3QvZvNN9J/lY=
+X-Google-Smtp-Source: ACHHUZ75sLsoo3WXVYfVXnAC4jTqwd3VGNEDEWtuArehWWStTBOKgdzXRfcHhC47usUZio04G/XGN022TkpkZvcoFZA=
+X-Received: by 2002:a2e:3803:0:b0:2b5:9e51:2912 with SMTP id
+ f3-20020a2e3803000000b002b59e512912mr9788785lja.24.1687986065502; Wed, 28 Jun
+ 2023 14:01:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230627065316.1065911-3-jiriv@axis.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+From:   Jonathan Denose <jdenose@chromium.org>
+Date:   Wed, 28 Jun 2023 16:00:54 -0500
+Message-ID: <CALNJtpUN+DrWtudWdKZxYMR7oM-yt926fj7_Wi9dUPLZybw-vQ@mail.gmail.com>
+Subject: Touchpad lost sync at byte 6
+To:     linux-input@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,40 +60,59 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jiri,
+I am on a Lenovo N24 laptop.
 
-On Tue, Jun 27, 2023 at 08:53:16AM +0200, Jiri Valek - 2N wrote:
-> @@ -439,7 +589,7 @@ static int cap11xx_i2c_probe(struct i2c_client *i2c_client)
->  	priv->idev->id.bustype = BUS_I2C;
->  	priv->idev->evbit[0] = BIT_MASK(EV_KEY);
->  
-> -	if (of_property_read_bool(node, "autorepeat"))
-> +	if (of_property_read_bool(dev->of_node, "autorepeat"))
+When this device resumes after closing the lid, the mouse freezes and
+is unusable. After right-clicking multiple times the touchpad resumes
+working. I am seeing the following in the logs:
 
-It would be good to have this driver switched from of_property_*() to
-device_property_() API.
+[ 1188.690138] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+sync at byte 6
+[ 1188.699636] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+sync at byte 6
+[ 1188.709124] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+sync at byte 6
+[ 1188.718557] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+sync at byte 6
+[ 1188.728110] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+sync at byte 6
+[ 1188.975964] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+sync at byte 6
+[ 1188.985456] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+sync at byte 6
+[ 1188.994954] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+sync at byte 6
+[ 1189.004443] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+sync at byte 6
+[ 1189.013930] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+sync at byte 6
 
->  		__set_bit(EV_REP, priv->idev->evbit);
->  
->  	for (i = 0; i < cap->num_channels; i++)
-> @@ -474,14 +624,8 @@ static int cap11xx_i2c_probe(struct i2c_client *i2c_client)
->  	if (error)
->  		return error;
->  
-> -	irq = irq_of_parse_and_map(node, 0);
-> -	if (!irq) {
-> -		dev_err(dev, "Unable to parse or map IRQ\n");
-> -		return -ENXIO;
-> -	}
-> -
-> -	error = devm_request_threaded_irq(dev, irq, NULL, cap11xx_thread_func,
-> -					  IRQF_ONESHOT, dev_name(dev), priv);
-> +	error = devm_request_threaded_irq(dev, i2c_client->irq, NULL,
-> +					cap11xx_thread_func, IRQF_ONESHOT, dev_name(dev), priv);
+This device has an ETPS/2 Elantech Touchpad. I am on kernel version:
+5.15.117-19629-gf1eb3139d206
 
-I would prefer this change be a separate patch.
+Currently the device suspends to ram when the lid closes. When the
+device idles without the lid closing, the touchpad works fine on
+resume.
 
-Thanks.
+I have tried adding various i8042 and psmouse kernel parameters from
+searching different forums related to these error messages, but none
+of them fix the issue. I have tried
+- psmouse.resetafter=0
+- psmouse.resetafter=1
+- i8042.nomux=1
+- i8042.resetafter=1/0
+- i8042.reset=1 i8042.nomux=1
+- i8042.noloop=1 i8042.nopnp=1 i8042.nomux=1 i8042.reset=1
 
--- 
-Dmitry
+I was able to resolve this issue by doing `modprobe -r psmouse &&
+modprobe.psmouse proto=imps`. proto=bare and proto=exps also resolve
+the issue. However, with those options enabled I can no longer use
+gestures like two-finger scroll.
+
+This issue reproduces on ChromeOS Flex and Ubuntu 22.04 but not on
+Windows. On Windows the touchpad resuming after closing the lid works
+fine.
+
+What can I do to resolve this issue while also keeping touchpad gestures?
+
+Any help is greatly appreciated!
