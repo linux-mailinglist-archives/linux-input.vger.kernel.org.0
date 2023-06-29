@@ -2,138 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0054742C78
-	for <lists+linux-input@lfdr.de>; Thu, 29 Jun 2023 20:53:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4F2A742D7C
+	for <lists+linux-input@lfdr.de>; Thu, 29 Jun 2023 21:32:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232537AbjF2Sug (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Jun 2023 14:50:36 -0400
-Received: from mail-bn1nam02on2084.outbound.protection.outlook.com ([40.107.212.84]:23470
-        "EHLO NAM02-BN1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233019AbjF2Suf (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Jun 2023 14:50:35 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jIvaEt4qi8aAHU3DpSN+zRqZmxV32TyXbMamvqHpinEn17RfnGyWf+gCftBgE+3UxQxEx4yjGD66ZVlcxqJ7oX/ckM4C2+S6Arfi0ck80PQyf27DHBImQe4j9UcI4jYY3Mqq2YkU57t93HV6QJf+MdaGoitO0CXy1btvR5XcMWMx6K9687r+cMbbF5inEWbacmq2ZNh8+6znPE3Of3khKIrsZpfTnaGzdFaU3IqQ0T+tABKYydo76XxwccJiuEEulTpGUunVqV7twdTkPVo5ql1lO3BoKirDaLrqL9MeoSg8lGbXCtMrtYP4ewG5RdLWVYkychQLaV6h1nhXilbCNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P7s76AW4ShqaxEP3wTZltPIF21nHMVHMPwoy9wdzBLs=;
- b=Fa8kASJA9n9J/xC94SyoECq57AVSteefRHtvE5U7IaTBqgZ1Qrx4GNiUWLIMcEvc0xGMHUDq1N4hg0sis/6xqVxD2v+2fSlRWZrOInU0N4hA5PLLYjWhlak0kGHoSTyIOR29sYr9pvJXjSNIKU2j6HdgVTSQooPNIQ0V3reWyqAkiu0Ay0R2k9IkQEiE9g5Dm87cLjV90w3BTbHgQ8VDEYVIuIoXmLzypFVJVflnYJUoPefwnDa0H0SJ0KGlRFZFEvrobZPbQiIbylr8TqWIFVDa4IC/+zj8uOli1Gvrez8XX2C7jsUSjemmFl+1MtqHPnaZ2yNYHRnErvhdhiUBpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P7s76AW4ShqaxEP3wTZltPIF21nHMVHMPwoy9wdzBLs=;
- b=txaeCNuy5sDoa8D2BLJ+CHiLRo+0/XKSYP8SMGWHenOqfGh9C6BoAY4tizlY3AW0fNoHyg2JLgeyDpO/eNOvsjBVeklUTPc1Hqt/+yM0F62FmhMcIJ1Dcsjey6mdHCOjPFyoMLPyTLDS0xgh4TiU+yNqBZFhfRhmmJxbH1rErFlQmRSgPyEQSf4KXa1yimyKGrwEWD3dGoe7kRDaggULbyB8cpqfonR9QTyyV+IDWam04UpydlOMqXZqdXA9NM4zu9wAsuTvIF7jZbv5JKv/eyYuI7WK/8hSnlvqyfNv6aBIhzPIJdkyM6hBw8DLz0bf+bD1d5Zi9vJ5Th2Zt0an0w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
- by SJ1PR12MB6220.namprd12.prod.outlook.com (2603:10b6:a03:455::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.23; Thu, 29 Jun
- 2023 18:50:33 +0000
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::ecb0:2f8e:c4bf:b471]) by BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::ecb0:2f8e:c4bf:b471%7]) with mapi id 15.20.6521.024; Thu, 29 Jun 2023
- 18:50:33 +0000
-From:   Rahul Rameshbabu <rrameshbabu@nvidia.com>
-To:     Bastien Nocera <hadess@hadess.net>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        id S229936AbjF2Tal (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Jun 2023 15:30:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54680 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232501AbjF2T3u (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 29 Jun 2023 15:29:50 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A7A14ECD;
+        Thu, 29 Jun 2023 12:26:59 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-3fbc0981755so8258265e9.1;
+        Thu, 29 Jun 2023 12:26:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688066818; x=1690658818;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7N5ZmY2KWkRajsAf9XhKN7sozrITx4iUqfiGyFTIrtM=;
+        b=pn5mJC3LX13PWjP5BQG0rVHHheD/uC57/FYIvnpWXl+nOn3zJ4zU+rPiBklBj41S7/
+         7smMibiUI8VqTiUgSeyVEku4/Hx61E/I66tw079LprtcXk46ufEenh0Di2xq0kHrghDl
+         p/arOEK7WgI6nVGXxWsG/Zr7sQtDuskJvyy+R9ay2SimyEn7/jR9bbh5logKmaSwMbtI
+         fOkqKzSJ4qEf4L02G2XZMEGR8SVcu43PvCxA4uXhEJjhs5TSMaWtwfDY905QNeL8ZF6t
+         56ydjvpO+HlChCNACMIwmBSP1ITrlc0qQEzFqwMBigANZ1XS+pdaiVn8mPr4XJFHynzE
+         XNkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688066818; x=1690658818;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7N5ZmY2KWkRajsAf9XhKN7sozrITx4iUqfiGyFTIrtM=;
+        b=FYW4mE6Z9V06Pg/OfklsNfH5rKiu3WKEMfjms+GXNLe5snmP9UoFf0DVM5xNSejTAb
+         WW6zwpjyJKDe1YZkGHHKW9Jba6iHgqIll7ZObKb5pDMWzrxD0mYMSvXamdHmSuvSp2Jj
+         jShFgIUHpB/68KQpPh9a7WCm9+JCWp1KKiwbv5yAjC/H6ADTFaOpXo+UY0l6cLQQqf7L
+         9qQAOdNKmXjdaztPsMF2pkmBpxVicoYTi3meMcHKt5neVT41rpE0mS0SfDaXrVp9OKOq
+         nsGeEkePUKjtKCu5xyiLabrXTmnLH4Iej4Mw5fMuG+qqXmZh4Xv/SlH6WORnlrVE+bPt
+         AFcw==
+X-Gm-Message-State: AC+VfDzJDa5VMXSt1I+WHU170I+HrtgiS0OZ0lEXNLR8k1s5iLd6XYmj
+        79uN4aAho4AkyF40vNsfLlw=
+X-Google-Smtp-Source: ACHHUZ6fs7BvV10RnyZejEahZQFzg9KSCff3eoy+1EJu4azlNVoW9RvNuqjHRhLk1DDk4kb32xF6RQ==
+X-Received: by 2002:a7b:cc15:0:b0:3f9:8c3:6805 with SMTP id f21-20020a7bcc15000000b003f908c36805mr265160wmh.7.1688066817749;
+        Thu, 29 Jun 2023 12:26:57 -0700 (PDT)
+Received: from localhost.localdomain (cpc157791-rdng31-2-0-cust585.15-3.cable.virginm.net. [86.24.214.74])
+        by smtp.gmail.com with ESMTPSA id c1-20020a05600c0ac100b003fba6a0c881sm7972683wmr.43.2023.06.29.12.26.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jun 2023 12:26:57 -0700 (PDT)
+From:   Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+Cc:     Stuart Hayhurst <stuart.a.hayhurst@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH] HID: steelseries: Add support for Arctis 1 XBox
-References: <20230629172041.3771-1-hadess@hadess.net>
-Date:   Thu, 29 Jun 2023 11:50:22 -0700
-In-Reply-To: <20230629172041.3771-1-hadess@hadess.net> (Bastien Nocera's
-        message of "Thu, 29 Jun 2023 19:20:27 +0200")
-Message-ID: <87wmzm9k7l.fsf@nvidia.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0038.namprd13.prod.outlook.com
- (2603:10b6:a03:2c2::13) To BYAPR12MB2743.namprd12.prod.outlook.com
- (2603:10b6:a03:61::28)
+        Bastien Nocera <hadess@hadess.net>,
+        =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>
+Subject: [PATCH] HID: logitech-hidpp: Add wired USB id for Logitech G502 Lightspeed
+Date:   Thu, 29 Jun 2023 20:24:26 +0100
+Message-ID: <20230629192422.980071-1-stuart.a.hayhurst@gmail.com>
+X-Mailer: git-send-email 2.40.1.521.gf1e218fcd8
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|SJ1PR12MB6220:EE_
-X-MS-Office365-Filtering-Correlation-Id: d103358e-ffab-4d6d-c94c-08db78d1b7fd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LJAJynyg6ZShRyjYPNW4wTz15lpljkJzvitfsOGRzhlptamOzsLj4DIi52GPm+xbG4kEhPmCfXUM/0NGIFmt9utlgwDsRd4PxKez+sYoBK3f3TV96Oq35ma0nhxx+Rduw7I9epMHS8p39lIF3oKBuN69fSyIqPpRxfQ2RVB/HnssuplvB3Fu3MTydsKogAB616/bziq2+z+1clEKJyXWAWW8KGEpUhDlU1IiEY6l1ChtmsK2bPSOBzA06eEzFvIfuP0/GDDosNsUZfEFIwZZu8CjAWSoiq6KhXofYut+IQ7Vrr/JeVsaJRUwH9iE0H8BxUS0xp2cGbJ0lLgvU8pgHmqDFbXxyi5yE2JvXGwkc/b3hbJpZ4On/w4CqkCkQqOTGYgiiaANtsoyfDpzYD/VKWEzbQHRfuEA/l42U9s4h3Vhipr9QGkZ0PEesjtGHhy9m1/cAKsycmaxW2qlw8wTe/q6GuPWoUN+fU3zhFS/N+S7Sdraz7PwMgOAcgIWGuQKWHpF3QwZp0E1sFQV28ZUt5WXiitUONhxgOWqC3DhalTJ15VNSbgsBuy+IS9+VXBv
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(376002)(39860400002)(366004)(136003)(47620400004)(451199021)(5660300002)(66946007)(66556008)(4326008)(66476007)(6916009)(478600001)(36756003)(316002)(8936002)(8676002)(2906002)(6512007)(6666004)(54906003)(41300700001)(6486002)(186003)(6506007)(26005)(52230400001)(86362001)(38100700002)(2616005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7RIT7tiwsZIsEyHL6nOsEA+YFp721Ge17opDVoeVtmorQrLvQ6SRz97VYEQy?=
- =?us-ascii?Q?QqV9WXXkPDrO9nvVnm/A4EACXWbxN4L1KqSq4tzhectm1HT1q4Qs0yScx0bL?=
- =?us-ascii?Q?JNyz9cs+xeXs28n8yyEnGQTC1tdxJJ7xn8qoNQW7Fv8tBupzTAb57kYXO8xI?=
- =?us-ascii?Q?WB5N/X42K45nw04mcIKzc4gPkpT+oiLYEdYPrS7GV020cQ7SVs35n3Lnx61b?=
- =?us-ascii?Q?2e3EH+BF9q146/neT1yhrUEy/kAo96+ZEkFW8B/kNEofcB4duTijI46RVZ4w?=
- =?us-ascii?Q?iT2OVE753BJ0g5GhNj8RxN2AlkfuFwxvVRGUin7NhJ2L+H9NfqqCmDvbkogx?=
- =?us-ascii?Q?xtKyOYizq72D+4HC08/UAYx1r07wGv0Fk6Pvdwt1zhNis6P0tYioZYphhZoO?=
- =?us-ascii?Q?a8gdl+rm23P8dpe+3lbO9uGm0N+Ji6jyzTu+9mxgOpGMfYOeY+2mxg0zAOJW?=
- =?us-ascii?Q?z2RhPPXwYW+ZdacccYgR4tzaHtUILZc4mweRWkJYchA9uUd79LHu+Ll1EKki?=
- =?us-ascii?Q?p/7o8DgPRauzAvGtBsaD8d2y7P464TGdCnRBwozR2ge5HuFCIQ+SplwdMg5l?=
- =?us-ascii?Q?Fm8xCNcZYYprPockotRubo4LYiRMVc7Z9KKoVEnJOo6pu+Z2bDOe7eFomLsS?=
- =?us-ascii?Q?qdI8vD930HwVFeqyipIdgzzwQkBWECGKTFxMLDeYDOTs43dPgUsIlCns+kwX?=
- =?us-ascii?Q?NTQfAd2aF+7QtfbS7+GzDhn5izLjaOJb+Z1S3VShBxEblEW/Pj/DEOjkGMIX?=
- =?us-ascii?Q?YS2JCtyu/6fAKHKOZGuJdJ+NqXhyKkY2wJZpGQUWQuyzCMvA0IdMaYw4Ou87?=
- =?us-ascii?Q?E2a8UqEJNn6FDtx5MduZu1EvbpSdBMLLrs2umzV9KNz9jWj05q5lIV4jetzP?=
- =?us-ascii?Q?XX8WZmtNl89kVYIbi2KS+U4M8iZ8KApu/Kc7bLi4uXK8CdSugKaKz4SiFcnz?=
- =?us-ascii?Q?VImPO7D6X2Qbx+X8hAm20A6WYn4FK7+iVbMv/pmcAH/2YZ9JlnhQ90WT5QRH?=
- =?us-ascii?Q?bHsDaP2HRhcE33zfmRQTfJyFVQrxvpgUW+DPgtCR7Rhc2Ei8jg+fImOUmEO+?=
- =?us-ascii?Q?XCTLckdng3hhm5Gb0hy+JII0oOkFAu57mzYOMD4g3Sz9JxUP2MeHttp1/W1h?=
- =?us-ascii?Q?d4+Q3EqQwxOVjVTBtOIVMDu655wdBVC912l4YiylenjmQPgLPUkWWNTSsSd9?=
- =?us-ascii?Q?iuXEzEb5jsPra1mk1oSrv4bakhoThu8bM6f2zRrldC14Qfs/FRMEf1IWFNUf?=
- =?us-ascii?Q?boLppLhWzpZBFn3h/c0EhfST+W2CH+kXFcMWnsm0gGteAG7ttKTq5FkIxdxg?=
- =?us-ascii?Q?tJClX3HjSPKOL6qwQ5sETpWHktkwO7+z9LGAj/Qx8iLEhotW3sGxDGbtTdxd?=
- =?us-ascii?Q?aG3RN5VG7VDDNlwXgmdjUAPneEDl3t2wfr8rjJGIw02fTgRHTAW7OuDQOfXR?=
- =?us-ascii?Q?Q5P1Dea6w53AJvGpvxD49ZFvwtKHhApIpENyavyej7RgjB3SZVo3JWFETRum?=
- =?us-ascii?Q?EvhuD+u+dgvQdSmeO8ciR74cBUNepjrLuL3DXaTqKVLuo7dWswoRvw5AMvGc?=
- =?us-ascii?Q?CNWOz9R6a555qVbnf4GXElGg7efFT9EY6cXg68+nYbPZxsOI1JqFYECGAGQc?=
- =?us-ascii?Q?1Q=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d103358e-ffab-4d6d-c94c-08db78d1b7fd
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2023 18:50:33.4862
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ooeOErVs622xxXCbRw0Z8RxqNZ5OIAzXUmfLAvX0QXP7GbYECodpc8plvYa9I7AymY+bnDLsiLe1amJgrc4h3g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6220
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 29 Jun, 2023 19:20:27 +0200 Bastien Nocera <hadess@hadess.net> wrote:
-> +static const struct hid_device_id steelseries_devices[] = {
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, USB_DEVICE_ID_STEELSERIES_SRWS1),
-> +	  .driver_data = STEELSERIES_SRWS1 },
-> +
-> +	{ /* SteelSeries Arctis 1 Wireless for XBox */
-> +	  HID_USB_DEVICE(USB_VENDOR_ID_STEELSERIES, 0x12b6),
+Previously, support for the G502 had been attempted and reverted within this driver.
+Since then, a new version of this mouse has been released, and seems to work fine.
 
-Shouldn't the USB device id be added to drivers/hid/hid-ids.h?
+Signed-off-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+---
+ drivers/hid/hid-logitech-hidpp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> +	.driver_data = STEELSERIES_ARCTIS_1 },
-> +
->  	{ }
->  };
-> -MODULE_DEVICE_TABLE(hid, steelseries_srws1_devices);
-> -
-> -static struct hid_driver steelseries_srws1_driver = {
-> -	.name = "steelseries_srws1",
-> -	.id_table = steelseries_srws1_devices,
-> -#if IS_BUILTIN(CONFIG_LEDS_CLASS) || \
-> -    (IS_MODULE(CONFIG_LEDS_CLASS) && IS_MODULE(CONFIG_HID_STEELSERIES))
-> -	.probe = steelseries_srws1_probe,
-> -	.remove = steelseries_srws1_remove,
-> -#endif
-> -	.report_fixup = steelseries_srws1_report_fixup
-> +MODULE_DEVICE_TABLE(hid, steelseries_devices);
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index 5e1a412fd28f..050bad0f9aca 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -4598,6 +4598,8 @@ static const struct hid_device_id hidpp_devices[] = {
+ 
+ 	{ /* Logitech G403 Wireless Gaming Mouse over USB */
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC082) },
++	{ /* Logitech G502 Lightspeed Wireless Gaming Mouse over USB */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC08D) },
+ 	{ /* Logitech G703 Gaming Mouse over USB */
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC087) },
+ 	{ /* Logitech G703 Hero Gaming Mouse over USB */
+-- 
+2.40.1.521.gf1e218fcd8
 
-Thanks,
-
-Rahul Rameshbabu
