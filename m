@@ -2,98 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4F2A742D7C
-	for <lists+linux-input@lfdr.de>; Thu, 29 Jun 2023 21:32:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F35A742DC8
+	for <lists+linux-input@lfdr.de>; Thu, 29 Jun 2023 21:51:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229936AbjF2Tal (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Jun 2023 15:30:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54680 "EHLO
+        id S231140AbjF2Tuo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Jun 2023 15:50:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232501AbjF2T3u (ORCPT
+        with ESMTP id S231282AbjF2Tun (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Jun 2023 15:29:50 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A7A14ECD;
-        Thu, 29 Jun 2023 12:26:59 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-3fbc0981755so8258265e9.1;
-        Thu, 29 Jun 2023 12:26:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688066818; x=1690658818;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7N5ZmY2KWkRajsAf9XhKN7sozrITx4iUqfiGyFTIrtM=;
-        b=pn5mJC3LX13PWjP5BQG0rVHHheD/uC57/FYIvnpWXl+nOn3zJ4zU+rPiBklBj41S7/
-         7smMibiUI8VqTiUgSeyVEku4/Hx61E/I66tw079LprtcXk46ufEenh0Di2xq0kHrghDl
-         p/arOEK7WgI6nVGXxWsG/Zr7sQtDuskJvyy+R9ay2SimyEn7/jR9bbh5logKmaSwMbtI
-         fOkqKzSJ4qEf4L02G2XZMEGR8SVcu43PvCxA4uXhEJjhs5TSMaWtwfDY905QNeL8ZF6t
-         56ydjvpO+HlChCNACMIwmBSP1ITrlc0qQEzFqwMBigANZ1XS+pdaiVn8mPr4XJFHynzE
-         XNkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688066818; x=1690658818;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7N5ZmY2KWkRajsAf9XhKN7sozrITx4iUqfiGyFTIrtM=;
-        b=FYW4mE6Z9V06Pg/OfklsNfH5rKiu3WKEMfjms+GXNLe5snmP9UoFf0DVM5xNSejTAb
-         WW6zwpjyJKDe1YZkGHHKW9Jba6iHgqIll7ZObKb5pDMWzrxD0mYMSvXamdHmSuvSp2Jj
-         jShFgIUHpB/68KQpPh9a7WCm9+JCWp1KKiwbv5yAjC/H6ADTFaOpXo+UY0l6cLQQqf7L
-         9qQAOdNKmXjdaztPsMF2pkmBpxVicoYTi3meMcHKt5neVT41rpE0mS0SfDaXrVp9OKOq
-         nsGeEkePUKjtKCu5xyiLabrXTmnLH4Iej4Mw5fMuG+qqXmZh4Xv/SlH6WORnlrVE+bPt
-         AFcw==
-X-Gm-Message-State: AC+VfDzJDa5VMXSt1I+WHU170I+HrtgiS0OZ0lEXNLR8k1s5iLd6XYmj
-        79uN4aAho4AkyF40vNsfLlw=
-X-Google-Smtp-Source: ACHHUZ6fs7BvV10RnyZejEahZQFzg9KSCff3eoy+1EJu4azlNVoW9RvNuqjHRhLk1DDk4kb32xF6RQ==
-X-Received: by 2002:a7b:cc15:0:b0:3f9:8c3:6805 with SMTP id f21-20020a7bcc15000000b003f908c36805mr265160wmh.7.1688066817749;
-        Thu, 29 Jun 2023 12:26:57 -0700 (PDT)
-Received: from localhost.localdomain (cpc157791-rdng31-2-0-cust585.15-3.cable.virginm.net. [86.24.214.74])
-        by smtp.gmail.com with ESMTPSA id c1-20020a05600c0ac100b003fba6a0c881sm7972683wmr.43.2023.06.29.12.26.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jun 2023 12:26:57 -0700 (PDT)
-From:   Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
-Cc:     Stuart Hayhurst <stuart.a.hayhurst@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Thu, 29 Jun 2023 15:50:43 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9059B212C;
+        Thu, 29 Jun 2023 12:50:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688068241; x=1719604241;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Pu2E/ANiZKrmpINz8MZ20SMOBjaaOcCaQ22Kk3xNhbE=;
+  b=fSndCD84LqHYuAnt9DOQdLyQ/ms3CEetDtokpy+g7vkYkd01P9eIGz+r
+   nS//jrzgudqX3SXP5V6KsB46QTJvHz5WmorgBzoLz9aTjJHeNoncoNLMK
+   zkHXr7+xub0xGwoWIw4Ae0uc161krl+R9hYVJZrc06tu+atrX4zdSGLFR
+   EfEabSVLWZfK3imkrhpFpxANb9vups53QnkWcWi2DI1RiVR8IjZA0o9PE
+   QMzQoLFmUaBNwcmLamwYrXXFwIz6klRdwn5MW5qQDGd8RoXXQNooRU58H
+   8BDU87TIrFjGMv/UTZTS9295vYheSBXglA1v1qvcifLI4sGPW2EFjvdNP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="365701532"
+X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
+   d="scan'208";a="365701532"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 12:50:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="667687546"
+X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
+   d="scan'208";a="667687546"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 29 Jun 2023 12:50:39 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qExf4-000EMX-0Q;
+        Thu, 29 Jun 2023 19:50:38 +0000
+Date:   Fri, 30 Jun 2023 03:49:41 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
         Jiri Kosina <jikos@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>
-Subject: [PATCH] HID: logitech-hidpp: Add wired USB id for Logitech G502 Lightspeed
-Date:   Thu, 29 Jun 2023 20:24:26 +0100
-Message-ID: <20230629192422.980071-1-stuart.a.hayhurst@gmail.com>
-X-Mailer: git-send-email 2.40.1.521.gf1e218fcd8
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: [PATCH] HID: steelseries: Add support for Arctis 1 XBox
+Message-ID: <202306300309.WEpmiIaW-lkp@intel.com>
+References: <20230629172041.3771-1-hadess@hadess.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230629172041.3771-1-hadess@hadess.net>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Previously, support for the G502 had been attempted and reverted within this driver.
-Since then, a new version of this mouse has been released, and seems to work fine.
+Hi Bastien,
 
-Signed-off-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
----
- drivers/hid/hid-logitech-hidpp.c | 2 ++
- 1 file changed, 2 insertions(+)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index 5e1a412fd28f..050bad0f9aca 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -4598,6 +4598,8 @@ static const struct hid_device_id hidpp_devices[] = {
- 
- 	{ /* Logitech G403 Wireless Gaming Mouse over USB */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC082) },
-+	{ /* Logitech G502 Lightspeed Wireless Gaming Mouse over USB */
-+	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC08D) },
- 	{ /* Logitech G703 Gaming Mouse over USB */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC087) },
- 	{ /* Logitech G703 Hero Gaming Mouse over USB */
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on v6.4 next-20230629]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bastien-Nocera/HID-steelseries-Add-support-for-Arctis-1-XBox/20230630-012252
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20230629172041.3771-1-hadess%40hadess.net
+patch subject: [PATCH] HID: steelseries: Add support for Arctis 1 XBox
+config: parisc-randconfig-r015-20230629 (https://download.01.org/0day-ci/archive/20230630/202306300309.WEpmiIaW-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230630/202306300309.WEpmiIaW-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306300309.WEpmiIaW-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "usb_set_wireless_status" [drivers/hid/hid-steelseries.ko] undefined!
+
 -- 
-2.40.1.521.gf1e218fcd8
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
