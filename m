@@ -2,97 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F35A742DC8
-	for <lists+linux-input@lfdr.de>; Thu, 29 Jun 2023 21:51:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC0CC742DFE
+	for <lists+linux-input@lfdr.de>; Thu, 29 Jun 2023 22:01:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231140AbjF2Tuo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Jun 2023 15:50:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58844 "EHLO
+        id S232399AbjF2UAK convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Thu, 29 Jun 2023 16:00:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231282AbjF2Tun (ORCPT
+        with ESMTP id S231961AbjF2UAI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Jun 2023 15:50:43 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9059B212C;
-        Thu, 29 Jun 2023 12:50:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688068241; x=1719604241;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Pu2E/ANiZKrmpINz8MZ20SMOBjaaOcCaQ22Kk3xNhbE=;
-  b=fSndCD84LqHYuAnt9DOQdLyQ/ms3CEetDtokpy+g7vkYkd01P9eIGz+r
-   nS//jrzgudqX3SXP5V6KsB46QTJvHz5WmorgBzoLz9aTjJHeNoncoNLMK
-   zkHXr7+xub0xGwoWIw4Ae0uc161krl+R9hYVJZrc06tu+atrX4zdSGLFR
-   EfEabSVLWZfK3imkrhpFpxANb9vups53QnkWcWi2DI1RiVR8IjZA0o9PE
-   QMzQoLFmUaBNwcmLamwYrXXFwIz6klRdwn5MW5qQDGd8RoXXQNooRU58H
-   8BDU87TIrFjGMv/UTZTS9295vYheSBXglA1v1qvcifLI4sGPW2EFjvdNP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="365701532"
-X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="365701532"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 12:50:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="667687546"
-X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="667687546"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 29 Jun 2023 12:50:39 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qExf4-000EMX-0Q;
-        Thu, 29 Jun 2023 19:50:38 +0000
-Date:   Fri, 30 Jun 2023 03:49:41 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Thu, 29 Jun 2023 16:00:08 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B91762D5B;
+        Thu, 29 Jun 2023 13:00:06 -0700 (PDT)
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D0D28FF80A;
+        Thu, 29 Jun 2023 20:00:03 +0000 (UTC)
+Message-ID: <c1f92c939cad778a5943207161dd026f7b62c8e6.camel@hadess.net>
+Subject: Re: [PATCH] HID: logitech-hidpp: Add wired USB id for Logitech G502
+ Lightspeed
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH] HID: steelseries: Add support for Arctis 1 XBox
-Message-ID: <202306300309.WEpmiIaW-lkp@intel.com>
-References: <20230629172041.3771-1-hadess@hadess.net>
+        Filipe =?ISO-8859-1?Q?La=EDns?= <lains@riseup.net>
+Date:   Thu, 29 Jun 2023 22:00:03 +0200
+In-Reply-To: <20230629192422.980071-1-stuart.a.hayhurst@gmail.com>
+References: <20230629192422.980071-1-stuart.a.hayhurst@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230629172041.3771-1-hadess@hadess.net>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Bastien,
+On Thu, 2023-06-29 at 20:24 +0100, Stuart Hayhurst wrote:
+> Previously, support for the G502 had been attempted and reverted
+> within this driver.
 
-kernel test robot noticed the following build errors:
+Can you please mention the commit(s) where this was done?
 
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on v6.4 next-20230629]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> Since then, a new version of this mouse has been released, and seems
+> to work fine.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bastien-Nocera/HID-steelseries-Add-support-for-Arctis-1-XBox/20230630-012252
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20230629172041.3771-1-hadess%40hadess.net
-patch subject: [PATCH] HID: steelseries: Add support for Arctis 1 XBox
-config: parisc-randconfig-r015-20230629 (https://download.01.org/0day-ci/archive/20230630/202306300309.WEpmiIaW-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230630/202306300309.WEpmiIaW-lkp@intel.com/reproduce)
+Can you please list the features that get enabled by adding this USB ID
+to the list in the commit message?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306300309.WEpmiIaW-lkp@intel.com/
+Cheers
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+> 
+> Signed-off-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+> ---
+>  drivers/hid/hid-logitech-hidpp.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-
+> logitech-hidpp.c
+> index 5e1a412fd28f..050bad0f9aca 100644
+> --- a/drivers/hid/hid-logitech-hidpp.c
+> +++ b/drivers/hid/hid-logitech-hidpp.c
+> @@ -4598,6 +4598,8 @@ static const struct hid_device_id
+> hidpp_devices[] = {
+>  
+>         { /* Logitech G403 Wireless Gaming Mouse over USB */
+>           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC082) },
+> +       { /* Logitech G502 Lightspeed Wireless Gaming Mouse over USB
+> */
+> +         HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC08D) },
+>         { /* Logitech G703 Gaming Mouse over USB */
+>           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC087) },
+>         { /* Logitech G703 Hero Gaming Mouse over USB */
 
->> ERROR: modpost: "usb_set_wireless_status" [drivers/hid/hid-steelseries.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
