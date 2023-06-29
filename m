@@ -2,94 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF1BE74233E
-	for <lists+linux-input@lfdr.de>; Thu, 29 Jun 2023 11:27:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFBE274236B
+	for <lists+linux-input@lfdr.de>; Thu, 29 Jun 2023 11:46:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232514AbjF2J12 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Jun 2023 05:27:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38908 "EHLO
+        id S229645AbjF2Jq2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Jun 2023 05:46:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232411AbjF2J1Z (ORCPT
+        with ESMTP id S232166AbjF2Jp7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Jun 2023 05:27:25 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45705E6C
-        for <linux-input@vger.kernel.org>; Thu, 29 Jun 2023 02:27:21 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-314172bb818so475683f8f.1
-        for <linux-input@vger.kernel.org>; Thu, 29 Jun 2023 02:27:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688030839; x=1690622839;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HZGBLi25nD/aYuOw3g39i4aiVU+4nS8bcITX87gTnA8=;
-        b=JwvFdt5YNfwsmdSMMK3A3ounP/F695t9fcdN7Emj3CM+JxBsubSFoWpfasmMC2d9vX
-         BQxznwtr+rqbp6nWuEBR9yNgi234oBoWJKOs5MDGpnbd6X421zK86p8KYyiLXddfC0Zw
-         +r42yDJIU3fbtKx4aYoOmKa0de00bwKkX2BX6b32j/NIYDB+ReJdXdWuIbftofFMyb0q
-         f5P72967wWrbECvfVBJ22R9Jp47KJ8+pUUQMNTLu2eRx09LlVmvNxp4lAFL7GaOF+Jsc
-         k8P5nJq2WZ8AJ/QHfjbYmrKI++2y7vUV+bm0jQM8RuhfePiyxem9X67XvbVcFQHpDRgX
-         vn6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688030840; x=1690622840;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HZGBLi25nD/aYuOw3g39i4aiVU+4nS8bcITX87gTnA8=;
-        b=h4j6rnS9DIx/dSx57VvGOu4F7YeM3WouENtEpRyZn7FhoKsCiSgQcppkzpbLlstMCW
-         Z9Nnuk3lFuQDgDkxSF1uAwUp2gzQ5uszuFw3rCBt81bpfAWjuUudO7W3XEIbhSfSn9Gu
-         QF41B8b3Pzi6JYmOS/EA7u991uopzv45oAG5+LDBCHYY9JYVnNtve2GM/B7h4KjxX+e2
-         OgK9UtFcSo4m5arMCFmQxkzd4hDpNYaLjgmHmaivVuJbCBkytYt1idq+Os491LUbfv6f
-         PeqY/PMw9PatDtDLQej6q8Vnh0dUqhJzjfgFKvHORd8ovKhcoTHxUAr3p8ywqJstzFu3
-         zvcA==
-X-Gm-Message-State: AC+VfDwHcHpAe4PNX40p5RhxZOPdcukXQLBJkXQ8/YBZS3Gr2Ie5tRYp
-        oPFQ0Eeyp8P7SG52b4CddpxRdg==
-X-Google-Smtp-Source: ACHHUZ7P4MWcc6O55yn4+rliA2qWJPivyUZdzHRm79m61CnCfrQqjtJybi4ArMd/B6fBxv2myMPVyQ==
-X-Received: by 2002:adf:ed45:0:b0:314:f18:bc65 with SMTP id u5-20020adfed45000000b003140f18bc65mr3404730wro.66.1688030839587;
-        Thu, 29 Jun 2023 02:27:19 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id s4-20020adfea84000000b002ca864b807csm15800172wrm.0.2023.06.29.02.27.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jun 2023 02:27:19 -0700 (PDT)
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Thu, 29 Jun 2023 11:27:13 +0200
-Subject: [PATCH v4 4/4] input: touchscreen: add SPI support for Goodix
- Berlin Touchscreen IC
+        Thu, 29 Jun 2023 05:45:59 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 886772D70
+        for <linux-input@vger.kernel.org>; Thu, 29 Jun 2023 02:45:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 065886150B
+        for <linux-input@vger.kernel.org>; Thu, 29 Jun 2023 09:45:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC97CC433C8;
+        Thu, 29 Jun 2023 09:45:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1688031936;
+        bh=KWnhBiQPSrqh5ntqwgx29FjHLcKcjRrrTrKPbbD4uCQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hjic129b8gt0BYmO7/MF2sRo03xZm/TpqQ4PbE35WajZiS9KnZGlFVY4x+1VPPBR3
+         xxDfK4cLP7WT+SKDM/fcAAC1wLlqF7bShoaSEK/G4luiE+hB+U4RBI4xeCvcEhXEVd
+         QniDbVTSrCnO5oRVtdYa0etjohSYJgg/8ewsVs+4=
+Date:   Thu, 29 Jun 2023 11:45:33 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Jonathan Denose <jdenose@chromium.org>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: Touchpad lost sync at byte 6
+Message-ID: <2023062959-agreeable-zipfile-df6b@gregkh>
+References: <CALNJtpUN+DrWtudWdKZxYMR7oM-yt926fj7_Wi9dUPLZybw-vQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230606-topic-goodix-berlin-upstream-initial-v4-4-0947c489be17@linaro.org>
-References: <20230606-topic-goodix-berlin-upstream-initial-v4-0-0947c489be17@linaro.org>
-In-Reply-To: <20230606-topic-goodix-berlin-upstream-initial-v4-0-0947c489be17@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Jeff LaBundy <jeff@labundy.com>
-Cc:     linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8018;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=6p0qngI+/AjpbuUEco8P0GD1zTWs+gFMrO17zX2V82Q=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBknU5x/8zktV99fc+Q7u4NhVsZoYCiIckYKTLEBy3k
- 9V8+tQiJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZJ1OcQAKCRB33NvayMhJ0aJ1D/
- 9td8jJScav9Iuj/5n3XSoGlWcu+AwYn0kMBvotekXJqTvq6L2XoRC/PTkdOyuVfsDwkK/pM1GjaIZk
- X5OpXwSIuI5tcYie/3cIASHYHjfF/sCTcSQKn3WqnbVv7+2s78/gCpVq/uItjK0HZ+abN4mNm0cN8+
- QBahtJxjK3jTPwJVgSaZsMpa3aAetZVKBoSzHazaYgPdNKQAD/kFDfZ61Vi3Xx2tYEbHR/YMnymVa6
- OSRhj0uHmaS5zuTAKK9U6rzDfqMtNGSdmZkEa4d0/0rHeGyhQhak57BLMTrBRy4rAfnuIMtfdbf52K
- mFhoNAN+E1ayBai0rHk/vz0M3EdzfiMO9KtlP/BNoBCilFdUjtpsGrY5gIpwF0uNDUCJWYs4aCp1bb
- QRUL5jS7SdwwSi2jm5YyEwKkZwC161H+tYeSAeQ3UyzWHq9T+aPcU9vXWCwzNq7tf2QamIhmyFBtu2
- 8a902rmdbDKpSF465c1apyeGzcghBFHL3AN64mhpVpgkoXDDNyALcLDS17r0jqj2ErdUZPpjW7IxUh
- GaP4znv4zDb++w2PmN/cNzxQyItHmz/H1s835XMJNEHWZJUaBrkpTs2EkOqNA5eRvOzeztatlU3lbc
- cfRZmmjnil3FXu5V7jSXj3/DC3dngd2+eTG161BeJvhM35UkKJGAELhXxQDg==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALNJtpUN+DrWtudWdKZxYMR7oM-yt926fj7_Wi9dUPLZybw-vQ@mail.gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -98,246 +51,41 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add initial support for the new Goodix "Berlin" touchscreen ICs
-over the SPI interface.
+On Wed, Jun 28, 2023 at 04:00:54PM -0500, Jonathan Denose wrote:
+> I am on a Lenovo N24 laptop.
+> 
+> When this device resumes after closing the lid, the mouse freezes and
+> is unusable. After right-clicking multiple times the touchpad resumes
+> working. I am seeing the following in the logs:
+> 
+> [ 1188.690138] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1188.699636] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1188.709124] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1188.718557] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1188.728110] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1188.975964] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1188.985456] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1188.994954] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1189.004443] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1189.013930] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> 
+> This device has an ETPS/2 Elantech Touchpad. I am on kernel version:
+> 5.15.117-19629-gf1eb3139d206
 
-The driver doesn't use the regmap_spi code since the SPI messages
-needs to be prefixed, thus this custom regmap code.
+Why not try 6.4 and see if that solves the problem?
 
-This initial driver is derived from the Goodix goodix_ts_berlin
-available at [1] and [2] and only supports the GT9916 IC
-present on the Qualcomm SM8550 MTP & QRD touch panel.
+Has this ever worked on this hardware with any kernel version?
 
-The current implementation only supports BerlinD, aka GT9916.
+thanks,
 
-[1] https://github.com/goodix/goodix_ts_berlin
-[2] https://git.codelinaro.org/clo/la/platform/vendor/opensource/touch-drivers
-
-Reviewed-by: Jeff LaBundy <jeff@labundy.com>
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- drivers/input/touchscreen/Kconfig             |  14 +++
- drivers/input/touchscreen/Makefile            |   1 +
- drivers/input/touchscreen/goodix_berlin_spi.c | 173 ++++++++++++++++++++++++++
- 3 files changed, 188 insertions(+)
-
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index d35169cbb499..4f017555bd5b 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -433,6 +433,20 @@ config TOUCHSCREEN_GOODIX_BERLIN_I2C
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called goodix_berlin_i2c.
- 
-+config TOUCHSCREEN_GOODIX_BERLIN_SPI
-+	tristate "Goodix Berlin SPI touchscreen"
-+	depends on SPI_MASTER
-+	select REGMAP
-+	select TOUCHSCREEN_GOODIX_BERLIN_CORE
-+	help
-+	  Say Y here if you have a Goodix Berlin IC connected to
-+	  your system via SPI.
-+
-+	  If unsure, say N.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called goodix_berlin_spi.
-+
- config TOUCHSCREEN_HIDEEP
- 	tristate "HiDeep Touch IC"
- 	depends on I2C
-diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-index 921a2da0c2be..29524e8a83db 100644
---- a/drivers/input/touchscreen/Makefile
-+++ b/drivers/input/touchscreen/Makefile
-@@ -49,6 +49,7 @@ obj-$(CONFIG_TOUCHSCREEN_FUJITSU)	+= fujitsu_ts.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX)	+= goodix_ts.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_CORE)	+= goodix_berlin_core.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_I2C)	+= goodix_berlin_i2c.o
-+obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_SPI)	+= goodix_berlin_spi.o
- obj-$(CONFIG_TOUCHSCREEN_HIDEEP)	+= hideep.o
- obj-$(CONFIG_TOUCHSCREEN_HYNITRON_CSTXXX)	+= hynitron_cstxxx.o
- obj-$(CONFIG_TOUCHSCREEN_ILI210X)	+= ili210x.o
-diff --git a/drivers/input/touchscreen/goodix_berlin_spi.c b/drivers/input/touchscreen/goodix_berlin_spi.c
-new file mode 100644
-index 000000000000..1f57c3592918
---- /dev/null
-+++ b/drivers/input/touchscreen/goodix_berlin_spi.c
-@@ -0,0 +1,173 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Goodix Berlin Touchscreen Driver
-+ *
-+ * Copyright (C) 2020 - 2021 Goodix, Inc.
-+ * Copyright (C) 2023 Linaro Ltd.
-+ *
-+ * Based on goodix_ts_berlin driver.
-+ */
-+#include <asm/unaligned.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+#include <linux/spi/spi.h>
-+
-+#include "goodix_berlin.h"
-+
-+#define GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN	1
-+#define GOODIX_BERLIN_REGISTER_WIDTH		4
-+#define GOODIX_BERLIN_SPI_READ_DUMMY_LEN	3
-+#define GOODIX_BERLIN_SPI_READ_PREFIX_LEN	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
-+						 GOODIX_BERLIN_REGISTER_WIDTH + \
-+						 GOODIX_BERLIN_SPI_READ_DUMMY_LEN)
-+#define GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
-+						 GOODIX_BERLIN_REGISTER_WIDTH)
-+
-+#define GOODIX_BERLIN_SPI_WRITE_FLAG		0xF0
-+#define GOODIX_BERLIN_SPI_READ_FLAG		0xF1
-+
-+static int goodix_berlin_spi_read(void *context, const void *reg_buf,
-+				  size_t reg_size, void *val_buf,
-+				  size_t val_size)
-+{
-+	struct spi_device *spi = context;
-+	struct spi_transfer xfers;
-+	struct spi_message spi_msg;
-+	const u32 *reg = reg_buf; /* reg is stored as native u32 at start of buffer */
-+	u8 *buf;
-+	int error;
-+
-+	if (reg_size != GOODIX_BERLIN_REGISTER_WIDTH)
-+		return -EINVAL;
-+
-+	buf = kzalloc(GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	spi_message_init(&spi_msg);
-+	memset(&xfers, 0, sizeof(xfers));
-+
-+	/* buffer format: 0xF1 + addr(4bytes) + dummy(3bytes) + data */
-+	buf[0] = GOODIX_BERLIN_SPI_READ_FLAG;
-+	put_unaligned_be32(*reg, buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN);
-+	memset(buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + GOODIX_BERLIN_REGISTER_WIDTH,
-+	       0xff, GOODIX_BERLIN_SPI_READ_DUMMY_LEN);
-+
-+	xfers.tx_buf = buf;
-+	xfers.rx_buf = buf;
-+	xfers.len = GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size;
-+	xfers.cs_change = 0;
-+	spi_message_add_tail(&xfers, &spi_msg);
-+
-+	error = spi_sync(spi, &spi_msg);
-+	if (error < 0)
-+		dev_err(&spi->dev, "spi transfer error, %d", error);
-+	else
-+		memcpy(val_buf, buf + GOODIX_BERLIN_SPI_READ_PREFIX_LEN, val_size);
-+
-+	kfree(buf);
-+	return error;
-+}
-+
-+static int goodix_berlin_spi_write(void *context, const void *data,
-+				   size_t count)
-+{
-+	unsigned int len = count - GOODIX_BERLIN_REGISTER_WIDTH;
-+	struct spi_device *spi = context;
-+	struct spi_transfer xfers;
-+	struct spi_message spi_msg;
-+	const u32 *reg = data; /* reg is stored as native u32 at start of buffer */
-+	u8 *buf;
-+	int error;
-+
-+	buf = kzalloc(GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN + len, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	spi_message_init(&spi_msg);
-+	memset(&xfers, 0, sizeof(xfers));
-+
-+	buf[0] = GOODIX_BERLIN_SPI_WRITE_FLAG;
-+	put_unaligned_be32(*reg, buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN);
-+	memcpy(buf + GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN,
-+	       data + GOODIX_BERLIN_REGISTER_WIDTH, len);
-+
-+	xfers.tx_buf = buf;
-+	xfers.len = GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN + len;
-+	xfers.cs_change = 0;
-+	spi_message_add_tail(&xfers, &spi_msg);
-+
-+	error = spi_sync(spi, &spi_msg);
-+	if (error < 0)
-+		dev_err(&spi->dev, "spi transfer error, %d", error);
-+
-+	kfree(buf);
-+	return error;
-+}
-+
-+static const struct regmap_config goodix_berlin_spi_regmap_conf = {
-+	.reg_bits = 32,
-+	.val_bits = 8,
-+	.read = goodix_berlin_spi_read,
-+	.write = goodix_berlin_spi_write,
-+};
-+
-+/* vendor & product left unassigned here, should probably be updated from fw info */
-+static const struct input_id goodix_berlin_spi_input_id = {
-+	.bustype = BUS_SPI,
-+};
-+
-+static int goodix_berlin_spi_probe(struct spi_device *spi)
-+{
-+	struct regmap_config regmap_config;
-+	struct regmap *regmap;
-+	size_t max_size;
-+	int error = 0;
-+
-+	spi->mode = SPI_MODE_0;
-+	spi->bits_per_word = 8;
-+	error = spi_setup(spi);
-+	if (error)
-+		return error;
-+
-+	max_size = spi_max_transfer_size(spi);
-+
-+	regmap_config = goodix_berlin_spi_regmap_conf;
-+	regmap_config.max_raw_read = max_size - GOODIX_BERLIN_SPI_READ_PREFIX_LEN;
-+	regmap_config.max_raw_write = max_size - GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN;
-+
-+	regmap = devm_regmap_init(&spi->dev, NULL, spi, &regmap_config);
-+	if (IS_ERR(regmap))
-+		return PTR_ERR(regmap);
-+
-+	return goodix_berlin_probe(&spi->dev, spi->irq,
-+				   &goodix_berlin_spi_input_id, regmap);
-+}
-+
-+static const struct spi_device_id goodix_berlin_spi_ids[] = {
-+	{ "gt9916" },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(spi, goodix_berlin_spi_ids);
-+
-+static const struct of_device_id goodix_berlin_spi_of_match[] = {
-+	{ .compatible = "goodix,gt9916", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, goodix_berlin_spi_of_match);
-+
-+static struct spi_driver goodix_berlin_spi_driver = {
-+	.driver = {
-+		.name = "goodix-berlin-spi",
-+		.of_match_table = goodix_berlin_spi_of_match,
-+		.pm = pm_sleep_ptr(&goodix_berlin_pm_ops),
-+	},
-+	.probe = goodix_berlin_spi_probe,
-+	.id_table = goodix_berlin_spi_ids,
-+};
-+module_spi_driver(goodix_berlin_spi_driver);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("Goodix Berlin SPI Touchscreen driver");
-+MODULE_AUTHOR("Neil Armstrong <neil.armstrong@linaro.org>");
-
--- 
-2.34.1
-
+greg k-h
