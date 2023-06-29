@@ -2,54 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECEE7742F97
-	for <lists+linux-input@lfdr.de>; Thu, 29 Jun 2023 23:41:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81F38742FA8
+	for <lists+linux-input@lfdr.de>; Thu, 29 Jun 2023 23:46:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230476AbjF2VlX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Jun 2023 17:41:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58292 "EHLO
+        id S229972AbjF2Vqg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Jun 2023 17:46:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229812AbjF2VlW (ORCPT
+        with ESMTP id S229670AbjF2Vqf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Jun 2023 17:41:22 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0B9D2D71;
-        Thu, 29 Jun 2023 14:41:20 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-307d58b3efbso1327938f8f.0;
-        Thu, 29 Jun 2023 14:41:20 -0700 (PDT)
+        Thu, 29 Jun 2023 17:46:35 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD8FD2D7F;
+        Thu, 29 Jun 2023 14:46:34 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-3fbc0981757so9332045e9.3;
+        Thu, 29 Jun 2023 14:46:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688074879; x=1690666879;
+        d=gmail.com; s=20221208; t=1688075193; x=1690667193;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
         bh=mlwouPfcUKeU2liu8ipQl7VYxOU9K6yP4hsdhfdrrEo=;
-        b=Hoo8acKR2XDr9/IhwMf5ve0jYOXSoJNTu+9SuoPFg2TyvYwiecGifT4T/QmaOH1i+S
-         UwTVJWO7ZjV1OQjaV0ZC9CNXrn+SI5+EMRenGBELeD3wHxVwBQBpj1DNmyotSYoDrHRC
-         RTQSJBQBS31CgwM9D668XvI7hL21VQZVpQ1vR2O4lF81T9ULxJLsOqKcUelfNpd2nQZ5
-         PdEYAWBw8gwTCDOhmNPggXddjdXfASk4OU0USyy8fi4I6f0XFDgHstzwwJFxZcCXP966
-         NsJrtCN0J+K9A7J5aunMvyJ8I7mkbHeHvm6Om8Lx97zCCLQNIzqOeLxtwo1Tj/UJl5l8
-         0KPA==
+        b=TWOt1SITfaWW4ov3/HUejB6kVlbGQdPexTvpswa+QBw1O2N250zeu88DaBGkdB3oyX
+         /c/pV96gaBHbPQUgQTkfRdAeG0+HWV+GRnCeH+RWqgToGTjUyFWBNx3swddAkudoK8v0
+         XLE2dVNpf4kyOTX2wgybvnPv7/zkQBZSJaOYm09wuwZ7CUiJr531A3xs123zayPLuQ8f
+         vLuupWwJv4+NfOdtTOvsbLPI3KqbG/k1wOVpAaWhi8+YW8K33jlTe8BXUdbo3hXJ3s2s
+         BzUBzP+KjtCoPAjFweqH7cQTbzRxT0BYDlp2J9wEO4CuM8uLeJAB1dmga5zgSJTI8jZ+
+         QK+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688074879; x=1690666879;
+        d=1e100.net; s=20221208; t=1688075193; x=1690667193;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
         bh=mlwouPfcUKeU2liu8ipQl7VYxOU9K6yP4hsdhfdrrEo=;
-        b=OEimfayLisciOT0j1F0Ky30ebMum6A6jzAdtK3yoZobS1Dd3V1nWhNsDFVEjlz4GI7
-         rktzUXY91ZxqqDOYsCq4vLzYGZaYxBsA2zOQmR0STTkG1eXtwifFImpO0obz5J/YezBC
-         uToZp45JMTF3da8/VypJBt5ceknx4VDKk6WwU6gdQql5NHegyfWk9/EATMJc43B4+OK5
-         loamQG6o6+99pYTzaA/VPLY0UVp5bOYOQepAur41AQzWb8fl7bqsbIz35+GXo7lcja9K
-         KezTAPv8HWHszvzz3VJ8qfA458jlkwucv2fGqVLHhhCxTIV7iGe+PEeRDFVXRGEjOsQb
-         89uw==
-X-Gm-Message-State: ABy/qLaQjl60/o8V6sSlhHCIgkj0NNRuICUk1muWmI/rbuLZHw46fLWf
-        Fx6GsZFVFXn/xGqsyfUM/7j9SDSnrNffzg==
-X-Google-Smtp-Source: APBJJlEfWfr/Lg+TsX5r9PZPUIQUlI0VZwrBjD4uxXCDqLB+XIS8Hr1GZ1kD6nkHm5SlvKP+rbeflQ==
-X-Received: by 2002:a5d:6546:0:b0:314:17c0:79d4 with SMTP id z6-20020a5d6546000000b0031417c079d4mr644302wrv.14.1688074879137;
-        Thu, 29 Jun 2023 14:41:19 -0700 (PDT)
+        b=fOt591cKHQV+ymY55qmrq1ZvVYgs3vr2DuGSHk3da0ZXLMpZibnvWuRLwRmwa6jCli
+         uLK+F5fMPYBS2cgTxbEfHHmv0k45QHlsGsIov7do4JpTTzut0uGGIKc1FXTL4olStOmt
+         fasX9CfoSxd8fpCgye9boGKA5OqEJZP7SAPNKjqCnE/S39ufHXIuhiA7L8ppM3n7ThBK
+         a27MUBx6oMFdtDCwXyits3i0VJdwEPe0VvrahrkRRqGRR/f6ogQzW2PE2vNToLhfJj4a
+         d1Yw2wY9F1CkfPgnuM6ZjnKlk3weNzvQ+nQHyZ35e/9lfcCImMz3+EKCYx2+BvgrwvR5
+         hImw==
+X-Gm-Message-State: AC+VfDwLDAVvCXOPcrIfDMRsHp1JAzdwGtN8z4CrSAwznoMQNywXuM/s
+        LxOHrBYuaGbWN6RWr9p/LOM=
+X-Google-Smtp-Source: ACHHUZ6CamCENH70lMpK+j6IW681aDT2jBhH2nyYAniB9hDjli5y7psGG/yQFu4NS+dMclotEV7YqQ==
+X-Received: by 2002:a05:600c:218f:b0:3fa:a6ce:54ad with SMTP id e15-20020a05600c218f00b003faa6ce54admr512722wme.6.1688075193114;
+        Thu, 29 Jun 2023 14:46:33 -0700 (PDT)
 Received: from localhost.localdomain (cpc157791-rdng31-2-0-cust585.15-3.cable.virginm.net. [86.24.214.74])
-        by smtp.gmail.com with ESMTPSA id a25-20020a5d4579000000b003048477729asm16735651wrc.81.2023.06.29.14.41.18
+        by smtp.gmail.com with ESMTPSA id y23-20020a7bcd97000000b003fbb2c0fce5sm4922034wmj.25.2023.06.29.14.46.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jun 2023 14:41:18 -0700 (PDT)
+        Thu, 29 Jun 2023 14:46:32 -0700 (PDT)
 From:   Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
 Cc:     Stuart Hayhurst <stuart.a.hayhurst@gmail.com>,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
@@ -57,9 +57,9 @@ Cc:     Stuart Hayhurst <stuart.a.hayhurst@gmail.com>,
         Jiri Kosina <jikos@kernel.org>,
         Bastien Nocera <hadess@hadess.net>,
         =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>
-Subject: [PATCH] HID: logitech-hidpp: Add wired USB id for Logitech G502 Lightspeed
-Date:   Thu, 29 Jun 2023 22:40:12 +0100
-Message-ID: <20230629214011.987303-1-stuart.a.hayhurst@gmail.com>
+Subject: [PATCH v2] HID: logitech-hidpp: Add wired USB id for Logitech G502 Lightspeed
+Date:   Thu, 29 Jun 2023 22:46:03 +0100
+Message-ID: <20230629214602.987600-1-stuart.a.hayhurst@gmail.com>
 X-Mailer: git-send-email 2.40.1.521.gf1e218fcd8
 In-Reply-To: <20230629192422.980071-1-stuart.a.hayhurst@gmail.com>
 References: <20230629192422.980071-1-stuart.a.hayhurst@gmail.com>
