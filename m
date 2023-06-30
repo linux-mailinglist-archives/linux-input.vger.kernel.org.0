@@ -2,32 +2,32 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F318F743C60
-	for <lists+linux-input@lfdr.de>; Fri, 30 Jun 2023 15:09:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0BB5743C6E
+	for <lists+linux-input@lfdr.de>; Fri, 30 Jun 2023 15:12:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231176AbjF3NI7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Jun 2023 09:08:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41132 "EHLO
+        id S230013AbjF3NMY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 30 Jun 2023 09:12:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231393AbjF3NI6 (ORCPT
+        with ESMTP id S229508AbjF3NMW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Jun 2023 09:08:58 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF35E3A81;
-        Fri, 30 Jun 2023 06:08:56 -0700 (PDT)
+        Fri, 30 Jun 2023 09:12:22 -0400
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6528910F8;
+        Fri, 30 Jun 2023 06:12:20 -0700 (PDT)
 X-GND-Sasl: hadess@hadess.net
 X-GND-Sasl: hadess@hadess.net
 X-GND-Sasl: hadess@hadess.net
 X-GND-Sasl: hadess@hadess.net
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5831424000D;
-        Fri, 30 Jun 2023 13:08:53 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3852F20010;
+        Fri, 30 Jun 2023 13:12:18 +0000 (UTC)
 From:   Bastien Nocera <hadess@hadess.net>
 To:     linux-input@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH v2] HID: steelseries: Add support for Arctis 1 XBox
-Date:   Fri, 30 Jun 2023 15:08:17 +0200
-Message-ID: <20230630130852.51245-1-hadess@hadess.net>
+Subject: [PATCH v3] HID: steelseries: Add support for Arctis 1 XBox
+Date:   Fri, 30 Jun 2023 15:11:49 +0200
+Message-ID: <20230630131217.51827-1-hadess@hadess.net>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -46,6 +46,9 @@ will export the battery information from the headset, as well as the
 
 Signed-off-by: Bastien Nocera <hadess@hadess.net>
 ---
+v3:
+- Dependency is on USB not USB_HID
+
 v2:
 - Fix missing USB dependency
 - Fix config option description
@@ -55,7 +58,7 @@ v2:
  2 files changed, 296 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 4ce012f83253..1bc99b33329f 100644
+index 4ce012f83253..afe1c6070602 100644
 --- a/drivers/hid/Kconfig
 +++ b/drivers/hid/Kconfig
 @@ -1048,9 +1048,11 @@ config STEAM_FF
@@ -64,7 +67,7 @@ index 4ce012f83253..1bc99b33329f 100644
  config HID_STEELSERIES
 -	tristate "Steelseries SRW-S1 steering wheel support"
 +	tristate "Steelseries devices support"
-+	depends on USB_HID
++	depends on USB
  	help
 -	Support for Steelseries SRW-S1 steering wheel
 +	Support for Steelseries SRW-S1 steering wheel, and the Steelseries
