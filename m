@@ -2,16 +2,16 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6133744636
-	for <lists+linux-input@lfdr.de>; Sat,  1 Jul 2023 05:27:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C362E74462C
+	for <lists+linux-input@lfdr.de>; Sat,  1 Jul 2023 05:23:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230038AbjGAD1e (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Jun 2023 23:27:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45702 "EHLO
+        id S229452AbjGADWE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 30 Jun 2023 23:22:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbjGAD1Y (ORCPT
+        with ESMTP id S229611AbjGACiO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Jun 2023 23:27:24 -0400
+        Fri, 30 Jun 2023 22:38:14 -0400
 Received: from endrift.com (endrift.com [173.255.198.10])
         by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7379430DF
         for <linux-input@vger.kernel.org>; Fri, 30 Jun 2023 19:38:12 -0700 (PDT)
