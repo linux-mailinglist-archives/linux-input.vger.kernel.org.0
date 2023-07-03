@@ -2,97 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C48C3745F85
-	for <lists+linux-input@lfdr.de>; Mon,  3 Jul 2023 17:10:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BC7E745FBA
+	for <lists+linux-input@lfdr.de>; Mon,  3 Jul 2023 17:24:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229873AbjGCPKb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 3 Jul 2023 11:10:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49852 "EHLO
+        id S229980AbjGCPYF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 3 Jul 2023 11:24:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231355AbjGCPKa (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Jul 2023 11:10:30 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7746F1A8;
-        Mon,  3 Jul 2023 08:10:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688397028; x=1719933028;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Zq4TPE/ConExquqFCC1NYBoUWWFuvgyzWL4EOSrGXpA=;
-  b=MteHHtkMYgyzuKJ+dmPW67aVL437C4Ms16ntADlJDHCqr0E51eeRlUCa
-   nfmcQAbYw+7KoPxHSxg8G0YYh289kAyOuGhVKqU7v6FW7+Ue5KoZaHKXM
-   nToroxNyrUgNUt2OQ/4CJsYNPme6X8hyOCtq752SNqxGPNa7/nVhJkj9s
-   GFVBmCYzTQKAxfcnQvkS7VUidFnTDemN+i0UqM1+UoDeh6Pa8w7XVYw+D
-   CTwFAIKf6Sdxr+wRzeR2xN2l+HV8QNM7snq/0Lm1Kf01I8pwXqJarDL3m
-   FCEjaTc8hKKzYxpLYJ+HUx4oVI3+3rfIOEQuteGvh9DLjyIbHrRIEhF/s
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="393646570"
-X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="393646570"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 08:10:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="831859555"
-X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="831859555"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 03 Jul 2023 08:10:13 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qGLBs-000HR5-2E;
-        Mon, 03 Jul 2023 15:10:12 +0000
-Date:   Mon, 3 Jul 2023 23:09:53 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH v5] HID: steelseries: Add support for Arctis 1 XBox
-Message-ID: <202307032208.b5brKeCt-lkp@intel.com>
-References: <20230703102918.9941-1-hadess@hadess.net>
+        with ESMTP id S229928AbjGCPYE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Jul 2023 11:24:04 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C12CE41;
+        Mon,  3 Jul 2023 08:24:02 -0700 (PDT)
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 363FHo1m028226;
+        Mon, 3 Jul 2023 15:24:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=j99sFteJVA+vQCpOENH04nWpFXQAHtpI2spxsYR8pb8=;
+ b=RIP0GMAuYd1ROapylBoEohN+1MH/eGX7tFgC6RPFHPzv8vGZvc3/1fPI3qAkoEC7BMmf
+ Pw5uJcBisDlUs5NSe5080I81u1PBvlJqundtF8xprRTCYew40eN5tV20Sdj3Efh+3UdF
+ AhEDKJvxOSQwsBEFy0WJqUgQMD9tUq5jrCBr05/ueE4kXmRx/RMHbVUeH6xf3lLhhGym
+ mIfZ9ESbD5V0kHXtTnhs95w8BUYzlFuMKFm92LO2vhqzgrz0Okm5cHCq6wzG4pi7/jXB
+ tDBrj9znuk21122C1XbdfGo3f0Mvt7vh+S4N7jpRYpSC8wjffLBQkP3nzX0jtGOMVeiC YA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rm0uer3pk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 03 Jul 2023 15:24:00 +0000
+Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 363FJGM1031879;
+        Mon, 3 Jul 2023 15:23:59 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rm0uer3p2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 03 Jul 2023 15:23:59 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 362Nq53m000478;
+        Mon, 3 Jul 2023 15:23:58 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+        by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3rjbs4scyw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 03 Jul 2023 15:23:57 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+        by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 363FNtdn33293046
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 3 Jul 2023 15:23:55 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 88EB42004B;
+        Mon,  3 Jul 2023 15:23:55 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5E88B20040;
+        Mon,  3 Jul 2023 15:23:55 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+        by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Mon,  3 Jul 2023 15:23:55 +0000 (GMT)
+From:   Niklas Schnelle <schnelle@linux.ibm.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v6 0/1] Input: gameport: Handle HAS_IOPORT dependencies
+Date:   Mon,  3 Jul 2023 17:23:54 +0200
+Message-Id: <20230703152355.3897456-1-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: VQBEA2pt5--z9bZgGyPj6pvlHEfJ-n9J
+X-Proofpoint-ORIG-GUID: mHqMxSvlGaFLAD1RrMEtBIcL0mYygvTL
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230703102918.9941-1-hadess@hadess.net>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-03_11,2023-06-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
+ bulkscore=0 clxscore=1011 spamscore=0 malwarescore=0 mlxlogscore=999
+ impostorscore=0 mlxscore=0 lowpriorityscore=0 priorityscore=1501
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307030136
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Bastien,
+This is a follow up to my ongoing effort of making the inb()/outb() and
+similar I/O port accessors compile-time optional. Previously I sent this as
+a complete treewide series titled "treewide: Remove I/O port accessors for
+HAS_IOPORT=n" with the latest being its 5th version[0]. Now about half of
+the per-subsystem patches have been merged so I'm changing over to stand
+alone subsystem patches. These series are stand alone and should be merged
+via the relevant tree such that with all subsystems complete we can follow
+this up with the last patch[1] that will make the I/O port accessors
+compile-time optional.
 
-kernel test robot noticed the following build errors:
+Thanks,
+Niklas
 
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on linus/master v6.4 next-20230703]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Changes since v5 for Gameport:
+- Added a dev_err() print when registering a port without .trigger() || .read()
+  and disabled CONFIG_HAS_IOPORT (Dmitry Torokhov).
+  I added this where the default functions are set instead of in the handlers
+  themselves so there is naturally one error print per port.
+- Rebased to deal with default handler functions.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bastien-Nocera/HID-steelseries-Add-support-for-Arctis-1-XBox/20230703-183124
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20230703102918.9941-1-hadess%40hadess.net
-patch subject: [PATCH v5] HID: steelseries: Add support for Arctis 1 XBox
-config: parisc-randconfig-r032-20230703 (https://download.01.org/0day-ci/archive/20230703/202307032208.b5brKeCt-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230703/202307032208.b5brKeCt-lkp@intel.com/reproduce)
+[0] https://lore.kernel.org/all/20230516110038.2413224-1-schnelle@linux.ibm.com/
+[1] https://lore.kernel.org/all/20230516110038.2413224-42-schnelle@linux.ibm.com/
+[2] https://lore.kernel.org/lkml/CAHk-=wg80je=K7madF4e7WrRNp37e3qh6y10Svhdc7O8SZ_-8g@mail.gmail.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307032208.b5brKeCt-lkp@intel.com/
+Niklas Schnelle (1):
+  Input: gameport: add ISA and HAS_IOPORT dependencies
 
-All errors (new ones prefixed by >>):
+ drivers/input/gameport/Kconfig    |  4 +++-
+ drivers/input/gameport/gameport.c | 28 +++++++++++++++++++++++-----
+ 2 files changed, 26 insertions(+), 6 deletions(-)
 
-   hppa-linux-ld: drivers/hid/hid-steelseries.o: in function `.LC10':
->> hid-steelseries.c:(.rodata.cst4+0x8): undefined reference to `hid_is_usb'
 
+base-commit: a901a3568fd26ca9c4a82d8bc5ed5b3ed844d451
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.2
+
