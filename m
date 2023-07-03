@@ -2,101 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C214B7461DC
-	for <lists+linux-input@lfdr.de>; Mon,  3 Jul 2023 20:12:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63AE17462C2
+	for <lists+linux-input@lfdr.de>; Mon,  3 Jul 2023 20:52:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230200AbjGCSMO convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Mon, 3 Jul 2023 14:12:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38252 "EHLO
+        id S231197AbjGCSw3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 3 Jul 2023 14:52:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230426AbjGCSMN (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Jul 2023 14:12:13 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B983E5F;
-        Mon,  3 Jul 2023 11:12:05 -0700 (PDT)
-X-GND-Sasl: hadess@hadess.net
-X-GND-Sasl: hadess@hadess.net
-X-GND-Sasl: hadess@hadess.net
-X-GND-Sasl: hadess@hadess.net
-X-GND-Sasl: hadess@hadess.net
-X-GND-Sasl: hadess@hadess.net
-X-GND-Sasl: hadess@hadess.net
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8C6B01BF205;
-        Mon,  3 Jul 2023 18:12:03 +0000 (UTC)
-Message-ID: <0895ee64688ee3c839e6737dada9f17a7b92a39c.camel@hadess.net>
-Subject: Re: [PATCH v5] HID: steelseries: Add support for Arctis 1 XBox
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Benjamin Tissoires <bentiss@kernel.org>,
-        kernel test robot <lkp@intel.com>
-Cc:     linux-input@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-        linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Mon, 03 Jul 2023 20:12:03 +0200
-In-Reply-To: <ytk64symj6g2rsoy5jfe4gpojiska7plv5w4lmofm7vifrap5h@4lpu33rqodos>
-References: <20230703102918.9941-1-hadess@hadess.net>
-         <202307032208.b5brKeCt-lkp@intel.com>
-         <ytk64symj6g2rsoy5jfe4gpojiska7plv5w4lmofm7vifrap5h@4lpu33rqodos>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
+        with ESMTP id S230395AbjGCSw2 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Jul 2023 14:52:28 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00B41E6B;
+        Mon,  3 Jul 2023 11:52:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688410347; x=1719946347;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=25ZLJW7OGmWWE2qbCthjIIhoB9XkL05rh/6oTpbhx6s=;
+  b=BkLmlfC/Q0ssauCV4m26xLTNsJ7Jdij63hq19sPtFTnqu7JKC8f7gUno
+   noozTR5LDCzNag7v57wnOgUxsnarRif4MNE6MbNP+ilUWSO21ay+GvqCe
+   7MREKf5FJgL2JPSqvwp4hfku0050AgxlU5howDxdp5MEGBHf4OUHv+NmC
+   VC0Fl0uOV9p4PZ4pRW7PLJd5P5X4HarqOHYopqxY94Mf1h4YSra83GfKo
+   Pkp1w+moIpv/W+sy+Fsp6Z8dolj7W+JFXxs3j0uKufhqKMfn54bqUn4/g
+   ZHRW/qv0iY1m7R8Gmdi3nqraSAEtvrWh2BiVCxkz2sj8EHJyFNCGs3zlg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="347736197"
+X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
+   d="scan'208";a="347736197"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 11:52:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="842743322"
+X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
+   d="scan'208";a="842743322"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga004.jf.intel.com with ESMTP; 03 Jul 2023 11:52:24 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 1B021170; Mon,  3 Jul 2023 21:52:26 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Andy Shevchenko <andy@kernel.org>
+Subject: [PATCH v1 00/12] HID: cp2112: Cleanups and refactorings
+Date:   Mon,  3 Jul 2023 21:52:10 +0300
+Message-Id: <20230703185222.50554-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 2023-07-03 at 17:33 +0200, Benjamin Tissoires wrote:
-> 
-> On Jul 03 2023, kernel test robot wrote:
-> > 
-> > Hi Bastien,
-> > 
-> > kernel test robot noticed the following build errors:
-> > 
-> > [auto build test ERROR on hid/for-next]
-> > [also build test ERROR on linus/master v6.4 next-20230703]
-> > [If your patch is applied to the wrong git tree, kindly drop us a
-> > note.
-> > And when submitting patch, we suggest to use '--base' as documented
-> > in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:   
-> > https://github.com/intel-lab-lkp/linux/commits/Bastien-Nocera/HID-steelseries-Add-support-for-Arctis-1-XBox/20230703-183124
-> > base:  
-> > https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-
-> > next
-> > patch link:   
-> > https://lore.kernel.org/r/20230703102918.9941-1-hadess%40hadess.net
-> > patch subject: [PATCH v5] HID: steelseries: Add support for Arctis
-> > 1 XBox
-> > config: parisc-randconfig-r032-20230703
-> > (https://download.01.org/0day-ci/archive/20230703/202307032208.b5br
-> > KeCt-lkp@intel.com/config)
-> > compiler: hppa-linux-gcc (GCC) 12.3.0
-> > reproduce:
-> > (https://download.01.org/0day-ci/archive/20230703/202307032208.b5br
-> > KeCt-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a
-> > new version of
-> > the same patch/commit), kindly add following tags
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Closes:
-> > > https://lore.kernel.org/oe-kbuild-all/202307032208.b5brKeCt-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >    hppa-linux-ld: drivers/hid/hid-steelseries.o: in function
-> > `.LC10':
-> > > > hid-steelseries.c:(.rodata.cst4+0x8): undefined reference to
-> > > > `hid_is_usb'
-> 
-> Bastien, you need a depends on USB_HID IIRC in your Kconfig (at
-> least CONFIG_USB_HID is not set in that kernel test bot run).
+After I updated GPIO library for the case Benjamin has with CP2112,
+I have a brief look into the CP2112 driver itself.
 
-Yeah, I just get to undo the changes from v3 ;)
+From GPIO perspective it has two main (maitenance) issues:
+- usage of ->to_irq() with IRQ chip present;
+- having IRQ chip not immutable.
+
+Besides that there are plenty small cleanups here and there.
+Hence this series.
+
+Compile tested only.
+
+Andy Shevchenko (12):
+  lib/string_choices: Add str_write_read() helper
+  HID: cp2112: Use str_write_read() and str_read_write()
+  HID: cp2112: Make irq_chip immutable
+  HID: cp2112: Switch to for_each_set_bit() to simplify the code
+  HID: cp2112: Don't call ->to_irq() explicitly
+  HID: cp2112: Remove dead code
+  HID: cp2112: Define maximum GPIO constant and use it
+  HID: cp2112: Define all GPIO mask and use it
+  HID: cp2112: Use BIT() in GPIO setter and getter
+  HID: cp2112: Use sysfs_emit() to instead of scnprintf()
+  HID: cp2112: Convert to DEVICE_ATTR_RW()
+  HID: cp2112: Use octal permissions
+
+ drivers/hid/hid-cp2112.c       | 169 +++++++++++----------------------
+ include/linux/string_choices.h |   1 +
+ 2 files changed, 58 insertions(+), 112 deletions(-)
+
+-- 
+2.40.0.1.gaa8946217a0b
+
