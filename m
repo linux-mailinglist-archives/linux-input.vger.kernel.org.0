@@ -2,37 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0DA17457B0
-	for <lists+linux-input@lfdr.de>; Mon,  3 Jul 2023 10:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3849E745A39
+	for <lists+linux-input@lfdr.de>; Mon,  3 Jul 2023 12:29:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229901AbjGCIuO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 3 Jul 2023 04:50:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44986 "EHLO
+        id S231598AbjGCK3n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 3 Jul 2023 06:29:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230090AbjGCIuL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Jul 2023 04:50:11 -0400
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FDE310EA;
-        Mon,  3 Jul 2023 01:49:52 -0700 (PDT)
+        with ESMTP id S231477AbjGCK3j (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Jul 2023 06:29:39 -0400
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45C3D11F;
+        Mon,  3 Jul 2023 03:29:21 -0700 (PDT)
 X-GND-Sasl: hadess@hadess.net
 X-GND-Sasl: hadess@hadess.net
 X-GND-Sasl: hadess@hadess.net
 X-GND-Sasl: hadess@hadess.net
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 43FD460004;
-        Mon,  3 Jul 2023 08:49:47 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 151B02000F;
+        Mon,  3 Jul 2023 10:29:18 +0000 (UTC)
 From:   Bastien Nocera <hadess@hadess.net>
 To:     linux-input@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH v4] HID: steelseries: Add support for Arctis 1 XBox
-Date:   Mon,  3 Jul 2023 10:48:10 +0200
-Message-ID: <20230703084947.3620-1-hadess@hadess.net>
+Subject: [PATCH v5] HID: steelseries: Add support for Arctis 1 XBox
+Date:   Mon,  3 Jul 2023 12:25:46 +0200
+Message-ID: <20230703102918.9941-1-hadess@hadess.net>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -45,6 +45,12 @@ will export the battery information from the headset, as well as the
 
 Signed-off-by: Bastien Nocera <hadess@hadess.net>
 ---
+v5:
+- Move spinlock init as per bentiss review
+- Use the already defined response length constant when parsing answers
+- Avoid parsing non-battery events (fixes battery showing up as 3%
+  for a couple of seconds in some rare circumstances)
+
 v4:
 - Guard against crash when using uhid
 - Print the contents of the raw events for debugging
@@ -57,8 +63,8 @@ v2:
 - Fix config option description
 
  drivers/hid/Kconfig           |   6 +-
- drivers/hid/hid-steelseries.c | 310 ++++++++++++++++++++++++++++++++--
- 2 files changed, 299 insertions(+), 17 deletions(-)
+ drivers/hid/hid-steelseries.c | 311 ++++++++++++++++++++++++++++++++--
+ 2 files changed, 300 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
 index 4ce012f83253..afe1c6070602 100644
@@ -79,7 +85,7 @@ index 4ce012f83253..afe1c6070602 100644
  config HID_SUNPLUS
  	tristate "Sunplus wireless desktop"
 diff --git a/drivers/hid/hid-steelseries.c b/drivers/hid/hid-steelseries.c
-index aae3afc4107a..93bc70ba47ab 100644
+index aae3afc4107a..495377686123 100644
 --- a/drivers/hid/hid-steelseries.c
 +++ b/drivers/hid/hid-steelseries.c
 @@ -1,8 +1,9 @@
@@ -129,22 +135,22 @@ index aae3afc4107a..93bc70ba47ab 100644
 +#define STEELSERIES_HEADSET_BATTERY_TIMEOUT_MS	3000
 +
 +#define ARCTIS_1_BATTERY_RESPONSE_LEN		8
++const char arctis_1_battery_request[] = { 0x06, 0x12 };
 +
 +static int steelseries_headset_arctis_1_fetch_battery(struct hid_device *hdev)
 +{
 +	u8 *write_buf;
 +	int ret;
-+	char battery_request[2] = { 0x06, 0x12 };
 +
 +	/* Request battery information */
-+	write_buf = kmemdup(battery_request, sizeof(battery_request), GFP_KERNEL);
++	write_buf = kmemdup(arctis_1_battery_request, sizeof(arctis_1_battery_request), GFP_KERNEL);
 +	if (!write_buf)
 +		return -ENOMEM;
 +
-+	ret = hid_hw_raw_request(hdev, battery_request[0],
-+				 write_buf, sizeof(battery_request),
++	ret = hid_hw_raw_request(hdev, arctis_1_battery_request[0],
++				 write_buf, sizeof(arctis_1_battery_request),
 +				 HID_OUTPUT_REPORT, HID_REQ_SET_REPORT);
-+	if (ret < sizeof(battery_request)) {
++	if (ret < sizeof(arctis_1_battery_request)) {
 +		hid_err(hdev, "hid_hw_raw_request() failed with %d\n", ret);
 +		ret = -ENODATA;
 +	}
@@ -289,6 +295,8 @@ index aae3afc4107a..93bc70ba47ab 100644
 +	if (ret)
 +		return ret;
 +
++	spin_lock_init(&sd->lock);
++
 +	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
 +	if (ret)
 +		return ret;
@@ -296,8 +304,6 @@ index aae3afc4107a..93bc70ba47ab 100644
 +	if (steelseries_headset_battery_register(sd) < 0)
 +		hid_err(sd->hdev,
 +			"Failed to register battery for headset\n");
-+
-+	spin_lock_init(&sd->lock);
 +
 +	return ret;
 +}
@@ -334,7 +340,7 @@ index aae3afc4107a..93bc70ba47ab 100644
  	if (*rsize >= 115 && rdesc[11] == 0x02 && rdesc[13] == 0xc8
  			&& rdesc[29] == 0xbb && rdesc[40] == 0xc5) {
  		hid_info(hdev, "Fixing up Steelseries SRW-S1 report descriptor\n");
-@@ -365,22 +586,81 @@ static __u8 *steelseries_srws1_report_fixup(struct hid_device *hdev, __u8 *rdesc
+@@ -365,22 +586,82 @@ static __u8 *steelseries_srws1_report_fixup(struct hid_device *hdev, __u8 *rdesc
  	return rdesc;
  }
  
@@ -356,7 +362,8 @@ index aae3afc4107a..93bc70ba47ab 100644
 +	if (sd->quirks & STEELSERIES_ARCTIS_1) {
 +		hid_dbg(sd->hdev,
 +			"Parsing raw event for Arctis 1 headset (%*ph)\n", size, read_buf);
-+		if (size < 8)
++		if (size < ARCTIS_1_BATTERY_RESPONSE_LEN ||
++		    memcmp (read_buf, arctis_1_battery_request, sizeof(arctis_1_battery_request)))
 +			return 0;
 +		if (read_buf[2] == 0x01) {
 +			connected = false;
