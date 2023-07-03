@@ -2,54 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D3EE745FEB
-	for <lists+linux-input@lfdr.de>; Mon,  3 Jul 2023 17:33:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32C2E7460B2
+	for <lists+linux-input@lfdr.de>; Mon,  3 Jul 2023 18:26:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230460AbjGCPdp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 3 Jul 2023 11:33:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60712 "EHLO
+        id S231215AbjGCQ0A (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 3 Jul 2023 12:26:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbjGCPdp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Jul 2023 11:33:45 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4911D118;
-        Mon,  3 Jul 2023 08:33:44 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D9D0460F7B;
-        Mon,  3 Jul 2023 15:33:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 992A8C433C9;
-        Mon,  3 Jul 2023 15:33:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688398423;
-        bh=e8uzFKn3JjmEEYVf6xvQtxaIGsrQL5C9R4nrho6k6oI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FcntmiAF3up6+h5CsvQ52u4Pyox4gyWJfpWYRwhixOvJkMJVcwbGolVokQ+4W4MAk
-         WfPGWhNT0T9JPx6Yg0Ce6herIDTtXA134CWu+OUqBZEIT3ls2kK7PaW7d/HdfOilP8
-         gFtGskxYusxtSUFFV2RaTtP6mizXN1PDk9etNtuVP/jR4cD0IWgG1njFj3beFjpi0O
-         OVeoNhQs2Ax8ucrjx4tOrv9z65st/loEytD2wC78Yxp5cG2f8ISPl5AKd2Swceuuk9
-         2Ji2dDw44IDar3E+1HoeKbTXGIqdmujYewTpfbXhYVUBhYGzjB28rjcAtLUlA/y4sJ
-         tst3va7NVPNpg==
-Date:   Mon, 3 Jul 2023 17:33:38 +0200
-From:   Benjamin Tissoires <bentiss@kernel.org>
-To:     kernel test robot <lkp@intel.com>
-Cc:     Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org,
-        oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH v5] HID: steelseries: Add support for Arctis 1 XBox
-Message-ID: <ytk64symj6g2rsoy5jfe4gpojiska7plv5w4lmofm7vifrap5h@4lpu33rqodos>
-References: <20230703102918.9941-1-hadess@hadess.net>
- <202307032208.b5brKeCt-lkp@intel.com>
+        with ESMTP id S231140AbjGCQ0A (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Jul 2023 12:26:00 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94D46AD
+        for <linux-input@vger.kernel.org>; Mon,  3 Jul 2023 09:25:58 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id 38308e7fff4ca-2b6985de215so74896961fa.2
+        for <linux-input@vger.kernel.org>; Mon, 03 Jul 2023 09:25:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1688401557; x=1690993557;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BLv2uWzJasxuSdcQw7JIN9VIEqZpX0OvW+/IpBA42Bg=;
+        b=pxLSTHP2kLhaBPto7N/da1Td5PMEIp/F4IhpRVKT5wqLf9/dXxELa7I3Oedri08xZj
+         ZjPJtcYchvQ+jJTZGt4QD5oDGRmxlKRaS9EVD5GJt7/EXsQSBud67yeztSQMmjX5xqLQ
+         fBUZIf5Qp/lp0V0gouMpiWVhUFKxd3hGqcJE0PWj4E5i6L1Csa6MyqLWlWzKm4wHbWwe
+         GXuvYJk5QV9JQkuwfAgUkbUXyVZljCAP110UCd77x8/ZsuDnCsdqwb10kcBWnCpGSLVI
+         KS8L+94L1zYzI+AVjClkypxuAPP3xI7njeatU/5aAg2TUOn6WDbZhnEM/xm2NquK+qGQ
+         mqgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688401557; x=1690993557;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BLv2uWzJasxuSdcQw7JIN9VIEqZpX0OvW+/IpBA42Bg=;
+        b=SHe4pVOFX0fynV4MWdoT/WhKoNHd0/emWIC17sdMCeciJ9q0kY41OWmiYzYtxwpJW+
+         V5NxuYW9jKvwjxeD3/wLFbUko1mCdxvib7RgFLDJ7w3V9/qAh074cXZbIIWY1QnsnvcM
+         BvKVkgQb6Ki67874uLYjparYLdQ5rgRLaZ2ZsIz5JklOedWhfjI/yZI6AQI9AmH1p6Kd
+         y2HsJv3subaPBNdzl43v1F3BV3NeJ2ePK8ZZ3HZTynLvKRbEKBXmCAFERvSmSy2YmXzV
+         sjIdn0qmyVx3Pk1BJlTW4K6GFzJBzABP0xPEPZLNIaZU+qpsq4pGTiuEXF3IuzXZoRqa
+         CqLQ==
+X-Gm-Message-State: ABy/qLYiAYO2UCbk6dYhhWKsIQF1j/qnp8nnPNfnvo7eGVfyY1TdV7qp
+        MxHaY2GlmmXKb4tJU+K7uiVfFQ==
+X-Google-Smtp-Source: APBJJlEs+9BsDopoZSFTmox3BWETANFQ9MyoDgY4nbY58873k3/S3elO73G5V2sgOfEe4/H/ZhvEeQ==
+X-Received: by 2002:a2e:91ce:0:b0:2af:25cf:92ae with SMTP id u14-20020a2e91ce000000b002af25cf92aemr8360233ljg.22.1688401556888;
+        Mon, 03 Jul 2023 09:25:56 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id v24-20020a1709064e9800b00992ca779f42sm5348151eju.97.2023.07.03.09.25.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Jul 2023 09:25:56 -0700 (PDT)
+Message-ID: <91fff80d-7f6f-2d97-46fa-d6a258e0e48d@linaro.org>
+Date:   Mon, 3 Jul 2023 18:25:54 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202307032208.b5brKeCt-lkp@intel.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 1/2] dt-bindings: Input: exc3000 - Support power supply
+ regulators
+Content-Language: en-US
+To:     Mike Looijmans <mike.looijmans@topic.nl>,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org
+Cc:     Conor Dooley <conor+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org
+References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.056940e6-2612-4bc3-a2f6-33121e64866d@emailsignatures365.codetwo.com>
+ <20230703084536.8429-1-mike.looijmans@topic.nl>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230703084536.8429-1-mike.looijmans@topic.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,44 +79,18 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On 03/07/2023 10:45, Mike Looijmans wrote:
+> Add power supply regulator support to the exc3000 devices.
+> This provides the devicetree bindings.
 
-On Jul 03 2023, kernel test robot wrote:
-> 
-> Hi Bastien,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on hid/for-next]
-> [also build test ERROR on linus/master v6.4 next-20230703]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Bastien-Nocera/HID-steelseries-Add-support-for-Arctis-1-XBox/20230703-183124
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-> patch link:    https://lore.kernel.org/r/20230703102918.9941-1-hadess%40hadess.net
-> patch subject: [PATCH v5] HID: steelseries: Add support for Arctis 1 XBox
-> config: parisc-randconfig-r032-20230703 (https://download.01.org/0day-ci/archive/20230703/202307032208.b5brKeCt-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230703/202307032208.b5brKeCt-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202307032208.b5brKeCt-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    hppa-linux-ld: drivers/hid/hid-steelseries.o: in function `.LC10':
-> >> hid-steelseries.c:(.rodata.cst4+0x8): undefined reference to `hid_is_usb'
+If there is going to be next version/resend, you could skip the last
+sentence. It is a bit redundant.
 
-Bastien, you need a depends on USB_HID IIRC in your Kconfig (at
-least CONFIG_USB_HID is not set in that kernel test bot run).
+In any case:
 
-Cheers,
-Benjamin
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+
+Best regards,
+Krzysztof
+
