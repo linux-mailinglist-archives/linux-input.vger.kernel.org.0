@@ -2,120 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42A4B7453F8
-	for <lists+linux-input@lfdr.de>; Mon,  3 Jul 2023 04:49:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54A36745536
+	for <lists+linux-input@lfdr.de>; Mon,  3 Jul 2023 08:01:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229783AbjGCCty (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 2 Jul 2023 22:49:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53960 "EHLO
+        id S229482AbjGCGBR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 3 Jul 2023 02:01:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbjGCCtx (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Jul 2023 22:49:53 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2064.outbound.protection.outlook.com [40.107.94.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE1BF18F;
-        Sun,  2 Jul 2023 19:49:52 -0700 (PDT)
+        with ESMTP id S229481AbjGCGBP (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Jul 2023 02:01:15 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01olkn2107.outbound.protection.outlook.com [40.92.99.107])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8876AB6;
+        Sun,  2 Jul 2023 23:01:14 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nqL0nRLENhKew+H2pXNhRpvaLnrnQlJGzXZlf3YmMwAPeD99wSXttiAIV4GHLvISbdcI3YlrmGB7s1HsfpA76XHwYhhsQXNpLkXjWwmLxVXlJ22a2rtn12I1yhaFRXR2nTjCGEVmISxh/JT3jzfyknx4fCfn4NEWNCy9+uMYk/bZ1UT3fdJEAx/lIp9EJGAtJLfN+ddjkPtgIt2UgcOzAtvqzd74bC0Yk6AfQSIKd7zjXetcYV/4zuXlWpNQyl7n1Y8FADWq0o4i3NC8pTLuipRBJ4rQUZX1WdRsXb1duAUOhx34fxcPjPeOGPAENl0ji4vtiYSVeLKGBwafngs4LQ==
+ b=jU1RcN1vZWW8xl9i/gtBCNGj9VyQy5A2GJsUktZeQdzZ+Fs7Il+7QlKzJvJbLhbj9NjJM4k7K41Q2nnMzdl1uP9zVwWUQTuwYSAXhI+xVcbIuIH86Vh1TCvewDb/7jLckxhfoFTCau8+3MnU+cpJ23synCs2PaJu2Inh6BqMWBNXzwIDGQkLL7wWwJAvGsL4zq2TBJpWHiLi3PJjfwtqj+dPURe9GYu/NaLQ9GHE1Clk9y7REGAkF1OU79owWT5s66SGQ6VzRAyh8sdR3jJcz5ERLEk03gzkhWh+tCcWRlliH/VSA/tbOsJsfHu7edvdFxKxvkOLiPsEjPnp4G+5Dg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HGRJ+608GSDGttNDWfg1WcSB7ghGsm59d9tc3SrHv7I=;
- b=oA3gqZDV91IAsuX/OByOSPDyMSD5u7wM16q86amD3crmsurjcohDUBEDGO+tGBv9Gd5i0i09SsKULYlzBP07Yiz2VDnOasEmPiVt4R+WsxgWGnu8wqRHIc+iW1PpHIkSCHCVGhMgcag8SuOM6Rl1OfXC9+mnQX8R8F1s5j1xvzxB4RezsMCpy3zGvuJl9mmIYIHjqOgGmG7g4KxPrtabHOsGkf5lr5Wd8OzeGCeBx03ad3Mnz3v0ea2038auqI39hJ3Pyp5x5M5Rz5DfjNO/5AVj/zFLunPqwxh6BJ6XrMnyCn7b1H5qd3ATkX/7CE8Y4LET8eMvNZT9lkenaBPGeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=tw.synaptics.com; dmarc=pass action=none
- header.from=tw.synaptics.com; dkim=pass header.d=tw.synaptics.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
+ bh=4AaBpr/rGzMU/eCVW1j4z5uShwgdW5zkI90l+rqm+24=;
+ b=hTuSG0Y0zwS+ElIhOksXhnlFVtOmRNNbJq+aA/BvSvKEitllRMiDY6olktmo7wv+FsfTW7/s3K6T21TLDrcC9Xi7ptIpsM15Z1bFMrPSLb6kglpuqD8fRLKT78aISJLWpdSyrOIJrbQXjbfcQmeLePcQDUrOZBDVBSCmo9bzMiFlJ2CJZ9GUs/M4a4Wrx+Xk/Uk2J5BCjaLGYR1UJYijl0gJ9BVuKooYg4ucEFKaG7QKHa70XdDqat7sC1YYyl6T8izCkPiW2cawHWrC5HHb5128hAaEUG4RmJ7GtokIzwMg482qTOx1tbAClPZOq4hZP2Tv1MqCodPzFCvqXqcipg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HGRJ+608GSDGttNDWfg1WcSB7ghGsm59d9tc3SrHv7I=;
- b=BQeO8vrGQx99Kpnz50F48Fe69CsYuKudolDJF1irfm91SliHHtJXSlFurrXAFDJ6CpOiAZfQ1zVp++plrypgCKRzrla+zNUqv6NPXwaiM/f6+R4kRlte52Lo7BCn4WBDTh0cB0/qC44MW194jMYtdcRJvnu+NxAUKtlSOULBZbY=
-Received: from MW4PR03MB6651.namprd03.prod.outlook.com (2603:10b6:303:12e::17)
- by DS7PR03MB5477.namprd03.prod.outlook.com (2603:10b6:5:2c4::17) with
+ bh=4AaBpr/rGzMU/eCVW1j4z5uShwgdW5zkI90l+rqm+24=;
+ b=WWOXIT33itR1KI2+L0ffM+B1F9wY6gLiAOkB4zc1Ik9B6f9okZtjTWx8R9RzO0oX03CLBgVSuWo2rNjCc/Mz6tzdCHMuHp0BKNjZa0khX9BRrndtk8jTwXIZlDU+ZUhX/3oZowTiGP8YMl7HnB7ey+c8gtXKpm0SUWoTa7KwpmpBsZpDpi5L8qbgixN1flgSuASaWRZR/CG14F34iNz/D3rjxM/GhqdUw2J3NeC5O+aaiixDd1VZXdM0DpGhwJbgKviYm7aRx9ehXcfDF05JNNvXSGkalNqIjU7/nXhOyp+Mo2SrWy79aR1ypa8M1P14rqZiCPCXKD3Zx7pBHHvJ5w==
+Received: from TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:242::11)
+ by TYCP286MB3500.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:3ab::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Mon, 3 Jul
- 2023 02:49:50 +0000
-Received: from MW4PR03MB6651.namprd03.prod.outlook.com
- ([fe80::e4a1:f780:c618:4081]) by MW4PR03MB6651.namprd03.prod.outlook.com
- ([fe80::e4a1:f780:c618:4081%7]) with mapi id 15.20.6544.024; Mon, 3 Jul 2023
- 02:49:50 +0000
-From:   Marge Yang <Marge.Yang@tw.synaptics.com>
-To:     Andi Shyti <andi.shyti@kernel.org>,
-        Marge Yang <Marge.Yang@tw.synaptics.com>
-CC:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        David Chiu <David.Chiu@tw.synaptics.com>,
-        Derek Cheng <derek.cheng@tw.synaptics.com>,
-        Sam Tsai <Sam.Tsai@synaptics.com>,
-        Vincent Huang <Vincent.huang@tw.synaptics.com>
-Subject: RE: [PATCH V2] Input: synaptics-rmi4- Add a new feature for Forepad.
-Thread-Topic: [PATCH V2] Input: synaptics-rmi4- Add a new feature for Forepad.
-Thread-Index: AQHZnNVd24wMbjxTzEiZuXJ/Dr71X6+JN0SAgB5A3tA=
-Date:   Mon, 3 Jul 2023 02:49:50 +0000
-Message-ID: <MW4PR03MB6651FF948B63B6FB209DA2C6A329A@MW4PR03MB6651.namprd03.prod.outlook.com>
-References: <20230612022607.315149-1-marge.yang@tw.synaptics.com>
- <20230613204855.bm4wxneamkd76heq@intel.intel>
-In-Reply-To: <20230613204855.bm4wxneamkd76heq@intel.intel>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcbXlhbmdcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy00NTY3YTg4YS0xOTRjLTExZWUtODMwMS1mODU5NzE0OTljZGNcYW1lLXRlc3RcNDU2N2E4OGMtMTk0Yy0xMWVlLTgzMDEtZjg1OTcxNDk5Y2RjYm9keS50eHQiIHN6PSIzNDUyIiB0PSIxMzMzMjgyNjE4Nzc4NzEzOTQiIGg9Imp1QTZrSEQ5WkpWWTRsSDYzOVRZTUlQT21pST0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
-x-dg-rorf: true
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=tw.synaptics.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW4PR03MB6651:EE_|DS7PR03MB5477:EE_
-x-ms-office365-filtering-correlation-id: 49a00f08-3344-4937-5eac-08db7b702ba5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: L5mnJGrFCYNIZEDuvo/KIa+oAXn9q+L3zJrm79hVWcSYSKKKxCgV5p1nzi6H0Bdv5vk4F5iCRqL/pCMjWvxx/QtOiCJ4vhMFtUDj8SgXD9yt/X8USE3Rwb62Jkfk1RB9kFju+keX7GoYaDZoL6jXb2gyt0z1LHd61cwSFULL97SbaQbFW4XaWPx/jk5I7nuC1hsGVAvuplE8JAz4pKR7L5kLyHMasLITg2QBaKnEBM7UpztLho5X3i7MM6bhrNQcdDzb+W58j42G4j+EDaf0kOlm/Qplxpl05M/lyVyC/Ii0BHZbrLuVyn8oz+GvJZA49MkfJAtj+Iz58RLF8UuBUQ7YcTg7zq0iOYvWeeMfkPXnLuTATs7Hz0UtN4rbaxrWupqFAiJt7LP3WYry8AzupqdnzLdb4tEXVEvcbVmZwac84BvLy0cUp5f/0KMyEabmQuZsNErm8lLUC5IchiOyrnV+E6EKKg1SNTQAHvPwVKAx7s21OO9bOrDUFjHETYHll8lwCzmBn86HfKJy9FtT2hDuy9u1meSSnaLrlE/hihB4ZntwunHUZ81dEI5fQn5J05D4jM35TKhuFuzHn+qzl1vdYj1HjoZArC1zCPV1zawodxwqxpdM1MzLkNVOueX+
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR03MB6651.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(136003)(366004)(346002)(396003)(376002)(39850400004)(451199021)(6506007)(53546011)(76116006)(316002)(38070700005)(122000001)(66556008)(66476007)(66446008)(64756008)(38100700002)(66946007)(55016003)(4326008)(107886003)(83380400001)(186003)(26005)(9686003)(478600001)(110136005)(54906003)(2906002)(8676002)(8936002)(52536014)(5660300002)(71200400001)(86362001)(33656002)(7696005)(41300700001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?fNRT4KPmnyk/qoG4h97oEwO2+g9j8FwxRxPSy/ryRLcE2I/CjrLV6gBKR9II?=
- =?us-ascii?Q?8/YvjcheHJDMMrMm97PijVQCS/B7dUK1D91Ewx6K1cvtsQ6V3zhWWw5Vo1VV?=
- =?us-ascii?Q?TeA+x2waoq/YbiLtQpR/32xcKJIJ/mLRCOFcHf2UyPqG1ZO98BARVE+Ur9No?=
- =?us-ascii?Q?ysglB5alVjncXhbsZhId7V7zjk7L6Com0Z+LJs1w1rDOfJL83Bo8iLp0pQzr?=
- =?us-ascii?Q?X+kaT5gt7EpaayrLpnqZkoumCMHqxaI7/hxfrBXVOYPUioRcD7F48zKqm/x5?=
- =?us-ascii?Q?I7tzBWgT0Gun99DOBHfK/Ra5ONxaIKgbJIQuNtnCn7lCyl39pt6UYXi33iqz?=
- =?us-ascii?Q?MK6EjPzzUeWu7dKQ7ggW61IgTm4a+Ea6awshRpKUiB7IZ+kWRGwC9onZ7AiU?=
- =?us-ascii?Q?e9ecUHZdmscbHw96mv68KheioGMFtdGXVnVPYZ++6JC5jBouMhO7MjrumZYG?=
- =?us-ascii?Q?aDIlVUf8tNzoY6CclPlkn6LZsa1KHDS0lqQ6POuKwOIZMvfjb1ujieFcIZVC?=
- =?us-ascii?Q?GJger7Szcp9f1LN15j8rmufwBQ2GOE2jYrOdvCbISP1775cZZi5kZNI3VrWc?=
- =?us-ascii?Q?oA8SokFDuxXWeeP2K6FUF4VLZOQVL9se4hI8lU1v5tCnbFxol3j/9phrfv0B?=
- =?us-ascii?Q?VD7XbAf4m84Tr84Vb2uuqXuvCCvCGKoMxayy9RsneAF5reLUJ4wqUQlfaiPd?=
- =?us-ascii?Q?Oz17ue4F3G+5qmHkaaw9dG7XbV+LxI+Bbv+u/AJF3ui01QxXrJ1tMZx+yez6?=
- =?us-ascii?Q?n5so7U3tFIFAb3ak4ascBiMBYCVjRQ2N50vkPS90EJpfi6J9/AqTF6sCLaXO?=
- =?us-ascii?Q?q/DRBU6vddnUump/Zl1Jnl5jaGfAeX6alDb/XTqLC53OR44ZzuBwb9LnV4e2?=
- =?us-ascii?Q?ADxysEQ7wdYvEBMReK/4TQkcLIidqCaOgcBT2ZzfvNPsLqruAieb0iCwQ8aB?=
- =?us-ascii?Q?tmCrezGsh0PiP7N3aQUZR6xY2i16nqNT6RN6lstoJkUErdQsdawbRXa2HMMU?=
- =?us-ascii?Q?/qSIPBnXE9zQEtn9oqxXhaENQCJuXBB021RnNPnEwIXALZG0D3vxoomB0TV5?=
- =?us-ascii?Q?4DWydP7+qsCEbbn+njFn6qsZ0pTaSg7q4yebld+cpdLZ8H714aLnmwRYfg2H?=
- =?us-ascii?Q?LV9N0jb6sGu+h5/xdN2lLY5YYmMm6HIR+U1GgXyRD7/MUq933AO780r2Aptv?=
- =?us-ascii?Q?bny2Ws5+hFGi82mHQsxhG6bpBrTGBRJ3RKzjtPaRlcVDRJ05HBQL7QhZYv7Z?=
- =?us-ascii?Q?tyr5HWkDpYfqzC1xrVIu3pod3DmBckrb1yDY4PvUyO8lwfpAPRsdMndb1SZU?=
- =?us-ascii?Q?BYfx4TIaMsOZKUL2qfMpyK0FvSyg1t4X5cdkKOIVNhhwdrw+Rc29jyDj/jW0?=
- =?us-ascii?Q?pnVDzSQqt0I7Ud4Sz/XUplg3zgIs/2sdvFnB8OdU1WzYTR82nwIGKjnjt1B2?=
- =?us-ascii?Q?zqH8wxAG7s8mqO7UbY/WOdZ7EcxreRPkvD+kAgZBbwMi/S9XXh6UsJrMUBOZ?=
- =?us-ascii?Q?EEyorovC9uCBqAnzUojTPDA7cmbAs9hjoiI0+3uOcESWW9DKAnBCYQ+WDzjW?=
- =?us-ascii?Q?Y7Qtc316ktHWBkWfSLs=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.19; Mon, 3 Jul
+ 2023 06:01:10 +0000
+Received: from TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::75d1:d30d:7d07:903b]) by TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::75d1:d30d:7d07:903b%6]) with mapi id 15.20.6544.024; Mon, 3 Jul 2023
+ 06:01:10 +0000
+From:   Riwen Lu <luriwen@hotmail.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        dmitry.torokhov@gmail.com, linux@weissschuh.net,
+        hdegoede@redhat.com, rrangel@chromium.org,
+        u.kleine-koenig@pengutronix.de
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Riwen Lu <luriwen@kylinos.cn>
+Subject: [PATCH v1] HID: i2c-hid: use print_hex_dump_debug to print report descriptor
+Date:   Mon,  3 Jul 2023 14:01:00 +0800
+Message-ID: <TYCP286MB260706B19C5E30EE2774784EB129A@TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN:  [M7+xyUHamD/eX9Uc563d2Ii0v0/TFAIw]
+X-ClientProxiedBy: TYCP286CA0283.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c9::11) To TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:242::11)
+X-Microsoft-Original-Message-ID: <20230703060100.1877782-1-luriwen@hotmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: tw.synaptics.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCP286MB2607:EE_|TYCP286MB3500:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7c186320-a883-4999-eae5-08db7b8ae662
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wCnaTCq/aGWwY32hIKIkVR4twvXcakOg4mWqT9nVq+JcFn8HJVZ08CmMSTdul7ppvac2cz5p5snubSjdL/P6ggiU9CDrt0uuhZ4nPRbvlat0mW+Ya7RTahL3Z+byPjfhkJ6yE8EMjgEwDBifxDWXeNgzrBi+CJZR8iknY12FpsPrOalH60gbCAOomPRZUF5Z23QauvHqtk3i4jYklO4fkLJc0OvC1PpyJkmdkK1eFv+ZQ08fdoq0eVlLwmfj74YWZU97p3w2Jde/qr09nuyiGZ7BcQW1Gt5q9UGE9nhxtGGheVny1oEcTgLPV4WqxV9l6/u6MRea/v8wql46fUbgw5h79kD7QFuLDG4aUZl44JofdOqcWsO+L2yKgnEeGxaDYbugo4hwGxzVG7/TQa4m+t/UuByOVSDGOtDsuKDaBgzdB5YV7nsKoLvtYbVVX0m83hrsX11C02AukQC6LnqimmTaNWFnyZw6jnQwgynMLrOHdD9l9grztz8DD+nwyEhg1SYY5150LDUUPcD0dnew+lTzK5CjS5x/AajNlGXGqFttcP4Yk+0Si4PQwfPZBCfj
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pfO8D5Ylc+Ob+jvq8QKLk4ueJvCQ+X+aPhsoOtYQW3JgFcQSl0dSIY3pRcM/?=
+ =?us-ascii?Q?uiD2nlCA3KPZucIDLMsi3iYsWNYrOCQT0BLFL9SqS4eTsdAzBcrj8qxNE+Ha?=
+ =?us-ascii?Q?d2tERId0D4gPgZa1AwUO3dXZkiZD9QNmB+9AyrKa5TH9tz0ABpsJk6o1r3y3?=
+ =?us-ascii?Q?veRAinsEtaSmCZYX7e18M+rVxFS0rNSqcZrxjAbQZkMzeS9bWMCepNge9fdw?=
+ =?us-ascii?Q?6383ipOGbNdS305kRewCuqfs95ktA0NOB0K97tKd23nm29BGcgGg0ZsqCuIv?=
+ =?us-ascii?Q?ZZYsSAHTDgWuUoV29V8xSEA/m+tsKpsVvfpGB1KXoqrxEY2idlPmOMV0hUuf?=
+ =?us-ascii?Q?FUycqbsKKNPth3cTLVQVnLc8hvwReA9phm/ikD0UMxDvIN8Ot7XbK6O3GppZ?=
+ =?us-ascii?Q?xzqjCS0hbgOfpXFshj79/MLE/E/glcorSwGeQTlED0MIPLI54CPaDPleNnkB?=
+ =?us-ascii?Q?icmsyWk3cCXRoQkI8PxUK6pgNkGFEIjwvs5z8BlFEiw+nMXNWyGMetrZnoc0?=
+ =?us-ascii?Q?9EwQTivRKN26uGM1YF1QDzKgC2kT/E8QBZqhOZ+IBJMQV/iMad87baiQLqwt?=
+ =?us-ascii?Q?hqFHcSp7cFKePe6mI/MDRjJravbsWGGVfEIFTUbwia18nBR1dOEsnWx6EUNG?=
+ =?us-ascii?Q?DcELEfV/h6NAc1sVnSJcJ7/NIFfVRsUdS0aIT6khQWT20WIaxeRTtAdUgD6P?=
+ =?us-ascii?Q?GsObG/rkT+GwY7sNdmC6qzCzxrHmRooCMVJwB3UDPQsjbmqb6bWGx52i98zL?=
+ =?us-ascii?Q?44lff/cl/FT3aaPfCW//6hJqyA3rR4pdlpg5UDwHjU3R+iQBd+pP5IrBQ9fi?=
+ =?us-ascii?Q?zNpWnyMqZ3povLd3hacTyDC2eaIxzKb4XGvDoolkFH4U9zsXxCZ4Xv7L/aT6?=
+ =?us-ascii?Q?JO+VGjY8dkT3yxVOqo9WiqoYulloetniO9mQJgR51gHe5FuWv28eAkKnBjvv?=
+ =?us-ascii?Q?NMoNKWji6XzV54JrdT1jrtepDRRaaYfC1OBB9ZJ2+SIunQP0ZNrRRSZXKnuP?=
+ =?us-ascii?Q?yC5UjkoMTiPF7WF19OxP/jJIbV0ZC2NURdCHoLuniXpQWU6sGVMZX2pfze7H?=
+ =?us-ascii?Q?lQsAlLrW0X0sY4lPFrRZFOIl8yaKr0R1j2XXhJGAUTN7z3LVLvGw+3UCMB5v?=
+ =?us-ascii?Q?R+XfHE3CUF4sgJ851eFQvRkz/zij8QxtGB1/vpbH/j1EQZHuUNuWMEC3STG/?=
+ =?us-ascii?Q?cDmtdQiEnZY1O8AvKNKBWPSifVAcUi4QFrl28A=3D=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-05f45.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c186320-a883-4999-eae5-08db7b8ae662
+X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR03MB6651.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49a00f08-3344-4937-5eac-08db7b702ba5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2023 02:49:50.1311
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2023 06:01:10.7751
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1AIR/RCO+CawE/zc3xXvsrUZ/Z0g6tJrYJAqBM2K6vX1FPP85jBV+FhKviYzEHZOF9um8v24smLv2/OnuUG6nQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR03MB5477
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCP286MB3500
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -123,54 +104,33 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Andi,
-	I have modified it and send PATCH V3.
-Thanks
-Marge Yang
+From: Riwen Lu <luriwen@kylinos.cn>
 
------Original Message-----
-From: Andi Shyti <andi.shyti@kernel.org>=20
-Sent: Wednesday, June 14, 2023 4:49 AM
-To: Marge Yang <Marge.Yang@tw.synaptics.com>
-Cc: dmitry.torokhov@gmail.com; linux-input@vger.kernel.org; linux-kernel@vg=
-er.kernel.org; David Chiu <David.Chiu@tw.synaptics.com>; Derek Cheng <derek=
-.cheng@tw.synaptics.com>; Sam Tsai <Sam.Tsai@synaptics.com>; Vincent Huang =
-<Vincent.huang@tw.synaptics.com>
-Subject: Re: [PATCH V2] Input: synaptics-rmi4- Add a new feature for Forepa=
-d.
+The format '%*ph' print up to 64 bytes long as a hex string with ' '
+sepatator. Usually the size of report descriptor is larger than 64
+bytes, so consider using print_hex_dump_debug to print out all of it for
+better debugging.
 
-CAUTION: Email originated externally, do not click links or open attachment=
-s unless you recognize the sender and know the content is safe.
+Signed-off-by: Riwen Lu <luriwen@kylinos.cn>
+---
+ drivers/hid/i2c-hid/i2c-hid-core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index efbba0465eef..8e97fc01c852 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -772,7 +772,9 @@ static int i2c_hid_parse(struct hid_device *hid)
+ 		}
+ 	}
+ 
+-	i2c_hid_dbg(ihid, "Report Descriptor: %*ph\n", rsize, rdesc);
++	i2c_hid_dbg(ihid, "Report Descriptor\n");
++	print_hex_dump_debug("  ", DUMP_PREFIX_OFFSET, 16, 1,
++			rdesc, rsize, false);
+ 
+ 	ret = hid_parse_report(hid, rdesc, rsize);
+ 	if (!use_override)
+-- 
+2.25.1
 
-Hi Marge,
-
-[...]
-
-> +static irqreturn_t rmi_f21_attention(int irq, void *ctx) {
-> +     struct rmi_function *fn =3D ctx;
-> +     struct f21_data *f21 =3D dev_get_drvdata(&fn->dev);
-> +     int error;
-> +
-> +     error =3D rmi_read_block(fn->rmi_dev,
-> +                             fn->fd.data_base_addr+RMI_F21_FORCE_CLICK_O=
-FFSET,
-> +                             f21->data_regs, 1);
-> +     if (error) {
-> +             dev_err(&fn->dev,
-> +                     "%s: Failed to read f21 data registers: %d\n",
-> +                     __func__, error);
-> +             return IRQ_RETVAL(error);
-> +     }
-> +
-> +     if (!!(f21->data_regs[0] & RMI_f21_FORCE_CLICK))
-
-no need for double negation here.
-
-Andi
-
-> +             input_report_key(f21->input, f21->key_code, true);
-> +     else
-> +             input_report_key(f21->input, f21->key_code, false);
-> +     return IRQ_HANDLED;
-> +}
