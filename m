@@ -2,54 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56D0C74665B
-	for <lists+linux-input@lfdr.de>; Tue,  4 Jul 2023 02:08:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 243E6746838
+	for <lists+linux-input@lfdr.de>; Tue,  4 Jul 2023 06:03:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230357AbjGDAI1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 3 Jul 2023 20:08:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56398 "EHLO
+        id S229621AbjGDEDg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 4 Jul 2023 00:03:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230331AbjGDAI0 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Jul 2023 20:08:26 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1FB818C;
-        Mon,  3 Jul 2023 17:08:25 -0700 (PDT)
-Received: from mercury (unknown [185.209.196.239])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sre)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 206486606F8B;
-        Tue,  4 Jul 2023 01:08:24 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1688429304;
-        bh=4JJwPVhJWceI5BnfKOE1UA/iozYb0TFlvK3DvXPQdv4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BXlvX5z8i01tDprqMzJ9pazJglUVgXhfbgVgJNqju0KuvNFVx7KmEl3iDRF16Oe0m
-         Zmal4jYRHUqiI8CS9QA571sxdn140uc6Ft6BWeHLGAmUahLz2yVd5cn0E+r3BXv1s6
-         PaQmy5SvbnfxtJPKV7fMW4bjyYXUfK6tzRuz/vLKaUwd+ouPkZPQ/DokIP2qbGYA6c
-         DVGIM/b6OBpr+kc/jFgIbGXX2ncqgTROAvBNHiat8YQ2Gty8kM/EHHc7Tocbcr5RHB
-         fmvQYfzmcQeZdLOjzpoYAGHevCxDsvcSP/wWISx5H7Rn8uhQe84JhCqDAcjxf7keSa
-         OKLtkuJtwtfrA==
-Received: by mercury (Postfix, from userid 1000)
-        id EE77A1061814; Tue,  4 Jul 2023 02:08:21 +0200 (CEST)
-Date:   Tue, 4 Jul 2023 02:08:21 +0200
-From:   Sebastian Reichel <sebastian.reichel@collabora.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH RESEND] input: cpcap-pwrbutton: remove initial kernel-doc
- notation
-Message-ID: <20230704000821.z3tx4chw7x6pn6nq@mercury.elektranox.org>
-References: <20230703230005.14877-1-rdunlap@infradead.org>
+        with ESMTP id S229793AbjGDEDZ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Jul 2023 00:03:25 -0400
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 557FBE6A;
+        Mon,  3 Jul 2023 21:03:23 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id F1E245C0150;
+        Tue,  4 Jul 2023 00:03:22 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Tue, 04 Jul 2023 00:03:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm1; t=1688443402; x=1688529802; bh=Tz
+        UkfM7huciW8VhwVnvRMErywl26g+hJgmqbirycXGU=; b=ne+fpr4AVhD/+FKE63
+        UrtipHBq0d1HcxMhAA6nefestnCLmrLT/x7PCiuTVykZDPXLer9jySUn+qUcnWAI
+        V0dhZ3gYY5Y9TWPovI888v9+J4t1hxsSkQFHGEI3TM2ou4q0MsCCYlriJ558sCNA
+        Z5bDmEHHzzJ0mJ9I/4alXJ9k1hmRBLAUO4FqAke55nR89MXAv9ggO7AGzTTbfgS+
+        RcBz/0ngc5GsxrF2S8nt7d1lPKyjvmLpNFSwYz3GrZHqLczx5gBxlFyha6i3fKll
+        XnMykv1GJ3arBBVukzxkPmo+RwBxLwgGeVNBSWGRZlhTNvK+4KaHc7n+2ZQZB5/f
+        vNSQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1688443402; x=1688529802; bh=TzUkfM7huciW8
+        VhwVnvRMErywl26g+hJgmqbirycXGU=; b=L8qRvW81svHbpGZGLlN+FlbSRKlXN
+        bz97WYtpRzUWjL5KjSxNyI8Swaht5bchq+n+HQn9DMwzRRg8wYL2+T510TwhTTFB
+        +OTJFNj3zi20pAEYtJ40xlnhkAhHWmXKIhbHH2tQcYzK/u6KX5OdT5/HWXIlW+wD
+        YDE6vFJrI/ojhMBAHHtVBoozIl1uSqCiE5NLbAopLG1kSrMLlwKG73nKpy+FAy9/
+        ziqWpI7MkHYWVYsOxuaw1FGOcvtL9UfnCu5xOmkAa3zcfHcVVlzMjPRiR21BFAGB
+        MR1GkKJY51bj92mrCLrQrFl0zz7fTvbg861S9jQQGX6kJXeX06pRuXWRA==
+X-ME-Sender: <xms:CpqjZOcR3hdRs1X-2I13bOKfMr2AlqLUR_g-KtgPkWfqqfSa8notTg>
+    <xme:CpqjZINFjcjmDbT5ri8vXgf15SveQSBGJOrXJ4JQLWabCg6xnVEVw-Kdf6UrmJvbp
+    GDssU83NwJFdc8_kCQ>
+X-ME-Received: <xmr:CpqjZPiivvYLAr4TmQEiCkgDi7AZsWyZUOTY0rVHUbtOoZydEEHl9GnOQ5FnaHwYcu336LWtcuDpxkYG-bp8j4jLpIs7b_S04reI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudefgdejkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenog
+    fuuhhsphgvtghtffhomhgrihhnucdlgeelmdenucfjughrpeffhffvvefukfhfgggtuggj
+    sehttdertddttddvnecuhfhrohhmpefrvghtvghrucfjuhhtthgvrhgvrhcuoehpvghtvg
+    hrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvtheqnecuggftrfgrthhtvghrnhepueef
+    geefvdefudeulefgjefgvdeifeekuefgjeffueehiedtiefhkefhtdefjeelnecuffhomh
+    grihhnpegslhhoghhsphhothdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgr
+    rhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnh
+    gvth
+X-ME-Proxy: <xmx:CpqjZL-fGeecXS51zY0cs2OrGcLdbF25MWbsNr3KZqVR8Ogl19ZdxA>
+    <xmx:CpqjZKtixo2m4r7_8bY2updA7Q2y8mF8he6RkB-GQQobYjzZmpO9_g>
+    <xmx:CpqjZCFBqFq1iQNprivx4hNkJMynCulF-BkvmjGHr440kqa6xMsYxQ>
+    <xmx:CpqjZMIgKd2C2h0BcFhSxOEvraWxjcJJHvrSVV4_4ygagUAjUK90Jg>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 4 Jul 2023 00:03:19 -0400 (EDT)
+Date:   Tue, 4 Jul 2023 14:03:13 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Marco Morandini <marco.morandini@polimi.it>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/1] HID: Add introduction about HID for non-kernel
+ programmers
+Message-ID: <20230704040313.GA181170@quokka>
+References: <d6d16821-2592-8210-475a-5388d7a79e82@polimi.it>
+ <99a679e8-6b01-6805-1e33-ce02485e0063@polimi.it>
+ <20230622075905.GA35108@quokka>
+ <fcb47559-dac0-963b-8798-dab0d6b0b636@polimi.it>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="kjpcjgpcgqhqdsir"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230703230005.14877-1-rdunlap@infradead.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+In-Reply-To: <fcb47559-dac0-963b-8798-dab0d6b0b636@polimi.it>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -58,65 +92,78 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Thu, Jun 22, 2023 at 10:37:29PM +0200, Marco Morandini wrote:
+> 
+> > 
+> > shameless plug! :) I wrote this post a few years ago, feel free to
+> > incorporate bits from there into here
+> > https://who-t.blogspot.com/2018/12/understanding-hid-report-descriptors.html
+> 
+> 
+> Damn! This is much better than all the tutorials 
+> I found while trying to orient 
+> myself, and I managed to miss it :(
+> 
+> Would it be ok to link to it from the doc?
 
---kjpcjgpcgqhqdsir
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+missed this one sorry - yes, feel free to link to it, extract parts of
+it without attribution, etc.
 
-Hi,
+[...]
 
-On Mon, Jul 03, 2023 at 04:00:05PM -0700, Randy Dunlap wrote:
-> Change the beginning "/**" in the file to "/*" since it is not a
-> kernel-doc comment. This prevents a kernel-doc warning:
->=20
-> drivers/input/misc/cpcap-pwrbutton.c:2: warning: This comment starts with=
- '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kerne=
-l-doc.rst
->  * CPCAP Power Button Input Driver
->=20
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: linux-input@vger.kernel.org
-> ---
+> > Also: you now already have 2 tools to look at hid and then you use two
+> > more later (hidrrd and hid-tools). I'd say it's best to just stick to
+> > one tool to reduce the mental load of having to map different tool
+> > outputs to what is the same base data.
+> 
+> I'm not sure about this: I think that hidraw needs to be introduced somewhere,
+> if for nothing because it's what gets consumed by hid-record .
+> Furthermore, looking at samples/hidraw/hid-example.c one can learn something, if not a lot.
+> For the time being I'm leaving the paragraph, moving most of it into a footnote;
+> of course we can drop it if you have a strong opinion about this. 
 
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+I don't :) The main question is (and I can't answer this for you)
+is how much of an in-depth introduction you want to provide and at what
+point prospective readers will have to go to search for more
+information. At some point there has to be a cut-off but you get to
+decide where that one is.
 
--- Sebastian
+> >> +in the mouse example, and outputs.
+> >> +"Output" means that the information is fed
+> >> +from the device to the human; for examples,
+> >> +a joystick with force feedback will have
+> >> +some output.
+> >> +
+> >> +
+> >> +Report IDs and Evdev events
+> >> +===========================
+> >> +
+> >> +A single device can logically group
+> >> +data into different, independent sets.
+> >> +It is *as if* the HID presents
+> >> +itself as different devices, each exchanging
+> >> +its own data. The HID report descriptor is unique,
+> >> +but the different reports are identified by means
+> >> +of different ``Report ID`` fields. Whenever a ``Report ID``
+> >> +is needed it is transmitted as the first byte of any report.
+> > 
+> > This is a bit ambiguous since it's the collections and applications that
+> > split the device into different sets, the reports are just different
+> > ways of reporting data that belongs to one (or more? not 100% sure) of
+> > those sets then.
+> > 
+> > And the example below works because you have different collections on
+> > your device here but that's largely orthogonal to the use of reports.
+> 
+> I think this came from my misunderstanding of the role of Report IDs
+> and Application Collections (not that I'm sure to have undertsood everything).
+> The paragraph has been rewritte, please double check.
+> I'm glossing on the fact that the same Collection can have different Report IDs
+> inside (btw: is this correct? And if yes, is this something that is done, in practice?).
 
->  drivers/input/misc/cpcap-pwrbutton.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff -- a/drivers/input/misc/cpcap-pwrbutton.c b/drivers/input/misc/cpcap=
--pwrbutton.c
-> --- a/drivers/input/misc/cpcap-pwrbutton.c
-> +++ b/drivers/input/misc/cpcap-pwrbutton.c
-> @@ -1,4 +1,4 @@
-> -/**
-> +/*
->   * CPCAP Power Button Input Driver
->   *
->   * Copyright (C) 2017 Sebastian Reichel <sre@kernel.org>
+afaik it is permitted but I'm not sure how common it is. But it's not
+hard to imagine that a device out there that sends button events through
+one report and motion through another.
 
---kjpcjgpcgqhqdsir
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmSjYvIACgkQ2O7X88g7
-+poRKg//ftyAjaih1EVZqXdpDbCI7iqT7gTIuIhCQ8ji2rdcmYT2mPW5n5qtEu2C
-4O8FkwsHTqpmzelbK1l3AlyUeHwPBjzUGRmZq8RiRGNudGvU1z41qzDRDKQhnftM
-3MyKLvWLiGUEQeGla9LDBrCgXz38Y6kUU+NJ3grJySzwCSNubNMGgdwSXXZqOqvQ
-RQKZp5hF8rjuCpsmKdoCVoWLlUfgh3oKfER1Zc8tH+YMFVvkoSs3AsgfTFtQf7I/
-krz5ARlUICpO0B2EnN86DMkNcRZYXkpIbMEMIVfC2eRFyeOpETg6UvILQLkgkFka
-6dZ8TGE1TuJARzl5xMYJgoZkmsuoeU6PH8vAknczFc5Xkkb/RewyATg9x2n5PW1V
-xN/ep247lzEA+ow75Gf7Izj8FlO8NXaU3S79gKx+k7yRA4D5ywQpmNfNAecelZLY
-pdxIsYvZOTexAbLd4h3vKLyVXrp+RSzj9scQaXWXekp1L211ATDebaR6Dsa9Hi3i
-/I5GYkPExvHTrDY1NQQ5quDLSl5MCu1J2byb2PRZU47LMapKYOiYKzuY6u3EMizR
-rkItnSR4EJYnPiu95qeo9UvAa34pmKlgXov7qJUEDQ0s/lsklD5w716cNG61s1JZ
-D0uGCzxeFlgkRvusWCbYd5ZP8XkGGoT97n8El101RtTFM10fqf4=
-=NANQ
------END PGP SIGNATURE-----
-
---kjpcjgpcgqhqdsir--
+Cheers,
+  Peter
