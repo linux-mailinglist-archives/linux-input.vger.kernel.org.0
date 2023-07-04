@@ -2,109 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05824746E03
-	for <lists+linux-input@lfdr.de>; Tue,  4 Jul 2023 11:54:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E3F6746F18
+	for <lists+linux-input@lfdr.de>; Tue,  4 Jul 2023 12:50:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231157AbjGDJyJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 Jul 2023 05:54:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36062 "EHLO
+        id S229793AbjGDKum (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 4 Jul 2023 06:50:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229739AbjGDJyI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Jul 2023 05:54:08 -0400
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8762ECA
-        for <linux-input@vger.kernel.org>; Tue,  4 Jul 2023 02:54:07 -0700 (PDT)
-Received: by mail-yb1-xb41.google.com with SMTP id 3f1490d57ef6-c5079a9f1c8so2673166276.0
-        for <linux-input@vger.kernel.org>; Tue, 04 Jul 2023 02:54:07 -0700 (PDT)
+        with ESMTP id S229441AbjGDKul (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Jul 2023 06:50:41 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2331EE5F;
+        Tue,  4 Jul 2023 03:50:40 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3fbc54caad5so49688575e9.2;
+        Tue, 04 Jul 2023 03:50:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688464446; x=1691056446;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OiXvt3bsk19S5qn9hcg8X6+Vn3nKzW539A/bOKu0/g8=;
-        b=S9oNCZAaIr0Ef+jL9Q8Ex5PpkSlR71eyHLZmVVyFj1etDI8JPKYnekdlGQorlGkow7
-         Ube8OSQeQ7VPmQJvnRDdjlBcoBCeS+z8fheoTOgkh5avXpJB4nai15SyHrRJvtb8o2ys
-         NJ5ETjDML47CdBED++K8sZ3RN2dZqXU2zB7LW4h+/1NJUyIn96lix7TxB7nzemdahiGQ
-         6vAg1kUDi0FiP9FVyPdHKdwXTWEtjxjX/hK5acip2ZrSW8Hh7AG/EC0RI90rWCgk9Y+C
-         2BE16mf2y0Tk9xnR4hJULTnRda0gpB27Ecf1IJEF2l97UupwteCtX77nUeHN49OyJICA
-         mD1Q==
+        d=gmail.com; s=20221208; t=1688467838; x=1691059838;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z/Vv88KHXlPANE205TDrfh0iF/o9LJIXB5/cB9oUZBs=;
+        b=VJMcfzXE3WsRYyleYwyyc1j0Ml/0ZQXtGB65RtsegFzdTDiYDGF1VW8Cl8l//ejFBw
+         QD2+6TxLkNk3wlxDqZ2cMVD5+4HLulFDszkztimGTyyc9N2dD+TPNzUt04dexHxeknLt
+         TUV3Bmb7H9f1odNS7alN3ivpxEvk8DNO8FkNrdLj1fDb01EyYLxSwilCmMuCwibloEVf
+         6LtLtqDeGaI9Glmt5PRDKPfEFbg3d+N9ey9zY9N9o+jSujDN3rnKNhkKT1su8jhnO6Ef
+         TkKrE6ljIla3rDqHsPj6KH9DTv3LWwqPKPyU7IcSP8HQK/IGTrsJRfUM83GGZekj/3bQ
+         Z5mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688464446; x=1691056446;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OiXvt3bsk19S5qn9hcg8X6+Vn3nKzW539A/bOKu0/g8=;
-        b=AU2hQl7MDbxsF/vKoEmNsERoV5gTs2bja6AY8KcLACIMD3ZjIQUMxOfSeVxfuVGOgY
-         ri+kDOKvzrwn60BWFhPMyf8fT7XvUhwAv9QD9eDwf1RXx0okuW8hIPx2JHmU6turik62
-         sbxshys899nhV1DOS2ZnybcV5l3vNHncz6tAfRF/qq7G5/XJKLA70uSZrLXh6jhSFXck
-         yJMvSffFjKtmi0IirG1zGcKHUxR1QacRQQEJfn5k/Bl3HVcZ9JEDISwcy4Dtd8MMWbxe
-         WugwBKSf+6C65cjn7usRR4IsnnZFymJPCgBcj/vlpMyTAlQWHfft2csA9gGCqw09Bovr
-         EinQ==
-X-Gm-Message-State: ABy/qLZwBFesGA6cdjuw9e6TNjzoQJEQhNLtHCDNxH3hbOPZwgnS2lCQ
-        pVa6H5a0eL04ScvD/bLTk/0F0twHt6lUwSarmT4=
-X-Google-Smtp-Source: APBJJlFoyOt8Jh7LmeX/BdIMiBuI5ARueN3gq5ShaWMbbJ0jz89ax4f3AgZVcQKQkcoMhVahxLKgGwW/sSJuOPst+5U=
-X-Received: by 2002:a25:2d23:0:b0:c5d:35fe:cded with SMTP id
- t35-20020a252d23000000b00c5d35fecdedmr1110957ybt.36.1688464446704; Tue, 04
- Jul 2023 02:54:06 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688467838; x=1691059838;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z/Vv88KHXlPANE205TDrfh0iF/o9LJIXB5/cB9oUZBs=;
+        b=DXFdT3U7LMWoTd1w8DftUYx4rf78/9MLPxYYV9wJGw+VNvcs6/cKZFnZX539Ti3nrv
+         AFeKYP5PHyXcbV8MIE7DcjslEFyrloW/gJ7HihXOLElXvoLH9HwPk5vXrris8Po/s9jR
+         fC7M4CvOl4FFDyz9sMv8S7aaqDk2VugKSrbIuPFK8PNG7Za9ccNjRtHkroL9F5ilgp9N
+         hvU9PjQBKK8McoHzVTCiVRIZ1wcHxCWGcoM8q3atT/M3FO4nLPYJuTRJgLWBz1wENWhv
+         rEmGa8mA0HJEsdxeE2jB9YvMOOkw4zbNnN6RgJy45/ehM7VhiNbwIsQI3x3tEtUapkXX
+         eIgw==
+X-Gm-Message-State: AC+VfDz9MdsLq5amRArKISY+CcSbjhNSyxDZ8SEwb7HcOwAWkZeLHzDu
+        dTywFCHapFg4CsSDRSpblbaVJ/mNqDU=
+X-Google-Smtp-Source: ACHHUZ5yQPfVFHpG018p2/oMDOOJtVWRgOURtobhuC2twH+8XfcoTMCEAKKbrn50fM1kO3yjQCY1EA==
+X-Received: by 2002:a05:600c:218f:b0:3fa:a6ce:54ad with SMTP id e15-20020a05600c218f00b003faa6ce54admr10306500wme.6.1688467838185;
+        Tue, 04 Jul 2023 03:50:38 -0700 (PDT)
+Received: from localhost.localdomain ([77.243.43.130])
+        by smtp.gmail.com with ESMTPSA id s24-20020a7bc398000000b003fb9ebb6b88sm21409237wmj.39.2023.07.04.03.50.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Jul 2023 03:50:37 -0700 (PDT)
+From:   Andreas Helbech Kleist <andreaskleist@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Andreas Helbech Kleist <andreaskleist@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: exc3000 - add ACPI support for EXC80H60
+Date:   Tue,  4 Jul 2023 12:50:20 +0200
+Message-Id: <20230704105021.898555-1-andreaskleist@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Received: by 2002:a05:7010:ac1f:b0:36a:dce1:7fb2 with HTTP; Tue, 4 Jul 2023
- 02:54:06 -0700 (PDT)
-Reply-To: joebabm@hotmail.com
-From:   Joel baba <jolebabah@gmail.com>
-Date:   Tue, 4 Jul 2023 09:54:06 +0000
-Message-ID: <CAOZ8G_OpNcXxzh1jJjz64zdvkBL370rkkM2rwJaTDT+stPkKNQ@mail.gmail.com>
-Subject: I wait your answer.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=7.5 required=5.0 tests=ADVANCE_FEE_4_NEW,BAYES_50,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:b41 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [jolebabah[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  0.0 ADVANCE_FEE_4_NEW Appears to be advance fee fraud (Nigerian
-        *      419)
-        *  3.2 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *******
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Greetings to you.
+EXC80H60 is used in Ambu aBox2 with ACPI _HID "EGA00001".
 
- It is with a great pleasure for me to use this opportunity to solicit
-your assistance in proposing an urgent transaction with mutual benefit
-that required maximum confidence.
+Snippet of from "apcidump -b; iasl ssdt2.dat" on target:
 
-Please you should not entertain any atom of fear as all required
-arrangements have been made for the transfer and i will not fail to
-bring to your notice that this transaction is hitch free so i want to
-know your stand in this proposal so that i can send the details of the
-business to you immediately.
+        Device (TPL2)
+        {
+            Name (HID2, Zero)
+            Name (_HID, "EGA00001")  // _HID: Hardware ID
+            Name (_CID, "PNP0C50" /* HID Protocol Device (I2C bus) */)
+		// _CID: Compatible ID
+            Name (_S0W, 0x04)  // _S0W: S0 Device Wake State
+            Name (SBFB, ResourceTemplate ()
 
-I am awaiting for your immediate response as you receive this mail.
+Signed-off-by: Andreas Helbech Kleist <andreaskleist@gmail.com>
+---
+ drivers/input/touchscreen/exc3000.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Yours Sincerely,
+diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchscreen/exc3000.c
+index 69eae79e2087..f3a90155fb04 100644
+--- a/drivers/input/touchscreen/exc3000.c
++++ b/drivers/input/touchscreen/exc3000.c
+@@ -7,6 +7,7 @@
+  * minimal implementation based on egalax_ts.c and egalax_i2c.c
+  */
+ 
++#include <linux/acpi.h>
+ #include <linux/bitops.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+@@ -454,10 +455,19 @@ static const struct of_device_id exc3000_of_match[] = {
+ MODULE_DEVICE_TABLE(of, exc3000_of_match);
+ #endif
+ 
++#ifdef CONFIG_ACPI
++static const struct acpi_device_id exc3000_acpi_match[] = {
++	{ "EGA00001", .driver_data = &exc3000_info[EETI_EXC80H60] },
++	{ }
++};
++MODULE_DEVICE_TABLE(acpi, exc3000_acpi_match);
++#endif
++
+ static struct i2c_driver exc3000_driver = {
+ 	.driver = {
+ 		.name	= "exc3000",
+ 		.of_match_table = of_match_ptr(exc3000_of_match),
++		.acpi_match_table = ACPI_PTR(exc3000_acpi_match),
+ 	},
+ 	.id_table	= exc3000_id,
+ 	.probe_new	= exc3000_probe,
+-- 
+2.34.1
 
-Joel Baba.
