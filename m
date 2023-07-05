@@ -2,183 +2,431 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AA78747CC3
-	for <lists+linux-input@lfdr.de>; Wed,  5 Jul 2023 08:05:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6916B747CD0
+	for <lists+linux-input@lfdr.de>; Wed,  5 Jul 2023 08:09:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230232AbjGEGFB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Jul 2023 02:05:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32942 "EHLO
+        id S230020AbjGEGJv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Jul 2023 02:09:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229951AbjGEGFA (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Jul 2023 02:05:00 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D0C10C3;
-        Tue,  4 Jul 2023 23:04:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HYpEzq/Fx2R32siNWrWdDl2b0UCWoH1jmdwdHJfVD/E/8OhYaccRKhK8sfYZ8NdhTVXBHKismRMWc8bBJGiUEHUvZY7MJEp7UBVeXS5lfBmd9zmRhtTyblopCjSG8f9Ld4jfR+mHijYTWe+L5LOUy81kIzcaZ5miflCR2a+CRO8yPk0twmKKzKb9fsd+8sxU0wf+AXR5zxvbXStTKsVuzVUhamhZVPf+wgogcawjG1F42I5MBVuxQ6SObsgnypzWQjvMQLfqtKstGJgsmr2ky60Q+x78zbL2JUaK5TBDD4Kr71y7I5VQaXywYhHnEErmx7IIGyMy5LwOdW/xLFJvGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SsD52tFNU1DukOTMc2jN7elxwEEcaYBbelMbU5SPjZA=;
- b=P3C+XZDb9Dg82WUMDAlvCh81MoMsnuqZCwOEpPBTgLA21UuwlgY3U6iV551evuNepe/MoPBvmXZ6o2QgBGmn0rvj0ETzkDnqHlXBRiy3H3TaQO0MKF7I8VxFzPNz9veO0h6o6m6QZxKIfGPc7TWK6RpQkh8G0hoJ3RaNkpo9/stDLm0vMiYvsaC3DTie1tiuQx75GV+gN2vhScL+1f17b1FFTyFGO22AJuorXvy+7ZII2x35wpfbU445u0sjqkGEjwIEaJdBGGzcojRKS7UIhOeq202Hk9qVry08jgZf7P8iyc33lZP3+2R/UlnV+9J563Ah81y3R1XP3yyaeVWhnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SsD52tFNU1DukOTMc2jN7elxwEEcaYBbelMbU5SPjZA=;
- b=dcXTfysS53DY9c2ft7PdXa5yaj5QhXJuW7vXx1EqloGTprSQzazhM90uFgR691zPeo2xW20nmYBU9KAteADNHMyG7qrPPZzOjP/1MUWQIwLVtniI176ruj9AdjbZrsTt/VrEkAdMgPNJfoExF0QTi+6P2cjFUOJEpJ+SkKd6G4bWvZHKPBlzPG+qJ/XtD++dRb+HjL7g30Cvvk8ADLfWxcfRgEuTMlSO/s8f2w6h7iWFW1nfD5B052mg55yrHVQkFpv2CcCOVGhX3r8MKiZCanBwfd4kqaiyMT5qny2yEpHdwVV1WEHGP5owpgNjHsKePpubYnvberHDneRoe/ddnA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
- by PH7PR12MB6467.namprd12.prod.outlook.com (2603:10b6:510:1f5::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Wed, 5 Jul
- 2023 06:04:50 +0000
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::ecb0:2f8e:c4bf:b471]) by BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::ecb0:2f8e:c4bf:b471%7]) with mapi id 15.20.6565.016; Wed, 5 Jul 2023
- 06:04:50 +0000
-From:   Rahul Rameshbabu <rrameshbabu@nvidia.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rahul Rameshbabu <rrameshbabu@nvidia.com>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH HID v1] HID: nvidia-shield: Pack inner/related declarations in HOSTCMD reports
-Date:   Tue,  4 Jul 2023 23:04:14 -0700
-Message-Id: <20230705060414.581468-1-rrameshbabu@nvidia.com>
-X-Mailer: git-send-email 2.40.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0167.namprd03.prod.outlook.com
- (2603:10b6:a03:338::22) To BYAPR12MB2743.namprd12.prod.outlook.com
- (2603:10b6:a03:61::28)
+        with ESMTP id S231340AbjGEGJb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Jul 2023 02:09:31 -0400
+Received: from emcscan.emc.com.tw (emcscan.emc.com.tw [192.72.220.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id ACEF81709
+        for <linux-input@vger.kernel.org>; Tue,  4 Jul 2023 23:09:25 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.01,182,1684771200"; 
+   d="scan'208";a="3484879"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 05 Jul 2023 14:09:20 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(110591:0:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Wed, 05 Jul 2023 14:09:19 +0800 (CST)
+Received: from 192.168.33.11
+        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(102912:0:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Wed, 05 Jul 2023 14:09:19 +0800 (CST)
+From:   "Jingle.Wu" <jingle.wu@emc.com.tw>
+To:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>
+Cc:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <phoenix@emc.com.tw>, <josh.chen@emc.com.tw>,
+        <dave.wang@emc.com.tw>
+References: <20230531090340.1035499-1-jingle.wu@emc.com.tw> <ZJ4MVbTnBT5sM5XR@google.com>
+In-Reply-To: <ZJ4MVbTnBT5sM5XR@google.com>
+Subject: RE: [PATCH]  Input: elan_i2c - Implement inhibit/uninhibit functions.
+Date:   Wed, 5 Jul 2023 14:09:18 +0800
+Message-ID: <000001d9af07$3c003a20$b400ae60$@emc.com.tw>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|PH7PR12MB6467:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a4c279d-f35d-4327-4812-08db7d1dbe51
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Kbqi7BH7IUOkSRl7s+i0i3mej9K0aBUDnorCDtR4y3lLkasL59Bo9O27NeZmVWekQw/M9bpxXeAeIz1pr1bczkih1jk0F5V16+hUdSTMR7NPfnl62YZqnPphYVS26qFD/nubi/N+V/Dj38XlqmZqCZcvuWvW05530G5l+btFkmATHjoWGndIa/YGmfx8zgjebur3RVBGsZ6o55qbCsrVFlr5oON78pAKLO9lFJ3vZMEfXAzSd056p/VweTahnSjju29AgF+PV4n6Wppu4XIUjEhYfB8T1GkwyEYWXHb9DbNwUmX8z4YSXFYGhKZ2RJy2S1Zb8guhdfiSnQFiIDXuYR1Gi+xTKVLyCyg5I+pdY2kGTdtmBljbAMrHtVcG/7jkjnZSPkbnSEHNrKS9FDHcEXbg6ckIFMIkCqg2+WwdonfZvfNWygHucgZOm+V96TX+mRu7P8QJbwFvNzxM4/fO5yxvUpWgJY7pdqz6TANRKAZc1NyMPb9hPNa8MPXnrDxGFEMt3VDEWK4qrGfhw7KvEdXlreahXUy7vt7q8hNAKAEXDiK0auTO+lfcfJ4dhBFwgRQrUqKH/3gDpWJh2MTiHmuN9COV4iwbZ9yqG9fwVAnWsyVf/1a0nvODCJYFqQaSUFtsX5JLn4zCHk/z1xYwHw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(136003)(396003)(39860400002)(366004)(451199021)(186003)(478600001)(966005)(6512007)(1076003)(6506007)(26005)(86362001)(2616005)(6666004)(38100700002)(110136005)(66556008)(66476007)(316002)(66946007)(83380400001)(4326008)(54906003)(6486002)(41300700001)(5660300002)(2906002)(36756003)(8936002)(8676002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?p+nc/PcVV+MXcs2bi+LroLenWEB79CY57GZHda1nnwDbqxn9n1raD24n//N4?=
- =?us-ascii?Q?nFD9LG24WtbvPWh03ag8f1wXxlrM8C6DGvROdt6wCh/uwAZLJn1kxgwmmlwD?=
- =?us-ascii?Q?k1q8xgPWOM9sd3L1dHOykKXMmgRRY8+MQf3wReq2R724rdC4oiJW1HfVRl2N?=
- =?us-ascii?Q?A2IS9LOgdw35RnuGdJNLIcRJl6u0tXmmgfuWPmIbnsKqDQ9gK3zobRPUOK6f?=
- =?us-ascii?Q?fG4SRYpq9rKq5nkZwrb4FFPr91pyuJPW4BfcwY4l05QaXnIkIYJfbskIiMML?=
- =?us-ascii?Q?0xMaOi104/Lj3GlUnyfKc1Hm9/zOKzyI5Gn2iQjbD9Fr9qdrQRjW/uqodGjG?=
- =?us-ascii?Q?NojQMRxInMN3M5eAFMkz8ozseXvd9LfJTwqmSy1H0quyyVEIXx02VbWrLH9i?=
- =?us-ascii?Q?bG+Ilptc1dtGmnR5uBNsJA8quam4tjJNutR89ONFPXz+rHmoJ4gXMJRKBQz6?=
- =?us-ascii?Q?J3B7G/dOTwKbLIr4ttCrlDzIr/PVM3Ct5ocj1olg93oHYobuH1bM7pmJSd3E?=
- =?us-ascii?Q?XLD1EfgLAPCbv0649sdp7JQAxLC7EQChhsPvBAorqKwse9SaMs3j52APbA9d?=
- =?us-ascii?Q?REafMFY+OF9jFitwE3ipFy5AHiys05ZOlOnBLhhka4rD/9D32WM4CpdT/XLM?=
- =?us-ascii?Q?xno3oAqVTJYiGEzIVyBGdb1FEzdML6i7nYWCCfLuoJm6wZXEDn54rh0qCSxi?=
- =?us-ascii?Q?5Xx7COeO6nGxWB/uZQd50TKpVuulRpPC10uNxkWkgJwuAIJ/xHZcLHi686il?=
- =?us-ascii?Q?xTXm6z6+Q6aTf5CtrBawLZkUglqNg/Xn0zzEbkJg9bNpazQcRf6GVwERsMDE?=
- =?us-ascii?Q?Q3YH6947Ym8f4ELHHulx+6Ac52aElnZ+SlLXfxPgJPTORjD6uHgucAXaMlCm?=
- =?us-ascii?Q?4KUpt/42oD3hv+l/oQjgOSsP6ODBOeULOEI6E8eCczr8LvCcS1jshwsu5sxs?=
- =?us-ascii?Q?IAD25u/T+JEpLq7X6Ty/8LzAyJdil0Co6/lLrBo6bBznJ/5ebuwsaF6WFuUA?=
- =?us-ascii?Q?IhnUXNRw0OgfJHX3f3AAkwLbmV4JvwnydfVi13ffx35TUXKuLrOvGsZunx2Q?=
- =?us-ascii?Q?UlHPvq+WPcvGH4AhBXy5WGQsTsBWBEEXWe2POBmamxiGgq6zFhLprEZF6ZwO?=
- =?us-ascii?Q?GpgIVzxka8tH3B/wXYTZ9OCdr6KEyBuY//YcbOgijMYv7qDsPldDtbUZ3YG9?=
- =?us-ascii?Q?c/e1LfeplC8p89U9ErzA6Bb+/AmcYYoF/MB3VxHv3xGosl+Jg81RTG7FQkFo?=
- =?us-ascii?Q?0L06JsiYtThp191mK7eP5XrfnGToDZE6LtY81W2BHYNaMXMcMCDvGxxmbTsn?=
- =?us-ascii?Q?q/oKywiFIw4NZBb/wkAVdfGBjslzLuVx7AftIw4ZTAkwX6C3F70NXgLt3Jc2?=
- =?us-ascii?Q?c+vmp8QWpUi0P0ZAfbrnSQ+JTBOkrp5hks7gfZ1gjFIkjrhbNa5wqa1fGyFE?=
- =?us-ascii?Q?SDelN/JmX9ADTnDJT6A28z9VjzGAi8trMuTNxlCWAY63T4AI5kLsokb6DK79?=
- =?us-ascii?Q?GL2XJ68YB45B2GiuQtDu2s0uRT44xjlI9FZ+lB9jGd+PGpxrFJxeGZNWnL8n?=
- =?us-ascii?Q?1U3g/Y/uQHpRfl/l2ZOFpHLj5e7twSGX/k6ESBPl?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a4c279d-f35d-4327-4812-08db7d1dbe51
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2023 06:04:50.5097
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C+IQbAKJLXuGkUA43V0T52XSvXUh3asXp2A8ESBvdnZHbo9CI129hw9xeGt/VD/JGmISHbeEOND/2cD8nhFcKw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6467
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain;
+        charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 15.0
+Thread-Index: AQFEypu60gX+z1j7S/LVgPsQG8PWFQJM2ygisMIRvaA=
+Content-Language: zh-tw
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDYwMTFcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy03OTUwZmI4Zi0xYWZhLTExZWUtYTg2MS1mMDc5NTk2OWU3NWVcYW1lLXRlc3RcNzk1MGZiOTAtMWFmYS0xMWVlLWE4NjEtZjA3OTU5NjllNzVlYm9keS50eHQiIHN6PSIxMTEzOSIgdD0iMTMzMzMwMTA5NTg0ODk0MzU1IiBoPSJRU052RGUxSDd3OG1KQXJQYkIvQ2F5b0V2ckk9IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
+x-dg-rorf: true
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Match alignment information in composite type declarations used by packed
-HOSTCMD report structures. Compiler packing attribute is not recursive for
-inner declarations. Mismatched alignment information can cause undefined
-behavior in code generated for accessing composite type members. struct
-pointers passed to thunderstrike_parse_board_info_payload and
-thunderstrike_parse_haptics_payload are an example of this being
-potentially problematic since alignment information from the packed HOSTCMD
-report is lost.
+HI Dmitry:
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202307041500.6bKn7nCl-lkp@intel.com/
-Link: https://github.com/llvm/llvm-project/issues/55520#issuecomment-1128617570
-Link: https://gcc.gnu.org/onlinedocs/gcc-13.1.0/gcc/Common-Type-Attributes.html#index-packed-type-attribute
-Signed-off-by: Rahul Rameshbabu <rrameshbabu@nvidia.com>
----
- drivers/hid/hid-nvidia-shield.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+1.
+> +static void elan_input_lid_event(struct input_handle *handle, 
+> +unsigned
+int type,
+> +			     unsigned int code, int value) {
+> +	struct elan_tp_data *data, *n;
+> +
+> +	if (type == EV_SW && code == SW_LID) {
+> +		list_for_each_entry_safe(data, n,
+&elan_devices_with_lid_handler, 
+> +list) {
 
-diff --git a/drivers/hid/hid-nvidia-shield.c b/drivers/hid/hid-nvidia-shield.c
-index 85700cec5eac..a928ad2be62d 100644
---- a/drivers/hid/hid-nvidia-shield.c
-+++ b/drivers/hid/hid-nvidia-shield.c
-@@ -63,12 +63,12 @@ static_assert(sizeof(enum thunderstrike_led_state) == 1);
- struct thunderstrike_hostcmd_board_info {
- 	__le16 revision;
- 	__le16 serial[7];
--};
-+} __packed;
- 
- struct thunderstrike_hostcmd_haptics {
- 	u8 motor_left;
- 	u8 motor_right;
--};
-+} __packed;
- 
- struct thunderstrike_hostcmd_resp_report {
- 	u8 report_id; /* THUNDERSTRIKE_HOSTCMD_RESP_REPORT_ID */
-@@ -81,7 +81,7 @@ struct thunderstrike_hostcmd_resp_report {
- 		__le16 fw_version;
- 		enum thunderstrike_led_state led_state;
- 		u8 payload[30];
--	};
-+	} __packed;
- } __packed;
- static_assert(sizeof(struct thunderstrike_hostcmd_resp_report) ==
- 	      THUNDERSTRIKE_HOSTCMD_REPORT_SIZE);
-@@ -92,15 +92,15 @@ struct thunderstrike_hostcmd_req_report {
- 	u8 reserved_at_10;
- 
- 	union {
--		struct {
-+		struct __packed {
- 			u8 update;
- 			enum thunderstrike_led_state state;
- 		} led;
--		struct {
-+		struct __packed {
- 			u8 update;
- 			struct thunderstrike_hostcmd_haptics motors;
- 		} haptics;
--	};
-+	} __packed;
- 	u8 reserved_at_30[27];
- } __packed;
- static_assert(sizeof(struct thunderstrike_hostcmd_req_report) ==
+Why do you need the "_safe()" variant here?
+-> Because I took the above link as reference.  
+https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/3
+578852/7/drivers/hid/hid-multitouch.c#394
+
+2. 
+> +	data->lid_switch = true;
+> +	INIT_LIST_HEAD(&data->list);
+> +	INIT_WORK(&data->lid_work, lid_work_handler);
+> +	list_add_tail(&data->list, &elan_devices_with_lid_handler);
+
+It looks like you call elan_create_lid_handler() from elan_probe() which
+means it can be called several times (we should not assume there is only one
+controller), I do not see it being destroyed in remove() either, so it will
+break if you bind/unbind the driver.
+
+I also not sure why you need the list of you have a handler per device.
+
+-> If the elan_create_lid_handler() function not be put into probe(), the
+lid
+handler would be invalid in elan private data("struct elan_tp_data *data").
+Or do you have any suggestions for it? Thanks.
+
+3.
+> +	error = elan_create_lid_handler(data);
+> +	if (error)
+> +		dev_err(dev, "failed to create lid handler: %d\n", error);
+
+Do we need this on _ALL_ devices with ELan controllers, or just certain
+ones? If we need this on all devices how did it work before?
+
+-> Yes, we need this on all device.
+In Chromeos kernel v5.4 before, the elan_inhibit()/uninhibit function was
+built and worked
+successfully in elan_i2c_driver.
+https://chromium.googlesource.com/chromiumos/third_party/kernel/+/refs/heads
+/chromeos-5.4/drivers/input/mouse/elan_i2c_core.c#353
+
+
+Thanks
+JINGLE
+
+-----Original Message-----
+From: Dmitry Torokhov [mailto:dmitry.torokhov@gmail.com] 
+Sent: Friday, June 30, 2023 6:57 AM
+To: jingle.wu <jingle.wu@emc.com.tw>
+Cc: linux-kernel@vger.kernel.org; linux-input@vger.kernel.org;
+phoenix@emc.com.tw; josh.chen@emc.com.tw; dave.wang@emc.com.tw
+Subject: Re: [PATCH] Input: elan_i2c - Implement inhibit/uninhibit
+functions.
+
+Hi Jingle,
+
+On Wed, May 31, 2023 at 05:03:40PM +0800, jingle.wu wrote:
+>  Add inhibit/uninhibit functions.
+
+You need to provide justification for this change, i.e. explain why you need
+this/what is currently not working or working sub-optimally.
+
+> 
+>  Signed-off-by: Jingle.wu <jingle.wu@emc.com.tw>
+> ---
+>  drivers/input/mouse/elan_i2c_core.c | 207 
+> ++++++++++++++++++++++++++++
+>  1 file changed, 207 insertions(+)
+> 
+> diff --git a/drivers/input/mouse/elan_i2c_core.c 
+> b/drivers/input/mouse/elan_i2c_core.c
+> index 5f0d75a45c80..4ea57f4c7bd4 100644
+> --- a/drivers/input/mouse/elan_i2c_core.c
+> +++ b/drivers/input/mouse/elan_i2c_core.c
+> @@ -56,6 +56,7 @@ struct elan_tp_data {
+>  	struct input_dev	*input;
+>  	struct input_dev	*tp_input; /* trackpoint input node */
+>  	struct regulator	*vcc;
+> +	struct list_head list;	/* for list of devices needing input handler
+*/
+>  
+>  	const struct elan_transport_ops *ops;
+>  
+> @@ -63,6 +64,11 @@ struct elan_tp_data {
+>  	struct completion	fw_completion;
+>  	bool			in_fw_update;
+>  
+> +	struct work_struct	lid_work;
+> +	bool			lid_switch;
+> +	int			lid_value;
+> +	bool			in_inhibit;
+> +
+>  	struct mutex		sysfs_mutex;
+>  
+>  	unsigned int		max_x;
+> @@ -96,6 +102,9 @@ struct elan_tp_data {
+>  	u32			quirks;		/* Various quirks */
+>  };
+>  
+> +static struct workqueue_struct *elan_mode_wq; static 
+> +LIST_HEAD(elan_devices_with_lid_handler);
+> +
+>  static u32 elan_i2c_lookup_quirks(u16 ic_type, u16 product_id)  {
+>  	static const struct {
+> @@ -329,6 +338,74 @@ static int elan_initialize(struct elan_tp_data *data,
+bool skip_reset)
+>  	return error;
+>  }
+>  
+> +static int elan_reactivate(struct elan_tp_data *data) {
+> +	struct device *dev = &data->client->dev;
+> +	int error;
+> +
+> +	error = elan_set_power(data, true);
+> +	if (error)
+> +		dev_err(dev, "failed to restore power: %d\n", error);
+> +
+> +	error = data->ops->sleep_control(data->client, false);
+> +	if (error) {
+> +		dev_err(dev,
+> +			"failed to wake device up: %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	return error;
+> +}
+> +
+> +static int elan_inhibit(struct input_dev *input_dev)
+
+I would rather you did not call it inhibit/uninhibit because this is not
+what it does.
+
+Please split the logic for recalibration from logic of powering on and off
+the device. I also hope in the future firmware revisions the distinction
+will be more clear (i.e. have a separate method/command to recalibrate
+baseline on demand).
+
+> +{
+> +	struct elan_tp_data *data = input_get_drvdata(input_dev);
+> +	struct i2c_client *client = data->client;
+> +	int error;
+> +
+> +	dev_dbg(&client->dev, "inhibiting\n");
+> +	/*
+> +	 * We are taking the mutex to make sure sysfs operations are
+> +	 * complete before we attempt to bring the device into low[er]
+> +	 * power mode.
+> +	 */
+> +	error = mutex_lock_interruptible(&data->sysfs_mutex);
+> +	if (error)
+> +		return error;
+> +
+> +	disable_irq(client->irq);
+> +
+> +	error = elan_set_power(data, false);
+> +	if (error)
+> +		enable_irq(client->irq);
+> +
+> +	data->in_inhibit = true;
+> +	mutex_unlock(&data->sysfs_mutex);
+> +
+> +	return error;
+> +}
+> +
+> +static int elan_uninhibit(struct input_dev *input_dev) {
+> +	struct elan_tp_data *data = input_get_drvdata(input_dev);
+> +	struct i2c_client *client = data->client;
+> +	int error;
+> +
+> +	dev_dbg(&client->dev, "uninhibiting\n");
+> +	error = mutex_lock_interruptible(&data->sysfs_mutex);
+> +	if (error)
+> +		return error;
+> +
+> +	error = elan_reactivate(data);
+> +	if (error == 0)
+> +		enable_irq(client->irq);
+> +
+> +	data->in_inhibit = false;
+> +	mutex_unlock(&data->sysfs_mutex);
+> +
+> +	return error;
+> +}
+> +
+>  static int elan_query_device_info(struct elan_tp_data *data)  {
+>  	int error;
+> @@ -1187,6 +1264,124 @@ static void elan_disable_regulator(void *_data)
+>  	regulator_disable(data->vcc);
+>  }
+>  
+> +static void lid_work_handler(struct work_struct *work) {
+> +	struct elan_tp_data *data = container_of(work, struct elan_tp_data,
+> +					    lid_work);
+> +
+> +	if (data->lid_value)
+> +		elan_inhibit(data->input);
+> +	else
+> +		elan_uninhibit(data->input);
+> +
+> +}
+> +
+> +static void elan_input_lid_event(struct input_handle *handle, unsigned
+int type,
+> +			     unsigned int code, int value) {
+> +	struct elan_tp_data *data, *n;
+> +
+> +	if (type == EV_SW && code == SW_LID) {
+> +		list_for_each_entry_safe(data, n,
+&elan_devices_with_lid_handler, 
+> +list) {
+
+Why do you need the "_safe()" variant here?
+
+> +			data->lid_value = value;
+> +			queue_work(elan_mode_wq, &data->lid_work);
+> +		}
+> +	}
+> +
+> +}
+> +
+> +struct elan_input_lid {
+> +	struct input_handle handle;
+> +};
+> +
+> +static int elan_input_lid_connect(struct input_handler *handler,
+> +				struct input_dev *dev,
+> +				const struct input_device_id *id) {
+> +	struct elan_input_lid *lid;
+> +	char *name;
+> +	int error;
+> +
+> +	lid = kzalloc(sizeof(*lid), GFP_KERNEL);
+> +	if (!lid)
+> +		return -ENOMEM;
+> +	name = kasprintf(GFP_KERNEL, "elan-i2c-lid-%s",
+dev_name(&dev->dev));
+> +	if (!name) {
+> +		error = -ENOMEM;
+> +		goto err_free_lid;
+> +	}
+> +	lid->handle.dev = dev;
+> +	lid->handle.handler = handler;
+> +	lid->handle.name = name;
+> +	lid->handle.private = lid;
+> +	error = input_register_handle(&lid->handle);
+> +	if (error)
+> +		goto err_free_name;
+> +	error = input_open_device(&lid->handle);
+> +	if (error)
+> +		goto err_unregister_handle;
+> +	return 0;
+> +err_unregister_handle:
+> +	input_unregister_handle(&lid->handle);
+> +err_free_name:
+> +	kfree(name);
+> +err_free_lid:
+> +	kfree(lid);
+> +	return error;
+> +}
+> +
+> +static void elan_input_lid_disconnect(struct input_handle *handle) {
+> +	struct elan_input_lid *lid = handle->private;
+> +
+> +	input_close_device(handle);
+> +	input_unregister_handle(handle);
+> +	kfree(handle->name);
+> +	kfree(lid);
+> +}
+> +
+> +static const struct input_device_id elan_input_lid_ids[] = {
+> +	{
+> +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT |
+INPUT_DEVICE_ID_MATCH_SWBIT,
+> +		.evbit = { BIT_MASK(EV_SW) },
+> +		.swbit = { [BIT_WORD(SW_LID)] = BIT_MASK(SW_LID) },
+> +	},
+> +	{ },
+> +};
+> +
+> +static struct input_handler elan_input_lid_handler = {
+> +	.event =	elan_input_lid_event,
+> +	.connect =	elan_input_lid_connect,
+> +	.disconnect =	elan_input_lid_disconnect,
+> +	.name =		"elan-i2c-lid",
+> +	.id_table =	elan_input_lid_ids,
+> +};
+> +
+> +static int elan_create_lid_handler(struct elan_tp_data *data) {
+> +	int error = 0;
+> +
+> +	elan_mode_wq = create_singlethread_workqueue("elan-i2c-lid");
+> +	if (elan_mode_wq == NULL)
+> +		return -ENOMEM;
+> +	error = input_register_handler(&elan_input_lid_handler);
+> +	if (error)
+> +		goto remove_wq;
+> +
+> +	data->lid_switch = true;
+> +	INIT_LIST_HEAD(&data->list);
+> +	INIT_WORK(&data->lid_work, lid_work_handler);
+> +	list_add_tail(&data->list, &elan_devices_with_lid_handler);
+
+It looks like you call elan_create_lid_handler() from elan_probe() which
+means it can be called several times (we should not assume there is only one
+controller), I do not see it being destroyed in remove() either, so it will
+break if you bind/unbind the driver.
+
+I also not sure why you need the list of you have a handler per device.
+
+> +
+> +	return 0;
+> +
+> +remove_wq:
+> +	data->lid_switch = false;
+> +	destroy_workqueue(elan_mode_wq);
+> +	elan_mode_wq = NULL;
+> +	return error;
+> +}
+> +
+>  static int elan_probe(struct i2c_client *client)  {
+>  	const struct elan_transport_ops *transport_ops; @@ -1325,6 +1520,10 
+> @@ static int elan_probe(struct i2c_client *client)
+>  		}
+>  	}
+>  
+> +	error = elan_create_lid_handler(data);
+> +	if (error)
+> +		dev_err(dev, "failed to create lid handler: %d\n", error);
+
+Do we need this on _ALL_ devices with ELan controllers, or just certain
+ones? If we need this on all devices how did it work before?
+
+> +
+>  	return 0;
+>  }
+>  
+> @@ -1334,6 +1533,10 @@ static int elan_suspend(struct device *dev)
+>  	struct elan_tp_data *data = i2c_get_clientdata(client);
+>  	int ret;
+>  
+> +	/* Wait for switch on completion */
+> +	if (data->lid_switch)
+> +		flush_workqueue(elan_mode_wq);
+> +
+>  	/*
+>  	 * We are taking the mutex to make sure sysfs operations are
+>  	 * complete before we attempt to bring the device into low[er] @@ 
+> -1371,6 +1574,10 @@ static int elan_resume(struct device *dev)
+>  	struct elan_tp_data *data = i2c_get_clientdata(client);
+>  	int error;
+>  
+> +	/* Wait for switch on completion */
+> +	if (data->lid_switch)
+> +		flush_workqueue(elan_mode_wq);
+> +
+>  	if (!device_may_wakeup(dev)) {
+>  		error = regulator_enable(data->vcc);
+>  		if (error) {
+> --
+> 2.34.1
+> 
+
+Thanks.
+
 -- 
-2.40.1
+Dmitry
 
