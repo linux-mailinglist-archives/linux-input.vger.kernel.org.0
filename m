@@ -2,431 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6916B747CD0
-	for <lists+linux-input@lfdr.de>; Wed,  5 Jul 2023 08:09:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 773EA7480B0
+	for <lists+linux-input@lfdr.de>; Wed,  5 Jul 2023 11:19:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230020AbjGEGJv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Jul 2023 02:09:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35172 "EHLO
+        id S230417AbjGEJSx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Jul 2023 05:18:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231340AbjGEGJb (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Jul 2023 02:09:31 -0400
-Received: from emcscan.emc.com.tw (emcscan.emc.com.tw [192.72.220.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id ACEF81709
-        for <linux-input@vger.kernel.org>; Tue,  4 Jul 2023 23:09:25 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,182,1684771200"; 
-   d="scan'208";a="3484879"
-Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
-  by emcscan.emc.com.tw with ESMTP; 05 Jul 2023 14:09:20 +0800
-Received: from 192.168.10.23
-        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(110591:0:AUTH_RELAY)
-        (envelope-from <jingle.wu@emc.com.tw>); Wed, 05 Jul 2023 14:09:19 +0800 (CST)
-Received: from 192.168.33.11
-        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(102912:0:AUTH_RELAY)
-        (envelope-from <jingle.wu@emc.com.tw>); Wed, 05 Jul 2023 14:09:19 +0800 (CST)
-From:   "Jingle.Wu" <jingle.wu@emc.com.tw>
-To:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>
-Cc:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <phoenix@emc.com.tw>, <josh.chen@emc.com.tw>,
-        <dave.wang@emc.com.tw>
-References: <20230531090340.1035499-1-jingle.wu@emc.com.tw> <ZJ4MVbTnBT5sM5XR@google.com>
-In-Reply-To: <ZJ4MVbTnBT5sM5XR@google.com>
-Subject: RE: [PATCH]  Input: elan_i2c - Implement inhibit/uninhibit functions.
-Date:   Wed, 5 Jul 2023 14:09:18 +0800
-Message-ID: <000001d9af07$3c003a20$b400ae60$@emc.com.tw>
+        with ESMTP id S232084AbjGEJSb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Jul 2023 05:18:31 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1B8A1735;
+        Wed,  5 Jul 2023 02:18:27 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-4f766777605so10055361e87.1;
+        Wed, 05 Jul 2023 02:18:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688548706; x=1691140706;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=urOxsrVY+tk/gJ4cc4FN+6hpWmfeSeBhKbODS5RKDv0=;
+        b=NjD+YzWHCIFqWlT2f4wR7cHvIKBX/LRB6XmuWXnwD0miOgCC7YzAWY0RSUB3gFrRi9
+         xx/k4h5eM5jxyWtAuOjsSvFqMLH9pN/d2N+PbB2LmS+0AVT7eCatZCmWTIFvA7PUEBFq
+         uGEkTmXUKLFlS0ncwGPed5vT5Zv8EyQ4Wkt+oPU/ji40fiI1A02CSEzajO1I/6ZOD2MB
+         SwkPJ4fl66rHI8JKEpWxBUpaOMUD2CsDQR2FszOhjb/8mmKBjT6ql/iwboaktlCBYWqA
+         QIoohh0SHk9dpo82paSfPbVIY4WNBD/y+73oDEW2bhTDb9PD2I686ByKt8zrpMs9kuUS
+         3CAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688548706; x=1691140706;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=urOxsrVY+tk/gJ4cc4FN+6hpWmfeSeBhKbODS5RKDv0=;
+        b=bATIr6V7extpMn5yGWZeeU8ZppfoV8rsEvZL5oRnWf8LhKs38n+2mDMKbSDeA5DEhT
+         pnqA/aP9aduewG2isI2kZXWhJ+ymHds2FGPTsRlz5gxyte5AUFrvRVDEDlvM148G8NCE
+         T4X/bhwnaGFjwTdMA644pcmu7p6Mmg0gZylJ2gZSKUprM9tS9Og1k4z9BfsHdLZixbrl
+         aY1FKoEeB8xScLxBz8jJjCp1FDDuntGpByZ291QZJgExpLctGmOYq5p2kRzvKb2ogztY
+         c/LppNyQc8owRWAYHkcWiW8CeKj1qdbTD7DAvutWn/vYlP+HXJaVYwKQsFypBpdZnfdB
+         QaQQ==
+X-Gm-Message-State: ABy/qLaJEPiu4kzlIeyKdxsDwEDpWA/8xr35ssnE11EYtLvVneRV8ke5
+        Dauo8CEgNZ8ULwEoEZZ24T3VxXzNeD4=
+X-Google-Smtp-Source: APBJJlHHtCrrRafwZ9aTD/vJPm+YBvttGYdBxNlmj7pgD2G+OLN5TwsuoBee1fAJwAwrsHQG2xPtXA==
+X-Received: by 2002:a05:6512:3b9c:b0:4ec:9ef9:e3d with SMTP id g28-20020a0565123b9c00b004ec9ef90e3dmr13777727lfv.26.1688548705534;
+        Wed, 05 Jul 2023 02:18:25 -0700 (PDT)
+Received: from localhost.localdomain ([77.243.43.130])
+        by smtp.gmail.com with ESMTPSA id a7-20020a05600c224700b003fbc90e030csm1531832wmm.37.2023.07.05.02.18.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jul 2023 02:18:24 -0700 (PDT)
+From:   Andreas Helbech Kleist <andreaskleist@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Andreas Helbech Kleist <andreaskleist@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] Input: exc3000 - add ACPI support for EXC80H60
+Date:   Wed,  5 Jul 2023 11:18:16 +0200
+Message-Id: <20230705091817.1300928-1-andreaskleist@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQFEypu60gX+z1j7S/LVgPsQG8PWFQJM2ygisMIRvaA=
-Content-Language: zh-tw
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDYwMTFcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy03OTUwZmI4Zi0xYWZhLTExZWUtYTg2MS1mMDc5NTk2OWU3NWVcYW1lLXRlc3RcNzk1MGZiOTAtMWFmYS0xMWVlLWE4NjEtZjA3OTU5NjllNzVlYm9keS50eHQiIHN6PSIxMTEzOSIgdD0iMTMzMzMwMTA5NTg0ODk0MzU1IiBoPSJRU052RGUxSDd3OG1KQXJQYkIvQ2F5b0V2ckk9IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
-x-dg-rorf: true
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-HI Dmitry:
+EXC80H60 is used in Ambu aBox2 with ACPI _HID "EGA00001".
 
-1.
-> +static void elan_input_lid_event(struct input_handle *handle, 
-> +unsigned
-int type,
-> +			     unsigned int code, int value) {
-> +	struct elan_tp_data *data, *n;
-> +
-> +	if (type == EV_SW && code == SW_LID) {
-> +		list_for_each_entry_safe(data, n,
-&elan_devices_with_lid_handler, 
-> +list) {
+Snippet of from "apcidump -b; iasl ssdt2.dat" on target:
 
-Why do you need the "_safe()" variant here?
--> Because I took the above link as reference.  
-https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/3
-578852/7/drivers/hid/hid-multitouch.c#394
+        Device (TPL2)
+        {
+            Name (HID2, Zero)
+            Name (_HID, "EGA00001")  // _HID: Hardware ID
+            Name (_CID, "PNP0C50" /* HID Protocol Device (I2C bus) */)
+		// _CID: Compatible ID
+            Name (_S0W, 0x04)  // _S0W: S0 Device Wake State
+            Name (SBFB, ResourceTemplate ()
 
-2. 
-> +	data->lid_switch = true;
-> +	INIT_LIST_HEAD(&data->list);
-> +	INIT_WORK(&data->lid_work, lid_work_handler);
-> +	list_add_tail(&data->list, &elan_devices_with_lid_handler);
+Signed-off-by: Andreas Helbech Kleist <andreaskleist@gmail.com>
+---
+v2:
+- Fixed compiler warning reported by kernel test robot
 
-It looks like you call elan_create_lid_handler() from elan_probe() which
-means it can be called several times (we should not assume there is only one
-controller), I do not see it being destroyed in remove() either, so it will
-break if you bind/unbind the driver.
+ drivers/input/touchscreen/exc3000.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-I also not sure why you need the list of you have a handler per device.
-
--> If the elan_create_lid_handler() function not be put into probe(), the
-lid
-handler would be invalid in elan private data("struct elan_tp_data *data").
-Or do you have any suggestions for it? Thanks.
-
-3.
-> +	error = elan_create_lid_handler(data);
-> +	if (error)
-> +		dev_err(dev, "failed to create lid handler: %d\n", error);
-
-Do we need this on _ALL_ devices with ELan controllers, or just certain
-ones? If we need this on all devices how did it work before?
-
--> Yes, we need this on all device.
-In Chromeos kernel v5.4 before, the elan_inhibit()/uninhibit function was
-built and worked
-successfully in elan_i2c_driver.
-https://chromium.googlesource.com/chromiumos/third_party/kernel/+/refs/heads
-/chromeos-5.4/drivers/input/mouse/elan_i2c_core.c#353
-
-
-Thanks
-JINGLE
-
------Original Message-----
-From: Dmitry Torokhov [mailto:dmitry.torokhov@gmail.com] 
-Sent: Friday, June 30, 2023 6:57 AM
-To: jingle.wu <jingle.wu@emc.com.tw>
-Cc: linux-kernel@vger.kernel.org; linux-input@vger.kernel.org;
-phoenix@emc.com.tw; josh.chen@emc.com.tw; dave.wang@emc.com.tw
-Subject: Re: [PATCH] Input: elan_i2c - Implement inhibit/uninhibit
-functions.
-
-Hi Jingle,
-
-On Wed, May 31, 2023 at 05:03:40PM +0800, jingle.wu wrote:
->  Add inhibit/uninhibit functions.
-
-You need to provide justification for this change, i.e. explain why you need
-this/what is currently not working or working sub-optimally.
-
-> 
->  Signed-off-by: Jingle.wu <jingle.wu@emc.com.tw>
-> ---
->  drivers/input/mouse/elan_i2c_core.c | 207 
-> ++++++++++++++++++++++++++++
->  1 file changed, 207 insertions(+)
-> 
-> diff --git a/drivers/input/mouse/elan_i2c_core.c 
-> b/drivers/input/mouse/elan_i2c_core.c
-> index 5f0d75a45c80..4ea57f4c7bd4 100644
-> --- a/drivers/input/mouse/elan_i2c_core.c
-> +++ b/drivers/input/mouse/elan_i2c_core.c
-> @@ -56,6 +56,7 @@ struct elan_tp_data {
->  	struct input_dev	*input;
->  	struct input_dev	*tp_input; /* trackpoint input node */
->  	struct regulator	*vcc;
-> +	struct list_head list;	/* for list of devices needing input handler
-*/
->  
->  	const struct elan_transport_ops *ops;
->  
-> @@ -63,6 +64,11 @@ struct elan_tp_data {
->  	struct completion	fw_completion;
->  	bool			in_fw_update;
->  
-> +	struct work_struct	lid_work;
-> +	bool			lid_switch;
-> +	int			lid_value;
-> +	bool			in_inhibit;
-> +
->  	struct mutex		sysfs_mutex;
->  
->  	unsigned int		max_x;
-> @@ -96,6 +102,9 @@ struct elan_tp_data {
->  	u32			quirks;		/* Various quirks */
->  };
->  
-> +static struct workqueue_struct *elan_mode_wq; static 
-> +LIST_HEAD(elan_devices_with_lid_handler);
-> +
->  static u32 elan_i2c_lookup_quirks(u16 ic_type, u16 product_id)  {
->  	static const struct {
-> @@ -329,6 +338,74 @@ static int elan_initialize(struct elan_tp_data *data,
-bool skip_reset)
->  	return error;
->  }
->  
-> +static int elan_reactivate(struct elan_tp_data *data) {
-> +	struct device *dev = &data->client->dev;
-> +	int error;
-> +
-> +	error = elan_set_power(data, true);
-> +	if (error)
-> +		dev_err(dev, "failed to restore power: %d\n", error);
-> +
-> +	error = data->ops->sleep_control(data->client, false);
-> +	if (error) {
-> +		dev_err(dev,
-> +			"failed to wake device up: %d\n", error);
-> +		return error;
-> +	}
-> +
-> +	return error;
-> +}
-> +
-> +static int elan_inhibit(struct input_dev *input_dev)
-
-I would rather you did not call it inhibit/uninhibit because this is not
-what it does.
-
-Please split the logic for recalibration from logic of powering on and off
-the device. I also hope in the future firmware revisions the distinction
-will be more clear (i.e. have a separate method/command to recalibrate
-baseline on demand).
-
-> +{
-> +	struct elan_tp_data *data = input_get_drvdata(input_dev);
-> +	struct i2c_client *client = data->client;
-> +	int error;
-> +
-> +	dev_dbg(&client->dev, "inhibiting\n");
-> +	/*
-> +	 * We are taking the mutex to make sure sysfs operations are
-> +	 * complete before we attempt to bring the device into low[er]
-> +	 * power mode.
-> +	 */
-> +	error = mutex_lock_interruptible(&data->sysfs_mutex);
-> +	if (error)
-> +		return error;
-> +
-> +	disable_irq(client->irq);
-> +
-> +	error = elan_set_power(data, false);
-> +	if (error)
-> +		enable_irq(client->irq);
-> +
-> +	data->in_inhibit = true;
-> +	mutex_unlock(&data->sysfs_mutex);
-> +
-> +	return error;
-> +}
-> +
-> +static int elan_uninhibit(struct input_dev *input_dev) {
-> +	struct elan_tp_data *data = input_get_drvdata(input_dev);
-> +	struct i2c_client *client = data->client;
-> +	int error;
-> +
-> +	dev_dbg(&client->dev, "uninhibiting\n");
-> +	error = mutex_lock_interruptible(&data->sysfs_mutex);
-> +	if (error)
-> +		return error;
-> +
-> +	error = elan_reactivate(data);
-> +	if (error == 0)
-> +		enable_irq(client->irq);
-> +
-> +	data->in_inhibit = false;
-> +	mutex_unlock(&data->sysfs_mutex);
-> +
-> +	return error;
-> +}
-> +
->  static int elan_query_device_info(struct elan_tp_data *data)  {
->  	int error;
-> @@ -1187,6 +1264,124 @@ static void elan_disable_regulator(void *_data)
->  	regulator_disable(data->vcc);
->  }
->  
-> +static void lid_work_handler(struct work_struct *work) {
-> +	struct elan_tp_data *data = container_of(work, struct elan_tp_data,
-> +					    lid_work);
-> +
-> +	if (data->lid_value)
-> +		elan_inhibit(data->input);
-> +	else
-> +		elan_uninhibit(data->input);
-> +
-> +}
-> +
-> +static void elan_input_lid_event(struct input_handle *handle, unsigned
-int type,
-> +			     unsigned int code, int value) {
-> +	struct elan_tp_data *data, *n;
-> +
-> +	if (type == EV_SW && code == SW_LID) {
-> +		list_for_each_entry_safe(data, n,
-&elan_devices_with_lid_handler, 
-> +list) {
-
-Why do you need the "_safe()" variant here?
-
-> +			data->lid_value = value;
-> +			queue_work(elan_mode_wq, &data->lid_work);
-> +		}
-> +	}
-> +
-> +}
-> +
-> +struct elan_input_lid {
-> +	struct input_handle handle;
-> +};
-> +
-> +static int elan_input_lid_connect(struct input_handler *handler,
-> +				struct input_dev *dev,
-> +				const struct input_device_id *id) {
-> +	struct elan_input_lid *lid;
-> +	char *name;
-> +	int error;
-> +
-> +	lid = kzalloc(sizeof(*lid), GFP_KERNEL);
-> +	if (!lid)
-> +		return -ENOMEM;
-> +	name = kasprintf(GFP_KERNEL, "elan-i2c-lid-%s",
-dev_name(&dev->dev));
-> +	if (!name) {
-> +		error = -ENOMEM;
-> +		goto err_free_lid;
-> +	}
-> +	lid->handle.dev = dev;
-> +	lid->handle.handler = handler;
-> +	lid->handle.name = name;
-> +	lid->handle.private = lid;
-> +	error = input_register_handle(&lid->handle);
-> +	if (error)
-> +		goto err_free_name;
-> +	error = input_open_device(&lid->handle);
-> +	if (error)
-> +		goto err_unregister_handle;
-> +	return 0;
-> +err_unregister_handle:
-> +	input_unregister_handle(&lid->handle);
-> +err_free_name:
-> +	kfree(name);
-> +err_free_lid:
-> +	kfree(lid);
-> +	return error;
-> +}
-> +
-> +static void elan_input_lid_disconnect(struct input_handle *handle) {
-> +	struct elan_input_lid *lid = handle->private;
-> +
-> +	input_close_device(handle);
-> +	input_unregister_handle(handle);
-> +	kfree(handle->name);
-> +	kfree(lid);
-> +}
-> +
-> +static const struct input_device_id elan_input_lid_ids[] = {
-> +	{
-> +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT |
-INPUT_DEVICE_ID_MATCH_SWBIT,
-> +		.evbit = { BIT_MASK(EV_SW) },
-> +		.swbit = { [BIT_WORD(SW_LID)] = BIT_MASK(SW_LID) },
-> +	},
-> +	{ },
-> +};
-> +
-> +static struct input_handler elan_input_lid_handler = {
-> +	.event =	elan_input_lid_event,
-> +	.connect =	elan_input_lid_connect,
-> +	.disconnect =	elan_input_lid_disconnect,
-> +	.name =		"elan-i2c-lid",
-> +	.id_table =	elan_input_lid_ids,
-> +};
-> +
-> +static int elan_create_lid_handler(struct elan_tp_data *data) {
-> +	int error = 0;
-> +
-> +	elan_mode_wq = create_singlethread_workqueue("elan-i2c-lid");
-> +	if (elan_mode_wq == NULL)
-> +		return -ENOMEM;
-> +	error = input_register_handler(&elan_input_lid_handler);
-> +	if (error)
-> +		goto remove_wq;
-> +
-> +	data->lid_switch = true;
-> +	INIT_LIST_HEAD(&data->list);
-> +	INIT_WORK(&data->lid_work, lid_work_handler);
-> +	list_add_tail(&data->list, &elan_devices_with_lid_handler);
-
-It looks like you call elan_create_lid_handler() from elan_probe() which
-means it can be called several times (we should not assume there is only one
-controller), I do not see it being destroyed in remove() either, so it will
-break if you bind/unbind the driver.
-
-I also not sure why you need the list of you have a handler per device.
-
-> +
-> +	return 0;
-> +
-> +remove_wq:
-> +	data->lid_switch = false;
-> +	destroy_workqueue(elan_mode_wq);
-> +	elan_mode_wq = NULL;
-> +	return error;
-> +}
-> +
->  static int elan_probe(struct i2c_client *client)  {
->  	const struct elan_transport_ops *transport_ops; @@ -1325,6 +1520,10 
-> @@ static int elan_probe(struct i2c_client *client)
->  		}
->  	}
->  
-> +	error = elan_create_lid_handler(data);
-> +	if (error)
-> +		dev_err(dev, "failed to create lid handler: %d\n", error);
-
-Do we need this on _ALL_ devices with ELan controllers, or just certain
-ones? If we need this on all devices how did it work before?
-
-> +
->  	return 0;
->  }
->  
-> @@ -1334,6 +1533,10 @@ static int elan_suspend(struct device *dev)
->  	struct elan_tp_data *data = i2c_get_clientdata(client);
->  	int ret;
->  
-> +	/* Wait for switch on completion */
-> +	if (data->lid_switch)
-> +		flush_workqueue(elan_mode_wq);
-> +
->  	/*
->  	 * We are taking the mutex to make sure sysfs operations are
->  	 * complete before we attempt to bring the device into low[er] @@ 
-> -1371,6 +1574,10 @@ static int elan_resume(struct device *dev)
->  	struct elan_tp_data *data = i2c_get_clientdata(client);
->  	int error;
->  
-> +	/* Wait for switch on completion */
-> +	if (data->lid_switch)
-> +		flush_workqueue(elan_mode_wq);
-> +
->  	if (!device_may_wakeup(dev)) {
->  		error = regulator_enable(data->vcc);
->  		if (error) {
-> --
-> 2.34.1
-> 
-
-Thanks.
-
+diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchscreen/exc3000.c
+index 69eae79e2087..7a52879d8ac3 100644
+--- a/drivers/input/touchscreen/exc3000.c
++++ b/drivers/input/touchscreen/exc3000.c
+@@ -7,6 +7,7 @@
+  * minimal implementation based on egalax_ts.c and egalax_i2c.c
+  */
+ 
++#include <linux/acpi.h>
+ #include <linux/bitops.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+@@ -454,10 +455,19 @@ static const struct of_device_id exc3000_of_match[] = {
+ MODULE_DEVICE_TABLE(of, exc3000_of_match);
+ #endif
+ 
++#ifdef CONFIG_ACPI
++static const struct acpi_device_id exc3000_acpi_match[] = {
++	{ "EGA00001", .driver_data = (kernel_ulong_t)&exc3000_info[EETI_EXC80H60] },
++	{ }
++};
++MODULE_DEVICE_TABLE(acpi, exc3000_acpi_match);
++#endif
++
+ static struct i2c_driver exc3000_driver = {
+ 	.driver = {
+ 		.name	= "exc3000",
+ 		.of_match_table = of_match_ptr(exc3000_of_match),
++		.acpi_match_table = ACPI_PTR(exc3000_acpi_match),
+ 	},
+ 	.id_table	= exc3000_id,
+ 	.probe_new	= exc3000_probe,
 -- 
-Dmitry
+2.34.1
 
