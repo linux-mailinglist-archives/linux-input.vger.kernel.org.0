@@ -2,257 +2,183 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A926747C66
-	for <lists+linux-input@lfdr.de>; Wed,  5 Jul 2023 07:25:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AA78747CC3
+	for <lists+linux-input@lfdr.de>; Wed,  5 Jul 2023 08:05:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229449AbjGEFZS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Jul 2023 01:25:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49840 "EHLO
+        id S230232AbjGEGFB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Jul 2023 02:05:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229871AbjGEFZO (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Jul 2023 01:25:14 -0400
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2127.outbound.protection.outlook.com [40.107.215.127])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A4191BE9;
-        Tue,  4 Jul 2023 22:24:38 -0700 (PDT)
+        with ESMTP id S229951AbjGEGFA (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Jul 2023 02:05:00 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D0C10C3;
+        Tue,  4 Jul 2023 23:04:52 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DXyF+G8knFoXG6iKThUvocFrbOIll35uPdVVyBqYevkclpw1+cJbQA0tluXxYM2+O8wjJPRM1R/INPEG0gZQR4RtcteiZO+GDnwK4FJXlHJ88qxuGNou7DWuH86Qsc8ajvAGWejl3BSVKdxAJBtmKJ59W3JM1EDQLBfseSus03ibuAu1YQHAxmNqyEPXUudAS0TSGL+AA0ulaq0psga0KctrqeKE4WdiJXui5l7Uv/js+UdwNl8Za0sQAU0RzmD5TN9lz/9av60YOGdp23/fxbpVHKn8+8oaLJZ1K7zzW08fe1uayCLVeRM9HCjiwJBnkCD+mwyFDY/Gb553aWxOOA==
+ b=HYpEzq/Fx2R32siNWrWdDl2b0UCWoH1jmdwdHJfVD/E/8OhYaccRKhK8sfYZ8NdhTVXBHKismRMWc8bBJGiUEHUvZY7MJEp7UBVeXS5lfBmd9zmRhtTyblopCjSG8f9Ld4jfR+mHijYTWe+L5LOUy81kIzcaZ5miflCR2a+CRO8yPk0twmKKzKb9fsd+8sxU0wf+AXR5zxvbXStTKsVuzVUhamhZVPf+wgogcawjG1F42I5MBVuxQ6SObsgnypzWQjvMQLfqtKstGJgsmr2ky60Q+x78zbL2JUaK5TBDD4Kr71y7I5VQaXywYhHnEErmx7IIGyMy5LwOdW/xLFJvGQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1CxYlipi5yIx32FK1How3ukb3KrSmIrX38LmE45Mwhw=;
- b=YB0G+onFVliuZQVE/oF9uOU9FoR1+6V3apWiTOW3h0QvNf4Zv/LPZMgJOP6ORdEgxSTCB0cjmCwtQ1edNNXTycXeCDgdyyjOAsWR/RbLaSHe8hycV76ttBqmYg0EyDxXbNYWe2zjT1p0VD0AhG/US+4C/UHld0ZiNGIFDHBRW8KiKoUHKxWSOcYPVhI/KNq4JWnePiMBs2N5qSFSteE59GEJfpQC1yy1oPA8niNSYhr4fpxrXXekpXwwB/L94X1CVQ5NxNzSF7btyYUdJWms+0tVe1UTpFdMy5BSQM5cfAQn5QFDtSIYmRkbtZStgaw/IbMJghsgQwT+tv9RD0usJw==
+ bh=SsD52tFNU1DukOTMc2jN7elxwEEcaYBbelMbU5SPjZA=;
+ b=P3C+XZDb9Dg82WUMDAlvCh81MoMsnuqZCwOEpPBTgLA21UuwlgY3U6iV551evuNepe/MoPBvmXZ6o2QgBGmn0rvj0ETzkDnqHlXBRiy3H3TaQO0MKF7I8VxFzPNz9veO0h6o6m6QZxKIfGPc7TWK6RpQkh8G0hoJ3RaNkpo9/stDLm0vMiYvsaC3DTie1tiuQx75GV+gN2vhScL+1f17b1FFTyFGO22AJuorXvy+7ZII2x35wpfbU445u0sjqkGEjwIEaJdBGGzcojRKS7UIhOeq202Hk9qVry08jgZf7P8iyc33lZP3+2R/UlnV+9J563Ah81y3R1XP3yyaeVWhnA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1CxYlipi5yIx32FK1How3ukb3KrSmIrX38LmE45Mwhw=;
- b=BKYHWHZ2ju6GlkSKVianvoCMKvhh7zvPFjkv2jYNb/BoRMjxx+TuKnZzhHo0RXKX+b+G+ce61aEs8lsB47sRq17eSRaN4U9UJdgwETEoye1ZhtXebo+CEOyVWNiuaKEXTeSl95MB3MGHj9ucj4o+Bf18V2EbfmCrkPj4lxSbbK891eGJHJa/itOlC2NbHcTTr227QVsIAUxLc6Ozi1LgVKPmmCDlq3RLbIpTPO2ckKkQaTj6OcGHqO67fWs5dFYJOjtvX3aw/UM+RfcuJNo7Ec/6JAWxNulrJRYgU+pm8SWor2sS57UDphbtdTH1j1zghgU756u1Kq6m3uOWY4bjKQ==
+ bh=SsD52tFNU1DukOTMc2jN7elxwEEcaYBbelMbU5SPjZA=;
+ b=dcXTfysS53DY9c2ft7PdXa5yaj5QhXJuW7vXx1EqloGTprSQzazhM90uFgR691zPeo2xW20nmYBU9KAteADNHMyG7qrPPZzOjP/1MUWQIwLVtniI176ruj9AdjbZrsTt/VrEkAdMgPNJfoExF0QTi+6P2cjFUOJEpJ+SkKd6G4bWvZHKPBlzPG+qJ/XtD++dRb+HjL7g30Cvvk8ADLfWxcfRgEuTMlSO/s8f2w6h7iWFW1nfD5B052mg55yrHVQkFpv2CcCOVGhX3r8MKiZCanBwfd4kqaiyMT5qny2yEpHdwVV1WEHGP5owpgNjHsKePpubYnvberHDneRoe/ddnA==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
- by PSAPR06MB4069.apcprd06.prod.outlook.com (2603:1096:301:37::6) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
+ by PH7PR12MB6467.namprd12.prod.outlook.com (2603:10b6:510:1f5::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Wed, 5 Jul
- 2023 05:24:15 +0000
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::fa0e:6c06:7474:285c]) by SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::fa0e:6c06:7474:285c%5]) with mapi id 15.20.6565.016; Wed, 5 Jul 2023
- 05:24:15 +0000
-From:   Yangtao Li <frank.li@vivo.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Vladimir Zapolskiy <vz@mleia.com>
-Cc:     Yangtao Li <frank.li@vivo.com>, linux-input@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 10/10] Input: lpc32xx_ts - Convert to use devm_* api
-Date:   Wed,  5 Jul 2023 13:23:46 +0800
-Message-Id: <20230705052346.39337-10-frank.li@vivo.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230705052346.39337-1-frank.li@vivo.com>
-References: <20230705052346.39337-1-frank.li@vivo.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Wed, 5 Jul
+ 2023 06:04:50 +0000
+Received: from BYAPR12MB2743.namprd12.prod.outlook.com
+ ([fe80::ecb0:2f8e:c4bf:b471]) by BYAPR12MB2743.namprd12.prod.outlook.com
+ ([fe80::ecb0:2f8e:c4bf:b471%7]) with mapi id 15.20.6565.016; Wed, 5 Jul 2023
+ 06:04:50 +0000
+From:   Rahul Rameshbabu <rrameshbabu@nvidia.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH HID v1] HID: nvidia-shield: Pack inner/related declarations in HOSTCMD reports
+Date:   Tue,  4 Jul 2023 23:04:14 -0700
+Message-Id: <20230705060414.581468-1-rrameshbabu@nvidia.com>
+X-Mailer: git-send-email 2.40.1
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SG2PR01CA0116.apcprd01.prod.exchangelabs.com
- (2603:1096:4:40::20) To SEZPR06MB5269.apcprd06.prod.outlook.com
- (2603:1096:101:78::6)
+X-ClientProxiedBy: SJ0PR03CA0167.namprd03.prod.outlook.com
+ (2603:10b6:a03:338::22) To BYAPR12MB2743.namprd12.prod.outlook.com
+ (2603:10b6:a03:61::28)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|PSAPR06MB4069:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8226bfc6-1c0f-482a-5dc1-08db7d1812a6
+X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|PH7PR12MB6467:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9a4c279d-f35d-4327-4812-08db7d1dbe51
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SgYVzOzmI0oD8qk/jgCnyDms3wdaO2xhVpINKSlghL83P6cVTdOQf4hfz8J8bQz+k0nOd8OusVTbSBhAbaHq9yA1sFFdAwdN4cfyucgxXX5g0ZKUdzdABKJYF25NkPn1rkLduIKqWt7GywtXD2tpJIpooQcBSq5X4luye2sPWryoW5ciYXJptydywmdD6byfgSYQoRb9iGWtsHSWRSs0CdxvEkK5hliki5uXZLs4mafMFJWIPU5s7E4BB0T27tWtNfz8CjMTByTCOMFuAyPB9wQBI5KBEfMpdnI96VJPk8U/OLqoRKxYzsE74sm0wD7078eecpFV2Xyrz8BMh9x7OOoMNp9fh5Ty65rQmzWkNr8rMWU7pD0t+o1mhmev7VyMD4IT2LNV4fRO5yOnBJVjIU++nq0D4/VSj1NTIEJ2xor1KVVjJLH5NXTfnqBIe3ooRYsugaop+FbwSYA5iwhceQHu1PlbeZweIgu7OaGivl0TLqfmmOM3xOutnpNMyUJ6aiq92r3nvETPKDhjqFsexMMQ9GqlhkrWvQYKEOh3lxEFVAHn5npCyBnpxu+4zixU+bCbHuEWVPtvBYymi3ZPqmEQiq1Q58N3cT6FeSe2ILwI74ezev6THY1rSlKdK2XL
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39850400004)(396003)(136003)(376002)(346002)(366004)(451199021)(41300700001)(8936002)(8676002)(110136005)(36756003)(6486002)(316002)(5660300002)(2906002)(66476007)(4326008)(66556008)(52116002)(6666004)(478600001)(6512007)(38100700002)(38350700002)(186003)(86362001)(66946007)(2616005)(83380400001)(6506007)(1076003)(26005);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: Kbqi7BH7IUOkSRl7s+i0i3mej9K0aBUDnorCDtR4y3lLkasL59Bo9O27NeZmVWekQw/M9bpxXeAeIz1pr1bczkih1jk0F5V16+hUdSTMR7NPfnl62YZqnPphYVS26qFD/nubi/N+V/Dj38XlqmZqCZcvuWvW05530G5l+btFkmATHjoWGndIa/YGmfx8zgjebur3RVBGsZ6o55qbCsrVFlr5oON78pAKLO9lFJ3vZMEfXAzSd056p/VweTahnSjju29AgF+PV4n6Wppu4XIUjEhYfB8T1GkwyEYWXHb9DbNwUmX8z4YSXFYGhKZ2RJy2S1Zb8guhdfiSnQFiIDXuYR1Gi+xTKVLyCyg5I+pdY2kGTdtmBljbAMrHtVcG/7jkjnZSPkbnSEHNrKS9FDHcEXbg6ckIFMIkCqg2+WwdonfZvfNWygHucgZOm+V96TX+mRu7P8QJbwFvNzxM4/fO5yxvUpWgJY7pdqz6TANRKAZc1NyMPb9hPNa8MPXnrDxGFEMt3VDEWK4qrGfhw7KvEdXlreahXUy7vt7q8hNAKAEXDiK0auTO+lfcfJ4dhBFwgRQrUqKH/3gDpWJh2MTiHmuN9COV4iwbZ9yqG9fwVAnWsyVf/1a0nvODCJYFqQaSUFtsX5JLn4zCHk/z1xYwHw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(136003)(396003)(39860400002)(366004)(451199021)(186003)(478600001)(966005)(6512007)(1076003)(6506007)(26005)(86362001)(2616005)(6666004)(38100700002)(110136005)(66556008)(66476007)(316002)(66946007)(83380400001)(4326008)(54906003)(6486002)(41300700001)(5660300002)(2906002)(36756003)(8936002)(8676002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?32ixnQGnDY2JkgLPTznB+WU0PI/sLloebq5jQdVasTiWktGtt0Ii2qv4o2F8?=
- =?us-ascii?Q?jgAKESDobfS70q40+nZI4NBH1x4RUot4W09sJveC9QWwLJP/+q7s540zMlWk?=
- =?us-ascii?Q?E018GBIVurzIIycQ7rnTtghnD2R+h40IQEm7xzNTYxrKOKGJ2RN18Zt1k885?=
- =?us-ascii?Q?mjsEt7Ua05c+4N0mCXMy/M8YIaOwsDAl3dPGqIb1/e0e2prlgasze5bUc4Ei?=
- =?us-ascii?Q?ji/gdUbRTUY31crohVfpVuQ6nNVoOmGA/TpFS0MGj5jA3OTLqkKedMDEsBa4?=
- =?us-ascii?Q?S6JhmXFdbVTrsa/rH0ghpAmvc2oYE6T42Cm7+wEkteZ5ez3zd5gf70TbYdGn?=
- =?us-ascii?Q?evUu6Gbkj9vFf9bnljF5wt3SQMaFn0yfidczQR3qR7PhCww3rYnPKv3qmYvA?=
- =?us-ascii?Q?kcxizgolgZCsYKL3lvlEkMJF0EVGXVLfYb0OW5cCbGaBuYsIeyFZfv2N3DRj?=
- =?us-ascii?Q?VdxTg78pX5mEdSlMKEEh+d1qrRZzMTddSTYoqN3rbsWiqiyNvfGV8VdB59RZ?=
- =?us-ascii?Q?Z0cLX8V6jzK7ehysMGNwVHfmLAJcsbbOCbbn0DlurgI/VFufSKqxHVFtsF5O?=
- =?us-ascii?Q?0H+hlvZB9ss4jquJTgKJgbN/BMioJBj09g1spFg8czFZxpwDGlLJZvl8J8F5?=
- =?us-ascii?Q?wYQ/cxMwBMCCu4QwFwqdDU8x0om1lW1VM9cXuv7H7vlf25lGYktiu7NTrhSw?=
- =?us-ascii?Q?TuRcFXXZo2wxr06os7zOfbedrHFRyAnZW2ufuWEtuAD/kiMSu58KPCceytRP?=
- =?us-ascii?Q?iyUBTXAvY6hXGatA6ggRmZFH0BWywRhv6Fz4bPclSziDtAEpsQ8TFiUFhUWB?=
- =?us-ascii?Q?5Ba7qII5elFFlTcpJKCx6tZquMltd+ubTV1g9ND+9mLFzqfrnCbeNI5AI/gG?=
- =?us-ascii?Q?StWFNcYA27uRreGLgCSxD76fQEOvMbR5Gs/7P3ByOTDTgH5PnSjeuRGzirtT?=
- =?us-ascii?Q?q+OOdoQTvjfw4hm1XOH7MQxu93RrbfLLV9JLbqWzqyLQUB/MOrpxdSaKtebJ?=
- =?us-ascii?Q?p5YqSDTR4E7ZQyKjA/5s/dCI2fSXj02dHLMIex/8Rd7EzsU89qqu95oQXCjC?=
- =?us-ascii?Q?dmjtbmRDsa5d79uF2dGmOrrhIm4VJPnsvnsPKjq2D8d9FhFRra7H2eRe2zpG?=
- =?us-ascii?Q?Dt7h040tT6qznk+JBQIWWPvtn+TzHjxFuCZkQOjdx3IIOLMNOPiyc9ldq620?=
- =?us-ascii?Q?R3+9YOgx6DTzGoahXWHWR445Mx5YAiHI1FnFBjPLDttknNt5t/Y4h3XFCmPj?=
- =?us-ascii?Q?SC4wii/jxQ0dMpbFrJhOq7uBn66T1dEaB/NmiHAHuK4aOJzKtJ0t1nuBf/Uf?=
- =?us-ascii?Q?3aGy6mqbjjHcMnL4Wio5WcbFHFHMxvbEqjULqGijZd0qWuu0NIKmg5NyFQsf?=
- =?us-ascii?Q?3oBBH+c8tmPJBdTh87bx/t3Ffw9r3RukqSYCuQYWXPEIegq77O7GgItTAAXi?=
- =?us-ascii?Q?E9uaFREviCmcA3i+XX5X9eWNLfvIe8xSC6gLMABShiq42n9oXXMxL9Jf0v6W?=
- =?us-ascii?Q?cu0alh2cPjalDqsbopoLUHVmu5hQ+rpERm6RO4L7+QMBLQieREXv3ITyMu59?=
- =?us-ascii?Q?s5aT3JEY2TE7PV6VOICfdbQQHENAxV9QrIJcWXKD?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8226bfc6-1c0f-482a-5dc1-08db7d1812a6
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?p+nc/PcVV+MXcs2bi+LroLenWEB79CY57GZHda1nnwDbqxn9n1raD24n//N4?=
+ =?us-ascii?Q?nFD9LG24WtbvPWh03ag8f1wXxlrM8C6DGvROdt6wCh/uwAZLJn1kxgwmmlwD?=
+ =?us-ascii?Q?k1q8xgPWOM9sd3L1dHOykKXMmgRRY8+MQf3wReq2R724rdC4oiJW1HfVRl2N?=
+ =?us-ascii?Q?A2IS9LOgdw35RnuGdJNLIcRJl6u0tXmmgfuWPmIbnsKqDQ9gK3zobRPUOK6f?=
+ =?us-ascii?Q?fG4SRYpq9rKq5nkZwrb4FFPr91pyuJPW4BfcwY4l05QaXnIkIYJfbskIiMML?=
+ =?us-ascii?Q?0xMaOi104/Lj3GlUnyfKc1Hm9/zOKzyI5Gn2iQjbD9Fr9qdrQRjW/uqodGjG?=
+ =?us-ascii?Q?NojQMRxInMN3M5eAFMkz8ozseXvd9LfJTwqmSy1H0quyyVEIXx02VbWrLH9i?=
+ =?us-ascii?Q?bG+Ilptc1dtGmnR5uBNsJA8quam4tjJNutR89ONFPXz+rHmoJ4gXMJRKBQz6?=
+ =?us-ascii?Q?J3B7G/dOTwKbLIr4ttCrlDzIr/PVM3Ct5ocj1olg93oHYobuH1bM7pmJSd3E?=
+ =?us-ascii?Q?XLD1EfgLAPCbv0649sdp7JQAxLC7EQChhsPvBAorqKwse9SaMs3j52APbA9d?=
+ =?us-ascii?Q?REafMFY+OF9jFitwE3ipFy5AHiys05ZOlOnBLhhka4rD/9D32WM4CpdT/XLM?=
+ =?us-ascii?Q?xno3oAqVTJYiGEzIVyBGdb1FEzdML6i7nYWCCfLuoJm6wZXEDn54rh0qCSxi?=
+ =?us-ascii?Q?5Xx7COeO6nGxWB/uZQd50TKpVuulRpPC10uNxkWkgJwuAIJ/xHZcLHi686il?=
+ =?us-ascii?Q?xTXm6z6+Q6aTf5CtrBawLZkUglqNg/Xn0zzEbkJg9bNpazQcRf6GVwERsMDE?=
+ =?us-ascii?Q?Q3YH6947Ym8f4ELHHulx+6Ac52aElnZ+SlLXfxPgJPTORjD6uHgucAXaMlCm?=
+ =?us-ascii?Q?4KUpt/42oD3hv+l/oQjgOSsP6ODBOeULOEI6E8eCczr8LvCcS1jshwsu5sxs?=
+ =?us-ascii?Q?IAD25u/T+JEpLq7X6Ty/8LzAyJdil0Co6/lLrBo6bBznJ/5ebuwsaF6WFuUA?=
+ =?us-ascii?Q?IhnUXNRw0OgfJHX3f3AAkwLbmV4JvwnydfVi13ffx35TUXKuLrOvGsZunx2Q?=
+ =?us-ascii?Q?UlHPvq+WPcvGH4AhBXy5WGQsTsBWBEEXWe2POBmamxiGgq6zFhLprEZF6ZwO?=
+ =?us-ascii?Q?GpgIVzxka8tH3B/wXYTZ9OCdr6KEyBuY//YcbOgijMYv7qDsPldDtbUZ3YG9?=
+ =?us-ascii?Q?c/e1LfeplC8p89U9ErzA6Bb+/AmcYYoF/MB3VxHv3xGosl+Jg81RTG7FQkFo?=
+ =?us-ascii?Q?0L06JsiYtThp191mK7eP5XrfnGToDZE6LtY81W2BHYNaMXMcMCDvGxxmbTsn?=
+ =?us-ascii?Q?q/oKywiFIw4NZBb/wkAVdfGBjslzLuVx7AftIw4ZTAkwX6C3F70NXgLt3Jc2?=
+ =?us-ascii?Q?c+vmp8QWpUi0P0ZAfbrnSQ+JTBOkrp5hks7gfZ1gjFIkjrhbNa5wqa1fGyFE?=
+ =?us-ascii?Q?SDelN/JmX9ADTnDJT6A28z9VjzGAi8trMuTNxlCWAY63T4AI5kLsokb6DK79?=
+ =?us-ascii?Q?GL2XJ68YB45B2GiuQtDu2s0uRT44xjlI9FZ+lB9jGd+PGpxrFJxeGZNWnL8n?=
+ =?us-ascii?Q?1U3g/Y/uQHpRfl/l2ZOFpHLj5e7twSGX/k6ESBPl?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a4c279d-f35d-4327-4812-08db7d1dbe51
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2023 05:24:15.0213
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2023 06:04:50.5097
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UHUydFxrhfKhfAltxvIWmlqn2pBt2SK/UJs4Q9Qv2fDKrBb47QPVoIVL2qtfmTBs9gVM0fsoeAmLSX+1ZlBgMw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PSAPR06MB4069
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-UserPrincipalName: C+IQbAKJLXuGkUA43V0T52XSvXUh3asXp2A8ESBvdnZHbo9CI129hw9xeGt/VD/JGmISHbeEOND/2cD8nhFcKw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6467
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Use devm_* api to simplify code, this makes it unnecessary to explicitly
-release resources.
+Match alignment information in composite type declarations used by packed
+HOSTCMD report structures. Compiler packing attribute is not recursive for
+inner declarations. Mismatched alignment information can cause undefined
+behavior in code generated for accessing composite type members. struct
+pointers passed to thunderstrike_parse_board_info_payload and
+thunderstrike_parse_haptics_payload are an example of this being
+potentially problematic since alignment information from the packed HOSTCMD
+report is lost.
 
-Signed-off-by: Yangtao Li <frank.li@vivo.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202307041500.6bKn7nCl-lkp@intel.com/
+Link: https://github.com/llvm/llvm-project/issues/55520#issuecomment-1128617570
+Link: https://gcc.gnu.org/onlinedocs/gcc-13.1.0/gcc/Common-Type-Attributes.html#index-packed-type-attribute
+Signed-off-by: Rahul Rameshbabu <rrameshbabu@nvidia.com>
 ---
- drivers/input/touchscreen/lpc32xx_ts.c | 75 +++++---------------------
- 1 file changed, 14 insertions(+), 61 deletions(-)
+ drivers/hid/hid-nvidia-shield.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/input/touchscreen/lpc32xx_ts.c b/drivers/input/touchscreen/lpc32xx_ts.c
-index ffdd748a9992..d30ce1380f72 100644
---- a/drivers/input/touchscreen/lpc32xx_ts.c
-+++ b/drivers/input/touchscreen/lpc32xx_ts.c
-@@ -198,54 +198,34 @@ static void lpc32xx_ts_close(struct input_dev *dev)
+diff --git a/drivers/hid/hid-nvidia-shield.c b/drivers/hid/hid-nvidia-shield.c
+index 85700cec5eac..a928ad2be62d 100644
+--- a/drivers/hid/hid-nvidia-shield.c
++++ b/drivers/hid/hid-nvidia-shield.c
+@@ -63,12 +63,12 @@ static_assert(sizeof(enum thunderstrike_led_state) == 1);
+ struct thunderstrike_hostcmd_board_info {
+ 	__le16 revision;
+ 	__le16 serial[7];
+-};
++} __packed;
  
- static int lpc32xx_ts_probe(struct platform_device *pdev)
- {
-+	struct device *dev = &pdev->dev;
- 	struct lpc32xx_tsc *tsc;
- 	struct input_dev *input;
--	struct resource *res;
--	resource_size_t size;
- 	int irq;
- 	int error;
+ struct thunderstrike_hostcmd_haptics {
+ 	u8 motor_left;
+ 	u8 motor_right;
+-};
++} __packed;
  
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!res) {
--		dev_err(&pdev->dev, "Can't get memory resource\n");
--		return -ENOENT;
--	}
--
- 	irq = platform_get_irq(pdev, 0);
- 	if (irq < 0)
- 		return irq;
+ struct thunderstrike_hostcmd_resp_report {
+ 	u8 report_id; /* THUNDERSTRIKE_HOSTCMD_RESP_REPORT_ID */
+@@ -81,7 +81,7 @@ struct thunderstrike_hostcmd_resp_report {
+ 		__le16 fw_version;
+ 		enum thunderstrike_led_state led_state;
+ 		u8 payload[30];
+-	};
++	} __packed;
+ } __packed;
+ static_assert(sizeof(struct thunderstrike_hostcmd_resp_report) ==
+ 	      THUNDERSTRIKE_HOSTCMD_REPORT_SIZE);
+@@ -92,15 +92,15 @@ struct thunderstrike_hostcmd_req_report {
+ 	u8 reserved_at_10;
  
--	tsc = kzalloc(sizeof(*tsc), GFP_KERNEL);
--	input = input_allocate_device();
-+	tsc = devm_kzalloc(dev, sizeof(*tsc), GFP_KERNEL);
-+	input = devm_input_allocate_device(dev);
- 	if (!tsc || !input) {
- 		dev_err(&pdev->dev, "failed allocating memory\n");
--		error = -ENOMEM;
--		goto err_free_mem;
-+		return -ENOMEM;
- 	}
- 
- 	tsc->dev = input;
- 	tsc->irq = irq;
- 
--	size = resource_size(res);
--
--	if (!request_mem_region(res->start, size, pdev->name)) {
--		dev_err(&pdev->dev, "TSC registers are not free\n");
--		error = -EBUSY;
--		goto err_free_mem;
--	}
--
--	tsc->tsc_base = ioremap(res->start, size);
--	if (!tsc->tsc_base) {
--		dev_err(&pdev->dev, "Can't map memory\n");
--		error = -ENOMEM;
--		goto err_release_mem;
--	}
-+	tsc->tsc_base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(tsc->tsc_base))
-+		return PTR_ERR(tsc->tsc_base);
- 
--	tsc->clk = clk_get(&pdev->dev, NULL);
-+	tsc->clk = devm_clk_get(dev, NULL);
- 	if (IS_ERR(tsc->clk)) {
- 		dev_err(&pdev->dev, "failed getting clock\n");
--		error = PTR_ERR(tsc->clk);
--		goto err_unmap;
-+		return PTR_ERR(tsc->clk);
- 	}
- 
- 	input->name = MOD_NAME;
-@@ -267,58 +247,31 @@ static int lpc32xx_ts_probe(struct platform_device *pdev)
- 
- 	input_set_drvdata(input, tsc);
- 
--	error = request_irq(tsc->irq, lpc32xx_ts_interrupt,
--			    0, pdev->name, tsc);
-+	error = devm_request_irq(dev, tsc->irq, lpc32xx_ts_interrupt,
-+				 0, pdev->name, tsc);
- 	if (error) {
- 		dev_err(&pdev->dev, "failed requesting interrupt\n");
--		goto err_put_clock;
-+		return error;
- 	}
- 
- 	error = input_register_device(input);
- 	if (error) {
- 		dev_err(&pdev->dev, "failed registering input device\n");
--		goto err_free_irq;
-+		return error;
- 	}
- 
- 	platform_set_drvdata(pdev, tsc);
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	return 0;
--
--err_free_irq:
--	free_irq(tsc->irq, tsc);
--err_put_clock:
--	clk_put(tsc->clk);
--err_unmap:
--	iounmap(tsc->tsc_base);
--err_release_mem:
--	release_mem_region(res->start, size);
--err_free_mem:
--	input_free_device(input);
--	kfree(tsc);
--
--	return error;
- }
- 
- static int lpc32xx_ts_remove(struct platform_device *pdev)
- {
- 	struct lpc32xx_tsc *tsc = platform_get_drvdata(pdev);
--	struct resource *res;
- 
- 	lpc32xx_stop_tsc(tsc);
- 
--	free_irq(tsc->irq, tsc);
--
--	input_unregister_device(tsc->dev);
--
--	clk_put(tsc->clk);
--
--	iounmap(tsc->tsc_base);
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	release_mem_region(res->start, resource_size(res));
--
--	kfree(tsc);
--
- 	return 0;
- }
- 
+ 	union {
+-		struct {
++		struct __packed {
+ 			u8 update;
+ 			enum thunderstrike_led_state state;
+ 		} led;
+-		struct {
++		struct __packed {
+ 			u8 update;
+ 			struct thunderstrike_hostcmd_haptics motors;
+ 		} haptics;
+-	};
++	} __packed;
+ 	u8 reserved_at_30[27];
+ } __packed;
+ static_assert(sizeof(struct thunderstrike_hostcmd_req_report) ==
 -- 
-2.39.0
+2.40.1
 
