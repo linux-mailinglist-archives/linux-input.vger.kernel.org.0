@@ -2,90 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4417A748DD3
-	for <lists+linux-input@lfdr.de>; Wed,  5 Jul 2023 21:32:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88086748FA4
+	for <lists+linux-input@lfdr.de>; Wed,  5 Jul 2023 23:22:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234159AbjGETcN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Jul 2023 15:32:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43398 "EHLO
+        id S230094AbjGEVWo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Jul 2023 17:22:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234145AbjGETcM (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Jul 2023 15:32:12 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C4FD183;
-        Wed,  5 Jul 2023 12:32:12 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-666eb03457cso29922b3a.1;
-        Wed, 05 Jul 2023 12:32:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688585531; x=1691177531;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=W9x6oxUx9tH7D0x/gLZxVpZVMqHeZPpBOII1XPg86iU=;
-        b=FoOXRLY5GhxSeGLL6PsXfnyH0OylHWW1/RC0w/5E8pmnAGZ/MYfdcpl6So2azqI4Lg
-         +uM8m0BbbTmGlMtlG2z48Vyz0YQ3Q687Pp759DYAm/6FWQUeZQ4MrkCZ3J8DjTMfPiYY
-         vVqmMLk/LTAQlQXu5tTJoVh2UIGNS1zfiYoW26PdqYhJhPPZ5aauW/cmxsJJCfIQLT2P
-         GoVC8cr2iZ2RiMozYGPXmaX3uGiBPnHM6yy07TprABEQ7hf+n/0fGXhsmUdM/i/uTmLx
-         V+Ao+iB3wIwZYa4kcFeing3LCzr7+LtKtqmq7vIWpXPphBc0efyRIqTRvXjWyc0yl5YH
-         EWCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688585531; x=1691177531;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W9x6oxUx9tH7D0x/gLZxVpZVMqHeZPpBOII1XPg86iU=;
-        b=k5Wpxc7Ir8C0KL8IbR9NnUabz614lw3p5+QN4rBa4kpnXNkLR14AmT7pRulrqZYWqX
-         a2yron8dLFQJFWgnsHNpt2V0xEXTtlQEg17ad9WREuKr4lloKFDU1ITPhx97v/MVFG43
-         EH+HjvqHoRxPnL8i3HNgWB6xcYDiItQQ17g8Q9DVTgRiopTPAmVh5/mCgUtqp8rlD0l+
-         5CVKIqPiheShyOv2xHqxmta4bb7wWWwQLIJJE9vt0zNC702tRjdhZv9ZhfD5CkwOyUhl
-         91lVx+Wrc9uJ7kWFsq4dUKKMjIt1DoObO0MlQKTdbrqDT4NvJAODZMwmjuHamcOnCypN
-         Kaiw==
-X-Gm-Message-State: ABy/qLbFbFmW0WOP6+5x86uXf1ge7kP5oi/ZwGOX1zp49iBSm44SpWO5
-        jMlNOv4jO2aoWn9aUI+IFq/EBvyPL0E=
-X-Google-Smtp-Source: APBJJlEjA5oA16bZdRvKrZsKuVfDXRTEFpiuEQ4EbkeRx1tVVjBk+Q18SvBD3ITwSjc0pP9uOCTwtA==
-X-Received: by 2002:a05:6a00:2346:b0:673:5d1e:6657 with SMTP id j6-20020a056a00234600b006735d1e6657mr17198734pfj.7.1688585531348;
-        Wed, 05 Jul 2023 12:32:11 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:9fac:a99f:7f0a:397])
-        by smtp.gmail.com with ESMTPSA id a17-20020a62e211000000b0066ccb8e8024sm17175313pfi.30.2023.07.05.12.32.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jul 2023 12:32:11 -0700 (PDT)
-Date:   Wed, 5 Jul 2023 12:32:08 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andreas Helbech Kleist <andreaskleist@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Input: exc3000 - add ACPI support for EXC80H60
-Message-ID: <ZKXFOPOxIB2+huwS@google.com>
-References: <20230705091817.1300928-1-andreaskleist@gmail.com>
+        with ESMTP id S229645AbjGEVWn (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Jul 2023 17:22:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BC4B19AB;
+        Wed,  5 Jul 2023 14:22:42 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1361961765;
+        Wed,  5 Jul 2023 21:22:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D8AAC433C8;
+        Wed,  5 Jul 2023 21:22:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1688592159;
+        bh=zEbZvxn5fHAXN8wkkwLFfJjiHHQqVko83vXSFT/m0PA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SpjjCh1no/gyThf2euEDM7MLxsUeTXZpNPO/G3V13Ft73jekRwJVbA7HE8GrCMIP6
+         xldTzHgZ0ZHvi1+I7m3H2A8SMK2a4YLM0/m/jE/Zqg++zKn+aPZvako9yqN+UOLWhx
+         au3WTeyN+xd4S+TdB4fSy1hRVYZIXiuzCWk3pPtDneNTvWorgAHKiKndwH5LogInEa
+         gna2C8WpgGREiFEhE9rsjMATjh6PZ0vIgtNQiU0p9Xv/zJ5wwvrCkVxSW4Ai3eSrmI
+         xKZd8ucp+xcnyQJEzdZI/qvVRwgSBdqjp9KOAc8KFd3lOMDd3EMBVAcg90MzbISuLo
+         PPuoFG0R7nxcw==
+Received: by mercury (Postfix, from userid 1000)
+        id CB9C3106702D; Wed,  5 Jul 2023 23:22:36 +0200 (CEST)
+From:   Sebastian Reichel <sre@kernel.org>
+To:     Sebastian Reichel <sre@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH v1] Input: cpcap-pwrbutton - replace GPLv2 boilerplate with SPDX
+Date:   Wed,  5 Jul 2023 23:22:31 +0200
+Message-Id: <20230705212231.631525-1-sre@kernel.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230705091817.1300928-1-andreaskleist@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jul 05, 2023 at 11:18:16AM +0200, Andreas Helbech Kleist wrote:
-> EXC80H60 is used in Ambu aBox2 with ACPI _HID "EGA00001".
-> 
-> Snippet of from "apcidump -b; iasl ssdt2.dat" on target:
-> 
->         Device (TPL2)
->         {
->             Name (HID2, Zero)
->             Name (_HID, "EGA00001")  // _HID: Hardware ID
->             Name (_CID, "PNP0C50" /* HID Protocol Device (I2C bus) */)
-> 		// _CID: Compatible ID
->             Name (_S0W, 0x04)  // _S0W: S0 Device Wake State
->             Name (SBFB, ResourceTemplate ()
-> 
-> Signed-off-by: Andreas Helbech Kleist <andreaskleist@gmail.com>
+Replace the GPLv2 boilerplate text with a nice and short
+SPDX header.
 
-Applied, thank you.
+Signed-off-by: Sebastian Reichel <sre@kernel.org>
+---
+Based on afbc67a90c7ccef304796af15477b43de5555b07
+("Input: cpcap-pwrbutton - remove initial kernel-doc notation")
+---
+ drivers/input/misc/cpcap-pwrbutton.c | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
+diff --git a/drivers/input/misc/cpcap-pwrbutton.c b/drivers/input/misc/cpcap-pwrbutton.c
+index 5aff5a7d6a35..85cddb84717a 100644
+--- a/drivers/input/misc/cpcap-pwrbutton.c
++++ b/drivers/input/misc/cpcap-pwrbutton.c
+@@ -1,16 +1,8 @@
++// SPDX-License-Identifier: GPL-2.0-only
+ /*
+  * CPCAP Power Button Input Driver
+  *
+  * Copyright (C) 2017 Sebastian Reichel <sre@kernel.org>
+- *
+- * This file is subject to the terms and conditions of the GNU General
+- * Public License. See the file "COPYING" in the main directory of this
+- * archive for more details.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+  */
+ 
+ #include <linux/module.h>
 -- 
-Dmitry
+2.40.1
+
