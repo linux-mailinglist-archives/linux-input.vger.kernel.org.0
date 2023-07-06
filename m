@@ -2,56 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 268A6749DEA
-	for <lists+linux-input@lfdr.de>; Thu,  6 Jul 2023 15:38:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AA1D74A121
+	for <lists+linux-input@lfdr.de>; Thu,  6 Jul 2023 17:37:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232439AbjGFNir (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 Jul 2023 09:38:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53194 "EHLO
+        id S232178AbjGFPhD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 Jul 2023 11:37:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232468AbjGFNiq (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Jul 2023 09:38:46 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A7DC19A0
-        for <linux-input@vger.kernel.org>; Thu,  6 Jul 2023 06:38:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688650710; x=1720186710;
-  h=date:from:to:cc:subject:message-id;
-  bh=snjTVtquLQJrpYWeiwOOrT1Yd9lEQGivTiiOe5aMmm4=;
-  b=IruZwt0jSQMDys3rc0r8ARBzyRv4UIIFHnNhvySWgMiwIQ8jzNmHG27J
-   4U7XvY4ZZdZAKvlGKvQZufLAAXRt5Nn2NDBVNjN1hTbc5t+OvEw7Zb7iH
-   TIrGqPPmIi7ZKootQrtNTnfqWmTebMv4XcUBiMo8mk+jgf4Z5712aOlZl
-   gZYCKIFb0iFumMrJTAsNmQSrtm513Vu4VKaVDPZV+N55DtwHOuFKdj1Oh
-   a0pZ0l4q7NfRyJsL8HNT96RD/UEOwyd6EB3Sf8AKv4gZWiH5KcreM4AT8
-   PTy8ye/rLnZoxe/jQZgBfbDhP+49RYnylgy+F9+Q/lUaZGlf2jZD+ylFy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="353442661"
-X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
-   d="scan'208";a="353442661"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 06:38:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="696849165"
-X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
-   d="scan'208";a="696849165"
-Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 06 Jul 2023 06:38:26 -0700
-Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qHPBh-0001Li-1p;
-        Thu, 06 Jul 2023 13:38:25 +0000
-Date:   Thu, 06 Jul 2023 21:37:55 +0800
-From:   kernel test robot <lkp@intel.com>
+        with ESMTP id S232151AbjGFPhC (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Jul 2023 11:37:02 -0400
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2061.outbound.protection.outlook.com [40.107.6.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3834619A7;
+        Thu,  6 Jul 2023 08:36:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=topic.nl; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CqrqktqfUgj/GNzMGRuQLDSJPxUw3uZs4mizzJI51Go=;
+ b=jluPlj05clu/4SnsC6SOoM/svp591W+txifUXrUl34IOLeKVHDtER1Kq4q7AUxuxxXjzXHBWId/GjT+OhzFr8XeYGVhqVa0e9jaGwrJd3I/DTJ9HVz5KlTq74YWI0j2ypEOM2TeC6UDnt49LSWmrxQYnoLPMDfEWN24mkR2lyxRCwEQQZ9Ek/d34UIFma9pmdWJrFvONpgbvpSLb+5JNnrhdJuARuYJT4Zl7uLk9ixWF3t1bcfyhLE/BExrKmevmA1crZVa6EuRkoczfSknWjNGm55x/cDC1MBlDVu+Cmy9JSGpi2VhRYSbdrp80H1LXr8vIWkkRezJtGmsRBOylUg==
+Received: from DB6PR0301CA0082.eurprd03.prod.outlook.com (2603:10a6:6:30::29)
+ by PAXPR04MB9218.eurprd04.prod.outlook.com (2603:10a6:102:221::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Thu, 6 Jul
+ 2023 15:36:55 +0000
+Received: from DB5EUR01FT048.eop-EUR01.prod.protection.outlook.com
+ (2603:10a6:6:30:cafe::8e) by DB6PR0301CA0082.outlook.office365.com
+ (2603:10a6:6:30::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.18 via Frontend
+ Transport; Thu, 6 Jul 2023 15:36:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.93.157.195)
+ smtp.mailfrom=topicproducts.com; dkim=fail (signature did not verify)
+ header.d=topic.nl;dmarc=none action=none header.from=topic.nl;
+Received-SPF: Pass (protection.outlook.com: domain of topicproducts.com
+ designates 20.93.157.195 as permitted sender)
+ receiver=protection.outlook.com; client-ip=20.93.157.195;
+ helo=westeu11-emailsignatures-cloud.codetwo.com; pr=C
+Received: from westeu11-emailsignatures-cloud.codetwo.com (20.93.157.195) by
+ DB5EUR01FT048.mail.protection.outlook.com (10.152.5.166) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6565.24 via Frontend Transport; Thu, 6 Jul 2023 15:36:55 +0000
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (104.47.17.172) by westeu11-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12) via SMTP; Thu, 06 Jul 2023 15:36:54 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gNvSlRh81u4kQuEwLfZErkMXLfOBd8bApEQvCNmIOwmxghD4wUiPoa09WQaj1FC+UmysHwvvPvlzTYrWX3LGqw4oZ7sRSXNqqItpktjCBEQYmj/55rPljkkahC3wTmH5t2i9C2ElYybtM0DbeaECtEGT8YVpSjGbxeTxaiHRvsgNDAd13Cwi/6wQlhtqgaZ0uSliCDkj53yPgPDAkGmI+30T5n3VLeQrvoNT6sNh73NZITlN/0tRH5vndHrrGj6slg69xCwkrGHzSf7heNfCRpnR7xzie+4NxtzTfl8s4wLSvYUf7JzxrjcprvabWC5h+UZy02o+IDqJ6D+DfApHFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Kpp0JdpCRlqZLbzckmLinSBFgI1SOgHHgMsMvt8bgpo=;
+ b=RQH42F2esbfgz/FQ7PaQJJmbJ9IcL5m+rqNU7dpjyDSjjiyV6TTBRekvjLw8q2eQwMWk14oAqOOT0r7Ajf1U1GzZKUzRmO2zMchmzjv4IubUw1Ctv5IO7vJ7Mq99fjuFEUzk1633Xks9v3qIcrsbKVKlylRNtj3/xV4EjWkPKroJdWoUF2U/dIvhGYzO1ojnqCiWYg+tRxWPXMn71Bm/tK91xHBGOLOVWwi8PcpdnVBSAIfx1s+IP3CUWBbMYSkssY8YHiBvmv/2ZUujCxjADPadEucBQhZLI9V3NwvDRDkCzTTxipYIDcR8iGJObuMnb1WHZ4Z/CyP6YUdsMKR1bQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=topicproducts.com; dmarc=pass action=none header.from=topic.nl;
+ dkim=pass header.d=topic.nl; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=topic.nl; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Kpp0JdpCRlqZLbzckmLinSBFgI1SOgHHgMsMvt8bgpo=;
+ b=DnTlg50D0hUHwnEb7iXBsx4e73e+FxQwAeWKtR2zqGuVMSSTsIs0vbG7nbezEZ8Jj1xGJ2WLRsomZeOgkmDiHpdNGHojbEXL94KT8KvyEua/bjsgaKFJ0gBPcx4VwVcwmHgMOSatddJtWF1pApyYVuPT64qESEEaYMsi2Sz7sdQF6xNLjVsP0VkF536zOJP3qeR9oiaDfzTrVG+m8Yh91hZdPVL9LhVSfXIFrJEw+Gm6//MQoXqqL/TI9aaOw/EmuoOwROuzpkYLu/cJCozmXXrYLi2nXj3ZBLGCONRAvuFCiR7095BiRKSpuehCcpb2vGky8oWMul2E7V22T5lX+Q==
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=topic.nl;
+Received: from DB8PR04MB6523.eurprd04.prod.outlook.com (2603:10a6:10:10f::26)
+ by DB8PR04MB6827.eurprd04.prod.outlook.com (2603:10a6:10:f8::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Thu, 6 Jul
+ 2023 15:36:52 +0000
+Received: from DB8PR04MB6523.eurprd04.prod.outlook.com
+ ([fe80::4cd1:3e90:54e5:9696]) by DB8PR04MB6523.eurprd04.prod.outlook.com
+ ([fe80::4cd1:3e90:54e5:9696%5]) with mapi id 15.20.6565.016; Thu, 6 Jul 2023
+ 15:36:51 +0000
+Message-ID: <25c9fb72-90b1-1ab4-e5c9-73c838bd8e0b@topic.nl>
+Date:   Thu, 6 Jul 2023 17:36:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+From:   Mike Looijmans <mike.looijmans@topic.nl>
+Subject: Re: [PATCH 2/2] Input: exc3000 - Support power supply regulators
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 650cda2ce25f08e8fae391b3ba6be27e7296c6a5
-Message-ID: <202307062154.uzrBdlLY-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+CC:     devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        linux-kernel@vger.kernel.org
+References: <20230703084536.8429-1-mike.looijmans@topic.nl>
+ <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.12499438-d166-465a-8847-b25e1baa3dad@emailsignatures365.codetwo.com>
+ <20230703084536.8429-2-mike.looijmans@topic.nl> <ZKXlYbsk+6MPfeWy@google.com>
+Content-Language: en-US
+Organization: Topic
+In-Reply-To: <ZKXlYbsk+6MPfeWy@google.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: AM0PR01CA0104.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:10e::45) To DB8PR04MB6523.eurprd04.prod.outlook.com
+ (2603:10a6:10:10f::26)
+MIME-Version: 1.0
+X-MS-TrafficTypeDiagnostic: DB8PR04MB6523:EE_|DB8PR04MB6827:EE_|DB5EUR01FT048:EE_|PAXPR04MB9218:EE_
+X-MS-Office365-Filtering-Correlation-Id: af625f2f-8344-44cd-da2e-08db7e36d3fc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: ++8z9aMEg1FnFJj67FUbuBkxEwspsokTNpMJDOnR4xn4+1QlqOQD+aBf4hMWTJvheAEEDw5qIYU1v6PRCTHLWg7Lk9zFVbPIs2BiQwLfx36SJntvSoEjGUxS8vO4OOhGYyXc3OejL9umzfherYE3hnYhslyCw24kFEJvadfZyXazKgG9iGfZMIO7xlSU/gaWYbFcfOyJOJ3tNEqYiyqLy8p89bo8Ygzm3MADAkdLZ+TdfiTblomKxUW1dPRS2tHX6z4ll/n8kAi144kr2ahM4lYWzFUSl9hZu2EMMDw4H1aVqrvCkdmY+bLl9LRJAx76PHwgDKWEWXsJtEh+qAzF8GClATrmO5LM7qC7/Qy3M0v7Y9V51/h9EJUdghCDYutB4KjNJWL22bjkUfnSxHJyKiQYTvxUuE6UeiO9H56DIaP254b4Y8vyLN+m9ewNkUx+Dh1/QjX9El3Qpfi4pW69g+iDIc4w73PvYe6L+OlTMFRMroTpjPLNCNOhPD8AvPyd6SVg4v6xv11KQB6AEakjsrLpVWpRDN3yrkMJtchBcpYBypfuxOZ79JDa/8ttHJ7zTSJCu/38MkJH+qCo/PWj5KNXWL3xnrnwZx6XYmwh60ljMh7gvx2S8f77twkLZFqGzSQX8HUHupflOpJR7liPjUDb6Qj2XrOIos/udVLCCHE=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR04MB6523.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39840400004)(376002)(366004)(136003)(396003)(346002)(451199021)(31686004)(36756003)(31696002)(15974865002)(5660300002)(2906002)(44832011)(6512007)(83380400001)(42882007)(186003)(26005)(6506007)(53546011)(66476007)(52116002)(6486002)(36916002)(2616005)(66946007)(38350700002)(316002)(4326008)(66556008)(38100700002)(83170400001)(6916009)(478600001)(8936002)(8676002)(41300700001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6827
+X-CodeTwo-MessageID: 9ae65542-8069-4fda-8e92-73814a6f00f5.20230706153654@westeu11-emailsignatures-cloud.codetwo.com
+X-CodeTwoProcessed: true
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5EUR01FT048.eop-EUR01.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 3184e51d-46f5-419d-ffcb-08db7e36d1c0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7XkYcdebb55fZnIdaP6qKOJ5WOUKcMeaa6d46uXeZGVRRQiin4YalPiWtMFcBzWGuzSkBvZ9ccQO11+SFj8qLhlay8OUznBCycLeWhWbMz39tPn0WeNnf8Xfs14HVFsZ4aQwO987opwqpOAd+R8gpuLueWBC0f24L6i8odgD/8o/8Hk0o2+LiAfchF3BHljQDCLaBu4bZeA5ls5Jolx8mfc3vbwbO50bJL/2g/Awn/0z7p414CTiEr4wv2YkUJ+mJix6Myxdn6Z9of+BbTrk7YLgv4wi76HZiG9ewY/QMTFWqLea1DwW6iYHlIMxWVVzv0HVJa6wW9+MrL53ZqvNgMVvxVRofTRDMXphKS7jJpnRk8txjB31VPCT0HmT6+37nuJk8v+jX0rYT09kFfe5t79fNHGpPDvAI47astwJ6VRM+LJ0+WEa0szAlYxK17ECxu65zswDcuHQE6IxB/Vq4nAKTSHvKPIXpDMk7iXIrDM0ZdEbFbBDnNmgGXxDRliSrlYdkvAVKjeyLylVuDZ1o6NB4GWYDSE+zT6r8aPiEbhW5PddR6dix03x/x9DKvCaknz/0JlihJDLSG0RYvHVxUyp+HhLl4AZJeXExDuNJd3Vt7hm1CfenSagYxG/S0dp9DTVvSgXbdNG2uy/Y7FMhUlyDPeCmQ5g9xDYDYM6QznDfY0yWYWYlMjtaTQLcKeIgwN2ClM31OulfDqH0m3axysAXv/luh+iNMTRIDyQVRNsN5VzRFNlzRTapAxhgiqP+KNw/8E/oJP+Ytlo+hIdgw==
+X-Forefront-Antispam-Report: CIP:20.93.157.195;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:westeu11-emailsignatures-cloud.codetwo.com;PTR:westeu11-emailsignatures-cloud.codetwo.com;CAT:NONE;SFS:(13230028)(4636009)(39840400004)(376002)(346002)(396003)(136003)(451199021)(36840700001)(46966006)(70206006)(478600001)(36916002)(6486002)(70586007)(82310400005)(26005)(53546011)(336012)(42882007)(6506007)(36860700001)(6512007)(186003)(2906002)(41300700001)(8936002)(4326008)(316002)(5660300002)(44832011)(8676002)(7636003)(7596003)(356005)(83170400001)(6916009)(15974865002)(31696002)(47076005)(83380400001)(36756003)(2616005)(40480700001)(31686004)(43740500002)(18886075002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: topic.nl
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2023 15:36:55.1704
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: af625f2f-8344-44cd-da2e-08db7e36d3fc
+X-MS-Exchange-CrossTenant-Id: 449607a5-3517-482d-8d16-41dd868cbda3
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=449607a5-3517-482d-8d16-41dd868cbda3;Ip=[20.93.157.195];Helo=[westeu11-emailsignatures-cloud.codetwo.com]
+X-MS-Exchange-CrossTenant-AuthSource: DB5EUR01FT048.eop-EUR01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9218
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,183 +124,76 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 650cda2ce25f08e8fae391b3ba6be27e7296c6a5  Input: gameport - add ISA and HAS_IOPORT dependencies
+On 05-07-2023 23:49, Dmitry Torokhov wrote:
+> Hi Mike,
+>
+> On Mon, Jul 03, 2023 at 10:45:36AM +0200, Mike Looijmans wrote:
+>> Add power supply regulator support to the exc3000 devices.
+>>
+>> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+>>
+>> ---
+>>
+>>   drivers/input/touchscreen/exc3000.c | 7 +++++++
+>>   1 file changed, 7 insertions(+)
+>>
+>> diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchsc=
+reen/exc3000.c
+>> index 4af4c1e5d0da..3e50af8a4a2d 100644
+>> --- a/drivers/input/touchscreen/exc3000.c
+>> +++ b/drivers/input/touchscreen/exc3000.c
+>> @@ -18,6 +18,7 @@
+>>   #include <linux/interrupt.h>
+>>   #include <linux/module.h>
+>>   #include <linux/of.h>
+>> +#include <linux/regulator/consumer.h>
+>>   #include <linux/sizes.h>
+>>   #include <linux/timer.h>
+>>   #include <asm/unaligned.h>
+>> @@ -360,6 +361,12 @@ static int exc3000_probe(struct i2c_client *client)
+>>   	if (IS_ERR(data->reset))
+>>   		return PTR_ERR(data->reset);
+>>  =20
+>> +	/* For proper reset sequence, enable power while reset asserted */
+>> +	error =3D devm_regulator_get_enable_optional(&client->dev, "vdd");
+>> +	if (error && error !=3D -ENODEV)
+>> +		dev_err_probe(&client->dev, error,
+>> +			      "failed to request vdd regulator\n");
+>
+> If there is a regulator described in the firmware we should not continue
+> with initializing the device if we fail to grab/enable it. Think about
+> what happens if you get -EPROBE_DEFER here. You should return here.
 
-elapsed time: 725m
+True, good catch, I forgot the "return" here (which in all honesty was=20
+the reason for using dev_err_probe in the first place...).
 
-configs tested: 163
-configs skipped: 9
+> Also, why are you using the _optional() variant? VDD is not an optional
+> for the controller. regulator_get_optional() is needed when you need to
+> alter the behavior of the device/driver depending on the presence of an
+> optional supply, whereas here it should work fine with a sub supply that
+> will be created if you simply call devm_regulator_get_enable() and there
+> is not regulator mentioned in DT/ACPI for the board.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Indeed, "optional" isn't correct here (I probably had the clock variant=20
+in mind), a dummy regulator is fine.
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r043-20230706   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                          collie_defconfig   clang
-arm                                 defconfig   clang
-arm                                 defconfig   gcc  
-arm                          exynos_defconfig   gcc  
-arm                          gemini_defconfig   gcc  
-arm                       imx_v4_v5_defconfig   clang
-arm                         lpc18xx_defconfig   gcc  
-arm                   milbeaut_m10v_defconfig   clang
-arm                            mps2_defconfig   gcc  
-arm                         mv78xx0_defconfig   clang
-arm                  randconfig-r002-20230706   gcc  
-arm                  randconfig-r014-20230706   clang
-arm                  randconfig-r046-20230706   clang
-arm                         s5pv210_defconfig   clang
-arm                           sama7_defconfig   clang
-arm                         socfpga_defconfig   clang
-arm                           tegra_defconfig   gcc  
-arm                    vt8500_v6_v7_defconfig   clang
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r004-20230706   clang
-arm64                randconfig-r024-20230706   gcc  
-arm64                randconfig-r032-20230706   clang
-csky                                defconfig   gcc  
-csky                 randconfig-r033-20230706   gcc  
-hexagon                          alldefconfig   clang
-hexagon              randconfig-r031-20230706   clang
-hexagon              randconfig-r041-20230706   clang
-hexagon              randconfig-r045-20230706   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r004-20230706   clang
-i386         buildonly-randconfig-r005-20230706   clang
-i386         buildonly-randconfig-r006-20230706   clang
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230706   clang
-i386                 randconfig-i002-20230706   clang
-i386                 randconfig-i003-20230706   clang
-i386                 randconfig-i004-20230706   clang
-i386                 randconfig-i005-20230706   clang
-i386                 randconfig-i006-20230706   clang
-i386                 randconfig-i011-20230706   gcc  
-i386                 randconfig-i012-20230706   gcc  
-i386                 randconfig-i013-20230706   gcc  
-i386                 randconfig-i014-20230706   gcc  
-i386                 randconfig-i015-20230706   gcc  
-i386                 randconfig-i016-20230706   gcc  
-i386                 randconfig-r005-20230706   clang
-i386                 randconfig-r031-20230706   clang
-i386                 randconfig-r035-20230706   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r001-20230706   gcc  
-loongarch            randconfig-r025-20230706   gcc  
-loongarch            randconfig-r034-20230706   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                       m5249evb_defconfig   gcc  
-m68k                            q40_defconfig   gcc  
-m68k                 randconfig-r023-20230706   gcc  
-m68k                           sun3_defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                          malta_defconfig   clang
-mips                 randconfig-r012-20230706   clang
-mips                 randconfig-r032-20230706   gcc  
-mips                           rs90_defconfig   clang
-nios2                               defconfig   gcc  
-nios2                randconfig-r035-20230706   gcc  
-openrisc             randconfig-r022-20230706   gcc  
-openrisc             randconfig-r024-20230706   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r011-20230706   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                   currituck_defconfig   gcc  
-powerpc                     ep8248e_defconfig   gcc  
-powerpc                          g5_defconfig   clang
-powerpc                  iss476-smp_defconfig   gcc  
-powerpc                   lite5200b_defconfig   clang
-powerpc                     mpc5200_defconfig   clang
-powerpc               mpc834x_itxgp_defconfig   clang
-powerpc                     mpc83xx_defconfig   gcc  
-powerpc                      pcm030_defconfig   gcc  
-powerpc                      ppc64e_defconfig   clang
-powerpc                    sam440ep_defconfig   gcc  
-powerpc                     tqm8541_defconfig   gcc  
-powerpc                 xes_mpc85xx_defconfig   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                    nommu_virt_defconfig   clang
-riscv                randconfig-r016-20230706   gcc  
-riscv                randconfig-r021-20230706   gcc  
-riscv                randconfig-r023-20230706   gcc  
-riscv                randconfig-r036-20230706   clang
-riscv                randconfig-r042-20230706   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r044-20230706   gcc  
-sh                               allmodconfig   gcc  
-sh                         ecovec24_defconfig   gcc  
-sh                   randconfig-r001-20230706   gcc  
-sh                   randconfig-r026-20230706   gcc  
-sh                           se7751_defconfig   gcc  
-sh                             sh03_defconfig   gcc  
-sh                   sh7724_generic_defconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r012-20230706   gcc  
-sparc                randconfig-r016-20230706   gcc  
-sparc64              randconfig-r011-20230706   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                   randconfig-r002-20230706   gcc  
-um                   randconfig-r025-20230706   clang
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r001-20230706   clang
-x86_64       buildonly-randconfig-r002-20230706   clang
-x86_64       buildonly-randconfig-r003-20230706   clang
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-r026-20230706   gcc  
-x86_64               randconfig-r033-20230706   clang
-x86_64               randconfig-r034-20230706   clang
-x86_64               randconfig-r036-20230706   clang
-x86_64               randconfig-x001-20230706   gcc  
-x86_64               randconfig-x002-20230706   gcc  
-x86_64               randconfig-x003-20230706   gcc  
-x86_64               randconfig-x004-20230706   gcc  
-x86_64               randconfig-x005-20230706   gcc  
-x86_64               randconfig-x006-20230706   gcc  
-x86_64               randconfig-x011-20230706   clang
-x86_64               randconfig-x012-20230706   clang
-x86_64               randconfig-x013-20230706   clang
-x86_64               randconfig-x014-20230706   clang
-x86_64               randconfig-x015-20230706   clang
-x86_64               randconfig-x016-20230706   clang
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                  cadence_csp_defconfig   gcc  
-xtensa                          iss_defconfig   gcc  
-xtensa               randconfig-r004-20230706   gcc  
-xtensa               randconfig-r015-20230706   gcc  
-xtensa               randconfig-r022-20230706   gcc  
-xtensa                    xip_kc705_defconfig   gcc  
+BTW, I also have a patch in store that tries to "recover" the device=20
+(using its reset when possible) if it isn't responding or if it causes=20
+I2C errors. Took several weeks uptime for this to occur spontaneously on=20
+our hardware, so I'll wait for this series so I can put that patch on=20
+top of this one.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Mike Looijmans
+System Expert
+
+TOPIC Embedded Products B.V.
+Materiaalweg 4, 5681 RJ Best
+The Netherlands
+
+T: +31 (0) 499 33 69 69
+E: mike.looijmans@topic.nl
+W: www.topic.nl
+
+
+
