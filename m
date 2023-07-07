@@ -2,89 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 77C4B74AD69
-	for <lists+linux-input@lfdr.de>; Fri,  7 Jul 2023 10:54:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E8E874ADDA
+	for <lists+linux-input@lfdr.de>; Fri,  7 Jul 2023 11:37:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231623AbjGGIy4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 7 Jul 2023 04:54:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40204 "EHLO
+        id S232473AbjGGJhL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 7 Jul 2023 05:37:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229767AbjGGIyz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Jul 2023 04:54:55 -0400
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA4091FE6
-        for <linux-input@vger.kernel.org>; Fri,  7 Jul 2023 01:54:53 -0700 (PDT)
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-265826eef7fso1181116a91.0
-        for <linux-input@vger.kernel.org>; Fri, 07 Jul 2023 01:54:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688720093; x=1691312093;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=torgUPAhXS1H2G3DGUbQjuzvoRVARhYShNxl4DjsIiY=;
-        b=ThAbgj9DcCst0ZU3h5g6diOeIhn1GvejCKT3kBNiSkfu/dvE8etAjc9xJRVMJULhH4
-         R+1ISVrrikwLHEOYWeS8d5jV+jPpmZqxTsL7WdRKlBdlCn94JWwucXzhMfD/hK+SO9NU
-         FhSGYzFBNzmpMHhROnEKacnTtsJETq7xwYtQDaimuvECa/rackZeB5el9X4XGiit5vue
-         zYOo+qbKdyYm7G9WQ1GsRB3N5BUOqd5fZqdM4i422O5nYYQ30Sg/H6GCWRFpKV3UYt/v
-         /Om/tYrNOngwu10OLgf+vPxMJ15K6HrskPD+Bm5OPXKToHm9VkE4MUBLyW5I2dESPCjx
-         /OYA==
-X-Gm-Message-State: ABy/qLZPI+eIA5UMNqlM7gDhylVl8kFUGlMq8fzWiIUBt4kLfaer63+5
-        BquuYB4MSi8eBpS7WFAf+SqG5Mf6Xmd0W3STbq/pMouSak8+NpY=
-X-Google-Smtp-Source: APBJJlEj0qsc1paNuAYlGMumGyfVNkMx6Ck/As9XIIOsGAYkXhB68q9QBrRGARXmfN9NeynZzeP9VWb6TT+J1nzVydHRrxv0obmn
+        with ESMTP id S231732AbjGGJhK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Jul 2023 05:37:10 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF0712106;
+        Fri,  7 Jul 2023 02:37:08 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1qHhtj-0001oz-6m; Fri, 07 Jul 2023 11:37:07 +0200
+Message-ID: <b42cd529-15f2-1206-ad7b-aafe557b8fb9@leemhuis.info>
+Date:   Fri, 7 Jul 2023 11:37:06 +0200
 MIME-Version: 1.0
-X-Received: by 2002:a17:90a:4302:b0:263:3727:6045 with SMTP id
- q2-20020a17090a430200b0026337276045mr3483863pjg.4.1688720093144; Fri, 07 Jul
- 2023 01:54:53 -0700 (PDT)
-Date:   Fri, 07 Jul 2023 01:54:52 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000046ef4805ffe1c9b4@google.com>
-Subject: [syzbot] Monthly input report (Jul 2023)
-From:   syzbot <syzbot+list1a4115131c3a1defb044@syzkaller.appspotmail.com>
-To:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: amd_sfh driver causes kernel oops during boot
+Content-Language: en-US, de-DE
+To:     Haochen Tong <linux@hexchain.org>, stable@vger.kernel.org
+Cc:     regressions@lists.linux.dev, linux-input@vger.kernel.org,
+        Basavaraj Natikar <basavaraj.natikar@amd.com>,
+        Mario Limonciello <mario.limonciello@amd.com>
+References: <f40e3897-76f1-2cd0-2d83-e48d87130eab@hexchain.org>
+From:   "Linux regression tracking #update (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <f40e3897-76f1-2cd0-2d83-e48d87130eab@hexchain.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1688722628;3c44945a;
+X-HE-SMSGID: 1qHhtj-0001oz-6m
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello input maintainers/developers,
+[TLDR: This mail in primarily relevant for Linux kernel regression
+tracking. See link in footer if these mails annoy you.]
 
-This is a 31-day syzbot report for the input subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/input
+On 23.05.23 19:27, Haochen Tong wrote:
+> 
+> Since kernel 6.3.0 (and also 6.4rc3), on a ThinkPad Z13 system with Arch
+> Linux, I've noticed that the amd_sfh driver spews a lot of stack traces
+> during boot. Sometimes it is an oops:
 
-During the period, 2 new issues were detected and 0 were fixed.
-In total, 11 issues are still open and 48 have been fixed so far.
+For the record:
 
-Some of the still happening issues:
+#regzbot resolve: fixed in newer firmware and mainline post-6.4;
+backport not planned, as bug unlikely to repeat, but possible when needed
+#regzbot ignore-activity
 
-Ref Crashes Repro Title
-<1> 2737    Yes   WARNING in input_mt_init_slots
-                  https://syzkaller.appspot.com/bug?extid=0122fa359a69694395d5
-<2> 936     Yes   WARNING in implement
-                  https://syzkaller.appspot.com/bug?extid=38e7237add3712479d65
-<3> 102     Yes   general protection fault in hidraw_release
-                  https://syzkaller.appspot.com/bug?extid=953a33deaf38c66a915e
-<4> 5       Yes   INFO: task hung in uhid_char_release
-                  https://syzkaller.appspot.com/bug?extid=8fe2d362af0e1cba8735
-<5> 3       No    KASAN: slab-use-after-free Read in remove_wait_queue
-                  https://syzkaller.appspot.com/bug?extid=e0b9084463edf54b83c4
+For details see Mario's explanation here (thx for it, btw):
+https://lore.kernel.org/all/89ea9fb7-9026-ccb6-ad88-50e1c28b4474@amd.com/
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
