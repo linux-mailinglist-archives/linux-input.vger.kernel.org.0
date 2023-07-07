@@ -2,115 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EE9074B184
-	for <lists+linux-input@lfdr.de>; Fri,  7 Jul 2023 15:11:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C54574B600
+	for <lists+linux-input@lfdr.de>; Fri,  7 Jul 2023 19:52:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232181AbjGGNLF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 7 Jul 2023 09:11:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42660 "EHLO
+        id S232408AbjGGRwC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 7 Jul 2023 13:52:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232134AbjGGNLE (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Jul 2023 09:11:04 -0400
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02on2056.outbound.protection.outlook.com [40.107.241.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EE9F1FF0;
-        Fri,  7 Jul 2023 06:11:00 -0700 (PDT)
+        with ESMTP id S229530AbjGGRwB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Jul 2023 13:52:01 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2075.outbound.protection.outlook.com [40.107.220.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE0B3AF;
+        Fri,  7 Jul 2023 10:52:00 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L2QOjgIliM7itAwZNMcgE6kNyiRIXsjIw3EWSkHjF+FnIrU/7jT7pZbD8BmcF7hhDbpkphoSMu0BF6FwhFm6/fL3ENm6Ve4hLcHr8nAnNvcf06LpXutjPhXCJJjaAgtwaO3GF2ohQIw7/wzpjA377QUctLRm/ReDfWsbgH9MokwgsoVFsBDC2hXJgKu9vcWOJxU6ji7aRWuuyLZIyoeO2xJT7gYpQJov4biQFyBUbbeb256b0KzO+08dKz2tSpdo30LQ8Nl66zb/GDMSsLSUxwoSCsNwkIZNs/n65RFrKLZY058+0eCNEXJqVz1WRHNwFrycJJE8OE+fcD3zgKZH2w==
+ b=CSerZKrwZQD6tcMjRZOKtTp/V3MMzBlIYdSciZDRtK+c30AiE8uf2h5p8nUzlKAtorOrXEMZGJxOfURygXKmLvtEKpGCmXlAN4fyJ6UflraR8BEyukwq0t6y8lgwKLmWFduuUH9zRLbIofer4KPVJVFXbWjtrlM5p/q+JOYreQ+m15akvnNkAk1ToTloNvPOCCsy5N2WMDW6p9gYt23qoJtgOFH9dp9drX/Rp6YjMP8XYVWQF7ak0iDkxNRULr/arQQu9xBgzU6Iacwq9n4fY8HH8Y3lbTxCUbzE6Co56cWXRECXdqVRCgDlIGbm6QJLsa1RLylwSNYFhGcfetLqeQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GVgvWbkOF/IFTQLpsubIH02XoZ8iTo+ESZhSIIaVwxc=;
- b=F3eTD94GMZ1W9lRyb65JADQPTPbhN3UdU4SSRaT60j5R6Tm70hHsc9c5hBD3pFiJc22qZvIee27FzKovSOVpA6RT4wOJWdgahT1ygp/Rg75aW4vlw2/7O8heCSJOms+5dv2WrbRnk1F3XNPlYIYyNwerd9srK+gToDRdEwlBf5/dkUs1oQ0RHxAs7zNGNcfJWlwejHaPDfb0Xr3BMlrpoOEEd4FRjZ2hWBIEh8hMJ5NWcXj/vHvpIJ+hWwBN7nShqnZAM9e++C40gVMBY7ivk0cMvQK+HrDtutJakxObwkr32GvE9KAvWVy4rmmlTMtEXWcMywj40YB+ByW0OlYJ7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 20.93.157.195) smtp.rcpttodomain=vger.kernel.org
- smtp.mailfrom=topicproducts.com; dmarc=none action=none header.from=topic.nl;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=topic.nl; s=selector2;
+ bh=A+GwzdoClc7ro2qsOvrUfRYMLyMiOLDqn/oR9Nrkwsk=;
+ b=OzvgGAwyWCIQ3/TTXlr14110N5NhnodZ8hVTGvgiLKnzDMwCpk6f7r3AVG21BV8DMbmu2viWRHOUeaPeijNlOvOshCQ2yknMOXsElhnWXO+140v51Pt+1sdxe8pJDekL2u83bauxvVQsPG/anZJwsk/vjnRvQV4EbLA8av7mlFK5RoVYsBsmo0Ac63l0Bo74o4AQ+jDNiRYN7stv+iJW5UWlJmxWa5DtAUWskiUJQN78Pv1D3ECG5dupWP0PKg4Q6gQ4zU1HXKZPLQxX3VkbAx6clSFr0n1Hc14EN7JS/pqJpEoDzlQ3Al2xgFvNhTAJblFOFx/dDxSpCv5326L+pQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GVgvWbkOF/IFTQLpsubIH02XoZ8iTo+ESZhSIIaVwxc=;
- b=MTHYILH1/Oi0p1UtRchnP1wnS2j6iJjc/k26UNn2SaWbvFVGJfSOfs1GGMQceboya1zPHv7qz94HdhduHty1B5/jNfjVwm8X0CEiQ6TUulHZYNDBT1WYtmR5Ddd1Ri3Fl3ZL0WGbXsMN/Z9qXCuQ7U1S+u6yjwPfYu2QRXLhaohA3l9At/lN2Qy6ZNrDW67xX6Sux+DDZSnGRLFzQcnkiE73PFmWtqphziBDkqxnzd+gUMgJW5pLyfeiqFXsC/nzR9ckUHCpIcw1vhhojmFiiacLQoiWDPlM1gTFB+n506wFsU9rNalM9utqru09dNEYG+JTaBAzspOKvigo0hLDzQ==
-Received: from OS6P279CA0179.NORP279.PROD.OUTLOOK.COM (2603:10a6:e10:38::17)
- by AM9PR04MB8524.eurprd04.prod.outlook.com (2603:10a6:20b:433::13) with
+ bh=A+GwzdoClc7ro2qsOvrUfRYMLyMiOLDqn/oR9Nrkwsk=;
+ b=r6gGovTdXNnWprksckLqrvbJhykWtyUEl4Z7GPblGiLMFpOZtc40IzY/1Fyw5FrJw5DRIihQHbSRvC/3LyD6QpnKwXtFOvhjwdoGfgi9y09U8GUzkUlDRcDVwMbg+MXGk7h+eBJFSEHx+H9UPInCMq1KWe3lE02CuSB6+MYxdrml6FXA6PkoJZ+5yMXmsp42oEPCE7mbeZRy0qVWtXiUH82yDuVviwd+77ZTL8W54hKUb2Q8+DejTTy9jw4kPLJS/Fa7dLBm9bX4UaktKJk8sGqtIa5xu4NW+yIs+7nt3PgrUw++NE++39ZSEXAw2Q5ujKnNIpNpLXTGHOnSQejBhQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
+ by PH8PR12MB7304.namprd12.prod.outlook.com (2603:10b6:510:217::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Fri, 7 Jul
- 2023 13:10:57 +0000
-Received: from HE1EUR01FT043.eop-EUR01.prod.protection.outlook.com
- (2603:10a6:e10:38:cafe::83) by OS6P279CA0179.outlook.office365.com
- (2603:10a6:e10:38::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.25 via Frontend
- Transport; Fri, 7 Jul 2023 13:10:57 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.93.157.195)
- smtp.mailfrom=topicproducts.com; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=topic.nl;
-Received-SPF: Pass (protection.outlook.com: domain of topicproducts.com
- designates 20.93.157.195 as permitted sender)
- receiver=protection.outlook.com; client-ip=20.93.157.195;
- helo=westeu11-emailsignatures-cloud.codetwo.com; pr=C
-Received: from westeu11-emailsignatures-cloud.codetwo.com (20.93.157.195) by
- HE1EUR01FT043.mail.protection.outlook.com (10.152.0.207) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6588.13 via Frontend Transport; Fri, 7 Jul 2023 13:10:57 +0000
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (104.47.11.42) by westeu11-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12) via SMTP; Fri, 07 Jul 2023 13:10:56 +0000
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=topic.nl;
-Received: from DB8PR04MB6523.eurprd04.prod.outlook.com (2603:10a6:10:10f::26)
- by AS8PR04MB8817.eurprd04.prod.outlook.com (2603:10a6:20b:42c::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Fri, 7 Jul
- 2023 13:10:52 +0000
-Received: from DB8PR04MB6523.eurprd04.prod.outlook.com
- ([fe80::4cd1:3e90:54e5:9696]) by DB8PR04MB6523.eurprd04.prod.outlook.com
- ([fe80::4cd1:3e90:54e5:9696%5]) with mapi id 15.20.6565.016; Fri, 7 Jul 2023
- 13:10:52 +0000
-From:   Mike Looijmans <mike.looijmans@topic.nl>
-To:     devicetree@vger.kernel.org, linux-input@vger.kernel.org
-CC:     Mike Looijmans <mike.looijmans@topic.nl>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] Input: exc3000 - Support power supply regulators
-Date:   Fri, 7 Jul 2023 15:10:42 +0200
-Message-ID: <20230707131042.10795-2-mike.looijmans@topic.nl>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230707131042.10795-1-mike.looijmans@topic.nl>
-References: <20230707131042.10795-1-mike.looijmans@topic.nl>
- <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.e9863e93-aebd-4f13-b014-08dab638277d@emailsignatures365.codetwo.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.25; Fri, 7 Jul
+ 2023 17:51:58 +0000
+Received: from BYAPR12MB2743.namprd12.prod.outlook.com
+ ([fe80::ecb0:2f8e:c4bf:b471]) by BYAPR12MB2743.namprd12.prod.outlook.com
+ ([fe80::ecb0:2f8e:c4bf:b471%7]) with mapi id 15.20.6565.025; Fri, 7 Jul 2023
+ 17:51:58 +0000
+From:   Rahul Rameshbabu <rrameshbabu@nvidia.com>
+To:     Fabio Baltieri <fabiobaltieri@chromium.org>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 RESEND] HID: hid-google-stadiaff: add support for
+ Stadia force feedback
+References: <20230707104035.1697204-1-fabiobaltieri@chromium.org>
+Date:   Fri, 07 Jul 2023 10:51:48 -0700
+In-Reply-To: <20230707104035.1697204-1-fabiobaltieri@chromium.org> (Fabio
+        Baltieri's message of "Fri, 7 Jul 2023 10:40:35 +0000")
+Message-ID: <87fs5zboej.fsf@nvidia.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Content-Type: text/plain
-X-ClientProxiedBy: AM8P190CA0014.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:20b:219::19) To DB8PR04MB6523.eurprd04.prod.outlook.com
- (2603:10a6:10:10f::26)
+X-ClientProxiedBy: BYAPR11CA0102.namprd11.prod.outlook.com
+ (2603:10b6:a03:f4::43) To BYAPR12MB2743.namprd12.prod.outlook.com
+ (2603:10b6:a03:61::28)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: DB8PR04MB6523:EE_|AS8PR04MB8817:EE_|HE1EUR01FT043:EE_|AM9PR04MB8524:EE_
-X-MS-Office365-Filtering-Correlation-Id: b112cde5-bed6-4676-4505-08db7eeb9a2e
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|PH8PR12MB7304:EE_
+X-MS-Office365-Filtering-Correlation-Id: d4f4d783-1f6a-4bf7-ad03-08db7f12dc41
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: X2n2s8PiEkgZLi2Qw6TwHMnopaRnt0zA1sCY4tPxdYwSPl3ql3gnHynUmqC2ZwSAS/HuxA1xEjCE55m3IRhNqWqgya0nMHQfjTWsMk1rkCftQ/4H0Driej659mV8zwS9uYr7En6saSpN4H1WDRtU+2W7eS/55YQ2UMS1zYq9lyLP4uUDJo0iN5pU3gTJ9d5UpS4R0RLvw48G9PT8Mbzp0Dy+fdxWr/R6bSE5KE2b6RTElNy+6g9Ihee8+0ZZKK4lbRe7GiaS5CW8W0ICQ5h9C0tmxB6dOm8fj8COpJtmjn5cUKX7L5xs5uEsD2E0+W7RajJFASLANl5dw99VeKwHkRZ7NDfJuYvWb/ONHWdnvYVNdhp24PZPMTeEObPHvzVhJhFOWs6KRYHktXZZxVfqO6JHc/7/g0ao6rfq7DSmxb1h24GvrwlrfafB0DV5479AFeqy1b4loaAaWspFdm4gYOFaNH9MevQ4A6XH8oVixrtTMH9l0zU0xx7IW9s3AIh3XhgPC0qTvevOYpr+B4RTFmNhr6++ME1VlB0mNFLf2dg3hjJb65l67zNJ1ktBCsQsfqCfcZvq4wyVS2K5UHju5+ZGyVb1DpPaqMz3AM80OD5nPUCxr9zlrmHX8+tIx5Bk
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR04MB6523.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(39840400004)(366004)(346002)(376002)(136003)(451199021)(6486002)(6666004)(52116002)(6512007)(42882007)(186003)(6506007)(1076003)(26005)(83380400001)(36756003)(2616005)(38350700002)(38100700002)(83170400001)(66556008)(66476007)(66946007)(4326008)(44832011)(316002)(2906002)(8936002)(8676002)(5660300002)(41300700001)(54906003)(478600001);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8817
-X-CodeTwo-MessageID: f70c9e22-1b55-4047-9e8f-d0ed698bd164.20230707131055@westeu11-emailsignatures-cloud.codetwo.com
-X-CodeTwoProcessed: true
-Content-Transfer-Encoding: quoted-printable
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: HE1EUR01FT043.eop-EUR01.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 6f31972c-e10b-49f1-e944-08db7eeb961d
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: w3Rx3djhfBd8IUfAGV8AzbGy4z04FiIMULp/5uGoa3bD0rTmGVxq7IwB83+jA4vzJYgq3AGSi+CPue1G4mOICN5PJfGQvziTSsP0abkEmoWrmtZveLqkmNIboTlvDMusq18jnE4Q1bDwDLKgTUPt8C4jQByT0CIy+Y7KTh3k6J0hBY0wtqAPsS8Bwk48JW7MuBaTx2abun1njX1B2YcbTVCfsfFtjyl4VHuxJdTFGRJbe4ju+zF15fFHUzKtpAcyHJMG5cHLCddGBaybqDH+ZV/SFXGAR5WJYAzaA6xB7yslH22bUX6mI9petKyW3MeZt4LfgYdgAQMjSuWhaXMInB4uv+tESm3EuO3XdLSidkBVgL9PzEQLAT9x9lMv/ew/pWZbED0F1u6t2MxNUwXTWT06LCqhZ1uTrvetPGwnyl0zDxcC6x+tWyokqaHHuShFOxPUOaqBsc1XtuT9j/6iHpsm2C1omDOK6GeEuE+CPIpBQNq/c2FXdAV2nIQLFm0XpxqhqzQhOc3WdF68fnyYF+u7xZWaE8MqpngWg/U5Uta/ZkH/4QdIPIDIBpOzPN1plFzAbh+VLgZgQg7T14UEC2opBI/VZ7iQzY7KhVGD9NoKND2PWzfnl+iZLYDbF5hB/E5D5FYthA6rGXcVVHtKEwNLzdhgxXTzZjygtAdi5s+DdUmaWrt6uK62Acl9ZkTC
-X-Forefront-Antispam-Report: CIP:20.93.157.195;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:westeu11-emailsignatures-cloud.codetwo.com;PTR:westeu11-emailsignatures-cloud.codetwo.com;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(39840400004)(396003)(136003)(451199021)(46966006)(36840700001)(44832011)(8936002)(8676002)(36860700001)(83380400001)(41300700001)(47076005)(83170400001)(5660300002)(316002)(336012)(2906002)(2616005)(42882007)(70586007)(40480700001)(70206006)(356005)(7596003)(7636003)(4326008)(82310400005)(54906003)(186003)(6486002)(1076003)(26005)(15974865002)(6506007)(478600001)(36756003)(6512007)(6666004);DIR:OUT;SFP:1101;
-X-OriginatorOrg: topic.nl
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2023 13:10:57.0476
+X-Microsoft-Antispam-Message-Info: 9EbFp+zTQA/2/v8KrYe7a9u5dcxTkcLRcS8XyX3+KzvosUB9n5cyVfyLmvOjO+rxv3xYRnQ0CR9Csl8NEc7gnqD1+Kk9zQVRMiREOdJLbi1TZW9nZkr6HeZ2xtUw6nXJvlmWZ9JNgfilli7NoCoRWn9lYGC/7YvCabMld13ox+ULIYNLWQyW3K1/6QhOheqb/7uXQd+OhMUd6zalXpgKsA7aFZ4Jetgem+5icImXMvml69mzOU0RXN+GOHWVAgUGvmCc+WOG6bOb8ZH7oFU6M4CsLBg8JCBeBFel6a6BMAMEr/jJB8CW7MuQQM1V/zW7dg9UcY1qUGntvDT3ggFqDCWu9v2HS2qtGoRnekEBnJdgthJ+aOSbocthxf4qR3/u+8X39QDgBqA3VTMfHQ/djsA+xOzgtd30f9zkCd4EamGhjqHmgvb31EpvNb0Sok+9HhXG4bXRUZjhzHJgyRumaapxC9rVF/J5S2nU/Bk6YoD87zGeunMrjxblR/Nob4LtVck+BvyWXOYVp1eVBW2706muWTJ3SoIAs0Bq/Kj318ks4gT5nrPy5zp8QvtB9Npv
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(136003)(39860400002)(366004)(376002)(451199021)(6666004)(478600001)(6486002)(54906003)(26005)(6506007)(6512007)(2906002)(186003)(41300700001)(316002)(6916009)(4326008)(66556008)(66946007)(5660300002)(66476007)(8936002)(8676002)(38100700002)(86362001)(36756003)(83380400001)(2616005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YwnYbGyyJqSqeDFhV7xhjUYbq4lOmtCk03tE5DRNsvLYj4Yr4h3Q2v/iX1ur?=
+ =?us-ascii?Q?U57/mH1sf044q+8i5roaFDzFkqfvXyHa+vo+GfOwH8K9UgDoZF6r3breWNsU?=
+ =?us-ascii?Q?8Rjrg6ICjKImORALfBL7dSPZzJGe6pYqyC/0dZtFnD3U8H6UPDNLHiiMIsgc?=
+ =?us-ascii?Q?kKzhiRvBvXWX/Uv0Ilhj/eeK/FOk6+RoHwg4aia7dsGUlqiwG86zxI2tRNUW?=
+ =?us-ascii?Q?/Em3h4xr9KUEZB5IQSv8Sm5mIgp/al6vIwGclU6+XFnHGWm0QF7xtN3DL4nr?=
+ =?us-ascii?Q?rqz0bZIPRp3Dz+UtWMoUaR50IAICZOygOnweoz3wCdT4VXQApR+0ivXSxm/V?=
+ =?us-ascii?Q?5zr7IMCi4Tu/MLYyxz15GH+klqMb0/oYS/MIELzDZ8puATRrHGpvvc3Lwgnl?=
+ =?us-ascii?Q?hmBCw9SsK+K2So9PTLGNjCkr6Nyxx1g9yH97ftB5sImF/3Gf1AMxo4ipl7pe?=
+ =?us-ascii?Q?ZyL/iTcUFXjUCFBxS6Hhq1KN2AXSuqLNjjh/tfWgYwrJNfGAcG8iGMQHUE99?=
+ =?us-ascii?Q?arBPVR98FXM/MXihosXoelFp198d+HebZAUyo2G6qRD5xdCHzrOLx+GSdlUo?=
+ =?us-ascii?Q?SLcLRMpZSL/cWjd94U8KNgBLgC21rEANozaNR97NXHwdJAsmkGuAPAgiJugf?=
+ =?us-ascii?Q?qT/CucOxPRT4T4EX9yJ3zLENa+e/aOOcZ8gSFikfMNblKV4nAMTVHfq06Ycz?=
+ =?us-ascii?Q?q05nbZ50/NeIchA93HboSVlndIJ/5FMhDQOohPOklAiA+7VblcRLgCGhcVNT?=
+ =?us-ascii?Q?Gk31AIQ3uipP1x7MTMftjNGiiHeTnWn3D1G2Cj9qn34dhUvwQyYPlMzDhtpN?=
+ =?us-ascii?Q?+WixNgaRWkkx+A0kxBfLgOFpnIrrAwb2hPhJu355YGnfgSzrnRZxlPeahrIU?=
+ =?us-ascii?Q?TWwQ3PErDllzg2eBF8+80zzdRWrqazciK0PKEslnq8/e8sLb2H50GW+zJaqM?=
+ =?us-ascii?Q?F1j7slI3ir0B0sYrhniROzi4MeaA5DUkB+nb7zcBhH31HF89n57u+zM38byS?=
+ =?us-ascii?Q?ohZ1ORASZcGiouKkxpKz2ktKIk+BVtnYnXEHS1+1EXr/gtYky7roVzM9pp83?=
+ =?us-ascii?Q?KZjduezrvKElAmpHPpL50qFNEj8vmFJibes1rS7/OKHm08GeouuH/cty5Yf5?=
+ =?us-ascii?Q?OS6u/VeWUsOjAgO9ZB31riK5zs0YYGmknIARV+DmV559XiHWQJUTftlk3WpI?=
+ =?us-ascii?Q?i6e4Ff9nXEzj+vw0fJwABGsI730sbz//89F3uR7jUMciZl3oYH2iPuvcbkTk?=
+ =?us-ascii?Q?jwck2UgEvPWUlQW+tADGwD5nssC9ZtpSFA/6Vjfkxv9v2p9B6Lei/PGl3B3D?=
+ =?us-ascii?Q?kLeVsssLD90q15QeyWQHUkRs4GzNPZZUd5hCz1rOZRZNzGgqwiiJhLlKiAsc?=
+ =?us-ascii?Q?6w171qXhJu1F32lyf2hmHv3yRw8NJUYzKwoyEJy7Bq6/6lFYziExqQgupFPd?=
+ =?us-ascii?Q?FrVoBaZmJFpL5m1Zp+E7wJnNJzQkUjHsnOPsgTvg2kju1Gy+/zJx9FohNaWW?=
+ =?us-ascii?Q?oDSJSPTJw9ZVDnCbYO0jCr3TAmXhDkILAJnbstkrlJBkKACHcW7VyNYHd3hE?=
+ =?us-ascii?Q?VxkldmYlB9Kee4jh8k0UZOQMDhapgRYk/ZeuPlszKk+MRQpRQyaeCclihKDI?=
+ =?us-ascii?Q?YA=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4f4d783-1f6a-4bf7-ad03-08db7f12dc41
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2023 17:51:58.5796
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b112cde5-bed6-4676-4505-08db7eeb9a2e
-X-MS-Exchange-CrossTenant-Id: 449607a5-3517-482d-8d16-41dd868cbda3
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=449607a5-3517-482d-8d16-41dd868cbda3;Ip=[20.93.157.195];Helo=[westeu11-emailsignatures-cloud.codetwo.com]
-X-MS-Exchange-CrossTenant-AuthSource: HE1EUR01FT043.eop-EUR01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8524
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: z46rTI1wRANUfL5zHNkaVES244oPoV4mpLtKNzCd8FhI4YcinejAUcGemxCnK27p0KxkJXpZRZOCgyeEdicGgQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7304
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -119,61 +117,119 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add power supply regulator support to the exc3000 devices.
+On Fri, 07 Jul, 2023 10:40:35 +0000 Fabio Baltieri <fabiobaltieri@chromium.org> wrote:
+> Add a hid-stadiaff module to support rumble based force feedback on the
+> Google Stadia controller. This works using the HID output endpoint
+> exposed on both the USB and BLE interface.
+>
+> Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
+> ---
+> +static int stadiaff_init(struct hid_device *hid)
+> +{
+> +	struct stadiaff_device *stadiaff;
+> +	struct hid_report *report;
+> +	struct hid_input *hidinput;
+> +	struct input_dev *dev;
+> +	int error;
+> +
+> +	if (list_empty(&hid->inputs)) {
+> +		hid_err(hid, "no inputs found\n");
+> +		return -ENODEV;
+> +	}
+> +	hidinput = list_entry(hid->inputs.next, struct hid_input, list);
+> +	dev = hidinput->input;
+> +
+> +	report = hid_validate_values(hid, HID_OUTPUT_REPORT,
+> +				     STADIA_FF_REPORT_ID, 0, 2);
+> +	if (!report)
+> +		return -ENODEV;
+> +
+> +	stadiaff = devm_kzalloc(&hid->dev, sizeof(struct stadiaff_device),
+> +				GFP_KERNEL);
+> +	if (!stadiaff)
+> +		return -ENOMEM;
 
-Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+If we fail to allocate stadiaff, we abort init without ever initializing
+the spinlock and work struct.
 
----
+> +
+> +	hid_set_drvdata(hid, stadiaff);
+> +
+> +	input_set_capability(dev, EV_FF, FF_RUMBLE);
+> +
+> +	error = input_ff_create_memless(dev, NULL, stadiaff_play);
+> +	if (error)
+> +		return error;
 
-Changes in v2:
-Add missing "return" statement
-Use devm_regulator_get_enable without _optional
+Lets say input_ff_create_memless fails. The spinlock and work struct are
+not properly initialized.
 
- drivers/input/touchscreen/exc3000.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+> +
+> +	stadiaff->removed = false;
+> +	stadiaff->hid = hid;
+> +	stadiaff->report = report;
+> +	INIT_WORK(&stadiaff->work, stadiaff_work);
+> +	spin_lock_init(&stadiaff->lock);
+> +
+> +	hid_info(hid, "Force Feedback for Google Stadia controller\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static int stadia_probe(struct hid_device *hdev, const struct hid_device_id *id)
+> +{
+> +	int ret;
+> +
+> +	ret = hid_parse(hdev);
+> +	if (ret) {
+> +		hid_err(hdev, "parse failed\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT & ~HID_CONNECT_FF);
+> +	if (ret) {
+> +		hid_err(hdev, "hw start failed\n");
+> +		return ret;
+> +	}
+> +
+> +	stadiaff_init(hdev);
 
-diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchscree=
-n/exc3000.c
-index 4af4c1e5d0da..e3f6d21b3c1b 100644
---- a/drivers/input/touchscreen/exc3000.c
-+++ b/drivers/input/touchscreen/exc3000.c
-@@ -18,6 +18,7 @@
- #include <linux/interrupt.h>
- #include <linux/module.h>
- #include <linux/of.h>
-+#include <linux/regulator/consumer.h>
- #include <linux/sizes.h>
- #include <linux/timer.h>
- #include <asm/unaligned.h>
-@@ -360,6 +361,12 @@ static int exc3000_probe(struct i2c_client *client)
- 	if (IS_ERR(data->reset))
- 		return PTR_ERR(data->reset);
-=20
-+	/* For proper reset sequence, enable power while reset asserted */
-+	error =3D devm_regulator_get_enable(&client->dev, "vdd");
-+	if (error && error !=3D -ENODEV)
-+		return dev_err_probe(&client->dev, error,
-+				     "failed to request vdd regulator\n");
-+
- 	if (data->reset) {
- 		msleep(EXC3000_RESET_MS);
- 		gpiod_set_value_cansleep(data->reset, 0);
---=20
-2.17.1
+Is the intention for not error handling stadiaff_init to be able to use
+the HID device even if haptics are not enabled? I think that's fine but
+there are some design considerations that need to be made in order for
+this code to be safe in the context of stadia_remove.
 
+> +
+> +	return 0;
+> +}
+> +
+> +static void stadia_remove(struct hid_device *hid)
+> +{
+> +	struct stadiaff_device *stadiaff = hid_get_drvdata(hid);
 
-Met vriendelijke groet / kind regards,=0A=
-=0A=
-Mike Looijmans=0A=
-System Expert=0A=
-=0A=
-=0A=
-TOPIC Embedded Products B.V.=0A=
-Materiaalweg 4, 5681 RJ Best=0A=
-The Netherlands=0A=
-=0A=
-T: +31 (0) 499 33 69 69=0A=
-E: mike.looijmans@topicproducts.com=0A=
-W: www.topic.nl=0A=
-=0A=
-Please consider the environment before printing this e-mail=0A=
+stadiaff is unsafe to use if we failed to allocate memory for it and do
+not set the hid device driver data. We would be dereferencing a
+driver_data pointer never set/initialized by this driver in this error
+path in stadiaff_init.
+
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&stadiaff->lock, flags);
+> +	stadiaff->removed = true;
+> +	spin_unlock_irqrestore(&stadiaff->lock, flags);
+
+Attempting to lock/unlock a spinlock that may not have been initialized
+if an error occurred in the stadiaff_init path.
+
+> +
+> +	cancel_work_sync(&stadiaff->work);
+
+Attempting to cancel work on a work_struct that may not be properly
+initialized if an error occurred in stadiaff_init.
+
+> +	hid_hw_stop(hid);
+> +}
+
+Thanks,
+
+-- Rahul Rameshbabu
