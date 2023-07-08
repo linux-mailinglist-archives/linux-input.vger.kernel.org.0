@@ -2,108 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04C2D74BA65
-	for <lists+linux-input@lfdr.de>; Sat,  8 Jul 2023 02:06:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBB9C74BBFA
+	for <lists+linux-input@lfdr.de>; Sat,  8 Jul 2023 07:24:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232778AbjGHAG3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 7 Jul 2023 20:06:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49802 "EHLO
+        id S232483AbjGHFYa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 8 Jul 2023 01:24:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232454AbjGHAG2 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 7 Jul 2023 20:06:28 -0400
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A7532123;
-        Fri,  7 Jul 2023 17:06:27 -0700 (PDT)
-Received: by mail-ot1-x32a.google.com with SMTP id 46e09a7af769-6b74e2d8c98so2257875a34.2;
-        Fri, 07 Jul 2023 17:06:27 -0700 (PDT)
+        with ESMTP id S229515AbjGHFY3 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 8 Jul 2023 01:24:29 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E266C1FEC
+        for <linux-input@vger.kernel.org>; Fri,  7 Jul 2023 22:24:28 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id a640c23a62f3a-991ef0b464cso722720466b.0
+        for <linux-input@vger.kernel.org>; Fri, 07 Jul 2023 22:24:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688774786; x=1691366786;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uxQ9ORFt2KalpWVPLln/XeJlZQtOLOl2gBwuEluzJqk=;
-        b=ih/x/XN1N1IP8D9qyTD4drevI8/8TWIA770S5KgG7qcDE+qdzprHBGX1oqGrMEt8ZE
-         JSzTfGSyBRGn/OstUnawSgSa1XXD72WLa+Dl9Sga4r+/JatWMLX8SXMm3kCyU7Gw+SGw
-         owjWuWQFTxD8MpGyTsq0eQAgCXIqQyaes6pnO+bfKVCGci+i6xgyKrTivQVrNNepFXFZ
-         UwfvnbYB+CkbjCrKUG73gZ0DiRxGen+8CRlj7E9wL8ivurWIq8Ku6yhfYPlA1aLABlRE
-         ZeaO3iAdnRFmUbCQk9CMSNK86ZtoCRdeHAv1ST2Xu2croQBTb1cROTaJBEVTaYVHuwBy
-         L7kg==
+        d=gmail.com; s=20221208; t=1688793867; x=1691385867;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HdhXbbQIXT97vDa3bu5xKes8lN4bZY7OZGIP2YANSqQ=;
+        b=i/tDGw3IUlp/+ZJZ1maN+lNa4J9QAfkhY6l191RSsijP7CcCA3byuT1q/WoaNT8vIL
+         hgDI2SMDzWn85wbFt/yZkWoFHyJUxBjV4S7adx+WvoAhsD6Y6cLWEmOfi1p1BEyAnVKv
+         EyKscSsYzqWSWPpwaDd+dRZG/WrfbqlQ7KBRLyR2GszNcDdk4/DZ7EkvkQy9FfDxXHzi
+         do3tkFmW/HHjKT27dziPfgIyvyKXYJbavv1+JRj08JLj6nfBHYCBACYjgBmil6qpLxnb
+         0dhLA4xyRM7iK1CZo280TyATt5iQcZ9WKwWRKKeK88E4X7QhtplyUVPibFaxFOqBNnZT
+         MYiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688774786; x=1691366786;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uxQ9ORFt2KalpWVPLln/XeJlZQtOLOl2gBwuEluzJqk=;
-        b=F0UOQUctJ3cZcNVluwYrcYGRmxwEG9OK79h4sS2g/NaXN/61S9t+b9difaS2UBa6ri
-         K8PsNr2dl+RpIHVaPVjUTAPMTKS7pq5ocZvXruMqo1RdP+i2y64vku86e04hWpVni4vq
-         MKEKELF6w/jkB7S6u7hnVo/mYFMZdUy2+/ZSfVdoSVC+92LXY2oVrIzedEVHiurFEJE/
-         jYqTz+Wr8dMBDCvlvI82C6JpenNZKBE63hlzhChX8VlBDWW8mQQMl7oyzBYaLg3k7Lxr
-         PBxZ00V8tA+/xavkXRx8UEzT2c4zbQoemBoWH6MwPTPvHyZN/w1f1VZoVqRdOlkxuDM6
-         8DdQ==
-X-Gm-Message-State: ABy/qLbbaGXsVPWgz8b1MQJXcsQBDDplS/tfrei6CQGuBr2VaB7jbBGW
-        d9uz2P8HWDxCGo3Y1H1SKewu1cUjRL4=
-X-Google-Smtp-Source: APBJJlH+LJYi6W8fj+k19PKYvMadG7yFuvSejenF+WQtpYGeIrYZwfvXgtsbMl+ZRQ2wzQ5k5TzNUQ==
-X-Received: by 2002:a05:6870:a68f:b0:1b3:e896:9bfa with SMTP id i15-20020a056870a68f00b001b3e8969bfamr8470718oam.25.1688774786484;
-        Fri, 07 Jul 2023 17:06:26 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:38de:2bd4:8f55:60cd])
-        by smtp.gmail.com with ESMTPSA id q3-20020a170902dac300b001b66a71a4a0sm3805403plx.32.2023.07.07.17.06.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jul 2023 17:06:26 -0700 (PDT)
-Date:   Fri, 7 Jul 2023 17:06:22 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     Abel Vesa <abelvesa@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh@kernel.org>, kernel@pengutronix.de,
-        Peng Fan <peng.fan@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Michael Trimarchi <michael@amarulasolutions.com>,
-        Mark Brown <broonie@kernel.org>,
-        Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-        Marek Vasut <marex@denx.de>, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-mmc@vger.kernel.org
-Subject: Re: [PATCH v2 5/5] dt-bindings: input: touchscreen: edt-ft5x06: Add
- 'threshold' property
-Message-ID: <ZKiofhzbBD2hIzmv@google.com>
-References: <20230621093245.78130-1-o.rempel@pengutronix.de>
- <20230621093245.78130-6-o.rempel@pengutronix.de>
+        d=1e100.net; s=20221208; t=1688793867; x=1691385867;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HdhXbbQIXT97vDa3bu5xKes8lN4bZY7OZGIP2YANSqQ=;
+        b=akf/6KpwTn/YJpBwAhP7vjwHbeicJnNUV9ChXR2B4LY5/gYPhtNIdLLtNNhagJ3jaI
+         XBQwm74G3APQreU09q0EvP8+khvNok9aZZFYnjedtqaFtqKQpZn2+Ybj/MV3G8aPzDDK
+         EiZ8GRNIYykn7vGrdb3xCfzdThXyuoqBhRNherlmkQsAaxoOJUdnMnIaWCQ52GiFlRsd
+         IIQlf4uGnVH7rCjfG/RwNdFIfQDBh3ziYU7qOqsreoSwfZbFRFMzIRDPovm6y5bO6EDm
+         cR1yCcuNmEIwqRRrYdQj7gvcy753FPkGgssKBNolMYuCvfRk/iCWZZkzb6PQ7fP51JXL
+         yxDw==
+X-Gm-Message-State: ABy/qLYaaJELGZGPOPxh8u0v8o1PH1WbTykgq9DFpGgMUdlIAdnvMh7j
+        /7H3QBfnejQgEeS1sVKPVtz9/gXgmAGoHNeEuWg=
+X-Google-Smtp-Source: APBJJlGeqoDayeNy0C5oPjoh2vLHp+EGrxdwNEeEHnb3A640PgJRu6PTBfWTGz/176aRQRYd04yMkVht2R0i0x3AyXc=
+X-Received: by 2002:a17:907:940d:b0:989:6749:d61 with SMTP id
+ dk13-20020a170907940d00b0098967490d61mr9432511ejc.19.1688793866845; Fri, 07
+ Jul 2023 22:24:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230621093245.78130-6-o.rempel@pengutronix.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a98:b60e:0:b0:1ce:9c66:3a64 with HTTP; Fri, 7 Jul 2023
+ 22:24:25 -0700 (PDT)
+Reply-To: katerynamudrik01@gmail.com
+From:   kateryna mudrik <ihseig538@gmail.com>
+Date:   Fri, 7 Jul 2023 22:24:25 -0700
+Message-ID: <CAKbtL7De4DDgPAdM6pnE0GuS--9u=-jWN=J1ocCOmyGmZq7d+Q@mail.gmail.com>
+Subject: Good morning
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jun 21, 2023 at 11:32:45AM +0200, Oleksij Rempel wrote:
-> Add a new property 'threshold' to the edt-ft5x06 touchscreen binding.
-> This property allows setting the "click"-threshold in the range from 0
-> to 255. This change addresses the following dtbs_check warning:
-> imx6dl-lanmcu.dtb: touchscreen@38: 'threshold' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-
-Applied, thank you.
-
--- 
-Dmitry
+Hello, good day to you.
+I hope this email finds you well. My name is Kateryna Mudrik and I
+come from Mariupol in Donetsk Oblast, Eastern Ukraine. I am contacting
+you due to the crisis in my country Ukraine, we may have been
+humiliated by the Russian invasion of Ukraine, but I still believe
+that we Ukrainians can always get help from good people like you who
+understand and feel our pains of how the devastating crisis has put
+the entire people of Ukraine.
+Now, time won't allow me to say much, but I'll tell you more about
+myself when I get your reply.
+With kind regards
