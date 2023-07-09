@@ -2,61 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 680F674C1D0
-	for <lists+linux-input@lfdr.de>; Sun,  9 Jul 2023 12:07:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F176774C469
+	for <lists+linux-input@lfdr.de>; Sun,  9 Jul 2023 15:43:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229819AbjGIKHM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 9 Jul 2023 06:07:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53344 "EHLO
+        id S229849AbjGINnE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 9 Jul 2023 09:43:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229706AbjGIKHL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Jul 2023 06:07:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 310C6183;
-        Sun,  9 Jul 2023 03:07:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BC39660BB8;
-        Sun,  9 Jul 2023 10:07:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1C42C433C8;
-        Sun,  9 Jul 2023 10:07:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688897229;
-        bh=YiC7vsFEwKb4652ST6mgQTuJ5tIJjs2WjiDvNytTSkA=;
-        h=From:Date:Subject:To:Cc:From;
-        b=ak8eYXRykzYaZ+CT8VZ16gkWxFdhtbScVb+ZvC9HD/YYtk7Y7Ym8SSnrUmiZZdP90
-         Grkri2piYNGS6NTkkTpqtQf2tcJcSEDg4uT9ElY7Zj96SfVLtUAG4jTk9G6EMZcq6X
-         yoGbUxvPH+wsT8T1KmBO0PyGaaqecFCL2KXoeUUCat2kcGT3FSxSpj55iOfYJd3r+0
-         rCT2YVHSEWIynhea7+1uTQPDqjDJvYd9GBJ2pxMc9Db0ni3ENEVSmyA7xm84AypmCE
-         ykaA8oK/tFP97AGaJ6kSpf3gtrJdzaQklNpCZ52QvAFQ5o0vaHv0K7q/DUAYi8Ruf6
-         ejR5JGuAeOAdg==
-From:   Benjamin Tissoires <bentiss@kernel.org>
-Date:   Sun, 09 Jul 2023 12:06:56 +0200
-Subject: [PATCH] selftests: hid: fix vmtests.sh not running make headers
+        with ESMTP id S229760AbjGINnE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Jul 2023 09:43:04 -0400
+Received: from viti.kaiser.cx (viti.kaiser.cx [IPv6:2a01:238:43fe:e600:cd0c:bd4a:7a3:8e9f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F27E7103;
+        Sun,  9 Jul 2023 06:43:02 -0700 (PDT)
+Received: from dslb-188-097-041-180.188.097.pools.vodafone-ip.de ([188.97.41.180] helo=martin-debian-2.paytec.ch)
+        by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <martin@kaiser.cx>)
+        id 1qIUgk-0007Yd-JX; Sun, 09 Jul 2023 15:42:58 +0200
+From:   Martin Kaiser <martin@kaiser.cx>
+To:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     Martin Kaiser <martin@kaiser.cx>, linux-input@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: tegra-kbc - use devm_platform_ioremap_resource
+Date:   Sun,  9 Jul 2023 15:41:08 +0200
+Message-Id: <20230709134109.182418-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230709-fix-selftests-v1-1-57d0878114cc@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAL+GqmQC/1WNSwqEQAxEryJZTyC2Cz9XERf9SWtAeoaODIJ4d
- 1t3Ll9VPeoA5SysMFQHZP6LyjcVqD8V+MWmmVFCYTBkGmqpxyg7Kq9xY90UfefIhRjrYAiK46w
- yumyTX27rNb77X+aSPX/jdJ4XvvrwRn8AAAA=
-To:     Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>
-Cc:     linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <bentiss@kernel.org>
-X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1688897227; l=1238;
- i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=YiC7vsFEwKb4652ST6mgQTuJ5tIJjs2WjiDvNytTSkA=;
- b=i8Cad3ZOWxNgSbxUlrlETAV29S0Wk04029Ut4MMM0wYaxWf3haJ9O8kHyIOWA3MVyaNT9lKm0
- yPkRH7D2akoAKHeeRzPYxjnuMgEpBWOSOZQg/HRyIirjpMVbcU5OC3y
-X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,43 +41,28 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-According to commit 01d6c48a828b ("Documentation: kselftest:
-"make headers" is a prerequisite"), running the kselftests requires
-to run "make headers" first.
+devm_platform_get_and_ioremap_resource maps a resource and returns its
+physical address. If we don't need the physical address, we should call
+devm_platform_ioremap_resource instead.
 
-Do that in "vmtest.sh" as well to fix the HID CI.
-
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
-Looks like the new master branch (v6.5-rc1) broke my CI.
+ drivers/input/keyboard/tegra-kbc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-And given that `make headers` is now a requisite to run the kselftests,
-also include that command in vmtests.sh.
-
-Broken CI job: https://gitlab.freedesktop.org/bentiss/hid/-/jobs/44704436
-Fixed CI job: https://gitlab.freedesktop.org/bentiss/hid/-/jobs/45151040
----
- tools/testing/selftests/hid/vmtest.sh | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/tools/testing/selftests/hid/vmtest.sh b/tools/testing/selftests/hid/vmtest.sh
-index 681b906b4853..4da48bf6b328 100755
---- a/tools/testing/selftests/hid/vmtest.sh
-+++ b/tools/testing/selftests/hid/vmtest.sh
-@@ -79,6 +79,7 @@ recompile_kernel()
- 	cd "${kernel_checkout}"
+diff --git a/drivers/input/keyboard/tegra-kbc.c b/drivers/input/keyboard/tegra-kbc.c
+index d5a6c7d8eb25..c9a823ea45d0 100644
+--- a/drivers/input/keyboard/tegra-kbc.c
++++ b/drivers/input/keyboard/tegra-kbc.c
+@@ -640,7 +640,7 @@ static int tegra_kbc_probe(struct platform_device *pdev)
  
- 	${make_command} olddefconfig
-+	${make_command} headers
- 	${make_command}
- }
+ 	timer_setup(&kbc->timer, tegra_kbc_keypress_timer, 0);
  
-
----
-base-commit: 0e382fa72bbf0610be40af9af9b03b0cd149df82
-change-id: 20230709-fix-selftests-c8b0bdff1d20
-
-Best regards,
+-	kbc->mmio = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
++	kbc->mmio = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(kbc->mmio))
+ 		return PTR_ERR(kbc->mmio);
+ 
 -- 
-Benjamin Tissoires <bentiss@kernel.org>
+2.30.2
 
