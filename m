@@ -2,107 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 974C774C679
-	for <lists+linux-input@lfdr.de>; Sun,  9 Jul 2023 19:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA1AE74C67C
+	for <lists+linux-input@lfdr.de>; Sun,  9 Jul 2023 19:07:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230194AbjGIRGq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 9 Jul 2023 13:06:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33506 "EHLO
+        id S229534AbjGIRHE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 9 Jul 2023 13:07:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbjGIRGp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Jul 2023 13:06:45 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2070.outbound.protection.outlook.com [40.107.94.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E428A4;
-        Sun,  9 Jul 2023 10:06:42 -0700 (PDT)
+        with ESMTP id S230206AbjGIRHD (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Jul 2023 13:07:03 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2085.outbound.protection.outlook.com [40.107.94.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE1B4E7;
+        Sun,  9 Jul 2023 10:07:01 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ig5U73BE9FF9hh3WG378ZsKiYeecWvem4/xtgpou+Ajg8zt04NQUCIj39C8Qsz/zVAQsVXjaMvCoEWAiVM8Mgn5ABnEU8u/PmMJl34XCiE2tgdDZbVnT33HH9WzAutunHby2tavCInx27bjc2/Ve7sQT5QpU8MAtV1qpmS0pyIZrVsQMICwJH4ylsBfiZLL20IfzR9ikN84GmOMrCQFV3duzD/Z23xm3ZvoPmetM62TxIlIYWhLZdtsV+UoTN28HFTG18mCY32d18Lvl5sLxoZXcHp27U2QBQCR4bptdjZm4p+eDasItTol3b5cE0GCg17CubUBVQ21Q7cCQ1nF2+Q==
+ b=lERVV25DgcnEEM27oEiwz2sfubT+dt6/fmxbuc96aUU7khgUnoEY0FsujSvEc+DwsMEh8GtU+nO9R5nskzubpaUCG3zIeNl2+rXSOC9IGFUF6FXos/z99OH9bBTjEl4ShgSNi1tgiHSTsmHt1hFhZdLzdn2LN28gDQPjo+fpRY+jegV3KGKoHXvSQJzAvCsdJOVJzRM4r0jXKPQubojNx3QsnTF8XQIMeGdwTRpwVmZz+zoxTMhAWwQXE127GpnxldJrJARSFm+FtacBArhQiIWwBP54QK5eA9GUnvMxNVVR8/pjyqen8piTbX94uNFasIQ7yhSjfTTcmPAQ5n8l3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K3zQcwDrCTThyLlfJ12rElR4LlqTxCUd9ibe/BKneTw=;
- b=SjST4oItpZBPRTiYoiWldyhsrnad+QZQh8aA2upqHZI4bjZ+zAsoRJurEIhuEywFEcSFQHbPFGme8VyGqorXZ0MZ3nOcS2JtJDNbq6H/hWQqPiSuZFFqiik+n41Vny5tlg2hLirxakuOQ8/GB2cVp2wOnZfhxn05hbdcg9lg8bTem3l3hXxre9yF/dylkupow2caWvUtsDCXrRJA5sic7au9dEpUfuJI24b6RArl3pN5Yuid9eTuqj9cPGjaGb5XQ3flgMfJdZy6Y8LR0ZTYNrhP4wMbO31LLJ69fmZvpZJyXJMpqynnm3IA6o20F6Fffo0qliDFlC3RVgDJRyJ2qA==
+ bh=ZFkE5uoZqkr4LkeK9kUEeXy59JxDo+7JNTh+hdPVJF4=;
+ b=VDCtDnfJj5d9fdkNqVJjQ/CoZrOz+liwY+vFlZVi4OgyvF6Od5zqmykNQwzH0S7BjhG7iANBKkqefUs7OFICfJJPRnnaYQoLL6YEFi8965S1uc4YMYsRHjJVaw2MR4k3Pj+RpnilRX7F5RcWYQJr052mXtxuIlHNmcSIkS8MriFg4T63psrslmNmbZAB4zCTzw+VVnp3ZkY0L7bLXGOzcuGu5vcuxGgbJWKav9qfxgPw6rh3Ghp1smbw7O2dVwafH/RkT6AjVw2XmZhVseTZTIoIBqznRflkDJdUPMUq7Ui3UXVYXajxRrVxyeaptj7dMHLWSz1nSjrHnbhLQhsLjQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K3zQcwDrCTThyLlfJ12rElR4LlqTxCUd9ibe/BKneTw=;
- b=rB4pp3iBSntSe+AyL9bKFaoWgjnD02oOX9iv4QJ9HLNGyL5ltAYjY7AIrgZP1dbNzGypglbuayuxbl5aT2XwlUBFJw8ytjBE4MVZD94JfzM/BJlHUqvdHE5MUDeCSVUKypQYghnEe2LW/xF6Mw5uL895vrYKfRPWOowKeJt0tTw=
+ bh=ZFkE5uoZqkr4LkeK9kUEeXy59JxDo+7JNTh+hdPVJF4=;
+ b=xZRO6xgEGUxSXT1NxIgq+pnWcdQ9UktTf2g6P0ccN+t/iIc8ZZueNbdoTQy6TeQg/0mHNIHZyI3cPg737zcbs9e0bV9y+COUaGUAkiM7s6JQj+LVb671zesSrrGunhDotecMEZwnj8qukUy0UWTQwDiizy9r/8BuVmBEhSRg8Nk=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=labundy.com;
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  (2603:10b6:803:43::21) by PH0PR08MB7020.namprd08.prod.outlook.com
  (2603:10b6:510:74::15) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30; Sun, 9 Jul
- 2023 17:06:39 +0000
+ 2023 17:06:59 +0000
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::36df:48aa:beb0:47ae]) by SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::36df:48aa:beb0:47ae%5]) with mapi id 15.20.6565.026; Sun, 9 Jul 2023
- 17:06:39 +0000
-Date:   Sun, 9 Jul 2023 12:06:37 -0500
+ 17:06:59 +0000
+Date:   Sun, 9 Jul 2023 12:06:57 -0500
 From:   Jeff LaBundy <jeff@labundy.com>
 To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
 Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         jeff@labundy.com
-Subject: [PATCH v2 1/4] Input: iqs7222 - configure power mode before
- triggering ATI
-Message-ID: <ZKrpHc2Ji9qR25r2@nixie71>
+Subject: [PATCH v2 2/4] dt-bindings: input: iqs7222: Define units for slider
+ properties
+Message-ID: <ZKrpMekZBt95Gmnr@nixie71>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <ZKrotyhz7eueujys@nixie71>
 References: <ZKrotyhz7eueujys@nixie71>
-X-ClientProxiedBy: SA0PR12CA0025.namprd12.prod.outlook.com
- (2603:10b6:806:6f::30) To SN4PR0801MB3774.namprd08.prod.outlook.com
+X-ClientProxiedBy: DM6PR02CA0076.namprd02.prod.outlook.com
+ (2603:10b6:5:1f4::17) To SN4PR0801MB3774.namprd08.prod.outlook.com
  (2603:10b6:803:43::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|PH0PR08MB7020:EE_
-X-MS-Office365-Filtering-Correlation-Id: 960df375-f4e4-4e41-d991-08db809edc64
+X-MS-Office365-Filtering-Correlation-Id: bb667944-1725-49ef-93f6-08db809ee889
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZUfH+5ZmPZUf9uI3egbY8sN4O4bWumvdep/ZEXDnUZ3snmqhEATm7sm78sBgtdmmpqObQMkUdBdUVvzu9IebfIevl4RL4hatOlJ1OwQT2ZHNFd2NcFjbBPsgvY6jrxegm/khVRgrdHVBAOmKjop1kAh9ON8/ZqcYsN2P6puYhxaWyPUvu8j3GX2aHFVfAfwDZceG6RMLUmmZ8QmBJYEIu0F93oNNzC527YWmmY+bKkHRpX+SO/S/Czh3LsGFB8+Z2VSma6IegHwYzYx3sKcY9u9AOYE86M8M5Lrotu5aD5ixs9wV6Bns4KV/QugxJghQeD7cHDYM2GMR4OIhfD/etLHXGyJ352VNgIGPxJscSivui4DCD9p/1ofYW9a03Seo8zuS0AnBS+Ige/1RUuRl0RFBpqUyc7upGvzLp/hvwTO7fS1k2iChFwM2Ux0rX+lcg+vly5Z/B93Z855GxjReD2xU/mopqbC3tasizrfTQC77x7GD3vE4Bh4qqtCeQXJurArby5BU4CEYQOvUIBP9sEdpBIM9rTPMF/12k0/GT+Qll3dyTmXk9FFSd6uStN+n
+X-Microsoft-Antispam-Message-Info: kBR6tvr0iYI0U/GfF0Oi+LrUl16HeI62MFTVC90vC0M4wVUwSifwtrc/bvhiczqUn/vaNPoBs8ESwo/Xvth+keeBS05WUkSSxnKFdTGp6ZghcSkG7uNBfxUduH/1H2cS/kD85+4znI1TzsMXf0H2iERH5bLUH3t/432RcKrrGmNulX2hLSiAs+ixgcxkt7ymuLX71arFbQWyGbO9DZQkY75FSdvkN3IsYp2NmaMMFX3EJiLpD3ag/mdvHhbQ17U86qtYU/JtS2yzHt0i1UsbIpSBZPjhaOuZfLtziHsS51qgkBPvpL4Zc76ZqThvczDbPtaoQc/gXB+o2NkAdheWaJqVpfX8pL3mCUkYdIXAWKyoxYqQLZo5vFqZNIuS8frd8XunF35RZSPQTzzwZM7f8yZ3l6g1rdkUOSGx0vljLHMILqOKSg+uhu7XCgUiuyi3P1SC6/kablPGNaIjMyPE1cwBjdIm+cTunIs47QvWypJj6wtdHGlGIAygvkJfiDSZRjYt+ZD6jwLVyXrNfjeCwhoUlgiSJJvJIyv9Fwv2rIZd2YRP2E1KyzmCzZIG5BZK
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(136003)(346002)(396003)(39830400003)(376002)(366004)(451199021)(86362001)(38100700002)(6486002)(33716001)(107886003)(26005)(6506007)(9686003)(186003)(6512007)(5660300002)(316002)(2906002)(66556008)(66946007)(478600001)(8676002)(8936002)(66476007)(83380400001)(4326008)(41300700001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vtEma8Syjs9TivK5PYJE+f6zkUWnENJOY57m3LvUZGiOrTCtAZGJ6lgZfFeV?=
- =?us-ascii?Q?GzsvWhhB9qAceZvnFHc/6M70pJ6g6J2tX2MzQhd0vII2x0jaHbkBliiG27hR?=
- =?us-ascii?Q?PZ5tq0Dbp6how+0EN1cYB5DI9z7gVmOQMcmnNXWXAqVsRN5ph6w+iSodAVKJ?=
- =?us-ascii?Q?IqPtiaFj5IzJnxch0esk/U+nn8lJVc79q5QstaeLMMiVHPf2OWdiLmfprnKn?=
- =?us-ascii?Q?SUy1NwxyfXpVuPMx4A2p5x8tX5m82jL5xSwKquzp98jY65Zh0Z3L+25nxvVa?=
- =?us-ascii?Q?TMSXR2KRvppaWd3ok6YPXwHr1pn4iBYWQ88v7JcysAt7c3Aerv7vw/k1biy4?=
- =?us-ascii?Q?uGY4+ktns4VfahagSorW+EjvQqsWYyrDLz7mxO460yVE7Ao5vy7UA4DJJRQi?=
- =?us-ascii?Q?ny0KYMkCqLR8++6uBECjqrmsGrQxudc2Nlg8a1xkDOw+AU9cAyxtOnUcpa5/?=
- =?us-ascii?Q?wTad+thET9vCYclKySQAS+aCWcRXW4ELJnU74w7r9SdzqpRJL3qmALqneqgN?=
- =?us-ascii?Q?UA/RJ/nuAcIgtJImdUBA97yqbmF3Ol2WSec4SyAtKyVY3hNZLE5K6VN2Fevy?=
- =?us-ascii?Q?o2wvTHhGFeyufn4XdJFGT3YP3hNSRrhMfIOOgQ6mfc7bHwRNGeU6ZlPtHZ8U?=
- =?us-ascii?Q?7f6qJ+u6BRKXcApTcIFOHazSfA4Mch6RPsTCLTiBGGNFxivshETJQrl9ztdc?=
- =?us-ascii?Q?R0hiFYHZFSudjPVaaRxWh7E2q8z1f6VOFaYBGXlBBzQsgS+D7OmjTY71k4Ph?=
- =?us-ascii?Q?xZ1/urz1elQF6IsanV5T1k+bR1ppz7a5gDdfcQNo51WpsK4yVvdAHVvhMjCc?=
- =?us-ascii?Q?bFw/NtwXGXryWCC3UifmLwWq83GTtqDHofTvMQ8efeB1SlzW08BJ4WnO9h+O?=
- =?us-ascii?Q?p90k6KD6t/Nb+tq3ONlsO8iMAvIgEKK/hHGvTToql9PFDpCUQfChLWToqNn8?=
- =?us-ascii?Q?3AcmnA/tlB7o2OaAQseRMROTQT5yvvq2Kh14RaffXztZBXCN+OKcL6zNBFrm?=
- =?us-ascii?Q?tpj/I131azDgjLHM50ZuSvxE4uafAYrowsz24V58LD0b7Vla/B4bL36QIAtI?=
- =?us-ascii?Q?ubQowot5uu/AOKjXptC1OnxZECNYQ009RErTVMPnUWlkUFZzFXjukeH9NmJu?=
- =?us-ascii?Q?M9NGefnb1ptiSab0TXvgj1zn7jCJYE/PYJ9JkEDLshZqK9sH1WWMLEjkIpRH?=
- =?us-ascii?Q?ecnkcJgQQ8MFVZ3hNUt2qG4S01OdKr5jLhL3bm4w1vhhfopqMBEu7Y7lIQl+?=
- =?us-ascii?Q?6GweE6E0/WO28QZED9Co1H8DEL5j/lDrDWSWdZWnqPOFnJNgWLcJRWSjJhMI?=
- =?us-ascii?Q?a9nMG4pUQVHZyVUa8pf8fSlwW25dPQ2L0gSO6xs/5Fci4lGqp9s6WAjrAHx1?=
- =?us-ascii?Q?xVTHOjyEyE8rMdVnCyhz31RRYcXK4yZ4DC7IYV5rmZTHqlZ1iDGu7zDzjYxE?=
- =?us-ascii?Q?qciK6gbaZspbmWHe6T/Iun/iqPWxKR/pcYoaO5zZLov0NAH2nZpexa5lRuF1?=
- =?us-ascii?Q?ftZtzyZ0/K1Gg/C9+ZZ2Ty+kUrP9prC8wloMexZnBM7oehdl7udoViTMXc6H?=
- =?us-ascii?Q?1Vru5+GYVQWay3NL/RZN3f78GuKnmS0acsUqrM+g?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3lYwwQp8YpVl9edHA6VCGmve/HkXd3pgMbR5UfQrQzTH7fqBDqBGMBB9gOTb?=
+ =?us-ascii?Q?ZUrWKot9pq+mD4ncshrIfC1ZkH64ZAdArX9WkCs4Dy6Wvxtm82uMDI5Nf+Ja?=
+ =?us-ascii?Q?P07cA07f7v//9pPf1Z4H81tglWd4A1wTwBsq8aA2u8rp1oRMpa2CxExOCWC4?=
+ =?us-ascii?Q?D1uWA4ExhkHJE3MiJh89c/6MzYvcpzgMtmnPBANmKpB5fryOphNk2yla2wUC?=
+ =?us-ascii?Q?UMEVQ7yR7Ks03Pg7a3z96jMIT0WB/7CKBdPGZASCMHDEX7EYrtT25rC6rOEC?=
+ =?us-ascii?Q?JXme+bqIOcE+9oRU0UHeTrt/d3zwesIj682WWReqwbxD5QxkAOp8X1CE1365?=
+ =?us-ascii?Q?HAN9q01ckWeHJIqxhinfFLQEXeNGJLAcdC25DJ0bhKFFvPoSmqtL7HAN9NPp?=
+ =?us-ascii?Q?xIKZaPEskELwYaZVrSKRY7cCB7MswVcigbtmN3X6UJMbPObSGC0PTE6qD1j1?=
+ =?us-ascii?Q?uwDcEJh3p4yd+o5LqQf77Ll3cwFZ+FkYqLks54v6tRvztXOcL7P7n7410uek?=
+ =?us-ascii?Q?hNGc0RzMVQhcfOYRppX3xsy1G/PSQ6oOnWiaqaVXtMsFOWA1NFXPkK/z8Jmn?=
+ =?us-ascii?Q?NSjCtW9UwR/OuxuswFS26F44WQ0pcBbh7YwYb/74lSKyn5APopZO5wDEeruS?=
+ =?us-ascii?Q?CJTdV4JEeX9xgP1CtxqCYmQFx2ViVtKgqpbFA8muAozG04gyz90i2QXuZxvf?=
+ =?us-ascii?Q?ywjRbPrrnvbe8ds5ygQepvfbrwhBf8rzLVjRwRQKtrPLLRM0UdgBLWvSyoqO?=
+ =?us-ascii?Q?0WQtrINxZVH+1nJHwz4eW9onB70wIGtql1nky4XKc8qwZt/cp6hfPBaekJer?=
+ =?us-ascii?Q?6g0uToJmB0oF97pDzIuueK0WExubtXKOHARo77mu7TlW5T9uwH/b+JSTEvly?=
+ =?us-ascii?Q?aRusuBPSacEo06Xv8wu6ed3ulLkI9hmJ+xgymwr51e1+cuYN68p2ub7Ldwtn?=
+ =?us-ascii?Q?JbOe2b75FwtENVvrHFmpAIeoogLDlXDrgqUj3urT16VRvBET9jhfQ53ArG1a?=
+ =?us-ascii?Q?QQ9qLf+oFk1XHrurYwMsRXOB24kJ2QUiBidry7eUtjhYzZ8avpEQ2keY/kkM?=
+ =?us-ascii?Q?Dhxfok21Cv0AnrmvEKI09q62wgwWBgTEDr+a8qjRR0JBj2qImLwD5b+EnieL?=
+ =?us-ascii?Q?abJ0mwLC5Dt+r5sXO5YWR98AjV5OXdbAOzGXmrMm3Yd89Yau0Nsg/JOBP9+U?=
+ =?us-ascii?Q?OzSa6PlaXkcR4G30GsBoF71exmE/XuSMeZiQG3qQ4MuS2PTp7V5LtQa4Mr/z?=
+ =?us-ascii?Q?cXf31rAdlk1mMhDKKmXVGqsS/5llaI/3uV9tE3A5kxYpx2QdRLfgYXns3Gax?=
+ =?us-ascii?Q?iODFkt5H0drTc8LXZ8Y8veMO1JQez8tlX6Gso1uYKfIvlqqlbjFtYzMJOkT4?=
+ =?us-ascii?Q?gC3bGh7C3+RfNwpbCIYR6j9eT8RMt2+ETNj/36SlGlh2VI3ocgYqdosTts9N?=
+ =?us-ascii?Q?B22gNXtijAWSAkgcZbgTR2Cy4Qwdlc8LdttcGZAHFKK9QX8zDF7ug9+k7C1m?=
+ =?us-ascii?Q?eTYs1UcPmSS7pHz8AWLDZfvEXHw5gatznWzMnOMSyg00JpUaekB37QSNo+xt?=
+ =?us-ascii?Q?rBjqlT+G1TwpYOeDw/hwiG+igtjrMTj5lwEsTAAC?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 960df375-f4e4-4e41-d991-08db809edc64
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb667944-1725-49ef-93f6-08db809ee889
 X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2023 17:06:39.5272
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2023 17:06:59.8818
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q+93ahavhbcpw9fsIdvnBLlFB6Qo7lmcYDqRq6Bk2akWlYypGd0sRgu3trdazX+X36Y/qwr5vyMNmEXPIbZ1xg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: HTy7fvEjOsFpb6ifYVaORGFAzBCZ6VNg/MQDK4F4eaGITfjrHfalndSdrYh+1I1n0FKT/NBXWMigoQdD2YmtDg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR08MB7020
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
@@ -113,52 +113,55 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-If the device drops into ultra-low-power mode before being placed
-into normal-power mode as part of ATI being triggered, the device
-does not assert any interrupts until the ATI routine is restarted
-two seconds later.
+The units assumed by the 'azoteq,top-speed', 'azoteq,bottom-speed'
+and 'azoteq,gesture-dist' properties are unspecified; define them
+according to the device's datasheet.
 
-Solve this problem by adopting the vendor's recommendation, which
-calls for the device to be placed into normal-power mode prior to
-being configured and ATI being triggered.
-
-The original implementation followed this sequence, but the order
-was inadvertently changed as part of the resolution of a separate
-erratum.
-
-Fixes: 1e4189d8af27 ("Input: iqs7222 - protect volatile registers")
 Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 ---
- drivers/input/misc/iqs7222.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../bindings/input/azoteq,iqs7222.yaml           | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/input/misc/iqs7222.c b/drivers/input/misc/iqs7222.c
-index 096b0925f41b..acb95048e823 100644
---- a/drivers/input/misc/iqs7222.c
-+++ b/drivers/input/misc/iqs7222.c
-@@ -1381,9 +1381,6 @@ static int iqs7222_ati_trigger(struct iqs7222_private *iqs7222)
- 	if (error)
- 		return error;
+diff --git a/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml b/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
+index 9ddba7f2e7aa..4c8690b62ce0 100644
+--- a/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
++++ b/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
+@@ -521,16 +521,16 @@ patternProperties:
+         minimum: 0
+         maximum: 65535
+         description:
+-          Specifies the speed of movement after which coordinate filtering is
+-          no longer applied.
++          Specifies the speed (in coordinates traveled per conversion) after
++          which coordinate filtering is no longer applied.
  
--	sys_setup &= ~IQS7222_SYS_SETUP_INTF_MODE_MASK;
--	sys_setup &= ~IQS7222_SYS_SETUP_PWR_MODE_MASK;
--
- 	for (i = 0; i < IQS7222_NUM_RETRIES; i++) {
- 		/*
- 		 * Trigger ATI from streaming and normal-power modes so that
-@@ -1561,8 +1558,11 @@ static int iqs7222_dev_init(struct iqs7222_private *iqs7222, int dir)
- 			return error;
- 	}
+       azoteq,bottom-speed:
+         $ref: /schemas/types.yaml#/definitions/uint32
+         minimum: 0
+         maximum: 255
+         description:
+-          Specifies the speed of movement after which coordinate filtering is
+-          linearly reduced.
++          Specifies the speed (in coordinates traveled per conversion) after
++          which coordinate filtering is linearly reduced.
  
--	if (dir == READ)
-+	if (dir == READ) {
-+		iqs7222->sys_setup[0] &= ~IQS7222_SYS_SETUP_INTF_MODE_MASK;
-+		iqs7222->sys_setup[0] &= ~IQS7222_SYS_SETUP_PWR_MODE_MASK;
- 		return 0;
-+	}
+       azoteq,bottom-beta:
+         $ref: /schemas/types.yaml#/definitions/uint32
+@@ -595,10 +595,10 @@ patternProperties:
+             minimum: 0
+             maximum: 4080
+             description:
+-              Specifies the distance across which a swipe or flick gesture must
+-              travel in order to be acknowledged by the device. The number spec-
+-              ified for any one swipe or flick gesture applies to all remaining
+-              swipe or flick gestures.
++              Specifies the distance (in coordinates) across which a swipe or
++              flick gesture must travel in order to be acknowledged by the
++              device. The number specified for any one swipe or flick gesture
++              applies to all remaining swipe or flick gestures.
  
- 	return iqs7222_ati_trigger(iqs7222);
- }
+           azoteq,gpio-select:
+             $ref: /schemas/types.yaml#/definitions/uint32-array
 -- 
 2.34.1
 
