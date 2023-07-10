@@ -2,81 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 512B974D510
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jul 2023 14:16:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D949974D5BE
+	for <lists+linux-input@lfdr.de>; Mon, 10 Jul 2023 14:37:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229751AbjGJMQt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Jul 2023 08:16:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57634 "EHLO
+        id S229774AbjGJMhb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Jul 2023 08:37:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbjGJMQs (ORCPT
+        with ESMTP id S229462AbjGJMha (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Jul 2023 08:16:48 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6064B1;
-        Mon, 10 Jul 2023 05:16:47 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qIpos-0002hs-9O; Mon, 10 Jul 2023 14:16:46 +0200
-Message-ID: <05355133-4a30-aa0d-4b24-ccc13e05ff53@leemhuis.info>
-Date:   Mon, 10 Jul 2023 14:16:44 +0200
+        Mon, 10 Jul 2023 08:37:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C603011A
+        for <linux-input@vger.kernel.org>; Mon, 10 Jul 2023 05:36:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1688992599;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=9JvRco+Tgte9aqCDrBBT4Li8b1fghmYlP1pozXh3++c=;
+        b=gHKFuXho+BMBkPpxMXg6qmJxvEJx5V4gkr1C38xnxnbqj3ffhc5PoUrCKswAVigX5308v/
+        J547eFJcPRTN/YJwB+C7S0Z1vbrqGPxJN5vYMUXEf7lWfQz2ByMZoHaqhcjTuUMwdzA99q
+        n5aoqyrq9dvxWZc3I+FJXOKZVp6RmSY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-391-TM3Q1NqsMPC0TS2GPEi0PA-1; Mon, 10 Jul 2023 08:36:35 -0400
+X-MC-Unique: TM3Q1NqsMPC0TS2GPEi0PA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8C7D83C10144;
+        Mon, 10 Jul 2023 12:36:35 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.195.29])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B95EFF66BB;
+        Mon, 10 Jul 2023 12:36:34 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
+        Peter Hutterer <peter.hutterer@who-t.net>
+Subject: [PATCH resend 1/2] Input: novatek-nvt-ts - fix input_register_device() failure error message
+Date:   Mon, 10 Jul 2023 14:36:32 +0200
+Message-ID: <20230710123633.323937-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: amd_sfh driver causes kernel oops during boot
-Content-Language: en-US, de-DE
-From:   "Linux regression tracking #update (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-To:     Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     linux-input@vger.kernel.org, linux@hexchain.org,
-        stable@vger.kernel.org
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>,
-          Linux regressions mailing list 
-          <regressions@lists.linux.dev>
-References: <ZG3ipauL9FTnQJiC@debian.me>
- <aci7a4jnosozypn6sffsdoaezg4p42zgjy5dwnjyvnbav7chdm@wettfjwb4enw>
- <79bd270e-4a0d-b4be-992b-73c65d085624@amd.com> <5980752.YW5z2jdOID@zen>
- <1b3fd148-44d7-d476-e9e6-f9d8c8ec0ee6@leemhuis.info>
-In-Reply-To: <1b3fd148-44d7-d476-e9e6-f9d8c8ec0ee6@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1688991407;c6fceb01;
-X-HE-SMSGID: 1qIpos-0002hs-9O
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 20.06.23 15:20, Linux regression tracking (Thorsten Leemhuis) wrote:
-> On 07.06.23 00:57, Malte Starostik wrote:
->> Am Dienstag, 6. Juni 2023, 17:25:13 CEST schrieb Limonciello, Mario:
->>> On 6/6/2023 3:08 AM, Benjamin Tissoires wrote:
->>>> On Jun 06 2023, Linux regression tracking (Thorsten Leemhuis) wrote:
->>>>>> On Mon, Jun 05, 2023 at 01:24:25PM +0200, Malte Starostik wrote:
->>>>>>>
->>>>>>> chiming in here as I'm experiencing what looks like the exact same
->>>>>>> issue, also on a Lenovo Z13 notebook, also on Arch:
->>>>>>> Oops during startup in task udev-worker followed by udev-worker
->>>>>>> blocking all attempts to suspend or cleanly shutdown/reboot the
->>>>>>> machine
+Fix input_register_device() failure logging "failed to request irq"
+as error message.
 
-For the record:
+Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/input/touchscreen/novatek-nvt-ts.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-#regzbot resolve: fixed in newer firmware and mainline post-6.4;
-backport possible when needed, but not planned
-#regzbot ignore-activity
-
-For details see Mario's explanation here (thx for it, btw):
-https://lore.kernel.org/all/89ea9fb7-9026-ccb6-ad88-50e1c28b4474@amd.com/
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
-
+diff --git a/drivers/input/touchscreen/novatek-nvt-ts.c b/drivers/input/touchscreen/novatek-nvt-ts.c
+index 7f7d879aac6d..047e371448ce 100644
+--- a/drivers/input/touchscreen/novatek-nvt-ts.c
++++ b/drivers/input/touchscreen/novatek-nvt-ts.c
+@@ -272,7 +272,7 @@ static int nvt_ts_probe(struct i2c_client *client)
+ 
+ 	error = input_register_device(input);
+ 	if (error) {
+-		dev_err(dev, "failed to request irq: %d\n", error);
++		dev_err(dev, "failed to register input device: %d\n", error);
+ 		return error;
+ 	}
+ 
+-- 
+2.41.0
 
