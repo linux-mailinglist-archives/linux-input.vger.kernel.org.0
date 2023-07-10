@@ -2,131 +2,143 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B85674D701
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jul 2023 15:09:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE72774D717
+	for <lists+linux-input@lfdr.de>; Mon, 10 Jul 2023 15:11:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231659AbjGJNJK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Jul 2023 09:09:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49828 "EHLO
+        id S229702AbjGJNL3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Jul 2023 09:11:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233522AbjGJNIU (ORCPT
+        with ESMTP id S229608AbjGJNL1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Jul 2023 09:08:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAB2E18D
-        for <linux-input@vger.kernel.org>; Mon, 10 Jul 2023 06:07:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688994333;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cSSXjKtHNo2g+s4fKQO8ycwZ9VSR9y5qDmg/kPz0J+8=;
-        b=NDekGdoVFuvPxqBPm/p8URYHUEwrlee7pnACszE4CztEXS8QClMi+uhA/7W5iKi6rNAU7A
-        ImwAW4o9H6riexZj7hlloOSE6AgNJcBLna4YcmqgtWhnM3Q8sxoa2otZsO/plrPDDIJjjv
-        S03AAqBX54a0A6gBqFiIzhASVHqu3NQ=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-562-AlXaLXI4OYOjL-vNljBPvg-1; Mon, 10 Jul 2023 09:05:32 -0400
-X-MC-Unique: AlXaLXI4OYOjL-vNljBPvg-1
-Received: by mail-yb1-f199.google.com with SMTP id 3f1490d57ef6-c5d16402b4eso5450135276.3
-        for <linux-input@vger.kernel.org>; Mon, 10 Jul 2023 06:05:32 -0700 (PDT)
+        Mon, 10 Jul 2023 09:11:27 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E58B7A8;
+        Mon, 10 Jul 2023 06:11:26 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-992dcae74e0so590220566b.3;
+        Mon, 10 Jul 2023 06:11:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688994685; x=1691586685;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7+Sj+CwJeYIb9YiBPuGCzCzTBVYAtf6z/Ku6fc72G2E=;
+        b=FS46eo5yjS6DqXLbArty/6G2Q/3VjDmv9tgGS3BEb/KgL1glnMzOS7VcrOhzhUo13U
+         Pe9s5zG6Nqdt9sfeBKWZH5BnuRCiVvIHkKZqQOxZhKTdt5xT0kGQ62MPL/rCdrgkFkov
+         tJz0roaWL5/c9t8+qTOYZLJjMb2fUhvqLFyrECikyUVj1RltOq1FAZ0NdD3YVKDxTGga
+         A8CavPcYyjYAro3umKDprZp0uquDnZKhayLJVLtBoG+G90+hkLwuFecdF2P37632e/Tz
+         5MTD4yZNdFbbGjr77GhIf2omgHCVAdglPvw0eoYiYUwtXxBnuzBHp8e1bP4Ljc8+M7Ak
+         pBJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688994331; x=1691586331;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1688994685; x=1691586685;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cSSXjKtHNo2g+s4fKQO8ycwZ9VSR9y5qDmg/kPz0J+8=;
-        b=R9fs3v8tevthVjyjomp8bqgLTmAFiliA19LuDuc/i3Y3fgjut63w9TAKayHCVRpvST
-         fRYM6ZscczvpGF5ey7ydOyE5mAhnQEexCIjt2mFTJJFpFq2o0cuLTi16aPM2Zu+3Kb53
-         SgpYx/++nUtwsdWpiIRi4giFjmleHSYWClMZRAIeaft25PnWS8aapvcPef7y6eDz/oT4
-         n6dxkzmx5HuduLVOSAfOnVCj/770zSCUO3S0YgoJcNbK9nZe6ELVOL1fduutgaDv0gev
-         NUVK176nC/O6v0g83tRqT2vYZV+uno0y8henv7GQz7Dp4RUNbyqMrRODeqWufstSPH8r
-         NG0A==
-X-Gm-Message-State: ABy/qLbjfucN1XlsxH0HZOAJyy9teap60BJqwQBwdNiBXPqstGGzceGX
-        HbJfTTngewJHYYsDLe8tO+2CDci9SHjt43Nbl7PM4Ce2lQW8FvzKaB0NOsnQhdOfFROyctCy/1u
-        gS9w7YbPXeD32TfbgGir61ucBUWDTX9nUx2eTdyQ=
-X-Received: by 2002:a25:1f02:0:b0:c67:8903:532b with SMTP id f2-20020a251f02000000b00c678903532bmr9557461ybf.44.1688994331563;
-        Mon, 10 Jul 2023 06:05:31 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFYCDVRqXESu2lKlw5OOq57+bm9EWCrFUc3sqkdq7rbGFO3X2AFRnXejnh8LqRK8eFbanSG74Fa5+uKsOptTgw=
-X-Received: by 2002:a25:1f02:0:b0:c67:8903:532b with SMTP id
- f2-20020a251f02000000b00c678903532bmr9557452ybf.44.1688994331376; Mon, 10 Jul
- 2023 06:05:31 -0700 (PDT)
+        bh=7+Sj+CwJeYIb9YiBPuGCzCzTBVYAtf6z/Ku6fc72G2E=;
+        b=Tde6/dpPKFHxo3YiKaVuA6DA+583LuV2hgyz4/U8SwFgxWff5Ursu9EXxiaMQt1/kP
+         qfCwnotrYhaGenD5ZbcKbGCiNIEJ/lLrJc1ui6Zosa31kqlOexJW84+ixoo1EqYb2DYN
+         +O71Vg3h41eetO9reRdkpCM+QRxMf2QhwP3XuYYuvgWY1IUBn+A5Hb+LJwuUk69Q8rWa
+         xGhHsS0PlUZhd9V2A9kkTaYCd/5lihMd78U3TvVK0b3HPjdwB8TjzknJvv3GcoWMIZc9
+         I2cNjZh3vWOELhmosNMH7i5eacKZLgRHzc39kDwr9pFHEVscCBDOh/fXCaghizK5BEuT
+         u6LA==
+X-Gm-Message-State: ABy/qLaFRoGhaMKlUZGc4aYz/lEU8RAlwuw38l/mBcE4aIUq1TVTqNW4
+        3UyuMezcb1OOlVDb/E5GnJ79lrtvvus=
+X-Google-Smtp-Source: APBJJlF1kaMLPpu8IWN45q9maOQ/+xLzkln+KHH7qgAVhCq/HJqmld6n7/tnKAoQDNfgm229y8lJsQ==
+X-Received: by 2002:a17:906:728a:b0:993:d54b:3e4a with SMTP id b10-20020a170906728a00b00993d54b3e4amr10626237ejl.15.1688994685133;
+        Mon, 10 Jul 2023 06:11:25 -0700 (PDT)
+Received: from orome (p200300e41f4b7100f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f4b:7100:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id h13-20020a17090634cd00b0099316c56db9sm6056440ejb.127.2023.07.10.06.11.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jul 2023 06:11:24 -0700 (PDT)
+Date:   Mon, 10 Jul 2023 15:11:23 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Martin Kaiser <martin@kaiser.cx>
+Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-input@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: tegra-kbc - use devm_platform_ioremap_resource
+Message-ID: <ZKwDe77yPmaaNoiE@orome>
+References: <20230709134109.182418-1-martin@kaiser.cx>
 MIME-Version: 1.0
-References: <20230710130113.14563-1-tzimmermann@suse.de> <20230710130113.14563-11-tzimmermann@suse.de>
-In-Reply-To: <20230710130113.14563-11-tzimmermann@suse.de>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Mon, 10 Jul 2023 15:05:19 +0200
-Message-ID: <CAO-hwJLvBpNu1z4qM9+331-oUroh4g5HORL=EZS0nb+HHe+fdw@mail.gmail.com>
-Subject: Re: [PATCH 10/17] hid/picolcd: Remove flag FBINFO_FLAG_DEFAULT from
- fbdev driver
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     deller@gmx.de, javierm@redhat.com, linux-sh@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com,
-        linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
-        =?UTF-8?Q?Bruno_Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
-        Jiri Kosina <jikos@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="o7S8PluLd+rG5rXR"
+Content-Disposition: inline
+In-Reply-To: <20230709134109.182418-1-martin@kaiser.cx>
+User-Agent: Mutt/2.2.10 (2023-03-25)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jul 10, 2023 at 3:01=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
->
-> The flag FBINFO_FLAG_DEFAULT is 0 and has no effect, as struct
-> fbinfo.flags has been allocated to zero by framebuffer_alloc(). So do
-> not set it.
->
-> Flags should signal differences from the default values. After cleaning
-> up all occurences of FBINFO_FLAG_DEFAULT, the token can be removed.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: "Bruno Pr=C3=A9mont" <bonbons@linux-vserver.org>
-> Cc: Jiri Kosina <jikos@kernel.org>
-> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+--o7S8PluLd+rG5rXR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Feel free to take this through the DRI tree (or any other that handles
-FB) with the rest of the series if you want.
-
-Cheers,
-Benjamin
-
+On Sun, Jul 09, 2023 at 03:41:08PM +0200, Martin Kaiser wrote:
+> devm_platform_get_and_ioremap_resource maps a resource and returns its
+> physical address. If we don't need the physical address, we should call
+> devm_platform_ioremap_resource instead.
+>=20
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 > ---
->  drivers/hid/hid-picolcd_fb.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/hid/hid-picolcd_fb.c b/drivers/hid/hid-picolcd_fb.c
-> index dabcd054dad9..d726aaafb146 100644
-> --- a/drivers/hid/hid-picolcd_fb.c
-> +++ b/drivers/hid/hid-picolcd_fb.c
-> @@ -527,7 +527,6 @@ int picolcd_init_framebuffer(struct picolcd_data *dat=
-a)
->         info->var =3D picolcdfb_var;
->         info->fix =3D picolcdfb_fix;
->         info->fix.smem_len   =3D PICOLCDFB_SIZE*8;
-> -       info->flags =3D FBINFO_FLAG_DEFAULT;
->
->         fbdata =3D info->par;
->         spin_lock_init(&fbdata->lock);
-> --
-> 2.41.0
->
+>  drivers/input/keyboard/tegra-kbc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
+Different variations of these have been going around for a while now. I
+don't really see much use in these tiny conversions.
+
+But the patch also isn't wrong, so while I'm at it:
+
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+
+>=20
+> diff --git a/drivers/input/keyboard/tegra-kbc.c b/drivers/input/keyboard/=
+tegra-kbc.c
+> index d5a6c7d8eb25..c9a823ea45d0 100644
+> --- a/drivers/input/keyboard/tegra-kbc.c
+> +++ b/drivers/input/keyboard/tegra-kbc.c
+> @@ -640,7 +640,7 @@ static int tegra_kbc_probe(struct platform_device *pd=
+ev)
+> =20
+>  	timer_setup(&kbc->timer, tegra_kbc_keypress_timer, 0);
+> =20
+> -	kbc->mmio =3D devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
+> +	kbc->mmio =3D devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(kbc->mmio))
+>  		return PTR_ERR(kbc->mmio);
+> =20
+> --=20
+> 2.30.2
+>=20
+
+--o7S8PluLd+rG5rXR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmSsA3oACgkQ3SOs138+
+s6F5cw//YZueXXDV1NfMlou+p4d28iz0CUuuGL06TRczgNlcyG4RS67X93IejGAP
+mmEMgX4CN0chNM/rdwTIXg9+jJ05ri5SuM+PPtzLstDWmoJ+S3ySLU89m0Tj8P81
+Xrk/JAEXxMTbVPvQPoG1MlQssNrA80Kis+ZLvQNAavkTIidBBeUnvojhsoMTbCkK
+eG06ldA0XvUNhFfdyQk1cNM2BpnEQEKgH7s4LMmHkc6HbHFUDpCZNzL3OCpluPi+
+uEWE3BCs2uMuhdYTvjd2gCMhQDrkTx+DLDM4Xvz+J0n1UbFWwGz7u/NPMwwnzEbZ
+UtN4NjqhWTKW/dF2m9mtiVahMXBLjGRumgwgupxK80fPdpVWQkwLCQklb/1mwqe3
+1ARD145VNSe0Qi7mvsXpO8gz9ZdpUyqZZ2muNBWfDSkRVm9qDRsbtfkwG/smw8rv
+vb/tN+rwnDu75QnGeGzifk9VldnODoATkAiOClLwmE3oBU6MXd7x59qmSZb8JguJ
+bMlE/zL+Z5wzjdGxn63aCFaz4QEuZ/JBe1JUeDzUE5a8V9U9T6m000oXnRTnB0pC
+hf1yd39lw7BPssSNFUhrCxOZqB8DM7HzEw3GbXitBFJcVVQHf0LGUYGAM7mvgIX/
+c5a7YgodKGCa8kHBwC9ATGKQ3gxvv6ZdvdbZGcnEmWd8gQOOgCI=
+=AfGr
+-----END PGP SIGNATURE-----
+
+--o7S8PluLd+rG5rXR--
