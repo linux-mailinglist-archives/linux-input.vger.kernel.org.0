@@ -2,98 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 540EE74DC95
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jul 2023 19:35:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 385B474DD95
+	for <lists+linux-input@lfdr.de>; Mon, 10 Jul 2023 20:51:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229863AbjGJRfQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Jul 2023 13:35:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52368 "EHLO
+        id S229983AbjGJSvF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Jul 2023 14:51:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232848AbjGJRfP (ORCPT
+        with ESMTP id S230386AbjGJSvE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Jul 2023 13:35:15 -0400
-X-Greylist: delayed 963 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 10 Jul 2023 10:35:12 PDT
-Received: from mailrelay6-1.pub.mailoutpod2-cph3.one.com (mailrelay6-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:405::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70FB110D
-        for <linux-input@vger.kernel.org>; Mon, 10 Jul 2023 10:35:12 -0700 (PDT)
+        Mon, 10 Jul 2023 14:51:04 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 601AACA
+        for <linux-input@vger.kernel.org>; Mon, 10 Jul 2023 11:51:03 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1b89bc52cd1so21302235ad.1
+        for <linux-input@vger.kernel.org>; Mon, 10 Jul 2023 11:51:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ravnborg.org; s=rsa1;
-        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-         from:date:from;
-        bh=IgD20OUQ8wy5rFFsoBYb/VGqjIM7D6p+vuvVuio9hik=;
-        b=CcwAZRGze1nz78tsTeGG31sH+B/tjdH+6ekcCAKy3lsh8Fx6Y+YXCD/TmIei/HlJU/+CjyCRKUyPh
-         4CUMeeNCmxnxg5WnN8WYc+Y/3TRBu3GgBHOLLMWNEmjaKunSp3X6NAJPGuB+DxEkEZX+QnanSr3FYn
-         2wlZ5UBU9Zu+O246GL/D/HneI1rQcFtBUkUV1dNMCwn+vM9M1hVrPjLsgJxFcU87WZ4nq2Vtx30nj9
-         ArzioTOrLCz4P2HsQj4ZOuK/Fmh+TNaxaKUMNXnO1dvheypIb7/oOCjfcrCaYpZhivEpRMotLSbonb
-         DLfigJoJ7elOqxhN67CrfrrG5kpNeWw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-        d=ravnborg.org; s=ed1;
-        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-         from:date:from;
-        bh=IgD20OUQ8wy5rFFsoBYb/VGqjIM7D6p+vuvVuio9hik=;
-        b=vxQog57Oi39/DPw2NHC1MnZmnCknkQQw5bg9fTJIlcxSuaigVTP3V2Z7GSu+tbSUPTOKht6NYG4oF
-         2pB/Sc4AQ==
-X-HalOne-ID: de71c874-1f45-11ee-b17e-6f01c1d0a443
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-        by mailrelay6 (Halon) with ESMTPSA
-        id de71c874-1f45-11ee-b17e-6f01c1d0a443;
-        Mon, 10 Jul 2023 17:19:05 +0000 (UTC)
-Date:   Mon, 10 Jul 2023 19:19:03 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     deller@gmx.de, javierm@redhat.com, linux-fbdev@vger.kernel.org,
-        kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
-        linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 00/17] fbdev: Remove FBINFO_DEFAULT and
- FBINFO_FLAG_DEFAULT flags
-Message-ID: <20230710171903.GA14712@ravnborg.org>
-References: <20230710130113.14563-1-tzimmermann@suse.de>
+        d=gmail.com; s=20221208; t=1689015063; x=1691607063;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yVej8ALIFND5nuxsCs/mCH8qvlOrthYfmyQVdHzDoBg=;
+        b=m1ubXdR4DeFki1wuJhusOOV4QStApZelbAFKfhVLzsRWhg1Bfdbaj2D+LVyP4M6rCs
+         ZFl1T0G4m9u1jx+bWzxa89/bL1lCu54fkIM6fONzT6wfCgeRsdteex9jGxprcfR/y9Gx
+         tKDaLP6mrdI2s/FtAkBy/ihGAxQzocivrMa7QsnN62/r85L4e+79kfja41bdw/EH7PuJ
+         FJLEbnvPFFJGF5MKnVh2vYc2vjjImkGiVWhJfK6BANoqMABymbYf+fK81xIXdIrJ4xgh
+         5QJlcPc5Gq1mfwt5SqGOIJ5PLZKOzdYSPvdpm6NNMaKCYi2Uj/d7/rJ5ZeB240TpqxoF
+         xRbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689015063; x=1691607063;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yVej8ALIFND5nuxsCs/mCH8qvlOrthYfmyQVdHzDoBg=;
+        b=bRQBrIGuVB+9YTC0yCnGN76QcM7FDz4QHa1qE8GNGi+pU5e9TRchjGn3pYhZzVG+7k
+         3oud6W/YIGzLcGdkkIpMCMFyBji7BcHP36dEP5WcdT9lK/U1C26+0qWTQpFFy3reOWRX
+         Fvd9Nlmxoaf2PV/NJUYUfOxLhLZ39Grl4Yu5zaorBH0jx5yakEMT3c/ymbrlNUoLRl82
+         ZzOxynNL5KQMmeggOM2RyaAfODtzYFJ+gbF5o8rUHYUP6O9cIoFuvcGvVm8BD4XC4ZdL
+         9Yg0IAbIb50ZjVUfoI/wkoj3xG86GWMldyWQYi9URQjiizTdUQ7+KTWZcIIzwLo51ms2
+         TzRQ==
+X-Gm-Message-State: ABy/qLbC+HvvWk14ecypFyis3yx5wqy/G0CUtg9gyGvOrbXDP1eGt9GC
+        fmpoYIy9wxfOb+9eq9/gw1g=
+X-Google-Smtp-Source: APBJJlFsQSGljTDX5LUw7/tCHF2OFakP6pABtBVODTxws/p452I/2Cn2oQBdHEQ4NJ4nFLCpeQjsbw==
+X-Received: by 2002:a17:902:e54a:b0:1b8:9552:ca with SMTP id n10-20020a170902e54a00b001b8955200camr12908992plf.45.1689015062683;
+        Mon, 10 Jul 2023 11:51:02 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:96bf:7e77:39eb:7a23])
+        by smtp.gmail.com with ESMTPSA id z10-20020a170903018a00b001b3f9a5d4besm210017plg.255.2023.07.10.11.51.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jul 2023 11:51:02 -0700 (PDT)
+Date:   Mon, 10 Jul 2023 11:50:59 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     linux-input@vger.kernel.org,
+        Peter Hutterer <peter.hutterer@who-t.net>
+Subject: Re: [PATCH resend 1/2] Input: novatek-nvt-ts - fix
+ input_register_device() failure error message
+Message-ID: <ZKxTE3Pqa2RTQLmI@google.com>
+References: <20230710123633.323937-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230710130113.14563-1-tzimmermann@suse.de>
-X-Spam-Status: No, score=-0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLACK autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230710123633.323937-1-hdegoede@redhat.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Thomas,
-
-On Mon, Jul 10, 2023 at 02:50:04PM +0200, Thomas Zimmermann wrote:
-> Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
-> fbdev and drivers, as briefly discussed at [1]. Both flags were maybe
-> useful when fbdev had special handling for driver modules. With
-> commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
-> and have no further effect.
+On Mon, Jul 10, 2023 at 02:36:32PM +0200, Hans de Goede wrote:
+> Fix input_register_device() failure logging "failed to request irq"
+> as error message.
 > 
-> Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
-> split this by the way the fb_info struct is being allocated. All flags
-> are cleared to zero during the allocation.
-> 
-> Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
-> an actual bug in how arch/sh uses the tokne for struct fb_videomode,
-> which is unrelated.
-> 
-> Patch 17 removes both flag constants from <linux/fb.h>
+> Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-We have a few more flags that are unused - should they be nuked too?
-FBINFO_HWACCEL_FILLRECT
-FBINFO_HWACCEL_ROTATE
-FBINFO_HWACCEL_XPAN
+Applied, thank you.
 
-Unused as in no references from fbdev/core/*
-
-I would rather see one series nuke all unused FBINFO flags in one go.
-Assuming my quick grep are right and the above can be dropped.
-
-	Sam
+-- 
+Dmitry
