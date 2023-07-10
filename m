@@ -2,130 +2,142 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F164674CF25
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jul 2023 09:53:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED05574CF2E
+	for <lists+linux-input@lfdr.de>; Mon, 10 Jul 2023 09:55:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232110AbjGJHxp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Jul 2023 03:53:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52322 "EHLO
+        id S230482AbjGJHzw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Jul 2023 03:55:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232062AbjGJHx3 (ORCPT
+        with ESMTP id S229732AbjGJHzv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Jul 2023 03:53:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 429351A8
-        for <linux-input@vger.kernel.org>; Mon, 10 Jul 2023 00:51:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688975506;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=/S5TMpL0uocWIm+1OwtB/ZxbVrEGPEFscIcgVtNogz0=;
-        b=BlGoNtxkTk39ouoAtBwQSJEaVIFO3aAsxmyw0tVBB/mbBVcaq/5DPjcU/ABhNkQyBqac0z
-        HgGGV9nv60FKhV7jgyMu/RAGuFZFyPDfuGRtKMlJTzA5lJJnvAri/BXeMZXKR2pMx8WWR+
-        gk508XDEqX3PAliD8R9CYSwQepxCJS0=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-319-9TJlefpPNyakr58_UtIf6g-1; Mon, 10 Jul 2023 03:51:45 -0400
-X-MC-Unique: 9TJlefpPNyakr58_UtIf6g-1
-Received: by mail-yb1-f199.google.com with SMTP id 3f1490d57ef6-c118efd0c3cso3752173276.0
-        for <linux-input@vger.kernel.org>; Mon, 10 Jul 2023 00:51:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688975504; x=1691567504;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/S5TMpL0uocWIm+1OwtB/ZxbVrEGPEFscIcgVtNogz0=;
-        b=VbbCEqdREQ3LYQXyn4jqUppb6KTH94D4wXHXU7x1FV8Kdvdtj2Srp8awfdXHVprDF6
-         EzVmvrr26hxcGuVkrAs/GH2kzbiS3woqoTn/Ffl1rJReHSUB9+5cKAgpcmW0TsxRT8dx
-         v25eXuTxdRtkfULyTB1GOCZ2PsVcTiQ3uXVZmVjlzWGtErO92hCxVcuj6B4Jk6ar+Hef
-         zqMdpihS3djwdphkD7mr8Gzz66VQ2LmioorlYNw8z5C16tOxIux+vmjLqp1JKQzkvEQp
-         1FPZ/TbkQYXDu+nRJfFUwFl2bJGzmk11jAhQRsCOXeidQiTm5yQCe0tsRNcORa867NuP
-         rEYg==
-X-Gm-Message-State: ABy/qLYyQJi0cv5GPCBJE5PzPAJ71KtRCyMv7Fy68Rzih2qh6zEl/o3J
-        inodS3sV9pnWodPRJCD3oL7rB5DoRzE7QEHRE3ItaszeO5j8KMsuT0KLCyANbmkAamv+rVuOvou
-        3dpbfKfAhSIHM9qg4tgk2fA3aapVZQQL2TDnxRdG51ib6eZc=
-X-Received: by 2002:a25:ba11:0:b0:c86:5a9e:86c with SMTP id t17-20020a25ba11000000b00c865a9e086cmr1595360ybg.17.1688975504293;
-        Mon, 10 Jul 2023 00:51:44 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlHGQPVTc+6BugVBhgT/QK+tSb7/kPQaEijKSfSd4Y05GgzAtNpEE04vaWKQfYAyiWRusGbi5TTfob93Rlsn7Ns=
-X-Received: by 2002:a25:ba11:0:b0:c86:5a9e:86c with SMTP id
- t17-20020a25ba11000000b00c865a9e086cmr1595351ybg.17.1688975504078; Mon, 10
- Jul 2023 00:51:44 -0700 (PDT)
+        Mon, 10 Jul 2023 03:55:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FABFE1;
+        Mon, 10 Jul 2023 00:55:50 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1D81160EC3;
+        Mon, 10 Jul 2023 07:55:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84F05C433C9;
+        Mon, 10 Jul 2023 07:55:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1688975749;
+        bh=mE8T9raCZQxGqUFQxblBiYTVl8i4RD8O6zIOxWyJ2lg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Qg21zURAYemicOfYEuQP8Y8CH44/KN0cVAPBuDrGrqVUXPSbf9jDWsZ7XclfwaYHh
+         cjwIAI3HBTiqJrfujLBb7HLHps595Iw/pX4NG2vXSkIBjd0jhf72eGlzBHzrf3NsYQ
+         li3msNgMn/5xEXBOY9dfbgfzogT+6P8bDBR6rNxmN9V/K+4iHSa4zxpyQZq805p8sv
+         v2Pc+FNvtm65VTWQqFMo52PIo39ikFn0tKVGTTizZ/AMmxIAwvaTdmVaZB3UmsIJyW
+         oK/zGX++3g6rUt4QbpmpJOSWEIw5/Lv+SIOiwhGn+WJ63lSBbJhqOdmGlnsbRGijDG
+         XT4HBvxh+zJRA==
+Date:   Mon, 10 Jul 2023 09:55:44 +0200
+From:   Benjamin Tissoires <bentiss@kernel.org>
+To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     Basavaraj Natikar <bnatikar@amd.com>, basavaraj.natikar@amd.com,
+        mario.limonciello@amd.com, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: amd_sfh: Increase bitwidth to avoid
+ shift-out-of-bounds
+Message-ID: <ob7rzwq5ow4unzin37yheqihbjtmo3ls5mmfwxrpbzte572qss@hobn4vpm6nyt>
+References: <20230704081724.2308195-1-kai.heng.feng@canonical.com>
+ <29b68182-cb58-6a3f-0fdf-b919851e5524@amd.com>
+ <CAAd53p7-Cyqt-aGkzDNu2sqWejJQgbLcs8BBQvOZxj-FfHmo2g@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230709-fix-selftests-v1-1-57d0878114cc@kernel.org>
-In-Reply-To: <20230709-fix-selftests-v1-1-57d0878114cc@kernel.org>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Mon, 10 Jul 2023 09:51:33 +0200
-Message-ID: <CAO-hwJL+vqr0Xcb6SgL8xjr6ERM-d19bBF9VeDT3p3SVTOGGBg@mail.gmail.com>
-Subject: Re: [PATCH] selftests: hid: fix vmtests.sh not running make headers
-To:     Benjamin Tissoires <bentiss@kernel.org>
-Cc:     Jiri Kosina <jikos@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAd53p7-Cyqt-aGkzDNu2sqWejJQgbLcs8BBQvOZxj-FfHmo2g@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Jul 9, 2023 at 12:07=E2=80=AFPM Benjamin Tissoires <bentiss@kernel.=
-org> wrote:
->
-> According to commit 01d6c48a828b ("Documentation: kselftest:
-> "make headers" is a prerequisite"), running the kselftests requires
-> to run "make headers" first.
->
-> Do that in "vmtest.sh" as well to fix the HID CI.
->
-> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-> ---
-> Looks like the new master branch (v6.5-rc1) broke my CI.
->
-> And given that `make headers` is now a requisite to run the kselftests,
-> also include that command in vmtests.sh.
->
-> Broken CI job: https://gitlab.freedesktop.org/bentiss/hid/-/jobs/44704436
-> Fixed CI job: https://gitlab.freedesktop.org/bentiss/hid/-/jobs/45151040
+On Jul 10 2023, Kai-Heng Feng wrote:
+> Hi Basavaraj,
+> 
+> On Fri, Jul 7, 2023 at 3:36 PM Basavaraj Natikar <bnatikar@amd.com> wrote:
+> >
+> >
+> > On 7/4/2023 1:47 PM, Kai-Heng Feng wrote:
+> > > UBSAN complains shift-out-of-bounds on amd_sfh:
+> > > [    7.593412] input: SYNA3105:00 06CB:CEA3 Mouse as /devices/platform/AMDI0010:00/i2c-0/i2c-SYNA3105:00/0018:06CB:CEA3.0001/input/input11
+> > > [    7.593541] input: SYNA3105:00 06CB:CEA3 Touchpad as /devices/platform/AMDI0010:00/i2c-0/i2c-SYNA3105:00/0018:06CB:CEA3.0001/input/input12
+> > > [    7.593625] hid-multitouch 0018:06CB:CEA3.0001: input,hidraw0: I2C HID v1.00 Mouse [SYNA3105:00 06CB:CEA3] on i2c-SYNA3105:00
+> > > [    7.664537] ================================================================================
+> > > [    7.664540] UBSAN: shift-out-of-bounds in drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c:149:50
+> > > [    7.664544] shift exponent 103 is too large for 64-bit type 'long unsigned int'
+> > > [    7.664547] CPU: 5 PID: 124 Comm: kworker/5:1 Tainted: G        W          6.4.0-next-20230703 #1
+> > > [    7.664549] Hardware name: HP HP EliteBook 835 13 inch G10 Notebook PC/8C10, BIOS V83 Ver. 01.01.09 06/05/2023
+> > > [    7.664551] Workqueue: events amd_sfh_work_buffer [amd_sfh]
+> > > [    7.664562] Call Trace:
+> > > [    7.664564]  <TASK>
+> > > [    7.664567]  dump_stack_lvl+0x48/0x70
+> > > [    7.664576]  dump_stack+0x10/0x20
+> > > [    7.664578]  __ubsan_handle_shift_out_of_bounds+0x156/0x310
+> > > [    7.664584]  ? sched_clock_noinstr+0x9/0x10
+> > > [    7.664589]  ? sched_clock_cpu+0x12/0x1d0
+> > > [    7.664594]  ? raw_spin_rq_lock_nested+0x1e/0xa0
+> > > [    7.664597]  ? psi_group_change+0x237/0x520
+> > > [    7.664600]  float_to_int.cold+0x18/0xcf [amd_sfh]
+> > > [    7.664606]  ? __pfx_get_input_rep+0x10/0x10 [amd_sfh]
+> > > [    7.664611]  get_input_rep+0x241/0x340 [amd_sfh]
+> > > [    7.664617]  amd_sfh_work_buffer+0x91/0x190 [amd_sfh]
+> > > [    7.664622]  process_one_work+0x229/0x450
+> > > [    7.664627]  worker_thread+0x50/0x3f0
+> > > [    7.664629]  ? __pfx_worker_thread+0x10/0x10
+> > > [    7.664632]  kthread+0xf4/0x130
+> > > [    7.664635]  ? __pfx_kthread+0x10/0x10
+> > > [    7.664638]  ret_from_fork+0x29/0x50
+> > > [    7.664644]  </TASK>
+> > > [    7.664652] ================================================================================
+> > >
+> > > So increase the variable bitwidth to solve the issue.
+> > >
+> > > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> > > ---
+> > >  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
+> > > index 6f0d332ccf51..550639ef8bfe 100644
+> > > --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
+> > > +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
+> > > @@ -134,7 +134,8 @@ static void get_common_inputs(struct common_input_property *common, int report_i
+> > >
+> > >  static int float_to_int(u32 float32)
+> > >  {
+> > > -     int fraction, shift, mantissa, sign, exp, zeropre;
+> > > +     int fraction, shift, sign, exp, zeropre;
+> > > +     s128 mantissa;
+> > >
+> > >       mantissa = float32 & GENMASK(22, 0);
+> > >       sign = (float32 & BIT(31)) ? -1 : 1;
+> >
+> > Could you please check below patch which covers more scenario's and corner cases
+> > for UBSAN: shift-out-of-bounds.
+> > https://lore.kernel.org/all/20230707065722.9036-1-Basavaraj.Natikar@amd.com/T/#m67e0b7aa6a288ea074b3bfa61e7f085f7e036172
+> 
+> Thanks for the patch. Please add my tag:
+> Tested-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
 
-FWIW, I'm going to apply this one now given that otherwise all of the
-CI is not working.
+Thanks. I'll add the tags to Basavaraj's series and push it to Linus
+ASAP.
 
 Cheers,
 Benjamin
 
-> ---
->  tools/testing/selftests/hid/vmtest.sh | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/tools/testing/selftests/hid/vmtest.sh b/tools/testing/selfte=
-sts/hid/vmtest.sh
-> index 681b906b4853..4da48bf6b328 100755
-> --- a/tools/testing/selftests/hid/vmtest.sh
-> +++ b/tools/testing/selftests/hid/vmtest.sh
-> @@ -79,6 +79,7 @@ recompile_kernel()
->         cd "${kernel_checkout}"
->
->         ${make_command} olddefconfig
-> +       ${make_command} headers
->         ${make_command}
->  }
->
->
-> ---
-> base-commit: 0e382fa72bbf0610be40af9af9b03b0cd149df82
-> change-id: 20230709-fix-selftests-c8b0bdff1d20
->
-> Best regards,
-> --
-> Benjamin Tissoires <bentiss@kernel.org>
->
-
+> 
+> >
+> > Thanks,
+> > --
+> > Basavaraj
+> >
