@@ -2,143 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE72774D717
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jul 2023 15:11:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3576C74D7F5
+	for <lists+linux-input@lfdr.de>; Mon, 10 Jul 2023 15:43:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229702AbjGJNL3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Jul 2023 09:11:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57822 "EHLO
+        id S233158AbjGJNnL convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Mon, 10 Jul 2023 09:43:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbjGJNL1 (ORCPT
+        with ESMTP id S229907AbjGJNm4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Jul 2023 09:11:27 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E58B7A8;
-        Mon, 10 Jul 2023 06:11:26 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-992dcae74e0so590220566b.3;
-        Mon, 10 Jul 2023 06:11:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688994685; x=1691586685;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7+Sj+CwJeYIb9YiBPuGCzCzTBVYAtf6z/Ku6fc72G2E=;
-        b=FS46eo5yjS6DqXLbArty/6G2Q/3VjDmv9tgGS3BEb/KgL1glnMzOS7VcrOhzhUo13U
-         Pe9s5zG6Nqdt9sfeBKWZH5BnuRCiVvIHkKZqQOxZhKTdt5xT0kGQ62MPL/rCdrgkFkov
-         tJz0roaWL5/c9t8+qTOYZLJjMb2fUhvqLFyrECikyUVj1RltOq1FAZ0NdD3YVKDxTGga
-         A8CavPcYyjYAro3umKDprZp0uquDnZKhayLJVLtBoG+G90+hkLwuFecdF2P37632e/Tz
-         5MTD4yZNdFbbGjr77GhIf2omgHCVAdglPvw0eoYiYUwtXxBnuzBHp8e1bP4Ljc8+M7Ak
-         pBJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688994685; x=1691586685;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7+Sj+CwJeYIb9YiBPuGCzCzTBVYAtf6z/Ku6fc72G2E=;
-        b=Tde6/dpPKFHxo3YiKaVuA6DA+583LuV2hgyz4/U8SwFgxWff5Ursu9EXxiaMQt1/kP
-         qfCwnotrYhaGenD5ZbcKbGCiNIEJ/lLrJc1ui6Zosa31kqlOexJW84+ixoo1EqYb2DYN
-         +O71Vg3h41eetO9reRdkpCM+QRxMf2QhwP3XuYYuvgWY1IUBn+A5Hb+LJwuUk69Q8rWa
-         xGhHsS0PlUZhd9V2A9kkTaYCd/5lihMd78U3TvVK0b3HPjdwB8TjzknJvv3GcoWMIZc9
-         I2cNjZh3vWOELhmosNMH7i5eacKZLgRHzc39kDwr9pFHEVscCBDOh/fXCaghizK5BEuT
-         u6LA==
-X-Gm-Message-State: ABy/qLaFRoGhaMKlUZGc4aYz/lEU8RAlwuw38l/mBcE4aIUq1TVTqNW4
-        3UyuMezcb1OOlVDb/E5GnJ79lrtvvus=
-X-Google-Smtp-Source: APBJJlF1kaMLPpu8IWN45q9maOQ/+xLzkln+KHH7qgAVhCq/HJqmld6n7/tnKAoQDNfgm229y8lJsQ==
-X-Received: by 2002:a17:906:728a:b0:993:d54b:3e4a with SMTP id b10-20020a170906728a00b00993d54b3e4amr10626237ejl.15.1688994685133;
-        Mon, 10 Jul 2023 06:11:25 -0700 (PDT)
-Received: from orome (p200300e41f4b7100f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f4b:7100:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id h13-20020a17090634cd00b0099316c56db9sm6056440ejb.127.2023.07.10.06.11.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jul 2023 06:11:24 -0700 (PDT)
-Date:   Mon, 10 Jul 2023 15:11:23 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Martin Kaiser <martin@kaiser.cx>
-Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-input@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: tegra-kbc - use devm_platform_ioremap_resource
-Message-ID: <ZKwDe77yPmaaNoiE@orome>
-References: <20230709134109.182418-1-martin@kaiser.cx>
+        Mon, 10 Jul 2023 09:42:56 -0400
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F163CBA;
+        Mon, 10 Jul 2023 06:42:54 -0700 (PDT)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.95)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1qIrA9-000zai-Vg; Mon, 10 Jul 2023 15:42:50 +0200
+Received: from p57bd95f7.dip0.t-ipconnect.de ([87.189.149.247] helo=[192.168.178.81])
+          by inpost2.zedat.fu-berlin.de (Exim 4.95)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1qIrA9-001iVF-NK; Mon, 10 Jul 2023 15:42:49 +0200
+Message-ID: <0a47ed93fe90a77180533f8c2e42e402827e8f1c.camel@physik.fu-berlin.de>
+Subject: Re: [PATCH 08/17] arch/sh: Do not assign FBINFO_FLAG_DEFAULT to
+ fb_videomode.flag
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To:     Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
+        javierm@redhat.com
+Cc:     linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com,
+        linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>
+Date:   Mon, 10 Jul 2023 15:42:48 +0200
+In-Reply-To: <20230710130113.14563-9-tzimmermann@suse.de>
+References: <20230710130113.14563-1-tzimmermann@suse.de>
+         <20230710130113.14563-9-tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.48.4 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="o7S8PluLd+rG5rXR"
-Content-Disposition: inline
-In-Reply-To: <20230709134109.182418-1-martin@kaiser.cx>
-User-Agent: Mutt/2.2.10 (2023-03-25)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.149.247
+X-ZEDAT-Hint: PO
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Thomas!
 
---o7S8PluLd+rG5rXR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, Jul 09, 2023 at 03:41:08PM +0200, Martin Kaiser wrote:
-> devm_platform_get_and_ioremap_resource maps a resource and returns its
-> physical address. If we don't need the physical address, we should call
-> devm_platform_ioremap_resource instead.
->=20
-> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+On Mon, 2023-07-10 at 14:50 +0200, Thomas Zimmermann wrote:
+> FBINFO_FLAG_DEFAULT is a flag for a framebuffer in struct fb_info.
+> Flags for videomodes are prefixed with FB_MODE_. FBINFO_FLAG_DEFAULT
+> is 0 and the static declaration already clears the memory area of
+> sh7763fb_videomode. So remove the assignment.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Cc: Rich Felker <dalias@libc.org>
+> Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 > ---
->  drivers/input/keyboard/tegra-kbc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  arch/sh/boards/mach-sh7763rdp/setup.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/arch/sh/boards/mach-sh7763rdp/setup.c b/arch/sh/boards/mach-sh7763rdp/setup.c
+> index 97e715e4e9b3..345f2b76c85a 100644
+> --- a/arch/sh/boards/mach-sh7763rdp/setup.c
+> +++ b/arch/sh/boards/mach-sh7763rdp/setup.c
+> @@ -119,7 +119,6 @@ static struct fb_videomode sh7763fb_videomode = {
+>  	.vsync_len = 1,
+>  	.sync = 0,
+>  	.vmode = FB_VMODE_NONINTERLACED,
+> -	.flag = FBINFO_FLAG_DEFAULT,
+>  };
+>  
+>  static struct sh7760fb_platdata sh7763fb_def_pdata = {
 
-Different variations of these have been going around for a while now. I
-don't really see much use in these tiny conversions.
+I would argue that the current code is more readable that your proposed change.
 
-But the patch also isn't wrong, so while I'm at it:
+I agree that it's a no-op, but code is not just about functionality but also
+readability, isn't it?
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+Also, I prefer "sh:" as the architecture prefix, not "arch/sh:".
 
+Thanks,
+Adrian
 
->=20
-> diff --git a/drivers/input/keyboard/tegra-kbc.c b/drivers/input/keyboard/=
-tegra-kbc.c
-> index d5a6c7d8eb25..c9a823ea45d0 100644
-> --- a/drivers/input/keyboard/tegra-kbc.c
-> +++ b/drivers/input/keyboard/tegra-kbc.c
-> @@ -640,7 +640,7 @@ static int tegra_kbc_probe(struct platform_device *pd=
-ev)
-> =20
->  	timer_setup(&kbc->timer, tegra_kbc_keypress_timer, 0);
-> =20
-> -	kbc->mmio =3D devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
-> +	kbc->mmio =3D devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(kbc->mmio))
->  		return PTR_ERR(kbc->mmio);
-> =20
-> --=20
-> 2.30.2
->=20
-
---o7S8PluLd+rG5rXR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmSsA3oACgkQ3SOs138+
-s6F5cw//YZueXXDV1NfMlou+p4d28iz0CUuuGL06TRczgNlcyG4RS67X93IejGAP
-mmEMgX4CN0chNM/rdwTIXg9+jJ05ri5SuM+PPtzLstDWmoJ+S3ySLU89m0Tj8P81
-Xrk/JAEXxMTbVPvQPoG1MlQssNrA80Kis+ZLvQNAavkTIidBBeUnvojhsoMTbCkK
-eG06ldA0XvUNhFfdyQk1cNM2BpnEQEKgH7s4LMmHkc6HbHFUDpCZNzL3OCpluPi+
-uEWE3BCs2uMuhdYTvjd2gCMhQDrkTx+DLDM4Xvz+J0n1UbFWwGz7u/NPMwwnzEbZ
-UtN4NjqhWTKW/dF2m9mtiVahMXBLjGRumgwgupxK80fPdpVWQkwLCQklb/1mwqe3
-1ARD145VNSe0Qi7mvsXpO8gz9ZdpUyqZZ2muNBWfDSkRVm9qDRsbtfkwG/smw8rv
-vb/tN+rwnDu75QnGeGzifk9VldnODoATkAiOClLwmE3oBU6MXd7x59qmSZb8JguJ
-bMlE/zL+Z5wzjdGxn63aCFaz4QEuZ/JBe1JUeDzUE5a8V9U9T6m000oXnRTnB0pC
-hf1yd39lw7BPssSNFUhrCxOZqB8DM7HzEw3GbXitBFJcVVQHf0LGUYGAM7mvgIX/
-c5a7YgodKGCa8kHBwC9ATGKQ3gxvv6ZdvdbZGcnEmWd8gQOOgCI=
-=AfGr
------END PGP SIGNATURE-----
-
---o7S8PluLd+rG5rXR--
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
