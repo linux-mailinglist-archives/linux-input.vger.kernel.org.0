@@ -2,48 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E69374CFFB
-	for <lists+linux-input@lfdr.de>; Mon, 10 Jul 2023 10:33:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BC2774D000
+	for <lists+linux-input@lfdr.de>; Mon, 10 Jul 2023 10:33:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229864AbjGJIdV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Jul 2023 04:33:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47660 "EHLO
+        id S232979AbjGJIdZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Jul 2023 04:33:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233106AbjGJIdC (ORCPT
+        with ESMTP id S233141AbjGJIdF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Jul 2023 04:33:02 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 070ACE73;
-        Mon, 10 Jul 2023 01:32:50 -0700 (PDT)
+        Mon, 10 Jul 2023 04:33:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01BED18B
+        for <linux-input@vger.kernel.org>; Mon, 10 Jul 2023 01:32:51 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9539B60F03;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 121CD60F18
+        for <linux-input@vger.kernel.org>; Mon, 10 Jul 2023 08:32:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76554C433C7;
         Mon, 10 Jul 2023 08:32:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7758C433C9;
-        Mon, 10 Jul 2023 08:32:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688977969;
-        bh=RBD+9rZAJ9DiIem6iOrErjZL38XJTPgIwJHH7LduCss=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=HeG/4HJCjd9J1/6VeHPlMfIMw5Sisn/HqTMNksjz8J1K8L/1teh9VkrAkLxVnMvlu
-         PYD2H8zaoblWHSshXYb//bvjUF1JQwENwkybvu0r1ZiQXWepeoBkqV4jDmSwwiETWU
-         55nPdSFJiffaYBgxSObVyVdBDjJny/0EWA+XNNT5bWgHaoLADkXSLIYgReFZBNyD1e
-         tVL6Fqu1uFhDJj+I4sdumRbSLjXFmom8E8hqWi8vjpC3VPkousCJOiIn+3AKtYOZgY
-         hnhRbxw8I9Cqk4tYbyiMVjKGgDqviGq1WMruV3PDORM+O3ZZc3+LSBNwVgvUBr1GDr
-         Gvfdz8g58aF8g==
+        s=k20201202; t=1688977970;
+        bh=Kvu5XFGd8gq+TRVOI6KeyS8ob2+NrTWdPj78OB8xYOw=;
+        h=From:To:In-Reply-To:References:Subject:Date:From;
+        b=FZ6CBVPnlbxH37/1Xzjjo6JeKssryDw9nO5D9k5g7s+8y579liZzNLkivIlaUj9wu
+         17PX2NCyzLaSW5MubpGwQ9cAFUHgrl+BgmIAVfGSvZJqM3GYzdhj1RRtT9i+yvsaQm
+         xBr64y7QyiejWb1uEO1KDNZnUwnTAVBngfEZ3/WXtqrGPEyt9yCdiBHypFx5VDyS/V
+         o44gcdxlg1E5jp/mULa+VagP5/C9x5kevjfEXEo8VQfb13WLzBHnAQVTqWMm1pgojv
+         JouZ68+jIBOhCXVCQ/1gwyHnggxBdkujagjQaEE71Ipzs65NO6yvNgDiS9iXg5Xgiq
+         MuxdywBJlQf0A==
 From:   Benjamin Tissoires <bentiss@kernel.org>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     =?utf-8?q?Eray_Or=C3=A7unus?= <erayorcunus@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <ZJtd/fMXRUgq20TW@google.com>
-References: <ZJtd/fMXRUgq20TW@google.com>
-Subject: Re: [PATCH] HID: input: fix mapping for camera access keys
-Message-Id: <168897796761.315593.173904580565691367.b4-ty@kernel.org>
-Date:   Mon, 10 Jul 2023 10:32:47 +0200
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, akshata.mukundshetty@amd.com,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+In-Reply-To: <20230707065722.9036-1-Basavaraj.Natikar@amd.com>
+References: <20230707065722.9036-1-Basavaraj.Natikar@amd.com>
+Subject: Re: [PATCH 0/2] Updates to amd_sfh
+Message-Id: <168897796922.315593.8416774627477199569.b4-ty@kernel.org>
+Date:   Mon, 10 Jul 2023 10:32:49 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -58,20 +56,22 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 27 Jun 2023 15:09:01 -0700, Dmitry Torokhov wrote:
-> Commit 9f4211bf7f81 ("HID: add mapping for camera access keys") added
-> mapping for the camera access keys, but unfortunately used wrong usage
-> codes for them. HUTRR72[1] specifies that camera access controls use 0x76,
-> 0x077 and 0x78 usages in the consumer control page. Previously mapped 0xd5,
-> 0xd6 and 0xd7 usages are actually defined in HUTRR64[2] as game recording
-> controls.
+On Fri, 07 Jul 2023 12:27:20 +0530, Basavaraj Natikar wrote:
+> This patch series include changes for renaming the float32 variable
+> including the fix for shift-out-of-bounds issue.
+> 
+> Basavaraj Natikar (2):
+>   HID: amd_sfh: Rename the float32 variable
+>   HID: amd_sfh: Fix for shift-out-of-bounds
 > 
 > [...]
 
 Applied to https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git (for-6.5/upstream-fixes), thanks!
 
-[1/1] HID: input: fix mapping for camera access keys
-      https://git.kernel.org/hid/hid/c/e3ea6467f623
+[1/2] HID: amd_sfh: Rename the float32 variable
+      https://git.kernel.org/hid/hid/c/c1685a862a4b
+[2/2] HID: amd_sfh: Fix for shift-out-of-bounds
+      https://git.kernel.org/hid/hid/c/878543661764
 
 Cheers,
 -- 
