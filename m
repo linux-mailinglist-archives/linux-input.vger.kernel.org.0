@@ -2,116 +2,134 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56F0274E3B1
-	for <lists+linux-input@lfdr.de>; Tue, 11 Jul 2023 03:47:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48E4974E5B3
+	for <lists+linux-input@lfdr.de>; Tue, 11 Jul 2023 06:09:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229959AbjGKBrL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Jul 2023 21:47:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49438 "EHLO
+        id S229583AbjGKEJ2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Jul 2023 00:09:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230021AbjGKBrL (ORCPT
+        with ESMTP id S229479AbjGKEJ2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Jul 2023 21:47:11 -0400
-Received: from mail.208.org (unknown [183.242.55.162])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02CC7B8
-        for <linux-input@vger.kernel.org>; Mon, 10 Jul 2023 18:47:10 -0700 (PDT)
-Received: from mail.208.org (email.208.org [127.0.0.1])
-        by mail.208.org (Postfix) with ESMTP id 4R0Nyy4nfSzBHXhc
-        for <linux-input@vger.kernel.org>; Tue, 11 Jul 2023 09:47:06 +0800 (CST)
-Authentication-Results: mail.208.org (amavisd-new); dkim=pass
-        reason="pass (just generated, assumed good)" header.d=208.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
-        content-transfer-encoding:content-type:message-id:user-agent
-        :references:in-reply-to:subject:to:from:date:mime-version; s=
-        dkim; t=1689040026; x=1691632027; bh=LYFY2WDG0zIapsZ2YROEas0Ehkx
-        KV4EYA8XnurMch/Y=; b=vqadKmLAcmv0jUd9fNwZMg+jZXZ+dy32ehLGBQZvdBL
-        RzRIUXA2CxnlU6cpKMnWIkxdFUol2hZrvtSd4t4FlipEPEuTvh93/pBlfbZQraqj
-        3sItKBlB09iwomMEr8MGnBwvAz7NZu9iwI4wJDXaaRDqb+a9hVhBd/6Thlu34Yin
-        e/90rqnYm3hvzN8poQxA8Uc+0RKQsgVuIiMNDbnZdKgNgxFEVN3WcFXqKn6IOxMq
-        Ezx2Ce3UqN1QD6T7n81YsbrcFJUTlFzadSkwqDE76S/RZzrZal0NXGsry+MWBYyV
-        If4kRvDmxoOcNPvTacuMU/D/JnRCMQbTlEBsa5n55rg==
-X-Virus-Scanned: amavisd-new at mail.208.org
-Received: from mail.208.org ([127.0.0.1])
-        by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id QiShhoCubvIv for <linux-input@vger.kernel.org>;
-        Tue, 11 Jul 2023 09:47:06 +0800 (CST)
-Received: from localhost (email.208.org [127.0.0.1])
-        by mail.208.org (Postfix) with ESMTPSA id 4R0Nyy28tFzBHXh5;
-        Tue, 11 Jul 2023 09:47:06 +0800 (CST)
-MIME-Version: 1.0
-Date:   Tue, 11 Jul 2023 09:47:06 +0800
-From:   wuyonggang001@208suo.com
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com
-Cc:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        Tue, 11 Jul 2023 00:09:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01B58B0;
+        Mon, 10 Jul 2023 21:09:26 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9002C612CA;
+        Tue, 11 Jul 2023 04:09:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74CE1C433C8;
+        Tue, 11 Jul 2023 04:09:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1689048566;
+        bh=1nMmpV3CVV4TbzRvPkAb9n7aZZSr8i4Jl6Q0Ss4Rmfs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ctoFXbYOCpWpvWu+Fh62F+//ohxNPdpGuO6F346FfP4zFgFe1RSL+5PLthQicXRiB
+         mQ7ah+hR7xtWAiJN1pb5uBmTVNawA1SrnBCemjBGHcHtZz0HVIQ83i6hjwCHg8Gtai
+         a4UasTNCoQwW+3o8VcIqvVvoD8p9M0rzli0t5N+c=
+Date:   Tue, 11 Jul 2023 06:09:22 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     wuyonggang001@208suo.com
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: usbhid: Fix use assignment in if condition
-In-Reply-To: <20230711014359.11991-1-zhanglibing@cdjrlc.com>
+Subject: Re: [PATCH] HID: usbhid: Fix use assignment in if condition
+Message-ID: <2023071100-recoup-rebuild-c55a@gregkh>
 References: <20230711014359.11991-1-zhanglibing@cdjrlc.com>
-User-Agent: Roundcube Webmail
-Message-ID: <a4ca3852846e220cf378a664cf1c6213@208suo.com>
-X-Sender: wuyonggang001@208suo.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RDNS_NONE,SPF_HELO_FAIL,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+ <a4ca3852846e220cf378a664cf1c6213@208suo.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a4ca3852846e220cf378a664cf1c6213@208suo.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fix the following checkpatch error(s):
+On Tue, Jul 11, 2023 at 09:47:06AM +0800, wuyonggang001@208suo.com wrote:
+> Fix the following checkpatch error(s):
+> 
+> drivers/hid/usbhid/usbkbd.c:238:240:242:246: ERROR: do not use assignment in
+> if condition
+> 
+> Signed-off-by: Yonggang Wu <wuyonggang001@208suo.com>
+> ---
+>  drivers/hid/usbhid/usbkbd.c | 24 +++++++++++++++++++-----
+>  1 file changed, 19 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/hid/usbhid/usbkbd.c b/drivers/hid/usbhid/usbkbd.c
+> index c439ed2f16db..cde7f82b7070 100644
+> --- a/drivers/hid/usbhid/usbkbd.c
+> +++ b/drivers/hid/usbhid/usbkbd.c
+> @@ -235,15 +235,29 @@ static void usb_kbd_close(struct input_dev *dev)
+> 
+>  static int usb_kbd_alloc_mem(struct usb_device *dev, struct usb_kbd *kbd)
+>  {
+> -    if (!(kbd->irq = usb_alloc_urb(0, GFP_KERNEL)))
+> +    kbd->irq = usb_alloc_urb(0, GFP_KERNEL)
+> +
+> +    if (!kbd->irq)
+>          return -1;
+> -    if (!(kbd->led = usb_alloc_urb(0, GFP_KERNEL)))
+> +
+> +    kbd->led = usb_alloc_urb(0, GFP_KERNEL)
+> +
+> +    if (!kbd->led)
+>          return -1;
+> -    if (!(kbd->new = usb_alloc_coherent(dev, 8, GFP_KERNEL,
+> &kbd->new_dma)))
+> +
+> +    kbd->new = usb_alloc_coherent(dev, 8, GFP_KERNEL, &kbd->new_dma)
+> +
+> +    if (!kbd->new)
+>          return -1;
+> -    if (!(kbd->cr = kmalloc(sizeof(struct usb_ctrlrequest), GFP_KERNEL)))
+> +
+> +    kbd->cr = kmalloc(sizeof(struct usb_ctrlrequest), GFP_KERNEL)
+> +
+> +    if (!kbd->cr)
+>          return -1;
+> -    if (!(kbd->leds = usb_alloc_coherent(dev, 1, GFP_KERNEL,
+> &kbd->leds_dma)))
+> +
+> +    kbd->leds = usb_alloc_coherent(dev, 1, GFP_KERNEL, &kbd->leds_dma)
+> +
+> +    if (!kbd->leds)
+>          return -1;
+> 
+>      return 0;
 
-drivers/hid/usbhid/usbkbd.c:238:240:242:246: ERROR: do not use 
-assignment in if condition
+Hi,
 
-Signed-off-by: Yonggang Wu <wuyonggang001@208suo.com>
----
-  drivers/hid/usbhid/usbkbd.c | 24 +++++++++++++++++++-----
-  1 file changed, 19 insertions(+), 5 deletions(-)
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-diff --git a/drivers/hid/usbhid/usbkbd.c b/drivers/hid/usbhid/usbkbd.c
-index c439ed2f16db..cde7f82b7070 100644
---- a/drivers/hid/usbhid/usbkbd.c
-+++ b/drivers/hid/usbhid/usbkbd.c
-@@ -235,15 +235,29 @@ static void usb_kbd_close(struct input_dev *dev)
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-  static int usb_kbd_alloc_mem(struct usb_device *dev, struct usb_kbd 
-*kbd)
-  {
--    if (!(kbd->irq = usb_alloc_urb(0, GFP_KERNEL)))
-+    kbd->irq = usb_alloc_urb(0, GFP_KERNEL)
-+
-+    if (!kbd->irq)
-          return -1;
--    if (!(kbd->led = usb_alloc_urb(0, GFP_KERNEL)))
-+
-+    kbd->led = usb_alloc_urb(0, GFP_KERNEL)
-+
-+    if (!kbd->led)
-          return -1;
--    if (!(kbd->new = usb_alloc_coherent(dev, 8, GFP_KERNEL, 
-&kbd->new_dma)))
-+
-+    kbd->new = usb_alloc_coherent(dev, 8, GFP_KERNEL, &kbd->new_dma)
-+
-+    if (!kbd->new)
-          return -1;
--    if (!(kbd->cr = kmalloc(sizeof(struct usb_ctrlrequest), 
-GFP_KERNEL)))
-+
-+    kbd->cr = kmalloc(sizeof(struct usb_ctrlrequest), GFP_KERNEL)
-+
-+    if (!kbd->cr)
-          return -1;
--    if (!(kbd->leds = usb_alloc_coherent(dev, 1, GFP_KERNEL, 
-&kbd->leds_dma)))
-+
-+    kbd->leds = usb_alloc_coherent(dev, 1, GFP_KERNEL, &kbd->leds_dma)
-+
-+    if (!kbd->leds)
-          return -1;
+- Your patch is malformed (tabs converted to spaces, linewrapped, etc.)
+  and can not be applied.  Please read the file,
+  Documentation/process/email-clients.rst in order to fix this.
 
-      return 0;
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
