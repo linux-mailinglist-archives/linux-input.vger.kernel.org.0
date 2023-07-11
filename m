@@ -2,69 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65A3B74E2A6
-	for <lists+linux-input@lfdr.de>; Tue, 11 Jul 2023 02:40:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3C5774E2B0
+	for <lists+linux-input@lfdr.de>; Tue, 11 Jul 2023 02:42:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229512AbjGKAkx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 Jul 2023 20:40:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39608 "EHLO
+        id S229468AbjGKAm4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Jul 2023 20:42:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230113AbjGKAkw (ORCPT
+        with ESMTP id S230047AbjGKAmx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 Jul 2023 20:40:52 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14C521AC;
-        Mon, 10 Jul 2023 17:40:50 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-66f3fc56ef4so3977499b3a.0;
-        Mon, 10 Jul 2023 17:40:50 -0700 (PDT)
+        Mon, 10 Jul 2023 20:42:53 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 287A0A0;
+        Mon, 10 Jul 2023 17:42:53 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id 98e67ed59e1d1-262dc1ced40so3724175a91.3;
+        Mon, 10 Jul 2023 17:42:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689036049; x=1691628049;
+        d=gmail.com; s=20221208; t=1689036172; x=1691628172;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gv3YcFx+E67TlMawHPFpx9khsk0UQoRAm7W/1UIFjxw=;
-        b=leUms+CBlpLmSsE/qf03mSipNOUG3B43fCdqlgeHH+fNh8OZsq/BXX/yvfGVL8CTLG
-         L7mVyJdoDLgO/XtDeGx6yLQtoVGegg9WzuD5V08HPmHYm8Ll1kOL8gcGGrReae/EVe6D
-         +WAol/sd7AheBfOcpR2GuVRQvoehfDPXq/FjQpzEKKqXMFubkmmjhfJt35kcOVZU32yH
-         Y+X4zG7qB6Uad84r0tv+PDr7C33IoQ0wKF9eSXSPoEpWkxKnKI3w1EtxbOUqLo+Cwy67
-         FxY3BhGLWnBtoijx+f4sNqWX5JXX3qnbpJQ5SV/u5IBpAiQuKLfYz4rxIzJJV28L5zWt
-         bzaA==
+        bh=k68Ut8PHB5gxL0IDowPNH7dg2dW+Rmk/0PtqyCTd1NQ=;
+        b=e4jlusCcMCV7+BkUO2FzbepFRFyFtElyzMALPFlALaKrv2sP+ytjsE0oRYTP3Xg4lT
+         pJvLGP8804mhShhJGO7lINYsZ9bddCyobLRyNaaEDJ7B6YJ6qZT0TedtxfUmr6RxGeiU
+         gbFHYtrVSoiStLksZ346zHw21Vj9/aSpLerH4K62KMe4tlTmWe/kLptE3MI0MRd6rigY
+         20ygw/w3ybhGLGwS/Fib5yMpQIa+Z7N/ilqP861+UxtfW1xX1YMJmm/k+YYghFdY1vO4
+         gCNxDLbdxJrvJRn6zXnAEyke0w6mMMoUNeeGC+01JzCzvXVeDdRjzy3frrsgALebflmi
+         VmsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689036049; x=1691628049;
+        d=1e100.net; s=20221208; t=1689036172; x=1691628172;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Gv3YcFx+E67TlMawHPFpx9khsk0UQoRAm7W/1UIFjxw=;
-        b=jh4H3eedCy2Jr7Yh4x6S0R61RPrzjEFwC3f2RJSg+UpWwVIvxgQTwEmgD6xe5Whhv6
-         4A285vWEmWwaUtqJuw+Qnvpd/v0HQyRqq4/VZSsbuyjljXSxRvXMaxzueoLXE7JEfkCv
-         IYnBaXyeg0LGhBU16uyx52hcAWFINiZlez6E7T+jbSe9f7kvsX2CEhb/7uUH8hadvJtb
-         /uFnQFu0uE32fSLUKzbQUDSLR7m/T8OLpOjXNYcgkXkGZjin4kRc9tB5Av9zDJZsvuK6
-         E/rYyEtlRtvWjsvJjp7UbSON+OUoYD9v/AHm7mzFGna99GzKcjkobZA0jDdpVJX3Tnbk
-         RYvQ==
-X-Gm-Message-State: ABy/qLYzp6CrpuV9CV3aw57i0AK8Zs6RvVRjxqrl9LaODcT7TJoU4+nK
-        RHm+D056s8AbIz2s8KTwQ2I=
-X-Google-Smtp-Source: APBJJlHVHuFWb1DBTwEgEs4Na5PXZ8piu5rpwuRUnYbKv90ZemBiZgvC7ON2H5iDAh5Loo26oohNZQ==
-X-Received: by 2002:a05:6a20:9383:b0:12e:c5fb:757 with SMTP id x3-20020a056a20938300b0012ec5fb0757mr23302594pzh.5.1689036049405;
-        Mon, 10 Jul 2023 17:40:49 -0700 (PDT)
+        bh=k68Ut8PHB5gxL0IDowPNH7dg2dW+Rmk/0PtqyCTd1NQ=;
+        b=JDbZAp0d4CbQ0aQE1+JmSjYLCZe5ZK7ZFHLwyzB2A0+S37dCG0JmVGqKij11mEN8Dx
+         R2BwPJ8ZscCdbw41feyPyqhfkBETp0GG1VApshMud8ZzMGdunHN1uiI9/gu9UEeZjd3O
+         QW/qAghKq30SYhVa9trL/6Efm9BE2qmYKAkCjuRZWzhUlPWXE2iVdoaajO8rq0xvMru1
+         xDJkJxYmJQvSz/ba5wQ2JGva6BZCStb9a8LGtIRzjxMbNzWtya1CCSQnU0dbYSXJJAVi
+         xhAhBoVsVU5PElNO5HRlUWgJn919gm082hT6gOB5WUscdj4EvcGzOLiUaxU1pMu2c16J
+         BP+g==
+X-Gm-Message-State: ABy/qLYN3xqmsQ3AW+DAFivDf7ggHZ0SAu+lM4CsxhCtvLz+PFJbrv9d
+        cvtNQMz5yyiVBbW/w+kqCXF8cdIxSjc=
+X-Google-Smtp-Source: APBJJlEi0RzKpIFVtgo7FwUOBO5jd5NH0n7fWfx4yGxNRBu4NaR6kAdGyNSWcgKIwCsuxhnhTn1mzA==
+X-Received: by 2002:a17:90a:74c6:b0:262:ff86:ac2d with SMTP id p6-20020a17090a74c600b00262ff86ac2dmr14601850pjl.46.1689036172466;
+        Mon, 10 Jul 2023 17:42:52 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:96bf:7e77:39eb:7a23])
-        by smtp.gmail.com with ESMTPSA id bu16-20020a632950000000b0055bac197d70sm287489pgb.53.2023.07.10.17.40.48
+        by smtp.gmail.com with ESMTPSA id i5-20020a17090adc0500b002630c9d78aasm544174pjv.5.2023.07.10.17.42.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jul 2023 17:40:49 -0700 (PDT)
-Date:   Mon, 10 Jul 2023 17:40:46 -0700
+        Mon, 10 Jul 2023 17:42:52 -0700 (PDT)
+Date:   Mon, 10 Jul 2023 17:42:49 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Yangtao Li <frank.li@vivo.com>
-Cc:     Vladimir Zapolskiy <vz@mleia.com>,
-        Kevin Wells <wellsk40@gmail.com>,
-        Durgesh Pattamatta <durgesh.pattamatta@nxp.com>,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 09/10] Input: lpc32xx_ts - stop_tsc when driver remove
-Message-ID: <ZKylDj4ONoD9cAUm@google.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 08/10] Input: nomadik-ske-keypad - Convert to use devm_*
+ api
+Message-ID: <ZKyliRefKiualqO1@google.com>
 References: <20230705052346.39337-1-frank.li@vivo.com>
- <20230705052346.39337-9-frank.li@vivo.com>
+ <20230705052346.39337-8-frank.li@vivo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230705052346.39337-9-frank.li@vivo.com>
+In-Reply-To: <20230705052346.39337-8-frank.li@vivo.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -77,29 +74,21 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Hi,
 
-On Wed, Jul 05, 2023 at 01:23:45PM +0800, Yangtao Li wrote:
-> When the driver is removed, we need to close the device.
-> 
-> Fixes: 3045a5f5202a ("Input: add LPC32xx touchscreen controller driver")
-> Signed-off-by: Yangtao Li <frank.li@vivo.com>
-> ---
->  drivers/input/touchscreen/lpc32xx_ts.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/input/touchscreen/lpc32xx_ts.c b/drivers/input/touchscreen/lpc32xx_ts.c
-> index 15b5cb763526..ffdd748a9992 100644
-> --- a/drivers/input/touchscreen/lpc32xx_ts.c
-> +++ b/drivers/input/touchscreen/lpc32xx_ts.c
-> @@ -305,6 +305,8 @@ static int lpc32xx_ts_remove(struct platform_device *pdev)
->  	struct lpc32xx_tsc *tsc = platform_get_drvdata(pdev);
->  	struct resource *res;
+On Wed, Jul 05, 2023 at 01:23:44PM +0800, Yangtao Li wrote:
+> @@ -305,7 +288,7 @@ static int __init ske_keypad_probe(struct platform_device *pdev)
+>  	error = clk_prepare_enable(keypad->pclk);
+>  	if (error) {
+>  		dev_err(&pdev->dev, "Failed to prepare/enable pclk\n");
+> -		goto err_clk;
+> +		return error;
+>  	}
 >  
-> +	lpc32xx_stop_tsc(tsc);
-> +
+>  	error = clk_prepare_enable(keypad->clk);
 
-This change is not needed because lpc32xx_stop_tsc() is already being
-called from lpc32xx_ts_close() which is called when we unregister input
-device (provided that open() was called earlier).
+We should not mix managed (devm) and normal resources, because doing so
+wrecks the order of resource unwinding. Lucklily we have
+devm_clk_get_enabled() now, so I switched the driver to use it and
+applied the patch.
 
 Thanks.
 
