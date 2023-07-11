@@ -2,110 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89C1E74F0D2
-	for <lists+linux-input@lfdr.de>; Tue, 11 Jul 2023 15:56:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FAFD74F297
+	for <lists+linux-input@lfdr.de>; Tue, 11 Jul 2023 16:48:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233111AbjGKN4J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Jul 2023 09:56:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37486 "EHLO
+        id S232376AbjGKOsL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Jul 2023 10:48:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231888AbjGKN4I (ORCPT
+        with ESMTP id S232661AbjGKOr6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Jul 2023 09:56:08 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 834A4BC;
-        Tue, 11 Jul 2023 06:56:07 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qJDqV-0002HE-4j; Tue, 11 Jul 2023 15:56:03 +0200
-Message-ID: <2f53de7c-e9db-6bf5-6e9e-65edadd4d754@leemhuis.info>
-Date:   Tue, 11 Jul 2023 15:56:02 +0200
+        Tue, 11 Jul 2023 10:47:58 -0400
+Received: from mailrelay6-1.pub.mailoutpod2-cph3.one.com (mailrelay6-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:405::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B4E5E5F
+        for <linux-input@vger.kernel.org>; Tue, 11 Jul 2023 07:47:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ravnborg.org; s=rsa1;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=IzJnH7tearuxnA6Z+6SlVNN7/HpdHXO6OvjidkyffDc=;
+        b=t1UZoY+OgZB4qloOKAGoPzdxKiYC17C9++ltdd9VkKKSSJf/R5HyAsdaxr5chXo+LcqtCqMpEj2TA
+         b8Z7yF6JHKQOlU7blN+narui79FThKq8hj2VwanKmhandBBtpyfKAhsU889SFEdFbXrVkiKx3hcR7H
+         QKjso83LwxpCtsl1H23jeJIFNxLM2fJZpqpYaWgVJBzgpvhQLjm/hOp65N2Nj7rNyOZMvrxGPI6czh
+         YS0MtrmIYLsQmwRyf7YF8HR5nxe+n7cXTvsKENehLpNtWPbi2L0wAhskoQ5ZCvD2WrQtbyYxsEJ/AP
+         CUbin2WAzk67odxeRHKtnqDopCvMHJA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+        d=ravnborg.org; s=ed1;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=IzJnH7tearuxnA6Z+6SlVNN7/HpdHXO6OvjidkyffDc=;
+        b=KzzqHm8tLnuEHjgNWidySCjTk6o2+jW4abV9LJjbJcqDWTbuxi74O9whyYkZn2CXMR1EK8Adpr0Tp
+         1xeW/n7CQ==
+X-HalOne-ID: e4c9d52a-1ff9-11ee-be66-6f01c1d0a443
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+        by mailrelay6 (Halon) with ESMTPSA
+        id e4c9d52a-1ff9-11ee-be66-6f01c1d0a443;
+        Tue, 11 Jul 2023 14:47:46 +0000 (UTC)
+Date:   Tue, 11 Jul 2023 16:47:44 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     deller@gmx.de, javierm@redhat.com, linux-fbdev@vger.kernel.org,
+        kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
+        linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 00/17] fbdev: Remove FBINFO_DEFAULT and
+ FBINFO_FLAG_DEFAULT flags
+Message-ID: <20230711144744.GA117276@ravnborg.org>
+References: <20230710130113.14563-1-tzimmermann@suse.de>
+ <20230710171903.GA14712@ravnborg.org>
+ <ab92f8d9-36ab-06bc-b85b-d52b7a1bfe9a@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] HID: logitech-hidpp: rework one more time the retries
- attempts
-Content-Language: en-US, de-DE
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     Bastien Nocera <hadess@hadess.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
-        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20230621-logitech-fixes-v1-1-32e70933c0b0@redhat.com>
- <2023062156-trespass-pandemic-7f4f@gregkh>
- <qbvmv3eexohswyagmllfh3xsxoftwa3wbmsdafmwak2bxlnlft@jz74dijlfxlz>
- <31ce32e018a9fa410e9e1f3e5900621b16a56091.camel@hadess.net>
- <CAO-hwJLFSUJaGK5DAOz30+YyC1hGgHnbeJbc5iQ47jxBcbRSCg@mail.gmail.com>
- <cfa28818-9eaf-0dc9-cb4a-1b3de318e627@leemhuis.info>
- <CAO-hwJLc0wzv2a3JARkPDW+ZgbnvwggfRHcAJmWsKy_FMA13=g@mail.gmail.com>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <CAO-hwJLc0wzv2a3JARkPDW+ZgbnvwggfRHcAJmWsKy_FMA13=g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1689083767;ef056e90;
-X-HE-SMSGID: 1qJDqV-0002HE-4j
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ab92f8d9-36ab-06bc-b85b-d52b7a1bfe9a@suse.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Thomas,
 
-
-On 11.07.23 15:40, Benjamin Tissoires wrote:
-> On Tue, Jul 11, 2023 at 3:10 PM Linux regression tracking (Thorsten
-> Leemhuis) <regressions@leemhuis.info> wrote:
->>
->> On 26.06.23 16:02, Benjamin Tissoires wrote:
->>> On Sun, Jun 25, 2023 at 10:30 AM Bastien Nocera <hadess@hadess.net> wrote:
->>>> On Fri, 2023-06-23 at 10:37 +0200, Benjamin Tissoires wrote:
->>>>> On Jun 21 2023, Greg KH wrote:
->>>>>> On Wed, Jun 21, 2023 at 11:42:30AM +0200, Benjamin Tissoires wrote:
->>>>>>> Make the code looks less like Pascal.
->>>>>>>
->>>>>>> Extract the internal code inside a helper function, fix the
->>>>>>> initialization of the parameters used in the helper function
->>>>>>> (`hidpp->answer_available` was not reset and `*response` wasn't
->>>>>>> too),
->>>>>>> and use a `do {...} while();` loop.
->>>>>>>
->>>>>>> Fixes: 586e8fede795 ("HID: logitech-hidpp: Retry commands when
->>>>>>> device is busy")
->>>>>>> Cc: stable@vger.kernel.org
->>>>>>> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
->>>>>>> ---
->>>>>>> as requested by
->>>>>>> https://lore.kernel.org/all/CAHk-=wiMbF38KCNhPFiargenpSBoecSXTLQACKS2UMyo_Vu2ww@mail.gmail.com/
->>>>>>> This is a rewrite of that particular piece of code.
->>>>>>> ---
->>>>>>>  drivers/hid/hid-logitech-hidpp.c | 102 +++++++++++++++++++++++--
->>>>>>> --------------
->>>>>>>  1 file changed, 61 insertions(+), 41 deletions(-)
->>> [...]
->>>
->>> Some people on the Bz were able to reproduce with multiple reboots.
->>> But it's not as urgent as previously, and we were close to the 6.4
->>> final when I sent it. I'll make sure this goes into 6.5 and gets
->>> proper stable backports FWIW.
->>
->> Did that happen? Doesn't look like it from here, but maybe I'm missing
->> something. Where there maybe other changes to resolve the remaining
->> problems some users encounter sporadically since the urgent fixes went in?
+On Tue, Jul 11, 2023 at 08:24:40AM +0200, Thomas Zimmermann wrote:
+> Hi Sam
 > 
-> No, there were no other changes that could have solved this. I guess
-> the randomness of the problem makes it way harder to detect and to
-> reproduce.
+> Am 10.07.23 um 19:19 schrieb Sam Ravnborg:
+> > Hi Thomas,
+> > 
+> > On Mon, Jul 10, 2023 at 02:50:04PM +0200, Thomas Zimmermann wrote:
+> > > Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
+> > > fbdev and drivers, as briefly discussed at [1]. Both flags were maybe
+> > > useful when fbdev had special handling for driver modules. With
+> > > commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
+> > > and have no further effect.
+> > > 
+> > > Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
+> > > split this by the way the fb_info struct is being allocated. All flags
+> > > are cleared to zero during the allocation.
+> > > 
+> > > Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
+> > > an actual bug in how arch/sh uses the tokne for struct fb_videomode,
+> > > which is unrelated.
+> > > 
+> > > Patch 17 removes both flag constants from <linux/fb.h>
+> > 
+> > We have a few more flags that are unused - should they be nuked too?
+> > FBINFO_HWACCEL_FILLRECT
+> > FBINFO_HWACCEL_ROTATE
+> > FBINFO_HWACCEL_XPAN
 > 
-> I'll send a v2 of that patch with the reviews today or tomorrow and we
-> can probably get it through the current 6.5 cycle.
+> It seems those are there for completeness. Nothing sets _ROTATE, the others
+> are simply never checked. According to the comments, some are required, some
+> are optional. I don't know what that means.
+> 
+> IIRC there were complains about performance when Daniel tried to remove
+> fbcon acceleration, so not all _HWACCEL_ flags are unneeded.
+> 
+> Leaving them in for reference/completeness might be an option; or not. I
+> have no strong feelings about those flags.
+> 
+> > 
+> > Unused as in no references from fbdev/core/*
+> > 
+> > I would rather see one series nuke all unused FBINFO flags in one go.
+> > Assuming my quick grep are right and the above can be dropped.
+> 
+> I would not want to extend this series. I'm removing _DEFAULT as it's
+> absolutely pointless and confusing.
 
-Great, many thx!
+OK, makes sense and thanks for the explanation.
 
-Ciao, Thorsten
+The series is:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
