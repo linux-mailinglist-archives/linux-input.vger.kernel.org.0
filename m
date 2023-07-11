@@ -2,123 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FAFD74F297
-	for <lists+linux-input@lfdr.de>; Tue, 11 Jul 2023 16:48:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4AE374F2FE
+	for <lists+linux-input@lfdr.de>; Tue, 11 Jul 2023 17:09:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232376AbjGKOsL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Jul 2023 10:48:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54228 "EHLO
+        id S230017AbjGKPIz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Jul 2023 11:08:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232661AbjGKOr6 (ORCPT
+        with ESMTP id S230258AbjGKPIo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Jul 2023 10:47:58 -0400
-Received: from mailrelay6-1.pub.mailoutpod2-cph3.one.com (mailrelay6-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:405::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B4E5E5F
-        for <linux-input@vger.kernel.org>; Tue, 11 Jul 2023 07:47:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ravnborg.org; s=rsa1;
-        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-         from:date:from;
-        bh=IzJnH7tearuxnA6Z+6SlVNN7/HpdHXO6OvjidkyffDc=;
-        b=t1UZoY+OgZB4qloOKAGoPzdxKiYC17C9++ltdd9VkKKSSJf/R5HyAsdaxr5chXo+LcqtCqMpEj2TA
-         b8Z7yF6JHKQOlU7blN+narui79FThKq8hj2VwanKmhandBBtpyfKAhsU889SFEdFbXrVkiKx3hcR7H
-         QKjso83LwxpCtsl1H23jeJIFNxLM2fJZpqpYaWgVJBzgpvhQLjm/hOp65N2Nj7rNyOZMvrxGPI6czh
-         YS0MtrmIYLsQmwRyf7YF8HR5nxe+n7cXTvsKENehLpNtWPbi2L0wAhskoQ5ZCvD2WrQtbyYxsEJ/AP
-         CUbin2WAzk67odxeRHKtnqDopCvMHJA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-        d=ravnborg.org; s=ed1;
-        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-         from:date:from;
-        bh=IzJnH7tearuxnA6Z+6SlVNN7/HpdHXO6OvjidkyffDc=;
-        b=KzzqHm8tLnuEHjgNWidySCjTk6o2+jW4abV9LJjbJcqDWTbuxi74O9whyYkZn2CXMR1EK8Adpr0Tp
-         1xeW/n7CQ==
-X-HalOne-ID: e4c9d52a-1ff9-11ee-be66-6f01c1d0a443
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-        by mailrelay6 (Halon) with ESMTPSA
-        id e4c9d52a-1ff9-11ee-be66-6f01c1d0a443;
-        Tue, 11 Jul 2023 14:47:46 +0000 (UTC)
-Date:   Tue, 11 Jul 2023 16:47:44 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     deller@gmx.de, javierm@redhat.com, linux-fbdev@vger.kernel.org,
-        kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
-        linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 00/17] fbdev: Remove FBINFO_DEFAULT and
- FBINFO_FLAG_DEFAULT flags
-Message-ID: <20230711144744.GA117276@ravnborg.org>
-References: <20230710130113.14563-1-tzimmermann@suse.de>
- <20230710171903.GA14712@ravnborg.org>
- <ab92f8d9-36ab-06bc-b85b-d52b7a1bfe9a@suse.de>
+        Tue, 11 Jul 2023 11:08:44 -0400
+Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC7DA100;
+        Tue, 11 Jul 2023 08:08:42 -0700 (PDT)
+Date:   Tue, 11 Jul 2023 15:08:31 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
+        s=protonmail; t=1689088119; x=1689347319;
+        bh=VIjn5Sgr+XaI5m5nuTNBKwgTaDZhQimElHATfB00U6o=;
+        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID:BIMI-Selector;
+        b=hQD30D9TLLyDcO2bVl3okDKDs2kzhhC5933d/BlWVXxUwQTaMAx3k3rghCgId7t20
+         k6HMSplZ3mlQOqHW09SZiGGpWfONV5kXZs53aG1Ih0OouFOKpT6AWs4loYxgwXJBdG
+         yUJdaQEcExbliNS5agrIVUaRAlobvtUZR3TVaqds=
+To:     Bjorn Andersson <andersson@kernel.org>,
+        Gergo Koteles <soyer@irl.hu>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+From:   Caleb Connolly <caleb@connolly.tech>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Andy Gross <agross@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 2/3] Input: add ABS_SND_PROFILE
+Message-ID: <65708872-3209-bd7b-d873-45e75a9e34bb@connolly.tech>
+In-Reply-To: <20230407171103.5jf46g4hw3fed7dn@ripper>
+References: <cover.1677022414.git.soyer@irl.hu> <1a4752739568afbdbaaff48436d2bb595d2bda0d.1677022414.git.soyer@irl.hu> <20230407171103.5jf46g4hw3fed7dn@ripper>
+Feedback-ID: 10753939:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ab92f8d9-36ab-06bc-b85b-d52b7a1bfe9a@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Thomas,
 
-On Tue, Jul 11, 2023 at 08:24:40AM +0200, Thomas Zimmermann wrote:
-> Hi Sam
-> 
-> Am 10.07.23 um 19:19 schrieb Sam Ravnborg:
-> > Hi Thomas,
-> > 
-> > On Mon, Jul 10, 2023 at 02:50:04PM +0200, Thomas Zimmermann wrote:
-> > > Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
-> > > fbdev and drivers, as briefly discussed at [1]. Both flags were maybe
-> > > useful when fbdev had special handling for driver modules. With
-> > > commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
-> > > and have no further effect.
-> > > 
-> > > Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
-> > > split this by the way the fb_info struct is being allocated. All flags
-> > > are cleared to zero during the allocation.
-> > > 
-> > > Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
-> > > an actual bug in how arch/sh uses the tokne for struct fb_videomode,
-> > > which is unrelated.
-> > > 
-> > > Patch 17 removes both flag constants from <linux/fb.h>
-> > 
-> > We have a few more flags that are unused - should they be nuked too?
-> > FBINFO_HWACCEL_FILLRECT
-> > FBINFO_HWACCEL_ROTATE
-> > FBINFO_HWACCEL_XPAN
-> 
-> It seems those are there for completeness. Nothing sets _ROTATE, the others
-> are simply never checked. According to the comments, some are required, some
-> are optional. I don't know what that means.
-> 
-> IIRC there were complains about performance when Daniel tried to remove
-> fbcon acceleration, so not all _HWACCEL_ flags are unneeded.
-> 
-> Leaving them in for reference/completeness might be an option; or not. I
-> have no strong feelings about those flags.
-> 
-> > 
-> > Unused as in no references from fbdev/core/*
-> > 
-> > I would rather see one series nuke all unused FBINFO flags in one go.
-> > Assuming my quick grep are right and the above can be dropped.
-> 
-> I would not want to extend this series. I'm removing _DEFAULT as it's
-> absolutely pointless and confusing.
 
-OK, makes sense and thanks for the explanation.
+On 07/04/2023 18:11, Bjorn Andersson wrote:
+> On Wed, Feb 22, 2023 at 01:10:33AM +0100, Gergo Koteles wrote:
+>> ABS_SND_PROFILE used to describe the state of a multi-value sound profil=
+e
+>> switch. This will be used for the alert-slider on OnePlus phones or othe=
+r
+>> phones.
+>>
+>> Profile values added as SND_PROFLE_(SILENT|VIBRATE|RING) identifiers
+>> to input-event-codes.h so they can be used from DTS.
+>>
+>> Signed-off-by: Gergo Koteles <soyer@irl.hu>
+>> ---
+>>  Documentation/input/event-codes.rst    | 6 ++++++
+>>  drivers/hid/hid-debug.c                | 1 +
+>>  include/uapi/linux/input-event-codes.h | 9 +++++++++
+>>  3 files changed, 16 insertions(+)
+>>
+>> diff --git a/Documentation/input/event-codes.rst b/Documentation/input/e=
+vent-codes.rst
+>> index b4557462edd7..d43336e64d6a 100644
+>> --- a/Documentation/input/event-codes.rst
+>> +++ b/Documentation/input/event-codes.rst
+>> @@ -241,6 +241,12 @@ A few EV_ABS codes have special meanings:
+>>      emitted only when the selected profile changes, indicating the newl=
+y
+>>      selected profile value.
+>>
+...
+>>
+>> +/*
+>> + * ABS_SND_PROFILE values
+>> + */
+>> +
+>> +#define SND_PROFILE_SILENT=090x00
+>> +#define SND_PROFILE_VIBRATE=090x01
+>> +#define SND_PROFILE_RING=090x02
+>=20
+> The patch looks good to me, bu I'd need these header file additions in
+> order to merge the dts patch. Could I get an ack and take it through the
+> Qualocmm tree, or could you pick it up for 6.4, and then I can merge the
+> dts change after that?
 
-The series is:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Bump, I think this might have gotten lost.
+>=20
+> Regards,
+> Bjorn
+>=20
+>> +
+>>  #endif
+>> --
+>> 2.39.2
+>>
+
+--=20
+Kind Regards,
+Caleb
 
