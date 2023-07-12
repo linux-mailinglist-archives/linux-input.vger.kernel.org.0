@@ -2,259 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 661F1750BAB
-	for <lists+linux-input@lfdr.de>; Wed, 12 Jul 2023 17:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B8467510C3
+	for <lists+linux-input@lfdr.de>; Wed, 12 Jul 2023 20:53:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232631AbjGLPCu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Jul 2023 11:02:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51800 "EHLO
+        id S231144AbjGLSxv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Jul 2023 14:53:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232721AbjGLPCt (ORCPT
+        with ESMTP id S229610AbjGLSxu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Jul 2023 11:02:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD3561BC6;
-        Wed, 12 Jul 2023 08:02:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6D4EB61838;
-        Wed, 12 Jul 2023 15:02:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F7B0C433C7;
-        Wed, 12 Jul 2023 15:02:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689174166;
-        bh=6Xg22ZHymwYTmng19kOz5rdixVHrp7FECHVhi5ZVNRY=;
-        h=From:Date:Subject:To:Cc:From;
-        b=RkS9IpV+zDCLI/qcDefAVyreomkcdm4E/iiUhgVEcqGYlU6WR81R4FlrKnfdSn48B
-         QY43TuYTGy7XFAkKfsDb1/oHWn+rYAUHQxfezHdxG/qzeU5lpSRcnYOWGcRA9jtGUX
-         Dk3HbZGDpKp3Bu8EBY7uDDrO6tRgoRMWRcq7dGoWYbV9hyxVey7eRkLZsDBzHbo0q8
-         1NXCLt3mrK8YNy94XyMUtq+Yg+kyq3KxWwBW/vTtMOfibzBq0q8+p8Qcefm4ZiWdey
-         SDh7Cb5SR1nCHYEdWWEZUCISIRfwtzcSRuI6ZFFPT4yGKz5vcE2FsBc0RZz+KEF2p9
-         fCSYxWW4CzhAA==
-From:   bentiss@kernel.org
-Date:   Wed, 12 Jul 2023 17:02:34 +0200
-Subject: [PATCH v2] HID: logitech-hidpp: rework one more time the retries
- attempts
+        Wed, 12 Jul 2023 14:53:50 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 208811993;
+        Wed, 12 Jul 2023 11:53:48 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id 41be03b00d2f7-51452556acdso5092881a12.2;
+        Wed, 12 Jul 2023 11:53:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689188027; x=1691780027;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LLqzrNbP1vGUJ3OFTl9cGZWimtLx1fVpXRCMSqCEbU4=;
+        b=XA3Vl02j1f2uF3B1CdoVQFPL4RysVR28DRd+2vH7sNUPUxLbMXAeJZITMlSMUT7SxB
+         3bPK2zPxQqSSuiH45o2fRp4L8v/8fwS8TiZs2WOwg2C2dH3Va8iBoxsEsrhm+5QlBetZ
+         Nh0LoETIXcy/FDyovB3cJUK4NMILYflp4j7/7he5QwY+l3RcdPYxnq8vnG2n7XyDbeMv
+         6wHHLDeDfZalZRBBmVivhLeWf5oYhRUIRKD/BD8Zm3SO7+dwwzFFmKvZO8A7JzeDciN0
+         JSyFICkrZuyIGhpVH01BqprI/2qzYEzneOLCPyw5rgxqX3mL2NmAFDWOi5jE9PdkQVjV
+         jybQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689188027; x=1691780027;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LLqzrNbP1vGUJ3OFTl9cGZWimtLx1fVpXRCMSqCEbU4=;
+        b=KZrPugSbiLiwBOz6oHtgMJYu/Pmr74/B7UM7pVeC9Al97yMVZEymUWMHRF+P5AG8Wp
+         jk1AcWMMNke4S077SpfUC4Kn2Z5nQvsmLyN+Mzx+czXUXa+Dxg2CUhu13lGRJHxcZANL
+         vRqW9vC39yzk4SzOR2OSA75K0OcjVjAovC1MNXm2yVm9CQ2VZde54Ww81TiklUMoz5gH
+         xfePKvQnV1Ik4mxhxE5PW4Csc9OlmVeHYy7vn9pjisCUBipo5mH00Wcq1cdN/dE8qLcI
+         zYI9jltBO9f7AhBY3nAAy3xNTMhul4BM2rcbwHo7/Wv2YkJYANongXWrkf8ERoDVqQud
+         oYuQ==
+X-Gm-Message-State: ABy/qLYcevDi5qhYe+qEln0KpvaLuY+WPOmDNrmK+K4z8Fzb5TtcGNHt
+        CtFF4tJxAv3ZyJmzvx4jFY0=
+X-Google-Smtp-Source: APBJJlGIkjpzhylvj82gBarRk2ZFBgxt8s1WVJGnekOFZMFvTh1pJi8sPb1j+dLb3cb6kYfOD8SF1Q==
+X-Received: by 2002:a17:90b:3b41:b0:263:43c6:69ac with SMTP id ot1-20020a17090b3b4100b0026343c669acmr14503536pjb.44.1689188027373;
+        Wed, 12 Jul 2023 11:53:47 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:a606:1b1e:7f66:3ee0])
+        by smtp.gmail.com with ESMTPSA id 30-20020a17090a191e00b002640b7073cfsm11079277pjg.14.2023.07.12.11.53.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jul 2023 11:53:46 -0700 (PDT)
+Date:   Wed, 12 Jul 2023 11:53:43 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel test robot <lkp@intel.com>,
+        Dan Carpenter <dan.carpenter@linaro.org>
+Subject: Re: [PATCH v2] Input: bcm-keypad - Correct dev_err_probe() error
+Message-ID: <ZK72t3wtm8BhYCL0@google.com>
+References: <20230711072449.43569-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230621-logitech-fixes-v2-1-3635f7f9c8af@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAInArmQC/3WOzQrCMBCEX6Xs2ZX8SMSefA/pYZuuzYI2kpSil
- L67iZ48eJtvmGFmhcxJOEPbrJB4kSxxKmB2DfhA08goQ2EwyljljMZbHGVmH/AqT85IB6/YOSZ
- DA5RST5mxTzT5UGu/6Rp4JP7qtrl0hYPkOabX58Ciq/t3a9Go0Ro+qpO1XvXqnHgINO99vEO3b
- dsbEOsRNM4AAAA=
-To:     =?utf-8?q?Filipe_La=C3=ADns?= <lains@riseup.net>,
-        Bastien Nocera <hadess@hadess.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        stable@vger.kernel.org
-X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1689174165; l=6340;
- i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=2070mtrzbWq9KfMRTaYvRvQiS5vfxAiTPm79NPC/Fuo=;
- b=Q5UUrM9a43lmJebEn1JjZ1ypKSXWU+c4okJDTVF7PoOOff95alcWbFUJaS86JAgqvChxHRKpL
- Sj7/1yD/h1NDwLEQpDL7l6nYdVdkdFFtFih0r0bsoCBURXehwLJleWX
-X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230711072449.43569-1-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+On Tue, Jul 11, 2023 at 09:24:49AM +0200, Krzysztof Kozlowski wrote:
+> Pass proper PTR_ERR as dev_err_probe() argument.
+> 
+> Fixes: a2c795b696b2 ("Input: bcm-keypad - simplify with dev_err_probe()")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/r/202306261505.wTjCXRIO-lkp@intel.com/
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Extract the internal code inside a helper function, fix the
-initialization of the parameters used in the helper function
-(`hidpp->answer_available` was not reset and `*response` wasn't either),
-and use a `do {...} while();` loop.
+Applied, thank you.
 
-Fixes: 586e8fede795 ("HID: logitech-hidpp: Retry commands when device is busy")
-Cc: stable@vger.kernel.org
-Reviewed-by: Bastien Nocera <hadess@hadess.net>
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
----
-as requested by https://lore.kernel.org/all/CAHk-=wiMbF38KCNhPFiargenpSBoecSXTLQACKS2UMyo_Vu2ww@mail.gmail.com/
-This is a rewrite of that particular piece of code.
----
-Changes in v2:
-- added __must_hold() for KASAN
-- Reworked the comment describing the functions and their return values
-- Link to v1: https://lore.kernel.org/r/20230621-logitech-fixes-v1-1-32e70933c0b0@redhat.com
----
- drivers/hid/hid-logitech-hidpp.c | 115 +++++++++++++++++++++++++--------------
- 1 file changed, 75 insertions(+), 40 deletions(-)
-
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index 129b01be488d..09ba2086c95c 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -275,21 +275,22 @@ static int __hidpp_send_report(struct hid_device *hdev,
- }
- 
- /*
-- * hidpp_send_message_sync() returns 0 in case of success, and something else
-- * in case of a failure.
-- * - If ' something else' is positive, that means that an error has been raised
-- *   by the protocol itself.
-- * - If ' something else' is negative, that means that we had a classic error
-- *   (-ENOMEM, -EPIPE, etc...)
-+ * Effectively send the message to the device, waiting for its answer.
-+ *
-+ * Must be called with hidpp->send_mutex locked
-+ *
-+ * Same return protocol than hidpp_send_message_sync():
-+ * - success on 0
-+ * - negative error means transport error
-+ * - positive value means protocol error
-  */
--static int hidpp_send_message_sync(struct hidpp_device *hidpp,
-+static int __do_hidpp_send_message_sync(struct hidpp_device *hidpp,
- 	struct hidpp_report *message,
- 	struct hidpp_report *response)
- {
--	int ret = -1;
--	int max_retries = 3;
-+	int ret;
- 
--	mutex_lock(&hidpp->send_mutex);
-+	__must_hold(&hidpp->send_mutex);
- 
- 	hidpp->send_receive_buf = response;
- 	hidpp->answer_available = false;
-@@ -300,47 +301,74 @@ static int hidpp_send_message_sync(struct hidpp_device *hidpp,
- 	 */
- 	*response = *message;
- 
--	for (; max_retries != 0 && ret; max_retries--) {
--		ret = __hidpp_send_report(hidpp->hid_dev, message);
-+	ret = __hidpp_send_report(hidpp->hid_dev, message);
-+	if (ret) {
-+		dbg_hid("__hidpp_send_report returned err: %d\n", ret);
-+		memset(response, 0, sizeof(struct hidpp_report));
-+		return ret;
-+	}
- 
--		if (ret) {
--			dbg_hid("__hidpp_send_report returned err: %d\n", ret);
--			memset(response, 0, sizeof(struct hidpp_report));
--			break;
--		}
-+	if (!wait_event_timeout(hidpp->wait, hidpp->answer_available,
-+				5*HZ)) {
-+		dbg_hid("%s:timeout waiting for response\n", __func__);
-+		memset(response, 0, sizeof(struct hidpp_report));
-+		return -ETIMEDOUT;
-+	}
- 
--		if (!wait_event_timeout(hidpp->wait, hidpp->answer_available,
--					5*HZ)) {
--			dbg_hid("%s:timeout waiting for response\n", __func__);
--			memset(response, 0, sizeof(struct hidpp_report));
--			ret = -ETIMEDOUT;
--			break;
--		}
-+	if (response->report_id == REPORT_ID_HIDPP_SHORT &&
-+	    response->rap.sub_id == HIDPP_ERROR) {
-+		ret = response->rap.params[1];
-+		dbg_hid("%s:got hidpp error %02X\n", __func__, ret);
-+		return ret;
-+	}
- 
--		if (response->report_id == REPORT_ID_HIDPP_SHORT &&
--		    response->rap.sub_id == HIDPP_ERROR) {
--			ret = response->rap.params[1];
--			dbg_hid("%s:got hidpp error %02X\n", __func__, ret);
-+	if ((response->report_id == REPORT_ID_HIDPP_LONG ||
-+	     response->report_id == REPORT_ID_HIDPP_VERY_LONG) &&
-+	    response->fap.feature_index == HIDPP20_ERROR) {
-+		ret = response->fap.params[1];
-+		dbg_hid("%s:got hidpp 2.0 error %02X\n", __func__, ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * hidpp_send_message_sync() returns 0 in case of success, and something else
-+ * in case of a failure.
-+ *
-+ * See __do_hidpp_send_message_sync() for a detailed explanation of the returned
-+ * value.
-+ */
-+static int hidpp_send_message_sync(struct hidpp_device *hidpp,
-+	struct hidpp_report *message,
-+	struct hidpp_report *response)
-+{
-+	int ret;
-+	int max_retries = 3;
-+
-+	mutex_lock(&hidpp->send_mutex);
-+
-+	do {
-+		ret = __do_hidpp_send_message_sync(hidpp, message, response);
-+		if (ret != HIDPP20_ERROR_BUSY)
- 			break;
--		}
- 
--		if ((response->report_id == REPORT_ID_HIDPP_LONG ||
--		     response->report_id == REPORT_ID_HIDPP_VERY_LONG) &&
--		    response->fap.feature_index == HIDPP20_ERROR) {
--			ret = response->fap.params[1];
--			if (ret != HIDPP20_ERROR_BUSY) {
--				dbg_hid("%s:got hidpp 2.0 error %02X\n", __func__, ret);
--				break;
--			}
--			dbg_hid("%s:got busy hidpp 2.0 error %02X, retrying\n", __func__, ret);
--		}
--	}
-+		dbg_hid("%s:got busy hidpp 2.0 error %02X, retrying\n", __func__, ret);
-+	} while (--max_retries);
- 
- 	mutex_unlock(&hidpp->send_mutex);
- 	return ret;
- 
- }
- 
-+/*
-+ * hidpp_send_fap_command_sync() returns 0 in case of success, and something else
-+ * in case of a failure.
-+ *
-+ * See __do_hidpp_send_message_sync() for a detailed explanation of the returned
-+ * value.
-+ */
- static int hidpp_send_fap_command_sync(struct hidpp_device *hidpp,
- 	u8 feat_index, u8 funcindex_clientid, u8 *params, int param_count,
- 	struct hidpp_report *response)
-@@ -373,6 +401,13 @@ static int hidpp_send_fap_command_sync(struct hidpp_device *hidpp,
- 	return ret;
- }
- 
-+/*
-+ * hidpp_send_rap_command_sync() returns 0 in case of success, and something else
-+ * in case of a failure.
-+ *
-+ * See __do_hidpp_send_message_sync() for a detailed explanation of the returned
-+ * value.
-+ */
- static int hidpp_send_rap_command_sync(struct hidpp_device *hidpp_dev,
- 	u8 report_id, u8 sub_id, u8 reg_address, u8 *params, int param_count,
- 	struct hidpp_report *response)
-
----
-base-commit: 87854366176403438d01f368b09de3ec2234e0f5
-change-id: 20230621-logitech-fixes-a4c0e66ea2ad
-
-Best regards,
 -- 
-Benjamin Tissoires <bentiss@kernel.org>
-
+Dmitry
