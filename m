@@ -2,244 +2,245 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 895C8751F17
-	for <lists+linux-input@lfdr.de>; Thu, 13 Jul 2023 12:39:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F2FE75221B
+	for <lists+linux-input@lfdr.de>; Thu, 13 Jul 2023 15:03:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234158AbjGMKi7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Jul 2023 06:38:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41394 "EHLO
+        id S234147AbjGMNDp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Jul 2023 09:03:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229640AbjGMKiy (ORCPT
+        with ESMTP id S234069AbjGMNDo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Jul 2023 06:38:54 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2261A1BF9
-        for <linux-input@vger.kernel.org>; Thu, 13 Jul 2023 03:38:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689244733; x=1720780733;
-  h=date:from:to:cc:subject:message-id;
-  bh=amok63kElQpILbNnzWnABCj5Tv9ebMUqNEa6t3s+c2Y=;
-  b=jJVH/ZvEBIil1kpz2rUusunwX77PB6/RsssJlg0PMCvIa0/X0yMd2MAP
-   gS/y3Pk7adi/lKiPOWCN5UYE5bzh2a27j33VmXeZanwNLzJ2oW4yqnGAr
-   bMAgVAk8zumTk88nnzvypLLf2sG7wxGHTNZx3os1s9EBkbvBHoCpF4Z0G
-   pSbfeWYIpoBGHaSKZttUQGy5fJ8k7IeSy4hzUoDdUoYMcIFP1C+FoGYz9
-   IK+VrRj5rW4mRpmKbt6zBwwMsJZmOU1Wu8svgt8S3zrxg3bs3bc/0UMmP
-   tMOdBdN2cHTo13ZVgyzcQOdlGZepCR+9DLJ2QGJvejlmNNBaSimx6kVUn
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="350002890"
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="350002890"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 03:38:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="757114533"
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="757114533"
-Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 13 Jul 2023 03:38:51 -0700
-Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qJtik-0006Y6-2V;
-        Thu, 13 Jul 2023 10:38:50 +0000
-Date:   Thu, 13 Jul 2023 18:38:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- f2ba47e65f3b5642488802a60cb7dd068f425edc
-Message-ID: <202307131823.BLe5HaXL-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 13 Jul 2023 09:03:44 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E6C9173B;
+        Thu, 13 Jul 2023 06:03:42 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 9550221D5A;
+        Thu, 13 Jul 2023 13:03:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1689253421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=N67kus8L150iwAk6cmNTqy6XkNIgTnRqEe54TsDygpI=;
+        b=Xm0uu0VoNAnznojOCJHWRxuZ8jWAnPVvGr3I7nfDF5JPgc6a4f8t2d6acP9+A1DvfK+wVy
+        sqdChB7z1EWOXbY08AYKZ4qsKzII8hKTgwxEM+EEJZlz40bkKdCB3zn2umJVcvMSOmGT2z
+        948k89xorlN/VV9ANwqxCfHcfvnGfpE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1689253421;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=N67kus8L150iwAk6cmNTqy6XkNIgTnRqEe54TsDygpI=;
+        b=Uv+mmec0lIu+mxMNTxiVXmiIuROgLZECy4OsFJzomoWjltP2RfvpBN02QKZ9/KsNtNf4tF
+        822gSS0XJsgHlDAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 403F613489;
+        Thu, 13 Jul 2023 13:03:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id fbbQDi32r2TVPgAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 13:03:41 +0000
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     deller@gmx.de, javierm@redhat.com
+Cc:     linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com,
+        linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 00/18] fbdev: Remove FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT flags
+Date:   Thu, 13 Jul 2023 14:58:20 +0200
+Message-ID: <20230713130338.31086-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: f2ba47e65f3b5642488802a60cb7dd068f425edc  Input: add support for Azoteq IQS7210A/7211A/E
+Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
+fbdev and drivers, as briefly discussed at [1]. Both flags were maybe
+useful when fbdev had special handling for driver modules. With
+commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
+and have no further effect.
 
-elapsed time: 725m
+Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
+split this by the way the fb_info struct is being allocated. All flags
+are cleared to zero during the allocation.
 
-configs tested: 167
-configs skipped: 6
+Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
+an actual bug in how arch/sh uses the tokne for struct fb_videomode,
+which is unrelated.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Patch 17 removes both flag constants from <linux/fb.h> and patch 18
+documents the zero'ed memory returned by framebuffer_alloc().
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r011-20230713   gcc  
-arc                  randconfig-r014-20230712   gcc  
-arc                  randconfig-r043-20230712   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                      jornada720_defconfig   gcc  
-arm                  randconfig-r001-20230712   clang
-arm                  randconfig-r046-20230712   gcc  
-arm                             rpc_defconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r005-20230712   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r003-20230712   gcc  
-csky                 randconfig-r006-20230712   gcc  
-hexagon              randconfig-r004-20230712   clang
-hexagon              randconfig-r041-20230712   clang
-hexagon              randconfig-r045-20230712   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r004-20230712   gcc  
-i386         buildonly-randconfig-r005-20230712   gcc  
-i386         buildonly-randconfig-r006-20230712   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230712   gcc  
-i386                 randconfig-i002-20230712   gcc  
-i386                 randconfig-i003-20230712   gcc  
-i386                 randconfig-i004-20230712   gcc  
-i386                 randconfig-i005-20230712   gcc  
-i386                 randconfig-i006-20230712   gcc  
-i386                 randconfig-i011-20230712   clang
-i386                 randconfig-i011-20230713   gcc  
-i386                 randconfig-i012-20230712   clang
-i386                 randconfig-i012-20230713   gcc  
-i386                 randconfig-i013-20230712   clang
-i386                 randconfig-i013-20230713   gcc  
-i386                 randconfig-i014-20230712   clang
-i386                 randconfig-i014-20230713   gcc  
-i386                 randconfig-i015-20230712   clang
-i386                 randconfig-i015-20230713   gcc  
-i386                 randconfig-i016-20230712   clang
-i386                 randconfig-i016-20230713   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                       m5208evb_defconfig   gcc  
-m68k                 randconfig-r011-20230712   gcc  
-m68k                 randconfig-r012-20230713   gcc  
-m68k                 randconfig-r013-20230713   gcc  
-m68k                 randconfig-r022-20230712   gcc  
-m68k                 randconfig-r023-20230712   gcc  
-microblaze           randconfig-r002-20230713   gcc  
-microblaze           randconfig-r031-20230713   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                          malta_defconfig   clang
-nios2                               defconfig   gcc  
-nios2                randconfig-r004-20230712   gcc  
-nios2                randconfig-r026-20230712   gcc  
-nios2                randconfig-r031-20230713   gcc  
-nios2                randconfig-r035-20230713   gcc  
-openrisc             randconfig-r014-20230712   gcc  
-openrisc             randconfig-r016-20230712   gcc  
-openrisc             randconfig-r025-20230712   gcc  
-openrisc             randconfig-r032-20230713   gcc  
-openrisc             randconfig-r033-20230713   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r002-20230712   gcc  
-parisc               randconfig-r006-20230712   gcc  
-parisc               randconfig-r011-20230713   gcc  
-parisc               randconfig-r035-20230713   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                 canyonlands_defconfig   gcc  
-powerpc                      mgcoge_defconfig   gcc  
-powerpc                     mpc83xx_defconfig   gcc  
-powerpc                      obs600_defconfig   clang
-powerpc              randconfig-r005-20230712   gcc  
-powerpc              randconfig-r012-20230712   clang
-powerpc                    sam440ep_defconfig   gcc  
-powerpc                      walnut_defconfig   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                    nommu_k210_defconfig   gcc  
-riscv                randconfig-r015-20230713   gcc  
-riscv                randconfig-r024-20230712   clang
-riscv                randconfig-r042-20230712   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r002-20230712   gcc  
-s390                 randconfig-r014-20230713   gcc  
-s390                 randconfig-r034-20230713   clang
-s390                 randconfig-r044-20230712   clang
-sh                               allmodconfig   gcc  
-sh                            hp6xx_defconfig   gcc  
-sh                          sdk7780_defconfig   gcc  
-sh                           se7619_defconfig   gcc  
-sh                             sh03_defconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r001-20230712   gcc  
-sparc                randconfig-r021-20230712   gcc  
-sparc                randconfig-r023-20230712   gcc  
-sparc                randconfig-r025-20230712   gcc  
-sparc                       sparc32_defconfig   gcc  
-sparc64              randconfig-r013-20230712   gcc  
-sparc64              randconfig-r022-20230712   gcc  
-um                               alldefconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                   randconfig-r003-20230713   gcc  
-um                   randconfig-r004-20230713   gcc  
-um                   randconfig-r005-20230713   gcc  
-um                   randconfig-r012-20230713   clang
-um                   randconfig-r014-20230713   clang
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r001-20230712   gcc  
-x86_64       buildonly-randconfig-r002-20230712   gcc  
-x86_64       buildonly-randconfig-r003-20230712   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-r036-20230713   clang
-x86_64               randconfig-x001-20230712   clang
-x86_64               randconfig-x002-20230712   clang
-x86_64               randconfig-x003-20230712   clang
-x86_64               randconfig-x004-20230712   clang
-x86_64               randconfig-x005-20230712   clang
-x86_64               randconfig-x006-20230712   clang
-x86_64               randconfig-x011-20230710   gcc  
-x86_64               randconfig-x011-20230712   gcc  
-x86_64               randconfig-x012-20230710   gcc  
-x86_64               randconfig-x012-20230712   gcc  
-x86_64               randconfig-x013-20230710   gcc  
-x86_64               randconfig-x013-20230712   gcc  
-x86_64               randconfig-x014-20230710   gcc  
-x86_64               randconfig-x014-20230712   gcc  
-x86_64               randconfig-x015-20230710   gcc  
-x86_64               randconfig-x015-20230712   gcc  
-x86_64               randconfig-x016-20230710   gcc  
-x86_64               randconfig-x016-20230712   gcc  
-x86_64                           rhel-8.3-bpf   gcc  
-x86_64                         rhel-8.3-kunit   gcc  
-x86_64                           rhel-8.3-kvm   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa               randconfig-r015-20230712   gcc  
-xtensa               randconfig-r015-20230713   gcc  
-xtensa               randconfig-r016-20230713   gcc  
-xtensa               randconfig-r032-20230713   gcc  
+v2:
+	* sh: use FB_MODE_IS_UNKNOWN (Adrian)
+	* fix commit messages (Miguel)
+	* document framebuffer_alloc()'s zero'ed memory (Miguel)
+
+[1] https://lore.kernel.org/dri-devel/877crer8fm.fsf@minerva.mail-host-address-is-not-set/
+
+Thomas Zimmermann (18):
+  drm: Remove flag FBINFO_DEFAULT from fbdev emulation
+  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+  fbdev/fsl-diu-fb: Remove flag FBINFO_DEFAULT
+  vfio-mdev: Remove flag FBINFO_DEFAULT from fbdev sample driver
+  sh: Assign FB_MODE_IS_UNKNOWN to struct fb_videomode.flag
+  auxdisplay: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  hid/picolcd: Remove flag FBINFO_FLAG_DEFAULT from fbdev driver
+  media: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  staging: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  fbdev/atafb: Remove flag FBINFO_FLAG_DEFAULT
+  fbdev/pxafb: Remove flag FBINFO_FLAG_DEFAULT
+  fbdev: Remove FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT
+  fbdev: Document that framebuffer_alloc() returns zero'ed data
+
+ arch/sh/boards/mach-sh7763rdp/setup.c          | 2 +-
+ drivers/auxdisplay/cfag12864bfb.c              | 1 -
+ drivers/auxdisplay/ht16k33.c                   | 1 -
+ drivers/gpu/drm/drm_fbdev_dma.c                | 1 -
+ drivers/gpu/drm/drm_fbdev_generic.c            | 1 -
+ drivers/gpu/drm/gma500/fbdev.c                 | 2 +-
+ drivers/gpu/drm/radeon/radeon_fbdev.c          | 2 +-
+ drivers/hid/hid-picolcd_fb.c                   | 1 -
+ drivers/media/pci/ivtv/ivtvfb.c                | 1 -
+ drivers/media/test-drivers/vivid/vivid-osd.c   | 1 -
+ drivers/staging/fbtft/fbtft-core.c             | 2 +-
+ drivers/staging/sm750fb/sm750.c                | 1 -
+ drivers/video/fbdev/68328fb.c                  | 2 +-
+ drivers/video/fbdev/acornfb.c                  | 2 +-
+ drivers/video/fbdev/amba-clcd.c                | 1 -
+ drivers/video/fbdev/amifb.c                    | 5 ++---
+ drivers/video/fbdev/arcfb.c                    | 1 -
+ drivers/video/fbdev/asiliantfb.c               | 1 -
+ drivers/video/fbdev/atafb.c                    | 1 -
+ drivers/video/fbdev/atmel_lcdfb.c              | 2 +-
+ drivers/video/fbdev/aty/aty128fb.c             | 1 -
+ drivers/video/fbdev/aty/atyfb_base.c           | 3 +--
+ drivers/video/fbdev/aty/radeon_base.c          | 3 +--
+ drivers/video/fbdev/broadsheetfb.c             | 2 +-
+ drivers/video/fbdev/bw2.c                      | 1 -
+ drivers/video/fbdev/carminefb.c                | 1 -
+ drivers/video/fbdev/cg14.c                     | 2 +-
+ drivers/video/fbdev/cg3.c                      | 1 -
+ drivers/video/fbdev/cg6.c                      | 2 +-
+ drivers/video/fbdev/chipsfb.c                  | 1 -
+ drivers/video/fbdev/cirrusfb.c                 | 3 +--
+ drivers/video/fbdev/clps711x-fb.c              | 1 -
+ drivers/video/fbdev/cobalt_lcdfb.c             | 1 -
+ drivers/video/fbdev/controlfb.c                | 2 +-
+ drivers/video/fbdev/core/fb_info.c             | 3 ++-
+ drivers/video/fbdev/cyber2000fb.c              | 2 +-
+ drivers/video/fbdev/da8xx-fb.c                 | 1 -
+ drivers/video/fbdev/efifb.c                    | 1 -
+ drivers/video/fbdev/ep93xx-fb.c                | 1 -
+ drivers/video/fbdev/ffb.c                      | 3 +--
+ drivers/video/fbdev/fm2fb.c                    | 1 -
+ drivers/video/fbdev/fsl-diu-fb.c               | 2 +-
+ drivers/video/fbdev/g364fb.c                   | 2 +-
+ drivers/video/fbdev/gbefb.c                    | 1 -
+ drivers/video/fbdev/geode/gx1fb_core.c         | 1 -
+ drivers/video/fbdev/geode/gxfb_core.c          | 1 -
+ drivers/video/fbdev/geode/lxfb_core.c          | 1 -
+ drivers/video/fbdev/goldfishfb.c               | 1 -
+ drivers/video/fbdev/grvga.c                    | 2 +-
+ drivers/video/fbdev/gxt4500.c                  | 3 +--
+ drivers/video/fbdev/hecubafb.c                 | 2 +-
+ drivers/video/fbdev/hgafb.c                    | 2 +-
+ drivers/video/fbdev/hitfb.c                    | 2 +-
+ drivers/video/fbdev/hpfb.c                     | 1 -
+ drivers/video/fbdev/hyperv_fb.c                | 2 --
+ drivers/video/fbdev/i740fb.c                   | 2 +-
+ drivers/video/fbdev/i810/i810_main.c           | 4 ++--
+ drivers/video/fbdev/imsttfb.c                  | 3 +--
+ drivers/video/fbdev/imxfb.c                    | 3 +--
+ drivers/video/fbdev/intelfb/intelfbdrv.c       | 5 ++---
+ drivers/video/fbdev/kyro/fbdev.c               | 1 -
+ drivers/video/fbdev/leo.c                      | 1 -
+ drivers/video/fbdev/macfb.c                    | 1 -
+ drivers/video/fbdev/matrox/matroxfb_crtc2.c    | 5 ++---
+ drivers/video/fbdev/maxinefb.c                 | 1 -
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c     | 2 +-
+ drivers/video/fbdev/metronomefb.c              | 2 +-
+ drivers/video/fbdev/mmp/fb/mmpfb.c             | 2 +-
+ drivers/video/fbdev/mx3fb.c                    | 1 -
+ drivers/video/fbdev/neofb.c                    | 2 +-
+ drivers/video/fbdev/nvidia/nvidia.c            | 4 ++--
+ drivers/video/fbdev/offb.c                     | 2 +-
+ drivers/video/fbdev/omap/omapfb_main.c         | 1 -
+ drivers/video/fbdev/omap2/omapfb/omapfb-main.c | 1 -
+ drivers/video/fbdev/p9100.c                    | 1 -
+ drivers/video/fbdev/platinumfb.c               | 1 -
+ drivers/video/fbdev/pm2fb.c                    | 3 +--
+ drivers/video/fbdev/pm3fb.c                    | 3 +--
+ drivers/video/fbdev/pmag-aa-fb.c               | 1 -
+ drivers/video/fbdev/pmag-ba-fb.c               | 1 -
+ drivers/video/fbdev/pmagb-b-fb.c               | 1 -
+ drivers/video/fbdev/ps3fb.c                    | 2 +-
+ drivers/video/fbdev/pvr2fb.c                   | 2 +-
+ drivers/video/fbdev/pxa168fb.c                 | 2 +-
+ drivers/video/fbdev/pxafb.c                    | 2 --
+ drivers/video/fbdev/q40fb.c                    | 1 -
+ drivers/video/fbdev/riva/fbdev.c               | 3 +--
+ drivers/video/fbdev/s1d13xxxfb.c               | 4 ++--
+ drivers/video/fbdev/s3c-fb.c                   | 1 -
+ drivers/video/fbdev/sa1100fb.c                 | 1 -
+ drivers/video/fbdev/savage/savagefb_driver.c   | 3 +--
+ drivers/video/fbdev/sh_mobile_lcdcfb.c         | 2 --
+ drivers/video/fbdev/simplefb.c                 | 1 -
+ drivers/video/fbdev/sis/sis_main.c             | 5 +----
+ drivers/video/fbdev/skeletonfb.c               | 2 +-
+ drivers/video/fbdev/sm501fb.c                  | 2 +-
+ drivers/video/fbdev/sm712fb.c                  | 1 -
+ drivers/video/fbdev/smscufx.c                  | 2 +-
+ drivers/video/fbdev/sstfb.c                    | 1 -
+ drivers/video/fbdev/sunxvr1000.c               | 1 -
+ drivers/video/fbdev/sunxvr2500.c               | 1 -
+ drivers/video/fbdev/sunxvr500.c                | 1 -
+ drivers/video/fbdev/tcx.c                      | 1 -
+ drivers/video/fbdev/tdfxfb.c                   | 2 +-
+ drivers/video/fbdev/tgafb.c                    | 2 +-
+ drivers/video/fbdev/tridentfb.c                | 2 +-
+ drivers/video/fbdev/udlfb.c                    | 2 +-
+ drivers/video/fbdev/uvesafb.c                  | 3 +--
+ drivers/video/fbdev/valkyriefb.c               | 1 -
+ drivers/video/fbdev/vermilion/vermilion.c      | 2 +-
+ drivers/video/fbdev/vesafb.c                   | 2 +-
+ drivers/video/fbdev/vfb.c                      | 1 -
+ drivers/video/fbdev/vga16fb.c                  | 2 +-
+ drivers/video/fbdev/via/viafbdev.c             | 2 +-
+ drivers/video/fbdev/vt8500lcdfb.c              | 3 +--
+ drivers/video/fbdev/wm8505fb.c                 | 3 +--
+ drivers/video/fbdev/xen-fbfront.c              | 2 +-
+ drivers/video/fbdev/xilinxfb.c                 | 1 -
+ include/linux/fb.h                             | 3 ---
+ samples/vfio-mdev/mdpy-fb.c                    | 1 -
+ 120 files changed, 68 insertions(+), 151 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.41.0
+
