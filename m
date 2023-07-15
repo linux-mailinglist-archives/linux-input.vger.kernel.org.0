@@ -2,150 +2,251 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B2433754425
-	for <lists+linux-input@lfdr.de>; Fri, 14 Jul 2023 23:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D324D754ACF
+	for <lists+linux-input@lfdr.de>; Sat, 15 Jul 2023 20:53:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236294AbjGNVNt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Jul 2023 17:13:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43324 "EHLO
+        id S230043AbjGOSxx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 15 Jul 2023 14:53:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235982AbjGNVNs (ORCPT
+        with ESMTP id S229490AbjGOSxw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Jul 2023 17:13:48 -0400
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2050.outbound.protection.outlook.com [40.107.220.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81FDDE65;
-        Fri, 14 Jul 2023 14:13:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QaNDm9rcTgFmr/CYKn4g13q1fmHxBsPHcNH6dj6f/RzN9Ec2+rU4TcXJP9RuBflvxE6qd5urm7aUNX1lHTjK5NnV/8I3pfttxy18DrzIc4KH1rrmvw+SCJnbE0vjFph9cvh3XwnfdKEsrjwJvIGqHV8Ijhzbc2WDfAQjuYm4xeT2lBzBfjmBqv/Ztkba6M5txNKHii/MxbJToyVQN+ABTuVSOw1W780xqzrHVIfp3uycRngw83SW4+WPt0ItLR1WKPlayo7+4YdUdzPXWFEC4jFjVY19kGO9kAGXxdthQj1MgimCbZgB4VcxQczBIOak5TA6ef3UQg3YmGMP1AYMYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AicPeDp4+swD9cxOGCiIEWIKlA0BAtxmBhhvIA7CDqY=;
- b=h+N/BywNShBqe7gZ5tJD8StPFS8TwEDlARVNNn7UrtbkjqIbFIg6RM6hUkMymzg+QxhetCB9LTwATU5feI68iqyHn3jfRPGDtLc8weg818CHKRN4tQOJ1qIYhugxKC6cg6EWQcI5EjmOw8Qix/HWN3rv7CRGxZl3y0Dmcwi4hJ1AR+8ZgfRmRldrH2u8eTwvW0k8vZYIng3DEeIYmHE3C6GL4q9mCPdbJztC3wmpJZe8WaI0PwKcmiTLl9hi2pH0pPiPJmHgghZLYNRcMFnGvnyeJYSqw55vUvPnn0OE1L0G9goa9G9+zh4ytPiDj7w+O8SPHSPzLc9uOBdlrsHMvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AicPeDp4+swD9cxOGCiIEWIKlA0BAtxmBhhvIA7CDqY=;
- b=NEajN2lDQJucSQhXDEq5k60sWeB5KWjNXnrNYbz7uXkbs8DQfKpJtK0NKnEgeL1+vflmVD5+0KVnNClP+2o77IqMe0CcybUlYf3oAtmTXagZyOsqY2YVDWm1E7Ys8CCtw5rTyR8RAXqVNyRbKZWXJdEJPzdqx7OvdStjj+GX1MnLAt/p7opKQkuev3EBzf6wcsNHiextfjgsq2hTEBiO25iocAr71/HRjN+836gXgcKKltptynxpcb6GWJrywSirOaXVwRScmSNDSrMKkw2tHOjo2ctBnHjsRvYo+axu4oihyPEjD7jFqgLwa6qKnOLNDrQLDGrVOxNqg30rJYQOmg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BN7PR12MB2740.namprd12.prod.outlook.com (2603:10b6:408:23::16)
- by CY8PR12MB7415.namprd12.prod.outlook.com (2603:10b6:930:5d::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.28; Fri, 14 Jul
- 2023 21:13:44 +0000
-Received: from BN7PR12MB2740.namprd12.prod.outlook.com
- ([fe80::d658:fc9e:6893:bd6]) by BN7PR12MB2740.namprd12.prod.outlook.com
- ([fe80::d658:fc9e:6893:bd6%3]) with mapi id 15.20.6588.028; Fri, 14 Jul 2023
- 21:13:44 +0000
-From:   Rahul Rameshbabu <rrameshbabu@nvidia.com>
-To:     Fabio Baltieri <fabiobaltieri@chromium.org>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] HID: hid-google-stadiaff: add support for Stadia
- force feedback
-References: <20230709214410.3676224-1-fabiobaltieri@chromium.org>
-Date:   Fri, 14 Jul 2023 14:13:34 -0700
-In-Reply-To: <20230709214410.3676224-1-fabiobaltieri@chromium.org> (Fabio
-        Baltieri's message of "Sun, 9 Jul 2023 21:44:10 +0000")
-Message-ID: <878rbidwn5.fsf@nvidia.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0063.namprd13.prod.outlook.com
- (2603:10b6:a03:2c4::8) To BN7PR12MB2740.namprd12.prod.outlook.com
- (2603:10b6:408:23::16)
+        Sat, 15 Jul 2023 14:53:52 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0321D2726;
+        Sat, 15 Jul 2023 11:53:46 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 76E5E1F8BF;
+        Sat, 15 Jul 2023 18:53:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1689447225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=xXH9SvysFyWb3daysTAoaXEiwsTMG6WruRgisjThQ4w=;
+        b=z6bvzmN9kFYTHYXXmS1p9d9hPPyx9uAISN9MjpZpjCgpwhnltIm5UKLUH+4hUIxcZ239rY
+        e7jdts9v0Q/AgdFGpMVV0eQKJFs1b1PyFX0z8/mirNIZFr+zGah9Y4USBjkkVhhxHT35l6
+        UGNRjsZwhqKdmnADXHQoG5Tz5SrBTh0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1689447225;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=xXH9SvysFyWb3daysTAoaXEiwsTMG6WruRgisjThQ4w=;
+        b=OOvLSpFYhUDgZ4Qw3lqerbRms3U7XOSEhfmre1Nnn7QTupN7YgBULQnHxl7VUM5LPZeoAv
+        istIOgKTSpbs5rBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0BAB2133F7;
+        Sat, 15 Jul 2023 18:53:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id XI7LATnrsmQCBwAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Sat, 15 Jul 2023 18:53:45 +0000
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     deller@gmx.de, javierm@redhat.com, geert@linux-m68k.org,
+        dan.carpenter@linaro.org
+Cc:     linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-geode@lists.infradead.org, linux-hyperv@vger.kernel.org,
+        linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        kvm@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v4 00/18] fbdev: Remove FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT flags
+Date:   Sat, 15 Jul 2023 20:51:42 +0200
+Message-ID: <20230715185343.7193-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN7PR12MB2740:EE_|CY8PR12MB7415:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2bf8544c-d2cd-4db2-c417-08db84af349f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NRdaAAcQLGlYE12rsl4AxZwrOtub4lzRCkVdG52FO4o9MCQn/fQ71ixdEjroeZxvhVdSkiQzkUYDGOes+BO2xk/ez6RHL6S+VPLb5lV+Mu3QrMldSzfJHQLkf4dnrKwd/hJREWXgeaEJQbzQ5nfqUv9pWEB2ZhHdlerTfUHaem+iMU+lSQEWNMvgQ6HpOcROwvxRgE2xS/hh9YaFO4tbv6EMPsr+i9Zm3FeK21COXqlCRtMKLxVauczSrVwTuc9P2sfw/Jn6AH2EDEEN5D/u1Z3ZtLKLw3fGlDBDxnDgiVRF1VbVOdGakBPgb+psq13IaI+vzQYPMqe31orZkIXmMQNfZtQGBfQCBMilaQQ3Hc49dM3Z25aY2DeaF297lqhiMpcuRc/WVgqbEb8woFSUFYexemmRk1IEwirulyC7THE7oPv5SsOn9MJS80rvdgAZRFBDX8b/Ecl/nuyfKLI+tWu255fqLwwcx7nxK+CYjr4X2cBThQpEz8ted9ydA7xSqH9GAF9SP+b+7M8bcKTExgQ0TnPDKP4cr9WEIvf+SGbVFnQi2oU6V4yOZQUSD8GQ
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PR12MB2740.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(39860400002)(346002)(366004)(396003)(376002)(451199021)(6486002)(6666004)(2616005)(478600001)(186003)(36756003)(6512007)(6506007)(26005)(4744005)(6916009)(66476007)(66556008)(4326008)(66946007)(54906003)(41300700001)(8936002)(8676002)(316002)(38100700002)(5660300002)(86362001)(2906002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HZT3le0ICaNLB9c8I5ltMgrFJC9h2NOAraWzib39iQtNsFBRv0v5FzDSuyC7?=
- =?us-ascii?Q?Ld9toKVVnGhM73+2c6JsrI/Rb7Cew1IeaU3a+SpmO1RjIZVHgad0xBTN5aCT?=
- =?us-ascii?Q?RzjonAdn1wh6ubF/oL029Qa3Mvak+nTPYKAIIXFR5Ui9WaSKxL5DTkKtZCY4?=
- =?us-ascii?Q?kOspvTmZ+Gpj8mrGHGN/cGMsmRBAWm3ZeG8j9wKxAXmGyf60biTWHjLuvFon?=
- =?us-ascii?Q?/3K5HfKyoft1AxfzqBeK7nuolBpU1zVXWz25lIKaTDJuml4wFW33NjKSRFuT?=
- =?us-ascii?Q?/Tla+dnn9f3OYrBPPXO83McwVjPbkSiSWWv3YOQlra8u1UPU/NMtBKK4d5Nh?=
- =?us-ascii?Q?m9662OcZnFwNyTIkNa/fYgzC3SoZy8z+oPG2ljfa2BV8E3aVpz5diBlHWMrP?=
- =?us-ascii?Q?SMBVXjdCXqZGy8N0cPG/jN0RrE9L6/QNt3Yff3rU9MVWKUQ0cZ9Mx7VKykCI?=
- =?us-ascii?Q?1nNU6EJCt4ZZAwtCIGPeD4V0sWd3t9BdHT/+bFOhN0f1cv7Z2dAgGLaHPTgB?=
- =?us-ascii?Q?CJ1QpAmLSFBNN0kfTODeb/etJqH8RrEgWgzrUHpLJCUChNEpUEF3xgv+k51a?=
- =?us-ascii?Q?//+fN2quXeUIKmm3bFrJcyN+qfYCO0pXFe69rXT7RllQUCus96t1+Jhmxeo1?=
- =?us-ascii?Q?xGMyhq2nieyziVyAIDDU3KpiKb2dcOHoHSCUE9uxthkyPzKiu+9gfju0jEOx?=
- =?us-ascii?Q?H28m/uQVqWxzZqHRTCUCBfLA12uga7wDy+kSIIZ20igBcK8tAajdDzAkZXVj?=
- =?us-ascii?Q?DENF1vDXdeMFCD/B5JT2WgoUOzRyAAhN0PNBbUySSNR+tIjvwhzVcgkeklk8?=
- =?us-ascii?Q?LvgAAqk8TU88omblH6Gylr4YhS93a9KBpDaYQeb0ncFEmLiLFTjhYIbA/dN5?=
- =?us-ascii?Q?+YtU9xVzzmIQ6rg0kPK55GxnMDPKzzagvZqEZIu/1RYBGzkq10TzKZPNb1MY?=
- =?us-ascii?Q?AWPsiXQgEfeCref1SNt79hfre46icWSueDY26ovHJ3kAETm2Ieyt2BNlK1/+?=
- =?us-ascii?Q?ov8N9gRemTQUpRcqYab3qXfR7pfgrUqTyAOeK5B2zxxPyR2l/wHpyGf7tvs7?=
- =?us-ascii?Q?ZG5gQ312StYkXbFzo9/AqMg9ZXYOh1Rj6dyVBekfsdjsk0G5O0qMbgkJTol9?=
- =?us-ascii?Q?/S3qpng4Eff/+ozEV0EOb6QTi8tDPMIlp9/59FStr6zmS7pnq+i4b7yCi/Y4?=
- =?us-ascii?Q?D649Nv9XgzXzfBJ/NvKyIA0vVqaFPuO+k+V3CrYt/Vklqv64o0PE3hLpXt8u?=
- =?us-ascii?Q?0rY4OW89LFK09yTGbZatzE5tpacrvF2Kmfg4hIobLfdyIsGefOPbHKAelNWx?=
- =?us-ascii?Q?lVi5nhaKdBF069sbqBH47jiW9dFzsUsnZRsjjBjoJAIgnQCLNJkYjNHM5VUv?=
- =?us-ascii?Q?NpMbCg9ubZchFDiOy+uf+s+rkjCjS69SJ1BOIMJZy1S8aE01OhjU5pOaSg4I?=
- =?us-ascii?Q?SQIiMjCSW2rp5bL8OByoWOjwietrA9h9xxIA80HXV0zgXYv1h82z7p/+qpiw?=
- =?us-ascii?Q?+e8QZ1bAuNQXraen+4G+N5mQgwCnsUp65+qp6N6zXMNNec4znBPQFn0XNmh5?=
- =?us-ascii?Q?gzVBnO263hISyHmLk39j6IRuaiYK1XwyMQJnNn/HJCnP/7pSsmAV6KmloYjQ?=
- =?us-ascii?Q?fA=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2bf8544c-d2cd-4db2-c417-08db84af349f
-X-MS-Exchange-CrossTenant-AuthSource: BN7PR12MB2740.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2023 21:13:44.1926
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AqTNCq7TN+9Bm2HZQmA0QBpAUk5XIvzn6w6fLBtNxvUE/Ihvq+6q/JJQQz7Ez9V12TBG/OqsLNsJwv68YlfHqg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7415
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 09 Jul, 2023 21:44:10 +0000 Fabio Baltieri <fabiobaltieri@chromium.org> wrote:
-> Add a hid-stadiaff module to support rumble based force feedback on the
-> Google Stadia controller. This works using the HID output endpoint
-> exposed on both the USB and BLE interface.
->
-> Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
-> ---
-> +static int stadia_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> +{
-> +	int ret;
-> +
-> +	ret = hid_parse(hdev);
-> +	if (ret) {
-> +		hid_err(hdev, "parse failed\n");
-> +		return ret;
-> +	}
-> +
-> +	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT & ~HID_CONNECT_FF);
-> +	if (ret) {
-> +		hid_err(hdev, "hw start failed\n");
-> +		return ret;
-> +	}
-> +
-> +	ret = stadiaff_init(hdev);
-> +	if (ret) {
-> +		dev_err(&hdev->dev, "force feedback init failed\n");
+Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
+fbdev and drivers, as briefly discussed at [1]. Both flags were maybe
+useful when fbdev had special handling for driver modules. With
+commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
+and have no further effect.
 
-Error handling looks good to me now. Is there any particular reason you
-use dev_err here instead of hid_err here?
+Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
+split this by the way the fb_info struct is being allocated. All flags
+are cleared to zero during the allocation.
 
--- Rahul Rameshbabu
+Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
+an actual bug in how arch/sh uses the token for struct fb_videomode,
+which is unrelated.
+
+Patch 17 removes both flag constants from <linux/fb.h> and patch 18
+documents the zero'ed memory returned by framebuffer_alloc().
+
+v4:
+	* clarify commit messages (Geert, Dan)
+v3:
+	* sh: include board name in commit message (Adrian)
+	* docs: reword text (Miguel)
+v2:
+	* sh: use FB_MODE_IS_UNKNOWN (Adrian)
+	* fix commit messages (Miguel)
+	* document framebuffer_alloc()'s zero'ed memory (Miguel)
+
+[1] https://lore.kernel.org/dri-devel/877crer8fm.fsf@minerva.mail-host-address-is-not-set/
+
+Thomas Zimmermann (18):
+  drm: Remove flag FBINFO_DEFAULT from fbdev emulation
+  fbdev: Remove FBINFO_DEFAULT from static structs
+  fbdev: Remove FBINFO_DEFAULT from kzalloc()'ed structs
+  fbdev: Remove FBINFO_DEFAULT from devm_kzalloc()'ed structs
+  fbdev: Remove FBINFO_DEFAULT from framebuffer_alloc()'ed structs
+  fbdev/fsl-diu-fb: Remove flag FBINFO_DEFAULT
+  vfio-mdev: Remove flag FBINFO_DEFAULT from fbdev sample driver
+  sh: mach-sh7763rdp: Assign FB_MODE_IS_UNKNOWN to struct
+    fb_videomode.flag
+  auxdisplay: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  hid/picolcd: Remove flag FBINFO_FLAG_DEFAULT from fbdev driver
+  media: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  staging: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  fbdev: Remove FBINFO_FLAG_DEFAULT from kzalloc()'ed structs
+  fbdev: Remove FBINFO_FLAG_DEFAULT from framebuffer_alloc()'ed structs
+  fbdev/atafb: Remove flag FBINFO_FLAG_DEFAULT
+  fbdev/pxafb: Remove flag FBINFO_FLAG_DEFAULT
+  fbdev: Remove FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT
+  fbdev: Document that framebuffer_alloc() returns zero'ed data
+
+ arch/sh/boards/mach-sh7763rdp/setup.c          | 2 +-
+ drivers/auxdisplay/cfag12864bfb.c              | 1 -
+ drivers/auxdisplay/ht16k33.c                   | 1 -
+ drivers/gpu/drm/drm_fbdev_dma.c                | 1 -
+ drivers/gpu/drm/drm_fbdev_generic.c            | 1 -
+ drivers/gpu/drm/gma500/fbdev.c                 | 2 +-
+ drivers/gpu/drm/radeon/radeon_fbdev.c          | 2 +-
+ drivers/hid/hid-picolcd_fb.c                   | 1 -
+ drivers/media/pci/ivtv/ivtvfb.c                | 1 -
+ drivers/media/test-drivers/vivid/vivid-osd.c   | 1 -
+ drivers/staging/fbtft/fbtft-core.c             | 2 +-
+ drivers/staging/sm750fb/sm750.c                | 1 -
+ drivers/video/fbdev/68328fb.c                  | 2 +-
+ drivers/video/fbdev/acornfb.c                  | 2 +-
+ drivers/video/fbdev/amba-clcd.c                | 1 -
+ drivers/video/fbdev/amifb.c                    | 5 ++---
+ drivers/video/fbdev/arcfb.c                    | 1 -
+ drivers/video/fbdev/asiliantfb.c               | 1 -
+ drivers/video/fbdev/atafb.c                    | 1 -
+ drivers/video/fbdev/atmel_lcdfb.c              | 2 +-
+ drivers/video/fbdev/aty/aty128fb.c             | 1 -
+ drivers/video/fbdev/aty/atyfb_base.c           | 3 +--
+ drivers/video/fbdev/aty/radeon_base.c          | 3 +--
+ drivers/video/fbdev/broadsheetfb.c             | 2 +-
+ drivers/video/fbdev/bw2.c                      | 1 -
+ drivers/video/fbdev/carminefb.c                | 1 -
+ drivers/video/fbdev/cg14.c                     | 2 +-
+ drivers/video/fbdev/cg3.c                      | 1 -
+ drivers/video/fbdev/cg6.c                      | 2 +-
+ drivers/video/fbdev/chipsfb.c                  | 1 -
+ drivers/video/fbdev/cirrusfb.c                 | 3 +--
+ drivers/video/fbdev/clps711x-fb.c              | 1 -
+ drivers/video/fbdev/cobalt_lcdfb.c             | 1 -
+ drivers/video/fbdev/controlfb.c                | 2 +-
+ drivers/video/fbdev/core/fb_info.c             | 3 ++-
+ drivers/video/fbdev/cyber2000fb.c              | 2 +-
+ drivers/video/fbdev/da8xx-fb.c                 | 1 -
+ drivers/video/fbdev/efifb.c                    | 1 -
+ drivers/video/fbdev/ep93xx-fb.c                | 1 -
+ drivers/video/fbdev/ffb.c                      | 3 +--
+ drivers/video/fbdev/fm2fb.c                    | 1 -
+ drivers/video/fbdev/fsl-diu-fb.c               | 2 +-
+ drivers/video/fbdev/g364fb.c                   | 2 +-
+ drivers/video/fbdev/gbefb.c                    | 1 -
+ drivers/video/fbdev/geode/gx1fb_core.c         | 1 -
+ drivers/video/fbdev/geode/gxfb_core.c          | 1 -
+ drivers/video/fbdev/geode/lxfb_core.c          | 1 -
+ drivers/video/fbdev/goldfishfb.c               | 1 -
+ drivers/video/fbdev/grvga.c                    | 2 +-
+ drivers/video/fbdev/gxt4500.c                  | 3 +--
+ drivers/video/fbdev/hecubafb.c                 | 2 +-
+ drivers/video/fbdev/hgafb.c                    | 2 +-
+ drivers/video/fbdev/hitfb.c                    | 2 +-
+ drivers/video/fbdev/hpfb.c                     | 1 -
+ drivers/video/fbdev/hyperv_fb.c                | 2 --
+ drivers/video/fbdev/i740fb.c                   | 2 +-
+ drivers/video/fbdev/i810/i810_main.c           | 4 ++--
+ drivers/video/fbdev/imsttfb.c                  | 3 +--
+ drivers/video/fbdev/imxfb.c                    | 3 +--
+ drivers/video/fbdev/intelfb/intelfbdrv.c       | 5 ++---
+ drivers/video/fbdev/kyro/fbdev.c               | 1 -
+ drivers/video/fbdev/leo.c                      | 1 -
+ drivers/video/fbdev/macfb.c                    | 1 -
+ drivers/video/fbdev/matrox/matroxfb_crtc2.c    | 5 ++---
+ drivers/video/fbdev/maxinefb.c                 | 1 -
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c     | 2 +-
+ drivers/video/fbdev/metronomefb.c              | 2 +-
+ drivers/video/fbdev/mmp/fb/mmpfb.c             | 2 +-
+ drivers/video/fbdev/mx3fb.c                    | 1 -
+ drivers/video/fbdev/neofb.c                    | 2 +-
+ drivers/video/fbdev/nvidia/nvidia.c            | 4 ++--
+ drivers/video/fbdev/offb.c                     | 2 +-
+ drivers/video/fbdev/omap/omapfb_main.c         | 1 -
+ drivers/video/fbdev/omap2/omapfb/omapfb-main.c | 1 -
+ drivers/video/fbdev/p9100.c                    | 1 -
+ drivers/video/fbdev/platinumfb.c               | 1 -
+ drivers/video/fbdev/pm2fb.c                    | 3 +--
+ drivers/video/fbdev/pm3fb.c                    | 3 +--
+ drivers/video/fbdev/pmag-aa-fb.c               | 1 -
+ drivers/video/fbdev/pmag-ba-fb.c               | 1 -
+ drivers/video/fbdev/pmagb-b-fb.c               | 1 -
+ drivers/video/fbdev/ps3fb.c                    | 2 +-
+ drivers/video/fbdev/pvr2fb.c                   | 2 +-
+ drivers/video/fbdev/pxa168fb.c                 | 2 +-
+ drivers/video/fbdev/pxafb.c                    | 2 --
+ drivers/video/fbdev/q40fb.c                    | 1 -
+ drivers/video/fbdev/riva/fbdev.c               | 3 +--
+ drivers/video/fbdev/s1d13xxxfb.c               | 4 ++--
+ drivers/video/fbdev/s3c-fb.c                   | 1 -
+ drivers/video/fbdev/sa1100fb.c                 | 1 -
+ drivers/video/fbdev/savage/savagefb_driver.c   | 3 +--
+ drivers/video/fbdev/sh_mobile_lcdcfb.c         | 2 --
+ drivers/video/fbdev/simplefb.c                 | 1 -
+ drivers/video/fbdev/sis/sis_main.c             | 5 +----
+ drivers/video/fbdev/skeletonfb.c               | 2 +-
+ drivers/video/fbdev/sm501fb.c                  | 2 +-
+ drivers/video/fbdev/sm712fb.c                  | 1 -
+ drivers/video/fbdev/smscufx.c                  | 2 +-
+ drivers/video/fbdev/sstfb.c                    | 1 -
+ drivers/video/fbdev/sunxvr1000.c               | 1 -
+ drivers/video/fbdev/sunxvr2500.c               | 1 -
+ drivers/video/fbdev/sunxvr500.c                | 1 -
+ drivers/video/fbdev/tcx.c                      | 1 -
+ drivers/video/fbdev/tdfxfb.c                   | 2 +-
+ drivers/video/fbdev/tgafb.c                    | 2 +-
+ drivers/video/fbdev/tridentfb.c                | 2 +-
+ drivers/video/fbdev/udlfb.c                    | 2 +-
+ drivers/video/fbdev/uvesafb.c                  | 3 +--
+ drivers/video/fbdev/valkyriefb.c               | 1 -
+ drivers/video/fbdev/vermilion/vermilion.c      | 2 +-
+ drivers/video/fbdev/vesafb.c                   | 2 +-
+ drivers/video/fbdev/vfb.c                      | 1 -
+ drivers/video/fbdev/vga16fb.c                  | 2 +-
+ drivers/video/fbdev/via/viafbdev.c             | 2 +-
+ drivers/video/fbdev/vt8500lcdfb.c              | 3 +--
+ drivers/video/fbdev/wm8505fb.c                 | 3 +--
+ drivers/video/fbdev/xen-fbfront.c              | 2 +-
+ drivers/video/fbdev/xilinxfb.c                 | 1 -
+ include/linux/fb.h                             | 3 ---
+ samples/vfio-mdev/mdpy-fb.c                    | 1 -
+ 120 files changed, 68 insertions(+), 151 deletions(-)
+
+-- 
+2.41.0
+
