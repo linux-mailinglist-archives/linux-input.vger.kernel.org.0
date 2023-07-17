@@ -2,39 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72D1875645B
-	for <lists+linux-input@lfdr.de>; Mon, 17 Jul 2023 15:19:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AE4675645D
+	for <lists+linux-input@lfdr.de>; Mon, 17 Jul 2023 15:19:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231636AbjGQNT4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S230464AbjGQNT4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Mon, 17 Jul 2023 09:19:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54264 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230266AbjGQNTo (ORCPT
+        with ESMTP id S230400AbjGQNTo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Mon, 17 Jul 2023 09:19:44 -0400
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 57F363C35;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0C6503C3A;
         Mon, 17 Jul 2023 06:18:16 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="6.01,211,1684767600"; 
-   d="scan'208";a="173149946"
+   d="scan'208";a="173149956"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 17 Jul 2023 22:18:04 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 17 Jul 2023 22:18:07 +0900
 Received: from localhost.localdomain (unknown [10.226.92.210])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 84E7141B465F;
-        Mon, 17 Jul 2023 22:18:01 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id D08BA4208E5B;
+        Mon, 17 Jul 2023 22:18:04 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Mike Looijmans <mike.looijmans@topic.nl>,
         Andreas Helbech Kleist <andreaskleist@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-input@vger.kernel.org,
+        <u.kleine-koenig@pengutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mike Looijmans <mike.looijmans@topic.nl>,
+        linux-input@vger.kernel.org,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 1/2] Input: exc3000 - Simplify probe()
-Date:   Mon, 17 Jul 2023 14:17:55 +0100
-Message-Id: <20230717131756.240645-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 2/2] Input: exc3000 - Drop enum eeti_dev_id and split exc3000_info[]
+Date:   Mon, 17 Jul 2023 14:17:56 +0100
+Message-Id: <20230717131756.240645-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230717131756.240645-1-biju.das.jz@bp.renesas.com>
 References: <20230717131756.240645-1-biju.das.jz@bp.renesas.com>
@@ -49,66 +50,94 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The exc3000_id.driver_data could store a pointer to the info,
-like for ACPI/DT-based matching, making I2C, ACPI and DT-based
-matching more similar.
+Drop enum eeti_dev_id and split the array exc3000_info[] as individual
+variables, and make lines shorter by referring to e.g. &exc3000_info
+instead of &exc3000_info[EETI_EXC3000].
 
-After that, we can simplify the probe() by replacing device_get_
-match_data() and i2c_match_id() by i2c_get_match_data() as we have
-similar I2C, ACPI and DT-based matching table.
-
+Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-v1->v2:
- * Added Rb tag from Geert.
+v2:
+ * New patch.
 ---
- drivers/input/touchscreen/exc3000.c | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+ drivers/input/touchscreen/exc3000.c | 42 +++++++++++++----------------
+ 1 file changed, 18 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchscreen/exc3000.c
-index 4c0d99aae9e0..8b65b4e2aa50 100644
+index 8b65b4e2aa50..b124a64f8164 100644
 --- a/drivers/input/touchscreen/exc3000.c
 +++ b/drivers/input/touchscreen/exc3000.c
-@@ -42,8 +42,6 @@
- #define EXC3000_RESET_MS		10
- #define EXC3000_READY_MS		100
- 
--static const struct i2c_device_id exc3000_id[];
--
- struct eeti_dev_info {
- 	const char *name;
+@@ -47,25 +47,19 @@ struct eeti_dev_info {
  	int max_xy;
-@@ -347,12 +345,10 @@ static int exc3000_probe(struct i2c_client *client)
- 		return -ENOMEM;
+ };
  
- 	data->client = client;
--	data->info = device_get_match_data(&client->dev);
--	if (!data->info) {
--		enum eeti_dev_id eeti_dev_id =
--			i2c_match_id(exc3000_id, client)->driver_data;
--		data->info = &exc3000_info[eeti_dev_id];
--	}
-+	data->info = i2c_get_match_data(client);
-+	if (!data->info)
-+		return -ENODEV;
+-enum eeti_dev_id {
+-	EETI_EXC3000,
+-	EETI_EXC80H60,
+-	EETI_EXC80H84,
++static const struct eeti_dev_info exc3000_info = {
++	.name = "EETI EXC3000 Touch Screen",
++	.max_xy = SZ_4K - 1
+ };
+ 
+-static struct eeti_dev_info exc3000_info[] = {
+-	[EETI_EXC3000] = {
+-		.name = "EETI EXC3000 Touch Screen",
+-		.max_xy = SZ_4K - 1,
+-	},
+-	[EETI_EXC80H60] = {
+-		.name = "EETI EXC80H60 Touch Screen",
+-		.max_xy = SZ_16K - 1,
+-	},
+-	[EETI_EXC80H84] = {
+-		.name = "EETI EXC80H84 Touch Screen",
+-		.max_xy = SZ_16K - 1,
+-	},
++static const struct eeti_dev_info exc80h60_info = {
++	.name = "EETI EXC80H60 Touch Screen",
++	.max_xy = SZ_16K - 1
++};
 +
- 	timer_setup(&data->timer, exc3000_timer, 0);
- 	init_completion(&data->wait_event);
- 	mutex_init(&data->query_lock);
-@@ -445,9 +441,9 @@ static int exc3000_probe(struct i2c_client *client)
++static const struct eeti_dev_info exc80h84_info = {
++	.name = "EETI EXC80H84 Touch Screen",
++	.max_xy = SZ_16K - 1
+ };
+ 
+ struct exc3000_data {
+@@ -441,18 +435,18 @@ static int exc3000_probe(struct i2c_client *client)
  }
  
  static const struct i2c_device_id exc3000_id[] = {
--	{ "exc3000", EETI_EXC3000 },
--	{ "exc80h60", EETI_EXC80H60 },
--	{ "exc80h84", EETI_EXC80H84 },
-+	{ "exc3000", .driver_data = (kernel_ulong_t)&exc3000_info[EETI_EXC3000] },
-+	{ "exc80h60", .driver_data = (kernel_ulong_t)&exc3000_info[EETI_EXC80H60] },
-+	{ "exc80h84", .driver_data = (kernel_ulong_t)&exc3000_info[EETI_EXC80H84] },
+-	{ "exc3000", .driver_data = (kernel_ulong_t)&exc3000_info[EETI_EXC3000] },
+-	{ "exc80h60", .driver_data = (kernel_ulong_t)&exc3000_info[EETI_EXC80H60] },
+-	{ "exc80h84", .driver_data = (kernel_ulong_t)&exc3000_info[EETI_EXC80H84] },
++	{ "exc3000", .driver_data = (kernel_ulong_t)&exc3000_info },
++	{ "exc80h60", .driver_data = (kernel_ulong_t)&exc80h60_info },
++	{ "exc80h84", .driver_data = (kernel_ulong_t)&exc80h84_info },
  	{ }
  };
  MODULE_DEVICE_TABLE(i2c, exc3000_id);
+ 
+ #ifdef CONFIG_OF
+ static const struct of_device_id exc3000_of_match[] = {
+-	{ .compatible = "eeti,exc3000", .data = &exc3000_info[EETI_EXC3000] },
+-	{ .compatible = "eeti,exc80h60", .data = &exc3000_info[EETI_EXC80H60] },
+-	{ .compatible = "eeti,exc80h84", .data = &exc3000_info[EETI_EXC80H84] },
++	{ .compatible = "eeti,exc3000", .data = &exc3000_info },
++	{ .compatible = "eeti,exc80h60", .data = &exc80h60_info },
++	{ .compatible = "eeti,exc80h84", .data = &exc80h84_info },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, exc3000_of_match);
+@@ -460,7 +454,7 @@ MODULE_DEVICE_TABLE(of, exc3000_of_match);
+ 
+ #ifdef CONFIG_ACPI
+ static const struct acpi_device_id exc3000_acpi_match[] = {
+-	{ "EGA00001", .driver_data = (kernel_ulong_t)&exc3000_info[EETI_EXC80H60] },
++	{ "EGA00001", .driver_data = (kernel_ulong_t)&exc80h60_info },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(acpi, exc3000_acpi_match);
 -- 
 2.25.1
 
