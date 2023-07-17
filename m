@@ -2,67 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC9C1756D0D
-	for <lists+linux-input@lfdr.de>; Mon, 17 Jul 2023 21:20:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A8A5756D46
+	for <lists+linux-input@lfdr.de>; Mon, 17 Jul 2023 21:32:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231247AbjGQTUX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 Jul 2023 15:20:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57338 "EHLO
+        id S231544AbjGQTce (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 Jul 2023 15:32:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231268AbjGQTUV (ORCPT
+        with ESMTP id S231546AbjGQTcb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 Jul 2023 15:20:21 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD26E1B6
-        for <linux-input@vger.kernel.org>; Mon, 17 Jul 2023 12:20:19 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-55be1ce1669so3001083a12.1
-        for <linux-input@vger.kernel.org>; Mon, 17 Jul 2023 12:20:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1689621619; x=1692213619;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BxqwFQEaz103YnifoW7TQwaLwgL55Tbq0Xq1x3fktnE=;
-        b=HHmpKiFkCjm8jzgl4DBC6GDyEBq5T45I0kyUdpFpKtrlD+BNBKWjt6o5ew9+Ht9wiJ
-         IZ6bImH/l+xf6Dqijf9XJoKIivqIQ+m+ehaDhaURY8R9Fpu+0dWgPJ9TPWB0eULt3dip
-         4Kx9tXszZSkr9e5p4anTIeTT0SPVfWQJUmyGFwB1RpRQM11ij3+7Tvevjaxp7hGWHPgP
-         A0yvmLvCI3oYQsls6fdKjlyJJjllDdJEnRrIYdo7NGfSaL+s7crWYJ5o5ting0j8Ob2z
-         322tvBMn2llX00gVe6tG2smoODlrHAHE8DKNlSdqxVV+bG4e7iBpbs10dw5Bm59E+jt4
-         5FbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689621619; x=1692213619;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BxqwFQEaz103YnifoW7TQwaLwgL55Tbq0Xq1x3fktnE=;
-        b=COlOF9+9ScUDEeNVAXoc5y9JJPo7k9R3ruyWwqbU39W71WF322b3TtGlVlp9cvpTkU
-         h9aDzp8WiCGFx5m5rtK2YdRlLCDL0KFh+1vKMM07v3DE6PbIgGP0KXDC69HaDvQnl6Yf
-         iJQKbffJ2T95qdnVvNg1DO2w2f7DFbLL4fFVq8ZpxPK4hZotvTUiV1SHD3uZC9pynUZ7
-         Tq5TjxSCX9GC/CwZTQFo+ZJYGGYfoQhVdP/UJrXUODckxyacSmLeWkbXXNK4xLgxw7C4
-         4H2bglPaVDoRPVn3fm3LmMvRZbJGrwIoGFROdRvEKyFdiIaTIdJzqH6BgB4HlA6UL2aH
-         qG0Q==
-X-Gm-Message-State: ABy/qLYgwFTNPL+9Z12CVxXJl7T3Bk2y+sji1ppV/U9pE3MkSqKopUZm
-        cwPWshaYkl+Qh35jLDt9BLqRfv+1ueWfJ705dDWsuw==
-X-Google-Smtp-Source: APBJJlGpQ4X2bd9Mkelc2f+lFzN3mJwwaLKT8hO7m8OnO26LTRp3GdmtUwkSiRXB1c8xCmnsLgU7EA==
-X-Received: by 2002:a17:90b:4b01:b0:267:a6c5:e601 with SMTP id lx1-20020a17090b4b0100b00267a6c5e601mr519626pjb.1.1689621619335;
-        Mon, 17 Jul 2023 12:20:19 -0700 (PDT)
-Received: from sw06.internal.sifive.com ([64.62.193.194])
-        by smtp.gmail.com with ESMTPSA id y8-20020a17090322c800b001b850c9af71sm210400plg.285.2023.07.17.12.20.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jul 2023 12:20:18 -0700 (PDT)
-From:   Samuel Holland <samuel.holland@sifive.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Support Opensource <support.opensource@diasemi.com>
-Cc:     Samuel Holland <samuel.holland@sifive.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: da9063 - add wakeup support
-Date:   Mon, 17 Jul 2023 12:20:03 -0700
-Message-Id: <20230717192004.1304287-1-samuel.holland@sifive.com>
-X-Mailer: git-send-email 2.40.1
+        Mon, 17 Jul 2023 15:32:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 985A81B6
+        for <linux-input@vger.kernel.org>; Mon, 17 Jul 2023 12:32:29 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2BD8761231
+        for <linux-input@vger.kernel.org>; Mon, 17 Jul 2023 19:32:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BFF2C433C9;
+        Mon, 17 Jul 2023 19:32:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1689622348;
+        bh=1kwi9TkpED6FARUR2+rcdmaANjuL8/Lt5mP0sTA5iow=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Sev0SP0ZCcZZpoGzapvk8P3KWeCggCVO9foujgOfRjnbT0dlNTIZEyX93q2QnwvqY
+         g97OT1epFiE64Z9Ng189s/fJdHqgVc2ijd7mhuruvUjMSB/2WFpLN1NRM77xf//hEP
+         oj8LsQG8HZW4p/KfLEl5z4gA0CDXz+rssNsZpq4c=
+Date:   Mon, 17 Jul 2023 21:32:25 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Jonathan Denose <jdenose@chromium.org>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: Touchpad lost sync at byte 6
+Message-ID: <2023071753-traverse-repayment-9e8d@gregkh>
+References: <CALNJtpUN+DrWtudWdKZxYMR7oM-yt926fj7_Wi9dUPLZybw-vQ@mail.gmail.com>
+ <2023062959-agreeable-zipfile-df6b@gregkh>
+ <CALNJtpX_SanxbjHhEAikkPBGde812hPNW0z5fTiuPZRTpK-CLg@mail.gmail.com>
+ <2023070838-vacation-ferris-e486@gregkh>
+ <CALNJtpU8AnWDybNXxWfWwN2EbieJBJmQqsDMb_7hjG7c7OCOsQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALNJtpU8AnWDybNXxWfWwN2EbieJBJmQqsDMb_7hjG7c7OCOsQ@mail.gmail.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,41 +55,32 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Mark the IRQ as a wake IRQ so it will be enabled during system suspend.
+A: http://en.wikipedia.org/wiki/Top_post
+Q: Were do I find info about this thing called top-posting?
+A: Because it messes up the order in which people normally read text.
+Q: Why is top-posting such a bad thing?
+A: Top-posting.
+Q: What is the most annoying thing in e-mail?
 
-Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
----
+A: No.
+Q: Should I include quotations after my reply?
 
- drivers/input/misc/da9063_onkey.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+http://daringfireball.net/2007/07/on_top
 
-diff --git a/drivers/input/misc/da9063_onkey.c b/drivers/input/misc/da9063_onkey.c
-index b14a389600c9..74808bae326a 100644
---- a/drivers/input/misc/da9063_onkey.c
-+++ b/drivers/input/misc/da9063_onkey.c
-@@ -10,6 +10,7 @@
- #include <linux/input.h>
- #include <linux/interrupt.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_wakeirq.h>
- #include <linux/workqueue.h>
- #include <linux/regmap.h>
- #include <linux/of.h>
-@@ -251,6 +252,14 @@ static int da9063_onkey_probe(struct platform_device *pdev)
- 		return error;
- 	}
- 
-+	error = dev_pm_set_wake_irq(&pdev->dev, irq);
-+	if (error)
-+		dev_warn(&pdev->dev,
-+			 "Failed to set IRQ %d as a wake IRQ: %d\n",
-+			 irq, error);
-+	else
-+		device_init_wakeup(&pdev->dev, true);
-+
- 	error = input_register_device(onkey->input);
- 	if (error) {
- 		dev_err(&pdev->dev,
--- 
-2.40.1
+On Mon, Jul 17, 2023 at 02:13:37PM -0500, Jonathan Denose wrote:
+> Is linux-input@vger.kernel.org not also the input driver maintainers
+> list? When I run get_maintainers.pl on the mouse driver files it gives
+> me only this list and then some personal emails of some maintainers.
 
+That would be correct.
+
+> I think I may have forgotten to reply-all earlier in the thread so the
+> list wasn't cc'd on all of the emails.
+
+Then no one saw it :(
+
+Please resend starting from the beginning.
+
+thanks,
+
+greg k-h
