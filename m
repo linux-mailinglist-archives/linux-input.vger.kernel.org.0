@@ -2,81 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35A1F7558D4
-	for <lists+linux-input@lfdr.de>; Mon, 17 Jul 2023 02:24:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA5B2755BD1
+	for <lists+linux-input@lfdr.de>; Mon, 17 Jul 2023 08:37:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230239AbjGQAYI convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Sun, 16 Jul 2023 20:24:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53930 "EHLO
+        id S229687AbjGQGhM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 Jul 2023 02:37:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229710AbjGQAYH (ORCPT
+        with ESMTP id S229648AbjGQGhJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 16 Jul 2023 20:24:07 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D98BEE47
-        for <linux-input@vger.kernel.org>; Sun, 16 Jul 2023 17:24:05 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A5ADD20005;
-        Mon, 17 Jul 2023 00:24:02 +0000 (UTC)
-Message-ID: <a18e5a46e53f0abf58d5d0e4171d225aa1e7872e.camel@hadess.net>
-Subject: Re: [PATCH v2 2/2] HID: logitech-hidpp: Add support for the Pro X
- Superlight
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Mavroudis Chatzilazaridis <mavchatz@protonmail.com>,
-        jikos@kernel.org
-Cc:     linux-input@vger.kernel.org, benjamin.tissoires@redhat.com,
-        lains@riseup.net
-Date:   Mon, 17 Jul 2023 02:24:02 +0200
-In-Reply-To: <20230716182320.85483-2-mavchatz@protonmail.com>
-References: <20230716182320.85483-1-mavchatz@protonmail.com>
-         <20230716182320.85483-2-mavchatz@protonmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        Mon, 17 Jul 2023 02:37:09 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7783393;
+        Sun, 16 Jul 2023 23:37:08 -0700 (PDT)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36H5TnJQ015101;
+        Mon, 17 Jul 2023 06:26:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=qcppdkim1;
+ bh=r3fML3pK532WUxA07U/gAYgpG1jCYzJPxPWmPFF4inw=;
+ b=Cbn74wtt+kOiiHQaQP1baaBfpDvH0VFfXY+RA66yBCDFmEL3Kt8wM6I8XO7kPgaKQy1Y
+ QRGiYlWY+ot80SEYcy9u4hvo/gzT+zWeBA/tsRGYzsGuRWV+VMV34Qmgw3hTBsH/ot/A
+ O93cHRh45IUBG3JVwia1kCL/2H1WjxHdpEY1s1OAOMj54Dw1yzQZQfKWcCQqb64tuKoX
+ cHUSczb1/3z0DBOQFff9dznaquKu87S5cWEaLXvj4tFeRFnAFaJv74zRkXywYsVtEsx9
+ c12EXw2c0vHGtvJ6Rriv7cGf9+sP5muQ4KRyKbo5D+vvtVxXlOY1eViEM1mXMURisaSM 7A== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3run0etk9g-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 17 Jul 2023 06:26:39 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36H6QcSB010348
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 17 Jul 2023 06:26:38 GMT
+Received: from fenglinw2-gv.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Sun, 16 Jul 2023 23:26:34 -0700
+From:   Fenglin Wu <quic_fenglinw@quicinc.com>
+To:     <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        "Andy Gross" <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>
+CC:     <quic_collinsd@quicinc.com>, <quic_subbaram@quicinc.com>,
+        <quic_fenglinw@quicinc.com>, <quic_kamalw@quicinc.com>,
+        <jestar@qti.qualcomm.com>
+Subject: [PATCH v1 1/2] dt-bindings: input: qcom,pm8xxx-vib: add more PMIC support
+Date:   Mon, 17 Jul 2023 14:25:46 +0800
+Message-ID: <20230717062547.2086869-2-quic_fenglinw@quicinc.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230717062547.2086869-1-quic_fenglinw@quicinc.com>
+References: <20230717062547.2086869-1-quic_fenglinw@quicinc.com>
 MIME-Version: 1.0
-X-GND-Sasl: hadess@hadess.net
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: nS5jJjDx4VK7sD5gmIqoBV8gL-jL_g-W
+X-Proofpoint-ORIG-GUID: nS5jJjDx4VK7sD5gmIqoBV8gL-jL_g-W
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-17_05,2023-07-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
+ priorityscore=1501 mlxscore=0 impostorscore=0 adultscore=0 spamscore=0
+ bulkscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=858
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307170058
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 2023-07-16 at 18:23 +0000, Mavroudis Chatzilazaridis wrote:
-> This patch adds support for the Pro X Superlight over wired USB.
-> The device now reports the status of its battery.
-> 
-> Co-developed-by: Filipe Laíns <lains@riseup.net>
-> Signed-off-by: Filipe Laíns <lains@riseup.net>
-> Signed-off-by: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
+Add support for vibrator module inside Qualcomm PMI632, PM7250B, PM7325B
+and PM7550BA PMICs.
 
-Reviewed-by: Bastien Nocera <hadess@hadess.net>
+Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
+---
+ Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> ---
-> V1 -> V2: Addressed review comment for commit message
-> 
->  drivers/hid/hid-logitech-hidpp.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-
-> logitech-hidpp.c
-> index 129b01be488d..34fc4f7b254a 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -4620,6 +4620,8 @@ static const struct hid_device_id
-> hidpp_devices[] = {
->                 .driver_data = HIDPP_QUIRK_CLASS_G920 |
-> HIDPP_QUIRK_FORCE_OUTPUT_REPORTS },
->         { /* Logitech G Pro Gaming Mouse over USB */
->           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC088) },
-> +       { /* Logitech G Pro X Superlight Gaming Mouse over USB */
-> +         HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC094) },
-> 
->         { /* G935 Gaming Headset */
->           HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0x0a87),
-> --
-> 2.34.1
-> 
-> 
+diff --git a/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml b/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
+index c8832cd0d7da..642408e2b35f 100644
+--- a/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
++++ b/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
+@@ -15,6 +15,10 @@ properties:
+       - qcom,pm8058-vib
+       - qcom,pm8916-vib
+       - qcom,pm8921-vib
++      - qcom,pmi632-vib
++      - qcom,pm7250b-vib
++      - qcom,pm7325b-vib
++      - qcom,pm7550ba-vib
+ 
+   reg:
+     maxItems: 1
+-- 
+2.25.1
 
