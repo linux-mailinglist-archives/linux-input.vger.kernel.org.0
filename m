@@ -2,122 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 035C5756DE3
-	for <lists+linux-input@lfdr.de>; Mon, 17 Jul 2023 22:00:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FC9D7571D6
+	for <lists+linux-input@lfdr.de>; Tue, 18 Jul 2023 04:37:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229844AbjGQT76 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 Jul 2023 15:59:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51250 "EHLO
+        id S229637AbjGRChe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 Jul 2023 22:37:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231255AbjGQT75 (ORCPT
+        with ESMTP id S229541AbjGRChd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 Jul 2023 15:59:57 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AC6113D
-        for <linux-input@vger.kernel.org>; Mon, 17 Jul 2023 12:59:56 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id 38308e7fff4ca-2b6ff1ada5dso73955021fa.2
-        for <linux-input@vger.kernel.org>; Mon, 17 Jul 2023 12:59:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1689623994; x=1692215994;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=eGpgZ0ppAQlbE1Gj+/Bg3UaMxf4Eo+IdSC4T1I0Bb0M=;
-        b=ZWeAZZpj1CW/M5XLO9XQ+UZCqJoC4dIactZ0Ot4+pQOBoIkh05slPEJLYcIXQGgtBf
-         dIfGxTFFbWgLG1Xb/LuOOtGQVVSun0+bX5eut3Bwa+XZM1Jy2GP8cVac76suAU8J6g2N
-         DgfGHGnoNls5fHNTSIHtn5Bo+2uBdztkV8tIY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689623994; x=1692215994;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eGpgZ0ppAQlbE1Gj+/Bg3UaMxf4Eo+IdSC4T1I0Bb0M=;
-        b=T/iOP+lozhVS6WHKbr1juhwjP0zQheXL7pvjGq2vSUywHrRKvz2BACBWmljUVE2fO2
-         WkhrlDNpSNmEyfMoOueWhd9hLS3SJRV5H7XLsm0On4QRl6Sqxrp6W187nhN2t5ZoET8e
-         5i/WVWOoc8Hye3IjUqnBgGgNw3IbvKZ21S5cBPPzXITpNLX0pjaVDynSKgbz1PgUBH0Y
-         XclC2GQMb8kJmP5q9VHI2Vo+XvZL8pSATU5H856fGsAKrri5KM/5Es68b7kUNUjasXPl
-         +bfQjmpSB5y36bIXOqBcT/ROjXMIf9jMWpoFwpW/gOvTDthID9pJf8uAUHIuhVjIyjIF
-         tiWg==
-X-Gm-Message-State: ABy/qLaOo17xJzffHN0Lpg7+VK4sW4Tzl6J0VzMgQA4euxDe4kowM5AN
-        EYy547j95RlfG0gwVJNSaTS029jO1bzMd2CPRqcWxfdgd/t0URCr424=
-X-Google-Smtp-Source: APBJJlFmwsr8iyEJLnwlU7ko+DmDHwiGP3b/pwjy8tQptk7DviTKSQeI3y+ypyJyEjTrACmpIYC92LNlbl9sxDlSzGM=
-X-Received: by 2002:a2e:b609:0:b0:2b6:e2c2:d234 with SMTP id
- r9-20020a2eb609000000b002b6e2c2d234mr8490849ljn.33.1689623994143; Mon, 17 Jul
- 2023 12:59:54 -0700 (PDT)
+        Mon, 17 Jul 2023 22:37:33 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9922910C7;
+        Mon, 17 Jul 2023 19:37:31 -0700 (PDT)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36I2W6tp012078;
+        Tue, 18 Jul 2023 02:37:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=T9CKhz+EHs+ldtZocIgatXObTDYOJIeNM4t29hyF+rg=;
+ b=iHlhCcUUruoovGl4bom+HjuQQpWkCYrJhAAZWAG/azsa9M/RTtB3ju/BtBiUDZl9ak33
+ Yn9bICAoIL9bokhuxIwq11lx/AkrugZpifa7w6hiaGxAJh0AMX8ZaxvDvF1RrBRpZJNy
+ NscJr2lhwwomlOa5ifp+4ahxFHC+d09xBaaCiey2KypuLr2Bv9moC49k7PPbyA7V4+3y
+ eWJPMpoKUcoXtFxKyJQ7bu2IsitcZLMrhXE8gcUTOJkbUFhZ3MN/knH3qurysx/fLGer
+ rkITIgHPTHO8tObye+aCUjPFbjuuNrtfJuKvvbereplFOlE73OTUAW6uK+j+FCnpetxS uw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3run1jcxfw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 18 Jul 2023 02:37:27 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36I2bPpb032471
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 18 Jul 2023 02:37:25 GMT
+Received: from [10.239.154.73] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 17 Jul
+ 2023 19:37:22 -0700
+Message-ID: <2b1301e6-fac3-7a06-6716-a65ffd0be7c2@quicinc.com>
+Date:   Tue, 18 Jul 2023 10:37:19 +0800
 MIME-Version: 1.0
-From:   Jonathan Denose <jdenose@chromium.org>
-Date:   Mon, 17 Jul 2023 14:59:43 -0500
-Message-ID: <CALNJtpVH0DAcnkJ+++H0ng2AWW1t1ZW0RCfbHn=fyRnRN9CJ8w@mail.gmail.com>
-Subject: Lenovo N24: Touchpad lost sync at byte 6
-To:     linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v1 1/2] dt-bindings: input: qcom,pm8xxx-vib: add more PMIC
+ support
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>
+CC:     <quic_collinsd@quicinc.com>, <quic_subbaram@quicinc.com>,
+        <quic_kamalw@quicinc.com>, <jestar@qti.qualcomm.com>
+References: <20230717062547.2086869-1-quic_fenglinw@quicinc.com>
+ <20230717062547.2086869-2-quic_fenglinw@quicinc.com>
+ <6338cc75-e3fe-ba19-3df7-727b63fec245@linaro.org>
+Content-Language: en-US
+From:   Fenglin Wu <quic_fenglinw@quicinc.com>
+In-Reply-To: <6338cc75-e3fe-ba19-3df7-727b63fec245@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: DfzgLbA65DS-cEQR5qDEIk7iq-SCeqeq
+X-Proofpoint-ORIG-GUID: DfzgLbA65DS-cEQR5qDEIk7iq-SCeqeq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-17_15,2023-07-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 mlxscore=0
+ clxscore=1011 malwarescore=0 adultscore=0 phishscore=0 mlxlogscore=988
+ bulkscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307180022
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
 
-I am on a Lenovo N24 laptop.
 
-When this device resumes after closing the lid, the mouse freezes and
-is unusable. After right-clicking multiple times the touchpad resumes
-working. I am seeing the following in the logs:
+On 7/18/2023 3:59 AM, Krzysztof Kozlowski wrote:
+> On 17/07/2023 08:25, Fenglin Wu wrote:
+>> Add support for vibrator module inside Qualcomm PMI632, PM7250B, PM7325B
+>> and PM7550BA PMICs.
+>>
+>> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
+>> ---
+>>   Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml b/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
+>> index c8832cd0d7da..642408e2b35f 100644
+>> --- a/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
+>> +++ b/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
+>> @@ -15,6 +15,10 @@ properties:
+>>         - qcom,pm8058-vib
+>>         - qcom,pm8916-vib
+>>         - qcom,pm8921-vib
+>> +      - qcom,pmi632-vib
+>> +      - qcom,pm7250b-vib
+>> +      - qcom,pm7325b-vib
+>> +      - qcom,pm7550ba-vib
+> 
+> Aren't the last two compatible?
 
-[ 1188.690138] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
-sync at byte 6
-[ 1188.699636] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
-sync at byte 6
-[ 1188.709124] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
-sync at byte 6
-[ 1188.718557] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
-sync at byte 6
-[ 1188.728110] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
-sync at byte 6
-[ 1188.975964] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
-sync at byte 6
-[ 1188.985456] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
-sync at byte 6
-[ 1188.994954] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
-sync at byte 6
-[ 1189.004443] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
-sync at byte 6
-[ 1189.013930] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
-sync at byte 6
+There are still every different PMICs even though the vibrator module in 
+PM7325B and PM7550BA are the same and they share the same register base 
+address as well.
 
-This device has an ETPS/2 Elantech Touchpad. I am on kernel version:
-5.15.117-19629-gf1eb3139d206.
-
-Greg KH suggested that I try later kernel versions, and I've tried 6.4
-and 6.1 and the issue is present on both of those versions. This issue
-is also present on 5.10.
-
-Currently the device suspends to ram when the lid closes. When the
-device idles without the lid closing, the touchpad works fine on
-resume.
-
-I have tried adding various i8042 and psmouse kernel parameters from
-searching different forums related to these error messages, but none
-of them fix the issue. I have tried
-- psmouse.resetafter=0
-- psmouse.resetafter=1
-- i8042.nomux=1
-- i8042.resetafter=1/0
-- i8042.reset=1 i8042.nomux=1
-- i8042.noloop=1 i8042.nopnp=1 i8042.nomux=1 i8042.reset=1
-
-I was able to resolve this issue by doing `modprobe -r psmouse &&
-modprobe.psmouse proto=imps`. proto=bare and proto=exps also resolve
-the issue. However, with those options enabled I can no longer use
-gestures like two-finger scroll.
-
-This issue reproduces on ChromeOS Flex and Ubuntu 22.04 but not on
-Windows. On Windows the touchpad resuming after closing the lid works
-fine.
-
-What can I do to resolve this issue while also keeping touchpad gestures?
-
-Any help is greatly appreciated!
+> 
+> Best regards,
+> Krzysztof
+> 
