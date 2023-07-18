@@ -2,120 +2,282 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F5C17579EF
-	for <lists+linux-input@lfdr.de>; Tue, 18 Jul 2023 12:58:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0C8D757A08
+	for <lists+linux-input@lfdr.de>; Tue, 18 Jul 2023 13:04:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231913AbjGRK6W (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 18 Jul 2023 06:58:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55940 "EHLO
+        id S232209AbjGRLE3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 18 Jul 2023 07:04:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231901AbjGRK6P (ORCPT
+        with ESMTP id S232174AbjGRLEX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 18 Jul 2023 06:58:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C8C0E77;
-        Tue, 18 Jul 2023 03:58:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C711B61514;
-        Tue, 18 Jul 2023 10:58:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 626C4C433C8;
-        Tue, 18 Jul 2023 10:58:09 +0000 (UTC)
-Message-ID: <263b3c0f-53cf-14b6-b956-e0f5b03c95b5@xs4all.nl>
-Date:   Tue, 18 Jul 2023 12:58:07 +0200
+        Tue, 18 Jul 2023 07:04:23 -0400
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93A7F10EF
+        for <linux-input@vger.kernel.org>; Tue, 18 Jul 2023 04:04:21 -0700 (PDT)
+Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-56fff21c2ebso55903417b3.3
+        for <linux-input@vger.kernel.org>; Tue, 18 Jul 2023 04:04:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689678261; x=1690283061;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Verv+Xkxh1ZTQJ8P0zX4Fa1ZlSWUXsJsexWXRpPbMBM=;
+        b=FSXWyvZKcuzrPLnzJGlAkBxlQoU0KM0SdjZqtRiJGQ3JPGbyq6kTvAZcudf8mN+Ly7
+         bwT6kP4T3UzygG/wYJywVPB785D6zyMe1++WocV0x7miezyO/SEGCpyrMX+AIdS4/kZ7
+         R8WhEIGh9/R0jyyorZpDSe62P9M0LYzIW1nm8apftqGDlikX0O2AaNgGfVSUKxVRm57j
+         vYGDtcT6uXI+eu7HrFKHr4cef/bY7dKsdFxoeAIT4BqNHMfWMCUek+j/p0YTUfURBLHZ
+         05WaS0v4wv7hl7QtpY5M82B99EwjvxvnWdV9SfqOsxG7hAuBNeRoFcvhHxrWP1hdBFln
+         O2rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689678261; x=1690283061;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Verv+Xkxh1ZTQJ8P0zX4Fa1ZlSWUXsJsexWXRpPbMBM=;
+        b=QoAq0gub3sVOzU56ogUrYPx0p/cxstbFjGgqF4xkMgU4d0n+jBgOOjuBzfWKdUqtkq
+         AwEHpWqFt6E5Wyb2+CstA+bwaWPXvAKakR6vu0WGGjXUc1DUIvH9P13iVlE+gbwfeYSv
+         pvxdNyK62spoKAqdofX93jy30F8xLo576T5pb/GvX1Hp+K9Qx02bhKbfs1yBuL6yt6BL
+         6Mwo18ZR3pdTO8nrUONtyZNqfD8QT/TxjjUcJzQxbRt1e1FyseeZk/N7FM+qCUmL5ZqQ
+         7iAUIMQFT9bQ/4uDhWjz3vzmEBOGMlToHSQyNYmkOgKUlbypYiBXMdfueY6l/FBLAag9
+         jx8A==
+X-Gm-Message-State: ABy/qLbgeA7Yy7oRCX0OqURRLC4tYO+nGC5Zhagx60QWW0USB5BPboJd
+        PDR71qgelEVwxM96l19dqGP2rsSqm3RsHfw+9ecwGQ==
+X-Google-Smtp-Source: APBJJlFYkn0C+6I2b52XJA5oSv9DoQG4ped4vWya8GLcr9w/pqEcaKn247i+7ImL4qE+6OnTFi9YOIzvTOyAahGMzyA=
+X-Received: by 2002:a05:6902:89:b0:bd0:8e5:d548 with SMTP id
+ h9-20020a056902008900b00bd008e5d548mr12021442ybs.39.1689678260724; Tue, 18
+ Jul 2023 04:04:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v4 11/18] media: Remove flag FBINFO_FLAG_DEFAULT from
- fbdev drivers
-Content-Language: en-US
-To:     Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
-        javierm@redhat.com, geert@linux-m68k.org, dan.carpenter@linaro.org
-Cc:     linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-geode@lists.infradead.org, linux-hyperv@vger.kernel.org,
-        linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        kvm@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
-        Andy Walls <awalls@md.metrocast.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20230715185343.7193-1-tzimmermann@suse.de>
- <20230715185343.7193-12-tzimmermann@suse.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230715185343.7193-12-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230718062639.2339589-1-quic_fenglinw@quicinc.com>
+ <20230718062639.2339589-3-quic_fenglinw@quicinc.com> <CAA8EJpq_DGu3+kc_ex_2MUyiQFJvZhbWOc7NO6x1pO1Wx4RbNw@mail.gmail.com>
+ <86631cb4-6b99-c3a7-428e-4534891da4c7@quicinc.com> <CAA8EJpr--XZnFJX96etagAa0uT0yNBcgZTfFDuu8gH2C5sgoCg@mail.gmail.com>
+ <501bc7d0-1f97-1c53-a7f8-701ab9dfdf8e@quicinc.com>
+In-Reply-To: <501bc7d0-1f97-1c53-a7f8-701ab9dfdf8e@quicinc.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Tue, 18 Jul 2023 14:04:09 +0300
+Message-ID: <CAA8EJppjshTCqeYQL1QUbLd03bopZjGHuOhoFqy7P8XuzYXc9w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] Input: pm8xxx-vib - Add support for more PMICs
+To:     Fenglin Wu <quic_fenglinw@quicinc.com>
+Cc:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, quic_collinsd@quicinc.com,
+        quic_subbaram@quicinc.com, quic_kamalw@quicinc.com,
+        jestar@qti.qualcomm.com, quic_huliu@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Thomas,
+On Tue, 18 Jul 2023 at 13:55, Fenglin Wu <quic_fenglinw@quicinc.com> wrote:
+>
+>
+>
+> On 7/18/2023 5:41 PM, Dmitry Baryshkov wrote:
+> > On Tue, 18 Jul 2023 at 09:58, Fenglin Wu <quic_fenglinw@quicinc.com> wrote:
+> >>
+> >>
+> >>
+> >> On 7/18/2023 2:44 PM, Dmitry Baryshkov wrote:
+> >>> On Tue, 18 Jul 2023 at 09:27, Fenglin Wu <quic_fenglinw@quicinc.com> wrote:
+> >>>>
+> >>>> Add support for vibrator module inside PMI632, PM7250B, PM7325B.
+> >>>> It is very similar to vibrator inside PM8xxx but just the drive
+> >>>> amplitude is controlled through 2 bytes registers.
+> >>>>
+> >>>> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
+> >>>> ---
+> >>>>    drivers/input/misc/pm8xxx-vibrator.c | 48 ++++++++++++++++++++++++++++
+> >>>>    1 file changed, 48 insertions(+)
+> >>>>
+> >>>> diff --git a/drivers/input/misc/pm8xxx-vibrator.c b/drivers/input/misc/pm8xxx-vibrator.c
+> >>>> index 04cb87efd799..213fdfd47c7f 100644
+> >>>> --- a/drivers/input/misc/pm8xxx-vibrator.c
+> >>>> +++ b/drivers/input/misc/pm8xxx-vibrator.c
+> >>>> @@ -25,6 +25,9 @@ struct pm8xxx_regs {
+> >>>>           unsigned int drv_addr;
+> >>>>           unsigned int drv_mask;
+> >>>>           unsigned int drv_shift;
+> >>>> +       unsigned int drv_addr2;
+> >>>> +       unsigned int drv_mask2;
+> >>>> +       unsigned int drv_shift2;
+> >>>>           unsigned int drv_en_manual_mask;
+> >>>>    };
+> >>>>
+> >>>> @@ -44,6 +47,42 @@ static struct pm8xxx_regs pm8916_regs = {
+> >>>>           .drv_en_manual_mask = 0,
+> >>>>    };
+> >>>>
+> >>>> +static struct pm8xxx_regs pmi632_regs = {
+> >>>> +       .enable_addr = 0x5746,
+> >>>> +       .enable_mask = BIT(7),
+> >>>> +       .drv_addr = 0x5740,
+> >>>> +       .drv_mask = 0xff,
+> >>>> +       .drv_shift = 0,
+> >>>> +       .drv_addr2 = 0x5741,
+> >>>> +       .drv_mask2 = 0x0f,
+> >>>> +       .drv_shift2 = 8,
+> >>>
+> >>> I see that you are just expanding what was done for SSBI PMICs and
+> >>> later expanded to support pm8916. However it might be better to drop
+> >>> the hardcoded .drv_addr (and drv_addr2) and read address from DT
+> >>> instead.
+> >>>
+> >>
+> >> Right, this is the simplest change without updating the code logic too
+> >> much. If we decided to read .drv_addr and .drv_add2 from DT, we will
+> >> have to read .enable_addr along with all other mask/shift for each
+> >> register address from DT as well because they are not consistent from
+> >> target to target. I don't know how would you suggest to add the DT
+> >> properties for all of them, but if we end up to add a property for each
+> >> of them, it won't be cleaner than hard-coding them.
+> >
+> > No, we (correctly) have device compatibles for that. The issue with
+> > hardcoding register addresses is that it adds extra issues here.
+> >
+> > If I understand correctly, we have several 'generation':
+> > - SSBI PMIC, shifted 5-bit mask, en_manual_mask, no enable_register.
+> > - older SPMI PMIC, 5 bit drv_mask, 0 en_manual_mask, enable register at +6
+> > - new SPMI PMIC, 12 bit drv_mask, 0 en_manual_mask, enable register at +6
+> >
+> > For the last generation you are adding three independent entries,
+> > while the block looks the same. If you remove drv_addr (and get it
+> > from reg property), it would allow us to keep only the functional data
+> > in struct pm8xxxx_regs (masks / shifts).
+> >
+>
+> Okay, let me know if I understood it correctly, this is what you are
+> suggesting:
+>
+>    - hard code the mask/shifts and still keep them in struct pm8xxx_regs,
+>      combine the drv_mask2 to the upper byte of the drv_mask, so we will
+>      have following data structure for the 3rd generation vibrator
+>
+>      static struct pm8xxx_regs pm7250b_regs = {
+>          .enable_addr = 0x5346,
+>          .enable_mask = BIT(7),
+>          .drv_mask = 0xfff,
+>          .drv_shift = 0,
+>          .drv_en_manual_mask = 0,
+>      };
+>
+>
+>    - move the drv_addr/drv_addr2 into DT, read them from 'reg' property.
+>      Because of 'mfd/qcom,spmi-pmic.yaml' has defined the 'address-cells'
+>      as 1 and the 'size-cells' as 0 for qcom spmi devices, we couldn't
+>      specify the address size to 2 even the drv_addr for the 3rd
+>      generation vibrator is 2 adjacent bytes. So we will end of having
+>      following DT scheme:
+>
+>        For the 2nd generation which only has drv_addr
+>         vibrator@c041 {
+>               compatible = "qcom,pm8916-vib";
+>               reg = <0xc041>;  /* drv_addr */
 
-On 15/07/2023 20:51, Thomas Zimmermann wrote:
-> The flag FBINFO_FLAG_DEFAULT is 0 and has no effect, as struct
-> fbinfo.flags has been allocated to zero by kzalloc(). So do not
-> set it.
-> 
-> Flags should signal differences from the default values. After cleaning
-> up all occurrences of FBINFO_DEFAULT, the token will be removed.
-> 
-> v2:
-> 	* fix commit message (Miguel)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Andy Walls <awalls@md.metrocast.net>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Hans Verkuil <hverkuil@xs4all.nl>
-> ---
->  drivers/media/pci/ivtv/ivtvfb.c              | 1 -
->  drivers/media/test-drivers/vivid/vivid-osd.c | 1 -
->  2 files changed, 2 deletions(-)
+No. This is <0xc000>.
 
-I can take this patches for 6.6, unless you prefer to have this whole series
-merged in one go?
+>               ...
+>         };
+>
+>        For the 3rd generation which has both drv_addr and drv_addr2
+>          vibrator@5340 {
+>               compatible = "qcom,pm7250b-vib";
+>              reg = <0x5340>,  /* drv_addr */
+>                    <0x5341>;  /* drv_addr2 */
+>              ...
+>         };
+>
+> Not sure how do you feel, I actually don't see too much benefit than
+> hard-coding them in the driver.
+> We will end up having code to check how many u32 value in the 'reg' and
+> only assign it to drv_addr2 when the 2nd is available, also when
+> programming drv_addr2 register, the driver will always assume the mask
+> is in the upper byte of the drv_mask and the shift to the drive level is
+> 8 (this seems hacky to me and it was my biggest concern while I made
+> this change, and it led me to defining drv_shift2/drv_mask2 along with
+> drv_addr2).
 
-In that case you can use my:
+We only need drv_addr2 if drv_mask has more than 8 bits. So you don't
+have to specify it in the DT. It is always equal to base_reg + 0x41.
+The same way drv_addr is always equal to base_reg + 0x40 for all
+SPMI-based PMIC vibrator devices.
 
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>
+>
+>
+> >>
+> >>
+> >>>> +       .drv_en_manual_mask = 0,
+> >>>> +};
+> >>>> +
+> >>>> +static struct pm8xxx_regs pm7250b_regs = {
+> >>>> +       .enable_addr = 0x5346,
+> >>>> +       .enable_mask = BIT(7),
+> >>>> +       .drv_addr = 0x5340,
+> >>>> +       .drv_mask = 0xff,
+> >>>> +       .drv_shift = 0,
+> >>>> +       .drv_addr2 = 0x5341,
+> >>>> +       .drv_mask2 = 0x0f,
+> >>>> +       .drv_shift2 = 8,
+> >>>> +       .drv_en_manual_mask = 0,
+> >>>> +};
+> >>>> +
+> >>>> +static struct pm8xxx_regs pm7325b_regs = {
+> >>>> +       .enable_addr = 0xdf46,
+> >>>> +       .enable_mask = BIT(7),
+> >>>> +       .drv_addr = 0xdf40,
+> >>>> +       .drv_mask = 0xff,
+> >>>> +       .drv_shift = 0,
+> >>>> +       .drv_addr2 = 0xdf41,
+> >>>> +       .drv_mask2 = 0x0f,
+> >>>> +       .drv_shift2 = 8,
+> >>>> +       .drv_en_manual_mask = 0,
+> >>>> +};
+> >>>> +
+> >>>>    /**
+> >>>>     * struct pm8xxx_vib - structure to hold vibrator data
+> >>>>     * @vib_input_dev: input device supporting force feedback
+> >>>> @@ -87,6 +126,12 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
+> >>>>                   return rc;
+> >>>>
+> >>>>           vib->reg_vib_drv = val;
+> >>>> +       if (regs->drv_addr2 != 0 && on) {
+> >>>> +               val = (vib->level << regs->drv_shift2) & regs->drv_mask2;
+> >>>> +               rc = regmap_write(vib->regmap, regs->drv_addr2, val);
+> >>>> +               if (rc < 0)
+> >>>> +                       return rc;
+> >>>> +       }
+> >>>>
+> >>>>           if (regs->enable_mask)
+> >>>>                   rc = regmap_update_bits(vib->regmap, regs->enable_addr,
+> >>>> @@ -242,6 +287,9 @@ static const struct of_device_id pm8xxx_vib_id_table[] = {
+> >>>>           { .compatible = "qcom,pm8058-vib", .data = &pm8058_regs },
+> >>>>           { .compatible = "qcom,pm8921-vib", .data = &pm8058_regs },
+> >>>>           { .compatible = "qcom,pm8916-vib", .data = &pm8916_regs },
+> >>>> +       { .compatible = "qcom,pmi632-vib", .data = &pmi632_regs },
+> >>>> +       { .compatible = "qcom,pm7250b-vib", .data = &pm7250b_regs },
+> >>>> +       { .compatible = "qcom,pm7325b-vib", .data = &pm7325b_regs },
+> >>>>           { }
+> >>>>    };
+> >>>>    MODULE_DEVICE_TABLE(of, pm8xxx_vib_id_table);
+> >>>> --
+> >>>> 2.25.1
+> >>>>
+> >>>
+> >>>
+> >
+> >
+> >
 
-Regards,
 
-	Hans
 
-> 
-> diff --git a/drivers/media/pci/ivtv/ivtvfb.c b/drivers/media/pci/ivtv/ivtvfb.c
-> index 0aeb9daaee4c..23c8c094e791 100644
-> --- a/drivers/media/pci/ivtv/ivtvfb.c
-> +++ b/drivers/media/pci/ivtv/ivtvfb.c
-> @@ -1048,7 +1048,6 @@ static int ivtvfb_init_vidmode(struct ivtv *itv)
->  	/* Generate valid fb_info */
->  
->  	oi->ivtvfb_info.node = -1;
-> -	oi->ivtvfb_info.flags = FBINFO_FLAG_DEFAULT;
->  	oi->ivtvfb_info.par = itv;
->  	oi->ivtvfb_info.var = oi->ivtvfb_defined;
->  	oi->ivtvfb_info.fix = oi->ivtvfb_fix;
-> diff --git a/drivers/media/test-drivers/vivid/vivid-osd.c b/drivers/media/test-drivers/vivid/vivid-osd.c
-> index ec25edc679b3..051f1805a16d 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-osd.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-osd.c
-> @@ -310,7 +310,6 @@ static int vivid_fb_init_vidmode(struct vivid_dev *dev)
->  	/* Generate valid fb_info */
->  
->  	dev->fb_info.node = -1;
-> -	dev->fb_info.flags = FBINFO_FLAG_DEFAULT;
->  	dev->fb_info.par = dev;
->  	dev->fb_info.var = dev->fb_defined;
->  	dev->fb_info.fix = dev->fb_fix;
-
+-- 
+With best wishes
+Dmitry
