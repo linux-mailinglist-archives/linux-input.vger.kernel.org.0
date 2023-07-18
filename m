@@ -2,81 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5294A7574C4
-	for <lists+linux-input@lfdr.de>; Tue, 18 Jul 2023 08:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0703E7574F5
+	for <lists+linux-input@lfdr.de>; Tue, 18 Jul 2023 09:06:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231526AbjGRG66 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 18 Jul 2023 02:58:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55268 "EHLO
+        id S231433AbjGRHGq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 18 Jul 2023 03:06:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231515AbjGRG65 (ORCPT
+        with ESMTP id S229714AbjGRHGp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 18 Jul 2023 02:58:57 -0400
+        Tue, 18 Jul 2023 03:06:45 -0400
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B446E49;
-        Mon, 17 Jul 2023 23:58:45 -0700 (PDT)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36I6gl92006965;
-        Tue, 18 Jul 2023 06:58:40 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA2081A8;
+        Tue, 18 Jul 2023 00:06:44 -0700 (PDT)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36I3u01W018974;
+        Tue, 18 Jul 2023 07:06:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
+ mime-version : subject : from : to : cc : references : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=EAWS+c+IzVya2F5wKY86ZUuDYaCy4CUeVP9OqbPfYL0=;
- b=RLiwKQNhg9IiVnMbnOssuOpYzyDhbWHO2qAOe57UMkOqutLehtbnhsdwGuIZXaMVAKe/
- IFZzUvpzYGMnbZckAMAYnrpq5TS8Zt7IX/4fUC094t3+d45nxe1BBn+J69GD1825puOW
- /11PEBEa9/TM40Yi6eeCF28c/IPfWE1tGHjVG43+AdtV3ipMMocjt2ze/bxs9kpYx0dd
- R4fJr9M5+thAxx469lotEWN5yRuC+PQ2swt7NSQrFS9DulmSnOGanO+ff/SNiUaIHpQc
- C5yj0i1FswBEEXv+9Vz3EyMXIP1g3FVfCUus7emtGlVgaTwdcd5s2Ot5NPg5rwXYBz16 Qg== 
+ bh=ojfwCYGTetwQwquRm+YxTfNINgoxmz2nWaG7WFx//TE=;
+ b=iQQ1nwYwjRBkLzISXZD2lpAHW5xDNgG6yZC5ksAykmSN8llz8tjVqrI/S2XhLsuFYCyS
+ PHjZVcSySmVVmpN5UplKg+cb0F+2yswOSs6vGE9sZVx/ECKTaHBGbRdTPs9LrdH5smeG
+ 5Bh7ySnP5mBlXoY+nc8o6m4msx49rDQ+clsW/wMHPCb0myY2fbbv7lXK14Li8MDDM26j
+ QaTGrn9WjpsBSlXh69azgjUUjVYQVtLi3v6bUH+nvwp/r3kgl4lHYA84SWTebh2glD5F
+ T3TlZMD6haltqiRzS2BrgtAq+vPkQA8orNJ2GumrHpxKaiIAEkvvZI+3Rsnt+QRh9End 4A== 
 Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rweag0ss3-1
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rw7eesruw-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 18 Jul 2023 06:58:40 +0000
+        Tue, 18 Jul 2023 07:06:40 +0000
 Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36I6wdbT015362
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36I76d3w030358
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 18 Jul 2023 06:58:39 GMT
+        Tue, 18 Jul 2023 07:06:39 GMT
 Received: from [10.239.154.73] (10.80.80.8) by nalasex01c.na.qualcomm.com
  (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 17 Jul
- 2023 23:58:36 -0700
-Message-ID: <86631cb4-6b99-c3a7-428e-4534891da4c7@quicinc.com>
-Date:   Tue, 18 Jul 2023 14:58:35 +0800
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 18 Jul
+ 2023 00:06:35 -0700
+Message-ID: <5b7e624b-5d06-826d-92d1-2a721b7c83b7@quicinc.com>
+Date:   Tue, 18 Jul 2023 15:06:32 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.2
-Subject: Re: [PATCH v2 2/2] Input: pm8xxx-vib - Add support for more PMICs
+Subject: Re: [PATCH v2 1/2] dt-bindings: input: qcom,pm8xxx-vib: add more PMIC
+ support
 Content-Language: en-US
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC:     <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        "Andy Gross" <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        <linux-input@vger.kernel.org>, <quic_collinsd@quicinc.com>,
-        <quic_subbaram@quicinc.com>, <quic_kamalw@quicinc.com>,
-        <jestar@qti.qualcomm.com>
-References: <20230718062639.2339589-1-quic_fenglinw@quicinc.com>
- <20230718062639.2339589-3-quic_fenglinw@quicinc.com>
- <CAA8EJpq_DGu3+kc_ex_2MUyiQFJvZhbWOc7NO6x1pO1Wx4RbNw@mail.gmail.com>
 From:   Fenglin Wu <quic_fenglinw@quicinc.com>
-In-Reply-To: <CAA8EJpq_DGu3+kc_ex_2MUyiQFJvZhbWOc7NO6x1pO1Wx4RbNw@mail.gmail.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>
+CC:     <quic_collinsd@quicinc.com>, <quic_subbaram@quicinc.com>,
+        <quic_kamalw@quicinc.com>, <jestar@qti.qualcomm.com>,
+        <quic_huliu@quicinc.com>
+References: <20230718062639.2339589-1-quic_fenglinw@quicinc.com>
+ <20230718062639.2339589-2-quic_fenglinw@quicinc.com>
+ <cb534cdb-508e-b03e-4e39-50cd6654377a@linaro.org>
+ <4cb9f443-bdea-695a-f1b7-3963747e9a17@quicinc.com>
+In-Reply-To: <4cb9f443-bdea-695a-f1b7-3963747e9a17@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01c.na.qualcomm.com (10.47.97.35)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: CnARUE0AlEbov_YJkZM4G8PeMyj3wrVf
-X-Proofpoint-GUID: CnARUE0AlEbov_YJkZM4G8PeMyj3wrVf
+X-Proofpoint-ORIG-GUID: D9Eih4Ti_YLThL6srC6o8AEbmIsaRKwZ
+X-Proofpoint-GUID: D9Eih4Ti_YLThL6srC6o8AEbmIsaRKwZ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
  definitions=2023-07-17_15,2023-07-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- priorityscore=1501 malwarescore=0 adultscore=0 spamscore=0 mlxlogscore=999
- phishscore=0 clxscore=1011 bulkscore=0 suspectscore=0 lowpriorityscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307180062
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ malwarescore=0 spamscore=0 lowpriorityscore=0 clxscore=1015
+ mlxlogscore=999 adultscore=0 bulkscore=0 phishscore=0 impostorscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307180063
 X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
@@ -89,116 +94,55 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 
 
-On 7/18/2023 2:44 PM, Dmitry Baryshkov wrote:
-> On Tue, 18 Jul 2023 at 09:27, Fenglin Wu <quic_fenglinw@quicinc.com> wrote:
->>
->> Add support for vibrator module inside PMI632, PM7250B, PM7325B.
->> It is very similar to vibrator inside PM8xxx but just the drive
->> amplitude is controlled through 2 bytes registers.
->>
->> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
->> ---
->>   drivers/input/misc/pm8xxx-vibrator.c | 48 ++++++++++++++++++++++++++++
->>   1 file changed, 48 insertions(+)
->>
->> diff --git a/drivers/input/misc/pm8xxx-vibrator.c b/drivers/input/misc/pm8xxx-vibrator.c
->> index 04cb87efd799..213fdfd47c7f 100644
->> --- a/drivers/input/misc/pm8xxx-vibrator.c
->> +++ b/drivers/input/misc/pm8xxx-vibrator.c
->> @@ -25,6 +25,9 @@ struct pm8xxx_regs {
->>          unsigned int drv_addr;
->>          unsigned int drv_mask;
->>          unsigned int drv_shift;
->> +       unsigned int drv_addr2;
->> +       unsigned int drv_mask2;
->> +       unsigned int drv_shift2;
->>          unsigned int drv_en_manual_mask;
->>   };
->>
->> @@ -44,6 +47,42 @@ static struct pm8xxx_regs pm8916_regs = {
->>          .drv_en_manual_mask = 0,
->>   };
->>
->> +static struct pm8xxx_regs pmi632_regs = {
->> +       .enable_addr = 0x5746,
->> +       .enable_mask = BIT(7),
->> +       .drv_addr = 0x5740,
->> +       .drv_mask = 0xff,
->> +       .drv_shift = 0,
->> +       .drv_addr2 = 0x5741,
->> +       .drv_mask2 = 0x0f,
->> +       .drv_shift2 = 8,
+On 7/18/2023 2:38 PM, Fenglin Wu wrote:
 > 
-> I see that you are just expanding what was done for SSBI PMICs and
-> later expanded to support pm8916. However it might be better to drop
-> the hardcoded .drv_addr (and drv_addr2) and read address from DT
-> instead.
 > 
+> On 7/18/2023 2:33 PM, Krzysztof Kozlowski wrote:
+>> On 18/07/2023 08:26, Fenglin Wu wrote:
+>>> Add support for vibrator module inside Qualcomm PMI632, PM7250B, PM7325B
+>>> PMICs.
+>>>
+>>> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
+>>> ---
+>>
+>> I don't see changelog. No changes then?
+>>
+> Sorry, I updated the change log in the cover letter which didn't seems 
+> to be sent to a wider audience, I will resend it by adding more 
+> receivers in the to list
+> 
+> Fenglin
 
-Right, this is the simplest change without updating the code logic too 
-much. If we decided to read .drv_addr and .drv_add2 from DT, we will 
-have to read .enable_addr along with all other mask/shift for each 
-register address from DT as well because they are not consistent from 
-target to target. I don't know how would you suggest to add the DT 
-properties for all of them, but if we end up to add a property for each 
-of them, it won't be cleaner than hard-coding them.
+Just FYI,the change log was updated in the cover letter here: 
+https://lore.kernel.org/linux-arm-msm/20230718062639.2339589-1-quic_fenglinw@quicinc.com/T/#m3819b50503ef19e0933a10bf797351a4af35537f
 
+Also the commit text and the driver change were also updated accordingly 
+to address your review comment by removing 'pm7550ba-vib' compatible string.
 
->> +       .drv_en_manual_mask = 0,
->> +};
->> +
->> +static struct pm8xxx_regs pm7250b_regs = {
->> +       .enable_addr = 0x5346,
->> +       .enable_mask = BIT(7),
->> +       .drv_addr = 0x5340,
->> +       .drv_mask = 0xff,
->> +       .drv_shift = 0,
->> +       .drv_addr2 = 0x5341,
->> +       .drv_mask2 = 0x0f,
->> +       .drv_shift2 = 8,
->> +       .drv_en_manual_mask = 0,
->> +};
->> +
->> +static struct pm8xxx_regs pm7325b_regs = {
->> +       .enable_addr = 0xdf46,
->> +       .enable_mask = BIT(7),
->> +       .drv_addr = 0xdf40,
->> +       .drv_mask = 0xff,
->> +       .drv_shift = 0,
->> +       .drv_addr2 = 0xdf41,
->> +       .drv_mask2 = 0x0f,
->> +       .drv_shift2 = 8,
->> +       .drv_en_manual_mask = 0,
->> +};
->> +
->>   /**
->>    * struct pm8xxx_vib - structure to hold vibrator data
->>    * @vib_input_dev: input device supporting force feedback
->> @@ -87,6 +126,12 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
->>                  return rc;
+Since the changes are receiving review comments, I will not resend it. I 
+will add a larger to-list when pushing the next patchset.
+
+>>>   Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml | 3 +++
+>>>   1 file changed, 3 insertions(+)
+>>>
+>>> diff --git 
+>>> a/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml 
+>>> b/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
+>>> index c8832cd0d7da..481163105d24 100644
+>>> --- a/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
+>>> +++ b/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
+>>> @@ -15,6 +15,9 @@ properties:
+>>>         - qcom,pm8058-vib
+>>>         - qcom,pm8916-vib
+>>>         - qcom,pm8921-vib
+>>> +      - qcom,pmi632-vib
+>>> +      - qcom,pm7250b-vib
+>>> +      - qcom,pm7325b-vib
 >>
->>          vib->reg_vib_drv = val;
->> +       if (regs->drv_addr2 != 0 && on) {
->> +               val = (vib->level << regs->drv_shift2) & regs->drv_mask2;
->> +               rc = regmap_write(vib->regmap, regs->drv_addr2, val);
->> +               if (rc < 0)
->> +                       return rc;
->> +       }
+>> Not much improved. With missing changelog, it seems you ignored the
+>> feedback.
 >>
->>          if (regs->enable_mask)
->>                  rc = regmap_update_bits(vib->regmap, regs->enable_addr,
->> @@ -242,6 +287,9 @@ static const struct of_device_id pm8xxx_vib_id_table[] = {
->>          { .compatible = "qcom,pm8058-vib", .data = &pm8058_regs },
->>          { .compatible = "qcom,pm8921-vib", .data = &pm8058_regs },
->>          { .compatible = "qcom,pm8916-vib", .data = &pm8916_regs },
->> +       { .compatible = "qcom,pmi632-vib", .data = &pmi632_regs },
->> +       { .compatible = "qcom,pm7250b-vib", .data = &pm7250b_regs },
->> +       { .compatible = "qcom,pm7325b-vib", .data = &pm7325b_regs },
->>          { }
->>   };
->>   MODULE_DEVICE_TABLE(of, pm8xxx_vib_id_table);
->> --
->> 2.25.1
 >>
-> 
-> 
+>> Best regards,
+>> Krzysztof
+>>
