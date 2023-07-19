@@ -2,90 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3CC8759031
-	for <lists+linux-input@lfdr.de>; Wed, 19 Jul 2023 10:24:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA8F0759D82
+	for <lists+linux-input@lfdr.de>; Wed, 19 Jul 2023 20:36:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230346AbjGSIY4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Jul 2023 04:24:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33150 "EHLO
+        id S230268AbjGSSgx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Jul 2023 14:36:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230022AbjGSIYw (ORCPT
+        with ESMTP id S230124AbjGSSgw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Jul 2023 04:24:52 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F17B1FD8;
-        Wed, 19 Jul 2023 01:24:49 -0700 (PDT)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36J7FR6p008986;
-        Wed, 19 Jul 2023 08:24:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=H+O6Yp3xPIWjA9OKGLDxtr2q96GWQkwFtj0ckfaib60=;
- b=FabjcaJJhRdHIkqaopurrcKYNBul9FsxMTdE48L4YhZ+FtGfLVVj/4qqyrLddrUwRlZ2
- ga9pAOCFk5BYIFLqEIJRSknzVAOsBe7ELGgBR776LoudsGSEciQo9crys6wXvUMIxcce
- usNJ0DYrwuMkIWqdkD1VHoI+RhMq7lDZ+4s1S1f2/1Upf1EEUxNz8ukx9W3g9zSCwHB5
- bEaA87kq2ehxbfq4Tt67zvJKxKu4UbTZN0dycA8cl7VciTVgOc5hpBR1c4V6lFAHk0xp
- DixK+Z8bUdNCdGtPUUkC3VWIYgy0i4LFpAB2zg/B58ja0l/H5e90uyxxYc3ZfNr5VyB+ Kw== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rx728rk8q-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 19 Jul 2023 08:24:44 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36J8OAqx004044
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 19 Jul 2023 08:24:10 GMT
-Received: from [10.239.154.73] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 19 Jul
- 2023 01:24:07 -0700
-Message-ID: <89e5a091-b775-35cf-bfc6-c48abf185b26@quicinc.com>
-Date:   Wed, 19 Jul 2023 16:24:05 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 2/2] Input: pm8xxx-vib - Add support for more PMICs
-Content-Language: en-US
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC:     <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        "Andy Gross" <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        <linux-input@vger.kernel.org>, <quic_collinsd@quicinc.com>,
-        <quic_subbaram@quicinc.com>, <quic_kamalw@quicinc.com>,
-        <jestar@qti.qualcomm.com>, <quic_huliu@quicinc.com>
-References: <20230718062639.2339589-1-quic_fenglinw@quicinc.com>
- <20230718062639.2339589-3-quic_fenglinw@quicinc.com>
- <CAA8EJpq_DGu3+kc_ex_2MUyiQFJvZhbWOc7NO6x1pO1Wx4RbNw@mail.gmail.com>
- <86631cb4-6b99-c3a7-428e-4534891da4c7@quicinc.com>
- <CAA8EJpr--XZnFJX96etagAa0uT0yNBcgZTfFDuu8gH2C5sgoCg@mail.gmail.com>
- <501bc7d0-1f97-1c53-a7f8-701ab9dfdf8e@quicinc.com>
- <CAA8EJppjshTCqeYQL1QUbLd03bopZjGHuOhoFqy7P8XuzYXc9w@mail.gmail.com>
- <138fac39-8c28-2c14-0b16-ec08189179cf@quicinc.com>
- <CAA8EJpoeFwu7P7jEqhmwttAeF4VAhaCSaKP4XrUQz1YVsg9zvw@mail.gmail.com>
-From:   Fenglin Wu <quic_fenglinw@quicinc.com>
-In-Reply-To: <CAA8EJpoeFwu7P7jEqhmwttAeF4VAhaCSaKP4XrUQz1YVsg9zvw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Aw2Uc3L5oHTWaWLG69Zo2xQlnsjHoyMP
-X-Proofpoint-ORIG-GUID: Aw2Uc3L5oHTWaWLG69Zo2xQlnsjHoyMP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-19_04,2023-07-18_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
- bulkscore=0 suspectscore=0 priorityscore=1501 lowpriorityscore=0
- mlxlogscore=999 impostorscore=0 spamscore=0 clxscore=1015 adultscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307190077
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        Wed, 19 Jul 2023 14:36:52 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 671C31FEC
+        for <linux-input@vger.kernel.org>; Wed, 19 Jul 2023 11:36:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689791805; x=1721327805;
+  h=date:from:to:cc:subject:message-id;
+  bh=1GfqQFQhTxYIWkUyCG/PGgZwnGbIbfQS1DIqrihxDFM=;
+  b=SFIgrnUzRPVTKdOTkWAWlYmiAkTBTEkC3t50a/fE8UYy2neqqdLd12Ds
+   8j7XY0vh+MWiR6KbOlwh2MApVzoeRN0cUlj1lEtZfct3gRn8QI0NBSaOQ
+   wLTPEdWb7X+4Jzq7z0ssdlw8s1qyXZ0w4uuRkXQygkkfsAZPGP3eAuu68
+   UYgaJBt41GaQJdH4eZ/JDSUL8AsMarqCwTyALyD1rO9nQH8cyGuGiYr2N
+   u3F/RJFz2DtQ1NSVhsZcauszrcYkDtvTrwAeVAVDOr86H/dyYB0Z/4qcw
+   QMGO23W0sbmVhlzSYb7oJiwgxSiE8ZnoGsgdIDojLKq4/Es/DxBeN02mB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="397406550"
+X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
+   d="scan'208";a="397406550"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 11:36:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="837799645"
+X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
+   d="scan'208";a="837799645"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 19 Jul 2023 11:36:41 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qMC2S-0005NL-1q;
+        Wed, 19 Jul 2023 18:36:40 +0000
+Date:   Thu, 20 Jul 2023 02:36:15 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ bf93349b11ab6f4a5861fbabe01236bf3d58075a
+Message-ID: <202307200213.R4wqhD8N-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -93,289 +61,161 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: bf93349b11ab6f4a5861fbabe01236bf3d58075a  Input: mms114 - add support for touch keys
 
+elapsed time: 720m
 
-On 7/19/2023 4:02 PM, Dmitry Baryshkov wrote:
-> On Wed, 19 Jul 2023 at 07:09, Fenglin Wu <quic_fenglinw@quicinc.com> wrote:
->>
->>
->>
->> On 7/18/2023 7:04 PM, Dmitry Baryshkov wrote:
->>> On Tue, 18 Jul 2023 at 13:55, Fenglin Wu <quic_fenglinw@quicinc.com> wrote:
->>>>
->>>>
->>>>
->>>> On 7/18/2023 5:41 PM, Dmitry Baryshkov wrote:
->>>>> On Tue, 18 Jul 2023 at 09:58, Fenglin Wu <quic_fenglinw@quicinc.com> wrote:
->>>>>>
->>>>>>
->>>>>>
->>>>>> On 7/18/2023 2:44 PM, Dmitry Baryshkov wrote:
->>>>>>> On Tue, 18 Jul 2023 at 09:27, Fenglin Wu <quic_fenglinw@quicinc.com> wrote:
->>>>>>>>
->>>>>>>> Add support for vibrator module inside PMI632, PM7250B, PM7325B.
->>>>>>>> It is very similar to vibrator inside PM8xxx but just the drive
->>>>>>>> amplitude is controlled through 2 bytes registers.
->>>>>>>>
->>>>>>>> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
->>>>>>>> ---
->>>>>>>>      drivers/input/misc/pm8xxx-vibrator.c | 48 ++++++++++++++++++++++++++++
->>>>>>>>      1 file changed, 48 insertions(+)
->>>>>>>>
->>>>>>>> diff --git a/drivers/input/misc/pm8xxx-vibrator.c b/drivers/input/misc/pm8xxx-vibrator.c
->>>>>>>> index 04cb87efd799..213fdfd47c7f 100644
->>>>>>>> --- a/drivers/input/misc/pm8xxx-vibrator.c
->>>>>>>> +++ b/drivers/input/misc/pm8xxx-vibrator.c
->>>>>>>> @@ -25,6 +25,9 @@ struct pm8xxx_regs {
->>>>>>>>             unsigned int drv_addr;
->>>>>>>>             unsigned int drv_mask;
->>>>>>>>             unsigned int drv_shift;
->>>>>>>> +       unsigned int drv_addr2;
-> 
-> Unused
-> 
->>>>>>>> +       unsigned int drv_mask2;
->>>>>>>> +       unsigned int drv_shift2;
->>>>>>>>             unsigned int drv_en_manual_mask;
->>>>>>>>      };
->>>>>>>>
->>>>>>>> @@ -44,6 +47,42 @@ static struct pm8xxx_regs pm8916_regs = {
->>>>>>>>             .drv_en_manual_mask = 0,
->>>>>>>>      };
->>>>>>>>
->>>>>>>> +static struct pm8xxx_regs pmi632_regs = {
->>>>>>>> +       .enable_addr = 0x5746,
->>>>>>>> +       .enable_mask = BIT(7),
->>>>>>>> +       .drv_addr = 0x5740,
->>>>>>>> +       .drv_mask = 0xff,
->>>>>>>> +       .drv_shift = 0,
->>>>>>>> +       .drv_addr2 = 0x5741,
->>>>>>>> +       .drv_mask2 = 0x0f,
->>>>>>>> +       .drv_shift2 = 8,
->>>>>>>
->>>>>>> I see that you are just expanding what was done for SSBI PMICs and
->>>>>>> later expanded to support pm8916. However it might be better to drop
->>>>>>> the hardcoded .drv_addr (and drv_addr2) and read address from DT
->>>>>>> instead.
->>>>>>>
->>>>>>
->>>>>> Right, this is the simplest change without updating the code logic too
->>>>>> much. If we decided to read .drv_addr and .drv_add2 from DT, we will
->>>>>> have to read .enable_addr along with all other mask/shift for each
->>>>>> register address from DT as well because they are not consistent from
->>>>>> target to target. I don't know how would you suggest to add the DT
->>>>>> properties for all of them, but if we end up to add a property for each
->>>>>> of them, it won't be cleaner than hard-coding them.
->>>>>
->>>>> No, we (correctly) have device compatibles for that. The issue with
->>>>> hardcoding register addresses is that it adds extra issues here.
->>>>>
->>>>> If I understand correctly, we have several 'generation':
->>>>> - SSBI PMIC, shifted 5-bit mask, en_manual_mask, no enable_register.
->>>>> - older SPMI PMIC, 5 bit drv_mask, 0 en_manual_mask, enable register at +6
->>>>> - new SPMI PMIC, 12 bit drv_mask, 0 en_manual_mask, enable register at +6
->>>>>
->>>>> For the last generation you are adding three independent entries,
->>>>> while the block looks the same. If you remove drv_addr (and get it
->>>>> from reg property), it would allow us to keep only the functional data
->>>>> in struct pm8xxxx_regs (masks / shifts).
->>>>>
->>>>
->>>> Okay, let me know if I understood it correctly, this is what you are
->>>> suggesting:
->>>>
->>>>      - hard code the mask/shifts and still keep them in struct pm8xxx_regs,
->>>>        combine the drv_mask2 to the upper byte of the drv_mask, so we will
->>>>        have following data structure for the 3rd generation vibrator
->>>>
->>>>        static struct pm8xxx_regs pm7250b_regs = {
->>>>            .enable_addr = 0x5346,
->>>>            .enable_mask = BIT(7),
->>>>            .drv_mask = 0xfff,
->>>>            .drv_shift = 0,
->>>>            .drv_en_manual_mask = 0,
->>>>        };
->>>>
->>>>
->>>>      - move the drv_addr/drv_addr2 into DT, read them from 'reg' property.
->>>>        Because of 'mfd/qcom,spmi-pmic.yaml' has defined the 'address-cells'
->>>>        as 1 and the 'size-cells' as 0 for qcom spmi devices, we couldn't
->>>>        specify the address size to 2 even the drv_addr for the 3rd
->>>>        generation vibrator is 2 adjacent bytes. So we will end of having
->>>>        following DT scheme:
->>>>
->>>>          For the 2nd generation which only has drv_addr
->>>>           vibrator@c041 {
->>>>                 compatible = "qcom,pm8916-vib";
->>>>                 reg = <0xc041>;  /* drv_addr */
->>>
->>> No. This is <0xc000>.
->>>
->>>>                 ...
->>>>           };
->>>>
->>>>          For the 3rd generation which has both drv_addr and drv_addr2
->>>>            vibrator@5340 {
->>>>                 compatible = "qcom,pm7250b-vib";
->>>>                reg = <0x5340>,  /* drv_addr */
->>>>                      <0x5341>;  /* drv_addr2 */
->>>>                ...
->>>>           };
->>>>
->>>> Not sure how do you feel, I actually don't see too much benefit than
->>>> hard-coding them in the driver.
->>>> We will end up having code to check how many u32 value in the 'reg' and
->>>> only assign it to drv_addr2 when the 2nd is available, also when
->>>> programming drv_addr2 register, the driver will always assume the mask
->>>> is in the upper byte of the drv_mask and the shift to the drive level is
->>>> 8 (this seems hacky to me and it was my biggest concern while I made
->>>> this change, and it led me to defining drv_shift2/drv_mask2 along with
->>>> drv_addr2).
->>>
->>> We only need drv_addr2 if drv_mask has more than 8 bits. So you don't
->>> have to specify it in the DT. It is always equal to base_reg + 0x41.
->>> The same way drv_addr is always equal to base_reg + 0x40 for all
->>> SPMI-based PMIC vibrator devices.
->>>
->>
->> Thanks. I got it now, I agree this will be beneficial for the case that
->> different PMICs have the same vibrator module but with different
->> register base address. I am going to change it to this way, let me know
->> if this is what you thought:
->>
->> @@ -25,6 +29,9 @@ struct pm8xxx_regs {
->>           unsigned int drv_addr;
->>           unsigned int drv_mask;
->>           unsigned int drv_shift;
->> +       unsigned int drv_addr2;
->> +       unsigned int drv_mask2;
->> +       unsigned int drv_shift2;
->>           unsigned int drv_en_manual_mask;
->>    };
->>
->> +static struct pm8xxx_regs spmi_vib_regs = {
->> +       .enable_mask = BIT(7),
->> +       .drv_mask = 0xff,
->> +       .drv_shift = 0,
->> +       .drv_mask2 = 0xf,
->> +       .drv_shift2 = 8,
->> +       .drv_en_manual_mask = 0,
->> +};
-> 
-> Ideally the static data should be const. I'd suggest moving
-> drv_addr/drv_addr2 to struct pm8xxx_vib.
-> 
->> +
->>
->> +#define SPMI_VIB_VSET_LB_REG   0x40
->> +#define SPMI_VIB_VSET_UP_REG   0x41
->> +#define SPMI_VIB_EN_CTL_REG    0x46
->> +
->>
->>           regs = of_device_get_match_data(&pdev->dev);
->>
->> +       if (regs->drv_addr == 0) {
->> +               rc = fwnode_property_read_u32(pdev->dev.fwnode,
->> +                               "reg", &reg_base);
->> +               if (rc < 0)
->> +                       return rc;
->> +
->> +               regs->enable_addr = reg_base + SPMI_VIB_EN_CTL_REG;
->> +               regs->drv_addr = reg_base + SPMI_VIB_VSET_LB_REG;
->> +               regs->drv_addr2 = reg_base + SPMI_VIB_VSET_UP_REG;
-> 
-> Yes, this looks good (except s/regs->/vib->/). Moreover this also
-> applies to pm8916. I'd suggest splitting this into two patches: first,
-> refactor pm8916 support to use reg, then add support for new devices.
+configs tested: 142
+configs skipped: 10
 
-Thanks. I will refactor this, test it, and send it out. The only problem 
-  is I don't have a pm8916 device with me, but I guess the change should 
-be straightforward and I will rely on the test result on my PM7550BA 
-device which has the vibrator with the latest generation.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> 
->> +       }
->> +
->>
->>
->> @@ -242,6 +277,7 @@ static const struct of_device_id
->> pm8xxx_vib_id_table[] = {
->>           { .compatible = "qcom,pm8058-vib", .data = &pm8058_regs },
->>           { .compatible = "qcom,pm8921-vib", .data = &pm8058_regs },
->>           { .compatible = "qcom,pm8916-vib", .data = &pm8916_regs },
->> +       ( .compabitle = "qcom,spmi-vib", .data = &spmi_vib_regs },
->>           { }
->>
->>
->>>>
->>>>
->>>>
->>>>>>
->>>>>>
->>>>>>>> +       .drv_en_manual_mask = 0,
->>>>>>>> +};
->>>>>>>> +
->>>>>>>> +static struct pm8xxx_regs pm7250b_regs = {
->>>>>>>> +       .enable_addr = 0x5346,
->>>>>>>> +       .enable_mask = BIT(7),
->>>>>>>> +       .drv_addr = 0x5340,
->>>>>>>> +       .drv_mask = 0xff,
->>>>>>>> +       .drv_shift = 0,
->>>>>>>> +       .drv_addr2 = 0x5341,
->>>>>>>> +       .drv_mask2 = 0x0f,
->>>>>>>> +       .drv_shift2 = 8,
->>>>>>>> +       .drv_en_manual_mask = 0,
->>>>>>>> +};
->>>>>>>> +
->>>>>>>> +static struct pm8xxx_regs pm7325b_regs = {
->>>>>>>> +       .enable_addr = 0xdf46,
->>>>>>>> +       .enable_mask = BIT(7),
->>>>>>>> +       .drv_addr = 0xdf40,
->>>>>>>> +       .drv_mask = 0xff,
->>>>>>>> +       .drv_shift = 0,
->>>>>>>> +       .drv_addr2 = 0xdf41,
->>>>>>>> +       .drv_mask2 = 0x0f,
->>>>>>>> +       .drv_shift2 = 8,
->>>>>>>> +       .drv_en_manual_mask = 0,
->>>>>>>> +};
->>>>>>>> +
->>>>>>>>      /**
->>>>>>>>       * struct pm8xxx_vib - structure to hold vibrator data
->>>>>>>>       * @vib_input_dev: input device supporting force feedback
->>>>>>>> @@ -87,6 +126,12 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
->>>>>>>>                     return rc;
->>>>>>>>
->>>>>>>>             vib->reg_vib_drv = val;
->>>>>>>> +       if (regs->drv_addr2 != 0 && on) {
->>>>>>>> +               val = (vib->level << regs->drv_shift2) & regs->drv_mask2;
->>>>>>>> +               rc = regmap_write(vib->regmap, regs->drv_addr2, val);
->>>>>>>> +               if (rc < 0)
->>>>>>>> +                       return rc;
->>>>>>>> +       }
->>>>>>>>
->>>>>>>>             if (regs->enable_mask)
->>>>>>>>                     rc = regmap_update_bits(vib->regmap, regs->enable_addr,
->>>>>>>> @@ -242,6 +287,9 @@ static const struct of_device_id pm8xxx_vib_id_table[] = {
->>>>>>>>             { .compatible = "qcom,pm8058-vib", .data = &pm8058_regs },
->>>>>>>>             { .compatible = "qcom,pm8921-vib", .data = &pm8058_regs },
->>>>>>>>             { .compatible = "qcom,pm8916-vib", .data = &pm8916_regs },
->>>>>>>> +       { .compatible = "qcom,pmi632-vib", .data = &pmi632_regs },
->>>>>>>> +       { .compatible = "qcom,pm7250b-vib", .data = &pm7250b_regs },
->>>>>>>> +       { .compatible = "qcom,pm7325b-vib", .data = &pm7325b_regs },
->>>>>>>>             { }
->>>>>>>>      };
->>>>>>>>      MODULE_DEVICE_TABLE(of, pm8xxx_vib_id_table);
->>>>>>>> --
->>>>>>>> 2.25.1
->>>>>>>>
->>>>>>>
->>>>>>>
->>>>>
->>>>>
->>>>>
->>>
->>>
->>>
-> 
-> 
-> 
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r015-20230718   gcc  
+alpha                randconfig-r016-20230718   gcc  
+alpha                randconfig-r036-20230718   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r033-20230718   gcc  
+arc                  randconfig-r043-20230718   gcc  
+arc                    vdk_hs38_smp_defconfig   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                     am200epdkit_defconfig   clang
+arm                                 defconfig   gcc  
+arm                          ixp4xx_defconfig   clang
+arm                           omap1_defconfig   clang
+arm                  randconfig-r001-20230718   clang
+arm                  randconfig-r003-20230718   clang
+arm                  randconfig-r033-20230718   clang
+arm                  randconfig-r046-20230718   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r011-20230718   clang
+arm64                randconfig-r012-20230718   clang
+arm64                randconfig-r023-20230718   clang
+csky                                defconfig   gcc  
+csky                 randconfig-r023-20230718   gcc  
+csky                 randconfig-r032-20230718   gcc  
+csky                 randconfig-r034-20230718   gcc  
+csky                 randconfig-r036-20230718   gcc  
+hexagon              randconfig-r035-20230718   clang
+hexagon              randconfig-r041-20230718   clang
+hexagon              randconfig-r045-20230718   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230717   clang
+i386         buildonly-randconfig-r004-20230718   gcc  
+i386         buildonly-randconfig-r005-20230717   clang
+i386         buildonly-randconfig-r005-20230718   gcc  
+i386         buildonly-randconfig-r006-20230717   clang
+i386         buildonly-randconfig-r006-20230718   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230718   gcc  
+i386                 randconfig-i002-20230718   gcc  
+i386                 randconfig-i003-20230718   gcc  
+i386                 randconfig-i004-20230718   gcc  
+i386                 randconfig-i005-20230718   gcc  
+i386                 randconfig-i006-20230718   gcc  
+i386                 randconfig-i011-20230718   clang
+i386                 randconfig-i012-20230718   clang
+i386                 randconfig-i013-20230718   clang
+i386                 randconfig-i014-20230718   clang
+i386                 randconfig-i015-20230718   clang
+i386                 randconfig-i016-20230718   clang
+i386                 randconfig-r001-20230718   gcc  
+i386                 randconfig-r004-20230718   gcc  
+i386                 randconfig-r034-20230718   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r031-20230718   gcc  
+loongarch            randconfig-r034-20230718   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r004-20230718   gcc  
+m68k                 randconfig-r006-20230718   gcc  
+m68k                 randconfig-r022-20230718   gcc  
+microblaze           randconfig-r021-20230718   gcc  
+microblaze           randconfig-r032-20230718   gcc  
+microblaze           randconfig-r033-20230718   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                 randconfig-r005-20230718   clang
+mips                 randconfig-r013-20230718   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r002-20230718   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r024-20230718   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                      mgcoge_defconfig   gcc  
+powerpc              randconfig-r014-20230718   clang
+powerpc              randconfig-r015-20230718   clang
+powerpc              randconfig-r025-20230718   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r003-20230718   gcc  
+riscv                randconfig-r006-20230718   gcc  
+riscv                randconfig-r031-20230718   gcc  
+riscv                randconfig-r042-20230718   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r005-20230718   gcc  
+s390                 randconfig-r044-20230718   clang
+sh                               allmodconfig   gcc  
+sh                   randconfig-r012-20230718   gcc  
+sh                           se7724_defconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r016-20230718   gcc  
+sparc                randconfig-r025-20230718   gcc  
+sparc                randconfig-r026-20230718   gcc  
+sparc64              randconfig-r024-20230718   gcc  
+sparc64              randconfig-r035-20230718   gcc  
+sparc64              randconfig-r036-20230718   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230717   clang
+x86_64       buildonly-randconfig-r001-20230718   gcc  
+x86_64       buildonly-randconfig-r002-20230717   clang
+x86_64       buildonly-randconfig-r002-20230718   gcc  
+x86_64       buildonly-randconfig-r003-20230717   clang
+x86_64       buildonly-randconfig-r003-20230718   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-r021-20230718   clang
+x86_64               randconfig-x001-20230718   clang
+x86_64               randconfig-x002-20230718   clang
+x86_64               randconfig-x003-20230718   clang
+x86_64               randconfig-x004-20230718   clang
+x86_64               randconfig-x005-20230718   clang
+x86_64               randconfig-x006-20230718   clang
+x86_64               randconfig-x011-20230718   gcc  
+x86_64               randconfig-x012-20230718   gcc  
+x86_64               randconfig-x013-20230718   gcc  
+x86_64               randconfig-x014-20230718   gcc  
+x86_64               randconfig-x015-20230718   gcc  
+x86_64               randconfig-x016-20230718   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
