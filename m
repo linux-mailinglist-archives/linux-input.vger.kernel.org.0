@@ -2,113 +2,193 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D0FB75ADBA
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jul 2023 14:02:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAA2075AFD9
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jul 2023 15:29:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230321AbjGTMCp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 20 Jul 2023 08:02:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57990 "EHLO
+        id S231990AbjGTN3R (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 Jul 2023 09:29:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229707AbjGTMCo (ORCPT
+        with ESMTP id S229517AbjGTN3B (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 20 Jul 2023 08:02:44 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAC9310CB
-        for <linux-input@vger.kernel.org>; Thu, 20 Jul 2023 05:02:43 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-31297125334so472882f8f.0
-        for <linux-input@vger.kernel.org>; Thu, 20 Jul 2023 05:02:43 -0700 (PDT)
+        Thu, 20 Jul 2023 09:29:01 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CC502D77;
+        Thu, 20 Jul 2023 06:28:36 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1b852785a65so6073965ad.0;
+        Thu, 20 Jul 2023 06:28:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689854562; x=1690459362;
+        d=gmail.com; s=20221208; t=1689859715; x=1690464515;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4mVNLMpsr1KtXrPPiYyd6fMKyNfmqypKKGtmUwwbo1s=;
-        b=Ru776Nvt3yRM/Id4yJqBSMOIMMRox1ohJl228qwtuRlY7Z9Ds7hcbx++Eg/mZjULXg
-         Vlbo7Dj/QyrE0PKRKzeuGhFLqR0u0A8EoEKAd0VknDWIgk0dit+0/1KtPmxC24TROnEv
-         tIUiBEAQgDBTls6DjHiUaIuxj9sckC6VGVoYz7GlGO0UlXA6m9Bo1CkVTQFOVo6cviWb
-         wRagJAakNX8D54z2sgC0IiD8qxQBEg7iu9iDxdkqwzCZp1FASPAqFGq6mj0TCEZBL2wM
-         89ixhK3hHIptelHiMKP/rnC3AyTYgokdlou9nuoKkvrK6cGj1H8bHp7S4ZgJoNMfHCa9
-         7aCg==
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=3o5zfhOrGvbkMhIZNHbLcgV0VOFO8KOUPcq8qPlAWh4=;
+        b=II3kNkpXwPdcCl5YHO4c2SdZlaof4sRkgoc/bpxKmFONK+AnVHwT1l7cn4fep4l2pZ
+         RKQPLK4YtMeQSGR5iqY/qohmxFaLzZ1ClUnoBaAnXkyj8ZtgLGPZrxlSRrbXTRR6JuFE
+         1/XRgM2FIIeAEdO8c6Bnsmo11XN81iFNABpU1uWMfxl2AT70aV2t6lD+Lvsz3z0sVruD
+         Uow4lWraZWjlX9pw2usWm2WakkdaoKw1c6bRllOiAPjWueKo+tDHsJogOPb38guW70UF
+         VU2sVcwD6/G14KhffAcn6pAqokkebSFot2kkwvOG6VTqnh2LdN7nEmxQT8ylWbgSo4Lq
+         gfBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689854562; x=1690459362;
+        d=1e100.net; s=20221208; t=1689859715; x=1690464515;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4mVNLMpsr1KtXrPPiYyd6fMKyNfmqypKKGtmUwwbo1s=;
-        b=B+pGKzo/sT+nPujoccqZFuJUXN7W2J2c0EXUpbQSP87wljKen5tUtcrpwAyms50DUT
-         8VEWgV6KejpBdtDVj3TM8UaUUog+UKde0QCUpiVtQc/UclT4lle0+PwchG6T7r++iY1W
-         EA0m21mTLbIevQ66cxdw4fYL4y7MHczbI2RxqhZe8F1QwcZmnmnY3W5epCUhV3XmhoYA
-         xKVNqVJ9Jcqyl5sQlKhrZg1fK6YrH8CyGH0tKA2CJccFA34FF3fs5qy/V2P0cbO25SSf
-         HuwMajDKCdWobJeFV+Oag6v/BOKzAHCoa+3CSihtnUKFlhSC6nQW9phCfIg98cTJj2LO
-         rXhA==
-X-Gm-Message-State: ABy/qLaEtDGu1SXxXRKuytHhAq25HA0r2PpAtqRXq6GGZVs53qgFsTUr
-        rki5H/TFOqZd2JYde/T50cbPFw==
-X-Google-Smtp-Source: APBJJlE5/EGARCmArGxUZUpUjd94gNv62IZomso69Wj7PlLRXdVNWS6mN9JA2NEzdednqnnEnvDfbQ==
-X-Received: by 2002:adf:f88d:0:b0:316:fc03:3c66 with SMTP id u13-20020adff88d000000b00316fc033c66mr2168789wrp.3.1689854562194;
-        Thu, 20 Jul 2023 05:02:42 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id t13-20020a05600001cd00b00316eb7770b8sm1164458wrx.5.2023.07.20.05.02.40
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3o5zfhOrGvbkMhIZNHbLcgV0VOFO8KOUPcq8qPlAWh4=;
+        b=TqjV+s1zQkdYN47mIkCCe5FpwDkxLvduj45yNSd8nQHNO10uVHPp22/1+VUUS4j+GJ
+         q5gcshwfruENAO9bhjtVzn4D1smLqXzhBbyXQLxMi+pIYdzCy7WaEX6vhhyKdo4qBFU/
+         Qu75T3Ld1VMW4ma8UuB6+JVd33fjDdA/K7xXqnc4LPTZy/mHIBRZjBRQVKJeJr2spnAX
+         eAnQW0/FHZQvM6m+YPlRgXXgKBWLr9jmLi0FM6iXr2MBb90i7Ps3yjkckLeBVCvaNqxI
+         hCjzMYpAJbdXq1CLRG3cgombPJUcMr8xviCQtUroKCGt4DEWhlVcPwWiOK7KVW9/o1RS
+         8wHA==
+X-Gm-Message-State: ABy/qLaFVp/M30aIwkZq8a7ntKoFRzom3T4uRveoyR5IFgXi/lVfVBq2
+        amuhaoni2DIzQvmb1BQ7Dgk=
+X-Google-Smtp-Source: APBJJlHUPUivfHOgoXJP79qDNd5D4J3nF3SUABKNXv3IzHnbDE0pcAqJjXDoFhMrl2kqZtr0UmSiBg==
+X-Received: by 2002:a17:902:c94c:b0:1b7:ca9c:4f5c with SMTP id i12-20020a170902c94c00b001b7ca9c4f5cmr6694496pla.28.1689859715396;
+        Thu, 20 Jul 2023 06:28:35 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id jc15-20020a17090325cf00b001b5247cac3dsm1346340plb.110.2023.07.20.06.28.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Jul 2023 05:02:41 -0700 (PDT)
-Message-ID: <85d14351-9b5a-a488-c1c9-ac2f1e28eeef@linaro.org>
-Date:   Thu, 20 Jul 2023 14:02:40 +0200
+        Thu, 20 Jul 2023 06:28:34 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <def5b29c-3318-2db1-a7fa-612ed1e81be6@roeck-us.net>
+Date:   Thu, 20 Jul 2023 06:28:31 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH] dt-bindings: input: convert syna,rmi4 to DT schema
+Subject: Re: [PATCH v3 12/42] dt-bindings: watchdog: Add Cirrus EP93x
 Content-Language: en-US
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+To:     nikita.shubin@maquefel.me,
+        Hartley Sweeten <hsweeten@visionengravers.com>,
+        Lennert Buytenhek <kernel@wantstofly.org>,
+        Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Lukasz Majewski <lukma@denx.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Vincent Huang <vincent.huang@tw.synaptics.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230720110008.133359-1-krzysztof.kozlowski@linaro.org>
- <ZLkYWL4wMhYLRTuL@zx2c4.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <ZLkYWL4wMhYLRTuL@zx2c4.com>
-Content-Type: text/plain; charset=UTF-8
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Mark Brown <broonie@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Damien Le Moal <dlemoal@kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        soc@kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Michael Peters <mpeters@embeddedTS.com>,
+        Kris Bahnsen <kris@embeddedTS.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
+        netdev@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-ide@vger.kernel.org,
+        linux-input@vger.kernel.org, alsa-devel@alsa-project.org
+References: <20230605-ep93xx-v3-0-3d63a5f1103e@maquefel.me>
+ <20230605-ep93xx-v3-12-3d63a5f1103e@maquefel.me>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20230605-ep93xx-v3-12-3d63a5f1103e@maquefel.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 20/07/2023 13:19, Jason A. Donenfeld wrote:
-> On Thu, Jul 20, 2023 at 01:00:08PM +0200, Krzysztof Kozlowski wrote:
->> Convert the bindings for Synaptics RMI4 bus and devices to DT schema.
->> Changes during conversion:
->> 1. Add reset-gpios already used in DTS and mentioned by RMI4
->>    specification.
->> 2. Do not require address/size cells, because without functions
->>    (children) they aren't really needed.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>
->> ---
->>
->> Jason, Matthias, Vincent,
->> I put your names as maintainers, because moderately recently you were
->> changing the driver. Let me know if this is okay or you prefer not to
->> maintain the hardware.
->  
-> I'm more of the occasional "why doesn't my new Thinkpad work?" sort of
-> drive-by RMI4-er, rather than an actual maintainer. I don't know a lot
-> about the protocol beyond what it takes to drag a laptop into behaving
-> right. So maybe best to leave me off the list.
+On 7/20/23 04:29, Nikita Shubin via B4 Relay wrote:
+> From: Nikita Shubin <nikita.shubin@maquefel.me>
+> 
+> This adds device tree bindings for the Cirrus Logic EP93xx
+> watchdog block used in these SoCs.
+> 
+> Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
+> ---
+>   .../bindings/watchdog/cirrus,ep9301-wdt.yaml       | 46 ++++++++++++++++++++++
+>   1 file changed, 46 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/watchdog/cirrus,ep9301-wdt.yaml b/Documentation/devicetree/bindings/watchdog/cirrus,ep9301-wdt.yaml
+> new file mode 100644
+> index 000000000000..d54595174a12
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/watchdog/cirrus,ep9301-wdt.yaml
+> @@ -0,0 +1,46 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/watchdog/cirrus,ep9301-wdt.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Cirrus Logic EP93xx Watchdog Timer
+> +
+> +maintainers:
+> +  - Nikita Shubin <nikita.shubin@maquefel.me>
+> +  - Alexander Sverdlin <alexander.sverdlin@gmail.com>
+> +
+> +description:
+> +  Cirrus Logic EP93xx SoC family has it's own watchdog implementation
+> +
 
-If you have hardware with it and you are interested in this device
-working, then it is good enough.  This is maintainership only of the
-bindings, not entire driver.
+Odd description. Isn't that true for pretty much every devicetree
+bindings file, and pretty much every hardware driver ?
 
-Best regards,
-Krzysztof
+> +allOf:
+> +  - $ref: watchdog.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - const: cirrus,ep9301-wdt
+> +      - items:
+> +          - enum:
+> +              - cirrus,ep9302-wdt
+> +              - cirrus,ep9307-wdt
+> +              - cirrus,ep9312-wdt
+> +              - cirrus,ep9315-wdt
+> +          - const: cirrus,ep9301-wdt
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    watchdog@80940000 {
+> +        compatible = "cirrus,ep9301-wdt";
+> +        reg = <0x80940000 0x08>;
+> +    };
+> +
+> 
 
