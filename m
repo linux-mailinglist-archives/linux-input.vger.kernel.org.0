@@ -2,195 +2,621 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CC0375AB52
-	for <lists+linux-input@lfdr.de>; Thu, 20 Jul 2023 11:48:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 379DC75AC79
+	for <lists+linux-input@lfdr.de>; Thu, 20 Jul 2023 13:00:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229897AbjGTJs3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 20 Jul 2023 05:48:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46610 "EHLO
+        id S229848AbjGTLAR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 Jul 2023 07:00:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231273AbjGTJsC (ORCPT
+        with ESMTP id S229757AbjGTLAQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 20 Jul 2023 05:48:02 -0400
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A1252122;
-        Thu, 20 Jul 2023 02:46:06 -0700 (PDT)
-Received: from [192.168.1.103] (178.176.74.113) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Thu, 20 Jul
- 2023 12:45:57 +0300
-Subject: Re: [PATCH v3 26/42] ata: pata_ep93xx: add device tree support
-To:     <nikita.shubin@maquefel.me>,
-        Hartley Sweeten <hsweeten@visionengravers.com>,
-        Lennert Buytenhek <kernel@wantstofly.org>,
-        Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Lukasz Majewski <lukma@denx.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Thu, 20 Jul 2023 07:00:16 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBDB42699
+        for <linux-input@vger.kernel.org>; Thu, 20 Jul 2023 04:00:13 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-992e22c09edso100995166b.2
+        for <linux-input@vger.kernel.org>; Thu, 20 Jul 2023 04:00:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689850812; x=1690455612;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9z/c9UefbSAEbd+LpqHcGpHJ3vAJFkKNN8r0KWFm0Q4=;
+        b=Ny5jrNcYHAgo2DRvdezAyhJASg9CIiIwZpvlMpZG1tNG2rjUcrgUmE5D0jlUlpDs5r
+         AYEowUP+GIXIGXK9dEEcbKhpfCfASdRY716Ul8FdnEEK6Mt+O+8KHlL3c8rKbMU3oWlj
+         PU5mMqZr4vhFLrRYovpaiLvNjxCI945CECyo3eI0ebRkvYoXk+wQs9kCVeBEI1EaNiwW
+         wdNe4HVIopIHkwrLP5+BN8wWIniGtQcW1EihaB1XOKTp6VcWC6FB7Y+TvZdplr5IAtqI
+         T81y1RnvrPK94Out0+TvPcDt6OYuFZS9rkh8YiFWmuhTuw8mx4rNT6NLOHd6KPbndC23
+         RwAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689850812; x=1690455612;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9z/c9UefbSAEbd+LpqHcGpHJ3vAJFkKNN8r0KWFm0Q4=;
+        b=JekOoPeUfXurf5VtZFF0lvriMsyKqT0ufxNAwweedB7bwc5l3ZDucDx7GbQVwXedUO
+         d+OWdu6t7kLElmxX17Cx190rmkQBbZN3grxNs+wzrPG6VT/wwI6ro8S2DzTbSVEDhdOF
+         VY0OGR2Q1J95bYbMvB340RgqcMS48BAmY2bmVDCNM2QrsnIEM4WrydaJcO8ek48Vqw/v
+         rOYeSdOHJEJOfla6wLVZH+w0pUgcliXf4zA/WbqRNsjZE9TUm4RhqiMzsmWbXTKT7rQK
+         9pcjQ0XacgGE+z8LGqe8FtP9X+rsyv2lj+AyODX1dwM/abgcgzYXTxa96Apl/gc7nSv5
+         1Jzw==
+X-Gm-Message-State: ABy/qLYmdlgC5qLPBS52ct85jmBf1+/AXY4PWHXFFnF3qGb538v0cy3h
+        ll9aE8OQR/B+aQO8JfFqUAOmpw==
+X-Google-Smtp-Source: APBJJlFK+zNR1tMd4ygdCovbTwqR8uy9awBkAzPQfHRlwgrxnLOwENp0Kui525Rn8ECYHjOBId0x9g==
+X-Received: by 2002:a17:906:51d9:b0:993:a379:6158 with SMTP id v25-20020a17090651d900b00993a3796158mr5071138ejk.17.1689850812076;
+        Thu, 20 Jul 2023 04:00:12 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id f7-20020a170906494700b00965a4350411sm541025ejt.9.2023.07.20.04.00.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jul 2023 04:00:11 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Sebastian Reichel <sre@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Mark Brown <broonie@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Damien Le Moal <dlemoal@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        <soc@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Michael Peters <mpeters@embeddedTS.com>,
-        Kris Bahnsen <kris@embeddedTS.com>
-CC:     <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-rtc@vger.kernel.org>, <linux-watchdog@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
-        <linux-spi@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <dmaengine@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
-        <linux-ide@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20230605-ep93xx-v3-0-3d63a5f1103e@maquefel.me>
- <20230605-ep93xx-v3-26-3d63a5f1103e@maquefel.me>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <e7350d62-8dc2-8bae-e514-3b99c3abaf74@omp.ru>
-Date:   Thu, 20 Jul 2023 12:45:54 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Vincent Huang <vincent.huang@tw.synaptics.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] dt-bindings: input: convert syna,rmi4 to DT schema
+Date:   Thu, 20 Jul 2023 13:00:08 +0200
+Message-Id: <20230720110008.133359-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <20230605-ep93xx-v3-26-3d63a5f1103e@maquefel.me>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [178.176.74.113]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 07/20/2023 09:27:01
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 178742 [Jul 20 2023]
-X-KSE-AntiSpam-Info: Version: 5.9.59.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 524 524 9753033d6953787301affc41bead8ed49c47b39d
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.113 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1;178.176.74.113:7.7.3,7.4.1,7.1.2
-X-KSE-AntiSpam-Info: {iprep_blacklist}
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.74.113
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 07/20/2023 09:32:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 7/20/2023 4:32:00 AM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 7/20/23 2:29 PM, Nikita Shubin via B4 Relay wrote:
+Convert the bindings for Synaptics RMI4 bus and devices to DT schema.
+Changes during conversion:
+1. Add reset-gpios already used in DTS and mentioned by RMI4
+   specification.
+2. Do not require address/size cells, because without functions
+   (children) they aren't really needed.
 
-> From: Nikita Shubin <nikita.shubin@maquefel.me>
-> 
-> - Add OF ID match table
-> - Drop ep93xx_chip_revision and use soc_device_match instead
-> 
-> Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
-> ---
->  drivers/ata/pata_ep93xx.c | 26 ++++++++++++++++++++------
->  1 file changed, 20 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/ata/pata_ep93xx.c b/drivers/ata/pata_ep93xx.c
-> index c6e043e05d43..a88824dfc5fa 100644
-> --- a/drivers/ata/pata_ep93xx.c
-> +++ b/drivers/ata/pata_ep93xx.c
-[...]
-> @@ -910,6 +912,12 @@ static struct ata_port_operations ep93xx_pata_port_ops = {
->  	.port_start		= ep93xx_pata_port_start,
->  };
->  
-> +static const struct soc_device_attribute ep93xx_soc_table[] = {
-> +	{ .revision = "E1", .data = (void *)ATA_UDMA3 },
-> +	{ .revision = "E2", .data = (void *)ATA_UDMA4 },
-> +	{ /* sentinel */ }
-> +};
-> +
->  static int ep93xx_pata_probe(struct platform_device *pdev)
->  {
->  	struct ep93xx_pata_data *drv_data;
-> @@ -939,7 +947,7 @@ static int ep93xx_pata_probe(struct platform_device *pdev)
->  
->  	drv_data = devm_kzalloc(&pdev->dev, sizeof(*drv_data), GFP_KERNEL);
->  	if (!drv_data) {
-> -		err = -ENXIO;
-> +		err = -ENOMEM;
->  		goto err_rel_gpio;
->  	}
->  
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-   Hm, deserves its own patch. And even for this one, you should've documented it
-in the patch secription...
+---
 
-> @@ -976,12 +984,11 @@ static int ep93xx_pata_probe(struct platform_device *pdev)
->  	 * so this driver supports only UDMA modes.
->  	 */
->  	if (drv_data->dma_rx_channel && drv_data->dma_tx_channel) {
-> -		int chip_rev = ep93xx_chip_revision();
-> +		const struct soc_device_attribute *match;
->  
-> -		if (chip_rev == EP93XX_CHIP_REV_E1)
-> -			ap->udma_mask = ATA_UDMA3;
-> -		else if (chip_rev == EP93XX_CHIP_REV_E2)
-> -			ap->udma_mask = ATA_UDMA4;
-> +		match = soc_device_match(ep93xx_soc_table);
-> +		if (match)
-> +			ap->udma_mask = (unsigned int) match->data;
->  		else
->  			ap->udma_mask = ATA_UDMA2;
->  	}
+Jason, Matthias, Vincent,
+I put your names as maintainers, because moderately recently you were
+changing the driver. Let me know if this is okay or you prefer not to
+maintain the hardware.
+---
+ .../bindings/input/rmi4/rmi_2d_sensor.txt     |  56 ----
+ .../bindings/input/rmi4/rmi_f01.txt           |  39 ---
+ .../bindings/input/rmi4/rmi_i2c.txt           |  61 ----
+ .../bindings/input/rmi4/rmi_spi.txt           |  56 ----
+ .../devicetree/bindings/input/syna,rmi4.yaml  | 271 ++++++++++++++++++
+ 5 files changed, 271 insertions(+), 212 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/rmi4/rmi_2d_sensor.txt
+ delete mode 100644 Documentation/devicetree/bindings/input/rmi4/rmi_f01.txt
+ delete mode 100644 Documentation/devicetree/bindings/input/rmi4/rmi_i2c.txt
+ delete mode 100644 Documentation/devicetree/bindings/input/rmi4/rmi_spi.txt
+ create mode 100644 Documentation/devicetree/bindings/input/syna,rmi4.yaml
 
-   This one also looks as it could have been done separately -- before the DT
-conversion?
+diff --git a/Documentation/devicetree/bindings/input/rmi4/rmi_2d_sensor.txt b/Documentation/devicetree/bindings/input/rmi4/rmi_2d_sensor.txt
+deleted file mode 100644
+index 9afffbdf6e28..000000000000
+--- a/Documentation/devicetree/bindings/input/rmi4/rmi_2d_sensor.txt
++++ /dev/null
+@@ -1,56 +0,0 @@
+-Synaptics RMI4 2D Sensor Device Binding
+-
+-The Synaptics RMI4 core is able to support RMI4 devices using different
+-transports and different functions. This file describes the device tree
+-bindings for devices which contain 2D sensors using Function 11 or
+-Function 12. Complete documentation for transports and other functions
+-can be found in:
+-Documentation/devicetree/bindings/input/rmi4.
+-
+-RMI4 Function 11 and Function 12 are for 2D touch position sensing.
+-Additional documentation for F11 can be found at:
+-http://www.synaptics.com/sites/default/files/511-000136-01-Rev-E-RMI4-Interfacing-Guide.pdf
+-
+-Optional Touch Properties:
+-Description in Documentation/devicetree/bindings/input/touchscreen
+-- touchscreen-inverted-x
+-- touchscreen-inverted-y
+-- touchscreen-swapped-x-y
+-- touchscreen-x-mm
+-- touchscreen-y-mm
+-
+-Optional Properties:
+-- syna,clip-x-low: Sets a minimum value for X.
+-- syna,clip-y-low: Sets a minimum value for Y.
+-- syna,clip-x-high: Sets a maximum value for X.
+-- syna,clip-y-high: Sets a maximum value for Y.
+-- syna,offset-x: Add an offset to X.
+-- syna,offset-y: Add an offset to Y.
+-- syna,delta-x-threshold: Set the minimum distance on the X axis required
+-				to generate an interrupt in reduced reporting
+-				mode.
+-- syna,delta-y-threshold: Set the minimum distance on the Y axis required
+-				to generate an interrupt in reduced reporting
+-				mode.
+-- syna,sensor-type: Set the sensor type. 1 for touchscreen 2 for touchpad.
+-- syna,disable-report-mask: Mask for disabling posiiton reporting. Used to
+-				disable reporing absolute position data.
+-- syna,rezero-wait-ms: Time in miliseconds to wait after issuing a rezero
+-				command.
+-
+-
+-Example of a RMI4 I2C device with F11:
+-Example:
+-	&i2c1 {
+-		rmi4-i2c-dev@2c {
+-			compatible = "syna,rmi4-i2c";
+-
+-			...
+-
+-			rmi4-f11@11 {
+-				reg = <0x11>;
+-				touchscreen-inverted-y;
+-				syna,sensor-type = <2>;
+-			};
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/input/rmi4/rmi_f01.txt b/Documentation/devicetree/bindings/input/rmi4/rmi_f01.txt
+deleted file mode 100644
+index 079cad2b6843..000000000000
+--- a/Documentation/devicetree/bindings/input/rmi4/rmi_f01.txt
++++ /dev/null
+@@ -1,39 +0,0 @@
+-Synaptics RMI4 F01 Device Binding
+-
+-The Synaptics RMI4 core is able to support RMI4 devices using different
+-transports and different functions. This file describes the device tree
+-bindings for devices which contain Function 1. Complete documentation
+-for transports and other functions can be found in:
+-Documentation/devicetree/bindings/input/rmi4.
+-
+-Additional documentation for F01 can be found at:
+-http://www.synaptics.com/sites/default/files/511-000136-01-Rev-E-RMI4-Interfacing-Guide.pdf
+-
+-Optional Properties:
+-- syna,nosleep-mode: If set the device will run at full power without sleeping.
+-			nosleep has 3 modes, 0 will not change the default
+-			setting, 1 will disable nosleep (allow sleeping),
+-			and 2 will enable nosleep (disabling sleep).
+-- syna,wakeup-threshold: Defines the amplitude of the disturbance to the
+-				background capacitance that will cause the
+-				device to wake from dozing.
+-- syna,doze-holdoff-ms: The delay to wait after the last finger lift and the
+-				first doze cycle.
+-- syna,doze-interval-ms: The time period that the device sleeps between finger
+-				activity.
+-
+-
+-Example of a RMI4 I2C device with F01:
+-	Example:
+-	&i2c1 {
+-		rmi4-i2c-dev@2c {
+-			compatible = "syna,rmi4-i2c";
+-
+-			...
+-
+-			rmi4-f01@1 {
+-				reg = <0x1>;
+-				syna,nosleep-mode = <1>;
+-			};
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/input/rmi4/rmi_i2c.txt b/Documentation/devicetree/bindings/input/rmi4/rmi_i2c.txt
+deleted file mode 100644
+index dcb012f5b3ee..000000000000
+--- a/Documentation/devicetree/bindings/input/rmi4/rmi_i2c.txt
++++ /dev/null
+@@ -1,61 +0,0 @@
+-Synaptics RMI4 I2C Device Binding
+-
+-The Synaptics RMI4 core is able to support RMI4 devices using different
+-transports and different functions. This file describes the device tree
+-bindings for devices using the I2C transport driver. Complete documentation
+-for other transports and functions can be found in
+-Documentation/devicetree/bindings/input/rmi4.
+-
+-Required Properties:
+-- compatible: syna,rmi4-i2c
+-- reg: I2C address
+-- #address-cells: Set to 1 to indicate that the function child nodes
+-		    consist of only on uint32 value.
+-- #size-cells: Set to 0 to indicate that the function child nodes do not
+-		have a size property.
+-
+-Optional Properties:
+-- interrupts: interrupt which the rmi device is connected to.
+-See Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
+-
+-- syna,reset-delay-ms: The number of milliseconds to wait after resetting the
+-			device.
+-
+-- syna,startup-delay-ms: The number of milliseconds to wait after powering on
+-			 the device.
+-
+-- vdd-supply: VDD power supply.
+-See ../regulator/regulator.txt
+-
+-- vio-supply: VIO power supply
+-See ../regulator/regulator.txt
+-
+-Function Parameters:
+-Parameters specific to RMI functions are contained in child nodes of the rmi device
+- node. Documentation for the parameters of each function can be found in:
+-Documentation/devicetree/bindings/input/rmi4/rmi_f*.txt.
+-
+-
+-
+-Example:
+-	&i2c1 {
+-		rmi4-i2c-dev@2c {
+-			compatible = "syna,rmi4-i2c";
+-			reg = <0x2c>;
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-			interrupt-parent = <&gpio>;
+-			interrupts = <4 2>;
+-
+-			rmi4-f01@1 {
+-				reg = <0x1>;
+-				syna,nosleep-mode = <1>;
+-			};
+-
+-			rmi4-f11@11 {
+-				reg = <0x11>;
+-				touchscreen-inverted-y;
+-				syna,sensor-type = <2>;
+-			};
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/input/rmi4/rmi_spi.txt b/Documentation/devicetree/bindings/input/rmi4/rmi_spi.txt
+deleted file mode 100644
+index 632f473db65b..000000000000
+--- a/Documentation/devicetree/bindings/input/rmi4/rmi_spi.txt
++++ /dev/null
+@@ -1,56 +0,0 @@
+-Synaptics RMI4 SPI Device Binding
+-
+-The Synaptics RMI4 core is able to support RMI4 devices using different
+-transports and different functions. This file describes the device tree
+-bindings for devices using the SPI transport driver. Complete documentation
+-for other transports and functions can be found in
+-Documentation/devicetree/bindings/input/rmi4.
+-
+-Required Properties:
+-- compatible: syna,rmi4-spi
+-- reg: Chip select address for the device
+-- #address-cells: Set to 1 to indicate that the function child nodes
+-		    consist of only on uint32 value.
+-- #size-cells: Set to 0 to indicate that the function child nodes do not
+-		have a size property.
+-
+-Optional Properties:
+-- interrupts: interrupt which the rmi device is connected to.
+-See Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
+-
+-- spi-rx-delay-us: microsecond delay after a read transfer.
+-- spi-tx-delay-us: microsecond delay after a write transfer.
+-
+-Function Parameters:
+-Parameters specific to RMI functions are contained in child nodes of the rmi device
+- node. Documentation for the parameters of each function can be found in:
+-Documentation/devicetree/bindings/input/rmi4/rmi_f*.txt.
+-
+-
+-
+-Example:
+-	spi@7000d800 {
+-		rmi4-spi-dev@0 {
+-			compatible = "syna,rmi4-spi";
+-			reg = <0x0>;
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-			spi-max-frequency = <4000000>;
+-			spi-cpha;
+-			spi-cpol;
+-			interrupt-parent = <&gpio>;
+-			interrupts = <TEGRA_GPIO(K, 2) 0x2>;
+-			spi-rx-delay-us = <30>;
+-
+-			rmi4-f01@1 {
+-				reg = <0x1>;
+-				syna,nosleep-mode = <1>;
+-			};
+-
+-			rmi4-f11@11 {
+-				reg = <0x11>;
+-				touchscreen-inverted-y;
+-				syna,sensor-type = <2>;
+-			};
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/input/syna,rmi4.yaml b/Documentation/devicetree/bindings/input/syna,rmi4.yaml
+new file mode 100644
+index 000000000000..286b4d52cea9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/syna,rmi4.yaml
+@@ -0,0 +1,271 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/syna,rmi4.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Synaptics RMI4 compliant devices
++
++maintainers:
++  - Jason A. Donenfeld <Jason@zx2c4.com>
++  - Matthias Schiffer <matthias.schiffer@ew.tq-group.com
++  - Vincent Huang <vincent.huang@tw.synaptics.com>
++
++description: |
++  The Synaptics RMI4 (Register Mapped Interface 4) core is able to support RMI4
++  devices using different transports (I2C, SPI) and different functions (e.g.
++  Function 1, 2D sensors using Function 11 or 12).
++
++properties:
++  compatible:
++    enum:
++      - syna,rmi4-i2c
++      - syna,rmi4-spi
++
++  reg:
++    maxItems: 1
++
++  '#address-cells':
++    const: 1
++
++  '#size-cells':
++    const: 0
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++    description: Active low signal
++
++  spi-cpha: true
++  spi-cpol: true
++
++  syna,reset-delay-ms:
++    description:
++      Delay to wait after resetting the device.
++
++  syna,startup-delay-ms:
++    description:
++      Delay to wait after powering on the device.
++
++  vdd-supply: true
++  vio-supply: true
++
++  rmi4-f01@1:
++    type: object
++    additionalProperties: false
++    description:
++      Function 1
++
++    properties:
++      reg:
++        maxItems: 1
++
++      syna,nosleep-mode:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        enum: [0, 1, 2]
++        description:
++          If set the device will run at full power without sleeping.  nosleep
++          has 3 modes, 0 will not change the default setting, 1 will disable
++          nosleep (allow sleeping), and 2 will enable nosleep (disabling
++          sleep).
++
++      syna,wakeup-threshold:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description:
++          Defines the amplitude of the disturbance to the background
++          capacitance that will cause the device to wake from dozing.
++
++      syna,doze-holdoff-ms:
++        description:
++          The delay to wait after the last finger lift and the first doze
++          cycle.
++
++      syna,doze-interval-ms:
++        description:
++          The time period that the device sleeps between finger activity.
++
++    required:
++      - reg
++
++patternProperties:
++  "^rmi4-f1[12]@1[12]$":
++    type: object
++    unevaluatedProperties: false
++    $ref: /schemas/input/touchscreen/touchscreen.yaml#
++    description:
++      RMI4 Function 11 and Function 12 are for 2D touch position sensing.
++
++    properties:
++      reg:
++        maxItems: 1
++
++      syna,clip-x-low:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description:
++          Minimum value for X.
++
++      syna,clip-y-low:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description:
++          Minimum value for Y.
++
++      syna,clip-x-high:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description:
++          Maximum value for X.
++
++      syna,clip-y-high:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description:
++          Maximum value for Y.
++
++      syna,offset-x:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description:
++          Add an offset to X.
++
++      syna,offset-y:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description:
++          Add an offset to Y.
++
++      syna,delta-x-threshold:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description:
++          Minimum distance on the X axis required to generate an interrupt in
++          reduced reporting mode.
++
++      syna,delta-y-threshold:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description:
++          Minimum distance on the Y axis required to generate an interrupt in
++          reduced reporting mode.
++
++      syna,sensor-type:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        enum: [1, 2]
++        description: |
++          Sensor type: 1 for touchscreen 2 for touchpad.
++
++      syna,disable-report-mask:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description:
++          Mask for disabling posiiton reporting. Used to disable reporing
++          absolute position data.
++
++      syna,rezero-wait-ms:
++        description:
++          Time to wait after issuing a rezero command.
++
++    required:
++      - reg
++
++  "^rmi4-f[0-9a-z]+@[0-9a-z]+$":
++    type: object
++    description:
++      Other functions, not documented yet.
++
++    properties:
++      reg:
++        maxItems: 1
++
++    required:
++      - reg
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++allOf:
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: syna,rmi4-i2c
++    then:
++      properties:
++        spi-rx-delay-us: false
++        spi-tx-delay-us: false
++    else:
++      properties:
++        syna,reset-delay-ms: false
++        syna,startup-delay-ms: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        touchscreen@20 {
++            compatible = "syna,rmi4-i2c";
++            reg = <0x20>;
++            interrupt-parent = <&gpx1>;
++            interrupts = <6 IRQ_TYPE_EDGE_FALLING>;
++
++            syna,startup-delay-ms = <100>;
++            vdd-supply = <&tsp_vdd>;
++            vio-supply = <&ldo32_reg>;
++
++            pinctrl-0 = <&touch_irq>;
++            pinctrl-names = "default";
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            rmi4-f01@1 {
++                reg = <0x1>;
++                syna,nosleep-mode = <1>;
++            };
++
++            rmi4-f12@12 {
++                reg = <0x12>;
++                syna,sensor-type = <1>;
++            };
++
++            rmi4-f1a@1a {
++                reg = <0x1a>;
++            };
++        };
++    };
++
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        touchscreen@0 {
++            compatible = "syna,rmi4-spi";
++            reg = <0x0>;
++            interrupt-parent = <&gpx1>;
++            interrupts = <6 IRQ_TYPE_EDGE_FALLING>;
++
++            spi-max-frequency = <4000000>;
++            spi-rx-delay-us = <30>;
++            spi-cpha;
++            spi-cpol;
++
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            rmi4-f01@1 {
++                reg = <0x1>;
++                syna,nosleep-mode = <1>;
++            };
++
++            rmi4-f11@11 {
++                reg = <0x11>;
++                touchscreen-inverted-y;
++                syna,sensor-type = <2>;
++            };
++        };
++    };
+-- 
+2.34.1
 
-[...]
-
-MBR, Sergey
