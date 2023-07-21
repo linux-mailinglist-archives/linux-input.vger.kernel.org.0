@@ -2,156 +2,239 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7557075C203
-	for <lists+linux-input@lfdr.de>; Fri, 21 Jul 2023 10:50:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D09F075C787
+	for <lists+linux-input@lfdr.de>; Fri, 21 Jul 2023 15:19:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229655AbjGUIuq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Jul 2023 04:50:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52210 "EHLO
+        id S230503AbjGUNTX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Jul 2023 09:19:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbjGUIup (ORCPT
+        with ESMTP id S230404AbjGUNTV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Jul 2023 04:50:45 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD1E02D60
-        for <linux-input@vger.kernel.org>; Fri, 21 Jul 2023 01:50:42 -0700 (PDT)
-Received: from [192.168.178.22] ([88.217.70.24]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MVeDs-1qWdCM2UjM-00RZ6G; Fri, 21 Jul 2023 10:50:38 +0200
-Message-ID: <a2a33c0a-bc99-44ae-d730-bfad14401f6f@rdorf.de>
-Date:   Fri, 21 Jul 2023 10:50:38 +0200
+        Fri, 21 Jul 2023 09:19:21 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F4463595;
+        Fri, 21 Jul 2023 06:19:09 -0700 (PDT)
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="347313899"
+X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
+   d="scan'208";a="347313899"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 06:19:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="702053539"
+X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
+   d="scan'208";a="702053539"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga006.jf.intel.com with ESMTP; 21 Jul 2023 06:18:54 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andy@kernel.org>)
+        id 1qMq1x-005vpD-13;
+        Fri, 21 Jul 2023 16:18:49 +0300
+Date:   Fri, 21 Jul 2023 16:18:49 +0300
+From:   Andy Shevchenko <andy@kernel.org>
+To:     nikita.shubin@maquefel.me
+Cc:     Hartley Sweeten <hsweeten@visionengravers.com>,
+        Lennert Buytenhek <kernel@wantstofly.org>,
+        Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Lukasz Majewski <lukma@denx.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Sebastian Reichel <sre@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Mark Brown <broonie@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Damien Le Moal <dlemoal@kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        soc@kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Michael Peters <mpeters@embeddedts.com>,
+        Kris Bahnsen <kris@embeddedts.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
+        netdev@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-ide@vger.kernel.org,
+        linux-input@vger.kernel.org, alsa-devel@alsa-project.org
+Subject: Re: [PATCH v3 01/42] gpio: ep93xx: split device in multiple
+Message-ID: <ZLqFuWsxhdiP4ZjA@smile.fi.intel.com>
+References: <20230605-ep93xx-v3-0-3d63a5f1103e@maquefel.me>
+ <20230605-ep93xx-v3-1-3d63a5f1103e@maquefel.me>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: Need information to implement correct handling of the GSP 370
- wireless headset
-To:     Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Cc:     linux-input@vger.kernel.org
-References: <e01dbcd2-3ce3-ebaf-e685-3b89601ae55a@rdorf.de>
- <f26c2aab-7c89-d6e4-b8c1-f6740e08b034@rdorf.de> <87r0p2rnhx.fsf@nvidia.com>
-Content-Language: de-DE
-From:   Werner Sembach <werner@rdorf.de>
-In-Reply-To: <87r0p2rnhx.fsf@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:GoEHLL4q54PgJsYsxN2d0NqmsHhmDqZqJP4bt8XptRs5mcYeXjE
- 6YO8ujEHs7Ph+zuuKo9bUfTNrNJ6eKGPWSclTAMMY1tl3YYLwBKbTq9IIy5PiPrIcKXoumL
- 7vk+evOqQdC4w5wBGXWv1yjjPxzIL89FXaJkVQI6MRtrmS1L5Al+M+gfXtNOX0CLGM3Zv17
- 1JnVr2YCuh1+TQAPZJong==
-UI-OutboundReport: notjunk:1;M01:P0:+zi9MMZSYHU=;f3i6doFypjegs0n79ewmCf0/AJ7
- JbrpOoVroVIJVh+xvp6YJUNkrMS6I/0e8ZaNQiPW3g5iOKdjzO3qGIyiaFtJuf3RCrA+Rda+8
- JnbBSRLuVXfB3iS5mbe2G2cpu8kXiMRfBR9i+tet20AZDb+GvzdzclUd9cgX/88umLQnsbNLQ
- 5e9wdzfVXJV+BB6YMilXzFGkyl3kWL8q1jeXu9ek5CGGGYMX2ip9IKZuIZazcY2KZgP28vAh6
- Dz6EYqMEfflnZeiVotURT4ntHwKrFPh2CD/XlJxzhxDN6g9Bp18KJ5W1X59ULXp6cP2foog/t
- hT82svvG7ZiuWKRmjtsdqHPnqByxxO9pr9Se+I4cImdXIqHP93HYIvTy3DuXmPps+AXNG/1VO
- kEusJ5Ufy7R65PcF6EUJm07Taz3gbK4FoQTZqvs0S3Xz+ukgToL0wdUrcXUREFqNvvHQR7svK
- svc7S/BJVkk5ZF+38FZuj9QsFXdLKImvZL51AxDNrjaebWlJVrAu4XbP8rAsP10W6ZkHVJAkR
- Ik2dyQ6nSXK65yKFaUTBPEdZjwQUbP1+4c2sgL3SHgRjKTanfpA4sLI2vPh0FEQUXwOOuufeh
- IYnDB5n8LqgfzmX/GnVHBEJ0Pxw1PUq4N3r5BuCmiPihttRgVk90WvT5DwIvVxANzVByxZcXF
- 7ULBug0SGsUOrLQYs1z6E1Yvx1u18p6/TWXPGOUgog==
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230605-ep93xx-v3-1-3d63a5f1103e@maquefel.me>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Am 21.07.23 um 04:45 schrieb Rahul Rameshbabu:
-> On Fri, 07 Jul, 2023 23:22:58 +0200 Werner Sembach <werner@rdorf.de> wrote:
->> Am 07.07.23 um 23:12 schrieb Werner Sembach:
->>> Hi,
->>>
->>> The EPOS GSP 370 wireless headset has a volume control knob on the headset.
->>> Turning this has 2 effects on Linux:
->>>
->>> - The volume gets adjusted in firmware
->>>
->>> - A volume up/down key event is sent to the OS and the volume is adjustet on
->>> the OS level (the dongle registers both as a audio device and an usb keyboard
->>> to do this)
->>>
->>> This double volume adjust is ofc not the intended behavior and induces all
->>> kinds of wiredness, like the os is already displaying 100% volume but you can
->>> still turn it higher because the firmware has not yet reached max volume.
-> What you will likely want to do is implement a custom USB mixer quirk
-> for the audio device advertised by the USB dongle. I delve into this
-> more in the section discussing which subsystem would be appropriate for
-> this.
-Thank you very much for giving me the starting points, now I only need 
-to find some time to work on this.
->
->>> Running Wireshark on Windows and Linux I recognized that Windows is sending
->>> "URB_CONTROL out" events to the dongle on volume adjust, which Linux doesn't,
->>> these events have a paylode that seems to encode a volume value in 2 byte with
->>> little endianess.
->>>
->>> I'm unsure if I can attach pcap file or if it will get blocked in the list so
->>> i will send them as a reply.
->> As I thought: The pcapng files are to big for the mailing list. When someone is
->> interested let me know how I can send them (should I open a Bugzilla Ticket for
->> it?).
->>> So my 2 questions are:
->>>
->>> - What are these USB "URB_CONTROL out" events? (Does not seem to be HID
->>> reports?)
-> URB stands for USB Request Block. You are specifically working with the
-> USB layer here rather than the HID layer that abstracts away the lower
-> level transport interface.
->
-> URB in general is a system (OS) - defined format for interacting with
-> the core host controller driver in the OS stack. This means the
-> implementation of sending requests to the USB hub driver in Linux and
-> Windows differ. You may want to understand the specific requests made by
-> the Windows USB client driver for the headset and implement an
-> equivalent driver using the URB API of the linux kernel.
->
-> Generic Overview
->
->    * https://wiki.osdev.org/Universal_Serial_Bus#Host_Controller_Driver
->
-> Linux specific information
->
->    * https://static.lwn.net/images/pdf/LDD3/ch13.pdf
->    * https://docs.kernel.org/driver-api/usb/URB.html
->    * https://docs.kernel.org/driver-api/usb/writing_usb_driver.html
->
-> Windows specific information
->
->    * https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-control-transfer
->
->>> - In which subsystem would I want to implement them? Or should this be handled
->>> in userspace?
-> I am guessing you would not need to add any additional support for the
-> USB keyboard device advertised by the dongle. It's working fine and
-> advertising media keys to the system as you expect. Your goal now more
-> likely is to send USB requests to the headset (dongle) whenever the
-> volume level is changed for the audio device through the system. I
-> assume such a "driver" (quirk) would live under sound/usb in the kernel
-> tree just like sound/usb/mixer_scarlett.c,
-> sound/usb/mixer_scarlett_gen2.c, and other usb mixer implementations in
-> the kernel. Specifically in sound/usb/mixer_scarlett.c, I think you will
-> find the add_output_ctls function to be a helpful reference for defining
-> a new volume control that properly controls the device firmware volume
-> level based on the ALSA PCM level set in the kernel by user interaction
-> with the userspace audio component on his/her system. You will see all
-> these mixer implementations then get instantiated in
-> sound/usb/mixer_quirks.c in the snd_usb_mixer_apply_create_quirk
-> function.
->
->>> Bast regards,
->>>
->>> Werner
->>>
-> Might want to ask the alsa-devel mailing list about how to go about
-> handling the device firmware audio control as well in the linux audio
-> stack if you did not find this explanation suitable for getting
-> started/want to inquire further about the ALSA kernel architecture.
->
->    https://www.alsa-project.org/wiki/Mailing-lists
-I will do that when the first question undoubtly pop up once I start 
-reading the mixer_* source code ^^.
->
-> -- Rahul Rameshbabu
+On Thu, Jul 20, 2023 at 02:29:01PM +0300, Nikita Shubin via B4 Relay wrote:
+> From: Nikita Shubin <nikita.shubin@maquefel.me>
+> 
+> This prepares ep93xx SOC gpio to convert into device tree driver:
+> - dropped banks and legacy defines
+> - split AB IRQ and make it shared
+> 
+> We are relying on IRQ number information A, B ports have single shared
+> IRQ, while F port have dedicated IRQ for each line.
+> 
+> Also we had to split single ep93xx platform_device into multiple, one
+> for each port, without this we can't do a full working transition from
+> legacy platform code into device tree capable. All GPIO_LOOKUP were
+> change to match new chip namings.
+
+...
+
+> -static void ep93xx_gpio_ab_irq_handler(struct irq_desc *desc)
+> +static u32 ep93xx_gpio_ab_irq_handler(struct gpio_chip *gc)
+>  {
+> -	struct gpio_chip *gc = irq_desc_get_handler_data(desc);
+> -	struct ep93xx_gpio *epg = gpiochip_get_data(gc);
+> -	struct irq_chip *irqchip = irq_desc_get_chip(desc);
+> +	struct ep93xx_gpio_irq_chip *eic = to_ep93xx_gpio_irq_chip(gc);
+>  	unsigned long stat;
+>  	int offset;
+>  
+> -	chained_irq_enter(irqchip, desc);
+> -
+> -	/*
+> -	 * Dispatch the IRQs to the irqdomain of each A and B
+> -	 * gpiochip irqdomains depending on what has fired.
+> -	 * The tricky part is that the IRQ line is shared
+> -	 * between bank A and B and each has their own gpiochip.
+> -	 */
+> -	stat = readb(epg->base + EP93XX_GPIO_A_INT_STATUS);
+> +	stat = readb(eic->base + EP93XX_INT_STATUS_OFFSET);
+>  	for_each_set_bit(offset, &stat, 8)
+> -		generic_handle_domain_irq(epg->gc[0].gc.irq.domain,
+> -					  offset);
+> +		generic_handle_domain_irq(gc->irq.domain, offset);
+>  
+> -	stat = readb(epg->base + EP93XX_GPIO_B_INT_STATUS);
+> -	for_each_set_bit(offset, &stat, 8)
+> -		generic_handle_domain_irq(epg->gc[1].gc.irq.domain,
+> -					  offset);
+> +	return stat;
+> +}
+>  
+> -	chained_irq_exit(irqchip, desc);
+> +static irqreturn_t ep93xx_ab_irq_handler(int irq, void *dev_id)
+> +{
+> +	return IRQ_RETVAL(ep93xx_gpio_ab_irq_handler(dev_id));
+>  }
+>  
+>  static void ep93xx_gpio_f_irq_handler(struct irq_desc *desc)
+>  {
+> -	/*
+> -	 * map discontiguous hw irq range to continuous sw irq range:
+> -	 *
+> -	 *  IRQ_EP93XX_GPIO{0..7}MUX -> EP93XX_GPIO_LINE_F{0..7}
+> -	 */
+>  	struct irq_chip *irqchip = irq_desc_get_chip(desc);
+> -	unsigned int irq = irq_desc_get_irq(desc);
+> -	int port_f_idx = (irq & 7) ^ 4; /* {20..23,48..51} -> {0..7} */
+> -	int gpio_irq = EP93XX_GPIO_F_IRQ_BASE + port_f_idx;
+> +	struct gpio_chip *gc = irq_desc_get_handler_data(desc);
+> +	struct gpio_irq_chip *gic = &gc->irq;
+> +	unsigned int parent = irq_desc_get_irq(desc);
+> +	unsigned int i;
+>  
+>  	chained_irq_enter(irqchip, desc);
+> -	generic_handle_irq(gpio_irq);
+> +	for (i = 0; i < gic->num_parents; i++)
+> +		if (gic->parents[i] == parent)
+> +			break;
+> +
+> +	if (i < gic->num_parents)
+> +		generic_handle_irq(irq_find_mapping(gc->irq.domain, i));
+
+Can we use
+
+		generic_handle_domain_irq(gc->irq.domain, i);
+
+here as well?
+
+>  	chained_irq_exit(irqchip, desc);
+>  }
+
+...
+
+> -	int offset = d->irq & 7;
+> +	int offset = irqd_to_hwirq(d);
+
+	irq_hw_number_t ?
+
+>  	irq_flow_handler_t handler;
+
+...
+
+> +	int ret, irq, i = 0;
+
+What do you need this assignment for?
+
+...
+
+> +		ret = devm_request_irq(dev, irq,
+> +				ep93xx_ab_irq_handler,
+
+It can be located on the previous line.
+
+> +				IRQF_SHARED, gc->label, gc);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret, "error requesting IRQ : %d\n", irq);
+
+Drop duplicating word 'error' in the message.
+Space is not needed before colon.
+
+...
+
+> +	/* TODO: replace with handle_bad_irq once we are fully hierarchical */
+
+To be pedantic: handle_bad_irq()
+
+> +	gc->label = dev_name(&pdev->dev);
+> +	if (platform_irq_count(pdev) > 0) {
+> +		dev_dbg(&pdev->dev, "setting up irqs for %s\n", dev_name(&pdev->dev));
+> +		ret = ep93xx_setup_irqs(pdev, egc);
+> +		if (ret)
+
+> +			dev_err(&pdev->dev, "setup irqs failed for %s\n", dev_name(&pdev->dev));
+
+What's the point to print dev name twice? Esp. taking into account
+gc->label assignment above. Why not use dev_err_probe() to unify
+the format of the messages from ->probe()?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
