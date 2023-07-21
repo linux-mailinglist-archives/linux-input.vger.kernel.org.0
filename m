@@ -2,235 +2,260 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3C9E75D732
-	for <lists+linux-input@lfdr.de>; Sat, 22 Jul 2023 00:10:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D4A375D7ED
+	for <lists+linux-input@lfdr.de>; Sat, 22 Jul 2023 01:44:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229515AbjGUWKJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Jul 2023 18:10:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57970 "EHLO
+        id S229744AbjGUXoY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Jul 2023 19:44:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229945AbjGUWKH (ORCPT
+        with ESMTP id S229503AbjGUXoX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Jul 2023 18:10:07 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3046E30CD;
-        Fri, 21 Jul 2023 15:10:06 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1b89b75dc1cso23701265ad.1;
-        Fri, 21 Jul 2023 15:10:06 -0700 (PDT)
+        Fri, 21 Jul 2023 19:44:23 -0400
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BED030DD
+        for <linux-input@vger.kernel.org>; Fri, 21 Jul 2023 16:44:22 -0700 (PDT)
+Received: by mail-ot1-x32d.google.com with SMTP id 46e09a7af769-6bb14c05d77so827608a34.2
+        for <linux-input@vger.kernel.org>; Fri, 21 Jul 2023 16:44:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689977405; x=1690582205;
+        d=gmail.com; s=20221208; t=1689983061; x=1690587861;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pXQ5hDMKSWJDU9uqg2X9Wkd9h1kRn35yH0M0crdOhaU=;
-        b=g34ViM1CXFJPjCYZoKRcJrdpHZi+9UkPqbaSslBQDt30H1ol90S1y7sP+EI+VkhEqe
-         18DiNo4SpRI8WiSidQCHSqPnJIGNnOwbTmq6Ob3KL+rkcAD11d2wegnYOly2amk5Vvto
-         7SlRhZzsmUlufw2r8InjywH+CylaNw7F2Hp1SNTR0cQagcF58DrzIZh6MCkLYmDtIRBm
-         UztzuAOetSgbSLvMmVudfly+FkMNw9V5Y+70EnEjaeRi1lEVXmDFhc5OqUU08xkMcW6t
-         OqGAEnZiI3WqJnS6ieUSPdyOVFJqIZMrY414wlsr8GEhx96NTIoXZUcU4I34Dbh3/ZA+
-         WxSQ==
+        bh=ZE/BZJmaaGU2utCK0mtrdkn4HBEq81pT8hQcdwF/PLE=;
+        b=Yj3vq9KGFtzQQqyItHiMElCcv7jxUt2YSoS5lE0YhchQ2W31cD8blXSgGoEHgdATrr
+         hcqwhQkF517Zfb1qu1iU7vlerXCwqaFPHg6eonh8T+sCnf+69yg+Ugy9t3348+ZyMXs7
+         +BxT3lz8s+87z/hMt/NMFgFNS2TBN/uepLlxF/oS33LCjl75GFnQlomOqC86xO1SwjeW
+         SRtaFdOT8/+fFN+/aOvRYu0sGJQQccDx74LmMoHEROSz3RS3X+iZP4Ouwpbx/lmEKAWk
+         8s0FgzhDX3zrxxNu+DspncZA09cAANSYnBU6xodfZcgHSRRjhq/Zp+MAOdzow794yHVx
+         GZow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689977405; x=1690582205;
+        d=1e100.net; s=20221208; t=1689983061; x=1690587861;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pXQ5hDMKSWJDU9uqg2X9Wkd9h1kRn35yH0M0crdOhaU=;
-        b=kJ0IE52EV9ugsh5WPUVZKloypA3e3GaR/nJepzBFMcC6O3yqALw3xcR7tO7GE4a6Yz
-         gKryTiTQj0X+XAO6AHCZrrh7p7fs2ERJtr3NtJnD9O0FvYme8IreGYAyCO9soW9xNvkM
-         8lopZUJolViQ71azVdH2yIDXBd043uH4xE6IidePZ1nAlYxtc2bTq+KvsVnRFZrpeLga
-         J8FB15A3npzI/Kn0HbzBAdF2jgmQaEupJ3sgFSS6MIdkB/q7LCKeP7mk+WwPUzy3IuXu
-         cx4Ws38Sr4gWLhouUO0T25dlbgflP/OYCVFaI4TFFRADFPjObilEA2IVx/pyWJmW6JjT
-         l9Cg==
-X-Gm-Message-State: ABy/qLZlXOzBEZD05z8kkQZmM9sW9KkwshTjfZP0F3h7kqXBpvYpZYIm
-        6NOShRElIm+4Y7WnkxE9Lc3ydNpiFEM=
-X-Google-Smtp-Source: APBJJlFjOQrNWEdeJ3ZK7t3BaS3rsRqc8CzmhyHq1gA1ZSjNMfqMGZIsMVfa5c94GdV1mPbQrcYyew==
-X-Received: by 2002:a17:902:f690:b0:1b8:8682:62fb with SMTP id l16-20020a170902f69000b001b8868262fbmr5966360plg.4.1689977405457;
-        Fri, 21 Jul 2023 15:10:05 -0700 (PDT)
+        bh=ZE/BZJmaaGU2utCK0mtrdkn4HBEq81pT8hQcdwF/PLE=;
+        b=N2oEeyKGQ4ol7W4HPY2ooSTTO65NsKC6ZExrsVJV1WR7A04ORQRKGItz8MIN1Sorvp
+         1K8t4aEiRWtJyo8cdU+3n99SkmJHAtNbpKfUeOtvy+7fDQwa9aC2iKWyle+s8KB25POb
+         7qxIOKcA2G623NIHMXwwJZQdg+OIDHV2WIRWAkXbtBhfh86wp0uNQAvRPtxPta5682lE
+         MhsIA8MpqOpQvH2OuIk3OUjjMQehTloHuHxXlE7F6l/dOBpa6boE4FNjy4cNAlTNfNsf
+         675jUvTyTbxr4Z9Oltns7MGmEt76U6C2QTV1g4KKJONn8ljrAbUdxtS0pdQgKy6Pv5j3
+         1U/A==
+X-Gm-Message-State: ABy/qLaGEslZ9L47Cqx2cPuJhpz83s4fvP1/iHSi+pqH4czNE8XCTGik
+        smBoiBA+gb63YQuI3YSJnQE=
+X-Google-Smtp-Source: APBJJlEc0Hk/fozgpO1Nms05+8llt4MD+q+7FmgTRhhMq90tFbG4TL3JCQLTs62pd1srG5GluwJwSw==
+X-Received: by 2002:a05:6870:40c6:b0:1ba:7f7c:b928 with SMTP id l6-20020a05687040c600b001ba7f7cb928mr3938925oal.55.1689983061052;
+        Fri, 21 Jul 2023 16:44:21 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:fd88:dbb:fc42:8207])
-        by smtp.gmail.com with ESMTPSA id e15-20020a17090301cf00b001b9de67285dsm3996910plh.156.2023.07.21.15.10.04
+        by smtp.gmail.com with ESMTPSA id c70-20020a633549000000b00551df489590sm3616617pga.12.2023.07.21.16.44.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jul 2023 15:10:05 -0700 (PDT)
-Date:   Fri, 21 Jul 2023 15:10:02 -0700
+        Fri, 21 Jul 2023 16:44:20 -0700 (PDT)
+Date:   Fri, 21 Jul 2023 16:44:18 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Mike Looijmans <mike.looijmans@topic.nl>,
-        Andreas Helbech Kleist <andreaskleist@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] Input: exc3000 - Simplify probe()
-Message-ID: <ZLsCOj1t4JvG3SEp@google.com>
-References: <20230717131756.240645-1-biju.das.jz@bp.renesas.com>
- <20230717131756.240645-2-biju.das.jz@bp.renesas.com>
- <ZLVlIPHdmEGdG5D1@google.com>
- <OS0PR01MB592264ADC86061AB003048DD863BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <66228ad3-c087-418c-925f-b9fd4a60fb16@sirena.org.uk>
- <ZLWIPPAfeR1+KbeH@google.com>
- <OS0PR01MB59225D8CF3E96808DD776A8E863BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZLbbslBiIQXFWpmN@google.com>
- <TYCPR01MB593346FBBA320260A290EAFD8639A@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+To:     Friedrich Vock <friedrich.vock@gmx.de>
+Cc:     linux-input@vger.kernel.org,
+        Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH] Input: i8042 - Add quirk for polling the KBD port
+Message-ID: <ZLsYUlSMIK0Gtr21@google.com>
+References: <20230530153644.17262-1-friedrich.vock@gmx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <TYCPR01MB593346FBBA320260A290EAFD8639A@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+In-Reply-To: <20230530153644.17262-1-friedrich.vock@gmx.de>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jul 19, 2023 at 06:43:47AM +0000, Biju Das wrote:
-> Hi Dmitry Torokhov,
-> 
-> Thanks for the feedback.
-> 
-> > Subject: Re: [PATCH v2 1/2] Input: exc3000 - Simplify probe()
-> > 
-> > On Mon, Jul 17, 2023 at 06:45:27PM +0000, Biju Das wrote:
-> > > Hi Dmitry,
-> > >
-> > > > Subject: Re: [PATCH v2 1/2] Input: exc3000 - Simplify probe()
-> > > >
-> > > > On Mon, Jul 17, 2023 at 07:15:50PM +0100, Mark Brown wrote:
-> > > > > On Mon, Jul 17, 2023 at 04:35:02PM +0000, Biju Das wrote:
-> > > > >
-> > > > > > The .device_get_match_data callbacks are missing for I2C and SPI
-> > > > > > bus
-> > > > subsystems.
-> > > > > > Can you please throw some lights on this?
-> > > > >
-> > > > > It's the first time I've ever heard of that callback, I don't know
-> > > > > why whoever added it wouldn't have done those buses in particular
-> > > > > or if it just didn't happen.  Try adding it and if it works send
-> > the patches?
-> > > >
-> > > > I think there is a disconnect. Right now device_get_match_data
-> > > > callbacks are part of fwnode_operations. I was proposing to add
-> > > > another optional device_get_match_data callback to 'struct bus_type'
-> > > > to allow individual buses control how match data is handled, before
-> > > > (or after) jumping into the fwnode-backed device_get_match_data
-> > callbacks.
-> > >
-> > > That is what implemented here [1] and [2] right?
-> 
-> [1] https://elixir.bootlin.com/linux/v6.5-rc2/source/drivers/spi/spi.c#L364
-> 
-> [2] https://elixir.bootlin.com/linux/v6.5-rc2/source/drivers/i2c/i2c-core-base.c#L117
-> 
-> > >
-> > >
-> > > First it check for fwnode-backed device_get_match_data callbacks and
-> > > Fallback is bus-type based match.
-> > >
-> > > Looks like you are proposing to unify [1] and [2] and you want the
-> > > logic to be other way around. ie, first bus-type match, then
-> > > fwnode-backed callbacks?
-> > >
-> > 
-> > I do not have a strong preference for the ordering, i.e. I think it is
-> > perfectly fine to do the generic fwnode-based lookup and if there is no
-> > match have bus method called as a fallback, 
-> 
-> That involves a bit of work.
-> 
-> const void *device_get_match_data(const struct device *dev);
-> 
-> const struct i2c_device_id *i2c_match_id(const struct i2c_device_id *id,
-> 					 const struct i2c_client *client);
-> 
-> const struct spi_device_id *spi_get_device_id(const struct spi_device *sdev);
-> 
-> Basically, the bus-client driver(such as exc3000) needs to pass struct device
-> and device_get_match_data after generic fwnode-based lookup,
-> needs to find the bus type based on struct device and call a new generic 
-> void* bus_get_match_data(void*) callback, so that each bus interface
-> can do a match.
+Hi Friedrich,
 
-Yes, something like this (which does not seem that involved to me...):
+On Tue, May 30, 2023 at 05:36:44PM +0200, Friedrich Vock wrote:
+> It seems like there are some devices in the ASUS TUF A16 laptops that
+> just don't send any keyboard interrupts until you read from the KBD port.
 
-diff --git a/drivers/base/property.c b/drivers/base/property.c
-index 8c40abed7852..cc0bf7bb6f3a 100644
---- a/drivers/base/property.c
-+++ b/drivers/base/property.c
-@@ -1277,7 +1277,13 @@ EXPORT_SYMBOL(fwnode_graph_parse_endpoint);
- 
- const void *device_get_match_data(const struct device *dev)
- {
--	return fwnode_call_ptr_op(dev_fwnode(dev), device_get_match_data, dev);
-+	const void *data;
-+
-+	data = fwnode_call_ptr_op(dev_fwnode(dev), device_get_match_data, dev);
-+	if (!data && dev->bus && dev->bus->get_match_data)
-+		data = dev->bus->get_match_data(dev);
-+
-+	return data;
- }
- EXPORT_SYMBOL_GPL(device_get_match_data);
- 
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index 60746652fd52..5fe47bc491a6 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -114,6 +114,26 @@ const struct i2c_device_id *i2c_match_id(const struct i2c_device_id *id,
- }
- EXPORT_SYMBOL_GPL(i2c_match_id);
- 
-+static const void *i2c_device_get_match_data(const struct device *dev)
-+{
-+	const struct i2c_client *client = to_i2c_client(dev);
-+	const struct i2c_driver *driver;
-+	const struct i2c_device_id *match;
-+
-+	if (!dev->driver)
-+		return NULL;
-+
-+	driver = to_i2c_driver(dev->driver);
-+	if (!driver)
-+		return NULL;
-+
-+	match = i2c_match_id(driver->id_table, client);
-+	if (!match)
-+		return NULL;
-+
-+	return (const void *)match->driver_data;
-+}
-+
- const void *i2c_get_match_data(const struct i2c_client *client)
- {
- 	struct i2c_driver *driver = to_i2c_driver(client->dev.driver);
-@@ -695,6 +715,7 @@ struct bus_type i2c_bus_type = {
- 	.probe		= i2c_device_probe,
- 	.remove		= i2c_device_remove,
- 	.shutdown	= i2c_device_shutdown,
-+	.get_match_data	= i2c_device_get_match_data,
- };
- EXPORT_SYMBOL_GPL(i2c_bus_type);
- 
-diff --git a/include/linux/device/bus.h b/include/linux/device/bus.h
-index ae10c4322754..3f2cba28a1af 100644
---- a/include/linux/device/bus.h
-+++ b/include/linux/device/bus.h
-@@ -102,6 +102,8 @@ struct bus_type {
- 	int (*dma_configure)(struct device *dev);
- 	void (*dma_cleanup)(struct device *dev);
- 
-+	const void *(*get_match_data)(const struct device *dev);
-+
- 	const struct dev_pm_ops *pm;
- 
- 	const struct iommu_ops *iommu_ops;
+I am sorry, but continuously polling keyboard port will absolutely wreck
+battery life on these devices, so this can not be a real solution.
 
+I wonder if this is yet another example of incorrect IRQ 1 polarity
+override on devices with AMD chipsets (CC-ing Mario).
+
+> 
+> Signed-off-by: Friedrich Vock <friedrich.vock@gmx.de>
+> ---
+>  drivers/input/serio/i8042-acpipnpio.h | 30 +++++++++++++++--
+>  drivers/input/serio/i8042.c           | 47 ++++++++++++++++++++++-----
+>  drivers/input/serio/i8042.h           |  2 +-
+>  3 files changed, 67 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
+> index 028e45bd050b..be2e72aaa658 100644
+> --- a/drivers/input/serio/i8042-acpipnpio.h
+> +++ b/drivers/input/serio/i8042-acpipnpio.h
+> @@ -83,6 +83,7 @@ static inline void i8042_write_command(int val)
+>  #define SERIO_QUIRK_KBDRESET		BIT(12)
+>  #define SERIO_QUIRK_DRITEK		BIT(13)
+>  #define SERIO_QUIRK_NOPNP		BIT(14)
+> +#define SERIO_QUIRK_POLL_KBD            BIT(15)
+> 
+>  /* Quirk table for different mainboards. Options similar or identical to i8042
+>   * module parameters.
+> @@ -99,6 +100,26 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+>  		},
+>  		.driver_data = (void *)(SERIO_QUIRK_NOMUX)
+>  	},
+> +	/* Some laptops seem to not trigger any keyboard interrupts at all,
+> +	 * even when there is data available. On these devices, manually
+> +	 * polling the keyboard port is required.
+> +	 */
+> +	{
+> +		/* ASUS TUF Gaming A16 with Ryzen 7 7735HS */
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "FA617NS"),
+> +		},
+> +		.driver_data = (void *)(SERIO_QUIRK_POLL_KBD)
+> +	},
+> +	{
+> +		/* ASUS TUF Gaming A16 with Ryzen 9 7940HS */
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "FA617XS"),
+> +		},
+> +		.driver_data = (void *)(SERIO_QUIRK_POLL_KBD)
+> +	},
+>  	{
+>  		.matches = {
+>  			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+> @@ -1634,6 +1655,8 @@ static void __init i8042_check_quirks(void)
+>  	if (quirks & SERIO_QUIRK_NOPNP)
+>  		i8042_nopnp = true;
+>  #endif
+> +	if (quirks & SERIO_QUIRK_POLL_KBD)
+> +		i8042_poll_kbd = true;
+>  }
+>  #else
+>  static inline void i8042_check_quirks(void) {}
+> @@ -1667,7 +1690,7 @@ static int __init i8042_platform_init(void)
+> 
+>  	i8042_check_quirks();
+> 
+> -	pr_debug("Active quirks (empty means none):%s%s%s%s%s%s%s%s%s%s%s%s%s\n",
+> +	pr_debug("Active quirks (empty means none):%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n",
+>  		i8042_nokbd ? " nokbd" : "",
+>  		i8042_noaux ? " noaux" : "",
+>  		i8042_nomux ? " nomux" : "",
+> @@ -1687,10 +1710,11 @@ static int __init i8042_platform_init(void)
+>  		"",
+>  #endif
+>  #ifdef CONFIG_PNP
+> -		i8042_nopnp ? " nopnp" : "");
+> +		i8042_nopnp ? " nopnp" : "",
+>  #else
+> -		"");
+> +		"",
+>  #endif
+> +		i8042_poll_kbd ? "poll_kbd" : "");
+> 
+>  	retval = i8042_pnp_init();
+>  	if (retval)
+> diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+> index 6dac7c1853a5..7212263d3a41 100644
+> --- a/drivers/input/serio/i8042.c
+> +++ b/drivers/input/serio/i8042.c
+> @@ -115,6 +115,10 @@ module_param_named(nopnp, i8042_nopnp, bool, 0);
+>  MODULE_PARM_DESC(nopnp, "Do not use PNP to detect controller settings");
+>  #endif
+> 
+> +static bool i8042_poll_kbd;
+> +module_param_named(poll_kbd, i8042_poll_kbd, bool, 0);
+> +MODULE_PARM_DESC(poll_kbd, "Continuously poll the KBD port instead of relying on interrupts");
+> +
+>  #define DEBUG
+>  #ifdef DEBUG
+>  static bool i8042_debug;
+> @@ -178,6 +182,24 @@ static irqreturn_t i8042_interrupt(int irq, void *dev_id);
+>  static bool (*i8042_platform_filter)(unsigned char data, unsigned char str,
+>  				     struct serio *serio);
+> 
+> +#define POLL_TIME 1
+> +static void i8042_poll_func(struct timer_list *timer)
+> +{
+> +	unsigned char status;
+> +	unsigned long flags;
+> +
+> +	do {
+> +		spin_lock_irqsave(&i8042_lock, flags);
+> +		status = i8042_read_status();
+> +		spin_unlock_irqrestore(&i8042_lock, flags);
+> +		if (status & I8042_STR_OBF)
+> +			i8042_interrupt(0, NULL);
+> +	} while (status & I8042_STR_OBF);
+> +	mod_timer(timer, jiffies + msecs_to_jiffies(POLL_TIME));
+> +}
+> +
+> +DEFINE_TIMER(poll_timer, i8042_poll_func);
+> +
+>  void i8042_lock_chip(void)
+>  {
+>  	mutex_lock(&i8042_mutex);
+> @@ -1437,13 +1459,15 @@ static void i8042_unregister_ports(void)
+>  	}
+>  }
+> 
+> +
+>  static void i8042_free_irqs(void)
+>  {
+>  	if (i8042_aux_irq_registered)
+>  		free_irq(I8042_AUX_IRQ, i8042_platform_device);
+> -	if (i8042_kbd_irq_registered)
+> +	if (i8042_poll_kbd)
+> +		del_timer(&poll_timer);
+> +	else if (i8042_kbd_irq_registered)
+>  		free_irq(I8042_KBD_IRQ, i8042_platform_device);
+> -
+>  	i8042_aux_irq_registered = i8042_kbd_irq_registered = false;
+>  }
+> 
+> @@ -1497,10 +1521,14 @@ static int i8042_setup_kbd(void)
+>  	if (error)
+>  		return error;
+> 
+> -	error = request_irq(I8042_KBD_IRQ, i8042_interrupt, IRQF_SHARED,
+> -			    "i8042", i8042_platform_device);
+> -	if (error)
+> -		goto err_free_port;
+> +	if (i8042_poll_kbd)
+> +		mod_timer(&poll_timer, msecs_to_jiffies(POLL_TIME));
+> +	else {
+> +		error = request_irq(I8042_KBD_IRQ, i8042_interrupt, IRQF_SHARED,
+> +				    "i8042", i8042_platform_device);
+> +		if (error)
+> +			goto err_free_port;
+> +	}
+> 
+>  	error = i8042_enable_kbd_port();
+>  	if (error)
+> @@ -1510,8 +1538,11 @@ static int i8042_setup_kbd(void)
+>  	return 0;
+> 
+>   err_free_irq:
+> -	free_irq(I8042_KBD_IRQ, i8042_platform_device);
+> - err_free_port:
+> +	if (i8042_poll_kbd)
+> +		del_timer(&poll_timer);
+> +	else
+> +		free_irq(I8042_KBD_IRQ, i8042_platform_device);
+> +err_free_port:
+>  	i8042_free_kbd_port();
+>  	return error;
+>  }
+> --
+> 2.40.1
+> 
 
 Thanks.
 
