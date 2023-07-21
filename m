@@ -2,71 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF61675D2B1
-	for <lists+linux-input@lfdr.de>; Fri, 21 Jul 2023 21:02:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDA4675D357
+	for <lists+linux-input@lfdr.de>; Fri, 21 Jul 2023 21:09:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231576AbjGUTCh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Jul 2023 15:02:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55680 "EHLO
+        id S231797AbjGUTJc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Jul 2023 15:09:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231569AbjGUTCg (ORCPT
+        with ESMTP id S231799AbjGUTJc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Jul 2023 15:02:36 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 234F830CA
-        for <linux-input@vger.kernel.org>; Fri, 21 Jul 2023 12:02:34 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id 38308e7fff4ca-2b9352ff1aeso34378821fa.1
-        for <linux-input@vger.kernel.org>; Fri, 21 Jul 2023 12:02:34 -0700 (PDT)
+        Fri, 21 Jul 2023 15:09:32 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41F451BF4
+        for <linux-input@vger.kernel.org>; Fri, 21 Jul 2023 12:09:29 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-4fb7dc16ff0so3678922e87.2
+        for <linux-input@vger.kernel.org>; Fri, 21 Jul 2023 12:09:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689966152; x=1690570952;
+        d=gmail.com; s=20221208; t=1689966567; x=1690571367;
         h=content-transfer-encoding:mime-version:user-agent:message-id
          :in-reply-to:references:from:subject:cc:to:date:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=ow3sxsSnSGWEp1O0lgbN3xBRonUn73PCYXlCSJDL5Og=;
-        b=BuXsmZOEcWlro2lanCLi2qH86fZyWngCPOIJtfibpRnLAUTG1nDO4nPLSxBt2keB/1
-         Uex+9OCV9S6vEPUPVz37ry1naTLuMI1IfGJNXacQpJsO8gG3A6xop7nUzlXDJ5hbONrK
-         bY7ItlKvntHayVBrzlE+gMLZ4K7IGYxP1uUYcrbRkqgmBRC9zFv+c5+JhaXv56uwP3G7
-         OECCRWuVA+WhYTtq6SXXyVe3tfPWFk8YtFG5Q2UnqC1GoJknv/IPPLtrlRn+LAOUEgHW
-         LY18Zs83/R7/fQGcukkAtu8Nws4XUNBktkAxsuWWFWEZlQ1SE246A3v6KSRg2ECR4sP1
-         B00A==
+        bh=u6vmBO9X/eK5G/DuUGcF8ZuuoJlqWIzi0VPtG9509T8=;
+        b=c/ll5e5l9wg+gGfIhXW7haElRCwI8Sbl95Ua3nqioKaDg7wQUcyjW0tWt8Kxz4GRLk
+         fPMK2avSJiiHTlg7D+mp5U/CXuhGL3JW6zosvS6DCNxorkoIQH544UL9etU6LwSYl3Wc
+         nuL2Z08i6UYbDok2sRWHzAbbPTCENF+KZdd+lL6PiMMa+3yxLrQfHLW1JBzPJxi1LFlG
+         oUzW/0F5lk4ruIF8dxb8GJroghuDDqTDdcpKv5zATMW0C6B9YWSFmalXvr+K9UbgC4po
+         9RH0FM3w7fpTe8cxM/bqKvHC/mi6UbgRBz0rgxLsXMGfWjTA+CWh7oCx9Hh2MujBbM7F
+         GYLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689966152; x=1690570952;
+        d=1e100.net; s=20221208; t=1689966567; x=1690571367;
         h=content-transfer-encoding:mime-version:user-agent:message-id
          :in-reply-to:references:from:subject:cc:to:date:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ow3sxsSnSGWEp1O0lgbN3xBRonUn73PCYXlCSJDL5Og=;
-        b=PiZh/3FHfq7MZ4F/dg1/78m4g8hukOyFk6SJcHb/r3DL2DMVWCW4qGAadTs8xofznG
-         3y7lRVAFPNbAiaWojtf2lg8X1MVMUSIgtn76CG+EQ1JJXT2C+T/9nE/bMM4YanHAaqQr
-         wXrCBkVXp/UpA8WROlxnSXUn0PYfoDdj8WiubZko2gwwH5kZ6Z6LeTFSf3ImilAE9ykS
-         kXAL201goqKRafqBk7ivRj6Cam+AOsf9pnyuEdjeiVG1yrM7MuiNJoMoTplJDRtdgJGY
-         tf1cu0Rvq2Qb+PyCIbp8q2leYhyxnVp7/fN+dpPDZpOe97DekXcSINwJA1lHDpNj5QBp
-         +Gcg==
-X-Gm-Message-State: ABy/qLa5Hum0tsrbJSbjOYifPhuEMe+ppauaD8Tib/IQhQDBVJZiWOD2
-        aH7YmOpOhwk/mFOJfPnH/20=
-X-Google-Smtp-Source: APBJJlHpLSfg5c09yyxY1TXy4s80sIYAO0FWOR6gWpmgE+QrGAyjihD9mxlBoZbNeL9+Vfti/L2+Yg==
-X-Received: by 2002:a2e:9c10:0:b0:2b6:eceb:9bb with SMTP id s16-20020a2e9c10000000b002b6eceb09bbmr1932523lji.45.1689966151916;
-        Fri, 21 Jul 2023 12:02:31 -0700 (PDT)
+        bh=u6vmBO9X/eK5G/DuUGcF8ZuuoJlqWIzi0VPtG9509T8=;
+        b=cnHxCRqjMQTfi6ke7zZxfns6HRPl8jbpu4rwwo3sjJpZCUeBnl0phCNKn6rBL1R6Tn
+         ox+/Infm2qmlpda2qz6s8QFDfoK2wttRlens36xcLBJv2CNy9o1VPOfH8/lbmn9uBx6h
+         6u2mcrsTtqOEZT45OIwb7hDN5qztBjdyIfbwfDAXpbQXLoUf2ttw0dfLbTzmns4rwzHF
+         0eADD3677a//QaLsNdvrd2BYoxzkyUivzevUvOckt7rgDhgHQVabimWwVXCtMY8qXRAq
+         6zKivYdMyf7bTlUBQlYi6c6v+x6fg1i7VjdinZaH61wz9KfehgwoE+hdmHDj6QnlazNf
+         pbiQ==
+X-Gm-Message-State: ABy/qLbatf3CufhT5Ar8NDYQovtC5MfpCOmomNQXNdzDKr2yvdTyx/Wl
+        zs90GSV5+x4A0+OT7DCCBbFz4hu8Y7U=
+X-Google-Smtp-Source: APBJJlFb7roex6jYhrwJpqaSHyERwxrvg+MdGVDhRWcV1St2HhzJvPtz2Ru+94y1dQRs3CLvOS0BhQ==
+X-Received: by 2002:ac2:4c23:0:b0:4f9:56aa:26c2 with SMTP id u3-20020ac24c23000000b004f956aa26c2mr1999550lfq.57.1689966567070;
+        Fri, 21 Jul 2023 12:09:27 -0700 (PDT)
 Received: from localhost ([2a02:169:1e9:0:8f4d:9ee2:cc35:c67b])
-        by smtp.gmail.com with ESMTPSA id h19-20020a1709063c1300b009828e26e519sm2497050ejg.122.2023.07.21.12.02.30
+        by smtp.gmail.com with ESMTPSA id bf9-20020a0564021a4900b0052177c077eesm2417631edb.68.2023.07.21.12.09.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jul 2023 12:02:31 -0700 (PDT)
-Date:   Fri, 21 Jul 2023 21:02:30 +0200
+        Fri, 21 Jul 2023 12:09:26 -0700 (PDT)
+Date:   Fri, 21 Jul 2023 21:09:25 +0200
 To:     Martino Fontana <tinozzo123@gmail.com>
-Cc:     linux-input@vger.kernel.org, tinozzo123@gmail.com
-Subject: Re: [PATCH v2] HID: nintendo: reinitialize USB Pro Controller after
- resuming from suspend
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH] HID: nintendo: cleanup LED code
 From:   "Silvan Jegen" <s.jegen@gmail.com>
-References: <27ZF1I9PL9SUH.27UHPHBWRZ1LC@homearch.localdomain>
- <20230720233150.57164-2-tinozzo123@gmail.com>
-In-Reply-To: <20230720233150.57164-2-tinozzo123@gmail.com>
-Message-Id: <38NABT0Q0GDC0.32EJOTLAGT0T2@homearch.localdomain>
+References: <20230712121433.26134-1-tinozzo123@gmail.com>
+ <2KDZBNL37MH80.3RZBUHZA85LM7@homearch.localdomain>
+ <CAKst+mB2wnDt6gdQhApZXydYNx6NHdGBBR8LHMng0i4RJFyY1Q@mail.gmail.com>
+In-Reply-To: <CAKst+mB2wnDt6gdQhApZXydYNx6NHdGBBR8LHMng0i4RJFyY1Q@mail.gmail.com>
+Message-Id: <209M4JB8WJRSY.2XPCG39LL8DLJ@homearch.localdomain>
 User-Agent: mblaze/1.2-21-g48dd346 (2023-07-08)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,284 +74,312 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Martino
+
 Martino Fontana <tinozzo123@gmail.com> wrote:
-> When suspending the computer, a Switch Pro Controller connected via USB w=
-ill
-> lose its internal status. However, because the USB connection was technic=
-ally
-> never lost, when resuming the computer, the driver will attempt to commun=
-icate
-> with the controller as if nothing happened (and fail).
-> Because of this, the user was forced to manually disconnect the controlle=
-r
-> (or to press the sync button on the controller to power it off), so that =
-it
-> can be re-initialized.
->=20
-> With this patch, the controller will be automatically re-initialized afte=
-r
-> resuming from suspend.
->=20
-> Fixes https://bugzilla.kernel.org/show_bug.cgi?id=3D216233
->=20
-> Signed-off-by: Martino Fontana <tinozzo123@gmail.com>
+> The reason I avoid returning `ret` is that, if something other than 0
+> is returned, then `nintendo_hid_probe` (the function calling
+> `joycon_leds_create`) would fail completely. That obviously shouldn't
+> happen, LEDs aren't a vital piece for the gamepad functionality.
 
-It would be good to add a small section about what changed between v1
-and v2 of the patch. Here is an example for how this can be done.
+While this might be true, if this fails it would indicate a potential
+bug in the driver. Failing loudly in this case (especially if this
+was the behavior before your changes) would lead to this bug being
+investigated earlier.
 
-https://lore.kernel.org/lkml/cover.b24362332ec6099bc8db4e8e06a67545c653291d=
-.1689842332.git-series.apopple@nvidia.com/T/#m73dd8d44f40742e67cbb0d4f030a9=
-0b6264a88d3
+If we just ignore the failure, people using the code may not be aware
+that the LEDs were supposed to work but failed for some reason. In that
+case we may never get a bug report and the LED creation would stay broken
+in this case.
 
-It's probably not worth resending this patch just for this though. Just
-something to keep in mind if there will be another patch version needed.
+That's why I would prefer to fail the probe as well if the LED creation
+fails.
+
+This is just my opinion though.
 
 Cheers,
 Silvan
 
-> ---
->  drivers/hid/hid-nintendo.c | 178 ++++++++++++++++++++++---------------
->  1 file changed, 106 insertions(+), 72 deletions(-)
->=20
-> diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-> index 250f5d2f8..a5ebe857a 100644
-> --- a/drivers/hid/hid-nintendo.c
-> +++ b/drivers/hid/hid-nintendo.c
-> @@ -2088,7 +2088,9 @@ static int joycon_read_info(struct joycon_ctlr *ctl=
-r)
->  	struct joycon_input_report *report;
-> =20
->  	req.subcmd_id =3D JC_SUBCMD_REQ_DEV_INFO;
-> +	mutex_lock(&ctlr->output_mutex);
->  	ret =3D joycon_send_subcmd(ctlr, &req, 0, HZ);
-> +	mutex_unlock(&ctlr->output_mutex);
->  	if (ret) {
->  		hid_err(ctlr->hdev, "Failed to get joycon info; ret=3D%d\n", ret);
->  		return ret;
-> @@ -2117,6 +2119,88 @@ static int joycon_read_info(struct joycon_ctlr *ct=
-lr)
->  	return 0;
->  }
-> =20
-> +static int joycon_init(struct hid_device *hdev)
-> +{
-> +	struct joycon_ctlr *ctlr =3D hid_get_drvdata(hdev);
-> +	int ret =3D 0;
-> +
-> +	mutex_lock(&ctlr->output_mutex);
-> +	/* if handshake command fails, assume ble pro controller */
-> +	if ((jc_type_is_procon(ctlr) || jc_type_is_chrggrip(ctlr)) &&
-> +	    !joycon_send_usb(ctlr, JC_USB_CMD_HANDSHAKE, HZ)) {
-> +		hid_dbg(hdev, "detected USB controller\n");
-> +		/* set baudrate for improved latency */
-> +		ret =3D joycon_send_usb(ctlr, JC_USB_CMD_BAUDRATE_3M, HZ);
-> +		if (ret) {
-> +			hid_err(hdev, "Failed to set baudrate; ret=3D%d\n", ret);
-> +			goto err_mutex;
-> +		}
-> +		/* handshake */
-> +		ret =3D joycon_send_usb(ctlr, JC_USB_CMD_HANDSHAKE, HZ);
-> +		if (ret) {
-> +			hid_err(hdev, "Failed handshake; ret=3D%d\n", ret);
-> +			goto err_mutex;
-> +		}
-> +		/*
-> +		 * Set no timeout (to keep controller in USB mode).
-> +		 * This doesn't send a response, so ignore the timeout.
-> +		 */
-> +		joycon_send_usb(ctlr, JC_USB_CMD_NO_TIMEOUT, HZ/10);
-> +	} else if (jc_type_is_chrggrip(ctlr)) {
-> +		hid_err(hdev, "Failed charging grip handshake\n");
-> +		ret =3D -ETIMEDOUT;
-> +		goto err_mutex;
-> +	}
-> +
-> +	/* get controller calibration data, and parse it */
-> +	ret =3D joycon_request_calibration(ctlr);
-> +	if (ret) {
-> +		/*
-> +		 * We can function with default calibration, but it may be
-> +		 * inaccurate. Provide a warning, and continue on.
-> +		 */
-> +		hid_warn(hdev, "Analog stick positions may be inaccurate\n");
-> +	}
-> +
-> +	/* get IMU calibration data, and parse it */
-> +	ret =3D joycon_request_imu_calibration(ctlr);
-> +	if (ret) {
-> +		/*
-> +		 * We can function with default calibration, but it may be
-> +		 * inaccurate. Provide a warning, and continue on.
-> +		 */
-> +		hid_warn(hdev, "Unable to read IMU calibration data\n");
-> +	}
-> +
-> +	/* Set the reporting mode to 0x30, which is the full report mode */
-> +	ret =3D joycon_set_report_mode(ctlr);
-> +	if (ret) {
-> +		hid_err(hdev, "Failed to set report mode; ret=3D%d\n", ret);
-> +		goto err_mutex;
-> +	}
-> +
-> +	/* Enable rumble */
-> +	ret =3D joycon_enable_rumble(ctlr);
-> +	if (ret) {
-> +		hid_err(hdev, "Failed to enable rumble; ret=3D%d\n", ret);
-> +		goto err_mutex;
-> +	}
-> +
-> +	/* Enable the IMU */
-> +	ret =3D joycon_enable_imu(ctlr);
-> +	if (ret) {
-> +		hid_err(hdev, "Failed to enable the IMU; ret=3D%d\n", ret);
-> +		goto err_mutex;
-> +	}
-> +
-> +	mutex_unlock(&ctlr->output_mutex);
-> +	return 0;
-> +
-> +err_mutex:
-> +	mutex_unlock(&ctlr->output_mutex);
-> +	return ret;
-> +}
-> +
->  /* Common handler for parsing inputs */
->  static int joycon_ctlr_read_handler(struct joycon_ctlr *ctlr, u8 *data,
->  							      int size)
-> @@ -2248,85 +2332,19 @@ static int nintendo_hid_probe(struct hid_device *=
-hdev,
-> =20
->  	hid_device_io_start(hdev);
-> =20
-> -	/* Initialize the controller */
-> -	mutex_lock(&ctlr->output_mutex);
-> -	/* if handshake command fails, assume ble pro controller */
-> -	if ((jc_type_is_procon(ctlr) || jc_type_is_chrggrip(ctlr)) &&
-> -	    !joycon_send_usb(ctlr, JC_USB_CMD_HANDSHAKE, HZ)) {
-> -		hid_dbg(hdev, "detected USB controller\n");
-> -		/* set baudrate for improved latency */
-> -		ret =3D joycon_send_usb(ctlr, JC_USB_CMD_BAUDRATE_3M, HZ);
-> -		if (ret) {
-> -			hid_err(hdev, "Failed to set baudrate; ret=3D%d\n", ret);
-> -			goto err_mutex;
-> -		}
-> -		/* handshake */
-> -		ret =3D joycon_send_usb(ctlr, JC_USB_CMD_HANDSHAKE, HZ);
-> -		if (ret) {
-> -			hid_err(hdev, "Failed handshake; ret=3D%d\n", ret);
-> -			goto err_mutex;
-> -		}
-> -		/*
-> -		 * Set no timeout (to keep controller in USB mode).
-> -		 * This doesn't send a response, so ignore the timeout.
-> -		 */
-> -		joycon_send_usb(ctlr, JC_USB_CMD_NO_TIMEOUT, HZ/10);
-> -	} else if (jc_type_is_chrggrip(ctlr)) {
-> -		hid_err(hdev, "Failed charging grip handshake\n");
-> -		ret =3D -ETIMEDOUT;
-> -		goto err_mutex;
-> -	}
-> -
-> -	/* get controller calibration data, and parse it */
-> -	ret =3D joycon_request_calibration(ctlr);
-> -	if (ret) {
-> -		/*
-> -		 * We can function with default calibration, but it may be
-> -		 * inaccurate. Provide a warning, and continue on.
-> -		 */
-> -		hid_warn(hdev, "Analog stick positions may be inaccurate\n");
-> -	}
-> -
-> -	/* get IMU calibration data, and parse it */
-> -	ret =3D joycon_request_imu_calibration(ctlr);
-> -	if (ret) {
-> -		/*
-> -		 * We can function with default calibration, but it may be
-> -		 * inaccurate. Provide a warning, and continue on.
-> -		 */
-> -		hid_warn(hdev, "Unable to read IMU calibration data\n");
-> -	}
-> -
-> -	/* Set the reporting mode to 0x30, which is the full report mode */
-> -	ret =3D joycon_set_report_mode(ctlr);
-> -	if (ret) {
-> -		hid_err(hdev, "Failed to set report mode; ret=3D%d\n", ret);
-> -		goto err_mutex;
-> -	}
-> -
-> -	/* Enable rumble */
-> -	ret =3D joycon_enable_rumble(ctlr);
-> -	if (ret) {
-> -		hid_err(hdev, "Failed to enable rumble; ret=3D%d\n", ret);
-> -		goto err_mutex;
-> -	}
-> -
-> -	/* Enable the IMU */
-> -	ret =3D joycon_enable_imu(ctlr);
-> +	ret =3D joycon_init(hdev);
->  	if (ret) {
-> -		hid_err(hdev, "Failed to enable the IMU; ret=3D%d\n", ret);
-> -		goto err_mutex;
-> +		hid_err(hdev, "Failed to initialize controller; ret=3D%d\n", ret);
-> +		goto err_close;
->  	}
-> =20
->  	ret =3D joycon_read_info(ctlr);
->  	if (ret) {
->  		hid_err(hdev, "Failed to retrieve controller info; ret=3D%d\n",
->  			ret);
-> -		goto err_mutex;
-> +		goto err_close;
->  	}
-> =20
-> -	mutex_unlock(&ctlr->output_mutex);
-> -
->  	/* Initialize the leds */
->  	ret =3D joycon_leds_create(ctlr);
->  	if (ret) {
-> @@ -2352,8 +2370,6 @@ static int nintendo_hid_probe(struct hid_device *hd=
-ev,
->  	hid_dbg(hdev, "probe - success\n");
->  	return 0;
-> =20
-> -err_mutex:
-> -	mutex_unlock(&ctlr->output_mutex);
->  err_close:
->  	hid_hw_close(hdev);
->  err_stop:
-> @@ -2383,6 +2399,20 @@ static void nintendo_hid_remove(struct hid_device =
-*hdev)
->  	hid_hw_stop(hdev);
->  }
-> =20
-> +#ifdef CONFIG_PM
-> +
-> +static int nintendo_hid_resume(struct hid_device *hdev)
-> +{
-> +	int ret =3D joycon_init(hdev);
-> +
-> +	if (ret)
-> +		hid_err(hdev, "Failed to restore controller after resume");
-> +
-> +	return ret;
-> +}
-> +
-> +#endif
-> +
->  static const struct hid_device_id nintendo_hid_devices[] =3D {
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_NINTENDO,
->  			 USB_DEVICE_ID_NINTENDO_PROCON) },
-> @@ -2404,6 +2434,10 @@ static struct hid_driver nintendo_hid_driver =3D {=
 
->  	.probe		=3D nintendo_hid_probe,
->  	.remove		=3D nintendo_hid_remove,
->  	.raw_event	=3D nintendo_hid_event,
-> +
-> +#ifdef CONFIG_PM
-> +	.resume		=3D nintendo_hid_resume,
-> +#endif
->  };
->  module_hid_driver(nintendo_hid_driver);
-> =20
+> Alternatively, instead of avoiding returning anything other than 0,
+> `nintendo_hid_probe` could be modified by changing `if (ret)` in that
+> section to something else.
+> I'm not an expert in C, so... opinions?
+>=20
+> Il giorno gio 20 lug 2023 alle ore 22:04 Silvan Jegen
+> <s.jegen@gmail.com> ha scritto:
+> >
+> > Hi!
+> >
+> > Some comments inline below.
+> >
+> > Martino Fontana <tinozzo123@gmail.com> wrote:
+> > > - Only turn on the nth LED, instead of all the LEDs up to n. This bet=
+ter matches Nintendo consoles' behaviour, as they never turn on more than o=
+ne LED (still not a complete match, see https://bugzilla.kernel.org/show_bu=
+g.cgi?id=3D216225)
+> > > - Split part of `joycon_home_led_brightness_set` (which is called by =
+hid) into `joycon_set_home_led` (which is what actually sets the LEDs), for=
+ consistency with player LEDs
+> > > - Instead of first registering the `led_classdev`, then attempting to=
+ set the LED and unregistering the `led_classdev` if it fails, first attemp=
+t to set the LED, then register the `led_classdev` only if it succeeds (the=
+ class is still filled up in either case)
+> > > - If setting player LEDs fails, still attempt setting the home LED (I=
+ don't know if this is actually possible, but who knows...)
+> > > - Use `JC_NUM_LEDS` when appropriate instead of 4
+> > > - Print return codes
+> >
+> > Wrapping the git commit message around 78 chars or so is conventional.
+> >
+> >
+> > > Signed-off-by: Martino Fontana <tinozzo123@gmail.com>
+> > > ---
+> > >  drivers/hid/hid-nintendo.c | 116 ++++++++++++++++++-----------------=
+--
+> > >  1 file changed, 55 insertions(+), 61 deletions(-)
+> > >
+> > > diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+> > > index 586c7f8d7..89631e19b 100644
+> > > --- a/drivers/hid/hid-nintendo.c
+> > > +++ b/drivers/hid/hid-nintendo.c
+> > > @@ -699,6 +699,25 @@ static int joycon_set_player_leds(struct joycon_=
+ctlr *ctlr, u8 flash, u8 on)
+> > >       return joycon_send_subcmd(ctlr, req, 1, HZ/4);
+> > >  }
+> > >
+> > > +static int joycon_set_home_led(struct joycon_ctlr *ctlr, enum led_br=
+ightness brightness)
+> > > +{
+> > > +     struct joycon_subcmd_request *req;
+> > > +     u8 buffer[sizeof(*req) + 5] =3D { 0 };
+> > > +     u8 *data;
+> > > +
+> > > +     req =3D (struct joycon_subcmd_request *)buffer;
+> > > +     req->subcmd_id =3D JC_SUBCMD_SET_HOME_LIGHT;
+> > > +     data =3D req->data;
+> > > +     data[0] =3D 0x01;
+> > > +     data[1] =3D brightness << 4;
+> > > +     data[2] =3D brightness | (brightness << 4);
+> > > +     data[3] =3D 0x11;
+> > > +     data[4] =3D 0x11;
+> > > +
+> > > +     hid_dbg(ctlr->hdev, "setting home led brightness\n");
+> > > +     return joycon_send_subcmd(ctlr, req, 5, HZ/4);
+> > > +}
+> > > +
+> > >  static int joycon_request_spi_flash_read(struct joycon_ctlr *ctlr,
+> > >                                        u32 start_addr, u8 size, u8 **=
+reply)
+> > >  {
+> > > @@ -1849,7 +1868,6 @@ static int joycon_player_led_brightness_set(str=
+uct led_classdev *led,
+> > >       int val =3D 0;
+> > >       int i;
+> > >       int ret;
+> > > -     int num;
+> > >
+> > >       ctlr =3D hid_get_drvdata(hdev);
+> > >       if (!ctlr) {
+> > > @@ -1857,21 +1875,10 @@ static int joycon_player_led_brightness_set(s=
+truct led_classdev *led,
+> > >               return -ENODEV;
+> > >       }
+> > >
+> > > -     /* determine which player led this is */
+> > > -     for (num =3D 0; num < JC_NUM_LEDS; num++) {
+> > > -             if (&ctlr->leds[num] =3D=3D led)
+> > > -                     break;
+> > > -     }
+> > > -     if (num >=3D JC_NUM_LEDS)
+> > > -             return -EINVAL;
+> > > +     for (i =3D 0; i < JC_NUM_LEDS; i++)
+> > > +             val |=3D ctlr->leds[i].brightness << i;
+> > >
+> > >       mutex_lock(&ctlr->output_mutex);
+> > > -     for (i =3D 0; i < JC_NUM_LEDS; i++) {
+> > > -             if (i =3D=3D num)
+> > > -                     val |=3D brightness << i;
+> > > -             else
+> > > -                     val |=3D ctlr->leds[i].brightness << i;
+> > > -     }
+> > >       ret =3D joycon_set_player_leds(ctlr, 0, val);
+> > >       mutex_unlock(&ctlr->output_mutex);
+> > >
+> > > @@ -1884,9 +1891,6 @@ static int joycon_home_led_brightness_set(struc=
+t led_classdev *led,
+> > >       struct device *dev =3D led->dev->parent;
+> > >       struct hid_device *hdev =3D to_hid_device(dev);
+> > >       struct joycon_ctlr *ctlr;
+> > > -     struct joycon_subcmd_request *req;
+> > > -     u8 buffer[sizeof(*req) + 5] =3D { 0 };
+> > > -     u8 *data;
+> > >       int ret;
+> > >
+> > >       ctlr =3D hid_get_drvdata(hdev);
+> > > @@ -1894,25 +1898,13 @@ static int joycon_home_led_brightness_set(str=
+uct led_classdev *led,
+> > >               hid_err(hdev, "No controller data\n");
+> > >               return -ENODEV;
+> > >       }
+> > > -
+> > > -     req =3D (struct joycon_subcmd_request *)buffer;
+> > > -     req->subcmd_id =3D JC_SUBCMD_SET_HOME_LIGHT;
+> > > -     data =3D req->data;
+> > > -     data[0] =3D 0x01;
+> > > -     data[1] =3D brightness << 4;
+> > > -     data[2] =3D brightness | (brightness << 4);
+> > > -     data[3] =3D 0x11;
+> > > -     data[4] =3D 0x11;
+> > > -
+> > > -     hid_dbg(hdev, "setting home led brightness\n");
+> > >       mutex_lock(&ctlr->output_mutex);
+> > > -     ret =3D joycon_send_subcmd(ctlr, req, 5, HZ/4);
+> > > +     ret =3D joycon_set_home_led(ctlr, brightness);
+> > >       mutex_unlock(&ctlr->output_mutex);
+> > > -
+> > >       return ret;
+> > >  }
+> > >
+> > > -static DEFINE_MUTEX(joycon_input_num_mutex);
+> > > +static DEFINE_SPINLOCK(joycon_input_num_spinlock);
+> > >  static int joycon_leds_create(struct joycon_ctlr *ctlr)
+> > >  {
+> > >       struct hid_device *hdev =3D ctlr->hdev;
+> > > @@ -1920,17 +1912,16 @@ static int joycon_leds_create(struct joycon_c=
+tlr *ctlr)
+> > >       const char *d_name =3D dev_name(dev);
+> > >       struct led_classdev *led;
+> > >       char *name;
+> > > -     int ret =3D 0;
+> > > +     int ret;
+> > >       int i;
+> > > -     static int input_num =3D 1;
+> > > +     unsigned long flags;
+> > > +     int player_led_number;
+> > > +     static int input_num;
+> > >
+> > > -     /* Set the default controller player leds based on controller n=
+umber */
+> > > -     mutex_lock(&joycon_input_num_mutex);
+> > > -     mutex_lock(&ctlr->output_mutex);
+> > > -     ret =3D joycon_set_player_leds(ctlr, 0, 0xF >> (4 - input_num))=
+;
+> > > -     if (ret)
+> > > -             hid_warn(ctlr->hdev, "Failed to set leds; ret=3D%d\n", =
+ret);
+> > > -     mutex_unlock(&ctlr->output_mutex);
+> > > +     /* Set the player leds based on controller number */
+> > > +     spin_lock_irqsave(&joycon_input_num_spinlock, flags);
+> > > +     player_led_number =3D input_num++ % JC_NUM_LEDS;
+> > > +     spin_unlock_irqrestore(&joycon_input_num_spinlock, flags);
+> > >
+> > >       /* configure the player LEDs */
+> > >       for (i =3D 0; i < JC_NUM_LEDS; i++) {
+> > > @@ -1938,31 +1929,33 @@ static int joycon_leds_create(struct joycon_c=
+tlr *ctlr)
+> > >                                     d_name,
+> > >                                     "green",
+> > >                                     joycon_player_led_names[i]);
+> > > -             if (!name) {
+> > > -                     mutex_unlock(&joycon_input_num_mutex);
+> > > +             if (!name)
+> > >                       return -ENOMEM;
+> > > -             }
+> > >
+> > >               led =3D &ctlr->leds[i];
+> > >               led->name =3D name;
+> > > -             led->brightness =3D ((i + 1) <=3D input_num) ? 1 : 0;
+> > > +             led->brightness =3D (i =3D=3D player_led_number) ? 1 : =
+0;
+> > >               led->max_brightness =3D 1;
+> > >               led->brightness_set_blocking =3D
+> > >                                       joycon_player_led_brightness_se=
+t;
+> > >               led->flags =3D LED_CORE_SUSPENDRESUME | LED_HW_PLUGGABL=
+E;
+> > > +     }
+> > > +     mutex_lock(&ctlr->output_mutex);
+> > > +     ret =3D joycon_set_player_leds(ctlr, 0, 0x1 << player_led_numbe=
+r);
+> > > +     mutex_unlock(&ctlr->output_mutex);
+> > > +     if (ret) {
+> > > +             hid_warn(hdev, "Failed to set players LEDs; ret=3D%d\n"=
+, ret);
+> > > +             goto home_led;
+> > > +     }
+> > >
+> > > +     for (i =3D 0; i < JC_NUM_LEDS; i++) {
+> > > +             led =3D &ctlr->leds[i];
+> > >               ret =3D devm_led_classdev_register(&hdev->dev, led);
+> > > -             if (ret) {
+> > > -                     hid_err(hdev, "Failed registering %s LED\n", le=
+d->name);
+> > > -                     mutex_unlock(&joycon_input_num_mutex);
+> > > -                     return ret;
+> > > -             }
+> > > +             if (ret)
+> > > +                     hid_err(hdev, "Failed registering %s LED; ret=3D=
+%d\n", led->name, ret);
+> > >       }
+> > >
+> > > -     if (++input_num > 4)
+> > > -             input_num =3D 1;
+> > > -     mutex_unlock(&joycon_input_num_mutex);
+> > > -
+> > > +home_led:
+> > >       /* configure the home LED */
+> > >       if (jc_type_has_right(ctlr)) {
+> > >               name =3D devm_kasprintf(dev, GFP_KERNEL, "%s:%s:%s",
+> > > @@ -1978,17 +1971,18 @@ static int joycon_leds_create(struct joycon_c=
+tlr *ctlr)
+> > >               led->max_brightness =3D 0xF;
+> > >               led->brightness_set_blocking =3D joycon_home_led_bright=
+ness_set;
+> > >               led->flags =3D LED_CORE_SUSPENDRESUME | LED_HW_PLUGGABL=
+E;
+> > > -             ret =3D devm_led_classdev_register(&hdev->dev, led);
+> > > -             if (ret) {
+> > > -                     hid_err(hdev, "Failed registering home led\n");=
+
+> > > -                     return ret;
+> > > -             }
+> > > +
+> > >               /* Set the home LED to 0 as default state */
+> > > -             ret =3D joycon_home_led_brightness_set(led, 0);
+> > > +             mutex_lock(&ctlr->output_mutex);
+> > > +             ret =3D joycon_set_home_led(ctlr, 0);
+> > > +         mutex_unlock(&ctlr->output_mutex);
+> >
+> > We shouldn't use any spaces for indentation here.
+> >
+> > >               if (ret) {
+> > > -                     hid_warn(hdev, "Failed to set home LED default,=
+ unregistering home LED");
+> > > -                     devm_led_classdev_unregister(&hdev->dev, led);
+> > > +                     hid_warn(hdev, "Failed to set home LED; ret=3D%=
+d\n", ret);
+> > > +                     return 0;
+> > >               }
+> >
+> > Adding an empty line here would be more consistent with the rest of
+> > the code.
+> >
+> > > +             ret =3D devm_led_classdev_register(&hdev->dev, led);
+> > > +             if (ret)
+> > > +                     hid_err(hdev, "Failed registering home led; ret=
+=3D%d\n", ret);
+> >
+> > In the old code we returned "ret" in this case. We probably want to do
+> > the same here.
+> >
+> > Cheers,
+> > Silvan
+> >
+> > >       }
+> > >
+> > >       return 0;
+> >
+> >
 
 
