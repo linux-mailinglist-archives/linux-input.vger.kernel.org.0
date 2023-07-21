@@ -2,60 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97C6775C8BF
-	for <lists+linux-input@lfdr.de>; Fri, 21 Jul 2023 15:58:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D7CC75C8DC
+	for <lists+linux-input@lfdr.de>; Fri, 21 Jul 2023 16:01:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230143AbjGUN6x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Jul 2023 09:58:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55734 "EHLO
+        id S231693AbjGUOB4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Jul 2023 10:01:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231290AbjGUN6u (ORCPT
+        with ESMTP id S231146AbjGUOBw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Jul 2023 09:58:50 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F2D73A97
-        for <linux-input@vger.kernel.org>; Fri, 21 Jul 2023 06:58:29 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-4fbb281eec6so3256956e87.1
-        for <linux-input@vger.kernel.org>; Fri, 21 Jul 2023 06:58:29 -0700 (PDT)
+        Fri, 21 Jul 2023 10:01:52 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72F1B30E6
+        for <linux-input@vger.kernel.org>; Fri, 21 Jul 2023 07:01:45 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-3142a9ffa89so1701768f8f.0
+        for <linux-input@vger.kernel.org>; Fri, 21 Jul 2023 07:01:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689947907; x=1690552707;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google; t=1689948104; x=1690552904;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Uoi5Y4jjgnWGfQC+MA3PSzDO/nJ69a0U86XqjtM9qm4=;
-        b=hovoUSXRq28HNft26oRNivk53rfhvkFzFlsE+3eJGaPu6W9o4Hh4e/ClQ4euEk52Lc
-         Ek5BSaAroh2dCUY6scEF0qTX6SJCRLeM3gAKGHAwhgN2TXx3tl8zBKhqZNypY/tWkFHc
-         oe7SRYPVtulOU518is+mkTPudusWNGrbXpmSCwGn9SIS+3Qdck423+6xju48zvzmYRLu
-         SrCXzGzyT5RKNGORyZpIV27gIbAKSA970kJAUEzrStzCaI6yIn2cD69S96IGPnLOrWz9
-         MC4iNZlM1SAONUv1Jf8RdW+s5o5HTVZUOtOFBP3reutBNZI02r+6aCCx7r231ZzUbq/y
-         Rnqg==
+        bh=kGZ5LqU0Zryf5RXxHBpf5dofqREFTyZTeFWlFYPBfA8=;
+        b=ZiVB2hHSTZRmiaMmbMREaMhbawMx/KUt3cg1qeF1gBfCQQAGIBGPHjWK50hX362tpU
+         fMapfTUkHNiMW2EcbBz3SgWGkAp6pnHxDhqm4HHqfVuIIfYvxWb4ogcWbai4vpYhJADI
+         nWulY7lsgECJ57xXy/eajLo129aMmkczTVRAjkIe0wiSagmvvtOEMM8dttszF+P0remm
+         RGTV8zYGxv0/wyu9CCIL2fyYMd0tbEu3edlaV1yZeI84Bkx+jEwwKA/R03nUuupkA/DL
+         bFjJcVPJ1Os8KPfwF5c406w0MGIwcfg3il9N5GJ9UXq+jvImjTaQ3Zov5AQGHQM9OcQ+
+         H5mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689947907; x=1690552707;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1689948104; x=1690552904;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Uoi5Y4jjgnWGfQC+MA3PSzDO/nJ69a0U86XqjtM9qm4=;
-        b=P+h34S603kyil6PTle8OWWalIPp7+Iq1fmU4g+FxdgWrjwkpbGNDfU7D7zmtKtWjF6
-         BiKYIz5tZzvQ19NkyPunrHAYmLDBCTiAxzwVGIMY7GYpQhSaARBfK7rB7MJPghlgMovF
-         pQ0/bt7VEcsSlEO61mDuzxhtDaGn4BJ79Jb4D4Ma4lWdeK2OqeuAWKMGArJe5iUxFTn1
-         DqHUTrXjEcmHWyP6MVMwNXEONpjqmQ7akXDvGcIZw3oMLWB2Z7DDIr9v70yTJH/Cl2+C
-         ePLpk5SaQykjVFyfPi7e9JuKR/haxy4LHsXX9vlMbcj/j+2K/wE0T8Cio4dzfnvAzglc
-         tKrw==
-X-Gm-Message-State: ABy/qLbZMg/nkfuaIIjhiH+HNBQGunztE2IzrGz+KS4GC4yLGyPJBPlU
-        bTZH3mqovpcbm9iLUAlPbswqNA==
-X-Google-Smtp-Source: APBJJlFJQPGeO+dM+/CogGYGFX3IbIoIu/R+CmmEzNoP5XS6uM+gVvd5Uqi6hxrOAM8nRxnGkKL4wA==
-X-Received: by 2002:a05:6512:1095:b0:4f8:cd67:88e6 with SMTP id j21-20020a056512109500b004f8cd6788e6mr1382568lfg.44.1689947907244;
-        Fri, 21 Jul 2023 06:58:27 -0700 (PDT)
+        bh=kGZ5LqU0Zryf5RXxHBpf5dofqREFTyZTeFWlFYPBfA8=;
+        b=hv2dkBwcTcD9Fbi7ef3gCWNI0sMjT8YD8fUUSvi0EN5I+2TAqfz4g8OQqXm5ESDkZV
+         ZJha7bZPTGt5AlsvnXved1rX2W3YLtNf+nNIyMg1eIfN9kBb9CR8cuG5Q5HwCXqrkwpH
+         4n+h980zVzjs7BH8D+PrLZgLqgAikN47mUXamo9nEUM+Z9bD08wKDcYA71U9hUPUN1EO
+         HvU7T3k2ameVJdUjTilh75XFm8U4SvBegFZa5NvSdHfvihUAdsCp2slqEj58fpNjGytt
+         RD1mgZnSbjDS0Y4By8geSwow6kuKCvF8hfl9raXdovDAXOC4QJL+c25u2xjDNKDf6NzL
+         EJ0A==
+X-Gm-Message-State: ABy/qLb1ADjz0Q9v6+QaGgmE4E1lL2cOk6fc6Dc5pSzSJEs5lbFY1LId
+        1is64EWM9nz/i+02j7on6/mhaw==
+X-Google-Smtp-Source: APBJJlFl0X021T0an8cBRN2rsT+BJ+nZ0MYlRyFEpg2gd2RFuh46KGFuFZP+LfRCosw99RkgkE80Jg==
+X-Received: by 2002:adf:ea50:0:b0:314:2732:e81e with SMTP id j16-20020adfea50000000b003142732e81emr1636390wrn.8.1689948103685;
+        Fri, 21 Jul 2023 07:01:43 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id h15-20020aa7c94f000000b0051d890b2407sm2111001edt.81.2023.07.21.06.58.23
+        by smtp.gmail.com with ESMTPSA id r5-20020adff105000000b003145521f4e5sm4278545wro.116.2023.07.21.07.01.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Jul 2023 06:58:26 -0700 (PDT)
-Message-ID: <53c26a74-3374-cbc4-57cf-3b1cc0904300@linaro.org>
-Date:   Fri, 21 Jul 2023 15:58:22 +0200
+        Fri, 21 Jul 2023 07:01:42 -0700 (PDT)
+Message-ID: <66fba798-c6ef-1105-656a-5d593a056448@linaro.org>
+Date:   Fri, 21 Jul 2023 16:01:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v3 02/42] dt-bindings: clock: Add Cirrus EP93xx
+Subject: Re: [PATCH v3 04/42] dt-bindings: pinctrl: Add Cirrus EP93xx
+Content-Language: en-US
 To:     nikita.shubin@maquefel.me,
         Hartley Sweeten <hsweeten@visionengravers.com>,
         Lennert Buytenhek <kernel@wantstofly.org>,
@@ -105,16 +106,15 @@ Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org, linux-ide@vger.kernel.org,
         linux-input@vger.kernel.org, alsa-devel@alsa-project.org
 References: <20230605-ep93xx-v3-0-3d63a5f1103e@maquefel.me>
- <20230605-ep93xx-v3-2-3d63a5f1103e@maquefel.me>
-Content-Language: en-US
+ <20230605-ep93xx-v3-4-3d63a5f1103e@maquefel.me>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230605-ep93xx-v3-2-3d63a5f1103e@maquefel.me>
+In-Reply-To: <20230605-ep93xx-v3-4-3d63a5f1103e@maquefel.me>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -124,28 +124,27 @@ X-Mailing-List: linux-input@vger.kernel.org
 On 20/07/2023 13:29, Nikita Shubin via B4 Relay wrote:
 > From: Nikita Shubin <nikita.shubin@maquefel.me>
 > 
-> This adds device tree bindings for the Cirrus Logic EP93xx
-> clock block used in these SoCs.
+> Add YAML bindings for ep93xx SoC pinctrl.
 > 
 > Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
->  .../bindings/clock/cirrus,ep9301-clk.yaml          | 46 ++++++++++++++++++++++
->  include/dt-bindings/clock/cirrus,ep93xx-clock.h    | 41 +++++++++++++++++++
->  2 files changed, 87 insertions(+)
+>  .../bindings/pinctrl/cirrus,ep9301-pinctrl.yaml    | 58 ++++++++++++++++++++++
+>  1 file changed, 58 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/clock/cirrus,ep9301-clk.yaml b/Documentation/devicetree/bindings/clock/cirrus,ep9301-clk.yaml
+> diff --git a/Documentation/devicetree/bindings/pinctrl/cirrus,ep9301-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/cirrus,ep9301-pinctrl.yaml
 > new file mode 100644
-> index 000000000000..111e016601fb
+> index 000000000000..d5682531b0da
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/clock/cirrus,ep9301-clk.yaml
-> @@ -0,0 +1,46 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +++ b/Documentation/devicetree/bindings/pinctrl/cirrus,ep9301-pinctrl.yaml
+> @@ -0,0 +1,58 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/clock/cirrus,ep9301-clk.yaml#
+> +$id: http://devicetree.org/schemas/pinctrl/cirrus,ep9301-pinctrl.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Cirrus Logic ep93xx SoC's clock controller
+> +title: Cirrus ep93xx pins mux controller
 > +
 > +maintainers:
 > +  - Nikita Shubin <nikita.shubin@maquefel.me>
@@ -154,44 +153,25 @@ On 20/07/2023 13:29, Nikita Shubin via B4 Relay wrote:
 > +properties:
 > +  compatible:
 > +    oneOf:
-> +      - const: cirrus,ep9301-clk
+> +      - const: cirrus,ep9301-pinctrl
 > +      - items:
 > +          - enum:
-> +              - cirrus,ep9302-clk
-> +              - cirrus,ep9307-clk
-> +              - cirrus,ep9312-clk
-> +              - cirrus,ep9315-clk
-> +          - const: cirrus,ep9301-clk
+> +              - cirrus,ep9302-pinctrl
+> +              - cirrus,ep9307-pinctrl
+> +              - cirrus,ep9312-pinctrl
+> +              - cirrus,ep9315-pinctrl
+> +          - const: cirrus,ep9301-pinctrl
 > +
-> +  "#clock-cells":
-> +    const: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: reference clock
-> +
-> +required:
-> +  - compatible
-> +  - "#clock-cells"
-> +  - clocks
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    clock-controller {
-> +      compatible = "cirrus,ep9301-clk";
-> +      #clock-cells = <1>;
-> +      clocks = <&xtali>;
-> +    };
-> +...
-> diff --git a/include/dt-bindings/clock/cirrus,ep93xx-clock.h b/include/dt-bindings/clock/cirrus,ep93xx-clock.h
-> new file mode 100644
-> index 000000000000..3cd053c0fdea
-> --- /dev/null
-> +++ b/include/dt-bindings/clock/cirrus,ep93xx-clock.h
+> +patternProperties:
+> +  '^pins-':
+> +    type: object
+> +    description: pin node
+> +    $ref: pinmux-node.yaml#
 
-Keep the same filename as bindings file.
+You need:
+unevaluatedProperties: false
+
+
 
 Best regards,
 Krzysztof
