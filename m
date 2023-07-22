@@ -2,77 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57B4C75D7F2
-	for <lists+linux-input@lfdr.de>; Sat, 22 Jul 2023 01:53:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B542475D884
+	for <lists+linux-input@lfdr.de>; Sat, 22 Jul 2023 03:06:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230037AbjGUXxy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Jul 2023 19:53:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33560 "EHLO
+        id S230024AbjGVBGU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Jul 2023 21:06:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229503AbjGUXxx (ORCPT
+        with ESMTP id S229487AbjGVBGT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Jul 2023 19:53:53 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB4E930E1;
-        Fri, 21 Jul 2023 16:53:52 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6686c74183cso2171459b3a.1;
-        Fri, 21 Jul 2023 16:53:52 -0700 (PDT)
+        Fri, 21 Jul 2023 21:06:19 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E58430FD
+        for <linux-input@vger.kernel.org>; Fri, 21 Jul 2023 18:06:18 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id d2e1a72fcca58-6686708c986so2206387b3a.0
+        for <linux-input@vger.kernel.org>; Fri, 21 Jul 2023 18:06:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689983632; x=1690588432;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GaufzkzTdbkEtghya4t6kc4yJ+HLUq9RLfLwNt/UYbo=;
-        b=WGw4AWsBk4Gpb7esrzVP6Gy5AEACeGv0QfkP8vVz7sOYQ+2/GzldfDXjSr+ux5i5CD
-         o5kVxzXp88ar1SZxFPBVd0uMMHyiZ8huRrZh5Se8X2Gw+aCl+Pme6laPPAqTv8TNpuhI
-         Od626zkWSYb/YvEimLBb4ddN/4qG8xTI49XmQrrM5aAFE2n0ymR/Qkim1acId5HifNso
-         IoFO2/dY8DVJK7T96SCj/OKmTfMa+x8llRc5rzHF4v3UsuPowzs3H1SYr52XEbQ9+k7j
-         6VhyM3HPlioXitk1OiC/xfyqRuLz45ut9fSIEkXSszRbxPKQj7ixE2G1McjysBPv19PD
-         l0YQ==
+        d=gmail.com; s=20221208; t=1689987978; x=1690592778;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KULIJ/1rH46r21DTQUmncJdjZ/HtFgL8ClzBrzIax1k=;
+        b=qXOwdm8uW31vuaHxEy1lRqNibWNK697z8raP4wfppluapjlaSmnMZYfPJ0/C88DQ0L
+         Fr/aDB1QmZ4iITnw76qiyxEF3gcdTC191i7UTTPHpKw6mlcKd1oT+1aCLPwnQceoa3T0
+         8r+WQYcJOdKPAV4DVBRWdeq9BcKsIhLOaolxHl40Otot9OSHf5a2Rjoz+yiSaF1xavKW
+         A9JkJdBzDfmXYAL+DIT1+kzWtDP4OaVv6Xi2xtlzZAZHw+Y7XzS5duwgkKE90HHGMzh6
+         o7OV+7koFJHrGFpiWZzlp11jg83HVwZH3OpHcYE6JL54ew9lGbF4kLFBDrFNTYo8KL0L
+         geTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689983632; x=1690588432;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GaufzkzTdbkEtghya4t6kc4yJ+HLUq9RLfLwNt/UYbo=;
-        b=kYtbUfsUWQP5FPM0diTaNSnocpMJ9ZOrEi/FAnJbohKDqhbUKh6Oj1GeU99w5Ew0ea
-         eNBHp3EnCW6X+pAg9w7ooh94VU3bxheFwe36socBv/W2AxVQsIKYCW6B0H5A7eIRb6f2
-         dqGAxlrJS3OPNEvJKMfqkLdBzimI5VBBxrrSh/MVIMtB0sC4VVt8uxEK7AFYADeuwbKU
-         FUW3mWDrwrzT+Q7aIPp9MAlGI+z8vO2MwyAhFDns68Fn+s2hdbHC3+jCmmjxtGOxKHyr
-         YWXtUMN4rzo5lu+29IdvtIKfoerYMWwE504gTFOtStUHoHs4k9gIVzWs2I6i2uJiAyJd
-         7PAQ==
-X-Gm-Message-State: ABy/qLYCGsF4UJco5oNNDo8mTvhmq3FnU61qedMkry6/g+8Hww+OGsS7
-        ax5cjhQZf4ocrvxaVKNKOTU=
-X-Google-Smtp-Source: APBJJlFkHFbBlnt4VahY3XLY6U7B1209qdTV1AYbK3VLCvmJHosmPTLvCZthfL691geS+3nsmhL7UA==
-X-Received: by 2002:a05:6a00:1988:b0:666:e42c:d5fb with SMTP id d8-20020a056a00198800b00666e42cd5fbmr1742204pfl.32.1689983632245;
-        Fri, 21 Jul 2023 16:53:52 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:fd88:dbb:fc42:8207])
-        by smtp.gmail.com with ESMTPSA id e5-20020aa78245000000b0064928cb5f03sm3494093pfn.69.2023.07.21.16.53.51
+        d=1e100.net; s=20221208; t=1689987978; x=1690592778;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KULIJ/1rH46r21DTQUmncJdjZ/HtFgL8ClzBrzIax1k=;
+        b=R2OJOn6MtZEuoJ1RktgjwNtAMwzh8aUa86QAEkfaJPPwHXJdnKFSOP8OjyH6ywFQ3+
+         MCqfCXZs9IJaDiR6KtS9g86fUbvbj6tiTrUA0OHxl23VI7a+LjkMHPcSwtE8AverANvm
+         2XL5QmeNCckCYS88bf6XY9Kp2VqiaKsFqxzdvkEOMUnEsn7yydCifhjSWHeBThEWv6hq
+         Mie7OvuScLFHT6VdTGNtL3hwicK/OYzE6z9Pm8flJlwrdtIZsE30XJKTx5LjTJ5dpdjo
+         172nVNsRmBfB1Odm+cnXGGswPRxzm+6QXYFOffA3DFvqVTj9v/on5Kpqiif7N/kuei5z
+         9XYA==
+X-Gm-Message-State: ABy/qLZl0+QqRcfoDoHuYQC+P2UwL/aBVYsqvppkn54m6R7lCyE0q94C
+        NoNwiRHYBxUUgyGkptobXS0=
+X-Google-Smtp-Source: APBJJlFfIK9tUM7YdBQ/qanpF+uogOmO7Oby2j7n9v3tGsyvVmZphLm1OShTiNaPjvKPtNbLw1CCgA==
+X-Received: by 2002:a05:6a20:1393:b0:131:6464:2178 with SMTP id hn19-20020a056a20139300b0013164642178mr3704788pzc.21.1689987977857;
+        Fri, 21 Jul 2023 18:06:17 -0700 (PDT)
+Received: from google.com ([104.129.198.114])
+        by smtp.gmail.com with ESMTPSA id h26-20020a62b41a000000b00682ed27f99dsm3504765pfn.46.2023.07.21.18.06.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jul 2023 16:53:51 -0700 (PDT)
-Date:   Fri, 21 Jul 2023 16:53:48 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jeffery Miller <jefferymiller@google.com>
-Cc:     Jonathan Denose <jdenose@chromium.org>, jdenose@google.com,
-        Lyude Paul <lyude@redhat.com>, benjamin.tissoires@redhat.com,
-        Andrew Duggan <andrew@duggan.us>, loic.poulain@linaro.org,
-        Andrew Duggan <aduggan@synaptics.com>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Jeremy Kerr <jk@codeconstruct.com.au>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] Input: synaptics-rmi4 - retry reading SMBus version
- on resume
-Message-ID: <ZLsajIm2qTcLE+O7@google.com>
-References: <20230608210404.722123-1-jefferymiller@google.com>
+        Fri, 21 Jul 2023 18:06:17 -0700 (PDT)
+From:   HP Dev <hphyperxdev@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, HP Dev <hphyperxdev@gmail.com>,
+        Chris Toledanes <chris.toledanes@hp.com>,
+        Carl Ng <carl.ng@hp.com>, Max Nguyen <maxwell.nguyen@hp.com>
+Subject: [PATCH] Input: xpad - Add HyperX Clutch Gladiate support
+Date:   Fri, 21 Jul 2023 18:05:32 -0700
+Message-Id: <20230722010532.120280-1-hphyperxdev@gmail.com>
+X-Mailer: git-send-email 2.39.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230608210404.722123-1-jefferymiller@google.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,45 +70,36 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jeffery,
+Add HyperX controller support to xpad_device and xpad_table.
 
-On Thu, Jun 08, 2023 at 09:04:00PM +0000, Jeffery Miller wrote:
-> On resume there can be a period of time after the
-> preceding serio_resume -> psmouse_deactivate call
-> where calls to rmi_smb_get_version fail with
-> -ENXIO.
-> 
-> The call path in rmi_smb_resume is rmi_smb_resume -> rmi_smb_reset ->
-> rmi_smb_enable_smbus_mode -> rmi_smb_get_version where
-> this failure would occur.
-> 
-> Add a 30ms delay and retry in the ENXIO case to ensure the following
-> rmi_driver_resume calls in rmi_smbus_resume can succeed.
-> 
-> This behavior was seen on a Lenovo T440p machine that required
-> a delay of approximately 7-12ms.
-> 
-> The 30ms delay was chosen based on the linux-input message:
-> Link: https://lore.kernel.org/all/BYAPR03MB47572F2C65E52ED673238D41B2439@BYAPR03MB4757.namprd03.prod.outlook.com/
+Reported-by: Chris Toledanes <chris.toledanes@hp.com>
+Reviewed-by: Carl Ng <carl.ng@hp.com>
+Signed-off-by: Max Nguyen <maxwell.nguyen@hp.com>
+---
+ drivers/input/joystick/xpad.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-I do not quite like putting these retries in RMI code. I wonder if we
-should not move the delay into psmouse_smbus_reconnect():
-
-	if (smbdev->need_deactivate) {
-		psmouse_deactivate(psmouse);
-		/* Give the device time to switch to SMBus mode */
-		msleep(30);
-	}
-
-or even factor it out into psmouse_activate_smbus_mode() and call it
-from psmouse_smbus_reconnect() as well as psmouse_smbus_init().
-
-Thanks.
-
-or even factor it out into psmouse_activate_smbus_mode() and call it
-from psmouse_smbus_reconnect() as well as psmouse_smbus_init().
-
-Thanks.
-
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index cdb193317c3b..dfddb0bba8d8 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -130,6 +130,7 @@ static const struct xpad_device {
+ 	{ 0x0079, 0x18d4, "GPD Win 2 X-Box Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x03eb, 0xff01, "Wooting One (Legacy)", 0, XTYPE_XBOX360 },
+ 	{ 0x03eb, 0xff02, "Wooting Two (Legacy)", 0, XTYPE_XBOX360 },
++	{ 0x03f0, 0x0495, "HyperX Clutch Gladiate", 0, XTYPE_XBOXONE },
+ 	{ 0x044f, 0x0f00, "Thrustmaster Wheel", 0, XTYPE_XBOX },
+ 	{ 0x044f, 0x0f03, "Thrustmaster Wheel", 0, XTYPE_XBOX },
+ 	{ 0x044f, 0x0f07, "Thrustmaster, Inc. Controller", 0, XTYPE_XBOX },
+@@ -457,6 +458,8 @@ static const struct usb_device_id xpad_table[] = {
+ 	{ USB_INTERFACE_INFO('X', 'B', 0) },	/* Xbox USB-IF not-approved class */
+ 	XPAD_XBOX360_VENDOR(0x0079),		/* GPD Win 2 controller */
+ 	XPAD_XBOX360_VENDOR(0x03eb),		/* Wooting Keyboards (Legacy) */
++	XPAD_XBOX360_VENDOR(0x03f0),		/* HP HyperX XBox 360 Controllers */
++	XPAD_XBOXONE_VENDOR(0x03f0),		/* HP HyperX Xbox One Controllers */
+ 	XPAD_XBOX360_VENDOR(0x044f),		/* Thrustmaster Xbox 360 controllers */
+ 	XPAD_XBOX360_VENDOR(0x045e),		/* Microsoft Xbox 360 controllers */
+ 	XPAD_XBOXONE_VENDOR(0x045e),		/* Microsoft Xbox One controllers */
 -- 
-Dmitry
+2.39.3
+
