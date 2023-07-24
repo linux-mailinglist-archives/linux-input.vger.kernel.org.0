@@ -2,68 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7211975EAC9
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jul 2023 07:19:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99C2575EAD1
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jul 2023 07:29:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229486AbjGXFTg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Jul 2023 01:19:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60674 "EHLO
+        id S229834AbjGXF3R (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Jul 2023 01:29:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbjGXFTf (ORCPT
+        with ESMTP id S229509AbjGXF3Q (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Jul 2023 01:19:35 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CEC3FF;
-        Sun, 23 Jul 2023 22:19:34 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1b89cfb4571so32042115ad.3;
-        Sun, 23 Jul 2023 22:19:34 -0700 (PDT)
+        Mon, 24 Jul 2023 01:29:16 -0400
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com [IPv6:2001:4860:4864:20::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FE52E70;
+        Sun, 23 Jul 2023 22:29:05 -0700 (PDT)
+Received: by mail-oa1-x2b.google.com with SMTP id 586e51a60fabf-1bb74752ddbso250037fac.0;
+        Sun, 23 Jul 2023 22:29:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690175973; x=1690780773;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XchQfCc8vwc9g5aVS6c1iv5AIZrWiDeyheJfWmsaZ5g=;
-        b=hEadg+R2hRZcmJahArai3mONGkoCgTIPCehtJvjDQWsXnhAHIi2GjVWMUlBLGECdFU
-         uK8n1kjvLfr0Op6oSpdoaZu0ZJFQ0gKo8NMEexpsE7xlupBKQJAKCRv/241sAOHDreSx
-         JFFseUBL1g+REK8CtcJctHf7cbBVm5pqzSSuQJXPQQ5EEPfPn1rCnhPTr9kLZjIY9SJl
-         lSznuqYkOsPaLAjyVh/nB6QeZLambf+u+YZX52aSi66KUIiXGPvz0zEHLFFjM9zFVz0t
-         ByxP9JgMBJk8LeInDZ5TYFUMspaQnoHjm55cD872QmScwQeiFOYv9EVn1NuIu51RqgI9
-         e4pQ==
+        d=gmail.com; s=20221208; t=1690176544; x=1690781344;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b/GME1Hrj53Pvx8KllmM1wvoDccOebky6rJzZGwtKkc=;
+        b=sC1rIwOryQO7puzRI50w3xszsEUohaNuGEeXrjZyjPh5KAVW2LZOwH5gRecRBz6dkh
+         Q3ixrdwHhHIQBtyVNKebtfYjrx36dPE4gjBiQ9PdGKJ/ZceVJlvzeHoliivdvU01fXcv
+         GQhRKWdFuY9gXEs2XQTEOT69Hj4Fcuua7HfghpLM+hLQYdngdnOvmYUJ5rlOZaOkg87/
+         2rsTIXLIhaZ80fNsfIGaHqNhEuTvBGETtHCMOX6bq3+FCO420fp6yaE1yaOA4/4YF6iC
+         WkzQxLm+JPWpHhVI3/HFgszS69F+ycfbYMsyniF140kns3ZoaKEavvBG0epLLVmx2cDQ
+         4gew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690175973; x=1690780773;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XchQfCc8vwc9g5aVS6c1iv5AIZrWiDeyheJfWmsaZ5g=;
-        b=ClULzxnm4yAIZ/9sQ9Ir1T8i2BjXnRjfY97E1BI9/VlSTaJyDhTWhcX8JVJucEMplU
-         JcCuxgjLsDKfOKJnvj5iscDzVTASGuj39qoCJWEG2AiWBJ6Tv46TjAoNmcdF4chu+Jz7
-         PYSQ8oTs37x/ggRxTrwlTQnEaCEgJz+ok8W/iAqefTg1rWl/iawyCcGYpfaM68U2rODq
-         0CdD+qFbi8KvxFYBaGkwTe8eRio0fSCDDoiJhqqYcspkDDh8wT0Gq3zT9sw+pYgpqe+W
-         br/KvtWm6p+kPMFDV28wQeNQPwX83LaAyMpmlsuQLoyXim3HaUS59Jz9M6blirn22wHk
-         Y3Dg==
-X-Gm-Message-State: ABy/qLbfGyZx5djKINesVG4zjQlVwBrEOlUQwkiSQTWHFor+sDqOyuy4
-        0is0jbnJ23GbfcNqS0rsOAE=
-X-Google-Smtp-Source: APBJJlHDcT5WQ+azJs8k6vZTCEIaNYPdK7dt7OMMUcNWTWUtvkIXLyitNH72+074zLiJQ8Ygaj5u1g==
-X-Received: by 2002:a17:902:a507:b0:1bb:809d:ae6a with SMTP id s7-20020a170902a50700b001bb809dae6amr6752493plq.7.1690175973306;
-        Sun, 23 Jul 2023 22:19:33 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:b8db:3c3:1ff4:2ae3])
-        by smtp.gmail.com with ESMTPSA id j1-20020a170902da8100b001bba3650448sm1233850plx.258.2023.07.23.22.19.32
+        d=1e100.net; s=20221208; t=1690176544; x=1690781344;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b/GME1Hrj53Pvx8KllmM1wvoDccOebky6rJzZGwtKkc=;
+        b=TQi3kCn+eX5JzoWuYt8KxLLcYSZhqD6zXd65oEQpD/hx+sxxNaynF/ih+BUfHQ4WhY
+         iLFgx7LSFfEY6abGTa3L3tIxHKLbnmyvYK8Zt9wJ8IH+f215XcahkWDpimp0QRxPk38g
+         WlMZPXGYe/4ztY+JVua0n9xCJl88HUmdtF2N0sITKDHsi3Rxzzr7etf/RBH8mkGNH0z+
+         Vj7wP6tvXUZY+NL8a9DlPZ9I2QwohlhjXLAIyoA422MrPm7U+Rz71o4cI1opyHDNVurK
+         AJ5+w0uMhL7eZy8pOA/5BvmWpFxUzh+NjvUlDHB79gnTOSc24kTN39fCsKP94vAWkcqV
+         4N1g==
+X-Gm-Message-State: ABy/qLbVJmZF2sXXa+/Ube9Olhk9S3hprqfaBN2czIDfJlCZfka/9ksh
+        UBR13Il2l5x+ZaYam3hU5BEZoLuF3x4=
+X-Google-Smtp-Source: APBJJlHvQEZ0iUdFHcbaGQEK5yyES+iGI16zu2bLrd3P5f1x4NKvOW9+sQ/KhIgw7y+sYqaJIuZDYg==
+X-Received: by 2002:a05:6870:1716:b0:1b0:649f:e68a with SMTP id h22-20020a056870171600b001b0649fe68amr9968395oae.25.1690176544526;
+        Sun, 23 Jul 2023 22:29:04 -0700 (PDT)
+Received: from dtor-ws.mtv.corp.google.com ([2620:15c:9d:2:b8db:3c3:1ff4:2ae3])
+        by smtp.gmail.com with ESMTPSA id fk18-20020a056a003a9200b0064d3a9def35sm6721286pfb.188.2023.07.23.22.29.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jul 2023 22:19:32 -0700 (PDT)
-Date:   Sun, 23 Jul 2023 22:19:30 -0700
+        Sun, 23 Jul 2023 22:29:04 -0700 (PDT)
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Yangtao Li <frank.li@vivo.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/8] Input: qt2160 - convert to use devm_* api
-Message-ID: <ZL4J4h3JJLh1UQnQ@google.com>
-References: <20230714080611.81302-1-frank.li@vivo.com>
- <20230714080611.81302-7-frank.li@vivo.com>
+To:     linux-input@vger.kernel.org
+Cc:     Yangtao Li <frank.li@vivo.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] Input: lm8323 - rely on device core to create kp_disable attribute
+Date:   Sun, 23 Jul 2023 22:28:59 -0700
+Message-ID: <20230724052901.350240-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.41.0.487.g6d72f3e995-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230714080611.81302-7-frank.li@vivo.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,120 +68,92 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Yangtao,
+Device core now has facilities to create driver-specific device attributes
+as part of driver probing, use them.
 
-On Fri, Jul 14, 2023 at 04:06:10PM +0800, Yangtao Li wrote:
-> Use devm_* api to simplify code, this makes it unnecessary to explicitly
-> release resources.
-> 
-> Signed-off-by: Yangtao Li <frank.li@vivo.com>
-> ---
->  drivers/input/keyboard/qt2160.c | 30 +++++++++++-------------------
->  1 file changed, 11 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/input/keyboard/qt2160.c b/drivers/input/keyboard/qt2160.c
-> index 599ea85cfd30..218ef92b8c2b 100644
-> --- a/drivers/input/keyboard/qt2160.c
-> +++ b/drivers/input/keyboard/qt2160.c
-> @@ -340,6 +340,7 @@ static bool qt2160_identify(struct i2c_client *client)
->  
->  static int qt2160_probe(struct i2c_client *client)
->  {
-> +	struct device *dev = &client->dev;
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/keyboard/lm8323.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-You create a temporary, but half of the code does not use it. Please if
-you introduce a temporary make sure everything is using it.
-
->  	struct qt2160_data *qt2160;
->  	struct input_dev *input;
->  	int i;
-> @@ -358,12 +359,11 @@ static int qt2160_probe(struct i2c_client *client)
->  		return -ENODEV;
->  
->  	/* Chip is valid and active. Allocate structure */
-> -	qt2160 = kzalloc(sizeof(struct qt2160_data), GFP_KERNEL);
-> -	input = input_allocate_device();
-> +	qt2160 = devm_kzalloc(dev, sizeof(struct qt2160_data), GFP_KERNEL);
-> +	input = devm_input_allocate_device(dev);
->  	if (!qt2160 || !input) {
-
-This double check was a cheat when resources did not free automatically,
-it makes no sense to carry with devm.
-
->  		dev_err(&client->dev, "insufficient memory\n");
-> -		error = -ENOMEM;
-> -		goto err_free_mem;
-> +		return -ENOMEM;
->  	}
->  
->  	qt2160->client = client;
-> @@ -389,23 +389,23 @@ static int qt2160_probe(struct i2c_client *client)
->  	error = qt2160_write(client, QT2160_CMD_CALIBRATE, 1);
->  	if (error) {
->  		dev_err(&client->dev, "failed to calibrate device\n");
-> -		goto err_free_mem;
-> +		return error;
->  	}
->  
->  	if (client->irq) {
-> -		error = request_irq(client->irq, qt2160_irq,
-> -				    IRQF_TRIGGER_FALLING, "qt2160", qt2160);
-> +		error = devm_request_irq(dev, client->irq, qt2160_irq,
-> +					 IRQF_TRIGGER_FALLING, "qt2160", qt2160);
->  		if (error) {
->  			dev_err(&client->dev,
->  				"failed to allocate irq %d\n", client->irq);
-> -			goto err_free_mem;
-> +			return error;
->  		}
->  	}
->  
->  	error = qt2160_register_leds(qt2160);
->  	if (error) {
->  		dev_err(&client->dev, "Failed to register leds\n");
-> -		goto err_free_irq;
-> +		return error;
->  	}
->  
->  	error = input_register_device(qt2160->input);
-> @@ -422,29 +422,21 @@ static int qt2160_probe(struct i2c_client *client)
->  
->  err_unregister_leds:
->  	qt2160_unregister_leds(qt2160);
-
-LEDs can also be registered with devm.
-
-> -err_free_irq:
-> -	if (client->irq)
-> -		free_irq(client->irq, qt2160);
-> -err_free_mem:
-> -	input_free_device(input);
-> -	kfree(qt2160);
->  	return error;
->  }
->  
->  static void qt2160_remove(struct i2c_client *client)
->  {
->  	struct qt2160_data *qt2160 = i2c_get_clientdata(client);
-> +	struct device *dev = &client->dev;
->  
->  	qt2160_unregister_leds(qt2160);
->  
->  	/* Release IRQ so no queue will be scheduled */
->  	if (client->irq)
-> -		free_irq(client->irq, qt2160);
-> +		devm_free_irq(dev, client->irq, qt2160);
->  
->  	cancel_delayed_work_sync(&qt2160->dwork);
-
-It is not great that we are left with non-empty qt2160_remove(). The
-driver should be converted away from using work item, and then entirety
-of qt2160_remove() can be deleted.
-
-I posted a series that cleans up the driver and incorporates an updated
-version of your patch.
-
-Thanks.
-
+diff --git a/drivers/input/keyboard/lm8323.c b/drivers/input/keyboard/lm8323.c
+index 3964f6e0f6af..d5195415533a 100644
+--- a/drivers/input/keyboard/lm8323.c
++++ b/drivers/input/keyboard/lm8323.c
+@@ -615,6 +615,12 @@ static ssize_t lm8323_set_disable(struct device *dev,
+ }
+ static DEVICE_ATTR(disable_kp, 0644, lm8323_show_disable, lm8323_set_disable);
+ 
++static struct attribute *lm8323_attrs[] = {
++	&dev_attr_disable_kp.attr,
++	NULL,
++};
++ATTRIBUTE_GROUPS(lm8323);
++
+ static int lm8323_probe(struct i2c_client *client)
+ {
+ 	struct lm8323_platform_data *pdata = dev_get_platdata(&client->dev);
+@@ -696,9 +702,6 @@ static int lm8323_probe(struct i2c_client *client)
+ 	}
+ 
+ 	lm->kp_enabled = true;
+-	err = device_create_file(&client->dev, &dev_attr_disable_kp);
+-	if (err < 0)
+-		goto fail2;
+ 
+ 	idev->name = pdata->name ? : "LM8323 keypad";
+ 	snprintf(lm->phys, sizeof(lm->phys),
+@@ -719,14 +722,14 @@ static int lm8323_probe(struct i2c_client *client)
+ 	err = input_register_device(idev);
+ 	if (err) {
+ 		dev_dbg(&client->dev, "error registering input device\n");
+-		goto fail3;
++		goto fail2;
+ 	}
+ 
+ 	err = request_threaded_irq(client->irq, NULL, lm8323_irq,
+ 			  IRQF_TRIGGER_LOW|IRQF_ONESHOT, "lm8323", lm);
+ 	if (err) {
+ 		dev_err(&client->dev, "could not get IRQ %d\n", client->irq);
+-		goto fail4;
++		goto fail3;
+ 	}
+ 
+ 	i2c_set_clientdata(client, lm);
+@@ -736,11 +739,9 @@ static int lm8323_probe(struct i2c_client *client)
+ 
+ 	return 0;
+ 
+-fail4:
++fail3:
+ 	input_unregister_device(idev);
+ 	idev = NULL;
+-fail3:
+-	device_remove_file(&client->dev, &dev_attr_disable_kp);
+ fail2:
+ 	while (--pwm >= 0)
+ 		if (lm->pwm[pwm].enabled)
+@@ -761,8 +762,6 @@ static void lm8323_remove(struct i2c_client *client)
+ 
+ 	input_unregister_device(lm->idev);
+ 
+-	device_remove_file(&lm->client->dev, &dev_attr_disable_kp);
+-
+ 	for (i = 0; i < 3; i++)
+ 		if (lm->pwm[i].enabled)
+ 			led_classdev_unregister(&lm->pwm[i].cdev);
+@@ -823,8 +822,9 @@ static const struct i2c_device_id lm8323_id[] = {
+ 
+ static struct i2c_driver lm8323_i2c_driver = {
+ 	.driver = {
+-		.name	= "lm8323",
+-		.pm	= pm_sleep_ptr(&lm8323_pm_ops),
++		.name		= "lm8323",
++		.pm		= pm_sleep_ptr(&lm8323_pm_ops),
++		.dev_groups	= lm8323_groups,
+ 	},
+ 	.probe		= lm8323_probe,
+ 	.remove		= lm8323_remove,
 -- 
-Dmitry
+2.41.0.487.g6d72f3e995-goog
+
