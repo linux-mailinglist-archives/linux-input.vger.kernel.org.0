@@ -2,93 +2,151 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0463175EAF3
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jul 2023 07:42:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DDF675EC37
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jul 2023 09:09:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229537AbjGXFmz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Jul 2023 01:42:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40804 "EHLO
+        id S230289AbjGXHJU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Jul 2023 03:09:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229491AbjGXFmy (ORCPT
+        with ESMTP id S229468AbjGXHJT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Jul 2023 01:42:54 -0400
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5009A6;
-        Sun, 23 Jul 2023 22:42:53 -0700 (PDT)
-Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-668704a5b5bso3776105b3a.0;
-        Sun, 23 Jul 2023 22:42:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690177373; x=1690782173;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iZj5kpfCqCvgRbtU/joxmlUZ8ZQl3bGFXLiviCrla3k=;
-        b=N1bjlygBrCSg+LblTPS2D/zuNnpbQnOCeKHwZcAffUASCS8GTY8qgaY1eJ0I25xP04
-         ZYq2cTG/JGM8SUvzbv1/ZnrPwxKcjkqMJ8Ftb/B73jzzgidFWvtoojrLaIVmNZgndkRj
-         6DhiiA3HaqqgGoV1D7rGWmBoGMJqVx7DdBPpprXFgqvpXQ03grgmfsoI7uNcuRtLIDMF
-         2r/IFqqG/Ae49upJusTreIApwBP92oCrPxBS4qe1nxrtWrH03RabbO8YIHT8nUutxF3X
-         D8mS/GfbYUJAS5Sl8GqHpL8yVHXy5jkwfLjjt5uIWgRrZ4Ih0Jtc+2fAwE64aL37gFLa
-         FhOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690177373; x=1690782173;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iZj5kpfCqCvgRbtU/joxmlUZ8ZQl3bGFXLiviCrla3k=;
-        b=d/5U8SjAxiaUGh2mc3WjhnR0HGusIwpm8mTsM3w5cltJq8FjDlowYdDZB/fbPgaFVR
-         b5ycHP3PB0sUcJT7Xyi6dc9Luw70WnqV5ls/8vaIagLrrwM+vhOtz0jI9jVtc1boOGom
-         51wCjVdOZRsHHyDOdLcG2T5oaV2N1gBo7ZccEkUC6y4+czVqKmQ5gXxGbccdmBUhQSJx
-         ljsTcJpON0T2ZxZfTVG/PebX0ehZnYspgxnFrDTVYmtAkeOrs+wWb4Mx5Af98rJp/Gb6
-         TUBSxnj2fo7aC7aUvtTR1NKQqByqluTDTGOOghjm9h2fISJmS+YQQsFKyNgspY+LJdjN
-         aUkg==
-X-Gm-Message-State: ABy/qLY5VOWnkWNaKvSaDCaYf2hmxd9W6jcN2v5xm+TVgLFGL+o4YHYk
-        4ltCJsSHo3JncZ7Ip8soS4ZLAu521dw=
-X-Google-Smtp-Source: APBJJlGadXYHwu9Uh6SDO9qj+xs1UOfitHGrOiPBXh0GcDSb4Qtb7LXnagxreT3pw4+9u3NebRza1A==
-X-Received: by 2002:a05:6a00:1ac8:b0:686:5a11:a434 with SMTP id f8-20020a056a001ac800b006865a11a434mr9469331pfv.3.1690177373184;
-        Sun, 23 Jul 2023 22:42:53 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:b8db:3c3:1ff4:2ae3])
-        by smtp.gmail.com with ESMTPSA id u6-20020a62ed06000000b0067a50223e3bsm6821384pfh.111.2023.07.23.22.42.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jul 2023 22:42:52 -0700 (PDT)
-Date:   Sun, 23 Jul 2023 22:42:50 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        linux-input@vger.kernel.org
-Subject: Re: 6.5-rc2: keys autorepeating when they should not
-Message-ID: <ZL4PWiinZbeOcvFE@google.com>
-References: <ZL0b/odKy/GlEzJV@duo.ucw.cz>
+        Mon, 24 Jul 2023 03:09:19 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B22C6138;
+        Mon, 24 Jul 2023 00:09:14 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6C2E524000E;
+        Mon, 24 Jul 2023 07:09:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1690182552;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=0OTdgWQ6Vo/4tl1ZM7En0YdjITPLKGIP2IIxkkPFJRM=;
+        b=iC5ZIY44VFrCSUNoeMIdYmOyqSrlrW7N4tyY+Hq53oXBVph3jCQ5ij8fsDynsYh6NybKfF
+        47iBUwR964ggu52YB13yaU1E18wok2aDQAXdbpXfZnCVzqeybMcvNBEm04M8MJv49vz912
+        60p20TKBhztddQMV6EZbSo0vTLzFb3Ok+FWErn92iDiDFjDyPmqRh1JKdYw5xT3hwpwVlV
+        u4k2GthKUnBFuRNrRP/XoPSerupU1HIaiVySzO/QpWk35FaiLI3dwdIhQ2brWGTyOPPUCM
+        8E3/Ier83smwYkYCv/LsZ20OWFpB5I2g8A5epoX659Pa/Omr3Rckh60nqnZ+5A==
+Date:   Mon, 24 Jul 2023 09:09:02 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Andy Shevchenko <andy@kernel.org>
+Cc:     nikita.shubin@maquefel.me,
+        Hartley Sweeten <hsweeten@visionengravers.com>,
+        Lennert Buytenhek <kernel@wantstofly.org>,
+        Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Lukasz Majewski <lukma@denx.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Sebastian Reichel <sre@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
+        <u.kleine-koenig@pengutronix.de>, Mark Brown <broonie@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Damien Le Moal <dlemoal@kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        soc@kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Michael Peters <mpeters@embeddedts.com>,
+        Kris Bahnsen <kris@embeddedts.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
+        netdev@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-ide@vger.kernel.org,
+        linux-input@vger.kernel.org, alsa-devel@alsa-project.org
+Subject: Re: [PATCH v3 24/42] mtd: nand: add support for ts72xx
+Message-ID: <20230724090902.679ea56d@xps-13>
+In-Reply-To: <ZLqx+Osn3gcHjUph@smile.fi.intel.com>
+References: <20230605-ep93xx-v3-0-3d63a5f1103e@maquefel.me>
+        <20230605-ep93xx-v3-24-3d63a5f1103e@maquefel.me>
+        <ZLqx+Osn3gcHjUph@smile.fi.intel.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZL0b/odKy/GlEzJV@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Pavel,
+Hi Andy,
 
-On Sun, Jul 23, 2023 at 02:24:30PM +0200, Pavel Machek wrote:
-> Hi!
-> 
-> I updated to 6.5-rc2, and now I see keyboard problems (in X). ~ once
-> in two days I get keyboard "stuck", autorepeating. It is USB keyboard,
-> hitting another key cancels the autorepeat.
+> > +static int ts72xx_nand_attach_chip(struct nand_chip *chip)
+> > +{
+> > +	switch (chip->ecc.engine_type) {
+> > +	case NAND_ECC_ENGINE_TYPE_SOFT:
+> > +		if (chip->ecc.algo =3D=3D NAND_ECC_ALGO_UNKNOWN)
+> > +			chip->ecc.algo =3D NAND_ECC_ALGO_HAMMING;
+> > +		break;
+> > +	case NAND_ECC_ENGINE_TYPE_ON_HOST:
+> > +		return -EINVAL;
+> > +	default: =20
+>=20
+> > +		break; =20
+>=20
+> Here it will return 0, is it a problem?
 
-Sounds like keys are not released because autorepeat handled by X and
-not the kernel. I am not sure what would cause this, there were no
-changes to the input core recently... Maybe HID?
+Seems ok, there are two other situations: on-die ECC engine and no ECC
+engine, both do not require any specific handling on the controller
+side.
 
-From which kernel did you update to 6.5-rc2? Any chance you could try
-bisecting?
+>=20
+> > +	}
+> > +
+> > +	return 0;
+> > +} =20
+>=20
+> ...
+>=20
+> > +static void ts72xx_nand_remove(struct platform_device *pdev)
+> > +{
+> > +	struct ts72xx_nand_data *data =3D platform_get_drvdata(pdev);
+> > +	struct nand_chip *chip =3D &data->chip;
+> > +	int ret;
+> > +
+> > +	ret =3D mtd_device_unregister(nand_to_mtd(chip)); =20
+>=20
+> > +	WARN_ON(ret); =20
+>=20
+> Why?!  Is it like this in other MTD drivers?
 
-Thanks.
+Yes, we did not yet change the internal machinery to return void, and
+we don't want people to think getting errors there is normal.
 
+> > +	nand_cleanup(chip);
+> > +} =20
+>=20
 
--- 
-Dmitry
+Thanks,
+Miqu=C3=A8l
