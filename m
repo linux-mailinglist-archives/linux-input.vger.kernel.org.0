@@ -2,56 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FC1075E767
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jul 2023 03:27:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2561D75EABC
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jul 2023 07:13:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231392AbjGXB1n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 23 Jul 2023 21:27:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53270 "EHLO
+        id S229593AbjGXFN5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Jul 2023 01:13:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231390AbjGXB1N (ORCPT
+        with ESMTP id S229456AbjGXFN4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 23 Jul 2023 21:27:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF89D19AC;
-        Sun, 23 Jul 2023 18:24:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 45D7760F53;
-        Mon, 24 Jul 2023 01:24:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04781C433CC;
-        Mon, 24 Jul 2023 01:24:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690161845;
-        bh=2VMXI/mmpu8Bau/8WpdggBlNO6bQ8AwVT2lXn1uMI6o=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=izSm9c8ZkcfShILRCJNrW7AAy737m9V0AAa+YlbXa8KxjDUBJ5vZTyVzszRYMGADU
-         oaDeUpyIQG6UxWhlyVmmy0EfVg6e+kqDfKcDuOue+LqHlc7j58FySQJQUcvf1Lpp+w
-         lAsQyHfWNO9TVXxLGaUAAygqvA01orWrl9jHj0EQw6OZ1+fcu5SgdPFZ238FuNrDhF
-         YP4WOOduYBOtt+d7jQ+62TFxUlmzZLvlYGH3WvfT/jIbxfD+9KgHEqp7sG4zXeC2QR
-         oQI4W8Dg9Cxz7/nUSsB9Ya/lT6qcQGPYxVTYQMn5vy+sXhFVbFtxhIrtpTX5PXCBBo
-         DuUsGMsn0XKJQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Marco Morandini <marco.morandini@polimi.it>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        jikos@kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 14/23] HID: add quirk for 03f0:464a HP Elite Presenter Mouse
-Date:   Sun, 23 Jul 2023 21:23:25 -0400
-Message-Id: <20230724012334.2317140-14-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230724012334.2317140-1-sashal@kernel.org>
-References: <20230724012334.2317140-1-sashal@kernel.org>
+        Mon, 24 Jul 2023 01:13:56 -0400
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78D4DE40;
+        Sun, 23 Jul 2023 22:13:50 -0700 (PDT)
+Received: by mail-oi1-x229.google.com with SMTP id 5614622812f47-3a3373211a1so2373547b6e.0;
+        Sun, 23 Jul 2023 22:13:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690175629; x=1690780429;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=caoeUxdk/bY/30hShXkM8xzsEfv9tOC0PQvdZObEqiY=;
+        b=KYD9a4ljlBeWIzDK9kSM+wtkeKt3bOrazkF5Xp838g3RE1NG9jTSHD/pFsqgGvB8pH
+         SKWeeBfl2HV2aMTyoGX3ingxOXm0C3fabo5d1/NoM8vpoxGQr/4ZPHz9e/BmSd4mRqPm
+         u2EMUUmFr3TfhsDfhyRQTnJm2V6Lx2LsKP9XaX+yuzg463Im6sZRUnULiXsV7cdG7JYc
+         v9Twr8zm/d9pxtQeIwPnqSO1O1c73aJZCaWwVZmb115l8Wg1lzsWQMkmvOxqnR1IxXw8
+         HhzI0MYiHSmvisooFrdUvjvs6Md5ffI0KQiupCqjboAphXLLFOP7F8X294iRF0eFLzsr
+         Jt8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690175629; x=1690780429;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=caoeUxdk/bY/30hShXkM8xzsEfv9tOC0PQvdZObEqiY=;
+        b=OWcxKub/2T78QX4qcQty/6vxk9yvx38alH7g0uQAIdfITfhUlcdK30sN5Oxwi2Cw+I
+         AAaRj0Hvq9b9dPQso6SP41rkK1yc2G0WjfWV67ahyIsMVNTQ/tpd9gm9yScP9pilU195
+         kluVqHLgxC98MVKDdj71PozXC807n9kQ7tDscdcORS2P9OpuoPvBFbrVx6w4SBdLX35U
+         7C6sKeWcrvTh6o7tfxUvrDxSCu7u/YsnyGWH6MoSgvHnbzN38a2TSBTWviALKrRoCk1A
+         SAmoofEPzzpL/36ni3VehooizIqq7liYo6V3Idi8GYoHIxREW7XPPCgq44TaezxRMOc3
+         3SEQ==
+X-Gm-Message-State: ABy/qLa8akFiO0BQsXvMpj1EnNKfdxpCpAQOXirVJLK0/i5Hu7slchvQ
+        ABb3p25etODX+vTP6Bk25lltsH/+jow=
+X-Google-Smtp-Source: APBJJlEDCNOx+kTZCCY18koIORa1WIU3zN1YrwleKmbxpXbt6hOx2rpIGov6fTFkU+iz2ubrKMu+dA==
+X-Received: by 2002:a05:6808:a97:b0:3a4:947:c97b with SMTP id q23-20020a0568080a9700b003a40947c97bmr9726446oij.0.1690175629481;
+        Sun, 23 Jul 2023 22:13:49 -0700 (PDT)
+Received: from dtor-ws.mtv.corp.google.com ([2620:15c:9d:2:b8db:3c3:1ff4:2ae3])
+        by smtp.gmail.com with ESMTPSA id gv17-20020a17090b11d100b00265dc26d8dfsm7501106pjb.27.2023.07.23.22.13.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Jul 2023 22:13:49 -0700 (PDT)
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Yangtao Li <frank.li@vivo.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] Input: qt2160 - tweak check for i2c adapter functionality
+Date:   Sun, 23 Jul 2023 22:13:39 -0700
+Message-ID: <20230724051345.335219-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.41.0.487.g6d72f3e995-goog
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.121
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,52 +68,33 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Marco Morandini <marco.morandini@polimi.it>
+i2c_check_functionality() returns essentially a boolean and not an error
+code, so treat it as such.
 
-[ Upstream commit 0db117359e47750d8bd310d19f13e1c4ef7fc26a ]
-
-HP Elite Presenter Mouse HID Record Descriptor shows
-two mouses (Repord ID 0x1 and 0x2), one keypad (Report ID 0x5),
-two Consumer Controls (Report IDs 0x6 and 0x3).
-Previous to this commit it registers one mouse, one keypad
-and one Consumer Control, and it was usable only as a
-digitl laser pointer (one of the two mouses). This patch defines
-the 464a USB device ID and enables the HID_QUIRK_MULTI_INPUT
-quirk for it, allowing to use the device both as a mouse
-and a digital laser pointer.
-
-Signed-off-by: Marco Morandini <marco.morandini@polimi.it>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/input/keyboard/qt2160.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 5daec769df7ae..5fceefb3c707e 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -593,6 +593,7 @@
- #define USB_DEVICE_ID_UGCI_FIGHTING	0x0030
+diff --git a/drivers/input/keyboard/qt2160.c b/drivers/input/keyboard/qt2160.c
+index 599ea85cfd30..b0b9d7a2691e 100644
+--- a/drivers/input/keyboard/qt2160.c
++++ b/drivers/input/keyboard/qt2160.c
+@@ -345,12 +345,9 @@ static int qt2160_probe(struct i2c_client *client)
+ 	int i;
+ 	int error;
  
- #define USB_VENDOR_ID_HP		0x03f0
-+#define USB_PRODUCT_ID_HP_ELITE_PRESENTER_MOUSE_464A		0x464a
- #define USB_PRODUCT_ID_HP_LOGITECH_OEM_USB_OPTICAL_MOUSE_0A4A	0x0a4a
- #define USB_PRODUCT_ID_HP_LOGITECH_OEM_USB_OPTICAL_MOUSE_0B4A	0x0b4a
- #define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE		0x134a
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index c7c06aa958c4d..96ca7d981ee20 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -96,6 +96,7 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HOLTEK_ALT, USB_DEVICE_ID_HOLTEK_ALT_KEYBOARD_A096), HID_QUIRK_NO_INIT_REPORTS },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HOLTEK_ALT, USB_DEVICE_ID_HOLTEK_ALT_KEYBOARD_A293), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_LOGITECH_OEM_USB_OPTICAL_MOUSE_0A4A), HID_QUIRK_ALWAYS_POLL },
-+	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_ELITE_PRESENTER_MOUSE_464A), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_LOGITECH_OEM_USB_OPTICAL_MOUSE_0B4A), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_094A), HID_QUIRK_ALWAYS_POLL },
+-	/* Check functionality */
+-	error = i2c_check_functionality(client->adapter,
+-			I2C_FUNC_SMBUS_BYTE);
+-	if (!error) {
++	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE)) {
+ 		dev_err(&client->dev, "%s adapter not supported\n",
+-				dev_driver_string(&client->adapter->dev));
++			dev_driver_string(&client->adapter->dev));
+ 		return -ENODEV;
+ 	}
+ 
 -- 
-2.39.2
+2.41.0.487.g6d72f3e995-goog
 
