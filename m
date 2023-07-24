@@ -2,47 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7332775E713
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jul 2023 03:24:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B84175E729
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jul 2023 03:25:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230476AbjGXBYt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 23 Jul 2023 21:24:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53230 "EHLO
+        id S231355AbjGXBZG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 23 Jul 2023 21:25:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230499AbjGXBXx (ORCPT
+        with ESMTP id S231237AbjGXBYW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 23 Jul 2023 21:23:53 -0400
+        Sun, 23 Jul 2023 21:24:22 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D83C7E7E;
-        Sun, 23 Jul 2023 18:22:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4903DE45;
+        Sun, 23 Jul 2023 18:23:04 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5426060F16;
-        Mon, 24 Jul 2023 01:22:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 344DEC433CC;
-        Mon, 24 Jul 2023 01:22:43 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 27D9760EEE;
+        Mon, 24 Jul 2023 01:23:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9DA8C433CB;
+        Mon, 24 Jul 2023 01:23:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690161765;
-        bh=pipj35J1cxmcWg+1B6OqVjY2vDHh5dIsPs1xkoLxH/4=;
+        s=k20201202; t=1690161783;
+        bh=yzl/7No59yu4X8CqHuljtqwoKUXFaGufb7aItaEIIRY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jJ1x7SOol9p1HDGD4mmHM7zYy+veeGF213zqmwdUDSY4zX7Z3xLH4facmz5iV0IN3
-         6c9Z2XeoquxOR8T4AhFr5OKhPudrgdPcrsL7OJeqaim9ncNtKyPuYeRNXp/VDzvzT3
-         OtcpKfnPIkmv8cE7V5chJB4wF6Uylm4pdNBgmaQtx2kVNv406Tf3FQFRc7u6kez/OK
-         GdUHQylWt/eOehK7sHHIx19mANaa690FJEP0bUnJ/SkNlEYzkZ/nkBtR/scRQ16CKr
-         0eFXInv+KIA8dbUZ/9hlPYgFhVOYANBLErs1Gl7itNhHSdB9tHSWWQTcrO9Lzj4z2B
-         Sr54arJObxplQ==
+        b=TXx/FPuBm20abbhMpLjq14IBGAYJVX1bBhtQUhfNHVCIduRUTPdQ0REuS1dftRb2T
+         YtzuR1mb1GFtSONj2a7ggK/u/v8FYO1tFfGZUfuTzpznW7k3+wCfs0Bd1UHVVIvyvY
+         jaz0sbBUsxHLuuJ6zuyzRoKnY8LssUXhVFmo4iHlJMVwZEsqm3U58rbv0rK4LopvNZ
+         Q9eMdbkkkdmeVMWVuncCmvnJ1WYPhNlWblvjAqhYa5+vf/I7OD8MshbaNhXbbJXUcu
+         6Y6BZ6ti4lkTbcN2WjMQXeWs39NRpRg6TRhLgCbNimPiM4yEXKLr1H/2GnZCXgQFpH
+         6DGtIFiGJaKHQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     stuarthayhurst <stuart.a.hayhurst@gmail.com>,
-        Bastien Nocera <hadess@hadess.net>,
+Cc:     Marco Morandini <marco.morandini@polimi.it>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         jikos@kernel.org, benjamin.tissoires@redhat.com,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 24/41] HID: logitech-hidpp: Add USB and Bluetooth IDs for the Logitech G915 TKL Keyboard
-Date:   Sun, 23 Jul 2023 21:20:57 -0400
-Message-Id: <20230724012118.2316073-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 29/41] HID: add quirk for 03f0:464a HP Elite Presenter Mouse
+Date:   Sun, 23 Jul 2023 21:21:02 -0400
+Message-Id: <20230724012118.2316073-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230724012118.2316073-1-sashal@kernel.org>
 References: <20230724012118.2316073-1-sashal@kernel.org>
@@ -61,43 +60,52 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: stuarthayhurst <stuart.a.hayhurst@gmail.com>
+From: Marco Morandini <marco.morandini@polimi.it>
 
-[ Upstream commit 48aea8b445c422a372cf15915101035a47105421 ]
+[ Upstream commit 0db117359e47750d8bd310d19f13e1c4ef7fc26a ]
 
-Adds the USB and Bluetooth IDs for the Logitech G915 TKL keyboard, for device detection
-For this device, this provides battery reporting on top of hid-generic
+HP Elite Presenter Mouse HID Record Descriptor shows
+two mouses (Repord ID 0x1 and 0x2), one keypad (Report ID 0x5),
+two Consumer Controls (Report IDs 0x6 and 0x3).
+Previous to this commit it registers one mouse, one keypad
+and one Consumer Control, and it was usable only as a
+digitl laser pointer (one of the two mouses). This patch defines
+the 464a USB device ID and enables the HID_QUIRK_MULTI_INPUT
+quirk for it, allowing to use the device both as a mouse
+and a digital laser pointer.
 
-Reviewed-by: Bastien Nocera <hadess@hadess.net>
-Signed-off-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+Signed-off-by: Marco Morandini <marco.morandini@polimi.it>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-logitech-hidpp.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/hid/hid-ids.h    | 1 +
+ drivers/hid/hid-quirks.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index b2cd7527de195..28761272afe52 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -4403,6 +4403,8 @@ static const struct hid_device_id hidpp_devices[] = {
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC086) },
- 	{ /* Logitech G903 Hero Gaming Mouse over USB */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC091) },
-+	{ /* Logitech G915 TKL Keyboard over USB */
-+	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC343) },
- 	{ /* Logitech G920 Wheel over USB */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_G920_WHEEL),
- 		.driver_data = HIDPP_QUIRK_CLASS_G920 | HIDPP_QUIRK_FORCE_OUTPUT_REPORTS},
-@@ -4418,6 +4420,8 @@ static const struct hid_device_id hidpp_devices[] = {
- 	{ /* MX5500 keyboard over Bluetooth */
- 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb30b),
- 	  .driver_data = HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
-+	{ /* Logitech G915 TKL keyboard over Bluetooth */
-+	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb35f) },
- 	{ /* M-RCQ142 V470 Cordless Laser Mouse over Bluetooth */
- 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb008) },
- 	{ /* MX Master mouse over Bluetooth */
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 653db6cdab579..9a17e5cc3539b 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -614,6 +614,7 @@
+ #define USB_DEVICE_ID_UGCI_FIGHTING	0x0030
+ 
+ #define USB_VENDOR_ID_HP		0x03f0
++#define USB_PRODUCT_ID_HP_ELITE_PRESENTER_MOUSE_464A		0x464a
+ #define USB_PRODUCT_ID_HP_LOGITECH_OEM_USB_OPTICAL_MOUSE_0A4A	0x0a4a
+ #define USB_PRODUCT_ID_HP_LOGITECH_OEM_USB_OPTICAL_MOUSE_0B4A	0x0b4a
+ #define USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE		0x134a
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 66e64350f1386..f8f20a7c24b17 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -96,6 +96,7 @@ static const struct hid_device_id hid_quirks[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_HOLTEK_ALT, USB_DEVICE_ID_HOLTEK_ALT_KEYBOARD_A096), HID_QUIRK_NO_INIT_REPORTS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_HOLTEK_ALT, USB_DEVICE_ID_HOLTEK_ALT_KEYBOARD_A293), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_LOGITECH_OEM_USB_OPTICAL_MOUSE_0A4A), HID_QUIRK_ALWAYS_POLL },
++	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_ELITE_PRESENTER_MOUSE_464A), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_LOGITECH_OEM_USB_OPTICAL_MOUSE_0B4A), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_094A), HID_QUIRK_ALWAYS_POLL },
 -- 
 2.39.2
 
