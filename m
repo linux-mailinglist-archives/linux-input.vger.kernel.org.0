@@ -2,65 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1913875EAE3
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jul 2023 07:34:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D10E75EAE6
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jul 2023 07:35:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229821AbjGXFeg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Jul 2023 01:34:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37662 "EHLO
+        id S229889AbjGXFfX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Jul 2023 01:35:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjGXFef (ORCPT
+        with ESMTP id S229964AbjGXFfU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Jul 2023 01:34:35 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE5FC109;
-        Sun, 23 Jul 2023 22:34:34 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-666ed230c81so3809699b3a.0;
-        Sun, 23 Jul 2023 22:34:34 -0700 (PDT)
+        Mon, 24 Jul 2023 01:35:20 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE1E712A;
+        Sun, 23 Jul 2023 22:35:13 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1b8ad356fe4so23739715ad.2;
+        Sun, 23 Jul 2023 22:35:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690176874; x=1690781674;
+        d=gmail.com; s=20221208; t=1690176913; x=1690781713;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aakJoR5SDfOC3XF2g11SRCYc6/sCovHC8GmGvDOFBq0=;
-        b=Pyb144HncaoUm/nOFYkqYSi5VnckYQj0tAHbI+QRkYSzK3j+nvx7sDtdHHmhVL/csx
-         QI0RAwqdyy+8JocVYb9xa26GztSsazm84IV6CtavEnHbqDwZcS5bzSs93mVQ0VO45DCY
-         JnYwyrcF6/JPtZOjPNNUGUZaWfpi3hlzSBkVCBTzaWU0NiNIoxKex20+mCW2ZO08Aruv
-         /w0KtA29pJVRZPD+WJqYA1wmCYv3AX/boCoOVvngHcOSsysJ2idqO84P9Fb4hPgDHqRi
-         pUE3ahXtx7PQyV3vT0FU7ci3y4IuHVMfFoOsuz41mCWFmzAOfQyFpWY9b4fzCBPprDqx
-         K8eQ==
+        bh=rh0T3l/rmG9WROMZ+kOwJymkH0BdjJef66u+HcPHoVk=;
+        b=LFhLXdRYvSVRutAfyxk1bzDphij3TPokm1mNK/9wJ+aOBNlTTsyPXi3GJMfxi1dsQh
+         AADbworsmOXbrCl3ctUclN773l8BQtoqSjYVJB0PYzWIxaxsr5NqVz6pzdve3tQXxUBj
+         W8H4+38d22NyyO9/m55Xtaf1GLiYctOyNuS5Cgvf9bnkvNsgIrWxUKWL0hs4ZFGpglcO
+         oiWnZ1wCe9q30ajp+CPTihhVkWvjdnAS49DFIw8AYhaZm58yPlNpW2dWbYMHEoFGNsZC
+         WxWXpMaLR2WP03vJiLfyPh6oUQFJW31j/wYp2fm6Mt2vruayZPnCLFPIES36+8l0XICw
+         UK5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690176874; x=1690781674;
+        d=1e100.net; s=20221208; t=1690176913; x=1690781713;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aakJoR5SDfOC3XF2g11SRCYc6/sCovHC8GmGvDOFBq0=;
-        b=SGIFgDJnLTwLvRATgzHW4o+rdVo7EAKtf9Apdf/5dWt4645JJ0qpfSI8jslL9KrhMV
-         1LbbEGITEPaV3eXamySJkDGYph1DOjMZ5B7m5MkP1ihm+GdyhYaXQnNY5C8YoeUZJ4+k
-         gLZwhgCjqaenhyIAgGiQz57V9BvSzxbMOOBuzuhZHtoPU4uS2i+xsE0xwhjbIAi+czom
-         MO59pH7AQYD04NSrlJbkxbIx30d8/dv3R+4+QqrnxNDNXCKrTCv1TNeoctK2oji5wspg
-         LBcK8DHuHJYFjibaALVrckQ0L7OgeC/32Cx+nfpdkXvWksdmiKDihgkShVcWQ31/KsgB
-         FLXQ==
-X-Gm-Message-State: ABy/qLaXipyFFtxIZ2xxF+1xXYcOk41eu4qgXRKWOwwUASpVzWC2KX02
-        JLat41sdL6W3hh/TO8wE/rmR3UX+aeM=
-X-Google-Smtp-Source: APBJJlFDmq7JU2ZovR8eEOaUD9difSsyL4zsINomddw+xDjqKxPKsBRF00duMLr6B0uAbuPyRxarLA==
-X-Received: by 2002:aa7:8882:0:b0:682:57f0:7c0e with SMTP id z2-20020aa78882000000b0068257f07c0emr11039488pfe.11.1690176874106;
-        Sun, 23 Jul 2023 22:34:34 -0700 (PDT)
+        bh=rh0T3l/rmG9WROMZ+kOwJymkH0BdjJef66u+HcPHoVk=;
+        b=Bv89CujlYBVlDVrzpv2M1Xu+HTq/FBuSau7jXVOpVY+wf3GoFO8SdX/jYCaS6Vgz7A
+         CCCk0ZxLPvFsMDNAYpoh70T+fwURQx8M0Rm26r7K8FtINZwIS5DZvvbKReUz3fyjXiWS
+         lm1gyVtzgf8if0TXpHl5qtqyjPNNjiqUYMf/i2yB1UM0VX2BVlk64Ne5SdbqWkYEqwDm
+         JqT8Azj+KIi0a5z3oInBKifC/OQuMrY5C6OCcJGulyffIKqYM5OrJKRQ57+eMttYggAo
+         7MV6cRYJQecwbbZ00H7BtWf2sqdllgbKohfkllY3FtimwCeLDmFB5i1GvnqTTWiMhVOf
+         Oadw==
+X-Gm-Message-State: ABy/qLZrEL+rVNID2TkICXFmX//IfRKVB7nBN5cVobthiYXplEBjLqdq
+        dwo4FrKUTTlt+m6biK3cHUHmpCPn//4=
+X-Google-Smtp-Source: APBJJlEvHrKDdgwQpzcPq7sWCOtoR/JRCyKiDWlLD4GnLHvY4KRTPiRI+LQc1e+BKilIervi6J/+/w==
+X-Received: by 2002:a17:903:248:b0:1bb:20ee:e29e with SMTP id j8-20020a170903024800b001bb20eee29emr10087360plh.1.1690176913148;
+        Sun, 23 Jul 2023 22:35:13 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:b8db:3c3:1ff4:2ae3])
-        by smtp.gmail.com with ESMTPSA id y8-20020a62b508000000b00663b712bfbdsm6751869pfe.57.2023.07.23.22.34.33
+        by smtp.gmail.com with ESMTPSA id jg1-20020a17090326c100b001b86f1b5797sm7803391plb.302.2023.07.23.22.35.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jul 2023 22:34:33 -0700 (PDT)
-Date:   Sun, 23 Jul 2023 22:34:31 -0700
+        Sun, 23 Jul 2023 22:35:12 -0700 (PDT)
+Date:   Sun, 23 Jul 2023 22:35:10 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Yangtao Li <frank.li@vivo.com>
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/8] Input: mcs-touchkey - convert to use devm_* api
-Message-ID: <ZL4NZytgXv9RXU5T@google.com>
+Subject: Re: [PATCH 5/8] Input: qt1070 - convert to use devm_* api
+Message-ID: <ZL4NjjNPi+8g6K+0@google.com>
 References: <20230714080611.81302-1-frank.li@vivo.com>
- <20230714080611.81302-3-frank.li@vivo.com>
+ <20230714080611.81302-5-frank.li@vivo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230714080611.81302-3-frank.li@vivo.com>
+In-Reply-To: <20230714080611.81302-5-frank.li@vivo.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -71,7 +71,7 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jul 14, 2023 at 04:06:06PM +0800, Yangtao Li wrote:
+On Fri, Jul 14, 2023 at 04:06:08PM +0800, Yangtao Li wrote:
 > Use devm_* api to simplify code, this makes it unnecessary to explicitly
 > release resources.
 
