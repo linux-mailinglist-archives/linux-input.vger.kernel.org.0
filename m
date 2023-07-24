@@ -2,234 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62CEB75FF5D
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jul 2023 20:53:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C135775FF71
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jul 2023 21:01:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229771AbjGXSxQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Jul 2023 14:53:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54838 "EHLO
+        id S229577AbjGXTBa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Jul 2023 15:01:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229700AbjGXSxQ (ORCPT
+        with ESMTP id S229464AbjGXTB3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Jul 2023 14:53:16 -0400
-Received: from smtp.smtpout.orange.fr (smtp-14.smtpout.orange.fr [80.12.242.14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4843D10E3
-        for <linux-input@vger.kernel.org>; Mon, 24 Jul 2023 11:53:14 -0700 (PDT)
-Received: from [192.168.1.18] ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id O0gBqLUHmRQxjO0gBqj7iM; Mon, 24 Jul 2023 20:53:12 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1690224792;
-        bh=oljbd7XDZ9hHN81Af8q06t6IIPGygtd8E5UbWRmCNUY=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=XN5nVEopSR2NdBmrIjpfHFih/5tI9SpMG4MEFSYQtYyzLHXkCavBlGAY9G38+v/5X
-         riw4ATDWVYVyE+Var/aE8WZXkZoIvhrXhjKT9VP91jJNsJh5BMlktqWHKkrXLUYemZ
-         /3q4R7rm8Yu/DnRESxc77Urs+aL6dAQyG8KPf3gBJAzHW1dAPdZVkXq+bp5YVpOwup
-         Krw3H+KkJrlFgZ+5+nJsx5ZwCzk2MC6CqG9bpjkXgWZE2acgKEdYOgZWj5GRJoJIMO
-         8JQc49hL/ZbFD1f/ATj0sVDtF3YEOtzY/azAilJF1Yn58L52nKSR47nOMbeJMHoumG
-         1sD1ql1Yjes1w==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 24 Jul 2023 20:53:12 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <b83df292-6f7a-a8bf-895e-6df80a17029f@wanadoo.fr>
-Date:   Mon, 24 Jul 2023 20:53:11 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
+        Mon, 24 Jul 2023 15:01:29 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06A28188;
+        Mon, 24 Jul 2023 12:01:26 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-666e6541c98so4441614b3a.2;
+        Mon, 24 Jul 2023 12:01:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690225285; x=1690830085;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ytTgJxsf1t1AvxkCbddKWo4X3TXhqqtq1teyxCHoYOk=;
+        b=EZi2+4C78YEQye1s/K5NqtUGVGXTSRHLCfjA3ZtxnAj785TEQHtjdQc8hTXfqDBp7u
+         21EtjmGDvLleaQu1XM+NfAb0vg79SmB5i1xkIGwMpLv2cgS9gMvad54AOiJWoTIFnyh+
+         08fX3gEJmuQDThegI6WwsyqDJCvYU2t4X3j4DWCUxCfLHPPGsCO1rH5UVNt6K2/asPCy
+         42WudfHKFQ09DPP5yFnolnMRrbKRPH7Wdpzo4VmmrLqgRSqsW9GrmGoc07GKnscA+nfo
+         DdWmNxpoo+j2sgsomqS8Iop03DJXdSNwqAfYAgK1HvzlgbmV5ShWkNnRT5M+A/kCeOvL
+         vBMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690225285; x=1690830085;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ytTgJxsf1t1AvxkCbddKWo4X3TXhqqtq1teyxCHoYOk=;
+        b=QORIIl7QyLcFO6KiTzV7Tmf8KXAsVphjAO4VB6Uk31h4MKWp9WxsCANVTiuEJgvfvG
+         kAKsCiSDKeK1RXblwnRwKQSI1CAEVTQU7MKJDzAPez9EsoMJWtRvYBlOc3BuCi/X06cM
+         MOBOIHcS/K/wg1VNEEJrrrjwuS/BgTNhb49Iwor+Q055RQTItp0TG9n74zvH+vGfDlf3
+         up1CLHuahb/7CpBXGr2bRg9KHMOxeo/JXMeDMJ2kddq6pkJlxfp9Zzo/wIqjYcusUBWr
+         jk2afZjan0yGNgbYLO13jTNoc1+y6IkViB4FCKi4OgRok6i40P/hAKn8AB9RRdqt469x
+         BU+Q==
+X-Gm-Message-State: ABy/qLacVmoo472ib96JpY99MkIEkb/fx5HmsrutRbaDg1rpvmv9UaSb
+        KlxP/8o5SdWMnTHrGvdXOKC9m/m//cg=
+X-Google-Smtp-Source: APBJJlEnTwHHa2/VK6vUKdGrPE8+7iOUquvjmU858aF6UZE7WB0ArdiBb8M+6pBOVK/b2wvMvFdURw==
+X-Received: by 2002:a05:6a00:1a01:b0:666:8cbb:6e02 with SMTP id g1-20020a056a001a0100b006668cbb6e02mr10845449pfv.8.1690225285294;
+        Mon, 24 Jul 2023 12:01:25 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:9d8f:da31:e274:eeb5])
+        by smtp.gmail.com with ESMTPSA id j1-20020aa783c1000000b0063f00898245sm2599472pfn.146.2023.07.24.12.01.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jul 2023 12:01:24 -0700 (PDT)
+Date:   Mon, 24 Jul 2023 12:01:22 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     linux-input@vger.kernel.org, Yangtao Li <frank.li@vivo.com>,
+        linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 2/2] Input: lm8323 - convert to use devm_* api
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Yangtao Li <frank.li@vivo.com>, linux-kernel@vger.kernel.org
+Message-ID: <ZL7KghF8L+y1Fzcs@google.com>
 References: <20230724052901.350240-1-dmitry.torokhov@gmail.com>
  <20230724052901.350240-2-dmitry.torokhov@gmail.com>
-Content-Language: fr
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20230724052901.350240-2-dmitry.torokhov@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <b83df292-6f7a-a8bf-895e-6df80a17029f@wanadoo.fr>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <b83df292-6f7a-a8bf-895e-6df80a17029f@wanadoo.fr>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Le 24/07/2023 Ã  07:29, Dmitry Torokhov a Ã©critÂ :
-> From: Yangtao Li <frank.li@vivo.com>
+On Mon, Jul 24, 2023 at 08:53:11PM +0200, Christophe JAILLET wrote:
+> Le 24/07/2023 à 07:29, Dmitry Torokhov a écrit :
+> > From: Yangtao Li <frank.li@vivo.com>
+> > +
+> > +		err = devm_led_classdev_register(dev, &pwm->cdev);
+
+                      ^^^^^^^^^^^^^^
+
+...
+
+> > -
+> > -	for (i = 0; i < 3; i++)
+> > -		if (lm->pwm[i].enabled)
+> > -			led_classdev_unregister(&lm->pwm[i].cdev);
 > 
-> Use devm_* api to simplify code, this makes it unnecessary to explicitly
-> release resources.
-> 
-> Signed-off-by: Yangtao Li <frank.li@vivo.com>
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> ---
->   drivers/input/keyboard/lm8323.c | 77 +++++++++++----------------------
->   1 file changed, 26 insertions(+), 51 deletions(-)
-> 
-> diff --git a/drivers/input/keyboard/lm8323.c b/drivers/input/keyboard/lm8323.c
-> index d5195415533a..7bee93e9b0f5 100644
-> --- a/drivers/input/keyboard/lm8323.c
-> +++ b/drivers/input/keyboard/lm8323.c
-> @@ -556,6 +556,7 @@ static int init_pwm(struct lm8323_chip *lm, int id, struct device *dev,
->   		    const char *name)
->   {
->   	struct lm8323_pwm *pwm;
-> +	int err;
->   
->   	BUG_ON(id > 3);
->   
-> @@ -575,9 +576,11 @@ static int init_pwm(struct lm8323_chip *lm, int id, struct device *dev,
->   		pwm->cdev.name = name;
->   		pwm->cdev.brightness_set = lm8323_pwm_set_brightness;
->   		pwm->cdev.groups = lm8323_pwm_groups;
-> -		if (led_classdev_register(dev, &pwm->cdev) < 0) {
-> -			dev_err(dev, "couldn't register PWM %d\n", id);
-> -			return -1;
-> +
-> +		err = devm_led_classdev_register(dev, &pwm->cdev);
-> +		if (err) {
-> +			dev_err(dev, "couldn't register PWM %d: %d\n", id, err);
-> +			return err;
->   		}
->   		pwm->enabled = true;
->   	}
-> @@ -585,8 +588,6 @@ static int init_pwm(struct lm8323_chip *lm, int id, struct device *dev,
->   	return 0;
->   }
->   
-> -static struct i2c_driver lm8323_i2c_driver;
-> -
->   static ssize_t lm8323_show_disable(struct device *dev,
->   				   struct device_attribute *attr, char *buf)
->   {
-> @@ -648,12 +649,13 @@ static int lm8323_probe(struct i2c_client *client)
->   		return -EINVAL;
->   	}
->   
-> -	lm = kzalloc(sizeof *lm, GFP_KERNEL);
-> -	idev = input_allocate_device();
-> -	if (!lm || !idev) {
-> -		err = -ENOMEM;
-> -		goto fail1;
-> -	}
-> +	lm = devm_kzalloc(&client->dev, sizeof(*lm), GFP_KERNEL);
-> +	if (!lm)
-> +		return -ENOMEM;
-> +
-> +	idev = devm_input_allocate_device(&client->dev);
-> +	if (!idev)
-> +		return -ENOMEM;
->   
->   	lm->client = client;
->   	lm->idev = idev;
-> @@ -669,8 +671,10 @@ static int lm8323_probe(struct i2c_client *client)
->   
->   	lm8323_reset(lm);
->   
-> -	/* Nothing's set up to service the IRQ yet, so just spin for max.
-> -	 * 100ms until we can configure. */
-> +	/*
-> +	 * Nothing's set up to service the IRQ yet, so just spin for max.
-> +	 * 100ms until we can configure.
-> +	 */
->   	tmo = jiffies + msecs_to_jiffies(100);
->   	while (lm8323_read(lm, LM8323_CMD_READ_INT, data, 1) == 1) {
->   		if (data[0] & INT_NOINIT)
-> @@ -690,15 +694,14 @@ static int lm8323_probe(struct i2c_client *client)
->   	/* If a true probe check the device */
->   	if (lm8323_read_id(lm, data) != 0) {
->   		dev_err(&client->dev, "device not found\n");
-> -		err = -ENODEV;
-> -		goto fail1;
-> +		return -ENODEV;
->   	}
->   
->   	for (pwm = 0; pwm < LM8323_NUM_PWMS; pwm++) {
->   		err = init_pwm(lm, pwm + 1, &client->dev,
->   			       pdata->pwm_names[pwm]);
-> -		if (err < 0)
-> -			goto fail2;
-> +		if (err)
-> +			return err;
->   	}
->   
->   	lm->kp_enabled = true;
-> @@ -722,14 +725,16 @@ static int lm8323_probe(struct i2c_client *client)
->   	err = input_register_device(idev);
->   	if (err) {
->   		dev_dbg(&client->dev, "error registering input device\n");
-> -		goto fail2;
-> +		return err;
->   	}
->   
-> -	err = request_threaded_irq(client->irq, NULL, lm8323_irq,
-> -			  IRQF_TRIGGER_LOW|IRQF_ONESHOT, "lm8323", lm);
-> +	err = devm_request_threaded_irq(&client->dev, client->irq,
-> +					NULL, lm8323_irq,
-> +					IRQF_TRIGGER_LOW | IRQF_ONESHOT,
-> +					"lm8323", lm);
->   	if (err) {
->   		dev_err(&client->dev, "could not get IRQ %d\n", client->irq);
-> -		goto fail3;
-> +		return err;
->   	}
->   
->   	i2c_set_clientdata(client, lm);
-> @@ -738,35 +743,6 @@ static int lm8323_probe(struct i2c_client *client)
->   	enable_irq_wake(client->irq);
->   
->   	return 0;
-> -
-> -fail3:
-> -	input_unregister_device(idev);
-> -	idev = NULL;
-> -fail2:
-> -	while (--pwm >= 0)
-> -		if (lm->pwm[pwm].enabled)
-> -			led_classdev_unregister(&lm->pwm[pwm].cdev);
+> this look wrong.
 
-This and...
+Why? It will be cleared up by devm.
 
-> -fail1:
-> -	input_free_device(idev);
-> -	kfree(lm);
-> -	return err;
-> -}
-> -
-> -static void lm8323_remove(struct i2c_client *client)
-> -{
-> -	struct lm8323_chip *lm = i2c_get_clientdata(client);
-> -	int i;
-> -
-> -	disable_irq_wake(client->irq);
-> -	free_irq(client->irq, lm);
-> -
-> -	input_unregister_device(lm->idev);
-> -
-> -	for (i = 0; i < 3; i++)
-> -		if (lm->pwm[i].enabled)
-> -			led_classdev_unregister(&lm->pwm[i].cdev);
+Thanks.
 
-this look wrong.
-What you left for lm8323 looks correct.
-
-CJ
-
-> -
-> -	kfree(lm);
->   }
->   
->   /*
-> @@ -827,7 +803,6 @@ static struct i2c_driver lm8323_i2c_driver = {
->   		.dev_groups	= lm8323_groups,
->   	},
->   	.probe		= lm8323_probe,
-> -	.remove		= lm8323_remove,
->   	.id_table	= lm8323_id,
->   };
->   MODULE_DEVICE_TABLE(i2c, lm8323_id);
-
+-- 
+Dmitry
