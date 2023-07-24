@@ -2,54 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C5B475E6A0
-	for <lists+linux-input@lfdr.de>; Mon, 24 Jul 2023 03:21:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7332775E713
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jul 2023 03:24:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230212AbjGXBVq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 23 Jul 2023 21:21:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52324 "EHLO
+        id S230476AbjGXBYt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 23 Jul 2023 21:24:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230245AbjGXBVh (ORCPT
+        with ESMTP id S230499AbjGXBXx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 23 Jul 2023 21:21:37 -0400
+        Sun, 23 Jul 2023 21:23:53 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D24E10FE;
-        Sun, 23 Jul 2023 18:21:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D83C7E7E;
+        Sun, 23 Jul 2023 18:22:56 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4B6B560EFE;
-        Mon, 24 Jul 2023 01:20:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDBEBC433C8;
-        Mon, 24 Jul 2023 01:20:52 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5426060F16;
+        Mon, 24 Jul 2023 01:22:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 344DEC433CC;
+        Mon, 24 Jul 2023 01:22:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690161653;
-        bh=nHWZK9OMB4vgpd9celiYc+Idn94CYrqmvfMCY/zp124=;
+        s=k20201202; t=1690161765;
+        bh=pipj35J1cxmcWg+1B6OqVjY2vDHh5dIsPs1xkoLxH/4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OlUG1agqTdCnB6XNk07Ty7ttNzenMg0xm7Otybw4pliLhbVC288lGpinu2r33e4ce
-         pYGpQ5jSf/LiZYG/VI/cO0XvvN4B3abRVlEQcxtFx7Sp+YbiyCqNRaQynbuPOnY0Sx
-         yVNXEELZY2pCkHqApmhTUBIZCQQvZiX8BZEY+L3wbeck+pGG66bYrRdaEMRvK2EB5M
-         X23r9msO3BqA52EKC+FqHQ8YM9EuPtqmQVKk6CWVGQOWgyT5Ga4gRLLnuuGcw+hNuR
-         NDRrSp/JFxwVCUgX6jXnZazxD9p3nRM5WoyI9Oghlpjx3VlgH4/4vLndlS0CbnTU7+
-         Ry4PTyFoWZhSg==
+        b=jJ1x7SOol9p1HDGD4mmHM7zYy+veeGF213zqmwdUDSY4zX7Z3xLH4facmz5iV0IN3
+         6c9Z2XeoquxOR8T4AhFr5OKhPudrgdPcrsL7OJeqaim9ncNtKyPuYeRNXp/VDzvzT3
+         OtcpKfnPIkmv8cE7V5chJB4wF6Uylm4pdNBgmaQtx2kVNv406Tf3FQFRc7u6kez/OK
+         GdUHQylWt/eOehK7sHHIx19mANaa690FJEP0bUnJ/SkNlEYzkZ/nkBtR/scRQ16CKr
+         0eFXInv+KIA8dbUZ/9hlPYgFhVOYANBLErs1Gl7itNhHSdB9tHSWWQTcrO9Lzj4z2B
+         Sr54arJObxplQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Even Xu <even.xu@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+Cc:     stuarthayhurst <stuart.a.hayhurst@gmail.com>,
+        Bastien Nocera <hadess@hadess.net>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         jikos@kernel.org, benjamin.tissoires@redhat.com,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.4 52/58] HID: intel-ish-hid: ipc: Add Arrow Lake PCI device ID
-Date:   Sun, 23 Jul 2023 21:13:20 -0400
-Message-Id: <20230724011338.2298062-52-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 24/41] HID: logitech-hidpp: Add USB and Bluetooth IDs for the Logitech G915 TKL Keyboard
+Date:   Sun, 23 Jul 2023 21:20:57 -0400
+Message-Id: <20230724012118.2316073-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230724011338.2298062-1-sashal@kernel.org>
-References: <20230724011338.2298062-1-sashal@kernel.org>
+In-Reply-To: <20230724012118.2316073-1-sashal@kernel.org>
+References: <20230724012118.2316073-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.4.5
+X-stable-base: Linux 6.1.40
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
@@ -61,45 +61,43 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Even Xu <even.xu@intel.com>
+From: stuarthayhurst <stuart.a.hayhurst@gmail.com>
 
-[ Upstream commit 4982126e3029cd59fbd1da0d9cc0365a0585fe64 ]
+[ Upstream commit 48aea8b445c422a372cf15915101035a47105421 ]
 
-Add device ID of Arrow Lake-H into ishtp support list.
+Adds the USB and Bluetooth IDs for the Logitech G915 TKL keyboard, for device detection
+For this device, this provides battery reporting on top of hid-generic
 
-Signed-off-by: Even Xu <even.xu@intel.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Reviewed-by: Bastien Nocera <hadess@hadess.net>
+Signed-off-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/intel-ish-hid/ipc/hw-ish.h  | 1 +
- drivers/hid/intel-ish-hid/ipc/pci-ish.c | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/hid/hid-logitech-hidpp.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/hid/intel-ish-hid/ipc/hw-ish.h b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-index fc108f19a64c3..e99f3a3c65e15 100644
---- a/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-+++ b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-@@ -33,6 +33,7 @@
- #define ADL_N_DEVICE_ID		0x54FC
- #define RPL_S_DEVICE_ID		0x7A78
- #define MTL_P_DEVICE_ID		0x7E45
-+#define ARL_H_DEVICE_ID		0x7745
- 
- #define	REVISION_ID_CHT_A0	0x6
- #define	REVISION_ID_CHT_Ax_SI	0x0
-diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-index 7120b30ac51d0..55cb25038e632 100644
---- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-+++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-@@ -44,6 +44,7 @@ static const struct pci_device_id ish_pci_tbl[] = {
- 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ADL_N_DEVICE_ID)},
- 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, RPL_S_DEVICE_ID)},
- 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, MTL_P_DEVICE_ID)},
-+	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ARL_H_DEVICE_ID)},
- 	{0, }
- };
- MODULE_DEVICE_TABLE(pci, ish_pci_tbl);
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index b2cd7527de195..28761272afe52 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -4403,6 +4403,8 @@ static const struct hid_device_id hidpp_devices[] = {
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC086) },
+ 	{ /* Logitech G903 Hero Gaming Mouse over USB */
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC091) },
++	{ /* Logitech G915 TKL Keyboard over USB */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC343) },
+ 	{ /* Logitech G920 Wheel over USB */
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_G920_WHEEL),
+ 		.driver_data = HIDPP_QUIRK_CLASS_G920 | HIDPP_QUIRK_FORCE_OUTPUT_REPORTS},
+@@ -4418,6 +4420,8 @@ static const struct hid_device_id hidpp_devices[] = {
+ 	{ /* MX5500 keyboard over Bluetooth */
+ 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb30b),
+ 	  .driver_data = HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
++	{ /* Logitech G915 TKL keyboard over Bluetooth */
++	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb35f) },
+ 	{ /* M-RCQ142 V470 Cordless Laser Mouse over Bluetooth */
+ 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb008) },
+ 	{ /* MX Master mouse over Bluetooth */
 -- 
 2.39.2
 
