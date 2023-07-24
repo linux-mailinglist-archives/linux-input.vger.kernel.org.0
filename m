@@ -2,88 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 212B075E4BA
-	for <lists+linux-input@lfdr.de>; Sun, 23 Jul 2023 22:07:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8D3F75E687
+	for <lists+linux-input@lfdr.de>; Mon, 24 Jul 2023 03:20:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230010AbjGWUHK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 23 Jul 2023 16:07:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59140 "EHLO
+        id S230210AbjGXBUt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 23 Jul 2023 21:20:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229964AbjGWUHE (ORCPT
+        with ESMTP id S230201AbjGXBUk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 23 Jul 2023 16:07:04 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FAEAE5B;
-        Sun, 23 Jul 2023 13:07:02 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1b8b4749013so29570105ad.2;
-        Sun, 23 Jul 2023 13:07:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690142822; x=1690747622;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2O/oL2BEJ2VfQn4coTyhVQ/Czd2OJD9YBEHICa4/BqA=;
-        b=MiWFMKL5bPiLbeh2ukKjKgjIn+PJFkPVbu437q2YnP+DOosmVji53AtZjekwjRMm48
-         F6cGou2Wq0gCXhG2RBtDjBtVotftoiAMIRqyfmv0PqjQK9v54ymoon/LRfWZn+SVhSGj
-         y7LZ9bZkpphbjRIpSrthAtz2UBVzZybSgGED5tmyFaX17eDy4+kD4uRRSW7Gn/0dRhy7
-         014Hy50VDhYKA4soO2+OVElplpSNfejYag4zOnV69VCU61No0rgWdVWCj0CwYpG39keq
-         nPYw7URgb7HnF3napxVbeIbjofWqfKhew7WhSH29s32fYNNhZtsIKVbLthZv+2BCk/3s
-         EKfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690142822; x=1690747622;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2O/oL2BEJ2VfQn4coTyhVQ/Czd2OJD9YBEHICa4/BqA=;
-        b=GeYSs0M/QQLmRC1Wz09ABnv+Jg5ZHaoTxxZKwqeGyu6ACUJP6sb3xhLaqg/WiREFXn
-         Ppt4gUSrwJQhASVNqXqet+xRDwXYMZicrgWvq2ptWYcNQXHiX7Lcxg1H/73DHp/YTgIe
-         9yDRqEj2oT+beb0/CEwkEl+Mwud/JaCoPClK1QyZCY7Tl3VRw7yRrV0s2ytwQI4Gp7bf
-         y8LLJqgIHGbpB8LNGrzwWcL80Vd+GrNma5p4GQsH3CJ+ahMq8yUbSiGjRxDY53S5XuqK
-         1OMBisNzWBTbpjvtsb/QRbZweE8qDHkaYWfuhpRTQFX+gdO0SO5TNXDMwMUqQ50saXgX
-         ToHg==
-X-Gm-Message-State: ABy/qLZVtopJr5duqoseZ+2QsoUz0BJox6+rCqHW4hJWNMAIi0QgpdX4
-        Uw010W/A5+Q7ZJOld213bQk=
-X-Google-Smtp-Source: APBJJlFgVpcLCsu/vAetSPzqAjzsWOwiBL0k/NX4Js061IYVBIA7wFyDSzk35Wk5lxfPMgUxU7ZX/w==
-X-Received: by 2002:a17:902:bb88:b0:1bb:97d0:c628 with SMTP id m8-20020a170902bb8800b001bb97d0c628mr2607854pls.31.1690142821587;
-        Sun, 23 Jul 2023 13:07:01 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:b8db:3c3:1ff4:2ae3])
-        by smtp.gmail.com with ESMTPSA id d4-20020a170902c18400b001b9cf522c0esm7241159pld.97.2023.07.23.13.07.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jul 2023 13:07:01 -0700 (PDT)
-Date:   Sun, 23 Jul 2023 13:06:58 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Mike Looijmans <mike.looijmans@topic.nl>,
-        Andreas Helbech Kleist <andreaskleist@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] Input: exc3000 - Simplify probe()
-Message-ID: <ZL2IYrswlWiUXUDW@google.com>
-References: <66228ad3-c087-418c-925f-b9fd4a60fb16@sirena.org.uk>
- <ZLWIPPAfeR1+KbeH@google.com>
- <OS0PR01MB59225D8CF3E96808DD776A8E863BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZLbbslBiIQXFWpmN@google.com>
- <TYCPR01MB593346FBBA320260A290EAFD8639A@TYCPR01MB5933.jpnprd01.prod.outlook.com>
- <ZLsCOj1t4JvG3SEp@google.com>
- <TYCPR01MB5933D4252360AAE57D90FE1C863CA@TYCPR01MB5933.jpnprd01.prod.outlook.com>
- <CAKdAkRT9tMnLnDLgWAevE_4HQ0wYMPehvsYaAeYrXdGGiyjXRA@mail.gmail.com>
- <OS0PR01MB59222E6CE0EEED3A5FE843C1863DA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB5922328753110C5C35101357863DA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        Sun, 23 Jul 2023 21:20:40 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1188E7C;
+        Sun, 23 Jul 2023 18:20:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5292B60F14;
+        Mon, 24 Jul 2023 01:18:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B801C433CB;
+        Mon, 24 Jul 2023 01:18:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690161521;
+        bh=Vmb6qvn2Tjsqbdf0p1XNotjE0c6EKznreOk29UAg0So=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=dEztTZjN94lp+WA3BvrD+MWAHdVQc6M3rEDZ6RAdaD+8tx+k1McSlXXRsmRfdB8ig
+         /B/y441ilEAcuw7IY6KiQJ4H6Ec7D+drfZffxGbPmqMu1rK0tvWyfHC7OJLXyZoSOW
+         TEi+CxARJMJHr/fCo5m4Kf+Ll4XTWViYXg7r8pH37cwcTjyKF5gwO6MjHmDuuBFQJj
+         ceWorVaU28eQCzn8wXSmhHL8CbCQp1M5o1E2898/vJe3g+UbJUk1NY4X6bA4+uIekW
+         P6h6hoX8h1l1o2s3g+JPaetNiYY75b1rNqn7DvFHEKu7mrWameZKNtyqRSe0yPYkzf
+         MaET1OlhQ224w==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Fei Shao <fshao@chromium.org>, Jeff LaBundy <jeff@labundy.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Herring <robh@kernel.org>, Jiri Kosina <jkosina@suse.cz>,
+        Sasha Levin <sashal@kernel.org>, dmitry.torokhov@gmail.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.4 34/58] dt-bindings: input: goodix: Add "goodix,no-reset-during-suspend" property
+Date:   Sun, 23 Jul 2023 21:13:02 -0400
+Message-Id: <20230724011338.2298062-34-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230724011338.2298062-1-sashal@kernel.org>
+References: <20230724011338.2298062-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OS0PR01MB5922328753110C5C35101357863DA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.4.5
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -91,14 +64,51 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Jul 23, 2023 at 06:50:29AM +0000, Biju Das wrote:
-> 
-> Can you please post a patch based on this?
+From: Fei Shao <fshao@chromium.org>
 
-It looks like you are already taking care of this so I'll let you
-finish.
+[ Upstream commit 359ed24a0dd3802e703ec8071dc3b6ed446de5f0 ]
 
-Thanks.
+We observed that on Chromebook device Steelix, if Goodix GT7375P
+touchscreen is powered in suspend (because, for example, it connects to
+an always-on regulator) and with the reset GPIO asserted, it will
+introduce about 14mW power leakage.
 
+To address that, we add this property to skip reset during suspend.
+If it's set, the driver will stop asserting the reset GPIO during
+power-down. Refer to the comments in the driver for details.
+
+Signed-off-by: Fei Shao <fshao@chromium.org>
+Suggested-by: Jeff LaBundy <jeff@labundy.com>
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+Reviewed-by: Jeff LaBundy <jeff@labundy.com>
+Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../devicetree/bindings/input/goodix,gt7375p.yaml        | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml b/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml
+index ce18d7dadae23..1edad1da1196d 100644
+--- a/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml
++++ b/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml
+@@ -43,6 +43,15 @@ properties:
+       itself as long as it allows the main board to make signals compatible
+       with what the touchscreen is expecting for its IO rails.
+ 
++  goodix,no-reset-during-suspend:
++    description:
++      Set this to true to enforce the driver to not assert the reset GPIO
++      during suspend.
++      Due to potential touchscreen hardware flaw, back-powering could happen in
++      suspend if the power supply is on and with active-low reset GPIO asserted.
++      This property is used to avoid the back-powering issue.
++    type: boolean
++
+ required:
+   - compatible
+   - reg
 -- 
-Dmitry
+2.39.2
+
