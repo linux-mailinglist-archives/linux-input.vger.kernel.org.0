@@ -2,202 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 024C476101C
-	for <lists+linux-input@lfdr.de>; Tue, 25 Jul 2023 12:03:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21B5E761D77
+	for <lists+linux-input@lfdr.de>; Tue, 25 Jul 2023 17:38:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231844AbjGYKDc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 Jul 2023 06:03:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59964 "EHLO
+        id S229727AbjGYPiH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 Jul 2023 11:38:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233677AbjGYKDO (ORCPT
+        with ESMTP id S229437AbjGYPiG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Jul 2023 06:03:14 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB3EA10C7;
-        Tue, 25 Jul 2023 03:02:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690279359; x=1721815359;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nRox8bHxS/39eurF4RvG/G/NsD5J1/KSWjHQMAHx2Iw=;
-  b=hJbp/KoxPdxIAFE3pe5pmYJiBWE+tC2XE/+OTVkCGIooYC7ji59uYt2G
-   hifdjvh/9rPVvis+2jMuGCwCE5V7nzZOxSmrRLt1SrCnKKYtjvuWf2YXv
-   aMU8UO1k4lOkl73/YttIkl81gNpGm/sZAjkcg5/m2E1kvHTGOSz3vp8Tz
-   7bjkyFRR9wVqPVuZgmUwRzbgqSySsdKQciz1lxHwmAA+3VWyUBbfxnTdr
-   6S7Vedx6dZ/h1iimH9hJsI/DZ3Yn4LW7IeEFEY78Ts4KPM8f+wXak24D6
-   3WfaU1KCLhNQAuGGarvy7fuDq2GKIqtPsM346KY1fs7cWjaDr2za7FXZ4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="366558548"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="366558548"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 03:02:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="972607892"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="972607892"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 25 Jul 2023 03:02:30 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qOEs9-000AWl-2Z;
-        Tue, 25 Jul 2023 10:02:29 +0000
-Date:   Tue, 25 Jul 2023 18:01:33 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Fenglin Wu <quic_fenglinw@quicinc.com>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        agross@kernel.org, andersson@kernel.org,
-        dmitry.baryshkov@linaro.org,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        quic_collinsd@quicinc.com, quic_subbaram@quicinc.com,
-        quic_fenglinw@quicinc.com, quic_kamalw@quicinc.com,
-        jestar@qti.qualcomm.com
-Subject: Re: [PATCH v3 1/3] input: pm8xxx-vib: refactor to easily support new
- SPMI vibrator
-Message-ID: <202307251741.PMtlVAgD-lkp@intel.com>
-References: <20230725054138.129497-2-quic_fenglinw@quicinc.com>
+        Tue, 25 Jul 2023 11:38:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B41781BF8
+        for <linux-input@vger.kernel.org>; Tue, 25 Jul 2023 08:38:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 49C286178F
+        for <linux-input@vger.kernel.org>; Tue, 25 Jul 2023 15:38:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A70EC433C8;
+        Tue, 25 Jul 2023 15:38:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690299484;
+        bh=bDFdxCN1eadFZ+WEQ9cgpt1sE/nSfwzieXCH199zY6I=;
+        h=From:Date:Subject:To:Cc:From;
+        b=IvFwAQqbuEMRiV2OOwf9mHEaokGwpwNCCMqzzQQVigPyS5F5+8540rbqHI4xBCly6
+         cdY+4LjXO1AS7SsnLHlEoaSPURRsBBbXyfGJtp4U7dkey43vBt+60VXW3chpB1cf6B
+         JNwfYvFtyoJlwmc3W8Q58Hwig2B1u4MTTSM/dkLuV5VWUQpHfs578Jc6O066dI5gVT
+         J7djlfyQ17GTnFsND7rpWOnxybiZ3cIMZoJ+94/HqIx9sXL6sDgepQeyvwnXxtmxSi
+         CT7lgkrLUjqdBFIHnaw65YumvfL2ltYpv6rSDzm9kLxTrFp1xqYLTR9N4m5Wl1QEs5
+         n7ZsyjVwHRb9A==
+From:   Nathan Chancellor <nathan@kernel.org>
+Date:   Tue, 25 Jul 2023 08:37:56 -0700
+Subject: [PATCH] Input: mcs-touchkey - Fix uninitialized use of error in
+ mcs_touchkey_probe()
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230725054138.129497-2-quic_fenglinw@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230725-mcs_touchkey-fix-wuninitialized-v1-1-615db39af51c@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAFPsv2QC/x2NXQqDMBAGryL73AVNW0q8ipSyxI1+VKMk2j/x7
+ g0+DgwzGyWN0ER1sVHUFxKmkKE6FeR6CZ0y2sxkSnMub+bKo0uPZVpd/9Qve3z4vQYELJABP23
+ 54r1aMWJFLOXKHDVbx6G57/sfRpj52nEAAAA=
+To:     dmitry.torokhov@gmail.com
+Cc:     ndesaulniers@google.com, trix@redhat.com, frank.li@vivo.com,
+        linux-input@vger.kernel.org, llvm@lists.linux.dev,
+        patches@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.13-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2324; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=bDFdxCN1eadFZ+WEQ9cgpt1sE/nSfwzieXCH199zY6I=;
+ b=owGbwMvMwCEmm602sfCA1DTG02pJDCn738SE+K/TjTLdfS323fwPvezxSzY1/fkVojtvTs2KK
+ Z9WTYzM6ShlYRDjYJAVU2Spfqx63NBwzlnGG6cmwcxhZQIZwsDFKQATWejP8Fd+6fRwNgNn6xZl
+ ZmeBJ29/xWTeW9o1pfXl28PBHzI8t75kZOg3eLP59t15Bybkivez/GhaoHqaIfRbZP2nBz/C9L0
+ uX+IEAA==
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Fenglin,
+Clang warns (or errors with CONFIG_WERROR=y):
 
-kernel test robot noticed the following build warnings:
+  drivers/input/keyboard/mcs_touchkey.c:149:49: error: variable 'error' is uninitialized when used here [-Werror,-Wuninitialized]
+    149 |                 dev_err(&client->dev, "i2c read error[%d]\n", error);
+        |                                                               ^~~~~
+  include/linux/dev_printk.h:144:65: note: expanded from macro 'dev_err'
+    144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+        |                                                                        ^~~~~~~~~~~
+  include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+    110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+        |                                     ^~~~~~~~~~~
+  drivers/input/keyboard/mcs_touchkey.c:110:11: note: initialize the variable 'error' to silence this warning
+    110 |         int error;
+        |                  ^
+        |                   = 0
+  1 error generated.
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus linus/master v6.5-rc3 next-20230725]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+A refactoring updated the error handling in this block but did not
+update the dev_err() call to use fw_ver instead of error. Do so now to
+fix the warning and avoid printing uninitialized memory.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Fenglin-Wu/input-pm8xxx-vib-refactor-to-easily-support-new-SPMI-vibrator/20230725-134504
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20230725054138.129497-2-quic_fenglinw%40quicinc.com
-patch subject: [PATCH v3 1/3] input: pm8xxx-vib: refactor to easily support new SPMI vibrator
-config: x86_64-buildonly-randconfig-r002-20230725 (https://download.01.org/0day-ci/archive/20230725/202307251741.PMtlVAgD-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230725/202307251741.PMtlVAgD-lkp@intel.com/reproduce)
+Closes: https://github.com/ClangBuiltLinux/linux/issues/1893
+Fixes: e175eae16c1b ("Input: mcs-touchkey - convert to use devm_* api")
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ drivers/input/keyboard/mcs_touchkey.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307251741.PMtlVAgD-lkp@intel.com/
+diff --git a/drivers/input/keyboard/mcs_touchkey.c b/drivers/input/keyboard/mcs_touchkey.c
+index f25e2b20e271..2410f676c7f9 100644
+--- a/drivers/input/keyboard/mcs_touchkey.c
++++ b/drivers/input/keyboard/mcs_touchkey.c
+@@ -146,7 +146,7 @@ static int mcs_touchkey_probe(struct i2c_client *client)
+ 
+ 	fw_ver = i2c_smbus_read_byte_data(client, fw_reg);
+ 	if (fw_ver < 0) {
+-		dev_err(&client->dev, "i2c read error[%d]\n", error);
++		dev_err(&client->dev, "i2c read error[%d]\n", fw_ver);
+ 		return fw_ver;
+ 	}
+ 	dev_info(&client->dev, "Firmware version: %d\n", fw_ver);
 
-All warnings (new ones prefixed by >>):
+---
+base-commit: 447c09544275663e1082f796b26c7959915c922a
+change-id: 20230725-mcs_touchkey-fix-wuninitialized-4ffe9a2a9aa9
 
->> drivers/input/misc/pm8xxx-vibrator.c:190:17: warning: cast to smaller integer type 'enum pm8xxx_vib_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-           vib->hw_type = (enum pm8xxx_vib_type)of_device_get_match_data(dev);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +190 drivers/input/misc/pm8xxx-vibrator.c
-
-   163	
-   164	static int pm8xxx_vib_probe(struct platform_device *pdev)
-   165	{
-   166		struct pm8xxx_vib *vib;
-   167		struct input_dev *input_dev;
-   168		struct device *dev = &pdev->dev;
-   169		struct regmap *regmap;
-   170		struct reg_field *regs;
-   171		int error, i;
-   172		unsigned int val;
-   173		u32 reg_base;
-   174	
-   175		vib = devm_kzalloc(dev, sizeof(*vib), GFP_KERNEL);
-   176		if (!vib)
-   177			return -ENOMEM;
-   178	
-   179		regmap = dev_get_regmap(dev->parent, NULL);
-   180		if (!regmap)
-   181			return -ENODEV;
-   182	
-   183		input_dev = devm_input_allocate_device(dev);
-   184		if (!input_dev)
-   185			return -ENOMEM;
-   186	
-   187		INIT_WORK(&vib->work, pm8xxx_work_handler);
-   188		vib->vib_input_dev = input_dev;
-   189	
- > 190		vib->hw_type = (enum pm8xxx_vib_type)of_device_get_match_data(dev);
-   191	
-   192		regs = ssbi_vib_regs;
-   193		if (vib->hw_type != SSBI_VIB) {
-   194			error = fwnode_property_read_u32(dev->fwnode, "reg", &reg_base);
-   195			if (error < 0) {
-   196				dev_err(dev, "Failed to read reg address, rc=%d\n", error);
-   197				return error;
-   198			}
-   199	
-   200			if (vib->hw_type == SPMI_VIB_GEN1)
-   201				regs = spmi_vib_gen1_regs;
-   202	
-   203			for (i = 0; i < VIB_MAX_REG; i++)
-   204				if (regs[i].reg != 0)
-   205					regs[i].reg += reg_base;
-   206		}
-   207	
-   208		error = devm_regmap_field_bulk_alloc(dev, regmap, vib->r_fields, regs, VIB_MAX_REG);
-   209		if (error < 0)
-   210		{
-   211			dev_err(dev, "Failed to allocate regmap failed, rc=%d\n", error);
-   212			return error;
-   213		}
-   214	
-   215		error = regmap_field_read(vib->r_fields[VIB_DRV_REG], &val);
-   216		if (error < 0)
-   217			return error;
-   218	
-   219		/* operate in manual mode */
-   220		if (vib->hw_type == SSBI_VIB) {
-   221			val &= SSBI_VIB_DRV_EN_MANUAL_MASK;
-   222			error = regmap_field_write(vib->r_fields[VIB_DRV_REG], val);
-   223			if (error < 0)
-   224				return error;
-   225		}
-   226	
-   227		vib->reg_vib_drv = val;
-   228	
-   229		input_dev->name = "pm8xxx_vib_ffmemless";
-   230		input_dev->id.version = 1;
-   231		input_dev->close = pm8xxx_vib_close;
-   232		input_set_drvdata(input_dev, vib);
-   233		input_set_capability(vib->vib_input_dev, EV_FF, FF_RUMBLE);
-   234	
-   235		error = input_ff_create_memless(input_dev, NULL,
-   236						pm8xxx_vib_play_effect);
-   237		if (error) {
-   238			dev_err(dev, "couldn't register vibrator as FF device\n");
-   239			return error;
-   240		}
-   241	
-   242		error = input_register_device(input_dev);
-   243		if (error) {
-   244			dev_err(dev, "couldn't register input device\n");
-   245			return error;
-   246		}
-   247	
-   248		platform_set_drvdata(pdev, vib);
-   249		return 0;
-   250	}
-   251	
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Nathan Chancellor <nathan@kernel.org>
+
