@@ -2,167 +2,298 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5F08760A4E
-	for <lists+linux-input@lfdr.de>; Tue, 25 Jul 2023 08:26:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CCC1760AE7
+	for <lists+linux-input@lfdr.de>; Tue, 25 Jul 2023 08:50:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231938AbjGYG0t (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 Jul 2023 02:26:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46900 "EHLO
+        id S231570AbjGYGup (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 Jul 2023 02:50:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229889AbjGYG0s (ORCPT
+        with ESMTP id S231187AbjGYGuo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Jul 2023 02:26:48 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7982CF;
-        Mon, 24 Jul 2023 23:26:47 -0700 (PDT)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36P4poQT004251;
-        Tue, 25 Jul 2023 06:26:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=8RcjJCCsQwRpsPqjhjQqQfhBDHGif3SbicAU1EnQ+KY=;
- b=oPJ1YB34WWql6kgGSsTR6ckev+vhINjLujGrFdB1TWV6edezVz8/HZLDBf2P4Guq9yWE
- GzMHtwpWzo/9XW98nqQUkw6O1kXHIVfmhIqb/39X+5Vb57/Jtw1R9eVic8L1SvqiTw14
- MLdSjh7cqqsT7VTGkEhz53i1x/MTZ0h7IyxRyRe+qhTEgMVCtVM9zXn/e6v5eIyn7JMp
- 3DWYjNueSIoTTbt+xZ5gWf2hi3GFzWwaPdeUrACh54g0OtbZ34pwZGEbvxFVfjeYbSAp
- ZIWHoQ4FtL01aaUzo3Tn/X8H+3q3GL7ujacRoS+5lUREJQyXwM5hj/irTxG4LlQh/xsC eA== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s1y6m11s9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 25 Jul 2023 06:26:43 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36P6Qg5G032391
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 25 Jul 2023 06:26:42 GMT
-Received: from [10.239.154.73] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 24 Jul
- 2023 23:26:38 -0700
-Message-ID: <3aaccc94-59b3-31d3-eac7-f8926f8c88ff@quicinc.com>
-Date:   Tue, 25 Jul 2023 14:26:36 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 2/3] dt-bindings: input: qcom,pm8xxx-vib: add new SPMI
- vibrator module
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <robh+dt@kernel.org>,
-        <agross@kernel.org>, <andersson@kernel.org>,
-        <dmitry.baryshkov@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>
-CC:     <quic_collinsd@quicinc.com>, <quic_subbaram@quicinc.com>,
-        <quic_kamalw@quicinc.com>, <jestar@qti.qualcomm.com>
-References: <20230725054138.129497-1-quic_fenglinw@quicinc.com>
- <20230725054138.129497-3-quic_fenglinw@quicinc.com>
- <b2ad4863-a38b-7fb6-65b1-ea336c4fc876@linaro.org>
-From:   Fenglin Wu <quic_fenglinw@quicinc.com>
-In-Reply-To: <b2ad4863-a38b-7fb6-65b1-ea336c4fc876@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 0oBRzHngtBu9p4ihuaZRfygs2w4tfkos
-X-Proofpoint-ORIG-GUID: 0oBRzHngtBu9p4ihuaZRfygs2w4tfkos
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-25_02,2023-07-24_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1015
- mlxlogscore=999 bulkscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
- suspectscore=0 phishscore=0 malwarescore=0 impostorscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307250057
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        Tue, 25 Jul 2023 02:50:44 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E3C8E42
+        for <linux-input@vger.kernel.org>; Mon, 24 Jul 2023 23:50:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690267839; x=1721803839;
+  h=date:from:to:cc:subject:message-id;
+  bh=pauT6VmzwkFAfP83oGhkVPCChfRjo1SWYiOcJCirm5k=;
+  b=Hy0vRWxbHlgmepPsZ7ip8i4weppCy4DDXM4jN9oh15SZjnlXhpMBnwyE
+   RLWJKDGCqcAwaxJWnOBSEMcFXHYrayLFucDJwqmt9pmh1P5dGKp8XYxod
+   1SmP03zfIrkRjWiIYlaQkW5eAMTzZPAcUs+jReocIDbTSzRi8WabuQMDZ
+   tuj5MYarc25oKEj0Xtbs6jlgITDrgDMgLlBfFBqR3tawC9E7NAW+wPR2g
+   GufyVuopBSB9a3vMN7prpmg2pGGypibSEH8tV0cvYL+PSQKZUa1uaBI/r
+   DsuXxzYGeU4CTe6/kLrK/DU3+RsFhVEgIKkewwxmdkO4WIXPZXPWvekL4
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="398548090"
+X-IronPort-AV: E=Sophos;i="6.01,229,1684825200"; 
+   d="scan'208";a="398548090"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 23:50:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="676106593"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
+   d="scan'208";a="676106593"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 24 Jul 2023 23:50:27 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qOBsI-000APk-36;
+        Tue, 25 Jul 2023 06:50:26 +0000
+Date:   Tue, 25 Jul 2023 14:49:56 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:next] BUILD SUCCESS
+ 447c09544275663e1082f796b26c7959915c922a
+Message-ID: <202307251453.KlXRL3ID-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+branch HEAD: 447c09544275663e1082f796b26c7959915c922a  Input: qt1070 - convert to use devm_* api
 
+elapsed time: 1455m
 
-On 7/25/2023 1:53 PM, Krzysztof Kozlowski wrote:
-> On 25/07/2023 07:41, Fenglin Wu wrote:
->> Add compatible string 'qcom,spmi-vib-gen2' for vibrator module inside
->> PMI632, PMI7250B, PM7325B, PM7550BA. Also, add 'qcom,spmi-vib-gen1'
->> string for the SPMI vibrator inside PM8916 to maintain the completeness
->> of the hardware version history for SPMI vibrators.
->>
->> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
->> ---
->>   .../bindings/input/qcom,pm8xxx-vib.yaml        | 18 ++++++++++++++----
->>   1 file changed, 14 insertions(+), 4 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml b/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
->> index c8832cd0d7da..ab778714ad29 100644
->> --- a/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
->> +++ b/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
->> @@ -11,10 +11,20 @@ maintainers:
->>   
->>   properties:
->>     compatible:
->> -    enum:
->> -      - qcom,pm8058-vib
->> -      - qcom,pm8916-vib
->> -      - qcom,pm8921-vib
->> +    oneOf:
->> +      - enum:
->> +          - qcom,pm8058-vib
->> +          - qcom,pm8916-vib
->> +          - qcom,pm8921-vib
->> +          - qcom,spmi-vib-gen1
->> +          - qcom,spmi-vib-gen2
-> 
-> Generic compatibles should not be alone. Drop both lines.
+configs tested: 220
+configs skipped: 15
 
-Sure. I will remove 'qcom,spmi-vib-gen2'.
-Should I also keep 'qcom,spmi-vib-gen1' as generic compatible and move 
-'qcom,pm8916-vib' as its fallback as following?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-   compatible:
-     oneOf:
-       - enum:
-           - qcom,pm8058-vib
-           - qcom,pm8921-vib
-       - items:
-           - enum:
-               - qcom,pm8916-vib
-           - const: qcom,spmi-vib-gen1
-       - items:
-           - enum:
-               - qcom,pmi632-vib
-               - qcom,pm7250b-vib
-               - qcom,pm7325b-vib
-               - qcom,pm7550b-vib
-           - const: qcom,spmi-vib-gen2
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r001-20230724   gcc  
+alpha                randconfig-r016-20230724   gcc  
+alpha                randconfig-r031-20230724   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                         haps_hs_defconfig   gcc  
+arc                  randconfig-r043-20230724   gcc  
+arc                  randconfig-r043-20230725   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                         axm55xx_defconfig   gcc  
+arm                                 defconfig   gcc  
+arm                         lpc18xx_defconfig   gcc  
+arm                            qcom_defconfig   gcc  
+arm                  randconfig-r002-20230724   clang
+arm                  randconfig-r011-20230724   gcc  
+arm                  randconfig-r012-20230724   gcc  
+arm                  randconfig-r046-20230724   gcc  
+arm                           stm32_defconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r011-20230724   clang
+arm64                randconfig-r014-20230725   gcc  
+arm64                randconfig-r022-20230724   clang
+arm64                randconfig-r032-20230725   clang
+csky                                defconfig   gcc  
+csky                 randconfig-r012-20230724   gcc  
+csky                 randconfig-r016-20230724   gcc  
+csky                 randconfig-r021-20230724   gcc  
+hexagon              randconfig-r002-20230724   clang
+hexagon              randconfig-r014-20230724   clang
+hexagon              randconfig-r041-20230724   clang
+hexagon              randconfig-r045-20230724   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230723   clang
+i386         buildonly-randconfig-r004-20230724   gcc  
+i386         buildonly-randconfig-r005-20230723   clang
+i386         buildonly-randconfig-r005-20230724   gcc  
+i386         buildonly-randconfig-r006-20230723   clang
+i386         buildonly-randconfig-r006-20230724   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230724   gcc  
+i386                 randconfig-i002-20230724   gcc  
+i386                 randconfig-i003-20230724   gcc  
+i386                 randconfig-i004-20230724   gcc  
+i386                 randconfig-i005-20230724   gcc  
+i386                 randconfig-i006-20230724   gcc  
+i386                 randconfig-i011-20230724   clang
+i386                 randconfig-i011-20230725   gcc  
+i386                 randconfig-i012-20230724   clang
+i386                 randconfig-i012-20230725   gcc  
+i386                 randconfig-i013-20230724   clang
+i386                 randconfig-i013-20230725   gcc  
+i386                 randconfig-i014-20230724   clang
+i386                 randconfig-i014-20230725   gcc  
+i386                 randconfig-i015-20230724   clang
+i386                 randconfig-i015-20230725   gcc  
+i386                 randconfig-i016-20230724   clang
+i386                 randconfig-i016-20230725   gcc  
+i386                 randconfig-r012-20230725   gcc  
+i386                 randconfig-r025-20230724   clang
+i386                 randconfig-r033-20230724   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch                 loongson3_defconfig   gcc  
+loongarch            randconfig-r005-20230724   gcc  
+loongarch            randconfig-r013-20230724   gcc  
+loongarch            randconfig-r015-20230725   gcc  
+loongarch            randconfig-r016-20230724   gcc  
+loongarch            randconfig-r025-20230724   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                        m5272c3_defconfig   gcc  
+m68k                 randconfig-r012-20230724   gcc  
+m68k                 randconfig-r014-20230724   gcc  
+m68k                 randconfig-r015-20230724   gcc  
+m68k                 randconfig-r023-20230724   gcc  
+m68k                 randconfig-r034-20230724   gcc  
+microblaze           randconfig-r001-20230724   gcc  
+microblaze           randconfig-r004-20230724   gcc  
+microblaze           randconfig-r015-20230724   gcc  
+microblaze           randconfig-r016-20230724   gcc  
+microblaze           randconfig-r023-20230724   gcc  
+microblaze           randconfig-r033-20230724   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                         db1xxx_defconfig   gcc  
+mips                 randconfig-r004-20230724   clang
+mips                 randconfig-r031-20230724   clang
+mips                 randconfig-r034-20230725   gcc  
+nios2                         3c120_defconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r001-20230724   gcc  
+nios2                randconfig-r023-20230725   gcc  
+nios2                randconfig-r025-20230724   gcc  
+openrisc             randconfig-r012-20230724   gcc  
+openrisc             randconfig-r021-20230724   gcc  
+openrisc             randconfig-r026-20230724   gcc  
+openrisc             randconfig-r033-20230725   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r001-20230724   gcc  
+parisc               randconfig-r005-20230724   gcc  
+parisc               randconfig-r006-20230724   gcc  
+parisc               randconfig-r032-20230724   gcc  
+parisc64                            defconfig   gcc  
+powerpc                     akebono_defconfig   clang
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                      chrp32_defconfig   gcc  
+powerpc                      ppc40x_defconfig   gcc  
+powerpc              randconfig-r004-20230725   clang
+powerpc              randconfig-r006-20230724   gcc  
+powerpc              randconfig-r023-20230724   clang
+powerpc              randconfig-r024-20230724   clang
+powerpc                     stx_gp3_defconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r004-20230724   gcc  
+riscv                randconfig-r014-20230724   clang
+riscv                randconfig-r042-20230724   clang
+riscv                randconfig-r042-20230725   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r006-20230725   clang
+s390                 randconfig-r011-20230725   gcc  
+s390                 randconfig-r032-20230724   gcc  
+s390                 randconfig-r033-20230724   gcc  
+s390                 randconfig-r044-20230724   clang
+s390                 randconfig-r044-20230725   gcc  
+sh                               allmodconfig   gcc  
+sh                         ecovec24_defconfig   gcc  
+sh                               j2_defconfig   gcc  
+sh                   randconfig-r004-20230724   gcc  
+sh                   randconfig-r013-20230724   gcc  
+sh                   randconfig-r016-20230724   gcc  
+sh                   randconfig-r024-20230724   gcc  
+sh                   randconfig-r035-20230724   gcc  
+sh                   randconfig-r036-20230724   gcc  
+sh                             sh03_defconfig   gcc  
+sh                            titan_defconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r003-20230724   gcc  
+sparc                randconfig-r005-20230724   gcc  
+sparc                randconfig-r011-20230724   gcc  
+sparc                randconfig-r012-20230724   gcc  
+sparc                randconfig-r013-20230724   gcc  
+sparc                randconfig-r015-20230724   gcc  
+sparc                randconfig-r021-20230725   gcc  
+sparc                randconfig-r036-20230724   gcc  
+sparc64              randconfig-r016-20230725   gcc  
+sparc64              randconfig-r035-20230724   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                   randconfig-r003-20230724   clang
+um                   randconfig-r006-20230724   clang
+um                   randconfig-r013-20230724   gcc  
+um                   randconfig-r031-20230724   clang
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230723   clang
+x86_64       buildonly-randconfig-r001-20230724   gcc  
+x86_64       buildonly-randconfig-r002-20230723   clang
+x86_64       buildonly-randconfig-r002-20230724   gcc  
+x86_64       buildonly-randconfig-r003-20230723   clang
+x86_64       buildonly-randconfig-r003-20230724   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-r006-20230724   gcc  
+x86_64               randconfig-r011-20230724   clang
+x86_64               randconfig-r013-20230724   clang
+x86_64               randconfig-r022-20230724   clang
+x86_64               randconfig-r022-20230725   gcc  
+x86_64               randconfig-r025-20230725   gcc  
+x86_64               randconfig-r035-20230724   gcc  
+x86_64               randconfig-x001-20230724   clang
+x86_64               randconfig-x001-20230725   gcc  
+x86_64               randconfig-x002-20230724   clang
+x86_64               randconfig-x002-20230725   gcc  
+x86_64               randconfig-x003-20230724   clang
+x86_64               randconfig-x003-20230725   gcc  
+x86_64               randconfig-x004-20230724   clang
+x86_64               randconfig-x004-20230725   gcc  
+x86_64               randconfig-x005-20230724   clang
+x86_64               randconfig-x005-20230725   gcc  
+x86_64               randconfig-x006-20230724   clang
+x86_64               randconfig-x006-20230725   gcc  
+x86_64               randconfig-x011-20230724   gcc  
+x86_64               randconfig-x012-20230724   gcc  
+x86_64               randconfig-x013-20230724   gcc  
+x86_64               randconfig-x014-20230724   gcc  
+x86_64               randconfig-x015-20230724   gcc  
+x86_64               randconfig-x016-20230724   gcc  
+x86_64                           rhel-8.3-bpf   gcc  
+x86_64                          rhel-8.3-func   gcc  
+x86_64                    rhel-8.3-kselftests   gcc  
+x86_64                         rhel-8.3-kunit   gcc  
+x86_64                           rhel-8.3-ltp   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                           alldefconfig   gcc  
+xtensa               randconfig-r002-20230724   gcc  
+xtensa               randconfig-r003-20230724   gcc  
+xtensa               randconfig-r012-20230724   gcc  
+xtensa               randconfig-r015-20230724   gcc  
+xtensa               randconfig-r026-20230724   gcc  
+xtensa               randconfig-r036-20230724   gcc  
 
-I saw 'qcom,pm8916-vib' has been used in multiple DTS files and updating 
-it as a fallback will result updating those DTS files as well.
-Or please help to suggest if there is any way to keep 'qcom,pm8916-vib' 
-and 'qcom,spmi-vib-gen1' compatible without updating existing DTS nodes.
-
-Thanks
-
-> 
->> +      - items:
->> +          - enum:
->> +              - qcom,pmi632-vib
->> +              - qcom,pm7250b-vib
->> +              - qcom,pm7325b-vib
->> +              - qcom,pm7550b-vib
->> +          - const: qcom,spmi-vib-gen2
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
