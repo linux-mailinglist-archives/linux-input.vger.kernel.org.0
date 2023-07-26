@@ -2,42 +2,42 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8BDD762F78
-	for <lists+linux-input@lfdr.de>; Wed, 26 Jul 2023 10:18:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BA817630B4
+	for <lists+linux-input@lfdr.de>; Wed, 26 Jul 2023 11:02:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233144AbjGZISD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Jul 2023 04:18:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59766 "EHLO
+        id S232932AbjGZJCn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Jul 2023 05:02:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229939AbjGZIR1 (ORCPT
+        with ESMTP id S232974AbjGZJCR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Jul 2023 04:17:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 853D56199;
-        Wed, 26 Jul 2023 01:07:09 -0700 (PDT)
+        Wed, 26 Jul 2023 05:02:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B233CE47;
+        Wed, 26 Jul 2023 01:57:42 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1AD26617FE;
-        Wed, 26 Jul 2023 08:07:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE039C433C7;
-        Wed, 26 Jul 2023 08:07:03 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 42C5C6191D;
+        Wed, 26 Jul 2023 08:57:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ADE5C433C8;
+        Wed, 26 Jul 2023 08:57:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690358828;
-        bh=02/BpPWpwcY6qGVMejurwI2MWG0QRmzw+p5vHPciA24=;
+        s=k20201202; t=1690361861;
+        bh=kjiQFIohojvIrF639adWnH/h/VJNwIVgZ5idr1q2NXU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Si6mynfF/QLiJ9GIAhKKfRQiDSikeuZ873k10cyiYklhjlNSURbHevhJKwAb+l92S
-         Uf8Kj9aLuzyIeNRdJEPYMETFNTeYV7p1dx2Vzj/Dhtu3ViQam7sFC8KYLXJu3pR/42
-         z52VBElkQ3oAOQwDr5qrKtXFrBhQ9MGMVOlPQOvDKPv/oMiYspXZVkCwbnzcZIWT8a
-         yJ6xNx9UpPdJr/UbbthJW4jj1UAcJzkJy3UJnijsHT3DOx8yCTvAlxetVeb0C+5c9P
-         wfZPGkuZRxqTFUcenD3YoMUSuqJiBBFkMPKCv5urluIJDUJujg9A49V62hu32CLWhE
-         vo4Y0h1mZcXdw==
-Date:   Wed, 26 Jul 2023 10:07:00 +0200
+        b=fROJJIaB+DQoYOGdT7clpGBJe5sWA4dgcmlZ6PPjD9fSbVK79++e73RLoBLrm5GgL
+         VnAXtQyoTTorp3Z4L1EILfqE75lUzu/8rWyScRJ2e6fbBbknQCvFvmFLEbCsPLqS9S
+         9CtKzfZcYOpmSunwgPsNbVqlf5bWA8u9/krqmW9KkA3ztsDz8r5LZnI1gutIXZOadu
+         fuiPW/Zyg13o9K6+5twxyaQxNfF19ict/uV6aCffmXvLg5jiGYWXmvB8h8UtNzbU4E
+         YA+NAOuYPkXJpGxqnyS0+/E/nW9V+w+z5Qstd6c9fixjvd4d2oNmuMQ/qX5rZfIKE3
+         ZpMvnkujKt7pg==
+Date:   Wed, 26 Jul 2023 10:57:34 +0200
 From:   Benjamin Tissoires <bentiss@kernel.org>
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
+To:     Douglas Anderson <dianders@chromium.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Bjorn Andersson <andersson@kernel.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -49,29 +49,23 @@ Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        linux-kernel@vger.kernel.org, hsinyi@google.com,
-        cros-qcom-dts-watchers@chromium.org, devicetree@vger.kernel.org,
-        yangcong5@huaqin.corp-partner.google.com,
+        devicetree@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
         linux-arm-msm@vger.kernel.org,
-        Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
-Message-ID: <wcilyqbh23xjscsvubxjnkwlctxuvyj5weix2opywkolg7udyb@gad2pmlazxx4>
-References: <20230607215224.2067679-1-dianders@chromium.org>
- <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
- <y3l4x3kv7jgog3miexati5wbveaynnryzqvj6sc4ul6625f2if@w7nqgojfavfw>
- <CAD=FV=VbdeomBGbWhppY+5TOSwt64GWBHga68OXFwsnO4gg4UA@mail.gmail.com>
- <CAD=FV=UUdc5xi-HoOye-a1Oki3brcX3V1+=zuxQKLAcrd3iTSA@mail.gmail.com>
- <CAD=FV=WmpH6cB0oZOxbL+TUxjLRf3PM+kKvuYRAZSiEhS4o37A@mail.gmail.com>
+        yangcong5@huaqin.corp-partner.google.com,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Chris Morgan <macroalpha82@gmail.com>,
+        linux-input@vger.kernel.org, hsinyi@google.com
+Subject: Re: [PATCH v3 08/10] HID: i2c-hid: Support being a panel follower
+Message-ID: <rorhwk3jx72twmqnxqb45uhm7azxxfirvferwyznbhbfmdf7ja@6k6ebhehmsn4>
+References: <20230725203545.2260506-1-dianders@chromium.org>
+ <20230725133443.v3.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=WmpH6cB0oZOxbL+TUxjLRf3PM+kKvuYRAZSiEhS4o37A@mail.gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+In-Reply-To: <20230725133443.v3.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -80,147 +74,227 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Jul 25 2023, Doug Anderson wrote:
-> Hi,
+On Jul 25 2023, Douglas Anderson wrote:
+> As talked about in the patch ("drm/panel: Add a way for other devices
+> to follow panel state"), we really want to keep the power states of a
+> touchscreen and the panel it's attached to in sync with each other. In
+> that spirit, add support to i2c-hid to be a panel follower. This will
+> let the i2c-hid driver get informed when the panel is powered on and
+> off. From there we can match the i2c-hid device's power state to that
+> of the panel.
 > 
-> On Mon, Jul 17, 2023 at 11:15 AM Doug Anderson <dianders@chromium.org> wrote:
-> >
-> > Benjamin,
-> >
-> > On Mon, Jun 26, 2023 at 3:49 PM Doug Anderson <dianders@chromium.org> wrote:
-> > >
-> > > Benjamin,
-> > >
-> > > On Thu, Jun 8, 2023 at 8:37 AM Benjamin Tissoires
-> > > <benjamin.tissoires@redhat.com> wrote:
-> > > >
-> > > > > +static const struct drm_panel_follower_funcs i2c_hid_core_panel_follower_funcs = {
-> > > > > +     .panel_prepared = i2c_hid_core_panel_prepared,
-> > > > > +     .panel_unpreparing = i2c_hid_core_panel_unpreparing,
-> > > > > +};
-> > > >
-> > > > Can we make that above block at least behind a Kconfig?
-> > > >
-> > > > i2c-hid is often used for touchpads, and the notion of drm panel has
-> > > > nothing to do with them. So I'd be more confident if we could disable
-> > > > that code if not required.
-> > >
-> > > Now that other concerns are addressed, I started trying to write up a
-> > > v3 and I found myself writing this as the description of the Kconfig
-> > > entry:
-> > >
-> > > --
-> > > config I2C_HID_SUPPORT_PANEL_FOLLOWER
-> > > bool "Support i2c-hid devices that must be power sequenced with a panel"
-> > >
-> > > Say Y here if you want support for i2c-hid devices that need to
-> > > coordinate power sequencing with a panel. This is typically important
-> > > when you have a panel and a touchscreen that share power rails or
-> > > reset GPIOs. If you say N here then the kernel will not try to honor
-> > > any shared power sequencing for your hardware. In the best case,
-> > > ignoring power sequencing when it's needed will draw extra power. In
-> > > the worst case this will prevent your hardware from functioning or
-> > > could even damage your hardware.
-> > >
-> > > If unsure, say Y.
-> > >
-> > > --
-> > >
-> > > I can certainly go that way, but I just wanted to truly make sure
-> > > that's what we want. Specifically:
-> > >
-> > > 1. If we put the panel follower code behind a Kconfig then we actually
-> > > have no idea if a touchscreen was intended to be a panel follower.
-> > > Specifically the panel follower API is the one that detects the
-> > > connection between the panel and the i2c-hid device, so without being
-> > > able to call the panel follower API we have no idea that an i2c-hid
-> > > device was supposed to be a panel follower.
-> > >
-> > > 2. It is conceivable that power sequencing a device incorrectly could
-> > > truly cause hardware damage.
-> > >
-> > > Together, those points mean that if you turn off the Kconfig entry and
-> > > then try to boot on a device that needed that Kconfig setting that you
-> > > might damage hardware. I can code it up that way if you want, but it
-> > > worries me...
-> > >
-> > >
-> > > Alternatives that I can think of:
-> > >
-> > > a) I could change the panel follower API so that panel followers are
-> > > in charge of detecting the panel that they follow. Today, that looks
-> > > like:
-> > >
-> > >        panel_np = of_parse_phandle(dev->of_node, "panel", 0);
-> > >        if (panel_np)
-> > >                /* It's a panel follower */
-> > >        of_node_put(panel_np);
-> > >
-> > > ...so we could put that code in each touchscreen driver and then fail
-> > > to probe i2c-hid if we detect that we're supposed to be a panel
-> > > follower but the Kconfig is turned off. The above doesn't seem
-> > > massively ideal since it duplicates code. Also, one reason why I put
-> > > that code in drm_panel_add_follower() is that I think this concept
-> > > will eventually be needed even for non-DT cases. I don't know how to
-> > > write the non-DT code right now, though...
-> > >
-> > >
-> > > b) I could open-code detect the panel follower case but leave the
-> > > actual linking to the panel follower API. AKA add to i2c-hid:
-> > >
-> > >        if (of_property_read_bool(dev->of_node, "panel"))
-> > >                /* It's a panel follower */
-> > >
-> > > ...that's a smaller bit of code, but feels like an abstraction
-> > > violation. It also would need to be updated if/when we added support
-> > > for non-DT panel followers.
-> > >
-> > >
-> > > c) I could add a "static inline" implementation of b) to "drm_panel.h".
-> > >
-> > > That sounds great and I started doing it. ...but then realized that it
-> > > means adding to drm_panel.h:
-> > >
-> > > #include <linux/device.h>
-> > > #include <linux/of.h>
-> > >
-> > > ...because otherwise of_property_read_bool() isn't defined and "struct
-> > > device" can't be dereferenced. That might be OK, but it looks as if
-> > > folks have been working hard to avoid things like this in header
-> > > files. Presumably it would get uglier if/when we added the non-DT
-> > > case, as well. That being said, I can give it a shot...
-> > >
-> > > --
-> > >
-> > > At this point, I'm hoping for some advice. How important is it for you
-> > > to have a Kconfig for "I2C_HID_SUPPORT_PANEL_FOLLOWER"?
-> > >
-> > > NOTE: even if I don't add the Kconfig, I could at least create a
-> > > function for registering the panel follower that would get most of the
-> > > panel follower logic out of the probe function. Would that be enough?
-> >
-> > I'd love to send a new version of this patch series, but I'm still
-> > stuck with the above issue. I'm hoping you might have a minute to
-> > provide your thoughts. If I don't hear anything, I'll try a v3 where I
-> > don't have the Kconfig for "I2C_HID_SUPPORT_PANEL_FOLLOWER" but just
-> > try to pull a little more of the code out of the probe function.
+> NOTE: this patch specifically _doesn't_ use pm_runtime to keep track
+> of / manage the power state of the i2c-hid device, even though my
+> first instinct said that would be the way to go. Specific problems
+> with using pm_runtime():
+> * The initial power up couldn't happen in a runtime resume function
+>   since it create sub-devices and, apparently, that's not good to do
+>   in your resume function.
+> * Managing our power state with pm_runtime meant fighting to make the
+>   right thing happen at system suspend to prevent the system from
+>   trying to resume us only to suspend us again. While this might be
+>   able to be solved, it added complexity.
+> Overall the code without pm_runtime() ended up being smaller and
+> easier to understand.
 > 
-> To provide breadcrumbs, I posted the v3 which pulls a bit more code
-> out of the probe function but is otherwise largely unchanged. The
-> cover letter for v3 can be found at:
-
-Apologies for the delay. Given that you received feedbacks from other
-folks I wanted things to settle down a little bit before returning to
-this discussion. Sorry.
-
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
 > 
-> https://lore.kernel.org/r/20230725203545.2260506-1-dianders@chromium.org/
+> Changes in v3:
+> - Add "depends on DRM || !DRM" to Kconfig to avoid randconfig error.
+> - Split more of the panel follower code out of the core.
+> 
+> Changes in v2:
+> - i2c_hid_core_panel_prepared() and ..._unpreparing() are now static.
+> 
+>  drivers/hid/i2c-hid/Kconfig        |  2 +
+>  drivers/hid/i2c-hid/i2c-hid-core.c | 82 +++++++++++++++++++++++++++++-
+>  2 files changed, 82 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/hid/i2c-hid/Kconfig b/drivers/hid/i2c-hid/Kconfig
+> index 3be17109301a..2bdb55203104 100644
+> --- a/drivers/hid/i2c-hid/Kconfig
+> +++ b/drivers/hid/i2c-hid/Kconfig
+> @@ -70,5 +70,7 @@ config I2C_HID_OF_GOODIX
+>  
+>  config I2C_HID_CORE
+>  	tristate
+> +	# We need to call into panel code so if DRM=m, this can't be 'y'
+> +	depends on DRM || !DRM
+>  endif
+>  
+> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+> index fa8a1ca43d7f..fa6d1f624342 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+> @@ -38,6 +38,8 @@
+>  #include <linux/mutex.h>
+>  #include <asm/unaligned.h>
+>  
+> +#include <drm/drm_panel.h>
+> +
+>  #include "../hid-ids.h"
+>  #include "i2c-hid.h"
+>  
+> @@ -107,6 +109,8 @@ struct i2c_hid {
+>  	struct mutex		reset_lock;
+>  
+>  	struct i2chid_ops	*ops;
+> +	struct drm_panel_follower panel_follower;
+> +	bool			is_panel_follower;
+>  };
+>  
+>  static const struct i2c_hid_quirks {
+> @@ -1058,6 +1062,59 @@ static int i2c_hid_core_initial_power_up(struct i2c_hid *ihid)
+>  	return ret;
+>  }
+>  
+> +static int i2c_hid_core_panel_prepared(struct drm_panel_follower *follower)
+> +{
+> +	struct i2c_hid *ihid = container_of(follower, struct i2c_hid, panel_follower);
+> +	struct hid_device *hid = ihid->hid;
+> +
+> +	/*
+> +	 * hid->version is set on the first power up. If it's still zero then
+> +	 * this is the first power on so we should perform initial power up
+> +	 * steps.
+> +	 */
+> +	if (!hid->version)
+> +		return i2c_hid_core_initial_power_up(ihid);
+> +
+> +	return i2c_hid_core_resume(ihid);
+> +}
+> +
+> +static int i2c_hid_core_panel_unpreparing(struct drm_panel_follower *follower)
+> +{
+> +	struct i2c_hid *ihid = container_of(follower, struct i2c_hid, panel_follower);
+> +
+> +	return i2c_hid_core_suspend(ihid);
+> +}
+> +
+> +static const struct drm_panel_follower_funcs i2c_hid_core_panel_follower_funcs = {
+> +	.panel_prepared = i2c_hid_core_panel_prepared,
+> +	.panel_unpreparing = i2c_hid_core_panel_unpreparing,
+> +};
+> +
+> +static int i2c_hid_core_register_panel_follower(struct i2c_hid *ihid)
+> +{
+> +	struct device *dev = &ihid->client->dev;
+> +	int ret;
+> +
+> +	ihid->is_panel_follower = true;
+> +	ihid->panel_follower.funcs = &i2c_hid_core_panel_follower_funcs;
+> +
+> +	/*
+> +	 * If we're not in control of our own power up/power down then we can't
+> +	 * do the logic to manage wakeups. Give a warning if a user thought
+> +	 * that was possible then force the capability off.
+> +	 */
+> +	if (device_can_wakeup(dev)) {
+> +		dev_warn(dev, "Can't wakeup if following panel\n");
+> +		device_set_wakeup_capable(dev, false);
+> +	}
+> +
+> +	ret = drm_panel_add_follower(dev, &ihid->panel_follower);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+>  int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+>  		       u16 hid_descriptor_address, u32 quirks)
+>  {
+> @@ -1119,7 +1176,15 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+>  	hid->bus = BUS_I2C;
+>  	hid->initial_quirks = quirks;
+>  
+> -	ret = i2c_hid_core_initial_power_up(ihid);
+> +	/*
+> +	 * If we're a panel follower, we'll register and do our initial power
+> +	 * up when the panel turns on; otherwise we do it right away.
+> +	 */
+> +	if (drm_is_panel_follower(&client->dev))
+> +		ret = i2c_hid_core_register_panel_follower(ihid);
+> +	else
+> +		ret = i2c_hid_core_initial_power_up(ihid);
 
-I like the 8th patch of this series much more. If there is a risk of
-damaging the device, then we should not have the Kconfig to disable it.
+nitpicks, but I'm not sure I'm a big fan of having
+"if (drm_is_panel_follower(&client->dev))" sprinkled everywhere in the
+generic probe/resume/suspend code.
 
-I have some comments on that particular patch (v3 8/10), but I; ll reply
-inline.
+Would it be OK to define a `static int __do_i2c_hid_core_initial_power_up(struct i2c_hid *ihid)`
+that would do the actual powering up, and have
+i2c_hid_core_initial_power_up() doing the test if we are a panel
+follower?
+
+The i2c_hid_core_panel_* will need to be updated to use the `__do_`
+prefixed functions.
+
+> +
+>  	if (ret)
+>  		goto err_mem_free;
+>  
+> @@ -1143,7 +1208,14 @@ void i2c_hid_core_remove(struct i2c_client *client)
+>  	struct i2c_hid *ihid = i2c_get_clientdata(client);
+>  	struct hid_device *hid;
+>  
+> -	i2c_hid_core_power_down(ihid);
+> +	/*
+> +	 * If we're a follower, the act of unfollowing will cause us to be
+> +	 * powered down. Otherwise we need to manually do it.
+> +	 */
+> +	if (ihid->is_panel_follower)
+> +		drm_panel_remove_follower(&ihid->panel_follower);
+
+That part is concerning, as we are now calling hid_drv->suspend() when removing
+the device. It might or not have an impact (I'm not sure of it), but we
+are effectively changing the path of commands sent to the device.
+
+hid-multitouch might call a feature in ->suspend, but the remove makes
+that the physical is actually disconnected, so the function will fail,
+and I'm not sure what is happening then.
+
+> +	else
+> +		i2c_hid_core_power_down(ihid);
+
+Same here, I *think* it would be best to have the `if (ihid->is_panel_follower)`
+test in i2c_hid_core_power_down()  (and have a separate
+_do_i2c_hid_core_power_down()).
+
+>  
+>  	hid = ihid->hid;
+>  	hid_destroy_device(hid);
+> @@ -1171,6 +1243,9 @@ static int i2c_hid_core_pm_suspend(struct device *dev)
+>  	struct i2c_client *client = to_i2c_client(dev);
+>  	struct i2c_hid *ihid = i2c_get_clientdata(client);
+>  
+> +	if (ihid->is_panel_follower)
+> +		return 0;
+
+Not sure we need to split that one with _do_ prefix, it's already split
+:)
+
+> +
+>  	return i2c_hid_core_suspend(ihid);
+>  }
+>  
+> @@ -1179,6 +1254,9 @@ static int i2c_hid_core_pm_resume(struct device *dev)
+>  	struct i2c_client *client = to_i2c_client(dev);
+>  	struct i2c_hid *ihid = i2c_get_clientdata(client);
+>  
+> +	if (ihid->is_panel_follower)
+> +		return 0;
+
+Same here, no need to split.
+
+> +
+>  	return i2c_hid_core_resume(ihid);
+>  }
+>  
+> -- 
+> 2.41.0.487.g6d72f3e995-goog
+> 
 
 Cheers,
 Benjamin
