@@ -2,186 +2,200 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4B3D7626C1
-	for <lists+linux-input@lfdr.de>; Wed, 26 Jul 2023 00:30:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 950D77628E5
+	for <lists+linux-input@lfdr.de>; Wed, 26 Jul 2023 04:53:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231848AbjGYWag (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 Jul 2023 18:30:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46334 "EHLO
+        id S229835AbjGZCxF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 Jul 2023 22:53:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233833AbjGYW3N (ORCPT
+        with ESMTP id S229488AbjGZCxF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Jul 2023 18:29:13 -0400
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C9686B1;
-        Tue, 25 Jul 2023 15:22:30 -0700 (PDT)
-Received: by mail-ot1-x32c.google.com with SMTP id 46e09a7af769-6b9aadde448so5373371a34.0;
-        Tue, 25 Jul 2023 15:22:30 -0700 (PDT)
+        Tue, 25 Jul 2023 22:53:05 -0400
+Received: from mail-oo1-xc49.google.com (mail-oo1-xc49.google.com [IPv6:2607:f8b0:4864:20::c49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C45E91728
+        for <linux-input@vger.kernel.org>; Tue, 25 Jul 2023 19:53:03 -0700 (PDT)
+Received: by mail-oo1-xc49.google.com with SMTP id 006d021491bc7-5667dddaa5cso8834353eaf.2
+        for <linux-input@vger.kernel.org>; Tue, 25 Jul 2023 19:53:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690323689; x=1690928489;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uoqBZACiffS3PvfY6uEqr+KMqSZjH648nxXLpj9jwZw=;
-        b=eNciaTky3iP20Evx3ssQ9TOYRQbxiWbJDceVGk9sIoFkX1rjcRKA4rhamh0RoGCY9y
-         JzmxJ3PXGKGGKRiBP1ClIHoT2YAT8eFqLkUZbCfQO40OtBPyR2ZDetuxwHXuHGhmjxbZ
-         5WfPLMEJr0iLJB2eiHVTQxt73xdJF1DA0PKYzlhVWZXT/StiTigitF1fMzCtnEHYy3I2
-         C4oO4Z2G3JpeCP+OWxRtg9hyZHWITECDMmP1dyK1wgtUvtdt2f/OE6u0bzO64TIOa9+t
-         fxZI6skELUns5cibeWPXeAlG2JFktSb5wo/9b8IthT4e8qcafKXVgggJaQl3QiAYKwen
-         S1ig==
+        d=google.com; s=20221208; t=1690339983; x=1690944783;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=zVwrDQnfQU6HXjK9I2MjxgI4YzaboORQ+uZeRLX6Kuo=;
+        b=A34Z3jwJk5FcFyKLj0Hvo4W+ZuIIYqI2nyUH4IBIMkeeG2vaurzvdSlar8NV6eRjVD
+         GJ17bK8p/O69s29qVsws3yH5Avr3piqKUPoe73TV7YGuIfztSx6OZGCrmYif/lnbaDej
+         MyByAat57PMRapSQz/N1JRwijLv6bG7SCyzbsfcMZANpTAR4yZ3wAu9EypdraLgu+nkl
+         j4dmHqIP0xHTgvOYNYYWfMxGshNcT10XhlLKIy+cK8JukSQbECEe6/2cewmJtL2LCiQm
+         MkChXeM50jxJ/fSqirb2RG43MyaIGtn+YXDJGKm9aVApjwJ5fctHMEj95D8Dw7f/HdxV
+         nsPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690323689; x=1690928489;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uoqBZACiffS3PvfY6uEqr+KMqSZjH648nxXLpj9jwZw=;
-        b=XlqNDKqAviV40V+CDnSeCRDssNSKx4FNGhCmV0jUgCWKTZ1Xr3eZ3gtBBY+EapBdBT
-         mmewJS1xs3+r2yARj8blyDPl5ODfp/+MGZynt9u8nH0V5YAMAFgY7MfxAH3A1nbc5fb0
-         IrvPsbsuhRdBBa2Bdtq2fSooY1Ehmy7MHl4bcv0X7wvVPFP64RhbF/hba4vjld99jGtG
-         uF0tTPDnRXc6Meq0eTw6JFAQ9YeWhyqJallpRT61W+NvlpZoK9YJ1o+rVqCZ2T2ywM7w
-         dVU6WoDEpZ+sPSppOIpyfz0DOxFeveZ/ZX+iu/A+79qn/YifOzo2OmEblj8TTepanMg2
-         7NeQ==
-X-Gm-Message-State: ABy/qLYix/Em2NnBmYtPdmvRPyC82MndY8aVVDnQr/4AC19BKCXWNPXB
-        b6wSB0BJxBg/+UJNxQShj5mOlQ9Y8DypFA==
-X-Google-Smtp-Source: APBJJlEVHVNLZflSAeZoJdGcOzKK9N4lBZyokxE0WZfOygjpzE9RCEqcR90yDT8tR9Rcl2ZuAlDpnQ==
-X-Received: by 2002:a05:6870:e74b:b0:1bb:68ce:382c with SMTP id t11-20020a056870e74b00b001bb68ce382cmr440167oak.8.1690323688770;
-        Tue, 25 Jul 2023 15:21:28 -0700 (PDT)
-Received: from localhost.localdomain ([97.115.139.81])
-        by smtp.gmail.com with ESMTPSA id s22-20020a0568301e1600b006b9cbad68a8sm5312608otr.30.2023.07.25.15.21.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jul 2023 15:21:28 -0700 (PDT)
-From:   Aaron Armstrong Skomra <skomra@gmail.com>
-To:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        benjamin.tissoires@redhat.com, jikos@kernel.org
-Cc:     pinglinux@gmail.com, skomra@gmail.com, Joshua@Joshua-Dickens.com,
-        jason.gerecke@wacom.com,
-        Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-Subject: [PATCH Wacom EKR Battery Fixes 3/3] HID: wacom: struct name cleanup
-Date:   Tue, 25 Jul 2023 15:21:25 -0700
-Message-Id: <20230725222125.123887-1-skomra@gmail.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        d=1e100.net; s=20221208; t=1690339983; x=1690944783;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zVwrDQnfQU6HXjK9I2MjxgI4YzaboORQ+uZeRLX6Kuo=;
+        b=FvHc2YkGb2I4H1NtfnNEk/8+/UtR0e1com3C1Q7TUM+0XE28U+IegiRdEvYg7GvX9f
+         G/PhuY8AXso1bLLbAYsH4HLWnu5szBoCOcSlQqq4d3ZwnI61tVG8UiTu6SdFLZMy0uky
+         Yn2SljZqm4Lqu5fM8PQOJsTjltIdwC+MIe8DmrnNnwUJisFBCAmjXFhbdDD2f5NeWl7D
+         Zxx2bo0xJ00I8lIwmrmWxKk0eQWvQWasj9NlLtBVLH4FtNV14mPFySriHXSgK5i2NWZA
+         TadUEWuBV+9PuTAo/AO39LFjCRFwBA6ThyVgGXrpsEI8zw21jNC78SiO/oNxd6Q96aa+
+         256w==
+X-Gm-Message-State: ABy/qLa+KSsdPxs8gly6ex6byryO9X3XO8ODnHNbsP5EH972qJ0ni97S
+        /yJ9mew5zPNI6mPAjH3twjFcmqUr9AS9/KW6ztmU
+X-Google-Smtp-Source: APBJJlHCZsZO+1qTbe8UXl9QTH49h15wpQlNswbBb6UeEG+J3ado5z1SppNiYnR0njVfeQXDZjPsKXKcJlWEbt3O1W5q
+X-Received: from horchata.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:5b3])
+ (user=jefferymiller job=sendgmr) by 2002:a05:6808:1387:b0:3a1:f3ed:e9e with
+ SMTP id c7-20020a056808138700b003a1f3ed0e9emr1924600oiw.3.1690339983068; Tue,
+ 25 Jul 2023 19:53:03 -0700 (PDT)
+Date:   Wed, 26 Jul 2023 02:52:48 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.41.0.487.g6d72f3e995-goog
+Message-ID: <20230726025256.81174-1-jefferymiller@google.com>
+Subject: [PATCH v4] Input: psmouse - add delay when deactivating for SMBus mode
+From:   Jeffery Miller <jefferymiller@google.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Lyude Paul <lyude@redhat.com>,
+        Jonathan Denose <jdenose@chromium.org>, jdenose@google.com,
+        Andrew Duggan <aduggan@synaptics.com>,
+        Andrew Duggan <andrew@duggan.us>, loic.poulain@linaro.org,
+        benjamin.tissoires@redhat.com,
+        Jeffery Miller <jefferymiller@google.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
+There is a period of time between the psmouse deactivate and the
+ability to communicate with the SMBus companion. Insert a
+sleep after the deactivate to account for the delay and ensure
+the SMBus companion is responsive.
 
-Help differentiate the two remote related "serial" struct variables by
-renaming "wacom_remote_data" to "wacom_remote_work_data".
+Attempting to read from the SMBus companion too quickly was causing
+the touchpad on machines with an i801_smbus companion to stop working
+after a sleep/resume cycle.
 
-Signed-off-by: Aaron Skomra <skomra@gmail.com>
-Signed-off-by: Aaron Armstrong Skomra <aaron.skomra@wacom.com>
-Reviewed-by: Jason Gerecke <jason.gerecke@wacom.com>
+On resume the rmi4_smbus would fail with errors reading the SMBus version
+number:
+```
+[5454] i2c_i801:i801_check_post:414: i801_smbus 0000:00:1f.3: No response
+smbus_result: i2c-0 a=02c f=0000 c=fd BYTE_DATA rd res=-6
+rmi4_smbus 0-002c: failed to get SMBus version number!
+...
+rmi4_f01 rmi4-00.fn01: Failed to restore normal operation: -6.
+rmi4_f01 rmi4-00.fn01: Resume failed with code -6.
+rmi4_physical rmi4-00: Failed to suspend functions: -6
+rmi4_smbus 0-002c: Failed to resume device: -6
+```
+In this case the rmi_smb_get_version fails with -ENXIO if it happens too
+soon after the preceding serio_resume -> psmouse_deactivate call.
+
+On boot this issue could cause the touchpad to stay in the limited PS/2
+mode. This only reproduced in 1 in 10 boots on the Lenovo T440p.
+Failures in the log on boot would show up as:
+```
+psmouse serio1: synaptics: Trying to set up SMBus access
+[122] i2c_i801:i801_check_post:437: i801_smbus 0000:00:1f.3: No response
+psmouse serio1: synaptics: SMbus companion is not ready yet
+```
+
+Experimentation on the Lenovo T440p showed that a delay of 7-12ms on
+resume allowed the companion to respond.
+
+The 30ms delay in this patch was chosen based on the linux-input message:
+Link: https://lore.kernel.org/all/BYAPR03MB47572F2C65E52ED673238D41B2439@BYAPR03MB4757.namprd03.prod.outlook.com/
+
+Signed-off-by: Jeffery Miller <jefferymiller@google.com>
 ---
- drivers/hid/wacom_sys.c | 19 ++++++++++---------
- drivers/hid/wacom_wac.c |  4 ++--
- drivers/hid/wacom_wac.h |  2 +-
- 3 files changed, 13 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
-index 16862f97c46c..3f704b8072e8 100644
---- a/drivers/hid/wacom_sys.c
-+++ b/drivers/hid/wacom_sys.c
-@@ -1997,7 +1997,7 @@ static int wacom_initialize_remotes(struct wacom *wacom)
- 	spin_lock_init(&remote->remote_lock);
+Early boot dmesg include:
+```
+rmi4_smbus 0-002c: registering SMbus-connected sensor
+rmi4_f01 rmi4-00.fn01: found RMI device, manufacturer: Synaptics, product: TM2722-001, fw id: 0
+```
+
+The resume order looks correct. The `psmouse serio1` resume returns
+before the rmi_smb_resume is called showing the patch from
+https://lore.kernel.org/all/89456fcd-a113-4c82-4b10-a9bcaefac68f@google.com/
+is applied and working for that ordering.
+
+I attempted to try to rule out some interaction between the concurrent
+input resume calls for other i8042 devices.
+Adding a 7ms delay after psmouse_deactivate which is called in the
+preceding psmouse serio1 serio_resume function also allows
+this version call to succeed.
+
+If the rmi_smb_probe device_disable_async_suspend patch is applied
+it will also avoid this issue on resume. However the time between
+the psmouse_deactivate call for serio_resume and rmi_smb_resume
+was over 60ms on my test machine. This would naturally be long
+enough to avoid this particular delay.
+
+
+Changes in v4:
+- Moved the delay out of rmi4_smbus to psmouse_smbus based on review
+  comments. This also fixes an issue at boot time.
+
+Changes in v3:
+- Tagged mail message Link to resolve checkpatch warning.
+
+Changes in v2:
+- Changed to a single retry of 30ms based on previous feedback.
+
+ drivers/input/mouse/psmouse-smbus.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/input/mouse/psmouse-smbus.c b/drivers/input/mouse/psmouse-smbus.c
+index 2a2459b1b4f2..7b13de979908 100644
+--- a/drivers/input/mouse/psmouse-smbus.c
++++ b/drivers/input/mouse/psmouse-smbus.c
+@@ -5,6 +5,7 @@
  
- 	error = kfifo_alloc(&remote->remote_fifo,
--			5 * sizeof(struct wacom_remote_data),
-+			5 * sizeof(struct wacom_remote_work_data),
- 			GFP_KERNEL);
- 	if (error) {
- 		hid_err(wacom->hdev, "failed allocating remote_fifo\n");
-@@ -2660,17 +2660,18 @@ static void wacom_remote_work(struct work_struct *work)
- 	struct wacom *wacom = container_of(work, struct wacom, remote_work);
- 	struct wacom_remote *remote = wacom->remote;
- 	ktime_t kt = ktime_get();
--	struct wacom_remote_data data;
-+	struct wacom_remote_work_data remote_work_data;
- 	unsigned long flags;
- 	unsigned int count;
--	u32 serial;
-+	u32 work_serial;
- 	int i;
+ #define pr_fmt(fmt)		KBUILD_MODNAME ": " fmt
  
- 	spin_lock_irqsave(&remote->remote_lock, flags);
++#include <linux/delay.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/libps2.h>
+@@ -118,13 +119,18 @@ static psmouse_ret_t psmouse_smbus_process_byte(struct psmouse *psmouse)
+ 	return PSMOUSE_FULL_PACKET;
+ }
  
--	count = kfifo_out(&remote->remote_fifo, &data, sizeof(data));
-+	count = kfifo_out(&remote->remote_fifo, &remote_work_data,
-+			  sizeof(remote_work_data));
+-static int psmouse_smbus_reconnect(struct psmouse *psmouse)
++static void psmouse_activate_smbus_mode(struct psmouse_smbus_dev *smbdev)
+ {
+-	struct psmouse_smbus_dev *smbdev = psmouse->private;
+-
+-	if (smbdev->need_deactivate)
+-		psmouse_deactivate(psmouse);
++	if (smbdev->need_deactivate) {
++		psmouse_deactivate(smbdev->psmouse);
++		/* Give the device time to switch into SMBus mode */
++		msleep(30);
++	}
++}
  
--	if (count != sizeof(data)) {
-+	if (count != sizeof(remote_work_data)) {
- 		hid_err(wacom->hdev,
- 			"workitem triggered without status available\n");
- 		spin_unlock_irqrestore(&remote->remote_lock, flags);
-@@ -2683,14 +2684,14 @@ static void wacom_remote_work(struct work_struct *work)
- 	spin_unlock_irqrestore(&remote->remote_lock, flags);
++static int psmouse_smbus_reconnect(struct psmouse *psmouse)
++{
++	psmouse_activate_smbus_mode(psmouse->private);
+ 	return 0;
+ }
  
- 	for (i = 0; i < WACOM_MAX_REMOTES; i++) {
--		serial = data.remote[i].serial;
--		if (serial) {
-+		work_serial = remote_work_data.remote[i].serial;
-+		if (work_serial) {
+@@ -257,8 +263,7 @@ int psmouse_smbus_init(struct psmouse *psmouse,
+ 		}
+ 	}
  
- 			if (kt - remote->remotes[i].active_time > WACOM_REMOTE_BATTERY_TIMEOUT
- 			    && remote->remotes[i].active_time != 0)
- 				wacom_remote_destroy_battery(wacom, i);
+-	if (need_deactivate)
+-		psmouse_deactivate(psmouse);
++	psmouse_activate_smbus_mode(smbdev);
  
--			if (remote->remotes[i].serial == serial) {
-+			if (remote->remotes[i].serial == work_serial) {
- 				wacom_remote_attach_battery(wacom, i);
- 				continue;
- 			}
-@@ -2698,7 +2699,7 @@ static void wacom_remote_work(struct work_struct *work)
- 			if (remote->remotes[i].serial)
- 				wacom_remote_destroy_one(wacom, i);
- 
--			wacom_remote_create_one(wacom, serial, i);
-+			wacom_remote_create_one(wacom, work_serial, i);
- 
- 		} else if (remote->remotes[i].serial) {
- 			wacom_remote_destroy_one(wacom, i);
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index c922c1c4c78f..471db78dbbf0 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -1197,14 +1197,14 @@ static void wacom_remote_status_irq(struct wacom_wac *wacom_wac, size_t len)
- 	struct wacom *wacom = container_of(wacom_wac, struct wacom, wacom_wac);
- 	unsigned char *data = wacom_wac->data;
- 	struct wacom_remote *remote = wacom->remote;
--	struct wacom_remote_data remote_data;
-+	struct wacom_remote_work_data remote_data;
- 	unsigned long flags;
- 	int i, ret;
- 
- 	if (data[0] != WACOM_REPORT_DEVICE_LIST)
- 		return;
- 
--	memset(&remote_data, 0, sizeof(struct wacom_remote_data));
-+	memset(&remote_data, 0, sizeof(struct wacom_remote_work_data));
- 
- 	for (i = 0; i < WACOM_MAX_REMOTES; i++) {
- 		int j = i * 6;
-diff --git a/drivers/hid/wacom_wac.h b/drivers/hid/wacom_wac.h
-index a10b19669947..57e185f18d53 100644
---- a/drivers/hid/wacom_wac.h
-+++ b/drivers/hid/wacom_wac.h
-@@ -328,7 +328,7 @@ struct hid_data {
- 	ktime_t time_delayed;
- };
- 
--struct wacom_remote_data {
-+struct wacom_remote_work_data {
- 	struct {
- 		u32 serial;
- 	} remote[WACOM_MAX_REMOTES];
+ 	psmouse->private = smbdev;
+ 	psmouse->protocol_handler = psmouse_smbus_process_byte;
 -- 
-2.34.1
+2.41.0.487.g6d72f3e995-goog
 
