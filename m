@@ -2,110 +2,187 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FF4476574C
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jul 2023 17:20:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F89A7659DC
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jul 2023 19:18:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229965AbjG0PUQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Jul 2023 11:20:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34106 "EHLO
+        id S230252AbjG0RSe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Jul 2023 13:18:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231387AbjG0PUP (ORCPT
+        with ESMTP id S230000AbjG0RSc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Jul 2023 11:20:15 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B30E273D;
-        Thu, 27 Jul 2023 08:20:14 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id 38308e7fff4ca-2b9b904bb04so16018811fa.1;
-        Thu, 27 Jul 2023 08:20:14 -0700 (PDT)
+        Thu, 27 Jul 2023 13:18:32 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47E8230E2
+        for <linux-input@vger.kernel.org>; Thu, 27 Jul 2023 10:18:30 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-686e0213c0bso932848b3a.1
+        for <linux-input@vger.kernel.org>; Thu, 27 Jul 2023 10:18:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690471212; x=1691076012;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZqcR5puT1EdjGVb9gAZcFyu524POY6u1/1h9aOnJT20=;
-        b=jdUPxzFmOULUSJLp83KqTEH/h3lYyK43L109D1E6yQjWYLI954sm4kWvl9m8/FbbAd
-         BdBGjtT4a8CVfzQX7LRW1u2JI4K3g5o/sMadm3ES/IOVS7qHp013VOA88l7ISDMQCAxe
-         ZgiNzRb4gNZGJ+Wz7kJ/bMHulECqFAbu9OTU4SRcYhIZBey3heGIDswup7Tt/qDlzJie
-         oDiAeaOoYYbKxVIumiBw92dH5bDpIdUfRVjWq3cMdZDZUulWDNV30BqfmR6Wu0a+Oivo
-         tKl3o3Ak+xs8GPUOUGGBL8ehytXnjjiYCSrR9KqBZnINk8UypQdEA0yz58zRg+G16SH1
-         DkbA==
+        d=chromium.org; s=google; t=1690478310; x=1691083110;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NKU1yBs0msHXwREPYd0SDWl2QoMQpyRkOYWlocB0jV8=;
+        b=hrjc6QVjkTWq756/oBU5TwOfxXFlfrddRZA3xgCdnzV3H8TGz7rkhyiWq26zrqPRy4
+         dUbD98OflDDDsAwomLX59QoDRh2aBaZ6gDfSuQPxPNA61kkKhjuO1MR9BECRlWkGujeC
+         PFGzR5Ye6qlpD1WUGuSmfDuHJJxFGc3WklA5Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690471212; x=1691076012;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1690478310; x=1691083110;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZqcR5puT1EdjGVb9gAZcFyu524POY6u1/1h9aOnJT20=;
-        b=FVDVJw7gK6ddPVlh42zsee2yGU4uEbkBZTmRlBFgZZk4ul4gqxW0jDPidCRHD0DzTL
-         Ic11iirfQ44xJ7I4Oumc1DLRkuAI1zilNtlSycVNBNs9/pt/qRa0jmSutff+zB/BxMKv
-         Hb7dvR0hEtitKuM13Mq7ZC8PjgZwQng3fHKVGnebqzLWOV+UooG1LW85wYkCd1c8SXk/
-         7vW7AnNNDFkwl0mtdAnEAjILkdmSg431mDOESjFZH7T16eDIqck04HED3v9a4aG9PkiH
-         Z8dXvqEvMLyOMYki1mO6E5v6xlHr0b8p0uifkSTKQxHGRbBG9zYzHZjlNVJ0dwwQYqji
-         BmTQ==
-X-Gm-Message-State: ABy/qLZMCE93HUX5XsBpnJZsvFTAnijuUos2v+7DcTjVPTkTX1h1Nnzl
-        kdrYLQXIpgJjpEO76K12ONA=
-X-Google-Smtp-Source: APBJJlEcRhmgBfbGju1s6tRonzry+Bh+VpjleHGlMg7sjPKOjD8O5gHV3wzbJi3LlD67/nOGr9f4zw==
-X-Received: by 2002:a2e:a1ca:0:b0:2b9:5b46:2107 with SMTP id c10-20020a2ea1ca000000b002b95b462107mr1972980ljm.9.1690471212218;
-        Thu, 27 Jul 2023 08:20:12 -0700 (PDT)
-Received: from [127.0.1.1] ([91.230.2.244])
-        by smtp.gmail.com with ESMTPSA id w10-20020a5d4b4a000000b003176c6e87b1sm2247664wrs.81.2023.07.27.08.20.11
+        bh=NKU1yBs0msHXwREPYd0SDWl2QoMQpyRkOYWlocB0jV8=;
+        b=B35cq8RwUXlF4MYw4L51s1EavDIYMCul3RUZsoVCnvmDv4QUEOo6v90J757BfiznQE
+         gT6OHVv/8PoquB2+VIIWIOXRHH0azRb6iv5CnrdUeoWMh0OCc6F+FsT41am3H2YsNfhU
+         xKWVxzoyHVu4L+VhvfiElhkXcjKufsWV4D4i2E5rabIByiPI+iXSjOMdvNedUlTRZvK6
+         Y/TSiFSVt8h7YJpTbYG8FmCBMv72W2Q6nSv2ifamhOqeWtmiSqWvxAljDqacng/br9dR
+         2GeAK8Ft02fK9xx6QbDuGEPihqpSg19vgUMIWXQTfQ7VN6OrFEidRCgh/SMYtdQ5SpEu
+         Jb+w==
+X-Gm-Message-State: ABy/qLbZcl5ZaCGgCnzUxCPS/F6Y6aT4UUtwejfZEYUIVoMlXS6v+Peq
+        BzXw71uxpJa/hS0cGDwggoVMnA==
+X-Google-Smtp-Source: APBJJlGl8SynkgJTMJXL2V6Y++i5cfJeXPU6WuoXupbSwRd2SlAsHeaos+4AwL8PeR0DpLWnchlWNw==
+X-Received: by 2002:a05:6a00:14c4:b0:686:49b0:21ca with SMTP id w4-20020a056a0014c400b0068649b021camr6341987pfu.7.1690478310361;
+        Thu, 27 Jul 2023 10:18:30 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:9d:2:2339:954b:b98f:611a])
+        by smtp.gmail.com with ESMTPSA id 17-20020aa79111000000b0064f76992905sm1702524pfh.202.2023.07.27.10.18.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 08:20:11 -0700 (PDT)
-From:   Benjamin Bara <bbara93@gmail.com>
-Date:   Thu, 27 Jul 2023 17:19:57 +0200
-Subject: [PATCH] Input: ads7846 - don't set ABS_PRESSURE when min == max
+        Thu, 27 Jul 2023 10:18:29 -0700 (PDT)
+From:   Douglas Anderson <dianders@chromium.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     linux-arm-msm@vger.kernel.org,
+        yangcong5@huaqin.corp-partner.google.com,
+        devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        hsinyi@google.com, Chris Morgan <macroalpha82@gmail.com>,
+        linux-input@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Douglas Anderson <dianders@chromium.org>
+Subject: [PATCH v4 00/11] drm/panel and i2c-hid: Allow panels and touchscreens to power sequence together
+Date:   Thu, 27 Jul 2023 10:16:27 -0700
+Message-ID: <20230727171750.633410-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.41.0.487.g6d72f3e995-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230727-ads7846-pressure-v1-1-fa74c7680191@skidata.com>
-X-B4-Tracking: v=1; b=H4sIAByLwmQC/x2MywqAIBAAf0X2nKD2UPqV6GC51l4sXIpA+vek4
- zDMFGDMhAyjKJDxJqYjVdCNgHX3aUNJoTIYZVpljZU+sHXdIM+MzFdGqXoMcVHaORuhZlVEev7
- lNL/vB6SDDEViAAAA
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Bara <benjamin.bara@skidata.com>
-X-Mailer: b4 0.12.3
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Benjamin Bara <benjamin.bara@skidata.com>
 
-When the optional fields "pressure_min" and "pressure_max" are not set,
-both fall back to 0, which results to the following libinput error:
+The big motivation for this patch series is mostly described in the patch
+("drm/panel: Add a way for other devices to follow panel state"), but to
+quickly summarize here: for touchscreens that are connected to a panel we
+need the ability to power sequence the two device together. This is not a
+new need, but so far we've managed to get by through a combination of
+inefficiency, added costs, or perhaps just a little bit of brokenness.
+It's time to do better. This patch series allows us to do better.
 
-ADS7846 Touchscreen: kernel bug: device has min == max on ABS_PRESSURE
+Assuming that people think this patch series looks OK, we'll have to
+figure out the right way to land it. The panel patches and i2c-hid
+patches will go through very different trees and so either we'll need
+an Ack from one side or the other or someone to create a tag for the
+other tree to pull in. This will _probably_ require the true drm-misc
+maintainers to get involved, not a lowly committer. ;-)
 
-Avoid it by only setting ABS_PRESSURE if the values differ.
+Version 4 of this series adds a new patch that suspends i2c-hid
+devices at remove time even for non panel-followers to make things
+consistent. It also attempts to isolate the panel follower code a bit
+more as per Benjamin's feedback on v3 and adds an item to the DRM todo
+list as per Maxime's request. As per Maxime's response to my v3 cover
+letter, I added his Reviewed-by tag to all 10 patches that were part
+of v3 (but left it off of the new i2c-hid patch in v4).
 
-Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
----
- drivers/input/touchscreen/ads7846.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Version 3 of this series was a long time coming after v2. Maxime and I
+had a very long discussion trying to figure out if there was a beter
+way and in the end we didn't find one so he was OK with the series in
+general [1]. After that got resolved, I tried to resolve Benjamin's
+feedback but got stuck [2]. Eventually I made my best guess. The end
+result was a v3 that wasn't that different from v2 but that had a tiny
+bit more code split out.
 
-diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
-index faea40dd66d0..2535424a5630 100644
---- a/drivers/input/touchscreen/ads7846.c
-+++ b/drivers/input/touchscreen/ads7846.c
-@@ -1281,7 +1281,7 @@ static int ads7846_probe(struct spi_device *spi)
- 			pdata->y_min ? : 0,
- 			pdata->y_max ? : MAX_12BIT,
- 			0, 0);
--	if (ts->model != 7845)
-+	if (ts->model != 7845 && pdata->pressure_min != pdata->pressure_max)
- 		input_set_abs_params(input_dev, ABS_PRESSURE,
- 				pdata->pressure_min, pdata->pressure_max, 0, 0);
- 
+Version 2 of this patch series didn't change too much. At a high level:
+* I added all the forgotten "static" to functions.
+* I've hopefully made the bindings better.
+* I've integrated into fw_devlink.
+* I cleaned up a few descriptions / comments.
 
----
-base-commit: 451cc82bd11eb6a374f4dbcfc1cf007eafea91ab
-change-id: 20230727-ads7846-pressure-05edfb01887f
+As far as I can tell, as of v4 everyone is on the same page that this
+patch series looks like a reasonable solution to the problem and we
+just need to get all the nits fixed and figure out how to land it.
 
-Best regards,
+[1] https://lore.kernel.org/r/gkwymmfkdy2p2evz22wmbwgw42ii4wnvmvu64m3bghmj2jhv7x@4mbstjxnagxd
+[2] https://lore.kernel.org/r/CAD=FV=VbdeomBGbWhppY+5TOSwt64GWBHga68OXFwsnO4gg4UA@mail.gmail.com
+
+Changes in v4:
+- Document further cleanup in the official DRM todo list.
+- ("Suspend i2c-hid devices in remove") new for v4.
+- Move panel follower alternative checks to wrapper functions.
+- Rebase atop ("Suspend i2c-hid devices in remove").
+
+Changes in v3:
+- Add is_panel_follower() as a convenience for clients.
+- Add "depends on DRM || !DRM" to Kconfig to avoid randconfig error.
+- Split more of the panel follower code out of the core.
+
+Changes in v2:
+- Move the description to the generic touchscreen.yaml.
+- Update the desc to make it clearer it's only for integrated devices.
+- Add even more text to the commit message.
+- A few comment cleanups.
+- ("Add a devlink for panel followers") new for v2.
+- i2c_hid_core_initial_power_up() is now static.
+- i2c_hid_core_panel_prepared() and ..._unpreparing() are now static.
+- ihid_core_panel_prepare_work() is now static.
+- Improve documentation for smp_wmb().
+
+Douglas Anderson (11):
+  dt-bindings: HID: i2c-hid: Add "panel" property to i2c-hid backed
+    touchscreens
+  drm/panel: Check for already prepared/enabled in drm_panel
+  drm/panel: Add a way for other devices to follow panel state
+  of: property: fw_devlink: Add a devlink for panel followers
+  HID: i2c-hid: Switch to SYSTEM_SLEEP_PM_OPS()
+  HID: i2c-hid: Rearrange probe() to power things up later
+  HID: i2c-hid: Make suspend and resume into helper functions
+  HID: i2c-hid: Suspend i2c-hid devices in remove
+  HID: i2c-hid: Support being a panel follower
+  HID: i2c-hid: Do panel follower work on the system_wq
+  arm64: dts: qcom: sc7180: Link trogdor touchscreens to the panels
+
+ .../bindings/input/elan,ekth6915.yaml         |   5 +
+ .../bindings/input/goodix,gt7375p.yaml        |   5 +
+ .../bindings/input/hid-over-i2c.yaml          |   2 +
+ .../input/touchscreen/touchscreen.yaml        |   7 +
+ Documentation/gpu/todo.rst                    |  24 ++
+ .../boot/dts/qcom/sc7180-trogdor-coachz.dtsi  |   1 +
+ .../dts/qcom/sc7180-trogdor-homestar.dtsi     |   1 +
+ .../boot/dts/qcom/sc7180-trogdor-lazor.dtsi   |   1 +
+ .../boot/dts/qcom/sc7180-trogdor-pompom.dtsi  |   1 +
+ .../qcom/sc7180-trogdor-quackingstick.dtsi    |   1 +
+ .../dts/qcom/sc7180-trogdor-wormdingler.dtsi  |   1 +
+ drivers/gpu/drm/drm_panel.c                   | 218 ++++++++++-
+ drivers/hid/i2c-hid/Kconfig                   |   2 +
+ drivers/hid/i2c-hid/i2c-hid-core.c            | 349 +++++++++++++-----
+ drivers/of/property.c                         |   2 +
+ include/drm/drm_panel.h                       |  94 +++++
+ 16 files changed, 617 insertions(+), 97 deletions(-)
+
 -- 
-Benjamin Bara <benjamin.bara@skidata.com>
+2.41.0.487.g6d72f3e995-goog
 
