@@ -2,121 +2,267 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 059A7765D7D
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jul 2023 22:39:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22A0A765EE6
+	for <lists+linux-input@lfdr.de>; Fri, 28 Jul 2023 00:03:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229885AbjG0UjV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Jul 2023 16:39:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60586 "EHLO
+        id S232573AbjG0WDM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Jul 2023 18:03:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbjG0UjV (ORCPT
+        with ESMTP id S232792AbjG0WDI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Jul 2023 16:39:21 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30B652D45;
-        Thu, 27 Jul 2023 13:39:20 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-686c06b806cso1099551b3a.2;
-        Thu, 27 Jul 2023 13:39:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690490359; x=1691095159;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zyITX45GpTXogJEYiZE6OHZHfNoVROM05QVwzgFFXYA=;
-        b=QJEMg4MLxn+7tFi87dopB1hZODqle5ugHUWYODjrVyV+DhqzI30Eus2HYksloZQ4yd
-         CgxytAd8QEs2JEIbfCv2NI5vy9kOkZOni8GJmLEdo9/5lpbbhFt5dsYqeKOVdUsImLC+
-         qLYjUJ993nDinpi98+B8mfcIN43wEX1hDb2tpm3s4lDz5lT3mFGnK9u2Q1/2Af1TNEl6
-         Zhqd0RGKhYPfKAaVw5uF0eg9djhnW6p1Hhz87Mriy5melImdvRye9X1Wjv/CaD2w3GaO
-         l5oPwm0FwNaBIA4U4RzVyFagjzwxg0xEZKQUUDpc0oZpttBnkPYrI8KoE2AKRI8wKc18
-         MCrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690490359; x=1691095159;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zyITX45GpTXogJEYiZE6OHZHfNoVROM05QVwzgFFXYA=;
-        b=ZnlmvDV9V/OLnQl5ja4Jp5ltCckUFbrhxbwRbrEu/FmeJf0fLH7By7CGCe5/BOaNX1
-         En4fxqzmZoAnzN/Fo3WPcR5+KUSQ/5e56d8c1j8yrmDcezCuPQcrVk+53PLu5FTaK4OK
-         b8q2aFQ8yyeU+Munso1ltLQAslz/6X9dQL9ZMkZv9DwgOiU21OrAdKQBCjaoSlAfXsYZ
-         INU+SjW7SfFpmHzCrwjTezREn68e15TweBXKSlqLBWTCLV4hThX/OH6GVvZ+23JdEZ3g
-         XcO6RM13jK3n8G17y6hGOTC349Sgi7KCAtAJN309Trgjigc1K/Y5ci9Vr7E6+wW3OcQf
-         9tIw==
-X-Gm-Message-State: ABy/qLagmLB/GADj/0T9Ff7ctrIZkAG7qQxGmG0pBsOoi2V7SSyuGWwT
-        Hdo2mqM4NlBDBhMPK7wslcBV6b4sqII=
-X-Google-Smtp-Source: APBJJlH1lJRrzhf5NSYBO/uT93iCsBwZhWljDil9fKues7o5iNj42FFroJfdizBjNUSJKJhu386rrw==
-X-Received: by 2002:a05:6a20:7f88:b0:133:c9f0:ce66 with SMTP id d8-20020a056a207f8800b00133c9f0ce66mr216658pzj.18.1690490359329;
-        Thu, 27 Jul 2023 13:39:19 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:9b75:ab53:f898:d12d])
-        by smtp.gmail.com with ESMTPSA id s12-20020a62e70c000000b00686bf824b3bsm1865233pfh.136.2023.07.27.13.39.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 13:39:18 -0700 (PDT)
-Date:   Thu, 27 Jul 2023 13:39:16 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Benjamin Bara <bbara93@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Bara <benjamin.bara@skidata.com>
-Subject: Re: [PATCH] Input: ads7846 - don't set ABS_PRESSURE when min == max
-Message-ID: <ZMLV9BVxHx3jlE5R@google.com>
-References: <20230727-ads7846-pressure-v1-1-fa74c7680191@skidata.com>
+        Thu, 27 Jul 2023 18:03:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B45B3100;
+        Thu, 27 Jul 2023 15:03:07 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4C4B961F5D;
+        Thu, 27 Jul 2023 22:03:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53B53C433C8;
+        Thu, 27 Jul 2023 22:03:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690495386;
+        bh=pUFypZ6Op1liCm0dzOBMukorJ2DZC8LJEzU599aSVtc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=C0cXAlpp/tK2f18TcHP5uj4xabU+OlalONQ46BQJt7NLeEr5bAouFbf+xz5Gveuzd
+         PLqd7U5xN7KWtnLeq5OJdpspEFI8KYtMP29KzUWrGWBkyaWGm4iDsL62FGtLkiDJJl
+         vDinOgZL+IqNBZ2Ju69pb/6gfXyBwQRIURNwVcQCQEHPEsmHPSYrj5l913KryFKikF
+         H5uBVp+d4Q2Lb8Xlu+wjxEsFyh5g40hGLJP86cGpqQruHiz2z8xDim/hyY98ICpcFn
+         h+SNZ8xhKvmYRvJiK0XQ27mlFuwYKuA5gysVDOaEuWHqYoBScvgfIW5iotnqnl2DRF
+         lUnbTFTvwt7bg==
+Date:   Fri, 28 Jul 2023 00:03:04 +0200
+From:   Andi Shyti <andi.shyti@kernel.org>
+To:     Johannes Roith <johannes@gnu-linux.rocks>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        christophe.jaillet@wanadoo.fr
+Subject: Re: [PATCH] hid-mcp2200: added driver for GPIOs of MCP2200
+Message-ID: <20230727220304.a7vgqfuboeilxhgb@intel.intel>
+References: <20230623110145.92566-1-johannes@gnu-linux.rocks>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230727-ads7846-pressure-v1-1-fa74c7680191@skidata.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230623110145.92566-1-johannes@gnu-linux.rocks>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin,
+Hi Johannes,
 
-On Thu, Jul 27, 2023 at 05:19:57PM +0200, Benjamin Bara wrote:
-> From: Benjamin Bara <benjamin.bara@skidata.com>
+On Fri, Jun 23, 2023 at 01:01:45PM +0200, Johannes Roith wrote:
+> Added a gpiochip compatible driver to control the 8 GPIOs of the MCP2200
+> by using the HID interface.
 > 
-> When the optional fields "pressure_min" and "pressure_max" are not set,
-> both fall back to 0, which results to the following libinput error:
+> Using GPIOs with alternative functions (GP0<->SSPND, GP1<->USBCFG,
+> GP6<->RXLED, GP7<->TXLED) will reset the functions, if set (unset by
+> default).
 > 
-> ADS7846 Touchscreen: kernel bug: device has min == max on ABS_PRESSURE
+> The driver was tested while also using the UART of the chip. Setting
+> and reading the GPIOs has no effect on the UART communication. However,
+> a reset is triggered after the CONFIGURE command. If the GPIO Direction
+> is constantly changed, this will affect the communication at low baud
+> rates. This is a hardware problem of the MCP2200 and is not caused by
+> the driver.
 > 
-> Avoid it by only setting ABS_PRESSURE if the values differ.
+> Feedback from reviewers Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> and Andi Shyti <andi.shyti@kernel.org> was added.
+> 
+> Signed-off-by: Johannes Roith <johannes@gnu-linux.rocks>
 
-What is the benefit of silently continuing without reporting pressure on
-models that do support pressure readings, vs. using libinput's errors as
-signal to adjust DT?
+Just one note... please add a versioning to your patches and a
+changelog.
 
-> 
-> Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
-> ---
->  drivers/input/touchscreen/ads7846.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
-> index faea40dd66d0..2535424a5630 100644
-> --- a/drivers/input/touchscreen/ads7846.c
-> +++ b/drivers/input/touchscreen/ads7846.c
-> @@ -1281,7 +1281,7 @@ static int ads7846_probe(struct spi_device *spi)
->  			pdata->y_min ? : 0,
->  			pdata->y_max ? : MAX_12BIT,
->  			0, 0);
-> -	if (ts->model != 7845)
-> +	if (ts->model != 7845 && pdata->pressure_min != pdata->pressure_max)
->  		input_set_abs_params(input_dev, ABS_PRESSURE,
->  				pdata->pressure_min, pdata->pressure_max, 0, 0);
->  
-> 
-> ---
-> base-commit: 451cc82bd11eb6a374f4dbcfc1cf007eafea91ab
-> change-id: 20230727-ads7846-pressure-05edfb01887f
-> 
-> Best regards,
-> -- 
-> Benjamin Bara <benjamin.bara@skidata.com>
-> 
+I saw that your previous version did not receive any reply
+(sorry)... in that case you could add a prefix RESEND.
 
-Thanks.
+So that this patch would look like:
 
--- 
-Dmitry
+	[PATCH RESEND v3] hid-mcp2200: Added driver for GPIOs of MCP2200
+
+(note "Added" with capital letter)
+
+[...]
+
+> +/* Altternative pin assignments */
+
+Alternative
+
+> +#define TXLED		2
+> +#define RXLED		3
+> +#define USBCFG		6
+> +#define SSPND		7
+> +#define MCP_NGPIO	8
+
+[...]
+
+> +static int mcp_cmd_read_all(struct mcp2200 *mcp)
+> +{
+> +	struct mcp_read_all *read_all;
+> +	int len, t;
+> +
+> +	reinit_completion(&mcp->wait_in_report);
+> +	read_all = kzalloc(sizeof(struct mcp_read_all), GFP_KERNEL);
+> +	if (!read_all)
+> +		return -ENOMEM;
+
+any reason for allocating read_all dynamically?
+
+> +
+> +	read_all->cmd = READ_ALL;
+> +
+> +	mutex_lock(&mcp->lock);
+> +	len = hid_hw_output_report(mcp->hdev, (u8 *) read_all,
+> +			sizeof(struct mcp_read_all));
+
+Please align "sizeof" with "mcp"
+
+> +	mutex_unlock(&mcp->lock);
+> +	kfree(read_all);
+> +
+> +	if (len != sizeof(struct mcp_read_all))
+> +		return -EINVAL;
+> +
+> +	t = wait_for_completion_timeout(&mcp->wait_in_report, msecs_to_jiffies(4000));
+
+not an error, just a suggestion... would be nice to keep lines
+withing 80 characters whenever possible... and here it's possible :)
+
+> +	if (!t)
+> +		return -ETIMEDOUT;
+> +
+> +	/* return status, negative value if wrong response was received */
+> +	return mcp->status;
+> +}
+> +
+> +static void mcp_set_multiple(struct gpio_chip *gc, unsigned long *mask,
+> +				  unsigned long *bits)
+
+please align "struct" with "unsigned"
+
+> +{
+> +	struct mcp2200 *mcp = gpiochip_get_data(gc);
+> +	u8 value;
+> +	int status;
+> +	struct mcp_set_clear_outputs *cmd;
+> +
+> +	cmd = kzalloc(sizeof(struct mcp_set_clear_outputs), GFP_KERNEL);
+> +	if (!cmd)
+> +		return;
+> +
+> +	mutex_lock(&mcp->lock);
+> +
+> +	value = mcp->gpio_val & ~*mask;
+> +	value |= (*mask & *bits);
+> +
+> +	cmd->cmd = SET_CLEAR_OUTPUTS;
+> +	cmd->set_bmap = value;
+> +	cmd->clear_bmap = ~(value);
+> +
+> +	status = hid_hw_output_report(mcp->hdev, (u8 *) cmd,
+> +		       sizeof(struct mcp_set_clear_outputs));
+> +
+> +	mutex_unlock(&mcp->lock);
+> +	kfree(cmd);
+
+again, any reason for allocating dynamically cmd?
+
+> +	if (status == sizeof(struct mcp_set_clear_outputs))
+> +		mcp->gpio_val = value;
+
+should this be inside the lock?
+
+> +}
+
+[...]
+
+> +static int mcp_get(struct gpio_chip *gc, unsigned int gpio_nr)
+> +{
+> +	unsigned long mask = 0, bits = 0;
+> +
+> +	mask = (1 << gpio_nr);
+> +	mcp_get_multiple(gc, &mask, &bits);
+> +	return (bits > 0) ? 1 : 0;
+
+eventually you could just:
+
+	return bits > 0;
+
+> +}
+
+[...]
+
+> +static int mcp2200_probe(struct hid_device *hdev, const struct hid_device_id *id)
+> +{
+> +	int ret;
+> +	struct mcp2200 *mcp;
+> +
+> +	mcp = devm_kzalloc(&hdev->dev, sizeof(*mcp), GFP_KERNEL);
+> +	if (!mcp)
+> +		return -ENOMEM;
+> +
+> +	ret = hid_parse(hdev);
+> +	if (ret) {
+> +		hid_err(hdev, "can't parse reports\n");
+> +		return ret;
+
+Is it dev_err_probe() preferred to hid_err() here?
+
+> +	}
+> +
+> +	/*
+> +	 * This driver uses the .raw_event callback and therefore does not need any
+> +	 * HID_CONNECT_xxx flags.
+> +	 */
+> +	ret = hid_hw_start(hdev, 0);
+> +	if (ret) {
+> +		hid_err(hdev, "can't start hardware\n");
+> +		return ret;
+> +	}
+> +
+> +	hid_info(hdev, "USB HID v%x.%02x Device [%s] on %s\n", hdev->version >> 8,
+> +			hdev->version & 0xff, hdev->name, hdev->phys);
+> +
+> +	ret = hid_hw_open(hdev);
+> +	if (ret) {
+> +		hid_err(hdev, "can't open device\n");
+> +		hid_hw_stop(hdev);
+> +		return ret;
+> +	}
+> +
+> +	mutex_init(&mcp->lock);
+> +	init_completion(&mcp->wait_in_report);
+> +	hid_set_drvdata(hdev, mcp);
+> +	mcp->hdev = hdev;
+> +
+> +	ret = devm_add_action_or_reset(&hdev->dev, mcp2200_hid_unregister, hdev);
+> +	if (ret)
+
+hit_hw_stop()?
+
+Maybe a goto is better?
+
+Andi
+
+> +		return ret;
+> +
+> +	mcp->gc = template_chip;
+> +	mcp->gc.parent = &hdev->dev;
+> +
+> +	ret = gpiochip_add_data(&mcp->gc, mcp);
+> +	if (ret < 0) {
+> +		dev_err(&hdev->dev, "Unable to register gpiochip\n");
+> +		hid_hw_stop(hdev);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
