@@ -2,75 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF4287646F4
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jul 2023 08:38:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFD5376482E
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jul 2023 09:14:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231361AbjG0GiJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Jul 2023 02:38:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35058 "EHLO
+        id S233266AbjG0HOq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Jul 2023 03:14:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231808AbjG0GiC (ORCPT
+        with ESMTP id S233020AbjG0HO0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Jul 2023 02:38:02 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D201E189;
-        Wed, 26 Jul 2023 23:38:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6F3F261D4B;
-        Thu, 27 Jul 2023 06:38:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53265C433C8;
-        Thu, 27 Jul 2023 06:37:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690439879;
-        bh=FRjnZpBXyoICml35qRO4Ubw0mh4eZitG61lIBtAT9ZE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fYZL11pKqnmkNulOQe7GL0kffosuY1A0wodOf9CauFTecIaODJGJPhXFxc7GYCnLi
-         BER1cf+68K8Sz2Jhsnl4nq4fGGxli2s2LmnmWkmf9kSG75WPIDHdxsThaZ4Nb4s5p7
-         pUWoIaAaMZSgVHhutZGd/KWaom/Sli98Q8tiw2zU34EzcqASaA5SNusxS1pyJc4Ua7
-         9AyNvj3j3dUOJimVrImfyr0ZfSgr/zzasFPckHAj9q/VU/kQpXeLodMZmz5RJrVV8l
-         c8qxGhe0+v6AvJtH3eCtG/XNvGqjEyYEGHVCQEqYj7/T25emB02p4i6V3iaDfN8UCm
-         99iL9y1DWV5Aw==
-Date:   Thu, 27 Jul 2023 08:37:56 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        cros-qcom-dts-watchers@chromium.org,
-        Chris Morgan <macroalpha82@gmail.com>,
-        linux-input@vger.kernel.org, hsinyi@google.com,
-        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        yangcong5@huaqin.corp-partner.google.com
-Subject: Re: [PATCH v3 02/10] drm/panel: Check for already prepared/enabled
- in drm_panel
-Message-ID: <i3cbgrc365lwscwux2itho6uv74ji3hsjuge4zoxfnlnhacyqc@r73mmifyxffj>
-References: <20230725203545.2260506-1-dianders@chromium.org>
- <20230725133443.v3.2.I59b417d4c29151cc2eff053369ec4822b606f375@changeid>
- <snx3fzvf3icauri2xuigydvpqxtzhp34mptdxvifi7jswm2evy@sx7jr7zwvjw5>
- <CAD=FV=VcsTik+HD11xeDM2Jq9ispcX0-j5QtK8D1qUkrGabRGg@mail.gmail.com>
+        Thu, 27 Jul 2023 03:14:26 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DBE66A7E
+        for <linux-input@vger.kernel.org>; Thu, 27 Jul 2023 00:09:04 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-5227e5d9d96so745209a12.2
+        for <linux-input@vger.kernel.org>; Thu, 27 Jul 2023 00:09:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690441644; x=1691046444;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oJ3iHUocjz5azHHmivuhMASDBNzfIodCAVzG/5NiGO0=;
+        b=VW+SUZtz34/K5jgfTm0codxNzt5XD4i6BqDFLscYtjf3V/OGGZeiwsD7WuofDFe/oG
+         6MVeHKxa7o5PvJlhMd/ZghRYdR5/2Cy2rcMJbNDeJLyIsNfmhvvowPJSZFeLFUSSZyV9
+         B6DxzR2aIkPBsC762JB+W6zZEMnVFIqBWA+zrZkJfvSuynBeFEB1axvXlGKD6rUD9zLZ
+         /prwQZEH5BxeMAHEKAUpQlZ0/xKC5NTtkOlUkQuBmJTWzIynJ3G3n7S54bAMrvOK4ivw
+         xewg0+dKtVAqDYmShfPpYnY+g+JwtzZdBT4XcyX1p7NWI66VdTMymnNIrKJXjGJ6zWoq
+         OhfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690441644; x=1691046444;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oJ3iHUocjz5azHHmivuhMASDBNzfIodCAVzG/5NiGO0=;
+        b=Sd2OlvGATRrkNtwPLvbmQpm7XqM0y5ehCXpf8ey5T5DwKAF0h+A42uHulofL/gdF6N
+         W5VkGnyHnkdyQ5k5bxzmk5z2vwnIw4Xx7w+0YlkfABW2rDGXoidTotsPAIffvik89/z6
+         D7j1Gxbj9bQiiUevrhZEP7VDB+diaLnK0AKO67aV/567WJD/BadG71UXGTyR9JuVkIMd
+         OR1I+Gt35f7owqgeweBgjUdFzENANLAlcYq+T7T2yWaAcY3ePc5tjQUr9nY3RaVpBohX
+         AOU26LgipaSGvA3GowGtnG5vo3bb86V1mMlpuf/2hgJZSuUj1zrTrBBBriaJyzULDFZJ
+         9x6g==
+X-Gm-Message-State: ABy/qLbTaGuXxWUGiKQPqVzCBArUfQqMNReIPW8TsdntUBRR1YkIekZN
+        6lyOuglldz9Lag74fbDYaGVE2g==
+X-Google-Smtp-Source: APBJJlGPpR6s2Rl0aQaM0oE5CwW2zNznwrxl8Dr87b4TcA4rBfJQ5WUmas85Y+U7Wv67dFHSs9jLig==
+X-Received: by 2002:a50:ed91:0:b0:522:55bf:21af with SMTP id h17-20020a50ed91000000b0052255bf21afmr1117154edr.7.1690441644127;
+        Thu, 27 Jul 2023 00:07:24 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id a18-20020aa7d752000000b0051dd16f7e50sm308004eds.44.2023.07.27.00.07.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jul 2023 00:07:23 -0700 (PDT)
+Message-ID: <2a09e743-7423-65b0-c70d-87ae8105182a@linaro.org>
+Date:   Thu, 27 Jul 2023 09:07:21 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="qmidvgjg6qmglwns"
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=VcsTik+HD11xeDM2Jq9ispcX0-j5QtK8D1qUkrGabRGg@mail.gmail.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 1/3] input: pm8xxx-vib: refactor to easily support new
+ SPMI vibrator
+Content-Language: en-US
+To:     Fenglin Wu <quic_fenglinw@quicinc.com>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        agross@kernel.org, andersson@kernel.org,
+        dmitry.baryshkov@linaro.org,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     quic_collinsd@quicinc.com, quic_subbaram@quicinc.com,
+        quic_kamalw@quicinc.com, jestar@qti.qualcomm.com
+References: <20230725054138.129497-1-quic_fenglinw@quicinc.com>
+ <20230725054138.129497-2-quic_fenglinw@quicinc.com>
+ <5dd56c31-7ca3-dd39-0623-e4fd18ac6f68@linaro.org>
+ <053c9571-d709-2826-fced-a00dd7255b8b@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <053c9571-d709-2826-fced-a00dd7255b8b@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,82 +86,45 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On 25/07/2023 08:16, Fenglin Wu wrote:
+>>>   
+>>> -static const struct pm8xxx_regs pm8058_regs = {
+>>> -	.drv_addr = 0x4A,
+>>> -	.drv_mask = 0xf8,
+>>> -	.drv_shift = 3,
+>>> -	.drv_en_manual_mask = 0xfc,
+>>> +static struct reg_field ssbi_vib_regs[VIB_MAX_REG] = {
+>>
+>> Change from const to non-const is wrong. How do you support multiple
+>> devices? No, this is way too fragile now.
+>>
+> 
+> The register definition is no longer used as the match data, hw_type is 
+> used.
+> 
+> The last suggestion was getting the register base address from the DT 
+> and it has to be added into the offset of SPMI vibrator registers 
+> (either in the previous hard-coded format or the later the reg_filed 
+> data structure), so it's not appropriated to make it constant.
+> 
+> I don't understand this question: "How do you support multiple devices?" 
+> For SSBI vibrator, since all the registers are fixed, and I would assume 
+> that there is no chance to support multiple vibrator devices on the same 
+> SSBI bus. If they are not on the same bus, the regmap device will be 
+> different while the registers definition is the same, and we are still 
+> able to support multiple devices, right?
 
---qmidvgjg6qmglwns
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+No, you have static memory. One device probes and changes static memory
+to reg+=base1. Second device probes and changes the same to reg+=base2.
 
-Hi,
+> The similar story for SPMI vibrators and it can support multiple devices 
+> if they are located on different SPMI bus, or even if they are on the 
+> same SPMI bus but just having different SID or PID.
 
-On Wed, Jul 26, 2023 at 08:10:33AM -0700, Doug Anderson wrote:
-> On Wed, Jul 26, 2023 at 5:41=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> > On Tue, Jul 25, 2023 at 01:34:37PM -0700, Douglas Anderson wrote:
-> > > NOTE: arguably, the right thing to do here is actually to skip this
-> > > patch and simply remove all the extra checks from the individual
-> > > drivers. Perhaps the checks were needed at some point in time in the
-> > > past but maybe they no longer are? Certainly as we continue
-> > > transitioning over to "panel_bridge" then we expect there to be much
-> > > less variety in how these calls are made. When we're called as part of
-> > > the bridge chain, things should be pretty simple. In fact, there was
-> > > some discussion in the past about these checks [1], including a
-> > > discussion about whether the checks were needed and whether the calls
-> > > ought to be refcounted. At the time, I decided not to mess with it
-> > > because it felt too risky.
-> >
-> > Yeah, I'd agree here too. I've never found evidence that it was actually
-> > needed and it really looks like cargo cult to me.
-> >
-> > And if it was needed, then I'm not sure we need refcounting either. We
-> > don't have refcounting for atomic_enable / disable, we have a sound API
-> > design that makes sure we don't fall into that trap :)
-> >
-> > > Looking closer at it now, I'm fairly certain that nothing in the
-> > > existing codebase is expecting these calls to be refcounted. The only
-> > > real question is whether someone is already doing something to ensure
-> > > prepare()/unprepare() match and enabled()/disable() match. I would say
-> > > that, even if there is something else ensuring that things match,
-> > > there's enough complexity that adding an extra bool and an extra
-> > > double-check here is a good idea. Let's add a drm_warn() to let people
-> > > know that it's considered a minor error to take advantage of
-> > > drm_panel's double-checking but we'll still make things work fine.
-> >
-> > I'm ok with this, if we follow-up in a couple of releases and remove it
-> > and all the calls.
-> >
-> > Could you add a TODO item so that we can keep a track of it? A follow-up
-> > is fine if you don't send a new version of that series.
->=20
-> By this, I think you mean to add a "TODO" comment inline in the code?
+Sorry, such code cannot go in. These must stay const and you must write
+driver without any static allocations or singleton-like patterns.
 
-No, sorry, I meant an entry in our TODO list: Documentation/gpu/todo.rst
 
-> Also: I was thinking that we'd keep the check in "drm_panel.c" with
-> the warning message indefinitely. You think it should be eventually
-> removed? If we are truly thinking of removing it eventually, this
-> feels like it should be a more serious warning message like a WARN(1,
-> ...) to make it really obvious to people that they're relying on
-> behavior that will eventually go away.
+Best regards,
+Krzysztof
 
-Yeah, it really feels like this is cargo-cult to me. Your approach seems
-like a good short-term thing to do to warn everyone but eventually we'll
-want it to go away.
-
-So promoting it to a WARN could be a good thing, or let's say we do a
-drm_warn for now, WARN next release, and gone in two?
-
-Maxime
-
---qmidvgjg6qmglwns
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZMIQxAAKCRDj7w1vZxhR
-xS9GAP9BIm0s8ZsLC+bhjElbosmrjvC+nJKq8JPUsWqiC6LCgAEA7zDgSlWYWW1y
-wy47ZmFD7kfSibH3ZXnpNrOTtnnmpQ4=
-=4IGd
------END PGP SIGNATURE-----
-
---qmidvgjg6qmglwns--
