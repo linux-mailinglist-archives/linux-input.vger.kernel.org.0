@@ -2,86 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F3EA764DF6
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jul 2023 10:46:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FA68764FDB
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jul 2023 11:32:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232930AbjG0Iqg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Jul 2023 04:46:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54878 "EHLO
+        id S234455AbjG0JcH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Jul 2023 05:32:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233070AbjG0IqN (ORCPT
+        with ESMTP id S234177AbjG0Jbk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Jul 2023 04:46:13 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CC1A8A63
-        for <linux-input@vger.kernel.org>; Thu, 27 Jul 2023 01:29:05 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-99b9161b94aso88833766b.1
-        for <linux-input@vger.kernel.org>; Thu, 27 Jul 2023 01:29:05 -0700 (PDT)
+        Thu, 27 Jul 2023 05:31:40 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4078830C2
+        for <linux-input@vger.kernel.org>; Thu, 27 Jul 2023 02:22:50 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-5222b917e0cso978736a12.0
+        for <linux-input@vger.kernel.org>; Thu, 27 Jul 2023 02:22:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690446543; x=1691051343;
+        d=linaro.org; s=google; t=1690449769; x=1691054569;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Vqiw6r+PHEVT+EztfpBhphT+HL4dVYUe7akOolTO95E=;
-        b=WB43hr/c+d+z9E1dr3O2n9Zrk01bgQhVrkcBz0BXQqEIXbQ1+GpUeBUpJF41KFf5Tf
-         lNm4rdRmMREzcf3LvomOfI21YpbvM6rACW4qqCaREo4hE9yZVqNV07X0NRrbSwuz/Off
-         egSFoZU1aXCiBuVzWNAUurp8glWLA6xEfQudURruUH1gBHIdxawSOyfxGL5Ck1I2okdP
-         1JEbf8n5QIkdeImRZLBDq54nXlEyFyEm5PgeYjggQPBUMMAaYCpvAz7nfz+b6F8205Y0
-         YudRzdIN6RPjy2EbEcLaYpmmMhFPTkcjZB/G7W3F9eI6T4CWb894X7wzJwyhIYdJnxcJ
-         MAGQ==
+        bh=wWq2qcXELyjYs8kivGpWt0fmM+O79pgdalmeBrWboJM=;
+        b=aAwmD3jyJ9ZtjCjJDAQtaLUEYeocUAu7OD9C/M36ms0/qiZXtNU8ZP7eW5TPP4Lb26
+         XjeHvA+1PrWhvATzm6lasKVMXTOh8LOckI34cr482ejNI2u8Rl7cIQYP5wgVJTihsXLr
+         C0eoNna88fH+oyYWMz9ffbCMC2Xa8l+kBk3MFDplzEb7ekpf+KWGgmfpCzh2Gspe7wzY
+         kEfRUCVaNWPhDu1UUIelVJyRkI+ayVtoPT5pGXb9FzWeJwsaPs3aJX4uu2TURbEtxyl9
+         qVn4wKoPOoehVlSB9kOh+x9ilNSiIMtSywaws2hpykFWYxwP35ovt0vDRvDEECkoyGKW
+         LmHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690446543; x=1691051343;
+        d=1e100.net; s=20221208; t=1690449769; x=1691054569;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vqiw6r+PHEVT+EztfpBhphT+HL4dVYUe7akOolTO95E=;
-        b=XlN9/UQ/M8ambQY9qsLMlokV3qeM+77TyK3i8U/sLtM3yxBun/Hc/YTHNAcswTdKey
-         W0v3pXT2NT1vnJ5wuuCnJVvyUK3AtYbeVfA5F95kpi41K42YsABb8GWX06tP1ksbMMIf
-         USR6Rr2LGK3PSjw0wIWPtPhJxIrWmMHR4S8eiTKrMJ+T9Xz3Njfn+KgjHff/zPqg6gwz
-         kVasxIbkTNL6hWHnfD0EOtMpkgpkXr9O7Mhluepyirm5kxD/KdrEC5Ioudilx0XhICsF
-         Zs+O6fPrx2Uft19qn49OKMbmR1YoulEQkGTKmcBa6wAG4gsM3mswEnsiRaUSv3GTzT8x
-         7emQ==
-X-Gm-Message-State: ABy/qLZKZdWPU3A+vXvcZ6vloARumjvB0ZSM1ghAgvLepjz7N3N5PHPB
-        aAthSm2UOLWQhdOmspJRG/JxcA==
-X-Google-Smtp-Source: APBJJlEePlD/dAhfTCyMhSnx6fASNBNWb1h9K0gW1jyicnQaTG11W03to93lZljkXpeSk7Uf1M9P1A==
-X-Received: by 2002:a17:906:5356:b0:99b:d5fd:c924 with SMTP id j22-20020a170906535600b0099bd5fdc924mr1511323ejo.66.1690446542830;
-        Thu, 27 Jul 2023 01:29:02 -0700 (PDT)
+        bh=wWq2qcXELyjYs8kivGpWt0fmM+O79pgdalmeBrWboJM=;
+        b=bVBXuQbKPFCLRiErBEgcIxQ11H38VB56Afonk6Froy98IYziLyWy/zO+dIydJOnUlK
+         mFMjSwDdUKgg6EhLGSAOtjrI3incBbkyTMBHgdZRn1Ek89gtbHUzC+96AvX5Qq2uWtWm
+         a5OeuewDIHFhj0e9PKT/d8S4g/k19b1Y/Sj4Tl4zCtScKmqzoRfBQLtk0aRL3DatR3aD
+         p8BlgC8FWuWfVAwCBQ0UkDSjndA/DEU7ku0R7dsdLQiCOYabTbU3chRHkDVXUZ2pUvE8
+         T05Izc+L8kernHmPRQ+GNJZ1/fLjNohPvRKvRGduptLl7lrI2l5yiwhJPyxqIfkHNi7y
+         xxrA==
+X-Gm-Message-State: ABy/qLZHAc8cltsbRzNT/Y4uhYM0MhueGycae5CN8bB34nJgyQ0BF8At
+        dNYpkTOEKhvVgqOgSa2acXoK/Q==
+X-Google-Smtp-Source: APBJJlEDlcOoXaBbJWsdekUHxxD/5D8F/XozEaYq6JRjSZCXlthM2wfd1BMxYLK+BMKQclJesZ1Phw==
+X-Received: by 2002:a17:906:7a5d:b0:993:e9b8:90ec with SMTP id i29-20020a1709067a5d00b00993e9b890ecmr1437323ejo.22.1690449768676;
+        Thu, 27 Jul 2023 02:22:48 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id cw25-20020a170906c79900b0098d2d219649sm488322ejb.174.2023.07.27.01.29.01
+        by smtp.gmail.com with ESMTPSA id va16-20020a17090711d000b0099bc0daf3d7sm529996ejb.182.2023.07.27.02.22.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jul 2023 01:29:02 -0700 (PDT)
-Message-ID: <b0999940-8cd1-349d-9bf4-d6494145254c@linaro.org>
-Date:   Thu, 27 Jul 2023 10:29:00 +0200
+        Thu, 27 Jul 2023 02:22:48 -0700 (PDT)
+Message-ID: <a27ad44c-bbc9-0a2e-44fe-ee9b787d0cd4@linaro.org>
+Date:   Thu, 27 Jul 2023 11:22:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v2 1/2] dt-bindings: input: qcom,pm8xxx-vib: add more PMIC
- support
+Subject: Re: [PATCH v3 1/3] input: pm8xxx-vib: refactor to easily support new
+ SPMI vibrator
 Content-Language: en-US
 To:     Fenglin Wu <quic_fenglinw@quicinc.com>,
         linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        agross@kernel.org, andersson@kernel.org,
+        dmitry.baryshkov@linaro.org,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org
+        linux-input@vger.kernel.org
 Cc:     quic_collinsd@quicinc.com, quic_subbaram@quicinc.com,
-        quic_kamalw@quicinc.com, jestar@qti.qualcomm.com,
-        quic_huliu@quicinc.com
-References: <20230718062639.2339589-1-quic_fenglinw@quicinc.com>
- <20230718062639.2339589-2-quic_fenglinw@quicinc.com>
- <cb534cdb-508e-b03e-4e39-50cd6654377a@linaro.org>
- <4cb9f443-bdea-695a-f1b7-3963747e9a17@quicinc.com>
- <5b7e624b-5d06-826d-92d1-2a721b7c83b7@quicinc.com>
- <fec38f3a-f103-ff0f-138c-cffa3a808001@linaro.org>
- <4210b137-2d5d-a467-ea8c-d047701fdcc2@quicinc.com>
- <dd5864ee-7df2-eb64-c7f2-0fb234900d6a@linaro.org>
- <2fa3f27d-ff08-b923-2fb1-cf7cc888e5d5@linaro.org>
- <f1286da7-05a6-c8aa-d13b-075c0fd45b77@quicinc.com>
+        quic_kamalw@quicinc.com, jestar@qti.qualcomm.com
+References: <20230725054138.129497-1-quic_fenglinw@quicinc.com>
+ <20230725054138.129497-2-quic_fenglinw@quicinc.com>
+ <5dd56c31-7ca3-dd39-0623-e4fd18ac6f68@linaro.org>
+ <053c9571-d709-2826-fced-a00dd7255b8b@quicinc.com>
+ <2a09e743-7423-65b0-c70d-87ae8105182a@linaro.org>
+ <4e416602-8dea-fa6d-d083-f93b730552c3@quicinc.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <f1286da7-05a6-c8aa-d13b-075c0fd45b77@quicinc.com>
+In-Reply-To: <4e416602-8dea-fa6d-d083-f93b730552c3@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -94,28 +88,58 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 27/07/2023 09:54, Fenglin Wu wrote:
->>>> +          - enum:
->>>> +              - qcom,pm7550ba-vib
->>>> +          - const: qcom,pm7325b-vib
+On 27/07/2023 09:43, Fenglin Wu wrote:
+> 
+> 
+> On 7/27/2023 3:07 PM, Krzysztof Kozlowski wrote:
+>> On 25/07/2023 08:16, Fenglin Wu wrote:
+>>>>>    
+>>>>> -static const struct pm8xxx_regs pm8058_regs = {
+>>>>> -	.drv_addr = 0x4A,
+>>>>> -	.drv_mask = 0xf8,
+>>>>> -	.drv_shift = 3,
+>>>>> -	.drv_en_manual_mask = 0xfc,
+>>>>> +static struct reg_field ssbi_vib_regs[VIB_MAX_REG] = {
+>>>>
+>>>> Change from const to non-const is wrong. How do you support multiple
+>>>> devices? No, this is way too fragile now.
 >>>>
 >>>
->>> Yes
+>>> The register definition is no longer used as the match data, hw_type is
+>>> used.
+>>>
+>>> The last suggestion was getting the register base address from the DT
+>>> and it has to be added into the offset of SPMI vibrator registers
+>>> (either in the previous hard-coded format or the later the reg_filed
+>>> data structure), so it's not appropriated to make it constant.
+>>>
+>>> I don't understand this question: "How do you support multiple devices?"
+>>> For SSBI vibrator, since all the registers are fixed, and I would assume
+>>> that there is no chance to support multiple vibrator devices on the same
+>>> SSBI bus. If they are not on the same bus, the regmap device will be
+>>> different while the registers definition is the same, and we are still
+>>> able to support multiple devices, right?
 >>
->> I wonder why this approved change turned out to something incorrect in
->> your v3 patch...
->>
-> Since I got review comments in the driver change and I was told to 
-> refactor the driver before adding new HW support. I added the HW type 
-> logic in the driver and I was thinking it might be good to add some 
-> generic compatible strings to match with the HW type introduced in the 
-> driver change.
+>> No, you have static memory. One device probes and changes static memory
+>> to reg+=base1. Second device probes and changes the same to reg+=base2.
 > 
-> Anyway, I will update it to what you suggested in next patch.
+> Thanks, got it.  I can update it with following 2 options:
+> 
+> 1) keep the register definition in 'reg_filed' data structure and make 
+> it constant, copy it to a dynamically allocated memory before adding the 
+> 'reg_base' to the '.reg' variable.
+> 
+> 2) Define the register offsets as constant data and add the 'reg_base' 
+> to the 'reg' while using 'regmap_read()'/'regmap_write()' functions.
+> 
+> which one is the preferred way?
 
-Drivers are not really related to bindings, so whatever HW type you add
-in driver, is not a reason to change bindings. Reason to change bindings
-could be for example: because hardware is like that.
+Depends on the code. I am not sure if 2 would work with regmap_fields.
+OTOH, I wonder if the device could just create its own regmap instead of
+using parents? Then there would be no need of this offset dance.
+
+Anyway, adding offset only for some variants seems also not needed. You
+should add offset to each variant, because each device has this offset.
 
 Best regards,
 Krzysztof
