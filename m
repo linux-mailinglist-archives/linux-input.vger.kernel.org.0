@@ -2,85 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63B2A765B85
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jul 2023 20:43:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 059A7765D7D
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jul 2023 22:39:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229630AbjG0Snf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Jul 2023 14:43:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34558 "EHLO
+        id S229885AbjG0UjV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Jul 2023 16:39:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229481AbjG0Snf (ORCPT
+        with ESMTP id S229552AbjG0UjV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Jul 2023 14:43:35 -0400
-Received: from mgamail.intel.com (unknown [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5716F2D5D;
-        Thu, 27 Jul 2023 11:43:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690483413; x=1722019413;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=L5z8yin9ZxPjzkBPLKHCZpn/sE75lTZ1e/7BXlD4ZOQ=;
-  b=Mf+VQ3XAJc/iLO67f2K9XkOKaQD2SxFOG2HELrfz3LkOoHJjU6srbyDc
-   OPyWuGI1+l5MT3sNFImp5BOm8p3NCaUi/wPUCP+227JZSeRTO4baa/EN5
-   4YugVKMc00CocxL8KZXLVF3rGOmhkFOIe6PBcBvZLHt3djFxtHBIUf22K
-   o1ScHiw4m3OIwioylg7XoT/l5qvEqrcdE0MFowe/U69Eg6ITmWt3UkeCV
-   3+/8krn3+jbddtI9D+0nHu8TgpkJHtcXOclHDavdYFHGgTUvhQv6ekPOQ
-   xOoFMxn5PuECITeL2cJo2ektQBhuIPP23F/o6Q9oF0hUHaIYu0ShxHGmn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="348011715"
-X-IronPort-AV: E=Sophos;i="6.01,235,1684825200"; 
-   d="scan'208";a="348011715"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 11:43:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="817211608"
-X-IronPort-AV: E=Sophos;i="6.01,235,1684825200"; 
-   d="scan'208";a="817211608"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by FMSMGA003.fm.intel.com with ESMTP; 27 Jul 2023 11:43:31 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qP5xR-00Gb8Y-34;
-        Thu, 27 Jul 2023 21:43:29 +0300
-Date:   Thu, 27 Jul 2023 21:43:29 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH v1 00/12] HID: cp2112: Cleanups and refactorings
-Message-ID: <ZMK60UphgVuj4Z+L@smile.fi.intel.com>
-References: <20230703185222.50554-1-andriy.shevchenko@linux.intel.com>
+        Thu, 27 Jul 2023 16:39:21 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30B652D45;
+        Thu, 27 Jul 2023 13:39:20 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-686c06b806cso1099551b3a.2;
+        Thu, 27 Jul 2023 13:39:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690490359; x=1691095159;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zyITX45GpTXogJEYiZE6OHZHfNoVROM05QVwzgFFXYA=;
+        b=QJEMg4MLxn+7tFi87dopB1hZODqle5ugHUWYODjrVyV+DhqzI30Eus2HYksloZQ4yd
+         CgxytAd8QEs2JEIbfCv2NI5vy9kOkZOni8GJmLEdo9/5lpbbhFt5dsYqeKOVdUsImLC+
+         qLYjUJ993nDinpi98+B8mfcIN43wEX1hDb2tpm3s4lDz5lT3mFGnK9u2Q1/2Af1TNEl6
+         Zhqd0RGKhYPfKAaVw5uF0eg9djhnW6p1Hhz87Mriy5melImdvRye9X1Wjv/CaD2w3GaO
+         l5oPwm0FwNaBIA4U4RzVyFagjzwxg0xEZKQUUDpc0oZpttBnkPYrI8KoE2AKRI8wKc18
+         MCrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690490359; x=1691095159;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zyITX45GpTXogJEYiZE6OHZHfNoVROM05QVwzgFFXYA=;
+        b=ZnlmvDV9V/OLnQl5ja4Jp5ltCckUFbrhxbwRbrEu/FmeJf0fLH7By7CGCe5/BOaNX1
+         En4fxqzmZoAnzN/Fo3WPcR5+KUSQ/5e56d8c1j8yrmDcezCuPQcrVk+53PLu5FTaK4OK
+         b8q2aFQ8yyeU+Munso1ltLQAslz/6X9dQL9ZMkZv9DwgOiU21OrAdKQBCjaoSlAfXsYZ
+         INU+SjW7SfFpmHzCrwjTezREn68e15TweBXKSlqLBWTCLV4hThX/OH6GVvZ+23JdEZ3g
+         XcO6RM13jK3n8G17y6hGOTC349Sgi7KCAtAJN309Trgjigc1K/Y5ci9Vr7E6+wW3OcQf
+         9tIw==
+X-Gm-Message-State: ABy/qLagmLB/GADj/0T9Ff7ctrIZkAG7qQxGmG0pBsOoi2V7SSyuGWwT
+        Hdo2mqM4NlBDBhMPK7wslcBV6b4sqII=
+X-Google-Smtp-Source: APBJJlH1lJRrzhf5NSYBO/uT93iCsBwZhWljDil9fKues7o5iNj42FFroJfdizBjNUSJKJhu386rrw==
+X-Received: by 2002:a05:6a20:7f88:b0:133:c9f0:ce66 with SMTP id d8-20020a056a207f8800b00133c9f0ce66mr216658pzj.18.1690490359329;
+        Thu, 27 Jul 2023 13:39:19 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:9b75:ab53:f898:d12d])
+        by smtp.gmail.com with ESMTPSA id s12-20020a62e70c000000b00686bf824b3bsm1865233pfh.136.2023.07.27.13.39.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jul 2023 13:39:18 -0700 (PDT)
+Date:   Thu, 27 Jul 2023 13:39:16 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Benjamin Bara <bbara93@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Bara <benjamin.bara@skidata.com>
+Subject: Re: [PATCH] Input: ads7846 - don't set ABS_PRESSURE when min == max
+Message-ID: <ZMLV9BVxHx3jlE5R@google.com>
+References: <20230727-ads7846-pressure-v1-1-fa74c7680191@skidata.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230703185222.50554-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20230727-ads7846-pressure-v1-1-fa74c7680191@skidata.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jul 03, 2023 at 09:52:10PM +0300, Andy Shevchenko wrote:
-> After I updated GPIO library for the case Benjamin has with CP2112,
-> I have a brief look into the CP2112 driver itself.
-> 
-> From GPIO perspective it has two main (maitenance) issues:
-> - usage of ->to_irq() with IRQ chip present;
-> - having IRQ chip not immutable.
-> 
-> Besides that there are plenty small cleanups here and there.
-> Hence this series.
+Hi Benjamin,
 
-Any comments on this?
+On Thu, Jul 27, 2023 at 05:19:57PM +0200, Benjamin Bara wrote:
+> From: Benjamin Bara <benjamin.bara@skidata.com>
+> 
+> When the optional fields "pressure_min" and "pressure_max" are not set,
+> both fall back to 0, which results to the following libinput error:
+> 
+> ADS7846 Touchscreen: kernel bug: device has min == max on ABS_PRESSURE
+> 
+> Avoid it by only setting ABS_PRESSURE if the values differ.
+
+What is the benefit of silently continuing without reporting pressure on
+models that do support pressure readings, vs. using libinput's errors as
+signal to adjust DT?
+
+> 
+> Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+> ---
+>  drivers/input/touchscreen/ads7846.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
+> index faea40dd66d0..2535424a5630 100644
+> --- a/drivers/input/touchscreen/ads7846.c
+> +++ b/drivers/input/touchscreen/ads7846.c
+> @@ -1281,7 +1281,7 @@ static int ads7846_probe(struct spi_device *spi)
+>  			pdata->y_min ? : 0,
+>  			pdata->y_max ? : MAX_12BIT,
+>  			0, 0);
+> -	if (ts->model != 7845)
+> +	if (ts->model != 7845 && pdata->pressure_min != pdata->pressure_max)
+>  		input_set_abs_params(input_dev, ABS_PRESSURE,
+>  				pdata->pressure_min, pdata->pressure_max, 0, 0);
+>  
+> 
+> ---
+> base-commit: 451cc82bd11eb6a374f4dbcfc1cf007eafea91ab
+> change-id: 20230727-ads7846-pressure-05edfb01887f
+> 
+> Best regards,
+> -- 
+> Benjamin Bara <benjamin.bara@skidata.com>
+> 
+
+Thanks.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Dmitry
