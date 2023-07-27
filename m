@@ -2,53 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 22A0A765EE6
-	for <lists+linux-input@lfdr.de>; Fri, 28 Jul 2023 00:03:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A1AF765F7E
+	for <lists+linux-input@lfdr.de>; Fri, 28 Jul 2023 00:31:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232573AbjG0WDM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Jul 2023 18:03:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37706 "EHLO
+        id S231573AbjG0WbM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Jul 2023 18:31:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232792AbjG0WDI (ORCPT
+        with ESMTP id S230182AbjG0WbL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Jul 2023 18:03:08 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B45B3100;
-        Thu, 27 Jul 2023 15:03:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4C4B961F5D;
-        Thu, 27 Jul 2023 22:03:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53B53C433C8;
-        Thu, 27 Jul 2023 22:03:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690495386;
-        bh=pUFypZ6Op1liCm0dzOBMukorJ2DZC8LJEzU599aSVtc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=C0cXAlpp/tK2f18TcHP5uj4xabU+OlalONQ46BQJt7NLeEr5bAouFbf+xz5Gveuzd
-         PLqd7U5xN7KWtnLeq5OJdpspEFI8KYtMP29KzUWrGWBkyaWGm4iDsL62FGtLkiDJJl
-         vDinOgZL+IqNBZ2Ju69pb/6gfXyBwQRIURNwVcQCQEHPEsmHPSYrj5l913KryFKikF
-         H5uBVp+d4Q2Lb8Xlu+wjxEsFyh5g40hGLJP86cGpqQruHiz2z8xDim/hyY98ICpcFn
-         h+SNZ8xhKvmYRvJiK0XQ27mlFuwYKuA5gysVDOaEuWHqYoBScvgfIW5iotnqnl2DRF
-         lUnbTFTvwt7bg==
-Date:   Fri, 28 Jul 2023 00:03:04 +0200
-From:   Andi Shyti <andi.shyti@kernel.org>
-To:     Johannes Roith <johannes@gnu-linux.rocks>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        christophe.jaillet@wanadoo.fr
-Subject: Re: [PATCH] hid-mcp2200: added driver for GPIOs of MCP2200
-Message-ID: <20230727220304.a7vgqfuboeilxhgb@intel.intel>
-References: <20230623110145.92566-1-johannes@gnu-linux.rocks>
+        Thu, 27 Jul 2023 18:31:11 -0400
+Received: from smtp.smtpout.orange.fr (smtp-25.smtpout.orange.fr [80.12.242.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D47E12D7B
+        for <linux-input@vger.kernel.org>; Thu, 27 Jul 2023 15:31:07 -0700 (PDT)
+Received: from [192.168.1.18] ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id P9VVqbVLtZ2imP9VVqfM8s; Fri, 28 Jul 2023 00:30:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1690497055;
+        bh=8ZtGc7eAE3vydkluaMlog20pWI9ZZcI5Fz1U2oENkHQ=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=s8cpxSP6oQl8AdAJXKe58Hy1LnFfcd+o4wyxEyC9ikpOyyIizv/j4QK3DZsPpRUD5
+         aG5zOYP2I/vHSyqBO6Mjv15RZL/AxwiYARZtzE61oI1qfrxPxeIshNSq8zdCPTmCyD
+         KykgPjPR1Jq+oyqY3MtmIDQTwYjA2Nr1pkEHsYOrp+pcSSTE9P26j1uBVN7Ml/Dulp
+         Qyb75n+PgbE3wfDRaoSTreHU1tIOTHZBkVV8BBGYPtghw7txXp1QsL3aQmQrFGajYc
+         fbqBojwt5Eo9MeWN3ZKTj7I4PlulNXpwwm+qKtaa7luXhV8uYlecsB5wBfU6fpokX4
+         wLNKPNePcMuTg==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Fri, 28 Jul 2023 00:30:55 +0200
+X-ME-IP: 86.243.2.178
+Message-ID: <df1acc44-62c3-1ac6-103e-561baf8e38e4@wanadoo.fr>
+Date:   Fri, 28 Jul 2023 00:30:53 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] hid-mcp2200: added driver for GPIOs of MCP2200
+Content-Language: fr, en-AU
+To:     Johannes Roith <johannes@gnu-linux.rocks>, jikos@kernel.org,
+        benjamin.tissoires@redhat.com
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        andi.shyti@kernel.org
+References: <20230623110145.92566-1-johannes@gnu-linux.rocks>
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 In-Reply-To: <20230623110145.92566-1-johannes@gnu-linux.rocks>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,9 +59,7 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Johannes,
-
-On Fri, Jun 23, 2023 at 01:01:45PM +0200, Johannes Roith wrote:
+Le 23/06/2023 à 13:01, Johannes Roith a écrit :
 > Added a gpiochip compatible driver to control the 8 GPIOs of the MCP2200
 > by using the HID interface.
 > 
@@ -77,126 +78,7 @@ On Fri, Jun 23, 2023 at 01:01:45PM +0200, Johannes Roith wrote:
 > and Andi Shyti <andi.shyti@kernel.org> was added.
 > 
 > Signed-off-by: Johannes Roith <johannes@gnu-linux.rocks>
-
-Just one note... please add a versioning to your patches and a
-changelog.
-
-I saw that your previous version did not receive any reply
-(sorry)... in that case you could add a prefix RESEND.
-
-So that this patch would look like:
-
-	[PATCH RESEND v3] hid-mcp2200: Added driver for GPIOs of MCP2200
-
-(note "Added" with capital letter)
-
-[...]
-
-> +/* Altternative pin assignments */
-
-Alternative
-
-> +#define TXLED		2
-> +#define RXLED		3
-> +#define USBCFG		6
-> +#define SSPND		7
-> +#define MCP_NGPIO	8
-
-[...]
-
-> +static int mcp_cmd_read_all(struct mcp2200 *mcp)
-> +{
-> +	struct mcp_read_all *read_all;
-> +	int len, t;
-> +
-> +	reinit_completion(&mcp->wait_in_report);
-> +	read_all = kzalloc(sizeof(struct mcp_read_all), GFP_KERNEL);
-> +	if (!read_all)
-> +		return -ENOMEM;
-
-any reason for allocating read_all dynamically?
-
-> +
-> +	read_all->cmd = READ_ALL;
-> +
-> +	mutex_lock(&mcp->lock);
-> +	len = hid_hw_output_report(mcp->hdev, (u8 *) read_all,
-> +			sizeof(struct mcp_read_all));
-
-Please align "sizeof" with "mcp"
-
-> +	mutex_unlock(&mcp->lock);
-> +	kfree(read_all);
-> +
-> +	if (len != sizeof(struct mcp_read_all))
-> +		return -EINVAL;
-> +
-> +	t = wait_for_completion_timeout(&mcp->wait_in_report, msecs_to_jiffies(4000));
-
-not an error, just a suggestion... would be nice to keep lines
-withing 80 characters whenever possible... and here it's possible :)
-
-> +	if (!t)
-> +		return -ETIMEDOUT;
-> +
-> +	/* return status, negative value if wrong response was received */
-> +	return mcp->status;
-> +}
-> +
-> +static void mcp_set_multiple(struct gpio_chip *gc, unsigned long *mask,
-> +				  unsigned long *bits)
-
-please align "struct" with "unsigned"
-
-> +{
-> +	struct mcp2200 *mcp = gpiochip_get_data(gc);
-> +	u8 value;
-> +	int status;
-> +	struct mcp_set_clear_outputs *cmd;
-> +
-> +	cmd = kzalloc(sizeof(struct mcp_set_clear_outputs), GFP_KERNEL);
-> +	if (!cmd)
-> +		return;
-> +
-> +	mutex_lock(&mcp->lock);
-> +
-> +	value = mcp->gpio_val & ~*mask;
-> +	value |= (*mask & *bits);
-> +
-> +	cmd->cmd = SET_CLEAR_OUTPUTS;
-> +	cmd->set_bmap = value;
-> +	cmd->clear_bmap = ~(value);
-> +
-> +	status = hid_hw_output_report(mcp->hdev, (u8 *) cmd,
-> +		       sizeof(struct mcp_set_clear_outputs));
-> +
-> +	mutex_unlock(&mcp->lock);
-> +	kfree(cmd);
-
-again, any reason for allocating dynamically cmd?
-
-> +	if (status == sizeof(struct mcp_set_clear_outputs))
-> +		mcp->gpio_val = value;
-
-should this be inside the lock?
-
-> +}
-
-[...]
-
-> +static int mcp_get(struct gpio_chip *gc, unsigned int gpio_nr)
-> +{
-> +	unsigned long mask = 0, bits = 0;
-> +
-> +	mask = (1 << gpio_nr);
-> +	mcp_get_multiple(gc, &mask, &bits);
-> +	return (bits > 0) ? 1 : 0;
-
-eventually you could just:
-
-	return bits > 0;
-
-> +}
+> ---
 
 [...]
 
@@ -213,9 +95,6 @@ eventually you could just:
 > +	if (ret) {
 > +		hid_err(hdev, "can't parse reports\n");
 > +		return ret;
-
-Is it dev_err_probe() preferred to hid_err() here?
-
 > +	}
 > +
 > +	/*
@@ -245,24 +124,41 @@ Is it dev_err_probe() preferred to hid_err() here?
 > +
 > +	ret = devm_add_action_or_reset(&hdev->dev, mcp2200_hid_unregister, hdev);
 > +	if (ret)
-
-hit_hw_stop()?
-
-Maybe a goto is better?
-
-Andi
-
 > +		return ret;
 > +
 > +	mcp->gc = template_chip;
 > +	mcp->gc.parent = &hdev->dev;
 > +
 > +	ret = gpiochip_add_data(&mcp->gc, mcp);
+
+devm_gpiochip_add_data()?
+
 > +	if (ret < 0) {
 > +		dev_err(&hdev->dev, "Unable to register gpiochip\n");
+
+hid_err() to be consistent?
+
 > +		hid_hw_stop(hdev);
+
+Isn't it already run by mcp2200_hid_unregister() registered a few lines 
+above?
+
+CJ
+
 > +		return ret;
 > +	}
 > +
 > +	return 0;
 > +}
+> +
+> +static void mcp2200_remove(struct hid_device *hdev)
+> +{
+> +	struct mcp2200 *mcp;
+> +
+> +	mcp = hid_get_drvdata(hdev);
+> +	gpiochip_remove(&mcp->gc);
+> +}
+> +
+
+[...]
+
