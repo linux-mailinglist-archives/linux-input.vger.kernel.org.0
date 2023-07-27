@@ -2,63 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AED5E764991
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jul 2023 09:57:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F3EA764DF6
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jul 2023 10:46:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233637AbjG0H5W (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Jul 2023 03:57:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33594 "EHLO
+        id S232930AbjG0Iqg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Jul 2023 04:46:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233603AbjG0H4d (ORCPT
+        with ESMTP id S233070AbjG0IqN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Jul 2023 03:56:33 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D78C1BDA;
-        Thu, 27 Jul 2023 00:54:20 -0700 (PDT)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36R6LsVC022679;
-        Thu, 27 Jul 2023 07:54:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=SK86K+XmrXyN/7JdJDNBpbp60GMLpXyh+m3lcNCox8M=;
- b=BrJd9M4A+2KMw+BoO9aNJTLU7AGWJw+ex/phoeBPWWYwti0Ncq9ngm4JKCCRdZvF64Q3
- P2Fl+Q7UU/zED3jrBiQ2ZzvNgycs4fHI6U/CB+xzCS8QqREY4LWL19BdiewCS0QNWnvt
- 1SHJlKMoSqDV5TpPWZ3sHWogdwNX3mdzL5YsItlHpI5UrqFC3awZIeUMvudkvgPC6Z+H
- pg8m+ekRpVKq+sYoQHO8p2SIaHOgsjD/SOYxx+D+zLqfQZteCnqr8RrXBfTWjhxN6d9a
- 1OjVw8tv+Yfr6L2M3yJNBzqLJh7fExlZ9JHOuyA8UyRLSyWeOY5U16BzMPgWH1KYlpYX Gw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s3k7u05f9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 27 Jul 2023 07:54:15 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36R7s9Ew027830
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 27 Jul 2023 07:54:09 GMT
-Received: from [10.253.74.152] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Thu, 27 Jul
- 2023 00:54:05 -0700
-Message-ID: <f1286da7-05a6-c8aa-d13b-075c0fd45b77@quicinc.com>
-Date:   Thu, 27 Jul 2023 15:54:02 +0800
+        Thu, 27 Jul 2023 04:46:13 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CC1A8A63
+        for <linux-input@vger.kernel.org>; Thu, 27 Jul 2023 01:29:05 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-99b9161b94aso88833766b.1
+        for <linux-input@vger.kernel.org>; Thu, 27 Jul 2023 01:29:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690446543; x=1691051343;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Vqiw6r+PHEVT+EztfpBhphT+HL4dVYUe7akOolTO95E=;
+        b=WB43hr/c+d+z9E1dr3O2n9Zrk01bgQhVrkcBz0BXQqEIXbQ1+GpUeBUpJF41KFf5Tf
+         lNm4rdRmMREzcf3LvomOfI21YpbvM6rACW4qqCaREo4hE9yZVqNV07X0NRrbSwuz/Off
+         egSFoZU1aXCiBuVzWNAUurp8glWLA6xEfQudURruUH1gBHIdxawSOyfxGL5Ck1I2okdP
+         1JEbf8n5QIkdeImRZLBDq54nXlEyFyEm5PgeYjggQPBUMMAaYCpvAz7nfz+b6F8205Y0
+         YudRzdIN6RPjy2EbEcLaYpmmMhFPTkcjZB/G7W3F9eI6T4CWb894X7wzJwyhIYdJnxcJ
+         MAGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690446543; x=1691051343;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vqiw6r+PHEVT+EztfpBhphT+HL4dVYUe7akOolTO95E=;
+        b=XlN9/UQ/M8ambQY9qsLMlokV3qeM+77TyK3i8U/sLtM3yxBun/Hc/YTHNAcswTdKey
+         W0v3pXT2NT1vnJ5wuuCnJVvyUK3AtYbeVfA5F95kpi41K42YsABb8GWX06tP1ksbMMIf
+         USR6Rr2LGK3PSjw0wIWPtPhJxIrWmMHR4S8eiTKrMJ+T9Xz3Njfn+KgjHff/zPqg6gwz
+         kVasxIbkTNL6hWHnfD0EOtMpkgpkXr9O7Mhluepyirm5kxD/KdrEC5Ioudilx0XhICsF
+         Zs+O6fPrx2Uft19qn49OKMbmR1YoulEQkGTKmcBa6wAG4gsM3mswEnsiRaUSv3GTzT8x
+         7emQ==
+X-Gm-Message-State: ABy/qLZKZdWPU3A+vXvcZ6vloARumjvB0ZSM1ghAgvLepjz7N3N5PHPB
+        aAthSm2UOLWQhdOmspJRG/JxcA==
+X-Google-Smtp-Source: APBJJlEePlD/dAhfTCyMhSnx6fASNBNWb1h9K0gW1jyicnQaTG11W03to93lZljkXpeSk7Uf1M9P1A==
+X-Received: by 2002:a17:906:5356:b0:99b:d5fd:c924 with SMTP id j22-20020a170906535600b0099bd5fdc924mr1511323ejo.66.1690446542830;
+        Thu, 27 Jul 2023 01:29:02 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id cw25-20020a170906c79900b0098d2d219649sm488322ejb.174.2023.07.27.01.29.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jul 2023 01:29:02 -0700 (PDT)
+Message-ID: <b0999940-8cd1-349d-9bf4-d6494145254c@linaro.org>
+Date:   Thu, 27 Jul 2023 10:29:00 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
 Subject: Re: [PATCH v2 1/2] dt-bindings: input: qcom,pm8xxx-vib: add more PMIC
  support
 Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+To:     Fenglin Wu <quic_fenglinw@quicinc.com>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "Rob Herring" <robh+dt@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>
-CC:     <quic_collinsd@quicinc.com>, <quic_subbaram@quicinc.com>,
-        <quic_kamalw@quicinc.com>, <jestar@qti.qualcomm.com>,
-        <quic_huliu@quicinc.com>
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     quic_collinsd@quicinc.com, quic_subbaram@quicinc.com,
+        quic_kamalw@quicinc.com, jestar@qti.qualcomm.com,
+        quic_huliu@quicinc.com
 References: <20230718062639.2339589-1-quic_fenglinw@quicinc.com>
  <20230718062639.2339589-2-quic_fenglinw@quicinc.com>
  <cb534cdb-508e-b03e-4e39-50cd6654377a@linaro.org>
@@ -68,90 +79,44 @@ References: <20230718062639.2339589-1-quic_fenglinw@quicinc.com>
  <4210b137-2d5d-a467-ea8c-d047701fdcc2@quicinc.com>
  <dd5864ee-7df2-eb64-c7f2-0fb234900d6a@linaro.org>
  <2fa3f27d-ff08-b923-2fb1-cf7cc888e5d5@linaro.org>
-From:   Fenglin Wu <quic_fenglinw@quicinc.com>
-In-Reply-To: <2fa3f27d-ff08-b923-2fb1-cf7cc888e5d5@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ <f1286da7-05a6-c8aa-d13b-075c0fd45b77@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <f1286da7-05a6-c8aa-d13b-075c0fd45b77@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 5WBv3UlbII-Ctx52Oj20pwpNWJcOIXSA
-X-Proofpoint-ORIG-GUID: 5WBv3UlbII-Ctx52Oj20pwpNWJcOIXSA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-26_08,2023-07-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
- mlxscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999
- suspectscore=0 priorityscore=1501 clxscore=1015 phishscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
- definitions=main-2307270068
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-
-
-On 7/27/2023 3:10 PM, Krzysztof Kozlowski wrote:
-> On 18/07/2023 10:02, Krzysztof Kozlowski wrote:
->> On 18/07/2023 09:59, Fenglin Wu wrote:
->>
->>>>> Just FYI,the change log was updated in the cover letter here:
->>>>> https://lore.kernel.org/linux-arm-msm/20230718062639.2339589-1-quic_fenglinw@quicinc.com/T/#m3819b50503ef19e0933a10bf797351a4af35537f
->>>>>
->>>>> Also the commit text and the driver change were also updated accordingly
->>>>> to address your review comment by removing 'pm7550ba-vib' compatible string.
+On 27/07/2023 09:54, Fenglin Wu wrote:
+>>>> +          - enum:
+>>>> +              - qcom,pm7550ba-vib
+>>>> +          - const: qcom,pm7325b-vib
 >>>>
->>>> Removing compatible was never my feedback. Did you read:
->>>> https://elixir.bootlin.com/linux/v6.1-rc1/source/Documentation/devicetree/bindings/writing-bindings.rst#L42
->>>> ?
->>>>
->>> Okay, so do you want me to add 'pm7550ba-vib' as a fallback compatible
->>> like this?
 >>>
->>>    properties:
->>>      compatible:
->>> -    enum:
->>> -      - qcom,pm8058-vib
->>> -      - qcom,pm8916-vib
->>> -      - qcom,pm8921-vib
->>> -      - qcom,pmi632-vib
->>> -      - qcom,pm7250b-vib
->>> -      - qcom,pm7325b-vib
->>> +    oneOf:
->>> +      - enum:
->>> +          - qcom,pm8058-vib
->>> +          - qcom,pm8916-vib
->>> +          - qcom,pm8921-vib
->>> +          - qcom,pmi632-vib
->>> +          - qcom,pm7250b-vib
->>> +          - qcom,pm7325b-vib
->>> +      - items:
->>> +          - enum:
->>> +              - qcom,pm7550ba-vib
->>> +          - const: qcom,pm7325b-vib
->>>
+>>> Yes
 >>
->> Yes
+>> I wonder why this approved change turned out to something incorrect in
+>> your v3 patch...
+>>
+> Since I got review comments in the driver change and I was told to 
+> refactor the driver before adding new HW support. I added the HW type 
+> logic in the driver and I was thinking it might be good to add some 
+> generic compatible strings to match with the HW type introduced in the 
+> driver change.
 > 
-> I wonder why this approved change turned out to something incorrect in
-> your v3 patch...
-> 
-Since I got review comments in the driver change and I was told to 
-refactor the driver before adding new HW support. I added the HW type 
-logic in the driver and I was thinking it might be good to add some 
-generic compatible strings to match with the HW type introduced in the 
-driver change.
+> Anyway, I will update it to what you suggested in next patch.
 
-Anyway, I will update it to what you suggested in next patch.
+Drivers are not really related to bindings, so whatever HW type you add
+in driver, is not a reason to change bindings. Reason to change bindings
+could be for example: because hardware is like that.
 
-> Best regards,
-> Krzysztof
-> 
+Best regards,
+Krzysztof
+
