@@ -2,140 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DBA57651AB
-	for <lists+linux-input@lfdr.de>; Thu, 27 Jul 2023 12:52:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FF4476574C
+	for <lists+linux-input@lfdr.de>; Thu, 27 Jul 2023 17:20:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232606AbjG0KwI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Jul 2023 06:52:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40906 "EHLO
+        id S229965AbjG0PUQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Jul 2023 11:20:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229801AbjG0KwH (ORCPT
+        with ESMTP id S231387AbjG0PUP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Jul 2023 06:52:07 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E118F2688;
-        Thu, 27 Jul 2023 03:52:02 -0700 (PDT)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36R6Kkdu019067;
-        Thu, 27 Jul 2023 10:51:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=C5RYwUGjBtTl+5dNSpZ5G/v7elv+x3Dv1cSvaxxti00=;
- b=CEs4QFqqlOSJIZ2XHwnxKUKPFwfqKl5jqZ5uO4D+FZd261MpQdai32vT24itIVqHdyqh
- m0hwlgm0HDtripDdVIOBR8mUoOL8tCnD+PtFUdKSAHJU9qSgXJD/FnJiSe++GoQaC8hF
- ChyJ8LeHMo5NeSn/TNVajeKIbDxkum2ebYsUc/ht7EeVeMZLPdSYUCmU2l1TIZlcFNdT
- je+59zTqzozd0iwXE4MEXqHhpC1LRVVMK7SaLiD1U8I+Cp1yPEmF85iXxXae6VS3hYfo
- 1XGx+cEfZnd5jL4uy4/Dz4ujQ+URC9qyWf/T3Ow7ddj2+jNMbmVkHxgnsOigu4bz3mmB Og== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s3k7u0kpp-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 27 Jul 2023 10:51:52 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36RApS5S031807
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 27 Jul 2023 10:51:28 GMT
-Received: from [10.253.74.152] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Thu, 27 Jul
- 2023 03:51:24 -0700
-Message-ID: <b5e58172-beb5-0be3-834f-3f1db3e8b3b3@quicinc.com>
-Date:   Thu, 27 Jul 2023 18:51:22 +0800
+        Thu, 27 Jul 2023 11:20:15 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B30E273D;
+        Thu, 27 Jul 2023 08:20:14 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id 38308e7fff4ca-2b9b904bb04so16018811fa.1;
+        Thu, 27 Jul 2023 08:20:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690471212; x=1691076012;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZqcR5puT1EdjGVb9gAZcFyu524POY6u1/1h9aOnJT20=;
+        b=jdUPxzFmOULUSJLp83KqTEH/h3lYyK43L109D1E6yQjWYLI954sm4kWvl9m8/FbbAd
+         BdBGjtT4a8CVfzQX7LRW1u2JI4K3g5o/sMadm3ES/IOVS7qHp013VOA88l7ISDMQCAxe
+         ZgiNzRb4gNZGJ+Wz7kJ/bMHulECqFAbu9OTU4SRcYhIZBey3heGIDswup7Tt/qDlzJie
+         oDiAeaOoYYbKxVIumiBw92dH5bDpIdUfRVjWq3cMdZDZUulWDNV30BqfmR6Wu0a+Oivo
+         tKl3o3Ak+xs8GPUOUGGBL8ehytXnjjiYCSrR9KqBZnINk8UypQdEA0yz58zRg+G16SH1
+         DkbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690471212; x=1691076012;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZqcR5puT1EdjGVb9gAZcFyu524POY6u1/1h9aOnJT20=;
+        b=FVDVJw7gK6ddPVlh42zsee2yGU4uEbkBZTmRlBFgZZk4ul4gqxW0jDPidCRHD0DzTL
+         Ic11iirfQ44xJ7I4Oumc1DLRkuAI1zilNtlSycVNBNs9/pt/qRa0jmSutff+zB/BxMKv
+         Hb7dvR0hEtitKuM13Mq7ZC8PjgZwQng3fHKVGnebqzLWOV+UooG1LW85wYkCd1c8SXk/
+         7vW7AnNNDFkwl0mtdAnEAjILkdmSg431mDOESjFZH7T16eDIqck04HED3v9a4aG9PkiH
+         Z8dXvqEvMLyOMYki1mO6E5v6xlHr0b8p0uifkSTKQxHGRbBG9zYzHZjlNVJ0dwwQYqji
+         BmTQ==
+X-Gm-Message-State: ABy/qLZMCE93HUX5XsBpnJZsvFTAnijuUos2v+7DcTjVPTkTX1h1Nnzl
+        kdrYLQXIpgJjpEO76K12ONA=
+X-Google-Smtp-Source: APBJJlEcRhmgBfbGju1s6tRonzry+Bh+VpjleHGlMg7sjPKOjD8O5gHV3wzbJi3LlD67/nOGr9f4zw==
+X-Received: by 2002:a2e:a1ca:0:b0:2b9:5b46:2107 with SMTP id c10-20020a2ea1ca000000b002b95b462107mr1972980ljm.9.1690471212218;
+        Thu, 27 Jul 2023 08:20:12 -0700 (PDT)
+Received: from [127.0.1.1] ([91.230.2.244])
+        by smtp.gmail.com with ESMTPSA id w10-20020a5d4b4a000000b003176c6e87b1sm2247664wrs.81.2023.07.27.08.20.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jul 2023 08:20:11 -0700 (PDT)
+From:   Benjamin Bara <bbara93@gmail.com>
+Date:   Thu, 27 Jul 2023 17:19:57 +0200
+Subject: [PATCH] Input: ads7846 - don't set ABS_PRESSURE when min == max
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 1/2] dt-bindings: input: qcom,pm8xxx-vib: add more PMIC
- support
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>
-CC:     <quic_collinsd@quicinc.com>, <quic_subbaram@quicinc.com>,
-        <quic_kamalw@quicinc.com>, <jestar@qti.qualcomm.com>,
-        <quic_huliu@quicinc.com>
-References: <20230718062639.2339589-1-quic_fenglinw@quicinc.com>
- <20230718062639.2339589-2-quic_fenglinw@quicinc.com>
- <cb534cdb-508e-b03e-4e39-50cd6654377a@linaro.org>
- <4cb9f443-bdea-695a-f1b7-3963747e9a17@quicinc.com>
- <5b7e624b-5d06-826d-92d1-2a721b7c83b7@quicinc.com>
- <fec38f3a-f103-ff0f-138c-cffa3a808001@linaro.org>
- <4210b137-2d5d-a467-ea8c-d047701fdcc2@quicinc.com>
- <dd5864ee-7df2-eb64-c7f2-0fb234900d6a@linaro.org>
- <2fa3f27d-ff08-b923-2fb1-cf7cc888e5d5@linaro.org>
- <f1286da7-05a6-c8aa-d13b-075c0fd45b77@quicinc.com>
- <b0999940-8cd1-349d-9bf4-d6494145254c@linaro.org>
-From:   Fenglin Wu <quic_fenglinw@quicinc.com>
-In-Reply-To: <b0999940-8cd1-349d-9bf4-d6494145254c@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: mVup8Z_5NoWlGBgLcsqKSsJupBSPeNZN
-X-Proofpoint-ORIG-GUID: mVup8Z_5NoWlGBgLcsqKSsJupBSPeNZN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-27_06,2023-07-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
- mlxscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999
- suspectscore=0 priorityscore=1501 clxscore=1015 phishscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
- definitions=main-2307270097
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Message-Id: <20230727-ads7846-pressure-v1-1-fa74c7680191@skidata.com>
+X-B4-Tracking: v=1; b=H4sIAByLwmQC/x2MywqAIBAAf0X2nKD2UPqV6GC51l4sXIpA+vek4
+ zDMFGDMhAyjKJDxJqYjVdCNgHX3aUNJoTIYZVpljZU+sHXdIM+MzFdGqXoMcVHaORuhZlVEev7
+ lNL/vB6SDDEViAAAA
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Bara <benjamin.bara@skidata.com>
+X-Mailer: b4 0.12.3
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+From: Benjamin Bara <benjamin.bara@skidata.com>
 
+When the optional fields "pressure_min" and "pressure_max" are not set,
+both fall back to 0, which results to the following libinput error:
 
-On 7/27/2023 4:29 PM, Krzysztof Kozlowski wrote:
-> On 27/07/2023 09:54, Fenglin Wu wrote:
->>>>> +          - enum:
->>>>> +              - qcom,pm7550ba-vib
->>>>> +          - const: qcom,pm7325b-vib
->>>>>
->>>>
->>>> Yes
->>>
->>> I wonder why this approved change turned out to something incorrect in
->>> your v3 patch...
->>>
->> Since I got review comments in the driver change and I was told to
->> refactor the driver before adding new HW support. I added the HW type
->> logic in the driver and I was thinking it might be good to add some
->> generic compatible strings to match with the HW type introduced in the
->> driver change.
->>
->> Anyway, I will update it to what you suggested in next patch.
-> 
-> Drivers are not really related to bindings, so whatever HW type you add
-> in driver, is not a reason to change bindings. Reason to change bindings
-> could be for example: because hardware is like that.
-> 
-Understood.
+ADS7846 Touchscreen: kernel bug: device has min == max on ABS_PRESSURE
 
-Sorry, I forgot to mention, in v3, I added the 'reg' value to the 
-register offset and no longer hard code the 16-bit register address, 
-that makes the vibrators inside PMI632/PM7250B/PM7325B/PM7550BA all 
-compatible, and that was another motivation of adding a generic 
-compatible string and make the others as the fallback.
+Avoid it by only setting ABS_PRESSURE if the values differ.
 
-This will be still the case in v4, I might keep it similar in v3 but 
-just drop "qcom,spmi-vib-gen1"
+Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+---
+ drivers/input/touchscreen/ads7846.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Best regards,
-> Krzysztof
-> 
+diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
+index faea40dd66d0..2535424a5630 100644
+--- a/drivers/input/touchscreen/ads7846.c
++++ b/drivers/input/touchscreen/ads7846.c
+@@ -1281,7 +1281,7 @@ static int ads7846_probe(struct spi_device *spi)
+ 			pdata->y_min ? : 0,
+ 			pdata->y_max ? : MAX_12BIT,
+ 			0, 0);
+-	if (ts->model != 7845)
++	if (ts->model != 7845 && pdata->pressure_min != pdata->pressure_max)
+ 		input_set_abs_params(input_dev, ABS_PRESSURE,
+ 				pdata->pressure_min, pdata->pressure_max, 0, 0);
+ 
+
+---
+base-commit: 451cc82bd11eb6a374f4dbcfc1cf007eafea91ab
+change-id: 20230727-ads7846-pressure-05edfb01887f
+
+Best regards,
+-- 
+Benjamin Bara <benjamin.bara@skidata.com>
+
