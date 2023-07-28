@@ -2,72 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 928CC767271
-	for <lists+linux-input@lfdr.de>; Fri, 28 Jul 2023 18:52:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6678376733A
+	for <lists+linux-input@lfdr.de>; Fri, 28 Jul 2023 19:25:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234047AbjG1Qwq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Jul 2023 12:52:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52652 "EHLO
+        id S231773AbjG1RY7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 Jul 2023 13:24:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233963AbjG1QwV (ORCPT
+        with ESMTP id S230229AbjG1RY6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Jul 2023 12:52:21 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECBB75FCD
-        for <linux-input@vger.kernel.org>; Fri, 28 Jul 2023 09:51:00 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-51de9c2bc77so2957552a12.3
-        for <linux-input@vger.kernel.org>; Fri, 28 Jul 2023 09:51:00 -0700 (PDT)
+        Fri, 28 Jul 2023 13:24:58 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F24243A97
+        for <linux-input@vger.kernel.org>; Fri, 28 Jul 2023 10:24:53 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-9936b3d0286so339857966b.0
+        for <linux-input@vger.kernel.org>; Fri, 28 Jul 2023 10:24:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690563057; x=1691167857;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=n4RCkMDBQDvqYBE9MoSG1Ng3TVly4MkgjbvDttwKLf8=;
-        b=C7QvfKBoqT6Ic/Vbz2xWe0di0VQMyZQ2leNaGSADSit23NSQFtuQYB7dG4uf3Xy6DE
-         ABo8nwTzpJNL6JIrOXumAKnDBqkGIp5ak5gQQlSTxpWMcMu3muW+XaFxn+7+6Z8DBsRn
-         JcCJBvJKtV6PWCIjIBuFClH1QQfD24Xzr6HCffewiKPgE4QZPGFpjE+8p+ZhLRVvXqJQ
-         uqlwGAkP96lo5H+GSYnvjnVitBgBse6kYdaKWptmUlZbXUv6rhCENMspmPAVu0r/461u
-         XoXsb35ecUzVHHwaZ61UHvYG4etWj/Ey3EOWaJ9SdrbYQzIf+N3EXQ8GmCHYwV2IAdna
-         ALEw==
+        d=chromium.org; s=google; t=1690565092; x=1691169892;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OksjTSbasaKDlLBRiSbrJQqC1q20sr1fdGQKMyKb9RQ=;
+        b=ioM7av1YzBaFvfjIOPF/f2zM1OSDbDtHwJBng+JaV3GrX8NcGb39/dabdNWrq1XyrR
+         Y4Ex/6wFZL21InBLOLzmmb6ATsrs5s1cfyqmE4MY8MAdNypLB0nDvVs7DRepi9KvJc61
+         mod6RIUS8zYoTctpxzT2aoNAVqUm409uFPR/8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690563057; x=1691167857;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=n4RCkMDBQDvqYBE9MoSG1Ng3TVly4MkgjbvDttwKLf8=;
-        b=SdQ9rS9Ou7RCUJBmoR/bAlYKjAgpKrHc1PU9Faz88VHHKkXWkHkeJk8gWTZfRRkGiG
-         9HqaS9GX2e6Ggmh09cOXxyNPr0bOgG6dwIGYoZtw9pnNyPj7ljUQupTbMK7aCJchlQeU
-         oBpnd5rvcmQcFcu3QlMeTYKXfFs6H7uthcBh2wdLmttc95Z1QIqtCnOEz+hpHvYRRCPz
-         95T8L+eQGr1lo0yvvjCs1XjuM7bmiLokjhaWlNj2ZdSJYI5rIh47KBD3Ov/pYHitDeID
-         RLW1gFkMdza4HNgdu141Qe2JiKAJMrxiujXUqamZgSvjZ0vsU0mYVmvTAMZsQx5Brivs
-         GR4Q==
-X-Gm-Message-State: ABy/qLb2fVRTIbPV8WKPC2x3z8xriVlSmpLaQYDLf8PWsNe8KzLgcm3N
-        bHnHFRhMEq6KgYfIhze6yyioeFyyjHsWv9HdxtsVTg==
-X-Google-Smtp-Source: APBJJlHUBFU2b9JB+I92d55uLvPk9bEFwHUQE0lCEiSFFodCoWJZtXveOY0MY7w2iBY5/vBYPOExew==
-X-Received: by 2002:a17:906:5b:b0:994:1844:c7d1 with SMTP id 27-20020a170906005b00b009941844c7d1mr2860224ejg.13.1690563057480;
-        Fri, 28 Jul 2023 09:50:57 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id z16-20020a170906075000b00993a9a951fasm2292982ejb.11.2023.07.28.09.50.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jul 2023 09:50:57 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        d=1e100.net; s=20221208; t=1690565092; x=1691169892;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OksjTSbasaKDlLBRiSbrJQqC1q20sr1fdGQKMyKb9RQ=;
+        b=YIDJr+D6vNfTg1mUu77t0bLGzwxlo4aw7xm8tE8f4XV6wCDE+UU5hMPv27dcG6uHo/
+         dg7ywzgq0CIiae/dF02/lXH8h9U09b221gmSmo7N1oRdZBee9Ere4JL2O4FUKl4iyLL0
+         d6VwnSuA5veGI3jo62Wj1R2BDMDTYJYSWMywSaonQE45VgtXWnxl6uCBGhWyf3tJ3K53
+         rGtSXyi6Mk6TastL5gO2mNVQ5CP/1UoULr3fnvLDaeCnv9vOBOvhWAA6VnoErYIB7YwY
+         Mstzz1w3TvC+lhrhflPbQrMiwU7kR/iOXhHDSz0N+g297EaoGScle62oQj95QhbauITK
+         wDtQ==
+X-Gm-Message-State: ABy/qLYVA7coUG0x0YC/9Xvkua4e5LBT5jUBiFx5/2EiPZUWbeLjZtq7
+        H56CApXRO6/tum6Jhfj5Z2FNG6UClwyAivjQGwq7Bg==
+X-Google-Smtp-Source: APBJJlE58akUFCBNBS4u4aCs1/bw7zgsSPOvirsFWZ8MAo04XnASpJGZxkfu93g7tFsz/r40sOzFxw==
+X-Received: by 2002:a17:906:5dc1:b0:99b:65fa:fc2b with SMTP id p1-20020a1709065dc100b0099b65fafc2bmr21818ejv.35.1690565091988;
+        Fri, 28 Jul 2023 10:24:51 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com. [209.85.128.42])
+        by smtp.gmail.com with ESMTPSA id q24-20020a17090622d800b0098d2f703408sm2244004eja.118.2023.07.28.10.24.51
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Jul 2023 10:24:51 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3fe0e132352so5335e9.0
+        for <linux-input@vger.kernel.org>; Fri, 28 Jul 2023 10:24:51 -0700 (PDT)
+X-Received: by 2002:a05:600c:690f:b0:3fd:e15:41e3 with SMTP id
+ fo15-20020a05600c690f00b003fd0e1541e3mr5980wmb.2.1690565071086; Fri, 28 Jul
+ 2023 10:24:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230727171750.633410-1-dianders@chromium.org> <nn6cs4zvf27cxmtd3qcficyoyalcxi2iry6kgszb5oraplgaxy@sryeyseucdb3>
+In-Reply-To: <nn6cs4zvf27cxmtd3qcficyoyalcxi2iry6kgszb5oraplgaxy@sryeyseucdb3>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Fri, 28 Jul 2023 10:24:18 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Wo5H-XohCz_sLnV=oT5cRm2tFrSAG9kpCGzK7pjSW_Xg@mail.gmail.com>
+Message-ID: <CAD=FV=Wo5H-XohCz_sLnV=oT5cRm2tFrSAG9kpCGzK7pjSW_Xg@mail.gmail.com>
+Subject: Re: [PATCH v4 00/11] drm/panel and i2c-hid: Allow panels and
+ touchscreens to power sequence together
+To:     Benjamin Tissoires <bentiss@kernel.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Vincent Huang <vincent.huang@tw.synaptics.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2] dt-bindings: input: convert syna,rmi4 to DT schema
-Date:   Fri, 28 Jul 2023 18:50:54 +0200
-Message-Id: <20230728165054.88678-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-arm-msm@vger.kernel.org,
+        yangcong5@huaqin.corp-partner.google.com,
+        devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        hsinyi@google.com, Chris Morgan <macroalpha82@gmail.com>,
+        linux-input@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -76,550 +95,83 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Convert the bindings for Synaptics RMI4 bus and devices to DT schema.
-Changes during conversion:
-1. Add reset-gpios already used in DTS and mentioned by RMI4
-   specification.
-2. Do not require address/size cells, because without functions
-   (children) they aren't really needed.
+Hi,
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Fri, Jul 28, 2023 at 8:31=E2=80=AFAM Benjamin Tissoires <bentiss@kernel.=
+org> wrote:
+>
+> On Jul 27 2023, Douglas Anderson wrote:
+> >
+> > The big motivation for this patch series is mostly described in the pat=
+ch
+> > ("drm/panel: Add a way for other devices to follow panel state"), but t=
+o
+> > quickly summarize here: for touchscreens that are connected to a panel =
+we
+> > need the ability to power sequence the two device together. This is not=
+ a
+> > new need, but so far we've managed to get by through a combination of
+> > inefficiency, added costs, or perhaps just a little bit of brokenness.
+> > It's time to do better. This patch series allows us to do better.
+> >
+> > Assuming that people think this patch series looks OK, we'll have to
+> > figure out the right way to land it. The panel patches and i2c-hid
+> > patches will go through very different trees and so either we'll need
+> > an Ack from one side or the other or someone to create a tag for the
+> > other tree to pull in. This will _probably_ require the true drm-misc
+> > maintainers to get involved, not a lowly committer. ;-)
+> >
+> > Version 4 of this series adds a new patch that suspends i2c-hid
+> > devices at remove time even for non panel-followers to make things
+> > consistent. It also attempts to isolate the panel follower code a bit
+> > more as per Benjamin's feedback on v3 and adds an item to the DRM todo
+> > list as per Maxime's request. As per Maxime's response to my v3 cover
+> > letter, I added his Reviewed-by tag to all 10 patches that were part
+> > of v3 (but left it off of the new i2c-hid patch in v4).
+> >
+> > Version 3 of this series was a long time coming after v2. Maxime and I
+> > had a very long discussion trying to figure out if there was a beter
+> > way and in the end we didn't find one so he was OK with the series in
+> > general [1]. After that got resolved, I tried to resolve Benjamin's
+> > feedback but got stuck [2]. Eventually I made my best guess. The end
+> > result was a v3 that wasn't that different from v2 but that had a tiny
+> > bit more code split out.
+> >
+> > Version 2 of this patch series didn't change too much. At a high level:
+> > * I added all the forgotten "static" to functions.
+> > * I've hopefully made the bindings better.
+> > * I've integrated into fw_devlink.
+> > * I cleaned up a few descriptions / comments.
+> >
+> > As far as I can tell, as of v4 everyone is on the same page that this
+> > patch series looks like a reasonable solution to the problem and we
+> > just need to get all the nits fixed and figure out how to land it.
+>
+> Thanks a lot for the new version. I like it much more on the HID side:
+>
+> for the HID part:
+> Reviewed-by: Benjamin Tissoires <bentiss@kernel.org>
+>
+> I wouldn't mind having this series taken from the drm tree if that is
+> easier. i2c-hid is a low patch rate driver, so having it updated through
+> DRM should not be an issue.
+>
+> In that case:
+> Acked-by: Benjamin Tissoires <bentiss@kernel.org>
 
----
+Thanks for your reviews and your help getting this whipped into shape.
 
-Changes in v2:
-1. Correct [0-9a-z] to [0-9a-f] (Rob).
+Lading through drm makes sense to me. I'm a drm committer, so with
+your Ack I believe it should be fine for me to land the series (minus
+the dts) in drm-misc-next. This series has been around for a while,
+has been reviewed by relevant folks, and the last few changes haven't
+fundamentally changed anything about the design, so I'm not going to
+twiddle my thumbs too long. That being said, I'll still plan to wait
+until early next week (Tuesday?) before landing to allow for any last
+minute shouts.
 
-Jason, Matthias, Vincent,
-I put your names as maintainers, because moderately recently you were
-changing the driver. Let me know if this is okay or you prefer not to
-maintain the hardware.
----
- .../bindings/input/rmi4/rmi_2d_sensor.txt     |  56 ----
- .../bindings/input/rmi4/rmi_f01.txt           |  39 ---
- .../bindings/input/rmi4/rmi_i2c.txt           |  61 ----
- .../bindings/input/rmi4/rmi_spi.txt           |  56 ----
- .../devicetree/bindings/input/syna,rmi4.yaml  | 271 ++++++++++++++++++
- 5 files changed, 271 insertions(+), 212 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/rmi4/rmi_2d_sensor.txt
- delete mode 100644 Documentation/devicetree/bindings/input/rmi4/rmi_f01.txt
- delete mode 100644 Documentation/devicetree/bindings/input/rmi4/rmi_i2c.txt
- delete mode 100644 Documentation/devicetree/bindings/input/rmi4/rmi_spi.txt
- create mode 100644 Documentation/devicetree/bindings/input/syna,rmi4.yaml
+Given how drm-misc works [1] and the fact that mainline is currently
+at v6.5-rc3 (it will be -rc4 when I land it), I'd expect that these
+commits will find their way into v6.6.
 
-diff --git a/Documentation/devicetree/bindings/input/rmi4/rmi_2d_sensor.txt b/Documentation/devicetree/bindings/input/rmi4/rmi_2d_sensor.txt
-deleted file mode 100644
-index 9afffbdf6e28..000000000000
---- a/Documentation/devicetree/bindings/input/rmi4/rmi_2d_sensor.txt
-+++ /dev/null
-@@ -1,56 +0,0 @@
--Synaptics RMI4 2D Sensor Device Binding
--
--The Synaptics RMI4 core is able to support RMI4 devices using different
--transports and different functions. This file describes the device tree
--bindings for devices which contain 2D sensors using Function 11 or
--Function 12. Complete documentation for transports and other functions
--can be found in:
--Documentation/devicetree/bindings/input/rmi4.
--
--RMI4 Function 11 and Function 12 are for 2D touch position sensing.
--Additional documentation for F11 can be found at:
--http://www.synaptics.com/sites/default/files/511-000136-01-Rev-E-RMI4-Interfacing-Guide.pdf
--
--Optional Touch Properties:
--Description in Documentation/devicetree/bindings/input/touchscreen
--- touchscreen-inverted-x
--- touchscreen-inverted-y
--- touchscreen-swapped-x-y
--- touchscreen-x-mm
--- touchscreen-y-mm
--
--Optional Properties:
--- syna,clip-x-low: Sets a minimum value for X.
--- syna,clip-y-low: Sets a minimum value for Y.
--- syna,clip-x-high: Sets a maximum value for X.
--- syna,clip-y-high: Sets a maximum value for Y.
--- syna,offset-x: Add an offset to X.
--- syna,offset-y: Add an offset to Y.
--- syna,delta-x-threshold: Set the minimum distance on the X axis required
--				to generate an interrupt in reduced reporting
--				mode.
--- syna,delta-y-threshold: Set the minimum distance on the Y axis required
--				to generate an interrupt in reduced reporting
--				mode.
--- syna,sensor-type: Set the sensor type. 1 for touchscreen 2 for touchpad.
--- syna,disable-report-mask: Mask for disabling posiiton reporting. Used to
--				disable reporing absolute position data.
--- syna,rezero-wait-ms: Time in miliseconds to wait after issuing a rezero
--				command.
--
--
--Example of a RMI4 I2C device with F11:
--Example:
--	&i2c1 {
--		rmi4-i2c-dev@2c {
--			compatible = "syna,rmi4-i2c";
--
--			...
--
--			rmi4-f11@11 {
--				reg = <0x11>;
--				touchscreen-inverted-y;
--				syna,sensor-type = <2>;
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/input/rmi4/rmi_f01.txt b/Documentation/devicetree/bindings/input/rmi4/rmi_f01.txt
-deleted file mode 100644
-index 079cad2b6843..000000000000
---- a/Documentation/devicetree/bindings/input/rmi4/rmi_f01.txt
-+++ /dev/null
-@@ -1,39 +0,0 @@
--Synaptics RMI4 F01 Device Binding
--
--The Synaptics RMI4 core is able to support RMI4 devices using different
--transports and different functions. This file describes the device tree
--bindings for devices which contain Function 1. Complete documentation
--for transports and other functions can be found in:
--Documentation/devicetree/bindings/input/rmi4.
--
--Additional documentation for F01 can be found at:
--http://www.synaptics.com/sites/default/files/511-000136-01-Rev-E-RMI4-Interfacing-Guide.pdf
--
--Optional Properties:
--- syna,nosleep-mode: If set the device will run at full power without sleeping.
--			nosleep has 3 modes, 0 will not change the default
--			setting, 1 will disable nosleep (allow sleeping),
--			and 2 will enable nosleep (disabling sleep).
--- syna,wakeup-threshold: Defines the amplitude of the disturbance to the
--				background capacitance that will cause the
--				device to wake from dozing.
--- syna,doze-holdoff-ms: The delay to wait after the last finger lift and the
--				first doze cycle.
--- syna,doze-interval-ms: The time period that the device sleeps between finger
--				activity.
--
--
--Example of a RMI4 I2C device with F01:
--	Example:
--	&i2c1 {
--		rmi4-i2c-dev@2c {
--			compatible = "syna,rmi4-i2c";
--
--			...
--
--			rmi4-f01@1 {
--				reg = <0x1>;
--				syna,nosleep-mode = <1>;
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/input/rmi4/rmi_i2c.txt b/Documentation/devicetree/bindings/input/rmi4/rmi_i2c.txt
-deleted file mode 100644
-index dcb012f5b3ee..000000000000
---- a/Documentation/devicetree/bindings/input/rmi4/rmi_i2c.txt
-+++ /dev/null
-@@ -1,61 +0,0 @@
--Synaptics RMI4 I2C Device Binding
--
--The Synaptics RMI4 core is able to support RMI4 devices using different
--transports and different functions. This file describes the device tree
--bindings for devices using the I2C transport driver. Complete documentation
--for other transports and functions can be found in
--Documentation/devicetree/bindings/input/rmi4.
--
--Required Properties:
--- compatible: syna,rmi4-i2c
--- reg: I2C address
--- #address-cells: Set to 1 to indicate that the function child nodes
--		    consist of only on uint32 value.
--- #size-cells: Set to 0 to indicate that the function child nodes do not
--		have a size property.
--
--Optional Properties:
--- interrupts: interrupt which the rmi device is connected to.
--See Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
--
--- syna,reset-delay-ms: The number of milliseconds to wait after resetting the
--			device.
--
--- syna,startup-delay-ms: The number of milliseconds to wait after powering on
--			 the device.
--
--- vdd-supply: VDD power supply.
--See ../regulator/regulator.txt
--
--- vio-supply: VIO power supply
--See ../regulator/regulator.txt
--
--Function Parameters:
--Parameters specific to RMI functions are contained in child nodes of the rmi device
-- node. Documentation for the parameters of each function can be found in:
--Documentation/devicetree/bindings/input/rmi4/rmi_f*.txt.
--
--
--
--Example:
--	&i2c1 {
--		rmi4-i2c-dev@2c {
--			compatible = "syna,rmi4-i2c";
--			reg = <0x2c>;
--			#address-cells = <1>;
--			#size-cells = <0>;
--			interrupt-parent = <&gpio>;
--			interrupts = <4 2>;
--
--			rmi4-f01@1 {
--				reg = <0x1>;
--				syna,nosleep-mode = <1>;
--			};
--
--			rmi4-f11@11 {
--				reg = <0x11>;
--				touchscreen-inverted-y;
--				syna,sensor-type = <2>;
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/input/rmi4/rmi_spi.txt b/Documentation/devicetree/bindings/input/rmi4/rmi_spi.txt
-deleted file mode 100644
-index 632f473db65b..000000000000
---- a/Documentation/devicetree/bindings/input/rmi4/rmi_spi.txt
-+++ /dev/null
-@@ -1,56 +0,0 @@
--Synaptics RMI4 SPI Device Binding
--
--The Synaptics RMI4 core is able to support RMI4 devices using different
--transports and different functions. This file describes the device tree
--bindings for devices using the SPI transport driver. Complete documentation
--for other transports and functions can be found in
--Documentation/devicetree/bindings/input/rmi4.
--
--Required Properties:
--- compatible: syna,rmi4-spi
--- reg: Chip select address for the device
--- #address-cells: Set to 1 to indicate that the function child nodes
--		    consist of only on uint32 value.
--- #size-cells: Set to 0 to indicate that the function child nodes do not
--		have a size property.
--
--Optional Properties:
--- interrupts: interrupt which the rmi device is connected to.
--See Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
--
--- spi-rx-delay-us: microsecond delay after a read transfer.
--- spi-tx-delay-us: microsecond delay after a write transfer.
--
--Function Parameters:
--Parameters specific to RMI functions are contained in child nodes of the rmi device
-- node. Documentation for the parameters of each function can be found in:
--Documentation/devicetree/bindings/input/rmi4/rmi_f*.txt.
--
--
--
--Example:
--	spi@7000d800 {
--		rmi4-spi-dev@0 {
--			compatible = "syna,rmi4-spi";
--			reg = <0x0>;
--			#address-cells = <1>;
--			#size-cells = <0>;
--			spi-max-frequency = <4000000>;
--			spi-cpha;
--			spi-cpol;
--			interrupt-parent = <&gpio>;
--			interrupts = <TEGRA_GPIO(K, 2) 0x2>;
--			spi-rx-delay-us = <30>;
--
--			rmi4-f01@1 {
--				reg = <0x1>;
--				syna,nosleep-mode = <1>;
--			};
--
--			rmi4-f11@11 {
--				reg = <0x11>;
--				touchscreen-inverted-y;
--				syna,sensor-type = <2>;
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/input/syna,rmi4.yaml b/Documentation/devicetree/bindings/input/syna,rmi4.yaml
-new file mode 100644
-index 000000000000..4d4e1a8e36be
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/syna,rmi4.yaml
-@@ -0,0 +1,271 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/syna,rmi4.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Synaptics RMI4 compliant devices
-+
-+maintainers:
-+  - Jason A. Donenfeld <Jason@zx2c4.com>
-+  - Matthias Schiffer <matthias.schiffer@ew.tq-group.com
-+  - Vincent Huang <vincent.huang@tw.synaptics.com>
-+
-+description: |
-+  The Synaptics RMI4 (Register Mapped Interface 4) core is able to support RMI4
-+  devices using different transports (I2C, SPI) and different functions (e.g.
-+  Function 1, 2D sensors using Function 11 or 12).
-+
-+properties:
-+  compatible:
-+    enum:
-+      - syna,rmi4-i2c
-+      - syna,rmi4-spi
-+
-+  reg:
-+    maxItems: 1
-+
-+  '#address-cells':
-+    const: 1
-+
-+  '#size-cells':
-+    const: 0
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  reset-gpios:
-+    maxItems: 1
-+    description: Active low signal
-+
-+  spi-cpha: true
-+  spi-cpol: true
-+
-+  syna,reset-delay-ms:
-+    description:
-+      Delay to wait after resetting the device.
-+
-+  syna,startup-delay-ms:
-+    description:
-+      Delay to wait after powering on the device.
-+
-+  vdd-supply: true
-+  vio-supply: true
-+
-+  rmi4-f01@1:
-+    type: object
-+    additionalProperties: false
-+    description:
-+      Function 1
-+
-+    properties:
-+      reg:
-+        maxItems: 1
-+
-+      syna,nosleep-mode:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        enum: [0, 1, 2]
-+        description:
-+          If set the device will run at full power without sleeping.  nosleep
-+          has 3 modes, 0 will not change the default setting, 1 will disable
-+          nosleep (allow sleeping), and 2 will enable nosleep (disabling
-+          sleep).
-+
-+      syna,wakeup-threshold:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Defines the amplitude of the disturbance to the background
-+          capacitance that will cause the device to wake from dozing.
-+
-+      syna,doze-holdoff-ms:
-+        description:
-+          The delay to wait after the last finger lift and the first doze
-+          cycle.
-+
-+      syna,doze-interval-ms:
-+        description:
-+          The time period that the device sleeps between finger activity.
-+
-+    required:
-+      - reg
-+
-+patternProperties:
-+  "^rmi4-f1[12]@1[12]$":
-+    type: object
-+    unevaluatedProperties: false
-+    $ref: /schemas/input/touchscreen/touchscreen.yaml#
-+    description:
-+      RMI4 Function 11 and Function 12 are for 2D touch position sensing.
-+
-+    properties:
-+      reg:
-+        maxItems: 1
-+
-+      syna,clip-x-low:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Minimum value for X.
-+
-+      syna,clip-y-low:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Minimum value for Y.
-+
-+      syna,clip-x-high:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Maximum value for X.
-+
-+      syna,clip-y-high:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Maximum value for Y.
-+
-+      syna,offset-x:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Add an offset to X.
-+
-+      syna,offset-y:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Add an offset to Y.
-+
-+      syna,delta-x-threshold:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Minimum distance on the X axis required to generate an interrupt in
-+          reduced reporting mode.
-+
-+      syna,delta-y-threshold:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Minimum distance on the Y axis required to generate an interrupt in
-+          reduced reporting mode.
-+
-+      syna,sensor-type:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        enum: [1, 2]
-+        description: |
-+          Sensor type: 1 for touchscreen 2 for touchpad.
-+
-+      syna,disable-report-mask:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Mask for disabling posiiton reporting. Used to disable reporing
-+          absolute position data.
-+
-+      syna,rezero-wait-ms:
-+        description:
-+          Time to wait after issuing a rezero command.
-+
-+    required:
-+      - reg
-+
-+  "^rmi4-f[0-9a-f]+@[0-9a-f]+$":
-+    type: object
-+    description:
-+      Other functions, not documented yet.
-+
-+    properties:
-+      reg:
-+        maxItems: 1
-+
-+    required:
-+      - reg
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+allOf:
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: syna,rmi4-i2c
-+    then:
-+      properties:
-+        spi-rx-delay-us: false
-+        spi-tx-delay-us: false
-+    else:
-+      properties:
-+        syna,reset-delay-ms: false
-+        syna,startup-delay-ms: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        touchscreen@20 {
-+            compatible = "syna,rmi4-i2c";
-+            reg = <0x20>;
-+            interrupt-parent = <&gpx1>;
-+            interrupts = <6 IRQ_TYPE_EDGE_FALLING>;
-+
-+            syna,startup-delay-ms = <100>;
-+            vdd-supply = <&tsp_vdd>;
-+            vio-supply = <&ldo32_reg>;
-+
-+            pinctrl-0 = <&touch_irq>;
-+            pinctrl-names = "default";
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            rmi4-f01@1 {
-+                reg = <0x1>;
-+                syna,nosleep-mode = <1>;
-+            };
-+
-+            rmi4-f12@12 {
-+                reg = <0x12>;
-+                syna,sensor-type = <1>;
-+            };
-+
-+            rmi4-f1a@1a {
-+                reg = <0x1a>;
-+            };
-+        };
-+    };
-+
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        touchscreen@0 {
-+            compatible = "syna,rmi4-spi";
-+            reg = <0x0>;
-+            interrupt-parent = <&gpx1>;
-+            interrupts = <6 IRQ_TYPE_EDGE_FALLING>;
-+
-+            spi-max-frequency = <4000000>;
-+            spi-rx-delay-us = <30>;
-+            spi-cpha;
-+            spi-cpol;
-+
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            rmi4-f01@1 {
-+                reg = <0x1>;
-+                syna,nosleep-mode = <1>;
-+            };
-+
-+            rmi4-f11@11 {
-+                reg = <0x11>;
-+                touchscreen-inverted-y;
-+                syna,sensor-type = <2>;
-+            };
-+        };
-+    };
--- 
-2.34.1
-
+[1] https://drm.pages.freedesktop.org/maintainer-tools/drm-misc.html
