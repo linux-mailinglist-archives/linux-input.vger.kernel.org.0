@@ -2,113 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 792DB766703
-	for <lists+linux-input@lfdr.de>; Fri, 28 Jul 2023 10:26:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 276C2766E8E
+	for <lists+linux-input@lfdr.de>; Fri, 28 Jul 2023 15:39:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233462AbjG1IZm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Jul 2023 04:25:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59968 "EHLO
+        id S235105AbjG1NjX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 Jul 2023 09:39:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234964AbjG1IYw (ORCPT
+        with ESMTP id S235839AbjG1NjW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Jul 2023 04:24:52 -0400
-Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAC344C00
-        for <linux-input@vger.kernel.org>; Fri, 28 Jul 2023 01:23:41 -0700 (PDT)
-Received: by mail-vs1-xe2f.google.com with SMTP id ada2fe7eead31-44096f01658so716888137.0
-        for <linux-input@vger.kernel.org>; Fri, 28 Jul 2023 01:23:41 -0700 (PDT)
+        Fri, 28 Jul 2023 09:39:22 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A35B6FC;
+        Fri, 28 Jul 2023 06:39:21 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-3fba8e2aa52so23580125e9.1;
+        Fri, 28 Jul 2023 06:39:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690532620; x=1691137420;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VITdmtGLQLGT4fU+DRADhN9JhICIDjdOtOp+++31gds=;
-        b=LORxXc68KB4tEibFVmg9W0YfTHb+2Gs6GJt+KP0RhvLKYdR/8SbMJJodiQQhK+L07E
-         gDCM2D1wnc0+62dFrcwykubsx7ycbvfRwB6xE3zYyuBeVln5OxQMAKPM5zG2reAmHiIm
-         NTnSfEI2LqGnzI1doMeNsavDKh+RkE7eobt5MJlWlVW9j2P+lRbpUUVShT+q2NHsKaSD
-         ABZyv8PZYGHdCk/Apj2Eslnh+D3QDwJgj2m+TcU0G7wSujmqcO+vGkgE+Vc+K3GnPE77
-         2AwQ6bjlkHxKq4LloKH5wvF3+q/qtc8ftc7XG5ASuNJiZSzOXSpLsXNJHAAK88DhA21L
-         C+0w==
+        d=gmail.com; s=20221208; t=1690551560; x=1691156360;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=luuurpFFHIk4Z1YcDdA8iq3kiu+yWaoiyG/BO1MOdDU=;
+        b=U9VxHz8ienoheJCcgcipsYjMczfL9Xbps3Q10DCmbJFBGNuvuK156BNEKRkIAaw9lc
+         s3ULqDTwE4quIGvSbxiZWExzSlh/999oK7gTI4aikAqEu9ZsFdCRs+qB54k8JKpwS004
+         u8xHfqb7hac57pNbLJ2hsylfxQr4JTZXVOHA3jPhyqADYJwfOJCe3THGpCTb+oxjiKcI
+         39Dl95rLpoWDXnUopDH47j2YIrhEaSttjOIZH5UZ2OWMN6mVFSLQaJDxuTGye1JIERg6
+         /bYJV4UOwZyx81lCkJZ7rcxeu29EfVuGnNoljPodJ8ATwOCvGPq//7DirqgSDhosI0sP
+         4xBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690532620; x=1691137420;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VITdmtGLQLGT4fU+DRADhN9JhICIDjdOtOp+++31gds=;
-        b=EF+ZUxyDS2khpb87DKwaAQVxqv0mvkRb0EmRyg8RshWoPpmZESmqJVfvGlZiejTCo/
-         E8HlUw2gGT8IXz2rUt3YyEwPScw3mIyrB/hTOmTciKuMqq5mwPbmgPXjZ0/bLQheFSuy
-         D0+Cn5VX57g18Egd8swgx/2aDfXElWxGlgGZtY4JAlvyrtuEG1zcYsmczQk/wDhLc97W
-         FEGczLqV5bpM123VOzim2/3Pquc5xMEpEA23nJchEj0pFO5Al7Lh33kCh+1Xd8m7td87
-         53sx0bCAckljv38Ka5hXSwphQ3zclIdQPjgqY7isGnMFwKV2oBtooJMaoJqPU+uCnnBV
-         Ti6g==
-X-Gm-Message-State: ABy/qLaXD89jiiMW7hWL+OG2PQLS4AuZklJfaiAmYX+pLd3V9QT+aG5C
-        ZXIRZdE7lBD1pvbQBo1IEF0yh9mVGvrZZRFK2aA=
-X-Google-Smtp-Source: APBJJlHsa0ncbrhZyTOkqk9jroMNZLagoKo/f/WRmKrxBdiuIN67/R9SCcaBfaMpYpTRTBz7gcgnGpHRcjF/w8T2uJk=
-X-Received: by 2002:a67:fbd0:0:b0:447:4e20:d2da with SMTP id
- o16-20020a67fbd0000000b004474e20d2damr1363499vsr.7.1690532620069; Fri, 28 Jul
- 2023 01:23:40 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690551560; x=1691156360;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=luuurpFFHIk4Z1YcDdA8iq3kiu+yWaoiyG/BO1MOdDU=;
+        b=aGS2w+GBvg5IeuHefsK1lNsTYptacdLucqh7h+THwxqHXGJaDpwvXXFpeCEG9b0c5x
+         QfjLHMwSXeINdZhfqg+8qXAqqW/8LYqAXO+C2WA3hV+K7Ur4nfGax8EzBEJWEW7j36Oi
+         q0gn8YGMWbnbDQ/Mvda+/W+49u1NlyiAnKkhsUR48NnoxTdlfrdUzhA+bWpf5HCA/Z1F
+         cKfYayqBP1H2UuG3zVp8wvMqXpu6HIXFTuu425mtKLZH3r7U58Yl1ChcqRNZ1Vt3qtDi
+         ZkNL0SnsyrYM2LWEO4ZdYNheSg5GHWp29MUK1PnBEaZBlgTihRriwjObs7grNGB7X/H0
+         AQ9g==
+X-Gm-Message-State: ABy/qLbn44wNUvGizkMfkmWPmzM27LcCU3C06GgeO8mM4bvq3zmuLXGH
+        PuH05k9lbVHvUPgfYZCWyNM=
+X-Google-Smtp-Source: APBJJlFJE6u62rT4aWCp1taQAzPphe3a+55s2pVgaakYzFN+g+mDCYK1kVpqsKhjTEHHZFAdUzOJPQ==
+X-Received: by 2002:a7b:c354:0:b0:3fb:e2af:49f6 with SMTP id l20-20020a7bc354000000b003fbe2af49f6mr1538596wmj.39.1690551559839;
+        Fri, 28 Jul 2023 06:39:19 -0700 (PDT)
+Received: from PCBABN.skidata.net ([91.230.2.244])
+        by smtp.gmail.com with ESMTPSA id f17-20020a7bcc11000000b003fd2d33ea53sm4294463wmh.14.2023.07.28.06.39.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jul 2023 06:39:19 -0700 (PDT)
+From:   Benjamin Bara <bbara93@gmail.com>
+To:     dmitry.torokhov@gmail.com
+Cc:     bbara93@gmail.com, benjamin.bara@skidata.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: ads7846 - don't set ABS_PRESSURE when min == max
+Date:   Fri, 28 Jul 2023 15:38:59 +0200
+Message-Id: <20230728133859.3808994-1-bbara93@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <ZMLV9BVxHx3jlE5R@google.com>
+References: <ZMLV9BVxHx3jlE5R@google.com>
 MIME-Version: 1.0
-Received: by 2002:a59:d6b0:0:b0:3f1:5382:4ef1 with HTTP; Fri, 28 Jul 2023
- 01:23:39 -0700 (PDT)
-Reply-To: laurabeckwith001@gmail.com
-From:   laura beckwith <jonnyangus51@gmail.com>
-Date:   Fri, 28 Jul 2023 12:23:39 +0400
-Message-ID: <CAEQMgS0kUgPtUae97hm13DKUtny+=iUkg+zjX1c9V3r9GkXCzw@mail.gmail.com>
-Subject: hi
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=7.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM,UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5133]
-        * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:e2f listed in]
-        [list.dnswl.org]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [jonnyangus51[at]gmail.com]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [laurabeckwith001[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [jonnyangus51[at]gmail.com]
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.6 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  2.9 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *******
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
--- 
-Hi,
-I am Mrs. Laura Beckwith, I have decided to donate what I have to you,
-motherless babies, Less privileged and widows, because I am dying and
-diagnosed with cancer about 2 years ago. I have been touched by God
-Almighty to donate all I have to you for the good work of God almighty. I
-have asked almighty God to forgive me and I believe he has because he is a
-merciful God. May the good God bless you abundantly, and please use the
-funds judiciously for charitable projects, motherless babies, Less
-privileged and widows. I came to this decision to reach out to you because
-I have limited time on this earth. I don't know you but I have been
-directed to do this by God almighty. If you are interested in carrying out
-this task, get back to me.
-Reply at: laurabeckwith001@gmail.com
-Yours Faithfully,
-Mrs. Laura Beckwith
+Hi Dmitry,
+
+thank you for the feedback!
+
+On Thu, 27 Jul 2023 at 22:39, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+> On Thu, Jul 27, 2023 at 05:19:57PM +0200, Benjamin Bara wrote:
+> > From: Benjamin Bara <benjamin.bara@skidata.com>
+> >
+> > When the optional fields "pressure_min" and "pressure_max" are not set,
+> > both fall back to 0, which results to the following libinput error:
+> >
+> > ADS7846 Touchscreen: kernel bug: device has min == max on ABS_PRESSURE
+> >
+> > Avoid it by only setting ABS_PRESSURE if the values differ.
+>
+> What is the benefit of silently continuing without reporting pressure on
+> models that do support pressure readings, vs. using libinput's errors as
+> signal to adjust DT?
+
+With the current implementation, libinput rejects the device [1] when an
+optional device-tree field is not set, which leads to a "non-functional" device.
+But you are right, silently continuing might also not be the best option...
+I could provide a v2 where the maximum is set to a fallback value (~0) and a
+warning is printed that the pressure is not set and therefore a fallback value
+is used, to signal the user to adjust the DT.
+
+What do you think about that?
+
+Best regards
+Benjamin
+
+[1] https://gitlab.freedesktop.org/libinput/libinput/-/blob/1.23.0/src/evdev.c?ref_type=tags#L1816
