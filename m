@@ -2,136 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAC94767B8C
-	for <lists+linux-input@lfdr.de>; Sat, 29 Jul 2023 04:40:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15DBE768042
+	for <lists+linux-input@lfdr.de>; Sat, 29 Jul 2023 17:07:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231796AbjG2Ckq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Jul 2023 22:40:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39000 "EHLO
+        id S229772AbjG2PHZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 29 Jul 2023 11:07:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229600AbjG2Ckp (ORCPT
+        with ESMTP id S229684AbjG2PHZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Jul 2023 22:40:45 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 583A43AB3
-        for <linux-input@vger.kernel.org>; Fri, 28 Jul 2023 19:40:44 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id d75a77b69052e-407db3e9669so80861cf.1
-        for <linux-input@vger.kernel.org>; Fri, 28 Jul 2023 19:40:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690598443; x=1691203243;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2NrLZi3foDUatZBoIkenMkjoRONfSU8tPYtCO27XOHo=;
-        b=Mpi2WwucoJYesAk8LQZlRMAYCcoIL+dmOK1VCVtj0lpFFBRi+aku1i2pVB1B2dTKjE
-         EEIjt4Di3ybauCm3/RASeSfwSBvexJ77pDe4q1iWrwKuNkgfIZ2vujQ8AnYhnnW46WkM
-         HAvsMUy7NyE6HGQNDOB5d6WOEecRre2EzvOp+Z7FEzuRSAuZiYo5vnHwvcfgiRZ2AVYX
-         rkkLLc4saeJAJpM+WTSzQfd5yF6rCn/UYM3sDaNVFQxArFa2qZCG/zrLh4h8y72YNk5D
-         imZ0uA1fLAgCr4YlBOlbTaxglVVKb/elMCHSbM1+Qw+w2uMKoUmIf/bJrugWL2HvcHOy
-         7rsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690598443; x=1691203243;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2NrLZi3foDUatZBoIkenMkjoRONfSU8tPYtCO27XOHo=;
-        b=M66t9VkD1G8FkS8KbqvhOt6v8et401skRQH0ru/7SUCI/ERJ/o8kyArgvRpe3KZuee
-         z/pTBGXPe+N2K9SANBG2viNOsHI9f9DDMZoaRD48HSpzIKbV9l8WPLrA2Dz+kkkDwKNX
-         vOlVacChV86AxPBaTzQv2q7ZedAdD64iyYZdgCgBEwOso09MsuwWF/2fqv2hkgb9UIDv
-         trC5AfT7JPaZSzvIIbV+sgXrSXuZfb2L/zz/Aa98R32JgUXP15j1uqcwSo+I0JABIsiv
-         zk+Usd1AAcy2dBLrX01id/kMUP+tMKroZfddw2/0+q8eWZvDGUROlnRyUURsaB6fnAVC
-         3Qvw==
-X-Gm-Message-State: ABy/qLZc3Fat2poZuD4U0XetSeYb2oDt8vo527tsPwQPl6hBRYUvVpAh
-        PiSiqaCDYWEzycaQfDQbBYcQfPb0Uh27DF2w5d3Dyw==
-X-Google-Smtp-Source: APBJJlE1s9BZpmQZ6sS26qjuS8QTWGeDAVPasMUvPtrhTUyDAE+3xOPRIkDhH5vfxNuEaj0MEKJw903Q7cEjpiUqgcA=
-X-Received: by 2002:ac8:5c05:0:b0:3f8:e0a:3e66 with SMTP id
- i5-20020ac85c05000000b003f80e0a3e66mr70647qti.3.1690598443401; Fri, 28 Jul
- 2023 19:40:43 -0700 (PDT)
+        Sat, 29 Jul 2023 11:07:25 -0400
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE28ED2;
+        Sat, 29 Jul 2023 08:07:20 -0700 (PDT)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 915F3866AA;
+        Sat, 29 Jul 2023 17:07:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1690643237;
+        bh=1IMdoRv4SuV4LxSu2XB9KSAUCBJsiYb/zydT9wcVmoM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=F6qXZS+pg4o7k2obTkpt5wM5iEAHZGeTjM3856iErssCURP/6ancKKZZTqNWxzu70
+         3zCsG4SPGe1o2KUNCyDL5qbIc1wCKQ2YBuvawxk6zFKMnyTd3Mej9UsrCVMa6GPIyQ
+         Z/rKjG2rr4U7GGjbDBSmLO98LU+hwom0n2xyBQVC9wF3ULcgh+7Js7XhEPJmEP23ha
+         QpKJw7G2vnpkGyMWEQvlqkY2O/TRMgHXjFX4vGutslNfpnEFYrpmfYCCs5j7R5U42i
+         DAN6ug6Wkj+84AqXQeDY6xiIZOwhNyG97pvlVpWhuFJeE3fHt2SV1majRdMNhhd4H/
+         xzyYj4Fko1A5Q==
+Message-ID: <fd975ac8-bea4-22ae-cb5f-cbdaa3566d25@denx.de>
+Date:   Sat, 29 Jul 2023 17:07:17 +0200
 MIME-Version: 1.0
-References: <20230729005133.1095051-1-dmitry.torokhov@gmail.com>
-In-Reply-To: <20230729005133.1095051-1-dmitry.torokhov@gmail.com>
-From:   Guenter Roeck <groeck@google.com>
-Date:   Fri, 28 Jul 2023 19:40:29 -0700
-Message-ID: <CABXOdTfUs9wySb5ho+SS5MXVRwaD8gvJoUomS9NSx=QeU5nUxA@mail.gmail.com>
-Subject: Re: [PATCH 01/22] Input: cros_ec_keyb - use device core to create
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 13/22] Input: ili210x - use device core to create
  driver-specific device attributes
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Language: en-US
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20230729005133.1095051-1-dmitry.torokhov@gmail.com>
+ <20230729005133.1095051-13-dmitry.torokhov@gmail.com>
+From:   Marek Vasut <marex@denx.de>
+In-Reply-To: <20230729005133.1095051-13-dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jul 28, 2023 at 5:51=E2=80=AFPM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
+On 7/29/23 02:51, Dmitry Torokhov wrote:
 > Instead of creating driver-specific device attributes with
 > devm_device_add_group() have device core do this by setting up dev_groups
 > pointer in the driver structure.
->
+> 
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
-
 > ---
->  drivers/input/keyboard/cros_ec_keyb.c | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboa=
-rd/cros_ec_keyb.c
-> index e7ecfca838df..313b7a69dd69 100644
-> --- a/drivers/input/keyboard/cros_ec_keyb.c
-> +++ b/drivers/input/keyboard/cros_ec_keyb.c
-> @@ -686,10 +686,11 @@ static umode_t cros_ec_keyb_attr_is_visible(struct =
-kobject *kobj,
->         return attr->mode;
->  }
->
-> -static const struct attribute_group cros_ec_keyb_attr_group =3D {
-> +static const struct attribute_group cros_ec_keyb_group =3D {
->         .is_visible =3D cros_ec_keyb_attr_is_visible,
->         .attrs =3D cros_ec_keyb_attrs,
->  };
-> +__ATTRIBUTE_GROUPS(cros_ec_keyb);
->
->  static int cros_ec_keyb_probe(struct platform_device *pdev)
->  {
-> @@ -730,12 +731,6 @@ static int cros_ec_keyb_probe(struct platform_device=
- *pdev)
->                 return err;
->         }
->
-> -       err =3D devm_device_add_group(dev, &cros_ec_keyb_attr_group);
-> -       if (err) {
-> -               dev_err(dev, "failed to create attributes: %d\n", err);
-> -               return err;
-> -       }
-> -
->         ckdev->notifier.notifier_call =3D cros_ec_keyb_work;
->         err =3D blocking_notifier_chain_register(&ckdev->ec->event_notifi=
-er,
->                                                &ckdev->notifier);
-> @@ -782,6 +777,7 @@ static struct platform_driver cros_ec_keyb_driver =3D=
- {
->         .remove =3D cros_ec_keyb_remove,
->         .driver =3D {
->                 .name =3D "cros-ec-keyb",
-> +               .dev_groups =3D cros_ec_keyb_groups,
->                 .of_match_table =3D of_match_ptr(cros_ec_keyb_of_match),
->                 .acpi_match_table =3D ACPI_PTR(cros_ec_keyb_acpi_match),
->                 .pm =3D pm_sleep_ptr(&cros_ec_keyb_pm_ops),
-> --
-> 2.41.0.487.g6d72f3e995-goog
->
+>   drivers/input/touchscreen/ili210x.c | 15 +++++----------
+>   1 file changed, 5 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
+> index ad6828e4f2e2..31ffdc2a93f3 100644
+> --- a/drivers/input/touchscreen/ili210x.c
+> +++ b/drivers/input/touchscreen/ili210x.c
+> @@ -876,7 +876,7 @@ static ssize_t ili210x_firmware_update_store(struct device *dev,
+>   
+>   static DEVICE_ATTR(firmware_update, 0200, NULL, ili210x_firmware_update_store);
+>   
+> -static struct attribute *ili210x_attributes[] = {
+> +static struct attribute *ili210x_attrs[] = {
+>   	&dev_attr_calibrate.attr,
+>   	&dev_attr_firmware_update.attr,
+>   	&dev_attr_firmware_version.attr,
+> @@ -904,10 +904,11 @@ static umode_t ili210x_attributes_visible(struct kobject *kobj,
+>   	return attr->mode;
+>   }
+>   
+> -static const struct attribute_group ili210x_attr_group = {
+> -	.attrs = ili210x_attributes,
+> +static const struct attribute_group ili210x_group = {
+> +	.attrs = ili210x_attrs,
+
+Is all the renaming really necessary and relevant to this patch ?
+
+btw since I have your attention, could you also look at discussion
+[PATCH] Input: pwm-beeper - Support volume setting via sysfs
+? I've been waiting for any maintainer input for over two months now.
+
+Thanks
