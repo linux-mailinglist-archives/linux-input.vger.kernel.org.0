@@ -2,89 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D7207683B2
-	for <lists+linux-input@lfdr.de>; Sun, 30 Jul 2023 06:49:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2ACC768517
+	for <lists+linux-input@lfdr.de>; Sun, 30 Jul 2023 13:38:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229449AbjG3Eth (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 30 Jul 2023 00:49:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41086 "EHLO
+        id S229503AbjG3Lif (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 30 Jul 2023 07:38:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbjG3Etg (ORCPT
+        with ESMTP id S229483AbjG3Lie (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 30 Jul 2023 00:49:36 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F50D18B;
-        Sat, 29 Jul 2023 21:49:34 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qPyN1-0000Tk-CT; Sun, 30 Jul 2023 06:49:31 +0200
-Message-ID: <8ee87fe1-684f-ad59-21c7-4401a4e70bee@leemhuis.info>
-Date:   Sun, 30 Jul 2023 06:49:30 +0200
+        Sun, 30 Jul 2023 07:38:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E61ED189;
+        Sun, 30 Jul 2023 04:38:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7AA5960C1E;
+        Sun, 30 Jul 2023 11:38:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CE8AC433C8;
+        Sun, 30 Jul 2023 11:38:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1690717112;
+        bh=Utllk/tkddiJum7QAnNqbad52ZULbHvTkVGIxPyhS2c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VV1+6gehhZ4GjLtKOsYF9niAy8dsNga1seriKQLKphDp4vhr3YzNAa6RolzlEcRaL
+         6nH26OunpN/F87lpnt4103JJaYYs3rxbOgGbcKd0YMS52t6m4oZJFb99uxcHUziHB5
+         9HTAX9ZbhaO8va1lzhSeiBWZ8OsamwT6Tkngkvug=
+Date:   Sun, 30 Jul 2023 13:38:30 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Marek Vasut <marex@denx.de>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 13/22] Input: ili210x - use device core to create
+ driver-specific device attributes
+Message-ID: <2023073010-debunk-tripping-270a@gregkh>
+References: <20230729005133.1095051-1-dmitry.torokhov@gmail.com>
+ <20230729005133.1095051-13-dmitry.torokhov@gmail.com>
+ <fd975ac8-bea4-22ae-cb5f-cbdaa3566d25@denx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Fwd: 6.5 - 6.4.7 Regression : ASUS UM5302TA Keyboard don't work
-Content-Language: en-US, de-DE
-To:     Mario Limonciello <mario.limonciello@amd.com>
-Cc:     Linux Input Devices <linux-input@vger.kernel.org>,
-        ACPI Asus <acpi4asus-user@lists.sourceforge.net>,
-        Linux x86 Platform Drivers 
-        <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Regressions <regressions@lists.linux.dev>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        Guilhem Lettron <guilhem@lettron.fr>
-References: <bdc6cb4d-a853-72b2-b132-989b64740ad9@gmail.com>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <bdc6cb4d-a853-72b2-b132-989b64740ad9@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1690692574;533bb25a;
-X-HE-SMSGID: 1qPyN1-0000Tk-CT
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fd975ac8-bea4-22ae-cb5f-cbdaa3566d25@denx.de>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Lo!
+On Sat, Jul 29, 2023 at 05:07:17PM +0200, Marek Vasut wrote:
+> On 7/29/23 02:51, Dmitry Torokhov wrote:
+> > Instead of creating driver-specific device attributes with
+> > devm_device_add_group() have device core do this by setting up dev_groups
+> > pointer in the driver structure.
+> > 
+> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > ---
+> >   drivers/input/touchscreen/ili210x.c | 15 +++++----------
+> >   1 file changed, 5 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
+> > index ad6828e4f2e2..31ffdc2a93f3 100644
+> > --- a/drivers/input/touchscreen/ili210x.c
+> > +++ b/drivers/input/touchscreen/ili210x.c
+> > @@ -876,7 +876,7 @@ static ssize_t ili210x_firmware_update_store(struct device *dev,
+> >   static DEVICE_ATTR(firmware_update, 0200, NULL, ili210x_firmware_update_store);
+> > -static struct attribute *ili210x_attributes[] = {
+> > +static struct attribute *ili210x_attrs[] = {
+> >   	&dev_attr_calibrate.attr,
+> >   	&dev_attr_firmware_update.attr,
+> >   	&dev_attr_firmware_version.attr,
+> > @@ -904,10 +904,11 @@ static umode_t ili210x_attributes_visible(struct kobject *kobj,
+> >   	return attr->mode;
+> >   }
+> > -static const struct attribute_group ili210x_attr_group = {
+> > -	.attrs = ili210x_attributes,
+> > +static const struct attribute_group ili210x_group = {
+> > +	.attrs = ili210x_attrs,
+> 
+> Is all the renaming really necessary and relevant to this patch ?
 
-On 30.07.23 04:41, Bagas Sanjaya wrote:
-> 
-> I notice a regression report on Bugzilla [1]. Quoting from it:
-> 
->> On a kernel 6.4.5 and less, the keyboard is working fine.
->>
->> Beginning with 6.5 rc1 and 6.4.7 any key don't respond.
+Yes, it's needed for the __ATTRIBUTE_GROUPS() macro.
 
-That is a AMD Ryzen Laptop. And if that really started from
-v6.4.6..v6.4.7 then I guess there is a decent chance that this is caused
-by ```ACPI: resource: Remove "Zen" specific match and quirks``` from
-Mario. Hence adding him to the list of recipients.
+thanks,
 
-Guilhem Lettron: if you have a minute, could you try if reverting that
-patch ontop of 6.4.7 fixes things?
-
-Ciao, Thorsten
-
->> [    0.668850] input: ASUE140D:00 04F3:31B9 Keyboard as /devices/platform/AMDI0010:01/i2c-1/i2c-ASUE140D:00/0018:04F3:31B9.0001/input/input5
->> ...
->> [    1.930328] input: ASUE140D:00 04F3:31B9 Keyboard as /devices/platform/AMDI0010:01/i2c-1/i2c-ASUE140D:00/0018:04F3:31B9.0001/input/input13
-> 
-> See Bugzilla for the full thread.
-> 
-> Anyway, I'm adding this regression to regzbot:
-> 
-> #regzbot introduced: v6.4..v6.5-rc1 https://bugzilla.kernel.org/show_bug.cgi?id=217726
-> #regzbot title: ASUE140D:00 04F3:31B9 doesn't respond to input
-> 
-> Thanks.
-> 
-> [1]: https://bugzilla.kernel.org/show_bug.cgi?id=217726
-
+greg k-h
