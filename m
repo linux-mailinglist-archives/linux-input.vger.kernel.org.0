@@ -2,62 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76675769C9C
-	for <lists+linux-input@lfdr.de>; Mon, 31 Jul 2023 18:33:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 905FD769D9C
+	for <lists+linux-input@lfdr.de>; Mon, 31 Jul 2023 19:03:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232775AbjGaQdo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Jul 2023 12:33:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37272 "EHLO
+        id S233523AbjGaRDf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 31 Jul 2023 13:03:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233069AbjGaQdi (ORCPT
+        with ESMTP id S232255AbjGaRDL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Jul 2023 12:33:38 -0400
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com [IPv6:2607:f8b0:4864:20::c2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96C0F19A3;
-        Mon, 31 Jul 2023 09:33:34 -0700 (PDT)
-Received: by mail-oo1-xc2d.google.com with SMTP id 006d021491bc7-5633b7e5f90so3503635eaf.1;
-        Mon, 31 Jul 2023 09:33:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690821214; x=1691426014;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hmQIuXbR5JP4gOGoh3m94S+xuhXRrZesJ4DjxqjMHlA=;
-        b=JeXgP+w7CMuDnqpJhcpuPl/dg8X263Gotkpx5bJgsnVSDpsqaUEia+zhP602P2UZtE
-         9UY0wRDug3iK4MtHi6S0OnH8zrpiqJG5HR7uADrPOe0PGFE+VPdIwcA6Q6xxZkN0JB7Z
-         v63ItBfKXxB8YN2mgKYDqJtUAFFZKv2efUYVoVWcNvEN0IkqmeJt86CK3x22pJZ6O6RT
-         8Ci33NzRRTUBS8swlUDL13/nYOgBNFh3lQcsDtSS1UcJ8sWB3khon/yuc3p8PTmOwqC9
-         R72kN3Cg2ifyiGg9+sFkO0Bm0oyZ+DY8PWT7ID50lGBMruvL3Bz0iewDP6oLJHkSz4PU
-         Ayug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690821214; x=1691426014;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hmQIuXbR5JP4gOGoh3m94S+xuhXRrZesJ4DjxqjMHlA=;
-        b=iw/o+41gdDFjRRyIRo5o50gUaRnUMnUahmj6SsMAb+AcRDrQkuy5Gejewfjl8L2Evz
-         x9mD1q1NaNA8x4DwICfsrjT613wu3hrCZbC42rb3huONHafliMGqCN9+PW/kio8Tp7j7
-         cEsibshwjEisoR01ysKyjjLCiTkMNHkGEYcQgUBf9H5yIrRrZpQpofmy09/OqaudYDVC
-         XJJAeZ6vCbO5LXZoA/uY/wPHyJg6jhlnnxlpm5Tp2xxOGWLX5pUO0grTDYtR21Rcw/o5
-         98UxI5H1rv/YZTzzKPsXhWeNACrnAdoqK4KyaWIAejY2HWDu9b5RXLChWK5AEKsHK1X0
-         660A==
-X-Gm-Message-State: ABy/qLYn5iI5gvOOBDPoRboSPgoh4jSjdKPaJCKiyyQUWEbvOgsiL5T/
-        +fTtVH5aXS6myhi7Nwg2s6n5CnMqAPRffvMo9fc=
-X-Google-Smtp-Source: APBJJlE+NhyxBPQz6UuZPDy2bz3lq06zYg5cvEY5G/En7QKVEhlTaMytpwHnqXO8vKyGUOtYN/2HkwtclOZO0YlYWmw=
-X-Received: by 2002:a4a:7548:0:b0:56c:cd0c:1d67 with SMTP id
- g8-20020a4a7548000000b0056ccd0c1d67mr2626954oof.7.1690821213701; Mon, 31 Jul
- 2023 09:33:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230725203545.2260506-1-dianders@chromium.org>
- <20230725133443.v3.2.I59b417d4c29151cc2eff053369ec4822b606f375@changeid>
- <snx3fzvf3icauri2xuigydvpqxtzhp34mptdxvifi7jswm2evy@sx7jr7zwvjw5>
- <CAD=FV=VcsTik+HD11xeDM2Jq9ispcX0-j5QtK8D1qUkrGabRGg@mail.gmail.com> <i3cbgrc365lwscwux2itho6uv74ji3hsjuge4zoxfnlnhacyqc@r73mmifyxffj>
-In-Reply-To: <i3cbgrc365lwscwux2itho6uv74ji3hsjuge4zoxfnlnhacyqc@r73mmifyxffj>
-From:   Chris Morgan <macroalpha82@gmail.com>
-Date:   Mon, 31 Jul 2023 11:33:22 -0500
-Message-ID: <CADcbR4JB0h8fByM2Z6diByvWaFprW9GDapBNt+YLWr9-vKoe7A@mail.gmail.com>
-Subject: Re: [PATCH v3 02/10] drm/panel: Check for already prepared/enabled in drm_panel
-To:     Maxime Ripard <mripard@kernel.org>
+        Mon, 31 Jul 2023 13:03:11 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE23F1735;
+        Mon, 31 Jul 2023 10:03:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8CB4461206;
+        Mon, 31 Jul 2023 17:03:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 736B5C433C8;
+        Mon, 31 Jul 2023 17:03:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690822990;
+        bh=prqbrDd1eQM/ciCHGjg5jabFwA3khIZ739HC/mJfYHA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=eejfjuhP7BADOW/epFaY0YfjeuaoWC587CNl3oKWWdwOxmI0MU+TyGgtJXmHlqCu/
+         JhG19cnizr15/Rf1nokDUwJ7XmHWQEwam5PLQRCe9oGui4E2/VZTpOaCgWWQpiqnWh
+         UJWmVic5qArl8bC1Ok05bwLblI5knX5lUpgBvZdxefR2zSeCrf+8tcU1arh0/IhLW0
+         Pw20j9T6LSKcVe/WzfNCH46TB3HgonSpus5jUudJcqIXigCb/JvutafnJcvT3n9lQI
+         apNl4dP39mJQaYZ6zrNsF23izQHNgo/wc49RfA2NvwobOFdIowpoas69DSRIPj3jNb
+         WUwe3W5r6g4Xw==
+Date:   Mon, 31 Jul 2023 19:03:07 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Chris Morgan <macroalpha82@gmail.com>
 Cc:     Doug Anderson <dianders@chromium.org>,
         Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
@@ -77,102 +55,77 @@ Cc:     Doug Anderson <dianders@chromium.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
         yangcong5@huaqin.corp-partner.google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: [PATCH v3 02/10] drm/panel: Check for already prepared/enabled
+ in drm_panel
+Message-ID: <kuctj2p353nsae24lrhcymqqpfajbc7qoqly63zpwvdp6lgu3b@kk4gpzsapxnn>
+References: <20230725203545.2260506-1-dianders@chromium.org>
+ <20230725133443.v3.2.I59b417d4c29151cc2eff053369ec4822b606f375@changeid>
+ <snx3fzvf3icauri2xuigydvpqxtzhp34mptdxvifi7jswm2evy@sx7jr7zwvjw5>
+ <CAD=FV=VcsTik+HD11xeDM2Jq9ispcX0-j5QtK8D1qUkrGabRGg@mail.gmail.com>
+ <i3cbgrc365lwscwux2itho6uv74ji3hsjuge4zoxfnlnhacyqc@r73mmifyxffj>
+ <CADcbR4JB0h8fByM2Z6diByvWaFprW9GDapBNt+YLWr9-vKoe7A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="dtkqu6ml752thbrc"
+Content-Disposition: inline
+In-Reply-To: <CADcbR4JB0h8fByM2Z6diByvWaFprW9GDapBNt+YLWr9-vKoe7A@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In my case a few different panel drivers disable the regulators in the
-unprepare/disable routines. For at least the Rockchip DSI
-implementations for some reason the panel gets unprepared more than
-once, which triggers an unbalanced regulator disable. Obviously though
-the correct course of action is to fix the reason why the panel is
-disabled more than once, but that's at least the root cause of this
-behavior on the few panels I've worked with.
 
-Thank you.
+--dtkqu6ml752thbrc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Jul 27, 2023 at 1:38=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
-wrote:
->
-> Hi,
->
-> On Wed, Jul 26, 2023 at 08:10:33AM -0700, Doug Anderson wrote:
-> > On Wed, Jul 26, 2023 at 5:41=E2=80=AFAM Maxime Ripard <mripard@kernel.o=
-rg> wrote:
-> > > On Tue, Jul 25, 2023 at 01:34:37PM -0700, Douglas Anderson wrote:
-> > > > NOTE: arguably, the right thing to do here is actually to skip this
-> > > > patch and simply remove all the extra checks from the individual
-> > > > drivers. Perhaps the checks were needed at some point in time in th=
-e
-> > > > past but maybe they no longer are? Certainly as we continue
-> > > > transitioning over to "panel_bridge" then we expect there to be muc=
-h
-> > > > less variety in how these calls are made. When we're called as part=
- of
-> > > > the bridge chain, things should be pretty simple. In fact, there wa=
-s
-> > > > some discussion in the past about these checks [1], including a
-> > > > discussion about whether the checks were needed and whether the cal=
-ls
-> > > > ought to be refcounted. At the time, I decided not to mess with it
-> > > > because it felt too risky.
-> > >
-> > > Yeah, I'd agree here too. I've never found evidence that it was actua=
-lly
-> > > needed and it really looks like cargo cult to me.
-> > >
-> > > And if it was needed, then I'm not sure we need refcounting either. W=
-e
-> > > don't have refcounting for atomic_enable / disable, we have a sound A=
-PI
-> > > design that makes sure we don't fall into that trap :)
-> > >
-> > > > Looking closer at it now, I'm fairly certain that nothing in the
-> > > > existing codebase is expecting these calls to be refcounted. The on=
-ly
-> > > > real question is whether someone is already doing something to ensu=
-re
-> > > > prepare()/unprepare() match and enabled()/disable() match. I would =
-say
-> > > > that, even if there is something else ensuring that things match,
-> > > > there's enough complexity that adding an extra bool and an extra
-> > > > double-check here is a good idea. Let's add a drm_warn() to let peo=
-ple
-> > > > know that it's considered a minor error to take advantage of
-> > > > drm_panel's double-checking but we'll still make things work fine.
-> > >
-> > > I'm ok with this, if we follow-up in a couple of releases and remove =
-it
-> > > and all the calls.
-> > >
-> > > Could you add a TODO item so that we can keep a track of it? A follow=
--up
-> > > is fine if you don't send a new version of that series.
-> >
-> > By this, I think you mean to add a "TODO" comment inline in the code?
->
-> No, sorry, I meant an entry in our TODO list: Documentation/gpu/todo.rst
->
-> > Also: I was thinking that we'd keep the check in "drm_panel.c" with
-> > the warning message indefinitely. You think it should be eventually
-> > removed? If we are truly thinking of removing it eventually, this
-> > feels like it should be a more serious warning message like a WARN(1,
-> > ...) to make it really obvious to people that they're relying on
-> > behavior that will eventually go away.
->
-> Yeah, it really feels like this is cargo-cult to me. Your approach seems
-> like a good short-term thing to do to warn everyone but eventually we'll
-> want it to go away.
->
-> So promoting it to a WARN could be a good thing, or let's say we do a
-> drm_warn for now, WARN next release, and gone in two?
->
-> Maxime
+Hi,
+
+On Mon, Jul 31, 2023 at 11:33:22AM -0500, Chris Morgan wrote:
+> In my case a few different panel drivers disable the regulators in the
+> unprepare/disable routines.
+
+And that's totally fine.
+
+> For at least the Rockchip DSI implementations for some reason the
+> panel gets unprepared more than once, which triggers an unbalanced
+> regulator disable.
+
+"For some reason" being that DW-DSI apparently finds it ok to bypass any
+kind of abstraction and randomly calling panel functions by itself:
+
+https://elixir.bootlin.com/linux/v6.4.7/source/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#L868
+
+It looks like it's fixed it current drm-misc-next though.
+
+> Obviously though the correct course of action is to fix the reason why
+> the panel is disabled more than once, but that's at least the root
+> cause of this behavior on the few panels I've worked with.
+
+Like I said we already have a commit on the way to fix that, so it
+shouldn't be an issue anymore.
+
+I stand by what I was saying earlier though, I think it's mostly
+cargo-cult or drivers being very wrong. If anything, the DW-DSI stuff
+made me even more convinced that we shouldn't even entertain that idea
+:)
+
+Maxime
+
+--dtkqu6ml752thbrc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZMfpSwAKCRDj7w1vZxhR
+xSIXAQCizbGTVxHYDBO+tfnKn70WkSNp3OzkFHZtJzhXUbG9NQD9HpsTG6Ik+ohd
+AXiX0xz1UvP/to/HW6CpWv7tiS5uDAw=
+=pXP0
+-----END PGP SIGNATURE-----
+
+--dtkqu6ml752thbrc--
