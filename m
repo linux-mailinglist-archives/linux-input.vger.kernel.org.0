@@ -2,178 +2,309 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E82B8768B33
-	for <lists+linux-input@lfdr.de>; Mon, 31 Jul 2023 07:36:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CDBF768B3E
+	for <lists+linux-input@lfdr.de>; Mon, 31 Jul 2023 07:38:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229379AbjGaFgo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Jul 2023 01:36:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54438 "EHLO
+        id S230043AbjGaFiD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 31 Jul 2023 01:38:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbjGaFgo (ORCPT
+        with ESMTP id S230042AbjGaFhy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Jul 2023 01:36:44 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 131FAE68;
-        Sun, 30 Jul 2023 22:36:43 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-68336d06620so4150680b3a.1;
-        Sun, 30 Jul 2023 22:36:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690781802; x=1691386602;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GEYDHdxW+GqO/A72zpM2Ivj3ad0HfR7AVeRSROhpavA=;
-        b=hDTr062anlw+gU4Ml5fkr/Wqeg81olwlqGYFQzMcGd2un12W9W64LQ7TevFxj5f1Jm
-         8o9JeYLduBM6K5Hs9Fj7tuqmRpQGaYtGr6HDisLzsMgBiLSA86A9ZmktUufhCxB2hKOs
-         GWvdcmnVbpg7aBq4MFXNyMoigFMjx3JzHoDa9Qca6zbR/hnQAFtGcQgqHWfIE/7tI0RW
-         Fe8z8zsvcNZsoNlq8LgtwJDeO+aOdsuM6dZGpYPPw7KZxhf/nFap6vsmRp6mgb/byoib
-         yYlVAuMo8XAOylVDtFebP2AI0Z/lrKaAKBLd8rsdmkOVvROvRAlmmhJMWKD8SB325F4i
-         UB9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690781802; x=1691386602;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GEYDHdxW+GqO/A72zpM2Ivj3ad0HfR7AVeRSROhpavA=;
-        b=gZXBsfdv0hXqWl+gwnCAWU2G2w9mpD+ikB26owqVqoCHyzgggPzYB0ruOVk3fNP6wS
-         8cFw3J6Yd3Tl8S1+zzDGaxtGlnSYsiKx3XfVSNjQzMzhQEXkDeq76wZalT67vL1i0dLl
-         8o/HtQ7Yg4xp7Xlf5FzrJ8cdrYLLQom6mpwjEyapWwFN6MVn/YJcPQz86KIa04bQw0BR
-         6IjTOnmpYTv76DhibA1+58WttNMnQ/ZpvKkKkmetkFqsy4dBJBlgwxT8DW2sf/pHEYt5
-         MEDNB5tK4smSegFtoJBggmZTdsiUSMqHoR74To2QQi17jjPlxrILyvm8V/LuUNceoQIk
-         jQEQ==
-X-Gm-Message-State: ABy/qLbAjvTcLh2rS4h0XH4CyJqxEqkiEPUroAhaeBFADLCXd+2Qx83z
-        eeLrl9Q+DkTtER1JePNKkAg=
-X-Google-Smtp-Source: APBJJlE3/PWrxtTzXeEVgTjilO2kKRi76gBdRfysdoM8scgKejMgaNyfKWfKEnHr4SYWD58E0UkGlg==
-X-Received: by 2002:a05:6a20:8f19:b0:13b:c4a8:1a68 with SMTP id b25-20020a056a208f1900b0013bc4a81a68mr9762941pzk.34.1690781802268;
-        Sun, 30 Jul 2023 22:36:42 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:6d25:c0f1:d8d5:201c])
-        by smtp.gmail.com with ESMTPSA id e26-20020aa78c5a000000b0064d57ecaa1dsm4052358pfd.28.2023.07.30.22.36.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jul 2023 22:36:41 -0700 (PDT)
-Date:   Sun, 30 Jul 2023 22:36:38 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Marek Vasut <marex@denx.de>
-Cc:     Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
-        Manuel Traut <manuel.traut@mt.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-pwm@vger.kernel.org, alsa-devel@alsa-project.org,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH] Input: pwm-beeper - Support volume setting via sysfs
-Message-ID: <ZMdIZiC453onyeHh@google.com>
-References: <20230512185551.183049-1-marex@denx.de>
- <ZF7kCjKGVjsxK8ec@nixie71>
- <0ef98ec1-6191-c72e-2362-310db7f09b84@denx.de>
- <06379f26-ab24-85f9-783f-0c49d4291b23@denx.de>
+        Mon, 31 Jul 2023 01:37:54 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48A81A0;
+        Sun, 30 Jul 2023 22:37:51 -0700 (PDT)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36V2O4Zo000521;
+        Mon, 31 Jul 2023 05:37:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=qcppdkim1;
+ bh=w3H+w2i9i25VHAqCSTbXgTQgMD2PoTCIEA7OBbxNaTg=;
+ b=ZffYByRMG6WWdDu5/DEKUkZgWJUMwTnrANopYOeGoruqY6YzDPj+Gqj5SitBOy1cq+EJ
+ nwc7yiQV3XmBuTqG8L2nK3C2NYBeGIU7PRlBHyA87w4K13qoV4qwZbiKxwD6vKGW3DyC
+ o5+ZvnCvAVNekz9vlRazSQqKgGzb9BP/0rzZdrk/6SSce6zCJYdIhqkBbRUHsnVUtFjo
+ JSp0TkasaZZvA91iKbbk0wZMC+PSUkPWzv/C6vsXaSfp2Sp5lY8AzrO4DkuVBIsJb7Rj
+ X89QWkUn6Vwg++Gvp2CVOaMSC7Wp1TINhW35Q4FkKYdMB0uYBbLOmYbp4BYBESXGFdcU xA== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s4ucejqjr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 31 Jul 2023 05:37:47 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36V5bkFe004304
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 31 Jul 2023 05:37:46 GMT
+Received: from fenglinw2-gv.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Sun, 30 Jul 2023 22:37:42 -0700
+From:   Fenglin Wu <quic_fenglinw@quicinc.com>
+To:     <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <robh+dt@kernel.org>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <dmitry.baryshkov@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        <linux-input@vger.kernel.org>
+CC:     <quic_collinsd@quicinc.com>, <quic_subbaram@quicinc.com>,
+        <quic_fenglinw@quicinc.com>, <quic_kamalw@quicinc.com>,
+        <jestar@qti.qualcomm.com>
+Subject: [PATCH v4 1/3] input: pm8xxx-vib: refactor to easily support new SPMI vibrator
+Date:   Mon, 31 Jul 2023 13:37:06 +0800
+Message-ID: <20230731053712.2220898-2-quic_fenglinw@quicinc.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230731053712.2220898-1-quic_fenglinw@quicinc.com>
+References: <20230731053712.2220898-1-quic_fenglinw@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <06379f26-ab24-85f9-783f-0c49d4291b23@denx.de>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: I3S53-mb7CU4_x2A-fCm5OwonAcuLMsb
+X-Proofpoint-ORIG-GUID: I3S53-mb7CU4_x2A-fCm5OwonAcuLMsb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-27_10,2023-07-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 priorityscore=1501 spamscore=0 phishscore=0 suspectscore=0
+ impostorscore=0 malwarescore=0 adultscore=0 clxscore=1015 mlxscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307310050
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, May 13, 2023 at 11:02:30PM +0200, Marek Vasut wrote:
-> On 5/13/23 03:51, Marek Vasut wrote:
-> > On 5/13/23 03:12, Jeff LaBundy wrote:
-> > > Hi Marek,
-> > 
-> > Hi,
-> > 
-> > > On Fri, May 12, 2023 at 08:55:51PM +0200, Marek Vasut wrote:
-> > > > The PWM beeper volume can be controlled by adjusting the PWM duty cycle,
-> > > > expose volume setting via sysfs, so users can make the beeper quieter.
-> > > > This patch adds sysfs attribute 'volume' in range 0..50000, i.e. from 0
-> > > > to 50% in 1/1000th of percent steps, this resolution should be
-> > > > sufficient.
-> > > > 
-> > > > The reason for 50000 cap on volume or PWM duty cycle is because
-> > > > duty cycle
-> > > > above 50% again reduces the loudness, the PWM wave form is inverted wave
-> > > > form of the one for duty cycle below 50% and the beeper gets quieter the
-> > > > closer the setting is to 100% . Hence, 50% cap where the wave
-> > > > form yields
-> > > > the loudest result.
-> > > > 
-> > > > Signed-off-by: Marek Vasut <marex@denx.de>
-> > > > ---
-> > > > An alternative option would be to extend the userspace input
-> > > > ABI, e.g. by
-> > > > using SND_TONE top 16bits to encode the duty cycle in 0..50000
-> > > > range, and
-> > > > bottom 16bit to encode the existing frequency in Hz . Since frequency in
-> > > > Hz is likely to be below some 25 kHz for audible bell, this fits
-> > > > in 16bits
-> > > > just fine. Thoughts ?
-> > > > ---
-> > > 
-> > > Thanks for the patch; this seems like a useful feature.
-> > > 
-> > > My first thought is that 50000 seems like an oddly specific limit to
-> > > impose
-> > > upon user space. Ideally, user space need not even care that the
-> > > beeper is
-> > > implemented via PWM and why 50000 is significant.
-> > > 
-> > > Instead, what about accepting 0..255 as the LED subsystem does for
-> > > brightness,
-> > > then map these values to 0..50000 internally? In fact, the leds-pwm
-> > > driver
-> > > does something similar.
-> > 
-> > The pwm_set_relative_duty_cycle() function can map whatever range to
-> > whatever other range of the PWM already, so that's not an issues here.
-> > It seems to me the 0..127 or 0..255 range is a bit too limiting . I
-> > think even for the LEDs the reason for that limit is legacy design, but
-> > here I might be wrong.
-> > 
-> > > I'm also curious as to whether this function should be a rogue sysfs
-> > > control
-> > > limited to this driver, or a generic operation in input. For
-> > > example, input
-> > > already allows user space to specify the magnitude of an FF effect;
-> > > perhaps
-> > > something similar is warranted here?
-> > 
-> > See the "An alternative ..." part above, I was wondering about this too,
-> > whether this can be added into the input ABI, but I am somewhat
-> > reluctant to fiddle with the ABI.
-> 
-> Thinking about this further, we could try and add some
-> 
-> EV_SND SND_TONE_WITH_VOLUME
-> 
-> to avoid overloading EV_SND SND_TONE , and at the same time allow the user
-> to set both frequency and volume for the tone without any race condition
-> between the two.
-> 
-> The EV_SND SND_TONE_WITH_VOLUME would still take one 32bit parameter, except
-> this time the parameter 16 LSbits would be the frequency and 16 MSbits would
-> be the volume.
-> 
-> But again, here I would like input from the maintainers.
+Currently, all vibrator control register addresses are hard coded,
+including the base address and the offset, it's not flexible to support
+new SPMI vibrator module which is usually included in different PMICs
+with different base address. Refactor this by defining register offset
+with HW type combination, and register base address which is defined
+in 'reg' property is added for SPMI vibrators.
 
-Beeper was supposed to be an extremely simple device with minimal
-controls. I wonder if there is need for volume controls, etc, etc are we
-not better moving it over to the sound subsystem. We already have:
+Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
+---
+ drivers/input/misc/pm8xxx-vibrator.c | 122 ++++++++++++++++-----------
+ 1 file changed, 73 insertions(+), 49 deletions(-)
 
-	sound/drivers/pcsp/pcsp.c
-
-and
-
-	sound/pci/hda/hda_beep.c
-
-there, can we have other "advanced" beepers there as well? Adding sound
-maintainers to CC...
-
-Thanks.
-
+diff --git a/drivers/input/misc/pm8xxx-vibrator.c b/drivers/input/misc/pm8xxx-vibrator.c
+index 04cb87efd799..d6b468324c77 100644
+--- a/drivers/input/misc/pm8xxx-vibrator.c
++++ b/drivers/input/misc/pm8xxx-vibrator.c
+@@ -12,36 +12,44 @@
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+ 
++#define SSBL_VIB_DRV_REG		0x4A
++#define SSBI_VIB_DRV_EN_MANUAL_MASK	GENMASK(7, 2)
++#define SSBI_VIB_DRV_LEVEL_MASK		GENMASK(7, 3)
++#define SSBI_VIB_DRV_SHIFT		3
++
++#define SPMI_VIB_DRV_REG		0x41
++#define SPMI_VIB_DRV_LEVEL_MASK		GENMASK(4, 0)
++#define SPMI_VIB_DRV_SHIFT		0
++
++#define SPMI_VIB_EN_REG			0x46
++#define SPMI_VIB_EN_BIT			BIT(7)
++
+ #define VIB_MAX_LEVEL_mV	(3100)
+ #define VIB_MIN_LEVEL_mV	(1200)
+ #define VIB_MAX_LEVELS		(VIB_MAX_LEVEL_mV - VIB_MIN_LEVEL_mV)
+ 
+ #define MAX_FF_SPEED		0xff
+ 
+-struct pm8xxx_regs {
+-	unsigned int enable_addr;
+-	unsigned int enable_mask;
++enum vib_hw_type {
++	SSBI_VIB,
++	SPMI_VIB,
++};
+ 
+-	unsigned int drv_addr;
+-	unsigned int drv_mask;
+-	unsigned int drv_shift;
+-	unsigned int drv_en_manual_mask;
++struct pm8xxx_vib_data {
++	enum vib_hw_type	hw_type;
++	unsigned int		enable_addr;
++	unsigned int		drv_addr;
+ };
+ 
+-static const struct pm8xxx_regs pm8058_regs = {
+-	.drv_addr = 0x4A,
+-	.drv_mask = 0xf8,
+-	.drv_shift = 3,
+-	.drv_en_manual_mask = 0xfc,
++static const struct pm8xxx_vib_data ssbi_vib_data = {
++	.hw_type	= SSBI_VIB,
++	.drv_addr	= SSBL_VIB_DRV_REG,
+ };
+ 
+-static struct pm8xxx_regs pm8916_regs = {
+-	.enable_addr = 0xc046,
+-	.enable_mask = BIT(7),
+-	.drv_addr = 0xc041,
+-	.drv_mask = 0x1F,
+-	.drv_shift = 0,
+-	.drv_en_manual_mask = 0,
++static const struct pm8xxx_vib_data spmi_vib_data = {
++	.hw_type	= SPMI_VIB,
++	.enable_addr	= SPMI_VIB_EN_REG,
++	.drv_addr	= SPMI_VIB_DRV_REG,
+ };
+ 
+ /**
+@@ -49,7 +57,8 @@ static struct pm8xxx_regs pm8916_regs = {
+  * @vib_input_dev: input device supporting force feedback
+  * @work: work structure to set the vibration parameters
+  * @regmap: regmap for register read/write
+- * @regs: registers' info
++ * @data: vibrator HW info
++ * @reg_base: the register base of the module
+  * @speed: speed of vibration set from userland
+  * @active: state of vibrator
+  * @level: level of vibration to set in the chip
+@@ -59,7 +68,8 @@ struct pm8xxx_vib {
+ 	struct input_dev *vib_input_dev;
+ 	struct work_struct work;
+ 	struct regmap *regmap;
+-	const struct pm8xxx_regs *regs;
++	const struct pm8xxx_vib_data *data;
++	unsigned int reg_base;
+ 	int speed;
+ 	int level;
+ 	bool active;
+@@ -75,24 +85,31 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
+ {
+ 	int rc;
+ 	unsigned int val = vib->reg_vib_drv;
+-	const struct pm8xxx_regs *regs = vib->regs;
++	u32 mask = SPMI_VIB_DRV_LEVEL_MASK;
++	u32 shift = SPMI_VIB_DRV_SHIFT;
++
++	if (vib->data->hw_type == SSBI_VIB) {
++		mask = SSBI_VIB_DRV_LEVEL_MASK;
++		shift = SSBI_VIB_DRV_SHIFT;
++	}
+ 
+ 	if (on)
+-		val |= (vib->level << regs->drv_shift) & regs->drv_mask;
++		val |= (vib->level << shift) & mask;
+ 	else
+-		val &= ~regs->drv_mask;
++		val &= ~mask;
+ 
+-	rc = regmap_write(vib->regmap, regs->drv_addr, val);
++	rc = regmap_update_bits(vib->regmap, vib->reg_base + vib->data->drv_addr, mask, val);
+ 	if (rc < 0)
+ 		return rc;
+ 
+ 	vib->reg_vib_drv = val;
+ 
+-	if (regs->enable_mask)
+-		rc = regmap_update_bits(vib->regmap, regs->enable_addr,
+-					regs->enable_mask, on ? ~0 : 0);
++	if (vib->data->hw_type == SSBI_VIB)
++		return 0;
+ 
+-	return rc;
++	mask = SPMI_VIB_EN_BIT;
++	val = on ? SPMI_VIB_EN_BIT : 0;
++	return regmap_update_bits(vib->regmap, vib->reg_base + vib->data->enable_addr, mask, val);
+ }
+ 
+ /**
+@@ -102,13 +119,6 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
+ static void pm8xxx_work_handler(struct work_struct *work)
+ {
+ 	struct pm8xxx_vib *vib = container_of(work, struct pm8xxx_vib, work);
+-	const struct pm8xxx_regs *regs = vib->regs;
+-	int rc;
+-	unsigned int val;
+-
+-	rc = regmap_read(vib->regmap, regs->drv_addr, &val);
+-	if (rc < 0)
+-		return;
+ 
+ 	/*
+ 	 * pmic vibrator supports voltage ranges from 1.2 to 3.1V, so
+@@ -168,9 +178,9 @@ static int pm8xxx_vib_probe(struct platform_device *pdev)
+ {
+ 	struct pm8xxx_vib *vib;
+ 	struct input_dev *input_dev;
++	const struct pm8xxx_vib_data *data;
+ 	int error;
+-	unsigned int val;
+-	const struct pm8xxx_regs *regs;
++	unsigned int val, reg_base;
+ 
+ 	vib = devm_kzalloc(&pdev->dev, sizeof(*vib), GFP_KERNEL);
+ 	if (!vib)
+@@ -187,19 +197,33 @@ static int pm8xxx_vib_probe(struct platform_device *pdev)
+ 	INIT_WORK(&vib->work, pm8xxx_work_handler);
+ 	vib->vib_input_dev = input_dev;
+ 
+-	regs = of_device_get_match_data(&pdev->dev);
++	data = of_device_get_match_data(&pdev->dev);
++	if (!data)
++		return -EINVAL;
+ 
+-	/* operate in manual mode */
+-	error = regmap_read(vib->regmap, regs->drv_addr, &val);
+-	if (error < 0)
+-		return error;
++	if (data->hw_type != SSBI_VIB) {
++		error = fwnode_property_read_u32(pdev->dev.fwnode, "reg", &reg_base);
++		if (error < 0) {
++			dev_err(&pdev->dev, "Failed to read reg address, rc=%d\n", error);
++			return error;
++		}
++
++		vib->reg_base += reg_base;
++	}
+ 
+-	val &= regs->drv_en_manual_mask;
+-	error = regmap_write(vib->regmap, regs->drv_addr, val);
++	error = regmap_read(vib->regmap, vib->reg_base + data->drv_addr, &val);
+ 	if (error < 0)
+ 		return error;
+ 
+-	vib->regs = regs;
++	/* operate in manual mode */
++	if (data->hw_type == SSBI_VIB) {
++		val &= SSBI_VIB_DRV_EN_MANUAL_MASK;
++		error = regmap_write(vib->regmap, vib->reg_base + data->drv_addr, val);
++		if (error < 0)
++			return error;
++	}
++
++	vib->data = data;
+ 	vib->reg_vib_drv = val;
+ 
+ 	input_dev->name = "pm8xxx_vib_ffmemless";
+@@ -239,9 +263,9 @@ static int pm8xxx_vib_suspend(struct device *dev)
+ static DEFINE_SIMPLE_DEV_PM_OPS(pm8xxx_vib_pm_ops, pm8xxx_vib_suspend, NULL);
+ 
+ static const struct of_device_id pm8xxx_vib_id_table[] = {
+-	{ .compatible = "qcom,pm8058-vib", .data = &pm8058_regs },
+-	{ .compatible = "qcom,pm8921-vib", .data = &pm8058_regs },
+-	{ .compatible = "qcom,pm8916-vib", .data = &pm8916_regs },
++	{ .compatible = "qcom,pm8058-vib", .data = &ssbi_vib_data },
++	{ .compatible = "qcom,pm8921-vib", .data = &ssbi_vib_data },
++	{ .compatible = "qcom,pm8916-vib", .data = &spmi_vib_data },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, pm8xxx_vib_id_table);
 -- 
-Dmitry
+2.25.1
+
