@@ -2,203 +2,177 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B7739769C4B
-	for <lists+linux-input@lfdr.de>; Mon, 31 Jul 2023 18:24:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76675769C9C
+	for <lists+linux-input@lfdr.de>; Mon, 31 Jul 2023 18:33:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233043AbjGaQYO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Jul 2023 12:24:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56618 "EHLO
+        id S232775AbjGaQdo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 31 Jul 2023 12:33:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232880AbjGaQYN (ORCPT
+        with ESMTP id S233069AbjGaQdi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Jul 2023 12:24:13 -0400
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB8CAA7;
-        Mon, 31 Jul 2023 09:24:11 -0700 (PDT)
-Received: by mail-oi1-x22a.google.com with SMTP id 5614622812f47-3a3efebcc24so3569766b6e.1;
-        Mon, 31 Jul 2023 09:24:11 -0700 (PDT)
+        Mon, 31 Jul 2023 12:33:38 -0400
+Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com [IPv6:2607:f8b0:4864:20::c2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96C0F19A3;
+        Mon, 31 Jul 2023 09:33:34 -0700 (PDT)
+Received: by mail-oo1-xc2d.google.com with SMTP id 006d021491bc7-5633b7e5f90so3503635eaf.1;
+        Mon, 31 Jul 2023 09:33:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690820651; x=1691425451;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=L9rhceQtuuvQvLAHRqCDzkk04w/Xm9Wlb19XjSIzh4U=;
-        b=OvSNkuwUS4cQ7HOzQm3pKCNkoucj/y5rWTWy4MY/+Wmb/yNEKBKhySivBR/eFwayti
-         AThPhiJLKe7eP77HU2XAWxOSdBFkrXK64GYDuYF+Up3nFzZFQj/aa3l58aHk/tOizvLR
-         kGhr3I2qxEjEMaI/2DiaUTS/ukNGGZ9yYkqoEnKS6OTsEl27m3i4s2P0HFDXqZhWEn9f
-         425Er54y2va8cCa411+qQqx/KAQP+eMr8mwYGOnm4uk5Yt5rd4e/XFk2TdLvEiLatEna
-         8B4Dcp3xPckS/6Tn3aIjkCSo8YFuxzfSM1GiMpLSZIyAUMBrQ0H3vSJBmecXSropl/Py
-         wt4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690820651; x=1691425451;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1690821214; x=1691426014;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=L9rhceQtuuvQvLAHRqCDzkk04w/Xm9Wlb19XjSIzh4U=;
-        b=ITiqmuiir228u5gjrEE2zHWPMziPE34jHjvNZSRAjzUxqGEgDvIv7/z2B2ADUWXj+L
-         4hGaErdnhW2R1REqdBVYZu0Pp8suoRBpbIgoZL4k4pjLtptNnxTEYJ7Xcv3o9StyXnq7
-         SSBQdXWdSKuTv0Fmvg8/Myif0Q7xAXkKOE2QBe+UOvSBpM1ii9fUaAj3trZBZH9SWEiG
-         NVas4yaECWzJTq2wDpRywiNuJxYZ5kkf4c55RwJnnbWaXePIJGScYEbgSy1VGAm+fotU
-         Rr0yGqWGDo/P6GCeTsc2Zv4rli0MF56GHrGB5wy3nrSrYJzwAaxZm6NI+aNjEI4Q2qCU
-         cdVQ==
-X-Gm-Message-State: ABy/qLaUNwf+/DfxWx3JPS1IzE+RWYrn+zacMjE69tIK7JT6AMzcSCTy
-        DUviQTAjR5iFwnO24S7HI0s=
-X-Google-Smtp-Source: APBJJlEE5GK8axdu6jXUVo93q7HwBviqeT5s2wQCZ0zp0xyXwWRLxL7Ecu3wWbGyTx24liqzQyUa9w==
-X-Received: by 2002:a05:6808:f89:b0:3a4:2826:4197 with SMTP id o9-20020a0568080f8900b003a428264197mr11998276oiw.37.1690820650669;
-        Mon, 31 Jul 2023 09:24:10 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:6d25:c0f1:d8d5:201c])
-        by smtp.gmail.com with ESMTPSA id t28-20020a63b25c000000b00563dfd98982sm8409911pgo.42.2023.07.31.09.24.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jul 2023 09:24:10 -0700 (PDT)
-Date:   Mon, 31 Jul 2023 09:24:07 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Marek Vasut <marex@denx.de>
-Cc:     Takashi Iwai <tiwai@suse.de>, Jeff LaBundy <jeff@labundy.com>,
-        linux-input@vger.kernel.org,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
-        Manuel Traut <manuel.traut@mt.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-pwm@vger.kernel.org, alsa-devel@alsa-project.org,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH] Input: pwm-beeper - Support volume setting via sysfs
-Message-ID: <ZMfgJ3o00nApkXGp@google.com>
-References: <ZF7kCjKGVjsxK8ec@nixie71>
- <0ef98ec1-6191-c72e-2362-310db7f09b84@denx.de>
- <06379f26-ab24-85f9-783f-0c49d4291b23@denx.de>
- <ZMdIZiC453onyeHh@google.com>
- <873514d2ju.wl-tiwai@suse.de>
- <63adce9a-df65-b462-9055-0ece5216d680@denx.de>
- <87tttkjmyu.wl-tiwai@suse.de>
- <0cffe366-75af-d8a8-8920-6fb94c321a89@denx.de>
- <87h6pkjh7q.wl-tiwai@suse.de>
- <618add56-3675-4efe-5b20-665c10040e03@denx.de>
+        bh=hmQIuXbR5JP4gOGoh3m94S+xuhXRrZesJ4DjxqjMHlA=;
+        b=JeXgP+w7CMuDnqpJhcpuPl/dg8X263Gotkpx5bJgsnVSDpsqaUEia+zhP602P2UZtE
+         9UY0wRDug3iK4MtHi6S0OnH8zrpiqJG5HR7uADrPOe0PGFE+VPdIwcA6Q6xxZkN0JB7Z
+         v63ItBfKXxB8YN2mgKYDqJtUAFFZKv2efUYVoVWcNvEN0IkqmeJt86CK3x22pJZ6O6RT
+         8Ci33NzRRTUBS8swlUDL13/nYOgBNFh3lQcsDtSS1UcJ8sWB3khon/yuc3p8PTmOwqC9
+         R72kN3Cg2ifyiGg9+sFkO0Bm0oyZ+DY8PWT7ID50lGBMruvL3Bz0iewDP6oLJHkSz4PU
+         Ayug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690821214; x=1691426014;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hmQIuXbR5JP4gOGoh3m94S+xuhXRrZesJ4DjxqjMHlA=;
+        b=iw/o+41gdDFjRRyIRo5o50gUaRnUMnUahmj6SsMAb+AcRDrQkuy5Gejewfjl8L2Evz
+         x9mD1q1NaNA8x4DwICfsrjT613wu3hrCZbC42rb3huONHafliMGqCN9+PW/kio8Tp7j7
+         cEsibshwjEisoR01ysKyjjLCiTkMNHkGEYcQgUBf9H5yIrRrZpQpofmy09/OqaudYDVC
+         XJJAeZ6vCbO5LXZoA/uY/wPHyJg6jhlnnxlpm5Tp2xxOGWLX5pUO0grTDYtR21Rcw/o5
+         98UxI5H1rv/YZTzzKPsXhWeNACrnAdoqK4KyaWIAejY2HWDu9b5RXLChWK5AEKsHK1X0
+         660A==
+X-Gm-Message-State: ABy/qLYn5iI5gvOOBDPoRboSPgoh4jSjdKPaJCKiyyQUWEbvOgsiL5T/
+        +fTtVH5aXS6myhi7Nwg2s6n5CnMqAPRffvMo9fc=
+X-Google-Smtp-Source: APBJJlE+NhyxBPQz6UuZPDy2bz3lq06zYg5cvEY5G/En7QKVEhlTaMytpwHnqXO8vKyGUOtYN/2HkwtclOZO0YlYWmw=
+X-Received: by 2002:a4a:7548:0:b0:56c:cd0c:1d67 with SMTP id
+ g8-20020a4a7548000000b0056ccd0c1d67mr2626954oof.7.1690821213701; Mon, 31 Jul
+ 2023 09:33:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <618add56-3675-4efe-5b20-665c10040e03@denx.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230725203545.2260506-1-dianders@chromium.org>
+ <20230725133443.v3.2.I59b417d4c29151cc2eff053369ec4822b606f375@changeid>
+ <snx3fzvf3icauri2xuigydvpqxtzhp34mptdxvifi7jswm2evy@sx7jr7zwvjw5>
+ <CAD=FV=VcsTik+HD11xeDM2Jq9ispcX0-j5QtK8D1qUkrGabRGg@mail.gmail.com> <i3cbgrc365lwscwux2itho6uv74ji3hsjuge4zoxfnlnhacyqc@r73mmifyxffj>
+In-Reply-To: <i3cbgrc365lwscwux2itho6uv74ji3hsjuge4zoxfnlnhacyqc@r73mmifyxffj>
+From:   Chris Morgan <macroalpha82@gmail.com>
+Date:   Mon, 31 Jul 2023 11:33:22 -0500
+Message-ID: <CADcbR4JB0h8fByM2Z6diByvWaFprW9GDapBNt+YLWr9-vKoe7A@mail.gmail.com>
+Subject: Re: [PATCH v3 02/10] drm/panel: Check for already prepared/enabled in drm_panel
+To:     Maxime Ripard <mripard@kernel.org>
+Cc:     Doug Anderson <dianders@chromium.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        cros-qcom-dts-watchers@chromium.org, linux-input@vger.kernel.org,
+        hsinyi@google.com, linux-arm-msm@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        yangcong5@huaqin.corp-partner.google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jul 31, 2023 at 04:36:01PM +0200, Marek Vasut wrote:
-> On 7/31/23 16:20, Takashi Iwai wrote:
-> 
-> [...]
-> 
-> > > > > Uh, I don't need a full sound device to emit beeps, that's not even
-> > > > > possible with this hardware.
-> > > > 
-> > > > Heh, I also don't recommend that route, either :)
-> > > > (Though, it must be possible to create a sound device with that beep
-> > > > control in theory)
-> > > 
-> > > I mean, I can imagine one could possibly use PCM DMA to cook samples
-> > > to feed some of the PWM devices so they could possibly be used to
-> > > generate low quality audio, as a weird limited DAC, but ... that's not
-> > > really generic, and not what I want.
-> > 
-> > Oh I see how the misunderstanding came; I didn't mean the PCM
-> > implementation like pcsp driver.  The pcsp driver is a real hack and
-> > it's there just for fun, not for any real practical use.
-> 
-> Ah :)
-> 
-> > What I meant was rather that you can create a sound device containing
-> > a mixer volume control that serves exactly like the sysfs or whatever
-> > other interface, without any PCM stream or other interface.
-> 
-> Ahhh, hum, I still feel like this might be a bit overkill here.
-> 
-> > > > > I only need to control loudness of the
-> > > > > beeper that is controlled by PWM output. That's why I am trying to
-> > > > > extend the pwm-beeper driver, which seems the best fit for such a
-> > > > > device, it is only missing this one feature (loudness control).
-> > > > 
-> > > > So the question is what's expected from user-space POV.  If a more
-> > > > generic control of beep volume is required, e.g. for desktop-like
-> > > > usages, an implementation of sound driver wouldn't be too bad.
-> > > > OTOH, for other specific use-cases, it doesn't matter much in which
-> > > > interface it's implemented, and sysfs could be an easy choice.
-> > > 
-> > > The whole discussion above has been exactly about this. Basically the
-> > > thing is, we can either have:
-> > > - SND_TONE (via some /dev/input/eventX) + sysfs volume control
-> > >    -> This is simple, but sounds racy between input and sysfs accesses
-> > 
-> > Hmm, how can it be racy if you do proper locking?
-> 
-> I can imagine two applications can each grab one of the controls and that
-> makes the interface a bit not nice. That would require extra synchronization
-> in userspace and so on.
-> 
-> > > - SND_TONE + SND_TONE_SET_VOLUME
-> > >    -> User needs to do two ioctls, hum
-> > > - some new SND_TONE_WITH_VOLUME
-> > >    -> Probably the best option, user sets both tone frequency and volume
-> > >       in one go, and it also only extends the IOCTL interface, so older
-> > >       userspace won't have issues
-> > 
-> > Those are "extensions" I have mentioned, and I'm not a big fan for
-> > that, honestly speaking.
-> > 
-> > The fact that the beep *output* stuff is provided by the *input*
-> > device is already confusing
-> 
-> I agree, this confused me as well.
+In my case a few different panel drivers disable the regulators in the
+unprepare/disable routines. For at least the Rockchip DSI
+implementations for some reason the panel gets unprepared more than
+once, which triggers an unbalanced regulator disable. Obviously though
+the correct course of action is to fix the reason why the panel is
+disabled more than once, but that's at least the root cause of this
+behavior on the few panels I've worked with.
 
-This comes from the times when keyboards themselves were capable of
-emitting bells (SUN, DEC, etc). In hindsight it was not the best way of
-structuring things, same with the keyboard LEDs (that are now plugged
-into the LED subsystem, but still allow be driven through input).
+Thank you.
 
-And in the same vein I wonder if we should bite the bullet and pay with
-a bit of complexity but move sound-related things to sound subsystem.
-
-> 
-> > (it was so just because of historical
-> > reason), and yet you start implementing more full-featured mixer
-> > control.  I'd rather keep fingers away.
-> > 
-> > Again, if user-space requires the compatible behavior like the
-> > existing desktop usages
-> 
-> It does not. These pwm-beeper devices keep showing up in various embedded
-> devices these days.
-> 
-> > , it can be implemented in a similar way like
-> > the existing ones; i.e. provide a mixer control with a proper sound
-> > device.  The sound device doesn't need to provide a PCM interface but
-> > just with a mixer interface.
-> > 
-> > Or, if the purpose of your target device is a special usage, you don't
-> > need to consider too much about the existing interface, and try to
-> > keep the change as minimal as possible without too intrusive API
-> > changes.
-> 
-> My use case is almost perfectly matched by the current input pwm-beeper
-> driver, the only missing bit is the ability to control the loudness at
-> runtime. I think adding the SND_TONE_WITH_VOLUME parameter would cover it,
-> with least intrusive API changes.
-> 
-> The SND_TONE already supports configuring tone frequency in Hz as its
-> parameter. Since anything above 64 kHz is certainly not hearable by humans,
-> I would say the SND_TONE_WITH_VOLUME could use 16 LSbits for frequency (so
-> up to 65535 Hz , 0 is OFF), and 16 MSbits for volume .
-> 
-> I'm hesitant to overcomplicate something which can currently be controlled
-> via single ioctl by pulling in sound subsystem into the picture.
-
-Can you tell a bit more about your use case? What needs to control the
-volume of beeps? Is this the only source of sounds on the system?
-
-Thanks.
-
--- 
-Dmitry
+On Thu, Jul 27, 2023 at 1:38=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+>
+> Hi,
+>
+> On Wed, Jul 26, 2023 at 08:10:33AM -0700, Doug Anderson wrote:
+> > On Wed, Jul 26, 2023 at 5:41=E2=80=AFAM Maxime Ripard <mripard@kernel.o=
+rg> wrote:
+> > > On Tue, Jul 25, 2023 at 01:34:37PM -0700, Douglas Anderson wrote:
+> > > > NOTE: arguably, the right thing to do here is actually to skip this
+> > > > patch and simply remove all the extra checks from the individual
+> > > > drivers. Perhaps the checks were needed at some point in time in th=
+e
+> > > > past but maybe they no longer are? Certainly as we continue
+> > > > transitioning over to "panel_bridge" then we expect there to be muc=
+h
+> > > > less variety in how these calls are made. When we're called as part=
+ of
+> > > > the bridge chain, things should be pretty simple. In fact, there wa=
+s
+> > > > some discussion in the past about these checks [1], including a
+> > > > discussion about whether the checks were needed and whether the cal=
+ls
+> > > > ought to be refcounted. At the time, I decided not to mess with it
+> > > > because it felt too risky.
+> > >
+> > > Yeah, I'd agree here too. I've never found evidence that it was actua=
+lly
+> > > needed and it really looks like cargo cult to me.
+> > >
+> > > And if it was needed, then I'm not sure we need refcounting either. W=
+e
+> > > don't have refcounting for atomic_enable / disable, we have a sound A=
+PI
+> > > design that makes sure we don't fall into that trap :)
+> > >
+> > > > Looking closer at it now, I'm fairly certain that nothing in the
+> > > > existing codebase is expecting these calls to be refcounted. The on=
+ly
+> > > > real question is whether someone is already doing something to ensu=
+re
+> > > > prepare()/unprepare() match and enabled()/disable() match. I would =
+say
+> > > > that, even if there is something else ensuring that things match,
+> > > > there's enough complexity that adding an extra bool and an extra
+> > > > double-check here is a good idea. Let's add a drm_warn() to let peo=
+ple
+> > > > know that it's considered a minor error to take advantage of
+> > > > drm_panel's double-checking but we'll still make things work fine.
+> > >
+> > > I'm ok with this, if we follow-up in a couple of releases and remove =
+it
+> > > and all the calls.
+> > >
+> > > Could you add a TODO item so that we can keep a track of it? A follow=
+-up
+> > > is fine if you don't send a new version of that series.
+> >
+> > By this, I think you mean to add a "TODO" comment inline in the code?
+>
+> No, sorry, I meant an entry in our TODO list: Documentation/gpu/todo.rst
+>
+> > Also: I was thinking that we'd keep the check in "drm_panel.c" with
+> > the warning message indefinitely. You think it should be eventually
+> > removed? If we are truly thinking of removing it eventually, this
+> > feels like it should be a more serious warning message like a WARN(1,
+> > ...) to make it really obvious to people that they're relying on
+> > behavior that will eventually go away.
+>
+> Yeah, it really feels like this is cargo-cult to me. Your approach seems
+> like a good short-term thing to do to warn everyone but eventually we'll
+> want it to go away.
+>
+> So promoting it to a WARN could be a good thing, or let's say we do a
+> drm_warn for now, WARN next release, and gone in two?
+>
+> Maxime
