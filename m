@@ -2,341 +2,258 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA35176B48B
-	for <lists+linux-input@lfdr.de>; Tue,  1 Aug 2023 14:16:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FE6476B4AC
+	for <lists+linux-input@lfdr.de>; Tue,  1 Aug 2023 14:26:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234003AbjHAMQH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Aug 2023 08:16:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32774 "EHLO
+        id S231502AbjHAMZ7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Aug 2023 08:25:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233841AbjHAMP7 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Aug 2023 08:15:59 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AA4E19B6
-        for <linux-input@vger.kernel.org>; Tue,  1 Aug 2023 05:15:56 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-31771bb4869so5742476f8f.0
-        for <linux-input@vger.kernel.org>; Tue, 01 Aug 2023 05:15:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690892155; x=1691496955;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aB4JTBbloeJlOrROqSHyOpiwaZu7mID8DECUoJEbjX8=;
-        b=NYXCiB2zcVM8Qxs8ecgfX9+NlbuHqLqhg1XLDW7UO5ZNxusn8EogCTNN25O4yFaZPq
-         NE3QcHfjs/dxkvib+JNjvmhuiHd68mfW3GJynW5cuOz43eHTt+iu+R5Bf4ukz0RAyI9b
-         lODns+KP4dMke5heNjAu1i4wAVH+bDHa3FjznVb+uE1h6w7HOhMj9uq80svgRrkBch5u
-         oAYVQ+Q6WBjIJZNZj3Plwd3VBAx+CI0sshBauRsYoT47mormEfsCjVeNUad6Mlwk2WW5
-         VN5KJdwUEr5u3gx7jdqvYuk2mcqRE+mP6UF506PPftMww3KK0JCH2/CmJJjbTu8jEdkL
-         rClA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690892155; x=1691496955;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aB4JTBbloeJlOrROqSHyOpiwaZu7mID8DECUoJEbjX8=;
-        b=Iq+2euIV81EmCDz2FKnqEPvGmI6hPrz5YylhlhuZac0h4IYfneRQTjHASy/46S8R2s
-         yrf0IKnoaRgWxnosYWQ0orOWWPaFi2IQ4zxz1BwTnne6VpzRY6olx6uisn1KsQvIq/Xl
-         k/JSVxQG0uPc9aaByjuZYGKoJEsbT2SWuq756/Z7rL1uyeVnP5ljK5uAUu00j1T3wtRS
-         C+IV2nd2HgWtryDNQvp64UZ6txVR+iOB4wU0w81/EJi+uENmfEqEdlw+mq6j4t6vvA/u
-         Ew4n8pGpShzOuugZytI3FTSHsdP78YBlHRRPCtwz8PIV5g9P/5BJ8LUyEfWUdnYVvZN/
-         N7hQ==
-X-Gm-Message-State: ABy/qLayHlws9OHuen8dOlbr7Vsvsz6RKTCTr88ozWQvh35hgrmdxKKl
-        0Z5Geo6LYfhNuUIqfbNd16F8vA==
-X-Google-Smtp-Source: APBJJlFYRcwmM1zJ/Oxo9kEy79Dyjo4OHKnu+WG2NIj4CepOmQqRxMXYRh0Cs5Mg3zY0m7O9jK8jRw==
-X-Received: by 2002:a05:6000:1012:b0:313:fbd0:9813 with SMTP id a18-20020a056000101200b00313fbd09813mr2309885wrx.28.1690892154900;
-        Tue, 01 Aug 2023 05:15:54 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id z7-20020a5d4407000000b0031766e99429sm15874351wrq.115.2023.08.01.05.15.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Aug 2023 05:15:54 -0700 (PDT)
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Tue, 01 Aug 2023 14:15:48 +0200
-Subject: [PATCH v5 4/4] input: touchscreen: add SPI support for Goodix
- Berlin Touchscreen IC
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230801-topic-goodix-berlin-upstream-initial-v5-4-079252935593@linaro.org>
-References: <20230801-topic-goodix-berlin-upstream-initial-v5-0-079252935593@linaro.org>
-In-Reply-To: <20230801-topic-goodix-berlin-upstream-initial-v5-0-079252935593@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Jeff LaBundy <jeff@labundy.com>
-Cc:     linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8018;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=Qt+npl8i2OE+s8j4Ze03++ftzJ+qPlUeps9Tw1QwAkg=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBkyPd0boa3ANgYf7mCgA9NtuidmxhmhgHz17YnxyTI
- suBo5Z2JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZMj3dAAKCRB33NvayMhJ0RblEA
- CnLxA/0cnyZcctBZcHCldZRk5OTCZW2u+fLSkmZK/e3n+3w0ublbmJWhOxZ/w/JXP6LFujc1wt5xf7
- W4dLl8bNvnU5fdZS3Q54u6pSCkO/8PFA36QCIFa1szf+4XSXfa6xlQDFafaYKZcXUdc9e4w4J3L+Zb
- L+ivkXtB/hxi268ECm8ShzFEZNsrriJQWqwWIen6NZOt4r+dMZdRhE+H5gIphuOBwKyYN7wN6YpBGW
- NVmlwxwf6+Mpwu3YXDSpKHbqN9HXhA9J4zDx3rjNfDUsFCQ9/ly1URDygPvJhb2pyOp+fclFFC5hPD
- E6UMGLS+pqSJ0ButAdY7+tbYyDFQQAL8OszNWzxBmsZGuPfGSjtwziX5985VBM1HNcZoT1Snoaglw3
- WotKXzkvWpUrEqgojurP+4DkRqCzn2EWIQiNLCjykQjvs21d0UrcDeWZFQfCP+fAafTWj2m+loypWt
- D+du67o4qxVPUSV25z2uTlUpf9TubsWLJ2TrrxZrv3RdBKO6y4dD6RuFn2IWvUsnjO03scNIDpc2Mi
- aymOpA/hLMV3gEF55rjCG6LD86mxulJTwjVZP02NEfO3GgmD+2yeh7bCJe//QJ+wYuPBRWUyXYDqij
- 2oLY5KOW3sNpPMgt4Irw6XiN78uHf+2hlo9cXXP6Q5NdIlL8cZ393DmpIgMw==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+        with ESMTP id S230418AbjHAMZ6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Aug 2023 08:25:58 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 124D510C7;
+        Tue,  1 Aug 2023 05:25:53 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id B871C21DD8;
+        Tue,  1 Aug 2023 12:25:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1690892751; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=kGdgBDpVcLHjgibNhVGenQNLekAy0HDW6Uu4MmoOkcM=;
+        b=YHw3JlcXopF+LwUNbjQ8B+DERx/HTfzDR4vY31suYXo8pR/R5Xi+0mki6ABzPbB7MgH1uY
+        VbYRO48goMnGmr/tYoyJMtxeXo+Y6n0x3PSqYafjBDeYO/JwUbghi4KsbDLg4ecx/cAnzG
+        KEvDhtfCLlhFnC4pl2H6jx47mDoYJls=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1690892751;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=kGdgBDpVcLHjgibNhVGenQNLekAy0HDW6Uu4MmoOkcM=;
+        b=SOVmpaCKysyUzh5On5T+1kQquAL9C0rF5qxnRAomJJj/EsgiwdGIsfD19B04VHLaCHFehU
+        1KJTBmhfLO+R19DQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7690E139BD;
+        Tue,  1 Aug 2023 12:25:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id YgEfHM/5yGTkJAAAMHmgww
+        (envelope-from <tiwai@suse.de>); Tue, 01 Aug 2023 12:25:51 +0000
+Date:   Tue, 01 Aug 2023 14:25:50 +0200
+Message-ID: <87tttjeypd.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Marek Vasut <marex@denx.de>
+Cc:     Jeff LaBundy <jeff@labundy.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org,
+        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Frieder Schrempf <frieder.schrempf@kontron.de>,
+        Manuel Traut <manuel.traut@mt.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-pwm@vger.kernel.org, alsa-devel@alsa-project.org,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH] Input: pwm-beeper - Support volume setting via sysfs
+In-Reply-To: <ce419a1e-bf1a-1087-a7ee-37f85a11c596@denx.de>
+References: <06379f26-ab24-85f9-783f-0c49d4291b23@denx.de>
+        <ZMdIZiC453onyeHh@google.com>
+        <873514d2ju.wl-tiwai@suse.de>
+        <63adce9a-df65-b462-9055-0ece5216d680@denx.de>
+        <87tttkjmyu.wl-tiwai@suse.de>
+        <0cffe366-75af-d8a8-8920-6fb94c321a89@denx.de>
+        <87h6pkjh7q.wl-tiwai@suse.de>
+        <618add56-3675-4efe-5b20-665c10040e03@denx.de>
+        <ZMfgJ3o00nApkXGp@google.com>
+        <f4612dc5-a7d4-74ba-2ed8-ea70314625b6@denx.de>
+        <ZMh0Sa9s25JHhWw5@nixie71>
+        <87a5vbi96v.wl-tiwai@suse.de>
+        <ce419a1e-bf1a-1087-a7ee-37f85a11c596@denx.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,T_SPF_HELO_TEMPERROR,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add initial support for the new Goodix "Berlin" touchscreen ICs
-over the SPI interface.
+On Tue, 01 Aug 2023 13:38:54 +0200,
+Marek Vasut wrote:
+> 
+> On 8/1/23 08:11, Takashi Iwai wrote:
+> > On Tue, 01 Aug 2023 04:56:09 +0200,
+> > Jeff LaBundy wrote:
+> >> 
+> >> Hi all,
+> >> 
+> >> On Mon, Jul 31, 2023 at 07:49:50PM +0200, Marek Vasut wrote:
+> >>> On 7/31/23 18:24, Dmitry Torokhov wrote:
+> >>>> On Mon, Jul 31, 2023 at 04:36:01PM +0200, Marek Vasut wrote:
+> >>>>> On 7/31/23 16:20, Takashi Iwai wrote:
+> >>>>> 
+> >>>>> [...]
+> >>>>> 
+> >>>>>>>>> Uh, I don't need a full sound device to emit beeps, that's not even
+> >>>>>>>>> possible with this hardware.
+> >>>>>>>> 
+> >>>>>>>> Heh, I also don't recommend that route, either :)
+> >>>>>>>> (Though, it must be possible to create a sound device with that beep
+> >>>>>>>> control in theory)
+> >>>>>>> 
+> >>>>>>> I mean, I can imagine one could possibly use PCM DMA to cook samples
+> >>>>>>> to feed some of the PWM devices so they could possibly be used to
+> >>>>>>> generate low quality audio, as a weird limited DAC, but ... that's not
+> >>>>>>> really generic, and not what I want.
+> >>>>>> 
+> >>>>>> Oh I see how the misunderstanding came; I didn't mean the PCM
+> >>>>>> implementation like pcsp driver.  The pcsp driver is a real hack and
+> >>>>>> it's there just for fun, not for any real practical use.
+> >>>>> 
+> >>>>> Ah :)
+> >>>>> 
+> >>>>>> What I meant was rather that you can create a sound device containing
+> >>>>>> a mixer volume control that serves exactly like the sysfs or whatever
+> >>>>>> other interface, without any PCM stream or other interface.
+> >>>>> 
+> >>>>> Ahhh, hum, I still feel like this might be a bit overkill here.
+> >>>>> 
+> >>>>>>>>> I only need to control loudness of the
+> >>>>>>>>> beeper that is controlled by PWM output. That's why I am trying to
+> >>>>>>>>> extend the pwm-beeper driver, which seems the best fit for such a
+> >>>>>>>>> device, it is only missing this one feature (loudness control).
+> >>>>>>>> 
+> >>>>>>>> So the question is what's expected from user-space POV.  If a more
+> >>>>>>>> generic control of beep volume is required, e.g. for desktop-like
+> >>>>>>>> usages, an implementation of sound driver wouldn't be too bad.
+> >>>>>>>> OTOH, for other specific use-cases, it doesn't matter much in which
+> >>>>>>>> interface it's implemented, and sysfs could be an easy choice.
+> >>>>>>> 
+> >>>>>>> The whole discussion above has been exactly about this. Basically the
+> >>>>>>> thing is, we can either have:
+> >>>>>>> - SND_TONE (via some /dev/input/eventX) + sysfs volume control
+> >>>>>>>      -> This is simple, but sounds racy between input and sysfs accesses
+> >>>>>> 
+> >>>>>> Hmm, how can it be racy if you do proper locking?
+> >>>>> 
+> >>>>> I can imagine two applications can each grab one of the controls and that
+> >>>>> makes the interface a bit not nice. That would require extra synchronization
+> >>>>> in userspace and so on.
+> >>>>> 
+> >>>>>>> - SND_TONE + SND_TONE_SET_VOLUME
+> >>>>>>>      -> User needs to do two ioctls, hum
+> >>>>>>> - some new SND_TONE_WITH_VOLUME
+> >>>>>>>      -> Probably the best option, user sets both tone frequency and volume
+> >>>>>>>         in one go, and it also only extends the IOCTL interface, so older
+> >>>>>>>         userspace won't have issues
+> >>>>>> 
+> >>>>>> Those are "extensions" I have mentioned, and I'm not a big fan for
+> >>>>>> that, honestly speaking.
+> >>>>>> 
+> >>>>>> The fact that the beep *output* stuff is provided by the *input*
+> >>>>>> device is already confusing
+> >>>>> 
+> >>>>> I agree, this confused me as well.
+> >>>> 
+> >>>> This comes from the times when keyboards themselves were capable of
+> >>>> emitting bells (SUN, DEC, etc). In hindsight it was not the best way of
+> >>>> structuring things, same with the keyboard LEDs (that are now plugged
+> >>>> into the LED subsystem, but still allow be driven through input).
+> >>>> 
+> >>>> And in the same vein I wonder if we should bite the bullet and pay with
+> >>>> a bit of complexity but move sound-related things to sound subsystem.
+> >>> 
+> >>> I am not sure that's the right approach here, since the device cannot do PCM
+> >>> playback, just bleeps.
+> >>> 
+> >>>>>> (it was so just because of historical
+> >>>>>> reason), and yet you start implementing more full-featured mixer
+> >>>>>> control.  I'd rather keep fingers away.
+> >>>>>> 
+> >>>>>> Again, if user-space requires the compatible behavior like the
+> >>>>>> existing desktop usages
+> >>>>> 
+> >>>>> It does not. These pwm-beeper devices keep showing up in various embedded
+> >>>>> devices these days.
+> >>>>> 
+> >>>>>> , it can be implemented in a similar way like
+> >>>>>> the existing ones; i.e. provide a mixer control with a proper sound
+> >>>>>> device.  The sound device doesn't need to provide a PCM interface but
+> >>>>>> just with a mixer interface.
+> >>>>>> 
+> >>>>>> Or, if the purpose of your target device is a special usage, you don't
+> >>>>>> need to consider too much about the existing interface, and try to
+> >>>>>> keep the change as minimal as possible without too intrusive API
+> >>>>>> changes.
+> >>>>> 
+> >>>>> My use case is almost perfectly matched by the current input pwm-beeper
+> >>>>> driver, the only missing bit is the ability to control the loudness at
+> >>>>> runtime. I think adding the SND_TONE_WITH_VOLUME parameter would cover it,
+> >>>>> with least intrusive API changes.
+> >>>>> 
+> >>>>> The SND_TONE already supports configuring tone frequency in Hz as its
+> >>>>> parameter. Since anything above 64 kHz is certainly not hearable by humans,
+> >>>>> I would say the SND_TONE_WITH_VOLUME could use 16 LSbits for frequency (so
+> >>>>> up to 65535 Hz , 0 is OFF), and 16 MSbits for volume .
+> >>>>> 
+> >>>>> I'm hesitant to overcomplicate something which can currently be controlled
+> >>>>> via single ioctl by pulling in sound subsystem into the picture.
+> >>>> 
+> >>>> Can you tell a bit more about your use case? What needs to control the
+> >>>> volume of beeps? Is this the only source of sounds on the system?
+> >>> 
+> >>> Custom user space application. The entire userspace is custom built in this
+> >>> case.
+> >>> 
+> >>> In this case, it is a single-use device (think e.g. the kind of thermometer
+> >>> you stick in your ear when you're ill, to find out how warm you are).
+> >>> 
+> >>> The beeper there is used to do just that, bleep (with different frequencies
+> >>> to indicate different stuff), and that works. What I need in addition to
+> >>> that is control the volume of the bleeps from the application, so it isn't
+> >>> too noisy. And that needs to be user-controllable at runtime, so not
+> >>> something that goes in DT.
+> >>> 
+> >>> Right now there is just the bleeper , yes.
+> >> 
+> >> It sounds like we essentially need an option within pcsp to drive PWM
+> >> instead of PCM, but input already has pwm-beeper; it seems harmless to
+> >> gently extend the latter for this use-case as opposed to reworking the
+> >> former.
+> > 
+> > Nah, please forget pcsp driver.  As mentioned earlier, it's a driver
+> > that is present just for fun.
+> > 
+> > I believe what we need is a simple sound card instance providing a
+> > mixer control for the beep volume, something like a patch like below
+> > (totally untested!)
+> 
+> Do we really want to add dependency on the entire sound subsystem
+> (which is currently not needed on the device I care about) only to
+> configure one single tunable of the PWM beeper ? It seems to add too
+> much bloat to me.
 
-The driver doesn't use the regmap_spi code since the SPI messages
-needs to be prefixed, thus this custom regmap code.
+That really depends on the use case.  If the driver is supposed to be
+used generically as seen in the desktop scenes, it's worth to have a
+support of the standard interface like others.  OTOH, if the driver is
+for limited situations and better to be as slim as possible, a
+tailored interface like sysfs would be the way to go.  My proposal was
+under assumption of the former -- a generic usage.  If the latter
+scene is expected, a sysfs implementation can be the right way, IMO.
 
-This initial driver is derived from the Goodix goodix_ts_berlin
-available at [1] and [2] and only supports the GT9916 IC
-present on the Qualcomm SM8550 MTP & QRD touch panel.
+OTOH, we really need to be careful about the blind extension of API.
+Although adding a new input event type sounds easy, the influence
+could be much more than seen there...
 
-The current implementation only supports BerlinD, aka GT9916.
 
-[1] https://github.com/goodix/goodix_ts_berlin
-[2] https://git.codelinaro.org/clo/la/platform/vendor/opensource/touch-drivers
-
-Reviewed-by: Jeff LaBundy <jeff@labundy.com>
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- drivers/input/touchscreen/Kconfig             |  14 +++
- drivers/input/touchscreen/Makefile            |   1 +
- drivers/input/touchscreen/goodix_berlin_spi.c | 173 ++++++++++++++++++++++++++
- 3 files changed, 188 insertions(+)
-
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index cc7b88118158..c821fe3ee794 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -433,6 +433,20 @@ config TOUCHSCREEN_GOODIX_BERLIN_I2C
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called goodix_berlin_i2c.
- 
-+config TOUCHSCREEN_GOODIX_BERLIN_SPI
-+	tristate "Goodix Berlin SPI touchscreen"
-+	depends on SPI_MASTER
-+	select REGMAP
-+	select TOUCHSCREEN_GOODIX_BERLIN_CORE
-+	help
-+	  Say Y here if you have a Goodix Berlin IC connected to
-+	  your system via SPI.
-+
-+	  If unsure, say N.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called goodix_berlin_spi.
-+
- config TOUCHSCREEN_HIDEEP
- 	tristate "HiDeep Touch IC"
- 	depends on I2C
-diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-index 7ef677cf7a10..a81cb5aa21a5 100644
---- a/drivers/input/touchscreen/Makefile
-+++ b/drivers/input/touchscreen/Makefile
-@@ -49,6 +49,7 @@ obj-$(CONFIG_TOUCHSCREEN_FUJITSU)	+= fujitsu_ts.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX)	+= goodix_ts.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_CORE)	+= goodix_berlin_core.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_I2C)	+= goodix_berlin_i2c.o
-+obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_SPI)	+= goodix_berlin_spi.o
- obj-$(CONFIG_TOUCHSCREEN_HIDEEP)	+= hideep.o
- obj-$(CONFIG_TOUCHSCREEN_HYNITRON_CSTXXX)	+= hynitron_cstxxx.o
- obj-$(CONFIG_TOUCHSCREEN_ILI210X)	+= ili210x.o
-diff --git a/drivers/input/touchscreen/goodix_berlin_spi.c b/drivers/input/touchscreen/goodix_berlin_spi.c
-new file mode 100644
-index 000000000000..1f57c3592918
---- /dev/null
-+++ b/drivers/input/touchscreen/goodix_berlin_spi.c
-@@ -0,0 +1,173 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Goodix Berlin Touchscreen Driver
-+ *
-+ * Copyright (C) 2020 - 2021 Goodix, Inc.
-+ * Copyright (C) 2023 Linaro Ltd.
-+ *
-+ * Based on goodix_ts_berlin driver.
-+ */
-+#include <asm/unaligned.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+#include <linux/spi/spi.h>
-+
-+#include "goodix_berlin.h"
-+
-+#define GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN	1
-+#define GOODIX_BERLIN_REGISTER_WIDTH		4
-+#define GOODIX_BERLIN_SPI_READ_DUMMY_LEN	3
-+#define GOODIX_BERLIN_SPI_READ_PREFIX_LEN	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
-+						 GOODIX_BERLIN_REGISTER_WIDTH + \
-+						 GOODIX_BERLIN_SPI_READ_DUMMY_LEN)
-+#define GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
-+						 GOODIX_BERLIN_REGISTER_WIDTH)
-+
-+#define GOODIX_BERLIN_SPI_WRITE_FLAG		0xF0
-+#define GOODIX_BERLIN_SPI_READ_FLAG		0xF1
-+
-+static int goodix_berlin_spi_read(void *context, const void *reg_buf,
-+				  size_t reg_size, void *val_buf,
-+				  size_t val_size)
-+{
-+	struct spi_device *spi = context;
-+	struct spi_transfer xfers;
-+	struct spi_message spi_msg;
-+	const u32 *reg = reg_buf; /* reg is stored as native u32 at start of buffer */
-+	u8 *buf;
-+	int error;
-+
-+	if (reg_size != GOODIX_BERLIN_REGISTER_WIDTH)
-+		return -EINVAL;
-+
-+	buf = kzalloc(GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	spi_message_init(&spi_msg);
-+	memset(&xfers, 0, sizeof(xfers));
-+
-+	/* buffer format: 0xF1 + addr(4bytes) + dummy(3bytes) + data */
-+	buf[0] = GOODIX_BERLIN_SPI_READ_FLAG;
-+	put_unaligned_be32(*reg, buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN);
-+	memset(buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + GOODIX_BERLIN_REGISTER_WIDTH,
-+	       0xff, GOODIX_BERLIN_SPI_READ_DUMMY_LEN);
-+
-+	xfers.tx_buf = buf;
-+	xfers.rx_buf = buf;
-+	xfers.len = GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size;
-+	xfers.cs_change = 0;
-+	spi_message_add_tail(&xfers, &spi_msg);
-+
-+	error = spi_sync(spi, &spi_msg);
-+	if (error < 0)
-+		dev_err(&spi->dev, "spi transfer error, %d", error);
-+	else
-+		memcpy(val_buf, buf + GOODIX_BERLIN_SPI_READ_PREFIX_LEN, val_size);
-+
-+	kfree(buf);
-+	return error;
-+}
-+
-+static int goodix_berlin_spi_write(void *context, const void *data,
-+				   size_t count)
-+{
-+	unsigned int len = count - GOODIX_BERLIN_REGISTER_WIDTH;
-+	struct spi_device *spi = context;
-+	struct spi_transfer xfers;
-+	struct spi_message spi_msg;
-+	const u32 *reg = data; /* reg is stored as native u32 at start of buffer */
-+	u8 *buf;
-+	int error;
-+
-+	buf = kzalloc(GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN + len, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	spi_message_init(&spi_msg);
-+	memset(&xfers, 0, sizeof(xfers));
-+
-+	buf[0] = GOODIX_BERLIN_SPI_WRITE_FLAG;
-+	put_unaligned_be32(*reg, buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN);
-+	memcpy(buf + GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN,
-+	       data + GOODIX_BERLIN_REGISTER_WIDTH, len);
-+
-+	xfers.tx_buf = buf;
-+	xfers.len = GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN + len;
-+	xfers.cs_change = 0;
-+	spi_message_add_tail(&xfers, &spi_msg);
-+
-+	error = spi_sync(spi, &spi_msg);
-+	if (error < 0)
-+		dev_err(&spi->dev, "spi transfer error, %d", error);
-+
-+	kfree(buf);
-+	return error;
-+}
-+
-+static const struct regmap_config goodix_berlin_spi_regmap_conf = {
-+	.reg_bits = 32,
-+	.val_bits = 8,
-+	.read = goodix_berlin_spi_read,
-+	.write = goodix_berlin_spi_write,
-+};
-+
-+/* vendor & product left unassigned here, should probably be updated from fw info */
-+static const struct input_id goodix_berlin_spi_input_id = {
-+	.bustype = BUS_SPI,
-+};
-+
-+static int goodix_berlin_spi_probe(struct spi_device *spi)
-+{
-+	struct regmap_config regmap_config;
-+	struct regmap *regmap;
-+	size_t max_size;
-+	int error = 0;
-+
-+	spi->mode = SPI_MODE_0;
-+	spi->bits_per_word = 8;
-+	error = spi_setup(spi);
-+	if (error)
-+		return error;
-+
-+	max_size = spi_max_transfer_size(spi);
-+
-+	regmap_config = goodix_berlin_spi_regmap_conf;
-+	regmap_config.max_raw_read = max_size - GOODIX_BERLIN_SPI_READ_PREFIX_LEN;
-+	regmap_config.max_raw_write = max_size - GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN;
-+
-+	regmap = devm_regmap_init(&spi->dev, NULL, spi, &regmap_config);
-+	if (IS_ERR(regmap))
-+		return PTR_ERR(regmap);
-+
-+	return goodix_berlin_probe(&spi->dev, spi->irq,
-+				   &goodix_berlin_spi_input_id, regmap);
-+}
-+
-+static const struct spi_device_id goodix_berlin_spi_ids[] = {
-+	{ "gt9916" },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(spi, goodix_berlin_spi_ids);
-+
-+static const struct of_device_id goodix_berlin_spi_of_match[] = {
-+	{ .compatible = "goodix,gt9916", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, goodix_berlin_spi_of_match);
-+
-+static struct spi_driver goodix_berlin_spi_driver = {
-+	.driver = {
-+		.name = "goodix-berlin-spi",
-+		.of_match_table = goodix_berlin_spi_of_match,
-+		.pm = pm_sleep_ptr(&goodix_berlin_pm_ops),
-+	},
-+	.probe = goodix_berlin_spi_probe,
-+	.id_table = goodix_berlin_spi_ids,
-+};
-+module_spi_driver(goodix_berlin_spi_driver);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("Goodix Berlin SPI Touchscreen driver");
-+MODULE_AUTHOR("Neil Armstrong <neil.armstrong@linaro.org>");
-
--- 
-2.34.1
-
+Takashi
