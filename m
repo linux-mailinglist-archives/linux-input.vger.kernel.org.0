@@ -2,202 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7896976C668
-	for <lists+linux-input@lfdr.de>; Wed,  2 Aug 2023 09:20:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05E4476CD8C
+	for <lists+linux-input@lfdr.de>; Wed,  2 Aug 2023 14:51:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232731AbjHBHUa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Aug 2023 03:20:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59220 "EHLO
+        id S234857AbjHBMvC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Aug 2023 08:51:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232691AbjHBHUZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Aug 2023 03:20:25 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAC2D19AD
-        for <linux-input@vger.kernel.org>; Wed,  2 Aug 2023 00:20:23 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-686bea20652so6627726b3a.1
-        for <linux-input@vger.kernel.org>; Wed, 02 Aug 2023 00:20:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=huaqin-corp-partner-google-com.20221208.gappssmtp.com; s=20221208; t=1690960823; x=1691565623;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m5ftHAQDjcyj/Z4+kE7V/9JWCccuDvgK9YYpIpkaD7s=;
-        b=uJpsdXjUnG64+/qe2oDpEE5YmeJqxRG3Tegc++iaB/POJ6UVm++74TtzNqbeYV/wzL
-         tNIfj6inHajfNMbAbbGMho7JlYJJXJSRixg9rMIkrJuI8lb5lZfi8p8LC6KDhkOBg87I
-         xZKfQP5WMmaHVYl9QDxOQAeNJrAQNtKbNHYoOHqZivPczHMQzW2mwSTjMVTdhXhaYe/G
-         AaXrk8qlKVxlE1I6OVrGNzPcgoFuJuMBxjFflko61b0Jemef3hP5dg4kgDJJCiMSoyzv
-         zkfczF5Ine5sp09FwiI8Hgf/zcNInaKWlPpOiGR6wW6dzfKjlgWmzp58lNZ7I+UhPAC2
-         shbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690960823; x=1691565623;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=m5ftHAQDjcyj/Z4+kE7V/9JWCccuDvgK9YYpIpkaD7s=;
-        b=N5dvuJp3sq2LgIqC8RAnvGMyf5BF1Muy7JZoSt8KqIO/QrwxV+DNah6BdIqVmric0R
-         9UFZuRUNyxHTc52c3YNNGGsg7M0KeHstwJTBAaaffaLj+YgzRWxwroTNxVfj49m+BlVK
-         u9y6OTGvZSsw6JHWaEl3hdj94dz4FWKEXakk9u7Zb8svmyVeOJ51m+iJJF4itR37Uuqh
-         8Qjlwm3ytGd1tUWzljou2118jl7LKy/UJMQJ9A8IXs/B9vJ66c7vAc2XxILXo8BYSS8C
-         tPaMComAzB4cNWm/z6W5meGXE5GuKgLaqn7hwY/PiWbYzUY+439zcxr/j0uyCWGlddgS
-         1A5Q==
-X-Gm-Message-State: ABy/qLazEyZpvWkQfpQkwMrKWg88e8uIGXSIrHwsXTflL16vgyCexBKk
-        vjkdm0dh5ACeXsT2MgrhDJKkAA==
-X-Google-Smtp-Source: APBJJlH6UAADSMCFbOqshd7InChK686drg58bZe8DPWhwbaR5xmoEtTvsuelbk0sFRfbXhBu0f6kIw==
-X-Received: by 2002:a05:6a21:3397:b0:132:bdba:5518 with SMTP id yy23-20020a056a21339700b00132bdba5518mr19854934pzb.54.1690960823400;
-        Wed, 02 Aug 2023 00:20:23 -0700 (PDT)
-Received: from yc.huaqin.com ([101.78.151.205])
-        by smtp.gmail.com with ESMTPSA id fe12-20020a056a002f0c00b00684ca1b45b9sm10732543pfb.149.2023.08.02.00.20.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Aug 2023 00:20:22 -0700 (PDT)
-From:   Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, dmitry.torokhov@gmail.com,
-        dianders@google.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, hsinyi@google.com
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
-        Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v6 2/2] HID: i2c-hid: elan: Add ili9882t timing
-Date:   Wed,  2 Aug 2023 15:19:47 +0800
-Message-Id: <20230802071947.1683318-3-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230802071947.1683318-1-yangcong5@huaqin.corp-partner.google.com>
-References: <20230802071947.1683318-1-yangcong5@huaqin.corp-partner.google.com>
+        with ESMTP id S234862AbjHBMup (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Aug 2023 08:50:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6482B359C;
+        Wed,  2 Aug 2023 05:50:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 766AF61965;
+        Wed,  2 Aug 2023 12:49:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38DD8C433C7;
+        Wed,  2 Aug 2023 12:49:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690980593;
+        bh=Ljcd5pbRznBECm60MkpvEmPwtPvPGHtbOUqrvZAEUXg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=UHge9AgJBACU7icvP8phQt6fsIRMdR7DlykH8zzWKulsEUBV1zlGKLcQmxIT9da1H
+         0RyYngdd7F24SJMP9jJ8f2j4URwDX3deiM9ebO8cPsXL4HwJOLmjE7eLbHfAxbkCv7
+         sBJsNudHGCCv7WMi2Xtu2qJwR9u/6wtRWR0TJVLsvyy5QCD1zzUMe6UALKpG6PKzuI
+         97YTYg7OgxKWZ6uv8G05c5tAFGIpUXAZaPR3z4vd/j8oqB+4m8pxn2oB9u2sMfiFiX
+         m3QZRZRwBGbQzT1DnYUrOINTPNH//QCxAzWKc3MH0NaUyqkqq/qmYa+Gktx3Pi7AUo
+         eoR/hGQXXw0Lg==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        Maxime Ripard <mripard@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Hans de Goede <hdegoede@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: i2c-hid: add more DRM dependencies
+Date:   Wed,  2 Aug 2023 14:49:40 +0200
+Message-Id: <20230802124947.1355415-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The ili9882t is a TDDI IC (Touch with Display Driver). The
-datasheet specifies there should be 60ms between touch SDA
-sleep and panel RESX. Doug's series[1] allows panels and
-touchscreens to power on/off together, so we can add the 65 ms
-delay in i2c_hid_core_suspend before panel_unprepare.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Because ili9882t touchscrgeen is a panel follower, and
-needs to use vccio-supply instead of vcc33-supply, so set
-it NULL to ili9882t_chip_data, then not use vcc33 regulator.
+When a symbol is selected that has extra dependencies,
+anything that selects it must have the same dependencies.
+With the added CONFIG_DRM reference from I2C_HID_CORE,
+this broke a couple of drivers that now also depend
+on DRM:
 
-[1]: https://lore.kernel.org/all/20230727171750.633410-1-dianders@chromium.org
+WARNING: unmet direct dependencies detected for I2C_HID_CORE
+  Depends on [m]: HID_SUPPORT [=y] && I2C_HID [=y] && (DRM [=m] || !DRM [=m])
+  Selected by [y]:
+  - I2C_HID_OF [=y] && HID_SUPPORT [=y] && I2C_HID [=y]
+  - I2C_HID_ACPI [=y] && HID_SUPPORT [=y] && I2C_HID [=y] && ACPI [=y]
+  - I2C_HID_OF_GOODIX [=y] && HID_SUPPORT [=y] && I2C_HID [=y] && OF [=y]
+x86_64-linux-ld: vmlinux.o: in function `i2c_hid_core_remove':
+(.text+0xfc8826): undefined reference to `drm_panel_remove_follower'
+x86_64-linux-ld: vmlinux.o: in function `i2c_hid_core_probe':
+(.text+0xfc8da0): undefined reference to `drm_is_panel_follower'
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Add the corresponding DRM||!DRM dependencies on each one that
+is affected.
+
+Fixes: 96a37bfd232ae ("HID: i2c-hid: Support being a panel follower")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/hid/i2c-hid/i2c-hid-of-elan.c | 50 ++++++++++++++++++++-------
- 1 file changed, 38 insertions(+), 12 deletions(-)
+ drivers/hid/i2c-hid/Kconfig | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-of-elan.c b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-index 029045d9661c..31abab57ad44 100644
---- a/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-@@ -18,9 +18,11 @@
- #include "i2c-hid.h"
- 
- struct elan_i2c_hid_chip_data {
--	unsigned int post_gpio_reset_delay_ms;
-+	unsigned int post_gpio_reset_on_delay_ms;
-+	unsigned int post_gpio_reset_off_delay_ms;
- 	unsigned int post_power_delay_ms;
- 	u16 hid_descriptor_address;
-+	const char *main_supply_name;
- };
- 
- struct i2c_hid_of_elan {
-@@ -38,9 +40,11 @@ static int elan_i2c_hid_power_up(struct i2chid_ops *ops)
- 		container_of(ops, struct i2c_hid_of_elan, ops);
- 	int ret;
- 
--	ret = regulator_enable(ihid_elan->vcc33);
--	if (ret)
--		return ret;
-+	if (ihid_elan->vcc33) {
-+		ret = regulator_enable(ihid_elan->vcc33);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	ret = regulator_enable(ihid_elan->vccio);
- 	if (ret) {
-@@ -52,8 +56,8 @@ static int elan_i2c_hid_power_up(struct i2chid_ops *ops)
- 		msleep(ihid_elan->chip_data->post_power_delay_ms);
- 
- 	gpiod_set_value_cansleep(ihid_elan->reset_gpio, 0);
--	if (ihid_elan->chip_data->post_gpio_reset_delay_ms)
--		msleep(ihid_elan->chip_data->post_gpio_reset_delay_ms);
-+	if (ihid_elan->chip_data->post_gpio_reset_on_delay_ms)
-+		msleep(ihid_elan->chip_data->post_gpio_reset_on_delay_ms);
- 
- 	return 0;
- }
-@@ -64,8 +68,12 @@ static void elan_i2c_hid_power_down(struct i2chid_ops *ops)
- 		container_of(ops, struct i2c_hid_of_elan, ops);
- 
- 	gpiod_set_value_cansleep(ihid_elan->reset_gpio, 1);
-+	if (ihid_elan->chip_data->post_gpio_reset_off_delay_ms)
-+		msleep(ihid_elan->chip_data->post_gpio_reset_off_delay_ms);
-+
- 	regulator_disable(ihid_elan->vccio);
--	regulator_disable(ihid_elan->vcc33);
-+	if (ihid_elan->vcc33)
-+		regulator_disable(ihid_elan->vcc33);
- }
- 
- static int i2c_hid_of_elan_probe(struct i2c_client *client)
-@@ -89,24 +97,42 @@ static int i2c_hid_of_elan_probe(struct i2c_client *client)
- 	if (IS_ERR(ihid_elan->vccio))
- 		return PTR_ERR(ihid_elan->vccio);
- 
--	ihid_elan->vcc33 = devm_regulator_get(&client->dev, "vcc33");
--	if (IS_ERR(ihid_elan->vcc33))
--		return PTR_ERR(ihid_elan->vcc33);
--
- 	ihid_elan->chip_data = device_get_match_data(&client->dev);
- 
-+	if (ihid_elan->chip_data->main_supply_name) {
-+		ihid_elan->vcc33 = devm_regulator_get(&client->dev,
-+						      ihid_elan->chip_data->main_supply_name);
-+		if (IS_ERR(ihid_elan->vcc33))
-+			return PTR_ERR(ihid_elan->vcc33);
-+	}
-+
- 	return i2c_hid_core_probe(client, &ihid_elan->ops,
- 				  ihid_elan->chip_data->hid_descriptor_address, 0);
- }
- 
- static const struct elan_i2c_hid_chip_data elan_ekth6915_chip_data = {
- 	.post_power_delay_ms = 1,
--	.post_gpio_reset_delay_ms = 300,
-+	.post_gpio_reset_on_delay_ms = 300,
-+	.hid_descriptor_address = 0x0001,
-+	.main_supply_name = "vcc33",
-+};
-+
-+static const struct elan_i2c_hid_chip_data ilitek_ili9882t_chip_data = {
-+	.post_power_delay_ms = 1,
-+	.post_gpio_reset_on_delay_ms = 200,
-+	.post_gpio_reset_off_delay_ms = 65,
- 	.hid_descriptor_address = 0x0001,
-+	/*
-+	 * this touchscreen is tightly integrated with the panel and assumes
-+	 * that the relevant power rails (other than the IO rail) have already
-+	 * been turned on by the panel driver because we're a panel follower.
-+	 */
-+	.main_supply_name = NULL,
- };
- 
- static const struct of_device_id elan_i2c_hid_of_match[] = {
- 	{ .compatible = "elan,ekth6915", .data = &elan_ekth6915_chip_data },
-+	{ .compatible = "ilitek,ili9882t", .data = &ilitek_ili9882t_chip_data },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, elan_i2c_hid_of_match);
+diff --git a/drivers/hid/i2c-hid/Kconfig b/drivers/hid/i2c-hid/Kconfig
+index 2bdb55203104b..ef7c595c9403c 100644
+--- a/drivers/hid/i2c-hid/Kconfig
++++ b/drivers/hid/i2c-hid/Kconfig
+@@ -9,6 +9,7 @@ if I2C_HID
+ config I2C_HID_ACPI
+ 	tristate "HID over I2C transport layer ACPI driver"
+ 	depends on ACPI
++	depends on DRM || !DRM
+ 	select I2C_HID_CORE
+ 	help
+ 	  Say Y here if you use a keyboard, a touchpad, a touchscreen, or any
+@@ -25,6 +26,7 @@ config I2C_HID_OF
+ 	tristate "HID over I2C transport layer Open Firmware driver"
+ 	# No "depends on OF" because this can also be used for manually
+ 	# (board-file) instantiated "hid-over-i2c" type i2c-clients.
++	depends on DRM || !DRM
+ 	select I2C_HID_CORE
+ 	help
+ 	  Say Y here if you use a keyboard, a touchpad, a touchscreen, or any
+@@ -41,6 +43,7 @@ config I2C_HID_OF
+ config I2C_HID_OF_ELAN
+ 	tristate "Driver for Elan hid-i2c based devices on OF systems"
+ 	depends on OF
++	depends on DRM || !DRM
+ 	select I2C_HID_CORE
+ 	help
+ 	  Say Y here if you want support for Elan i2c devices that use
+@@ -56,6 +59,7 @@ config I2C_HID_OF_ELAN
+ config I2C_HID_OF_GOODIX
+ 	tristate "Driver for Goodix hid-i2c based devices on OF systems"
+ 	depends on OF
++	depends on DRM || !DRM
+ 	select I2C_HID_CORE
+ 	help
+ 	  Say Y here if you want support for Goodix i2c devices that use
 -- 
-2.25.1
+2.39.2
 
