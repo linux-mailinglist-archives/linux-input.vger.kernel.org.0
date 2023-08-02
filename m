@@ -2,236 +2,159 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B847E76D358
-	for <lists+linux-input@lfdr.de>; Wed,  2 Aug 2023 18:09:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0787076D3A2
+	for <lists+linux-input@lfdr.de>; Wed,  2 Aug 2023 18:28:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232097AbjHBQJf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Aug 2023 12:09:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54604 "EHLO
+        id S231325AbjHBQ2B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Aug 2023 12:28:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229803AbjHBQJe (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Aug 2023 12:09:34 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F0B819A0
-        for <linux-input@vger.kernel.org>; Wed,  2 Aug 2023 09:09:32 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-51e24210395so15594a12.0
-        for <linux-input@vger.kernel.org>; Wed, 02 Aug 2023 09:09:32 -0700 (PDT)
+        with ESMTP id S231439AbjHBQ2A (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Aug 2023 12:28:00 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A70D32103
+        for <linux-input@vger.kernel.org>; Wed,  2 Aug 2023 09:27:55 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2b9c55e0fbeso104264491fa.2
+        for <linux-input@vger.kernel.org>; Wed, 02 Aug 2023 09:27:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690992571; x=1691597371;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        d=chromium.org; s=google; t=1690993673; x=1691598473;
+        h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=113LkHbiEvGKznTlJsnRhaby8358mc5nh2oXLk1USVI=;
-        b=LFI4rA25jijMEPPHKR1SNDWldDm9/ygIcRMZrWrVr1goHUdEBej5dsgYlHAgjNaIpt
-         G6i7UXK1qtDX0AXOIqH8oAFj+etZ8ynHGKA1iL5FcdbVW3JmuA8yAdP+8vIm3vtSqlTn
-         Z12jz848KVJgEvqEziKjAeA9r7LZeTvRh+7HUSAwqDvrQE2oT0eRulC/lrXJE02B53Q9
-         VDdPSysD7uX8gGuhLN+DZ+1/FBGu16lB/9Op85GjijDGRcBxDrWWW9NzwWDfhcaYUWK7
-         Er5mVbB+pWBLkIAVj7/JyLtOWmly2Y1VVVwmOHMGrwta4c918Y5NqyMlOtDI5Had2jjY
-         zB7A==
+        bh=Kr1TRSCGBMc/xSIn+L6Cksufenm3IMvW6TDeD0ousZ0=;
+        b=Yvlx/Ay+AcGnYt6aAKtJHO65LPj+M/oqxabGFeafo5lqCkMoRKRgF86r5sDMJBwC6p
+         Q5UEq1/UhqLcADIDNT6rwrLRc+5wOiuldaXS9eqsLasaz6n9+66oTTDlw3bGc1Z7lCv2
+         SNvKyJ2dnMjAMk5DliU+uZUdN22CzXuOUfGZc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690992571; x=1691597371;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        d=1e100.net; s=20221208; t=1690993673; x=1691598473;
+        h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=113LkHbiEvGKznTlJsnRhaby8358mc5nh2oXLk1USVI=;
-        b=P48DHJa90fdxSfgiehc3yC5/K9SclovlhLXantIoASAkXgm0rtf7JlDmrbDBouYbPb
-         w8t0QVKBcyfVFTbasMwUf/l4abzQvhurI8twbym3CsVfFft1SVLD6aR3f8FuCEQ9kimw
-         1v97rlRIwqf0TaEjJvpRo7Zd1Stx+UxrrAN9l//l5MimGPMMs66XGDb5WVor2ZcI1OJY
-         a0RdEYXfBNkjpHno4XFMLSiRuZpMwmpi/UPVdTZ8F1SXF9oWFNHov9AWLNrjEQDOmIpK
-         PNoI7kcViD2I+5erN4N1iaku8bEMtiSGzNzVsVzW+IA4J9Abf5N7/bkxbjxsolEqYVzg
-         J3zw==
-X-Gm-Message-State: ABy/qLZHKTk1CW3ND86q2mw09ZVsq1EYS90kkqrOQYziRZFuGIQSdAU9
-        IfI4rRjsbjupBzidHkCt8Z/Vv11zTd6bpU6q1mhU9g==
-X-Google-Smtp-Source: APBJJlHNSzA+5I+gfFhTC6voqAyJr4aPx2EGDbMFMgCoqcQFETjIFolABaZwMqpX4c04GauX4srYr78Fa/uKx9yPFTQ=
-X-Received: by 2002:a50:8ac1:0:b0:51a:1ffd:10e with SMTP id
- k1-20020a508ac1000000b0051a1ffd010emr436939edk.3.1690992570625; Wed, 02 Aug
- 2023 09:09:30 -0700 (PDT)
+        bh=Kr1TRSCGBMc/xSIn+L6Cksufenm3IMvW6TDeD0ousZ0=;
+        b=gpimRL/vZcKomPo1uw9FrvT0Y4POLJ//Suj343RDjg993v2Okl9vUzCpKcoEx0a32a
+         YKW/F1sd9sr1Xy+rODFZW30gL4Jptlc5Ryq+3RV1Ayury9kkzrpZ/liCGvjyeFEArnMp
+         sFkCm8k2ZynwJMvdJoffwbnaDNsUkYqRGS6V1Fr/s1rVhTKq00g5oLZi/wre21IpMYmd
+         QIB+/pUhglZZSdhvSchdtRJ3Z4Nod3jVk0lEumwfFWcGGJibkRCn6tKZlo41aE+bg2nI
+         bu6tCjXuzahclGNjXDOCh7rdZD+AnJ0b5JZbFH4e4wR6DrzryX8mRFjXbRuhVGrtHBI9
+         xkng==
+X-Gm-Message-State: ABy/qLa/p4W0K2wmO5zLjES3GRoCnVHpqWYZftDXi8ncZuIvs3Koh4A0
+        pS9p1TwFVK/5rI74HF2MlNyOLfWdyCViGdbZIRjbELEXPbrFqEUZ6uY=
+X-Google-Smtp-Source: APBJJlFyRX/4qt5oRrrqJydSnToav7xqcPd+FZCbCIOjdBk5xGyeun9EHrb8tS2h6IguSmqSrPvwh3/USe/K4Aewfkw=
+X-Received: by 2002:a2e:9457:0:b0:2b9:e501:a6a6 with SMTP id
+ o23-20020a2e9457000000b002b9e501a6a6mr5724020ljh.30.1690993673197; Wed, 02
+ Aug 2023 09:27:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802071947.1683318-1-yangcong5@huaqin.corp-partner.google.com>
- <20230802071947.1683318-3-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20230802071947.1683318-3-yangcong5@huaqin.corp-partner.google.com>
-From:   Doug Anderson <dianders@google.com>
-Date:   Wed, 2 Aug 2023 09:09:18 -0700
-Message-ID: <CAD=FV=Um8875aMt_kWvCvpNjb3EwSk8VjVTEgv_TJ9WDS+LniA@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] HID: i2c-hid: elan: Add ili9882t timing
-To:     Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
-        benjamin.tissoires@redhat.com,
-        Benjamin Tissoires <bentiss@kernel.org>
-Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
-        hsinyi@google.com, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <CALNJtpVH0DAcnkJ+++H0ng2AWW1t1ZW0RCfbHn=fyRnRN9CJ8w@mail.gmail.com>
+In-Reply-To: <CALNJtpVH0DAcnkJ+++H0ng2AWW1t1ZW0RCfbHn=fyRnRN9CJ8w@mail.gmail.com>
+From:   Jonathan Denose <jdenose@chromium.org>
+Date:   Wed, 2 Aug 2023 11:27:42 -0500
+Message-ID: <CALNJtpVVukK-w8Edpi6OtFT8+JkziLZx0ie1jrzBBp2TYhT4XQ@mail.gmail.com>
+Subject: Re: Lenovo N24: Touchpad lost sync at byte 6
+To:     linux-input@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Benjamin,
+On Mon, Jul 17, 2023 at 2:59=E2=80=AFPM Jonathan Denose <jdenose@chromium.o=
+rg> wrote:
+>
+> Hello,
+>
+> I am on a Lenovo N24 laptop.
+>
+> When this device resumes after closing the lid, the mouse freezes and
+> is unusable. After right-clicking multiple times the touchpad resumes
+> working. I am seeing the following in the logs:
+>
+> [ 1188.690138] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1188.699636] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1188.709124] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1188.718557] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1188.728110] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1188.975964] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1188.985456] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1188.994954] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1189.004443] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+> [ 1189.013930] psmouse serio1: Touchpad at isa0060/serio1/input0 lost
+> sync at byte 6
+>
+> This device has an ETPS/2 Elantech Touchpad. I am on kernel version:
+> 5.15.117-19629-gf1eb3139d206.
+>
+> Greg KH suggested that I try later kernel versions, and I've tried 6.4
+> and 6.1 and the issue is present on both of those versions. This issue
+> is also present on 5.10.
+>
+> Currently the device suspends to ram when the lid closes. When the
+> device idles without the lid closing, the touchpad works fine on
+> resume.
+>
+> I have tried adding various i8042 and psmouse kernel parameters from
+> searching different forums related to these error messages, but none
+> of them fix the issue. I have tried
+> - psmouse.resetafter=3D0
+> - psmouse.resetafter=3D1
+> - i8042.nomux=3D1
+> - i8042.resetafter=3D1/0
+> - i8042.reset=3D1 i8042.nomux=3D1
+> - i8042.noloop=3D1 i8042.nopnp=3D1 i8042.nomux=3D1 i8042.reset=3D1
+>
+> I was able to resolve this issue by doing `modprobe -r psmouse &&
+> modprobe.psmouse proto=3Dimps`. proto=3Dbare and proto=3Dexps also resolv=
+e
+> the issue. However, with those options enabled I can no longer use
+> gestures like two-finger scroll.
+>
+> This issue reproduces on ChromeOS Flex and Ubuntu 22.04 but not on
+> Windows. On Windows the touchpad resuming after closing the lid works
+> fine.
+>
+> What can I do to resolve this issue while also keeping touchpad gestures?
+>
+> Any help is greatly appreciated!
 
-On Wed, Aug 2, 2023 at 12:20=E2=80=AFAM Cong Yang
-<yangcong5@huaqin.corp-partner.google.com> wrote:
->
-> The ili9882t is a TDDI IC (Touch with Display Driver). The
-> datasheet specifies there should be 60ms between touch SDA
-> sleep and panel RESX. Doug's series[1] allows panels and
-> touchscreens to power on/off together, so we can add the 65 ms
-> delay in i2c_hid_core_suspend before panel_unprepare.
->
-> Because ili9882t touchscrgeen is a panel follower, and
-> needs to use vccio-supply instead of vcc33-supply, so set
-> it NULL to ili9882t_chip_data, then not use vcc33 regulator.
->
-> [1]: https://lore.kernel.org/all/20230727171750.633410-1-dianders@chromiu=
-m.org
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> ---
->  drivers/hid/i2c-hid/i2c-hid-of-elan.c | 50 ++++++++++++++++++++-------
->  1 file changed, 38 insertions(+), 12 deletions(-)
+Hello,
 
-
->
-> diff --git a/drivers/hid/i2c-hid/i2c-hid-of-elan.c b/drivers/hid/i2c-hid/=
-i2c-hid-of-elan.c
-> index 029045d9661c..31abab57ad44 100644
-> --- a/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-> +++ b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-> @@ -18,9 +18,11 @@
->  #include "i2c-hid.h"
->
->  struct elan_i2c_hid_chip_data {
-> -       unsigned int post_gpio_reset_delay_ms;
-> +       unsigned int post_gpio_reset_on_delay_ms;
-> +       unsigned int post_gpio_reset_off_delay_ms;
->         unsigned int post_power_delay_ms;
->         u16 hid_descriptor_address;
-> +       const char *main_supply_name;
->  };
->
->  struct i2c_hid_of_elan {
-> @@ -38,9 +40,11 @@ static int elan_i2c_hid_power_up(struct i2chid_ops *op=
-s)
->                 container_of(ops, struct i2c_hid_of_elan, ops);
->         int ret;
->
-> -       ret =3D regulator_enable(ihid_elan->vcc33);
-> -       if (ret)
-> -               return ret;
-> +       if (ihid_elan->vcc33) {
-> +               ret =3D regulator_enable(ihid_elan->vcc33);
-> +               if (ret)
-> +                       return ret;
-> +       }
->
->         ret =3D regulator_enable(ihid_elan->vccio);
->         if (ret) {
-> @@ -52,8 +56,8 @@ static int elan_i2c_hid_power_up(struct i2chid_ops *ops=
-)
->                 msleep(ihid_elan->chip_data->post_power_delay_ms);
->
->         gpiod_set_value_cansleep(ihid_elan->reset_gpio, 0);
-> -       if (ihid_elan->chip_data->post_gpio_reset_delay_ms)
-> -               msleep(ihid_elan->chip_data->post_gpio_reset_delay_ms);
-> +       if (ihid_elan->chip_data->post_gpio_reset_on_delay_ms)
-> +               msleep(ihid_elan->chip_data->post_gpio_reset_on_delay_ms)=
-;
->
->         return 0;
->  }
-> @@ -64,8 +68,12 @@ static void elan_i2c_hid_power_down(struct i2chid_ops =
-*ops)
->                 container_of(ops, struct i2c_hid_of_elan, ops);
->
->         gpiod_set_value_cansleep(ihid_elan->reset_gpio, 1);
-> +       if (ihid_elan->chip_data->post_gpio_reset_off_delay_ms)
-> +               msleep(ihid_elan->chip_data->post_gpio_reset_off_delay_ms=
-);
-> +
->         regulator_disable(ihid_elan->vccio);
-> -       regulator_disable(ihid_elan->vcc33);
-> +       if (ihid_elan->vcc33)
-> +               regulator_disable(ihid_elan->vcc33);
->  }
->
->  static int i2c_hid_of_elan_probe(struct i2c_client *client)
-> @@ -89,24 +97,42 @@ static int i2c_hid_of_elan_probe(struct i2c_client *c=
-lient)
->         if (IS_ERR(ihid_elan->vccio))
->                 return PTR_ERR(ihid_elan->vccio);
->
-> -       ihid_elan->vcc33 =3D devm_regulator_get(&client->dev, "vcc33");
-> -       if (IS_ERR(ihid_elan->vcc33))
-> -               return PTR_ERR(ihid_elan->vcc33);
-> -
->         ihid_elan->chip_data =3D device_get_match_data(&client->dev);
->
-> +       if (ihid_elan->chip_data->main_supply_name) {
-> +               ihid_elan->vcc33 =3D devm_regulator_get(&client->dev,
-> +                                                     ihid_elan->chip_dat=
-a->main_supply_name);
-> +               if (IS_ERR(ihid_elan->vcc33))
-> +                       return PTR_ERR(ihid_elan->vcc33);
-> +       }
-> +
->         return i2c_hid_core_probe(client, &ihid_elan->ops,
->                                   ihid_elan->chip_data->hid_descriptor_ad=
-dress, 0);
->  }
->
->  static const struct elan_i2c_hid_chip_data elan_ekth6915_chip_data =3D {
->         .post_power_delay_ms =3D 1,
-> -       .post_gpio_reset_delay_ms =3D 300,
-> +       .post_gpio_reset_on_delay_ms =3D 300,
-> +       .hid_descriptor_address =3D 0x0001,
-> +       .main_supply_name =3D "vcc33",
-> +};
-> +
-> +static const struct elan_i2c_hid_chip_data ilitek_ili9882t_chip_data =3D=
- {
-> +       .post_power_delay_ms =3D 1,
-> +       .post_gpio_reset_on_delay_ms =3D 200,
-> +       .post_gpio_reset_off_delay_ms =3D 65,
->         .hid_descriptor_address =3D 0x0001,
-> +       /*
-> +        * this touchscreen is tightly integrated with the panel and assu=
-mes
-> +        * that the relevant power rails (other than the IO rail) have al=
-ready
-> +        * been turned on by the panel driver because we're a panel follo=
-wer.
-> +        */
-> +       .main_supply_name =3D NULL,
->  };
->
->  static const struct of_device_id elan_i2c_hid_of_match[] =3D {
->         { .compatible =3D "elan,ekth6915", .data =3D &elan_ekth6915_chip_=
-data },
-> +       { .compatible =3D "ilitek,ili9882t", .data =3D &ilitek_ili9882t_c=
-hip_data },
-
-Logically, this patch depends on the panel-follower series that's now
-landed in drm-misc-next. With your Ack, I'm willing to land these two
-patches into drm-misc-next too. Other options:
-
-a) We could land the two patches in the i2c-hid tree since they don't
-appear to conflict. The touchscreen won't actually function until the
-patches meetup in linux-next but I don't think they'll give any
-compile errors (I haven't double-checked that, but I can). ...though
-it's possible that the dt bindings might generate errors? Again, I can
-investigate if we want to go this way.
-
-b) We can snooze this for a few months and you can pick it to i2c-hid
-when my series reaches mainline.
-
-Let me know how you'd like to proceed.
-
--Doug
+As an update, this error is getting thrown from case 4 in elantech_process_=
+byte:
+```
+static psmouse_ret_t elantech_process_byte(struct psmouse *psmouse)
+{
+...
+case 4:
+  packet_type =3D elantech_packet_check_v4(psmouse);
+  switch (packet_type) {
+  case PACKET_UNKNOWN:
+    return PSMOUSE_BAD_DATA;
+  case PACKET_TRACKPOINT:
+    elantech_report_trackpoint(psmouse, packet_type);
+    break;
+  default:
+    elantech_report_absolute_v4(psmouse, packet_type);
+    break;
+  }
+    break;
+  }
+return PSMOUSE_FULL_PACKET;
+}
+```
+The issue is fixed by running `rmmod psmouse && modprobe psmouse` but
+I haven't found a good way to replicate that in code for the failure
+case.
