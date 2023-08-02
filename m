@@ -2,140 +2,146 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97CCD76D515
-	for <lists+linux-input@lfdr.de>; Wed,  2 Aug 2023 19:26:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D63676D621
+	for <lists+linux-input@lfdr.de>; Wed,  2 Aug 2023 19:52:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230242AbjHBRZ6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Aug 2023 13:25:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47806 "EHLO
+        id S233807AbjHBRwI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Aug 2023 13:52:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbjHBRZ5 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Aug 2023 13:25:57 -0400
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4393ED;
-        Wed,  2 Aug 2023 10:25:56 -0700 (PDT)
-Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-583fe10bb3cso82826357b3.2;
-        Wed, 02 Aug 2023 10:25:56 -0700 (PDT)
+        with ESMTP id S232615AbjHBRvv (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Aug 2023 13:51:51 -0400
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E440635BB
+        for <linux-input@vger.kernel.org>; Wed,  2 Aug 2023 10:50:39 -0700 (PDT)
+Received: by mail-vs1-xe33.google.com with SMTP id ada2fe7eead31-4476f713e15so33470137.3
+        for <linux-input@vger.kernel.org>; Wed, 02 Aug 2023 10:50:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690997156; x=1691601956;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=YpPXroXrivp2oqSXrd5mVrkzp3XdQTSk9hrAgVtYUMI=;
-        b=di135iIWW+eTqzw4vL43zpQ02LIFyGoRZR7ZhFsNukaq27imiHGAlcaz3pSlptp5Dp
-         EwYJEpfS5XBfF5e6JZQZijnreYABU5nMNqk6RCYQN8xlX/zNNnt+sjIiPokyWwZJbpqD
-         TP8vfYN9zToVR9ljOLLtq1Frm9VQkuFkXVdHJ1BJ/u0xKQRp3x9v41IACG9ZhfVf3ZOS
-         4UrbUOj1Hgihw7yx+7VZynYoM9+zSsWWOVZkbCu+FxF84jha0q3eO6wRgv+Qe9ihw2P7
-         gWiqKytdPdybEIo2UORvZChskMiIVcvjQM+4JoXMYTRKUlSqb6gcjQsKlYBzV8GYvYDx
-         V94A==
+        d=raspberrypi.com; s=google; t=1690998628; x=1691603428;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=xGq1aIBCGxiEXrqQEhQT2LiB068qDotkWqP0YLxkeNY=;
+        b=VE5dAkKjhFGny8iA1SHzqW1gjkpPyzpJFeCvCiaMmYrYz136cFMNC2wBIbAIpyYvG8
+         PcRFVQlMWLR3IyZu1ZbABkwfBOos+L3H4YyKb0sxceiTZN7kffAtSWidSEwB6sm+WOfg
+         RB8VB9ot6MVX10g89RfjV6H83XBT/9+O3hA0t3Urr7/zSuunnEHEK4VDHBAUkNMnpOvo
+         tDqP0rKHdn9wTIcG/u6Q2vqXUA/jjPED33xazSaZOT2mDzVUPtCzgzTtDQfQmZME6LmS
+         oyYOCB/iNzBwv7KLufHbEpC68ObAZITaI5lh2GNzADEaKEbeq+hoi/5/FRdj1/SUMFgb
+         lRyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690997156; x=1691601956;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YpPXroXrivp2oqSXrd5mVrkzp3XdQTSk9hrAgVtYUMI=;
-        b=E8o/GHSRxn7iRONkUsZQ8ZRDZw0f5IRhlnzUbuDeOfSLe3NE8UT+QDA7Tsag00CE4m
-         HP9KN/OKx8Zy6ncHkjD98QvSI6OIkQa/yA2l4Dz165CqBHEZD9w4M5p1B5D6C0SK+FVI
-         kcqJVQiRRMS28vqOZFjw6vno4XBeT8mdHIHGGlgiBGh1rjvCX/ooCIWBPNj1ufMKwxhA
-         z+rNAsGyfLBDv9CxSEWN2Q4FM6VPxn0nTVLTSx1NzC3jROgMGHLsVn4LnmUfoSgZoqei
-         cNQPCnMxdT4Tb4yjMh0pb98EwdUbwH3qccoSFArgBDY9Jr0pv7MB0S+/V00bnXMPnety
-         ecjg==
-X-Gm-Message-State: ABy/qLYmfiFjjDjE5kNY1FLXQO+DkISIxfhb9Z20v/CNHcrL4q6bWZVA
-        2DzwY3DpASoXLZW6Z+XasG0=
-X-Google-Smtp-Source: APBJJlEt7z7QZtDchjFQrTTiyOdhjoBA522GpyLibMtT4mAHwoGMoo1oTrWqNFzmBJaiw8V99Oc7mQ==
-X-Received: by 2002:a81:c313:0:b0:576:f0d6:3d68 with SMTP id r19-20020a81c313000000b00576f0d63d68mr18840238ywk.32.1690997155892;
-        Wed, 02 Aug 2023 10:25:55 -0700 (PDT)
-Received: from neuromancer. ([75.28.21.198])
-        by smtp.gmail.com with ESMTPSA id a135-20020a0dd88d000000b0057a67df3308sm4677099ywe.101.2023.08.02.10.25.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Aug 2023 10:25:55 -0700 (PDT)
-Message-ID: <64ca91a3.0d0a0220.8e58d.89b3@mx.google.com>
-X-Google-Original-Message-ID: <ZMqRoAEesL5GAflV@neuromancer.>
-Date:   Wed, 2 Aug 2023 12:25:52 -0500
-From:   Chris Morgan <macroalpha82@gmail.com>
-To:     Maxime Ripard <mripard@kernel.org>
-Cc:     Doug Anderson <dianders@chromium.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        cros-qcom-dts-watchers@chromium.org, linux-input@vger.kernel.org,
-        hsinyi@google.com, linux-arm-msm@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        yangcong5@huaqin.corp-partner.google.com
-Subject: Re: [PATCH v3 02/10] drm/panel: Check for already prepared/enabled
- in drm_panel
+        d=1e100.net; s=20221208; t=1690998628; x=1691603428;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xGq1aIBCGxiEXrqQEhQT2LiB068qDotkWqP0YLxkeNY=;
+        b=OOAs2u9RecFxRSVp/yE+Fbth3B+ne0ye+Q0pIEnbkHApxeb4C6z84NbaHGYYm6yddG
+         NaIvsnxXcuuRIjaRqkk/hEeXvMCswAhqFkKyDBsqx1b0uUU/8XIvv09A3ik4KR1HsZN+
+         q1V56ikk1Az69zwNU4+cmBWBOt2s688QATs6qWwYF3ZgAWXpn7P9XozfY3EoKNGDboqu
+         mzEMLzrMwhY45lSlPHR2CIGmpexbZiscBpcmQuciKDycqXkj9CQSwfCPdtZWtv9E7moQ
+         ZVYuIviVFT9XWiHw1ZRx4gPVszGtlKdeXSsqwHFIBx9VLnFx2/CJo9fGlxdM6xMsigeO
+         VopA==
+X-Gm-Message-State: ABy/qLbm9Dcu762eQ6Xn/hxVok1Huf4f8WhW+t9aYf6fVNAUIcCwqZWp
+        LkBhw7Z2cwzS8AFiYPSgFZwLemjp3bF6MhIOoEp/fg==
+X-Google-Smtp-Source: APBJJlEKR2Jf7TabvMSTmOGKPPwR3l8uT7K3XVNms8a2Ktc3rqhSqafmYxy++abfkChGUgUk+R2wfEAjkMi811bR0sM=
+X-Received: by 2002:a05:6102:2c5:b0:447:4fbe:17f8 with SMTP id
+ h5-20020a05610202c500b004474fbe17f8mr5295171vsh.23.1690998627720; Wed, 02 Aug
+ 2023 10:50:27 -0700 (PDT)
+MIME-Version: 1.0
 References: <20230725203545.2260506-1-dianders@chromium.org>
  <20230725133443.v3.2.I59b417d4c29151cc2eff053369ec4822b606f375@changeid>
  <snx3fzvf3icauri2xuigydvpqxtzhp34mptdxvifi7jswm2evy@sx7jr7zwvjw5>
  <CAD=FV=VcsTik+HD11xeDM2Jq9ispcX0-j5QtK8D1qUkrGabRGg@mail.gmail.com>
  <i3cbgrc365lwscwux2itho6uv74ji3hsjuge4zoxfnlnhacyqc@r73mmifyxffj>
  <CADcbR4JB0h8fByM2Z6diByvWaFprW9GDapBNt+YLWr9-vKoe7A@mail.gmail.com>
- <kuctj2p353nsae24lrhcymqqpfajbc7qoqly63zpwvdp6lgu3b@kk4gpzsapxnn>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <kuctj2p353nsae24lrhcymqqpfajbc7qoqly63zpwvdp6lgu3b@kk4gpzsapxnn>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+ <kuctj2p353nsae24lrhcymqqpfajbc7qoqly63zpwvdp6lgu3b@kk4gpzsapxnn> <64ca91a3.0d0a0220.8e58d.89b3@mx.google.com>
+In-Reply-To: <64ca91a3.0d0a0220.8e58d.89b3@mx.google.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Wed, 2 Aug 2023 18:50:11 +0100
+Message-ID: <CAPY8ntBGnrJLROCSTDv+qPAN6-Nc3TKBhFg2WqCv-d7c4WPnBA@mail.gmail.com>
+Subject: Re: [PATCH v3 02/10] drm/panel: Check for already prepared/enabled in drm_panel
+To:     Chris Morgan <macroalpha82@gmail.com>
+Cc:     Maxime Ripard <mripard@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-input@vger.kernel.org, hsinyi@google.com,
+        devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+        cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org,
+        yangcong5@huaqin.corp-partner.google.com,
+        Jiri Kosina <jikos@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jul 31, 2023 at 07:03:07PM +0200, Maxime Ripard wrote:
-> Hi,
-> 
-> On Mon, Jul 31, 2023 at 11:33:22AM -0500, Chris Morgan wrote:
-> > In my case a few different panel drivers disable the regulators in the
-> > unprepare/disable routines.
-> 
-> And that's totally fine.
-> 
-> > For at least the Rockchip DSI implementations for some reason the
-> > panel gets unprepared more than once, which triggers an unbalanced
-> > regulator disable.
-> 
-> "For some reason" being that DW-DSI apparently finds it ok to bypass any
-> kind of abstraction and randomly calling panel functions by itself:
-> 
-> https://elixir.bootlin.com/linux/v6.4.7/source/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#L868
-> 
-> It looks like it's fixed it current drm-misc-next though.
+On Wed, 2 Aug 2023 at 18:26, Chris Morgan <macroalpha82@gmail.com> wrote:
+>
+> * Spam *
+> On Mon, Jul 31, 2023 at 07:03:07PM +0200, Maxime Ripard wrote:
+> > Hi,
+> >
+> > On Mon, Jul 31, 2023 at 11:33:22AM -0500, Chris Morgan wrote:
+> > > In my case a few different panel drivers disable the regulators in the
+> > > unprepare/disable routines.
+> >
+> > And that's totally fine.
+> >
+> > > For at least the Rockchip DSI implementations for some reason the
+> > > panel gets unprepared more than once, which triggers an unbalanced
+> > > regulator disable.
+> >
+> > "For some reason" being that DW-DSI apparently finds it ok to bypass any
+> > kind of abstraction and randomly calling panel functions by itself:
+> >
+> > https://elixir.bootlin.com/linux/v6.4.7/source/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#L868
+> >
+> > It looks like it's fixed it current drm-misc-next though.
+>
+> Good, when I get a chance I will test it out with the existing panels
+> I have at my disposal and submit some patches to clean them up.
+>
+> >
+> > > Obviously though the correct course of action is to fix the reason why
+> > > the panel is disabled more than once, but that's at least the root
+> > > cause of this behavior on the few panels I've worked with.
+> >
+> > Like I said we already have a commit on the way to fix that, so it
+> > shouldn't be an issue anymore.
+> >
+> > I stand by what I was saying earlier though, I think it's mostly
+> > cargo-cult or drivers being very wrong. If anything, the DW-DSI stuff
+> > made me even more convinced that we shouldn't even entertain that idea
+> > :)
 
-Good, when I get a chance I will test it out with the existing panels
-I have at my disposal and submit some patches to clean them up.
+DW-DSI is hacking around the fact that DSI panels may want to send DCS
+commands in unprepare, however the DSI host driver shuts down the
+controller in the DSI bridge post_disable which gets called first.
 
-> 
-> > Obviously though the correct course of action is to fix the reason why
-> > the panel is disabled more than once, but that's at least the root
-> > cause of this behavior on the few panels I've worked with.
-> 
-> Like I said we already have a commit on the way to fix that, so it
-> shouldn't be an issue anymore.
-> 
-> I stand by what I was saying earlier though, I think it's mostly
-> cargo-cult or drivers being very wrong. If anything, the DW-DSI stuff
-> made me even more convinced that we shouldn't even entertain that idea
-> :)
-> 
-> Maxime
+That ordering can now be reversed with pre_enable_prev_first flag in
+struct drm_bridge, or prepare_prev_first in drm_panel, hence no need
+for the DSI controller to jump around the bridge chain.
 
-Thank you, and yes if a driver is doing something it shouldn't we
-shouldn't be patching around that, we should be fixing things. Thanks
-for providing me with the additional info.
+  Dave
 
-Chris
+> > Maxime
+>
+> Thank you, and yes if a driver is doing something it shouldn't we
+> shouldn't be patching around that, we should be fixing things. Thanks
+> for providing me with the additional info.
+>
+> Chris
+>
