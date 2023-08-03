@@ -2,57 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8782D76E949
-	for <lists+linux-input@lfdr.de>; Thu,  3 Aug 2023 15:05:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6EF676EAE5
+	for <lists+linux-input@lfdr.de>; Thu,  3 Aug 2023 15:44:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235982AbjHCNE6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Aug 2023 09:04:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54334 "EHLO
+        id S236170AbjHCNoI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Aug 2023 09:44:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235979AbjHCNEL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Aug 2023 09:04:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B29603A92;
-        Thu,  3 Aug 2023 06:03:59 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EC9E761DA3;
-        Thu,  3 Aug 2023 13:03:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7946DC433C7;
-        Thu,  3 Aug 2023 13:03:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691067838;
-        bh=yIpruNAPGx2u8XrrkSoakxAMdQCdVLZmZFH1vNVCkhc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YiLg1+aS9I1gIqyOXW0MUSC/GY6ApirQZayok2CVkxL7CGN57UENY9tnNUTLPK8wM
-         QElLN78+3+DtR9s8dzWrWkJtQUGSv1XId9FNteQFMYvIy/X1snSfU7XOxki1PJx66T
-         95os9ISsqUQTOUxLReecQgNC84/FIzuZBu8rdX5GJITb92FimHF7xULYpJvPhHBdlg
-         /TgvTSIz5An0VQuABEQ9VAmBzi9eb2nhIJruT8jkL22c0JPkSyQDmoabnAJ6I+jcTy
-         1LCx4cGSL7xPz1XJdKijgXpIQXz9NpIQnsBQOD4WnUuB7CQt6b0kIxZ4VUnrxkgrxK
-         Z8gcxcpV5X7nA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Stuart Hayhurst <stuart.a.hayhurst@gmail.com>,
-        Bastien Nocera <hadess@hadess.net>,
-        Benjamin Tissoires <bentiss@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 2/2] HID: logitech-hidpp: Add wired USB id for Logitech G502 Lightspeed
-Date:   Thu,  3 Aug 2023 09:03:53 -0400
-Message-Id: <20230803130354.641771-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230803130354.641771-1-sashal@kernel.org>
-References: <20230803130354.641771-1-sashal@kernel.org>
+        with ESMTP id S236778AbjHCNn2 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Aug 2023 09:43:28 -0400
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77AAE6582
+        for <linux-input@vger.kernel.org>; Thu,  3 Aug 2023 06:40:33 -0700 (PDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id BBEFB5C0209;
+        Thu,  3 Aug 2023 09:40:29 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Thu, 03 Aug 2023 09:40:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=readahead.eu; h=
+        cc:cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:message-id:mime-version:reply-to:sender:subject
+        :subject:to:to; s=fm3; t=1691070029; x=1691156429; bh=dxFJ75l9zv
+        KwaPDeX+MUMOnSl2XsToePGxI1NXMrh4I=; b=AvG/S9CHl26Y4CseCc9n3hokY/
+        RF9mjgOJLykTmB9VqYdJ6/Hz7RaO42C3ZbERFFaE/GKqlOkHo6Deju4hz0IAr1wy
+        im0Ncg9U136qUxIunavCF0cIAoGNoY79ZxX4ODOCC8DBZ7KWheLBJ8QTSVUaGFfl
+        KBROk/VtSnt6k6y394FAK/KVr6d25imv8pRnNlPm6gwb72rEo/wg+2NaqV3ob4oW
+        Sn6dw2QnfL7MrAboklUSrlxzV/XYp+0T3AmFR6CO/lJCOMqZSPLHfo4TnIkuQ+fV
+        aUdRsX84XkH4EjkxJlaI/ZICcClRTrqxYsOVmnS2ERcSXjJJl3xN35ywGgEA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:message-id:mime-version:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; t=1691070029; x=1691156429; bh=dxFJ75l9zvKwa
+        PDeX+MUMOnSl2XsToePGxI1NXMrh4I=; b=iZqGzHAgi0XQktzeMWUQ8oRFXT+am
+        wv6HWesWA1NptINo9WtFI6vZRefJKVtbIIsjf94CyBgnGEa/mU/w7LtzjtJ9v79m
+        zd0b+qit8507wqXui7IVFW+SzziVzRAR/M7HZpD4JgiOE+PyJzLE8JDwt/SF6pJc
+        SikXUmD1LvTSQtJ6HUXnBpQdZ5FF6JVxBlaM8jBZvvcagPFjPhdiYbPtNb7lbVdV
+        idndPYXXz3ruCQtjWiHg6LuO6AYWD3a3ilUBAmAREAXjeBjz6mJ88T968TfvD6Jh
+        CgRpDhNeddxWxXKbXdAse8ycHs68KTw3CZgw69qJ3ujj2UaC/JrK9kDug==
+X-ME-Sender: <xms:Ta7LZP5Vb48bB1ITkDIxp6SKLcGikV89Nu4o4hkrHlke6TdQsAe_GA>
+    <xme:Ta7LZE7tx-samhHJG4ZCx5_wS2E-YkadoyAacF6mjytVTbNkx24s9SHBc0caYmNvf
+    3eHuzgAMzQRH-o4XEw>
+X-ME-Received: <xmr:Ta7LZGd2nGJ64zmieTSDGgSUE5h0x5OKkkoYOouuQhQhAMBlpKIeiu8Gsj6ld271K52aDwBccvdMNj_vaLt6ueDGACgSBm5ii2UocE4GP05emhlkKxTLK30>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrkedvgdeihecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeffrghvihguucft
+    hhgvihhnshgsvghrghcuoegurghvihgusehrvggruggrhhgvrggurdgvuheqnecuggftrf
+    grthhtvghrnhepkeeivdeggeehleeltedujeejhedvfedvieeiiedvteevvdejhefgkeet
+    gffggeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epuggrvhhiugesrhgvrggurghhvggrugdrvghu
+X-ME-Proxy: <xmx:Ta7LZAJg1kxJv_kv9Ho1wLmAMuwZlcvFXhNdb2_GaYiQeZnfP1r4LA>
+    <xmx:Ta7LZDJxpMvq4Rt_Q8nea04ntvykK1ge4vHxskmUUJM4TXWLRdnm5A>
+    <xmx:Ta7LZJy6tangs_H0owiCAhiC2ZvMsl-hCndmYGPzX-jJ8NaJEi2wgQ>
+    <xmx:Ta7LZKWyhYnCmW-VRuOG-6wGNi4wYE2MpnJidc4JX3NBBnO2PeRj2w>
+Feedback-ID: id2994666:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 3 Aug 2023 09:40:28 -0400 (EDT)
+From:   David Rheinsberg <david@readahead.eu>
+To:     linux-input@vger.kernel.org
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        David Rheinsberg <david@readahead.eu>
+Subject: [PATCH] MAINTAINERS: update my email address
+Date:   Thu,  3 Aug 2023 15:40:01 +0200
+Message-ID: <20230803134001.754936-1-david@readahead.eu>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.251
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_FILL_THIS_FORM_SHORT,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,45 +82,51 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+Update my email-address in MAINTAINERS to <david@readahead.eu>. Also add
+.mailmap entries to map my old surname and email-addresses.
 
-[ Upstream commit a343a7682acc56182d4b54777c358f5ec6d274e7 ]
-
-Previously, support for the G502 had been attempted in commit
-'27fc32fd9417 ("HID: logitech-hidpp: add USB PID for a few more supported
-mice")'
-
-This caused some issues and was reverted by
-'addf3382c47c ("Revert "HID: logitech-hidpp: add USB PID for a few more
-supported mice"")'.
-
-Since then, a new version of this mouse has been released (Lightpseed
-Wireless), and works correctly.
-
-This device has support for battery reporting with the driver
-
-Signed-off-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
-Reviewed-by: Bastien Nocera <hadess@hadess.net>
-Link: https://lore.kernel.org/r/20230630113818.13005-1-stuart.a.hayhurst@gmail.com
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: David Rheinsberg <david@readahead.eu>
 ---
- drivers/hid/hid-logitech-hidpp.c | 2 ++
- 1 file changed, 2 insertions(+)
+ .mailmap    | 3 +++
+ MAINTAINERS | 4 ++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index b8558292801ec..d661e44232586 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -3864,6 +3864,8 @@ static const struct hid_device_id hidpp_devices[] = {
+diff --git a/.mailmap b/.mailmap
+index 5dd318121982..0ed8a8674a03 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -139,6 +139,9 @@ Daniel Borkmann <daniel@iogearbox.net> <dborkman@redhat.com>
+ Daniel Borkmann <daniel@iogearbox.net> <dxchgb@gmail.com>
+ David Brownell <david-b@pacbell.net>
+ David Collins <quic_collinsd@quicinc.com> <collinsd@codeaurora.org>
++David Rheinsberg <david@readahead.eu> <dh.herrmann@gmail.com>
++David Rheinsberg <david@readahead.eu> <dh.herrmann@googlemail.com>
++David Rheinsberg <david@readahead.eu> <david.rheinsberg@gmail.com>
+ David Woodhouse <dwmw2@shinybook.infradead.org>
+ Dedy Lansky <quic_dlansky@quicinc.com> <dlansky@codeaurora.org>
+ Deepak Kumar Singh <quic_deesin@quicinc.com> <deesin@codeaurora.org>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 53b7ca804465..b671495df3b8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -21798,7 +21798,7 @@ F:	Documentation/admin-guide/ufs.rst
+ F:	fs/ufs/
  
- 	{ /* Logitech G403 Wireless Gaming Mouse over USB */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC082) },
-+	{ /* Logitech G502 Lightspeed Wireless Gaming Mouse over USB */
-+	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC08D) },
- 	{ /* Logitech G703 Gaming Mouse over USB */
- 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC087) },
- 	{ /* Logitech G703 Hero Gaming Mouse over USB */
+ UHID USERSPACE HID IO DRIVER
+-M:	David Rheinsberg <david.rheinsberg@gmail.com>
++M:	David Rheinsberg <david@readahead.eu>
+ L:	linux-input@vger.kernel.org
+ S:	Maintained
+ F:	drivers/hid/uhid.c
+@@ -22922,7 +22922,7 @@ S:	Maintained
+ F:	drivers/rtc/rtc-sd3078.c
+ 
+ WIIMOTE HID DRIVER
+-M:	David Rheinsberg <david.rheinsberg@gmail.com>
++M:	David Rheinsberg <david@readahead.eu>
+ L:	linux-input@vger.kernel.org
+ S:	Maintained
+ F:	drivers/hid/hid-wiimote*
 -- 
-2.40.1
+2.41.0
 
