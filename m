@@ -2,36 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 449F576E943
-	for <lists+linux-input@lfdr.de>; Thu,  3 Aug 2023 15:05:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FCFC76E93E
+	for <lists+linux-input@lfdr.de>; Thu,  3 Aug 2023 15:04:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236024AbjHCNE3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Aug 2023 09:04:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54012 "EHLO
+        id S236036AbjHCNEt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Aug 2023 09:04:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235931AbjHCNDz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Aug 2023 09:03:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 838AE3C2D;
-        Thu,  3 Aug 2023 06:03:49 -0700 (PDT)
+        with ESMTP id S235900AbjHCNED (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Aug 2023 09:04:03 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D6351712;
+        Thu,  3 Aug 2023 06:03:54 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0B50E61D9E;
-        Thu,  3 Aug 2023 13:03:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93562C433C9;
-        Thu,  3 Aug 2023 13:03:47 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1356A61D69;
+        Thu,  3 Aug 2023 13:03:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96ACAC43391;
+        Thu,  3 Aug 2023 13:03:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691067828;
-        bh=w9+cJfdNbfDx56HHO38pwtfmNpApp/NQmAGal2jU1YA=;
+        s=k20201202; t=1691067833;
+        bh=2BIlihJrsZR9kI2AMzIx24MVr8B3ngTWa/8RgxEL0d4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=m7Gk6p/Z/iP87UMm/SIT6NoEt5ndpxyZ+NJkC1l+jfETEN4fICELt/KNua7MsCp4U
-         MZALGb/ZctyNfvr/0kOG0r2htFSXT959q5qRh0Eq4oUVNSHiOVRsXLyqK7Z6ScPyKq
-         Ob8DydmD4ikVb4SjZniG3N83xs+WXdsYdbxu19TQM2TIXd86xqkJdNI5xGdgQqzcrq
-         iYyZiDqE5G3lyqrMmOWYboTnGBor9f4JeEK0I4AKCIHb42BndXGM+0Pdl9oHQ5bg3x
-         w8r9W6WfWJoAPZ6ZKiTXIRe/l3Cb9n7IDSJQqNRrOLeTKi7MVCM7rkPLuYbRUn/sYI
-         psz1pRphEDhkg==
+        b=fCv8ae7tUuBG4Wne83NbfcND1ayQM9L4VlII3A58j9Nr4rCDg5B744bZPyk28gO/Z
+         PhX7BZ0MeHYUOylnbLR8tlJPfp+RtgkSUHOG69vizouJkiIIB97kRfOdTtxCkmxGJ1
+         9LlzKaqYCAnzZbeoBZUPDF3dR1VPhnaZO5/Iryi75cJiifHWdW1kZ/t9uxTEq3nrqy
+         Ylgt8kZ/7FhvdYkG3G4dELtoLh3ND+Xwy1nN9QC89+pL/xFEJvrpLXqLtO10TQxEhU
+         18bbc8O7hhQAf7bWoac/zAEJKmRWIivwj9pMqTpC6fD4qQ9Cez+XodXUhyFzuWPkZG
+         4VHcMamzvbGkg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Stuart Hayhurst <stuart.a.hayhurst@gmail.com>,
@@ -39,19 +39,19 @@ Cc:     Stuart Hayhurst <stuart.a.hayhurst@gmail.com>,
         Benjamin Tissoires <bentiss@kernel.org>,
         Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
         benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 2/2] HID: logitech-hidpp: Add wired USB id for Logitech G502 Lightspeed
-Date:   Thu,  3 Aug 2023 09:03:43 -0400
-Message-Id: <20230803130343.641695-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 2/2] HID: logitech-hidpp: Add wired USB id for Logitech G502 Lightspeed
+Date:   Thu,  3 Aug 2023 09:03:48 -0400
+Message-Id: <20230803130349.641732-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230803130343.641695-1-sashal@kernel.org>
-References: <20230803130343.641695-1-sashal@kernel.org>
+In-Reply-To: <20230803130349.641732-1-sashal@kernel.org>
+References: <20230803130349.641732-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.123
+X-stable-base: Linux 5.10.188
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -87,10 +87,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index c61da859cd3c6..d6c92c5b2bb42 100644
+index 2e32a21bbcbfc..e1db47f5077fb 100644
 --- a/drivers/hid/hid-logitech-hidpp.c
 +++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -4367,6 +4367,8 @@ static const struct hid_device_id hidpp_devices[] = {
+@@ -4081,6 +4081,8 @@ static const struct hid_device_id hidpp_devices[] = {
  
  	{ /* Logitech G403 Wireless Gaming Mouse over USB */
  	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, 0xC082) },
