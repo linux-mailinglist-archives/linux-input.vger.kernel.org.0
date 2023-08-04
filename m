@@ -2,161 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 736A67700A4
-	for <lists+linux-input@lfdr.de>; Fri,  4 Aug 2023 14:59:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DF327704C2
+	for <lists+linux-input@lfdr.de>; Fri,  4 Aug 2023 17:31:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229686AbjHDM7Y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Aug 2023 08:59:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48676 "EHLO
+        id S229827AbjHDPb4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Aug 2023 11:31:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbjHDM7Y (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Aug 2023 08:59:24 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1229213D;
-        Fri,  4 Aug 2023 05:59:23 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-68336d06620so1888631b3a.1;
-        Fri, 04 Aug 2023 05:59:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691153962; x=1691758762;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bsm2MM76R5zAcZpaPZQU2c86WW7cTBjgkoqL1ZytlAE=;
-        b=SIE7hE4Q3/p18KRyc8lNS1jz+KzyC/2CRzoM+jF/ckbvUk1S4v/1XsN6i8K+VpoCcw
-         quAEX6ukESTXq/HDd+GWjrlHSv9AromJFMzpbR1qS7ZJ/pclCAEWT6HukvnOzlTLIghk
-         BSkZgTDVHMctLvcOX9HLrp5w3b3f/rhAZGRAfo+oex15hs44+ZFk0HO9W3EvBrO2PpUp
-         WzwRWhaLjLwUz7Fk5ZwdyQRdRcbEli3eYSfb0JqFTwOkhuJ+02Nk1Pimck/TQGosUOxz
-         hSIKqdX//6on3W7+5oZ179cC+vOXnFeqLvAGJKCJYMYT5lqd1+Vas/tr7ykVmVv3zSww
-         fYfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691153962; x=1691758762;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=bsm2MM76R5zAcZpaPZQU2c86WW7cTBjgkoqL1ZytlAE=;
-        b=KyqzLG0uvUUgzTfuKCZDoJweK845Z9fkvbCHO/Ml7LWjB6l5j12bcXNx4gNaS3jgVl
-         yO4zcjoS56fmruJiuHtMRAJTfzSKGBBO+gNxHfVET7CvHoigAG19/lmWQvz+srmYEVdv
-         n6VW+ybxYlrTI0wS89cu9s9bA1xerQYDw7WMc8ag84uFDm/mEzsCCl+W97j6tmc+5KgS
-         shKMGn2yFarNVQuvNQSLXGdEFPaf3dr8jQ+wSjMuL38P1ocMgXWwHctGwcOtbT0oKo8q
-         90rET1/kkxAzKWRHoLP9Twg/BbHrT8LcUiAAlGeLl+Upf1BO4mDCnLhiN9IYbEJiDlpe
-         XU5w==
-X-Gm-Message-State: AOJu0Ywcx2NXuoW2BeL04qNYQSllzMODILN4Qyy3VF8McvdA8osYvO6w
-        rD+1sFaVDSvj/yLksX4TaNg9sgtMe5s=
-X-Google-Smtp-Source: AGHT+IG5twdRgjzqJbPoCBqdqLHyi7hInUNoREUNFr+v1+O8u5Ihj0o1i32aWr9FkDfywEm99nSv3A==
-X-Received: by 2002:a05:6a21:4843:b0:13f:bc16:c360 with SMTP id au3-20020a056a21484300b0013fbc16c360mr1701155pzc.32.1691153962423;
-        Fri, 04 Aug 2023 05:59:22 -0700 (PDT)
-Received: from [192.168.0.105] ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id p27-20020a63951b000000b00563590be25esm1158428pgd.29.2023.08.04.05.59.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Aug 2023 05:59:22 -0700 (PDT)
-Message-ID: <9a9f9bfe-d532-5814-e3cd-b53bfc4f7480@gmail.com>
-Date:   Fri, 4 Aug 2023 19:59:16 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Content-Language: en-US
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        with ESMTP id S230184AbjHDPbj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Aug 2023 11:31:39 -0400
+X-Greylist: delayed 303 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 04 Aug 2023 08:31:22 PDT
+Received: from abi149hd126.arn1.oracleemaildelivery.com (abi149hd126.arn1.oracleemaildelivery.com [129.149.84.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C69B524A
+        for <linux-input@vger.kernel.org>; Fri,  4 Aug 2023 08:31:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=oci-arn1-20220924;
+ d=augustwikerfors.se;
+ h=Date:To:From:Subject:Message-Id:MIME-Version:Sender;
+ bh=lkeyCUNxw6Rc/OPS654INdsxLT2B3j/nzdnoNSEJjig=;
+ b=bac6FmIFqM2VTXBwCerNcTs1vGSwGm1YskznsLbPIatRy6FNMCF0GpZOJe6uP/K2LzGhvGvYNKhv
+   AFgxcTdVPaxd4yH41nkWVlvrB0QhIJozfiL5zG/LLPyGubxrRLd1XnfMtkq7+MnHH+EsoaXlOUZL
+   1SHp9GIChx4CWxEUz7Kg3KlGqZz708Y06INpwUzBMwHQROF+Ameh3i36FxIYtKDOTF3ijsdkn3s4
+   yRQf8S8uKtsCbslTRfbZlCLnHauQlg16rPnxNzCjS+0CP3GT5vGI/fj6Yfb3LGeC59Vv7N75+MG7
+   7CUrBkZxMIl7yB80aZPpIVc00jbubo89NhzNvQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=prod-arn-20211201;
+ d=arn1.rp.oracleemaildelivery.com;
+ h=Date:To:From:Subject:Message-Id:MIME-Version:Sender;
+ bh=lkeyCUNxw6Rc/OPS654INdsxLT2B3j/nzdnoNSEJjig=;
+ b=UQ/wioqw7YM345lLt/Rg5JZCedZ4CgI/TLJydeYOoOXCWITVJuslpve8uNh1b37zxAIYqD5jUTU2
+   8HiF1MxGap3Y4scje345llC3CG5owAQtGVPe5uFR28am1ISnuJbAG7wOcdnWBak/AXb9XCwEr17V
+   W0FDraxbITYS3WYQb8qSD27BKLDSOzWtO9LqS2dhB6o4oEQmqu23A+rs/lkMWk11iIDwwLXYTKS+
+   LCFFVdUIjITOJhigCifcav24LBQlXvWxWK4AFqAxHCQH6D1mSo05tCgcPWPU91aMbXryEcLw0kzD
+   yP7ayI3G+Qe0HlzN35WaXT6vpJtp5TI2gkWpyw==
+Received: by omta-ad1-fd3-401-eu-stockholm-1.omtaad1.vcndparn.oraclevcn.com
+ (Oracle Communications Messaging Server 8.1.0.1.20230707 64bit (built Jul  7
+ 2023))
+ with ESMTPS id <0RYV003OCHJT0G40@omta-ad1-fd3-401-eu-stockholm-1.omtaad1.vcndparn.oraclevcn.com>
+ for linux-input@vger.kernel.org; Fri, 04 Aug 2023 15:26:17 +0000 (GMT)
+Message-id: <b7df9a02-3b81-4f8c-aeba-222c298180d4@augustwikerfors.se>
+Date:   Fri, 4 Aug 2023 17:26:14 +0200
+MIME-version: 1.0
+Subject: Re: Fwd: 6.5 - 6.4.7 Regression : ASUS UM5302TA Keyboard don't work
+Content-language: en-US
+To:     Linux regressions mailing list <regressions@lists.linux.dev>
+Cc:     Mario Limonciello <mario.limonciello@amd.com>,
+        Linux Input Devices <linux-input@vger.kernel.org>,
+        ACPI Asus <acpi4asus-user@lists.sourceforge.net>,
+        Linux x86 Platform Drivers 
+        <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <linux@weissschuh.net>,
-        Raul E Rangel <rrangel@chromium.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        bishal <neupanebishal2001@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Input Devices <linux-input@vger.kernel.org>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Fwd: DELL0A78:00 27C6:0D42 Touchpad (gestures) doesn't work properly
- after resuming from suspend.
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Corentin Chary <corentin.chary@gmail.com>,
+        Guilhem Lettron <guilhem@lettron.fr>
+References: <bdc6cb4d-a853-72b2-b132-989b64740ad9@gmail.com>
+ <8ee87fe1-684f-ad59-21c7-4401a4e70bee@leemhuis.info>
+From:   August Wikerfors <git@augustwikerfors.se>
+In-reply-to: <8ee87fe1-684f-ad59-21c7-4401a4e70bee@leemhuis.info>
+Content-type: text/plain; charset=UTF-8; format=flowed
+Content-transfer-encoding: 7bit
+Reporting-Meta: AAFFfLcUsxW36ThPzjsNnUXQm7U6Sr9gxxLdxvDmieyTQubvanypwsv0aq8t1egt
+ VXasQBWsOdnmCguJTPNobAfWd/iC2bEZITKZHp6OaYOiTN/ezuIrgJr69Aem0AqE
+ JpJi9V6gButdPp/tUGJv/gImWLhU4OZE9W0I2NloJbUdSQrcRtZHHclwi+Y/vKab
+ /iJdXFGKopteWjqKPcrdiTbtTdSQFSWsPM1IM1gqScKvT4v62lx9+41vFuC5hy3v
+ sOZ1+yw3PpkzlcsZVGwNethnR40/crO6EY9VMgHd6+cbaFloJpcHfsR+3+MeQ6lB
+ Vmw2PN4ywKIR0oBCG7K5RNXBiVK9wohKoct/YFPY35tBK/FQEI/4LkyDf/hyMtTE
+ Lde70Xzc8V0uRW3Gsu72qHxHPqDDcyPLvgDChJNX1gKHrk6EJ1+28DnvlM8hrJXn md3qIS8x
+X-Spam-Status: No, score=-0.3 required=5.0 tests=BAYES_05,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On 2023-07-30 06:49, Linux regression tracking (Thorsten Leemhuis) wrote:
+> Lo!
+> 
+> On 30.07.23 04:41, Bagas Sanjaya wrote:
+>>
+>> I notice a regression report on Bugzilla [1]. Quoting from it:
+>>
+>>> On a kernel 6.4.5 and less, the keyboard is working fine.
+>>>
+>>> Beginning with 6.5 rc1 and 6.4.7 any key don't respond.
+> 
+> That is a AMD Ryzen Laptop. And if that really started from
+> v6.4.6..v6.4.7 then I guess there is a decent chance that this is caused
+> by ```ACPI: resource: Remove "Zen" specific match and quirks``` from
+> Mario. Hence adding him to the list of recipients.
 
-I notice a bug report on Bugzilla [1]. Quoting from it:
+Confirmed now, see https://bugzilla.kernel.org/show_bug.cgi?id=217726#c9
 
-> Description:
-> ------------
-> The touchpad doesn't function normally after resuming from suspend. Touch works most of the time so does the hardware click buttons. The things which don't work are touchpad multitouch gestures (2 fingers and 3 fingers) and cursor movement is also somewhat laggy.
-> 
-> Workaround:
-> -----------
-> removing the module i2c_hid_acpi just before suspend and adding it after resume seems to solve the problem. 
-> 
-> Script: (output of `cat /usr/lib/systemd/system-sleep/make-touchpad-work.sleep`)
-> -----------------------------------------------------------------------------
-> 
-> #!/bin/sh
-> 
-> case $1/$2 in
->   pre/*)
->     echo "Going to $2..."
->     # Place your pre suspend commands here, or `exit 0` if no pre suspend action required
->     echo "Removing i2c_hid_acpi module before suspend."
->     modprobe -r i2c_hid_acpi
->     ;;
->   post/*)
->     echo "Waking up from $2..."
->     # Place your post suspend (resume) commands here, or `exit 0` if no post suspend action required
->     sleep 2
->     echo "Adding i2c_hid_acpi module after suspend (before resuming)."
->     modprobe i2c_hid_acpi
->     ;;
-> esac
-> -----------------------------------------------------------------------------
-> 
-> When was it discovered?
-> -------------------------
-> I had prior hardware issues with the touchpad so I didn't notice 
-> it for a very long time, each time such an issue appeared I thought it was a hardware issue. But the issue is still there even after fixing the hardware (loose ribbon cable). Before the hardware issue, there was an issue with resuming from suspend on my laptop (because of laptop begin particularly new AMD variant). So, if I remember correctly, the touchpad worked fine for particular duration between suspend issue being fixed and hardware issue appearing. 
-> 
-> GNU/Linux version:
-> ------------------
-> Linux localhost.localdomain 6.5.0-rc4-1-default+ 
-> #1 SMP PREEMPT_DYNAMIC Thu Aug 3 20:15:04 +0545 2023 x86_64 x86_64 x86_64 GNU/Linux
-> 
-> Touchpad information:
-> ------------------------
-> PS/2 00.0: 10500 PS/2 Mouse
->   [Created at input.249]
->   Unique ID: AH6Q.rKa1+aijZtE
->   Hardware Class: mouse
->   Model: "DELL0A78:00 27C6:0D42 Touchpad"
->   Vendor: 0x27c6 
->   Device: 0x0d42 "DELL0A78:00 27C6:0D42 Touchpad"
->   Compatible to: int 0x0210 0x0001
->   Device File: /dev/input/mice (/dev/input/mouse2)
->   Device Files: /dev/input/mice, /dev/input/mouse2, /dev/input/event3, /dev/input/by-path/platform-AMDI0010:03-event-mouse, /dev/input/by-path/platform-AMDI0010:03-mouse
->   Device Number: char 13:63 (char 13:34)
->   Driver Info #0:
->     Buttons: 1
->     Wheels: 0
->     XFree86 Protocol: explorerps/2
->     GPM Protocol: exps2
->   Config Status: cfg=no, avail=yes, need=no, active=unknown
-> 
-> 
-> Prior to testing on mainline kernel, it was tested on opensuse tumbleweed and reported here: https://bugzilla.suse.com/show_bug.cgi?id=1212779
-
-See Bugzilla for the full thread.
-
-FYI, I forward the BZ report because it was assigned to generic `Kernel`
-component instead, which missed linux-input list. I also add the reporter's
-address to To: list so that you can reach him without having to go to
-Bugzilla.
-
-Thanks.
-
-[1]: https://bugzilla.kernel.org/show_bug.cgi?id=217761
-
--- 
-An old man doll... just what I always wanted! - Clara
+#regzbot introduced: a9c4a912b7dc7ff922d4b9261160c001558f9755
