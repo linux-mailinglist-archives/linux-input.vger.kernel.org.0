@@ -2,63 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7974476FA4B
-	for <lists+linux-input@lfdr.de>; Fri,  4 Aug 2023 08:42:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9698776FD08
+	for <lists+linux-input@lfdr.de>; Fri,  4 Aug 2023 11:16:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230261AbjHDGmD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Aug 2023 02:42:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41084 "EHLO
+        id S230283AbjHDJQn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Aug 2023 05:16:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229957AbjHDGmC (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Aug 2023 02:42:02 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2473DB9;
-        Thu,  3 Aug 2023 23:42:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691131321; x=1722667321;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4U+QTqNDGYbI6jRbOUJiaCIaXtaMMqtOAzSKPCfKoXM=;
-  b=XCDa8Na8gGmn8URc6jByCGj4M7SiaJYQWAjBEXqUOdYhwklDGwWS3wj1
-   +9NB6mOGkKlTR0wk5MllhHoOkFTLC5uCOQhPw6ALPaQUXikvD07t3u6iL
-   df7E3mkLba9yxIgJZiJDt5xADg4+i+dvoObXus+Ql3Po+FN9GJDUZCxtl
-   mJ1yF/cNYUKysEbvUgZBnyITH9yG6fsAZABDkohsQ7sbzyOehmQdX/d4j
-   a3glAzJZx4/mGYrVRXkZ9AjNxm/EvIEtS13ftyPVNRO5ctcsdyARWSJKT
-   Yqp+h+WPfPY83+SwnFdrWPursE71CpLhsWpj7zL5/dhoOsMGhzbA+hrZh
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="349675780"
-X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="349675780"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 23:40:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="764970022"
-X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="764970022"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga001.jf.intel.com with ESMTP; 03 Aug 2023 23:40:50 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qRoUT-00E1B4-0b;
-        Fri, 04 Aug 2023 09:40:49 +0300
-Date:   Fri, 4 Aug 2023 09:40:48 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH v1 00/12] HID: cp2112: Cleanups and refactorings
-Message-ID: <ZMydcGv8Dvu3Hje1@smile.fi.intel.com>
-References: <20230703185222.50554-1-andriy.shevchenko@linux.intel.com>
- <ZMK60UphgVuj4Z+L@smile.fi.intel.com>
+        with ESMTP id S230287AbjHDJQI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Aug 2023 05:16:08 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C23C5B8A;
+        Fri,  4 Aug 2023 02:13:52 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1qRqsX-0001BG-Re; Fri, 04 Aug 2023 11:13:49 +0200
+Message-ID: <b68cf309-fca4-7ae0-b42f-90d5f338acdd@leemhuis.info>
+Date:   Fri, 4 Aug 2023 11:13:47 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZMK60UphgVuj4Z+L@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+User-Agent: Mozilla Thunderbird
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: Re: [PATCH v2] HID: logitech-hidpp: rework one more time the retries
+ attempts
+Content-Language: en-US, de-DE
+To:     bentiss@kernel.org,
+        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@riseup.net>,
+        Bastien Nocera <hadess@hadess.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        stable@vger.kernel.org,
+        Linux kernel regressions list <regressions@lists.linux.dev>
+References: <20230621-logitech-fixes-v2-1-3635f7f9c8af@kernel.org>
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+In-Reply-To: <20230621-logitech-fixes-v2-1-3635f7f9c8af@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1691140432;4cb83ccd;
+X-HE-SMSGID: 1qRqsX-0001BG-Re
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,26 +51,200 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jul 27, 2023 at 09:43:29PM +0300, Andy Shevchenko wrote:
-> On Mon, Jul 03, 2023 at 09:52:10PM +0300, Andy Shevchenko wrote:
-> > After I updated GPIO library for the case Benjamin has with CP2112,
-> > I have a brief look into the CP2112 driver itself.
-> > 
-> > From GPIO perspective it has two main (maitenance) issues:
-> > - usage of ->to_irq() with IRQ chip present;
-> > - having IRQ chip not immutable.
-> > 
-> > Besides that there are plenty small cleanups here and there.
-> > Hence this series.
+Hi Benjamin, /me again! :-D
+
+On 12.07.23 17:02, bentiss@kernel.org wrote:
+> From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 > 
-> Any comments on this?
+> Extract the internal code inside a helper function, fix the
+> initialization of the parameters used in the helper function
+> (`hidpp->answer_available` was not reset and `*response` wasn't either),
+> and use a `do {...} while();` loop.
+> 
+> Fixes: 586e8fede795 ("HID: logitech-hidpp: Retry commands when device is busy")
+> Cc: stable@vger.kernel.org
 
-Gentle ping^2 for this...
+From what I understood there was hope that this would cure the last
+remains (occasional init problems iirc) of the recent regressions with
+this driver and their fixes. But things look stalled. Is there a reason?
+Lack of reviews? Is there nevertheless hope that this will make it at
+least into 6.6?
 
-Anything should I do to improve it or is it okay to go as is?
+Ciao, Thorsten
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> Reviewed-by: Bastien Nocera <hadess@hadess.net>
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> ---
+> as requested by https://lore.kernel.org/all/CAHk-=wiMbF38KCNhPFiargenpSBoecSXTLQACKS2UMyo_Vu2ww@mail.gmail.com/
+> This is a rewrite of that particular piece of code.
+> ---
+> Changes in v2:
+> - added __must_hold() for KASAN
+> - Reworked the comment describing the functions and their return values
+> - Link to v1: https://lore.kernel.org/r/20230621-logitech-fixes-v1-1-32e70933c0b0@redhat.com
+> ---
+>  drivers/hid/hid-logitech-hidpp.c | 115 +++++++++++++++++++++++++--------------
+>  1 file changed, 75 insertions(+), 40 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+> index 129b01be488d..09ba2086c95c 100644
+> --- a/drivers/hid/hid-logitech-hidpp.c
+> +++ b/drivers/hid/hid-logitech-hidpp.c
+> @@ -275,21 +275,22 @@ static int __hidpp_send_report(struct hid_device *hdev,
+>  }
+>  
+>  /*
+> - * hidpp_send_message_sync() returns 0 in case of success, and something else
+> - * in case of a failure.
+> - * - If ' something else' is positive, that means that an error has been raised
+> - *   by the protocol itself.
+> - * - If ' something else' is negative, that means that we had a classic error
+> - *   (-ENOMEM, -EPIPE, etc...)
+> + * Effectively send the message to the device, waiting for its answer.
+> + *
+> + * Must be called with hidpp->send_mutex locked
+> + *
+> + * Same return protocol than hidpp_send_message_sync():
+> + * - success on 0
+> + * - negative error means transport error
+> + * - positive value means protocol error
+>   */
+> -static int hidpp_send_message_sync(struct hidpp_device *hidpp,
+> +static int __do_hidpp_send_message_sync(struct hidpp_device *hidpp,
+>  	struct hidpp_report *message,
+>  	struct hidpp_report *response)
+>  {
+> -	int ret = -1;
+> -	int max_retries = 3;
+> +	int ret;
+>  
+> -	mutex_lock(&hidpp->send_mutex);
+> +	__must_hold(&hidpp->send_mutex);
+>  
+>  	hidpp->send_receive_buf = response;
+>  	hidpp->answer_available = false;
+> @@ -300,47 +301,74 @@ static int hidpp_send_message_sync(struct hidpp_device *hidpp,
+>  	 */
+>  	*response = *message;
+>  
+> -	for (; max_retries != 0 && ret; max_retries--) {
+> -		ret = __hidpp_send_report(hidpp->hid_dev, message);
+> +	ret = __hidpp_send_report(hidpp->hid_dev, message);
+> +	if (ret) {
+> +		dbg_hid("__hidpp_send_report returned err: %d\n", ret);
+> +		memset(response, 0, sizeof(struct hidpp_report));
+> +		return ret;
+> +	}
+>  
+> -		if (ret) {
+> -			dbg_hid("__hidpp_send_report returned err: %d\n", ret);
+> -			memset(response, 0, sizeof(struct hidpp_report));
+> -			break;
+> -		}
+> +	if (!wait_event_timeout(hidpp->wait, hidpp->answer_available,
+> +				5*HZ)) {
+> +		dbg_hid("%s:timeout waiting for response\n", __func__);
+> +		memset(response, 0, sizeof(struct hidpp_report));
+> +		return -ETIMEDOUT;
+> +	}
+>  
+> -		if (!wait_event_timeout(hidpp->wait, hidpp->answer_available,
+> -					5*HZ)) {
+> -			dbg_hid("%s:timeout waiting for response\n", __func__);
+> -			memset(response, 0, sizeof(struct hidpp_report));
+> -			ret = -ETIMEDOUT;
+> -			break;
+> -		}
+> +	if (response->report_id == REPORT_ID_HIDPP_SHORT &&
+> +	    response->rap.sub_id == HIDPP_ERROR) {
+> +		ret = response->rap.params[1];
+> +		dbg_hid("%s:got hidpp error %02X\n", __func__, ret);
+> +		return ret;
+> +	}
+>  
+> -		if (response->report_id == REPORT_ID_HIDPP_SHORT &&
+> -		    response->rap.sub_id == HIDPP_ERROR) {
+> -			ret = response->rap.params[1];
+> -			dbg_hid("%s:got hidpp error %02X\n", __func__, ret);
+> +	if ((response->report_id == REPORT_ID_HIDPP_LONG ||
+> +	     response->report_id == REPORT_ID_HIDPP_VERY_LONG) &&
+> +	    response->fap.feature_index == HIDPP20_ERROR) {
+> +		ret = response->fap.params[1];
+> +		dbg_hid("%s:got hidpp 2.0 error %02X\n", __func__, ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * hidpp_send_message_sync() returns 0 in case of success, and something else
+> + * in case of a failure.
+> + *
+> + * See __do_hidpp_send_message_sync() for a detailed explanation of the returned
+> + * value.
+> + */
+> +static int hidpp_send_message_sync(struct hidpp_device *hidpp,
+> +	struct hidpp_report *message,
+> +	struct hidpp_report *response)
+> +{
+> +	int ret;
+> +	int max_retries = 3;
+> +
+> +	mutex_lock(&hidpp->send_mutex);
+> +
+> +	do {
+> +		ret = __do_hidpp_send_message_sync(hidpp, message, response);
+> +		if (ret != HIDPP20_ERROR_BUSY)
+>  			break;
+> -		}
+>  
+> -		if ((response->report_id == REPORT_ID_HIDPP_LONG ||
+> -		     response->report_id == REPORT_ID_HIDPP_VERY_LONG) &&
+> -		    response->fap.feature_index == HIDPP20_ERROR) {
+> -			ret = response->fap.params[1];
+> -			if (ret != HIDPP20_ERROR_BUSY) {
+> -				dbg_hid("%s:got hidpp 2.0 error %02X\n", __func__, ret);
+> -				break;
+> -			}
+> -			dbg_hid("%s:got busy hidpp 2.0 error %02X, retrying\n", __func__, ret);
+> -		}
+> -	}
+> +		dbg_hid("%s:got busy hidpp 2.0 error %02X, retrying\n", __func__, ret);
+> +	} while (--max_retries);
+>  
+>  	mutex_unlock(&hidpp->send_mutex);
+>  	return ret;
+>  
+>  }
+>  
+> +/*
+> + * hidpp_send_fap_command_sync() returns 0 in case of success, and something else
+> + * in case of a failure.
+> + *
+> + * See __do_hidpp_send_message_sync() for a detailed explanation of the returned
+> + * value.
+> + */
+>  static int hidpp_send_fap_command_sync(struct hidpp_device *hidpp,
+>  	u8 feat_index, u8 funcindex_clientid, u8 *params, int param_count,
+>  	struct hidpp_report *response)
+> @@ -373,6 +401,13 @@ static int hidpp_send_fap_command_sync(struct hidpp_device *hidpp,
+>  	return ret;
+>  }
+>  
+> +/*
+> + * hidpp_send_rap_command_sync() returns 0 in case of success, and something else
+> + * in case of a failure.
+> + *
+> + * See __do_hidpp_send_message_sync() for a detailed explanation of the returned
+> + * value.
+> + */
+>  static int hidpp_send_rap_command_sync(struct hidpp_device *hidpp_dev,
+>  	u8 report_id, u8 sub_id, u8 reg_address, u8 *params, int param_count,
+>  	struct hidpp_report *response)
+> 
+> ---
+> base-commit: 87854366176403438d01f368b09de3ec2234e0f5
+> change-id: 20230621-logitech-fixes-a4c0e66ea2ad
+> 
+> Best regards,
