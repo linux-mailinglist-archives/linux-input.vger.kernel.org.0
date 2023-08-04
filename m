@@ -2,47 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9698776FD08
-	for <lists+linux-input@lfdr.de>; Fri,  4 Aug 2023 11:16:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A9A7770069
+	for <lists+linux-input@lfdr.de>; Fri,  4 Aug 2023 14:45:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230283AbjHDJQn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Aug 2023 05:16:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33208 "EHLO
+        id S229492AbjHDMpl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Aug 2023 08:45:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230287AbjHDJQI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Aug 2023 05:16:08 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C23C5B8A;
-        Fri,  4 Aug 2023 02:13:52 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qRqsX-0001BG-Re; Fri, 04 Aug 2023 11:13:49 +0200
-Message-ID: <b68cf309-fca4-7ae0-b42f-90d5f338acdd@leemhuis.info>
-Date:   Fri, 4 Aug 2023 11:13:47 +0200
+        with ESMTP id S229464AbjHDMpk (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Aug 2023 08:45:40 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C46DEA;
+        Fri,  4 Aug 2023 05:45:39 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-686b879f605so1487852b3a.1;
+        Fri, 04 Aug 2023 05:45:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691153139; x=1691757939;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mSm0LHggTF3l2aeyLG/2fKikbnrwzc2eP2dgLLzrPv4=;
+        b=H8+Mt1RJKgOVSJpv5ue/Vmj/iDAjFwcuqBenikvT/u9NokDxWaHtce+LSzYcnVmT0j
+         vTPImvio1m7gI3jXv9dvw0LohUtjRxWER2RGbTSxWzglllA6/dptE22VkOzc4o9sxERT
+         pIjEmQmCiUWLblpxC/fOoc4l0u2CTCD29XBOHfDiNoUcT12pXwyUNL6UeT5ALLQxI1Hu
+         c55BUX2FQ1rJ6PEYRv8eB+cuc9x+819YauGAoe0zAUM8+Ite10DiQoUhR1pih2/Kn8fC
+         6ZhIOa0I0gOU0UBx8dTBzH0jmp0zcj8Ho7kcsT0h0bw3xhFVIcJl8r9RcLThv+lFpHMJ
+         2ozw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691153139; x=1691757939;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=mSm0LHggTF3l2aeyLG/2fKikbnrwzc2eP2dgLLzrPv4=;
+        b=VVS2DPfuj5zEYHCvEgq65PesrAGpJte/ADh4HjkrWyJxV6CwR7Mt4XTC3CQRkkxEZL
+         fAbLba9l5O/yRUSVCivdnkWEPyPHoieT0LiwrZmaqfmZ1Ou5hSKtkVdIBDAO5Td6R9+B
+         cheIg+WtYTniY2yLGiLi6u6Uh4wIqmfPUIzLGEcrPf5FIIWHSriGKbD0sQGgPxBpaRIi
+         YANRJQzuMtPNVIIwlO5Ps1M76TmGok8Hsw3u8Vdx0n/EqasNLBoLhL0BvL73a2j+SSlV
+         Vl4TSrQOS/LW0EQ6dirQUbxl1j5gXOpUVR5QdUAgBYhAOUcqda8qr739AimxGJmjldwk
+         GBSw==
+X-Gm-Message-State: AOJu0YwHJ47H4+/rhR8ao5tQAtzbPssBJUdEo3xg0I6KRYzKd6pjsOx9
+        TvCkmEoooDElonpE+LCRG1uhYElEj8M=
+X-Google-Smtp-Source: AGHT+IHGLB8g1U8UsN2DTHPgNdRGdwPal/H/mLrBwBvjqcOrzv3I8ACc19Md38AOGdGvO2z0b6dFGw==
+X-Received: by 2002:a05:6a00:1828:b0:687:8417:ab51 with SMTP id y40-20020a056a00182800b006878417ab51mr1688267pfa.8.1691153138915;
+        Fri, 04 Aug 2023 05:45:38 -0700 (PDT)
+Received: from [192.168.0.105] ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id n5-20020aa79045000000b00686ec858fb0sm1536456pfo.190.2023.08.04.05.45.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Aug 2023 05:45:38 -0700 (PDT)
+Message-ID: <0ea231a1-e510-903d-22a0-998234426462@gmail.com>
+Date:   Fri, 4 Aug 2023 19:45:34 +0700
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Subject: Re: [PATCH v2] HID: logitech-hidpp: rework one more time the retries
- attempts
-Content-Language: en-US, de-DE
-To:     bentiss@kernel.org,
-        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@riseup.net>,
-        Bastien Nocera <hadess@hadess.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        stable@vger.kernel.org,
-        Linux kernel regressions list <regressions@lists.linux.dev>
-References: <20230621-logitech-fixes-v2-1-3635f7f9c8af@kernel.org>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-In-Reply-To: <20230621-logitech-fixes-v2-1-3635f7f9c8af@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Content-Language: en-US
+To:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        Jiri Kosina <jkosina@suse.cz>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Regressions <regressions@lists.linux.dev>,
+        Linux Input Devices <linux-input@vger.kernel.org>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Fwd: Regression: ALS/ACS stops working on amd-sfh
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1691140432;4cb83ccd;
-X-HE-SMSGID: 1qRqsX-0001BG-Re
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -51,200 +75,25 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin, /me again! :-D
+Hi,
 
-On 12.07.23 17:02, bentiss@kernel.org wrote:
-> From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> 
-> Extract the internal code inside a helper function, fix the
-> initialization of the parameters used in the helper function
-> (`hidpp->answer_available` was not reset and `*response` wasn't either),
-> and use a `do {...} while();` loop.
-> 
-> Fixes: 586e8fede795 ("HID: logitech-hidpp: Retry commands when device is busy")
-> Cc: stable@vger.kernel.org
+I notice a very concise regression report on Bugzilla [1]. That is,
+quoting from it:
 
-From what I understood there was hope that this would cure the last
-remains (occasional init problems iirc) of the recent regressions with
-this driver and their fixes. But things look stalled. Is there a reason?
-Lack of reviews? Is there nevertheless hope that this will make it at
-least into 6.6?
+> Since commit a33e5e393171ae8384d3381db5cd159ba877cfcb ("HID: amd_sfh: Fix illuminance value"), the in_illuminance_raw is 0 all the time.
+> 
+> Before that commit, the ACS/ALS has normal value.
 
-Ciao, Thorsten
+See Bugzilla for the full thread.
 
-> Reviewed-by: Bastien Nocera <hadess@hadess.net>
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> ---
-> as requested by https://lore.kernel.org/all/CAHk-=wiMbF38KCNhPFiargenpSBoecSXTLQACKS2UMyo_Vu2ww@mail.gmail.com/
-> This is a rewrite of that particular piece of code.
-> ---
-> Changes in v2:
-> - added __must_hold() for KASAN
-> - Reworked the comment describing the functions and their return values
-> - Link to v1: https://lore.kernel.org/r/20230621-logitech-fixes-v1-1-32e70933c0b0@redhat.com
-> ---
->  drivers/hid/hid-logitech-hidpp.c | 115 +++++++++++++++++++++++++--------------
->  1 file changed, 75 insertions(+), 40 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-> index 129b01be488d..09ba2086c95c 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -275,21 +275,22 @@ static int __hidpp_send_report(struct hid_device *hdev,
->  }
->  
->  /*
-> - * hidpp_send_message_sync() returns 0 in case of success, and something else
-> - * in case of a failure.
-> - * - If ' something else' is positive, that means that an error has been raised
-> - *   by the protocol itself.
-> - * - If ' something else' is negative, that means that we had a classic error
-> - *   (-ENOMEM, -EPIPE, etc...)
-> + * Effectively send the message to the device, waiting for its answer.
-> + *
-> + * Must be called with hidpp->send_mutex locked
-> + *
-> + * Same return protocol than hidpp_send_message_sync():
-> + * - success on 0
-> + * - negative error means transport error
-> + * - positive value means protocol error
->   */
-> -static int hidpp_send_message_sync(struct hidpp_device *hidpp,
-> +static int __do_hidpp_send_message_sync(struct hidpp_device *hidpp,
->  	struct hidpp_report *message,
->  	struct hidpp_report *response)
->  {
-> -	int ret = -1;
-> -	int max_retries = 3;
-> +	int ret;
->  
-> -	mutex_lock(&hidpp->send_mutex);
-> +	__must_hold(&hidpp->send_mutex);
->  
->  	hidpp->send_receive_buf = response;
->  	hidpp->answer_available = false;
-> @@ -300,47 +301,74 @@ static int hidpp_send_message_sync(struct hidpp_device *hidpp,
->  	 */
->  	*response = *message;
->  
-> -	for (; max_retries != 0 && ret; max_retries--) {
-> -		ret = __hidpp_send_report(hidpp->hid_dev, message);
-> +	ret = __hidpp_send_report(hidpp->hid_dev, message);
-> +	if (ret) {
-> +		dbg_hid("__hidpp_send_report returned err: %d\n", ret);
-> +		memset(response, 0, sizeof(struct hidpp_report));
-> +		return ret;
-> +	}
->  
-> -		if (ret) {
-> -			dbg_hid("__hidpp_send_report returned err: %d\n", ret);
-> -			memset(response, 0, sizeof(struct hidpp_report));
-> -			break;
-> -		}
-> +	if (!wait_event_timeout(hidpp->wait, hidpp->answer_available,
-> +				5*HZ)) {
-> +		dbg_hid("%s:timeout waiting for response\n", __func__);
-> +		memset(response, 0, sizeof(struct hidpp_report));
-> +		return -ETIMEDOUT;
-> +	}
->  
-> -		if (!wait_event_timeout(hidpp->wait, hidpp->answer_available,
-> -					5*HZ)) {
-> -			dbg_hid("%s:timeout waiting for response\n", __func__);
-> -			memset(response, 0, sizeof(struct hidpp_report));
-> -			ret = -ETIMEDOUT;
-> -			break;
-> -		}
-> +	if (response->report_id == REPORT_ID_HIDPP_SHORT &&
-> +	    response->rap.sub_id == HIDPP_ERROR) {
-> +		ret = response->rap.params[1];
-> +		dbg_hid("%s:got hidpp error %02X\n", __func__, ret);
-> +		return ret;
-> +	}
->  
-> -		if (response->report_id == REPORT_ID_HIDPP_SHORT &&
-> -		    response->rap.sub_id == HIDPP_ERROR) {
-> -			ret = response->rap.params[1];
-> -			dbg_hid("%s:got hidpp error %02X\n", __func__, ret);
-> +	if ((response->report_id == REPORT_ID_HIDPP_LONG ||
-> +	     response->report_id == REPORT_ID_HIDPP_VERY_LONG) &&
-> +	    response->fap.feature_index == HIDPP20_ERROR) {
-> +		ret = response->fap.params[1];
-> +		dbg_hid("%s:got hidpp 2.0 error %02X\n", __func__, ret);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * hidpp_send_message_sync() returns 0 in case of success, and something else
-> + * in case of a failure.
-> + *
-> + * See __do_hidpp_send_message_sync() for a detailed explanation of the returned
-> + * value.
-> + */
-> +static int hidpp_send_message_sync(struct hidpp_device *hidpp,
-> +	struct hidpp_report *message,
-> +	struct hidpp_report *response)
-> +{
-> +	int ret;
-> +	int max_retries = 3;
-> +
-> +	mutex_lock(&hidpp->send_mutex);
-> +
-> +	do {
-> +		ret = __do_hidpp_send_message_sync(hidpp, message, response);
-> +		if (ret != HIDPP20_ERROR_BUSY)
->  			break;
-> -		}
->  
-> -		if ((response->report_id == REPORT_ID_HIDPP_LONG ||
-> -		     response->report_id == REPORT_ID_HIDPP_VERY_LONG) &&
-> -		    response->fap.feature_index == HIDPP20_ERROR) {
-> -			ret = response->fap.params[1];
-> -			if (ret != HIDPP20_ERROR_BUSY) {
-> -				dbg_hid("%s:got hidpp 2.0 error %02X\n", __func__, ret);
-> -				break;
-> -			}
-> -			dbg_hid("%s:got busy hidpp 2.0 error %02X, retrying\n", __func__, ret);
-> -		}
-> -	}
-> +		dbg_hid("%s:got busy hidpp 2.0 error %02X, retrying\n", __func__, ret);
-> +	} while (--max_retries);
->  
->  	mutex_unlock(&hidpp->send_mutex);
->  	return ret;
->  
->  }
->  
-> +/*
-> + * hidpp_send_fap_command_sync() returns 0 in case of success, and something else
-> + * in case of a failure.
-> + *
-> + * See __do_hidpp_send_message_sync() for a detailed explanation of the returned
-> + * value.
-> + */
->  static int hidpp_send_fap_command_sync(struct hidpp_device *hidpp,
->  	u8 feat_index, u8 funcindex_clientid, u8 *params, int param_count,
->  	struct hidpp_report *response)
-> @@ -373,6 +401,13 @@ static int hidpp_send_fap_command_sync(struct hidpp_device *hidpp,
->  	return ret;
->  }
->  
-> +/*
-> + * hidpp_send_rap_command_sync() returns 0 in case of success, and something else
-> + * in case of a failure.
-> + *
-> + * See __do_hidpp_send_message_sync() for a detailed explanation of the returned
-> + * value.
-> + */
->  static int hidpp_send_rap_command_sync(struct hidpp_device *hidpp_dev,
->  	u8 report_id, u8 sub_id, u8 reg_address, u8 *params, int param_count,
->  	struct hidpp_report *response)
-> 
-> ---
-> base-commit: 87854366176403438d01f368b09de3ec2234e0f5
-> change-id: 20230621-logitech-fixes-a4c0e66ea2ad
-> 
-> Best regards,
+Anyway, I'm adding this regression to be tracked by regzbot:
+
+#regzbot introduced: a33e5e393171ae https://bugzilla.kernel.org/show_bug.cgi?id=217762
+#regzbot title: Fixing in_illuminance_raw value hard-codes ACS/ALS to 0
+
+Thanks.
+
+[1]: https://bugzilla.kernel.org/show_bug.cgi?id=217762
+
+-- 
+An old man doll... just what I always wanted! - Clara
