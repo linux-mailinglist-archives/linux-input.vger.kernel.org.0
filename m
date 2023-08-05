@@ -2,73 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21B4B770F61
-	for <lists+linux-input@lfdr.de>; Sat,  5 Aug 2023 12:56:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4248E770FD4
+	for <lists+linux-input@lfdr.de>; Sat,  5 Aug 2023 15:10:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229581AbjHEK4n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 5 Aug 2023 06:56:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51524 "EHLO
+        id S229676AbjHENKR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 5 Aug 2023 09:10:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229511AbjHEK4l (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Aug 2023 06:56:41 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7D4B10CF;
-        Sat,  5 Aug 2023 03:56:40 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1bc411e9d17so18023515ad.0;
-        Sat, 05 Aug 2023 03:56:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691233000; x=1691837800;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VFJpgeqguFqka9/XNIH0k8DX9+9PRkRkOApZBqWdHSw=;
-        b=Pi7EoI8f6yxpZ+nqdR9tGlh7642zR+q66btl2XVSm1IVM9bGh0u3PCEXVnp9+pzo5M
-         poxsh3MEpOKkRgJmrTG0BGU313s4jROY0DJukvrzl+1cEB7mrkMExZC3nGM5qIq26YJt
-         llv7q4l9Vf4kQf0es79t+ttWEavUJ/cU4jpACoWJ+OsUVVOfTJZFwEDS0M+ZdKVaX7Sb
-         zjzr4B1lkwrPSVA/dqwNWAh5Qs5oojKENp39LwlAk72jRL6yGViytadCgia9CJVw72kR
-         EAXL7AlOrxvA4O374MCK3uQfEhb8TL62M76y+ILffGs0/x2n4hFmt+1LPZLFxv1qHQcW
-         NDng==
+        with ESMTP id S229549AbjHENKQ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Aug 2023 09:10:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CEFDE7
+        for <linux-input@vger.kernel.org>; Sat,  5 Aug 2023 06:09:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1691240969;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Ehu/P9kMK+ANcrbIAM1h/zk8lNfm0lCws3biHgn8nz4=;
+        b=CI0jo9MBKoaQvqrtnuQzaNyo4VYwgHlISi0CzkMczdFqXkqrOx2UHE9kigwAx7CMFWOc9m
+        tpy2lrrTG0zefi6t7w1QLhsV7fFoRzsEhohEGD6pYVeoUqVtda91KRRngtaK2s9JqlT1S/
+        5+uupAT10759SqDwt7zuiJNNc6vU2E8=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-53-lF_ffTorNYmYFsiQws0DWA-1; Sat, 05 Aug 2023 09:09:28 -0400
+X-MC-Unique: lF_ffTorNYmYFsiQws0DWA-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-99cc32f2ec5so13252166b.1
+        for <linux-input@vger.kernel.org>; Sat, 05 Aug 2023 06:09:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691233000; x=1691837800;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=VFJpgeqguFqka9/XNIH0k8DX9+9PRkRkOApZBqWdHSw=;
-        b=RfJXup5P25xL427DPci+gO5kMlrwmAk72TE4PkJrykGG+f8pohG+0vnE1Ni/js3fai
-         oNb12nW8tS7TyXBu4EGFa5mbbC9L7FqqeEWUqxZsvAx8AvNCoSyrIGbOR/hBhamjXMIy
-         zCb5IQqPA2HA0c6I3vKaeOf0OSNOD325+kxd+4aDmpvFNbgPQKDSqsonbyz/EYe9xm09
-         6uRpMTeKXcOrZRM+daJ+EzmUl9OHd5vECsYg/fGu9Q2YqvjwwQI2QB1fhkOcNJLQq/3X
-         ORABwgcQPBeVDKRno12HLoV9mBUZIIXuOkCN2Yzg6GQgpEWRV9oZkv//wazGNgsPM694
-         A99Q==
-X-Gm-Message-State: AOJu0Yw6xD/fPAASg3lQz1WVQcLimiz6d6RiVkgRaEPghr8kBTQicvTu
-        Zj32TQdu2JJxZvKtFC6p3/4=
-X-Google-Smtp-Source: AGHT+IEUUk9pvqK6JFBe+/bMlNaS9W+khY1xitY4wrZUGvzgl63VtGY9dhA2nx1hpoccnnlvy24txQ==
-X-Received: by 2002:a17:903:2350:b0:1bc:3504:de35 with SMTP id c16-20020a170903235000b001bc3504de35mr5240302plh.62.1691233000072;
-        Sat, 05 Aug 2023 03:56:40 -0700 (PDT)
-Received: from [192.168.0.105] ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id bj7-20020a170902850700b001b87bedcc6fsm3251908plb.93.2023.08.05.03.56.37
+        d=1e100.net; s=20221208; t=1691240967; x=1691845767;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ehu/P9kMK+ANcrbIAM1h/zk8lNfm0lCws3biHgn8nz4=;
+        b=aawWeBBRHniL1Nsez7poefTNCuBb3aXrkRS/lihSF3MPk45GcsW1hk9s7CQm1t9MZ6
+         Fc/oVNBMSOQV/31PI2HJ/Wr8z3FE5YcqSF8kMGa22NIedZhZCWMZ5psL/6AIoGpI19mX
+         7YFhoIGNfXwOi46vcJpjjKNVpQSsgusIPkZH96aWPC+c/OzNp/e0fHn81IeDB3HloH4I
+         9/UEWsoc9RR/+ocYuqidsYtNSQs727zdRhmyDQzXIFOBcmKiQW2K4aC0MgJL8SWm9rUb
+         4vFQC/DT2Aut3BxLo1Nmnh2/ytzn7iEVw3QvRSVysvL9SfdJOXFvWaVYSVila5NPGiEa
+         VvlQ==
+X-Gm-Message-State: AOJu0Yxiw6LMD53CkwbKq/jvTrmZCo7c+Jg7uaRFpqBwjU7AeCBXrrh8
+        gAvEnAnFSN0o5bicY78HG1UrTrPFl/Q101QakFEKfqPyR0aHcmpYZnHINCjCTTKr0pQH4jooAsb
+        52BPTLCugSfpwzfADibkR0Yw=
+X-Received: by 2002:a17:906:cc0f:b0:99b:f03d:de37 with SMTP id ml15-20020a170906cc0f00b0099bf03dde37mr3201762ejb.60.1691240966970;
+        Sat, 05 Aug 2023 06:09:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHxTUJ6UfA+ygtRAtwWtx1Jz30S537FK+47etHoPWUHMHvqfERQhu5bImDIb6Ym41ie3dNhlA==
+X-Received: by 2002:a17:906:cc0f:b0:99b:f03d:de37 with SMTP id ml15-20020a170906cc0f00b0099bf03dde37mr3201754ejb.60.1691240966704;
+        Sat, 05 Aug 2023 06:09:26 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id kg12-20020a17090776ec00b0098951bb4dc3sm2666439ejc.184.2023.08.05.06.09.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Aug 2023 03:56:39 -0700 (PDT)
-Message-ID: <b3a2cae2-a514-a171-2671-7b811ce4d833@gmail.com>
-Date:   Sat, 5 Aug 2023 17:56:35 +0700
+        Sat, 05 Aug 2023 06:09:25 -0700 (PDT)
+Message-ID: <cc9e37b4-b5cb-fd4d-84b8-5b824afe710a@redhat.com>
+Date:   Sat, 5 Aug 2023 15:09:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        gnap <garbage_accnt@outlook.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thunderbird/102.13.0
+Subject: Re: Fwd: 6.5 - 6.4.7 Regression : ASUS UM5302TA Keyboard don't work
+To:     August Wikerfors <git@augustwikerfors.se>,
+        Linux regressions mailing list <regressions@lists.linux.dev>
+Cc:     Mario Limonciello <mario.limonciello@amd.com>,
         Linux Input Devices <linux-input@vger.kernel.org>,
-        ACPI Asus <acpi4asus-user@lists.sourceforge.net>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Fwd: keyboard not working Asus Expertbook B2502CVA
+        ACPI Asus <acpi4asus-user@lists.sourceforge.net>,
+        Linux x86 Platform Drivers 
+        <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        Guilhem Lettron <guilhem@lettron.fr>
+References: <bdc6cb4d-a853-72b2-b132-989b64740ad9@gmail.com>
+ <8ee87fe1-684f-ad59-21c7-4401a4e70bee@leemhuis.info>
+ <b7df9a02-3b81-4f8c-aeba-222c298180d4@augustwikerfors.se>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <b7df9a02-3b81-4f8c-aeba-222c298180d4@augustwikerfors.se>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -77,27 +93,45 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Hi,
 
-I notice a bug report on Bugzilla [1]. Quoting from it:
-
-> Hi everynoe,
+On 8/4/23 17:26, August Wikerfors wrote:
+> On 2023-07-30 06:49, Linux regression tracking (Thorsten Leemhuis) wrote:
+>> Lo!
+>>
+>> On 30.07.23 04:41, Bagas Sanjaya wrote:
+>>>
+>>> I notice a regression report on Bugzilla [1]. Quoting from it:
+>>>
+>>>> On a kernel 6.4.5 and less, the keyboard is working fine.
+>>>>
+>>>> Beginning with 6.5 rc1 and 6.4.7 any key don't respond.
+>>
+>> That is a AMD Ryzen Laptop. And if that really started from
+>> v6.4.6..v6.4.7 then I guess there is a decent chance that this is caused
+>> by ```ACPI: resource: Remove "Zen" specific match and quirks``` from
+>> Mario. Hence adding him to the list of recipients.
 > 
-> Component: Asus Expertbook B2502CVA
-> OS: Ubuntu 22.04.2 LTS
+> Confirmed now, see https://bugzilla.kernel.org/show_bug.cgi?id=217726#c9
 > 
-> I am having a keyboard issue after installing Ubuntu 22.04 LTS on my Asus ExpertBook B2502CVA, I discovered that the built-in keyboard is not functioning. The keyboard works perfectly under Windows 11, which leads me to reasonably suspect a hardware compatibility issue with Linux. 
-> 
-> I found that BUG 216158, Bug 216864, Bug 217323 has similarities to my situation, attachment is my dmesg.
+> #regzbot introduced: a9c4a912b7dc7ff922d4b9261160c001558f9755
 
-See Bugzilla for the full thread and attached logs (dmesg, dmidecode,
-lsmod, and xinput outputs).
+We just have received 2 bug reports for Fedora which I believe are also
+this issue (not confirmed yet):
 
-AFAIK, this looks like hardware support for Asus B2502CVA is missing
-(maybe the quirk?). The reporter also confirms that this bug is
-also present on current mainline kernel.
+https://bugzilla.redhat.com/show_bug.cgi?id=2229165
+https://bugzilla.redhat.com/show_bug.cgi?id=2229317
 
-Thanks.
+I'm going to create a Fedora 6.4.y test-kernel with a9c4a912b7dc7ff
+reverted.
 
-[1]: https://bugzilla.kernel.org/show_bug.cgi?id=217760
+IMHO we really should revert a9c4a912b7dc7ff upstream,
+at least for the 6.4.y series where it seems to be doing
+more harm then good.
 
--- 
-An old man doll... just what I always wanted! - Clara
+And propably also for 6.5-rc# for now until we figure out
+a better solution.
+
+Regards,
+
+Hans
+
+
