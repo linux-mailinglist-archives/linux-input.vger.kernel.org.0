@@ -2,142 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EDC91772B1E
-	for <lists+linux-input@lfdr.de>; Mon,  7 Aug 2023 18:37:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0458C772C16
+	for <lists+linux-input@lfdr.de>; Mon,  7 Aug 2023 19:09:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231748AbjHGQhd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Aug 2023 12:37:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44664 "EHLO
+        id S231727AbjHGRJB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Aug 2023 13:09:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231786AbjHGQh1 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Aug 2023 12:37:27 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2085.outbound.protection.outlook.com [40.107.93.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10ED7173E;
-        Mon,  7 Aug 2023 09:37:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n11Bhy9Au1iEfB7RluYxFckU3v4CdtPnkU8rp3IcQoglYSomXw+ty212D421KeHz6fdc/6wMKP/J8wwee1K/+rE4ovGrxmITK5ARnN2SAPy95XqW0RGOoRQpyqbs0ocL/domwTZ+iwgWg7z+ejlfM9z9DRh91gy8XBlznreAt+ipyBB6g6a2sbAm95hFK757zN6+DMC42XiuBh8s5pxlo2I5TQnJ00fXNlbbFihzlTw1dhmgmMZQfxDeidJlFw90EDW0J4dD21LRKtdIc9Te0e9UuWkILcmlLCb1BPKwJnQzhdb787KSg4aE8iTmIlVlvGB4AT13aKJWLaUdFMO3Ag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+eZ/xCFFjIDv6U4yhmT73tvC1dZyQv7txgZFeQJxTUs=;
- b=C5DM2fWoW46AlZXiQMHBuj2eNx+veK9qc/7jdFHrBAezwH4un29zY3R2WlwPCJTnRxzwZrXNorFpVlT5VNJWaPJLjw+b9f9LO2FjFDgEwsfq3Jp7OY6FK6djyfmBYFRH6VftyITxMe8TyX4o8vIqjcgPocsXLoD7YXy6U+mftU0vpy/ZaTtyXbiYHXN7/zcp062lkAT3tFg3rdWhuSB8F6/hLm/31wvTJNlP3Vys1O7lhA8vyyZqWwkwSEyAk2vm/KujA0fbaLPllRw27haGk9UzrUFVDennh3+dA3X8Wa4C06tf4DQS/Kqc+WmEhez6xOPpO/dMef5XOHhyzFKxww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+eZ/xCFFjIDv6U4yhmT73tvC1dZyQv7txgZFeQJxTUs=;
- b=MxrK0yBqK6wrzFV59GgVTktxW8KzYNmMJE+3aHzt5he2ukFzmBVRv8/8ORjQxF9l/glHhiKuhS3xYqsJM+r/mR91znN9eFfz/9i55Drp6lpY0X7mICrAkZJQKFo1NFY62cVx83wM/QPnvC+wuzqxogRJ6OQKEgBjgnn7JD7dSuqheCkjOXpp2s6QLTfDdAv3ezehR4U49YJ6haT1b2bgsDNLUKYx7wTe2K6JCl9CcJtbQ4hYLzVRz9hcMgl2tyIKdwEZJaps1iFdIVXs0xMcQH10RpJRfLwjK2KNRbi28awBq4FXnQ513ZP+0U7zsl8uEzfRt5fSk2aURZXDclKbXg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
- by CY8PR12MB8194.namprd12.prod.outlook.com (2603:10b6:930:76::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.27; Mon, 7 Aug
- 2023 16:36:28 +0000
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::bd1:3314:4416:227f]) by BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::bd1:3314:4416:227f%4]) with mapi id 15.20.6652.026; Mon, 7 Aug 2023
- 16:36:31 +0000
-From:   Rahul Rameshbabu <rrameshbabu@nvidia.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Subject: [PATCH 3/3] HID: nvidia-shield: Update Thunderstrike LED instance name to use id
-Date:   Mon,  7 Aug 2023 09:36:20 -0700
-Message-Id: <20230807163620.16855-3-rrameshbabu@nvidia.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230807163620.16855-1-rrameshbabu@nvidia.com>
-References: <20230807163620.16855-1-rrameshbabu@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR05CA0108.namprd05.prod.outlook.com
- (2603:10b6:a03:334::23) To BYAPR12MB2743.namprd12.prod.outlook.com
- (2603:10b6:a03:61::28)
+        with ESMTP id S231648AbjHGRJA (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Aug 2023 13:09:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22D72E6F
+        for <linux-input@vger.kernel.org>; Mon,  7 Aug 2023 10:08:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1691428094;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=PaUoN6jEp6bScPFRDpbhbjlwtESgFZLJBJ4BEap2ll4=;
+        b=cW75MOLqP2ZgKVXCcpKDeLpDLJ5SyCnUcTcDinK2MHSQ18iysEX58xpg8yPbFXIW5gCUaC
+        oAGx49Snn8uG1Uxm1X8xNhDLsVVL6Pt7SRvDCvFuW4NSlRoFHSoztYr3BgooTVegxZkxDG
+        t8ufmfoEQ+AUrnDtFtUoVq844iK235Y=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-103-OvcrXwRQMtuiB1_fzL8xtw-1; Mon, 07 Aug 2023 13:08:12 -0400
+X-MC-Unique: OvcrXwRQMtuiB1_fzL8xtw-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-99bc8f1290eso321489766b.3
+        for <linux-input@vger.kernel.org>; Mon, 07 Aug 2023 10:08:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691428091; x=1692032891;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PaUoN6jEp6bScPFRDpbhbjlwtESgFZLJBJ4BEap2ll4=;
+        b=azdeaLS3i8JiivhS+xdW9xM8xLFAXR/3BIVzv6VHltyVzH8P9gqDf1mNNttiWrKZED
+         7T7+B4ngax8Ak/uFly23pa9OahScUpSJoKz3B/pHy3sj5gb7et1AMClD5+cAQE2336bG
+         sh2ATJRlfF2AtKRzEGafIiOnM4ICWJbLCoZmmbtPClGPSzKKOU/mqcs+XxpKLJTb4pTV
+         IW77UxJdpryz0mbotwvOfPVKyi1Y4uKBEqB02CU0JEK9GpO+xP7Ucte7AVRz0uvABZk3
+         WZKp40yiM4sLBR9+Pcmb2ktlV7lHghp1K2LrPmxHdT60N526YLkZF5yT3rXxRtlsNkIz
+         I3ug==
+X-Gm-Message-State: AOJu0Yyaghs7yOx1o1aQEajZeQq+XD1CVG/ibAzf8/pqvhHOofKoQrZa
+        qPyh36JOPtzK32gmSh3j6MwULmW6KX+EwBT4kQwamWvpA1hxvOVN3dGabudvjDuodSrITUMUxox
+        xuMTLbf81BsPKgcpjP5XncXNCT8R1avs=
+X-Received: by 2002:a17:907:a068:b0:99c:20f0:dec0 with SMTP id ia8-20020a170907a06800b0099c20f0dec0mr7398270ejc.43.1691428091251;
+        Mon, 07 Aug 2023 10:08:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFdRWArae2xjTleGNCnyKN3zPJYqQ7yEgmEAbjdVbwFTs5hltjWWTGAXlxt5oOp8DbgHNlFdw==
+X-Received: by 2002:a17:907:a068:b0:99c:20f0:dec0 with SMTP id ia8-20020a170907a06800b0099c20f0dec0mr7398260ejc.43.1691428091012;
+        Mon, 07 Aug 2023 10:08:11 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id k2-20020a1709063fc200b00993470682e5sm5474991ejj.32.2023.08.07.10.08.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Aug 2023 10:08:10 -0700 (PDT)
+Message-ID: <79004399-65df-01ed-faa7-5dd6c3cbb75d@redhat.com>
+Date:   Mon, 7 Aug 2023 19:08:09 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|CY8PR12MB8194:EE_
-X-MS-Office365-Filtering-Correlation-Id: 946cc96c-4c3a-429b-da1d-08db976474ba
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AmymsSNiQxt1jtuHoOkI3KLLFPAXVUE5XFssB8AUEVBRYGj7cHI+iavbq/BISS/wtaO0RnhAbjk4yCcO87FPIaoBzsOummKAimE4YwLUCOX2D6prULGaZZl04+R9mt5uFxS62n9VnsxOvMgUeST+h6Ou2LP9+bBB8GkDpBDyRHE0m25nNN3n+/tmRFDXqBLCbntcYj15a5K/KgdOyAoIMbvd3sJtaF695QJ5R/cDhfyniOBgYUeUusCx3or0QAWbj2ZOKJtJhSCwPe/tkE7spxKPn8uIO2VlIVPf05Ff/hM5Qyo4mv5y+SIA8ZLJhzUhnfLqeb1Exu+mNfq2FQ9wfMI2//8c8cdyErKrzMZCQjnk+FxBsO5PsPEUvEVGIJ4lS151X3x1RkTDeMXojC6MBvefmiptqGUtg9J2Ui0aVfHyzp/oyxc/gzjkw9iJrq86guZiCrwsVefXr6tFZHPzAfXOL3DVbow8kXqRVy0B8n7QEkLDPmnrgQYwZQGxJ/eu3tkYn1w8uo8K88JFeoN/4eZaoNOMZO0jWdZ+cXLbOa22nHp4yjtMkvC4X095SHz9
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(39860400002)(346002)(376002)(136003)(396003)(186006)(1800799003)(451199021)(4326008)(316002)(66476007)(66556008)(66946007)(38100700002)(36756003)(6666004)(6512007)(6486002)(107886003)(2616005)(83380400001)(1076003)(26005)(6506007)(2906002)(4744005)(86362001)(478600001)(110136005)(8676002)(8936002)(41300700001)(5660300002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?97uLySpM2XMihRo/G4rESNv1SExPzIC4rnJckupDytJHhhOnquuy357thDsm?=
- =?us-ascii?Q?iV1P3hdn3jipojPg3o+azan837WUcCJJg//5DaokdAskq1k0IRlAiK6V1JY8?=
- =?us-ascii?Q?6CkjJj6rz0euXcMNgFfOhqbEObq66Ha1S2gP9e7O8eVqzUXWxSV4omRwAbIl?=
- =?us-ascii?Q?yiJ6psqm3P40v2Jd2vdwh135OEsKCYqRr4ZymWmUVLafyHOtRbxiUSBBitA8?=
- =?us-ascii?Q?HVEto7rXPXgcrWWoXrCl++z82/ykAH2zs2xBPdXenuBlT8Gz7isPgKV2slxD?=
- =?us-ascii?Q?xeeRsR3iAE+v6iY17PxRZDqyytUdLy1EZ25E1Lo8ryitJvde/wwtUtSxxqrm?=
- =?us-ascii?Q?e1HtaCRDSmCEnNzSkoh+3rn0G1aLs5fiaPj9wSWW+uD31nbTHBGkNxCeA6Rz?=
- =?us-ascii?Q?cB94QgNVAe9oZ69bnxXyNHr07ZmbQinz4xKOoBrXvpPWBDN5eoIgQ2K2RZtC?=
- =?us-ascii?Q?ppycIpcgXY47L3IB6yQdSkjJIkHLbHoP/1C/6dTAhXb66752mKkgf9xGhlsH?=
- =?us-ascii?Q?5I858vRYF0lGeFJ988XiFPyF+BUqiw3A/+JhQvM5DSrCf9EoATxL8wpYxlV5?=
- =?us-ascii?Q?cK+K9fdl0wjHYChurVlnH8TJZPqNK5YrKtAKY2tOY/GF3NneLKeqn6Xz0a72?=
- =?us-ascii?Q?MLoJ48RylpiGRzUlhygTwxwUrqL+ikEkpmx1bT58bPcgDRJXokve7EcvkZI5?=
- =?us-ascii?Q?ls2RKS0iIgPBJp2KyZ8xBCkkzx3b3MHU8m8dfsGXiMG1AWnhsqBuF9qvDyX5?=
- =?us-ascii?Q?Us4kzd4FGvzA9RcoqxJqtjda8AwLIlaniVKo3ujOIK8RyVCcUETgEIhzbRdv?=
- =?us-ascii?Q?2t0pCEfoy6hbOicR+AAAjEaSUo7dfPKJlBmzAxWzfeR4nrePdOIfKlSkywIG?=
- =?us-ascii?Q?yBGUhSjWK5OdiisO7GEJXdLAHHLP3jzTyNFmIiZmgSgmGAxWdFHWK5yOs0ij?=
- =?us-ascii?Q?PzENwMm2hnG2BV7TzyueOKnEahFTHcojpDOKudal9ripSUYSXitOLYRtaFB0?=
- =?us-ascii?Q?tRSVp7vEhobwQ0sljugtRKgYu2sGp4PI0VkxI02x/L1JEi3lUbfE1Kl9tWEU?=
- =?us-ascii?Q?JAj8dUbi/kwU1HfFIi9oy+EUVZUL+nyonM35+zvtj8vyqTvLkCr63YqEAsl3?=
- =?us-ascii?Q?nSrlohj+0z2v7ySCyT8Pt7KTd3D0WN41w+QDsAqkqF7lUJM9YsV3PjRwZVAK?=
- =?us-ascii?Q?ZJ4s/VJsHFi0p00durYuTA7ZVHdxkpLEZ8Kp4xrSJzGxebtgLkktpyLjwM2X?=
- =?us-ascii?Q?dCYlwyLz+GACWUeBZ2xwZLah08DdlVdsFRnPOlkKZfikigI0h2R+U+45eLM0?=
- =?us-ascii?Q?rc7iQYkBpKBLohGmTr27ROK2O/E6SZ6v8jyxO700ILxDPyBPs80h9vFhwNwb?=
- =?us-ascii?Q?B309AZKk7XqV/L8YMKouI7N0wgoqZyZnn7Lqvk8FP4QuXS44xMWfBGQblnyl?=
- =?us-ascii?Q?gbomF1/C1zy9vK1yCWCGlIe2kuka/9SdVjJHo6utPmOQlme9WZvMTeGsSEEw?=
- =?us-ascii?Q?4QAXMKWEGdoRiJLIAiDPNsOAUpr0zohfRlhdMufjBItd8WtlIxIerOMdnCww?=
- =?us-ascii?Q?R/L4ZjYCRMLz6+4fMgK6N8XRhHeetYXD+ppD4pyQrr4PlJjT5c0Co1dytGcu?=
- =?us-ascii?Q?/g=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 946cc96c-4c3a-429b-da1d-08db976474ba
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2023 16:36:31.5418
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DPFY4FsNnvxlVM08jAAVqftabKGpu1F6GID1x4UzeZVTZAsNb7fWZeGVxZbtbLsbjoPR33pk8QUUF82jqub+Mg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8194
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drivers/input/touchscreen/goodix.c: Add support for ACPI
+ ID GDX9110
+Content-Language: en-US, nl
+To:     Felix Engelhardt <felix.engelhardt@eidu.com>
+Cc:     Bastien Nocera <hadess@hadess.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230807124723.382899-1-felix.engelhardt@eidu.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230807124723.382899-1-felix.engelhardt@eidu.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Previously would let led_classdev handle renaming when name collision
-occurred. Now that an ID allocator is used to uniquely identify multiple
-Thunderstrike controllers, generate unique led device names.
+Hi,
 
-Signed-off-by: Rahul Rameshbabu <rrameshbabu@nvidia.com>
----
- drivers/hid/hid-nvidia-shield.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On 8/7/23 14:47, Felix Engelhardt wrote:
+> The Goodix touchscreen controller with ACPI ID GDX9110 was not recognized
+> by the goodix driver. This patch adds this ID to the list of supported IDs,
+> allowing the driver to be used with this device. The change will allow
+> Linux to be used on ~1 million tablet devices used in Kenyan primary
+> schools.
+> 
+> Signed-off-by: Felix Engelhardt <felix.engelhardt@eidu.com>
+> ---
+>  drivers/input/touchscreen/goodix.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+> index 4f53d3c57e69..9cdc01eb00c9 100644
+> --- a/drivers/input/touchscreen/goodix.c
+> +++ b/drivers/input/touchscreen/goodix.c
+> @@ -1379,6 +1379,7 @@ MODULE_DEVICE_TABLE(i2c, goodix_ts_id);
+>  static const struct acpi_device_id goodix_acpi_match[] = {
+>  	{ "GDIX1001", 0 },
+>  	{ "GDIX1002", 0 },
+> +	{ "GDX9110", 0 },
+>  	{ }
+>  };
+>  MODULE_DEVICE_TABLE(acpi, goodix_acpi_match);
 
-diff --git a/drivers/hid/hid-nvidia-shield.c b/drivers/hid/hid-nvidia-shield.c
-index 1612de3ef4c5..43784bb57d3f 100644
---- a/drivers/hid/hid-nvidia-shield.c
-+++ b/drivers/hid/hid-nvidia-shield.c
-@@ -798,7 +798,8 @@ static inline int thunderstrike_led_create(struct thunderstrike *ts)
- {
- 	struct led_classdev *led = &ts->led_dev;
- 
--	led->name = "thunderstrike:blue:led";
-+	led->name = devm_kasprintf(&ts->base.hdev->dev, GFP_KERNEL,
-+				   "thunderstrike%d:blue:led", ts->id);
- 	led->max_brightness = 1;
- 	led->flags = LED_CORE_SUSPENDRESUME;
- 	led->brightness_get = &thunderstrike_led_get_brightness;
--- 
-2.40.1
+Hmm, GDX without the 'I' does look like an official ACPI vendor prefix. But if this is used in the wild, then I guess we'll just need to live with it:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+Regards,
+
+Hans
+
+
 
