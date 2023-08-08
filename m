@@ -2,107 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1740773CB7
-	for <lists+linux-input@lfdr.de>; Tue,  8 Aug 2023 18:09:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AA0E774922
+	for <lists+linux-input@lfdr.de>; Tue,  8 Aug 2023 21:48:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231932AbjHHQI7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 8 Aug 2023 12:08:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32870 "EHLO
+        id S231529AbjHHTs4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 8 Aug 2023 15:48:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231857AbjHHQHH (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Aug 2023 12:07:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02B3A35A2
-        for <linux-input@vger.kernel.org>; Tue,  8 Aug 2023 08:45:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1691509516;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=ovtijMkVZJcNyWwGdwYpTKXzS+g6b+kiQjjytk2RPVY=;
-        b=ag27Iot782JzPsDN/1528jL/7UowJMJkyckBSrt9PQpHQayjBQ3FjsC81TW6mAFwI21/j8
-        a2Et2xjMlfHivrILGktXBJQuohVZtWFE1og1n2RIwOZWoTKsbtelLj2mMWatrSRJb9jlkE
-        PElCWBnh/TvdIT8DrWmdb1bPLZewOg8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-475-Mi2bbB7qNo6H8MS6KNmQzw-1; Tue, 08 Aug 2023 11:28:25 -0400
-X-MC-Unique: Mi2bbB7qNo6H8MS6KNmQzw-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-3fe45e71db3so28981885e9.2
-        for <linux-input@vger.kernel.org>; Tue, 08 Aug 2023 08:28:25 -0700 (PDT)
+        with ESMTP id S234770AbjHHSwJ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Aug 2023 14:52:09 -0400
+Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com [IPv6:2607:f8b0:4864:20::c2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D92A55DBE8
+        for <linux-input@vger.kernel.org>; Tue,  8 Aug 2023 10:05:12 -0700 (PDT)
+Received: by mail-oo1-xc2c.google.com with SMTP id 006d021491bc7-56ce156bd37so3729589eaf.3
+        for <linux-input@vger.kernel.org>; Tue, 08 Aug 2023 10:05:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691514312; x=1692119112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=09klJUG3E7m7lMTHPxkNawbEkMYXnC041vOPFpaGyec=;
+        b=c6MLPQTZd2L9RxtvYv8l2+KodzWywARKFDn5u6KP3SzpgqQzOd1821QxG9ylfhc47m
+         O1Tl9nfu3kp/4Tcv3nYicwkO8TEpaA0+HRvDQABgZHiGaEPNAPI/VnhTg3VZjZ1swYU1
+         6vev8t+C6cXjhOmqYp0xoIAX6wlm2enkhqAP2G5vuMcZAVl4wMWBs3Ec2bS9/57R+Hbo
+         4VMhne5rU+p96tsZhbvFj8G5YnzuNCGQS/wx3LWAf8KzZURDimE0kp2+bhIi/QrlB5oz
+         Vq/0UlZilsAY8uoL38aEfW5MTPeJtbch8qO1V1TGWY2C4bcq6781aaCYkQzx90WegiZK
+         W4dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691508504; x=1692113304;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ovtijMkVZJcNyWwGdwYpTKXzS+g6b+kiQjjytk2RPVY=;
-        b=h7drH+anDf6KoHJeN0cyhxm4n/+bkbQE1AsxZuye5Tj56MrX1mwPS+NrXvPBbxx4BZ
-         zeXMmG7jQ0VOs6OtcbsZf+At61a/QRwd8tjO+G5cgheQ7EXsFXPDEGpF8lmpx9BtdxuP
-         Ul6RcKrx7S6R/NB5tLL+nzVdkcCOoKNSovmrWuV8PvTiGH8+LuqH6UFaZyR+JEVBHw3w
-         t00gjY7e8Kk55NKBA0sqoX80yVF1sTFw51lZLCFC9QAhf1nFcGn7Gs5C72bj36T+zmIP
-         IaPzQCYMuXRtsrorULWTOC3HKXEYNPZDOJVI+GLIxJAUttAWROoKKH12wRmGEjZwFoij
-         ebWA==
-X-Gm-Message-State: AOJu0YyfnPhMzCYF0cU7wSo8FgmTxZ8GvVjzMKws5bL/iF18GxAxm710
-        BTi8Zyvczh+YIyFH07pNiHdcQJEuE+HFTqZyuK+jkJSDqjSmF46XRt98w7AWPlQW1HWWZ0GqqXz
-        iCK1OwAkT32+gtV7ES1n1Z5k=
-X-Received: by 2002:a1c:7709:0:b0:3fd:2d35:b96a with SMTP id t9-20020a1c7709000000b003fd2d35b96amr102418wmi.39.1691508504445;
-        Tue, 08 Aug 2023 08:28:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHpjCsZBjfXVVTdr/mD2H5KTLL1a+85ecgKiTnGDZwLvm+HvJjLR1xXBAXKwqaq7o3OdaJVVg==
-X-Received: by 2002:a1c:7709:0:b0:3fd:2d35:b96a with SMTP id t9-20020a1c7709000000b003fd2d35b96amr102406wmi.39.1691508504123;
-        Tue, 08 Aug 2023 08:28:24 -0700 (PDT)
-Received: from toolbox.fritz.box ([2001:9e8:8994:f500:1291:b1be:fd68:2988])
-        by smtp.gmail.com with ESMTPSA id z10-20020a05600c220a00b003fba6a0c881sm18602959wml.43.2023.08.08.08.28.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Aug 2023 08:28:23 -0700 (PDT)
-From:   Sebastian Wick <sebastian.wick@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Aman Dhoot <amandhoot12@gmail.com>,
-        Sebastian Wick <sebastian.wick@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Raul Rangel <rrangel@chromium.org>,
-        Lyude Paul <lyude@redhat.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Revert "Input: synaptics - enable InterTouch for the ThinkPad P1 G3"
-Date:   Tue,  8 Aug 2023 17:28:15 +0200
-Message-ID: <20230808152817.304836-1-sebastian.wick@redhat.com>
-X-Mailer: git-send-email 2.41.0
+        d=1e100.net; s=20221208; t=1691514312; x=1692119112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=09klJUG3E7m7lMTHPxkNawbEkMYXnC041vOPFpaGyec=;
+        b=fQMKqvx1HMSAlYkdN1AFcBjE9wYLP58MvrZtMBAyjxNTnn0KPFM9ANbhbJkCSr29JA
+         ynlLK4E/UtYozA//B5i+rzrlJ1UhyQiRGyzlTsI5muke3RykkVs1wHtgNR9wyvOND8go
+         VujB17c0U81dCdNoEcnaOpjvjLDhmEFVTg7IvITL+1P/vWwzP2hxm0yZROF8PszjTdlr
+         d1sq9KySK9GLxMKD2QQG2/bwUZypxMEtelicP5XrxFnAOPloCjjWoKhAXQvSjDSCSIj+
+         wl6SeCfuQFng7jC0DFkp4tweZjVHvBNWLvAYe6A4dxYRFH3BWTycxjJLgLbnnnsxRne7
+         Ms+A==
+X-Gm-Message-State: AOJu0YyOH7+/Mc6U3HIUhdkROXBwGJ7O3Ps5DPysgMGtSsQDkrhhA0Fg
+        B575YSKLDVsJB2dhM/RvuXhrmj5qwXk6PG9E25uJvqgrxNzMpzD77kI=
+X-Google-Smtp-Source: AGHT+IHlFLAeyv78YVYnq1ySVnVkxYkbJrCQSKBgHmGWKUUsTThVMRgiG15Q+zST67zlAt4VNOFqtAtDE1owyOCFMI8=
+X-Received: by 2002:a0d:e647:0:b0:577:a46:26e5 with SMTP id
+ p68-20020a0de647000000b005770a4626e5mr10443409ywe.31.1691474058453; Mon, 07
+ Aug 2023 22:54:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <CANWZPgK2+9SCavsbSZv1DfJyhy0XUpJZ6+ebatM9ZGJPpAN1yA@mail.gmail.com>
+ <a65bd290-52d5-475c-0234-85759c5892a2@leemhuis.info>
+In-Reply-To: <a65bd290-52d5-475c-0234-85759c5892a2@leemhuis.info>
+From:   =?UTF-8?B?Sm9zw6kgUmFtw7NuIE11w7FveiBQZWtrYXJpbmVu?= 
+        <koalinux@gmail.com>
+Date:   Tue, 8 Aug 2023 08:53:49 +0300
+Message-ID: <CANWZPgLxq+G9+ytvLNoyVJqZGncBsPbj6PbjwgwYb-wPCFvARQ@mail.gmail.com>
+Subject: Re: atkbd input regression
+To:     Linux regressions mailing list <regressions@lists.linux.dev>
+Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+        gregkh@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DATE_IN_PAST_06_12,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This reverts commit 7984b43542070f5888546d95b48003c4a8af7c0f to make the
-touchpad usable again.
+On Mon, 7 Aug 2023 at 10:53, Linux regression tracking (Thorsten
+Leemhuis) <regressions@leemhuis.info> wrote:
+>
+> [CCing the regression list, as it should be in the loop for regressions:
+> https://docs.kernel.org/admin-guide/reporting-regressions.html]
+>
+> Hi, Thorsten here, the Linux kernel's regression tracker.
+>
+> On 07.08.23 07:19, Jos=C3=A9 Ram=C3=B3n Mu=C3=B1oz Pekkarinen wrote:
+> >     Sorry again, now in plaintext mode.
+> >
+> >     Hi,
+> >
+> >     I'd like to seek help or advise in a possible
+> > regression that I detected on my system(a
+> > Thinkpad L14 Gen 1) that concerns the atkbd
+> > module. My OS is a gentoo, with self built
+> > kernels, and a plasma desktop environment
+> > using wayland. Up to the kernel 5.16.x my
+> > builtin keyboard worked(and works still)
+> > fine both in tty and the plasma session, but
+> > from that kernel on, the keyboard works only
+> > in tty, and no longer in the plasma session.
+>
+> Could you try bisecting this? A few howtos on the net describe what to
+> do. Be sure to use the configuration for your working 5.16 kernel for
+> any builds of newer versions (ideally put it <somewhere> and run "cp
+> <somewhere> .config; make oldconfig" every time before building a newer
+> kernel.
 
-Tapping does not generate any events for user space and moving the
-cursor is janky. Disabling InterTouch fixes those issues.
+    I'm afraid I run into unexpected results, since rebuilding the
+same version of the kernel that works resulted in a non working
+keyboard for my kernel 5.16 also, and I needed to recover the
+former build from some backup. This make me think the problem
+could be somewhere else.
 
-Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
----
- drivers/input/mouse/synaptics.c | 1 -
- 1 file changed, 1 deletion(-)
+    Thanks!
 
-diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
-index ada299ec5bba..0e01df88cf69 100644
---- a/drivers/input/mouse/synaptics.c
-+++ b/drivers/input/mouse/synaptics.c
-@@ -182,7 +182,6 @@ static const char * const smbus_pnp_ids[] = {
- 	"LEN0099", /* X1 Extreme Gen 1 / P1 Gen 1 */
- 	"LEN009b", /* T580 */
- 	"LEN0402", /* X1 Extreme Gen 2 / P1 Gen 2 */
--	"LEN040f", /* P1 Gen 3 */
- 	"LEN200f", /* T450s */
- 	"LEN2044", /* L470  */
- 	"LEN2054", /* E480 */
--- 
-2.41.0
-
+    Jos=C3=A9
