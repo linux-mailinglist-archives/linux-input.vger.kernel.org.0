@@ -2,235 +2,352 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B9537766E8
-	for <lists+linux-input@lfdr.de>; Wed,  9 Aug 2023 20:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78FB2776748
+	for <lists+linux-input@lfdr.de>; Wed,  9 Aug 2023 20:29:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232994AbjHISDA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Aug 2023 14:03:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49082 "EHLO
+        id S231905AbjHIS3r (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Aug 2023 14:29:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232245AbjHISC6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Aug 2023 14:02:58 -0400
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3D28171D;
-        Wed,  9 Aug 2023 11:02:57 -0700 (PDT)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-        by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 379H7xR5014771;
-        Wed, 9 Aug 2023 13:02:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-        from:to:cc:subject:date:message-id:references:in-reply-to
-        :content-type:content-id:content-transfer-encoding:mime-version;
-         s=PODMain02222019; bh=n7Y3aPxjVbza/MQSONsOgoKKfwkmc9jxsL39Rvjha
-        k4=; b=NP01Q3Q8Ueq5WqqBfqY83ZmDqScjNLxuJW/jx4f0Wx2vWESTLt1N7Av2F
-        td8JqYIy1zMkjl+BoTI0U92LAGH/6G5Bekifhb0maoHQHa7X1vubuY++HML0Xo8Z
-        97qVrjOKWE5/9i11q01PENLw/Cobw8s/Cz6N06C0/ZWoIfysqRForMPtboya7VcW
-        S1k5XxdFfCcG2ZSg++FTua7d8PY3iPRha/VU0IV6KYBLKLtSs5rHSPuAfoQlNnx3
-        UPH11Q1KP6eU/P4aD5M1H1b7a2sizrGriD2ZKdpxS+W24LGC5PBWD6A1HlApR1fL
-        DOITQktnNlscWwM1pWkAdR63axXaA==
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
-        by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3s9juhv124-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 09 Aug 2023 13:02:27 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M+1LgzfzlqfH4tGfnY61mQNAFqI6dl6qtDW9xRc7AvIloDLreV5C+0vg+1oYqTpS2OPpI55F62b8D4eF5oRdZdP97hN0Ze9BEE9hmlhIzz+YCvpMlYdnv3mK8KwV4o+lF8a3+8XUyYnDvKbzDFVAhlBKV9g1C1mCsZ/U1nU47uB2eO/lwkew8Jo3oj++28owTsppCqWw0rd8GSCbgFdOF0VsN2q90gUAlKxItvsxdnB6GggZC6U3t2Rbc/h3SO7FWP2ozij7r5EDS7EtVGnMMqspGDyZY8AlhHKaAiBgtOnWtA0I15smQVEEOyGxu9/rMwAV0SbAgOKLjzvQXk0Jew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n7Y3aPxjVbza/MQSONsOgoKKfwkmc9jxsL39Rvjhak4=;
- b=DbV7RSq4x55oqD6x2YzdJqCBjntptOU6T/h1Awdr/+6DIALcHCvkfdo0wxofI9yr82hukBTLWK2ub3DMNqy4weAZxCBeglnaYkmr1YWd339tD8OKqXDtav3zOOC49Trz9ToMKaj1W8m6QSwRrTeL+NuXdYuJ50Cic0JGu0MTVPYZJHPV+/bSMgga3igkOjSNtLm9sBG08OLsbM45sllwi4XWV7teNSaxZcVkvOBJJdsFtj7iARMt0hY1pn6dUspaNhMfOzDnFdrAiNSJReTMgALNgBEhzWntstztrdtcxg9EYs09DnG22q0RiQPHkFRsRofBMrF3xXVx2c13c+Ry5g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cirrus.com; dmarc=pass action=none header.from=cirrus.com;
- dkim=pass header.d=cirrus.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n7Y3aPxjVbza/MQSONsOgoKKfwkmc9jxsL39Rvjhak4=;
- b=xlw/jeFKmXBZyzWaND72tERwf44zZ/MJC2x2qn1EyR0Ny/NVyY1fk8o2Rz8xx0BrJjMvPs7AmflgIZptnmDGJvTDUweS4kaKWmf6nnna9SM0Vb7UJPOr2fZbClKnDG7e8gs4quLRiOgWbnO4rqawsa0aKtCrCFFeGkBL9fcBwE4=
-Received: from BN8PR19MB3057.namprd19.prod.outlook.com (2603:10b6:408:95::13)
- by MN0PR19MB6432.namprd19.prod.outlook.com (2603:10b6:208:3d3::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.28; Wed, 9 Aug
- 2023 18:02:22 +0000
-Received: from BN8PR19MB3057.namprd19.prod.outlook.com
- ([fe80::7a8e:a98c:421a:c1a8]) by BN8PR19MB3057.namprd19.prod.outlook.com
- ([fe80::7a8e:a98c:421a:c1a8%6]) with mapi id 15.20.6652.028; Wed, 9 Aug 2023
- 18:02:22 +0000
-From:   James Ogletree <James.Ogletree@cirrus.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Fred Treven <Fred.Treven@cirrus.com>,
-        Ben Bright <Ben.Bright@cirrus.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-        Peng Fan <peng.fan@nxp.com>, Jean Delvare <jdelvare@suse.de>,
-        Jeff LaBundy <jeff@labundy.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Eddie James <eajames@linux.ibm.com>,
-        Jacky Bai <ping.bai@nxp.com>,
-        Markus Schneider-Pargmann <msp@baylibre.com>,
-        ChiYuan Huang <cy_huang@richtek.com>,
-        Jerome Neanne <jneanne@baylibre.com>,
-        "patches@cirrus.com" <patches@cirrus.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] Input: cs40l50 - Initial support for Cirrus Logic
- CS40L50
-Thread-Topic: [PATCH 2/2] Input: cs40l50 - Initial support for Cirrus Logic
- CS40L50
-Thread-Index: AQHZyh7OBljw2/gB2Ee1hzhfi1Ulg6/hhmeAgAC8mIA=
-Date:   Wed, 9 Aug 2023 18:02:21 +0000
-Message-ID: <ADCCD2C5-B79B-4C50-B3CE-007B1FBF5A5E@cirrus.com>
-References: <20230808172511.665787-1-james.ogletree@cirrus.com>
- <20230808172511.665787-2-james.ogletree@cirrus.com>
- <065fbe51-928c-4728-efc2-bde87cd48cb3@linaro.org>
-In-Reply-To: <065fbe51-928c-4728-efc2-bde87cd48cb3@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN8PR19MB3057:EE_|MN0PR19MB6432:EE_
-x-ms-office365-filtering-correlation-id: be83eb8c-d041-4d2a-c8fb-08db9902c78b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 4b7sIPM+AgMONiymtGBfU7NNiDsL0PT+yDuimjsEsU8lYds4adrqob3DcmnRIsuAZ8whsGQNE2mIjoDr8F54nakx6IybvarK6YICn6Y5O5NMumunUOCNSJEiQOOzs3M4HjGbWzJItj7v2BFHuTZsCxWQuaw5A8+lTk+/oGcFQc8rknkVeaMJzwQS3AQKO+ZGDPgLJKUbc6omO9iLdkZ+S5LR8uDxr79glEEmK7oBd6hIfQPxdQ37TE1cc2mhriOGkG9IKLm6R3S/Y93947ovlGOP3c0aJHfb2T4gY+Ci9QMWP+YLeiucykVLi6HXtZTomGNqfIDCAJN8Nj7sHvQRP8Bnw0PqGRXuGKlzv1byZiM+fXa3fSripn4jy7A3JeVhoh5gIMdZC2hW0ap99q3BjsN0Tszu58jhSg7EMrIPRbpzHms4gAhKynfE1ns5CDP/jgwe7xgyMY44A9/unsx2k72UsLcCV1GsTOUt+w7lw1xjM+FkK/UwwXSf7AhKrJ943bPa/8gxye6jMLiDBG7zWlCX/2tpd+xv21Lx7GsghrcJ7NxUr5bNpuWc3W/PF2RhnzyY2I9LS1sSO1UfhwnzhunR3r1qJMitk6BEf36120SdcJYpkJqqTq66eWoWzwWJcXLJcYunpW9vw9ij16nFCg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR19MB3057.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(396003)(376002)(39850400004)(346002)(366004)(1800799006)(186006)(451199021)(86362001)(7416002)(5660300002)(2906002)(38070700005)(33656002)(41300700001)(8676002)(66476007)(8936002)(66556008)(64756008)(316002)(54906003)(83380400001)(38100700002)(36756003)(2616005)(66446008)(4326008)(122000001)(478600001)(6916009)(66946007)(53546011)(71200400001)(6506007)(26005)(76116006)(91956017)(6486002)(6512007)(45980500001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dU5wYVVWQ25yNENtVlhrbmRHSjJwaDBKUzJvcXJ1WmNJOXYxcmRBUnNYWWJ0?=
- =?utf-8?B?UksrdExsZFVMdG1zZ2o5bkxqemZURENCT2dRdFY1aWV3eE1KRlRxTHZaVE95?=
- =?utf-8?B?SjhzMWF5K2FJdTZaS3VLeitXSDkxZnY3aU9qelg5Y1dOU2xLTk9FREwwZWxv?=
- =?utf-8?B?RGVVQytMVEFrTFNXSXhyci9vQmFDdVVqaHhWZWZST1FSK2kvbE5wS29sdkg1?=
- =?utf-8?B?OTN1dWg5NnI2UHd2b2g1ZjNBQXZXWmJTWm9rQU02ajdzd25RcnNabkp3bVlP?=
- =?utf-8?B?NXBMQUlxalFzdk9CeHFpOExFcGMzM1Z5TFREMTFMQlY5cW5DejV6Qmdkb0h5?=
- =?utf-8?B?WHZIS2xXTVZXYVNXNFh6dFFScVhYZ2lMeUJRL3MrLzFPV3I4UmJUeWRqSlZY?=
- =?utf-8?B?VnNqOUhweFZJSitVWVp2SHBWeEowNm5Lcnp0eHFJWWhwR0c2ZUp6a1NISDc2?=
- =?utf-8?B?SnBXQjNxeGJQUzFPNC9pYXZTUTdFUUcrUjFvRlB4UmxMb1lJTHVLRklMNkQw?=
- =?utf-8?B?WGtzMjF3SXJ5QmZoOEExd3c2TTFJbzJNcFZSSjk0VTI2U05rWjJSMjJrYTN4?=
- =?utf-8?B?bjFCdTRaTXFSbExqWmRhNGFwUlc1em4zTVljbnlSNHhaeHQrOFRGMGJJb1pq?=
- =?utf-8?B?Vlp4R1VDR0hyVWRLMm5kQmp6K1U2UEV2UWxiTXZXWkpPbFFaOHdyc0lHSytJ?=
- =?utf-8?B?NmsyWlhPcEUzSi9FUDNZd3YyK3B5VUpJNmN1UkQvMWRTTHhxSVNYN3ErdFlT?=
- =?utf-8?B?SFFJMjFEVHViNENwWE1VM0gvenhmUTlHUll3WHpHdmtkZUoveUlyOHNDTk8r?=
- =?utf-8?B?dmNGQzFDODB4NnBoWSt6bzlpOWV3NDRvRzJ5M1B3YTRtOU9OQjh0eVppcExM?=
- =?utf-8?B?QnI5RDZIa2tYQnVscWppNFhjZll2Slgwc1pQL1R5dk9DWnl3SEU2ZU9rb2gv?=
- =?utf-8?B?alVjSXQ2Vlp1NndSN0ZGblJ6SFY3MnRjbFplUmZEMU9nUUIrbWN4N3E1b1VH?=
- =?utf-8?B?akRNWGs0Z0NDOXhpNlVzZG5oZkRVY1dUT0xIS1dlZC9iRGhZM2dwcUhCTFBm?=
- =?utf-8?B?NTZWNUg1WnFGR2xLYnYxbHgrMFpGdHB6cHBuNlMxc1o5c0h3OFhpZlZ2azAw?=
- =?utf-8?B?WjY2SjBnZHZWL3VUcUhOaDFCZGhFOGkrL0c4WDJhQnhvT0FtaDFwVWh3Q1BV?=
- =?utf-8?B?K0pUcXozZzUwWFV2THpueC8vQTZhS0ZId1dBMEY1S2huejdIdHVIL0t4MjQv?=
- =?utf-8?B?SzFZejBid2JzcUlUMUlFSm9jYWhIcUtlUWJOYXJCaGk0L216SGNXS0lXcHNJ?=
- =?utf-8?B?cW5GNmpraFFIcGpWRm5rR0l1VFdYYWtGZmdBMDdmK203OG01Y0VydXI0R2ZQ?=
- =?utf-8?B?MzV2aFF6NEhXMDFGcXZKVHp3MFVVRzZyS3E5dkJSbzlseDhhUzdpY3VWbUhO?=
- =?utf-8?B?ckNRNXM0c2laSUNkRzlMaUtBRklHUEUxRjZTRmdqdkRJaWtxQlltZ3dvV0Ro?=
- =?utf-8?B?MjdEaFQ4UHdJYXMraXNwc3dDdytUV1IveHkrNklWRFFqeUhNRFNvc0J3RmVx?=
- =?utf-8?B?c0srR2tSWWRRODNnNFhpcWROQlFIVmdEZXRyRmtMVlFGZkFWRWdEM1V3dmk3?=
- =?utf-8?B?ZmU3N2xqL0o5MlEwZ25mTFBnNHVLN2VYMkdOb2t1TVZJbi9VRnltUHlBL3hX?=
- =?utf-8?B?MFBlM2wvc2w0RlZBcFVNYm1sT1FweE9jSXl2ZG9QdWt6QjJqTTErRkJmVWZL?=
- =?utf-8?B?NXdHdDlhMEtMczh1cldXSmdrTThNOEszU0FVdFRJYnRHN0I4cHlWMDJUMGQ3?=
- =?utf-8?B?eWQwZ3lRTzdCVUhzdUFsTGdrRlNLWHVVQXZjajNhZDkxUjM3eDdWRjgrR0RY?=
- =?utf-8?B?aWtLOUJxOEJ0M3M5cTZxVjIyZy9oWFdIek5VT1hFYldBMXFVbzVaQk1NemRX?=
- =?utf-8?B?Y2hmdEJWTmowenE1cTcxdEpnNmJDOXlNM3ZobDEyRE1PdnQvMUtINFByaEp3?=
- =?utf-8?B?RG1OVTFnbjNway9CbzJEaDZiei8vaWpDUDJKL2JPZkhBd3Q4bHFpMUNxZHVw?=
- =?utf-8?B?U04wSG9wYlpMd3JCbXA0M2xBVDV4TUJ0Q25EZStTUXVDeEZIejhRYjh3azRa?=
- =?utf-8?B?WUErekw3MGdGeCt0ZGxqWGxnVzEySXhhRmZBZm9WVHNhQ25IeGZINUZVaGtZ?=
- =?utf-8?B?Q3c9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E54D707F385DDA428438F8656C6B9C68@namprd19.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: cirrus.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR19MB3057.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: be83eb8c-d041-4d2a-c8fb-08db9902c78b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Aug 2023 18:02:21.9384
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Zw4R0ksGiujes//suExVYwC2LOMfp+1MsrdMkQ/tZ1w/H62nktkXuWQaMo2QBoX0YL4tlvHF69Mfu8FVVEvgtzJvuekNFnzjqhl54d7L5ZY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR19MB6432
-X-Proofpoint-GUID: 5qTaDB_px8rcTip3W7Aet88UuQLT0z7w
-X-Proofpoint-ORIG-GUID: 5qTaDB_px8rcTip3W7Aet88UuQLT0z7w
-X-Proofpoint-Spam-Reason: safe
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S231429AbjHIS3q (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Aug 2023 14:29:46 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B2451BFA;
+        Wed,  9 Aug 2023 11:29:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691605785; x=1723141785;
+  h=date:from:to:cc:subject:message-id;
+  bh=JO28v4AThAH9S4Jz1TvazVqFHkRKaGQWvh2JuhCpHm4=;
+  b=b1RoipgsXlr8EZ9owtB8RXOXpgjmyUg4u7knS3KflInD4V+PZ2q8whH3
+   vGpwas4kykVvnDJqvsqN4wCTGXdpf5RTa9ke4MtxAR2P19bF41+LMhUkJ
+   pYaQJOVR5H62c2Ep9kUsAzLDwMBMTeq+5Yb7P1yjcCJWabKUtB0k6Nebz
+   gXgPYzc2opTT9jbJ1TozwWpSoqslltuEpyoIDORCGtH1cPMFVlgG8q8/c
+   45vVu96w2Jay0DsIUfT8nG/MRS1D3JQOE5OinFHiWb9Yt1FBk7uVkvF49
+   C+wTZzsH3oxJd3EYUCTm7NpCQBWm0pD6aFLjBWWWJBCr4TdgGXZ8CkceT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="370099551"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
+   d="scan'208";a="370099551"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 11:29:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="846078968"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
+   d="scan'208";a="846078968"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 09 Aug 2023 11:29:41 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qTnwD-0006Jy-0G;
+        Wed, 09 Aug 2023 18:29:41 +0000
+Date:   Thu, 10 Aug 2023 02:29:19 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Linux Memory Management List <linux-mm@kvack.org>,
+        amd-gfx@lists.freedesktop.org, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-alpha@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [linux-next:master] BUILD REGRESSION
+ 21ef7b1e17d039053edaeaf41142423810572741
+Message-ID: <202308100207.to2feahW-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-DQoNCj4gT24gQXVnIDksIDIwMjMsIGF0IDE6NDcgQU0sIEtyenlzenRvZiBLb3psb3dza2kgPGty
-enlzenRvZi5rb3psb3dza2lAbGluYXJvLm9yZz4gd3JvdGU6DQo+IA0KPiBPbiAwOC8wOC8yMDIz
-IDE5OjI1LCBKYW1lcyBPZ2xldHJlZSB3cm90ZToNCj4gDQo+PiArIGdvdG8gZXJyOw0KPj4gKyB9
-DQo+PiArDQo+PiArIGNzNDBsNTAtPnJlc2V0X2dwaW8gPSBkZXZtX2dwaW9kX2dldF9vcHRpb25h
-bChjczQwbDUwLT5kZXYsICJyZXNldCIsIEdQSU9EX09VVF9ISUdIKTsNCj4+ICsgaWYgKElTX0VS
-UihjczQwbDUwLT5yZXNldF9ncGlvKSkgew0KPj4gKyBlcnJvciA9IFBUUl9FUlIoY3M0MGw1MC0+
-cmVzZXRfZ3Bpbyk7DQo+PiArIGdvdG8gZXJyOw0KPj4gKyB9DQo+PiArDQo+PiArIHVzbGVlcF9y
-YW5nZShDUzQwTDUwX01JTl9SRVNFVF9QVUxTRV9XSURUSF9VUywgQ1M0MEw1MF9NSU5fUkVTRVRf
-UFVMU0VfV0lEVEhfVVMgKyAxMDApOw0KPj4gKw0KPj4gKyBncGlvZF9zZXRfdmFsdWVfY2Fuc2xl
-ZXAoY3M0MGw1MC0+cmVzZXRfZ3BpbywgMCk7DQo+PiArDQo+PiArIHVzbGVlcF9yYW5nZShDUzQw
-TDUwX0NQX1JFQURZX0RFTEFZX1VTLCBDUzQwTDUwX0NQX1JFQURZX0RFTEFZX1VTICsgMTAwMCk7
-DQo+PiArDQo+PiArIGZvciAoaSA9IDA7IGkgPCBDUzQwTDUwX0RTUF9USU1FT1VUX0NPVU5UOyBp
-KyspIHsNCj4+ICsgZXJyb3IgPSBjczQwbDUwX2RzcF9yZWFkKGNzNDBsNTAsIENTNDBMNTBfRFNQ
-MV9IQUxPX1NUQVRFLCAmdmFsKTsNCj4+ICsgaWYgKCFlcnJvciAmJiB2YWwgPCAweEZGRkYgJiYg
-dmFsID49IENTNDBMNTBfSEFMT19TVEFURV9CT09UX0RPTkUpDQo+PiArIGJyZWFrOw0KPj4gKw0K
-Pj4gKyB1c2xlZXBfcmFuZ2UoQ1M0MEw1MF9EU1BfUE9MTF9VUywgQ1M0MEw1MF9EU1BfUE9MTF9V
-UyArIDEwMCk7DQo+PiArIH0NCj4+ICsNCj4+ICsgaWYgKGkgPT0gQ1M0MEw1MF9EU1BfVElNRU9V
-VF9DT1VOVCkgew0KPj4gKyBkZXZfZXJyKGNzNDBsNTAtPmRldiwgIkZpcm13YXJlIGJvb3QgZmFp
-bGVkOiAlZCwgaGFsbyBzdGF0ZSA9ICUjeFxuIiwgZXJyb3IsIHZhbCk7DQo+PiArIGdvdG8gZXJy
-Ow0KPj4gKyB9DQo+PiArDQo+PiArIGNzNDBsNTAtPnZpYmVfd29ya3F1ZXVlID0gYWxsb2Nfb3Jk
-ZXJlZF93b3JrcXVldWUoImNzNDBsNTBfd29ya3F1ZXVlIiwgV1FfSElHSFBSSSk7DQo+PiArIGlm
-ICghY3M0MGw1MC0+dmliZV93b3JrcXVldWUpIHsNCj4+ICsgZXJyb3IgPSAtRU5PTUVNOw0KPj4g
-KyBnb3RvIGVycjsNCj4+ICsgfQ0KPj4gKw0KPj4gKyBJTklUX1dPUksoJmNzNDBsNTAtPnZpYmVf
-c3RhcnRfd29yaywgY3M0MGw1MF92aWJlX3N0YXJ0X3dvcmtlcik7DQo+PiArIElOSVRfV09SSygm
-Y3M0MGw1MC0+dmliZV9zdG9wX3dvcmssIGNzNDBsNTBfdmliZV9zdG9wX3dvcmtlcik7DQo+PiAr
-DQo+PiArIGVycm9yID0gY3M0MGw1MF9jc19kc3BfaW5pdChjczQwbDUwKTsNCj4+ICsgaWYgKGVy
-cm9yKQ0KPj4gKyBnb3RvIGVycjsNCj4+ICsNCj4+ICsgZXJyb3IgPSBjczQwbDUwX2lucHV0X2lu
-aXQoY3M0MGw1MCk7DQo+PiArIGlmIChlcnJvcikNCj4+ICsgZ290byBlcnI7DQo+PiArDQo+PiAr
-IGVycm9yID0gY3M0MGw1MF9wYXRjaF9maXJtd2FyZShjczQwbDUwKTsNCj4+ICsgaWYgKGVycm9y
-KQ0KPj4gKyBnb3RvIGVycjsNCj4+ICsNCj4+ICsgZXJyb3IgPSBjczQwbDUwX3BzZXFfaW5pdChj
-czQwbDUwKTsNCj4+ICsgaWYgKGVycm9yKQ0KPj4gKyBnb3RvIGVycjsNCj4+ICsNCj4+ICsgZXJy
-b3IgPSBjczQwbDUwX2NvbmZpZ19ic3QoY3M0MGw1MCk7DQo+PiArIGlmIChlcnJvcikNCj4+ICsg
-Z290byBlcnI7DQo+PiArDQo+PiArIGVycm9yID0gZGV2bV9yZWdtYXBfYWRkX2lycV9jaGlwKGNz
-NDBsNTAtPmRldiwgY3M0MGw1MC0+cmVnbWFwLCBjczQwbDUwLT5pcnEsDQo+PiArIElSUUZfT05F
-U0hPVCB8IElSUUZfU0hBUkVEIHwgSVJRRl9UUklHR0VSX0xPVywgMCwgJmNzNDBsNTBfcmVnbWFw
-X2lycV9jaGlwLA0KPj4gKyAmY3M0MGw1MC0+aXJxX2RhdGEpOw0KPj4gKyBpZiAoZXJyb3IpIHsN
-Cj4+ICsgZGV2X2VycihjczQwbDUwLT5kZXYsICJGYWlsZWQgdG8gcmVnaXN0ZXIgSVJRIGNoaXA6
-ICVkXG4iLCBlcnJvcik7DQo+PiArIGdvdG8gZXJyOw0KPj4gKyB9DQo+PiArDQo+PiArIGZvciAo
-aSA9IDA7IGkgPCBBUlJBWV9TSVpFKGNzNDBsNTBfaXJxcyk7IGkrKykgew0KPj4gKyBpcnEgPSBy
-ZWdtYXBfaXJxX2dldF92aXJxKGNzNDBsNTAtPmlycV9kYXRhLCBjczQwbDUwX2lycXNbaV0uaXJx
-KTsNCj4+ICsgaWYgKGlycSA8IDApIHsNCj4+ICsgZGV2X2VycihjczQwbDUwLT5kZXYsICJGYWls
-ZWQgdG8gZ2V0ICVzXG4iLCBjczQwbDUwX2lycXNbaV0ubmFtZSk7DQo+PiArIGVycm9yID0gaXJx
-Ow0KPj4gKyBnb3RvIGVycjsNCj4+ICsgfQ0KPj4gKw0KPj4gKyBlcnJvciA9IGRldm1fcmVxdWVz
-dF90aHJlYWRlZF9pcnEoY3M0MGw1MC0+ZGV2LCBpcnEsIE5VTEwsIGNzNDBsNTBfaXJxc1tpXS5o
-YW5kbGVyLA0KPj4gKyBJUlFGX09ORVNIT1QgfCBJUlFGX1NIQVJFRCB8IElSUUZfVFJJR0dFUl9M
-T1csDQo+PiArIGNzNDBsNTBfaXJxc1tpXS5uYW1lLCBjczQwbDUwKTsNCj4+ICsgaWYgKGVycm9y
-KSB7DQo+PiArIGRldl9lcnIoY3M0MGw1MC0+ZGV2LCAiRmFpbGVkIHRvIHJlcXVlc3QgSVJRICVz
-OiAlZFxuIiwNCj4+ICsgY3M0MGw1MF9pcnFzW2ldLm5hbWUsIGVycm9yKTsNCj4+ICsgZ290byBl
-cnI7DQo+PiArIH0NCj4+ICsgfQ0KPj4gKw0KPj4gKyByZXR1cm4gMDsNCj4+ICsNCj4+ICtlcnI6
-DQo+PiArIGNzNDBsNTBfcmVtb3ZlKGNzNDBsNTApOw0KPj4gKw0KPj4gKyByZXR1cm4gZXJyb3I7
-DQo+PiArfQ0KPj4gK0VYUE9SVF9TWU1CT0xfR1BMKGNzNDBsNTBfcHJvYmUpOw0KPj4gKw0KPj4g
-K2ludCBjczQwbDUwX3JlbW92ZShzdHJ1Y3QgY3M0MGw1MF9wcml2YXRlICpjczQwbDUwKQ0KPj4g
-K3sNCj4+ICsgZGlzYWJsZV9pcnEoY3M0MGw1MC0+aXJxKTsNCj4+ICsNCj4+ICsgaWYgKGNzNDBs
-NTAtPmRzcC5ib290ZWQpDQo+PiArIGNzX2RzcF9wb3dlcl9kb3duKCZjczQwbDUwLT5kc3ApOw0K
-Pj4gKyBpZiAoJmNzNDBsNTAtPmRzcCkNCj4+ICsgY3NfZHNwX3JlbW92ZSgmY3M0MGw1MC0+ZHNw
-KTsNCj4+ICsNCj4+ICsgaWYgKGNzNDBsNTAtPnZpYmVfd29ya3F1ZXVlKSB7DQo+PiArIGZsdXNo
-X3dvcmtxdWV1ZShjczQwbDUwLT52aWJlX3dvcmtxdWV1ZSk7DQo+PiArIGRlc3Ryb3lfd29ya3F1
-ZXVlKGNzNDBsNTAtPnZpYmVfd29ya3F1ZXVlKTsNCj4+ICsgfQ0KPj4gKw0KPj4gKyBncGlvZF9z
-ZXRfdmFsdWVfY2Fuc2xlZXAoY3M0MGw1MC0+cmVzZXRfZ3BpbywgMSk7DQo+PiArIHJlZ3VsYXRv
-cl9idWxrX2Rpc2FibGUoQVJSQVlfU0laRShjczQwbDUwX3N1cHBsaWVzKSwgY3M0MGw1MF9zdXBw
-bGllcyk7DQo+PiArDQo+PiArIHJldHVybiAwOw0KPj4gK30NCj4+ICtFWFBPUlRfU1lNQk9MX0dQ
-TChjczQwbDUwX3JlbW92ZSk7DQo+PiArDQo+PiArTU9EVUxFX0RFU0NSSVBUSU9OKCJDUzQwTDUw
-IEFkdmFuY2VkIEhhcHRpYyBEcml2ZXIiKTsNCj4+ICtNT0RVTEVfQVVUSE9SKCJKYW1lcyBPZ2xl
-dHJlZSwgQ2lycnVzIExvZ2ljIEluYy4gPGphbWVzLm9nbGV0cmVlQGNpcnJ1cy5jb20+Iik7DQo+
-PiArTU9EVUxFX0xJQ0VOU0UoIkdQTCIpOw0KPiANCj4gSSBkb24ndCB0aGluayB0aGlzIGlzIGEg
-bW9kdWxlLg0KDQpJdCBjYW4gYmUgY29tcGlsZWQgYXMgYSBtb2R1bGUgd2l0aCBDT05GSUdfSU5Q
-VVRfQ1M0MEw1MD1tLiBIb3dldmVyLCB0aGVyZSBpcyBhDQp0eXBvIGluIHRoZSBLY29uZmlnIGVu
-dHJ5IGRlc2NyaXB0aW9uOiB0aGUgbW9kdWxlIHdpbGwgYmUgY2FsbGVkIOKAnGNzNDBsNTDigJ0g
-bm90IOKAnGNzNDBsNTAtY29yZeKAnS4NClRoYXQgd2lsbCBiZSBmaXhlZC4gDQoNCkJlc3QsDQoN
-CkphbWVzDQoNCg0K
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 21ef7b1e17d039053edaeaf41142423810572741  Add linux-next specific files for 20230809
+
+Error/Warning reports:
+
+https://lore.kernel.org/oe-kbuild-all/202307251531.p8ZLFTMZ-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308081459.US5rLYAY-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308091728.NEJhgUPP-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308091820.0dPY7D6f-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308092009.dDIMqss4-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308100149.2rvEPRIG-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308100247.oHTlRKLx-lkp@intel.com
+
+Error/Warning: (recently discovered and may have been fixed)
+
+../lib/gcc/loongarch64-linux/12.3.0/plugin/include/config/loongarch/loongarch-opts.h:31:10: fatal error: loongarch-def.h: No such file or directory
+drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_replay.c:37: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+drivers/video/backlight/lp855x_bl.c:252:11: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+drivers/video/backlight/lp855x_bl.c:252:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+include/linux/list.h:53:13: error: '__preserve_most__' calling convention is not supported for this target [-Werror,-Wignored-attributes]
+include/linux/list.h:53:13: warning: '__preserve_most__' calling convention is not supported for this target [-Wignored-attributes]
+lib/list_debug.c:20:1: warning: '__preserve_most__' calling convention is not supported for this target [-Wignored-attributes]
+warning: unsafe memchr() usage lacked '__read_overflow' warning in lib/test_fortify/read_overflow-memchr.c
+warning: unsafe memchr_inv() usage lacked '__read_overflow' warning in lib/test_fortify/read_overflow-memchr_inv.c
+warning: unsafe memcmp() usage lacked '__read_overflow' warning in lib/test_fortify/read_overflow-memcmp.c
+warning: unsafe memcmp() usage lacked '__read_overflow2' warning in lib/test_fortify/read_overflow2-memcmp.c
+warning: unsafe memcpy() usage lacked '__read_overflow2' warning in lib/test_fortify/read_overflow2-memcpy.c
+warning: unsafe memcpy() usage lacked '__read_overflow2_field' warning in lib/test_fortify/read_overflow2_field-memcpy.c
+warning: unsafe memcpy() usage lacked '__write_overflow' warning in lib/test_fortify/write_overflow-memcpy.c
+warning: unsafe memcpy() usage lacked '__write_overflow_field' warning in lib/test_fortify/write_overflow_field-memcpy.c
+warning: unsafe memmove() usage lacked '__read_overflow2' warning in lib/test_fortify/read_overflow2-memmove.c
+warning: unsafe memmove() usage lacked '__read_overflow2_field' warning in lib/test_fortify/read_overflow2_field-memmove.c
+warning: unsafe memmove() usage lacked '__write_overflow' warning in lib/test_fortify/write_overflow-memmove.c
+warning: unsafe memmove() usage lacked '__write_overflow_field' warning in lib/test_fortify/write_overflow_field-memmove.c
+warning: unsafe memscan() usage lacked '__read_overflow' warning in lib/test_fortify/read_overflow-memscan.c
+warning: unsafe memset() usage lacked '__write_overflow' warning in lib/test_fortify/write_overflow-memset.c
+warning: unsafe memset() usage lacked '__write_overflow_field' warning in lib/test_fortify/write_overflow_field-memset.c
+warning: unsafe strcpy() usage lacked '__write_overflow' warning in lib/test_fortify/write_overflow-strcpy-lit.c
+warning: unsafe strcpy() usage lacked '__write_overflow' warning in lib/test_fortify/write_overflow-strcpy.c
+warning: unsafe strlcpy() usage lacked '__write_overflow' warning in lib/test_fortify/write_overflow-strlcpy-src.c
+warning: unsafe strlcpy() usage lacked '__write_overflow' warning in lib/test_fortify/write_overflow-strlcpy.c
+warning: unsafe strncpy() usage lacked '__write_overflow' warning in lib/test_fortify/write_overflow-strncpy-src.c
+warning: unsafe strncpy() usage lacked '__write_overflow' warning in lib/test_fortify/write_overflow-strncpy.c
+warning: unsafe strscpy() usage lacked '__write_overflow' warning in lib/test_fortify/write_overflow-strscpy.c
+
+Unverified Error/Warning (likely false positive, please contact us if interested):
+
+drivers/block/ublk_drv.c:445 ublk_setup_iod_zoned() warn: signedness bug returning '(-95)'
+drivers/gpu/drm/tests/drm_exec_test.c:166 test_prepare_array() error: uninitialized symbol 'ret'.
+drivers/input/touchscreen/iqs7211.c:1761 iqs7211_parse_cycles() error: buffer overflow 'cycle_alloc[0]' 2 <= 41
+drivers/regulator/max77857-regulator.c:430:28: sparse: sparse: symbol 'max77857_id' was not declared. Should it be static?
+drivers/soundwire/qcom.c:905:22-23: WARNING opportunity for min()
+drivers/video/fbdev/core/fb_chrdev.c:239 do_fscreeninfo_to_user() warn: ignoring unreachable code.
+kernel/workqueue.c:324:40: sparse: sparse: duplicate [noderef]
+kernel/workqueue.c:324:40: sparse: sparse: multiple address spaces given: __percpu & __rcu
+mm/khugepaged.c:2138 collapse_file() warn: variable dereferenced before check 'cc' (see line 1787)
+net/xdp/xsk.c:696 xsk_build_skb() error: 'skb' dereferencing possible ERR_PTR()
+sh4-linux-gcc: internal compiler error: Segmentation fault signal terminated program cc1
+{standard input}: Warning: end of file not at end of a line; newline inserted
+{standard input}:927: Error: pcrel too far
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- alpha-randconfig-r082-20230808
+|   |-- kernel-workqueue.c:sparse:sparse:duplicate-noderef
+|   `-- kernel-workqueue.c:sparse:sparse:multiple-address-spaces-given:__percpu-__rcu
+|-- alpha-randconfig-r093-20230809
+|   `-- arch-alpha-include-asm-xchg.h:sparse:sparse:cast-truncates-bits-from-constant-value-(eb9f-becomes-9f)
+|-- arc-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- arm-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- arm-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- arm64-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- i386-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- i386-buildonly-randconfig-r006-20230809
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- i386-randconfig-r082-20230809
+|   `-- drivers-regulator-max77857-regulator.c:sparse:sparse:symbol-max77857_id-was-not-declared.-Should-it-be-static
+|-- loongarch-allmodconfig
+|   `-- lib-gcc-loongarch64-linux-..-plugin-include-config-loongarch-loongarch-opts.h:fatal-error:loongarch-def.h:No-such-file-or-directory
+|-- microblaze-randconfig-r035-20230808
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- mips-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- mips-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- mips-randconfig-m031-20230809
+|   |-- drivers-gpu-drm-tests-drm_exec_test.c-test_prepare_array()-error:uninitialized-symbol-ret-.
+|   |-- drivers-input-touchscreen-iqs7211.c-iqs7211_parse_cycles()-error:buffer-overflow-cycle_alloc
+|   `-- net-xdp-xsk.c-xsk_build_skb()-error:skb-dereferencing-possible-ERR_PTR()
+|-- parisc-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- powerpc-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- riscv-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- riscv-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- s390-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- s390-randconfig-m041-20230809
+|   |-- drivers-block-ublk_drv.c-ublk_setup_iod_zoned()-warn:signedness-bug-returning
+|   |-- drivers-video-fbdev-core-fb_chrdev.c-do_fscreeninfo_to_user()-warn:ignoring-unreachable-code.
+|   `-- mm-khugepaged.c-collapse_file()-warn:variable-dereferenced-before-check-cc-(see-line-)
+|-- s390-randconfig-r044-20230808
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- sh-allmodconfig
+|   |-- sh4-linux-gcc:internal-compiler-error:Segmentation-fault-signal-terminated-program-cc1
+|   |-- standard-input:Error:pcrel-too-far
+|   `-- standard-input:Warning:end-of-file-not-at-end-of-a-line-newline-inserted
+|-- sparc-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- um-randconfig-r051-20230809
+|   `-- drivers-soundwire-qcom.c:WARNING-opportunity-for-min()
+`-- x86_64-allyesconfig
+    `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_replay.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+clang_recent_errors
+|-- arm-randconfig-r005-20230809
+|   |-- include-linux-list.h:error:__preserve_most__-calling-convention-is-not-supported-for-this-target-Werror-Wignored-attributes
+|   |-- include-linux-list.h:warning:__preserve_most__-calling-convention-is-not-supported-for-this-target
+|   |-- lib-list_debug.c:warning:__preserve_most__-calling-convention-is-not-supported-for-this-target
+|   |-- warning:unsafe-memchr()-usage-lacked-__read_overflow-warning-in-lib-test_fortify-read_overflow-memchr.c
+|   |-- warning:unsafe-memchr_inv()-usage-lacked-__read_overflow-warning-in-lib-test_fortify-read_overflow-memchr_inv.c
+|   |-- warning:unsafe-memcmp()-usage-lacked-__read_overflow-warning-in-lib-test_fortify-read_overflow-memcmp.c
+|   |-- warning:unsafe-memcmp()-usage-lacked-__read_overflow2-warning-in-lib-test_fortify-read_overflow2-memcmp.c
+|   |-- warning:unsafe-memcpy()-usage-lacked-__read_overflow2-warning-in-lib-test_fortify-read_overflow2-memcpy.c
+|   |-- warning:unsafe-memcpy()-usage-lacked-__read_overflow2_field-warning-in-lib-test_fortify-read_overflow2_field-memcpy.c
+|   |-- warning:unsafe-memcpy()-usage-lacked-__write_overflow-warning-in-lib-test_fortify-write_overflow-memcpy.c
+|   |-- warning:unsafe-memcpy()-usage-lacked-__write_overflow_field-warning-in-lib-test_fortify-write_overflow_field-memcpy.c
+|   |-- warning:unsafe-memmove()-usage-lacked-__read_overflow2-warning-in-lib-test_fortify-read_overflow2-memmove.c
+|   |-- warning:unsafe-memmove()-usage-lacked-__read_overflow2_field-warning-in-lib-test_fortify-read_overflow2_field-memmove.c
+|   |-- warning:unsafe-memmove()-usage-lacked-__write_overflow-warning-in-lib-test_fortify-write_overflow-memmove.c
+|   |-- warning:unsafe-memmove()-usage-lacked-__write_overflow_field-warning-in-lib-test_fortify-write_overflow_field-memmove.c
+|   |-- warning:unsafe-memscan()-usage-lacked-__read_overflow-warning-in-lib-test_fortify-read_overflow-memscan.c
+|   |-- warning:unsafe-memset()-usage-lacked-__write_overflow-warning-in-lib-test_fortify-write_overflow-memset.c
+|   |-- warning:unsafe-memset()-usage-lacked-__write_overflow_field-warning-in-lib-test_fortify-write_overflow_field-memset.c
+|   |-- warning:unsafe-strcpy()-usage-lacked-__write_overflow-warning-in-lib-test_fortify-write_overflow-strcpy-lit.c
+|   |-- warning:unsafe-strcpy()-usage-lacked-__write_overflow-warning-in-lib-test_fortify-write_overflow-strcpy.c
+|   |-- warning:unsafe-strlcpy()-usage-lacked-__write_overflow-warning-in-lib-test_fortify-write_overflow-strlcpy-src.c
+|   |-- warning:unsafe-strlcpy()-usage-lacked-__write_overflow-warning-in-lib-test_fortify-write_overflow-strlcpy.c
+|   |-- warning:unsafe-strncpy()-usage-lacked-__write_overflow-warning-in-lib-test_fortify-write_overflow-strncpy-src.c
+|   |-- warning:unsafe-strncpy()-usage-lacked-__write_overflow-warning-in-lib-test_fortify-write_overflow-strncpy.c
+|   `-- warning:unsafe-strscpy()-usage-lacked-__write_overflow-warning-in-lib-test_fortify-write_overflow-strscpy.c
+|-- hexagon-randconfig-r015-20230809
+|   `-- drivers-video-backlight-lp855x_bl.c:warning:variable-ret-is-used-uninitialized-whenever-if-condition-is-false
+|-- hexagon-randconfig-r041-20230808
+|   |-- include-linux-list.h:warning:__preserve_most__-calling-convention-is-not-supported-for-this-target
+|   `-- lib-list_debug.c:warning:__preserve_most__-calling-convention-is-not-supported-for-this-target
+|-- i386-randconfig-i011-20230809
+|   `-- drivers-video-backlight-lp855x_bl.c:warning:variable-ret-is-used-uninitialized-whenever-if-condition-is-false
+|-- i386-randconfig-i015-20230809
+|   `-- drivers-video-backlight-lp855x_bl.c:warning:variable-ret-is-used-uninitialized-whenever-if-condition-is-false
+`-- x86_64-buildonly-randconfig-r002-20230808
+    `-- drivers-video-backlight-lp855x_bl.c:warning:variable-ret-is-used-uninitialized-whenever-if-condition-is-false
+
+elapsed time: 722m
+
+configs tested: 115
+configs skipped: 5
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r033-20230808   gcc  
+arc                  randconfig-r043-20230808   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r005-20230809   clang
+arm                  randconfig-r046-20230808   clang
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r002-20230809   gcc  
+arm64                randconfig-r006-20230809   gcc  
+arm64                randconfig-r031-20230808   clang
+csky                                defconfig   gcc  
+hexagon              randconfig-r004-20230809   clang
+hexagon              randconfig-r041-20230808   clang
+hexagon              randconfig-r045-20230808   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230808   clang
+i386         buildonly-randconfig-r004-20230809   gcc  
+i386         buildonly-randconfig-r005-20230809   gcc  
+i386         buildonly-randconfig-r006-20230808   clang
+i386         buildonly-randconfig-r006-20230809   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230808   clang
+i386                 randconfig-i001-20230809   gcc  
+i386                 randconfig-i002-20230808   clang
+i386                 randconfig-i002-20230809   gcc  
+i386                 randconfig-i003-20230808   clang
+i386                 randconfig-i003-20230809   gcc  
+i386                 randconfig-i004-20230808   clang
+i386                 randconfig-i004-20230809   gcc  
+i386                 randconfig-i005-20230809   gcc  
+i386                 randconfig-i006-20230809   gcc  
+i386                 randconfig-i011-20230809   clang
+i386                 randconfig-i012-20230809   clang
+i386                 randconfig-i013-20230809   clang
+i386                 randconfig-i014-20230809   clang
+i386                 randconfig-i015-20230809   clang
+i386                 randconfig-i016-20230809   clang
+i386                 randconfig-r023-20230808   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r001-20230809   gcc  
+m68k                 randconfig-r011-20230808   gcc  
+microblaze           randconfig-r035-20230808   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r034-20230808   gcc  
+openrisc             randconfig-r013-20230808   gcc  
+openrisc             randconfig-r016-20230808   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc              randconfig-r003-20230809   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r014-20230808   gcc  
+riscv                randconfig-r042-20230808   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r044-20230808   gcc  
+sh                               allmodconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r015-20230808   gcc  
+sparc                randconfig-r025-20230808   gcc  
+sparc64              randconfig-r026-20230808   gcc  
+sparc64              randconfig-r032-20230808   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                   randconfig-r036-20230808   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230808   clang
+x86_64       buildonly-randconfig-r001-20230809   gcc  
+x86_64       buildonly-randconfig-r002-20230808   clang
+x86_64       buildonly-randconfig-r002-20230809   gcc  
+x86_64       buildonly-randconfig-r003-20230808   clang
+x86_64       buildonly-randconfig-r003-20230809   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-r021-20230808   gcc  
+x86_64               randconfig-x001-20230808   gcc  
+x86_64               randconfig-x002-20230808   gcc  
+x86_64               randconfig-x003-20230808   gcc  
+x86_64               randconfig-x004-20230808   gcc  
+x86_64               randconfig-x005-20230808   gcc  
+x86_64               randconfig-x006-20230808   gcc  
+x86_64               randconfig-x011-20230809   gcc  
+x86_64               randconfig-x012-20230809   gcc  
+x86_64               randconfig-x013-20230809   gcc  
+x86_64               randconfig-x014-20230809   gcc  
+x86_64               randconfig-x015-20230809   gcc  
+x86_64               randconfig-x016-20230809   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
