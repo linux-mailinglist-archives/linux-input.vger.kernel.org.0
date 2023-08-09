@@ -2,111 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52E67775E46
-	for <lists+linux-input@lfdr.de>; Wed,  9 Aug 2023 13:56:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA47E7761C6
+	for <lists+linux-input@lfdr.de>; Wed,  9 Aug 2023 15:54:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231287AbjHIL4M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Aug 2023 07:56:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50750 "EHLO
+        id S230493AbjHINyv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Aug 2023 09:54:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbjHIL4K (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Aug 2023 07:56:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A33D10F5
-        for <linux-input@vger.kernel.org>; Wed,  9 Aug 2023 04:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1691582119;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Zt7LqWIunD9uLiutnGg/r/aysylTVw0JM0XLVqjNXY0=;
-        b=WaVAesjaMn0vYFBRyd/4cMxmU8onKb13yo7OL5Ygpdg8k4dPniQDj9zghP57B16BdSCT5Y
-        1ixcisOMEmLDMuOOjex1oR6tV6uxb6Y2HE1pNO3CgLfFpnhTnCIp/2tz/fJEn01REGllWE
-        b0ajT9197eA9DETjnAxqD4VZaFng37A=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-115-Y01Tnt9_Mi-gwVQdsEghLQ-1; Wed, 09 Aug 2023 07:55:18 -0400
-X-MC-Unique: Y01Tnt9_Mi-gwVQdsEghLQ-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-30e3ee8a42eso3219842f8f.1
-        for <linux-input@vger.kernel.org>; Wed, 09 Aug 2023 04:55:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691582117; x=1692186917;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zt7LqWIunD9uLiutnGg/r/aysylTVw0JM0XLVqjNXY0=;
-        b=LBy/xWRr2GEwpU/ivBqmGbUY8HWWJWaIYKnafzuuGmJb1nSdRmPL1PVtPkroCk3NSP
-         PkgS2++RAamLSBNeeQifA07L6yb/cLhBPDNeDGc4E2O6fl6GSsmQmxnvKGXqUULnOvlL
-         MwUfCgN7sl1kq4jvE63zhXoHnDVyfbv7EALqUNgCKuIE/ZaW4zmyKV07rvh8ejxb+HAM
-         bDvB12pNSnUgKTNLgX2fpj8LYJXn+uxLmeM+5UCLIbRqyF976d06HoM4y0CpQLuVAgoN
-         QuIJI/nixOFO4c+A6G66Aut7AFvWWwP3Ubf/Ap0i/7Qdp2x+8ZcU6Tt2uYWocfHMJeyO
-         2pHA==
-X-Gm-Message-State: AOJu0YzKQuVMtOEvR1O7lalWMq0nWAgBuZZNWkvXtCeHsMzRpqmNgoMW
-        ZCSMef7BkoEsA87JB86BxAh0jBxldecdnYmplbChA+Kcm0smcgps6OP88mXxMjNG9U3029btTLs
-        9hmYcpj7o1mChqbguoMkA7i4o36mpfqNOsg==
-X-Received: by 2002:adf:ea4d:0:b0:314:2ea7:af4a with SMTP id j13-20020adfea4d000000b003142ea7af4amr1808928wrn.13.1691582117236;
-        Wed, 09 Aug 2023 04:55:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGr93v0hyLIHcW/k6hETjK36rH1EoKsKnUopp5Llatjqvyl5Un4GPc3urRSOdmONvRVRXAw3g==
-X-Received: by 2002:adf:ea4d:0:b0:314:2ea7:af4a with SMTP id j13-20020adfea4d000000b003142ea7af4amr1808911wrn.13.1691582116897;
-        Wed, 09 Aug 2023 04:55:16 -0700 (PDT)
-Received: from toolbox ([2001:9e8:89b3:0:aff2:5f1a:8020:9f92])
-        by smtp.gmail.com with ESMTPSA id r2-20020a5d4942000000b003063a92bbf5sm16596618wrs.70.2023.08.09.04.55.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Aug 2023 04:55:16 -0700 (PDT)
-Date:   Wed, 9 Aug 2023 13:55:15 +0200
-From:   Sebastian Wick <sebastian.wick@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Lyude Paul <lyude@redhat.com>, Aman Dhoot <amandhoot12@gmail.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Raul Rangel <rrangel@chromium.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andrew Duggan <aduggan@synaptics.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Revert "Input: synaptics - enable InterTouch for the
- ThinkPad P1 G3"
-Message-ID: <20230809114242.GA24649@toolbox>
-References: <20230808152817.304836-1-sebastian.wick@redhat.com>
- <f13f4ff7d46ecf887ca652b664860c4e07ec8b73.camel@redhat.com>
- <ZNK8aG/y4ol7MXVp@google.com>
+        with ESMTP id S232367AbjHINyu (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Aug 2023 09:54:50 -0400
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D36598;
+        Wed,  9 Aug 2023 06:54:50 -0700 (PDT)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+        by mx0a-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 379CrDND002197;
+        Wed, 9 Aug 2023 08:54:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding:content-type; s=PODMain02222019; bh=w
+        zv8wFOMXFLMdscI/4R9TEsLJO/SH4e1EZbywwAqkiY=; b=Qb2r/QK///w5qGTi6
+        Id2HEaHfDeLPSe4D+afLoc89c563vVsCeXbO6puUtz5pUHgRLFR1WKiq2e8FHyLZ
+        +XWaoiKzeXI+egKY3LOIrxUp3W5t5TmMGBYZFY1bduLTAkGkVUpXfkveRpUi+Gir
+        jA7XfJ0R487sAMhiBLr8+e9fQ1WGnV+/HZ9fatig24M9UbH+y5GmHo3QX5MNQoXJ
+        40LGWUmTtoPoUr8yAoODTBKD1VLqrGexxCc/fnLGy2nmF9rd5tThKoNA4MWh4Pfj
+        uIdxfHoydjjY4htk9X+6bobOjBiPiq4W3yAb/6dNglaTPvK529RfjjNVXiCfBGtr
+        kqCMA==
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3sb7vtag9q-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 09 Aug 2023 08:54:05 -0500 (CDT)
+Received: from m0077473.ppops.net (m0077473.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.22/8.17.1.22) with ESMTP id 379Ds5TQ022143;
+        Wed, 9 Aug 2023 08:54:05 -0500
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3sb7vtag9n-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 09 Aug 2023 08:54:05 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 9 Aug
+ 2023 14:54:02 +0100
+Received: from aus-sw-rshr002.ad.cirrus.com (141.131.215.158) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.30 via Frontend Transport; Wed, 9 Aug 2023 14:54:02 +0100
+Received: by aus-sw-rshr002.ad.cirrus.com (Postfix, from userid 46936)
+        id 54FBC4C0CD1; Wed,  9 Aug 2023 13:54:02 +0000 (UTC)
+From:   James Ogletree <james.ogletree@cirrus.com>
+To:     <dmitry.torokhov@gmail.com>
+CC:     James Ogletree <james.ogletree@cirrus.com>,
+        Fred Treven <fred.treven@cirrus.com>,
+        Ben Bright <ben.bright@cirrus.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        "Lee Jones" <lee@kernel.org>, ChiYuan Huang <cy_huang@richtek.com>,
+        Eddie James <eajames@linux.ibm.com>,
+        Markus Schneider-Pargmann <msp@baylibre.com>,
+        "Arnd Bergmann" <arnd@arndb.de>, Jacky Bai <ping.bai@nxp.com>,
+        Jeff LaBundy <jeff@labundy.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Joel Stanley <joel@jms.id.au>, <patches@cirrus.com>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 0/2] Add support for CS40L50
+Date:   Wed, 9 Aug 2023 13:53:08 +0000
+Message-ID: <20230809135313.731706-1-james.ogletree@cirrus.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZNK8aG/y4ol7MXVp@google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: dNe8GyaLXQiqb6LoAiPAItEOVdopn_MP
+X-Proofpoint-ORIG-GUID: 2rHXDnGkkNL8M-p7A2J9ujMGHAkL9N0Z
+X-Proofpoint-Spam-Reason: safe
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Aug 08, 2023 at 03:06:32PM -0700, Dmitry Torokhov wrote:
-> On Tue, Aug 08, 2023 at 05:49:23PM -0400, Lyude Paul wrote:
-> > Hm, This looks fine to me (if not as a final fix, certainly as a workaround)
-> > 
-> > Reviewed-by: Lyude Paul <lyude@redhat.com>
-> > 
-> > However, this is definitely something we probably should try to fix at some
-> > point - as I imagine this must be happening because something regarding how
-> > clicks are reported must have changed again. Andrew, do you have any idea?
-> 
-> I would like to understand more about this. Is this with newer/older
-> BIOS, or another hardware revision of the product, or something else?
+Changes in V2:
+- Fix checkpatch warnings
 
-All I can say is that the touchpad worked fine before and at some point
-it stopped working. I remember updating the system and some firmware
-components shortly before this happened but I don't know anymore what
-those updates contained.
+James Ogletree (2):
+  dt-bindings: input: cirrus,cs40l50: Support for CS40L50
+  Input: cs40l50 - Initial support for Cirrus Logic CS40L50
 
-> Lyude, do you still have access to the unit you originally developed
-> the original change for? Is the behavior broken there as well?
-> 
-> Thanks.
-> 
-> -- 
-> Dmitry
-> 
+ .../bindings/input/cirrus,cs40l50.yaml        |   77 ++
+ MAINTAINERS                                   |   11 +
+ drivers/input/misc/Kconfig                    |   33 +
+ drivers/input/misc/Makefile                   |    3 +
+ drivers/input/misc/cs40l50-i2c.c              |   67 ++
+ drivers/input/misc/cs40l50-spi.c              |   67 ++
+ drivers/input/misc/cs40l50.c                  | 1013 +++++++++++++++++
+ include/linux/input/cs40l50.h                 |  321 ++++++
+ 8 files changed, 1592 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
+ create mode 100644 drivers/input/misc/cs40l50-i2c.c
+ create mode 100644 drivers/input/misc/cs40l50-spi.c
+ create mode 100644 drivers/input/misc/cs40l50.c
+ create mode 100644 include/linux/input/cs40l50.h
+
+-- 
+2.25.1
 
