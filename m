@@ -2,93 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2C6677701C
-	for <lists+linux-input@lfdr.de>; Thu, 10 Aug 2023 08:12:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35362777023
+	for <lists+linux-input@lfdr.de>; Thu, 10 Aug 2023 08:17:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233562AbjHJGM5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Aug 2023 02:12:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47242 "EHLO
+        id S231825AbjHJGRQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Aug 2023 02:17:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233504AbjHJGMz (ORCPT
+        with ESMTP id S230383AbjHJGRQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Aug 2023 02:12:55 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A2AE268F
-        for <linux-input@vger.kernel.org>; Wed,  9 Aug 2023 23:12:46 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-3fe1d9a8ec6so9155175e9.1
-        for <linux-input@vger.kernel.org>; Wed, 09 Aug 2023 23:12:46 -0700 (PDT)
+        Thu, 10 Aug 2023 02:17:16 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 969E3EE
+        for <linux-input@vger.kernel.org>; Wed,  9 Aug 2023 23:17:13 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-99bccc9ec02so83177566b.2
+        for <linux-input@vger.kernel.org>; Wed, 09 Aug 2023 23:17:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691647964; x=1692252764;
+        d=linaro.org; s=google; t=1691648232; x=1692253032;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=gIUNorVMN1a5Kjk18rDX2dlY8vZOfHJwA9074Dh4RkA=;
-        b=Iz7K98AK6RA6reuG2y36cdi9LQOAqe70GN7oaLr/RWyqH7xWTUj9vSDSOgAEwOZMvM
-         zUT0ncvm+ea/rYaWIsXWEVE+4MMTNmdjCvzKt43O6rJvmNui61Npf7UGBU0hsHm4gknk
-         LFZzHM+ySAy0Yc8H85xeGMRxM6ts9DBkx+jJ1prvfnSTK5k/ofp+lvZh661lhbLyPL2i
-         IRaetO0DfyPGLK1+Z5PLuSTewHy4I4mx4qAOvmzF7lvuro7ao5HEmv1Sc7kq85vahp5Y
-         UboaVnSuemveXgSFrgMqq78hS8vdsI5t6M1rb7BjnlX0qHTfeklWj00DZTmfLNHdHaHs
-         BN5Q==
+        bh=lf7MUwtQSYoSziIqO/LEqDEzuuUibdtAfSye9h1PoUI=;
+        b=MiRLqH5zRpQ2CxQQCiKc0iFTQSW99OHXSSWkSG8EU7li0bCz/ik/Pfnj1E7qyaBXaw
+         KbXPps6ltWnHKOq6+Bi7CLYLDBVZmlIijGzN/Cl5KPADgIMG6Hqhlsqvrlecjbdpln/Z
+         Ad7QsWr5ZIpi0ZrSROfUfrwrligNoy1jm2V0MzCPyM91Y4MFgQGo6z6NU7MIxKo7QJok
+         2C9jOM9W5BShPWxqFW7/zxQ8+3kVrq675QnEsiDVI3AJYKbQRoIrYUFFhvxGvsWLXGcS
+         XDVtIZkoLdGjjLX0QMIVomAfQFOYNrmJJsWTk4xfIWtcQbbF2WMKtggKi0+ZjWK2mFyQ
+         IwhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691647964; x=1692252764;
+        d=1e100.net; s=20221208; t=1691648232; x=1692253032;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gIUNorVMN1a5Kjk18rDX2dlY8vZOfHJwA9074Dh4RkA=;
-        b=jdphT7FwvMvEwcBrFfx0htEe6JKVkFZtLZkvpyJHPjEo3WXYFI19wy5jCt/NnyWOWy
-         9ks6Bw9ESPPAWcBTQ9Ol/v1Lq5r3/5ze1cvXNwtLwOdALFlpGPYe8we4VDOky3UorK10
-         Kq9Zb+knS9gnFjiMudEJVdey+1BwZaivZSjreJFeRkI1IkcNvqOrip58gwqZxn/lBy8Z
-         TRBFWWTjvyhlrQZeAoYoLR1Dc/orgwYBXqXVfkWQlfflnkwLxhPaAr7oh24DXq7JXcvP
-         ZRa9uoVELjEz3eQqxOPjIrMlprmHnYwGRW+maqiV9D7Y/1iJo1Vejk3Gx6CAaTSIC9ty
-         L/1A==
-X-Gm-Message-State: AOJu0YzGWmgGH+IECHXdxvLptC2Yxpbd+urA5KbLQLco7XDCqELgjYlm
-        LLdeUY9CAPSbfsdy16+DeoWkhg==
-X-Google-Smtp-Source: AGHT+IGJhqHGTHepD56LNgHXHfifxm3sVB1HuAJ1GydORfbnVv7dNMtrxIC1AtXlKVZv95v+qm+bSQ==
-X-Received: by 2002:a5d:658f:0:b0:313:f38d:555f with SMTP id q15-20020a5d658f000000b00313f38d555fmr631890wru.24.1691647964791;
-        Wed, 09 Aug 2023 23:12:44 -0700 (PDT)
+        bh=lf7MUwtQSYoSziIqO/LEqDEzuuUibdtAfSye9h1PoUI=;
+        b=LP0z0CFiZHUq6tfwOguLN5hko+Kc3AuRZ/zVi1Yk9JFKRlr4XGgHKMKUAZ8hrTPW1Q
+         zjAWhFj6VYFHEYLIUASiksTN56bV5kEOsKE8B/7qP00IodUbPxtI5MRAhjwSl5XBqh4f
+         PjG4TF3Q+LDZj2BpXSAWCG8cCEzy9Rdu3pOmO57tgF5Vg2dLnIvWyZfz02RIlzfXQZ+L
+         I1XJb30Ya4qTr49cMhxQsPDDehyzetAF7nl/gQFnYptGjkDFKlsm7JwYy2A58cBkEo0l
+         9qp9Q61S3iwuedD3BfTILst5dCymrU7h5JhFoF1sJhidoLeAPGGsk6u9Lbg3C/OkTK22
+         aiMg==
+X-Gm-Message-State: AOJu0YxqTo+FImp8vMLNVuo+R026fglQtqh1UOj2kU9a5JdHD6fXEtGP
+        JWhE1CEkwIQHZBpstiWh2I+LTQ==
+X-Google-Smtp-Source: AGHT+IEtUBDhZmyWwvKFX0NSIzadbGkypyNjmi89znYMOc3SB125UDs4hLiZCUstgcABlUAneUl2sA==
+X-Received: by 2002:a17:906:74c2:b0:98e:933:2909 with SMTP id z2-20020a17090674c200b0098e09332909mr1431616ejl.22.1691648232043;
+        Wed, 09 Aug 2023 23:17:12 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.222.113])
-        by smtp.gmail.com with ESMTPSA id k7-20020adfe3c7000000b003176c6e87b1sm954397wrm.81.2023.08.09.23.12.42
+        by smtp.gmail.com with ESMTPSA id lf6-20020a170906ae4600b0099cf840527csm455247ejb.153.2023.08.09.23.17.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Aug 2023 23:12:44 -0700 (PDT)
-Message-ID: <3f406442-d46e-7f9e-426d-22a96f893103@linaro.org>
-Date:   Thu, 10 Aug 2023 08:12:41 +0200
+        Wed, 09 Aug 2023 23:17:11 -0700 (PDT)
+Message-ID: <d1b9e063-54df-2dae-1487-c7c932fda145@linaro.org>
+Date:   Thu, 10 Aug 2023 08:17:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.14.0
-Subject: Re: [PATCH 2/2] Input: cs40l50 - Initial support for Cirrus Logic
+Subject: Re: [PATCH v3 2/2] Input: cs40l50 - Initial support for Cirrus Logic
  CS40L50
 Content-Language: en-US
-To:     James Ogletree <James.Ogletree@cirrus.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Fred Treven <Fred.Treven@cirrus.com>,
-        Ben Bright <Ben.Bright@cirrus.com>,
+To:     James Ogletree <james.ogletree@cirrus.com>,
+        dmitry.torokhov@gmail.com
+Cc:     Fred Treven <fred.treven@cirrus.com>,
+        Ben Bright <ben.bright@cirrus.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-        Peng Fan <peng.fan@nxp.com>, Jean Delvare <jdelvare@suse.de>,
-        Jeff LaBundy <jeff@labundy.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
+        Jeff LaBundy <jeff@labundy.com>, Joel Stanley <joel@jms.id.au>,
+        Arnd Bergmann <arnd@arndb.de>, Jacky Bai <ping.bai@nxp.com>,
+        Jean Delvare <jdelvare@suse.de>,
         Eddie James <eajames@linux.ibm.com>,
-        Jacky Bai <ping.bai@nxp.com>,
         Markus Schneider-Pargmann <msp@baylibre.com>,
         ChiYuan Huang <cy_huang@richtek.com>,
-        Jerome Neanne <jneanne@baylibre.com>,
-        "patches@cirrus.com" <patches@cirrus.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20230808172511.665787-1-james.ogletree@cirrus.com>
- <20230808172511.665787-2-james.ogletree@cirrus.com>
- <065fbe51-928c-4728-efc2-bde87cd48cb3@linaro.org>
- <ADCCD2C5-B79B-4C50-B3CE-007B1FBF5A5E@cirrus.com>
+        Randy Dunlap <rdunlap@infradead.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        patches@cirrus.com, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230809191032.820271-1-james.ogletree@cirrus.com>
+ <20230809191032.820271-3-james.ogletree@cirrus.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <ADCCD2C5-B79B-4C50-B3CE-007B1FBF5A5E@cirrus.com>
+In-Reply-To: <20230809191032.820271-3-james.ogletree@cirrus.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -96,31 +91,177 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 09/08/2023 20:02, James Ogletree wrote:
->>> + if (cs40l50->vibe_workqueue) {
->>> + flush_workqueue(cs40l50->vibe_workqueue);
->>> + destroy_workqueue(cs40l50->vibe_workqueue);
->>> + }
->>> +
->>> + gpiod_set_value_cansleep(cs40l50->reset_gpio, 1);
->>> + regulator_bulk_disable(ARRAY_SIZE(cs40l50_supplies), cs40l50_supplies);
->>> +
->>> + return 0;
->>> +}
->>> +EXPORT_SYMBOL_GPL(cs40l50_remove);
->>> +
->>> +MODULE_DESCRIPTION("CS40L50 Advanced Haptic Driver");
->>> +MODULE_AUTHOR("James Ogletree, Cirrus Logic Inc. <james.ogletree@cirrus.com>");
->>> +MODULE_LICENSE("GPL");
->>
->> I don't think this is a module.
+On 09/08/2023 21:10, James Ogletree wrote:
+> Introduce support for Cirrus Logic Device CS40L50: a
+> haptics driver with waveform memory DSP and closed-loop
+> algorithms.
 > 
-> It can be compiled as a module with CONFIG_INPUT_CS40L50=m. However, there is a
-> typo in the Kconfig entry description: the module will be called “cs40l50” not “cs40l50-core”.
-> That will be fixed. 
+> Signed-off-by: James Ogletree <james.ogletree@cirrus.com>
 
-Really, *this* unit file can be compiled as module? Where is the
-module_xxx_driver() then?
+...
+
+> +
+> +static int cs40l50_cs_dsp_init(struct cs40l50_private *cs40l50)
+> +{
+> +	cs40l50->dsp.num = 1;
+> +	cs40l50->dsp.type = WMFW_HALO;
+> +	cs40l50->dsp.dev = cs40l50->dev;
+> +	cs40l50->dsp.regmap = cs40l50->regmap;
+> +	cs40l50->dsp.base = CS40L50_DSP1_CORE_BASE;
+> +	cs40l50->dsp.base_sysinfo = CS40L50_DSP1_SYS_INFO_ID;
+> +	cs40l50->dsp.mem = cs40l50_dsp_regions;
+> +	cs40l50->dsp.num_mems = ARRAY_SIZE(cs40l50_dsp_regions);
+> +	cs40l50->dsp.lock_regions = 0xFFFFFFFF;
+> +	cs40l50->dsp.no_core_startstop = true;
+> +	cs40l50->dsp.client_ops = &cs40l50_cs_dsp_client_ops;
+> +
+> +	return cs_dsp_halo_init(&cs40l50->dsp);
+> +}
+> +
+> +int cs40l50_probe(struct cs40l50_private *cs40l50)
+> +{
+> +	int error, i, irq;
+> +	u32 val;
+> +
+> +	mutex_init(&cs40l50->lock);
+> +
+> +	error = devm_regulator_bulk_get(cs40l50->dev, ARRAY_SIZE(cs40l50_supplies),
+> +			cs40l50_supplies);
+> +	if (error)
+> +		return dev_err_probe(cs40l50->dev, error, "Failed to request supplies\n");
+> +
+> +	error = regulator_bulk_enable(ARRAY_SIZE(cs40l50_supplies), cs40l50_supplies);
+> +	if (error)
+> +		return dev_err_probe(cs40l50->dev, error, "Failed to enable supplies\n");
+> +
+> +	cs40l50->reset_gpio = devm_gpiod_get_optional(cs40l50->dev, "reset", GPIOD_OUT_HIGH);
+
+None of the lines above or below seem to be wrapped according to Linux
+coding style (80).
+
+> +	if (IS_ERR(cs40l50->reset_gpio)) {
+> +		error = PTR_ERR(cs40l50->reset_gpio);
+> +		goto err;
+
+Why do you disable IRQ now?
+
+I asked to test this. Your entire cleanup path is:
+1. not tested.
+2. buggy.
+3. done differently than Linux style. Use proper cleanup calls and
+multiple goto labels.
+
+> +	}
+> +
+> +	usleep_range(CS40L50_MIN_RESET_PULSE_WIDTH_US, CS40L50_MIN_RESET_PULSE_WIDTH_US + 100);
+> +
+> +	gpiod_set_value_cansleep(cs40l50->reset_gpio, 0);
+> +
+> +	usleep_range(CS40L50_CP_READY_DELAY_US, CS40L50_CP_READY_DELAY_US + 1000);
+> +
+> +	for (i = 0; i < CS40L50_DSP_TIMEOUT_COUNT; i++) {
+> +		error = cs40l50_dsp_read(cs40l50, CS40L50_DSP1_HALO_STATE, &val);
+> +		if (!error && val < 0xFFFF && val >= CS40L50_HALO_STATE_BOOT_DONE)
+> +			break;
+> +
+> +		usleep_range(CS40L50_DSP_POLL_US, CS40L50_DSP_POLL_US + 100);
+> +	}
+> +
+> +	if (i == CS40L50_DSP_TIMEOUT_COUNT) {
+> +		dev_err(cs40l50->dev, "Firmware boot failed: %d, halo state = %#x\n", error, val);
+> +		goto err;
+> +	}
+> +
+> +	cs40l50->vibe_workqueue = alloc_ordered_workqueue("cs40l50_workqueue", WQ_HIGHPRI);
+> +	if (!cs40l50->vibe_workqueue) {
+> +		error = -ENOMEM;
+> +		goto err;
+> +	}
+> +
+> +	INIT_WORK(&cs40l50->vibe_start_work, cs40l50_vibe_start_worker);
+> +	INIT_WORK(&cs40l50->vibe_stop_work, cs40l50_vibe_stop_worker);
+> +
+> +	error = cs40l50_cs_dsp_init(cs40l50);
+> +	if (error)
+> +		goto err;
+> +
+> +	error = cs40l50_input_init(cs40l50);
+> +	if (error)
+> +		goto err;
+> +
+> +	error = cs40l50_patch_firmware(cs40l50);
+> +	if (error)
+> +		goto err;
+> +
+> +	error = cs40l50_pseq_init(cs40l50);
+> +	if (error)
+> +		goto err;
+> +
+> +	error = cs40l50_config_bst(cs40l50);
+> +	if (error)
+> +		goto err;
+> +
+> +	error = devm_regmap_add_irq_chip(cs40l50->dev, cs40l50->regmap, cs40l50->irq,
+> +			IRQF_ONESHOT | IRQF_SHARED | IRQF_TRIGGER_LOW, 0, &cs40l50_regmap_irq_chip,
+> +			&cs40l50->irq_data);
+> +	if (error) {
+> +		dev_err(cs40l50->dev, "Failed to register IRQ chip: %d\n", error);
+> +		goto err;
+> +	}
+> +
+> +	for (i = 0; i < ARRAY_SIZE(cs40l50_irqs); i++) {
+> +		irq = regmap_irq_get_virq(cs40l50->irq_data, cs40l50_irqs[i].irq);
+> +		if (irq < 0) {
+> +			dev_err(cs40l50->dev, "Failed to get %s\n", cs40l50_irqs[i].name);
+> +			error = irq;
+> +			goto err;
+> +		}
+> +
+> +		error = devm_request_threaded_irq(cs40l50->dev, irq, NULL, cs40l50_irqs[i].handler,
+> +				IRQF_ONESHOT | IRQF_SHARED | IRQF_TRIGGER_LOW,
+> +						cs40l50_irqs[i].name, cs40l50);
+> +		if (error) {
+> +			dev_err(cs40l50->dev, "Failed to request IRQ %s: %d\n",
+> +					cs40l50_irqs[i].name, error);
+> +			goto err;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +
+> +err:
+> +	cs40l50_remove(cs40l50);
+> +
+> +	return error;
+> +}
+> +EXPORT_SYMBOL_GPL(cs40l50_probe);
+> +
+> +int cs40l50_remove(struct cs40l50_private *cs40l50)
+> +{
+> +	disable_irq(cs40l50->irq);
+> +
+> +	if (cs40l50->dsp.booted)
+> +		cs_dsp_power_down(&cs40l50->dsp);
+> +	if (&cs40l50->dsp)
+> +		cs_dsp_remove(&cs40l50->dsp);
+> +
+> +	if (cs40l50->vibe_workqueue) {
+> +		flush_workqueue(cs40l50->vibe_workqueue);
+> +		destroy_workqueue(cs40l50->vibe_workqueue);
+> +	}
+> +
+> +	gpiod_set_value_cansleep(cs40l50->reset_gpio, 1);
+> +	regulator_bulk_disable(ARRAY_SIZE(cs40l50_supplies), cs40l50_supplies);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(cs40l50_remove);
+> +
+> +MODULE_DESCRIPTION("CS40L50 Advanced Haptic Driver");
+> +MODULE_AUTHOR("James Ogletree, Cirrus Logic Inc. <james.ogletree@cirrus.com>");
+
+Nothing improved here. Don't send new version immediately after
+responding to my comment, but allow discussion.
 
 Best regards,
 Krzysztof
