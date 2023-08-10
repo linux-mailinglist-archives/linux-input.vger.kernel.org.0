@@ -2,132 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7681F77702D
-	for <lists+linux-input@lfdr.de>; Thu, 10 Aug 2023 08:19:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AF8377753A
+	for <lists+linux-input@lfdr.de>; Thu, 10 Aug 2023 12:00:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229954AbjHJGTh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Aug 2023 02:19:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51082 "EHLO
+        id S235213AbjHJKAp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Aug 2023 06:00:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229963AbjHJGTg (ORCPT
+        with ESMTP id S235212AbjHJKAS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Aug 2023 02:19:36 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7FEFD2
-        for <linux-input@vger.kernel.org>; Wed,  9 Aug 2023 23:19:35 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-522bd411679so630384a12.0
-        for <linux-input@vger.kernel.org>; Wed, 09 Aug 2023 23:19:35 -0700 (PDT)
+        Thu, 10 Aug 2023 06:00:18 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EF8D2132
+        for <linux-input@vger.kernel.org>; Thu, 10 Aug 2023 02:59:40 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-3090d3e9c92so691328f8f.2
+        for <linux-input@vger.kernel.org>; Thu, 10 Aug 2023 02:59:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691648374; x=1692253174;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=S9BxbZlPw6g9QiuhUYRIHONrtuVwpEGzzLSdFOf9tac=;
-        b=qZk02UVUcidbnsvZu4FwaopDOYbsz1Y+az7raG/mRGT9xxAymWWI43NRVew/y7Cejm
-         Zm+OqwJ/ebA0q6C4Az1/CDrkZ8JNYCpgySbClsuCX8x6rH3dWK/edikEcIVl2dzdg6zU
-         hgRcARfgk7d9Fd1TfL1wOMF5926OPIwQdH8iamTkM8G8yMTyY9UUnZQbI+YDBBsSMSRi
-         WnNeHVFBfLkG5gRGG5Gg/Xl92Hk4rkecq2OV6v3zhNPFgJXrkkCROSXg/H28gMQNBLuW
-         76DIJYVsr8f9BFsd62Iormmx8KUznPPRIB6ttw01sC1ZVvKRkV7dk2GsiHEFIVLSHTio
-         Za3w==
+        d=linaro.org; s=google; t=1691661579; x=1692266379;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3Qov7/EIECuN7YtcszuKxgzKAg/7N7RK250nQPWPETE=;
+        b=v30CTiX2qKSiN2j2kOUXUCQ/qjZOMt4Q+Owm3rESRLeuhidDmOvCrOs1B751U7IBfS
+         zndSh6XEzMhiKeb+ubNbtz+e+V72tx4UaERrTzDLqmbUcQYMs/Az6xez653LBbsHef++
+         T9dy9CN7KcU+b943r8yFryvjBu0JP7Mk4ItyR7P7x3+Q5qJFaJ51j4Q2b/y97aIH/w6P
+         1RV2EzPllNQXNlOmHPs6wh3Qhc6uM/GvDWF1x8cfo5KWrurWHjgFCklcDtSh+vy45EqG
+         /52U0A0GZVABjs+kvw7xVTeo0AFbVpIu6lKE/5Y7B+42GaFluEopx4cLAWbAg1eFDTnp
+         NyYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691648374; x=1692253174;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S9BxbZlPw6g9QiuhUYRIHONrtuVwpEGzzLSdFOf9tac=;
-        b=jrftElq2CV+360BI83lZnNzkjB8IUka6zCOHD76QmnQIwOx1jPTfzC5tweCjxaIQ2e
-         2vcR+uRFrYtJr/E2gJ4F9YJHEcUxdsI7VRMQJyG64RF/1YHY3X3TthtR4c0H0lmvQeyI
-         j4hxKWmr8zLLEhx/q2nhm+Egjocan0fPfWrz+H9wYK+6yDIuEpdWk1oR/6IWpxhEr4jG
-         rXLD5O138uxYKuJTPcki+XEiHNGbJq/+werR4kfr0JOuh3HblV5dHgQEu0lidxp4d+6s
-         L/77wXn7KXwtJmdYt75gJvebdjboGDHpOB8w775mNkfwvOpFqTp1gwluZja5U1mYoxa6
-         cCEQ==
-X-Gm-Message-State: AOJu0Ywnkb6/CLyisUYcUN2BC3zx3GEaOiYBu5FFMmPr3XWH10CxjOwG
-        HFVjtinrtJfp1Cj6+rWMafGhbA==
-X-Google-Smtp-Source: AGHT+IHs00+xRRgfgIDgsyiI7JGjl2BYKVJTGy6qiwakL3haOHUzxmRH83in5dFAGmXxbFXzgAVQtQ==
-X-Received: by 2002:a17:906:3019:b0:99b:4aa3:6480 with SMTP id 25-20020a170906301900b0099b4aa36480mr1262649ejz.40.1691648374153;
-        Wed, 09 Aug 2023 23:19:34 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.113])
-        by smtp.gmail.com with ESMTPSA id m22-20020a1709060d9600b00992a8a54f32sm463065eji.139.2023.08.09.23.19.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Aug 2023 23:19:33 -0700 (PDT)
-Message-ID: <86010807-d6e3-745f-ab39-b58f7f64815d@linaro.org>
-Date:   Thu, 10 Aug 2023 08:19:31 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v3 1/2] dt-bindings: input: cirrus,cs40l50: Support for
- CS40L50
-Content-Language: en-US
-To:     James Ogletree <james.ogletree@cirrus.com>,
-        dmitry.torokhov@gmail.com
-Cc:     Fred Treven <fred.treven@cirrus.com>,
-        Ben Bright <ben.bright@cirrus.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-        Jean Delvare <jdelvare@suse.de>, Arnd Bergmann <arnd@arndb.de>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Eddie James <eajames@linux.ibm.com>,
-        Jacky Bai <ping.bai@nxp.com>,
-        Markus Schneider-Pargmann <msp@baylibre.com>,
-        ChiYuan Huang <cy_huang@richtek.com>,
-        Jeff LaBundy <jeff@labundy.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jerome Neanne <jneanne@baylibre.com>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        patches@cirrus.com, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230809191032.820271-1-james.ogletree@cirrus.com>
- <20230809191032.820271-2-james.ogletree@cirrus.com>
+        d=1e100.net; s=20221208; t=1691661579; x=1692266379;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3Qov7/EIECuN7YtcszuKxgzKAg/7N7RK250nQPWPETE=;
+        b=gm7bsuwMu7aRA+RSXKf17RDjzwa42QHkNTCLamtkOZ4tGHQdYYd/3K5hcLISrXlG7r
+         n3U/3gavVuBHVW3e/tINoI52T7hkJrxXSPt4GaOGakVuYxZnAYoGZWrLHuCKijAqP6CQ
+         vMw80fyH7S4HMFYfpxnfZZb8A1L1niOzMA2lToO8ThuvkOy+BwsvvlzmYz5u6u60AyjZ
+         WCJOpFhjy2HebSV0V1vHDOR0wDnOxF6i0HRLSbCDD6soQsVZ9uXOTjgd13ocy5IhUkGs
+         0CQENvDEIHIMczBJITbPkFRGtJdzaxyNH9dUwBeGsJC7B0tZcP0hRSpwLkPoVNAEDRUW
+         U7aQ==
+X-Gm-Message-State: AOJu0Yxzn0rZO6h5/pZnFBJQr0SyxgJnTKQcVBOF2COFit6m1pDclohq
+        lesHDxsbH2ZBI7qerkLo6c4r9w==
+X-Google-Smtp-Source: AGHT+IHW36O9ukQNOr4QWHcwll1B7aloOQhK9sSqv/YA8EWyZmzq6BHWsNTyVSKuU/1PJGhLJb1ZvA==
+X-Received: by 2002:a5d:66c6:0:b0:317:9537:d741 with SMTP id k6-20020a5d66c6000000b003179537d741mr1614416wrw.54.1691661579124;
+        Thu, 10 Aug 2023 02:59:39 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.222.113])
+        by smtp.gmail.com with ESMTPSA id a2-20020a5d4d42000000b00317ca89f6c5sm1623182wru.107.2023.08.10.02.59.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Aug 2023 02:59:38 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230809191032.820271-2-james.ogletree@cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Andi Shyti <andi.shyti@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/2] Input: mms114 - fix Wvoid-pointer-to-enum-cast warning
+Date:   Thu, 10 Aug 2023 11:59:35 +0200
+Message-Id: <20230810095936.123432-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 09/08/2023 21:10, James Ogletree wrote:
-> Introduce device tree bindings for the initial commit
-> of the CS40L50 driver.
->
+'type' is an enum, thus cast of pointer on 64-bit compile test with W=1
+causes:
 
-> +  va-supply:
-> +    description: Regulator for analog voltage
-> +
-> +  vp-supply:
-> +    description: Regulator for peak voltage
-> +
-> +  vio-supply:
-> +    description: Regulator for digital IO voltage
-> +
-> +  cirrus,external-boost:
-> +    description:
-> +      Bypass the CS40L50 boost converter.
-> +
-> +      The amplifier on CS40L50 can be powered internally through the boost
-> +      converter, or else can be powered using an external supply. If an
-> +      external supply is used, the boost converter must be bypassed.
-> +    type: boolean
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - reset-gpios
+  drivers/input/touchscreen/mms114.c:507:15: error: cast to smaller integer type 'enum mms_type' from 'const void *' [-Werror,-Wvoid-pointer-to-enum-cast]
 
-I would expect at least some supplies/regulators to be required. This
-should match what the datasheet says. The rest looks good.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ drivers/input/touchscreen/mms114.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-
-Best regards,
-Krzysztof
+diff --git a/drivers/input/touchscreen/mms114.c b/drivers/input/touchscreen/mms114.c
+index af233b6a16d9..d9beb15a3676 100644
+--- a/drivers/input/touchscreen/mms114.c
++++ b/drivers/input/touchscreen/mms114.c
+@@ -504,7 +504,7 @@ static int mms114_probe(struct i2c_client *client)
+ 	if (!match_data)
+ 		return -EINVAL;
+ 
+-	data->type = (enum mms_type)match_data;
++	data->type = (uintptr_t)match_data;
+ 
+ 	data->num_keycodes = device_property_count_u32(&client->dev,
+ 						       "linux,keycodes");
+-- 
+2.34.1
 
