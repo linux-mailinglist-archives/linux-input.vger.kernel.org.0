@@ -2,64 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DBA6778FD0
-	for <lists+linux-input@lfdr.de>; Fri, 11 Aug 2023 14:46:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D36F77913B
+	for <lists+linux-input@lfdr.de>; Fri, 11 Aug 2023 16:01:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229379AbjHKMp7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Aug 2023 08:45:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48938 "EHLO
+        id S235715AbjHKOBK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Aug 2023 10:01:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233473AbjHKMp6 (ORCPT
+        with ESMTP id S235651AbjHKOBI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Aug 2023 08:45:58 -0400
-X-Greylist: delayed 332 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 11 Aug 2023 05:45:56 PDT
-Received: from out-112.mta0.migadu.com (out-112.mta0.migadu.com [IPv6:2001:41d0:1004:224b::70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E94830C1
-        for <linux-input@vger.kernel.org>; Fri, 11 Aug 2023 05:45:56 -0700 (PDT)
-Date:   Fri, 11 Aug 2023 22:39:54 +1000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-        t=1691757620;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=8vNMSKN+vtwKFHAf06jkI6GM9sIuZ9HaDo3mOdRlVL0=;
-        b=BchVAq6XdbomT9nJbHcoXXXO290cJ6HsWBHEoegfNiBXIvC9sMXlAhFNYv8k87Ja8wK6Wb
-        0uTwT/ou6jTOVhBmR/kaiJ4p36ruEdBegikdugGr+cszRl+OlTzPh7JXDMojRQBlbF0XnU
-        Jeu1r+jLz0YH5IHoNCnDgiocILxQmdcZk0zZlT9j7AgGgZSQIyt/yrH3VVShoqt7ve3vf0
-        /MqDD8yYX2fG/UDnO8efHTMtm+FFoTMp3aKgpiRwVYmghaGH0uIZlzj/7jBVdwWASKze/j
-        len8GdK8MNuEPLJ1Ui5zfEz3YjdTfFcbQf6cgGHS7xFx/8zBd3jPAdbNacClFA==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   John Watts <contact@jookia.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jeff LaBundy <jeff@labundy.com>, Marek Vasut <marex@denx.de>,
-        Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
-        Manuel Traut <manuel.traut@mt.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-pwm@vger.kernel.org, alsa-devel@alsa-project.org,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH] Input: pwm-beeper - Support volume setting via sysfs
-Message-ID: <ZNYsGr6yBeVTtNMK@titan>
-References: <873514d2ju.wl-tiwai@suse.de>
- <63adce9a-df65-b462-9055-0ece5216d680@denx.de>
- <87tttkjmyu.wl-tiwai@suse.de>
- <0cffe366-75af-d8a8-8920-6fb94c321a89@denx.de>
- <87h6pkjh7q.wl-tiwai@suse.de>
- <618add56-3675-4efe-5b20-665c10040e03@denx.de>
- <ZMfgJ3o00nApkXGp@google.com>
- <f4612dc5-a7d4-74ba-2ed8-ea70314625b6@denx.de>
- <ZMh0Sa9s25JHhWw5@nixie71>
- <ZMi0HT/yaTo9uTyi@google.com>
+        Fri, 11 Aug 2023 10:01:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3BEFE65;
+        Fri, 11 Aug 2023 07:01:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 90A5763CF7;
+        Fri, 11 Aug 2023 14:01:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14ABBC433C7;
+        Fri, 11 Aug 2023 14:01:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691762466;
+        bh=XQpneWVvWk2NOHnRa+vY4LR8Zcr+OGOZVwODnJ1i17k=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=nsQQcZaGgmksE7zQ0lXKCDC0SZLKPrj+hsg2+cQsNX7QCvviTR+jT6dxP1xZB1Ea2
+         y+TnaCmiSbX619c0Hv3ApHPgtiQoIQUkdzTn7ZVDQTp8C/sfzB5JACbsLF22IH0Adk
+         Oe/H2Wo1t+ZwJ/YOJnM302o481xtGXdwkAs7J+Z0ZDj2iyz8BWsNy2SEOvAXmvBMOI
+         MSRv3z/fPeCDXFGx1Qg+hZqS4xw1xbKgIqVQCUEqcEQVCeY4cw3WUERZLpQqiC5h5R
+         QHMpb1BVaY3qRPt7ysY12jwUtHTfFkmYb8APNJSwv2Xye24AGNOGbOpix3uBN4dGcS
+         aLVsTCW0Yum5g==
+Received: (nullmailer pid 3323009 invoked by uid 1000);
+        Fri, 11 Aug 2023 14:00:55 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZMi0HT/yaTo9uTyi@google.com>
-X-Migadu-Flow: FLOW_OUT
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+From:   Rob Herring <robh@kernel.org>
+To:     Tony Lindgren <tony@atomide.com>
+Cc:     devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>, linux-input@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-kernel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+In-Reply-To: <20230811110432.3968-1-tony@atomide.com>
+References: <20230811110432.3968-1-tony@atomide.com>
+Message-Id: <169176235974.3320042.17857123175585954059.robh@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: input: gpio-keys: Allow optional
+ dedicated wakeirq
+Date:   Fri, 11 Aug 2023 08:00:55 -0600
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,41 +62,48 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Aug 01, 2023 at 12:28:29AM -0700, Dmitry Torokhov wrote:
-> If we want to extend the API we will need to define exactly how it will
-> all work. I.e. what happens if userspace mixes the old SND_TONE and
-> SND_BELL with the new SND_BELL_VOL or whatever. Does it play with
-> previously set volume? The default one? How to set the default one? How
-> to figure out what the current volume is if we decide to make volume
-> "sticky"?
+
+On Fri, 11 Aug 2023 14:04:31 +0300, Tony Lindgren wrote:
+> Allow configuring optional dedicated wakeirq that some SoCs have.
+> Let's use the interrupt naming "irq" and "wakeup" that we already have
+> in use for some drivers and subsystems like i2c.
 > 
-> As far as userspace I expect it is more common to have one program (or
-> component of a program) to set volume and then something else requests
-> sound, so having one-shot API is of dubious value to me.
+> Signed-off-by: Tony Lindgren <tony@atomide.com>
+> ---
+>  .../devicetree/bindings/input/gpio-keys.yaml      | 15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
 > 
-> I hope we can go with Takashi's proposal downthread, but if not I wonder
-> if the sysfs approach is not the simplest one. Do we expect more beepers
-> that can control volume besides pwm-beeper?
-> 
-> Thanks.
-> 
-> -- 
-> Dmitry
 
-(Just to duck in as someone that has written a little program to play beeps and
-tones using the EV_TONE API)
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-It might be worth distinguishing between the goals of having some beeps with
-different volumes compared to all beeps with different volumes.
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/input/gpio-keys.yaml:40:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
 
-Sound card mixers generally control some sort of global volume while I would
-imagine the tone API would control per-tone volume. I don't know too much about
-safety guarantees but writing an input then sysfs or mixer then input again
-seems like it could get jumbled up.
+dtschema/dtc warnings/errors:
+make[2]: *** Deleting file 'Documentation/devicetree/bindings/input/gpio-keys.example.dts'
+Documentation/devicetree/bindings/input/gpio-keys.yaml:40:1: found character '\t' that cannot start any token
+make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/input/gpio-keys.example.dts] Error 1
+make[2]: *** Waiting for unfinished jobs....
+./Documentation/devicetree/bindings/input/gpio-keys.yaml:40:1: found character '\t' that cannot start any token
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/gpio-keys.yaml: ignoring, error parsing file
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1500: dt_binding_check] Error 2
+make: *** [Makefile:234: __sub-make] Error 2
 
-In that speicfic case I think it would make more sense to send volume and tone
-from whatever beep API is being used, with the volume being a multiplier of the
-loudest volume. This is similar to how audio works with PCM output. Existing
-beeps would have the volume set to 100%.
+doc reference errors (make refcheckdocs):
 
-John.
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230811110432.3968-1-tony@atomide.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
