@@ -2,68 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D36F77913B
-	for <lists+linux-input@lfdr.de>; Fri, 11 Aug 2023 16:01:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2389777928C
+	for <lists+linux-input@lfdr.de>; Fri, 11 Aug 2023 17:10:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235715AbjHKOBK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Aug 2023 10:01:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48432 "EHLO
+        id S235128AbjHKPK5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Aug 2023 11:10:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235651AbjHKOBI (ORCPT
+        with ESMTP id S230197AbjHKPK4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Aug 2023 10:01:08 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3BEFE65;
-        Fri, 11 Aug 2023 07:01:06 -0700 (PDT)
+        Fri, 11 Aug 2023 11:10:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 501AC171F;
+        Fri, 11 Aug 2023 08:10:56 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 90A5763CF7;
-        Fri, 11 Aug 2023 14:01:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14ABBC433C7;
-        Fri, 11 Aug 2023 14:01:05 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DB76F636C8;
+        Fri, 11 Aug 2023 15:10:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB5B2C433C8;
+        Fri, 11 Aug 2023 15:10:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691762466;
-        bh=XQpneWVvWk2NOHnRa+vY4LR8Zcr+OGOZVwODnJ1i17k=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=nsQQcZaGgmksE7zQ0lXKCDC0SZLKPrj+hsg2+cQsNX7QCvviTR+jT6dxP1xZB1Ea2
-         y+TnaCmiSbX619c0Hv3ApHPgtiQoIQUkdzTn7ZVDQTp8C/sfzB5JACbsLF22IH0Adk
-         Oe/H2Wo1t+ZwJ/YOJnM302o481xtGXdwkAs7J+Z0ZDj2iyz8BWsNy2SEOvAXmvBMOI
-         MSRv3z/fPeCDXFGx1Qg+hZqS4xw1xbKgIqVQCUEqcEQVCeY4cw3WUERZLpQqiC5h5R
-         QHMpb1BVaY3qRPt7ysY12jwUtHTfFkmYb8APNJSwv2Xye24AGNOGbOpix3uBN4dGcS
-         aLVsTCW0Yum5g==
-Received: (nullmailer pid 3323009 invoked by uid 1000);
-        Fri, 11 Aug 2023 14:00:55 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-MIME-Version: 1.0
+        s=k20201202; t=1691766655;
+        bh=6tHNIakzOZTnV2MOtkXv7C8ojWN7aUtx68pmKRMzzRc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=C80Js42W/FnbCqP9zx+wVB425khcAuZo+ePYydFT3XnUBVXkKTkTYEEQPbiTD3Chs
+         DuxqrCw5rzCcRMry/bmGEu6N6V04XWeDyVzVKzDVy+Z90LHh+RnIhrCXUPwNHYxHFh
+         Hn4cKtxo66ri9PDrVH2kNPn+x2kqzNqst0R6656MC+FFRDUcYBQWN/oRmYJq/YZnhG
+         8FzR8m7Tz9lDbxd7aRr5wkLI+LGAUmJCHEgS3gljKaMeZ8Wf5dfvacadNgTEr5hSms
+         zu9PAGzIX6ntgztRShFxr2DJ5KfOOxGeUl4FhJS8aBar9cRNEVBniHtP2nY6Wm1Zm4
+         lDpOg7EYcjKDA==
+Received: (nullmailer pid 3474643 invoked by uid 1000);
+        Fri, 11 Aug 2023 15:10:48 -0000
+Date:   Fri, 11 Aug 2023 09:10:48 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Tony Lindgren <tony@atomide.com>
-Cc:     devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>, linux-input@vger.kernel.org,
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-kernel@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-In-Reply-To: <20230811110432.3968-1-tony@atomide.com>
-References: <20230811110432.3968-1-tony@atomide.com>
-Message-Id: <169176235974.3320042.17857123175585954059.robh@kernel.org>
+        Conor Dooley <conor+dt@kernel.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Subject: Re: [PATCH 1/2] dt-bindings: input: gpio-keys: Allow optional
  dedicated wakeirq
-Date:   Fri, 11 Aug 2023 08:00:55 -0600
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Message-ID: <20230811151048.GA3452914-robh@kernel.org>
+References: <20230811110432.3968-1-tony@atomide.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230811110432.3968-1-tony@atomide.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-
-On Fri, 11 Aug 2023 14:04:31 +0300, Tony Lindgren wrote:
+On Fri, Aug 11, 2023 at 02:04:31PM +0300, Tony Lindgren wrote:
 > Allow configuring optional dedicated wakeirq that some SoCs have.
 > Let's use the interrupt naming "irq" and "wakeup" that we already have
 > in use for some drivers and subsystems like i2c.
@@ -73,37 +71,52 @@ On Fri, 11 Aug 2023 14:04:31 +0300, Tony Lindgren wrote:
 >  .../devicetree/bindings/input/gpio-keys.yaml      | 15 ++++++++++++++-
 >  1 file changed, 14 insertions(+), 1 deletion(-)
 > 
+> diff --git a/Documentation/devicetree/bindings/input/gpio-keys.yaml b/Documentation/devicetree/bindings/input/gpio-keys.yaml
+> --- a/Documentation/devicetree/bindings/input/gpio-keys.yaml
+> +++ b/Documentation/devicetree/bindings/input/gpio-keys.yaml
+> @@ -31,7 +31,17 @@ patternProperties:
+>          maxItems: 1
+>  
+>        interrupts:
+> -        maxItems: 1
+> +        description:
+> +          Optional interrupts if different from the gpio interrupt
+> +        maxItems: 2
+> +
+> +      interrupt-names:
+> +        description:
+> +	  Optional interrupt names, can be used to specify a separate
+> +	  dedicated wake-up interrupt
+> +        items:
+> +          -const: irq
+> +          -const: wakeup
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Also need a space after '-'.
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/input/gpio-keys.yaml:40:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
+>  
+>        label:
+>          description: Descriptive name of the key.
+> @@ -130,6 +140,9 @@ examples:
+>              label = "GPIO Key UP";
+>              linux,code = <103>;
+>              gpios = <&gpio1 0 1>;
+> +            interrupts-extended = <&intc_wakeup 0 IRQ_TYPE_LEVEL_HIGH>;
+> +            interrupt-names = "wakeup";
 
-dtschema/dtc warnings/errors:
-make[2]: *** Deleting file 'Documentation/devicetree/bindings/input/gpio-keys.example.dts'
-Documentation/devicetree/bindings/input/gpio-keys.yaml:40:1: found character '\t' that cannot start any token
-make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/input/gpio-keys.example.dts] Error 1
-make[2]: *** Waiting for unfinished jobs....
-./Documentation/devicetree/bindings/input/gpio-keys.yaml:40:1: found character '\t' that cannot start any token
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/gpio-keys.yaml: ignoring, error parsing file
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1500: dt_binding_check] Error 2
-make: *** [Makefile:234: __sub-make] Error 2
+That's not what your schema allows. You need:
 
-doc reference errors (make refcheckdocs):
+minItems: 1
+items:
+  - enum: [ irq, wakeup ]
+  - const: wakeup
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230811110432.3968-1-tony@atomide.com
+(repeating 'wakeup' is disallowed globally for ".*-names".)
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+> +            wakeup-source;
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+Of course with this, a single interrupt is the wake-up source and 
+doesn't need a name. So you could define that 'interrupt-names' is only 
+used when there are 2 interrupts. In that case, the schema is right and 
+the example is wrong.
 
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Rob
