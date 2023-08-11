@@ -2,222 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 468A6778CAC
-	for <lists+linux-input@lfdr.de>; Fri, 11 Aug 2023 13:04:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DBA6778FD0
+	for <lists+linux-input@lfdr.de>; Fri, 11 Aug 2023 14:46:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234502AbjHKLEo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Aug 2023 07:04:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41494 "EHLO
+        id S229379AbjHKMp7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Aug 2023 08:45:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234530AbjHKLEn (ORCPT
+        with ESMTP id S233473AbjHKMp6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Aug 2023 07:04:43 -0400
-Received: from muru.com (muru.com [72.249.23.125])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BA2F1FD;
-        Fri, 11 Aug 2023 04:04:42 -0700 (PDT)
-Received: from hillo.muru.com (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTP id CAAA0820B;
-        Fri, 11 Aug 2023 11:04:40 +0000 (UTC)
-From:   Tony Lindgren <tony@atomide.com>
+        Fri, 11 Aug 2023 08:45:58 -0400
+X-Greylist: delayed 332 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 11 Aug 2023 05:45:56 PDT
+Received: from out-112.mta0.migadu.com (out-112.mta0.migadu.com [IPv6:2001:41d0:1004:224b::70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E94830C1
+        for <linux-input@vger.kernel.org>; Fri, 11 Aug 2023 05:45:56 -0700 (PDT)
+Date:   Fri, 11 Aug 2023 22:39:54 +1000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+        t=1691757620;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=8vNMSKN+vtwKFHAf06jkI6GM9sIuZ9HaDo3mOdRlVL0=;
+        b=BchVAq6XdbomT9nJbHcoXXXO290cJ6HsWBHEoegfNiBXIvC9sMXlAhFNYv8k87Ja8wK6Wb
+        0uTwT/ou6jTOVhBmR/kaiJ4p36ruEdBegikdugGr+cszRl+OlTzPh7JXDMojRQBlbF0XnU
+        Jeu1r+jLz0YH5IHoNCnDgiocILxQmdcZk0zZlT9j7AgGgZSQIyt/yrH3VVShoqt7ve3vf0
+        /MqDD8yYX2fG/UDnO8efHTMtm+FFoTMp3aKgpiRwVYmghaGH0uIZlzj/7jBVdwWASKze/j
+        len8GdK8MNuEPLJ1Ui5zfEz3YjdTfFcbQf6cgGHS7xFx/8zBd3jPAdbNacClFA==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   John Watts <contact@jookia.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Dhruva Gole <d-gole@ti.com>
-Subject: [PATCH 2/2] Input: gpio-keys - Add system suspend support for dedicated wakeirqs
-Date:   Fri, 11 Aug 2023 14:04:32 +0300
-Message-ID: <20230811110432.3968-2-tony@atomide.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230811110432.3968-1-tony@atomide.com>
-References: <20230811110432.3968-1-tony@atomide.com>
+Cc:     Jeff LaBundy <jeff@labundy.com>, Marek Vasut <marex@denx.de>,
+        Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Frieder Schrempf <frieder.schrempf@kontron.de>,
+        Manuel Traut <manuel.traut@mt.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-pwm@vger.kernel.org, alsa-devel@alsa-project.org,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH] Input: pwm-beeper - Support volume setting via sysfs
+Message-ID: <ZNYsGr6yBeVTtNMK@titan>
+References: <873514d2ju.wl-tiwai@suse.de>
+ <63adce9a-df65-b462-9055-0ece5216d680@denx.de>
+ <87tttkjmyu.wl-tiwai@suse.de>
+ <0cffe366-75af-d8a8-8920-6fb94c321a89@denx.de>
+ <87h6pkjh7q.wl-tiwai@suse.de>
+ <618add56-3675-4efe-5b20-665c10040e03@denx.de>
+ <ZMfgJ3o00nApkXGp@google.com>
+ <f4612dc5-a7d4-74ba-2ed8-ea70314625b6@denx.de>
+ <ZMh0Sa9s25JHhWw5@nixie71>
+ <ZMi0HT/yaTo9uTyi@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZMi0HT/yaTo9uTyi@google.com>
+X-Migadu-Flow: FLOW_OUT
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some SoCs have a separate dedicated wake-up interrupt controller that can
-be used to wake up the system from deeper idle states. We already support
-configuring a separate interrupt for a gpio-keys button to be used with a
-gpio line. However, we are lacking support system suspend for cases where
-a separate interrupt needs to be used in deeper sleep modes.
+On Tue, Aug 01, 2023 at 12:28:29AM -0700, Dmitry Torokhov wrote:
+> If we want to extend the API we will need to define exactly how it will
+> all work. I.e. what happens if userspace mixes the old SND_TONE and
+> SND_BELL with the new SND_BELL_VOL or whatever. Does it play with
+> previously set volume? The default one? How to set the default one? How
+> to figure out what the current volume is if we decide to make volume
+> "sticky"?
+> 
+> As far as userspace I expect it is more common to have one program (or
+> component of a program) to set volume and then something else requests
+> sound, so having one-shot API is of dubious value to me.
+> 
+> I hope we can go with Takashi's proposal downthread, but if not I wonder
+> if the sysfs approach is not the simplest one. Do we expect more beepers
+> that can control volume besides pwm-beeper?
+> 
+> Thanks.
+> 
+> -- 
+> Dmitry
 
-Because of it's nature, gpio-keys does not know about the runtime PM state
-of the button gpios, and may have several gpio buttons configured for each
-gpio-keys device instance. Implementing runtime PM support for gpio-keys
-does not help, and we cannot use drivers/base/power/wakeirq.c support. We
-need to implement custom wakeirq support for gpio-keys.
+(Just to duck in as someone that has written a little program to play beeps and
+tones using the EV_TONE API)
 
-For handling a dedicated wakeirq for system suspend, we enable and disable
-it with gpio_keys_enable_wakeup() and gpio_keys_disable_wakeup() that we
-already use based on device_may_wakeup().
+It might be worth distinguishing between the goals of having some beeps with
+different volumes compared to all beeps with different volumes.
 
-Some systems may have a dedicated wakeirq that can also be used as the
-main interrupt, this is already working for gpio-keys. Let's add some
-wakeirq related comments while at it as the usage with a gpio line and
-separate interrupt line may not be obvious.
+Sound card mixers generally control some sort of global volume while I would
+imagine the tone API would control per-tone volume. I don't know too much about
+safety guarantees but writing an input then sysfs or mixer then input again
+seems like it could get jumbled up.
 
-Tested-by: Dhruva Gole <d-gole@ti.com>
-Signed-off-by: Tony Lindgren <tony@atomide.com>
----
- drivers/input/keyboard/gpio_keys.c | 69 ++++++++++++++++++++++++++++--
- include/linux/gpio_keys.h          |  2 +
- 2 files changed, 67 insertions(+), 4 deletions(-)
+In that speicfic case I think it would make more sense to send volume and tone
+from whatever beep API is being used, with the volume being a multiplier of the
+loudest volume. This is similar to how audio works with PCM output. Existing
+beeps would have the volume set to 100%.
 
-diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
---- a/drivers/input/keyboard/gpio_keys.c
-+++ b/drivers/input/keyboard/gpio_keys.c
-@@ -45,7 +45,9 @@ struct gpio_button_data {
- 	unsigned int software_debounce;	/* in msecs, for GPIO-driven buttons */
- 
- 	unsigned int irq;
-+	unsigned int wakeirq;
- 	unsigned int wakeup_trigger_type;
-+
- 	spinlock_t lock;
- 	bool disabled;
- 	bool key_pressed;
-@@ -511,6 +513,7 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
- 	struct gpio_button_data *bdata = &ddata->data[idx];
- 	irq_handler_t isr;
- 	unsigned long irqflags;
-+	const char *wakedesc;
- 	int irq;
- 	int error;
- 
-@@ -575,6 +578,14 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
- 					!gpiod_cansleep(bdata->gpiod);
- 		}
- 
-+		/*
-+		 * If an interrupt was specified, use it instead of the gpio
-+		 * interrupt and use the gpio for reading the state. A separate
-+		 * interrupt may be used as the main button interrupt for
-+		 * runtime PM to detect events also in deeper idle states. If a
-+		 * dedicated wakeirq is used for system suspend only, see below
-+		 * for bdata->wakeirq setup.
-+		 */
- 		if (button->irq) {
- 			bdata->irq = button->irq;
- 		} else {
-@@ -672,6 +683,36 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
- 		return error;
- 	}
- 
-+	if (!button->wakeirq)
-+		return 0;
-+
-+	/* Use :wakeup suffix like drivers/base/power/wakeirq.c does */
-+	wakedesc = devm_kasprintf(dev, GFP_KERNEL, "%s:wakeup", desc);
-+	if (!wakedesc)
-+		return -ENOMEM;
-+
-+	bdata->wakeirq = button->wakeirq;
-+	irqflags |= IRQF_NO_SUSPEND;
-+
-+	/*
-+	 * Wakeirq shares the handler with the main interrupt, it's only
-+	 * active during system suspend. See gpio_keys_button_enable_wakeup()
-+	 * and gpio_keys_button_disable_wakeup().
-+	 */
-+	error = devm_request_any_context_irq(dev, bdata->wakeirq, isr,
-+					     irqflags, wakedesc, bdata);
-+	if (error < 0) {
-+		dev_err(dev, "Unable to claim wakeirq %d; error %d\n",
-+			bdata->irq, error);
-+		return error;
-+	}
-+
-+	/*
-+	 * Disable wakeirq until suspend. IRQF_NO_AUTOEN won't work if
-+	 * IRQF_SHARED was set based on !button->can_disable.
-+	 */
-+	disable_irq_nosync(bdata->wakeirq);
-+
- 	return 0;
- }
- 
-@@ -728,7 +769,7 @@ gpio_keys_get_devtree_pdata(struct device *dev)
- 	struct gpio_keys_platform_data *pdata;
- 	struct gpio_keys_button *button;
- 	struct fwnode_handle *child;
--	int nbuttons;
-+	int nbuttons, irq;
- 
- 	nbuttons = device_get_child_node_count(dev);
- 	if (nbuttons == 0)
-@@ -750,9 +791,19 @@ gpio_keys_get_devtree_pdata(struct device *dev)
- 	device_property_read_string(dev, "label", &pdata->name);
- 
- 	device_for_each_child_node(dev, child) {
--		if (is_of_node(child))
--			button->irq =
--				irq_of_parse_and_map(to_of_node(child), 0);
-+		if (is_of_node(child)) {
-+			irq = of_irq_get_byname(to_of_node(child), "irq");
-+			if (irq > 0)
-+				button->irq = irq;
-+
-+			irq = of_irq_get_byname(to_of_node(child), "wakeup");
-+			if (irq > 0)
-+				button->wakeirq = irq;
-+
-+			if (!button->irq && !button->wakeirq)
-+				button->irq =
-+					irq_of_parse_and_map(to_of_node(child), 0);
-+		}
- 
- 		if (fwnode_property_read_u32(child, "linux,code",
- 					     &button->code)) {
-@@ -921,6 +972,11 @@ gpio_keys_button_enable_wakeup(struct gpio_button_data *bdata)
- 		}
- 	}
- 
-+	if (bdata->wakeirq) {
-+		enable_irq(bdata->wakeirq);
-+		disable_irq_nosync(bdata->irq);
-+	}
-+
- 	return 0;
- }
- 
-@@ -929,6 +985,11 @@ gpio_keys_button_disable_wakeup(struct gpio_button_data *bdata)
- {
- 	int error;
- 
-+	if (bdata->wakeirq) {
-+		enable_irq(bdata->irq);
-+		disable_irq_nosync(bdata->wakeirq);
-+	}
-+
- 	/*
- 	 * The trigger type is always both edges for gpio-based keys and we do
- 	 * not support changing wakeup trigger for interrupt-based keys.
-diff --git a/include/linux/gpio_keys.h b/include/linux/gpio_keys.h
---- a/include/linux/gpio_keys.h
-+++ b/include/linux/gpio_keys.h
-@@ -21,6 +21,7 @@ struct device;
-  *			disable button via sysfs
-  * @value:		axis value for %EV_ABS
-  * @irq:		Irq number in case of interrupt keys
-+ * @wakeirq:		Optional dedicated wake-up interrupt
-  */
- struct gpio_keys_button {
- 	unsigned int code;
-@@ -34,6 +35,7 @@ struct gpio_keys_button {
- 	bool can_disable;
- 	int value;
- 	unsigned int irq;
-+	unsigned int wakeirq;
- };
- 
- /**
--- 
-2.41.0
+John.
