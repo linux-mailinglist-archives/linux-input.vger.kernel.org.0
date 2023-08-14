@@ -2,48 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3876977B5B4
-	for <lists+linux-input@lfdr.de>; Mon, 14 Aug 2023 11:45:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DF6577B5BA
+	for <lists+linux-input@lfdr.de>; Mon, 14 Aug 2023 11:47:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232622AbjHNJpD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Aug 2023 05:45:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50822 "EHLO
+        id S234715AbjHNJrL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Aug 2023 05:47:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234804AbjHNJot (ORCPT
+        with ESMTP id S233924AbjHNJrG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Aug 2023 05:44:49 -0400
+        Mon, 14 Aug 2023 05:47:06 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6E3EE8;
-        Mon, 14 Aug 2023 02:44:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C29D8D1;
+        Mon, 14 Aug 2023 02:47:05 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5D91864BAD;
-        Mon, 14 Aug 2023 09:44:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12359C433C7;
-        Mon, 14 Aug 2023 09:44:45 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 490B164393;
+        Mon, 14 Aug 2023 09:47:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FBAFC433C7;
+        Mon, 14 Aug 2023 09:47:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692006287;
-        bh=1IIoZalSUlUVq1bz07HvHg9BkKMalLCKTeYFZqc2Q0I=;
+        s=k20201202; t=1692006424;
+        bh=ITyUf+LOPZiE5iOtagS/gKnXHqaxOrbvl0msY7L9C64=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=hhZ60FB3CaWlVqy+pQY5bWk6JpkcMNFM4AAhUpF4r99KNCH/KI04H2qXlETgHDSp6
-         ZU+oJ9sgW0nFt5bNuhiNeP9MlbRTTkz2jqM9qhFulwBcc9g+Mh5E+XpR0pYjTJC04X
-         PIBxXEJd8QbY6Gc81JNEJG9Z1JRu6Ws92q6ram2V9tNTkHzkpTXU5nMi2UjXgfYKMV
-         XjrwHTYvgdILpgou8pXhDYAhNiqphKWKrM1WCCLgODWmTvQgg1XQD6/DKcBJXHNS3l
-         yth0V72a4cw4AndvSRcaRru8wqrijwP9YYiZmuRkEe+dbrQFd9a/1GUw2iNQ6GEkdg
-         C8G5kJI0+ClEA==
-Date:   Mon, 14 Aug 2023 11:44:43 +0200 (CEST)
+        b=OBctmUXpb9G0aTjXjhHJa3/H1G5qGA0u/XzlopOUF1xmcrbkRU0ibssAHIbYBw/ZJ
+         8glljfGjiEbbyC+DLLIL4PX879CLsjTdD1Kz2FhAF4NZKMsoRISVw/ZagY3mGlU4/0
+         6JxaQl6dBA6xr+5gPgVax+E4lfW1UJGZMsidWoTlw2oFHwOKJiHgRhnSfDk9MF9vuH
+         dxcUKO3p17wm/pPuF/d4WliCLJ+32ggoejIE6xC8tkh7DHWtxHKPQtVMDk3RUbw6ie
+         VC7oDE2wGxOdQvUYLW/V+DacfS73FgUHTkJNVU/ckXfb9m/DxcBNJY6HZh5+RMuJEh
+         clPsT74awqbQw==
+Date:   Mon, 14 Aug 2023 11:47:01 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Aaron Armstrong Skomra <skomra@gmail.com>
-cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        benjamin.tissoires@redhat.com, pinglinux@gmail.com,
-        Joshua@Joshua-Dickens.com, jason.gerecke@wacom.com,
-        stable@vger.kernel.org
-Subject: Re: [PATCH Wacom EKR Battery Fixes 0/3] 
-In-Reply-To: <20230725221936.123775-1-skomra@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2308141144130.14207@cbobk.fhfr.pm>
-References: <20230725221936.123775-1-skomra@gmail.com>
+To:     Maxim Mikityanskiy <maxtram95@gmail.com>
+cc:     =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>,
+        Bastien Nocera <hadess@hadess.net>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: logitech-hidpp: Add support for Logitech MX Anywhere
+ 3 mouse
+In-Reply-To: <20230809113832.123667-1-maxtram95@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2308141146540.14207@cbobk.fhfr.pm>
+References: <20230809113832.123667-1-maxtram95@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -56,19 +57,13 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 25 Jul 2023, Aaron Armstrong Skomra wrote:
+On Wed, 9 Aug 2023, Maxim Mikityanskiy wrote:
 
-> Currently the ExpressKey Remote battery will persist indefinitely in
-> /sys/class/power_supply. Remove the battery when we stop getting
-> reports from the device.
-> 
-> Also remove some unneccessary code and make an EKR struct name more
-> descriptive.
+> Add Logitech MX Anywhere 3 connected over Bluetooth to the device table
+> to get hidpi scroll supported. USB connection over the Unifying receiver
+> is already supported by the wildcard entry LDJ_DEVICE(HID_ANY_ID).
 
-I have now applied the series. Please look into your mail setup -- the 
-patches in the series were not part of one thread, but separate.
-
-Thanks,
+Applied, thanks.
 
 -- 
 Jiri Kosina
