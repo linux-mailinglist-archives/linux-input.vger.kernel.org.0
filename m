@@ -2,48 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9B4077B595
-	for <lists+linux-input@lfdr.de>; Mon, 14 Aug 2023 11:37:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8ABC77B5AF
+	for <lists+linux-input@lfdr.de>; Mon, 14 Aug 2023 11:42:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233102AbjHNJg2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Aug 2023 05:36:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34604 "EHLO
+        id S233724AbjHNJlu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Aug 2023 05:41:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234541AbjHNJgE (ORCPT
+        with ESMTP id S235903AbjHNJlk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Aug 2023 05:36:04 -0400
+        Mon, 14 Aug 2023 05:41:40 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C704BE73;
-        Mon, 14 Aug 2023 02:36:01 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 135B8109;
+        Mon, 14 Aug 2023 02:41:37 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6544663EEA;
-        Mon, 14 Aug 2023 09:36:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E5D3C43395;
-        Mon, 14 Aug 2023 09:35:59 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A4945641D7;
+        Mon, 14 Aug 2023 09:41:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B58CC433C9;
+        Mon, 14 Aug 2023 09:41:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692005760;
-        bh=kvp6t8w10Ze8dIgCBPO8HLKm/rvJ5YhMMQ+jrvC2iEA=;
+        s=k20201202; t=1692006096;
+        bh=u7SdiR6jWnCG84+2wK1j3VuaCet8DrxkXNOWsdw6R7k=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=TWE7pdpf12E98D98ckBIUkafqJW4/75ZoO++oyG6DkAUh0jTYhLuOTGfaaFY8kHVy
-         WsO3Hq0SRzIKncJKj97rPaOc96lQMNGTyB10pQw1X2sFXpVHjhnxm8GIilGPtnHa6f
-         n391luRwMmaOVudGOyi8AwzI/cZFGygu5NLFLFJXB1NM2ZJ7znatLys3zH8fxpyARq
-         s8Rgtkdza6SN40gF0+sogTI9iiQhGt03R6xpMc3nwqg7BYjnuct9WehjLURqtq2uG6
-         fu6yaON7fQlr4KPQYbLFA/+iCTnUEcpszH9NuAxpoInYghk6AlGyJyjywUbk/peJvX
-         iIkVwFwO5VtLw==
-Date:   Mon, 14 Aug 2023 11:35:57 +0200 (CEST)
+        b=qJ+l4crvgV6SV/Ej+nCEAYBih5PnfqLpfFSyQVf7jMo6EsZjUyp5PhgQ6dRS4GjgP
+         w/1/r2u1qhz876pfhNGK9sCBqLcvtwYH9pYYW+SNEShhj1ZtWYNSqWOFQeaF9iksso
+         /btsK0iBF+LqOG/IhFkPssnvr34UFkGm/zN0UQecNHgRDgTlIDBM3DY/tmsLWJfWqJ
+         dTJzYQgAxgzge99CFOFnzr7nWyyEHxqaYVAEfh3jw4bz9toZ0UYZ3i2jzforB3t+yX
+         zcrfUebKMXR1dFS5nYVBu3Ar0cA0myVFnJ25K7gfymdHOtFIa3fxEi/mAG+tNGNmtH
+         C47XmcQuWR+OQ==
+Date:   Mon, 14 Aug 2023 11:41:32 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Fabio Baltieri <fabiobaltieri@chromium.org>
+To:     Rahul Rameshbabu <rrameshbabu@nvidia.com>
 cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Rahul Rameshbabu <rrameshbabu@nvidia.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] HID: hid-google-stadiaff: add support for Stadia
- force feedback
-In-Reply-To: <20230716204834.2879106-1-fabiobaltieri@chromium.org>
-Message-ID: <nycvar.YFH.7.76.2308141135390.14207@cbobk.fhfr.pm>
-References: <20230716204834.2879106-1-fabiobaltieri@chromium.org>
+Subject: Re: [PATCH 1/3] HID: nvidia-shield: Remove led_classdev_unregister
+ in thunderstrike_create
+In-Reply-To: <20230807163620.16855-1-rrameshbabu@nvidia.com>
+Message-ID: <nycvar.YFH.7.76.2308141141190.14207@cbobk.fhfr.pm>
+References: <20230807163620.16855-1-rrameshbabu@nvidia.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -56,15 +55,7 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 16 Jul 2023, Fabio Baltieri wrote:
-
-> Add a hid-google-stadiaff module to support rumble based force feedback
-> on the Google Stadia controller. This works using the HID output
-> endpoint exposed on both the USB and BLE interface.
-> 
-> Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
-
-Now queued in hid.git#for-6.6/google.
+I have now applied the series to hid.git.
 
 Thanks,
 
