@@ -2,161 +2,157 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1976A77C6ED
-	for <lists+linux-input@lfdr.de>; Tue, 15 Aug 2023 07:12:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31C7E77C75E
+	for <lists+linux-input@lfdr.de>; Tue, 15 Aug 2023 08:04:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234593AbjHOFLv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Aug 2023 01:11:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59748 "EHLO
+        id S234819AbjHOGEP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Aug 2023 02:04:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234682AbjHOFLI (ORCPT
+        with ESMTP id S234872AbjHOGDf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Aug 2023 01:11:08 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 644551BDF
-        for <linux-input@vger.kernel.org>; Mon, 14 Aug 2023 22:10:19 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-99bdcade7fbso654291366b.1
-        for <linux-input@vger.kernel.org>; Mon, 14 Aug 2023 22:10:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692076218; x=1692681018;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bF28iUeNk56JK9TsikccLm4WltEZTE19xKJs8jn9uAQ=;
-        b=mct1vZmLVqpwNiftHjdz7sR0wwQM52RIrTCtLvKnBc2sulf7CmZZyCra3ey1Z/4bjF
-         q4kUgcJw32Vs/LONAis+TdSogerfcdo8Bxm1w/USc1PBdt9Dgu0LSJr53rXp3wjxOP3V
-         7+KEGCJW1Zda2YQoU3E6NWn8gXrqVD93UzAPgpQbP1AqAw2wrnxdyDtlncPHJaknhwHv
-         6kzV4bMU738my/CRVd1OqkR2vZBCvxBuBU7cHm1uqr+ZJVucJccb+LqgcfBmeCR7Iacl
-         9IWQJ2AyAhcDpkEGgVY68QsnIhWwUpOFOYTkWdU+LR5v/i1+SSluK/dvGHsRv6Pwde/o
-         NPTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692076218; x=1692681018;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bF28iUeNk56JK9TsikccLm4WltEZTE19xKJs8jn9uAQ=;
-        b=PAcPL79tRMOrsLp3LIgs5xArcHc0DZLzH1TBO9wUTWHZcqtgnzOKtbQYwuYPuo+4X8
-         nAXUMtfKZuDjCWRBThr3JINzzBvHbZ0pqcqZApW6YlymWokKx85sDqEgdx4rP6EvusEE
-         G+7gnNgPFSL+ITlTXy3ryOxEStszqrBgypn0yL47IQAVuSzqWIZtAd8vVZ43rE0Jw16X
-         m15OasIJkPMsxN5F1DW0lEN7Xe92xEpmI9rAfNASXFasFtH4eqwjsAag5DgI9tgjJ6FO
-         49gp1bn+ZyEcNImIT3dIX9WxpIYpUY13DWPa3DbHXggpZKFM4zvMgkuuQoOgDEceHBKK
-         KZ4Q==
-X-Gm-Message-State: AOJu0YzfKjnSrob/9ncTROt90ZqZJzivpUWOlG2fNLMygkYWeu8l2Pzq
-        xaGc53iaSejqC7jqTFhUXjIYOQ==
-X-Google-Smtp-Source: AGHT+IGBkZ4LMf+dzSXpi05VjH8TZyFkhr+fyibIr+D55iwAeA/gaFr4uFToJqM8dsAEqZpeG1xURQ==
-X-Received: by 2002:a17:907:7606:b0:991:e458:d14 with SMTP id jx6-20020a170907760600b00991e4580d14mr8196881ejc.34.1692076217690;
-        Mon, 14 Aug 2023 22:10:17 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.214.188])
-        by smtp.gmail.com with ESMTPSA id d2-20020a170906640200b0099d0c0bb92bsm6461343ejm.80.2023.08.14.22.10.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Aug 2023 22:10:17 -0700 (PDT)
-Message-ID: <2d8669f1-bab0-d02c-ece5-a6cd87b51e8e@linaro.org>
-Date:   Tue, 15 Aug 2023 07:10:15 +0200
-MIME-Version: 1.0
+        Tue, 15 Aug 2023 02:03:35 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01olkn2020.outbound.protection.outlook.com [40.92.98.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27023173D;
+        Mon, 14 Aug 2023 23:03:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P5XsoTiaCode7nVHLQRLZ/qHRPwO7gXAlM48GxmyB0T1IgN3bpeTzg8afRFBsmdK2BjOlZGGTACIPmIRmfZAGgNAC+4Z5pllVd8IfBSHriZB/8t9S72iVQXXRb0UvswXzMq5c499TML7wxi5QQhJVjRv5lucEP0Cw8yqigexCkakesRt3mmIlMski0wrxsVU9lKN72PXOGfxf1iwB1OjG1xHU1DpJPYPYcMKbBYBEraRIV+fAe/mfAcYfiebY7q2SsIR6YK1lpqPMgwUMe23/ovAaYkNvoDRmAvmDlZmXt3aej7eJn7l0ArN0K+UU4nTWLPapmMVy6HaUfXGHGYqTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=271xfenowj6ZsG19VuZqT+Ea9bs2lYU9Yfa8drHqBTA=;
+ b=bRMXIU86dOdwrr/eLXrczyZwPLEoUFSsJI8EBVkaL067LnEWERsjPv5T2rWalDjBCx5LAxtDiTjjRnSvhDGBLEW8Fk/TrdH5QmF3H5XocuE+FReeUYMxTKsK/1GlhAJ+QP88xUil9pUZzBLkmOrhtAEiOGNC7J8sUqq6xrseS9s9Rd6T3J6pjCk+qFIyeXw+/WtC+c1zOgfswtSfl4v2t/QgT/z414Wd5TTPgnyAYc7x5Jcsrikzoi0/K/Lxya2EWoxQP5FC/6fYavgGyuOO8moKFoEBRy1Z8uovamTLPxagwzWKtdmPBePk1NIVvbdXcodCUYLNztj1HcnjfzLvZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=271xfenowj6ZsG19VuZqT+Ea9bs2lYU9Yfa8drHqBTA=;
+ b=TsoSKuHzvRJvW/GHz38CDpXdXlqky+vIzEh6NlxXvua+gVoxfYH7dzmRPlx5Cqa+CzAk0xZvPnzeTzspdTKyMF7u5OXSFxd/wrOOvtkbaj93RVCO42iWA1qjDgLtRgq7N6SExzcBaYTKNKp8CMLqr4YYG7nIgaoY38UhAmujLJpIDnIirV418iH62Shk9N/QzOa6MSkAH1Y//lJBXDTEneKH8ZK7wonr2V/ANIKVAAzgpvY4WoLOmJtJLHS0uicGnSqaQ8TsEV0V0cTFU8M1dc0lBCa+YKhgoj+r1DZNyZMcnATmnc4/9rATVyfkfthVKdMimuGEZQeL7t85/k7C3g==
+Received: from TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:242::11)
+ by TYWP286MB3319.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:2d7::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.26; Tue, 15 Aug
+ 2023 06:03:05 +0000
+Received: from TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::320e:3328:32e4:a3ce]) by TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::320e:3328:32e4:a3ce%4]) with mapi id 15.20.6678.025; Tue, 15 Aug 2023
+ 06:03:05 +0000
+Message-ID: <TYCP286MB260715E63D023C52591264C5B114A@TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM>
+Date:   Tue, 15 Aug 2023 14:02:40 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v4 2/3] dt-bindings: input: qcom,pm8xxx-vib: add new SPMI
- vibrator module
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v1] HID: i2c-hid: use print_hex_dump_debug to print report
+ descriptor
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     benjamin.tissoires@redhat.com, dmitry.torokhov@gmail.com,
+        linux@weissschuh.net, hdegoede@redhat.com, rrangel@chromium.org,
+        u.kleine-koenig@pengutronix.de, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Riwen Lu <luriwen@kylinos.cn>
+References: <TYCP286MB260706B19C5E30EE2774784EB129A@TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM>
+ <nycvar.YFH.7.76.2308141126330.14207@cbobk.fhfr.pm>
 Content-Language: en-US
-To:     Fenglin Wu <quic_fenglinw@quicinc.com>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        agross@kernel.org, andersson@kernel.org,
-        dmitry.baryshkov@linaro.org,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     quic_collinsd@quicinc.com, quic_subbaram@quicinc.com,
-        quic_kamalw@quicinc.com, jestar@qti.qualcomm.com
-References: <20230731053712.2220898-1-quic_fenglinw@quicinc.com>
- <20230731053712.2220898-3-quic_fenglinw@quicinc.com>
- <a1b1cead-17e4-2016-91a1-9ad9949ff9e3@linaro.org>
- <19e45248-5fff-d806-81f2-feea56d7778d@quicinc.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <19e45248-5fff-d806-81f2-feea56d7778d@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+From:   Riwen Lu <luriwen@hotmail.com>
+In-Reply-To: <nycvar.YFH.7.76.2308141126330.14207@cbobk.fhfr.pm>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TMN:  [pHUsWBMioNisFnHVQv2p9rUJRElm0gQa]
+X-ClientProxiedBy: TYWP286CA0016.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:178::21) To TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:242::11)
+X-Microsoft-Original-Message-ID: <48a87202-26fc-5b09-f2d4-6e316e723f6a@hotmail.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCP286MB2607:EE_|TYWP286MB3319:EE_
+X-MS-Office365-Filtering-Correlation-Id: cda2f8de-daa2-4d09-9757-08db9d554a79
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: m0XgjF+yUZd8dMJi0PXlwi7MyOR5COCCs6/7vr1wazRMKLW2v4KWM+S+cMQUJk6AL6rE6DzmwsJUCA6CQviGNoG27v5LdK5QFU7BilL26F8J99LvvzvP+YCYG9/+/gSm80U2881b13cdM+xwVjnYJQujWNTW6ceqs3fNOZD6BbqSHEXa5T7unq6Ofod4EzvuVdbmHAUFqN1JI85XOUlIWwA/b9JGvQiZRrFW2y7QAUt49DNGTkvvxtkvNxU4la8ksc8NMY86zwINdSZS74CsfHR3EJeZc2lfKERYoXqeZavdsGzUnkzYqHizyIf+oPegnJ+j38gNCnbT0k8Qs91z6rbXHQFofvUvN/VvY6R09HfyZZ3CagwA5GRXXicih9yiKswjnZPRIcRUEKCZHQRYjNvPbZ45S5O72p/1idXNrFGM1s9IVTfpR09DtR4P9G2LQlyP4K6fDoLJ7m7WfCI9Hdb3jXNYSgw5T9AYZe4fLwD5X9Co46493m0GBO9bk7lk64BZURsaI+g4xm7sn3Suaz5u007SnhLit1SO42QX5xHOfU8VM3k+taBlzVUTFwGN
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RS9MbWZKNkZxSlVUSVRWWE15MmtBaTlVczBzbGpSRFNYK0wvakJaT2lueXVV?=
+ =?utf-8?B?R3BXZC9ONUVjcG1PajhNUUxDK255RFFNRk9LV3c3NmZENjlkWGFnNURkODMy?=
+ =?utf-8?B?S0JjMlllbWwwSzI5OGJteWVHam1wdC90ZGlET0VHUjVZalVkUStGc04wNWNj?=
+ =?utf-8?B?MG0yNEdlWm9aTzFaNXJGeW82b1htaVZxRTR0dzQyeVRoeXBXUU9nWXB5K1Nt?=
+ =?utf-8?B?M1NJU0Vxa01vbXJLNHFPc28rTWlnWlhlZGphSGxvNndMSHcyQ1pMNXpmM3NF?=
+ =?utf-8?B?NHl2a3VtZ1VVUWZOSmo2MzRvVEl4Z2RLVWc1cXFRdGllRFlIZnpWRnBuYW9r?=
+ =?utf-8?B?RTBKbk1hSVpFQlZsQ1Q0ZzFFQlNuRjYwNWZheVZ2emUwMGx1eGE5amNISFdz?=
+ =?utf-8?B?STV3S1dFdGVEcXlyNE9ldy9TODMzcjcrTlkrOFlUN1VNQ0w3c2RJS3QvRVg1?=
+ =?utf-8?B?TkJUTXRCeDZSRlRwK2xiQWVnR0hlbTlNT2dHTjA2dWs4L01qekcwanRTNXNs?=
+ =?utf-8?B?MzZVbjgwMktqNkY4Ly9RU0Q2RktpSW0wWFR4a3o1UU1nOUhuOGF4Rk42ejNH?=
+ =?utf-8?B?T0VqUHk2aEhUWkZPNmFIelpzcE1kU1VaSlhFUzhPT05SQlRIUEhrcys1Zk1m?=
+ =?utf-8?B?QW5udDZYMnhMd05Ubm8xWUo1NUtBUisrRlJuVTFyMUM1NXFrdHArQUIxck9G?=
+ =?utf-8?B?eGVaNCtoNG9TbmNWcFlFa29OZ1dSTnlYdFpSZXZRRmc2QlRkZnhpcUpRSGtM?=
+ =?utf-8?B?OXBzNnZOKzBBYjFOazhGUmRCTzhzeTJlRzI4MHlLM3VxZ0NEak5UM2NXVGk0?=
+ =?utf-8?B?TE00SW42VlgvTVA3ektHWXBtazJlUWpPOC9yNUNPNldvY3hLVVlWWlc0M3FU?=
+ =?utf-8?B?b1hOekxhNEJvZTJvZkJ4UWYzMm9YcmhPam4vQzZHUVB6U21qSy9oaVNhTWdu?=
+ =?utf-8?B?K0lIZTNOWFR2MXRHTk1NVFVVTE5kMC9MNFJJOUs2d1Q2eHhFeUcyb2oxM0Rq?=
+ =?utf-8?B?M2RGOXRyR3grT1dpbzFERFp2RjJmaEtmcVkrOUx1SHNON01hUzZUY2NYN1VU?=
+ =?utf-8?B?T0M4blpZRlM4OEFlQXpLKzFjQ0cwcENPeTZlelFMTWFFWVZZWkZNRXhVaFNh?=
+ =?utf-8?B?TnVtR1RCT2RJZDVEazhrWm13OW1Dc3ZRVzRkWEk1anhEMFgydGZ5Y2lPb3My?=
+ =?utf-8?B?Vzl5cUNoS0NkNDlsUm9CdFJzcFJieGUxUnNTMEsrcjhoNUozSFdITUJCY1h3?=
+ =?utf-8?B?SHNDU3lSN0hSUmpIblBmMlBWZk5XaFRoUmFsUERtU0JCQk5Jc3JBUVcxOU9F?=
+ =?utf-8?B?aDJmWTBwV255VUdyNitGRU0yL1R0RFNXbVRuTU1sMlovZDR2clBWYVc0T0N1?=
+ =?utf-8?B?NExhVE4yUXpPM2J6UHlQR3NkUlVKb1VWdjV4WURKUFZEUlVYbjgwaG5aeU5P?=
+ =?utf-8?B?MXVTclh1TG44MmtLMGYzYWh0Zy9VYndxdXFaNzcybGMzcjMvcmxqRm5KZ0NK?=
+ =?utf-8?B?cXZZN1MrZWJKdWZnR2VhZWZNU1NJMDEvNUtmWk5pMlA5OHF2amlSUXVpMFlu?=
+ =?utf-8?B?aGlNeG1wcHphMW5sbHZkSW1GaHFNc2NYNTh5TDVlQTFBU1ZhT0pUVjUvaEc0?=
+ =?utf-8?B?OU1ZeEZldHM2UmFZSTVQVEhhU09kS0E9PQ==?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-05f45.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: cda2f8de-daa2-4d09-9757-08db9d554a79
+X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2023 06:03:05.2704
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWP286MB3319
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_MUA_MOZILLA,
+        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 15/08/2023 04:20, Fenglin Wu wrote:
+在 2023/8/14 17:26, Jiri Kosina 写道:
+> On Mon, 3 Jul 2023, Riwen Lu wrote:
 > 
-> 
-> On 8/14/2023 6:06 PM, Krzysztof Kozlowski wrote:
->> On 31/07/2023 07:37, Fenglin Wu wrote:
->>> Add compatible string 'qcom,spmi-vib-gen2' to support vibrator module
->>> inside PMI632, PMI7250B, PM7325B, PM7550BA.
->>>
->>> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
->>> ---
->>>   .../bindings/input/qcom,pm8xxx-vib.yaml          | 16 ++++++++++++----
->>>   1 file changed, 12 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml b/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
->>> index c8832cd0d7da..4a2319fc1e3f 100644
->>> --- a/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
->>> +++ b/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
->>> @@ -11,10 +11,18 @@ maintainers:
->>>   
->>>   properties:
->>>     compatible:
->>> -    enum:
->>> -      - qcom,pm8058-vib
->>> -      - qcom,pm8916-vib
->>> -      - qcom,pm8921-vib
->>> +    oneOf:
->>> +      - enum:
->>> +          - qcom,pm8058-vib
->>> +          - qcom,pm8916-vib
->>> +          - qcom,pm8921-vib
->>> +      - items:
->>> +          - enum:
->>> +              - qcom,pmi632-vib
->>> +              - qcom,pm7250b-vib
->>> +              - qcom,pm7325b-vib
->>> +              - qcom,pm7550b-vib
->>> +          - const: qcom,spmi-vib-gen2
+>> From: Riwen Lu <luriwen@kylinos.cn>
 >>
->> This does not seem to implement my comment:
+>> The format '%*ph' print up to 64 bytes long as a hex string with ' '
+>> sepatator. Usually the size of report descriptor is larger than 64
+>> bytes, so consider using print_hex_dump_debug to print out all of it for
+>> better debugging.
 >>
->> "Entirely remove qcom,spmi-vib-gen2 and
->> qcom,spmi-vib-gen1.
+>> Signed-off-by: Riwen Lu <luriwen@kylinos.cn>
+>> ---
+>>   drivers/hid/i2c-hid/i2c-hid-core.c | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
 >>
->> Use device specific compatibles names only. As fallback and as first
->> compatible."
->>
->> It's nice to respond that you disagree with it. Therefore, I am not
->> going to Ack it.
+>> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+>> index efbba0465eef..8e97fc01c852 100644
+>> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+>> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+>> @@ -772,7 +772,9 @@ static int i2c_hid_parse(struct hid_device *hid)
+>>   		}
+>>   	}
+>>   
+>> -	i2c_hid_dbg(ihid, "Report Descriptor: %*ph\n", rsize, rdesc);
+>> +	i2c_hid_dbg(ihid, "Report Descriptor\n");
+>> +	print_hex_dump_debug("  ", DUMP_PREFIX_OFFSET, 16, 1,
+>> +			rdesc, rsize, false);
 > 
-> I saw your comments and I replied your later comments in v2: 
-> https://lore.kernel.org/linux-arm-msm/b5e58172-beb5-0be3-834f-3f1db3e8b3b3@quicinc.com/. 
-> It might not be a good place to follow the discussion though, I am 
-> pasting my last reply below:
+> But that would dump it unconditionally, while i2c_hid_dbg() is
+> conditional.
 > 
-> 'Sorry, I forgot to mention, in v3, I added the 'reg' value to the
-> register offset and no longer hard code the 16-bit register address,
-> that makes the vibrators inside PMI632/PM7250B/PM7325B/PM7550BA all
-> compatible, and that was another motivation of adding a generic
-> compatible string and make the others as the fallback.
-> 
-> This will be still the case in v4, I might keep it similar in v3 but
-> just drop "qcom,spmi-vib-gen1" '
-> 
-> Anyway, if this is still not a good reason to add a generic compatible 
-> string, I can revert it back to use device specific compatible string 
-> only in next patch.
+Function print_hex_dump_debug() dump messages is as conditional as 
+i2c_hid_dbg().
 
-I just don't see how this argument is anyhow related to what I said. I
-did not comment on removing the fallback. I said use specific compatible
-as fallback.
+The function i2c_hid_dbg() defines as follows:
+#define i2c_hid_dbg(ihid, ...) dev_dbg(&(ihid)->client->dev, __VA_ARGS__)
 
-Best regards,
-Krzysztof
+dev_dbg() depends on the same macro as print_hex_dump_debug().
 
