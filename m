@@ -2,219 +2,183 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FF9377C816
-	for <lists+linux-input@lfdr.de>; Tue, 15 Aug 2023 08:50:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B05077C836
+	for <lists+linux-input@lfdr.de>; Tue, 15 Aug 2023 08:59:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235236AbjHOGtw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Aug 2023 02:49:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56802 "EHLO
+        id S235306AbjHOG7I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Aug 2023 02:59:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235194AbjHOGts (ORCPT
+        with ESMTP id S235357AbjHOG6w (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Aug 2023 02:49:48 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8EFE11D;
-        Mon, 14 Aug 2023 23:49:47 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37F6Dsud002711;
-        Tue, 15 Aug 2023 06:49:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=W1ZndHb06o1CqBfEMHAQs0xKzsPqR8W26l51gDxt9tE=;
- b=Bf5dfVTCAkHoo5Cx8IjsSm0OdWgUMUjKlVJ1wrUp4nNgcuh8SFtFWhEgZDrjhWhQduwb
- NxEF75+X9mXr7t6bsxSJVf4UkqPUaqU4dQSwKHY2HUOB7w4YiU8utBjOOl0eDwuAFFD5
- IRe1GJk8JWZFBpBUZNiAjjbAEA0xfy/dDj2KwxF09r5IE27OBjuvMDGFdwHlc+bNFRX7
- tt0DGGjPDo5mpZuYUEVFFf+UAJruM4EcUf5Jcxuh8FT1gSA5Yu8sQkxw+YZw28MV2MIw
- 0YtMn5JKdFl/c8cQN68uDqN80BNTgaIqdWzy/+YQSld2mNO1+NYK+SNUWV8n4sfdF3Tu QA== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sfxqrrf2d-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 15 Aug 2023 06:49:43 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37F6ngBD001287
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 15 Aug 2023 06:49:42 GMT
-Received: from fenglinw2-gv.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Mon, 14 Aug 2023 23:49:38 -0700
-From:   Fenglin Wu <quic_fenglinw@quicinc.com>
-To:     <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <robh+dt@kernel.org>,
-        <agross@kernel.org>, <andersson@kernel.org>,
-        <dmitry.baryshkov@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        <linux-input@vger.kernel.org>
-CC:     <quic_collinsd@quicinc.com>, <quic_subbaram@quicinc.com>,
-        <quic_fenglinw@quicinc.com>, <quic_kamalw@quicinc.com>,
-        <jestar@qti.qualcomm.com>, Luca Weiss <luca.weiss@fairphone.com>
-Subject: [PATCH v6 3/3] input: pm8xxx-vibrator: add new SPMI vibrator support
-Date:   Tue, 15 Aug 2023 14:49:17 +0800
-Message-ID: <20230815064917.387235-4-quic_fenglinw@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230815064917.387235-1-quic_fenglinw@quicinc.com>
-References: <20230815064917.387235-1-quic_fenglinw@quicinc.com>
-MIME-Version: 1.0
+        Tue, 15 Aug 2023 02:58:52 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01olkn2020.outbound.protection.outlook.com [40.92.98.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CE0110C8;
+        Mon, 14 Aug 2023 23:58:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YN2AngCXDelhro229k4kRMJU8z7x4XKsBrgrs5FXfZ6IphJ2M/Et1tP46O+fCCYAbvmz8P34slULS7RRMiXb67pJQlYk+07EEEm/P8kRGQW0c/kaVS+uGfugRJIY+MWPMF3Zkr51up/xXk7Hoy1OkIR4LeaTVSFj943VyZLhRkrgQwpmjnkyf7BeTOVj34gQLht1lOs36yGEj2t76T86nQN7eB27+RUBnLZVkI2Mrb6p1OfbyscAY0E88PflBXxJJc5EOJBEKwBxb8cRAUGjyCsZZCIVNPp98mdqkFfHzU66DoiEdyWDkGpGSjQlGBAErZL5YJo9opsq8CNrj7IX4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KjAxVR6IlXQ3xJy1ABKUpPmF6k4mUm+jWSYXYs8UhHo=;
+ b=W7PovNUHk3NQ7zAZHwda51tZ42yFbCD2IEX48qndx58Jmg0O0q2M7hUvXK9HgUOrLX2JFSJ5yUN8cxoT3ZD+7ZyfIY0R8ZTp76LZ2ckuNIi1A5A4pLBq2kzPJaz4uRUZWUaPPF2np0iT+SPoCV71l6vFe29meWkeJOaD4Pxzx8upp2Jj/wbJsdm4TVwsxHJDg93kGgO1ZAjp5wFr9Kn3wOmA8sZp3HcjKlWVCbiYApB6KDYkwWUeRWOhaRhQnBkjUEvymkSvZ+Te6WLAtzxizXZlTpmq2ZORSDkCZxgj7HOlfk1uG1AoXCQ17bim6s3d45fGE+4iC3ZdYkDnYgtlNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KjAxVR6IlXQ3xJy1ABKUpPmF6k4mUm+jWSYXYs8UhHo=;
+ b=kehRb4cSlJoiCoeTSmHtnyIpE6px3/hLgrAZwOOdznSTEn8OU/t/QhEIP0/zFDzUAW1jAM0o9JixPiFnQ+AQBDum3XWFSpkWmFxH821IHiQ2DvuC8lKMNXgBavvZeIoEUYcqe23s/6l1mL3eLLSju+GHs28t+Z4CDBagf09TLul4rs/ntgJvIyzV0Ue/ZahqrPynWAqi+ORmsk9T6XOXde/kKnu7CJCOSaos/CDbwP8PHp2uU9/BHSr87xWcfqAK0FgGW3pc3Izoe/OASs7MICVZsS5CFWz9rQswQrmCZCE+kuHTFFDiQmMYAzdpFdnolvQ7oA7jB2Q9hiqz/1GIkQ==
+Received: from TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:242::11)
+ by TYWP286MB2005.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:166::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.26; Tue, 15 Aug
+ 2023 06:58:45 +0000
+Received: from TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::320e:3328:32e4:a3ce]) by TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::320e:3328:32e4:a3ce%4]) with mapi id 15.20.6678.025; Tue, 15 Aug 2023
+ 06:58:45 +0000
+Message-ID: <TYCP286MB2607175E9C15DB17A2102AEAB114A@TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM>
+Date:   Tue, 15 Aug 2023 14:58:41 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v1] HID: i2c-hid: use print_hex_dump_debug to print report
+ descriptor
+Content-Language: en-US
+To:     Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>, benjamin.tissoires@redhat.com,
+        dmitry.torokhov@gmail.com, linux@weissschuh.net,
+        hdegoede@redhat.com, rrangel@chromium.org,
+        u.kleine-koenig@pengutronix.de, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Riwen Lu <luriwen@kylinos.cn>
+References: <TYCP286MB260706B19C5E30EE2774784EB129A@TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM>
+ <nycvar.YFH.7.76.2308141126330.14207@cbobk.fhfr.pm>
+ <TYCP286MB260715E63D023C52591264C5B114A@TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM>
+ <87fs4kn77j.fsf@protonmail.com>
+From:   Riwen Lu <luriwen@hotmail.com>
+In-Reply-To: <87fs4kn77j.fsf@protonmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: U-X2dhmsyEMxXBnAp5fP-Uz4t24OfxZ9
-X-Proofpoint-ORIG-GUID: U-X2dhmsyEMxXBnAp5fP-Uz4t24OfxZ9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-15_05,2023-08-10_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 adultscore=0
- clxscore=1015 impostorscore=0 mlxscore=0 phishscore=0 bulkscore=0
- spamscore=0 malwarescore=0 priorityscore=1501 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2308150061
+X-TMN:  [Y7mqAzjJEZ19iku/rNwQBXpHrYq0UAbA]
+X-ClientProxiedBy: TY2PR01CA0017.jpnprd01.prod.outlook.com
+ (2603:1096:404:a::29) To TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:242::11)
+X-Microsoft-Original-Message-ID: <9286003b-e964-7ef8-7d93-5b27fdc68094@hotmail.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCP286MB2607:EE_|TYWP286MB2005:EE_
+X-MS-Office365-Filtering-Correlation-Id: a022d0d1-f291-4bfd-5437-08db9d5d1164
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: agzR4d/RT4A2pQqbyFI85NaZtG4iAu3mj2KrbKbXrfMU8f8PgtitONldFEIW33mlMSMQEbqSbFwHsWXEW/bLMPh4eP74gfG3+M0eXOMT/XtXR1N6JWA3TjbmPG3+Wtl5qT2NUa5DbwxTvf1Jf5dHvSBCWwO20EPt1XBhcFfINomgGiVdCNg74L6twXrpnlebNskkmzltvI/ozzJZ+T6QAAIJuEmQVl86OvjSsib4mchuPNIjSrYy4m/a7edGrdf3IFZFZz9zUli4iJoSi2ugNFQi1ObIJEnJRAf/SsqHrejapmzvbgJsQqCTakXZEJvNAUy3swEz8BRby7NMxkPJgsDNA7nFkS4x54Yg+s0DZZFG5o4lUawipXdrUnR0qD1a12fV7k4MDhYXSXlXSOiBgLq6aTp6AiXTi8Yu6TzKPY1ZY0c3rlBkgEM6OjqXYDqbSdNASaqHTrGT+5J3PLRJnPV7YQKY5CFZvEHv16vACDofVo+BGql5bohhciS9QmMFNrJooVL4E8Bvus0441ndcS+HNlcy/eGiRvRGoVhR21i02clIUfCpu08PiJAQJqrs
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OUxXYndpbzRzQ3kveVI1SVZpYVNLK3NJY2ZCWUFuQlNUU3hXakdhNWFGWUlQ?=
+ =?utf-8?B?YkFpRVFrb2VTYkEwUVdjU2ZIUEJ4Z1hVYklYRUhIbGpGUUNYNGE1V0ZwTEtK?=
+ =?utf-8?B?VVpjYkwwSXRDWXBNcGFtTTRHbzhoRkw2WWtUR2NwTldWUmY0eVVlc0tscDBL?=
+ =?utf-8?B?TVR6d3lQTzVYVS94RjluVXp3UkNDRzdxU0YrbTBjSkhYQ3MreG5RNjN0KzlG?=
+ =?utf-8?B?Rmt0cUpvckRGSTFhZmZsNG1hSmxnWmlvdmdObmh4SkhJd2lRaEE5NWFHaks3?=
+ =?utf-8?B?LzVnblR5SzA5NHJLdjJGbk1jdU1maFZrbWg5Q2FiK0dVMjRtTUJPNi9kYVgw?=
+ =?utf-8?B?RWdtbFRmNzFZWXhPV1hoa0tHYTk5TjNjQm9HbHNrckxBTlhIWnZQbHA4N0Mw?=
+ =?utf-8?B?MXI3Rk9DaUNHS0dQU2R3T2xpQmtlTVBKY2NVSlZrS01TM3d0VzhlVFFUaW50?=
+ =?utf-8?B?NmY3ejBlY2RtSlB1UE9OWTJEN3N5ZFlHazY3TXJyaFNqaTkweStUdk16VElj?=
+ =?utf-8?B?cFBNRXJEcjFqbmlHejRLanY3VWlNNDV5K2FjazZXbkRUV1BOamYxS2hNeFlV?=
+ =?utf-8?B?L2N4ZHBrdm1TMXdKSlJsSHQ0NUJGYkgrK3lzT0tMRmNtRjlYWDBsWTYzczVp?=
+ =?utf-8?B?Nm5WRUtiUEQxQmJ2aWpDc2tBMmQ4YzlRVnZkQVBUZ1gzWlp0dk9nL2lVYXFs?=
+ =?utf-8?B?V2JhNjZDQWZxL0V3c1lXOU9lUkNPRDdKdlUvYWZ2dHYrVkNYaDVvY0ZwbDhT?=
+ =?utf-8?B?OU1YSVBZWlR5bmVLa0dUUjZ3VldpSHJORkwwUDZMSEN1VXZqN3kyUVUxbllC?=
+ =?utf-8?B?emVWeFkzM0tUbjdFMUxjTTBsaVlVUC94bzBvVXZBd3oweFI0cjRvSm1oU1RX?=
+ =?utf-8?B?YUcwNkQrYVVqd3QyME4yV1FETUVoQWVFY2FIRExXdjU1cU9IRlJHUmdzbUVk?=
+ =?utf-8?B?SkxEOVVqckhMNFRyQlROakdjZlZVNmphNU5FUlVvT05xaUhxSkt3YitFeCtK?=
+ =?utf-8?B?aTNhRm9uZVFpbHlFelcyeHUrbUVJL0liL2xhc0p1Yng5cnZ2S01jajVEbnFR?=
+ =?utf-8?B?YzkxTFZySkZnZVlLcGd4RkIzS3drTmZQT1c0WjRZc09NcEpoMnlPbGJ6Nkdp?=
+ =?utf-8?B?ckk2M0I0L0ZaZWZqV1NZMG9xV24raXd0bmpicXZnenU3S24wK2p6RGdWS2Rq?=
+ =?utf-8?B?c0l3ZVo4SEE0R0lDcUNXbktCSHNaU2FWYVN1anJSejR1MEkranpPUlR3N3pI?=
+ =?utf-8?B?MDBEY3lkY3VUcy9xc1RwZzZSOFBQckcrTjV0a0RlRUhQOHMxcEU4NmxKdk5s?=
+ =?utf-8?B?Qk01STBEVWI0WCsvUVNWeEhJY0R5cUtiMGY4S3V1UGcwMlc4MTRwUE5ac0dM?=
+ =?utf-8?B?ZE9XOU5IRitlSk9aUDdlVWEyV0IxT2E3YVpaNWZIdlEzQ2t1Vys0b1VvaENp?=
+ =?utf-8?B?UHUvekozeGkyUjd3OWpidThiRWpmOCsyWmtCRHNHVlJEcVo4SEw5YTNoU1VL?=
+ =?utf-8?B?bE9UUTRKekoxK3dJZG5pZEZVTk13dWQzbE5aTDNRR1gyd200RklQT3NWUDVr?=
+ =?utf-8?B?aXA1bDBwTUMxeWJENlhwK1pOTW9sbnVEZnhHVXo0TEJxQk5PT3IwQWVLTWQ5?=
+ =?utf-8?B?TTZEcHIyQmU5T054K29GRXBKRnI1SUE9PQ==?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-05f45.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: a022d0d1-f291-4bfd-5437-08db9d5d1164
+X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2023 06:58:45.4117
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWP286MB2005
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_MUA_MOZILLA,
+        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add new SPMI vibrator module which is very similar to the SPMI vibrator
-module inside PM8916 but just has a finer drive voltage step (1mV vs
-100mV) hence its drive level control is expanded to across 2 registers.
-The vibrator module can be found in Qualcomm PMIC PMI632, then following
-PM7250B, PM7325B, PM7550BA PMICs.
+在 2023/8/15 14:35, Rahul Rameshbabu 写道:
+> 
+> On Tue, 15 Aug, 2023 14:02:40 +0800 "Riwen Lu" <luriwen@hotmail.com> wrote:
+>> 在 2023/8/14 17:26, Jiri Kosina 写道:
+>>> On Mon, 3 Jul 2023, Riwen Lu wrote:
+>>>
+>>>> From: Riwen Lu <luriwen@kylinos.cn>
+>>>>
+>>>> The format '%*ph' print up to 64 bytes long as a hex string with ' '
+>>>> sepatator. Usually the size of report descriptor is larger than 64
+>>>> bytes, so consider using print_hex_dump_debug to print out all of it for
+>>>> better debugging.
+>>>>
+>>>> Signed-off-by: Riwen Lu <luriwen@kylinos.cn>
+>>>> ---
+>>>>    drivers/hid/i2c-hid/i2c-hid-core.c | 4 +++-
+>>>>    1 file changed, 3 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+>>>> index efbba0465eef..8e97fc01c852 100644
+>>>> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+>>>> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+>>>> @@ -772,7 +772,9 @@ static int i2c_hid_parse(struct hid_device *hid)
+>>>>    		}
+>>>>    	}
+>>>>
+>>>> -	i2c_hid_dbg(ihid, "Report Descriptor: %*ph\n", rsize, rdesc);
+>>>> +	i2c_hid_dbg(ihid, "Report Descriptor\n");
+>>>> +	print_hex_dump_debug("  ", DUMP_PREFIX_OFFSET, 16, 1,
+>>>> +			rdesc, rsize, false);
+> 
+> Maybe it makes sense to use a prefix for the hex dump that is easy to
+> trace rather than padding whitespace? This looks good when you do not
+> see any other kernel message log lines get interlaced when written.
+> However, if you have a lot of concurrent kernel message output, I think
+> it can be tough to piece together the lines of the dump with this
+> prefix. Just my opinion.
+> 
+That's a good opinion. I'll make a v2 version.
 
-Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
-Tested-by: Luca Weiss <luca.weiss@fairphone.com> # sdm632-fairphone-fp3 (pmi632)
----
- drivers/input/misc/pm8xxx-vibrator.c | 55 +++++++++++++++++++++++++---
- 1 file changed, 50 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/input/misc/pm8xxx-vibrator.c b/drivers/input/misc/pm8xxx-vibrator.c
-index d6b468324c77..990e8a9ac018 100644
---- a/drivers/input/misc/pm8xxx-vibrator.c
-+++ b/drivers/input/misc/pm8xxx-vibrator.c
-@@ -21,6 +21,13 @@
- #define SPMI_VIB_DRV_LEVEL_MASK		GENMASK(4, 0)
- #define SPMI_VIB_DRV_SHIFT		0
- 
-+#define SPMI_VIB_GEN2_DRV_REG		0x40
-+#define SPMI_VIB_GEN2_DRV_MASK		GENMASK(7, 0)
-+#define SPMI_VIB_GEN2_DRV_SHIFT		0
-+#define SPMI_VIB_GEN2_DRV2_REG		0x41
-+#define SPMI_VIB_GEN2_DRV2_MASK		GENMASK(3, 0)
-+#define SPMI_VIB_GEN2_DRV2_SHIFT	8
-+
- #define SPMI_VIB_EN_REG			0x46
- #define SPMI_VIB_EN_BIT			BIT(7)
- 
-@@ -33,12 +40,14 @@
- enum vib_hw_type {
- 	SSBI_VIB,
- 	SPMI_VIB,
-+	SPMI_VIB_GEN2
- };
- 
- struct pm8xxx_vib_data {
- 	enum vib_hw_type	hw_type;
- 	unsigned int		enable_addr;
- 	unsigned int		drv_addr;
-+	unsigned int		drv2_addr;
- };
- 
- static const struct pm8xxx_vib_data ssbi_vib_data = {
-@@ -52,6 +61,13 @@ static const struct pm8xxx_vib_data spmi_vib_data = {
- 	.drv_addr	= SPMI_VIB_DRV_REG,
- };
- 
-+static const struct pm8xxx_vib_data spmi_vib_gen2_data = {
-+	.hw_type	= SPMI_VIB_GEN2,
-+	.enable_addr	= SPMI_VIB_EN_REG,
-+	.drv_addr	= SPMI_VIB_GEN2_DRV_REG,
-+	.drv2_addr	= SPMI_VIB_GEN2_DRV2_REG,
-+};
-+
- /**
-  * struct pm8xxx_vib - structure to hold vibrator data
-  * @vib_input_dev: input device supporting force feedback
-@@ -85,12 +101,24 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
- {
- 	int rc;
- 	unsigned int val = vib->reg_vib_drv;
--	u32 mask = SPMI_VIB_DRV_LEVEL_MASK;
--	u32 shift = SPMI_VIB_DRV_SHIFT;
-+	u32 mask, shift;
- 
--	if (vib->data->hw_type == SSBI_VIB) {
-+
-+	switch (vib->data->hw_type) {
-+	case SSBI_VIB:
- 		mask = SSBI_VIB_DRV_LEVEL_MASK;
- 		shift = SSBI_VIB_DRV_SHIFT;
-+		break;
-+	case SPMI_VIB:
-+		mask = SPMI_VIB_DRV_LEVEL_MASK;
-+		shift = SPMI_VIB_DRV_SHIFT;
-+		break;
-+	case SPMI_VIB_GEN2:
-+		mask = SPMI_VIB_GEN2_DRV_MASK;
-+		shift = SPMI_VIB_GEN2_DRV_SHIFT;
-+		break;
-+	default:
-+		return -EINVAL;
- 	}
- 
- 	if (on)
-@@ -104,6 +132,19 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
- 
- 	vib->reg_vib_drv = val;
- 
-+	if (vib->data->hw_type == SPMI_VIB_GEN2) {
-+		mask = SPMI_VIB_GEN2_DRV2_MASK;
-+		shift = SPMI_VIB_GEN2_DRV2_SHIFT;
-+		if (on)
-+			val = (vib->level >> shift) & mask;
-+		else
-+			val = 0;
-+		rc = regmap_update_bits(vib->regmap,
-+				vib->reg_base + vib->data->drv2_addr, mask, val);
-+		if (rc < 0)
-+			return rc;
-+	}
-+
- 	if (vib->data->hw_type == SSBI_VIB)
- 		return 0;
- 
-@@ -128,10 +169,13 @@ static void pm8xxx_work_handler(struct work_struct *work)
- 		vib->active = true;
- 		vib->level = ((VIB_MAX_LEVELS * vib->speed) / MAX_FF_SPEED) +
- 						VIB_MIN_LEVEL_mV;
--		vib->level /= 100;
-+		if (vib->data->hw_type != SPMI_VIB_GEN2)
-+			vib->level /= 100;
- 	} else {
- 		vib->active = false;
--		vib->level = VIB_MIN_LEVEL_mV / 100;
-+		vib->level = VIB_MIN_LEVEL_mV;
-+		if (vib->data->hw_type != SPMI_VIB_GEN2)
-+			vib->level /= 100;
- 	}
- 
- 	pm8xxx_vib_set(vib, vib->active);
-@@ -266,6 +310,7 @@ static const struct of_device_id pm8xxx_vib_id_table[] = {
- 	{ .compatible = "qcom,pm8058-vib", .data = &ssbi_vib_data },
- 	{ .compatible = "qcom,pm8921-vib", .data = &ssbi_vib_data },
- 	{ .compatible = "qcom,pm8916-vib", .data = &spmi_vib_data },
-+	{ .compatible = "qcom,pmi632-vib", .data = &spmi_vib_gen2_data },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, pm8xxx_vib_id_table);
--- 
-2.25.1
+Thanks.
+>>>
+>>> But that would dump it unconditionally, while i2c_hid_dbg() is
+>>> conditional.
+>>>
+>> Function print_hex_dump_debug() dump messages is as conditional as
+>> i2c_hid_dbg().
+>>
+>> The function i2c_hid_dbg() defines as follows:
+>> #define i2c_hid_dbg(ihid, ...) dev_dbg(&(ihid)->client->dev, __VA_ARGS__)
+>>
+>> dev_dbg() depends on the same macro as print_hex_dump_debug().
+> 
+> I agree with this point. Both dev_dbg and print_hex_dump_debug are noops
+> if neither CONFIG_DYNAMIC_DEBUG is set or DEBUG is defined.
+> 
+> --
+> Thanks,
+> 
+> Rahul Rameshbabu
+> 
 
