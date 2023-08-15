@@ -2,51 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3563E77C7F4
-	for <lists+linux-input@lfdr.de>; Tue, 15 Aug 2023 08:38:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C42BF77C7FB
+	for <lists+linux-input@lfdr.de>; Tue, 15 Aug 2023 08:43:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235157AbjHOGhv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Aug 2023 02:37:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41210 "EHLO
+        id S234076AbjHOGnO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Aug 2023 02:43:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230048AbjHOGhU (ORCPT
+        with ESMTP id S234738AbjHOGnC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Aug 2023 02:37:20 -0400
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9B6311D
-        for <linux-input@vger.kernel.org>; Mon, 14 Aug 2023 23:37:14 -0700 (PDT)
-Date:   Tue, 15 Aug 2023 06:35:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1692081429; x=1692340629;
-        bh=gTNMOOleVV5P6GLOdZ27ULHCi1wjyvV2oSd/xlGSrjc=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=CgCWI6WPRHiVurtpSEQdM84Xnq/SjLu0xmFQigFVmHLwt8a7JV6ZBzLGWh4HZkjtQ
-         Z8lp69qig/97TFfXqvkt/cgAj/vjgS0Yo8qLu9uiIjTk4hyk2dit++0Pd1IGVlky/N
-         tX121XZw5W7dPo90KaQDc+CDC9PCRUP5wIVss5JjHg7WIY3U3rNlIGsNeFPWjZU0SM
-         7K2H5qoJWdDjaEs+UsqphW391g2Mct1gQGyDhsWjMXO38TZCFQ5+j1N9nLkdweD87E
-         y+RgW0nFzGxLcVxs7pe+4JG7cfGf7sEb9xa7Q8E5qsp6X6KEH2P+iObCnMYcQOdKrr
-         iAjN9XYCNy7iQ==
-To:     Riwen Lu <luriwen@hotmail.com>
-From:   Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>, benjamin.tissoires@redhat.com,
-        dmitry.torokhov@gmail.com, linux@weissschuh.net,
-        hdegoede@redhat.com, rrangel@chromium.org,
-        u.kleine-koenig@pengutronix.de, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Riwen Lu <luriwen@kylinos.cn>
-Subject: Re: [PATCH v1] HID: i2c-hid: use print_hex_dump_debug to print report descriptor
-Message-ID: <87fs4kn77j.fsf@protonmail.com>
-In-Reply-To: <TYCP286MB260715E63D023C52591264C5B114A@TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM>
-References: <TYCP286MB260706B19C5E30EE2774784EB129A@TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM> <nycvar.YFH.7.76.2308141126330.14207@cbobk.fhfr.pm> <TYCP286MB260715E63D023C52591264C5B114A@TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM>
-Feedback-ID: 26003777:user:proton
+        Tue, 15 Aug 2023 02:43:02 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A986127;
+        Mon, 14 Aug 2023 23:43:00 -0700 (PDT)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37F6eHer029692;
+        Tue, 15 Aug 2023 06:42:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=nH9TdN+9Ou+OLup3W8vXF8KOi6F2nLMXNpePTMty3Pw=;
+ b=TEnr36r8z8X6ycCjCSTdCOPm9MnZz+TeQlfUhh0BwYevNikLmLXL7UdYSzX6NpV4S/+y
+ iJI6VrMU1f//HhYUz/P84oat8PeDAz4+rWnqhGwBqckgjcXD+09K3l7Aw5b75yWB51nB
+ PEkdcXdEv0tCQp5CP0HRJZvHh9/+ng5yXCWWWApz3BGLZXOPDsHG2EgnloE5PR8U1oJ5
+ 7jNY2WgUa5J97hc6K78f6VPcvKja3/NigbO/TaH7+M22IOwldnLjA/Ci1OEWK/78H84a
+ yAvOPTzUV5ekeoNdFLh/xU59BNXtohOZw6Mld+fa8WiiYRKKxMSjhsRtM52a2qM/jLpA Ug== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sfqp1h7em-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 15 Aug 2023 06:42:46 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37F6gjWR022595
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 15 Aug 2023 06:42:45 GMT
+Received: from [10.239.154.73] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 14 Aug
+ 2023 23:42:42 -0700
+Message-ID: <d4cee19c-6f13-a1dc-d402-1d5c2b769ad1@quicinc.com>
+Date:   Tue, 15 Aug 2023 14:42:40 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v5 2/3] dt-bindings: input: qcom,pm8xxx-vib: add new SPMI
+ vibrator module
+Content-Language: en-US
+To:     Luca Weiss <luca.weiss@fairphone.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <robh+dt@kernel.org>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <dmitry.baryshkov@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>
+CC:     <quic_collinsd@quicinc.com>, <quic_subbaram@quicinc.com>,
+        <quic_kamalw@quicinc.com>, <jestar@qti.qualcomm.com>
+References: <20230815060314.352103-1-quic_fenglinw@quicinc.com>
+ <20230815060314.352103-3-quic_fenglinw@quicinc.com>
+ <CUSWRRL6QOPU.1YM7S0F8F3V2D@otso>
+From:   Fenglin Wu <quic_fenglinw@quicinc.com>
+In-Reply-To: <CUSWRRL6QOPU.1YM7S0F8F3V2D@otso>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 0x4I6bYn13pn8C_SAAubBjQ-LITwhqcZ
+X-Proofpoint-ORIG-GUID: 0x4I6bYn13pn8C_SAAubBjQ-LITwhqcZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-15_05,2023-08-10_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
+ mlxlogscore=999 bulkscore=0 malwarescore=0 priorityscore=1501
+ impostorscore=0 mlxscore=0 phishscore=0 spamscore=0 lowpriorityscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308150060
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -54,61 +90,74 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
-On Tue, 15 Aug, 2023 14:02:40 +0800 "Riwen Lu" <luriwen@hotmail.com> wrote:
-> =E5=9C=A8 2023/8/14 17:26, Jiri Kosina =E5=86=99=E9=81=93:
->> On Mon, 3 Jul 2023, Riwen Lu wrote:
+
+On 8/15/2023 2:35 PM, Luca Weiss wrote:
+> Hi Fenglin,
+> 
+> On Tue Aug 15, 2023 at 8:03 AM CEST, Fenglin Wu wrote:
+>> Add compatible strings to support vibrator module inside PMI632,
+>> PMI7250B, PM7325B, PM7550BA.
 >>
->>> From: Riwen Lu <luriwen@kylinos.cn>
->>>
->>> The format '%*ph' print up to 64 bytes long as a hex string with ' '
->>> sepatator. Usually the size of report descriptor is larger than 64
->>> bytes, so consider using print_hex_dump_debug to print out all of it fo=
-r
->>> better debugging.
->>>
->>> Signed-off-by: Riwen Lu <luriwen@kylinos.cn>
->>> ---
->>>   drivers/hid/i2c-hid/i2c-hid-core.c | 4 +++-
->>>   1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i=
-2c-hid-core.c
->>> index efbba0465eef..8e97fc01c852 100644
->>> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
->>> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
->>> @@ -772,7 +772,9 @@ static int i2c_hid_parse(struct hid_device *hid)
->>>   =09=09}
->>>   =09}
->>>
->>> -=09i2c_hid_dbg(ihid, "Report Descriptor: %*ph\n", rsize, rdesc);
->>> +=09i2c_hid_dbg(ihid, "Report Descriptor\n");
->>> +=09print_hex_dump_debug("  ", DUMP_PREFIX_OFFSET, 16, 1,
->>> +=09=09=09rdesc, rsize, false);
-
-Maybe it makes sense to use a prefix for the hex dump that is easy to
-trace rather than padding whitespace? This looks good when you do not
-see any other kernel message log lines get interlaced when written.
-However, if you have a lot of concurrent kernel message output, I think
-it can be tough to piece together the lines of the dump with this
-prefix. Just my opinion.
-
+>> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
+>> ---
+>>   .../bindings/input/qcom,pm8xxx-vib.yaml           | 15 +++++++++++----
+>>   1 file changed, 11 insertions(+), 4 deletions(-)
 >>
->> But that would dump it unconditionally, while i2c_hid_dbg() is
->> conditional.
->>
-> Function print_hex_dump_debug() dump messages is as conditional as
-> i2c_hid_dbg().
->
-> The function i2c_hid_dbg() defines as follows:
-> #define i2c_hid_dbg(ihid, ...) dev_dbg(&(ihid)->client->dev, __VA_ARGS__)
->
-> dev_dbg() depends on the same macro as print_hex_dump_debug().
+>> diff --git a/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml b/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
+>> index c8832cd0d7da..72b72c67a9b6 100644
+>> --- a/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
+>> +++ b/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
+>> @@ -11,10 +11,17 @@ maintainers:
+>>   
+>>   properties:
+>>     compatible:
+>> -    enum:
+>> -      - qcom,pm8058-vib
+>> -      - qcom,pm8916-vib
+>> -      - qcom,pm8921-vib
+>> +    oneOf:
+>> +      - enum:
+>> +          - qcom,pm8058-vib
+>> +          - qcom,pm8916-vib
+>> +          - qcom,pm8921-vib
+>> +      - items:
+>> +          - enum:
+>> +              - qcom,pm7250b-vib
+>> +              - qcom,pm7325b-vib
+>> +              - qcom,pm7550ba-vib
+>> +          - const: qcom,pmi632-vib
+> 
+> With the new revision the standalone 'compatible = "qcom,pmi632-vib";'
+> doesn't pass validation anymore.
+> 
+> foo.dtb: vibrator@5700: compatible: 'oneOf' conditional failed, one must be fixed:
+>          ['qcom,pmi632-vib'] is too short
+>          'qcom,pmi632-vib' is not one of ['qcom,pm8058-vib', 'qcom,pm8916-vib', 'qcom,pm8921-vib']
+>          'qcom,pmi632-vib' is not one of ['qcom,pm7250b-vib', 'qcom,pm7325b-vib', 'qcom,pm7550ba-vib']
+>          from schema $id: http://devicetree.org/schemas/input/qcom,pm8xxx-vib.yaml#
+> 
+> I believe you need to add the compatible also like this:
+> 
+> diff --git a/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml b/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
+> index 72b72c67a9b6..2025d6a5423e 100644
+> --- a/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
+> +++ b/Documentation/devicetree/bindings/input/qcom,pm8xxx-vib.yaml
+> @@ -16,6 +16,7 @@ properties:
+>             - qcom,pm8058-vib
+>             - qcom,pm8916-vib
+>             - qcom,pm8921-vib
+> +          - qcom,pmi632-vib
+>         - items:
+>             - enum:
+>                 - qcom,pm7250b-vib
+> 
+Yeah, thanks for catching this. I will update it soon.
 
-I agree with this point. Both dev_dbg and print_hex_dump_debug are noops
-if neither CONFIG_DYNAMIC_DEBUG is set or DEBUG is defined.
-
---
-Thanks,
-
-Rahul Rameshbabu
-
+> 
+> Regards
+> Luca
+> 
+>>   
+>>     reg:
+>>       maxItems: 1
+> 
