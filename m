@@ -2,87 +2,156 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF60E77D204
-	for <lists+linux-input@lfdr.de>; Tue, 15 Aug 2023 20:40:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F143B77D35C
+	for <lists+linux-input@lfdr.de>; Tue, 15 Aug 2023 21:25:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239178AbjHOSjk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Aug 2023 14:39:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44792 "EHLO
+        id S239422AbjHOTYy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Aug 2023 15:24:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239247AbjHOSjV (ORCPT
+        with ESMTP id S239881AbjHOTYc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Aug 2023 14:39:21 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC8F183;
-        Tue, 15 Aug 2023 11:39:17 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1bc83a96067so35392635ad.0;
-        Tue, 15 Aug 2023 11:39:17 -0700 (PDT)
+        Tue, 15 Aug 2023 15:24:32 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E831A10D1
+        for <linux-input@vger.kernel.org>; Tue, 15 Aug 2023 12:24:06 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3fe8a158fcbso38944485e9.2
+        for <linux-input@vger.kernel.org>; Tue, 15 Aug 2023 12:24:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692124757; x=1692729557;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UY0hcbqXkGu4hQCXduSf+UdTZqnAteMXNS0OUvIID4s=;
-        b=ZW6VNxPUeqoIZbeoqBqk0wvZbAGTgOBhXM6+1JuGOJglarFKtoFMqlxsN090Qx3LM5
-         vjLVoB9rfAFsHWKFSFDh9p2c5mKkY6pwufZbkdM/NL1wTpFMczI+Z75wTSREixHlmEJp
-         rAx49jbXeaDftfhbEdS2RYKaoN67x789Ci830p1pgRxdu/UcspSDvVPw1l6FF60TB4Qn
-         BJDAb2g5nVuxx89T9TDAhrDFUZSVJV8Pk3UxVtUFL06RCuKh+wg8CH09ESKjbGJPo4qL
-         /EM+YqXzvIHea/ciZEI14RFtKWJjygTAx+PfzBspfCx0FcvUpgvmHbT5oKl8MqRvdP2b
-         TAyw==
+        d=linaro.org; s=google; t=1692127443; x=1692732243;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eB2YdeaffFvKapTeu97tKDXHKtW8rfmRdezXiy0N6zs=;
+        b=SAY2gmIGNEAiGgInuM1nDGvc/w31ckngzwPdU5Nqy5hC0Nh2Va91zmvCGoJguwvcGY
+         20kRSVSGJXKP6DVme+avP+mwcYdlzcSUDrzWwPvB5dQFqt0dp/w9V4ASPFPW4ogmj4vh
+         x3pE5ECuJREptlRY/PQ5DolWgEM1gYN8/r5QPaIgZwBnj4bC4q+KfKIrLK8qNd9mcvZ7
+         ZHWQkA/8tCoe9HfDv6JqLPFLWGUJrKapW+0lccWL7ASniljFJpcv72pKauVvxCdq9bue
+         afDATz3M4QhchabaBBQ5x0iaP7I28TZfZHV1IuvfYkJmJDCW0E5Xl2crAyvz1ETAjo0I
+         B1eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692124757; x=1692729557;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UY0hcbqXkGu4hQCXduSf+UdTZqnAteMXNS0OUvIID4s=;
-        b=NyBc77BRDflqcE8PI2P4PmraDM3RZx8ycqGTZfSai+5yJC8lM8EYZV1VzUv6UNiy8k
-         +Qj5/8LvW4uw/7MHo4OjScCReeBSccrg+8zC90dmK/5RHqvZW5YcCqJCM/f54hc8vq1B
-         R8xEyuR6nwmylJJrHL6qZ1RzaLiSDTtygkUr17rMcapJ3tXIXi/72LaAPWc3bo9moW5H
-         Lw3krLJIc2HwFHe88T0B4C0MW5HdZShNGXik4kp/6Di7SKnO4yvMhcRCj8kTTiV6K6sM
-         YrFu8bSwKLBtrudIyYu85Z74vTspclF8dkAElIrh4hLhsMHesMxpaB6iVK5pbXgDiAi1
-         1h8g==
-X-Gm-Message-State: AOJu0Yz+Y9wzh3aZzCFj0uVy1G0fySvVS/IMubE6HGL5AwlyhCkLwg7a
-        LOl2SpHXnolnXUEnBzICAFE=
-X-Google-Smtp-Source: AGHT+IHbmeLEyPYNBRfP+z3Wig5BBPHQX/1nvhkQOBJwzEvXlIankVnjcK4YDvXeTnHZGQMStVY8tg==
-X-Received: by 2002:a17:903:22c7:b0:1b8:9552:ca with SMTP id y7-20020a17090322c700b001b8955200camr14039440plg.45.1692124757148;
-        Tue, 15 Aug 2023 11:39:17 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:e30b:29e0:bebc:3d56])
-        by smtp.gmail.com with ESMTPSA id u3-20020a17090282c300b001a183ade911sm4938894plz.56.2023.08.15.11.39.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Aug 2023 11:39:16 -0700 (PDT)
-Date:   Tue, 15 Aug 2023 11:39:12 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Felix Engelhardt <felix.engelhardt@eidu.com>
-Cc:     Bastien Nocera <hadess@hadess.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drivers/input/touchscreen/goodix.c: Add support for ACPI
- ID GDX9110
-Message-ID: <ZNvGULYiPb3nqiu7@google.com>
-References: <20230807124723.382899-1-felix.engelhardt@eidu.com>
+        d=1e100.net; s=20221208; t=1692127443; x=1692732243;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eB2YdeaffFvKapTeu97tKDXHKtW8rfmRdezXiy0N6zs=;
+        b=Ss/IMSd3A7AeEze/9XKHIg4toWoI6OPUv5blNxtnTjmV2Ahym/sEPNRH7+Bv0e6U2h
+         gnksPvnOc7tJIhrXfd8mBWtEP5/QeCq4+At5OSL38dwWP/Ob5bWntXJbUMg9xjDR0ynx
+         67f+uZW9en+BQlrvxiSrFtaAvyK7Ba4WbCBfPb/8kov68E/8e0YXLSVQOF5QE7wLbnZm
+         jGshaJ5VRe/VPIZE15eq7/swFnA/1bSekLrrt5R2CLWsMVudNafkJs2H7XE0H6nReUyX
+         dR+k5pv2jGPVSH7VNuyF6KFxJsnO8CPYyt2BWdnOa4MW1SV2K8/wkDniPVJXb0Un19TK
+         /3sQ==
+X-Gm-Message-State: AOJu0Yz4bOd+eOFdQ95UFAp0K8TAFWfP7p3rSDFMDV7pB4ew14Mnhba/
+        HvmbQ7tlebiBhTTcmKK+pThgEw==
+X-Google-Smtp-Source: AGHT+IHnCElvhjrz7ZJrHjNtJ31GOUgLq29EzBpHyKL8Ir+AdcbNQiYstFhuJeVysB7QpeLgwYuM6Q==
+X-Received: by 2002:adf:ed41:0:b0:317:cdc4:762e with SMTP id u1-20020adfed41000000b00317cdc4762emr11427959wro.63.1692127443408;
+        Tue, 15 Aug 2023 12:24:03 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.214.188])
+        by smtp.gmail.com with ESMTPSA id c13-20020a5d528d000000b003142c85fbcdsm18681305wrv.11.2023.08.15.12.24.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Aug 2023 12:24:02 -0700 (PDT)
+Message-ID: <afefa654-4f9a-121e-7d1b-76d9dcd778f7@linaro.org>
+Date:   Tue, 15 Aug 2023 21:23:59 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230807124723.382899-1-felix.engelhardt@eidu.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v3 2/2] Input: cs40l50 - Initial support for Cirrus Logic
+ CS40L50
+Content-Language: en-US
+To:     James Ogletree <James.Ogletree@cirrus.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Fred Treven <Fred.Treven@cirrus.com>,
+        Ben Bright <Ben.Bright@cirrus.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+        Jeff LaBundy <jeff@labundy.com>, Joel Stanley <joel@jms.id.au>,
+        Arnd Bergmann <arnd@arndb.de>, Jacky Bai <ping.bai@nxp.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        Eddie James <eajames@linux.ibm.com>,
+        Markus Schneider-Pargmann <msp@baylibre.com>,
+        ChiYuan Huang <cy_huang@richtek.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        "patches@cirrus.com" <patches@cirrus.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20230809191032.820271-1-james.ogletree@cirrus.com>
+ <20230809191032.820271-3-james.ogletree@cirrus.com>
+ <d1b9e063-54df-2dae-1487-c7c932fda145@linaro.org>
+ <D4B53566-9F7D-46DA-8BAE-0572B9A8AA7A@cirrus.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <D4B53566-9F7D-46DA-8BAE-0572B9A8AA7A@cirrus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 07, 2023 at 02:47:23PM +0200, Felix Engelhardt wrote:
-> The Goodix touchscreen controller with ACPI ID GDX9110 was not recognized
-> by the goodix driver. This patch adds this ID to the list of supported IDs,
-> allowing the driver to be used with this device. The change will allow
-> Linux to be used on ~1 million tablet devices used in Kenyan primary
-> schools.
+On 15/08/2023 17:56, James Ogletree wrote:
 > 
-> Signed-off-by: Felix Engelhardt <felix.engelhardt@eidu.com>
+> 
+>> On Aug 10, 2023, at 1:17 AM, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+>>
+>> On 09/08/2023 21:10, James Ogletree wrote:
+>>
+>>> +
+>>> +static int cs40l50_cs_dsp_init(struct cs40l50_private *cs40l50)
+>>> +{
+>>> + cs40l50->dsp.num = 1;
+>>> + cs40l50->dsp.type = WMFW_HALO;
+>>> + cs40l50->dsp.dev = cs40l50->dev;
+>>> + cs40l50->dsp.regmap = cs40l50->regmap;
+>>> + cs40l50->dsp.base = CS40L50_DSP1_CORE_BASE;
+>>> + cs40l50->dsp.base_sysinfo = CS40L50_DSP1_SYS_INFO_ID;
+>>> + cs40l50->dsp.mem = cs40l50_dsp_regions;
+>>> + cs40l50->dsp.num_mems = ARRAY_SIZE(cs40l50_dsp_regions);
+>>> + cs40l50->dsp.lock_regions = 0xFFFFFFFF;
+>>> + cs40l50->dsp.no_core_startstop = true;
+>>> + cs40l50->dsp.client_ops = &cs40l50_cs_dsp_client_ops;
+>>> +
+>>> + return cs_dsp_halo_init(&cs40l50->dsp);
+>>> +}
+>>> +
+>>> +int cs40l50_probe(struct cs40l50_private *cs40l50)
+>>> +{
+>>> + int error, i, irq;
+>>> + u32 val;
+>>> +
+>>> + mutex_init(&cs40l50->lock);
+>>> +
+>>> + error = devm_regulator_bulk_get(cs40l50->dev, ARRAY_SIZE(cs40l50_supplies),
+>>> + cs40l50_supplies);
+>>> + if (error)
+>>> + return dev_err_probe(cs40l50->dev, error, "Failed to request supplies\n");
+>>> +
+>>> + error = regulator_bulk_enable(ARRAY_SIZE(cs40l50_supplies), cs40l50_supplies);
+>>> + if (error)
+>>> + return dev_err_probe(cs40l50->dev, error, "Failed to enable supplies\n");
+>>> +
+>>> + cs40l50->reset_gpio = devm_gpiod_get_optional(cs40l50->dev, "reset", GPIOD_OUT_HIGH);
+>>
+>> None of the lines above or below seem to be wrapped according to Linux
+>> coding style (80).
+> 
+> This patch abides by the 100-column line length limit which checkpatch.pl enforces.
 
-Applied, thank you.
+Checkpatch does not enforce 100, because it accepts also 80. It
+complains if something is longer than 100, but coding style is still the
+same. Format everything according to coding style and use 100 only if it
+increases readability.
 
--- 
-Dmitry
+> However, I can see how some of the lines might be less jarring to the eyes if wrapped.
+> That will be addressed in V4.
+> 
+
+Best regards,
+Krzysztof
+
