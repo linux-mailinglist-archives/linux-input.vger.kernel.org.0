@@ -2,156 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F143B77D35C
-	for <lists+linux-input@lfdr.de>; Tue, 15 Aug 2023 21:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B26777D49A
+	for <lists+linux-input@lfdr.de>; Tue, 15 Aug 2023 22:49:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239422AbjHOTYy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Aug 2023 15:24:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59452 "EHLO
+        id S238121AbjHOUtN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Aug 2023 16:49:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239881AbjHOTYc (ORCPT
+        with ESMTP id S239818AbjHOUsx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Aug 2023 15:24:32 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E831A10D1
-        for <linux-input@vger.kernel.org>; Tue, 15 Aug 2023 12:24:06 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3fe8a158fcbso38944485e9.2
-        for <linux-input@vger.kernel.org>; Tue, 15 Aug 2023 12:24:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692127443; x=1692732243;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eB2YdeaffFvKapTeu97tKDXHKtW8rfmRdezXiy0N6zs=;
-        b=SAY2gmIGNEAiGgInuM1nDGvc/w31ckngzwPdU5Nqy5hC0Nh2Va91zmvCGoJguwvcGY
-         20kRSVSGJXKP6DVme+avP+mwcYdlzcSUDrzWwPvB5dQFqt0dp/w9V4ASPFPW4ogmj4vh
-         x3pE5ECuJREptlRY/PQ5DolWgEM1gYN8/r5QPaIgZwBnj4bC4q+KfKIrLK8qNd9mcvZ7
-         ZHWQkA/8tCoe9HfDv6JqLPFLWGUJrKapW+0lccWL7ASniljFJpcv72pKauVvxCdq9bue
-         afDATz3M4QhchabaBBQ5x0iaP7I28TZfZHV1IuvfYkJmJDCW0E5Xl2crAyvz1ETAjo0I
-         B1eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692127443; x=1692732243;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eB2YdeaffFvKapTeu97tKDXHKtW8rfmRdezXiy0N6zs=;
-        b=Ss/IMSd3A7AeEze/9XKHIg4toWoI6OPUv5blNxtnTjmV2Ahym/sEPNRH7+Bv0e6U2h
-         gnksPvnOc7tJIhrXfd8mBWtEP5/QeCq4+At5OSL38dwWP/Ob5bWntXJbUMg9xjDR0ynx
-         67f+uZW9en+BQlrvxiSrFtaAvyK7Ba4WbCBfPb/8kov68E/8e0YXLSVQOF5QE7wLbnZm
-         jGshaJ5VRe/VPIZE15eq7/swFnA/1bSekLrrt5R2CLWsMVudNafkJs2H7XE0H6nReUyX
-         dR+k5pv2jGPVSH7VNuyF6KFxJsnO8CPYyt2BWdnOa4MW1SV2K8/wkDniPVJXb0Un19TK
-         /3sQ==
-X-Gm-Message-State: AOJu0Yz4bOd+eOFdQ95UFAp0K8TAFWfP7p3rSDFMDV7pB4ew14Mnhba/
-        HvmbQ7tlebiBhTTcmKK+pThgEw==
-X-Google-Smtp-Source: AGHT+IHnCElvhjrz7ZJrHjNtJ31GOUgLq29EzBpHyKL8Ir+AdcbNQiYstFhuJeVysB7QpeLgwYuM6Q==
-X-Received: by 2002:adf:ed41:0:b0:317:cdc4:762e with SMTP id u1-20020adfed41000000b00317cdc4762emr11427959wro.63.1692127443408;
-        Tue, 15 Aug 2023 12:24:03 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.214.188])
-        by smtp.gmail.com with ESMTPSA id c13-20020a5d528d000000b003142c85fbcdsm18681305wrv.11.2023.08.15.12.24.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Aug 2023 12:24:02 -0700 (PDT)
-Message-ID: <afefa654-4f9a-121e-7d1b-76d9dcd778f7@linaro.org>
-Date:   Tue, 15 Aug 2023 21:23:59 +0200
+        Tue, 15 Aug 2023 16:48:53 -0400
+X-Greylist: delayed 1615 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 15 Aug 2023 13:48:26 PDT
+Received: from mx0a-00000d04.pphosted.com (mx0a-00000d04.pphosted.com [148.163.149.245])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEEEEE5F;
+        Tue, 15 Aug 2023 13:48:26 -0700 (PDT)
+Received: from pps.filterd (m0102886.ppops.net [127.0.0.1])
+        by mx0a-00000d04.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37FDUccO002918;
+        Tue, 15 Aug 2023 13:21:18 -0700
+Received: from mx0b-00000d06.pphosted.com (mx0b-00000d06.pphosted.com [148.163.139.119])
+        by mx0a-00000d04.pphosted.com (PPS) with ESMTPS id 3sgaacu6hd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 15 Aug 2023 13:21:18 -0700
+Received: from pps.filterd (m0167939.ppops.net [127.0.0.1])
+        by mx0b-00000d06.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37FCUJDp018012;
+        Tue, 15 Aug 2023 13:21:17 -0700
+Received: from smtp.stanford.edu (smtp4.stanford.edu [171.67.219.72])
+        by mx0b-00000d06.pphosted.com (PPS) with ESMTPS id 3se6cnv194-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 15 Aug 2023 13:21:17 -0700
+Received: from cm-mail.stanford.edu (cm-mail.stanford.edu [171.64.197.135])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp.stanford.edu (Postfix) with ESMTPS id 58D7B1C0681;
+        Tue, 15 Aug 2023 13:21:16 -0700 (PDT)
+Received: from DNa8006b2.SUNet ([10.128.6.178])
+        (authenticated bits=0)
+        by cm-mail.stanford.edu (8.14.4/8.14.4) with ESMTP id 37FKL9Mg019013
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+        Tue, 15 Aug 2023 13:21:15 -0700
+From:   Nils Tonnaett <ntonnatt@ccrma.Stanford.EDU>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Rahul Rameshbabu <sergeantsagara@protonmail.com>,
+        Nils Tonnaett <ntonnatt@ccrma.Stanford.EDU>
+Subject: [PATCH v2] HID: apple: Add "Hailuck" to the list of non-apple keyboards
+Date:   Tue, 15 Aug 2023 13:19:59 -0700
+Message-ID: <20230815201959.17569-1-ntonnatt@ccrma.stanford.edu>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230811202932.30413-1-ntonnatt@ccrma.stanford.edu>
+References: <20230811202932.30413-1-ntonnatt@ccrma.stanford.edu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v3 2/2] Input: cs40l50 - Initial support for Cirrus Logic
- CS40L50
-Content-Language: en-US
-To:     James Ogletree <James.Ogletree@cirrus.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Fred Treven <Fred.Treven@cirrus.com>,
-        Ben Bright <Ben.Bright@cirrus.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-        Jeff LaBundy <jeff@labundy.com>, Joel Stanley <joel@jms.id.au>,
-        Arnd Bergmann <arnd@arndb.de>, Jacky Bai <ping.bai@nxp.com>,
-        Jean Delvare <jdelvare@suse.de>,
-        Eddie James <eajames@linux.ibm.com>,
-        Markus Schneider-Pargmann <msp@baylibre.com>,
-        ChiYuan Huang <cy_huang@richtek.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "patches@cirrus.com" <patches@cirrus.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20230809191032.820271-1-james.ogletree@cirrus.com>
- <20230809191032.820271-3-james.ogletree@cirrus.com>
- <d1b9e063-54df-2dae-1487-c7c932fda145@linaro.org>
- <D4B53566-9F7D-46DA-8BAE-0572B9A8AA7A@cirrus.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <D4B53566-9F7D-46DA-8BAE-0572B9A8AA7A@cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+x-proofpoint-stanford-dir: outbound
+X-Proofpoint-ORIG-GUID: kBBnvN3AubxV08gmXtV-5E1YOo1ioMwt
+X-Proofpoint-GUID: kBBnvN3AubxV08gmXtV-5E1YOo1ioMwt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-15_19,2023-08-15_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 phishscore=0 spamscore=0
+ bulkscore=0 clxscore=1015 adultscore=100 mlxlogscore=991 impostorscore=0
+ priorityscore=1501 lowpriorityscore=0 suspectscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2308150183
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 15/08/2023 17:56, James Ogletree wrote:
-> 
-> 
->> On Aug 10, 2023, at 1:17 AM, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
->>
->> On 09/08/2023 21:10, James Ogletree wrote:
->>
->>> +
->>> +static int cs40l50_cs_dsp_init(struct cs40l50_private *cs40l50)
->>> +{
->>> + cs40l50->dsp.num = 1;
->>> + cs40l50->dsp.type = WMFW_HALO;
->>> + cs40l50->dsp.dev = cs40l50->dev;
->>> + cs40l50->dsp.regmap = cs40l50->regmap;
->>> + cs40l50->dsp.base = CS40L50_DSP1_CORE_BASE;
->>> + cs40l50->dsp.base_sysinfo = CS40L50_DSP1_SYS_INFO_ID;
->>> + cs40l50->dsp.mem = cs40l50_dsp_regions;
->>> + cs40l50->dsp.num_mems = ARRAY_SIZE(cs40l50_dsp_regions);
->>> + cs40l50->dsp.lock_regions = 0xFFFFFFFF;
->>> + cs40l50->dsp.no_core_startstop = true;
->>> + cs40l50->dsp.client_ops = &cs40l50_cs_dsp_client_ops;
->>> +
->>> + return cs_dsp_halo_init(&cs40l50->dsp);
->>> +}
->>> +
->>> +int cs40l50_probe(struct cs40l50_private *cs40l50)
->>> +{
->>> + int error, i, irq;
->>> + u32 val;
->>> +
->>> + mutex_init(&cs40l50->lock);
->>> +
->>> + error = devm_regulator_bulk_get(cs40l50->dev, ARRAY_SIZE(cs40l50_supplies),
->>> + cs40l50_supplies);
->>> + if (error)
->>> + return dev_err_probe(cs40l50->dev, error, "Failed to request supplies\n");
->>> +
->>> + error = regulator_bulk_enable(ARRAY_SIZE(cs40l50_supplies), cs40l50_supplies);
->>> + if (error)
->>> + return dev_err_probe(cs40l50->dev, error, "Failed to enable supplies\n");
->>> +
->>> + cs40l50->reset_gpio = devm_gpiod_get_optional(cs40l50->dev, "reset", GPIOD_OUT_HIGH);
->>
->> None of the lines above or below seem to be wrapped according to Linux
->> coding style (80).
-> 
-> This patch abides by the 100-column line length limit which checkpatch.pl enforces.
+Powzan keyboards KB750 and KB770 identify as
+"Hailuck Co.,Ltd USB Keyboard". Adding "Hailuck" to the list
+of non-apple keyboards fixes function keys for these models.
 
-Checkpatch does not enforce 100, because it accepts also 80. It
-complains if something is longer than 100, but coding style is still the
-same. Format everything according to coding style and use 100 only if it
-increases readability.
+Signed-off-by: Nils Tonnaett <ntonnatt@ccrma.stanford.edu>
+---
+V1 -> V2:
+	- Start commit message subject with HID: apple: instead of hid:
+	- Comma terminate last member of array
 
-> However, I can see how some of the lines might be less jarring to the eyes if wrapped.
-> That will be addressed in V4.
-> 
+ drivers/hid/hid-apple.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+index d7b932925730..3ca45975c686 100644
+--- a/drivers/hid/hid-apple.c
++++ b/drivers/hid/hid-apple.c
+@@ -343,7 +343,8 @@ static const struct apple_non_apple_keyboard non_apple_keyboards[] = {
+ 	{ "SONiX USB DEVICE" },
+ 	{ "Keychron" },
+ 	{ "AONE" },
+-	{ "GANSS" }
++	{ "GANSS" },
++	{ "Hailuck" },
+ };
+ 
+ static bool apple_is_non_apple_keyboard(struct hid_device *hdev)
+-- 
+2.41.0
 
