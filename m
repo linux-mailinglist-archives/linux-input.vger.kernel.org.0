@@ -2,48 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E6CE77D2AE
-	for <lists+linux-input@lfdr.de>; Tue, 15 Aug 2023 20:59:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF60E77D204
+	for <lists+linux-input@lfdr.de>; Tue, 15 Aug 2023 20:40:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239534AbjHOS6b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Aug 2023 14:58:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53418 "EHLO
+        id S239178AbjHOSjk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Aug 2023 14:39:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239695AbjHOS6U (ORCPT
+        with ESMTP id S239247AbjHOSjV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Aug 2023 14:58:20 -0400
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [IPv6:2a02:c205:3004:2154::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB2081FE6;
-        Tue, 15 Aug 2023 11:58:06 -0700 (PDT)
-Received: from p200300ccff31d1001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff31:d100:1a3d:a2ff:febf:d33a] helo=aktux)
-        by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <andreas@kemnade.info>)
-        id 1qVynp-002fC8-Iy; Tue, 15 Aug 2023 20:30:01 +0200
-Received: from andi by aktux with local (Exim 4.96)
-        (envelope-from <andreas@kemnade.info>)
-        id 1qVynp-000tJJ-0e;
-        Tue, 15 Aug 2023 20:30:01 +0200
-From:   Andreas Kemnade <andreas@kemnade.info>
-To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, rydberg@bitmath.org,
-        u.kleine-koenig@pengutronix.de, linus.walleij@linaro.org,
-        Jonathan.Cameron@huawei.com, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Andreas Kemnade <andreas@kemnade.info>
-Subject: [PATCH 4/4] ARM: dts: imx6sl-tolino-shine2hd: fix touchscreen rotation
-Date:   Tue, 15 Aug 2023 20:29:48 +0200
-Message-Id: <20230815182948.212575-5-andreas@kemnade.info>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230815182948.212575-1-andreas@kemnade.info>
-References: <20230815182948.212575-1-andreas@kemnade.info>
+        Tue, 15 Aug 2023 14:39:21 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC8F183;
+        Tue, 15 Aug 2023 11:39:17 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1bc83a96067so35392635ad.0;
+        Tue, 15 Aug 2023 11:39:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692124757; x=1692729557;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UY0hcbqXkGu4hQCXduSf+UdTZqnAteMXNS0OUvIID4s=;
+        b=ZW6VNxPUeqoIZbeoqBqk0wvZbAGTgOBhXM6+1JuGOJglarFKtoFMqlxsN090Qx3LM5
+         vjLVoB9rfAFsHWKFSFDh9p2c5mKkY6pwufZbkdM/NL1wTpFMczI+Z75wTSREixHlmEJp
+         rAx49jbXeaDftfhbEdS2RYKaoN67x789Ci830p1pgRxdu/UcspSDvVPw1l6FF60TB4Qn
+         BJDAb2g5nVuxx89T9TDAhrDFUZSVJV8Pk3UxVtUFL06RCuKh+wg8CH09ESKjbGJPo4qL
+         /EM+YqXzvIHea/ciZEI14RFtKWJjygTAx+PfzBspfCx0FcvUpgvmHbT5oKl8MqRvdP2b
+         TAyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692124757; x=1692729557;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UY0hcbqXkGu4hQCXduSf+UdTZqnAteMXNS0OUvIID4s=;
+        b=NyBc77BRDflqcE8PI2P4PmraDM3RZx8ycqGTZfSai+5yJC8lM8EYZV1VzUv6UNiy8k
+         +Qj5/8LvW4uw/7MHo4OjScCReeBSccrg+8zC90dmK/5RHqvZW5YcCqJCM/f54hc8vq1B
+         R8xEyuR6nwmylJJrHL6qZ1RzaLiSDTtygkUr17rMcapJ3tXIXi/72LaAPWc3bo9moW5H
+         Lw3krLJIc2HwFHe88T0B4C0MW5HdZShNGXik4kp/6Di7SKnO4yvMhcRCj8kTTiV6K6sM
+         YrFu8bSwKLBtrudIyYu85Z74vTspclF8dkAElIrh4hLhsMHesMxpaB6iVK5pbXgDiAi1
+         1h8g==
+X-Gm-Message-State: AOJu0Yz+Y9wzh3aZzCFj0uVy1G0fySvVS/IMubE6HGL5AwlyhCkLwg7a
+        LOl2SpHXnolnXUEnBzICAFE=
+X-Google-Smtp-Source: AGHT+IHbmeLEyPYNBRfP+z3Wig5BBPHQX/1nvhkQOBJwzEvXlIankVnjcK4YDvXeTnHZGQMStVY8tg==
+X-Received: by 2002:a17:903:22c7:b0:1b8:9552:ca with SMTP id y7-20020a17090322c700b001b8955200camr14039440plg.45.1692124757148;
+        Tue, 15 Aug 2023 11:39:17 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:e30b:29e0:bebc:3d56])
+        by smtp.gmail.com with ESMTPSA id u3-20020a17090282c300b001a183ade911sm4938894plz.56.2023.08.15.11.39.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Aug 2023 11:39:16 -0700 (PDT)
+Date:   Tue, 15 Aug 2023 11:39:12 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Felix Engelhardt <felix.engelhardt@eidu.com>
+Cc:     Bastien Nocera <hadess@hadess.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drivers/input/touchscreen/goodix.c: Add support for ACPI
+ ID GDX9110
+Message-ID: <ZNvGULYiPb3nqiu7@google.com>
+References: <20230807124723.382899-1-felix.engelhardt@eidu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230807124723.382899-1-felix.engelhardt@eidu.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -51,31 +73,16 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The display is in landscape orientation, but the touchscreen is in portrait
-orientation. Specify that properly in the devicetree.
+On Mon, Aug 07, 2023 at 02:47:23PM +0200, Felix Engelhardt wrote:
+> The Goodix touchscreen controller with ACPI ID GDX9110 was not recognized
+> by the goodix driver. This patch adds this ID to the list of supported IDs,
+> allowing the driver to be used with this device. The change will allow
+> Linux to be used on ~1 million tablet devices used in Kenyan primary
+> schools.
+> 
+> Signed-off-by: Felix Engelhardt <felix.engelhardt@eidu.com>
 
-Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
----
- arch/arm/boot/dts/nxp/imx/imx6sl-tolino-shine2hd.dts | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Applied, thank you.
 
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6sl-tolino-shine2hd.dts b/arch/arm/boot/dts/nxp/imx/imx6sl-tolino-shine2hd.dts
-index 815119c12bd4..5636fb3661e8 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6sl-tolino-shine2hd.dts
-+++ b/arch/arm/boot/dts/nxp/imx/imx6sl-tolino-shine2hd.dts
-@@ -141,8 +141,10 @@ zforce: touchscreen@50 {
- 		interrupts = <6 IRQ_TYPE_EDGE_FALLING>;
- 		vdd-supply = <&ldo1_reg>;
- 		reset-gpios = <&gpio5 9 GPIO_ACTIVE_LOW>;
--		x-size = <1072>;
--		y-size = <1448>;
-+		touchscreen-size-x = <1072>;
-+		touchscreen-size-y = <1448>;
-+		touchscreen-swapped-x-y;
-+		touchscreen-inverted-x;
- 	};
- 
- 	/* TODO: TPS65185 PMIC for E Ink at 0x68 */
 -- 
-2.39.2
-
+Dmitry
