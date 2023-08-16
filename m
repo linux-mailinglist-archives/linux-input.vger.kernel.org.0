@@ -2,122 +2,142 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D425477DBDE
-	for <lists+linux-input@lfdr.de>; Wed, 16 Aug 2023 10:12:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F6CD77DCA8
+	for <lists+linux-input@lfdr.de>; Wed, 16 Aug 2023 10:48:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242740AbjHPIMG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Aug 2023 04:12:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36014 "EHLO
+        id S243024AbjHPIsQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Aug 2023 04:48:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242792AbjHPIMB (ORCPT
+        with ESMTP id S243119AbjHPIsF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Aug 2023 04:12:01 -0400
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31AF4AB;
-        Wed, 16 Aug 2023 01:12:00 -0700 (PDT)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-        by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37G8040d013993;
-        Wed, 16 Aug 2023 03:11:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:content-transfer-encoding:in-reply-to; s=
-        PODMain02222019; bh=XBrvMs7nTF97Zizz0enpQAZB41SWEkMJ3maqN3ukMzQ=; b=
-        FgDChWYalZkKudOOEl8FamrnW0bJoqndnzdJB/gr4eG0X5mDtAvBrR4gxLNPd/+a
-        yDVeG9LyKDHv+Ym3ekfZQlQ6zzMDHYpKgpHvPDHRZQmATKClkJ5AcdijbiyxKCBa
-        xob5TxcHeU4MSxNR95tmXOWGeTDABwCVqWH3aqLhHsda4/CuEKPCnAoT9VROevk0
-        JsYdGqmwaArrELbprb6ujZF9SP00EmMU3jzUkucVQJcLsRxM2gi5XTbrAPUK3cDl
-        hr6gSSwIwm9FemUK6AmQ1MwSYWjZ85owtTwEiyMzC1FsTav9OZUbQDGo0jbAwaFz
-        Q+Vmbo/J1qw7ldjF+G+2Bg==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-        by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3se6uhkwmy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 16 Aug 2023 03:11:32 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 16 Aug
- 2023 09:11:30 +0100
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.30 via Frontend
- Transport; Wed, 16 Aug 2023 09:11:30 +0100
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 9AB083560;
-        Wed, 16 Aug 2023 08:11:30 +0000 (UTC)
-Date:   Wed, 16 Aug 2023 08:11:30 +0000
-From:   Charles Keepax <ckeepax@opensource.cirrus.com>
-To:     James Ogletree <James.Ogletree@cirrus.com>
-CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Fred Treven <Fred.Treven@cirrus.com>,
-        Ben Bright <Ben.Bright@cirrus.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        "Lee Jones" <lee@kernel.org>, Jeff LaBundy <jeff@labundy.com>,
-        Joel Stanley <joel@jms.id.au>, Arnd Bergmann <arnd@arndb.de>,
-        Jacky Bai <ping.bai@nxp.com>, Jean Delvare <jdelvare@suse.de>,
-        Eddie James <eajames@linux.ibm.com>,
-        Markus Schneider-Pargmann <msp@baylibre.com>,
-        ChiYuan Huang <cy_huang@richtek.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 2/2] Input: cs40l50 - Initial support for Cirrus Logic
- CS40L50
-Message-ID: <20230816081130.GB103419@ediswmail.ad.cirrus.com>
-References: <20230809191032.820271-1-james.ogletree@cirrus.com>
- <20230809191032.820271-3-james.ogletree@cirrus.com>
- <20230810103005.GZ103419@ediswmail.ad.cirrus.com>
- <51826BD7-BB75-4D1F-B947-A7AC2C642F62@cirrus.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
+        Wed, 16 Aug 2023 04:48:05 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01olkn2039.outbound.protection.outlook.com [40.92.99.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 330B4359B;
+        Wed, 16 Aug 2023 01:38:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ACsuwz4zb3JiGPYLrMdkiTm4uHu+W6puVjbnt1WJM5zPZARBSD47U+/4bfIwuyuge2Q0kKwQEu8cHt8rDOtAX+/hIbA1JGFKANk9mjQPGMNZmjfgy5QcSK/8svWUnJD4A+0Lx5Dku+Bq10ZSDTV7PXOxTfHUDenn+oEh2oY6Yd1OVrUpBFyT6N6+vGGp1p1MR8TBM463BKZzNgDQ104FIk706aWWtj7j/2aOUidgyKnJ4Vp7jFotugiLZTIQ6OJtc5D6LSHK7WMClL7Izxb6Hdux3lJGIHyU4Uu9tmTc9pYDLoDo5lWkC7d9Xk4zh+bNh3YqU6HEKSV0zEGnQ87t/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1LR9EsHbIxNGf0536/ZuM3XSSPTPgM+gsCGik20cIRQ=;
+ b=Vy/qSK1yges+6yGmtopvI3wHReC/6uQGaNy8/fUia5WRAQLwrvldW63qEp0lOaVA5pYdRI6rpkiH0WOFHw3EtBsrevj0irFpHWCdhgP53+cuJPaGPSJWDbEms7j/ZQHtwstvksih3tm6DTUkQyiEaxJrRBn4zfp6uqZER1glYii3raf/sL2+aS+dL6f3xFOcA/GdUg+O9IY5YoQA7FzEeizOvmSBVK6lF4w9VurvPZh27/uCbAH6GQ+Sct1I64NMHRVDNGBTXtsfl0AKtMW600kIfo6AIEsaAqr7hdWDKKR2GrA6txAejtcbP3AFXOgdzqsyxH6oLJGSQOHPkliHQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1LR9EsHbIxNGf0536/ZuM3XSSPTPgM+gsCGik20cIRQ=;
+ b=jAo/h9QcU451CpG4a3J08FlpKQuDvUz/RRxN7Gu3m3ChGAcnuqXyjdHmfn41e/gP/YOAbg26oFMElXFWRNTeZ7TLblRixfT1SPlV7IsR4sVmeT3Z4UxEj3Zey5UPClOVSNgtbIoI+9TAcmdf+oNuwwA9mcEmoWzfqxRyk6P8POtk5XkOzty0d/JORSiVUxvC5zPbCiz9dA7c/GpVvER5H+iVeHhBho2DJ+fxTclbZOVTTX8Yk4oIWurKhkVn63lOvXUVJ3EUpBET1iz6W1TbCaoSET/dEFsmXpp32HZb9stY9OUs6zOGGcCWp864LC7DWysuFjzggtlLqGrsEVx11w==
+Received: from OS3P286MB2599.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:1fa::8)
+ by TYCP286MB1610.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:183::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.29; Wed, 16 Aug
+ 2023 08:38:30 +0000
+Received: from OS3P286MB2599.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::6966:de19:27ae:5c4a]) by OS3P286MB2599.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::6966:de19:27ae:5c4a%6]) with mapi id 15.20.6678.029; Wed, 16 Aug 2023
+ 08:38:30 +0000
+From:   Riwen Lu <luriwen@hotmail.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        dmitry.torokhov@gmail.com, linux@weissschuh.net,
+        hdegoede@redhat.com, rrangel@chromium.org,
+        u.kleine-koenig@pengutronix.de
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sergeantsagara@protonmail.com, Riwen Lu <luriwen@kylinos.cn>
+Subject: [PATCH v2] HID: i2c-hid: use print_hex_dump_debug to print report descriptor
+Date:   Wed, 16 Aug 2023 16:38:19 +0800
+Message-ID: <OS3P286MB259916DCE3D992135FF05F4CB115A@OS3P286MB2599.JPNP286.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <TYCP286MB2607175E9C15DB17A2102AEAB114A@TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM>
+References: <TYCP286MB2607175E9C15DB17A2102AEAB114A@TYCP286MB2607.JPNP286.PROD.OUTLOOK.COM>
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <51826BD7-BB75-4D1F-B947-A7AC2C642F62@cirrus.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-GUID: qkx6JlK6fSTwvvVUFttnD-gWC8JlX5E0
-X-Proofpoint-ORIG-GUID: qkx6JlK6fSTwvvVUFttnD-gWC8JlX5E0
-X-Proofpoint-Spam-Reason: safe
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-TMN:  [HVFTEIYtjYvB0MALWX/0NjRoDf469JhN]
+X-ClientProxiedBy: TYCP301CA0058.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:400:384::7) To OS3P286MB2599.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:604:1fa::8)
+X-Microsoft-Original-Message-ID: <20230816083819.28410-1-luriwen@hotmail.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OS3P286MB2599:EE_|TYCP286MB1610:EE_
+X-MS-Office365-Filtering-Correlation-Id: c9c58db6-db68-46b6-420b-08db9e342b30
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: C1fqPwHGeq7vmSXD5/8EaXM3eikx2irrju5pVQr4SW/4nE8fdXTgVWiLi+QZYoqHyj2FEga1/sWiNkJTwB9pZAYvGQNLKXt/pwvMmew2mbyLKE9fh9gj4R8VyBCcMqJwVnnDqCD3nRTdJ8EQMqsU0wMx9IpMVRQNcwrmwyfhVNO3SszTjcZiza1CT/NQ/rmAJvJPQTJOPx7MCWC1J2/jTl9Ehwd3lWZhvlqDpZwZdZXVZJ83QBiYw8NeiMJAxKaOq8hdF9O6YQuukbSEs2jPn2/MqIxfk18rM3UtYFvLQB84h8u7fVbbDDJG9SF80MLl9NsWIbKaJha8r7rGhcPNR5ZbbTWnB0mgwbWpsLY4UpdfJXUlNqYFxtPiDNcKhdo3FTg2OKI1R+U8VR+4R9BYrD6MU6busW7dmAlDwPTn2synrCfDiKEroi1llP6ptKtaYTlKhQhybopqPQuIASut1FSnDmjnMNA+YldR3/reCFryMrr5jIrVY4k+Vox79+DCQO4XgVT29+LYCpEdW2bOTMD0Hm6Juzwzl8UpCk95Uf1TFIeTBBy17b3AFBwxBOeu
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/u4tDRfoBZYleX7Fk8BFJljaxI2wM92o4GFJi6EVH5tK5dhdNgNr2lR083kO?=
+ =?us-ascii?Q?JClgLIKoehN1SKi9hDgu9s9NpBQ6a/r5DSM7ESjDGU+U8aZ2ViyW99aqUYLE?=
+ =?us-ascii?Q?syPgYVIjJnfhIymlkcYLtTHJCAOUv3w9RlxsPnjaZOEjeINZPPXG4qBX17fQ?=
+ =?us-ascii?Q?nYK9rcoL6v5WVICJBfQa2gD/ZzuoAf46vsbZGVk5d4OeEmx9zmQzMgJkEbAl?=
+ =?us-ascii?Q?vqnFjhFFOel4Z3p/vgsWQkf4F9i4uO+Hk12jRwhsndsTHSgCUuNjq4PYFosD?=
+ =?us-ascii?Q?wo+vaYvSfMeRG8rSmQdbdcC1bskEHefxtv2bR7b2mz/CFNnZaZO5qMavRUFD?=
+ =?us-ascii?Q?XJd09hCWBhKse3LQ6FswkwYy2g1OjPku8BDBh3WVJITcpX6/fa5jAnEpppOl?=
+ =?us-ascii?Q?FPYRCxJERYkU0QQBZx5ai+e2yXXEVGta0l4UIHswqdc1xFwzEMwiFJY6ygvF?=
+ =?us-ascii?Q?65Y/EvhwLEK60EMI7rHTr2MGMtpcnhCbagm7Y6PUTXlRh20wArXZurbxYID0?=
+ =?us-ascii?Q?uKjHJ+Zeq4rwM/dcKIaq8oO6lUTLqvuGxE+33TlBLtdWC/ew475TMg+My23b?=
+ =?us-ascii?Q?zxnTc01qRnZwwk7jez3O8q3eWMQcLJDQCuDxX0FZiS64FNrT8mQl/UlOhHsr?=
+ =?us-ascii?Q?i9blO7vTUIVK/Y9ubJcnr+yTBGI6QNWc1uJARkseIOS5yVyN96cTOB/0e3/j?=
+ =?us-ascii?Q?HJgMOvYaRoS6jYoP9ImdiQpGTWbP9ycilItZ8r/LNZhxPnt5vzuRiKcAPThz?=
+ =?us-ascii?Q?sWM5thC4J8swmifxiPMAFA0XjwUZIFETE0Da7459pUXdt+mQFZ/D0cX9JEnU?=
+ =?us-ascii?Q?Cer/M0LiMlV8i/dhCevWXnv5Tpi+39K6wXr0AfNR0ysXUN1EVEXV1lvN4Xet?=
+ =?us-ascii?Q?JEuHY1KyJ1lDG4wz+AXxaPp6CJtJuxOcrT2mG9mlyUEpPQcLWVom2/bSfxhS?=
+ =?us-ascii?Q?olVGYGYEXWRuf5Hr4YwJ7OQnDVJPmsz3+0aRzdh3xRvkPiuCBPRUE1VHjh57?=
+ =?us-ascii?Q?T87nekDm+703VjDlWtWIDwewqL/J98HG6U7XWXFZIttYtLoXK6UUrL+XAHdB?=
+ =?us-ascii?Q?qrpsHz4CitFp/QdL0DAw9QtzDehc7rYP5cEQKAIToUvRw70rziwz7azw2p2b?=
+ =?us-ascii?Q?IzpQfdLkB98d1NK4TJ4ChKkz2Mb37MRxd5hqZHfnZO9a7iMA1cCZT3pDMSSU?=
+ =?us-ascii?Q?a/iLOecVv9oKW9YIx8Fq+KkpyEp8oqYDR/ZEAg=3D=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-05f45.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: c9c58db6-db68-46b6-420b-08db9e342b30
+X-MS-Exchange-CrossTenant-AuthSource: OS3P286MB2599.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 08:38:30.6448
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCP286MB1610
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Aug 15, 2023 at 10:33:00PM +0000, James Ogletree wrote:
-> 
-> 
-> > On Aug 10, 2023, at 5:30 AM, Charles Keepax <ckeepax@opensource.cirrus.com> wrote:
-> > 
-> > On Wed, Aug 09, 2023 at 07:10:28PM +0000, James Ogletree wrote:
-> >> +
-> >> +static int cs40l50_pseq_write(struct cs40l50_private *cs40l50, u32 addr, u32 data)
-> >> +{
-> >> +
-> >> +static int cs40l50_owt_upload(struct cs40l50_private *cs40l50, s16 *in_data, u32 in_data_nibbles)
-> >> +{
-> > 
-> > These pseq and OWT bits, could they be shared with l26?
-> > Definitely worth syncing with those guys, my assumption is the
-> > wavetable/pseq won't have changed much and it might be nice to
-> > factor these bits out into some library code that both drivers
-> > can use.
-> 
-> The pseq code most certainly can, likely the OWT code, perhaps others. I assume it is
-> acceptable to move some of these functions to a library in this patch set, even though this is
-> the only driver utilizing them as far as mainline is concerned? In other words, we shouldn’t
-> wait for one of L26 or L50 drivers to be accepted before splitting off the common code as part
-> of the others’ patchset? I’m probably overcomplicating; just want to be sure on the process here.
-> 
-> Everything else in your review will be fixed in V4. Thank you.
-> 
+From: Riwen Lu <luriwen@kylinos.cn>
 
-I think this makes sense to do now, just need to make sure the
-next series of L26 is synced up to it.
+The format '%*ph' print up to 64 bytes long as a hex string with ' '
+sepatator. Usually the size of report descriptor is larger than 64
+bytes, so consider using print_hex_dump_debug to print out all of it for
+better debugging.
 
-Thanks,
-Charles
+Signed-off-by: Riwen Lu <luriwen@kylinos.cn>
+
+---
+v1->v2:
+ - Add a prefix for the hex dump.
+---
+ drivers/hid/i2c-hid/i2c-hid-core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index efbba0465eef..fd82e9042da5 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -772,7 +772,9 @@ static int i2c_hid_parse(struct hid_device *hid)
+ 		}
+ 	}
+ 
+-	i2c_hid_dbg(ihid, "Report Descriptor: %*ph\n", rsize, rdesc);
++	i2c_hid_dbg(ihid, "Report Descriptor\n");
++	print_hex_dump_debug("Report Descriptor: ", DUMP_PREFIX_OFFSET, 16, 1,
++			rdesc, rsize, false);
+ 
+ 	ret = hid_parse_report(hid, rdesc, rsize);
+ 	if (!use_override)
+-- 
+2.25.1
+
