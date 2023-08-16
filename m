@@ -2,111 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04CCB77D75B
-	for <lists+linux-input@lfdr.de>; Wed, 16 Aug 2023 03:10:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2359277D862
+	for <lists+linux-input@lfdr.de>; Wed, 16 Aug 2023 04:23:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240939AbjHPBJd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Aug 2023 21:09:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33204 "EHLO
+        id S235172AbjHPCXU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Aug 2023 22:23:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240987AbjHPBJU (ORCPT
+        with ESMTP id S241323AbjHPCXS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Aug 2023 21:09:20 -0400
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB73B268D;
-        Tue, 15 Aug 2023 18:09:12 -0700 (PDT)
-Received: by mail-ot1-x335.google.com with SMTP id 46e09a7af769-6b9cd6876bbso1603429a34.1;
-        Tue, 15 Aug 2023 18:09:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692148152; x=1692752952;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NSkEH/9Z3XQRfMyS98L8/MPpuGgYuS2fQa5TuY149uE=;
-        b=YvVbDNYWtmke5r+BFoaiJW3pq+6BH17n4jsoOYmt1XDJ3dHrjANAYfxQVwqqYIuVHh
-         hVnFilqdYGJTNpiXOpKw0qFq251aHUnOTc8ZnW78i2VD+TGtbvpLwuVMeqO/qDHuZTKV
-         0JkafwmHHwwYt2RBaBdpcMO2w//5idfsQwJ4KGPDVvKxZlalfAsDczlFCREnWU6tWgIO
-         IlkS2WLEiQ/fhoXagPPFqyW9mD5MTdYNJT8rBS4HtpF6IzKntZ5/WIZR0MDDj75SDveX
-         +nIMYJmOXOY6LW4lytxGWQ3ubqpMVXSCXq6yy5aTUyfNn8hUMwJxBybatmeIixZYu3+7
-         eW2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692148152; x=1692752952;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NSkEH/9Z3XQRfMyS98L8/MPpuGgYuS2fQa5TuY149uE=;
-        b=Ov1zMvNi3K/ND0SUaI7c9qd8lMLcqHfQxOUoBokvf/gOJo1XpKMd4xQfnaXPCT21VQ
-         msdSfDEXD0VwlxX6RzJomdgk9Vpah1cykKNTMoiSFHVY3MqR175JtKsqs0GXzBFlOGea
-         93saJQPYLfuyE6eJlUj5EqdcGttnQ0UaTJz+2PHAT/U100RwTwFs2qq37lLP60Ka0ePl
-         sIOJr69OURg/DhyoG7wybqcWv7ulKOq9AG6UdMc0+msvgOfFuOX946WSPNxTxEmjuTuw
-         P6hwmrDFMa9YJQpAHn7EWpKVDhb9rQxibTtwJ/ECocRR+IMysgeHFF+rgRUTD0WYf43d
-         mzcg==
-X-Gm-Message-State: AOJu0YyZMbzrVfibJk+qsYBlGL4sD1gXFls1IIr+FcOoi4JRkUPteCSh
-        i5oeyUbnmteeGc+IYX61jig=
-X-Google-Smtp-Source: AGHT+IEF1hcMxMdsNg+davQYwzBYH0iK/IPiOlxi5OV7huxZ5R1Ounlk8rluR8E+dbqWda3ieyyrXQ==
-X-Received: by 2002:a05:6808:1827:b0:394:25b9:db19 with SMTP id bh39-20020a056808182700b0039425b9db19mr409770oib.2.1692148151894;
-        Tue, 15 Aug 2023 18:09:11 -0700 (PDT)
-Received: from [192.168.0.82] ([67.6.79.63])
-        by smtp.gmail.com with ESMTPSA id s22-20020a0568080b1600b003a4243d034dsm5985013oij.17.2023.08.15.18.09.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Aug 2023 18:09:11 -0700 (PDT)
-Message-ID: <2980f5e6-40b0-4ab2-ae73-bceeb97b4de5@gmail.com>
-Date:   Tue, 15 Aug 2023 20:09:10 -0500
+        Tue, 15 Aug 2023 22:23:18 -0400
+Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F75EE5;
+        Tue, 15 Aug 2023 19:23:17 -0700 (PDT)
+Date:   Wed, 16 Aug 2023 02:23:00 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail3; t=1692152592; x=1692411792;
+        bh=p+kWhC1mkvADWQXIvJr5BP8Kw+G4C7jb3LAs6yzPGm4=;
+        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID:BIMI-Selector;
+        b=dfUaRshru4XG0C11u7WZ+F14RPGtGn8354Baw2Nl08h5WZbXQEbELX3V5k7unOaIq
+         7tx/tYqJnJrl/vEDznd7r28v7LkVT4D1TqBP5WY9mP/QLRCA1MVPhw9f9B+cM9gx4L
+         TH7DmXi8x57uum+amCGmQoZfVoMY2s9UwmtmxoNExAgCueDbDAZ9KnjXSSlMFd7Cdm
+         PBXXbxxBu4UVtSSLl316ftRgTsIrJS/7pFykcPHafkod19rmY4jcEqRVFxltZePaHV
+         KcntdJK8DX61k+t3aA+hhDBagi7BnDwBTpXw7nmac1/UGaSp73QAkkKNpUNB1+2o9q
+         Cl9dgmmqzDhlg==
+To:     Nils Tonnaett <ntonnatt@ccrma.Stanford.EDU>
+From:   Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] HID: apple: Add "Hailuck" to the list of non-apple keyboards
+Message-ID: <87h6ozafpb.fsf@protonmail.com>
+In-Reply-To: <20230815201959.17569-1-ntonnatt@ccrma.stanford.edu>
+References: <20230811202932.30413-1-ntonnatt@ccrma.stanford.edu> <20230815201959.17569-1-ntonnatt@ccrma.stanford.edu>
+Feedback-ID: 26003777:user:proton
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 2/2] Input: Add Novatek NT36xxx touchscreen driver
-Content-Language: en-US
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>
-Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Dang Huynh <danct12@riseup.net>,
-        Amit Pundir <amit.pundir@linaro.org>
-References: <20230808-topic-nt36xxx-v10-0-dd135dfa0b5e@linaro.org>
- <20230808-topic-nt36xxx-v10-2-dd135dfa0b5e@linaro.org>
-From:   Joel Selvaraj <joelselvaraj.oss@gmail.com>
-In-Reply-To: <20230808-topic-nt36xxx-v10-2-dd135dfa0b5e@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Konrad Dybcio,
 
-On 8/8/23 18:38, Konrad Dybcio wrote:
-> From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> 
-> This is a driver for the Novatek in-cell touch controller and
-> supports various chips from the NT36xxx family, currently
-> including NT36525, NT36672A, NT36676F, NT36772 and NT36870.
+On Tue, 15 Aug, 2023 13:19:59 -0700 "Nils Tonnaett" <ntonnatt@ccrma.Stanfor=
+d.EDU> wrote:
+> Powzan keyboards KB750 and KB770 identify as
+> "Hailuck Co.,Ltd USB Keyboard". Adding "Hailuck" to the list
+> of non-apple keyboards fixes function keys for these models.
+>
+> Signed-off-by: Nils Tonnaett <ntonnatt@ccrma.stanford.edu>
+> ---
+> V1 -> V2:
+> =09- Start commit message subject with HID: apple: instead of hid:
+> =09- Comma terminate last member of array
+>
+>  drivers/hid/hid-apple.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+> index d7b932925730..3ca45975c686 100644
+> --- a/drivers/hid/hid-apple.c
+> +++ b/drivers/hid/hid-apple.c
+> @@ -343,7 +343,8 @@ static const struct apple_non_apple_keyboard non_appl=
+e_keyboards[] =3D {
+>  =09{ "SONiX USB DEVICE" },
+>  =09{ "Keychron" },
+>  =09{ "AONE" },
+> -=09{ "GANSS" }
+> +=09{ "GANSS" },
+> +=09{ "Hailuck" },
+>  };
+>
+>  static bool apple_is_non_apple_keyboard(struct hid_device *hdev)
 
-In kernel v6.4, a basic novatek touchscreen driver was introduced [1].
-I was able to tweak IT a bit (add devicetree compatible, regulator 
-support, remove chip id hardcode) and get it properly working in my 
-Xiaomi Poco F1 which has Novatek NT36672A touchscreen. Probably the 
-other ICs will also work. So, do we really need a separate touchscreen 
-driver? Maybe the existing one can be improved to add more features if 
-needed?
+Reviewed-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
 
-Personally I have been looking forward to the v10 of this patchseries :) 
-Thanks for working on this! But, yeah, we need to decide if we need this 
-to be a separate driver.
-
-Link: 
-https://lore.kernel.org/all/20230326212308.55730-1-hdegoede@redhat.com/
-
-Regards
-Joel Selvaraj
