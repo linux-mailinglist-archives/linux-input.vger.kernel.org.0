@@ -2,144 +2,138 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC27277E7BD
-	for <lists+linux-input@lfdr.de>; Wed, 16 Aug 2023 19:37:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2D7177E7F7
+	for <lists+linux-input@lfdr.de>; Wed, 16 Aug 2023 19:56:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344506AbjHPRgl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Aug 2023 13:36:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43748 "EHLO
+        id S1345280AbjHPRzj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Aug 2023 13:55:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344981AbjHPRgQ (ORCPT
+        with ESMTP id S1345288AbjHPRzL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Aug 2023 13:36:16 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2379A270D
-        for <linux-input@vger.kernel.org>; Wed, 16 Aug 2023 10:36:14 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-4ff8cf11b90so2404993e87.1
-        for <linux-input@vger.kernel.org>; Wed, 16 Aug 2023 10:36:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692207372; x=1692812172;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=am0/Q3stKuBxx8e63FY+o9BSm3oiO2R3IBlAH+Mi9ok=;
-        b=hXW27+q3rYB4HsP/B7zpUIeSwERHFsDCgbmkI9jk5q0kqi7vaT2zmAKj82Azcp6jLL
-         3tz9flOJ6ClvyOFcuCsCL72Gq38Uwl++tokUxyQgPKuGRjw5LaHCtQ7is3/ee4Lvr5R4
-         GBFBVG9skciT8hgIClC4hPwNMosU3FaTkYw/jlq6wkTVJFOvFRqVGpUIdiIR+HEeppIe
-         eqbZo4sD7nj/p1z6i1+cUpphyad+XV72gWeSYcVAKbadM4LHojPUSA28z0Bmt0S0zinO
-         ENYR4oDu8LzOZugTJzb+IdNuPDn5TugpjOvSs56jI7sXUxIrZ2epEPRFuAF+p/nQow9h
-         X+OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692207372; x=1692812172;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=am0/Q3stKuBxx8e63FY+o9BSm3oiO2R3IBlAH+Mi9ok=;
-        b=S0PA/YZI4JL9iTy+O9zbMKz2hhQD1nXzp2HSqfVvS3QmEEQA+NvEB/imvOcUWpnYkM
-         76gkkRcvsKmi53L8QHFxEq6UL9ue5Pg+n9/qE6drW6zqQVqrUXrklCysgLyGtUCZtMrI
-         RpGqiziBxUDvU4Ut9hC++ruWsnyL+vSJU4InCftTkIhfAR/qnyfBbWej62JL82X6Pde7
-         L+bExEiI5nbl3KckrtZ7LqmyVD/SeKqnj2Esil44gRTulMrF3dqV+ITBIIGC6SbEiEds
-         Z+VDYQqQRgyFGKcqttOyUeo226rZsmY2bAw6Hlh2ojXkROD1B+IwXR1xCZxnYNXdAoPJ
-         iSJA==
-X-Gm-Message-State: AOJu0YzCKs9V3jBY672Z48+jAL5lL7r1RIvNE9erFkTDxXz1iS+QahKx
-        +dwaZBF2Skn9uPAhY3ZT5OaXig==
-X-Google-Smtp-Source: AGHT+IEJu2EKFIYVQP1vOtcr2w8izNQRsMDD+f95NDPhGQunIwect/XiCjpLlFl6RBB01zTret7EzA==
-X-Received: by 2002:ac2:4c9b:0:b0:4fe:179a:18d2 with SMTP id d27-20020ac24c9b000000b004fe179a18d2mr1939743lfl.21.1692207372308;
-        Wed, 16 Aug 2023 10:36:12 -0700 (PDT)
-Received: from [192.168.1.101] (abxi8.neoplus.adsl.tpnet.pl. [83.9.2.8])
-        by smtp.gmail.com with ESMTPSA id w7-20020a05651204c700b004fbb610c354sm2988732lfq.0.2023.08.16.10.36.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Aug 2023 10:36:11 -0700 (PDT)
-Message-ID: <17542518-42ff-46f6-8304-fb8a214bfa77@linaro.org>
-Date:   Wed, 16 Aug 2023 19:36:10 +0200
+        Wed, 16 Aug 2023 13:55:11 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F1A72717;
+        Wed, 16 Aug 2023 10:55:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B511664CDE;
+        Wed, 16 Aug 2023 17:55:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78DEDC433C7;
+        Wed, 16 Aug 2023 17:55:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692208509;
+        bh=I+lSIZWGoXi55IVZPRG0vPCphER0alUE3nMtkYVX6gs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nk2H/zUuGto+900FV0DVKBKsSpGW7aVbXgKPZJGU/WtZFpD0hRjdcG8tfjL19FfAL
+         33cwm0neZsVXXjJxUrkMhT+hirnuFoAmUZCvjPlrqtJmAOvNZpSKO+Nq+FjjNzsBNp
+         rDa11mIYhFK4EgtFUiX3gX3R4aT/cSX2w8AxJ6h1MBRgwal0MfxZIkTs9gYU8xBc57
+         RM3GQ8GdpR/vRcKJC5mkYlH+oTEcXGDZiwboLz3/3y+vzJw92b1U2kXTBwljzA9eW9
+         TeBkj1zGgbzfc+yvg1v02a1au11tmsv8oP4cVBRe58KQs/P/2E9reoYDv4X7dcAbod
+         7YPnhnpLZPUIA==
+Date:   Wed, 16 Aug 2023 18:55:03 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Andreas Kemnade <andreas@kemnade.info>
+Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, rydberg@bitmath.org,
+        u.kleine-koenig@pengutronix.de, linus.walleij@linaro.org,
+        Jonathan.Cameron@huawei.com, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, heiko@sntech.de
+Subject: Re: [PATCH 1/4] dt-bindings: touchscreen: convert neonode,zforce to
+ json-schema
+Message-ID: <20230816-operation-curator-e9ab3159d9c4@spud>
+References: <20230815182948.212575-1-andreas@kemnade.info>
+ <20230815182948.212575-2-andreas@kemnade.info>
+ <20230816-customary-service-8d9c5e5dbf1b@spud>
+ <20230816192049.630fbf6c@aktux>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 2/2] Input: Add Novatek NT36xxx touchscreen driver
-Content-Language: en-US
-To:     Joel Selvaraj <joelselvaraj.oss@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>
-Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Dang Huynh <danct12@riseup.net>,
-        Amit Pundir <amit.pundir@linaro.org>
-References: <20230808-topic-nt36xxx-v10-0-dd135dfa0b5e@linaro.org>
- <20230808-topic-nt36xxx-v10-2-dd135dfa0b5e@linaro.org>
- <2980f5e6-40b0-4ab2-ae73-bceeb97b4de5@gmail.com>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <2980f5e6-40b0-4ab2-ae73-bceeb97b4de5@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="J+9iqmHLWvb13iO/"
+Content-Disposition: inline
+In-Reply-To: <20230816192049.630fbf6c@aktux>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 16.08.2023 03:09, Joel Selvaraj wrote:
-> Hi Konrad Dybcio,
-> 
-> On 8/8/23 18:38, Konrad Dybcio wrote:
->> From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->>
->> This is a driver for the Novatek in-cell touch controller and
->> supports various chips from the NT36xxx family, currently
->> including NT36525, NT36672A, NT36676F, NT36772 and NT36870.
-> 
-> In kernel v6.4, a basic novatek touchscreen driver was introduced [1].
-> I was able to tweak IT a bit (add devicetree compatible, regulator support, remove chip id hardcode) and get it properly working in my Xiaomi Poco F1 which has Novatek NT36672A touchscreen. Probably the other ICs will also work. So, do we really need a separate touchscreen driver? Maybe the existing one can be improved to add more features if needed?
-Do you have your end outcome somewhere?
 
-I can take a look and compare if anything's missing..
+--J+9iqmHLWvb13iO/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Aug 16, 2023 at 07:20:49PM +0200, Andreas Kemnade wrote:
+> On Wed, 16 Aug 2023 15:52:16 +0100
+> Conor Dooley <conor@kernel.org> wrote:
+>=20
+> > On Tue, Aug 15, 2023 at 08:29:45PM +0200, Andreas Kemnade wrote:
+> > > Convert Neonode infrared touchscreen controller binding to DT schema.
+> > >=20
+> > > Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+> > > ---
+> > >  .../input/touchscreen/neonode,zforce.yaml     | 67 +++++++++++++++++=
+++
+> > >  .../bindings/input/touchscreen/zforce_ts.txt  | 34 ----------
+> > >  2 files changed, 67 insertions(+), 34 deletions(-)
+> > >  create mode 100644 Documentation/devicetree/bindings/input/touchscre=
+en/neonode,zforce.yaml
+> > >  delete mode 100644 Documentation/devicetree/bindings/input/touchscre=
+en/zforce_ts.txt
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/input/touchscreen/neon=
+ode,zforce.yaml b/Documentation/devicetree/bindings/input/touchscreen/neono=
+de,zforce.yaml
+> > > new file mode 100644
+> > > index 000000000000..1c45adb2407a
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/input/touchscreen/neonode,zfo=
+rce.yaml
+> > > @@ -0,0 +1,67 @@
+> > > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/input/touchscreen/neonode,zforce.=
+yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Neonode infrared touchscreen controller
+> > > +
+> > > +maintainers:
+> > > +  - Heiko Stuebner <heiko.stuebner@bqreaders.com> =20
+> >=20
+> > It;d be good to CC the person you're volunteering! I've done so.
+> >=20
+> well, apparently my get_maintainer.pl | confirm_and_add_addresses | git s=
+end-email
+> script did not run in the kernel checkout I applied the patch to, so it d=
+id
+> not catch that address. Sorry.
 
-> 
-> Personally I have been looking forward to the v10 of this patchseries :) Thanks for working on this! But, yeah, we need to decide if we need this to be a separate driver.
-We'll see, I was hoping I could add firmware loading, SPI transport and
-eventually pen support..
+> BTW: What is common practice for the maintainer address
+> in the binding in conversions? Here I looked at the commits of the plaint=
+ext binding.
 
-Konrad
+Yeah, that seems reasonable to me.
+
+--J+9iqmHLWvb13iO/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZN0NdwAKCRB4tDGHoIJi
+0rBHAP0asQP/9+46aWItDl5XgvW5fAIVD6sf70nmci07F9z4XgEA1SF1/UyaWI/h
+KJsRYfqvyukvn7hO0faEMzXwz1+VZw8=
+=Grf5
+-----END PGP SIGNATURE-----
+
+--J+9iqmHLWvb13iO/--
