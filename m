@@ -2,42 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23E06781A91
-	for <lists+linux-input@lfdr.de>; Sat, 19 Aug 2023 18:42:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81FB1781C31
+	for <lists+linux-input@lfdr.de>; Sun, 20 Aug 2023 04:48:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230401AbjHSQmb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 19 Aug 2023 12:42:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39068 "EHLO
+        id S229539AbjHTCsX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 19 Aug 2023 22:48:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbjHSQmb (ORCPT
+        with ESMTP id S229896AbjHTCsN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 19 Aug 2023 12:42:31 -0400
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F40C27807;
-        Sat, 19 Aug 2023 09:42:28 -0700 (PDT)
-Date:   Sat, 19 Aug 2023 16:42:07 +0000
+        Sat, 19 Aug 2023 22:48:13 -0400
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CA89286661
+        for <linux-input@vger.kernel.org>; Sat, 19 Aug 2023 11:43:06 -0700 (PDT)
+Date:   Sat, 19 Aug 2023 18:42:53 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1692463345; x=1692722545;
-        bh=KEGHC+AEt8aDTz0BwmmuwiXP402wD0tAxCWiWn2DZXM=;
+        s=protonmail3; t=1692470584; x=1692729784;
+        bh=GNUzubz2wRt2PFaH1WjiQagadeywy6islaPek7yThJk=;
         h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
          Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
          Message-ID:BIMI-Selector;
-        b=jQsIoxRDS7zrngS9myVX5uKBZSi9bKM8Tv7WBZEdYrodBLi6u9neVWLiHGlIlxhVv
-         aFGORViJdy0MVqwn7GYFXu+xgtmEqc78ZV0YXdeF7muXgqKfz2sxLL8/a7AarPJRz/
-         A/dF5u5zJ/5/eZFm6mvFdfZDcchX0FwxRpqqsZkk+mGRYRuDHu2F/awsXu31wMDnjF
-         wzo1AW9iy9ZloEz2Y8udImaL1Aq2O9xKZgEdtMBvhOOHOAnukP7FoDZwGVrXFAv9xe
-         2Tt761mmnoI/V69DKsJUTEEKHxEEteSwVlYpmbuUlE6a4MiqKJAi1IByxXWV/zZsyv
-         sEcCrDMS5fLFw==
-To:     johannes@gnu-linux.rocks
+        b=DyCZ6dvB0qV12o3xk0R5tliOz9oCHNKBU+Ifg7dh3julgqg5wB7REGLlykWD/Jvqh
+         bVJolvpQE5NIZCApFOoJxcuaz8rFgjcTSRz4ylPQCF7yhwzWO3/669UxidGGH+IN2S
+         tkFN2gBz45FaOCLg9Ix9qE3vT7GkQQj4hDv8YIXs3v4H9G8XnoxPyuJRFNrGzhjGHM
+         aRpiQRDOZJuDQTJjx6Hg+DmIzFPveUGHa1N7zNIIsVNXgaSpTOTEFaGwyyhf+itBeW
+         GVhwk+dZwVlukd+ABUJZKPqF8z/s7Vh74A9i3CkNgWdvK9wKb15WD4XOaFMtw7Zj+k
+         b1N4zJ+K3iivg==
+To:     Sewer56 <admin@sewer56.dev>
 From:   Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        andi.shyti@kernel.org, christophe.jaillet@wanadoo.fr,
-        rdunlap@infradead.org, ak@it-klinger.de
-Subject: Re: [PATCH v5] hid-mcp2200: added driver for GPIOs of MCP2200
-Message-ID: <87a5unt25h.fsf@protonmail.com>
-In-Reply-To: <20230818104852.64923-1-johannes@gnu-linux.rocks>
-References: <20230818104852.64923-1-johannes@gnu-linux.rocks>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [hid-logitech-dj] Inaccurate Mouse Wheel Behaviour using G502 with Logitech Lightspeed Receiver (USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1)
+Message-ID: <87350eub4m.fsf@protonmail.com>
+In-Reply-To: <5f45c1b7-cf6c-4949-9839-db28f38bd490@sewer56.dev>
+References: <5f45c1b7-cf6c-4949-9839-db28f38bd490@sewer56.dev>
 Feedback-ID: 26003777:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -53,617 +50,244 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Commit message subject should probably start with "HID: mcp2200:"
-rather than "hid-mcp2200:". This matches mcp2221.
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/dr=
-ivers/hid/hid-mcp2221.c
-
-On Fri, 18 Aug, 2023 12:48:52 +0200 <johannes@gnu-linux.rocks> wrote:
-> From: Johannes Roith <johannes@gnu-linux.rocks>
+On Fri, 18 Aug, 2023 23:16:14 +0100 "Sewer56" <admin@sewer56.dev> wrote:
+> When scrolling with a Logitech G502 Lightspeed mouse (046d:c08d) in wirel=
+ess mode
+> with the official wireless receiver (046d:c539, i.e. USB_DEVICE_ID_LOGITE=
+CH_NANO_RECEIVER_LIGHTSPEED_1
+> in `hid-logitech-dj.c`), the REL_WHEEL event is not fired consistently on=
+ mouse wheel notch/tick.
 >
-> Added a gpiochip compatible driver to control the 8 GPIOs of
-> the MCP2200 by using the HID interface.
+> [Note: This only affects wireless through receiver; wired works as expect=
+ed]
 >
-> Using GPIOs with alternative functions (GP0<->SSPND, GP1<->USBCFG,
-> GP6<->RXLED, GP7<->TXLED) will reset the functions, if set (unset by
-> default).
+> Rather than the event being fired when the mouse skips a notch/tick on th=
+e scroll
+> wheel, it feels like the REL_WHEEL event is fired somewhere roughly aroun=
+d the middle
+> point of the last notch/tick and the next notch/tick.
 >
-> The driver was tested while also using the UART of the chip. Setting
-> and reading the GPIOs has no effect on the UART communication. However,
-> a reset is triggered after the CONFIGURE command. If the GPIO Direction
-> is constantly changed, this will affect the communication at low baud
-> rates. This is a hardware problem of the MCP2200 and is not caused by
-> the driver.
+> I recorded a quick video to demonstrate this:
+> https://youtu.be/IwaQAMDkotg
 >
+> In this clip I scroll the mouse wheel gently up and down, back and forth.=
+ Notice the
+> appearance of REL_WHEEL_HI_RES with the value changing from 15 to -15 as =
+the direction
+> is changed; the wheel is being scrolled past the notch, but the REL_WHEEL=
+ event is not fired.
 
-The content below should not be in the commit message body but rather
-git notes or a section in the patch that will not be applied.
+I think it's good to provide some background on what REL_WHEEL and
+REL_WHEEL_HI_RES values indicate for the sake of this conversation.
 
-> Feedback from reviewers Christophe JAILLET <christophe.jaillet@wanadoo.fr=
->
-> and Andi Shyti <andi.shyti@kernel.org> was added.
->
-> Changelog:
->
-> - v1: added driver
-> - v2: added ProductID in hid-ids.h
-> - v3: added feedback from review and make patch compilable
-> - v4: added more feedback from second review, tested as module and
->   builtin on x86 and arm64
-> - v5: adopted Kconfig to style guidelines, fixed mcp_set_direction
+REL_WHEEL is the number of detents (notches) that have been scrolled by.
+REL_WHEEL_HI_RES is 1/120th of a detent. For fancier gaming peripherals,
+having this capability is important to be able to advertise high
+resolution information when someone makes minute wheel movements.
 
-For your reference in case you find it helpful.
+  Event: time 1692246247.376147, type 2 (EV_REL), code 11 (REL_WHEEL_HI_RES=
+), value -15
+  Event: time 1692246247.376147, -------------- SYN_REPORT ------------
+  Event: time 1692246247.448155, type 2 (EV_REL), code 11 (REL_WHEEL_HI_RES=
+), value -15
+  Event: time 1692246247.448155, -------------- SYN_REPORT ------------
+  Event: time 1692246247.519161, type 2 (EV_REL), code 11 (REL_WHEEL_HI_RES=
+), value -15
+  Event: time 1692246247.519161, -------------- SYN_REPORT ------------
+  Event: time 1692246247.549169, type 2 (EV_REL), code 11 (REL_WHEEL_HI_RES=
+), value -15
+  Event: time 1692246247.549169, type 2 (EV_REL), code 8 (REL_WHEEL), value=
+ -1
+  Event: time 1692246247.549169, -------------- SYN_REPORT ------------
+  Event: time 1692246247.589171, type 2 (EV_REL), code 11 (REL_WHEEL_HI_RES=
+), value -15
+  Event: time 1692246247.589171, -------------- SYN_REPORT ------------
+  Event: time 1692246247.626176, type 2 (EV_REL), code 11 (REL_WHEEL_HI_RES=
+), value -15
+  Event: time 1692246247.626176, -------------- SYN_REPORT ------------
+  Event: time 1692246248.574336, type 2 (EV_REL), code 11 (REL_WHEEL_HI_RES=
+), value 15
+  Event: time 1692246248.574336, -------------- SYN_REPORT ------------
+  Event: time 1692246248.593325, type 2 (EV_REL), code 11 (REL_WHEEL_HI_RES=
+), value 15
+  Event: time 1692246248.593325, -------------- SYN_REPORT ------------
+  Event: time 1692246248.606319, type 2 (EV_REL), code 11 (REL_WHEEL_HI_RES=
+), value 15
+  Event: time 1692246248.606319, -------------- SYN_REPORT ------------
+  Event: time 1692246248.619329, type 2 (EV_REL), code 11 (REL_WHEEL_HI_RES=
+), value 15
+  Event: time 1692246248.619329, type 2 (EV_REL), code 8 (REL_WHEEL), value=
+ 1
+  Event: time 1692246248.619329, -------------- SYN_REPORT ------------
 
-  * https://git-scm.com/docs/git-notes
-  * https://git-scm.com/docs/git-format-patch#Documentation/git-format-patc=
-h.txt---notesltrefgt
-
->
-> Signed-off-by: Johannes Roith <johannes@gnu-linux.rocks>
-> ---
->  drivers/hid/Kconfig       |  10 +
->  drivers/hid/Makefile      |   1 +
->  drivers/hid/hid-ids.h     |   1 +
->  drivers/hid/hid-mcp2200.c | 419 ++++++++++++++++++++++++++++++++++++++
->  4 files changed, 431 insertions(+)
->  create mode 100644 drivers/hid/hid-mcp2200.c
->
-> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> index e11c1c803676..efe01b473cc2 100644
-> --- a/drivers/hid/Kconfig
-> +++ b/drivers/hid/Kconfig
-> @@ -1301,6 +1301,16 @@ config HID_MCP2221
->  =09To compile this driver as a module, choose M here: the module
->  =09will be called hid-mcp2221.ko.
->
-> +config HID_MCP2200
-> +=09tristate "Microchip MCP2200 HID USB-to-GPIO bridge"
-> +=09depends on USB_HID
-> +=09imply GPIOLIB
-> +=09help
-> +=09  Provides GPIO functionality over USB-HID through MCP2200 device.
-> +
-> +=09  To compile this driver as a module, choose M here: the module
-> +=09  will be called hid-mcp2200.ko.
-> +
-
-Alphabetically, HID_MCP2200 should be before HID_MCP2221.
-
->  config HID_KUNIT_TEST
->  =09tristate "KUnit tests for HID" if !KUNIT_ALL_TESTS
->  =09depends on KUNIT
-> diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-> index 7a9e160158f7..050f740304c4 100644
-> --- a/drivers/hid/Makefile
-> +++ b/drivers/hid/Makefile
-> @@ -79,6 +79,7 @@ obj-$(CONFIG_HID_MACALLY)=09+=3D hid-macally.o
->  obj-$(CONFIG_HID_MAGICMOUSE)=09+=3D hid-magicmouse.o
->  obj-$(CONFIG_HID_MALTRON)=09+=3D hid-maltron.o
->  obj-$(CONFIG_HID_MCP2221)=09+=3D hid-mcp2221.o
-> +obj-$(CONFIG_HID_MCP2200)=09+=3D hid-mcp2200.o
-
-Similar comment as previous here.
-
->  obj-$(CONFIG_HID_MAYFLASH)=09+=3D hid-mf.o
->  obj-$(CONFIG_HID_MEGAWORLD_FF)=09+=3D hid-megaworld.o
->  obj-$(CONFIG_HID_MICROSOFT)=09+=3D hid-microsoft.o
-> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> index 8a310f8ff20f..4926ca41225b 100644
-> --- a/drivers/hid/hid-ids.h
-> +++ b/drivers/hid/hid-ids.h
-> @@ -914,6 +914,7 @@
->  #define USB_DEVICE_ID_PICK16F1454_V2=090xf2f7
->  #define USB_DEVICE_ID_LUXAFOR=09=090xf372
->  #define USB_DEVICE_ID_MCP2221=09=090x00dd
-> +#define USB_DEVICE_ID_MCP2200=09=090x00df
-
-This file is sorted primarily by the define name rather than the device
-id, so I would expect the define for mcp2200 to be before mcp2221 (even
-though its device id would be after).
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
-rivers/hid/hid-ids.h?id=3Daa9ea98cca3a56869df1dc6347f3e3bfe0c01f44#n449
-
->
->  #define USB_VENDOR_ID_MICROSOFT=09=090x045e
->  #define USB_DEVICE_ID_SIDEWINDER_GV=090x003b
-> diff --git a/drivers/hid/hid-mcp2200.c b/drivers/hid/hid-mcp2200.c
-> new file mode 100644
-> index 000000000000..ed4483fa5bdf
-> --- /dev/null
-> +++ b/drivers/hid/hid-mcp2200.c
-> @@ -0,0 +1,419 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * MCP2200 - Microchip USB to GPIO bridge
-> + *
-> + * Copyright (c) 2023, Johannes Roith <johannes@gnu-linux.rocks>
-> + *
-> + * Datasheet: https://ww1.microchip.com/downloads/en/DeviceDoc/22228A.pd=
-f
-> + * App Note for HID: https://ww1.microchip.com/downloads/en/DeviceDoc/93=
-066A.pdf
-> + */
-> +#include <linux/completion.h>
-> +#include <linux/delay.h>
-> +#include <linux/err.h>
-> +#include <linux/gpio/driver.h>
-> +#include <linux/hid.h>
-> +#include <linux/hidraw.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include "hid-ids.h"
-> +
-> +/* Commands codes in a raw output report */
-> +#define SET_CLEAR_OUTPUTS=090x08
-> +#define CONFIGURE=09=090x10
-> +#define READ_EE=09=09=090x20
-> +#define WRITE_EE=09=090x40
-> +#define READ_ALL=09=090x80
-> +
-> +/* MCP GPIO direction encoding */
-> +enum MCP_IO_DIR {
-> +=09MCP2200_DIR_OUT =3D 0x00,
-> +=09MCP2200_DIR_IN  =3D 0x01,
-> +};
-> +
-> +/* Altternative pin assignments */
-> +#define TXLED=09=092
-> +#define RXLED=09=093
-> +#define USBCFG=09=096
-> +#define SSPND=09=097
-> +#define MCP_NGPIO=098
-> +
-> +/* CMD to set or clear a GPIO output */
-> +struct mcp_set_clear_outputs {
-> +=09u8 cmd;
-> +=09u8 dummys1[10];
-> +=09u8 set_bmap;
-> +=09u8 clear_bmap;
-> +=09u8 dummys2[3];
-> +} __packed;
-> +
-> +/* CMD to configure the IOs */
-> +struct mcp_configure {
-> +=09u8 cmd;
-> +=09u8 dummys1[3];
-> +=09u8 io_bmap;
-> +=09u8 config_alt_pins;
-> +=09u8 io_default_val_bmap;
-> +=09u8 config_alt_options;
-> +=09u8 baud_h;
-> +=09u8 baud_l;
-> +=09u8 dummys2[6];
-> +} __packed;
-> +
-> +/* CMD to read all parameters */
-> +struct mcp_read_all {
-> +=09u8 cmd;
-> +=09u8 dummys[15];
-> +} __packed;
-> +
-> +/* Response to the read all cmd */
-> +struct mcp_read_all_resp {
-> +=09u8 cmd;
-> +=09u8 eep_addr;
-> +=09u8 dummy;
-> +=09u8 eep_val;
-> +=09u8 io_bmap;
-> +=09u8 config_alt_pins;
-> +=09u8 io_default_val_bmap;
-> +=09u8 config_alt_options;
-> +=09u8 baud_h;
-> +=09u8 baud_l;
-> +=09u8 io_port_val_bmap;
-> +=09u8 dummys[5];
-> +} __packed;
-> +
-> +struct mcp2200 {
-> +=09struct hid_device *hdev;
-> +=09struct mutex lock;
-> +=09struct completion wait_in_report;
-> +=09u8 gpio_dir;
-> +=09u8 gpio_val;
-> +=09u8 gpio_inval;
-> +=09u8 baud_h;
-> +=09u8 baud_l;
-> +=09u8 config_alt_pins;
-> +=09u8 gpio_reset_val;
-> +=09u8 config_alt_options;
-> +=09int status;
-> +=09struct gpio_chip gc;
-> +};
-> +
-> +/* this executes the READ_ALL cmd */
-> +static int mcp_cmd_read_all(struct mcp2200 *mcp)
-> +{
-> +=09struct mcp_read_all *read_all;
-> +=09int len, t;
-> +
-> +=09reinit_completion(&mcp->wait_in_report);
-> +=09read_all =3D kzalloc(sizeof(struct mcp_read_all), GFP_KERNEL);
-> +=09if (!read_all)
-> +=09=09return -ENOMEM;
-
-My personal recommendation is to just have a single DMA buffer allocated
-for the mcp2200 instance rather than having to call the allocator and
-release the memory per command.
-
-Here is a reference.
+What hid-logitech-dj does for the lightspeed receiver is append
+information about the report descriptor structure to tell the HID stack
+how to parse the HID reports provided by the mouse. For the lightspeed
+receiver, hid-logitech-dj will concat the mse_high_res_descriptor
+descriptor.
 
   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/tree/drivers/=
-hid/hid-nvidia-shield.c?id=3D1d7546042f8fdc4bc39ab91ec966203e2d64f8bd#n502
+hid/hid-logitech-dj.c?id=3D1d7546042f8fdc4bc39ab91ec966203e2d64f8bd#n380
 
-> +
-> +=09read_all->cmd =3D READ_ALL;
-> +
-> +=09mutex_lock(&mcp->lock);
-> +=09len =3D hid_hw_output_report(mcp->hdev, (u8 *) read_all,
-> +=09=09=09=09   sizeof(struct mcp_read_all));
-> +
-> +=09mutex_unlock(&mcp->lock);
-> +=09kfree(read_all);
-> +
-> +=09if (len !=3D sizeof(struct mcp_read_all))
-> +=09=09return -EINVAL;
-> +
-> +=09t =3D wait_for_completion_timeout(&mcp->wait_in_report,
-> +=09=09=09=09=09msecs_to_jiffies(4000));
-> +=09if (!t)
-> +=09=09return -ETIMEDOUT;
-> +
-> +=09/* return status, negative value if wrong response was received */
-> +=09return mcp->status;
-> +}
-> +
-> +static void mcp_set_multiple(struct gpio_chip *gc, unsigned long *mask,
-> +=09=09=09     unsigned long *bits)
-> +{
-> +=09struct mcp2200 *mcp =3D gpiochip_get_data(gc);
-> +=09u8 value;
-> +=09int status;
-> +=09struct mcp_set_clear_outputs *cmd;
-> +
-> +=09cmd =3D kzalloc(sizeof(struct mcp_set_clear_outputs), GFP_KERNEL);
-> +=09if (!cmd)
-> +=09=09return;
-> +
-> +=09mutex_lock(&mcp->lock);
-> +
-> +=09value =3D mcp->gpio_val & ~*mask;
-> +=09value |=3D (*mask & *bits);
-> +
-> +=09cmd->cmd =3D SET_CLEAR_OUTPUTS;
-> +=09cmd->set_bmap =3D value;
-> +=09cmd->clear_bmap =3D ~(value);
-> +
-> +=09status =3D hid_hw_output_report(mcp->hdev, (u8 *) cmd,
-> +=09=09       sizeof(struct mcp_set_clear_outputs));
-> +
-> +=09if (status =3D=3D sizeof(struct mcp_set_clear_outputs))
-> +=09=09mcp->gpio_val =3D value;
-> +
-> +=09mutex_unlock(&mcp->lock);
-> +=09kfree(cmd);
-> +}
-> +
-> +static void mcp_set(struct gpio_chip *gc, unsigned int gpio_nr, int valu=
-e)
-> +{
-> +=09unsigned long mask =3D 1 << gpio_nr;
-> +=09unsigned long bmap_value =3D value << gpio_nr;
-> +
-> +=09mcp_set_multiple(gc, &mask, &bmap_value);
-> +}
-> +
-> +static int mcp_get_multiple(struct gpio_chip *gc, unsigned long *mask,
-> +=09=09unsigned long *bits)
-> +{
-> +=09u32 val;
-> +=09struct mcp2200 *mcp =3D gpiochip_get_data(gc);
-> +=09int status;
-> +
-> +=09status =3D mcp_cmd_read_all(mcp);
-> +=09if (status !=3D 0)
+When you use the generic usbhid driver, you do not parse the special
+report table with the high resolution information but only the defacto
+descriptor with the mouse wheel USAGE information.
 
-Can be simplified as 'if (status)'.
+  Event: time 1692245830.208738, type 2 (EV_REL), code 8 (REL_WHEEL), value=
+ -1
+  Event: time 1692245830.208738, type 2 (EV_REL), code 11 (REL_WHEEL_HI_RES=
+), value -120
+  Event: time 1692245830.208738, -------------- SYN_REPORT ------------
+  Event: time 1692245831.231868, type 2 (EV_REL), code 8 (REL_WHEEL), value=
+ 1
+  Event: time 1692245831.231868, type 2 (EV_REL), code 11 (REL_WHEEL_HI_RES=
+), value 120
+  Event: time 1692245831.231868, -------------- SYN_REPORT ------------
+  Event: time 1692245831.783933, type 2 (EV_REL), code 8 (REL_WHEEL), value=
+ -1
+  Event: time 1692245831.783933, type 2 (EV_REL), code 11 (REL_WHEEL_HI_RES=
+), value -120
+  Event: time 1692245831.783933, -------------- SYN_REPORT ------------
+  Event: time 1692245833.004410, type 2 (EV_REL), code 8 (REL_WHEEL), value=
+ 1
+  Event: time 1692245833.004410, type 2 (EV_REL), code 11 (REL_WHEEL_HI_RES=
+), value 120
+  Event: time 1692245833.004410, -------------- SYN_REPORT ------------
 
-> +=09=09return status;
-> +
-> +=09val =3D mcp->gpio_inval;
-> +=09*bits =3D (val & *mask);
-> +=09return 0;
-> +}
-> +
-> +static int mcp_get(struct gpio_chip *gc, unsigned int gpio_nr)
-> +{
-> +=09unsigned long mask =3D 0, bits =3D 0;
+What you will notice here is we do get the single detent measurements,
+and they are correct. However, we have lost the granularity to measure
+the high precision information supported by the device (which is why we
+see REL_WHEEL_HI_RES toggle between -120 and 120). This works out well
+for games where you do not care about the high resolution precision but
+is problematic in general. That said, not accurately counting detents is
+also a problem.
 
-You do not need to zero init these variables? It's useful to avoid
-initializing variables unnecessarily for compile time checking/static
-analysis purposes.
+>
+> When the hid-logitech-dj module is blacklisted, and linux defaults to a m=
+ore generic
+> driver (usbhid); this issue is not present; which can be seen here: https=
+://youtu.be/8AkVWHUe88M
+>
+> To put this into a realistic end user perspective: If you try to play a g=
+ame on Linux
+> with the current behaviour; and perform an action that requires the use o=
+f a scroll wheel
+> [for example; changing the current weapon in a shooter], the input is oft=
+en 'dropped' from
+> the user perspective, leading to frustration.
 
-> +
-> +=09mask =3D (1 << gpio_nr);
-> +=09mcp_get_multiple(gc, &mask, &bits);
-> +=09return bits > 0;
-> +}
-> +
-> +static int mcp_get_direction(struct gpio_chip *gc, unsigned int gpio_nr)
-> +{
-> +=09struct mcp2200 *mcp =3D gpiochip_get_data(gc);
-> +
-> +=09return (mcp->gpio_dir & (MCP2200_DIR_IN << gpio_nr))
-> +=09=09? GPIO_LINE_DIRECTION_IN : GPIO_LINE_DIRECTION_OUT;
-> +}
-> +
-> +static int mcp_set_direction(struct gpio_chip *gc, unsigned int gpio_nr,
-> +=09=09=09     enum MCP_IO_DIR io_direction)
-> +{
-> +=09struct mcp2200 *mcp =3D gpiochip_get_data(gc);
-> +=09struct mcp_configure *conf;
-> +=09int status;
-> +=09/* after the configure cmd we will need to set the outputs again */
-> +=09unsigned long mask =3D ~(mcp->gpio_dir); /* only set outputs */
-> +=09unsigned long bits =3D mcp->gpio_val;
-> +=09/* Offsets of alternative pins in config_alt_pins, 0 is not used */
-> +=09u8 alt_pin_conf[8] =3D {SSPND, USBCFG, 0, 0, 0, 0, RXLED, TXLED};
-> +=09u8 config_alt_pins =3D mcp->config_alt_pins;
-> +
-> +=09/* Read in the reset baudrate first, we need it later */
-> +=09status =3D mcp_cmd_read_all(mcp);
-> +=09if (status !=3D 0)
-> +=09=09return status;
-> +
-> +=09conf =3D kzalloc(sizeof(struct mcp_configure), GFP_KERNEL);
-> +=09if (!conf)
-> +=09=09return -ENOMEM;
-> +
-> +=09mutex_lock(&mcp->lock);
-> +
-> +=09/* configure will reset the chip! */
-> +=09conf->cmd =3D CONFIGURE;
-> +=09conf->io_bmap =3D (mcp->gpio_dir & ~(1 << gpio_nr))
-> +=09=09| (io_direction << gpio_nr);
-> +=09/* Don't overwrite the reset parameters */
-> +=09conf->baud_h =3D mcp->baud_h;
-> +=09conf->baud_l =3D mcp->baud_l;
-> +=09conf->config_alt_options =3D mcp->config_alt_options;
-> +=09conf->io_default_val_bmap =3D mcp->gpio_reset_val;
-> +=09/* Adjust alt. func if necessary */
-> +=09if (alt_pin_conf[gpio_nr])
-> +=09=09config_alt_pins &=3D ~(1 << alt_pin_conf[gpio_nr]);
-> +=09conf->config_alt_pins =3D config_alt_pins;
-> +
-> +=09status =3D hid_hw_output_report(mcp->hdev, (u8 *) conf,
-> +=09=09=09=09      sizeof(struct mcp_set_clear_outputs));
-> +
-> +=09if (status =3D=3D sizeof(struct mcp_set_clear_outputs)) {
-> +=09=09mcp->gpio_dir =3D conf->io_bmap;
-> +=09=09mcp->config_alt_pins =3D config_alt_pins;
-> +=09} else {
-> +=09=09mutex_unlock(&mcp->lock);
-> +=09=09kfree(conf);
-> +=09=09return -EIO;
-> +=09}
-> +
-> +=09mutex_unlock(&mcp->lock);
-> +=09kfree(conf);
-> +
-> +=09/* Configure CMD will clear all IOs -> rewrite them */
-> +=09mcp_set_multiple(gc, &mask, &bits);
-> +=09return 0;
-> +}
-> +
-> +static int mcp_direction_input(struct gpio_chip *gc, unsigned int gpio_n=
-r)
-> +{
-> +=09return mcp_set_direction(gc, gpio_nr, MCP2200_DIR_IN);
-> +}
-> +
-> +static int mcp_direction_output(struct gpio_chip *gc, unsigned int gpio_=
-nr,
-> +=09=09=09=09int value)
-> +{
-> +=09int ret;
-> +=09unsigned long mask, bmap_value;
-> +
-> +=09mask =3D 1 << gpio_nr;
-> +=09bmap_value =3D value << gpio_nr;
-> +
-> +=09ret =3D mcp_set_direction(gc, gpio_nr, MCP2200_DIR_OUT);
-> +=09if (ret =3D=3D 0)
+The experience may seem like it's 'dropped', but I am getting a feeling
+its more about miscounting . At least that's my intuition, but I think
+what would likely shine light on this is collecting more information.
 
-'if (!ret)' can be used here.
+>
+> I'm not exactly sure what further sort of information I could provide; I'=
+ve only got back
+> to using Linux on the desktop after 7 years; and it's my first time raisi=
+ng a kernel issue.
+> That said, I'm happy to provide any further feedback, or even play with t=
+he kernel sources
+> if someone could give me ideas of what I should experiment with.
+>
 
-> +=09=09mcp_set_multiple(gc, &mask, &bmap_value);
-> +=09return ret;
-> +}
-> +
-> +static const struct gpio_chip template_chip =3D {
-> +=09.label=09=09=09=3D "mcp2200",
-> +=09.owner=09=09=09=3D THIS_MODULE,
-> +=09.get_direction=09=09=3D mcp_get_direction,
-> +=09.direction_input=09=3D mcp_direction_input,
-> +=09.direction_output=09=3D mcp_direction_output,
-> +=09.set=09=09=09=3D mcp_set,
-> +=09.set_multiple=09=09=3D mcp_set_multiple,
-> +=09.get=09=09=09=3D mcp_get,
-> +=09.get_multiple=09=09=3D mcp_get_multiple,
-> +=09.base=09=09=09=3D -1,
-> +=09.ngpio=09=09=09=3D MCP_NGPIO,
-> +=09.can_sleep=09=09=3D true,
-> +};
-> +
-> +/*
-> + * MCP2200 uses interrupt endpoint for input reports. This function
-> + * is called by HID layer when it receives i/p report from mcp2200,
-> + * which is actually a response to the previously sent command.
-> + */
-> +static int mcp2200_raw_event(struct hid_device *hdev, struct hid_report =
-*report,
-> +=09=09u8 *data, int size)
-> +{
-> +=09struct mcp2200 *mcp =3D hid_get_drvdata(hdev);
-> +=09struct mcp_read_all_resp *all_resp;
-> +
-> +=09switch (data[0]) {
-> +=09case READ_ALL:
-> +=09=09all_resp =3D (struct mcp_read_all_resp *) data;
-> +=09=09mcp->status =3D 0;
-> +=09=09mcp->gpio_inval =3D all_resp->io_port_val_bmap;
-> +=09=09mcp->baud_h =3D all_resp->baud_h;
-> +=09=09mcp->baud_l =3D all_resp->baud_l;
-> +=09=09mcp->gpio_reset_val =3D all_resp->io_default_val_bmap;
-> +=09=09mcp->config_alt_pins =3D all_resp->config_alt_pins;
-> +=09=09mcp->config_alt_options =3D all_resp->config_alt_options;
-> +=09=09break;
-> +=09default:
-> +=09=09mcp->status =3D -EIO;
-> +=09=09break;
-> +=09}
-> +
-> +=09complete(&mcp->wait_in_report);
-> +=09return 1;
+I think collecting more information using hid-tools would be helpful.
 
-While this is not problematic today, I think it would be better to
-return 0 here rather than 1.
+  https://gitlab.freedesktop.org/libevdev/hid-tools
 
-> +}
-> +
-> +static void mcp2200_hid_unregister(void *ptr)
-> +{
-> +=09struct hid_device *hdev =3D ptr;
-> +
-> +=09hid_hw_close(hdev);
-> +=09hid_hw_stop(hdev);
-> +}
-> +
-> +static int mcp2200_probe(struct hid_device *hdev, const struct hid_devic=
-e_id *id)
-> +{
-> +=09int ret;
-> +=09struct mcp2200 *mcp;
-> +
-> +=09mcp =3D devm_kzalloc(&hdev->dev, sizeof(*mcp), GFP_KERNEL);
-> +=09if (!mcp)
-> +=09=09return -ENOMEM;
-> +
-> +=09ret =3D hid_parse(hdev);
-> +=09if (ret) {
-> +=09=09hid_err(hdev, "can't parse reports\n");
-> +=09=09return ret;
-> +=09}
-> +
-> +=09/*
-> +=09 * This driver uses the .raw_event callback and therefore does not ne=
-ed any
-> +=09 * HID_CONNECT_xxx flags.
-> +=09 */
-> +=09ret =3D hid_hw_start(hdev, 0);
-> +=09if (ret) {
-> +=09=09hid_err(hdev, "can't start hardware\n");
-> +=09=09return ret;
-> +=09}
-> +
-> +=09hid_info(hdev, "USB HID v%x.%02x Device [%s] on %s\n", hdev->version =
->> 8,
-> +=09=09=09hdev->version & 0xff, hdev->name, hdev->phys);
-> +
-> +=09ret =3D hid_hw_open(hdev);
-> +=09if (ret) {
+I am interested in capturing a HID recording of the following.
 
-Need to call hid_hw_stop here since hid_hw_start succeeded.
+  1. Move the wheel just one detent in a single direction
+  2. Wait for a moment
+  3. Move the wheel back one detent in the opposite direction
+  4. Wait for a moment
+  5. Move the wheel two detents in the original direction
 
-> +=09=09hid_err(hdev, "can't open device\n");
-> +=09=09return ret;
-> +=09}
-> +
-> +=09mutex_init(&mcp->lock);
-> +=09init_completion(&mcp->wait_in_report);
-> +=09hid_set_drvdata(hdev, mcp);
-> +=09mcp->hdev =3D hdev;
-> +
-> +=09ret =3D devm_add_action_or_reset(&hdev->dev, mcp2200_hid_unregister, =
-hdev);
-> +=09if (ret)
+If you are interested in looking at the report descriptor structure
+yourself, you can use hid-decode on the recording or directly on the
+hidraw device fs node.
 
-You probably want to call mcp2200_hid_unregister here since the action
-was not added?
+Here is an example of what happens when I use hid-decode to read the
+report descriptor of my mouse device.
 
-> +=09=09return ret;
-> +
-> +=09mcp->gc =3D template_chip;
-> +=09mcp->gc.parent =3D &hdev->dev;
-> +
-> +=09ret =3D devm_gpiochip_add_data(&hdev->dev, &mcp->gc, mcp);
-> +=09if (ret < 0) {
-> +=09=09hid_err(hdev, "Unable to register gpiochip\n");
-> +=09=09return ret;
-> +=09}
-> +
-> +=09return 0;
-> +}
-> +
-> +static void mcp2200_remove(struct hid_device *hdev)
-> +{
-> +=09(void) hdev;
-> +=09/*
-> +=09 * With no remove function you sometimes get a segmentation fault whe=
-n
-> +=09 * unloading the module or disconnecting the USB device
-> +=09 */
+  hid-decode /dev/hidraw0 # ran with elevated privileges
+  # device 0:0
+  # 0x05, 0x01,                    // Usage Page (Generic Desktop)        0
+  # 0x09, 0x02,                    // Usage (Mouse)                       2
+  # 0xa1, 0x01,                    // Collection (Application)            4
+  # 0x09, 0x01,                    //  Usage (Pointer)                    6
+  # 0xa1, 0x00,                    //  Collection (Physical)              8
+  # 0x05, 0x09,                    //   Usage Page (Button)               1=
+0
+  # 0x19, 0x01,                    //   Usage Minimum (1)                 1=
+2
+  # 0x29, 0x10,                    //   Usage Maximum (16)                1=
+4
+  # 0x15, 0x00,                    //   Logical Minimum (0)               1=
+6
+  # 0x25, 0x01,                    //   Logical Maximum (1)               1=
+8
+  # 0x75, 0x01,                    //   Report Size (1)                   2=
+0
+  # 0x95, 0x10,                    //   Report Count (16)                 2=
+2
+  # 0x81, 0x02,                    //   Input (Data,Var,Abs)              2=
+4
+  # 0x05, 0x01,                    //   Usage Page (Generic Desktop)      2=
+6
+  # 0x09, 0x30,                    //   Usage (X)                         2=
+8
+  # 0x09, 0x31,                    //   Usage (Y)                         3=
+0
+  # 0x16, 0x01, 0x80,              //   Logical Minimum (-32767)          3=
+2
+  # 0x26, 0xff, 0x7f,              //   Logical Maximum (32767)           3=
+5
+  # 0x75, 0x10,                    //   Report Size (16)                  3=
+8
+  # 0x95, 0x02,                    //   Report Count (2)                  4=
+0
+  # 0x81, 0x06,                    //   Input (Data,Var,Rel)              4=
+2
+  # 0x09, 0x38,                    //   Usage (Wheel)                     4=
+4
+  # 0x75, 0x08,                    //   Report Size (8)                   4=
+6
+  # 0x95, 0x01,                    //   Report Count (1)                  4=
+8
+  # 0x15, 0x81,                    //   Logical Minimum (-127)            5=
+0
+  # 0x25, 0x7f,                    //   Logical Maximum (127)             5=
+2
+  # 0x81, 0x06,                    //   Input (Data,Var,Rel)              5=
+4
+  # 0x05, 0x0c,                    //   Usage Page (Consumer Devices)     5=
+6
+  # 0x0a, 0x38, 0x02,              //   Usage (AC Pan)                    5=
+8
+  # 0x95, 0x01,                    //   Report Count (1)                  6=
+1
+  # 0x81, 0x06,                    //   Input (Data,Var,Rel)              6=
+3
+  # 0xc0,                          //  End Collection                     6=
+5
+  # 0xc0,                          // End Collection                      6=
+6
+  #=20
+  R: 67 05 01 09 02 a1 01 09 01 a1 00 05 09 19 01 29 10 15 00 25 01 75 01 9=
+5 10 81 02 05 01 09 30 09 31 16 01 80 26 ff 7f 75 10 95 02 81 06 09 38 75 0=
+8 95 01 15 81 25 7f 81 06 05 0c 0a 38 02 95 01 81 06 c0 c0
+  N: device 0:0
+  I: 3 0001 0001
 
-The reason you run into this is likely because of the action added to
-devm conflicting with hid_device_remove....
+Some new documentation was recently merged into next. Might be a helpful
+reference as well.
 
-I recommend not depending on devm for teardown rather than making a stub
-remove function to work around the issue.
-
-  static void hid_device_remove(struct device *dev)
-  {
-    struct hid_device *hdev =3D to_hid_device(dev);
-    struct hid_driver *hdrv;
-
-    down(&hdev->driver_input_lock);
-    hdev->io_started =3D false;
-
-    hdrv =3D hdev->driver;
-    if (hdrv) {
-      if (hdrv->remove)
-        hdrv->remove(hdev);
-      else /* default remove */
-        hid_hw_stop(hdev);
-
-hid_device_remove will call hid_hw_stop and so will
-mcp2200_hid_unregister because of the devm action you added.
-
-> +}
-> +
-> +static const struct hid_device_id mcp2200_devices[] =3D {
-> +=09{ HID_USB_DEVICE(USB_VENDOR_ID_MICROCHIP, USB_DEVICE_ID_MCP2200) },
-> +=09{ }
-> +};
-> +MODULE_DEVICE_TABLE(hid, mcp2200_devices);
-> +
-> +static struct hid_driver mcp2200_driver =3D {
-> +=09.name=09=09=3D "mcp2200",
-> +=09.id_table=09=3D mcp2200_devices,
-> +=09.probe=09=09=3D mcp2200_probe,
-> +=09.remove=09=09=3D mcp2200_remove,
-> +=09.raw_event=09=3D mcp2200_raw_event,
-> +};
-> +
-> +/* Register with HID core */
-> +module_hid_driver(mcp2200_driver);
-> +
-> +MODULE_AUTHOR("Johannes Roith <johannes@gnu-linux.rocks>");
-> +MODULE_DESCRIPTION("MCP2200 Microchip HID USB to GPIO bridge");
-> +MODULE_LICENSE("GPL");
+  https://www.kernel.org/doc/html/next/hid/hidintro.html
 
 --
 Thanks,
 
 Rahul Rameshbabu
+
 
