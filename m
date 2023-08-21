@@ -2,101 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B00E5782733
-	for <lists+linux-input@lfdr.de>; Mon, 21 Aug 2023 12:37:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E71778288E
+	for <lists+linux-input@lfdr.de>; Mon, 21 Aug 2023 14:07:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234174AbjHUKhi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Aug 2023 06:37:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47204 "EHLO
+        id S232837AbjHUMHY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Aug 2023 08:07:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231324AbjHUKhg (ORCPT
+        with ESMTP id S230098AbjHUMHY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Aug 2023 06:37:36 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F35190;
-        Mon, 21 Aug 2023 03:37:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692614255; x=1724150255;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=O1PX+89I7v1IRWO4i5pR+pAOueIxrmu1WhQYhvVBdWY=;
-  b=Kmj4GItuVvuoygYRRvKvViGlvQpj0cIDWIYkoguxDXsPVqm7cfI+2w1Q
-   C5yJ8r4TMOhyDDQKYJm8ZW6IvSjGCzNqNhmwiJpZAta9cnrgUvxzwbUUs
-   BaDl5YSTiYhx8x5DVzKXM3OfvSlr6UYrzyL7uGnS5WBID8eN+ewGB1uwF
-   hVmrka5RQAhQCqgC6JioeRLpEZtBqBhsKci0OduQvDOI13LrEklJgKaZG
-   BPySDSKSVVOHqNHs0QLoxG1vlfNILa3aoT/zwPSCi/uZAakfV+RFzc0kd
-   eBT+gD4ZIQewSeFbUc99ahDvZx9x+GrfyeJbZv9wZdPjIhMykwsvZeOMt
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10808"; a="437476829"
-X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="437476829"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 03:37:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10808"; a="765320994"
-X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="765320994"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga008.jf.intel.com with ESMTP; 21 Aug 2023 03:37:33 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qY2Hr-00A2W0-2p;
-        Mon, 21 Aug 2023 13:37:31 +0300
-Date:   Mon, 21 Aug 2023 13:37:31 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+        Mon, 21 Aug 2023 08:07:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28221C7
+        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 05:06:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1692619595;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=3QSAAa/hMYp89U1EDlmo0karZdp2ZmKwZOL2+v/7j1U=;
+        b=Y29+6X+keNdDUAJEz1Tw7r+LMDRCzYIOSF5qGDYVNgamvQNRSyZfi8N3a0rb/PTp2dDsn/
+        tk/34fl3fIuXNr4GeXucV69QEe+b1mAKrzAY72mUbAjtxWisK9rml0vue2XGD0VLvoLFPi
+        PLcLrCgK5pI6YibLX1rVqE/zYtWtgYc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-107-rXRVQqR8N8eVPpJdD_XBmg-1; Mon, 21 Aug 2023 08:06:33 -0400
+X-MC-Unique: rXRVQqR8N8eVPpJdD_XBmg-1
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-31aecb86dacso1071703f8f.1
+        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 05:06:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692619592; x=1693224392;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3QSAAa/hMYp89U1EDlmo0karZdp2ZmKwZOL2+v/7j1U=;
+        b=CvewvdIaH9sgeFdOBJ7UpU8vxh+hNQgNaL4lOrAb5wn5HnJq8KDFWU5NwFeniwj8sQ
+         iEMRFNuIOgoVo39MELNOG3/jzit4FIjgpA/CX8kF4cOBceuoL/PCRweJRti53tvwI47c
+         gFv53AxdkUD32fys2dAGLLhDkjuZZvWn3ACFuwnrtSAfvqqNTKHVGs/GyhlNVirzSAGa
+         H2zLYyz5jhhL0XkMt7jlDVQHljLkneTZ90JahS+H34Z36YBo0nglUk/Y84ug3VnRlDbW
+         MD0SiU5KUXcro0JarmC29Xklq7uExmvqoezfkh56uEFofVhfzQ9CKkPBq+5Xz3zaRBow
+         IUrQ==
+X-Gm-Message-State: AOJu0Yx4sdrP001LcSQA19CjKeiloFvoX4ZF9TVYbCFQeDNYH4Z229kA
+        KN+ZG2URGGDB3EQL7OTMRq1cwqfh5E6ClN6FSxwYkgtdu2xiyq0u7KtRRTTYoVkWmw8tFJXoaAX
+        /OO5c4mTFIw6Ufy7D2/L+gM03xEBKnuwoxZgFMp9s2uD1XVA=
+X-Received: by 2002:adf:ef91:0:b0:317:cff4:7357 with SMTP id d17-20020adfef91000000b00317cff47357mr4737663wro.20.1692619591807;
+        Mon, 21 Aug 2023 05:06:31 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH58LLzlTU5gEdiu40AT9vFc4WW8xCtVM1yBFGzym0AW6o47Dvx/FCXoPkJ3vQs3bw9CWtv8MWi9osUZgsbZPg=
+X-Received: by 2002:adf:ef91:0:b0:317:cff4:7357 with SMTP id
+ d17-20020adfef91000000b00317cff47357mr4737647wro.20.1692619591515; Mon, 21
+ Aug 2023 05:06:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <ZMK60UphgVuj4Z+L@smile.fi.intel.com> <ZMydcGv8Dvu3Hje1@smile.fi.intel.com>
+ <nycvar.YFH.7.76.2308071319140.14207@cbobk.fhfr.pm> <ZND/8wd67YbGs8d5@smile.fi.intel.com>
+ <nycvar.YFH.7.76.2308141128260.14207@cbobk.fhfr.pm> <ZOMcHQc8Em/s6C+y@smile.fi.intel.com>
+ <ez2oewpi3yeaiejrvbe433ude75pgm3k3s5sh5gnn7pvnzm7b4@ajuopfgwocft>
+ <ZOMvpmoWLCgcAyJR@smile.fi.intel.com> <ZOMv4VB0bZpupNlN@smile.fi.intel.com>
+ <CAO-hwJ+Pa0yMV5taEc9+RXEWJzkotpyj4gz2qftyLV4G73F-mg@mail.gmail.com> <ZOM9SLLuWJzeHTiO@smile.fi.intel.com>
+In-Reply-To: <ZOM9SLLuWJzeHTiO@smile.fi.intel.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 21 Aug 2023 14:06:20 +0200
+Message-ID: <CAO-hwJJdztp_HCitHsp2CnK9N72oeHo-UiSm1Uz1_oZghuGLwQ@mail.gmail.com>
+Subject: Re: [PATCH v1 00/12] HID: cp2112: Cleanups and refactorings
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     Benjamin Tissoires <bentiss@kernel.org>,
         Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 00/12] HID: cp2112: Cleanups and refactorings
-Message-ID: <ZOM+awN2CU+V1R1H@smile.fi.intel.com>
-References: <ZMydcGv8Dvu3Hje1@smile.fi.intel.com>
- <nycvar.YFH.7.76.2308071319140.14207@cbobk.fhfr.pm>
- <ZND/8wd67YbGs8d5@smile.fi.intel.com>
- <nycvar.YFH.7.76.2308141128260.14207@cbobk.fhfr.pm>
- <ZOMcHQc8Em/s6C+y@smile.fi.intel.com>
- <ez2oewpi3yeaiejrvbe433ude75pgm3k3s5sh5gnn7pvnzm7b4@ajuopfgwocft>
- <ZOMvpmoWLCgcAyJR@smile.fi.intel.com>
- <ZOMv4VB0bZpupNlN@smile.fi.intel.com>
- <CAO-hwJ+Pa0yMV5taEc9+RXEWJzkotpyj4gz2qftyLV4G73F-mg@mail.gmail.com>
- <CAO-hwJ+EaFJEmuBYKRLmy-=xtOu96L=c5=zM=hS=0Ju_zGV=oA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAO-hwJ+EaFJEmuBYKRLmy-=xtOu96L=c5=zM=hS=0Ju_zGV=oA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 21, 2023 at 12:27:22PM +0200, Benjamin Tissoires wrote:
-> On Mon, Aug 21, 2023 at 12:19 PM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> > On Mon, Aug 21, 2023 at 11:35 AM Andy Shevchenko
+On Mon, Aug 21, 2023 at 12:32=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Mon, Aug 21, 2023 at 12:19:39PM +0200, Benjamin Tissoires wrote:
+> > On Mon, Aug 21, 2023 at 11:35=E2=80=AFAM Andy Shevchenko
 > > <andriy.shevchenko@linux.intel.com> wrote:
 > > > On Mon, Aug 21, 2023 at 12:34:30PM +0300, Andy Shevchenko wrote:
 > > > > On Mon, Aug 21, 2023 at 10:51:04AM +0200, Benjamin Tissoires wrote:
 > > > > > On Aug 21 2023, Andy Shevchenko wrote:
-
-...
-
-> > > > > Long story short, I'm not able to test it right now (and I got quite
-> > > > > some backlog as you can imagine). IIRC the code was fine, so I think we
-> > > > > can just take the series as is, and work on the quirks (if any) later.
+>
+> ...
+>
+> > > > > Long story short, I'm not able to test it right now (and I got qu=
+ite
+> > > > > some backlog as you can imagine). IIRC the code was fine, so I th=
+ink we
+> > > > > can just take the series as is, and work on the quirks (if any) l=
+ater.
 > > > >
 > > > > Thank you!
 > > > >
-> > > > The thing that might be broken is interrupts handling. If that works,
+> > > > The thing that might be broken is interrupts handling. If that work=
+s,
 > > > > I'm pretty confident with the rest.
 > > >
-> > > I.o.w. first 5 patches to test is already 98% of guarantee that everything
+> > > I.o.w. first 5 patches to test is already 98% of guarantee that every=
+thing
 > > > is fine.
 > >
 > > Actually I applied you series locally, and applied Danny's patches on
@@ -104,18 +116,35 @@ On Mon, Aug 21, 2023 at 12:27:22PM +0200, Benjamin Tissoires wrote:
 > > passthrough.
 > >
 > > Everything is working fine, so I can take this one just now.
-> 
-> I've pushed the series to for-6.6/cp2112, but for some reasons, b4
-> doesn't seem to believe the series is the one you submitted.
-> 
-> Would you mind double checking on your side if everything is good?
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/log/?h=for-6.6/cp2112
+>
+> Thank you! I assume you have some IRQ (like GPIO button) to test with tha=
+t.
 
-Everything is fine as far as I can tell.
+Yeah, binding a test i2c-hid touchpad on top of hid forces you to use
+GPIOs. Otherwise you are polling, and it's not allowed in i2c-hid
+anymore IIRC :)
 
--- 
-With Best Regards,
-Andy Shevchenko
+> If no, it's easily to describe (in ACPI, see [1]) and use a wire to emula=
+te
+> the button presses. In that case the /proc/interrupts should show the
+> different numbers.
 
+Thanks, but again, the GPIO is tested just by checking if the touchpad
+can send events when touched.
+
+Now I need to update my CI to rely on danny's patches and a DSDT overwrite =
+:)
+
+Cheers,
+Benjamin
+
+>
+> [1]: https://github.com/westeri/meta-acpi/blob/master/recipes-bsp/acpi-ta=
+bles/samples/edison/buttons.asli
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
 
