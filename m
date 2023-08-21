@@ -2,220 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 999D37825F5
-	for <lists+linux-input@lfdr.de>; Mon, 21 Aug 2023 11:01:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB424782656
+	for <lists+linux-input@lfdr.de>; Mon, 21 Aug 2023 11:34:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232799AbjHUJBi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Aug 2023 05:01:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57590 "EHLO
+        id S234386AbjHUJeg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Aug 2023 05:34:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232615AbjHUJBh (ORCPT
+        with ESMTP id S232412AbjHUJef (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Aug 2023 05:01:37 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E98DC1;
-        Mon, 21 Aug 2023 02:01:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 07BC661197;
-        Mon, 21 Aug 2023 09:01:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6A96C433C8;
-        Mon, 21 Aug 2023 09:01:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692608494;
-        bh=bpgMRFrtUvUUXxIRX8UHoRJTPj6PZfbFDNTb259U9fg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=L9aT17ZhTZ4u963nqxRiyPFs17esZyEzjnVQoPKyaBwDxHm+BtAxAoszFELC08uct
-         KQAxtC21QSla3nTAqOBoXCq8e99DpHegUAfTuSqyHhOUM56cjermFvrEfAp2Zkv1fG
-         bEy6F7a4r9V7ceiKkx8NWRZxrMw7kiLVrJSngh3t7Vv8RQuvK+2ssuI6Ut+6seY87a
-         VPWZkdtDlENOXZtF8zn3kpmuIyMS0Y0MaNKxDbqZ8eCpGgm9f7IGhPCFleLMGRP8/D
-         qyEoEcOH64tJkmNW9FLpgPYAMz0OunghvcjDAAWDShdOHvuFYCM7JH/hHqXOVUfA9A
-         F8QDE0ilv3UsA==
-Date:   Mon, 21 Aug 2023 11:01:28 +0200
-From:   Benjamin Tissoires <bentiss@kernel.org>
-To:     Doug Anderson <dianders@google.com>
-Cc:     Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
-        benjamin.tissoires@redhat.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        dmitry.torokhov@gmail.com, jikos@kernel.org, hsinyi@google.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 2/2] HID: i2c-hid: elan: Add ili9882t timing
-Message-ID: <lyns4qkh57xhppnqroaooqtniypfsmr2l5fujlry3stmhrjww4@3iy5mmmrazl6>
-References: <20230802071947.1683318-1-yangcong5@huaqin.corp-partner.google.com>
- <20230802071947.1683318-3-yangcong5@huaqin.corp-partner.google.com>
- <CAD=FV=Um8875aMt_kWvCvpNjb3EwSk8VjVTEgv_TJ9WDS+LniA@mail.gmail.com>
+        Mon, 21 Aug 2023 05:34:35 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AB5091;
+        Mon, 21 Aug 2023 02:34:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692610474; x=1724146474;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8pGk4HMopyDP6wXit6hNYYApLhMQ6ZIRPvMV2Lfe42c=;
+  b=bF7StnEvmSPBZ/+AW9ixHZG7zFIbaYN0N6/KEPUzt75rWgzcpeeO53wA
+   Rgc0Ica5BSBr7vnZ+vBpQ0oBekRYLDgiVONxiin6RFyFFujZSzvXklat6
+   0pmI3e7uKyJMon+hy09oQaTddbC95W1gs3J59BPO57AWLjUZ0rRDregWq
+   fCiHVojNpZgFcRk2S9c9lft5d8Oa1BcjRx2N68zc/KYwoANlb02Yq7SZG
+   6PXomUd89yM/26V1If9AopkiVQPGZLPzgCidb1oDgYraTcDM4vktQabsS
+   LDEpHDF0Li9YqJ0mp/6jq/fbtA3mtz2vT1nCoLazvoyrDW6xcRCWPNwF4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10808"; a="370978813"
+X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
+   d="scan'208";a="370978813"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 02:34:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10808"; a="801202935"
+X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
+   d="scan'208";a="801202935"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga008.fm.intel.com with ESMTP; 21 Aug 2023 02:34:32 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qY1Is-007tGe-2F;
+        Mon, 21 Aug 2023 12:34:30 +0300
+Date:   Mon, 21 Aug 2023 12:34:30 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Benjamin Tissoires <bentiss@kernel.org>
+Cc:     Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: [PATCH v1 00/12] HID: cp2112: Cleanups and refactorings
+Message-ID: <ZOMvpmoWLCgcAyJR@smile.fi.intel.com>
+References: <20230703185222.50554-1-andriy.shevchenko@linux.intel.com>
+ <ZMK60UphgVuj4Z+L@smile.fi.intel.com>
+ <ZMydcGv8Dvu3Hje1@smile.fi.intel.com>
+ <nycvar.YFH.7.76.2308071319140.14207@cbobk.fhfr.pm>
+ <ZND/8wd67YbGs8d5@smile.fi.intel.com>
+ <nycvar.YFH.7.76.2308141128260.14207@cbobk.fhfr.pm>
+ <ZOMcHQc8Em/s6C+y@smile.fi.intel.com>
+ <ez2oewpi3yeaiejrvbe433ude75pgm3k3s5sh5gnn7pvnzm7b4@ajuopfgwocft>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=Um8875aMt_kWvCvpNjb3EwSk8VjVTEgv_TJ9WDS+LniA@mail.gmail.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <ez2oewpi3yeaiejrvbe433ude75pgm3k3s5sh5gnn7pvnzm7b4@ajuopfgwocft>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Aug 02 2023, Doug Anderson wrote:
-> Benjamin,
-> 
-> On Wed, Aug 2, 2023 at 12:20 AM Cong Yang
-> <yangcong5@huaqin.corp-partner.google.com> wrote:
-> >
-> > The ili9882t is a TDDI IC (Touch with Display Driver). The
-> > datasheet specifies there should be 60ms between touch SDA
-> > sleep and panel RESX. Doug's series[1] allows panels and
-> > touchscreens to power on/off together, so we can add the 65 ms
-> > delay in i2c_hid_core_suspend before panel_unprepare.
-> >
-> > Because ili9882t touchscrgeen is a panel follower, and
-> > needs to use vccio-supply instead of vcc33-supply, so set
-> > it NULL to ili9882t_chip_data, then not use vcc33 regulator.
-> >
-> > [1]: https://lore.kernel.org/all/20230727171750.633410-1-dianders@chromium.org
-> >
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> > ---
-> >  drivers/hid/i2c-hid/i2c-hid-of-elan.c | 50 ++++++++++++++++++++-------
-> >  1 file changed, 38 insertions(+), 12 deletions(-)
-> 
-> 
-> >
-> > diff --git a/drivers/hid/i2c-hid/i2c-hid-of-elan.c b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-> > index 029045d9661c..31abab57ad44 100644
-> > --- a/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-> > +++ b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-> > @@ -18,9 +18,11 @@
-> >  #include "i2c-hid.h"
-> >
-> >  struct elan_i2c_hid_chip_data {
-> > -       unsigned int post_gpio_reset_delay_ms;
-> > +       unsigned int post_gpio_reset_on_delay_ms;
-> > +       unsigned int post_gpio_reset_off_delay_ms;
-> >         unsigned int post_power_delay_ms;
-> >         u16 hid_descriptor_address;
-> > +       const char *main_supply_name;
-> >  };
-> >
-> >  struct i2c_hid_of_elan {
-> > @@ -38,9 +40,11 @@ static int elan_i2c_hid_power_up(struct i2chid_ops *ops)
-> >                 container_of(ops, struct i2c_hid_of_elan, ops);
-> >         int ret;
-> >
-> > -       ret = regulator_enable(ihid_elan->vcc33);
-> > -       if (ret)
-> > -               return ret;
-> > +       if (ihid_elan->vcc33) {
-> > +               ret = regulator_enable(ihid_elan->vcc33);
-> > +               if (ret)
-> > +                       return ret;
-> > +       }
-> >
-> >         ret = regulator_enable(ihid_elan->vccio);
-> >         if (ret) {
-> > @@ -52,8 +56,8 @@ static int elan_i2c_hid_power_up(struct i2chid_ops *ops)
-> >                 msleep(ihid_elan->chip_data->post_power_delay_ms);
-> >
-> >         gpiod_set_value_cansleep(ihid_elan->reset_gpio, 0);
-> > -       if (ihid_elan->chip_data->post_gpio_reset_delay_ms)
-> > -               msleep(ihid_elan->chip_data->post_gpio_reset_delay_ms);
-> > +       if (ihid_elan->chip_data->post_gpio_reset_on_delay_ms)
-> > +               msleep(ihid_elan->chip_data->post_gpio_reset_on_delay_ms);
-> >
-> >         return 0;
-> >  }
-> > @@ -64,8 +68,12 @@ static void elan_i2c_hid_power_down(struct i2chid_ops *ops)
-> >                 container_of(ops, struct i2c_hid_of_elan, ops);
-> >
-> >         gpiod_set_value_cansleep(ihid_elan->reset_gpio, 1);
-> > +       if (ihid_elan->chip_data->post_gpio_reset_off_delay_ms)
-> > +               msleep(ihid_elan->chip_data->post_gpio_reset_off_delay_ms);
-> > +
-> >         regulator_disable(ihid_elan->vccio);
-> > -       regulator_disable(ihid_elan->vcc33);
-> > +       if (ihid_elan->vcc33)
-> > +               regulator_disable(ihid_elan->vcc33);
-> >  }
-> >
-> >  static int i2c_hid_of_elan_probe(struct i2c_client *client)
-> > @@ -89,24 +97,42 @@ static int i2c_hid_of_elan_probe(struct i2c_client *client)
-> >         if (IS_ERR(ihid_elan->vccio))
-> >                 return PTR_ERR(ihid_elan->vccio);
-> >
-> > -       ihid_elan->vcc33 = devm_regulator_get(&client->dev, "vcc33");
-> > -       if (IS_ERR(ihid_elan->vcc33))
-> > -               return PTR_ERR(ihid_elan->vcc33);
-> > -
-> >         ihid_elan->chip_data = device_get_match_data(&client->dev);
-> >
-> > +       if (ihid_elan->chip_data->main_supply_name) {
-> > +               ihid_elan->vcc33 = devm_regulator_get(&client->dev,
-> > +                                                     ihid_elan->chip_data->main_supply_name);
-> > +               if (IS_ERR(ihid_elan->vcc33))
-> > +                       return PTR_ERR(ihid_elan->vcc33);
-> > +       }
-> > +
-> >         return i2c_hid_core_probe(client, &ihid_elan->ops,
-> >                                   ihid_elan->chip_data->hid_descriptor_address, 0);
-> >  }
-> >
-> >  static const struct elan_i2c_hid_chip_data elan_ekth6915_chip_data = {
-> >         .post_power_delay_ms = 1,
-> > -       .post_gpio_reset_delay_ms = 300,
-> > +       .post_gpio_reset_on_delay_ms = 300,
-> > +       .hid_descriptor_address = 0x0001,
-> > +       .main_supply_name = "vcc33",
-> > +};
-> > +
-> > +static const struct elan_i2c_hid_chip_data ilitek_ili9882t_chip_data = {
-> > +       .post_power_delay_ms = 1,
-> > +       .post_gpio_reset_on_delay_ms = 200,
-> > +       .post_gpio_reset_off_delay_ms = 65,
-> >         .hid_descriptor_address = 0x0001,
-> > +       /*
-> > +        * this touchscreen is tightly integrated with the panel and assumes
-> > +        * that the relevant power rails (other than the IO rail) have already
-> > +        * been turned on by the panel driver because we're a panel follower.
-> > +        */
-> > +       .main_supply_name = NULL,
-> >  };
-> >
-> >  static const struct of_device_id elan_i2c_hid_of_match[] = {
-> >         { .compatible = "elan,ekth6915", .data = &elan_ekth6915_chip_data },
-> > +       { .compatible = "ilitek,ili9882t", .data = &ilitek_ili9882t_chip_data },
-> 
-> Logically, this patch depends on the panel-follower series that's now
-> landed in drm-misc-next. With your Ack, I'm willing to land these two
-> patches into drm-misc-next too. Other options:
+On Mon, Aug 21, 2023 at 10:51:04AM +0200, Benjamin Tissoires wrote:
+> On Aug 21 2023, Andy Shevchenko wrote:
+> > On Mon, Aug 14, 2023 at 11:28:58AM +0200, Jiri Kosina wrote:
+> > > On Mon, 7 Aug 2023, Andy Shevchenko wrote:
 
-If you are fine with the code, I think it could go with the drm tree
-given that it depends on the panel-follower.
+...
 
-Unless it's too late for you to take 6.6 material (sorry I was off in
-August and just came back).
+> > > > > > > > After I updated GPIO library for the case Benjamin has with CP2112,
+> > > > > > > > I have a brief look into the CP2112 driver itself.
+> > > > > > > > 
+> > > > > > > > From GPIO perspective it has two main (maitenance) issues:
+> > > > > > > > - usage of ->to_irq() with IRQ chip present;
+> > > > > > > > - having IRQ chip not immutable.
+> > > > > > > > 
+> > > > > > > > Besides that there are plenty small cleanups here and there.
+> > > > > > > > Hence this series.
+> > > > > > > 
+> > > > > > > Any comments on this?
+> > > > > > 
+> > > > > > Gentle ping^2 for this...
+> > > > > > 
+> > > > > > Anything should I do to improve it or is it okay to go as is?
+> > > > > 
+> > > > > I have been off pretty much the whole July. I am now back and slowly 
+> > > > > making my way through everything that accumulated, I will eventually get 
+> > > > > to this.
+> > > > > 
+> > > > > Thanks for the patience,
+> > > > 
+> > > > Ah, okay, no worries and take your time!
+> > > > 
+> > > > I was thinking more on Benjamin's answer as last time he had a hw setup
+> > > > to test... Not sure what the status of that now and if he has a chance
+> > > > to test this or busy enough with something else.
+> > > 
+> > > Ah, that would be of course nice. Benjamin?
+> > 
+> > Benjamin? It almost full release cycle passed...
+> > I understand if you are busy with something, just tell us.
+> 
+> Sorry for not answering, I was off in August until just now.
+> 
+> I tried you series just before taking time off, but the problem was that
+> my automation relies on this driver to not be too far from the current
+> upstream, as I need to patch it to be able to inject a node child in it.
+> 
+> Which is why I was very interested in the ACPI/DT work so that I do not
+> have to patch the driver.
+> 
+> Long story short, I'm not able to test it right now (and I got quite
+> some backlog as you can imagine). IIRC the code was fine, so I think we
+> can just take the series as is, and work on the quirks (if any) later.
 
-Acked-By: Benjamin Tissoires <bentiss@kernel.org>
+Thank you!
 
-Cheers,
-Benjamin
+The thing that might be broken is interrupts handling. If that works,
+I'm pretty confident with the rest.
 
-> 
-> a) We could land the two patches in the i2c-hid tree since they don't
-> appear to conflict. The touchscreen won't actually function until the
-> patches meetup in linux-next but I don't think they'll give any
-> compile errors (I haven't double-checked that, but I can). ...though
-> it's possible that the dt bindings might generate errors? Again, I can
-> investigate if we want to go this way.
-> 
-> b) We can snooze this for a few months and you can pick it to i2c-hid
-> when my series reaches mainline.
-> 
-> Let me know how you'd like to proceed.
-> 
-> -Doug
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
