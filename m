@@ -2,55 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB424782656
-	for <lists+linux-input@lfdr.de>; Mon, 21 Aug 2023 11:34:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EA5378265F
+	for <lists+linux-input@lfdr.de>; Mon, 21 Aug 2023 11:35:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234386AbjHUJeg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Aug 2023 05:34:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42568 "EHLO
+        id S234428AbjHUJfm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Aug 2023 05:35:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232412AbjHUJef (ORCPT
+        with ESMTP id S234436AbjHUJfg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Aug 2023 05:34:35 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AB5091;
-        Mon, 21 Aug 2023 02:34:34 -0700 (PDT)
+        Mon, 21 Aug 2023 05:35:36 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06434A1;
+        Mon, 21 Aug 2023 02:35:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692610474; x=1724146474;
+  t=1692610534; x=1724146534;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8pGk4HMopyDP6wXit6hNYYApLhMQ6ZIRPvMV2Lfe42c=;
-  b=bF7StnEvmSPBZ/+AW9ixHZG7zFIbaYN0N6/KEPUzt75rWgzcpeeO53wA
-   Rgc0Ica5BSBr7vnZ+vBpQ0oBekRYLDgiVONxiin6RFyFFujZSzvXklat6
-   0pmI3e7uKyJMon+hy09oQaTddbC95W1gs3J59BPO57AWLjUZ0rRDregWq
-   fCiHVojNpZgFcRk2S9c9lft5d8Oa1BcjRx2N68zc/KYwoANlb02Yq7SZG
-   6PXomUd89yM/26V1If9AopkiVQPGZLPzgCidb1oDgYraTcDM4vktQabsS
-   LDEpHDF0Li9YqJ0mp/6jq/fbtA3mtz2vT1nCoLazvoyrDW6xcRCWPNwF4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10808"; a="370978813"
+  bh=fB2XI/PxSUETG+AsQIenqdqmaoGWnt7ws1F6VGdHMeE=;
+  b=lIWpx3kLU6ZsXTMese4cXFeqhaKO5m2QY5gBRZXG2XjJO0fY0t5lQ5Dd
+   ltTAEPjay693gPvwxigVZRFoEfh3zhnZNQ9wO+jr055YTGkr9eVeAIJxc
+   +OIGfxQlJrMoQFHEwK21Vk7U0YnhVerPelaifW0o5NtOVTU780k1QCFaH
+   NnS0P0SRU3nNi6Lb76IJshAxORXJ0cRnRtdrQPvRK3VIj7NV0p/vx5e8b
+   TbD0E7t5X1QHd2xiDfyeXevhW3e73OugTTtnJDY4lKm9dKT+bL7I8a0n+
+   3A4/IacTm3GoUn7HzvRPFxk75z9H4urNfEKp8rEjM05sk5MT08VJoWxPQ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10808"; a="437466086"
 X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="370978813"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 02:34:33 -0700
+   d="scan'208";a="437466086"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 02:35:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10808"; a="801202935"
+X-IronPort-AV: E=McAfee;i="6600,9927,10808"; a="805868248"
 X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="801202935"
+   d="scan'208";a="805868248"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga008.fm.intel.com with ESMTP; 21 Aug 2023 02:34:32 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 21 Aug 2023 02:35:31 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qY1Is-007tGe-2F;
-        Mon, 21 Aug 2023 12:34:30 +0300
-Date:   Mon, 21 Aug 2023 12:34:30 +0300
+        id 1qY1Jq-007vPY-0f;
+        Mon, 21 Aug 2023 12:35:30 +0300
+Date:   Mon, 21 Aug 2023 12:35:29 +0300
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Benjamin Tissoires <bentiss@kernel.org>
 Cc:     Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Subject: Re: [PATCH v1 00/12] HID: cp2112: Cleanups and refactorings
-Message-ID: <ZOMvpmoWLCgcAyJR@smile.fi.intel.com>
+Message-ID: <ZOMv4VB0bZpupNlN@smile.fi.intel.com>
 References: <20230703185222.50554-1-andriy.shevchenko@linux.intel.com>
  <ZMK60UphgVuj4Z+L@smile.fi.intel.com>
  <ZMydcGv8Dvu3Hje1@smile.fi.intel.com>
@@ -59,10 +59,11 @@ References: <20230703185222.50554-1-andriy.shevchenko@linux.intel.com>
  <nycvar.YFH.7.76.2308141128260.14207@cbobk.fhfr.pm>
  <ZOMcHQc8Em/s6C+y@smile.fi.intel.com>
  <ez2oewpi3yeaiejrvbe433ude75pgm3k3s5sh5gnn7pvnzm7b4@ajuopfgwocft>
+ <ZOMvpmoWLCgcAyJR@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ez2oewpi3yeaiejrvbe433ude75pgm3k3s5sh5gnn7pvnzm7b4@ajuopfgwocft>
+In-Reply-To: <ZOMvpmoWLCgcAyJR@smile.fi.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
@@ -73,63 +74,23 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 21, 2023 at 10:51:04AM +0200, Benjamin Tissoires wrote:
-> On Aug 21 2023, Andy Shevchenko wrote:
-> > On Mon, Aug 14, 2023 at 11:28:58AM +0200, Jiri Kosina wrote:
-> > > On Mon, 7 Aug 2023, Andy Shevchenko wrote:
+On Mon, Aug 21, 2023 at 12:34:30PM +0300, Andy Shevchenko wrote:
+> On Mon, Aug 21, 2023 at 10:51:04AM +0200, Benjamin Tissoires wrote:
+> > On Aug 21 2023, Andy Shevchenko wrote:
 
 ...
 
-> > > > > > > > After I updated GPIO library for the case Benjamin has with CP2112,
-> > > > > > > > I have a brief look into the CP2112 driver itself.
-> > > > > > > > 
-> > > > > > > > From GPIO perspective it has two main (maitenance) issues:
-> > > > > > > > - usage of ->to_irq() with IRQ chip present;
-> > > > > > > > - having IRQ chip not immutable.
-> > > > > > > > 
-> > > > > > > > Besides that there are plenty small cleanups here and there.
-> > > > > > > > Hence this series.
-> > > > > > > 
-> > > > > > > Any comments on this?
-> > > > > > 
-> > > > > > Gentle ping^2 for this...
-> > > > > > 
-> > > > > > Anything should I do to improve it or is it okay to go as is?
-> > > > > 
-> > > > > I have been off pretty much the whole July. I am now back and slowly 
-> > > > > making my way through everything that accumulated, I will eventually get 
-> > > > > to this.
-> > > > > 
-> > > > > Thanks for the patience,
-> > > > 
-> > > > Ah, okay, no worries and take your time!
-> > > > 
-> > > > I was thinking more on Benjamin's answer as last time he had a hw setup
-> > > > to test... Not sure what the status of that now and if he has a chance
-> > > > to test this or busy enough with something else.
-> > > 
-> > > Ah, that would be of course nice. Benjamin?
-> > 
-> > Benjamin? It almost full release cycle passed...
-> > I understand if you are busy with something, just tell us.
+> > Long story short, I'm not able to test it right now (and I got quite
+> > some backlog as you can imagine). IIRC the code was fine, so I think we
+> > can just take the series as is, and work on the quirks (if any) later.
 > 
-> Sorry for not answering, I was off in August until just now.
+> Thank you!
 > 
-> I tried you series just before taking time off, but the problem was that
-> my automation relies on this driver to not be too far from the current
-> upstream, as I need to patch it to be able to inject a node child in it.
-> 
-> Which is why I was very interested in the ACPI/DT work so that I do not
-> have to patch the driver.
-> 
-> Long story short, I'm not able to test it right now (and I got quite
-> some backlog as you can imagine). IIRC the code was fine, so I think we
-> can just take the series as is, and work on the quirks (if any) later.
+> The thing that might be broken is interrupts handling. If that works,
+> I'm pretty confident with the rest.
 
-Thank you!
-
-The thing that might be broken is interrupts handling. If that works,
-I'm pretty confident with the rest.
+I.o.w. first 5 patches to test is already 98% of guarantee that everything
+is fine.
 
 -- 
 With Best Regards,
