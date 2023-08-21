@@ -2,291 +2,183 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36EE2782C9C
-	for <lists+linux-input@lfdr.de>; Mon, 21 Aug 2023 16:49:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D927E782E7C
+	for <lists+linux-input@lfdr.de>; Mon, 21 Aug 2023 18:36:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236166AbjHUOtr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Aug 2023 10:49:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57442 "EHLO
+        id S236543AbjHUQgi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Aug 2023 12:36:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232282AbjHUOtq (ORCPT
+        with ESMTP id S234415AbjHUQgh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Aug 2023 10:49:46 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C304126
-        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 07:49:19 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3fef2fafee2so61585e9.0
-        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 07:49:19 -0700 (PDT)
+        Mon, 21 Aug 2023 12:36:37 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 460B3F3
+        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 09:36:35 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-3110ab7110aso3236308f8f.3
+        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 09:36:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692629335; x=1693234135;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x8jXCYIqyhmpLreD70EjAUJFKXAlWYjYkvcU4wz+60w=;
-        b=q/0E1KAa+Y4kKvVzixWwHcEGAp8HT8PJAM5riMfuy0tkC0gEaOhDFtZqRk7RN5x38D
-         I8Q1maWFebs6b1+xU1mIxC51qLDe538WGTEkFushm+6URPxKVSFIhvegVq7suXaBD08O
-         nu36j5Vxx4CW/rsBH0YcAE5Wrj1GluTsnzLaz5NMzlqHjxBLRgxkTNx9+Qy7YLAD9RK6
-         4+bAO1tUNf3DbDVSbgmU9RSmUwrpgYe6hKLGNMJl1Rb6KxKmk5gdUDpWch/+OX629Mpn
-         lO3ZdTd4gFP0lQZ4qOOFOxG3Ku86THJbiY56v74PVa4TesvXLmsUD4Tskblo5xpleyHu
-         l0mQ==
+        d=linaro.org; s=google; t=1692635794; x=1693240594;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YLeAswC8FPpnMLWgDTF18xaCa/KlTJOAu90A2tSHG+E=;
+        b=ZMWD+ZPMbu1gWKaNmbRIhaJl6M0UdWARNKG+CVFRFmgdncqHY+nC82h8+Z55xxwz2g
+         H4UsCTHk8poZdmNASIEX0eU9XMxgI/NRqCUKqrBG2vVDLwiNsgf7gUgEWSwFrNqO6Sc4
+         SwklnAofSB96Y+ZzPmfD8ORqEN/I+Ep8ju9AqMYXJm78IGQEM9fPyCbD+4mAVdhZUlAV
+         CcmKjMqJmLtieYZssdfVTjMOqPPWEVy5S0DFCmngIzcQrhUVG1mgUrYasUJoKMEhvuEl
+         UoRQDmK0KDDBFlXHw1Pg/V4LleTBGM3NCg9G5IEfXI80uozNpfmuhAdlHauV7n45GWm9
+         PRlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692629335; x=1693234135;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=x8jXCYIqyhmpLreD70EjAUJFKXAlWYjYkvcU4wz+60w=;
-        b=g92cMKZeLuCnl23cdpU5HQvF5hNq4Wo7o7yao4PJuAjn1T1/EvNj32kXnF9yqrqE/w
-         VjX+kJCjXZn9xVGc1JNZiqGIzb7x1BOpix/RX4wIqUSwsklcHcXF8v9Gou3jFj+bHg+k
-         mamT5hf0pfcXUZr284FmoxNxWocny9DeauWF5k2WFLwIQD7JkCE+S/z+WN+UM6gCOMJY
-         +Tquocd2+WU94Nz8ZsjFQgRDrdkp2eKq0g5PZHMWt3Rehn9R40whQ4JWbQd/XELiIkgj
-         uZdPVt7by0ZFao4VTyiDziBewGEZIiQaM35+0+oMr9vTghtfoxxgSyvbH0eqUU1BWEc+
-         pwlQ==
-X-Gm-Message-State: AOJu0Yz9lbUgSsf4q4Lt+p7yBt+UOb2OnaDmSq1d2Gowz8sOCNpxSNq9
-        U76AJQGwU6DxhZ1QMs/VnuWK00u7x64KS2WRDQY4jg==
-X-Google-Smtp-Source: AGHT+IHtbrF3M4PA8JeUE4+qsLi/1xpdQHFqQ/6nMLwg3McHuKYyJUVDyYrlwYnSmFeRuk4YxXvSPdyMlerbS6E2mDg=
-X-Received: by 2002:a05:600c:331e:b0:3fe:eb42:7ec with SMTP id
- q30-20020a05600c331e00b003feeb4207ecmr93162wmp.1.1692629334782; Mon, 21 Aug
- 2023 07:48:54 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692635794; x=1693240594;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YLeAswC8FPpnMLWgDTF18xaCa/KlTJOAu90A2tSHG+E=;
+        b=a+EAphcTB5f525b6UYLfQYeSERl9qhIIj/Tch0VOiRAMWLlDm1HMOshZriCSfj1Ero
+         LSgf5A9/LDNnlCK00bTrsOUBdCJP8KwnmVHuWMPkJVEHynQqe3oV9zuD5i5ldo047KKO
+         ezsIelEqPNViA6RmJhWHeo9a9PUTNwvM/KtUII6wKFDCMoK9CMy4Nm8LMcvzihjXjWNe
+         9Sh6mZ0chgXH1+QIp1yf0jt9JpDc6zusvvw7eQv1QDK5X4QLNrkl2i/mBBQ3eFD9boDV
+         a4Nc1/s4O2mPLese7tT5JbJKvD1S46tWemK5i8pou8DZXlUwb9+IfuVpYvOawqCGcXl/
+         qugQ==
+X-Gm-Message-State: AOJu0YwW3OJVHIR0HNP3SsNArhnrRUBbiRIo8yvx52Il6rXPxHjCS7qA
+        nvn3jRVEBQO7zCi2ND2AWa8BUg==
+X-Google-Smtp-Source: AGHT+IFhBb30ZJ4bzxScpzo0htWeygmB0PYxIMb7ZiGf78WIe5bZNnpUTDLFUVFVi2lm3yyfveQCqA==
+X-Received: by 2002:adf:d085:0:b0:317:759a:8ca6 with SMTP id y5-20020adfd085000000b00317759a8ca6mr4734991wrh.62.1692635793634;
+        Mon, 21 Aug 2023 09:36:33 -0700 (PDT)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id e1-20020adfe7c1000000b0031b2c01f342sm7114191wrn.87.2023.08.21.09.36.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Aug 2023 09:36:33 -0700 (PDT)
+Date:   Mon, 21 Aug 2023 17:36:31 +0100
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Julius Zint <julius@zint.sh>
+Cc:     Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Helge Deller <deller@gmx.de>,
+        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@t-8ch.de>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v3 1/1] backlight: hid_bl: Add VESA VCP HID backlight
+ driver
+Message-ID: <20230821163631.GA214013@aspen.lan>
+References: <20230820094118.20521-1-julius@zint.sh>
+ <20230820094118.20521-2-julius@zint.sh>
 MIME-Version: 1.0
-References: <20230802071947.1683318-1-yangcong5@huaqin.corp-partner.google.com>
- <20230802071947.1683318-3-yangcong5@huaqin.corp-partner.google.com>
- <CAD=FV=Um8875aMt_kWvCvpNjb3EwSk8VjVTEgv_TJ9WDS+LniA@mail.gmail.com>
- <lyns4qkh57xhppnqroaooqtniypfsmr2l5fujlry3stmhrjww4@3iy5mmmrazl6>
- <CAD=FV=UFM-5XFsTRt7LPXsN9Fjff33khYGQM+XqcLF1YdsRY4Q@mail.gmail.com> <dqom52gdxgsglhkfrl43peoh2lw2npmx6libdeulmyi67nszat@vqlvijq5mld7>
-In-Reply-To: <dqom52gdxgsglhkfrl43peoh2lw2npmx6libdeulmyi67nszat@vqlvijq5mld7>
-From:   Doug Anderson <dianders@google.com>
-Date:   Mon, 21 Aug 2023 07:48:42 -0700
-Message-ID: <CAD=FV=Wd61CbcVuHwVwZiGRWb52iVR0u4Vfc8r319j+KumFKqg@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] HID: i2c-hid: elan: Add ili9882t timing
-To:     Benjamin Tissoires <bentiss@kernel.org>
-Cc:     Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
-        benjamin.tissoires@redhat.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        dmitry.torokhov@gmail.com, jikos@kernel.org, hsinyi@google.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230820094118.20521-2-julius@zint.sh>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On Mon, Aug 21, 2023 at 7:14=E2=80=AFAM Benjamin Tissoires <bentiss@kernel.=
-org> wrote:
+On Sun, Aug 20, 2023 at 11:41:18AM +0200, Julius Zint wrote:
+> The HID spec defines the following Usage IDs (p. 345 ff):
 >
-> On Aug 21 2023, Doug Anderson wrote:
-> > Hi,
-> >
-> > On Mon, Aug 21, 2023 at 2:01=E2=80=AFAM Benjamin Tissoires <bentiss@ker=
-nel.org> wrote:
-> > >
-> > > On Aug 02 2023, Doug Anderson wrote:
-> > > > Benjamin,
-> > > >
-> > > > On Wed, Aug 2, 2023 at 12:20=E2=80=AFAM Cong Yang
-> > > > <yangcong5@huaqin.corp-partner.google.com> wrote:
-> > > > >
-> > > > > The ili9882t is a TDDI IC (Touch with Display Driver). The
-> > > > > datasheet specifies there should be 60ms between touch SDA
-> > > > > sleep and panel RESX. Doug's series[1] allows panels and
-> > > > > touchscreens to power on/off together, so we can add the 65 ms
-> > > > > delay in i2c_hid_core_suspend before panel_unprepare.
-> > > > >
-> > > > > Because ili9882t touchscrgeen is a panel follower, and
-> > > > > needs to use vccio-supply instead of vcc33-supply, so set
-> > > > > it NULL to ili9882t_chip_data, then not use vcc33 regulator.
-> > > > >
-> > > > > [1]: https://lore.kernel.org/all/20230727171750.633410-1-dianders=
-@chromium.org
-> > > > >
-> > > > > Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> > > > > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.co=
-m>
-> > > > > ---
-> > > > >  drivers/hid/i2c-hid/i2c-hid-of-elan.c | 50 ++++++++++++++++++++-=
-------
-> > > > >  1 file changed, 38 insertions(+), 12 deletions(-)
-> > > >
-> > > >
-> > > > >
-> > > > > diff --git a/drivers/hid/i2c-hid/i2c-hid-of-elan.c b/drivers/hid/=
-i2c-hid/i2c-hid-of-elan.c
-> > > > > index 029045d9661c..31abab57ad44 100644
-> > > > > --- a/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-> > > > > +++ b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-> > > > > @@ -18,9 +18,11 @@
-> > > > >  #include "i2c-hid.h"
-> > > > >
-> > > > >  struct elan_i2c_hid_chip_data {
-> > > > > -       unsigned int post_gpio_reset_delay_ms;
-> > > > > +       unsigned int post_gpio_reset_on_delay_ms;
-> > > > > +       unsigned int post_gpio_reset_off_delay_ms;
-> > > > >         unsigned int post_power_delay_ms;
-> > > > >         u16 hid_descriptor_address;
-> > > > > +       const char *main_supply_name;
-> > > > >  };
-> > > > >
-> > > > >  struct i2c_hid_of_elan {
-> > > > > @@ -38,9 +40,11 @@ static int elan_i2c_hid_power_up(struct i2chid=
-_ops *ops)
-> > > > >                 container_of(ops, struct i2c_hid_of_elan, ops);
-> > > > >         int ret;
-> > > > >
-> > > > > -       ret =3D regulator_enable(ihid_elan->vcc33);
-> > > > > -       if (ret)
-> > > > > -               return ret;
-> > > > > +       if (ihid_elan->vcc33) {
-> > > > > +               ret =3D regulator_enable(ihid_elan->vcc33);
-> > > > > +               if (ret)
-> > > > > +                       return ret;
-> > > > > +       }
-> > > > >
-> > > > >         ret =3D regulator_enable(ihid_elan->vccio);
-> > > > >         if (ret) {
-> > > > > @@ -52,8 +56,8 @@ static int elan_i2c_hid_power_up(struct i2chid_=
-ops *ops)
-> > > > >                 msleep(ihid_elan->chip_data->post_power_delay_ms)=
-;
-> > > > >
-> > > > >         gpiod_set_value_cansleep(ihid_elan->reset_gpio, 0);
-> > > > > -       if (ihid_elan->chip_data->post_gpio_reset_delay_ms)
-> > > > > -               msleep(ihid_elan->chip_data->post_gpio_reset_dela=
-y_ms);
-> > > > > +       if (ihid_elan->chip_data->post_gpio_reset_on_delay_ms)
-> > > > > +               msleep(ihid_elan->chip_data->post_gpio_reset_on_d=
-elay_ms);
-> > > > >
-> > > > >         return 0;
-> > > > >  }
-> > > > > @@ -64,8 +68,12 @@ static void elan_i2c_hid_power_down(struct i2c=
-hid_ops *ops)
-> > > > >                 container_of(ops, struct i2c_hid_of_elan, ops);
-> > > > >
-> > > > >         gpiod_set_value_cansleep(ihid_elan->reset_gpio, 1);
-> > > > > +       if (ihid_elan->chip_data->post_gpio_reset_off_delay_ms)
-> > > > > +               msleep(ihid_elan->chip_data->post_gpio_reset_off_=
-delay_ms);
-> > > > > +
-> > > > >         regulator_disable(ihid_elan->vccio);
-> > > > > -       regulator_disable(ihid_elan->vcc33);
-> > > > > +       if (ihid_elan->vcc33)
-> > > > > +               regulator_disable(ihid_elan->vcc33);
-> > > > >  }
-> > > > >
-> > > > >  static int i2c_hid_of_elan_probe(struct i2c_client *client)
-> > > > > @@ -89,24 +97,42 @@ static int i2c_hid_of_elan_probe(struct i2c_c=
-lient *client)
-> > > > >         if (IS_ERR(ihid_elan->vccio))
-> > > > >                 return PTR_ERR(ihid_elan->vccio);
-> > > > >
-> > > > > -       ihid_elan->vcc33 =3D devm_regulator_get(&client->dev, "vc=
-c33");
-> > > > > -       if (IS_ERR(ihid_elan->vcc33))
-> > > > > -               return PTR_ERR(ihid_elan->vcc33);
-> > > > > -
-> > > > >         ihid_elan->chip_data =3D device_get_match_data(&client->d=
-ev);
-> > > > >
-> > > > > +       if (ihid_elan->chip_data->main_supply_name) {
-> > > > > +               ihid_elan->vcc33 =3D devm_regulator_get(&client->=
-dev,
-> > > > > +                                                     ihid_elan->=
-chip_data->main_supply_name);
-> > > > > +               if (IS_ERR(ihid_elan->vcc33))
-> > > > > +                       return PTR_ERR(ihid_elan->vcc33);
-> > > > > +       }
-> > > > > +
-> > > > >         return i2c_hid_core_probe(client, &ihid_elan->ops,
-> > > > >                                   ihid_elan->chip_data->hid_descr=
-iptor_address, 0);
-> > > > >  }
-> > > > >
-> > > > >  static const struct elan_i2c_hid_chip_data elan_ekth6915_chip_da=
-ta =3D {
-> > > > >         .post_power_delay_ms =3D 1,
-> > > > > -       .post_gpio_reset_delay_ms =3D 300,
-> > > > > +       .post_gpio_reset_on_delay_ms =3D 300,
-> > > > > +       .hid_descriptor_address =3D 0x0001,
-> > > > > +       .main_supply_name =3D "vcc33",
-> > > > > +};
-> > > > > +
-> > > > > +static const struct elan_i2c_hid_chip_data ilitek_ili9882t_chip_=
-data =3D {
-> > > > > +       .post_power_delay_ms =3D 1,
-> > > > > +       .post_gpio_reset_on_delay_ms =3D 200,
-> > > > > +       .post_gpio_reset_off_delay_ms =3D 65,
-> > > > >         .hid_descriptor_address =3D 0x0001,
-> > > > > +       /*
-> > > > > +        * this touchscreen is tightly integrated with the panel =
-and assumes
-> > > > > +        * that the relevant power rails (other than the IO rail)=
- have already
-> > > > > +        * been turned on by the panel driver because we're a pan=
-el follower.
-> > > > > +        */
-> > > > > +       .main_supply_name =3D NULL,
-> > > > >  };
-> > > > >
-> > > > >  static const struct of_device_id elan_i2c_hid_of_match[] =3D {
-> > > > >         { .compatible =3D "elan,ekth6915", .data =3D &elan_ekth69=
-15_chip_data },
-> > > > > +       { .compatible =3D "ilitek,ili9882t", .data =3D &ilitek_il=
-i9882t_chip_data },
-> > > >
-> > > > Logically, this patch depends on the panel-follower series that's n=
-ow
-> > > > landed in drm-misc-next. With your Ack, I'm willing to land these t=
-wo
-> > > > patches into drm-misc-next too. Other options:
-> > >
-> > > If you are fine with the code, I think it could go with the drm tree
-> > > given that it depends on the panel-follower.
-> > >
-> > > Unless it's too late for you to take 6.6 material (sorry I was off in
-> > > August and just came back).
-> > >
-> > > Acked-By: Benjamin Tissoires <bentiss@kernel.org>
-> >
-> > Thanks for the Ack, but yeah, it's probably too late for drm-misc.
-> > Hopefully this can go through the normal tree after the next -rc1
-> > then. Thanks!
+> - Monitor Page (0x80) -> Monitor Control (0x01)
+> - VESA Virtual Controls Page (0x82) -> Brightness (0x10)
 >
-> We don't have those strict rules in hid.git. And given that I was in
-> PTO, I think it's fine if we take the patch now if it's compiling fine
-> on its own and doesn't break on existing hardware. What are the
-> consequences of using this patch without the panel-follower series?
+> Apple made use of them in their Apple Studio Display and most likely on
+> other external displays (LG UltraFine 5k, Pro Display XDR).
+>
+> The driver will work for any HID device with a report, where the
+> application matches the Monitor Control Usage ID and:
+>
+> 1. An Input field in this report with the Brightness Usage ID (to get
+>    the current brightness)
+> 2. A Feature field in this report with the Brightness Usage ID (to
+>    set the current brightness)
+>
+> This driver has been developed and tested with the Apple Studio Display.
+> Here is a small excerpt from the decoded HID descriptor showing the
+> feature field for setting the brightness:
+>
+>   Usage Page (Monitor VESA VCP),  ; Monitor VESA VPC (82h, monitor page)
+>   Usage (10h, Brightness),
+>   Logical Minimum (400),
+>   Logical Maximum (60000),
+>   Unit (Centimeter^-2 * Candela),
+>   Unit Exponent (14),
+>   Report Size (32),
+>   Report Count (1),
+>   Feature (Variable, Null State),
+>
+> The full HID descriptor dump is available as a comment in the source
+> code.
+>
+> Signed-off-by: Julius Zint <julius@zint.sh>
 
-I think it should be fine.
+I saw Christophe's review (thanks) and won't repeat anything from
+there...
 
-I actually tried running `make dt_binding_check
-DT_SCHEMA_FILES=3Dilitek,ili9882t.yaml` with just this bindings file and
-I actually _didn't_ get an error, so that's good. I guess it still
-verifies OK even without commit 2ca376ef18f6 ("dt-bindings: HID:
-i2c-hid: Add "panel" property to i2c-hid backed touchscreens"). I
-guess the "panel: true" is enough for it to at least not complain...
-;-)
+> @@ -472,6 +472,14 @@ config BACKLIGHT_LED
+>  	  If you have a LCD backlight adjustable by LED class driver, say Y
+>  	  to enable this driver.
+>
+> +config BACKLIGHT_HID
+> +	tristate "VESA VCP HID Backlight Driver"
+> +	depends on HID
+> +	help
+> +	  If you have an external display with VESA compliant HID brightness
+> +	  controls then say Y to enable this backlight driver. Currently the
+> +	  only supported device is the Apple Studio Display.
 
-So I think there's no downside to landing this in the i2c-hid tree. As
-I mentioned before, this panel won't actually be functional without
-the panel follower code, but once the two meetup in linuxnext we'll
-end up with something that works. :-)
+This contradicts the description which says you write the driver to the
+standard but only tested on Apple Studio Display. There is no need to
+spell what has been tested in the Kconfig text. Remove the final
+sentence!
+
+> diff --git a/drivers/video/backlight/hid_bl.c b/drivers/video/backlight/hid_bl.c
+> new file mode 100644
+> index 000000000000..b40f8f412ee2
+> --- /dev/null
+> +++ b/drivers/video/backlight/hid_bl.c
+> <snip>
+> +static void hid_bl_remove(struct hid_device *hdev)
+> +{
+> +	struct backlight_device *bl;
+> +	struct hid_bl_data *data;
+> +
+> +	hid_dbg(hdev, "remove\n");
+
+This message probably should be removed (if you want to know if a function was
+executed use ftrace).
 
 
-> Also, does it has enough reviews from the DT folks?
+> +	bl = hid_get_drvdata(hdev);
+> +	data = bl_get_data(bl);
+> +
+> +	devm_backlight_device_unregister(&hdev->dev, bl);
+> +	hid_hw_close(hdev);
+> +	hid_hw_stop(hdev);
+> +	hid_set_drvdata(hdev, NULL);
+> +	devm_kfree(&hdev->dev, data);
+> +}
+> +
+> +static int hid_bl_get_brightness_raw(struct hid_bl_data *data)
+> +{
+> +	struct hid_field *field;
+> +	int result;
+> +
+> +	field = data->input_field;
+> +	hid_hw_request(data->hdev, field->report, HID_REQ_GET_REPORT);
+> +	hid_hw_wait(data->hdev);
+> +	result = *field->new_value;
+> +	hid_dbg(data->hdev, "get brightness: %d\n", result);
 
-The bindings have Krzysztof's review and that's the important one. I
-believe Krzysztof was unhappy that Cong Yang hasn't been including
-version history in each individual patch, but he did provide a
-reviewed by on v5 [1]
+To be honest I'm a little dubious about *all* the hid_dbg() calls. They
+add very little value (e.g. they are useful to get the driver working
+but not that important to keeping it working). As such I don't think
+they are worth the clutter in a CONFIG_DYNAMIC_DEBUG kernel.
 
-[1] https://lore.kernel.org/all/949a2d21-eb14-3ef8-a7be-9c12152cd15a@linaro=
-.org/
+Note this is strictly for the hid_dbg() stuff... the hid_err() stuff in
+the probe error paths are much more useful!
+
+
+Daniel.
