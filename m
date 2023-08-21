@@ -2,68 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 280ED7826F1
-	for <lists+linux-input@lfdr.de>; Mon, 21 Aug 2023 12:20:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4543378270E
+	for <lists+linux-input@lfdr.de>; Mon, 21 Aug 2023 12:28:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230421AbjHUKUq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Aug 2023 06:20:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41142 "EHLO
+        id S234693AbjHUK2U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Aug 2023 06:28:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234621AbjHUKUp (ORCPT
+        with ESMTP id S234690AbjHUK2U (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Aug 2023 06:20:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67B12D3
-        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 03:19:55 -0700 (PDT)
+        Mon, 21 Aug 2023 06:28:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12FA1D8
+        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 03:27:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1692613194;
+        s=mimecast20190719; t=1692613657;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=6J98QdNCW3hGvq/vmAAFfh6AyiQr3+OWRF+NTVCkrzw=;
-        b=OoLBAtgmyTc/1q1MQ2EjIijeGpZpyJLR+QJ7INDYvopoo4zdFj44n1IwhEkFBGPkSQGIZ5
-        /z8f8oaTyaeehuUsR4lEzsmbvXGw79v5u0jWgsCuWgJqNaqHYiSXUtSOoB3shepSmvp4sp
-        rwyqwOVmYUmA/D20UfsI0zdoPuTICUI=
+        bh=5iwxNvZXLdMagMwR8LwiF4FeXyC8tzHGZDrS/U2JBBQ=;
+        b=UJ9M50Y/3Mc+JYgtZHhqSDezhP1Cd/F2v14zuJ9m9yemRYLsDHBPb01H8SVbWdTjvl64NZ
+        9W7UM46dIsRpOt/Y4tR3a1iGdZ+b215GOyIN8EYb/khznNFnDG8Aj5K3kvQZQaXFAB0RMV
+        HeHUfYnikr+N1uvAEYWSgAMMFAEitl4=
 Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
  [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-418-evp1Y6iHOUu3MWMRgsOSFA-1; Mon, 21 Aug 2023 06:19:53 -0400
-X-MC-Unique: evp1Y6iHOUu3MWMRgsOSFA-1
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-5256fdb3e20so1922457a12.3
-        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 03:19:53 -0700 (PDT)
+ us-mta-371-CXOV2pvlNMeCfsFNW3aLOA-1; Mon, 21 Aug 2023 06:27:35 -0400
+X-MC-Unique: CXOV2pvlNMeCfsFNW3aLOA-1
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-51bef8bb689so5586479a12.1
+        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 03:27:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692613191; x=1693217991;
+        d=1e100.net; s=20221208; t=1692613654; x=1693218454;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6J98QdNCW3hGvq/vmAAFfh6AyiQr3+OWRF+NTVCkrzw=;
-        b=Y4Sm894ueYEEtIAT8SosByuuBXlm4x2mL5KsOvh3xLcJs8EAyjFWp9+PJbtQHzFpS0
-         b6AdBidwlUjVlYtwW8cdZ+KT9EzQIZB+4DlpBoFIZ+LYRgmQ9GjFyZj89XLf9Xmq9De6
-         0hjEHpHw8rnwxg6j1jpynhPP5Qr11elGfiIPbJioARv+RcBEUaUPHsHQhIL1ImDODUZJ
-         9eAW3187Ab78Yydv9lplhonecziixHlQhDYr/nv6/KhpHJ28cVp/LYDeo0dkmpBxh+E7
-         ScC5Q3IIhNzCdZ37rYPSBJjrM7YfBFhzYKBAOZI4z+j/0J0UJYkMc2Y9s5MnZUo4xFyI
-         nRNw==
-X-Gm-Message-State: AOJu0Yx/k9XFZgZvox2niy6ITyvRS3BK07l0Y97IErNSMbIFo3wKCA8y
-        zvZcsKlhWi1ptRLOrAIXi6vGiRd9wVk15DfCynPZFAUxCXIp8ILLgOBmECKrbHpLJoPWCVEbNYi
-        NW3G2qnT3r+MpFaYbE/gaVRvr0WyBmpurUfMvS96WXNaDUSE=
-X-Received: by 2002:aa7:d741:0:b0:522:ab06:7213 with SMTP id a1-20020aa7d741000000b00522ab067213mr4499901eds.27.1692613191320;
-        Mon, 21 Aug 2023 03:19:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEczeFjtn1koyKYLXFdMW1w5mzWAvVlP2Ptfln+ymfh4TciXnX7kdQBk3KT1NYiJ34aiM9A/fFkyGmoZsUVwyE=
-X-Received: by 2002:aa7:d741:0:b0:522:ab06:7213 with SMTP id
- a1-20020aa7d741000000b00522ab067213mr4499883eds.27.1692613191035; Mon, 21 Aug
- 2023 03:19:51 -0700 (PDT)
+        bh=5iwxNvZXLdMagMwR8LwiF4FeXyC8tzHGZDrS/U2JBBQ=;
+        b=MtArQK4aHQ4W5GrvIGyvxHHT5k7k8MK7a+x4+eOFXxOOcKdDuIhZ+IMbQQdKuaXcx0
+         ppI7WR/em+T+XtIhvrBLZIE33ZiwMb7i4NVS6KWU6R33Bn4uRKZfjFwlJyAQIYRH/2Sy
+         c80IU8Ow6soBoW+mGYI0IVtobjF5pYt+4eRaAxwCMSiZinYGBe2BoKxkaIR9qvjUz8NY
+         2YvhXNaMHiQ0yI1beAC+xD1leDGL7Ju49yVpoPzEAry1h1qmn0LaWYhmJnzKwmqJf6a6
+         y6QaHPAf12SEtqCo6h0DB4a7yVekvHm75jvmpNKyrAeb0Hnx9SXQobuEQUo74mU/beK+
+         YQJQ==
+X-Gm-Message-State: AOJu0YyyPQSWwuMwakmcv9t/KQiaK321VEjRPiFk5jYXQzlKM4eCoscx
+        aH4iZWMKcfsQx9K85hhwRu8aa05zxcYX9BT0OIiM0rLfZBwTV+9dycHAfy1urHVYX1TTJOykAfW
+        b3ueJrq7PyycK2CpFCRNu/g0ejGRKxE7AvNi9Q2KHeDy/BRFGIA==
+X-Received: by 2002:a05:6402:34cf:b0:51d:b184:efd with SMTP id w15-20020a05640234cf00b0051db1840efdmr6341970edc.20.1692613654179;
+        Mon, 21 Aug 2023 03:27:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHWjC+NN//7uMpaxhKqnZSI37jqUDWzGh1yHBBr1JHL7SGqZelpjZUe6q5ldlay9WSUElP/IU8uFo/wcaRWgiE=
+X-Received: by 2002:a05:6402:34cf:b0:51d:b184:efd with SMTP id
+ w15-20020a05640234cf00b0051db1840efdmr6341961edc.20.1692613653935; Mon, 21
+ Aug 2023 03:27:33 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230703185222.50554-1-andriy.shevchenko@linux.intel.com>
  <ZMK60UphgVuj4Z+L@smile.fi.intel.com> <ZMydcGv8Dvu3Hje1@smile.fi.intel.com>
  <nycvar.YFH.7.76.2308071319140.14207@cbobk.fhfr.pm> <ZND/8wd67YbGs8d5@smile.fi.intel.com>
  <nycvar.YFH.7.76.2308141128260.14207@cbobk.fhfr.pm> <ZOMcHQc8Em/s6C+y@smile.fi.intel.com>
  <ez2oewpi3yeaiejrvbe433ude75pgm3k3s5sh5gnn7pvnzm7b4@ajuopfgwocft>
- <ZOMvpmoWLCgcAyJR@smile.fi.intel.com> <ZOMv4VB0bZpupNlN@smile.fi.intel.com>
-In-Reply-To: <ZOMv4VB0bZpupNlN@smile.fi.intel.com>
+ <ZOMvpmoWLCgcAyJR@smile.fi.intel.com> <ZOMv4VB0bZpupNlN@smile.fi.intel.com> <CAO-hwJ+Pa0yMV5taEc9+RXEWJzkotpyj4gz2qftyLV4G73F-mg@mail.gmail.com>
+In-Reply-To: <CAO-hwJ+Pa0yMV5taEc9+RXEWJzkotpyj4gz2qftyLV4G73F-mg@mail.gmail.com>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Mon, 21 Aug 2023 12:19:39 +0200
-Message-ID: <CAO-hwJ+Pa0yMV5taEc9+RXEWJzkotpyj4gz2qftyLV4G73F-mg@mail.gmail.com>
+Date:   Mon, 21 Aug 2023 12:27:22 +0200
+Message-ID: <CAO-hwJ+EaFJEmuBYKRLmy-=xtOu96L=c5=zM=hS=0Ju_zGV=oA@mail.gmail.com>
 Subject: Re: [PATCH v1 00/12] HID: cp2112: Cleanups and refactorings
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     Benjamin Tissoires <bentiss@kernel.org>,
@@ -82,43 +82,59 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 21, 2023 at 11:35=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+On Mon, Aug 21, 2023 at 12:19=E2=80=AFPM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
 >
-> On Mon, Aug 21, 2023 at 12:34:30PM +0300, Andy Shevchenko wrote:
-> > On Mon, Aug 21, 2023 at 10:51:04AM +0200, Benjamin Tissoires wrote:
-> > > On Aug 21 2023, Andy Shevchenko wrote:
->
-> ...
->
-> > > Long story short, I'm not able to test it right now (and I got quite
-> > > some backlog as you can imagine). IIRC the code was fine, so I think =
-we
-> > > can just take the series as is, and work on the quirks (if any) later=
-.
+> On Mon, Aug 21, 2023 at 11:35=E2=80=AFAM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
 > >
-> > Thank you!
+> > On Mon, Aug 21, 2023 at 12:34:30PM +0300, Andy Shevchenko wrote:
+> > > On Mon, Aug 21, 2023 at 10:51:04AM +0200, Benjamin Tissoires wrote:
+> > > > On Aug 21 2023, Andy Shevchenko wrote:
 > >
-> > The thing that might be broken is interrupts handling. If that works,
-> > I'm pretty confident with the rest.
+> > ...
+> >
+> > > > Long story short, I'm not able to test it right now (and I got quit=
+e
+> > > > some backlog as you can imagine). IIRC the code was fine, so I thin=
+k we
+> > > > can just take the series as is, and work on the quirks (if any) lat=
+er.
+> > >
+> > > Thank you!
+> > >
+> > > The thing that might be broken is interrupts handling. If that works,
+> > > I'm pretty confident with the rest.
+> >
+> > I.o.w. first 5 patches to test is already 98% of guarantee that everyth=
+ing
+> > is fine.
 >
-> I.o.w. first 5 patches to test is already 98% of guarantee that everythin=
-g
-> is fine.
+> Actually I applied you series locally, and applied Danny's patches on
+> top, and I could run your series in qemu with the cp2112 as USB
+> passthrough.
+>
+> Everything is working fine, so I can take this one just now.
 
-Actually I applied you series locally, and applied Danny's patches on
-top, and I could run your series in qemu with the cp2112 as USB
-passthrough.
+I've pushed the series to for-6.6/cp2112, but for some reasons, b4
+doesn't seem to believe the series is the one you submitted.
 
-Everything is working fine, so I can take this one just now.
+Would you mind double checking on your side if everything is good?
+
+https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/log/?h=3Dfor-6.=
+6/cp2112
 
 Cheers,
 Benjamin
 
 >
-> --
-> With Best Regards,
-> Andy Shevchenko
+> Cheers,
+> Benjamin
 >
->
+> >
+> > --
+> > With Best Regards,
+> > Andy Shevchenko
+> >
+> >
 
