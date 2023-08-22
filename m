@@ -2,192 +2,220 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33D7C784665
-	for <lists+linux-input@lfdr.de>; Tue, 22 Aug 2023 17:58:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00C577846E3
+	for <lists+linux-input@lfdr.de>; Tue, 22 Aug 2023 18:19:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237447AbjHVP6B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Aug 2023 11:58:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56388 "EHLO
+        id S237644AbjHVQTq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Aug 2023 12:19:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232529AbjHVP6B (ORCPT
+        with ESMTP id S237546AbjHVQTq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Aug 2023 11:58:01 -0400
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2040.outbound.protection.outlook.com [40.107.243.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2D6CBE;
-        Tue, 22 Aug 2023 08:57:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Np/JJDrETpOOs2ybAn2MMG7L5n0lWGHS72JmPEaCveSQetNqGShcINJZge5vcva8gWZ7z6St6rDcT88f4p7kyfn0a2AhXB0s9q6SSX6v0b4JbtajqcEuAebmiR+nkU4Vf5ANstCG3arGhoMX4uSQ97RA+lIc3HuwsuB6TJs9RTSRs34s94tLNg9v0YUNoQU2pusMAAC2w/uwCTwacbjZefWjbwoMcdJbV2G9cBUot86kkYuimHJAWQyi9lPZxYXv6pm1L58/t4wKOrgPzvfclNrfeoDLCqcZQ04dqK6DDcqTBLEjc4JVvVDTAW/3rdP/ZjyumZnvdAYDQ7cumTr/sQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l19JLGF+I+bQ+P2kCTs7DIhR3i4n98VZ+jy4gUqIeAs=;
- b=HtqJT2qWNrgTyikiM1tWj8xNDZp50OiwQYGOLpmhuLXSDb609WQJRMyj+GEAZHeRRMIQyLYugZEo3umybuKveKd/hzpur2rj7MKoV/j54/mt+Sfi1xtI7eey+0velOERyKGk/q2afi/2AlS0SdjI/aum3fzeuJ6yOTd/ZqNim1qFTTOq9ZDkMb2OBR/rolrAByf9FjW8jcC2XkEjS67mDrHEbRifYcWGppeZleVN7fyon3NiYoMITMgWJIhGYgo4TXtLFwuSUanZMAJADNM/NoUNQTehatYF1EbJ0WdYi2e4SDssfXhnLU5Qm4icDSUCJ4MJxczfwVfphxhSOmzpJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l19JLGF+I+bQ+P2kCTs7DIhR3i4n98VZ+jy4gUqIeAs=;
- b=ebUApBAeKBrniqFtxscSRRVOza1SekTWkiO3e18LmhI19ht0glNFyQLVWfN32bWulrzoyCdyOQ7nW4+/BV5gXuqHe17k40NdOECfvk+6VGHiVrfW80BwatU/5l5GAZwiWWpNgmK9Yfe0AKyYtLtAP1nF3Iivh/USiFIX0ourk94/6DPopQz68Q/2E4mWT0sU9X1pjavaOKvk4ZOhBtsP5CK8nYOKKeJ13gVjX6Pa/qrrHTerYFYMDdvbKm2HPqh+vB/8aqL407qXp8KhqiGitWWTYfWPctDwGUcrJCPmOQ6RvRtqsVqAqcaqN83ZnHc2RbseWMeVgJ4HwODX023QNA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
- by SJ0PR12MB6991.namprd12.prod.outlook.com (2603:10b6:a03:47c::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20; Tue, 22 Aug
- 2023 15:57:55 +0000
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::900c:af3b:6dbd:505f]) by BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::900c:af3b:6dbd:505f%5]) with mapi id 15.20.6699.022; Tue, 22 Aug 2023
- 15:57:54 +0000
-From:   Rahul Rameshbabu <rrameshbabu@nvidia.com>
-To:     Maxime Ripard <mripard@kernel.org>
-Cc:     syzbot <syzbot+3a0ebe8a52b89c63739d@syzkaller.appspotmail.com>,
-        davidgow@google.com, dmitry.torokhov@gmail.com,
-        gregkh@linuxfoundation.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, rydberg@bitmath.org,
-        syzkaller-bugs@googlegroups.com, benjamin.tissoires@redhat.com
-Subject: Re: [syzbot] [input?] KASAN: slab-use-after-free Read in
- input_dev_uevent
-References: <00000000000035beba060371a468@google.com>
-        <ijh2qmdtj452nq3idu2tohkrmfwr2qhbhrnyqzxjkkw2lrby53@v2dffcqdohsx>
-Date:   Tue, 22 Aug 2023 08:57:41 -0700
-In-Reply-To: <ijh2qmdtj452nq3idu2tohkrmfwr2qhbhrnyqzxjkkw2lrby53@v2dffcqdohsx>
-        (Maxime Ripard's message of "Tue, 22 Aug 2023 11:12:28 +0200")
-Message-ID: <878ra3m5my.fsf@nvidia.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0P220CA0005.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:41b::12) To BYAPR12MB2743.namprd12.prod.outlook.com
- (2603:10b6:a03:61::28)
+        Tue, 22 Aug 2023 12:19:46 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9A43193
+        for <linux-input@vger.kernel.org>; Tue, 22 Aug 2023 09:19:43 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3fe12820bffso46812475e9.3
+        for <linux-input@vger.kernel.org>; Tue, 22 Aug 2023 09:19:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1692721182; x=1693325982;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :references:cc:to:content-language:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e2sK25pHmy+ze1Ybz8hn3pPQzDyrBRYa60rRH4NH4K4=;
+        b=EIr1I4lkGWcsjJhSARAeppBKOlivRpYDEKnMMlMqc8br9LSs+W/8+ObH7xmN6/O8mB
+         CEk9ec26vYMXxU1M0Zr1+kTvvkeZmB6JOxDu7UkvfMzIdWBopKpEGT8dmNjIKXwLj3ul
+         0CnlGGh4HMrIMeFYK7IsgNeL+Wdx4zSePl15f3jdiSJQ7JTY/0aA15J4+gWF4xtgmpof
+         Ufih+szZNwlgZIt/0sFRCPp/BnLx6oFpwqp5Yd5okz5ofoloAxIqdpzD2gXDf85q4xrY
+         9gklxTxamFUMMpAmkJ5sL6ZAoETDIV1DpNJ++428Fmxc0gJ2bMTM6KW+xHOZmzlXDqVF
+         Iotg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692721182; x=1693325982;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :references:cc:to:content-language:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=e2sK25pHmy+ze1Ybz8hn3pPQzDyrBRYa60rRH4NH4K4=;
+        b=dLIw4cJAyBy4B5q8Va6dOxcy26kGETvptxngBCY3T+p/IwfvZo+I0XEPSqAgtkD3In
+         O2LuoRBGKha241ydJPFT+gzbPKe2DThKfjDc7UmyiCs2BM3FSaS7vAP3LAk+sE0tL6NS
+         4BjdT/67b9ctrtZo9IrmVmaSrUj+7ggudHWm5pRYsJbTWkit4DLFlvKMcBCJHmWb5rUV
+         ZsD/vjJ4+QWh7MAFVadTd0aHJKzNwaAga/u/WLYlkb1qPiQQGVa06MX/AMN0fqmawQnA
+         PipVaFgLhsjQafDO119gRwJOJem8DRTl2a5vu0W+zjUBF3+FhjowirULi1MqzWDQdwxM
+         pQzQ==
+X-Gm-Message-State: AOJu0YykG2nEr65AIKI8XcTJV1BPwFxoydR1/PWK0gjQCPNx3ZSimgvD
+        5QmmOpj032J4Xy+J92VIAV/MRg==
+X-Google-Smtp-Source: AGHT+IFV2T7QA2Y8bKBQIemr3twqEOx//JFK9SnUvRdlu3ELv5Fb8pjW8G6OT+xALpwoMCsJaKtPYQ==
+X-Received: by 2002:adf:e548:0:b0:317:5c82:10c5 with SMTP id z8-20020adfe548000000b003175c8210c5mr7196004wrm.17.1692721182281;
+        Tue, 22 Aug 2023 09:19:42 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:cad:2140:de4a:6da8:c7fc:12c? ([2a01:e0a:cad:2140:de4a:6da8:c7fc:12c])
+        by smtp.gmail.com with ESMTPSA id y17-20020a5d4ad1000000b0031984b370f2sm16289955wrs.47.2023.08.22.09.19.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Aug 2023 09:19:41 -0700 (PDT)
+Message-ID: <36efbd0b-7f33-4c11-8e8e-f07bea4b3455@linaro.org>
+Date:   Tue, 22 Aug 2023 18:19:40 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|SJ0PR12MB6991:EE_
-X-MS-Office365-Filtering-Correlation-Id: a26dbbb5-beee-4e5f-ef20-08dba3288bed
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TVNm2j7D/cPxgdmHsCgWkC/bbhbKMERY0wNkMuqG34qHGYLr9CZ/rU7I5fsdiT/2vQejTWeEqgfjjRE6C5Cwg415Jk5VqfwjhJEFd2OLcgRQ2ug+RGBOc537kiypIPileEqVHploER0Gs70zW9Q7T2+hxn07bLVU086gsSeCvzI0O70kNtxp1701drAgbCsHhYD0rQiqhNSxsLih5MO2MErn0liyrlm1NgttPTAGIDRpW+wq4EgSS4qdgxDRw2R7qA2JdDbZjN5S22z7ApauiePHFLP7+5GZCeGGsZkY1OJclKt0Ad58rYJnty9hhdIClDwTsGxsEz4Xl//FiuoL1opbeQAAmkpQAH+h6PF/on5P3LHrEjge7NrMi8UBxUtLJp4l1zpAXHGETRXz250yArbDDA9RnMgXTo/eiCSkJ4Q8q0D7AGju+P+7jCJUTskuTwU+69SKDM8/kD9arAxBf+hscL+ttNYZJT2sJPk38gj+G3Nk7z9kj4aH7XTC5VMla859dQw6E+Nzm4p9RnfBtlhVjJ+ktjBm9dkG2r3oNFGm4swnZaBBKCKz7N15e5SshZBBTI5UM+sUyc5ms3kuamhunnKFA4C1SP2//kIEkOM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(39860400002)(376002)(346002)(366004)(1800799009)(186009)(451199024)(6916009)(66476007)(66556008)(6512007)(316002)(66946007)(966005)(8676002)(8936002)(2616005)(4326008)(36756003)(41300700001)(478600001)(6666004)(38100700002)(6486002)(6506007)(83380400001)(2906002)(7416002)(86362001)(5660300002)(26005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?D2LMCif5+qIA0ZkSr/KnbLRez10pyR3xLVtFPa0hoFfYSBtabAWm4GnfkUko?=
- =?us-ascii?Q?RG1VfUmvmiNXVCzwlnSUzfoXdXG3spiRkXacp7Q3X9ltBilUrrNQuNsf4uOF?=
- =?us-ascii?Q?M39+AKRC8YZGETjKl2+iizQo3izF0M+CA3EpcQqFLor6Q63ZoaCj8Fq16JKj?=
- =?us-ascii?Q?1GVWtsHLUiPPHPz9WqDWcBVEla/H5k/kidNjd4FGiDc7Jhbn4yaufP9A8hLY?=
- =?us-ascii?Q?4TKFVHwFpCx+FhxLaip5NpU1ynbU6gj1QYWhzNPJTpLaWX/N23fypjClHSvw?=
- =?us-ascii?Q?eincDi66YK+mYnMZDtzb2jJuL/AtIxdqxXGm8DwHKHYsOKCMELaRiYQKcHC6?=
- =?us-ascii?Q?OcJyxaISp3qWDcAZvPQegfBw71ssQNl84X02/xIqo2y7SAd63nW7O5rEuvHD?=
- =?us-ascii?Q?+l1XFOQKiIcapnlSSx51K/gHdHvdhCh1a1c+/w2a8J3SeK0JaIWWD1zZ0LVw?=
- =?us-ascii?Q?MTK2F9vZemVUoR8xiigtHBZ7ZoblftX80Y9q4PcE35n1gua44j9jLLWy/zmZ?=
- =?us-ascii?Q?l9MM9MKMZATPNjVeH6Z2V5jlqYCP/bByIOXXZ3Oz2EDkV4STUPJZhuoZ1+Lo?=
- =?us-ascii?Q?x+8NTN6Pi2Kp5SQIzjIauMyWXFuZFNSpNZxSbQxj5jkLza9LdmstQFz0RkNP?=
- =?us-ascii?Q?UUAepAyQIQ97r5sz6ujHMX/Q6SrckzPivtKT7dOYG+5HkQ3Lf/psomaT/QMy?=
- =?us-ascii?Q?ocnQ22ROPFHHrc7kJDh0cT6kkKvX8Rxl6iOtWfaHn/FtgtTBBOcXQgU1BoCk?=
- =?us-ascii?Q?VtedE57pnOXD4bOcQ/ZyeuYcT+X7lvYs8XRm2FqpXi9eyQxiCn8yC/Lfu89g?=
- =?us-ascii?Q?bIX5JQO/fkvitk2szlvAMTYaNVoPA4T8QA3U4GsRIphmw6OguldKyojXfdyM?=
- =?us-ascii?Q?QkB6EnCpt2PUe7cQGxWl2Sv0O1HdqKX1OIdzI0MyEgHmA7KvZpvcNusXGWpY?=
- =?us-ascii?Q?nEwt3fsE+gKKAKoWmIVG4fnPVfLzJYhlRqmH4QUm0CH0ywkIVj+5Y9g9IgF+?=
- =?us-ascii?Q?/bXdUaBFA1X5U4AGSSGN+eqcUBcKEpxYnIiDivuKZrruiNv3/xkrIo6+w9jS?=
- =?us-ascii?Q?vQOFk2uUKkmj2nG5dpO7+MhUf+5U2KMCNWWO2jJZEeLH/Tw7c6QyCSjkoK2Q?=
- =?us-ascii?Q?30uBxcQAiGjGFnBJSw+NdM5G7QI6eX6hvieWaU3UpcKpH0gjkM2A4AZg6jVQ?=
- =?us-ascii?Q?Lw9+LcmqvW4lvmz3KqZFzfUwoNI3nrNTHU1otTUA5TddHv86OTJ3jcMgs26w?=
- =?us-ascii?Q?plJFOMHKKD1ZoKsMylR2GXMn1tTHXtJFjIGDYccnaHrP5h2QnM3pK9MtWmE4?=
- =?us-ascii?Q?rp2D1MfWIMh905DmggXrh5WuxOWVAUAu+LC9LgGueU+tITa4REVNDt8DwdKG?=
- =?us-ascii?Q?zS8Z8dKULnmFyWyEG/VeCVi5+bonZv76orFgui1eP2+S+VYZ9dWgkjQsW/MU?=
- =?us-ascii?Q?5mVrIa4VN3XNAnlXWjV5n7g1rNbOMD6cLKLrNHOkZeC8sdsaTYgBx0WVuC/f?=
- =?us-ascii?Q?csW2smeG0kD+EaO2BkZDynPH2gMJ0wVqr3aM3IrxRu6w0uMkE6IVcLTJFCT6?=
- =?us-ascii?Q?uCpN0dfz4xeT/z2FZKUqOsgkubGquqc8LFrBrc9cbceXIYh/ZA5ceVSgZcUu?=
- =?us-ascii?Q?fg=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a26dbbb5-beee-4e5f-ef20-08dba3288bed
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2023 15:57:54.6737
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IAhBlQz/7NY+7nH/EBqZ/wnKFqpICQWGUP+m1CNkzaThRoU+x8Hih6vfgUvp1Esh/DqnNY60uc/VbPFknQTV8A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6991
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+From:   Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH v5 0/4] input: touchscreen: add initial support for Goodix
+ Berlin touchscreen IC
+Content-Language: en-US, fr
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Jeff LaBundy <jeff@labundy.com>
+Cc:     linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
+References: <20230801-topic-goodix-berlin-upstream-initial-v5-0-079252935593@linaro.org>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <20230801-topic-goodix-berlin-upstream-initial-v5-0-079252935593@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Maxime,
+Hi,
 
-On Tue, 22 Aug, 2023 11:12:28 +0200 Maxime Ripard <mripard@kernel.org> wrote:
-> Hi,
->
-> So, we discussed it this morning with Benjamin, and I think the culprit
-> is that the uclogic driver will allocate a char array with devm_kzalloc
-> in uclogic_input_configured()
-> (https://elixir.bootlin.com/linux/latest/source/drivers/hid/hid-uclogic-core.c#L149),
-> and will assign input_dev->name to that pointer.
->
-> When the device is removed, the devm-allocated array is freed, and the
-> input framework will send a uevent in input_dev_uevent() using the
-> input_dev->name field:
->
-> https://elixir.bootlin.com/linux/latest/source/drivers/input/input.c#L1688
->
-> So it's a classic dangling pointer situation.
->
-> And even though it was revealed by that patch, I think the issue is
-> unrelated. The fundamental issue seems to be that the usage of devm in
-> that situation is wrong.
->
-> input_dev->name is accessed by input_dev_uevent, which for KOBJ_UNBIND
-> and KOBJ_REMOVE will be called after remove.
->
-> For example, in __device_release_driver() (with the driver remove hook
-> being called in device_remove() and devres_release_all() being called in
-> device_unbind_cleanup()):
-> https://elixir.bootlin.com/linux/latest/source/drivers/base/dd.c#L1278
->
-> So, it looks to me that, with or without the patch we merged recently,
-> the core has always sent uevent after device-managed resources were
-> freed. Thus, the uclogic (and any other input driver) was wrong in
-> allocating its input_dev name with devm_kzalloc (or the phys and uniq
-> fields in that struct).
->
-> Note that freeing input_dev->name in remove would have been just as bad.
->
-> Looking at the code quickly, at least hid-playstation,
-> hid-nvidia-shield, hid-logitech-hidpp, mms114 and tsc200x seem to be
-> affected by the same issue.
+On 01/08/2023 14:15, Neil Armstrong wrote:
+> These touchscreen ICs support SPI, I2C and I3C interface, up to
+> 10 finger touch, stylus and gestures events.
+> 
+> This initial driver is derived from the Goodix goodix_ts_berlin
+> available at [1] and [2] and only supports the GT9916 IC
+> present on the Qualcomm SM8550 MTP & QRD touch panel.
+> 
+> The current implementation only supports BerlinD, aka GT9916.
+> 
+> Support for advanced features like:
+> - Firmware & config update
+> - Stylus events
+> - Gestures events
+> - Previous revisions support (BerlinA or BerlinB)
+> is not included in current version.
+> 
+> The current support will work with currently flashed firmware
+> and config, and bail out if firmware or config aren't flashed yet.
 
-I agree with this analysis overall. At least in hid-nvidia-shield, I can
-not use devm for allocating the input name string and explicitly free it
-after calling input_unregister_device. In this scenario, the name string
-would have been freed explicitly after input_put_device was called
-(since the input device is not devres managed). input_put_device would
-drop the reference count to zero and the device would be cleaned up at
-that point triggering KOBJ_REMOVE and firing off that final
-input_dev_uevent.
 
-I think this can be done for a number of the drivers as a workaround
-till this issue is properly resolved. If this seems appropriate, I can
-send out a series later in the day. This is just a workaround till the
-discussion below converges (which I am interested in).
+Gentle ping, is there any changes to be made in order to get this driver in ?
 
->
-> We discussed a couple of solutions with Benjamin, such as creating a
-> helper devm action to free and clear the input_dev->name field, droping
-> the name, phys and uniq fields from the uevent, or converting name, phys
-> and uniq to char arrays so drivers don't have to allocate them.
->
-> We couldn't find a perfect one though, so... yeah.
->
-> Maxime
-
---
 Thanks,
+Neil
 
-Rahul Rameshbabu
+> 
+> [1] https://github.com/goodix/goodix_ts_berlin
+> [2] https://git.codelinaro.org/clo/la/platform/vendor/opensource/touch-drivers
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+> Changes in v5:
+> - rebased on next-20230801
+> - Link to v4: https://lore.kernel.org/r/20230606-topic-goodix-berlin-upstream-initial-v4-0-0947c489be17@linaro.org
+> 
+> Changes in v4:
+> - Core updates:
+>   - drop kconfig depends, deps will be handled by _SPI and _I2C
+>   - change power_on() error labels
+>   - print errors on all dev_err() prints
+>   - remove useless default variable initialization
+>   - switch irq touch checksum error to dev_err()
+>   - add Jeff's review tag
+> - I2C changes
+>   - change REGMAP_I2C Kconfig from depends to select
+>   - add Jeff's review tag
+> - SPI changes
+>   - add select REGMAP to Kconfig
+>   - added GOODIX_BERLIN_ prefix to defines
+>   - switched from ret to error
+>   - add Jeff's review tag
+> - Link to v3: https://lore.kernel.org/r/20230606-topic-goodix-berlin-upstream-initial-v3-0-f0577cead709@linaro.org
+> 
+> Changes in v3:
+> - Another guge cleanups after Jeff's review:
+>   - appended goodix_berlin_ before all defines
+>   - removed some unused defines
+>   - removed retries on most of read functions, can be added back later
+>   - added __le to ic_info structures
+>   - reworked and simplified irq handling, dropped enum and ts_event structs
+>   - added struct for touch data
+>   - simplified and cleaned goodix_berlin_check_checksum & goodix_berlin_is_dummy_data
+>   - moved touch_data_addr to the end of the main code_data
+>   - reworked probe to get_irq last and right before setip input device
+>   - cleaned probe by removing the "cd->dev"
+>   - added short paragraph to justify new driver for berlin devices
+>   - defined all offsets & masks
+> - Added bindings review tag
+> - Link to v2: https://lore.kernel.org/r/20230606-topic-goodix-berlin-upstream-initial-v2-0-26bc8fe1e90e@linaro.org
+> 
+> Changes in v2:
+> - Huge cleanups after Jeff's review:
+>   - switch to error instead of ret
+>   - drop dummy vendor/product ids
+>   - drop unused defined/enums
+>   - drop unused ic_info and only keep needes values
+>   - cleanup namings and use goodix_berlin_ everywhere
+>   - fix regulator setup
+>   - fix default variables value when assigned afterwars
+>   - removed indirections
+>   - dropped debugfs
+>   - cleaned input_dev setup
+>   - dropped _remove()
+>   - sync'ed i2c and spi drivers
+> - fixed yaml bindings
+> - Link to v1: https://lore.kernel.org/r/20230606-topic-goodix-berlin-upstream-initial-v1-0-4a0741b8aefd@linaro.org
+> 
+> ---
+> Neil Armstrong (4):
+>        dt-bindings: input: document Goodix Berlin Touchscreen IC
+>        input: touchscreen: add core support for Goodix Berlin Touchscreen IC
+>        input: touchscreen: add I2C support for Goodix Berlin Touchscreen IC
+>        input: touchscreen: add SPI support for Goodix Berlin Touchscreen IC
+> 
+>   .../bindings/input/touchscreen/goodix,gt9916.yaml  |  95 ++++
+>   drivers/input/touchscreen/Kconfig                  |  31 ++
+>   drivers/input/touchscreen/Makefile                 |   3 +
+>   drivers/input/touchscreen/goodix_berlin.h          | 159 ++++++
+>   drivers/input/touchscreen/goodix_berlin_core.c     | 581 +++++++++++++++++++++
+>   drivers/input/touchscreen/goodix_berlin_i2c.c      |  69 +++
+>   drivers/input/touchscreen/goodix_berlin_spi.c      | 173 ++++++
+>   7 files changed, 1111 insertions(+)
+> ---
+> base-commit: a734662572708cf062e974f659ae50c24fc1ad17
+> change-id: 20230606-topic-goodix-berlin-upstream-initial-ba97e8ec8f4c
+> 
+> Best regards,
+
