@@ -2,350 +2,275 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01F92783C96
-	for <lists+linux-input@lfdr.de>; Tue, 22 Aug 2023 11:12:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4141784111
+	for <lists+linux-input@lfdr.de>; Tue, 22 Aug 2023 14:43:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234222AbjHVJMj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Aug 2023 05:12:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48702 "EHLO
+        id S235764AbjHVMnd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Aug 2023 08:43:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232018AbjHVJMf (ORCPT
+        with ESMTP id S235763AbjHVMnc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Aug 2023 05:12:35 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBA67113;
-        Tue, 22 Aug 2023 02:12:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3AE88618D8;
-        Tue, 22 Aug 2023 09:12:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 268EDC433C7;
-        Tue, 22 Aug 2023 09:12:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692695551;
-        bh=lwqgw8d2qxsRjyzo3Hd13D6Y7rRh6LRCeLZGT0Dm7aI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=A4R4U3YC9vNQgXKQgQj+B7aDTK3UoEy0pKUfRYXuB1IwiVyy95ooB7OKpk7Tadd5E
-         4diZiDroWYxomx49l11D00Mradk6d3FwX1PPa6aVU1sPKgbL36FNo041AhMHxt+jj3
-         qPQpp8hBdgdSiym9tWEbgAbtTD3Co1OnorlFpwAyA4OigfQiDRkFXSQhSv5VYN4Vxv
-         a1jcX5f1QuJEgswJsoNT/ZZjXnSJeXzk/l6jZhYKpPIdU2FJswJ6LJWmJ6x+MdCVGo
-         Z1urGBIf9iDCZ9YQDlqOJEk+bSkVYK+IGfZO4dl4ffao/EN47Jrwmuc46rdiqehU0q
-         9o0delAv/ZqyA==
-Date:   Tue, 22 Aug 2023 11:12:28 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     syzbot <syzbot+3a0ebe8a52b89c63739d@syzkaller.appspotmail.com>
-Cc:     davidgow@google.com, dmitry.torokhov@gmail.com,
-        gregkh@linuxfoundation.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, rydberg@bitmath.org,
-        syzkaller-bugs@googlegroups.com, benjamin.tissoires@redhat.com
-Subject: Re: [syzbot] [input?] KASAN: slab-use-after-free Read in
- input_dev_uevent
-Message-ID: <ijh2qmdtj452nq3idu2tohkrmfwr2qhbhrnyqzxjkkw2lrby53@v2dffcqdohsx>
-References: <00000000000035beba060371a468@google.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="irvpjy7sl5yod4kf"
+        Tue, 22 Aug 2023 08:43:32 -0400
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2085.outbound.protection.outlook.com [40.107.95.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5076D1BE;
+        Tue, 22 Aug 2023 05:43:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XR/wJlSRcbZKT3h/yjn6kqZNI0NuDTqdaD1bn40wuvvBnfzlE+Ks3cUQUkMe8QqoxmOmmsfFOjSAvfO75yHGGPtguCT95vWDNVn3e5blVeKV0YKklOqDBfhJBTrR3HyIXw0sa5wlzFKI9XlB00gZjgjqgK8jvddMTOzkZ/MGc2G4z/fSt7GMouplOX2OhL/fUbCHugwvTAjPw2DfOn0RKfIXmBs244ouzEyrwuEP/gJfhGGQAkSmHBtAfaDIZJotiWo63rUnCLNS/xD31qyKjdZ05gnD46zUZiDhhGZceTP4KzL8p2lmGkb8HLXryrW3X7zoZ+4iBBE/RLhTx4wJ+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=y2Odd+VUWQIGOuHcEumkAuLEvZzK2xOhY/7vEFTn/pk=;
+ b=XjP4LQmgacOGboLXHghwSGlDFvmIrvyp9/zZpEOW2GApVNczlQtbM/bdeVmCOeTZ2oohGgIstDEagGErSRb9RsSvv3E/IG94kpMLpE71OhmhoyTDoXz6041pDMyHCjZpQTn1WCQNc9y81ejaeUXVcvY949cLeavviSTP7pSqnGDe4wN4imhxcy81o69NZiAPfH8LP89M8RnVU9n/XN5AOWEQzODHJH6lBH5FjV2xX2/lSBcULRwKsaOZqY5ulqIFi1lKTcxN5yiv8RxKDT4r2MnQxACYnMRfi40//UMdRUuNNle1/WOHR5fWnNNf0J6oDLuatkTi9wJ1Ob1jW5zI5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y2Odd+VUWQIGOuHcEumkAuLEvZzK2xOhY/7vEFTn/pk=;
+ b=gFo2ojdgxlRjkVvNxFhnxfClTUnAKdxOeB0usxln1HZ3TM+4WIsH0woncKVff/wgABXMS9rmnev4STwca5Nwfd371Zt7Qdx4p2w0OYVmtBrFvNwJ4fkR4glA1Ew9WFXEEsoi0VYmNuRv/dwUH8HLA8DVq8mi789r0gKoMx36u4s=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=labundy.com;
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ (2603:10b6:803:43::21) by BN0PR08MB6837.namprd08.prod.outlook.com
+ (2603:10b6:408:12f::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.25; Tue, 22 Aug
+ 2023 12:43:26 +0000
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::69d8:51a3:96da:38a4]) by SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::69d8:51a3:96da:38a4%5]) with mapi id 15.20.6678.031; Tue, 22 Aug 2023
+ 12:43:25 +0000
+Date:   Tue, 22 Aug 2023 07:43:06 -0500
+From:   Jeff LaBundy <jeff@labundy.com>
+To:     James Ogletree <James.Ogletree@cirrus.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Fred Treven <Fred.Treven@cirrus.com>,
+        Ben Bright <Ben.Bright@cirrus.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+        Joel Stanley <joel@jms.id.au>, Arnd Bergmann <arnd@arndb.de>,
+        Jacky Bai <ping.bai@nxp.com>, Jean Delvare <jdelvare@suse.de>,
+        Eddie James <eajames@linux.ibm.com>,
+        Markus Schneider-Pargmann <msp@baylibre.com>,
+        ChiYuan Huang <cy_huang@richtek.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 2/2] Input: cs40l50 - Initial support for Cirrus Logic
+ CS40L50
+Message-ID: <ZOStWl7LG72XgYcc@nixie71>
+References: <20230809191032.820271-1-james.ogletree@cirrus.com>
+ <20230809191032.820271-3-james.ogletree@cirrus.com>
+ <ZNWz7F7qLeNKDlG/@nixie71>
+ <7C3D1F80-556D-463E-85AD-AFA48CADAF5E@cirrus.com>
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <00000000000035beba060371a468@google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7C3D1F80-556D-463E-85AD-AFA48CADAF5E@cirrus.com>
+X-ClientProxiedBy: SN6PR05CA0023.namprd05.prod.outlook.com
+ (2603:10b6:805:de::36) To SN4PR0801MB3774.namprd08.prod.outlook.com
+ (2603:10b6:803:43::21)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|BN0PR08MB6837:EE_
+X-MS-Office365-Filtering-Correlation-Id: 60489dc1-0972-4b8a-7573-08dba30d609e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: x+vTY99k1Vgu1nXIklQnjIEmyBCwOMuNsTRlvaNnNcT8XPPNb2+XGklmG8VXGss0hmLpn7/TA80/HtP4Jy7gzu63UZALGTXMHn6uf5V/RfmwQM+7IhkWbshvKXD4YgLG9bDuQuXhrYc5HhqxaIT4h7ddVNgWDiWQoFN1SPDygcn7aqEvFEHUakKIqmPfh+LtOkmlxWmFQL0bRLRc1oZQ+vZp2JAkV0AefhGQBoaxuzjnQvhet3JmHYphD9IhWBhtYlb8hyrMS9eUZYTzOij7tkNuGQLP0Ums3HfPfY5EMABZUu0+/qJkuW4lC6s64xD1HgISd3AUaxW0cpF1yV+Fhip5va1qVrBU924c65hFb17Ai9DyEZtQeL7q2XKTNkpNPoqtpjR8PvKQZlIA2FfLYrjoYf2q43QV7lUrmxljMahQMaY0F3+uWMehuM2UW2Qu2nYgFiHkNGojxTS0rWHEed+cTfLgQY9blrfP/mE0/sQzz1nGNvGdo4o0jq+yg/B5JtUTEikAzEQpApH5LDDuPH0Nf+dC9BH35rO6hACbBp0w2NB4l/j6vnoB1aqi7JEO
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(366004)(136003)(396003)(39830400003)(346002)(186009)(1800799009)(451199024)(478600001)(6486002)(6666004)(6506007)(26005)(9686003)(6512007)(53546011)(2906002)(7416002)(33716001)(41300700001)(8936002)(6916009)(66556008)(4326008)(66476007)(8676002)(66946007)(316002)(5660300002)(54906003)(86362001)(38100700002)(83380400001)(66899024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SGdWTm5NSlVRUWkxNmM0UmtNWWFKV1MxMmJsK1I5YkI4eFExVkhiZFk3d1BH?=
+ =?utf-8?B?NU5NSkZUZ0VHVDBzU0c5Zm5zWS9XSlFoaFkwMEZLNGdnbmhwWjhJcDBqRU5O?=
+ =?utf-8?B?Q1VrSitlSWZPTi9WaytSOHNYREtNeDE4L0pzNlFCYTFzRnp2bHV2SHJlZmhV?=
+ =?utf-8?B?VWNBYTVvaVRnbGF6UnBzVjdDdlJJMGFCTjNMMFlacVh4WXd4Qkk5NmFtU29H?=
+ =?utf-8?B?VnV3UGFuS1NhWlFiY3BpOVpuY0RwbGFBc1I4Q3lRaWZrVVY0b3ZWaWoraVA5?=
+ =?utf-8?B?ZEZDcDJPL0ZaTWVNc1dYenR6QzdZVS9MdHVJUGlkVXEyTUR2SFFtQVQ3Rmxz?=
+ =?utf-8?B?OUFuMGI1aExFS1Z3aHFtQXNpUEJHWE13Tiswck1JT0Rnc2JLYzJtb0ZJN1Nq?=
+ =?utf-8?B?OHRmTW5rdXY1MUQzSnZzQ0NwYVd0dHM5bXQ0ejRqU2d1alRKeGVkcFhnS0Rh?=
+ =?utf-8?B?OWM3WEJIQ3BUVEIvTXphaUh0b1ZRQS9lZGhVNWl1S3hzUFFwMGQ3WVg4ZmJs?=
+ =?utf-8?B?M1lLNVJ5RTUxUURRQzNzTGxzaFRoUXIvazg3ZDk0RCs3YXdrckZGNUk4akVx?=
+ =?utf-8?B?R2Q5ZkwrN21laUZ1SndoWGwwdEt3S3djUEcyTGs5ME1UVDc1YkZtSllndEUv?=
+ =?utf-8?B?cHZGQUpoL0NxNi84c3BYSEhLdWRDUVM5STl4NVpzaU9MN0tmK0RkRzhQc2FX?=
+ =?utf-8?B?V1cxdkJudHpxY28xcGhQUmxXY21KcnZUcFNRRTU2cDZPUWs5WUtqRnpxK1da?=
+ =?utf-8?B?WXNaVVoyWjFnSjNqYUFiRmp2cW4vaVJRQ0R1dU40eGhYSzhVK2h2YlFoSk00?=
+ =?utf-8?B?U093Ung5bXFTYnd3WGpvc05vWTJuaXJZRWZVZzloV2pwaEtnQlJOckN0SzVh?=
+ =?utf-8?B?Wi9QekgzM3ZFK3BidE9pUDJ1ekNoZDlmRFBiaVdndnMyYlU2R0FvUTEwYkp1?=
+ =?utf-8?B?YkI2Mm5nNHdNNmF6aWRnUXppSm5vbllCUzl2eTRvN0d6SnVFaGE1a0M1d2dJ?=
+ =?utf-8?B?d2V3K3hTbEx5YU1JZTRFdVdyZ3dMK3lyVzFNOUZ5ZnRCZzEvSFF3cDR4R1ZW?=
+ =?utf-8?B?aTFKeEVuNEVBaEgzdFpFa2RodXhXL0x5bjZFVFlGMlVROW0wa0NicFNWSmxn?=
+ =?utf-8?B?ZUdaQVZpSTdxcnpqcitnSlUraHB0cHhOQWprNm9CalFBaDdRVmY1dkZSaUdJ?=
+ =?utf-8?B?VHd4dmkxdGJBUmFwZVMyaWtiTFFPdjVKVEpVWmY5bDMwckNaamJJSWVDSW1M?=
+ =?utf-8?B?VFZGcmRuMmk4ckw4eUdlQTRBWnlKcFZ0RGFsUTNpUjJ1Z01TTWtJVGtSM3Zp?=
+ =?utf-8?B?bkRscDgzdm1nSEVZeEdHR2ozNzB4MTdBanY2RXB5eVVjUTNvSWowblYvcXBH?=
+ =?utf-8?B?TGZzbEEranRLTkp1VTRGajZ0OVUrZWVZcVJZcTZQZWxzc2MrcWgwalB1M0oz?=
+ =?utf-8?B?cTBQYkpkenRWR3hOT3pWcFh2anVpank4Y1lPSEg2Wkc2SWgxK01Mc1kvR1RB?=
+ =?utf-8?B?UzdkYWNneTBSZjNJTzBBamphd1pDRjQ3cEpvZzVtUGtNdUh2RHd2UklzSlFi?=
+ =?utf-8?B?NnRzSHFqNDNpbXJLODEzZ1FTT2wzdWFYbkNENFJtWGl4VkV6dWNFVGRzVnRJ?=
+ =?utf-8?B?ZzVpeWs4c3U0RjdwZzdWd1hMVElWeHhxTWt2M0o2MWk4aHFIbW1VZzU5LzZI?=
+ =?utf-8?B?OE5VUlV5bUc4UmdaeXFGcVZwUityaWI1T2JtUXZUeGdyQjY1MG8wcTBab3N4?=
+ =?utf-8?B?TVoydTFkU1RuSDg5dTdoY2l2NS9VdkxMRjNSZkk2WW5RTXFNaUxBbXlaNHIw?=
+ =?utf-8?B?cm9wQlpoRDlLOGkxRlNrZldHbGhLbzBXbEpVeWpLOFR3N2ExcG4vWFZ4Um5k?=
+ =?utf-8?B?R1oycFdMYmt2dTYxTGpTN3piQU1IVHlTZitFUTJVVXpZcnZSSEFFQmRISzMx?=
+ =?utf-8?B?Mzl3YytCUDBWNTFkNlN2WGpSS0FLWCs0L2FCaUFwd0dGVkx0RFZBY2dVNXRq?=
+ =?utf-8?B?Y2oyOHJHbUFDakJROWVtRjhyWlBXT0lnUWFDMGNZVXNGTDZiNTNDekoxNWhh?=
+ =?utf-8?B?V1N6YWZoODhrVEJwV05TMXZFRTZjU2hSeDAzN3lvem93eWhNdUJkTURpNFdT?=
+ =?utf-8?Q?VK1aIsQiD8Ap+tVv+VdrVqWTR?=
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60489dc1-0972-4b8a-7573-08dba30d609e
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2023 12:43:25.7299
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UBdZ6Za0y+AoXFoLHfxBy8a1abqfdYD8Ve9vizD4YWYvTODVtlHiyjxssR+RjTrxA40umfmo1AEplYejLi4rmQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR08MB6837
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi James,
 
---irvpjy7sl5yod4kf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Aug 16, 2023 at 09:02:26PM +0000, James Ogletree wrote:
+> 
+> 
+> > On Aug 10, 2023, at 11:07 PM, Jeff LaBundy <jeff@labundy.com> wrote:
+> > 
+> > On Wed, Aug 09, 2023 at 07:10:28PM +0000, James Ogletree wrote:
+> >> Introduce support for Cirrus Logic Device CS40L50: a
+> >> haptics driver with waveform memory DSP and closed-loop
+> >> algorithms.
+> > 
+> > From my extremely naive point of view, some of the code that follows
+> > bares resemblance to the recently reviewed L26. My assumption is that
+> > these devices are different enough in nature to warrant completely
+> > different drivers; is that accurate?
+> > 
+> > One reason for asking is because the L26 driver included a cornucopia
+> > of power-management overhead, yet we see none of that here. Assuming
+> > both L50 and L26 are built around the same Halo DSP, why is there such
+> > a fundamental difference between the two in terms of power management?
+> > 
+> > To that end, how does this driver handle hibernation? Is hibernation
+> > not supported, or do we simply defer to the DSP? In the case of the
+> > latter, why is L50 given this freedom but not L26?
+> 
+> One key difference is that L50’s Halo Core DSP is self-booting; the firmware
+> is burned in and no firmware download is required. On L26, firmware
+> downloading is compulsory. This differentiates dealing with the DSP in the
+> two drivers, because the L50 driver does not need to do a look up every
+> time it reads or writes to a firmware control. The registers are all static.
 
-Hi,
+Interesting stuff; thanks for sharing that background information.
 
-On Mon, Aug 21, 2023 at 09:48:01AM -0700, syzbot wrote:
-> Hello,
->=20
-> syzbot found the following issue on:
->=20
-> HEAD commit:    7271b2a53042 Add linux-next specific files for 20230818
-> git tree:       linux-next
-> console+strace: https://syzkaller.appspot.com/x/log.txt?x=3D11edc0d3a80000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=3D1936af09cdef7=
-dd6
-> dashboard link: https://syzkaller.appspot.com/bug?extid=3D3a0ebe8a52b89c6=
-3739d
-> compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for D=
-ebian) 2.40
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D17998f03a80=
-000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D17b81223a80000
->=20
-> Downloadable assets:
-> disk image: https://storage.googleapis.com/syzbot-assets/d81109bc02c1/dis=
-k-7271b2a5.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/4b3bf8e2a4f7/vmlinu=
-x-7271b2a5.xz
-> kernel image: https://storage.googleapis.com/syzbot-assets/6404cd473c1e/b=
-zImage-7271b2a5.xz
->=20
-> The issue was bisected to:
->=20
-> commit 699fb50d99039a50e7494de644f96c889279aca3
-> Author: David Gow <davidgow@google.com>
-> Date:   Thu Jul 20 12:45:09 2023 +0000
->=20
->     drivers: base: Free devm resources when unregistering a device
->=20
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D13140083a8=
-0000
-> final oops:     https://syzkaller.appspot.com/x/report.txt?x=3D10940083a8=
-0000
-> console output: https://syzkaller.appspot.com/x/log.txt?x=3D17140083a80000
->=20
-> IMPORTANT: if you fix the issue, please add the following tag to the comm=
-it:
-> Reported-by: syzbot+3a0ebe8a52b89c63739d@syzkaller.appspotmail.com
-> Fixes: 699fb50d9903 ("drivers: base: Free devm resources when unregisteri=
-ng a device")
->=20
-> usb 1-1: USB disconnect, device number 2
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> BUG: KASAN: slab-use-after-free in string_nocheck lib/vsprintf.c:645 [inl=
-ine]
-> BUG: KASAN: slab-use-after-free in string+0x394/0x3d0 lib/vsprintf.c:727
-> Read of size 1 at addr ffff88801c8c6ca8 by task kworker/1:3/4508
->=20
-> CPU: 1 PID: 4508 Comm: kworker/1:3 Not tainted 6.5.0-rc6-next-20230818-sy=
-zkaller #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS G=
-oogle 07/26/2023
-> Workqueue: usb_hub_wq hub_event
-> Call Trace:
->  <TASK>
->  __dump_stack lib/dump_stack.c:88 [inline]
->  dump_stack_lvl+0xd9/0x1b0 lib/dump_stack.c:106
->  print_address_description mm/kasan/report.c:364 [inline]
->  print_report+0xc4/0x620 mm/kasan/report.c:475
->  kasan_report+0xda/0x110 mm/kasan/report.c:588
->  string_nocheck lib/vsprintf.c:645 [inline]
->  string+0x394/0x3d0 lib/vsprintf.c:727
->  vsnprintf+0xc5f/0x1870 lib/vsprintf.c:2818
->  add_uevent_var+0x17c/0x390 lib/kobject_uevent.c:665
->  input_dev_uevent+0x162/0x8f0 drivers/input/input.c:1691
->  dev_uevent+0x305/0x760 drivers/base/core.c:2599
->  kobject_uevent_env+0x623/0x1800 lib/kobject_uevent.c:557
->  device_del+0x642/0xa50 drivers/base/core.c:3830
->  input_unregister_device+0xb9/0x100 drivers/input/input.c:2440
->  hidinput_disconnect+0x160/0x3e0 drivers/hid/hid-input.c:2386
->  hid_disconnect+0x143/0x1b0 drivers/hid/hid-core.c:2273
->  hid_hw_stop+0x16/0x70 drivers/hid/hid-core.c:2322
->  uclogic_remove+0x47/0x90 drivers/hid/hid-uclogic-core.c:485
->  hid_device_remove+0xce/0x250 drivers/hid/hid-core.c:2682
->  device_remove+0xc8/0x170 drivers/base/dd.c:567
->  __device_release_driver drivers/base/dd.c:1272 [inline]
->  device_release_driver_internal+0x44a/0x610 drivers/base/dd.c:1295
->  bus_remove_device+0x22c/0x420 drivers/base/bus.c:574
->  device_del+0x39a/0xa50 drivers/base/core.c:3812
->  hid_remove_device drivers/hid/hid-core.c:2859 [inline]
->  hid_destroy_device+0xe5/0x150 drivers/hid/hid-core.c:2879
->  usbhid_disconnect+0xa0/0xe0 drivers/hid/usbhid/hid-core.c:1456
->  usb_unbind_interface+0x1dd/0x8d0 drivers/usb/core/driver.c:458
->  device_remove drivers/base/dd.c:569 [inline]
->  device_remove+0x11f/0x170 drivers/base/dd.c:561
->  __device_release_driver drivers/base/dd.c:1272 [inline]
->  device_release_driver_internal+0x44a/0x610 drivers/base/dd.c:1295
->  bus_remove_device+0x22c/0x420 drivers/base/bus.c:574
->  device_del+0x39a/0xa50 drivers/base/core.c:3812
->  usb_disable_device+0x36c/0x7f0 drivers/usb/core/message.c:1416
->  usb_disconnect+0x2e1/0x890 drivers/usb/core/hub.c:2252
->  hub_port_connect drivers/usb/core/hub.c:5280 [inline]
->  hub_port_connect_change drivers/usb/core/hub.c:5580 [inline]
->  port_event drivers/usb/core/hub.c:5740 [inline]
->  hub_event+0x1db7/0x4e00 drivers/usb/core/hub.c:5822
->  process_one_work+0x887/0x15d0 kernel/workqueue.c:2630
->  process_scheduled_works kernel/workqueue.c:2703 [inline]
->  worker_thread+0x8bb/0x1290 kernel/workqueue.c:2784
->  kthread+0x33a/0x430 kernel/kthread.c:388
->  ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
->  ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:304
->  </TASK>
->=20
-> Allocated by task 782:
->  kasan_save_stack+0x33/0x50 mm/kasan/common.c:45
->  kasan_set_track+0x25/0x30 mm/kasan/common.c:52
->  ____kasan_kmalloc mm/kasan/common.c:374 [inline]
->  __kasan_kmalloc+0xa2/0xb0 mm/kasan/common.c:383
->  kasan_kmalloc include/linux/kasan.h:198 [inline]
->  __do_kmalloc_node mm/slab_common.c:1004 [inline]
->  __kmalloc_node_track_caller+0x61/0x100 mm/slab_common.c:1024
->  alloc_dr drivers/base/devres.c:119 [inline]
->  devm_kmalloc+0xa5/0x230 drivers/base/devres.c:829
->  devm_kzalloc include/linux/device.h:314 [inline]
->  uclogic_input_configured+0x251/0x610 drivers/hid/hid-uclogic-core.c:151
->  hidinput_connect+0x1bf4/0x2b60 drivers/hid/hid-input.c:2344
->  hid_connect+0x139e/0x18a0 drivers/hid/hid-core.c:2187
->  hid_hw_start drivers/hid/hid-core.c:2302 [inline]
->  hid_hw_start+0xa0/0x130 drivers/hid/hid-core.c:2293
->  uclogic_probe+0x235/0x380 drivers/hid/hid-uclogic-core.c:221
->  __hid_device_probe drivers/hid/hid-core.c:2626 [inline]
->  hid_device_probe+0x2e4/0x480 drivers/hid/hid-core.c:2663
->  call_driver_probe drivers/base/dd.c:579 [inline]
->  really_probe+0x234/0xc90 drivers/base/dd.c:658
->  __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:800
->  driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
->  __device_attach_driver+0x1d4/0x300 drivers/base/dd.c:958
->  bus_for_each_drv+0x157/0x1d0 drivers/base/bus.c:457
->  __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
->  bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
->  device_add+0x11f1/0x1b40 drivers/base/core.c:3623
->  hid_add_device+0x371/0xa60 drivers/hid/hid-core.c:2809
->  usbhid_probe+0xd0a/0x1360 drivers/hid/usbhid/hid-core.c:1429
->  usb_probe_interface+0x307/0x930 drivers/usb/core/driver.c:396
->  call_driver_probe drivers/base/dd.c:579 [inline]
->  really_probe+0x234/0xc90 drivers/base/dd.c:658
->  __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:800
->  driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
->  __device_attach_driver+0x1d4/0x300 drivers/base/dd.c:958
->  bus_for_each_drv+0x157/0x1d0 drivers/base/bus.c:457
->  __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
->  bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
->  device_add+0x11f1/0x1b40 drivers/base/core.c:3623
->  usb_set_configuration+0x10cb/0x1c40 drivers/usb/core/message.c:2207
->  usb_generic_driver_probe+0xca/0x130 drivers/usb/core/generic.c:238
->  usb_probe_device+0xda/0x2c0 drivers/usb/core/driver.c:293
->  call_driver_probe drivers/base/dd.c:579 [inline]
->  really_probe+0x234/0xc90 drivers/base/dd.c:658
->  __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:800
->  driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
->  __device_attach_driver+0x1d4/0x300 drivers/base/dd.c:958
->  bus_for_each_drv+0x157/0x1d0 drivers/base/bus.c:457
->  __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
->  bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
->  device_add+0x11f1/0x1b40 drivers/base/core.c:3623
->  usb_new_device+0xd80/0x1960 drivers/usb/core/hub.c:2589
->  hub_port_connect drivers/usb/core/hub.c:5440 [inline]
->  hub_port_connect_change drivers/usb/core/hub.c:5580 [inline]
->  port_event drivers/usb/core/hub.c:5740 [inline]
->  hub_event+0x2daf/0x4e00 drivers/usb/core/hub.c:5822
->  process_one_work+0x887/0x15d0 kernel/workqueue.c:2630
->  process_scheduled_works kernel/workqueue.c:2703 [inline]
->  worker_thread+0x8bb/0x1290 kernel/workqueue.c:2784
->  kthread+0x33a/0x430 kernel/kthread.c:388
->  ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
->  ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:304
->=20
-> Freed by task 4508:
->  kasan_save_stack+0x33/0x50 mm/kasan/common.c:45
->  kasan_set_track+0x25/0x30 mm/kasan/common.c:52
->  kasan_save_free_info+0x2b/0x40 mm/kasan/generic.c:522
->  ____kasan_slab_free mm/kasan/common.c:236 [inline]
->  ____kasan_slab_free+0x15b/0x1b0 mm/kasan/common.c:200
->  kasan_slab_free include/linux/kasan.h:164 [inline]
->  slab_free_hook mm/slub.c:1800 [inline]
->  slab_free_freelist_hook+0x114/0x1e0 mm/slub.c:1826
->  slab_free mm/slub.c:3809 [inline]
->  __kmem_cache_free+0xb8/0x2f0 mm/slub.c:3822
->  release_nodes drivers/base/devres.c:506 [inline]
->  devres_release_all+0x192/0x240 drivers/base/devres.c:535
->  device_del+0x628/0xa50 drivers/base/core.c:3827
->  input_unregister_device+0xb9/0x100 drivers/input/input.c:2440
->  hidinput_disconnect+0x160/0x3e0 drivers/hid/hid-input.c:2386
->  hid_disconnect+0x143/0x1b0 drivers/hid/hid-core.c:2273
->  hid_hw_stop+0x16/0x70 drivers/hid/hid-core.c:2322
->  uclogic_remove+0x47/0x90 drivers/hid/hid-uclogic-core.c:485
->  hid_device_remove+0xce/0x250 drivers/hid/hid-core.c:2682
->  device_remove+0xc8/0x170 drivers/base/dd.c:567
->  __device_release_driver drivers/base/dd.c:1272 [inline]
->  device_release_driver_internal+0x44a/0x610 drivers/base/dd.c:1295
->  bus_remove_device+0x22c/0x420 drivers/base/bus.c:574
->  device_del+0x39a/0xa50 drivers/base/core.c:3812
->  hid_remove_device drivers/hid/hid-core.c:2859 [inline]
->  hid_destroy_device+0xe5/0x150 drivers/hid/hid-core.c:2879
->  usbhid_disconnect+0xa0/0xe0 drivers/hid/usbhid/hid-core.c:1456
->  usb_unbind_interface+0x1dd/0x8d0 drivers/usb/core/driver.c:458
->  device_remove drivers/base/dd.c:569 [inline]
->  device_remove+0x11f/0x170 drivers/base/dd.c:561
->  __device_release_driver drivers/base/dd.c:1272 [inline]
->  device_release_driver_internal+0x44a/0x610 drivers/base/dd.c:1295
->  bus_remove_device+0x22c/0x420 drivers/base/bus.c:574
->  device_del+0x39a/0xa50 drivers/base/core.c:3812
->  usb_disable_device+0x36c/0x7f0 drivers/usb/core/message.c:1416
->  usb_disconnect+0x2e1/0x890 drivers/usb/core/hub.c:2252
->  hub_port_connect drivers/usb/core/hub.c:5280 [inline]
->  hub_port_connect_change drivers/usb/core/hub.c:5580 [inline]
->  port_event drivers/usb/core/hub.c:5740 [inline]
->  hub_event+0x1db7/0x4e00 drivers/usb/core/hub.c:5822
->  process_one_work+0x887/0x15d0 kernel/workqueue.c:2630
->  process_scheduled_works kernel/workqueue.c:2703 [inline]
->  worker_thread+0x8bb/0x1290 kernel/workqueue.c:2784
->  kthread+0x33a/0x430 kernel/kthread.c:388
->  ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
->  ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:304
+> 
+> Minor reasons are that they have different power supply configurations that
+> require different register settings, they have errata differences, and a different set
+> of exposed features (L50 being much more simplistic). I think taken cumulatively
+> these differences warrant separate drivers. Though, I will take Charles’
+> recommendation to factor out the similarities into a shared library that both L50
+> and L26 can use.
+> 
+> Let me know whether you disagree on the above points or have followup
+> questions.
 
-So, we discussed it this morning with Benjamin, and I think the culprit
-is that the uclogic driver will allocate a char array with devm_kzalloc
-in uclogic_input_configured()
-(https://elixir.bootlin.com/linux/latest/source/drivers/hid/hid-uclogic-cor=
-e.c#L149),
-and will assign input_dev->name to that pointer.
+Makes sense to me.
 
-When the device is removed, the devm-allocated array is freed, and the
-input framework will send a uevent in input_dev_uevent() using the
-input_dev->name field:
+> 
+> With respect to power management, I did not think that that there was any merit
+> in itself in maintaining equality with L26’s approach, and I was inclined to accept
+> your reasoning for using retry logic over the runtime PM facilities (not that the
+> latter way is incorrect).
+> 
+> Regarding the need for I2S streaming support, signs point to maybe. I will
+> migrate this driver to MFD for V4.
 
-https://elixir.bootlin.com/linux/latest/source/drivers/input/input.c#L1688
+MFD seems like the right (i.e. scalable) solution if A2H is on the roadmap.
+In early L25 days, very early adopters simply asked for a sysfs control
+exposed from the core (then LED !!) driver to enable/disable I2S streaming
+mode, but this got hairy in case customers needed to control BCLK/Fs ratio,
+bit depth, etc. during runtime.
 
-So it's a classic dangling pointer situation.
+From my naive point of view, maybe the solution looks something like this:
 
-And even though it was revealed by that patch, I think the issue is
-unrelated. The fundamental issue seems to be that the usage of devm in
-that situation is wrong.
+* drivers/mfd/cs40l50-i2c.c: I2C client
+* drivers/mfd/cs40l50-spi.c: SPI client
+* drivers/mfd/cs40l50-core.c: common tasks such as FW loading, OTP management, etc;
+  perhaps L26 can leverage it as well
+* drivers/input/misc/cs40l50-vibra.c: FF-specific support (name as you like, I just
+  picked what seems to be most common)
+* sound/soc/codecs/cs40l50-codec.c: codec-specific support
 
-input_dev->name is accessed by input_dev_uevent, which for KOBJ_UNBIND
-and KOBJ_REMOVE will be called after remove.
+In case I have misunderstood, please let me know.
 
-For example, in __device_release_driver() (with the driver remove hook
-being called in device_remove() and devres_release_all() being called in
-device_unbind_cleanup()):
-https://elixir.bootlin.com/linux/latest/source/drivers/base/dd.c#L1278
+> 
+> > 
+> >> + return cs40l50_dsp_write(cs40l50, CS40L50_BST_LPMODE_SEL, CS40L50_DCM_LOW_POWER);
+> >> +}
+> >> +
+> >> +static int cs40l50_patch_firmware(struct cs40l50_private *cs40l50)
+> >> +{
+> >> + const struct firmware *bin = NULL, *wmfw = NULL;
+> >> + int error = 0;
+> >> +
+> >> + if (request_firmware(&bin, "cs40l50.bin", cs40l50->dev))
+> >> + dev_info(cs40l50->dev, "Could not request wavetable file: %d\n", error);
+> >> +
+> >> + if (request_firmware(&wmfw, "cs40l50.wmfw", cs40l50->dev))
+> >> + dev_info(cs40l50->dev, "Could not request firmware patch file: %d\n", error);
+> >> +
+> >> + if (wmfw) {
+> > 
+> > It is a much more common design pattern to bail if request_firmware() returns
+> > an error, than to proceed and check against the FW pointer remaining NULL.
+> > 
+> > Is this done because cs_dsp_power_up() must be called, with or without a wmfw
+> > or coefficient file being available?
+> 
+> I don’t think that cs_dsp_power_up() must be called in the case of non-existent .wmfw
+> and .bin files, so I will take your suggestion and optimize this function. I will also switch
+> to asynchronous firmware requesting for V4.
 
-So, it looks to me that, with or without the patch we merged recently,
-the core has always sent uevent after device-managed resources were
-freed. Thus, the uclogic (and any other input driver) was wrong in
-allocating its input_dev name with devm_kzalloc (or the phys and uniq
-fields in that struct).
+Since L50 can work out of the box without FW, another option is to follow the
+approach used by some codec drivers and wait to load FW until the first request
+to stream I2S, and/or trigger an FF effect in this case. By that point, rootfs
+has been available for some time and request_firmware() will succeed.
 
-Note that freeing input_dev->name in remove would have been just as bad.
+This is advantageous because even though request_firmware_nowait() can solve
+the deadlock problem for FW loaded at probe, it could still return -ENOENT right
+away on some platforms. The disadvantage is that the first effect would be very
+delayed due to the overhead of transferring several kB of FW over I2C for the
+first time. That's OK for audio applications, but not haptics where delay normally
+must be within single-digit ms.
 
-Looking at the code quickly, at least hid-playstation,
-hid-nvidia-shield, hid-logitech-hidpp, mms114 and tsc200x seem to be
-affected by the same issue.
+Ultimately, I think the right approach is to look for FW from probe as you have
+done, but use request_firmware_nowait(). However, I recommend structuring the
+driver such that rip-up would be minimal in case you had to retry FW loading from
+the first FF trigger, to support a customer whose rootfs is not available at probe.
+In such a case, the customer could work around the first-time latency problem by
+triggering a dummy effect early in their boot (e.g. init.rc).
 
-We discussed a couple of solutions with Benjamin, such as creating a
-helper devm action to free and clear the input_dev->name field, droping
-the name, phys and uniq fields from the uevent, or converting name, phys
-and uniq to char arrays so drivers don't have to allocate them.
+> 
+> I will also incorporate the rest of your review comments not mentioned here in V4.
+> Thank you for the thorough review.
 
-We couldn't find a perfect one though, so... yeah.
+Thank you for the productive discussion!
 
-Maxime
+> 
+> Regards,
+> James Ogletree
 
---irvpjy7sl5yod4kf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZOR7/AAKCRDj7w1vZxhR
-xf1HAP4lreV9C9Lj1DwQ9w5eWXT3fdWDaco/QN1m62Qiol5eDQD7BS8aSsD6MuiP
-065L2HAfC7ZUSzqoB75xeh37D8+AOwU=
-=sTF/
------END PGP SIGNATURE-----
-
---irvpjy7sl5yod4kf--
+Kind regards,
+Jeff LaBundy
