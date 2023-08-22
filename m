@@ -2,61 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78CB078398B
-	for <lists+linux-input@lfdr.de>; Tue, 22 Aug 2023 07:53:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45FCB78398E
+	for <lists+linux-input@lfdr.de>; Tue, 22 Aug 2023 07:54:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232851AbjHVFxc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Aug 2023 01:53:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56164 "EHLO
+        id S232642AbjHVFyh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Aug 2023 01:54:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232566AbjHVFxc (ORCPT
+        with ESMTP id S231867AbjHVFyg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Aug 2023 01:53:32 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B4CAD7
-        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 22:53:30 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2bccda76fb1so8359131fa.2
-        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 22:53:30 -0700 (PDT)
+        Tue, 22 Aug 2023 01:54:36 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9941D7
+        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 22:54:34 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-529fb04a234so3238144a12.3
+        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 22:54:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692683608; x=1693288408;
+        d=linaro.org; s=google; t=1692683673; x=1693288473;
         h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=YclWG5r8FOwzKxdmQ7yoGnwhJn4JvlTIe9J5LgNQq7U=;
-        b=WSS+g6A6q+xua6xPjBLSyt5939/WFW5rR6kW4ACicPv26Jj3S5ME7qad2B+/QdO4tl
-         XWA3vrX/hNzoC+jdWjBBqvv2PcvKIZYGzCRgB0iGWm7Q5Xd6NxAXmO5SjYnQSXG3sMtm
-         EHQCWYmcnvUc6Das+KODUiDYCxg/LcYb3mO6lQFJgKCuwKrY+bTs8YgQ72R3rbMX+uij
-         JXTd9eL/cvgAkTweKjawQECBsFvymVn8oactmFssC2O+frFYBAAfvQxiWDpQlCcHNOy9
-         skoBzIk36tJwJJ+tE3yaa8WHJWzPnGCq7TfMGXwN7VVk1fJpiLhKYiC0qp7gcQs8M7QO
-         y6EQ==
+        bh=7TQX4y/uBks8nVow/iPGHdMMait3YhGPxYbRER/vAHI=;
+        b=D2WKJgnPmiNc5DtPRLx3K/1bi+ALPO6Ox0BPf7MgWLCXGX+ugGmtbq6PTYiqkbsdXo
+         pevGNinraFDgfmH0udKrxvA+87fIwn/o39IbxKDK2xuVdh69NujFmNtjV6Cq5YPe3Age
+         Q6RtEx5OuvQRG7nuGwlY5HTkmtGbQbjM/IGdSlo/Mzlhiut4s3E5rxa726v6FRTlg5Oz
+         hMkZ9FYIHP5yrD5OnYjsa1JLh6mAlcKh0DO0CakQeSXO6lVYNfvEd47N2rdrfhWQi8pl
+         f6YhzJ6X+Re0bu/TQsYPyg6w1Wy5Az6uDAcKb+dcSpKEcX1OVcWO3AFd3nXE6gKAmToL
+         lAuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692683608; x=1693288408;
+        d=1e100.net; s=20221208; t=1692683673; x=1693288473;
         h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YclWG5r8FOwzKxdmQ7yoGnwhJn4JvlTIe9J5LgNQq7U=;
-        b=YSdUIhQdrNbJ9uD32NT/rj/kvRbh8AkY7reRrlkIGVPoU0qt84nviWhn4heMUidCOx
-         rStJYBz23sbAQmRSFtdj9km5ZNpQw5jA/tKZqaseRC8slyu9SIr2B2SvzlRS2tj0hf/p
-         7c0REuF/jWMkq3WON0c0CugFzQjucWfxPZ07oOyfi57SQQZ1PGBuwIpGxfLOS02GoitE
-         aho9fFZ/h1lJlzsm0uFQXNOamLTqXd41St89PlkokDB6+1bczSYEOHuGgu2Rb2cTDV5Q
-         JrFV/REGPC0AzJPPa1B6/qU7f13gv8/d1jPwI3zVjcczPGN0os6JbjFz95/nf89MjYOJ
-         GHeQ==
-X-Gm-Message-State: AOJu0Yyhzz9WQtjtyC6G/S2n4wK/ArbEWp70Vw06slqjrvEUbKn/lN2Z
-        9nt2EiDFRxflyloen110A96ruw==
-X-Google-Smtp-Source: AGHT+IGwzUrCGIQEn6gDwZlnstlzuErkxJ9bkfS7lUv6kaL8GC3cD1kuDouQOUNIiEhJ+s8ddkA1ug==
-X-Received: by 2002:a2e:8283:0:b0:2bb:94e4:49f with SMTP id y3-20020a2e8283000000b002bb94e4049fmr5399822ljg.32.1692683608683;
-        Mon, 21 Aug 2023 22:53:28 -0700 (PDT)
+        bh=7TQX4y/uBks8nVow/iPGHdMMait3YhGPxYbRER/vAHI=;
+        b=bwmn/Sd53cl/8ORi+UUZ3AlU+SFYylw9hmKGMJ5duuAQC25sR3utgAjCd7FUsive2d
+         1VxNGBx+YciPZ784wZlwxcV45XeyWH6xnSJ266nUaDAuXG2nPYy+FSZAAitAodGjok72
+         xPmgCvZm2ufCa9MGpmxNzfeJ91AcnVeATpSlwOCkD0Z99vbhICUcPUj6fNU3V6cL6A5R
+         7gaYSZYYCJDUNtQ0D6pgY3oLzzKEH/DofAttjMZ4ZDCXCD6nHJ0/IZPoTVdYouEf2hne
+         c/HC0eGHv/4YClx7MeEz5egUZMG8GaIvl4cEAaT+vbbjSB8NzMszpBUK2V27cN/QygvE
+         epew==
+X-Gm-Message-State: AOJu0YyyTco7T31RXv1hdAPlEVro4TZ3iiw0MQvOGSp/4WuZbWTiR1Gc
+        tHtChj879tIbAYMnVszk280Aaw==
+X-Google-Smtp-Source: AGHT+IEhDWurn+BYTTaGcgwpERqWG0ysoExljMCFTqgXhHbhp9OQXV6bd64JEdpjuDYl/Vu3vIfg7g==
+X-Received: by 2002:a17:907:a076:b0:99b:d2a9:9a01 with SMTP id ia22-20020a170907a07600b0099bd2a99a01mr6856980ejc.0.1692683673252;
+        Mon, 21 Aug 2023 22:54:33 -0700 (PDT)
 Received: from [192.168.0.22] ([77.252.47.198])
-        by smtp.gmail.com with ESMTPSA id n23-20020a170906841700b0099ce23c57e6sm7545498ejx.224.2023.08.21.22.53.27
+        by smtp.gmail.com with ESMTPSA id a6-20020a170906368600b0099bc038eb2bsm7588168ejc.58.2023.08.21.22.54.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Aug 2023 22:53:28 -0700 (PDT)
-Message-ID: <da281686-a187-4363-ad97-015ae93ca5ac@linaro.org>
-Date:   Tue, 22 Aug 2023 07:53:26 +0200
+        Mon, 21 Aug 2023 22:54:32 -0700 (PDT)
+Message-ID: <07c6a89b-f545-a49a-db21-ec361811e4be@linaro.org>
+Date:   Tue, 22 Aug 2023 07:54:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.14.0
-Subject: Re: [PATCH v2 1/4] dt-bindings: touchscreen: convert neonode,zforce
- to json-schema
+Subject: Re: [PATCH v2 2/4] dt-bindings: touchscreen: neonode,zforce: Use
+ standard properties
 Content-Language: en-US
 To:     Andreas Kemnade <andreas@kemnade.info>, dmitry.torokhov@gmail.com,
         robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
@@ -68,9 +68,9 @@ To:     Andreas Kemnade <andreas@kemnade.info>, dmitry.torokhov@gmail.com,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20230821171151.555091-1-andreas@kemnade.info>
- <20230821171151.555091-2-andreas@kemnade.info>
+ <20230821171151.555091-3-andreas@kemnade.info>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230821171151.555091-2-andreas@kemnade.info>
+In-Reply-To: <20230821171151.555091-3-andreas@kemnade.info>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -84,12 +84,16 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 On 21/08/2023 19:11, Andreas Kemnade wrote:
-> Convert Neonode infrared touchscreen controller binding to DT schema.
+> Enable touchscreen orientation to be specified by using standard
+> properties.
 > 
 > Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
 > ---
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Rob reviewed yesterday v1 (although adding 3rd party tags might not work
+with some tools):
+
+Reviewed-by: Rob Herring <robh@kernel.org>
 
 Best regards,
 Krzysztof
