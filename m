@@ -2,54 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F8007836CF
-	for <lists+linux-input@lfdr.de>; Tue, 22 Aug 2023 02:14:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13C037836DC
+	for <lists+linux-input@lfdr.de>; Tue, 22 Aug 2023 02:14:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231940AbjHVAOh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Aug 2023 20:14:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55608 "EHLO
+        id S231904AbjHVAOn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Aug 2023 20:14:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231916AbjHVAOe (ORCPT
+        with ESMTP id S231926AbjHVAOg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Aug 2023 20:14:34 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E003E195
-        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 17:14:15 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id 2adb3069b0e04-4ff8a1746e0so5921806e87.0
-        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 17:14:15 -0700 (PDT)
+        Mon, 21 Aug 2023 20:14:36 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B181619A
+        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 17:14:16 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-4ffa94a7a47so4606332e87.1
+        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 17:14:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692663254; x=1693268054;
+        d=linaro.org; s=google; t=1692663255; x=1693268055;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WDbGrLh7zuvGvkqtKh6fYs5O8nfRm0MW3PtqxxRpdpU=;
-        b=F2ZLh7/Qqd/CfbOwijm8uzss51o2x4x1NVp5K9G49FYm+iVDNeY9oAEq/a5GmWe1HU
-         8Sbo/Am5HuuinMi4rN8qZJHcBErkJR3Wf6hVSmI89PwHHn1TQPvT4HzOD3pOHoYbKGLx
-         PV9vWJ65ZM0I4ITeQtherjotTUIxGJ4aE6PA8Clru4417dJ/9ilsNuO9OU63ifUnrSWz
-         XKYWEZha8BtjXijW0XqIxD0h/HSlbqgL9NzjMj81yJPmDqrdkPPtb9K6hMyrPKKLcvJF
-         sb9hosG/s3qKfI8sWVHYDmOL2E6NdaR+s2pcZ24HjeYtf6aEJU2qMd72w7dr8rzNQgYk
-         g6CA==
+        bh=/srTtQ3Lz+Fleu1LKcLJRlV5earLskJb/E1HQJfyU90=;
+        b=tc/nSet0yCmeXT4vemwPG6qU5biHJ98n6A0Ibtx5pA5X5mRGv7ZlRpjLwFmZHXZwg/
+         tSObixAHu0pLTCsuVGimTvwvH4LgbkyHQeU6ouoD+XwNHRMA0hJZy6Vppco9niesLFjw
+         LL6dQ8CqX45V2B/04mFVGJdSC/wExL1MnC8eaj270xOaNOkT/GPAu7VmXjLP785JzpcU
+         W5cjUv/X7RyKyCUOftkNhAZ/HsEA302jOwATmI41dHsIdzsMsUgCeuMwvLzekH53avoJ
+         rQfxPtJHe043VC4ydclcveI/Wcy6R73b/8jXaQM3SfkAruya1hx5Mp16VnLqsKXcSacY
+         gDhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692663254; x=1693268054;
+        d=1e100.net; s=20221208; t=1692663255; x=1693268055;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WDbGrLh7zuvGvkqtKh6fYs5O8nfRm0MW3PtqxxRpdpU=;
-        b=PXzXgQUT9GP0+2x24ygySdOVQ4jEKmE0xdGtaz+fqIXYc9Lv4b6+GVJiVsk6LgLRo0
-         Av3w+aoufxjvchpNZOC/Ug38M4B+tGW4rEBkNDWg5IzymU4vrq4a1dGoyHqlu5yl1rFm
-         p7+RyGe2sYu+f6vRi0BqR34dTYJY7FJGY3vnvz+0OuCpZ4bhgZi1QoVdGOBhkUUWJaCs
-         tg5J1qzs7MNszY4xZOgYdBHqRexhuAeZXvQ7ToIon2DTzJc4C627BO6dEzOZSevdd/5M
-         j3iA8lb9NSUGuPZNtq7BZ3sKbE5gexQSpqM7QY0h4H/mie+eHKzQ+injitmV1tpPuRbM
-         ESrQ==
-X-Gm-Message-State: AOJu0Yzsp0aP4CE2RyOFKJQ7K44btgxWF5nk2/K5nt0HQjJuIQp9V00x
-        qw1bIuwxkWFznA7MFFZ/V0qzV6wZZZXMMpwPMjA=
-X-Google-Smtp-Source: AGHT+IGObbGNEVLkXk/hoJXb2gcDGkqlrrRD1GTOoHl5eafb9jYSdI6/O7pshkJkq7lEPhZyr/Wi8w==
-X-Received: by 2002:a19:7715:0:b0:500:12c6:c91b with SMTP id s21-20020a197715000000b0050012c6c91bmr4527358lfc.40.1692663254298;
-        Mon, 21 Aug 2023 17:14:14 -0700 (PDT)
+        bh=/srTtQ3Lz+Fleu1LKcLJRlV5earLskJb/E1HQJfyU90=;
+        b=DJ4X6kWs/+lWApC3GyAJJCd0wTmKnGo4Nijj9oc6Bxo00vypD/InQSXZe8JhXp8HKT
+         WrdMr1j7Gli9AXNZApO9uiCEMmIt1S/E30QWsoTBJuV+HY3iQIc1eDYvfV8NsLBrcUlI
+         hXI5NIbtMOrpJp7IH1e3zrosLy7Wlr2yO8O1ljt0Q3ZCDowt09NpjFYmJ/zgrEXPtGBq
+         4GkfuVbpD2TtM90Tts704ZPfEvGOq7U5w3FROO+lxINcjZvtXYHJ7LWlqMDgNENUz9+i
+         KX/ZYQEtMWYHb3Lg7fqxZ9lsFKhM6LfyX4QqN3wZbMk8kS12s28KyNwfcehQyu3umuPq
+         UOwg==
+X-Gm-Message-State: AOJu0YxZ4PMxmApN4XVcSLW785sIahpKDsjk8nA3XLaoDEbAI3kauzQI
+        SpVSzepTGgFP2dosbQ0wEolkPg==
+X-Google-Smtp-Source: AGHT+IEMFKUZVZcETKW0kfrPpRmzGTxnI7Ous2sZ2JfyeA5h2jD/z3CQ0ORXvc/6k3vYdkxe8VToTw==
+X-Received: by 2002:a05:6512:39c1:b0:4ff:8b28:7b22 with SMTP id k1-20020a05651239c100b004ff8b287b22mr5295508lfu.68.1692663255202;
+        Mon, 21 Aug 2023 17:14:15 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id er23-20020a05651248d700b004fe36e673b8sm912024lfb.178.2023.08.21.17.14.13
+        by smtp.gmail.com with ESMTPSA id er23-20020a05651248d700b004fe36e673b8sm912024lfb.178.2023.08.21.17.14.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Aug 2023 17:14:13 -0700 (PDT)
+        Mon, 21 Aug 2023 17:14:14 -0700 (PDT)
 From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
@@ -58,9 +58,9 @@ To:     Andy Gross <agross@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-input@vger.kernel.org
-Subject: [PATCH v3 29/32] ARM: dts: qcom: msm8960: drop useless rpm regulators node
-Date:   Tue, 22 Aug 2023 03:13:46 +0300
-Message-Id: <20230822001349.899298-30-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 30/32] ARM: dts: qcom: msm8974: move regulators to board files
+Date:   Tue, 22 Aug 2023 03:13:47 +0300
+Message-Id: <20230822001349.899298-31-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230822001349.899298-1-dmitry.baryshkov@linaro.org>
 References: <20230822001349.899298-1-dmitry.baryshkov@linaro.org>
@@ -76,32 +76,307 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The set of regulators available over the RPM requests is not a property
-of the SoC. The only msm8960 board file (qcom-msm8960-cdp) also defines
-this node together with the compatible string. Drop the useless device
-node.
+The vph-pwr and boost regulators (even if they are unified by design)
+are not a property of SoC, so move them to board files.
 
 Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- arch/arm/boot/dts/qcom/qcom-msm8960.dtsi | 4 ----
- 1 file changed, 4 deletions(-)
+ .../dts/qcom/qcom-apq8074-dragonboard.dts     | 27 +++++++++++++++++++
+ .../qcom-msm8974-lge-nexus5-hammerhead.dts    | 27 +++++++++++++++++++
+ .../qcom/qcom-msm8974-sony-xperia-rhine.dtsi  | 27 +++++++++++++++++++
+ arch/arm/boot/dts/qcom/qcom-msm8974.dtsi      | 27 -------------------
+ .../qcom/qcom-msm8974pro-fairphone-fp2.dts    | 27 +++++++++++++++++++
+ .../qcom/qcom-msm8974pro-oneplus-bacon.dts    | 27 +++++++++++++++++++
+ .../dts/qcom/qcom-msm8974pro-samsung-klte.dts | 10 ++++++-
+ ...-msm8974pro-sony-xperia-shinano-castor.dts | 27 +++++++++++++++++++
+ 8 files changed, 171 insertions(+), 28 deletions(-)
 
-diff --git a/arch/arm/boot/dts/qcom/qcom-msm8960.dtsi b/arch/arm/boot/dts/qcom/qcom-msm8960.dtsi
-index 4a6b22bed1e4..56f8ba07df54 100644
---- a/arch/arm/boot/dts/qcom/qcom-msm8960.dtsi
-+++ b/arch/arm/boot/dts/qcom/qcom-msm8960.dtsi
-@@ -200,10 +200,6 @@ rpm: rpm@108000 {
- 				     <GIC_SPI 21 IRQ_TYPE_EDGE_RISING>,
- 				     <GIC_SPI 22 IRQ_TYPE_EDGE_RISING>;
- 			interrupt-names = "ack", "err", "wakeup";
--
--			regulators {
--				compatible = "qcom,rpm-pm8921-regulators";
--			};
+diff --git a/arch/arm/boot/dts/qcom/qcom-apq8074-dragonboard.dts b/arch/arm/boot/dts/qcom/qcom-apq8074-dragonboard.dts
+index 950fa652f985..d7fb3e0e8886 100644
+--- a/arch/arm/boot/dts/qcom/qcom-apq8074-dragonboard.dts
++++ b/arch/arm/boot/dts/qcom/qcom-apq8074-dragonboard.dts
+@@ -49,6 +49,33 @@ mpss_region: mpss@ac00000 {
+ 			no-map;
  		};
+ 	};
++
++	vreg_boost: vreg-boost {
++		compatible = "regulator-fixed";
++
++		regulator-name = "vreg-boost";
++		regulator-min-microvolt = <3150000>;
++		regulator-max-microvolt = <3150000>;
++
++		regulator-always-on;
++		regulator-boot-on;
++
++		gpio = <&pm8941_gpios 21 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&boost_bypass_n_pin>;
++	};
++
++	vreg_vph_pwr: vreg-vph-pwr {
++		compatible = "regulator-fixed";
++		regulator-name = "vph-pwr";
++
++		regulator-min-microvolt = <3600000>;
++		regulator-max-microvolt = <3600000>;
++
++		regulator-always-on;
++	};
+ };
  
- 		acc0: clock-controller@2088000 {
+ &blsp1_uart2 {
+diff --git a/arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dts b/arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dts
+index da99f770d4f5..ca402b4a68bd 100644
+--- a/arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dts
++++ b/arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dts
+@@ -60,6 +60,33 @@ vibrator {
+ 		enable-gpios = <&tlmm 60 GPIO_ACTIVE_HIGH>;
+ 	};
+ 
++	vreg_boost: vreg-boost {
++		compatible = "regulator-fixed";
++
++		regulator-name = "vreg-boost";
++		regulator-min-microvolt = <3150000>;
++		regulator-max-microvolt = <3150000>;
++
++		regulator-always-on;
++		regulator-boot-on;
++
++		gpio = <&pm8941_gpios 21 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&boost_bypass_n_pin>;
++	};
++
++	vreg_vph_pwr: vreg-vph-pwr {
++		compatible = "regulator-fixed";
++		regulator-name = "vph-pwr";
++
++		regulator-min-microvolt = <3600000>;
++		regulator-max-microvolt = <3600000>;
++
++		regulator-always-on;
++	};
++
+ 	vreg_wlan: wlan-regulator {
+ 		compatible = "regulator-fixed";
+ 
+diff --git a/arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine.dtsi b/arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine.dtsi
+index 23ae474698aa..a43341ae4495 100644
+--- a/arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine.dtsi
++++ b/arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine.dtsi
+@@ -65,6 +65,33 @@ ramoops@3e8e0000 {
+ 			pmsg-size = <0x80000>;
+ 		};
+ 	};
++
++	vreg_boost: vreg-boost {
++		compatible = "regulator-fixed";
++
++		regulator-name = "vreg-boost";
++		regulator-min-microvolt = <3150000>;
++		regulator-max-microvolt = <3150000>;
++
++		regulator-always-on;
++		regulator-boot-on;
++
++		gpio = <&pm8941_gpios 21 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&boost_bypass_n_pin>;
++	};
++
++	vreg_vph_pwr: vreg-vph-pwr {
++		compatible = "regulator-fixed";
++		regulator-name = "vph-pwr";
++
++		regulator-min-microvolt = <3600000>;
++		regulator-max-microvolt = <3600000>;
++
++		regulator-always-on;
++	};
+ };
+ 
+ &blsp1_i2c2 {
+diff --git a/arch/arm/boot/dts/qcom/qcom-msm8974.dtsi b/arch/arm/boot/dts/qcom/qcom-msm8974.dtsi
+index 706fef53767e..d54be72fe3b2 100644
+--- a/arch/arm/boot/dts/qcom/qcom-msm8974.dtsi
++++ b/arch/arm/boot/dts/qcom/qcom-msm8974.dtsi
+@@ -2376,31 +2376,4 @@ timer {
+ 			     <GIC_PPI 1 0xf08>;
+ 		clock-frequency = <19200000>;
+ 	};
+-
+-	vreg_boost: vreg-boost {
+-		compatible = "regulator-fixed";
+-
+-		regulator-name = "vreg-boost";
+-		regulator-min-microvolt = <3150000>;
+-		regulator-max-microvolt = <3150000>;
+-
+-		regulator-always-on;
+-		regulator-boot-on;
+-
+-		gpio = <&pm8941_gpios 21 GPIO_ACTIVE_HIGH>;
+-		enable-active-high;
+-
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&boost_bypass_n_pin>;
+-	};
+-
+-	vreg_vph_pwr: vreg-vph-pwr {
+-		compatible = "regulator-fixed";
+-		regulator-name = "vph-pwr";
+-
+-		regulator-min-microvolt = <3600000>;
+-		regulator-max-microvolt = <3600000>;
+-
+-		regulator-always-on;
+-	};
+ };
+diff --git a/arch/arm/boot/dts/qcom/qcom-msm8974pro-fairphone-fp2.dts b/arch/arm/boot/dts/qcom/qcom-msm8974pro-fairphone-fp2.dts
+index 6c4153689b39..66c422004dcd 100644
+--- a/arch/arm/boot/dts/qcom/qcom-msm8974pro-fairphone-fp2.dts
++++ b/arch/arm/boot/dts/qcom/qcom-msm8974pro-fairphone-fp2.dts
+@@ -57,6 +57,33 @@ vibrator {
+ 		enable-gpios = <&tlmm 86 GPIO_ACTIVE_HIGH>;
+ 		vcc-supply = <&pm8941_l18>;
+ 	};
++
++	vreg_boost: vreg-boost {
++		compatible = "regulator-fixed";
++
++		regulator-name = "vreg-boost";
++		regulator-min-microvolt = <3150000>;
++		regulator-max-microvolt = <3150000>;
++
++		regulator-always-on;
++		regulator-boot-on;
++
++		gpio = <&pm8941_gpios 21 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&boost_bypass_n_pin>;
++	};
++
++	vreg_vph_pwr: vreg-vph-pwr {
++		compatible = "regulator-fixed";
++		regulator-name = "vph-pwr";
++
++		regulator-min-microvolt = <3600000>;
++		regulator-max-microvolt = <3600000>;
++
++		regulator-always-on;
++	};
+ };
+ 
+ &blsp1_i2c2 {
+diff --git a/arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dts b/arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dts
+index c0ca264d8140..6d1412aec45a 100644
+--- a/arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dts
++++ b/arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dts
+@@ -51,6 +51,33 @@ event-hall-sensor {
+ 			debounce-interval = <150>;
+ 		};
+ 	};
++
++	vreg_boost: vreg-boost {
++		compatible = "regulator-fixed";
++
++		regulator-name = "vreg-boost";
++		regulator-min-microvolt = <3150000>;
++		regulator-max-microvolt = <3150000>;
++
++		regulator-always-on;
++		regulator-boot-on;
++
++		gpio = <&pm8941_gpios 21 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&boost_bypass_n_pin>;
++	};
++
++	vreg_vph_pwr: vreg-vph-pwr {
++		compatible = "regulator-fixed";
++		regulator-name = "vph-pwr";
++
++		regulator-min-microvolt = <3600000>;
++		regulator-max-microvolt = <3600000>;
++
++		regulator-always-on;
++	};
+ };
+ 
+ &blsp1_i2c1 {
+diff --git a/arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-klte.dts b/arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-klte.dts
+index 325feb89b343..ca3aa16b4b10 100644
+--- a/arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-klte.dts
++++ b/arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-klte.dts
+@@ -155,7 +155,15 @@ vreg_panel: panel-regulator {
+ 		enable-active-high;
+ 	};
+ 
+-	/delete-node/ vreg-boost;
++	vreg_vph_pwr: vreg-vph-pwr {
++		compatible = "regulator-fixed";
++		regulator-name = "vph-pwr";
++
++		regulator-min-microvolt = <3600000>;
++		regulator-max-microvolt = <3600000>;
++
++		regulator-always-on;
++	};
+ };
+ 
+ &blsp1_i2c2 {
+diff --git a/arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-castor.dts b/arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-castor.dts
+index 0798cce3dbea..818ff5835031 100644
+--- a/arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-castor.dts
++++ b/arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-castor.dts
+@@ -84,6 +84,33 @@ vreg_vsp: lcd-dcdc-regulator {
+ 		pinctrl-0 = <&lcd_dcdc_en_pin_a>;
+ 	};
+ 
++	vreg_boost: vreg-boost {
++		compatible = "regulator-fixed";
++
++		regulator-name = "vreg-boost";
++		regulator-min-microvolt = <3150000>;
++		regulator-max-microvolt = <3150000>;
++
++		regulator-always-on;
++		regulator-boot-on;
++
++		gpio = <&pm8941_gpios 21 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&boost_bypass_n_pin>;
++	};
++
++	vreg_vph_pwr: vreg-vph-pwr {
++		compatible = "regulator-fixed";
++		regulator-name = "vph-pwr";
++
++		regulator-min-microvolt = <3600000>;
++		regulator-max-microvolt = <3600000>;
++
++		regulator-always-on;
++	};
++
+ 	vreg_wlan: wlan-regulator {
+ 		compatible = "regulator-fixed";
+ 
 -- 
 2.39.2
 
