@@ -2,125 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80CA57836D5
-	for <lists+linux-input@lfdr.de>; Tue, 22 Aug 2023 02:14:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78CB078398B
+	for <lists+linux-input@lfdr.de>; Tue, 22 Aug 2023 07:53:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231923AbjHVAOj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Aug 2023 20:14:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55546 "EHLO
+        id S232851AbjHVFxc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Aug 2023 01:53:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231933AbjHVAOg (ORCPT
+        with ESMTP id S232566AbjHVFxc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Aug 2023 20:14:36 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53D4BE40
-        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 17:14:18 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-4ffa6e25ebbso3872935e87.0
-        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 17:14:18 -0700 (PDT)
+        Tue, 22 Aug 2023 01:53:32 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B4CAD7
+        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 22:53:30 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2bccda76fb1so8359131fa.2
+        for <linux-input@vger.kernel.org>; Mon, 21 Aug 2023 22:53:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692663256; x=1693268056;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WUxHBQiQCwRpfgTCnCWgGQRhrUIliii3ZqoQ/JpTRu8=;
-        b=hDVBYUhtgiAPhkap4BfOrWhrE+KJ7eDNmGrFWdI5hi9rOr3hCwD2r0OqDMRkLXBPCq
-         5BUSWC7SZVBGUDIYWUdSZM/zX/DnT/a6SNL8LxgqVkZKOSPTY0sefRnIcBKVKSK79dxF
-         qQW2LlFiTlz51S81bKGWMr/hyZ7r+Ug09rWSHRBN3VXAcrMYgH0iyq/wzOQoksEmp/S1
-         PwSPEq0bY6tFMMW7B8JccPtdY14cMOTviu/1wwEHllhx2nVdZ//jHAvYmV3i+xUuVh6U
-         jysMWQ3cPEGaBrMfDFHcCog3fSpfEbNwAbmfiKPvlj6hSymmSU2eW9hfh7A8qH2RqUvW
-         kFDg==
+        d=linaro.org; s=google; t=1692683608; x=1693288408;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YclWG5r8FOwzKxdmQ7yoGnwhJn4JvlTIe9J5LgNQq7U=;
+        b=WSS+g6A6q+xua6xPjBLSyt5939/WFW5rR6kW4ACicPv26Jj3S5ME7qad2B+/QdO4tl
+         XWA3vrX/hNzoC+jdWjBBqvv2PcvKIZYGzCRgB0iGWm7Q5Xd6NxAXmO5SjYnQSXG3sMtm
+         EHQCWYmcnvUc6Das+KODUiDYCxg/LcYb3mO6lQFJgKCuwKrY+bTs8YgQ72R3rbMX+uij
+         JXTd9eL/cvgAkTweKjawQECBsFvymVn8oactmFssC2O+frFYBAAfvQxiWDpQlCcHNOy9
+         skoBzIk36tJwJJ+tE3yaa8WHJWzPnGCq7TfMGXwN7VVk1fJpiLhKYiC0qp7gcQs8M7QO
+         y6EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692663256; x=1693268056;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WUxHBQiQCwRpfgTCnCWgGQRhrUIliii3ZqoQ/JpTRu8=;
-        b=aPqeyPJLt8yw8xoypN38aDC5jdHizs6ce4h+bXZYSsFd+7G2JedOnESI6JnZNyWa7s
-         4L8OdeITCLhaM0uTZoaUP0RJf04oSscZgEKREE+1dgHjcGAlME3cTOGf3YeB0DQ8JKRP
-         mw+/Ynah6yG1FFdr/Z+ppb9vX/AXNpic+/CAOCRih+wFD1GkjlNVDL6z4nTYaNca0CDG
-         Bg+BjtjAumZ55mRfEobZ8l8CdCUSmD5ajHM6YWEnMm7656ijiY9EhUt8F2fACmMAa/G0
-         G6gCsyYaYjSitsupv0PbhbfXmeJd9D71s58XkuRWLRXwsP6EkjTGN0x4+Ri+r0ajpGms
-         s7CA==
-X-Gm-Message-State: AOJu0Yx3CQHFvf8usKN8/HetmxOZpxbVwNiH90vmWNQe3IcPOQgA/7zh
-        mL7fNVVou61wJJww9aaSkE5DbA==
-X-Google-Smtp-Source: AGHT+IFg1Q/VqL8+WaTUU6FpXA0UCqq9n8pV9Lc87UwKP8g67EDhO3PfLfHd029kHwRZOzdqAY8WnQ==
-X-Received: by 2002:a05:6512:202c:b0:4fe:8be:6065 with SMTP id s12-20020a056512202c00b004fe08be6065mr2083638lfs.5.1692663256580;
-        Mon, 21 Aug 2023 17:14:16 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id er23-20020a05651248d700b004fe36e673b8sm912024lfb.178.2023.08.21.17.14.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Aug 2023 17:14:16 -0700 (PDT)
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: [PATCH v3 32/32] ARM: dts: qcom: apq8060-dragonboard: rename mpp ADC channels to adc-channel
-Date:   Tue, 22 Aug 2023 03:13:49 +0300
-Message-Id: <20230822001349.899298-33-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230822001349.899298-1-dmitry.baryshkov@linaro.org>
-References: <20230822001349.899298-1-dmitry.baryshkov@linaro.org>
+        d=1e100.net; s=20221208; t=1692683608; x=1693288408;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YclWG5r8FOwzKxdmQ7yoGnwhJn4JvlTIe9J5LgNQq7U=;
+        b=YSdUIhQdrNbJ9uD32NT/rj/kvRbh8AkY7reRrlkIGVPoU0qt84nviWhn4heMUidCOx
+         rStJYBz23sbAQmRSFtdj9km5ZNpQw5jA/tKZqaseRC8slyu9SIr2B2SvzlRS2tj0hf/p
+         7c0REuF/jWMkq3WON0c0CugFzQjucWfxPZ07oOyfi57SQQZ1PGBuwIpGxfLOS02GoitE
+         aho9fFZ/h1lJlzsm0uFQXNOamLTqXd41St89PlkokDB6+1bczSYEOHuGgu2Rb2cTDV5Q
+         JrFV/REGPC0AzJPPa1B6/qU7f13gv8/d1jPwI3zVjcczPGN0os6JbjFz95/nf89MjYOJ
+         GHeQ==
+X-Gm-Message-State: AOJu0Yyhzz9WQtjtyC6G/S2n4wK/ArbEWp70Vw06slqjrvEUbKn/lN2Z
+        9nt2EiDFRxflyloen110A96ruw==
+X-Google-Smtp-Source: AGHT+IGwzUrCGIQEn6gDwZlnstlzuErkxJ9bkfS7lUv6kaL8GC3cD1kuDouQOUNIiEhJ+s8ddkA1ug==
+X-Received: by 2002:a2e:8283:0:b0:2bb:94e4:49f with SMTP id y3-20020a2e8283000000b002bb94e4049fmr5399822ljg.32.1692683608683;
+        Mon, 21 Aug 2023 22:53:28 -0700 (PDT)
+Received: from [192.168.0.22] ([77.252.47.198])
+        by smtp.gmail.com with ESMTPSA id n23-20020a170906841700b0099ce23c57e6sm7545498ejx.224.2023.08.21.22.53.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Aug 2023 22:53:28 -0700 (PDT)
+Message-ID: <da281686-a187-4363-ad97-015ae93ca5ac@linaro.org>
+Date:   Tue, 22 Aug 2023 07:53:26 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v2 1/4] dt-bindings: touchscreen: convert neonode,zforce
+ to json-schema
+Content-Language: en-US
+To:     Andreas Kemnade <andreas@kemnade.info>, dmitry.torokhov@gmail.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        rydberg@bitmath.org, u.kleine-koenig@pengutronix.de,
+        Jonathan.Cameron@huawei.com, linus.walleij@linaro.org,
+        heiko@sntech.de, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230821171151.555091-1-andreas@kemnade.info>
+ <20230821171151.555091-2-andreas@kemnade.info>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230821171151.555091-2-andreas@kemnade.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Use generic `adc-channel@N' node names for board-specific ADC channels
-(routed to MPP pins) to follow the schema.
+On 21/08/2023 19:11, Andreas Kemnade wrote:
+> Convert Neonode infrared touchscreen controller binding to DT schema.
+> 
+> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+> ---
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../arm/boot/dts/qcom/qcom-apq8060-dragonboard.dts | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/arch/arm/boot/dts/qcom/qcom-apq8060-dragonboard.dts b/arch/arm/boot/dts/qcom/qcom-apq8060-dragonboard.dts
-index 8a511f69d800..26066c76e088 100644
---- a/arch/arm/boot/dts/qcom/qcom-apq8060-dragonboard.dts
-+++ b/arch/arm/boot/dts/qcom/qcom-apq8060-dragonboard.dts
-@@ -994,23 +994,27 @@ &pm8058_xoadc {
- 	xoadc-ref-supply = <&pm8058_l18>;
- 
- 	/* Board-specific channels */
--	mpp5@5 {
-+	adc-channel@5 {
- 		/* Connected to AOUT of ALS sensor */
- 		reg = <0x00 0x05>;
- 	};
--	mpp6@6 {
-+
-+	adc-channel@6 {
- 		/* Connected to test point TP43 */
- 		reg = <0x00 0x06>;
- 	};
--	mpp7@7 {
-+
-+	adc-channel@7 {
- 		/* Connected to battery thermistor */
- 		reg = <0x00 0x07>;
- 	};
--	mpp8@8 {
-+
-+	adc-channel@8 {
- 		/* Connected to battery ID detector */
- 		reg = <0x00 0x08>;
- 	};
--	mpp9@9 {
-+
-+	adc-channel@9 {
- 		/* Connected to XO thermistor */
- 		reg = <0x00 0x09>;
- 	};
--- 
-2.39.2
+Best regards,
+Krzysztof
 
