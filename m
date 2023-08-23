@@ -2,95 +2,178 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E38E7857BC
-	for <lists+linux-input@lfdr.de>; Wed, 23 Aug 2023 14:15:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 007E778580E
+	for <lists+linux-input@lfdr.de>; Wed, 23 Aug 2023 14:51:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234662AbjHWMPP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Aug 2023 08:15:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46778 "EHLO
+        id S233196AbjHWMvI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Aug 2023 08:51:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232236AbjHWMPO (ORCPT
+        with ESMTP id S232211AbjHWMvI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Aug 2023 08:15:14 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DB4D19A
-        for <linux-input@vger.kernel.org>; Wed, 23 Aug 2023 05:15:12 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id 3f1490d57ef6-ccc462deca6so5431928276.0
-        for <linux-input@vger.kernel.org>; Wed, 23 Aug 2023 05:15:12 -0700 (PDT)
+        Wed, 23 Aug 2023 08:51:08 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB4C1CD2;
+        Wed, 23 Aug 2023 05:51:04 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-68a3e271491so2688739b3a.0;
+        Wed, 23 Aug 2023 05:51:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692792911; x=1693397711;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0N2gnvcEfGb3L+QEwC+N38b9ItEwrmfrslDJ70apZRE=;
-        b=KvEB3qKN8VzcKjqujVsocMw0sRuVeLhCp/KM+QEqtq5mdYjWS+/Xbey3x0VhW2vxXz
-         VpTfTvsCMtcZL9UXJtIr6ifbntVhGAzDURD898eT8D+vsinNENQn5JRbPoa8quLBMgDU
-         pG7Icamv1V9xAVdOs2cILcbbaTHRft9hc+8T3CZwhjCL3BVsq2gpAIyQNfyJE+2A7t37
-         FKHwN3wuT/Pad75An0kTaCsolWpRDZRHmGrnMg3UAp8KcoRcyplidXycGiapECsZ3cM7
-         sdoi8xM9p7HaSzcfpzdAqKTqeqTEYyA5sdX33QZaVuksD5nUEHAO8n8jzSkKUIdmAglW
-         K7YA==
+        d=gmail.com; s=20221208; t=1692795064; x=1693399864;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qw20Fq1hanjYGZIx2Ayv95MH0Xa2Yp73KlZZlOdt5jI=;
+        b=iVXbEOC0Bwp4i+vBVX3XVSt3RvckvADWcWt0X0ek8tfN8CrzteDJ0GWo7+xFLTuUYk
+         pyvfqfBC0SseQLQxc3yWZP9rMY6oqoAbBRi8Ik3eXtvVrxZMbmBmmSf8WCTRdr7EHTSm
+         Ohqtf2maVDUN00REHCbhrsxOb5wquzGHgIKbNFxwQr/FNPuDfEndS7yu00IMEWS6qMPt
+         ucAQXRcR6v3odBtiRUpsfVHxWSySl+2oKSDyMoQwQR7aqatPoFJZ6lew+bWJNLOuNl99
+         jkayUMj3NtqhvHzV+asE0SegYZFqddcJKRZJUU2QlKt3tuqVDGRsekFGuzN2lxYb151d
+         ePng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692792911; x=1693397711;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0N2gnvcEfGb3L+QEwC+N38b9ItEwrmfrslDJ70apZRE=;
-        b=JaqXNxaMgdz17gvdewk+P1vXkWTJ+NR+85SjhWUVwd6OYsSKw13nU/udl6kIgPKgCv
-         ggrzFe38xPT/LXqlFBLbzXJu3GK+g6zPYAoaKglu8FB3RIOb4uaQbnM/aEH6q1QgaKIt
-         P4CLKZIuM7QQh7Y99BlcpeXFlGTHTY1CoYtpKCS2N/fysLSk5JZZSdDk0G/kEvkCWiA6
-         INY6gnQ0w/Ik7OxSCIKjXTPn0aluVEZ9IYLWw7lMZmDUikvDE9Kh6H6knSQJx2mSlqL+
-         7HnkyFTI9c/eYxvBqeJpwOOTU6uM6yuhRIkx5sY1mmfQuRapRM2WLin8KD9lay1o25Wq
-         WxRg==
-X-Gm-Message-State: AOJu0YwZrW/7sI+1N09dGRn3G+FjqKmB/HL2cXKtrZb1/xauda8fp8Zi
-        N8PCF4I01LUj4mrvIYEMDSmsC2FWS5ufaRyfI4rrCA==
-X-Google-Smtp-Source: AGHT+IEozVHXH4Oln+v1G7Ein85g60u9KEJ8wZA2BteuvSIbfcJGpkjoSLO9O42JwgcVVVFGEFzwIBnJ3zMVc1ykWhk=
-X-Received: by 2002:a25:d78c:0:b0:d73:e979:d5c8 with SMTP id
- o134-20020a25d78c000000b00d73e979d5c8mr13520994ybg.34.1692792911487; Wed, 23
- Aug 2023 05:15:11 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692795064; x=1693399864;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qw20Fq1hanjYGZIx2Ayv95MH0Xa2Yp73KlZZlOdt5jI=;
+        b=lwQZuki44ezOu6d2HaWAL417CfuF00ADJ4G8pQMLJ15/Gn7gENYOO3goDHRlLsSJxb
+         tyWw3PAmot6J2l5dBEACKJn5gzykb7cw+hNgoMVJ9a0npd7C1pe7yu/XE3ueDzdtdcv2
+         rgoJktVdSpLFmEWaH6gwSHVg+MtfWGQ4q/pQaerhOUE4xRYAikAAjtGbsotA2mc+z6br
+         b5EQ2UyUOqV/SJDmhuRKeVAbKFFuw6vhaF97NaAxzn/0zMEEaAYSg2h7jR/gFurxEHnq
+         XR1NF8MfLHqSifAfwzgvIDglJUiYKeFfUyqly8ksQV2vzyMERv3VNGQZ1q4+BFaJR3Rq
+         BtOg==
+X-Gm-Message-State: AOJu0Yyl4Bn3uT2BXP3JjDihV5+eAn38z3YGV9rdUn2uv+pdwKTOswzK
+        tfBIcYWceTOEvzm9CrwbZM8=
+X-Google-Smtp-Source: AGHT+IGGN6d5zLJz11JDfvlI4pkl3U7BE2VepAM3zBw+s+cwITNMxKvmbGcO+IebVrSlA8/kVcyjlQ==
+X-Received: by 2002:a05:6a20:8e1c:b0:149:8cc1:f30b with SMTP id y28-20020a056a208e1c00b001498cc1f30bmr6198806pzj.38.1692795063969;
+        Wed, 23 Aug 2023 05:51:03 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:ee3c:9990:bc14:d56e])
+        by smtp.gmail.com with ESMTPSA id fm25-20020a056a002f9900b00689f3d73639sm5657662pfb.65.2023.08.23.05.51.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Aug 2023 05:51:03 -0700 (PDT)
+Date:   Wed, 23 Aug 2023 05:51:00 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Maxime Ripard <mripard@kernel.org>
+Cc:     Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+        syzbot <syzbot+3a0ebe8a52b89c63739d@syzkaller.appspotmail.com>,
+        davidgow@google.com, gregkh@linuxfoundation.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rydberg@bitmath.org, syzkaller-bugs@googlegroups.com,
+        benjamin.tissoires@redhat.com
+Subject: Re: [syzbot] [input?] KASAN: slab-use-after-free Read in
+ input_dev_uevent
+Message-ID: <ZOYAtI5KttKQnLWs@google.com>
+References: <00000000000035beba060371a468@google.com>
+ <ijh2qmdtj452nq3idu2tohkrmfwr2qhbhrnyqzxjkkw2lrby53@v2dffcqdohsx>
+ <878ra3m5my.fsf@nvidia.com>
+ <nqrdxdcvuhvcs2syjfhcp5fbk4ckgzibc3izxknvsrka3kres6@ae65hqx67c4u>
 MIME-Version: 1.0
-References: <20230822152244.214394-1-brgl@bgdev.pl>
-In-Reply-To: <20230822152244.214394-1-brgl@bgdev.pl>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 23 Aug 2023 14:14:59 +0200
-Message-ID: <CACRpkdZWKDsHtYHqWSqz6QYp4TKT4OskWO7v6w=2v3NhvYWc4w@mail.gmail.com>
-Subject: Re: [PATCH] HID: cp2112: make the irqchip immutable
-To:     Bartosz Golaszewski <brgl@bgdev.pl>, Marc Zyngier <maz@kernel.org>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <nqrdxdcvuhvcs2syjfhcp5fbk4ckgzibc3izxknvsrka3kres6@ae65hqx67c4u>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Aug 22, 2023 at 5:22=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl>=
- wrote:
+On Wed, Aug 23, 2023 at 09:44:22AM +0200, Maxime Ripard wrote:
+> Hi Rahul,
+> 
+> On Tue, Aug 22, 2023 at 08:57:41AM -0700, Rahul Rameshbabu wrote:
+> > On Tue, 22 Aug, 2023 11:12:28 +0200 Maxime Ripard <mripard@kernel.org> wrote:
+> > > Hi,
+> > >
+> > > So, we discussed it this morning with Benjamin, and I think the culprit
+> > > is that the uclogic driver will allocate a char array with devm_kzalloc
+> > > in uclogic_input_configured()
+> > > (https://elixir.bootlin.com/linux/latest/source/drivers/hid/hid-uclogic-core.c#L149),
+> > > and will assign input_dev->name to that pointer.
+> > >
+> > > When the device is removed, the devm-allocated array is freed, and the
+> > > input framework will send a uevent in input_dev_uevent() using the
+> > > input_dev->name field:
+> > >
+> > > https://elixir.bootlin.com/linux/latest/source/drivers/input/input.c#L1688
+> > >
+> > > So it's a classic dangling pointer situation.
+> > >
+> > > And even though it was revealed by that patch, I think the issue is
+> > > unrelated. The fundamental issue seems to be that the usage of devm in
+> > > that situation is wrong.
+> > >
+> > > input_dev->name is accessed by input_dev_uevent, which for KOBJ_UNBIND
+> > > and KOBJ_REMOVE will be called after remove.
+> > >
+> > > For example, in __device_release_driver() (with the driver remove hook
+> > > being called in device_remove() and devres_release_all() being called in
+> > > device_unbind_cleanup()):
+> > > https://elixir.bootlin.com/linux/latest/source/drivers/base/dd.c#L1278
+> > >
+> > > So, it looks to me that, with or without the patch we merged recently,
+> > > the core has always sent uevent after device-managed resources were
+> > > freed. Thus, the uclogic (and any other input driver) was wrong in
+> > > allocating its input_dev name with devm_kzalloc (or the phys and uniq
+> > > fields in that struct).
+> > >
+> > > Note that freeing input_dev->name in remove would have been just as bad.
+> > >
+> > > Looking at the code quickly, at least hid-playstation,
+> > > hid-nvidia-shield, hid-logitech-hidpp, mms114 and tsc200x seem to be
+> > > affected by the same issue.
+> > 
+> > I agree with this analysis overall. At least in hid-nvidia-shield, I can
+> > not use devm for allocating the input name string and explicitly free it
+> > after calling input_unregister_device. In this scenario, the name string
+> > would have been freed explicitly after input_put_device was called
+> > (since the input device is not devres managed). input_put_device would
+> > drop the reference count to zero and the device would be cleaned up at
+> > that point triggering KOBJ_REMOVE and firing off that final
+> > input_dev_uevent.
+> > 
+> > I think this can be done for a number of the drivers as a workaround
+> > till this issue is properly resolved. If this seems appropriate, I can
+> > send out a series later in the day. This is just a workaround till the
+> > discussion below converges (which I am interested in).
+> 
+> I'm sorry, I don't know the input framework well enough to understand
+> what you had in mind exactly. Could you send a patch with your
+> suggestion for the hid-nvidia-shield so we can discuss this further?
+> 
+> That being said, I think that the current design around name, phys and
+> uniq is fairly treacherous to drivers and we should aim for a solution
+> that prevents that issue from being possible at all.
+> 
+> I was inclined to go for a char array for each to get rid of the pointer
+> entirely, but Benjamin raised some concerns over the structure size so
+> it's probably not a great solution.
 
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
->
-> This make the GPIO irqchip exposed by the CP2112 driver use an immutable
-> irq_chip struct thus addressing the following warning on probe:
->
->   (cp2112_gpio): not an immutable chip, please consider fixing it!
->
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+I think everything is much simpler, with uclogic driver being in the
+wrong here: devm resource needs to be attached to the right device
+(instance of HID) rather than to the input device itself (which should
+never have any driver resources attached since it never has a driver).
+Something like this:
 
-Thanks for fixing this. FWIW:
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+diff --git a/drivers/hid/hid-uclogic-core.c b/drivers/hid/hid-uclogic-core.c
+index f67835f9ed4c..f234a7c97360 100644
+--- a/drivers/hid/hid-uclogic-core.c
++++ b/drivers/hid/hid-uclogic-core.c
+@@ -148,7 +148,7 @@ static int uclogic_input_configured(struct hid_device *hdev,
+ 
+ 	if (suffix) {
+ 		len = strlen(hdev->name) + 2 + strlen(suffix);
+-		name = devm_kzalloc(&hi->input->dev, len, GFP_KERNEL);
++		name = devm_kzalloc(&hdev->dev, len, GFP_KERNEL);
+ 		if (name) {
+ 			snprintf(name, len, "%s %s", hdev->name, suffix);
+ 			hi->input->name = name;
 
-Marc Z, have you checked how we stand with immutable GPIO
-irqchips? We should be able to smoke it out to default behaviour
-soon I think.
+In general, drivers should attach devm resources they allocate to the
+instance of device they are binding to, and nothing else.
 
-Yours,
-Linus Walleij
+Thanks.
+
+-- 
+Dmitry
