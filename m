@@ -2,89 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F2BD7870E4
-	for <lists+linux-input@lfdr.de>; Thu, 24 Aug 2023 15:54:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 866DE787489
+	for <lists+linux-input@lfdr.de>; Thu, 24 Aug 2023 17:48:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235804AbjHXNyE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Aug 2023 09:54:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54234 "EHLO
+        id S242302AbjHXPsI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Aug 2023 11:48:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241300AbjHXNx5 (ORCPT
+        with ESMTP id S242317AbjHXPsH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Aug 2023 09:53:57 -0400
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6D2FA8;
-        Thu, 24 Aug 2023 06:53:51 -0700 (PDT)
-Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2b9f0b7af65so102953251fa.1;
-        Thu, 24 Aug 2023 06:53:51 -0700 (PDT)
+        Thu, 24 Aug 2023 11:48:07 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14E52198D;
+        Thu, 24 Aug 2023 08:48:06 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-4ff88239785so10702912e87.0;
+        Thu, 24 Aug 2023 08:48:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692885230; x=1693490030;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5LYpTKXg3FZey1/Sx1CuzIbt0+XrBzCQETNfbb8Zj50=;
-        b=DN73H0Au+zeKlQ/SNDV6ZPc9sqSdbcTrTVKA8EKfKm1iaxY21dA8TKMPEEgoQPsmyX
-         ig615V4/j0biqjWMjKwPqgSkX/hKeLZdweth/uoPv1vxxBq32yCeyAvs7Y5D5JvPD+de
-         MUCcahsaMShuJhkfkiJJfP5dWt06dHMsrADe2y0ivjjotIm7U3HK+rysIGclcNVVZPo2
-         fb04lQ83XwNLhKMBbW6qZqkXFseYHFZPsN1AyKT9kTSQmeXbhvR+ADeCToIW7KQ8VYvA
-         07F2q9EtxikWELTtXf9eBqroKysJaUIpkB0WoeqQBmJO+NwN+WS2IXZFn698DsRPrz1K
-         Y2BQ==
+        d=gmail.com; s=20221208; t=1692892084; x=1693496884;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+1fMi2e4G9gTfcYnlr83FuXHyFkwE440pHt3C7CjJrg=;
+        b=AtRMEjqP0oOimPYD3Cu3GWo3Gi5lcZXeYIG2Ib+/MirND8WZgzkFDVhTeAzPKnKhsM
+         Xvdqg3JX+Xdx4ROg6Of0cK7CPb3CcPy7p0PrSeeMHuoMK0L1VKcAsnSwxXjAEl0xjB2O
+         VSsOE3rWQvH5MJiFor4mq+HtrRm0gnNIwiLixW2JNjcFzQlaCi63qtu5LERQxXMEaBHb
+         OAwMBEP2xnwbsxUvCyfON6v9ut/+LjkqfeHOw48szAUmpIzf3NPtVtSU9bEpxGwRNBy5
+         m+J8Z88uue+h0sa9x6F6kfenCG88ShL1VcKHG4CD9r15Y1I2+HpxQj7rG9jQcT4eXbyr
+         jjXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692885230; x=1693490030;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5LYpTKXg3FZey1/Sx1CuzIbt0+XrBzCQETNfbb8Zj50=;
-        b=H86wPFmqHYlsC1y6p4aR2/tI0WEe/HkMutPr6RN8lKO8aI/c9npQSrIwYMIzGJaJld
-         79Mi2WcVKG4sFN2qdQ2N1DkYqkJS7QK8FS/cSur81ZeNZPc4pVVLJvW7c3C8/SnNkWSY
-         XiZg6NR3aCDkCbzkFVoSXkUXeaZuDrXvmRxJTxTUSeQJ7Rj7/cnEKJXDVE88DbDAFSeZ
-         c8OfTOhrXjs20lJxNMOcE/kpieRenoxYYfveciMF/hZfOBKHwFdWITD3FPELEnV52PZu
-         8upSBjKIIugyzpiF8kcuBN1oVH2kMO8bCs9I0jEJvX+qukzgImhYRxlRCDw3OO2t4tfy
-         gj0g==
-X-Gm-Message-State: AOJu0YwBZOvFOsJaydj0l+niHMUyigU4xoYQ9DsREfLloKD3EgvqVZBz
-        cw8L9NoB1ekVZZ2OE+0Yb+wX76X0MD9kLmT4
-X-Google-Smtp-Source: AGHT+IEefotIFfjeuslW/NyPnOv1al/whlGKNiU+Okhol05ME3LSn5l6OfI7GK7mwS6vyDa9APZYrw==
-X-Received: by 2002:a2e:b164:0:b0:2bb:bfa5:b72c with SMTP id a4-20020a2eb164000000b002bbbfa5b72cmr10493041ljm.15.1692885229450;
-        Thu, 24 Aug 2023 06:53:49 -0700 (PDT)
-Received: from [192.168.20.89] (83-233-6-197.cust.bredband2.com. [83.233.6.197])
-        by smtp.gmail.com with ESMTPSA id p15-20020a2e9a8f000000b002bcdbfe36a1sm857498lji.84.2023.08.24.06.53.48
+        d=1e100.net; s=20221208; t=1692892084; x=1693496884;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+1fMi2e4G9gTfcYnlr83FuXHyFkwE440pHt3C7CjJrg=;
+        b=cgIws7sBVKhOcEX5RNgMpAueTIETW+lWhZ7D/smxeRFA5Ynf9YXx1Y+kvg5QUR9+AC
+         y18nwfU6z0uJyvMdc9Ku/NnV5eabMG8gFZkwENtxljNd0zLhloY4pwi2NceofQaNYD28
+         ueKctRv6bQjfnT0E8qSf9qGmqe92zQlFxOgAHJrqr8LCSSiu0wzrMDtlXC8zQSfx6TcZ
+         /DoBgs5FV1RBN/avM+rMGsUixgOP/uY8Hlg/aGgY4eaCFqvAQAaUQOrfGcPYTDfNtNcP
+         rlHBJnm5+GonuZ/TD8bE3dBStIbJzrj0p7IgIi390PpQeQIhnb3rre6Kre+1opS7NfS8
+         L87Q==
+X-Gm-Message-State: AOJu0YyzlIVkxGMykc7RrIHbjxXYKuWaJvmR4Xy2n+8J5LTVaaH2LwYn
+        QomI/QZ8NV/arh2yEv/9eKk=
+X-Google-Smtp-Source: AGHT+IHnjayWdKFs8JaMC8+yrrpioUy10Jdu1+V9ar/iwgMkiAQsXHTlvjsVRaIaA+QxzNCdQNvHqQ==
+X-Received: by 2002:a05:6512:3241:b0:4fe:25bc:71f5 with SMTP id c1-20020a056512324100b004fe25bc71f5mr9751746lfr.11.1692892084032;
+        Thu, 24 Aug 2023 08:48:04 -0700 (PDT)
+Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
+        by smtp.gmail.com with ESMTPSA id j30-20020ac2551e000000b004fe1900e934sm3238449lfk.147.2023.08.24.08.48.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Aug 2023 06:53:48 -0700 (PDT)
+        Thu, 24 Aug 2023 08:48:02 -0700 (PDT)
+Date:   Thu, 24 Aug 2023 17:50:33 +0200
 From:   Marcus Folkesson <marcus.folkesson@gmail.com>
-Date:   Thu, 24 Aug 2023 15:55:50 +0200
-Subject: [PATCH] input: docs: pxrc: remove reference to phoenix-sim
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230824-pxrc-doc-v1-1-038b75a2ef05@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAGVh52QC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI2MDCyMT3YKKomTdlPxkXcPElJSkxEQjI1ODNCWg8oKi1LTMCrBR0bG1tQA
- AEEX8WgAAAA==
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Marcus Folkesson <marcus.folkesson@gmail.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1501;
- i=marcus.folkesson@gmail.com; h=from:subject:message-id;
- bh=gfPdoZJ8VqVP1ME7IqsQu+o/zRkAyUXKN51ex5LYZ+Q=;
- b=owEBbQKS/ZANAwAIAYiATm9ZXVIyAcsmYgBk52F/TGpSKHPMSR+AnOnRcktJokJeDTpjV6ckL
- nJMFaco50aJAjMEAAEIAB0WIQQFUaLotmy1TWTBLGWIgE5vWV1SMgUCZOdhfwAKCRCIgE5vWV1S
- MqnFD/0Wa8toMqQSoAU20Ebtgi6FPbWgY+nmcCod45Y0sQM9+oGlCQ0pGBeNDo2YwX3Flu6aDla
- JvnBoki8hIEWlXk0cR5rsXk9Zz4u1P0lb/3IDZjRRtZadK6HbDVnU3WzaLGwgDnNxSs3SL/eMTy
- CRZ/NtGu9QeXLhqSpqZjzkPozE1iDk5Bhx4pWyyjEbEA9uRH8kC0tOVSClcbSk0+ZlAmtrnpRgL
- b1yw5D/vAjOpJXtIBF5SYo5Any4uMzkipkWf1ac9tOtRfPEYLPmPn/yaeghuMIIDsVFpfWitxiX
- sXjl+shem38L6AwEQIBnGu0cxNHz74Of6uDHmDOXopphbs6t4kML9kXP9+3IRu6tivlwg83p3em
- qYp4PdzNQsIw42tP42d+NO9quZHP0jkBc75MDe6y1ZbrrHZ/xRbJxziOb7VSD96N9AnZ27ZJdO1
- YyVqKS3LlKp9pUR6gjJzOGyiOH/0zxgIHAHbxFUrwMt1PLOhY1TM0mruC+jyirxnwElMUIZ7egz
- IMmLNV+alFNxiLJLUHihfpPDrSIBBxJCDy2R2TuA5KMFrr/gmwjOVudXwLLHi7UoutxdNAIAHTc
- bK0Jx6x5uXoCV5LkPBSOYJdp0cmsZFRMRTKW09610TDkRKZpOmOYNqqNEf4qa9YvrKRcV6XWBZc
- TC7m10qXXPTrl7w==
-X-Developer-Key: i=marcus.folkesson@gmail.com; a=openpgp;
- fpr=AB91D46C7E0F6E6FB2AB640EC0FE25D598F6C127
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] input: docs: pxrc: remove reference to phoenix-sim
+Message-ID: <ZOd8Sb6CAiDOyjq1@gmail.com>
+References: <20230824-pxrc-doc-v1-1-038b75a2ef05@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="BMz4C62m2NawlKXS"
+Content-Disposition: inline
+In-Reply-To: <20230824-pxrc-doc-v1-1-038b75a2ef05@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -92,49 +73,42 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The reference undeniably points to something unrelated nowadays.
-Remove it.
 
-Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
----
- Documentation/input/devices/pxrc.rst | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+--BMz4C62m2NawlKXS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/input/devices/pxrc.rst b/Documentation/input/devices/pxrc.rst
-index ca11f646bae8..5a86df4ad079 100644
---- a/Documentation/input/devices/pxrc.rst
-+++ b/Documentation/input/devices/pxrc.rst
-@@ -5,7 +5,7 @@ pxrc - PhoenixRC Flight Controller Adapter
- :Author: Marcus Folkesson <marcus.folkesson@gmail.com>
- 
- This driver let you use your own RC controller plugged into the
--adapter that comes with PhoenixRC [1]_ or other compatible adapters.
-+adapter that comes with PhoenixRC or other compatible adapters.
- 
- The adapter supports 7 analog channels and 1 digital input switch.
- 
-@@ -41,7 +41,7 @@ Manual Testing
- ==============
- 
- To test this driver's functionality you may use `input-event` which is part of
--the `input layer utilities` suite [2]_.
-+the `input layer utilities` suite [1]_.
- 
- For example::
- 
-@@ -53,5 +53,4 @@ To print all input events from input `devnr`.
- References
- ==========
- 
--.. [1] http://www.phoenix-sim.com/
--.. [2] https://www.kraxel.org/cgit/input/
-+.. [1] https://www.kraxel.org/cgit/input/
+On Thu, Aug 24, 2023 at 03:55:50PM +0200, Marcus Folkesson wrote:
+> The reference undeniably points to something unrelated nowadays.
+> Remove it.
+>=20
 
----
-base-commit: 7214161111af87aeee721ab1b2808fcb4421aff7
-change-id: 20230824-pxrc-doc-1addbaa2250f
+Sorry, I forgot:
 
-Best regards,
--- 
-Marcus Folkesson <marcus.folkesson@gmail.com>
+Suggested-by: Mark Olsson <mark@markolsson.se>
 
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> ---
+
+--BMz4C62m2NawlKXS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmTnfEQACgkQiIBOb1ld
+UjJm2A/9GZ6E43rlokhTt4IorvtNkkRA0YN5pFCGBJV3tfmz9Z7xrD3AR+G4tZBN
+ThrKlu9S4LfhQLzS+3ApBiiLMfU85ovdSL76oql7P/N9q1+8hFjw7PLD/j0eR9ts
+eHB67G1edvWGZXScXxD0lYT/HabzLMQc0AY5hLp1OCwWIJywA5cqEhDUXtXPXBzI
+Gkth0B1T+aXncJnXebV4GuohHWcJFM8119nv9UeShw0G6rLozL4oPMuINdjlPimi
+kHARgmFSbcQW4JzZfcjMFrxD4Ogf9PE21yotoUGjNAxymtecnlihgLhdfCfI4ilB
+7Oj3XDif9LsP98mnQfYZRGu+cAg8YfsBby09ANL2MeTnZLiehzGFFjaBxEX1sqCF
+IZVT6dKA+F6Eq2FSf7G/44B8vRj35iEZD+7/ffYIHOjbN0cGWjZfEntIEmm/5/pQ
+yyxNnbNvY08f2FbMUL2YpTS+xqxefpVnXqXVtfxyhxBHpsZkAJtBTWh+r0sgLLxu
+hXrAV8askCKZBd1+XkZq4AJ3Ju8S3yp2JpLIMxG5CF43Ca08Z6sK9qNbFi1VKVtb
+cjr2wM7l6ZZ753utz3+gNy6dq5ubMhQCk3Lmwg606Q8kJUA+lz31Cyp9yT/jW6fu
++k/Vh6iahutlhoSugPWY2HDIcnSbstotxiL1FdBcIe26gxDq06w=
+=9UIU
+-----END PGP SIGNATURE-----
+
+--BMz4C62m2NawlKXS--
