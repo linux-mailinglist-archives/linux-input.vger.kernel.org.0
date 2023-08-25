@@ -2,62 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CD6B788239
-	for <lists+linux-input@lfdr.de>; Fri, 25 Aug 2023 10:37:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB469788405
+	for <lists+linux-input@lfdr.de>; Fri, 25 Aug 2023 11:45:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242612AbjHYIhX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 25 Aug 2023 04:37:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34946 "EHLO
+        id S231835AbjHYJo1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 25 Aug 2023 05:44:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240951AbjHYIgt (ORCPT
+        with ESMTP id S235628AbjHYJoX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Aug 2023 04:36:49 -0400
+        Fri, 25 Aug 2023 05:44:23 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C49D219AC;
-        Fri, 25 Aug 2023 01:36:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D403F19A1;
+        Fri, 25 Aug 2023 02:44:20 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5A2CB64175;
-        Fri, 25 Aug 2023 08:36:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFD12C433CB;
-        Fri, 25 Aug 2023 08:36:44 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 68F3360D3D;
+        Fri, 25 Aug 2023 09:44:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 375CAC433C8;
+        Fri, 25 Aug 2023 09:44:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692952606;
-        bh=Q2ZIsubew9vjZV4NTRllMB9+S/zfEbLIL8U7zfyp2fY=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=FiXrbbU5wd2YWWfvKxQ75kgpXUZ1r3EYDKBbLz7Cc4qCwJu2Aj+m3kPleLC4c1T2E
-         S3u3gGOobarm37fRQ1HmNC/5NPC5HiD+zipKXOH09PHF6hZGu3+enfScnlSWOrKYGx
-         rhaX00Z3kSROX9T9rWTPbl8Tf3B6VV9VjfgzzAXVdffwAmwMITeNfWQxXTSGUnuhaR
-         K1mEyvvNAVu9icopvEcu7rNNhyl0LBfKgqKsUNbD0WsYDiF+6kFrGidojzCTlIGy4l
-         wkvNVUqYdmDjoHk3/gdp4ooid83dacxscm0M+ZXb0WhKwyymDfvM022TPYlV68T5sp
-         Pl4MLUa8Az1yQ==
+        s=k20201202; t=1692956659;
+        bh=me1uoWKkEzgLUsTWeqOu/DWILOAbSgEJUKQu/4VvDZw=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=dH2yzUTTY2b7oQyz+3nAkP0NdHuO5NqCTKuIyrMg/wfm97eKhPl6/siE2zzCkOnOG
+         yDfHIqWBruqfsIhG2Wwy7FjalnyqTz0IdavmkM8I2dugiG+6B32m7IHzuZySerCt7d
+         yNUYQT0H8MPJb4rpEYS1u5dLVs9YPuUaXaAjS1UnG/7RuAMe+i+4KXN0aUeRy7lWbO
+         +SdRy1FfN+e5s8D3AuJRmQpFdEBc0YZzOif5QLCSARhZqaJpugoq3xd358ef3C8fS2
+         u87UmbBvQ6K3vTH+vE9Hw5gdn1sCsdrvF9V9ahZjoA9vtdBlCiA+RWaVNupUymfww7
+         FUwnH/OOTIqqw==
 From:   Benjamin Tissoires <bentiss@kernel.org>
-Date:   Fri, 25 Aug 2023 10:36:33 +0200
-Subject: [PATCH 3/3] selftests/hid: force using our compiled libbpf headers
+To:     =?utf-8?q?Filipe_La=C3=ADns?= <lains@riseup.net>,
+        Bastien Nocera <hadess@hadess.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>, bentiss@kernel.org
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        stable@vger.kernel.org
+In-Reply-To: <20230621-logitech-fixes-v2-1-3635f7f9c8af@kernel.org>
+References: <20230621-logitech-fixes-v2-1-3635f7f9c8af@kernel.org>
+Subject: Re: [PATCH v2] HID: logitech-hidpp: rework one more time the
+ retries attempts
+Message-Id: <169295665797.600550.12347431863419633471.b4-ty@kernel.org>
+Date:   Fri, 25 Aug 2023 11:44:17 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230825-wip-selftests-v1-3-c862769020a8@kernel.org>
-References: <20230825-wip-selftests-v1-0-c862769020a8@kernel.org>
-In-Reply-To: <20230825-wip-selftests-v1-0-c862769020a8@kernel.org>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Justin Stitt <justinstitt@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-        Benjamin Tissoires <bentiss@kernel.org>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1692952596; l=798;
- i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=Q2ZIsubew9vjZV4NTRllMB9+S/zfEbLIL8U7zfyp2fY=;
- b=+lEQzv9hCNetlUBhrOIu51yeljnR3xW75p6UxKDfmNdvqNMzDHmzekZqiMA0UasGLiQCQRFbD
- N9XPa2ae5U2CkFGO2TpI4jmOLXbF9q9HMMUenMC8C9aCkZAk/9Grarn
-X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -68,29 +61,20 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Turns out that we were relying on the globally installed headers, not
-the ones we freshly compiled.
-Add a manual include in CFLAGS to sort this out.
+On Wed, 12 Jul 2023 17:02:34 +0200, bentiss@kernel.org wrote:
+> Extract the internal code inside a helper function, fix the
+> initialization of the parameters used in the helper function
+> (`hidpp->answer_available` was not reset and `*response` wasn't either),
+> and use a `do {...} while();` loop.
+> 
+> 
 
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
----
- tools/testing/selftests/hid/Makefile | 2 ++
- 1 file changed, 2 insertions(+)
+Applied to hid/hid.git (for-6.6/logitech), thanks!
 
-diff --git a/tools/testing/selftests/hid/Makefile b/tools/testing/selftests/hid/Makefile
-index c5522088ece4..b01c14077c5d 100644
---- a/tools/testing/selftests/hid/Makefile
-+++ b/tools/testing/selftests/hid/Makefile
-@@ -22,6 +22,8 @@ CXX ?= $(CROSS_COMPILE)g++
- HOSTPKG_CONFIG := pkg-config
- 
- CFLAGS += -g -O0 -rdynamic -Wall -Werror -I$(OUTPUT)
-+CFLAGS += -I$(OUTPUT)/tools/include
-+
- LDLIBS += -lelf -lz -lrt -lpthread
- 
- # Silence some warnings when compiled with clang
+[1/1] HID: logitech-hidpp: rework one more time the retries attempts
+      https://git.kernel.org/hid/hid/c/60165ab774cb
 
+Cheers,
 -- 
-2.39.1
+Benjamin Tissoires <bentiss@kernel.org>
 
