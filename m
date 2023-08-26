@@ -2,73 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C9947896FE
-	for <lists+linux-input@lfdr.de>; Sat, 26 Aug 2023 15:49:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CAE7C789701
+	for <lists+linux-input@lfdr.de>; Sat, 26 Aug 2023 15:50:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229437AbjHZNtW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 26 Aug 2023 09:49:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51028 "EHLO
+        id S232736AbjHZNtz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 26 Aug 2023 09:49:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232787AbjHZNs6 (ORCPT
+        with ESMTP id S232398AbjHZNti (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 26 Aug 2023 09:48:58 -0400
+        Sat, 26 Aug 2023 09:49:38 -0400
 Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43DAA2698
-        for <linux-input@vger.kernel.org>; Sat, 26 Aug 2023 06:48:40 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-5008faf4456so2772106e87.3
-        for <linux-input@vger.kernel.org>; Sat, 26 Aug 2023 06:48:40 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E92A12114
+        for <linux-input@vger.kernel.org>; Sat, 26 Aug 2023 06:49:35 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-50078eba7afso2856841e87.0
+        for <linux-input@vger.kernel.org>; Sat, 26 Aug 2023 06:49:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693057718; x=1693662518;
+        d=linaro.org; s=google; t=1693057774; x=1693662574;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=bJYCstC3yMyxdhkN7f8XjASHO3q4VB6/2AFXfIBp+4c=;
-        b=kpVLyIH1Zkn9V3hXXjgw+gKgOcFAeoLghf0q74KkS2a4NrCGsT4JdON9fp6y21MOxO
-         OGVML2Vi63OhE3Lm5peUuiW6ugPgf1PC9UVYS/LH64hJKOdqJUkZYHLJyfavPmkSMb0S
-         1hYbWnanmu/tu7oXWiC5il3uXsJhjE8in/sqbVGpFUQYjXVwbzb7BJwhx+GOlNZ/MViQ
-         NAAT3JVBKhfHe3OewwkPR6dgKxFLpAU4MQh19HqyxJnsPjRAtn39dTuV7hcNiFqhR8Aw
-         hxnHWY+qK36LlmHNhBIvTCUvw5ZiAtDjQx9K9g0UgKFH/pUSWXUWhUrhhPKL7WpEc8b8
-         MIDQ==
+        bh=sXu9tiIqWEQ91dQ8CuA3BckLLmlAYP5vTqvQ6rjGYjY=;
+        b=uO7MJiDNBauooyuyR57Co0ykBPU/xY4Crmu8sIUz2HoP/xVtCdszFQagjhUymmmq+n
+         9bNkwZMOGNFZCe3MBCaMjiKwckikmXOb28oKPLATPOJLIEt3BZeQbB/e+pj177Q4eKAZ
+         s9SvUDelpi0UDVFhppkL3BJsC9LCf14yNXNttyLdpBONPeVihZvc6tnZBMgh1tJDQk7/
+         J7iB5jJI1WuwA6VmBs2U8ASvyBvmfIbUb/hWtV70HGMVVeqMiKiUSCBY9whEBFbQknty
+         YWVi9EaobLhCO15WJ3evY89kZoOF6kjvcDk6nkT4EXlTIkA1EP2iCjgokH8z0ZE5zRqU
+         05qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693057718; x=1693662518;
+        d=1e100.net; s=20221208; t=1693057774; x=1693662574;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bJYCstC3yMyxdhkN7f8XjASHO3q4VB6/2AFXfIBp+4c=;
-        b=LdUZrkV3L3Kwuzx3Nr6zmRLum7JrAqwlSZWLHUJf6U7DabLh2WTw0Ajj8GiTbnDWjH
-         fbtYSY/AlGEgHiVJIMayXFqSDh538DWY17vZDRfKueAxRiHQu/ry2+QPXrTeMrY+wtPk
-         drGbzg/871YaipiTLB3Y6jBoydQesY8qemTMfvB679iNyLEAcxT3Eywcy1PqLmiZX6ow
-         mn7sQbQTI4SfLlY4SjD5jzgjz7itRVrbwGrZ/fXkGAFvNPyLVS6SjCwT5P+SnZ36usjH
-         ckJ9tHQNRL1ijFTFkoptKBbMU00ckPdRWuKa4m2HvJT2jLbNt3BoGxeiQmi1KbeagJOO
-         hqmw==
-X-Gm-Message-State: AOJu0Yw687wcdT42Wb8E71peXUzemh6kj+5WMLYqAFOs2M4sjEMVKEKH
-        SKfafJhlURHLlLbYZJfULtHNPA==
-X-Google-Smtp-Source: AGHT+IF39h0Y3HxnIONsmHDyHCno6Gh1VD7J3oIFLE4j6ZTZ9jZ39f7TEimLMeFfnaGnTI9N9dKZ6w==
-X-Received: by 2002:ac2:4c0f:0:b0:500:ac0b:8d51 with SMTP id t15-20020ac24c0f000000b00500ac0b8d51mr2216309lfq.37.1693057718502;
-        Sat, 26 Aug 2023 06:48:38 -0700 (PDT)
+        bh=sXu9tiIqWEQ91dQ8CuA3BckLLmlAYP5vTqvQ6rjGYjY=;
+        b=BW38og+EKkGeLPNeuBnKg7O7AxHNzHMCB6pxcbm27iDlGz6wo5qbsA+zEQmVqA8IFU
+         nWk4XMY0StTa2cNk0Bn7FQlxh2+cvHmk31XN+ESVWx6D4tbrJj2MAuGQ5bWMKhKGeWQ5
+         IxAj07SyDn4wUj4Lad4IlzIuQiFIcgwBVcaaPSpJz7aj3jbqjnQqin7hHu4ZfSWnqVcQ
+         jGjT4/4CswDo8fbWDQRHn1rrvXVWDAvQahFChFWuNnOrPINRVYm8KE6AzdAasRr6jYXZ
+         6u+/VbuvekoikqYcgL1Yqd+ts/oH6FxKWg3PeFfU3FNshRRcEqN5ttsB+o6xSc83zCyL
+         HFmw==
+X-Gm-Message-State: AOJu0YxFkej1WrWVMOykI4PwIxWatXOfP01OHM2cEMix3+ZZmY3B6ENc
+        A3gupQTBRF++mFz71vRBfkVySw==
+X-Google-Smtp-Source: AGHT+IGdIGp+5X2/STb3ECiotyEgX8Lf6Dv5NNY1a0ULkEx4Prkvgf13DA8Pg7b/RAAfnPXlkjahfA==
+X-Received: by 2002:ac2:5f6a:0:b0:4fd:d517:fbd8 with SMTP id c10-20020ac25f6a000000b004fdd517fbd8mr14014906lfc.9.1693057774363;
+        Sat, 26 Aug 2023 06:49:34 -0700 (PDT)
 Received: from [192.168.1.101] (abyl74.neoplus.adsl.tpnet.pl. [83.9.31.74])
-        by smtp.gmail.com with ESMTPSA id q10-20020ac246ea000000b005009b2678eesm718547lfo.0.2023.08.26.06.48.37
+        by smtp.gmail.com with ESMTPSA id q10-20020ac246ea000000b005009b2678eesm718547lfo.0.2023.08.26.06.49.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Aug 2023 06:48:38 -0700 (PDT)
-Message-ID: <aff8e42f-4861-4953-966a-c6ac735404dd@linaro.org>
-Date:   Sat, 26 Aug 2023 15:48:37 +0200
+        Sat, 26 Aug 2023 06:49:34 -0700 (PDT)
+Message-ID: <64e73fe6-d22d-4707-a79e-668686814f73@linaro.org>
+Date:   Sat, 26 Aug 2023 15:49:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 16/32] ARM: dts: qcom: mdm9615: split PMIC to separate
+Subject: Re: [PATCH v3 17/32] ARM: dts: qcom: msm8660: split PMIC to separate
  dtsi files
 Content-Language: en-US
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc:     Andy Gross <agross@kernel.org>,
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Neil Armstrong <neil.armstrong@linaro.org>
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org
 References: <20230822001349.899298-1-dmitry.baryshkov@linaro.org>
- <20230822001349.899298-17-dmitry.baryshkov@linaro.org>
- <2dea943a-7a9e-4963-8ae5-6b126c750f80@linaro.org>
- <CAA8EJpoB6JYrFPZ7PMrVYvuwxgu6SH1zuPWG3q8Xy1J2YcCPcA@mail.gmail.com>
+ <20230822001349.899298-18-dmitry.baryshkov@linaro.org>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -105,7 +102,7 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <CAA8EJpoB6JYrFPZ7PMrVYvuwxgu6SH1zuPWG3q8Xy1J2YcCPcA@mail.gmail.com>
+In-Reply-To: <20230822001349.899298-18-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -118,27 +115,13 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 26.08.2023 15:43, Dmitry Baryshkov wrote:
-> On Sat, 26 Aug 2023 at 15:08, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->>
->> On 22.08.2023 02:13, Dmitry Baryshkov wrote:
->>> The PMIC is not a part of the SoC, so move PMIC to a separate file and
->>> include it from the board files.
->>>
->>> Suggested-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->> [...]
->>
->>> +                     pmic {
->> Are you leaving an empty subnode here?
+On 22.08.2023 02:13, Dmitry Baryshkov wrote:
+> The PMIC is not a part of the SoC, so move PMIC to a separate file and
+> include it from the board files.
 > 
-> No. It contains 'interrupts' property (which is specific to the SoC).
-Meh, that's bad design.. should have been in the controller node!
-
-But noboyd thought about this 10y+ ago so here we are
-
+> Suggested-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
 Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
 Konrad
