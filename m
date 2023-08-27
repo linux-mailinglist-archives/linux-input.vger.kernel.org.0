@@ -2,160 +2,227 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E168789946
-	for <lists+linux-input@lfdr.de>; Sat, 26 Aug 2023 23:45:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D06A7899F8
+	for <lists+linux-input@lfdr.de>; Sun, 27 Aug 2023 03:00:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229888AbjHZVpQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 26 Aug 2023 17:45:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47660 "EHLO
+        id S229573AbjH0A72 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 26 Aug 2023 20:59:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229532AbjHZVos (ORCPT
+        with ESMTP id S229672AbjH0A71 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 26 Aug 2023 17:44:48 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D35CC4;
-        Sat, 26 Aug 2023 14:44:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693086284; x=1724622284;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LA68/YEgXZrAzt9woUUD7igKvQPU44gdit0ruhpq4+4=;
-  b=BNAwTaLWn/ChUP2M5FJuXBXUE8y+bc/Olu/py6sEZLwotuBPEnSGNmzn
-   2nkOqNtfPsZzx/ovzdxup6G99evYb1lD11TOmZjh/gq0zeiUW2euKpsnG
-   NMPxDz8evXRthwp2CEEoo6hE0BF/V/DEUpPOZi7XkE252KHVY2rtweo6V
-   mPXJOe/Mu3nyzdk+OzTWpOoMmr/y1YMRWiSVbaM1u7HoMqJkIQY8P22NB
-   mlwL75QbwTLW6PQDslERDdTySPB96JhbdY7zcD4qd6EKXMTB2gOgM+ZPS
-   Ws+m8FSfR0ph389dQunEkqn+OtIniq99yFz03OyaKsJfMeOEw2VU+vSXo
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="355232470"
-X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
-   d="scan'208";a="355232470"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 14:44:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="772851383"
-X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
-   d="scan'208";a="772851383"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 26 Aug 2023 14:44:39 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qa14n-000575-2j;
-        Sat, 26 Aug 2023 21:44:24 +0000
-Date:   Sun, 27 Aug 2023 05:43:35 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        rrameshbabu@nvidia.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH 3/3] HID: nvidia-shield: Introduce thunderstrike_destroy()
-Message-ID: <202308270516.Ch4MucBs-lkp@intel.com>
-References: <4c9a8c7f6b4eb879dd7ef4d44bb6a80b3f126d25.1693070958.git.christophe.jaillet@wanadoo.fr>
+        Sat, 26 Aug 2023 20:59:27 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABDA71A6
+        for <linux-input@vger.kernel.org>; Sat, 26 Aug 2023 17:59:24 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-500a398cda5so3362524e87.0
+        for <linux-input@vger.kernel.org>; Sat, 26 Aug 2023 17:59:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1693097963; x=1693702763;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Zw4LFk55BF1kI5ENct+TNGHr1/V1+AsRmygM9sjIhOk=;
+        b=eltsvxH3Tq9WUCg+QlEKzeIJR/KSRwR5BjifQkto3wk6WTHNkJYjJ/VccJnaJODE56
+         GTsiOSA1PAfyzlkPgq/agaZ/fDSrsGC2YJjU6LKnrfuceopSoOyJcb47G5SUjQDWzDBt
+         2zP8C/slBCeyH0EELF7hnWDeMnzGWLYnzOvfs/AVSK9kX5ARnIgLyRwssj34IUeTo3gE
+         5IetIOOidZPD2NGVM2zXOGT8RDMpQ0KCOkBAouoZqQN0sBNg2exeE6OsRc8AF9YsMLqr
+         Uk0UTLUb98q30cCvI2CY7l/20XvHM1/LeV+LSL1Y8M2H7Sat9a/hcwU1UGZQBFZOTv2S
+         HcnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693097963; x=1693702763;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Zw4LFk55BF1kI5ENct+TNGHr1/V1+AsRmygM9sjIhOk=;
+        b=SkSL7EmzrMIC5tA1fXbhUyNXSH43wIETe5K0GfEFPIhWmskZk6ZBRafRz1y1lyrzJo
+         WXf3k1RGaEuZCkvrHQW3utJcawWzzf7IGED9T9zn5kBbHxcmcxRjU49vuP7L4dCUPGCx
+         WU/zoAFzJsUTQeBpsAGhdpetDSm7Xfc8v5qMEtxw/MSW7u7GU4g0VLL0GxRDKfA/T6Gh
+         ZEI5auTOIXWKjoFry4jIPeNcJ62UJRtgDGx3s3LhJ3z6BtqLNyECUzyuXRR6dg5aXS3J
+         yr85t9oJdj7iwADqN3gzXm4hBk+6jdl0vPqDRwUzGa9V6bIfyVmO08aIPRr7XqYWY8oJ
+         4dug==
+X-Gm-Message-State: AOJu0YzScdExSYC9N+qJtGp5xaiwFpWBWsMbPFcMExGGsfD5lDg3Juan
+        W/pu+YMEfN8NpJYBUCtFpf8+2ZSyoU4ZrJBEHrY=
+X-Google-Smtp-Source: AGHT+IEE0KaenXKJIXB7VGrdFumKIGuaUSbFNFD0o8LWpKZnZZcvzRdIXX1ohQYD4OhfmW9zO6ylKw==
+X-Received: by 2002:a05:6512:3e19:b0:4fe:181f:2736 with SMTP id i25-20020a0565123e1900b004fe181f2736mr21369199lfv.33.1693097962573;
+        Sat, 26 Aug 2023 17:59:22 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+        by smtp.gmail.com with ESMTPSA id p18-20020ac246d2000000b00500a08e42e7sm917729lfo.124.2023.08.26.17.59.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Aug 2023 17:59:21 -0700 (PDT)
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To:     devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        linux-arm-msm@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        linux-leds@vger.kernel.org
+Subject: [PATCH v4 00/38] ARM: dts: qcom: cleanup PMIC usage
+Date:   Sun, 27 Aug 2023 03:58:42 +0300
+Message-Id: <20230827005920.898719-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4c9a8c7f6b4eb879dd7ef4d44bb6a80b3f126d25.1693070958.git.christophe.jaillet@wanadoo.fr>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Christophe,
+While reviewing APQ8064 CPUFreq patchset, Konrad pointed out that PMICs
+are not a part of SoC and as such do not belong to the per-SoC files.
 
-kernel test robot noticed the following build warnings:
+Cleanup the way 32-bit Qualcomm platforms treat PMICs:
 
-[auto build test WARNING on linux-next/master]
-[cannot apply to linus/master v6.5-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+- Move SSBI PMICs to separate files (as a bonus merging two different
+  instances of PM8921, benefitting both platforms).
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-JAILLET/HID-nvidia-shield-Fix-a-missing-led_classdev_unregister-in-the-probe-error-handling-path/20230827-014602
-base:   linux-next/master
-patch link:    https://lore.kernel.org/r/4c9a8c7f6b4eb879dd7ef4d44bb6a80b3f126d25.1693070958.git.christophe.jaillet%40wanadoo.fr
-patch subject: [PATCH 3/3] HID: nvidia-shield: Introduce thunderstrike_destroy()
-config: i386-buildonly-randconfig-003-20230827 (https://download.01.org/0day-ci/archive/20230827/202308270516.Ch4MucBs-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230827/202308270516.Ch4MucBs-lkp@intel.com/reproduce)
+- Include such PMIC files only from the board files, keeping SoC file
+  generic.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308270516.Ch4MucBs-lkp@intel.com/
+- Move RPM regulator definitions to board files too. They do not belong
+  to the SoC dtsi files for the same reason.
 
-All warnings (new ones prefixed by >>):
+- Move PMIC-specific GPIOs and supply properties to individual board
+  files.
 
->> drivers/hid/hid-nvidia-shield.c:1046:24: warning: variable 'ts' set but not used [-Wunused-but-set-variable]
-           struct thunderstrike *ts;
-                                 ^
-   1 warning generated.
+Note, enabling DT schema triggers warnings for pmic:led@48 in
+qcom-apq8060-dragonboard.dts. This node uses custom ('cm3605') trigger
+to make the LED follow the state of the proximity / ALS device.
+Previously [1] Rob pointed out that this is not the best way and the
+device should be switched to `trigger-sources' instead. However as I do
+not have this device, I'm not brave enough to introduce these changes.
 
+Note2: DT binding changes are largely independent from the DTS changes,
+they can be applied separately.
 
-vim +/ts +1046 drivers/hid/hid-nvidia-shield.c
+[1] https://lore.kernel.org/linux-arm-msm/20221205220709.GA2713165-robh@kernel.org
 
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1042  
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1043  static int shield_probe(struct hid_device *hdev, const struct hid_device_id *id)
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1044  {
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1045  	struct shield_device *shield_dev = NULL;
-09308562d4afb1 Rahul Rameshbabu   2023-06-08 @1046  	struct thunderstrike *ts;
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1047  	int ret;
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1048  
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1049  	ret = hid_parse(hdev);
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1050  	if (ret) {
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1051  		hid_err(hdev, "Parse failed\n");
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1052  		return ret;
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1053  	}
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1054  
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1055  	switch (id->product) {
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1056  	case USB_DEVICE_ID_NVIDIA_THUNDERSTRIKE_CONTROLLER:
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1057  		shield_dev = thunderstrike_create(hdev);
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1058  		break;
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1059  	}
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1060  
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1061  	if (unlikely(!shield_dev)) {
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1062  		hid_err(hdev, "Failed to identify SHIELD device\n");
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1063  		return -ENODEV;
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1064  	}
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1065  	if (IS_ERR(shield_dev)) {
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1066  		hid_err(hdev, "Failed to create SHIELD device\n");
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1067  		return PTR_ERR(shield_dev);
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1068  	}
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1069  
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1070  	ts = container_of(shield_dev, struct thunderstrike, base);
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1071  
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1072  	ret = hid_hw_start(hdev, HID_CONNECT_HIDINPUT);
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1073  	if (ret) {
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1074  		hid_err(hdev, "Failed to start HID device\n");
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1075  		goto err_haptics;
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1076  	}
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1077  
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1078  	ret = hid_hw_open(hdev);
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1079  	if (ret) {
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1080  		hid_err(hdev, "Failed to open HID device\n");
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1081  		goto err_stop;
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1082  	}
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1083  
-3ab196f882377e Rahul Rameshbabu   2023-08-07  1084  	thunderstrike_device_init_info(shield_dev);
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1085  
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1086  	return ret;
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1087  
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1088  err_stop:
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1089  	hid_hw_stop(hdev);
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1090  err_haptics:
-2cc4637842495c Christophe JAILLET 2023-08-26  1091  	thunderstrike_destroy(hdev);
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1092  	return ret;
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1093  }
-09308562d4afb1 Rahul Rameshbabu   2023-06-08  1094  
+Changes since v3:
+- Moved PMIC interrupts to board DT files, they are not a property of
+  the board, not the SoC.
+- Dropped qcom, prefix from ssbi node names in ipq8064 and mdm9615 DT
+  files.
+
+Changes since v2:
+- Rebased on top of linux-next to fix conflict
+- Picked up dt-bindings patches from old, not-fully merged series.
+- qcom,pm8921-keypad: droped the no-autorepeat property (Rob, Dmitry)
+- Moved qcom,ssbi to /bus/ (Krzysztof)
+
+Changes since v1:
+- To ease reviewing break cleanups from the  "split PMIC" patches
+  (Konrad).
+
+Dmitry Baryshkov (38):
+  dt-bindings: input: qcom,pm8921-keypad: convert to YAML format
+  dt-bindings: mfd: qcom-pm8xxx: add missing child nodes
+  dt-bindings: mfd: qcom-pm8xxx: allow using interrupts-extended
+  ARM: dts: qcom: apq8064: correct XOADC register address
+  ARM: dts: qcom: msm8960: introduce label for PMIC keypad
+  ARM: dts: qcom: msm8660-surf: use keypad label directly
+  ARM: dts: qcom: apq8064-nexus7: move sdcc1 node to proper place
+  ARM: dts: qcom: mdm9615-wp8548-mangoh-green: group include clauses
+  ARM: dts: qcom: strip prefix from PMIC files
+  ARM: dts: qcom: apq8064: fix PMIC node labels
+  ARM: dts: qcom: mdm9615: fix PMIC node labels
+  ARM: dts: qcom: msm8660: fix PMIC node labels
+  ARM: dts: qcom: msm8960: fix PMIC node labels
+  ARM: dts: qcom: apq8064: move PMIC interrupts to the board files
+  ARM: dts: qcom: mdm9615: move PMIC interrupts to the board files
+  ARM: dts: qcom: msm8660: move PMIC interrupts to the board files
+  ARM: dts: qcom: msm8960: move PMIC interrupts to the board files
+  ARM: dts: qcom: msm8960: split PMIC to separate dtsi files
+  ARM: dts: qcom: apq8064: split PMICs to separate dtsi files
+  ARM: dts: qcom: mdm9615: split PMIC to separate dtsi files
+  ARM: dts: qcom: msm8660: split PMIC to separate dtsi files
+  ARM: dts: qcom: pm8058: reorder nodes
+  ARM: dts: qcom: pm8921: reorder nodes
+  ARM: dts: qcom: pm8018: move reg property
+  ARM: dts: qcom: pm8921: move reg property
+  ARM: dts: qcom: pm8058: use defined IRQ flags
+  ARM: dts: qcom: pm8921: switch to interrupts-extended
+  ARM: dts: qcom: pm8018: switch to interrupts-extended
+  ARM: dts: qcom: pm8058: switch to interrupts-extended
+  ARM: dts: qcom: apq8064: move RPM regulators to board files
+  ARM: dts: qcom: mdm9615: move RPM regulators to board files
+  ARM: dts: qcom: msm8660: move RPM regulators to board files
+  ARM: dts: qcom: msm8960: drop useless rpm regulators node
+  ARM: dts: qcom: msm8974: move regulators to board files
+  ARM: dts: qcom: pm8921: Disable keypad by default
+  ARM: dts: qcom: apq8060-dragonboard: rename mpp ADC channels to
+    adc-channel
+  ARM: dts: qcom: ipq8064: drop qcom, prefix from SSBI node name
+  ARM: dts: qcom: mdm9615: drop qcom, prefix from SSBI node name
+
+ .../bindings/input/qcom,pm8921-keypad.yaml    |  89 +++++++
+ .../bindings/input/qcom,pm8xxx-keypad.txt     |  90 --------
+ .../devicetree/bindings/mfd/qcom-pm8xxx.yaml  |  36 ++-
+ arch/arm/boot/dts/qcom/pm8018.dtsi            |  55 +++++
+ arch/arm/boot/dts/qcom/pm8058.dtsi            | 159 +++++++++++++
+ .../qcom/{qcom-pm8226.dtsi => pm8226.dtsi}    |   0
+ arch/arm/boot/dts/qcom/pm8821.dtsi            |  22 ++
+ .../qcom/{qcom-pm8841.dtsi => pm8841.dtsi}    |   0
+ arch/arm/boot/dts/qcom/pm8921.dtsi            | 137 +++++++++++
+ .../qcom/{qcom-pm8941.dtsi => pm8941.dtsi}    |   0
+ .../qcom/{qcom-pma8084.dtsi => pma8084.dtsi}  |   0
+ .../dts/qcom/{qcom-pmx55.dtsi => pmx55.dtsi}  |   0
+ .../dts/qcom/{qcom-pmx65.dtsi => pmx65.dtsi}  |   0
+ .../dts/qcom/qcom-apq8026-asus-sparrow.dts    |   2 +-
+ .../dts/qcom/qcom-apq8026-huawei-sturgeon.dts |   2 +-
+ .../boot/dts/qcom/qcom-apq8026-lg-lenok.dts   |   2 +-
+ .../qcom-apq8026-samsung-matisse-wifi.dts     |   2 +-
+ .../dts/qcom/qcom-apq8060-dragonboard.dts     | 164 ++++++++-----
+ .../dts/qcom/qcom-apq8064-asus-nexus7-flo.dts |  70 +++---
+ .../boot/dts/qcom/qcom-apq8064-cm-qs600.dts   |  35 ++-
+ .../boot/dts/qcom/qcom-apq8064-ifc6410.dts    |  42 ++--
+ .../qcom-apq8064-sony-xperia-lagan-yuga.dts   | 111 +++++----
+ arch/arm/boot/dts/qcom/qcom-apq8064.dtsi      | 201 +---------------
+ .../dts/qcom/qcom-apq8074-dragonboard.dts     |  31 ++-
+ .../boot/dts/qcom/qcom-apq8084-ifc6540.dts    |   2 +-
+ arch/arm/boot/dts/qcom/qcom-apq8084-mtp.dts   |   2 +-
+ arch/arm/boot/dts/qcom/qcom-ipq8064.dtsi      |   2 +-
+ .../qcom/qcom-mdm9615-wp8548-mangoh-green.dts |   4 +-
+ .../boot/dts/qcom/qcom-mdm9615-wp8548.dtsi    | 143 +++++++++++-
+ arch/arm/boot/dts/qcom/qcom-mdm9615.dtsi      | 183 +--------------
+ arch/arm/boot/dts/qcom/qcom-msm8660-surf.dts  |  61 +++--
+ arch/arm/boot/dts/qcom/qcom-msm8660.dtsi      | 217 +-----------------
+ arch/arm/boot/dts/qcom/qcom-msm8960-cdp.dts   |  27 ++-
+ .../qcom/qcom-msm8960-samsung-expressatt.dts  |   7 +-
+ arch/arm/boot/dts/qcom/qcom-msm8960.dtsi      |  45 +---
+ .../qcom-msm8974-lge-nexus5-hammerhead.dts    |  31 ++-
+ .../qcom/qcom-msm8974-sony-xperia-rhine.dtsi  |  31 ++-
+ arch/arm/boot/dts/qcom/qcom-msm8974.dtsi      |  27 ---
+ .../qcom/qcom-msm8974pro-fairphone-fp2.dts    |  31 ++-
+ .../qcom/qcom-msm8974pro-oneplus-bacon.dts    |  31 ++-
+ .../dts/qcom/qcom-msm8974pro-samsung-klte.dts |  12 +-
+ ...-msm8974pro-sony-xperia-shinano-castor.dts |  31 ++-
+ arch/arm/boot/dts/qcom/qcom-sdx55-mtp.dts     |   2 +-
+ arch/arm/boot/dts/qcom/qcom-sdx55-t55.dts     |   2 +-
+ .../dts/qcom/qcom-sdx55-telit-fn980-tlb.dts   |   2 +-
+ arch/arm/boot/dts/qcom/qcom-sdx65-mtp.dts     |   2 +-
+ 46 files changed, 1171 insertions(+), 974 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/qcom,pm8921-keypad.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+ create mode 100644 arch/arm/boot/dts/qcom/pm8018.dtsi
+ create mode 100644 arch/arm/boot/dts/qcom/pm8058.dtsi
+ rename arch/arm/boot/dts/qcom/{qcom-pm8226.dtsi => pm8226.dtsi} (100%)
+ create mode 100644 arch/arm/boot/dts/qcom/pm8821.dtsi
+ rename arch/arm/boot/dts/qcom/{qcom-pm8841.dtsi => pm8841.dtsi} (100%)
+ create mode 100644 arch/arm/boot/dts/qcom/pm8921.dtsi
+ rename arch/arm/boot/dts/qcom/{qcom-pm8941.dtsi => pm8941.dtsi} (100%)
+ rename arch/arm/boot/dts/qcom/{qcom-pma8084.dtsi => pma8084.dtsi} (100%)
+ rename arch/arm/boot/dts/qcom/{qcom-pmx55.dtsi => pmx55.dtsi} (100%)
+ rename arch/arm/boot/dts/qcom/{qcom-pmx65.dtsi => pmx65.dtsi} (100%)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.2
+
