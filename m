@@ -2,62 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54F6D789DC0
-	for <lists+linux-input@lfdr.de>; Sun, 27 Aug 2023 14:00:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8D57789DEC
+	for <lists+linux-input@lfdr.de>; Sun, 27 Aug 2023 14:58:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230031AbjH0MAW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 27 Aug 2023 08:00:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52772 "EHLO
+        id S229800AbjH0M5n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 27 Aug 2023 08:57:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229740AbjH0MAP (ORCPT
+        with ESMTP id S229688AbjH0M5T (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 27 Aug 2023 08:00:15 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE9A7186
-        for <linux-input@vger.kernel.org>; Sun, 27 Aug 2023 05:00:12 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-99c0cb7285fso302591266b.0
-        for <linux-input@vger.kernel.org>; Sun, 27 Aug 2023 05:00:12 -0700 (PDT)
+        Sun, 27 Aug 2023 08:57:19 -0400
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F95A13D
+        for <linux-input@vger.kernel.org>; Sun, 27 Aug 2023 05:57:15 -0700 (PDT)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-58d70c441d5so29403447b3.2
+        for <linux-input@vger.kernel.org>; Sun, 27 Aug 2023 05:57:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693137611; x=1693742411;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=A1vb1NKNxPWmF22t3LyBlcMBv4ZL6aYsl1zImyCmPqk=;
-        b=nkU9QDA3ZQPrE80K5WNGyInIxQ+rjGO9+Y4Z8NK3FX1YJWYxfR7fjbDSFwSImABVDH
-         mbe2eh0mTre7O4pp4wCf+6X4jRtTLqa2PUZZKoW/ZvG5GF2LO2sed8c7OXzDTFtn3LQ+
-         LPZbcQXOI5ABjn1Zq1JssUMUBZp/svujuVqjbJBLcf/ydP0ypHWCa/pCMRvMbKT6r7Xk
-         RHvdiFofd8NiFURYeL0gJ2wKwK/4q1ssGyQARjsVPjFKJenIRN9VcAUWg37/GiNyxMm5
-         ubi0xkOFN34WVQPEMIKTSyZZwrShzqb8fk4TPyncxI/tDiNojq9UvDAqSgWtnrwrh+mZ
-         MlwQ==
+        d=linaro.org; s=google; t=1693141034; x=1693745834;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sj8LKx4CnBxMfHurDVM+MhSr1DoWwi/klInNb3DLgxE=;
+        b=y6T4i+RmiCuyEiFaXP3WJtnQO+ucT7ZE1hrqzSGnrldF0cAAsF112wwlbylmeF0vrw
+         UKvwUdpMMvvSBikDZNOCaEi6Dq5r04aWCbIudBtSjl9XDdmj2E48EnRXUrECRXRKI0RV
+         uBuwIdc1Y6HNT3dPvlaa9OBaNTq6/2se7sTtqks5tS3RYhqMJOE7mZ6qFPZ4WROk2tdV
+         iLButqPZaDUKaZ8dPs0olUA3neN7y60MWRecTTQmofj8RdE8+UviNpEsBo3a5+3YIGwd
+         JlQJv1vRL/fI5AkGiekv+2MFhYhpzaL2+PIQQlRj9A0IZWCl1ENMuSAxEYJj3Q+V4sVt
+         zUaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693137611; x=1693742411;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=A1vb1NKNxPWmF22t3LyBlcMBv4ZL6aYsl1zImyCmPqk=;
-        b=Yq72WGLA/QRRaGwAg/lL+wDfL5EnFvb+WaKtKKMNAigZvsK/jdTZ2cr9UBeBcV8DcO
-         M9W3vuPnZWY7B6hzuU/n5zzKwvz9mVAfhaJ0Zdmf8HXAFKOjebbew34wdJIQx/0Wy2fi
-         CbSk1UHhJfQ24/W2wxFGlbzMMg3ZPNR/squgJZn31dxq6OcruUclSTGFUxMNwJz7XaTj
-         inqs/sN3/YTKU3kbBh+Dh1XUwrOagiCl6L01nTFbqv5VAdXTR6mL8VOkQT/9F6gH1U10
-         baTXxNiodiDGBxFUxZyNh7wr3QBd9/EPqd9jcX0xjJGUR+Hut+LF4DDYfbtoyuWWLJiN
-         jblQ==
-X-Gm-Message-State: AOJu0YwkcyREbYQ9Rm29e8LJccMRTwOfLVzFDynB8GQzdFLA0Vz66Wag
-        g74Hk9EmLzNZvbLx1KtJenRSZg==
-X-Google-Smtp-Source: AGHT+IHfvkkfwHnTPi8nCl9XpByE/JPq0GfNI6XI37kZ85boixd1ibZVDvSULqUh7Q6KLm4+pQXTmw==
-X-Received: by 2002:a17:906:18a1:b0:99d:fab5:e888 with SMTP id c1-20020a17090618a100b0099dfab5e888mr16063184ejf.34.1693137611153;
-        Sun, 27 Aug 2023 05:00:11 -0700 (PDT)
-Received: from [192.168.0.22] ([77.252.47.225])
-        by smtp.gmail.com with ESMTPSA id w26-20020a1709064a1a00b009786c8249d6sm3385960eju.175.2023.08.27.05.00.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 27 Aug 2023 05:00:10 -0700 (PDT)
-Message-ID: <e6340d20-40f3-be5c-b4fc-33da59799d91@linaro.org>
-Date:   Sun, 27 Aug 2023 14:00:09 +0200
+        d=1e100.net; s=20221208; t=1693141034; x=1693745834;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Sj8LKx4CnBxMfHurDVM+MhSr1DoWwi/klInNb3DLgxE=;
+        b=QZGFFYeuRWfpDRTnx9/iEsywWRx67d/nJFg4oGrTBmVKMYw6tkN3TOOFv3QaltpdER
+         vBQBORZKriup1iyNUDSIW5UpikuD0C/zBAOdURjuJuOuCkKj47S1+ooKh6QEgOGN83Az
+         TFGH25uz9JR7bjadzidPIZUOnxGP19pybpql26a9HIrhSSP2a5tfkk+nQVtPpCcUhwjj
+         68tSFgyvmtsRrOKGAFk3WiuG1zoLQa38BdghoxHXx9dR6nMCI/w7POfrr5XiXTPrDkpB
+         No0dnFDy3kP49JV0giFqp6Llb8ZSLroifmAwd1Ut7r6yyLLT7mG7tAUOPmCnUUjkGrHH
+         dg8Q==
+X-Gm-Message-State: AOJu0YywcPWqs7tTToem0a29kTGAuwL+sl1ZX4tl/4+8qv2nRTan3tnF
+        Ds1c4iRA1z87Q2Oh06FXEZ1Xohf9ckaUnunI2yKvAA==
+X-Google-Smtp-Source: AGHT+IGJrJoS+rbVC0itLsracJvLZBlNmbpwhDfacD2gSucpcry2L0CAeIsQKXmAkFMm1rLMq76i6ti0foQm0Ti5BuQ=
+X-Received: by 2002:a25:cccc:0:b0:d78:3a9b:843c with SMTP id
+ l195-20020a25cccc000000b00d783a9b843cmr6502400ybf.58.1693141034332; Sun, 27
+ Aug 2023 05:57:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v4 03/38] dt-bindings: mfd: qcom-pm8xxx: allow using
- interrupts-extended
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230827005920.898719-1-dmitry.baryshkov@linaro.org>
+ <20230827005920.898719-4-dmitry.baryshkov@linaro.org> <39af3ab5-4fa5-5b3c-395a-e86e70bbe803@linaro.org>
+ <CAA8EJppw0Kxo3W560ucWey959368M1c8BFnvF4Ggi5XKCOfesw@mail.gmail.com>
+ <74dcc5b4-dda2-5de7-9e58-4191a0fb7972@linaro.org> <CAA8EJpoWvoNfomMg34cL=h+qBLHQq3bZO2X-02Pcz6oLiKRxWA@mail.gmail.com>
+ <e6340d20-40f3-be5c-b4fc-33da59799d91@linaro.org>
+In-Reply-To: <e6340d20-40f3-be5c-b4fc-33da59799d91@linaro.org>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Sun, 27 Aug 2023 15:57:03 +0300
+Message-ID: <CAA8EJpoWEABv6RrZn9FE+5N79Kz=24BhmpdnGbnO+vzX3A8v_Q@mail.gmail.com>
+Subject: Re: [PATCH v4 03/38] dt-bindings: mfd: qcom-pm8xxx: allow using interrupts-extended
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc:     devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -70,71 +70,67 @@ Cc:     devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
         linux-leds@vger.kernel.org
-References: <20230827005920.898719-1-dmitry.baryshkov@linaro.org>
- <20230827005920.898719-4-dmitry.baryshkov@linaro.org>
- <39af3ab5-4fa5-5b3c-395a-e86e70bbe803@linaro.org>
- <CAA8EJppw0Kxo3W560ucWey959368M1c8BFnvF4Ggi5XKCOfesw@mail.gmail.com>
- <74dcc5b4-dda2-5de7-9e58-4191a0fb7972@linaro.org>
- <CAA8EJpoWvoNfomMg34cL=h+qBLHQq3bZO2X-02Pcz6oLiKRxWA@mail.gmail.com>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAA8EJpoWvoNfomMg34cL=h+qBLHQq3bZO2X-02Pcz6oLiKRxWA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 27/08/2023 13:48, Dmitry Baryshkov wrote:
-> On Sun, 27 Aug 2023 at 14:12, Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->>
->> On 27/08/2023 12:42, Dmitry Baryshkov wrote:
->>> On Sun, 27 Aug 2023 at 11:35, Krzysztof Kozlowski
->>> <krzysztof.kozlowski@linaro.org> wrote:
->>>>
->>>> On 27/08/2023 02:58, Dmitry Baryshkov wrote:
->>>>> Allow using interrupts-extended, which is a preferred form of interrupts
->>>>> specification compared to the interrupt-parrent + interrupts pair.
->>>>>
->>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>> ---
->>>>>  Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml | 10 +++++++++-
->>>>>  1 file changed, 9 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml b/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
->>>>> index 7fe3875a5996..33d9615e63c8 100644
->>>>> --- a/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
->>>>> +++ b/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
->>>>> @@ -37,6 +37,9 @@ properties:
->>>>>    interrupts:
->>>>>      maxItems: 1
->>>>>
->>>>> +  interrupts-extended:
->>>>> +    maxItems: 1
->>>>
->>>> The entire patch is not needed. At least should not be needed. What
->>>> problem are you trying to solve here?
->>>
->>> The main problem is the next chunk, which (currently) explicitly
->>> requires `interrupts' property. My goal is to allow
->>> `interrupts-extended' in addition to `interrupts'.
->>
->> They are allowed. Why do you think they aren't? That's why I don't
->> understand what real problem is here.
-> 
-> qcom-pm8xxx.yaml lists `interrupts' property under the `required'
-> clause. So I can not simply replace it with `interrupts-extended'
+On Sun, 27 Aug 2023 at 15:00, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 27/08/2023 13:48, Dmitry Baryshkov wrote:
+> > On Sun, 27 Aug 2023 at 14:12, Krzysztof Kozlowski
+> > <krzysztof.kozlowski@linaro.org> wrote:
+> >>
+> >> On 27/08/2023 12:42, Dmitry Baryshkov wrote:
+> >>> On Sun, 27 Aug 2023 at 11:35, Krzysztof Kozlowski
+> >>> <krzysztof.kozlowski@linaro.org> wrote:
+> >>>>
+> >>>> On 27/08/2023 02:58, Dmitry Baryshkov wrote:
+> >>>>> Allow using interrupts-extended, which is a preferred form of interrupts
+> >>>>> specification compared to the interrupt-parrent + interrupts pair.
+> >>>>>
+> >>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>>>> ---
+> >>>>>  Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml | 10 +++++++++-
+> >>>>>  1 file changed, 9 insertions(+), 1 deletion(-)
+> >>>>>
+> >>>>> diff --git a/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml b/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
+> >>>>> index 7fe3875a5996..33d9615e63c8 100644
+> >>>>> --- a/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
+> >>>>> +++ b/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
+> >>>>> @@ -37,6 +37,9 @@ properties:
+> >>>>>    interrupts:
+> >>>>>      maxItems: 1
+> >>>>>
+> >>>>> +  interrupts-extended:
+> >>>>> +    maxItems: 1
+> >>>>
+> >>>> The entire patch is not needed. At least should not be needed. What
+> >>>> problem are you trying to solve here?
+> >>>
+> >>> The main problem is the next chunk, which (currently) explicitly
+> >>> requires `interrupts' property. My goal is to allow
+> >>> `interrupts-extended' in addition to `interrupts'.
+> >>
+> >> They are allowed. Why do you think they aren't? That's why I don't
+> >> understand what real problem is here.
+> >
+> > qcom-pm8xxx.yaml lists `interrupts' property under the `required'
+> > clause. So I can not simply replace it with `interrupts-extended'
+>
+> Since when? So again: The entire patch is not needed.
 
-Since when? So again: The entire patch is not needed.
+Hmm, interesting. I'm pretty sure that I saw the issue, but now I can
+no longer reproduce it. Maybe I misinterpreted some other warning
+which I saw while this was WIP.
+I see that it is handled by the `fixup_interrupts` in dtschema itself.
 
-
-Best regards,
-Krzysztof
-
+-- 
+With best wishes
+Dmitry
