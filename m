@@ -2,59 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D53E478AE33
-	for <lists+linux-input@lfdr.de>; Mon, 28 Aug 2023 12:58:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95F2E78AE3F
+	for <lists+linux-input@lfdr.de>; Mon, 28 Aug 2023 12:59:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232308AbjH1K6E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 28 Aug 2023 06:58:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41170 "EHLO
+        id S231702AbjH1K7D (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Aug 2023 06:59:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232520AbjH1K5m (ORCPT
+        with ESMTP id S232462AbjH1K6b (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Aug 2023 06:57:42 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8DBE18B
-        for <linux-input@vger.kernel.org>; Mon, 28 Aug 2023 03:57:34 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2bcc187e0b5so46743081fa.1
-        for <linux-input@vger.kernel.org>; Mon, 28 Aug 2023 03:57:34 -0700 (PDT)
+        Mon, 28 Aug 2023 06:58:31 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF92618B
+        for <linux-input@vger.kernel.org>; Mon, 28 Aug 2023 03:58:19 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id 38308e7fff4ca-2bcb54226e7so36100601fa.1
+        for <linux-input@vger.kernel.org>; Mon, 28 Aug 2023 03:58:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693220253; x=1693825053;
+        d=linaro.org; s=google; t=1693220298; x=1693825098;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ScJJiUxyV9LKUy1UPNfuayMrh4/gBBz+Y4+3/4NfxE8=;
-        b=LyN18tXJscr9QOCDJO9IqWgIn4vHblPj8NYlmAlqv3wJC0I+GKAQ2p3PMr5jaNWbW8
-         Q3J9BmcZtreYsKb2WrbkklUwlaR9p6nzVQW/wjf9DpSij2eDXXS5kKajeMME54dmtkcu
-         fs1cVPjCf3Gcz+Qyv7FPlI0aCN2YvE6BgQ3fA7MH/9bD2FXnLSl7LeKYKVkYi7KGA2/6
-         HqHzlqLv1/f5ra68++VSmSoufeVkZN4Nv2SVemSyOuD0pvxcN99lsfLtj+yn+vR7m9Ea
-         YS2dvFolH9fuMJ6MFryiWQAWhtzJtN06NCxhM7BvfwPjE3uEx374nmAOYxi405/dM9tW
-         sNyA==
+        bh=f2XzqsSsmE3l45hP4mU3k5M6kXYXzeumOpdKps22yCs=;
+        b=t4WSrm+5ViWlAM5gzwMKYJc5jnKbkBwhcuDRbmCYiWzv4HsT1za3eOtGlJdB82VnH0
+         bMCdYZzzIYY1EUDSk1L5QOS+10YIhox2595hMOxy3rxjxigGzjvUj2I2GMIpcK6gHvBR
+         +Sb9GQRScorezzULATyRFGhtNexHSGSS+yAv6XNBk1TZjKe/YMOLDr/dnEOPfqao+A1j
+         hhD6dTcfL3pTyIFu18H/fMTr+c6+rxF6gFWPTSCudQywjPvCHqkZflx0e9nRsxSKz012
+         vxQaw7ScANzCN6lxLjoCrBFRyXG9V/NYiZrl30Oqkrk8R97AUFrWJZl5LM35G0pLGFSG
+         N6nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693220253; x=1693825053;
+        d=1e100.net; s=20221208; t=1693220298; x=1693825098;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ScJJiUxyV9LKUy1UPNfuayMrh4/gBBz+Y4+3/4NfxE8=;
-        b=CIpBCJsKPofd1fhRCdRFAEPx4OfvlOkMA60GY/hAwSDnisrmPS775rJY5nNx493yMa
-         QNSKlEG4lmmz1LOq0YNPeZV3/fkK0ohKxpX3jeBSrfNzbWGhYNUbY/lxl/SJz+E7989S
-         97zB47RZJjJDHxhV4YzzRvIOqWOI7xhYsq8+m6duAmnVK8C7yX6lmMixWDMKdA+Y4RQC
-         ra7HAR9VEcCP6kEHE0pZqqn4hm++NOXraLQeA4MRKd9A6nT+qhW0+9fG9NYnz5L4vsq2
-         nRAj2koEbiTmARvxWV5G7LJhELuvvXc3ulgbyO6REHzUs0IKB9oo84poTaXiW5toPuox
-         Mrjg==
-X-Gm-Message-State: AOJu0YzZKrqumDEV0h9LNNbZ1xbTR2DLJvvmZiRr8Froi3FQH1JEP5vY
-        kRZLUnQTz0xnmaRY1x11XSlePLzbB8Dmu6ZeGR8p6A==
-X-Google-Smtp-Source: AGHT+IFykMJKhRHj5gXoEIcbFTsFjHQv1CdJVv0O+4CFTrlWuhws1TjAclQfP4UIVoy3asWRMgvVmw==
-X-Received: by 2002:a2e:9b01:0:b0:2bc:c064:7252 with SMTP id u1-20020a2e9b01000000b002bcc0647252mr15852281lji.5.1693220252909;
-        Mon, 28 Aug 2023 03:57:32 -0700 (PDT)
+        bh=f2XzqsSsmE3l45hP4mU3k5M6kXYXzeumOpdKps22yCs=;
+        b=kIXNK3ffOAApIjTIN3tsDb2DM8RdQwExAojhbQgjOggh/r5hW2+GRL2iNr1BJXgSbs
+         jm11mpWyjmSWMZ0txYJ0lhZhcIxAUQayTRquRtiigkKE7DmMtPPxbgshDJJgllBfPcUr
+         uC/2LEjgdRjJowVsp+8siyZA1BsiO4Z9NvqgQLD6A7nIlwFUUAdcmoyA7EK4iISxjdIB
+         Q1uUbDv20SXCOzduhVG9wcnrR5a1hXPWOizs29/zJQ35CgOjeqhHRRfYN8gj5DSHrvg+
+         VC8T5xJ5HTwuuyC+98TiIvDDSPgVCBaBFtx6cx+mVeiTxR7QOky0mb8VX7GHITMCvUHH
+         Di8w==
+X-Gm-Message-State: AOJu0YzSO9PyIM6XE2nKNoJLAe23a2CzKW9Edfj8R7EPLgwGWJOByDV/
+        ynxVyUU8O+Vw9Ira8L6V/pKfcA==
+X-Google-Smtp-Source: AGHT+IFqXv5ZJniD9wN2HNJG0SNvHvgC+QU/+zXjtJ6B84YEyrSFMtHf4x/A5llcQz6M15BHWeZlGA==
+X-Received: by 2002:a2e:98c4:0:b0:2bc:dd8f:ccd7 with SMTP id s4-20020a2e98c4000000b002bcdd8fccd7mr5262439ljj.16.1693220298086;
+        Mon, 28 Aug 2023 03:58:18 -0700 (PDT)
 Received: from [192.168.1.101] (abyl195.neoplus.adsl.tpnet.pl. [83.9.31.195])
-        by smtp.gmail.com with ESMTPSA id w16-20020a2e9990000000b002b6d7682050sm1698240lji.89.2023.08.28.03.57.31
+        by smtp.gmail.com with ESMTPSA id w16-20020a2e9990000000b002b6d7682050sm1698240lji.89.2023.08.28.03.58.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Aug 2023 03:57:32 -0700 (PDT)
-Message-ID: <d9aef01b-80c5-4b35-a246-7ef7bbdf00c6@linaro.org>
-Date:   Mon, 28 Aug 2023 12:57:31 +0200
+        Mon, 28 Aug 2023 03:58:17 -0700 (PDT)
+Message-ID: <697ded4a-6d52-4aa3-b7a7-dab0a49e85c9@linaro.org>
+Date:   Mon, 28 Aug 2023 12:58:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 15/37] ARM: dts: qcom: msm8660: move PMIC interrupts to
+Subject: Re: [PATCH v5 16/37] ARM: dts: qcom: msm8960: move PMIC interrupts to
  the board files
 Content-Language: en-US
 To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -70,7 +70,7 @@ Cc:     Andy Gross <agross@kernel.org>,
         linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
         linux-leds@vger.kernel.org
 References: <20230827132525.951475-1-dmitry.baryshkov@linaro.org>
- <20230827132525.951475-16-dmitry.baryshkov@linaro.org>
+ <20230827132525.951475-17-dmitry.baryshkov@linaro.org>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -107,13 +107,12 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20230827132525.951475-16-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230827132525.951475-17-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -128,54 +127,6 @@ On 27.08.2023 15:25, Dmitry Baryshkov wrote:
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
-Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
 Konrad
->  arch/arm/boot/dts/qcom/qcom-apq8060-dragonboard.dts | 4 ++++
->  arch/arm/boot/dts/qcom/qcom-msm8660-surf.dts        | 4 ++++
->  arch/arm/boot/dts/qcom/qcom-msm8660.dtsi            | 2 --
->  3 files changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm/boot/dts/qcom/qcom-apq8060-dragonboard.dts b/arch/arm/boot/dts/qcom/qcom-apq8060-dragonboard.dts
-> index 48fd1a1feea3..e4261d729d35 100644
-> --- a/arch/arm/boot/dts/qcom/qcom-apq8060-dragonboard.dts
-> +++ b/arch/arm/boot/dts/qcom/qcom-apq8060-dragonboard.dts
-> @@ -273,6 +273,10 @@ kxsd9@18 {
->  	};
->  };
->  
-> +&pm8058 {
-> +	interrupts-extended = <&tlmm 88 IRQ_TYPE_LEVEL_LOW>;
-> +};
-> +
->  &pm8058_gpio {
->  	dragon_ethernet_gpios: ethernet-state {
->  		pinconf {
-> diff --git a/arch/arm/boot/dts/qcom/qcom-msm8660-surf.dts b/arch/arm/boot/dts/qcom/qcom-msm8660-surf.dts
-> index 86fbb6dfdc2a..a5441aecd637 100644
-> --- a/arch/arm/boot/dts/qcom/qcom-msm8660-surf.dts
-> +++ b/arch/arm/boot/dts/qcom/qcom-msm8660-surf.dts
-> @@ -34,6 +34,10 @@ &gsbi12_serial {
->  	status = "okay";
->  };
->  
-> +&pm8058 {
-> +	interrupts-extended = <&tlmm 88 IRQ_TYPE_LEVEL_LOW>;
-> +};
-> +
->  &pm8058_keypad {
->  	linux,keymap = <
->  		MATRIX_KEY(0, 0, KEY_FN_F1)
-> diff --git a/arch/arm/boot/dts/qcom/qcom-msm8660.dtsi b/arch/arm/boot/dts/qcom/qcom-msm8660.dtsi
-> index 9217ced108c4..84b0366792d4 100644
-> --- a/arch/arm/boot/dts/qcom/qcom-msm8660.dtsi
-> +++ b/arch/arm/boot/dts/qcom/qcom-msm8660.dtsi
-> @@ -341,8 +341,6 @@ ssbi@500000 {
->  
->  			pm8058: pmic {
->  				compatible = "qcom,pm8058";
-> -				interrupt-parent = <&tlmm>;
-> -				interrupts = <88 8>;
->  				#interrupt-cells = <2>;
->  				interrupt-controller;
->  				#address-cells = <1>;
