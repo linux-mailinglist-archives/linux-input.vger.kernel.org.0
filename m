@@ -2,60 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60D3978AAB3
-	for <lists+linux-input@lfdr.de>; Mon, 28 Aug 2023 12:24:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4931B78AAE5
+	for <lists+linux-input@lfdr.de>; Mon, 28 Aug 2023 12:26:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231161AbjH1KYY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 28 Aug 2023 06:24:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32966 "EHLO
+        id S231158AbjH1K0A (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Aug 2023 06:26:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231208AbjH1KYB (ORCPT
+        with ESMTP id S231320AbjH1KZx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Aug 2023 06:24:01 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 125AA127
-        for <linux-input@vger.kernel.org>; Mon, 28 Aug 2023 03:23:58 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-5009d4a4897so4588329e87.0
-        for <linux-input@vger.kernel.org>; Mon, 28 Aug 2023 03:23:57 -0700 (PDT)
+        Mon, 28 Aug 2023 06:25:53 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06E7B12D
+        for <linux-input@vger.kernel.org>; Mon, 28 Aug 2023 03:25:48 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-4ffae5bdc9aso4803242e87.1
+        for <linux-input@vger.kernel.org>; Mon, 28 Aug 2023 03:25:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693218236; x=1693823036;
+        d=linaro.org; s=google; t=1693218346; x=1693823146;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=8VWpV9+B808NRLvgbM41AhvAqoxBwvMufB3jcuicSPc=;
-        b=Eo6kfECVXXh6BwSE8sFouSkJmT1fKDLGaAYIfEBgOqP08wQ2OXasK5yVEW3lAMhidM
-         9o8o5HTa5mmUebDutIbhAqMzt1Ds3Z8b5+0BJNiX2rLrKFeCdXEn/e+rmnxNY9xrVGil
-         RMw8UARxa57nS4HIAfxTYy/Y22KtAVNFWaAKca+OBN42arOR0BSRyvrqGFX6iTi5/Yfh
-         PJ9HvEBriH/0H7z9cPJNi5ziv2liqeRnkDZDQlOIK6+0sDV8dAolBumhkk4cm4cSCr/o
-         Lq4bXdTnoZdipTGixxJy1MusaL3eddrZyjwJK6PZ3+pcybGAeLisP8oYvGgLle2xBghN
-         yssw==
+        bh=f2XzqsSsmE3l45hP4mU3k5M6kXYXzeumOpdKps22yCs=;
+        b=jRIBELIDlIbEZQJXuDCYvtGdZFoPDMYxWION1DgtAhFwBRNzoYknV7CX4HexmPzMTn
+         SXmkRX25Jn3SXfpgRIsT8etv4YHvEzw4Lwzt7f937I/s+Hq13nlARffdR5hl85SOE/2H
+         np+2FFhMdFuvwDoG5faO7MTxqYVRxWNi6N3kR9YdaoN6XjvaQgO5X5Dth5dO9rfqFGn1
+         QLMcusd4XjbifPzneOFxE5taL87RNnQDazsbpmQhXocyLlZ3LlUHP9GkJDOfWv4s29PK
+         lzf2Gb1FRO4KM8cebEDSXuHGb8gzMpvmaFtys4n1AwluVDPShoCYtQ4jYV2yK+gZTtZ4
+         syIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693218236; x=1693823036;
+        d=1e100.net; s=20221208; t=1693218346; x=1693823146;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8VWpV9+B808NRLvgbM41AhvAqoxBwvMufB3jcuicSPc=;
-        b=H/Y3Gb7ogz3KKx6ePlgWZul2GyDx8LMFxpG+mV2056E8zc+1VCx1heEvxXo+xv/i+H
-         +8Gra7/NRusbnqMl9TaKgQaMt5siorlEdhqTCRTRZoZgazqKsCOwhRnhNNlZabCgWvV6
-         pz7gCQUM9EYDGoxtJsKXv3mPk3iOGECCFBb7/PATfwsoe73+zK5/5ESWFxegORMvhEJk
-         /kQK7G08HUuzS7s5GTeFxxsEgZVfFgFzDOvQNDkmz8beLIcv2Bpuo5/ecr5MjPZlswRY
-         XOj9qeSSNgxburOfI/RkDOnekLP0uDcL3JuRYMtILkSRKsozvZGMFD2I6wVuuU3Lz2Gs
-         vw0g==
-X-Gm-Message-State: AOJu0YxHSVdbiFSa3kWsPf1myraillNNztNDqcsa4fBD0KHi0xeFiTHT
-        WV5HQPqsMm47yw8fmdfEn4b8uA==
-X-Google-Smtp-Source: AGHT+IENjk82d0+SXYzVRCZsXFCgxJElBVqKD4cEgWlvlqN+rBPcqzSk1tSdj54Pd/kpO6mLTdPHnA==
-X-Received: by 2002:a05:6512:200d:b0:4f8:5d0f:c779 with SMTP id a13-20020a056512200d00b004f85d0fc779mr16135455lfb.40.1693218236340;
-        Mon, 28 Aug 2023 03:23:56 -0700 (PDT)
+        bh=f2XzqsSsmE3l45hP4mU3k5M6kXYXzeumOpdKps22yCs=;
+        b=KILmTJWTaWf+NfN+psgMp3pRWcPyCkjoewgxwDs6gsqsMZMBCL7xXHxzauB7+gvR0B
+         6aopakAXjEQHRkmpve5fjldtT2ZtGoLDbxRcOrvhIQN+vMPaNVpa6owXTEa+LBwboX/Y
+         fIuIkH5EeS/bmCo32qpJjGJUNHRk08x5P878WvkKC7Ib2uW5GkRLocEW9ifXIV6eThhW
+         baRsH+aSvlwub6DAiNPc7yNBui7Qah/4+gNQ1RUTVIzU2cQhAtzZIGQJITcDV6wNTHjK
+         Qw3tx8TQP2EHs5HqIQDySB31qr9w4sqZwUpY7Mn54S9/iky81wmVXD7rGLb28flnjuP2
+         AJSQ==
+X-Gm-Message-State: AOJu0YxGSqeUFosIJeCE/s6Uq4vWhit01esf2tjMpvJspIAIUTCJJGrR
+        t73KmJ7mqAB5oMR17SVS7AfgT+vZyrVDbvXbxfQ/Kg==
+X-Google-Smtp-Source: AGHT+IGmG7wKZMpRMRPb+72UjrYzpgzGEeM/qYPJ1h0hbXslVdaOQe2JpeiolVhbe6pKmVNkN6QQHw==
+X-Received: by 2002:a05:6512:6d5:b0:500:b9e3:91bd with SMTP id u21-20020a05651206d500b00500b9e391bdmr1832482lff.41.1693218346178;
+        Mon, 28 Aug 2023 03:25:46 -0700 (PDT)
 Received: from [192.168.1.101] (abyl195.neoplus.adsl.tpnet.pl. [83.9.31.195])
-        by smtp.gmail.com with ESMTPSA id x29-20020ac259dd000000b004fbac2646e3sm1507819lfn.195.2023.08.28.03.23.55
+        by smtp.gmail.com with ESMTPSA id u8-20020ac243c8000000b004ff9ecbf158sm1504928lfl.74.2023.08.28.03.25.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Aug 2023 03:23:56 -0700 (PDT)
-Message-ID: <995f91d4-ecca-452f-a58e-6cff9e590713@linaro.org>
-Date:   Mon, 28 Aug 2023 12:23:55 +0200
+        Mon, 28 Aug 2023 03:25:45 -0700 (PDT)
+Message-ID: <6da3dc68-cbea-4670-a560-62c67059004c@linaro.org>
+Date:   Mon, 28 Aug 2023 12:25:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 37/37] ARM: dts: qcom: mdm9615: drop qcom, prefix from
- SSBI node name
+Subject: Re: [PATCH v5 13/37] ARM: dts: qcom: apq8064: move PMIC interrupts to
+ the board files
 Content-Language: en-US
 To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
         devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
@@ -70,7 +70,7 @@ Cc:     Andy Gross <agross@kernel.org>,
         linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
         linux-leds@vger.kernel.org
 References: <20230827132525.951475-1-dmitry.baryshkov@linaro.org>
- <20230827132525.951475-38-dmitry.baryshkov@linaro.org>
+ <20230827132525.951475-14-dmitry.baryshkov@linaro.org>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -107,7 +107,7 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20230827132525.951475-38-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230827132525.951475-14-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -121,8 +121,13 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 On 27.08.2023 15:25, Dmitry Baryshkov wrote:
+> The interrupt of SSBI PMICs is routed to the SoCs GPIO. As such, it is
+> not a property of the SoC, it is a property of the particular board
+> (even if it is standard and unified between all devices). Move these
+> interrupt specifications to the board files.
+> 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
-Same as p36
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
 Konrad
