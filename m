@@ -2,110 +2,132 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2209B78ADFC
-	for <lists+linux-input@lfdr.de>; Mon, 28 Aug 2023 12:54:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8387878AE36
+	for <lists+linux-input@lfdr.de>; Mon, 28 Aug 2023 12:58:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232273AbjH1KyX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 28 Aug 2023 06:54:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50550 "EHLO
+        id S232351AbjH1K6G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Aug 2023 06:58:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232411AbjH1KyS (ORCPT
+        with ESMTP id S232396AbjH1K5P (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Aug 2023 06:54:18 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E5FDCC4
-        for <linux-input@vger.kernel.org>; Mon, 28 Aug 2023 03:53:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693220038; x=1724756038;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=80bMz1w+OzfyKMWvlNvuhyz+eNdQVeUluNv+yh7f+K4=;
-  b=E1gE7aI8fyJ7zXZ6psfoVE1LEFPCbbnQNT4n1idoJ0j6gDQjFyfP7Sq5
-   HQJoGinzANeaEjT1CMiG4l7f3TQCr0r8GKIvx+ruJxjFrnOLW0m3BhPX+
-   W8C/NXRKnSnLhdwvqvRymScgn/Xdg6AYdDj9alxYQCy15LAGZV3/gQRzy
-   Ckr4Lc93Q0nt+ezKvSbxPsOqMqD+n9Td9S28hm+iWWXi24LC7lAPPTOQt
-   blHVTPRqiPbz8vozoGMlN33/hmEk/5qDuvP58ru1N9W/ohaJltUtqk8km
-   7lI98Vrg44fL/WCNr3fbw9t5NIEnxkr8n6hkJePdq3Krdtw9/PWVlcCxz
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="372478311"
-X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
-   d="scan'208";a="372478311"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 03:53:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="1068994160"
-X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
-   d="scan'208";a="1068994160"
-Received: from spandruv-desk1.amr.corp.intel.com ([10.209.62.10])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 03:53:17 -0700
-Message-ID: <2907aeaaa7ec5b1a04b08c1dd3ec236c88787a16.camel@linux.intel.com>
-Subject: Re: [PATCH -next] HID: intel-ish-hid: Remove unused declarations
-From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Yue Haibing <yuehaibing@huawei.com>, jikos@kernel.org,
-        benjamin.tissoires@redhat.com
-Cc:     linux-input@vger.kernel.org
-Date:   Mon, 28 Aug 2023 03:53:16 -0700
-In-Reply-To: <20230817135053.51964-1-yuehaibing@huawei.com>
-References: <20230817135053.51964-1-yuehaibing@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        Mon, 28 Aug 2023 06:57:15 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F374FC
+        for <linux-input@vger.kernel.org>; Mon, 28 Aug 2023 03:57:12 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id 38308e7fff4ca-2bce552508fso46268591fa.1
+        for <linux-input@vger.kernel.org>; Mon, 28 Aug 2023 03:57:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1693220230; x=1693825030;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/wBTp6ZBxh1X9KFwDEbhvhyTA52NcCz8oLwxh816Ukw=;
+        b=vZ6ZXa53BNDeACkW07t50U2HkexvqIVSfQrDKfbtejupzI5NdpQ43PboUDRDSkE0+q
+         RNy/hhRK2n6OUBAxCQ10zfPKpXSZDCKZPqe/vtT67/mHUuJkKjTUCiUPjwnM9GeiSjhf
+         O0bhGLZYe21Aie5V0KPB5p80dbPxtYSlIPlbjFONxLf2WeOi+VAeigfVIvixzlv34aoV
+         ibg8NDcBZVCxhNjNC/Sb7xxtjVdMhpFozMNdIKDm7iUbZ4QJG/90onOYqG6iEMNI0v8s
+         YNOcFixmVgO9sUHKUemAmVugCtkmsmXYptuqlxxSV4M7tl801oXbvBlXdWBrKs56D8u+
+         PYug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693220230; x=1693825030;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/wBTp6ZBxh1X9KFwDEbhvhyTA52NcCz8oLwxh816Ukw=;
+        b=T3spLdkCECFX+yqeIPj2elH62Nqr4eEJ3X4yvZmarrm2YEwsNHP4u5A0IplZQm/jZC
+         G+3aT4zEukJvm2GJud+tA1buIMSiZRH/mQAh2AO31P+wpZ8fLt8veCYRr9y+l24NIGtx
+         mTBUUuXHI+mSMrDa6ysseUyiWbohOA74EjJTwU+8jr2U7f9CCJhU3cfgOG6Tox+jMffN
+         CdNLfnWTIZmB3eiG00bH1jZMzmesO+o+SrqWjQuDRouuhnEtRzB4fBw9xEhqCuY/HmMd
+         M5JHCLPrV8Z93TG1hvlrKUQu8qzxCOuia2NvRKYSuGI62rWQlgknARiGQqDeBiWybqJJ
+         n3KA==
+X-Gm-Message-State: AOJu0Yybkf7dnC4m+9CQCzeKx3t8cEGjQz7DjosCJc6/fJags6lM0NhR
+        UqTgyOMd6p7wydlLJgGnBNM+qw==
+X-Google-Smtp-Source: AGHT+IGogX4OJxbPpHSeGGnYetSttND+obygP6VpTCja0+srw048iU9XXNKtSU3rfU6xj8KJzwxERA==
+X-Received: by 2002:a2e:874f:0:b0:2bc:b599:6988 with SMTP id q15-20020a2e874f000000b002bcb5996988mr20914006ljj.43.1693220230468;
+        Mon, 28 Aug 2023 03:57:10 -0700 (PDT)
+Received: from [192.168.1.101] (abyl195.neoplus.adsl.tpnet.pl. [83.9.31.195])
+        by smtp.gmail.com with ESMTPSA id w16-20020a2e9990000000b002b6d7682050sm1698240lji.89.2023.08.28.03.57.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Aug 2023 03:57:10 -0700 (PDT)
+Message-ID: <4614be9d-d514-46bb-a9f2-5ef15af0ea7a@linaro.org>
+Date:   Mon, 28 Aug 2023 12:57:08 +0200
 MIME-Version: 1.0
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 14/37] ARM: dts: qcom: mdm9615: move PMIC interrupts to
+ the board files
+Content-Language: en-US
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        linux-arm-msm@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        linux-leds@vger.kernel.org
+References: <20230827132525.951475-1-dmitry.baryshkov@linaro.org>
+ <20230827132525.951475-15-dmitry.baryshkov@linaro.org>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <20230827132525.951475-15-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 2023-08-17 at 21:50 +0800, Yue Haibing wrote:
-> Commit 3703f53b99e4 ("HID: intel_ish-hid: ISH Transport layer")
-> declared ishtp_remove_all_clients()/ishtp_can_client_connect()
-> but never implemented them.
->=20
-> Signed-off-by: Yue Haibing <yuehaibing@huawei.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-
-Sorry I was on vacation to ACK before.
-
+On 27.08.2023 15:25, Dmitry Baryshkov wrote:
+> The interrupt of SSBI PMICs is routed to the SoCs GPIO. As such, it is
+> not a property of the SoC, it is a property of the particular board
+> (even if it is standard and unified between all devices). Move these
+> interrupt specifications to the board files.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
-> =C2=A0drivers/hid/intel-ish-hid/ishtp/bus.h=C2=A0=C2=A0=C2=A0 | 1 -
-> =C2=A0drivers/hid/intel-ish-hid/ishtp/client.h | 1 -
-> =C2=A02 files changed, 2 deletions(-)
->=20
-> diff --git a/drivers/hid/intel-ish-hid/ishtp/bus.h
-> b/drivers/hid/intel-ish-hid/ishtp/bus.h
-> index 5bb85c932e4c..53645ac89ee8 100644
-> --- a/drivers/hid/intel-ish-hid/ishtp/bus.h
-> +++ b/drivers/hid/intel-ish-hid/ishtp/bus.h
-> @@ -46,7 +46,6 @@ struct ishtp_cl_device {
-> =C2=A0};
-> =C2=A0
-> =C2=A0int=C2=A0=C2=A0=C2=A0=C2=A0ishtp_bus_new_client(struct ishtp_device=
- *dev);
-> -void=C2=A0=C2=A0=C2=A0ishtp_remove_all_clients(struct ishtp_device *dev)=
-;
-> =C2=A0int=C2=A0=C2=A0=C2=A0=C2=A0ishtp_cl_device_bind(struct ishtp_cl *cl=
-);
-> =C2=A0void=C2=A0=C2=A0=C2=A0ishtp_cl_bus_rx_event(struct ishtp_cl_device =
-*device);
-> =C2=A0
-> diff --git a/drivers/hid/intel-ish-hid/ishtp/client.h
-> b/drivers/hid/intel-ish-hid/ishtp/client.h
-> index fc62dd1495da..d9d398fadcf7 100644
-> --- a/drivers/hid/intel-ish-hid/ishtp/client.h
-> +++ b/drivers/hid/intel-ish-hid/ishtp/client.h
-> @@ -109,7 +109,6 @@ struct ishtp_cl {
-> =C2=A0};
-> =C2=A0
-> =C2=A0/* Client connection managenment internal functions */
-> -int ishtp_can_client_connect(struct ishtp_device *ishtp_dev, guid_t
-> *uuid);
-> =C2=A0int ishtp_fw_cl_by_id(struct ishtp_device *dev, uint8_t client_id);
-> =C2=A0void ishtp_cl_send_msg(struct ishtp_device *dev, struct ishtp_cl
-> *cl);
-> =C2=A0void recv_ishtp_cl_msg(struct ishtp_device *dev,
+Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
+Konrad
