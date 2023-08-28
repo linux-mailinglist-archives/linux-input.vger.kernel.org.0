@@ -2,109 +2,246 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 830B478B51D
-	for <lists+linux-input@lfdr.de>; Mon, 28 Aug 2023 18:11:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7C4578B6B8
+	for <lists+linux-input@lfdr.de>; Mon, 28 Aug 2023 19:49:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230233AbjH1QKg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 28 Aug 2023 12:10:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36932 "EHLO
+        id S229995AbjH1Rsl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Aug 2023 13:48:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230160AbjH1QKE (ORCPT
+        with ESMTP id S232951AbjH1RsO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Aug 2023 12:10:04 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83CD811A;
-        Mon, 28 Aug 2023 09:10:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 228056102E;
-        Mon, 28 Aug 2023 16:10:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF0D6C433C8;
-        Mon, 28 Aug 2023 16:09:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693239000;
-        bh=ourgvljZVpiT9tfwtdLrBJP0YReykf036bBNIlqMv48=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=AxUgdRsrCPlLX9dL67bnAyN6pSAV+In27aAq1A4OMpYR3DMEBJoigrBhGLPHCmzZU
-         Iq26sGgrS5bRmA4vskVozzVWQYYA3cX12Gk/zKjXkpxN8urJMLjYaI/PcAFQqFnBjF
-         DkJWfyuqOopir1HDyyAI0qO2hAVpmGhIMSLq2+AH/AV61TzHB/Sd5d2sHkUfU1wcpD
-         a8pTuPzn0KMspAJ6LRKCYaeYxkd8FtTodyss04aHVQrobeBYn3P+z4yVdDs9jiyzNx
-         Lue/RQ6iDXD10Cuj3u3Xaqm880NOVpJMbkBGU1lba7VDQfUbp5SUraenyEY02w1U8z
-         thiTkx8UoELVw==
-Date:   Mon, 28 Aug 2023 17:10:18 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Philipp Jungkamp <p.jungkamp@gmx.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Lars-Peter Clausen <lars@metafoo.de>
-Subject: Re: [PATCH v1 1/3] types: Complement the aligned types with signed
- 64-bit one
-Message-ID: <20230828171018.2ee59df7@jic23-huawei>
-In-Reply-To: <20230815154027.12468-1-andriy.shevchenko@linux.intel.com>
-References: <20230815154027.12468-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+        Mon, 28 Aug 2023 13:48:14 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9566C12D
+        for <linux-input@vger.kernel.org>; Mon, 28 Aug 2023 10:48:07 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-529fb04a234so4720165a12.3
+        for <linux-input@vger.kernel.org>; Mon, 28 Aug 2023 10:48:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1693244886; x=1693849686;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3qyIITZmt6yIxcf2AHhToVSoBW9CwGLT+eBWC1sVHAU=;
+        b=odR1gCkyLODs1etSs5WhGACv3cH24ciJWMHclQ8UrrQaRT6tp7Lbt47muVULy3Meim
+         8wuqYAWxhVce2vZ7/dfTM7BZS4Oo3i/RYoVWgFHgFZ2ZjPmKjmncyidLczu0yTTiFgll
+         PDD+lw45/CTMK1++RScIQI/jhRnm+BwqwkdXs/QDWzlRXgjhLzeGavE/LTHXKfCAOrEo
+         MgAP1SJcFvGysfQFYXfu8HgRykHJF9vFOpgWurKmLBAkuhQDQ8dLCgvnUhZqO5XqEptl
+         4z0K1QMbiwW3pM5x+gBfYM2ij7UlC+hu21m4mnXexyzPqfZNAv2b5D7ENphu8fUOLN0C
+         H8lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693244886; x=1693849686;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3qyIITZmt6yIxcf2AHhToVSoBW9CwGLT+eBWC1sVHAU=;
+        b=d69xPnmoQ74+IhP01eYXbspac0SB3ASiWEN3ta6BJLWv+5PYXRYCpMxttRagZYOhWZ
+         1OAFjFD52Wr9c1JB+30GX5FN56pN0JNywfQgndaKVnRtZQWLxzx4DzTV3KJvevlApZc8
+         Pk/EYyr8eCkXsioH12jpFFm+wO1jvvKInTWVdAmUt1tuqldpfHzC9sIqCXTymwTrGXv/
+         AUPaz/G/X2AXnCP9RklE/Nz0A2ru+3SZUrZ7AK+Mv+X4pynVhST6uLtNi48VRskagEOp
+         dvKU6MFbQ0H7vkJemc3lUWaFMwqzGu9jfHMXeZ51qSWjLQBBweBJXO4+fIHMDZdCFSR4
+         WwzQ==
+X-Gm-Message-State: AOJu0Yz1emQvEG2Hxdu79g9ShDrKPj7c679nb9D8IhxwqL6gJoGBTtsz
+        T+hDUPlPtwfn9h4Dl00/buU8tl8q/lyMbQxDzD+E4A==
+X-Google-Smtp-Source: AGHT+IG5s5Adb1+6Jj4dIei4PAmaE17im1X0zrZxagxFiTM+4t42Iq+COd07+PtZk1fzQuinZ/VGGkYh9+gBNhC9H6A=
+X-Received: by 2002:a05:6402:510:b0:523:2c05:7d24 with SMTP id
+ m16-20020a056402051000b005232c057d24mr23565515edv.24.1693244886029; Mon, 28
+ Aug 2023 10:48:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230825-wip-selftests-v1-0-c862769020a8@kernel.org>
+ <20230825182316.m2ksjoxe4s7dsapn@google.com> <65800771171dcaff9901dae47de960ec66602f7e.camel@gmail.com>
+In-Reply-To: <65800771171dcaff9901dae47de960ec66602f7e.camel@gmail.com>
+From:   Justin Stitt <justinstitt@google.com>
+Date:   Mon, 28 Aug 2023 10:47:52 -0700
+Message-ID: <CAFhGd8rNtEWpfJKFs+nKj_cLya0q6JSFyuzqqMCYmoi9xxBL6Q@mail.gmail.com>
+Subject: Re: [PATCH 4/3] selftests/hid: more fixes to build with older kernel
+To:     Eduard Zingerman <eddyz87@gmail.com>
+Cc:     Benjamin Tissoires <bentiss@kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 15 Aug 2023 18:40:25 +0300
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+Eduard,
 
-> Some user may want to use aligned signed 64-bit type.
-> Provide it for them.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Excellent.  I'll pick this up once the minor things in the first two
-users are resolved (as long as no one argues we shouldn't have this
-for some reason!)
+On Fri, Aug 25, 2023 at 11:54=E2=80=AFAM Eduard Zingerman <eddyz87@gmail.co=
+m> wrote:
+>
+> On Fri, 2023-08-25 at 18:23 +0000, Justin Stitt wrote:
+> > On Fri, Aug 25, 2023 at 10:36:30AM +0200, Benjamin Tissoires wrote:
+> > > These fixes have been triggered by [0]:
+> > > basically, if you do not recompile the kernel first, and are
+> > > running on an old kernel, vmlinux.h doesn't have the required
+> > > symbols and the compilation fails.
+> > >
+> > > The tests will fail if you run them on that very same machine,
+> > > of course, but the binary should compile.
+> > >
+> > > And while I was sorting out why it was failing, I realized I
+> > > could do a couple of improvements on the Makefile.
+> > >
+> > > [0] https://lore.kernel.org/linux-input/56ba8125-2c6f-a9c9-d498-0ca1c=
+153dcb2@redhat.com/T/#t
+> > >
+> > > Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+> > > ---
+> > > Benjamin Tissoires (3):
+> > >       selftests/hid: ensure we can compile the tests on kernels pre-6=
+.3
+> > >       selftests/hid: do not manually call headers_install
+> > >       selftests/hid: force using our compiled libbpf headers
+> > >
+> > >  tools/testing/selftests/hid/Makefile                | 10 ++++------
+> > >  tools/testing/selftests/hid/progs/hid.c             |  3 ---
+> > >  tools/testing/selftests/hid/progs/hid_bpf_helpers.h | 20 +++++++++++=
++++++++++
+> > >  3 files changed, 24 insertions(+), 9 deletions(-)
+> > > ---
+> > > base-commit: 1d7546042f8fdc4bc39ab91ec966203e2d64f8bd
+> > > change-id: 20230825-wip-selftests-9a7502b56542
+> > >
+> > > Best regards,
+> > > --
+> > > Benjamin Tissoires <bentiss@kernel.org>
+> > >
+> >
+> > Benjamin, thanks for the work here. Your series fixed up _some_ of the
+> > errors I had while building on my 6.3.11 kernel. I'm proposing a single
+> > patch that should be applied on top of your series that fully fixes
+> > _all_ of the build errors I'm experiencing.
+> >
+> > Can you let me know if it works and potentially formulate a new series
+> > so that `b4 shazam` applies it cleanly?
+> >
+> > PATCH BELOW
+> > ---
+> > From 5378d70e1b3f7f75656332f9bff65a37122bb288 Mon Sep 17 00:00:00 2001
+> > From: Justin Stitt <justinstitt@google.com>
+> > Date: Fri, 25 Aug 2023 18:10:33 +0000
+> > Subject: [PATCH 4/3] selftests/hid: more fixes to build with older kern=
+el
+> >
+> > I had to use the clever trick [1] on some other symbols to get my build=
+s
+> > working.
+> >
+> > Apply this patch on top of Benjamin's series [2].
+> >
+> > This is now a n=3D4 patch series which has fixed my builds when running=
+:
+> > > $ make LLVM=3D1 -j128 ARCH=3Dx86_64 mrproper headers
+> > > $ make LLVM=3D1 -j128 ARCH=3Dx86_64 -C tools/testing/selftests TARGET=
+S=3Dhid
+> >
+> > [1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git=
+/tree/tools/testing/selftests/bpf/progs/bpf_iter.h#n3
+> > [2]: https://lore.kernel.org/all/20230825-wip-selftests-v1-0-c862769020=
+a8@kernel.org/
+> > Signed-off-by: Justin Stitt <justinstitt@google.com>
+> > ---
+> >  .../selftests/hid/progs/hid_bpf_helpers.h     | 29 +++++++++++++++++++
+> >  1 file changed, 29 insertions(+)
+> >
+> > diff --git a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h b/tool=
+s/testing/selftests/hid/progs/hid_bpf_helpers.h
+> > index 749097f8f4d9..e2eace2c0029 100644
+> > --- a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
+> > +++ b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
+> > @@ -7,12 +7,26 @@
+> >
+> >  /* "undefine" structs in vmlinux.h, because we "override" them below *=
+/
+> >  #define hid_bpf_ctx hid_bpf_ctx___not_used
+> > +#define hid_report_type hid_report_type___not_used
+> > +#define hid_class_request hid_class_request___not_used
+> > +#define hid_bpf_attach_flags hid_bpf_attach_flags___not_used
+> >  #include "vmlinux.h"
+> >  #undef hid_bpf_ctx
+> > +#undef hid_report_type
+> > +#undef hid_class_request
+> > +#undef hid_bpf_attach_flags
+> >
+> >  #include <bpf/bpf_helpers.h>
+> >  #include <bpf/bpf_tracing.h>
+> > +#include <linux/const.h>
+> >
+> > +enum hid_report_type {
+> > +     HID_INPUT_REPORT                =3D 0,
+> > +     HID_OUTPUT_REPORT               =3D 1,
+> > +     HID_FEATURE_REPORT              =3D 2,
+> > +
+> > +     HID_REPORT_TYPES,
+> > +};
+> >
+> >  struct hid_bpf_ctx {
+> >       __u32 index;
+> > @@ -25,6 +39,21 @@ struct hid_bpf_ctx {
+> >       };
+> >  };
+>
+> Note, vmlinux.h has the following preamble/postamble:
+>
+>     #ifndef BPF_NO_PRESERVE_ACCESS_INDEX
+>     #pragma clang attribute push (__attribute__((preserve_access_index)),=
+ apply_to =3D record)
+>     #endif
+>     ...
+>     #ifndef BPF_NO_PRESERVE_ACCESS_INDEX
+>     #pragma clang attribute pop
+>     #endif
+>
+> You might want to use it or add __attribute__((preserve_access_index))
+> to structure definitions, depending on whether or not you need CO-RE
+> functionality for these tests.
 
-Jonathan
+I have no idea whether or not CO-RE is needed for these tests or not.
+My main motivation is getting these selftests building with LLVM=3D1
+[1].
 
-> ---
->  include/linux/types.h      | 3 ++-
->  include/uapi/linux/types.h | 1 +
->  2 files changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/types.h b/include/linux/types.h
-> index 253168bb3fe1..78d87c751ff5 100644
-> --- a/include/linux/types.h
-> +++ b/include/linux/types.h
-> @@ -115,8 +115,9 @@ typedef u64			u_int64_t;
->  typedef s64			int64_t;
->  #endif
->  
-> -/* this is a special 64bit data type that is 8-byte aligned */
-> +/* These are the special 64-bit data types that are 8-byte aligned */
->  #define aligned_u64		__aligned_u64
-> +#define aligned_s64		__aligned_s64
->  #define aligned_be64		__aligned_be64
->  #define aligned_le64		__aligned_le64
->  
-> diff --git a/include/uapi/linux/types.h b/include/uapi/linux/types.h
-> index 6375a0684052..48b933938877 100644
-> --- a/include/uapi/linux/types.h
-> +++ b/include/uapi/linux/types.h
-> @@ -53,6 +53,7 @@ typedef __u32 __bitwise __wsum;
->   * No conversions are necessary between 32-bit user-space and a 64-bit kernel.
->   */
->  #define __aligned_u64 __u64 __attribute__((aligned(8)))
-> +#define __aligned_s64 __s64 __attribute__((aligned(8)))
->  #define __aligned_be64 __be64 __attribute__((aligned(8)))
->  #define __aligned_le64 __le64 __attribute__((aligned(8)))
->  
+Perhaps Benjamin could provide some more insight on whether this is
+needed or not and roll out a v2 containing my patch on top + any CO-RE
+semantics  -- if deemed necessary.
 
+>
+> >
+> > +enum hid_class_request {
+> > +     HID_REQ_GET_REPORT              =3D 0x01,
+> > +     HID_REQ_GET_IDLE                =3D 0x02,
+> > +     HID_REQ_GET_PROTOCOL            =3D 0x03,
+> > +     HID_REQ_SET_REPORT              =3D 0x09,
+> > +     HID_REQ_SET_IDLE                =3D 0x0A,
+> > +     HID_REQ_SET_PROTOCOL            =3D 0x0B,
+> > +};
+> > +
+> > +enum hid_bpf_attach_flags {
+> > +     HID_BPF_FLAG_NONE =3D 0,
+> > +     HID_BPF_FLAG_INSERT_HEAD =3D _BITUL(0),
+> > +     HID_BPF_FLAG_MAX,
+> > +};
+> > +
+> >  /* following are kfuncs exported by HID for HID-BPF */
+> >  extern __u8 *hid_bpf_get_data(struct hid_bpf_ctx *ctx,
+> >                             unsigned int offset,
+> > --
+> > 2.42.0.rc1.204.g551eb34607-goog
+> >
+>
+
+[1]: https://github.com/ClangBuiltLinux/linux/issues/1698
+
+Thanks
+Justin
