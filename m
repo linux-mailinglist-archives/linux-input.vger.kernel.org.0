@@ -2,132 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23B3D78F121
-	for <lists+linux-input@lfdr.de>; Thu, 31 Aug 2023 18:22:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E52778F2ED
+	for <lists+linux-input@lfdr.de>; Thu, 31 Aug 2023 20:54:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235059AbjHaQWj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 31 Aug 2023 12:22:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49098 "EHLO
+        id S1346714AbjHaSyB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 31 Aug 2023 14:54:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231698AbjHaQWj (ORCPT
+        with ESMTP id S239952AbjHaSyA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 31 Aug 2023 12:22:39 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FF1CCF3;
-        Thu, 31 Aug 2023 09:22:06 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 17887B8229D;
-        Thu, 31 Aug 2023 16:22:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D72C2C433C8;
-        Thu, 31 Aug 2023 16:22:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693498923;
-        bh=CTXJBHNMlG2S512kPkmVIDm+/koZ+JKTX7OmWnz6zkA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MoSlTJr5HrwsK9zs6I2kICcng8QccNM/8rFnIdYdBR8LODAfVQW9dAxG/KxKI1L+v
-         DdbekyxziJ+V+TnoRtkxyxC3MdztZFhgs3mj08d2sWTit5HCfS/wsWEv0i18j5VKpQ
-         ZPN6uJtEU5qrxXhaoiPHUoDyTgkA3XASn9pwp2+A+ac3ad631nXSIIsjgjIWgXcLUt
-         s5F74JlKuGnXhnmSPFmUWbUBD7ALEfpbOlxeiufDJs9L5Oyg+lKfqS9URDNhNQAtEG
-         sNV2GJF/8RaoNmFozOwfC5DdaeYN2dAr7ab4TLR5uVdQg1M9HyRP5YuQbsTpOmPJGK
-         wqzbSRxTKldAg==
-Received: (nullmailer pid 2383784 invoked by uid 1000);
-        Thu, 31 Aug 2023 16:22:01 -0000
-Date:   Thu, 31 Aug 2023 11:22:01 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Javier Carrasco <javier.carrasco@wolfvision.net>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Bastian Hecht <hechtb@gmail.com>,
-        Michael Riesch <michael.riesch@wolfvision.net>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 4/4] dt-bindings: input: touchscreen: st1232: add
- example with touch-overlay
-Message-ID: <20230831162201.GA2381101-robh@kernel.org>
-References: <20230510-feature-ts_virtobj_patch-v4-0-5c6c0fc1eed6@wolfvision.net>
- <20230510-feature-ts_virtobj_patch-v4-4-5c6c0fc1eed6@wolfvision.net>
+        Thu, 31 Aug 2023 14:54:00 -0400
+Received: from mail.gnu-linux.rocks (unknown [82.165.184.165])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D28AE64;
+        Thu, 31 Aug 2023 11:53:56 -0700 (PDT)
+Received: from localhost.localdomain (unknown [95.91.250.92])
+        by mail.gnu-linux.rocks (Postfix) with ESMTPSA id 662ED3FC1A;
+        Thu, 31 Aug 2023 18:53:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnu-linux.rocks;
+        s=mail; t=1693508034;
+        bh=7imahw4z5cLGzUlIZ+ONUMGcCu5zD8w6Z7f3ADNu7oY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ejaoxn2g9e4y1GSPm1RlGBOCiwj7I4V+d2wGzwbvUkP50WHgOLMIYNTfHJjXGGSyU
+         H9DxxrqCPbOOZ/QUwg/ZIpgn83vcPSGopaBdrWUB4IQrg8Cb+mpReIG2RR1lhAscLV
+         jCKz6B88eQuXetUlVO4ffw2TYCKqhY5Z6uZGBZXXjKdbbIRHEeWNo4jbSVCIXFxsu4
+         20KxmmOrb404v5fkA1AW50gkZsZxLUPCdSiq1alpeldB78AWW6eAv3FKvWWVFPTu3X
+         SxnQdR25Qqni7hYOZTtDWxF6F+91GUSJQRE7nzByT950OldHZ1bQleX1revd7mnCdk
+         cbfmzlLXBCIPg==
+From:   Johannes Roith <johannes@gnu-linux.rocks>
+To:     sergeantsagara@protonmail.com
+Cc:     ak@it-klinger.de, andi.shyti@kernel.org,
+        benjamin.tissoires@redhat.com, christophe.jaillet@wanadoo.fr,
+        jikos@kernel.org, johannes@gnu-linux.rocks,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rdunlap@infradead.org
+Subject: Re: [PATCH v5] hid-mcp2200: added driver for GPIOs of MCP2200
+Date:   Thu, 31 Aug 2023 20:53:43 +0200
+Message-ID: <20230831185343.211651-1-johannes@gnu-linux.rocks>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <87a5unt25h.fsf@protonmail.com>
+References: <87a5unt25h.fsf@protonmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230510-feature-ts_virtobj_patch-v4-4-5c6c0fc1eed6@wolfvision.net>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,RDNS_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Aug 24, 2023 at 03:17:12PM +0200, Javier Carrasco wrote:
-> The st1232 driver supports the overlay-touchscreen and overlay-buttons
-> objects defined in the generic touchscreen bindings and implemented in
-> the touch-overlay module. Add an example where nodes for an overlay
-> touchscreen and overlay buttons are defined.
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
-> ---
->  .../input/touchscreen/sitronix,st1232.yaml         | 40 ++++++++++++++++++++++
->  1 file changed, 40 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
-> index 1d8ca19fd37a..857b611f84c2 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
-> @@ -48,3 +48,43 @@ examples:
->                      gpios = <&gpio1 166 0>;
->              };
->      };
-> +  - |
-> +    #include <dt-bindings/input/linux-event-codes.h>
-> +    i2c {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            touchscreen@55 {
-> +                    compatible = "sitronix,st1232";
-> +                    reg = <0x55>;
-> +                    interrupts = <2 0>;
-> +                    gpios = <&gpio1 166 0>;
+Hi Rahul,
 
-Just add this to the existing example. No value in 2 examples.
+thanks for the feedback, I will add it to the driver.
 
-> +
-> +                    overlay-touchscreen {
-> +                            x-origin = <0>;
-> +                            x-size = <240>;
-> +                            y-origin = <40>;
-> +                            y-size = <280>;
-> +                    };
-> +
-> +                    overlay-buttons {
-> +                            button-light {
-> +                                    label = "Camera light";
-> +                                    linux,code = <KEY_LIGHTS_TOGGLE>;
-> +                                    x-origin = <40>;
-> +                                    x-size = <40>;
-> +                                    y-origin = <0>;
-> +                                    y-size = <40>;
-> +                            };
-> +
-> +                            button-power {
-> +                                    label = "Power";
-> +                                    linux,code = <KEY_POWER>;
-> +                                    x-origin = <160>;
-> +                                    x-size = <40>;
-> +                                    y-origin = <0>;
-> +                                    y-size = <40>;
-> +                            };
-> +                    };
-> +            };
-> +    };
+> My personal recommendation is to just have a single DMA buffer allocated
+> for the mcp2200 instance rather than having to call the allocator and
+> release the memory per command.
+
+I added an 16-byte Array hid_report to the mcp2000 struct. When I need the
+report, I do the following:
+
+struct mcp_set_clear_outputs *cmd;
+
+mutex_lock(&mcp->lock);
+cmd = (struct mcp_set_clear_outputs *) mcp->hid_report
+
+Do you think this is a valid implementation or do I really have to add a
+pointer to the mcp2200 struct instead of the 16 byte array and allocate 
+another 16 byte for it in the probe function?
+
+> The reason you run into this is likely because of the action added to
+> devm conflicting with hid_device_remove....
 > 
-> -- 
-> 2.39.2
-> 
+> I recommend not depending on devm for teardown rather than making a stub
+> remove function to work around the issue.
+
+I am not sure, if I have understand this correctly, but basically I already
+have a stub remove function (which is empty). First the remove function gets
+called, then the unregister function and everything is cleaned up correctly.
+Did I get this right or do you have any other recommendation for me?
+
+So, do I need any adaptions, or can we go with the empty remove function?
+
+Best regards,
+Johannes
