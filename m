@@ -2,121 +2,269 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C1CC78DCB7
-	for <lists+linux-input@lfdr.de>; Wed, 30 Aug 2023 20:50:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D59C478EC6D
+	for <lists+linux-input@lfdr.de>; Thu, 31 Aug 2023 13:48:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234357AbjH3Sq3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 30 Aug 2023 14:46:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57720 "EHLO
+        id S244384AbjHaLse (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 31 Aug 2023 07:48:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245095AbjH3O0W (ORCPT
+        with ESMTP id S231241AbjHaLsd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 30 Aug 2023 10:26:22 -0400
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D52BD124
-        for <linux-input@vger.kernel.org>; Wed, 30 Aug 2023 07:26:18 -0700 (PDT)
-Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-58cd9d9dbf5so12980127b3.0
-        for <linux-input@vger.kernel.org>; Wed, 30 Aug 2023 07:26:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693405578; x=1694010378; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nLlVaxy3KfuD5SwetE5WNifV4FNYkcQjKz5YIqSHwgQ=;
-        b=FMg/afYywfygfd9FPZ4vrdl1+mHjK3bQQkAy7XrK8P6+66EqjaJdVwbECRe8azsFwH
-         HACl5SVK5aY9zJ+aFIis9zZtgVQUg2sdeWcc7aKKfWRE24WeCSblk9/q+YO3d2FXBVtw
-         CfOWlRw6C/Ly+rz6zwq+C38rKH6WEKo3THwlM67u1zqbRrFqDSxv3zaSGdTWuKZtkdgt
-         +SY6f/E9ZTBJlMmEheTmbMaEuO53h4RbBDGL9J81FozMojy8N2mu/P9/Wi/MtTivb8GO
-         AhYlMblVv2QeoSgp1r+h3QEnIDAwSoKwCAYqVQAGUsONNsEPqcVs+AjgOo1wkxVvBuDx
-         rzyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693405578; x=1694010378;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nLlVaxy3KfuD5SwetE5WNifV4FNYkcQjKz5YIqSHwgQ=;
-        b=akLal7Thw0C2Nl4oSH6ppbot0Xy6r8JEk/QSv7cxC7B+psN0iX/xbR2zhQnFTlyYjl
-         ftVEMO7ouKVJMPw+96l+qvOrNIycPlTlzJNNro/uUjj23bOv2WCkIyTRySDbKLqeIh2J
-         rOg2a6j8rIWrOLGwK+v3+y8bWQWPWBtDuBtSPiSfFKrqe9o+WJrUS83I6WlL+yWt8KyM
-         R/6Ew4/l4F8LCXuKNsIpPU6OQ4BskDKbqurAuxDItAWyEFnZCGQBnDSYec0MDVkbaLBi
-         1wXnZuMdph5kfpALsJS5LHxW5h5tiFv7WY1dLArMnAtgaepxbmkCh4mDg9ErGYC7/xYn
-         w4XQ==
-X-Gm-Message-State: AOJu0Yz151kSu9njwvMqebZskLlqZxQwFNyORum53HpuwgpX6WqeDAwf
-        D2RtxhmuLTuEqmTvCkX1KD5mhPy5Db00CvinPZSKx1znGWmQFVkG6hQ=
-X-Google-Smtp-Source: AGHT+IGUf8QqADTpwZEdTaNjF8Lvb9rGB6XHTii/qiedK9o1jIuHzIXNKKQXjy5HSeGhfXoKYHBjPNSb7+VJXRQCMto=
-X-Received: by 2002:a81:b40a:0:b0:589:a400:a046 with SMTP id
- h10-20020a81b40a000000b00589a400a046mr2247058ywi.14.1693405576575; Wed, 30
- Aug 2023 07:26:16 -0700 (PDT)
+        Thu, 31 Aug 2023 07:48:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB163C5;
+        Thu, 31 Aug 2023 04:48:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 423316146C;
+        Thu, 31 Aug 2023 11:48:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0F35C433C8;
+        Thu, 31 Aug 2023 11:48:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693482509;
+        bh=lt6Dfc0PcUO4CkQPKYP4ayUpOMx8UlAuNXxheoPljfM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=f6ueSnFewdHLh/k/xGULrXbf+/onOyOO68DI/jTtTT8cBdkteTuDGSReu1qUqBkGR
+         VPEi0a6V34fyiytWfzOj+bmDUdkcFhcYZHcpz7Gh1ZcYrvfN9/SyIxR/9KLyFIlH6+
+         zlottUp6b4VQb+eb0PWes1UTj/dVRaOfwycRMaTwI/3irRCUoTOEZyoaReFhjEbe6d
+         2F9Cla0RwXylhNpsyg71p5y7wCp8n8WRbwUsbsI6+40At5wpw0eg3s4rg9LlPJQccg
+         FiksDXiE2mIWOjP40mV/MHCMPRXseDsDW35Rz75O3gwejpDQtYQv119+euBfd1Cf8G
+         QUaDYz/UvS1uA==
+Received: (nullmailer pid 1959264 invoked by uid 1000);
+        Thu, 31 Aug 2023 11:48:27 -0000
+Date:   Thu, 31 Aug 2023 06:48:27 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Javier Carrasco <javier.carrasco@wolfvision.net>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Bastian Hecht <hechtb@gmail.com>,
+        Michael Riesch <michael.riesch@wolfvision.net>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 2/4] dt-bindings: touchscreen: add overlay-touchscreen
+ and overlay-buttons properties
+Message-ID: <20230831114827.GA1941458-robh@kernel.org>
+References: <20230510-feature-ts_virtobj_patch-v4-0-5c6c0fc1eed6@wolfvision.net>
+ <20230510-feature-ts_virtobj_patch-v4-2-5c6c0fc1eed6@wolfvision.net>
 MIME-Version: 1.0
-References: <CANWZPgK2+9SCavsbSZv1DfJyhy0XUpJZ6+ebatM9ZGJPpAN1yA@mail.gmail.com>
- <ZNGdYCXOHRqWnoeT@debian.me> <CANWZPgKAtbNRUy0pyL7Zf-S-zLeMkJZ7fSWpFO8__YG0_e2Zgw@mail.gmail.com>
- <CAHQZ30AhngEgVR-Hcjcze2HyZOG=4fbfp_S2=Or7JUJUUxm4mQ@mail.gmail.com>
- <CANWZPgLcHa2x-Rdy6Hma39p-6E6_5UGUamjPZkKYqz_q0yKJ2g@mail.gmail.com>
- <CANWZPg+C4=U1khLJbvUb0nuDQq+ETULZdQyWDBhFhYN_3Wa=3g@mail.gmail.com>
- <CANWZPgKe6GRUBVyi9Ua0Ns=eQDHT2riSsUZ7gr2nGfXT+jM00w@mail.gmail.com> <a0b8cbf4-a3db-5b05-14ba-297fe24efd52@leemhuis.info>
-In-Reply-To: <a0b8cbf4-a3db-5b05-14ba-297fe24efd52@leemhuis.info>
-From:   =?UTF-8?B?Sm9zw6kgUmFtw7NuIE11w7FveiBQZWtrYXJpbmVu?= 
-        <koalinux@gmail.com>
-Date:   Wed, 30 Aug 2023 17:25:40 +0300
-Message-ID: <CANWZPgLpgPCFrnQwwzKf-u+Nf21F3bwDxi5pEn+whVu0diO=vg@mail.gmail.com>
-Subject: Re: atkbd input regression
-To:     Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
-        gregkh@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230510-feature-ts_virtobj_patch-v4-2-5c6c0fc1eed6@wolfvision.net>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 30 Aug 2023 at 14:06, Linux regression tracking (Thorsten
-Leemhuis) <regressions@leemhuis.info> wrote:
-> So strictly speaking all this sounds a lot like this is caused by kernel
-> regression that thus should be fixed in the kernel once this was
-> bisected (which iirc hasn't happened yet).
+On Thu, Aug 24, 2023 at 03:17:10PM +0200, Javier Carrasco wrote:
+> The overlay-touchscreen object defines an area within the touchscreen
+> where touch events are reported and their coordinates get converted to
+> the overlay origin. This object avoids getting events from areas that
+> are physically hidden by overlay frames.
+> 
+> For touchscreens where overlay buttons on the touchscreen surface are
+> provided, the overlay-buttons object contains a node for every button
+> and the key event that should be reported when pressed.
+> 
+> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+> ---
+>  .../bindings/input/touchscreen/touchscreen.yaml    | 152 +++++++++++++++++++++
+>  1 file changed, 152 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
+> index 895592da9626..d90cbb4932b5 100644
+> --- a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
+> @@ -80,6 +80,158 @@ properties:
+>    touchscreen-y-plate-ohms:
+>      description: Resistance of the Y-plate in Ohms
+>  
+> +  overlay-touchscreen:
+> +    description: Clipped touchscreen area
+> +
+> +      This object can be used to describe a frame that restricts the area
+> +      within touch events are reported, ignoring the events that occur outside
+> +      this area. This is of special interest if the touchscreen is shipped
+> +      with a physical overlay on top of it with a frame that hides some part
+> +      of the original touchscreen area.
+> +
+> +      The x-origin and y-origin properties of this object define the offset of
+> +      a new origin from where the touchscreen events are referenced.
+> +      This offset is applied to the events accordingly. The x-size and y-size
+> +      properties define the size of the overlay-touchscreen (effective area).
+> +
+> +      The following example shows the new touchscreen area and the new origin
+> +      (0',0') for the touch events generated by the device.
+> +
+> +                   Touchscreen (full area)
+> +         ┌────────────────────────────────────────┐
+> +         │    ┌───────────────────────────────┐   │
+> +         │    │                               │   │
+> +         │    ├ y-size                        │   │
+> +         │    │                               │   │
+> +         │    │      overlay-touchscreen      │   │
+> +         │    │                               │   │
+> +         │    │                               │   │
+> +         │    │            x-size             │   │
+> +         │   ┌└──────────────┴────────────────┘   │
+> +         │(0',0')                                 │
+> +        ┌└────────────────────────────────────────┘
+> +      (0,0)
+> +
+> +     where (0',0') = (0+x-origin,0+y-origin)
 
-    I'm afraid it may be a distro specific problem, if I'm not so mistaken
-from the time Gentoo switched its default udev from eudev to systemd
-udev, which also explain why I can't rebuild the good kernel nowadays,
-test, and have the expected good results, because the new initramfs
-will receive a copy of the new systemd udev, and not the former eudev,
-and it acts as all my broken kernels in time.
+What happens if touchscreen-inverted-x/y are set?
 
-    There is still room to be a kernel issue, since rethinking the issue, t=
-he
-kernel on early boot does what is expected, it configures the device and
-with udev makes it work for the ttys, the problem comes when the wayland
-seat comes available, where plasma or wayland needs to advertise the
-kernel of the new seat, and the kernel then needs to generate the correct
-event to makes udev populate the new information and tags that are
-missing when the device doesn't work. This can be either a missing
-implementation on Gentoo side because of using systemd udev without
-the rest of systemd, or a kernel issue if the kernel is receiving the
-information of the new seat and not generating an uevent to udev
-to populate the new info. So in short, I may need to revisit this in the
-following days.
+Though the existing binding never defines what the non-inverted 
+orientation is.
 
-> OTOH this afaics (please correct me if I'm wrong!) is the first such
-> report, so the problem is likely pretty specific or might only occur on
-> your system. In that case just looking for some solution for your system
-> might be fine.
+> +
+> +    type: object
+> +
+> +    properties:
+> +      x-origin:
+> +        description: horizontal origin of the clipped area
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +      y-origin:
+> +        description: vertical origin of the clipped area
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +      x-size:
+> +        description: horizontal resolution of the clipped area
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +      y-size:
+> +        description: vertical resolution of the clipped area
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +        required:
+> +          - x-origin
+> +          - y-origin
+> +          - x-size
+> +          - y-size
+> +
+> +  overlay-buttons:
+> +    description: list of nodes defining the buttons on the touchscreen
+> +
+> +      This object can be used to describe buttons on the touchscreen area,
+> +      reporting the touch events on their surface as key events instead of
+> +      the original touch events.
+> +
+> +      This is of special interest if the touchscreen is shipped with a
+> +      physical overlay on top of it where a number of buttons with some
+> +      predefined functionality are printed. In that case a specific behavior
+> +      is expected from those buttons instead of raw touch events.
+> +
+> +      The overlay-buttons properties define a per-button area as well as an
+> +      origin relative to the real touchscreen origin. Touch events within the
+> +      button area are reported as the key event defined in the linux,code
+> +      property. Given that the key events do not provide coordinates, the
+> +      button origin is only used to place the button area on the touchscreen
+> +      surface. Any event outside the overlay-buttons object is reported as a
+> +      touch event with no coordinate transformation.
+> +
+> +      The following example shows a touchscreen with a single button on it
+> +
+> +              Touchscreen (full area)
+> +        ┌───────────────────────────────────┐
+> +        │                                   │
+> +        │                                   │
+> +        │   ┌─────────┐                     │
+> +        │   │button 0 │                     │
+> +        │   │KEY_POWER│                     │
+> +        │   └─────────┘                     │
+> +        │                                   │
+> +        │                                   │
+> +       ┌└───────────────────────────────────┘
+> +     (0,0)
+> +
+> +      The overlay-buttons object can  be combined with the overlay-touchscreen
+> +      object as shown in the following example. In that case only the events
+> +      within the overlay-touchscreen object are reported as touch events.
+> +
+> +                  Touchscreen (full area)
+> +        ┌─────────┬──────────────────────────────┐
+> +        │         │                              │
+> +        │         │    ┌───────────────────────┐ │
+> +        │ button 0│    │                       │ │
+> +        │KEY_POWER│    │                       │ │
+> +        │         │    │                       │ │
+> +        ├─────────┤    │  overlay-touchscreen  │ │
+> +        │         │    │                       │ │
+> +        │         │    │                       │ │
+> +        │ button 1│    │                       │ │
+> +        │ KEY_INFO│   ┌└───────────────────────┘ │
+> +        │         │(0',0')                       │
+> +       ┌└─────────┴──────────────────────────────┘
+> +     (0,0)
+> +
+> +    type: object
+> +
+> +    patternProperties:
+> +      '^button-':
+> +        type: object
+> +        description:
+> +          Each button (key) is represented as a sub-node.
+> +
+> +        properties:
+> +          label:
+> +            $ref: /schemas/types.yaml#/definitions/string
+> +            description: descriptive name of the button
+> +
+> +          linux,code: true
+> +
+> +          x-origin:
+> +            description: horizontal origin of the button area
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +          y-origin:
+> +            description: vertical origin of the button area
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +          x-size:
+> +            description: horizontal resolution of the button area
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +          y-size:
+> +            description: vertical resolution of the button area
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +        required:
+> +          - linux,code
+> +          - x-origin
+> +          - y-origin
+> +          - x-size
+> +          - y-size
 
-    There is similar cases in the Gentoo forum that eventually gave up
-on Gentoo[1] and made a switch to Fedora to be done with this. I just prefe=
-r
-to look for a solution to the problem and fix it for everybody. So bear
-with it while I dig into the code path that is propagating the seat info to
-the kernel and udev.
+We have the same properties defined twice. Move all the common ones to a 
+$def entry and then reference it here and in overlay-touchscreen.
 
-[1] https://forums.gentoo.org/viewtopic-t-1161962-highlight-serial+keyboard=
-.html
+$defs:
+  overlay-node:
+    type: object
+    properties:
+      x-origin:
+      ...
 
-    Thanks!
+And then here:
 
-    Jos=C3=A9.
+'^button-':
+  $ref: '#/$defs/overlay-node
+  unevaluatedProperties: false
+
+  properties:
+    label:
+      ...
+
+
+Rob
