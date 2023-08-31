@@ -2,269 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D59C478EC6D
-	for <lists+linux-input@lfdr.de>; Thu, 31 Aug 2023 13:48:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8B6E78EE22
+	for <lists+linux-input@lfdr.de>; Thu, 31 Aug 2023 15:09:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244384AbjHaLse (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 31 Aug 2023 07:48:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60802 "EHLO
+        id S230368AbjHaNJo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 31 Aug 2023 09:09:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231241AbjHaLsd (ORCPT
+        with ESMTP id S232659AbjHaNJo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 31 Aug 2023 07:48:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB163C5;
-        Thu, 31 Aug 2023 04:48:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 423316146C;
-        Thu, 31 Aug 2023 11:48:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0F35C433C8;
-        Thu, 31 Aug 2023 11:48:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693482509;
-        bh=lt6Dfc0PcUO4CkQPKYP4ayUpOMx8UlAuNXxheoPljfM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=f6ueSnFewdHLh/k/xGULrXbf+/onOyOO68DI/jTtTT8cBdkteTuDGSReu1qUqBkGR
-         VPEi0a6V34fyiytWfzOj+bmDUdkcFhcYZHcpz7Gh1ZcYrvfN9/SyIxR/9KLyFIlH6+
-         zlottUp6b4VQb+eb0PWes1UTj/dVRaOfwycRMaTwI/3irRCUoTOEZyoaReFhjEbe6d
-         2F9Cla0RwXylhNpsyg71p5y7wCp8n8WRbwUsbsI6+40At5wpw0eg3s4rg9LlPJQccg
-         FiksDXiE2mIWOjP40mV/MHCMPRXseDsDW35Rz75O3gwejpDQtYQv119+euBfd1Cf8G
-         QUaDYz/UvS1uA==
-Received: (nullmailer pid 1959264 invoked by uid 1000);
-        Thu, 31 Aug 2023 11:48:27 -0000
-Date:   Thu, 31 Aug 2023 06:48:27 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Javier Carrasco <javier.carrasco@wolfvision.net>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Bastian Hecht <hechtb@gmail.com>,
-        Michael Riesch <michael.riesch@wolfvision.net>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] dt-bindings: touchscreen: add overlay-touchscreen
- and overlay-buttons properties
-Message-ID: <20230831114827.GA1941458-robh@kernel.org>
-References: <20230510-feature-ts_virtobj_patch-v4-0-5c6c0fc1eed6@wolfvision.net>
- <20230510-feature-ts_virtobj_patch-v4-2-5c6c0fc1eed6@wolfvision.net>
+        Thu, 31 Aug 2023 09:09:44 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35BA9CF3
+        for <linux-input@vger.kernel.org>; Thu, 31 Aug 2023 06:09:41 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2bccda76fb1so14922271fa.2
+        for <linux-input@vger.kernel.org>; Thu, 31 Aug 2023 06:09:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693487379; x=1694092179; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:date:cc:to
+         :reply-to:from:subject:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=czSxBm00FJHQ40s9tokxAl8adQLNz+vfwfAqH/mohSE=;
+        b=NfuCQVqxbgPFOKr6KiAc1J7Mn/k6h3N+KFHNfJNHhWnEoApFodT9j+UWr6whdgtw4u
+         EaHxoM8r7vwNRoR565mrr+obaLsm8urgy/zXF/6zLvtt6sa3uTSmfwgxvwuukViH/Vd3
+         iYRYbTPeROXb9pItfhdEgRVYGynepgNk+AMTfppUXsyKjtKoY36XiQbukCqPKz9ng/gR
+         iFtXjLiUSSbEhIjpyrA71r6VU7zbhxcbQQlwMEswTKPTVLx4StE5iT/AoZCyzb1NhG7q
+         VZ2UdlfzKsSyYcTSlNBBTm6WbBocRAIgqr991kk1W2MPFb/pztiuJQKS6KdfxdTogQfr
+         YeAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693487379; x=1694092179;
+        h=mime-version:user-agent:content-transfer-encoding:date:cc:to
+         :reply-to:from:subject:message-id:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=czSxBm00FJHQ40s9tokxAl8adQLNz+vfwfAqH/mohSE=;
+        b=hurE1EOsWfFDZpJcHjZeNNmbWDTt6axVzn32cWXHL+RWtan6EqmcUGlasYp625ku9w
+         2Q5JcFXMVMRruxREjYFHIkMmz8/6Qd/AxfeyYDnaiHdWCHDYOhBlKUg+qKfESRa8NcXD
+         w29uLDvpxGcKlyYhYSTVWFJHgkoOmaB2wjxLRWdsUwh+Ta75WoQsy414ufSDosZLjer1
+         EnT9Fh2MMVrcltzRjKxvjbeoPAUfFPzVAXxkvfTDpbk6pWmk5XgRPB7dG/X1yDNvX3hU
+         OFYrmq3UeLC+3muixJVUSpWviNTC5UN//U4CFyNzTG+SBfGFe5rvGFsZsN1F0lAgNBKg
+         9WSg==
+X-Gm-Message-State: AOJu0Yz0XZUkscnbF422gHM/qsswMxYMwFwuRPmVoIOTMWDc227XZEOC
+        k4ugdWN6x3Ssmt3HzihuvKNSvg4HFTfCmU+8QqY=
+X-Google-Smtp-Source: AGHT+IHd7rr1o5/DM8MaSOY1Xm6sDHQFIzoJ4MgQEyjQu1bB5P2eRjAlweIAdPWb5cqMRT++IOnlNA==
+X-Received: by 2002:a2e:880a:0:b0:2bb:aa37:6517 with SMTP id x10-20020a2e880a000000b002bbaa376517mr4183616ljh.6.1693487379225;
+        Thu, 31 Aug 2023 06:09:39 -0700 (PDT)
+Received: from [192.168.0.11] ([94.180.116.119])
+        by smtp.gmail.com with ESMTPSA id m18-20020a2eb6d2000000b002b9ff8450aesm307433ljo.91.2023.08.31.06.09.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Aug 2023 06:09:38 -0700 (PDT)
+Message-ID: <cbae0c4d5fab4991f827fa1954adeb7182493d4b.camel@gmail.com>
+Subject: [PATCH] Adding quirk for Betop Titanwolf Hotas Bundle
+From:   Anton <llancelot7@gmail.com>
+Reply-To: llancelot7@gmail.com
+To:     benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org
+Date:   Thu, 31 Aug 2023 20:09:24 +0700
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230510-feature-ts_virtobj_patch-v4-2-5c6c0fc1eed6@wolfvision.net>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Aug 24, 2023 at 03:17:10PM +0200, Javier Carrasco wrote:
-> The overlay-touchscreen object defines an area within the touchscreen
-> where touch events are reported and their coordinates get converted to
-> the overlay origin. This object avoids getting events from areas that
-> are physically hidden by overlay frames.
-> 
-> For touchscreens where overlay buttons on the touchscreen surface are
-> provided, the overlay-buttons object contains a node for every button
-> and the key event that should be reported when pressed.
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
-> ---
->  .../bindings/input/touchscreen/touchscreen.yaml    | 152 +++++++++++++++++++++
->  1 file changed, 152 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-> index 895592da9626..d90cbb4932b5 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-> @@ -80,6 +80,158 @@ properties:
->    touchscreen-y-plate-ohms:
->      description: Resistance of the Y-plate in Ohms
->  
-> +  overlay-touchscreen:
-> +    description: Clipped touchscreen area
-> +
-> +      This object can be used to describe a frame that restricts the area
-> +      within touch events are reported, ignoring the events that occur outside
-> +      this area. This is of special interest if the touchscreen is shipped
-> +      with a physical overlay on top of it with a frame that hides some part
-> +      of the original touchscreen area.
-> +
-> +      The x-origin and y-origin properties of this object define the offset of
-> +      a new origin from where the touchscreen events are referenced.
-> +      This offset is applied to the events accordingly. The x-size and y-size
-> +      properties define the size of the overlay-touchscreen (effective area).
-> +
-> +      The following example shows the new touchscreen area and the new origin
-> +      (0',0') for the touch events generated by the device.
-> +
-> +                   Touchscreen (full area)
-> +         ┌────────────────────────────────────────┐
-> +         │    ┌───────────────────────────────┐   │
-> +         │    │                               │   │
-> +         │    ├ y-size                        │   │
-> +         │    │                               │   │
-> +         │    │      overlay-touchscreen      │   │
-> +         │    │                               │   │
-> +         │    │                               │   │
-> +         │    │            x-size             │   │
-> +         │   ┌└──────────────┴────────────────┘   │
-> +         │(0',0')                                 │
-> +        ┌└────────────────────────────────────────┘
-> +      (0,0)
-> +
-> +     where (0',0') = (0+x-origin,0+y-origin)
-
-What happens if touchscreen-inverted-x/y are set?
-
-Though the existing binding never defines what the non-inverted 
-orientation is.
-
-> +
-> +    type: object
-> +
-> +    properties:
-> +      x-origin:
-> +        description: horizontal origin of the clipped area
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +      y-origin:
-> +        description: vertical origin of the clipped area
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +      x-size:
-> +        description: horizontal resolution of the clipped area
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +      y-size:
-> +        description: vertical resolution of the clipped area
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +        required:
-> +          - x-origin
-> +          - y-origin
-> +          - x-size
-> +          - y-size
-> +
-> +  overlay-buttons:
-> +    description: list of nodes defining the buttons on the touchscreen
-> +
-> +      This object can be used to describe buttons on the touchscreen area,
-> +      reporting the touch events on their surface as key events instead of
-> +      the original touch events.
-> +
-> +      This is of special interest if the touchscreen is shipped with a
-> +      physical overlay on top of it where a number of buttons with some
-> +      predefined functionality are printed. In that case a specific behavior
-> +      is expected from those buttons instead of raw touch events.
-> +
-> +      The overlay-buttons properties define a per-button area as well as an
-> +      origin relative to the real touchscreen origin. Touch events within the
-> +      button area are reported as the key event defined in the linux,code
-> +      property. Given that the key events do not provide coordinates, the
-> +      button origin is only used to place the button area on the touchscreen
-> +      surface. Any event outside the overlay-buttons object is reported as a
-> +      touch event with no coordinate transformation.
-> +
-> +      The following example shows a touchscreen with a single button on it
-> +
-> +              Touchscreen (full area)
-> +        ┌───────────────────────────────────┐
-> +        │                                   │
-> +        │                                   │
-> +        │   ┌─────────┐                     │
-> +        │   │button 0 │                     │
-> +        │   │KEY_POWER│                     │
-> +        │   └─────────┘                     │
-> +        │                                   │
-> +        │                                   │
-> +       ┌└───────────────────────────────────┘
-> +     (0,0)
-> +
-> +      The overlay-buttons object can  be combined with the overlay-touchscreen
-> +      object as shown in the following example. In that case only the events
-> +      within the overlay-touchscreen object are reported as touch events.
-> +
-> +                  Touchscreen (full area)
-> +        ┌─────────┬──────────────────────────────┐
-> +        │         │                              │
-> +        │         │    ┌───────────────────────┐ │
-> +        │ button 0│    │                       │ │
-> +        │KEY_POWER│    │                       │ │
-> +        │         │    │                       │ │
-> +        ├─────────┤    │  overlay-touchscreen  │ │
-> +        │         │    │                       │ │
-> +        │         │    │                       │ │
-> +        │ button 1│    │                       │ │
-> +        │ KEY_INFO│   ┌└───────────────────────┘ │
-> +        │         │(0',0')                       │
-> +       ┌└─────────┴──────────────────────────────┘
-> +     (0,0)
-> +
-> +    type: object
-> +
-> +    patternProperties:
-> +      '^button-':
-> +        type: object
-> +        description:
-> +          Each button (key) is represented as a sub-node.
-> +
-> +        properties:
-> +          label:
-> +            $ref: /schemas/types.yaml#/definitions/string
-> +            description: descriptive name of the button
-> +
-> +          linux,code: true
-> +
-> +          x-origin:
-> +            description: horizontal origin of the button area
-> +            $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +          y-origin:
-> +            description: vertical origin of the button area
-> +            $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +          x-size:
-> +            description: horizontal resolution of the button area
-> +            $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +          y-size:
-> +            description: vertical resolution of the button area
-> +            $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +        required:
-> +          - linux,code
-> +          - x-origin
-> +          - y-origin
-> +          - x-size
-> +          - y-size
-
-We have the same properties defined twice. Move all the common ones to a 
-$def entry and then reference it here and in overlay-touchscreen.
-
-$defs:
-  overlay-node:
-    type: object
-    properties:
-      x-origin:
-      ...
-
-And then here:
-
-'^button-':
-  $ref: '#/$defs/overlay-node
-  unevaluatedProperties: false
-
-  properties:
-    label:
-      ...
+Patch for enabling quirk for Betop Titanwolf Hotas Bundle joystick where mi=
+ssing one axis and second Hat
 
 
-Rob
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 8a310f8ff20f..3d5abb9b2891 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -249,6 +249,7 @@
+ #define USB_VENDOR_ID_BETOP_2185PC	0x11c0
+ #define USB_VENDOR_ID_BETOP_2185V2PC	0x8380
+ #define USB_VENDOR_ID_BETOP_2185V2BFM	0x20bc
++#define USB_DEVICE_ID_BETOP_TWOLF_HOTAS_BUNDLE 0x5608
+=20
+ #define USB_VENDOR_ID_BIGBEN	0x146b
+ #define USB_DEVICE_ID_BIGBEN_PS3OFMINIPAD	0x0902
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 3983b4f282f8..6d5e5e9f637a 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -206,6 +206,7 @@ static const struct hid_device_id hid_quirks[] =3D {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_WISEGROUP, USB_DEVICE_ID_QUAD_USB_JOYPAD),=
+ HID_QUIRK_NOGET | HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_XIN_MO, USB_DEVICE_ID_XIN_MO_DUAL_ARCADE),=
+ HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_GROUP_AUD=
+IO), HID_QUIRK_NOGET },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_BETOP_2185PC, USB_DEVICE_ID_BETOP_TWOLF_HO=
+TAS_BUNDLE), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
+=20
+ 	{ 0 }
+ };
+
