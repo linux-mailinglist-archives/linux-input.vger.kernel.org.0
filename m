@@ -2,88 +2,142 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E52778F2ED
-	for <lists+linux-input@lfdr.de>; Thu, 31 Aug 2023 20:54:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93D5278F66B
+	for <lists+linux-input@lfdr.de>; Fri,  1 Sep 2023 02:37:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346714AbjHaSyB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 31 Aug 2023 14:54:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47390 "EHLO
+        id S1347951AbjIAAhp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 31 Aug 2023 20:37:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239952AbjHaSyA (ORCPT
+        with ESMTP id S1347948AbjIAAho (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 31 Aug 2023 14:54:00 -0400
-Received: from mail.gnu-linux.rocks (unknown [82.165.184.165])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D28AE64;
-        Thu, 31 Aug 2023 11:53:56 -0700 (PDT)
-Received: from localhost.localdomain (unknown [95.91.250.92])
-        by mail.gnu-linux.rocks (Postfix) with ESMTPSA id 662ED3FC1A;
-        Thu, 31 Aug 2023 18:53:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnu-linux.rocks;
-        s=mail; t=1693508034;
-        bh=7imahw4z5cLGzUlIZ+ONUMGcCu5zD8w6Z7f3ADNu7oY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ejaoxn2g9e4y1GSPm1RlGBOCiwj7I4V+d2wGzwbvUkP50WHgOLMIYNTfHJjXGGSyU
-         H9DxxrqCPbOOZ/QUwg/ZIpgn83vcPSGopaBdrWUB4IQrg8Cb+mpReIG2RR1lhAscLV
-         jCKz6B88eQuXetUlVO4ffw2TYCKqhY5Z6uZGBZXXjKdbbIRHEeWNo4jbSVCIXFxsu4
-         20KxmmOrb404v5fkA1AW50gkZsZxLUPCdSiq1alpeldB78AWW6eAv3FKvWWVFPTu3X
-         SxnQdR25Qqni7hYOZTtDWxF6F+91GUSJQRE7nzByT950OldHZ1bQleX1revd7mnCdk
-         cbfmzlLXBCIPg==
-From:   Johannes Roith <johannes@gnu-linux.rocks>
-To:     sergeantsagara@protonmail.com
-Cc:     ak@it-klinger.de, andi.shyti@kernel.org,
-        benjamin.tissoires@redhat.com, christophe.jaillet@wanadoo.fr,
-        jikos@kernel.org, johannes@gnu-linux.rocks,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rdunlap@infradead.org
-Subject: Re: [PATCH v5] hid-mcp2200: added driver for GPIOs of MCP2200
-Date:   Thu, 31 Aug 2023 20:53:43 +0200
-Message-ID: <20230831185343.211651-1-johannes@gnu-linux.rocks>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <87a5unt25h.fsf@protonmail.com>
-References: <87a5unt25h.fsf@protonmail.com>
+        Thu, 31 Aug 2023 20:37:44 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59950E55
+        for <linux-input@vger.kernel.org>; Thu, 31 Aug 2023 17:37:41 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-500bb392ab7so2549642e87.1
+        for <linux-input@vger.kernel.org>; Thu, 31 Aug 2023 17:37:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1693528659; x=1694133459; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rYdpUn9gLAoEvJd9iNxNuu7nuI2TvK4K+oqwqFNmkh0=;
+        b=U86Na8YNKJSoxERzfugxeheT2Y7+S44GNWCqp9iPl+2Uohwc7EIo+8zY1xN5CefXLn
+         Ln5X12BQVrrO3exhFFwqN1RA++qFJ6Jly2RJasyXOY+dBVPSoMRp5/cAJ6lG/jbWSEmf
+         H6KqOIaqmNKYufw9QYq8IFOshncShOE8RWHd3u7pOxx4ZNcj16Q044nu5eQ12+8eaklU
+         Lp6Z7TF5eDKRWgCs5e9oZd/xsOvU57HhXNYSsnwbKzSsmQmDZKu1BpvHIBO6KGEoCMRI
+         Cwe3z3hHH4bDhtvxOorF/u8qBf+pXTYYyuQ22i117IAPa7oS/XhEbo/RZRfsXQBvoyqZ
+         5Ppg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693528659; x=1694133459;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rYdpUn9gLAoEvJd9iNxNuu7nuI2TvK4K+oqwqFNmkh0=;
+        b=cHEvv8zPi5BH/G1fgzgVVAvikDg7Xy+Liy2DrGgOkLnbQcai9B13wrM2ql0OIUQKoz
+         GHGpYZ/eUv0P8W5uJR8K0PSPZYk46tiiKwU45uBOEUZvjKCMK39JyMwaaxJ9m2hVV2h7
+         pmzNKi+TMWX9AjrObuOT609a42aVsQUQAfUpI1PUhKAx6aEylWRmPGLnt3xmOWKJCK9X
+         5jx6+erLI6/NSxpTvM9NnqIUxWqw7zHwzVNY9+o8ivTyDVizTVxyzdArejC1b2r2gUah
+         qCKwuw0ssXzrS4CKdsrs35Y90/xKcqeQc0zhqcrxZZBhCk0DsW3Sb0TuC7CkLhwgFp95
+         58hw==
+X-Gm-Message-State: AOJu0YxtoyGrUu2hcxz0VN6Olv2VEPzMIeNIiwMzM1qb/GQQKGkb1JXB
+        JZansLV+YMxN9ksB8sMD5mJxUg==
+X-Google-Smtp-Source: AGHT+IHzu5ZJZb0x3sS/i4MWS/1/KBJVuPzd/Xj0UNFvrnHyTKgAclHTUw9A6fBqNzsQCtkSauh5CQ==
+X-Received: by 2002:a05:6512:ac3:b0:4f9:5a87:1028 with SMTP id n3-20020a0565120ac300b004f95a871028mr600403lfu.30.1693528659636;
+        Thu, 31 Aug 2023 17:37:39 -0700 (PDT)
+Received: from [192.168.1.101] (abxh154.neoplus.adsl.tpnet.pl. [83.9.1.154])
+        by smtp.gmail.com with ESMTPSA id x11-20020ac259cb000000b004fe9d0a417dsm467382lfn.185.2023.08.31.17.37.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 31 Aug 2023 17:37:39 -0700 (PDT)
+Message-ID: <5b46f0ab-afb4-475d-b338-ed230c8b4343@linaro.org>
+Date:   Fri, 1 Sep 2023 02:37:37 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,RDNS_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 2/2] Input: Add Novatek NT36xxx touchscreen driver
+Content-Language: en-US
+To:     Joel Selvaraj <joelselvaraj.oss@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>
+Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Dang Huynh <danct12@riseup.net>,
+        Amit Pundir <amit.pundir@linaro.org>
+References: <20230808-topic-nt36xxx-v10-0-dd135dfa0b5e@linaro.org>
+ <20230808-topic-nt36xxx-v10-2-dd135dfa0b5e@linaro.org>
+ <2980f5e6-40b0-4ab2-ae73-bceeb97b4de5@gmail.com>
+ <17542518-42ff-46f6-8304-fb8a214bfa77@linaro.org>
+ <500b52ee-02e5-4809-b03b-21a9ad6d2b30@gmail.com>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <500b52ee-02e5-4809-b03b-21a9ad6d2b30@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Rahul,
-
-thanks for the feedback, I will add it to the driver.
-
-> My personal recommendation is to just have a single DMA buffer allocated
-> for the mcp2200 instance rather than having to call the allocator and
-> release the memory per command.
-
-I added an 16-byte Array hid_report to the mcp2000 struct. When I need the
-report, I do the following:
-
-struct mcp_set_clear_outputs *cmd;
-
-mutex_lock(&mcp->lock);
-cmd = (struct mcp_set_clear_outputs *) mcp->hid_report
-
-Do you think this is a valid implementation or do I really have to add a
-pointer to the mcp2200 struct instead of the 16 byte array and allocate 
-another 16 byte for it in the probe function?
-
-> The reason you run into this is likely because of the action added to
-> devm conflicting with hid_device_remove....
+On 18.08.2023 00:17, Joel Selvaraj wrote:
+> Hi Konrad,
 > 
-> I recommend not depending on devm for teardown rather than making a stub
-> remove function to work around the issue.
+> On 8/16/23 12:36, Konrad Dybcio wrote:
+>> Do you have your end outcome somewhere?
+> 
+> Here is the driver changes on top of upstream "drivers/input/touchscreen/novatek-nvt-ts.c"
+> 
+> Link: https://gitlab.com/sdm845-mainline/linux/-/commit/d2f7702a7f6a72eaf2655840036668398942c194
+> 
+> and here is how I specified it in the Poco F1 dts:
+> 
+> Link: https://gitlab.com/sdm845-mainline/linux/-/commit/4dd6e4578cc737d2584c7f9657f9f185effe9035
+> 
+> Regards
+> Joel Selvaraj
+Hm, the one present in mainline is quite lackluster compared to this
+one that Angelo made..
 
-I am not sure, if I have understand this correctly, but basically I already
-have a stub remove function (which is empty). First the remove function gets
-called, then the unregister function and everything is cleaned up correctly.
-Did I get this right or do you have any other recommendation for me?
-
-So, do I need any adaptions, or can we go with the empty remove function?
-
-Best regards,
-Johannes
+Konrad
