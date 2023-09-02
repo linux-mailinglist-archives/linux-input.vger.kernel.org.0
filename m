@@ -2,157 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C39E2790268
-	for <lists+linux-input@lfdr.de>; Fri,  1 Sep 2023 21:09:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 623437907D3
+	for <lists+linux-input@lfdr.de>; Sat,  2 Sep 2023 14:36:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229824AbjIATJ3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 1 Sep 2023 15:09:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36242 "EHLO
+        id S233448AbjIBMgW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 2 Sep 2023 08:36:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238245AbjIATJ3 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 1 Sep 2023 15:09:29 -0400
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B118E72
-        for <linux-input@vger.kernel.org>; Fri,  1 Sep 2023 12:09:26 -0700 (PDT)
-Date:   Fri, 01 Sep 2023 19:09:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1693595363; x=1693854563;
-        bh=ImkVTB6Eef9MpGOG02YDoPGVu4sTlusc1n2LFTxU49o=;
-        h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-         Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-        b=cHRXi79fRe+xLYXflhEeHm4R1Zg/AtyB5Qn7H2iPavusBbXSVvs62ncqEgfT5plyW
-         2pPTeByThBA+37ie6AI2Rr1YC8TXoI0qcUzESr9uzqQpI2Q2DzE7mn/2cMX/BeTb9K
-         T9JuB1uZv/VOQZlX7y84xNvJCTNhpMFQo/FbAX+8QPf0DKCrgeCItw8jNsiLU2tSmG
-         rl+yUO5136qGxBMwr1IsEwIC53tSihJ4EZJG7iNh/4+tWK9abFzvMDBgkXSaZ5nx8X
-         DI7kbZSP0YQiN3W9aDaywUnIGVmFfhc+GM3wbbBZd4eVyKeMF0OUJuRhLrjftCYFN9
-         /btZEyqAcsEtw==
-To:     Johannes Roith <johannes@gnu-linux.rocks>
-From:   Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc:     ak@it-klinger.de, andi.shyti@kernel.org,
-        benjamin.tissoires@redhat.com, christophe.jaillet@wanadoo.fr,
-        jikos@kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, rdunlap@infradead.org
-Subject: Re: [PATCH v5] hid-mcp2200: added driver for GPIOs of MCP2200
-Message-ID: <87ledpvhgm.fsf@protonmail.com>
-Feedback-ID: 26003777:user:proton
+        with ESMTP id S232331AbjIBMgV (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 2 Sep 2023 08:36:21 -0400
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DFAB10E4
+        for <linux-input@vger.kernel.org>; Sat,  2 Sep 2023 05:36:18 -0700 (PDT)
+Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-55b78bf0423so354603a12.0
+        for <linux-input@vger.kernel.org>; Sat, 02 Sep 2023 05:36:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693658178; x=1694262978; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ff1EF+REprO4LHaL62AYjvodoxlE3qLUS2PFpiCsR68=;
+        b=eJjU0YaE7c6XC9GFT/JA7UvUkSwCLlKBtMAwwkDe5TwNog3w6A+yKgfOWm4kCYY+pZ
+         wcr5zV01A8ABUD9AvDI+YJ05oyaUQGdw4kXfdoyuiGRaF6gs6uncaXRBNhQwEpacJPm2
+         LCQ6RwwwQN3fDZVMO4RNlxBj8OWuaZUZbSqJOrwyL5f1a3nPH10iaIbRA3vApUjievDE
+         PBBZqybKqHjebPwVewlJJa3YiRAMhh3aOMlaKNvEuhvhUbbFQoyi6Tyxd/cVwVON+PpV
+         LrXFoNETlAQisp67Fk/VHdhh0kpGkBu65TRCVzwVRoaB8+o3yU6WPK3uF06xURAZlRnf
+         jHzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693658178; x=1694262978;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ff1EF+REprO4LHaL62AYjvodoxlE3qLUS2PFpiCsR68=;
+        b=W1FMpfXuaDhvBcWTHRycQ6eI9KMez28Hs1lbYxX6PALQdCgQUc3PoBvuDy3ZzCWZAd
+         WnV8x4sbfzE8p6QiC/T/yRhuVDCkbfQZh7LjLy6uzHl/YBva1+FYV7y/GKh5yxhq9PfW
+         9POA05dwgzTh2roDf25rzmUgqH8i13qB7cpPPYYhtfrtoChgiBKKOucUlIYBlwxNjKx6
+         3pAjjKJjrM1gw5UutQHD7qQwS0FpMbDVsrU71Z6kFbKWpAXJzoFd9/Pe1YKbf8Mr3Knv
+         wS+/L6ndKHb0B8pcmP34GuIqzM18pqDz5ou2PoQX4obVJkuOTjtM9CSxZPANKbRfgsx5
+         dv9Q==
+X-Gm-Message-State: AOJu0YyTT+kSnGQOV14HcuBeJOqSiNMav2IQjXdSfvd5QECCSO6G/3CV
+        qBn4k+1AbZq89AUZ3iLsUxlRliyog/+eIuVaCdpvG/ZiNDCg/g==
+X-Google-Smtp-Source: AGHT+IFHqmBL54s2uNeJXx1Epg1giL7xvHmxedJ4Bq0g6Km4oxpt7hAnCd0xgrsyfbMEOsbACuHA2KGXWOU5VEvrERw=
+X-Received: by 2002:a17:902:d505:b0:1c0:bf60:ba4f with SMTP id
+ b5-20020a170902d50500b001c0bf60ba4fmr6205034plg.4.1693658177826; Sat, 02 Sep
+ 2023 05:36:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <27ZF1I9PL9SUH.27UHPHBWRZ1LC@homearch.localdomain>
+ <20230720233150.57164-2-tinozzo123@gmail.com> <38NABT0Q0GDC0.32EJOTLAGT0T2@homearch.localdomain>
+ <CAKst+mAnPmLLCCdJWQdz2d=dUZmuUHNxT_+rs+R_Z7981hS7xA@mail.gmail.com> <2XDNP3MKLE5L5.3MQT6EJ99UJBR@homearch.localdomain>
+In-Reply-To: <2XDNP3MKLE5L5.3MQT6EJ99UJBR@homearch.localdomain>
+From:   Martino Fontana <tinozzo123@gmail.com>
+Date:   Sat, 2 Sep 2023 14:36:06 +0200
+Message-ID: <CAKst+mBUwqMQcY3bAT=rTSMJrmXAzQizL6OWXUkUi8hjmb=12Q@mail.gmail.com>
+Subject: Re: [PATCH v2] HID: nintendo: reinitialize USB Pro Controller after
+ resuming from suspend
+To:     Silvan Jegen <s.jegen@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi
 
-On Thu, 31 Aug, 2023 20:53:43 +0200 "Johannes Roith" <johannes@gnu-linux.ro=
-cks> wrote:
-> Hi Rahul,
+Is this patch (alongside "cleanup LED code") expected to land for Linux 6.6?
+I'm asking because I can't find the patch in `for-next`.
+https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/log/?h=for-next
+(Since it's my first patch here, I don't know if it's supposed to be seen
+there.)
+
+Cheers
+
+On Sun, 23 Jul 2023 at 20:58, Silvan Jegen <s.jegen@gmail.com> wrote:
 >
-> thanks for the feedback, I will add it to the driver.
+> Heyho
 >
->> My personal recommendation is to just have a single DMA buffer allocated
->> for the mcp2200 instance rather than having to call the allocator and
->> release the memory per command.
+> Martino Fontana <tinozzo123@gmail.com> wrote:
+> > It is my first patch on the Linux kernel, so I just did kinda what I
+> > would do on GitHub (amend and force push).
+> > What should I do here in case of trivial adjustments?
 >
-> I added an 16-byte Array hid_report to the mcp2000 struct. When I need th=
-e
-> report, I do the following:
+> I would leave it as is and only respin this one if either there are more
+> comments on the old version or if the maintainer tells you to.
 >
-> struct mcp_set_clear_outputs *cmd;
+> BTW, just as a heads-up: posting an email reply at the top of the quoted
+> email (aka "top-posting") is frowned upon in the Linux mailing lists. See
 >
-> mutex_lock(&mcp->lock);
-> cmd =3D (struct mcp_set_clear_outputs *) mcp->hid_report
+> https://people.kernel.org/tglx/
 >
-> Do you think this is a valid implementation or do I really have to add a
-> pointer to the mcp2200 struct instead of the 16 byte array and allocate
-> another 16 byte for it in the probe function?
-
-This works fine since the mcp2000 struct will be dynamically allocated.
-The reason I went with a separate allocation for the buffer was just to
-make it explicitly clear that no matter how a thunderstrike instance is
-set up, the buffer will need to be dynamically allocated for hid
-requests.
-
->> The reason you run into this is likely because of the action added to
->> devm conflicting with hid_device_remove....
->>
->> I recommend not depending on devm for teardown rather than making a stub
->> remove function to work around the issue.
-
-I have reinserted the relevant code from the core hid stack in my
-previous email since it's important for this discussion.
-
-    static void hid_device_remove(struct device *dev)
-    {
-      struct hid_device *hdev =3D to_hid_device(dev);
-      struct hid_driver *hdrv;
-
-      down(&hdev->driver_input_lock);
-      hdev->io_started =3D false;
-
-      hdrv =3D hdev->driver;
-      if (hdrv) {
-        if (hdrv->remove)
-          hdrv->remove(hdev);
-        else /* default remove */
-          hid_hw_stop(hdev);
-
-  hid_device_remove will call hid_hw_stop and so will
-  mcp2200_hid_unregister because of the devm action you added.
-
+> for some pointers regarding netiquette.
 >
-> I am not sure, if I have understand this correctly, but basically I alrea=
-dy
-> have a stub remove function (which is empty). First the remove function g=
-ets
-> called, then the unregister function and everything is cleaned up correct=
-ly.
-> Did I get this right or do you have any other recommendation for me?
-
-Let me try to break down the problem first.
-
-1. You add mcp2200_hid_unregister to the devm actions for clean up the
-   device.
-2. mcp2200_hid_unregister will call hid_hw_close and hid_hw_stop,
-   tearing down the device.
-3. hid_device_remove is invoked when the device is removed, which
-   already calls hid_hw_stop when no remove function is registered (the
-   expectation is the device is simple when this is the case)
-4. This leads to the device already being torn down, which leads to the
-   exception seen when the devm kicks in and mcp_hid_unregister is then
-   triggered.
-5. Using an empty remove function resolves this but indicates the driver
-   has an inappropriate devm action in my opinion/has problematic
-   design.
-
-I am saying that using an empty remove function to work
-around the problem is not an upstream-able solution in my opinion.
-
-Given this, I think its best to not use devm in this can and manually
-handle cleanup, so you do not have a stub remove function and take
-control of the teardown.
-
-> So, do I need any adaptions, or can we go with the empty remove function?
-
-That said, maybe someone else can chime in on this to see if this aligns
-with others' preferences? At the very least though if others feel using
-an empty remove function is ok, I think the comment in the remove
-function needs to updated to add clear detail about the issue than what
-is currently provided. That said, I am very much against using an empty
-remove function to work around problematic devm practices.
-
- =09/*
- =09 * With no remove function you sometimes get a segmentation fault when
- =09 * unloading the module or disconnecting the USB device
- =09 */
-
---
-Thanks,
-
-Rahul Rameshbabu
-
+> Cheers,
+> Silvan
