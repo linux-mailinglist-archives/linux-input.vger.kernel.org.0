@@ -2,73 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7657B790FE3
-	for <lists+linux-input@lfdr.de>; Mon,  4 Sep 2023 04:06:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAF4E791283
+	for <lists+linux-input@lfdr.de>; Mon,  4 Sep 2023 09:46:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244325AbjIDCGy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 3 Sep 2023 22:06:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38054 "EHLO
+        id S240465AbjIDHqn convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Mon, 4 Sep 2023 03:46:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350794AbjIDCGx (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 3 Sep 2023 22:06:53 -0400
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D19110E
-        for <linux-input@vger.kernel.org>; Sun,  3 Sep 2023 19:06:49 -0700 (PDT)
-Received: by mail-qt1-x833.google.com with SMTP id d75a77b69052e-411f5dd7912so7648601cf.3
-        for <linux-input@vger.kernel.org>; Sun, 03 Sep 2023 19:06:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693793208; x=1694398008; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QEzM+W+OEmpHfEeEaAySJoGydPuqhtpau7d10u77fwA=;
-        b=Kf3xlvTikq/uRKIDynJTD5LfdtJtaND2aUUP7fzD3Wns94ODWeqFnYko+US1/JQtmi
-         SSSLED1IJhkOnf4Hm++rmgh8+e6GkhrL+quBrcJBbOfdZWyMfE7KvAeSUdSqNUmN5CDG
-         F/YpAy2aj4/QMt39tumLXHf81nDqepMmubpJ14rT2g8zpB6c8QIJ8faN+/yMaLVDQ342
-         OQxAs3Vmd2hnZ0W4JxWdUyfOBlalfd2Gqm/VYVtttWq9JWnij2Y3Tr4cMi5Hf+UsBjxr
-         27fLiEI8Dm1+bS/ssSbAc08tJQuQDfPWL1uRMDwiv6PlND3sfvfsfNMDcwrCTVtiZcGC
-         kM1g==
+        with ESMTP id S1348138AbjIDHql (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 4 Sep 2023 03:46:41 -0400
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80272F0;
+        Mon,  4 Sep 2023 00:46:37 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-d7e6d9665bcso1021252276.1;
+        Mon, 04 Sep 2023 00:46:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693793208; x=1694398008;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QEzM+W+OEmpHfEeEaAySJoGydPuqhtpau7d10u77fwA=;
-        b=WpYEXWVPjvqdCaoZylv/mhGHotQ6mKd1G2ZSNdVU1PbYnjyUiTLKoUOZsqm5mf5yU0
-         cyxmO96HFjVvjbj9E78wUEazvzfE7hQPpX5qS2Gzt9vA5SSQjEhqJZi1FLLN1/vIYKhz
-         0xoLwNnSYVXfr5qOWKvkmm0rdXqfpsVHgP+NF/UE2f/eMByxUs4RaNMrHkRr5k6S5qHi
-         gdONHr3wNlnmjLEOLLeSS/8jk47GcQRzrj05QU0y647YFQMl7tcBykTl9ZpFWjoWSXXo
-         X1FkJtJ6xh5D+Or33SpFF45cydTZrN/XlTSML134NxXc5i0DX5Y0X+VYMiFF3Vu7N9tz
-         qmyQ==
-X-Gm-Message-State: AOJu0Yyhi4LttHkGZLx7tXhiCWLPTTgpuRTN/gcFrBWF7DwrXx/6zjlb
-        hipXl08BAwKy/O7uwFX62Ell5xJMo7cHgYB0U3o=
-X-Google-Smtp-Source: AGHT+IHfruWQC12OZTBDVvii1fOAymwQSAxlHmaMJY41lK0KMf3ugUllLO2kVC+Px4736wr5sVgmA67A42Z9cD81DfY=
-X-Received: by 2002:a05:622a:148:b0:412:f12:239f with SMTP id
- v8-20020a05622a014800b004120f12239fmr12778775qtw.5.1693793208188; Sun, 03 Sep
- 2023 19:06:48 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1693813596; x=1694418396;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9C+8Z665O4fvCEaAa7Pbx2XZtf5Iax3NtZdPGFPP7KY=;
+        b=lFEa/m5s4MQghmXDcQKYzaI0xjMngVW4oJtR+dvosIOBFHA2CkcyYNZao7VZa+kXzj
+         /it8TuIBl1GwMaGTNkt1cID5zj9VobsZWucEXEW6xN2o/vlsQx638HzjoaonVW80Y3Nl
+         NxRYCDbDaE+GyG/TFfoA5qLQO+fitVrTmzvMzw78AMKFQwhAxCRw8O//GYhWzz7ClZSm
+         JJfs9u7geQQYOGSlwwT9rVFdWI6Jr308v3VWUL8FHdJSjdAzCXz2xChx6vlJo9x8aJVJ
+         fYRU6ObCwDhoNvjxJGr+sGs+sA8JzIlUEpIDVxOU7an5CWEU43DtRgwevS0iMiHIqlVB
+         fb4w==
+X-Gm-Message-State: AOJu0YxsVTiBT05UN1ir1jr14rOL+OSJN74X51AxwHZyxWw4E3ImeVwL
+        hpxlVI7C7eHypt9anriU2Q03p94TwbA4Fw==
+X-Google-Smtp-Source: AGHT+IE+ZLx+8RIWWK4oxbp5N6Vc4rXHG/Oy1WybUloYxCpNFsXhbH17f0eP7RjmUX0Jo6+v1mMdeQ==
+X-Received: by 2002:a25:d04b:0:b0:d15:454e:8ecd with SMTP id h72-20020a25d04b000000b00d15454e8ecdmr9898334ybg.13.1693813596562;
+        Mon, 04 Sep 2023 00:46:36 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id c198-20020a25c0cf000000b00d71855984b5sm2226168ybf.18.2023.09.04.00.46.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Sep 2023 00:46:36 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-d77a4e30e97so1021193276.2;
+        Mon, 04 Sep 2023 00:46:36 -0700 (PDT)
+X-Received: by 2002:a25:b191:0:b0:d7e:44de:1c1 with SMTP id
+ h17-20020a25b191000000b00d7e44de01c1mr9569214ybj.14.1693813595936; Mon, 04
+ Sep 2023 00:46:35 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:622a:1708:b0:404:12aa:90d7 with HTTP; Sun, 3 Sep 2023
- 19:06:47 -0700 (PDT)
-Reply-To: ava014708@gmail.com
-From:   "Dr. Ava Smith" <profbencarter@gmail.com>
-Date:   Mon, 4 Sep 2023 03:06:47 +0100
-Message-ID: <CAOmSZDbHSwrc=ns8D0hDnNLyicgZfjYjFqThJU=rr76+wggyUQ@mail.gmail.com>
-Subject: Hi
-To:     undisclosed-recipients:;
+References: <20230903160349.3919-1-sensor1010@163.com>
+In-Reply-To: <20230903160349.3919-1-sensor1010@163.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 4 Sep 2023 09:46:24 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWdxveto0Vfv5jswk+PrkcvFgh2tA1xjDpd7i3Cds_FhQ@mail.gmail.com>
+Message-ID: <CAMuHMdWdxveto0Vfv5jswk+PrkcvFgh2tA1xjDpd7i3Cds_FhQ@mail.gmail.com>
+Subject: Re: [PATCH] input: gpio-keys - use spin_lock()
+To:     Lizhe <sensor1010@163.com>
+Cc:     dmitry.torokhov@gmail.com, Jonathan.Cameron@huawei.com,
+        soyer@irl.hu, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS,UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Lizhe,
+
+Thanks for your patch!
+
+On Sun, Sep 3, 2023 at 6:04 PM Lizhe <sensor1010@163.com> wrote:
+> Use the spin_lock() and spin_unlock() instead of spin_lock_irqsave()
+> and spin_unlock_restore()
+
+Please explain why...
+
+> Signed-off-by: Lizhe <sensor1010@163.com>
+
+> --- a/drivers/input/keyboard/gpio_keys.c
+> +++ b/drivers/input/keyboard/gpio_keys.c
+> @@ -468,11 +468,10 @@ static irqreturn_t gpio_keys_irq_isr(int irq, void *dev_id)
+>  {
+>         struct gpio_button_data *bdata = dev_id;
+>         struct input_dev *input = bdata->input;
+> -       unsigned long flags;
+>
+>         BUG_ON(irq != bdata->irq);
+>
+> -       spin_lock_irqsave(&bdata->lock, flags);
+> +       spin_lock(&bdata->lock);
+>
+>         if (!bdata->key_pressed) {
+>                 if (bdata->button->wakeup)
+> @@ -495,7 +494,7 @@ static irqreturn_t gpio_keys_irq_isr(int irq, void *dev_id)
+>                               ms_to_ktime(bdata->release_delay),
+>                               HRTIMER_MODE_REL_HARD);
+>  out:
+> -       spin_unlock_irqrestore(&bdata->lock, flags);
+> +       spin_unlock(&bdata->lock);
+>         return IRQ_HANDLED;
+>  }
+
+Are you sure this is safe, given the interrupt is requested with
+devm_request_any_context_irq(), and thus the handler may be registered
+using either request_irq() or request_threaded_irq()?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-Hello Dear,
-how are you today? I hope you are fine
-My name is Dr. Ava Smith, I Am an English and French nationality.
-I will give you pictures and more details about me as soon as I hear from you
-Thanks
-Ava
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
