@@ -2,60 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE0097939C4
-	for <lists+linux-input@lfdr.de>; Wed,  6 Sep 2023 12:25:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C0DE7939DD
+	for <lists+linux-input@lfdr.de>; Wed,  6 Sep 2023 12:29:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235408AbjIFKZ4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Sep 2023 06:25:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40686 "EHLO
+        id S233613AbjIFK3G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Sep 2023 06:29:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230389AbjIFKZz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Sep 2023 06:25:55 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCF57E47;
-        Wed,  6 Sep 2023 03:25:50 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-52a1c58ef30so1053095a12.1;
-        Wed, 06 Sep 2023 03:25:50 -0700 (PDT)
+        with ESMTP id S239049AbjIFK3G (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Sep 2023 06:29:06 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3F51171F;
+        Wed,  6 Sep 2023 03:29:01 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-9a1d9b5dc64so96718766b.1;
+        Wed, 06 Sep 2023 03:29:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693995949; x=1694600749; darn=vger.kernel.org;
+        d=gmail.com; s=20221208; t=1693996140; x=1694600940; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ci/ELsipo0gd0dH4A82+2RtSVRggb4j1DAuDHo22Q9Q=;
-        b=FM6Z9y4HtBWZ+OBmjbSqd0z97+HitVFxv2Yh1S8uGlu+XNzD3Dv1GPanBx3fNW3Hmj
-         +GiXV/dBqawREnkboDBkmOmwZbeDpmRs8XqnpJC8eY60z+Z3xWYChXn7tAgTOQU7+twH
-         tvJHa562/i/ZfyWwUCERoGLacI5gkXgEwLfNugaUQFgsjQ5+uFNkj79s00tXJyq9wFUH
-         cZWNrTPoNjTypr1SSPGdWVdObtwb/FIdiu1Ss1gEY41CdHpGBcr0LHqJbsRSxYLWp7yN
-         m46kOm30QCcE3N6a8lkd4Tqh+s7xYGU+nK6+2lRxlka8+wGzHdY+5x/jBqfBb627kj8B
-         e2Jw==
+        bh=Vd+9rnQ6cnFdF0qBt6D5Trk5JH+UbDhEI58U1iEBhMA=;
+        b=qBTI3mYiATQo4KbW4OgQvGCjBmtHMr75NgabTMYrPLS5lGLWtTmN+Au0I1ULJZ6c4b
+         yKV8sylxYnBsYTCDXRKTX6qM7MIJ3XvEUOuA0KVCpToHhdX+J1kW0l3waTf5S9UWcUp5
+         XiHa+5ut9yWhpLVdLxa94xUcdITAsXNl9nTNkmnPx5YLyLadQ4qLi3HhsBwRZn6golWm
+         byjbTiiXxOkFs7sBPfblulPIAHcXndFv+x7F/ypBnTAnUnIjBv+M5QcfzNoFVx1HkjdH
+         qWn2sKL5YhmC6t+ljIdp9smHypbhzH6lQ9QjcV4onRN6C7iXVGce1T2zALjnvRvY3jd2
+         Ialg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693995949; x=1694600749;
+        d=1e100.net; s=20221208; t=1693996140; x=1694600940;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ci/ELsipo0gd0dH4A82+2RtSVRggb4j1DAuDHo22Q9Q=;
-        b=JUlYYRkHh047XnRpqcxVvuaOuEqXNAc8GKbhyXiR3DNwGlIOdW1rPOz8eWzXqlKPDo
-         d2ffMoVXLg5F8FZM8uthCyFZtdXrSt4CjvQzyiLOgJE4+jP7GlWaJtkq1jUR6/gBEmwI
-         t5guy9piC8oUHrM48leJeYUyQwGTI+VUdfDNJMDpQrViaMC0WxIaXir1Up5bhGINh+Te
-         Q9sqwQfLtiN+XLNBe/06T5FcKYVEy/c+/kEr9lbHf29XuqFnYpWuk7YS/luFIZN2wwrx
-         whjSpjIZHEXXrZmerZucb02dVUV6gRlnSbDEwDersjyeJ6rULVFoFRavw2wB5NYJ6tvx
-         z30Q==
-X-Gm-Message-State: AOJu0YzPYh9Mbgohj19i/KH2nn+KqGolzZlaZ1Jf5Oc5+fTCJFUr/O3J
-        lJAVr1x0ViDwfCBYXmZT3Fg=
-X-Google-Smtp-Source: AGHT+IHZs0ML1rnXrtyFgcY9LcYJ2FxDIAnIIChJszpYfo6bMfx2A1WKQBg/InjODbvg4ZaONjBPTw==
-X-Received: by 2002:a05:6402:4304:b0:523:100b:839a with SMTP id m4-20020a056402430400b00523100b839amr11584415edc.0.1693995948998;
-        Wed, 06 Sep 2023 03:25:48 -0700 (PDT)
+        bh=Vd+9rnQ6cnFdF0qBt6D5Trk5JH+UbDhEI58U1iEBhMA=;
+        b=cg6alygPnTxa1na41qLf4mESX+7EHTK9Ao7EHcY2EqaWnVInuVkiVAaJh0kPpUx1bn
+         nMK/mwkx+kzlFekwwOkb79zj31Qtvf7B+OVuNm/+iq0NBYh+da7N0tpzKMKqUWuF8X/P
+         b2jfYLVXuimtDQtAJ7CAjscQ/vxmqNrXukxEnznWI/c+HlZMLFTuRWNY/A6OJUYTI4B4
+         PrpaG4Y/IIsyFa2biw5Eg2nTss12R9R/T1mXoNQx2RLmEnb0D4r38Z7Rggh2B+yxfWGJ
+         VPJsuYK0jZbAcR4RsLGD0dtoq/ldY6/9AxXv8gLzTuAGif4mgE9sG9cfPxl7TJm7MSPH
+         7ooA==
+X-Gm-Message-State: AOJu0Ywp4gAVqOXGXmpCM52Qh6j/+TM4FE65BAFHTSBG4ti/l2saXRFh
+        iaGKgTL6FSbzBf45l6xp/D4=
+X-Google-Smtp-Source: AGHT+IHk7wXUSF1Q5KAjgP3BY1kQH1aYC3amVZVzC8/fsZ7X7Opwm6Ke0yAW/xPMSUXxnmkLTaa5bQ==
+X-Received: by 2002:a17:906:74d0:b0:9a1:c352:b6a3 with SMTP id z16-20020a17090674d000b009a1c352b6a3mr10153024ejl.7.1693996139997;
+        Wed, 06 Sep 2023 03:28:59 -0700 (PDT)
 Received: from desktop-nixos-martino.. ([2a01:e11:5004:180:d575:320e:c3b7:48cc])
-        by smtp.gmail.com with ESMTPSA id fj22-20020a0564022b9600b005256aaa6e7asm2078907edb.78.2023.09.06.03.25.47
+        by smtp.gmail.com with ESMTPSA id lu7-20020a170906fac700b0099bcf1c07c6sm8827049ejb.138.2023.09.06.03.28.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Sep 2023 03:25:48 -0700 (PDT)
+        Wed, 06 Sep 2023 03:28:59 -0700 (PDT)
 From:   Martino Fontana <tinozzo123@gmail.com>
 To:     djogorchock@gmail.com, jikos@kernel.org,
         benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     Martino Fontana <tinozzo123@gmail.com>
-Subject: [PATCH v2 RESEND] HID: nintendo: reinitialize USB Pro Controller after resuming from suspend
-Date:   Wed,  6 Sep 2023 12:20:15 +0200
-Message-ID: <20230906102507.15504-2-tinozzo123@gmail.com>
+Subject: [PATCH v2 RESEND] HID: nintendo: cleanup LED code
+Date:   Wed,  6 Sep 2023 12:26:33 +0200
+Message-ID: <20230906102831.16734-2-tinozzo123@gmail.com>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,258 +69,255 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When suspending the computer, a Switch Pro Controller connected via USB will
-lose its internal status. However, because the USB connection was technically
-never lost, when resuming the computer, the driver will attempt to communicate
-with the controller as if nothing happened (and fail).
-Because of this, the user was forced to manually disconnect the controller
-(or to press the sync button on the controller to power it off), so that it
-can be re-initialized.
+- Only turn on the nth LED, instead of all the LEDs up to n. This better
+  matches Nintendo consoles' behaviour, as they never turn on more than
+  one LED.
+  (Note that the behavior still consinsts in increasing the player number
+  every time a controller is connected, never decreasing it. It should be
+  as is described in https://bugzilla.kernel.org/show_bug.cgi?id=216225.
+  However, any implementation here would stop making sense as soon as a
+  non-Nintendo controller is connected, which is why I'm not bothering.)
 
-With this patch, the controller will be automatically re-initialized after
-resuming from suspend.
+- Split part of `joycon_home_led_brightness_set` (which is called by hid)
+  into `joycon_set_home_led` (which is what actually sets the LEDs), for
+  consistency with player LEDs.
 
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=216233
+- `joycon_player_led_brightness_set` won't try it to "determine which player
+  led this is" anymore: it's already looking at every LED brightness value.
+
+- Instead of first registering the `led_classdev`, then attempting to set
+  the LED and unregistering the `led_classdev` if it fails, first attempt
+  to set the LED, then register the `led_classdev` only if it succeeds
+  (the class is still filled up in either case).
+
+- If setting the player LEDs fails, still attempt setting the home LED.
+  (I don't know there's a third party controller where this may actually
+  happen, but who knows...)
+
+- Use `JC_NUM_LEDS` where appropriate instead of 4.
+
+- Print return codes in more places.
+
+- Use spinlock instead of mutex for `input_num`. Copy its value to a local
+  variable, so that it can be unlocked immediately.
+
+- `input_num` starts counting from 0
+
+- Less holding of mutexes in general.
+
+Changes for v2:
+
+Applied suggestions, commit message explains more stuff, restored `return ret`
+when `devm_led_classdev_register` fails (since all other hid drivers do this).
+If setting LED fails, `hid_warn` now explicitly says "skipping registration".
 
 Signed-off-by: Martino Fontana <tinozzo123@gmail.com>
 ---
- drivers/hid/hid-nintendo.c | 178 ++++++++++++++++++++++---------------
- 1 file changed, 106 insertions(+), 72 deletions(-)
+ drivers/hid/hid-nintendo.c | 117 ++++++++++++++++++-------------------
+ 1 file changed, 57 insertions(+), 60 deletions(-)
 
 diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 250f5d2f8..a5ebe857a 100644
+index a5ebe857a..dd7c7fce3 100644
 --- a/drivers/hid/hid-nintendo.c
 +++ b/drivers/hid/hid-nintendo.c
-@@ -2088,7 +2088,9 @@ static int joycon_read_info(struct joycon_ctlr *ctlr)
- 	struct joycon_input_report *report;
- 
- 	req.subcmd_id = JC_SUBCMD_REQ_DEV_INFO;
-+	mutex_lock(&ctlr->output_mutex);
- 	ret = joycon_send_subcmd(ctlr, &req, 0, HZ);
-+	mutex_unlock(&ctlr->output_mutex);
- 	if (ret) {
- 		hid_err(ctlr->hdev, "Failed to get joycon info; ret=%d\n", ret);
- 		return ret;
-@@ -2117,6 +2119,88 @@ static int joycon_read_info(struct joycon_ctlr *ctlr)
- 	return 0;
+@@ -699,6 +699,25 @@ static int joycon_set_player_leds(struct joycon_ctlr *ctlr, u8 flash, u8 on)
+ 	return joycon_send_subcmd(ctlr, req, 1, HZ/4);
  }
  
-+static int joycon_init(struct hid_device *hdev)
++static int joycon_set_home_led(struct joycon_ctlr *ctlr, enum led_brightness brightness)
 +{
-+	struct joycon_ctlr *ctlr = hid_get_drvdata(hdev);
-+	int ret = 0;
++	struct joycon_subcmd_request *req;
++	u8 buffer[sizeof(*req) + 5] = { 0 };
++	u8 *data;
 +
-+	mutex_lock(&ctlr->output_mutex);
-+	/* if handshake command fails, assume ble pro controller */
-+	if ((jc_type_is_procon(ctlr) || jc_type_is_chrggrip(ctlr)) &&
-+	    !joycon_send_usb(ctlr, JC_USB_CMD_HANDSHAKE, HZ)) {
-+		hid_dbg(hdev, "detected USB controller\n");
-+		/* set baudrate for improved latency */
-+		ret = joycon_send_usb(ctlr, JC_USB_CMD_BAUDRATE_3M, HZ);
-+		if (ret) {
-+			hid_err(hdev, "Failed to set baudrate; ret=%d\n", ret);
-+			goto err_mutex;
-+		}
-+		/* handshake */
-+		ret = joycon_send_usb(ctlr, JC_USB_CMD_HANDSHAKE, HZ);
-+		if (ret) {
-+			hid_err(hdev, "Failed handshake; ret=%d\n", ret);
-+			goto err_mutex;
-+		}
-+		/*
-+		 * Set no timeout (to keep controller in USB mode).
-+		 * This doesn't send a response, so ignore the timeout.
-+		 */
-+		joycon_send_usb(ctlr, JC_USB_CMD_NO_TIMEOUT, HZ/10);
-+	} else if (jc_type_is_chrggrip(ctlr)) {
-+		hid_err(hdev, "Failed charging grip handshake\n");
-+		ret = -ETIMEDOUT;
-+		goto err_mutex;
-+	}
++	req = (struct joycon_subcmd_request *)buffer;
++	req->subcmd_id = JC_SUBCMD_SET_HOME_LIGHT;
++	data = req->data;
++	data[0] = 0x01;
++	data[1] = brightness << 4;
++	data[2] = brightness | (brightness << 4);
++	data[3] = 0x11;
++	data[4] = 0x11;
 +
-+	/* get controller calibration data, and parse it */
-+	ret = joycon_request_calibration(ctlr);
-+	if (ret) {
-+		/*
-+		 * We can function with default calibration, but it may be
-+		 * inaccurate. Provide a warning, and continue on.
-+		 */
-+		hid_warn(hdev, "Analog stick positions may be inaccurate\n");
-+	}
-+
-+	/* get IMU calibration data, and parse it */
-+	ret = joycon_request_imu_calibration(ctlr);
-+	if (ret) {
-+		/*
-+		 * We can function with default calibration, but it may be
-+		 * inaccurate. Provide a warning, and continue on.
-+		 */
-+		hid_warn(hdev, "Unable to read IMU calibration data\n");
-+	}
-+
-+	/* Set the reporting mode to 0x30, which is the full report mode */
-+	ret = joycon_set_report_mode(ctlr);
-+	if (ret) {
-+		hid_err(hdev, "Failed to set report mode; ret=%d\n", ret);
-+		goto err_mutex;
-+	}
-+
-+	/* Enable rumble */
-+	ret = joycon_enable_rumble(ctlr);
-+	if (ret) {
-+		hid_err(hdev, "Failed to enable rumble; ret=%d\n", ret);
-+		goto err_mutex;
-+	}
-+
-+	/* Enable the IMU */
-+	ret = joycon_enable_imu(ctlr);
-+	if (ret) {
-+		hid_err(hdev, "Failed to enable the IMU; ret=%d\n", ret);
-+		goto err_mutex;
-+	}
-+
-+	mutex_unlock(&ctlr->output_mutex);
-+	return 0;
-+
-+err_mutex:
-+	mutex_unlock(&ctlr->output_mutex);
-+	return ret;
++	hid_dbg(ctlr->hdev, "setting home led brightness\n");
++	return joycon_send_subcmd(ctlr, req, 5, HZ/4);
 +}
 +
- /* Common handler for parsing inputs */
- static int joycon_ctlr_read_handler(struct joycon_ctlr *ctlr, u8 *data,
- 							      int size)
-@@ -2248,85 +2332,19 @@ static int nintendo_hid_probe(struct hid_device *hdev,
+ static int joycon_request_spi_flash_read(struct joycon_ctlr *ctlr,
+ 					 u32 start_addr, u8 size, u8 **reply)
+ {
+@@ -1849,7 +1868,6 @@ static int joycon_player_led_brightness_set(struct led_classdev *led,
+ 	int val = 0;
+ 	int i;
+ 	int ret;
+-	int num;
  
- 	hid_device_io_start(hdev);
+ 	ctlr = hid_get_drvdata(hdev);
+ 	if (!ctlr) {
+@@ -1857,21 +1875,10 @@ static int joycon_player_led_brightness_set(struct led_classdev *led,
+ 		return -ENODEV;
+ 	}
  
--	/* Initialize the controller */
+-	/* determine which player led this is */
+-	for (num = 0; num < JC_NUM_LEDS; num++) {
+-		if (&ctlr->leds[num] == led)
+-			break;
+-	}
+-	if (num >= JC_NUM_LEDS)
+-		return -EINVAL;
++	for (i = 0; i < JC_NUM_LEDS; i++)
++		val |= ctlr->leds[i].brightness << i;
+ 
+ 	mutex_lock(&ctlr->output_mutex);
+-	for (i = 0; i < JC_NUM_LEDS; i++) {
+-		if (i == num)
+-			val |= brightness << i;
+-		else
+-			val |= ctlr->leds[i].brightness << i;
+-	}
+ 	ret = joycon_set_player_leds(ctlr, 0, val);
+ 	mutex_unlock(&ctlr->output_mutex);
+ 
+@@ -1884,9 +1891,6 @@ static int joycon_home_led_brightness_set(struct led_classdev *led,
+ 	struct device *dev = led->dev->parent;
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct joycon_ctlr *ctlr;
+-	struct joycon_subcmd_request *req;
+-	u8 buffer[sizeof(*req) + 5] = { 0 };
+-	u8 *data;
+ 	int ret;
+ 
+ 	ctlr = hid_get_drvdata(hdev);
+@@ -1894,25 +1898,13 @@ static int joycon_home_led_brightness_set(struct led_classdev *led,
+ 		hid_err(hdev, "No controller data\n");
+ 		return -ENODEV;
+ 	}
+-
+-	req = (struct joycon_subcmd_request *)buffer;
+-	req->subcmd_id = JC_SUBCMD_SET_HOME_LIGHT;
+-	data = req->data;
+-	data[0] = 0x01;
+-	data[1] = brightness << 4;
+-	data[2] = brightness | (brightness << 4);
+-	data[3] = 0x11;
+-	data[4] = 0x11;
+-
+-	hid_dbg(hdev, "setting home led brightness\n");
+ 	mutex_lock(&ctlr->output_mutex);
+-	ret = joycon_send_subcmd(ctlr, req, 5, HZ/4);
++	ret = joycon_set_home_led(ctlr, brightness);
+ 	mutex_unlock(&ctlr->output_mutex);
+-
+ 	return ret;
+ }
+ 
+-static DEFINE_MUTEX(joycon_input_num_mutex);
++static DEFINE_SPINLOCK(joycon_input_num_spinlock);
+ static int joycon_leds_create(struct joycon_ctlr *ctlr)
+ {
+ 	struct hid_device *hdev = ctlr->hdev;
+@@ -1920,17 +1912,16 @@ static int joycon_leds_create(struct joycon_ctlr *ctlr)
+ 	const char *d_name = dev_name(dev);
+ 	struct led_classdev *led;
+ 	char *name;
+-	int ret = 0;
++	int ret;
+ 	int i;
+-	static int input_num = 1;
++	unsigned long flags;
++	int player_led_number;
++	static int input_num;
+ 
+-	/* Set the default controller player leds based on controller number */
+-	mutex_lock(&joycon_input_num_mutex);
 -	mutex_lock(&ctlr->output_mutex);
--	/* if handshake command fails, assume ble pro controller */
--	if ((jc_type_is_procon(ctlr) || jc_type_is_chrggrip(ctlr)) &&
--	    !joycon_send_usb(ctlr, JC_USB_CMD_HANDSHAKE, HZ)) {
--		hid_dbg(hdev, "detected USB controller\n");
--		/* set baudrate for improved latency */
--		ret = joycon_send_usb(ctlr, JC_USB_CMD_BAUDRATE_3M, HZ);
--		if (ret) {
--			hid_err(hdev, "Failed to set baudrate; ret=%d\n", ret);
--			goto err_mutex;
--		}
--		/* handshake */
--		ret = joycon_send_usb(ctlr, JC_USB_CMD_HANDSHAKE, HZ);
--		if (ret) {
--			hid_err(hdev, "Failed handshake; ret=%d\n", ret);
--			goto err_mutex;
--		}
--		/*
--		 * Set no timeout (to keep controller in USB mode).
--		 * This doesn't send a response, so ignore the timeout.
--		 */
--		joycon_send_usb(ctlr, JC_USB_CMD_NO_TIMEOUT, HZ/10);
--	} else if (jc_type_is_chrggrip(ctlr)) {
--		hid_err(hdev, "Failed charging grip handshake\n");
--		ret = -ETIMEDOUT;
--		goto err_mutex;
--	}
--
--	/* get controller calibration data, and parse it */
--	ret = joycon_request_calibration(ctlr);
--	if (ret) {
--		/*
--		 * We can function with default calibration, but it may be
--		 * inaccurate. Provide a warning, and continue on.
--		 */
--		hid_warn(hdev, "Analog stick positions may be inaccurate\n");
--	}
--
--	/* get IMU calibration data, and parse it */
--	ret = joycon_request_imu_calibration(ctlr);
--	if (ret) {
--		/*
--		 * We can function with default calibration, but it may be
--		 * inaccurate. Provide a warning, and continue on.
--		 */
--		hid_warn(hdev, "Unable to read IMU calibration data\n");
--	}
--
--	/* Set the reporting mode to 0x30, which is the full report mode */
--	ret = joycon_set_report_mode(ctlr);
--	if (ret) {
--		hid_err(hdev, "Failed to set report mode; ret=%d\n", ret);
--		goto err_mutex;
--	}
--
--	/* Enable rumble */
--	ret = joycon_enable_rumble(ctlr);
--	if (ret) {
--		hid_err(hdev, "Failed to enable rumble; ret=%d\n", ret);
--		goto err_mutex;
--	}
--
--	/* Enable the IMU */
--	ret = joycon_enable_imu(ctlr);
-+	ret = joycon_init(hdev);
- 	if (ret) {
--		hid_err(hdev, "Failed to enable the IMU; ret=%d\n", ret);
--		goto err_mutex;
-+		hid_err(hdev, "Failed to initialize controller; ret=%d\n", ret);
-+		goto err_close;
- 	}
- 
- 	ret = joycon_read_info(ctlr);
- 	if (ret) {
- 		hid_err(hdev, "Failed to retrieve controller info; ret=%d\n",
- 			ret);
--		goto err_mutex;
-+		goto err_close;
- 	}
- 
+-	ret = joycon_set_player_leds(ctlr, 0, 0xF >> (4 - input_num));
+-	if (ret)
+-		hid_warn(ctlr->hdev, "Failed to set leds; ret=%d\n", ret);
 -	mutex_unlock(&ctlr->output_mutex);
++	/* Set the player leds based on controller number */
++	spin_lock_irqsave(&joycon_input_num_spinlock, flags);
++	player_led_number = input_num++ % JC_NUM_LEDS;
++	spin_unlock_irqrestore(&joycon_input_num_spinlock, flags);
+ 
+ 	/* configure the player LEDs */
+ 	for (i = 0; i < JC_NUM_LEDS; i++) {
+@@ -1938,31 +1929,34 @@ static int joycon_leds_create(struct joycon_ctlr *ctlr)
+ 				      d_name,
+ 				      "green",
+ 				      joycon_player_led_names[i]);
+-		if (!name) {
+-			mutex_unlock(&joycon_input_num_mutex);
++		if (!name)
+ 			return -ENOMEM;
+-		}
+ 
+ 		led = &ctlr->leds[i];
+ 		led->name = name;
+-		led->brightness = ((i + 1) <= input_num) ? 1 : 0;
++		led->brightness = (i == player_led_number) ? 1 : 0;
+ 		led->max_brightness = 1;
+ 		led->brightness_set_blocking =
+ 					joycon_player_led_brightness_set;
+ 		led->flags = LED_CORE_SUSPENDRESUME | LED_HW_PLUGGABLE;
++	}
++	mutex_lock(&ctlr->output_mutex);
++	ret = joycon_set_player_leds(ctlr, 0, 0x1 << player_led_number);
++	mutex_unlock(&ctlr->output_mutex);
++	if (ret) {
++		hid_warn(hdev, "Failed to set players LEDs, skipping registration; ret=%d\n", ret);
++		goto home_led;
++	}
+ 
++	for (i = 0; i < JC_NUM_LEDS; i++) {
++		led = &ctlr->leds[i];
+ 		ret = devm_led_classdev_register(&hdev->dev, led);
+-		if (ret) {
+-			hid_err(hdev, "Failed registering %s LED\n", led->name);
+-			mutex_unlock(&joycon_input_num_mutex);
++		if (ret)
++			hid_err(hdev, "Failed to register player %d LED; ret=%d\n", i + 1, ret);
+ 			return ret;
+-		}
+ 	}
+ 
+-	if (++input_num > 4)
+-		input_num = 1;
+-	mutex_unlock(&joycon_input_num_mutex);
 -
- 	/* Initialize the leds */
- 	ret = joycon_leds_create(ctlr);
- 	if (ret) {
-@@ -2352,8 +2370,6 @@ static int nintendo_hid_probe(struct hid_device *hdev,
- 	hid_dbg(hdev, "probe - success\n");
++home_led:
+ 	/* configure the home LED */
+ 	if (jc_type_has_right(ctlr)) {
+ 		name = devm_kasprintf(dev, GFP_KERNEL, "%s:%s:%s",
+@@ -1978,17 +1972,20 @@ static int joycon_leds_create(struct joycon_ctlr *ctlr)
+ 		led->max_brightness = 0xF;
+ 		led->brightness_set_blocking = joycon_home_led_brightness_set;
+ 		led->flags = LED_CORE_SUSPENDRESUME | LED_HW_PLUGGABLE;
+-		ret = devm_led_classdev_register(&hdev->dev, led);
+-		if (ret) {
+-			hid_err(hdev, "Failed registering home led\n");
+-			return ret;
+-		}
++
+ 		/* Set the home LED to 0 as default state */
+-		ret = joycon_home_led_brightness_set(led, 0);
++		mutex_lock(&ctlr->output_mutex);
++		ret = joycon_set_home_led(ctlr, 0);
++		mutex_unlock(&ctlr->output_mutex);
+ 		if (ret) {
+-			hid_warn(hdev, "Failed to set home LED default, unregistering home LED");
+-			devm_led_classdev_unregister(&hdev->dev, led);
++			hid_warn(hdev, "Failed to set home LED, skipping registration; ret=%d\n", ret);
++			return 0;
+ 		}
++
++		ret = devm_led_classdev_register(&hdev->dev, led);
++		if (ret)
++			hid_err(hdev, "Failed to register home LED; ret=%d\n", ret);
++			return ret
+ 	}
+ 
  	return 0;
- 
--err_mutex:
--	mutex_unlock(&ctlr->output_mutex);
- err_close:
- 	hid_hw_close(hdev);
- err_stop:
-@@ -2383,6 +2399,20 @@ static void nintendo_hid_remove(struct hid_device *hdev)
- 	hid_hw_stop(hdev);
- }
- 
-+#ifdef CONFIG_PM
-+
-+static int nintendo_hid_resume(struct hid_device *hdev)
-+{
-+	int ret = joycon_init(hdev);
-+
-+	if (ret)
-+		hid_err(hdev, "Failed to restore controller after resume");
-+
-+	return ret;
-+}
-+
-+#endif
-+
- static const struct hid_device_id nintendo_hid_devices[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_NINTENDO,
- 			 USB_DEVICE_ID_NINTENDO_PROCON) },
-@@ -2404,6 +2434,10 @@ static struct hid_driver nintendo_hid_driver = {
- 	.probe		= nintendo_hid_probe,
- 	.remove		= nintendo_hid_remove,
- 	.raw_event	= nintendo_hid_event,
-+
-+#ifdef CONFIG_PM
-+	.resume		= nintendo_hid_resume,
-+#endif
- };
- module_hid_driver(nintendo_hid_driver);
- 
 -- 
 2.41.0
 
