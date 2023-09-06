@@ -2,63 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05F6D793046
-	for <lists+linux-input@lfdr.de>; Tue,  5 Sep 2023 22:48:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE0097939C4
+	for <lists+linux-input@lfdr.de>; Wed,  6 Sep 2023 12:25:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236870AbjIEUsH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 5 Sep 2023 16:48:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49046 "EHLO
+        id S235408AbjIFKZ4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Sep 2023 06:25:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236369AbjIEUsH (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Sep 2023 16:48:07 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C06119B;
-        Tue,  5 Sep 2023 13:48:02 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id 41be03b00d2f7-5657add1073so194735a12.0;
-        Tue, 05 Sep 2023 13:48:02 -0700 (PDT)
+        with ESMTP id S230389AbjIFKZz (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Sep 2023 06:25:55 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCF57E47;
+        Wed,  6 Sep 2023 03:25:50 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-52a1c58ef30so1053095a12.1;
+        Wed, 06 Sep 2023 03:25:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693946881; x=1694551681; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rrVGUcEA6NpuC4fzwxuqTsqb0Vk1kC+uEivkHyrol9g=;
-        b=f1cL0kfc1aOXejhIm8rJbUyaeugbd9BN/U4znz+fXTER5TfLb1DWno8NzK6+uprzd5
-         rF5jJmsNk7wls2azd/Gjjn19jyqmEC6fM3/3CljxFwEFzZU/5ZooaN7RegUdm8m1bdv+
-         PSA3pAaC1vUOEK8AG2yPyTrQ0OlGPo7z5SL1PNVtNzVTDo3bzb5BVkL+JimuKxusUsza
-         JIZIY1KCKChG2YE9BkGQifCaUYa9dNtE2rKfycu6qjk3ysr9yPZy9jS7F2BiqdYSazav
-         qktrh0kyIPFiJxgZWv9lHsuDm+rSnlZrBIEBW6KQFtBAOq8vZWk/eUdZfmZOCER9Yhfz
-         /EfA==
+        d=gmail.com; s=20221208; t=1693995949; x=1694600749; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ci/ELsipo0gd0dH4A82+2RtSVRggb4j1DAuDHo22Q9Q=;
+        b=FM6Z9y4HtBWZ+OBmjbSqd0z97+HitVFxv2Yh1S8uGlu+XNzD3Dv1GPanBx3fNW3Hmj
+         +GiXV/dBqawREnkboDBkmOmwZbeDpmRs8XqnpJC8eY60z+Z3xWYChXn7tAgTOQU7+twH
+         tvJHa562/i/ZfyWwUCERoGLacI5gkXgEwLfNugaUQFgsjQ5+uFNkj79s00tXJyq9wFUH
+         cZWNrTPoNjTypr1SSPGdWVdObtwb/FIdiu1Ss1gEY41CdHpGBcr0LHqJbsRSxYLWp7yN
+         m46kOm30QCcE3N6a8lkd4Tqh+s7xYGU+nK6+2lRxlka8+wGzHdY+5x/jBqfBb627kj8B
+         e2Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693946881; x=1694551681;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rrVGUcEA6NpuC4fzwxuqTsqb0Vk1kC+uEivkHyrol9g=;
-        b=CwzbX/+q7QUMJtmjbgdqddzLgVMUk74EBMu9M11TjsiODsvbEIbXSYp7n9eIXznGew
-         Mb2qfDI2TDDCIEogfqk/xs/qNZSHF2zkX6u0kR8Ypj5T51zXxh6E+6aQqHK9lBzI0QwK
-         wSRqXhy1w/5YPgQPKdYBfgz8KQRk/zfMROzu0nc6csPtWhP3EKB1SuvN58/3fURDei84
-         3zpARLk3KgJPF0pf3PLsFK+B4id0EUHAbslSafXgYrH2zUMM8A/0S0/b49JSMJqB8hb6
-         Fq5rUd/XkdoUyB6DUFEL5CF2azQAHJDg8SP/MCz6M159JUld4h6LAErEQNmJam6QYKqj
-         7Ssw==
-X-Gm-Message-State: AOJu0Yyn0wRYBEnKavL8zz0Qzx2p8KYa4Bf+dVAtG7GwowcmXBednxUY
-        6pXqH5kezb4Zbe2KqJRhrYel8JRGmZo=
-X-Google-Smtp-Source: AGHT+IG2LtnFU5XKZXWx8VrzXUrlUlQ2ee0AtO3kzswkAwJVIelyii0wJSjjfE5vNtJ7ZAdQfSc8Ow==
-X-Received: by 2002:a05:6a20:158b:b0:126:8b2d:4462 with SMTP id h11-20020a056a20158b00b001268b2d4462mr16343547pzj.24.1693946881365;
-        Tue, 05 Sep 2023 13:48:01 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:86df:1d03:234b:eb80])
-        by smtp.gmail.com with ESMTPSA id m185-20020a633fc2000000b005642314f05fsm9778960pga.1.2023.09.05.13.48.00
+        d=1e100.net; s=20221208; t=1693995949; x=1694600749;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ci/ELsipo0gd0dH4A82+2RtSVRggb4j1DAuDHo22Q9Q=;
+        b=JUlYYRkHh047XnRpqcxVvuaOuEqXNAc8GKbhyXiR3DNwGlIOdW1rPOz8eWzXqlKPDo
+         d2ffMoVXLg5F8FZM8uthCyFZtdXrSt4CjvQzyiLOgJE4+jP7GlWaJtkq1jUR6/gBEmwI
+         t5guy9piC8oUHrM48leJeYUyQwGTI+VUdfDNJMDpQrViaMC0WxIaXir1Up5bhGINh+Te
+         Q9sqwQfLtiN+XLNBe/06T5FcKYVEy/c+/kEr9lbHf29XuqFnYpWuk7YS/luFIZN2wwrx
+         whjSpjIZHEXXrZmerZucb02dVUV6gRlnSbDEwDersjyeJ6rULVFoFRavw2wB5NYJ6tvx
+         z30Q==
+X-Gm-Message-State: AOJu0YzPYh9Mbgohj19i/KH2nn+KqGolzZlaZ1Jf5Oc5+fTCJFUr/O3J
+        lJAVr1x0ViDwfCBYXmZT3Fg=
+X-Google-Smtp-Source: AGHT+IHZs0ML1rnXrtyFgcY9LcYJ2FxDIAnIIChJszpYfo6bMfx2A1WKQBg/InjODbvg4ZaONjBPTw==
+X-Received: by 2002:a05:6402:4304:b0:523:100b:839a with SMTP id m4-20020a056402430400b00523100b839amr11584415edc.0.1693995948998;
+        Wed, 06 Sep 2023 03:25:48 -0700 (PDT)
+Received: from desktop-nixos-martino.. ([2a01:e11:5004:180:d575:320e:c3b7:48cc])
+        by smtp.gmail.com with ESMTPSA id fj22-20020a0564022b9600b005256aaa6e7asm2078907edb.78.2023.09.06.03.25.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Sep 2023 13:48:00 -0700 (PDT)
-Date:   Tue, 5 Sep 2023 13:47:54 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v6.6-rc0
-Message-ID: <ZPeTYcsVQ7/M4Bue@google.com>
+        Wed, 06 Sep 2023 03:25:48 -0700 (PDT)
+From:   Martino Fontana <tinozzo123@gmail.com>
+To:     djogorchock@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Martino Fontana <tinozzo123@gmail.com>
+Subject: [PATCH v2 RESEND] HID: nintendo: reinitialize USB Pro Controller after resuming from suspend
+Date:   Wed,  6 Sep 2023 12:20:15 +0200
+Message-ID: <20230906102507.15504-2-tinozzo123@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,256 +69,258 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+When suspending the computer, a Switch Pro Controller connected via USB will
+lose its internal status. However, because the USB connection was technically
+never lost, when resuming the computer, the driver will attempt to communicate
+with the controller as if nothing happened (and fail).
+Because of this, the user was forced to manually disconnect the controller
+(or to press the sync button on the controller to power it off), so that it
+can be re-initialized.
 
-Please pull from:
+With this patch, the controller will be automatically re-initialized after
+resuming from suspend.
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.6-rc0
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=216233
 
-to receive updates for the input subsystem. You will get:
+Signed-off-by: Martino Fontana <tinozzo123@gmail.com>
+---
+ drivers/hid/hid-nintendo.c | 178 ++++++++++++++++++++++---------------
+ 1 file changed, 106 insertions(+), 72 deletions(-)
 
-- a new driver for Azoteq IQS7210A/7211A/E touch controllers
-- support for Azoteq IQS7222D variant added to iqs7222 driver
-- support for touch keys functionality added to Melfas MMS114 driver
-- new hardware IDs added to exc3000 and Goodix drivers
-- xpad driver gained support for GameSir T4 Kaleid Controller
-- a fix for xpad driver to properly support some third-party
-  controllers that need a magic packet to start properly
-- a fix for psmouse driver to more reliably switch to RMI4 mode
-  on devices that use native RMI4/SMbus protocol
-- a quirk for i8042 for TUXEDO Gemini 17 Gen1/Clevo PD70PN laptops
-
-Also a number of drivers have been updated to make use of devm APIs
-as well as other newer APIs such as dev_err_probe(),
-devm_regulator_get_enable(), and others.
-
-
-Changelog:
----------
-
-Andreas Helbech Kleist (1):
-      Input: exc3000 - add ACPI support for EXC80H60
-
-Artur Weber (2):
-      dt-bindings: mms114: Add linux,keycodes property for touch keys
-      Input: mms114 - add support for touch keys
-
-Christophe JAILLET (2):
-      Input: pinephone-keyboard - use devm_regulator_get_enable()
-      Input: adp5588-keys - use devm_regulator_get_enable()
-
-Dmitry Torokhov (9):
-      Input: gameport - use IS_REACHABLE() instead of open-coding it
-      Input: qt2160 - tweak check for i2c adapter functionality
-      Input: qt2160 - switch to using threaded interrupt handler
-      Input: qt2160 - do not hard code interrupt trigger
-      Input: lm8323 - rely on device core to create kp_disable attribute
-      Input: tca6416-keypad - always expect proper IRQ number in i2c client
-      Input: tca6416-keypad - rely on I2C core to set up suspend/resume
-      Input: tca6416-keypad - fix interrupt enable disbalance
-      Input: tca6416-keypad - switch to using input core's polling features
-
-Felix Engelhardt (1):
-      Input: goodix - add support for ACPI ID GDX9110
-
-Geert Uytterhoeven (1):
-      Input: gpio-keys - convert to dev_err_probe()
-
-Hans de Goede (2):
-      Input: novatek-nvt-ts - fix input_register_device() failure error message
-      Input: novatek-nvt-ts - add touchscreen model number to description
-
-Jeff LaBundy (7):
-      Input: iqs7222 - configure power mode before triggering ATI
-      dt-bindings: input: iqs7222: Define units for slider properties
-      dt-bindings: input: iqs7222: Add properties for Azoteq IQS7222D
-      Input: iqs7222 - add support for Azoteq IQS7222D
-      dt-bindings: input: Add bindings for Azoteq IQS7210A/7211A/E
-      Input: add support for Azoteq IQS7210A/7211A/E
-      Input: iqs7211 - point to match data directly
-
-Jeffery Miller (1):
-      Input: psmouse - add delay when deactivating for SMBus mode
-
-Jonathan Frederick (1):
-      Input: xpad - add GameSir T4 Kaleid Controller support
-
-Krzysztof Kozlowski (25):
-      Input: gpio_keys_polled - simplify with dev_err_probe()
-      Input: gpio-vibra - simplify with dev_err_probe()
-      Input: pwm-vibra - simplify with dev_err_probe()
-      Input: rotary_encoder - simplify with dev_err_probe()
-      Input: elan_i2c - simplify with dev_err_probe()
-      Input: bu21013_ts - simplify with dev_err_probe()
-      Input: bu21029_ts - simplify with dev_err_probe()
-      Input: chipone_icn8318 - simplify with dev_err_probe()
-      Input: cy8ctma140 - simplify with dev_err_probe()
-      Input: edf-ft5x06 - simplify with dev_err_probe()
-      Input: ektf2127 - simplify with dev_err_probe()
-      Input: elants_i2c - simplify with dev_err_probe()
-      Input: goodix - simplify with dev_err_probe()
-      Input: melfas_mip4 - simplify with dev_err_probe()
-      Input: pixcir_i2c_ts - simplify with dev_err_probe()
-      Input: raydium_i2c_ts - simplify with dev_err_probe()
-      Input: resistive-adc-touch - simplify with dev_err_probe()
-      rInputrrrrrrr - simplify with dev_err_probe()
-      Input: sis_i2c - simplify with dev_err_probe()
-      Input: surface3_spi - simplify with dev_err_probe()
-      Input: sx8643 - simplify with dev_err_probe()
-      Input: bcm-keypad - simplify with dev_err_probe()
-      Input: bu21013_ts - use local 'client->dev' variable in probe()
-      Input: bu21029_ts - use local 'client->dev' variable in probe()
-      Input: bcm-keypad - correct dev_err_probe() error
-
-Martin Kaiser (1):
-      Input: tegra-kbc - use devm_platform_ioremap_resource
-
-Mike Looijmans (2):
-      dt-bindings: input: exc3000: support power supply regulators
-      Input: exc3000 - support power supply regulators
-
-Nathan Chancellor (1):
-      Input: mcs-touchkey - fix uninitialized use of error in mcs_touchkey_probe()
-
-Niklas Schnelle (1):
-      Input: gameport - add ISA and HAS_IOPORT dependencies
-
-Oleksij Rempel (1):
-      dt-bindings: input: touchscreen: edt-ft5x06: Add 'threshold' property
-
-Randy Dunlap (1):
-      Input: cpcap-pwrbutton - remove initial kernel-doc notation
-
-Rob Herring (1):
-      Input: Explicitly include correct DT includes
-
-Roi L (1):
-      Input: rotary_encoder - don't double assign input->dev.parent
-
-Ruan Jinjie (1):
-      Input: rpckbd - fix the return value handle for platform_get_irq()
-
-Sam Lantinga (1):
-      Input: xpad - add GameSir VID for Xbox One controllers
-
-Samuel Holland (1):
-      Input: da9063 - add wakeup support
-
-Sebastian Reichel (1):
-      Input: cpcap-pwrbutton - replace GPLv2 boilerplate with SPDX
-
-Vicki Pfau (1):
-      Input: xpad - fix support for some third-party controllers
-
-Werner Sembach (1):
-      Input: i8042 - add quirk for TUXEDO Gemini 17 Gen1/Clevo PD70PN
-
-Yangtao Li (16):
-      Input: bcm-keypad - convert to devm_platform_ioremap_resource()
-      Input: lpc32xx-keys - convert to devm_platform_ioremap_resource()
-      Input: nspire-keypad - use devm_platform_get_and_ioremap_resource()
-      Input: omap4-keyad - convert to devm_platform_ioremap_resource()
-      Input: opencores-kbd - convert to devm_platform_ioremap_resource()
-      Input: pxa27x_keypad - convert to devm_platform_ioremap_resource()
-      Input: sun4i-lradc-keys - convert to devm_platform_ioremap_resource()
-      Input: nomadik-ske-keypad - convert to use devm_* api
-      Input: lpc32xx_ts - convert to use devm_* api
-      Input: lm8333 - convert to use devm_* api
-      Input: amikbd - convert to use devm_* api
-      Input: mcs-touchkey - convert to use devm_* api
-      Input: qt1070 - convert to use devm_* api
-      Input: qt2160 - convert to use devm_* api
-      Input: lm8323 - convert to use devm_* api
-      Input: tca6416-keypad - convert to use devm_* api
-
-Diffstat:
---------
-
- .../devicetree/bindings/input/azoteq,iqs7222.yaml  |  248 +-
- .../bindings/input/touchscreen/azoteq,iqs7211.yaml |  769 ++++++
- .../bindings/input/touchscreen/edt-ft5x06.yaml     |    6 +
- .../bindings/input/touchscreen/eeti,exc3000.yaml   |    2 +
- .../bindings/input/touchscreen/melfas,mms114.yaml  |    5 +
- drivers/input/gameport/Kconfig                     |    4 +-
- drivers/input/gameport/gameport.c                  |   26 +-
- drivers/input/joystick/xpad.c                      |   25 +
- drivers/input/keyboard/adp5588-keys.c              |   17 +-
- drivers/input/keyboard/amikbd.c                    |   25 +-
- drivers/input/keyboard/bcm-keypad.c                |   24 +-
- drivers/input/keyboard/gpio_keys.c                 |   21 +-
- drivers/input/keyboard/gpio_keys_polled.c          |    8 +-
- drivers/input/keyboard/lm8323.c                    |   95 +-
- drivers/input/keyboard/lm8333.c                    |   44 +-
- drivers/input/keyboard/lpc32xx-keys.c              |    9 +-
- drivers/input/keyboard/mcs_touchkey.c              |   65 +-
- drivers/input/keyboard/nomadik-ske-keypad.c        |  127 +-
- drivers/input/keyboard/nspire-keypad.c             |    3 +-
- drivers/input/keyboard/omap4-keypad.c              |    9 +-
- drivers/input/keyboard/opencores-kbd.c             |    9 +-
- drivers/input/keyboard/pinephone-keyboard.c        |   20 +-
- drivers/input/keyboard/pxa27x_keypad.c             |    9 +-
- drivers/input/keyboard/qt1070.c                    |   46 +-
- drivers/input/keyboard/qt2160.c                    |  130 +-
- drivers/input/keyboard/sun4i-lradc-keys.c          |    6 +-
- drivers/input/keyboard/tca6416-keypad.c            |  141 +-
- drivers/input/keyboard/tegra-kbc.c                 |    2 +-
- drivers/input/keyboard/tm2-touchkey.c              |    1 -
- drivers/input/misc/Kconfig                         |    4 +-
- drivers/input/misc/cpcap-pwrbutton.c               |   12 +-
- drivers/input/misc/da9063_onkey.c                  |    9 +
- drivers/input/misc/gpio-vibra.c                    |   22 +-
- drivers/input/misc/iqs269a.c                       |    2 +-
- drivers/input/misc/iqs626a.c                       |    2 +-
- drivers/input/misc/iqs7222.c                       |  478 +++-
- drivers/input/misc/mma8450.c                       |    2 +-
- drivers/input/misc/pm8941-pwrkey.c                 |    1 -
- drivers/input/misc/pm8xxx-vibrator.c               |    1 -
- drivers/input/misc/pmic8xxx-pwrkey.c               |    1 -
- drivers/input/misc/pwm-beeper.c                    |   19 +-
- drivers/input/misc/pwm-vibra.c                     |   32 +-
- drivers/input/misc/rotary_encoder.c                |    9 +-
- drivers/input/misc/sparcspkr.c                     |    3 +-
- drivers/input/mouse/elan_i2c_core.c                |    9 +-
- drivers/input/mouse/psmouse-smbus.c                |   19 +-
- drivers/input/serio/apbps2.c                       |    2 +-
- drivers/input/serio/i8042-acpipnpio.h              |    7 +
- drivers/input/serio/i8042-sparcio.h                |    4 +-
- drivers/input/serio/rpckbd.c                       |    8 +-
- drivers/input/serio/xilinx_ps2.c                   |    4 +-
- drivers/input/touchscreen/Kconfig                  |   14 +-
- drivers/input/touchscreen/Makefile                 |    1 +
- drivers/input/touchscreen/bu21013_ts.c             |   72 +-
- drivers/input/touchscreen/bu21029_ts.c             |   51 +-
- drivers/input/touchscreen/chipone_icn8318.c        |    8 +-
- drivers/input/touchscreen/cy8ctma140.c             |    8 +-
- drivers/input/touchscreen/cyttsp5.c                |    2 +-
- drivers/input/touchscreen/edt-ft5x06.c             |   10 +-
- drivers/input/touchscreen/ektf2127.c               |    8 +-
- drivers/input/touchscreen/elants_i2c.c             |   22 +-
- drivers/input/touchscreen/exc3000.c                |   17 +
- drivers/input/touchscreen/goodix.c                 |   41 +-
- drivers/input/touchscreen/ili210x.c                |    2 +-
- drivers/input/touchscreen/iqs5xx.c                 |    2 +-
- drivers/input/touchscreen/iqs7211.c                | 2557 ++++++++++++++++++++
- drivers/input/touchscreen/lpc32xx_ts.c             |   98 +-
- drivers/input/touchscreen/melfas_mip4.c            |    9 +-
- drivers/input/touchscreen/mms114.c                 |   89 +-
- drivers/input/touchscreen/novatek-nvt-ts.c         |   10 +-
- drivers/input/touchscreen/pixcir_i2c_ts.c          |   40 +-
- drivers/input/touchscreen/raydium_i2c_ts.c         |   30 +-
- drivers/input/touchscreen/resistive-adc-touch.c    |    8 +-
- drivers/input/touchscreen/silead.c                 |    8 +-
- drivers/input/touchscreen/sis_i2c.c                |   20 +-
- drivers/input/touchscreen/surface3_spi.c           |   13 +-
- drivers/input/touchscreen/sx8654.c                 |   10 +-
- drivers/input/touchscreen/ti_am335x_tsc.c          |    1 -
- include/linux/gameport.h                           |    2 +-
- include/linux/tca6416_keypad.h                     |    1 -
- 80 files changed, 4644 insertions(+), 1056 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/azoteq,iqs7211.yaml
- create mode 100644 drivers/input/touchscreen/iqs7211.c
-
-Thanks.
-
+diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+index 250f5d2f8..a5ebe857a 100644
+--- a/drivers/hid/hid-nintendo.c
++++ b/drivers/hid/hid-nintendo.c
+@@ -2088,7 +2088,9 @@ static int joycon_read_info(struct joycon_ctlr *ctlr)
+ 	struct joycon_input_report *report;
+ 
+ 	req.subcmd_id = JC_SUBCMD_REQ_DEV_INFO;
++	mutex_lock(&ctlr->output_mutex);
+ 	ret = joycon_send_subcmd(ctlr, &req, 0, HZ);
++	mutex_unlock(&ctlr->output_mutex);
+ 	if (ret) {
+ 		hid_err(ctlr->hdev, "Failed to get joycon info; ret=%d\n", ret);
+ 		return ret;
+@@ -2117,6 +2119,88 @@ static int joycon_read_info(struct joycon_ctlr *ctlr)
+ 	return 0;
+ }
+ 
++static int joycon_init(struct hid_device *hdev)
++{
++	struct joycon_ctlr *ctlr = hid_get_drvdata(hdev);
++	int ret = 0;
++
++	mutex_lock(&ctlr->output_mutex);
++	/* if handshake command fails, assume ble pro controller */
++	if ((jc_type_is_procon(ctlr) || jc_type_is_chrggrip(ctlr)) &&
++	    !joycon_send_usb(ctlr, JC_USB_CMD_HANDSHAKE, HZ)) {
++		hid_dbg(hdev, "detected USB controller\n");
++		/* set baudrate for improved latency */
++		ret = joycon_send_usb(ctlr, JC_USB_CMD_BAUDRATE_3M, HZ);
++		if (ret) {
++			hid_err(hdev, "Failed to set baudrate; ret=%d\n", ret);
++			goto err_mutex;
++		}
++		/* handshake */
++		ret = joycon_send_usb(ctlr, JC_USB_CMD_HANDSHAKE, HZ);
++		if (ret) {
++			hid_err(hdev, "Failed handshake; ret=%d\n", ret);
++			goto err_mutex;
++		}
++		/*
++		 * Set no timeout (to keep controller in USB mode).
++		 * This doesn't send a response, so ignore the timeout.
++		 */
++		joycon_send_usb(ctlr, JC_USB_CMD_NO_TIMEOUT, HZ/10);
++	} else if (jc_type_is_chrggrip(ctlr)) {
++		hid_err(hdev, "Failed charging grip handshake\n");
++		ret = -ETIMEDOUT;
++		goto err_mutex;
++	}
++
++	/* get controller calibration data, and parse it */
++	ret = joycon_request_calibration(ctlr);
++	if (ret) {
++		/*
++		 * We can function with default calibration, but it may be
++		 * inaccurate. Provide a warning, and continue on.
++		 */
++		hid_warn(hdev, "Analog stick positions may be inaccurate\n");
++	}
++
++	/* get IMU calibration data, and parse it */
++	ret = joycon_request_imu_calibration(ctlr);
++	if (ret) {
++		/*
++		 * We can function with default calibration, but it may be
++		 * inaccurate. Provide a warning, and continue on.
++		 */
++		hid_warn(hdev, "Unable to read IMU calibration data\n");
++	}
++
++	/* Set the reporting mode to 0x30, which is the full report mode */
++	ret = joycon_set_report_mode(ctlr);
++	if (ret) {
++		hid_err(hdev, "Failed to set report mode; ret=%d\n", ret);
++		goto err_mutex;
++	}
++
++	/* Enable rumble */
++	ret = joycon_enable_rumble(ctlr);
++	if (ret) {
++		hid_err(hdev, "Failed to enable rumble; ret=%d\n", ret);
++		goto err_mutex;
++	}
++
++	/* Enable the IMU */
++	ret = joycon_enable_imu(ctlr);
++	if (ret) {
++		hid_err(hdev, "Failed to enable the IMU; ret=%d\n", ret);
++		goto err_mutex;
++	}
++
++	mutex_unlock(&ctlr->output_mutex);
++	return 0;
++
++err_mutex:
++	mutex_unlock(&ctlr->output_mutex);
++	return ret;
++}
++
+ /* Common handler for parsing inputs */
+ static int joycon_ctlr_read_handler(struct joycon_ctlr *ctlr, u8 *data,
+ 							      int size)
+@@ -2248,85 +2332,19 @@ static int nintendo_hid_probe(struct hid_device *hdev,
+ 
+ 	hid_device_io_start(hdev);
+ 
+-	/* Initialize the controller */
+-	mutex_lock(&ctlr->output_mutex);
+-	/* if handshake command fails, assume ble pro controller */
+-	if ((jc_type_is_procon(ctlr) || jc_type_is_chrggrip(ctlr)) &&
+-	    !joycon_send_usb(ctlr, JC_USB_CMD_HANDSHAKE, HZ)) {
+-		hid_dbg(hdev, "detected USB controller\n");
+-		/* set baudrate for improved latency */
+-		ret = joycon_send_usb(ctlr, JC_USB_CMD_BAUDRATE_3M, HZ);
+-		if (ret) {
+-			hid_err(hdev, "Failed to set baudrate; ret=%d\n", ret);
+-			goto err_mutex;
+-		}
+-		/* handshake */
+-		ret = joycon_send_usb(ctlr, JC_USB_CMD_HANDSHAKE, HZ);
+-		if (ret) {
+-			hid_err(hdev, "Failed handshake; ret=%d\n", ret);
+-			goto err_mutex;
+-		}
+-		/*
+-		 * Set no timeout (to keep controller in USB mode).
+-		 * This doesn't send a response, so ignore the timeout.
+-		 */
+-		joycon_send_usb(ctlr, JC_USB_CMD_NO_TIMEOUT, HZ/10);
+-	} else if (jc_type_is_chrggrip(ctlr)) {
+-		hid_err(hdev, "Failed charging grip handshake\n");
+-		ret = -ETIMEDOUT;
+-		goto err_mutex;
+-	}
+-
+-	/* get controller calibration data, and parse it */
+-	ret = joycon_request_calibration(ctlr);
+-	if (ret) {
+-		/*
+-		 * We can function with default calibration, but it may be
+-		 * inaccurate. Provide a warning, and continue on.
+-		 */
+-		hid_warn(hdev, "Analog stick positions may be inaccurate\n");
+-	}
+-
+-	/* get IMU calibration data, and parse it */
+-	ret = joycon_request_imu_calibration(ctlr);
+-	if (ret) {
+-		/*
+-		 * We can function with default calibration, but it may be
+-		 * inaccurate. Provide a warning, and continue on.
+-		 */
+-		hid_warn(hdev, "Unable to read IMU calibration data\n");
+-	}
+-
+-	/* Set the reporting mode to 0x30, which is the full report mode */
+-	ret = joycon_set_report_mode(ctlr);
+-	if (ret) {
+-		hid_err(hdev, "Failed to set report mode; ret=%d\n", ret);
+-		goto err_mutex;
+-	}
+-
+-	/* Enable rumble */
+-	ret = joycon_enable_rumble(ctlr);
+-	if (ret) {
+-		hid_err(hdev, "Failed to enable rumble; ret=%d\n", ret);
+-		goto err_mutex;
+-	}
+-
+-	/* Enable the IMU */
+-	ret = joycon_enable_imu(ctlr);
++	ret = joycon_init(hdev);
+ 	if (ret) {
+-		hid_err(hdev, "Failed to enable the IMU; ret=%d\n", ret);
+-		goto err_mutex;
++		hid_err(hdev, "Failed to initialize controller; ret=%d\n", ret);
++		goto err_close;
+ 	}
+ 
+ 	ret = joycon_read_info(ctlr);
+ 	if (ret) {
+ 		hid_err(hdev, "Failed to retrieve controller info; ret=%d\n",
+ 			ret);
+-		goto err_mutex;
++		goto err_close;
+ 	}
+ 
+-	mutex_unlock(&ctlr->output_mutex);
+-
+ 	/* Initialize the leds */
+ 	ret = joycon_leds_create(ctlr);
+ 	if (ret) {
+@@ -2352,8 +2370,6 @@ static int nintendo_hid_probe(struct hid_device *hdev,
+ 	hid_dbg(hdev, "probe - success\n");
+ 	return 0;
+ 
+-err_mutex:
+-	mutex_unlock(&ctlr->output_mutex);
+ err_close:
+ 	hid_hw_close(hdev);
+ err_stop:
+@@ -2383,6 +2399,20 @@ static void nintendo_hid_remove(struct hid_device *hdev)
+ 	hid_hw_stop(hdev);
+ }
+ 
++#ifdef CONFIG_PM
++
++static int nintendo_hid_resume(struct hid_device *hdev)
++{
++	int ret = joycon_init(hdev);
++
++	if (ret)
++		hid_err(hdev, "Failed to restore controller after resume");
++
++	return ret;
++}
++
++#endif
++
+ static const struct hid_device_id nintendo_hid_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_NINTENDO,
+ 			 USB_DEVICE_ID_NINTENDO_PROCON) },
+@@ -2404,6 +2434,10 @@ static struct hid_driver nintendo_hid_driver = {
+ 	.probe		= nintendo_hid_probe,
+ 	.remove		= nintendo_hid_remove,
+ 	.raw_event	= nintendo_hid_event,
++
++#ifdef CONFIG_PM
++	.resume		= nintendo_hid_resume,
++#endif
+ };
+ module_hid_driver(nintendo_hid_driver);
+ 
 -- 
-Dmitry
+2.41.0
+
