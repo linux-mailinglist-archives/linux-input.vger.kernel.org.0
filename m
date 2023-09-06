@@ -2,63 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E93FF79468F
-	for <lists+linux-input@lfdr.de>; Thu,  7 Sep 2023 00:48:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F14CA7946DA
+	for <lists+linux-input@lfdr.de>; Thu,  7 Sep 2023 01:15:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244533AbjIFWsQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Sep 2023 18:48:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57168 "EHLO
+        id S232620AbjIFXPo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Sep 2023 19:15:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233578AbjIFWsP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Sep 2023 18:48:15 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F4D5E71;
-        Wed,  6 Sep 2023 15:48:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694040492; x=1725576492;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3Wlb5udvjKXip8Jt+PHIShNQsOIrXj1TqpblESAd0D0=;
-  b=J23afQx3ry1RvR8CsunQYuSf8rovvv3SO6mInwx+qfzhxjQ8m3hHN4aj
-   9/MuirAQybOZ3ZO2KNcrLYRxpI127WNN4Lf8+HVOIc8yx9C2pIObrQcl/
-   3VwUb7gmex/fyGLnIVsxnV2ZeZ+88H48Ie+WlCTb61xjip9y5enxD3khD
-   1cw3EdjlOAtydJTAY3/uXpG5WEZF/oUDeX7WoInQ8r0/KXYLARM4S5ld8
-   hNMdT0FVamw/7GvCFfibuIFxsC5gEeMq1eeuaVqoRyCYEBT881c4IHsBA
-   W0amgk6kmJ3OISHJ9l3XHdQhQq/jsv36HSmn7hGJ0FgEe/Hei01m1Vqjo
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="443587356"
-X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="443587356"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 15:48:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="856650662"
-X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="856650662"
-Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 06 Sep 2023 15:48:07 -0700
-Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qe1Jd-0000ev-19;
-        Wed, 06 Sep 2023 22:48:05 +0000
-Date:   Thu, 7 Sep 2023 06:47:14 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Martino Fontana <tinozzo123@gmail.com>, djogorchock@gmail.com,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Martino Fontana <tinozzo123@gmail.com>
-Subject: Re: [PATCH v3] HID: nintendo: cleanup LED code
-Message-ID: <202309070615.yjnCY1YM-lkp@intel.com>
-References: <20230906141533.36921-1-tinozzo123@gmail.com>
+        with ESMTP id S236302AbjIFXPm (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Sep 2023 19:15:42 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CB1119AE
+        for <linux-input@vger.kernel.org>; Wed,  6 Sep 2023 16:15:36 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id d9443c01a7336-1c337aeefbdso3402025ad.0
+        for <linux-input@vger.kernel.org>; Wed, 06 Sep 2023 16:15:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694042136; x=1694646936; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zanLnHTNyyO2AIIdcoS63tpd7En7tn/QWOYCNadAJFo=;
+        b=D0ZogCt6xbfSfEjcf+Sz9I/6PfXeFErH/C2EaLTnxkV+iUSe6gHSL1yp64B3DEu0+E
+         VlhLsY+4LaSjgQPFf/DDyxqzTj5Hdn4Bn6jlJYyL/oxI0KgRdOUZczxFHnuXTV/nBy4e
+         ENy8nqY3KtQV/cm4QozPNwqOZPCBj1eLsolvkWWCl4bHj0vlrb2ubfsUDr3mgL7912+1
+         sFrD+brH0uSoPifJ4lNHCUpOf8J26noVhysttgkYviyusv8DuXMhlikHV9bQFI4a+oiT
+         9MqXBiy3BcwqP7MzSDL/uYNv4In/8V0Ps/3H3XT+QbhO0cM/c4z29CF/86CC6Cwj/Kj0
+         opIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1694042136; x=1694646936;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zanLnHTNyyO2AIIdcoS63tpd7En7tn/QWOYCNadAJFo=;
+        b=LGHN8CBJPyIqSekAzGOxGffyjfgoXvGWgTeYkUu1xqr7nAKxE9Oy9EmYuTBGmjcC1Q
+         1bLfHdt0Wfh+6fp7FOck6bHFxBqDKpsr+jxY6klmX1SYWDcPV4BKDxNvT701hYC/7pEV
+         VkAC4he7CzIbPWWa9z4fUN4t3bNYVlqXi7/VD9ejmrKRm+97jz+Kko+QrNWndCmLXrh+
+         nfiFpOt24sNx3BcZKavAkO4iRrE2fQpGfSx278VHcintjB9GBD0zOkz/RwaTYGqmJASF
+         h/UYxVZOPUtUm6RpuKphApBK6Om62fsWZG3HF2bc8O3xOi+gJDoC3bx/IjBulOA4Vlw8
+         sgmA==
+X-Gm-Message-State: AOJu0YxIzkR2Nv9PsCjMoGTEKx48prEL0xCXyPei7igGBYRmojR4FL+1
+        DjWVoeLtUlt2/0MavK7MY/rE28luz+Uhkg==
+X-Google-Smtp-Source: AGHT+IHCemfr55uqBgyps6ZztbIKA/73BfMg6AFL5swc1lHfqeGa+p7PpqMH085a3/5Ra/3rak1CtQ==
+X-Received: by 2002:a17:902:e551:b0:1b6:6f12:502e with SMTP id n17-20020a170902e55100b001b66f12502emr21790136plf.49.1694042135710;
+        Wed, 06 Sep 2023 16:15:35 -0700 (PDT)
+Received: from google.com ([104.129.198.114])
+        by smtp.gmail.com with ESMTPSA id g15-20020a1709029f8f00b001b895a17429sm11536717plq.280.2023.09.06.16.15.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Sep 2023 16:15:35 -0700 (PDT)
+From:   HP Dev <hphyperxdev@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, HP Dev <hphyperxdev@gmail.com>,
+        Chris Toledanes <chris.toledanes@hp.com>,
+        Carl Ng <carl.ng@hp.com>, Max Nguyen <maxwell.nguyen@hp.com>
+Subject: [PATCH RESEND] Input: xpad - Add HyperX Clutch Gladiate Support
+Date:   Wed,  6 Sep 2023 16:15:15 -0700
+Message-Id: <20230906231514.4291-1-hphyperxdev@gmail.com>
+X-Mailer: git-send-email 2.39.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230906141533.36921-1-tinozzo123@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,66 +69,35 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Martino,
+Add HyperX controller support to xpad_device and xpad_table.
 
-kernel test robot noticed the following build warnings:
+Suggested-by: Chris Toledanes <chris.toledanes@hp.com>
+Reviewed-by: Carl Ng <carl.ng@hp.com>
+Signed-off-by: Max Nguyen <maxwell.nguyen@hp.com>
+---
+ drivers/input/joystick/xpad.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on linus/master v6.5 next-20230906]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Martino-Fontana/HID-nintendo-cleanup-LED-code/20230906-221818
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20230906141533.36921-1-tinozzo123%40gmail.com
-patch subject: [PATCH v3] HID: nintendo: cleanup LED code
-config: arc-randconfig-r033-20230907 (https://download.01.org/0day-ci/archive/20230907/202309070615.yjnCY1YM-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309070615.yjnCY1YM-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309070615.yjnCY1YM-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from arch/arc/include/asm/ptrace.h:11,
-                    from arch/arc/include/asm/unaligned.h:12,
-                    from drivers/hid/hid-nintendo.c:26:
-   drivers/hid/hid-nintendo.c: In function 'joycon_leds_create':
->> include/linux/compiler.h:55:23: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                       ^~
-   drivers/hid/hid-nintendo.c:1954:17: note: in expansion of macro 'if'
-    1954 |                 if (ret)
-         |                 ^~
-   drivers/hid/hid-nintendo.c:1956:25: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
-    1956 |                         return ret;
-         |                         ^~~~~~
->> include/linux/compiler.h:55:23: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                       ^~
-   drivers/hid/hid-nintendo.c:1986:17: note: in expansion of macro 'if'
-    1986 |                 if (ret)
-         |                 ^~
-   drivers/hid/hid-nintendo.c:1988:25: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
-    1988 |                         return ret;
-         |                         ^~~~~~
-
-
-vim +/if +55 include/linux/compiler.h
-
-2bcd521a684cc9 Steven Rostedt 2008-11-21  49  
-2bcd521a684cc9 Steven Rostedt 2008-11-21  50  #ifdef CONFIG_PROFILE_ALL_BRANCHES
-2bcd521a684cc9 Steven Rostedt 2008-11-21  51  /*
-2bcd521a684cc9 Steven Rostedt 2008-11-21  52   * "Define 'is'", Bill Clinton
-2bcd521a684cc9 Steven Rostedt 2008-11-21  53   * "Define 'if'", Steven Rostedt
-2bcd521a684cc9 Steven Rostedt 2008-11-21  54   */
-a15fd609ad53a6 Linus Torvalds 2019-03-20 @55  #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-a15fd609ad53a6 Linus Torvalds 2019-03-20  56  
-
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index cdb193317c3b..1e377d040c43 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -130,6 +130,7 @@ static const struct xpad_device {
+ 	{ 0x0079, 0x18d4, "GPD Win 2 X-Box Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x03eb, 0xff01, "Wooting One (Legacy)", 0, XTYPE_XBOX360 },
+ 	{ 0x03eb, 0xff02, "Wooting Two (Legacy)", 0, XTYPE_XBOX360 },
++	{ 0x03f0, 0x0495, "HyperX Clutch Gladiate", 0, XTYPE_XBOXONE },
+ 	{ 0x044f, 0x0f00, "Thrustmaster Wheel", 0, XTYPE_XBOX },
+ 	{ 0x044f, 0x0f03, "Thrustmaster Wheel", 0, XTYPE_XBOX },
+ 	{ 0x044f, 0x0f07, "Thrustmaster, Inc. Controller", 0, XTYPE_XBOX },
+@@ -457,6 +458,7 @@ static const struct usb_device_id xpad_table[] = {
+ 	{ USB_INTERFACE_INFO('X', 'B', 0) },	/* Xbox USB-IF not-approved class */
+ 	XPAD_XBOX360_VENDOR(0x0079),		/* GPD Win 2 controller */
+ 	XPAD_XBOX360_VENDOR(0x03eb),		/* Wooting Keyboards (Legacy) */
++	XPAD_XBOXONE_VENDOR(0x03f0),		/* HP HyperX Xbox One controllers */
+ 	XPAD_XBOX360_VENDOR(0x044f),		/* Thrustmaster Xbox 360 controllers */
+ 	XPAD_XBOX360_VENDOR(0x045e),		/* Microsoft Xbox 360 controllers */
+ 	XPAD_XBOXONE_VENDOR(0x045e),		/* Microsoft Xbox One controllers */
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.3
+
