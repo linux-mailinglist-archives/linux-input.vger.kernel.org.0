@@ -2,180 +2,155 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25DEA794030
-	for <lists+linux-input@lfdr.de>; Wed,  6 Sep 2023 17:20:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C9A179409F
+	for <lists+linux-input@lfdr.de>; Wed,  6 Sep 2023 17:45:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242464AbjIFPUr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Sep 2023 11:20:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58422 "EHLO
+        id S238515AbjIFPpb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Sep 2023 11:45:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242458AbjIFPUr (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Sep 2023 11:20:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D30C1172E
-        for <linux-input@vger.kernel.org>; Wed,  6 Sep 2023 08:19:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694013597;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=YBGwnY8IJ4oOi26b7B4Xq+aeBiWJN7rJ48RnXu/dAI8=;
-        b=FbWw5Jm6nbFlVJblQAhQevalVz0btcp63Fi4TLqQrk28P6NRdeyLiTWb1EY24FJ9+VT03c
-        U8Ke1d0gX7SB03aKiYoBMr6Jl8eP2KQzZMcTYDOS8zTwwa4Ykfrkb4hyjYh6wsQw/S07CY
-        hVRXzeeYiW5HOq2DL2IiHI6S5krNvDI=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-47-Ch0nU1GrM0iwRnMLRA13IA-1; Wed, 06 Sep 2023 11:19:55 -0400
-X-MC-Unique: Ch0nU1GrM0iwRnMLRA13IA-1
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-52a1ce52ad4so1628670a12.0
-        for <linux-input@vger.kernel.org>; Wed, 06 Sep 2023 08:19:55 -0700 (PDT)
+        with ESMTP id S241241AbjIFPpa (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Sep 2023 11:45:30 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF6411724;
+        Wed,  6 Sep 2023 08:45:26 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-501ce655fcbso568449e87.2;
+        Wed, 06 Sep 2023 08:45:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694015125; x=1694619925; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fQiQz3+I8vY7abxTdtpZH6nA7V1qCV7p78jA8rANmPQ=;
+        b=gzp8cybGh4kcFhSKABARyH74YGcXRlIhJwkjBtOAUiBUiP7M8ms/Hr5HrH/IkGf2fF
+         P6VqVTkmb78oA7uTiIljwcHbQnubGAv+MV5ijm7Uu656a3GYgaf9aqSfQxukoRgTODnb
+         CzTH7dySxB0yXjRvc5sgCyAcfouzzHMFmJvgcJ/9a+7oLb0eFpVRGI90pvTq97d7dDHE
+         lNGaKi8rvxQnsfFjdoCkYCfgki4YHQZDovY6fWyaaDTiTXS8hJadNTL075Qg2g65suft
+         5VcWhej2++KqejFYH5cXWNKn9FGGmSqJWKTmTzvNO+fQtULol5bYiqHru42s87ZNkaYv
+         bqHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694013594; x=1694618394;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YBGwnY8IJ4oOi26b7B4Xq+aeBiWJN7rJ48RnXu/dAI8=;
-        b=XICEU4f+LtuTc6Iq/ODoMjSf5KETChQ40+r9KacdbljgHGzoBv6bWi2p8IvKPsdtKB
-         PW/+ko83iI5REuO3mKK6d8x7sOaHM3mO4rYb9x7AYB2x7cGq06l2JafEJCsyQ9TOlh3K
-         y4My/+6cGEjC7DFEDGEpXG0yaRoLG7pb4p7SvFDBZEztWDdcOKCaESuzekCZr2dYRHyB
-         0OS+77bfRMAieJaMchjg8qNo1xsZE4Y2MbQBBYQpBjqB+Yq7468NBtyrqiHlGL4GnNuh
-         Pm4YaUEiVfvKBX9Y8DguBZafjW/nfbSGwzGXoOYBs+dIV9oegVlYAD2O4dieMjLdA2Ih
-         SDTA==
-X-Gm-Message-State: AOJu0Yz0wtDsGp9GnvlcWVhJ/of0iWEQYL/ttMQsFDF3ZQtbAcCTY3Ox
-        YKsUoSM/KPjjh4fXaBfgRcSIoZMP0sYeXSDpxXrtxCaM5H9NYkYQ7l206sRdMGZwT1HtKZxp9K4
-        7be4h9U9MT56jb6nzDXG9CF4=
-X-Received: by 2002:aa7:d704:0:b0:523:2e23:a0bf with SMTP id t4-20020aa7d704000000b005232e23a0bfmr3399256edq.11.1694013594555;
-        Wed, 06 Sep 2023 08:19:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHQRje1BTiQeDC0pKG0JIZJVNX1y7mzl6y7CEgKpmM02h2Jahwy26ejPbhXZUuWRDSrUFQtQg==
-X-Received: by 2002:aa7:d704:0:b0:523:2e23:a0bf with SMTP id t4-20020aa7d704000000b005232e23a0bfmr3399238edq.11.1694013594219;
-        Wed, 06 Sep 2023 08:19:54 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id d17-20020aa7ce11000000b00522572f323dsm8504731edv.16.2023.09.06.08.19.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Sep 2023 08:19:53 -0700 (PDT)
-Message-ID: <f95da7ff-06dd-2c0e-d563-7e5ad61c3bcc@redhat.com>
-Date:   Wed, 6 Sep 2023 17:19:52 +0200
+        d=1e100.net; s=20221208; t=1694015125; x=1694619925;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fQiQz3+I8vY7abxTdtpZH6nA7V1qCV7p78jA8rANmPQ=;
+        b=RvH44m28HyvQdRWb5I33N/Sr9m4OiWsm0Za2HM+hV6r/RHHzdxRUdHFJTM7TDQIyjJ
+         Rms0huxn+4hbZJYEYGDOIFBgAelAeIFnujRHFjLGCtsKExYNCPAiZl8TVFBVeAi1nUye
+         koXkLDSfR0ZHgZQZlCd0SWRZEJTHwRzXkr7mZ1SiTxijOAjhzhmDWg3ubXa4DMLm6xzI
+         RWDhJsMwUA2aZaUg1Rpp6YtixxOAhpzxWHJS7cpLOE1b+j73prDf3g0R6mRncE8OhPmc
+         vTYRil/k2rpi3wLoxNrFcJ9yn98iubwCJKZ+tOqti8sTtRvzavHbqbLZn0E8kWnXOXW0
+         In8Q==
+X-Gm-Message-State: AOJu0YwqvCgCmPC+zxMMLsuQLV2Kfc1+hYTx9wVysI6kfNwNG+aM2PdX
+        CuuTFhW21bbzelK0AKyHdjXOGLIKqV5tazWCrN3evEnGiTI=
+X-Google-Smtp-Source: AGHT+IGm7N3BRJVcQSOdqp9OH33rDfjW6f4DnESXe0m8BhdERx7Qf1v1ZaMFytEvmwuINjsC95nv70MIL6kH97FuTAE=
+X-Received: by 2002:a05:6512:1115:b0:501:fe39:ee00 with SMTP id
+ l21-20020a056512111500b00501fe39ee00mr67264lfg.60.1694015124716; Wed, 06 Sep
+ 2023 08:45:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 1/1] backlight: hid_bl: Add VESA VCP HID backlight
- driver
-Content-Language: en-US, nl
-To:     Julius Zint <julius@zint.sh>,
-        =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <thomas@t-8ch.de>
-Cc:     Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
+References: <20230826152111.13525-1-max@enpas.org> <20230826152111.13525-3-max@enpas.org>
+ <ec4d07de-4944-a7ea-2b74-c4162af75b16@enpas.org>
+In-Reply-To: <ec4d07de-4944-a7ea-2b74-c4162af75b16@enpas.org>
+From:   Roderick Colenbrander <thunderbird2k@gmail.com>
+Date:   Wed, 6 Sep 2023 08:45:12 -0700
+Message-ID: <CAEc3jaDoRESqJ_6KAa6FHvbF=R4ZRV0P+=4KY5pjYPCrwroqCQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] hid-sony: DS3: Report analog buttons for Sixaxis
+To:     Max Staudt <max@enpas.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-fbdev@vger.kernel.org
-References: <20230820094118.20521-1-julius@zint.sh>
- <20230820094118.20521-2-julius@zint.sh>
- <f2e1ab9e-e691-42e1-a600-42744f692922@t-8ch.de>
- <9a5364de-28e1-1d4a-1d3a-d6dcedb7e659@zint.sh>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <9a5364de-28e1-1d4a-1d3a-d6dcedb7e659@zint.sh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Vicki Pfau <vi@endrift.com>,
+        Pavel Rojtberg <rojtberg@gmail.com>,
+        Roderick Colenbrander <roderick@gaikai.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Julius,
+On Tue, Aug 29, 2023 at 12:12=E2=80=AFPM Max Staudt <max@enpas.org> wrote:
+>
+> On 8/27/23 00:21, Max Staudt wrote:
+> > This change exposes these buttons as axes in a way that is as backwards
+> > compatible and as close to the Linux gamepad spec as possible.
+> >
+> > [...]
+> >
+> >   - The D-Pad as ABS_HAT0X/ABS_HAT0Y, -255 to 255
+>
+>
+> One further idea:
+>
+> The DualShock 3 reports all 4 D-pad buttons separately, and hid-sony curr=
+ently reports them as discrete digital buttons to userspace.
+>
+>
+> Would it be better to do the same with the analog buttons, i.e. to report=
+ the 4 measurements as discrete axes, rather than the current patch's appro=
+ach of merging them into two logical axes?
+>
+> Of course, this would require 4 more axes, this would not fit into any ex=
+isting scheme, and since we've run out of ABS_MISC+n at this point, this co=
+uld be a further reason for officially reserving a range of axes for analog=
+ buttons. Something like:
+>
+>
+> #define ABS_BTN_SOUTH           0x40
+> #define ABS_BTN_A               ABS_BTN_SOUTH
+> #define ABS_BTN_EAST            0x41
+> #define ABS_BTN_B               ABS_BTN_EAST
+> #define ABS_BTN_C               0x42
+> #define ABS_BTN_NORTH           0x43
+> #define ABS_BTN_X               ABS_BTN_NORTH
+> #define ABS_BTN_WEST            0x44
+> #define ABS_BTN_Y               ABS_BTN_WEST
+> #define ABS_BTN_Z               0x45
+>
+> #define ABS_BTN_DPAD_UP         0x46
+> #define ABS_BTN_DPAD_DOWN       0x47
+> #define ABS_BTN_DPAD_LEFT       0x48
+> #define ABS_BTN_DPAD_RIGHT      0x49
+>
+> #define ABS_MAX                 0x4f
+> #define ABS_CNT                 (ABS_MAX+1)
+>
+>
+>
+> Max
+>
 
-On 9/4/23 21:02, Julius Zint wrote:
-> 
-> 
-> On Mon, 4 Sep 2023, Thomas Weißschuh wrote:
-> 
->> +Cc Hans who ins involved with the backlight subsystem
->>
->> Hi Julius,
->>
->> today I stumbled upon a mail from Hans [0], which explains that the
->> backlight subsystem is not actually a good fit (yet?) for external
->> displays.
->>
->> It seems a new API is in the works that would better fit, but I'm not
->> sure about the state of this API. Maybe Hans can clarify.
->>
->> This also ties back to my review question how userspace can figure out
->> to which display a backlight devices applies. So far it can not.
->>
->> [0] https://lore.kernel.org/lkml/7f2d88de-60c5-e2ff-9b22-acba35cfdfb6@redhat.com/
->>
-> 
-> Hi Thomas,
-> 
-> thanks for the hint. I will make sure to give this a proper read and
-> see, if it fits my use case better then the current backlight subsystem.
+Hi Max,
 
-Note the actual proposal for the new usespace API for display brightness
-control is here:
+Sorry for the late response, but I have been on vacation and just got back.
 
-https://lore.kernel.org/dri-devel/b61d3eeb-6213-afac-2e70-7b9791c86d2e@redhat.com/
+Analog buttons are as you know, fairly common on game controllers. For
+this reason, I was working on this about 5 years ago as my company had
+a need for it, but the need died out. I did send a proposal at the
+time to linux-input, which I encourage you to look at ('Proposal to
+support pressure sensitive "analog" buttons in evdev' on linux-input).
+There are some good comments in there.
 
-I have finished / stabilized the backlight code refactor which I landed
-in 6.1, which is a prerequisite for the above proposal. But I have not
-been able to make time to actually implement the above proposal; and
-I don't know when I will be able to make time for this.
+The summary of the discussion and also my thoughts is not to simply
+reuse existing axes, but think of things in a bigger picture. In
+particular I brought the example of analog keyboards into the
+discussion at the time (Wooting made one) in which ALL buttons are
+analog. The landscape has probably changed and I haven't caught up.
+Quickly looking it looks like Razor now has one too and there are
+probably more.
 
-> Especially since I wasnt able to properly address your other review
-> comments for now. You are right that the name should align better with
-> the kernel module and also, that it is possible for multiple displays to
-> be attached.
-> 
-> In its current state, this would mean that you could only control the
-> backlight for the first HID device (enough for me :-).
-> 
-> The systemd-backlight@.service uses not only the file name, but also the
-> full bus path for storing/restoring backlights. I did not yet get around
-> to see how the desktops handle brightness control, but since the
-> systemd-backlight@.service already uses the name, its important to stay
-> the same over multiple boots.
-> 
-> I would be able to get a handle on the underlying USB device and use the
-> serial to uniquely (and persistently) name the backlight. But it does
-> feel hacky doing it this way.
+The key question is what are the similarities between these analog
+devices. It feels it are not 'just' axes. There might be some level of
+configurability (though not all of that) for example some keyboards
+seem to use it as a way to trigger digital key presses at configurable
+thresholds among others. Please look at the old discussion as there
+were some good suggestions there if I recall from Peter Hutterer among
+others.
 
-So mutter (gnome-shell compositor library) has a similar issue when saving
-monitor layouts and I can tell you beforehand that monitor serial numbers
-by themselves are not unique enough. Some models just report 123456789
-as serial and if you have a dual-monitor setup with 2 such monitors
-and name the backlight class device <serial>-vcp-hid or something like that
-you will still end up with 2 identical names.
-
-To avoid this when saving monitor layouts mutter saves both the port
-to which the monitor is attached (e.g. DP-1 DP-2) and the serialnumber
-and on startup / monitor hotplug when it checks to see if it has saved
-layout info for the monitor it checks the port+serialnr combination.
-
-So what I think you should do is figure out a way to map which
-VCP HID device maps to which drm-connector and then use
-the connector-name + serial-nr to generate the backlight device name.
-
-We will need the mapping the a drm-connector object anyway for
-the new brightness API proposal from above.
-
-Note this does NOT solve the fact that registering a new backlight
-class device for an external monitor on a laptop will hopelessly
-confuse userspace, see:
-
-https://lore.kernel.org/lkml/7f2d88de-60c5-e2ff-9b22-acba35cfdfb6@redhat.com/
-
-Regards,
-
-Hans
-
-
+Thanks,
+Roderick
