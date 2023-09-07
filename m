@@ -2,67 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6DFF797964
-	for <lists+linux-input@lfdr.de>; Thu,  7 Sep 2023 19:12:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E74D0797DFE
+	for <lists+linux-input@lfdr.de>; Thu,  7 Sep 2023 23:35:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233003AbjIGRMj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 7 Sep 2023 13:12:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33178 "EHLO
+        id S232570AbjIGVfG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 7 Sep 2023 17:35:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241825AbjIGRMj (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Sep 2023 13:12:39 -0400
-Received: from mail.gnu-linux.rocks (unknown [82.165.184.165])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84B1E199;
-        Thu,  7 Sep 2023 10:12:11 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5bfa48.dynamic.kabel-deutschland.de [95.91.250.72])
-        by mail.gnu-linux.rocks (Postfix) with ESMTPSA id 270EF3FED4;
-        Thu,  7 Sep 2023 16:41:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnu-linux.rocks;
-        s=mail; t=1694104889;
-        bh=hbGgVV8ufhBZzB/y/KKKMs57iYcXQneWaC05xDLM3Zc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hOHwebvX6zsC3qWyz6ayYQwkHpVNBCghwdIbKTH2SA0vSsNylDEcSqNnFbrHYblO8
-         IQXRFPeqYaF2gCWCvqxDy6gtO+0paxZNOK2wyMbhP92F07bIl3zZBPFDi17XrGKEz8
-         dTHw2zKJOhQHgonsjR4wzNtEfm80bFeQWUb7fIAjpMMEXRrLAgSbTegYDqYMT6ZRBs
-         8gMRNwLN9X0e65tfkdMPlKGFg/952Sjy1OCY32wUwC8f4AMwQf5IBXfrO4Qm3yHW/R
-         9RBH+etlQ3RvvNwM4Zs/ne5qTDM7797d0jsPn3ANdG08yB3v69YT2RbD+ndRAOFoH0
-         fQEVOYFtL86mg==
-From:   Johannes Roith <johannes@gnu-linux.rocks>
-To:     sergeantsagara@protonmail.com
-Cc:     ak@it-klinger.de, andi.shyti@kernel.org,
-        benjamin.tissoires@redhat.com, christophe.jaillet@wanadoo.fr,
-        jikos@kernel.org, johannes@gnu-linux.rocks,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rdunlap@infradead.org
-Subject: Re: [PATCH v5] hid-mcp2200: added driver for GPIOs of MCP2200
-Date:   Thu,  7 Sep 2023 18:41:21 +0200
-Message-ID: <20230907164121.21092-1-johannes@gnu-linux.rocks>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <87ledpvhgm.fsf@protonmail.com>
-References: <87ledpvhgm.fsf@protonmail.com>
+        with ESMTP id S241274AbjIGVfE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Sep 2023 17:35:04 -0400
+X-Greylist: delayed 633 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 07 Sep 2023 14:34:57 PDT
+Received: from smtpauth2.cnaf.infn.it (smtpauth2.cnaf.infn.it [131.154.3.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2449F1BDA
+        for <linux-input@vger.kernel.org>; Thu,  7 Sep 2023 14:34:57 -0700 (PDT)
+Received: from webmail.cnaf.infn.it (webmail.cnaf.infn.it [131.154.3.18])
+        (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtpauth2.cnaf.infn.it (Postfix) with ESMTPSA id A2E6E3789;
+        Thu,  7 Sep 2023 23:24:16 +0200 (CEST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RDNS_NONE,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Date:   Thu, 07 Sep 2023 23:24:16 +0200
+From:   Aldi Albrecht <andrea.ceccanti@cnaf.infn.it>
+To:     undisclosed-recipients:;
+Reply-To: aldi-albrecht@outlook.com
+User-Agent: Roundcube Webmail/1.4.8
+Message-ID: <a9d0d3f8684495f7b68cd5e86ba2b173@cnaf.infn.it>
+X-Sender: andrea.ceccanti@cnaf.infn.it
+Organization: Aldi Albrecht
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=4.0 required=5.0 tests=BAYES_50,
+        FREEMAIL_FORGED_REPLYTO,MISSING_SUBJECT,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Rahul,
-
-thank you for the explanation, now I got it.
-
-I have added hid_hw_stop and hid_hw_close to my remove function and removed the
-devm_add_action_or_reset. The driver still worked well.
-
-So, if it is okay for you, I would go this way and generate a new patch.
 
 
-Best regards,
-Johannes
-
-
-
+-- 
+you have been selected for a donation/investment
