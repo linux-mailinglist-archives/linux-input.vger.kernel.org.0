@@ -2,73 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A45A079929A
-	for <lists+linux-input@lfdr.de>; Sat,  9 Sep 2023 01:02:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9B00799DA7
+	for <lists+linux-input@lfdr.de>; Sun, 10 Sep 2023 12:33:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243322AbjIHXCk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 Sep 2023 19:02:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36620 "EHLO
+        id S239898AbjIJKdZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 10 Sep 2023 06:33:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235489AbjIHXCi (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Sep 2023 19:02:38 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EEB41FEA
-        for <linux-input@vger.kernel.org>; Fri,  8 Sep 2023 16:02:34 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-68a6f6a66e1so2258354b3a.2
-        for <linux-input@vger.kernel.org>; Fri, 08 Sep 2023 16:02:34 -0700 (PDT)
+        with ESMTP id S235834AbjIJKdY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sun, 10 Sep 2023 06:33:24 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6C63CCC;
+        Sun, 10 Sep 2023 03:33:20 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-68cb5278e3fso702052b3a.1;
+        Sun, 10 Sep 2023 03:33:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1694214154; x=1694818954; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=u3gm03RUg+/EX5Gaa+EMR3lyCYLZB5fnaib13/h9Wog=;
-        b=6XdUPZhpU35w4EgWevDa1+pO5gRmmhZ1EB+1UJb2N0TceDwumJU1xdAuFCiokkI3ZA
-         aGCODk0bsKZSlg/UJjiom2HwSN+CUd5BcNp+JHZ4VjMOTcUpSidfPOUpBz+FRbN77T93
-         AA0PEbMvA0ehXqg1ZUyVEYXuFzHMJ519hjm/sIGKJuNYRyP+BW6fJV5NMiCO/jxTtzvp
-         m3VpXoa62kYJNBKn/gDyZxyfEjlm0Q2QMWeJZBoqQoQ+Y0cm0IKtV4lfF+hAR7L4lyRw
-         tQ+vliHny7ne/Zr9kBHXhGhyHZQRTK1Gv+Xxoeui576q6TUc1RZ8uYmdf/DCJnWNU5j2
-         0ShA==
+        d=gmail.com; s=20221208; t=1694342000; x=1694946800; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=YlaDIVd1Ltj5Vu8PW9TveWn/9j3kJT6S5nLrrbOFtkk=;
+        b=gifsHSaZmRQS3l+uJmX5IfiLzui+xGUQoni8W+Cqjvo4jrWeH7S3H5KB0xWr1b0grs
+         OI9kSJz4XX+1XAn9sE//Hvo+Oh2GmrS1Vi4WNIOW2nn86HbW/1Tow6L2jHytyxkdx2Vl
+         1EW4bx3mtMSpAAS2EDQs2g4Ytc1S2PRNhNFGqrrxNJdogcF/OqUfh7y5DZUNWe8TWpDf
+         H9QKK6nmXsfx9LWLvlj8zaHOTqqXS4hXVlgMKjatmiQ9q59e7v3lwU5TScoQF1zhsRI4
+         /84onVtO16nipuP+1zHn1co+lgpniTPXD9oK16CWxfpOikA8PsWWoOR6n9j6/EAs7q07
+         mNeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694214154; x=1694818954;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u3gm03RUg+/EX5Gaa+EMR3lyCYLZB5fnaib13/h9Wog=;
-        b=YQKIoHO4elb+fDurIK4TBTGoHPgVCmxyp0wAF/ke3pOjzGyNOY8z6HqNuRW3aortdC
-         1KDttfdkXHvzDnFN3ZTbl54EXQ1O0p8ivGfjPtnGYhFuD9VqwmHV+L+D2pi8rnN+mzOD
-         lz2+pV1V/NlnQuJKskrvsSrbO5vvxeXbdFeXVjbM70XN6mBFHYE4DDRrmtiyNvqi8HHu
-         qi/zIpImqVeObcxav7Pf6cLxv5o9Ov3nXAzLTdetrH9by+k1hoNYDcB8y6Loy0C0XPbw
-         e2rdOf7qZF08kgzF20ozCXKO5/s+SBt6QStM16ox9+siBNj0mWHR33xeJSu8w3iDP9aD
-         vAHg==
-X-Gm-Message-State: AOJu0Yx62ISzf+ZCWw6GIke7pQj3uTSZAYn0NZFu87aPdAi8xHAALqh4
-        zWeZ8Cr6GMuPMX4Be2fOMN+Ibw==
-X-Google-Smtp-Source: AGHT+IFS+Nskv6R1HWPO1fnwAzKoZR+l2MTbKrrsdbgDWCjS9RGNTlB1Vy9DYoCX21GSL+ppgh7S+Q==
-X-Received: by 2002:a05:6a00:2494:b0:68a:4bef:5f9a with SMTP id c20-20020a056a00249400b0068a4bef5f9amr3856161pfv.0.1694214153767;
-        Fri, 08 Sep 2023 16:02:33 -0700 (PDT)
-Received: from google.com ([2620:15c:2d1:203:d39f:a985:2060:eedd])
-        by smtp.gmail.com with ESMTPSA id j20-20020a62e914000000b0068b1149ea4dsm1753544pfh.69.2023.09.08.16.02.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Sep 2023 16:02:33 -0700 (PDT)
-Date:   Fri, 8 Sep 2023 16:02:28 -0700
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     Justin Stitt <justinstitt@google.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Eduard Zingerman <eddyz87@gmail.com>,
-        linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-        Benjamin Tissoires <bentiss@kernel.org>, llvm@lists.linux.dev
-Subject: Re: [PATCH v2 0/3] selftests/hid: fix building for older kernels
-Message-ID: <ZPuoBBGossSy0EiO@google.com>
-References: <20230908-kselftest-09-08-v2-0-0def978a4c1b@google.com>
+        d=1e100.net; s=20230601; t=1694342000; x=1694946800;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YlaDIVd1Ltj5Vu8PW9TveWn/9j3kJT6S5nLrrbOFtkk=;
+        b=RsyCXiDIju1ss/O7gws/bbN9b1HCi1Jvq69oUaCtNYDekhoCz9f28xiFs2ZxjsKH2m
+         SL/wkQmA8dpjgLypQ2hh6j1jzfwmWRtcbeJY1Q73U1Tz72nNppCPdxL3vvw0hZnWXOa5
+         LQaHQ0X884eJ+gKkn0/Mi1iZNrM7YiBPb6HE0GM0uyJhxl8tZYC+vpgIZJE+xfrWx23h
+         NOH583+99Kdhcc3CDUVo3vTPMYELTK9ZX4BlCXPXRsKmkiKc6BiHd9kU97cS/NIx2gXg
+         kGpMC568hKq3Vn+BpiaDmiEQdPu9MbC3iamJxz0JNFbyvYGQEL6e9s3DNCz4h+DoTSGa
+         EdPA==
+X-Gm-Message-State: AOJu0Yy8imQExhJujOT7wfkHnxvWMAtcSHOJSZDp8txhd+Wc0NStEg2z
+        HSL4rDDE1I2tf970UbiEe4k1rrBljDMu3CqYrB0=
+X-Google-Smtp-Source: AGHT+IEuO/lxxtIB3B4onV/HIvCnLme5ap6Un4OHKaO0LvEBhXKzjbd9+zZC6vUoTh9+4SDzBMTKTYHAneULlyeBnTk=
+X-Received: by 2002:a05:6a21:194:b0:13f:65ca:52a2 with SMTP id
+ le20-20020a056a21019400b0013f65ca52a2mr10373167pzb.5.1694342000174; Sun, 10
+ Sep 2023 03:33:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230908-kselftest-09-08-v2-0-0def978a4c1b@google.com>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+References: <20230906102507.15504-2-tinozzo123@gmail.com> <CAEVj2tk3uUa625YVO+2Mv80FbNT6gE=16_GTxuLUB1ncT_jV2A@mail.gmail.com>
+In-Reply-To: <CAEVj2tk3uUa625YVO+2Mv80FbNT6gE=16_GTxuLUB1ncT_jV2A@mail.gmail.com>
+From:   Martino Fontana <tinozzo123@gmail.com>
+Date:   Sun, 10 Sep 2023 12:33:08 +0200
+Message-ID: <CAKst+mB9nm1wiPEJu1COwK422d+wbnW15Uc=s2QYD-QaP=xdGA@mail.gmail.com>
+Subject: Re: [PATCH v2 RESEND] HID: nintendo: reinitialize USB Pro Controller
+ after resuming from suspend
+To:     Daniel Ogorchock <djogorchock@gmail.com>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,59 +68,53 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Sep 08, 2023 at 10:22:37PM +0000, Justin Stitt wrote:
-> Hi, I am sending this series on behalf of myself and Benjamin Tissoires. There
-> existed an initial n=3 patch series which was later expanded to n=4 and
-> is now back to n=3 with some fixes added in and rebased against
-> mainline.
-> 
-> This patch series aims to ensure that the hid/bpf selftests can be built
-> without errors.
-> 
-> Here's Benjamin's initial cover letter for context:
-> |  These fixes have been triggered by [0]:
-> |  basically, if you do not recompile the kernel first, and are
-> |  running on an old kernel, vmlinux.h doesn't have the required
-> |  symbols and the compilation fails.
-> |
-> |  The tests will fail if you run them on that very same machine,
-> |  of course, but the binary should compile.
-> |
-> |  And while I was sorting out why it was failing, I realized I
-> |  could do a couple of improvements on the Makefile.
-> |
-> |  [0] https://lore.kernel.org/linux-input/56ba8125-2c6f-a9c9-d498-0ca1c153dcb2@redhat.com/T/#t
-> 
-> Changes from v1 -> v2:
-> - roll Justin's fix into patch 1/3
-> - add __attribute__((preserve_access_index)) (thanks Eduard)
-> - rebased onto mainline (2dde18cd1d8fac735875f2e4987f11817cc0bc2c)
-> - Link to v1: https://lore.kernel.org/all/20230825-wip-selftests-v1-0-c862769020a8@kernel.org/
-> 
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1698
-> Link: https://github.com/ClangBuiltLinux/continuous-integration2/issues/61
+On Fri, 8 Sept 2023 at 03:11, Daniel Ogorchock <djogorchock@gmail.com> wrote:
+>
+> Have you tested how this behaves for bluetooth controllers? Does the
+> pm resume hook always result in error logs for bluetooth controllers,
+> or has the kernel already removed the device before resume?
 
-Thanks to you and Benjamin for sorting all of this out! With this series
-applied, I was able to build the hid selftests now without the previous
--Wvisibility diagnostics failing the build.
+Tested on a Bluetooth connection, it behaves like it did before: the
+controller disconnects as the computer sleeps, and you can have
+to reconnect it by pressing a button on the controller.
 
-Tested-by: Nick Desaulniers <ndesaulniers@google.com> # Build
+I also don't see any log from that wasn't there before on journalctl.
 
-> ---
-> Benjamin Tissoires (3):
->       selftests/hid: ensure we can compile the tests on kernels pre-6.3
->       selftests/hid: do not manually call headers_install
->       selftests/hid: force using our compiled libbpf headers
-> 
->  tools/testing/selftests/hid/Makefile               | 10 ++---
->  tools/testing/selftests/hid/progs/hid.c            |  3 --
->  .../testing/selftests/hid/progs/hid_bpf_helpers.h  | 49 ++++++++++++++++++++++
->  3 files changed, 53 insertions(+), 9 deletions(-)
-> ---
-> base-commit: 2dde18cd1d8fac735875f2e4987f11817cc0bc2c
-> change-id: 20230908-kselftest-09-08-56d7f4a8d5c4
-> 
-> Best regards,
-> --
-> Justin Stitt <justinstitt@google.com>
-> 
+> > +       mutex_unlock(&ctlr->output_mutex);
+> > +       return 0;
+>
+> If desired, you could remove the above two lines and allow flow to
+> continue through err_mutex even in the success case.
+>
+> > +
+> > +err_mutex:
+> > +       mutex_unlock(&ctlr->output_mutex);
+> > +       return ret;
+> > +}
+> > +
+
+Do I make a patch v3 for that, or is that not necessary?
+(Asking because this is my first Linux kernel patch)
+
+> >  static const struct hid_device_id nintendo_hid_devices[] = {
+> >         { HID_USB_DEVICE(USB_VENDOR_ID_NINTENDO,
+> >                          USB_DEVICE_ID_NINTENDO_PROCON) },
+> > @@ -2404,6 +2434,10 @@ static struct hid_driver nintendo_hid_driver = {
+> >         .probe          = nintendo_hid_probe,
+> >         .remove         = nintendo_hid_remove,
+> >         .raw_event      = nintendo_hid_event,
+> > +
+> > +#ifdef CONFIG_PM
+> > +       .resume         = nintendo_hid_resume,
+> > +#endif
+>
+> Something else we should do is add a suspend hook to power off the
+> bluetooth-connected controllers. As of now, they remain powered on
+> during suspend.
+
+No, they power off when you suspend the computer. If you press a button,
+the controller will attempt to pair, just like if you disconnected it manually.
+As I said before, Bluetooth behavior isn't changed.
+
+Regards,
+Martino
