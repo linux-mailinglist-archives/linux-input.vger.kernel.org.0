@@ -2,251 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 269A379BA10
-	for <lists+linux-input@lfdr.de>; Tue, 12 Sep 2023 02:11:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB45579BCC9
+	for <lists+linux-input@lfdr.de>; Tue, 12 Sep 2023 02:15:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238118AbjIKW0F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Sep 2023 18:26:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57864 "EHLO
+        id S238336AbjIKW0J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Sep 2023 18:26:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238162AbjIKNnV (ORCPT
+        with ESMTP id S243123AbjIKQvw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Sep 2023 09:43:21 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 468F5CD7;
-        Mon, 11 Sep 2023 06:43:16 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-9aa2468bdb4so165619166b.0;
-        Mon, 11 Sep 2023 06:43:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694439795; x=1695044595; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=F7B0+k6CDS8ME4sBoGSxHB8zO+rinDpQtys983piRCY=;
-        b=SpCvWKltp/bSLktK2QKHUbz02BZJ0zbvr4nrB/ohVnYmo0JhzUJYGfN24lHwJ5aUmh
-         ZPJkdrbV+HQcRhmvd6jt+8Ic4iopLXCfKhOOse/qucdmp+lMQqZXNDDjIi/DNfZ4Kgep
-         ymths3TyWswXBx6OKC/7TH0uw/Ct+0+nZpF26dPLQiUmWvsBp8HSQO3SUPyzZNHRds8E
-         Rm8gxGNvVP3N19Qs7Y0cxRkI4v8yg6SJJjseQZueTEvjTeuJFtvDE6GCJvGucyiOIkJX
-         /iqdpaCz2lTVqmGE5NQyuuD9/SxtDK/nYqVyzOL3SOAS/14Smxi31akyZNAvHV4E6J3N
-         IkDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694439795; x=1695044595;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=F7B0+k6CDS8ME4sBoGSxHB8zO+rinDpQtys983piRCY=;
-        b=OlTPy1ytoaqNRUEkspOBtze7S5kNxaVGMNzN2pV0dAUnzUsPUvwnxB4EO2y4ukcxQ/
-         AvAD3W2wjfu8XBsYZdxGnFl/cx1IlPyAWv4jQ4AaUd1UYcGXdqWKYtl8Qj8U14TFGh2i
-         iayO87sYUKYw3FqmZDlYEpXuM3TrrVGddx2lslqCv3oD4jtjJ2jSKuTKX1akZFpcxhJW
-         BnU6exy/XHJrf8aDiZh/NiPuP8rSYIFfVO0tjerb1qDxYYyX4AF1sV+1WWjLoI67+qmW
-         8bypxFNxPgVjXvils3NLQffl/mijdh977DGGFc1ZKNVtxx8OxE9JjnMD1bMPx0+lTzj6
-         BSSA==
-X-Gm-Message-State: AOJu0YwoERFteEeS39aqZRwbQJUUmsIKvjL0/zRxIFC0VeE+LNA5xJoh
-        62eqsXcjGNbgWbhd/gQ7LSRPTzjktjA=
-X-Google-Smtp-Source: AGHT+IHOP9zj9x+a+6NUIy8N++tLNmNEdrLHQjwMCxjsBDviuvW6NIQoRxI+UYUYzygTBmjhggE9nw==
-X-Received: by 2002:a17:906:209c:b0:9a1:c659:7c56 with SMTP id 28-20020a170906209c00b009a1c6597c56mr9712657ejq.22.1694439794467;
-        Mon, 11 Sep 2023 06:43:14 -0700 (PDT)
-Received: from [192.168.1.95] (host-176-36-0-241.b024.la.net.ua. [176.36.0.241])
-        by smtp.gmail.com with ESMTPSA id ck19-20020a170906c45300b009a1a653770bsm5375835ejb.87.2023.09.11.06.43.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 06:43:14 -0700 (PDT)
-Message-ID: <d12c34177a8bbdca129ef6e18784f13254c85964.camel@gmail.com>
-Subject: Re: [PATCH v2 1/3] selftests/hid: ensure we can compile the tests
- on kernels pre-6.3
-From:   Eduard Zingerman <eddyz87@gmail.com>
-To:     Benjamin Tissoires <bentiss@kernel.org>
-Cc:     Justin Stitt <justinstitt@google.com>,
+        Mon, 11 Sep 2023 12:51:52 -0400
+Received: from mail.enpas.org (zhong.enpas.org [IPv6:2a03:4000:2:537::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02F5B110;
+        Mon, 11 Sep 2023 09:51:45 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        by mail.enpas.org (Postfix) with ESMTPSA id A74BA1007E0;
+        Mon, 11 Sep 2023 16:51:40 +0000 (UTC)
+Message-ID: <bf984d34-e9bd-c94f-e264-07ff8eca16e6@enpas.org>
+Date:   Tue, 12 Sep 2023 01:51:37 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+From:   Max Staudt <max@enpas.org>
+Subject: Re: [PATCH 2/2] hid-sony: DS3: Report analog buttons for Sixaxis
+To:     Roderick Colenbrander <thunderbird2k@gmail.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Shuah Khan <shuah@kernel.org>, linux-input@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bpf@vger.kernel.org
-Date:   Mon, 11 Sep 2023 16:43:13 +0300
-In-Reply-To: <hnmbc2vo6ylihwvxbmtiylw6kseqbyk5iydne4vmshssjhrcac@ijbyzhoeag34>
-References: <20230908-kselftest-09-08-v2-0-0def978a4c1b@google.com>
-         <20230908-kselftest-09-08-v2-1-0def978a4c1b@google.com>
-         <d168d22ba2133d3b38a09ee0e8dbbe0fa97f72d0.camel@gmail.com>
-         <hnmbc2vo6ylihwvxbmtiylw6kseqbyk5iydne4vmshssjhrcac@ijbyzhoeag34>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu1 
-MIME-Version: 1.0
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Vicki Pfau <vi@endrift.com>,
+        Pavel Rojtberg <rojtberg@gmail.com>,
+        Roderick Colenbrander <roderick@gaikai.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230826152111.13525-1-max@enpas.org>
+ <20230826152111.13525-3-max@enpas.org>
+ <ec4d07de-4944-a7ea-2b74-c4162af75b16@enpas.org>
+ <CAEc3jaDoRESqJ_6KAa6FHvbF=R4ZRV0P+=4KY5pjYPCrwroqCQ@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CAEc3jaDoRESqJ_6KAa6FHvbF=R4ZRV0P+=4KY5pjYPCrwroqCQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 2023-09-11 at 15:39 +0200, Benjamin Tissoires wrote:
-> On Sep 11 2023, Eduard Zingerman wrote:
-> > On Fri, 2023-09-08 at 22:22 +0000, Justin Stitt wrote:
-> > > From: Benjamin Tissoires <bentiss@kernel.org>
-> > >=20
-> > > For the hid-bpf tests to compile, we need to have the definition of
-> > > struct hid_bpf_ctx. This definition is an internal one from the kerne=
-l
-> > > and it is supposed to be defined in the generated vmlinux.h.
-> > >=20
-> > > This vmlinux.h header is generated based on the currently running ker=
-nel
-> > > or if the kernel was already compiled in the tree. If you just compil=
-e
-> > > the selftests without compiling the kernel beforehand and you are run=
-ning
-> > > on a 6.2 kernel, you'll end up with a vmlinux.h without the hid_bpf_c=
-tx
-> > > definition.
-> > >=20
-> > > Use the clever trick from tools/testing/selftests/bpf/progs/bpf_iter.=
-h
-> > > to force the definition of that symbol in case we don't find it in th=
-e
-> > > BTF and also add __attribute__((preserve_access_index)) to further
-> > > support CO-RE functionality for these tests.
-> > >=20
-> > > Signed-off-by: Justin Stitt <justinstitt@google.com>
-> > > Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-> > > ---
-> > >  tools/testing/selftests/hid/progs/hid.c            |  3 --
-> > >  .../testing/selftests/hid/progs/hid_bpf_helpers.h  | 49 ++++++++++++=
-++++++++++
-> > >  2 files changed, 49 insertions(+), 3 deletions(-)
-> > >=20
-> > > diff --git a/tools/testing/selftests/hid/progs/hid.c b/tools/testing/=
-selftests/hid/progs/hid.c
-> > > index 88c593f753b5..1e558826b809 100644
-> > > --- a/tools/testing/selftests/hid/progs/hid.c
-> > > +++ b/tools/testing/selftests/hid/progs/hid.c
-> > > @@ -1,8 +1,5 @@
-> > >  // SPDX-License-Identifier: GPL-2.0
-> > >  /* Copyright (c) 2022 Red hat */
-> > > -#include "vmlinux.h"
-> > > -#include <bpf/bpf_helpers.h>
-> > > -#include <bpf/bpf_tracing.h>
-> > >  #include "hid_bpf_helpers.h"
-> > > =20
-> > >  char _license[] SEC("license") =3D "GPL";
-> > > diff --git a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h b/to=
-ols/testing/selftests/hid/progs/hid_bpf_helpers.h
-> > > index 4fff31dbe0e7..ab3b18ba48c4 100644
-> > > --- a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
-> > > +++ b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
-> > > @@ -5,6 +5,55 @@
-> > >  #ifndef __HID_BPF_HELPERS_H
-> > >  #define __HID_BPF_HELPERS_H
-> > > =20
-> > > +/* "undefine" structs in vmlinux.h, because we "override" them below=
- */
-> >=20
-> > Hi Justin,
-> >=20
-> > What you have here should work, however I still think that the trick
-> > with "___local" suffix I refer to in [1] is a bit less hacky, e.g.:
-> >=20
-> >     enum hid_report_type___local { ... };
-> >     struct hid_bpf_ctx___local {
-> >        __u32 index;
-> >        const struct hid_device *hid; // this one should be in vmlinux.h=
- with any config
-> >        __u32 allocated_size;
-> >        enum hid_report_type___local report_type;
-> >        union {
-> >            __s32 retval;
-> >            __s32 size;
-> >        };
-> >     } __attribute__((preserve_access_index));
-> >    =20
-> >     enum hid_class_request___local { ... };
-> >     enum hid_bpf_attach_flags___local { ... };
-> >     ...
-> >     extern __u8 *hid_bpf_get_data(struct hid_bpf_ctx___local *ctx,
-> >                                   unsigned int offset,
-> >=20
-> >=20
-> > (sorry for being a bore, won't bring this up anymore).
->=20
-> No need to apologies for trying to make the code better :)
->=20
-> I specifically asked Justin to not use this because I intend the
-> examples to be here to use the same API in the selftests dir than users
-> in the wild. So if your suggestion definitely makes the header code
-> much better, it also means that everybody will start using `___local`
-> annotations for anything HID-BPF related, which is not what I want.
->=20
-> This header file is supposed to be included in the BPF, and IMO it's not
-> that important that we have the cleanest code, as long as the users have
-> the proper API.
->=20
-> Feel free to share your concerns :)
+Hi Roderick,
 
-Got it, thank you for explanation :)
+Thanks for pointing out the 2018 thread!
 
->=20
-> Cheers,
-> Benjamin
->=20
-> >=20
-> > Thanks,
-> > Eduard
-> >=20
-> > [1] https://lore.kernel.org/bpf/e99b4226bd450fedfebd4eb5c37054f032432b4=
-f.camel@gmail.com/
-> >=20
-> > > +#define hid_bpf_ctx hid_bpf_ctx___not_used
-> > > +#define hid_report_type hid_report_type___not_used
-> > > +#define hid_class_request hid_class_request___not_used
-> > > +#define hid_bpf_attach_flags hid_bpf_attach_flags___not_used
-> > > +#include "vmlinux.h"
-> > > +#undef hid_bpf_ctx
-> > > +#undef hid_report_type
-> > > +#undef hid_class_request
-> > > +#undef hid_bpf_attach_flags
-> > > +
-> > > +#include <bpf/bpf_helpers.h>
-> > > +#include <bpf/bpf_tracing.h>
-> > > +#include <linux/const.h>
-> > > +
-> > > +enum hid_report_type {
-> > > +	HID_INPUT_REPORT		=3D 0,
-> > > +	HID_OUTPUT_REPORT		=3D 1,
-> > > +	HID_FEATURE_REPORT		=3D 2,
-> > > +
-> > > +	HID_REPORT_TYPES,
-> > > +};
-> > > +
-> > > +struct hid_bpf_ctx {
-> > > +	__u32 index;
-> > > +	const struct hid_device *hid;
-> > > +	__u32 allocated_size;
-> > > +	enum hid_report_type report_type;
-> > > +	union {
-> > > +		__s32 retval;
-> > > +		__s32 size;
-> > > +	};
-> > > +} __attribute__((preserve_access_index));
-> > > +
-> > > +enum hid_class_request {
-> > > +	HID_REQ_GET_REPORT		=3D 0x01,
-> > > +	HID_REQ_GET_IDLE		=3D 0x02,
-> > > +	HID_REQ_GET_PROTOCOL		=3D 0x03,
-> > > +	HID_REQ_SET_REPORT		=3D 0x09,
-> > > +	HID_REQ_SET_IDLE		=3D 0x0A,
-> > > +	HID_REQ_SET_PROTOCOL		=3D 0x0B,
-> > > +};
-> > > +
-> > > +enum hid_bpf_attach_flags {
-> > > +	HID_BPF_FLAG_NONE =3D 0,
-> > > +	HID_BPF_FLAG_INSERT_HEAD =3D _BITUL(0),
-> > > +	HID_BPF_FLAG_MAX,
-> > > +};
-> > > +
-> > >  /* following are kfuncs exported by HID for HID-BPF */
-> > >  extern __u8 *hid_bpf_get_data(struct hid_bpf_ctx *ctx,
-> > >  			      unsigned int offset,
-> > >=20
-> >=20
+Since lore.kernel.org doesn't seem to have an archive of it, I hope this one is complete:
+
+   https://www.spinics.net/lists/linux-input/msg57662.html
+
+
+It's been 5 years since the thread you mentioned. There were many outstanding ideas, and yet as of today, Linux still has no support for pressure sensitive buttons. Hence, maybe we can find a "good enough" solution that covers most or all of what we've seen so far, without future-proofing too much?
+
+
+My experience with controllers comes from sniffing and emulating wire protocols on older consoles, and from looking at the reports from USB devices such as DualShock 3. I presume you have a wider overview, but maybe we can complement each other here :)
+
+
+As for keyboards, I think that we could simply report a pressure value in parallel with EV_KEY events - like you originally suggested. Maybe we can bundle the two using EV_SYN, given that I see my keyboard combining EV_MSC and EV_KEY in this manner?
+
+
+As for gamepads, it seems to me like the world has converged to an Xbox360/PS3 style layout for the face buttons and joysticks. SDL, which is used for a vast array of games, maintains a mapping from raw evdev events onto a virtual Xbox 360 gamepad - gamecontrollerdb.txt - which allows games to consistently map, say, the NORTH button, according to the physical geometry rather than what evdev claims. This is something that unfortunately is not unified in the kernel UAPI, and now userspace needs to have knowledge of all devices.
+
+The original thread mentioned the Gamecube controller. I feel that designs that stray from the Xbox360/PS3 layout, such as the Gamecube's separate digital buttons that are hidden beneath the triggers (beyond the 255 point), have disappeared. Please correct me if I'm too short-sighted, but since I don't see such designs on the horizon, I wouldn't worry about describing them in the kernel. Those buttons can be exported as e.g. L3/R3 (which the GC does not have), and userspace then needs to know about the odd physical geometry anyway. The geometry is really a separate property of the controller and breaks modern games' assumptions (see SDL above), so I'd worry about this on the kernel side only once this really comes up as a kernel problem.
+
+
+There was the idea of Multitouch like event slots, to allow for future expandability. I like it. But do we really need this? We could always add this as yet another event type, or maybe even in a reserved zone within EV_PSB, but for now, all devices that I've seen report a value in the exact range 0-255, with 0 meaning that the button is released. I also don't remember seeing a controller that flakes in its idle state - it has always been a solid 0 when I released the buttons. A flaking button would currently report as EV_KEY 1 anyway, since e.g. the DS3 treats an analog reading of 1 as digital down, I believe.
+
+Hence, how about simply adding an EV_PSB report in parallel with EV_KEY, and this report works exactly the same, except that the range is not 0-1, but 0-255? This keeps backwards compatibility through EV_KEY, and is easy to handle on all ends.
+
+
+There was also the idea of an expandable array of PSB properties. In the end, it is still up to userspace to make sense of anything we feed it, and there are things we can add in retrospect, and things we can't add without breaking userspace's assumptions.
+
+For example, which value is interpreted as "down" or "up" is something I'd again leave to userspace, or even the hardware itself - after all, up until now, userspace has happily lived with the kernel's binary EV_KEY. If we really want to, we can always add a non-binding "hint" or "suggestion" later.
+
+The only thing I can see as really important right now is pretty much the same info as in input_absinfo - namely, the minimum/maximum values. If we avoid such a structure, and simply tell userspace that values are always 0-255, then we cannot change this afterwards.
+
+But are there any devices that report PSB in a range that is not 0-255, or at least easily scaled into this range? DS2, DS3, Xbox face buttons are all 0-255. So are all L2/R2 triggers that I've seen. Do you know about controllers or keyboards that don't fit well in this range? If there are none, then we could skip describing minimum/maximum values, and cross our fingers for the future.
+
+
+As for letting userspace detect which buttons support PSB, we could keep a bitmap like for EV_KEY. Or, we could guarantee (in the kernel driver spec) to always send EV_PSB before EV_KEY, and then userspace can dynamically learn which keys are PSBs. Since EV_PSB comes first, it can then ignore any following EV_KEY for that keycode. This way, we don't need to keep a key bitmap either.
+
+
+As for high-speed chatter overloading the event pipeline, I'd report only changes to a button's value (just like EV_KEY and EV_ABS), not all buttons' state all the time, like the DS3/4 do in their wire protocols.
+
+
+To avoid analog keyboards overloading classic event loops, I suggest hiding EV_PSB events until they are enabled via some ioctl() or write().
+
+
+
+So many ideas, and I hope we can pare it down to an easy to manage minimum - maybe we can get away without any ioctl(EVIOCGPSR) at all :)
+
+
+
+Thanks for your help!
+
+Max
 
