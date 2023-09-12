@@ -2,54 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5239F7BC52E
-	for <lists+linux-input@lfdr.de>; Sat,  7 Oct 2023 08:53:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CAF2F7BC87B
+	for <lists+linux-input@lfdr.de>; Sat,  7 Oct 2023 17:03:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343590AbjJGGxd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 7 Oct 2023 02:53:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35396 "EHLO
+        id S1343934AbjJGPDo convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Sat, 7 Oct 2023 11:03:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343577AbjJGGxd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 7 Oct 2023 02:53:33 -0400
-Received: from muru.com (muru.com [72.249.23.125])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4E4F0B9;
-        Fri,  6 Oct 2023 23:53:32 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id B98F8809E;
-        Sat,  7 Oct 2023 06:53:31 +0000 (UTC)
-Date:   Sat, 7 Oct 2023 09:53:30 +0300
-From:   Tony Lindgren <tony@atomide.com>
-To:     Andreas Kemnade <andreas@kemnade.info>
+        with ESMTP id S229824AbjJGPDn (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 7 Oct 2023 11:03:43 -0400
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [IPv6:2a02:c205:3004:2154::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DB58B9;
+        Sat,  7 Oct 2023 08:03:42 -0700 (PDT)
+Received: from p5dc58360.dip0.t-ipconnect.de ([93.197.131.96] helo=aktux)
+        by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <andreas@kemnade.info>)
+        id 1qp8q5-004cjc-Ky; Sat, 07 Oct 2023 17:03:33 +0200
+Date:   Tue, 12 Sep 2023 20:56:47 +0200
+From:   Andreas Kemnade <andreas@kemnade.info>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        lee@kernel.org, bcousson@baylibre.com, mturquette@baylibre.com,
-        sboyd@kernel.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v4 5/5] ARM: dts: omap4-embt2ws: enable 32K clock on WLAN
-Message-ID: <20231007065330.GP34982@atomide.com>
-References: <20230916100515.1650336-1-andreas@kemnade.info>
- <20230916100515.1650336-6-andreas@kemnade.info>
+        lee@kernel.org, bcousson@baylibre.com, tony@atomide.com,
+        mturquette@baylibre.com, sboyd@kernel.org,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH v3 4/5] clk: twl: add clock driver for TWL6032
+Message-ID: <20230912205647.4be3b753@aktux>
+In-Reply-To: <a9b646c7-2c02-8a69-a4c8-7e981a630eef@wanadoo.fr>
+References: <20230911221346.1484543-1-andreas@kemnade.info>
+        <20230911221346.1484543-5-andreas@kemnade.info>
+        <a9b646c7-2c02-8a69-a4c8-7e981a630eef@wanadoo.fr>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230916100515.1650336-6-andreas@kemnade.info>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=1.5 required=5.0 tests=BAYES_00,DATE_IN_PAST_96_XX,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-* Andreas Kemnade <andreas@kemnade.info> [230916 13:05]:
-> WLAN did only work if clock was left enabled by the original system,
-> so make it fully enable the needed resources itself.
+On Tue, 12 Sep 2023 19:15:54 +0200
+Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
 
-Seems applying this dts change before the clock patch is applied
-would break wlan so please let me know when this is safe to apply.
+> Le 12/09/2023 à 00:13, Andreas Kemnade a écrit :
+> > The TWL6032 has some clock outputs which are controlled like
+> > fixed-voltage regulators, in some drivers for these chips
+> > found in the wild, just the regulator api is abused for controlling
+> > them, so simply use something similar to the regulator functions.
+> > Due to a lack of hardware available for testing, leave out the
+> > TWL6030-specific part of those functions.
+> > 
+> > Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+> > ---
+> >   drivers/clk/Kconfig   |   9 ++
+> >   drivers/clk/Makefile  |   1 +
+> >   drivers/clk/clk-twl.c | 197 ++++++++++++++++++++++++++++++++++++++++++
+> >   3 files changed, 207 insertions(+)
+> >   create mode 100644 drivers/clk/clk-twl.c
+> >   
+> 
+> ...
+> 
+> > +static int twl_clks_probe(struct platform_device *pdev)
+> > +{
+> > +	struct clk_hw_onecell_data *clk_data;
+> > +	const struct twl_clks_data *hw_data;
+> > +
+> > +	struct twl_clock_info *cinfo;
+> > +	int ret;
+> > +	int i;
+> > +	int count;
+> > +
+> > +	hw_data = twl6032_clks;
+> > +	for (count = 0; hw_data[count].init.name; count++)
+> > +		;  
+> 
+> Nit: does removing the /* sentinel */ and using 
+> ARRAY_SIZE(twl_clks_data) would make sense and be simpler?
+> 
+well, I would like to have it prepared for different arrays
+passed in some device data in the future, so I am choosing that
+approach.
 
 Regards,
-
-Tony
+Andreas
