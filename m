@@ -2,336 +2,240 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AB7479CA75
-	for <lists+linux-input@lfdr.de>; Tue, 12 Sep 2023 10:44:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28CFD79D6F9
+	for <lists+linux-input@lfdr.de>; Tue, 12 Sep 2023 19:00:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233146AbjILIob (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 Sep 2023 04:44:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53966 "EHLO
+        id S230297AbjILRAb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 Sep 2023 13:00:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232716AbjILIoW (ORCPT
+        with ESMTP id S229711AbjILRAb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 Sep 2023 04:44:22 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 468A010CB
-        for <linux-input@vger.kernel.org>; Tue, 12 Sep 2023 01:44:18 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-402d0eda361so62618015e9.0
-        for <linux-input@vger.kernel.org>; Tue, 12 Sep 2023 01:44:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694508256; x=1695113056; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aB4JTBbloeJlOrROqSHyOpiwaZu7mID8DECUoJEbjX8=;
-        b=BDFzc3O3ZGDW6Ktt8rxCwGqP8NkM6ywJppNIktKkFS8TxEew7TX7LFbXohIVneyUEr
-         8QCfhvpGJ5f6QRWk/45c04bRoEjCOwVRqtZPV1Fj5tUfQXhcfCSOqaysEAB85pxkVDY1
-         Ne1Ue6PHGA05n7TqsEMId9uANsSGZq54We4loiWj2eNZ+J9A7JmSUTjL2E2dERLQO+TK
-         0cjA+Xm2WXu+P+wDfUEAPtWyEpRjAXKTK4xjSpF4FK++t2shM+jUXdFrQwLz7mVy1pYD
-         zErA5g6yN6fZbeYDZ8ifkky4fCWLDczLxNJ53j3bZNfG+hBGRi23jrz6zFFLMULUnBhO
-         OK4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694508256; x=1695113056;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aB4JTBbloeJlOrROqSHyOpiwaZu7mID8DECUoJEbjX8=;
-        b=kabqukx/Bbb2Er8RMkTdm4C8l1mXYIdVv3RQTkvh9Lqer7hedHz9Zaf+TGGyKE9CyQ
-         SUt7MsvVKpJ3XPqVVkEeVfH+KXIzq3TfM0a4PARCrNnsS1fWiD/nkQ9y8ie1IYNPyG3E
-         OAuUZ+c1zIOSdP5Cwwj3mTyfRde31EwIfqxt9QCBDEolC/aeV7Sk2cViUqc/DW2VJcua
-         pJqTwwCwZKGyrifpUEfxKrRCU9VNchUXVTl1I4lifWh7sv8a0MXl9f7DfS222/pYr5Sy
-         nHtCg1bKJ5qLh+3q13ieXWBkPfWXeO3+Nwphf8xFJJeNne15lg7ca/XhEf3v3Thqpb0B
-         X9TA==
-X-Gm-Message-State: AOJu0YwZ136QhXdPO7JwysHSFxJI/1hWIXM6WHqg7pVVutKE8c2ScpV+
-        IpP3mgVH487ggtxAYecTmfPp/Q==
-X-Google-Smtp-Source: AGHT+IH4yTESL2Aa0jNYgUGnmVnFq8+3g2/+y4/4DCSnC/yAKhx8wsGFi26hOe64m3ClK/ufFyTDiA==
-X-Received: by 2002:a7b:c4c5:0:b0:3fe:db1b:8c39 with SMTP id g5-20020a7bc4c5000000b003fedb1b8c39mr10899023wmk.41.1694508256287;
-        Tue, 12 Sep 2023 01:44:16 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id c7-20020a7bc847000000b003fe2bea77ccsm12301348wml.5.2023.09.12.01.44.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Sep 2023 01:44:15 -0700 (PDT)
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Tue, 12 Sep 2023 10:44:10 +0200
-Subject: [PATCH v6 4/4] Input: goodix-berlin - add SPI support for Goodix
- Berlin Touchscreen IC
+        Tue, 12 Sep 2023 13:00:31 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DD0C110;
+        Tue, 12 Sep 2023 10:00:27 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F1C9C433C7;
+        Tue, 12 Sep 2023 17:00:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694538027;
+        bh=VKf+7mRnpD2MDhj4UGeW8ro+cl13lnQ53ziiE1OJT88=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NKaOg4c0sZUmU8oV1bsyaODd1/DrzLwRaJ1nmcObHEHx6fmLQUwTfshUgU7NeTtRW
+         8XCHJ74a7u/Q4Mm8xE1tZaC4rirK1AV38X50aUrBUODUzWeXPjGEA4r6d/w4hrGXes
+         xiWST19xmsYIDnmfXHBR3S+fLx4AR6bTexGMhJs2s1AVl5cC9fvIaU52lVf5PfLQjA
+         VpJ46Anq1Cz96Km00SbBlGRLaamqg8dBbzOUAI5EG81LSigdZEfr0SWE4f9IMTx7SG
+         t4fHXQUTjLNcSUi5nFNIfBt8llErAemI5RcENi8JJ9KmrK0RPFfl9T15OMpg6dVS6d
+         EX/toYHl1ZbWA==
+Date:   Tue, 12 Sep 2023 18:00:21 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Andreas Kemnade <andreas@kemnade.info>
+Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        lee@kernel.org, bcousson@baylibre.com, tony@atomide.com,
+        mturquette@baylibre.com, sboyd@kernel.org,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH v3 1/5] dt-bindings: mfd: convert twl-family.txt to
+ json-schema
+Message-ID: <20230912-precise-anvil-14e4772c8a5f@spud>
+References: <20230911221346.1484543-1-andreas@kemnade.info>
+ <20230911221346.1484543-2-andreas@kemnade.info>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230912-topic-goodix-berlin-upstream-initial-v6-4-b4ecfa49fb9d@linaro.org>
-References: <20230912-topic-goodix-berlin-upstream-initial-v6-0-b4ecfa49fb9d@linaro.org>
-In-Reply-To: <20230912-topic-goodix-berlin-upstream-initial-v6-0-b4ecfa49fb9d@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8018;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=Qt+npl8i2OE+s8j4Ze03++ftzJ+qPlUeps9Tw1QwAkg=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlACTagXozxNj+cX2UDpTKqfnwbLdF79VtuJh2K0w7
- CQ5BMqeJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZQAk2gAKCRB33NvayMhJ0Xv+D/
- 99E6l18L0V19hmZ3xr0OwxDDOwqMTQaH3kKaFqW0AwAFD5/33XfOqvjJ38/1NF7kci6cpF4YxbrrkB
- 3gG7E/rQSCC+eQDk7HXqC5JyJ9b9gBROLYwovs3G4FYTjImVep7siv1U63WuHuMQC21RHT7ZprX7TV
- VNSJIaKsiQ6iw6e6TzE5tQbhgVrgSSbAz6M1Dbpg8GW3iNJOOX9TVBQlW46g4gomHpMt21VwDM1NKP
- 5gF15ISxmuSjWGbjb4m+bDAiFB0DfEIUZsb3GwyJ4PZcDgp/oAroH/iC/Zs1GtQj4BmStwxO/ACyfO
- mMgLE3OvykNA5pN7PBlbatWbtqqI/PMvw3DoSGwbAwoijBAIoldUe/GPz9nwk1TYChBKtwAb90pzVl
- CiZXDbiiWkzIOqEzFwC0J0BfNa5cWetJZrY2C/UlOpuJdTj56D+XjkbcNyc8ZEUwgBSmXObxsdFPpg
- O8xvcUGP89ZUZM7Rk1SkvaO5vYIJtXom9d4iFZa8iJ/4n06tayn0jM3fC+mAiaLx20XlXm/Xh1YC2l
- 3O9fQGhkWy4TKd0CAgnjnD5KUPDImCQj3hz7KgEg4C/WXsZbJE4dvfTHdkIYleqcuoh2gA6SM9HFr4
- KvorlryR2DXyZ3Fx0uHs10eM/0JEFtvO4BjZps5a1MEpnIFSIqrEe4lP0YzQ==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="IsDaPVul3HCmyTmu"
+Content-Disposition: inline
+In-Reply-To: <20230911221346.1484543-2-andreas@kemnade.info>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add initial support for the new Goodix "Berlin" touchscreen ICs
-over the SPI interface.
 
-The driver doesn't use the regmap_spi code since the SPI messages
-needs to be prefixed, thus this custom regmap code.
+--IsDaPVul3HCmyTmu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This initial driver is derived from the Goodix goodix_ts_berlin
-available at [1] and [2] and only supports the GT9916 IC
-present on the Qualcomm SM8550 MTP & QRD touch panel.
+On Tue, Sep 12, 2023 at 12:13:42AM +0200, Andreas Kemnade wrote:
+> Convert the TWL[46]030 binding to DT schema format. To do it as a step by
+> step work, do not include / handle nodes for subdevices yet, just convert
+> things with minimal corrections. There are already some bindings for its
+> subdevices in the tree.
+>=20
+> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+> ---
+>  .../bindings/input/twl4030-pwrbutton.txt      |  2 +-
+>  .../devicetree/bindings/mfd/ti,twl.yaml       | 64 +++++++++++++++++++
+>  .../devicetree/bindings/mfd/twl-family.txt    | 46 -------------
+>  3 files changed, 65 insertions(+), 47 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/ti,twl.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/mfd/twl-family.txt
+>=20
+> diff --git a/Documentation/devicetree/bindings/input/twl4030-pwrbutton.tx=
+t b/Documentation/devicetree/bindings/input/twl4030-pwrbutton.txt
+> index f5021214edecb..6c201a2ba8acf 100644
+> --- a/Documentation/devicetree/bindings/input/twl4030-pwrbutton.txt
+> +++ b/Documentation/devicetree/bindings/input/twl4030-pwrbutton.txt
+> @@ -1,7 +1,7 @@
+>  Texas Instruments TWL family (twl4030) pwrbutton module
+> =20
+>  This module is part of the TWL4030. For more details about the whole
+> -chip see Documentation/devicetree/bindings/mfd/twl-family.txt.
+> +chip see Documentation/devicetree/bindings/mfd/ti,twl.yaml.
+> =20
+>  This module provides a simple power button event via an Interrupt.
+> =20
+> diff --git a/Documentation/devicetree/bindings/mfd/ti,twl.yaml b/Document=
+ation/devicetree/bindings/mfd/ti,twl.yaml
+> new file mode 100644
+> index 0000000000000..f125b254a4b93
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/ti,twl.yaml
+> @@ -0,0 +1,64 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Texas Instruments TWL family
+> +
+> +maintainers:
+> +  - Andreas Kemnade <andreas@kemnade.info>
+> +
+> +description: |
 
-The current implementation only supports BerlinD, aka GT9916.
+FWIW the | is not needed here, but that's w/e.
 
-[1] https://github.com/goodix/goodix_ts_berlin
-[2] https://git.codelinaro.org/clo/la/platform/vendor/opensource/touch-drivers
+This seems fine to me though,
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-Reviewed-by: Jeff LaBundy <jeff@labundy.com>
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- drivers/input/touchscreen/Kconfig             |  14 +++
- drivers/input/touchscreen/Makefile            |   1 +
- drivers/input/touchscreen/goodix_berlin_spi.c | 173 ++++++++++++++++++++++++++
- 3 files changed, 188 insertions(+)
+Thanks,
+Conor.
 
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index cc7b88118158..c821fe3ee794 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -433,6 +433,20 @@ config TOUCHSCREEN_GOODIX_BERLIN_I2C
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called goodix_berlin_i2c.
- 
-+config TOUCHSCREEN_GOODIX_BERLIN_SPI
-+	tristate "Goodix Berlin SPI touchscreen"
-+	depends on SPI_MASTER
-+	select REGMAP
-+	select TOUCHSCREEN_GOODIX_BERLIN_CORE
-+	help
-+	  Say Y here if you have a Goodix Berlin IC connected to
-+	  your system via SPI.
-+
-+	  If unsure, say N.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called goodix_berlin_spi.
-+
- config TOUCHSCREEN_HIDEEP
- 	tristate "HiDeep Touch IC"
- 	depends on I2C
-diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-index 7ef677cf7a10..a81cb5aa21a5 100644
---- a/drivers/input/touchscreen/Makefile
-+++ b/drivers/input/touchscreen/Makefile
-@@ -49,6 +49,7 @@ obj-$(CONFIG_TOUCHSCREEN_FUJITSU)	+= fujitsu_ts.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX)	+= goodix_ts.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_CORE)	+= goodix_berlin_core.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_I2C)	+= goodix_berlin_i2c.o
-+obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_SPI)	+= goodix_berlin_spi.o
- obj-$(CONFIG_TOUCHSCREEN_HIDEEP)	+= hideep.o
- obj-$(CONFIG_TOUCHSCREEN_HYNITRON_CSTXXX)	+= hynitron_cstxxx.o
- obj-$(CONFIG_TOUCHSCREEN_ILI210X)	+= ili210x.o
-diff --git a/drivers/input/touchscreen/goodix_berlin_spi.c b/drivers/input/touchscreen/goodix_berlin_spi.c
-new file mode 100644
-index 000000000000..1f57c3592918
---- /dev/null
-+++ b/drivers/input/touchscreen/goodix_berlin_spi.c
-@@ -0,0 +1,173 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Goodix Berlin Touchscreen Driver
-+ *
-+ * Copyright (C) 2020 - 2021 Goodix, Inc.
-+ * Copyright (C) 2023 Linaro Ltd.
-+ *
-+ * Based on goodix_ts_berlin driver.
-+ */
-+#include <asm/unaligned.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+#include <linux/spi/spi.h>
-+
-+#include "goodix_berlin.h"
-+
-+#define GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN	1
-+#define GOODIX_BERLIN_REGISTER_WIDTH		4
-+#define GOODIX_BERLIN_SPI_READ_DUMMY_LEN	3
-+#define GOODIX_BERLIN_SPI_READ_PREFIX_LEN	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
-+						 GOODIX_BERLIN_REGISTER_WIDTH + \
-+						 GOODIX_BERLIN_SPI_READ_DUMMY_LEN)
-+#define GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
-+						 GOODIX_BERLIN_REGISTER_WIDTH)
-+
-+#define GOODIX_BERLIN_SPI_WRITE_FLAG		0xF0
-+#define GOODIX_BERLIN_SPI_READ_FLAG		0xF1
-+
-+static int goodix_berlin_spi_read(void *context, const void *reg_buf,
-+				  size_t reg_size, void *val_buf,
-+				  size_t val_size)
-+{
-+	struct spi_device *spi = context;
-+	struct spi_transfer xfers;
-+	struct spi_message spi_msg;
-+	const u32 *reg = reg_buf; /* reg is stored as native u32 at start of buffer */
-+	u8 *buf;
-+	int error;
-+
-+	if (reg_size != GOODIX_BERLIN_REGISTER_WIDTH)
-+		return -EINVAL;
-+
-+	buf = kzalloc(GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	spi_message_init(&spi_msg);
-+	memset(&xfers, 0, sizeof(xfers));
-+
-+	/* buffer format: 0xF1 + addr(4bytes) + dummy(3bytes) + data */
-+	buf[0] = GOODIX_BERLIN_SPI_READ_FLAG;
-+	put_unaligned_be32(*reg, buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN);
-+	memset(buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + GOODIX_BERLIN_REGISTER_WIDTH,
-+	       0xff, GOODIX_BERLIN_SPI_READ_DUMMY_LEN);
-+
-+	xfers.tx_buf = buf;
-+	xfers.rx_buf = buf;
-+	xfers.len = GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size;
-+	xfers.cs_change = 0;
-+	spi_message_add_tail(&xfers, &spi_msg);
-+
-+	error = spi_sync(spi, &spi_msg);
-+	if (error < 0)
-+		dev_err(&spi->dev, "spi transfer error, %d", error);
-+	else
-+		memcpy(val_buf, buf + GOODIX_BERLIN_SPI_READ_PREFIX_LEN, val_size);
-+
-+	kfree(buf);
-+	return error;
-+}
-+
-+static int goodix_berlin_spi_write(void *context, const void *data,
-+				   size_t count)
-+{
-+	unsigned int len = count - GOODIX_BERLIN_REGISTER_WIDTH;
-+	struct spi_device *spi = context;
-+	struct spi_transfer xfers;
-+	struct spi_message spi_msg;
-+	const u32 *reg = data; /* reg is stored as native u32 at start of buffer */
-+	u8 *buf;
-+	int error;
-+
-+	buf = kzalloc(GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN + len, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	spi_message_init(&spi_msg);
-+	memset(&xfers, 0, sizeof(xfers));
-+
-+	buf[0] = GOODIX_BERLIN_SPI_WRITE_FLAG;
-+	put_unaligned_be32(*reg, buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN);
-+	memcpy(buf + GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN,
-+	       data + GOODIX_BERLIN_REGISTER_WIDTH, len);
-+
-+	xfers.tx_buf = buf;
-+	xfers.len = GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN + len;
-+	xfers.cs_change = 0;
-+	spi_message_add_tail(&xfers, &spi_msg);
-+
-+	error = spi_sync(spi, &spi_msg);
-+	if (error < 0)
-+		dev_err(&spi->dev, "spi transfer error, %d", error);
-+
-+	kfree(buf);
-+	return error;
-+}
-+
-+static const struct regmap_config goodix_berlin_spi_regmap_conf = {
-+	.reg_bits = 32,
-+	.val_bits = 8,
-+	.read = goodix_berlin_spi_read,
-+	.write = goodix_berlin_spi_write,
-+};
-+
-+/* vendor & product left unassigned here, should probably be updated from fw info */
-+static const struct input_id goodix_berlin_spi_input_id = {
-+	.bustype = BUS_SPI,
-+};
-+
-+static int goodix_berlin_spi_probe(struct spi_device *spi)
-+{
-+	struct regmap_config regmap_config;
-+	struct regmap *regmap;
-+	size_t max_size;
-+	int error = 0;
-+
-+	spi->mode = SPI_MODE_0;
-+	spi->bits_per_word = 8;
-+	error = spi_setup(spi);
-+	if (error)
-+		return error;
-+
-+	max_size = spi_max_transfer_size(spi);
-+
-+	regmap_config = goodix_berlin_spi_regmap_conf;
-+	regmap_config.max_raw_read = max_size - GOODIX_BERLIN_SPI_READ_PREFIX_LEN;
-+	regmap_config.max_raw_write = max_size - GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN;
-+
-+	regmap = devm_regmap_init(&spi->dev, NULL, spi, &regmap_config);
-+	if (IS_ERR(regmap))
-+		return PTR_ERR(regmap);
-+
-+	return goodix_berlin_probe(&spi->dev, spi->irq,
-+				   &goodix_berlin_spi_input_id, regmap);
-+}
-+
-+static const struct spi_device_id goodix_berlin_spi_ids[] = {
-+	{ "gt9916" },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(spi, goodix_berlin_spi_ids);
-+
-+static const struct of_device_id goodix_berlin_spi_of_match[] = {
-+	{ .compatible = "goodix,gt9916", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, goodix_berlin_spi_of_match);
-+
-+static struct spi_driver goodix_berlin_spi_driver = {
-+	.driver = {
-+		.name = "goodix-berlin-spi",
-+		.of_match_table = goodix_berlin_spi_of_match,
-+		.pm = pm_sleep_ptr(&goodix_berlin_pm_ops),
-+	},
-+	.probe = goodix_berlin_spi_probe,
-+	.id_table = goodix_berlin_spi_ids,
-+};
-+module_spi_driver(goodix_berlin_spi_driver);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("Goodix Berlin SPI Touchscreen driver");
-+MODULE_AUTHOR("Neil Armstrong <neil.armstrong@linaro.org>");
+> +  The TWLs are Integrated Power Management Chips.
+> +  Some version might contain much more analog function like
+> +  USB transceiver or Audio amplifier.
+> +  These chips are connected to an i2c bus.
+> +
+> +properties:
+> +  compatible:
+> +    description:
+> +      TWL4030 for integrated power-management/audio CODEC device used in=
+ OMAP3
+> +      based boards
+> +      TWL6030/32 for integrated power-management used in OMAP4 based boa=
+rds
+> +    enum:
+> +      - ti,twl4030
+> +      - ti,twl6030
+> +      - ti,twl6032
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  interrupt-controller: true
+> +
+> +  "#interrupt-cells":
+> +    const: 1
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - interrupt-controller
+> +  - "#interrupt-cells"
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +      #address-cells =3D <1>;
+> +      #size-cells =3D <0>;
+> +
+> +      pmic@48 {
+> +        compatible =3D "ti,twl6030";
+> +        reg =3D <0x48>;
+> +        interrupts =3D <39>; /* IRQ_SYS_1N cascaded to gic */
+> +        interrupt-controller;
+> +        #interrupt-cells =3D <1>;
+> +        interrupt-parent =3D <&gic>;
+> +      };
+> +    };
+> +
+> diff --git a/Documentation/devicetree/bindings/mfd/twl-family.txt b/Docum=
+entation/devicetree/bindings/mfd/twl-family.txt
+> deleted file mode 100644
+> index c2f9302965dea..0000000000000
+> --- a/Documentation/devicetree/bindings/mfd/twl-family.txt
+> +++ /dev/null
+> @@ -1,46 +0,0 @@
+> -Texas Instruments TWL family
+> -
+> -The TWLs are Integrated Power Management Chips.
+> -Some version might contain much more analog function like
+> -USB transceiver or Audio amplifier.
+> -These chips are connected to an i2c bus.
+> -
+> -
+> -Required properties:
+> -- compatible : Must be "ti,twl4030";
+> -  For Integrated power-management/audio CODEC device used in OMAP3
+> -  based boards
+> -- compatible : Must be "ti,twl6030";
+> -  For Integrated power-management used in OMAP4 based boards
+> -- interrupts : This i2c device has an IRQ line connected to the main SoC
+> -- interrupt-controller : Since the twl support several interrupts intern=
+ally,
+> -  it is considered as an interrupt controller cascaded to the SoC one.
+> -- #interrupt-cells =3D <1>;
+> -
+> -Optional node:
+> -- Child nodes contain in the twl. The twl family is made of several vari=
+ants
+> -  that support a different number of features.
+> -  The children nodes will thus depend of the capability of the variant.
+> -
+> -
+> -Example:
+> -/*
+> - * Integrated Power Management Chip
+> - * https://www.ti.com/lit/ds/symlink/twl6030.pdf
+> - */
+> -twl@48 {
+> -    compatible =3D "ti,twl6030";
+> -    reg =3D <0x48>;
+> -    interrupts =3D <39>; /* IRQ_SYS_1N cascaded to gic */
+> -    interrupt-controller;
+> -    #interrupt-cells =3D <1>;
+> -    interrupt-parent =3D <&gic>;
+> -    #address-cells =3D <1>;
+> -    #size-cells =3D <0>;
+> -
+> -    twl_rtc {
+> -        compatible =3D "ti,twl_rtc";
+> -        interrupts =3D <11>;
+> -        reg =3D <0>;
+> -    };
+> -};
+> --=20
+> 2.39.2
+>=20
 
--- 
-2.34.1
+--IsDaPVul3HCmyTmu
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZQCZJQAKCRB4tDGHoIJi
+0jftAQDPwdZ0AbsyNv+TRVvMV5bY5+An1i7vRseyDOSIyn0FygEAgBrCOGsaspl+
+0aurM+OsQrEUbtK66wg5vN4zWVoP3ww=
+=/JLB
+-----END PGP SIGNATURE-----
+
+--IsDaPVul3HCmyTmu--
