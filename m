@@ -2,142 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F83479D89D
-	for <lists+linux-input@lfdr.de>; Tue, 12 Sep 2023 20:24:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B6D279DE4A
+	for <lists+linux-input@lfdr.de>; Wed, 13 Sep 2023 04:33:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237362AbjILSYO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 Sep 2023 14:24:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37752 "EHLO
+        id S229719AbjIMCds (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 12 Sep 2023 22:33:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237397AbjILSYN (ORCPT
+        with ESMTP id S229557AbjIMCds (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 Sep 2023 14:24:13 -0400
-Received: from smtp.smtpout.orange.fr (smtp-30.smtpout.orange.fr [80.12.242.30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96DDD10F2
-        for <linux-input@vger.kernel.org>; Tue, 12 Sep 2023 11:24:09 -0700 (PDT)
-Received: from [192.168.1.18] ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id g83RqRmrEiBkug83RqO2gs; Tue, 12 Sep 2023 20:24:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1694543048;
-        bh=BwabbmNDfoIMMoHR0PGecCbV9RImTYt/EdYJHgvIvUQ=;
-        h=Date:Subject:From:To:References:In-Reply-To;
-        b=OX266sJkHDWwgsJE5jCRB/QTRp50ddmqYY9P8Ul1ifjJBVPIxR4PPvO2+5UeejbxO
-         mZmBNovtlnpkwro8LTEixZeQcqDYt3KlaH5rguQcmSnJSswX4B7vWyIjRdbI/FsxTE
-         PJz5/a4gpD7QYUInCrAGGHKPNgqxYfDaxy0dLXgPspYNIwVRQlbuv1TaNSsq+3IaNS
-         GGpr7heMMJ4G93QQ1SjuBDVCdzixU7vyr9WhecfI19T9kkmakyxeJzUEpv0ShVloC1
-         IEZWX9woPVmVwgs+T8/cT5WuPo+BBDvm6fYMENko4biUvv3oEHGSp3Vzne7/BAjbsu
-         TYSBRyEpgnGVg==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Tue, 12 Sep 2023 20:24:07 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <dec51c56-9169-d0f0-bdcd-e99790a7d86a@wanadoo.fr>
-Date:   Tue, 12 Sep 2023 20:24:05 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v3 4/5] clk: twl: add clock driver for TWL6032
-Content-Language: fr
-From:   Marion & Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     Andreas Kemnade <andreas@kemnade.info>, dmitry.torokhov@gmail.com,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, lee@kernel.org, bcousson@baylibre.com,
-        tony@atomide.com, mturquette@baylibre.com, sboyd@kernel.org,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-clk@vger.kernel.org
-References: <20230911221346.1484543-1-andreas@kemnade.info>
- <20230911221346.1484543-5-andreas@kemnade.info>
- <a9b646c7-2c02-8a69-a4c8-7e981a630eef@wanadoo.fr>
-In-Reply-To: <a9b646c7-2c02-8a69-a4c8-7e981a630eef@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Tue, 12 Sep 2023 22:33:48 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A5961713
+        for <linux-input@vger.kernel.org>; Tue, 12 Sep 2023 19:33:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694572424; x=1726108424;
+  h=from:to:cc:subject:date:message-id;
+  bh=/Yhg+vTJvYWBwXL4LbtrPiTVCt6F3TVZDasajdio1pI=;
+  b=coW6td7glnNAzatsWHhDH0C1/kEohmfj8XxlcaeiEorf7eDutu2CJTAn
+   qho5AigrwXQ5392SM1kRT4MTVGFYm+mUkOHc//vsloluxZk2BJS4Z3bjA
+   3qwIGPBRfe/JiXr5DOhCwYMIRel/4LPg47ph6NzFFEU/1/NzXd1IZY7F2
+   ZRbjkykW4EJfk1B4R6P+E7wzxynlSi8kI2FCQpxXL2nNrcNmDLe4dG7T/
+   if0yk6kTyvpSHRky9r9U4r2E6hGaUNFf9os965yqumcH6zhewJhYalNf0
+   R9z/Nr/LvETWwhRED6pkuUg3nTz2dBPjKvrCEDRdMAfSh44P4tC+xt/ac
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="464915863"
+X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
+   d="scan'208";a="464915863"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 19:33:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="743943756"
+X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
+   d="scan'208";a="743943756"
+Received: from shsensorbuild2.sh.intel.com ([10.239.134.197])
+  by orsmga002.jf.intel.com with ESMTP; 12 Sep 2023 19:33:41 -0700
+From:   Even Xu <even.xu@intel.com>
+To:     linux-input@vger.kernel.org, srinivas.pandruvada@linux.intel.com,
+        jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     Even Xu <even.xu@intel.com>
+Subject: [PATCH] HID: intel-ish-hid: ipc: Add Arrow Lake PCI device ID
+Date:   Wed, 13 Sep 2023 10:33:39 +0800
+Message-Id: <1694572419-10981-1-git-send-email-even.xu@intel.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Add device ID of Arrow Lake-S into ishtp support list.
 
+Signed-off-by: Even Xu <even.xu@intel.com>
+---
+ drivers/hid/intel-ish-hid/ipc/hw-ish.h  | 1 +
+ drivers/hid/intel-ish-hid/ipc/pci-ish.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-Le 12/09/2023 à 19:15, Christophe JAILLET a écrit :
-> Le 12/09/2023 à 00:13, Andreas Kemnade a écrit :
->> The TWL6032 has some clock outputs which are controlled like
->> fixed-voltage regulators, in some drivers for these chips
->> found in the wild, just the regulator api is abused for controlling
->> them, so simply use something similar to the regulator functions.
->> Due to a lack of hardware available for testing, leave out the
->> TWL6030-specific part of those functions.
->>
->> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
->> ---
->>   drivers/clk/Kconfig   |   9 ++
->>   drivers/clk/Makefile  |   1 +
->>   drivers/clk/clk-twl.c | 197 ++++++++++++++++++++++++++++++++++++++++++
->>   3 files changed, 207 insertions(+)
->>   create mode 100644 drivers/clk/clk-twl.c
->>
-> 
-> ...
-> 
->> +static int twl_clks_probe(struct platform_device *pdev)
->> +{
->> +    struct clk_hw_onecell_data *clk_data;
->> +    const struct twl_clks_data *hw_data;
->> +
->> +    struct twl_clock_info *cinfo;
->> +    int ret;
->> +    int i;
->> +    int count;
->> +
->> +    hw_data = twl6032_clks;
->> +    for (count = 0; hw_data[count].init.name; count++)
->> +        ;
-> 
-> Nit: does removing the /* sentinel */ and using 
-> ARRAY_SIZE(twl_clks_data) would make sense and be simpler?
-> 
-> CJ
-> 
->> +
->> +    clk_data = devm_kzalloc(&pdev->dev,
->> +                struct_size(clk_data, hws, count),
->> +                GFP_KERNEL);
->> +    if (!clk_data)
->> +        return -ENOMEM;
->> +
->> +    clk_data->num = count;
->> +    cinfo = devm_kcalloc(&pdev->dev, count, sizeof(*cinfo), GFP_KERNEL);
->> +    if (!cinfo)
->> +        return -ENOMEM;
->> +
->> +    for (i = 0; i < count; i++) {
->> +        cinfo[i].base = hw_data[i].base;
->> +        cinfo[i].dev = &pdev->dev;
->> +        cinfo[i].hw.init = &hw_data[i].init;
->> +        ret = devm_clk_hw_register(&pdev->dev, &cinfo[i].hw);
->> +        if (ret) {
->> +            dev_err(&pdev->dev, "Fail to register clock %s, %d\n",
->> +                hw_data[i].init.name, ret);
->> +            return ret;
->> +        }
->> +        clk_data->hws[i] = &cinfo[i].hw;
->> +    }
->> +
->> +    ret = devm_of_clk_add_hw_provider(&pdev->dev,
->> +                      of_clk_hw_onecell_get, clk_data);
->> +    if (ret < 0)
->> +        dev_err(&pdev->dev, "Fail to add clock driver, %d\n", ret);
->> +
->> +    return ret;
-> 
-> Nit: should there be a V4, some prefer return 0 to be more explicit.
+diff --git a/drivers/hid/intel-ish-hid/ipc/hw-ish.h b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
+index e99f3a3..f89b300 100644
+--- a/drivers/hid/intel-ish-hid/ipc/hw-ish.h
++++ b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
+@@ -34,6 +34,7 @@
+ #define RPL_S_DEVICE_ID		0x7A78
+ #define MTL_P_DEVICE_ID		0x7E45
+ #define ARL_H_DEVICE_ID		0x7745
++#define ARL_S_DEVICE_ID		0x7F78
+ 
+ #define	REVISION_ID_CHT_A0	0x6
+ #define	REVISION_ID_CHT_Ax_SI	0x0
+diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+index 55cb250..ae3c6c1 100644
+--- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
++++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+@@ -45,6 +45,7 @@ static const struct pci_device_id ish_pci_tbl[] = {
+ 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, RPL_S_DEVICE_ID)},
+ 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, MTL_P_DEVICE_ID)},
+ 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ARL_H_DEVICE_ID)},
++	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ARL_S_DEVICE_ID)},
+ 	{0, }
+ };
+ MODULE_DEVICE_TABLE(pci, ish_pci_tbl);
+-- 
+2.7.4
 
-Oops, no, or a "return ret;" should be added as well a few lines above
-(it would more future proof, so)
-
-> 
->> +}
-> 
-> ...
-> 
-> 
