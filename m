@@ -2,86 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B6D279DE4A
-	for <lists+linux-input@lfdr.de>; Wed, 13 Sep 2023 04:33:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69DAD79E94A
+	for <lists+linux-input@lfdr.de>; Wed, 13 Sep 2023 15:28:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229719AbjIMCds (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 Sep 2023 22:33:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47512 "EHLO
+        id S240913AbjIMN2r (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 Sep 2023 09:28:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229557AbjIMCds (ORCPT
+        with ESMTP id S230414AbjIMN2q (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 Sep 2023 22:33:48 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A5961713
-        for <linux-input@vger.kernel.org>; Tue, 12 Sep 2023 19:33:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694572424; x=1726108424;
-  h=from:to:cc:subject:date:message-id;
-  bh=/Yhg+vTJvYWBwXL4LbtrPiTVCt6F3TVZDasajdio1pI=;
-  b=coW6td7glnNAzatsWHhDH0C1/kEohmfj8XxlcaeiEorf7eDutu2CJTAn
-   qho5AigrwXQ5392SM1kRT4MTVGFYm+mUkOHc//vsloluxZk2BJS4Z3bjA
-   3qwIGPBRfe/JiXr5DOhCwYMIRel/4LPg47ph6NzFFEU/1/NzXd1IZY7F2
-   ZRbjkykW4EJfk1B4R6P+E7wzxynlSi8kI2FCQpxXL2nNrcNmDLe4dG7T/
-   if0yk6kTyvpSHRky9r9U4r2E6hGaUNFf9os965yqumcH6zhewJhYalNf0
-   R9z/Nr/LvETWwhRED6pkuUg3nTz2dBPjKvrCEDRdMAfSh44P4tC+xt/ac
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="464915863"
-X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="464915863"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 19:33:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="743943756"
-X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="743943756"
-Received: from shsensorbuild2.sh.intel.com ([10.239.134.197])
-  by orsmga002.jf.intel.com with ESMTP; 12 Sep 2023 19:33:41 -0700
-From:   Even Xu <even.xu@intel.com>
-To:     linux-input@vger.kernel.org, srinivas.pandruvada@linux.intel.com,
-        jikos@kernel.org, benjamin.tissoires@redhat.com
-Cc:     Even Xu <even.xu@intel.com>
-Subject: [PATCH] HID: intel-ish-hid: ipc: Add Arrow Lake PCI device ID
-Date:   Wed, 13 Sep 2023 10:33:39 +0800
-Message-Id: <1694572419-10981-1-git-send-email-even.xu@intel.com>
-X-Mailer: git-send-email 2.7.4
+        Wed, 13 Sep 2023 09:28:46 -0400
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [85.215.255.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C10E819B1
+        for <linux-input@vger.kernel.org>; Wed, 13 Sep 2023 06:28:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1694611535; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=LeX5saRTr+At6MzyVh7+sXPc0NqRVuiaP1Ch1Jk+WoDev33+xd982ReLjqPSK7am8m
+    pjDqrs5KZy/tc6wIIzHX5isdZ3siv3337Tr+8AbHkDBJa9FwHrNbrai83ytiavkztzhb
+    gvfYeczSNBUZExMnypVd+CMxaHzPLUuNmPO9BokvrfDQvdJGjDD1GQ5+wUvwY3dDsDoo
+    9wwYsCrxx8BYBPZW0mvejy4zqRmWsYxKH88LvSSLijks2N3uKgwg1qv+DWr9zHoTVcH2
+    yNZjwPjZK1Oe2fzaDHWvZxElE0t+bEduY86s5SwAyqjvplTqyijvh1cvKnCF5UhDUgNq
+    X/wg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1694611535;
+    s=strato-dkim-0002; d=strato.com;
+    h=Cc:To:Message-Id:Date:Subject:From:Cc:Date:From:Subject:Sender;
+    bh=2yYfFfmY5L7Akn5oP+M8fMk+qOUch7gWpcmspCBJC10=;
+    b=XOkFFIzthoqY6IcoWQhZQUa44uIYcgK/7UUdkygpp62uwdVEiANwgGMuhIIDoWjLBv
+    eZ9GktJRynxGIuWxVd8NJYl9fzSZ991/k9upSzAA6hT9xxby16yqWXtmEaLkAFubrTOj
+    IqhgWXQPDVd580aubLJjr4QeltO6UluZeGJPqILmtv4QGsQeXBSh5p8BH9tilj6LEXiO
+    BCpVkOA4gcka26j3KnoHThAWnfahY6J2APwcWtOpw+4JaXNg/ncdpIgtYPToQwzquKOQ
+    bycJRHJ+NkR+aokCeYOnkx1JcjTuKEYIeSeBPYEvDPwoX9CvFqmdqqb9UpabC7/hIN1S
+    M+Qw==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1694611535;
+    s=strato-dkim-0002; d=gerhold.net;
+    h=Cc:To:Message-Id:Date:Subject:From:Cc:Date:From:Subject:Sender;
+    bh=2yYfFfmY5L7Akn5oP+M8fMk+qOUch7gWpcmspCBJC10=;
+    b=H1JEV+mcJatiM9wpsTmlPXO49b82lMTKd8ZsFpB0Co/TEdRQ/Fp4f2Y8sHu04oVdSP
+    cTxuBnCwoNO0GbGTezT9WQIzO4dbATa07j3RyhD4vd3gXb3/a05bkagHHCyuGxh2aMcM
+    XZZgcBVIJQ/cmLrTNh46m3avuqI5F3r6m/IzpephZJLJI8T5K8o+VjgnwS9u6DyL1K4R
+    v/acdK5RjGLVIrc82Z9OuHH8vCF92qZ08RRXj872TuShzBDHBEsYy7LSTeJi3UZ+4vOa
+    2DDARiRQoJBA+vDbovvFtadfyHdxoIvV6w9VZ7acJmhpJ0NfZV3zEmYIWpykUNuRM6CG
+    /oJA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1694611535;
+    s=strato-dkim-0003; d=gerhold.net;
+    h=Cc:To:Message-Id:Date:Subject:From:Cc:Date:From:Subject:Sender;
+    bh=2yYfFfmY5L7Akn5oP+M8fMk+qOUch7gWpcmspCBJC10=;
+    b=v0wJetINySkyDEtRwAQQDmmWmmRAybXLk/t315YJBqvhYfdaIDTAbwc7kzM6N9FjEW
+    Sq/tQ8SVyNJxtMWTb1AQ==
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQjVd4CteZ/7jYgS+mLFY+H0JAn8u4p3mw=="
+Received: from [192.168.244.3]
+    by smtp.strato.de (RZmta 49.8.2 DYNA|AUTH)
+    with ESMTPSA id xb560bz8DDPZuEG
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+    Wed, 13 Sep 2023 15:25:35 +0200 (CEST)
+From:   Stephan Gerhold <stephan@gerhold.net>
+Subject: [PATCH 0/2] Input: add Himax HX852x(ES) touchscreen driver
+Date:   Wed, 13 Sep 2023 15:25:28 +0200
+Message-Id: <20230913-hx852x-v1-0-9c1ebff536eb@gerhold.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEi4AWUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2MDC0Mz3YwKC1OjCl1jE0uDFCNzc2NjIyMloOKCotS0zAqwQdGxtbUAYgG
+ x7VgAAAA=
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jeff LaBundy <jeff@labundy.com>,
+        Jonathan Albrieux <jonathan.albrieux@gmail.com>,
+        Stephan Gerhold <stephan@gerhold.net>
+X-Mailer: b4 0.12.3
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add device ID of Arrow Lake-S into ishtp support list.
+Add DT schema and driver for the Himax HX852x(ES) touch panel 
+controller, with support for multi-touch and capacitive touch keys.
 
-Signed-off-by: Even Xu <even.xu@intel.com>
+Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
 ---
- drivers/hid/intel-ish-hid/ipc/hw-ish.h  | 1 +
- drivers/hid/intel-ish-hid/ipc/pci-ish.c | 1 +
- 2 files changed, 2 insertions(+)
+Jonathan Albrieux (1):
+      Input: add Himax HX852x(ES) touchscreen driver
 
-diff --git a/drivers/hid/intel-ish-hid/ipc/hw-ish.h b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-index e99f3a3..f89b300 100644
---- a/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-+++ b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-@@ -34,6 +34,7 @@
- #define RPL_S_DEVICE_ID		0x7A78
- #define MTL_P_DEVICE_ID		0x7E45
- #define ARL_H_DEVICE_ID		0x7745
-+#define ARL_S_DEVICE_ID		0x7F78
- 
- #define	REVISION_ID_CHT_A0	0x6
- #define	REVISION_ID_CHT_Ax_SI	0x0
-diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-index 55cb250..ae3c6c1 100644
---- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-+++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-@@ -45,6 +45,7 @@ static const struct pci_device_id ish_pci_tbl[] = {
- 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, RPL_S_DEVICE_ID)},
- 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, MTL_P_DEVICE_ID)},
- 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ARL_H_DEVICE_ID)},
-+	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ARL_S_DEVICE_ID)},
- 	{0, }
- };
- MODULE_DEVICE_TABLE(pci, ish_pci_tbl);
+Stephan Gerhold (1):
+      dt-bindings: input: touchscreen: document Himax HX852x(ES)
+
+ .../bindings/input/touchscreen/himax,hx852es.yaml  |  81 ++++
+ MAINTAINERS                                        |   7 +
+ drivers/input/touchscreen/Kconfig                  |  10 +
+ drivers/input/touchscreen/Makefile                 |   1 +
+ drivers/input/touchscreen/himax_hx852x.c           | 491 +++++++++++++++++++++
+ 5 files changed, 590 insertions(+)
+---
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+change-id: 20230816-hx852x-3490d2773322
+
+Best regards,
 -- 
-2.7.4
+Stephan Gerhold <stephan@gerhold.net>
 
