@@ -2,67 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18A227A10DD
-	for <lists+linux-input@lfdr.de>; Fri, 15 Sep 2023 00:21:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27B897A1140
+	for <lists+linux-input@lfdr.de>; Fri, 15 Sep 2023 00:47:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229897AbjINWVC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Sep 2023 18:21:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42266 "EHLO
+        id S230171AbjINWra (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Sep 2023 18:47:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbjINWVB (ORCPT
+        with ESMTP id S230168AbjINWra (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Sep 2023 18:21:01 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E13FA26A4
-        for <linux-input@vger.kernel.org>; Thu, 14 Sep 2023 15:20:56 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-597f461adc5so20081977b3.1
-        for <linux-input@vger.kernel.org>; Thu, 14 Sep 2023 15:20:56 -0700 (PDT)
+        Thu, 14 Sep 2023 18:47:30 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8E172710
+        for <linux-input@vger.kernel.org>; Thu, 14 Sep 2023 15:47:25 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-d7edc01fdc9so1659686276.3
+        for <linux-input@vger.kernel.org>; Thu, 14 Sep 2023 15:47:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1694730056; x=1695334856; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1694731645; x=1695336445; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=L6wxH6wI0CxNppihK8yyqaPuo2ed2yk6gacxAzZ/YyQ=;
-        b=BM0YwBiwVFb8TzWvXVSas5oaWU302JRAzBkTRI+IJcHdIVkdRsJF3FFMuhyJ2HaWFu
-         18Ytjyc9eeDM8lYwHh1jc4D+h8FLxClwupHBsThQW0v81wsybwsoNl4RsebOtcNs56u8
-         tDN9p/BUNZJx5F7KgWEjMHUmaGHQV2xCFQIvl+3oqHn2bo/YqvmjZ77LqclnkTtwb/pO
-         lzHCFI4KMm4QIF2yKkrvYr/+CPP7BJnzBiA1v+0fppHAFh1Pyv2XZWmOkxccDYAiSuKV
-         Xjc56ChPLmrh7sM8kleY6eAR4hhoUR5oPqq+EfVXqHIyzzzg+PBvucRKGuTm6Hk5RpdZ
-         ahfw==
+        bh=WlEmBKsST15BXxXfgVar1XzghXpy2BhN9U0IxRoXCQE=;
+        b=PaYMZoQzQ6DiCCY1Khy+ts0DFKWlN5CH+6GQOuWvaoucwuopd5LO7fmc/OKtZF/QXO
+         pU0r607zjhM8We2E93VejyCu2XgYzY7tBCNVI1Ke5rWM8K7bRchg/YkqSF2IJTDo9kw+
+         eX4MKOxy9CPsHqdARDzdGFQhSi/9mVpdVfugsaSO1JhZmmGtpaSKaxh+uJoABzAlnHwX
+         cD+fJZnheQHSG+L06RZeNlh9B2dSEKcM1nl/Ur7e+prSSeTexZlegtuXAeKU0KzLKUWq
+         cVbwpnyiPj2yGXD5Acjy80DAiVBKnagdVBs3m4qWbrS766Be+JYUpF5SDRcfWBWv5VLh
+         VSnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694730056; x=1695334856;
+        d=1e100.net; s=20230601; t=1694731645; x=1695336445;
         h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=L6wxH6wI0CxNppihK8yyqaPuo2ed2yk6gacxAzZ/YyQ=;
-        b=b/lEAjfi3KcXnfGhtxSTsCsjgsBmCFOnkOPxxU3YJpbsfAA5+zq5R8nnjyuHkIxOzS
-         w/sDrI5ul9bFZN9rldl9BBp3QwheAd1FoTdQA7Yc3+nduuleji6oIYUk8kXnKbINoFRi
-         Ogid1JbU3sLFn985AzYcUV58IzOfj0+U8RSYFhYGkGndZ7nLBRmpzfYY+YOXZc41ymRK
-         R7wcvc/l/sWiL3QjHN7gDumTTsaKo6TkPkTzYZPq0rCuqvADklFsFSOv88L6MTXgkJ1U
-         zB8KwKPLHtB4pC/zcPfEZ5y692A5lKG6Y/7CdMILDg54XywwKSniaQYazbK02uUtJ3iY
-         mCdg==
-X-Gm-Message-State: AOJu0YxxHQv3BGMk6uGGl2Pt/NW626b6EKIXMNlUhbSnor+ciJL0Mez9
-        +WCfvermJj8WHKtyVRybXwVy/Y2TEkYAT1b1KQ==
-X-Google-Smtp-Source: AGHT+IEpoemOyU/gCfEy83llw70WSxP7zEz3SBbvICVjbWMxxJfMiydQwtaNCRNpaXfr7o3vwcXiY9NfsRvm3iC3KQ==
+        bh=WlEmBKsST15BXxXfgVar1XzghXpy2BhN9U0IxRoXCQE=;
+        b=t/hEkqiDHefwu/n0y/yzfMdsq0gffyuJMQNP0YDqGA8f7hj+xcyki89dHI4ZkHxMlw
+         9WFfR/7sWK1FngfCsCTzVh+wla0mEeRznzH5k4z6O1iulievGzIURHiKKIzkIvHeGjCY
+         JWbdK6puJWHB8f2E84FrpSi+52qF+0LbKkm8WSWzrBPi/Jz5heIA8Fl1VSe0RqUIpVvd
+         mYnA5uIVplx0oLw+FwZZJ/aO2TnJnQdq3uWGdc8aWMAK49rj1EAVesjAWjCB9XDHSDM6
+         FdZm83/xXCq8GTFSA8pCBO7poKmahq3KkMdBNB1oPlqcXGWj09q1aIE0E738Y4Xy9tfL
+         8eEg==
+X-Gm-Message-State: AOJu0YwRePUNHgaSpyamz5YQlkYmMJKIpveAIhQXmgVcyql8b3NXPMjU
+        afqR9Ya1wt54660CZvNbOM9vpDFBannZGfckXg==
+X-Google-Smtp-Source: AGHT+IGkdKJsDoRPj6iOAbB6G6mb6EbzU9PdlEfuupjk+OmoelGiAAQezQx06Su0QGHeD/GXGFFXlSq//vqRnmROdQ==
 X-Received: from jstitt-linux1.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:23b5])
- (user=justinstitt job=sendgmr) by 2002:a05:690c:710:b0:59b:f138:c83b with
- SMTP id bs16-20020a05690c071000b0059bf138c83bmr548ywb.3.1694730056164; Thu,
- 14 Sep 2023 15:20:56 -0700 (PDT)
-Date:   Thu, 14 Sep 2023 22:20:55 +0000
+ (user=justinstitt job=sendgmr) by 2002:a5b:481:0:b0:d80:bea:ca87 with SMTP id
+ n1-20020a5b0481000000b00d800beaca87mr170215ybp.1.1694731645064; Thu, 14 Sep
+ 2023 15:47:25 -0700 (PDT)
+Date:   Thu, 14 Sep 2023 22:47:21 +0000
 Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAEaHA2UC/x2NMQrDMAwAvxI0RxC7JtB+pXQIlhyLgmOkEhJM/
- l6T4YZb7hoYq7DBa2igvIvJVrq4cYCYl7IyCnUHP/nH9HQB7acl1hNJZWc1zEI3VTeSL5+GEWM KfnZh8Y4C9FJVTnLcl/fnuv40LAw+dQAAAA==
+X-B4-Tracking: v=1; b=H4sIAHmNA2UC/x3MPQqEQAxA4atIagP+jLrrVRYLmURNM0riiiLe3
+ dHmwde8E4xV2KBNTlDexGQOEXmagJ/6MDIKRUORFWX2zR3aqsEvB5LKxmo4CeH/icfe1dVQcvN xRBAHi/Ig+zv/ddd1A6Gwul9sAAAA
 X-Developer-Key: i=justinstitt@google.com; a=ed25519; pk=tC3hNkJQTpNX/gLKxTNQKDmiQl6QjBNCGKJINqAdJsE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1694730055; l=2074;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1694731644; l=2748;
  i=justinstitt@google.com; s=20230717; h=from:subject:message-id;
- bh=+74GC7rHw1mTn7nixljv5X0qMRleq8S1K0Ou7Xb7zvw=; b=Kpg/iXSQK/dWh3bjDyW1nCyXP9t2hxjS3t8Kvy+Gk83wwymskJL9AwoLZSuYt0s95O1vww4sD
- edk9W7p0v+tDvqTc6FRuqWSc/e+ou1C/82uv+xmTsAPYQKfeT++S8J4
+ bh=Ro3W2l30+BkUgaszKfSJpsko0I3zSOwBNarLcip1Cv0=; b=+Ja/3VwcQv8Olj4st1v7gaQMddtIhh5AF/TwEtWpW6owvTXLz0/I8erXLOUpXoFmb5Z9njm4T
+ vZydOgdhr/SDE99w0xuyh/SH2rl1X/0la8SdmEemgGQah5zf2h7fMX+
 X-Mailer: b4 0.12.3
-Message-ID: <20230914-strncpy-drivers-hid-hid-prodikeys-c-v1-1-10c00550f2c2@google.com>
-Subject: [PATCH] HID: prodikeys: refactor deprecated strncpy
+Message-ID: <20230914-strncpy-drivers-hid-uhid-c-v1-1-18a190060d8d@google.com>
+Subject: [PATCH] HID: uhid: refactor deprecated strncpy
 From:   Justin Stitt <justinstitt@google.com>
-To:     Jiri Kosina <jikos@kernel.org>,
+To:     David Rheinsberg <david@readahead.eu>,
+        Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org,
+        linux-hardening@vger.kernel.org, Kees Cook <keescook@chromium.org>,
         Justin Stitt <justinstitt@google.com>
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -73,50 +74,66 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 We should prefer more robust and less ambiguous string interfaces.
 
-A suitable replacement is `strscpy` [2] due to the fact that it guarantees
-NUL-termination on the destination buffer without unnecessarily NUL-padding.
+A suitable replacement is `strscpy` [2] due to the fact that it
+guarantees NUL-termination on the destination buffer without
+unnecessarily NUL-padding.
+
+Looking at: Commit 4d26d1d1e806 ("Revert "HID: uhid: use strlcpy() instead of strncpy()"")
+we see referenced the fact that many attempts have been made to change
+these strncpy's into strlcpy to no success. I think strscpy is an
+objectively better interface here as it doesn't unnecessarily NUL-pad
+the destination buffer whilst allowing us to drop the `len = min(...)`
+pattern as strscpy will implicitly limit the number of bytes copied by
+the smaller of its dest and src arguments.
+
+So while the existing code may not have a bug (i.e: overread problems)
+we should still favor strscpy due to readability (plus a very slight
+performance boost).
 
 Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
 Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
 Link: https://github.com/KSPP/linux/issues/90
 Cc: linux-hardening@vger.kernel.org
+Cc: Kees Cook <keescook@chromium.org>
 Signed-off-by: Justin Stitt <justinstitt@google.com>
 ---
-Note: for some reason if NUL-padding is needed let's opt for `strscpy_pad()`
----
- drivers/hid/hid-prodikeys.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/hid/uhid.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/hid/hid-prodikeys.c b/drivers/hid/hid-prodikeys.c
-index e4e9471d0f1e..c16d2ba6ea16 100644
---- a/drivers/hid/hid-prodikeys.c
-+++ b/drivers/hid/hid-prodikeys.c
-@@ -639,9 +639,9 @@ static int pcmidi_snd_initialise(struct pcmidi_snd *pm)
- 		goto fail;
+diff --git a/drivers/hid/uhid.c b/drivers/hid/uhid.c
+index 4588d2cd4ea4..00e1566ad37b 100644
+--- a/drivers/hid/uhid.c
++++ b/drivers/hid/uhid.c
+@@ -490,7 +490,7 @@ static int uhid_dev_create2(struct uhid_device *uhid,
+ 			    const struct uhid_event *ev)
+ {
+ 	struct hid_device *hid;
+-	size_t rd_size, len;
++	size_t rd_size;
+ 	void *rd_data;
+ 	int ret;
+ 
+@@ -514,13 +514,9 @@ static int uhid_dev_create2(struct uhid_device *uhid,
+ 		goto err_free;
  	}
  
--	strncpy(card->driver, shortname, sizeof(card->driver));
--	strncpy(card->shortname, shortname, sizeof(card->shortname));
--	strncpy(card->longname, longname, sizeof(card->longname));
-+	strscpy(card->driver, shortname, sizeof(card->driver));
-+	strscpy(card->shortname, shortname, sizeof(card->shortname));
-+	strscpy(card->longname, longname, sizeof(card->longname));
+-	/* @hid is zero-initialized, strncpy() is correct, strlcpy() not */
+-	len = min(sizeof(hid->name), sizeof(ev->u.create2.name)) - 1;
+-	strncpy(hid->name, ev->u.create2.name, len);
+-	len = min(sizeof(hid->phys), sizeof(ev->u.create2.phys)) - 1;
+-	strncpy(hid->phys, ev->u.create2.phys, len);
+-	len = min(sizeof(hid->uniq), sizeof(ev->u.create2.uniq)) - 1;
+-	strncpy(hid->uniq, ev->u.create2.uniq, len);
++	strscpy(hid->name, ev->u.create2.name, sizeof(hid->name));
++	strscpy(hid->phys, ev->u.create2.phys, sizeof(hid->phys));
++	strscpy(hid->uniq, ev->u.create2.uniq, sizeof(hid->uniq));
  
- 	/* Set up rawmidi */
- 	err = snd_rawmidi_new(card, card->shortname, 0,
-@@ -652,7 +652,7 @@ static int pcmidi_snd_initialise(struct pcmidi_snd *pm)
- 		goto fail;
- 	}
- 	pm->rwmidi = rwmidi;
--	strncpy(rwmidi->name, card->shortname, sizeof(rwmidi->name));
-+	strscpy(rwmidi->name, card->shortname, sizeof(rwmidi->name));
- 	rwmidi->info_flags = SNDRV_RAWMIDI_INFO_INPUT;
- 	rwmidi->private_data = pm;
- 
+ 	hid->ll_driver = &uhid_hid_driver;
+ 	hid->bus = ev->u.create2.bus;
 
 ---
 base-commit: 3669558bdf354cd352be955ef2764cde6a9bf5ec
-change-id: 20230914-strncpy-drivers-hid-hid-prodikeys-c-cf42614a21d4
+change-id: 20230914-strncpy-drivers-hid-uhid-c-a465f3e784dd
 
 Best regards,
 --
