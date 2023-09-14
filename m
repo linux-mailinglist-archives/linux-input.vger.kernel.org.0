@@ -2,188 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E7FF7A0DB4
-	for <lists+linux-input@lfdr.de>; Thu, 14 Sep 2023 21:01:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18A227A10DD
+	for <lists+linux-input@lfdr.de>; Fri, 15 Sep 2023 00:21:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231588AbjINTBY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Sep 2023 15:01:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52006 "EHLO
+        id S229897AbjINWVC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Sep 2023 18:21:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241331AbjINTBL (ORCPT
+        with ESMTP id S229472AbjINWVB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Sep 2023 15:01:11 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FF4F2D5E;
-        Thu, 14 Sep 2023 11:42:51 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E16EBC433B9;
-        Thu, 14 Sep 2023 18:42:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694716971;
-        bh=08e3rjzF0krBhajpQnyBqQbdi7QA3Cyqf3TN7meiMuc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=e5jxyRyHOP/DjRJuPsyiFh1vt7vtwAZuZ7nmLxwXXZ34KlomrBCw1HjQvcicHQcfu
-         563tqna9nWQLTE2sPMxhAwDxEUICpNfyRjBWooir/u1+ZkTcm6MyRneNkG6dnqpFwf
-         VZAVbzNE6C+n+VKMXiEbLTf8bjiWU/BSlqQ6lYcU7M1I03H6BpP8xCxoZ8eA+SRBwm
-         7qsXxLr34whdGlGLz1JGQSmoG5k1x5Jibze8tNsk+LGU2/MAsQnjpmXbLmxvy5PmXb
-         RzIawaUEnSOV1IbQuFIH9E/VEd7Qd81olGd87UmFmLGkZf0nzkvdGHpxjWVMVz/ONk
-         HcY4lK9El8IgA==
-Date:   Thu, 14 Sep 2023 13:42:49 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc:     srinivas.pandruvada@linux.intel.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, linux-pm@vger.kernel.org,
-        linux-pci@vger.kernel.org,
-        Jian Hui Lee <jianhui.lee@canonical.com>,
-        Even Xu <even.xu@intel.com>, Zhang Lixu <lixu.zhang@intel.com>,
-        Najumon Ba <najumon.ba@intel.com>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: intel-ish-hid: ipc: Rework EHL OOB wakeup
-Message-ID: <20230914184249.GA74069@bhelgaas>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230914041806.816741-1-kai.heng.feng@canonical.com>
+        Thu, 14 Sep 2023 18:21:01 -0400
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E13FA26A4
+        for <linux-input@vger.kernel.org>; Thu, 14 Sep 2023 15:20:56 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-597f461adc5so20081977b3.1
+        for <linux-input@vger.kernel.org>; Thu, 14 Sep 2023 15:20:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1694730056; x=1695334856; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=L6wxH6wI0CxNppihK8yyqaPuo2ed2yk6gacxAzZ/YyQ=;
+        b=BM0YwBiwVFb8TzWvXVSas5oaWU302JRAzBkTRI+IJcHdIVkdRsJF3FFMuhyJ2HaWFu
+         18Ytjyc9eeDM8lYwHh1jc4D+h8FLxClwupHBsThQW0v81wsybwsoNl4RsebOtcNs56u8
+         tDN9p/BUNZJx5F7KgWEjMHUmaGHQV2xCFQIvl+3oqHn2bo/YqvmjZ77LqclnkTtwb/pO
+         lzHCFI4KMm4QIF2yKkrvYr/+CPP7BJnzBiA1v+0fppHAFh1Pyv2XZWmOkxccDYAiSuKV
+         Xjc56ChPLmrh7sM8kleY6eAR4hhoUR5oPqq+EfVXqHIyzzzg+PBvucRKGuTm6Hk5RpdZ
+         ahfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694730056; x=1695334856;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=L6wxH6wI0CxNppihK8yyqaPuo2ed2yk6gacxAzZ/YyQ=;
+        b=b/lEAjfi3KcXnfGhtxSTsCsjgsBmCFOnkOPxxU3YJpbsfAA5+zq5R8nnjyuHkIxOzS
+         w/sDrI5ul9bFZN9rldl9BBp3QwheAd1FoTdQA7Yc3+nduuleji6oIYUk8kXnKbINoFRi
+         Ogid1JbU3sLFn985AzYcUV58IzOfj0+U8RSYFhYGkGndZ7nLBRmpzfYY+YOXZc41ymRK
+         R7wcvc/l/sWiL3QjHN7gDumTTsaKo6TkPkTzYZPq0rCuqvADklFsFSOv88L6MTXgkJ1U
+         zB8KwKPLHtB4pC/zcPfEZ5y692A5lKG6Y/7CdMILDg54XywwKSniaQYazbK02uUtJ3iY
+         mCdg==
+X-Gm-Message-State: AOJu0YxxHQv3BGMk6uGGl2Pt/NW626b6EKIXMNlUhbSnor+ciJL0Mez9
+        +WCfvermJj8WHKtyVRybXwVy/Y2TEkYAT1b1KQ==
+X-Google-Smtp-Source: AGHT+IEpoemOyU/gCfEy83llw70WSxP7zEz3SBbvICVjbWMxxJfMiydQwtaNCRNpaXfr7o3vwcXiY9NfsRvm3iC3KQ==
+X-Received: from jstitt-linux1.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:23b5])
+ (user=justinstitt job=sendgmr) by 2002:a05:690c:710:b0:59b:f138:c83b with
+ SMTP id bs16-20020a05690c071000b0059bf138c83bmr548ywb.3.1694730056164; Thu,
+ 14 Sep 2023 15:20:56 -0700 (PDT)
+Date:   Thu, 14 Sep 2023 22:20:55 +0000
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAEaHA2UC/x2NMQrDMAwAvxI0RxC7JtB+pXQIlhyLgmOkEhJM/
+ l6T4YZb7hoYq7DBa2igvIvJVrq4cYCYl7IyCnUHP/nH9HQB7acl1hNJZWc1zEI3VTeSL5+GEWM KfnZh8Y4C9FJVTnLcl/fnuv40LAw+dQAAAA==
+X-Developer-Key: i=justinstitt@google.com; a=ed25519; pk=tC3hNkJQTpNX/gLKxTNQKDmiQl6QjBNCGKJINqAdJsE=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1694730055; l=2074;
+ i=justinstitt@google.com; s=20230717; h=from:subject:message-id;
+ bh=+74GC7rHw1mTn7nixljv5X0qMRleq8S1K0Ou7Xb7zvw=; b=Kpg/iXSQK/dWh3bjDyW1nCyXP9t2hxjS3t8Kvy+Gk83wwymskJL9AwoLZSuYt0s95O1vww4sD
+ edk9W7p0v+tDvqTc6FRuqWSc/e+ou1C/82uv+xmTsAPYQKfeT++S8J4
+X-Mailer: b4 0.12.3
+Message-ID: <20230914-strncpy-drivers-hid-hid-prodikeys-c-v1-1-10c00550f2c2@google.com>
+Subject: [PATCH] HID: prodikeys: refactor deprecated strncpy
+From:   Justin Stitt <justinstitt@google.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org,
+        Justin Stitt <justinstitt@google.com>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Sep 14, 2023 at 12:18:05PM +0800, Kai-Heng Feng wrote:
-> System cannot suspend more than 255 times because the driver doesn't
-> have corresponding acpi_disable_gpe() for acpi_enable_gpe(), so the GPE
-> refcount overflows.
+`strncpy` is deprecated for use on NUL-terminated destination strings [1].
 
-How can a user know they are seeing this problem?  Is there a public
-bug report for it?
+We should prefer more robust and less ambiguous string interfaces.
 
-> Since PCI core and ACPI core already handles PCI PME wake and GPE wake
-> when the device has wakeup capability, use device_init_wakeup() to let
-> them do the wakeup setting work.
-> 
-> Also add a shutdown callback which uses pci_prepare_to_sleep() to let
-> PCI and ACPI set OOB wakeup for S5.
+A suitable replacement is `strscpy` [2] due to the fact that it guarantees
+NUL-termination on the destination buffer without unnecessarily NUL-padding.
 
-Is this logically required to be part of this patch, or could it be a
-separate patch?
+Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
+Link: https://github.com/KSPP/linux/issues/90
+Cc: linux-hardening@vger.kernel.org
+Signed-off-by: Justin Stitt <justinstitt@google.com>
+---
+Note: for some reason if NUL-padding is needed let's opt for `strscpy_pad()`
+---
+ drivers/hid/hid-prodikeys.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-> Fixes: 2e23a70edabe ("HID: intel-ish-hid: ipc: finish power flow for EHL OOB")
-> Cc: Jian Hui Lee <jianhui.lee@canonical.com>
-> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> ---
->  drivers/hid/intel-ish-hid/ipc/pci-ish.c | 59 +++++++------------------
->  1 file changed, 15 insertions(+), 44 deletions(-)
-> 
-> diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> index 55cb25038e63..65e7eeb2fa64 100644
-> --- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> +++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> @@ -119,42 +119,6 @@ static inline bool ish_should_leave_d0i3(struct pci_dev *pdev)
->  	return !pm_resume_via_firmware() || pdev->device == CHV_DEVICE_ID;
->  }
->  
-> -static int enable_gpe(struct device *dev)
-> -{
-> -#ifdef CONFIG_ACPI
-> -	acpi_status acpi_sts;
-> -	struct acpi_device *adev;
-> -	struct acpi_device_wakeup *wakeup;
-> -
-> -	adev = ACPI_COMPANION(dev);
-> -	if (!adev) {
-> -		dev_err(dev, "get acpi handle failed\n");
-> -		return -ENODEV;
-> -	}
-> -	wakeup = &adev->wakeup;
-> -
-> -	acpi_sts = acpi_enable_gpe(wakeup->gpe_device, wakeup->gpe_number);
-> -	if (ACPI_FAILURE(acpi_sts)) {
-> -		dev_err(dev, "enable ose_gpe failed\n");
-> -		return -EIO;
-> -	}
-> -
-> -	return 0;
-> -#else
-> -	return -ENODEV;
-> -#endif
-> -}
-> -
-> -static void enable_pme_wake(struct pci_dev *pdev)
-> -{
-> -	if ((pci_pme_capable(pdev, PCI_D0) ||
-> -	     pci_pme_capable(pdev, PCI_D3hot) ||
-> -	     pci_pme_capable(pdev, PCI_D3cold)) && !enable_gpe(&pdev->dev)) {
-> -		pci_pme_active(pdev, true);
-> -		dev_dbg(&pdev->dev, "ish ipc driver pme wake enabled\n");
-> -	}
-> -}
+diff --git a/drivers/hid/hid-prodikeys.c b/drivers/hid/hid-prodikeys.c
+index e4e9471d0f1e..c16d2ba6ea16 100644
+--- a/drivers/hid/hid-prodikeys.c
++++ b/drivers/hid/hid-prodikeys.c
+@@ -639,9 +639,9 @@ static int pcmidi_snd_initialise(struct pcmidi_snd *pm)
+ 		goto fail;
+ 	}
+ 
+-	strncpy(card->driver, shortname, sizeof(card->driver));
+-	strncpy(card->shortname, shortname, sizeof(card->shortname));
+-	strncpy(card->longname, longname, sizeof(card->longname));
++	strscpy(card->driver, shortname, sizeof(card->driver));
++	strscpy(card->shortname, shortname, sizeof(card->shortname));
++	strscpy(card->longname, longname, sizeof(card->longname));
+ 
+ 	/* Set up rawmidi */
+ 	err = snd_rawmidi_new(card, card->shortname, 0,
+@@ -652,7 +652,7 @@ static int pcmidi_snd_initialise(struct pcmidi_snd *pm)
+ 		goto fail;
+ 	}
+ 	pm->rwmidi = rwmidi;
+-	strncpy(rwmidi->name, card->shortname, sizeof(rwmidi->name));
++	strscpy(rwmidi->name, card->shortname, sizeof(rwmidi->name));
+ 	rwmidi->info_flags = SNDRV_RAWMIDI_INFO_INPUT;
+ 	rwmidi->private_data = pm;
+ 
 
-I LOVE the removal of all this code.  Thanks for doing it!
+---
+base-commit: 3669558bdf354cd352be955ef2764cde6a9bf5ec
+change-id: 20230914-strncpy-drivers-hid-hid-prodikeys-c-cf42614a21d4
 
->  /**
->   * ish_probe() - PCI driver probe callback
->   * @pdev:	pci device
-> @@ -225,7 +189,7 @@ static int ish_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->  
->  	/* Enable PME for EHL */
->  	if (pdev->device == EHL_Ax_DEVICE_ID)
-> -		enable_pme_wake(pdev);
-> +		device_init_wakeup(dev, true);
->  
->  	ret = ish_init(ishtp);
->  	if (ret)
-> @@ -248,6 +212,19 @@ static void ish_remove(struct pci_dev *pdev)
->  	ish_device_disable(ishtp_dev);
->  }
->  
-> +
-> +/**
-> + * ish_shutdown() - PCI driver shutdown callback
-> + * @pdev:	pci device
-> + *
-> + * This function sets up wakeup for S5
-> + */
-> +static void ish_shutdown(struct pci_dev *pdev)
-> +{
-> +	if (pdev->device == EHL_Ax_DEVICE_ID)
-> +		pci_prepare_to_sleep(pdev);
+Best regards,
+--
+Justin Stitt <justinstitt@google.com>
 
-There are only five drivers that use pci_prepare_to_sleep(), so I have
-to ask what is special about this device that makes it necessary here?
-
-It doesn't seem to match any of the scenarios mentioned in
-Documentation/power/pci.rst for using pci_prepare_to_sleep().
-
-Previously EHL_Ax_DEVICE_ID was used only in ish_probe(),
-ish_resume(), and _dma_no_cache_snooping().  None of those look like
-this, so this *looks* like new functionality that could/should be in a
-separate patch.
-
-> +}
-> +
->  static struct device __maybe_unused *ish_resume_device;
->  
->  /* 50ms to get resume response */
-> @@ -370,13 +347,6 @@ static int __maybe_unused ish_resume(struct device *device)
->  	struct pci_dev *pdev = to_pci_dev(device);
->  	struct ishtp_device *dev = pci_get_drvdata(pdev);
->  
-> -	/* add this to finish power flow for EHL */
-> -	if (dev->pdev->device == EHL_Ax_DEVICE_ID) {
-> -		pci_set_power_state(pdev, PCI_D0);
-> -		enable_pme_wake(pdev);
-> -		dev_dbg(dev->devc, "set power state to D0 for ehl\n");
-> -	}
-> -
->  	ish_resume_device = device;
->  	dev->resume_flag = 1;
->  
-> @@ -392,6 +362,7 @@ static struct pci_driver ish_driver = {
->  	.id_table = ish_pci_tbl,
->  	.probe = ish_probe,
->  	.remove = ish_remove,
-> +	.shutdown = ish_shutdown,
->  	.driver.pm = &ish_pm_ops,
->  };
->  
-> -- 
-> 2.34.1
-> 
