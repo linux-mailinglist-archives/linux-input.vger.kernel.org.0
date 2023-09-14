@@ -2,140 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27B897A1140
-	for <lists+linux-input@lfdr.de>; Fri, 15 Sep 2023 00:47:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A7CC7A11F6
+	for <lists+linux-input@lfdr.de>; Fri, 15 Sep 2023 01:43:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230171AbjINWra (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Sep 2023 18:47:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34320 "EHLO
+        id S230194AbjINXnK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Sep 2023 19:43:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230168AbjINWra (ORCPT
+        with ESMTP id S230041AbjINXnJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Sep 2023 18:47:30 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8E172710
-        for <linux-input@vger.kernel.org>; Thu, 14 Sep 2023 15:47:25 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-d7edc01fdc9so1659686276.3
-        for <linux-input@vger.kernel.org>; Thu, 14 Sep 2023 15:47:25 -0700 (PDT)
+        Thu, 14 Sep 2023 19:43:09 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 772F8269D
+        for <linux-input@vger.kernel.org>; Thu, 14 Sep 2023 16:43:05 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-99bdcade7fbso196122366b.1
+        for <linux-input@vger.kernel.org>; Thu, 14 Sep 2023 16:43:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1694731645; x=1695336445; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=WlEmBKsST15BXxXfgVar1XzghXpy2BhN9U0IxRoXCQE=;
-        b=PaYMZoQzQ6DiCCY1Khy+ts0DFKWlN5CH+6GQOuWvaoucwuopd5LO7fmc/OKtZF/QXO
-         pU0r607zjhM8We2E93VejyCu2XgYzY7tBCNVI1Ke5rWM8K7bRchg/YkqSF2IJTDo9kw+
-         eX4MKOxy9CPsHqdARDzdGFQhSi/9mVpdVfugsaSO1JhZmmGtpaSKaxh+uJoABzAlnHwX
-         cD+fJZnheQHSG+L06RZeNlh9B2dSEKcM1nl/Ur7e+prSSeTexZlegtuXAeKU0KzLKUWq
-         cVbwpnyiPj2yGXD5Acjy80DAiVBKnagdVBs3m4qWbrS766Be+JYUpF5SDRcfWBWv5VLh
-         VSnA==
+        d=chromium.org; s=google; t=1694734981; x=1695339781; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ffsw5m1PXl5CYPaF5hVOzi1zPkWams0dilWKJC5stN8=;
+        b=DjfdP2fDy33pXGkF8w8hzVoBxQ784Goq5gZH/8csHrwMP/lJzY0/rFVCkvz5P03Juu
+         rLyh0gQmDE6O1Fn2Sqdgjnf+k1tqBy4tbKhedLL5ZfTzEMFmvlc1NY7y6CMtKG7VkZKX
+         JbEK3g/UPh2MjAdXeypR3OAkkvLibsXgImDWw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694731645; x=1695336445;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WlEmBKsST15BXxXfgVar1XzghXpy2BhN9U0IxRoXCQE=;
-        b=t/hEkqiDHefwu/n0y/yzfMdsq0gffyuJMQNP0YDqGA8f7hj+xcyki89dHI4ZkHxMlw
-         9WFfR/7sWK1FngfCsCTzVh+wla0mEeRznzH5k4z6O1iulievGzIURHiKKIzkIvHeGjCY
-         JWbdK6puJWHB8f2E84FrpSi+52qF+0LbKkm8WSWzrBPi/Jz5heIA8Fl1VSe0RqUIpVvd
-         mYnA5uIVplx0oLw+FwZZJ/aO2TnJnQdq3uWGdc8aWMAK49rj1EAVesjAWjCB9XDHSDM6
-         FdZm83/xXCq8GTFSA8pCBO7poKmahq3KkMdBNB1oPlqcXGWj09q1aIE0E738Y4Xy9tfL
-         8eEg==
-X-Gm-Message-State: AOJu0YwRePUNHgaSpyamz5YQlkYmMJKIpveAIhQXmgVcyql8b3NXPMjU
-        afqR9Ya1wt54660CZvNbOM9vpDFBannZGfckXg==
-X-Google-Smtp-Source: AGHT+IGkdKJsDoRPj6iOAbB6G6mb6EbzU9PdlEfuupjk+OmoelGiAAQezQx06Su0QGHeD/GXGFFXlSq//vqRnmROdQ==
-X-Received: from jstitt-linux1.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:23b5])
- (user=justinstitt job=sendgmr) by 2002:a5b:481:0:b0:d80:bea:ca87 with SMTP id
- n1-20020a5b0481000000b00d800beaca87mr170215ybp.1.1694731645064; Thu, 14 Sep
- 2023 15:47:25 -0700 (PDT)
-Date:   Thu, 14 Sep 2023 22:47:21 +0000
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAHmNA2UC/x3MPQqEQAxA4atIagP+jLrrVRYLmURNM0riiiLe3
- dHmwde8E4xV2KBNTlDexGQOEXmagJ/6MDIKRUORFWX2zR3aqsEvB5LKxmo4CeH/icfe1dVQcvN xRBAHi/Ig+zv/ddd1A6Gwul9sAAAA
-X-Developer-Key: i=justinstitt@google.com; a=ed25519; pk=tC3hNkJQTpNX/gLKxTNQKDmiQl6QjBNCGKJINqAdJsE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1694731644; l=2748;
- i=justinstitt@google.com; s=20230717; h=from:subject:message-id;
- bh=Ro3W2l30+BkUgaszKfSJpsko0I3zSOwBNarLcip1Cv0=; b=+Ja/3VwcQv8Olj4st1v7gaQMddtIhh5AF/TwEtWpW6owvTXLz0/I8erXLOUpXoFmb5Z9njm4T
- vZydOgdhr/SDE99w0xuyh/SH2rl1X/0la8SdmEemgGQah5zf2h7fMX+
-X-Mailer: b4 0.12.3
-Message-ID: <20230914-strncpy-drivers-hid-uhid-c-v1-1-18a190060d8d@google.com>
-Subject: [PATCH] HID: uhid: refactor deprecated strncpy
-From:   Justin Stitt <justinstitt@google.com>
-To:     David Rheinsberg <david@readahead.eu>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        Justin Stitt <justinstitt@google.com>
-Content-Type: text/plain; charset="utf-8"
+        d=1e100.net; s=20230601; t=1694734981; x=1695339781;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ffsw5m1PXl5CYPaF5hVOzi1zPkWams0dilWKJC5stN8=;
+        b=EZggA0O4xRu48BtdwOsoBcql3HyMANPag5mqXb3ZKN3oBfDAoJAYc5TgP//XvNnC+p
+         /ghwsoHon6QwRGNW5Q6D2LtBQ003ztbilcYWbVziPt9gTo5+hTcP0anXonw3QCErAIYz
+         4ubBEoq/lwtN5obkke9E/bK/bizvHuOuHslRfSv826VfaXd/MtC4IoEa6qtkIz5Ejn23
+         yPG/2Tss903dLSeNsS9J9PhXa8eB2aiQZo8PqQj+TTyKkwJEoyO1tn30uSzL+aB40MIx
+         2Zz4R0NMyAYJ3Jrv2ENw6wMwMmDEp9x49T/O5fq7LaOxxgiupr/18DSvJ8AErheHEDCY
+         u4LA==
+X-Gm-Message-State: AOJu0YwtaQuHO7IKYbvCYu4pkJ7mC+cgn77CHlaMzWLJKa0RXqJrT41h
+        VqkcPlNGUFivd/keTTOyoJPD0oGJWc6hmpECaQEUYw==
+X-Google-Smtp-Source: AGHT+IELCFTSV5BMicLrrCImkJpbREv/cyq6txE5ybDS+2iPUp3MQFdR6yD+HdHL6yoWkZx21WlB2w==
+X-Received: by 2002:a17:906:51c2:b0:9a1:c659:7c62 with SMTP id v2-20020a17090651c200b009a1c6597c62mr6101398ejk.66.1694734981053;
+        Thu, 14 Sep 2023 16:43:01 -0700 (PDT)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com. [209.85.128.50])
+        by smtp.gmail.com with ESMTPSA id s14-20020a170906c30e00b009937e7c4e54sm1629658ejz.39.2023.09.14.16.42.59
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Sep 2023 16:43:00 -0700 (PDT)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4047c6ec21dso1325e9.0
+        for <linux-input@vger.kernel.org>; Thu, 14 Sep 2023 16:42:59 -0700 (PDT)
+X-Received: by 2002:a05:600c:1daa:b0:3fe:f32f:c57f with SMTP id
+ p42-20020a05600c1daa00b003fef32fc57fmr70422wms.0.1694734979632; Thu, 14 Sep
+ 2023 16:42:59 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230727171750.633410-1-dianders@chromium.org> <20230727101636.v4.11.Ia06c340e3482563e6bfd3106ecd0d3139f173ca4@changeid>
+In-Reply-To: <20230727101636.v4.11.Ia06c340e3482563e6bfd3106ecd0d3139f173ca4@changeid>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Thu, 14 Sep 2023 16:42:47 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Ued9suf95ub1-rftO2Ffx_Rwv7XvAf7yX-s7djO889+Q@mail.gmail.com>
+Message-ID: <CAD=FV=Ued9suf95ub1-rftO2Ffx_Rwv7XvAf7yX-s7djO889+Q@mail.gmail.com>
+Subject: Re: [PATCH v4 11/11] arm64: dts: qcom: sc7180: Link trogdor
+ touchscreens to the panels
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     linux-arm-msm@vger.kernel.org,
+        yangcong5@huaqin.corp-partner.google.com,
+        devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        hsinyi@google.com, Chris Morgan <macroalpha82@gmail.com>,
+        linux-input@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-`strncpy` is deprecated for use on NUL-terminated destination strings [1].
+Hi,
 
-We should prefer more robust and less ambiguous string interfaces.
+On Thu, Jul 27, 2023 at 10:19=E2=80=AFAM Douglas Anderson <dianders@chromiu=
+m.org> wrote:
+>
+> Let's provide the proper link from the touchscreen to the panel on
+> trogdor devices where the touchscreen support it. This allows the OS
+> to power sequence the touchscreen more properly.
+>
+> For the most part, this is just expected to marginally improve power
+> consumption while the screen is off. However, in at least one trogdor
+> model (wormdingler) it's suspected that this will fix some behavorial
+> corner cases when the panel power cycles (like for a modeset) without
+> the touchscreen power cycling.
+>
+> NOTE: some trogdor variants use touchscreens that don't (yet) support
+> linking the touchscreen and the panel. Those variants are left alone.
+>
+> Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+>
+> (no changes since v1)
+>
+>  arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz.dtsi        | 1 +
+>  arch/arm64/boot/dts/qcom/sc7180-trogdor-homestar.dtsi      | 1 +
+>  arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi         | 1 +
+>  arch/arm64/boot/dts/qcom/sc7180-trogdor-pompom.dtsi        | 1 +
+>  arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick.dtsi | 1 +
+>  arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler.dtsi   | 1 +
+>  6 files changed, 6 insertions(+)
 
-A suitable replacement is `strscpy` [2] due to the fact that it
-guarantees NUL-termination on the destination buffer without
-unnecessarily NUL-padding.
+FWIW, this old patch could land any time. All the earlier patches in
+the series have landed.
 
-Looking at: Commit 4d26d1d1e806 ("Revert "HID: uhid: use strlcpy() instead of strncpy()"")
-we see referenced the fact that many attempts have been made to change
-these strncpy's into strlcpy to no success. I think strscpy is an
-objectively better interface here as it doesn't unnecessarily NUL-pad
-the destination buffer whilst allowing us to drop the `len = min(...)`
-pattern as strscpy will implicitly limit the number of bytes copied by
-the smaller of its dest and src arguments.
-
-So while the existing code may not have a bug (i.e: overread problems)
-we should still favor strscpy due to readability (plus a very slight
-performance boost).
-
-Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
-Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
-Link: https://github.com/KSPP/linux/issues/90
-Cc: linux-hardening@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>
-Signed-off-by: Justin Stitt <justinstitt@google.com>
----
- drivers/hid/uhid.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/hid/uhid.c b/drivers/hid/uhid.c
-index 4588d2cd4ea4..00e1566ad37b 100644
---- a/drivers/hid/uhid.c
-+++ b/drivers/hid/uhid.c
-@@ -490,7 +490,7 @@ static int uhid_dev_create2(struct uhid_device *uhid,
- 			    const struct uhid_event *ev)
- {
- 	struct hid_device *hid;
--	size_t rd_size, len;
-+	size_t rd_size;
- 	void *rd_data;
- 	int ret;
- 
-@@ -514,13 +514,9 @@ static int uhid_dev_create2(struct uhid_device *uhid,
- 		goto err_free;
- 	}
- 
--	/* @hid is zero-initialized, strncpy() is correct, strlcpy() not */
--	len = min(sizeof(hid->name), sizeof(ev->u.create2.name)) - 1;
--	strncpy(hid->name, ev->u.create2.name, len);
--	len = min(sizeof(hid->phys), sizeof(ev->u.create2.phys)) - 1;
--	strncpy(hid->phys, ev->u.create2.phys, len);
--	len = min(sizeof(hid->uniq), sizeof(ev->u.create2.uniq)) - 1;
--	strncpy(hid->uniq, ev->u.create2.uniq, len);
-+	strscpy(hid->name, ev->u.create2.name, sizeof(hid->name));
-+	strscpy(hid->phys, ev->u.create2.phys, sizeof(hid->phys));
-+	strscpy(hid->uniq, ev->u.create2.uniq, sizeof(hid->uniq));
- 
- 	hid->ll_driver = &uhid_hid_driver;
- 	hid->bus = ev->u.create2.bus;
-
----
-base-commit: 3669558bdf354cd352be955ef2764cde6a9bf5ec
-change-id: 20230914-strncpy-drivers-hid-uhid-c-a465f3e784dd
-
-Best regards,
---
-Justin Stitt <justinstitt@google.com>
-
+-Doug
