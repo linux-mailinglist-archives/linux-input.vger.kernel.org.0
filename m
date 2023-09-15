@@ -2,116 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A9697A27DB
-	for <lists+linux-input@lfdr.de>; Fri, 15 Sep 2023 22:15:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B9937A2886
+	for <lists+linux-input@lfdr.de>; Fri, 15 Sep 2023 22:49:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237149AbjIOUPK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 Sep 2023 16:15:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60834 "EHLO
+        id S237402AbjIOUsw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 Sep 2023 16:48:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237346AbjIOUO4 (ORCPT
+        with ESMTP id S237679AbjIOUso (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 Sep 2023 16:14:56 -0400
-Received: from smtp.smtpout.orange.fr (smtp-16.smtpout.orange.fr [80.12.242.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02BC02D53
-        for <linux-input@vger.kernel.org>; Fri, 15 Sep 2023 13:14:20 -0700 (PDT)
-Received: from [192.168.1.18] ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id hFCkqXJoa7mcChFCkqXu8c; Fri, 15 Sep 2023 22:14:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1694808859;
-        bh=PoS7/ryl/5McXZDkIPKpx2zauZQLIVxE9S5FLgRsCK8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=GRFNTkx7ZqEUl44R3xrKxuYLDEVqxSd99/ZnnoxEpEmIWFIx9RToclTFKeBC602iu
-         t45ZYCPtawIcr8nDLaBTbYSHCu+mKreiK+DUpBCas53OjgBtbZFGDgG6AjiFxwbYFn
-         TKhML+HS4Ox4qCtWZxzwyggDZUQ8vFrPx0IJS7UE0MALCgs4tPjAa70d2bSXAK9x3R
-         BgZERq1P8liXzPP5s+TaA/qiYZwK2eww0U+wcpvgx31anQcq+RB27ULs2igXZ1D+Wt
-         puMoy+ES42lN+Ne+2VbCp9oJBtBhoQKFXVTFvzhaAd/eu360hLvFbtggw0zolCEFAZ
-         Q9PWH2Kj6OK2Q==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Fri, 15 Sep 2023 22:14:19 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <d083215e-e9bf-860d-6d04-d919a9b90752@wanadoo.fr>
-Date:   Fri, 15 Sep 2023 22:14:18 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 0/3] HID: nvidia-shield: Fix the error handling path of
- shield_probe()
-To:     Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        Fri, 15 Sep 2023 16:48:44 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44B3F2707
+        for <linux-input@vger.kernel.org>; Fri, 15 Sep 2023 13:48:25 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-68fb7fb537dso2440248b3a.2
+        for <linux-input@vger.kernel.org>; Fri, 15 Sep 2023 13:48:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1694810905; x=1695415705; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=p+PPJ/AQSOJ+ikTUxwaFbNmWB98quGmGcGYVc1MYqo4=;
+        b=jPZozsT2o/pJmTgFxnggifmMGrjbs5MuLtv7waWc89P3K+bPqQH/p7vjLcadQK+MU7
+         vxqjrmlBtCmHuw90Q82F0o8yao4Yn3GWTgAs2C31YgChWxjAAUiBiSoMPRoyTcy8lc6m
+         pFCe+p5RaVU7seSH2iTU7EpjQcaH9h4zhxzr8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694810905; x=1695415705;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p+PPJ/AQSOJ+ikTUxwaFbNmWB98quGmGcGYVc1MYqo4=;
+        b=OSns6I8cGjeMjZEnxgnUjK14PcTqIJVkUyH1XrSHWhoxlAJFeolehKKWamRSM6Zf/7
+         lAOZc7oB9QZtRRBntXaq98TNPMravZlAg+crR/Z5zrLK502LRAwQIN59V0Ks76fDD+e+
+         tO7IQ/JFHMVBgS0H2rFh02eo9V1HmPP33Gl/56iOb0Rt8b+A4wJV7N7wf1cZPGh9qV2+
+         4KuloABXpDTrFDaVAKiWou48o5EKlv4/+EhKb+fPy868j/35Lu70g6uZSFv55st9XGeg
+         jy2b5bAV+ymlOW15I47j+HR542nMX2SZiLuVSmNFS49jjqsNZLQJhGBEk3T2lKS6Rdng
+         vW5w==
+X-Gm-Message-State: AOJu0Yzrct1rKX1jIAW8zij3SSU6+TBnwyxWOvYFEsq/bNJl8hz2y0dr
+        q2qxdc54iLan7vxyZXrYcHBh+A==
+X-Google-Smtp-Source: AGHT+IFOxKRcwk4qHKzzxE6vlTeEqFbIORzQ9ufHcf3GvQ/kLYWfVDwqBjcVYUd19W39PY4imGNNKA==
+X-Received: by 2002:a05:6a00:2d0b:b0:68f:ca4a:efd with SMTP id fa11-20020a056a002d0b00b0068fca4a0efdmr3093829pfb.9.1694810904753;
+        Fri, 15 Sep 2023 13:48:24 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id a6-20020aa78646000000b0069026841829sm3319396pfo.113.2023.09.15.13.48.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Sep 2023 13:48:24 -0700 (PDT)
+Date:   Fri, 15 Sep 2023 13:48:23 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     David Rheinsberg <david@readahead.eu>
+Cc:     Justin Stitt <justinstitt@google.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-References: <cover.1693070958.git.christophe.jaillet@wanadoo.fr>
- <87msxns3nv.fsf@nvidia.com>
-Content-Language: fr, en-GB
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <87msxns3nv.fsf@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        linux-hardening@vger.kernel.org,
+        David Herrmann <dh.herrmann@gmail.com>
+Subject: Re: [PATCH] HID: uhid: refactor deprecated strncpy
+Message-ID: <202309151342.DFA6CA5C7@keescook>
+References: <20230914-strncpy-drivers-hid-uhid-c-v1-1-18a190060d8d@google.com>
+ <202309142206.60836CE@keescook>
+ <98d981a1-4e4c-4173-b8eb-09b4245bca60@app.fastmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <98d981a1-4e4c-4173-b8eb-09b4245bca60@app.fastmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Le 15/09/2023 à 20:16, Rahul Rameshbabu a écrit :
-> Hi Christophe,
+On Fri, Sep 15, 2023 at 09:36:23AM +0200, David Rheinsberg wrote:
+> Hi
 > 
-> On Sat, 26 Aug, 2023 19:42:16 +0200 Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
->> This serie fixes some missing clean-up function calls in the error handling of
->> the probe.
->>
->> Patch 1 and 2 fix some similar issues introduced in 2 different commits (hence 2
->> patches)
->>
->> Patch 3 is a proposal to be more future proof.
->>
->>
->> *Note*: I'm not 100% sure that the order of the functions is the best one in
->> thunderstrike_destroy(), but it is the way it was.
->>
->> My personal preference would be to undo things in reverse order they are
->> allocated, such as:
->> 	led_classdev_unregister(&ts->led_dev);
->> 	power_supply_unregister(ts->base.battery_dev.psy);
->> 	if (ts->haptics_dev)
->> 		input_unregister_device(ts->haptics_dev);
->> 	ida_free(&thunderstrike_ida, ts->id);
->> This order was explicitly chnaged by 3ab196f88237, so, as I can't test the
->> changes on a real harware, I've left it as-is.
->>
->> Christophe JAILLET (3):
->>    HID: nvidia-shield: Fix a missing led_classdev_unregister() in the
->>      probe error handling path
->>    HID: nvidia-shield: Fix some missing function calls() in the probe
->>      error handling path
->>    HID: nvidia-shield: Introduce thunderstrike_destroy()
->>
->>   drivers/hid/hid-nvidia-shield.c | 23 ++++++++++++++++-------
->>   1 file changed, 16 insertions(+), 7 deletions(-)
+> On Fri, Sep 15, 2023, at 7:13 AM, Kees Cook wrote:
+> >> -	/* @hid is zero-initialized, strncpy() is correct, strlcpy() not */
+> >> -	len = min(sizeof(hid->name), sizeof(ev->u.create2.name)) - 1;
+> >> -	strncpy(hid->name, ev->u.create2.name, len);
+> >> -	len = min(sizeof(hid->phys), sizeof(ev->u.create2.phys)) - 1;
+> >> -	strncpy(hid->phys, ev->u.create2.phys, len);
+> >> -	len = min(sizeof(hid->uniq), sizeof(ev->u.create2.uniq)) - 1;
+> >> -	strncpy(hid->uniq, ev->u.create2.uniq, len);
+> >
+> > ev->u.create2 is:
+> > struct uhid_create2_req {
+> >         __u8 name[128];
+> >         __u8 phys[64];
+> >         __u8 uniq[64];
+> > 	...
+> >
+> > hid is:
+> > struct hid_device { /* device report descriptor */
+> > 	...
+> >         char name[128]; /* Device name */
+> >         char phys[64]; /* Device physical location */
+> >         char uniq[64]; /* Device unique identifier (serial #) */
+> >
+> > So these "min" calls are redundant -- it wants to copy at most 1 less so
+> > it can be %NUL terminated. Which is what strscpy() already does. And
+> > source and dest are the same size, so we can't over-read source if it
+> > weren't terminated (since strscpy won't overread like strlcpy).
 > 
-> I was wondering if you have time to address the comments in this
-> submission. If not, I can re-spin the patches with the needed changes in
-> upcoming days.
+> I *really* think we should keep the `min` calls. The compiler
+> should already optimize them away, as both arguments are compile-time
+> constants. There is no inherent reason why source and target are equal in
+> size. Yes, it is unlikely to change, but I don't understand why we would
+> want to implicitly rely on it, rather than make the compiler verify it for
+> us. And `struct hid_device` is very much allowed to change in the future.
+> 
+> As an alternative, you can use BUILD_BUG_ON() and verify both are equal in length.
 
-I can send an update tomorrow, but I'm only working with -next, so 
-should using for-6.6/nvidia (as said in your comment in #1/3) be a must 
-have, then it would be more convenient for me if you make the changes by 
-yourself.
+If we can't depend on ev->u.create2.name/phys/uniq being %NUL-terminated,
+we've already done the "min" calculations, and we've already got the
+dest zeroed, then I suspect the thing to do is just use memcpy instead
+of strncpy (or strscpy).
 
-CJ
-
-> 
-> --
-> Thanks,
-> 
-> Rahul Rameshbabu
-> 
-
+-- 
+Kees Cook
