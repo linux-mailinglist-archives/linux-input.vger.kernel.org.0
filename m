@@ -2,125 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A7CC7A11F6
-	for <lists+linux-input@lfdr.de>; Fri, 15 Sep 2023 01:43:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB4087A1513
+	for <lists+linux-input@lfdr.de>; Fri, 15 Sep 2023 07:02:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230194AbjINXnK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Sep 2023 19:43:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50384 "EHLO
+        id S229762AbjIOFCs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 Sep 2023 01:02:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230041AbjINXnJ (ORCPT
+        with ESMTP id S231979AbjIOFCq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Sep 2023 19:43:09 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 772F8269D
-        for <linux-input@vger.kernel.org>; Thu, 14 Sep 2023 16:43:05 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-99bdcade7fbso196122366b.1
-        for <linux-input@vger.kernel.org>; Thu, 14 Sep 2023 16:43:05 -0700 (PDT)
+        Fri, 15 Sep 2023 01:02:46 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF9FC30D5
+        for <linux-input@vger.kernel.org>; Thu, 14 Sep 2023 22:02:14 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-68fb7fb537dso1644962b3a.2
+        for <linux-input@vger.kernel.org>; Thu, 14 Sep 2023 22:02:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1694734981; x=1695339781; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ffsw5m1PXl5CYPaF5hVOzi1zPkWams0dilWKJC5stN8=;
-        b=DjfdP2fDy33pXGkF8w8hzVoBxQ784Goq5gZH/8csHrwMP/lJzY0/rFVCkvz5P03Juu
-         rLyh0gQmDE6O1Fn2Sqdgjnf+k1tqBy4tbKhedLL5ZfTzEMFmvlc1NY7y6CMtKG7VkZKX
-         JbEK3g/UPh2MjAdXeypR3OAkkvLibsXgImDWw=
+        d=chromium.org; s=google; t=1694754134; x=1695358934; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WZUHT7ZncwMciXGAdkByCDy2UYR6xxoRGWT81VKP1ig=;
+        b=hcH1OKLgP6A0GTmVl7Ud8QGw5hyZIVAleNVGgzN/n7nUVBRUScG7cJ2+epBOv7FfLf
+         gmMnkoQEZoc4D3/Qhj3KPSCNve3tc2OUQK9VBq5qoUkQZ4dYePsCNK0lwKC+8SHcfhDh
+         xNoDCGeiCgwsAgQABCoHX20aZjZWDL+Nx8j98=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694734981; x=1695339781;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ffsw5m1PXl5CYPaF5hVOzi1zPkWams0dilWKJC5stN8=;
-        b=EZggA0O4xRu48BtdwOsoBcql3HyMANPag5mqXb3ZKN3oBfDAoJAYc5TgP//XvNnC+p
-         /ghwsoHon6QwRGNW5Q6D2LtBQ003ztbilcYWbVziPt9gTo5+hTcP0anXonw3QCErAIYz
-         4ubBEoq/lwtN5obkke9E/bK/bizvHuOuHslRfSv826VfaXd/MtC4IoEa6qtkIz5Ejn23
-         yPG/2Tss903dLSeNsS9J9PhXa8eB2aiQZo8PqQj+TTyKkwJEoyO1tn30uSzL+aB40MIx
-         2Zz4R0NMyAYJ3Jrv2ENw6wMwMmDEp9x49T/O5fq7LaOxxgiupr/18DSvJ8AErheHEDCY
-         u4LA==
-X-Gm-Message-State: AOJu0YwtaQuHO7IKYbvCYu4pkJ7mC+cgn77CHlaMzWLJKa0RXqJrT41h
-        VqkcPlNGUFivd/keTTOyoJPD0oGJWc6hmpECaQEUYw==
-X-Google-Smtp-Source: AGHT+IELCFTSV5BMicLrrCImkJpbREv/cyq6txE5ybDS+2iPUp3MQFdR6yD+HdHL6yoWkZx21WlB2w==
-X-Received: by 2002:a17:906:51c2:b0:9a1:c659:7c62 with SMTP id v2-20020a17090651c200b009a1c6597c62mr6101398ejk.66.1694734981053;
-        Thu, 14 Sep 2023 16:43:01 -0700 (PDT)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com. [209.85.128.50])
-        by smtp.gmail.com with ESMTPSA id s14-20020a170906c30e00b009937e7c4e54sm1629658ejz.39.2023.09.14.16.42.59
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Sep 2023 16:43:00 -0700 (PDT)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4047c6ec21dso1325e9.0
-        for <linux-input@vger.kernel.org>; Thu, 14 Sep 2023 16:42:59 -0700 (PDT)
-X-Received: by 2002:a05:600c:1daa:b0:3fe:f32f:c57f with SMTP id
- p42-20020a05600c1daa00b003fef32fc57fmr70422wms.0.1694734979632; Thu, 14 Sep
- 2023 16:42:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230727171750.633410-1-dianders@chromium.org> <20230727101636.v4.11.Ia06c340e3482563e6bfd3106ecd0d3139f173ca4@changeid>
-In-Reply-To: <20230727101636.v4.11.Ia06c340e3482563e6bfd3106ecd0d3139f173ca4@changeid>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Thu, 14 Sep 2023 16:42:47 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Ued9suf95ub1-rftO2Ffx_Rwv7XvAf7yX-s7djO889+Q@mail.gmail.com>
-Message-ID: <CAD=FV=Ued9suf95ub1-rftO2Ffx_Rwv7XvAf7yX-s7djO889+Q@mail.gmail.com>
-Subject: Re: [PATCH v4 11/11] arm64: dts: qcom: sc7180: Link trogdor
- touchscreens to the panels
-To:     Jiri Kosina <jikos@kernel.org>,
+        d=1e100.net; s=20230601; t=1694754134; x=1695358934;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WZUHT7ZncwMciXGAdkByCDy2UYR6xxoRGWT81VKP1ig=;
+        b=h8ISGTAg0Dt2+wC2XCy5NetVSDUAxrgMuN2BiP98XPLH4+XaemifhOhNd6EFRIOM7h
+         Ah49K5vihsHoJXgDlrMsiuIThg4HcNR7jz3AVuGrabsJ0qS1/VmfAcUtNrmJuP0VwODI
+         UgYF47rIL9eS1P8xoFbZ1ZCHNS+ox3DG5yQtVbbuXDhgAbsQwsELNYDQ2gANi/MGGZzN
+         8q8dRHQZnGLYwjDT22LBYeS5UhjdoZ7CBbXxhJ7ZjXE363Ks7C07atXmq1tqGqi65rGD
+         l1BXBcQegwSpRZ9H7WFjLDe/QBfsnldGCYtCCVZsZa63n9bSIkyZq37jvHtBIF+5jnM8
+         m0vA==
+X-Gm-Message-State: AOJu0YyCBYX2BjzMR0UZC5kTd1l8YoZgmNyBRG4Dr1ABBFU+flPojcb/
+        ogPPlnjtXqtpTJJM5KDXGygz2Q==
+X-Google-Smtp-Source: AGHT+IGyTtLCa2sSYfpYJAobIKiqp/hb3pnaq2A04V7budd45O+mGDgvJK8UC6are2k2azYMIuIS/Q==
+X-Received: by 2002:a05:6a20:54a9:b0:157:229a:db21 with SMTP id i41-20020a056a2054a900b00157229adb21mr807822pzk.56.1694754134190;
+        Thu, 14 Sep 2023 22:02:14 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id 18-20020a056a00073200b0067ab572c72fsm2131987pfm.84.2023.09.14.22.02.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Sep 2023 22:02:13 -0700 (PDT)
+Date:   Thu, 14 Sep 2023 22:02:12 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Justin Stitt <justinstitt@google.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     linux-arm-msm@vger.kernel.org,
-        yangcong5@huaqin.corp-partner.google.com,
-        devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        hsinyi@google.com, Chris Morgan <macroalpha82@gmail.com>,
-        linux-input@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] HID: prodikeys: refactor deprecated strncpy
+Message-ID: <202309142201.683ED5A7FD@keescook>
+References: <20230914-strncpy-drivers-hid-hid-prodikeys-c-v1-1-10c00550f2c2@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230914-strncpy-drivers-hid-hid-prodikeys-c-v1-1-10c00550f2c2@google.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On Thu, Jul 27, 2023 at 10:19=E2=80=AFAM Douglas Anderson <dianders@chromiu=
-m.org> wrote:
->
-> Let's provide the proper link from the touchscreen to the panel on
-> trogdor devices where the touchscreen support it. This allows the OS
-> to power sequence the touchscreen more properly.
->
-> For the most part, this is just expected to marginally improve power
-> consumption while the screen is off. However, in at least one trogdor
-> model (wormdingler) it's suspected that this will fix some behavorial
-> corner cases when the panel power cycles (like for a modeset) without
-> the touchscreen power cycling.
->
-> NOTE: some trogdor variants use touchscreens that don't (yet) support
-> linking the touchscreen and the panel. Those variants are left alone.
->
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+On Thu, Sep 14, 2023 at 10:20:55PM +0000, Justin Stitt wrote:
+> `strncpy` is deprecated for use on NUL-terminated destination strings [1].
+> 
+> We should prefer more robust and less ambiguous string interfaces.
+> 
+> A suitable replacement is `strscpy` [2] due to the fact that it guarantees
+> NUL-termination on the destination buffer without unnecessarily NUL-padding.
+> 
+> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+> Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
+> Link: https://github.com/KSPP/linux/issues/90
+> Cc: linux-hardening@vger.kernel.org
+> Signed-off-by: Justin Stitt <justinstitt@google.com>
 > ---
->
-> (no changes since v1)
->
->  arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz.dtsi        | 1 +
->  arch/arm64/boot/dts/qcom/sc7180-trogdor-homestar.dtsi      | 1 +
->  arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi         | 1 +
->  arch/arm64/boot/dts/qcom/sc7180-trogdor-pompom.dtsi        | 1 +
->  arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick.dtsi | 1 +
->  arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler.dtsi   | 1 +
->  6 files changed, 6 insertions(+)
+> Note: for some reason if NUL-padding is needed let's opt for `strscpy_pad()`
+> ---
+>  drivers/hid/hid-prodikeys.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-prodikeys.c b/drivers/hid/hid-prodikeys.c
+> index e4e9471d0f1e..c16d2ba6ea16 100644
+> --- a/drivers/hid/hid-prodikeys.c
+> +++ b/drivers/hid/hid-prodikeys.c
+> @@ -639,9 +639,9 @@ static int pcmidi_snd_initialise(struct pcmidi_snd *pm)
+>  		goto fail;
+>  	}
+>  
+> -	strncpy(card->driver, shortname, sizeof(card->driver));
+> -	strncpy(card->shortname, shortname, sizeof(card->shortname));
+> -	strncpy(card->longname, longname, sizeof(card->longname));
+> +	strscpy(card->driver, shortname, sizeof(card->driver));
+> +	strscpy(card->shortname, shortname, sizeof(card->shortname));
+> +	strscpy(card->longname, longname, sizeof(card->longname));
 
-FWIW, this old patch could land any time. All the earlier patches in
-the series have landed.
+"card" is already kzalloc()ed so no _pad() is needed, good.
 
--Doug
+>  
+>  	/* Set up rawmidi */
+>  	err = snd_rawmidi_new(card, card->shortname, 0,
+> @@ -652,7 +652,7 @@ static int pcmidi_snd_initialise(struct pcmidi_snd *pm)
+>  		goto fail;
+>  	}
+>  	pm->rwmidi = rwmidi;
+> -	strncpy(rwmidi->name, card->shortname, sizeof(rwmidi->name));
+> +	strscpy(rwmidi->name, card->shortname, sizeof(rwmidi->name));
+>  	rwmidi->info_flags = SNDRV_RAWMIDI_INFO_INPUT;
+>  	rwmidi->private_data = pm;
+
+Same here.
+
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
+-Kees
+
+>  
+> 
+> ---
+> base-commit: 3669558bdf354cd352be955ef2764cde6a9bf5ec
+> change-id: 20230914-strncpy-drivers-hid-hid-prodikeys-c-cf42614a21d4
+> 
+> Best regards,
+> --
+> Justin Stitt <justinstitt@google.com>
+> 
+
+-- 
+Kees Cook
