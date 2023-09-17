@@ -2,127 +2,201 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC22C7A329A
-	for <lists+linux-input@lfdr.de>; Sat, 16 Sep 2023 23:29:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B1877A33ED
+	for <lists+linux-input@lfdr.de>; Sun, 17 Sep 2023 08:11:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230479AbjIPV2i (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 16 Sep 2023 17:28:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60724 "EHLO
+        id S232692AbjIQGEa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 Sep 2023 02:04:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229843AbjIPV2a (ORCPT
+        with ESMTP id S230222AbjIQGD6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 16 Sep 2023 17:28:30 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1578D1A5;
-        Sat, 16 Sep 2023 14:28:25 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2bf8b9c5ca0so53240641fa.0;
-        Sat, 16 Sep 2023 14:28:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1694899703; x=1695504503; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=T4Wi30eAqxi74z6532D+2PHxNulQWSGewYfam9dn07c=;
-        b=LmN+8m42GpPmPk1MEuEXqLPcSVL2W86zmpNXIn+vxPUi6WxX+tfavc0fkqzw4yEiUI
-         ytyvWxsB6q5vepszHc95pMYpaIPDvEE7HSCOXRQQ6hU5cKAbn0bMOPUBCvDqNjK87PaW
-         Fd8yrEg8NdHqoVp04bvebCl+BO8o3H36KgbwWL0J8sbjGn8QGx4WlTbnrLJBWy/rTKzC
-         3V3JcHdAQQUHkl44ARQBXg2VnANGctQcFbNzbX4Ik0eQPn3c6bn0GoI2/alprBfJD5gq
-         bO/Whg/kW38sD6F5VqTEqUSO05oqLGDFhAWbdJF5XJzRyoQjgSB01xddWCGReXQ6QJSe
-         xqHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694899703; x=1695504503;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=T4Wi30eAqxi74z6532D+2PHxNulQWSGewYfam9dn07c=;
-        b=xHYXjQ0T0Z9vUEMtXXzDEovqCPGtxhtB1WLScj863h6SFI2duz0qbPxEV4EqnNTXOG
-         nWCKhx6yquVrxkLjErDkO7z5OBFEl6EDdeCqqt7UYsN3WJoKFCr9iAHHVE9fPfJLH/vA
-         mGTKQGPDSwQ2B1ZBomNDXwufWhMY4rAcuyEtyRGLdrS2bk0p0uofgE/HHq4eLv+vfnxA
-         CHV1CJKhVbmSj+DkmxPn0MkO1W/w7xwcZUfw5ihjLA00zI0IuA+ehRRJq/b0vESVDMwm
-         lIhBeDCOZgBA8C2N/UTQ8CGeBX9sShfHHVGl49x1TBJZ+MhOguRzEpfpQdfQ7Wpv4et4
-         yybQ==
-X-Gm-Message-State: AOJu0Yx2eumUP0UflrQ7fKiXn/vD2FtaCXEsmMyYAx2ocBppkKRi9/UG
-        jGvgyn270QWXFW+ydQMslSdfpIM6sKCXkA==
-X-Google-Smtp-Source: AGHT+IF8YWvlyWg3HPaYeednUVd3rn7Jp+dJuxE7eDeB8N5w7NjJfbIH1YJvVgEnv3mPDXMMgUhveA==
-X-Received: by 2002:a2e:950d:0:b0:2bc:dcd6:97b1 with SMTP id f13-20020a2e950d000000b002bcdcd697b1mr4495087ljh.47.1694899702511;
-        Sat, 16 Sep 2023 14:28:22 -0700 (PDT)
-Received: from [127.0.1.1] (2a02-8389-41b4-ce80-c1aa-e5ad-22b7-62c7.cable.dynamic.v6.surfer.at. [2a02:8389:41b4:ce80:c1aa:e5ad:22b7:62c7])
-        by smtp.gmail.com with ESMTPSA id cw17-20020a170906c79100b009a1a5a7ebacsm4117567ejb.201.2023.09.16.14.28.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Sep 2023 14:28:22 -0700 (PDT)
-From:   Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date:   Sat, 16 Sep 2023 23:28:18 +0200
-Subject: [PATCH] Input: powermate - fix use-after-free in
- powermate_config_complete
+        Sun, 17 Sep 2023 02:03:58 -0400
+Received: from smtp.smtpout.orange.fr (smtp-30.smtpout.orange.fr [80.12.242.30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5A54187
+        for <linux-input@vger.kernel.org>; Sat, 16 Sep 2023 23:03:52 -0700 (PDT)
+Received: from [192.168.1.18] ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id hksmq6IsMiBkuhksnqfNaI; Sun, 17 Sep 2023 08:03:50 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1694930630;
+        bh=L+fucrYvHZGTDZtgpuMyh0kVP9Gh8YSk+kaR8DcFbLY=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=tREb9eM0fmJ8o3fwVwse+LA5/+eLq2t/DibFtMaWoB1iAMG43iuPjkKXfvKBYciAr
+         wwSiZSIukVV8mDWI8974rTf+CKt+zyz4K1yFaMilj0DaNaFMoJJAiKyU7Qr7Gj0dio
+         PA/Lv5tgGSPg3uQYPRAXRXt+NWC41pfDhV4AZELnob2rRcWQOJWdCJPCUs+SkvAvlA
+         K9B87jq2dsuHhSGP3o83q3Fno9ba5nLmjtQJhdUftrQ7Y3v873PFT9mrWapjKNZ2Q2
+         EsjyPukbByZmAhf4Vm8NteT7EFsQvEr2KGCv2zcf1P0rUOOJU8WDrR+n9OdV2j7JDD
+         EhXsWUgAMkiiA==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 17 Sep 2023 08:03:50 +0200
+X-ME-IP: 86.243.2.178
+Message-ID: <abf36591-3b3c-dc47-b1aa-e574325499f4@wanadoo.fr>
+Date:   Sun, 17 Sep 2023 08:03:48 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230916-topic-powermate_use_after_free-v1-1-2ffa46652869@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAPEdBmUC/x2NQQrDIBQFrxL+uoImkGCvUkowv89GSFW+pi2E3
- L3S5cxi5qACCSh07Q4SvEMJKTYwl454dfEJFR6Nqdf9oK0ZVU05sMrpA3m5inkvmJ2vkNkLoHj
- SA092tGwNtcjiCtQiLvLaMnHftiazwIfv/3q7n+cPRBKSgYUAAAA=
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-        syzbot+0434ac83f907a1dbdd1e@syzkaller.appspotmail.com
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1694899701; l=1588;
- i=javier.carrasco.cruz@gmail.com; s=20230509; h=from:subject:message-id;
- bh=MOtjOjGctqmbOeILqG8GCyG823EYZNV4T1oZhE/JWNw=;
- b=/O5dX8BkYFUeoX9xnZzPE9IPokF/qf6mHmEcyfIpLse+q6YXom7Nt8G4F10CsHR9SJCfx/jhz
- kCz53G0RikvDh3d22UfoIONC6yYDhx/spwHmD1WKn9dYaHuIDuu3xZv
-X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
- pk=tIGJV7M+tCizagNijF0eGMBGcOsPD+0cWGfKjl4h6K8=
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 2/2] Input: add Himax HX852x(ES) touchscreen driver
+To:     stephan@gerhold.net
+Cc:     conor+dt@kernel.org, devicetree@vger.kernel.org,
+        dmitry.torokhov@gmail.com, jeff@labundy.com,
+        jonathan.albrieux@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        robh+dt@kernel.org, rydberg@bitmath.org
+References: <20230913-hx852x-v1-0-9c1ebff536eb@gerhold.net>
+ <20230913-hx852x-v1-2-9c1ebff536eb@gerhold.net>
+Content-Language: fr
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20230913-hx852x-v1-2-9c1ebff536eb@gerhold.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-syzbot has found a use-after-free bug [1] in the powermate driver. This
-happens when the device is disconnected, which leads to a memory free
-from the powermate_device struct.
-When an asynchronous control message completes after the kfree and its
-callback is invoked, the lock does not exist anymore and hence the bug.
+Le 13/09/2023 à 15:25, Stephan Gerhold a écrit :
+> From: Jonathan Albrieux <jonathan.albrieux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> 
+> Add a simple driver for the Himax HX852x(ES) touch panel controller,
+> with support for multi-touch and capacitive touch keys.
+> 
+> The driver is somewhat based on sample code from Himax. However, that
+> code was so extremely confusing that we spent a significant amount of
+> time just trying to understand the packet format and register commands.
+> In this driver they are described with clean structs and defines rather
+> than lots of magic numbers and offset calculations.
+> 
+> Signed-off-by: Jonathan Albrieux <jonathan.albrieux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Co-developed-by: Stephan Gerhold <stephan-3XONVrnlUWDR7s880joybQ@public.gmane.org>
+> Signed-off-by: Stephan Gerhold <stephan-3XONVrnlUWDR7s880joybQ@public.gmane.org>
+> ---
 
-Return immediately if the URB status is -ESHUTDOWN (the actual status
-that triggered this bug) or -ENOENT, avoiding any access to potentially
-freed memory.
+...
 
-[1] https://syzkaller.appspot.com/bug?extid=0434ac83f907a1dbdd1e
+> +static irqreturn_t hx852x_interrupt(int irq, void *ptr)
+> +{
+> +	struct hx852x *hx = ptr;
+> +	int error;
+> +
+> +	error = hx852x_handle_events(hx);
+> +	if (error) {
+> +		dev_err(&hx->client->dev, "failed to handle events: %d\n", error);
 
-Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Reported-by: syzbot+0434ac83f907a1dbdd1e@syzkaller.appspotmail.com
----
- drivers/input/misc/powermate.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Should dev_err_ratelimited() be preferred?
 
-diff --git a/drivers/input/misc/powermate.c b/drivers/input/misc/powermate.c
-index c1c733a9cb89..f61333fea35f 100644
---- a/drivers/input/misc/powermate.c
-+++ b/drivers/input/misc/powermate.c
-@@ -196,8 +196,11 @@ static void powermate_config_complete(struct urb *urb)
- 	struct powermate_device *pm = urb->context;
- 	unsigned long flags;
- 
--	if (urb->status)
-+	if (urb->status) {
- 		printk(KERN_ERR "powermate: config urb returned %d\n", urb->status);
-+		if (status == -ENOENT || status == -ESHUTDOWN)
-+			return;
-+	}
- 
- 	spin_lock_irqsave(&pm->lock, flags);
- 	powermate_sync_state(pm);
+> +		return IRQ_NONE;
+> +	}
+> +
+> +	return IRQ_HANDLED;
+> +}
 
----
-base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-change-id: 20230916-topic-powermate_use_after_free-c703c7969c91
+...
 
-Best regards,
--- 
-Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> +static int hx852x_probe(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct hx852x *hx;
+> +	int error, i;
+
+Nit: err or ret is shorter and maybe more "standard".
+
+> +
+> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C |
+> +				     I2C_FUNC_SMBUS_WRITE_BYTE |
+> +				     I2C_FUNC_SMBUS_WRITE_BYTE_DATA |
+> +				     I2C_FUNC_SMBUS_WRITE_WORD_DATA)) {
+> +		dev_err(dev, "not all i2c functionality supported\n");
+> +		return -ENXIO;
+> +	}
+> +
+> +	hx = devm_kzalloc(dev, sizeof(*hx), GFP_KERNEL);
+> +	if (!hx)
+> +		return -ENOMEM;
+> +
+> +	hx->client = client;
+> +	hx->input_dev = devm_input_allocate_device(dev);
+> +	if (!hx->input_dev)
+> +		return -ENOMEM;
+> +
+> +	hx->input_dev->name = "Himax HX852x";
+> +	hx->input_dev->id.bustype = BUS_I2C;
+> +	hx->input_dev->open = hx852x_input_open;
+> +	hx->input_dev->close = hx852x_input_close;
+> +
+> +	i2c_set_clientdata(client, hx);
+> +	input_set_drvdata(hx->input_dev, hx);
+> +
+> +	hx->supplies[0].supply = "vcca";
+> +	hx->supplies[1].supply = "vccd";
+> +	error = devm_regulator_bulk_get(dev, ARRAY_SIZE(hx->supplies), hx->supplies);
+> +	if (error < 0)
+> +		return dev_err_probe(dev, error, "failed to get regulators");
+> +
+> +	hx->reset_gpiod = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(hx->reset_gpiod))
+> +		return dev_err_probe(dev, error, "failed to get reset gpio");
+> +
+> +	error = devm_request_threaded_irq(dev, client->irq, NULL, hx852x_interrupt,
+> +					  IRQF_ONESHOT | IRQF_NO_AUTOEN, NULL, hx);
+> +	if (error) {
+> +		dev_err(dev, "failed to request irq %d: %d\n", client->irq, error);
+
+dev_err_probe() could be used to be consistent with above code.
+Same for below dev_err() calls.
+
+> +		return error;
+> +	}
+> +
+> +	error = hx852x_read_config(hx);
+> +	if (error)
+> +		return error;
+> +
+> +	input_set_capability(hx->input_dev, EV_ABS, ABS_MT_POSITION_X);
+> +	input_set_capability(hx->input_dev, EV_ABS, ABS_MT_POSITION_Y);
+> +	input_set_abs_params(hx->input_dev, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
+> +
+> +	touchscreen_parse_properties(hx->input_dev, true, &hx->props);
+> +	error = hx852x_parse_properties(hx);
+> +	if (error)
+> +		return error;
+> +
+> +	hx->input_dev->keycode = hx->keycodes;
+> +	hx->input_dev->keycodemax = hx->keycount;
+> +	hx->input_dev->keycodesize = sizeof(hx->keycodes[0]);
+> +	for (i = 0; i < hx->keycount; i++)
+> +		input_set_capability(hx->input_dev, EV_KEY, hx->keycodes[i]);
+> +
+> +	error = input_mt_init_slots(hx->input_dev, hx->max_fingers,
+> +				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
+> +	if (error) {
+> +		dev_err(dev, "failed to init MT slots: %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	error = input_register_device(hx->input_dev);
+> +	if (error) {
+
+input_mt_destroy_slots() should be called here, or in an error handling 
+path below, or via a devm_add_action_or_reset().
+
+It should also be called in a .remove function (unless 
+devm_add_action_or_reset is prefered)
+
+CJ
+
+> +		dev_err(dev, "failed to register input device: %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	return 0;
+> +}
+
+...
 
