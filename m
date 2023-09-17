@@ -2,59 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C4287A3CFA
-	for <lists+linux-input@lfdr.de>; Sun, 17 Sep 2023 22:38:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 571797A3DB0
+	for <lists+linux-input@lfdr.de>; Sun, 17 Sep 2023 22:57:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241177AbjIQUhx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 17 Sep 2023 16:37:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36186 "EHLO
+        id S229949AbjIQU5J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 Sep 2023 16:57:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241196AbjIQUhk (ORCPT
+        with ESMTP id S239744AbjIQU5B (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 17 Sep 2023 16:37:40 -0400
-Received: from smtp.smtpout.orange.fr (smtp-29.smtpout.orange.fr [80.12.242.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82CE2115
-        for <linux-input@vger.kernel.org>; Sun, 17 Sep 2023 13:37:31 -0700 (PDT)
-Received: from [192.168.1.18] ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id hyWCqBxzXiBkuhyWCqhbFr; Sun, 17 Sep 2023 22:37:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1694983044;
-        bh=R/OeMX2iB0ZqhHm0GSAy+GcdjH61pb96H2jNofIJ5Ew=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=Fj356q0IIfB9U9L7pEdjjUe7Ib1OOQFf6KpHjy7W1RhdscPqsNz4iPyK9IMQVI/Xl
-         yjZPuMLSufqntgRhuDvbbXCxKpRQr/ykJ3alH8I5Wvu4Gns8Z6SYtymYxvluo2mHD7
-         BwH/CWUHdISxYD0y0mi45nYtoI1TUoQiMtBXJ3yXTclVc/wEl8zYN+W/x6TcAoBGh9
-         RFlNpMYpVs2lqk1tBKuqe10UrKaUpMA/mTatnCi8kBFz1oYdIFZSa0SQZUcE6z+YCQ
-         H10o4bTWfIfO/F3QMUL7Yc1/eVq4c9Yw8tDoDvPIOCitxtgJdoYzvCj/kN7eWVK1yH
-         tTgfmUaTAg3Bg==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 17 Sep 2023 22:37:24 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <5111a913-efc9-28c6-64ad-df2586bd0895@wanadoo.fr>
-Date:   Sun, 17 Sep 2023 22:37:23 +0200
+        Sun, 17 Sep 2023 16:57:01 -0400
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F49698
+        for <linux-input@vger.kernel.org>; Sun, 17 Sep 2023 13:56:56 -0700 (PDT)
+Received: by mail-qk1-x736.google.com with SMTP id af79cd13be357-76dc77fd024so255050685a.3
+        for <linux-input@vger.kernel.org>; Sun, 17 Sep 2023 13:56:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=pressers.name; s=google; t=1694984215; x=1695589015; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-language:to:subject:from
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OMpppOWezPnSti5EzycDYmM1/qSATEqf23I4aeecbFQ=;
+        b=eIkGb160ySKcm8q4FTydTPaEkPzQK3mxSckzumo/NqGKmwffRELnUalxWm+f5LXpNe
+         aovDd4aDI0CN6BxFbke3LxBnQ6ojhgQuNOjAAzMVc3pHx+EidvjYcqi36MwQ4IuUCbUw
+         DOmclRaKehE3IilbuXjvsVRKPJr6uFnRENm4c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694984215; x=1695589015;
+        h=content-transfer-encoding:content-language:to:subject:from
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=OMpppOWezPnSti5EzycDYmM1/qSATEqf23I4aeecbFQ=;
+        b=iamWSxGxap7KbUXvSusHYgMPV1x5yniChDslPDlssUuJSrkfBr5qBOGI1fpPVi2V9Z
+         NI+VXhYNvQBIAHPtHLY7xkbdFkWvmBCBRT+MDeyoKMPzwHKQOso8pPHOSKz4yT19T+8D
+         gXWXzS1yd/S2QpcGHoDO8kYjszV1YOYC5K4dvgTIuzTyCH5IEsS4JYkke5+/87CNGCjb
+         bahhr9hNyo8R7VEmj+ahQ/JIY0CfmZJcIbv6A0RjRB/Ibij84bLJJHDDnxd6NaACpNiF
+         gzpI5NXcEfSLoGZa6EY1wDcp9ZM4U+w4bMpbO1pv9ixFxZx5q2zualcoy1vRylsKTJZz
+         v/Gg==
+X-Gm-Message-State: AOJu0Yy/0B8/aXNcxZVJoKDzVFUtBe8BsEKOlM9lG5gzcb8bvF6ky/tq
+        sfQw3J4yVuuLLsL/AKDtToW1L6RXHGTnUW/DPVm0PA==
+X-Google-Smtp-Source: AGHT+IENrlbhF1iNvR1huAyEaEEsmMpcqPdlKZ5VLaXjpDnd9sFxC6NV2jkgZmv7mpcKK9U2fIwbDQ==
+X-Received: by 2002:a05:620a:bc1:b0:75b:23a0:deca with SMTP id s1-20020a05620a0bc100b0075b23a0decamr8619576qki.72.1694984214902;
+        Sun, 17 Sep 2023 13:56:54 -0700 (PDT)
+Received: from [10.0.3.184] (dslb-088-075-011-125.088.075.pools.vodafone-ip.de. [88.75.11.125])
+        by smtp.gmail.com with ESMTPSA id f2-20020a0cf3c2000000b00655d55117f5sm1503388qvm.81.2023.09.17.13.56.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 Sep 2023 13:56:54 -0700 (PDT)
+Message-ID: <744f43e1-93f2-97c8-03b8-f9025386abe0@pressers.name>
+Date:   Sun, 17 Sep 2023 22:56:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 0/3] HID: nvidia-shield: Fix the error handling path of
- shield_probe()
-Content-Language: fr, en-GB
-To:     Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-References: <cover.1693070958.git.christophe.jaillet@wanadoo.fr>
- <87msxns3nv.fsf@nvidia.com> <d083215e-e9bf-860d-6d04-d919a9b90752@wanadoo.fr>
- <87msxnupmc.fsf@nvidia.com>
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <87msxnupmc.fsf@nvidia.com>
+ Thunderbird/102.15.0
+From:   Steven Presser <steve@pressers.name>
+Subject: amd-sfh bug: Accelerometer will not initialize on Lenovo 300e 2nd
+ generation
+To:     linux-input@vger.kernel.org,
+        Basavaraj Natikar <basavaraj.natikar@amd.com>
+Content-Language: en-US, de-DE
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,77 +70,42 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Le 15/09/2023 à 22:51, Rahul Rameshbabu a écrit :
-> On Fri, 15 Sep, 2023 22:14:18 +0200 Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
->> Le 15/09/2023 à 20:16, Rahul Rameshbabu a écrit :
->>> Hi Christophe,
->>> On Sat, 26 Aug, 2023 19:42:16 +0200 Christophe JAILLET
->>> <christophe.jaillet@wanadoo.fr> wrote:
->>>> This serie fixes some missing clean-up function calls in the error handling of
->>>> the probe.
->>>>
->>>> Patch 1 and 2 fix some similar issues introduced in 2 different commits (hence 2
->>>> patches)
->>>>
->>>> Patch 3 is a proposal to be more future proof.
->>>>
->>>>
->>>> *Note*: I'm not 100% sure that the order of the functions is the best one in
->>>> thunderstrike_destroy(), but it is the way it was.
->>>>
->>>> My personal preference would be to undo things in reverse order they are
->>>> allocated, such as:
->>>> 	led_classdev_unregister(&ts->led_dev);
->>>> 	power_supply_unregister(ts->base.battery_dev.psy);
->>>> 	if (ts->haptics_dev)
->>>> 		input_unregister_device(ts->haptics_dev);
->>>> 	ida_free(&thunderstrike_ida, ts->id);
->>>> This order was explicitly chnaged by 3ab196f88237, so, as I can't test the
->>>> changes on a real harware, I've left it as-is.
->>>>
->>>> Christophe JAILLET (3):
->>>>     HID: nvidia-shield: Fix a missing led_classdev_unregister() in the
->>>>       probe error handling path
->>>>     HID: nvidia-shield: Fix some missing function calls() in the probe
->>>>       error handling path
->>>>     HID: nvidia-shield: Introduce thunderstrike_destroy()
->>>>
->>>>    drivers/hid/hid-nvidia-shield.c | 23 ++++++++++++++++-------
->>>>    1 file changed, 16 insertions(+), 7 deletions(-)
->>> I was wondering if you have time to address the comments in this
->>> submission. If not, I can re-spin the patches with the needed changes in
->>> upcoming days.
->>
->> I can send an update tomorrow, but I'm only working with -next, so should using
->> for-6.6/nvidia (as said in your comment in #1/3) be a must have, then it would
->> be more convenient for me if you make the changes by yourself.
-> 
-> Luckily, it does not have to be on top of for-6.6/nvidia to add the fix
-> I mentioned with regards to the led_classdev flag for not trying to
-> power off the led when unregistering the led_classdev. That should still
-> merge nicely on top of for-6.6/nvidia. The main reason I mentioned it
-> was due to the commit living there with regards to the issue involving
-> unregistering the led_classdev without the mentioned flag.
+Dear Basavaraj, dear list,
 
-Well, because of your comment on patch #1/3, I would prefer you to make 
-the relevant changes.
+Per the maintainers file, I believe this is the best way to contact you 
+about this issue. If that's not true, I'm happy to move this 
+conversation somewhere else.
 
-Understanding this code if more time consuming than I first expected.
+I have a Lenovo 300e 2nd Generation, a "2-in-1". This device uses an 
+accelerometer via the AMD Sensor Fusion Hub to detect laptop and tablet 
+mode. Despite being attached to the (supported) AMD SFH, this 
+accelerometer does not function. When the system tries to initialize the 
+accelerometer, it simply reports:
 
-CJ
+[    8.850222] pcie_mp2_amd 0000:04:00.7: sid 0x0 (accelerometer) status 
+0x5
+[    8.850240] pcie_mp2_amd 0000:04:00.7: Failed to discover, sensors 
+not enabled is 0
+[    8.850276] pcie_mp2_amd: probe of 0000:04:00.7 failed with error -95
 
-> 
-> --
-> Thanks for the patches,
-> 
-> Rahul Rameshbabu
-> 
->>
->> CJ
->>
->>> --
->>> Thanks,
->>> Rahul Rameshbabu
->>>
-> 
+The device works correctly under Windows, so I know this isn't broken 
+hardware.
 
+I've captured a dmesg (with debug enabled in the kernel module), lspci, 
+and dmidecide. All of them are available here: 
+https://gist.github.com/spresse1/4739eeec0becf6110d605d5f567b7a69. These 
+were captured using git revision 
+b84acc11b1c9552c9ca3a099b1610a6018619332 of the main branch. I'm aware 
+there's a patchset currently in progress for the SFH. I'm happy to 
+retest with that, but it doesn't look to me as if it would affect this 
+issue.
+
+I am happy to assist in debugging this however I can, including giving 
+remote access to the system. At this point, I have debugged this issue 
+as far as I am able without documentation (that I believe is only 
+available with an AMD NDA).
+
+How can I move this forward and how can we get this sensor working?
+
+Thank you in advance for your help!
+Steve
