@@ -2,60 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 279517A36F7
-	for <lists+linux-input@lfdr.de>; Sun, 17 Sep 2023 19:59:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C4287A3CFA
+	for <lists+linux-input@lfdr.de>; Sun, 17 Sep 2023 22:38:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234032AbjIQR7S (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 17 Sep 2023 13:59:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58314 "EHLO
+        id S241177AbjIQUhx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 Sep 2023 16:37:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230173AbjIQR6t (ORCPT
+        with ESMTP id S241196AbjIQUhk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 17 Sep 2023 13:58:49 -0400
-Received: from smtp.smtpout.orange.fr (smtp-17.smtpout.orange.fr [80.12.242.17])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65CE2129
-        for <linux-input@vger.kernel.org>; Sun, 17 Sep 2023 10:58:40 -0700 (PDT)
+        Sun, 17 Sep 2023 16:37:40 -0400
+Received: from smtp.smtpout.orange.fr (smtp-29.smtpout.orange.fr [80.12.242.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82CE2115
+        for <linux-input@vger.kernel.org>; Sun, 17 Sep 2023 13:37:31 -0700 (PDT)
 Received: from [192.168.1.18] ([86.243.2.178])
         by smtp.orange.fr with ESMTPA
-        id hw2MqAKVBUbVihw2MqRYG1; Sun, 17 Sep 2023 19:58:32 +0200
+        id hyWCqBxzXiBkuhyWCqhbFr; Sun, 17 Sep 2023 22:37:24 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1694973512;
-        bh=n5GOty1FZm3dW6STDTU4IzxaJuBtMC1qUI5dLmOz7Vg=;
+        s=t20230301; t=1694983044;
+        bh=R/OeMX2iB0ZqhHm0GSAy+GcdjH61pb96H2jNofIJ5Ew=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=Co20ujl7wd3fI3AqepZdv+qa/OQOhrYcmkE48an/tSGeexYfljBIas7OjH3X+rAg/
-         BnXA0DNr1dQ3qiFLAwcIZwUItWUBTxHwJdr96ajCHJk+i5lMbX1vm+XZf8+TZs1BDK
-         xd7CmWBYFCloEHCwRNIC7LdVwn544+a3kbbxwP1E4rVveJXk2GxkiiV3OrMz+RqKb2
-         HgDSLGs2Ygn0XDXEWh8S6+HozzZ2UVodzyEz4LejBiICDak3eqJDth1frJZ0IFEh5B
-         qaftgOsL2kCkruvnCVU+ltasDkTxxFwSbHaQNFDutUmnHZu5LwAgubs011SyXxrI9M
-         WpPt4H1FAOXTw==
+        b=Fj356q0IIfB9U9L7pEdjjUe7Ib1OOQFf6KpHjy7W1RhdscPqsNz4iPyK9IMQVI/Xl
+         yjZPuMLSufqntgRhuDvbbXCxKpRQr/ykJ3alH8I5Wvu4Gns8Z6SYtymYxvluo2mHD7
+         BwH/CWUHdISxYD0y0mi45nYtoI1TUoQiMtBXJ3yXTclVc/wEl8zYN+W/x6TcAoBGh9
+         RFlNpMYpVs2lqk1tBKuqe10UrKaUpMA/mTatnCi8kBFz1oYdIFZSa0SQZUcE6z+YCQ
+         H10o4bTWfIfO/F3QMUL7Yc1/eVq4c9Yw8tDoDvPIOCitxtgJdoYzvCj/kN7eWVK1yH
+         tTgfmUaTAg3Bg==
 X-ME-Helo: [192.168.1.18]
 X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 17 Sep 2023 19:58:32 +0200
+X-ME-Date: Sun, 17 Sep 2023 22:37:24 +0200
 X-ME-IP: 86.243.2.178
-Message-ID: <0e2e0e8f-91dd-b458-e39e-b00baf98b4e0@wanadoo.fr>
-Date:   Sun, 17 Sep 2023 19:58:25 +0200
+Message-ID: <5111a913-efc9-28c6-64ad-df2586bd0895@wanadoo.fr>
+Date:   Sun, 17 Sep 2023 22:37:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
-Subject: Re: [PATCH 2/2] Input: add Himax HX852x(ES) touchscreen driver
-Content-Language: fr, en-US
-To:     stephan@gerhold.net, Jeff LaBundy <jeff@labundy.com>
-Cc:     conor+dt@kernel.org, devicetree@vger.kernel.org,
-        dmitry.torokhov@gmail.com, jonathan.albrieux@gmail.com,
-        krzysztof.kozlowski+dt@linaro.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, robh+dt@kernel.org,
-        rydberg@bitmath.org
-References: <20230913-hx852x-v1-0-9c1ebff536eb@gerhold.net>
- <20230913-hx852x-v1-2-9c1ebff536eb@gerhold.net>
- <abf36591-3b3c-dc47-b1aa-e574325499f4@wanadoo.fr> <ZQcrQIfXYCv5aMK7@nixie71>
+Subject: Re: [PATCH 0/3] HID: nvidia-shield: Fix the error handling path of
+ shield_probe()
+Content-Language: fr, en-GB
+To:     Rahul Rameshbabu <rrameshbabu@nvidia.com>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+References: <cover.1693070958.git.christophe.jaillet@wanadoo.fr>
+ <87msxns3nv.fsf@nvidia.com> <d083215e-e9bf-860d-6d04-d919a9b90752@wanadoo.fr>
+ <87msxnupmc.fsf@nvidia.com>
 From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <ZQcrQIfXYCv5aMK7@nixie71>
+In-Reply-To: <87msxnupmc.fsf@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_PASS,
-        T_SPF_HELO_TEMPERROR autolearn=unavailable autolearn_force=no
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,43 +62,77 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Le 17/09/2023 à 18:37, Jeff LaBundy a écrit :
-
->>> +	error = input_register_device(hx->input_dev);
->>> +	if (error) {
+Le 15/09/2023 à 22:51, Rahul Rameshbabu a écrit :
+> On Fri, 15 Sep, 2023 22:14:18 +0200 Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
+>> Le 15/09/2023 à 20:16, Rahul Rameshbabu a écrit :
+>>> Hi Christophe,
+>>> On Sat, 26 Aug, 2023 19:42:16 +0200 Christophe JAILLET
+>>> <christophe.jaillet@wanadoo.fr> wrote:
+>>>> This serie fixes some missing clean-up function calls in the error handling of
+>>>> the probe.
+>>>>
+>>>> Patch 1 and 2 fix some similar issues introduced in 2 different commits (hence 2
+>>>> patches)
+>>>>
+>>>> Patch 3 is a proposal to be more future proof.
+>>>>
+>>>>
+>>>> *Note*: I'm not 100% sure that the order of the functions is the best one in
+>>>> thunderstrike_destroy(), but it is the way it was.
+>>>>
+>>>> My personal preference would be to undo things in reverse order they are
+>>>> allocated, such as:
+>>>> 	led_classdev_unregister(&ts->led_dev);
+>>>> 	power_supply_unregister(ts->base.battery_dev.psy);
+>>>> 	if (ts->haptics_dev)
+>>>> 		input_unregister_device(ts->haptics_dev);
+>>>> 	ida_free(&thunderstrike_ida, ts->id);
+>>>> This order was explicitly chnaged by 3ab196f88237, so, as I can't test the
+>>>> changes on a real harware, I've left it as-is.
+>>>>
+>>>> Christophe JAILLET (3):
+>>>>     HID: nvidia-shield: Fix a missing led_classdev_unregister() in the
+>>>>       probe error handling path
+>>>>     HID: nvidia-shield: Fix some missing function calls() in the probe
+>>>>       error handling path
+>>>>     HID: nvidia-shield: Introduce thunderstrike_destroy()
+>>>>
+>>>>    drivers/hid/hid-nvidia-shield.c | 23 ++++++++++++++++-------
+>>>>    1 file changed, 16 insertions(+), 7 deletions(-)
+>>> I was wondering if you have time to address the comments in this
+>>> submission. If not, I can re-spin the patches with the needed changes in
+>>> upcoming days.
 >>
->> input_mt_destroy_slots() should be called here, or in an error handling path
->> below, or via a devm_add_action_or_reset().
+>> I can send an update tomorrow, but I'm only working with -next, so should using
+>> for-6.6/nvidia (as said in your comment in #1/3) be a must have, then it would
+>> be more convenient for me if you make the changes by yourself.
 > 
-> This seems like a memory leak in every touchscreen driver; maybe it is more
-> practical to have the input core handle this clean-up.
-> 
-> Other drivers can and do insert other return paths between input_mt_init_slots()
-> and input_register_device(), so it seems that we cannot solve this by calling
-> input_mt_destroy_slots() from the error path within input_register_device().
-> 
-> Maybe a better option is to update input_mt_init_slots() to use device-managed
-> allocation instead?
+> Luckily, it does not have to be on top of for-6.6/nvidia to add the fix
+> I mentioned with regards to the led_classdev flag for not trying to
+> power off the led when unregistering the led_classdev. That should still
+> merge nicely on top of for-6.6/nvidia. The main reason I mentioned it
+> was due to the commit living there with regards to the issue involving
+> unregistering the led_classdev without the mentioned flag.
 
-I think that devm_ is the way to go:
+Well, because of your comment on patch #1/3, I would prefer you to make 
+the relevant changes.
 
-    $ git grep input_mt_init_slots | wc -l
-    82
-
-    $ git grep input_mt_destroy_slots | wc -l
-    6
-
-I'll send a patch for it.
-
-> 
->>
->> It should also be called in a .remove function (unless
->> devm_add_action_or_reset is prefered)
-> 
-> I think the remove path is OK, as input_dev_release() handles this for us. In
-> case I have misunderstood, please let me know.
-
-Agreed. I missed that.
+Understanding this code if more time consuming than I first expected.
 
 CJ
+
+> 
+> --
+> Thanks for the patches,
+> 
+> Rahul Rameshbabu
+> 
+>>
+>> CJ
+>>
+>>> --
+>>> Thanks,
+>>> Rahul Rameshbabu
+>>>
+> 
 
