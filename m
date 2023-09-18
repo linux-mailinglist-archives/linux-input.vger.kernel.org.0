@@ -2,517 +2,317 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C52747A4B7B
-	for <lists+linux-input@lfdr.de>; Mon, 18 Sep 2023 17:17:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59B237A4F89
+	for <lists+linux-input@lfdr.de>; Mon, 18 Sep 2023 18:45:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231207AbjIRPRH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 18 Sep 2023 11:17:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57498 "EHLO
+        id S230411AbjIRQpa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 18 Sep 2023 12:45:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231714AbjIRPRE (ORCPT
+        with ESMTP id S230498AbjIRQpR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 18 Sep 2023 11:17:04 -0400
-Received: from mail.gnu-linux.rocks (unknown [82.165.184.165])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B12A106;
-        Mon, 18 Sep 2023 08:16:53 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5bfa5d.dynamic.kabel-deutschland.de [95.91.250.93])
-        by mail.gnu-linux.rocks (Postfix) with ESMTPSA id 848663FFC5;
-        Mon, 18 Sep 2023 15:16:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnu-linux.rocks;
-        s=mail; t=1695050211;
-        bh=v/1AcFnoXcxol0S7Cx2Jzc3hL5yzSNtKaoXf6GM39Ms=;
+        Mon, 18 Sep 2023 12:45:17 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66FFD2724;
+        Mon, 18 Sep 2023 09:37:32 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B9F9C433C8;
+        Mon, 18 Sep 2023 13:00:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695042037;
+        bh=NKjhjI88tySpW0ots484Nte+j7bJK14OfnldcyH+0Kg=;
         h=From:To:Cc:Subject:Date:From;
-        b=q9SVnMf4u6XrPhn2/7kuOn1OeN/fxi98QSqf/MzeX1vMNrEZQbY9Kr1RhvdVdTXD8
-         EXJR9p8iPRepw9+8D/RB76ppjXqQs54yEHsIKhZjxIM5WqnL5+fyZ0QNdyhryhmOuO
-         xsTzev+r9LgbW1OkDPYtC2UPXYOoTbWDFuZ5cHCTBdS0EsvcN1aZItretXj1bGWKUH
-         IAVFtP8GIYaIz0LL6JnDXPKQEw6UpySWNg0/K65wmtBqhW9SCcB1nTQDZZxZsWpMkl
-         um+jLxC5VT1HfBO+zLLz1Faao4MVjmh1h1NEIGj7uA0OM14AEzniJiLEVM3RQ0wjJB
-         a0jZ+dulPvofw==
-From:   Johannes Roith <johannes@gnu-linux.rocks>
-To:     jikos@kernel.org
-Cc:     sergeantsagara@protonmail.com, andi.shyti@kernel.org,
-        benjamin.tissoires@redhat.com, christophe.jaillet@wanadoo.fr,
-        johannes@gnu-linux.rocks, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, rdunlap@infradead.org
-Subject: [PATCH v6] HID: mcp2200: added driver for GPIOs of MCP2200
-Date:   Mon, 18 Sep 2023 17:16:44 +0200
-Message-ID: <20230918151644.568998-1-johannes@gnu-linux.rocks>
-X-Mailer: git-send-email 2.42.0
+        b=OooNQinIX6I+SGb5NnXFKVuJUs2kZoOKjjs8Jz5dGvI1NoQ5eR2oH7pSqsAqtJVT2
+         JwkuU7eWUrpH0KOd+IWoyOqdGTEe3cPTam2y/oE0DKiAbc/Isw+C9nz1ry//KeuLb8
+         pXqnbJ4RCXnAdWS/ZGqOVJL2KTyOVpAT/LtR2SrUp+SgqdhS+IhmDNe6tDS1/eLj07
+         oZ7a1uSkZ7CiCTfS6rqknyRSqV9P/t48rVQ3uVMa6oWbwzUyvUMNR0E2MyF9e/5zeU
+         cn3tCfuu7Yqg8r8QyEYEYE3Ufn4EDMcaeyDt2+UbxG1SRcPw2suXTZDTjyKysDS6sM
+         ZnGnuoL8dYqrA==
+Received: from johan by xi.lan with local (Exim 4.96)
+        (envelope-from <johan+linaro@kernel.org>)
+        id 1qiDrr-00005o-1r;
+        Mon, 18 Sep 2023 15:00:48 +0200
+From:   Johan Hovold <johan+linaro@kernel.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH] HID: i2c-hid: fix handling of unpopulated devices
+Date:   Mon, 18 Sep 2023 14:58:51 +0200
+Message-ID: <20230918125851.310-1-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,RDNS_NONE,
-        SPF_HELO_NONE,T_SPF_TEMPERROR autolearn=no autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Added a gpiochip compatible driver to control the 8 GPIOs of
-the MCP2200 by using the HID interface.
+A recent commit reordered probe so that the interrupt line is now
+requested before making sure that the device exists.
 
-Using GPIOs with alternative functions (GP0<->SSPND, GP1<->USBCFG,
-GP6<->RXLED, GP7<->TXLED) will reset the functions, if set (unset by
-default).
+This breaks machines like the Lenovo ThinkPad X13s which rely on the
+HID driver to probe second-source devices and only register the variant
+that is actually populated. Specifically, the interrupt line may now
+already be (temporarily) claimed when doing asynchronous probing of the
+touchpad:
 
-The driver was tested while also using the UART of the chip. Setting
-and reading the GPIOs has no effect on the UART communication. However,
-a reset is triggered after the CONFIGURE command. If the GPIO Direction
-is constantly changed, this will affect the communication at low baud
-rates. This is a hardware problem of the MCP2200 and is not caused by
-the driver.
+	genirq: Flags mismatch irq 191. 00082008 (hid-over-i2c) vs. 00082008 (hid-over-i2c)
+	i2c_hid_of 21-0015: Could not register for hid-over-i2c interrupt, irq = 191, ret = -16
+	i2c_hid_of: probe of 21-0015 failed with error -16
 
-Signed-off-by: Johannes Roith <johannes@gnu-linux.rocks>
+Fix this by restoring the old behaviour of first making sure the device
+exists before requesting the interrupt line.
+
+Note that something like this should probably be implemented also for
+"panel followers", whose actual probe is currently effectively deferred
+until the DRM panel is probed (e.g. by powering down the device after
+making sure it exists and only then register it as a follower).
+
+Fixes: 675cd877c952 ("HID: i2c-hid: Rearrange probe() to power things up later")
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 ---
- drivers/hid/Kconfig       |   9 +
- drivers/hid/Makefile      |   1 +
- drivers/hid/hid-ids.h     |   1 +
- drivers/hid/hid-mcp2200.c | 390 ++++++++++++++++++++++++++++++++++++++
- 4 files changed, 401 insertions(+)
- create mode 100644 drivers/hid/hid-mcp2200.c
+ drivers/hid/i2c-hid/i2c-hid-core.c | 142 ++++++++++++++++-------------
+ 1 file changed, 80 insertions(+), 62 deletions(-)
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 0cea301cc9a9..3c14644b593d 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -1298,6 +1298,15 @@ config HID_ALPS
- 	Say Y here if you have a Alps touchpads over i2c-hid or usbhid
- 	and want support for its special functionalities.
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index 9601c0605fd9..e66c058a4b00 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -998,45 +998,29 @@ static int i2c_hid_core_resume(struct i2c_hid *ihid)
+ 	return hid_driver_reset_resume(hid);
+ }
  
-+config HID_MCP2200
-+	tristate "Microchip MCP2200 HID USB-to-GPIO bridge"
-+	depends on USB_HID && GPIOLIB
-+	help
-+	  Provides GPIO functionality over USB-HID through MCP2200 device.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called hid-mcp2200.ko.
-+
- config HID_MCP2221
- 	tristate "Microchip MCP2221 HID USB-to-I2C/SMbus host support"
- 	depends on USB_HID && I2C
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index 8a06d0f840bc..082a728eac60 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -79,6 +79,7 @@ obj-$(CONFIG_HID_LOGITECH_HIDPP)	+= hid-logitech-hidpp.o
- obj-$(CONFIG_HID_MACALLY)	+= hid-macally.o
- obj-$(CONFIG_HID_MAGICMOUSE)	+= hid-magicmouse.o
- obj-$(CONFIG_HID_MALTRON)	+= hid-maltron.o
-+obj-$(CONFIG_HID_MCP2200)	+= hid-mcp2200.o
- obj-$(CONFIG_HID_MCP2221)	+= hid-mcp2221.o
- obj-$(CONFIG_HID_MAYFLASH)	+= hid-mf.o
- obj-$(CONFIG_HID_MEGAWORLD_FF)	+= hid-megaworld.o
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 7e499992a793..bb87ad4eb2aa 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -915,6 +915,7 @@
- #define USB_DEVICE_ID_PICK16F1454	0x0042
- #define USB_DEVICE_ID_PICK16F1454_V2	0xf2f7
- #define USB_DEVICE_ID_LUXAFOR		0xf372
-+#define USB_DEVICE_ID_MCP2200		0x00df
- #define USB_DEVICE_ID_MCP2221		0x00dd
- 
- #define USB_VENDOR_ID_MICROSOFT		0x045e
-diff --git a/drivers/hid/hid-mcp2200.c b/drivers/hid/hid-mcp2200.c
-new file mode 100644
-index 000000000000..477a3915d2f0
---- /dev/null
-+++ b/drivers/hid/hid-mcp2200.c
-@@ -0,0 +1,390 @@
-+// SPDX-License-Identifier: GPL-2.0-only
+-/**
+- * __do_i2c_hid_core_initial_power_up() - First time power up of the i2c-hid device.
+- * @ihid: The ihid object created during probe.
+- *
+- * This function is called at probe time.
+- *
+- * The initial power on is where we do some basic validation that the device
+- * exists, where we fetch the HID descriptor, and where we create the actual
+- * HID devices.
+- *
+- * Return: 0 or error code.
 +/*
-+ * MCP2200 - Microchip USB to GPIO bridge
-+ *
-+ * Copyright (c) 2023, Johannes Roith <johannes@gnu-linux.rocks>
-+ *
-+ * Datasheet: https://ww1.microchip.com/downloads/en/DeviceDoc/22228A.pdf
-+ * App Note for HID: https://ww1.microchip.com/downloads/en/DeviceDoc/93066A.pdf
-+ */
-+#include <linux/completion.h>
-+#include <linux/delay.h>
-+#include <linux/err.h>
-+#include <linux/gpio/driver.h>
-+#include <linux/hid.h>
-+#include <linux/hidraw.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include "hid-ids.h"
-+
-+/* Commands codes in a raw output report */
-+#define SET_CLEAR_OUTPUTS	0x08
-+#define CONFIGURE		0x10
-+#define READ_EE			0x20
-+#define WRITE_EE		0x40
-+#define READ_ALL		0x80
-+
-+/* MCP GPIO direction encoding */
-+enum MCP_IO_DIR {
-+	MCP2200_DIR_OUT = 0x00,
-+	MCP2200_DIR_IN  = 0x01,
-+};
-+
-+/* Altternative pin assignments */
-+#define TXLED		2
-+#define RXLED		3
-+#define USBCFG		6
-+#define SSPND		7
-+#define MCP_NGPIO	8
-+
-+/* CMD to set or clear a GPIO output */
-+struct mcp_set_clear_outputs {
-+	u8 cmd;
-+	u8 dummys1[10];
-+	u8 set_bmap;
-+	u8 clear_bmap;
-+	u8 dummys2[3];
-+} __packed;
-+
-+/* CMD to configure the IOs */
-+struct mcp_configure {
-+	u8 cmd;
-+	u8 dummys1[3];
-+	u8 io_bmap;
-+	u8 config_alt_pins;
-+	u8 io_default_val_bmap;
-+	u8 config_alt_options;
-+	u8 baud_h;
-+	u8 baud_l;
-+	u8 dummys2[6];
-+} __packed;
-+
-+/* CMD to read all parameters */
-+struct mcp_read_all {
-+	u8 cmd;
-+	u8 dummys[15];
-+} __packed;
-+
-+/* Response to the read all cmd */
-+struct mcp_read_all_resp {
-+	u8 cmd;
-+	u8 eep_addr;
-+	u8 dummy;
-+	u8 eep_val;
-+	u8 io_bmap;
-+	u8 config_alt_pins;
-+	u8 io_default_val_bmap;
-+	u8 config_alt_options;
-+	u8 baud_h;
-+	u8 baud_l;
-+	u8 io_port_val_bmap;
-+	u8 dummys[5];
-+} __packed;
-+
-+struct mcp2200 {
-+	struct hid_device *hdev;
-+	struct mutex lock;
-+	struct completion wait_in_report;
-+	u8 gpio_dir;
-+	u8 gpio_val;
-+	u8 gpio_inval;
-+	u8 baud_h;
-+	u8 baud_l;
-+	u8 config_alt_pins;
-+	u8 gpio_reset_val;
-+	u8 config_alt_options;
-+	int status;
-+	struct gpio_chip gc;
-+	u8 hid_report[16];
-+};
-+
-+/* this executes the READ_ALL cmd */
-+static int mcp_cmd_read_all(struct mcp2200 *mcp)
-+{
-+	struct mcp_read_all *read_all;
-+	int len, t;
-+
-+	reinit_completion(&mcp->wait_in_report);
-+
-+	mutex_lock(&mcp->lock);
-+
-+	read_all = (struct mcp_read_all *) mcp->hid_report;
-+	read_all->cmd = READ_ALL;
-+	len = hid_hw_output_report(mcp->hdev, (u8 *) read_all,
-+				   sizeof(struct mcp_read_all));
-+
-+	mutex_unlock(&mcp->lock);
-+
-+	if (len != sizeof(struct mcp_read_all))
-+		return -EINVAL;
-+
-+	t = wait_for_completion_timeout(&mcp->wait_in_report,
-+					msecs_to_jiffies(4000));
-+	if (!t)
-+		return -ETIMEDOUT;
-+
-+	/* return status, negative value if wrong response was received */
-+	return mcp->status;
-+}
-+
-+static void mcp_set_multiple(struct gpio_chip *gc, unsigned long *mask,
-+			     unsigned long *bits)
-+{
-+	struct mcp2200 *mcp = gpiochip_get_data(gc);
-+	u8 value;
-+	int status;
-+	struct mcp_set_clear_outputs *cmd;
-+
-+	mutex_lock(&mcp->lock);
-+	cmd = (struct mcp_set_clear_outputs *) mcp->hid_report;
-+
-+	value = mcp->gpio_val & ~*mask;
-+	value |= (*mask & *bits);
-+
-+	cmd->cmd = SET_CLEAR_OUTPUTS;
-+	cmd->set_bmap = value;
-+	cmd->clear_bmap = ~(value);
-+
-+	status = hid_hw_output_report(mcp->hdev, (u8 *) cmd,
-+		       sizeof(struct mcp_set_clear_outputs));
-+
-+	if (status == sizeof(struct mcp_set_clear_outputs))
-+		mcp->gpio_val = value;
-+
-+	mutex_unlock(&mcp->lock);
-+}
-+
-+static void mcp_set(struct gpio_chip *gc, unsigned int gpio_nr, int value)
-+{
-+	unsigned long mask = 1 << gpio_nr;
-+	unsigned long bmap_value = value << gpio_nr;
-+
-+	mcp_set_multiple(gc, &mask, &bmap_value);
-+}
-+
-+static int mcp_get_multiple(struct gpio_chip *gc, unsigned long *mask,
-+		unsigned long *bits)
-+{
-+	u32 val;
-+	struct mcp2200 *mcp = gpiochip_get_data(gc);
-+	int status;
-+
-+	status = mcp_cmd_read_all(mcp);
-+	if (status)
-+		return status;
-+
-+	val = mcp->gpio_inval;
-+	*bits = (val & *mask);
++ * Check that the device exists and parse the HID descriptor.
+  */
+-static int __do_i2c_hid_core_initial_power_up(struct i2c_hid *ihid)
++static int __i2c_hid_core_probe(struct i2c_hid *ihid)
+ {
+ 	struct i2c_client *client = ihid->client;
+ 	struct hid_device *hid = ihid->hid;
+ 	int ret;
+ 
+-	ret = i2c_hid_core_power_up(ihid);
+-	if (ret)
+-		return ret;
+-
+ 	/* Make sure there is something at this address */
+ 	ret = i2c_smbus_read_byte(client);
+ 	if (ret < 0) {
+ 		i2c_hid_dbg(ihid, "nothing at this address: %d\n", ret);
+-		ret = -ENXIO;
+-		goto err;
++		return -ENXIO;
+ 	}
+ 
+ 	ret = i2c_hid_fetch_hid_descriptor(ihid);
+ 	if (ret < 0) {
+ 		dev_err(&client->dev,
+ 			"Failed to fetch the HID Descriptor\n");
+-		goto err;
++		return ret;
+ 	}
+ 
+-	enable_irq(client->irq);
+-
+ 	hid->version = le16_to_cpu(ihid->hdesc.bcdVersion);
+ 	hid->vendor = le16_to_cpu(ihid->hdesc.wVendorID);
+ 	hid->product = le16_to_cpu(ihid->hdesc.wProductID);
+@@ -1050,17 +1034,49 @@ static int __do_i2c_hid_core_initial_power_up(struct i2c_hid *ihid)
+ 
+ 	ihid->quirks = i2c_hid_lookup_quirk(hid->vendor, hid->product);
+ 
 +	return 0;
 +}
 +
-+static int mcp_get(struct gpio_chip *gc, unsigned int gpio_nr)
++static int i2c_hid_core_register_hid(struct i2c_hid *ihid)
 +{
-+	unsigned long mask = 0, bits = 0;
++	struct i2c_client *client = ihid->client;
++	struct hid_device *hid = ihid->hid;
++	int ret;
 +
-+	mask = (1 << gpio_nr);
-+	mcp_get_multiple(gc, &mask, &bits);
-+	return bits > 0;
++	enable_irq(client->irq);
++
+ 	ret = hid_add_device(hid);
+ 	if (ret) {
+ 		if (ret != -ENODEV)
+ 			hid_err(client, "can't add hid device: %d\n", ret);
+-		goto err;
++		disable_irq(client->irq);
++		return ret;
+ 	}
+ 
+ 	return 0;
 +}
 +
-+static int mcp_get_direction(struct gpio_chip *gc, unsigned int gpio_nr)
-+{
-+	struct mcp2200 *mcp = gpiochip_get_data(gc);
-+
-+	return (mcp->gpio_dir & (MCP2200_DIR_IN << gpio_nr))
-+		? GPIO_LINE_DIRECTION_IN : GPIO_LINE_DIRECTION_OUT;
-+}
-+
-+static int mcp_set_direction(struct gpio_chip *gc, unsigned int gpio_nr,
-+			     enum MCP_IO_DIR io_direction)
-+{
-+	struct mcp2200 *mcp = gpiochip_get_data(gc);
-+	struct mcp_configure *conf;
-+	int status;
-+	/* after the configure cmd we will need to set the outputs again */
-+	unsigned long mask = ~(mcp->gpio_dir); /* only set outputs */
-+	unsigned long bits = mcp->gpio_val;
-+	/* Offsets of alternative pins in config_alt_pins, 0 is not used */
-+	u8 alt_pin_conf[8] = {SSPND, USBCFG, 0, 0, 0, 0, RXLED, TXLED};
-+	u8 config_alt_pins = mcp->config_alt_pins;
-+
-+	/* Read in the reset baudrate first, we need it later */
-+	status = mcp_cmd_read_all(mcp);
-+	if (status != 0)
-+		return status;
-+
-+	mutex_lock(&mcp->lock);
-+	conf = (struct mcp_configure  *) mcp->hid_report;
-+
-+	/* configure will reset the chip! */
-+	conf->cmd = CONFIGURE;
-+	conf->io_bmap = (mcp->gpio_dir & ~(1 << gpio_nr))
-+		| (io_direction << gpio_nr);
-+	/* Don't overwrite the reset parameters */
-+	conf->baud_h = mcp->baud_h;
-+	conf->baud_l = mcp->baud_l;
-+	conf->config_alt_options = mcp->config_alt_options;
-+	conf->io_default_val_bmap = mcp->gpio_reset_val;
-+	/* Adjust alt. func if necessary */
-+	if (alt_pin_conf[gpio_nr])
-+		config_alt_pins &= ~(1 << alt_pin_conf[gpio_nr]);
-+	conf->config_alt_pins = config_alt_pins;
-+
-+	status = hid_hw_output_report(mcp->hdev, (u8 *) conf,
-+				      sizeof(struct mcp_set_clear_outputs));
-+
-+	if (status == sizeof(struct mcp_set_clear_outputs)) {
-+		mcp->gpio_dir = conf->io_bmap;
-+		mcp->config_alt_pins = config_alt_pins;
-+	} else {
-+		mutex_unlock(&mcp->lock);
-+		return -EIO;
-+	}
-+
-+	mutex_unlock(&mcp->lock);
-+
-+	/* Configure CMD will clear all IOs -> rewrite them */
-+	mcp_set_multiple(gc, &mask, &bits);
-+	return 0;
-+}
-+
-+static int mcp_direction_input(struct gpio_chip *gc, unsigned int gpio_nr)
-+{
-+	return mcp_set_direction(gc, gpio_nr, MCP2200_DIR_IN);
-+}
-+
-+static int mcp_direction_output(struct gpio_chip *gc, unsigned int gpio_nr,
-+				int value)
++static int i2c_hid_core_probe_panel_follower(struct i2c_hid *ihid)
 +{
 +	int ret;
-+	unsigned long mask, bmap_value;
-+
-+	mask = 1 << gpio_nr;
-+	bmap_value = value << gpio_nr;
-+
-+	ret = mcp_set_direction(gc, gpio_nr, MCP2200_DIR_OUT);
-+	if (!ret)
-+		mcp_set_multiple(gc, &mask, &bmap_value);
-+	return ret;
-+}
-+
-+static const struct gpio_chip template_chip = {
-+	.label			= "mcp2200",
-+	.owner			= THIS_MODULE,
-+	.get_direction		= mcp_get_direction,
-+	.direction_input	= mcp_direction_input,
-+	.direction_output	= mcp_direction_output,
-+	.set			= mcp_set,
-+	.set_multiple		= mcp_set_multiple,
-+	.get			= mcp_get,
-+	.get_multiple		= mcp_get_multiple,
-+	.base			= -1,
-+	.ngpio			= MCP_NGPIO,
-+	.can_sleep		= true,
-+};
-+
-+/*
-+ * MCP2200 uses interrupt endpoint for input reports. This function
-+ * is called by HID layer when it receives i/p report from mcp2200,
-+ * which is actually a response to the previously sent command.
-+ */
-+static int mcp2200_raw_event(struct hid_device *hdev, struct hid_report *report,
-+		u8 *data, int size)
-+{
-+	struct mcp2200 *mcp = hid_get_drvdata(hdev);
-+	struct mcp_read_all_resp *all_resp;
-+
-+	switch (data[0]) {
-+	case READ_ALL:
-+		all_resp = (struct mcp_read_all_resp *) data;
-+		mcp->status = 0;
-+		mcp->gpio_inval = all_resp->io_port_val_bmap;
-+		mcp->baud_h = all_resp->baud_h;
-+		mcp->baud_l = all_resp->baud_l;
-+		mcp->gpio_reset_val = all_resp->io_default_val_bmap;
-+		mcp->config_alt_pins = all_resp->config_alt_pins;
-+		mcp->config_alt_options = all_resp->config_alt_options;
-+		break;
-+	default:
-+		mcp->status = -EIO;
-+		break;
-+	}
-+
-+	complete(&mcp->wait_in_report);
-+	return 0;
-+}
-+
-+static int mcp2200_probe(struct hid_device *hdev, const struct hid_device_id *id)
-+{
-+	int ret;
-+	struct mcp2200 *mcp;
-+
-+	mcp = devm_kzalloc(&hdev->dev, sizeof(*mcp), GFP_KERNEL);
-+	if (!mcp)
-+		return -ENOMEM;
-+
-+	ret = hid_parse(hdev);
-+	if (ret) {
-+		hid_err(hdev, "can't parse reports\n");
+ 
+-err:
++	ret = i2c_hid_core_power_up(ihid);
++	if (ret)
 +		return ret;
-+	}
 +
-+	ret = hid_hw_start(hdev, 0);
-+	if (ret) {
-+		hid_err(hdev, "can't start hardware\n");
-+		return ret;
-+	}
++	ret = __i2c_hid_core_probe(ihid);
++	if (ret)
++		goto err_power_down;
 +
-+	hid_info(hdev, "USB HID v%x.%02x Device [%s] on %s\n", hdev->version >> 8,
-+			hdev->version & 0xff, hdev->name, hdev->phys);
-+
-+	ret = hid_hw_open(hdev);
-+	if (ret) {
-+		hid_err(hdev, "can't open device\n");
-+		hid_hw_stop(hdev);
-+		return ret;
-+	}
-+
-+	mutex_init(&mcp->lock);
-+	init_completion(&mcp->wait_in_report);
-+	hid_set_drvdata(hdev, mcp);
-+	mcp->hdev = hdev;
-+
-+	mcp->gc = template_chip;
-+	mcp->gc.parent = &hdev->dev;
-+
-+	ret = devm_gpiochip_add_data(&hdev->dev, &mcp->gc, mcp);
-+	if (ret < 0) {
-+		hid_err(hdev, "Unable to register gpiochip\n");
-+		return ret;
-+	}
++	ret = i2c_hid_core_register_hid(ihid);
++	if (ret)
++		goto err_power_down;
 +
 +	return 0;
-+}
 +
-+static void mcp2200_remove(struct hid_device *hdev)
-+{
-+	hid_hw_close(hdev);
-+	hid_hw_stop(hdev);
-+}
++err_power_down:
+ 	i2c_hid_core_power_down(ihid);
 +
-+static const struct hid_device_id mcp2200_devices[] = {
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_MICROCHIP, USB_DEVICE_ID_MCP2200) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(hid, mcp2200_devices);
+ 	return ret;
+ }
+ 
+@@ -1077,7 +1093,7 @@ static void ihid_core_panel_prepare_work(struct work_struct *work)
+ 	 * steps.
+ 	 */
+ 	if (!hid->version)
+-		ret = __do_i2c_hid_core_initial_power_up(ihid);
++		ret = i2c_hid_core_probe_panel_follower(ihid);
+ 	else
+ 		ret = i2c_hid_core_resume(ihid);
+ 
+@@ -1156,30 +1172,6 @@ static int i2c_hid_core_register_panel_follower(struct i2c_hid *ihid)
+ 	return 0;
+ }
+ 
+-static int i2c_hid_core_initial_power_up(struct i2c_hid *ihid)
+-{
+-	/*
+-	 * If we're a panel follower, we'll register and do our initial power
+-	 * up when the panel turns on; otherwise we do it right away.
+-	 */
+-	if (drm_is_panel_follower(&ihid->client->dev))
+-		return i2c_hid_core_register_panel_follower(ihid);
+-	else
+-		return __do_i2c_hid_core_initial_power_up(ihid);
+-}
+-
+-static void i2c_hid_core_final_power_down(struct i2c_hid *ihid)
+-{
+-	/*
+-	 * If we're a follower, the act of unfollowing will cause us to be
+-	 * powered down. Otherwise we need to manually do it.
+-	 */
+-	if (ihid->is_panel_follower)
+-		drm_panel_remove_follower(&ihid->panel_follower);
+-	else
+-		i2c_hid_core_suspend(ihid, true);
+-}
+-
+ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+ 		       u16 hid_descriptor_address, u32 quirks)
+ {
+@@ -1224,14 +1216,10 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+ 		return ret;
+ 	device_enable_async_suspend(&client->dev);
+ 
+-	ret = i2c_hid_init_irq(client);
+-	if (ret < 0)
+-		goto err_buffers_allocated;
+-
+ 	hid = hid_allocate_device();
+ 	if (IS_ERR(hid)) {
+ 		ret = PTR_ERR(hid);
+-		goto err_irq;
++		goto err_free_buffers;
+ 	}
+ 
+ 	ihid->hid = hid;
+@@ -1242,19 +1230,42 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+ 	hid->bus = BUS_I2C;
+ 	hid->initial_quirks = quirks;
+ 
+-	ret = i2c_hid_core_initial_power_up(ihid);
++	/* Power on and probe unless device is a panel follower. */
++	if (!drm_is_panel_follower(&ihid->client->dev)) {
++		ret = i2c_hid_core_power_up(ihid);
++		if (ret < 0)
++			goto err_destroy_device;
 +
-+static struct hid_driver mcp2200_driver = {
-+	.name		= "mcp2200",
-+	.id_table	= mcp2200_devices,
-+	.probe		= mcp2200_probe,
-+	.remove		= mcp2200_remove,
-+	.raw_event	= mcp2200_raw_event,
-+};
++		ret = __i2c_hid_core_probe(ihid);
++		if (ret < 0)
++			goto err_power_down;
++	}
 +
-+/* Register with HID core */
-+module_hid_driver(mcp2200_driver);
++	ret = i2c_hid_init_irq(client);
++	if (ret < 0)
++		goto err_power_down;
 +
-+MODULE_AUTHOR("Johannes Roith <johannes@gnu-linux.rocks>");
-+MODULE_DESCRIPTION("MCP2200 Microchip HID USB to GPIO bridge");
-+MODULE_LICENSE("GPL");
++	/*
++	 * If we're a panel follower, we'll register when the panel turns on;
++	 * otherwise we do it right away.
++	 */
++	if (drm_is_panel_follower(&ihid->client->dev))
++		ret = i2c_hid_core_register_panel_follower(ihid);
++	else
++		ret = i2c_hid_core_register_hid(ihid);
+ 	if (ret)
+-		goto err_mem_free;
++		goto err_free_irq;
+ 
+ 	return 0;
+ 
+-err_mem_free:
+-	hid_destroy_device(hid);
+-
+-err_irq:
++err_free_irq:
+ 	free_irq(client->irq, ihid);
+-
+-err_buffers_allocated:
++err_power_down:
++	if (!drm_is_panel_follower(&ihid->client->dev))
++		i2c_hid_core_power_down(ihid);
++err_destroy_device:
++	hid_destroy_device(hid);
++err_free_buffers:
+ 	i2c_hid_free_buffers(ihid);
+ 
+ 	return ret;
+@@ -1266,7 +1277,14 @@ void i2c_hid_core_remove(struct i2c_client *client)
+ 	struct i2c_hid *ihid = i2c_get_clientdata(client);
+ 	struct hid_device *hid;
+ 
+-	i2c_hid_core_final_power_down(ihid);
++	/*
++	 * If we're a follower, the act of unfollowing will cause us to be
++	 * powered down. Otherwise we need to manually do it.
++	 */
++	if (ihid->is_panel_follower)
++		drm_panel_remove_follower(&ihid->panel_follower);
++	else
++		i2c_hid_core_suspend(ihid, true);
+ 
+ 	hid = ihid->hid;
+ 	hid_destroy_device(hid);
 -- 
-2.42.0
+2.41.0
 
