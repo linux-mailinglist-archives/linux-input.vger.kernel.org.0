@@ -2,53 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C0DE7A502C
-	for <lists+linux-input@lfdr.de>; Mon, 18 Sep 2023 19:00:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F0347A50E6
+	for <lists+linux-input@lfdr.de>; Mon, 18 Sep 2023 19:25:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231459AbjIRRA4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 18 Sep 2023 13:00:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39606 "EHLO
+        id S230052AbjIRRZH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 18 Sep 2023 13:25:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231414AbjIRRAn (ORCPT
+        with ESMTP id S230081AbjIRRZG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 18 Sep 2023 13:00:43 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E92273C05;
-        Mon, 18 Sep 2023 09:35:43 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51EBCC433CB;
-        Mon, 18 Sep 2023 16:35:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695054943;
-        bh=uBg0YwMFSNtf20J3F2FF6kMJ6k/t9J1KNWcs8W4I5o8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uZqcUn6fqIsV6acXBorvM40I2y5nOoXsq0RstNC6b8rLOvTTmZBRCxdxrRneA4nug
-         qrySrpUfmmF0o6+yQs/rPDHvLErLg/yNAry1Q8UpU1sOb0YaGkQEelADBYf5GuvC6V
-         owQBZb1B6n2e+zYUOuQw3dr6vbhJcUrXwnKmUg1cvYY6660cKT187dlK7gCqUNaWrE
-         QrPMrjhZ4vAtMq0hgRrITikTir9iJzq3mi+uQpIGmjypRgaGU2wudVl5ONVPO5Kp2z
-         7rGviHjMrbrKG/2/4WBFUJmyEcf4B2wExJbq+n9DzUinmta3N2gUGzz4e/KhfW8Me3
-         ijL9OWQIs94Sg==
-Received: from johan by xi.lan with local (Exim 4.96)
-        (envelope-from <johan+linaro@kernel.org>)
-        id 1qiHE2-0002xw-2i;
-        Mon, 18 Sep 2023 18:35:54 +0200
-From:   Johan Hovold <johan+linaro@kernel.org>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan+linaro@kernel.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH RESEND] HID: i2c-hid: fix handling of unpopulated devices
-Date:   Mon, 18 Sep 2023 18:35:35 +0200
-Message-ID: <20230918163535.11388-1-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <CAD=FV=Wfwvp-SbGrdO5VJcjG42njkApJPB7wnY-YYa1_-O0JWQ@mail.gmail.com>
-References: <CAD=FV=Wfwvp-SbGrdO5VJcjG42njkApJPB7wnY-YYa1_-O0JWQ@mail.gmail.com>
+        Mon, 18 Sep 2023 13:25:06 -0400
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FF1B11F
+        for <linux-input@vger.kernel.org>; Mon, 18 Sep 2023 10:24:59 -0700 (PDT)
+Received: by mail-io1-xd35.google.com with SMTP id ca18e2360f4ac-760dff4b701so60008339f.0
+        for <linux-input@vger.kernel.org>; Mon, 18 Sep 2023 10:24:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1695057899; x=1695662699; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XHmyNtZRGj+r/j/G7CbRibxxcZBx+UTQ5mP0xbLF240=;
+        b=IE5+O2n0ShLxXU829jR1cINfhvWeMXuKxxmgOV/xM08cpVvbixRLLIRlHA3MkMXHOZ
+         wj7od0nV265UlEfALm68RPTbDRACmwEQkalGfNRwgJRHjSjGyKeyeEjxXvibeeYrMW3l
+         WH4J0ztK3mkbcmYx9AyI8ATHKHtGrjxPCStlI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695057899; x=1695662699;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XHmyNtZRGj+r/j/G7CbRibxxcZBx+UTQ5mP0xbLF240=;
+        b=svf6KzTQd34f2ONqMHVl/bkitgaw3hgkHcTSWEENrJuCcUXrqryvEogpJ8UrjCYX1X
+         LGfp7hsEleStZPibU9qYzHIm+ECERGAAUcrREH9SBImr6FFeDSmxSJ3fA1STDDZoyHgW
+         E1TdzobRyGuMlKGMhIJzjBhyQd5khlCY1EufhGZFfPcRHEdjaVs8EEYhjwL/pDcQibNi
+         7fUMFRDxDtmEz+GecjxnOTva88rMbEJlTGmviB8bGBi5QE6GChRNrZYl1kM4n7gVc5Uc
+         9VsfMRwhj6JVlnCnCtP/l3lrQEu0uWON0khvHQpIqEEJWHRUlqvX6ekz8eRQ+jzX/Nn8
+         TWZg==
+X-Gm-Message-State: AOJu0YxEH1sB9bUuoq10eexBXz+uR1SOt1K8p2mablRsG31sFN2tPcrz
+        wsqo6rTfNAjm66YGL/SAtap0cg==
+X-Google-Smtp-Source: AGHT+IG8zSvNfr6+khcoHiE7xQDRSFBwUFrI6G55nMfl8DKpv4GXtM1aJNknfr8iPELEl9G5ZXABiw==
+X-Received: by 2002:a6b:3bce:0:b0:790:958e:a667 with SMTP id i197-20020a6b3bce000000b00790958ea667mr11136825ioa.2.1695057898872;
+        Mon, 18 Sep 2023 10:24:58 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id h15-20020a056602130f00b007911db1e6f4sm3056358iov.44.2023.09.18.10.24.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Sep 2023 10:24:58 -0700 (PDT)
+Message-ID: <2535d4a7-62fe-c9b2-3b86-cf418760087e@linuxfoundation.org>
+Date:   Mon, 18 Sep 2023 11:24:57 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v2 2/3] selftests/hid: do not manually call
+ headers_install
+Content-Language: en-US
+To:     Justin Stitt <justinstitt@google.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Shuah Khan <shuah@kernel.org>
+Cc:     Eduard Zingerman <eddyz87@gmail.com>, linux-input@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bpf@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20230908-kselftest-09-08-v2-0-0def978a4c1b@google.com>
+ <20230908-kselftest-09-08-v2-2-0def978a4c1b@google.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20230908-kselftest-09-08-v2-2-0def978a4c1b@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,272 +79,18 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-A recent commit reordered probe so that the interrupt line is now
-requested before making sure that the device exists.
+On 9/8/23 16:22, Justin Stitt wrote:
+> From: Benjamin Tissoires <bentiss@kernel.org>
+> 
+> "make headers" is a requirement before calling make on the selftests
+> dir, so we should not have to manually install those headers
+> 
+> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
 
-This breaks machines like the Lenovo ThinkPad X13s which rely on the
-HID driver to probe second-source devices and only register the variant
-that is actually populated. Specifically, the interrupt line may now
-already be (temporarily) claimed when doing asynchronous probing of the
-touchpad:
+Thank for making this change. Just check bpf continues to
+compile and run though.
 
-	genirq: Flags mismatch irq 191. 00082008 (hid-over-i2c) vs. 00082008 (hid-over-i2c)
-	i2c_hid_of 21-0015: Could not register for hid-over-i2c interrupt, irq = 191, ret = -16
-	i2c_hid_of: probe of 21-0015 failed with error -16
+Acked-by: Shuah Khan <skhan@linuxfoundation.org>
 
-Fix this by restoring the old behaviour of first making sure the device
-exists before requesting the interrupt line.
-
-Note that something like this should probably be implemented also for
-"panel followers", whose actual probe is currently effectively deferred
-until the DRM panel is probed (e.g. by powering down the device after
-making sure it exists and only then register it as a follower).
-
-Fixes: 675cd877c952 ("HID: i2c-hid: Rearrange probe() to power things up later")
-Cc: Douglas Anderson <dianders@chromium.org>
-Cc: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
----
-
-This one still hasn't shown up in lore so resending as a reply to Doug's
-reply for completeness.
-
-Johan
-
-
- drivers/hid/i2c-hid/i2c-hid-core.c | 142 ++++++++++++++++-------------
- 1 file changed, 80 insertions(+), 62 deletions(-)
-
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 9601c0605fd9..e66c058a4b00 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -998,45 +998,29 @@ static int i2c_hid_core_resume(struct i2c_hid *ihid)
- 	return hid_driver_reset_resume(hid);
- }
- 
--/**
-- * __do_i2c_hid_core_initial_power_up() - First time power up of the i2c-hid device.
-- * @ihid: The ihid object created during probe.
-- *
-- * This function is called at probe time.
-- *
-- * The initial power on is where we do some basic validation that the device
-- * exists, where we fetch the HID descriptor, and where we create the actual
-- * HID devices.
-- *
-- * Return: 0 or error code.
-+/*
-+ * Check that the device exists and parse the HID descriptor.
-  */
--static int __do_i2c_hid_core_initial_power_up(struct i2c_hid *ihid)
-+static int __i2c_hid_core_probe(struct i2c_hid *ihid)
- {
- 	struct i2c_client *client = ihid->client;
- 	struct hid_device *hid = ihid->hid;
- 	int ret;
- 
--	ret = i2c_hid_core_power_up(ihid);
--	if (ret)
--		return ret;
--
- 	/* Make sure there is something at this address */
- 	ret = i2c_smbus_read_byte(client);
- 	if (ret < 0) {
- 		i2c_hid_dbg(ihid, "nothing at this address: %d\n", ret);
--		ret = -ENXIO;
--		goto err;
-+		return -ENXIO;
- 	}
- 
- 	ret = i2c_hid_fetch_hid_descriptor(ihid);
- 	if (ret < 0) {
- 		dev_err(&client->dev,
- 			"Failed to fetch the HID Descriptor\n");
--		goto err;
-+		return ret;
- 	}
- 
--	enable_irq(client->irq);
--
- 	hid->version = le16_to_cpu(ihid->hdesc.bcdVersion);
- 	hid->vendor = le16_to_cpu(ihid->hdesc.wVendorID);
- 	hid->product = le16_to_cpu(ihid->hdesc.wProductID);
-@@ -1050,17 +1034,49 @@ static int __do_i2c_hid_core_initial_power_up(struct i2c_hid *ihid)
- 
- 	ihid->quirks = i2c_hid_lookup_quirk(hid->vendor, hid->product);
- 
-+	return 0;
-+}
-+
-+static int i2c_hid_core_register_hid(struct i2c_hid *ihid)
-+{
-+	struct i2c_client *client = ihid->client;
-+	struct hid_device *hid = ihid->hid;
-+	int ret;
-+
-+	enable_irq(client->irq);
-+
- 	ret = hid_add_device(hid);
- 	if (ret) {
- 		if (ret != -ENODEV)
- 			hid_err(client, "can't add hid device: %d\n", ret);
--		goto err;
-+		disable_irq(client->irq);
-+		return ret;
- 	}
- 
- 	return 0;
-+}
-+
-+static int i2c_hid_core_probe_panel_follower(struct i2c_hid *ihid)
-+{
-+	int ret;
- 
--err:
-+	ret = i2c_hid_core_power_up(ihid);
-+	if (ret)
-+		return ret;
-+
-+	ret = __i2c_hid_core_probe(ihid);
-+	if (ret)
-+		goto err_power_down;
-+
-+	ret = i2c_hid_core_register_hid(ihid);
-+	if (ret)
-+		goto err_power_down;
-+
-+	return 0;
-+
-+err_power_down:
- 	i2c_hid_core_power_down(ihid);
-+
- 	return ret;
- }
- 
-@@ -1077,7 +1093,7 @@ static void ihid_core_panel_prepare_work(struct work_struct *work)
- 	 * steps.
- 	 */
- 	if (!hid->version)
--		ret = __do_i2c_hid_core_initial_power_up(ihid);
-+		ret = i2c_hid_core_probe_panel_follower(ihid);
- 	else
- 		ret = i2c_hid_core_resume(ihid);
- 
-@@ -1156,30 +1172,6 @@ static int i2c_hid_core_register_panel_follower(struct i2c_hid *ihid)
- 	return 0;
- }
- 
--static int i2c_hid_core_initial_power_up(struct i2c_hid *ihid)
--{
--	/*
--	 * If we're a panel follower, we'll register and do our initial power
--	 * up when the panel turns on; otherwise we do it right away.
--	 */
--	if (drm_is_panel_follower(&ihid->client->dev))
--		return i2c_hid_core_register_panel_follower(ihid);
--	else
--		return __do_i2c_hid_core_initial_power_up(ihid);
--}
--
--static void i2c_hid_core_final_power_down(struct i2c_hid *ihid)
--{
--	/*
--	 * If we're a follower, the act of unfollowing will cause us to be
--	 * powered down. Otherwise we need to manually do it.
--	 */
--	if (ihid->is_panel_follower)
--		drm_panel_remove_follower(&ihid->panel_follower);
--	else
--		i2c_hid_core_suspend(ihid, true);
--}
--
- int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
- 		       u16 hid_descriptor_address, u32 quirks)
- {
-@@ -1224,14 +1216,10 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
- 		return ret;
- 	device_enable_async_suspend(&client->dev);
- 
--	ret = i2c_hid_init_irq(client);
--	if (ret < 0)
--		goto err_buffers_allocated;
--
- 	hid = hid_allocate_device();
- 	if (IS_ERR(hid)) {
- 		ret = PTR_ERR(hid);
--		goto err_irq;
-+		goto err_free_buffers;
- 	}
- 
- 	ihid->hid = hid;
-@@ -1242,19 +1230,42 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
- 	hid->bus = BUS_I2C;
- 	hid->initial_quirks = quirks;
- 
--	ret = i2c_hid_core_initial_power_up(ihid);
-+	/* Power on and probe unless device is a panel follower. */
-+	if (!drm_is_panel_follower(&ihid->client->dev)) {
-+		ret = i2c_hid_core_power_up(ihid);
-+		if (ret < 0)
-+			goto err_destroy_device;
-+
-+		ret = __i2c_hid_core_probe(ihid);
-+		if (ret < 0)
-+			goto err_power_down;
-+	}
-+
-+	ret = i2c_hid_init_irq(client);
-+	if (ret < 0)
-+		goto err_power_down;
-+
-+	/*
-+	 * If we're a panel follower, we'll register when the panel turns on;
-+	 * otherwise we do it right away.
-+	 */
-+	if (drm_is_panel_follower(&ihid->client->dev))
-+		ret = i2c_hid_core_register_panel_follower(ihid);
-+	else
-+		ret = i2c_hid_core_register_hid(ihid);
- 	if (ret)
--		goto err_mem_free;
-+		goto err_free_irq;
- 
- 	return 0;
- 
--err_mem_free:
--	hid_destroy_device(hid);
--
--err_irq:
-+err_free_irq:
- 	free_irq(client->irq, ihid);
--
--err_buffers_allocated:
-+err_power_down:
-+	if (!drm_is_panel_follower(&ihid->client->dev))
-+		i2c_hid_core_power_down(ihid);
-+err_destroy_device:
-+	hid_destroy_device(hid);
-+err_free_buffers:
- 	i2c_hid_free_buffers(ihid);
- 
- 	return ret;
-@@ -1266,7 +1277,14 @@ void i2c_hid_core_remove(struct i2c_client *client)
- 	struct i2c_hid *ihid = i2c_get_clientdata(client);
- 	struct hid_device *hid;
- 
--	i2c_hid_core_final_power_down(ihid);
-+	/*
-+	 * If we're a follower, the act of unfollowing will cause us to be
-+	 * powered down. Otherwise we need to manually do it.
-+	 */
-+	if (ihid->is_panel_follower)
-+		drm_panel_remove_follower(&ihid->panel_follower);
-+	else
-+		i2c_hid_core_suspend(ihid, true);
- 
- 	hid = ihid->hid;
- 	hid_destroy_device(hid);
--- 
-2.41.0
-
+thanks,
+-- Shuah
