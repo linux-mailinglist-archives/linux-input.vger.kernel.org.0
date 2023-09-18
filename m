@@ -2,83 +2,202 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 819687A4EC5
-	for <lists+linux-input@lfdr.de>; Mon, 18 Sep 2023 18:26:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A558A7A4F8E
+	for <lists+linux-input@lfdr.de>; Mon, 18 Sep 2023 18:46:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229518AbjIRQ03 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 18 Sep 2023 12:26:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46492 "EHLO
+        id S230356AbjIRQqE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 18 Sep 2023 12:46:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229937AbjIRQJQ (ORCPT
+        with ESMTP id S230359AbjIRQpq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 18 Sep 2023 12:09:16 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A63D43C2A
-        for <linux-input@vger.kernel.org>; Mon, 18 Sep 2023 09:08:01 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3CA2C3278E;
-        Mon, 18 Sep 2023 14:48:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695048525;
-        bh=kxIm2dAp6sXu35y7g3gIJiifSayTM3RyGs7vGLhesX4=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=crgNw+5KMKjPtCq5ynownhEdXUKOP57AB9Z58m8Hekcx+KLzP8e/FKzW38NC7DwpZ
-         E3TyjhlPhiI/nPiP7CF7TrqYJ2V9056P7dzJ1oFd4HorYz/TOBVnjoR/SpUw9xKRuH
-         PGsqjlNKJrTaZLd9q5FOeeieO2cvigt5msLOj5fPwv+AjB82yTuaLOu2fJuEMheWwU
-         XyDrJXyFb8qOLZapimpU4z591YxN0/ynfV4FJRYnH1DQFaPYPWrAPLv/JAphin6xty
-         OMUCsHRKfs83bb6s8KkNoP5tekKc4v1mH2TbBykB7wH6t++AOIefpCY6FC6mCZGxzQ
-         jJ0ObCQIoHmWw==
-Date:   Mon, 18 Sep 2023 16:48:42 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-cc:     =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>,
-        Bastien Nocera <hadess@hadess.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] HID: logitech-hidpp: Add Bluetooth ID for the Logitech
- M720 Triathlon mouse
-In-Reply-To: <20230827222438.43717-1-hdegoede@redhat.com>
-Message-ID: <nycvar.YFH.7.76.2309181648370.14216@cbobk.fhfr.pm>
-References: <20230827222438.43717-1-hdegoede@redhat.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Mon, 18 Sep 2023 12:45:46 -0400
+X-Greylist: delayed 1452 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 18 Sep 2023 09:01:21 PDT
+Received: from out-219.mta1.migadu.com (out-219.mta1.migadu.com [IPv6:2001:41d0:203:375::db])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90BCE2D60
+        for <linux-input@vger.kernel.org>; Mon, 18 Sep 2023 09:01:21 -0700 (PDT)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=khvoinitsky.org;
+        s=key1; t=1695048674;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=dfRSoo3qIAJs9yRjFcRKTJjlagEPLA7cOh8uxaHtW9c=;
+        b=Q7EXapfhVZAriNnfVz4CsGwM0MUcqE4o7YL9j1zT/ndAInhOoM29DXTUubkGiS8j4n/fXS
+        HxnNCkC/i1BjFycWMVbQgbcepqqeaQzMqzQkWfp8c8g+XR+GZqm++MZx5LMsvPa40tn/ML
+        5/4aiYEUdWL3Nf5GQ0mHm7H51jA3KTo=
+From:   Mikhail Khvainitski <me@khvoinitsky.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mikhail Khvainitski <me@khvoinitsky.org>
+Subject: [PATCH] HID: lenovo: Add middleclick_workaround sysfs knob for cptkbd
+Date:   Mon, 18 Sep 2023 17:50:42 +0300
+Message-ID: <20230918145042.37368-1-me@khvoinitsky.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 28 Aug 2023, Hans de Goede wrote:
+Built-in firmware of cptkbd handles scrolling by itself (when middle
+button is pressed) but with issues: it does not support horizontal and
+hi-res scrolling and upon middle button release it sends middle button
+click even if there was a scrolling event. Commit 3cb5ff0220e3 ("HID:
+lenovo: Hide middle-button press until release") workarounds last
+issue but it's impossible to workaround scrolling-related issues
+without firmware modification.
 
-> Using hidpp for the M720 adds battery info reporting and hires
-> scrolling support.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/hid/hid-logitech-hidpp.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-> index 129b01be488d..3786fcc93da0 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -4640,6 +4640,8 @@ static const struct hid_device_id hidpp_devices[] = {
->  	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb008) },
->  	{ /* MX Master mouse over Bluetooth */
->  	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb012) },
-> +	{ /* M720 Triathlon mouse over Bluetooth */
-> +	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb015) },
->  	{ /* MX Ergo trackball over Bluetooth */
->  	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01d) },
->  	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01e) },
+Likely, Dennis Schneider has reverse engineered the firmware and
+provided an instruction on how to patch it [1]. However,
+aforementioned workaround prevents userspace (libinput) from knowing
+exact moment when middle button has been pressed down and performing
+"On-Button scrolling". This commit makes it possible to disable this
+workaround by sysfs knob.
 
-Applied, thanks.
+Link: https://hohlerde.org/rauch/en/elektronik/projekte/tpkbd-fix/ [1]
 
+Signed-off-by: Mikhail Khvainitski <me@khvoinitsky.org>
+---
+ drivers/hid/hid-lenovo.c | 84 +++++++++++++++++++++++++++++-----------
+ 1 file changed, 62 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
+index 44763c0da444..8993fa1ce66a 100644
+--- a/drivers/hid/hid-lenovo.c
++++ b/drivers/hid/hid-lenovo.c
+@@ -53,6 +53,7 @@ struct lenovo_drvdata {
+ 	int press_speed;
+ 	u8 middlebutton_state; /* 0:Up, 1:Down (undecided), 2:Scrolling */
+ 	bool fn_lock;
++	bool middleclick_workaround_cptkbd;
+ };
+ 
+ #define map_key_clear(c) hid_map_usage_clear(hi, usage, bit, max, EV_KEY, (c))
+@@ -603,6 +604,36 @@ static ssize_t attr_sensitivity_store_cptkbd(struct device *dev,
+ 	return count;
+ }
+ 
++static ssize_t attr_middleclick_workaround_show_cptkbd(struct device *dev,
++		struct device_attribute *attr,
++		char *buf)
++{
++	struct hid_device *hdev = to_hid_device(dev);
++	struct lenovo_drvdata *cptkbd_data = hid_get_drvdata(hdev);
++
++	return snprintf(buf, PAGE_SIZE, "%u\n",
++		cptkbd_data->middleclick_workaround_cptkbd);
++}
++
++static ssize_t attr_middleclick_workaround_store_cptkbd(struct device *dev,
++		struct device_attribute *attr,
++		const char *buf,
++		size_t count)
++{
++	struct hid_device *hdev = to_hid_device(dev);
++	struct lenovo_drvdata *cptkbd_data = hid_get_drvdata(hdev);
++	int value;
++
++	if (kstrtoint(buf, 10, &value))
++		return -EINVAL;
++	if (value < 0 || value > 1)
++		return -EINVAL;
++
++	cptkbd_data->middleclick_workaround_cptkbd = !!value;
++
++	return count;
++}
++
+ 
+ static struct device_attribute dev_attr_fn_lock =
+ 	__ATTR(fn_lock, S_IWUSR | S_IRUGO,
+@@ -614,10 +645,16 @@ static struct device_attribute dev_attr_sensitivity_cptkbd =
+ 			attr_sensitivity_show_cptkbd,
+ 			attr_sensitivity_store_cptkbd);
+ 
++static struct device_attribute dev_attr_middleclick_workaround_cptkbd =
++	__ATTR(middleclick_workaround, S_IWUSR | S_IRUGO,
++			attr_middleclick_workaround_show_cptkbd,
++			attr_middleclick_workaround_store_cptkbd);
++
+ 
+ static struct attribute *lenovo_attributes_cptkbd[] = {
+ 	&dev_attr_fn_lock.attr,
+ 	&dev_attr_sensitivity_cptkbd.attr,
++	&dev_attr_middleclick_workaround_cptkbd.attr,
+ 	NULL
+ };
+ 
+@@ -668,31 +705,33 @@ static int lenovo_event_cptkbd(struct hid_device *hdev,
+ {
+ 	struct lenovo_drvdata *cptkbd_data = hid_get_drvdata(hdev);
+ 
+-	/* "wheel" scroll events */
+-	if (usage->type == EV_REL && (usage->code == REL_WHEEL ||
+-			usage->code == REL_HWHEEL)) {
+-		/* Scroll events disable middle-click event */
+-		cptkbd_data->middlebutton_state = 2;
+-		return 0;
+-	}
++	if (cptkbd_data->middleclick_workaround_cptkbd) {
++		/* "wheel" scroll events */
++		if (usage->type == EV_REL && (usage->code == REL_WHEEL ||
++				usage->code == REL_HWHEEL)) {
++			/* Scroll events disable middle-click event */
++			cptkbd_data->middlebutton_state = 2;
++			return 0;
++		}
+ 
+-	/* Middle click events */
+-	if (usage->type == EV_KEY && usage->code == BTN_MIDDLE) {
+-		if (value == 1) {
+-			cptkbd_data->middlebutton_state = 1;
+-		} else if (value == 0) {
+-			if (cptkbd_data->middlebutton_state == 1) {
+-				/* No scrolling inbetween, send middle-click */
+-				input_event(field->hidinput->input,
+-					EV_KEY, BTN_MIDDLE, 1);
+-				input_sync(field->hidinput->input);
+-				input_event(field->hidinput->input,
+-					EV_KEY, BTN_MIDDLE, 0);
+-				input_sync(field->hidinput->input);
++		/* Middle click events */
++		if (usage->type == EV_KEY && usage->code == BTN_MIDDLE) {
++			if (value == 1) {
++				cptkbd_data->middlebutton_state = 1;
++			} else if (value == 0) {
++				if (cptkbd_data->middlebutton_state == 1) {
++					/* No scrolling inbetween, send middle-click */
++					input_event(field->hidinput->input,
++						EV_KEY, BTN_MIDDLE, 1);
++					input_sync(field->hidinput->input);
++					input_event(field->hidinput->input,
++						EV_KEY, BTN_MIDDLE, 0);
++					input_sync(field->hidinput->input);
++				}
++				cptkbd_data->middlebutton_state = 0;
+ 			}
+-			cptkbd_data->middlebutton_state = 0;
++			return 1;
+ 		}
+-		return 1;
+ 	}
+ 
+ 	if (usage->type == EV_KEY && usage->code == KEY_FN_ESC && value == 1) {
+@@ -1146,6 +1185,7 @@ static int lenovo_probe_cptkbd(struct hid_device *hdev)
+ 	cptkbd_data->middlebutton_state = 0;
+ 	cptkbd_data->fn_lock = true;
+ 	cptkbd_data->sensitivity = 0x05;
++	cptkbd_data->middleclick_workaround_cptkbd = true;
+ 	lenovo_features_set_cptkbd(hdev);
+ 
+ 	ret = sysfs_create_group(&hdev->dev.kobj, &lenovo_attr_group_cptkbd);
 -- 
-Jiri Kosina
-SUSE Labs
+2.42.0
 
