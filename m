@@ -2,229 +2,513 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C69487A4C8D
-	for <lists+linux-input@lfdr.de>; Mon, 18 Sep 2023 17:36:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DD977A4C2B
+	for <lists+linux-input@lfdr.de>; Mon, 18 Sep 2023 17:27:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229530AbjIRPg3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 18 Sep 2023 11:36:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38268 "EHLO
+        id S229595AbjIRP1U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 18 Sep 2023 11:27:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbjIRPgL (ORCPT
+        with ESMTP id S230517AbjIRP1D (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 18 Sep 2023 11:36:11 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3DFD1981
-        for <linux-input@vger.kernel.org>; Mon, 18 Sep 2023 08:31:56 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-404732a0700so46883735e9.0
-        for <linux-input@vger.kernel.org>; Mon, 18 Sep 2023 08:31:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695050915; x=1695655715; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RuVncYfyknrhNj8AwebunR5CYwD24eRmeOt3k3Ppp84=;
-        b=mxliXYd4VtEu5Yjfa+8tXUSUhgUYx9/tum8Ir1TIDu+xwaYHrKlFws1nI2V/iu8/jF
-         SovZBGgMlbrpq8dCDgDGHuug6gWococKSWGQxWSwhBO4+BHy9cM1vxUm2nSDx703dU3D
-         yPCgJfNT76QjDhI9GbBr4A+mjERPuGF4X3mBo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695050915; x=1695655715;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RuVncYfyknrhNj8AwebunR5CYwD24eRmeOt3k3Ppp84=;
-        b=QkfMmdeRrl+xCz1kDeB3Ayw+TTgl+QiYK9eUMeexZMPzqqjL7XT1h/pkwvMzI2waI7
-         c/ZPfhp4b6qae9uSS3RHzy1zMEdpteNxKi9va0KETpSde84+Mjt7/bK2oLdsV/99Ieut
-         tfSfk/KxSNO7QMMbp5cmhc3WIzRFBic162KLzCgZ+yLmP9sXbwCQLoLPOY2QHZnIF/RN
-         +OvaDedVOA1x2ce8bUlMy8NrupWGVXQEZbP1WnCdWDeZtQX120awEVgHEdJEuIxX5dY8
-         t63pI2rK7LhpIqmr97p/ZjF5GLYQ0C5HntRJ+FB7Ty//SgtWxFhCvZvo26BWETWNNLpu
-         LbAA==
-X-Gm-Message-State: AOJu0Yzm1Vc1n5cFP85tBnGosMVTBcZPsljbhrJLwCFubli5QIgJOaIV
-        WC5PKGAfIjqAzJazMCBJptVKx6uXBmPz4Zeb364t2Q==
-X-Google-Smtp-Source: AGHT+IEHQaDLaVmaPL06ut+3GeYg5ahAFtr//Wk0BDMxfQQ9WEK79KgXINitf6xGLqnBzPyGe6uhCg==
-X-Received: by 2002:a17:907:7751:b0:9ad:891a:25a8 with SMTP id kx17-20020a170907775100b009ad891a25a8mr7786106ejc.52.1695049233976;
-        Mon, 18 Sep 2023 08:00:33 -0700 (PDT)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com. [209.85.128.51])
-        by smtp.gmail.com with ESMTPSA id cf20-20020a170906b2d400b0099bd453357esm6542666ejb.41.2023.09.18.08.00.33
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Sep 2023 08:00:33 -0700 (PDT)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4047c6ec21dso112595e9.0
-        for <linux-input@vger.kernel.org>; Mon, 18 Sep 2023 08:00:33 -0700 (PDT)
-X-Received: by 2002:a05:600c:3b8b:b0:404:7462:1f87 with SMTP id
- n11-20020a05600c3b8b00b0040474621f87mr191074wms.6.1695049231656; Mon, 18 Sep
- 2023 08:00:31 -0700 (PDT)
+        Mon, 18 Sep 2023 11:27:03 -0400
+Received: from mail.gnu-linux.rocks (unknown [82.165.184.165])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07A17CD4;
+        Mon, 18 Sep 2023 08:24:15 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5bfa5d.dynamic.kabel-deutschland.de [95.91.250.93])
+        by mail.gnu-linux.rocks (Postfix) with ESMTPSA id B72653FF05;
+        Mon, 18 Sep 2023 15:14:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnu-linux.rocks;
+        s=mail; t=1695050091;
+        bh=v/1AcFnoXcxol0S7Cx2Jzc3hL5yzSNtKaoXf6GM39Ms=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=JA+wOHSZhOzo3mFh8kJBU4nfeKMwr76hmJgmDzUGHpZNQlUFPwrriAEN6REqtcFjL
+         +U/skQXHD1D/6JSGzR2VPS53tUBO2k//APrOjpFMa43hZcQ4fKN7w0nA6hlWQJbpoR
+         EQbeGcdasROTk9Onk+UUO3gbopBOad1gMDiEVykuCNJSDb5A1lqvMNkopevUhphk6m
+         BVaifdALLJpEoEUnB03ljZAT2knzCUVlsoQUbeFfZS2PtMKb74RifAb98npv6QIBFN
+         wlI7COmTv8l9gJaqpPWluq7nQukQoqYsaDtTUy280kqT76H14PykSPAvKr8p2d7TT3
+         9hJXOldWtcQug==
+From:   Johannes Roith <johannes@gnu-linux.rocks>
+To:     sergeantsagara@protonmail.com
+Cc:     andi.shyti@kernel.org, benjamin.tissoires@redhat.com,
+        christophe.jaillet@wanadoo.fr, jikos@kernel.org,
+        johannes@gnu-linux.rocks, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rdunlap@infradead.org
+Subject: [PATCH v6] HID: mcp2200: added driver for GPIOs of MCP2200
+Date:   Mon, 18 Sep 2023 17:14:38 +0200
+Message-ID: <20230918151438.562284-1-johannes@gnu-linux.rocks>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <87ledpvhgm.fsf@protonmail.com>
+References: <87ledpvhgm.fsf@protonmail.com>
 MIME-Version: 1.0
-References: <20230918125851.310-1-johan+linaro@kernel.org>
-In-Reply-To: <20230918125851.310-1-johan+linaro@kernel.org>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Mon, 18 Sep 2023 08:00:15 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Wfwvp-SbGrdO5VJcjG42njkApJPB7wnY-YYa1_-O0JWQ@mail.gmail.com>
-Message-ID: <CAD=FV=Wfwvp-SbGrdO5VJcjG42njkApJPB7wnY-YYa1_-O0JWQ@mail.gmail.com>
-Subject: Re: [PATCH] HID: i2c-hid: fix handling of unpopulated devices
-To:     Johan Hovold <johan+linaro@kernel.org>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Maxime Ripard <mripard@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        LinusW <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Added a gpiochip compatible driver to control the 8 GPIOs of
+the MCP2200 by using the HID interface.
 
-On Mon, Sep 18, 2023 at 6:00=E2=80=AFAM Johan Hovold <johan+linaro@kernel.o=
-rg> wrote:
->
-> A recent commit reordered probe so that the interrupt line is now
-> requested before making sure that the device exists.
->
-> This breaks machines like the Lenovo ThinkPad X13s which rely on the
-> HID driver to probe second-source devices and only register the variant
-> that is actually populated. Specifically, the interrupt line may now
-> already be (temporarily) claimed when doing asynchronous probing of the
-> touchpad:
->
->         genirq: Flags mismatch irq 191. 00082008 (hid-over-i2c) vs. 00082=
-008 (hid-over-i2c)
->         i2c_hid_of 21-0015: Could not register for hid-over-i2c interrupt=
-, irq =3D 191, ret =3D -16
->         i2c_hid_of: probe of 21-0015 failed with error -16
->
-> Fix this by restoring the old behaviour of first making sure the device
-> exists before requesting the interrupt line.
->
-> Note that something like this should probably be implemented also for
-> "panel followers", whose actual probe is currently effectively deferred
-> until the DRM panel is probed (e.g. by powering down the device after
-> making sure it exists and only then register it as a follower).
->
-> Fixes: 675cd877c952 ("HID: i2c-hid: Rearrange probe() to power things up =
-later")
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> ---
->  drivers/hid/i2c-hid/i2c-hid-core.c | 142 ++++++++++++++++-------------
->  1 file changed, 80 insertions(+), 62 deletions(-)
+Using GPIOs with alternative functions (GP0<->SSPND, GP1<->USBCFG,
+GP6<->RXLED, GP7<->TXLED) will reset the functions, if set (unset by
+default).
 
-Ugh, sorry for the regression. :( It actually turns out that I've been
-digging into this same issue on a different device (see
-mt8173-elm-hana). I hadn't realized that it was a regression caused by
-my recent change, though.
+The driver was tested while also using the UART of the chip. Setting
+and reading the GPIOs has no effect on the UART communication. However,
+a reset is triggered after the CONFIGURE command. If the GPIO Direction
+is constantly changed, this will affect the communication at low baud
+rates. This is a hardware problem of the MCP2200 and is not caused by
+the driver.
 
-I haven't yet reviewed your change in detail, but to me it seems like
-at most a short term fix. Specifically, I think the way that this has
-been working has been partially via hacks and partially via luck. Let
-me explain...
+Signed-off-by: Johannes Roith <johannes@gnu-linux.rocks>
+---
+ drivers/hid/Kconfig       |   9 +
+ drivers/hid/Makefile      |   1 +
+ drivers/hid/hid-ids.h     |   1 +
+ drivers/hid/hid-mcp2200.c | 390 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 401 insertions(+)
+ create mode 100644 drivers/hid/hid-mcp2200.c
 
-Currently, to make this work the `sc8280xp-lenovo-thinkpad-x13s.dts`
-file has a hack in it. You can see that the `tpad_default` pinctrl
-entry has been moved up to the i2c bus level even though it doesn't
-belong there (it should be in each trackpad). This is because,
-otherwise, you would have run into similar type problems as the device
-core would have failed to claim the pin for one of the devices.
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 0cea301cc9a9..3c14644b593d 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -1298,6 +1298,15 @@ config HID_ALPS
+ 	Say Y here if you have a Alps touchpads over i2c-hid or usbhid
+ 	and want support for its special functionalities.
+ 
++config HID_MCP2200
++	tristate "Microchip MCP2200 HID USB-to-GPIO bridge"
++	depends on USB_HID && GPIOLIB
++	help
++	  Provides GPIO functionality over USB-HID through MCP2200 device.
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called hid-mcp2200.ko.
++
+ config HID_MCP2221
+ 	tristate "Microchip MCP2221 HID USB-to-I2C/SMbus host support"
+ 	depends on USB_HID && I2C
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index 8a06d0f840bc..082a728eac60 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -79,6 +79,7 @@ obj-$(CONFIG_HID_LOGITECH_HIDPP)	+= hid-logitech-hidpp.o
+ obj-$(CONFIG_HID_MACALLY)	+= hid-macally.o
+ obj-$(CONFIG_HID_MAGICMOUSE)	+= hid-magicmouse.o
+ obj-$(CONFIG_HID_MALTRON)	+= hid-maltron.o
++obj-$(CONFIG_HID_MCP2200)	+= hid-mcp2200.o
+ obj-$(CONFIG_HID_MCP2221)	+= hid-mcp2221.o
+ obj-$(CONFIG_HID_MAYFLASH)	+= hid-mf.o
+ obj-$(CONFIG_HID_MEGAWORLD_FF)	+= hid-megaworld.o
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 7e499992a793..bb87ad4eb2aa 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -915,6 +915,7 @@
+ #define USB_DEVICE_ID_PICK16F1454	0x0042
+ #define USB_DEVICE_ID_PICK16F1454_V2	0xf2f7
+ #define USB_DEVICE_ID_LUXAFOR		0xf372
++#define USB_DEVICE_ID_MCP2200		0x00df
+ #define USB_DEVICE_ID_MCP2221		0x00dd
+ 
+ #define USB_VENDOR_ID_MICROSOFT		0x045e
+diff --git a/drivers/hid/hid-mcp2200.c b/drivers/hid/hid-mcp2200.c
+new file mode 100644
+index 000000000000..477a3915d2f0
+--- /dev/null
++++ b/drivers/hid/hid-mcp2200.c
+@@ -0,0 +1,390 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * MCP2200 - Microchip USB to GPIO bridge
++ *
++ * Copyright (c) 2023, Johannes Roith <johannes@gnu-linux.rocks>
++ *
++ * Datasheet: https://ww1.microchip.com/downloads/en/DeviceDoc/22228A.pdf
++ * App Note for HID: https://ww1.microchip.com/downloads/en/DeviceDoc/93066A.pdf
++ */
++#include <linux/completion.h>
++#include <linux/delay.h>
++#include <linux/err.h>
++#include <linux/gpio/driver.h>
++#include <linux/hid.h>
++#include <linux/hidraw.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include "hid-ids.h"
++
++/* Commands codes in a raw output report */
++#define SET_CLEAR_OUTPUTS	0x08
++#define CONFIGURE		0x10
++#define READ_EE			0x20
++#define WRITE_EE		0x40
++#define READ_ALL		0x80
++
++/* MCP GPIO direction encoding */
++enum MCP_IO_DIR {
++	MCP2200_DIR_OUT = 0x00,
++	MCP2200_DIR_IN  = 0x01,
++};
++
++/* Altternative pin assignments */
++#define TXLED		2
++#define RXLED		3
++#define USBCFG		6
++#define SSPND		7
++#define MCP_NGPIO	8
++
++/* CMD to set or clear a GPIO output */
++struct mcp_set_clear_outputs {
++	u8 cmd;
++	u8 dummys1[10];
++	u8 set_bmap;
++	u8 clear_bmap;
++	u8 dummys2[3];
++} __packed;
++
++/* CMD to configure the IOs */
++struct mcp_configure {
++	u8 cmd;
++	u8 dummys1[3];
++	u8 io_bmap;
++	u8 config_alt_pins;
++	u8 io_default_val_bmap;
++	u8 config_alt_options;
++	u8 baud_h;
++	u8 baud_l;
++	u8 dummys2[6];
++} __packed;
++
++/* CMD to read all parameters */
++struct mcp_read_all {
++	u8 cmd;
++	u8 dummys[15];
++} __packed;
++
++/* Response to the read all cmd */
++struct mcp_read_all_resp {
++	u8 cmd;
++	u8 eep_addr;
++	u8 dummy;
++	u8 eep_val;
++	u8 io_bmap;
++	u8 config_alt_pins;
++	u8 io_default_val_bmap;
++	u8 config_alt_options;
++	u8 baud_h;
++	u8 baud_l;
++	u8 io_port_val_bmap;
++	u8 dummys[5];
++} __packed;
++
++struct mcp2200 {
++	struct hid_device *hdev;
++	struct mutex lock;
++	struct completion wait_in_report;
++	u8 gpio_dir;
++	u8 gpio_val;
++	u8 gpio_inval;
++	u8 baud_h;
++	u8 baud_l;
++	u8 config_alt_pins;
++	u8 gpio_reset_val;
++	u8 config_alt_options;
++	int status;
++	struct gpio_chip gc;
++	u8 hid_report[16];
++};
++
++/* this executes the READ_ALL cmd */
++static int mcp_cmd_read_all(struct mcp2200 *mcp)
++{
++	struct mcp_read_all *read_all;
++	int len, t;
++
++	reinit_completion(&mcp->wait_in_report);
++
++	mutex_lock(&mcp->lock);
++
++	read_all = (struct mcp_read_all *) mcp->hid_report;
++	read_all->cmd = READ_ALL;
++	len = hid_hw_output_report(mcp->hdev, (u8 *) read_all,
++				   sizeof(struct mcp_read_all));
++
++	mutex_unlock(&mcp->lock);
++
++	if (len != sizeof(struct mcp_read_all))
++		return -EINVAL;
++
++	t = wait_for_completion_timeout(&mcp->wait_in_report,
++					msecs_to_jiffies(4000));
++	if (!t)
++		return -ETIMEDOUT;
++
++	/* return status, negative value if wrong response was received */
++	return mcp->status;
++}
++
++static void mcp_set_multiple(struct gpio_chip *gc, unsigned long *mask,
++			     unsigned long *bits)
++{
++	struct mcp2200 *mcp = gpiochip_get_data(gc);
++	u8 value;
++	int status;
++	struct mcp_set_clear_outputs *cmd;
++
++	mutex_lock(&mcp->lock);
++	cmd = (struct mcp_set_clear_outputs *) mcp->hid_report;
++
++	value = mcp->gpio_val & ~*mask;
++	value |= (*mask & *bits);
++
++	cmd->cmd = SET_CLEAR_OUTPUTS;
++	cmd->set_bmap = value;
++	cmd->clear_bmap = ~(value);
++
++	status = hid_hw_output_report(mcp->hdev, (u8 *) cmd,
++		       sizeof(struct mcp_set_clear_outputs));
++
++	if (status == sizeof(struct mcp_set_clear_outputs))
++		mcp->gpio_val = value;
++
++	mutex_unlock(&mcp->lock);
++}
++
++static void mcp_set(struct gpio_chip *gc, unsigned int gpio_nr, int value)
++{
++	unsigned long mask = 1 << gpio_nr;
++	unsigned long bmap_value = value << gpio_nr;
++
++	mcp_set_multiple(gc, &mask, &bmap_value);
++}
++
++static int mcp_get_multiple(struct gpio_chip *gc, unsigned long *mask,
++		unsigned long *bits)
++{
++	u32 val;
++	struct mcp2200 *mcp = gpiochip_get_data(gc);
++	int status;
++
++	status = mcp_cmd_read_all(mcp);
++	if (status)
++		return status;
++
++	val = mcp->gpio_inval;
++	*bits = (val & *mask);
++	return 0;
++}
++
++static int mcp_get(struct gpio_chip *gc, unsigned int gpio_nr)
++{
++	unsigned long mask = 0, bits = 0;
++
++	mask = (1 << gpio_nr);
++	mcp_get_multiple(gc, &mask, &bits);
++	return bits > 0;
++}
++
++static int mcp_get_direction(struct gpio_chip *gc, unsigned int gpio_nr)
++{
++	struct mcp2200 *mcp = gpiochip_get_data(gc);
++
++	return (mcp->gpio_dir & (MCP2200_DIR_IN << gpio_nr))
++		? GPIO_LINE_DIRECTION_IN : GPIO_LINE_DIRECTION_OUT;
++}
++
++static int mcp_set_direction(struct gpio_chip *gc, unsigned int gpio_nr,
++			     enum MCP_IO_DIR io_direction)
++{
++	struct mcp2200 *mcp = gpiochip_get_data(gc);
++	struct mcp_configure *conf;
++	int status;
++	/* after the configure cmd we will need to set the outputs again */
++	unsigned long mask = ~(mcp->gpio_dir); /* only set outputs */
++	unsigned long bits = mcp->gpio_val;
++	/* Offsets of alternative pins in config_alt_pins, 0 is not used */
++	u8 alt_pin_conf[8] = {SSPND, USBCFG, 0, 0, 0, 0, RXLED, TXLED};
++	u8 config_alt_pins = mcp->config_alt_pins;
++
++	/* Read in the reset baudrate first, we need it later */
++	status = mcp_cmd_read_all(mcp);
++	if (status != 0)
++		return status;
++
++	mutex_lock(&mcp->lock);
++	conf = (struct mcp_configure  *) mcp->hid_report;
++
++	/* configure will reset the chip! */
++	conf->cmd = CONFIGURE;
++	conf->io_bmap = (mcp->gpio_dir & ~(1 << gpio_nr))
++		| (io_direction << gpio_nr);
++	/* Don't overwrite the reset parameters */
++	conf->baud_h = mcp->baud_h;
++	conf->baud_l = mcp->baud_l;
++	conf->config_alt_options = mcp->config_alt_options;
++	conf->io_default_val_bmap = mcp->gpio_reset_val;
++	/* Adjust alt. func if necessary */
++	if (alt_pin_conf[gpio_nr])
++		config_alt_pins &= ~(1 << alt_pin_conf[gpio_nr]);
++	conf->config_alt_pins = config_alt_pins;
++
++	status = hid_hw_output_report(mcp->hdev, (u8 *) conf,
++				      sizeof(struct mcp_set_clear_outputs));
++
++	if (status == sizeof(struct mcp_set_clear_outputs)) {
++		mcp->gpio_dir = conf->io_bmap;
++		mcp->config_alt_pins = config_alt_pins;
++	} else {
++		mutex_unlock(&mcp->lock);
++		return -EIO;
++	}
++
++	mutex_unlock(&mcp->lock);
++
++	/* Configure CMD will clear all IOs -> rewrite them */
++	mcp_set_multiple(gc, &mask, &bits);
++	return 0;
++}
++
++static int mcp_direction_input(struct gpio_chip *gc, unsigned int gpio_nr)
++{
++	return mcp_set_direction(gc, gpio_nr, MCP2200_DIR_IN);
++}
++
++static int mcp_direction_output(struct gpio_chip *gc, unsigned int gpio_nr,
++				int value)
++{
++	int ret;
++	unsigned long mask, bmap_value;
++
++	mask = 1 << gpio_nr;
++	bmap_value = value << gpio_nr;
++
++	ret = mcp_set_direction(gc, gpio_nr, MCP2200_DIR_OUT);
++	if (!ret)
++		mcp_set_multiple(gc, &mask, &bmap_value);
++	return ret;
++}
++
++static const struct gpio_chip template_chip = {
++	.label			= "mcp2200",
++	.owner			= THIS_MODULE,
++	.get_direction		= mcp_get_direction,
++	.direction_input	= mcp_direction_input,
++	.direction_output	= mcp_direction_output,
++	.set			= mcp_set,
++	.set_multiple		= mcp_set_multiple,
++	.get			= mcp_get,
++	.get_multiple		= mcp_get_multiple,
++	.base			= -1,
++	.ngpio			= MCP_NGPIO,
++	.can_sleep		= true,
++};
++
++/*
++ * MCP2200 uses interrupt endpoint for input reports. This function
++ * is called by HID layer when it receives i/p report from mcp2200,
++ * which is actually a response to the previously sent command.
++ */
++static int mcp2200_raw_event(struct hid_device *hdev, struct hid_report *report,
++		u8 *data, int size)
++{
++	struct mcp2200 *mcp = hid_get_drvdata(hdev);
++	struct mcp_read_all_resp *all_resp;
++
++	switch (data[0]) {
++	case READ_ALL:
++		all_resp = (struct mcp_read_all_resp *) data;
++		mcp->status = 0;
++		mcp->gpio_inval = all_resp->io_port_val_bmap;
++		mcp->baud_h = all_resp->baud_h;
++		mcp->baud_l = all_resp->baud_l;
++		mcp->gpio_reset_val = all_resp->io_default_val_bmap;
++		mcp->config_alt_pins = all_resp->config_alt_pins;
++		mcp->config_alt_options = all_resp->config_alt_options;
++		break;
++	default:
++		mcp->status = -EIO;
++		break;
++	}
++
++	complete(&mcp->wait_in_report);
++	return 0;
++}
++
++static int mcp2200_probe(struct hid_device *hdev, const struct hid_device_id *id)
++{
++	int ret;
++	struct mcp2200 *mcp;
++
++	mcp = devm_kzalloc(&hdev->dev, sizeof(*mcp), GFP_KERNEL);
++	if (!mcp)
++		return -ENOMEM;
++
++	ret = hid_parse(hdev);
++	if (ret) {
++		hid_err(hdev, "can't parse reports\n");
++		return ret;
++	}
++
++	ret = hid_hw_start(hdev, 0);
++	if (ret) {
++		hid_err(hdev, "can't start hardware\n");
++		return ret;
++	}
++
++	hid_info(hdev, "USB HID v%x.%02x Device [%s] on %s\n", hdev->version >> 8,
++			hdev->version & 0xff, hdev->name, hdev->phys);
++
++	ret = hid_hw_open(hdev);
++	if (ret) {
++		hid_err(hdev, "can't open device\n");
++		hid_hw_stop(hdev);
++		return ret;
++	}
++
++	mutex_init(&mcp->lock);
++	init_completion(&mcp->wait_in_report);
++	hid_set_drvdata(hdev, mcp);
++	mcp->hdev = hdev;
++
++	mcp->gc = template_chip;
++	mcp->gc.parent = &hdev->dev;
++
++	ret = devm_gpiochip_add_data(&hdev->dev, &mcp->gc, mcp);
++	if (ret < 0) {
++		hid_err(hdev, "Unable to register gpiochip\n");
++		return ret;
++	}
++
++	return 0;
++}
++
++static void mcp2200_remove(struct hid_device *hdev)
++{
++	hid_hw_close(hdev);
++	hid_hw_stop(hdev);
++}
++
++static const struct hid_device_id mcp2200_devices[] = {
++	{ HID_USB_DEVICE(USB_VENDOR_ID_MICROCHIP, USB_DEVICE_ID_MCP2200) },
++	{ }
++};
++MODULE_DEVICE_TABLE(hid, mcp2200_devices);
++
++static struct hid_driver mcp2200_driver = {
++	.name		= "mcp2200",
++	.id_table	= mcp2200_devices,
++	.probe		= mcp2200_probe,
++	.remove		= mcp2200_remove,
++	.raw_event	= mcp2200_raw_event,
++};
++
++/* Register with HID core */
++module_hid_driver(mcp2200_driver);
++
++MODULE_AUTHOR("Johannes Roith <johannes@gnu-linux.rocks>");
++MODULE_DESCRIPTION("MCP2200 Microchip HID USB to GPIO bridge");
++MODULE_LICENSE("GPL");
+-- 
+2.42.0
 
-Currently, we're getting a bit lucky with
-`sc8280xp-lenovo-thinkpad-x13s.dts` that there are no other shared
-resources between the two devices besides the interrupt. Specifically
-a number of trackpads / touchscreens also have a "reset" GPIO that
-needs to be power sequenced properly in order to talk to the
-touchscreen. In this case we'll be stuck again because both instances
-would need to grab the "reset" GPIO before being able to confirm if
-the device is there.
-
-This is an old problem. The first I remember running into it was back
-in 2015 on rk3288-veryron-minnie. We had a downstream hack to make
-this work with -EPROBE_DEFER. https://crrev.com/c/266224. By the time
-we shipped, though, we decided not to do the 2nd sourcing. After that
-I always NAKed HW designs like this, but I guess that didn't help with
-Mediatek hardware I wasn't involved with. :( ...and, of course, it
-didn't help with devices that aren't Chromebooks like the Thinkpad
-X13S.
-
-FWIW: as a short term solution, we ended up forcing synchronous probe
-in <https://crrev.com/c/4857566>. This has some pretty serious boot
-time implications, but it's also very simple.
-
-
-I'm actively working on coming up with a better solution here. My
-current thought is that that maybe we want to do:
-
-1. Undo the hack in the device tree and have each "2nd source" have
-its own pinctrl entry.
-
-2. In core pinctrl / device probing code detect the pinctrl conflict
-and only probe one of the devices at a time.
-
-...that sounds like a nice/elegant solution and I'm trying to make it
-work, though it does have some downsides. Namely:
-
-a) It requires "dts" changes to work. Namely we've got to undo the
-hack that pushed the pinctrl up to the controller level (or, in the
-case of mt8173-elm-hana, that just totally skipped the "pinctrl" entry
-altogether). Unfortunately those same "dts" changes will actually make
-things _worse_ if you don't have the code change. :(
-
-b) It only handles the case where the resources shared by 2nd sourcing
-are expressed by pinctrl. In a practical sense this seems to be most
-cases, but conceivably you could imagine running into this situation
-with a non-pin-related shared resource.
-
-c) To solve this in the core, we have to make sure we properly handle
-(without hanging/failing) multiple partially-conflicting devices and
-devices that might acquire resources in arbitrary orders.
-
-Though the above solution detecting the pinctrl conflicts sounds
-appealing and I'm currently working on prototyping it, I'm still not
-100% convinced. I'm worried about the above downsides.
-
-
-Personally, I feel like we could add information to the device tree
-that would help us out. The question is: is this an abuse of device
-tree for something that Linux ought to be able to figure out on its
-own, or is it OK? To make it concrete, I was thinking about something
-like this:
-
-/ {
-  tp_ex_group: trackpad-exclusion-group {
-    members =3D <&tp1>, <&tp2>, <&tp3>;
-  };
-};
-
-&i2c_bus {
-  tp1: trackpad@10 {
-    ...
-    mutual-exclusion-group =3D <&tp_ex_group>;
-  };
-  tp2: trackpad@20 {
-    ...
-    mutual-exclusion-group =3D <&tp_ex_group>;
-  };
-  tp3: trackpad@30 {
-    ...
-    mutual-exclusion-group =3D <&tp_ex_group>;
-  };
-};
-
-Then the device core would know not to probe devices in the same
-"mutual-exclusion-group" at the same time.
-
-If DT folks are OK with the "mutual-exclusion-group" idea then I'll
-probably backburner my attempt to make this work on the pinctrl level
-and go with that.
