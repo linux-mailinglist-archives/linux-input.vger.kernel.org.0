@@ -2,56 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B740D7A62F5
-	for <lists+linux-input@lfdr.de>; Tue, 19 Sep 2023 14:30:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6430D7A67B0
+	for <lists+linux-input@lfdr.de>; Tue, 19 Sep 2023 17:12:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231744AbjISMaW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Sep 2023 08:30:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49596 "EHLO
+        id S232542AbjISPMI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Sep 2023 11:12:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231913AbjISMaW (ORCPT
+        with ESMTP id S231866AbjISPMH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Sep 2023 08:30:22 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C23DDF2
-        for <linux-input@vger.kernel.org>; Tue, 19 Sep 2023 05:30:15 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1qiZrp-0006Vd-6f; Tue, 19 Sep 2023 14:30:13 +0200
-Received: from [2a0a:edc0:2:b01:1d::c0] (helo=ptx.whiteo.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1qiZrn-007S2V-TK; Tue, 19 Sep 2023 14:30:11 +0200
-Received: from mfe by ptx.whiteo.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1qiZrn-009cbD-Qd; Tue, 19 Sep 2023 14:30:11 +0200
-Date:   Tue, 19 Sep 2023 14:30:11 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Kamel Bouhara <kamel.bouhara@bootlin.com>
-Cc:     bartp@baasheep.co.uk, kernel@pengutronix.de,
-        bsp-development.geo@leica-geosystems.com,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-input@vger.kernel.org, pedro.torruella@touchnetix.com,
-        hannah.rossiter@touchnetix.com, mark.satterthwaite@touchnetix.com
-Subject: Re: [PATCH] Input: add driver for TouchNetix aXiom touchscreen
-Message-ID: <20230919123011.ywgtlmlj65xfhhkx@pengutronix.de>
-References: <20230908153203.122062-1-kamel.bouhara@bootlin.com>
- <20230908153203.122062-2-kamel.bouhara@bootlin.com>
- <20230918193833.kphbb5guk74aofcf@pengutronix.de>
+        Tue, 19 Sep 2023 11:12:07 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01859C6;
+        Tue, 19 Sep 2023 08:11:58 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D2A6C433C9;
+        Tue, 19 Sep 2023 15:11:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695136318;
+        bh=oQZE1gehH3m0aVjeQGpGI4UwdSKpfNlvVo6HbrBGos8=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=reXUN8Lm8OVwp1i9vVCCdg0A4xWglEaEmg5enV0gEccKgXxgpGgJGycPY0fPtD9B7
+         EbMZUIURD8pz5Sc1D9oLVMO/zRWGTapGT0nCXTAR4U4sbpRl72Gkm1Ua47gH2syuwj
+         yp+zAtUz3ECBZ02khlQ+Xs8MsTRrrrcgbiXXOr59t9JwZlIAEkSQRk/6aVsiSyp40I
+         zCermNUTlAmjX0M/tJ9jukn3nFG3vb1xA3em/zHCiRCHGrmMAKTCzocD+ZwIsijb87
+         PLdrrhhd0cMrMpI+vlshjMgj1bM4yJDJyO1nDe9ma58fzYnjaTkKfNoy3jObZW67RQ
+         R7w0hVRuC9TIA==
+From:   Lee Jones <lee@kernel.org>
+To:     devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        linux-arm-msm@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        linux-leds@vger.kernel.org,
+        Satya Priya <quic_c_skakit@quicinc.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230827132525.951475-3-dmitry.baryshkov@linaro.org>
+References: <20230827132525.951475-1-dmitry.baryshkov@linaro.org>
+ <20230827132525.951475-3-dmitry.baryshkov@linaro.org>
+Subject: Re: (subset) [PATCH v5 02/37] dt-bindings: mfd: qcom-pm8xxx: add
+ missing child nodes
+Message-Id: <169513631509.3259165.15493970676059884239.b4-ty@kernel.org>
+Date:   Tue, 19 Sep 2023 16:11:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230918193833.kphbb5guk74aofcf@pengutronix.de>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.2
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -60,141 +64,17 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Kamel,
+On Sun, 27 Aug 2023 16:24:50 +0300, Dmitry Baryshkov wrote:
+> Add gpio, keypad, led, mpps, pwrkey, vibrator and xoadc as possible
+> child nodes of qcom,pm8xxx, referencing existint schema files.
+> 
+> 
 
-On 23-09-18, Marco Felsch wrote:
-> On 23-09-08, Kamel Bouhara wrote:
-> > Add a new driver for the TouchNetix's aXiom family of
-> > multi-touch controller. This driver only support i2c
-> > and can be later adapted for SPI and USB support.
-> > 
-> > Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> > ---
-> >  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
-> >  MAINTAINERS                                   |   7 +
-> >  drivers/input/touchscreen/Kconfig             |  11 +
-> >  drivers/input/touchscreen/Makefile            |   1 +
-> >  drivers/input/touchscreen/axiom_core.c        | 382 ++++++++++++++++++
-> >  drivers/input/touchscreen/axiom_core.h        | 140 +++++++
-> >  drivers/input/touchscreen/axiom_i2c.c         | 349 ++++++++++++++++
-> >  7 files changed, 892 insertions(+)
-> >  create mode 100644 drivers/input/touchscreen/axiom_core.c
-> >  create mode 100644 drivers/input/touchscreen/axiom_core.h
-> >  create mode 100644 drivers/input/touchscreen/axiom_i2c.c
+Applied, thanks!
 
-...
+[02/37] dt-bindings: mfd: qcom-pm8xxx: add missing child nodes
+        commit: 2c09766cb133ee4d57d19f56c6a0035b0d9eb034
 
-> > +/* Enables the raw data for up to 4 force channels to be sent to the input subsystem */
-> > +#define U46_ENABLE_RAW_FORCE_DATA
-> > +
-> > +/**
-> > + * u31 has 2 pages for usage table entries.
-> > + * (2 * AX_COMMS_PAGE_SIZE) / U31_BYTES_PER_USAGE = 85
-> > + */
-> > +#define U31_MAX_USAGES		(85U)
-> > +#define U41_MAX_TARGETS		(10U)
-> > +#define U46_AUX_CHANNELS	(4U)
-> > +#define U46_AUX_MASK		(0xFFFU)
-> > +#define U31_BYTES_PER_USAGE	(6U)
-> > +#define USAGE_2DCTS_REPORT_ID	(0x41U)
-> > +#define USAGE_2AUX_REPORT_ID	(0x46U)
-> > +#define USAGE_2HB_REPORT_ID	(0x01U)
-> > +#define PROX_LEVEL		(-128)
-> > +#define AX_U31_PAGE0_LENGTH	(0x0C)
-> > +#define AX_COMMS_WRITE		(0x00U)
-> > +#define AX_COMMS_READ		(0x80U)
-> > +#define AX_COMMS_BYTES_MASK	(0xFFU)
-> > +
-> > +#define DEVINFO_USAGE_ID	0x31
-> > +#define REPORT_USAGE_ID		0x34
-> > +
-> > +#define REBASELINE_CMD		0x03
-> > +
-> > +#define COMMS_MAX_USAGE_PAGES	(3)
-> > +#define AX_COMMS_PAGE_SIZE	(256)
-> > +
-> > +#define COMMS_OVERFLOW_MSK	(0x80)
-> > +#define COMMS_REPORT_LEN_MSK	(0x7F)
-> 
-> The defines look not good, please use proper kernel coding style. Also
-> I'm not sure if we should follow the downstream solution here. Of course
-> there is this concept of usages, pages and offsets:
-> 
->                                     / reg0 (0x0)
->             /  page-0 (0x0)  -------+ reg1 (0x1)
->             |                       | ...
-> u(sage)31 --+  page-1 (0x1)         \ reg127 (0xff)
->             |
->             \  page-2 (0x2)
-> 
-> But in the end it is just a 16bit register and we can access is
-> partially. We only need to know the register, the len-bytes we have to
-> read/write and the reg-mask we may need to apply.
-> 
-> #define AXIOM_PAGE_MASK		GENMASK(15, 8)
-> #define AXIOM_PAGE_OFFSET_MASK	GENMASK(7, 0)
-> 
-> struct axiom_reg {
-> 	u16 reg;
-> 	u16 len;
-> 	u32 mask;
-> }
-> 
-> #define AXIOM_REG(_page, _offset_bytes, _len_bytes, _mask) {		\
-> 	.reg = FIELD_PREP(AXIOM_PAGE_MASK, _page) |	   		\
-> 	       FIELD_PREP(AXIOM_PAGE_OFFSET_MASK, _offset_bytes),	\
-> 	.len = _len_bytes,					   	\
-> 	.mask =_ mask,					   		\
-> }
-> 
-> enum axiom_reg_desc {
-> 	AXIOM_U31_DEVICE_ID,
-> 	AXIOM_U31_MODE,
-> 	AXIOM_U31_RUTNIME_FW_VARIANT,
-> 	AXIOM_U31_RUTNIME_FW_STATUS,
-> };
-> 
-> static struct axiom_reg axiom_reg[] = {
-> 	[AXIOM_U31_DEVICE_ID] = AXIOM_REG(0, 0, 2, GENMASK(14, 0)),
-> 	[AXIOM_U31_MODE] = AXIOM_REG(0, 1, 1, BIT(7)),
-> 	[AXIOM_U31_RUTNIME_FW_VARIANT] = AXIOM_REG(0, 4, 1, GENMASK(6, 0)),
-> 	[AXIOM_U31_RUTNIME_FW_STATUS] = AXIOM_REG(0, 4, 1, BIT(7)),
-> };
-> 
-> Of course this does not cover the event read case but all the other
-> cases and would simplify the decoding or just use the common pattern
-> like:
-> 
-> #define AXIOM_REG(page, offset)				\
-> 	(FIELD_PREP(AXIOM_PAGE_MASK, (page)) | 		\
-> 	 FIELD_PREP(AXIOM_PAGE_OFFSET_MASK, (offset)))
-> 
-> #define AXIOM_U31_DEVICE_ID_REG			AXIOM_REG(0, 0)
-> #define   AXIOM_U31_DEVICE_ID_MASK		GEMASK(14, 0)
-> 
-> #define AXIOM_U31_MODE_REG			AXIOM_REG(0, 1)
-> #define   AXIOM_U31_MODE_MASK			BIT(7)
-> 
-> #define AXIOM_U31_RUTNIME_FW_REG		AXIOM_REG(0, 4)
-> #define   AXIOM_U31_RUTNIME_FW_STATUS_MASK	BIT(7)
-> #define   AXIOM_U31_RUTNIME_FW_VARIANT_MASK	GENMASK(6, 0)
-> 
-> so in the end we can could use:
-> 
-> - axiom_read(priv, AXIOM_U31_DEVICE_ID) or
-> - axiom_read(priv, AXIOM_U31_DEVICE_ID_REG, 2);
+--
+Lee Jones [李琼斯]
 
-After getting a bit more into the details I saw that this can't be used
-as I suggested since a few commands require parameters and an
-i2c-stop/start cycle in between corrupt the command. So we really need
-to use AXIOM_Uxx pages/registers. For this I still suggest to not bang
-on buffers like:
-
-   bootloader_fw_ver_major = data[offset]
-   bootloader_fw_ver_minor = data[offset++]
-
-Instead we should add headers to access/prepare the data more
-user-friendly.
-
-Regards,
-  Marco
