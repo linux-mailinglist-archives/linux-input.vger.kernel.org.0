@@ -2,67 +2,127 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DEA7E7A69D8
-	for <lists+linux-input@lfdr.de>; Tue, 19 Sep 2023 19:46:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0D957A6A2F
+	for <lists+linux-input@lfdr.de>; Tue, 19 Sep 2023 19:51:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232270AbjISRqm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Sep 2023 13:46:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42706 "EHLO
+        id S232411AbjISRvA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Sep 2023 13:51:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232209AbjISRql (ORCPT
+        with ESMTP id S233004AbjISRuy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Sep 2023 13:46:41 -0400
-Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [185.244.194.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CC768F;
-        Tue, 19 Sep 2023 10:46:30 -0700 (PDT)
-Received: from relay01-mors.netcup.net (localhost [127.0.0.1])
-        by relay01-mors.netcup.net (Postfix) with ESMTPS id 4RqpxY6gJLz8vYk;
-        Tue, 19 Sep 2023 19:46:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zint.sh; s=key2;
-        t=1695145585; bh=IoDopC/FI0Xw8EhjdeXx3lkqipHTvqW2eqTVLHiaOTs=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=MzHvvI9eBXMIZWmg+tCAcbxZuAVznBOkFqzsgyH1TSCU61HOHyOF/mU7ZlFoCsvWM
-         0pCLXW2q3yVxuDqwAGg8nG0gYkuONS69gv0POr+FXcz89WB1hb7ng6tlTH6hiV3LY1
-         p+F7mozEWXcCCN0Ov3/vzHe0el0cC6QZ5jYZjSXhI3PTZVhVTaR/kki2JBznBE05E/
-         dvUTVSJltCM4JA7DIIIit75UMJf1/i2jyobPqEbQqbypgWhaNxUB2C8aqniyM+MfJ3
-         LaU0Y3ULdZRoA7CAuV5Na7XdNPUbsZZNTJMUkXBqhfpN7JFFVUQBq+Sgo07zw3qXYW
-         3ohMQRYj96vVQ==
-Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
-        by relay01-mors.netcup.net (Postfix) with ESMTPS id 4RqpxY5yk3z7wXm;
-        Tue, 19 Sep 2023 19:46:25 +0200 (CEST)
-Received: from mxe217.netcup.net (unknown [10.243.12.53])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by policy02-mors.netcup.net (Postfix) with ESMTPS id 4RqpxY1Qx7z8sZR;
-        Tue, 19 Sep 2023 19:46:25 +0200 (CEST)
-Received: from thinkpad (p5795fada.dip0.t-ipconnect.de [87.149.250.218])
-        by mxe217.netcup.net (Postfix) with ESMTPSA id 9D3D481CC0;
-        Tue, 19 Sep 2023 19:46:09 +0200 (CEST)
-Date:   Tue, 19 Sep 2023 19:46:09 +0200 (CEST)
-From:   Julius Zint <julius@zint.sh>
-To:     Hans de Goede <hdegoede@redhat.com>
-cc:     =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <thomas@t-8ch.de>,
-        Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v3 1/1] backlight: hid_bl: Add VESA VCP HID backlight
- driver
-In-Reply-To: <f95da7ff-06dd-2c0e-d563-7e5ad61c3bcc@redhat.com>
-Message-ID: <afed6395-8680-7e2c-d88c-8bb5f3c39346@zint.sh>
-References: <20230820094118.20521-1-julius@zint.sh> <20230820094118.20521-2-julius@zint.sh> <f2e1ab9e-e691-42e1-a600-42744f692922@t-8ch.de> <9a5364de-28e1-1d4a-1d3a-d6dcedb7e659@zint.sh> <f95da7ff-06dd-2c0e-d563-7e5ad61c3bcc@redhat.com>
+        Tue, 19 Sep 2023 13:50:54 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 796C8C9
+        for <linux-input@vger.kernel.org>; Tue, 19 Sep 2023 10:50:41 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qierE-0006Jj-CX; Tue, 19 Sep 2023 19:49:56 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qier4-007VVT-A1; Tue, 19 Sep 2023 19:49:46 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qier3-0034WI-Qd; Tue, 19 Sep 2023 19:49:45 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Jonathan Cameron <jic23@kernel.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        kernel@pengutronix.de, Linus Walleij <linus.walleij@linaro.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+        Jinjie Ruan <ruanjinjie@huawei.com>,
+        Rob Herring <robh@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Aidan MacDonald <aidanmacdonald.0x0@gmail.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Hartley Sweeten <hsweeten@visionengravers.com>,
+        Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        linux-samsung-soc@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andreas Klinger <ak@it-klinger.de>,
+        Cai Huoqing <cai.huoqing@linux.dev>,
+        Haibo Chen <haibo.chen@nxp.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        George Stark <gnstark@sberdevices.ru>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+        linux-amlogic@lists.infradead.org,
+        Saravanan Sekar <sravanhome@gmail.com>,
+        Jiakai Luo <jkluo@hust.edu.cn>,
+        Dongliang Mu <dzm91@hust.edu.cn>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        openbmc@lists.ozlabs.org, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        linux-arm-msm@vger.kernel.org, Marek Vasut <marek.vasut@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Olivier Moysan <olivier.moysan@foss.st.com>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        Zhang Shurong <zhang_shurong@foxmail.com>,
+        Yangtao Li <frank.li@vivo.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Sean Nyekjaer <sean@geanix.com>, Tom Rix <trix@redhat.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Mark Brown <broonie@kernel.org>,
+        Ido Schimmel <idosch@nvidia.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-sunxi@lists.linux.dev,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andreas Kemnade <andreas@kemnade.info>,
+        Peter Rosin <peda@axentia.se>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Kevin Tsai <ktsai@capellamicro.com>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        chrome-platform@lists.linux.dev
+Subject: [PATCH 00/49] iio: Convert to platform remove callback returning void
+Date:   Tue, 19 Sep 2023 19:48:42 +0200
+Message-Id: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="-1463806431-1318981254-1695145580=:112385"
-X-Rspamd-Queue-Id: 9D3D481CC0
-X-Rspamd-Server: rspamd-worker-8404
-X-NC-CID: rOoqEf3663s8YZEX+EphuZt68xJXACRwen9fb7xg
-X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_VALIDITY_RPBL,SPF_HELO_PASS,T_SPF_TEMPERROR autolearn=no
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8269; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=cuk3jxOiXgIUBikmjG+zsljm9zaWYjBmeiLtAd8rO9k=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCd7vIlP2VeriuGG1jpId5rgS1c3dyBe3FAkva bOz+Cms2ZmJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQne7wAKCRCPgPtYfRL+ TsaKCACYcNf6TucJIdrcTmQocW5rXVUHd8FGg6zjf77q9iaRUcrRyMgufZi9kHX8CoIc2VNzbsv Sde9oTXarxauVNSU2DTuCbLLiugw9ge4kE3wo0PdLHL9coUwmk305A07oPwBGaGcdefyG/pv0mS 7mgPmofLk6Td5oOSGwnSqH4xwnrUxuSzcFX4MpqRhtkP32Fzg+DnME4I4s2cGFXTFIqg/vAGlsa Uwoc2RCCeY71MmhjdOQIxaY3AhrFWMB+ykVE9omgDbWdXlwtJTMvje2RVVEzY+gNAnN8MTMBoE4 21HS4CQJwqcc/GDvaxBw4owlQCUlt+760qbqOvyBf33TGiQz
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,111 +130,164 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+this series converts all platform drivers below drivers/iio to use
+.remove_new(). The motivation is to get rid of an integer return code
+that is (mostly) ignored by the platform driver core and error prone on
+the driver side. As all platform drivers return zero unconditionally in their
+remove callback up to now, the conversions are "trivial".
 
----1463806431-1318981254-1695145580=:112385
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+See commit 5c5a7680e67b ("platform: Provide a remove callback that
+returns no value") for an extended explanation and the eventual goal.
+
+There are no interdependencies between the patches. As there are still
+quite a few drivers to convert, I'm happy about every patch that makes
+it in. So even if there is a merge conflict with one patch until you
+apply or I picked a wrong subject prefix, please apply the remainder of
+this series anyhow.
+
+Best regards
+Uwe
+
+Uwe Kleine-König (49):
+  iio: accel: hid-sensor-accel-3d: Convert to platform remove callback
+    returning void
+  iio: adc: ab8500-gpadc: Convert to platform remove callback returning
+    void
+  iio: adc: at91-sama5d2: Convert to platform remove callback returning
+    void
+  iio: adc: at91: Convert to platform remove callback returning void
+  iio: adc: axp20x: Convert to platform remove callback returning void
+  iio: adc: bcm_iproc: Convert to platform remove callback returning
+    void
+  iio: adc: dln2: Convert to platform remove callback returning void
+  iio: adc: ep93xx: Convert to platform remove callback returning void
+  iio: adc: exynos: Convert to platform remove callback returning void
+  iio: adc: fsl-imx25-gcq: Convert to platform remove callback returning
+    void
+  iio: adc: hx711: Convert to platform remove callback returning void
+  iio: adc: imx8qxp: Convert to platform remove callback returning void
+  iio: adc: imx93: Convert to platform remove callback returning void
+  iio: adc: meson_saradc: Convert to platform remove callback returning
+    void
+  iio: adc: mp2629: Convert to platform remove callback returning void
+  iio: adc: mxs-lradc: Convert to platform remove callback returning
+    void
+  iio: adc: npcm: Convert to platform remove callback returning void
+  iio: adc: qcom-pm8xxx-xoadc: Convert to platform remove callback
+    returning void
+  iio: adc: rcar-gyroadc: Convert to platform remove callback returning
+    void
+  iio: adc: stm32-adc-core: Convert to platform remove callback
+    returning void
+  iio: adc: stm32-adc: Convert to platform remove callback returning
+    void
+  iio: adc: stm32-dfsdm-adc: Convert to platform remove callback
+    returning void
+  iio: adc: stm32-dfsdm-core: Convert to platform remove callback
+    returning void
+  iio: adc: sun4i-gpadc-iio: Convert to platform remove callback
+    returning void
+  iio: adc: ti_am335x_adc: Convert to platform remove callback returning
+    void
+  iio: adc: twl4030-madc: Convert to platform remove callback returning
+    void
+  iio: adc: twl6030-gpadc: Convert to platform remove callback returning
+    void
+  iio: adc: vf610_adc: Convert to platform remove callback returning
+    void
+  iio: dac: dpot-dac: Convert to platform remove callback returning void
+  iio: dac: lpc18xx_dac: Convert to platform remove callback returning
+    void
+  iio: dac: stm32-dac-core: Convert to platform remove callback
+    returning void
+  iio: dac: stm32-dac: Convert to platform remove callback returning
+    void
+  iio: dac: vf610: Convert to platform remove callback returning void
+  iio: gyro: hid-sensor-gyro-3d: Convert to platform remove callback
+    returning void
+  iio: humidity: hid-sensor-humidity: Convert to platform remove
+    callback returning void
+  iio: light: cm3605: Convert to platform remove callback returning void
+  iio: light: hid-sensor-als: Convert to platform remove callback
+    returning void
+  iio: light: hid-sensor-prox: Convert to platform remove callback
+    returning void
+  iio: light: lm3533-als: Convert to platform remove callback returning
+    void
+  iio: magnetometer: hid-sensor-magn-3d: Convert to platform remove
+    callback returning void
+  iio: orientation: hid-sensor-incl-3d: Convert to platform remove
+    callback returning void
+  iio: orientation: hid-sensor-rotation: Convert to platform remove
+    callback returning void
+  iio: position: hid-sensor-custom-intel-hinge: Convert to platform
+    remove callback returning void
+  iio: pressure: hid-sensor: Convert to platform remove callback
+    returning void
+  iio: proximity: cros_ec_mkbp: Convert to platform remove callback
+    returning void
+  iio: proximity: srf04: Convert to platform remove callback returning
+    void
+  iio: temperature: hid-sensor: Convert to platform remove callback
+    returning void
+  iio: trigger: iio-trig-interrupt: Convert to platform remove callback
+    returning void
+  iio: trigger: stm32-timer: Convert to platform remove callback
+    returning void
+
+ drivers/iio/accel/hid-sensor-accel-3d.c              | 6 ++----
+ drivers/iio/adc/ab8500-gpadc.c                       | 6 ++----
+ drivers/iio/adc/at91-sama5d2_adc.c                   | 6 ++----
+ drivers/iio/adc/at91_adc.c                           | 6 ++----
+ drivers/iio/adc/axp20x_adc.c                         | 6 ++----
+ drivers/iio/adc/bcm_iproc_adc.c                      | 6 ++----
+ drivers/iio/adc/dln2-adc.c                           | 5 ++---
+ drivers/iio/adc/ep93xx_adc.c                         | 6 ++----
+ drivers/iio/adc/exynos_adc.c                         | 6 ++----
+ drivers/iio/adc/fsl-imx25-gcq.c                      | 6 ++----
+ drivers/iio/adc/hx711.c                              | 6 ++----
+ drivers/iio/adc/imx8qxp-adc.c                        | 6 ++----
+ drivers/iio/adc/imx93_adc.c                          | 6 ++----
+ drivers/iio/adc/meson_saradc.c                       | 6 ++----
+ drivers/iio/adc/mp2629_adc.c                         | 6 ++----
+ drivers/iio/adc/mxs-lradc-adc.c                      | 6 ++----
+ drivers/iio/adc/npcm_adc.c                           | 6 ++----
+ drivers/iio/adc/qcom-pm8xxx-xoadc.c                  | 6 ++----
+ drivers/iio/adc/rcar-gyroadc.c                       | 6 ++----
+ drivers/iio/adc/stm32-adc-core.c                     | 6 ++----
+ drivers/iio/adc/stm32-adc.c                          | 6 ++----
+ drivers/iio/adc/stm32-dfsdm-adc.c                    | 6 ++----
+ drivers/iio/adc/stm32-dfsdm-core.c                   | 6 ++----
+ drivers/iio/adc/sun4i-gpadc-iio.c                    | 8 +++-----
+ drivers/iio/adc/ti_am335x_adc.c                      | 6 ++----
+ drivers/iio/adc/twl4030-madc.c                       | 6 ++----
+ drivers/iio/adc/twl6030-gpadc.c                      | 6 ++----
+ drivers/iio/adc/vf610_adc.c                          | 6 ++----
+ drivers/iio/dac/dpot-dac.c                           | 6 ++----
+ drivers/iio/dac/lpc18xx_dac.c                        | 6 ++----
+ drivers/iio/dac/stm32-dac-core.c                     | 6 ++----
+ drivers/iio/dac/stm32-dac.c                          | 6 ++----
+ drivers/iio/dac/vf610_dac.c                          | 6 ++----
+ drivers/iio/gyro/hid-sensor-gyro-3d.c                | 6 ++----
+ drivers/iio/humidity/hid-sensor-humidity.c           | 6 ++----
+ drivers/iio/light/cm3605.c                           | 6 ++----
+ drivers/iio/light/hid-sensor-als.c                   | 6 ++----
+ drivers/iio/light/hid-sensor-prox.c                  | 6 ++----
+ drivers/iio/light/lm3533-als.c                       | 6 ++----
+ drivers/iio/magnetometer/hid-sensor-magn-3d.c        | 6 ++----
+ drivers/iio/orientation/hid-sensor-incl-3d.c         | 6 ++----
+ drivers/iio/orientation/hid-sensor-rotation.c        | 6 ++----
+ drivers/iio/position/hid-sensor-custom-intel-hinge.c | 6 ++----
+ drivers/iio/pressure/hid-sensor-press.c              | 6 ++----
+ drivers/iio/proximity/cros_ec_mkbp_proximity.c       | 6 ++----
+ drivers/iio/proximity/srf04.c                        | 6 ++----
+ drivers/iio/temperature/hid-sensor-temperature.c     | 6 ++----
+ drivers/iio/trigger/iio-trig-interrupt.c             | 6 ++----
+ drivers/iio/trigger/stm32-timer-trigger.c            | 6 ++----
+ 49 files changed, 99 insertions(+), 196 deletions(-)
 
 
+base-commit: 29e400e3ea486bf942b214769fc9778098114113
+-- 
+2.40.1
 
-On Wed, 6 Sep 2023, Hans de Goede wrote:
-
-> Hi Julius,
-> 
-> On 9/4/23 21:02, Julius Zint wrote:
-> > 
-> > 
-> > On Mon, 4 Sep 2023, Thomas Weißschuh wrote:
-> > 
-> >> +Cc Hans who ins involved with the backlight subsystem
-> >>
-> >> Hi Julius,
-> >>
-> >> today I stumbled upon a mail from Hans [0], which explains that the
-> >> backlight subsystem is not actually a good fit (yet?) for external
-> >> displays.
-> >>
-> >> It seems a new API is in the works that would better fit, but I'm not
-> >> sure about the state of this API. Maybe Hans can clarify.
-> >>
-> >> This also ties back to my review question how userspace can figure out
-> >> to which display a backlight devices applies. So far it can not.
-> >>
-> >> [0] https://lore.kernel.org/lkml/7f2d88de-60c5-e2ff-9b22-acba35cfdfb6@redhat.com/
-> >>
-> > 
-> > Hi Thomas,
-> > 
-> > thanks for the hint. I will make sure to give this a proper read and
-> > see, if it fits my use case better then the current backlight subsystem.
-> 
-> Note the actual proposal for the new usespace API for display brightness
-> control is here:
-> 
-> https://lore.kernel.org/dri-devel/b61d3eeb-6213-afac-2e70-7b9791c86d2e@redhat.com/
-> 
-> I have finished / stabilized the backlight code refactor which I landed
-> in 6.1, which is a prerequisite for the above proposal. But I have not
-> been able to make time to actually implement the above proposal; and
-> I don't know when I will be able to make time for this.
-> 
-> > Especially since I wasnt able to properly address your other review
-> > comments for now. You are right that the name should align better with
-> > the kernel module and also, that it is possible for multiple displays to
-> > be attached.
-> > 
-> > In its current state, this would mean that you could only control the
-> > backlight for the first HID device (enough for me :-).
-> > 
-> > The systemd-backlight@.service uses not only the file name, but also the
-> > full bus path for storing/restoring backlights. I did not yet get around
-> > to see how the desktops handle brightness control, but since the
-> > systemd-backlight@.service already uses the name, its important to stay
-> > the same over multiple boots.
-> > 
-> > I would be able to get a handle on the underlying USB device and use the
-> > serial to uniquely (and persistently) name the backlight. But it does
-> > feel hacky doing it this way.
-> 
-> So mutter (gnome-shell compositor library) has a similar issue when saving
-> monitor layouts and I can tell you beforehand that monitor serial numbers
-> by themselves are not unique enough. Some models just report 123456789
-> as serial and if you have a dual-monitor setup with 2 such monitors
-> and name the backlight class device <serial>-vcp-hid or something like that
-> you will still end up with 2 identical names.
-> 
-> To avoid this when saving monitor layouts mutter saves both the port
-> to which the monitor is attached (e.g. DP-1 DP-2) and the serialnumber
-> and on startup / monitor hotplug when it checks to see if it has saved
-> layout info for the monitor it checks the port+serialnr combination.
-> 
-> So what I think you should do is figure out a way to map which
-> VCP HID device maps to which drm-connector and then use
-> the connector-name + serial-nr to generate the backlight device name.
-> 
-> We will need the mapping the a drm-connector object anyway for
-> the new brightness API proposal from above.
-> 
-> Note this does NOT solve the fact that registering a new backlight
-> class device for an external monitor on a laptop will hopelessly
-> confuse userspace, see:
-> 
-> https://lore.kernel.org/lkml/7f2d88de-60c5-e2ff-9b22-acba35cfdfb6@redhat.com/
-> 
-> Regards,
-> 
-> Hans
-> 
-
-Thank you for all this additional information. I have watched the talks
-and read up upon the mail threads you`ve linked.
-
-I will see if I can make the mapping to the DRM connector and plan to
-update this patchset.
-
-Thanks,
-
-Julius
----1463806431-1318981254-1695145580=:112385--
