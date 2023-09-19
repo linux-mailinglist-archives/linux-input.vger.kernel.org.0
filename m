@@ -2,112 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6390D7A6A11
-	for <lists+linux-input@lfdr.de>; Tue, 19 Sep 2023 19:50:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 395C07A6A5D
+	for <lists+linux-input@lfdr.de>; Tue, 19 Sep 2023 20:00:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232752AbjISRuR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Sep 2023 13:50:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45210 "EHLO
+        id S232725AbjISSAT convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Tue, 19 Sep 2023 14:00:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232832AbjISRuQ (ORCPT
+        with ESMTP id S231991AbjISSAS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Sep 2023 13:50:16 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB095D7
-        for <linux-input@vger.kernel.org>; Tue, 19 Sep 2023 10:50:09 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qierH-00072h-CS; Tue, 19 Sep 2023 19:49:59 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qierG-007VYU-OK; Tue, 19 Sep 2023 19:49:58 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qierG-0034ZX-F5; Tue, 19 Sep 2023 19:49:58 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: [PATCH 47/49] iio: temperature: hid-sensor: Convert to platform remove callback returning void
-Date:   Tue, 19 Sep 2023 19:49:29 +0200
-Message-Id: <20230919174931.1417681-48-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
-References: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
+        Tue, 19 Sep 2023 14:00:18 -0400
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA2A999;
+        Tue, 19 Sep 2023 11:00:11 -0700 (PDT)
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-57acd4917f6so228676eaf.1;
+        Tue, 19 Sep 2023 11:00:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695146411; x=1695751211;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FGnhbq+R2EZAb/x6yu0RGRdXqfvoA34iDXx6GRhUp24=;
+        b=YdmJAnR6aAuzzF7ni0X2/2vxilkJrGscxdwyyCEVwo3iXrGsSH3YmP+5AWERSanicb
+         IN50UvEQYetcZMN/ew24PHGDN5roEHgg7GJL2d4cstV5I61OCNCB82CGJCCzSf7WD8lR
+         AJKmU0uTCkVm25ne5+DXZ0E0+bqhauHnjqqrxMLNJLq7K1sGDCdPAsUxL6Dflh5XsCvl
+         BP8aRXUMuB0DsMjNBgMYhdlwgUDlWeqWexYd0PIZh7aF3kvx3RMA9zSX7kK89utmIxQk
+         io1clZ6NQk3PJmJy2wXMjX73IvrDWK4UuedH1RLzncURa5xE306GcDSRN5gpDr54Tj17
+         VT9g==
+X-Gm-Message-State: AOJu0YxskWkvBL98bxY8Bo4nIvN3+IX+1HeTvVUX8MrQiLo9vfd23Lo/
+        j9w6VaBFLrVjN9DhTmBzTiQRny94oNbkLQFqp0Y=
+X-Google-Smtp-Source: AGHT+IFMu+Ev1F4fMXIPDMXQslgr0uGqZG7w8cxROaroYaD5SopHBj6Rj8C8Kxj3VjEthq3euI44tC5lnqRRzM4n0ew=
+X-Received: by 2002:a4a:d103:0:b0:573:4a72:6ec with SMTP id
+ k3-20020a4ad103000000b005734a7206ecmr284831oor.1.1695146410955; Tue, 19 Sep
+ 2023 11:00:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2182; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=aX4Pfti1v1qagUJAO/Ih4/eifvGcgHks4RixWzcD/PA=; b=owGbwMvMwMXY3/A7olbonx/jabUkhlTO+ypH1N7OfT/NaoFYQz9HcNf85mhGp7cvYxQ6v2561 as03+lZJ6MxCwMjF4OsmCKLfeOaTKsqucjOtf8uwwxiZQKZwsDFKQAT8bdk/2dwT6huNs9hhpNy bjkutV356saNbbnXQxdPk5zvmPPvnOVNk7zDk9LeMP1ezhb2+Q5v2COGmrc7VXvvWzunF23zuSh 5ksslfJ5l2tkzZ4TP9grPmVHFJnnkTuXqnJKpKowxHuXG0rc2l3Kq7M2yPdbeNPHuW5PNmmnnTZ +orzPUUOJJLHn+7Jx3QYLwDp4XjW22s56Gxt1av0Z1kUXgg00Ctvb9qdseGwUcVIm9fJ7f2+7Ta ceCfT9jFOUvret6uGthZt7e+DsmT751pPUeqPpiNls9sneFl0qagYfhMfU5Fxd76jD3zRL3XiMb N9XXiumXU7NYW9VTwfqZ0y6YWrxsXqqRuT7caq1fmlk9AA==
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230914041806.816741-1-kai.heng.feng@canonical.com>
+ <7b45ac2ed091497b4e21a6a5c19956161175ba16.camel@linux.intel.com>
+ <SN6PR11MB26245C44E84C37C1B551260EF4F6A@SN6PR11MB2624.namprd11.prod.outlook.com>
+ <CAAd53p5ywMVKWzhn0nYzvBnW_Bc=sntgBttJdcVUuf_a4AnX5w@mail.gmail.com>
+ <SN6PR11MB262473E2BF4057F4D285A613F4F6A@SN6PR11MB2624.namprd11.prod.outlook.com>
+ <DM6PR11MB26184A8A3F955589F5FC6836F4FBA@DM6PR11MB2618.namprd11.prod.outlook.com>
+ <CAAd53p4o1pB-yzpvUCYsvuYEvQQK0my=u-ogrByRCx_Lvns=hw@mail.gmail.com>
+ <bbbf36724d63f7532696a960a9d56d7ccd5a5bee.camel@linux.intel.com>
+ <CAAd53p6MA9YLbcXxpC8=YEtbO6frFJk1LQ1BNUgPk=r1_uR8iw@mail.gmail.com> <67c85f083201ed2cda2cab198b40141ad21912a2.camel@linux.intel.com>
+In-Reply-To: <67c85f083201ed2cda2cab198b40141ad21912a2.camel@linux.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 19 Sep 2023 19:59:59 +0200
+Message-ID: <CAJZ5v0iFLxpWHW=sDZ7=Wne3Yt=8_EwhW9SeCmRP6REpVqo8rA@mail.gmail.com>
+Subject: Re: [PATCH] HID: intel-ish-hid: ipc: Rework EHL OOB wakeup
+To:     srinivas pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     "Xu, Even" <even.xu@intel.com>,
+        "jikos@kernel.org" <jikos@kernel.org>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "Lee, Jian Hui" <jianhui.lee@canonical.com>,
+        "Zhang, Lixu" <lixu.zhang@intel.com>,
+        "Ba, Najumon" <najumon.ba@intel.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is ignored (apart
-from emitting a warning) and this typically results in resource leaks.
-To improve here there is a quest to make the remove callback return
-void. In the first step of this quest all drivers are converted to
-.remove_new() which already returns void. Eventually after all drivers
-are converted, .remove_new() will be renamed to .remove().
+On Tue, Sep 19, 2023 at 6:54 PM srinivas pandruvada
+<srinivas.pandruvada@linux.intel.com> wrote:
+>
+> On Tue, 2023-09-19 at 15:36 +0800, Kai-Heng Feng wrote:
+> > On Mon, Sep 18, 2023 at 11:57 PM srinivas pandruvada
+> > <srinivas.pandruvada@linux.intel.com> wrote:
+> > >
+> > > Hi Kai-Heng,
+> > > On Mon, 2023-09-18 at 09:17 +0800, Kai-Heng Feng wrote:
+> > > > Hi Even,
+> > > >
+> > > > On Mon, Sep 18, 2023 at 8:33 AM Xu, Even <even.xu@intel.com>
+> > > > wrote:
+> > > > >
+> > > > > Hi, Kai-Heng,
+> > > > >
+> > > > > I just got feedback, for testing EHL S5 wakeup feature, you
+> > > > > need
+> > > > > several steps to setup and access
+> > > > > "https://portal.devicewise.com/things/browse" to trigger wake.
+> > > > > But currently, our test account of this website are all out of
+> > > > > data.
+> > > > > So maybe you need double check with the team who required you
+> > > > > preparing the patch for the verification.
+> > > >
+> > > > The patch is to solve the GPE refcount overflow, while
+> > > > maintaining S5
+> > > > wakeup. I don't have any mean to test S5 wake.
+> > > >
+> > > The issue is not calling acpi_disable_gpe(). To reduce the scope of
+> > > change can we just add that instead of a adding new callbacks. This
+> > > way
+> > > scope is reduced.
+> >
+> > This patch does exactly the same thing by letting PCI and ACPI handle
+> > the PME and GPE.
+> > Though the change seems to be bigger, it actually reduces the duped
+> > code, while keep the S5 wakeup ability intact.
+> It may be doing the same. But with long chain of calls without
+> verification, I am not comfortable.
+> This can be another patch by itself to use the framework.
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+I agree.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/iio/temperature/hid-sensor-temperature.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Let's change one thing at a time.
 
-diff --git a/drivers/iio/temperature/hid-sensor-temperature.c b/drivers/iio/temperature/hid-sensor-temperature.c
-index d40f235af1d4..0143fd478933 100644
---- a/drivers/iio/temperature/hid-sensor-temperature.c
-+++ b/drivers/iio/temperature/hid-sensor-temperature.c
-@@ -257,7 +257,7 @@ static int hid_temperature_probe(struct platform_device *pdev)
- }
- 
- /* Function to deinitialize the processing for usage id */
--static int hid_temperature_remove(struct platform_device *pdev)
-+static void hid_temperature_remove(struct platform_device *pdev)
- {
- 	struct hid_sensor_hub_device *hsdev = dev_get_platdata(&pdev->dev);
- 	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
-@@ -265,8 +265,6 @@ static int hid_temperature_remove(struct platform_device *pdev)
- 
- 	sensor_hub_remove_callback(hsdev, HID_USAGE_SENSOR_TEMPERATURE);
- 	hid_sensor_remove_trigger(indio_dev, &temp_st->common_attributes);
--
--	return 0;
- }
- 
- static const struct platform_device_id hid_temperature_ids[] = {
-@@ -285,7 +283,7 @@ static struct platform_driver hid_temperature_platform_driver = {
- 		.pm	= &hid_sensor_pm_ops,
- 	},
- 	.probe		= hid_temperature_probe,
--	.remove		= hid_temperature_remove,
-+	.remove_new	= hid_temperature_remove,
- };
- module_platform_driver(hid_temperature_platform_driver);
- 
--- 
-2.40.1
+> But you are targeting a fix for overflow issue, which is separate from
+> the use of PCI/ACPI framework.
 
+Yes, let's fix the bug first and make things look nicer separately.
