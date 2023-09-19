@@ -2,71 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 458677A6CEF
-	for <lists+linux-input@lfdr.de>; Tue, 19 Sep 2023 23:28:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1ADA67A6EE9
+	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 01:03:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232649AbjISV3B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Sep 2023 17:29:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37624 "EHLO
+        id S233294AbjISXDp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Sep 2023 19:03:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229690AbjISV3A (ORCPT
+        with ESMTP id S232804AbjISXDo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Sep 2023 17:29:00 -0400
-X-Greylist: delayed 82 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 19 Sep 2023 14:28:55 PDT
-Received: from gcc-spam-ims-003.plexus.com (gcc-spam-ims-003.plexus.com [206.209.244.63])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D3DDB3
-        for <linux-input@vger.kernel.org>; Tue, 19 Sep 2023 14:28:55 -0700 (PDT)
-Received: from gcc-spam-ims-003.plexus.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 18569E0091;
-        Tue, 19 Sep 2023 16:28:54 -0500 (CDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=plexus.com; s=us;
-        t=1695158934; bh=4eSM2i0Kmt7HdstefMHIBAFZDCVUuRvQXFUDwfewmQc=;
-        h=From:To:Date;
-        b=b22Cm+ZTOLsv8+grHRG/8Qo+BrWw/Hc9fbvt2+qH9S5Y941tLqd8JA1SOL57lpD1N
-         vMI56m3Vfq4D7YyoxMZ1GQzdpRvd+8FmuqrI1iq0rwNswn2GnQQ4t4ZiiZgoh75x0e
-         QrY3fErU8/C+SnmBpUgsHu93SvVC0G6KsyNtwhw67nFt3tharHtpGKtxt2tvismi0y
-         Mb3PWGMmSR4CuoUMaEEbQZfdJhzA0mltx6b999KkQUjjHhmxfj1Pg+V3XiOgX3Ijw3
-         UdULdrYip/6fSxK1fkmgOVJv4oscru+Xew8CxLfIHQseoIKWAyLBwwEyH8BVaXC+5H
-         qSkRMT5T0++og==
-Received: from gcc-spam-ims-003.plexus.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 092AFE0083;
-        Tue, 19 Sep 2023 16:28:54 -0500 (CDT)
-Received: from Dcc-mail-mx-001.na.plexus.com (unknown [10.249.48.15])
-        by gcc-spam-ims-003.plexus.com (Postfix) with ESMTPS;
-        Tue, 19 Sep 2023 16:28:53 -0500 (CDT)
-Received: from dcc-mail-mx-001.na.plexus.com (10.249.48.15) by
- Dcc-mail-mx-001.na.plexus.com (10.249.48.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Tue, 19 Sep 2023 21:28:53 +0000
-Received: from LNDCL34533.neenah.na.plexus.com (10.255.48.203) by
- dcc-mail-mx-001.na.plexus.com (10.249.48.15) with Microsoft SMTP Server id
- 15.1.2507.32 via Frontend Transport; Tue, 19 Sep 2023 21:28:53 +0000
-From:   Danny Kaehn <danny.kaehn@plexus.com>
-To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
-        <andriy.shevchenko@linux.intel.com>
-CC:     <linux-input@vger.kernel.org>, <ethan.twardy@plexus.com>,
-        Danny Kaehn <danny.kaehn@plexus.com>
-Subject: [PATCH] hid: cp2112: Fix IRQ shutdown stopping polling for all IRQs on chip
-Date:   Tue, 19 Sep 2023 16:24:26 -0500
-Message-ID: <20230919212426.489637-1-danny.kaehn@plexus.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 19 Sep 2023 19:03:44 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F9ACC0;
+        Tue, 19 Sep 2023 16:03:39 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FAF6C433CD;
+        Tue, 19 Sep 2023 23:03:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695164618;
+        bh=AVm/wivqgdaYPeb2TV3gnjnCGczTQW2Knav2WIIU+3o=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=pHeNS/agG4PS6WxON62G7QizekGP+u5vmPP2ipBG9P8uwxjXW73vH9UdVrn6WwsUX
+         6vj/DYrQ14u7MCBDHmt/PNYf/5QogI4s9Q2qDAIQ8RjmUqJGtZMa+/HHPdILKcUTqv
+         rKRZ+FtjEEs4ZwWdnVA0nEaS/9sZE8ZHWaoqlI8ODh5wUUZvmQqni6a58P8HUUhy/m
+         A/0zyE9i5u1D34c4aqUkTYtJoSDelOi2ug+TUJ7Ekydhbq0qGuJataqmS+wOvtY+9Q
+         SJrCq78hKb8rM0ph9DeRyYaYa0fbPU9Vm7NbbIdjoUYfBUFW3Z+o2Yzm9O7aftsWMG
+         BdLPieoZMA90g==
+From:   Bjorn Andersson <andersson@kernel.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Douglas Anderson <dianders@chromium.org>
+Cc:     linux-arm-msm@vger.kernel.org,
+        yangcong5@huaqin.corp-partner.google.com,
+        devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        hsinyi@google.com, Chris Morgan <macroalpha82@gmail.com>,
+        linux-input@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: (subset) [PATCH v4 00/11] drm/panel and i2c-hid: Allow panels and touchscreens to power sequence together
+Date:   Tue, 19 Sep 2023 16:07:29 -0700
+Message-ID: <169516486001.787935.12322857337806445764.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20230727171750.633410-1-dianders@chromium.org>
+References: <20230727171750.633410-1-dianders@chromium.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TM-SNTS-SMTP: 1274B52C3778239AD30BA1657C347D1AB67E634E35DD3B5F816C7D83BECB3EAA2000:8
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSVA-9.1.0.2164-9.0.0.1002-27886.002
-X-TM-AS-Result: No--13.953-3.0-31-10
-X-imss-scan-details: No--13.953-3.0-31-10
-X-TMASE-Version: IMSVA-9.1.0.2164-9.0.1002-27886.002
-X-TMASE-Result: 10--13.953300-10.000000
-X-TMASE-MatchedRID: MWbpXFXsFA6jcB5AGOhX7jY9eRDvjeTZUBOomz25VdESEYfcJF0pRfX7
-        1s7cIJuTLtU3Flh33sdrFmVfWDAwWyL637QCIVpi8vc3EUpCmrVD7uP4VuVvNxmCYUYerLHrW9D
-        GjPU7rM96mVK0rVE3R6DmkLztB9AW4vM1YF6AJbbieYV7J8ae4wtuKBGekqUpI/NGWt0UYPCWpt
-        zvEHzFH7bkKK8C+PgBhgukVoEv050WYpNPSY8F4BGmlq2wtT5V
-X-TMASE-SNAP-Result: 1.821001.0001-0-2-1:0,12:0,22:0,33:0,34:0-0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,39 +66,23 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Previously cp2112_gpio_irq_shutdown always cancelled the
-gpio_poll_worker, even if other IRQs were still active, and did not set
-the gpio_poll flag to false. This resulted in any call to _shutdown()
-resulting in interrupts no longer functioning on the chip until a
-_remove occurred (a.e. the cp2112 is unplugged or system rebooted).
 
-Only cancel polling if all IRQs are disabled/masked, and correctly set
-the gpio_poll flag, allowing polling to restart when an interrupt is
-next enabled.
+On Thu, 27 Jul 2023 10:16:27 -0700, Douglas Anderson wrote:
+> The big motivation for this patch series is mostly described in the patch
+> ("drm/panel: Add a way for other devices to follow panel state"), but to
+> quickly summarize here: for touchscreens that are connected to a panel we
+> need the ability to power sequence the two device together. This is not a
+> new need, but so far we've managed to get by through a combination of
+> inefficiency, added costs, or perhaps just a little bit of brokenness.
+> It's time to do better. This patch series allows us to do better.
+> 
+> [...]
 
-Signed-off-by: Danny Kaehn <danny.kaehn@plexus.com>
----
- drivers/hid/hid-cp2112.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Applied, thanks!
 
-diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
-index 36f76c6dfa20..d589214834b9 100644
---- a/drivers/hid/hid-cp2112.c
-+++ b/drivers/hid/hid-cp2112.c
-@@ -1166,7 +1166,12 @@ static void cp2112_gpio_irq_shutdown(struct irq_data *d)
- 	struct cp2112_device *dev = gpiochip_get_data(gc);
- 
- 	cp2112_gpio_irq_mask(d);
--	cancel_delayed_work_sync(&dev->gpio_poll_worker);
-+
-+	if (!dev->irq_mask)
-+	{
-+		dev->gpio_poll = false;
-+		cancel_delayed_work_sync(&dev->gpio_poll_worker);
-+	}
- }
- 
- static int cp2112_gpio_irq_type(struct irq_data *d, unsigned int type)
+[11/11] arm64: dts: qcom: sc7180: Link trogdor touchscreens to the panels
+        commit: 989aac9dea7fcfc33b5eedc4ae44abbf71460a4d
+
+Best regards,
 -- 
-2.25.1
-
+Bjorn Andersson <andersson@kernel.org>
