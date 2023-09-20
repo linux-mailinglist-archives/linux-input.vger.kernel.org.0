@@ -2,139 +2,149 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F01657A8943
-	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 18:07:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 277F97A89E7
+	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 18:59:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234664AbjITQHk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Sep 2023 12:07:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56798 "EHLO
+        id S234157AbjITQ7f (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Sep 2023 12:59:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234696AbjITQHj (ORCPT
+        with ESMTP id S234563AbjITQ7e (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Sep 2023 12:07:39 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FEE0C9
-        for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 09:07:33 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-9adc75f6f09so784201066b.0
-        for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 09:07:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695226051; x=1695830851; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q835YQDxM8a/Ydr2pG5h6K5+mFIlQ7bWDlpZnNz4kb4=;
-        b=WVRpIR4GGzq7fJcg9hAWtCh/KwVi3S2YnBbaNmiMjsWk8HYtHmK9kfGHheaAtTvddi
-         AO5qIe31JCyA4NO/aayriec0luTbAEomihuQAhTwwfd71bnb9evVIASJmOapc4E/FH7D
-         B+5lt13zKeuerUyCL6Ey+Q3vgv/gd1qMVHuYbw0kRZEjOqihdLauQAW11yKEdK5avLyv
-         mKGC5uDEXCjgg6qNK0FcRFDuIzQ2qdL9WE82ygkHKxrYh7nfK7Ugho8YISD34QhZaFU3
-         6pNJMrAOqSXSHbPsaYBWodKhc89b8cC/t+XYLiei7NFONGsp/F5+M/IIMzn3e2K6DNsD
-         //TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695226051; x=1695830851;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q835YQDxM8a/Ydr2pG5h6K5+mFIlQ7bWDlpZnNz4kb4=;
-        b=Xl9Kxwc5hvcdRjbbqQs0koP4cSH7rFwKsY4AuQIqS2siph+/6NlN/sr5t+JtWSIRYw
-         IUF+bG2IfCqi1P5j8uVtwBsWtVYS/lK1kKcJDc5LsuBwnwIwEZsSJvte5vzlDnaMPVI0
-         lomXgn+Gme+NN0VHh6gbFo7MpBJBUdkaI75VNH4sYeuUkFaVav5v95nk4E5h3oLcvSL/
-         AkNDHIyY887cOS5nCKAAIEHBGL1spvb0Spoi26Xn5Edqbws+XS/OWIyoPCw6QYQsOwH/
-         Cgx0cfPX5YtbcFnRAma1W6yTtLm1fq4CWG0VaKMyeD05Q6VUFT+i4J4yVbL9oiFzuq0P
-         860Q==
-X-Gm-Message-State: AOJu0YzExvrTsa/qLW8nF0Ae2yVRdCMm5n0jZ1Fc4NIjVMESPyjsWTuW
-        o2FaB5rialOiYeM5l2xwkss=
-X-Google-Smtp-Source: AGHT+IF+rmJKa4uB821gWE6ZlcCqFgyUhV7B2Ym02NESinzdpuwM0CQ3PlLZxaP3wSctTJ6kAsqMhg==
-X-Received: by 2002:a17:907:b609:b0:9ae:61d:4248 with SMTP id vl9-20020a170907b60900b009ae061d4248mr2345778ejc.48.1695226051345;
-        Wed, 20 Sep 2023 09:07:31 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id y15-20020a1709060a8f00b0099cb1a2cab0sm9464544ejf.28.2023.09.20.09.07.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Sep 2023 09:07:31 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, kernel@pengutronix.de
-Subject: Re: [PATCH 42/52] input: sun4i-ps2 - Convert to platform remove callback
- returning void
-Date:   Wed, 20 Sep 2023 18:07:30 +0200
-Message-ID: <3766083.kQq0lBPeGt@jernej-laptop>
-In-Reply-To: <20230920125829.1478827-43-u.kleine-koenig@pengutronix.de>
-References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
- <20230920125829.1478827-43-u.kleine-koenig@pengutronix.de>
+        Wed, 20 Sep 2023 12:59:34 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A26D69F;
+        Wed, 20 Sep 2023 09:59:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695229168; x=1726765168;
+  h=message-id:subject:from:to:date:in-reply-to:references:
+   content-transfer-encoding:mime-version;
+  bh=hli6SE0dpo939bh6eiEJ9cPM5JvxNcu4yz0JzpuMDtU=;
+  b=VctKSCXm/jesE1e5D7jlyGCwlSmFUWr3eOMG58+oBW0LxyHf3krt7EYo
+   5msGn7GOumNEU8BCxE+nxD6AMjl8o1NwnmcO90nlIqXR37a5OxmumGaqH
+   l7K4ytyKwhAnPT8SXKmcaJJhsvSA1X0HT6vUc8H1Pq8iJnWuaQEqb9Rrb
+   DWB23//njJDBPc0vMWxdg3Wbj/7tAugfgvQGDaa1IR6yrQ1v6t40TQkkL
+   Va4Mlt9DrO6cKYyXRXKdLOr/hTm1fQREzi266k2NRTO9anTQJ33cAkQDo
+   rMml2nJAtwUaYFgp7/K9sTxQ1GygScy0NxTUKz3eim5cq2YmicjXBrx5c
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="359667836"
+X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
+   d="scan'208";a="359667836"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 09:59:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="696383961"
+X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
+   d="scan'208";a="696383961"
+Received: from spandruv-desk1.amr.corp.intel.com ([10.212.142.24])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 09:59:22 -0700
+Message-ID: <0cbd0b164462c0b857c45117fdf267710566e055.camel@linux.intel.com>
+Subject: Re: [PATCH v2 1/9] iio: hid-sensor-als: Use channel index to
+ support more hub attributes
+From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, jic23@kernel.org, lars@metafoo.de,
+        linux-input@vger.kernel.org, linux-iio@vger.kernel.org
+Date:   Wed, 20 Sep 2023 09:59:21 -0700
+In-Reply-To: <20230919081054.2050714-2-Basavaraj.Natikar@amd.com>
+References: <20230919081054.2050714-1-Basavaraj.Natikar@amd.com>
+         <20230919081054.2050714-2-Basavaraj.Natikar@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dne sreda, 20. september 2023 ob 14:58:19 CEST je Uwe Kleine-K=F6nig napisa=
-l(a):
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is ignored (apart
-> from emitting a warning) and this typically results in resource leaks.
-> To improve here there is a quest to make the remove callback return
-> void. In the first step of this quest all drivers are converted to
-> .remove_new() which already returns void. Eventually after all drivers
-> are converted, .remove_new() will be renamed to .remove().
->=20
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
-
-> ---
->  drivers/input/serio/sun4i-ps2.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/input/serio/sun4i-ps2.c
-> b/drivers/input/serio/sun4i-ps2.c index eb262640192e..aec66d9f5176 100644
-> --- a/drivers/input/serio/sun4i-ps2.c
-> +++ b/drivers/input/serio/sun4i-ps2.c
-> @@ -297,7 +297,7 @@ static int sun4i_ps2_probe(struct platform_device *pd=
-ev)
-> return error;
->  }
->=20
-> -static int sun4i_ps2_remove(struct platform_device *pdev)
-> +static void sun4i_ps2_remove(struct platform_device *pdev)
->  {
->  	struct sun4i_ps2data *drvdata =3D platform_get_drvdata(pdev);
->=20
-> @@ -311,8 +311,6 @@ static int sun4i_ps2_remove(struct platform_device
-> *pdev) iounmap(drvdata->reg_base);
->=20
->  	kfree(drvdata);
-> -
-> -	return 0;
->  }
->=20
->  static const struct of_device_id sun4i_ps2_match[] =3D {
-> @@ -324,7 +322,7 @@ MODULE_DEVICE_TABLE(of, sun4i_ps2_match);
->=20
->  static struct platform_driver sun4i_ps2_driver =3D {
->  	.probe		=3D sun4i_ps2_probe,
-> -	.remove		=3D sun4i_ps2_remove,
-> +	.remove_new	=3D sun4i_ps2_remove,
->  	.driver =3D {
->  		.name =3D DRIVER_NAME,
->  		.of_match_table =3D sun4i_ps2_match,
-
-
-
+T24gVHVlLCAyMDIzLTA5LTE5IGF0IDEzOjQwICswNTMwLCBCYXNhdmFyYWogTmF0aWthciB3cm90
+ZToKPiBTZW5zb3IgaHViIGF0dHJpYnV0ZXMgY2FuIGJlIGV4dGVuZGVkIHRvIHN1cHBvcnQgbW9y
+ZSBjaGFubmVscy4KPiBSZXBlYXQKPiB0aGUgcmVhZGluZyBmb3IgdGhlIHR3byBleGlzdGluZyBj
+aGFubmVscyBhbmQgc3RvcmUgdGhlbSBzZXBhcmF0ZWx5Lgo+IEl0Cj4gc3RpbGwgb3BlcmF0ZXMg
+aW4gdGhlIHNhbWUgbWFubmVyIGFzIGJlZm9yZSB3aGVyZSB0aGVyZSB3YXMganVzdCBvbmUKPiBl
+bnRyeS4gU28gaW4gb3JkZXIgdG8gc3VwcG9ydCBtb3JlIHNlbnNvciBodWIgYXR0cmlidXRlcyBm
+b3IgQUxTIHVzZQo+IGNoYW5uZWwgaW5kZXggdG8gZ2V0IHNwZWNpZmljIHNlbnNvciBodWIgYXR0
+cmlidXRlcy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBCYXNhdmFyYWogTmF0aWthciA8QmFzYXZhcmFq
+Lk5hdGlrYXJAYW1kLmNvbT4KQWNrZWQtYnk6IFNyaW5pdmFzIFBhbmRydXZhZGE8c3Jpbml2YXMu
+cGFuZHJ1dmFkYUBsaW51eC5pbnRlbC5jb20+Cgo+IC0tLQo+IMKgZHJpdmVycy9paW8vbGlnaHQv
+aGlkLXNlbnNvci1hbHMuYyB8IDM4ICsrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0KPiAtLQo+
+IMKgMSBmaWxlIGNoYW5nZWQsIDIwIGluc2VydGlvbnMoKyksIDE4IGRlbGV0aW9ucygtKQo+IAo+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2lpby9saWdodC9oaWQtc2Vuc29yLWFscy5jCj4gYi9kcml2
+ZXJzL2lpby9saWdodC9oaWQtc2Vuc29yLWFscy5jCj4gaW5kZXggZWIxYWVkYWQ3ZWRjLi5lZmIx
+Zjg4NjJiMjggMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9paW8vbGlnaHQvaGlkLXNlbnNvci1hbHMu
+Ywo+ICsrKyBiL2RyaXZlcnMvaWlvL2xpZ2h0L2hpZC1zZW5zb3ItYWxzLmMKPiBAQCAtMjQsNyAr
+MjQsNyBAQCBlbnVtIHsKPiDCoHN0cnVjdCBhbHNfc3RhdGUgewo+IMKgwqDCoMKgwqDCoMKgwqBz
+dHJ1Y3QgaGlkX3NlbnNvcl9odWJfY2FsbGJhY2tzIGNhbGxiYWNrczsKPiDCoMKgwqDCoMKgwqDC
+oMKgc3RydWN0IGhpZF9zZW5zb3JfY29tbW9uIGNvbW1vbl9hdHRyaWJ1dGVzOwo+IC3CoMKgwqDC
+oMKgwqDCoHN0cnVjdCBoaWRfc2Vuc29yX2h1Yl9hdHRyaWJ1dGVfaW5mbyBhbHNfaWxsdW07Cj4g
+K8KgwqDCoMKgwqDCoMKgc3RydWN0IGhpZF9zZW5zb3JfaHViX2F0dHJpYnV0ZV9pbmZvCj4gYWxz
+W0NIQU5ORUxfU0NBTl9JTkRFWF9NQVhdOwo+IMKgwqDCoMKgwqDCoMKgwqBzdHJ1Y3Qgewo+IMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdTMyIGlsbHVtW0NIQU5ORUxfU0NBTl9JTkRF
+WF9NQVhdOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdTY0IHRpbWVzdGFtcCBf
+X2FsaWduZWQoOCk7Cj4gQEAgLTk5LDggKzk5LDggQEAgc3RhdGljIGludCBhbHNfcmVhZF9yYXco
+c3RydWN0IGlpb19kZXYgKmluZGlvX2RldiwKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoHN3aXRjaCAoY2hhbi0+c2Nhbl9pbmRleCkgewo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgY2FzZcKgIENIQU5ORUxfU0NBTl9JTkRFWF9JTlRFTlNJVFk6Cj4gwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjYXNlwqAgQ0hBTk5FTF9TQ0FOX0lOREVYX0lMTFVNOgo+
+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmVwb3J0X2lk
+ID0gYWxzX3N0YXRlLT5hbHNfaWxsdW0ucmVwb3J0X2lkOwo+IC3CoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgbWluID0gYWxzX3N0YXRlLT5hbHNfaWxsdW0ubG9n
+aWNhbF9taW5pbXVtOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgcmVwb3J0X2lkID0gYWxzX3N0YXRlLT5hbHNbY2hhbi0KPiA+c2Nhbl9pbmRleF0ucmVw
+b3J0X2lkOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+bWluID0gYWxzX3N0YXRlLT5hbHNbY2hhbi0KPiA+c2Nhbl9pbmRleF0ubG9naWNhbF9taW5pbXVt
+Owo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGFkZHJl
+c3MgPSBISURfVVNBR0VfU0VOU09SX0xJR0hUX0lMTFVNOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGJyZWFrOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgZGVmYXVsdDoKPiBAQCAtMjQyLDIyICsyNDIsMjQgQEAgc3RhdGljIGludCBh
+bHNfcGFyc2VfcmVwb3J0KHN0cnVjdAo+IHBsYXRmb3JtX2RldmljZSAqcGRldiwKPiDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+c3RydWN0IGFsc19zdGF0ZSAqc3QpCj4gwqB7Cj4gwqDCoMKgwqDCoMKgwqDCoGludCByZXQ7Cj4g
+K8KgwqDCoMKgwqDCoMKgaW50IGk7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoGZvciAoaSA9IDA7IGkg
+PD0gQ0hBTk5FTF9TQ0FOX0lOREVYX0lMTFVNOyArK2kpIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgcmV0ID0gc2Vuc29yX2h1Yl9pbnB1dF9nZXRfYXR0cmlidXRlX2luZm8oaHNk
+ZXYsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBISURfSU5QVVRfUkVQ
+T1JULAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdXNhZ2VfaWQsCj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBISURfVVNBR0VfU0VOU09SX0xJ
+R0gKPiBUX0lMTFVNLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgJnN0
+LT5hbHNbaV0pOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAocmV0IDwgMCkK
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiBy
+ZXQ7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGFsc19hZGp1c3RfY2hhbm5lbF9i
+aXRfbWFzayhjaGFubmVscywgaSwgc3QtCj4gPmFsc1tpXS5zaXplKTsKPiArCj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRldl9kYmcoJnBkZXYtPmRldiwgImFscyAleDoleFxuIiwg
+c3QtPmFsc1tpXS5pbmRleCwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoHN0LT5hbHNbaV0ucmVwb3J0X2lkKTsKPiArwqDCoMKgwqDCoMKgwqB9Cj4gwqAK
+PiAtwqDCoMKgwqDCoMKgwqByZXQgPSBzZW5zb3JfaHViX2lucHV0X2dldF9hdHRyaWJ1dGVfaW5m
+byhoc2RldiwKPiBISURfSU5QVVRfUkVQT1JULAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgdXNhZ2VfaWQsCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBISURfVVNBR0VfU0VOU09SX0xJR0hUX0lMTFVNLAo+IC3C
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgJnN0LT5hbHNfaWxs
+dW0pOwo+IC3CoMKgwqDCoMKgwqDCoGlmIChyZXQgPCAwKQo+IC3CoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqByZXR1cm4gcmV0Owo+IC3CoMKgwqDCoMKgwqDCoGFsc19hZGp1c3RfY2hhbm5l
+bF9iaXRfbWFzayhjaGFubmVscywKPiBDSEFOTkVMX1NDQU5fSU5ERVhfSU5URU5TSVRZLAo+IC3C
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBzdC0+YWxzX2lsbHVtLnNpemUpOwo+IC3CoMKgwqDCoMKgwqDCoGFsc19hZGp1
+c3RfY2hhbm5lbF9iaXRfbWFzayhjaGFubmVscywKPiBDSEFOTkVMX1NDQU5fSU5ERVhfSUxMVU0s
+Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0LT5hbHNfaWxsdW0uc2l6ZSk7Cj4gLQo+IC3CoMKg
+wqDCoMKgwqDCoGRldl9kYmcoJnBkZXYtPmRldiwgImFscyAleDoleFxuIiwgc3QtPmFsc19pbGx1
+bS5pbmRleCwKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oHN0LT5hbHNfaWxsdW0ucmVwb3J0X2lkKTsKPiAtCj4gLcKgwqDCoMKgwqDCoMKgc3QtPnNjYWxl
+X3ByZWNpc2lvbiA9IGhpZF9zZW5zb3JfZm9ybWF0X3NjYWxlKHVzYWdlX2lkLCAmc3QtCj4gPmFs
+c19pbGx1bSwKPiArwqDCoMKgwqDCoMKgwqBzdC0+c2NhbGVfcHJlY2lzaW9uID0gaGlkX3NlbnNv
+cl9mb3JtYXRfc2NhbGUodXNhZ2VfaWQsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgJnN0LQo+ID5hbHNbQ0hBTk5FTF9TQ0FO
+X0lOREVYX0lOVEVOU0lUWV0sCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCZzdC0+c2NhbGVfcHJlX2RlY21sLCAmc3QtCj4g
+PnNjYWxlX3Bvc3RfZGVjbWwpOwo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoHJldHVybiByZXQ7Cgo=
 
