@@ -2,47 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 087E27A8257
-	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 14:59:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E33B7A8253
+	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 14:59:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235290AbjITM7H (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Sep 2023 08:59:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55074 "EHLO
+        id S235972AbjITM7G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Sep 2023 08:59:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235812AbjITM67 (ORCPT
+        with ESMTP id S236009AbjITM65 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Sep 2023 08:58:59 -0400
+        Wed, 20 Sep 2023 08:58:57 -0400
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C9E4122
-        for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 05:58:46 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D56C119
+        for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 05:58:45 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwmw-0005JU-CC; Wed, 20 Sep 2023 14:58:42 +0200
+        id 1qiwmw-0005Je-H3; Wed, 20 Sep 2023 14:58:42 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwmv-007h08-Ve; Wed, 20 Sep 2023 14:58:41 +0200
+        id 1qiwmw-007h0C-4V; Wed, 20 Sep 2023 14:58:42 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwmv-003IEF-MW; Wed, 20 Sep 2023 14:58:41 +0200
+        id 1qiwmv-003IEI-RW; Wed, 20 Sep 2023 14:58:41 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-input@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 28/52] input: navpoint - Convert to platform remove callback returning void
-Date:   Wed, 20 Sep 2023 14:58:05 +0200
-Message-Id: <20230920125829.1478827-29-u.kleine-koenig@pengutronix.de>
+Cc:     ye xingchen <ye.xingchen@zte.com.cn>, linux-input@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: [PATCH 29/52] input: altera_ps2 - Convert to platform remove callback returning void
+Date:   Wed, 20 Sep 2023 14:58:06 +0200
+Message-Id: <20230920125829.1478827-30-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
 References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1878; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=3AQRc2nNT2SkdX2eRxLRmjZGWiHn4Xb2m6xzSSPLTUE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCuxTdKj5BUEJUuCD5Xd/qLKKmU2tB8FKadnx+ HO1zts54guJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQrsUwAKCRCPgPtYfRL+ Tqq8B/42RX29NdVfQBExb1OqsUN5FY1QfQEkVR7mqxb9QuoDgMZgPxlFlseodfLEGYt68wtaopO vidz2D/uSzRofVG/Hjt/OSm2XK3gSBWWBPvOw57+mjjlrG4ONN52bhiFlXGvxA6Mpy1WaPN7kpD fEng08qL3HuFFD3PajFsFRNkv+WR/Of+L5Dky+7x1t3XjkmrlnLP6tbcoyPMHJdEr6GF4ymjAYX eTbtxnPw2D0Q28wy5IszmS4Du4JUTrIkzH9e7T88E3qWZ/52jmEAvhLnaKSue37ArsjQdOZ4Zsq 8Y52n2J5btNrt7O8oxALHn9QjqcrxpSwWYYXAl/SKrrm4s6e
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1772; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=b/cELWNx+24F9jzjVbrLYR4moeHDu3AcRzHmcIjFvR8=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCuxU2aqAcGE7S0GFklYbztKYBArJiliaOJS1b mPPbHTiqmiJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQrsVAAKCRCPgPtYfRL+ TlT4CACtJBJPeyuiyyEs3mlsYwLYxL5BDHmy7s0N0t3Mc/ko+7f5RlznhYwISw78Wb04PrjtMxr SDHir511ii4SD9upLz8HZ6nDZI68TcFPnjCyUVYCsDaDGqI1xdnGGdRQUKgymLW9GaxeSQGBdTh 0mXymGOSsvzt7gxpdj+OFkk1HX2GQcJ4i//gX+6Lz5ODJS/N9OhjDQ/Yo3WH955uF/LAFHcz/tR fgOCzT/mZ4m19/cb26HYVK2nFL4uIoknz5N0FHv6ZdYa1GJ5bx9ttPWiCkCaI5fubnDhyEBebOW 3zEJXhT7OmsPqTefe3t56cakabpyD/48L5Bd4EkZEPkfYqxM
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -72,40 +71,37 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/input/mouse/navpoint.c | 6 ++----
+ drivers/input/serio/altera_ps2.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/mouse/navpoint.c b/drivers/input/mouse/navpoint.c
-index 2b7b86eef280..c00dc1275da2 100644
---- a/drivers/input/mouse/navpoint.c
-+++ b/drivers/input/mouse/navpoint.c
-@@ -295,7 +295,7 @@ static int navpoint_probe(struct platform_device *pdev)
- 	return error;
- }
- 
--static int navpoint_remove(struct platform_device *pdev)
-+static void navpoint_remove(struct platform_device *pdev)
+diff --git a/drivers/input/serio/altera_ps2.c b/drivers/input/serio/altera_ps2.c
+index 9f8d7b332d1b..c5b634940cfc 100644
+--- a/drivers/input/serio/altera_ps2.c
++++ b/drivers/input/serio/altera_ps2.c
+@@ -125,13 +125,11 @@ static int altera_ps2_probe(struct platform_device *pdev)
+ /*
+  * Remove one device from this driver.
+  */
+-static int altera_ps2_remove(struct platform_device *pdev)
++static void altera_ps2_remove(struct platform_device *pdev)
  {
- 	const struct navpoint_platform_data *pdata =
- 					dev_get_platdata(&pdev->dev);
-@@ -311,8 +311,6 @@ static int navpoint_remove(struct platform_device *pdev)
+ 	struct ps2if *ps2if = platform_get_drvdata(pdev);
  
- 	if (gpio_is_valid(pdata->gpio))
- 		gpio_free(pdata->gpio);
+ 	serio_unregister_port(ps2if->io);
 -
 -	return 0;
  }
  
- static int navpoint_suspend(struct device *dev)
-@@ -348,7 +346,7 @@ static DEFINE_SIMPLE_DEV_PM_OPS(navpoint_pm_ops,
- 
- static struct platform_driver navpoint_driver = {
- 	.probe		= navpoint_probe,
--	.remove		= navpoint_remove,
-+	.remove_new	= navpoint_remove,
- 	.driver = {
- 		.name	= "navpoint",
- 		.pm	= pm_sleep_ptr(&navpoint_pm_ops),
+ #ifdef CONFIG_OF
+@@ -148,7 +146,7 @@ MODULE_DEVICE_TABLE(of, altera_ps2_match);
+  */
+ static struct platform_driver altera_ps2_driver = {
+ 	.probe		= altera_ps2_probe,
+-	.remove		= altera_ps2_remove,
++	.remove_new	= altera_ps2_remove,
+ 	.driver	= {
+ 		.name	= DRV_NAME,
+ 		.of_match_table = of_match_ptr(altera_ps2_match),
 -- 
 2.40.1
 
