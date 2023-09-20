@@ -2,61 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1ADA67A6EE9
-	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 01:03:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E4477A73FE
+	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 09:26:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233294AbjISXDp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Sep 2023 19:03:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37736 "EHLO
+        id S233600AbjITH0K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Sep 2023 03:26:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232804AbjISXDo (ORCPT
+        with ESMTP id S233602AbjITH0J (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Sep 2023 19:03:44 -0400
+        Wed, 20 Sep 2023 03:26:09 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F9ACC0;
-        Tue, 19 Sep 2023 16:03:39 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FAF6C433CD;
-        Tue, 19 Sep 2023 23:03:36 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12229CA;
+        Wed, 20 Sep 2023 00:26:02 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B7C2C433C7;
+        Wed, 20 Sep 2023 07:26:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695164618;
-        bh=AVm/wivqgdaYPeb2TV3gnjnCGczTQW2Knav2WIIU+3o=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pHeNS/agG4PS6WxON62G7QizekGP+u5vmPP2ipBG9P8uwxjXW73vH9UdVrn6WwsUX
-         6vj/DYrQ14u7MCBDHmt/PNYf/5QogI4s9Q2qDAIQ8RjmUqJGtZMa+/HHPdILKcUTqv
-         rKRZ+FtjEEs4ZwWdnVA0nEaS/9sZE8ZHWaoqlI8ODh5wUUZvmQqni6a58P8HUUhy/m
-         A/0zyE9i5u1D34c4aqUkTYtJoSDelOi2ug+TUJ7Ekydhbq0qGuJataqmS+wOvtY+9Q
-         SJrCq78hKb8rM0ph9DeRyYaYa0fbPU9Vm7NbbIdjoUYfBUFW3Z+o2Yzm9O7aftsWMG
-         BdLPieoZMA90g==
-From:   Bjorn Andersson <andersson@kernel.org>
-To:     Jiri Kosina <jikos@kernel.org>,
+        s=k20201202; t=1695194761;
+        bh=X9yOJUrjbWjEiTh3oxcVWNpA9x66namZO18j2DCtN20=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=H+kD+g2qcMwNqpfEO7M07AvF7mj0L2bWq9J+lhxLXC5Zv1dIeob7kY1rrVuRwy2wn
+         akDNc2Q9cWeWeMjfXM2O72qeESctR/xVOIH9600vNp05V0VFuT01QEtxIe7envji46
+         Kug1Ox3t1DdD8ceidkDfa4WPtmuXz/G7qafrk9KhIoTDo/pQ51gpdXIMupjA4bRPk0
+         RbClZGqhXy4LyHl20I5dugCOoGsgH/YclPT5NHpxUQmhUN7ls21L9qwrzYjxJlqyDT
+         zDn3aaeJNv5rti4DuNoC/ED3BhxOTptixs4LOs9xMlszJrOSbinRxnAQlR2o33qmuR
+         4Ed7283WVi2KQ==
+Received: from johan by xi.lan with local (Exim 4.96)
+        (envelope-from <johan@kernel.org>)
+        id 1qirbE-0002wI-2Q;
+        Wed, 20 Sep 2023 09:26:17 +0200
+Date:   Wed, 20 Sep 2023 09:26:16 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Doug Anderson <dianders@chromium.org>
+Cc:     Johan Hovold <johan+linaro@kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Maxime Ripard <mripard@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        LinusW <linus.walleij@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Douglas Anderson <dianders@chromium.org>
-Cc:     linux-arm-msm@vger.kernel.org,
-        yangcong5@huaqin.corp-partner.google.com,
-        devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        hsinyi@google.com, Chris Morgan <macroalpha82@gmail.com>,
-        linux-input@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: (subset) [PATCH v4 00/11] drm/panel and i2c-hid: Allow panels and touchscreens to power sequence together
-Date:   Tue, 19 Sep 2023 16:07:29 -0700
-Message-ID: <169516486001.787935.12322857337806445764.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230727171750.633410-1-dianders@chromium.org>
-References: <20230727171750.633410-1-dianders@chromium.org>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Subject: Re: [PATCH] HID: i2c-hid: fix handling of unpopulated devices
+Message-ID: <ZQqemN8P2VKgxhsV@hovoldconsulting.com>
+References: <20230918125851.310-1-johan+linaro@kernel.org>
+ <CAD=FV=Wfwvp-SbGrdO5VJcjG42njkApJPB7wnY-YYa1_-O0JWQ@mail.gmail.com>
+ <ZQlIveJVdvyV2Ygy@hovoldconsulting.com>
+ <CAD=FV=XBG7auVVyHn5uvahSZZxp5qBfp4+A9NwFqahdN6XrbZA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD=FV=XBG7auVVyHn5uvahSZZxp5qBfp4+A9NwFqahdN6XrbZA@mail.gmail.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -66,23 +67,53 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Tue, Sep 19, 2023 at 11:15:46AM -0700, Doug Anderson wrote:
+> On Tue, Sep 19, 2023 at 12:07 AM Johan Hovold <johan@kernel.org> wrote:
 
-On Thu, 27 Jul 2023 10:16:27 -0700, Douglas Anderson wrote:
-> The big motivation for this patch series is mostly described in the patch
-> ("drm/panel: Add a way for other devices to follow panel state"), but to
-> quickly summarize here: for touchscreens that are connected to a panel we
-> need the ability to power sequence the two device together. This is not a
-> new need, but so far we've managed to get by through a combination of
-> inefficiency, added costs, or perhaps just a little bit of brokenness.
-> It's time to do better. This patch series allows us to do better.
+> > But regardless of what a long-term proper solution to this may look
+> > like, we need to fix the regression in 6.6-rc1 by restoring the old
+> > behaviour.
 > 
-> [...]
+> OK, fair enough. I'll take a look at your patch, though I think the
+> person that really needs to approve it is Benjamin...
+> 
+> Style-wise, I will say that Benjamin really wanted to keep the "panel
+> follower" code out of the main probe routine. Some of my initial
+> patches adding "panel follower" looked more like the results after
+> your patch but Benjamin really wasn't happy until there were no
+> special cases for panel-followers in the main probe routine. This is
+> why the code is structured as it is.
 
-Applied, thanks!
+Ok, I prefer not hiding away things like that as it obscures what's
+really going on, for example, in this case, that you register a device
+without really having probed it.
 
-[11/11] arm64: dts: qcom: sc7180: Link trogdor touchscreens to the panels
-        commit: 989aac9dea7fcfc33b5eedc4ae44abbf71460a4d
+As I alluded to in the commit message, you probably want to be able to
+support second-source touchscreen panel followers as well at some point
+and then deferring checking whether device is populated until the panel
+is powered on is not going to work.
 
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+I skimmed the thread were you added this, but I'm not sure I saw any
+reason for why powering on the panel follower temporarily during probe
+would not work?
+
+> Thinking that way, is there any reason you can't just move the
+> i2c_hid_init_irq() into __do_i2c_hid_core_initial_power_up()? You
+> could replace the call to enable_irq() with it and then remove the
+> `IRQF_NO_AUTOEN` flag? I think that would also solve the issue if you
+> wanted to use a 2nd source + the panel follower concept? Both devices
+> would probe, but only one of them would actually grab the interrupt
+> and only one of them would actually create real HID devices. We might
+> need to do some work to keep from trying again at every poweron of the
+> panel, but it would probably be workable? I think this would also be a
+> smaller change...
+
+That was my first idea as well, but conceptually it is more correct to
+request resources at probe time and not at some later point when you can
+no longer fail probe.
+
+You'd also need to handle the fact that the interrupt may never have
+been requested when remove() is called, which adds unnecessary
+complexity.
+
+Johan
