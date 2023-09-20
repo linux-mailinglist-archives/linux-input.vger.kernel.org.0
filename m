@@ -2,45 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 30FF87A8244
-	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 14:58:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DA547A8249
+	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 14:58:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234806AbjITM7A (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Sep 2023 08:59:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33852 "EHLO
+        id S235969AbjITM7D (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Sep 2023 08:59:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235571AbjITM6x (ORCPT
+        with ESMTP id S235972AbjITM6z (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Sep 2023 08:58:53 -0400
+        Wed, 20 Sep 2023 08:58:55 -0400
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D286199
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D609E8
         for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 05:58:42 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwmu-0005Ga-W1; Wed, 20 Sep 2023 14:58:41 +0200
+        id 1qiwmv-0005H1-9N; Wed, 20 Sep 2023 14:58:41 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwmu-007gzf-JT; Wed, 20 Sep 2023 14:58:40 +0200
+        id 1qiwmu-007gzk-T2; Wed, 20 Sep 2023 14:58:40 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwmu-003IDm-AK; Wed, 20 Sep 2023 14:58:40 +0200
+        id 1qiwmu-003IDq-Jd; Wed, 20 Sep 2023 14:58:40 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-input@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 21/52] input: pcf50633-input - Convert to platform remove callback returning void
-Date:   Wed, 20 Sep 2023 14:57:58 +0200
-Message-Id: <20230920125829.1478827-22-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 22/52] input: pcspkr - Convert to platform remove callback returning void
+Date:   Wed, 20 Sep 2023 14:57:59 +0200
+Message-Id: <20230920125829.1478827-23-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
 References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1888; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=sk2uLRu8+Z7G4zHmL1tt9dM7sCETWMgmiwFLiN+GUKE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCuxL5JGI4Xs06Igvr9pN7fmfKxGYdKTG52Rb9 /lH1WYnpz2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQrsSwAKCRCPgPtYfRL+ TueWB/9e4OxvTp5BPkx66vTNp5u2lhmhQ1KdJwZ4MPmhXIYFK4HzkSA/LUdTrTY4qfFiRjme9FY fH5ovI5GouxhJijwbWpIZPBZ6SxpLOFO5LawV7ZC3lmPhkpw4rcByU8I9/rhbwCzc4yE75P7qIb FkPdbuVbSIwXVDy2nK4A0m8yy24G+Vznjkjn363vQ/6C0uBq8xELtPPxDqKhSODQ3nPZAcvVrDj tq/8Aeh+ON/I5K8s7X51OPofDeSFhHIBuugVC0DUgkxYEOaTkCGbfudIruLzCueO9rBklNX2Dam K5Cegg8RcnaTD/b8PZsVkABf3aKsYzWAk+7O8OmRez5uRazM
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1782; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=RjV/fOJvcYA26YDjbKZ6eckVWDo+1/pWGVfTBVFSGuE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCuxMggHl+xh8fGNKhkvGdeyoJjuDeyxkK+KPe 1bR5CAnRU2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQrsTAAKCRCPgPtYfRL+ TrRICACCVglrT1/CxhR9HLrEN346UzBrJLsOynBBSxNqdSBbkJdQx2zOPWmPmtDzWYVtAm6hlxE mysS0SODqBt+HDxiv/xvMcXtw7Jzbw737iDTCrbBk+pymWeMPbEBvFJS/D/Xe2wHAqHltLOyxyA vS2nrtUEIZ7yJ7m03i3A9RL8flpeCIs+GTM5GPmRPTkdaENROk3zSkLP5yf/Ih7+/pGevCKgIpm V/ORvJ/LgqaUlKK/DH1ptCk9VPduMyeUWONUNm/WZGas2s9sNXNF8mXw4mHpdx0D5TXNE6zGq9R m328fNb7jaccdDQ/dr9MapUT/xEzRjnPRGpKfCdCrIJOQn5p
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -70,40 +70,39 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/input/misc/pcf50633-input.c | 6 ++----
+ drivers/input/misc/pcspkr.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/misc/pcf50633-input.c b/drivers/input/misc/pcf50633-input.c
-index 4c60c70c4c10..c5c5fe236c18 100644
---- a/drivers/input/misc/pcf50633-input.c
-+++ b/drivers/input/misc/pcf50633-input.c
-@@ -87,7 +87,7 @@ static int pcf50633_input_probe(struct platform_device *pdev)
+diff --git a/drivers/input/misc/pcspkr.c b/drivers/input/misc/pcspkr.c
+index 9c666b2f14fe..897854fd245f 100644
+--- a/drivers/input/misc/pcspkr.c
++++ b/drivers/input/misc/pcspkr.c
+@@ -95,15 +95,13 @@ static int pcspkr_probe(struct platform_device *dev)
  	return 0;
  }
  
--static int pcf50633_input_remove(struct platform_device *pdev)
-+static void pcf50633_input_remove(struct platform_device *pdev)
+-static int pcspkr_remove(struct platform_device *dev)
++static void pcspkr_remove(struct platform_device *dev)
  {
- 	struct pcf50633_input *input  = platform_get_drvdata(pdev);
+ 	struct input_dev *pcspkr_dev = platform_get_drvdata(dev);
  
-@@ -96,8 +96,6 @@ static int pcf50633_input_remove(struct platform_device *pdev)
- 
- 	input_unregister_device(input->input_dev);
- 	kfree(input);
+ 	input_unregister_device(pcspkr_dev);
+ 	/* turn off the speaker */
+ 	pcspkr_event(NULL, EV_SND, SND_BELL, 0);
 -
 -	return 0;
  }
  
- static struct platform_driver pcf50633_input_driver = {
-@@ -105,7 +103,7 @@ static struct platform_driver pcf50633_input_driver = {
- 		.name = "pcf50633-input",
+ static int pcspkr_suspend(struct device *dev)
+@@ -129,7 +127,7 @@ static struct platform_driver pcspkr_platform_driver = {
+ 		.pm	= &pcspkr_pm_ops,
  	},
- 	.probe = pcf50633_input_probe,
--	.remove = pcf50633_input_remove,
-+	.remove_new = pcf50633_input_remove,
+ 	.probe		= pcspkr_probe,
+-	.remove		= pcspkr_remove,
++	.remove_new	= pcspkr_remove,
+ 	.shutdown	= pcspkr_shutdown,
  };
- module_platform_driver(pcf50633_input_driver);
- 
+ module_platform_driver(pcspkr_platform_driver);
 -- 
 2.40.1
 
