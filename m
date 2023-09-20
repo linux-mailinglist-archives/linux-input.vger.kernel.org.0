@@ -2,46 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 665F27A825B
-	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 14:59:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55AA27A825C
+	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 14:59:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235445AbjITM7J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Sep 2023 08:59:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52420 "EHLO
+        id S235957AbjITM7L (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Sep 2023 08:59:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235933AbjITM7C (ORCPT
+        with ESMTP id S235992AbjITM7E (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Sep 2023 08:59:02 -0400
+        Wed, 20 Sep 2023 08:59:04 -0400
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A2D31B1
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF4B41B2
         for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 05:58:48 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwmy-0005TE-RC; Wed, 20 Sep 2023 14:58:44 +0200
+        id 1qiwmz-0005VL-6E; Wed, 20 Sep 2023 14:58:45 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwmx-007h0X-Jw; Wed, 20 Sep 2023 14:58:43 +0200
+        id 1qiwmx-007h0c-UI; Wed, 20 Sep 2023 14:58:43 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwmx-003IEj-AM; Wed, 20 Sep 2023 14:58:43 +0200
+        id 1qiwmx-003IEm-Ko; Wed, 20 Sep 2023 14:58:43 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Chen Jun <chenjun102@huawei.com>, linux-input@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: [PATCH 35/52] input: i8042 - Convert to platform remove callback returning void
-Date:   Wed, 20 Sep 2023 14:58:12 +0200
-Message-Id: <20230920125829.1478827-36-u.kleine-koenig@pengutronix.de>
+Cc:     linux-input@vger.kernel.org, kernel@pengutronix.de
+Subject: [PATCH 36/52] input: ioc3kbd - Convert to platform remove callback returning void
+Date:   Wed, 20 Sep 2023 14:58:13 +0200
+Message-Id: <20230920125829.1478827-37-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
 References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1619; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=qXFfmH9ohm6YIWOIaXdw0iN10nBymRGUnLiv5qGF5ZE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCuxbvrUAESrEhv8qOI0YBUiNY6Lj9oaVZIADM fHVbA2jt6uJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQrsWwAKCRCPgPtYfRL+ Tr9sB/4+SrkNcESUVlrcOfXjnsStfMPu+29rghBRx6L+L/tKzmOwQGucQ0HuT8wKtdNw4UMoo35 7KE5tE7DO+oPe0ovnjekEDOUyIkPVngOIwbs5npgxB2L4npd8hF3HhWkolB6GMCuiS9XogeYLhb e3CLt9foCqzJ4GlBRsW/EYZjVDlIDXaLhwqtnS87FmibF8ouUUfJ7jdvElH61UD6fzqS4CnuxYB MdH3ZGlE55mo0ixxdgtoaejuPW0uSPxQeAHIZk4q5n5U5RBELEQtxOodajnD6GKxTdwzsJbAfch ashdU1MKRPlAVgqcpOyYKUQwAvJRIwNnHMUHHccL8jdEDKfS
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1702; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=MSB+wtL3GLAWTM1wsCxPsyNriJgyi0G0vzMveo2gbss=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCuxcxLXVfofN8NbkKGgWH3o5Jpa+gG+gUORN0 xohi/CT4XSJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQrsXAAKCRCPgPtYfRL+ TmqjB/0XszIMET2FiaGVZSHZoWLQWNBZ7frHOdIyh9PVUFkK4eV5j0Pz9MStNDG96cMj95anI+j ysQShooB1Fvdd4PS/Dax6yT+JVCDp+2FJA2fp2m/7IXslYwYx2XYuZEGy88X0PLOkY+znSIq9/U Nt0UVYyojOZCnLCu16ZXs/HxdNqRZm/cQnsZ/1OvE+jngygeptMolJmRS0FNcu3wHcX5FdIQg8Y Dy4siejXlNsaSQCCHSsJVpnLNwWQtCJ15/kY9Q43D3PWLhkDQGw6LFKBJfF70XFjvDRoQuQ9NX4 xF+FIvF1R27hXBY21p3oyaGMrjdzyNXDFUv2r27aX9JbIuRw
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -71,37 +70,37 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/input/serio/i8042.c | 6 ++----
+ drivers/input/serio/ioc3kbd.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
-index 6dac7c1853a5..9fbb8d31575a 100644
---- a/drivers/input/serio/i8042.c
-+++ b/drivers/input/serio/i8042.c
-@@ -1584,13 +1584,11 @@ static int i8042_probe(struct platform_device *dev)
- 	return error;
+diff --git a/drivers/input/serio/ioc3kbd.c b/drivers/input/serio/ioc3kbd.c
+index d51bfe912db5..50552dc7b4f5 100644
+--- a/drivers/input/serio/ioc3kbd.c
++++ b/drivers/input/serio/ioc3kbd.c
+@@ -190,7 +190,7 @@ static int ioc3kbd_probe(struct platform_device *pdev)
+ 	return 0;
  }
  
--static int i8042_remove(struct platform_device *dev)
-+static void i8042_remove(struct platform_device *dev)
+-static int ioc3kbd_remove(struct platform_device *pdev)
++static void ioc3kbd_remove(struct platform_device *pdev)
  {
- 	i8042_unregister_ports();
- 	i8042_free_irqs();
- 	i8042_controller_reset(false);
+ 	struct ioc3kbd_data *d = platform_get_drvdata(pdev);
+ 
+@@ -198,13 +198,11 @@ static int ioc3kbd_remove(struct platform_device *pdev)
+ 
+ 	serio_unregister_port(d->kbd);
+ 	serio_unregister_port(d->aux);
 -
 -	return 0;
  }
  
- static struct platform_driver i8042_driver = {
-@@ -1601,7 +1599,7 @@ static struct platform_driver i8042_driver = {
- #endif
+ static struct platform_driver ioc3kbd_driver = {
+ 	.probe          = ioc3kbd_probe,
+-	.remove         = ioc3kbd_remove,
++	.remove_new     = ioc3kbd_remove,
+ 	.driver = {
+ 		.name = "ioc3-kbd",
  	},
- 	.probe		= i8042_probe,
--	.remove		= i8042_remove,
-+	.remove_new	= i8042_remove,
- 	.shutdown	= i8042_shutdown,
- };
- 
 -- 
 2.40.1
 
