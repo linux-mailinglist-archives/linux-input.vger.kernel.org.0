@@ -2,46 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 325877A824F
-	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 14:59:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 087E27A8257
+	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 14:59:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235155AbjITM7F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Sep 2023 08:59:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33768 "EHLO
+        id S235290AbjITM7H (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Sep 2023 08:59:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235907AbjITM65 (ORCPT
+        with ESMTP id S235812AbjITM67 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Sep 2023 08:58:57 -0400
+        Wed, 20 Sep 2023 08:58:59 -0400
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A222EB
-        for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 05:58:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C9E4122
+        for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 05:58:46 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwmw-0005J9-5Q; Wed, 20 Sep 2023 14:58:42 +0200
+        id 1qiwmw-0005JU-CC; Wed, 20 Sep 2023 14:58:42 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwmv-007h03-P1; Wed, 20 Sep 2023 14:58:41 +0200
+        id 1qiwmv-007h08-Ve; Wed, 20 Sep 2023 14:58:41 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwmv-003IEA-FY; Wed, 20 Sep 2023 14:58:41 +0200
+        id 1qiwmv-003IEF-MW; Wed, 20 Sep 2023 14:58:41 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     patches@opensource.cirrus.com, linux-input@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: [PATCH 27/52] input: wm831x-on - Convert to platform remove callback returning void
-Date:   Wed, 20 Sep 2023 14:58:04 +0200
-Message-Id: <20230920125829.1478827-28-u.kleine-koenig@pengutronix.de>
+Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-input@vger.kernel.org, kernel@pengutronix.de
+Subject: [PATCH 28/52] input: navpoint - Convert to platform remove callback returning void
+Date:   Wed, 20 Sep 2023 14:58:05 +0200
+Message-Id: <20230920125829.1478827-29-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
 References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1679; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=gZQXYItcz9dC2SwCMhvQ+Td964wO5CgvcNX1T4i05e4=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCuxSkPBHquZYF2rov+EcXNFW9bRRsNRVOPfwC NCoKHcG4WyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQrsUgAKCRCPgPtYfRL+ TurGB/9aOfQ/UOLvyQyJDt3sjWRAPo8Q+zZUjbDzInm01Wps1ke9iLapVo5OgBr5qkgUlc/gLzF Q0+blFGtj65jkGCw/u+OboiUfPv9uDzr8+CsLcu+25+dMtwb6EqELAwKlDXKo+lfpuwvWVMLwch VktwHwJ+j0KPOD5Qjv0jTI6hi+fXprz2BvX4db0SRxNZcoXTrEbVpYETV1a22FU8naqOqIx4LXL xWinLtBkiNCiV7Y5UK35gNPI6q4RVboYQXLwK9Tcyl6nf6RZGII1eJVpQOFGlEcokQtsOyXg/GW EMB0dHln+rG4a8v1LTDyr8lRUrjWLRJuSnuyBnfb1U2pjeeE
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1878; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=3AQRc2nNT2SkdX2eRxLRmjZGWiHn4Xb2m6xzSSPLTUE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCuxTdKj5BUEJUuCD5Xd/qLKKmU2tB8FKadnx+ HO1zts54guJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQrsUwAKCRCPgPtYfRL+ Tqq8B/42RX29NdVfQBExb1OqsUN5FY1QfQEkVR7mqxb9QuoDgMZgPxlFlseodfLEGYt68wtaopO vidz2D/uSzRofVG/Hjt/OSm2XK3gSBWWBPvOw57+mjjlrG4ONN52bhiFlXGvxA6Mpy1WaPN7kpD fEng08qL3HuFFD3PajFsFRNkv+WR/Of+L5Dky+7x1t3XjkmrlnLP6tbcoyPMHJdEr6GF4ymjAYX eTbtxnPw2D0Q28wy5IszmS4Du4JUTrIkzH9e7T88E3qWZ/52jmEAvhLnaKSue37ArsjQdOZ4Zsq 8Y52n2J5btNrt7O8oxALHn9QjqcrxpSwWYYXAl/SKrrm4s6e
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -71,36 +72,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/input/misc/wm831x-on.c | 6 ++----
+ drivers/input/mouse/navpoint.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/misc/wm831x-on.c b/drivers/input/misc/wm831x-on.c
-index a42fe041b73c..e4a06c73b72d 100644
---- a/drivers/input/misc/wm831x-on.c
-+++ b/drivers/input/misc/wm831x-on.c
-@@ -123,20 +123,18 @@ static int wm831x_on_probe(struct platform_device *pdev)
- 	return ret;
+diff --git a/drivers/input/mouse/navpoint.c b/drivers/input/mouse/navpoint.c
+index 2b7b86eef280..c00dc1275da2 100644
+--- a/drivers/input/mouse/navpoint.c
++++ b/drivers/input/mouse/navpoint.c
+@@ -295,7 +295,7 @@ static int navpoint_probe(struct platform_device *pdev)
+ 	return error;
  }
  
--static int wm831x_on_remove(struct platform_device *pdev)
-+static void wm831x_on_remove(struct platform_device *pdev)
+-static int navpoint_remove(struct platform_device *pdev)
++static void navpoint_remove(struct platform_device *pdev)
  {
- 	struct wm831x_on *wm831x_on = platform_get_drvdata(pdev);
- 	int irq = platform_get_irq(pdev, 0);
+ 	const struct navpoint_platform_data *pdata =
+ 					dev_get_platdata(&pdev->dev);
+@@ -311,8 +311,6 @@ static int navpoint_remove(struct platform_device *pdev)
  
- 	free_irq(irq, wm831x_on);
- 	cancel_delayed_work_sync(&wm831x_on->work);
+ 	if (gpio_is_valid(pdata->gpio))
+ 		gpio_free(pdata->gpio);
 -
 -	return 0;
  }
  
- static struct platform_driver wm831x_on_driver = {
- 	.probe		= wm831x_on_probe,
--	.remove		= wm831x_on_remove,
-+	.remove_new	= wm831x_on_remove,
- 	.driver		= {
- 		.name	= "wm831x-on",
- 	},
+ static int navpoint_suspend(struct device *dev)
+@@ -348,7 +346,7 @@ static DEFINE_SIMPLE_DEV_PM_OPS(navpoint_pm_ops,
+ 
+ static struct platform_driver navpoint_driver = {
+ 	.probe		= navpoint_probe,
+-	.remove		= navpoint_remove,
++	.remove_new	= navpoint_remove,
+ 	.driver = {
+ 		.name	= "navpoint",
+ 		.pm	= pm_sleep_ptr(&navpoint_pm_ops),
 -- 
 2.40.1
 
