@@ -2,82 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 357FE7A82AE
-	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 15:05:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E23837A82E7
+	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 15:07:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236410AbjITNFR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Sep 2023 09:05:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45906 "EHLO
+        id S236602AbjITNHH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Sep 2023 09:07:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236422AbjITNFQ (ORCPT
+        with ESMTP id S236596AbjITNGk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Sep 2023 09:05:16 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB628C6
-        for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 06:05:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695215110; x=1726751110;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4pJ26KqS+nyGDAFKOR90POAlnpVu/FFLxN+S9uKXPuE=;
-  b=cer2SWygRVKcCQyOuoRk3yyI+L8nTHT/s4HtSUTjG1pkH6jv/dyvJk+B
-   09Zed3yVnjT6vb8FtjRhsD0RYkJfaZ6SUrBVoGcFu4FojInSNfhPGpM19
-   UrpPOEY+3hXBSkp6YNU4u+ryvsI/O/ntbyYYTuCXZjAAJRMsOac1m0gLJ
-   9ga2X+BhvXyBOJGdGdT4kZvN3V6woiyDwRy1ttN/RDWaayeyOKXYWwUAV
-   U0qiYgE0Ni/VY1PaiQtoeIBU/2weRaWxJGr9TBqhTxOA+fehplRN+Hppv
-   EA+4+Z/1z8JQrcFLzhC4RbCIohtUZe7vkUCAmKOEnWWSEuW+kxt1JDzFQ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="365266474"
-X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="365266474"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 06:04:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="812142116"
-X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="812142116"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 06:04:46 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC0)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qiwsl-0000000Cija-1t40;
-        Wed, 20 Sep 2023 16:04:43 +0300
-Date:   Wed, 20 Sep 2023 16:04:42 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Danny Kaehn <danny.kaehn@plexus.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, ethan.twardy@plexus.com
-Subject: Re: [PATCH] hid: cp2112: Fix duplicate workqueue initialization
-Message-ID: <ZQrt6k/usVXlB223@smile.fi.intel.com>
-References: <20230919212245.483646-1-danny.kaehn@plexus.com>
+        Wed, 20 Sep 2023 09:06:40 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B06A1A5
+        for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 06:06:32 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qiwuS-00012d-By; Wed, 20 Sep 2023 15:06:28 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qiwuQ-007h4u-K0; Wed, 20 Sep 2023 15:06:26 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qiwuQ-003IHW-Ah; Wed, 20 Sep 2023 15:06:26 +0200
+Date:   Wed, 20 Sep 2023 15:06:26 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Rob Herring <robh@kernel.org>, Liang He <windhl@126.com>,
+        kernel@pengutronix.de, linux-input@vger.kernel.org
+Subject: Re: [PATCH 34/52] drivers/input/serio/i8042-sparcio.h :: Convert to
+ platform remove callback returning void
+Message-ID: <20230920130626.42zj6pjsfnj7vhbv@pengutronix.de>
+References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
+ <20230920125829.1478827-35-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="lq6j5vloikqp6hbk"
 Content-Disposition: inline
-In-Reply-To: <20230919212245.483646-1-danny.kaehn@plexus.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230920125829.1478827-35-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Sep 19, 2023 at 04:22:45PM -0500, Danny Kaehn wrote:
-> Previously the cp2112 driver called INIT_DELAYED_WORK within
-> cp2112_gpio_irq_startup, resulting in duplicate initilizations of the
-> workqueue on subsequent IRQ startups following an initial request. This
-> resulted in a warning in set_work_data in workqueue.c, as well as a rare
-> NULL dereference within process_one_work in workqueue.c.
-> 
-> Initialize the workqueue within _probe instead.
 
-Does it deserve a Fixes tag?
+--lq6j5vloikqp6hbk
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-With Best Regards,
-Andy Shevchenko
+Hello Dmitry,
 
+for this patch's Subject my git filter-branch cmdline failed. I guess it
+should be something like
 
+	input: i8042-sparcio - Convert to platform remove callback returning void
+
+instead. I'll wait until the dust settles. In the meantime feel free to
+skip this patch or adapt the Subject yourself. In the former case I'll
+come back to this patch later.
+
+Thanks and sorry for the annoyance,
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--lq6j5vloikqp6hbk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUK7lEACgkQj4D7WH0S
+/k51PAf/T79dQGPXJbN+GxdYThk+gcpi0VzwmJKpMq/gCr9n8yCKVeAlG/crvqzS
+RMPbUGu64M2BnartknZFn2ot0sygIighsCFwlJmUQUAYhopoL4W83XudG+S1K2Ge
+KArBctHtdMPLqcdbzOY6aiVz2TpYFn+0IZjgos43HIB25VsWDVRh6EmcJR5Q8JHP
+eRt5ZzJHWrMAHs1a4OtHmew1faM+q0u4cIL5zbWHh5ALtW0D1wvlbpDo6GmJKWEy
+IjnmuZ4w9stPSJ3j8yxKfOAmjvbRZU1DuuuaHWKlqqPlkdqNCIrXWCbhIlbr1qyH
+0j0C3XZ7Xj/UkGe4ZG+nZaXGY05bwg==
+=uBnd
+-----END PGP SIGNATURE-----
+
+--lq6j5vloikqp6hbk--
