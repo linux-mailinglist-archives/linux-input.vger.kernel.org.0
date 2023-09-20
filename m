@@ -2,45 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA4C87A826A
-	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 14:59:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 568B17A826E
+	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 14:59:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235970AbjITM7T (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Sep 2023 08:59:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41546 "EHLO
+        id S236227AbjITM7V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Sep 2023 08:59:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236047AbjITM7H (ORCPT
+        with ESMTP id S236229AbjITM7H (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Wed, 20 Sep 2023 08:59:07 -0400
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4E441BE
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 884B4E5
         for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 05:58:51 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwn2-0005hv-9B; Wed, 20 Sep 2023 14:58:48 +0200
+        id 1qiwn2-0005jL-Cg; Wed, 20 Sep 2023 14:58:48 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwn0-007h1E-9c; Wed, 20 Sep 2023 14:58:46 +0200
+        id 1qiwn0-007h1J-GH; Wed, 20 Sep 2023 14:58:46 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwn0-003IFR-0U; Wed, 20 Sep 2023 14:58:46 +0200
+        id 1qiwn0-003IFV-7G; Wed, 20 Sep 2023 14:58:46 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-input@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 46/52] input: mc13783_ts - Convert to platform remove callback returning void
-Date:   Wed, 20 Sep 2023 14:58:23 +0200
-Message-Id: <20230920125829.1478827-47-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 47/52] input: pcap_ts - Convert to platform remove callback returning void
+Date:   Wed, 20 Sep 2023 14:58:24 +0200
+Message-Id: <20230920125829.1478827-48-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
 References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1647; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=oVLUxNyjaub1YiVWOsaHCDPrLETVx9xQiELvVrYNZoU=; b=owGbwMvMwMXY3/A7olbonx/jabUkhlSuNxnPL9d9kovQ2efqye/ztfnn++fCJzN0Joj2Onv+O 7HHK1Gmk9GYhYGRi0FWTJHFvnFNplWVXGTn2n+XYQaxMoFMYeDiFICJLBRm/+/qZZy9nMNGduNF L7W/HSe3FF1f1rQhTWrzpx6DGuapbpwTjizhXabYeckqcGnKjrMpla5ZM2rPJN6YErH5SML97mc pOgfDj4jLnSxfOeG2jkgVj+TK8iXFXEp/lRaUJZ9Jlqh/s8G+5NxWlmuBZ7nkzAL3mZ/vui7Q35 2+cmmjbdrCwOo7gaLhbE9y87sYb+Q3LpEIVOifu974Q1ZG4rfdLFIPRLMD05bwWM+Y9nPxbJcng lcPmQZb9vB1lqhGxx7wTU5+5PO3o2vfvVrm9GiNb7KMQtHdN1nMXROzpvIVL5GRj9zR5vno8WQz 1+SvYjGXmSve3/K1P9y7ZlHyC4m/eawmSl9+2goKRwoDAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1822; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=O9V+dbtrFe7O6zT8B/foRZxZSOZEnvwSslVl9rftPSA=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCuxpIdP4HLl/LuuGRA3825iun0VFhIGQFDhNb gCKzGj+ceCJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQrsaQAKCRCPgPtYfRL+ Ti+2B/4xfpJ5sPGX9iJ8HdTt3XhPSyrAJyBQ7T1JCa0UDZFWf+T7KE5RlN9vTCStRnjDUPRzcRt WfmZFfWkJUQ68GWH41oS3nUdDs53FoZ3haUy8jeh098sqHg8brPayqR5GgLORsfhT3DQwD4oAiq SjsLaPJ5ywdPJ7789RTdfg68cE1a9owgp4+ktSiCWiuXt3KqFanpYpl3nJO4thDq9T34ir2yJtv yuDFnBmMK+x5iSgi22tz9fWGVA9JNsbt7bD3EhohBC7aUGZ7hwR/M2eeXhr7eKwKdw9Gnn2GspT R165Br3dMAR9W9dExD/oUYVtX8Z3+47co+foLHq2IDkcBjNP
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -70,34 +70,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/input/touchscreen/mc13783_ts.c | 6 ++----
+ drivers/input/touchscreen/pcap_ts.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/touchscreen/mc13783_ts.c b/drivers/input/touchscreen/mc13783_ts.c
-index ae0d978c83bf..cbcd6e34efb7 100644
---- a/drivers/input/touchscreen/mc13783_ts.c
-+++ b/drivers/input/touchscreen/mc13783_ts.c
-@@ -217,18 +217,16 @@ static int __init mc13783_ts_probe(struct platform_device *pdev)
- 	return ret;
+diff --git a/drivers/input/touchscreen/pcap_ts.c b/drivers/input/touchscreen/pcap_ts.c
+index b2da0194e02a..821245019fea 100644
+--- a/drivers/input/touchscreen/pcap_ts.c
++++ b/drivers/input/touchscreen/pcap_ts.c
+@@ -197,7 +197,7 @@ static int pcap_ts_probe(struct platform_device *pdev)
+ 	return err;
  }
  
--static int mc13783_ts_remove(struct platform_device *pdev)
-+static void mc13783_ts_remove(struct platform_device *pdev)
+-static int pcap_ts_remove(struct platform_device *pdev)
++static void pcap_ts_remove(struct platform_device *pdev)
  {
- 	struct mc13783_ts_priv *priv = platform_get_drvdata(pdev);
+ 	struct pcap_ts *pcap_ts = platform_get_drvdata(pdev);
  
- 	input_unregister_device(priv->idev);
- 	kfree(priv);
+@@ -207,8 +207,6 @@ static int pcap_ts_remove(struct platform_device *pdev)
+ 	input_unregister_device(pcap_ts->input);
+ 
+ 	kfree(pcap_ts);
 -
 -	return 0;
  }
  
- static struct platform_driver mc13783_ts_driver = {
--	.remove		= mc13783_ts_remove,
-+	.remove_new	= mc13783_ts_remove,
+ #ifdef CONFIG_PM
+@@ -240,7 +238,7 @@ static const struct dev_pm_ops pcap_ts_pm_ops = {
+ 
+ static struct platform_driver pcap_ts_driver = {
+ 	.probe		= pcap_ts_probe,
+-	.remove		= pcap_ts_remove,
++	.remove_new	= pcap_ts_remove,
  	.driver		= {
- 		.name	= MC13783_TS_NAME,
- 	},
+ 		.name	= "pcap-ts",
+ 		.pm	= PCAP_TS_PM_OPS,
 -- 
 2.40.1
 
