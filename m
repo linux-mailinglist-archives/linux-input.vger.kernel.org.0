@@ -2,49 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 69DD27A83BC
-	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 15:46:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 041607A8652
+	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 16:13:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235119AbjITNqI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Sep 2023 09:46:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44576 "EHLO
+        id S234579AbjITONs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Sep 2023 10:13:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234925AbjITNqI (ORCPT
+        with ESMTP id S234100AbjITONr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Sep 2023 09:46:08 -0400
+        Wed, 20 Sep 2023 10:13:47 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8488DE4;
-        Wed, 20 Sep 2023 06:46:01 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58BAEC433C7;
-        Wed, 20 Sep 2023 13:45:58 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E54A599;
+        Wed, 20 Sep 2023 07:13:41 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0484BC433C8;
+        Wed, 20 Sep 2023 14:13:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695217561;
-        bh=Af/2hG8Rettl0ksgOXBNHtUqLQxI55gP+9ND2DeTVIo=;
-        h=From:To:In-Reply-To:References:Subject:Date:From;
-        b=ogFLbZAprynFzuWPsOYcf3ijDaslsOyOwEWAXskXuFQiisw2fyFotXVRqwRZM0Tko
-         rKbUo5QHujkA/LGhyMnYjjBrknPTupyJwwvxtnd4kzWbUUlcUb+ycfGpCOrRtLIwBf
-         NQJxFVFqhVLcHtXc0ph6a5MQbiJNlgm27N0cAenUmOaJYZm0WVcQOubhdJN0Q0sL4I
-         kd4Hzbgrjw6JBgrOy2GaIVLJpdky3sQbTcYArwyQWtEiaMl6aBp4OGkDIC1q6L7L94
-         zq0VRBu+UKN03h6bA/LWAUNDVt453WlnD+mZgPqP/NsSTTn1daT9qX5a9rLMSBfz9t
-         epQ5Fo4VswRQA==
-From:   Lee Jones <lee@kernel.org>
-To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        lee@kernel.org, bcousson@baylibre.com, tony@atomide.com,
-        mturquette@baylibre.com, sboyd@kernel.org,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-clk@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>
-In-Reply-To: <20230916100515.1650336-1-andreas@kemnade.info>
-References: <20230916100515.1650336-1-andreas@kemnade.info>
-Subject: Re: (subset) [PATCH v4 0/5] ARM: omap: omap4-embt2ws: 32K clock
- for WLAN
-Message-Id: <169521755809.3445505.9877509885722763259.b4-ty@kernel.org>
-Date:   Wed, 20 Sep 2023 14:45:58 +0100
+        s=k20201202; t=1695219221;
+        bh=+PIFdd9Ls/XOzLa7S2SXFO9aN6ielA4li7g11WQ+L7I=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=DSOSs61VmibAnne4RhZeh43rOX4CSjaKCt2WTZvQwh2wnCeLnmzxHLhb83Uavyc1n
+         528xsWrdm4emPruaJq6h9f8v6VSSJzP1QIDojXVrESGeH0fllMiEIebeJZmnEBQdF6
+         KDPpMBlB3elkQ5sGCJSWcJqQKgy7EX6dC423QRH9glrq1LWkKbPoZYZtzs+Yvi9FZW
+         Fw86IduZobavDyfPK+dikbtF7W/5OPbRY6c9cEz05htFy97ZEg4ZL39Gwu8jIE0nPi
+         Vegfk24Wp3CCmdgEuIF68vJJAUuDu/t6dIFaYF9m6rQXQD2wJdumwL4zYkIeIKGY61
+         gN+GPQ9VyqHIw==
+Date:   Wed, 20 Sep 2023 16:13:37 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+cc:     benjamin.tissoires@redhat.com, jic23@kernel.org, lars@metafoo.de,
+        srinivas.pandruvada@linux.intel.com, linux-input@vger.kernel.org,
+        linux-iio@vger.kernel.org
+Subject: Re: [PATCH v2 0/9] Support light color temperature and
+ chromaticity
+In-Reply-To: <20230919081054.2050714-1-Basavaraj.Natikar@amd.com>
+Message-ID: <nycvar.YFH.7.76.2309201612350.14216@cbobk.fhfr.pm>
+References: <20230919081054.2050714-1-Basavaraj.Natikar@amd.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.2
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -55,26 +51,49 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 16 Sep 2023 12:05:10 +0200, Andreas Kemnade wrote:
-> To have WLAN working properly, enable a 32K clock of the TWL6032.
-> In earlier tests, it was still enabled from a previous boot into
-> the vendor system.
+On Tue, 19 Sep 2023, Basavaraj Natikar wrote:
+
+> This series adds support for light color temperature and chromaticity.
 > 
-> Changes in V4:
-> - use dev_err_probe in clk probe()
-> - R-by
+> v1->v2:
+> *Rename the series.
+> *Rename als_illum to als channel as it supports other channels.
+> *Update patch description to include same reading for the two existing
+>  channels to use channel index to support more hub attributes.
+> *Keep line length under 80chars in hid-sensor-als.
+> *Add new channel type IIO_COLORTEMP.
+> *Update patch description and its subject to add channel type for 
+>  chromaticity. 
 > 
-> [...]
+> Basavaraj Natikar (9):
+>   iio: hid-sensor-als: Use channel index to support more hub attributes
+>   iio: Add channel type light color temperature
+>   iio: hid-sensor-als: Add light color temperature support
+>   HID: amd_sfh: Add support for light color temperature
+>   HID: amd_sfh: Add support for SFH1.1 light color temperature
+>   iio: Add channel type for chromaticity
+>   iio: hid-sensor-als: Add light chromaticity support
+>   HID: amd_sfh: Add light chromaticity support
+>   HID: amd_sfh: Add light chromaticity for SFH1.1
+> 
+>  Documentation/ABI/testing/sysfs-bus-iio       |  15 ++
+>  .../hid_descriptor/amd_sfh_hid_desc.c         |   7 +
+>  .../hid_descriptor/amd_sfh_hid_desc.h         |   3 +
+>  .../hid_descriptor/amd_sfh_hid_report_desc.h  |  21 +++
+>  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c |   9 ++
+>  .../amd-sfh-hid/sfh1_1/amd_sfh_interface.h    |  15 ++
+>  drivers/iio/industrialio-core.c               |   2 +
+>  drivers/iio/light/hid-sensor-als.c            | 130 +++++++++++++++---
+>  include/linux/hid-sensor-ids.h                |   4 +
+>  include/uapi/linux/iio/types.h                |   2 +
+>  tools/iio/iio_event_monitor.c                 |   3 +
+>  11 files changed, 195 insertions(+), 16 deletions(-)
 
-Applied, thanks!
+I believe this should go through Jonathan's tree as a whole, right?
 
-[1/5] dt-bindings: mfd: convert twl-family.txt to json-schema
-      commit: 098e2d6fd72fc99097af33e6e8cb4cd0921a26ac
-[2/5] dt-bindings: mfd: ti,twl: Add clock provider properties
-      commit: eb9fba08e386ff98818de12b40a5ee1443129229
-[3/5] mfd: twl-core: Add a clock subdevice for the TWL6032
-      commit: 3e359099b245227c6729dd5f81f2757dea5d4656
+Thanks,
 
---
-Lee Jones [李琼斯]
+-- 
+Jiri Kosina
+SUSE Labs
 
