@@ -2,46 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACD7D7A8258
-	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 14:59:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02F9A7A8267
+	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 14:59:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235812AbjITM7I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Sep 2023 08:59:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33848 "EHLO
+        id S236160AbjITM7R (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Sep 2023 08:59:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235572AbjITM7C (ORCPT
+        with ESMTP id S236153AbjITM7H (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Sep 2023 08:59:02 -0400
+        Wed, 20 Sep 2023 08:59:07 -0400
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59751133
-        for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 05:58:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 104B0B6
+        for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 05:58:49 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwmx-0005Qi-Un; Wed, 20 Sep 2023 14:58:44 +0200
+        id 1qiwmy-0005Sm-Dv; Wed, 20 Sep 2023 14:58:44 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwmx-007h0R-74; Wed, 20 Sep 2023 14:58:43 +0200
+        id 1qiwmx-007h0V-Cx; Wed, 20 Sep 2023 14:58:43 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiwmw-003IEb-U5; Wed, 20 Sep 2023 14:58:42 +0200
+        id 1qiwmx-003IEf-3k; Wed, 20 Sep 2023 14:58:43 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+Cc:     Rob Herring <robh@kernel.org>, Liang He <windhl@126.com>,
         linux-input@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 33/52] input: ct82c710 - Convert to platform remove callback returning void
-Date:   Wed, 20 Sep 2023 14:58:10 +0200
-Message-Id: <20230920125829.1478827-34-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 34/52] drivers/input/serio/i8042-sparcio.h :: Convert to platform remove callback returning void
+Date:   Wed, 20 Sep 2023 14:58:11 +0200
+Message-Id: <20230920125829.1478827-35-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
 References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1592; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=ItH+0WRyjZ/ukPbYKT4JATm3dReP/LejSq4QWeVXTJ4=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCuxZBZuOtJ9xbe3a9i8VphLd2KNsoX9nrIY85 sdwSicjiQGJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQrsWQAKCRCPgPtYfRL+ TuB8B/0fWJdV+duCvgUDAQ2n2LiknL+qH6xLCLvTIfogBvmaBtypy3OSEixUKVByLJESA3oTe16 fCf3f68IWz9U4jWVDaBfyr3eVVKuW7p7qdC6a2exscAVZzL64tcyMWXvoh2/OABoJYbpwI/na3M K0Qw8PXYtgO1ZH0WfbUBC5l54UecZrRiu3uW3vugRm/8Xbl8Wt+iOV4nJ/9zv/SLhMNQTCohRL4 r3HkNEl6LYcMWDfivYBu0Dy1AybQymEvASX8j/sA1kCM0LtGUyvzsFPAr0fv/JeDVrXuFrSYmUD rgosGTb95+QPENTPZOyT044z2s+k6UW0LqNwCpkS2Wx/+C4u
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1691; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=bguHYNAbW0JHfcHAlaOD0UMgUkVnGF3h4uEIBcS7buU=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCuxaCp/ffrkPyj63s+7uKo9rTudeMDyxXjfy7 9WGpdyEDjuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQrsWgAKCRCPgPtYfRL+ TlV1CACpjFOT8mrF71juA6+GWd/WW9RUGh5rCRChIw/QuCY/HYh585mON22EQxLP6QEAC4qpIag TTQ8wa6p+jmJjcIfDOpLMXN0KGyMWp2Dy2bFbliJtsfP21NXT59DmwUuDIG29vEMMYf+EHI9g1x 0ts21VPu1gOYuLAqdipWxtps0m5cjnepLY3K4UfGMTwur9e6soQOqTFt1wSP7ewfEf4nBb6djjm 79AnL1+/t13kTtu+XShc+CER5hHP2InS9DXvBBm9rwBf4392lt2NvyRYFcnn08TcVf0uz0t6RDh Myr2hzYK/DqhhvrvBFO6Uk37T17aLjUkM4+BCP13dbURySBR
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -71,35 +71,35 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/input/serio/ct82c710.c | 6 ++----
+ drivers/input/serio/i8042-sparcio.h | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/serio/ct82c710.c b/drivers/input/serio/ct82c710.c
-index 3da751f4a6bf..d5c9bb3d0103 100644
---- a/drivers/input/serio/ct82c710.c
-+++ b/drivers/input/serio/ct82c710.c
-@@ -180,11 +180,9 @@ static int ct82c710_probe(struct platform_device *dev)
+diff --git a/drivers/input/serio/i8042-sparcio.h b/drivers/input/serio/i8042-sparcio.h
+index b68793bf05c8..c2fda54dc384 100644
+--- a/drivers/input/serio/i8042-sparcio.h
++++ b/drivers/input/serio/i8042-sparcio.h
+@@ -82,11 +82,9 @@ static int sparc_i8042_probe(struct platform_device *op)
  	return 0;
  }
  
--static int ct82c710_remove(struct platform_device *dev)
-+static void ct82c710_remove(struct platform_device *dev)
+-static int sparc_i8042_remove(struct platform_device *op)
++static void sparc_i8042_remove(struct platform_device *op)
  {
- 	serio_unregister_port(ct82c710_port);
+ 	of_iounmap(kbd_res, kbd_iobase, 8);
 -
 -	return 0;
  }
  
- static struct platform_driver ct82c710_driver = {
-@@ -192,7 +190,7 @@ static struct platform_driver ct82c710_driver = {
- 		.name	= "ct82c710",
+ static const struct of_device_id sparc_i8042_match[] = {
+@@ -103,7 +101,7 @@ static struct platform_driver sparc_i8042_driver = {
+ 		.of_match_table = sparc_i8042_match,
  	},
- 	.probe		= ct82c710_probe,
--	.remove		= ct82c710_remove,
-+	.remove_new	= ct82c710_remove,
+ 	.probe		= sparc_i8042_probe,
+-	.remove		= sparc_i8042_remove,
++	.remove_new	= sparc_i8042_remove,
  };
  
- 
+ static bool i8042_is_mr_coffee(void)
 -- 
 2.40.1
 
