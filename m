@@ -2,97 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E23837A82E7
-	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 15:07:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98C1C7A8378
+	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 15:33:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236602AbjITNHH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Sep 2023 09:07:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58700 "EHLO
+        id S234856AbjITNdu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Sep 2023 09:33:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236596AbjITNGk (ORCPT
+        with ESMTP id S234946AbjITNdt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Sep 2023 09:06:40 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B06A1A5
-        for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 06:06:32 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qiwuS-00012d-By; Wed, 20 Sep 2023 15:06:28 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qiwuQ-007h4u-K0; Wed, 20 Sep 2023 15:06:26 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qiwuQ-003IHW-Ah; Wed, 20 Sep 2023 15:06:26 +0200
-Date:   Wed, 20 Sep 2023 15:06:26 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Rob Herring <robh@kernel.org>, Liang He <windhl@126.com>,
-        kernel@pengutronix.de, linux-input@vger.kernel.org
-Subject: Re: [PATCH 34/52] drivers/input/serio/i8042-sparcio.h :: Convert to
- platform remove callback returning void
-Message-ID: <20230920130626.42zj6pjsfnj7vhbv@pengutronix.de>
-References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
- <20230920125829.1478827-35-u.kleine-koenig@pengutronix.de>
+        Wed, 20 Sep 2023 09:33:49 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50B9CA9
+        for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 06:33:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695216821; x=1726752821;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2kbndLZIIJuf5LmLl+I/shjPEzx5scbxUiK+CkIe+3k=;
+  b=bMlH+UwGOfTEVXeGtW8EeKBeVWqRVmjDeUJ8k+9zM75jpmgYyMR2f/m0
+   EOJnsr8GzZKnI8Otqll5+/KMfjIN6Ik/DOrDmlhy+lBT+/NKC5qFxaakA
+   vQgDcdpTBuIuNtDiYA/ZmL9AkQUIz/9zjlOf/2Ol0+XCqOQKfWlvz66Qx
+   3ixb+JT+hBZ+uZqqHUoSLrcfUTJTGTT05X65Cq0yGbajfbtOeJhYReVwC
+   +5Ttaxtb1UTql0ywVT8V5fz4o0RL4U/bz6PLNGizBTQpubegqI8/tH1Qe
+   k9zUmwz36fAfZgfVXJ34BSY13UHPwZOkOKpJgB2mqAHU+cY6XJu6jW5ib
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="377525628"
+X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
+   d="scan'208";a="377525628"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 06:33:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="870385883"
+X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
+   d="scan'208";a="870385883"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 06:33:38 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC0)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qixKh-0000000DeEJ-3EXu;
+        Wed, 20 Sep 2023 16:33:35 +0300
+Date:   Wed, 20 Sep 2023 16:33:35 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Danny Kaehn <danny.kaehn@plexus.com>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, ethan.twardy@plexus.com
+Subject: Re: [PATCH] hid: cp2112: Fix IRQ shutdown stopping polling for all
+ IRQs on chip
+Message-ID: <ZQr0r3Ux/rkWQ8N5@smile.fi.intel.com>
+References: <20230919212426.489637-1-danny.kaehn@plexus.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="lq6j5vloikqp6hbk"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230920125829.1478827-35-u.kleine-koenig@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230919212426.489637-1-danny.kaehn@plexus.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Tue, Sep 19, 2023 at 04:24:26PM -0500, Danny Kaehn wrote:
+> Previously cp2112_gpio_irq_shutdown always cancelled the
 
---lq6j5vloikqp6hbk
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+cp2112_gpio_irq_shutdown()
 
-Hello Dmitry,
+> gpio_poll_worker, even if other IRQs were still active, and did not set
+> the gpio_poll flag to false. This resulted in any call to _shutdown()
+> resulting in interrupts no longer functioning on the chip until a
+> _remove occurred (a.e. the cp2112 is unplugged or system rebooted).
 
-for this patch's Subject my git filter-branch cmdline failed. I guess it
-should be something like
+_remove()
 
-	input: i8042-sparcio - Convert to platform remove callback returning void
+> Only cancel polling if all IRQs are disabled/masked, and correctly set
+> the gpio_poll flag, allowing polling to restart when an interrupt is
+> next enabled.
 
-instead. I'll wait until the dust settles. In the meantime feel free to
-skip this patch or adapt the Subject yourself. In the former case I'll
-come back to this patch later.
+...
 
-Thanks and sorry for the annoyance,
-Uwe
+> +	if (!dev->irq_mask)
+> +	{
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+The style tells to use these on a single line.
 
---lq6j5vloikqp6hbk
-Content-Type: application/pgp-signature; name="signature.asc"
+> +		dev->gpio_poll = false;
+> +		cancel_delayed_work_sync(&dev->gpio_poll_worker);
+> +	}
 
------BEGIN PGP SIGNATURE-----
+-- 
+With Best Regards,
+Andy Shevchenko
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUK7lEACgkQj4D7WH0S
-/k51PAf/T79dQGPXJbN+GxdYThk+gcpi0VzwmJKpMq/gCr9n8yCKVeAlG/crvqzS
-RMPbUGu64M2BnartknZFn2ot0sygIighsCFwlJmUQUAYhopoL4W83XudG+S1K2Ge
-KArBctHtdMPLqcdbzOY6aiVz2TpYFn+0IZjgos43HIB25VsWDVRh6EmcJR5Q8JHP
-eRt5ZzJHWrMAHs1a4OtHmew1faM+q0u4cIL5zbWHh5ALtW0D1wvlbpDo6GmJKWEy
-IjnmuZ4w9stPSJ3j8yxKfOAmjvbRZU1DuuuaHWKlqqPlkdqNCIrXWCbhIlbr1qyH
-0j0C3XZ7Xj/UkGe4ZG+nZaXGY05bwg==
-=uBnd
------END PGP SIGNATURE-----
 
---lq6j5vloikqp6hbk--
