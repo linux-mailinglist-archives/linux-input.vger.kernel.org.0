@@ -2,122 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB3DB7A8BEC
-	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 20:36:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B36A7A8C48
+	for <lists+linux-input@lfdr.de>; Wed, 20 Sep 2023 21:10:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229602AbjITSgO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Sep 2023 14:36:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41714 "EHLO
+        id S229547AbjITTKY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Sep 2023 15:10:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbjITSgO (ORCPT
+        with ESMTP id S229518AbjITTKY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Sep 2023 14:36:14 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 987DBCA;
-        Wed, 20 Sep 2023 11:36:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695234966; x=1726770966;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=a8ELTmMI9Unx8eS9T0XpqRrj0jV6ZoJovZMopr1k63g=;
-  b=S+nDyxEDd2+YrrUbKdk+BFtwu7LlgQ0UzgB/ThPzwk+hUuFWwxJdVOmT
-   JGObeSHAd9exXU5kf8WmfXsZU5mm6zapW0ciojwTWLO2AjtqeVpb7JoWP
-   dt/YXDuH+1e5w256Ihb5KOqwM4tEgffApOf9Ct7t5ww5kkBEF90V9mRKZ
-   3waHRlxlXj7A6PNPWBFVhwpJGuBLAUdpmjKjruAedt0kzkUH2m/EHXMv5
-   Oq6Wt65d+ypCoIl7xz1xFCGfjhmm7hVAU3+WWQhoLPt7mkUtU4qGJI2mb
-   eMzraEvtoUOu+AJBJDb9sP07dzCs9s1zDb0aynZ6me6AuVxHg0FNKeXbB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="360558046"
-X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="360558046"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 11:36:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="890047778"
-X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="890047778"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Sep 2023 11:35:15 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qj23O-00092C-1r;
-        Wed, 20 Sep 2023 18:36:02 +0000
-Date:   Thu, 21 Sep 2023 02:35:11 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-        syzbot+0434ac83f907a1dbdd1e@syzkaller.appspotmail.com
-Subject: Re: [PATCH] Input: powermate - fix use-after-free in
- powermate_config_complete
-Message-ID: <202309210232.d7MpKEIm-lkp@intel.com>
-References: <20230916-topic-powermate_use_after_free-v1-1-2ffa46652869@gmail.com>
+        Wed, 20 Sep 2023 15:10:24 -0400
+Received: from gcc-spam-ims-004.plexus.com (gcc-spam-ims-004.plexus.com [206.209.244.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E91FF8F
+        for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 12:10:17 -0700 (PDT)
+Received: from gcc-spam-ims-004.plexus.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 979921015F;
+        Wed, 20 Sep 2023 14:10:16 -0500 (CDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=plexus.com; s=us;
+        t=1695237017; bh=HnFC1c2VOfNrPJN6oMRDdjJ+9QelRJJXDbAYGOU9WPQ=;
+        h=From:To:Date;
+        b=DYxpp5gYTqtv88VTWbJJaLkCUht0ENNlv4A5Z5Gji1GPgObrJs00IrLQQzuHbFDcT
+         oibegXOX0lxN+puEU0iGtKGw6FNwjmyk30aazchQwchJdx5uSHoCtVRnmhJuuWjCl7
+         0PPeQRnKGqRMtJLY+dv3VbDZeTnWyVxO6RcHopbiE78aKWBFD3pZLOrtcDn+T4vCU8
+         3xWwIcXotdcnZMiJCAu22jeMhSXKMO7ApYN6/zftXtW6quGWUv7uBVNZwMJIadm3gr
+         wZNS9hbHis+sTfNp749uqonJJBTnIINm/q1giPdN//bseMHgwwTuxzfKhbt56mTYPG
+         1uK+ES8U6+5EA==
+Received: from gcc-spam-ims-004.plexus.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 89A8C1015E;
+        Wed, 20 Sep 2023 14:10:16 -0500 (CDT)
+Received: from gcc-mail-mx-002.na.plexus.com (unknown [10.255.51.221])
+        by gcc-spam-ims-004.plexus.com (Postfix) with ESMTPS;
+        Wed, 20 Sep 2023 14:10:16 -0500 (CDT)
+Received: from gcc-mail-mx-003.Na.Plexus.com (10.255.51.222) by
+ gcc-mail-mx-002.na.plexus.com (10.255.51.221) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 20 Sep 2023 19:10:16 +0000
+Received: from gcc-mail-mx-003.Na.Plexus.com ([10.255.51.222]) by
+ gcc-mail-mx-003.na.plexus.com ([10.255.51.222]) with mapi id 15.01.2507.032;
+ Wed, 20 Sep 2023 19:10:16 +0000
+From:   Danny Kaehn <Danny.Kaehn@plexus.com>
+To:     "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>
+CC:     "jikos@kernel.org" <jikos@kernel.org>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Ethan Twardy <Ethan.Twardy@plexus.com>
+Subject: Re: [PATCH] hid: cp2112: Fix duplicate workqueue initialization
+Thread-Topic: [PATCH] hid: cp2112: Fix duplicate workqueue initialization
+Thread-Index: AQHZ60AZq3DBs8ll4kyZ7yyHA8a3BrAjr4kAgABk5AA=
+Date:   Wed, 20 Sep 2023 19:10:15 +0000
+Message-ID: <216f73660b7c55ab247345120468d0cd9463e622.camel@plexus.com>
+References: <20230919212245.483646-1-danny.kaehn@plexus.com>
+         <ZQrt6k/usVXlB223@smile.fi.intel.com>
+In-Reply-To: <ZQrt6k/usVXlB223@smile.fi.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.255.48.203]
+x-tm-snts-smtp: D2AEDC3A8A0D71D2A82FC6BF4E1FCCC57AA5E12E55534D69538A14B8E83B47732000:8
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <7C233C38B3A18B419D655333ED423E86@plexus.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230916-topic-powermate_use_after_free-v1-1-2ffa46652869@gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSVA-9.1.0.2164-9.0.0.1002-27888.001
+X-TM-AS-Result: No--22.622-3.0-31-10
+X-imss-scan-details: No--22.622-3.0-31-10
+X-TMASE-Version: IMSVA-9.1.0.2164-9.0.1002-27888.001
+X-TMASE-Result: 10--22.622200-10.000000
+X-TMASE-MatchedRID: 3OnHKS+pL/QT9JmGV/VwoiSc4ah4hDOWKJd/YZnhHHf+xRIVoKNMvAEd
+        5z4hpRvay8MAu/9vTsXLNAPDnIdPQf2ZulIDzVJ6oJ/A9BSp0TLGmZ4YIxsd+9splnBzc8xMG24
+        YVeuZGmNQKAQSutQYXFYMJR3dIrh2X0YtBF1zzirurXGSE4GB1+yOHSHOZwIcjrVn4cme+w7xHb
+        XnJn8rjkJv2xLgykjPo8WMkQWv6iUVR7DQWX/WkSAtDqHg/4Qm0C1sQRfQzEHEQdG7H66TyKsQd
+        9qPXhnJVWgRcrSEFLc=
+X-TMASE-SNAP-Result: 1.821001.0001-0-2-1:0,12:0,22:0,33:0,34:0-0
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Javier,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 0bb80ecc33a8fb5a682236443c1e740d5c917d1d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Carrasco/Input-powermate-fix-use-after-free-in-powermate_config_complete/20230917-052943
-base:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-patch link:    https://lore.kernel.org/r/20230916-topic-powermate_use_after_free-v1-1-2ffa46652869%40gmail.com
-patch subject: [PATCH] Input: powermate - fix use-after-free in powermate_config_complete
-config: powerpc-ppc6xx_defconfig (https://download.01.org/0day-ci/archive/20230921/202309210232.d7MpKEIm-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309210232.d7MpKEIm-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309210232.d7MpKEIm-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/input/misc/powermate.c: In function 'powermate_config_complete':
->> drivers/input/misc/powermate.c:201:21: error: 'status' undeclared (first use in this function); did you mean 'kstatfs'?
-     201 |                 if (status == -ENOENT || status == -ESHUTDOWN)
-         |                     ^~~~~~
-         |                     kstatfs
-   drivers/input/misc/powermate.c:201:21: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +201 drivers/input/misc/powermate.c
-
-   192	
-   193	/* Called when our asynchronous control message completes. We may need to issue another immediately */
-   194	static void powermate_config_complete(struct urb *urb)
-   195	{
-   196		struct powermate_device *pm = urb->context;
-   197		unsigned long flags;
-   198	
-   199		if (urb->status) {
-   200			printk(KERN_ERR "powermate: config urb returned %d\n", urb->status);
- > 201			if (status == -ENOENT || status == -ESHUTDOWN)
-   202				return;
-   203		}
-   204	
-   205		spin_lock_irqsave(&pm->lock, flags);
-   206		powermate_sync_state(pm);
-   207		spin_unlock_irqrestore(&pm->lock, flags);
-   208	}
-   209	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+T24gV2VkLCAyMDIzLTA5LTIwIGF0IDE2OjA0ICswMzAwLCBBbmR5IFNoZXZjaGVua28gd3JvdGU6
+DQo+IE9uIFR1ZSwgU2VwIDE5LCAyMDIzIGF0IDA0OjIyOjQ1UE0gLTA1MDAsIERhbm55IEthZWhu
+IHdyb3RlOg0KPiA+IFByZXZpb3VzbHkgdGhlIGNwMjExMiBkcml2ZXIgY2FsbGVkIElOSVRfREVM
+QVlFRF9XT1JLIHdpdGhpbg0KPiA+IGNwMjExMl9ncGlvX2lycV9zdGFydHVwLCByZXN1bHRpbmcg
+aW4gZHVwbGljYXRlIGluaXRpbGl6YXRpb25zIG9mIHRoZQ0KPiA+IHdvcmtxdWV1ZSBvbiBzdWJz
+ZXF1ZW50IElSUSBzdGFydHVwcyBmb2xsb3dpbmcgYW4gaW5pdGlhbCByZXF1ZXN0LiBUaGlzDQo+
+ID4gcmVzdWx0ZWQgaW4gYSB3YXJuaW5nIGluIHNldF93b3JrX2RhdGEgaW4gd29ya3F1ZXVlLmMs
+IGFzIHdlbGwgYXMgYSByYXJlDQo+ID4gTlVMTCBkZXJlZmVyZW5jZSB3aXRoaW4gcHJvY2Vzc19v
+bmVfd29yayBpbiB3b3JrcXVldWUuYy4NCj4gPiANCj4gPiBJbml0aWFsaXplIHRoZSB3b3JrcXVl
+dWUgd2l0aGluIF9wcm9iZSBpbnN0ZWFkLg0KPiANCj4gRG9lcyBpdCBkZXNlcnZlIGEgRml4ZXMg
+dGFnPw0KDQpJJ20gbm90IHN1cmUgLS0gaXQgZG9lcyB0ZWNobmljYWxseSBmaXggMTNkZTljY2E1
+MTRlZDYzNjA0MjYzY2FkODdjYThjYjM2ZTliNjQ4OQ0KKEhJRDogY3AyMTEyOiBhZGQgSVJRIGNo
+aXAgaGFuZGxpbmcpLCBidXQgZG9lcyBub3QgYXBwbHkgY2xlYW5seSB0byB0aGF0DQpyZXZpc2lv
+biAoYS5lLiB3aXRoIGdpdCBhbSkNCg0KKG15IHVuZGVyc3RhbmRpbmcgaXMgdGhhdCAnRml4ZXMn
+IGlzIHVzZWQgZm9yIHN0YWJsZSBrZXJuZWwgbWFpbnRlbmFuY2U/KQ0KDQpUaGFua3MsDQoNCkRh
+bm55IEthZWhuDQo=
