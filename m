@@ -2,104 +2,155 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 99B6D7A9BFF
-	for <lists+linux-input@lfdr.de>; Thu, 21 Sep 2023 21:05:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EA987AA227
+	for <lists+linux-input@lfdr.de>; Thu, 21 Sep 2023 23:13:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230227AbjIUTFg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Sep 2023 15:05:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42716 "EHLO
+        id S229969AbjIUVNF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Sep 2023 17:13:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231536AbjIUTFA (ORCPT
+        with ESMTP id S231603AbjIUVMX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Sep 2023 15:05:00 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94D1451013
-        for <linux-input@vger.kernel.org>; Thu, 21 Sep 2023 10:49:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695318592; x=1726854592;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+uEuq8XMvDDsbOut4KhC4Ma2uZTkTIY+65JgS26EgFs=;
-  b=YFPQJw+gJEIZX9ux0wFSRDHhJToZ9HA9L6gIcHmii2nMy+7oCp6f9ZwT
-   KWuRfe9norIWRVYiJ2Xk3Eyih62S8BeFSetQQKsQ+YJF0qezYK1hZ7ZpX
-   zlfLih1KmFqIdUs/Z0fh3s4ISzuHm0yBuG0LfXYEVj0tgBAzF1gkgV4Ew
-   GxzFFNmEb3rOOZgyKcDOvWIvgO/rKxDAnMOT9EsxRHbbBOWsF8GQuk9Y6
-   BVm/20jee7F22d8ZICdV2jAx9+p9cHhQoc8jUKLwFR1lEnWjShi9NoBWp
-   0j/zT5MyDybe++eyTymv7Lqpan/0R20dO8iVz0JST7cZDTb/zqqE7A88l
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="446944276"
-X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="446944276"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 02:42:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="817309250"
-X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="817309250"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 02:42:40 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC0)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qjGCk-0000000Gqxv-15i0;
-        Thu, 21 Sep 2023 12:42:38 +0300
-Date:   Thu, 21 Sep 2023 12:42:37 +0300
-From:   "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>
-To:     Danny Kaehn <Danny.Kaehn@plexus.com>
-Cc:     "jikos@kernel.org" <jikos@kernel.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Ethan Twardy <Ethan.Twardy@plexus.com>
-Subject: Re: [PATCH] hid: cp2112: Fix duplicate workqueue initialization
-Message-ID: <ZQwQDZD3Yj9JFgMz@smile.fi.intel.com>
-References: <20230919212245.483646-1-danny.kaehn@plexus.com>
- <ZQrt6k/usVXlB223@smile.fi.intel.com>
- <216f73660b7c55ab247345120468d0cd9463e622.camel@plexus.com>
+        Thu, 21 Sep 2023 17:12:23 -0400
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51CF498A73
+        for <linux-input@vger.kernel.org>; Thu, 21 Sep 2023 10:56:52 -0700 (PDT)
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 912623F66F
+        for <linux-input@vger.kernel.org>; Thu, 21 Sep 2023 06:08:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1695276528;
+        bh=LGLvEUCLByX56ZHTlqmLlwmZ6pTbCna8gvztcJYDoU8=;
+        h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+         To:Cc:Content-Type;
+        b=rauudwVUP8l7s8SwO4VSe69N7gnmCVEH1jsNY1fFoKehhXjOrLiPmAoeqI7widzy7
+         ZUxhg4oe+oHsZfKmL/AMw6mjza/a7C4z12xb4eiJ+dfy2KR5I2nipRDHlvAGbxCnWh
+         canQ+lz3VdI78sZMi0Yr86AqHTZJxAVIREWSg5gLp6dut/4Ne+d7F4W7G8Xtw5M+jq
+         IC6PBAWXzjBkgllANmR9e7E1ru5kZ0cJkRwgmeuSWpu/kP7PIlyLwPRCCZdh7Pb3Bs
+         Y3VCQo9nYSaSkQcZC2VDeulP1/JUSxlpXKP4s509rTW/mPkfmwJ0hUIp87GeLa6yEs
+         sEkFWaQd34ztQ==
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-5789f2f13fcso441938a12.3
+        for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 23:08:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695276527; x=1695881327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LGLvEUCLByX56ZHTlqmLlwmZ6pTbCna8gvztcJYDoU8=;
+        b=SCuTMwV0C42dNCJqFMEsqeErbGKwDRepR95MuHYFRfCZIKNNwOIogd8OhFmhKxRcUK
+         sbNfY9f+iC+BDNQpzcwJf15Gamwra/0QFyrGwn2IfsuCMELuAB26yHmyBmJMjsGdS32u
+         RutAJaPLp50kn7rcAAKMbVpyHuCDcwrUNU1fdfgE6aVufNL1kPZIWh2GZDB+8f9rdn6J
+         euHqH5ES8ycj858+vuh8kRIZ6voKi4TxtwWxGk+7E5SoEdt/SKB+PvO7c03TeaN2STvZ
+         DQh1vasOBqaXE3w3RLGGI5PUFKufvhRZa4Bc1nfICjQx4Hagm2aM7D3x7QcqWZbA2q7I
+         2fPg==
+X-Gm-Message-State: AOJu0Ywf0LICv/gR49Yp+0vndIvwDNb2jRMCPz/n7lQpWj1mn4OSaVAm
+        Y3qm5hUabNW7OSMaLI0oY8ungPS+WelvRJGHfRPP7HNpnw9HwPLAa1GmfT8Bl195G9kDWI1N9Jl
+        NgQMCx+409ur8bLUxjwadTCVfedQSZ2lDF5lBYRr0+kpchZ9tzYSYMFQN
+X-Received: by 2002:a17:90b:60f:b0:271:9237:a07f with SMTP id gb15-20020a17090b060f00b002719237a07fmr4869855pjb.32.1695276527090;
+        Wed, 20 Sep 2023 23:08:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH3mcQsaQ+FE/ji4v4nyF6aUsilUttOw7YcXgkdZG82nw6jvzjNPhHOMNN3PnauJxNw7lKirmfAfZZ+zIWZCFI=
+X-Received: by 2002:a17:90b:60f:b0:271:9237:a07f with SMTP id
+ gb15-20020a17090b060f00b002719237a07fmr4869844pjb.32.1695276526779; Wed, 20
+ Sep 2023 23:08:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <216f73660b7c55ab247345120468d0cd9463e622.camel@plexus.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230914041806.816741-1-kai.heng.feng@canonical.com>
+ <7b45ac2ed091497b4e21a6a5c19956161175ba16.camel@linux.intel.com>
+ <SN6PR11MB26245C44E84C37C1B551260EF4F6A@SN6PR11MB2624.namprd11.prod.outlook.com>
+ <CAAd53p5ywMVKWzhn0nYzvBnW_Bc=sntgBttJdcVUuf_a4AnX5w@mail.gmail.com>
+ <SN6PR11MB262473E2BF4057F4D285A613F4F6A@SN6PR11MB2624.namprd11.prod.outlook.com>
+ <DM6PR11MB26184A8A3F955589F5FC6836F4FBA@DM6PR11MB2618.namprd11.prod.outlook.com>
+ <CAAd53p4o1pB-yzpvUCYsvuYEvQQK0my=u-ogrByRCx_Lvns=hw@mail.gmail.com>
+ <bbbf36724d63f7532696a960a9d56d7ccd5a5bee.camel@linux.intel.com>
+ <CAAd53p6MA9YLbcXxpC8=YEtbO6frFJk1LQ1BNUgPk=r1_uR8iw@mail.gmail.com>
+ <67c85f083201ed2cda2cab198b40141ad21912a2.camel@linux.intel.com> <CAJZ5v0iFLxpWHW=sDZ7=Wne3Yt=8_EwhW9SeCmRP6REpVqo8rA@mail.gmail.com>
+In-Reply-To: <CAJZ5v0iFLxpWHW=sDZ7=Wne3Yt=8_EwhW9SeCmRP6REpVqo8rA@mail.gmail.com>
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+Date:   Thu, 21 Sep 2023 14:08:33 +0800
+Message-ID: <CAAd53p67tiP0xXwhn=NviU_rvrSveSxbAhDieYG9AmUWF2e__Q@mail.gmail.com>
+Subject: Re: [PATCH] HID: intel-ish-hid: ipc: Rework EHL OOB wakeup
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     srinivas pandruvada <srinivas.pandruvada@linux.intel.com>,
+        "Xu, Even" <even.xu@intel.com>,
+        "jikos@kernel.org" <jikos@kernel.org>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "Lee, Jian Hui" <jianhui.lee@canonical.com>,
+        "Zhang, Lixu" <lixu.zhang@intel.com>,
+        "Ba, Najumon" <najumon.ba@intel.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 20, 2023 at 07:10:15PM +0000, Danny Kaehn wrote:
-> On Wed, 2023-09-20 at 16:04 +0300, Andy Shevchenko wrote:
-> > On Tue, Sep 19, 2023 at 04:22:45PM -0500, Danny Kaehn wrote:
-> > > Previously the cp2112 driver called INIT_DELAYED_WORK within
-> > > cp2112_gpio_irq_startup, resulting in duplicate initilizations of the
-> > > workqueue on subsequent IRQ startups following an initial request. This
-> > > resulted in a warning in set_work_data in workqueue.c, as well as a rare
-> > > NULL dereference within process_one_work in workqueue.c.
-> > > 
-> > > Initialize the workqueue within _probe instead.
-> > 
-> > Does it deserve a Fixes tag?
-> 
-> I'm not sure -- it does technically fix 13de9cca514ed63604263cad87ca8cb36e9b6489
-> (HID: cp2112: add IRQ chip handling), but does not apply cleanly to that
-> revision (a.e. with git am)
+On Wed, Sep 20, 2023 at 2:00=E2=80=AFAM Rafael J. Wysocki <rafael@kernel.or=
+g> wrote:
+>
+> On Tue, Sep 19, 2023 at 6:54=E2=80=AFPM srinivas pandruvada
+> <srinivas.pandruvada@linux.intel.com> wrote:
+> >
+> > On Tue, 2023-09-19 at 15:36 +0800, Kai-Heng Feng wrote:
+> > > On Mon, Sep 18, 2023 at 11:57=E2=80=AFPM srinivas pandruvada
+> > > <srinivas.pandruvada@linux.intel.com> wrote:
+> > > >
+> > > > Hi Kai-Heng,
+> > > > On Mon, 2023-09-18 at 09:17 +0800, Kai-Heng Feng wrote:
+> > > > > Hi Even,
+> > > > >
+> > > > > On Mon, Sep 18, 2023 at 8:33=E2=80=AFAM Xu, Even <even.xu@intel.c=
+om>
+> > > > > wrote:
+> > > > > >
+> > > > > > Hi, Kai-Heng,
+> > > > > >
+> > > > > > I just got feedback, for testing EHL S5 wakeup feature, you
+> > > > > > need
+> > > > > > several steps to setup and access
+> > > > > > "https://portal.devicewise.com/things/browse" to trigger wake.
+> > > > > > But currently, our test account of this website are all out of
+> > > > > > data.
+> > > > > > So maybe you need double check with the team who required you
+> > > > > > preparing the patch for the verification.
+> > > > >
+> > > > > The patch is to solve the GPE refcount overflow, while
+> > > > > maintaining S5
+> > > > > wakeup. I don't have any mean to test S5 wake.
+> > > > >
+> > > > The issue is not calling acpi_disable_gpe(). To reduce the scope of
+> > > > change can we just add that instead of a adding new callbacks. This
+> > > > way
+> > > > scope is reduced.
+> > >
+> > > This patch does exactly the same thing by letting PCI and ACPI handle
+> > > the PME and GPE.
+> > > Though the change seems to be bigger, it actually reduces the duped
+> > > code, while keep the S5 wakeup ability intact.
+> > It may be doing the same. But with long chain of calls without
+> > verification, I am not comfortable.
+> > This can be another patch by itself to use the framework.
+>
+> I agree.
+>
+> Let's change one thing at a time.
+>
+> > But you are targeting a fix for overflow issue, which is separate from
+> > the use of PCI/ACPI framework.
+>
+> Yes, let's fix the bug first and make things look nicer separately.
 
-It's not a problem.
+Right, please use the fix from Srinivas and I'll send a separate patch
+to make things looks better.
 
-> (my understanding is that 'Fixes' is used for stable kernel maintenance?)
-
-Not only, for anybody to track the issues and fixes.
-For stable it's more important to follow their procedure, where the Fixes
-is just one small piece of.
-
-Fixes: 13de9cca514e ("HID: cp2112: add IRQ chip handling")
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Kai-Heng
