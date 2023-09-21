@@ -2,76 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D94057A9145
-	for <lists+linux-input@lfdr.de>; Thu, 21 Sep 2023 05:22:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE29D7A973A
+	for <lists+linux-input@lfdr.de>; Thu, 21 Sep 2023 19:21:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229741AbjIUDWS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Sep 2023 23:22:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55104 "EHLO
+        id S229735AbjIURMz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Sep 2023 13:12:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229643AbjIUDV6 (ORCPT
+        with ESMTP id S230241AbjIURLc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Sep 2023 23:21:58 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2734E18E
-        for <linux-input@vger.kernel.org>; Wed, 20 Sep 2023 20:21:42 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35328C433C7;
-        Thu, 21 Sep 2023 03:21:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695266501;
-        bh=rx0lV0XY3QhgXMp4TLjOqLDqdJJaH8x9Ozj9/UaXFd4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=m/w0/nMsnVgiNFiD0PwSWGXuKFooA/+XFlEuszfnBoM1hSUqWc2ALpw964SEwX7Up
-         Rw5VfCYrVdQi6mvp3+Erngo5hYccLoiVgl+zusIfgCSUnuZqK5OKv9ZKntBXq6V8HE
-         SxfG0v5N0Z4zpzBzfKG/hpfSdJcp6Bx+S/MlhdaRQ4WZ4Loz8elvrEPG4IAdKSevDY
-         r9wjCDWDCm+CdaTBZ4XwHDAk279Ej34DaqdwoFYJoZwKPmvvVZcQuxk0FR/bWPchOa
-         KNQ8aO76dC0bRrEUyqPlW/nfbI/rTaOaZnkXBch4ZfFmI8JvMtsrXYKLf9wj5vDCaJ
-         wLx0dD0jBDBJQ==
-Date:   Thu, 21 Sep 2023 11:21:38 +0800
-From:   Tzung-Bi Shih <tzungbi@kernel.org>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        joewu =?utf-8?B?KOWQs+S7suaMryk=?= <joewu@msi.com>,
-        linux-input@vger.kernel.org, chrome-platform@lists.linux.dev,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 02/52] input: cros_ec_keyb - Convert to platform remove
- callback returning void
-Message-ID: <ZQu2wtdyGtIl472x@google.com>
-References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
- <20230920125829.1478827-3-u.kleine-koenig@pengutronix.de>
+        Thu, 21 Sep 2023 13:11:32 -0400
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A585422E
+        for <linux-input@vger.kernel.org>; Thu, 21 Sep 2023 10:06:17 -0700 (PDT)
+Received: from submission (posteo.de [185.67.36.169]) 
+        by mout02.posteo.de (Postfix) with ESMTPS id 1BD8D240103
+        for <linux-input@vger.kernel.org>; Thu, 21 Sep 2023 11:22:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1695288120; bh=KlagOBJ/Znqi813S+2Fe679zuj+86NZUSO3PsTHMyNI=;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
+         Content-Transfer-Encoding:From;
+        b=LPmm0Pu3SNgwlNsSM9gIxh1QJd1m67mMi2nH8+59Xx0X876YhVKTyvDWRDVg/LNzV
+         kvM88FD6Aaio8GHeXEYaTYKvYNegD2TPLVcj5rp2mhwkNA/n+XinVFY/XrWmIqbG/H
+         XKOGcM3hoGON5O6ZM0IXDPSu0HIs3B3ZvmUStgGwi5j/3+3DYnJpcC8+yD0GZv+Xhd
+         U4WWZbh+0XCeT9Bl4dfbS67mNFNcRJ5bL/D8aF7AvqPZQeN8ACJZ03iTO1kc6B5SXb
+         H+ApAzqv5lpkPeA47FuQtwi90ab2qzOh1Opu/82XtUqggj1zxQO+Mw6lFVV70vkeGO
+         D6YVjNRBEo3vQ==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4RrqfZ3sFWz9rxS;
+        Thu, 21 Sep 2023 11:21:58 +0200 (CEST)
+From:   Martin Kepplinger <martink@posteo.de>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com, jm@lentin.co.uk,
+        linux-kernel@vger.kernel.org
+Cc:     linux-input@vger.kernel.org, Martin Kepplinger <martink@posteo.de>
+Subject: [PATCH] HID: lenovo: Fix middle-button behaviour for system suspend
+Date:   Thu, 21 Sep 2023 09:21:40 +0000
+Message-Id: <20230921092140.120533-1-martink@posteo.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230920125829.1478827-3-u.kleine-koenig@pengutronix.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 20, 2023 at 02:57:39PM +0200, Uwe Kleine-König wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is ignored (apart
-> from emitting a warning) and this typically results in resource leaks.
-> To improve here there is a quest to make the remove callback return
-> void. In the first step of this quest all drivers are converted to
-> .remove_new() which already returns void. Eventually after all drivers
-> are converted, .remove_new() will be renamed to .remove().
-> 
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+After system suspend the middle-button mode is being reset to
+compatibility mode which simply breaks functionality for the devices
+where native mode is configured during probe().
 
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Fix this by setting native mode in reset_resume() for the appropriate
+devices.
+
+Fixes: 94eefa271323 ("HID: lenovo: Use native middle-button mode for compact keyboards")
+Signed-off-by: Martin Kepplinger <martink@posteo.de>
+---
+ drivers/hid/hid-lenovo.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
+index 44763c0da444..d20562b9eca6 100644
+--- a/drivers/hid/hid-lenovo.c
++++ b/drivers/hid/hid-lenovo.c
+@@ -1344,6 +1344,28 @@ static int lenovo_input_configured(struct hid_device *hdev,
+ 	return 0;
+ }
+ 
++static int __maybe_unused lenovo_resume(struct hid_device *hdev)
++{
++	int ret;
++
++	switch (hdev->product) {
++	case USB_DEVICE_ID_LENOVO_CUSBKBD:
++	case USB_DEVICE_ID_LENOVO_CBTKBD:
++	case USB_DEVICE_ID_LENOVO_TPIIUSBKBD:
++	case USB_DEVICE_ID_LENOVO_TPIIBTKBD:
++		/* Switch middle button to native mode again */
++		ret = lenovo_send_cmd_cptkbd(hdev, 0x09, 0x01);
++		if (ret)
++			hid_warn(hdev, "Failed to switch middle button: %d\n",
++				 ret);
++		break;
++	default:
++		ret = 0;
++		break;
++	}
++
++	return ret;
++}
+ 
+ static const struct hid_device_id lenovo_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_TPKBD) },
+@@ -1380,6 +1402,9 @@ static struct hid_driver lenovo_driver = {
+ 	.raw_event = lenovo_raw_event,
+ 	.event = lenovo_event,
+ 	.report_fixup = lenovo_report_fixup,
++#ifdef CONFIG_PM
++	.reset_resume = lenovo_resume,
++#endif
+ };
+ module_hid_driver(lenovo_driver);
+ 
+-- 
+2.39.2
+
