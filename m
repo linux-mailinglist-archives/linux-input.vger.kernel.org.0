@@ -2,216 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 947C47AA6D0
-	for <lists+linux-input@lfdr.de>; Fri, 22 Sep 2023 03:55:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7051A7AA7D6
+	for <lists+linux-input@lfdr.de>; Fri, 22 Sep 2023 06:32:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230238AbjIVBz7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Sep 2023 21:55:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43150 "EHLO
+        id S229669AbjIVEdC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Sep 2023 00:33:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229770AbjIVBz7 (ORCPT
+        with ESMTP id S229542AbjIVEdB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Sep 2023 21:55:59 -0400
-Received: from mail-oi1-f207.google.com (mail-oi1-f207.google.com [209.85.167.207])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F12B1E8
-        for <linux-input@vger.kernel.org>; Thu, 21 Sep 2023 18:55:52 -0700 (PDT)
-Received: by mail-oi1-f207.google.com with SMTP id 5614622812f47-3ae10875717so1144460b6e.1
-        for <linux-input@vger.kernel.org>; Thu, 21 Sep 2023 18:55:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695347752; x=1695952552;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UMGcT7azSmaIpI7Mr5U/Wl+GeL1wdTGUzossfsv3VgA=;
-        b=Zs/NE91NHWsIKujgg1RZUJaLkU/FzFRKB9Nyf/utCDgcmfna8kFQnmZAxncK9jPHZ4
-         YYm4X8pxSRB1MXeXhTVtNJ47jpzYGDAzpPgL78kmy+MlBosRz33r8KxlaJMDzMuoISBt
-         rGz5V4J9n3eSz81nRYLR66tkaKGuZ8UK8F7GHKSiMelu3cAgzeYiOdyWbqRZ6UCaDCmT
-         oKtvLQhlgDsUAyV4u73OEc8p5GV4iGWVsstfxRzxmujC2I3AduwBRP4DTehnGrycWgg7
-         Q1L7em1nrRFCxxPW+EMPWJLexR/K/3PzNALIkJ1bbmj/05g1g6P7aKUUDEocsVJUMi9H
-         ju9g==
-X-Gm-Message-State: AOJu0YxausTYbe8NjLtNh8qhgs/Zp9K/WtAh++MipSQOEP3TIyw8fxSn
-        vvsj1176Vd8U0QmhyIEFeJx9EcNpjgVTc/ROw2bp8XFDye3o
-X-Google-Smtp-Source: AGHT+IG7C+7JIRSlG/ocN4yRtFdfHebIRpyMNTtFV9qU88kUAUQkPjJe3iVwBDRaTkLiGd18g1q711Iton0ri/WRyLjPVIwKI5xa
+        Fri, 22 Sep 2023 00:33:01 -0400
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D94A0122;
+        Thu, 21 Sep 2023 21:32:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail3; t=1695357173; x=1695616373;
+        bh=ky/I5+eIsKo29UW7LB/TUWn+eMis8pbYkCdUWOTJTCU=;
+        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID:BIMI-Selector;
+        b=lebD5170GbFvzAq/iof9+JOGY3rOV27SIS+0NKBm9tuYXpVXB+1J1GKAddb0ibn0P
+         guS+eAyJGJooecutx8cudw6Z22TrBDrRawLwi7Oah6H4acHuTghd68pgMpgJzWuZxM
+         cagXhLrN2nO8YPHKVUFBfHsjkTf1Xyof+NXAsb8Y13FK0SKyx+xDLi4pw6u2UHeq6R
+         vpKccgp2XCREA6CUm9o1Ka1sPXN8kI2wccFRzzm1uBudC//ch29WdlGBnBtPmYg75/
+         E4I7PGTxdUMveQglqThgqSH/q/FTLIASrHHvwOtq0/l7id1ifzeZSb5WFrPE2B+uid
+         Sjt2qutVJIcOg==
+Date:   Fri, 22 Sep 2023 04:32:41 +0000
+To:     Johannes Roith <johannes@gnu-linux.rocks>
+From:   Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Cc:     jikos@kernel.org, andi.shyti@kernel.org,
+        benjamin.tissoires@redhat.com, christophe.jaillet@wanadoo.fr,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rdunlap@infradead.org
+Subject: Re: [PATCH v7] HID: mcp2200: added driver for GPIOs of MCP2200
+Message-ID: <87r0mqhlp6.fsf@protonmail.com>
+In-Reply-To: <20230921164928.170383-1-johannes@gnu-linux.rocks>
+References: <20230921164928.170383-1-johannes@gnu-linux.rocks>
+Feedback-ID: 26003777:user:proton
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:308e:b0:3ae:16a8:f441 with SMTP id
- bl14-20020a056808308e00b003ae16a8f441mr489962oib.11.1695347752268; Thu, 21
- Sep 2023 18:55:52 -0700 (PDT)
-Date:   Thu, 21 Sep 2023 18:55:52 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000008b78c00605e8e8aa@google.com>
-Subject: [syzbot] [wpan?] [input?] [usb?] memory leak in hwsim_add_one (2)
-From:   syzbot <syzbot+d2aa0f55c4ae66a9b75d@syzkaller.appspotmail.com>
-To:     alex.aring@gmail.com, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-wpan@vger.kernel.org, miquel.raynal@bootlin.com,
-        netdev@vger.kernel.org, pabeni@redhat.com,
-        stefan@datenfreihafen.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+On Thu, 21 Sep, 2023 18:49:28 +0200 "Johannes Roith" <johannes@gnu-linux.ro=
+cks> wrote:
+> Added a gpiochip compatible driver to control the 8 GPIOs of
+> the MCP2200 by using the HID interface.
+>
+> Using GPIOs with alternative functions (GP0<->SSPND, GP1<->USBCFG,
+> GP6<->RXLED, GP7<->TXLED) will reset the functions, if set (unset by
+> default).
+>
+> The driver was tested while also using the UART of the chip. Setting
+> and reading the GPIOs has no effect on the UART communication. However,
+> a reset is triggered after the CONFIGURE command. If the GPIO Direction
+> is constantly changed, this will affect the communication at low baud
+> rates. This is a hardware problem of the MCP2200 and is not caused by
+> the driver.
+>
+> Signed-off-by: Johannes Roith <johannes@gnu-linux.rocks>
+> ---
 
-syzbot found the following issue on:
+Reviewed-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
 
-HEAD commit:    e789286468a9 Merge tag 'x86-urgent-2023-09-17' of git://gi..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=16db487fa80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=943a94479fa8e863
-dashboard link: https://syzkaller.appspot.com/bug?extid=d2aa0f55c4ae66a9b75d
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15cc8372680000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/60bec5b60566/disk-e7892864.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/509a449f2ff0/vmlinux-e7892864.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/36581da19789/bzImage-e7892864.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+d2aa0f55c4ae66a9b75d@syzkaller.appspotmail.com
-
-BUG: memory leak
-unreferenced object 0xffff8881042a8940 (size 64):
-  comm "swapper/0", pid 1, jiffies 4294937901 (age 1085.750s)
-  hex dump (first 32 bytes):
-    00 0d 00 00 00 00 00 00 ff ff ff ff 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff81573dc5>] kmalloc_trace+0x25/0x90 mm/slab_common.c:1114
-    [<ffffffff831b5a6a>] kmalloc include/linux/slab.h:599 [inline]
-    [<ffffffff831b5a6a>] kzalloc include/linux/slab.h:720 [inline]
-    [<ffffffff831b5a6a>] hwsim_add_one+0x14a/0x650 drivers/net/ieee802154/mac802154_hwsim.c:949
-    [<ffffffff831b5f93>] hwsim_probe+0x23/0xe0 drivers/net/ieee802154/mac802154_hwsim.c:1022
-    [<ffffffff82c14f93>] platform_probe+0x83/0x110 drivers/base/platform.c:1404
-    [<ffffffff82c10fc6>] call_driver_probe drivers/base/dd.c:579 [inline]
-    [<ffffffff82c10fc6>] really_probe+0x126/0x440 drivers/base/dd.c:658
-    [<ffffffff82c113a3>] __driver_probe_device+0xc3/0x190 drivers/base/dd.c:800
-    [<ffffffff82c1149a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:830
-    [<ffffffff82c117f7>] __driver_attach drivers/base/dd.c:1216 [inline]
-    [<ffffffff82c117f7>] __driver_attach+0x107/0x1f0 drivers/base/dd.c:1156
-    [<ffffffff82c0e2f3>] bus_for_each_dev+0xb3/0x110 drivers/base/bus.c:368
-    [<ffffffff82c0fdf6>] bus_add_driver+0x126/0x2a0 drivers/base/bus.c:673
-    [<ffffffff82c12ee5>] driver_register+0x85/0x180 drivers/base/driver.c:246
-    [<ffffffff8756e3a6>] hwsim_init_module+0xc6/0x110 drivers/net/ieee802154/mac802154_hwsim.c:1073
-    [<ffffffff81001cb6>] do_one_initcall+0x76/0x430 init/main.c:1232
-    [<ffffffff874d76ea>] do_initcall_level init/main.c:1294 [inline]
-    [<ffffffff874d76ea>] do_initcalls init/main.c:1310 [inline]
-    [<ffffffff874d76ea>] do_basic_setup init/main.c:1329 [inline]
-    [<ffffffff874d76ea>] kernel_init_freeable+0x25a/0x460 init/main.c:1547
-    [<ffffffff84b3628b>] kernel_init+0x1b/0x290 init/main.c:1437
-    [<ffffffff81149e35>] ret_from_fork+0x45/0x50 arch/x86/kernel/process.c:147
-
-BUG: memory leak
-unreferenced object 0xffff8881042a8780 (size 64):
-  comm "swapper/0", pid 1, jiffies 4294937902 (age 1085.740s)
-  hex dump (first 32 bytes):
-    00 0d 00 00 00 00 00 00 ff ff ff ff 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff81573dc5>] kmalloc_trace+0x25/0x90 mm/slab_common.c:1114
-    [<ffffffff831b5a6a>] kmalloc include/linux/slab.h:599 [inline]
-    [<ffffffff831b5a6a>] kzalloc include/linux/slab.h:720 [inline]
-    [<ffffffff831b5a6a>] hwsim_add_one+0x14a/0x650 drivers/net/ieee802154/mac802154_hwsim.c:949
-    [<ffffffff831b5fb6>] hwsim_probe+0x46/0xe0 drivers/net/ieee802154/mac802154_hwsim.c:1022
-    [<ffffffff82c14f93>] platform_probe+0x83/0x110 drivers/base/platform.c:1404
-    [<ffffffff82c10fc6>] call_driver_probe drivers/base/dd.c:579 [inline]
-    [<ffffffff82c10fc6>] really_probe+0x126/0x440 drivers/base/dd.c:658
-    [<ffffffff82c113a3>] __driver_probe_device+0xc3/0x190 drivers/base/dd.c:800
-    [<ffffffff82c1149a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:830
-    [<ffffffff82c117f7>] __driver_attach drivers/base/dd.c:1216 [inline]
-    [<ffffffff82c117f7>] __driver_attach+0x107/0x1f0 drivers/base/dd.c:1156
-    [<ffffffff82c0e2f3>] bus_for_each_dev+0xb3/0x110 drivers/base/bus.c:368
-    [<ffffffff82c0fdf6>] bus_add_driver+0x126/0x2a0 drivers/base/bus.c:673
-    [<ffffffff82c12ee5>] driver_register+0x85/0x180 drivers/base/driver.c:246
-    [<ffffffff8756e3a6>] hwsim_init_module+0xc6/0x110 drivers/net/ieee802154/mac802154_hwsim.c:1073
-    [<ffffffff81001cb6>] do_one_initcall+0x76/0x430 init/main.c:1232
-    [<ffffffff874d76ea>] do_initcall_level init/main.c:1294 [inline]
-    [<ffffffff874d76ea>] do_initcalls init/main.c:1310 [inline]
-    [<ffffffff874d76ea>] do_basic_setup init/main.c:1329 [inline]
-    [<ffffffff874d76ea>] kernel_init_freeable+0x25a/0x460 init/main.c:1547
-    [<ffffffff84b3628b>] kernel_init+0x1b/0x290 init/main.c:1437
-    [<ffffffff81149e35>] ret_from_fork+0x45/0x50 arch/x86/kernel/process.c:147
-
-BUG: memory leak
-unreferenced object 0xffff8881007cc000 (size 768):
-  comm "udevd", pid 4480, jiffies 4295045154 (age 13.270s)
-  hex dump (first 32 bytes):
-    01 00 00 00 03 00 00 00 08 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff83e8ff95>] alloc_inode_sb include/linux/fs.h:2909 [inline]
-    [<ffffffff83e8ff95>] sock_alloc_inode+0x25/0x90 net/socket.c:308
-    [<ffffffff816c39d3>] alloc_inode+0x23/0x100 fs/inode.c:259
-    [<ffffffff816c4bf6>] new_inode_pseudo+0x16/0x50 fs/inode.c:1004
-    [<ffffffff83e8f2ab>] sock_alloc+0x1b/0x90 net/socket.c:634
-    [<ffffffff83e8f8cd>] __sock_create+0xbd/0x2e0 net/socket.c:1516
-    [<ffffffff83e92d58>] sock_create net/socket.c:1603 [inline]
-    [<ffffffff83e92d58>] __sys_socket_create net/socket.c:1640 [inline]
-    [<ffffffff83e92d58>] __sys_socket+0xb8/0x1a0 net/socket.c:1691
-    [<ffffffff83e92e5b>] __do_sys_socket net/socket.c:1705 [inline]
-    [<ffffffff83e92e5b>] __se_sys_socket net/socket.c:1703 [inline]
-    [<ffffffff83e92e5b>] __x64_sys_socket+0x1b/0x20 net/socket.c:1703
-    [<ffffffff84b30fc8>] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-    [<ffffffff84b30fc8>] do_syscall_64+0x38/0xb0 arch/x86/entry/common.c:80
-    [<ffffffff84c0008b>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-BUG: memory leak
-unreferenced object 0xffff88810c7019a0 (size 32):
-  comm "udevd", pid 4480, jiffies 4295045154 (age 13.270s)
-  hex dump (first 32 bytes):
-    b8 c1 7c 00 81 88 ff ff 70 3d 34 82 ff ff ff ff  ..|.....p=4.....
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff823457a2>] kmem_cache_zalloc include/linux/slab.h:710 [inline]
-    [<ffffffff823457a2>] lsm_inode_alloc security/security.c:633 [inline]
-    [<ffffffff823457a2>] security_inode_alloc+0x32/0xd0 security/security.c:1494
-    [<ffffffff816c01ad>] inode_init_always+0x1ed/0x230 fs/inode.c:230
-    [<ffffffff816c39f0>] alloc_inode+0x40/0x100 fs/inode.c:266
-    [<ffffffff816c4bf6>] new_inode_pseudo+0x16/0x50 fs/inode.c:1004
-    [<ffffffff83e8f2ab>] sock_alloc+0x1b/0x90 net/socket.c:634
-    [<ffffffff83e8f8cd>] __sock_create+0xbd/0x2e0 net/socket.c:1516
-    [<ffffffff83e92d58>] sock_create net/socket.c:1603 [inline]
-    [<ffffffff83e92d58>] __sys_socket_create net/socket.c:1640 [inline]
-    [<ffffffff83e92d58>] __sys_socket+0xb8/0x1a0 net/socket.c:1691
-    [<ffffffff83e92e5b>] __do_sys_socket net/socket.c:1705 [inline]
-    [<ffffffff83e92e5b>] __se_sys_socket net/socket.c:1703 [inline]
-    [<ffffffff83e92e5b>] __x64_sys_socket+0x1b/0x20 net/socket.c:1703
-    [<ffffffff84b30fc8>] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-    [<ffffffff84b30fc8>] do_syscall_64+0x38/0xb0 arch/x86/entry/common.c:80
-    [<ffffffff84c0008b>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-[ 
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
