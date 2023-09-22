@@ -2,88 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5147F7AB624
-	for <lists+linux-input@lfdr.de>; Fri, 22 Sep 2023 18:38:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BF117AB7DA
+	for <lists+linux-input@lfdr.de>; Fri, 22 Sep 2023 19:40:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229933AbjIVQiK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Sep 2023 12:38:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58928 "EHLO
+        id S229541AbjIVRkh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Sep 2023 13:40:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229636AbjIVQiK (ORCPT
+        with ESMTP id S229532AbjIVRkf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Sep 2023 12:38:10 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59511F7
-        for <linux-input@vger.kernel.org>; Fri, 22 Sep 2023 09:38:03 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-9a9d82d73f9so289529566b.3
-        for <linux-input@vger.kernel.org>; Fri, 22 Sep 2023 09:38:03 -0700 (PDT)
+        Fri, 22 Sep 2023 13:40:35 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 131F58F
+        for <linux-input@vger.kernel.org>; Fri, 22 Sep 2023 10:40:29 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-9aa0495f9cfso901052066b.1
+        for <linux-input@vger.kernel.org>; Fri, 22 Sep 2023 10:40:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695400680; x=1696005480; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1695404426; x=1696009226; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=81baCZiZBsWWLVdud7GS4ITUOINrrEDd6mAWv0/+4bI=;
-        b=emJZvOXqHFu2xmj0RXV6vHjho6x4NDdHnDLe9Y4+3RKp2cUt76+VpGlf04wTVNCuxh
-         JnWYzw0OpbcL9HR+uXZRhukpdpIP6ROtajGVT2fAQKheAtS6hJnuZBQxV5ETSfGV/sfg
-         XkdjE8UYM9X6m+iV73VAoPrmB+/NFr56zhnG4=
+        bh=P0nzhfFMBIaN0jk+ueWNm7W+C6jSfBGTglmiswQsQ04=;
+        b=oCm5ja2N2A8gyGoUFl9kvs8frjuAXiSrqbeGPVfHxJfHUPOhX6gHJ+IMbp2kPVr0lt
+         /nR2qulSkUQ+90PPKjDW+peVTHitk1jiP/C7nPdky8GkWMeyEnNNv7Z+IqEreVuLPkAa
+         WgEn23EEgiKGoFMPWVOBHi1hNgeKaJq1ehSbM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695400680; x=1696005480;
+        d=1e100.net; s=20230601; t=1695404426; x=1696009226;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=81baCZiZBsWWLVdud7GS4ITUOINrrEDd6mAWv0/+4bI=;
-        b=CWmt0QdVMBJUinyIlKHP7PR0XtlXcJhbGvc03VqQ8WDAfBNHo4dIt4REt6UuUF2jAC
-         KSFfVlNczRFihm/VMqmNKctCP49pOLATjWKbJGZTF2bkh8rF4684kKtZHtOj/4RKc+/E
-         qoqSruRyRfZFOdt72aS6RolpMUR7n/B6sMHGTyhU6jsu9TNin0V6u5r7/dhQltbVIrsu
-         0vR0rg2/pg2OmMWBuL0+Xnjp+l6V+qOvN2AbXCzXt4rmiGi6LKxqil79GNdTey75lFkg
-         gGv3WW1EaMAZWQqrONAJIARj36EwpTc5cui4Qr4HgbJRE6gkBT2qJ5k9Mg7ZvzpOC1ZJ
-         93+w==
-X-Gm-Message-State: AOJu0YyrhQBRI5o9lm5cxzk+YBhsbJEo6necJ4EI6BWI913dn0JhVGHI
-        TRYECZRxx9YSLDn9yT5viCFKb33D4V5KLGOotUMBv+gT
-X-Google-Smtp-Source: AGHT+IFJT4SZ2F2fnaX21/pYzX58pFnzkIc74U76tF/XevAjVRRwxuUziuQt2tt+BU14DegVGS00QQ==
-X-Received: by 2002:a17:906:8f:b0:9ae:793f:2016 with SMTP id 15-20020a170906008f00b009ae793f2016mr1553431ejc.44.1695400680506;
-        Fri, 22 Sep 2023 09:38:00 -0700 (PDT)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com. [209.85.128.52])
-        by smtp.gmail.com with ESMTPSA id t21-20020a170906179500b00988e953a586sm2957309eje.61.2023.09.22.09.37.59
+        bh=P0nzhfFMBIaN0jk+ueWNm7W+C6jSfBGTglmiswQsQ04=;
+        b=VpYHbz+V1/dF7BusJyxuuvwNEA85OzxwNBvgk7V7BKsnXQds8eK+R4KaelB2jLmxal
+         V3x7M34Ihe0lmjvZQc0qzlzcG/DS0vPlq73sNSZbmeLPewbtWGFud45GEAU8jYs0x7qt
+         8JFsSFIlUwDYI7UcU3sC0Pp4zfxJ1xV8xcxCDU30LIVb8rj3ljXm+9Zn8M8cIewQN68p
+         NQYo35k/uhuhOeOGvZsPUD110f2X1Y2rRB3jGfXAWtzemE/Oj368ZtwdVEhCBtGKdFFA
+         78yznNRejUwTiAIUNemuxhPLdNr8ZMyfMwcuuXOwSMfgHF2TQv+3WrxxCEVlBCsycRQF
+         CIyw==
+X-Gm-Message-State: AOJu0Yzi26zY2dSgQT4WxsFyUrCXJNblAhih9PFzV0oBJS87bP5F1DX4
+        umWfZnrzSQj8BueNy6XQeE454YbOh2EM/BJ3LrONnkbd
+X-Google-Smtp-Source: AGHT+IFfEZCueksCfpNu5QWK5JQwEGoq7PjvtI+Y9m8SOu4G4TBKuUJgV3xIjsUhH1BE6FJAeASmDw==
+X-Received: by 2002:a17:906:2099:b0:9a5:9f3c:961e with SMTP id 25-20020a170906209900b009a59f3c961emr615974ejq.18.1695404426057;
+        Fri, 22 Sep 2023 10:40:26 -0700 (PDT)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com. [209.85.208.47])
+        by smtp.gmail.com with ESMTPSA id o26-20020a1709062e9a00b009ad88839665sm2995372eji.70.2023.09.22.10.40.25
         for <linux-input@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Sep 2023 09:37:59 -0700 (PDT)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-405459d9a96so1145e9.0
-        for <linux-input@vger.kernel.org>; Fri, 22 Sep 2023 09:37:59 -0700 (PDT)
-X-Received: by 2002:a05:600c:6021:b0:405:38d1:e146 with SMTP id
- az33-20020a05600c602100b0040538d1e146mr723wmb.4.1695400679482; Fri, 22 Sep
- 2023 09:37:59 -0700 (PDT)
+        Fri, 22 Sep 2023 10:40:25 -0700 (PDT)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-51e24210395so1615a12.0
+        for <linux-input@vger.kernel.org>; Fri, 22 Sep 2023 10:40:25 -0700 (PDT)
+X-Received: by 2002:a50:f61d:0:b0:52e:f99a:b5f8 with SMTP id
+ c29-20020a50f61d000000b0052ef99ab5f8mr6207edn.7.1695404424779; Fri, 22 Sep
+ 2023 10:40:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230918125851.310-1-johan+linaro@kernel.org> <CAD=FV=Wfwvp-SbGrdO5VJcjG42njkApJPB7wnY-YYa1_-O0JWQ@mail.gmail.com>
- <ZQlIveJVdvyV2Ygy@hovoldconsulting.com> <CAD=FV=XBG7auVVyHn5uvahSZZxp5qBfp4+A9NwFqahdN6XrbZA@mail.gmail.com>
- <ZQqemN8P2VKgxhsV@hovoldconsulting.com> <CAD=FV=XK87TZuPy+d2r2g5QhowmghE-m9pGHe9-X7jnXAw9z1g@mail.gmail.com>
- <ZQ1Zm6ec9NuBvqpl@hovoldconsulting.com>
-In-Reply-To: <ZQ1Zm6ec9NuBvqpl@hovoldconsulting.com>
+References: <20230921102420.RFC.1.I9dddd99ccdca175e3ceb1b9fa1827df0928c5101@changeid>
+ <CAL_Jsq+noP32-m5xdUCLFPFBXLxX9Ys1BNFM+9sga6KYTmDzqQ@mail.gmail.com>
+In-Reply-To: <CAL_Jsq+noP32-m5xdUCLFPFBXLxX9Ys1BNFM+9sga6KYTmDzqQ@mail.gmail.com>
 From:   Doug Anderson <dianders@chromium.org>
-Date:   Fri, 22 Sep 2023 09:37:43 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=USBJRzqxX9kBP8pp4LKRGpBee+jkHL=KmeQvyfBk2CVQ@mail.gmail.com>
-Message-ID: <CAD=FV=USBJRzqxX9kBP8pp4LKRGpBee+jkHL=KmeQvyfBk2CVQ@mail.gmail.com>
-Subject: Re: [PATCH] HID: i2c-hid: fix handling of unpopulated devices
-To:     Johan Hovold <johan@kernel.org>
-Cc:     Johan Hovold <johan+linaro@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
+Date:   Fri, 22 Sep 2023 10:40:07 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WXxGhX0Fw2nSS7PxYb1O-LUewAhoUVPn=2EpbSD2OeHQ@mail.gmail.com>
+Message-ID: <CAD=FV=WXxGhX0Fw2nSS7PxYb1O-LUewAhoUVPn=2EpbSD2OeHQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] of: device: Support 2nd sources of probeable but
+ undiscoverable devices
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wenst@chromium.org>, linux-input@vger.kernel.org,
+        Jiri Kosina <jikos@kernel.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>, linux-gpio@vger.kernel.org,
+        linus.walleij@linaro.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        LinusW <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+        Johan Hovold <johan+linaro@kernel.org>,
+        andriy.shevchenko@linux.intel.com, broonie@kernel.org,
+        frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        hdegoede@redhat.com, james.clark@arm.com, james@equiv.tech,
+        keescook@chromium.org, linux-kernel@vger.kernel.org,
+        rafael@kernel.org, tglx@linutronix.de
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -92,196 +92,134 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Hi,
 
-On Fri, Sep 22, 2023 at 2:08=E2=80=AFAM Johan Hovold <johan@kernel.org> wro=
-te:
+On Fri, Sep 22, 2023 at 7:14=E2=80=AFAM Rob Herring <robh+dt@kernel.org> wr=
+ote:
 >
-> On Wed, Sep 20, 2023 at 08:41:12AM -0700, Doug Anderson wrote:
-> > On Wed, Sep 20, 2023 at 12:26=E2=80=AFAM Johan Hovold <johan@kernel.org=
-> wrote:
-> > > On Tue, Sep 19, 2023 at 11:15:46AM -0700, Doug Anderson wrote:
-> > > > On Tue, Sep 19, 2023 at 12:07=E2=80=AFAM Johan Hovold <johan@kernel=
-.org> wrote:
+> > Let's attempt to do something better. Specifically, we'll allow
+> > tagging nodes in the device tree as mutually exclusive from one
+> > another. This says that only one of the components in this group is
+> > present on any given board. To make it concrete, in my proposal this
+> > looks like:
+> >
+> >   / {
+> >     tp_ex_group: trackpad-exclusion-group {
+> >     };
 >
-> > > As I alluded to in the commit message, you probably want to be able t=
-o
-> > > support second-source touchscreen panel followers as well at some poi=
-nt
-> > > and then deferring checking whether device is populated until the pan=
-el
-> > > is powered on is not going to work.
+> Interesting way to just get a unique identifier. But it could be any
+> phandle not used by another group. So just point all the devices in a
+> group to one of the devices in the group.
+
+Fair enough.
+
+
+> >   &i2c_bus {
+> >     tp1: trackpad@10 {
+> >       ...
+> >       mutual-exclusion-group =3D <&tp_ex_group>;
+> >     };
+> >     tp2: trackpad@20 {
+> >       ...
+> >       mutual-exclusion-group =3D <&tp_ex_group>;
+> >     };
+> >     tp3: trackpad@30 {
+> >       ...
+> >       mutual-exclusion-group =3D <&tp_ex_group>;
+> >     };
+> >   };
 > >
-> > Yeah, I've been pondering this too. I _think_ it would work OK-ish if
-> > both devices probed and then only one of the two would actually make
-> > the sub-HID devices. So you'd actually see both devices succeed at
-> > probing but only one of them would actually be functional. It's a bit
-> > ugly, though. :(  Maybe marginally better would be if we could figure
-> > out how to have the device which fails to get its interrupt later
-> > unbind itself, if that's possible...
-> >
-> > The only other thought I had would be to have the parent i2c bus
-> > understand that it had children that were panel followers, which it
-> > should be able to do by seeing the "panel" attribute in their device
-> > tree. Then the i2c bus could itself register as a panel follower and
-> > could wait to probe its children until they were powered on. This
-> > could happen in the i2c core so we didn't have to add code like this
-> > to all i2c bus drivers. ...and, if necessary, we could add this to
-> > other busses like SPI. It feels a little awkward but could work.
+> > In Linux, we can make things work by simply only probing one of the
+> > devices in the group at a time. We can make a mutex per group and
+> > enforce locking that mutex around probe. If the first device that gets
+> > the mutex fails to probe then it won't try again. If it succeeds then
+> > it will acquire the shared resources and future devices (which we know
+> > can't be present) will fail to get the shared resources. Future
+> > patches could quiet down errors about failing to acquire shared
+> > resources or failing to probe if a device is in a
+> > mutual-exclusion-group.
 >
-> There may be other device on the bus that have nothing to do with
-> panels, but I guess you mean that this would only apply to a subset of
-> the children. In any case, this feels like a hack and layering
-> violation.
+> This seems like overkill to me. Do we really need groups and a mutex
+> for each group? Worst case is what? 2-3 groups of 2-3 devices?
+> Instead, what about extending "status" with another value
+> ("fail-needs-probe"? (fail-xxx is a documented value)). Currently, the
+> kernel would just ignore nodes with that status. Then we can process
+> those nodes separately 1-by-1.
 
-Right, the idea would be to only do this for the subset of children
-that are panel followers.
+My worry here is that this has the potential to impact boot speed in a
+non-trivial way. While trackpads and touchscreens _are_ probable,
+their probe routines are often quite slow. This is even mentioned in
+Dmitry's initial patches adding async probe to the kernel. See commit
+765230b5f084 ("driver-core: add asynchronous probing support for
+drivers") where he specifically brings up input devices as examples.
 
-It definitely doesn't seem ideal, but it also didn't seem too terrible to m=
-e.
+It wouldn't be absurd to have a system that has multiple sources for
+both the trackpad and the touchscreen. If we have to probe each of
+these one at a time then it could be slow. It would be quicker to be
+able to probe the trackpads (one at a time) at the same time we're
+probing the touchscreens (one at a time). Using the "fail-needs-probe"
+doesn't provide information needed to know which devices conflict with
+each other. IMO this is still better than nothing, but it worries me
+to pick the less-expressive solution for the dts which means that the
+information simply isn't there and the OS can't be made better later.
 
+Thinking about this more, I guess even my proposed solution isn't
+ideal for probe speed. Let's imagine that we had:
 
-> > > I skimmed the thread were you added this, but I'm not sure I saw any
-> > > reason for why powering on the panel follower temporarily during prob=
-e
-> > > would not work?
-> >
-> > My first instinct says we can't do this, but let's think about it...
-> >
-> > In general the "panel follower" API is designed to give all the
-> > decision making about when to power things on and off to the panel
-> > driver, which is controlled by DRM.
-> >
-> > The reason for this is from experience I had when dealing with the
-> > Samsung ATNA33XC20 panel that's on "sc7180-trogdor-homestar". The TCON
-> > on that panel tended to die if you didn't sequence it just right.
-> > Specifically, if you were sending pixels to the panel and then stopped
-> > then you absolutely needed to power the panel off and on again. Folks
-> > I talked to even claimed that the panel was working "to spec" since,
-> > in the "Power Sequencing" section of the eDP spec it clearly shows
-> > that you _must_ turn the panel off and on again after you stop giving
-> > it bits. ...this is despite the fact that no other panel I've worked
-> > with cares. ;-)
-> >
-> > On homestar, since we didn't have the "panel follower" API, we ended
-> > up adding cost to the hardware and putting the panel and touchscreens
-> > on different power rails. However, I wanted to make sure that if we
-> > ran into a similar situation in the future (or maybe if we were trying
-> > to make hardware work that we didn't have control over) that we could
-> > solve it.
-> >
-> > The other reason for giving full control to the panel driver is just
-> > how userspace usually works. Right now userspace tends to power off
-> > panels if they're not used (like if a lid is closed on a laptop) but
-> > doesn't necessarily power off the touchscreen. Thus if the touchscreen
-> > has the ability to keep things powered on then we'd never get to a low
-> > power state.
->
-> Don't you need to keep the touchscreen powered to support wakeup events
-> (e.g. when not closing the lid)?
+  &i2c_bus {
+    tp1: trackpad@10 {
+      compatible =3D "hid-over-i2c";
+      reg =3D <0x10>;
+      post-power-on-delay-ms =3D <200>;
+      ...
+      mutual-exclusion-group =3D <&tp1>;
+    };
+    tp2: trackpad@20 {
+      compatible =3D "hid-over-i2c";
+      reg =3D <0x20>;
+      post-power-on-delay-ms =3D <200>;
+      ...
+      mutual-exclusion-group =3D <&tp1>;
+    };
+  };
 
-No. The only reason you'd use panel follower is if the hardware was
-designed such that the touchscreen needed to be power sequenced with
-the panel. If the touchscreen can stay powered when the panel is off
-then it is, by definition, not a panel follower.
+With my solution, we'd power the first device up, wait 200 ms, then
+check to see if anything acks an i2c xfer at address 0x10. If it
+didn't, we'd power down. Then we'd power up the second device
+(presumably the same power rail), wait 200 ms, and check to see if
+anything acks an i2c xfer at 0x20. It would have been better to just
+power up once, wait 200 ms, then check for a device at either 0x10 or
+0x20.
 
-For a laptop I don't think most people expect the touchscreen to stay
-powered when the screen is off. I certainly wouldn't expect it. If the
-screen was off and I wanted to interact with the device, I would hit a
-key on the keyboard or touch the trackpad. When the people designing
-sc7180-trogdor chose to have the display and touchscreen share a power
-rail they made a conscious choice that they didn't need the
-touchscreen active when the screen was off.
+I guess with more complex touchscreens this could be more important. I
+don't know if we need to try to solve it at this point, but I guess I
+could imagine a case where we truly need to take into account all
+possible devices (maybe taking the maximum of delays?) to ensure we
+don't violate power sequencing requirements for any of them while
+probing.
 
-For the other hardware I'm aware of that needs panel-follower there is
-a single external chip on the board that handles driving the panel and
-the touchscreen. The power sequencing requirements for this chip
-simply don't allow the touchscreen to be powered on while the display
-is off.
+That would lead me to suggest this:
 
-One use case where I could intuitively think I might touch a
-touchscreen of a screen that was "off" would be a kiosk of some sort.
-It would make sense there to have two power rails. ...or, I suppose,
-userspace could just choose to turn the backlight off but keep the
-screen (and touchscreen) powered.
+  &i2c_bus {
+    trackpad-prober {
+      compatible =3D "mt8173-elm-hana-trackpad-prober";
 
+      tp1: trackpad@10 {
+        compatible =3D "hid-over-i2c";
+        reg =3D <0x10>;
+        ...
+        post-power-on-delay-ms =3D <200>;
+      };
+      tp2: trackpad@20 {
+        compatible =3D "hid-over-i2c";
+        reg =3D <0x20>;
+        ...
+        post-power-on-delay-ms =3D <200>;
+      };
+    };
+  };
 
-> And if you close the lid with wakeup disabled, you should still be able
-> to power down the touchscreen as part of suspend, right?
->
-> > The above all explains why panel followers like the touchscreen
-> > shouldn't be able to keep power on. However, you are specifically
-> > suggesting that we just turn the power on temporarily during probe. As
-> > I think about that, it might be possible? I guess you'd have to
-> > temporarily block DRM from changing the state of the panel while the
-> > touchscreen is probing. Then if the panel was off then you'd turn it
-> > on briefly, do your probe, and then turn it off again. If the panel
-> > was on then by blocking DRM you'd ensure that it stayed on. I'm not
-> > sure how palatable that would be or if there are any other tricky
-> > parts I'm not thinking about.
->
-> As this would allow actually probing the touchscreen during probe(), as
-> the driver model expects, this seems like a better approach then
-> deferring probe and registration if it's at all doable.
-
-Yeah, I don't 100% know if it's doable but it seems possible.
-Certainly it's something for future investigation.
-
-Luckily, at the moment anything I'm aware of that truly needs panel
-follower also doesn't have multiple sources for a touchscreen.
-
-
-> > > > Thinking that way, is there any reason you can't just move the
-> > > > i2c_hid_init_irq() into __do_i2c_hid_core_initial_power_up()? You
-> > > > could replace the call to enable_irq() with it and then remove the
-> > > > `IRQF_NO_AUTOEN` flag? I think that would also solve the issue if y=
-ou
-> > > > wanted to use a 2nd source + the panel follower concept? Both devic=
-es
-> > > > would probe, but only one of them would actually grab the interrupt
-> > > > and only one of them would actually create real HID devices. We mig=
-ht
-> > > > need to do some work to keep from trying again at every poweron of =
-the
-> > > > panel, but it would probably be workable? I think this would also b=
-e a
-> > > > smaller change...
-> > >
-> > > That was my first idea as well, but conceptually it is more correct t=
-o
-> > > request resources at probe time and not at some later point when you =
-can
-> > > no longer fail probe.
-> > >
-> > > You'd also need to handle the fact that the interrupt may never have
-> > > been requested when remove() is called, which adds unnecessary
-> > > complexity.
-> >
-> > I don't think it's a lot of complexity, is it? Just an extra "if" state=
-ment...
->
-> Well you'd need keep track of whether the interrupt has been requested
-> or not (and manage serialisation) yourself for a start.
-
-Sure. So I guess an "if" test plus a boolean state variable. I still
-don't think it's a lot of complexity.
-
-
-> But the main reason is still that requesting resources belongs in
-> probe() and should not be deferred to some later random time where you
-> cannot inform driver core of failures (e.g. for probe deferral if the
-> interrupt controller is not yet available).
-
-OK, I guess the -EPROBE_DEFER is technically possible though probably
-not likely in practice. ...so that's a good reason to make sure we
-request the IRQ in probe even in the "panel follower" case. I still
-beleive Benjamin would prefer that this was abstracted out and not in
-the actual probe() routine, but I guess we can wait to hear from him.
-
-One last idea I had while digging would be to wonder if we could
-somehow solve this case with "IRQF_PROBE_SHARED". I guess that doesn't
-work well together with "IRQF_NO_AUTOEN", but conceivably we could
-have the interrupt handler return "IRQ_NONE" if the initial power up
-never happened? I haven't spent much time poking with shared
-interrupts though, so I don't know if there are other side effects...
-
+...but I suspect that would be insta-NAKed because it's creating a
+completely virtual device ("mt8173-elm-hana-trackpad-prober") in the
+device tree. I don't know if there's something that's functionally
+similar that would be OK?
 
 -Doug
