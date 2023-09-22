@@ -2,118 +2,173 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7414E7AB829
-	for <lists+linux-input@lfdr.de>; Fri, 22 Sep 2023 19:51:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2970F7AB87E
+	for <lists+linux-input@lfdr.de>; Fri, 22 Sep 2023 19:54:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233508AbjIVRvO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Sep 2023 13:51:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36900 "EHLO
+        id S233668AbjIVRyF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Sep 2023 13:54:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233472AbjIVRux (ORCPT
+        with ESMTP id S233680AbjIVRxi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Sep 2023 13:50:53 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B02E91B2
-        for <linux-input@vger.kernel.org>; Fri, 22 Sep 2023 10:50:39 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1c4194f769fso20953455ad.3
-        for <linux-input@vger.kernel.org>; Fri, 22 Sep 2023 10:50:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695405039; x=1696009839; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nMOJXPHQhZA0yS0fHoLI/plMshH0rTXOliwF499/DWE=;
-        b=aebPsJKwSZViAED+uUauf6NIKp9lGVxeLAaNeiQb0qEOO146GyTAUY37+HL1N1w/Bn
-         QtS74Aa9xYXWMrKI91SrSXqH+bFB1BswMloZL7so5d/6VsVk+UVmK4tG0N983U0GoqAC
-         ZgAeUyODVVX/3yEt0c1WtVs0m9JshJj6WZnwI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695405039; x=1696009839;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nMOJXPHQhZA0yS0fHoLI/plMshH0rTXOliwF499/DWE=;
-        b=WEXNuoI8ZmQ7u6S7KsJBnm5gyXKlyBdTBLpZjKgz+4xz32e510AG25eZASxrbw6tDY
-         3FsB32EjRz43pOaowQdKjB2Q0Wp3BbSr0zAEjSJHId7+RP4RPfS/yp3DDiNMOnXqi9IQ
-         0rdX7jtkNcHERawkVDzxpuMsz44fe3I6/0ItyjsRXPbR8wy5EGTBGSUMakn5XpYXQ/I6
-         MnIrfAErFFZiC4Onhdkm+hFRN3pZx4KqIRfp7xVZ1ubEbeQNR+FHj442s9YxDqefbfpu
-         bbE3t/X6Dg74KYCV2i2Z1cePlupL67X5VmmM8MDTWPOkd26Ds2T9n8k8xkIfd54j+8wy
-         ilWQ==
-X-Gm-Message-State: AOJu0Yz3YIJegaD/1z9s6pVRSAFZEutUmMQG8jqm6C97of0AmwHJSb3A
-        lN47wnGT50pf69U9F9xyXt5FEde2bsMaKg8hzpw=
-X-Google-Smtp-Source: AGHT+IGaIyx2bOgCC7mrztEEIfqHLjz9L9iLu8LZRcOyBfuSv77bh1GHVC2OQn0kqgo7aKfmi4Ad+Q==
-X-Received: by 2002:a17:902:9892:b0:1c4:72c9:64ef with SMTP id s18-20020a170902989200b001c472c964efmr180522plp.40.1695405038816;
-        Fri, 22 Sep 2023 10:50:38 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id ix22-20020a170902f81600b001b05e96d859sm3777350plb.135.2023.09.22.10.50.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Sep 2023 10:50:38 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Kees Cook <keescook@chromium.org>, linux-input@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, linux-hardening@vger.kernel.org
-Subject: [PATCH] input: mt: Annotate struct input_mt with __counted_by
-Date:   Fri, 22 Sep 2023 10:50:37 -0700
-Message-Id: <20230922175036.work.762-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+        Fri, 22 Sep 2023 13:53:38 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2046.outbound.protection.outlook.com [40.107.92.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F035C1F20;
+        Fri, 22 Sep 2023 10:51:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fBgNQgcMLJC3s5Iuwv6Qa2TVTZCnLko/hcBQ/jciVMm2D850wU9OYKmHNEBC7aefFNr1/F//nWaW+A6C+hf/j8u9AaFEeDKn3VixBljEvnA+vXMXdWDdj5P9eQtjUoLhlzZ4XKnfFG+3rN61X2wYoAJGUgOBZSg1N0DCZyT20R1XGUiTeQlnQW6k4GTwpzP/5CpHn0Vi98brInYuGrA1VUM4mY4uYZrlMBrpcQHh4H4aF8RVkfQiGMnjasSVSSCIJmhacq1gSE1BWCdaBjV+FlUNcuOKJCfa9bPiPoUel8I6u3fG8zZpmGWcA/0b4BTqXL4LcuK4eaTExpova1Et6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tEHtiywUMFKmVDL5iBP/VYpcJkCDV/3GfneI/Ttnm/E=;
+ b=d9GCLfHmJNwcQ6pC8mFrtq8xKvtJh3oOOmFkiIVugsAYsao1J2S7/xPTdtEFPam27uYpAKkr8E4z7wBLr7lVBwlkGjjiZACigm7s6AOwc0IVAfmDwS/UxeJR2Y+ygKbPNddH3zz9y9JzFPlYD/zQMApAtLFaU0lQtfy+mGvhOKXOAX28/VuIyM4y00qqKexSRsa+FUVrXYZH04n1A6peSa07jlTrrAgVwLPqZsXoNjoesvAMyytFJyBJ5wBCOaUDeoyBG5YtMbHol4DtbrqIT9joTCftoNiznIjGfmL+7WBhpkcr0EwZ2fBASITECfWTj/cR6C1DbBbS12GSYUrizQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tEHtiywUMFKmVDL5iBP/VYpcJkCDV/3GfneI/Ttnm/E=;
+ b=2NlkC6w+wpkmhU1Ks8JHbLHaxVOh5hdC3nl9fxnvr6mwIEhpO27Sf/A0NTi/10SQcnkWBLgnlKRu721dXjuiAkgVNois8DvyuMJE7nlzUPbdanpzoE0CvHoT2Nxsusuh96DadZ23FETcTfOcz9xdwP9aThLvClhr2ICSJU22+VI=
+Received: from MN2PR11CA0001.namprd11.prod.outlook.com (2603:10b6:208:23b::6)
+ by IA1PR12MB6601.namprd12.prod.outlook.com (2603:10b6:208:3a3::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.21; Fri, 22 Sep
+ 2023 17:51:44 +0000
+Received: from BL02EPF0001A102.namprd05.prod.outlook.com
+ (2603:10b6:208:23b:cafe::a1) by MN2PR11CA0001.outlook.office365.com
+ (2603:10b6:208:23b::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.34 via Frontend
+ Transport; Fri, 22 Sep 2023 17:51:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL02EPF0001A102.mail.protection.outlook.com (10.167.241.134) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6792.20 via Frontend Transport; Fri, 22 Sep 2023 17:51:43 +0000
+Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 22 Sep
+ 2023 12:51:39 -0500
+From:   Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+To:     <hdegoede@redhat.com>, <markgross@kernel.org>,
+        <basavaraj.natikar@amd.com>, <jikos@kernel.org>,
+        <benjamin.tissoires@redhat.com>, <alexander.deucher@amd.com>,
+        <christian.koenig@amd.com>, <Xinhui.Pan@amd.com>,
+        <airlied@gmail.com>, <daniel@ffwll.ch>
+CC:     <Patil.Reddy@amd.com>, <mario.limonciello@amd.com>,
+        <platform-driver-x86@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
+        <dri-devel@lists.freedesktop.org>,
+        "Shyam Sundar S K" <Shyam-sundar.S-k@amd.com>
+Subject: [PATCH 00/15] Introduce PMF Smart PC Solution Builder Feature
+Date:   Fri, 22 Sep 2023 23:20:41 +0530
+Message-ID: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1142; i=keescook@chromium.org;
- h=from:subject:message-id; bh=LEWy0l9zrvVMRn8ts7PWj/kuD09dSrXj4WnAazmlq9A=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlDdPsQMKXeJm0ZhCGVnQLsQjIil2uivmvEwwNv
- Rzm0/Jc5EeJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQ3T7AAKCRCJcvTf3G3A
- JmKlEACd7wdpTzCBhXNjMStZK0q7mpoWAr0hNvgGleGXtkF7ihbchHc07XOV5oi29vSWQxoCGK+
- A7UqilH4l+s+SjoKasEgekNpcsNlUXnd5SyTJu3U6W75mUkecgGQTjckkOPMaA9J/CvHpHVgW3X
- 8MzJRaI3wxLRetGWsIe/dJ05u4kqLqfR0dbRv5CS3V9N8qTARLC+X3xfasNxO4nqzjALnb9UZng
- fWkUTE1dyh6MN0wJGLszYB/snY2r4SUtv8XGRyLAVck/Sh65NPeGwMITGT/bzc0w0Zsvq/E/4BI
- Lpl0hEYbOGDbqjmsoNfA6pVOrPQCAgHT5C2nUlHDCqqdTL3mvsv2+Pf9o8kFi9hQUQumpSgo1Eo
- qbSrXyd/LG+ys3iOt1WL8Rs9+/Mc8M8LmCLvUE2cDXnYmJm7c56wkolM+b3GuFE0AQrKc9jnMrj
- AXxSWEKzMB48nHsnaaOLnB8IO876orcAGoJvPCPzEa67LgSTjV5eqROX10kIz8l+4Vz5YsaQp/m
- 0yisfYjudZ8duUFfShH58IS6W3CxWKuNVW7x+d68ao2hstJlKFbk/V+mJrUC4QriWao69tsBd+D
- NtdrU7nVOR4lk9udHmUznHVvxi8YN3pje3duKPp+5O+bnFoh2ptu3/33bWMqKkHemMLKstvXYsf
- 3iIwQc2 vWZX8QZg==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A102:EE_|IA1PR12MB6601:EE_
+X-MS-Office365-Filtering-Correlation-Id: d95d5345-00aa-415b-df30-08dbbb94956c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zJk0n8fCOjKNFNDXOKi9xeRz3auKJTNv5tpDqvUD7Mc+RDEh+fUc8FOeyt860OXXrU2Veo3T88YvzF447/XN2zVHeXecNqswKxzg4eWKErDgvOMNnZ84yGbyn9BCYAcI/Izk4fftLhqN0mqvo/ouK4o7Gxb2hNh0/wkUeE47DT5lnYOebOOyey7gkE++HMk4V2OXRZEzKk3tW6nSAKpjceSBOQs/SFoXN6wbmG/P5ChN4rjarKW1ZbMNPw1soLC24xN0z8ZqsXppAdHxgvW1rJLNx47dOWBbchOk1n6XsltSVOJ8W/ZDEilhRngwgAO9G86iux0olgXCit5y1tE3ej3jsnZxpr7QMm3qq9/b4L3m/o+ShaBWbr3qA1QJgCAD6LkNbqdHVHl4jsmLxKDu0R9bUoPrcyyxONI7YH48y5kM2CYV0d9yO7EunBXSfetBQxjLAK+1BErjmnAryFVyaG8GU9TmLR515hPrW4mIYgHTbfL5kmg1+AJe9QGJ5mXEk8oV1PJ3jm+NKiSwPStrqVH9yoGv3Ty28skeTmg2+FwUuFrRMX3hJapBErKBmO6RdETdfvKGDOGBwZq9a50+DPKkCcF7j2ZKp77IxCz8GX7n2ded2sAusk3FQpYrOjhi0U0KD80HqpWxuDCvMWLHf9t1SLbgGn1ezvvlYTCZGlCat8cRWzDs0glk1nxTTbOCTLV+mndI+0p7hUIglsLizO01JxhoKJD/GTD7PQjFNBsYvDxJr16JiXt3Rt6yPn9xv63dpPaB8vr8ESNoEeJJYOv1n+Izupx3z9/26xRPGiUr5V9S/6gcv+7gobAvMEHeUMnA/Vgvo8i/RsqbAWxzjg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(376002)(136003)(396003)(39860400002)(451199024)(1800799009)(186009)(230921699003)(82310400011)(40470700004)(46966006)(36840700001)(83380400001)(7696005)(356005)(82740400003)(40480700001)(5660300002)(4326008)(7416002)(316002)(2906002)(336012)(36756003)(54906003)(8676002)(41300700001)(16526019)(6666004)(478600001)(921005)(426003)(47076005)(110136005)(2616005)(81166007)(70206006)(86362001)(70586007)(40460700003)(8936002)(26005)(1076003)(36860700001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2023 17:51:43.9082
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d95d5345-00aa-415b-df30-08dbbb94956c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A102.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6601
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Prepare for the coming implementation by GCC and Clang of the __counted_by
-attribute. Flexible array members annotated with __counted_by can have
-their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
-(for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-functions).
+Smart PC Solutions Builder allows for OEM to define a large number of
+custom system states to dynamically switch to. The system states are
+referred to as policies, and multiple policies can be loaded onto the
+system at any given time, however only one policy can be active at a
+given time.
 
-As found with Coccinelle[1], add __counted_by for struct input_mt.
+Policy is a combination of PMF input and output capabilities. The inputs
+are the incoming information from the other kernel subsystems like LID
+state, Sensor info, GPU info etc and the actions are the updating the 
+power limits of SMU etc.
 
-[1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
+The policy binary is signed and encrypted by a special key from AMD. This
+policy binary shall have the inputs and outputs which the OEMs can build
+for the platform customization that can enhance the user experience and
+system behavior.
 
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- include/linux/input/mt.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This series adds the initial support for Smart PC solution to PMF driver.
 
-diff --git a/include/linux/input/mt.h b/include/linux/input/mt.h
-index 3b8580bd33c1..2cf89a538b18 100644
---- a/include/linux/input/mt.h
-+++ b/include/linux/input/mt.h
-@@ -47,7 +47,7 @@ struct input_mt {
- 	unsigned int flags;
- 	unsigned int frame;
- 	int *red;
--	struct input_mt_slot slots[];
-+	struct input_mt_slot slots[] __counted_by(num_slots);
- };
- 
- static inline void input_mt_set_value(struct input_mt_slot *slot,
+Note that, on platforms where CnQF and Smart PC is advertised, Smart PC
+shall have higher precedence and same applies for Auto Mode.
+
+Basavaraj Natikar (2):
+  platform/x86/amd/pmf: Add PMF-AMDSFH interface for HPD
+  platform/x86/amd/pmf: Add PMF-AMDSFH interface for ALS
+
+Shyam Sundar S K (13):
+  platform/x86/amd/pmf: Add PMF TEE interface
+  platform/x86/amd/pmf: Add support PMF-TA interaction
+  platform/x86/amd/pmf: Change signature of amd_pmf_set_dram_addr
+  platform/x86/amd/pmf: Add support for PMF Policy Binary
+  platform/x86/amd/pmf: change debugfs init sequence
+  platform/x86/amd/pmf: Add support to get inputs from other subsystems
+  platform/x86/amd/pmf: Add support update p3t limit
+  platform/x86/amd/pmf: Add support to update system state
+  platform/x86/amd/pmf: Add facility to dump TA inputs
+  platform/x86/amd/pmf: Add capability to sideload of policy binary
+  platform/x86/amd/pmf: dump policy binary data
+  platform/x86/amd/pmf: Add PMF-AMDGPU get interface
+  platform/x86/amd/pmf: Add PMF-AMDGPU set interface
+
+ Documentation/admin-guide/pmf.rst             |  24 +
+ drivers/gpu/drm/amd/amdgpu/Makefile           |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c       |  91 ++++
+ drivers/hid/amd-sfh-hid/amd_sfh_common.h      |   6 +
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c |   2 +-
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c |  17 +
+ .../amd-sfh-hid/sfh1_1/amd_sfh_interface.c    |  48 ++
+ .../amd-sfh-hid/sfh1_1/amd_sfh_interface.h    |   1 +
+ drivers/platform/x86/amd/pmf/Kconfig          |   2 +
+ drivers/platform/x86/amd/pmf/Makefile         |   3 +-
+ drivers/platform/x86/amd/pmf/acpi.c           |  37 ++
+ drivers/platform/x86/amd/pmf/core.c           |  40 +-
+ drivers/platform/x86/amd/pmf/pmf.h            | 199 +++++++
+ drivers/platform/x86/amd/pmf/spc.c            | 194 +++++++
+ drivers/platform/x86/amd/pmf/sps.c            |   2 +-
+ drivers/platform/x86/amd/pmf/tee-if.c         | 492 ++++++++++++++++++
+ include/linux/amd-pmf-io.h                    |  51 ++
+ 18 files changed, 1199 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/admin-guide/pmf.rst
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+ create mode 100644 drivers/platform/x86/amd/pmf/spc.c
+ create mode 100644 drivers/platform/x86/amd/pmf/tee-if.c
+ create mode 100644 include/linux/amd-pmf-io.h
+
 -- 
-2.34.1
+2.25.1
 
