@@ -2,50 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7051A7AA7D6
-	for <lists+linux-input@lfdr.de>; Fri, 22 Sep 2023 06:32:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B8047AAAF4
+	for <lists+linux-input@lfdr.de>; Fri, 22 Sep 2023 09:56:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229669AbjIVEdC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Sep 2023 00:33:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43412 "EHLO
+        id S231819AbjIVH4p (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Sep 2023 03:56:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbjIVEdB (ORCPT
+        with ESMTP id S231861AbjIVH4o (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Sep 2023 00:33:01 -0400
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D94A0122;
-        Thu, 21 Sep 2023 21:32:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1695357173; x=1695616373;
-        bh=ky/I5+eIsKo29UW7LB/TUWn+eMis8pbYkCdUWOTJTCU=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=lebD5170GbFvzAq/iof9+JOGY3rOV27SIS+0NKBm9tuYXpVXB+1J1GKAddb0ibn0P
-         guS+eAyJGJooecutx8cudw6Z22TrBDrRawLwi7Oah6H4acHuTghd68pgMpgJzWuZxM
-         cagXhLrN2nO8YPHKVUFBfHsjkTf1Xyof+NXAsb8Y13FK0SKyx+xDLi4pw6u2UHeq6R
-         vpKccgp2XCREA6CUm9o1Ka1sPXN8kI2wccFRzzm1uBudC//ch29WdlGBnBtPmYg75/
-         E4I7PGTxdUMveQglqThgqSH/q/FTLIASrHHvwOtq0/l7id1ifzeZSb5WFrPE2B+uid
-         Sjt2qutVJIcOg==
-Date:   Fri, 22 Sep 2023 04:32:41 +0000
-To:     Johannes Roith <johannes@gnu-linux.rocks>
-From:   Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc:     jikos@kernel.org, andi.shyti@kernel.org,
-        benjamin.tissoires@redhat.com, christophe.jaillet@wanadoo.fr,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rdunlap@infradead.org
-Subject: Re: [PATCH v7] HID: mcp2200: added driver for GPIOs of MCP2200
-Message-ID: <87r0mqhlp6.fsf@protonmail.com>
-In-Reply-To: <20230921164928.170383-1-johannes@gnu-linux.rocks>
-References: <20230921164928.170383-1-johannes@gnu-linux.rocks>
-Feedback-ID: 26003777:user:proton
+        Fri, 22 Sep 2023 03:56:44 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03F1319C
+        for <linux-input@vger.kernel.org>; Fri, 22 Sep 2023 00:56:38 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-99bdcade7fbso217135366b.1
+        for <linux-input@vger.kernel.org>; Fri, 22 Sep 2023 00:56:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1695369396; x=1695974196; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yOczsUF+BCYrh6dDHSzppLS2kdf/aZwXvn7gPWWOBaI=;
+        b=shGf+TxTG0fV+dZwQFUkOKEU21lL9PDV6wEo64OLjI/1qkO0Jf/ERpo9Ro2OdPqEHX
+         Quc6ZNXnMJdzgsS/NGyjE9HMudkratX5dprikaTNGYYGtWnLhr6oW7eHvjAvmVLmBXxk
+         woMH7gFYVSRJ5423ANVbqCfOqdvtG9Wg7Y/Oe53BuiLwyvChL0/GzPkNg5mD54gLY5H7
+         78F79aEIYy1tS28g7zagKd7WVOjcBFP+FqVRfWwPzmyxOLtkmQwnjmKNmR2F9k474HgR
+         p1mkhws40hw2R4UBvtw9yWO2SQ/QehUvoEhAP+JSGgauQhNGlvp16pVrbM6DYxbFz/Eq
+         I5TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695369396; x=1695974196;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yOczsUF+BCYrh6dDHSzppLS2kdf/aZwXvn7gPWWOBaI=;
+        b=YLmPs66ve/RXJM3TWZYMCrdzfKoMUo+RQC6fMfpU8fi4Erpx3U4NOAvqAlQuuk3Vg4
+         5y2wQzV/y1/HH5kThfiacF+2QJo0RuIfNilcudk9MzxW8qn+ZuWdQ1HHSPrYIbbu0z9F
+         tzOx6eMqhqaS1gIizex5R3EoocMMhwfmplSilVZymcBlCQBEmRF48YS6ECu0MEIKSP5y
+         9wyJzLXD5qN/1RINX1lCuI/yYQFXt9shT0vCeyC2NQy+fLTWGJu0ecqNQhs4E4DjyIkM
+         UrtxgZX2RRXf5GWI1Mr+NY+nEdmuwnBAWSurTtUuZ+kKROkfWhFBHDk5jl+GhgJwbuAV
+         rA2g==
+X-Gm-Message-State: AOJu0Yx5fUw7Ss0zp8EX6/6WnWg/VdmxPm+aquolCG5wgbIlH953+dYy
+        Q8VniYOiyP/9zl+ohR1xMeBi+icCZR6wfDAdvh+a3A==
+X-Google-Smtp-Source: AGHT+IHJkhjBPXZRFF/OS5Z6jauyAMcCVTAOx/S3WXMuSFszFyeFwmzr+cmcR4dQYflZoedGLikHXQ4VZkiOC2bdwt8=
+X-Received: by 2002:a17:907:7712:b0:9ae:6ff4:9f15 with SMTP id
+ kw18-20020a170907771200b009ae6ff49f15mr1925645ejc.11.1695369395757; Fri, 22
+ Sep 2023 00:56:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20230919024943.3088916-1-tylor_yang@himax.corp-partner.google.com>
+ <20230919024943.3088916-2-tylor_yang@himax.corp-partner.google.com>
+ <20230919-70b2f1e368a8face73468dfa@fedora> <CAGD2q_anfBP78jck6AbMNtgAggjOgaB3P6dkmq9tONHP45adFA@mail.gmail.com>
+ <20230919-cc4646dbfb953bd34e05658c@fedora>
+In-Reply-To: <20230919-cc4646dbfb953bd34e05658c@fedora>
+From:   yang tylor <tylor_yang@himax.corp-partner.google.com>
+Date:   Fri, 22 Sep 2023 15:56:25 +0800
+Message-ID: <CAGD2q_bkTpvXiomWb_yerNjQfMVKOctYgBqF_RBSo_jYqyyyxw@mail.gmail.com>
+Subject: Re: [PATCH V2 1/2] dt-bindings: input: Introduce Himax HID-over-SPI device
+To:     Conor Dooley <conor@kernel.org>
+Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        poyuan_chang@himax.corp-partner.google.com, hbarnor@chromium.org,
+        "jingyliang@chromium.org" <jingyliang@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,24 +77,100 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 21 Sep, 2023 18:49:28 +0200 "Johannes Roith" <johannes@gnu-linux.ro=
-cks> wrote:
-> Added a gpiochip compatible driver to control the 8 GPIOs of
-> the MCP2200 by using the HID interface.
+On Tue, Sep 19, 2023 at 7:09=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
+te:
 >
-> Using GPIOs with alternative functions (GP0<->SSPND, GP1<->USBCFG,
-> GP6<->RXLED, GP7<->TXLED) will reset the functions, if set (unset by
-> default).
+> On Tue, Sep 19, 2023 at 05:31:29PM +0800, yang tylor wrote:
+> > Hi Conor,
+> >
+> > > > Additional optional arguments:
+> > > > ic-det-delay-ms and ic-resume-delay-ms are using to solve runtime
+> > > > conditions.
+> >
+> > > Runtime conditions? Aren't th=D1=94se properties of the panel & there=
+fore
+> > > fixed? If they were runtime conditions, then setting them statically =
+in
+> > > your DT is not going to work, right?
+> >
+> > Because each platform's display driver ready time is different. TP part
+> > need to avoid this timing by measuring the waveform of LCD reset pin
+> > low period and TP probe timing. For example, if LCD rst pin low from
+> > timestamp 100 to 800, TP driver probe at 600. TP probe will fail. Then
+> > user should set ic-det-delay-ms bigger than 200, to avoid LCD rst low
+> > timing. As you can see, the timing needs to be measured at runtime to
+> > decide how long it should be. Then, if the condition is not changed, th=
+e
+> > value could keep the same.
 >
-> The driver was tested while also using the UART of the chip. Setting
-> and reading the GPIOs has no effect on the UART communication. However,
-> a reset is triggered after the CONFIGURE command. If the GPIO Direction
-> is constantly changed, this will affect the communication at low baud
-> rates. This is a hardware problem of the MCP2200 and is not caused by
-> the driver.
+> That sounds to me like something you would test once for a given
+> platform and then the values are static. If you are actually changing it
+> at *runtime*, how is doing it through DT suitable? Does your firmware do
+> the tests & then set the values in DT dynamically?
 >
-> Signed-off-by: Johannes Roith <johannes@gnu-linux.rocks>
-> ---
+Yes, you are right. I'll change the description.
 
-Reviewed-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+> >
+> > > It looks like you deleted all of the properties from the previous
+> > > submission of these changes. I don't really understand that, it kinda
+> > > feels just like appeasement, as you must have needed those properties
+> > > to do the firmware loading etc. How are you filling the gap those
+> > > properties have left, when you still only have a single compatible
+> > > string in th=E3=84=9Fs binding? Is there a way to do runtime detectio=
+n of which
+> > > chip you're dealing with that you are now using?
+> >
+> > After reviewing, I found the properties could go to IC driver settings =
+:
+> > "himax,heatmap_16bits" because it depends on IC's ability;
+>
+> How do you detect the IC's abilities?
+>
+The driver code has a part of IC detect process, and each IC has its own
+driver code to define its abilities. This part moves to that position.
 
+> > Some
+> > could remove and use default values: "himax,fw_size",
+> > "himax,boot_time_fw_upgrade". "himax,fw_size" has a default value in
+> > IC settings, and likely won't change in this IC.
+>
+> Okay.
+>
+> > The behavior of "himax,boot_time_fw_upgrade" seems not stable and
+> > should be removed. "himax,fw_in_flash", I use the kernel config for
+> > user to select.
+>
+> That seems like a bad idea, we want to be able to build one kernel that
+> works for all hardware at the same time.
+>
+I see, so I should take that back?
+I'll explain more about it.
+
+> > "himax,pid" could be remove and use default firmware name
+> > "himax_i2chid.bin" to load. It was added because users may desire to
+> > choose a special name like "himax_i2chid_{pid}.bin" instead of the defa=
+ult
+> > one.
+> > It also could be replaced with newly added "himax",id-gpios" which is s=
+till
+> > experimental.
+>
+> Also, pleae don't top post, but instead reply in-line with my comments,
+> as I have done here.
+>
+Ok.
+
+> > Btw, I encounter an error of patch [2/2], which says:
+> > BOUNCE linux-input@vger.kernel.org: Message too long (>100000 chars)
+> > and the patch didn't appear at patchwork.kernel.org. What should I do t=
+o
+> > deal with this problem?
+>
+> No idea. Maybe try to split it into multiple patches?
+> The other option is to also cc patches@lists.linux.dev as that has some
+> higher capacities, but that's not going to be a silver bullet.
+
+Thanks for the reply. I'll try multiple commits to reduce the size.
+
+Thanks,
+Tylor
