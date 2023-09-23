@@ -2,259 +2,134 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E86A87ABC8D
-	for <lists+linux-input@lfdr.de>; Sat, 23 Sep 2023 02:11:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E3307ABEE6
+	for <lists+linux-input@lfdr.de>; Sat, 23 Sep 2023 10:28:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230026AbjIWALf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Sep 2023 20:11:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46024 "EHLO
+        id S230491AbjIWI2J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 23 Sep 2023 04:28:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbjIWALe (ORCPT
+        with ESMTP id S230490AbjIWI2G (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Sep 2023 20:11:34 -0400
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3FFC1A7
-        for <linux-input@vger.kernel.org>; Fri, 22 Sep 2023 17:11:27 -0700 (PDT)
-Received: by mail-qk1-x72f.google.com with SMTP id af79cd13be357-7741bffd123so80290285a.0
-        for <linux-input@vger.kernel.org>; Fri, 22 Sep 2023 17:11:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695427885; x=1696032685; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2HRUyGvs1uStGXLaQ8+ngHPFdyOarHkGjvDN3ml5t7g=;
-        b=L0GPfU2eIee7J+gcr4tLiH63NbM1txTIrE+ZcmfXyW9P0h+JEY4BX6zenMJbauyrBC
-         kQJTTsGWO9R7ZiSeRcsBrHMt2NaNKLYr6jf3koxlR2+84psZmuuGVeEdWve2bJt2NKJQ
-         5jFDlcObEc23M3CZiwlJa6xbGKhf9vi7ViZJw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695427885; x=1696032685;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2HRUyGvs1uStGXLaQ8+ngHPFdyOarHkGjvDN3ml5t7g=;
-        b=k/ovViWaq/USsdHxk7Lx3+hFaFZWYmnOPYEfdTtV8Czcr1z87C/Zv7/IRCHZtpD6p8
-         DmjSIPx+LZMIGKFCDklu0YWmiPsexyhv3Qq1+Y8P6FRFsEPbg8hmIJk7sn060OU6za4O
-         emOlctqZM8/iRueKcp+c2Alp9AUDxiMGWIzrMJZNL8lNLXT471JuGTDG+wY7TMEbGxJK
-         pyEhJ/4FN3vES/Bu0Sno9zEJAJSz26DWpcqSokBArj4nrjrNcU7oT+GnoAVvknhadWch
-         toHfnbsUR68pKk7iqxwW07urD2X335GdnL2U6xoS1I2mjanaVf9qmWGequIMV/ZgU8ct
-         WERw==
-X-Gm-Message-State: AOJu0YzqOqF+yGYlszoMVuPonJzJ5Wx9ZBlsMCfM1WJo6xukpuEUoxog
-        K3oLJ0oJatNl3FlUaigiL6DW+6FZ3LoFyWunEJRLkqOD
-X-Google-Smtp-Source: AGHT+IER4YZ/xFlX2L+iE2JL0k3oQNb+RdWXYz3FEE7N5NaVrc404jR9OZD0+F+afDoTxf7q4neMcQ==
-X-Received: by 2002:a05:620a:a57:b0:765:d53e:3352 with SMTP id j23-20020a05620a0a5700b00765d53e3352mr974530qka.30.1695427885274;
-        Fri, 22 Sep 2023 17:11:25 -0700 (PDT)
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com. [209.85.160.171])
-        by smtp.gmail.com with ESMTPSA id f23-20020ae9ea17000000b00767da9b6ae9sm1820841qkg.11.2023.09.22.17.11.23
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Sep 2023 17:11:24 -0700 (PDT)
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-415155b2796so70911cf.1
-        for <linux-input@vger.kernel.org>; Fri, 22 Sep 2023 17:11:23 -0700 (PDT)
-X-Received: by 2002:a05:622a:1aa6:b0:403:affb:3c03 with SMTP id
- s38-20020a05622a1aa600b00403affb3c03mr97108qtc.10.1695427883461; Fri, 22 Sep
- 2023 17:11:23 -0700 (PDT)
+        Sat, 23 Sep 2023 04:28:06 -0400
+Received: from omta034.useast.a.cloudfilter.net (omta034.useast.a.cloudfilter.net [44.202.169.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F35B7CCA
+        for <linux-input@vger.kernel.org>; Sat, 23 Sep 2023 01:27:59 -0700 (PDT)
+Received: from eig-obgw-5009a.ext.cloudfilter.net ([10.0.29.176])
+        by cmsmtp with ESMTP
+        id jm11qEfEKez0CjxzDqArPu; Sat, 23 Sep 2023 08:27:35 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with ESMTPS
+        id jxzaqH9UeyzmHjxzaqbOYX; Sat, 23 Sep 2023 08:27:59 +0000
+X-Authority-Analysis: v=2.4 cv=BuOOfKb5 c=1 sm=1 tr=0 ts=650ea18f
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=P7XfKmiOJ4/qXqHZrN7ymg==:17
+ a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
+ a=IkcTkHD0fZMA:10 a=zNV7Rl7Rt7sA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
+ a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8 a=cm27Pg_UAAAA:8 a=gjWtsrhGNCPogvnVG7wA:9
+ a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22 a=xmb-EsYY8bH0VWELuYED:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=Qe3KtCAORllSc14uOo/VkMifAxQFSeyAwgdtm9iTt24=; b=uypdy4HdLrWH7g0O+iDdmWgFef
+        rLTVGONvlnSK/K+3/gKna+eG4wN+yDjXss0TJyUI7xwgYHljzHJLU3lM4RDL+XKMuzbtIZfypIil5
+        rXJrinelPx3/e4gpcMu38oWPmNJLjBL8FAx/z4u2eYn7KkmaG8+Mzfurm4eCAceU0YqKvs2ZRY9L/
+        DZFzybUHDD7NC8AnmSdI7906UH2pvsbMA19IRwULduHT1Z9SYil+9QfN97SRXfiwlxOpQwex7OMec
+        zx+8Qb2I/0bwjZedHJV20p3LAv7Et1RvCuoDH43L6Jd8t3ZfZjWZrxoIX3xiAVLqNRMobU5y3S0ON
+        D9EJudNA==;
+Received: from [94.239.20.48] (port=34534 helo=[192.168.1.98])
+        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.96)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1qjxzZ-003XRR-2V;
+        Sat, 23 Sep 2023 03:27:57 -0500
+Message-ID: <781aa943-29de-2992-e68f-1bc062a3f4fe@embeddedor.com>
+Date:   Sat, 23 Sep 2023 10:29:03 -0600
 MIME-Version: 1.0
-References: <20230921102420.RFC.1.I9dddd99ccdca175e3ceb1b9fa1827df0928c5101@changeid>
- <CAL_Jsq+noP32-m5xdUCLFPFBXLxX9Ys1BNFM+9sga6KYTmDzqQ@mail.gmail.com>
- <CAD=FV=WXxGhX0Fw2nSS7PxYb1O-LUewAhoUVPn=2EpbSD2OeHQ@mail.gmail.com> <CAL_JsqKJyRJmwJzB1yew71Ld7BeMMat+rzhX9XtDtiFE8Dbvcw@mail.gmail.com>
-In-Reply-To: <CAL_JsqKJyRJmwJzB1yew71Ld7BeMMat+rzhX9XtDtiFE8Dbvcw@mail.gmail.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Fri, 22 Sep 2023 17:11:10 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UgFzT0TW2WEV0Wmk05EXUad2EYhN2DcckAxE_Lw5gV1Q@mail.gmail.com>
-Message-ID: <CAD=FV=UgFzT0TW2WEV0Wmk05EXUad2EYhN2DcckAxE_Lw5gV1Q@mail.gmail.com>
-Subject: Re: [RFC PATCH] of: device: Support 2nd sources of probeable but
- undiscoverable devices
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Chen-Yu Tsai <wenst@chromium.org>, linux-input@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>, linux-gpio@vger.kernel.org,
-        linus.walleij@linaro.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Johan Hovold <johan+linaro@kernel.org>,
-        andriy.shevchenko@linux.intel.com, broonie@kernel.org,
-        frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        hdegoede@redhat.com, james.clark@arm.com, james@equiv.tech,
-        keescook@chromium.org, linux-kernel@vger.kernel.org,
-        rafael@kernel.org, tglx@linutronix.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] input: Annotate struct evdev_client with __counted_by
+Content-Language: en-US
+To:     Kees Cook <keescook@chromium.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, linux-hardening@vger.kernel.org
+References: <20230922175027.work.563-kees@kernel.org>
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20230922175027.work.563-kees@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 94.239.20.48
+X-Source-L: No
+X-Exim-ID: 1qjxzZ-003XRR-2V
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.1.98]) [94.239.20.48]:34534
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 84
+X-Org:  HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfEX+F6r+55WNQ9tDZk05KRFCRV92dLy5uVVjt+M4AUGvMNC0waws85QNNrn51Tk2tTza8UykkLBWCNCD+QvrrWxKqa9PHftJztD7202jUpPghouZYLI2
+ SFbSc6WH9tmHKrr/G9z7LcfodragWKcdJLA6qxU/cDUnkmxnEwCO2BVZrb40RRWedUgB1jVYMhSMe0fHgtQsoJigV4dEM2onuJSOodPiyH8yBOpDp6E5viQ8
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DATE_IN_FUTURE_06_12,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On Fri, Sep 22, 2023 at 12:08=E2=80=AFPM Rob Herring <robh+dt@kernel.org> w=
-rote:
->
-> > > This seems like overkill to me. Do we really need groups and a mutex
-> > > for each group? Worst case is what? 2-3 groups of 2-3 devices?
-> > > Instead, what about extending "status" with another value
-> > > ("fail-needs-probe"? (fail-xxx is a documented value)). Currently, th=
-e
-> > > kernel would just ignore nodes with that status. Then we can process
-> > > those nodes separately 1-by-1.
-> >
-> > My worry here is that this has the potential to impact boot speed in a
-> > non-trivial way. While trackpads and touchscreens _are_ probable,
-> > their probe routines are often quite slow. This is even mentioned in
-> > Dmitry's initial patches adding async probe to the kernel. See commit
-> > 765230b5f084 ("driver-core: add asynchronous probing support for
-> > drivers") where he specifically brings up input devices as examples.
->
-> Perhaps then this should be solved in userspace where it can learn
-> which device is actually present and save that information for
-> subsequent boots.
-
-Yeah, the thought occurred to me as well. I think there are a few
-problems, though:
-
-a) Userspace can't itself probe these devices effectively. While
-userspace could turn on GPIOs manually and query the i2c bus manually,
-it can't (I believe) turn on regulators nor can it turn on clocks, if
-they are needed. About the best userspace could do would be to blindly
-try binding an existing kernel driver, and in that case why did we
-need userspace involved anyway?
-
-b) While deferring to userspace can work for solutions like ChromeOS
-or Android where it's easy to ensure the userspace bits are there,
-it's less appealing as a general solution. I think in Johan's case
-he's taking a laptop that initially ran Windows and then is trying to
-run a generic Linux distro on it. For anyone in a similar situation,
-they'd either need to pick a Linux distro that has the magic userspace
-bits that are needed or they need to know that, on their laptop, they
-need to manually install some software. While requiring special
-userspace might make sense if you've got a special peripheral, like an
-LTE modem, it makes less sense to need special userspace just to get
-the right devices bound...
 
 
-> > It wouldn't be absurd to have a system that has multiple sources for
-> > both the trackpad and the touchscreen. If we have to probe each of
-> > these one at a time then it could be slow. It would be quicker to be
-> > able to probe the trackpads (one at a time) at the same time we're
-> > probing the touchscreens (one at a time). Using the "fail-needs-probe"
-> > doesn't provide information needed to know which devices conflict with
-> > each other.
->
-> I would guess most of the time that's pretty evident. They are going
-> to be on the same bus/link. If unrelated devices are on the same bus,
-> then that's going to get serialized anyways (if bus accesses are what
-> make things slow).
->
-> We could add information on the class of device. touchscreen and
-> touchpad aliases or something.
+On 9/22/23 11:50, Kees Cook wrote:
+> Prepare for the coming implementation by GCC and Clang of the __counted_by
+> attribute. Flexible array members annotated with __counted_by can have
+> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+> functions).
+> 
+> As found with Coccinelle[1], add __counted_by for struct evdev_client.
+> 
+> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
+> 
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: linux-input@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-Ah, I see. So something like "fail-needs-probe-<class>". The
-touchscreens could have "fail-needs-probe-touchscreen" and the
-trackpads could have "fail-needs-probe-trackpad" ? That could work. In
-theory that could fall back to the same solution of grabbing a mutex
-based on the group ID...
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-Also: if having the mutex in the "struct device" is seen as a bad
-idea, it would also be easy to remove. __driver_probe_device() could
-just make a call like "of_device_probe_start()" at the beginning that
-locks the mutex and then "of_device_probe_end()" that unlocks it. Both
-of those calls could easily lookup the mutex in a list, which would
-get rid of the need to store it in the "struct device".
+Thanks
+-- 
+Gustavo
 
-
-> > That would lead me to suggest this:
-> >
-> >   &i2c_bus {
-> >     trackpad-prober {
-> >       compatible =3D "mt8173-elm-hana-trackpad-prober";
-> >
-> >       tp1: trackpad@10 {
-> >         compatible =3D "hid-over-i2c";
-> >         reg =3D <0x10>;
-> >         ...
-> >         post-power-on-delay-ms =3D <200>;
-> >       };
-> >       tp2: trackpad@20 {
-> >         compatible =3D "hid-over-i2c";
-> >         reg =3D <0x20>;
-> >         ...
-> >         post-power-on-delay-ms =3D <200>;
-> >       };
-> >     };
-> >   };
-> >
-> > ...but I suspect that would be insta-NAKed because it's creating a
-> > completely virtual device ("mt8173-elm-hana-trackpad-prober") in the
-> > device tree. I don't know if there's something that's functionally
-> > similar that would be OK?
->
-> Why do you need the intermediate node other than a convenient way to
-> instantiate a driver? You just need a flag in each node which needs
-> this special handling. Again, "status" could work well here since it
-> keeps the normal probe from happening. But I'm not saying you can't
-> have some board specific code. Sometimes you just need code to deal
-> with this stuff. Don't try to parameterize everything to DT
-> properties.
-
-I think I'd have an easier time understanding if I knew where you
-envisioned the board-specific code living. Do you have an example of
-board specific code running at boot time in the kernel on DT systems?
-
-
-> Note that the above only works with "generic" compatibles with
-> "generic" power sequencing properties (I won't repeat my dislike
-> again).
-
-I don't think so? I was imagining that we'd have some board specific
-code that ran that knew all the possible combinations of devices,
-could probe them, and then could instantiate the correct driver.
-
-Imagine that instead of the hated "hid-over-i2c" compatible we were
-using two other devices. Imagine that a given board could have a
-"elan,ekth6915" and a "goodix,gt7375p". Both of these devices have
-specific timing requirements on how to sequence their supplies and
-reset GPIOs. For Elan we power on the supplies, wait at least 1 ms,
-deassert reset, wait at least 300 ms, and then can talk i2c. For
-Goodix we power on the supply, wait at least 10 ms, deassert reset,
-wait at least 180 ms, and then can talk i2c. If we had a
-board-specific probing driver then it would power on the supplies,
-wait at least 10 ms (the max of the two), deassert reset, wait at
-least 300 ms (the max of the two), and then see which device talked.
-Then it would instantiate whichever of the two drivers. This could be
-done for any two devices that EEs have determined have "compatible"
-probing sequences.
-
-Ideally in the above situation we'd be able to avoid turning the
-device off and on again between the board-specific probe code and the
-normal driver. That optimization might need special code per-driver
-but it feels doable by passing some sort of hint to the child driver
-when it's instantiated.
-
-
-> If only the driver knows how to handle the device, then you
-> still just have to have the driver probe. If you *only* wanted to
-> solve the above case, I'd just make "hid-over-i2c" take a 2nd (and
-> 3rd) I2C address in reg and have those as fallbacks.
-
-Yeah, it did occur to me that having "hid-over-i2c" take more than one
-register (and I guess more than one "hid-descr-addr") would work in my
-earlier example and this might actually be a good solution for Johan.
-I'm hoping for a better generic solution, though.
-
-
-> You could always make the driver probe smarter where if your supply
-> was already powered on, then don't delay. Then something else could
-> ensure that the supply is enabled. I'm not sure if regulators have the
-> same issue as clocks where the clock might be on from the bootloader,
-> then a failed probe which gets then puts the clock turns it off.
-
-I'm not sure it's that simple. Even if the supply didn't turn off by
-itself in some cases, we wouldn't know how long the supply was on.
-
--Doug
+> ---
+>   drivers/input/evdev.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/evdev.c b/drivers/input/evdev.c
+> index 95f90699d2b1..51e0c4954600 100644
+> --- a/drivers/input/evdev.c
+> +++ b/drivers/input/evdev.c
+> @@ -50,7 +50,7 @@ struct evdev_client {
+>   	bool revoked;
+>   	unsigned long *evmasks[EV_CNT];
+>   	unsigned int bufsize;
+> -	struct input_event buffer[];
+> +	struct input_event buffer[] __counted_by(bufsize);
+>   };
+>   
+>   static size_t evdev_get_mask_cnt(unsigned int type)
