@@ -2,300 +2,311 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1160F7AC3FA
-	for <lists+linux-input@lfdr.de>; Sat, 23 Sep 2023 19:35:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF2F87AC49D
+	for <lists+linux-input@lfdr.de>; Sat, 23 Sep 2023 21:05:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231363AbjIWRgC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 23 Sep 2023 13:36:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59584 "EHLO
+        id S229458AbjIWTGB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 23 Sep 2023 15:06:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbjIWRgC (ORCPT
+        with ESMTP id S229456AbjIWTGB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 23 Sep 2023 13:36:02 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98135AF;
-        Sat, 23 Sep 2023 10:35:55 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6892C433C8;
-        Sat, 23 Sep 2023 17:35:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695490555;
-        bh=ejyzahKJAJt9lCn+qnlEr4NX27qh7eXBTFD4U9A1SjU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=QeNSFcPUCH4xy1kS395jk0Cox1UddxCRcd2x2EjvDTmX1KYbrQuhpNkUBHZuAdGiq
-         kV/zqk9FM6KQdGbKVVGecf20HtNQA4lrjEzI1IHuo241x/0RYTT5fXqOUMeOOazA9y
-         F0FVmVyOTX6AAw2bUbxgcpC84d3pJKkcepeoFTgGlCP78lQyX+SvNtZtau22rCgC4/
-         bwWPsiuKyaqhArk9vylBqt5J9Btdd1N/7augiDEwhu9H8ZC1G8uqJ49n70kE6lDL7s
-         NcrYZc9Sw96xq7YYgbmFpI2BGcHBxNfFb6xFbzBBBhqVtPjvDzhKJcKO/ffOBuo3f5
-         9fuEbW1t3hSNw==
-Date:   Sat, 23 Sep 2023 18:35:24 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        kernel@pengutronix.de, Linus Walleij <linus.walleij@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-        Jinjie Ruan <ruanjinjie@huawei.com>,
-        Rob Herring <robh@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Yang Yingliang <yangyingliang@huawei.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Aidan MacDonald <aidanmacdonald.0x0@gmail.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Hartley Sweeten <hsweeten@visionengravers.com>,
-        Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        linux-samsung-soc@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andreas Klinger <ak@it-klinger.de>,
-        Cai Huoqing <cai.huoqing@linux.dev>,
-        Haibo Chen <haibo.chen@nxp.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        George Stark <gnstark@sberdevices.ru>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
-        linux-amlogic@lists.infradead.org,
-        Saravanan Sekar <sravanhome@gmail.com>,
-        Jiakai Luo <jkluo@hust.edu.cn>,
-        Dongliang Mu <dzm91@hust.edu.cn>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        openbmc@lists.ozlabs.org, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        linux-arm-msm@vger.kernel.org, Marek Vasut <marek.vasut@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Olivier Moysan <olivier.moysan@foss.st.com>,
-        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-        Zhang Shurong <zhang_shurong@foxmail.com>,
-        Yangtao Li <frank.li@vivo.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Sean Nyekjaer <sean@geanix.com>, Tom Rix <trix@redhat.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Mark Brown <broonie@kernel.org>,
-        Ido Schimmel <idosch@nvidia.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-sunxi@lists.linux.dev,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andreas Kemnade <andreas@kemnade.info>,
-        Peter Rosin <peda@axentia.se>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Kevin Tsai <ktsai@capellamicro.com>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 00/49] iio: Convert to platform remove callback
- returning void
-Message-ID: <20230923183513.717f3014@jic23-huawei>
-In-Reply-To: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
-References: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+        Sat, 23 Sep 2023 15:06:01 -0400
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7290B136
+        for <linux-input@vger.kernel.org>; Sat, 23 Sep 2023 12:05:54 -0700 (PDT)
+Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-59c07cf02ebso48142057b3.1
+        for <linux-input@vger.kernel.org>; Sat, 23 Sep 2023 12:05:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695495953; x=1696100753; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=mFL+5lcBJ/nrnITAKwCUKDYJilYrmnGgFjGhXDhm8mM=;
+        b=GBv3oHB/8hYhhDpLfT/y7FpZCmSqafVZlUic4ZIqnOnI63IOvtfvAH+RaV5iexYsgR
+         FDRM7hkzKQPP0E7j+0GiKWiV+K39LzavieVfU3lR5QS0jJegGH/GGTFaAaQNWR+K4WVi
+         gviaVv+/RsVbg5NvRKtJEQECEm1iP+6nHzN85P3Egmt/5ZeAr+lhiV0RNnY/o7BfFjJB
+         W1blkphX6V/zORNcmNiubgk4wc9ad4037GbIG0VkPWX8Ik9W3wB/zc9D+5L9Sg3yqNOH
+         fXvzz8pIkknmSzSE9wUlNcnTBdCZjB7/q6lQTQQ/pC443Bng55toYTmW53jBlQeh7iMM
+         nCRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695495953; x=1696100753;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mFL+5lcBJ/nrnITAKwCUKDYJilYrmnGgFjGhXDhm8mM=;
+        b=Bt/0g2NMzyCfqn3jEonwE2E6sstGxb/wrUBJMKGdDVj21lbT1eZUIuNBSS5A01midR
+         RO5pUrsUq01o/VguHzdafHYh3uztP5jpdfEm54pLefpQVH+Jj0w/kJIBqN8sojc7ltSf
+         pHPHZMvzSjIJmlfDBif30dSlOj2MWcg7eSaVb5Dsj+Y/jxSOltSXF4a9W/Oi8R7WTjl6
+         Iy5veuhCKeVctr9+r/K/bFQykuFTpZFaQPy0l4JiQ/6dsh9FWmR8YY7MQF6ThsACFx/c
+         ivINWlUUwEZaTAV/AdJeg9Xg4EkmB+1M9PZKjTUfpmuKjU4a6owUYp2HTXL2nM9hOUFD
+         MYdw==
+X-Gm-Message-State: AOJu0YyCSkB97uwVxS+DkxcgmjQAG8juRlhwEnX2Gw41brhbjsbXfBpf
+        xXoxXzXfDU/xaKCvzRgHdjG5sDbRJvLjmeXIH4/yAg==
+X-Google-Smtp-Source: AGHT+IGlYwKLVwocwF6z6WNa52eYGdnbaatbJsEwu8MrUBiZ1F3bXydJv77tBuIkEWpF2xz26FoCsFWui4i7Eav+CeM=
+X-Received: by 2002:a81:6907:0:b0:59b:be67:84cb with SMTP id
+ e7-20020a816907000000b0059bbe6784cbmr2579568ywc.26.1695495953557; Sat, 23 Sep
+ 2023 12:05:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230922083801.3056724-1-quic_fenglinw@quicinc.com> <20230922083801.3056724-2-quic_fenglinw@quicinc.com>
+In-Reply-To: <20230922083801.3056724-2-quic_fenglinw@quicinc.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Sat, 23 Sep 2023 22:05:42 +0300
+Message-ID: <CAA8EJpo7puWxNte5YHiy6=3GdQSeTYCZMe024-b4N0vnxCV0dQ@mail.gmail.com>
+Subject: Re: [RESEND PATCH v6 1/3] input: pm8xxx-vib: refactor to easily
+ support new SPMI vibrator
+To:     Fenglin Wu <quic_fenglinw@quicinc.com>
+Cc:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        agross@kernel.org, andersson@kernel.org,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, quic_collinsd@quicinc.com,
+        quic_subbaram@quicinc.com, quic_kamalw@quicinc.com,
+        jestar@qti.qualcomm.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 19 Sep 2023 19:48:42 +0200
-Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> wrote:
+On Fri, 22 Sept 2023 at 11:38, Fenglin Wu <quic_fenglinw@quicinc.com> wrote:
+>
+> Currently, all vibrator control register addresses are hard coded,
+> including the base address and the offset, it's not flexible to support
+> new SPMI vibrator module which is usually included in different PMICs
+> with different base address. Refactor this by defining register offset
+> with HW type combination, and register base address which is defined
+> in 'reg' property is added for SPMI vibrators.
+>
+> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
+> ---
+>  drivers/input/misc/pm8xxx-vibrator.c | 122 ++++++++++++++++-----------
+>  1 file changed, 73 insertions(+), 49 deletions(-)
+>
+> diff --git a/drivers/input/misc/pm8xxx-vibrator.c b/drivers/input/misc/pm8xxx-vibrator.c
+> index 04cb87efd799..d6b468324c77 100644
+> --- a/drivers/input/misc/pm8xxx-vibrator.c
+> +++ b/drivers/input/misc/pm8xxx-vibrator.c
+> @@ -12,36 +12,44 @@
+>  #include <linux/regmap.h>
+>  #include <linux/slab.h>
+>
+> +#define SSBL_VIB_DRV_REG               0x4A
 
-> this series converts all platform drivers below drivers/iio to use
-> .remove_new(). The motivation is to get rid of an integer return code
-> that is (mostly) ignored by the platform driver core and error prone on
-> the driver side. As all platform drivers return zero unconditionally in t=
-heir
-> remove callback up to now, the conversions are "trivial".
->=20
-> See commit 5c5a7680e67b ("platform: Provide a remove callback that
-> returns no value") for an extended explanation and the eventual goal.
->=20
-> There are no interdependencies between the patches. As there are still
-> quite a few drivers to convert, I'm happy about every patch that makes
-> it in. So even if there is a merge conflict with one patch until you
-> apply or I picked a wrong subject prefix, please apply the remainder of
-> this series anyhow.
->=20
-Series applied to the togreg branch of iio.git and pushed out as testing=20
-to see if 0-day finds anything we are missing.
+SSBI_VIB....
 
-I've picked up all tags give as of early today.
+> +#define SSBI_VIB_DRV_EN_MANUAL_MASK    GENMASK(7, 2)
+> +#define SSBI_VIB_DRV_LEVEL_MASK                GENMASK(7, 3)
+> +#define SSBI_VIB_DRV_SHIFT             3
+> +
+> +#define SPMI_VIB_DRV_REG               0x41
+> +#define SPMI_VIB_DRV_LEVEL_MASK                GENMASK(4, 0)
+> +#define SPMI_VIB_DRV_SHIFT             0
+> +
+> +#define SPMI_VIB_EN_REG                        0x46
+> +#define SPMI_VIB_EN_BIT                        BIT(7)
+> +
+>  #define VIB_MAX_LEVEL_mV       (3100)
+>  #define VIB_MIN_LEVEL_mV       (1200)
+>  #define VIB_MAX_LEVELS         (VIB_MAX_LEVEL_mV - VIB_MIN_LEVEL_mV)
+>
+>  #define MAX_FF_SPEED           0xff
+>
+> -struct pm8xxx_regs {
+> -       unsigned int enable_addr;
+> -       unsigned int enable_mask;
+> +enum vib_hw_type {
+> +       SSBI_VIB,
+> +       SPMI_VIB,
+> +};
+>
+> -       unsigned int drv_addr;
+> -       unsigned int drv_mask;
+> -       unsigned int drv_shift;
+> -       unsigned int drv_en_manual_mask;
+> +struct pm8xxx_vib_data {
+> +       enum vib_hw_type        hw_type;
+> +       unsigned int            enable_addr;
+> +       unsigned int            drv_addr;
+>  };
+>
+> -static const struct pm8xxx_regs pm8058_regs = {
+> -       .drv_addr = 0x4A,
+> -       .drv_mask = 0xf8,
+> -       .drv_shift = 3,
+> -       .drv_en_manual_mask = 0xfc,
+> +static const struct pm8xxx_vib_data ssbi_vib_data = {
+> +       .hw_type        = SSBI_VIB,
+> +       .drv_addr       = SSBL_VIB_DRV_REG,
+>  };
+>
+> -static struct pm8xxx_regs pm8916_regs = {
+> -       .enable_addr = 0xc046,
+> -       .enable_mask = BIT(7),
+> -       .drv_addr = 0xc041,
+> -       .drv_mask = 0x1F,
+> -       .drv_shift = 0,
+> -       .drv_en_manual_mask = 0,
+> +static const struct pm8xxx_vib_data spmi_vib_data = {
+> +       .hw_type        = SPMI_VIB,
+> +       .enable_addr    = SPMI_VIB_EN_REG,
+> +       .drv_addr       = SPMI_VIB_DRV_REG,
+>  };
+>
+>  /**
+> @@ -49,7 +57,8 @@ static struct pm8xxx_regs pm8916_regs = {
+>   * @vib_input_dev: input device supporting force feedback
+>   * @work: work structure to set the vibration parameters
+>   * @regmap: regmap for register read/write
+> - * @regs: registers' info
+> + * @data: vibrator HW info
+> + * @reg_base: the register base of the module
+>   * @speed: speed of vibration set from userland
+>   * @active: state of vibrator
+>   * @level: level of vibration to set in the chip
+> @@ -59,7 +68,8 @@ struct pm8xxx_vib {
+>         struct input_dev *vib_input_dev;
+>         struct work_struct work;
+>         struct regmap *regmap;
+> -       const struct pm8xxx_regs *regs;
+> +       const struct pm8xxx_vib_data *data;
+> +       unsigned int reg_base;
+>         int speed;
+>         int level;
+>         bool active;
+> @@ -75,24 +85,31 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
+>  {
+>         int rc;
+>         unsigned int val = vib->reg_vib_drv;
+> -       const struct pm8xxx_regs *regs = vib->regs;
+> +       u32 mask = SPMI_VIB_DRV_LEVEL_MASK;
+> +       u32 shift = SPMI_VIB_DRV_SHIFT;
+> +
+> +       if (vib->data->hw_type == SSBI_VIB) {
+> +               mask = SSBI_VIB_DRV_LEVEL_MASK;
+> +               shift = SSBI_VIB_DRV_SHIFT;
+> +       }
+>
+>         if (on)
+> -               val |= (vib->level << regs->drv_shift) & regs->drv_mask;
+> +               val |= (vib->level << shift) & mask;
+>         else
+> -               val &= ~regs->drv_mask;
+> +               val &= ~mask;
+>
+> -       rc = regmap_write(vib->regmap, regs->drv_addr, val);
+> +       rc = regmap_update_bits(vib->regmap, vib->reg_base + vib->data->drv_addr, mask, val);
+>         if (rc < 0)
+>                 return rc;
+>
+>         vib->reg_vib_drv = val;
+>
+> -       if (regs->enable_mask)
+> -               rc = regmap_update_bits(vib->regmap, regs->enable_addr,
+> -                                       regs->enable_mask, on ? ~0 : 0);
+> +       if (vib->data->hw_type == SSBI_VIB)
+> +               return 0;
+>
+> -       return rc;
+> +       mask = SPMI_VIB_EN_BIT;
+> +       val = on ? SPMI_VIB_EN_BIT : 0;
+> +       return regmap_update_bits(vib->regmap, vib->reg_base + vib->data->enable_addr, mask, val);
+>  }
+>
+>  /**
+> @@ -102,13 +119,6 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
+>  static void pm8xxx_work_handler(struct work_struct *work)
+>  {
+>         struct pm8xxx_vib *vib = container_of(work, struct pm8xxx_vib, work);
+> -       const struct pm8xxx_regs *regs = vib->regs;
+> -       int rc;
+> -       unsigned int val;
+> -
+> -       rc = regmap_read(vib->regmap, regs->drv_addr, &val);
+> -       if (rc < 0)
+> -               return;
+>
+>         /*
+>          * pmic vibrator supports voltage ranges from 1.2 to 3.1V, so
+> @@ -168,9 +178,9 @@ static int pm8xxx_vib_probe(struct platform_device *pdev)
+>  {
+>         struct pm8xxx_vib *vib;
+>         struct input_dev *input_dev;
+> +       const struct pm8xxx_vib_data *data;
+>         int error;
+> -       unsigned int val;
+> -       const struct pm8xxx_regs *regs;
+> +       unsigned int val, reg_base;
+>
+>         vib = devm_kzalloc(&pdev->dev, sizeof(*vib), GFP_KERNEL);
+>         if (!vib)
+> @@ -187,19 +197,33 @@ static int pm8xxx_vib_probe(struct platform_device *pdev)
+>         INIT_WORK(&vib->work, pm8xxx_work_handler);
+>         vib->vib_input_dev = input_dev;
+>
+> -       regs = of_device_get_match_data(&pdev->dev);
+> +       data = of_device_get_match_data(&pdev->dev);
+> +       if (!data)
+> +               return -EINVAL;
+>
+> -       /* operate in manual mode */
+> -       error = regmap_read(vib->regmap, regs->drv_addr, &val);
+> -       if (error < 0)
+> -               return error;
+> +       if (data->hw_type != SSBI_VIB) {
 
-Thanks,
+You can drop this condition, if ssbi_vib_data.drv_addr is 0.
 
-Jonathan
+> +               error = fwnode_property_read_u32(pdev->dev.fwnode, "reg", &reg_base);
+> +               if (error < 0) {
+> +                       dev_err(&pdev->dev, "Failed to read reg address, rc=%d\n", error);
+> +                       return error;
+> +               }
+> +
+> +               vib->reg_base += reg_base;
+> +       }
+>
+> -       val &= regs->drv_en_manual_mask;
+> -       error = regmap_write(vib->regmap, regs->drv_addr, val);
+> +       error = regmap_read(vib->regmap, vib->reg_base + data->drv_addr, &val);
+>         if (error < 0)
+>                 return error;
+>
+> -       vib->regs = regs;
+> +       /* operate in manual mode */
+> +       if (data->hw_type == SSBI_VIB) {
+> +               val &= SSBI_VIB_DRV_EN_MANUAL_MASK;
+> +               error = regmap_write(vib->regmap, vib->reg_base + data->drv_addr, val);
+> +               if (error < 0)
+> +                       return error;
+> +       }
+> +
+> +       vib->data = data;
+>         vib->reg_vib_drv = val;
+>
+>         input_dev->name = "pm8xxx_vib_ffmemless";
+> @@ -239,9 +263,9 @@ static int pm8xxx_vib_suspend(struct device *dev)
+>  static DEFINE_SIMPLE_DEV_PM_OPS(pm8xxx_vib_pm_ops, pm8xxx_vib_suspend, NULL);
+>
+>  static const struct of_device_id pm8xxx_vib_id_table[] = {
+> -       { .compatible = "qcom,pm8058-vib", .data = &pm8058_regs },
+> -       { .compatible = "qcom,pm8921-vib", .data = &pm8058_regs },
+> -       { .compatible = "qcom,pm8916-vib", .data = &pm8916_regs },
+> +       { .compatible = "qcom,pm8058-vib", .data = &ssbi_vib_data },
+> +       { .compatible = "qcom,pm8921-vib", .data = &ssbi_vib_data },
+> +       { .compatible = "qcom,pm8916-vib", .data = &spmi_vib_data },
+>         { }
+>  };
+>  MODULE_DEVICE_TABLE(of, pm8xxx_vib_id_table);
+> --
+> 2.25.1
+>
 
-> Best regards
-> Uwe
->=20
-> Uwe Kleine-K=C3=B6nig (49):
->   iio: accel: hid-sensor-accel-3d: Convert to platform remove callback
->     returning void
->   iio: adc: ab8500-gpadc: Convert to platform remove callback returning
->     void
->   iio: adc: at91-sama5d2: Convert to platform remove callback returning
->     void
->   iio: adc: at91: Convert to platform remove callback returning void
->   iio: adc: axp20x: Convert to platform remove callback returning void
->   iio: adc: bcm_iproc: Convert to platform remove callback returning
->     void
->   iio: adc: dln2: Convert to platform remove callback returning void
->   iio: adc: ep93xx: Convert to platform remove callback returning void
->   iio: adc: exynos: Convert to platform remove callback returning void
->   iio: adc: fsl-imx25-gcq: Convert to platform remove callback returning
->     void
->   iio: adc: hx711: Convert to platform remove callback returning void
->   iio: adc: imx8qxp: Convert to platform remove callback returning void
->   iio: adc: imx93: Convert to platform remove callback returning void
->   iio: adc: meson_saradc: Convert to platform remove callback returning
->     void
->   iio: adc: mp2629: Convert to platform remove callback returning void
->   iio: adc: mxs-lradc: Convert to platform remove callback returning
->     void
->   iio: adc: npcm: Convert to platform remove callback returning void
->   iio: adc: qcom-pm8xxx-xoadc: Convert to platform remove callback
->     returning void
->   iio: adc: rcar-gyroadc: Convert to platform remove callback returning
->     void
->   iio: adc: stm32-adc-core: Convert to platform remove callback
->     returning void
->   iio: adc: stm32-adc: Convert to platform remove callback returning
->     void
->   iio: adc: stm32-dfsdm-adc: Convert to platform remove callback
->     returning void
->   iio: adc: stm32-dfsdm-core: Convert to platform remove callback
->     returning void
->   iio: adc: sun4i-gpadc-iio: Convert to platform remove callback
->     returning void
->   iio: adc: ti_am335x_adc: Convert to platform remove callback returning
->     void
->   iio: adc: twl4030-madc: Convert to platform remove callback returning
->     void
->   iio: adc: twl6030-gpadc: Convert to platform remove callback returning
->     void
->   iio: adc: vf610_adc: Convert to platform remove callback returning
->     void
->   iio: dac: dpot-dac: Convert to platform remove callback returning void
->   iio: dac: lpc18xx_dac: Convert to platform remove callback returning
->     void
->   iio: dac: stm32-dac-core: Convert to platform remove callback
->     returning void
->   iio: dac: stm32-dac: Convert to platform remove callback returning
->     void
->   iio: dac: vf610: Convert to platform remove callback returning void
->   iio: gyro: hid-sensor-gyro-3d: Convert to platform remove callback
->     returning void
->   iio: humidity: hid-sensor-humidity: Convert to platform remove
->     callback returning void
->   iio: light: cm3605: Convert to platform remove callback returning void
->   iio: light: hid-sensor-als: Convert to platform remove callback
->     returning void
->   iio: light: hid-sensor-prox: Convert to platform remove callback
->     returning void
->   iio: light: lm3533-als: Convert to platform remove callback returning
->     void
->   iio: magnetometer: hid-sensor-magn-3d: Convert to platform remove
->     callback returning void
->   iio: orientation: hid-sensor-incl-3d: Convert to platform remove
->     callback returning void
->   iio: orientation: hid-sensor-rotation: Convert to platform remove
->     callback returning void
->   iio: position: hid-sensor-custom-intel-hinge: Convert to platform
->     remove callback returning void
->   iio: pressure: hid-sensor: Convert to platform remove callback
->     returning void
->   iio: proximity: cros_ec_mkbp: Convert to platform remove callback
->     returning void
->   iio: proximity: srf04: Convert to platform remove callback returning
->     void
->   iio: temperature: hid-sensor: Convert to platform remove callback
->     returning void
->   iio: trigger: iio-trig-interrupt: Convert to platform remove callback
->     returning void
->   iio: trigger: stm32-timer: Convert to platform remove callback
->     returning void
->=20
->  drivers/iio/accel/hid-sensor-accel-3d.c              | 6 ++----
->  drivers/iio/adc/ab8500-gpadc.c                       | 6 ++----
->  drivers/iio/adc/at91-sama5d2_adc.c                   | 6 ++----
->  drivers/iio/adc/at91_adc.c                           | 6 ++----
->  drivers/iio/adc/axp20x_adc.c                         | 6 ++----
->  drivers/iio/adc/bcm_iproc_adc.c                      | 6 ++----
->  drivers/iio/adc/dln2-adc.c                           | 5 ++---
->  drivers/iio/adc/ep93xx_adc.c                         | 6 ++----
->  drivers/iio/adc/exynos_adc.c                         | 6 ++----
->  drivers/iio/adc/fsl-imx25-gcq.c                      | 6 ++----
->  drivers/iio/adc/hx711.c                              | 6 ++----
->  drivers/iio/adc/imx8qxp-adc.c                        | 6 ++----
->  drivers/iio/adc/imx93_adc.c                          | 6 ++----
->  drivers/iio/adc/meson_saradc.c                       | 6 ++----
->  drivers/iio/adc/mp2629_adc.c                         | 6 ++----
->  drivers/iio/adc/mxs-lradc-adc.c                      | 6 ++----
->  drivers/iio/adc/npcm_adc.c                           | 6 ++----
->  drivers/iio/adc/qcom-pm8xxx-xoadc.c                  | 6 ++----
->  drivers/iio/adc/rcar-gyroadc.c                       | 6 ++----
->  drivers/iio/adc/stm32-adc-core.c                     | 6 ++----
->  drivers/iio/adc/stm32-adc.c                          | 6 ++----
->  drivers/iio/adc/stm32-dfsdm-adc.c                    | 6 ++----
->  drivers/iio/adc/stm32-dfsdm-core.c                   | 6 ++----
->  drivers/iio/adc/sun4i-gpadc-iio.c                    | 8 +++-----
->  drivers/iio/adc/ti_am335x_adc.c                      | 6 ++----
->  drivers/iio/adc/twl4030-madc.c                       | 6 ++----
->  drivers/iio/adc/twl6030-gpadc.c                      | 6 ++----
->  drivers/iio/adc/vf610_adc.c                          | 6 ++----
->  drivers/iio/dac/dpot-dac.c                           | 6 ++----
->  drivers/iio/dac/lpc18xx_dac.c                        | 6 ++----
->  drivers/iio/dac/stm32-dac-core.c                     | 6 ++----
->  drivers/iio/dac/stm32-dac.c                          | 6 ++----
->  drivers/iio/dac/vf610_dac.c                          | 6 ++----
->  drivers/iio/gyro/hid-sensor-gyro-3d.c                | 6 ++----
->  drivers/iio/humidity/hid-sensor-humidity.c           | 6 ++----
->  drivers/iio/light/cm3605.c                           | 6 ++----
->  drivers/iio/light/hid-sensor-als.c                   | 6 ++----
->  drivers/iio/light/hid-sensor-prox.c                  | 6 ++----
->  drivers/iio/light/lm3533-als.c                       | 6 ++----
->  drivers/iio/magnetometer/hid-sensor-magn-3d.c        | 6 ++----
->  drivers/iio/orientation/hid-sensor-incl-3d.c         | 6 ++----
->  drivers/iio/orientation/hid-sensor-rotation.c        | 6 ++----
->  drivers/iio/position/hid-sensor-custom-intel-hinge.c | 6 ++----
->  drivers/iio/pressure/hid-sensor-press.c              | 6 ++----
->  drivers/iio/proximity/cros_ec_mkbp_proximity.c       | 6 ++----
->  drivers/iio/proximity/srf04.c                        | 6 ++----
->  drivers/iio/temperature/hid-sensor-temperature.c     | 6 ++----
->  drivers/iio/trigger/iio-trig-interrupt.c             | 6 ++----
->  drivers/iio/trigger/stm32-timer-trigger.c            | 6 ++----
->  49 files changed, 99 insertions(+), 196 deletions(-)
->=20
->=20
-> base-commit: 29e400e3ea486bf942b214769fc9778098114113
 
+-- 
+With best wishes
+Dmitry
