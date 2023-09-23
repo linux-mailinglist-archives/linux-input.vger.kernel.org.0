@@ -2,399 +2,259 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BB187ABAD2
-	for <lists+linux-input@lfdr.de>; Fri, 22 Sep 2023 23:04:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E86A87ABC8D
+	for <lists+linux-input@lfdr.de>; Sat, 23 Sep 2023 02:11:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229744AbjIVVEp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Sep 2023 17:04:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37450 "EHLO
+        id S230026AbjIWALf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Sep 2023 20:11:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229591AbjIVVEo (ORCPT
+        with ESMTP id S229628AbjIWALe (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Sep 2023 17:04:44 -0400
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2046.outbound.protection.outlook.com [40.107.237.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 275EEAF;
-        Fri, 22 Sep 2023 14:04:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q2W0MCD1KVZyZfNMPRJ6JchK7YNqIg9pgLFjSaK9ar/r3RVNuuXeZMMupqFjAU3Xc6LFc9mlP2YJEqoVJYGkR7NNjS1VEU3xPhEi7Uye4FbTa4GrT3a0snfJzm/c/e4rHpt5BqwxGv7qiKy92XfT3+loRVotoLOzH9a3ttRSZBDwH7eyDsN4ObqVVZoqmvKkduS7MdUDfG/B+frGa094p+y5weVnanrWr0lGo+OXEZ61UfMxAfAGLy13pR86L386i4TUWwKdkovFdxDXvvm4VZV8lfGeM3t9atHsbW+6+iy3lBW37vbVlRBI9CMZ3143DSWYymkWVaXeZZzcNw6w1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gsdek7IwP3iBPDvX/dTUw5AMnU3uQT9FB1fVkwkUMQQ=;
- b=hzK/BMOkllMtQyGIuC4Un/XJf//z/g2ISB6d3inV4C7xNgod+eRYbB5qMbL97WGaRFumFjX30gfzTck4prYSokkUaEd58j1cA7p58HqcLKJugv7BfFgaGwMXCPzj30fw1q03eR+SCrOPPEinlzbuQ4M1I6pfI3Bt24HLp05Bo5szvSlGdkbQuCX5mMOD75nVsucYlJ/A6wP+d2uQva/Je9sYxpnUge9VwtttxNrJRP8ynrVHcgq79SoiaSgI3RSAcnsLqyy+tVQZoRGm6aILj6gEERU4WE6ZcGAKPYiLpo2mA55+4lcJT6pjHX/lTy9AgfdDTBDizFcRFxNkZbCHcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gsdek7IwP3iBPDvX/dTUw5AMnU3uQT9FB1fVkwkUMQQ=;
- b=y1Y9b0GD0UNbT7FlGO67EaLv+zYMnzpA1xqnSHicO0B5H0I0nZVVTWtpvQHC70edXwZOcs9kB1XtBnI5jNMROd+ksctcVRw8/Yd0sCRxxRrjoh1oxLO2uM1q2kVn9lCAn0T3Nf2+n2SLiZRNYBVFeo6vDcmQ5ijWXuRuw9+oOMQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by CH0PR12MB5299.namprd12.prod.outlook.com (2603:10b6:610:d6::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.23; Fri, 22 Sep
- 2023 21:04:35 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::3e65:d396:58fb:27d4]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::3e65:d396:58fb:27d4%3]) with mapi id 15.20.6813.017; Fri, 22 Sep 2023
- 21:04:35 +0000
-Message-ID: <fcdd044c-07e8-4c16-bcac-14a193867816@amd.com>
-Date:   Fri, 22 Sep 2023 16:04:32 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 14/15] platform/x86/amd/pmf: Add PMF-AMDSFH interface for
- HPD
-Content-Language: en-US
-From:   Mario Limonciello <mario.limonciello@amd.com>
-To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, hdegoede@redhat.com,
-        markgross@kernel.org, basavaraj.natikar@amd.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
-        christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
-        daniel@ffwll.ch
-Cc:     Patil.Reddy@amd.com, platform-driver-x86@vger.kernel.org,
-        linux-input@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org
-References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com>
- <20230922175056.244940-15-Shyam-sundar.S-k@amd.com>
- <f370fd18-345a-4b7d-b074-550539e7933c@amd.com>
-In-Reply-To: <f370fd18-345a-4b7d-b074-550539e7933c@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN1PR12CA0101.namprd12.prod.outlook.com
- (2603:10b6:802:21::36) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+        Fri, 22 Sep 2023 20:11:34 -0400
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3FFC1A7
+        for <linux-input@vger.kernel.org>; Fri, 22 Sep 2023 17:11:27 -0700 (PDT)
+Received: by mail-qk1-x72f.google.com with SMTP id af79cd13be357-7741bffd123so80290285a.0
+        for <linux-input@vger.kernel.org>; Fri, 22 Sep 2023 17:11:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1695427885; x=1696032685; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2HRUyGvs1uStGXLaQ8+ngHPFdyOarHkGjvDN3ml5t7g=;
+        b=L0GPfU2eIee7J+gcr4tLiH63NbM1txTIrE+ZcmfXyW9P0h+JEY4BX6zenMJbauyrBC
+         kQJTTsGWO9R7ZiSeRcsBrHMt2NaNKLYr6jf3koxlR2+84psZmuuGVeEdWve2bJt2NKJQ
+         5jFDlcObEc23M3CZiwlJa6xbGKhf9vi7ViZJw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695427885; x=1696032685;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2HRUyGvs1uStGXLaQ8+ngHPFdyOarHkGjvDN3ml5t7g=;
+        b=k/ovViWaq/USsdHxk7Lx3+hFaFZWYmnOPYEfdTtV8Czcr1z87C/Zv7/IRCHZtpD6p8
+         DmjSIPx+LZMIGKFCDklu0YWmiPsexyhv3Qq1+Y8P6FRFsEPbg8hmIJk7sn060OU6za4O
+         emOlctqZM8/iRueKcp+c2Alp9AUDxiMGWIzrMJZNL8lNLXT471JuGTDG+wY7TMEbGxJK
+         pyEhJ/4FN3vES/Bu0Sno9zEJAJSz26DWpcqSokBArj4nrjrNcU7oT+GnoAVvknhadWch
+         toHfnbsUR68pKk7iqxwW07urD2X335GdnL2U6xoS1I2mjanaVf9qmWGequIMV/ZgU8ct
+         WERw==
+X-Gm-Message-State: AOJu0YzqOqF+yGYlszoMVuPonJzJ5Wx9ZBlsMCfM1WJo6xukpuEUoxog
+        K3oLJ0oJatNl3FlUaigiL6DW+6FZ3LoFyWunEJRLkqOD
+X-Google-Smtp-Source: AGHT+IER4YZ/xFlX2L+iE2JL0k3oQNb+RdWXYz3FEE7N5NaVrc404jR9OZD0+F+afDoTxf7q4neMcQ==
+X-Received: by 2002:a05:620a:a57:b0:765:d53e:3352 with SMTP id j23-20020a05620a0a5700b00765d53e3352mr974530qka.30.1695427885274;
+        Fri, 22 Sep 2023 17:11:25 -0700 (PDT)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com. [209.85.160.171])
+        by smtp.gmail.com with ESMTPSA id f23-20020ae9ea17000000b00767da9b6ae9sm1820841qkg.11.2023.09.22.17.11.23
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Sep 2023 17:11:24 -0700 (PDT)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-415155b2796so70911cf.1
+        for <linux-input@vger.kernel.org>; Fri, 22 Sep 2023 17:11:23 -0700 (PDT)
+X-Received: by 2002:a05:622a:1aa6:b0:403:affb:3c03 with SMTP id
+ s38-20020a05622a1aa600b00403affb3c03mr97108qtc.10.1695427883461; Fri, 22 Sep
+ 2023 17:11:23 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|CH0PR12MB5299:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e0821c2-c412-46a3-5885-08dbbbaf86a0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2K0R2/2UwgClt3y7p+kHMINf6+NTmNYJNCcJRsKva7ax6axTAt2krSuWeDHBefb0ju6Q3DRk1+aSdM1IHrxHVFplBBfgmIVxvCwKoIRVX6CcqxZbUcQNzVcLMKFKFKVu9DMJmnetlunqZ9mYLnw/T7YtOqg/TMVXUQc2f4keiUDRubsTLu341ByxPs8TmMCuIa1hUr5LAeTom0FQzLmgIOOvjP9MpJOV7Jf+UsyNRHauBYHxNc9MZhXQYKJG6I45lUiPXIk0lwnGI+4mQIxq9y5w95QPVN7sMwGIftlMz2UftRtqPWAOcdqGyoBpPdpb9QzAHmMHQ/evHggRB3A59NPgUUo9wL+UmdDBlKXiI7b2BkRKfnNJuk5PFl71g3Ssxyi/v140bVs7UNQ/dq57S+JzSccPY30UusNQT1nlRXe40LiQ5scRS+uuMK0yiWl3YpAw9igYUfQ9TtflpYlojdKXz9JVzQNjSewMvi1JimIdTmCJOlSIKIC1B+xIfjD0HbzZ48s0vvMHESOvkCKp7TLZe1DuupDzrsZg5W7x7S61f9Tb9shhcqTYJmHsNWOzBOmZ0t4+491TIYBuD3Rg41ITu0o6VWGCprZ/NvQxrSWVJa8Bf0/gJpRuf0Mx2GFjx4NJgARPZtIK9cfITHRrutODJfbcEseMmCXB2zj7Z9M=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(366004)(396003)(136003)(39860400002)(346002)(451199024)(1800799009)(186009)(2906002)(7416002)(31686004)(8676002)(4326008)(8936002)(41300700001)(44832011)(5660300002)(66946007)(316002)(66476007)(66556008)(478600001)(6666004)(6486002)(53546011)(2616005)(6512007)(26005)(6506007)(83380400001)(31696002)(38100700002)(921005)(86362001)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OWlQbXlGQXp4STBzNCtiRFZzWXY1aG1aYVhoSHdjb2hselV1blEycnZpTmZU?=
- =?utf-8?B?R1NDRmlHU2ZtVGpLQXZVSlMxaXVWYlB4V1dJVzBlMkx2ME9mMnJxd2V1aGVu?=
- =?utf-8?B?ZWpwdktaRVVmeFdBTnJOT0hmQW5GZFlIakdOcURPdTAvN2lhTmFvbTFWQjJ1?=
- =?utf-8?B?MXVVRmNoM1AwSmZSaHdxeE40K2lFWm13cVRBanNEb1VKMVRSVVREMkJ3YXpP?=
- =?utf-8?B?c0E0Y3ZTUStCRXNsZHNlQTRiZUNWZUYxcjl0MkhqNlcyZjZZK1phWFk3N1JW?=
- =?utf-8?B?U1RQU1d4ZThaOFkwQVk4ZjVMYnFCdXpzNU9XaWJXK01CRmxxMHUwMUptWW1W?=
- =?utf-8?B?QmZBRDFkMDk1UFN6czBxbmFCUTNYdUFEQUFSZHJ3bzNldU9VSGoyT3lyakZp?=
- =?utf-8?B?VDVxQnUzYWlRVXg2bi9CQXZ1Z1JpTC9tRzlVWVNwVkkyR1c5VmFsdDNpL1FN?=
- =?utf-8?B?b296dXFaRTcvdE9ndGJGY0x5dWJSbVRsQkIyL0ZOa2s2SVJBZzcwa2Nzc0dE?=
- =?utf-8?B?Mk5FeWd3QWt0Y0dJaTJtMWNkUjVTcXF2bnUzcXh2UjhjY3JzeS9mekxUNmNr?=
- =?utf-8?B?aTU1QXFDV1cyTHVSak4rQ21Bcm4xR0ZPbTVJV0VZYTZwc2VuNGEvOEdCZ2w0?=
- =?utf-8?B?RHVlT01mWVFvWDI5ZnFSYjVzWlordlp3ZDB0bW0vQ2JZdytZMklkdnVla0N0?=
- =?utf-8?B?ZEtNMWhJeXZvRUl2a3dPa3lObVdVblNZdHlmMmN3UEFhSzYvTmgyWHJZSFAr?=
- =?utf-8?B?WlhqWWpTcWU0Uzhqd2tuR3poTEZNTy9wYXQrMzFpV084STUwZzBWQSsvRktN?=
- =?utf-8?B?Nis2VGtrTFJ0OGpaV3pTejNhL2FycFNyWWtTL1pHZktBWCthWmhhT1c4dlky?=
- =?utf-8?B?blhQVVJ6QjFEa01WOHF4VjQ0UGFTeFVLQUVkaXB1YWo5RFFLOWsyUUVJZC9p?=
- =?utf-8?B?ZGFQaTc2VTdHMmpMRmxWaC9rZFJxSFJPdzNHT3BQYVNyekc2NGplcERNV3dE?=
- =?utf-8?B?SEtBcWpFV0JaTWxZVFdKaHV5QzY2SG1WcmVBVUVuSnFEa1hwVmc5WkxPM3Vh?=
- =?utf-8?B?TFk4UDFYTEZSc0EwS3NoYjF0Q3h6Q0RXeVlJS0RVS1BBM255YlFmcFYzbUVw?=
- =?utf-8?B?eEJTbWp5eUgwcXNZVWI3OGNtOVhna1dGL3JJNEoxUEtFdUlHVnBndE9iMmd3?=
- =?utf-8?B?VWZzdmRJR2NhaTlBSkh3TTcvN1BTenNYTEJnMEdFYkxyd0szWTVDUEcyWXFr?=
- =?utf-8?B?OUVaUS9CL0xvbHY0b1VHenVLVW4zSEloVWpsNVdTN0Z0NHZLbi9oelByNmRI?=
- =?utf-8?B?MXVuV3B5cTFxUnZVU0JjR2ZqUWptQUVyNTlnSzBNaXZHb01HejZJNXVzVE92?=
- =?utf-8?B?QWNEdmEyakVQSE5DNUdYd1VldG1NdXg2aGZldXhWQklUQm40dHArS2V4ZGVF?=
- =?utf-8?B?ZmZ1b1hSUXZ2bllHMmlhMVYxcStHVGo2bHlnOXNNOFhNaXFxMDBnaWNvWWt6?=
- =?utf-8?B?ZElKYXZxckpQNWFkbHgvU213bUxJWTJFQzlxQ2RrczBGNUhPTkg0YUdpVFdq?=
- =?utf-8?B?UTR3MXBLUTJCWlIxSlhTM3oyNmYrNWcrZ0xNbDlucVdrZUk2UitQa2tTUk5o?=
- =?utf-8?B?YTI4WkxHZHdpdVhIQmRFTS8xcmRVYXE1d1FzT1FxUkVpa1RtMzV6Tkx4U1BS?=
- =?utf-8?B?WnRocDJHQ0JZZmxLQjJPczNSMVZHdm1leXpFSTc0TUw0RElMdGdrcWw1U2tF?=
- =?utf-8?B?dDlaSlRKbVpROTFzSysrWHV5MDk2S29zSlh2MXZLZFNKNXB3UEhmSjFVNGlt?=
- =?utf-8?B?TjVoNHpmdTQyRUlrYkMyeURmWC9renhTS3k0ZVZGNkZPL1dTRDV3TUR1Y2Za?=
- =?utf-8?B?RGt2VFhvMXFBbm5aV01LbG9zM1FIRUVxYk5RZUhsNmY0NTFSZDRNcnJkRWdk?=
- =?utf-8?B?YXFBdkc4S0lJU0Z5N3JtMEZpLzRDOXp1STgrK0l1TFBQS0R1RmFnTUwyR2lK?=
- =?utf-8?B?MkVrZXFSK1lSK0hsRHVzbmpHakNVWkl4bkl0aXNBM0FhUUxPM2FNTmpTNkhz?=
- =?utf-8?B?cHlEdWpzaFBxZWxvVUNsMTY1anpiQlJyOFFNUWNaeUxpUHk1Yi9OSDJjcmo4?=
- =?utf-8?Q?bY+WsLBFmyqf4V1W/txK1jok9?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e0821c2-c412-46a3-5885-08dbbbaf86a0
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2023 21:04:35.7863
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wS3t8Er8R4quxSKxBXLgKFBFEZkbUyM2RL10hVcnWkkPn+rjMA2IbxcXa6CKW08hVy0Mdyn7e2TNgaDxEkm0Nw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5299
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+References: <20230921102420.RFC.1.I9dddd99ccdca175e3ceb1b9fa1827df0928c5101@changeid>
+ <CAL_Jsq+noP32-m5xdUCLFPFBXLxX9Ys1BNFM+9sga6KYTmDzqQ@mail.gmail.com>
+ <CAD=FV=WXxGhX0Fw2nSS7PxYb1O-LUewAhoUVPn=2EpbSD2OeHQ@mail.gmail.com> <CAL_JsqKJyRJmwJzB1yew71Ld7BeMMat+rzhX9XtDtiFE8Dbvcw@mail.gmail.com>
+In-Reply-To: <CAL_JsqKJyRJmwJzB1yew71Ld7BeMMat+rzhX9XtDtiFE8Dbvcw@mail.gmail.com>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Fri, 22 Sep 2023 17:11:10 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UgFzT0TW2WEV0Wmk05EXUad2EYhN2DcckAxE_Lw5gV1Q@mail.gmail.com>
+Message-ID: <CAD=FV=UgFzT0TW2WEV0Wmk05EXUad2EYhN2DcckAxE_Lw5gV1Q@mail.gmail.com>
+Subject: Re: [RFC PATCH] of: device: Support 2nd sources of probeable but
+ undiscoverable devices
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Chen-Yu Tsai <wenst@chromium.org>, linux-input@vger.kernel.org,
+        Jiri Kosina <jikos@kernel.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>, linux-gpio@vger.kernel.org,
+        linus.walleij@linaro.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Johan Hovold <johan+linaro@kernel.org>,
+        andriy.shevchenko@linux.intel.com, broonie@kernel.org,
+        frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        hdegoede@redhat.com, james.clark@arm.com, james@equiv.tech,
+        keescook@chromium.org, linux-kernel@vger.kernel.org,
+        rafael@kernel.org, tglx@linutronix.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 9/22/2023 14:04, Mario Limonciello wrote:
-> On 9/22/2023 12:50, Shyam Sundar S K wrote:
->> From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
->>
->> AMDSFH has information about the User presence information via the Human
->> Presence Detection (HPD) sensor which is part of the AMD sensor fusion 
->> hub.
->> Add PMF and AMDSFH interface to get this information.
->>
->> Co-developed-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
->> ---
->>   drivers/hid/amd-sfh-hid/amd_sfh_common.h      |  5 ++++
->>   drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c |  2 +-
->>   drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 11 ++++++++
->>   .../amd-sfh-hid/sfh1_1/amd_sfh_interface.c    | 28 +++++++++++++++++++
->>   .../amd-sfh-hid/sfh1_1/amd_sfh_interface.h    |  1 +
->>   drivers/platform/x86/amd/pmf/spc.c            | 21 ++++++++++++++
->>   include/linux/amd-pmf-io.h                    | 22 ++++++++++++++-
->>   7 files changed, 88 insertions(+), 2 deletions(-)
+Hi,
 
-Somthing else I noticed about this change.
+On Fri, Sep 22, 2023 at 12:08=E2=80=AFPM Rob Herring <robh+dt@kernel.org> w=
+rote:
+>
+> > > This seems like overkill to me. Do we really need groups and a mutex
+> > > for each group? Worst case is what? 2-3 groups of 2-3 devices?
+> > > Instead, what about extending "status" with another value
+> > > ("fail-needs-probe"? (fail-xxx is a documented value)). Currently, th=
+e
+> > > kernel would just ignore nodes with that status. Then we can process
+> > > those nodes separately 1-by-1.
+> >
+> > My worry here is that this has the potential to impact boot speed in a
+> > non-trivial way. While trackpads and touchscreens _are_ probable,
+> > their probe routines are often quite slow. This is even mentioned in
+> > Dmitry's initial patches adding async probe to the kernel. See commit
+> > 765230b5f084 ("driver-core: add asynchronous probing support for
+> > drivers") where he specifically brings up input devices as examples.
+>
+> Perhaps then this should be solved in userspace where it can learn
+> which device is actually present and save that information for
+> subsequent boots.
 
-I believe you should be adding to Kconfig:
-depends on AMD_SFH_HID
+Yeah, the thought occurred to me as well. I think there are a few
+problems, though:
 
->>
->> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_common.h 
->> b/drivers/hid/amd-sfh-hid/amd_sfh_common.h
->> index 2643bb14fee2..cd57037bf217 100644
->> --- a/drivers/hid/amd-sfh-hid/amd_sfh_common.h
->> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_common.h
->> @@ -37,6 +37,10 @@ struct amd_mp2_sensor_info {
->>       dma_addr_t dma_address;
->>   };
->> +struct sfh_dev_status {
->> +    bool is_hpd_present;
->> +};
->> +
->>   struct amd_mp2_dev {
->>       struct pci_dev *pdev;
->>       struct amdtp_cl_data *cl_data;
->> @@ -47,6 +51,7 @@ struct amd_mp2_dev {
->>       struct amd_input_data in_data;
->>       /* mp2 active control status */
->>       u32 mp2_acs;
->> +    struct sfh_dev_status dev_en;
->>   };
->>   struct amd_mp2_ops {
->> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c 
->> b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
->> index 06bdcf072d10..d7467c41ad3b 100644
->> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
->> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
->> @@ -132,7 +132,7 @@ static void get_common_inputs(struct 
->> common_input_property *common, int report_i
->>       common->event_type = HID_USAGE_SENSOR_EVENT_DATA_UPDATED_ENUM;
->>   }
->> -static int float_to_int(u32 flt32_val)
->> +int float_to_int(u32 flt32_val)
->>   {
->>       int fraction, shift, mantissa, sign, exp, zeropre;
->> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c 
->> b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
->> index e9c6413af24a..9c623456ee12 100644
->> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
->> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
->> @@ -73,6 +73,12 @@ static int amd_sfh_hid_client_deinit(struct 
->> amd_mp2_dev *privdata)
->>       int i, status;
->>       for (i = 0; i < cl_data->num_hid_devices; i++) {
->> +        switch (cl_data->sensor_idx[i]) {
->> +        case HPD_IDX:
->> +            privdata->dev_en.is_hpd_present = false;
->> +            break;
->> +        }
->> +
->>           if (cl_data->sensor_sts[i] == SENSOR_ENABLED) {
->>               privdata->mp2_ops->stop(privdata, cl_data->sensor_idx[i]);
->>               status = amd_sfh_wait_for_response
->> @@ -178,6 +184,11 @@ static int amd_sfh1_1_hid_client_init(struct 
->> amd_mp2_dev *privdata)
->>               rc = amdtp_hid_probe(i, cl_data);
->>               if (rc)
->>                   goto cleanup;
->> +            switch (cl_data->sensor_idx[i]) {
->> +            case HPD_IDX:
->> +            privdata->dev_en.is_hpd_present = true;
-> 
-> Looks like this is missing a tab.
-> 
->> +                break;
->> +            }
->>           }
->>           dev_dbg(dev, "sid 0x%x (%s) status 0x%x\n",
->>               cl_data->sensor_idx[i], 
->> get_sensor_name(cl_data->sensor_idx[i]),
->> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c 
->> b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
->> index 4f81ef2d4f56..63a5bbca5a09 100644
->> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
->> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
->> @@ -7,11 +7,14 @@
->>    *
->>    * Author: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
->>    */
->> +#include <linux/amd-pmf-io.h>
->>   #include <linux/io-64-nonatomic-lo-hi.h>
->>   #include <linux/iopoll.h>
->>   #include "amd_sfh_interface.h"
->> +static struct amd_mp2_dev *emp2;
->> +
->>   static int amd_sfh_wait_response(struct amd_mp2_dev *mp2, u8 sid, 
->> u32 cmd_id)
->>   {
->>       struct sfh_cmd_response cmd_resp;
->> @@ -76,4 +79,29 @@ static struct amd_mp2_ops amd_sfh_ops = {
->>   void sfh_interface_init(struct amd_mp2_dev *mp2)
->>   {
->>       mp2->mp2_ops = &amd_sfh_ops;
->> +    emp2 = mp2;
->> +}
->> +
->> +static int amd_sfh_hpd_info(u8 *user_present)
->> +{
->> +    if (emp2 && emp2->dev_en.is_hpd_present) {
->> +        struct hpd_status hpdstatus;
->> +
->> +        hpdstatus.val = readl(emp2->mmio + AMD_C2P_MSG(4));
->> +        *user_present = hpdstatus.shpd.presence;
->> +        return 0;
->> +    }
->> +    return  -ENODEV;
-> 
-> Extra whitespace here.
-> 
->> +}
->> +
+a) Userspace can't itself probe these devices effectively. While
+userspace could turn on GPIOs manually and query the i2c bus manually,
+it can't (I believe) turn on regulators nor can it turn on clocks, if
+they are needed. About the best userspace could do would be to blindly
+try binding an existing kernel driver, and in that case why did we
+need userspace involved anyway?
 
-IMO you should add some kernel doc here or in the header as good 
-practice for exported symbols.
+b) While deferring to userspace can work for solutions like ChromeOS
+or Android where it's easy to ensure the userspace bits are there,
+it's less appealing as a general solution. I think in Johan's case
+he's taking a laptop that initially ran Windows and then is trying to
+run a generic Linux distro on it. For anyone in a similar situation,
+they'd either need to pick a Linux distro that has the magic userspace
+bits that are needed or they need to know that, on their laptop, they
+need to manually install some software. While requiring special
+userspace might make sense if you've got a special peripheral, like an
+LTE modem, it makes less sense to need special userspace just to get
+the right devices bound...
 
->> +int amd_get_sfh_info(struct amd_sfh_info *sfh_info, enum 
->> sfh_message_type op)
->> +{
->> +    if (sfh_info) {
->> +        switch (op) {
->> +        case MT_HPD:
->> +            return amd_sfh_hpd_info(&sfh_info->user_present);
->> +        }
->> +    }
->> +    return -1;
-> 
-> This looks like it should probably be -EINVAL.
-> 
->>   }
->> +EXPORT_SYMBOL_GPL(amd_get_sfh_info);
->> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h 
->> b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
->> index 9d31d5b510eb..8a36386e6bce 100644
->> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
->> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
->> @@ -149,6 +149,7 @@ struct hpd_status {
->>       };
->>   };
->> +int float_to_int(u32 flt32_val);
->>   void sfh_interface_init(struct amd_mp2_dev *mp2);
->>   void amd_sfh1_1_set_desc_ops(struct amd_mp2_ops *mp2_ops);
->>   #endif
->> diff --git a/drivers/platform/x86/amd/pmf/spc.c 
->> b/drivers/platform/x86/amd/pmf/spc.c
->> index 5f3ab1ce09d2..97293ae25cf5 100644
->> --- a/drivers/platform/x86/amd/pmf/spc.c
->> +++ b/drivers/platform/x86/amd/pmf/spc.c
->> @@ -48,6 +48,7 @@ void amd_pmf_dump_ta_inputs(struct amd_pmf_dev *dev, 
->> struct ta_pmf_enact_table *
->>       dev_dbg(dev->dev, "Primary Display State : %s\n", 
->> in->ev_info.display_state ?
->>               "Connected" : "disconnected/unknown");
->>       dev_dbg(dev->dev, "LID State : %s\n", in->ev_info.lid_state ? 
->> "Close" : "Open");
->> +    dev_dbg(dev->dev, "User Presence : %s\n", 
->> in->ev_info.user_present ? "Present" : "Away");
->>       dev_dbg(dev->dev, "==== TA inputs END ====\n");
->>   }
->>   #else
->> @@ -156,6 +157,25 @@ static void amd_pmf_get_gpu_info(struct 
->> amd_pmf_dev *dev, struct ta_pmf_enact_ta
->>       in->ev_info.display_state = dev->gfx_data.con_status[0];
->>   }
->> +static void amd_pmf_get_sensor_info(struct amd_pmf_dev *dev, struct 
->> ta_pmf_enact_table *in)
->> +{
->> +    struct amd_sfh_info sfh_info;
->> +
->> +    /* get HPD data */
->> +    amd_get_sfh_info(&sfh_info, MT_HPD);
-> 
-> amd_get_sfh_info() is int.
-> 
-> Shouldn't you look for the return code here?
-> 
->> +    switch (sfh_info.user_present) {
->> +    case SFH_NOT_DETECTED:
->> +        in->ev_info.user_present = 0xff; /* assume no sensors 
->> connected */
->> +        break;
->> +    case SFH_USER_PRESENT:
->> +        in->ev_info.user_present = 1;
->> +        break;
->> +    case SFH_USER_AWAY:
->> +        in->ev_info.user_present = 0;
->> +        break;
->> +    }
->> +}
->> +
->>   void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct 
->> ta_pmf_enact_table *in)
->>   {
->>       /* TA side lid open is 1 and close is 0, hence the ! here */
->> @@ -165,4 +185,5 @@ void amd_pmf_populate_ta_inputs(struct amd_pmf_dev 
->> *dev, struct ta_pmf_enact_tab
->>       amd_pmf_get_battery_info(dev, in);
->>       amd_pmf_get_slider_info(dev, in);
->>       amd_pmf_get_gpu_info(dev, in);
->> +    amd_pmf_get_sensor_info(dev, in);
->>   }
->> diff --git a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h
->> index ecae387ddaa6..4f82973f6ad2 100644
->> --- a/include/linux/amd-pmf-io.h
->> +++ b/include/linux/amd-pmf-io.h
->> @@ -5,7 +5,8 @@
->>    * Copyright (c) 2023, Advanced Micro Devices, Inc.
->>    * All Rights Reserved.
->>    *
->> - * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->> + * Authors: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->> + *          Basavaraj Natikar <Basavaraj.Natikar@amd.com>
->>    */
->>   #ifndef AMD_PMF_IO_H
->> @@ -26,4 +27,23 @@ struct amd_gpu_pmf_data {
->>   int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf);
->>   int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf);
->> +
->> +/* amd-sfh */
->> +enum sfh_message_type {
->> +    MT_HPD,
->> +};
->> +
->> +enum hpd_info {
->> +    SFH_NOT_DETECTED,
->> +    SFH_USER_PRESENT,
->> +    SFH_USER_AWAY
->> +};
->> +
->> +struct amd_sfh_info {
->> +    u8 user_present;
->> +    /* add future caps below */
->> +};
->> +
->> +int amd_get_sfh_info(struct amd_sfh_info *sfh_info, enum 
->> sfh_message_type op);
->> +
->>   #endif
-> 
 
+> > It wouldn't be absurd to have a system that has multiple sources for
+> > both the trackpad and the touchscreen. If we have to probe each of
+> > these one at a time then it could be slow. It would be quicker to be
+> > able to probe the trackpads (one at a time) at the same time we're
+> > probing the touchscreens (one at a time). Using the "fail-needs-probe"
+> > doesn't provide information needed to know which devices conflict with
+> > each other.
+>
+> I would guess most of the time that's pretty evident. They are going
+> to be on the same bus/link. If unrelated devices are on the same bus,
+> then that's going to get serialized anyways (if bus accesses are what
+> make things slow).
+>
+> We could add information on the class of device. touchscreen and
+> touchpad aliases or something.
+
+Ah, I see. So something like "fail-needs-probe-<class>". The
+touchscreens could have "fail-needs-probe-touchscreen" and the
+trackpads could have "fail-needs-probe-trackpad" ? That could work. In
+theory that could fall back to the same solution of grabbing a mutex
+based on the group ID...
+
+Also: if having the mutex in the "struct device" is seen as a bad
+idea, it would also be easy to remove. __driver_probe_device() could
+just make a call like "of_device_probe_start()" at the beginning that
+locks the mutex and then "of_device_probe_end()" that unlocks it. Both
+of those calls could easily lookup the mutex in a list, which would
+get rid of the need to store it in the "struct device".
+
+
+> > That would lead me to suggest this:
+> >
+> >   &i2c_bus {
+> >     trackpad-prober {
+> >       compatible =3D "mt8173-elm-hana-trackpad-prober";
+> >
+> >       tp1: trackpad@10 {
+> >         compatible =3D "hid-over-i2c";
+> >         reg =3D <0x10>;
+> >         ...
+> >         post-power-on-delay-ms =3D <200>;
+> >       };
+> >       tp2: trackpad@20 {
+> >         compatible =3D "hid-over-i2c";
+> >         reg =3D <0x20>;
+> >         ...
+> >         post-power-on-delay-ms =3D <200>;
+> >       };
+> >     };
+> >   };
+> >
+> > ...but I suspect that would be insta-NAKed because it's creating a
+> > completely virtual device ("mt8173-elm-hana-trackpad-prober") in the
+> > device tree. I don't know if there's something that's functionally
+> > similar that would be OK?
+>
+> Why do you need the intermediate node other than a convenient way to
+> instantiate a driver? You just need a flag in each node which needs
+> this special handling. Again, "status" could work well here since it
+> keeps the normal probe from happening. But I'm not saying you can't
+> have some board specific code. Sometimes you just need code to deal
+> with this stuff. Don't try to parameterize everything to DT
+> properties.
+
+I think I'd have an easier time understanding if I knew where you
+envisioned the board-specific code living. Do you have an example of
+board specific code running at boot time in the kernel on DT systems?
+
+
+> Note that the above only works with "generic" compatibles with
+> "generic" power sequencing properties (I won't repeat my dislike
+> again).
+
+I don't think so? I was imagining that we'd have some board specific
+code that ran that knew all the possible combinations of devices,
+could probe them, and then could instantiate the correct driver.
+
+Imagine that instead of the hated "hid-over-i2c" compatible we were
+using two other devices. Imagine that a given board could have a
+"elan,ekth6915" and a "goodix,gt7375p". Both of these devices have
+specific timing requirements on how to sequence their supplies and
+reset GPIOs. For Elan we power on the supplies, wait at least 1 ms,
+deassert reset, wait at least 300 ms, and then can talk i2c. For
+Goodix we power on the supply, wait at least 10 ms, deassert reset,
+wait at least 180 ms, and then can talk i2c. If we had a
+board-specific probing driver then it would power on the supplies,
+wait at least 10 ms (the max of the two), deassert reset, wait at
+least 300 ms (the max of the two), and then see which device talked.
+Then it would instantiate whichever of the two drivers. This could be
+done for any two devices that EEs have determined have "compatible"
+probing sequences.
+
+Ideally in the above situation we'd be able to avoid turning the
+device off and on again between the board-specific probe code and the
+normal driver. That optimization might need special code per-driver
+but it feels doable by passing some sort of hint to the child driver
+when it's instantiated.
+
+
+> If only the driver knows how to handle the device, then you
+> still just have to have the driver probe. If you *only* wanted to
+> solve the above case, I'd just make "hid-over-i2c" take a 2nd (and
+> 3rd) I2C address in reg and have those as fallbacks.
+
+Yeah, it did occur to me that having "hid-over-i2c" take more than one
+register (and I guess more than one "hid-descr-addr") would work in my
+earlier example and this might actually be a good solution for Johan.
+I'm hoping for a better generic solution, though.
+
+
+> You could always make the driver probe smarter where if your supply
+> was already powered on, then don't delay. Then something else could
+> ensure that the supply is enabled. I'm not sure if regulators have the
+> same issue as clocks where the clock might be on from the bootloader,
+> then a failed probe which gets then puts the clock turns it off.
+
+I'm not sure it's that simple. Even if the supply didn't turn off by
+itself in some cases, we wouldn't know how long the supply was on.
+
+-Doug
