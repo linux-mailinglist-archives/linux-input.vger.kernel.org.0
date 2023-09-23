@@ -2,134 +2,300 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ADA07ABEEB
-	for <lists+linux-input@lfdr.de>; Sat, 23 Sep 2023 10:28:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1160F7AC3FA
+	for <lists+linux-input@lfdr.de>; Sat, 23 Sep 2023 19:35:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230496AbjIWI3C (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 23 Sep 2023 04:29:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35426 "EHLO
+        id S231363AbjIWRgC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 23 Sep 2023 13:36:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230487AbjIWI3B (ORCPT
+        with ESMTP id S229513AbjIWRgC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 23 Sep 2023 04:29:01 -0400
-Received: from omta034.useast.a.cloudfilter.net (omta034.useast.a.cloudfilter.net [44.202.169.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3B4C83
-        for <linux-input@vger.kernel.org>; Sat, 23 Sep 2023 01:28:54 -0700 (PDT)
-Received: from eig-obgw-5006a.ext.cloudfilter.net ([10.0.29.179])
-        by cmsmtp with ESMTP
-        id jx8AqGhQkez0Cjy06qAra4; Sat, 23 Sep 2023 08:28:30 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with ESMTPS
-        id jy0UqstYbHmohjy0UqHeiV; Sat, 23 Sep 2023 08:28:54 +0000
-X-Authority-Analysis: v=2.4 cv=Avz9YcxP c=1 sm=1 tr=0 ts=650ea1c6
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=P7XfKmiOJ4/qXqHZrN7ymg==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=IkcTkHD0fZMA:10 a=zNV7Rl7Rt7sA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
- a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8 a=cm27Pg_UAAAA:8 a=HvF037n1xESchLcPDVoA:9
- a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22 a=xmb-EsYY8bH0VWELuYED:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=7X3N3S0CtQ0yoaLIyLFyRALGnJXdvWUgaGNBb3LWgKo=; b=G5DD3BWb3ZIU6s65WKEzTkAN8+
-        htrxNN2Vqhm+iHnjWEYUmuwLjGn8waXgz0bwWgcK/Z4cTdpwGWjCBqAEja/17q9tPZ104dnqm/9Ot
-        b0EJUAyVlfdhHLL/ImHSHbf7r/HNc+ScfUIDrWF2NFc/RuriPrXmIEe78rJWCsU7xBBfwDFJV/pmv
-        CKlBxKDRMETXk8EVNh5H+N3mCUWQxeWxIYRtdcozH3nwXHFHK3GS7CuGYB7+fKY0JoptNxuk3TYif
-        FmKahPUv5aOIGvs60K9sMDfd7Zq9802bCKRWMC2CgOSaiNsEy69eODzdV404SDzy7PdFBx5Vddo5T
-        mI1r3VSw==;
-Received: from [94.239.20.48] (port=33546 helo=[192.168.1.98])
-        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.96)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1qjy0S-003XvM-2Z;
-        Sat, 23 Sep 2023 03:28:53 -0500
-Message-ID: <33441f01-d1a5-a6de-5e2b-364ac4ba8c31@embeddedor.com>
-Date:   Sat, 23 Sep 2023 10:29:52 -0600
+        Sat, 23 Sep 2023 13:36:02 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98135AF;
+        Sat, 23 Sep 2023 10:35:55 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6892C433C8;
+        Sat, 23 Sep 2023 17:35:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695490555;
+        bh=ejyzahKJAJt9lCn+qnlEr4NX27qh7eXBTFD4U9A1SjU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=QeNSFcPUCH4xy1kS395jk0Cox1UddxCRcd2x2EjvDTmX1KYbrQuhpNkUBHZuAdGiq
+         kV/zqk9FM6KQdGbKVVGecf20HtNQA4lrjEzI1IHuo241x/0RYTT5fXqOUMeOOazA9y
+         F0FVmVyOTX6AAw2bUbxgcpC84d3pJKkcepeoFTgGlCP78lQyX+SvNtZtau22rCgC4/
+         bwWPsiuKyaqhArk9vylBqt5J9Btdd1N/7augiDEwhu9H8ZC1G8uqJ49n70kE6lDL7s
+         NcrYZc9Sw96xq7YYgbmFpI2BGcHBxNfFb6xFbzBBBhqVtPjvDzhKJcKO/ffOBuo3f5
+         9fuEbW1t3hSNw==
+Date:   Sat, 23 Sep 2023 18:35:24 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        kernel@pengutronix.de, Linus Walleij <linus.walleij@linaro.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+        Jinjie Ruan <ruanjinjie@huawei.com>,
+        Rob Herring <robh@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Aidan MacDonald <aidanmacdonald.0x0@gmail.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Hartley Sweeten <hsweeten@visionengravers.com>,
+        Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        linux-samsung-soc@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andreas Klinger <ak@it-klinger.de>,
+        Cai Huoqing <cai.huoqing@linux.dev>,
+        Haibo Chen <haibo.chen@nxp.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        George Stark <gnstark@sberdevices.ru>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+        linux-amlogic@lists.infradead.org,
+        Saravanan Sekar <sravanhome@gmail.com>,
+        Jiakai Luo <jkluo@hust.edu.cn>,
+        Dongliang Mu <dzm91@hust.edu.cn>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        openbmc@lists.ozlabs.org, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        linux-arm-msm@vger.kernel.org, Marek Vasut <marek.vasut@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Olivier Moysan <olivier.moysan@foss.st.com>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        Zhang Shurong <zhang_shurong@foxmail.com>,
+        Yangtao Li <frank.li@vivo.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Sean Nyekjaer <sean@geanix.com>, Tom Rix <trix@redhat.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Mark Brown <broonie@kernel.org>,
+        Ido Schimmel <idosch@nvidia.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-sunxi@lists.linux.dev,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andreas Kemnade <andreas@kemnade.info>,
+        Peter Rosin <peda@axentia.se>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Kevin Tsai <ktsai@capellamicro.com>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 00/49] iio: Convert to platform remove callback
+ returning void
+Message-ID: <20230923183513.717f3014@jic23-huawei>
+In-Reply-To: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
+References: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] input: mt: Annotate struct input_mt with __counted_by
-Content-Language: en-US
-To:     Kees Cook <keescook@chromium.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, linux-hardening@vger.kernel.org
-References: <20230922175036.work.762-kees@kernel.org>
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <20230922175036.work.762-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 94.239.20.48
-X-Source-L: No
-X-Exim-ID: 1qjy0S-003XvM-2Z
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.1.98]) [94.239.20.48]:33546
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 102
-X-Org:  HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfGnT2HcUxtNDHh/OT/V05BBsX6p36uoPrE66wSzue87yPifeh+L0MxQMR8DVSsVZCRDjtlG4+e7M/nCW3OzuYHCShWAn/AI3fWcoUxaYOANBJ8XUAk1e
- fr4zs2y02fG/AVIhXUzSPHnYUV5edVlEc0d9m+jrGXoppx2BN0MeHCiT1UDwrtBA1x4D2alLpErFS9EtObL8rxbhBNbfXor101b3oz+AWxz1j7CHDbxlwdEl
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DATE_IN_FUTURE_06_12,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Tue, 19 Sep 2023 19:48:42 +0200
+Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> wrote:
 
+> this series converts all platform drivers below drivers/iio to use
+> .remove_new(). The motivation is to get rid of an integer return code
+> that is (mostly) ignored by the platform driver core and error prone on
+> the driver side. As all platform drivers return zero unconditionally in t=
+heir
+> remove callback up to now, the conversions are "trivial".
+>=20
+> See commit 5c5a7680e67b ("platform: Provide a remove callback that
+> returns no value") for an extended explanation and the eventual goal.
+>=20
+> There are no interdependencies between the patches. As there are still
+> quite a few drivers to convert, I'm happy about every patch that makes
+> it in. So even if there is a merge conflict with one patch until you
+> apply or I picked a wrong subject prefix, please apply the remainder of
+> this series anyhow.
+>=20
+Series applied to the togreg branch of iio.git and pushed out as testing=20
+to see if 0-day finds anything we are missing.
 
-On 9/22/23 11:50, Kees Cook wrote:
-> Prepare for the coming implementation by GCC and Clang of the __counted_by
-> attribute. Flexible array members annotated with __counted_by can have
-> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
-> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-> functions).
-> 
-> As found with Coccinelle[1], add __counted_by for struct input_mt.
-> 
-> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
-> 
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: linux-input@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+I've picked up all tags give as of early today.
 
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Thanks,
 
-Thanks
--- 
-Gustavo
+Jonathan
 
-> ---
->   include/linux/input/mt.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/input/mt.h b/include/linux/input/mt.h
-> index 3b8580bd33c1..2cf89a538b18 100644
-> --- a/include/linux/input/mt.h
-> +++ b/include/linux/input/mt.h
-> @@ -47,7 +47,7 @@ struct input_mt {
->   	unsigned int flags;
->   	unsigned int frame;
->   	int *red;
-> -	struct input_mt_slot slots[];
-> +	struct input_mt_slot slots[] __counted_by(num_slots);
->   };
->   
->   static inline void input_mt_set_value(struct input_mt_slot *slot,
+> Best regards
+> Uwe
+>=20
+> Uwe Kleine-K=C3=B6nig (49):
+>   iio: accel: hid-sensor-accel-3d: Convert to platform remove callback
+>     returning void
+>   iio: adc: ab8500-gpadc: Convert to platform remove callback returning
+>     void
+>   iio: adc: at91-sama5d2: Convert to platform remove callback returning
+>     void
+>   iio: adc: at91: Convert to platform remove callback returning void
+>   iio: adc: axp20x: Convert to platform remove callback returning void
+>   iio: adc: bcm_iproc: Convert to platform remove callback returning
+>     void
+>   iio: adc: dln2: Convert to platform remove callback returning void
+>   iio: adc: ep93xx: Convert to platform remove callback returning void
+>   iio: adc: exynos: Convert to platform remove callback returning void
+>   iio: adc: fsl-imx25-gcq: Convert to platform remove callback returning
+>     void
+>   iio: adc: hx711: Convert to platform remove callback returning void
+>   iio: adc: imx8qxp: Convert to platform remove callback returning void
+>   iio: adc: imx93: Convert to platform remove callback returning void
+>   iio: adc: meson_saradc: Convert to platform remove callback returning
+>     void
+>   iio: adc: mp2629: Convert to platform remove callback returning void
+>   iio: adc: mxs-lradc: Convert to platform remove callback returning
+>     void
+>   iio: adc: npcm: Convert to platform remove callback returning void
+>   iio: adc: qcom-pm8xxx-xoadc: Convert to platform remove callback
+>     returning void
+>   iio: adc: rcar-gyroadc: Convert to platform remove callback returning
+>     void
+>   iio: adc: stm32-adc-core: Convert to platform remove callback
+>     returning void
+>   iio: adc: stm32-adc: Convert to platform remove callback returning
+>     void
+>   iio: adc: stm32-dfsdm-adc: Convert to platform remove callback
+>     returning void
+>   iio: adc: stm32-dfsdm-core: Convert to platform remove callback
+>     returning void
+>   iio: adc: sun4i-gpadc-iio: Convert to platform remove callback
+>     returning void
+>   iio: adc: ti_am335x_adc: Convert to platform remove callback returning
+>     void
+>   iio: adc: twl4030-madc: Convert to platform remove callback returning
+>     void
+>   iio: adc: twl6030-gpadc: Convert to platform remove callback returning
+>     void
+>   iio: adc: vf610_adc: Convert to platform remove callback returning
+>     void
+>   iio: dac: dpot-dac: Convert to platform remove callback returning void
+>   iio: dac: lpc18xx_dac: Convert to platform remove callback returning
+>     void
+>   iio: dac: stm32-dac-core: Convert to platform remove callback
+>     returning void
+>   iio: dac: stm32-dac: Convert to platform remove callback returning
+>     void
+>   iio: dac: vf610: Convert to platform remove callback returning void
+>   iio: gyro: hid-sensor-gyro-3d: Convert to platform remove callback
+>     returning void
+>   iio: humidity: hid-sensor-humidity: Convert to platform remove
+>     callback returning void
+>   iio: light: cm3605: Convert to platform remove callback returning void
+>   iio: light: hid-sensor-als: Convert to platform remove callback
+>     returning void
+>   iio: light: hid-sensor-prox: Convert to platform remove callback
+>     returning void
+>   iio: light: lm3533-als: Convert to platform remove callback returning
+>     void
+>   iio: magnetometer: hid-sensor-magn-3d: Convert to platform remove
+>     callback returning void
+>   iio: orientation: hid-sensor-incl-3d: Convert to platform remove
+>     callback returning void
+>   iio: orientation: hid-sensor-rotation: Convert to platform remove
+>     callback returning void
+>   iio: position: hid-sensor-custom-intel-hinge: Convert to platform
+>     remove callback returning void
+>   iio: pressure: hid-sensor: Convert to platform remove callback
+>     returning void
+>   iio: proximity: cros_ec_mkbp: Convert to platform remove callback
+>     returning void
+>   iio: proximity: srf04: Convert to platform remove callback returning
+>     void
+>   iio: temperature: hid-sensor: Convert to platform remove callback
+>     returning void
+>   iio: trigger: iio-trig-interrupt: Convert to platform remove callback
+>     returning void
+>   iio: trigger: stm32-timer: Convert to platform remove callback
+>     returning void
+>=20
+>  drivers/iio/accel/hid-sensor-accel-3d.c              | 6 ++----
+>  drivers/iio/adc/ab8500-gpadc.c                       | 6 ++----
+>  drivers/iio/adc/at91-sama5d2_adc.c                   | 6 ++----
+>  drivers/iio/adc/at91_adc.c                           | 6 ++----
+>  drivers/iio/adc/axp20x_adc.c                         | 6 ++----
+>  drivers/iio/adc/bcm_iproc_adc.c                      | 6 ++----
+>  drivers/iio/adc/dln2-adc.c                           | 5 ++---
+>  drivers/iio/adc/ep93xx_adc.c                         | 6 ++----
+>  drivers/iio/adc/exynos_adc.c                         | 6 ++----
+>  drivers/iio/adc/fsl-imx25-gcq.c                      | 6 ++----
+>  drivers/iio/adc/hx711.c                              | 6 ++----
+>  drivers/iio/adc/imx8qxp-adc.c                        | 6 ++----
+>  drivers/iio/adc/imx93_adc.c                          | 6 ++----
+>  drivers/iio/adc/meson_saradc.c                       | 6 ++----
+>  drivers/iio/adc/mp2629_adc.c                         | 6 ++----
+>  drivers/iio/adc/mxs-lradc-adc.c                      | 6 ++----
+>  drivers/iio/adc/npcm_adc.c                           | 6 ++----
+>  drivers/iio/adc/qcom-pm8xxx-xoadc.c                  | 6 ++----
+>  drivers/iio/adc/rcar-gyroadc.c                       | 6 ++----
+>  drivers/iio/adc/stm32-adc-core.c                     | 6 ++----
+>  drivers/iio/adc/stm32-adc.c                          | 6 ++----
+>  drivers/iio/adc/stm32-dfsdm-adc.c                    | 6 ++----
+>  drivers/iio/adc/stm32-dfsdm-core.c                   | 6 ++----
+>  drivers/iio/adc/sun4i-gpadc-iio.c                    | 8 +++-----
+>  drivers/iio/adc/ti_am335x_adc.c                      | 6 ++----
+>  drivers/iio/adc/twl4030-madc.c                       | 6 ++----
+>  drivers/iio/adc/twl6030-gpadc.c                      | 6 ++----
+>  drivers/iio/adc/vf610_adc.c                          | 6 ++----
+>  drivers/iio/dac/dpot-dac.c                           | 6 ++----
+>  drivers/iio/dac/lpc18xx_dac.c                        | 6 ++----
+>  drivers/iio/dac/stm32-dac-core.c                     | 6 ++----
+>  drivers/iio/dac/stm32-dac.c                          | 6 ++----
+>  drivers/iio/dac/vf610_dac.c                          | 6 ++----
+>  drivers/iio/gyro/hid-sensor-gyro-3d.c                | 6 ++----
+>  drivers/iio/humidity/hid-sensor-humidity.c           | 6 ++----
+>  drivers/iio/light/cm3605.c                           | 6 ++----
+>  drivers/iio/light/hid-sensor-als.c                   | 6 ++----
+>  drivers/iio/light/hid-sensor-prox.c                  | 6 ++----
+>  drivers/iio/light/lm3533-als.c                       | 6 ++----
+>  drivers/iio/magnetometer/hid-sensor-magn-3d.c        | 6 ++----
+>  drivers/iio/orientation/hid-sensor-incl-3d.c         | 6 ++----
+>  drivers/iio/orientation/hid-sensor-rotation.c        | 6 ++----
+>  drivers/iio/position/hid-sensor-custom-intel-hinge.c | 6 ++----
+>  drivers/iio/pressure/hid-sensor-press.c              | 6 ++----
+>  drivers/iio/proximity/cros_ec_mkbp_proximity.c       | 6 ++----
+>  drivers/iio/proximity/srf04.c                        | 6 ++----
+>  drivers/iio/temperature/hid-sensor-temperature.c     | 6 ++----
+>  drivers/iio/trigger/iio-trig-interrupt.c             | 6 ++----
+>  drivers/iio/trigger/stm32-timer-trigger.c            | 6 ++----
+>  49 files changed, 99 insertions(+), 196 deletions(-)
+>=20
+>=20
+> base-commit: 29e400e3ea486bf942b214769fc9778098114113
+
