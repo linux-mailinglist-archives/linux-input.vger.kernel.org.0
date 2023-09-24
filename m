@@ -2,140 +2,128 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 596DB7AC720
-	for <lists+linux-input@lfdr.de>; Sun, 24 Sep 2023 10:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 265067AC809
+	for <lists+linux-input@lfdr.de>; Sun, 24 Sep 2023 14:32:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229816AbjIXIPm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 24 Sep 2023 04:15:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45278 "EHLO
+        id S229456AbjIXMcK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 24 Sep 2023 08:32:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbjIXIPm (ORCPT
+        with ESMTP id S229449AbjIXMcJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 24 Sep 2023 04:15:42 -0400
-X-Greylist: delayed 206 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 24 Sep 2023 01:15:35 PDT
-Received: from mx1.mythic-beasts.com (mx1.mythic-beasts.com [IPv6:2a00:1098:0:86:1000:0:2:1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6974F10B;
-        Sun, 24 Sep 2023 01:15:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=lentin.co.uk; s=mythic-beasts-k1; h=Subject:To:From:Date;
-        bh=zkyOVeOH2gDIlvyMUdIGDWcpYtTCEjk1PY006D/SgBA=; b=Oj2AXPYpU9j/GzPQ9y5vBEySmV
-        zI0purE3gmK1SO6UiaOGJVvaJFon7IxmMgAsBsK/6GMG7xinoSojhOz/r2/jRs43Io97s2aSFXwUY
-        DR5h1nUI7eY1ywourktUR175jg04cNGFWnnmwq/XhRL2/Fcth+fMdoJYfV7r6HOpPGjfIrTNA80CV
-        0PBTw/oNyROuPwUHXEM8ShhrTIOY8GkFTj/NXrsV1xrpe/giieINokZUkGLoi0TU7SwxlOaCQ+uF/
-        zkWu0mLw8vMyeAUXYLaaccow3Kn7z+xg7DRn1N0UWbSeDHUK2ZqCGzHMVo23lgJKuznUWokBxpCIB
-        M4ZJ/anQ==;
-Received: by mailhub-cam-d.mythic-beasts.com with esmtpa (Exim 4.94.2)
-        (envelope-from <jm@lentin.co.uk>)
-        id 1qkKDu-00ECPf-CK; Sun, 24 Sep 2023 09:12:14 +0100
+        Sun, 24 Sep 2023 08:32:09 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38A01101;
+        Sun, 24 Sep 2023 05:32:03 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C74DC433C7;
+        Sun, 24 Sep 2023 12:31:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695558722;
+        bh=4O8Z/nlwUMfJ5kW6vROIpHUGLRtUh9kQDaNRYgH56ck=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=cX+G1R2HwjyhGBE0l8VRphVl9tiNFnqdNMDw2rtDJYsHm/ek/8pR5g1moCaICZxAO
+         HeydWTVqVthlZpvc8xe0YmFzHy9fFF1j4cnoiQT6/M9XxpUZl+y3q6sFWXOIqSVZ7U
+         dV038a8DOXvGThuGfZRU2chYsvlyLgFi1FYLWliaQhwSyREpUsJvu+L4wDZzjVTXAP
+         DUdSzR06Y9YubTae4C80Pw147/75W4BDTyCZkXGxKMeh3lYdn+/DL+UA5WceEGl0Eb
+         gM9FRaoZjH5O2h0U6ZOiyqud1b3sxLpGhB2urz51RaceEkQODyzkX7Px4DyUxYoLb3
+         Fecz9WtQRwx7w==
+Date:   Sun, 24 Sep 2023 13:31:55 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Cc:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
+        <lars@metafoo.de>, <srinivas.pandruvada@linux.intel.com>,
+        <linux-input@vger.kernel.org>, <linux-iio@vger.kernel.org>
+Subject: Re: [PATCH v2 6/9] iio: Add channel type for chromaticity
+Message-ID: <20230924133155.48da9a8d@jic23-huawei>
+In-Reply-To: <20230919081054.2050714-7-Basavaraj.Natikar@amd.com>
+References: <20230919081054.2050714-1-Basavaraj.Natikar@amd.com>
+        <20230919081054.2050714-7-Basavaraj.Natikar@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Date:   Sun, 24 Sep 2023 09:11:16 +0100
-From:   Jamie Lentin <jm@lentin.co.uk>
-To:     Martin Kepplinger <martink@posteo.de>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH] HID: lenovo: Fix middle-button behaviour for system
- suspend
-In-Reply-To: <20230921092140.120533-1-martink@posteo.de>
-References: <20230921092140.120533-1-martink@posteo.de>
-User-Agent: Roundcube Webmail/1.4.13
-Message-ID: <140b721bc345a846863a37ebf17c3174@lentin.co.uk>
-X-Sender: jm@lentin.co.uk
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2023-09-21 10:21, Martin Kepplinger wrote:
-> After system suspend the middle-button mode is being reset to
-> compatibility mode which simply breaks functionality for the devices
-> where native mode is configured during probe().
+On Tue, 19 Sep 2023 13:40:51 +0530
+Basavaraj Natikar <Basavaraj.Natikar@amd.com> wrote:
+
+> In most cases, ambient color sensors also support the x and y light
+> colors, which represent the coordinates on the CIE 1931 chromaticity
+> diagram. Thus, add channel type for chromaticity.
 > 
-> Fix this by setting native mode in reset_resume() for the appropriate
-> devices.
-> 
-> Fixes: 94eefa271323 ("HID: lenovo: Use native middle-button mode for
-> compact keyboards")
-> Signed-off-by: Martin Kepplinger <martink@posteo.de>
+> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+One small thing I fixed up whilst applying.
+
+Jonathan
+
 > ---
->  drivers/hid/hid-lenovo.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
+>  Documentation/ABI/testing/sysfs-bus-iio | 8 ++++++++
+>  drivers/iio/industrialio-core.c         | 1 +
+>  include/uapi/linux/iio/types.h          | 1 +
+>  tools/iio/iio_event_monitor.c           | 1 +
+>  4 files changed, 11 insertions(+)
 > 
-> diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
-> index 44763c0da444..d20562b9eca6 100644
-> --- a/drivers/hid/hid-lenovo.c
-> +++ b/drivers/hid/hid-lenovo.c
-> @@ -1344,6 +1344,28 @@ static int lenovo_input_configured(struct
-> hid_device *hdev,
->  	return 0;
->  }
-> 
-> +static int __maybe_unused lenovo_resume(struct hid_device *hdev)
-> +{
-> +	int ret;
+> diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
+> index 4cf7ed9ca57b..0c9389ad3709 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-iio
+> +++ b/Documentation/ABI/testing/sysfs-bus-iio
+> @@ -2186,3 +2186,11 @@ Contact:	linux-iio@vger.kernel.org
+>  Description:
+>  		Represents light color temperature, which measures light color
+>  		temperature in Kelvin.
 > +
-> +	switch (hdev->product) {
-> +	case USB_DEVICE_ID_LENOVO_CUSBKBD:
-> +	case USB_DEVICE_ID_LENOVO_CBTKBD:
-> +	case USB_DEVICE_ID_LENOVO_TPIIUSBKBD:
-> +	case USB_DEVICE_ID_LENOVO_TPIIBTKBD:
-> +		/* Switch middle button to native mode again */
-> +		ret = lenovo_send_cmd_cptkbd(hdev, 0x09, 0x01);
-
-This will only reset the middle button state and not the Function key 
-state, which I believe has similar problems. This was my attempt at 
-solving this:
-
-   
-https://github.com/lentinj/linux/commit/f1c4e2de780abf8526bcdc9496c463f1ff4fe53b
-
-...which should ensure everything is in a consistent state with what the 
-kernel expects.
-
-I never submitted this since sending commands was sporadically resulting 
-in timeouts, although I'm fairly sure it was unrelated to this patch, 
-and quite possibly a hardware problem with my keyboard. I'd be 
-interested to know how you get on.
-
-Also, the above will send the command to both the USB keyboard & mouse 
-devices, only the mouse will respond. So worth prepending something 
-like:
-
-	if (((hdev->product == USB_DEVICE_ID_LENOVO_CUSBKBD) ||
-	    (hdev->product == USB_DEVICE_ID_LENOVO_TPIIUSBKBD)) &&
-	    hdev->type != HID_TYPE_USBMOUSE) {
-		hid_dbg(hdev, "Ignoring keyboard half of device\n");
-		return 0;
-	}
-
-...to avoid sending known-useless messages.
-
-> +		if (ret)
-> +			hid_warn(hdev, "Failed to switch middle button: %d\n",
-> +				 ret);
-> +		break;
-> +	default:
-> +		ret = 0;
-> +		break;
-> +	}
-> +
-> +	return ret;
-> +}
-> 
->  static const struct hid_device_id lenovo_devices[] = {
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_TPKBD) },
-> @@ -1380,6 +1402,9 @@ static struct hid_driver lenovo_driver = {
->  	.raw_event = lenovo_raw_event,
->  	.event = lenovo_event,
->  	.report_fixup = lenovo_report_fixup,
-> +#ifdef CONFIG_PM
-> +	.reset_resume = lenovo_resume,
-> +#endif
+> +What:		/sys/bus/iio/devices/iio:deviceX/in_chromaticity_x_raw
+> +What:		/sys/bus/iio/devices/iio:deviceX/in_chromaticity_y_raw
+> +KernelVersion:	6.7
+> +Contact:	linux-iio@vger.kernel.org
+> +Description:
+> +		The x and y light color coordinate on the CIE 1931 chromaticity
+> +		diagram.
+> diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
+> index cba942cadf97..6dc4d2b296bb 100644
+> --- a/drivers/iio/industrialio-core.c
+> +++ b/drivers/iio/industrialio-core.c
+> @@ -91,6 +91,7 @@ static const char * const iio_chan_type_name_spec[] = {
+>  	[IIO_PHASE] = "phase",
+>  	[IIO_MASSCONCENTRATION] = "massconcentration",
+>  	[IIO_COLORTEMP] = "colortemp",
+> +	[IIO_CHROMATICITY] = "chromaticity",
 >  };
->  module_hid_driver(lenovo_driver);
+>  
+>  static const char * const iio_modifier_names[] = {
+> diff --git a/include/uapi/linux/iio/types.h b/include/uapi/linux/iio/types.h
+> index 08c20e540c13..4832c611c027 100644
+> --- a/include/uapi/linux/iio/types.h
+> +++ b/include/uapi/linux/iio/types.h
+> @@ -48,6 +48,7 @@ enum iio_chan_type {
+>  	IIO_PHASE,
+>  	IIO_MASSCONCENTRATION,
+>  	IIO_COLORTEMP,
+> +	IIO_CHROMATICITY,
+>  };
+>  
+>  enum iio_modifier {
+> diff --git a/tools/iio/iio_event_monitor.c b/tools/iio/iio_event_monitor.c
+> index a63741e43ddf..5edacc358c5d 100644
+> --- a/tools/iio/iio_event_monitor.c
+> +++ b/tools/iio/iio_event_monitor.c
+> @@ -175,6 +175,7 @@ static bool event_is_known(struct iio_event_data *event)
+>  	case IIO_PHASE:
+>  	case IIO_MASSCONCENTRATION:
+>  	case IIO_COLORTEMP:
+> +	case IIO_CHROMATICITY:
+This is missing updating the strings in the same file.
+I only notice whilst dealing with a merge conflict where the colortemp one was
+there and this wasn't.
+>  		break;
+>  	default:
+>  		return false;
+
