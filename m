@@ -2,114 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C2297AC653
-	for <lists+linux-input@lfdr.de>; Sun, 24 Sep 2023 04:48:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 223107AC67B
+	for <lists+linux-input@lfdr.de>; Sun, 24 Sep 2023 05:29:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229535AbjIXCsf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 23 Sep 2023 22:48:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38068 "EHLO
+        id S229819AbjIXD33 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 23 Sep 2023 23:29:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjIXCse (ORCPT
+        with ESMTP id S229732AbjIXD31 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 23 Sep 2023 22:48:34 -0400
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17B6710C;
-        Sat, 23 Sep 2023 19:48:28 -0700 (PDT)
-Received: by mail-oi1-x229.google.com with SMTP id 5614622812f47-3a9b41ffe12so2930304b6e.3;
-        Sat, 23 Sep 2023 19:48:28 -0700 (PDT)
+        Sat, 23 Sep 2023 23:29:27 -0400
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C90A9136
+        for <linux-input@vger.kernel.org>; Sat, 23 Sep 2023 20:29:20 -0700 (PDT)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-59b5484fbe6so52415907b3.1
+        for <linux-input@vger.kernel.org>; Sat, 23 Sep 2023 20:29:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695523707; x=1696128507; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZqzUc5Ca0TLk51f9yoIdIBC/lxIeRKZcx3CKiVIdjzQ=;
-        b=clQ6r+U5RZKf7itdsJvyPhHHAJwrVPpKDA3wDQ9D65ul0YtxT6+tPIMA/KhdN3CqfV
-         ebvax3ydtqD7Ufp5WVjyloX1jrMSI+pqhmxKs5PdMGFNQmiVCmdxER48adw9y6FUE0O1
-         QfxskrNVNzupLi02r5XnX/frnyAr7eddSBbA60eNz1l8KCo9Ig6NY9ZR5xjaJAsXA88Q
-         SEwu8ivlXF7kI8fg+tQesH8GDQtUA3lRzhWqQoMO2jiAskfMeR67kL49t6LqCoMbo/3+
-         Cb7iaVNABpaNWYEk5D4rB85Q1cV2051cZrvxpQDUOAqMnLunrhzF1yiX38hYEnk1SQ3r
-         5Sjw==
+        d=chromium.org; s=google; t=1695526160; x=1696130960; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0sacnJ2cxsyUdNljEIHRMc8mGWJME3BUwqYb875zUKc=;
+        b=bNPrIkdhXQsPfHHBYGX/l+QLdpOgRh0rElNTjuHlRuPh9+25cPvcdVFJ3GxVoZ2A6S
+         JcPtP06Sz1Tiw/PPvXzrciZ7TQNK2V7d5YRcbrtBj8OHJVp8SprwrOMQ13JLE75KWQcG
+         8xV6fsM0+mJbQMOuqS/bhspmE8cbq5/pzgGuM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695523707; x=1696128507;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZqzUc5Ca0TLk51f9yoIdIBC/lxIeRKZcx3CKiVIdjzQ=;
-        b=Ho9DHMxFTS3sUuS7Ljzwormq44XfxFm7xommIy2uKTmI8CtMwTM9yfQ0696SCnGWnR
-         zscRxEvAnZ8mZ2TJfx6/KMw2wwvlHBk+7Kz+rF6S5e+lc600sQM+/fqbEFk0p6SeIGNg
-         JqXKGmKRw2kBvEJqoKJbzibPRj69Y8G+thUh0Iz4mPJWjUDP4B7NZt7vKiwbM4fNLSog
-         s18/b8IDy+qylizmZTtQMw1S6QcvLc5hJp4doZpzsTyTw9dL0LRBRIIFU6PHyTBl1XCo
-         +3VoHVlVQnb4y049pIQD+MA+dv6GA9ZoBkZUwyvfGf9xu3IwfS6ePsr2WnWw1HfsQiE7
-         HaUw==
-X-Gm-Message-State: AOJu0Yz53kfqBKm57VR31wYYdFAII1LX4ec/bZ/Cy9c2oqgPmwgVJ2b+
-        prhDOuefjVdJLKPmFfsimeQ=
-X-Google-Smtp-Source: AGHT+IFsJQ1vfOpuk2IaQRPrCUNaPYRrBLQFBvu86Kz8YHQlL7Jz8q3Be91hgZK6q2QTnHVxxVtMXg==
-X-Received: by 2002:a05:6808:15a5:b0:3ad:f86a:877b with SMTP id t37-20020a05680815a500b003adf86a877bmr5344294oiw.23.1695523707158;
-        Sat, 23 Sep 2023 19:48:27 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:3d36:f550:baf4:ae75])
-        by smtp.gmail.com with ESMTPSA id h1-20020a170902748100b001bbc8d65de0sm6050106pll.67.2023.09.23.19.48.24
+        d=1e100.net; s=20230601; t=1695526160; x=1696130960;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0sacnJ2cxsyUdNljEIHRMc8mGWJME3BUwqYb875zUKc=;
+        b=Xg1a1FNN4bhkPoNWCjl4SZnp6xpnU4FCBmrXgXRLnv2bq73o+m2Kx29X0bL1jLKvUD
+         HP8gt/lRccAb/XUOKAlxMC26Yy5AOrItGkQSVH+hzOteZv7d/REDfjz3dyAH5ywuB9ts
+         B73QqGDVA2Ycwy30L4M1gjX86qdXSad1FBCcxyaf/zApPMI5j488wLyFp+4WGdrbDR99
+         TpT1sUqe4/VDaL8gHrAUTaEIu1nRIfNMhO5ASSxqFxmWgEKaHVXcDN8RaRPtpeU0nFPv
+         F1Gff9eQh3TOj5JNiJ3+SJPc37gfS14hvKXfW1/rfkNfq5g6qtvUnAcHdqcY1MS0MW8d
+         gF4g==
+X-Gm-Message-State: AOJu0YzRwsmciFemYCmP1hon7C/xCwBY+kcLo17lGEnOPw3cnhMGeIOn
+        CVemQxO1f/bcb2zVy6eHkT3bXw==
+X-Google-Smtp-Source: AGHT+IHLetgN8Z6HYfxweRg549a0pUcJGB5rSTpFWmQXRJFkbO+pUmNPNqkjbmqo3NU1E0uzRrbQIA==
+X-Received: by 2002:a0d:f685:0:b0:56d:9e2:7d9e with SMTP id g127-20020a0df685000000b0056d09e27d9emr2932368ywf.21.1695526159922;
+        Sat, 23 Sep 2023 20:29:19 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id hi11-20020a17090b30cb00b00277371fd346sm1120927pjb.30.2023.09.23.20.29.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Sep 2023 19:48:26 -0700 (PDT)
-Date:   Sat, 23 Sep 2023 19:48:21 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Michael Hennerich <michael.hennerich@analog.com>,
-        linux-input@vger.kernel.org, kernel@pengutronix.de,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        joewu =?utf-8?B?KOWQs+S7suaMryk=?= <joewu@msi.com>,
-        chrome-platform@lists.linux.dev,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        Jeff LaBundy <jeff@labundy.com>, Rob Herring <robh@kernel.org>,
-        Siarhei Volkau <lis8215@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
-        Yangtao Li <frank.li@vivo.com>,
-        ye xingchen <ye.xingchen@zte.com.cn>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org,
-        Support Opensource <support.opensource@diasemi.com>,
-        Andrey Moiseev <o2g.org.ru@gmail.com>,
-        Lee Jones <lee@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        linux-arm-msm@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
-        Miloslav Trmac <mitr@volny.cz>, patches@opensource.cirrus.com,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Liang He <windhl@126.com>, Chen Jun <chenjun102@huawei.com>,
-        Ruan Jinjie <ruanjinjie@huawei.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        linux-sunxi@lists.linux.dev, Michal Simek <michal.simek@amd.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 00/52] input: Convert to platform remove callback
- returning void
-Message-ID: <ZQ+jddG+UbuSD7pP@google.com>
-References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
+        Sat, 23 Sep 2023 20:29:19 -0700 (PDT)
+Date:   Sat, 23 Sep 2023 20:29:18 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Justin Stitt <justinstitt@google.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] Input: axp20x-pek - refactor deprecated strncpy
+Message-ID: <202309232024.9A31A291@keescook>
+References: <20230921-strncpy-drivers-input-misc-axp20x-pek-c-v1-1-f7f6f4a5cf81@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+In-Reply-To: <20230921-strncpy-drivers-input-misc-axp20x-pek-c-v1-1-f7f6f4a5cf81@google.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -117,24 +69,101 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 20, 2023 at 02:57:37PM +0200, Uwe Kleine-König wrote:
-> Hello,
+On Thu, Sep 21, 2023 at 09:17:25AM +0000, Justin Stitt wrote:
+> `strncpy` is deprecated for use on NUL-terminated destination strings
+> [1] and as such we should prefer more robust and less ambiguous string
+> interfaces.
 > 
-> this series converts all platform drivers below drivers/input to use
-> remove_new. The motivation is to get rid of an integer return code
-> that is (mostly) ignored by the platform driver core and error prone on
-> the driver side.
+> Ensuring we have a trailing NUL-byte and checking the length of bytes
+> copied are both intrinsic behavior of strscpy.
 > 
-> See commit 5c5a7680e67b ("platform: Provide a remove callback that
-> returns no value") for an extended explanation and the eventual goal.
+> Therefore, a suitable replacement is `strscpy` [2] due to the fact that
+> it guarantees NUL-termination on the destination buffer without
+> unnecessarily NUL-padding.
 > 
-> There are no interdependencies between the patches. As there are still
-> quite a few drivers to convert, I'm happy about every patch that makes
-> it in. So even if there is a merge conflict with one patch until you
-> apply or a subject prefix is suboptimal, please apply the remainder of
-> this series anyhow.
+> It should be noted that the original code can silently truncate and so
+> can this refactoring. However, a check could be added if truncation
+> is an issue:
+> | len = strscpy(val_str, buf, sizeof(val_str));
+> | if (len < 0) { // add this
+> |   return -E2BIG; // or -EINVAL
+> | }
+> 
+> Also, now check for `len > 0` instead of just a truthy `len` because
+> `len` is now a signed type and we could run into problems if strscpy
+> returned -E2BIG which would pass the truthy test.
+> 
+> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+> Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
+> Link: https://github.com/KSPP/linux/issues/90
+> Cc: linux-hardening@vger.kernel.org
+> Signed-off-by: Justin Stitt <justinstitt@google.com>
+> ---
+> Note: build-tested only.
+> ---
+>  drivers/input/misc/axp20x-pek.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/input/misc/axp20x-pek.c b/drivers/input/misc/axp20x-pek.c
+> index 4581606a28d6..abcf78785b45 100644
+> --- a/drivers/input/misc/axp20x-pek.c
+> +++ b/drivers/input/misc/axp20x-pek.c
+> @@ -134,16 +134,14 @@ static ssize_t axp20x_store_attr(struct device *dev,
+>  {
+>  	struct axp20x_pek *axp20x_pek = dev_get_drvdata(dev);
+>  	char val_str[20];
+> -	size_t len;
+> +	ssize_t len;
+>  	int ret, i;
+>  	unsigned int val, idx = 0;
+>  	unsigned int best_err = UINT_MAX;
+>  
+> -	val_str[sizeof(val_str) - 1] = '\0';
+> -	strncpy(val_str, buf, sizeof(val_str) - 1);
+> -	len = strlen(val_str);
+> +	len = strscpy(val_str, buf, sizeof(val_str));
+>  
+> -	if (len && val_str[len - 1] == '\n')
+> +	if (len > 0 && val_str[len - 1] == '\n')
+>  		val_str[len - 1] = '\0';
+>  
+>  	ret = kstrtouint(val_str, 10, &val);
 
-Applied the lot (fixing the i8042-sparcio patch subject), thank you!
+This code is doing a LOT of work before handing it off to kstrtouint(),
+and none of it is needed. val_str is never used again, and the work is
+to make sure the newline is dropped -- but kstrtouint() does this
+already. I think this can just be:
+
+
+diff --git a/drivers/input/misc/axp20x-pek.c b/drivers/input/misc/axp20x-pek.c
+index 4581606a28d6..b1389a4c7702 100644
+--- a/drivers/input/misc/axp20x-pek.c
++++ b/drivers/input/misc/axp20x-pek.c
+@@ -134,19 +134,11 @@ static ssize_t axp20x_store_attr(struct device *dev,
+ {
+ 	struct axp20x_pek *axp20x_pek = dev_get_drvdata(dev);
+ 	char val_str[20];
+-	size_t len;
+ 	int ret, i;
+ 	unsigned int val, idx = 0;
+ 	unsigned int best_err = UINT_MAX;
+ 
+-	val_str[sizeof(val_str) - 1] = '\0';
+-	strncpy(val_str, buf, sizeof(val_str) - 1);
+-	len = strlen(val_str);
+-
+-	if (len && val_str[len - 1] == '\n')
+-		val_str[len - 1] = '\0';
+-
+-	ret = kstrtouint(val_str, 10, &val);
++	ret = kstrtouint(buf, 10, &val);
+ 	if (ret)
+ 		return ret;
+ 
+And, [broken record] for v2, please update the Subject to better describe
+the resulting change. :)
+
+-Kees
 
 -- 
-Dmitry
+Kees Cook
