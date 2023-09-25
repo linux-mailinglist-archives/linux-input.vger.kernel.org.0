@@ -2,70 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E39597AE0D0
-	for <lists+linux-input@lfdr.de>; Mon, 25 Sep 2023 23:34:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9D6B7AE0E5
+	for <lists+linux-input@lfdr.de>; Mon, 25 Sep 2023 23:43:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233421AbjIYVew (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 25 Sep 2023 17:34:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33256 "EHLO
+        id S231358AbjIYVnF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 25 Sep 2023 17:43:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233403AbjIYVev (ORCPT
+        with ESMTP id S233471AbjIYVnE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 25 Sep 2023 17:34:51 -0400
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22FDC11F
-        for <linux-input@vger.kernel.org>; Mon, 25 Sep 2023 14:34:45 -0700 (PDT)
-Received: by mail-oi1-x236.google.com with SMTP id 5614622812f47-3adc9770737so4785570b6e.3
-        for <linux-input@vger.kernel.org>; Mon, 25 Sep 2023 14:34:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695677684; x=1696282484; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hMjMGoX7rPrdNDm/jlmTWs+3v5W7OU2O+jGnwES/d5E=;
-        b=WtbLiIIJtWB8STCyUGaSLijmwcy9BYxhP6r0aFnyZkDIGSrj6Am3ysszlrpkYbYAW9
-         wAbYuB6M8e5t0sNaCmfFvBl4UIClRvNZqFEIpipW1ht6jxjUQvWLY8V1b4UpneNnJNfy
-         XnwzwnHvYmW73rp3534OMky1UFOF1JL/U7rgY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695677684; x=1696282484;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hMjMGoX7rPrdNDm/jlmTWs+3v5W7OU2O+jGnwES/d5E=;
-        b=sggpA0FMvsPHDtEpTwczzqdb+hOgZ8YTDbn+fZwuP2yFa5qni8OxNLSyeJSPzKHH8P
-         /pWszxi6iyicHQ/UruIza3Wgxqv2booIOfWno3uh7qe2aBQAGS7r5d31AB1qbAVmHVeU
-         yu5ZoEE0TY6o2WUJHwO8cCkX0Z24JFQdwMNXMv4POfKo5XA2EeghiabSZNw/2vp2ngYp
-         4yWvMQl8TF91URwufvz0oiAosCgrkasX5m3Ek25dAJ8xiYYDgCco2RLvaldYAgWQz7sj
-         RyokKl61nhQMnA1w0/BtrqKEicfJ1KRADtWare03s8CggwtMMbzDHQ8Tqqsm4omLcKwv
-         dnGg==
-X-Gm-Message-State: AOJu0Yyvoc4wrbeeYqa3sNP0qhrTdhfxIoXZmgmQcFsABjzQXB6k367I
-        pURCX4wSSxdJ10/dal7pDQhEGq8nLQjjH33pavY=
-X-Google-Smtp-Source: AGHT+IELofpTuOkM1+jEeSQWZhq8Q7AeywQCNorWAhdi4ndK0ke3S4LrJNiYoaPRMWVkh/RJQcr1oA==
-X-Received: by 2002:a05:6808:2084:b0:3a7:a3b1:ac30 with SMTP id s4-20020a056808208400b003a7a3b1ac30mr11443301oiw.44.1695677683997;
-        Mon, 25 Sep 2023 14:34:43 -0700 (PDT)
-Received: from jdenose34.roam.corp.google.com (99-137-158-190.lightspeed.cicril.sbcglobal.net. [99.137.158.190])
-        by smtp.gmail.com with ESMTPSA id u31-20020a056808151f00b003a9cd23980esm5903oiw.8.2023.09.25.14.34.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Sep 2023 14:34:43 -0700 (PDT)
-From:   Jonathan Denose <jdenose@chromium.org>
-X-Google-Original-From: Jonathan Denose <jdenose@google.com>
-To:     linux-input@vger.kernel.org
-Cc:     Jonathan Denose <jdenose@google.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        Takashi Iwai <tiwai@suse.de>,
-        Werner Sembach <wse@tuxedocomputers.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: i8042 - add quirk for Lenovo ThinkPad T14 Gen 1
-Date:   Mon, 25 Sep 2023 16:33:20 -0500
-Message-ID: <20230925163313.1.I55bfb5880d6755094a995d3ae44c13810ae98be4@changeid>
-X-Mailer: git-send-email 2.42.0.515.g380fc7ccd1-goog
+        Mon, 25 Sep 2023 17:43:04 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE3C7101;
+        Mon, 25 Sep 2023 14:42:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695678177; x=1727214177;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=snNq+RshksgPyasRZ5b0PQsm78eS6KzqCuWRL3ih9JA=;
+  b=TvKxBLM2KkwbLN/IozG53gr8mldqYGwSmKogLkC5bfeCq+zCNyX1BwPQ
+   mHpIz3bxJqeEZa8+4HeA403Lycd8WWUV5Jd5fupTkZSWFmt5dCT1rPKr+
+   ocYd/uIwOyH/nbn3Y1uZ7H7AHV79Q5DlV/0htJ/lL1k02qr8LeQFcatfZ
+   FRkwD6SzQYKz47DnDPx07j2D7QVS4wVv72xWXAd2tWW3kV7K7D0zZOZF3
+   eZt0aUPoD3RFvzPo4+ERwgq8uIpLq3lzlME20SCGmkrx7qsORmhOCDj/h
+   q92Krk6erXw73FtrKOv120AnjnrMYEZHYg/xnJGasFxufpRuKQKTE4oNc
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="380273459"
+X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; 
+   d="scan'208";a="380273459"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 14:42:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="838725559"
+X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; 
+   d="scan'208";a="838725559"
+Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 25 Sep 2023 14:42:53 -0700
+Received: from kbuild by 32c80313467c with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qktLv-00022n-1Q;
+        Mon, 25 Sep 2023 21:42:51 +0000
+Date:   Tue, 26 Sep 2023 05:42:19 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, hdegoede@redhat.com,
+        markgross@kernel.org, basavaraj.natikar@amd.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
+        christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+        daniel@ffwll.ch
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+        amd-gfx@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, Patil.Reddy@amd.com,
+        linux-input@vger.kernel.org, mario.limonciello@amd.com
+Subject: Re: [PATCH 08/15] platform/x86/amd/pmf: Add support to update system
+ state
+Message-ID: <202309260515.5XbR6N0g-lkp@intel.com>
+References: <20230922175056.244940-9-Shyam-sundar.S-k@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230922175056.244940-9-Shyam-sundar.S-k@amd.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,36 +73,43 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The ThinkPad T14 Gen 1 touchpad works fine except that clicking
-and dragging by tapping the touchpad or depressing the touchpad
-do not work. Disabling PNP for controller setting discovery enables
-click and drag without negatively impacting other touchpad features.
+Hi Shyam,
 
-Signed-off-by: Jonathan Denose <jdenose@google.com>
----
+kernel test robot noticed the following build warnings:
 
- drivers/input/serio/i8042-acpipnpio.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on linus/master v6.6-rc3 next-20230925]
+[cannot apply to drm-misc/drm-misc-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
-index 1724d6cb8649d..c487047d878cd 100644
---- a/drivers/input/serio/i8042-acpipnpio.h
-+++ b/drivers/input/serio/i8042-acpipnpio.h
-@@ -830,6 +830,14 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 		},
- 		.driver_data = (void *)(SERIO_QUIRK_RESET_ALWAYS)
- 	},
-+	{
-+		/* Lenovo ThinkPad T14 Gen 1*/
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "20S0002UUS")
-+		},
-+		.driver_data = (void *)(SERIO_QUIRK_NOPNP)
-+	},
- 	{
- 		/* Lenovo ThinkPad Twist S230u */
- 		.matches = {
+url:    https://github.com/intel-lab-lkp/linux/commits/Shyam-Sundar-S-K/platform-x86-amd-pmf-Add-PMF-TEE-interface/20230923-015418
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20230922175056.244940-9-Shyam-sundar.S-k%40amd.com
+patch subject: [PATCH 08/15] platform/x86/amd/pmf: Add support to update system state
+reproduce: (https://download.01.org/0day-ci/archive/20230926/202309260515.5XbR6N0g-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309260515.5XbR6N0g-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Documentation/admin-guide/pmf.rst:16: WARNING: Unexpected indentation.
+>> Documentation/admin-guide/pmf.rst: WARNING: document isn't included in any toctree
+
+vim +16 Documentation/admin-guide/pmf.rst
+
+    13	
+    14	Please add the following line(s) to
+    15	``/etc/udev/rules.d/99-local.rules``::
+  > 16	        DRIVERS=="amd-pmf", ACTION=="change", ENV{EVENT_ID}=="1", RUN+="/usr/bin/systemctl suspend"
+    17	        DRIVERS=="amd-pmf", ACTION=="change", ENV{EVENT_ID}=="2", RUN+="/usr/bin/systemctl hibernate"
+    18	        DRIVERS=="amd-pmf", ACTION=="change", ENV{EVENT_ID}=="3", RUN+="/bin/loginctl lock-sessions"
+    19	
+
 -- 
-2.42.0.515.g380fc7ccd1-goog
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
