@@ -2,276 +2,119 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D72197ACE14
-	for <lists+linux-input@lfdr.de>; Mon, 25 Sep 2023 04:27:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B5CD7ACE7B
+	for <lists+linux-input@lfdr.de>; Mon, 25 Sep 2023 04:52:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231526AbjIYC10 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 24 Sep 2023 22:27:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33108 "EHLO
+        id S229526AbjIYCwi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 24 Sep 2023 22:52:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229561AbjIYC1Z (ORCPT
+        with ESMTP id S229636AbjIYCwi (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 24 Sep 2023 22:27:25 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C70FD3
-        for <linux-input@vger.kernel.org>; Sun, 24 Sep 2023 19:27:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695608839; x=1727144839;
-  h=date:from:to:cc:subject:message-id;
-  bh=OcZGbVoBkqPxqMqbp31bEOCYljY0CKQNEh6zPzHDhQ0=;
-  b=NkZslm7+qIcDMrbSM6Qnix2nJyX74gV7LVYbNk+p+kVBXdbnGcC82RG7
-   QBs7dgYLQli0ksk2+1nag7+8FhCMt2fyKKRc3R5UFhfxhXaY72znMncmE
-   3atg6zH2DxRfLaOXXlkhw68hzn8TZ2pIUfZ0tBQLUGZrBbicxjNUIiQ1U
-   e81HNJgmSrW+HSlKe53QxSCz3un0AdmWpIXd/Ssace2cP21tY6bBBDKK9
-   KoRo4PA+i5sgd5HkDFVOUBRodwI6PNzYLAZGE3PPKoWcDxqSrjQB1lj6e
-   M/iiPTE9TovUJvCzZ9XQcfyVu7qGtn+WGaTB0D2SXUaOzsWB+rrCiL3wQ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="380026404"
-X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
-   d="scan'208";a="380026404"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 19:27:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="838431131"
-X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
-   d="scan'208";a="838431131"
-Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 24 Sep 2023 19:27:17 -0700
-Received: from kbuild by 32c80313467c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qkbJa-0000nN-2G;
-        Mon, 25 Sep 2023 02:27:14 +0000
-Date:   Mon, 25 Sep 2023 10:27:12 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- c50fdc48643a25f5218f6b8bba4f28e1b4a94708
-Message-ID: <202309251009.ZNOUS6AV-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        Sun, 24 Sep 2023 22:52:38 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C84E692;
+        Sun, 24 Sep 2023 19:52:31 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38P1lY9K019900;
+        Mon, 25 Sep 2023 02:52:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=IKvp8yDyksUBVW5kQOdWE+D/FLN6W4EvfEnabZevTUc=;
+ b=TN7F9e82Gt/dBVOE1lWM0s2k5p82Lix9sZBaZWUKjnDaozhYV50m+zpGvcBPKUcFKrfP
+ jaxckecuMUhIvd+o+Ewxn/+xNW7p4AjpWGV//yoxYofVynHcNOci8Qilq2oqdt023946
+ fr/bi9bjkECg1nfkU7zV5Gz6yb2Wh5CHzamu4kbgAWXe68M7fH4WMMpC9TDV4U285uol
+ cWst2G4VYl8cBArutUY/xVunN+iu+QzIRXbE6YncSnmwHM4Q5EFH7YxH0GuEN1K9iIER
+ N7UCkD93L9cazfxZ/aic8c1AF706EAevpLKGZ1GkLuaJJTx8GUf9KfYRZQh9Bhs/DuKR Bw== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t9r41jgec-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 25 Sep 2023 02:52:19 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38P2qIoX028588
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 25 Sep 2023 02:52:18 GMT
+Received: from [10.239.154.73] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Sun, 24 Sep
+ 2023 19:52:14 -0700
+Message-ID: <36e3719d-ef38-5209-2cd4-7de88257474d@quicinc.com>
+Date:   Mon, 25 Sep 2023 10:52:12 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [RESEND PATCH v6 1/3] input: pm8xxx-vib: refactor to easily
+ support new SPMI vibrator
+Content-Language: en-US
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC:     <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <robh+dt@kernel.org>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        <linux-input@vger.kernel.org>, <quic_collinsd@quicinc.com>,
+        <quic_subbaram@quicinc.com>, <quic_kamalw@quicinc.com>,
+        <jestar@qti.qualcomm.com>
+References: <20230922083801.3056724-1-quic_fenglinw@quicinc.com>
+ <20230922083801.3056724-2-quic_fenglinw@quicinc.com>
+ <CAA8EJpo7puWxNte5YHiy6=3GdQSeTYCZMe024-b4N0vnxCV0dQ@mail.gmail.com>
+From:   Fenglin Wu <quic_fenglinw@quicinc.com>
+In-Reply-To: <CAA8EJpo7puWxNte5YHiy6=3GdQSeTYCZMe024-b4N0vnxCV0dQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 84rhqi-wIj0zN_q87bvYHoIwHW1EQus_
+X-Proofpoint-GUID: 84rhqi-wIj0zN_q87bvYHoIwHW1EQus_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-09-24_21,2023-09-21_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 mlxscore=0 phishscore=0 spamscore=0
+ mlxlogscore=489 malwarescore=0 adultscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2309250016
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: c50fdc48643a25f5218f6b8bba4f28e1b4a94708  Input: wm97xx-core - convert to platform remove callback returning void
 
-elapsed time: 1375m
 
-configs tested: 199
-configs skipped: 2
+On 9/24/2023 3:05 AM, Dmitry Baryshkov wrote:
+>> +#define SSBL_VIB_DRV_REG               0x4A
+> SSBI_VIB....
+> 
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Thanks for catching the typo, I will fix it in next patch.
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                     nsimosci_hs_defconfig   gcc  
-arc                   randconfig-001-20230924   gcc  
-arc                        vdk_hs38_defconfig   gcc  
-arc                    vdk_hs38_smp_defconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                       aspeed_g4_defconfig   clang
-arm                                 defconfig   gcc  
-arm                   randconfig-001-20230924   gcc  
-arm                   randconfig-001-20230925   gcc  
-arm                           u8500_defconfig   gcc  
-arm                         vf610m4_defconfig   gcc  
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20230924   gcc  
-i386         buildonly-randconfig-002-20230924   gcc  
-i386         buildonly-randconfig-003-20230924   gcc  
-i386         buildonly-randconfig-004-20230924   gcc  
-i386         buildonly-randconfig-005-20230924   gcc  
-i386         buildonly-randconfig-006-20230924   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20230924   gcc  
-i386                  randconfig-001-20230925   gcc  
-i386                  randconfig-002-20230924   gcc  
-i386                  randconfig-002-20230925   gcc  
-i386                  randconfig-003-20230924   gcc  
-i386                  randconfig-003-20230925   gcc  
-i386                  randconfig-004-20230924   gcc  
-i386                  randconfig-004-20230925   gcc  
-i386                  randconfig-005-20230924   gcc  
-i386                  randconfig-005-20230925   gcc  
-i386                  randconfig-006-20230924   gcc  
-i386                  randconfig-006-20230925   gcc  
-i386                  randconfig-011-20230924   gcc  
-i386                  randconfig-011-20230925   gcc  
-i386                  randconfig-012-20230924   gcc  
-i386                  randconfig-012-20230925   gcc  
-i386                  randconfig-013-20230924   gcc  
-i386                  randconfig-013-20230925   gcc  
-i386                  randconfig-014-20230924   gcc  
-i386                  randconfig-014-20230925   gcc  
-i386                  randconfig-015-20230924   gcc  
-i386                  randconfig-015-20230925   gcc  
-i386                  randconfig-016-20230924   gcc  
-i386                  randconfig-016-20230925   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20230924   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                       bmips_be_defconfig   gcc  
-mips                           ip32_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   clang
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-powerpc                       maple_defconfig   gcc  
-powerpc                     mpc83xx_defconfig   gcc  
-powerpc                      pmac32_defconfig   clang
-powerpc                     stx_gp3_defconfig   gcc  
-powerpc                     tqm8548_defconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                    nommu_k210_defconfig   gcc  
-riscv                 randconfig-001-20230924   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20230924   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                         apsh4a3a_defconfig   gcc  
-sh                                  defconfig   gcc  
-sh                      rts7751r2d1_defconfig   gcc  
-sh                           se7206_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                 randconfig-001-20230924   gcc  
-sparc                 randconfig-001-20230925   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-001-20230924   gcc  
-x86_64       buildonly-randconfig-001-20230925   gcc  
-x86_64       buildonly-randconfig-002-20230924   gcc  
-x86_64       buildonly-randconfig-002-20230925   gcc  
-x86_64       buildonly-randconfig-003-20230924   gcc  
-x86_64       buildonly-randconfig-003-20230925   gcc  
-x86_64       buildonly-randconfig-004-20230924   gcc  
-x86_64       buildonly-randconfig-004-20230925   gcc  
-x86_64       buildonly-randconfig-005-20230924   gcc  
-x86_64       buildonly-randconfig-005-20230925   gcc  
-x86_64       buildonly-randconfig-006-20230924   gcc  
-x86_64       buildonly-randconfig-006-20230925   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64                randconfig-001-20230924   gcc  
-x86_64                randconfig-001-20230925   gcc  
-x86_64                randconfig-002-20230924   gcc  
-x86_64                randconfig-002-20230925   gcc  
-x86_64                randconfig-003-20230924   gcc  
-x86_64                randconfig-003-20230925   gcc  
-x86_64                randconfig-004-20230924   gcc  
-x86_64                randconfig-004-20230925   gcc  
-x86_64                randconfig-005-20230924   gcc  
-x86_64                randconfig-005-20230925   gcc  
-x86_64                randconfig-006-20230924   gcc  
-x86_64                randconfig-006-20230925   gcc  
-x86_64                randconfig-011-20230924   gcc  
-x86_64                randconfig-011-20230925   gcc  
-x86_64                randconfig-012-20230924   gcc  
-x86_64                randconfig-012-20230925   gcc  
-x86_64                randconfig-013-20230924   gcc  
-x86_64                randconfig-013-20230925   gcc  
-x86_64                randconfig-014-20230924   gcc  
-x86_64                randconfig-014-20230925   gcc  
-x86_64                randconfig-015-20230924   gcc  
-x86_64                randconfig-015-20230925   gcc  
-x86_64                randconfig-016-20230924   gcc  
-x86_64                randconfig-016-20230925   gcc  
-x86_64                randconfig-071-20230924   gcc  
-x86_64                randconfig-071-20230925   gcc  
-x86_64                randconfig-072-20230924   gcc  
-x86_64                randconfig-072-20230925   gcc  
-x86_64                randconfig-073-20230924   gcc  
-x86_64                randconfig-073-20230925   gcc  
-x86_64                randconfig-074-20230924   gcc  
-x86_64                randconfig-074-20230925   gcc  
-x86_64                randconfig-075-20230924   gcc  
-x86_64                randconfig-075-20230925   gcc  
-x86_64                randconfig-076-20230924   gcc  
-x86_64                randconfig-076-20230925   gcc  
-x86_64                           rhel-8.3-bpf   gcc  
-x86_64                          rhel-8.3-func   gcc  
-x86_64                    rhel-8.3-kselftests   gcc  
-x86_64                         rhel-8.3-kunit   gcc  
-x86_64                           rhel-8.3-ltp   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                  nommu_kc705_defconfig   gcc  
-xtensa                    smp_lx200_defconfig   gcc  
+>> +#define SSBI_VIB_DRV_EN_MANUAL_MASK    GENMASK(7, 2)
+>> -       /* operate in manual mode */
+>> -       error = regmap_read(vib->regmap, regs->drv_addr, &val);
+>> -       if (error < 0)
+>> -               return error;
+>> +       if (data->hw_type != SSBI_VIB) {
+> You can drop this condition, if ssbi_vib_data.drv_addr is 0.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I am not sure if I understood this comment: 1st, ssbi_vib_data.drv_addr 
+is defined as a constant value 0x4A, so it would never be 0. 2nd, The 
+condition check here is to ignore reading the register base address for 
+SSBI_VIB HW, so we should do the check based on the HW type.
+
+> 
+>> +               error = fwnode_property_read_u32(pdev->dev.fwnode, "reg", &reg_base);
+>> +               if (error < 0) {
+>> +                       dev_err(&pdev->dev, "Failed to read reg address, rc=%d\n", error);
+>> +                       return error;
+>> +               }
+>> +
+>> +               vib->reg_base += reg_base;
