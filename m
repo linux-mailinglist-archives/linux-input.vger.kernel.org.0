@@ -2,158 +2,140 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8652E7ACA9C
-	for <lists+linux-input@lfdr.de>; Sun, 24 Sep 2023 17:52:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A66D7ACDAC
+	for <lists+linux-input@lfdr.de>; Mon, 25 Sep 2023 03:44:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229559AbjIXPwG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 24 Sep 2023 11:52:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37518 "EHLO
+        id S229480AbjIYBol (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 24 Sep 2023 21:44:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbjIXPwG (ORCPT
+        with ESMTP id S231592AbjIYBol (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 24 Sep 2023 11:52:06 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73E89F1
-        for <linux-input@vger.kernel.org>; Sun, 24 Sep 2023 08:51:55 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qkRO5-0002j6-Pr; Sun, 24 Sep 2023 17:51:13 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qkRNp-008fPX-Q2; Sun, 24 Sep 2023 17:50:57 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qkRNp-004RHy-E4; Sun, 24 Sep 2023 17:50:57 +0200
-Date:   Sun, 24 Sep 2023 17:50:57 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Lee Jones <lee@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Guenter Roeck <groeck@chromium.org>, Liang He <windhl@126.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        chrome-platform@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
-        Samuel Holland <samuel@sholland.org>,
-        Andrey Moiseev <o2g.org.ru@gmail.com>,
-        Michal Simek <michal.simek@amd.com>,
-        Ruan Jinjie <ruanjinjie@huawei.com>,
-        Yangtao Li <frank.li@vivo.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        joewu =?utf-8?B?KOWQs+S7suaMryk=?= <joewu@msi.com>,
-        Miloslav Trmac <mitr@volny.cz>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>,
-        linux-input@vger.kernel.org, Jeff LaBundy <jeff@labundy.com>,
-        linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Rob Herring <robh@kernel.org>,
-        ye xingchen <ye.xingchen@zte.com.cn>,
-        Kalle Valo <kvalo@kernel.org>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Siarhei Volkau <lis8215@gmail.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Benson Leung <bleung@chromium.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Paolo Abeni <pabeni@redhat.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Chen Jun <chenjun102@huawei.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        kernel@pengutronix.de, patches@opensource.cirrus.com,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Andersson <andersson@kernel.org>
-Subject: Re: [PATCH 00/52] input: Convert to platform remove callback
- returning void
-Message-ID: <20230924155057.e4k4ruv5iggbt6q6@pengutronix.de>
-References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
- <ZQ+jddG+UbuSD7pP@google.com>
+        Sun, 24 Sep 2023 21:44:41 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE36DE8
+        for <linux-input@vger.kernel.org>; Sun, 24 Sep 2023 18:44:33 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-4050bd2e33aso57379315e9.2
+        for <linux-input@vger.kernel.org>; Sun, 24 Sep 2023 18:44:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1695606272; x=1696211072; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m/CGTipvVjSZ3BP+G1gXdYpyR8CRzYcGoUaEJ1H1ROo=;
+        b=cH1nibGsEno7h53G+HUXEX5DY7YxWwe8icKDDNkvLsmIHNHnSCgf83RsN2ovsBNdp1
+         jCQ5TKOWTgC5TbwESp06TSMaS0dcY3gS/RJNc+RITyNDfJLb+syN5xXT0X3nROTZfV2A
+         waN8NNhtxQ6rWvkk+qPna2/+l2RMpqrcu+kgKF26UdOUnBCjezvopykY3wvS3Jn2m5eH
+         90JZnKpKYFwCp57pnbnHVxDx16cFxK1v5wT0hkaBAUbVzjiBKxsrjihNscfS7sYj6yMZ
+         Tc4MGs+WkVDNwMx+Iqp/7cbz1NQKgbEYl7Vf0dv9i1QtwEDpZNMh/OCdtnh5nx2d6XGA
+         mcMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695606272; x=1696211072;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=m/CGTipvVjSZ3BP+G1gXdYpyR8CRzYcGoUaEJ1H1ROo=;
+        b=mp0T3HxF9+MmbaRYqae+3rRhKU1rZrXKvvLrY6Hit1TewG++yO3Aq7HZgpvRpZWK+/
+         aOm1r8udyDimLtw9jDdLavmAvAXMv/rM+PBk658VY3bODUCxWiLgpN44PURfpWxQnbIh
+         hKazWLYuoLhjQWUhoImV1e96Tgn9CaQHgjvS3NcEOZAjbR+YKSDZAUU2yAY9pCmpg/4t
+         WZnfcmU4nzZcQOCKIRsdDwaNZf6BKh03RZ6O1Z7Zgjqns6Z3UtXjsRRzCKBJnXLcIkkV
+         d7FBooqlkwp+XehuO30aUj1nELqEkfK7SUjKP5s9AbsjD/hYncn/0RuYpGuobPFD7OAS
+         np1w==
+X-Gm-Message-State: AOJu0YxJ+ahdxprRV3ZkX6ajAtPoQWuqGfMZa9PfFZUvMVtXsHK3/asO
+        VEkQ25CrEeAxjreQ01j660gnMzMmqGXA68UGvmqEpQ==
+X-Google-Smtp-Source: AGHT+IEto/nIwajWxdPEL+t63YAllqUl92DqGJqCOKkzzSeGUIbaehdRQ2XaCYWirPmYDwHDzZuTwM3EKoch6oDtrY4=
+X-Received: by 2002:adf:ec4b:0:b0:313:f4e2:901d with SMTP id
+ w11-20020adfec4b000000b00313f4e2901dmr5880997wrn.22.1695606271729; Sun, 24
+ Sep 2023 18:44:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="w2nepdqjggoh4sie"
-Content-Disposition: inline
-In-Reply-To: <ZQ+jddG+UbuSD7pP@google.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230919024943.3088916-1-tylor_yang@himax.corp-partner.google.com>
+ <20230919024943.3088916-2-tylor_yang@himax.corp-partner.google.com>
+ <20230919-70b2f1e368a8face73468dfa@fedora> <CAGD2q_anfBP78jck6AbMNtgAggjOgaB3P6dkmq9tONHP45adFA@mail.gmail.com>
+ <20230919-cc4646dbfb953bd34e05658c@fedora> <CAGD2q_bkTpvXiomWb_yerNjQfMVKOctYgBqF_RBSo_jYqyyyxw@mail.gmail.com>
+ <20230922-unclothed-bottom-5531329f9724@spud> <CAGD2q_YsFdDVhE4JCmQSGMWOdpe_yzG8-CdWYPXtjeZsManvgQ@mail.gmail.com>
+ <20230922-removable-footwork-f1d4d96d38dd@spud>
+In-Reply-To: <20230922-removable-footwork-f1d4d96d38dd@spud>
+From:   yang tylor <tylor_yang@himax.corp-partner.google.com>
+Date:   Mon, 25 Sep 2023 09:44:21 +0800
+Message-ID: <CAGD2q_Y467jJJnwCVH+3F-hh6a-1-OYRugcy0DdjPnTCC77Z8A@mail.gmail.com>
+Subject: Re: [PATCH V2 1/2] dt-bindings: input: Introduce Himax HID-over-SPI device
+To:     Conor Dooley <conor@kernel.org>
+Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        poyuan_chang@himax.corp-partner.google.com, hbarnor@chromium.org,
+        "jingyliang@chromium.org" <jingyliang@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Fri, Sep 22, 2023 at 11:31=E2=80=AFPM Conor Dooley <conor@kernel.org> wr=
+ote:
+>
+> On Fri, Sep 22, 2023 at 05:43:54PM +0800, yang tylor wrote:
+> > On Fri, Sep 22, 2023 at 5:22=E2=80=AFPM Conor Dooley <conor@kernel.org>=
+ wrote:
+> > >
+> > > On Fri, Sep 22, 2023 at 03:56:25PM +0800, yang tylor wrote:
+> > > > On Tue, Sep 19, 2023 at 7:09=E2=80=AFPM Conor Dooley <conor@kernel.=
+org> wrote:
+> > > > > On Tue, Sep 19, 2023 at 05:31:29PM +0800, yang tylor wrote:
+> > >
+> > > > > > The behavior of "himax,boot_time_fw_upgrade" seems not stable a=
+nd
+> > > > > > should be removed. "himax,fw_in_flash", I use the kernel config=
+ for
+> > > > > > user to select.
+> > > > >
+> > > > > That seems like a bad idea, we want to be able to build one kerne=
+l that
+> > > > > works for all hardware at the same time.
+> > > > >
+> > > > I see, so I should take that back?
+> > > > I'll explain more about it.
+> > >
+> > > Are there particular ICs where the firmware would always be in flash =
+and
+> > > others where it would never be? Or is this a choice made by the board=
+ or
+> > > system designer?
+> > >
+> > Most cases it's about the system designer's decision. But some ICs may =
+be forced
+> > to use flash because of its architecture(multiple IC inside, need to
+> > load firmware to
+> > multiple IC's sram by master IC). But if there is no limitation on
+> > this part, most system
+> > designers will prefer flashless.
+>
+> Forgive me if I am not understanding correctly, there are some ICs that
+> will need to load the firmware from flash and there are some where it
+> will be a decision made by the designer of the board. Is the flash part
+> of the IC or is it an external flash chip?
+>
 
---w2nepdqjggoh4sie
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Both are possible, it depends on the IC type. For TDDI, the IC is long
+and thin, placed on panel PCB, flash will be located at the external
+flash chip. For the OLED TP, IC is usually placed at FPC and its flash
+is embedded, thus the IC size is large compared to TDDI. But from the
+driver's perspective either external flash or embedded flash, the IC
+itself will load firmware from flash automatically when reset pin is
+released. Only if firmware is loading from the host storage system,
+the driver needs to operate the IC in detail.
 
-Hello Dmitry,
+> Cheers,
+> Conor.
 
-On Sat, Sep 23, 2023 at 07:48:21PM -0700, Dmitry Torokhov wrote:
-> On Wed, Sep 20, 2023 at 02:57:37PM +0200, Uwe Kleine-K=F6nig wrote:
-> > Hello,
-> >=20
-> > this series converts all platform drivers below drivers/input to use
-> > remove_new. The motivation is to get rid of an integer return code
-> > that is (mostly) ignored by the platform driver core and error prone on
-> > the driver side.
-> >=20
-> > See commit 5c5a7680e67b ("platform: Provide a remove callback that
-> > returns no value") for an extended explanation and the eventual goal.
-> >=20
-> > There are no interdependencies between the patches. As there are still
-> > quite a few drivers to convert, I'm happy about every patch that makes
-> > it in. So even if there is a merge conflict with one patch until you
-> > apply or a subject prefix is suboptimal, please apply the remainder of
-> > this series anyhow.
->=20
-> Applied the lot (fixing the i8042-sparcio patch subject), thank you!
 
-Thanks. In the meantime I found out why my process failed here: I only
-fixed *.c, but this driver struct is defined in a header file
-i8042-sparcio.h.
-
-This file is only included by drivers/input/serio/i8042.h which in turn
-is only included by drivers/input/serio/i8042.c. So there is only one
-instance created, but I'd call that unusual anyhow.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---w2nepdqjggoh4sie
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUQWuAACgkQj4D7WH0S
-/k4z2wf/fRpeO2RuT0KNoThVdJCLb7VTgbHa+9l0qDPdA3JAbYzxbQ6K12SP/CIT
-/y1woqUQa2ATctxXvuRS1TmBlYCbX5IQB/D24pgnGlz+UOGxAoNPNd1HsFSWGnRo
-Retc138nrb3r+4HCwC6nBZ9VHaYy8kZMDs121e3M/t/bwVJQROuWowsT+b9gzqD+
-XSwiABX3Ij7bgUS+iwf1FN68HK10/dd/jhSPepCDr4Q+4JMDp7gus6xC5ImGlDHx
-hRvacVKc88L7gt/mlcj8JDmugGjcMWAlNGxQRqrhdWC0ANnGgN5L32jbH+HGk85t
-hmCwwQWgjsTehkTnb/axaDJK83wyhw==
-=h4JX
------END PGP SIGNATURE-----
-
---w2nepdqjggoh4sie--
+Thanks,
+Tylor
