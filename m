@@ -2,86 +2,166 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C2817AD0D8
-	for <lists+linux-input@lfdr.de>; Mon, 25 Sep 2023 08:58:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72B017AD398
+	for <lists+linux-input@lfdr.de>; Mon, 25 Sep 2023 10:41:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229619AbjIYG6w (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 25 Sep 2023 02:58:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53774 "EHLO
+        id S232975AbjIYIl7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 25 Sep 2023 04:41:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232174AbjIYG6v (ORCPT
+        with ESMTP id S232960AbjIYIl7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 25 Sep 2023 02:58:51 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C518A3
-        for <linux-input@vger.kernel.org>; Sun, 24 Sep 2023 23:58:45 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id 98e67ed59e1d1-2773f776f49so1291812a91.1
-        for <linux-input@vger.kernel.org>; Sun, 24 Sep 2023 23:58:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695625124; x=1696229924; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=35kRZpN0eV1pwbxjmn4F12/cj5Sxbkai3MOsfUot72k=;
-        b=epXIt1Mq10JTvlnUCVvCi8fUavWloe3Z/u8dJM9K8Ij1WGaaUmoGM79oMdi81Z5gG9
-         47p/bh5CVOLQ420nWoqNods1HGzw/GAypQv8M0xUSpLmN8YzjYcMkt6POvh54OJY42T4
-         6OjeDrxoZ0VZoEGWI40KL5wQQbPTp3Polc8rpMMtkeYliiyJZmZ8zIzRLQCG4Jl/YQOS
-         yABhTvppz/Yqqode4PC2eBclFJpbmC1sjAS7il6WLC5/mmtQ0UoD+sru/2TuDplLFqYZ
-         WhJfSjx/QXTNp5J5eoaEcZkSmVuMVEcCdS1Xurhkf5DcAX6YkVamNVxiuT8nZ6M8VXQM
-         tdRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695625124; x=1696229924;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=35kRZpN0eV1pwbxjmn4F12/cj5Sxbkai3MOsfUot72k=;
-        b=Ec8dMlcZMGdrba8BmTXZHxgZ9dvRRD4/IJx7q9MjkuL3v656+Eh3GDqawdJub5R1S6
-         pEYVEzg149uQFYCmtKx3cx2LuUPZ4+YP0ILVsPY0yqjthOXDb9NeyhyTRKWICnI1ZqHB
-         B2jFqbIip3BxoKFZJw77iibGCiEsTSudzegpLCnjk25iG/HkyGqyukpsg0HaC87W8WQp
-         3iq6UXjoUwCcfmGqc4mwV3m93Cfqnuz9xWJY6r1o3IBDTSd0Oj3fA4TM4+/10HKj1qtE
-         esXH+5VbYmEk+K8QvF5XUwzTfsq2u+plDoAo1wf/asXGHYWJ2GtLbnsib33TOeiTyvOd
-         5Mcw==
-X-Gm-Message-State: AOJu0YzOaMprG/rQ7QaqRZn/4SHIf7lagBMYWNTefCn4lL6TNKlcM9c1
-        oW7Lisic29LJ+jxTef/JeeFXReflvT684FHHWmM=
-X-Google-Smtp-Source: AGHT+IFx57ItwSbdfq3MwKyz4AZNLn0D6sZcfuLtTz8pCKGodI0MIAlg713jh3cFFNqmGQceL1UPH2/5UKS5FuRhQaY=
-X-Received: by 2002:a17:90b:512:b0:274:7db1:f50f with SMTP id
- r18-20020a17090b051200b002747db1f50fmr9443143pjz.15.1695625124399; Sun, 24
- Sep 2023 23:58:44 -0700 (PDT)
+        Mon, 25 Sep 2023 04:41:59 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F83EBC;
+        Mon, 25 Sep 2023 01:41:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1695631312; x=1727167312;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ik/VX0jzwD0mpvhQYFDRhT2i5D3eVP3vzyDvpQ2/UoM=;
+  b=mcf2al/GdRMVA524h7PChzU9J6AJIVcz77B3nvQ3cIoBOvG2MynQlcIa
+   MW4Mpeaok8PI8GPVQpZ/p5WWl+WM4GqshdtqnCrdtibykf2cuBN0fhi9t
+   f/anj+/00/clhTjFWggmkrUMGsUsIuTrQIxslnlDfEBC2OOWAEZWHdkEv
+   wwLW7JhPjsd+xseln5FeIeifhBfisM4wyex3RFcilnx12FoN633bzggzS
+   EQ5j5k1pmc2aJzC7CxsNCtiuTHM6a6qZ61tWVJx7b35osNwtV3XwpjIE8
+   gUdrQEPU3w4Eu8pkxqG5AZpNUfs5BkKHmEuhI+MLsgCfBCR/AeV2+ZNYl
+   w==;
+X-CSE-ConnectionGUID: 1TnWewJoSl6L34RRtFQyew==
+X-CSE-MsgGUID: a2jL1wM1TCiKyhjY2IueuA==
+X-ThreatScanner-Verdict: Negative
+X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
+   d="asc'?scan'208";a="173396645"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 25 Sep 2023 01:41:51 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 25 Sep 2023 01:41:35 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex01.mchp-main.com (10.10.85.143)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Mon, 25 Sep 2023 01:41:32 -0700
+Date:   Mon, 25 Sep 2023 09:41:14 +0100
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     yang tylor <tylor_yang@himax.corp-partner.google.com>
+CC:     Conor Dooley <conor@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <jikos@kernel.org>,
+        <benjamin.tissoires@redhat.com>, <linux-input@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <poyuan_chang@himax.corp-partner.google.com>,
+        <hbarnor@chromium.org>,
+        "jingyliang@chromium.org" <jingyliang@chromium.org>
+Subject: Re: [PATCH V2 1/2] dt-bindings: input: Introduce Himax HID-over-SPI
+ device
+Message-ID: <20230925-cod-vacancy-08dc8d88f90e@wendy>
+References: <20230919024943.3088916-1-tylor_yang@himax.corp-partner.google.com>
+ <20230919024943.3088916-2-tylor_yang@himax.corp-partner.google.com>
+ <20230919-70b2f1e368a8face73468dfa@fedora>
+ <CAGD2q_anfBP78jck6AbMNtgAggjOgaB3P6dkmq9tONHP45adFA@mail.gmail.com>
+ <20230919-cc4646dbfb953bd34e05658c@fedora>
+ <CAGD2q_bkTpvXiomWb_yerNjQfMVKOctYgBqF_RBSo_jYqyyyxw@mail.gmail.com>
+ <20230922-unclothed-bottom-5531329f9724@spud>
+ <CAGD2q_YsFdDVhE4JCmQSGMWOdpe_yzG8-CdWYPXtjeZsManvgQ@mail.gmail.com>
+ <20230922-removable-footwork-f1d4d96d38dd@spud>
+ <CAGD2q_Y467jJJnwCVH+3F-hh6a-1-OYRugcy0DdjPnTCC77Z8A@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 2002:a05:7022:46:b0:6c:7cc4:556e with HTTP; Sun, 24 Sep 2023
- 23:58:43 -0700 (PDT)
-Reply-To: tony_william2004@yahoo.com
-From:   Tony William <mop29530@gmail.com>
-Date:   Mon, 25 Sep 2023 06:58:43 +0000
-Message-ID: <CA+hPS0w_6Ji0-rc+tW4wJFTxh9GRV7Zjr8pAAqdEz_nwgaFipw@mail.gmail.com>
-Subject: Kontaktieren Sie ihn jetzt
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="6yswMwPAh/4Cve9z"
+Content-Disposition: inline
+In-Reply-To: <CAGD2q_Y467jJJnwCVH+3F-hh6a-1-OYRugcy0DdjPnTCC77Z8A@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Ich habe die Entscheidung getroffen, jemand anderen mit dem Erhalt des
-Geldes zu betrauen, und die Bank hat das Geld ehrlich auf sein Konto
-=C3=BCberwiesen. Ich freue mich sehr, Ihnen mitteilen zu k=C3=B6nnen, dass =
-es
-mir gelungen ist, diese Gelder in Zusammenarbeit mit einem neuen
-Partner zu =C3=BCberweisen. Kontaktieren Sie jetzt unseren Pfarrer in der
-Kirche. Sein Name ist Pfarrer Patric Lema. E-Mail:
-(rev.lema1@yahoo.com) Bitten Sie ihn, Ihnen die Visa-Karte im
-Gesamtwert von 1.800.000,00 $ zuzusenden, die ich f=C3=BCr Ihre
-Entsch=C3=A4digung bei ihm behalten habe Jetzt bin ich in Paraguay f=C3=BCr=
- ein
-Investitionsprojekt besch=C3=A4ftigt.
-Meine Gr=C3=BC=C3=9Fe an Sie und Ihre Familie.
-Herr Tony William
+--6yswMwPAh/4Cve9z
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Kontaktieren Sie ihn jetzt
+On Mon, Sep 25, 2023 at 09:44:21AM +0800, yang tylor wrote:
+> On Fri, Sep 22, 2023 at 11:31=E2=80=AFPM Conor Dooley <conor@kernel.org> =
+wrote:
+> >
+> > On Fri, Sep 22, 2023 at 05:43:54PM +0800, yang tylor wrote:
+> > > On Fri, Sep 22, 2023 at 5:22=E2=80=AFPM Conor Dooley <conor@kernel.or=
+g> wrote:
+> > > >
+> > > > On Fri, Sep 22, 2023 at 03:56:25PM +0800, yang tylor wrote:
+> > > > > On Tue, Sep 19, 2023 at 7:09=E2=80=AFPM Conor Dooley <conor@kerne=
+l.org> wrote:
+> > > > > > On Tue, Sep 19, 2023 at 05:31:29PM +0800, yang tylor wrote:
+> > > >
+> > > > > > > The behavior of "himax,boot_time_fw_upgrade" seems not stable=
+ and
+> > > > > > > should be removed. "himax,fw_in_flash", I use the kernel conf=
+ig for
+> > > > > > > user to select.
+> > > > > >
+> > > > > > That seems like a bad idea, we want to be able to build one ker=
+nel that
+> > > > > > works for all hardware at the same time.
+> > > > > >
+> > > > > I see, so I should take that back?
+> > > > > I'll explain more about it.
+> > > >
+> > > > Are there particular ICs where the firmware would always be in flas=
+h and
+> > > > others where it would never be? Or is this a choice made by the boa=
+rd or
+> > > > system designer?
+> > > >
+> > > Most cases it's about the system designer's decision. But some ICs ma=
+y be forced
+> > > to use flash because of its architecture(multiple IC inside, need to
+> > > load firmware to
+> > > multiple IC's sram by master IC). But if there is no limitation on
+> > > this part, most system
+> > > designers will prefer flashless.
+> >
+> > Forgive me if I am not understanding correctly, there are some ICs that
+> > will need to load the firmware from flash and there are some where it
+> > will be a decision made by the designer of the board. Is the flash part
+> > of the IC or is it an external flash chip?
+> >
+>=20
+> Both are possible, it depends on the IC type. For TDDI, the IC is long
+> and thin, placed on panel PCB, flash will be located at the external
+> flash chip. For the OLED TP, IC is usually placed at FPC and its flash
+> is embedded, thus the IC size is large compared to TDDI. But from the
+> driver's perspective either external flash or embedded flash, the IC
+> itself will load firmware from flash automatically when reset pin is
+> released. Only if firmware is loading from the host storage system,
+> the driver needs to operate the IC in detail.
+
+
+Since there are ICs that can use the external flash or have it loaded
+=66rom the host, it sounds like you do need a property to differentiate
+between those cases.
+Is it sufficient to just set the firmware-name property for these cases?
+If the property exists, then you know you need to load firmware & what
+its name is. If it doesn't, then the firmware either isn't needed or
+will be automatically loaded from the external flash.
+
+--6yswMwPAh/4Cve9z
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZRFHmgAKCRB4tDGHoIJi
+0nMVAQD0/+RvD0e0+hNILOkQtK4zp8D2AVRzfWJAv2WJqNTsjAD/byS1txiZNPpM
+fKg2haa7MvIoQWxWAckF+Bk6qkgBkgY=
+=B6aB
+-----END PGP SIGNATURE-----
+
+--6yswMwPAh/4Cve9z--
