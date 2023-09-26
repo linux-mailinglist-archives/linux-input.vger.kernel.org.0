@@ -2,218 +2,281 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F0D77AED3E
-	for <lists+linux-input@lfdr.de>; Tue, 26 Sep 2023 14:53:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DBF37AED67
+	for <lists+linux-input@lfdr.de>; Tue, 26 Sep 2023 14:57:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234036AbjIZMxo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Sep 2023 08:53:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56230 "EHLO
+        id S230125AbjIZM5d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Sep 2023 08:57:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233739AbjIZMxo (ORCPT
+        with ESMTP id S234735AbjIZM51 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 Sep 2023 08:53:44 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0F49C9;
-        Tue, 26 Sep 2023 05:53:37 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C0A2C433C7;
-        Tue, 26 Sep 2023 12:53:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695732817;
-        bh=bis2VMKHfbkY+mqA/mrUJLJ6UGG4PPEWntsQJucYsDM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qBnctzk0hXAsV9OcjQkOyyekh1qZoXKVwFEeG5AtApG3SUmdftsRptz2PTX1pU0UW
-         bS3NNxYiSDX/+LBthO3WQoG2MG9ISMX9nb2B+X/rzSJzTpqbTFtlQyfH0RLZrsmcLY
-         3UlAcNFyIps2wDqKcfNoSxqMlOKvVvOjL+ddmsEGE8XMAy64wLRzEdBPeSGSDFrz84
-         kqCBvtWtAIo2F2IOJ+2fC8FZ2jWr+SDJ2Je+YnKKXZuDVK19XdXB05lXfDcMLh5LpR
-         ed/boMquYTP2U7K++lYjTrqUvT/EBfYFmNrVT6uWPL6r9wtwu1qDFP+0grxLWW5cUI
-         IlNZ7cOUXFZeg==
-Date:   Tue, 26 Sep 2023 13:53:31 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     yang tylor <tylor_yang@himax.corp-partner.google.com>
-Cc:     Conor Dooley <conor.dooley@microchip.com>,
-        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        poyuan_chang@himax.corp-partner.google.com, hbarnor@chromium.org,
-        "jingyliang@chromium.org" <jingyliang@chromium.org>,
-        wuxy23@lenovo.com, luolm1@lenovo.com,
-        hung poyu <poyu_hung@himax.corp-partner.google.com>
-Subject: Re: [PATCH V2 1/2] dt-bindings: input: Introduce Himax HID-over-SPI
- device
-Message-ID: <20230926-reverence-unlit-d0027225cc43@spud>
-References: <20230919-cc4646dbfb953bd34e05658c@fedora>
- <CAGD2q_bkTpvXiomWb_yerNjQfMVKOctYgBqF_RBSo_jYqyyyxw@mail.gmail.com>
- <20230922-unclothed-bottom-5531329f9724@spud>
- <CAGD2q_YsFdDVhE4JCmQSGMWOdpe_yzG8-CdWYPXtjeZsManvgQ@mail.gmail.com>
- <20230922-removable-footwork-f1d4d96d38dd@spud>
- <CAGD2q_Y467jJJnwCVH+3F-hh6a-1-OYRugcy0DdjPnTCC77Z8A@mail.gmail.com>
- <20230925-cod-vacancy-08dc8d88f90e@wendy>
- <CAGD2q_a1nLtFj7H42f+u+J5Bih59MGS0aJLHCFJy5gM2ydys4w@mail.gmail.com>
- <20230926-action-sludge-ec8e51fdd6d4@spud>
- <CAGD2q_YBfDT950tyxEF87ZeiANgea_x8S16Ud5K2bcQ+eL9T=w@mail.gmail.com>
+        Tue, 26 Sep 2023 08:57:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 885AE116
+        for <linux-input@vger.kernel.org>; Tue, 26 Sep 2023 05:56:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1695732995;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=UkUBWVUpOckdloB7nvyn6S4lYeiAg6HkW3tcCGhfEaA=;
+        b=eTk3Dvxve77oYaQnNu6F/KhSwPoz02ayv4QP5tqVECFcuiKaAxuObw4E31f/AzOnO3U+GA
+        Q45D4kcF5inKIGh/SklsrtHBPDaLU2keHXozmYCC2HERvEykyoxw8VbltCKs3J3TwnEalA
+        dI8eiJtBm8uijPTK97FhOIVb/no05ko=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-695-WTExyrrdMKuMEzH40pznmA-1; Tue, 26 Sep 2023 08:56:32 -0400
+X-MC-Unique: WTExyrrdMKuMEzH40pznmA-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9adb6dd9e94so729002366b.2
+        for <linux-input@vger.kernel.org>; Tue, 26 Sep 2023 05:56:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695732991; x=1696337791;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UkUBWVUpOckdloB7nvyn6S4lYeiAg6HkW3tcCGhfEaA=;
+        b=Ua07U9ABqpkBKhZixCmmy5yF2iZ8yU2VpnDJwCcUz1r0kmEcijxbd1V4Ua3A4YKp23
+         2FCGLM1++ZUi2mIIdqCQP+l8qrzz8NJAKJ0R0l85nROuIV32BdNhsh7SLurMUOg8OYVD
+         NcsCJjzFe0RnKhDDWA27ExS/qGfx9dUdgF9Zq6Jho0vBrULMVttMe9Jy71n2c4zGgmNf
+         jOzJDrr1bMdlbwNUnB764m86voOHz+Xe+3mWqD4m6QUb61nnFVQFwRyzXdeMq9jZ/cNw
+         wwBfrTsvJuJBW28MV4tDrKASEGVKQ8MVES4mVvaY+flITWc89SCgWhI08vodq2wKZkeL
+         L/nQ==
+X-Gm-Message-State: AOJu0YyVK5qGN9IOxlqTZx+Hd1NYmOriQ4TuDD1cygfv2Jm5AJKK/6bA
+        bbzLmxQE6OCxQDoInMXY9tTS3hJKnswUF4qcfp1R5qmnNxJBJmcOVlOMPzyUTJgav7x/bxgiBpS
+        ny0/lWWaXl9izkT2D4PwmmBs=
+X-Received: by 2002:a17:906:5182:b0:9ae:7088:6e5d with SMTP id y2-20020a170906518200b009ae70886e5dmr8609854ejk.3.1695732991318;
+        Tue, 26 Sep 2023 05:56:31 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFlKMkjWc/6E/rOck6ptJGST/s1rC6uMsZziOzioVqLhJ/fEha6iiUPqIHhbUDWGuzvICiu2w==
+X-Received: by 2002:a17:906:5182:b0:9ae:7088:6e5d with SMTP id y2-20020a170906518200b009ae70886e5dmr8609829ejk.3.1695732990967;
+        Tue, 26 Sep 2023 05:56:30 -0700 (PDT)
+Received: from [192.168.1.217] ([109.36.138.247])
+        by smtp.gmail.com with ESMTPSA id t2-20020a17090616c200b0099d45ed589csm7672502ejd.125.2023.09.26.05.56.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Sep 2023 05:56:30 -0700 (PDT)
+Message-ID: <6c047e17-66b0-c3ff-1b4e-4478663619a4@redhat.com>
+Date:   Tue, 26 Sep 2023 14:56:26 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="aKiteRl7FCx1h6xV"
-Content-Disposition: inline
-In-Reply-To: <CAGD2q_YBfDT950tyxEF87ZeiANgea_x8S16Ud5K2bcQ+eL9T=w@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 13/15] platform/x86/amd/pmf: Add PMF-AMDGPU set interface
+Content-Language: en-US
+To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, markgross@kernel.org,
+        basavaraj.natikar@amd.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
+        christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+        daniel@ffwll.ch
+Cc:     Patil.Reddy@amd.com, mario.limonciello@amd.com,
+        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com>
+ <20230922175056.244940-14-Shyam-sundar.S-k@amd.com>
+ <2e201a3b-d75f-916d-5135-b084ad5da23e@redhat.com>
+ <437fbd5c-386f-4609-a350-77f61c8aaa0c@amd.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <437fbd5c-386f-4609-a350-77f61c8aaa0c@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi,
 
---aKiteRl7FCx1h6xV
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 9/26/23 13:24, Shyam Sundar S K wrote:
+> Hi Hans,
+> 
+> On 9/26/2023 4:05 PM, Hans de Goede wrote:
+>> Hi,
+>>
+>> On 9/22/23 19:50, Shyam Sundar S K wrote:
+>>> For the Smart PC Solution to fully work, it has to enact to the actions
+>>> coming from TA. Add the initial code path for set interface to AMDGPU.
+>>>
+>>> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
+>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>>> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+>>> ---
+>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c | 21 +++++++++++++++++++++
+>>>  drivers/platform/x86/amd/pmf/pmf.h      |  2 ++
+>>>  drivers/platform/x86/amd/pmf/tee-if.c   | 19 +++++++++++++++++--
+>>>  include/linux/amd-pmf-io.h              |  1 +
+>>>  4 files changed, 41 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+>>> index 232d11833ddc..5c567bff0548 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+>>> @@ -68,3 +68,24 @@ int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf)
+>>>  	return 0;
+>>>  }
+>>>  EXPORT_SYMBOL_GPL(amd_pmf_get_gfx_data);
+>>> +
+>>> +int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf)
+>>> +{
+>>> +	struct drm_device *drm_dev = pci_get_drvdata(pmf->gpu_dev);
+>>> +	struct amdgpu_device *adev = drm_to_adev(drm_dev);
+>>> +	struct backlight_device *bd;
+>>> +
+>>> +	if (!(adev->flags & AMD_IS_APU)) {
+>>> +		DRM_ERROR("PMF-AMDGPU interface not supported\n");
+>>> +		return -ENODEV;
+>>> +	}
+>>> +
+>>> +	bd = backlight_device_get_by_type(BACKLIGHT_RAW);
+>>> +	if (!bd)
+>>> +		return -ENODEV;
+>>
+>> This assumes that the backlight is always controller by the amdgpu's
+>> native backlight driver, but it might e.g. also be handled by
+>> eacpi-video or by nvidia_wmi_ec_backlight (when using an AMD APU +
+>> nvidia dgpu).
+> 
+> PMF is meant for AMD APUs(atleast for now) and the _HID will only be
+> made visible if its AMD laptop. So using amdgpu's native BACKLIGHT_RAW
+> should be safe, right?
 
-On Tue, Sep 26, 2023 at 05:52:39PM +0800, yang tylor wrote:
-> On Tue, Sep 26, 2023 at 5:02=E2=80=AFPM Conor Dooley <conor@kernel.org> w=
-rote:
-> >
-> > On Mon, Sep 25, 2023 at 06:16:29PM +0800, yang tylor wrote:
-> > > On Mon, Sep 25, 2023 at 4:41=E2=80=AFPM Conor Dooley <conor.dooley@mi=
-crochip.com> wrote:
-> > > >
-> > > > On Mon, Sep 25, 2023 at 09:44:21AM +0800, yang tylor wrote:
-> > > > > On Fri, Sep 22, 2023 at 11:31=E2=80=AFPM Conor Dooley <conor@kern=
-el.org> wrote:
-> > > > > >
-> > > > > > On Fri, Sep 22, 2023 at 05:43:54PM +0800, yang tylor wrote:
-> > > > > > > On Fri, Sep 22, 2023 at 5:22=E2=80=AFPM Conor Dooley <conor@k=
-ernel.org> wrote:
-> > > > > > > >
-> > > > > > > > On Fri, Sep 22, 2023 at 03:56:25PM +0800, yang tylor wrote:
-> > > > > > > > > On Tue, Sep 19, 2023 at 7:09=E2=80=AFPM Conor Dooley <con=
-or@kernel.org> wrote:
-> > > > > > > > > > On Tue, Sep 19, 2023 at 05:31:29PM +0800, yang tylor wr=
-ote:
-> > > > > > > >
-> > > > > > > > > > > The behavior of "himax,boot_time_fw_upgrade" seems no=
-t stable and
-> > > > > > > > > > > should be removed. "himax,fw_in_flash", I use the ker=
-nel config for
-> > > > > > > > > > > user to select.
-> > > > > > > > > >
-> > > > > > > > > > That seems like a bad idea, we want to be able to build=
- one kernel that
-> > > > > > > > > > works for all hardware at the same time.
-> > > > > > > > > >
-> > > > > > > > > I see, so I should take that back?
-> > > > > > > > > I'll explain more about it.
-> > > > > > > >
-> > > > > > > > Are there particular ICs where the firmware would always be=
- in flash and
-> > > > > > > > others where it would never be? Or is this a choice made by=
- the board or
-> > > > > > > > system designer?
-> > > > > > > >
-> > > > > > > Most cases it's about the system designer's decision. But som=
-e ICs may be forced
-> > > > > > > to use flash because of its architecture(multiple IC inside, =
-need to
-> > > > > > > load firmware to
-> > > > > > > multiple IC's sram by master IC). But if there is no limitati=
-on on
-> > > > > > > this part, most system
-> > > > > > > designers will prefer flashless.
-> > > > > >
-> > > > > > Forgive me if I am not understanding correctly, there are some =
-ICs that
-> > > > > > will need to load the firmware from flash and there are some wh=
-ere it
-> > > > > > will be a decision made by the designer of the board. Is the fl=
-ash part
-> > > > > > of the IC or is it an external flash chip?
-> > > > > >
-> > > > >
-> > > > > Both are possible, it depends on the IC type. For TDDI, the IC is=
- long
-> > > > > and thin, placed on panel PCB, flash will be located at the exter=
-nal
-> > > > > flash chip. For the OLED TP, IC is usually placed at FPC and its =
-flash
-> > > > > is embedded, thus the IC size is large compared to TDDI. But from=
- the
-> > > > > driver's perspective either external flash or embedded flash, the=
- IC
-> > > > > itself will load firmware from flash automatically when reset pin=
- is
-> > > > > released. Only if firmware is loading from the host storage syste=
-m,
-> > > > > the driver needs to operate the IC in detail.
-> > > >
-> > > >
-> > > > Since there are ICs that can use the external flash or have it load=
-ed
-> > > > from the host, it sounds like you do need a property to differentia=
-te
-> > > > between those cases.
-> > > Yep.
-> > >
-> > > > Is it sufficient to just set the firmware-name property for these c=
-ases?
-> > > > If the property exists, then you know you need to load firmware & w=
-hat
-> > > > its name is. If it doesn't, then the firmware either isn't needed or
-> > > > will be automatically loaded from the external flash.
-> >
-> > > We have a default prefix firmware name(like himax_xxxx.bin) in the dr=
-iver code.
-> >
-> > How do you intend generating the name of the firmware file? I assume the
-> > same firmware doesn't work on every IC, so you'll need to pick a
-> > different one depending on the compatible?
-> >
-> If considering a firmware library line-up for all the incoming panels
-> of this driver.
-> We would use PID as part of the file name. Because all the support panels=
- would
-> have a unique PID associated. Which will make the firmware name like
-> himax_xxx_{$PID}.bin. The problem is, we need to know PID before firmware=
- load
-> at no flash condition. Thus PID information is required in dts when
-> no-flash-flag
-> is specified.
+Users can pass say acpi_backlight=video and use the acpi_video
+driver for backlight control instead of the native GPU backlight
+control.
 
-Firstly, where does the "xxx" come from?
-And you're making it sound more like having firmware-name is suitable
-for this use case, given you need to determine the name of the file to
-use based on something that is hardware specific but is not
-dynamically detectable.
+> 
+>>
+>> For now what should be done here is to call acpi_video_get_backlight_type()
+>> and then translate the return value from this into a backlight-type:
+>>
+>>         acpi_backlight_video		-> BACKLIGHT_FIRMWARE
+>>         acpi_backlight_vendor,		-> BACKLIGHT_PLATFORM
+>>         acpi_backlight_native,		-> BACKLIGHT_RAW
+>>         acpi_backlight_nvidia_wmi_ec,	-> BACKLIGHT_FIRMWARE
+>>         acpi_backlight_apple_gmux,	-> BACKLIGHT_PLATFORM
+>>
+> 
+> I can add this change in the v2, do you insist on this?
 
-Thanks,
-Conor.
+Insist is a strong word, but I think that it is a good idea to have
+this. Evenutally it looks like this code will need to either integrate with
+the drm drivers lot more; or the drm core needs to export some special
+hooks for this which the PMF code can then call.
 
-> > > So we'll look for it when no-flash-flag is specified. In our experien=
-ce,
-> > > forcing a prefix firmware name helps the user to aware what firmware
-> > > they are dealing with.
->=20
-> If a more simple solution for no-flash condition is needed, as you mentio=
-ned,
-> specifying a firmware name in dts would be the best. Otherwise, a
-> no-flash-flag and
-> PID information needs to be added in dts.
+Actually thinking more about this, I think that the right thing to do
+here is make some code register brightness control as a cooling device
+(which I think is already done in some cases) and then have the PMF
+code use the cooling-device APIs for this.
+
+IMHO that would be a much cleaner solution then this hack.
+
+Regards,
+
+Hans
 
 
 
---aKiteRl7FCx1h6xV
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> Thanks,
+> Shyam
+> 
+>> Also I'm worried about probe order here, this code currently assumes
+>> that the GPU or other backlight driver has loaded before this runs,
+>> which is not necessarily the case.
+>>
+>> I think that if the backlight_device_get_by_type() fails this
+>> should be retried say every 10 seconds from some delayed workqueue
+>> for at least a couple of minutes after boot.
+>>
+>> Regards,
+>>
+>> Hans
+>>
+>>
+>>
+>>
+>>> +
+>>> +	backlight_device_set_brightness(bd, pmf->brightness);
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(amd_pmf_set_gfx_data);
+>>> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
+>>> index 9032df4ba48a..ce89cc0daa5a 100644
+>>> --- a/drivers/platform/x86/amd/pmf/pmf.h
+>>> +++ b/drivers/platform/x86/amd/pmf/pmf.h
+>>> @@ -73,6 +73,7 @@
+>>>  #define PMF_POLICY_STT_SKINTEMP_APU				7
+>>>  #define PMF_POLICY_STT_SKINTEMP_HS2				8
+>>>  #define PMF_POLICY_SYSTEM_STATE					9
+>>> +#define PMF_POLICY_DISPLAY_BRIGHTNESS				12
+>>>  #define PMF_POLICY_P3T						38
+>>>  
+>>>  /* TA macros */
+>>> @@ -480,6 +481,7 @@ enum ta_pmf_error_type {
+>>>  };
+>>>  
+>>>  struct pmf_action_table {
+>>> +	unsigned long display_brightness;
+>>>  	enum system_state system_state;
+>>>  	unsigned long spl; /* in mW */
+>>>  	unsigned long sppt; /* in mW */
+>>> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
+>>> index 1608996654e8..eefffff83a4c 100644
+>>> --- a/drivers/platform/x86/amd/pmf/tee-if.c
+>>> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
+>>> @@ -79,10 +79,10 @@ static int amd_pmf_update_uevents(struct amd_pmf_dev *dev, u16 event)
+>>>  	return 0;
+>>>  }
+>>>  
+>>> -static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_result *out)
+>>> +static int amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_result *out)
+>>>  {
+>>>  	u32 val, event = 0;
+>>> -	int idx;
+>>> +	int idx, ret;
+>>>  
+>>>  	for (idx = 0; idx < out->actions_count; idx++) {
+>>>  		val = out->actions_list[idx].value;
+>>> @@ -160,8 +160,23 @@ static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_
+>>>  				dev->prev_data->system_state = 0;
+>>>  			}
+>>>  			break;
+>>> +
+>>> +		case PMF_POLICY_DISPLAY_BRIGHTNESS:
+>>> +			ret = amd_pmf_get_gfx_data(&dev->gfx_data);
+>>> +			if (ret)
+>>> +				return ret;
+>>> +
+>>> +			dev->prev_data->display_brightness = dev->gfx_data.brightness;
+>>> +			if (dev->prev_data->display_brightness != val) {
+>>> +				dev->gfx_data.brightness = val;
+>>> +				amd_pmf_set_gfx_data(&dev->gfx_data);
+>>> +				dev_dbg(dev->dev, "update DISPLAY_BRIGHTNESS : %d\n", val);
+>>> +			}
+>>> +			break;
+>>>  		}
+>>>  	}
+>>> +
+>>> +	return 0;
+>>>  }
+>>>  
+>>>  static int amd_pmf_invoke_cmd_enact(struct amd_pmf_dev *dev)
+>>> diff --git a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h
+>>> index a2d4af231362..ecae387ddaa6 100644
+>>> --- a/include/linux/amd-pmf-io.h
+>>> +++ b/include/linux/amd-pmf-io.h
+>>> @@ -25,4 +25,5 @@ struct amd_gpu_pmf_data {
+>>>  };
+>>>  
+>>>  int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf);
+>>> +int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf);
+>>>  #endif
+>>
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZRLUNAAKCRB4tDGHoIJi
-0lw1AQCtzcottmF2HEejKyT7ni6EWwqsANzf9Q45iBNCON4uqQEAi7ND92FhS7T+
-hlUuDk8lJPdWZlxT3WST5rvdB6qARgA=
-=7PKF
------END PGP SIGNATURE-----
-
---aKiteRl7FCx1h6xV--
