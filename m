@@ -2,79 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 24EBE7AEA7F
-	for <lists+linux-input@lfdr.de>; Tue, 26 Sep 2023 12:36:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FDAD7AEA88
+	for <lists+linux-input@lfdr.de>; Tue, 26 Sep 2023 12:38:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231932AbjIZKgi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Sep 2023 06:36:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53378 "EHLO
+        id S234383AbjIZKiK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Sep 2023 06:38:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234381AbjIZKgh (ORCPT
+        with ESMTP id S229445AbjIZKiK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 Sep 2023 06:36:37 -0400
+        Tue, 26 Sep 2023 06:38:10 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E010EE5
-        for <linux-input@vger.kernel.org>; Tue, 26 Sep 2023 03:35:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D6AB10A
+        for <linux-input@vger.kernel.org>; Tue, 26 Sep 2023 03:37:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1695724543;
+        s=mimecast20190719; t=1695724634;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=IN3gjXP/ulM4+M4Osvjbx+CJvR8HzZe/I6zVYXrFanI=;
-        b=Rf+Tsyo9nFmDD+rYhjdXFUxYfmZ+t2Wa0PvyowojhCy2F4MhYLpCRaXycLHQB4QEZAtBHZ
-        fVfx6e0JccrzYpG7WXXYjH5UUnsPO+pnXmzaAaxOyXx7QVK9yuFsW0lg8hCphDEVBAFddM
-        nAC4XBbwjxEBxzNDpAHvUg52eOvC8+o=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=amtbUNp0H39hgF4fPl/rM1/q01FMWTvKuIItlSfZPcA=;
+        b=Jt/bhvcV6oM+8S9fQmTjSqvaYFhYNbkcxHCWgl6tqLFpoMQfyuPHQXTsGgyIZL6vrVWG5r
+        UY7CyjjdizKaz7zkbJ80eQBgN8xS0V2Lcp/3ctGGTc91kbyA0xQdofEM6eUkm4st6bazlE
+        MgnZwjwv1efGTkQIsSk6pqHrqJIuSHc=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-480-B0uYRpmLOP-gHO4sURLFFw-1; Tue, 26 Sep 2023 06:35:41 -0400
-X-MC-Unique: B0uYRpmLOP-gHO4sURLFFw-1
-Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2ba1949656bso118169341fa.0
-        for <linux-input@vger.kernel.org>; Tue, 26 Sep 2023 03:35:41 -0700 (PDT)
+ us-mta-658-YrXcuCXYOo-Aq_zdn7a1zg-1; Tue, 26 Sep 2023 06:37:13 -0400
+X-MC-Unique: YrXcuCXYOo-Aq_zdn7a1zg-1
+Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-2c032e30083so118260201fa.2
+        for <linux-input@vger.kernel.org>; Tue, 26 Sep 2023 03:37:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695724540; x=1696329340;
+        d=1e100.net; s=20230601; t=1695724631; x=1696329431;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IN3gjXP/ulM4+M4Osvjbx+CJvR8HzZe/I6zVYXrFanI=;
-        b=jengF69HBj1R3UTVFobEncxAbdPV5ONQN3uyNX4r4r7MtGwVDqy60eBNxSYdaKB5F2
-         0PILlmXkbToFC5OPExbikBY+IFHlBtMKiCwcITl5uvg08tVzfyGUmabM70rbXNJa2e66
-         0LwApAcEekeZ31YYPphxVwcNCQwTAyjVy0O8aG6qaGzcgnowGrms46Kte7V/6IAc5kmy
-         6rCd7fXiMWqA2KgRJS8n4M+nHmPvxQhbXXICRHer4ITloemb5s/sXRsqtCNjlWw0zL+7
-         blCMLhAHbuI5S6yBdAvxiX9Sd8BdwkjT5BrpLN4a0c5+fSJCahRyBWQsmH35xeXjeufR
-         4Uyw==
-X-Gm-Message-State: AOJu0Yxi0YwXmAs6QqyKkN97GTdRI2jvEBQ82UVzWxk35EltydZGEqVQ
-        eMRN5zAOJIbin1j9EYcmwZjX7Fv8se2AyTvNfLQfTpzTF/0+Sji20wYEOcINYsoMIi7mmqR9ivd
-        c8jDy3YhDEo2yy7qO8IFxWTQ=
-X-Received: by 2002:a05:6512:3d21:b0:503:655:12e7 with SMTP id d33-20020a0565123d2100b00503065512e7mr10393192lfv.62.1695724539863;
-        Tue, 26 Sep 2023 03:35:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGn3ozsYpRq6AuJvRaLBGJ3+5/IVA5BsFnkHEF6nwZAP0ixv8ZfQALU7T1Ot7RrjwRGez4gGg==
-X-Received: by 2002:a05:6512:3d21:b0:503:655:12e7 with SMTP id d33-20020a0565123d2100b00503065512e7mr10393157lfv.62.1695724539418;
-        Tue, 26 Sep 2023 03:35:39 -0700 (PDT)
+        bh=amtbUNp0H39hgF4fPl/rM1/q01FMWTvKuIItlSfZPcA=;
+        b=iZDUzvxrVkV5als95kCn1TbMhJIqH07n+2KrnGU05ntz+p19INglfyJGwJR/Vsz0IM
+         n5a60hHuk1qyteRtw1brMsrJmnVXqK71po0yLZ1buHDtEtTPeKCR8QdtsPTEO5U8aOqu
+         SjoqTVjyWQtJZSWmE/k2WuiYkxvR2b2dRNJ1jXor74NmitGOayaMBiu4mccex58AHjIS
+         p+SJNsRA1CQahiehdu1wbGegbzcEkn+sCbLyUyvStepZ4e+KLrMyx43zDDRxpo/woJ2P
+         pYwvLainQKKWGIQ+Juvf2sNwnuFjQpFt/kJh+CMwpgkemstIWjrySuKhjaD35bPgoJkr
+         fwlQ==
+X-Gm-Message-State: AOJu0YzPC/EsYp35vyNM8awyZDalOqv5043Iy7VMGJnbm4dqXM3Pop58
+        +tnu3+BRV8bxhj84i0AG+GJrJfO+BTDj2BZs/1UTFlhWjXQAmiTXl5GSdEcj4Wrn2E4DBiAV5Qh
+        yuUQpBw1A/jwQV7ePGJFkg98=
+X-Received: by 2002:a05:651c:cd:b0:2bf:7894:a490 with SMTP id 13-20020a05651c00cd00b002bf7894a490mr7641451ljr.38.1695724631803;
+        Tue, 26 Sep 2023 03:37:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG087HBTZT0weeyCRbCw+TeuKtRQ7HNrAKhsjjvFmhIm7P8VwPbjcWh0wDeMEdSE4gG/KTR/Q==
+X-Received: by 2002:a05:651c:cd:b0:2bf:7894:a490 with SMTP id 13-20020a05651c00cd00b002bf7894a490mr7641443ljr.38.1695724631501;
+        Tue, 26 Sep 2023 03:37:11 -0700 (PDT)
 Received: from [192.168.1.217] ([109.37.154.108])
-        by smtp.gmail.com with ESMTPSA id c19-20020a056402121300b0052e9b50dafdsm6556318edw.33.2023.09.26.03.35.37
+        by smtp.gmail.com with ESMTPSA id q6-20020a1709060e4600b0099bd6026f45sm7500175eji.198.2023.09.26.03.37.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Sep 2023 03:35:38 -0700 (PDT)
-Message-ID: <2e201a3b-d75f-916d-5135-b084ad5da23e@redhat.com>
-Date:   Tue, 26 Sep 2023 12:35:35 +0200
+        Tue, 26 Sep 2023 03:37:10 -0700 (PDT)
+Message-ID: <fbcf0fee-b97d-8f47-9df4-44bc1b475144@redhat.com>
+Date:   Tue, 26 Sep 2023 12:37:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH 13/15] platform/x86/amd/pmf: Add PMF-AMDGPU set interface
+Subject: Re: [PATCH] Input: i8042 - add quirk for Lenovo ThinkPad T14 Gen 1
 Content-Language: en-US
-To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, markgross@kernel.org,
-        basavaraj.natikar@amd.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
-        christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
-        daniel@ffwll.ch
-Cc:     Patil.Reddy@amd.com, mario.limonciello@amd.com,
-        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com>
- <20230922175056.244940-14-Shyam-sundar.S-k@amd.com>
+To:     Jonathan Denose <jdenose@chromium.org>, linux-input@vger.kernel.org
+Cc:     Jonathan Denose <jdenose@google.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Takashi Iwai <tiwai@suse.de>,
+        Werner Sembach <wse@tuxedocomputers.com>,
+        linux-kernel@vger.kernel.org
+References: <20230925163313.1.I55bfb5880d6755094a995d3ae44c13810ae98be4@changeid>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230922175056.244940-14-Shyam-sundar.S-k@amd.com>
+In-Reply-To: <20230925163313.1.I55bfb5880d6755094a995d3ae44c13810ae98be4@changeid>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -89,65 +88,17 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Hi,
 
-On 9/22/23 19:50, Shyam Sundar S K wrote:
-> For the Smart PC Solution to fully work, it has to enact to the actions
-> coming from TA. Add the initial code path for set interface to AMDGPU.
+On 9/25/23 23:33, Jonathan Denose wrote:
+> The ThinkPad T14 Gen 1 touchpad works fine except that clicking
+> and dragging by tapping the touchpad or depressing the touchpad
+> do not work. Disabling PNP for controller setting discovery enables
+> click and drag without negatively impacting other touchpad features.
 > 
-> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c | 21 +++++++++++++++++++++
->  drivers/platform/x86/amd/pmf/pmf.h      |  2 ++
->  drivers/platform/x86/amd/pmf/tee-if.c   | 19 +++++++++++++++++--
->  include/linux/amd-pmf-io.h              |  1 +
->  4 files changed, 41 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
-> index 232d11833ddc..5c567bff0548 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
-> @@ -68,3 +68,24 @@ int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf)
->  	return 0;
->  }
->  EXPORT_SYMBOL_GPL(amd_pmf_get_gfx_data);
-> +
-> +int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf)
-> +{
-> +	struct drm_device *drm_dev = pci_get_drvdata(pmf->gpu_dev);
-> +	struct amdgpu_device *adev = drm_to_adev(drm_dev);
-> +	struct backlight_device *bd;
-> +
-> +	if (!(adev->flags & AMD_IS_APU)) {
-> +		DRM_ERROR("PMF-AMDGPU interface not supported\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	bd = backlight_device_get_by_type(BACKLIGHT_RAW);
-> +	if (!bd)
-> +		return -ENODEV;
+> Signed-off-by: Jonathan Denose <jdenose@google.com>
 
-This assumes that the backlight is always controller by the amdgpu's
-native backlight driver, but it might e.g. also be handled by
-eacpi-video or by nvidia_wmi_ec_backlight (when using an AMD APU +
-nvidia dgpu).
+Thanks, patch looks good to me:
 
-For now what should be done here is to call acpi_video_get_backlight_type()
-and then translate the return value from this into a backlight-type:
-
-        acpi_backlight_video		-> BACKLIGHT_FIRMWARE
-        acpi_backlight_vendor,		-> BACKLIGHT_PLATFORM
-        acpi_backlight_native,		-> BACKLIGHT_RAW
-        acpi_backlight_nvidia_wmi_ec,	-> BACKLIGHT_FIRMWARE
-        acpi_backlight_apple_gmux,	-> BACKLIGHT_PLATFORM
-
-Also I'm worried about probe order here, this code currently assumes
-that the GPU or other backlight driver has loaded before this runs,
-which is not necessarily the case.
-
-I think that if the backlight_device_get_by_type() fails this
-should be retried say every 10 seconds from some delayed workqueue
-for at least a couple of minutes after boot.
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
 Regards,
 
@@ -155,82 +106,28 @@ Hans
 
 
 
-
-> +
-> +	backlight_device_set_brightness(bd, pmf->brightness);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(amd_pmf_set_gfx_data);
-> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
-> index 9032df4ba48a..ce89cc0daa5a 100644
-> --- a/drivers/platform/x86/amd/pmf/pmf.h
-> +++ b/drivers/platform/x86/amd/pmf/pmf.h
-> @@ -73,6 +73,7 @@
->  #define PMF_POLICY_STT_SKINTEMP_APU				7
->  #define PMF_POLICY_STT_SKINTEMP_HS2				8
->  #define PMF_POLICY_SYSTEM_STATE					9
-> +#define PMF_POLICY_DISPLAY_BRIGHTNESS				12
->  #define PMF_POLICY_P3T						38
->  
->  /* TA macros */
-> @@ -480,6 +481,7 @@ enum ta_pmf_error_type {
->  };
->  
->  struct pmf_action_table {
-> +	unsigned long display_brightness;
->  	enum system_state system_state;
->  	unsigned long spl; /* in mW */
->  	unsigned long sppt; /* in mW */
-> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
-> index 1608996654e8..eefffff83a4c 100644
-> --- a/drivers/platform/x86/amd/pmf/tee-if.c
-> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
-> @@ -79,10 +79,10 @@ static int amd_pmf_update_uevents(struct amd_pmf_dev *dev, u16 event)
->  	return 0;
->  }
->  
-> -static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_result *out)
-> +static int amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_result *out)
->  {
->  	u32 val, event = 0;
-> -	int idx;
-> +	int idx, ret;
->  
->  	for (idx = 0; idx < out->actions_count; idx++) {
->  		val = out->actions_list[idx].value;
-> @@ -160,8 +160,23 @@ static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_
->  				dev->prev_data->system_state = 0;
->  			}
->  			break;
-> +
-> +		case PMF_POLICY_DISPLAY_BRIGHTNESS:
-> +			ret = amd_pmf_get_gfx_data(&dev->gfx_data);
-> +			if (ret)
-> +				return ret;
-> +
-> +			dev->prev_data->display_brightness = dev->gfx_data.brightness;
-> +			if (dev->prev_data->display_brightness != val) {
-> +				dev->gfx_data.brightness = val;
-> +				amd_pmf_set_gfx_data(&dev->gfx_data);
-> +				dev_dbg(dev->dev, "update DISPLAY_BRIGHTNESS : %d\n", val);
-> +			}
-> +			break;
->  		}
->  	}
-> +
-> +	return 0;
->  }
->  
->  static int amd_pmf_invoke_cmd_enact(struct amd_pmf_dev *dev)
-> diff --git a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h
-> index a2d4af231362..ecae387ddaa6 100644
-> --- a/include/linux/amd-pmf-io.h
-> +++ b/include/linux/amd-pmf-io.h
-> @@ -25,4 +25,5 @@ struct amd_gpu_pmf_data {
->  };
->  
->  int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf);
-> +int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf);
->  #endif
+> ---
+> 
+>  drivers/input/serio/i8042-acpipnpio.h | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
+> index 1724d6cb8649d..c487047d878cd 100644
+> --- a/drivers/input/serio/i8042-acpipnpio.h
+> +++ b/drivers/input/serio/i8042-acpipnpio.h
+> @@ -830,6 +830,14 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+>  		},
+>  		.driver_data = (void *)(SERIO_QUIRK_RESET_ALWAYS)
+>  	},
+> +	{
+> +		/* Lenovo ThinkPad T14 Gen 1*/
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "20S0002UUS")
+> +		},
+> +		.driver_data = (void *)(SERIO_QUIRK_NOPNP)
+> +	},
+>  	{
+>  		/* Lenovo ThinkPad Twist S230u */
+>  		.matches = {
 
