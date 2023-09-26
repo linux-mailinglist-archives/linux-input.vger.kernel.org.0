@@ -2,70 +2,41 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14DE77AE6C8
-	for <lists+linux-input@lfdr.de>; Tue, 26 Sep 2023 09:27:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B10427AE7F4
+	for <lists+linux-input@lfdr.de>; Tue, 26 Sep 2023 10:24:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232301AbjIZH1F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Sep 2023 03:27:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44690 "EHLO
+        id S233850AbjIZIYG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Sep 2023 04:24:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232949AbjIZH1E (ORCPT
+        with ESMTP id S233894AbjIZIYD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 Sep 2023 03:27:04 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3413180
-        for <linux-input@vger.kernel.org>; Tue, 26 Sep 2023 00:26:57 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-9a58dbd5daeso1008119966b.2
-        for <linux-input@vger.kernel.org>; Tue, 26 Sep 2023 00:26:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695713216; x=1696318016; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SL9jzjX9Dj4vINipwZ1Fop5IYAbBFu+z+Vj4h2wF/5E=;
-        b=o09YdU0mmxxsksjNEi04O/LiJIVtHroN558/hfqDMu37IqW2kmIKmpqYJqj5rk9h3D
-         +RU/q2AkDJTYvIPH5kxKcss9HnDthvlShxpzLIBZwwnBuHww7cSbbGPCbHMt59OHB/zq
-         NCl7IiLsIGJa5uZLtk+LsowqKWhyfIkvW4IFhHJTYOg5AztA7m2iGolyUd1xzvCyYAfz
-         nReqoMK4KFdySkmsrBcBqbg5HZ2SkgVK4sCaj6hLz4ziWrBO7703AH/1Pt4sn2r+aC7e
-         6+s3flZx7nD0IFE/qFn51mOLd5MNX74z+yVa4GaD6Ue77mFwz/gP2xNCJyDJhqZf3wJg
-         7dPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695713216; x=1696318016;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SL9jzjX9Dj4vINipwZ1Fop5IYAbBFu+z+Vj4h2wF/5E=;
-        b=SGd8cD0xXe+/gPRkAh1JklZbLd5GndUDGO/XT53xSwPCi/GdwOJy7lD6eAd5ZBydz3
-         hn7AYvRp6j7N1RLgJcqFf6Sl1Ev37y2ZFQTnCYi5tIymRaRWTS9LUPFQbw+VyyjPG84O
-         RvnYb9womIzcllwaPlpGXkqItAlUh1ElgHAjV0fZsOMXJ8z6D+MT8NaISdzo3p4LbDVl
-         24AD+fZDGfT0WADP23XunK5NEWnfGZN0o3TSrm6Y5tBA3BMYMTUf5DIUEVSMjRGQBAtR
-         Ghl8bDRgt0NCWkxF3wq+vsPONo7HuRaNr+u8eoN8gnZOQUuLRFiGYGbVqmfdRTiGyFy6
-         xGEw==
-X-Gm-Message-State: AOJu0YzDSJHZ0YtlWYbPc+2D1pjaw9yZokdDPAAVw4uLOeixDtbSgn3H
-        z5LfDweVBQY5VMwBU5Q/kEtPniO0cOuVEkB1bCZwzg==
-X-Google-Smtp-Source: AGHT+IFD2+LPuamDwfHmqmOw1Eb5LDk2z4fOwwV3qDU7j4eyB/9B7AGlGQS6QABciR6k3DepbtJwkJ2DH3H9480eta8=
-X-Received: by 2002:a17:906:1d5:b0:9a5:da6c:6539 with SMTP id
- 21-20020a17090601d500b009a5da6c6539mr8145437ejj.75.1695713216164; Tue, 26 Sep
- 2023 00:26:56 -0700 (PDT)
+        Tue, 26 Sep 2023 04:24:03 -0400
+X-Greylist: delayed 517 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 26 Sep 2023 01:23:57 PDT
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D479FC
+        for <linux-input@vger.kernel.org>; Tue, 26 Sep 2023 01:23:57 -0700 (PDT)
+Received: from francesco-nb.int.toradex.com (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
+        by mail11.truemail.it (Postfix) with ESMTPA id 1C88E207A2;
+        Tue, 26 Sep 2023 10:15:16 +0200 (CEST)
+Date:   Tue, 26 Sep 2023 10:14:54 +0200
+From:   Francesco Dolcini <francesco@dolcini.it>
+To:     Emanuele Ghidoli <ghidoliemanuele@gmail.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Emanuele Ghidoli <emanuele.ghidoli@toradex.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Joe Hung <joe_hung@ilitek.com>
+Subject: Re: [PATCH v2 2/2] Input: ilitek_ts_i2c - add report id message
+ validation
+Message-ID: <ZRKS/tlg8NwukkUD@francesco-nb.int.toradex.com>
+References: <20230920074650.922292-1-ghidoliemanuele@gmail.com>
+ <20230920074650.922292-3-ghidoliemanuele@gmail.com>
 MIME-Version: 1.0
-References: <20230908-kselftest-09-08-v2-0-0def978a4c1b@google.com>
-In-Reply-To: <20230908-kselftest-09-08-v2-0-0def978a4c1b@google.com>
-From:   Justin Stitt <justinstitt@google.com>
-Date:   Tue, 26 Sep 2023 16:26:45 +0900
-Message-ID: <CAFhGd8pEv32zp4RDsj_jeBjzP5hcsf4dP4Knueiw_UM8ZsqcKw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] selftests/hid: fix building for older kernels
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Shuah Khan <shuah@kernel.org>
-Cc:     Eduard Zingerman <eddyz87@gmail.com>, linux-input@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bpf@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230920074650.922292-3-ghidoliemanuele@gmail.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,77 +44,21 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hey all,
+On Wed, Sep 20, 2023 at 09:46:50AM +0200, Emanuele Ghidoli wrote:
+> From: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
+> 
+> Ilitek touch IC driver answer to plain i2c read request, after it has
+> generated an interrupt request, with a report id message starting
+> with an identifier and a series of points.
+> If a request is sent unsolicited by an interrupt request the answer
+> do not contain this identifier.
+> Add a test to discard these messages, making the driver robust to
+> spurious interrupt requests.
+> 
+> Fixes: 42370681bd46 ("Input: Add support for ILITEK Lego Series")
+> Signed-off-by: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
 
-Gentle ping on this patch. Looking to get this patch and [1] slated
-for 6.7 wherein we can start getting cleaner kselftests builds.
+Reviewed-by: Francesco Dolcini <francesco.dolcini@toradex.com>
 
-I do not think I am able to successfully run the hid/bpf selftests due
-to my kernel version being too low (and an inability to upgrade it as
-I'm on a corp rolling release). I'd appreciate some insight on how to
-get the tests running or if someone could actually build+run the tests
-with this patch applied.
+Francesco
 
-On Sat, Sep 9, 2023 at 7:22=E2=80=AFAM Justin Stitt <justinstitt@google.com=
-> wrote:
->
-> Hi, I am sending this series on behalf of myself and Benjamin Tissoires. =
-There
-> existed an initial n=3D3 patch series which was later expanded to n=3D4 a=
-nd
-> is now back to n=3D3 with some fixes added in and rebased against
-> mainline.
->
-> This patch series aims to ensure that the hid/bpf selftests can be built
-> without errors.
->
-> Here's Benjamin's initial cover letter for context:
-> |  These fixes have been triggered by [0]:
-> |  basically, if you do not recompile the kernel first, and are
-> |  running on an old kernel, vmlinux.h doesn't have the required
-> |  symbols and the compilation fails.
-> |
-> |  The tests will fail if you run them on that very same machine,
-> |  of course, but the binary should compile.
-> |
-> |  And while I was sorting out why it was failing, I realized I
-> |  could do a couple of improvements on the Makefile.
-> |
-> |  [0] https://lore.kernel.org/linux-input/56ba8125-2c6f-a9c9-d498-0ca1c1=
-53dcb2@redhat.com/T/#t
->
-> Changes from v1 -> v2:
-> - roll Justin's fix into patch 1/3
-> - add __attribute__((preserve_access_index)) (thanks Eduard)
-> - rebased onto mainline (2dde18cd1d8fac735875f2e4987f11817cc0bc2c)
-> - Link to v1: https://lore.kernel.org/all/20230825-wip-selftests-v1-0-c86=
-2769020a8@kernel.org/
->
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1698
-> Link: https://github.com/ClangBuiltLinux/continuous-integration2/issues/6=
-1
-> ---
-> Benjamin Tissoires (3):
->       selftests/hid: ensure we can compile the tests on kernels pre-6.3
->       selftests/hid: do not manually call headers_install
->       selftests/hid: force using our compiled libbpf headers
->
->  tools/testing/selftests/hid/Makefile               | 10 ++---
->  tools/testing/selftests/hid/progs/hid.c            |  3 --
->  .../testing/selftests/hid/progs/hid_bpf_helpers.h  | 49 ++++++++++++++++=
-++++++
->  3 files changed, 53 insertions(+), 9 deletions(-)
-> ---
-> base-commit: 2dde18cd1d8fac735875f2e4987f11817cc0bc2c
-> change-id: 20230908-kselftest-09-08-56d7f4a8d5c4
->
-> Best regards,
-> --
-> Justin Stitt <justinstitt@google.com>
->
-
-[1]: https://lore.kernel.org/all/20230912-kselftest-param_test-c-v1-1-80a6c=
-ffc7374@google.com/
-
-Thanks
-Justin
