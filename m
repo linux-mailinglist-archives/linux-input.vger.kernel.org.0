@@ -2,200 +2,235 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A240F7AE993
-	for <lists+linux-input@lfdr.de>; Tue, 26 Sep 2023 11:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24EBE7AEA7F
+	for <lists+linux-input@lfdr.de>; Tue, 26 Sep 2023 12:36:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229674AbjIZJw7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Sep 2023 05:52:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37918 "EHLO
+        id S231932AbjIZKgi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Sep 2023 06:36:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbjIZJw6 (ORCPT
+        with ESMTP id S234381AbjIZKgh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 Sep 2023 05:52:58 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D563F3
-        for <linux-input@vger.kernel.org>; Tue, 26 Sep 2023 02:52:51 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-9a645e54806so1016328966b.0
-        for <linux-input@vger.kernel.org>; Tue, 26 Sep 2023 02:52:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695721969; x=1696326769; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ahIZ7yuPJ9MJX7623BAJCLqe/mYzgXMdeYKDpf77qm8=;
-        b=RRhw4MIaNsa7lpqZyR9xZUVzhdYDe8cp/HzuvyGGewabDF1ac147Q68zo5rFeOPmB0
-         ac3z4ePJTw9I6hgCiJjRr6spT+Ps53snysfSHJe1JxaDEuKqLYxD+TRWVAlxGC5joHT+
-         zC6II+VEHwhKKjxsuJoHa6VLor1zYVx6HEdZi56+v60O/+CycFtWJUH5eg3806JdhNhV
-         S2+GLws9ER0tgsIibRzwraERtKODPYpRwlVTR2OoSjREvAQXagaDv8YE1VhmFV4QNdqw
-         KrJFDQbE9sdFxfwo2sTL4tgvslT4eonCHaRGNVknJDMWA4zVGJwnZ8CHnNyjYcjgkvI4
-         CEAA==
+        Tue, 26 Sep 2023 06:36:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E010EE5
+        for <linux-input@vger.kernel.org>; Tue, 26 Sep 2023 03:35:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1695724543;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=IN3gjXP/ulM4+M4Osvjbx+CJvR8HzZe/I6zVYXrFanI=;
+        b=Rf+Tsyo9nFmDD+rYhjdXFUxYfmZ+t2Wa0PvyowojhCy2F4MhYLpCRaXycLHQB4QEZAtBHZ
+        fVfx6e0JccrzYpG7WXXYjH5UUnsPO+pnXmzaAaxOyXx7QVK9yuFsW0lg8hCphDEVBAFddM
+        nAC4XBbwjxEBxzNDpAHvUg52eOvC8+o=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-480-B0uYRpmLOP-gHO4sURLFFw-1; Tue, 26 Sep 2023 06:35:41 -0400
+X-MC-Unique: B0uYRpmLOP-gHO4sURLFFw-1
+Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2ba1949656bso118169341fa.0
+        for <linux-input@vger.kernel.org>; Tue, 26 Sep 2023 03:35:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695721969; x=1696326769;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ahIZ7yuPJ9MJX7623BAJCLqe/mYzgXMdeYKDpf77qm8=;
-        b=pQdvz3FMAl+ozLXoN6hxlU+vUHnZQ1iu40qTJZx0zEeM8zWdaZwBcbAB9OIUpHjETh
-         opphQU2SIxgnf/iAXdFlxa/66quhUd6X3iHlFZvz1ZbfuSS19cyN9yvKmt7zL8jW0SCe
-         EJTz+kbx/J3E7JBbknbq2xw25CqE67DkIBWZGz5GAWevsfD+YuY3sNYN8iSx2J9H81Ye
-         MCKZcZThXva6ov0taVY5RDdRzeSGSvf/w6neYps13XHd1BdadcbrWi/B+zEgHJqllNJ+
-         6jT25iMsCf3dcxPI189bpj4g1cKtoz1iWbp3Z0AkiJJieHv9J3z8vR4/hhs6UOkqYO0A
-         8O3g==
-X-Gm-Message-State: AOJu0YyG25Yyf5N4RaTasx7Zznpk3QpDkBYrXhNdnHKgTUqVls8QdSDA
-        3LEDnieCdDUqaT1epmqNVBu86KYmFNBHUIkoFaDXVA==
-X-Google-Smtp-Source: AGHT+IEgXjQS5acUN/BhQbyuSj3NBsTBC11THgTrSOyiA98EuI4pGo7gQktc2BYq1e2OVHB0VLElJPkrzX9i4MT4k24=
-X-Received: by 2002:a17:906:18b1:b0:9ae:6d0:84f7 with SMTP id
- c17-20020a17090618b100b009ae06d084f7mr6942913ejf.32.1695721969517; Tue, 26
- Sep 2023 02:52:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1695724540; x=1696329340;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IN3gjXP/ulM4+M4Osvjbx+CJvR8HzZe/I6zVYXrFanI=;
+        b=jengF69HBj1R3UTVFobEncxAbdPV5ONQN3uyNX4r4r7MtGwVDqy60eBNxSYdaKB5F2
+         0PILlmXkbToFC5OPExbikBY+IFHlBtMKiCwcITl5uvg08tVzfyGUmabM70rbXNJa2e66
+         0LwApAcEekeZ31YYPphxVwcNCQwTAyjVy0O8aG6qaGzcgnowGrms46Kte7V/6IAc5kmy
+         6rCd7fXiMWqA2KgRJS8n4M+nHmPvxQhbXXICRHer4ITloemb5s/sXRsqtCNjlWw0zL+7
+         blCMLhAHbuI5S6yBdAvxiX9Sd8BdwkjT5BrpLN4a0c5+fSJCahRyBWQsmH35xeXjeufR
+         4Uyw==
+X-Gm-Message-State: AOJu0Yxi0YwXmAs6QqyKkN97GTdRI2jvEBQ82UVzWxk35EltydZGEqVQ
+        eMRN5zAOJIbin1j9EYcmwZjX7Fv8se2AyTvNfLQfTpzTF/0+Sji20wYEOcINYsoMIi7mmqR9ivd
+        c8jDy3YhDEo2yy7qO8IFxWTQ=
+X-Received: by 2002:a05:6512:3d21:b0:503:655:12e7 with SMTP id d33-20020a0565123d2100b00503065512e7mr10393192lfv.62.1695724539863;
+        Tue, 26 Sep 2023 03:35:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGn3ozsYpRq6AuJvRaLBGJ3+5/IVA5BsFnkHEF6nwZAP0ixv8ZfQALU7T1Ot7RrjwRGez4gGg==
+X-Received: by 2002:a05:6512:3d21:b0:503:655:12e7 with SMTP id d33-20020a0565123d2100b00503065512e7mr10393157lfv.62.1695724539418;
+        Tue, 26 Sep 2023 03:35:39 -0700 (PDT)
+Received: from [192.168.1.217] ([109.37.154.108])
+        by smtp.gmail.com with ESMTPSA id c19-20020a056402121300b0052e9b50dafdsm6556318edw.33.2023.09.26.03.35.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Sep 2023 03:35:38 -0700 (PDT)
+Message-ID: <2e201a3b-d75f-916d-5135-b084ad5da23e@redhat.com>
+Date:   Tue, 26 Sep 2023 12:35:35 +0200
 MIME-Version: 1.0
-References: <20230919-70b2f1e368a8face73468dfa@fedora> <CAGD2q_anfBP78jck6AbMNtgAggjOgaB3P6dkmq9tONHP45adFA@mail.gmail.com>
- <20230919-cc4646dbfb953bd34e05658c@fedora> <CAGD2q_bkTpvXiomWb_yerNjQfMVKOctYgBqF_RBSo_jYqyyyxw@mail.gmail.com>
- <20230922-unclothed-bottom-5531329f9724@spud> <CAGD2q_YsFdDVhE4JCmQSGMWOdpe_yzG8-CdWYPXtjeZsManvgQ@mail.gmail.com>
- <20230922-removable-footwork-f1d4d96d38dd@spud> <CAGD2q_Y467jJJnwCVH+3F-hh6a-1-OYRugcy0DdjPnTCC77Z8A@mail.gmail.com>
- <20230925-cod-vacancy-08dc8d88f90e@wendy> <CAGD2q_a1nLtFj7H42f+u+J5Bih59MGS0aJLHCFJy5gM2ydys4w@mail.gmail.com>
- <20230926-action-sludge-ec8e51fdd6d4@spud>
-In-Reply-To: <20230926-action-sludge-ec8e51fdd6d4@spud>
-From:   yang tylor <tylor_yang@himax.corp-partner.google.com>
-Date:   Tue, 26 Sep 2023 17:52:39 +0800
-Message-ID: <CAGD2q_YBfDT950tyxEF87ZeiANgea_x8S16Ud5K2bcQ+eL9T=w@mail.gmail.com>
-Subject: Re: [PATCH V2 1/2] dt-bindings: input: Introduce Himax HID-over-SPI device
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Conor Dooley <conor.dooley@microchip.com>,
-        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        poyuan_chang@himax.corp-partner.google.com, hbarnor@chromium.org,
-        "jingyliang@chromium.org" <jingyliang@chromium.org>,
-        wuxy23@lenovo.com, luolm1@lenovo.com,
-        hung poyu <poyu_hung@himax.corp-partner.google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 13/15] platform/x86/amd/pmf: Add PMF-AMDGPU set interface
+Content-Language: en-US
+To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, markgross@kernel.org,
+        basavaraj.natikar@amd.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
+        christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+        daniel@ffwll.ch
+Cc:     Patil.Reddy@amd.com, mario.limonciello@amd.com,
+        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com>
+ <20230922175056.244940-14-Shyam-sundar.S-k@amd.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230922175056.244940-14-Shyam-sundar.S-k@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Sep 26, 2023 at 5:02=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> On Mon, Sep 25, 2023 at 06:16:29PM +0800, yang tylor wrote:
-> > On Mon, Sep 25, 2023 at 4:41=E2=80=AFPM Conor Dooley <conor.dooley@micr=
-ochip.com> wrote:
-> > >
-> > > On Mon, Sep 25, 2023 at 09:44:21AM +0800, yang tylor wrote:
-> > > > On Fri, Sep 22, 2023 at 11:31=E2=80=AFPM Conor Dooley <conor@kernel=
-.org> wrote:
-> > > > >
-> > > > > On Fri, Sep 22, 2023 at 05:43:54PM +0800, yang tylor wrote:
-> > > > > > On Fri, Sep 22, 2023 at 5:22=E2=80=AFPM Conor Dooley <conor@ker=
-nel.org> wrote:
-> > > > > > >
-> > > > > > > On Fri, Sep 22, 2023 at 03:56:25PM +0800, yang tylor wrote:
-> > > > > > > > On Tue, Sep 19, 2023 at 7:09=E2=80=AFPM Conor Dooley <conor=
-@kernel.org> wrote:
-> > > > > > > > > On Tue, Sep 19, 2023 at 05:31:29PM +0800, yang tylor wrot=
-e:
-> > > > > > >
-> > > > > > > > > > The behavior of "himax,boot_time_fw_upgrade" seems not =
-stable and
-> > > > > > > > > > should be removed. "himax,fw_in_flash", I use the kerne=
-l config for
-> > > > > > > > > > user to select.
-> > > > > > > > >
-> > > > > > > > > That seems like a bad idea, we want to be able to build o=
-ne kernel that
-> > > > > > > > > works for all hardware at the same time.
-> > > > > > > > >
-> > > > > > > > I see, so I should take that back?
-> > > > > > > > I'll explain more about it.
-> > > > > > >
-> > > > > > > Are there particular ICs where the firmware would always be i=
-n flash and
-> > > > > > > others where it would never be? Or is this a choice made by t=
-he board or
-> > > > > > > system designer?
-> > > > > > >
-> > > > > > Most cases it's about the system designer's decision. But some =
-ICs may be forced
-> > > > > > to use flash because of its architecture(multiple IC inside, ne=
-ed to
-> > > > > > load firmware to
-> > > > > > multiple IC's sram by master IC). But if there is no limitation=
- on
-> > > > > > this part, most system
-> > > > > > designers will prefer flashless.
-> > > > >
-> > > > > Forgive me if I am not understanding correctly, there are some IC=
-s that
-> > > > > will need to load the firmware from flash and there are some wher=
-e it
-> > > > > will be a decision made by the designer of the board. Is the flas=
-h part
-> > > > > of the IC or is it an external flash chip?
-> > > > >
-> > > >
-> > > > Both are possible, it depends on the IC type. For TDDI, the IC is l=
-ong
-> > > > and thin, placed on panel PCB, flash will be located at the externa=
-l
-> > > > flash chip. For the OLED TP, IC is usually placed at FPC and its fl=
-ash
-> > > > is embedded, thus the IC size is large compared to TDDI. But from t=
-he
-> > > > driver's perspective either external flash or embedded flash, the I=
-C
-> > > > itself will load firmware from flash automatically when reset pin i=
-s
-> > > > released. Only if firmware is loading from the host storage system,
-> > > > the driver needs to operate the IC in detail.
-> > >
-> > >
-> > > Since there are ICs that can use the external flash or have it loaded
-> > > from the host, it sounds like you do need a property to differentiate
-> > > between those cases.
-> > Yep.
-> >
-> > > Is it sufficient to just set the firmware-name property for these cas=
-es?
-> > > If the property exists, then you know you need to load firmware & wha=
-t
-> > > its name is. If it doesn't, then the firmware either isn't needed or
-> > > will be automatically loaded from the external flash.
->
-> > We have a default prefix firmware name(like himax_xxxx.bin) in the driv=
-er code.
->
-> How do you intend generating the name of the firmware file? I assume the
-> same firmware doesn't work on every IC, so you'll need to pick a
-> different one depending on the compatible?
->
-If considering a firmware library line-up for all the incoming panels
-of this driver.
-We would use PID as part of the file name. Because all the support panels w=
-ould
-have a unique PID associated. Which will make the firmware name like
-himax_xxx_{$PID}.bin. The problem is, we need to know PID before firmware l=
-oad
-at no flash condition. Thus PID information is required in dts when
-no-flash-flag
-is specified.
+Hi,
 
-> > So we'll look for it when no-flash-flag is specified. In our experience=
-,
-> > forcing a prefix firmware name helps the user to aware what firmware
-> > they are dealing with.
+On 9/22/23 19:50, Shyam Sundar S K wrote:
+> For the Smart PC Solution to fully work, it has to enact to the actions
+> coming from TA. Add the initial code path for set interface to AMDGPU.
+> 
+> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c | 21 +++++++++++++++++++++
+>  drivers/platform/x86/amd/pmf/pmf.h      |  2 ++
+>  drivers/platform/x86/amd/pmf/tee-if.c   | 19 +++++++++++++++++--
+>  include/linux/amd-pmf-io.h              |  1 +
+>  4 files changed, 41 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+> index 232d11833ddc..5c567bff0548 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+> @@ -68,3 +68,24 @@ int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf)
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(amd_pmf_get_gfx_data);
+> +
+> +int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf)
+> +{
+> +	struct drm_device *drm_dev = pci_get_drvdata(pmf->gpu_dev);
+> +	struct amdgpu_device *adev = drm_to_adev(drm_dev);
+> +	struct backlight_device *bd;
+> +
+> +	if (!(adev->flags & AMD_IS_APU)) {
+> +		DRM_ERROR("PMF-AMDGPU interface not supported\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	bd = backlight_device_get_by_type(BACKLIGHT_RAW);
+> +	if (!bd)
+> +		return -ENODEV;
 
-If a more simple solution for no-flash condition is needed, as you mentione=
-d,
-specifying a firmware name in dts would be the best. Otherwise, a
-no-flash-flag and
-PID information needs to be added in dts.
+This assumes that the backlight is always controller by the amdgpu's
+native backlight driver, but it might e.g. also be handled by
+eacpi-video or by nvidia_wmi_ec_backlight (when using an AMD APU +
+nvidia dgpu).
 
-Thanks,
-Tylor
+For now what should be done here is to call acpi_video_get_backlight_type()
+and then translate the return value from this into a backlight-type:
+
+        acpi_backlight_video		-> BACKLIGHT_FIRMWARE
+        acpi_backlight_vendor,		-> BACKLIGHT_PLATFORM
+        acpi_backlight_native,		-> BACKLIGHT_RAW
+        acpi_backlight_nvidia_wmi_ec,	-> BACKLIGHT_FIRMWARE
+        acpi_backlight_apple_gmux,	-> BACKLIGHT_PLATFORM
+
+Also I'm worried about probe order here, this code currently assumes
+that the GPU or other backlight driver has loaded before this runs,
+which is not necessarily the case.
+
+I think that if the backlight_device_get_by_type() fails this
+should be retried say every 10 seconds from some delayed workqueue
+for at least a couple of minutes after boot.
+
+Regards,
+
+Hans
+
+
+
+
+> +
+> +	backlight_device_set_brightness(bd, pmf->brightness);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(amd_pmf_set_gfx_data);
+> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
+> index 9032df4ba48a..ce89cc0daa5a 100644
+> --- a/drivers/platform/x86/amd/pmf/pmf.h
+> +++ b/drivers/platform/x86/amd/pmf/pmf.h
+> @@ -73,6 +73,7 @@
+>  #define PMF_POLICY_STT_SKINTEMP_APU				7
+>  #define PMF_POLICY_STT_SKINTEMP_HS2				8
+>  #define PMF_POLICY_SYSTEM_STATE					9
+> +#define PMF_POLICY_DISPLAY_BRIGHTNESS				12
+>  #define PMF_POLICY_P3T						38
+>  
+>  /* TA macros */
+> @@ -480,6 +481,7 @@ enum ta_pmf_error_type {
+>  };
+>  
+>  struct pmf_action_table {
+> +	unsigned long display_brightness;
+>  	enum system_state system_state;
+>  	unsigned long spl; /* in mW */
+>  	unsigned long sppt; /* in mW */
+> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
+> index 1608996654e8..eefffff83a4c 100644
+> --- a/drivers/platform/x86/amd/pmf/tee-if.c
+> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
+> @@ -79,10 +79,10 @@ static int amd_pmf_update_uevents(struct amd_pmf_dev *dev, u16 event)
+>  	return 0;
+>  }
+>  
+> -static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_result *out)
+> +static int amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_result *out)
+>  {
+>  	u32 val, event = 0;
+> -	int idx;
+> +	int idx, ret;
+>  
+>  	for (idx = 0; idx < out->actions_count; idx++) {
+>  		val = out->actions_list[idx].value;
+> @@ -160,8 +160,23 @@ static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_
+>  				dev->prev_data->system_state = 0;
+>  			}
+>  			break;
+> +
+> +		case PMF_POLICY_DISPLAY_BRIGHTNESS:
+> +			ret = amd_pmf_get_gfx_data(&dev->gfx_data);
+> +			if (ret)
+> +				return ret;
+> +
+> +			dev->prev_data->display_brightness = dev->gfx_data.brightness;
+> +			if (dev->prev_data->display_brightness != val) {
+> +				dev->gfx_data.brightness = val;
+> +				amd_pmf_set_gfx_data(&dev->gfx_data);
+> +				dev_dbg(dev->dev, "update DISPLAY_BRIGHTNESS : %d\n", val);
+> +			}
+> +			break;
+>  		}
+>  	}
+> +
+> +	return 0;
+>  }
+>  
+>  static int amd_pmf_invoke_cmd_enact(struct amd_pmf_dev *dev)
+> diff --git a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h
+> index a2d4af231362..ecae387ddaa6 100644
+> --- a/include/linux/amd-pmf-io.h
+> +++ b/include/linux/amd-pmf-io.h
+> @@ -25,4 +25,5 @@ struct amd_gpu_pmf_data {
+>  };
+>  
+>  int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf);
+> +int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf);
+>  #endif
+
