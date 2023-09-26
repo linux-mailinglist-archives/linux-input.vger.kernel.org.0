@@ -2,144 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 831127AE321
-	for <lists+linux-input@lfdr.de>; Tue, 26 Sep 2023 02:55:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CD3A7AE3F5
+	for <lists+linux-input@lfdr.de>; Tue, 26 Sep 2023 05:10:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232342AbjIZAzM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 25 Sep 2023 20:55:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42400 "EHLO
+        id S229990AbjIZDKz convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Mon, 25 Sep 2023 23:10:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231989AbjIZAzM (ORCPT
+        with ESMTP id S230098AbjIZDKy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 25 Sep 2023 20:55:12 -0400
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2115109;
-        Mon, 25 Sep 2023 17:55:04 -0700 (PDT)
-Received: by mail-oi1-x22a.google.com with SMTP id 5614622812f47-3ab7fb1172cso3878206b6e.3;
-        Mon, 25 Sep 2023 17:55:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695689704; x=1696294504; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0CXYLwtV6hI1Lwk84mbKyAHp+fTnm6/oOKkcYYEM0gg=;
-        b=Pl93fit2efnmI0rMGnBC4h3iPQHzM+wTmmWMZE2YpoEVRyslEA9fJVeuOgprO/zAoy
-         Sp9F9tTkVnVBtQ//mBGkOunMPk1OsS4DlLGx/sj6Am2WJBG9aBt77rpuiac9x3gqc3av
-         bLdkYENL6ejDG3szumTaMTYt9BY56VpU2Gg8jsA2/JQHuCLQz466Dd/ulsModuRxRcqf
-         EQgylGbFrYg5MKY4sEZx33TpXHWmVGywqWGrztgdcC03ngi8ZD2l2FySQFDf8k7gEVMl
-         JBsJGcEe6kpq2qqNMwPTFik0H/MKBPq7HRmohWLq/qR0Lls0oi397bbcMzf0yyH/fzLY
-         bWGg==
+        Mon, 25 Sep 2023 23:10:54 -0400
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7953B4;
+        Mon, 25 Sep 2023 20:10:46 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-59f4db9e11eso64074117b3.0;
+        Mon, 25 Sep 2023 20:10:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695689704; x=1696294504;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0CXYLwtV6hI1Lwk84mbKyAHp+fTnm6/oOKkcYYEM0gg=;
-        b=ip17vbM+A+lwmzmxKytckMNh5IA5uKcMVMVZSHvR0jWk8f1T8LrbqwsJdEjuFZVhlU
-         cC1sJ35kSzDNB79nOR4TlfeIkd+PIrtteB2WQ2tjLr2svan9XtvRfHdBazMqGcMjtIEO
-         3JdExhduLGkSthw1tt9ejgSrzC3wSvYDjQnXO+VWxqRA6PYx1v0Av89bj0D6VwQSUfjQ
-         GVwRSrBmc7XjChBMssd5XyXvXyZ2ufiVsuhG0zQ4oh/FfbCf3bMwIaXjXQw8Ut2svzxY
-         Xn09JrYP98hEtuyZh1xsZ6/qYOgKSaL1bNmbYjCR8jR4FZIPmhXQpvW2ucIS72j9b1Qp
-         IhJA==
-X-Gm-Message-State: AOJu0YyIMSG1Fh3pGzX2j5sL6VT8N3aMYHtO4E/FFy3+I7OWsiU8zvTy
-        Tmwb6Q0MIuFKWOcKnJ7VXeg=
-X-Google-Smtp-Source: AGHT+IGRPQKNCawBo+MIk51/Ou91oPvmW1z8tu8Kdu8Tn3tbO1vseAeAhM3xQggtwn7ms17BTXXKuA==
-X-Received: by 2002:a05:6808:1a88:b0:3ae:e0d:1548 with SMTP id bm8-20020a0568081a8800b003ae0e0d1548mr7579294oib.15.1695689704020;
-        Mon, 25 Sep 2023 17:55:04 -0700 (PDT)
-Received: from debian.me ([103.124.138.83])
-        by smtp.gmail.com with ESMTPSA id h5-20020aa786c5000000b006889511ab14sm8654484pfo.37.2023.09.25.17.55.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Sep 2023 17:55:03 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id ABC7B8DABD81; Tue, 26 Sep 2023 07:55:00 +0700 (WIB)
-Date:   Tue, 26 Sep 2023 07:55:00 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Verot <verot.wrongdoer713@simplelogin.com>
-Cc:     Linux Input Devices <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Regressions <regressions@lists.linux.dev>,
-        Linux Stable <stable@vger.kernel.org>
-Subject: Re: Fwd: Kernel 6.4.4 breaks Elan Touchpad 1206
-Message-ID: <ZRIr5E2FAFVqhtmw@debian.me>
-References: <42bc8e02-5ee0-f1c8-610e-e16391e54ee2@gmail.com>
+        d=1e100.net; s=20230601; t=1695697845; x=1696302645;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4rMSxjrVDIEUhAUfTpZ8/rC5Bw846FjHkIGiRkImifs=;
+        b=HGoG8ma1d+ajUu+ZC1aBKKOZt9FgnTBKT4OoMMDBcdkZLMlT+bG5FyulpAFKrgkP92
+         dF5xOh4ksMqfTcbfaNFZy5gWER+gEI9THw/M97Hxc5oWQ/4jZ0GiQSh2Y1bXrgHkejWg
+         DrgKvXn0YohW9iA+hUt0zLSL/d9izOKmX5++4f5qwV52FdD9KetVPOUq70hU7ete7oy+
+         UDhlMHtyrHyUPSRB5cFsi71iBSWbjcD5API9aiDBFps8vmzEdRAEq+VAqsx3Ajeis5Tq
+         gL+Xq/ItxJAIocR+RviNNoy28HYqaIOhgBnOGhpDOdw3hn0fVyvb6KmJC2iNJfkOV9op
+         88Yw==
+X-Gm-Message-State: AOJu0YwvkD4qUr9sTMPU8t16FVAGgmGu1lUsarHCkOvR7f7+UI+q4eAW
+        MmKIq6z+Xtq6Iq6d+xchCi0Oe4YKYqNKzA==
+X-Google-Smtp-Source: AGHT+IGVvt3vBP4+tla/JQR+DzN9B/CohKdu+f7rp2TW9qvQmB44SlU689X0R/JmZEt9Mr5Of8X8yw==
+X-Received: by 2002:a0d:cc49:0:b0:589:a4c6:a4ed with SMTP id o70-20020a0dcc49000000b00589a4c6a4edmr7784340ywd.3.1695697845074;
+        Mon, 25 Sep 2023 20:10:45 -0700 (PDT)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id v81-20020a814854000000b00576c727498dsm2755725ywa.92.2023.09.25.20.10.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Sep 2023 20:10:44 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-d81d09d883dso8960102276.0;
+        Mon, 25 Sep 2023 20:10:44 -0700 (PDT)
+X-Received: by 2002:a25:2e43:0:b0:d84:b0f8:90b with SMTP id
+ b3-20020a252e43000000b00d84b0f8090bmr7770498ybn.55.1695697843859; Mon, 25 Sep
+ 2023 20:10:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="H68YQ2lTD34t8/zF"
-Content-Disposition: inline
-In-Reply-To: <42bc8e02-5ee0-f1c8-610e-e16391e54ee2@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230925-strncpy-drivers-input-misc-axp20x-pek-c-v2-1-ff7abe8498d6@google.com>
+ <202309251100.A187272A49@keescook>
+In-Reply-To: <202309251100.A187272A49@keescook>
+Reply-To: wens@csie.org
+From:   Chen-Yu Tsai <wens@csie.org>
+Date:   Tue, 26 Sep 2023 11:10:31 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64W3oa6g-Ln2wVqXU4eVa-tY=zhvooAXckzDve8_fR-gQ@mail.gmail.com>
+Message-ID: <CAGb2v64W3oa6g-Ln2wVqXU4eVa-tY=zhvooAXckzDve8_fR-gQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Input: axp20x-pek - avoid needless newline removal
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Justin Stitt <justinstitt@google.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Tue, Sep 26, 2023 at 2:00 AM Kees Cook <keescook@chromium.org> wrote:
+>
+> On Mon, Sep 25, 2023 at 04:31:05AM +0000, Justin Stitt wrote:
+> > This code is doing more work than it needs to.
+> >
+> > Before handing off `val_str` to `kstrtouint()` we are eagerly removing
+> > any trailing newline which requires copying `buf`, validating it's
+> > length and checking/replacing any potential newlines.
+> >
+> > kstrtouint() handles this implicitly:
+> > kstrtouint ->
+> >   kstrotoull -> (documentation)
+> > |   /**
+> > |    * kstrtoull - convert a string to an unsigned long long
+> > |    * @s: The start of the string. The string must be null-terminated, and may also
+> > |    *  include a single newline before its terminating null. The first character
+> > |    ...
+> >
+> > Let's remove the redundant functionality and let kstrtouint handle it.
+> >
+> > Link: https://github.com/KSPP/linux/issues/90
+> > Cc: linux-hardening@vger.kernel.org
+> > Suggested-by: Kees Cook <keescook@chromium.org>
+> > Signed-off-by: Justin Stitt <justinstitt@google.com>
+>
+> This looks much cleaner. Thanks!
+>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
 
---H68YQ2lTD34t8/zF
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jul 25, 2023 at 07:00:21AM +0700, Bagas Sanjaya wrote:
-> Hi,
->=20
-> I notice a regression report on Bugzilla [1]. Quoting from it:
->=20
-> > Description:
-> > When booting into Linux 6.4.4, system no longer recognizes touchpad inp=
-ut (confirmed with xinput). On the lts release, 6.1.39, the input is still =
-recognized.
-> >=20
-> > Additional info:
-> > * package version(s): Linux 6.4.4, 6.1.39
-> > * Device: ELAN1206:00 04F3:30F1 Touchpad
-> >=20
-> > Steps to reproduce:
-> > - Install 6.4.4 with Elan Touchpad 1206
-> > - Reboot
-> >=20
-> > The issue might be related to bisected commit id: 7b63a88bb62ba2ddf5fcd=
-956be85fe46624628b9
-> > This is the only recent commit related to Elantech drivers I've noticed=
- that may have broken the input.
->=20
-> See Bugzilla for the full thread:
->=20
-> To the reporter (Verot): Can you attach dmesg and lspci output?
->=20
-> Anyway, I'm adding this regression to be tracked by regzbot:
->=20
-> #regzbot introduced: 7b63a88bb62ba2 https://bugzilla.kernel.org/show_bug.=
-cgi?id=3D217701
-> #regzbot title: OOB protocol access fix breaks Elan Touchpad 1206
->=20
-> Thanks.
->=20
-> [1]: https://bugzilla.kernel.org/show_bug.cgi?id=3D217701
->=20
-
-No reply from the reporter in regards to required bisection, thus:
-
-#regzbot inconclusive: not bisected, reporter MIA
-
-Sorry for inconvenience.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---H68YQ2lTD34t8/zF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZRIr5AAKCRD2uYlJVVFO
-o+6iAP98gFN37T7GtXeidZpgcd13kL448gj8ctLYAeJCo5rDLgEA4SxE9qTuQslN
-rHvLTpJT8v9HsUWYqm0ApWfaI4nE9QA=
-=7F3z
------END PGP SIGNATURE-----
-
---H68YQ2lTD34t8/zF--
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
