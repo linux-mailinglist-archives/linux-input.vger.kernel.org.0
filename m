@@ -2,312 +2,308 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7676D7B04E8
-	for <lists+linux-input@lfdr.de>; Wed, 27 Sep 2023 15:05:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8D797B057C
+	for <lists+linux-input@lfdr.de>; Wed, 27 Sep 2023 15:32:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231718AbjI0NFU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Sep 2023 09:05:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57868 "EHLO
+        id S231752AbjI0Ncp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Sep 2023 09:32:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231378AbjI0NFT (ORCPT
+        with ESMTP id S230037AbjI0Nco (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Sep 2023 09:05:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47312F5
-        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 06:04:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1695819874;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=lEJmDoqilpfailDPhLu8gdHLBSybSMtbE9uHTda0p00=;
-        b=BGZ2uaYi8wcAA0xXEwYcXSdJw6+ItkEm6S9sBzMP9pvCZMinTfdIhmsyNf+qGH0f8BZkQq
-        LEI7APEWalbk2oQ7MWdQSdeJ1Yg8s2xD/0lKxtAEDfhbNI/AV3VCPmvhPyAHONVDJCIULW
-        06eTgO41554MSkRaQtfDGP7oMMLjDu4=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-125-XVfxH-a-PFiuDcDvbsnpjw-1; Wed, 27 Sep 2023 09:04:32 -0400
-X-MC-Unique: XVfxH-a-PFiuDcDvbsnpjw-1
-Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2bfb2c81664so164262781fa.3
-        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 06:04:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695819871; x=1696424671;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lEJmDoqilpfailDPhLu8gdHLBSybSMtbE9uHTda0p00=;
-        b=BxHYRoRzSTEV91OG1qqtwJIkq57g3HLExsdIrS7gs9+civdgWkH0zxbizfFHWKHAhp
-         FMhcRETxPsNAwNi8YAapBU8tUSkJJihZDtEaf0qZRCWLPs2EIk2Xy9Xx2OPwSH/b8qbo
-         1qLkePzpRuiYYrveU8vu7vK2z30MBxoTVorMo4gQ4A8obc3KhztWFhJGUzyWCjJf359A
-         8oZr9dtI5+MDNhUPg2xDceo+psUhj2c3WMUP+TcS0h0pMNzwXSalxjfsO4vRbeFz22HS
-         lSa0ZZRcUZUR2dxKqjiUpX+wlWlQuc8ACvmgVavnErWN0ccsQu0wKVz2pzK4/jIzBRGf
-         dcUA==
-X-Gm-Message-State: AOJu0YzIMLFMN578PpoBRngdcszWo4nLVw4ysNllE1k37AdzWf5OH/T+
-        gqr7xS72FwARA8cBm64kiTOC42fQT5a+j/Xvtyk5kqHCXNbyeIfZxnmfIXORftgd46EPtGRLPFh
-        SuVRVRcIrbeF3EU5gZIsK/XM=
-X-Received: by 2002:a2e:808c:0:b0:2c0:ff6:984f with SMTP id i12-20020a2e808c000000b002c00ff6984fmr1840568ljg.49.1695819871320;
-        Wed, 27 Sep 2023 06:04:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEgrWTc1uEZWs0S50u15OrcUTMlN06IqObURZUtSe55BFL3PNrwfzxc97XMvVm/a3mhgZABPg==
-X-Received: by 2002:a2e:808c:0:b0:2c0:ff6:984f with SMTP id i12-20020a2e808c000000b002c00ff6984fmr1840547ljg.49.1695819870947;
-        Wed, 27 Sep 2023 06:04:30 -0700 (PDT)
-Received: from [192.168.1.217] ([109.36.155.235])
-        by smtp.gmail.com with ESMTPSA id d4-20020a170906370400b0099bd8c1f67esm9301994ejc.109.2023.09.27.06.04.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Sep 2023 06:04:30 -0700 (PDT)
-Message-ID: <72f7d962-e6ee-274a-74ba-aa68adf5806a@redhat.com>
-Date:   Wed, 27 Sep 2023 15:04:27 +0200
+        Wed, 27 Sep 2023 09:32:44 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAA97126;
+        Wed, 27 Sep 2023 06:32:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695821562; x=1727357562;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=WyQnbln/qxn77GjZ28iQ/c1Bwlx9s8zdHAg3jaa7e+k=;
+  b=Koh0DVWx8rKjXMoIHoiy1NFQmXnYYMzl+fq/sTUQMg7cWnmJSQguTMYR
+   H8r2Ow7GUxzqh01qrQx45Bvy9w9J/CIImq4tF3Z/WmLXnYwu94VqkLotN
+   FzE2AZktCvHVrxqqpIRnHpAl0yl4mW1V3tZkLvli8TLiPRDBgkx+S5lq5
+   GRd7F9SzpbL1I8iHXM30XiiJhgGQBzNfCg285PHhVb4Q5jru0qphV+6tz
+   wQb2hpNWSlxity7UFW5L0VDLYViKp1HkZdKG3wJcCo7twiiXEditBOt1+
+   7y1nA1JkbaPHnTQt/0Iig0FApiiZZgHalZM26RDbczsgIv1g+utRSt7bz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="381726694"
+X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
+   d="scan'208";a="381726694"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 06:32:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="742711409"
+X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
+   d="scan'208";a="742711409"
+Received: from clkuhl-mobl.amr.corp.intel.com ([10.252.53.225])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 06:32:36 -0700
+Date:   Wed, 27 Sep 2023 16:32:34 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+cc:     hdegoede@redhat.com, markgross@kernel.org,
+        Basavaraj Natikar <basavaraj.natikar@amd.com>,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        alexander.deucher@amd.com, christian.koenig@amd.com,
+        Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+        Patil.Reddy@amd.com, mario.limonciello@amd.com,
+        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 14/15] platform/x86/amd/pmf: Add PMF-AMDSFH interface
+ for HPD
+In-Reply-To: <20230922175056.244940-15-Shyam-sundar.S-k@amd.com>
+Message-ID: <aa85b6d6-6113-337d-5de3-77fd53d7387@linux.intel.com>
+References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com> <20230922175056.244940-15-Shyam-sundar.S-k@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 13/15] platform/x86/amd/pmf: Add PMF-AMDGPU set interface
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-        markgross@kernel.org, basavaraj.natikar@amd.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
-        Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch
-Cc:     amd-gfx@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, Patil.Reddy@amd.com,
-        linux-input@vger.kernel.org, mario.limonciello@amd.com
-References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com>
- <20230922175056.244940-14-Shyam-sundar.S-k@amd.com>
- <2e201a3b-d75f-916d-5135-b084ad5da23e@redhat.com>
- <437fbd5c-386f-4609-a350-77f61c8aaa0c@amd.com>
- <6c047e17-66b0-c3ff-1b4e-4478663619a4@redhat.com>
- <4e79121f-01bb-729b-1e70-043e8911cb12@amd.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <4e79121f-01bb-729b-1e70-043e8911cb12@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-HI,
+On Fri, 22 Sep 2023, Shyam Sundar S K wrote:
 
-On 9/26/23 15:17, Christian König wrote:
-> Am 26.09.23 um 14:56 schrieb Hans de Goede:
->> Hi,
->>
->> On 9/26/23 13:24, Shyam Sundar S K wrote:
->>> Hi Hans,
->>>
->>> On 9/26/2023 4:05 PM, Hans de Goede wrote:
->>>> Hi,
->>>>
->>>> On 9/22/23 19:50, Shyam Sundar S K wrote:
->>>>> For the Smart PC Solution to fully work, it has to enact to the actions
->>>>> coming from TA. Add the initial code path for set interface to AMDGPU.
->>>>>
->>>>> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
->>>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->>>>> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->>>>> ---
->>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c | 21 +++++++++++++++++++++
->>>>>   drivers/platform/x86/amd/pmf/pmf.h      |  2 ++
->>>>>   drivers/platform/x86/amd/pmf/tee-if.c   | 19 +++++++++++++++++--
->>>>>   include/linux/amd-pmf-io.h              |  1 +
->>>>>   4 files changed, 41 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
->>>>> index 232d11833ddc..5c567bff0548 100644
->>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
->>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
->>>>> @@ -68,3 +68,24 @@ int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf)
->>>>>       return 0;
->>>>>   }
->>>>>   EXPORT_SYMBOL_GPL(amd_pmf_get_gfx_data);
->>>>> +
->>>>> +int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf)
->>>>> +{
->>>>> +    struct drm_device *drm_dev = pci_get_drvdata(pmf->gpu_dev);
->>>>> +    struct amdgpu_device *adev = drm_to_adev(drm_dev);
->>>>> +    struct backlight_device *bd;
->>>>> +
->>>>> +    if (!(adev->flags & AMD_IS_APU)) {
->>>>> +        DRM_ERROR("PMF-AMDGPU interface not supported\n");
->>>>> +        return -ENODEV;
->>>>> +    }
->>>>> +
->>>>> +    bd = backlight_device_get_by_type(BACKLIGHT_RAW);
->>>>> +    if (!bd)
->>>>> +        return -ENODEV;
->>>> This assumes that the backlight is always controller by the amdgpu's
->>>> native backlight driver, but it might e.g. also be handled by
->>>> eacpi-video or by nvidia_wmi_ec_backlight (when using an AMD APU +
->>>> nvidia dgpu).
->>> PMF is meant for AMD APUs(atleast for now) and the _HID will only be
->>> made visible if its AMD laptop. So using amdgpu's native BACKLIGHT_RAW
->>> should be safe, right?
->> Users can pass say acpi_backlight=video and use the acpi_video
->> driver for backlight control instead of the native GPU backlight
->> control.
->>
->>>> For now what should be done here is to call acpi_video_get_backlight_type()
->>>> and then translate the return value from this into a backlight-type:
->>>>
->>>>          acpi_backlight_video        -> BACKLIGHT_FIRMWARE
->>>>          acpi_backlight_vendor,        -> BACKLIGHT_PLATFORM
->>>>          acpi_backlight_native,        -> BACKLIGHT_RAW
->>>>          acpi_backlight_nvidia_wmi_ec,    -> BACKLIGHT_FIRMWARE
->>>>          acpi_backlight_apple_gmux,    -> BACKLIGHT_PLATFORM
->>>>
->>> I can add this change in the v2, do you insist on this?
->> Insist is a strong word, but I think that it is a good idea to have
->> this. Evenutally it looks like this code will need to either integrate with
->> the drm drivers lot more; or the drm core needs to export some special
->> hooks for this which the PMF code can then call.
->>
->> Actually thinking more about this, I think that the right thing to do
->> here is make some code register brightness control as a cooling device
->> (which I think is already done in some cases) and then have the PMF
->> code use the cooling-device APIs for this.
->>
->> IMHO that would be a much cleaner solution then this hack.
+> From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 > 
-> Yeah, fully agree with Hans. This looks like a rather extreme hack to me.
-
-Shyam, the cooling device interface is defined in:
-
-include/linux/thermal.h
-
-And then look for cooling_device .
-
-An example of code registering a cooling_device for backlight control is:
-
-drivers/acpi/acpi_video.c
-
-and then specifically the code starting around line 257 with:
-
-video_get_max_state()
-
-until
-
-static const struct thermal_cooling_device_ops video_cooling_ops = {
-...
-
-And the code around line 1750 for actually registering the cooling-dev.
-
-To use the cooling_device interface witt amdgpu's native backlight control
-you will need to make the amdgpu backlight control register a cooling-device
-for this in a similar manner.
-
-Regards,
-
-Hans
-
-
-
-
+> AMDSFH has information about the User presence information via the Human
+> Presence Detection (HPD) sensor which is part of the AMD sensor fusion hub.
+> Add PMF and AMDSFH interface to get this information.
 > 
-> Apart from that what exactly is this thing supposed to do? Prevent overheating by reducing the brightness?
+> Co-developed-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+> ---
+>  drivers/hid/amd-sfh-hid/amd_sfh_common.h      |  5 ++++
+>  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c |  2 +-
+>  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 11 ++++++++
+>  .../amd-sfh-hid/sfh1_1/amd_sfh_interface.c    | 28 +++++++++++++++++++
+>  .../amd-sfh-hid/sfh1_1/amd_sfh_interface.h    |  1 +
+>  drivers/platform/x86/amd/pmf/spc.c            | 21 ++++++++++++++
+>  include/linux/amd-pmf-io.h                    | 22 ++++++++++++++-
+>  7 files changed, 88 insertions(+), 2 deletions(-)
 > 
-> Regards,
-> Christian.
+> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_common.h b/drivers/hid/amd-sfh-hid/amd_sfh_common.h
+> index 2643bb14fee2..cd57037bf217 100644
+> --- a/drivers/hid/amd-sfh-hid/amd_sfh_common.h
+> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_common.h
+> @@ -37,6 +37,10 @@ struct amd_mp2_sensor_info {
+>  	dma_addr_t dma_address;
+>  };
+>  
+> +struct sfh_dev_status {
+> +	bool is_hpd_present;
+> +};
+> +
+>  struct amd_mp2_dev {
+>  	struct pci_dev *pdev;
+>  	struct amdtp_cl_data *cl_data;
+> @@ -47,6 +51,7 @@ struct amd_mp2_dev {
+>  	struct amd_input_data in_data;
+>  	/* mp2 active control status */
+>  	u32 mp2_acs;
+> +	struct sfh_dev_status dev_en;
+>  };
+>  
+>  struct amd_mp2_ops {
+> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
+> index 06bdcf072d10..d7467c41ad3b 100644
+> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
+> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
+> @@ -132,7 +132,7 @@ static void get_common_inputs(struct common_input_property *common, int report_i
+>  	common->event_type = HID_USAGE_SENSOR_EVENT_DATA_UPDATED_ENUM;
+>  }
+>  
+> -static int float_to_int(u32 flt32_val)
+> +int float_to_int(u32 flt32_val)
+
+This is way too generic name to be exposed by a driver, add proper 
+prefix for it to make sure it never hits a compile problem.
+
+>  {
+>  	int fraction, shift, mantissa, sign, exp, zeropre;
+>  
+> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
+> index e9c6413af24a..9c623456ee12 100644
+> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
+> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
+> @@ -73,6 +73,12 @@ static int amd_sfh_hid_client_deinit(struct amd_mp2_dev *privdata)
+>  	int i, status;
+>  
+>  	for (i = 0; i < cl_data->num_hid_devices; i++) {
+> +		switch (cl_data->sensor_idx[i]) {
+> +		case HPD_IDX:
+> +			privdata->dev_en.is_hpd_present = false;
+> +			break;
+> +		}
+> +
+>  		if (cl_data->sensor_sts[i] == SENSOR_ENABLED) {
+>  			privdata->mp2_ops->stop(privdata, cl_data->sensor_idx[i]);
+>  			status = amd_sfh_wait_for_response
+> @@ -178,6 +184,11 @@ static int amd_sfh1_1_hid_client_init(struct amd_mp2_dev *privdata)
+>  			rc = amdtp_hid_probe(i, cl_data);
+>  			if (rc)
+>  				goto cleanup;
+> +			switch (cl_data->sensor_idx[i]) {
+> +			case HPD_IDX:
+> +			privdata->dev_en.is_hpd_present = true;
+> +				break;
+> +			}
+>  		}
+>  		dev_dbg(dev, "sid 0x%x (%s) status 0x%x\n",
+>  			cl_data->sensor_idx[i], get_sensor_name(cl_data->sensor_idx[i]),
+> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
+> index 4f81ef2d4f56..63a5bbca5a09 100644
+> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
+> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
+> @@ -7,11 +7,14 @@
+>   *
+>   * Author: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+>   */
+> +#include <linux/amd-pmf-io.h>
+>  #include <linux/io-64-nonatomic-lo-hi.h>
+>  #include <linux/iopoll.h>
+>  
+>  #include "amd_sfh_interface.h"
+>  
+> +static struct amd_mp2_dev *emp2;
+> +
+>  static int amd_sfh_wait_response(struct amd_mp2_dev *mp2, u8 sid, u32 cmd_id)
+>  {
+>  	struct sfh_cmd_response cmd_resp;
+> @@ -76,4 +79,29 @@ static struct amd_mp2_ops amd_sfh_ops = {
+>  void sfh_interface_init(struct amd_mp2_dev *mp2)
+>  {
+>  	mp2->mp2_ops = &amd_sfh_ops;
+> +	emp2 = mp2;
+> +}
+> +
+> +static int amd_sfh_hpd_info(u8 *user_present)
+> +{
+> +	if (emp2 && emp2->dev_en.is_hpd_present) {
+> +		struct hpd_status hpdstatus;
+> +
+> +		hpdstatus.val = readl(emp2->mmio + AMD_C2P_MSG(4));
+> +		*user_present = hpdstatus.shpd.presence;
+> +		return 0;
+> +	}
+> +	return  -ENODEV;
+> +}
+> +
+> +int amd_get_sfh_info(struct amd_sfh_info *sfh_info, enum sfh_message_type op)
+> +{
+> +	if (sfh_info) {
+> +		switch (op) {
+> +		case MT_HPD:
+> +			return amd_sfh_hpd_info(&sfh_info->user_present);
+> +		}
+> +	}
+> +	return -1;
+>  }
+> +EXPORT_SYMBOL_GPL(amd_get_sfh_info);
+> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
+> index 9d31d5b510eb..8a36386e6bce 100644
+> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
+> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
+> @@ -149,6 +149,7 @@ struct hpd_status {
+>  	};
+>  };
+>  
+> +int float_to_int(u32 flt32_val);
+>  void sfh_interface_init(struct amd_mp2_dev *mp2);
+>  void amd_sfh1_1_set_desc_ops(struct amd_mp2_ops *mp2_ops);
+>  #endif
+> diff --git a/drivers/platform/x86/amd/pmf/spc.c b/drivers/platform/x86/amd/pmf/spc.c
+> index 5f3ab1ce09d2..97293ae25cf5 100644
+> --- a/drivers/platform/x86/amd/pmf/spc.c
+> +++ b/drivers/platform/x86/amd/pmf/spc.c
+> @@ -48,6 +48,7 @@ void amd_pmf_dump_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *
+>  	dev_dbg(dev->dev, "Primary Display State : %s\n", in->ev_info.display_state ?
+>  			"Connected" : "disconnected/unknown");
+>  	dev_dbg(dev->dev, "LID State : %s\n", in->ev_info.lid_state ? "Close" : "Open");
+> +	dev_dbg(dev->dev, "User Presence : %s\n", in->ev_info.user_present ? "Present" : "Away");
+>  	dev_dbg(dev->dev, "==== TA inputs END ====\n");
+>  }
+>  #else
+> @@ -156,6 +157,25 @@ static void amd_pmf_get_gpu_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_ta
+>  	in->ev_info.display_state = dev->gfx_data.con_status[0];
+>  }
+>  
+> +static void amd_pmf_get_sensor_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
+> +{
+> +	struct amd_sfh_info sfh_info;
+> +
+> +	/* get HPD data */
+> +	amd_get_sfh_info(&sfh_info, MT_HPD);
+> +	switch (sfh_info.user_present) {
+> +	case SFH_NOT_DETECTED:
+> +		in->ev_info.user_present = 0xff; /* assume no sensors connected */
+> +		break;
+> +	case SFH_USER_PRESENT:
+> +		in->ev_info.user_present = 1;
+> +		break;
+> +	case SFH_USER_AWAY:
+> +		in->ev_info.user_present = 0;
+> +		break;
+> +	}
+> +}
+> +
+>  void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
+>  {
+>  	/* TA side lid open is 1 and close is 0, hence the ! here */
+> @@ -165,4 +185,5 @@ void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_tab
+>  	amd_pmf_get_battery_info(dev, in);
+>  	amd_pmf_get_slider_info(dev, in);
+>  	amd_pmf_get_gpu_info(dev, in);
+> +	amd_pmf_get_sensor_info(dev, in);
+>  }
+> diff --git a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h
+> index ecae387ddaa6..4f82973f6ad2 100644
+> --- a/include/linux/amd-pmf-io.h
+> +++ b/include/linux/amd-pmf-io.h
+> @@ -5,7 +5,8 @@
+>   * Copyright (c) 2023, Advanced Micro Devices, Inc.
+>   * All Rights Reserved.
+>   *
+> - * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> + * Authors: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> + *          Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+>   */
+>  
+>  #ifndef AMD_PMF_IO_H
+> @@ -26,4 +27,23 @@ struct amd_gpu_pmf_data {
+>  
+>  int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf);
+>  int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf);
+> +
+> +/* amd-sfh */
+> +enum sfh_message_type {
+> +	MT_HPD,
+> +};
+> +
+> +enum hpd_info {
+> +	SFH_NOT_DETECTED,
+> +	SFH_USER_PRESENT,
+> +	SFH_USER_AWAY
+> +};
+> +
+> +struct amd_sfh_info {
+> +	u8 user_present;
+> +	/* add future caps below */
+
+Remove the comment?
+
+> +};
+> +
+> +int amd_get_sfh_info(struct amd_sfh_info *sfh_info, enum sfh_message_type op);
+> +
+>  #endif
 > 
->>
->> Regards,
->>
->> Hans
->>
->>
->>
->>> Thanks,
->>> Shyam
->>>
->>>> Also I'm worried about probe order here, this code currently assumes
->>>> that the GPU or other backlight driver has loaded before this runs,
->>>> which is not necessarily the case.
->>>>
->>>> I think that if the backlight_device_get_by_type() fails this
->>>> should be retried say every 10 seconds from some delayed workqueue
->>>> for at least a couple of minutes after boot.
->>>>
->>>> Regards,
->>>>
->>>> Hans
->>>>
->>>>
->>>>
->>>>
->>>>> +
->>>>> +    backlight_device_set_brightness(bd, pmf->brightness);
->>>>> +
->>>>> +    return 0;
->>>>> +}
->>>>> +EXPORT_SYMBOL_GPL(amd_pmf_set_gfx_data);
->>>>> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
->>>>> index 9032df4ba48a..ce89cc0daa5a 100644
->>>>> --- a/drivers/platform/x86/amd/pmf/pmf.h
->>>>> +++ b/drivers/platform/x86/amd/pmf/pmf.h
->>>>> @@ -73,6 +73,7 @@
->>>>>   #define PMF_POLICY_STT_SKINTEMP_APU                7
->>>>>   #define PMF_POLICY_STT_SKINTEMP_HS2                8
->>>>>   #define PMF_POLICY_SYSTEM_STATE                    9
->>>>> +#define PMF_POLICY_DISPLAY_BRIGHTNESS                12
->>>>>   #define PMF_POLICY_P3T                        38
->>>>>     /* TA macros */
->>>>> @@ -480,6 +481,7 @@ enum ta_pmf_error_type {
->>>>>   };
->>>>>     struct pmf_action_table {
->>>>> +    unsigned long display_brightness;
->>>>>       enum system_state system_state;
->>>>>       unsigned long spl; /* in mW */
->>>>>       unsigned long sppt; /* in mW */
->>>>> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
->>>>> index 1608996654e8..eefffff83a4c 100644
->>>>> --- a/drivers/platform/x86/amd/pmf/tee-if.c
->>>>> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
->>>>> @@ -79,10 +79,10 @@ static int amd_pmf_update_uevents(struct amd_pmf_dev *dev, u16 event)
->>>>>       return 0;
->>>>>   }
->>>>>   -static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_result *out)
->>>>> +static int amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_result *out)
->>>>>   {
->>>>>       u32 val, event = 0;
->>>>> -    int idx;
->>>>> +    int idx, ret;
->>>>>         for (idx = 0; idx < out->actions_count; idx++) {
->>>>>           val = out->actions_list[idx].value;
->>>>> @@ -160,8 +160,23 @@ static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct ta_pmf_enact_
->>>>>                   dev->prev_data->system_state = 0;
->>>>>               }
->>>>>               break;
->>>>> +
->>>>> +        case PMF_POLICY_DISPLAY_BRIGHTNESS:
->>>>> +            ret = amd_pmf_get_gfx_data(&dev->gfx_data);
->>>>> +            if (ret)
->>>>> +                return ret;
->>>>> +
->>>>> +            dev->prev_data->display_brightness = dev->gfx_data.brightness;
->>>>> +            if (dev->prev_data->display_brightness != val) {
->>>>> +                dev->gfx_data.brightness = val;
->>>>> +                amd_pmf_set_gfx_data(&dev->gfx_data);
->>>>> +                dev_dbg(dev->dev, "update DISPLAY_BRIGHTNESS : %d\n", val);
->>>>> +            }
->>>>> +            break;
->>>>>           }
->>>>>       }
->>>>> +
->>>>> +    return 0;
->>>>>   }
->>>>>     static int amd_pmf_invoke_cmd_enact(struct amd_pmf_dev *dev)
->>>>> diff --git a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h
->>>>> index a2d4af231362..ecae387ddaa6 100644
->>>>> --- a/include/linux/amd-pmf-io.h
->>>>> +++ b/include/linux/amd-pmf-io.h
->>>>> @@ -25,4 +25,5 @@ struct amd_gpu_pmf_data {
->>>>>   };
->>>>>     int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf);
->>>>> +int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf);
->>>>>   #endif
-> 
+
+-- 
+ i.
 
