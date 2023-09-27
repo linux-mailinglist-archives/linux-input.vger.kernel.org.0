@@ -2,113 +2,146 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 314C47AFF02
-	for <lists+linux-input@lfdr.de>; Wed, 27 Sep 2023 10:54:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 379217B0269
+	for <lists+linux-input@lfdr.de>; Wed, 27 Sep 2023 13:08:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229985AbjI0Iye (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Sep 2023 04:54:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46696 "EHLO
+        id S231240AbjI0LIV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Sep 2023 07:08:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjI0Iyd (ORCPT
+        with ESMTP id S231143AbjI0LIU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Sep 2023 04:54:33 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D47A95;
-        Wed, 27 Sep 2023 01:54:31 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qlQJG-0001vm-2R; Wed, 27 Sep 2023 10:54:18 +0200
-Message-ID: <ca0109fa-c64b-43c1-a651-75b294d750a1@leemhuis.info>
-Date:   Wed, 27 Sep 2023 10:54:17 +0200
+        Wed, 27 Sep 2023 07:08:20 -0400
+X-Greylist: delayed 545 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 27 Sep 2023 04:08:16 PDT
+Received: from smtpout10.mo539.mail-out.ovh.net (smtpout10.mo539.mail-out.ovh.net [51.210.91.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E9CEF3
+        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 04:08:16 -0700 (PDT)
+Received: from director4.derp.mail-out.ovh.net (director4.derp.mail-out.ovh.net [79.137.60.37])
+        by mo539.mail-out.ovh.net (Postfix) with ESMTPS id A87181FFC9
+        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 10:59:08 +0000 (UTC)
+Received: from director4.derp.mail-out.ovh.net (director4.derp.mail-out.ovh.net. [127.0.0.1])
+        by director4.derp.mail-out.ovh.net (inspect_sender_mail_agent) with SMTP
+        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 10:59:08 +0000 (UTC)
+Received: from pro1.mail.ovh.net (unknown [10.109.156.173])
+        by director4.derp.mail-out.ovh.net (Postfix) with ESMTPS id 4D70D1FE79
+        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 10:59:08 +0000 (UTC)
+Received: from mikesz.helix.pl.com (213.238.85.40) by DAG23EX2.emp.local
+ (172.16.2.232) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2507.32; Wed, 27 Sep
+ 2023 12:59:07 +0200
+From:   Marcin Mikula <marcin@helix.pl>
+To:     <linux-input@vger.kernel.org>
+CC:     Marcin Mikula <marcin@helix.pl>
+Subject: [PATCH] HID parser: change usages table allocation to kvzalloc
+Date:   Wed, 27 Sep 2023 12:58:54 +0200
+Message-ID: <20230927105854.541910-1-marcin@helix.pl>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, de-DE
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: [regression] Resume broken on T14s Gen1 (AMD) due to "Input: psmouse
- - add delay when deactivating for SMBus mode"
-Autocrypt: addr=linux@leemhuis.info; keydata=
- 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 n7RI
-To:     Jeffery Miller <jefferymiller@google.com>
-Cc:     Andrew Duggan <aduggan@synaptics.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Linux kernel regressions list <regressions@lists.linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1695804871;f0f34a9f;
-X-HE-SMSGID: 1qlQJG-0001vm-2R
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,FOUND_YOU,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [213.238.85.40]
+X-ClientProxiedBy: CAS6.emp.local (172.16.1.6) To DAG23EX2.emp.local
+ (172.16.2.232)
+X-Ovh-Tracer-Id: 791507635014336617
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvjedrtdefgddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvvefufffkofgggfgtihesthekredtredttdenucfhrhhomhepofgrrhgtihhnucfoihhkuhhlrgcuoehmrghrtghinheshhgvlhhigidrphhlqeenucggtffrrghtthgvrhhnpeevleejveffvdeuveejledugefhhedvfeevfeetgfefieeiffehudegheeuvefggeenucfkphepuddvjedrtddrtddruddpvddufedrvdefkedrkeehrdegtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehmrghrtghinheshhgvlhhigidrphhlqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehfeelpdhmohguvgepshhmthhpohhuth
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jeffery! Your change 92e24e0e57f72e ("Input: psmouse - add delay when
-deactivating for SMBus mode") [merged for v6.6-rc1] broke resume on my
-T14s Gen1 (AMD): the system didn't really resume again at all (the
-display almost always didn't re-initialize) and there was nothing in the
-logs. I found your commit to be the culprit using a bisection and
-confirmed that reverting it on top of Linux 6.6-rc3 makes thing work
-again for me.
+There are devices which deliver buggy HID descriptors, repoting
+Usage Maximum for particular Usage Page of max value (0xFFFF).
 
-My dmesg from a kernel with the revert:
-https://www.leemhuis.info/files/misc/dmesg
+By decision of kernel HID subsystem developers such number will be limited
+to arbitrary value of HID_MAX_USAGES (12288), and the following log will
+be printed to warn about such condition:
 
-My config:
-https://www.leemhuis.info/files/misc/config
+"kernel: hid-generic 0005:057A:0087.001A: ignoring exceeding usage max"
 
-Funny detail: this is the full-blown Fedora rawhide config, apart from
-disabling UCSI (it caused another problem that was fixed after -rc1); I
-first had tried to use localmodconfig to strip down the config, but then
-the problem did not happen for some reason (or I did something stupid).
+but still the amount of memory allocated for HID_MAX_USAGES modified value
+can be quite high as for kmalloc allocation.
 
-Ciao, Thorsten
+On some systems with limited memory (seen in ARM based embedded system),
+in high memory pressure condition an attempt to kmalloc() such value
+can fail.
+As a consequence this HID Usage Page will not parsed, so will not be
+handled and the events will be ignored.
 
-#regzbot introduced 92e24e0e57f72e
-#regzbot title Input: psmouse - Resume broken on T14s Gen1 (AMD) due to
-a new delay when deactivating for SMBus mode
+From the user perspective part of the input described with this Usage Page
+simply will not work, which is a severe condition.
+
+Change of kzalloc to kvzalloc makes sure that this allocation will
+not fail.
+
+Example of the kernel callstack when allocation fails for reference:
+
+kernel: kworker/1:1: page allocation failure: order:7,
+mode:0x40dc0(GFP_KERNEL|__GFP_COMP|__GFP_ZERO), nodemask=(null),cpuset=/,
+mems_allowed=0
+
+Workqueue: events uhid_device_add_worker
+Call trace:
+  dump_backtrace+0x0/0x1b4
+  show_stack+0x24/0x30
+  dump_stack+0xac/0x10c
+  warn_alloc+0xd8/0x158
+  __alloc_pages_slowpath+0x2e0/0x914
+  __alloc_pages_nodemask+0x1b0/0x278
+  kmalloc_order+0x30/0x7c
+  kmalloc_order_trace+0x3c/0xd4
+  __kmalloc+0x50/0x188
+  hid_add_field+0x160/0x250
+  hid_parser_main+0x220/0x25c
+  hid_open_report+0x138/0x278
+  hid_generic_probe+0x40/0x5c
+  hid_device_probe+0x130/0x154
+  really_probe+0x274/0x3f0
+  driver_probe_device+0x118/0x128
+  __device_attach_driver+0xc4/0x108
+  bus_for_each_drv+0xa4/0xc8
+  __device_attach+0xf4/0x17c
+  device_initial_probe+0x24/0x30
+  bus_probe_device+0x38/0x98
+  device_add+0x4a0/0x578
+  hid_add_device+0x100/0x294
+  uhid_device_add_worker+0x28/0x70
+  process_one_work+0x19c/0x294
+  worker_thread+0x1e4/0x274
+  kthread+0xdc/0xec
+  ret_from_fork+0x10/0x18
+
+Signed-off-by: Marcin Mikula <marcin@helix.pl>
+---
+ drivers/hid/hid-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 8992e3c1e769..0886868ee176 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -95,7 +95,7 @@ static struct hid_field *hid_register_field(struct hid_report *report, unsigned
+ 		return NULL;
+ 	}
+ 
+-	field = kzalloc((sizeof(struct hid_field) +
++	field = kvzalloc((sizeof(struct hid_field) +
+ 			 usages * sizeof(struct hid_usage) +
+ 			 3 * usages * sizeof(unsigned int)), GFP_KERNEL);
+ 	if (!field)
+@@ -661,7 +661,7 @@ static void hid_free_report(struct hid_report *report)
+ 	kfree(report->field_entries);
+ 
+ 	for (n = 0; n < report->maxfield; n++)
+-		kfree(report->field[n]);
++		kvfree(report->field[n]);
+ 	kfree(report);
+ }
+ 
+-- 
+2.25.1
+
