@@ -2,44 +2,44 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FF767B03F3
-	for <lists+linux-input@lfdr.de>; Wed, 27 Sep 2023 14:26:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C7CE7B0441
+	for <lists+linux-input@lfdr.de>; Wed, 27 Sep 2023 14:34:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230270AbjI0M0D (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Sep 2023 08:26:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55092 "EHLO
+        id S230383AbjI0MeF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Sep 2023 08:34:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230102AbjI0M0C (ORCPT
+        with ESMTP id S229880AbjI0MeE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Sep 2023 08:26:02 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDE4DE6;
-        Wed, 27 Sep 2023 05:26:01 -0700 (PDT)
+        Wed, 27 Sep 2023 08:34:04 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFF6F192;
+        Wed, 27 Sep 2023 05:34:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695817561; x=1727353561;
+  t=1695818042; x=1727354042;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=w7Z7GAGvbkE0au25RJJjN4TJdomnd2iP3p/t+pD5fTU=;
-  b=hxP4Y4sljT/4VAT0ao4DLdnm74xOXgqyc1r9YXPXZgnAXP7TZbvY94xR
-   JsBWXj/pA1kuubGdH2vBT5d0bCjtYW6ZFGRfJBvD5L1SXitTVqAA22qQd
-   PPFQAmgq5qxPzc7ExggdIP0tfWOEqvibFpkfC7NA6B47AUc9ZcTQt4Sgi
-   k2TCkmmqTwscdnNROvcLoXdIOzfjvRENZ9rTCi91OxeISJeSy3LrADyrc
-   TcyDp7l8IYy+z369Fyc0il4qHQNbLVxbpoF5waV3LQAulAXD1qdRrLApM
-   DIJ+1WhjkRv/w0GM0JtqoVh+a+BEMCero1BigcIYtR8tdTV4mozeWG8Jc
+  bh=YPOv5yEn5ZM7AgUWexoeeAPtX+O6NhNqPLncR7gJ7qY=;
+  b=mLVl/sCYqtq5egRP/OfDRuE4AEDrrDkJzL6Up2kkLbYclTSW910P/+RA
+   74TroMUnakvrsvH/a9rwoNOuVjRA66pxf+FEa7MJSg8E5arUjaAthshS/
+   3K8p8259R9Nvl8mz+j5B7HrltC1DaI2q66sqb57IPgKPE6Jr4Y5U1Kyh3
+   bOWHKUH/I1l0XCxoo3dTpeJalXd3dKpeO98hSBSTomebl3vIXtKu9LYBT
+   V+6lASPotjoWQzrK+ZccN8BvRINC6IFU7PFVG34C0KIDOx5Bn5X4zgSdk
+   rUnLX0Q6paFmu+G+rAmd1qcU5LSBZmYuMKIBQ9zI6/k7g2V45zqKZOB3v
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="381712704"
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="385669915"
 X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="381712704"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 05:26:01 -0700
+   d="scan'208";a="385669915"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 05:33:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="778523583"
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="752557478"
 X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="778523583"
+   d="scan'208";a="752557478"
 Received: from clkuhl-mobl.amr.corp.intel.com (HELO idecesar-mobl.ger.corp.intel.com) ([10.252.53.225])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 05:25:54 -0700
-Date:   Wed, 27 Sep 2023 15:25:47 +0300 (EEST)
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 05:33:22 -0700
+Date:   Wed, 27 Sep 2023 15:33:19 +0300 (EEST)
 From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 cc:     hdegoede@redhat.com, markgross@kernel.org,
@@ -49,16 +49,16 @@ cc:     hdegoede@redhat.com, markgross@kernel.org,
         daniel@ffwll.ch, Patil.Reddy@amd.com, mario.limonciello@amd.com,
         platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
         amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 09/15] platform/x86/amd/pmf: Add facility to dump TA
- inputs
-In-Reply-To: <20230922175056.244940-10-Shyam-sundar.S-k@amd.com>
-Message-ID: <3c1893f2-cf72-c423-5de8-1423b2113a9e@linux.intel.com>
-References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com> <20230922175056.244940-10-Shyam-sundar.S-k@amd.com>
+Subject: Re: [PATCH 10/15] platform/x86/amd/pmf: Add capability to sideload
+ of policy binary
+In-Reply-To: <20230922175056.244940-11-Shyam-sundar.S-k@amd.com>
+Message-ID: <1021e446-d522-4b38-c588-50597a20cb3e@linux.intel.com>
+References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com> <20230922175056.244940-11-Shyam-sundar.S-k@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -67,116 +67,140 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 On Fri, 22 Sep 2023, Shyam Sundar S K wrote:
 
-> PMF driver sends constant inputs to TA which its gets via the other
-> subsystems in the kernel. To debug certain TA issues knowing what inputs
-> being sent to TA becomes critical. Add debug facility to the driver which
-> can isolate Smart PC and TA related issues.
+> A policy binary is OS agnostic, and the same policies are expected to work
+> across the OSes.  At times it becomes difficult to debug when the policies
+> inside the policy binaries starts to misbehave. Add a way to sideload such
+> policies independently to debug them via a debugfs entry.
 > 
 > Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 > Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 > ---
->  drivers/platform/x86/amd/pmf/pmf.h    |  3 +++
->  drivers/platform/x86/amd/pmf/spc.c    | 37 +++++++++++++++++++++++++++
->  drivers/platform/x86/amd/pmf/sps.c    |  2 +-
->  drivers/platform/x86/amd/pmf/tee-if.c |  1 +
->  4 files changed, 42 insertions(+), 1 deletion(-)
+>  drivers/platform/x86/amd/pmf/pmf.h    |  1 +
+>  drivers/platform/x86/amd/pmf/tee-if.c | 60 +++++++++++++++++++++++++++
+>  2 files changed, 61 insertions(+)
 > 
 > diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
-> index c5334f1177a4..61a0f3225b62 100644
+> index 61a0f3225b62..780c442239e3 100644
 > --- a/drivers/platform/x86/amd/pmf/pmf.h
 > +++ b/drivers/platform/x86/amd/pmf/pmf.h
-> @@ -592,6 +592,7 @@ int apmf_get_static_slider_granular(struct amd_pmf_dev *pdev,
->  bool is_pprof_balanced(struct amd_pmf_dev *pmf);
->  int amd_pmf_power_slider_update_event(struct amd_pmf_dev *dev);
->  
-> +const char *source_as_str(unsigned int state);
->  
->  int apmf_update_fan_idx(struct amd_pmf_dev *pdev, bool manual, u32 idx);
->  int amd_pmf_set_sps_power_limits(struct amd_pmf_dev *pmf);
-> @@ -622,4 +623,6 @@ int apmf_check_smart_pc(struct amd_pmf_dev *pmf_dev);
->  
->  /* Smart PC - TA interfaces */
->  void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in);
-> +void amd_pmf_dump_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in);
-> +
->  #endif /* PMF_H */
-> diff --git a/drivers/platform/x86/amd/pmf/spc.c b/drivers/platform/x86/amd/pmf/spc.c
-> index 08159cd5f853..5c6745f56ed1 100644
-> --- a/drivers/platform/x86/amd/pmf/spc.c
-> +++ b/drivers/platform/x86/amd/pmf/spc.c
-> @@ -13,6 +13,43 @@
->  #include <linux/power_supply.h>
->  #include "pmf.h"
->  
-> +#ifdef CONFIG_AMD_PMF_DEBUG
-> +static const char *ta_slider_as_str(unsigned int state)
-> +{
-> +	switch (state) {
-> +	case TA_BEST_PERFORMANCE:
-> +		return "PERFORMANCE";
-> +	case TA_BETTER_PERFORMANCE:
-> +		return "BALANCED";
-> +	case TA_BEST_BATTERY:
-> +		return "POWER_SAVER";
-> +	default:
-> +		return "Unknown TA Slider State";
-> +	}
-> +}
-> +
-> +void amd_pmf_dump_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
-> +{
-> +	dev_dbg(dev->dev, "==== TA inputs START ====\n");
-> +	dev_dbg(dev->dev, "Slider State : %s\n", ta_slider_as_str(in->ev_info.power_slider));
-> +	dev_dbg(dev->dev, "Power Source : %s\n", source_as_str(in->ev_info.power_source));
-> +	dev_dbg(dev->dev, "Battery Percentage : %d\n", in->ev_info.bat_percentage);
-> +	dev_dbg(dev->dev, "Designed Battery Capacity : %d\n", in->ev_info.bat_design);
-> +	dev_dbg(dev->dev, "Fully Charged Capacity : %d\n", in->ev_info.full_charge_capacity);
-> +	dev_dbg(dev->dev, "Drain Rate : %d\n", in->ev_info.drain_rate);
-> +	dev_dbg(dev->dev, "Socket Power : %d\n", in->ev_info.socket_power);
-> +	dev_dbg(dev->dev, "Skin Temperature : %d\n", in->ev_info.skin_temperature);
-> +	dev_dbg(dev->dev, "Avg C0 Residency : %d\n", in->ev_info.avg_c0residency);
-> +	dev_dbg(dev->dev, "Max C0 Residency : %d\n", in->ev_info.max_c0residency);
-> +	dev_dbg(dev->dev, "GFX Busy : %d\n", in->ev_info.gfx_busy);
-> +	dev_dbg(dev->dev, "Connected Display Count : %d\n", in->ev_info.monitor_count);
-> +	dev_dbg(dev->dev, "LID State : %s\n", in->ev_info.lid_state ? "Close" : "Open");
-> +	dev_dbg(dev->dev, "==== TA inputs END ====\n");
-
-Again, the printf format specifiers are wrong, shouldn't the compiler warn 
-about them?
-
-> +}
-> +#else
-> +void amd_pmf_dump_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in) {}
-> +#endif
-> +
->  static void amd_pmf_get_smu_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
->  {
->  	u16 max, avg = 0;
-> diff --git a/drivers/platform/x86/amd/pmf/sps.c b/drivers/platform/x86/amd/pmf/sps.c
-> index a70e67749be3..13e36b52dfe8 100644
-> --- a/drivers/platform/x86/amd/pmf/sps.c
-> +++ b/drivers/platform/x86/amd/pmf/sps.c
-> @@ -27,7 +27,7 @@ static const char *slider_as_str(unsigned int state)
->  	}
->  }
->  
-> -static const char *source_as_str(unsigned int state)
-> +const char *source_as_str(unsigned int state)
->  {
->  	switch (state) {
->  	case POWER_SOURCE_AC:
+> @@ -215,6 +215,7 @@ struct amd_pmf_dev {
+>  	bool cnqf_supported;
+>  	struct notifier_block pwr_src_notifier;
+>  	/* Smart PC solution builder */
+> +	struct dentry *esbin;
+>  	unsigned char *policy_buf;
+>  	u32 policy_sz;
+>  	struct tee_context *tee_ctx;
 > diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
-> index 1629856c20b4..4844782d93c7 100644
+> index 4844782d93c7..fa37cfab2dc7 100644
 > --- a/drivers/platform/x86/amd/pmf/tee-if.c
 > +++ b/drivers/platform/x86/amd/pmf/tee-if.c
-> @@ -186,6 +186,7 @@ static int amd_pmf_invoke_cmd_enact(struct amd_pmf_dev *dev)
->  	}
+> @@ -8,6 +8,7 @@
+>   * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+>   */
 >  
->  	if (ta_sm->pmf_result == TA_PMF_TYPE__SUCCESS && out->actions_count) {
-> +		amd_pmf_dump_ta_inputs(dev, in);
->  		dev_dbg(dev->dev, "action count:%d result:%x\n", out->actions_count,
->  			ta_sm->pmf_result);
->  		amd_pmf_apply_policies(dev, out);
+> +#include <linux/debugfs.h>
+>  #include <linux/tee_drv.h>
+>  #include <linux/uuid.h>
+>  #include "pmf.h"
+> @@ -21,6 +22,13 @@ module_param(pb_actions_ms, int, 0644);
+>  MODULE_PARM_DESC(pb_actions_ms, "Policy binary actions sampling frequency (default = 1000ms)");
+>  #endif
+>  
+> +#ifdef CONFIG_AMD_PMF_DEBUG
+> +/* Sideload policy binaries to debug policy failures */
+> +static bool pb_side_load;
+> +module_param(pb_side_load, bool, 0444);
+> +MODULE_PARM_DESC(pb_side_load, "Sideload policy binaries debug policy failures");
+> +#endif
+> +
+>  static const uuid_t amd_pmf_ta_uuid = UUID_INIT(0x6fd93b77, 0x3fb8, 0x524d,
+>  						0xb1, 0x2d, 0xc5, 0x29, 0xb1, 0x3d, 0x85, 0x43);
+>  
+> @@ -267,6 +275,49 @@ static int amd_pmf_start_policy_engine(struct amd_pmf_dev *dev)
+>  	return 0;
+>  }
+>  
+> +#ifdef CONFIG_AMD_PMF_DEBUG
+> +static ssize_t amd_pmf_get_pb_data(struct file *filp, const char __user *buf,
+> +				   size_t length, loff_t *pos)
+> +{
+> +	struct amd_pmf_dev *dev = filp->private_data;
+> +	int ret;
+> +
+> +	/* policy binary size cannot exceed POLICY_BUF_MAX_SZ */
+> +	if (length > POLICY_BUF_MAX_SZ || length == 0)
+> +		return -EINVAL;
+> +
+> +	dev->policy_sz = length;
+> +	if (copy_from_user(dev->policy_buf, buf, dev->policy_sz))
+> +		return -EFAULT;
+> +
+> +	ret = amd_pmf_start_policy_engine(dev);
+> +	if (ret)
+> +		return -EINVAL;
+> +
+> +	return length;
+> +}
+> +
+> +static const struct file_operations pb_fops = {
+> +	.write = amd_pmf_get_pb_data,
+> +	.open = simple_open,
+> +};
+> +
+> +int amd_pmf_open_pb(struct amd_pmf_dev *dev, struct dentry *debugfs_root)
+> +{
+> +	struct dentry *file = NULL;
+> +
+> +	dev->esbin = debugfs_create_dir("pb", debugfs_root);
+> +	if (IS_ERR(dev->esbin))
+> +		return -EINVAL;
+> +
+> +	file = debugfs_create_file("update_policy", 0644, dev->esbin, dev, &pb_fops);
+> +	if (!file)
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +#endif
+> +
+>  static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
+>  {
+>  	dev->policy_buf = kzalloc(dev->policy_sz, GFP_KERNEL);
+> @@ -279,6 +330,11 @@ static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
+>  
+>  	memcpy(dev->policy_buf, dev->policy_base, dev->policy_sz);
+>  
+> +#ifdef CONFIG_AMD_PMF_DEBUG
+> +	if (pb_side_load)
+
+Can't this go into amd_pmf_open_pb() as early return?
+
+> +		amd_pmf_open_pb(dev, dev->dbgfs_dir);
+
+If you provide #else and empty amd_pmf_open_pb() above, you don't need to 
+do ifdefs here.
+
+> +#endif
+> +
+>  	return amd_pmf_start_policy_engine(dev);
+>  }
+>  
+> @@ -381,6 +437,10 @@ int amd_pmf_init_smart_pc(struct amd_pmf_dev *dev)
+>  
+>  void amd_pmf_deinit_smart_pc(struct amd_pmf_dev *dev)
+>  {
+> +#ifdef CONFIG_AMD_PMF_DEBUG
+> +	if (pb_side_load)
+> +		debugfs_remove_recursive(dev->esbin);
+> +#endif
+
+Likewise here, if you add amd_pmf_remove_pb() into the above #ifdef + new 
+#else block with empty body, you can just call it w/o #ifdefs here.
+
+>  	kfree(dev->prev_data);
+>  	kfree(dev->policy_buf);
+>  	cancel_delayed_work_sync(&dev->pb_work);
 > 
 
 -- 
