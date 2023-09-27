@@ -2,58 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C7CE7B0441
-	for <lists+linux-input@lfdr.de>; Wed, 27 Sep 2023 14:34:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE0B07B04B6
+	for <lists+linux-input@lfdr.de>; Wed, 27 Sep 2023 14:54:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230383AbjI0MeF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Sep 2023 08:34:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59862 "EHLO
+        id S231730AbjI0Myk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Sep 2023 08:54:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229880AbjI0MeE (ORCPT
+        with ESMTP id S230109AbjI0Myj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Sep 2023 08:34:04 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFF6F192;
-        Wed, 27 Sep 2023 05:34:02 -0700 (PDT)
+        Wed, 27 Sep 2023 08:54:39 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22FEB12A;
+        Wed, 27 Sep 2023 05:54:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695818042; x=1727354042;
+  t=1695819278; x=1727355278;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=YPOv5yEn5ZM7AgUWexoeeAPtX+O6NhNqPLncR7gJ7qY=;
-  b=mLVl/sCYqtq5egRP/OfDRuE4AEDrrDkJzL6Up2kkLbYclTSW910P/+RA
-   74TroMUnakvrsvH/a9rwoNOuVjRA66pxf+FEa7MJSg8E5arUjaAthshS/
-   3K8p8259R9Nvl8mz+j5B7HrltC1DaI2q66sqb57IPgKPE6Jr4Y5U1Kyh3
-   bOWHKUH/I1l0XCxoo3dTpeJalXd3dKpeO98hSBSTomebl3vIXtKu9LYBT
-   V+6lASPotjoWQzrK+ZccN8BvRINC6IFU7PFVG34C0KIDOx5Bn5X4zgSdk
-   rUnLX0Q6paFmu+G+rAmd1qcU5LSBZmYuMKIBQ9zI6/k7g2V45zqKZOB3v
+  bh=+MQ7pQR4P8O8mS2/ElFu2Kpw3Kpb2sbQY704OQHU4vA=;
+  b=Py7gQ0ddbk5qv0qchnZWFB/XjtgjLpuCzz9P/qpEub2DuZBpesTPdL0g
+   Wx6SVntdcmT811MuZbS/ug4L2InOR7ZWuZpWiWqezhuWR1B9ihuBSwoIy
+   eYxeV0ps7NQ4jPJDFrhfBhGqQ4plscY8w/p+iKCxv32woQ9/kZ8s4oU2k
+   1eDlUPu90WXaeTvjf5CsrqcoBYVoa1aO2O5kNUWnsbKgJoN2TwgEqfVS7
+   kIOdHcbSmwDv8aGSZrUv3VXjZrlz+vrxqaDaAQFhYmF1dtrCBE7N0ehcu
+   7ict/IafPeOuaQsH2u6A7cju7h4iBCyoWJklmZ9pFhscCk6fWCJ9CA19N
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="385669915"
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="468099448"
 X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="385669915"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 05:33:26 -0700
+   d="scan'208";a="468099448"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 05:54:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="752557478"
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="864827529"
 X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="752557478"
+   d="scan'208";a="864827529"
 Received: from clkuhl-mobl.amr.corp.intel.com (HELO idecesar-mobl.ger.corp.intel.com) ([10.252.53.225])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 05:33:22 -0700
-Date:   Wed, 27 Sep 2023 15:33:19 +0300 (EEST)
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 05:54:19 -0700
+Date:   Wed, 27 Sep 2023 15:54:17 +0300 (EEST)
 From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-cc:     hdegoede@redhat.com, markgross@kernel.org,
+cc:     Hans de Goede <hdegoede@redhat.com>, markgross@kernel.org,
         basavaraj.natikar@amd.com, jikos@kernel.org,
         benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
         christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
         daniel@ffwll.ch, Patil.Reddy@amd.com, mario.limonciello@amd.com,
         platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
         amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 10/15] platform/x86/amd/pmf: Add capability to sideload
- of policy binary
-In-Reply-To: <20230922175056.244940-11-Shyam-sundar.S-k@amd.com>
-Message-ID: <1021e446-d522-4b38-c588-50597a20cb3e@linux.intel.com>
-References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com> <20230922175056.244940-11-Shyam-sundar.S-k@amd.com>
+Subject: Re: [PATCH 12/15] platform/x86/amd/pmf: Add PMF-AMDGPU get
+ interface
+In-Reply-To: <20230922175056.244940-13-Shyam-sundar.S-k@amd.com>
+Message-ID: <ee678f17-8ee6-6366-4fea-dd133c6599e8@linux.intel.com>
+References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com> <20230922175056.244940-13-Shyam-sundar.S-k@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -67,142 +67,308 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 On Fri, 22 Sep 2023, Shyam Sundar S K wrote:
 
-> A policy binary is OS agnostic, and the same policies are expected to work
-> across the OSes.  At times it becomes difficult to debug when the policies
-> inside the policy binaries starts to misbehave. Add a way to sideload such
-> policies independently to debug them via a debugfs entry.
+> In order to provide GPU inputs to TA for the Smart PC solution to work, we
+> need to have interface between the PMF driver and the AMDGPU driver.
 > 
-> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+> Add the initial code path for get interface from AMDGPU.
+> 
+> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 > Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 > ---
->  drivers/platform/x86/amd/pmf/pmf.h    |  1 +
->  drivers/platform/x86/amd/pmf/tee-if.c | 60 +++++++++++++++++++++++++++
->  2 files changed, 61 insertions(+)
+>  drivers/gpu/drm/amd/amdgpu/Makefile     |  2 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h     |  1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c | 70 +++++++++++++++++++++++++
+>  drivers/platform/x86/amd/pmf/Kconfig    |  1 +
+>  drivers/platform/x86/amd/pmf/core.c     |  1 +
+>  drivers/platform/x86/amd/pmf/pmf.h      |  4 ++
+>  drivers/platform/x86/amd/pmf/spc.c      | 13 +++++
+>  drivers/platform/x86/amd/pmf/tee-if.c   | 22 ++++++++
+>  include/linux/amd-pmf-io.h              | 28 ++++++++++
+>  9 files changed, 142 insertions(+)
+>  create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+>  create mode 100644 include/linux/amd-pmf-io.h
 > 
-> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
-> index 61a0f3225b62..780c442239e3 100644
-> --- a/drivers/platform/x86/amd/pmf/pmf.h
-> +++ b/drivers/platform/x86/amd/pmf/pmf.h
-> @@ -215,6 +215,7 @@ struct amd_pmf_dev {
->  	bool cnqf_supported;
->  	struct notifier_block pwr_src_notifier;
->  	/* Smart PC solution builder */
-> +	struct dentry *esbin;
->  	unsigned char *policy_buf;
->  	u32 policy_sz;
->  	struct tee_context *tee_ctx;
-> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
-> index 4844782d93c7..fa37cfab2dc7 100644
-> --- a/drivers/platform/x86/amd/pmf/tee-if.c
-> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
-> @@ -8,6 +8,7 @@
->   * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->   */
+> diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile b/drivers/gpu/drm/amd/amdgpu/Makefile
+> index 384b798a9bad..7fafccefbd7a 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/Makefile
+> +++ b/drivers/gpu/drm/amd/amdgpu/Makefile
+> @@ -86,6 +86,8 @@ amdgpu-$(CONFIG_PROC_FS) += amdgpu_fdinfo.o
 >  
-> +#include <linux/debugfs.h>
->  #include <linux/tee_drv.h>
->  #include <linux/uuid.h>
->  #include "pmf.h"
-> @@ -21,6 +22,13 @@ module_param(pb_actions_ms, int, 0644);
->  MODULE_PARM_DESC(pb_actions_ms, "Policy binary actions sampling frequency (default = 1000ms)");
->  #endif
+>  amdgpu-$(CONFIG_PERF_EVENTS) += amdgpu_pmu.o
 >  
-> +#ifdef CONFIG_AMD_PMF_DEBUG
-> +/* Sideload policy binaries to debug policy failures */
-> +static bool pb_side_load;
-> +module_param(pb_side_load, bool, 0444);
-> +MODULE_PARM_DESC(pb_side_load, "Sideload policy binaries debug policy failures");
-> +#endif
+> +amdgpu-$(CONFIG_AMD_PMF) += amdgpu_pmf.o
 > +
->  static const uuid_t amd_pmf_ta_uuid = UUID_INIT(0x6fd93b77, 0x3fb8, 0x524d,
->  						0xb1, 0x2d, 0xc5, 0x29, 0xb1, 0x3d, 0x85, 0x43);
+>  # add asic specific block
+>  amdgpu-$(CONFIG_DRM_AMDGPU_CIK)+= cik.o cik_ih.o \
+>  	dce_v8_0.o gfx_v7_0.o cik_sdma.o uvd_v4_2.o vce_v2_0.o
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index dc2d53081e80..475f3e248f35 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -50,6 +50,7 @@
+>  #include <linux/hashtable.h>
+>  #include <linux/dma-fence.h>
+>  #include <linux/pci.h>
+> +#include <linux/amd-pmf-io.h>
 >  
-> @@ -267,6 +275,49 @@ static int amd_pmf_start_policy_engine(struct amd_pmf_dev *dev)
->  	return 0;
->  }
->  
-> +#ifdef CONFIG_AMD_PMF_DEBUG
-> +static ssize_t amd_pmf_get_pb_data(struct file *filp, const char __user *buf,
-> +				   size_t length, loff_t *pos)
+>  #include <drm/ttm/ttm_bo.h>
+>  #include <drm/ttm/ttm_placement.h>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+> new file mode 100644
+> index 000000000000..232d11833ddc
+> --- /dev/null
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+> @@ -0,0 +1,70 @@
+> +/*
+> + * Copyright 2023 Advanced Micro Devices, Inc.
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a
+> + * copy of this software and associated documentation files (the "Software"),
+> + * to deal in the Software without restriction, including without limitation
+> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> + * and/or sell copies of the Software, and to permit persons to whom the
+> + * Software is furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> + * OTHER DEALINGS IN THE SOFTWARE.
+> +
+> + * * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> + */
+> +
+> +#include <linux/backlight.h>
+> +#include "amdgpu.h"
+> +
+> +int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf)
 > +{
-> +	struct amd_pmf_dev *dev = filp->private_data;
-> +	int ret;
+> +	struct drm_device *drm_dev = pci_get_drvdata(pmf->gpu_dev);
+> +	struct drm_mode_config *mode_config = &drm_dev->mode_config;
+> +	struct amdgpu_device *adev = drm_to_adev(drm_dev);
+> +	struct drm_connector_list_iter iter;
+> +	struct drm_connector *connector;
+> +	struct backlight_device *bd;
+> +	int i = 0;
 > +
-> +	/* policy binary size cannot exceed POLICY_BUF_MAX_SZ */
-> +	if (length > POLICY_BUF_MAX_SZ || length == 0)
-> +		return -EINVAL;
+> +	/* reset the count to zero */
+> +	pmf->display_count = 0;
+> +	if (!(adev->flags & AMD_IS_APU)) {
+> +		DRM_ERROR("PMF-AMDGPU interface not supported\n");
+> +		return -ENODEV;
+> +	}
 > +
-> +	dev->policy_sz = length;
-> +	if (copy_from_user(dev->policy_buf, buf, dev->policy_sz))
-> +		return -EFAULT;
+> +	bd = backlight_device_get_by_type(BACKLIGHT_RAW);
+> +	if (!bd)
+> +		return -ENODEV;
 > +
-> +	ret = amd_pmf_start_policy_engine(dev);
-> +	if (ret)
-> +		return -EINVAL;
+> +	pmf->brightness = backlight_get_brightness(bd);
 > +
-> +	return length;
-> +}
+> +	mutex_lock(&mode_config->mutex);
+> +	drm_connector_list_iter_begin(drm_dev, &iter);
 > +
-> +static const struct file_operations pb_fops = {
-> +	.write = amd_pmf_get_pb_data,
-> +	.open = simple_open,
-> +};
-> +
-> +int amd_pmf_open_pb(struct amd_pmf_dev *dev, struct dentry *debugfs_root)
-> +{
-> +	struct dentry *file = NULL;
-> +
-> +	dev->esbin = debugfs_create_dir("pb", debugfs_root);
-> +	if (IS_ERR(dev->esbin))
-> +		return -EINVAL;
-> +
-> +	file = debugfs_create_file("update_policy", 0644, dev->esbin, dev, &pb_fops);
-> +	if (!file)
-> +		return -EINVAL;
+> +	drm_for_each_connector_iter(connector, &iter) {
+> +		if (i > MAX_SUPPORTED)
+> +			break;
+
+I'd put this below right after i++.
+
+> +		if (connector->status == connector_status_connected) {
+> +			pmf->con_status[i] = connector->status;
+> +			pmf->connector_type[i] = connector->connector_type;
+> +			pmf->display_count++;
+> +		}
+> +		i++;
+> +	}
+> +	drm_connector_list_iter_end(&iter);
+> +	mutex_unlock(&mode_config->mutex);
 > +
 > +	return 0;
 > +}
-> +#endif
+> +EXPORT_SYMBOL_GPL(amd_pmf_get_gfx_data);
+> diff --git a/drivers/platform/x86/amd/pmf/Kconfig b/drivers/platform/x86/amd/pmf/Kconfig
+> index 437b78c6d1c5..0cd08f9ab51b 100644
+> --- a/drivers/platform/x86/amd/pmf/Kconfig
+> +++ b/drivers/platform/x86/amd/pmf/Kconfig
+> @@ -10,6 +10,7 @@ config AMD_PMF
+>  	depends on AMD_NB
+>  	select ACPI_PLATFORM_PROFILE
+>  	depends on AMDTEE
+> +	depends on DRM_AMDGPU
+>  	help
+>  	  This driver provides support for the AMD Platform Management Framework.
+>  	  The goal is to enhance end user experience by making AMD PCs smarter,
+> diff --git a/drivers/platform/x86/amd/pmf/core.c b/drivers/platform/x86/amd/pmf/core.c
+> index dbfe7c1d6fc4..c468d208b1dc 100644
+> --- a/drivers/platform/x86/amd/pmf/core.c
+> +++ b/drivers/platform/x86/amd/pmf/core.c
+> @@ -396,6 +396,7 @@ static int amd_pmf_probe(struct platform_device *pdev)
+>  	}
+>  
+>  	dev->cpu_id = rdev->device;
+> +	dev->root = rdev;
+>  
+>  	err = amd_smn_read(0, AMD_PMF_BASE_ADDR_LO, &val);
+>  	if (err) {
+> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
+> index 780c442239e3..9032df4ba48a 100644
+> --- a/drivers/platform/x86/amd/pmf/pmf.h
+> +++ b/drivers/platform/x86/amd/pmf/pmf.h
+> @@ -13,6 +13,8 @@
+>  
+>  #include <linux/acpi.h>
+>  #include <linux/platform_profile.h>
+> +#include <linux/amd-pmf-io.h>
 > +
->  static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
+>  #define POLICY_BUF_MAX_SZ		0x4b000
+>  #define POLICY_SIGN_COOKIE		0x31535024
+>  
+> @@ -224,9 +226,11 @@ struct amd_pmf_dev {
+>  	void *shbuf;
+>  	struct delayed_work pb_work;
+>  	struct pmf_action_table *prev_data;
+> +	struct amd_gpu_pmf_data gfx_data;
+>  	u64 policy_addr;
+>  	void *policy_base;
+>  	bool smart_pc_enabled;
+> +	struct pci_dev *root;
+>  };
+>  
+>  struct apmf_sps_prop_granular {
+> diff --git a/drivers/platform/x86/amd/pmf/spc.c b/drivers/platform/x86/amd/pmf/spc.c
+> index 5c6745f56ed1..5f3ab1ce09d2 100644
+> --- a/drivers/platform/x86/amd/pmf/spc.c
+> +++ b/drivers/platform/x86/amd/pmf/spc.c
+> @@ -43,6 +43,10 @@ void amd_pmf_dump_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *
+>  	dev_dbg(dev->dev, "Max C0 Residency : %d\n", in->ev_info.max_c0residency);
+>  	dev_dbg(dev->dev, "GFX Busy : %d\n", in->ev_info.gfx_busy);
+>  	dev_dbg(dev->dev, "Connected Display Count : %d\n", in->ev_info.monitor_count);
+> +	dev_dbg(dev->dev, "Primary Display Type : %s\n",
+> +		drm_get_connector_type_name(in->ev_info.display_type));
+> +	dev_dbg(dev->dev, "Primary Display State : %s\n", in->ev_info.display_state ?
+> +			"Connected" : "disconnected/unknown");
+>  	dev_dbg(dev->dev, "LID State : %s\n", in->ev_info.lid_state ? "Close" : "Open");
+>  	dev_dbg(dev->dev, "==== TA inputs END ====\n");
+>  }
+> @@ -144,6 +148,14 @@ static int amd_pmf_get_slider_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_
+>  	return 0;
+>  }
+>  
+> +static void amd_pmf_get_gpu_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
+> +{
+> +	amd_pmf_get_gfx_data(&dev->gfx_data);
+> +	in->ev_info.monitor_count = dev->gfx_data.display_count;
+> +	in->ev_info.display_type = dev->gfx_data.connector_type[0];
+> +	in->ev_info.display_state = dev->gfx_data.con_status[0];
+> +}
+> +
+>  void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
 >  {
->  	dev->policy_buf = kzalloc(dev->policy_sz, GFP_KERNEL);
-> @@ -279,6 +330,11 @@ static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
+>  	/* TA side lid open is 1 and close is 0, hence the ! here */
+> @@ -152,4 +164,5 @@ void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_tab
+>  	amd_pmf_get_smu_info(dev, in);
+>  	amd_pmf_get_battery_info(dev, in);
+>  	amd_pmf_get_slider_info(dev, in);
+> +	amd_pmf_get_gpu_info(dev, in);
+>  }
+> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
+> index 3daa122f35d5..1608996654e8 100644
+> --- a/drivers/platform/x86/amd/pmf/tee-if.c
+> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
+> @@ -9,6 +9,7 @@
+>   */
 >  
->  	memcpy(dev->policy_buf, dev->policy_base, dev->policy_sz);
->  
-> +#ifdef CONFIG_AMD_PMF_DEBUG
-> +	if (pb_side_load)
-
-Can't this go into amd_pmf_open_pb() as early return?
-
-> +		amd_pmf_open_pb(dev, dev->dbgfs_dir);
-
-If you provide #else and empty amd_pmf_open_pb() above, you don't need to 
-do ifdefs here.
-
-> +#endif
-> +
+>  #include <linux/debugfs.h>
+> +#include <linux/pci.h>
+>  #include <linux/tee_drv.h>
+>  #include <linux/uuid.h>
+>  #include "pmf.h"
+> @@ -345,6 +346,20 @@ static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
 >  	return amd_pmf_start_policy_engine(dev);
 >  }
 >  
-> @@ -381,6 +437,10 @@ int amd_pmf_init_smart_pc(struct amd_pmf_dev *dev)
->  
->  void amd_pmf_deinit_smart_pc(struct amd_pmf_dev *dev)
->  {
-> +#ifdef CONFIG_AMD_PMF_DEBUG
-> +	if (pb_side_load)
-> +		debugfs_remove_recursive(dev->esbin);
-> +#endif
+> +static int amd_pmf_get_gpu_handle(struct pci_dev *pdev, void *data)
+> +{
+> +	struct amd_pmf_dev *dev = data;
+> +
+> +	if (pdev->vendor == PCI_VENDOR_ID_ATI && pdev->devfn == 0) {
+> +		dev->gfx_data.gpu_dev = pci_get_device(pdev->vendor, pdev->device, NULL);
 
-Likewise here, if you add amd_pmf_remove_pb() into the above #ifdef + new 
-#else block with empty body, you can just call it w/o #ifdefs here.
-
->  	kfree(dev->prev_data);
->  	kfree(dev->policy_buf);
->  	cancel_delayed_work_sync(&dev->pb_work);
-> 
+What is this attempting to do??
 
 -- 
  i.
 
+
+> +		if (dev->gfx_data.gpu_dev) {
+> +			pci_dev_put(pdev);
+> +			return 1; /* stop walking */
+> +		}
+> +	}
+> +	return 0; /* continue walking */
+> +}
+> +
+>  static int amd_pmf_amdtee_ta_match(struct tee_ioctl_version_data *ver, const void *data)
+>  {
+>  	return ver->impl_id == TEE_IMPL_ID_AMDTEE;
+> @@ -435,6 +450,12 @@ int amd_pmf_init_smart_pc(struct amd_pmf_dev *dev)
+>  	INIT_DELAYED_WORK(&dev->pb_work, amd_pmf_invoke_cmd);
+>  	amd_pmf_set_dram_addr(dev);
+>  	amd_pmf_get_bios_buffer(dev);
+> +
+> +	/* get amdgpu handle */
+> +	pci_walk_bus(dev->root->bus, amd_pmf_get_gpu_handle, dev);
+> +	if (!dev->gfx_data.gpu_dev)
+> +		dev_err(dev->dev, "GPU handle not found!\n");
+> +
+>  	dev->prev_data = kzalloc(sizeof(*dev->prev_data), GFP_KERNEL);
+>  	if (!dev->prev_data)
+>  		return -ENOMEM;
+> @@ -451,5 +472,6 @@ void amd_pmf_deinit_smart_pc(struct amd_pmf_dev *dev)
+>  	kfree(dev->prev_data);
+>  	kfree(dev->policy_buf);
+>  	cancel_delayed_work_sync(&dev->pb_work);
+> +	pci_dev_put(dev->gfx_data.gpu_dev);
+>  	amd_pmf_tee_deinit(dev);
+>  }
+> diff --git a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h
+> new file mode 100644
+> index 000000000000..a2d4af231362
+> --- /dev/null
+> +++ b/include/linux/amd-pmf-io.h
+> @@ -0,0 +1,28 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * AMD Platform Management Framework Interface
+> + *
+> + * Copyright (c) 2023, Advanced Micro Devices, Inc.
+> + * All Rights Reserved.
+> + *
+> + * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> + */
+> +
+> +#ifndef AMD_PMF_IO_H
+> +#define AMD_PMF_IO_H
+> +
+> +#include <drm/drm_connector.h>
+> +
+> +#define MAX_SUPPORTED 4
+> +
+> +/* amdgpu */
+> +struct amd_gpu_pmf_data {
+> +	struct pci_dev *gpu_dev;
+> +	enum drm_connector_status con_status[MAX_SUPPORTED];
+> +	int display_count;
+> +	int connector_type[MAX_SUPPORTED];
+> +	int brightness;
+> +};
+> +
+> +int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf);
+> +#endif
+> 
