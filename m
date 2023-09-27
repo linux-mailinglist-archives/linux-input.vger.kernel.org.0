@@ -2,146 +2,135 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 379217B0269
-	for <lists+linux-input@lfdr.de>; Wed, 27 Sep 2023 13:08:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EE2B7B02A0
+	for <lists+linux-input@lfdr.de>; Wed, 27 Sep 2023 13:20:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231240AbjI0LIV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Sep 2023 07:08:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42486 "EHLO
+        id S231395AbjI0LUb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Sep 2023 07:20:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231143AbjI0LIU (ORCPT
+        with ESMTP id S231366AbjI0LUa (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Sep 2023 07:08:20 -0400
-X-Greylist: delayed 545 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 27 Sep 2023 04:08:16 PDT
-Received: from smtpout10.mo539.mail-out.ovh.net (smtpout10.mo539.mail-out.ovh.net [51.210.91.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E9CEF3
-        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 04:08:16 -0700 (PDT)
-Received: from director4.derp.mail-out.ovh.net (director4.derp.mail-out.ovh.net [79.137.60.37])
-        by mo539.mail-out.ovh.net (Postfix) with ESMTPS id A87181FFC9
-        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 10:59:08 +0000 (UTC)
-Received: from director4.derp.mail-out.ovh.net (director4.derp.mail-out.ovh.net. [127.0.0.1])
-        by director4.derp.mail-out.ovh.net (inspect_sender_mail_agent) with SMTP
-        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 10:59:08 +0000 (UTC)
-Received: from pro1.mail.ovh.net (unknown [10.109.156.173])
-        by director4.derp.mail-out.ovh.net (Postfix) with ESMTPS id 4D70D1FE79
-        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 10:59:08 +0000 (UTC)
-Received: from mikesz.helix.pl.com (213.238.85.40) by DAG23EX2.emp.local
- (172.16.2.232) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2507.32; Wed, 27 Sep
- 2023 12:59:07 +0200
-From:   Marcin Mikula <marcin@helix.pl>
-To:     <linux-input@vger.kernel.org>
-CC:     Marcin Mikula <marcin@helix.pl>
-Subject: [PATCH] HID parser: change usages table allocation to kvzalloc
-Date:   Wed, 27 Sep 2023 12:58:54 +0200
-Message-ID: <20230927105854.541910-1-marcin@helix.pl>
-X-Mailer: git-send-email 2.25.1
+        Wed, 27 Sep 2023 07:20:30 -0400
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E049DF3
+        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 04:20:26 -0700 (PDT)
+Received: from submission (posteo.de [185.67.36.169]) 
+        by mout01.posteo.de (Postfix) with ESMTPS id DFC08240027
+        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 13:20:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1695813624; bh=Sm0zxM7O/i60NLNvSviHQemdaF2HDOm/QoewQiI0zbk=;
+        h=Message-ID:Subject:From:To:Cc:Date:Content-Transfer-Encoding:
+         MIME-Version:From;
+        b=fTk8Ubev8wyyua73JyBC7Cfn5tUJxtndrUQsmwP9rPLqpYUG8Kph3NaNU2X8dWR4z
+         oeCM76ryDnQXBVUH5trE1mBrBSmrX+bNbdGKEkq713nit+fdCCKmR2cb/Fei0usOGs
+         aC7VbhQVqQ8H9MXxCdTftzyR+yO/JQDFwXz/GzpxWLlJdZcHVSq/SL6G+E/sXksYPk
+         aLqV6v4dq7urAAdBTtl/IQ2/qKXHiLDqeT9bqO/i1DUQ02czacd+Nt2rrR3XGQGmos
+         4d++p636yDmStwvdWp0fseWzAzmqDASt0sGnjh42WQpeIv3DoYrSQuN6B64wcA7RRv
+         jHSaMJ4FAhaVw==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4RwZ0R6m4qz9s2W;
+        Wed, 27 Sep 2023 13:20:23 +0200 (CEST)
+Message-ID: <137ee9ed434fe98fd773cd27895afc564f92a23c.camel@posteo.de>
+Subject: Re: [RFC PATCH 2/2] hid: lenovo: move type checks to
+ lenovo_features_set_cptkbd()
+From:   Martin Kepplinger <martink@posteo.de>
+To:     Jamie Lentin <jm@lentin.co.uk>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Date:   Wed, 27 Sep 2023 11:20:23 +0000
+In-Reply-To: <ef0f15c3b17ebbd58f7481910b3f40ff@lentin.co.uk>
+References: <140b721bc345a846863a37ebf17c3174@lentin.co.uk>
+         <20230925102302.13094-1-martink@posteo.de>
+         <20230925102302.13094-2-martink@posteo.de>
+         <ef0f15c3b17ebbd58f7481910b3f40ff@lentin.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [213.238.85.40]
-X-ClientProxiedBy: CAS6.emp.local (172.16.1.6) To DAG23EX2.emp.local
- (172.16.2.232)
-X-Ovh-Tracer-Id: 791507635014336617
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvjedrtdefgddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvvefufffkofgggfgtihesthekredtredttdenucfhrhhomhepofgrrhgtihhnucfoihhkuhhlrgcuoehmrghrtghinheshhgvlhhigidrphhlqeenucggtffrrghtthgvrhhnpeevleejveffvdeuveejledugefhhedvfeevfeetgfefieeiffehudegheeuvefggeenucfkphepuddvjedrtddrtddruddpvddufedrvdefkedrkeehrdegtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehmrghrtghinheshhgvlhhigidrphhlqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehfeelpdhmohguvgepshhmthhpohhuth
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-There are devices which deliver buggy HID descriptors, repoting
-Usage Maximum for particular Usage Page of max value (0xFFFF).
-
-By decision of kernel HID subsystem developers such number will be limited
-to arbitrary value of HID_MAX_USAGES (12288), and the following log will
-be printed to warn about such condition:
-
-"kernel: hid-generic 0005:057A:0087.001A: ignoring exceeding usage max"
-
-but still the amount of memory allocated for HID_MAX_USAGES modified value
-can be quite high as for kmalloc allocation.
-
-On some systems with limited memory (seen in ARM based embedded system),
-in high memory pressure condition an attempt to kmalloc() such value
-can fail.
-As a consequence this HID Usage Page will not parsed, so will not be
-handled and the events will be ignored.
-
-From the user perspective part of the input described with this Usage Page
-simply will not work, which is a severe condition.
-
-Change of kzalloc to kvzalloc makes sure that this allocation will
-not fail.
-
-Example of the kernel callstack when allocation fails for reference:
-
-kernel: kworker/1:1: page allocation failure: order:7,
-mode:0x40dc0(GFP_KERNEL|__GFP_COMP|__GFP_ZERO), nodemask=(null),cpuset=/,
-mems_allowed=0
-
-Workqueue: events uhid_device_add_worker
-Call trace:
-  dump_backtrace+0x0/0x1b4
-  show_stack+0x24/0x30
-  dump_stack+0xac/0x10c
-  warn_alloc+0xd8/0x158
-  __alloc_pages_slowpath+0x2e0/0x914
-  __alloc_pages_nodemask+0x1b0/0x278
-  kmalloc_order+0x30/0x7c
-  kmalloc_order_trace+0x3c/0xd4
-  __kmalloc+0x50/0x188
-  hid_add_field+0x160/0x250
-  hid_parser_main+0x220/0x25c
-  hid_open_report+0x138/0x278
-  hid_generic_probe+0x40/0x5c
-  hid_device_probe+0x130/0x154
-  really_probe+0x274/0x3f0
-  driver_probe_device+0x118/0x128
-  __device_attach_driver+0xc4/0x108
-  bus_for_each_drv+0xa4/0xc8
-  __device_attach+0xf4/0x17c
-  device_initial_probe+0x24/0x30
-  bus_probe_device+0x38/0x98
-  device_add+0x4a0/0x578
-  hid_add_device+0x100/0x294
-  uhid_device_add_worker+0x28/0x70
-  process_one_work+0x19c/0x294
-  worker_thread+0x1e4/0x274
-  kthread+0xdc/0xec
-  ret_from_fork+0x10/0x18
-
-Signed-off-by: Marcin Mikula <marcin@helix.pl>
----
- drivers/hid/hid-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index 8992e3c1e769..0886868ee176 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -95,7 +95,7 @@ static struct hid_field *hid_register_field(struct hid_report *report, unsigned
- 		return NULL;
- 	}
- 
--	field = kzalloc((sizeof(struct hid_field) +
-+	field = kvzalloc((sizeof(struct hid_field) +
- 			 usages * sizeof(struct hid_usage) +
- 			 3 * usages * sizeof(unsigned int)), GFP_KERNEL);
- 	if (!field)
-@@ -661,7 +661,7 @@ static void hid_free_report(struct hid_report *report)
- 	kfree(report->field_entries);
- 
- 	for (n = 0; n < report->maxfield; n++)
--		kfree(report->field[n]);
-+		kvfree(report->field[n]);
- 	kfree(report);
- }
- 
--- 
-2.25.1
+QW0gTWl0dHdvY2gsIGRlbSAyNy4wOS4yMDIzIHVtIDA5OjE5ICswMTAwIHNjaHJpZWIgSmFtaWUg
+TGVudGluOgo+IE9uIDIwMjMtMDktMjUgMTE6MjMsIE1hcnRpbiBLZXBwbGluZ2VyIHdyb3RlOgo+
+ID4gVGhlc2UgY3VzdG9tIGNvbW1hbmRzIHdpbGwgYmUgc2VudCB0byBib3RoIHRoZSBVU0Iga2V5
+Ym9hcmQgJiBtb3VzZQo+ID4gZGV2aWNlcyBidXQgb25seSB0aGUgbW91c2Ugd2lsbCByZXNwb25k
+LiBBdm9pZCBzZW5kaW5nIGtub3duLQo+ID4gdXNlbGVzcwo+ID4gbWVzc2FnZXMgYnkgYWx3YXlz
+IHByZXBlbmRpbmcgdGhlIGZpbHRlciBiZWZvcmUgc2VuZGluZyB0aGVtLgo+ID4gCj4gPiBTdWdn
+ZXN0ZWQtYnk6IEphbWllIExlbnRpbiA8am1AbGVudGluLmNvLnVrPgo+ID4gU2lnbmVkLW9mZi1i
+eTogTWFydGluIEtlcHBsaW5nZXIgPG1hcnRpbmtAcG9zdGVvLmRlPgo+ID4gLS0tCj4gPiDCoGRy
+aXZlcnMvaGlkL2hpZC1sZW5vdm8uYyB8IDI3ICsrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLQo+
+ID4gwqAxIGZpbGUgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCAxOCBkZWxldGlvbnMoLSkKPiA+
+IAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaGlkL2hpZC1sZW5vdm8uYyBiL2RyaXZlcnMvaGlk
+L2hpZC1sZW5vdm8uYwo+ID4gaW5kZXggMjlhYTZkMzcyYmFkLi45MjJmM2U1NDYyZjQgMTAwNjQ0
+Cj4gPiAtLS0gYS9kcml2ZXJzL2hpZC9oaWQtbGVub3ZvLmMKPiA+ICsrKyBiL2RyaXZlcnMvaGlk
+L2hpZC1sZW5vdm8uYwo+ID4gQEAgLTUyMSw2ICs1MjEsMTQgQEAgc3RhdGljIHZvaWQgbGVub3Zv
+X2ZlYXR1cmVzX3NldF9jcHRrYmQoc3RydWN0Cj4gPiBoaWRfZGV2aWNlICpoZGV2KQo+ID4gwqDC
+oMKgwqDCoMKgwqDCoGludCByZXQ7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGxlbm92b19k
+cnZkYXRhICpjcHRrYmRfZGF0YSA9IGhpZF9nZXRfZHJ2ZGF0YShoZGV2KTsKPiA+IAo+ID4gK8Kg
+wqDCoMKgwqDCoMKgLyogQWxsIHRoZSBjdXN0b20gYWN0aW9uIGhhcHBlbnMgb24gdGhlIFVTQk1P
+VVNFIGRldmljZSBmb3IKPiA+IFVTQiAqLwo+ID4gK8KgwqDCoMKgwqDCoMKgaWYgKCgoaGRldi0+
+cHJvZHVjdCA9PSBVU0JfREVWSUNFX0lEX0xFTk9WT19DVVNCS0JEKSB8fAo+ID4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgIChoZGV2LT5wcm9kdWN0ID09IFVTQl9ERVZJQ0VfSURfTEVOT1ZPX1RQSUlV
+U0JLQkQpKSAmJgo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgIGhkZXYtPnR5cGUgIT0gSElEX1RZ
+UEVfVVNCTU9VU0UpIHsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBoaWRfZGJn
+KGhkZXYsICJJZ25vcmluZyBrZXlib2FyZCBoYWxmIG9mCj4gPiBkZXZpY2VcbiIpOwo+ID4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybjsKPiA+ICvCoMKgwqDCoMKgwqDCoH0K
+PiA+ICsKPiA+IMKgwqDCoMKgwqDCoMKgwqAvKgo+ID4gwqDCoMKgwqDCoMKgwqDCoCAqIFRlbGwg
+dGhlIGtleWJvYXJkIGEgZHJpdmVyIHVuZGVyc3RhbmRzIGl0LCBhbmQgdHVybiBGNywKPiA+IEY5
+LCBGMTEgCj4gPiBpbnRvCj4gPiDCoMKgwqDCoMKgwqDCoMKgICogcmVndWxhciBrZXlzCj4gPiBA
+QCAtMTEyMiwxNCArMTEzMCw2IEBAIHN0YXRpYyBpbnQgbGVub3ZvX3Byb2JlX2NwdGtiZChzdHJ1
+Y3QKPiA+IGhpZF9kZXZpY2UgCj4gPiAqaGRldikKPiA+IMKgwqDCoMKgwqDCoMKgwqBpbnQgcmV0
+Owo+ID4gwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBsZW5vdm9fZHJ2ZGF0YSAqY3B0a2JkX2RhdGE7
+Cj4gPiAKPiA+IC3CoMKgwqDCoMKgwqDCoC8qIEFsbCB0aGUgY3VzdG9tIGFjdGlvbiBoYXBwZW5z
+IG9uIHRoZSBVU0JNT1VTRSBkZXZpY2UgZm9yCj4gPiBVU0IgKi8KPiA+IC3CoMKgwqDCoMKgwqDC
+oGlmICgoKGhkZXYtPnByb2R1Y3QgPT0gVVNCX0RFVklDRV9JRF9MRU5PVk9fQ1VTQktCRCkgfHwK
+PiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoCAoaGRldi0+cHJvZHVjdCA9PSBVU0JfREVWSUNFX0lE
+X0xFTk9WT19UUElJVVNCS0JEKSkgJiYKPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoCBoZGV2LT50
+eXBlICE9IEhJRF9UWVBFX1VTQk1PVVNFKSB7Cj4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgaGlkX2RiZyhoZGV2LCAiSWdub3Jpbmcga2V5Ym9hcmQgaGFsZiBvZgo+ID4gZGV2aWNl
+XG4iKTsKPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gMDsKPiA+IC3C
+oMKgwqDCoMKgwqDCoH0KPiA+IC0KPiAKPiBJIGxpa2UgdGhlIGlkZWEgb2YgZG9pbmcgaXQgb25j
+ZSB0aGVuIGZvcmdldHRpbmcgYWJvdXQgaXQsIGJ1dAo+IHJlbW92aW5nIAo+IHRoaXMgd2lsbCBt
+ZWFuIHRoYXQgdGhlICJrZXlib2FyZCBoYWxmIiB3aWxsIGhhdmUgaXQncyBvd24gc2V0IG9mIAo+
+IG5vbi1mdW5jdGlvbmFsIHN5c2ZzIHBhcmFtZXRlcnMgSSB0aGluaz8gQ3VycmVudGx5Oi0KPiAK
+PiAjIGV2dGVzdAo+IMKgwqAgLiAuIC4KPiAvZGV2L2lucHV0L2V2ZW50MTA6wqDCoMKgwqAgVGhp
+bmtQYWQgQ29tcGFjdCBCbHVldG9vdGggS2V5Ym9hcmQgd2l0aCAKPiBUcmFja1BvaW50Cj4gL2Rl
+di9pbnB1dC9ldmVudDExOsKgwqDCoMKgIExlbm92byBUaGlua1BhZCBDb21wYWN0IFVTQiBLZXli
+b2FyZCB3aXRoIAo+IFRyYWNrUG9pbnQKPiAvZGV2L2lucHV0L2V2ZW50MTI6wqDCoMKgwqAgTGVu
+b3ZvIFRoaW5rUGFkIENvbXBhY3QgVVNCIEtleWJvYXJkIHdpdGggCj4gVHJhY2tQb2ludAo+IAo+
+ICMgbHMgLTEgL3N5cy9jbGFzcy9pbnB1dC9ldmVudCovZGV2aWNlL2RldmljZS9mbl9sb2NrCj4g
+L3N5cy9jbGFzcy9pbnB1dC9ldmVudDEwL2RldmljZS9kZXZpY2UvZm5fbG9jawo+IC9zeXMvY2xh
+c3MvaW5wdXQvZXZlbnQxMi9kZXZpY2UvZGV2aWNlL2ZuX2xvY2sKPiAKPiAobm90ZSAxMSBpcyBt
+aXNzaW5nLikKPiAKPiBJIHRoaW5rIHRoZSBlYXNpZXN0IChidXQgdWdseSkgdGhpbmcgdG8gZG8g
+aXMgdG8gY29weS1wYXN0ZSB0aGlzIGx1bXAKPiBvZiAKPiBjb2RlIHRvIHRoZSB0b3Agb2YgbGVu
+b3ZvX3Jlc2V0X3Jlc3VtZS4KPiBDaGVlcnMsCj4gCj4gPiDCoMKgwqDCoMKgwqDCoMKgY3B0a2Jk
+X2RhdGEgPSBkZXZtX2t6YWxsb2MoJmhkZXYtPmRldiwKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgc2l6ZW9mKCpjcHRrYmRfZGF0YSksCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoEdGUF9L
+RVJORUwpOwo+ID4gQEAgLTEyNjQsMTYgKzEyNjQsNyBAQCBzdGF0aWMgaW50IGxlbm92b19wcm9i
+ZShzdHJ1Y3QgaGlkX2RldmljZQo+ID4gKmhkZXYsCj4gPiDCoCNpZmRlZiBDT05GSUdfUE0KPiA+
+IMKgc3RhdGljIGludCBsZW5vdm9fcmVzZXRfcmVzdW1lKHN0cnVjdCBoaWRfZGV2aWNlICpoZGV2
+KQo+ID4gwqB7Cj4gPiAtwqDCoMKgwqDCoMKgwqBzd2l0Y2ggKGhkZXYtPnByb2R1Y3QpIHsKPiA+
+IC3CoMKgwqDCoMKgwqDCoGNhc2UgVVNCX0RFVklDRV9JRF9MRU5PVk9fQ1VTQktCRDoKPiA+IC3C
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoaGRldi0+dHlwZSA9PSBISURfVFlQRV9V
+U0JNT1VTRSkgewo+ID4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqBsZW5vdm9fZmVhdHVyZXNfc2V0X2NwdGtiZChoZGV2KTsKPiA+IC3CoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqB9Cj4gPiAtCj4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgYnJlYWs7Cj4gPiAtwqDCoMKgwqDCoMKgwqBkZWZhdWx0Ogo+ID4gLcKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoGJyZWFrOwo+ID4gLcKgwqDCoMKgwqDCoMKgfQo+ID4gK8KgwqDCoMKg
+wqDCoMKgbGVub3ZvX2ZlYXR1cmVzX3NldF9jcHRrYmQoaGRldik7Cgpvay4gaWdub3JlIG15IGNo
+YW5nZSAodGhpcyB3aG9sZSBwYXRjaCkgYW5kIGxvb2sgYXQgeW91ciBhZGRpdGlvbiBoZXJlLApk
+b24ndCB5b3UgYWxyZWFkeSBtYWtlIHN1cmUgb25seSB0aGUgbW91c2UtcGFydCBnZXRzIHRoZSBt
+ZXNzYWdlcz8geW91Cmp1c3Qgd3JpdGUgc3dpdGNoKCljYXNlIGluc3RlYWQgb2YgaWYoKTsgd2hh
+dCBkbyB5b3UgdGhpbmsgaXMgbWlzc2luZwpoZXJlPwoKdGhhbmtzLAogICAgICAgICAgICAgICAg
+ICAgICAgICAgICBtYXJ0aW4KCj4gPiAKPiA+IMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gMDsKPiA+
+IMKgfQoK
 
