@@ -2,71 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07F6F7B0969
-	for <lists+linux-input@lfdr.de>; Wed, 27 Sep 2023 17:56:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E8D57B0AFE
+	for <lists+linux-input@lfdr.de>; Wed, 27 Sep 2023 19:23:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232542AbjI0P4N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Sep 2023 11:56:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45260 "EHLO
+        id S229539AbjI0RXn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Sep 2023 13:23:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232852AbjI0P4B (ORCPT
+        with ESMTP id S229450AbjI0RXm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Sep 2023 11:56:01 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 829D6CC4
-        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 08:55:13 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-534694a9f26so18441a12.1
-        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 08:55:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695830112; x=1696434912; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vSrmv8CdZOJwg8Rjk/t0kAfEdW3//3EbfZ/Siaum1BY=;
-        b=PhcqdG8dVYekMyhH1c5a8xS7GxblKy5YJ8KCgT0Y6KmHdaEMDVO2op6Lbj00lzsVFv
-         F9bjtiEwTONeP5eGfwcW/T1uyTh+47KDyrET32WvVJrJyztquLOXsTdf+nA5wIirIUGW
-         D5ktBuM9vjf36yeS5QwMhw1Vul0O0oFVq+r10vSZS6Qv8b0jatN+cYf6ETbPn13yU5FH
-         cYiDw7MfFLM+dAxk9grzpFJmmMhx4PmxzJR3wvvz3KROukazbHNEveX/oCiSZ0EKBp/6
-         AhwS1e8jluNr5EGZiJ8fPu8T8ZsVYzVRc53jf6nJDHcaA5of48Lxvy2ke6LLS058y0VM
-         U0iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695830112; x=1696434912;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vSrmv8CdZOJwg8Rjk/t0kAfEdW3//3EbfZ/Siaum1BY=;
-        b=b4aum3rWQ2DxG3/tfQec5kKSsqBU0yOYjYz0FbkCjAtnw2SxGHxMGmxgdaUsJQddcq
-         +OJHUi47ghWBS64Y4fevQLQXpHv4WCahP2u6aWvDgg3+MkGrtHDk55Fp3WxJ75id9Vrx
-         blXFysgrPZ0zmgtqxjrd5gpZvrsiy28E+epTTQjViNDJrJjazu51TReYkHy6bl3AO9i5
-         mNx/YNQFP9aLCZkGX/hMSkxva00kXQ+AOfB5KLUWKUeA05hAy1v7DYSKtmRz2gwTahOZ
-         2wkluB12vPxjBhMbgdgf9rBVnMMGPaM+RLMOJa/g2/fAAzU1ruKHpFXPbAjU7FGb59vF
-         CGyA==
-X-Gm-Message-State: AOJu0YwCJUXJDDAorfgjtwm3JUZrjSZ6cbGL9nlKVBmaSNlHz3u8gBgF
-        R8046FXXICaVQZQv4qOxlpFe51hoRuYh9fujdCPrzgE4pUkPDptSNtEt5qkOrZU=
-X-Google-Smtp-Source: AGHT+IH0RKGEqZ50b13IkHIPc4aRaJwDAkjl9e3uG8Mv6eJajLiyCcSvo5RAHFMmzFLDsmR8oJbDoGjAv+5jxCncXkI=
-X-Received: by 2002:a50:9fef:0:b0:525:573c:6444 with SMTP id
- c102-20020a509fef000000b00525573c6444mr266714edf.1.1695830111711; Wed, 27 Sep
- 2023 08:55:11 -0700 (PDT)
+        Wed, 27 Sep 2023 13:23:42 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06BC0B4;
+        Wed, 27 Sep 2023 10:23:41 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1qlYGA-00024a-6C; Wed, 27 Sep 2023 19:23:38 +0200
+Message-ID: <cf87d6a5-7ff3-4add-8c48-fd3447b32697@leemhuis.info>
+Date:   Wed, 27 Sep 2023 19:23:37 +0200
 MIME-Version: 1.0
-References: <ca0109fa-c64b-43c1-a651-75b294d750a1@leemhuis.info> <CAAzPG9NkoaUz_JRtZt_JomsYj-8ZPn4QH0w0eeR-oxd55-18Qg@mail.gmail.com>
-In-Reply-To: <CAAzPG9NkoaUz_JRtZt_JomsYj-8ZPn4QH0w0eeR-oxd55-18Qg@mail.gmail.com>
-From:   Jeffery Miller <jefferymiller@google.com>
-Date:   Wed, 27 Sep 2023 10:55:00 -0500
-Message-ID: <CAAzPG9NWp8yPU52o7d2-jLjxjLodFOiE_AjoxmCAZ=MXtV__Aw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [regression] Resume broken on T14s Gen1 (AMD) due to "Input:
  psmouse - add delay when deactivating for SMBus mode"
-To:     Thorsten Leemhuis <linux@leemhuis.info>
+To:     Jeffery Miller <jefferymiller@google.com>
 Cc:     Andrew Duggan <aduggan@synaptics.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         Linux kernel regressions list <regressions@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+References: <ca0109fa-c64b-43c1-a651-75b294d750a1@leemhuis.info>
+ <CAAzPG9NkoaUz_JRtZt_JomsYj-8ZPn4QH0w0eeR-oxd55-18Qg@mail.gmail.com>
+ <CAAzPG9NWp8yPU52o7d2-jLjxjLodFOiE_AjoxmCAZ=MXtV__Aw@mail.gmail.com>
+Content-Language: en-US, de-DE
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 n7RI
+In-Reply-To: <CAAzPG9NWp8yPU52o7d2-jLjxjLodFOiE_AjoxmCAZ=MXtV__Aw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1695835421;ff7974f3;
+X-HE-SMSGID: 1qlYGA-00024a-6C
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,52 +92,85 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Thorsten,
+On 27.09.23 17:55, Jeffery Miller wrote:
+> On Wed, Sep 27, 2023 at 10:43 AM Jeffery Miller
+> <jefferymiller@google.com> wrote:
+>> On Wed, Sep 27, 2023 at 3:54 AM Thorsten Leemhuis <linux@leemhuis.info> wrote:
+>>>
+>>> My dmesg from a kernel with the revert:
+>>> https://www.leemhuis.info/files/misc/dmesg
 
-On Wed, Sep 27, 2023 at 10:43=E2=80=AFAM Jeffery Miller
-<jefferymiller@google.com> wrote:
->
->
-> On Wed, Sep 27, 2023 at 3:54=E2=80=AFAM Thorsten Leemhuis <linux@leemhuis=
-.info> wrote:
->>
->> My dmesg from a kernel with the revert:
->> https://www.leemhuis.info/files/misc/dmesg
->>
-> In this dmesg output it shows that this is an elantech smbus device:
-> ```
-> [    4.260415] psmouse serio1: elantech: assuming hardware version 4 (wit=
-h firmware version 0x7f3001)
-> [    4.279297] psmouse serio1: elantech: Synaptics capabilities query res=
-ult 0x90, 0x18, 0x0f.
-> [    4.292788] psmouse serio1: elantech: Elan sample query result 00, 80,=
- c9
-> [    4.319184] psmouse serio1: elantech: Elan ic body: 0x10, current fw v=
-ersion: 0x3
-> ...
-> [    4.346951] psmouse serio1: elantech: Trying to set up SMBus access
-> [    4.346986] psmouse serio1: elantech: SMbus companion is not ready yet
-> [    4.369993] input: ETPS/2 Elantech TrackPoint as /devices/platform/i80=
-42/serio1/input/input7
-> [    4.376200] systemd[1]: bpf-lsm: LSM BPF program attached
-> [    4.385192] input: ETPS/2 Elantech Touchpad as /devices/platform/i8042=
-/serio1/input/input5
-> ```
-> The change in 92e24e0e57f72e shouldn't affect the elantouch device as  el=
-antech_setup_smbus
-> initializes `psmouse_smbus_init` with need_deactivate =3D false.
->
-> Did you store dmesg logs from boot without the applied patch?
+Thx for looking into this!
 
-I intended to ask if you have logs from a boot without 92e24e0e57f72e rever=
-ted.
+>> In this dmesg output it shows that this is an elantech smbus device:
+>> ```
+>> [    4.260415] psmouse serio1: elantech: assuming hardware version 4 (with firmware version 0x7f3001)
+>> [    4.279297] psmouse serio1: elantech: Synaptics capabilities query result 0x90, 0x18, 0x0f.
+>> [    4.292788] psmouse serio1: elantech: Elan sample query result 00, 80, c9
+>> [    4.319184] psmouse serio1: elantech: Elan ic body: 0x10, current fw version: 0x3
+>> ...
+>> [    4.346951] psmouse serio1: elantech: Trying to set up SMBus access
+>> [    4.346986] psmouse serio1: elantech: SMbus companion is not ready yet
+>> [    4.369993] input: ETPS/2 Elantech TrackPoint as /devices/platform/i8042/serio1/input/input7
+>> [    4.376200] systemd[1]: bpf-lsm: LSM BPF program attached
+>> [    4.385192] input: ETPS/2 Elantech Touchpad as /devices/platform/i8042/serio1/input/input5
+>> ```
+>> The change in 92e24e0e57f72e shouldn't affect the elantouch device as  elantech_setup_smbus
+>> initializes `psmouse_smbus_init` with need_deactivate = false.
 
-> If the delay was being applied the timestamps should show the 30ms delay =
-between
-> `psmouse serio1: elantech: Trying to set up SMBus access`
-> and
-> `psmouse serio1: elantech: SMbus companion is not ready yet`
->
+Hmmm. Wondering if I should warm up the compiler again to recheck my
+result one more time[1].
 
-Thank You,
-Jeff
+>> Did you store dmesg logs from boot without the applied patch?
+> 
+> I intended to ask if you have logs from a boot without 92e24e0e57f72e reverted.
+
+https://www.leemhuis.info/files/misc/dmesg-6.6-rc3-vanilla
+
+>> If the delay was being applied the timestamps should show the 30ms delay between
+>> `psmouse serio1: elantech: Trying to set up SMBus access`
+>> and
+>> `psmouse serio1: elantech: SMbus companion is not ready yet`
+
+Unless I missed something there is not difference. :-/
+
+Ciao, Thorsten
+
+[1] FWIW, this is my bisect log
+
+"""
+> git bisect start
+> # status: waiting for both good and bad commits
+> # bad: [6465e260f48790807eef06b583b38ca9789b6072] Linux 6.6-rc3
+> git bisect bad 6465e260f48790807eef06b583b38ca9789b6072
+> # status: waiting for good commit(s), bad commit known
+> # good: [2dde18cd1d8fac735875f2e4987f11817cc0bc2c] Linux 6.5
+> git bisect good 2dde18cd1d8fac735875f2e4987f11817cc0bc2c
+> # good: [4fb0dacb78c6a041bbd38ddd998df806af5c2c69] Merge tag 'sound-6.6-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound
+> git bisect good 4fb0dacb78c6a041bbd38ddd998df806af5c2c69
+> # good: [307d59039fb26212a84a9aa6a134a7d2bdea34ca] Merge tag 'media/v6.6-1' of git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media
+> git bisect good 307d59039fb26212a84a9aa6a134a7d2bdea34ca
+> # bad: [4a0fc73da97efd23a383ca839e6fe86410268f6b] Merge tag 's390-6.6-2' of git://git.kernel.org/pub/scm/linux/kernel/git/s390/linux
+> git bisect bad 4a0fc73da97efd23a383ca839e6fe86410268f6b
+> # good: [e4f1b8202fb59c56a3de7642d50326923670513f] Merge tag 'for_linus' of git://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost
+> git bisect good e4f1b8202fb59c56a3de7642d50326923670513f
+> # good: [5eea5820c7340d39e56e169e1b87199391105f6b] Merge tag 'mm-stable-2023-09-04-14-00' of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
+> git bisect good 5eea5820c7340d39e56e169e1b87199391105f6b
+> # good: [65d6e954e37872fd9afb5ef3fc0481bb3c2f20f4] Merge tag 'gfs2-v6.5-rc5-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2
+> git bisect good 65d6e954e37872fd9afb5ef3fc0481bb3c2f20f4
+> # bad: [744a759492b5c57ff24a6e8aabe47b17ad8ee964] Merge tag 'input-for-v6.6-rc0' of git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input
+> git bisect bad 744a759492b5c57ff24a6e8aabe47b17ad8ee964
+> # good: [dbce1a7d5dce7318d8465b1e0d052ef1d2202237] Input: Explicitly include correct DT includes
+> git bisect good dbce1a7d5dce7318d8465b1e0d052ef1d2202237
+> # good: [29057cc5bddc785ea0a11534d7ad2546fa0872d3] Merge tag 'linux-watchdog-6.6-rc1' of git://www.linux-watchdog.org/linux-watchdog
+> git bisect good 29057cc5bddc785ea0a11534d7ad2546fa0872d3
+> # bad: [3e4bb047b23375a34dbf5885709ac3729d9cfb22] Input: qt2160 - convert to use devm_* api
+> git bisect bad 3e4bb047b23375a34dbf5885709ac3729d9cfb22
+> # good: [e175eae16c1bf92062f1f431a95f476a61a77c48] Input: mcs-touchkey - convert to use devm_* api
+> git bisect good e175eae16c1bf92062f1f431a95f476a61a77c48
+> # bad: [92e24e0e57f72e06c2df87116557331fd2d4dda2] Input: psmouse - add delay when deactivating for SMBus mode
+> git bisect bad 92e24e0e57f72e06c2df87116557331fd2d4dda2
+> # good: [8362bf82fb5441613aac7c6c9dbb6b83def6ad3b] Input: mcs-touchkey - fix uninitialized use of error in mcs_touchkey_probe()
+> git bisect good 8362bf82fb5441613aac7c6c9dbb6b83def6ad3b
+> # first bad commit: [92e24e0e57f72e06c2df87116557331fd2d4dda2] Input: psmouse - add delay when deactivating for SMBus mode
+"""
