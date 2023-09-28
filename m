@@ -2,238 +2,220 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E3E87B0FA5
-	for <lists+linux-input@lfdr.de>; Thu, 28 Sep 2023 01:50:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C349C7B10AC
+	for <lists+linux-input@lfdr.de>; Thu, 28 Sep 2023 04:12:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229445AbjI0Xuf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Sep 2023 19:50:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35706 "EHLO
+        id S229539AbjI1CMz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Sep 2023 22:12:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229595AbjI0Xue (ORCPT
+        with ESMTP id S229437AbjI1CMy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Sep 2023 19:50:34 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D541AF4
-        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 16:50:32 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-52fe27898e9so15156631a12.0
-        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 16:50:32 -0700 (PDT)
+        Wed, 27 Sep 2023 22:12:54 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E8BCB3
+        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 19:12:53 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-4053c6f0db8so118173715e9.3
+        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 19:12:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695858628; x=1696463428; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1695867171; x=1696471971; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SQOY6tEOrqC0mvJgxPaq1cgtEoQjHgAb4TcKrL7E2Jg=;
-        b=SfeMRVsX/3mciiQbrewbqiY6TrJdBmDYy8w3bzErj8xg/wiimqF460972CxAH2mvcT
-         ceFchHj8a4thZdTwPQtRUZTpFE3m+Xa37bO63SaRksyc/gxY/0ZvTZMuhuTgIQVub6sp
-         mUWt11H+3NMJ6b85d+T02sSyR32AS4jeOQz0I=
+        bh=kKZRe/GZV/iQCUofnVyQt/z8LYx3Pf2DFuz6RSVBq38=;
+        b=0lJGkrLPMaXMlFY8g89vfWf9ueJD03EhIiiqQRAqSk9/ji4vvY1XqKrMWjnXTX8xy7
+         5DSWnXXz6X9WqEymrnCZsWWiJwBeAXlQtECAHm3Y62G90YkCRVOtWclYU6/YYRmrkpnm
+         eLrMTPjCEpAeutbJc1lMImAUBt3HkIsnLqjrXYSwUagz9EDz25LytGJObVCr7feaNqHj
+         h4SfbYwPH3TEkOHqGuxrxxc3Jxjflzd8MDxV3/VIshzszDE3/0oV8eYjdqAZgruwiwzA
+         LuX3NpgnzRX/hGJ6kvDWnapEWgWqBjz78VQK40MsEY4NENvGXwAgjLkF7a/2ruqS1eqf
+         HpXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695858628; x=1696463428;
+        d=1e100.net; s=20230601; t=1695867171; x=1696471971;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SQOY6tEOrqC0mvJgxPaq1cgtEoQjHgAb4TcKrL7E2Jg=;
-        b=rxtRJ+qQ0E8D8zhNTbGrM5ugMXIOANORhASuSDBaqDFXVixVzDSQmfLcLnU8YstHD7
-         xBkAPGIyMx4I8EEBVSo+/0DXVXnS2WC1uN5uZgtX2F8QSYdWPt0SCinJ4CH74jVDv9dM
-         OL+f1om9NIbfhlciYPKVIvgeMD9vyItZQPnmlMpINBx9pa8R/CRM7D3QTDAoDTNEBiDc
-         Ng31EGWGKLJstTVQVhkcnhhdqRwYI/igJifBZaNYJgzykqtg4hLo+od/AKLmX/3ZxSlU
-         VqsJprfXp6f/k5pvIZBwZkjJnxNfAT9QTCpbDAFdUU1dX0c7KbCHDNcii+rZceWj+TNX
-         e+Lw==
-X-Gm-Message-State: AOJu0YxiyGS1ixX6CMveJioM3YxGjXYd+8Nk0aX2BEur1KGkSwfLU514
-        vFyk+Lvtq9jGkQkpWUlQMIR1oSUhRpEW0/5RZUr1GbJy
-X-Google-Smtp-Source: AGHT+IH3Tg3ms/gxWvZJF2imMkqaHeMzNsbuMR39j9gir/oTI8oxXAyWU95Nd4GPPGML7uFZjxV7YA==
-X-Received: by 2002:a17:906:23e9:b0:9ad:c763:c49c with SMTP id j9-20020a17090623e900b009adc763c49cmr3060489ejg.71.1695858628083;
-        Wed, 27 Sep 2023 16:50:28 -0700 (PDT)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com. [209.85.208.49])
-        by smtp.gmail.com with ESMTPSA id y4-20020a17090614c400b00992b510089asm9923292ejc.84.2023.09.27.16.50.26
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Sep 2023 16:50:26 -0700 (PDT)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-53074ee0c2aso3991a12.1
-        for <linux-input@vger.kernel.org>; Wed, 27 Sep 2023 16:50:26 -0700 (PDT)
-X-Received: by 2002:a50:d71d:0:b0:52f:2f32:e76c with SMTP id
- t29-20020a50d71d000000b0052f2f32e76cmr365834edi.2.1695858626384; Wed, 27 Sep
- 2023 16:50:26 -0700 (PDT)
+        bh=kKZRe/GZV/iQCUofnVyQt/z8LYx3Pf2DFuz6RSVBq38=;
+        b=XZ4rre7Co0xPS5iMHR+S91Cn/50hvzLRkVXf99lOp5sgs+EA0kp+ThDuRwp+iwHQpK
+         WX+UL0wb/9G0y5hcLymlV7fDnbTpXQJamt3xO9pDyRoen7cJNSi0Wa3JvovibEuR4hHn
+         5naxJvw7emLhe8M9ETO16vf4Z3ndBRUSxjLrb4Vl/aq9PGY2HXnP6VYTRlXUnuQ2REeO
+         SB6GWg4UMDxxetWLGaHC/jYOWyfJteyS9KjUvJpfmgOTuxAp4D3zdE3vl7jvQTuIDcGW
+         Jg6cOdBwctYGQFvVEdtS926q5Cgymmj/s2VlntEkblySsF0mL4adqbhvSsVtrRfm+Nsp
+         FjoA==
+X-Gm-Message-State: AOJu0YyahNBUluXV6xuczhtJJrQryTHiUkYluQZyAxgBcWH/RY6LEGM6
+        TXwAipd6tsYNXZGJlPkwWk/umcwMi8yLgwRmhVCT1A==
+X-Google-Smtp-Source: AGHT+IEMv+Xy4MV7QczSeD1RKvQAMX8lQaX7KPMiwGeyLFZkBRuoVIs5f9huGJCKsgim33SeJFTH6rjd9PQnuyh8rbo=
+X-Received: by 2002:adf:e60b:0:b0:314:3e77:f210 with SMTP id
+ p11-20020adfe60b000000b003143e77f210mr3284677wrm.59.1695867171521; Wed, 27
+ Sep 2023 19:12:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230921102420.RFC.1.I9dddd99ccdca175e3ceb1b9fa1827df0928c5101@changeid>
- <CAL_Jsq+noP32-m5xdUCLFPFBXLxX9Ys1BNFM+9sga6KYTmDzqQ@mail.gmail.com>
- <CAD=FV=WXxGhX0Fw2nSS7PxYb1O-LUewAhoUVPn=2EpbSD2OeHQ@mail.gmail.com>
- <CAL_JsqKJyRJmwJzB1yew71Ld7BeMMat+rzhX9XtDtiFE8Dbvcw@mail.gmail.com>
- <CAD=FV=UgFzT0TW2WEV0Wmk05EXUad2EYhN2DcckAxE_Lw5gV1Q@mail.gmail.com> <ZROVSAoKF9bimnSP@nixie71>
-In-Reply-To: <ZROVSAoKF9bimnSP@nixie71>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Wed, 27 Sep 2023 16:50:13 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UR47x+t37B2+Myv0qvvOJMFxVe-Fj7js=-Ez2GWuDySg@mail.gmail.com>
-Message-ID: <CAD=FV=UR47x+t37B2+Myv0qvvOJMFxVe-Fj7js=-Ez2GWuDySg@mail.gmail.com>
-Subject: Re: [RFC PATCH] of: device: Support 2nd sources of probeable but
- undiscoverable devices
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Chen-Yu Tsai <wenst@chromium.org>, linux-input@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>, linux-gpio@vger.kernel.org,
-        linus.walleij@linaro.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Johan Hovold <johan+linaro@kernel.org>,
-        andriy.shevchenko@linux.intel.com, broonie@kernel.org,
-        frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        hdegoede@redhat.com, james.clark@arm.com, james@equiv.tech,
-        keescook@chromium.org, linux-kernel@vger.kernel.org,
-        rafael@kernel.org, tglx@linutronix.de
+References: <20230919-cc4646dbfb953bd34e05658c@fedora> <CAGD2q_bkTpvXiomWb_yerNjQfMVKOctYgBqF_RBSo_jYqyyyxw@mail.gmail.com>
+ <20230922-unclothed-bottom-5531329f9724@spud> <CAGD2q_YsFdDVhE4JCmQSGMWOdpe_yzG8-CdWYPXtjeZsManvgQ@mail.gmail.com>
+ <20230922-removable-footwork-f1d4d96d38dd@spud> <CAGD2q_Y467jJJnwCVH+3F-hh6a-1-OYRugcy0DdjPnTCC77Z8A@mail.gmail.com>
+ <20230925-cod-vacancy-08dc8d88f90e@wendy> <CAGD2q_a1nLtFj7H42f+u+J5Bih59MGS0aJLHCFJy5gM2ydys4w@mail.gmail.com>
+ <20230926-action-sludge-ec8e51fdd6d4@spud> <CAGD2q_YBfDT950tyxEF87ZeiANgea_x8S16Ud5K2bcQ+eL9T=w@mail.gmail.com>
+ <20230926-reverence-unlit-d0027225cc43@spud>
+In-Reply-To: <20230926-reverence-unlit-d0027225cc43@spud>
+From:   yang tylor <tylor_yang@himax.corp-partner.google.com>
+Date:   Thu, 28 Sep 2023 10:12:41 +0800
+Message-ID: <CAGD2q_ZzNPOL+Mhg7aWFTQd+UJJYVLz1ZE9hbNb0roS2M6y34g@mail.gmail.com>
+Subject: Re: [PATCH V2 1/2] dt-bindings: input: Introduce Himax HID-over-SPI device
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Conor Dooley <conor.dooley@microchip.com>,
+        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        poyuan_chang@himax.corp-partner.google.com, hbarnor@chromium.org,
+        "jingyliang@chromium.org" <jingyliang@chromium.org>,
+        wuxy23@lenovo.com, luolm1@lenovo.com,
+        hung poyu <poyu_hung@himax.corp-partner.google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On Tue, Sep 26, 2023 at 7:37=E2=80=AFPM Jeff LaBundy <jeff@labundy.com> wro=
+On Tue, Sep 26, 2023 at 8:53=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
 te:
 >
-> Hi Doug,
->
-> On Fri, Sep 22, 2023 at 05:11:10PM -0700, Doug Anderson wrote:
-> > Hi,
-> >
-> > On Fri, Sep 22, 2023 at 12:08=E2=80=AFPM Rob Herring <robh+dt@kernel.or=
-g> wrote:
+> On Tue, Sep 26, 2023 at 05:52:39PM +0800, yang tylor wrote:
+> > On Tue, Sep 26, 2023 at 5:02=E2=80=AFPM Conor Dooley <conor@kernel.org>=
+ wrote:
 > > >
-> > > > > This seems like overkill to me. Do we really need groups and a mu=
-tex
-> > > > > for each group? Worst case is what? 2-3 groups of 2-3 devices?
-> > > > > Instead, what about extending "status" with another value
-> > > > > ("fail-needs-probe"? (fail-xxx is a documented value)). Currently=
-, the
-> > > > > kernel would just ignore nodes with that status. Then we can proc=
-ess
-> > > > > those nodes separately 1-by-1.
+> > > On Mon, Sep 25, 2023 at 06:16:29PM +0800, yang tylor wrote:
+> > > > On Mon, Sep 25, 2023 at 4:41=E2=80=AFPM Conor Dooley <conor.dooley@=
+microchip.com> wrote:
+> > > > >
+> > > > > On Mon, Sep 25, 2023 at 09:44:21AM +0800, yang tylor wrote:
+> > > > > > On Fri, Sep 22, 2023 at 11:31=E2=80=AFPM Conor Dooley <conor@ke=
+rnel.org> wrote:
+> > > > > > >
+> > > > > > > On Fri, Sep 22, 2023 at 05:43:54PM +0800, yang tylor wrote:
+> > > > > > > > On Fri, Sep 22, 2023 at 5:22=E2=80=AFPM Conor Dooley <conor=
+@kernel.org> wrote:
+> > > > > > > > >
+> > > > > > > > > On Fri, Sep 22, 2023 at 03:56:25PM +0800, yang tylor wrot=
+e:
+> > > > > > > > > > On Tue, Sep 19, 2023 at 7:09=E2=80=AFPM Conor Dooley <c=
+onor@kernel.org> wrote:
+> > > > > > > > > > > On Tue, Sep 19, 2023 at 05:31:29PM +0800, yang tylor =
+wrote:
+> > > > > > > > >
+> > > > > > > > > > > > The behavior of "himax,boot_time_fw_upgrade" seems =
+not stable and
+> > > > > > > > > > > > should be removed. "himax,fw_in_flash", I use the k=
+ernel config for
+> > > > > > > > > > > > user to select.
+> > > > > > > > > > >
+> > > > > > > > > > > That seems like a bad idea, we want to be able to bui=
+ld one kernel that
+> > > > > > > > > > > works for all hardware at the same time.
+> > > > > > > > > > >
+> > > > > > > > > > I see, so I should take that back?
+> > > > > > > > > > I'll explain more about it.
+> > > > > > > > >
+> > > > > > > > > Are there particular ICs where the firmware would always =
+be in flash and
+> > > > > > > > > others where it would never be? Or is this a choice made =
+by the board or
+> > > > > > > > > system designer?
+> > > > > > > > >
+> > > > > > > > Most cases it's about the system designer's decision. But s=
+ome ICs may be forced
+> > > > > > > > to use flash because of its architecture(multiple IC inside=
+, need to
+> > > > > > > > load firmware to
+> > > > > > > > multiple IC's sram by master IC). But if there is no limita=
+tion on
+> > > > > > > > this part, most system
+> > > > > > > > designers will prefer flashless.
+> > > > > > >
+> > > > > > > Forgive me if I am not understanding correctly, there are som=
+e ICs that
+> > > > > > > will need to load the firmware from flash and there are some =
+where it
+> > > > > > > will be a decision made by the designer of the board. Is the =
+flash part
+> > > > > > > of the IC or is it an external flash chip?
+> > > > > > >
+> > > > > >
+> > > > > > Both are possible, it depends on the IC type. For TDDI, the IC =
+is long
+> > > > > > and thin, placed on panel PCB, flash will be located at the ext=
+ernal
+> > > > > > flash chip. For the OLED TP, IC is usually placed at FPC and it=
+s flash
+> > > > > > is embedded, thus the IC size is large compared to TDDI. But fr=
+om the
+> > > > > > driver's perspective either external flash or embedded flash, t=
+he IC
+> > > > > > itself will load firmware from flash automatically when reset p=
+in is
+> > > > > > released. Only if firmware is loading from the host storage sys=
+tem,
+> > > > > > the driver needs to operate the IC in detail.
+> > > > >
+> > > > >
+> > > > > Since there are ICs that can use the external flash or have it lo=
+aded
+> > > > > from the host, it sounds like you do need a property to different=
+iate
+> > > > > between those cases.
+> > > > Yep.
 > > > >
-> > > > My worry here is that this has the potential to impact boot speed i=
-n a
-> > > > non-trivial way. While trackpads and touchscreens _are_ probable,
-> > > > their probe routines are often quite slow. This is even mentioned i=
-n
-> > > > Dmitry's initial patches adding async probe to the kernel. See comm=
-it
-> > > > 765230b5f084 ("driver-core: add asynchronous probing support for
-> > > > drivers") where he specifically brings up input devices as examples=
-.
+> > > > > Is it sufficient to just set the firmware-name property for these=
+ cases?
+> > > > > If the property exists, then you know you need to load firmware &=
+ what
+> > > > > its name is. If it doesn't, then the firmware either isn't needed=
+ or
+> > > > > will be automatically loaded from the external flash.
+> > >
+> > > > We have a default prefix firmware name(like himax_xxxx.bin) in the =
+driver code.
+> > >
+> > > How do you intend generating the name of the firmware file? I assume =
+the
+> > > same firmware doesn't work on every IC, so you'll need to pick a
+> > > different one depending on the compatible?
+> > >
+> > If considering a firmware library line-up for all the incoming panels
+> > of this driver.
+> > We would use PID as part of the file name. Because all the support pane=
+ls would
+> > have a unique PID associated. Which will make the firmware name like
+> > himax_xxx_{$PID}.bin. The problem is, we need to know PID before firmwa=
+re load
+> > at no flash condition. Thus PID information is required in dts when
+> > no-flash-flag
+> > is specified.
 >
-> Ideally, all but one driver in a group should bail out of probe quickly i=
-f
-> the device is not populated. If not, I would consider that to be a bug or=
- at
-> least room for improvement in that driver.
->
-> The reason input devices can take a while to probe is because they may be
-> loading FW over I2C or performing some sort of calibration procedure; onl=
-y
-> one driver in the group should get that far.
+> Firstly, where does the "xxx" come from?
+> And you're making it sound more like having firmware-name is suitable
+> for this use case, given you need to determine the name of the file to
+> use based on something that is hardware specific but is not
+> dynamically detectable.
+Current driver patch uses a prefix name "himax_i2chid" which comes
+from the previous project
+ and seems not suitable for this condition, so I use "xxx" and plan to
+replace it in the next version.
+For finding firmware, I think both solutions are reasonable.
+- provide firmware name directly: implies no-flash and use user
+specified firmware, no PID info.
+- provide no-flash-flag and PID info: loading firmware from organized
+names with PID info.
+I prefer the 2nd solution, but it needs more properties in dts. 1st
+has less properties and more
+intuitive.
 
-Hmm, that's not my experience. Specifically I've seen i2c-hid devices
-whose datasheets say that you're not allowed to talk i2c to them at
-all for hundreds of milliseconds after you power them on. See, for
-instance, "i2c-hid-of-goodix.c" which has a "post_gpio_reset_delay_ms"
-of 180 ms and "i2c-hid-of-elan.c" which has one of 300 ms.
+I don't know which one is more acceptable by the community, as you
+know I'm a newbie here.
 
-As I understand it these touchscreens have firmware on them and that
-firmware can take a while to boot. Until the firmware boots they won't
-respond over i2c. This is simply not something that Linux can do
-anything about.
-
-About the best you could do would be to add a board-specific driver
-that understood that it could power up the rails, wait the maximum
-amount of time that all possible touchscreens might need, and then
-look for i2c ACKs. I'm still hoping to hear from Rob about how I would
-get a board-specific driver to load on a DT system so I can
-investigate / prototype this.
-
-
-> > > We could add information on the class of device. touchscreen and
-> > > touchpad aliases or something.
-> >
-> > Ah, I see. So something like "fail-needs-probe-<class>". The
-> > touchscreens could have "fail-needs-probe-touchscreen" and the
-> > trackpads could have "fail-needs-probe-trackpad" ? That could work. In
-> > theory that could fall back to the same solution of grabbing a mutex
-> > based on the group ID...
-> >
-> > Also: if having the mutex in the "struct device" is seen as a bad
-> > idea, it would also be easy to remove. __driver_probe_device() could
-> > just make a call like "of_device_probe_start()" at the beginning that
-> > locks the mutex and then "of_device_probe_end()" that unlocks it. Both
-> > of those calls could easily lookup the mutex in a list, which would
-> > get rid of the need to store it in the "struct device".
-> >
-> >
-> > > > That would lead me to suggest this:
-> > > >
-> > > >   &i2c_bus {
-> > > >     trackpad-prober {
-> > > >       compatible =3D "mt8173-elm-hana-trackpad-prober";
-> > > >
-> > > >       tp1: trackpad@10 {
-> > > >         compatible =3D "hid-over-i2c";
-> > > >         reg =3D <0x10>;
-> > > >         ...
-> > > >         post-power-on-delay-ms =3D <200>;
-> > > >       };
-> > > >       tp2: trackpad@20 {
-> > > >         compatible =3D "hid-over-i2c";
-> > > >         reg =3D <0x20>;
-> > > >         ...
-> > > >         post-power-on-delay-ms =3D <200>;
-> > > >       };
-> > > >     };
-> > > >   };
-> > > >
-> > > > ...but I suspect that would be insta-NAKed because it's creating a
-> > > > completely virtual device ("mt8173-elm-hana-trackpad-prober") in th=
-e
-> > > > device tree. I don't know if there's something that's functionally
-> > > > similar that would be OK?
->
-> This solution seems a bit confusing to me, and would require more edits
-> to the dts each time a second source is added. It also means one would
-> have to write a small platform driver for each group of devices, correct?
-
-No matter what we need to add something to the dts each time a second
-source is added, right?
-
-While it's true that we'd end up with some extra drivers, if we do it
-correctly we don't necessarily need a driver for each group of devices
-nor even a driver per board. If several boards have very similar
-probing requirements then, even if they have unique "compatible"
-strings they could still end up using the same Linux driver.
-
-I've actually been talking offline with folks on ChromeOS more about
-this problem as well. Chen-Yu actually pointed at a patch series (that
-never landed, I guess) that has some similar ideas [1]. I guess in
-that case Hans was actually constructing device tree properties
-manually in the driver. I was thinking more of having all of the
-options listed in the device tree and then doing something that only
-causes some of them to probe.
-
-If Rob was OK with it, I guess I could have some sort of top-level
-"hwmanager" node like Hans did and then have phandle links to all the
-hardware that are managed by it. Then I could just change those to
-"okay"?
-
-Ideally, though, this could somehow use device tree "overlays" I
-guess. That seems like almost a perfect fit. I guess the issue here,
-though, is that I'd want the overlays bundled together with the
-original DT and then the board-specific "hardware prober" driver to
-actually apply the overlays after probing. Does that seem sensible?
-
-
-[1] https://lore.kernel.org/linux-arm-kernel/20160901190820.21987-1-hdegoed=
-e@redhat.com/
+Thanks,
+Tylor
