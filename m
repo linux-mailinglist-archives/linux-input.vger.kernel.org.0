@@ -2,189 +2,232 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECECE7B16D7
-	for <lists+linux-input@lfdr.de>; Thu, 28 Sep 2023 11:08:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79FAE7B18DC
+	for <lists+linux-input@lfdr.de>; Thu, 28 Sep 2023 13:03:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231474AbjI1JI2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Sep 2023 05:08:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59626 "EHLO
+        id S231757AbjI1LDQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Sep 2023 07:03:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231460AbjI1JI1 (ORCPT
+        with ESMTP id S229903AbjI1LDP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Sep 2023 05:08:27 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A062CAC;
-        Thu, 28 Sep 2023 02:08:24 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qln0P-0003Gj-JJ; Thu, 28 Sep 2023 11:08:21 +0200
-Message-ID: <1b3f8dd2-6364-4f00-a33e-8b15b8911dbf@leemhuis.info>
-Date:   Thu, 28 Sep 2023 11:08:19 +0200
+        Thu, 28 Sep 2023 07:03:15 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A18C191
+        for <linux-input@vger.kernel.org>; Thu, 28 Sep 2023 04:03:12 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-503397ee920so20297075e87.1
+        for <linux-input@vger.kernel.org>; Thu, 28 Sep 2023 04:03:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695898990; x=1696503790; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1p+6youuH5bjqrYOnT9IQ9rKwC7lebaEKtt33v0MbqE=;
+        b=eQFIi5R9N/5xq3CgGbHEk1fEfBFMcBZsbRoF+z2k7/jxt4QXkThHPv/46EUPoa/9v2
+         CCQHOCSFK5Zdqda6y4jCn255G4kaJmHs22XqEpnLk9yyFRu082D7E13EzfVbjkJholaV
+         sRhaqwBPgtz7K+KcCFuIRs1az8RiixAhDKleDIf9+plEYZY2gPfaYu29YL+G5becrN5c
+         v4iNgS5+513IdOKZlUqem+ki46/gm3v0S+PKPyN+rIrW34pTHNJA8U0vG992Wl1lrCEy
+         +hYAORnFEMJep+A0FW4xiTD51zKrkWHpTBeJYE7N8Rd+c4Hw1IHzCYW5X2HQAEKd+peN
+         /iRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695898990; x=1696503790;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1p+6youuH5bjqrYOnT9IQ9rKwC7lebaEKtt33v0MbqE=;
+        b=mnXtTFX9A5/kOvj9Bz4QTYpmL84UV4S39uIc000Z4tHOiTENjEUfjkXJoODrn1XpT0
+         9df98QEVCqT6TFY6T63inLp3fUHlkBV3wTaOwLPugJ55M2GhvmJD7u/UUj9Ls8uVoNA8
+         JLpSb9RlPl4o6CgaeRazPiuHZ3dn2LuojWBbFGBIiFGSr2/mcjwL+sWJb6s/9LU1RI/c
+         3pHiYXwLIm8If9p2ksT5ivsEty/dHgajprHRo6GImzBXLsTnTIao8sSB8IgWJ8DMmoD9
+         boPh9J4KF7TXiIcbEkoGLVMeJIRxTJ1BDYLwu/lCLSAWbn+iotfYoTIyU2FEXh7jnSX/
+         yKog==
+X-Gm-Message-State: AOJu0YzfSS1B36kAlAJNL4PlZn4EfQAVpKUlOn9qgTJyrAx8oHlgBSg3
+        qLJ3kNfz+UCErE15OoNWR8TWeQ==
+X-Google-Smtp-Source: AGHT+IGrXqKGLr52gkcaadow2Qx5xht4iqoWahzQsMBdNe8jnqCk6RGNOrweaGTGNbAO8N5j5YO/Eg==
+X-Received: by 2002:a05:6512:3d04:b0:500:7efe:313c with SMTP id d4-20020a0565123d0400b005007efe313cmr1031092lfv.24.1695898990157;
+        Thu, 28 Sep 2023 04:03:10 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+        by smtp.gmail.com with ESMTPSA id u2-20020a056512040200b005030a35019dsm3052953lfk.178.2023.09.28.04.03.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Sep 2023 04:03:09 -0700 (PDT)
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: [PATCH v6 00/36] ARM: dts: qcom: cleanup PMIC usage
+Date:   Thu, 28 Sep 2023 14:02:33 +0300
+Message-Id: <20230928110309.1212221-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [regression] Resume broken on T14s Gen1 (AMD) due to "Input:
- psmouse - add delay when deactivating for SMBus mode"
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     Jeffery Miller <jefferymiller@google.com>
-Cc:     Andrew Duggan <aduggan@synaptics.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Linux kernel regressions list <regressions@lists.linux.dev>
-References: <ca0109fa-c64b-43c1-a651-75b294d750a1@leemhuis.info>
- <CAAzPG9NkoaUz_JRtZt_JomsYj-8ZPn4QH0w0eeR-oxd55-18Qg@mail.gmail.com>
- <CAAzPG9NWp8yPU52o7d2-jLjxjLodFOiE_AjoxmCAZ=MXtV__Aw@mail.gmail.com>
- <cf87d6a5-7ff3-4add-8c48-fd3447b32697@leemhuis.info>
-Content-Language: en-US, de-DE
-Autocrypt: addr=linux@leemhuis.info; keydata=
- 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 n7RI
-In-Reply-To: <cf87d6a5-7ff3-4add-8c48-fd3447b32697@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1695892104;762059f1;
-X-HE-SMSGID: 1qln0P-0003Gj-JJ
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 27.09.23 19:23, Thorsten Leemhuis wrote:
-> On 27.09.23 17:55, Jeffery Miller wrote:
->> On Wed, Sep 27, 2023 at 10:43 AM Jeffery Miller
->> <jefferymiller@google.com> wrote:
->>> On Wed, Sep 27, 2023 at 3:54 AM Thorsten Leemhuis <linux@leemhuis.info> wrote:
->>>>
->>>> My dmesg from a kernel with the revert:
->>>> https://www.leemhuis.info/files/misc/dmesg
-> 
-> Thx for looking into this!
-> 
->>> In this dmesg output it shows that this is an elantech smbus device:
->>> ```
->>> [    4.260415] psmouse serio1: elantech: assuming hardware version 4 (with firmware version 0x7f3001)
->>> [    4.279297] psmouse serio1: elantech: Synaptics capabilities query result 0x90, 0x18, 0x0f.
->>> [    4.292788] psmouse serio1: elantech: Elan sample query result 00, 80, c9
->>> [    4.319184] psmouse serio1: elantech: Elan ic body: 0x10, current fw version: 0x3
->>> ...
->>> [    4.346951] psmouse serio1: elantech: Trying to set up SMBus access
->>> [    4.346986] psmouse serio1: elantech: SMbus companion is not ready yet
->>> [    4.369993] input: ETPS/2 Elantech TrackPoint as /devices/platform/i8042/serio1/input/input7
->>> [    4.376200] systemd[1]: bpf-lsm: LSM BPF program attached
->>> [    4.385192] input: ETPS/2 Elantech Touchpad as /devices/platform/i8042/serio1/input/input5
->>> ```
->>> The change in 92e24e0e57f72e shouldn't affect the elantouch device as  elantech_setup_smbus
->>> initializes `psmouse_smbus_init` with need_deactivate = false.
-> 
-> Hmmm. Wondering if I should warm up the compiler again to recheck my
-> result one more time[1].
+While reviewing APQ8064 CPUFreq patchset, Konrad pointed out that PMICs
+are not a part of SoC and as such do not belong to the per-SoC files.
 
-Just did that. Ran "make clean" and compiled mainline as of now
-(633b47cb009d) and the machine does never resume from s2idle; then I
-reverted 92e24e0e57f7 and compiled again (for completeness: without
-running "make clean" beforehand) and with that kernel s2idle resume
-works perfectly fine.
+Cleanup the way 32-bit Qualcomm platforms treat PMICs:
 
-Wondering if I or the compiler is doing something stupid here -- or if
-we missed some small but important detail somewhere.
+- Move SSBI PMICs to separate files (as a bonus merging two different
+  instances of PM8921, benefitting both platforms).
 
-Ciao, Thorsten
+- Include such PMIC files only from the board files, keeping SoC file
+  generic.
 
->>> Did you store dmesg logs from boot without the applied patch?
->> I intended to ask if you have logs from a boot without 92e24e0e57f72e reverted.
-> 
-> https://www.leemhuis.info/files/misc/dmesg-6.6-rc3-vanilla
-> 
->>> If the delay was being applied the timestamps should show the 30ms delay between
->>> `psmouse serio1: elantech: Trying to set up SMBus access`
->>> and
->>> `psmouse serio1: elantech: SMbus companion is not ready yet`
-> 
-> Unless I missed something there is not difference. :-/
-> 
-> Ciao, Thorsten
-> 
-> [1] FWIW, this is my bisect log
-> 
-> """
->> git bisect start
->> # status: waiting for both good and bad commits
->> # bad: [6465e260f48790807eef06b583b38ca9789b6072] Linux 6.6-rc3
->> git bisect bad 6465e260f48790807eef06b583b38ca9789b6072
->> # status: waiting for good commit(s), bad commit known
->> # good: [2dde18cd1d8fac735875f2e4987f11817cc0bc2c] Linux 6.5
->> git bisect good 2dde18cd1d8fac735875f2e4987f11817cc0bc2c
->> # good: [4fb0dacb78c6a041bbd38ddd998df806af5c2c69] Merge tag 'sound-6.6-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound
->> git bisect good 4fb0dacb78c6a041bbd38ddd998df806af5c2c69
->> # good: [307d59039fb26212a84a9aa6a134a7d2bdea34ca] Merge tag 'media/v6.6-1' of git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media
->> git bisect good 307d59039fb26212a84a9aa6a134a7d2bdea34ca
->> # bad: [4a0fc73da97efd23a383ca839e6fe86410268f6b] Merge tag 's390-6.6-2' of git://git.kernel.org/pub/scm/linux/kernel/git/s390/linux
->> git bisect bad 4a0fc73da97efd23a383ca839e6fe86410268f6b
->> # good: [e4f1b8202fb59c56a3de7642d50326923670513f] Merge tag 'for_linus' of git://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost
->> git bisect good e4f1b8202fb59c56a3de7642d50326923670513f
->> # good: [5eea5820c7340d39e56e169e1b87199391105f6b] Merge tag 'mm-stable-2023-09-04-14-00' of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
->> git bisect good 5eea5820c7340d39e56e169e1b87199391105f6b
->> # good: [65d6e954e37872fd9afb5ef3fc0481bb3c2f20f4] Merge tag 'gfs2-v6.5-rc5-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2
->> git bisect good 65d6e954e37872fd9afb5ef3fc0481bb3c2f20f4
->> # bad: [744a759492b5c57ff24a6e8aabe47b17ad8ee964] Merge tag 'input-for-v6.6-rc0' of git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input
->> git bisect bad 744a759492b5c57ff24a6e8aabe47b17ad8ee964
->> # good: [dbce1a7d5dce7318d8465b1e0d052ef1d2202237] Input: Explicitly include correct DT includes
->> git bisect good dbce1a7d5dce7318d8465b1e0d052ef1d2202237
->> # good: [29057cc5bddc785ea0a11534d7ad2546fa0872d3] Merge tag 'linux-watchdog-6.6-rc1' of git://www.linux-watchdog.org/linux-watchdog
->> git bisect good 29057cc5bddc785ea0a11534d7ad2546fa0872d3
->> # bad: [3e4bb047b23375a34dbf5885709ac3729d9cfb22] Input: qt2160 - convert to use devm_* api
->> git bisect bad 3e4bb047b23375a34dbf5885709ac3729d9cfb22
->> # good: [e175eae16c1bf92062f1f431a95f476a61a77c48] Input: mcs-touchkey - convert to use devm_* api
->> git bisect good e175eae16c1bf92062f1f431a95f476a61a77c48
->> # bad: [92e24e0e57f72e06c2df87116557331fd2d4dda2] Input: psmouse - add delay when deactivating for SMBus mode
->> git bisect bad 92e24e0e57f72e06c2df87116557331fd2d4dda2
->> # good: [8362bf82fb5441613aac7c6c9dbb6b83def6ad3b] Input: mcs-touchkey - fix uninitialized use of error in mcs_touchkey_probe()
->> git bisect good 8362bf82fb5441613aac7c6c9dbb6b83def6ad3b
->> # first bad commit: [92e24e0e57f72e06c2df87116557331fd2d4dda2] Input: psmouse - add delay when deactivating for SMBus mode
-> """
-> 
-> 
+- Move RPM regulator definitions to board files too. They do not belong
+  to the SoC dtsi files for the same reason.
+
+- Move PMIC-specific GPIOs and supply properties to individual board
+  files.
+
+Note, enabling DT schema triggers warnings for pmic:led@48 in
+qcom-apq8060-dragonboard.dts. This node uses custom ('cm3605') trigger
+to make the LED follow the state of the proximity / ALS device.
+Previously [1] Rob pointed out that this is not the best way and the
+device should be switched to `trigger-sources' instead. However as I do
+not have this device, I'm not brave enough to introduce these changes.
+
+Note2: DT binding changes are largely independent from the DTS changes,
+they can be applied separately.
+
+[1] https://lore.kernel.org/linux-arm-msm/20221205220709.GA2713165-robh@kernel.org
+
+Changes since v5:
+- Dropped accepted patches
+- Provided proper commit message for the last two patches (Konrad)
+
+Changes since v4:
+- Rebased on top of linux-next
+
+Changes since v3:
+- Dropped the interrupts/interrupts-extended patch, it is handled by
+  dtschema itself (Krzysztof)
+
+Changes since v3:
+- Moved PMIC interrupts to board DT files, they are not a property of
+  the board, not the SoC.
+- Dropped qcom, prefix from ssbi node names in ipq8064 and mdm9615 DT
+  files.
+
+Changes since v2:
+- Rebased on top of linux-next to fix conflict
+- Picked up dt-bindings patches from old, not-fully merged series.
+- qcom,pm8921-keypad: droped the no-autorepeat property (Rob, Dmitry)
+- Moved qcom,ssbi to /bus/ (Krzysztof)
+
+Changes since v1:
+- To ease reviewing break cleanups from the  "split PMIC" patches
+  (Konrad).
+
+
+Dmitry Baryshkov (36):
+  dt-bindings: input: qcom,pm8921-keypad: convert to YAML format
+  ARM: dts: qcom: apq8064: correct XOADC register address
+  ARM: dts: qcom: msm8960: introduce label for PMIC keypad
+  ARM: dts: qcom: msm8660-surf: use keypad label directly
+  ARM: dts: qcom: apq8064-nexus7: move sdcc1 node to proper place
+  ARM: dts: qcom: mdm9615-wp8548-mangoh-green: group include clauses
+  ARM: dts: qcom: strip prefix from PMIC files
+  ARM: dts: qcom: apq8064: fix PMIC node labels
+  ARM: dts: qcom: mdm9615: fix PMIC node labels
+  ARM: dts: qcom: msm8660: fix PMIC node labels
+  ARM: dts: qcom: msm8960: fix PMIC node labels
+  ARM: dts: qcom: apq8064: move PMIC interrupts to the board files
+  ARM: dts: qcom: mdm9615: move PMIC interrupts to the board files
+  ARM: dts: qcom: msm8660: move PMIC interrupts to the board files
+  ARM: dts: qcom: msm8960: move PMIC interrupts to the board files
+  ARM: dts: qcom: msm8960: split PMIC to separate dtsi files
+  ARM: dts: qcom: apq8064: split PMICs to separate dtsi files
+  ARM: dts: qcom: mdm9615: split PMIC to separate dtsi files
+  ARM: dts: qcom: msm8660: split PMIC to separate dtsi files
+  ARM: dts: qcom: pm8058: reorder nodes
+  ARM: dts: qcom: pm8921: reorder nodes
+  ARM: dts: qcom: pm8018: move reg property
+  ARM: dts: qcom: pm8921: move reg property
+  ARM: dts: qcom: pm8058: use defined IRQ flags
+  ARM: dts: qcom: pm8921: switch to interrupts-extended
+  ARM: dts: qcom: pm8018: switch to interrupts-extended
+  ARM: dts: qcom: pm8058: switch to interrupts-extended
+  ARM: dts: qcom: apq8064: move RPM regulators to board files
+  ARM: dts: qcom: mdm9615: move RPM regulators to board files
+  ARM: dts: qcom: msm8660: move RPM regulators to board files
+  ARM: dts: qcom: msm8960: drop useless rpm regulators node
+  ARM: dts: qcom: msm8974: move regulators to board files
+  ARM: dts: qcom: pm8921: Disable keypad by default
+  ARM: dts: qcom: apq8060-dragonboard: rename mpp ADC channels to
+    adc-channel
+  ARM: dts: qcom: ipq8064: drop qcom, prefix from SSBI node name
+  ARM: dts: qcom: mdm9615: drop qcom, prefix from SSBI node name
+
+ .../bindings/input/qcom,pm8921-keypad.yaml    |  89 +++++++
+ .../bindings/input/qcom,pm8xxx-keypad.txt     |  90 --------
+ arch/arm/boot/dts/qcom/pm8018.dtsi            |  55 +++++
+ arch/arm/boot/dts/qcom/pm8058.dtsi            | 159 +++++++++++++
+ .../qcom/{qcom-pm8226.dtsi => pm8226.dtsi}    |   0
+ arch/arm/boot/dts/qcom/pm8821.dtsi            |  22 ++
+ .../qcom/{qcom-pm8841.dtsi => pm8841.dtsi}    |   0
+ arch/arm/boot/dts/qcom/pm8921.dtsi            | 137 +++++++++++
+ .../qcom/{qcom-pm8941.dtsi => pm8941.dtsi}    |   0
+ .../qcom/{qcom-pma8084.dtsi => pma8084.dtsi}  |   0
+ .../dts/qcom/{qcom-pmx55.dtsi => pmx55.dtsi}  |   0
+ .../dts/qcom/{qcom-pmx65.dtsi => pmx65.dtsi}  |   0
+ .../dts/qcom/qcom-apq8026-asus-sparrow.dts    |   2 +-
+ .../dts/qcom/qcom-apq8026-huawei-sturgeon.dts |   2 +-
+ .../boot/dts/qcom/qcom-apq8026-lg-lenok.dts   |   2 +-
+ .../qcom-apq8026-samsung-matisse-wifi.dts     |   2 +-
+ .../dts/qcom/qcom-apq8060-dragonboard.dts     | 164 ++++++++-----
+ .../dts/qcom/qcom-apq8064-asus-nexus7-flo.dts |  70 +++---
+ .../boot/dts/qcom/qcom-apq8064-cm-qs600.dts   |  35 ++-
+ .../boot/dts/qcom/qcom-apq8064-ifc6410.dts    |  42 ++--
+ .../qcom-apq8064-sony-xperia-lagan-yuga.dts   | 111 +++++----
+ arch/arm/boot/dts/qcom/qcom-apq8064.dtsi      | 201 +---------------
+ .../dts/qcom/qcom-apq8074-dragonboard.dts     |  31 ++-
+ .../boot/dts/qcom/qcom-apq8084-ifc6540.dts    |   2 +-
+ arch/arm/boot/dts/qcom/qcom-apq8084-mtp.dts   |   2 +-
+ arch/arm/boot/dts/qcom/qcom-ipq8064.dtsi      |   2 +-
+ .../qcom/qcom-mdm9615-wp8548-mangoh-green.dts |   4 +-
+ .../boot/dts/qcom/qcom-mdm9615-wp8548.dtsi    | 143 +++++++++++-
+ arch/arm/boot/dts/qcom/qcom-mdm9615.dtsi      | 183 +--------------
+ arch/arm/boot/dts/qcom/qcom-msm8660-surf.dts  |  61 +++--
+ arch/arm/boot/dts/qcom/qcom-msm8660.dtsi      | 217 +-----------------
+ arch/arm/boot/dts/qcom/qcom-msm8960-cdp.dts   |  27 ++-
+ .../qcom/qcom-msm8960-samsung-expressatt.dts  |   7 +-
+ arch/arm/boot/dts/qcom/qcom-msm8960.dtsi      |  45 +---
+ .../qcom-msm8974-lge-nexus5-hammerhead.dts    |  31 ++-
+ .../qcom/qcom-msm8974-sony-xperia-rhine.dtsi  |  31 ++-
+ arch/arm/boot/dts/qcom/qcom-msm8974.dtsi      |  27 ---
+ .../qcom/qcom-msm8974pro-fairphone-fp2.dts    |  31 ++-
+ .../qcom/qcom-msm8974pro-oneplus-bacon.dts    |  31 ++-
+ .../dts/qcom/qcom-msm8974pro-samsung-klte.dts |  12 +-
+ ...-msm8974pro-sony-xperia-shinano-castor.dts |  31 ++-
+ arch/arm/boot/dts/qcom/qcom-sdx55-mtp.dts     |   2 +-
+ arch/arm/boot/dts/qcom/qcom-sdx55-t55.dts     |   2 +-
+ .../dts/qcom/qcom-sdx55-telit-fn980-tlb.dts   |   2 +-
+ arch/arm/boot/dts/qcom/qcom-sdx65-mtp.dts     |   2 +-
+ 45 files changed, 1137 insertions(+), 972 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/qcom,pm8921-keypad.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+ create mode 100644 arch/arm/boot/dts/qcom/pm8018.dtsi
+ create mode 100644 arch/arm/boot/dts/qcom/pm8058.dtsi
+ rename arch/arm/boot/dts/qcom/{qcom-pm8226.dtsi => pm8226.dtsi} (100%)
+ create mode 100644 arch/arm/boot/dts/qcom/pm8821.dtsi
+ rename arch/arm/boot/dts/qcom/{qcom-pm8841.dtsi => pm8841.dtsi} (100%)
+ create mode 100644 arch/arm/boot/dts/qcom/pm8921.dtsi
+ rename arch/arm/boot/dts/qcom/{qcom-pm8941.dtsi => pm8941.dtsi} (100%)
+ rename arch/arm/boot/dts/qcom/{qcom-pma8084.dtsi => pma8084.dtsi} (100%)
+ rename arch/arm/boot/dts/qcom/{qcom-pmx55.dtsi => pmx55.dtsi} (100%)
+ rename arch/arm/boot/dts/qcom/{qcom-pmx65.dtsi => pmx65.dtsi} (100%)
+
+-- 
+2.39.2
+
