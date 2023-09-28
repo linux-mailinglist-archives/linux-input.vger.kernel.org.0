@@ -2,53 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 79FAE7B18DC
-	for <lists+linux-input@lfdr.de>; Thu, 28 Sep 2023 13:03:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EA0F7B18DD
+	for <lists+linux-input@lfdr.de>; Thu, 28 Sep 2023 13:03:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231757AbjI1LDQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Sep 2023 07:03:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57426 "EHLO
+        id S229903AbjI1LDR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Sep 2023 07:03:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229903AbjI1LDP (ORCPT
+        with ESMTP id S231532AbjI1LDQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Sep 2023 07:03:15 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A18C191
+        Thu, 28 Sep 2023 07:03:16 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E4AA195
         for <linux-input@vger.kernel.org>; Thu, 28 Sep 2023 04:03:12 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-503397ee920so20297075e87.1
-        for <linux-input@vger.kernel.org>; Thu, 28 Sep 2023 04:03:11 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-50308217223so20319996e87.3
+        for <linux-input@vger.kernel.org>; Thu, 28 Sep 2023 04:03:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695898990; x=1696503790; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1p+6youuH5bjqrYOnT9IQ9rKwC7lebaEKtt33v0MbqE=;
-        b=eQFIi5R9N/5xq3CgGbHEk1fEfBFMcBZsbRoF+z2k7/jxt4QXkThHPv/46EUPoa/9v2
-         CCQHOCSFK5Zdqda6y4jCn255G4kaJmHs22XqEpnLk9yyFRu082D7E13EzfVbjkJholaV
-         sRhaqwBPgtz7K+KcCFuIRs1az8RiixAhDKleDIf9+plEYZY2gPfaYu29YL+G5becrN5c
-         v4iNgS5+513IdOKZlUqem+ki46/gm3v0S+PKPyN+rIrW34pTHNJA8U0vG992Wl1lrCEy
-         +hYAORnFEMJep+A0FW4xiTD51zKrkWHpTBeJYE7N8Rd+c4Hw1IHzCYW5X2HQAEKd+peN
-         /iRA==
+        d=linaro.org; s=google; t=1695898991; x=1696503791; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uDJFiJgRqRQBXlrZBTgPGvpZ3gtef6On4wWBMux75So=;
+        b=N/kLnzPuxGXDvHm3fDX+vAF6hkZMXxd8zrFKvQLHAOZWlJT2h1R6IOC9z02RSerBpw
+         CmxNDW1Kt/n0ej1PAhm9HtuzRP4f5gHHOjkuKYGzxl7uNKgoMbKZwqwh0JhWecOj/lWR
+         j/Mvn49IBvn4WNuuyLc/ER6W4fXAFWwpVVc/4HPJrHDo7VxSsJonbMMVb7HFxZjgWSvO
+         0NSRSBj/8R5/CGLyWWVL3bhv64XXF55/6dVd7w3Lru1m7x3bL00ae6DYU/Pu5FMQvjju
+         kXbCQNBqD7oytEphC1m7yn64YZtZ3URcfdxUZRvEA5J8mGaC+qu37XZQlFVz7wEhPNc/
+         ytGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695898990; x=1696503790;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1p+6youuH5bjqrYOnT9IQ9rKwC7lebaEKtt33v0MbqE=;
-        b=mnXtTFX9A5/kOvj9Bz4QTYpmL84UV4S39uIc000Z4tHOiTENjEUfjkXJoODrn1XpT0
-         9df98QEVCqT6TFY6T63inLp3fUHlkBV3wTaOwLPugJ55M2GhvmJD7u/UUj9Ls8uVoNA8
-         JLpSb9RlPl4o6CgaeRazPiuHZ3dn2LuojWBbFGBIiFGSr2/mcjwL+sWJb6s/9LU1RI/c
-         3pHiYXwLIm8If9p2ksT5ivsEty/dHgajprHRo6GImzBXLsTnTIao8sSB8IgWJ8DMmoD9
-         boPh9J4KF7TXiIcbEkoGLVMeJIRxTJ1BDYLwu/lCLSAWbn+iotfYoTIyU2FEXh7jnSX/
-         yKog==
-X-Gm-Message-State: AOJu0YzfSS1B36kAlAJNL4PlZn4EfQAVpKUlOn9qgTJyrAx8oHlgBSg3
-        qLJ3kNfz+UCErE15OoNWR8TWeQ==
-X-Google-Smtp-Source: AGHT+IGrXqKGLr52gkcaadow2Qx5xht4iqoWahzQsMBdNe8jnqCk6RGNOrweaGTGNbAO8N5j5YO/Eg==
-X-Received: by 2002:a05:6512:3d04:b0:500:7efe:313c with SMTP id d4-20020a0565123d0400b005007efe313cmr1031092lfv.24.1695898990157;
+        d=1e100.net; s=20230601; t=1695898991; x=1696503791;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uDJFiJgRqRQBXlrZBTgPGvpZ3gtef6On4wWBMux75So=;
+        b=NY/Gis3n7b9WeHWUHYu49xscbO00VqDU6sP6C8756cJWX/xmCCTSpczlL0bOInLtNN
+         x7vuJ8d00J5vx1w3EmVjCHxiUgsUlpN0ad3IjHSPDXY1xttI5FJIMD8VbxCL2eMYC+uH
+         QccuEUX/iebLD5sm2l+OLLgv22RJUJt/rsNUaffyX5aiT/CNPtJGiA0F04zUYHYI7gqC
+         VRRcwUR+TIub43yrMCykgnPCBtFG0vSJSnpELPQ9YU/TaUtGyaKeXRuxTdbynY8DFG2t
+         XdkymGhLmyL/H4fbwp+ZZyrzOaTfVf8SyNPul//CCpHkhT5H1L3kF2zT87cakfQMtjW1
+         0Eew==
+X-Gm-Message-State: AOJu0YwOY3ZNfScCkq5qgOCmmdxVdYXJpalHmObTYEGeWMUFD/i4ocWH
+        vHwaKvqVT6usDRBB1X1tQlWezg==
+X-Google-Smtp-Source: AGHT+IEIQdx1X58alEuusgt13lF6u5O/nmqrhimcPF8MioqmrRyP8Ya+rQMIxfyYLlqYsh3YI7TsWw==
+X-Received: by 2002:a19:670f:0:b0:503:653:5711 with SMTP id b15-20020a19670f000000b0050306535711mr783687lfc.9.1695898990866;
         Thu, 28 Sep 2023 04:03:10 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id u2-20020a056512040200b005030a35019dsm3052953lfk.178.2023.09.28.04.03.09
+        by smtp.gmail.com with ESMTPSA id u2-20020a056512040200b005030a35019dsm3052953lfk.178.2023.09.28.04.03.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Sep 2023 04:03:09 -0700 (PDT)
+        Thu, 28 Sep 2023 04:03:10 -0700 (PDT)
 From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
@@ -56,178 +57,235 @@ To:     Andy Gross <agross@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: [PATCH v6 00/36] ARM: dts: qcom: cleanup PMIC usage
-Date:   Thu, 28 Sep 2023 14:02:33 +0300
-Message-Id: <20230928110309.1212221-1-dmitry.baryshkov@linaro.org>
+        linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v6 01/36] dt-bindings: input: qcom,pm8921-keypad: convert to YAML format
+Date:   Thu, 28 Sep 2023 14:02:34 +0300
+Message-Id: <20230928110309.1212221-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230928110309.1212221-1-dmitry.baryshkov@linaro.org>
+References: <20230928110309.1212221-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-While reviewing APQ8064 CPUFreq patchset, Konrad pointed out that PMICs
-are not a part of SoC and as such do not belong to the per-SoC files.
+Convert the bindings for the keypad subdevices of Qualcomm PM8921 and
+PM8058 PMICs from text to YAML format.
 
-Cleanup the way 32-bit Qualcomm platforms treat PMICs:
+While doing the conversion also drop the linux,keypad-no-autorepeat
+The property was never used by DT files. Both input and DT binding
+maintainers consider that bindings should switch to assertive
+(linux,autorepeat) instead of negating (no-autorepeat) property.
 
-- Move SSBI PMICs to separate files (as a bonus merging two different
-  instances of PM8921, benefitting both platforms).
-
-- Include such PMIC files only from the board files, keeping SoC file
-  generic.
-
-- Move RPM regulator definitions to board files too. They do not belong
-  to the SoC dtsi files for the same reason.
-
-- Move PMIC-specific GPIOs and supply properties to individual board
-  files.
-
-Note, enabling DT schema triggers warnings for pmic:led@48 in
-qcom-apq8060-dragonboard.dts. This node uses custom ('cm3605') trigger
-to make the LED follow the state of the proximity / ALS device.
-Previously [1] Rob pointed out that this is not the best way and the
-device should be switched to `trigger-sources' instead. However as I do
-not have this device, I'm not brave enough to introduce these changes.
-
-Note2: DT binding changes are largely independent from the DTS changes,
-they can be applied separately.
-
-[1] https://lore.kernel.org/linux-arm-msm/20221205220709.GA2713165-robh@kernel.org
-
-Changes since v5:
-- Dropped accepted patches
-- Provided proper commit message for the last two patches (Konrad)
-
-Changes since v4:
-- Rebased on top of linux-next
-
-Changes since v3:
-- Dropped the interrupts/interrupts-extended patch, it is handled by
-  dtschema itself (Krzysztof)
-
-Changes since v3:
-- Moved PMIC interrupts to board DT files, they are not a property of
-  the board, not the SoC.
-- Dropped qcom, prefix from ssbi node names in ipq8064 and mdm9615 DT
-  files.
-
-Changes since v2:
-- Rebased on top of linux-next to fix conflict
-- Picked up dt-bindings patches from old, not-fully merged series.
-- qcom,pm8921-keypad: droped the no-autorepeat property (Rob, Dmitry)
-- Moved qcom,ssbi to /bus/ (Krzysztof)
-
-Changes since v1:
-- To ease reviewing break cleanups from the  "split PMIC" patches
-  (Konrad).
-
-
-Dmitry Baryshkov (36):
-  dt-bindings: input: qcom,pm8921-keypad: convert to YAML format
-  ARM: dts: qcom: apq8064: correct XOADC register address
-  ARM: dts: qcom: msm8960: introduce label for PMIC keypad
-  ARM: dts: qcom: msm8660-surf: use keypad label directly
-  ARM: dts: qcom: apq8064-nexus7: move sdcc1 node to proper place
-  ARM: dts: qcom: mdm9615-wp8548-mangoh-green: group include clauses
-  ARM: dts: qcom: strip prefix from PMIC files
-  ARM: dts: qcom: apq8064: fix PMIC node labels
-  ARM: dts: qcom: mdm9615: fix PMIC node labels
-  ARM: dts: qcom: msm8660: fix PMIC node labels
-  ARM: dts: qcom: msm8960: fix PMIC node labels
-  ARM: dts: qcom: apq8064: move PMIC interrupts to the board files
-  ARM: dts: qcom: mdm9615: move PMIC interrupts to the board files
-  ARM: dts: qcom: msm8660: move PMIC interrupts to the board files
-  ARM: dts: qcom: msm8960: move PMIC interrupts to the board files
-  ARM: dts: qcom: msm8960: split PMIC to separate dtsi files
-  ARM: dts: qcom: apq8064: split PMICs to separate dtsi files
-  ARM: dts: qcom: mdm9615: split PMIC to separate dtsi files
-  ARM: dts: qcom: msm8660: split PMIC to separate dtsi files
-  ARM: dts: qcom: pm8058: reorder nodes
-  ARM: dts: qcom: pm8921: reorder nodes
-  ARM: dts: qcom: pm8018: move reg property
-  ARM: dts: qcom: pm8921: move reg property
-  ARM: dts: qcom: pm8058: use defined IRQ flags
-  ARM: dts: qcom: pm8921: switch to interrupts-extended
-  ARM: dts: qcom: pm8018: switch to interrupts-extended
-  ARM: dts: qcom: pm8058: switch to interrupts-extended
-  ARM: dts: qcom: apq8064: move RPM regulators to board files
-  ARM: dts: qcom: mdm9615: move RPM regulators to board files
-  ARM: dts: qcom: msm8660: move RPM regulators to board files
-  ARM: dts: qcom: msm8960: drop useless rpm regulators node
-  ARM: dts: qcom: msm8974: move regulators to board files
-  ARM: dts: qcom: pm8921: Disable keypad by default
-  ARM: dts: qcom: apq8060-dragonboard: rename mpp ADC channels to
-    adc-channel
-  ARM: dts: qcom: ipq8064: drop qcom, prefix from SSBI node name
-  ARM: dts: qcom: mdm9615: drop qcom, prefix from SSBI node name
-
- .../bindings/input/qcom,pm8921-keypad.yaml    |  89 +++++++
- .../bindings/input/qcom,pm8xxx-keypad.txt     |  90 --------
- arch/arm/boot/dts/qcom/pm8018.dtsi            |  55 +++++
- arch/arm/boot/dts/qcom/pm8058.dtsi            | 159 +++++++++++++
- .../qcom/{qcom-pm8226.dtsi => pm8226.dtsi}    |   0
- arch/arm/boot/dts/qcom/pm8821.dtsi            |  22 ++
- .../qcom/{qcom-pm8841.dtsi => pm8841.dtsi}    |   0
- arch/arm/boot/dts/qcom/pm8921.dtsi            | 137 +++++++++++
- .../qcom/{qcom-pm8941.dtsi => pm8941.dtsi}    |   0
- .../qcom/{qcom-pma8084.dtsi => pma8084.dtsi}  |   0
- .../dts/qcom/{qcom-pmx55.dtsi => pmx55.dtsi}  |   0
- .../dts/qcom/{qcom-pmx65.dtsi => pmx65.dtsi}  |   0
- .../dts/qcom/qcom-apq8026-asus-sparrow.dts    |   2 +-
- .../dts/qcom/qcom-apq8026-huawei-sturgeon.dts |   2 +-
- .../boot/dts/qcom/qcom-apq8026-lg-lenok.dts   |   2 +-
- .../qcom-apq8026-samsung-matisse-wifi.dts     |   2 +-
- .../dts/qcom/qcom-apq8060-dragonboard.dts     | 164 ++++++++-----
- .../dts/qcom/qcom-apq8064-asus-nexus7-flo.dts |  70 +++---
- .../boot/dts/qcom/qcom-apq8064-cm-qs600.dts   |  35 ++-
- .../boot/dts/qcom/qcom-apq8064-ifc6410.dts    |  42 ++--
- .../qcom-apq8064-sony-xperia-lagan-yuga.dts   | 111 +++++----
- arch/arm/boot/dts/qcom/qcom-apq8064.dtsi      | 201 +---------------
- .../dts/qcom/qcom-apq8074-dragonboard.dts     |  31 ++-
- .../boot/dts/qcom/qcom-apq8084-ifc6540.dts    |   2 +-
- arch/arm/boot/dts/qcom/qcom-apq8084-mtp.dts   |   2 +-
- arch/arm/boot/dts/qcom/qcom-ipq8064.dtsi      |   2 +-
- .../qcom/qcom-mdm9615-wp8548-mangoh-green.dts |   4 +-
- .../boot/dts/qcom/qcom-mdm9615-wp8548.dtsi    | 143 +++++++++++-
- arch/arm/boot/dts/qcom/qcom-mdm9615.dtsi      | 183 +--------------
- arch/arm/boot/dts/qcom/qcom-msm8660-surf.dts  |  61 +++--
- arch/arm/boot/dts/qcom/qcom-msm8660.dtsi      | 217 +-----------------
- arch/arm/boot/dts/qcom/qcom-msm8960-cdp.dts   |  27 ++-
- .../qcom/qcom-msm8960-samsung-expressatt.dts  |   7 +-
- arch/arm/boot/dts/qcom/qcom-msm8960.dtsi      |  45 +---
- .../qcom-msm8974-lge-nexus5-hammerhead.dts    |  31 ++-
- .../qcom/qcom-msm8974-sony-xperia-rhine.dtsi  |  31 ++-
- arch/arm/boot/dts/qcom/qcom-msm8974.dtsi      |  27 ---
- .../qcom/qcom-msm8974pro-fairphone-fp2.dts    |  31 ++-
- .../qcom/qcom-msm8974pro-oneplus-bacon.dts    |  31 ++-
- .../dts/qcom/qcom-msm8974pro-samsung-klte.dts |  12 +-
- ...-msm8974pro-sony-xperia-shinano-castor.dts |  31 ++-
- arch/arm/boot/dts/qcom/qcom-sdx55-mtp.dts     |   2 +-
- arch/arm/boot/dts/qcom/qcom-sdx55-t55.dts     |   2 +-
- .../dts/qcom/qcom-sdx55-telit-fn980-tlb.dts   |   2 +-
- arch/arm/boot/dts/qcom/qcom-sdx65-mtp.dts     |   2 +-
- 45 files changed, 1137 insertions(+), 972 deletions(-)
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ .../bindings/input/qcom,pm8921-keypad.yaml    | 89 ++++++++++++++++++
+ .../bindings/input/qcom,pm8xxx-keypad.txt     | 90 -------------------
+ 2 files changed, 89 insertions(+), 90 deletions(-)
  create mode 100644 Documentation/devicetree/bindings/input/qcom,pm8921-keypad.yaml
  delete mode 100644 Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
- create mode 100644 arch/arm/boot/dts/qcom/pm8018.dtsi
- create mode 100644 arch/arm/boot/dts/qcom/pm8058.dtsi
- rename arch/arm/boot/dts/qcom/{qcom-pm8226.dtsi => pm8226.dtsi} (100%)
- create mode 100644 arch/arm/boot/dts/qcom/pm8821.dtsi
- rename arch/arm/boot/dts/qcom/{qcom-pm8841.dtsi => pm8841.dtsi} (100%)
- create mode 100644 arch/arm/boot/dts/qcom/pm8921.dtsi
- rename arch/arm/boot/dts/qcom/{qcom-pm8941.dtsi => pm8941.dtsi} (100%)
- rename arch/arm/boot/dts/qcom/{qcom-pma8084.dtsi => pma8084.dtsi} (100%)
- rename arch/arm/boot/dts/qcom/{qcom-pmx55.dtsi => pmx55.dtsi} (100%)
- rename arch/arm/boot/dts/qcom/{qcom-pmx65.dtsi => pmx65.dtsi} (100%)
 
+diff --git a/Documentation/devicetree/bindings/input/qcom,pm8921-keypad.yaml b/Documentation/devicetree/bindings/input/qcom,pm8921-keypad.yaml
+new file mode 100644
+index 000000000000..88764adcd696
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/qcom,pm8921-keypad.yaml
+@@ -0,0 +1,89 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/qcom,pm8921-keypad.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm PM8921 PMIC KeyPad
++
++maintainers:
++  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
++
++allOf:
++  - $ref: input.yaml#
++  - $ref: matrix-keymap.yaml#
++
++properties:
++  compatible:
++    enum:
++      - qcom,pm8058-keypad
++      - qcom,pm8921-keypad
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    items:
++      - description: key sense
++      - description: key stuck
++
++  wakeup-source:
++    type: boolean
++    description: use any event on keypad as wakeup event
++
++  linux,keypad-wakeup:
++    type: boolean
++    deprecated: true
++    description: legacy version of the wakeup-source property
++
++  debounce:
++    description:
++      Time in microseconds that key must be pressed or
++      released for state change interrupt to trigger.
++    $ref: /schemas/types.yaml#/definitions/uint32
++
++  scan-delay:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: time in microseconds to pause between successive scans of the
++      matrix array
++
++  row-hold:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: time in nanoseconds to pause between scans of each row in the
++      matrix array.
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - linux,keymap
++
++unevaluatedProperties: false
++
++examples:
++  - |
++   #include <dt-bindings/input/input.h>
++   #include <dt-bindings/interrupt-controller/irq.h>
++   pmic {
++       #address-cells = <1>;
++       #size-cells = <0>;
++
++       keypad@148 {
++           compatible = "qcom,pm8921-keypad";
++           reg = <0x148>;
++           interrupt-parent = <&pmicintc>;
++           interrupts = <74 IRQ_TYPE_EDGE_RISING>, <75 IRQ_TYPE_EDGE_RISING>;
++           linux,keymap = <
++               MATRIX_KEY(0, 0, KEY_VOLUMEUP)
++               MATRIX_KEY(0, 1, KEY_VOLUMEDOWN)
++               MATRIX_KEY(0, 2, KEY_CAMERA_FOCUS)
++               MATRIX_KEY(0, 3, KEY_CAMERA)
++           >;
++           keypad,num-rows = <1>;
++           keypad,num-columns = <5>;
++           debounce = <15>;
++           scan-delay = <32>;
++           row-hold = <91500>;
++       };
++   };
++...
+diff --git a/Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt b/Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+deleted file mode 100644
+index 4a9dc6ba96b1..000000000000
+--- a/Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
++++ /dev/null
+@@ -1,90 +0,0 @@
+-Qualcomm PM8xxx PMIC Keypad
+-
+-PROPERTIES
+-
+-- compatible:
+-	Usage: required
+-	Value type: <string>
+-	Definition: must be one of:
+-		    "qcom,pm8058-keypad"
+-		    "qcom,pm8921-keypad"
+-
+-- reg:
+-	Usage: required
+-	Value type: <prop-encoded-array>
+-	Definition: address of keypad control register
+-
+-- interrupts:
+-	Usage: required
+-	Value type: <prop-encoded-array>
+-	Definition: the first interrupt specifies the key sense interrupt
+-		    and the second interrupt specifies the key stuck interrupt.
+-		    The format of the specifier is defined by the binding
+-		    document describing the node's interrupt parent.
+-
+-- linux,keymap:
+-	Usage: required
+-	Value type: <prop-encoded-array>
+-	Definition: the linux keymap. More information can be found in
+-		    input/matrix-keymap.txt.
+-
+-- linux,keypad-no-autorepeat:
+-	Usage: optional
+-	Value type: <bool>
+-	Definition: don't enable autorepeat feature.
+-
+-- wakeup-source:
+-	Usage: optional
+-	Value type: <bool>
+-	Definition: use any event on keypad as wakeup event.
+-		    (Legacy property supported: "linux,keypad-wakeup")
+-
+-- keypad,num-rows:
+-	Usage: required
+-	Value type: <u32>
+-	Definition: number of rows in the keymap. More information can be found
+-		    in input/matrix-keymap.txt.
+-
+-- keypad,num-columns:
+-	Usage: required
+-	Value type: <u32>
+-	Definition: number of columns in the keymap. More information can be
+-		    found in input/matrix-keymap.txt.
+-
+-- debounce:
+-	Usage: optional
+-	Value type: <u32>
+-	Definition: time in microseconds that key must be pressed or release
+-		    for key sense interrupt to trigger.
+-
+-- scan-delay:
+-	Usage: optional
+-	Value type: <u32>
+-	Definition: time in microseconds to pause between successive scans
+-		    of the matrix array.
+-
+-- row-hold:
+-	Usage: optional
+-	Value type: <u32>
+-	Definition: time in nanoseconds to pause between scans of each row in
+-		    the matrix array.
+-
+-EXAMPLE
+-
+-	keypad@148 {
+-		compatible = "qcom,pm8921-keypad";
+-		reg = <0x148>;
+-		interrupt-parent = <&pmicintc>;
+-		interrupts = <74 1>, <75 1>;
+-		linux,keymap = <
+-			MATRIX_KEY(0, 0, KEY_VOLUMEUP)
+-			MATRIX_KEY(0, 1, KEY_VOLUMEDOWN)
+-			MATRIX_KEY(0, 2, KEY_CAMERA_FOCUS)
+-			MATRIX_KEY(0, 3, KEY_CAMERA)
+-			>;
+-		keypad,num-rows = <1>;
+-		keypad,num-columns = <5>;
+-		debounce = <15>;
+-		scan-delay = <32>;
+-		row-hold = <91500>;
+-	};
 -- 
 2.39.2
 
