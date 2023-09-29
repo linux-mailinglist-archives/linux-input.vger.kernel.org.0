@@ -2,140 +2,144 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE87F7B3807
-	for <lists+linux-input@lfdr.de>; Fri, 29 Sep 2023 18:37:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 894187B391C
+	for <lists+linux-input@lfdr.de>; Fri, 29 Sep 2023 19:46:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233215AbjI2QhO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 29 Sep 2023 12:37:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39792 "EHLO
+        id S233416AbjI2RqF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 29 Sep 2023 13:46:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233147AbjI2QhN (ORCPT
+        with ESMTP id S233233AbjI2RqE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 29 Sep 2023 12:37:13 -0400
-Received: from nikam.ms.mff.cuni.cz (nikam.ms.mff.cuni.cz [195.113.20.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03C5BBE;
-        Fri, 29 Sep 2023 09:37:09 -0700 (PDT)
-Received: from gimli.ms.mff.cuni.cz (gimli.ms.mff.cuni.cz [195.113.20.176])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by nikam.ms.mff.cuni.cz (Postfix) with ESMTPS id C09362849E2;
-        Fri, 29 Sep 2023 18:37:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gimli.ms.mff.cuni.cz;
-        s=gen1; t=1696005427;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=/4gRp0PvTgqZjxjAaRsbmJVWPSYl1PGDEWrN5bNlrz8=;
-        b=l+ldHJ1ok+EnmgC9J7LLFq4maNIS2ueNmWEpEL3QHSG/CiwR4AaIVBx1UdvEyZuknpWZBg
-        16KSXxQZ+1h8gT676k+7jfYsg17eq1C31oyxD2vaGeM/7j7pd4No6kC/dWvTYv76BlHnEd
-        TIwGrx62xofJga8hWI+VLKALLejTiq4=
-Received: from localhost (koleje-wifi-0029.koleje.cuni.cz [78.128.191.29])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: karelb)
-        by gimli.ms.mff.cuni.cz (Postfix) with ESMTPSA id A3285441AC5;
-        Fri, 29 Sep 2023 18:37:07 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Fri, 29 Sep 2023 18:37:20 +0200
-Message-Id: <CVVJR34G5A55.2LYQW8Z5PEEDA@gimli.ms.mff.cuni.cz>
-Cc:     "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        "Conor Dooley" <conor+dt@kernel.org>,
-        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-        <~postmarketos/upstreaming@lists.sr.ht>,
-        "Jeff LaBundy" <jeff@labundy.com>, <linmengbo0689@protonmail.com>
-Subject: Re: [PATCH 1/2] input: generalize the Imagis touchscreen driver
-To:     "Markuss Broks" <markuss.broks@gmail.com>,
-        "Karel Balej" <balejk@matfyz.cz>
-From:   "Karel Balej" <karelb@gimli.ms.mff.cuni.cz>
-References: <7b9864bf-2aa6-4510-ad98-276fbfaadc30@gmail.com>
- <72e02837-9a82-4007-8ba2-fa05f3c17670@gmail.com>
- <CVUR18U9FUME.XSF1MML0B1QN@gimli.ms.mff.cuni.cz>
- <06e71bb8-370d-4b66-bedb-3041d6e3b2c6@gmail.com>
-In-Reply-To: <06e71bb8-370d-4b66-bedb-3041d6e3b2c6@gmail.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Fri, 29 Sep 2023 13:46:04 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DE8E1B3;
+        Fri, 29 Sep 2023 10:46:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1696009553; x=1696614353; i=matthias_berndt@gmx.de;
+ bh=OghkEip9MZzCQuMCpDvBbalHWA6PqjcYhAwePkOzMpU=;
+ h=X-UI-Sender-Class:From:To:Subject:Date;
+ b=ZA4VzL+gtpADigWd954qjph6z5Ibhftj8jSm4C+fVtPwm+R+Kj3+3r//Uj/kRs0jEZXeGmZpwBt
+ TdofRpDm9VX6v9xrwOXTUFDXQ/1HKhBqa06kkM7eSSViBwvu8l8AmPBlSONr0+cpnNa20NcaIaR2h
+ Tk733tvoo1/E2E24fK9KFXvTyLLJf+s06Zu2o1LEFSoKx6oQwogsRBD2R991PRAv2nIZwEqRdb0MF
+ k86CHvv//tiAj6YEXuTrT0wY5O2VB5us6UXbqaD+cIkqHlqnlaA0xUpcCP8YjYtTJj1VHKzlkVRl5
+ in8hDwUXJhpEvjIUNzaVcnyg/cUlCaT7o5VQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from fedora.localnet ([89.1.217.222]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MJmKX-1r5rgH43Dt-00K8MI; Fri, 29
+ Sep 2023 19:45:53 +0200
+From:   Matthias Berndt <matthias_berndt@gmx.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Vicki Pfau <vi@endrift.com>,
+        Ismael Ferreras Morezuelas <swyterzone@gmail.com>,
+        Lyude Paul <lyude@redhat.com>,
+        Matthias Benkmann <matthias.benkmann@gmail.com>,
+        John Butler <radon86dev@gmail.com>,
+        "Pierre-Loup A. Griffais" <pgriffais@valvesoftware.com>,
+        Jonathan Frederick <doublej472@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: xpad - add PXN V900 support
+Date:   Fri, 29 Sep 2023 19:45:52 +0200
+Message-ID: <2305012.ElGaqSPkdT@fedora>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="nextPart4841942.GXAFRqVoOG"
+Content-Transfer-Encoding: 7Bit
+X-Provags-ID: V03:K1:fy58odiaVbcjY+kxUmGa6MaNaBie0GFF5Apn2+K7sKuIKJ4svIC
+ RomOeZuu3MGHPJVl8CM9fhlhkPxoJjlZx/2EG0JrAAxwbq9eXqrjY+eeXdux1OHUwDZQ1pY
+ dBwIDbMAOq4hKnpIdOvFwy95CrLwxEThmgye2+Jrx545d+zm30/YHHtv2TYljQl8mWyQMvl
+ 8N8RU3vHZZ5iMA9B8uZvA==
+UI-OutboundReport: notjunk:1;M01:P0:ETOXKfQpKXE=;mvvvMikhhBgZQq+4JyJexxQCsZf
+ pGxxTfMJQeEzSEeSuxJAYJkhJ0CVbv/GiZNoO8sb7tG2Kqo+GOl4wTJJB5L4aveVWzHDa4CxH
+ JL8UvsMZ1DjAZOAuk5o4vNtjAfYP5zGoYWtzszF0gD9sco9YRf26UFqHC+8Iq0+2QKJL4zEcM
+ P/bYZoqQSyokvqn3xI9SoDl+yr8o4hYpN2vBXxBuRft2PkJQAVORFxPPGrP5KMobcHgSTzj3K
+ vx9CIcCoIHsbM1FoyluhVGONoeDKKCDJe047m3FnIa8N3msl0nySDDV1DYv6T+scWKdwrfs1L
+ PhYh0+SEeGYOXqofRUsFFU4bVrK/UZrOVn4Mv2ahC5s9JibAW/Hp94n/1vk/U6Y64al8Qrm+9
+ k6uPBTn4tEVIj8nbUMMr8idktmXNx3h1j4h8kFgQyfs9PXRZHzEeJozWmBRQzAMy6f4oxtOnm
+ 6wAkQZycSnB1NxGMRw3f3acUiFWm9OEhn+HBxZC1lFOB5kdFBG7OcpfCsWq7JXU4HsKcvVgcH
+ +ekemq7f5KxGNwZdt+4KKcvw7hRkJau3Jx7wpkjPxt/6ae6OOPbrjYwSitbSjm6VCl2aLe8gL
+ Mvkhs3SE+AMSQUMqq748mziXU0C/8nJvK1mkVEPJCyYwDFEqBzjKO/ajtgMDPV09VzLawSNv4
+ vr7qIoq6ak+RH5s4XYbs5HUKaZzLrIboVRgfs/GtYjVIVtpmHdkrU6mAYTlZfTl/MmJAyetVf
+ UrZyRV1trM0LxOOpu97dyBiqtqZKrWgZzUlLVN6Eg0tvwNTM4etwqg78LWCZdoGru0zToq/FD
+ Sz7Kw9/VCnqiIJ/ul3P02ICZvVI/wSRJuNVQnNBhWEgJb73TVeCIdclZTeXhgPDbVQrW19GP8
+ qoQKpRGNtA3HSMzthoZBepxDjnN0UfCoppaVGDmrnhczFuP9i0StMZNZ62RGUOZqN9iqGZu8e
+ ynez3A==
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello, Markuss,
+This is a multi-part message in MIME format.
 
-> If you don't mind the extra hassle, I'm all in for my generalization=20
-> thing going together with your series.
->
-> Alternatively, I can resend it myself, but I believe it would be better=
-=20
-> if they go in bulk since they need to be applied together.
+--nextPart4841942.GXAFRqVoOG
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
 
-great. Do you wish to make any changes to your original series? If not,
-please let me know and I will use the v2 [1] as it is.
+Hi everybody,
 
-> >> As for the voltage set, I believe this does not belong in a kernel
-> >> driver. You should set it in device-tree with `regulator-max-microvolt=
-`
-> >> and `regulator-min-microvolt`.
-> > Please see my response to Jeff regarding this. I will be happy to hear
-> > your thoughts on what I propose.
->
-> Actually, the regulator values belong to the device-tree, because the=20
-> device-tree for the board is what describes the board's regulators, and=
-=20
-> since you know what components are installed on that specific board you=
-=20
-> can know which regulator values are supposed to be set for it.
->
-> [...]
->
-> The actual min/max values for regulators or its voltage table is=20
-> provided by the regulator driver itself, so there's not much point in=20
-> specifying those again in the device-tree.
+I recently sent this patch to the linux-input list where it was ignored, s=
+o
+now I'm sending it again to every email address that get_maintainer.pl giv=
+es
+me in the hope that it'll somehow get merged.
+This is a trivial patch that enables support for the PXN V900 steering whe=
+el
+in the xpad driver. It's just a matter of adding the relevant USB vendorId=
+/
+productId to the list of supported IDs. I've tried it and it works.
 
-I see. I think the reason why I thought what I wrote before is that
-downstream the regulator DTS lives separately from the board as a .dtsi
-file which made me think that it can be used universally. So if I
-understand correctly now, the hardware specifications of the regulator,
-such as the minimal and maximal voltage should be part of the driver,
-while the DT should contain requirements for the given use of the
-regulator (with a specific board) - is this correct?
+All the best,
+Matthias
 
-> This manual voltage setting can cause conflicts with other drivers for
-> example. Also some device can use a variable wide voltage range, and
-> some only specific narrow one, and e.g. the driver with wide range
-> would set it to voltage that isn't suitable for the narrow range
-> device, so it's much better to just specify it manually than have it
-> resolved.
+--nextPart4841942.GXAFRqVoOG
+Content-Disposition: attachment;
+ filename="0001-Input-xpad-add-PXN-V900-support.patch"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/x-patch; charset="x-UTF_8J";
+ name="0001-Input-xpad-add-PXN-V900-support.patch"
 
-I would expect that in the case you describe, the kernel would set the
-voltage to a value which would satisfy both the ranges. I don't know
-what would happen if that was not possible (i. e. there was no
-intersection in the two requested voltage ranges), though. Or does a
-call to regulator_set_voltage set the voltage immediately taking notice
-only of the hardware contraints? I think I am having trouble
-understanding what this quote from the regulator_set_voltage
-documentation means:
+=46rom 9b0af40bc3c064be1c7c5ba36d7fb4b8d6535fc7 Mon Sep 17 00:00:00 2001
+From: Matthias Berndt <matthias_berndt@gmx.de>
+Date: Mon, 25 Sep 2023 17:54:13 +0200
+Subject: [PATCH] Input: xpad - add PXN V900 support
 
-> If the regulator is shared between several devices then the lowest
-> request voltage that meets the system constraints will be used.
+Add VID and PID to the xpad_device table to allow driver
+to use the PXN V900 steering wheel, which is
+XTYPE_XBOX360 compatible in xinput mode.
+=2D--
+ drivers/input/joystick/xpad.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-But actually, it probably doesn't make sense that the kernel would try
-to resolve a range suitable for all calls to this function as, I assume,
-a single driver could call it multiple times with disjoint voltage
-intervals.
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index ede380551e55..478bf657efc2 100644
+=2D-- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -272,6 +272,7 @@ static const struct xpad_device {
+ 	{ 0x1038, 0x1430, "SteelSeries Stratus Duo", 0, XTYPE_XBOX360 },
+ 	{ 0x1038, 0x1431, "SteelSeries Stratus Duo", 0, XTYPE_XBOX360 },
+ 	{ 0x11c9, 0x55f0, "Nacon GC-100XF", 0, XTYPE_XBOX360 },
++	{ 0x11ff, 0x0511, "PXN V900", 0, XTYPE_XBOX360 },
+ 	{ 0x1209, 0x2882, "Ardwiino Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x12ab, 0x0004, "Honey Bee Xbox360 dancepad", MAP_DPAD_TO_BUTTONS, XTY=
+PE_XBOX360 },
+ 	{ 0x12ab, 0x0301, "PDP AFTERGLOW AX.1", 0, XTYPE_XBOX360 },
+@@ -503,6 +504,7 @@ static const struct usb_device_id xpad_table[] =3D {
+ 	XPAD_XBOX360_VENDOR(0x3285),		/* Nacon GC-100 */
+ 	XPAD_XBOX360_VENDOR(0x3537),		/* GameSir Controllers */
+ 	XPAD_XBOXONE_VENDOR(0x3537),		/* GameSir Controllers */
++	XPAD_XBOX360_VENDOR(0x11ff),		/* PXN V900 */
+ 	{ }
+ };
 
-Thank you for your patience.
+=2D-
+2.41.0
 
-Kind regards,
-K. B.
+
+--nextPart4841942.GXAFRqVoOG--
+
+
+
