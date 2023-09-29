@@ -2,141 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA4E97B3A41
-	for <lists+linux-input@lfdr.de>; Fri, 29 Sep 2023 20:52:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A216E7B3AE2
+	for <lists+linux-input@lfdr.de>; Fri, 29 Sep 2023 22:01:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233717AbjI2Sw5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 29 Sep 2023 14:52:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50954 "EHLO
+        id S233173AbjI2UBV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 29 Sep 2023 16:01:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233493AbjI2Sw4 (ORCPT
+        with ESMTP id S232748AbjI2UBV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 29 Sep 2023 14:52:56 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FC27193
-        for <linux-input@vger.kernel.org>; Fri, 29 Sep 2023 11:52:54 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1c6219307b2so72806815ad.1
-        for <linux-input@vger.kernel.org>; Fri, 29 Sep 2023 11:52:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1696013573; x=1696618373; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FzdCDgqRjuyIGpHmaR9Azk80J00BBZTlSEkRESoXfhQ=;
-        b=gRYCQfyue2HOkrNKQXh+SDKrMBQbgRjw4K8UKCMusaqHYTkiU4YM0PmWVwVIkppfBO
-         MAVirEXb9dMjXkV10N0x6fXxKiBPNJVNDkxtk1NlflvPE1ly7o/iL9zkM/sYKnFHRucV
-         RxPqyNPswzW6VL+6N6xmp9AHH0TuKWR1kPhAI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696013573; x=1696618373;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FzdCDgqRjuyIGpHmaR9Azk80J00BBZTlSEkRESoXfhQ=;
-        b=LoCRhHVxXm4OMpwR9NPywYY7Nzg63Fxy1haGcm5Rd/OuLEW9znwaq2l+7ChLDWbIlO
-         h+v4bvom/DD66UCpJKs0l/DCRmYMKTz66EbZdzIw+Z8MoMLenYoryBbHiOhi0Hd3gEQh
-         1+Wh3rTtbKoRpxPpOhuTcxVDqfHQUvG8WBwUrXSHPjx+YLoXIdk2t1a1PoK98Xw8/MYU
-         9FynCvd0Q4OuutQr++uSRp95D+PNjx7yahhp8jjMMjX529JRqbZSV7F1EIBsCmntpIay
-         q/QCItCpuo7ozRCvtF6zGI8EPK91UOjvf0OsnZLjnEonRMbADP7H/zHDAuCeg6DkckEy
-         h3vg==
-X-Gm-Message-State: AOJu0Yx+eIBEaTXSQVf+9StVKUHnqEQdlNhDdtDQYGYZsJBenpYHIDz8
-        tGIMQRwFtLLApqWAALP696mzPQ==
-X-Google-Smtp-Source: AGHT+IENEEnMjhVkasG2A9B4/nMon9HuhFU3IIPi76rU6zOburdOWJMnX9N1jfa2EOABWMIx9iDMnA==
-X-Received: by 2002:a17:903:32c7:b0:1c3:f764:8428 with SMTP id i7-20020a17090332c700b001c3f7648428mr6177351plr.0.1696013573528;
-        Fri, 29 Sep 2023 11:52:53 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id m18-20020a170902db1200b001c72c07c9d9sm4829458plx.308.2023.09.29.11.52.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Sep 2023 11:52:53 -0700 (PDT)
-Date:   Fri, 29 Sep 2023 11:52:52 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     David Rheinsberg <david@readahead.eu>
-Cc:     Justin Stitt <justinstitt@google.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Fri, 29 Sep 2023 16:01:21 -0400
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [IPv6:2a02:c205:3004:2154::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBCF4113;
+        Fri, 29 Sep 2023 13:01:17 -0700 (PDT)
+Received: from p200300ccff0afb001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff0a:fb00:1a3d:a2ff:febf:d33a] helo=aktux)
+        by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <andreas@kemnade.info>)
+        id 1qmJfX-004LE9-9J; Fri, 29 Sep 2023 22:00:58 +0200
+Received: from andi by aktux with local (Exim 4.96)
+        (envelope-from <andreas@kemnade.info>)
+        id 1qmJfW-009eQM-1O;
+        Fri, 29 Sep 2023 22:00:58 +0200
+From:   Andreas Kemnade <andreas@kemnade.info>
+To:     dmitry.torokhov@gmail.com, Jonathan.Cameron@huawei.com,
+        andreas@kemnade.info, robh@kernel.org, frank.li@vivo.com,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org,
-        David Herrmann <dh.herrmann@gmail.com>
-Subject: Re: [PATCH] HID: uhid: refactor deprecated strncpy
-Message-ID: <202309291151.11AFC5F83@keescook>
-References: <20230914-strncpy-drivers-hid-uhid-c-v1-1-18a190060d8d@google.com>
- <202309142206.60836CE@keescook>
- <98d981a1-4e4c-4173-b8eb-09b4245bca60@app.fastmail.com>
- <202309151342.DFA6CA5C7@keescook>
- <72b7c13a-5f82-498b-84a3-b6e9b61c0e3a@app.fastmail.com>
+        linux-omap@vger.kernel.org, tony@atomide.com
+Subject: [RFC PATCH] Input: omap4-keypad: react on keypresses if device is runtime-suspended
+Date:   Fri, 29 Sep 2023 22:00:46 +0200
+Message-Id: <20230929200046.2300333-1-andreas@kemnade.info>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <72b7c13a-5f82-498b-84a3-b6e9b61c0e3a@app.fastmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Sep 18, 2023 at 09:37:53AM +0200, David Rheinsberg wrote:
-> Hey
-> 
-> On Fri, Sep 15, 2023, at 10:48 PM, Kees Cook wrote:
-> > On Fri, Sep 15, 2023 at 09:36:23AM +0200, David Rheinsberg wrote:
-> >> Hi
-> >> 
-> >> On Fri, Sep 15, 2023, at 7:13 AM, Kees Cook wrote:
-> >> >> -	/* @hid is zero-initialized, strncpy() is correct, strlcpy() not */
-> >> >> -	len = min(sizeof(hid->name), sizeof(ev->u.create2.name)) - 1;
-> >> >> -	strncpy(hid->name, ev->u.create2.name, len);
-> >> >> -	len = min(sizeof(hid->phys), sizeof(ev->u.create2.phys)) - 1;
-> >> >> -	strncpy(hid->phys, ev->u.create2.phys, len);
-> >> >> -	len = min(sizeof(hid->uniq), sizeof(ev->u.create2.uniq)) - 1;
-> >> >> -	strncpy(hid->uniq, ev->u.create2.uniq, len);
-> >> >
-> >> > ev->u.create2 is:
-> >> > struct uhid_create2_req {
-> >> >         __u8 name[128];
-> >> >         __u8 phys[64];
-> >> >         __u8 uniq[64];
-> >> > 	...
-> >> >
-> >> > hid is:
-> >> > struct hid_device { /* device report descriptor */
-> >> > 	...
-> >> >         char name[128]; /* Device name */
-> >> >         char phys[64]; /* Device physical location */
-> >> >         char uniq[64]; /* Device unique identifier (serial #) */
-> >> >
-> >> > So these "min" calls are redundant -- it wants to copy at most 1 less so
-> >> > it can be %NUL terminated. Which is what strscpy() already does. And
-> >> > source and dest are the same size, so we can't over-read source if it
-> >> > weren't terminated (since strscpy won't overread like strlcpy).
-> >> 
-> >> I *really* think we should keep the `min` calls. The compiler
-> >> should already optimize them away, as both arguments are compile-time
-> >> constants. There is no inherent reason why source and target are equal in
-> >> size. Yes, it is unlikely to change, but I don't understand why we would
-> >> want to implicitly rely on it, rather than make the compiler verify it for
-> >> us. And `struct hid_device` is very much allowed to change in the future.
-> >> 
-> >> As an alternative, you can use BUILD_BUG_ON() and verify both are equal in length.
-> >
-> > If we can't depend on ev->u.create2.name/phys/uniq being %NUL-terminated,
-> > we've already done the "min" calculations, and we've already got the
-> > dest zeroed, then I suspect the thing to do is just use memcpy instead
-> > of strncpy (or strscpy).
-> 
-> If you use memcpy, you might copy garbage trailing the terminating zero. This is not particularly wrong, but also not really nice if user-space relies on the kernel to treat it as a string. You don't know whether a query of the string returns trailing bytes, and thus might expose data that user-space did not intend to share.
-> 
-> I mean, this is why the code uses strncpy().
+According to SWPU235AB, table 26-6, fclk is required to generate events
+at least on OMAP4460, so keep fclk enabled all the time the device
+is opened.
 
-Justin, can you respin this patch (with an updated Subject and commit
-log), and add BUILD_BUG_ON() to verify the sizes are the same in addition
-to what you already had in the original patch?
+Suggested-by: Tony Lindgren <tony@atomide.com>
+Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+---
+Open questions:
+- Should we rather (or also use) padconf irqs?
+- It seems not to be required everywhere. Does it harm somewhere?
 
-I think that'll give us the right balance between correctness,
-readability, and future-proofing.
+ drivers/input/keyboard/omap4-keypad.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
--Kees
-
+diff --git a/drivers/input/keyboard/omap4-keypad.c b/drivers/input/keyboard/omap4-keypad.c
+index 773e55eed88b1..a7585a09c48b4 100644
+--- a/drivers/input/keyboard/omap4-keypad.c
++++ b/drivers/input/keyboard/omap4-keypad.c
+@@ -11,6 +11,7 @@
+ #include <linux/module.h>
+ #include <linux/interrupt.h>
+ #include <linux/platform_device.h>
++#include <linux/clk.h>
+ #include <linux/errno.h>
+ #include <linux/io.h>
+ #include <linux/of.h>
+@@ -83,6 +84,7 @@ struct omap4_keypad {
+ 	bool no_autorepeat;
+ 	u64 keys;
+ 	unsigned short *keymap;
++	struct clk *fck;
+ };
+ 
+ static int kbd_readl(struct omap4_keypad *keypad_data, u32 offset)
+@@ -211,6 +213,8 @@ static int omap4_keypad_open(struct input_dev *input)
+ 
+ 	disable_irq(keypad_data->irq);
+ 
++	clk_prepare_enable(keypad_data->fck);
++
+ 	kbd_writel(keypad_data, OMAP4_KBD_CTRL,
+ 			OMAP4_DEF_CTRL_NOSOFTMODE |
+ 			(OMAP4_KEYPAD_PTV_DIV_128 << OMAP4_DEF_CTRL_PTV_SHIFT));
+@@ -258,6 +262,7 @@ static void omap4_keypad_close(struct input_dev *input)
+ 	disable_irq(keypad_data->irq);
+ 	omap4_keypad_stop(keypad_data);
+ 	enable_irq(keypad_data->irq);
++	clk_disable_unprepare(keypad_data->fck);
+ 
+ 	pm_runtime_mark_last_busy(dev);
+ 	pm_runtime_put_autosuspend(dev);
+@@ -356,6 +361,11 @@ static int omap4_keypad_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	keypad_data->irq = irq;
++	keypad_data->fck = devm_clk_get(&pdev->dev, "fck");
++	if (IS_ERR(keypad_data->fck))
++		return dev_err_probe(&pdev->dev, PTR_ERR(keypad_data->fck),
++				     "unable to get fck");
++
+ 	mutex_init(&keypad_data->lock);
+ 	platform_set_drvdata(pdev, keypad_data);
+ 
 -- 
-Kees Cook
+2.39.2
+
