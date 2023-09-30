@@ -2,214 +2,176 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27ACA7B3FCD
-	for <lists+linux-input@lfdr.de>; Sat, 30 Sep 2023 11:59:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75E027B40E1
+	for <lists+linux-input@lfdr.de>; Sat, 30 Sep 2023 16:27:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233981AbjI3J7b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 30 Sep 2023 05:59:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40392 "EHLO
+        id S234270AbjI3O1b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 30 Sep 2023 10:27:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbjI3J7a (ORCPT
+        with ESMTP id S234225AbjI3O1a (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 30 Sep 2023 05:59:30 -0400
-Received: from mx1.mythic-beasts.com (mx1.mythic-beasts.com [IPv6:2a00:1098:0:86:1000:0:2:1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93E5ADD;
-        Sat, 30 Sep 2023 02:59:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=lentin.co.uk; s=mythic-beasts-k1; h=Subject:To:From:Date;
-        bh=/4uYrF1YZamO8Ddz5l0mdwZaajyvTANffN5fQkY1Ulw=; b=LJh/avzSGrM72gw+iPIW8BbYlC
-        SIBbumnUVg+G9DdKvDEOWUjwZT+3PvrPyljH/r/rbMB3KOc12D0o8iJtptwISswMxt+xUw7aP6bUk
-        JiSlZBzpuSreH08yHna3DRE5k/6lg8p237yxIpawdwbRKuihFhXn9LSxcbLI5xpzdL7d66P1bWZeJ
-        uRY/5eNJ8XB0Td5C6WYnxjPofof+V2IDBcnE0S+pnmT8LBXZodRt7oc9dNZiddgX23sFXRPvrIqr7
-        BIcxRJjHxIuPpJhzpwlTyenJj4oRd+hyyQUC4yfO2bFHeVhmlfxGDWeENsHBcrmz5RWaCp+sOjlKE
-        SpUZAzwQ==;
-Received: by mailhub-cam-d.mythic-beasts.com with esmtpa (Exim 4.94.2)
-        (envelope-from <jm@lentin.co.uk>)
-        id 1qmWkl-007ob1-6B; Sat, 30 Sep 2023 10:59:15 +0100
+        Sat, 30 Sep 2023 10:27:30 -0400
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09A5FC2;
+        Sat, 30 Sep 2023 07:27:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1696084044; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=gIwwlm1+Rusy92TdYGeJTtdOVkw2QzsTy3OkTn+dEcxiorsyVIh/Xfpc7/8bOqRHTf
+    Ss62UXgPyQQXkAjK9SroXnRkzGtVFjw0targ3aAOQccKOXO2qZmALBUVASxStWbD1Mi9
+    TEs57b5XFY8kRnF+isCHjPYPBRHkTnJTOviXR5pJQDat/nSst6WtL8lsfSWQHs9/Ah7A
+    Ap29W76UnnuqAP/cZvn/Ee5whNJU+ISx9AELfp0WTsEcmjdXNjjfYMVLADNwGy3X+Vx+
+    /nNEOx8/LCA19MHmuj7WCVQaWuhbYnzAEhn73ZGses/u2AKwts8G9XfOc6uzg3Y5J/NI
+    tOuA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1696084044;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=AxtyPLGRhQTS8BpvKTA8jX8YlndiVDqwSlUJLb0qHkE=;
+    b=Ht2nRr1ZKlKmQJxAvxBdNzA+hT8xRR2zbmx6IP1TGzaYADVJUKWid1RZIEAfkfV4GX
+    doPElfUJ3RjM10/jT09+ya0f8Pl+kJCmDRvTOzoZfigixONvCpvW/nrzjA2UkZ9c2+pj
+    T7+MzNS8f3yoWDHq6ooRMk0Jb+vnHN+gmp6hCnQmvcS9x8nZu1thouoI818R2xOgGvvv
+    SQmOyKzmxITYbqPDZUTwg+YY6HDNYaKq3lQzxWyLF5rb7QgwYMYgSVQgqsbFQPzNPWit
+    bZAB0avLdmtNFvdCsJh4Q0Utq3o3kb+Hgq1/pODQlIxabt308poTvprxtIh8ZDQClq0z
+    6nvg==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1696084044;
+    s=strato-dkim-0002; d=gerhold.net;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=AxtyPLGRhQTS8BpvKTA8jX8YlndiVDqwSlUJLb0qHkE=;
+    b=T3Iky+q56W8678CSwVDZWotWi7wYuaeR8VGvpcmAKPwIcV501ja1rtbPP8i646eI5N
+    +jsHyZ2AcvhfNuWWsgTuJClWy9LSrQNgn5LYQvtYH5F2eI5LvJnUVrquVBErwQqM9idL
+    LerEIdhWbJ9I7k5DLxYbsQ6b8e+w4vsK9NJKlkCQJ9MVnlzkp+uv53uYbtSVI8roCYrZ
+    eP7YyV4DLvqt+W4i683v4cdM3EXYLvMgikP5mCbm8SFxvV1978qCoVbDcKqWODcLyij8
+    4u7wiAprHPZga8fEg1tQ+uYlGMCVHKA8ndhHzba/9vTGOAbg2Wv47zR9EZ/hibkQPKXM
+    itxw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1696084044;
+    s=strato-dkim-0003; d=gerhold.net;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=AxtyPLGRhQTS8BpvKTA8jX8YlndiVDqwSlUJLb0qHkE=;
+    b=ohybLTvLrCb/veQvjxLSg7l6yet9xWL4aQSCwu5MtQL8VNGBTPNkUSu1jBEJGMyHiB
+    +IF3V+3td81YoWJ90ADQ==
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u261EJF5OxJD4peA8paF1A=="
+Received: from gerhold.net
+    by smtp.strato.de (RZmta 49.8.2 DYNA|AUTH)
+    with ESMTPSA id R04c57z8UEROtSZ
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+    Sat, 30 Sep 2023 16:27:24 +0200 (CEST)
+Date:   Sat, 30 Sep 2023 16:27:17 +0200
+From:   Stephan Gerhold <stephan@gerhold.net>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Jonathan Albrieux <jonathan.albrieux@gmail.com>
+Subject: Re: [PATCH 2/2] Input: add Himax HX852x(ES) touchscreen driver
+Message-ID: <ZRgwRfr7aW_Ww0oL@gerhold.net>
+References: <20230913-hx852x-v1-0-9c1ebff536eb@gerhold.net>
+ <20230913-hx852x-v1-2-9c1ebff536eb@gerhold.net>
+ <ZQYUe46/rj8jqNvg@nixie71>
+ <ZQcx7oQyL6RM06Jt@gerhold.net>
+ <ZROaqRiWa6ReVH/D@nixie71>
 MIME-Version: 1.0
-Date:   Sat, 30 Sep 2023 10:58:52 +0100
-From:   Jamie Lentin <jm@lentin.co.uk>
-To:     Martin Kepplinger <martink@posteo.de>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [RFC PATCH 2/2] hid: lenovo: move type checks to
- lenovo_features_set_cptkbd()
-In-Reply-To: <2d1e21cc9677a5cfe828decd8cbd5e930237e76d.camel@posteo.de>
-References: <140b721bc345a846863a37ebf17c3174@lentin.co.uk>
- <20230925102302.13094-1-martink@posteo.de>
- <20230925102302.13094-2-martink@posteo.de>
- <ef0f15c3b17ebbd58f7481910b3f40ff@lentin.co.uk>
- <137ee9ed434fe98fd773cd27895afc564f92a23c.camel@posteo.de>
- <6adc3e66402f38258eae3a044db9ee11@lentin.co.uk>
- <2d1e21cc9677a5cfe828decd8cbd5e930237e76d.camel@posteo.de>
-User-Agent: Roundcube Webmail/1.4.13
-Message-ID: <b3603d57b6d2be22f2a5615e66775d0b@lentin.co.uk>
-X-Sender: jm@lentin.co.uk
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZROaqRiWa6ReVH/D@nixie71>
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2023-09-30 10:26, Martin Kepplinger wrote:
-> Am Donnerstag, dem 28.09.2023 um 22:06 +0100 schrieb Jamie Lentin:
->> On 2023-09-27 12:20, Martin Kepplinger wrote:
->> > Am Mittwoch, dem 27.09.2023 um 09:19 +0100 schrieb Jamie Lentin:
->> > > On 2023-09-25 11:23, Martin Kepplinger wrote:
->> > > > These custom commands will be sent to both the USB keyboard &
->> > > > mouse
->> > > > devices but only the mouse will respond. Avoid sending known-
->> > > > useless
->> > > > messages by always prepending the filter before sending them.
->> > > >
->> > > > Suggested-by: Jamie Lentin <jm@lentin.co.uk>
->> > > > Signed-off-by: Martin Kepplinger <martink@posteo.de>
->> > > > ---
->> > > >  drivers/hid/hid-lenovo.c | 27 +++++++++------------------
->> > > >  1 file changed, 9 insertions(+), 18 deletions(-)
->> > > >
->> > > > diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-
->> > > > lenovo.c
->> > > > index 29aa6d372bad..922f3e5462f4 100644
->> > > > --- a/drivers/hid/hid-lenovo.c
->> > > > +++ b/drivers/hid/hid-lenovo.c
->> > > > @@ -521,6 +521,14 @@ static void
->> > > > lenovo_features_set_cptkbd(struct
->> > > > hid_device *hdev)
->> > > >         int ret;
->> > > >         struct lenovo_drvdata *cptkbd_data =
->> > > > hid_get_drvdata(hdev);
->> > > >
->> > > > +       /* All the custom action happens on the USBMOUSE device
->> > > > for
->> > > > USB */
->> > > > +       if (((hdev->product == USB_DEVICE_ID_LENOVO_CUSBKBD) ||
->> > > > +           (hdev->product == USB_DEVICE_ID_LENOVO_TPIIUSBKBD))
->> > > > &&
->> > > > +           hdev->type != HID_TYPE_USBMOUSE) {
->> > > > +               hid_dbg(hdev, "Ignoring keyboard half of
->> > > > device\n");
->> > > > +               return;
->> > > > +       }
->> > > > +
->> > > >         /*
->> > > >          * Tell the keyboard a driver understands it, and turn
->> > > > F7,
->> > > > F9, F11
->> > > > into
->> > > >          * regular keys
->> > > > @@ -1122,14 +1130,6 @@ static int lenovo_probe_cptkbd(struct
->> > > > hid_device
->> > > > *hdev)
->> > > >         int ret;
->> > > >         struct lenovo_drvdata *cptkbd_data;
->> > > >
->> > > > -       /* All the custom action happens on the USBMOUSE device
->> > > > for
->> > > > USB */
->> > > > -       if (((hdev->product == USB_DEVICE_ID_LENOVO_CUSBKBD) ||
->> > > > -           (hdev->product == USB_DEVICE_ID_LENOVO_TPIIUSBKBD))
->> > > > &&
->> > > > -           hdev->type != HID_TYPE_USBMOUSE) {
->> > > > -               hid_dbg(hdev, "Ignoring keyboard half of
->> > > > device\n");
->> > > > -               return 0;
->> > > > -       }
->> > > > -
->> > >
->> > > I like the idea of doing it once then forgetting about it, but
->> > > removing
->> > > this will mean that the "keyboard half" will have it's own set of
->> > > non-functional sysfs parameters I think? Currently:-
->> > >
->> > > # evtest
->> > >    . . .
->> > > /dev/input/event10:     ThinkPad Compact Bluetooth Keyboard with
->> > > TrackPoint
->> > > /dev/input/event11:     Lenovo ThinkPad Compact USB Keyboard with
->> > > TrackPoint
->> > > /dev/input/event12:     Lenovo ThinkPad Compact USB Keyboard with
->> > > TrackPoint
->> > >
->> > > # ls -1 /sys/class/input/event*/device/device/fn_lock
->> > > /sys/class/input/event10/device/device/fn_lock
->> > > /sys/class/input/event12/device/device/fn_lock
->> > >
->> > > (note 11 is missing.)
->> > >
->> > > I think the easiest (but ugly) thing to do is to copy-paste this
->> > > lump
->> > > of
->> > > code to the top of lenovo_reset_resume.
->> > > Cheers,
->> > >
->> > > >         cptkbd_data = devm_kzalloc(&hdev->dev,
->> > > >                                         sizeof(*cptkbd_data),
->> > > >                                         GFP_KERNEL);
->> > > > @@ -1264,16 +1264,7 @@ static int lenovo_probe(struct
->> > > > hid_device
->> > > > *hdev,
->> > > >  #ifdef CONFIG_PM
->> > > >  static int lenovo_reset_resume(struct hid_device *hdev)
->> > > >  {
->> > > > -       switch (hdev->product) {
->> > > > -       case USB_DEVICE_ID_LENOVO_CUSBKBD:
->> > > > -               if (hdev->type == HID_TYPE_USBMOUSE) {
->> > > > -                       lenovo_features_set_cptkbd(hdev);
->> > > > -               }
->> > > > -
->> > > > -               break;
->> > > > -       default:
->> > > > -               break;
->> > > > -       }
->> > > > +       lenovo_features_set_cptkbd(hdev);
->> >
->> > ok. ignore my change (this whole patch) and look at your addition
->> > here,
->> > don't you already make sure only the mouse-part gets the messages?
->> > you
->> > just write switch()case instead of if(); what do you think is
->> > missing
->> > here?
->> 
->> Correct, this switch statement() that you're removing in this patch
->> already does exactly this, so replacing it with the
->> if()-and-return-early block would result in equivalent code (ignoring
->> the Trackpoint keyboard II). That suggestion wasn't the most helpful
->> of
->> mine, sorry!
->> 
->> The reason I originally used a switch here is for symmetry with
->> lenovo_probe(), lenovo_remove(), etc. It might some day be useful to
->> add
->> something like:
->> 
->>         case USB_DEVICE_ID_LENOVO_X1_TAB:
->>                 lenovo_reset_resume_tp10ubkbd(hdev);
->>                 break;
->> 
->> ...to the switch. For completeness, lenovo_reset_resume() should
->> probably call a separate lenovo_reset_resume_cptkbd() that does the
->> work. For just 3 lines of code it didn't seem worth it at the time
->> though.
->> 
->> Cheers,
+Hi Jeff,
+
+On Tue, Sep 26, 2023 at 09:59:53PM -0500, Jeff LaBundy wrote:
+> On Sun, Sep 17, 2023 at 07:05:50PM +0200, Stephan Gerhold wrote:
+> > On Sat, Sep 16, 2023 at 03:47:55PM -0500, Jeff LaBundy wrote:
+> > > On Wed, Sep 13, 2023 at 03:25:30PM +0200, Stephan Gerhold wrote:
+> > > > From: Jonathan Albrieux <jonathan.albrieux@gmail.com>
+> [...]
+> > > > +static int hx852x_probe(struct i2c_client *client)
+> > > > +{
+> > > > +	struct device *dev = &client->dev;
+> > > > +	struct hx852x *hx;
+> > > > +	int error, i;
+> > > > +
+> > > > +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C |
+> > > > +				     I2C_FUNC_SMBUS_WRITE_BYTE |
+> > > > +				     I2C_FUNC_SMBUS_WRITE_BYTE_DATA |
+> > > > +				     I2C_FUNC_SMBUS_WRITE_WORD_DATA)) {
+> > > > +		dev_err(dev, "not all i2c functionality supported\n");
+> > > > +		return -ENXIO;
+> > > > +	}
+> > > > +
+> > > > +	hx = devm_kzalloc(dev, sizeof(*hx), GFP_KERNEL);
+> > > > +	if (!hx)
+> > > > +		return -ENOMEM;
+> > > > +
+> > > > +	hx->client = client;
+> > > > +	hx->input_dev = devm_input_allocate_device(dev);
+> > > > +	if (!hx->input_dev)
+> > > > +		return -ENOMEM;
+> > > > +
+> > > > +	hx->input_dev->name = "Himax HX852x";
+> > > > +	hx->input_dev->id.bustype = BUS_I2C;
+> > > > +	hx->input_dev->open = hx852x_input_open;
+> > > > +	hx->input_dev->close = hx852x_input_close;
+> > > > +
+> > > > +	i2c_set_clientdata(client, hx);
+> > > > +	input_set_drvdata(hx->input_dev, hx);
+> > > > +
+> > > > +	hx->supplies[0].supply = "vcca";
+> > > > +	hx->supplies[1].supply = "vccd";
+> > > > +	error = devm_regulator_bulk_get(dev, ARRAY_SIZE(hx->supplies), hx->supplies);
+> > > > +	if (error < 0)
+> > > > +		return dev_err_probe(dev, error, "failed to get regulators");
+> > > > +
+> > > > +	hx->reset_gpiod = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> > > > +	if (IS_ERR(hx->reset_gpiod))
+> > > > +		return dev_err_probe(dev, error, "failed to get reset gpio");
+> > > 
+> > > Can the reset GPIO be optional?
+> > > 
+> > 
+> > I'm afraid I have no idea if the controller needs this or not. Would it
+> > be better to keep it required until someone confirms otherwise or have
+> > it optional for the other way around?
 > 
-> ok your original patch seems to basically be a valid first fix. Should
-> I send it on your behalf (with you as author) or do you want to send it
-> yourself? Let's get this fixed :)
-
-If it's working for you and you don't mind, feel free send it on my 
-behalf. I don't have the hardware to test the patch currently.
-
-Thanks!
-
+> If you have a datasheet handy, or your hardware provides a means for you to
+> test and confirm whether reset can be left out, I would make the reset GPIO
+> optional. Often times, these controllers are part of a module and reset may
+> be tied high locally as opposed to adding another signal to a flex cable.
 > 
-> thanks,
->                        martin
+> If you have no way to confirm, I would keep it as required for now; it is not
+> too cumbersome to be changed later if the need arises on different hardware.
+> 
+
+I don't have a datasheet unfortunately. :(
+
+However, I tried to simulate this case on my board by keeping the reset
+GPIO permanently de-asserted (i.e. high because of active-low). The
+results are not entirely conclusive: The controller seems to respond to
+commands and the initial configuration is read correctly. However, it
+does not report any touch events. As soon as I add the temporary
+assertion of the reset signal back it works fine again.
+
+I suspect toggling the reset signal might be required to make the
+controller come properly out of reset. I'll keep it required to be sure.
+
+Thanks,
+Stephan
