@@ -2,71 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E27E37B4222
-	for <lists+linux-input@lfdr.de>; Sat, 30 Sep 2023 18:30:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DEE37B422F
+	for <lists+linux-input@lfdr.de>; Sat, 30 Sep 2023 18:34:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234485AbjI3QaC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 30 Sep 2023 12:30:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38084 "EHLO
+        id S234528AbjI3Qek (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 30 Sep 2023 12:34:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232221AbjI3QaB (ORCPT
+        with ESMTP id S234516AbjI3Qej (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 30 Sep 2023 12:30:01 -0400
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B1C7C6;
-        Sat, 30 Sep 2023 09:29:59 -0700 (PDT)
-Received: by mail-oi1-x231.google.com with SMTP id 5614622812f47-3af603da1d0so2565384b6e.3;
-        Sat, 30 Sep 2023 09:29:59 -0700 (PDT)
+        Sat, 30 Sep 2023 12:34:39 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 110C0D3;
+        Sat, 30 Sep 2023 09:34:38 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1c61bde0b4bso94150385ad.3;
+        Sat, 30 Sep 2023 09:34:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696091398; x=1696696198; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1696091677; x=1696696477; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wmSqdSmc5TEoBJX6RDRaP5oaJBKL1pf1cWoTbq0emmo=;
-        b=R4AVx+568bEQAHERi8vCn0ntcaQ1sT9oN6n3w33Kn2jlxZxP4TfBacacScEQa4lXhU
-         swGygTSTRS81kOOsO+70Ss7ys1UzwxLbmh/7zeBKMfwiwmPBS7PU7qFCpLKh3JLELrMw
-         1wSaEV96BsnMbpXfrIeO0e6lwpv0900PB9WoyGoJvJ2ByAWPMI0TWTAz7eOYCODiCnKn
-         9YP1S3x1AbYSBF+EFq6z6FgzW5mb5NbJkeL8TrhrKZNm3jWKvTBHaIPrZ8Du3omhUUUU
-         RulhOFYVxdnqLG6iGordXqT2hLH17iNzs9h+OyztTD5ECO4Rqco1rh2HAZVjEKVhqq5a
-         Ay/w==
+        bh=8ewlMK21MKF6oJNKsgHRX5GI6if3+DmnKGcJn9diq3M=;
+        b=dRnidEflpLHnPYPtw7r8l9OFETDqz1nJ1JnUw8S7sFmo5/j7zw9BXbjiL8HqJ9IuNJ
+         9DKFPjObTZdv6KcNaAQ2JgUt0YPk0OdTVi2ySJnjxVs3ZddOVqLSfLFmGiQNGHS+YjZH
+         k9KwpFZoLeN+Bz6iiaWQtODvtfa3bXxvqIUYVRsJy/oCOloLOVRc79vsYPQeOmfVgPOp
+         Pif0Wymm+XeupKasTiz1RsFHdqxIdXtsQEU8BuA9fP5mOnTbYa6oPuiCWnNPMy6W2lLr
+         ztDLUYNf2BYjNvvV66Gwm7y5WbMO7BwBW1/3Pfl3NE7tLywL0VyLefxxBXE+WPD7FvdJ
+         Hrqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696091398; x=1696696198;
+        d=1e100.net; s=20230601; t=1696091677; x=1696696477;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wmSqdSmc5TEoBJX6RDRaP5oaJBKL1pf1cWoTbq0emmo=;
-        b=xG/GmYZpigc/niG0pnEhmQftv+0Eh1BMRfWmPb+IvNPpfnmRAqWC9AqfgcpvxGxkKL
-         8kqtHIJSbzaAPcJ7aoEgVoNaWr0OA48v5Jd4rI8oZVTPOFUle29VfFeBUHgE0LwiLT5x
-         4eV4ElZPrnxXm8ojuUBAeWbWvpeZr9Qh/L5VQ2HhEUl3zdx5SKVT0/FBXgPZbcknLRmP
-         homOyaifHAMyCsEb4mMM7JRNPcRWanSp/OqQ722ca26q3sfEnPRVEBJHaZF4GzWvt47J
-         4bH3D6r1cKN0qxTbM+G8w0DnZPGFveDA+xTW0yy4OJSGKFgwFAl6xK9JhyCNH/++8Qvk
-         Pqbg==
-X-Gm-Message-State: AOJu0Ywv4VyhF8A7r9Z/ARU1Sxhmy3aPx4pUxJf8viUpd6crOCCy96e2
-        3hDM5N8cE9Zjjc7xafSVXAcwkKJnBq7hog==
-X-Google-Smtp-Source: AGHT+IFJ1l1yE+Ucl76dX4VVFUyJwrjvSJgUJLnT4nsTdm3UiOCVd/p3cQePD4wsWnfwipBbTLemgQ==
-X-Received: by 2002:a05:6870:468c:b0:1d6:3b5f:3211 with SMTP id a12-20020a056870468c00b001d63b5f3211mr7848914oap.31.1696091398443;
-        Sat, 30 Sep 2023 09:29:58 -0700 (PDT)
+        bh=8ewlMK21MKF6oJNKsgHRX5GI6if3+DmnKGcJn9diq3M=;
+        b=GCFl1tTV++i0CogiSoQ62i65KjCgPXhq4CNeUsvdSVvh00jEhaFIHIxnSlDrO6dw4K
+         a0YsZ+fHYi7uFUTld/TH8KHKjaXnOSb8QYYDzDTAZTjTgmDJQNnb3k7FlodlqpC6byUp
+         kO7B23Jhvhu7yuojfOpykFU1kXX5Gd4h3GDeHeLwFc2ZwzLScl5LW8FazhG6zDSrugYm
+         oVCqwWQ/SSzoJwzket4jl6vZki0xVXkTXi7wqK5lP3yLzZMgkPCUyxlvnsoITLLOeBQT
+         ycgKkYHHoLT10qrxcvUyMjDyPTqU390KOPz3JFyt2LuPggVmGn6d7eIC3zK8+ikA5AML
+         oUyw==
+X-Gm-Message-State: AOJu0YyEGGHOHnOszQZW0M2Aq5vy0KkM55LEXxQ72ucvLlxMWawX++oT
+        UtrKvK9LMn/BLKzp9P0SHBM=
+X-Google-Smtp-Source: AGHT+IG7lbKTIdQ5hyO75ovbO8AXTNMHRGFsh8NoO0PZ08axK5wOB9G7iErT7i10qxrbCPjqMezcIg==
+X-Received: by 2002:a17:903:11d2:b0:1c7:2697:ec0a with SMTP id q18-20020a17090311d200b001c72697ec0amr8541234plh.30.1696091677410;
+        Sat, 30 Sep 2023 09:34:37 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:a90f:2dad:30c1:d923])
-        by smtp.gmail.com with ESMTPSA id ff11-20020a056a002f4b00b0068790c41ca2sm5376443pfb.27.2023.09.30.09.29.57
+        by smtp.gmail.com with ESMTPSA id e21-20020a170902d39500b001b9e86e05b7sm18923187pld.0.2023.09.30.09.34.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Sep 2023 09:29:58 -0700 (PDT)
-Date:   Sat, 30 Sep 2023 09:29:55 -0700
+        Sat, 30 Sep 2023 09:34:37 -0700 (PDT)
+Date:   Sat, 30 Sep 2023 09:34:34 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Matthias Berndt <matthias_berndt@gmx.de>
-Cc:     Vicki Pfau <vi@endrift.com>,
-        Ismael Ferreras Morezuelas <swyterzone@gmail.com>,
-        Lyude Paul <lyude@redhat.com>,
-        Matthias Benkmann <matthias.benkmann@gmail.com>,
-        John Butler <radon86dev@gmail.com>,
-        "Pierre-Loup A. Griffais" <pgriffais@valvesoftware.com>,
-        Jonathan Frederick <doublej472@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: xpad - add PXN V900 support
-Message-ID: <ZRhNA1QvsP/vegd+@google.com>
-References: <2305012.ElGaqSPkdT@fedora>
+To:     Justin Stitt <justinstitt@google.com>
+Cc:     Chen-Yu Tsai <wens@csie.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH v2] Input: axp20x-pek - avoid needless newline removal
+Message-ID: <ZRhOGiZjEI8EEgtl@google.com>
+References: <20230925-strncpy-drivers-input-misc-axp20x-pek-c-v2-1-ff7abe8498d6@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2305012.ElGaqSPkdT@fedora>
+In-Reply-To: <20230925-strncpy-drivers-input-misc-axp20x-pek-c-v2-1-ff7abe8498d6@google.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -77,22 +72,30 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Matthias,
-
-On Fri, Sep 29, 2023 at 07:45:52PM +0200, Matthias Berndt wrote:
-> Hi everybody,
+On Mon, Sep 25, 2023 at 04:31:05AM +0000, Justin Stitt wrote:
+> This code is doing more work than it needs to.
 > 
-> I recently sent this patch to the linux-input list where it was ignored, so
-> now I'm sending it again to every email address that get_maintainer.pl gives
-> me in the hope that it'll somehow get merged.
-> This is a trivial patch that enables support for the PXN V900 steering wheel
-> in the xpad driver. It's just a matter of adding the relevant USB vendorId/
-> productId to the list of supported IDs. I've tried it and
+> Before handing off `val_str` to `kstrtouint()` we are eagerly removing
+> any trailing newline which requires copying `buf`, validating it's
+> length and checking/replacing any potential newlines.
+> 
+> kstrtouint() handles this implicitly:
+> kstrtouint ->
+>   kstrotoull -> (documentation)
+> |   /**
+> |    * kstrtoull - convert a string to an unsigned long long
+> |    * @s: The start of the string. The string must be null-terminated, and may also
+> |    *  include a single newline before its terminating null. The first character
+> |    ...
+> 
+> Let's remove the redundant functionality and let kstrtouint handle it.
+> 
+> Link: https://github.com/KSPP/linux/issues/90
+> Cc: linux-hardening@vger.kernel.org
+> Suggested-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Justin Stitt <justinstitt@google.com>
 
-I need your "Signed-off-by: ..." in order to merge this patch. Please
-resend following guidelines in Documentation/process/submitting-patches.rst
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
