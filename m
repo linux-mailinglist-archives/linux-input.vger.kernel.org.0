@@ -2,257 +2,406 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D342E7B4280
-	for <lists+linux-input@lfdr.de>; Sat, 30 Sep 2023 19:09:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C934C7B4367
+	for <lists+linux-input@lfdr.de>; Sat, 30 Sep 2023 21:52:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234617AbjI3RJa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 30 Sep 2023 13:09:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50366 "EHLO
+        id S229535AbjI3Twi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 30 Sep 2023 15:52:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234606AbjI3RJ3 (ORCPT
+        with ESMTP id S229447AbjI3Twh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 30 Sep 2023 13:09:29 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D17D4DA
-        for <linux-input@vger.kernel.org>; Sat, 30 Sep 2023 10:09:26 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-40572aeb673so123693605e9.0
-        for <linux-input@vger.kernel.org>; Sat, 30 Sep 2023 10:09:26 -0700 (PDT)
+        Sat, 30 Sep 2023 15:52:37 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95004A6;
+        Sat, 30 Sep 2023 12:52:34 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id 38308e7fff4ca-2c00df105f8so243844191fa.2;
+        Sat, 30 Sep 2023 12:52:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696093765; x=1696698565; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0S4YyoMRJsfSt6+U3bqbOqX9jPh1v33yWTsmXu+J/uw=;
-        b=YUaXy7xrG5NEVOCLES2IcQxnzjsmtTtvxqDd0r0rjaDxeGud1SyOckjfvnlrBfdrPY
-         AwkStSfqYh/4X7RNoyp3HM/eYPr0VtUT8Ii9UXrD8FZO8DwIz8aAW9N/PlU+/SzXNRQi
-         GazVTd59QcrbqSwwYYozBUlUj08UH3GrL/vslOylLvtTQXjYC4qqz+EBtb7lisrTKP/N
-         RqKj1GQAu7mChbERhqyx1fBgY114fXs3NDQIr79weCqEpDrrW+Sb+ijZdzWgMIpf0JmL
-         MPfGmw0jbA++XSEsqc1zpr9vqsZI9D4CnZ9kBbroEKlijniA/ix4rFs2vq0qr8fdhIrA
-         J7+g==
+        d=gmail.com; s=20230601; t=1696103553; x=1696708353; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gulyGIXjLYQG5fTcN0xgpbM4Og56pP+pCYT2R905Snc=;
+        b=UbTq56WG76bvVoeZeiP2kikjx4g4EYTfYXxLWPGyGy6dMgcrLEsHYpXZM3IQfP4XJW
+         P5U9VXt9Lm9KbJnTpEInb/b5Wl2/zH9MUHLf2znF7N4szu0Z5xklDW89fgXN0MnZRURC
+         uLAuhjrzW7PaIziFv01mXI35L7jMjyXt9l9+MSwuiqdabetR7EqqxshyqrtTB20tQBXX
+         sv0vPlX40B3PS1XWf9SYsmFk/DlWjtjKMQynaFzgglCVN7yRaFZFBmfG6D9qhbR80V2F
+         F2mV3bzfACKzduEy2JKHxwB+yzA3EOE4augSLTpioDshboIlbzgj+cYF0tm/H/wI2pXS
+         fdAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696093765; x=1696698565;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1696103553; x=1696708353;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0S4YyoMRJsfSt6+U3bqbOqX9jPh1v33yWTsmXu+J/uw=;
-        b=dATXZlfa6tw107f5aktrChQlgWPi7+wKq/COFSG5PGMf9lGqRLehb8HaslAolLrxM8
-         Q20rsskV57uxfjtfYRSPKsFKu/14bs1qgkI8+Plt/fBE4T3m4BTKlxnAFUmwj9bmao4e
-         xOjKg8CMy4og2qRmt+7cGHHLxIyYxfx57CrOKHAOPOW8CYCyv3MChGvwbTPk88IEMY9J
-         pSyiNW5mY7KKiNLKOfIwwbBrxktqOPqLuLdP0gaQ03RM72N8eAkwrH1DaGYqeKSiVBUo
-         eQpLU/9gZRnO/x4ikfBIYv1/JY9z77JBRilUAwhlKuYfxrdsW0k0O8ZSY/Fm55KT8sDq
-         NxAg==
-X-Gm-Message-State: AOJu0YyQ5KHPUSk3MiVpw7ZSYzCUfpf65hnlw7IqFhdIkhf1IZaF3ILk
-        Df+x/jRaBIWFzjf/PIAq/pHtkA==
-X-Google-Smtp-Source: AGHT+IEuMQArzFFl4o3M9NXXO87+2a99RjnP9y0Nf+twdzXJ0GajD6y4kBW4h3foq2wahu9I0hEgQw==
-X-Received: by 2002:a05:600c:b4e:b0:402:95a0:b2ae with SMTP id k14-20020a05600c0b4e00b0040295a0b2aemr6499769wmr.32.1696093765288;
-        Sat, 30 Sep 2023 10:09:25 -0700 (PDT)
-Received: from lion.localdomain (host-2-99-112-229.as13285.net. [2.99.112.229])
-        by smtp.gmail.com with ESMTPSA id y21-20020a7bcd95000000b00405c7591b09sm3756368wmj.35.2023.09.30.10.09.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Sep 2023 10:09:24 -0700 (PDT)
-From:   Caleb Connolly <caleb.connolly@linaro.org>
-Date:   Sat, 30 Sep 2023 18:08:51 +0100
-Subject: [PATCH 7/7] Input: synaptics-rmi4 - support fallback values for
- PDT descriptor bytes
+        bh=gulyGIXjLYQG5fTcN0xgpbM4Og56pP+pCYT2R905Snc=;
+        b=Uy3mQX+YFY36B1Dfexky4eklKGXu8FLe0zSC4aHuK5pUZzBFQGMkj1qgDYye0VXpyX
+         OfpMNdx02vxMi/slifWUxZhzgklnKUrlj37W6y8UXV5/go0mE5jNDTYn54T24lj6pMyg
+         TMLD5NP7YUFXAI+auXj4c5V1Zp40eMqJ/ChjO+ab52kE2wAt2Bllxe0EWzkMHUmvzV9Y
+         tepaYJEMvJFaPOINqH/zmg2J3xjpC68AdrxsPV8eUxXdRs85Rn/ZVsQfqYfUS/FDSjYP
+         OgY9RHTDgz+ZG4oW0mjwvrXJZEqpN7is9zLjefzUQSaurc4NqSWQW4BCzX3Jmors00s2
+         /Hcg==
+X-Gm-Message-State: AOJu0Yw9DnnM13k6Ywt7ftynEKYyNLRjD66X0LUpgUcNYa+1DqQomcoC
+        lj6J7fjLwOcJYS7TasIjIPsQFGTvN7XQHuyjh/k=
+X-Google-Smtp-Source: AGHT+IEaMPC01Ya1H/hUFmMrlnvqg4jC+0oiBuhGtRUDKXh0r2CiVLyJoMnI9/pu+5Y3RA8MeJJ5TKQBaAVJYUbsGMY=
+X-Received: by 2002:a2e:9946:0:b0:2c0:a99:68dd with SMTP id
+ r6-20020a2e9946000000b002c00a9968ddmr6497583ljj.4.1696103552510; Sat, 30 Sep
+ 2023 12:52:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230929-caleb-rmi4-quirks-v1-7-cc3c703f022d@linaro.org>
-References: <20230929-caleb-rmi4-quirks-v1-0-cc3c703f022d@linaro.org>
-In-Reply-To: <20230929-caleb-rmi4-quirks-v1-0-cc3c703f022d@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Vincent Huang <vincent.huang@tw.synaptics.com>
-Cc:     methanal <baclofen@tuta.io>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        Caleb Connolly <caleb.connolly@linaro.org>
-X-Mailer: b4 0.13-dev-46309
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5765;
- i=caleb.connolly@linaro.org; h=from:subject:message-id;
- bh=Y56SCFSNeAsG17qE46++u/KK8CjxJ0A7DKHt1n0Mzm8=;
- b=owGbwMvMwCFYaeA6f6eBkTjjabUkhlSJMLsWUysxr4yCxe9SzmpfERdzilSRm7Nix0rhIqGZL
- IX7jT90lLIwCHIwyIopsoifWGbZtPayvcb2BRdg5rAygQxh4OIUgIncWcLwT23BkQAxBb/EAxO7
- zJtexfD7R+0VvXlIoC0jQW2NrHCDF8N/T+mb1YczeXY8PZr4537K7oDnKhutAr/MuNAb7TD59Ck
- +awA=
-X-Developer-Key: i=caleb.connolly@linaro.org; a=openpgp;
- fpr=83B24DA7FE145076BC38BB250CD904EB673A7C47
+References: <20230924141547.11597-1-tinozzo123@gmail.com>
+In-Reply-To: <20230924141547.11597-1-tinozzo123@gmail.com>
+From:   Daniel Ogorchock <djogorchock@gmail.com>
+Date:   Sat, 30 Sep 2023 15:52:21 -0400
+Message-ID: <CAEVj2tm0t_kb93736c1h0BttB9YHHRbos4n+cFRp-zQ0meWmqQ@mail.gmail.com>
+Subject: Re: [PATCH v5 RESEND] HID: nintendo: cleanup LED code
+To:     Martino Fontana <tinozzo123@gmail.com>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: methanal <baclofen@tuta.io>
+Hi Martino,
 
-Some replacement displays include third-party touch ICs which do not
-expose the function number and the interrupt status in its PDT entries.
+On Sun, Sep 24, 2023 at 10:16=E2=80=AFAM Martino Fontana <tinozzo123@gmail.=
+com> wrote:
+>
+> - Support player LED patterns up to 8 players.
+>   (Note that the behavior still consinsts in increasing the player number
+>   every time a controller is connected, never decreasing it. It should be
+>   as is described in https://bugzilla.kernel.org/show_bug.cgi?id=3D216225=
+.
+>   However, any implementation here would stop making sense as soon as a
+>   non-Nintendo controller is connected, which is why I'm not bothering.)
+>
+> - Split part of `joycon_home_led_brightness_set` (which is called by hid)
+>   into `joycon_set_home_led` (which is what actually sets the LEDs), for
+>   consistency with player LEDs.
+>
+> - `joycon_player_led_brightness_set` won't try it to "determine which
+>   player led this is" anymore: it's already looking at every LED
+>   brightness value.
+>
+> - Instead of first registering the `led_classdev`, then attempting to set
+>   the LED and unregistering the `led_classdev` if it fails, first attempt
+>   to set the LED, then register the `led_classdev` only if it succeeds
+>   (the class is still filled up in either case).
+>
+> - If setting the player LEDs fails, still attempt setting the home LED.
+>   (I don't know there's a third party controller where this may actually
+>   happen, but who knows...)
+>
+> - Use `JC_NUM_LEDS` where appropriate instead of 4.
+>
+> - Print return codes in more places.
+>
+> - Use spinlock instead of mutex for `input_num`. Copy its value to a loca=
+l
+>   variable, so that it can be unlocked immediately.
+>
+> - `input_num` starts counting from 0
+>
+> - Less holding of mutexes in general.
+>
+> Signed-off-by: Martino Fontana <tinozzo123@gmail.com>
+> ---
+> Changes for v2:
+>
+> Applied suggestions, commit message explains more stuff, restored `return=
+ ret`
+> when `devm_led_classdev_register` fails (since all other hid drivers do t=
+his).
+> If setting LED fails, `hid_warn` now explicitly says "skipping registrati=
+on".
+>
+> Changes for v3 and v4:
+>
+> Fixed errors and warnings from test robot.
+>
+> Changes for v5:
+>
+> I thought that when connecting the controller on an actual Nintendo Switc=
+h,
+> only the nth player LED would turn on, which is true... on Wii and Wii U.
+> So I reverted that, and to compensate, now this supports the LED patterns
+> up to 8 players.
+>
+>  drivers/hid/hid-nintendo.c | 133 +++++++++++++++++++++----------------
+>  1 file changed, 76 insertions(+), 57 deletions(-)
+>
+> diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+> index 10468f727..138f154fe 100644
+> --- a/drivers/hid/hid-nintendo.c
+> +++ b/drivers/hid/hid-nintendo.c
+> @@ -410,6 +410,18 @@ static const char * const joycon_player_led_names[] =
+=3D {
+>         LED_FUNCTION_PLAYER4,
+>  };
+>  #define JC_NUM_LEDS            ARRAY_SIZE(joycon_player_led_names)
+> +#define JC_NUM_LED_PATTERNS 8
+> +/* Taken from https://www.nintendo.com/my/support/qa/detail/33822 */
+> +static const enum led_brightness joycon_player_led_patterns[JC_NUM_LED_P=
+ATTERNS][JC_NUM_LEDS] =3D {
+> +       { 1, 0, 0, 0 },
+> +       { 1, 1, 0, 0 },
+> +       { 1, 1, 1, 0 },
+> +       { 1, 1, 1, 1 },
+> +       { 1, 0, 0, 1 },
+> +       { 1, 0, 1, 0 },
+> +       { 1, 0, 1, 1 },
+> +       { 0, 1, 1, 0 },
+> +};
+>
+>  /* Each physical controller is associated with a joycon_ctlr struct */
+>  struct joycon_ctlr {
+> @@ -699,6 +711,25 @@ static int joycon_set_player_leds(struct joycon_ctlr=
+ *ctlr, u8 flash, u8 on)
+>         return joycon_send_subcmd(ctlr, req, 1, HZ/4);
+>  }
+>
+> +static int joycon_set_home_led(struct joycon_ctlr *ctlr, enum led_bright=
+ness brightness)
+> +{
+> +       struct joycon_subcmd_request *req;
+> +       u8 buffer[sizeof(*req) + 5] =3D { 0 };
+> +       u8 *data;
+> +
+> +       req =3D (struct joycon_subcmd_request *)buffer;
+> +       req->subcmd_id =3D JC_SUBCMD_SET_HOME_LIGHT;
+> +       data =3D req->data;
+> +       data[0] =3D 0x01;
+> +       data[1] =3D brightness << 4;
+> +       data[2] =3D brightness | (brightness << 4);
+> +       data[3] =3D 0x11;
+> +       data[4] =3D 0x11;
+> +
+> +       hid_dbg(ctlr->hdev, "setting home led brightness\n");
+> +       return joycon_send_subcmd(ctlr, req, 5, HZ/4);
+> +}
+> +
+>  static int joycon_request_spi_flash_read(struct joycon_ctlr *ctlr,
+>                                          u32 start_addr, u8 size, u8 **re=
+ply)
+>  {
+> @@ -1840,6 +1871,7 @@ static int joycon_input_create(struct joycon_ctlr *=
+ctlr)
+>         return 0;
+>  }
+>
+> +/* Because the subcommand sets all the leds at once, the brightness argu=
+ment is ignored */
+>  static int joycon_player_led_brightness_set(struct led_classdev *led,
+>                                             enum led_brightness brightnes=
+s)
+>  {
+> @@ -1849,7 +1881,6 @@ static int joycon_player_led_brightness_set(struct =
+led_classdev *led,
+>         int val =3D 0;
+>         int i;
+>         int ret;
+> -       int num;
+>
+>         ctlr =3D hid_get_drvdata(hdev);
+>         if (!ctlr) {
+> @@ -1857,21 +1888,10 @@ static int joycon_player_led_brightness_set(struc=
+t led_classdev *led,
+>                 return -ENODEV;
+>         }
+>
+> -       /* determine which player led this is */
+> -       for (num =3D 0; num < JC_NUM_LEDS; num++) {
+> -               if (&ctlr->leds[num] =3D=3D led)
+> -                       break;
+> -       }
+> -       if (num >=3D JC_NUM_LEDS)
+> -               return -EINVAL;
+> +       for (i =3D 0; i < JC_NUM_LEDS; i++)
+> +               val |=3D ctlr->leds[i].brightness << i;
+>
+>         mutex_lock(&ctlr->output_mutex);
+> -       for (i =3D 0; i < JC_NUM_LEDS; i++) {
+> -               if (i =3D=3D num)
+> -                       val |=3D brightness << i;
+> -               else
+> -                       val |=3D ctlr->leds[i].brightness << i;
+> -       }
+>         ret =3D joycon_set_player_leds(ctlr, 0, val);
+>         mutex_unlock(&ctlr->output_mutex);
+>
+> @@ -1884,9 +1904,6 @@ static int joycon_home_led_brightness_set(struct le=
+d_classdev *led,
+>         struct device *dev =3D led->dev->parent;
+>         struct hid_device *hdev =3D to_hid_device(dev);
+>         struct joycon_ctlr *ctlr;
+> -       struct joycon_subcmd_request *req;
+> -       u8 buffer[sizeof(*req) + 5] =3D { 0 };
+> -       u8 *data;
+>         int ret;
+>
+>         ctlr =3D hid_get_drvdata(hdev);
+> @@ -1894,43 +1911,35 @@ static int joycon_home_led_brightness_set(struct =
+led_classdev *led,
+>                 hid_err(hdev, "No controller data\n");
+>                 return -ENODEV;
+>         }
+> -
+> -       req =3D (struct joycon_subcmd_request *)buffer;
+> -       req->subcmd_id =3D JC_SUBCMD_SET_HOME_LIGHT;
+> -       data =3D req->data;
+> -       data[0] =3D 0x01;
+> -       data[1] =3D brightness << 4;
+> -       data[2] =3D brightness | (brightness << 4);
+> -       data[3] =3D 0x11;
+> -       data[4] =3D 0x11;
+> -
+> -       hid_dbg(hdev, "setting home led brightness\n");
+>         mutex_lock(&ctlr->output_mutex);
+> -       ret =3D joycon_send_subcmd(ctlr, req, 5, HZ/4);
+> +       ret =3D joycon_set_home_led(ctlr, brightness);
+>         mutex_unlock(&ctlr->output_mutex);
+> -
+>         return ret;
+>  }
+>
+> -static DEFINE_MUTEX(joycon_input_num_mutex);
+> +static DEFINE_SPINLOCK(joycon_input_num_spinlock);
+>  static int joycon_leds_create(struct joycon_ctlr *ctlr)
+>  {
+>         struct hid_device *hdev =3D ctlr->hdev;
+>         struct device *dev =3D &hdev->dev;
+>         const char *d_name =3D dev_name(dev);
+>         struct led_classdev *led;
+> +       int led_val =3D 0;
+>         char *name;
+> -       int ret =3D 0;
+> +       int ret;
+>         int i;
+> -       static int input_num =3D 1;
+> +       unsigned long flags;
+> +       int player_led_pattern;
+> +       static int input_num;
+>
+> -       /* Set the default controller player leds based on controller num=
+ber */
+> -       mutex_lock(&joycon_input_num_mutex);
+> -       mutex_lock(&ctlr->output_mutex);
+> -       ret =3D joycon_set_player_leds(ctlr, 0, 0xF >> (4 - input_num));
+> -       if (ret)
+> -               hid_warn(ctlr->hdev, "Failed to set leds; ret=3D%d\n", re=
+t);
+> -       mutex_unlock(&ctlr->output_mutex);
+> +       /*
+> +        * Set the player leds based on controller number
+> +        * Because there is no standard concept of "player number", the p=
+attern
+> +        * number will simply increase by 1 every time a controller is co=
+nnected.
+> +        */
+> +       spin_lock_irqsave(&joycon_input_num_spinlock, flags);
+> +       player_led_pattern =3D input_num++ % JC_NUM_LED_PATTERNS;
+> +       spin_unlock_irqrestore(&joycon_input_num_spinlock, flags);
+>
+>         /* configure the player LEDs */
+>         for (i =3D 0; i < JC_NUM_LEDS; i++) {
+> @@ -1938,31 +1947,37 @@ static int joycon_leds_create(struct joycon_ctlr =
+*ctlr)
+>                                       d_name,
+>                                       "green",
+>                                       joycon_player_led_names[i]);
+> -               if (!name) {
+> -                       mutex_unlock(&joycon_input_num_mutex);
+> +               if (!name)
+>                         return -ENOMEM;
+> -               }
+>
+>                 led =3D &ctlr->leds[i];
+>                 led->name =3D name;
+> -               led->brightness =3D ((i + 1) <=3D input_num) ? 1 : 0;
+> +               led->brightness =3D joycon_player_led_patterns[player_led=
+_pattern][i];
+>                 led->max_brightness =3D 1;
+>                 led->brightness_set_blocking =3D
+>                                         joycon_player_led_brightness_set;
+>                 led->flags =3D LED_CORE_SUSPENDRESUME | LED_HW_PLUGGABLE;
+>
+> +               led_val |=3D joycon_player_led_patterns[player_led_patter=
+n][i] << i;
+> +       }
+> +       mutex_lock(&ctlr->output_mutex);
+> +       ret =3D joycon_set_player_leds(ctlr, 0, led_val);
+> +       mutex_unlock(&ctlr->output_mutex);
+> +       if (ret) {
+> +               hid_warn(hdev, "Failed to set players LEDs, skipping regi=
+stration; ret=3D%d\n", ret);
+> +               goto home_led;
+> +       }
+> +
+> +       for (i =3D 0; i < JC_NUM_LEDS; i++) {
+> +               led =3D &ctlr->leds[i];
+>                 ret =3D devm_led_classdev_register(&hdev->dev, led);
+>                 if (ret) {
+> -                       hid_err(hdev, "Failed registering %s LED\n", led-=
+>name);
+> -                       mutex_unlock(&joycon_input_num_mutex);
+> +                       hid_err(hdev, "Failed to register player %d LED; =
+ret=3D%d\n", i + 1, ret);
+>                         return ret;
+>                 }
+>         }
+>
+> -       if (++input_num > 4)
+> -               input_num =3D 1;
+> -       mutex_unlock(&joycon_input_num_mutex);
+> -
+> +home_led:
+>         /* configure the home LED */
+>         if (jc_type_has_right(ctlr)) {
+>                 name =3D devm_kasprintf(dev, GFP_KERNEL, "%s:%s:%s",
+> @@ -1978,16 +1993,20 @@ static int joycon_leds_create(struct joycon_ctlr =
+*ctlr)
+>                 led->max_brightness =3D 0xF;
+>                 led->brightness_set_blocking =3D joycon_home_led_brightne=
+ss_set;
+>                 led->flags =3D LED_CORE_SUSPENDRESUME | LED_HW_PLUGGABLE;
+> -               ret =3D devm_led_classdev_register(&hdev->dev, led);
+> +
+> +               /* Set the home LED to 0 as default state */
+> +               mutex_lock(&ctlr->output_mutex);
+> +               ret =3D joycon_set_home_led(ctlr, 0);
+> +               mutex_unlock(&ctlr->output_mutex);
+>                 if (ret) {
+> -                       hid_err(hdev, "Failed registering home led\n");
+> -                       return ret;
+> +                       hid_warn(hdev, "Failed to set home LED, skipping =
+registration; ret=3D%d\n", ret);
+> +                       return 0;
+>                 }
+> -               /* Set the home LED to 0 as default state */
+> -               ret =3D joycon_home_led_brightness_set(led, 0);
+> +
+> +               ret =3D devm_led_classdev_register(&hdev->dev, led);
+>                 if (ret) {
+> -                       hid_warn(hdev, "Failed to set home LED default, u=
+nregistering home LED");
+> -                       devm_led_classdev_unregister(&hdev->dev, led);
+> +                       hid_err(hdev, "Failed to register home LED; ret=
+=3D%d\n", ret);
+> +                       return ret;
+>                 }
+>         }
+>
+> --
+> 2.42.0
+>
 
-OnePlus 6 (original touch IC)
-  rmi4_i2c 12-0020: read 6 bytes at 0x00e3: 0 (2b 22 0d 06 01 01)
+This looks good to me. Thanks for the patch.
 
-OnePlus 6 (aftermarket touch IC)
-  rmi4_i2c 12-0020: read 6 bytes at 0x00e3: 0 (2c 23 0d 06 00 00)
-
-Introduce a new devicetree property `syna,pdt-desc` which can be used to
-provide platform-specific fallback values for users with a replacement
-display with an aftermarket touch IC.
-
-Signed-off-by: methanal <baclofen@tuta.io>
-[codeflow adjustments, checkpatch fixes, wording]
-Signed-off-by: Caleb Connolly <caleb.connolly@linaro.org>
----
- drivers/input/rmi4/rmi_driver.c | 67 ++++++++++++++++++++++++++++++++++++++---
- drivers/input/rmi4/rmi_driver.h |  2 ++
- include/linux/rmi.h             |  3 ++
- 3 files changed, 67 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
-index 58bf3dfbf81c..5e1e3d5dd800 100644
---- a/drivers/input/rmi4/rmi_driver.c
-+++ b/drivers/input/rmi4/rmi_driver.c
-@@ -461,9 +461,10 @@ static int rmi_driver_reset_handler(struct rmi_device *rmi_dev)
- 	return 0;
- }
- 
--static int rmi_read_pdt_entry(struct rmi_device *rmi_dev,
--			      struct pdt_entry *entry, u16 pdt_address)
-+static int rmi_read_pdt_entry(struct rmi_device *rmi_dev, struct pdt_entry *entry,
-+			      struct pdt_scan_state *state, u16 pdt_address)
- {
-+	const struct rmi_device_platform_data *pdata = rmi_get_platform_data(rmi_dev);
- 	u8 buf[RMI_PDT_ENTRY_SIZE];
- 	int error;
- 
-@@ -474,6 +475,21 @@ static int rmi_read_pdt_entry(struct rmi_device *rmi_dev,
- 		return error;
- 	}
- 
-+	if (pdata->pdt_fallback_size > state->pdt_count * RMI_OF_PDT_DESC_CELLS + 1) {
-+		/* Use the description bytes from DT */
-+		buf[5] = pdata->pdt_fallback_desc[state->pdt_count * RMI_OF_PDT_DESC_CELLS];
-+		buf[4] = pdata->pdt_fallback_desc[state->pdt_count * RMI_OF_PDT_DESC_CELLS + 1];
-+
-+		error = rmi_read_block(rmi_dev, pdt_address, buf,
-+				RMI_PDT_ENTRY_SIZE - 2);
-+		if (error) {
-+			dev_err(&rmi_dev->dev,
-+					"Read PDT entry at %#06x failed, code: %d.\n",
-+					pdt_address, error);
-+			return error;
-+		}
-+	}
-+
- 	entry->page_start = pdt_address & RMI4_PAGE_MASK;
- 	entry->query_base_addr = buf[0];
- 	entry->command_base_addr = buf[1];
-@@ -551,7 +567,7 @@ static int rmi_scan_pdt_page(struct rmi_device *rmi_dev,
- 	int retval;
- 
- 	for (addr = pdt_start; addr >= pdt_end; addr -= RMI_PDT_ENTRY_SIZE) {
--		error = rmi_read_pdt_entry(rmi_dev, &pdt_entry, addr);
-+		error = rmi_read_pdt_entry(rmi_dev, &pdt_entry, state, addr);
- 		if (error)
- 			return error;
- 
-@@ -1028,9 +1044,11 @@ static int rmi_driver_remove(struct device *dev)
- }
- 
- #ifdef CONFIG_OF
--static int rmi_driver_of_probe(struct device *dev,
-+static int rmi_driver_of_probe(struct rmi_device *rmi_dev,
- 				struct rmi_device_platform_data *pdata)
- {
-+	struct device *dev = rmi_dev->xport->dev;
-+	u8 buf[RMI_PDT_ENTRY_SIZE];
- 	int retval;
- 
- 	retval = rmi_of_property_read_u32(dev, &pdata->reset_delay_ms,
-@@ -1038,6 +1056,45 @@ static int rmi_driver_of_probe(struct device *dev,
- 	if (retval)
- 		return retval;
- 
-+	/*
-+	 * In some aftermerket touch ICs, the first PDT entry is empty and
-+	 * the function number register is 0. If so, the platform
-+	 * may have provided backup PDT entries in the device tree.
-+	 */
-+
-+	retval = rmi_read_block(rmi_dev, PDT_START_SCAN_LOCATION,
-+			buf, RMI_PDT_ENTRY_SIZE);
-+	if (retval) {
-+		dev_err(dev, "Read PDT entry at %#06x failed, code: %d.\n",
-+			PDT_START_SCAN_LOCATION, retval);
-+		return retval;
-+	}
-+
-+	if (!RMI4_END_OF_PDT(buf[5]))
-+		return 0;
-+
-+	pdata->pdt_fallback_size = of_property_count_u8_elems(dev->of_node,
-+						  "syna,pdt-fallback-desc");
-+
-+	/* The rmi4 driver would fail later anyway, so just error out now. */
-+	if (pdata->pdt_fallback_size == -EINVAL) {
-+		dev_err(dev, "First PDT entry is empty and no backup values provided\n");
-+		return -EINVAL;
-+	}
-+
-+	if (pdata->pdt_fallback_size < 0) {
-+		dev_err(dev, "syna,ptd-desc property was not specified properly: %d\n",
-+			pdata->pdt_fallback_size);
-+		return pdata->pdt_fallback_size;
-+	}
-+
-+	pdata->pdt_fallback_desc = devm_kzalloc(dev, pdata->pdt_fallback_size, GFP_KERNEL);
-+
-+	retval = of_property_read_u8_array(dev->of_node, "syna,pdt-fallback-desc",
-+		pdata->pdt_fallback_desc, pdata->pdt_fallback_size);
-+	if (retval < 0)
-+		return retval;
-+
- 	return 0;
- }
- #else
-@@ -1163,7 +1220,7 @@ static int rmi_driver_probe(struct device *dev)
- 	pdata = rmi_get_platform_data(rmi_dev);
- 
- 	if (rmi_dev->xport->dev->of_node) {
--		retval = rmi_driver_of_probe(rmi_dev->xport->dev, pdata);
-+		retval = rmi_driver_of_probe(rmi_dev, pdata);
- 		if (retval)
- 			return retval;
- 	}
-diff --git a/drivers/input/rmi4/rmi_driver.h b/drivers/input/rmi4/rmi_driver.h
-index e1a5412f2f8f..2531c32d6163 100644
---- a/drivers/input/rmi4/rmi_driver.h
-+++ b/drivers/input/rmi4/rmi_driver.h
-@@ -31,6 +31,8 @@
- #define RMI_PDT_FUNCTION_VERSION_MASK   0x60
- #define RMI_PDT_INT_SOURCE_COUNT_MASK   0x07
- 
-+#define RMI_OF_PDT_DESC_CELLS 2
-+
- #define PDT_START_SCAN_LOCATION 0x00e9
- #define PDT_END_SCAN_LOCATION	0x0005
- #define RMI4_END_OF_PDT(id) ((id) == 0x00 || (id) == 0xff)
-diff --git a/include/linux/rmi.h b/include/linux/rmi.h
-index ab7eea01ab42..974597960b5e 100644
---- a/include/linux/rmi.h
-+++ b/include/linux/rmi.h
-@@ -214,6 +214,9 @@ struct rmi_device_platform_data {
- 	int reset_delay_ms;
- 	int irq;
- 
-+	u8 *pdt_fallback_desc;
-+	int pdt_fallback_size;
-+
- 	struct rmi_device_platform_data_spi spi_data;
- 
- 	/* function handler pdata */
-
--- 
-2.42.0
-
+Reviewed-by: Daniel J. Ogorchock <djogorchock@gmail.com>
