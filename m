@@ -2,74 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 180CF7B4835
-	for <lists+linux-input@lfdr.de>; Sun,  1 Oct 2023 16:56:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39E167B486A
+	for <lists+linux-input@lfdr.de>; Sun,  1 Oct 2023 17:36:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235075AbjJAO4u (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 1 Oct 2023 10:56:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60778 "EHLO
+        id S235112AbjJAPgE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 1 Oct 2023 11:36:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230173AbjJAO4t (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 1 Oct 2023 10:56:49 -0400
-Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com [IPv6:2607:f8b0:4864:20::c35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6048D8;
-        Sun,  1 Oct 2023 07:56:47 -0700 (PDT)
-Received: by mail-oo1-xc35.google.com with SMTP id 006d021491bc7-57b8cebf57dso7003039eaf.0;
-        Sun, 01 Oct 2023 07:56:47 -0700 (PDT)
+        with ESMTP id S235009AbjJAPgE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 1 Oct 2023 11:36:04 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47138DD;
+        Sun,  1 Oct 2023 08:36:01 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id a640c23a62f3a-99c3d3c3db9so2062598466b.3;
+        Sun, 01 Oct 2023 08:36:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696172207; x=1696777007; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rK00HEZ5YDC5fgupWtwn5RbfXLyu48CvHajyLn1vZzk=;
-        b=XsAlxsRNnIkHVdeS2CABW2+aUnCiWrFFAg20qlf6S3msToBY10e9uB4tSfMf+wEKI/
-         26ZNvF84GS7p71wESpNHeaAt6qHpPtzG3LBvNIs/UO9YwW+n97nBPUvUc3h2xMnDJn6P
-         6bteLPQfqiOn6aU8U7w0OjhKLC+n9ZPYYFK9Ux3b5v3Vgn0Pz5iA5OG5gPt7ihMwv/6a
-         UgxNbAjcslQREa8KiGaftf6YTkkjWezEv6JpPANKRgGPt4noKDFP0NosDEopwkO5uuSY
-         NdOHnpJTm6c/aK+URx+GlQy3bJNVFtdsjsxiyrA5U6/ctLFKnwZUbmxX3AMD+UplgEUZ
-         oltA==
+        d=gmail.com; s=20230601; t=1696174560; x=1696779360; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FmdLpoJ6TcN7Xdipdv2nukhJol/4LCfAXEpvpvCd3Wc=;
+        b=QNq6qhLtOR6sKTXXPQ+SXkh0Fzy4boKT6BNPweHkbqeGk/+WXAVC0ePac+2EjgCGIi
+         e04titAOR2U0yuhsN8eruJRmn3W1JKNj9Ps7ONox9Oz1ctFPopvNLVI5EHCSD7WIzMQG
+         usP2cj67Op+C3x9MUx90gSKecF+YsEvH5arsf4LDRkU/VsmXypoo6QnT3yBuw/htu9Gd
+         N9w1OQYrjNUkI9B3+v56LCodkPu676I88jS7ovUdS3woHPVNw0lpbmQNbPJPZyG+FKwu
+         gboVw5WTROJx8yV8Q8qBwQ9C8Lm/fEyxUUxspHitlsIVnBhzjphf1NYvfICVYU4CMA21
+         zWuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696172207; x=1696777007;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rK00HEZ5YDC5fgupWtwn5RbfXLyu48CvHajyLn1vZzk=;
-        b=IFAgDU0lMsTJDJ9gUjGZFSJpQUez0BYqHm3uU/YAZp2auLKWQQB/jACXBgTwgKpuEE
-         ry5XF+ZT9M0B/scnY2PMa6HpImSY5waAkSdcUABhND6i+Fs1aQo3/jjFbslLtLvOlsQh
-         zLeAomeaiutVjdoJHRjHF6qtuXJM/M1LXc24KEQ0E3WcMSASj1Qj8Ksho7UOR5RoTcNH
-         lvGWuwjayiKnhANds6eBrlxNsikk7CBTOnz7wupMWdySxkiD5WPBK+DdiMmQYrpChFKt
-         VlXypathRK1WjIaJdsrgi+5R+56aeP/fNm+i77XxwyAwwny4Owk8mdzDi4qXI2jVlL95
-         gkTA==
-X-Gm-Message-State: AOJu0Yxw5JS9Jo9oXBC4hOVkipW8+E1BkQ8c9Y0640r7O1sre/+3kogA
-        ZlKvYgRPkr5s2hM0+aetd6/T1vsoqLwIod7T9sw=
-X-Google-Smtp-Source: AGHT+IEDDRm7IrrSG2/94hMInGF9A8t1RUALVBtsFOsNq1tI/6vbD4mcyX+qXMjE657ts1/1PSWJVa2/soyiRfzFoec=
-X-Received: by 2002:a4a:85cd:0:b0:57b:7145:310f with SMTP id
- u13-20020a4a85cd000000b0057b7145310fmr8359787ooh.0.1696172206949; Sun, 01 Oct
- 2023 07:56:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696174560; x=1696779360;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FmdLpoJ6TcN7Xdipdv2nukhJol/4LCfAXEpvpvCd3Wc=;
+        b=rwSvhS9/27B+OXMnKU4WfVTlzNXIeKbPpPhuFeRcO/nEwg33O66dnIHqhCOBH5K1mq
+         g65dNJJZmmO8+63CJhPiPpVeuP3PVdXHknmp8Ly1rZSGBswkIvT0wXZm1UWuxTgwPtkZ
+         xZpZvz2wSuniNW5DElXoJNE9tncEvFh1snnYG0TB3GisDG269dyyX7HqooLOKM1lzuV1
+         WwdibhKTceTLuDgE0A18drFwLhD8deduFuxoHkX29fzLy/NxcOI9n8QZ1tFqx0clqlE5
+         hzaFLlQ+aDrL7bbw31QxpK3yixC9V9SyvmfTtdkWVHXMgUNDRnxne0XtTAYizMJ7tsEI
+         gWLQ==
+X-Gm-Message-State: AOJu0YwQbtRTx6Q/8v23tvx59wqqjtOsdV+GiDzCRoG2/5fI/YkELspO
+        IN31NMx5hn2ventSyyRo/hAtHuNXHJ2QQ0jy
+X-Google-Smtp-Source: AGHT+IHliHGVaa9Yo7i43TH9XfQJbZUJ/anBQsIvay4h0thdPlBmXsIo5UBthZ5eG0K5mtydmw1Myw==
+X-Received: by 2002:a17:906:7695:b0:9ae:6196:d80e with SMTP id o21-20020a170906769500b009ae6196d80emr9546815ejm.18.1696174559685;
+        Sun, 01 Oct 2023 08:35:59 -0700 (PDT)
+Received: from [127.0.1.1] (2a02-8389-41cf-e200-5ae5-46f0-649d-5d1c.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:5ae5:46f0:649d:5d1c])
+        by smtp.gmail.com with ESMTPSA id oq19-20020a170906cc9300b0098f99048053sm15741064ejb.148.2023.10.01.08.35.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Oct 2023 08:35:59 -0700 (PDT)
+From:   Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Date:   Sun, 01 Oct 2023 17:35:54 +0200
+Subject: [PATCH v2] Input: powermate - fix use-after-free in
+ powermate_config_complete
 MIME-Version: 1.0
-References: <20231001-pxa-gpio-v4-0-0f3b975e6ed5@skole.hr> <20231001-pxa-gpio-v4-6-0f3b975e6ed5@skole.hr>
-In-Reply-To: <20231001-pxa-gpio-v4-6-0f3b975e6ed5@skole.hr>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sun, 1 Oct 2023 17:56:11 +0300
-Message-ID: <CAHp75VcKztuRsVjZ7GcSEOLcz_eDOrR6gbUVusvPFeTM0Tq0DA@mail.gmail.com>
-Subject: Re: [PATCH RFC v4 6/6] input: ads7846: Move wait_for_sync() logic to driver
-To:     =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Cc:     Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Russell King <linux@armlinux.org.uk>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Andy Shevchenko <andy@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-spi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230916-topic-powermate_use_after_free-v2-1-505f49019f2f@gmail.com>
+X-B4-Tracking: v=1; b=H4sIANmRGWUC/42OQQ6CMBBFr2K6toYWLdaV9zCElDqFSaAl04Iaw
+ t2tnMDle4v//soiEEJkt8PKCBaMGHwGeTww2xvfAcdnZiYLWRZaKJ7ChJZP4QU0mgTNHKExLgE
+ 1jgC4rYrSVlppqwXLI62JwFsy3vZ5xs/DkOVE4PC9Vx915h5jCvTZTyziZ//uLYILLp0zZ6Uu8
+ qr0vRsNDicbRlZv2/YFXa4MM+EAAAA=
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+        syzbot+0434ac83f907a1dbdd1e@syzkaller.appspotmail.com
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1696174558; l=1876;
+ i=javier.carrasco.cruz@gmail.com; s=20230509; h=from:subject:message-id;
+ bh=cdY7ZWhA2780etiMY3PUD6mlPqBBdhlQbgxc5gMNX8g=;
+ b=HqbzC98LBwaKgok0oR2dFLJuh5YKaSB+AOJJ+nCWlBLU62BDK+LjjQSyxtCd33mKpaePXFw0x
+ Lw574Hw24OlAa/lG7qyQZYsPGU0guqRK7GrMGZ0Nr9qyv7V1ve6pszW
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=tIGJV7M+tCizagNijF0eGMBGcOsPD+0cWGfKjl4h6K8=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -80,36 +82,50 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Oct 1, 2023 at 5:13=E2=80=AFPM Duje Mihanovi=C4=87 <duje.mihanovic@=
-skole.hr> wrote:
->
-> If this code is left in the board file, the sync GPIO would have to be
-> separated into another lookup table during conversion to the GPIO
-> descriptor API (which is also done in this patch).
->
-> The only user of this code (Sharp Spitz) is also converted in this
-> patch.
+syzbot has found a use-after-free bug [1] in the powermate driver. This
+happens when the device is disconnected, which leads to a memory free
+from the powermate_device struct.
+When an asynchronous control message completes after the kfree and its
+callback is invoked, the lock does not exist anymore and hence the bug.
 
-Suggested-by: Linus... ?
+Use usb_kill_urb() on pm->config to cancel any in-progress requests upon
+device disconnection. Given that this action is already done on pm->irq,
+reorder the code to have both calls after the call to
+input_unregister_device(), which is the most common approach.
 
-...
+[1] https://syzkaller.appspot.com/bug?extid=0434ac83f907a1dbdd1e
 
-> +static void ads7846_wait_for_sync(struct ads7846 *ts)
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Reported-by: syzbot+0434ac83f907a1dbdd1e@syzkaller.appspotmail.com
+---
+Changes in v2:
+- Use usb_kill_urb() on pm->config upon device disconnection.
+- Link to v1: https://lore.kernel.org/r/20230916-topic-powermate_use_after_free-v1-1-2ffa46652869@gmail.com
+---
+ drivers/input/misc/powermate.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-I would name it ..._wait_for_sync_gpio.
+diff --git a/drivers/input/misc/powermate.c b/drivers/input/misc/powermate.c
+index c1c733a9cb89..c0aea75eb087 100644
+--- a/drivers/input/misc/powermate.c
++++ b/drivers/input/misc/powermate.c
+@@ -423,8 +423,9 @@ static void powermate_disconnect(struct usb_interface *intf)
+ 	usb_set_intfdata(intf, NULL);
+ 	if (pm) {
+ 		pm->requires_update = 0;
+-		usb_kill_urb(pm->irq);
+ 		input_unregister_device(pm->input);
++		usb_kill_urb(pm->irq);
++		usb_kill_urb(pm->config);
+ 		usb_free_urb(pm->irq);
+ 		usb_free_urb(pm->config);
+ 		powermate_free_buffers(interface_to_usbdev(intf), pm);
 
-...
+---
+base-commit: cefc06e4de1477dbdc3cb2a91d4b1873b7797a5c
+change-id: 20230916-topic-powermate_use_after_free-c703c7969c91
 
-> +       ts->sync =3D devm_gpiod_get_optional(dev, "sync", GPIOD_IN);
-> +       if (IS_ERR(ts->sync)) {
+Best regards,
+-- 
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
-> +               dev_err(dev, "Failed to get sync GPIO: %pe\n", ts->sync);
-> +               return PTR_ERR(ts->sync);
-
-return dev_err_probe(...); ?
-
-> +       }
-
---=20
-With Best Regards,
-Andy Shevchenko
