@@ -2,73 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02FBA7B4677
-	for <lists+linux-input@lfdr.de>; Sun,  1 Oct 2023 11:11:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02C0D7B47FB
+	for <lists+linux-input@lfdr.de>; Sun,  1 Oct 2023 16:22:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234625AbjJAJLV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 1 Oct 2023 05:11:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50360 "EHLO
+        id S235087AbjJAOWW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 1 Oct 2023 10:22:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234530AbjJAJLU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 1 Oct 2023 05:11:20 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACC62C6;
-        Sun,  1 Oct 2023 02:11:17 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-5346b64f17aso11708887a12.2;
-        Sun, 01 Oct 2023 02:11:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696151476; x=1696756276; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nWGRyz+YIuv74qkbiCqoaXcuRZTJ/y0eHD6SlcR52QA=;
-        b=SHn4hIVMC7/9lyshVD+BG9Leyji0cKbtt+aYjL8ToZ4nwrzF4k22t4kQly6APOsSlz
-         AZyU0l8A0dXSqiVHppa33dyyd4Wg6qrCuKZnb4nsSzMsQ8FdQZXuMgSzx0kcHRCjEX0G
-         f8z0wH5hKBk+aKm7Yr13FREcA0Bq3CTg3zqWdSiJ+cOAigetQj7CzwV3pn071TtSmiua
-         D3ZJSx7HdpfXDgvqlbk4vC4Wblpilz9gk2R/gwxFwlVFUS7PbSiVRfx8oIertNENVxIv
-         Jypyp6UhWMN1Eq7HsiEMX4/J2xOINTCxczzqsF3LxefiJL2gAJIHVluFi07fFwyZhGDP
-         djMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696151476; x=1696756276;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWGRyz+YIuv74qkbiCqoaXcuRZTJ/y0eHD6SlcR52QA=;
-        b=ReSSBi0E+m0h/qpgzBdSLbfsTiS1ga/dNp7BhX1nVNR0i5hnfwtyrUh8HG2813xkL5
-         0+pvtd/4uEr/16V5f4Soy4FkVJqVGTUvx+MJU+dT47oMBPcW0dAzAS1kUE13jhn6eDWi
-         Uii9DxC7fIDx+4kgFOTSZtpbchMpkf3mbg8oYO0j4quZpwyEdsHV8orKr1HtWPnQ2B4A
-         edmigg52oz+6X1Or2FwDOyxvp6cw1XMV38XB/n5b4VqxZqSDAkJBEEo0TQyClxqW4Lvo
-         BLSzZjZFNxmQwpmB0Jhp0Yyd9dusecJQQcjqGKDg3RMmoL2vLI08EBDjBRzylOsUTD7u
-         ASww==
-X-Gm-Message-State: AOJu0YziLWiyG3w0I3Br90mBbBF0exE2QNcnSNuYPcAdGC181PhbTZRR
-        PySuOvi5J0kM2vcQIEMdgGeHvXltEZE8Yg==
-X-Google-Smtp-Source: AGHT+IHlUZerKdqKGCIyQigyrjWoqOu0heKLByitH9ldieUyFdKUm6CW3w7ZCA+nfu8AqoH2Be6rFw==
-X-Received: by 2002:aa7:df17:0:b0:530:d6e5:9229 with SMTP id c23-20020aa7df17000000b00530d6e59229mr8468289edy.10.1696151475932;
-        Sun, 01 Oct 2023 02:11:15 -0700 (PDT)
-Received: from ?IPV6:2a02:8389:41cf:e200:4c68:6c03:863b:ad4e? (2a02-8389-41cf-e200-4c68-6c03-863b-ad4e.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:4c68:6c03:863b:ad4e])
-        by smtp.gmail.com with ESMTPSA id b7-20020a056402350700b0053613c8312bsm5492900edd.42.2023.10.01.02.11.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 01 Oct 2023 02:11:15 -0700 (PDT)
-Message-ID: <710ed88d-462b-17ed-ae4d-906ddd0dee8a@gmail.com>
-Date:   Sun, 1 Oct 2023 11:11:13 +0200
+        with ESMTP id S235080AbjJAOWV (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 1 Oct 2023 10:22:21 -0400
+Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C60BAB;
+        Sun,  1 Oct 2023 07:22:18 -0700 (PDT)
+Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+        by mx.skole.hr (mx.skole.hr) with ESMTP id 3C232836A5;
+        Sun,  1 Oct 2023 16:13:01 +0200 (CEST)
+From:   =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Subject: [PATCH RFC v4 0/6] ARM: pxa: GPIO descriptor conversions
+Date:   Sun, 01 Oct 2023 16:12:51 +0200
+Message-Id: <20231001-pxa-gpio-v4-0-0f3b975e6ed5@skole.hr>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] Input: powermate - fix use-after-free in
- powermate_config_complete
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230916-topic-powermate_use_after_free-v1-1-2ffa46652869@gmail.com>
- <CAPnbTwKqNghcoPj-FGQQxo0xr-AYTm8pYBYCUgyKT6VxZpZCOA@mail.gmail.com>
- <ZQjKwQDKmU8L9C9e@google.com>
-Content-Language: en-US
-From:   Javier Carrasco <javier.carrasco.cruz@gmail.com>
-In-Reply-To: <ZQjKwQDKmU8L9C9e@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAGN+GWUC/13NSw7CIBCA4as0sxbDY2ipKxMTD+DWuKiFWqIpD
+ RhS0/TuEjYSl8Pw/bNCMN6aAIdqBW+iDdZNacBdBf3YTQ9DrE4zcMoFVbQh89KRx2wdEb3hUss
+ GFUNI32dvBrvk1BUu5xPc0uNow9v5T85Hlle51HL8lSIjlHBF5V01WqkWj+HpXmY/+tyIvHR14
+ XhyrUKsUbNaav3nROnawonkukFpaaRmgyjvbdv2BXLmtYoUAQAA
+To:     Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Russell King <linux@armlinux.org.uk>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Andy Shevchenko <andy@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Brown <broonie@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-spi@vger.kernel.org,
+        =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2325;
+ i=duje.mihanovic@skole.hr; h=from:subject:message-id;
+ bh=m8bKiHpWAVkzZ4rX+3MqXGTQKxlWpvxpDzrmC6PtKks=;
+ b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlGX5nOeDT3j+PeN8XmO9hsa7Y0m/xSrsaviidP
+ P5CN29YWYyJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZRl+ZwAKCRCaEZ6wQi2W
+ 4b/FD/0cgXaU50cz0P86RkEXyT6bFJth3AXwlIJKthxeagxMpUY5yEUqu/T8p8LCOUDexyoLiCl
+ 6kUUOumwEsISsqpv+i4HXGcxRa5bLHWNAm3gXyr2KpAxUA0xnqT300mUeEqeRQCqJOYEgCMdTFi
+ EXCArOgqWkm9INcLP7yGavJ33xgosZeOjnoWaa8uQm4wqohD3wOF4fvCFqiSPFpRvtMmGnvnziu
+ o/TQ2MPZORRpb8fH5GIHj07lDkk5Yu40hVEgRy1p74jVxyB9JFyHsQsM14dV8nQ6ITW/596db+v
+ ldXimOvDHfUH4z5bc4D6GhvIUxpCwCO8CCYPPwxobz8TDhM1UApBu809kONvOMXdQxq4hIoedcD
+ M+hE1KV2BTj7vTvD5XeiNTM0xr0a1iVKOPqcUXRWnjl/Of2zDf5kWWvggXDp/ngD06rBEQbYkAN
+ OxpsNpPK1qrMH0/7AqrPt9EvGdtfhWok3aevethRNvzBJP19asFySsuY9zQ9Q1wArwvgAdA8YB8
+ uLMTl85cku91uvG88Z6GsnR0qq4/Wv8x6iHZImb77tWbfmpCqyEkj3RsNCdYGMqGJF4i2BDUWMX
+ PWqi/v8BGbET6E33UF1dxi3MQtJd3WHpoX+5XoBjgMlbe/nlJ5llpB+iEKSrHbirBoiIlxGitMV
+ iwbjBf5fmjzM4Ng==
+X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
+ fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,24 +70,65 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+Hello,
 
-On 19.09.23 00:10, Dmitry Torokhov wrote:
-> On Mon, Sep 18, 2023 at 06:51:49AM +0200, Javier Carrasco Cruz wrote:
->> Hi,
->>
->> There's an obvious error in the patch I introduced when cleaningup
->> (urb->status should be used instead of just status). I will send a v2.
-> 
-> I think what we need is call to usb_kill_urb(pm->config) in
-> powermate_disconnect(), right after call to input_unregister_device().
-> 
-> Thanks.
-> That is definitely a more meaningful and elegant solution, so I will
-check it out and eventually send a v2 with it if everything seems ok. On
-the other hand usb_kill_urb() is already used on pm->irq before calling
-input_unregister_device(), so I would move the existing usb_kill_urb to
-have both calls right after the unregister_device call for code
-consistency, if that is alright.
+Small series to convert some of the board files in the mach-pxa directory
+to use the new GPIO descriptor interface.
 
-Thanks and best regards.
+Most notably, the am200epd, am300epd and Spitz matrix keypad among
+others are not converted in this series.
+
+Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
+---
+Changes in v4:
+- Address maintainer comments:
+  - Move wait_for_sync() from spitz.c to driver
+  - Register LED platform device before getting its gpiod-s
+- Add Linus' Reviewed-by
+- Link to v3: https://lore.kernel.org/r/20230929-pxa-gpio-v3-0-af8d5e5d1f34@skole.hr
+
+Changes in v3:
+- Address maintainer comments:
+  - Use GPIO_LOOKUP_IDX for LEDs
+  - Drop unnecessary NULL assignments
+  - Don't give up on *all* SPI devices if hsync cannot be set up
+- Add Linus' Acked-by
+- Link to v2: https://lore.kernel.org/r/20230926-pxa-gpio-v2-0-984464d165dd@skole.hr
+
+Changes in v2:
+- Address maintainer comments:
+  - Change mentions of function to function()
+  - Drop cast in OHCI driver dev_warn() call
+  - Use %pe in OHCI and reset drivers
+  - Use GPIO _optional() API in OHCI driver
+  - Drop unnecessary not-null check in OHCI driver
+  - Use pr_err() instead of printk() in reset driver
+- Rebase on v6.6-rc3
+- Link to v1: https://lore.kernel.org/r/20230924-pxa-gpio-v1-0-2805b87d8894@skole.hr
+
+---
+Duje Mihanović (6):
+      ARM: pxa: Convert Spitz OHCI to GPIO descriptors
+      ARM: pxa: Convert Spitz LEDs to GPIO descriptors
+      ARM: pxa: Convert Spitz CF power control to GPIO descriptors
+      ARM: pxa: Convert reset driver to GPIO descriptors
+      ARM: pxa: Convert gumstix Bluetooth to GPIO descriptors
+      input: ads7846: Move wait_for_sync() logic to driver
+
+ arch/arm/mach-pxa/gumstix.c         | 24 +++++++------
+ arch/arm/mach-pxa/reset.c           | 39 +++++++--------------
+ arch/arm/mach-pxa/reset.h           |  3 +-
+ arch/arm/mach-pxa/spitz.c           | 69 +++++++++++++++++++++++++------------
+ drivers/input/touchscreen/ads7846.c | 22 ++++++++----
+ drivers/usb/host/ohci-pxa27x.c      |  7 ++++
+ include/linux/spi/ads7846.h         |  1 -
+ 7 files changed, 96 insertions(+), 69 deletions(-)
+---
+base-commit: 6465e260f48790807eef06b583b38ca9789b6072
+change-id: 20230807-pxa-gpio-3ce25d574814
+
+Best regards,
+-- 
+Duje Mihanović <duje.mihanovic@skole.hr>
+
+
