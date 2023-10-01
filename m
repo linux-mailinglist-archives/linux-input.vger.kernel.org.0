@@ -2,58 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 227B07B44AE
-	for <lists+linux-input@lfdr.de>; Sun,  1 Oct 2023 01:44:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02FBA7B4677
+	for <lists+linux-input@lfdr.de>; Sun,  1 Oct 2023 11:11:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234199AbjI3XoL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 30 Sep 2023 19:44:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60130 "EHLO
+        id S234625AbjJAJLV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 1 Oct 2023 05:11:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234164AbjI3XoG (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sat, 30 Sep 2023 19:44:06 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64B1FAC;
-        Sat, 30 Sep 2023 16:44:04 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FBB5C433C8;
-        Sat, 30 Sep 2023 23:44:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696117444;
-        bh=BEks8HaDvSubS8uxPTW2QSiBpwY7OijnnKFGqECTObg=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=KcDxKg5kNamfks/Id5aFchU30jWVqLW7FkC9wjYU5sZmr7XNqLQDSqgrOBxJwxVg+
-         9+HYvS4RoAZG4299WqKpp/NhNfbn42wxeM01bR+kaPKQvimovSV1qE1Huc4goTPo5f
-         uAAse1tZSUpDJrjeow1mnDqw36eoelabuZ0qXuZ/XjQhNjkGZ++EfLLA5oUhSEsVME
-         sepFI+VW0OCV/wk2luxOmuXxyhyp8xyfyFf2QNYBv+c4hF11kCkxhIye/MA731H2my
-         cHHQQnn8/Rw6ao5YrYjghk9m37ZRHuL4fMA3HI5wh/rejJHrJlDWDJlgwBbaSgx74Q
-         A79EuIzmRkIaQ==
-From:   Mark Brown <broonie@kernel.org>
-Date:   Sun, 01 Oct 2023 01:43:40 +0200
-Subject: [PATCH 3/3] Input: qt1050 - Convert to use maple tree register
- cache
+        with ESMTP id S234530AbjJAJLU (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 1 Oct 2023 05:11:20 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACC62C6;
+        Sun,  1 Oct 2023 02:11:17 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-5346b64f17aso11708887a12.2;
+        Sun, 01 Oct 2023 02:11:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696151476; x=1696756276; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nWGRyz+YIuv74qkbiCqoaXcuRZTJ/y0eHD6SlcR52QA=;
+        b=SHn4hIVMC7/9lyshVD+BG9Leyji0cKbtt+aYjL8ToZ4nwrzF4k22t4kQly6APOsSlz
+         AZyU0l8A0dXSqiVHppa33dyyd4Wg6qrCuKZnb4nsSzMsQ8FdQZXuMgSzx0kcHRCjEX0G
+         f8z0wH5hKBk+aKm7Yr13FREcA0Bq3CTg3zqWdSiJ+cOAigetQj7CzwV3pn071TtSmiua
+         D3ZJSx7HdpfXDgvqlbk4vC4Wblpilz9gk2R/gwxFwlVFUS7PbSiVRfx8oIertNENVxIv
+         Jypyp6UhWMN1Eq7HsiEMX4/J2xOINTCxczzqsF3LxefiJL2gAJIHVluFi07fFwyZhGDP
+         djMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696151476; x=1696756276;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWGRyz+YIuv74qkbiCqoaXcuRZTJ/y0eHD6SlcR52QA=;
+        b=ReSSBi0E+m0h/qpgzBdSLbfsTiS1ga/dNp7BhX1nVNR0i5hnfwtyrUh8HG2813xkL5
+         0+pvtd/4uEr/16V5f4Soy4FkVJqVGTUvx+MJU+dT47oMBPcW0dAzAS1kUE13jhn6eDWi
+         Uii9DxC7fIDx+4kgFOTSZtpbchMpkf3mbg8oYO0j4quZpwyEdsHV8orKr1HtWPnQ2B4A
+         edmigg52oz+6X1Or2FwDOyxvp6cw1XMV38XB/n5b4VqxZqSDAkJBEEo0TQyClxqW4Lvo
+         BLSzZjZFNxmQwpmB0Jhp0Yyd9dusecJQQcjqGKDg3RMmoL2vLI08EBDjBRzylOsUTD7u
+         ASww==
+X-Gm-Message-State: AOJu0YziLWiyG3w0I3Br90mBbBF0exE2QNcnSNuYPcAdGC181PhbTZRR
+        PySuOvi5J0kM2vcQIEMdgGeHvXltEZE8Yg==
+X-Google-Smtp-Source: AGHT+IHlUZerKdqKGCIyQigyrjWoqOu0heKLByitH9ldieUyFdKUm6CW3w7ZCA+nfu8AqoH2Be6rFw==
+X-Received: by 2002:aa7:df17:0:b0:530:d6e5:9229 with SMTP id c23-20020aa7df17000000b00530d6e59229mr8468289edy.10.1696151475932;
+        Sun, 01 Oct 2023 02:11:15 -0700 (PDT)
+Received: from ?IPV6:2a02:8389:41cf:e200:4c68:6c03:863b:ad4e? (2a02-8389-41cf-e200-4c68-6c03-863b-ad4e.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:4c68:6c03:863b:ad4e])
+        by smtp.gmail.com with ESMTPSA id b7-20020a056402350700b0053613c8312bsm5492900edd.42.2023.10.01.02.11.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 01 Oct 2023 02:11:15 -0700 (PDT)
+Message-ID: <710ed88d-462b-17ed-ae4d-906ddd0dee8a@gmail.com>
+Date:   Sun, 1 Oct 2023 11:11:13 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231001-input-maple-v1-3-ed3716051431@kernel.org>
-References: <20231001-input-maple-v1-0-ed3716051431@kernel.org>
-In-Reply-To: <20231001-input-maple-v1-0-ed3716051431@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] Input: powermate - fix use-after-free in
+ powermate_config_complete
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.13-dev-0438c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=863; i=broonie@kernel.org;
- h=from:subject:message-id; bh=BEks8HaDvSubS8uxPTW2QSiBpwY7OijnnKFGqECTObg=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlGLK9iJCL4tJTga+xDHMZqbKIe1TesSPnVwMtX
- ptSnTMjBc+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZRiyvQAKCRAk1otyXVSH
- 0LycB/9hXFah9KqbRqYjjcBLcSuJ2H9YxGyTHq4/1MfbwNz4ffTCn7OpFXofQtFcl8WxzAnUZdl
- Qa2jVj1X9wC7lHQZoV0Pcl4S6NzwFulxef1ve4kC3pzD6psefwVY7qOXadL2/Qr7FObf0EgW0RU
- aGIkif5JQRGi8OnKiuZgfbIDsUJ+Fj2BaECXy1/rtMKUZyow+pzaK5w4smbE1/pt7a0Lzqc80t5
- GYKMu9njbrc+nDW0627itxBTK79CSxKBMLv80M9bBBD8caQJhYO7PkQYBzKeKUgME8VFqaqmAci
- IFJp2M2iY6ne6k6NFGzqv6VUhadbSMhhoZ/TXKxA2j53fFWL
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230916-topic-powermate_use_after_free-v1-1-2ffa46652869@gmail.com>
+ <CAPnbTwKqNghcoPj-FGQQxo0xr-AYTm8pYBYCUgyKT6VxZpZCOA@mail.gmail.com>
+ <ZQjKwQDKmU8L9C9e@google.com>
+Content-Language: en-US
+From:   Javier Carrasco <javier.carrasco.cruz@gmail.com>
+In-Reply-To: <ZQjKwQDKmU8L9C9e@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -62,29 +76,24 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The maple tree register cache is based on a much more modern data structure
-than the rbtree cache and makes optimisation choices which are probably
-more appropriate for modern systems than those made by the rbtree cache.
+Hi Dmitry,
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- drivers/input/keyboard/qt1050.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 19.09.23 00:10, Dmitry Torokhov wrote:
+> On Mon, Sep 18, 2023 at 06:51:49AM +0200, Javier Carrasco Cruz wrote:
+>> Hi,
+>>
+>> There's an obvious error in the patch I introduced when cleaningup
+>> (urb->status should be used instead of just status). I will send a v2.
+> 
+> I think what we need is call to usb_kill_urb(pm->config) in
+> powermate_disconnect(), right after call to input_unregister_device().
+> 
+> Thanks.
+> That is definitely a more meaningful and elegant solution, so I will
+check it out and eventually send a v2 with it if everything seems ok. On
+the other hand usb_kill_urb() is already used on pm->irq before calling
+input_unregister_device(), so I would move the existing usb_kill_urb to
+have both calls right after the unregister_device call for code
+consistency, if that is alright.
 
-diff --git a/drivers/input/keyboard/qt1050.c b/drivers/input/keyboard/qt1050.c
-index 6953097db445..b51dfcd76038 100644
---- a/drivers/input/keyboard/qt1050.c
-+++ b/drivers/input/keyboard/qt1050.c
-@@ -213,7 +213,7 @@ static struct regmap_config qt1050_regmap_config = {
- 	.val_bits = 8,
- 	.max_register = QT1050_RES_CAL,
- 
--	.cache_type = REGCACHE_RBTREE,
-+	.cache_type = REGCACHE_MAPLE,
- 
- 	.wr_table = &qt1050_writeable_table,
- 	.rd_table = &qt1050_readable_table,
-
--- 
-2.39.2
-
+Thanks and best regards.
