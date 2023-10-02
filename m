@@ -2,249 +2,198 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87E6D7B55F0
-	for <lists+linux-input@lfdr.de>; Mon,  2 Oct 2023 17:02:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A49BB7B55C4
+	for <lists+linux-input@lfdr.de>; Mon,  2 Oct 2023 17:01:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237812AbjJBOfp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Oct 2023 10:35:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45060 "EHLO
+        id S237627AbjJBOsL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Oct 2023 10:48:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237807AbjJBOfk (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Oct 2023 10:35:40 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA2D31B9
-        for <linux-input@vger.kernel.org>; Mon,  2 Oct 2023 07:35:28 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-9a9f139cd94so2217632766b.2
-        for <linux-input@vger.kernel.org>; Mon, 02 Oct 2023 07:35:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1696257325; x=1696862125; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KsnuXrfTi/qDbbUf8n0tkWbx3RkfSxQRuLTOsgFTPoI=;
-        b=DpJEVOWrSZ0uwXCbkjvr6FY7qO1jWXRa8dro5Of3jppcfGZHFnuVQFW3M7Lt5rnJS1
-         x+fMnWNMi/1SMzGhMBtIVp64OPo1ZzglKF6+GCMNmaLpG3Fg569GnijglCQG0sxSkOnA
-         h9M/fRCSxigGpO0dz/gxcUHI9o3Wb6t0tGId8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696257325; x=1696862125;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KsnuXrfTi/qDbbUf8n0tkWbx3RkfSxQRuLTOsgFTPoI=;
-        b=RZaSVcqqjZAYpwNebXWA3zQiOXIXhrMbcFlBI8C8SoAlobjTRy5SZZYjqKmdFTw8/0
-         dSPplJDAuJNT7wO4b0WiGkm0Pe199ttCbS4BLryxkSoz69lXsn+WTAexpWA+Kb3VSE2p
-         vn28LHxvrn7LT1r4JeNW7FjL25ot68wK3aGJYTpAY35VOSneFwDEZxX2RPOagjEMaD90
-         KdllIiAOn8j1NaXeA6LkaU2AYaRflxO+DgHCsUb8SHPCrjjtqBIWAhBRgpdSK4Ns+TtK
-         pgaMwGnXjZJf3PzYn7uPkQ/J+PMUlG4u2rTb8uLK69Rjp8+3PSIYbio673yrHB7uJkdC
-         oJww==
-X-Gm-Message-State: AOJu0YyxOeSs4TXSn5EOGH6Pb8bpzKq7AJQTSIFEdo21cvOr6XYSAlBd
-        Y23LmdeUGTR2wE69559VFb6q5QBpK8KT1UUnoGkCNw==
-X-Google-Smtp-Source: AGHT+IEJvB6rBdLKxG51n8MlxbRoPCxc+7xXhi/J8pq+DePyV9pPpthurSa/RlB+79QIRk/eOhU5uQ==
-X-Received: by 2002:a17:906:5a65:b0:9a1:f81f:d0d5 with SMTP id my37-20020a1709065a6500b009a1f81fd0d5mr11241877ejc.54.1696257324889;
-        Mon, 02 Oct 2023 07:35:24 -0700 (PDT)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
-        by smtp.gmail.com with ESMTPSA id hs35-20020a1709073ea300b009b28ad521f4sm11722076ejc.4.2023.10.02.07.35.23
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Oct 2023 07:35:23 -0700 (PDT)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40662119cd0so99895e9.1
-        for <linux-input@vger.kernel.org>; Mon, 02 Oct 2023 07:35:23 -0700 (PDT)
-X-Received: by 2002:a05:600c:310c:b0:3fe:e9ea:9653 with SMTP id
- g12-20020a05600c310c00b003fee9ea9653mr123912wmo.4.1696257323564; Mon, 02 Oct
- 2023 07:35:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230918125851.310-1-johan+linaro@kernel.org> <CAD=FV=Wfwvp-SbGrdO5VJcjG42njkApJPB7wnY-YYa1_-O0JWQ@mail.gmail.com>
- <ZQlIveJVdvyV2Ygy@hovoldconsulting.com> <CAD=FV=XBG7auVVyHn5uvahSZZxp5qBfp4+A9NwFqahdN6XrbZA@mail.gmail.com>
- <ZQqemN8P2VKgxhsV@hovoldconsulting.com> <CAD=FV=XK87TZuPy+d2r2g5QhowmghE-m9pGHe9-X7jnXAw9z1g@mail.gmail.com>
- <ZQ1Zm6ec9NuBvqpl@hovoldconsulting.com> <CAD=FV=USBJRzqxX9kBP8pp4LKRGpBee+jkHL=KmeQvyfBk2CVQ@mail.gmail.com>
- <ZRqzGA1F6JV-mlRL@hovoldconsulting.com>
-In-Reply-To: <ZRqzGA1F6JV-mlRL@hovoldconsulting.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Mon, 2 Oct 2023 07:35:06 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UHEeu3crTFEZDY+LDQZk07H8un7gCSs0jyCQJrGYkV=Q@mail.gmail.com>
-Message-ID: <CAD=FV=UHEeu3crTFEZDY+LDQZk07H8un7gCSs0jyCQJrGYkV=Q@mail.gmail.com>
-Subject: Re: [PATCH] HID: i2c-hid: fix handling of unpopulated devices
-To:     Johan Hovold <johan@kernel.org>
-Cc:     Johan Hovold <johan+linaro@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
+        with ESMTP id S237823AbjJBOsK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Oct 2023 10:48:10 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9BD4F2;
+        Mon,  2 Oct 2023 07:48:06 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86C2DC433C7;
+        Mon,  2 Oct 2023 14:48:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696258086;
+        bh=HHXocg/UqDLTpBTms/VMzX03y/J3TDNJKoUjdrxZ1l0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SxqRp350bCXrlLYTCXAC17UQCCmm51+C+6kQ9mkjWoxlB9MTfh5N0bCKg2/EnnjcT
+         f885QQtuJrMdAMYs/2pQiLF6l+SU2plFx76+tNDHdskSW6EbAUq9cvw2VIB9dYBVMx
+         5dQfl2E/QIlaUl93d9aSRNJpP5epZTeelI9WF5qvUxTm2WMzSsxx1La69ysKCKBIhr
+         78VGgPpD3mrWViQouPWR/BU+gxZaAHtgnQU+D8CebnD30jJCzB8lfZ1rEwrlUorFPm
+         8nzsS3U0yc5+hj7igp3Ym6oyiNOUYyghmqaWqB08Blj1GEmCen4MWqnRBT+TQ6gL6X
+         bD9xQdW5ANvgQ==
+Date:   Mon, 2 Oct 2023 16:48:01 +0200
+From:   Benjamin Tissoires <bentiss@kernel.org>
+To:     Justin Stitt <justinstitt@google.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Maxime Ripard <mripard@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        LinusW <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Shuah Khan <shuah@kernel.org>,
+        Eduard Zingerman <eddyz87@gmail.com>,
+        linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] selftests/hid: fix building for older kernels
+Message-ID: <lhb7u2lg7fv2wx3kzrboftqcdtmbjvbzz7zssfn5mho72hcrvj@i53fzzis7b4q>
+References: <20230908-kselftest-09-08-v2-0-0def978a4c1b@google.com>
+ <CAFhGd8pEv32zp4RDsj_jeBjzP5hcsf4dP4Knueiw_UM8ZsqcKw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFhGd8pEv32zp4RDsj_jeBjzP5hcsf4dP4Knueiw_UM8ZsqcKw@mail.gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Sep 26 2023, Justin Stitt wrote:
+> Hey all,
+> 
+> Gentle ping on this patch. Looking to get this patch and [1] slated
+> for 6.7 wherein we can start getting cleaner kselftests builds.
+> 
+> I do not think I am able to successfully run the hid/bpf selftests due
+> to my kernel version being too low (and an inability to upgrade it as
+> I'm on a corp rolling release). I'd appreciate some insight on how to
+> get the tests running or if someone could actually build+run the tests
+> with this patch applied.
 
-On Mon, Oct 2, 2023 at 5:09=E2=80=AFAM Johan Hovold <johan@kernel.org> wrot=
-e:
->
-> > > > > I skimmed the thread were you added this, but I'm not sure I saw =
-any
-> > > > > reason for why powering on the panel follower temporarily during =
-probe
-> > > > > would not work?
-> > > >
-> > > > My first instinct says we can't do this, but let's think about it..=
-.
-> > > >
-> > > > In general the "panel follower" API is designed to give all the
-> > > > decision making about when to power things on and off to the panel
-> > > > driver, which is controlled by DRM.
-> > > >
-> > > > The reason for this is from experience I had when dealing with the
-> > > > Samsung ATNA33XC20 panel that's on "sc7180-trogdor-homestar". The T=
-CON
-> > > > on that panel tended to die if you didn't sequence it just right.
-> > > > Specifically, if you were sending pixels to the panel and then stop=
-ped
-> > > > then you absolutely needed to power the panel off and on again. Fol=
-ks
-> > > > I talked to even claimed that the panel was working "to spec" since=
-,
-> > > > in the "Power Sequencing" section of the eDP spec it clearly shows
-> > > > that you _must_ turn the panel off and on again after you stop givi=
-ng
-> > > > it bits. ...this is despite the fact that no other panel I've worke=
-d
-> > > > with cares. ;-)
-> > > >
-> > > > On homestar, since we didn't have the "panel follower" API, we ende=
-d
-> > > > up adding cost to the hardware and putting the panel and touchscree=
-ns
-> > > > on different power rails. However, I wanted to make sure that if we
-> > > > ran into a similar situation in the future (or maybe if we were try=
-ing
-> > > > to make hardware work that we didn't have control over) that we cou=
-ld
-> > > > solve it.
->
-> Out of curiosity, are there any machines that actually need this
-> "panel-follower" API today, or are saying above that this is just
-> something that may be needed one day?
+I wanted to apply this series today, but it failed my own CI now with
+the enums being already defined:
+https://gitlab.freedesktop.org/bentiss/hid/-/jobs/49754306
 
-Yes. See commit de0874165b83 ("drm/panel: Add a way for other devices
-to follow panel state") where I point to Cong Yang's original patch
-[1]. In that patch Cong was trying to make things work by assuming
-probe ordering and manually taking some of the power sequencing stuff
-out of some of the drivers in order to get things to work.
+I'll probably squash the following patch in 1/3, would you mind giving
+it a test?
 
-[1] https://lore.kernel.org/r/20230519032316.3464732-1-yangcong5@huaqin.cor=
-p-partner.google.com
+---
+From 37feca6c0e84705ad65e621643206c287b63bb0a Mon Sep 17 00:00:00 2001
+From: Benjamin Tissoires <bentiss@kernel.org>
+Date: Mon, 2 Oct 2023 15:37:18 +0200
+Subject: [PATCH] fix selftests/hid: ensure we can compile the tests on kernels
+ pre-6.3
 
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+---
+ .../selftests/hid/progs/hid_bpf_helpers.h     | 30 ++++++++++++++++++-
+ 1 file changed, 29 insertions(+), 1 deletion(-)
 
+diff --git a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
+index ab3b18ba48c4..feed5a991e05 100644
+--- a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
++++ b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
+@@ -5,16 +5,44 @@
+ #ifndef __HID_BPF_HELPERS_H
+ #define __HID_BPF_HELPERS_H
+ 
+-/* "undefine" structs in vmlinux.h, because we "override" them below */
++/* "undefine" structs and enums in vmlinux.h, because we "override" them below */
+ #define hid_bpf_ctx hid_bpf_ctx___not_used
+ #define hid_report_type hid_report_type___not_used
+ #define hid_class_request hid_class_request___not_used
+ #define hid_bpf_attach_flags hid_bpf_attach_flags___not_used
++#define HID_INPUT_REPORT         HID_INPUT_REPORT___not_used
++#define HID_OUTPUT_REPORT        HID_OUTPUT_REPORT___not_used
++#define HID_FEATURE_REPORT       HID_FEATURE_REPORT___not_used
++#define HID_REPORT_TYPES         HID_REPORT_TYPES___not_used
++#define HID_REQ_GET_REPORT       HID_REQ_GET_REPORT___not_used
++#define HID_REQ_GET_IDLE         HID_REQ_GET_IDLE___not_used
++#define HID_REQ_GET_PROTOCOL     HID_REQ_GET_PROTOCOL___not_used
++#define HID_REQ_SET_REPORT       HID_REQ_SET_REPORT___not_used
++#define HID_REQ_SET_IDLE         HID_REQ_SET_IDLE___not_used
++#define HID_REQ_SET_PROTOCOL     HID_REQ_SET_PROTOCOL___not_used
++#define HID_BPF_FLAG_NONE        HID_BPF_FLAG_NONE___not_used
++#define HID_BPF_FLAG_INSERT_HEAD HID_BPF_FLAG_INSERT_HEAD·___not_used
++#define HID_BPF_FLAG_MAX         HID_BPF_FLAG_MAX___not_used
++
+ #include "vmlinux.h"
++
+ #undef hid_bpf_ctx
+ #undef hid_report_type
+ #undef hid_class_request
+ #undef hid_bpf_attach_flags
++#undef HID_INPUT_REPORT
++#undef HID_OUTPUT_REPORT
++#undef HID_FEATURE_REPORT
++#undef HID_REPORT_TYPES
++#undef HID_REQ_GET_REPORT
++#undef HID_REQ_GET_IDLE
++#undef HID_REQ_GET_PROTOCOL
++#undef HID_REQ_SET_REPORT
++#undef HID_REQ_SET_IDLE
++#undef HID_REQ_SET_PROTOCOL
++#undef HID_BPF_FLAG_NONE
++#undef HID_BPF_FLAG_INSERT_HEAD
++#undef HID_BPF_FLAG_MAX
+ 
+ #include <bpf/bpf_helpers.h>
+ #include <bpf/bpf_tracing.h>
+-- 
+2.41.0
+---
 
-> > > > The other reason for giving full control to the panel driver is jus=
-t
-> > > > how userspace usually works. Right now userspace tends to power off
-> > > > panels if they're not used (like if a lid is closed on a laptop) bu=
-t
-> > > > doesn't necessarily power off the touchscreen. Thus if the touchscr=
-een
-> > > > has the ability to keep things powered on then we'd never get to a =
-low
-> > > > power state.
-> > >
-> > > Don't you need to keep the touchscreen powered to support wakeup even=
-ts
-> > > (e.g. when not closing the lid)?
+Cheers,
+Benjamin
+
+> 
+> On Sat, Sep 9, 2023 at 7:22 AM Justin Stitt <justinstitt@google.com> wrote:
 > >
-> > No. The only reason you'd use panel follower is if the hardware was
-> > designed such that the touchscreen needed to be power sequenced with
-> > the panel. If the touchscreen can stay powered when the panel is off
-> > then it is, by definition, not a panel follower.
+> > Hi, I am sending this series on behalf of myself and Benjamin Tissoires. There
+> > existed an initial n=3 patch series which was later expanded to n=4 and
+> > is now back to n=3 with some fixes added in and rebased against
+> > mainline.
 > >
-> > For a laptop I don't think most people expect the touchscreen to stay
-> > powered when the screen is off. I certainly wouldn't expect it. If the
-> > screen was off and I wanted to interact with the device, I would hit a
-> > key on the keyboard or touch the trackpad. When the people designing
-> > sc7180-trogdor chose to have the display and touchscreen share a power
-> > rail they made a conscious choice that they didn't need the
-> > touchscreen active when the screen was off.
->
-> Sure, but that's a policy decision and not something that should be
-> hard-coded in our drivers.
-
-If the touchscreen and panel can be powered separately then, sure,
-it's a policy decision.
-
-In the cases where the touchscreen and panel need to be powered
-together I'd say it's more than a policy decision. Even if it wasn't,
-you have to make _some_ decision in the kernel. One could also argue
-that if you say that you're going to force the panel to be powered on
-whenever the touchscreen is on then that's just as much of a policy
-decision, isn't it?
-
-In any case, the fact that there is a shared power rail / shared power
-sequence is because the hardware designer intended them to either be
-both off or both on. Whenever I asked the EEs that designed these
-boards about leaving the touchscreen on while turning the panel power
-off they always looked at me incredulously and asked why I would ever
-do that. Although we can work around the hardware by powering the
-panel in order to allow the touchscreen to be on, it's just not the
-intention.
-
-
-> > > But the main reason is still that requesting resources belongs in
-> > > probe() and should not be deferred to some later random time where yo=
-u
-> > > cannot inform driver core of failures (e.g. for probe deferral if the
-> > > interrupt controller is not yet available).
+> > This patch series aims to ensure that the hid/bpf selftests can be built
+> > without errors.
 > >
-> > OK, I guess the -EPROBE_DEFER is technically possible though probably
-> > not likely in practice. ...so that's a good reason to make sure we
-> > request the IRQ in probe even in the "panel follower" case. I still
-> > beleive Benjamin would prefer that this was abstracted out and not in
-> > the actual probe() routine, but I guess we can wait to hear from him.
->
-> I talked to Benjamin at Kernel Recipes last week and I don't think he
-> has any fundamental objections to the fix I'm proposing.
-
-Sure. I don't either though I'm hoping that we can come up with a more
-complete solution long term.
-
-
-> I prefer it as it makes the code easier to reason about and clearly
-> marks the code paths that differ in case the device is a "panel
-> follower". And since you said it also makes the code look more like what
-> you originally intended, then I guess you should be ok with it too?
-
-It looks OK to me. The biggest objection I have is just that I dislike
-it when code churns because two people disagree what the nicer style
-is. It just makes for bigger diffs and more work to review things.
-
-
-> > One last idea I had while digging would be to wonder if we could
-> > somehow solve this case with "IRQF_PROBE_SHARED". I guess that doesn't
-> > work well together with "IRQF_NO_AUTOEN", but conceivably we could
-> > have the interrupt handler return "IRQ_NONE" if the initial power up
-> > never happened? I haven't spent much time poking with shared
-> > interrupts though, so I don't know if there are other side effects...
->
-> Yeah, that doesn't seem right, though. The interrupt line is not really
-> shared, it's just that we need to check whether the device is populated
-> before requesting the interrupt.
-
-I'm not convinced that marking it as shared is any "less right" than
-extra work to request the interrupt after we've probed the device.
-Fundamentally both are taking into account that another touchscreen
-might be trying to probe with the same interrupt line.
-
--Doug
+> > Here's Benjamin's initial cover letter for context:
+> > |  These fixes have been triggered by [0]:
+> > |  basically, if you do not recompile the kernel first, and are
+> > |  running on an old kernel, vmlinux.h doesn't have the required
+> > |  symbols and the compilation fails.
+> > |
+> > |  The tests will fail if you run them on that very same machine,
+> > |  of course, but the binary should compile.
+> > |
+> > |  And while I was sorting out why it was failing, I realized I
+> > |  could do a couple of improvements on the Makefile.
+> > |
+> > |  [0] https://lore.kernel.org/linux-input/56ba8125-2c6f-a9c9-d498-0ca1c153dcb2@redhat.com/T/#t
+> >
+> > Changes from v1 -> v2:
+> > - roll Justin's fix into patch 1/3
+> > - add __attribute__((preserve_access_index)) (thanks Eduard)
+> > - rebased onto mainline (2dde18cd1d8fac735875f2e4987f11817cc0bc2c)
+> > - Link to v1: https://lore.kernel.org/all/20230825-wip-selftests-v1-0-c862769020a8@kernel.org/
+> >
+> > Link: https://github.com/ClangBuiltLinux/linux/issues/1698
+> > Link: https://github.com/ClangBuiltLinux/continuous-integration2/issues/61
+> > ---
+> > Benjamin Tissoires (3):
+> >       selftests/hid: ensure we can compile the tests on kernels pre-6.3
+> >       selftests/hid: do not manually call headers_install
+> >       selftests/hid: force using our compiled libbpf headers
+> >
+> >  tools/testing/selftests/hid/Makefile               | 10 ++---
+> >  tools/testing/selftests/hid/progs/hid.c            |  3 --
+> >  .../testing/selftests/hid/progs/hid_bpf_helpers.h  | 49 ++++++++++++++++++++++
+> >  3 files changed, 53 insertions(+), 9 deletions(-)
+> > ---
+> > base-commit: 2dde18cd1d8fac735875f2e4987f11817cc0bc2c
+> > change-id: 20230908-kselftest-09-08-56d7f4a8d5c4
+> >
+> > Best regards,
+> > --
+> > Justin Stitt <justinstitt@google.com>
+> >
+> 
+> [1]: https://lore.kernel.org/all/20230912-kselftest-param_test-c-v1-1-80a6cffc7374@google.com/
+> 
+> Thanks
+> Justin
