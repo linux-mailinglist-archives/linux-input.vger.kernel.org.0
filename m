@@ -2,198 +2,152 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A49BB7B55C4
-	for <lists+linux-input@lfdr.de>; Mon,  2 Oct 2023 17:01:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C8687B55A9
+	for <lists+linux-input@lfdr.de>; Mon,  2 Oct 2023 17:01:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237627AbjJBOsL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Oct 2023 10:48:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49514 "EHLO
+        id S237593AbjJBOxL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Oct 2023 10:53:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237823AbjJBOsK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Oct 2023 10:48:10 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9BD4F2;
-        Mon,  2 Oct 2023 07:48:06 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86C2DC433C7;
-        Mon,  2 Oct 2023 14:48:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696258086;
-        bh=HHXocg/UqDLTpBTms/VMzX03y/J3TDNJKoUjdrxZ1l0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SxqRp350bCXrlLYTCXAC17UQCCmm51+C+6kQ9mkjWoxlB9MTfh5N0bCKg2/EnnjcT
-         f885QQtuJrMdAMYs/2pQiLF6l+SU2plFx76+tNDHdskSW6EbAUq9cvw2VIB9dYBVMx
-         5dQfl2E/QIlaUl93d9aSRNJpP5epZTeelI9WF5qvUxTm2WMzSsxx1La69ysKCKBIhr
-         78VGgPpD3mrWViQouPWR/BU+gxZaAHtgnQU+D8CebnD30jJCzB8lfZ1rEwrlUorFPm
-         8nzsS3U0yc5+hj7igp3Ym6oyiNOUYyghmqaWqB08Blj1GEmCen4MWqnRBT+TQ6gL6X
-         bD9xQdW5ANvgQ==
-Date:   Mon, 2 Oct 2023 16:48:01 +0200
-From:   Benjamin Tissoires <bentiss@kernel.org>
-To:     Justin Stitt <justinstitt@google.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Eduard Zingerman <eddyz87@gmail.com>,
-        linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] selftests/hid: fix building for older kernels
-Message-ID: <lhb7u2lg7fv2wx3kzrboftqcdtmbjvbzz7zssfn5mho72hcrvj@i53fzzis7b4q>
-References: <20230908-kselftest-09-08-v2-0-0def978a4c1b@google.com>
- <CAFhGd8pEv32zp4RDsj_jeBjzP5hcsf4dP4Knueiw_UM8ZsqcKw@mail.gmail.com>
+        with ESMTP id S237876AbjJBOxK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Oct 2023 10:53:10 -0400
+Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C433E9F;
+        Mon,  2 Oct 2023 07:53:05 -0700 (PDT)
+Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+        by mx.skole.hr (mx.skole.hr) with ESMTP id 849D783C09;
+        Mon,  2 Oct 2023 16:53:02 +0200 (CEST)
+From:   Duje =?utf-8?B?TWloYW5vdmnEhw==?= <duje.mihanovic@skole.hr>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Russell King <linux@armlinux.org.uk>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andy Shevchenko <andy@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-spi@vger.kernel.org
+Subject: Re: [PATCH RFC v4 5/6] ARM: pxa: Convert gumstix Bluetooth to GPIO
+ descriptors
+Date:   Mon, 02 Oct 2023 16:52:56 +0200
+Message-ID: <4528128.LvFx2qVVIh@radijator>
+In-Reply-To: <CAMRc=MdHv0YxSowMnqJ8xG1_w8dwTWVJV1K0b1jgectPTbOheQ@mail.gmail.com>
+References: <20231001-pxa-gpio-v4-0-0f3b975e6ed5@skole.hr>
+ <20231001-pxa-gpio-v4-5-0f3b975e6ed5@skole.hr>
+ <CAMRc=MdHv0YxSowMnqJ8xG1_w8dwTWVJV1K0b1jgectPTbOheQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFhGd8pEv32zp4RDsj_jeBjzP5hcsf4dP4Knueiw_UM8ZsqcKw@mail.gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Autocrypt: addr=duje.mihanovic@skole.hr;
+ keydata=
+ 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
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sep 26 2023, Justin Stitt wrote:
-> Hey all,
-> 
-> Gentle ping on this patch. Looking to get this patch and [1] slated
-> for 6.7 wherein we can start getting cleaner kselftests builds.
-> 
-> I do not think I am able to successfully run the hid/bpf selftests due
-> to my kernel version being too low (and an inability to upgrade it as
-> I'm on a corp rolling release). I'd appreciate some insight on how to
-> get the tests running or if someone could actually build+run the tests
-> with this patch applied.
+On Monday, October 2, 2023 9:42:52 AM CEST Bartosz Golaszewski wrote:
+> This changes the way this code works. You release the descriptor here,
+> it returns to the driver and can be re-requested by someone else. Its
+> value is also not guaranteed to remain as "active". Is this what you
+> want?
 
-I wanted to apply this series today, but it failed my own CI now with
-the enums being already defined:
-https://gitlab.freedesktop.org/bentiss/hid/-/jobs/49754306
+Good point. Is it enough to not call gpiod_put() at the end or is it necessary 
+to use a static gpio_desc instead of a local one?
 
-I'll probably squash the following patch in 1/3, would you mind giving
-it a test?
+Regards,
+Duje
 
----
-From 37feca6c0e84705ad65e621643206c287b63bb0a Mon Sep 17 00:00:00 2001
-From: Benjamin Tissoires <bentiss@kernel.org>
-Date: Mon, 2 Oct 2023 15:37:18 +0200
-Subject: [PATCH] fix selftests/hid: ensure we can compile the tests on kernels
- pre-6.3
 
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
----
- .../selftests/hid/progs/hid_bpf_helpers.h     | 30 ++++++++++++++++++-
- 1 file changed, 29 insertions(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
-index ab3b18ba48c4..feed5a991e05 100644
---- a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
-+++ b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
-@@ -5,16 +5,44 @@
- #ifndef __HID_BPF_HELPERS_H
- #define __HID_BPF_HELPERS_H
- 
--/* "undefine" structs in vmlinux.h, because we "override" them below */
-+/* "undefine" structs and enums in vmlinux.h, because we "override" them below */
- #define hid_bpf_ctx hid_bpf_ctx___not_used
- #define hid_report_type hid_report_type___not_used
- #define hid_class_request hid_class_request___not_used
- #define hid_bpf_attach_flags hid_bpf_attach_flags___not_used
-+#define HID_INPUT_REPORT         HID_INPUT_REPORT___not_used
-+#define HID_OUTPUT_REPORT        HID_OUTPUT_REPORT___not_used
-+#define HID_FEATURE_REPORT       HID_FEATURE_REPORT___not_used
-+#define HID_REPORT_TYPES         HID_REPORT_TYPES___not_used
-+#define HID_REQ_GET_REPORT       HID_REQ_GET_REPORT___not_used
-+#define HID_REQ_GET_IDLE         HID_REQ_GET_IDLE___not_used
-+#define HID_REQ_GET_PROTOCOL     HID_REQ_GET_PROTOCOL___not_used
-+#define HID_REQ_SET_REPORT       HID_REQ_SET_REPORT___not_used
-+#define HID_REQ_SET_IDLE         HID_REQ_SET_IDLE___not_used
-+#define HID_REQ_SET_PROTOCOL     HID_REQ_SET_PROTOCOL___not_used
-+#define HID_BPF_FLAG_NONE        HID_BPF_FLAG_NONE___not_used
-+#define HID_BPF_FLAG_INSERT_HEAD HID_BPF_FLAG_INSERT_HEAD·___not_used
-+#define HID_BPF_FLAG_MAX         HID_BPF_FLAG_MAX___not_used
-+
- #include "vmlinux.h"
-+
- #undef hid_bpf_ctx
- #undef hid_report_type
- #undef hid_class_request
- #undef hid_bpf_attach_flags
-+#undef HID_INPUT_REPORT
-+#undef HID_OUTPUT_REPORT
-+#undef HID_FEATURE_REPORT
-+#undef HID_REPORT_TYPES
-+#undef HID_REQ_GET_REPORT
-+#undef HID_REQ_GET_IDLE
-+#undef HID_REQ_GET_PROTOCOL
-+#undef HID_REQ_SET_REPORT
-+#undef HID_REQ_SET_IDLE
-+#undef HID_REQ_SET_PROTOCOL
-+#undef HID_BPF_FLAG_NONE
-+#undef HID_BPF_FLAG_INSERT_HEAD
-+#undef HID_BPF_FLAG_MAX
- 
- #include <bpf/bpf_helpers.h>
- #include <bpf/bpf_tracing.h>
--- 
-2.41.0
----
-
-Cheers,
-Benjamin
-
-> 
-> On Sat, Sep 9, 2023 at 7:22 AM Justin Stitt <justinstitt@google.com> wrote:
-> >
-> > Hi, I am sending this series on behalf of myself and Benjamin Tissoires. There
-> > existed an initial n=3 patch series which was later expanded to n=4 and
-> > is now back to n=3 with some fixes added in and rebased against
-> > mainline.
-> >
-> > This patch series aims to ensure that the hid/bpf selftests can be built
-> > without errors.
-> >
-> > Here's Benjamin's initial cover letter for context:
-> > |  These fixes have been triggered by [0]:
-> > |  basically, if you do not recompile the kernel first, and are
-> > |  running on an old kernel, vmlinux.h doesn't have the required
-> > |  symbols and the compilation fails.
-> > |
-> > |  The tests will fail if you run them on that very same machine,
-> > |  of course, but the binary should compile.
-> > |
-> > |  And while I was sorting out why it was failing, I realized I
-> > |  could do a couple of improvements on the Makefile.
-> > |
-> > |  [0] https://lore.kernel.org/linux-input/56ba8125-2c6f-a9c9-d498-0ca1c153dcb2@redhat.com/T/#t
-> >
-> > Changes from v1 -> v2:
-> > - roll Justin's fix into patch 1/3
-> > - add __attribute__((preserve_access_index)) (thanks Eduard)
-> > - rebased onto mainline (2dde18cd1d8fac735875f2e4987f11817cc0bc2c)
-> > - Link to v1: https://lore.kernel.org/all/20230825-wip-selftests-v1-0-c862769020a8@kernel.org/
-> >
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/1698
-> > Link: https://github.com/ClangBuiltLinux/continuous-integration2/issues/61
-> > ---
-> > Benjamin Tissoires (3):
-> >       selftests/hid: ensure we can compile the tests on kernels pre-6.3
-> >       selftests/hid: do not manually call headers_install
-> >       selftests/hid: force using our compiled libbpf headers
-> >
-> >  tools/testing/selftests/hid/Makefile               | 10 ++---
-> >  tools/testing/selftests/hid/progs/hid.c            |  3 --
-> >  .../testing/selftests/hid/progs/hid_bpf_helpers.h  | 49 ++++++++++++++++++++++
-> >  3 files changed, 53 insertions(+), 9 deletions(-)
-> > ---
-> > base-commit: 2dde18cd1d8fac735875f2e4987f11817cc0bc2c
-> > change-id: 20230908-kselftest-09-08-56d7f4a8d5c4
-> >
-> > Best regards,
-> > --
-> > Justin Stitt <justinstitt@google.com>
-> >
-> 
-> [1]: https://lore.kernel.org/all/20230912-kselftest-param_test-c-v1-1-80a6cffc7374@google.com/
-> 
-> Thanks
-> Justin
