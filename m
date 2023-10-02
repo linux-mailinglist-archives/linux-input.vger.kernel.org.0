@@ -2,150 +2,154 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A0537B4FD9
-	for <lists+linux-input@lfdr.de>; Mon,  2 Oct 2023 12:04:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3573E7B5087
+	for <lists+linux-input@lfdr.de>; Mon,  2 Oct 2023 12:45:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236194AbjJBKE4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Oct 2023 06:04:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42166 "EHLO
+        id S236495AbjJBKpA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Oct 2023 06:45:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231153AbjJBKEy (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Oct 2023 06:04:54 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 773599F;
-        Mon,  2 Oct 2023 03:04:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696241090; x=1727777090;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5D4U+LA+ZgnEx7OwERb3YlJnlwrY5TKHb6buSPufX1M=;
-  b=JY7WR9JxRzqWzhS5ZAW3pKjqDJWwQP57BmjJGr9WqWSOQ6DLUqclBLy0
-   jm102MTGhiGUeQKLntxh72w13jp65MA7qMf3W1euZVPG3hdyZK8lPPbUR
-   k1hfvWNumurpmFPv9QpaOSB1VvAwj871GFRF7fvm0mKzCuw2wctxwdA8H
-   PDF1c1GITvISGX9CB/5sRPz47DDh9VT9Gqm7AQLfmJYJUitE9FOmFZNe/
-   SjvpiwxHCccHYInDYOyb8fwmtPWF+4Xkj2O+ZXR19v9EYeJ606c3w24PA
-   WceTSP73vUtGZCViOKcEAMujz24cwqlmSQ0QA2uiYCvp+e34vuK9eHS1n
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="381497171"
-X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="381497171"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 03:04:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="820843587"
-X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="820843587"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 02 Oct 2023 03:04:45 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qnFnA-0005w5-2B;
-        Mon, 02 Oct 2023 10:04:44 +0000
-Date:   Mon, 2 Oct 2023 18:04:07 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Neil Armstrong <neil.armstrong@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     oe-kbuild-all@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v7 3/4] Input: goodix-berlin - add I2C support for Goodix
- Berlin Touchscreen IC
-Message-ID: <202310021730.epucKAC1-lkp@intel.com>
-References: <20231002-topic-goodix-berlin-upstream-initial-v7-3-792fb91f5e88@linaro.org>
+        with ESMTP id S236454AbjJBKo7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Oct 2023 06:44:59 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 964029D
+        for <linux-input@vger.kernel.org>; Mon,  2 Oct 2023 03:44:55 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-5346b64f17aso13215493a12.2
+        for <linux-input@vger.kernel.org>; Mon, 02 Oct 2023 03:44:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1696243494; x=1696848294; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8DgRy9wyELYkrXoesMhy/Irg2NSJ9BDo37kM0qeNRsk=;
+        b=jhWeJtKMIt6ajuW4m9ZKv7UEqcspMu2FNEpFeVs+uwVcUzLe1GOEI34i7TLgu4GgZ8
+         70HJCSzov3bx082aF8VyFblPebvzqLayHDWCnB/omElRChLlseTLc0afUn3sz+xcJ+Y0
+         cLA5DlY/2OSSY3ldUvHisaVmOsGkBLdrMGfdMBJfKVFEU6AY2IhIqF7WR7WuUcC9zIDp
+         pnIdV5PpPpNF8M1WPbCTxBVGBeFxLhPF+QjpOkrcSGEHOgWZeELyYqMsiWKglkD+ttYX
+         QeybnkqP2f8PGhGDXiOuHJGQsLyaHXc6nLmYywcHrJGXyQviLNaKti+19tzIZPq3krNj
+         R3YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696243494; x=1696848294;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8DgRy9wyELYkrXoesMhy/Irg2NSJ9BDo37kM0qeNRsk=;
+        b=MgnCsRZJp5KIhSmSFExUHDhsLRFi/U1vsKicsBlxjJTaXM9NH5WZqds4lgUV+/yDpD
+         OFTSk4znaQc3l3dEeWZw7PQeUdqm3flqc9EZrKEBYuZQ9mbTWKqTotBopKKMWa0MsZjQ
+         q3svdUTEkd0xxYEN/enYMo4w+prCIY14o6FBUWjzVsrs2rfHGFx9inHofbVSNBHKT9C3
+         gd7QxKUxNZoMDD4I9LApN/sF5ajc27YeCvO787+H4BA16wMm6wobJvB/STiPQjyX8rHc
+         RY0dKI1Nn6KzrTilN/jbFoTp980gZu4L2O0ODWoXlpfxudNGOjxwii5OHj4cBxfQtRrl
+         329g==
+X-Gm-Message-State: AOJu0YwxrSkeT94NMav6LcJhQph7xY3UIF42PBUeXw2/tERBqF/MKLXj
+        IN1mhkNkflSve2Amo/2aIAVnq8u4F01zLsuYprSxiw==
+X-Google-Smtp-Source: AGHT+IFfEHZYAoCIgoYnJV9808N/Wza8FLcB832L+PSoW0VoXZBH3SP/z2HN19oDwKOYQiS0ViJiuQtLXo4v1DWwk9c=
+X-Received: by 2002:a05:6402:68e:b0:523:2e0e:5462 with SMTP id
+ f14-20020a056402068e00b005232e0e5462mr7843842edy.42.1696243493936; Mon, 02
+ Oct 2023 03:44:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231002-topic-goodix-berlin-upstream-initial-v7-3-792fb91f5e88@linaro.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230922-unclothed-bottom-5531329f9724@spud> <CAGD2q_YsFdDVhE4JCmQSGMWOdpe_yzG8-CdWYPXtjeZsManvgQ@mail.gmail.com>
+ <20230922-removable-footwork-f1d4d96d38dd@spud> <CAGD2q_Y467jJJnwCVH+3F-hh6a-1-OYRugcy0DdjPnTCC77Z8A@mail.gmail.com>
+ <20230925-cod-vacancy-08dc8d88f90e@wendy> <CAGD2q_a1nLtFj7H42f+u+J5Bih59MGS0aJLHCFJy5gM2ydys4w@mail.gmail.com>
+ <20230926-action-sludge-ec8e51fdd6d4@spud> <CAGD2q_YBfDT950tyxEF87ZeiANgea_x8S16Ud5K2bcQ+eL9T=w@mail.gmail.com>
+ <20230926-reverence-unlit-d0027225cc43@spud> <CAGD2q_ZzNPOL+Mhg7aWFTQd+UJJYVLz1ZE9hbNb0roS2M6y34g@mail.gmail.com>
+ <20230928-spectacle-civic-339c0d71d8d7@spud>
+In-Reply-To: <20230928-spectacle-civic-339c0d71d8d7@spud>
+From:   yang tylor <tylor_yang@himax.corp-partner.google.com>
+Date:   Mon, 2 Oct 2023 18:44:41 +0800
+Message-ID: <CAGD2q_b1gn8XAfgfzuNn3Jo6gEguBEacxERyRM5ms-V=+hWS+g@mail.gmail.com>
+Subject: Re: [PATCH V2 1/2] dt-bindings: input: Introduce Himax HID-over-SPI device
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Conor Dooley <conor.dooley@microchip.com>,
+        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        poyuan_chang@himax.corp-partner.google.com, hbarnor@chromium.org,
+        "jingyliang@chromium.org" <jingyliang@chromium.org>,
+        wuxy23@lenovo.com, luolm1@lenovo.com,
+        hung poyu <poyu_hung@himax.corp-partner.google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Neil,
+On Fri, Sep 29, 2023 at 12:56=E2=80=AFAM Conor Dooley <conor@kernel.org> wr=
+ote:
+>
+> On Thu, Sep 28, 2023 at 10:12:41AM +0800, yang tylor wrote:
+> > On Tue, Sep 26, 2023 at 8:53=E2=80=AFPM Conor Dooley <conor@kernel.org>=
+ wrote:
+> > > On Tue, Sep 26, 2023 at 05:52:39PM +0800, yang tylor wrote:
+> > > > On Tue, Sep 26, 2023 at 5:02=E2=80=AFPM Conor Dooley <conor@kernel.=
+org> wrote:
+> > > > > On Mon, Sep 25, 2023 at 06:16:29PM +0800, yang tylor wrote:
+> > > > > > On Mon, Sep 25, 2023 at 4:41=E2=80=AFPM Conor Dooley <conor.doo=
+ley@microchip.com> wrote:
+> > > > > > We have a default prefix firmware name(like himax_xxxx.bin) in =
+the driver code.
+> > > > >
+> > > > > How do you intend generating the name of the firmware file? I ass=
+ume the
+> > > > > same firmware doesn't work on every IC, so you'll need to pick a
+> > > > > different one depending on the compatible?
+> > > > >
+> > > > If considering a firmware library line-up for all the incoming pane=
+ls
+> > > > of this driver.
+> > > > We would use PID as part of the file name. Because all the support =
+panels would
+> > > > have a unique PID associated. Which will make the firmware name lik=
+e
+> > > > himax_xxx_{$PID}.bin. The problem is, we need to know PID before fi=
+rmware load
+> > > > at no flash condition. Thus PID information is required in dts when
+> > > > no-flash-flag
+> > > > is specified.
+> > >
+> > > Firstly, where does the "xxx" come from?
+> > > And you're making it sound more like having firmware-name is suitable
+> > > for this use case, given you need to determine the name of the file t=
+o
+> > > use based on something that is hardware specific but is not
+> > > dynamically detectable.
+> > Current driver patch uses a prefix name "himax_i2chid" which comes
+> > from the previous project
+> >  and seems not suitable for this condition, so I use "xxx" and plan to
+> > replace it in the next version.
+> > For finding firmware, I think both solutions are reasonable.
+> > - provide firmware name directly: implies no-flash and use user
+> > specified firmware, no PID info.
+> > - provide no-flash-flag and PID info: loading firmware from organized
+> > names with PID info.
+> > I prefer the 2nd solution, but it needs more properties in dts. 1st
+> > has less properties and more
+> > intuitive.
+> >
+> > I don't know which one is more acceptable by the community, as you
+> > know I'm a newbie here.
+>
+> To be honest, I am not all that sure either! Does the panel id have
+> value in its own right, or is that only used to determine the firmware
+> filename?
+Currently, PID stands for Panel/Project ID and is used for determining
+the firmware filename only. We haven't come up with any new attribute that
+may attach to it. The differences between panels are handled in firmware
+dedicated to its PID.
 
-kernel test robot noticed the following build errors:
+> Also, if it does have value in its own right, rather than a "pid",
+> should the panel be a child node of this hid device with its own
+> compatible?
+It may need a child node if we find it necessary to add attributes to each =
+PID.
+But currently we have no idea about it.
 
-[auto build test ERROR on 6465e260f48790807eef06b583b38ca9789b6072]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/dt-bindings-input-document-Goodix-Berlin-Touchscreen-IC/20231002-145648
-base:   6465e260f48790807eef06b583b38ca9789b6072
-patch link:    https://lore.kernel.org/r/20231002-topic-goodix-berlin-upstream-initial-v7-3-792fb91f5e88%40linaro.org
-patch subject: [PATCH v7 3/4] Input: goodix-berlin - add I2C support for Goodix Berlin Touchscreen IC
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20231002/202310021730.epucKAC1-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310021730.epucKAC1-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310021730.epucKAC1-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   drivers/input/touchscreen/goodix_berlin_core.c: In function 'goodix_berlin_checksum_valid':
->> drivers/input/touchscreen/goodix_berlin_core.c:50:16: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-      50 |         return FIELD_GET(GOODIX_BERLIN_COOR_DATA_CHECKSUM_MASK, cal_checksum) == r_checksum;
-         |                ^~~~~~~~~
-   drivers/input/touchscreen/goodix_berlin_core.c: In function 'goodix_berlin_get_ic_info':
->> drivers/input/touchscreen/goodix_berlin_core.c:284:1: warning: the frame size of 1140 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     284 | }
-         | ^
-   cc1: some warnings being treated as errors
-
-
-vim +/FIELD_GET +50 drivers/input/touchscreen/goodix_berlin_core.c
-
-3fd649a6bbd95d Neil Armstrong 2023-10-02  15  
-3fd649a6bbd95d Neil Armstrong 2023-10-02  16  /*
-3fd649a6bbd95d Neil Armstrong 2023-10-02  17   * Goodix "Berlin" Touchscreen ID driver
-3fd649a6bbd95d Neil Armstrong 2023-10-02  18   *
-3fd649a6bbd95d Neil Armstrong 2023-10-02  19   * This driver is distinct from goodix.c since hardware interface
-3fd649a6bbd95d Neil Armstrong 2023-10-02  20   * is different enough to require a new driver.
-3fd649a6bbd95d Neil Armstrong 2023-10-02  21   * None of the register address or data structure are close enough
-3fd649a6bbd95d Neil Armstrong 2023-10-02  22   * to the previous generations.
-3fd649a6bbd95d Neil Armstrong 2023-10-02  23   *
-3fd649a6bbd95d Neil Armstrong 2023-10-02  24   * Currently only handles Multitouch events with already
-3fd649a6bbd95d Neil Armstrong 2023-10-02  25   * programmed firmware and "config" for "Revision D" Berlin IC.
-3fd649a6bbd95d Neil Armstrong 2023-10-02  26   *
-3fd649a6bbd95d Neil Armstrong 2023-10-02  27   * Support is missing for:
-3fd649a6bbd95d Neil Armstrong 2023-10-02  28   * - ESD Management
-3fd649a6bbd95d Neil Armstrong 2023-10-02  29   * - Firmware update/flashing
-3fd649a6bbd95d Neil Armstrong 2023-10-02  30   * - "Config" update/flashing
-3fd649a6bbd95d Neil Armstrong 2023-10-02  31   * - Stylus Events
-3fd649a6bbd95d Neil Armstrong 2023-10-02  32   * - Gesture Events
-3fd649a6bbd95d Neil Armstrong 2023-10-02  33   * - Support for older revisions (A & B)
-3fd649a6bbd95d Neil Armstrong 2023-10-02  34   */
-3fd649a6bbd95d Neil Armstrong 2023-10-02  35  
-3fd649a6bbd95d Neil Armstrong 2023-10-02  36  static bool goodix_berlin_checksum_valid(const u8 *data, int size)
-3fd649a6bbd95d Neil Armstrong 2023-10-02  37  {
-3fd649a6bbd95d Neil Armstrong 2023-10-02  38  	u32 cal_checksum = 0;
-3fd649a6bbd95d Neil Armstrong 2023-10-02  39  	u16 r_checksum;
-3fd649a6bbd95d Neil Armstrong 2023-10-02  40  	u32 i;
-3fd649a6bbd95d Neil Armstrong 2023-10-02  41  
-3fd649a6bbd95d Neil Armstrong 2023-10-02  42  	if (size < GOODIX_BERLIN_COOR_DATA_CHECKSUM_SIZE)
-3fd649a6bbd95d Neil Armstrong 2023-10-02  43  		return false;
-3fd649a6bbd95d Neil Armstrong 2023-10-02  44  
-3fd649a6bbd95d Neil Armstrong 2023-10-02  45  	for (i = 0; i < size - GOODIX_BERLIN_COOR_DATA_CHECKSUM_SIZE; i++)
-3fd649a6bbd95d Neil Armstrong 2023-10-02  46  		cal_checksum += data[i];
-3fd649a6bbd95d Neil Armstrong 2023-10-02  47  
-3fd649a6bbd95d Neil Armstrong 2023-10-02  48  	r_checksum = get_unaligned_le16(&data[i]);
-3fd649a6bbd95d Neil Armstrong 2023-10-02  49  
-3fd649a6bbd95d Neil Armstrong 2023-10-02 @50  	return FIELD_GET(GOODIX_BERLIN_COOR_DATA_CHECKSUM_MASK, cal_checksum) == r_checksum;
-3fd649a6bbd95d Neil Armstrong 2023-10-02  51  }
-3fd649a6bbd95d Neil Armstrong 2023-10-02  52  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Tylor
