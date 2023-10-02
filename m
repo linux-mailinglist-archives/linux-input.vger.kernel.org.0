@@ -2,67 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B1707B57B6
-	for <lists+linux-input@lfdr.de>; Mon,  2 Oct 2023 18:13:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B317D7B5783
+	for <lists+linux-input@lfdr.de>; Mon,  2 Oct 2023 18:13:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237799AbjJBPsd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Oct 2023 11:48:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48212 "EHLO
+        id S238330AbjJBQBJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Oct 2023 12:01:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237798AbjJBPsc (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Oct 2023 11:48:32 -0400
+        with ESMTP id S238350AbjJBQBI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Oct 2023 12:01:08 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E66EB93;
-        Mon,  2 Oct 2023 08:48:29 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86986C433C7;
-        Mon,  2 Oct 2023 15:48:29 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14F5FA4;
+        Mon,  2 Oct 2023 09:01:05 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BBCEC433C7;
+        Mon,  2 Oct 2023 16:01:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696261709;
-        bh=rFA173u7TYSSDdMiO8zMnnvXrhNdNsDs7EeyJiXp5SQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JNn2CsXENcCuXB0l7pfRk1AHPhE9B5i3OL6CajMgO6oipyPQcW3EFZjDSbGpRtreA
-         ZsghJsMFo4FunNaGoaNP2aus9jKDiV05cInibJ6bzCMYYLeOzme746dD9HBliMbFCw
-         Dh50CNFM0FAF0orjaLK/BZZ0AFuOAmpgEUYqFFiDDt0zOuXxAPLpkWleQCJRKygeIK
-         VtYBqZAYgxiaqemoK36acKkWaHVVa8vhJ3+H0IVC/t7vg6hyTyd4XqKFdMykXKKmDQ
-         UUvmJpHx4p6Gcz7pIPeNJ4/Os02Jd7CEB83ujSFTQ+ihm0NGCWljsH9kN4NWytRK4k
-         rJ/84ulmyrkYA==
+        s=k20201202; t=1696262464;
+        bh=dvY51J6UArWKifW/8zW62jttAxCmGzmMfpoJW5YMsVU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Kz4AOjuQyvDMr+rhVUX3LKQgjWMIlIt4TVnyoV2sLxpKI3Pyu0ucx6xHrF/2Vj+Ru
+         nM7UEHWCNlrcl21iGE3h9GVpsDltiMWieW8xkx9XAozVJvrg7s//5jx3vgdd1Uu7dc
+         UNBG9j/yjG4aWvPRWKzHAFLZTl5ki8dOMh/9CtpEj9EaNMiW8ugOzGcU+DzqJXjUXR
+         wU1XFagJlukihe1px5O4Zfc2ZfELVetIQU2Xi7lebV93k59TrpmWEsBKE9TND/mdrU
+         9SWttF3fG4g8BU+lv6Mk0bd1Uixkem1kWKfP9tu73Qo0pP6xoCBw4+AccccVbKGWdy
+         kT26sb+TRUWzw==
 Received: from johan by xi.lan with local (Exim 4.96)
-        (envelope-from <johan@kernel.org>)
-        id 1qnL9w-0005a9-2L;
-        Mon, 02 Oct 2023 17:48:37 +0200
-Date:   Mon, 2 Oct 2023 17:48:36 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Johan Hovold <johan+linaro@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Maxime Ripard <mripard@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        LinusW <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Subject: Re: [PATCH] HID: i2c-hid: fix handling of unpopulated devices
-Message-ID: <ZRrmVN3Rbz9PY8FW@hovoldconsulting.com>
-References: <20230918125851.310-1-johan+linaro@kernel.org>
- <CAD=FV=Wfwvp-SbGrdO5VJcjG42njkApJPB7wnY-YYa1_-O0JWQ@mail.gmail.com>
- <ZQlIveJVdvyV2Ygy@hovoldconsulting.com>
- <CAD=FV=XBG7auVVyHn5uvahSZZxp5qBfp4+A9NwFqahdN6XrbZA@mail.gmail.com>
- <ZQqemN8P2VKgxhsV@hovoldconsulting.com>
- <CAD=FV=XK87TZuPy+d2r2g5QhowmghE-m9pGHe9-X7jnXAw9z1g@mail.gmail.com>
- <ZQ1Zm6ec9NuBvqpl@hovoldconsulting.com>
- <CAD=FV=USBJRzqxX9kBP8pp4LKRGpBee+jkHL=KmeQvyfBk2CVQ@mail.gmail.com>
- <ZRqzGA1F6JV-mlRL@hovoldconsulting.com>
- <CAD=FV=UHEeu3crTFEZDY+LDQZk07H8un7gCSs0jyCQJrGYkV=Q@mail.gmail.com>
+        (envelope-from <johan+linaro@kernel.org>)
+        id 1qnLM8-0006PX-27;
+        Mon, 02 Oct 2023 18:01:12 +0200
+From:   Johan Hovold <johan+linaro@kernel.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v2] HID: i2c-hid: fix handling of unpopulated devices
+Date:   Mon,  2 Oct 2023 17:58:57 +0200
+Message-ID: <20231002155857.24584-1-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=UHEeu3crTFEZDY+LDQZk07H8un7gCSs0jyCQJrGYkV=Q@mail.gmail.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -72,121 +52,290 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Oct 02, 2023 at 07:35:06AM -0700, Doug Anderson wrote:
-> On Mon, Oct 2, 2023 at 5:09 AM Johan Hovold <johan@kernel.org> wrote:
+A recent commit reordered probe so that the interrupt line is now
+requested before making sure that the device exists.
 
-> > Out of curiosity, are there any machines that actually need this
-> > "panel-follower" API today, or are saying above that this is just
-> > something that may be needed one day?
-> 
-> Yes. See commit de0874165b83 ("drm/panel: Add a way for other devices
-> to follow panel state") where I point to Cong Yang's original patch
-> [1]. In that patch Cong was trying to make things work by assuming
-> probe ordering and manually taking some of the power sequencing stuff
-> out of some of the drivers in order to get things to work.
-> 
-> [1] https://lore.kernel.org/r/20230519032316.3464732-1-yangcong5@huaqin.corp-partner.google.com
+This breaks machines like the Lenovo ThinkPad X13s which rely on the
+HID driver to probe second-source devices and only register the variant
+that is actually populated. Specifically, the interrupt line may now
+already be (temporarily) claimed when doing asynchronous probing of the
+touchpad:
 
-Ok, thanks for the pointer.
+	genirq: Flags mismatch irq 191. 00082008 (hid-over-i2c) vs. 00082008 (hid-over-i2c)
+	i2c_hid_of 21-0015: Could not register for hid-over-i2c interrupt, irq = 191, ret = -16
+	i2c_hid_of: probe of 21-0015 failed with error -16
 
-> > > > Don't you need to keep the touchscreen powered to support wakeup events
-> > > > (e.g. when not closing the lid)?
-> > >
-> > > No. The only reason you'd use panel follower is if the hardware was
-> > > designed such that the touchscreen needed to be power sequenced with
-> > > the panel. If the touchscreen can stay powered when the panel is off
-> > > then it is, by definition, not a panel follower.
-> > >
-> > > For a laptop I don't think most people expect the touchscreen to stay
-> > > powered when the screen is off. I certainly wouldn't expect it. If the
-> > > screen was off and I wanted to interact with the device, I would hit a
-> > > key on the keyboard or touch the trackpad. When the people designing
-> > > sc7180-trogdor chose to have the display and touchscreen share a power
-> > > rail they made a conscious choice that they didn't need the
-> > > touchscreen active when the screen was off.
-> >
-> > Sure, but that's a policy decision and not something that should be
-> > hard-coded in our drivers.
-> 
-> If the touchscreen and panel can be powered separately then, sure,
-> it's a policy decision.
-> 
-> In the cases where the touchscreen and panel need to be powered
-> together I'd say it's more than a policy decision. Even if it wasn't,
-> you have to make _some_ decision in the kernel. One could also argue
-> that if you say that you're going to force the panel to be powered on
-> whenever the touchscreen is on then that's just as much of a policy
-> decision, isn't it?
+Fix this by restoring the old behaviour of first making sure the device
+exists before requesting the interrupt line.
 
-I get your point, but with runtime pm suspending the touchpad after a
-timeout it seems that would still be the most flexible alternative
-which allows deferring the decision whether to support wakeup on
-touch events to the user.
+Note that something like this should probably be implemented also for
+"panel followers", whose actual probe is currently effectively deferred
+until the DRM panel is probed (e.g. by powering down the device after
+making sure it exists and only then register it as a follower).
 
-> In any case, the fact that there is a shared power rail / shared power
-> sequence is because the hardware designer intended them to either be
-> both off or both on. Whenever I asked the EEs that designed these
-> boards about leaving the touchscreen on while turning the panel power
-> off they always looked at me incredulously and asked why I would ever
-> do that. Although we can work around the hardware by powering the
-> panel in order to allow the touchscreen to be on, it's just not the
-> intention.
+Fixes: 675cd877c952 ("HID: i2c-hid: Rearrange probe() to power things up later")
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+---
 
-I hear you, but users sometimes want do things with their hardware which
-may not have originally been intended (e.g. your kiosk example).
+Changes in v2
+ - initialise ihid->is_panel_follower sooner to avoid repeated property
+   lookups and so that it can be used consistently throughout the driver
+   for code that differs for "panel followers"
 
-> > > > But the main reason is still that requesting resources belongs in
-> > > > probe() and should not be deferred to some later random time where you
-> > > > cannot inform driver core of failures (e.g. for probe deferral if the
-> > > > interrupt controller is not yet available).
-> > >
-> > > OK, I guess the -EPROBE_DEFER is technically possible though probably
-> > > not likely in practice. ...so that's a good reason to make sure we
-> > > request the IRQ in probe even in the "panel follower" case. I still
-> > > beleive Benjamin would prefer that this was abstracted out and not in
-> > > the actual probe() routine, but I guess we can wait to hear from him.
-> >
-> > I talked to Benjamin at Kernel Recipes last week and I don't think he
-> > has any fundamental objections to the fix I'm proposing.
-> 
-> Sure. I don't either though I'm hoping that we can come up with a more
-> complete solution long term.
-> 
-> 
-> > I prefer it as it makes the code easier to reason about and clearly
-> > marks the code paths that differ in case the device is a "panel
-> > follower". And since you said it also makes the code look more like what
-> > you originally intended, then I guess you should be ok with it too?
-> 
-> It looks OK to me. The biggest objection I have is just that I dislike
-> it when code churns because two people disagree what the nicer style
-> is. It just makes for bigger diffs and more work to review things.
+Link to v1: https://lore.kernel.org/lkml/20230918125851.310-1-johan+linaro@kernel.org/
 
-Ok, but this isn't just about style as that initial_power_on() function
-which does all the magic needs to be broken up to fix the regression
-(unless you want to convolute the driver and defer resource lookups
-until panel power-on).
 
-I'll respin a v2 with that panel-property lookup change I mentioned and
-hopefully we can get this fixed this week.
+ drivers/hid/i2c-hid/i2c-hid-core.c | 144 ++++++++++++++++-------------
+ 1 file changed, 81 insertions(+), 63 deletions(-)
 
-> > > One last idea I had while digging would be to wonder if we could
-> > > somehow solve this case with "IRQF_PROBE_SHARED". I guess that doesn't
-> > > work well together with "IRQF_NO_AUTOEN", but conceivably we could
-> > > have the interrupt handler return "IRQ_NONE" if the initial power up
-> > > never happened? I haven't spent much time poking with shared
-> > > interrupts though, so I don't know if there are other side effects...
-> >
-> > Yeah, that doesn't seem right, though. The interrupt line is not really
-> > shared, it's just that we need to check whether the device is populated
-> > before requesting the interrupt.
-> 
-> I'm not convinced that marking it as shared is any "less right" than
-> extra work to request the interrupt after we've probed the device.
-> Fundamentally both are taking into account that another touchscreen
-> might be trying to probe with the same interrupt line.
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index 9601c0605fd9..2735cd585af0 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -998,45 +998,29 @@ static int i2c_hid_core_resume(struct i2c_hid *ihid)
+ 	return hid_driver_reset_resume(hid);
+ }
+ 
+-/**
+- * __do_i2c_hid_core_initial_power_up() - First time power up of the i2c-hid device.
+- * @ihid: The ihid object created during probe.
+- *
+- * This function is called at probe time.
+- *
+- * The initial power on is where we do some basic validation that the device
+- * exists, where we fetch the HID descriptor, and where we create the actual
+- * HID devices.
+- *
+- * Return: 0 or error code.
++/*
++ * Check that the device exists and parse the HID descriptor.
+  */
+-static int __do_i2c_hid_core_initial_power_up(struct i2c_hid *ihid)
++static int __i2c_hid_core_probe(struct i2c_hid *ihid)
+ {
+ 	struct i2c_client *client = ihid->client;
+ 	struct hid_device *hid = ihid->hid;
+ 	int ret;
+ 
+-	ret = i2c_hid_core_power_up(ihid);
+-	if (ret)
+-		return ret;
+-
+ 	/* Make sure there is something at this address */
+ 	ret = i2c_smbus_read_byte(client);
+ 	if (ret < 0) {
+ 		i2c_hid_dbg(ihid, "nothing at this address: %d\n", ret);
+-		ret = -ENXIO;
+-		goto err;
++		return -ENXIO;
+ 	}
+ 
+ 	ret = i2c_hid_fetch_hid_descriptor(ihid);
+ 	if (ret < 0) {
+ 		dev_err(&client->dev,
+ 			"Failed to fetch the HID Descriptor\n");
+-		goto err;
++		return ret;
+ 	}
+ 
+-	enable_irq(client->irq);
+-
+ 	hid->version = le16_to_cpu(ihid->hdesc.bcdVersion);
+ 	hid->vendor = le16_to_cpu(ihid->hdesc.wVendorID);
+ 	hid->product = le16_to_cpu(ihid->hdesc.wProductID);
+@@ -1050,17 +1034,49 @@ static int __do_i2c_hid_core_initial_power_up(struct i2c_hid *ihid)
+ 
+ 	ihid->quirks = i2c_hid_lookup_quirk(hid->vendor, hid->product);
+ 
++	return 0;
++}
++
++static int i2c_hid_core_register_hid(struct i2c_hid *ihid)
++{
++	struct i2c_client *client = ihid->client;
++	struct hid_device *hid = ihid->hid;
++	int ret;
++
++	enable_irq(client->irq);
++
+ 	ret = hid_add_device(hid);
+ 	if (ret) {
+ 		if (ret != -ENODEV)
+ 			hid_err(client, "can't add hid device: %d\n", ret);
+-		goto err;
++		disable_irq(client->irq);
++		return ret;
+ 	}
+ 
+ 	return 0;
++}
++
++static int i2c_hid_core_probe_panel_follower(struct i2c_hid *ihid)
++{
++	int ret;
++
++	ret = i2c_hid_core_power_up(ihid);
++	if (ret)
++		return ret;
+ 
+-err:
++	ret = __i2c_hid_core_probe(ihid);
++	if (ret)
++		goto err_power_down;
++
++	ret = i2c_hid_core_register_hid(ihid);
++	if (ret)
++		goto err_power_down;
++
++	return 0;
++
++err_power_down:
+ 	i2c_hid_core_power_down(ihid);
++
+ 	return ret;
+ }
+ 
+@@ -1077,7 +1093,7 @@ static void ihid_core_panel_prepare_work(struct work_struct *work)
+ 	 * steps.
+ 	 */
+ 	if (!hid->version)
+-		ret = __do_i2c_hid_core_initial_power_up(ihid);
++		ret = i2c_hid_core_probe_panel_follower(ihid);
+ 	else
+ 		ret = i2c_hid_core_resume(ihid);
+ 
+@@ -1136,7 +1152,6 @@ static int i2c_hid_core_register_panel_follower(struct i2c_hid *ihid)
+ 	struct device *dev = &ihid->client->dev;
+ 	int ret;
+ 
+-	ihid->is_panel_follower = true;
+ 	ihid->panel_follower.funcs = &i2c_hid_core_panel_follower_funcs;
+ 
+ 	/*
+@@ -1156,30 +1171,6 @@ static int i2c_hid_core_register_panel_follower(struct i2c_hid *ihid)
+ 	return 0;
+ }
+ 
+-static int i2c_hid_core_initial_power_up(struct i2c_hid *ihid)
+-{
+-	/*
+-	 * If we're a panel follower, we'll register and do our initial power
+-	 * up when the panel turns on; otherwise we do it right away.
+-	 */
+-	if (drm_is_panel_follower(&ihid->client->dev))
+-		return i2c_hid_core_register_panel_follower(ihid);
+-	else
+-		return __do_i2c_hid_core_initial_power_up(ihid);
+-}
+-
+-static void i2c_hid_core_final_power_down(struct i2c_hid *ihid)
+-{
+-	/*
+-	 * If we're a follower, the act of unfollowing will cause us to be
+-	 * powered down. Otherwise we need to manually do it.
+-	 */
+-	if (ihid->is_panel_follower)
+-		drm_panel_remove_follower(&ihid->panel_follower);
+-	else
+-		i2c_hid_core_suspend(ihid, true);
+-}
+-
+ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+ 		       u16 hid_descriptor_address, u32 quirks)
+ {
+@@ -1211,6 +1202,7 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+ 	ihid->ops = ops;
+ 	ihid->client = client;
+ 	ihid->wHIDDescRegister = cpu_to_le16(hid_descriptor_address);
++	ihid->is_panel_follower = drm_is_panel_follower(&client->dev);
+ 
+ 	init_waitqueue_head(&ihid->wait);
+ 	mutex_init(&ihid->reset_lock);
+@@ -1224,14 +1216,10 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+ 		return ret;
+ 	device_enable_async_suspend(&client->dev);
+ 
+-	ret = i2c_hid_init_irq(client);
+-	if (ret < 0)
+-		goto err_buffers_allocated;
+-
+ 	hid = hid_allocate_device();
+ 	if (IS_ERR(hid)) {
+ 		ret = PTR_ERR(hid);
+-		goto err_irq;
++		goto err_free_buffers;
+ 	}
+ 
+ 	ihid->hid = hid;
+@@ -1242,19 +1230,42 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+ 	hid->bus = BUS_I2C;
+ 	hid->initial_quirks = quirks;
+ 
+-	ret = i2c_hid_core_initial_power_up(ihid);
++	/* Power on and probe unless device is a panel follower. */
++	if (!ihid->is_panel_follower) {
++		ret = i2c_hid_core_power_up(ihid);
++		if (ret < 0)
++			goto err_destroy_device;
++
++		ret = __i2c_hid_core_probe(ihid);
++		if (ret < 0)
++			goto err_power_down;
++	}
++
++	ret = i2c_hid_init_irq(client);
++	if (ret < 0)
++		goto err_power_down;
++
++	/*
++	 * If we're a panel follower, we'll register when the panel turns on;
++	 * otherwise we do it right away.
++	 */
++	if (ihid->is_panel_follower)
++		ret = i2c_hid_core_register_panel_follower(ihid);
++	else
++		ret = i2c_hid_core_register_hid(ihid);
+ 	if (ret)
+-		goto err_mem_free;
++		goto err_free_irq;
+ 
+ 	return 0;
+ 
+-err_mem_free:
+-	hid_destroy_device(hid);
+-
+-err_irq:
++err_free_irq:
+ 	free_irq(client->irq, ihid);
+-
+-err_buffers_allocated:
++err_power_down:
++	if (!ihid->is_panel_follower)
++		i2c_hid_core_power_down(ihid);
++err_destroy_device:
++	hid_destroy_device(hid);
++err_free_buffers:
+ 	i2c_hid_free_buffers(ihid);
+ 
+ 	return ret;
+@@ -1266,7 +1277,14 @@ void i2c_hid_core_remove(struct i2c_client *client)
+ 	struct i2c_hid *ihid = i2c_get_clientdata(client);
+ 	struct hid_device *hid;
+ 
+-	i2c_hid_core_final_power_down(ihid);
++	/*
++	 * If we're a follower, the act of unfollowing will cause us to be
++	 * powered down. Otherwise we need to manually do it.
++	 */
++	if (ihid->is_panel_follower)
++		drm_panel_remove_follower(&ihid->panel_follower);
++	else
++		i2c_hid_core_suspend(ihid, true);
+ 
+ 	hid = ihid->hid;
+ 	hid_destroy_device(hid);
+-- 
+2.41.0
 
-If you need to start to thinking about rewriting your interrupt handler,
-I'd say that qualifies as "less right". ;)
-
-Johan
