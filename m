@@ -2,98 +2,151 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16ABA7B7185
-	for <lists+linux-input@lfdr.de>; Tue,  3 Oct 2023 21:07:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEB017B72F9
+	for <lists+linux-input@lfdr.de>; Tue,  3 Oct 2023 23:02:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240875AbjJCTHO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Oct 2023 15:07:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56560 "EHLO
+        id S232152AbjJCVCF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Oct 2023 17:02:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240854AbjJCTHO (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Oct 2023 15:07:14 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCB5CB7;
-        Tue,  3 Oct 2023 12:07:09 -0700 (PDT)
-Received: from fabians-envy.localnet ([84.177.92.38]) by
- mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MVv4X-1rDDg82zZ7-00RsGI; Tue, 03 Oct 2023 21:07:01 +0200
-From:   Fabian Vogt <fabian@ritter-vogt.de>
-To:     Jiri Kosina <jikos@kernel.org>,
+        with ESMTP id S231195AbjJCVCF (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Oct 2023 17:02:05 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42C57AD
+        for <linux-input@vger.kernel.org>; Tue,  3 Oct 2023 14:02:02 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-d86dac81f8fso1797385276.1
+        for <linux-input@vger.kernel.org>; Tue, 03 Oct 2023 14:02:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1696366921; x=1696971721; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=9OlLlHc2AYiWsThRdc3PqfHZGtUph4N7so6saZ8WNZY=;
+        b=ciA6jMiVZFrxHCY0rquKorgXufiRCKFG+cQDCTz4GBxmMwnxBGra5kD71Lyua9/LEi
+         6Vji2YdIcbe2T3YpCqlgBjKdohwq06Np+VeUXKZCA7d4ZXUvuYkO8jSRM/KRQI+dk+K3
+         0k8LGAC+4Ploy6UYT9q5msGBCcgHdyKcPcYxDRFbeEzcRVKbcpGCoXDuEu6BvDBn+2JF
+         ppXmGYR5cJQjzvutGY07sWIW5jRA52qLMuB0Fk3Q9dnG5FlqUbj9MeoV/ybTd3sc6gDv
+         eOO3TjpMd9mpOmo69LIfZWGppkvhsfEi5LeKDTz6VEwo4HkolvKbB2pihoJeDxkMHdqq
+         oy5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696366921; x=1696971721;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9OlLlHc2AYiWsThRdc3PqfHZGtUph4N7so6saZ8WNZY=;
+        b=o+1ulvpsTo2gtGf2mTQ0WH35kOlGh4DuyTqoktCLJQXxyIYaaisdwsQ2EE2sUMtYEe
+         f9CR/0GX09Ul41SgbR3fRgGvL4Cmf95NYA1Q7Pqj4+Y85dfjJFEbkRJjtyVA3yaOLZVc
+         tqH4HQJokWmRgTakEhKG8Bs2c4ekJU8qOzCpwHS1t9LHN1zm/YIyW2ZlMk+Krbgtngyr
+         QkBgFfrZLpIQYzA6VBx8k7/iE13zsjgVVC/ZX9zC4AwgZVQrsbhwvNbksVd/TppdiZ0z
+         65V9jewry63LJHm/yLL6hFN1xCsrc0iK+nSTsfi5dImAQ4eeg8XdUzSVNclWJyT/Zcj1
+         XOyA==
+X-Gm-Message-State: AOJu0YxUPaRbNaujgqX3EVdvX3r/Immo5QUqnmqSHTizvudtLxT6tZTy
+        YjZ3DPiUQlsRaHXm9o4q4es0raDa6M8x+Rvhcg==
+X-Google-Smtp-Source: AGHT+IGI158dW+NTAxIrRXdLLEfJH1mjzfkpBb1kd0Unh+SwwUQRS9YHJxm2lmimr4dpsxqJq3mX6DWEeBXweRzNRg==
+X-Received: from jstitt-linux1.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:23b5])
+ (user=justinstitt job=sendgmr) by 2002:a05:6902:212:b0:d89:b072:d06f with
+ SMTP id j18-20020a056902021200b00d89b072d06fmr6867ybs.7.1696366921501; Tue,
+ 03 Oct 2023 14:02:01 -0700 (PDT)
+Date:   Tue, 03 Oct 2023 21:01:58 +0000
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAEWBHGUC/42NQQqDMBBFryKz7pRErbVd9R7FhWRGHWiNTGyoi
+ Hdv9ATlw4f3F++vEFiFA9yzFZSjBPFjgvyUgRvasWcUSgy5yQtzsyWGWUc3LUgqkTXgIISfvRy
+ 2ZXXpCr7WJREkwaTcyfeQP5vEg4TZ63J8Rbuvf2mjxZS6tTdjKkM1PXrv+xefnX9Ds23bD8box cjFAAAA
+X-Developer-Key: i=justinstitt@google.com; a=ed25519; pk=tC3hNkJQTpNX/gLKxTNQKDmiQl6QjBNCGKJINqAdJsE=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1696366920; l=2843;
+ i=justinstitt@google.com; s=20230717; h=from:subject:message-id;
+ bh=fPTrIY2uQ734r/+gbDBG2QG/Vp0F9Llz6laPStW03L4=; b=ix0M1cN1JC7FZ8ld1+Vt91xRDUNU/CZiyhxc6Hf8g7BcWGtYE678ITzZyYtAutza+nAvpgGHn
+ s6qhBc5/ZwzB9TsSz7H51MzEGlkeJtCYd7EQ/PpJ8q9tWFPBbpbOjWN
+X-Mailer: b4 0.12.3
+Message-ID: <20231003-strncpy-drivers-hid-uhid-c-v2-1-6a501402581e@google.com>
+Subject: [PATCH v2] HID: uhid: replace deprecated strncpy with strscpy
+From:   Justin Stitt <justinstitt@google.com>
+To:     David Rheinsberg <david@readahead.eu>,
+        Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: Add quirk to ignore the touchscreen battery on HP ENVY
- 15-eu0556ng
-Date:   Tue, 03 Oct 2023 21:07:00 +0200
-Message-ID: <4537226.LvFx2qVVIh@fabians-envy>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:6/bSl0GhbFvOJLdGRjw2uoW+LTJqqIhl8zbVzb0If4Zp+E66czE
- z0ufViNhmJdjdf5UaipN3qhvVNaZvEa36+HcIWNp1YBQeF8NRLPrCU7WWNZusNUC5dlVws1
- jpOR3qIZYORA3o+y0a5koNL448XTboJ1Po0mi21Jo53jNivJqXizhwNNSyMFzG/sEbcD3fE
- aw1iOjLRSDc5nxDn4wutw==
-UI-OutboundReport: notjunk:1;M01:P0:uuS7Q6s66iE=;OYS7ZZD1k+3WOSTUJyYVBzwAjEa
- ElQ1E6W3xPzJmtVu/ei0kRhiaqG+FQGaWsCYf9MCmfy4dSiuQPiqDt+5CcjoqNYQg6MsVlPn0
- zmqbTmvBsBBkKPszF/s2SEg6l4OZaSJoNr4v0ehiw851EU5KG/QfjCZzlkRcc102rLAynPtPW
- Mm0WqsAYzHCK/Vo/1va/6FU0CU8U+YcNzNYQSbh3hWL7r4SOVw60bIpkSiOZn0bWuebyRTF/Y
- tKIbgBuipeBefrzErqwhg7foAu1PTIBfpwhdITWGUDEmfpTJw8AxdBA1rsJvJssjK7jzwrKBH
- RpPiahYiz2Izxs/518WOT6CMB7KF57kvModzT/JIRjHahekxUxBZBRWWFcSdGuKaf+xHNkGQj
- vDYSai5dnlMPzh16+757QmPa5nlc39lQLMJKa1OSdJWjFqs1T8AJE3RVXxsPidPU6Dt5YTVDl
- qtVRUmTu73uxl3mEmRsvIaV5hnhVQ9R4FIenpF32j3RLc4WgzQXUlT326i9M3TOP5GmgCb18t
- GMm1iuAC6XB+A4fM/8BHMPsbE5U9YVEwpkDcjz8zn3EGIF6K8g24i2iG8nUSD8O2584aKacQV
- 0nOIx31+NQ+EB4eUhZRUY5uijqIjuaCLZSL2yniR5zcZRZLOyEueFolQATFuzoJPuzP9kSvgV
- ZmZj2Rzs21oBU6jjz8EjaM8RZsw4iV6q4XBNMOtOxCF0YiYGOF6bLtl4veGizjDTtBeDz5SIF
- pUv60JI75w4+hm08f2obkq+ZxWcGAZIGjVXe5w3i5VhvM8SUwC1Gz2LHGl2+a5lkPgzfJO9j/
- blizskXN/b5kN4AakU3nVUvpK/15lvgCpmiY2uiVNbgkWi69alJmFTtl58ZPDR3MzvuUCiS22
- XgQHmS04EjzlNcT9yeGKzKFCL5Z2FvSMsgo8=
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Cc:     linux-input@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        linux-kernel@vger.kernel.org,
+        David Rheinsberg <david@readahead.eu>,
+        linux-hardening@vger.kernel.org,
+        Justin Stitt <justinstitt@google.com>
+Content-Type: text/plain; charset="utf-8"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Like various other devices using similar hardware, this model reports a
-perpetually empty battery (0-1%).
+`strncpy` is deprecated for use on NUL-terminated destination strings
+[1] and as such we should prefer more robust and less ambiguous string
+interfaces.
 
-Join the others and apply HID_BATTERY_QUIRK_IGNORE.
+A suitable replacement is `strscpy` [2] due to the fact that it
+guarantees NUL-termination on the destination buffer without
+unnecessarily NUL-padding.
 
-Signed-off-by: Fabian Vogt <fabian@ritter-vogt.de>
+Furthermore, let's make sure `hid->xyz` and `ev->u.create2.xyz` are the
+same size at compile time to prevent silent truncation.
+
+With these changes, it is abundantly clear what the intent and behavior
+of the code is -- We are getting a string to string copy with
+NUL-termination and no truncation.
+
+Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
+Link: https://github.com/KSPP/linux/issues/90
+Cc: linux-hardening@vger.kernel.org
+Cc: Kees Cook <keescook@chromium.org>
+Signed-off-by: Justin Stitt <justinstitt@google.com>
 ---
- drivers/hid/hid-ids.h   | 1 +
- drivers/hid/hid-input.c | 2 ++
- 2 files changed, 3 insertions(+)
+Changes in v2:
+- update subject + commit message (thanks Kees)
+- use BUILD_BUG_ON size mismatch (thanks Kees and David)
+- Link to v1: https://lore.kernel.org/r/20230914-strncpy-drivers-hid-uhid-c-v1-1-18a190060d8d@google.com
+---
+ drivers/hid/uhid.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 7e499992a793..e4d2dfd5d253 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -425,6 +425,7 @@
- #define I2C_DEVICE_ID_HP_SPECTRE_X360_13T_AW100	0x29F5
- #define I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V1	0x2BED
- #define I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V2	0x2BEE
-+#define I2C_DEVICE_ID_HP_ENVY_X360_15_EU0556NG		0x2D02
+diff --git a/drivers/hid/uhid.c b/drivers/hid/uhid.c
+index 4588d2cd4ea4..a54c7995b9be 100644
+--- a/drivers/hid/uhid.c
++++ b/drivers/hid/uhid.c
+@@ -490,7 +490,7 @@ static int uhid_dev_create2(struct uhid_device *uhid,
+ 			    const struct uhid_event *ev)
+ {
+ 	struct hid_device *hid;
+-	size_t rd_size, len;
++	size_t rd_size;
+ 	void *rd_data;
+ 	int ret;
  
- #define USB_VENDOR_ID_ELECOM		0x056e
- #define USB_DEVICE_ID_ELECOM_BM084	0x0061
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 0235cc1690a1..c8b20d44b147 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -409,6 +409,8 @@ static const struct hid_device_id hid_battery_quirks[] = {
- 	  HID_BATTERY_QUIRK_IGNORE },
- 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V2),
- 	  HID_BATTERY_QUIRK_IGNORE },
-+	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15_EU0556NG),
-+	  HID_BATTERY_QUIRK_IGNORE },
- 	{}
- };
+@@ -514,13 +514,12 @@ static int uhid_dev_create2(struct uhid_device *uhid,
+ 		goto err_free;
+ 	}
  
--- 
-2.42.0
+-	/* @hid is zero-initialized, strncpy() is correct, strlcpy() not */
+-	len = min(sizeof(hid->name), sizeof(ev->u.create2.name)) - 1;
+-	strncpy(hid->name, ev->u.create2.name, len);
+-	len = min(sizeof(hid->phys), sizeof(ev->u.create2.phys)) - 1;
+-	strncpy(hid->phys, ev->u.create2.phys, len);
+-	len = min(sizeof(hid->uniq), sizeof(ev->u.create2.uniq)) - 1;
+-	strncpy(hid->uniq, ev->u.create2.uniq, len);
++	BUILD_BUG_ON(sizeof(hid->name) != sizeof(ev->u.create2.name));
++	strscpy(hid->name, ev->u.create2.name, sizeof(hid->name));
++	BUILD_BUG_ON(sizeof(hid->phys) != sizeof(ev->u.create2.phys));
++	strscpy(hid->phys, ev->u.create2.phys, sizeof(hid->phys));
++	BUILD_BUG_ON(sizeof(hid->uniq) != sizeof(ev->u.create2.uniq));
++	strscpy(hid->uniq, ev->u.create2.uniq, sizeof(hid->uniq));
+ 
+ 	hid->ll_driver = &uhid_hid_driver;
+ 	hid->bus = ev->u.create2.bus;
 
+---
+base-commit: 3669558bdf354cd352be955ef2764cde6a9bf5ec
+change-id: 20230914-strncpy-drivers-hid-uhid-c-a465f3e784dd
 
-
+Best regards,
+--
+Justin Stitt <justinstitt@google.com>
 
