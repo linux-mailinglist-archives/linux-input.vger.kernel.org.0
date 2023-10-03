@@ -2,151 +2,140 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AEB017B72F9
-	for <lists+linux-input@lfdr.de>; Tue,  3 Oct 2023 23:02:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0ED07B738A
+	for <lists+linux-input@lfdr.de>; Tue,  3 Oct 2023 23:52:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232152AbjJCVCF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Oct 2023 17:02:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42740 "EHLO
+        id S232049AbjJCVwk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Oct 2023 17:52:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231195AbjJCVCF (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Oct 2023 17:02:05 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42C57AD
-        for <linux-input@vger.kernel.org>; Tue,  3 Oct 2023 14:02:02 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-d86dac81f8fso1797385276.1
-        for <linux-input@vger.kernel.org>; Tue, 03 Oct 2023 14:02:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1696366921; x=1696971721; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=9OlLlHc2AYiWsThRdc3PqfHZGtUph4N7so6saZ8WNZY=;
-        b=ciA6jMiVZFrxHCY0rquKorgXufiRCKFG+cQDCTz4GBxmMwnxBGra5kD71Lyua9/LEi
-         6Vji2YdIcbe2T3YpCqlgBjKdohwq06Np+VeUXKZCA7d4ZXUvuYkO8jSRM/KRQI+dk+K3
-         0k8LGAC+4Ploy6UYT9q5msGBCcgHdyKcPcYxDRFbeEzcRVKbcpGCoXDuEu6BvDBn+2JF
-         ppXmGYR5cJQjzvutGY07sWIW5jRA52qLMuB0Fk3Q9dnG5FlqUbj9MeoV/ybTd3sc6gDv
-         eOO3TjpMd9mpOmo69LIfZWGppkvhsfEi5LeKDTz6VEwo4HkolvKbB2pihoJeDxkMHdqq
-         oy5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696366921; x=1696971721;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9OlLlHc2AYiWsThRdc3PqfHZGtUph4N7so6saZ8WNZY=;
-        b=o+1ulvpsTo2gtGf2mTQ0WH35kOlGh4DuyTqoktCLJQXxyIYaaisdwsQ2EE2sUMtYEe
-         f9CR/0GX09Ul41SgbR3fRgGvL4Cmf95NYA1Q7Pqj4+Y85dfjJFEbkRJjtyVA3yaOLZVc
-         tqH4HQJokWmRgTakEhKG8Bs2c4ekJU8qOzCpwHS1t9LHN1zm/YIyW2ZlMk+Krbgtngyr
-         QkBgFfrZLpIQYzA6VBx8k7/iE13zsjgVVC/ZX9zC4AwgZVQrsbhwvNbksVd/TppdiZ0z
-         65V9jewry63LJHm/yLL6hFN1xCsrc0iK+nSTsfi5dImAQ4eeg8XdUzSVNclWJyT/Zcj1
-         XOyA==
-X-Gm-Message-State: AOJu0YxUPaRbNaujgqX3EVdvX3r/Immo5QUqnmqSHTizvudtLxT6tZTy
-        YjZ3DPiUQlsRaHXm9o4q4es0raDa6M8x+Rvhcg==
-X-Google-Smtp-Source: AGHT+IGI158dW+NTAxIrRXdLLEfJH1mjzfkpBb1kd0Unh+SwwUQRS9YHJxm2lmimr4dpsxqJq3mX6DWEeBXweRzNRg==
-X-Received: from jstitt-linux1.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:23b5])
- (user=justinstitt job=sendgmr) by 2002:a05:6902:212:b0:d89:b072:d06f with
- SMTP id j18-20020a056902021200b00d89b072d06fmr6867ybs.7.1696366921501; Tue,
- 03 Oct 2023 14:02:01 -0700 (PDT)
-Date:   Tue, 03 Oct 2023 21:01:58 +0000
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAEWBHGUC/42NQQqDMBBFryKz7pRErbVd9R7FhWRGHWiNTGyoi
- Hdv9ATlw4f3F++vEFiFA9yzFZSjBPFjgvyUgRvasWcUSgy5yQtzsyWGWUc3LUgqkTXgIISfvRy
- 2ZXXpCr7WJREkwaTcyfeQP5vEg4TZ63J8Rbuvf2mjxZS6tTdjKkM1PXrv+xefnX9Ds23bD8box cjFAAAA
-X-Developer-Key: i=justinstitt@google.com; a=ed25519; pk=tC3hNkJQTpNX/gLKxTNQKDmiQl6QjBNCGKJINqAdJsE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1696366920; l=2843;
- i=justinstitt@google.com; s=20230717; h=from:subject:message-id;
- bh=fPTrIY2uQ734r/+gbDBG2QG/Vp0F9Llz6laPStW03L4=; b=ix0M1cN1JC7FZ8ld1+Vt91xRDUNU/CZiyhxc6Hf8g7BcWGtYE678ITzZyYtAutza+nAvpgGHn
- s6qhBc5/ZwzB9TsSz7H51MzEGlkeJtCYd7EQ/PpJ8q9tWFPBbpbOjWN
-X-Mailer: b4 0.12.3
-Message-ID: <20231003-strncpy-drivers-hid-uhid-c-v2-1-6a501402581e@google.com>
-Subject: [PATCH v2] HID: uhid: replace deprecated strncpy with strscpy
-From:   Justin Stitt <justinstitt@google.com>
-To:     David Rheinsberg <david@readahead.eu>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        linux-kernel@vger.kernel.org,
-        David Rheinsberg <david@readahead.eu>,
-        linux-hardening@vger.kernel.org,
-        Justin Stitt <justinstitt@google.com>
-Content-Type: text/plain; charset="utf-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S241276AbjJCVwg (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Oct 2023 17:52:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D08ADA6
+        for <linux-input@vger.kernel.org>; Tue,  3 Oct 2023 14:51:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1696369910;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=an+lQDwTiwVWgqHiVFuqjDaLV+DbbeMPouHGFWrF+tc=;
+        b=OeTgJB4F6/ZnUuqI/pomfaHrFk3vFUYLJlOhHpU8o4+ZeyLSHJnHquX3fBaGoQXWSg5ARl
+        JdxXP7Q6DvRve5iTHkDHTSuz4hVmgPHBx3pc42x4XOWiWS48+38GhcUDaMxZPBxvNNoGmk
+        zne9FWMrSQjP5j1dnu6x7djbnxKBd4s=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-55--xzgmoQUM5WJS-djq33quQ-1; Tue, 03 Oct 2023 17:51:46 -0400
+X-MC-Unique: -xzgmoQUM5WJS-djq33quQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5ADA83821347;
+        Tue,  3 Oct 2023 21:51:46 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.82])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8F57D2156701;
+        Tue,  3 Oct 2023 21:51:45 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        linux-input@vger.kernel.org, Michael Smith <1973.mjsmith@gmail.com>
+Subject: [PATCH] Input: goodix - Ensure int GPIO is in input for gpio_count == 1 && gpio_int_idx == 0 case
+Date:   Tue,  3 Oct 2023 23:51:44 +0200
+Message-ID: <20231003215144.69527-1-hdegoede@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-`strncpy` is deprecated for use on NUL-terminated destination strings
-[1] and as such we should prefer more robust and less ambiguous string
-interfaces.
+Add a special case for gpio_count == 1 && gpio_int_idx == 0 to
+goodix_add_acpi_gpio_mappings().
 
-A suitable replacement is `strscpy` [2] due to the fact that it
-guarantees NUL-termination on the destination buffer without
-unnecessarily NUL-padding.
+It seems that on newer x86/ACPI devices the reset and irq GPIOs are no
+longer listed as GPIO resources instead there is only 1 GpioInt resource
+and _PS0 does the whole reset sequence for us.
 
-Furthermore, let's make sure `hid->xyz` and `ev->u.create2.xyz` are the
-same size at compile time to prevent silent truncation.
+This means that we must call acpi_device_fix_up_power() on these devices
+to ensure that the chip is reset before we try to use it.
 
-With these changes, it is abundantly clear what the intent and behavior
-of the code is -- We are getting a string to string copy with
-NUL-termination and no truncation.
+This part was already fixed in commit 3de93e6ed2df ("Input: goodix - call
+acpi_device_fix_up_power() in some cases") by adding a call to
+acpi_device_fix_up_power() to the generic "Unexpected ACPI resources"
+catch all.
 
-Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
-Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
-Link: https://github.com/KSPP/linux/issues/90
-Cc: linux-hardening@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>
-Signed-off-by: Justin Stitt <justinstitt@google.com>
+But it turns out that this case on some hw needs some more special
+handling. Specifically the firmware may bootup with the IRQ pin in
+output mode. The reset sequence from ACPI _PS0 (executed by
+acpi_device_fix_up_power()) should put the pin in input mode,
+but the GPIO subsystem has cached the direction at bootup, causing
+request_irq() to fail due to gpiochip_lock_as_irq() failure:
+
+[    9.119864] Goodix-TS i2c-GDIX1002:00: Unexpected ACPI resources: gpio_count 1, gpio_int_idx 0
+[    9.317443] Goodix-TS i2c-GDIX1002:00: ID 911, version: 1060
+[    9.321902] input: Goodix Capacitive TouchScreen as /devices/pci0000:00/0000:00:17.0/i2c_designware.4/i2c-5/i2c-GDIX1002:00/input/input8
+[    9.327840] gpio gpiochip0: (INT3453:00): gpiochip_lock_as_irq: tried to flag a GPIO set as output for IRQ
+[    9.327856] gpio gpiochip0: (INT3453:00): unable to lock HW IRQ 26 for IRQ
+[    9.327861] genirq: Failed to request resources for GDIX1002:00 (irq 131) on irqchip intel-gpio
+[    9.327912] Goodix-TS i2c-GDIX1002:00: request IRQ failed: -5
+
+Fix this by adding a special case for gpio_count == 1 && gpio_int_idx == 0
+which adds an ACPI GPIO lookup table for the int GPIO even though we cannot
+use it for reset purposes (as there is no reset GPIO).
+
+Adding the lookup will make the gpiod_int = gpiod_get(..., GPIOD_IN) call
+succeed, which will explicitly set the direction to input fixing the issue.
+
+Note this re-uses the acpi_goodix_int_first_gpios[] lookup table, since
+there is only 1 GPIO in the ACPI resources the reset entry in that
+lookup table will amount to a no-op.
+
+Reported-and-tested-by: Michael Smith <1973.mjsmith@gmail.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
-Changes in v2:
-- update subject + commit message (thanks Kees)
-- use BUILD_BUG_ON size mismatch (thanks Kees and David)
-- Link to v1: https://lore.kernel.org/r/20230914-strncpy-drivers-hid-uhid-c-v1-1-18a190060d8d@google.com
+- No Closes tag as this was reported by private email
 ---
- drivers/hid/uhid.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ drivers/input/touchscreen/goodix.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/hid/uhid.c b/drivers/hid/uhid.c
-index 4588d2cd4ea4..a54c7995b9be 100644
---- a/drivers/hid/uhid.c
-+++ b/drivers/hid/uhid.c
-@@ -490,7 +490,7 @@ static int uhid_dev_create2(struct uhid_device *uhid,
- 			    const struct uhid_event *ev)
- {
- 	struct hid_device *hid;
--	size_t rd_size, len;
-+	size_t rd_size;
- 	void *rd_data;
- 	int ret;
- 
-@@ -514,13 +514,12 @@ static int uhid_dev_create2(struct uhid_device *uhid,
- 		goto err_free;
- 	}
- 
--	/* @hid is zero-initialized, strncpy() is correct, strlcpy() not */
--	len = min(sizeof(hid->name), sizeof(ev->u.create2.name)) - 1;
--	strncpy(hid->name, ev->u.create2.name, len);
--	len = min(sizeof(hid->phys), sizeof(ev->u.create2.phys)) - 1;
--	strncpy(hid->phys, ev->u.create2.phys, len);
--	len = min(sizeof(hid->uniq), sizeof(ev->u.create2.uniq)) - 1;
--	strncpy(hid->uniq, ev->u.create2.uniq, len);
-+	BUILD_BUG_ON(sizeof(hid->name) != sizeof(ev->u.create2.name));
-+	strscpy(hid->name, ev->u.create2.name, sizeof(hid->name));
-+	BUILD_BUG_ON(sizeof(hid->phys) != sizeof(ev->u.create2.phys));
-+	strscpy(hid->phys, ev->u.create2.phys, sizeof(hid->phys));
-+	BUILD_BUG_ON(sizeof(hid->uniq) != sizeof(ev->u.create2.uniq));
-+	strscpy(hid->uniq, ev->u.create2.uniq, sizeof(hid->uniq));
- 
- 	hid->ll_driver = &uhid_hid_driver;
- 	hid->bus = ev->u.create2.bus;
-
----
-base-commit: 3669558bdf354cd352be955ef2764cde6a9bf5ec
-change-id: 20230914-strncpy-drivers-hid-uhid-c-a465f3e784dd
-
-Best regards,
---
-Justin Stitt <justinstitt@google.com>
+diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+index da9954d6df44..af32fbe57b63 100644
+--- a/drivers/input/touchscreen/goodix.c
++++ b/drivers/input/touchscreen/goodix.c
+@@ -900,6 +900,25 @@ static int goodix_add_acpi_gpio_mappings(struct goodix_ts_data *ts)
+ 		dev_info(dev, "No ACPI GpioInt resource, assuming that the GPIO order is reset, int\n");
+ 		ts->irq_pin_access_method = IRQ_PIN_ACCESS_ACPI_GPIO;
+ 		gpio_mapping = acpi_goodix_int_last_gpios;
++	} else if (ts->gpio_count == 1 && ts->gpio_int_idx == 0) {
++		/*
++		 * On newer devices there is only 1 GpioInt resource and _PS0
++		 * does the whole reset sequence for us.
++		 */
++		acpi_device_fix_up_power(ACPI_COMPANION(dev));
++
++		/*
++		 * Before the _PS0 call the int GPIO may have been in output
++		 * mode and the call should have put the int GPIO in input mode,
++		 * but the GPIO subsys cached state may still think it is
++		 * in output mode, causing gpiochip_lock_as_irq() failure.
++		 *
++		 * Add a mapping for the int GPIO to make the
++		 * gpiod_int = gpiod_get(..., GPIOD_IN) call succeed,
++		 * which will explicitly set the direction to input.
++		 */
++		ts->irq_pin_access_method = IRQ_PIN_ACCESS_NONE;
++		gpio_mapping = acpi_goodix_int_first_gpios;
+ 	} else {
+ 		dev_warn(dev, "Unexpected ACPI resources: gpio_count %d, gpio_int_idx %d\n",
+ 			 ts->gpio_count, ts->gpio_int_idx);
+-- 
+2.41.0
 
