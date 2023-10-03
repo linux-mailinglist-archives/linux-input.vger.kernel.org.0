@@ -2,90 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 933987B68CD
-	for <lists+linux-input@lfdr.de>; Tue,  3 Oct 2023 14:16:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C73737B6A98
+	for <lists+linux-input@lfdr.de>; Tue,  3 Oct 2023 15:35:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232216AbjJCMQi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Oct 2023 08:16:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43332 "EHLO
+        id S230371AbjJCNfm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Oct 2023 09:35:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240122AbjJCMQg (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Oct 2023 08:16:36 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9254B3;
-        Tue,  3 Oct 2023 05:16:30 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E225C433C7;
-        Tue,  3 Oct 2023 12:16:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696335390;
-        bh=vCrLxVUxU041GfPbftQx8SOAL0xg3U3haI1Bam2Yye4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PoXGdtJ8lRr4pQtqvMOyQ9SENiaNq/lE6t5pVEd1JZqq1BP9C/b0Dd5T3UmB5wwE4
-         gE1YJcr5QYKiJKLWf2JjPS8LlYfTbpHghXlqZYN1cqqQ0Zbw77FtQnxMt+ovYwiKwb
-         KbQnXtCyiosh95L8+n4GsVuEP0PNegshh4ota7YUNMnuCTOEXEPrC1mjLaBaGK2CWJ
-         XDMMPfEpSuB5LTrUAGVHEioAJrLQao+NPJcLLBi4mBOK8vqmwoK/XksGMBhQkXhI8B
-         3nGrejfSODOZTVKZzJe96aCsnw5Fjdqxz/Bbq9aOVrGTJYPqEpClMQrfRtstK9O0jY
-         qvCJ/dMscdxow==
-Date:   Tue, 3 Oct 2023 13:16:26 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] Input: cap11xx - Convert to use maple tree register
- cache
-Message-ID: <e2a9124d-29de-4116-8b03-532a17b563d1@sirena.org.uk>
-References: <20231001-input-maple-v1-0-ed3716051431@kernel.org>
- <20231001-input-maple-v1-2-ed3716051431@kernel.org>
- <ZRux0yLPxZGLNF5A@google.com>
+        with ESMTP id S231627AbjJCNfl (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Oct 2023 09:35:41 -0400
+Received: from nikam.ms.mff.cuni.cz (nikam.ms.mff.cuni.cz [195.113.20.16])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88597A6;
+        Tue,  3 Oct 2023 06:35:37 -0700 (PDT)
+Received: from gimli.ms.mff.cuni.cz (gimli.ms.mff.cuni.cz [195.113.20.176])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by nikam.ms.mff.cuni.cz (Postfix) with ESMTPS id 76537284EB5;
+        Tue,  3 Oct 2023 15:35:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gimli.ms.mff.cuni.cz;
+        s=gen1; t=1696340134;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=B4vTHC41c5OG36z6s8T2SbcOR+HJgCfAGARZnZUjEAE=;
+        b=VBOMG7Q81Jman43aAtHd0D7FWgWK9uNi9aK2KNa84U0a0n99AsmTQB6iKZfHUUOg906Up/
+        nIW/pq22xKx+ivGtYFKZrrUgMqChcPLqzvAZHoQgZTNo9unTPT5gi+ZJNgJEojI/ItnXEi
+        SlbuoJIxlgpl2tOYRNn8wYEAUZRqrTs=
+Received: from localhost (koleje-wifi-0029.koleje.cuni.cz [78.128.191.29])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: karelb)
+        by gimli.ms.mff.cuni.cz (Postfix) with ESMTPSA id 541BE441AC5;
+        Tue,  3 Oct 2023 15:35:34 +0200 (CEST)
+From:   karelb@gimli.ms.mff.cuni.cz
+To:     Markuss Broks <markuss.broks@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Cc:     =?UTF-8?q?Duje=20Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+        Karel Balej <karelb@gimli.ms.mff.cuni.cz>
+Subject: [PATCH v2 0/5] input/touchscreen: imagis: add support for IST3032C
+Date:   Tue,  3 Oct 2023 15:34:14 +0200
+Message-ID: <20231003133440.4696-1-karelb@gimli.ms.mff.cuni.cz>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="a4qbqoBOi+H7/gUI"
-Content-Disposition: inline
-In-Reply-To: <ZRux0yLPxZGLNF5A@google.com>
-X-Cookie: Oh Dad!  We're ALL Devo!
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+From: Karel Balej <karelb@gimli.ms.mff.cuni.cz>
 
---a4qbqoBOi+H7/gUI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This patch series generalizes the Imagis touchscreen driver to support
+other Imagis chips, namely IST3038B, which use a slightly different
+protocol.
 
-On Mon, Oct 02, 2023 at 11:16:51PM -0700, Dmitry Torokhov wrote:
-> On Sun, Oct 01, 2023 at 01:43:39AM +0200, Mark Brown wrote:
+It also adds necessary information to the driver so that the IST3032C
+touchscreen can be used with it. The motivation for this is the
+samsung,coreprimevelte smartphone with which this series has been
+tested. However, the support for this device is not yet in-tree, the
+effort is happening at [1]. In particular, the driver for the regulator
+needed by the touchscreen on this device has not been rewritten for
+mainline yet.
 
-> > -	.cache_type = REGCACHE_RBTREE,
-> > +	.cache_type = REGCACHE_MAPLE,
+[1] https://lore.kernel.org/all/20230812-pxa1908-lkml-v5-0-a5d51937ee34@skole.hr/
+---
+Changes in v2:
+- Do not rename the driver.
+- Do not hardcode voltage required by the IST3032C.
+- Use Markuss' series which generalizes the driver.
+- Separate bindings into separate patch.
+- v1: https://lore.kernel.org/all/20230926173531.18715-1-balejk@matfyz.cz/
+---
 
-> I do not think these driver care much about the cache type. Optimal one
-> might even depend on the architecture. I wonder if we could have
-> something like REGCACHE_DEFAULT to signal that whatever is the "best
-> default" implementation it should be used?
+Karel Balej (2):
+  dt-bindings: input/touchscreen: imagis: add compatible for IST3032C
+  input/touchscreen: imagis: add support for IST3032C
 
-I do sometimes wonder about that but there's also been enough issues
-with the earlier stage of the transition and shaking out bugs in the
-new code that it makes me a bit nervous about using one.  It has also
-been a useful exercise to go through and actually look at the users, but
-that could be done any time.
+Markuss Broks (3):
+  input/touchscreen: imagis: Correct the maximum touch area value
+  dt-bindings: input/touchscreen: Add compatible for IST3038B
+  input/touchscreen: imagis: Add support for Imagis IST3038B
 
---a4qbqoBOi+H7/gUI
-Content-Type: application/pgp-signature; name="signature.asc"
+ .../input/touchscreen/imagis,ist3038c.yaml    |  2 +
+ drivers/input/touchscreen/imagis.c            | 70 +++++++++++++++----
+ 2 files changed, 60 insertions(+), 12 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.42.0
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmUcBhkACgkQJNaLcl1U
-h9CIdAf+MCnO8OZRy2u2aVEFeqz/zR/Sv9xDxvgQ3DdiwQc5VWs5IMoIVGtbx86e
-SAFeQ/88w6MJF4+1vd7GAPzLBSVuqwGX/ySq/iU9qUoAP2R1AC/Ic+QUr9TbPd6F
-17vRnNjZIVf2uZn4K9r/wxAZXmSy3mfoQLLq4riPHmpOGQvZWCB6K5EqTz+VNy1I
-pQFocpewirdqlP/x/FKOr4nghMf2Z8Yt86XcrlUDWfHeJq+/dISu3Sr35e5JxROz
-aR3s+5fCBcXPsuqTraJYTmyTNmAcbH3mKCPObDJprxJQ3YgUILn2gbp125BA9tUw
-vfghf/cT/dDGArQcyDLQu+b2xFdycw==
-=tF+I
------END PGP SIGNATURE-----
-
---a4qbqoBOi+H7/gUI--
