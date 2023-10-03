@@ -2,84 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 714F97B6ACF
-	for <lists+linux-input@lfdr.de>; Tue,  3 Oct 2023 15:45:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B8E27B6D72
+	for <lists+linux-input@lfdr.de>; Tue,  3 Oct 2023 17:53:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232137AbjJCNpM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Oct 2023 09:45:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46476 "EHLO
+        id S231758AbjJCPxq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Oct 2023 11:53:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232083AbjJCNpL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Oct 2023 09:45:11 -0400
-Received: from nikam.ms.mff.cuni.cz (nikam.ms.mff.cuni.cz [195.113.20.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56A2BAF;
-        Tue,  3 Oct 2023 06:45:08 -0700 (PDT)
-Received: from gimli.ms.mff.cuni.cz (gimli.ms.mff.cuni.cz [195.113.20.176])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by nikam.ms.mff.cuni.cz (Postfix) with ESMTPS id 0AB63284EB5;
-        Tue,  3 Oct 2023 15:45:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gimli.ms.mff.cuni.cz;
-        s=gen1; t=1696340707;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=YIUunqd+c5UpYHtGa5Tn8EaHMNG2948xhcFZxPEyyYc=;
-        b=Mh1poRY3SriytHnq4LBOTlGr/d77RxtZ5RMpe1mtWAsO5c40s2PyCE8IS6KDFQBUQ3cUV1
-        tVzFmUpWO5rSpZQ/s5iDiF7r55D/tncbPUgRgaKcNqLdbcqshjnYBIqTRqXObx9qMLL5qR
-        Mnj3WxO48fu1eNn6gxHQXZ6EcysN7s0=
-Received: from localhost (koleje-wifi-0029.koleje.cuni.cz [78.128.191.29])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: karelb)
-        by gimli.ms.mff.cuni.cz (Postfix) with ESMTPSA id 7515A441AC5;
-        Tue,  3 Oct 2023 15:45:06 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Tue, 03 Oct 2023 15:45:18 +0200
-Message-Id: <CVYULJSWIJHC.61H4AAIMA9I4@gimli.ms.mff.cuni.cz>
-To:     "Markuss Broks" <markuss.broks@gmail.com>,
-        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        "Conor Dooley" <conor+dt@kernel.org>,
-        "Henrik Rydberg" <rydberg@bitmath.org>,
-        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <~postmarketos/upstreaming@lists.sr.ht>
-From:   "Karel Balej" <karelb@gimli.ms.mff.cuni.cz>
-Cc:     =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Subject: Re: [PATCH v2 0/5] input/touchscreen: imagis: add support for
- IST3032C
-References: <20231003133440.4696-1-karelb@gimli.ms.mff.cuni.cz>
-In-Reply-To: <20231003133440.4696-1-karelb@gimli.ms.mff.cuni.cz>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S231206AbjJCPxp (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Oct 2023 11:53:45 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B22BA6;
+        Tue,  3 Oct 2023 08:53:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696348422; x=1727884422;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=cSNZnvTcszynHkc7EOnPJtMLPyMJLtAPb33rc17IhQU=;
+  b=gpsbtYqIlth1T2AggptEJW4GTA+aYSxWT8OfmV5C+wqG6FLFE7Pqu+SQ
+   F+DbZWVYho8bKafr7BPK6hDwFjUlSlgIr+Z+TpNUuDmfy6d+G9x/o/H2M
+   8A6cQa463rig9iOB0He4avuG0ozmymVsmZGshfTwJia0HpHdutKbBfE/v
+   /P7lisGKk5EHumb1mMn9vYgMY+7LtvDExSXJ5Imkl+4cxI6tzP6UhwlsD
+   qXZTTpfowL4yuBfCBwCB/jjG8bZgd3ibvDe/3+mwdawS95OLxyPWr9cWs
+   nXW9AzIWaVdMmdlH08jWjn+AjTy6zMBUFcw0S6bYYeUiYg/l/TmOJ/W5p
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="380186347"
+X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
+   d="scan'208";a="380186347"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 08:53:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="744564490"
+X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
+   d="scan'208";a="744564490"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.14])
+  by orsmga007.jf.intel.com with ESMTP; 03 Oct 2023 08:53:41 -0700
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>
+Subject: [PATCH] HID: intel-ish-hid: ipc: Disable and reenable ACPI GPE bit
+Date:   Tue,  3 Oct 2023 08:53:32 -0700
+Message-Id: <20231003155332.1855569-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+The EHL (Elkhart Lake) based platforms provide a OOB (Out of band)
+service, which allows to wakup device when the system is in S5 (Soft-Off
+state). This OOB service can be enabled/disabled from BIOS settings. When
+enabled, the ISH device gets PME wake capability. To enable PME wakeup,
+driver also needs to enable ACPI GPE bit.
 
-> From: Karel Balej <karelb@gimli.ms.mff.cuni.cz>
+On resume, BIOS will clear the wakeup bit. So driver need to re-enable it
+in resume function to keep the next wakeup capability. But this BIOS
+clearing of wakeup bit doesn't decrement internal OS GPE reference count,
+so this reenabling on every resume will cause reference count to overflow.
 
-I am very sorry, I wanted to use a different email address for sending
-than for commiting so that the message would also reach people whose
-email providers have more strict requirements on sender authentication
-(such as Google), but it seems that I have made a mistake and confused
-git altogether.
+So first disable and reenable ACPI GPE bit using acpi_disable_gpe().
 
-I will fix it in a possible v3 after I receive some feedback or I will
-resend it before it gets applied and I will make sure to properly test
-the setup then.
+Fixes: 2e23a70edabe ("HID: intel-ish-hid: ipc: finish power flow for EHL OOB")
+Reported-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Closes: https://lore.kernel.org/lkml/CAAd53p4=oLYiH2YbVSmrPNj1zpMcfp=Wxbasb5vhMXOWCArLCg@mail.gmail.com/T/
+Tested-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+---
+ drivers/hid/intel-ish-hid/ipc/pci-ish.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-My apologies,
-K. B.
+diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+index 55cb25038e63..710fda5f19e1 100644
+--- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
++++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+@@ -133,6 +133,14 @@ static int enable_gpe(struct device *dev)
+ 	}
+ 	wakeup = &adev->wakeup;
+ 
++	/*
++	 * Call acpi_disable_gpe(), so that reference count
++	 * gpe_event_info->runtime_count doesn't overflow.
++	 * When gpe_event_info->runtime_count = 0, the call
++	 * to acpi_disable_gpe() simply return.
++	 */
++	acpi_disable_gpe(wakeup->gpe_device, wakeup->gpe_number);
++
+ 	acpi_sts = acpi_enable_gpe(wakeup->gpe_device, wakeup->gpe_number);
+ 	if (ACPI_FAILURE(acpi_sts)) {
+ 		dev_err(dev, "enable ose_gpe failed\n");
+-- 
+2.41.0
+
