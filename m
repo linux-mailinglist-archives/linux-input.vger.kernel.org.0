@@ -2,110 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1924F7B5B2B
-	for <lists+linux-input@lfdr.de>; Mon,  2 Oct 2023 21:24:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 387667B60A7
+	for <lists+linux-input@lfdr.de>; Tue,  3 Oct 2023 08:17:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229570AbjJBTXu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Oct 2023 15:23:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59920 "EHLO
+        id S229547AbjJCGRA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Oct 2023 02:17:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbjJBTXu (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Oct 2023 15:23:50 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E68BDB0;
-        Mon,  2 Oct 2023 12:23:47 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6961BC433C7;
-        Mon,  2 Oct 2023 19:23:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696274627;
-        bh=ofpdpmQtMZ6ZQQu7vySCzJkB3i/t2T7OkqBMbhU8iEc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YykjI2haE4KxzAMaSHcWZlZ/4L5AuU88QdPDlbMB0ZOImoTWHtgFKa/wdzZsjw4jt
-         PEHVr5C1tt8tBa0bquE3qTwaT4UxFsHhHgAbdLTaVIy9refhutrQ8riAqVzHE18h1G
-         zxLqQKiX9WkTYTK3TwNRjiNI59bujRNVv6Rs81doQftFy+zQXZc/yham4SwCvKFoMV
-         ZKjMbdzMzfycUu8+kKsKJL03U+jrB08cBHBPHUuhhTJsXxbKOSaaH5EtXRxdlpqdXJ
-         4uzur1TJMNf0DqpaflXxeaYxKGMHrGPHjdTPjIZ9yzPGVOKFWKFqSimWwD0cW81Vy/
-         szy1gj2rweqXw==
-Received: (nullmailer pid 2383796 invoked by uid 1000);
-        Mon, 02 Oct 2023 19:23:45 -0000
-Date:   Mon, 2 Oct 2023 14:23:45 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Caleb Connolly <caleb.connolly@linaro.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Vincent Huang <vincent.huang@tw.synaptics.com>,
-        methanal <baclofen@tuta.io>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [PATCH 1/7] dt-bindings: input: syna,rmi4: document
- syna,pdt-fallback-desc
-Message-ID: <20231002192345.GA2380027-robh@kernel.org>
-References: <20230929-caleb-rmi4-quirks-v1-0-cc3c703f022d@linaro.org>
- <20230929-caleb-rmi4-quirks-v1-1-cc3c703f022d@linaro.org>
+        with ESMTP id S229460AbjJCGRA (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Oct 2023 02:17:00 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37AB1B8;
+        Mon,  2 Oct 2023 23:16:55 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1c737d61a00so4041315ad.3;
+        Mon, 02 Oct 2023 23:16:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696313814; x=1696918614; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HAFuNLRr2SEWFDy639DhvxhF/LMWMyC8GFm6n9GRgVA=;
+        b=FofcQJf0h4dS1Bj8XFXnRzbdw/6YbzRowTLvqEBRc9HilRJFCGqMFcHqOxX8jVg0s8
+         /xsht9gnwrM8bjYg9HQs/isLyECsobO3NmVTFL38DMc4p6CeSXKX4MJ/USzJWDRRojCz
+         CL9/GfHOUwXLTIftoaWzm1OQ/Q0ntaTReCpDlhnTxsvJR6FTdkZQ8Hm4pibEsIsj3DWg
+         YNVVjjlqUs9aQx8/yf1VghjoCDRJ/kLR+ZmJqklo0ebP5o6X6yf4CZZarDm70BAXAqlb
+         vangqyI03nah+cP6DmA2bTiaKIvkp/Evk1MVauVhhDs98X3u/feqRJEhIg/CcyX+S/Dq
+         US9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696313814; x=1696918614;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HAFuNLRr2SEWFDy639DhvxhF/LMWMyC8GFm6n9GRgVA=;
+        b=cqW439iYVQED2k7mW9W7uz9c5oqG+7jE3yBChm8wi3XJXWEa1pi8C7MvQ8t6mvVfSm
+         kMKVXin4akcPqW/rPAK8YABG7jvHcSnHodGgz8FR4O2ywU1QSJsjendHhUTptVDBWPNp
+         uPVAuDUKi5intCdZfv28wqV8pCDHFQGqOp3k8+X7fBr2ZI+6I6wLjrqFd/yS5Nll7p+G
+         vnu1fUUOkmUarG9wLu1y7GCvQ9hqfoayG0K6PmVOMF+ZmD1U72lQvWuP2aEuWApDVEfI
+         EB2NhFjMutfvnnR4cP54Sfri5J9v4A7fECFuiXy84tGgJJb+be8n5dKkD69V8wYntF50
+         FCCA==
+X-Gm-Message-State: AOJu0YyBsFN+onlXkdJi1BnnH78l3sR3YMxKQkggpjs8sPBke14FsLFW
+        g+ad2MjgI5gItlr3wxT9brcbhFD+vqHzDQ==
+X-Google-Smtp-Source: AGHT+IG9rLWnU4oLgWQBGZDRT3L22uHw8f72t9maVK6aaaaEORSmxpaL5q1UVhiQe5z9cSVjB3VIgw==
+X-Received: by 2002:a17:903:26ce:b0:1c6:1928:59b9 with SMTP id jg14-20020a17090326ce00b001c6192859b9mr14102892plb.10.1696313814546;
+        Mon, 02 Oct 2023 23:16:54 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:2da0:9e11:db4d:8adc])
+        by smtp.gmail.com with ESMTPSA id u10-20020a170902e80a00b001c611e9a5fdsm546952plg.306.2023.10.02.23.16.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Oct 2023 23:16:54 -0700 (PDT)
+Date:   Mon, 2 Oct 2023 23:16:51 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] Input: cap11xx - Convert to use maple tree register
+ cache
+Message-ID: <ZRux0yLPxZGLNF5A@google.com>
+References: <20231001-input-maple-v1-0-ed3716051431@kernel.org>
+ <20231001-input-maple-v1-2-ed3716051431@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230929-caleb-rmi4-quirks-v1-1-cc3c703f022d@linaro.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20231001-input-maple-v1-2-ed3716051431@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Sep 30, 2023 at 06:08:45PM +0100, Caleb Connolly wrote:
-> This new property allows devices to specify some register values which
-> are missing on units with third party replacement displays. These
-> displays use unofficial touch ICs which only implement a subset of the
-> RMI4 specification.
+Hi Mark,
+
+On Sun, Oct 01, 2023 at 01:43:39AM +0200, Mark Brown wrote:
+> The maple tree register cache is based on a much more modern data structure
+> than the rbtree cache and makes optimisation choices which are probably
+> more appropriate for modern systems than those made by the rbtree cache.
 > 
-> Signed-off-by: Caleb Connolly <caleb.connolly@linaro.org>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 > ---
-> To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-> To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> To: Rob Herring <robh+dt@kernel.org>
-> To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> To: Conor Dooley <conor+dt@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> ---
->  Documentation/devicetree/bindings/input/syna,rmi4.yaml | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  drivers/input/keyboard/cap11xx.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/input/syna,rmi4.yaml b/Documentation/devicetree/bindings/input/syna,rmi4.yaml
-> index 4d4e1a8e36be..bd6beb67ac21 100644
-> --- a/Documentation/devicetree/bindings/input/syna,rmi4.yaml
-> +++ b/Documentation/devicetree/bindings/input/syna,rmi4.yaml
-> @@ -49,6 +49,16 @@ properties:
->      description:
->        Delay to wait after powering on the device.
+> diff --git a/drivers/input/keyboard/cap11xx.c b/drivers/input/keyboard/cap11xx.c
+> index 39ed3b9ddc65..77843ad15d4c 100644
+> --- a/drivers/input/keyboard/cap11xx.c
+> +++ b/drivers/input/keyboard/cap11xx.c
+> @@ -174,7 +174,7 @@ static const struct regmap_config cap11xx_regmap_config = {
+>  	.reg_defaults = cap11xx_reg_defaults,
 >  
-> +  syna,pdt-fallback-desc:
-> +    $ref: /schemas/types.yaml#/definitions/uint8-array
-> +    description:
-> +      An array of pairs of function number and version. These are used
+>  	.num_reg_defaults = ARRAY_SIZE(cap11xx_reg_defaults),
+> -	.cache_type = REGCACHE_RBTREE,
+> +	.cache_type = REGCACHE_MAPLE,
 
-array of pairs is a matrix, not array. Or it is just 2 values? Needs 
-some size constraints.
+I do not think these driver care much about the cache type. Optimal one
+might even depend on the architecture. I wonder if we could have
+something like REGCACHE_DEFAULT to signal that whatever is the "best
+default" implementation it should be used?
 
+Thanks.
 
-> +      on some devices with replacement displays that use unofficial touch
-> +      controllers. These controllers do report the properties of their PDT
-
-PDT?
-
-> +      entries, but leave the function_number and function_version registers
-> +      blank. These values should match exactly the 5th and 4th bytes of each
-> +      PDT entry from the original display's touch controller.
-> +
->    vdd-supply: true
->    vio-supply: true
->  
-> 
-> -- 
-> 2.42.0
-> 
+-- 
+Dmitry
