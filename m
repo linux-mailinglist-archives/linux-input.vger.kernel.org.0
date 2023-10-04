@@ -2,42 +2,42 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DD6D7B8CAD
-	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 21:20:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E65BB7B8CC5
+	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 21:20:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244942AbjJDS7I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Oct 2023 14:59:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44906 "EHLO
+        id S245459AbjJDTEx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Oct 2023 15:04:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244831AbjJDS5O (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Oct 2023 14:57:14 -0400
+        with ESMTP id S1344652AbjJDTD3 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Oct 2023 15:03:29 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0144C19A3;
-        Wed,  4 Oct 2023 11:55:01 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D78AC4339A;
-        Wed,  4 Oct 2023 18:55:00 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77E78618D;
+        Wed,  4 Oct 2023 11:58:36 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1C37C433C9;
+        Wed,  4 Oct 2023 18:58:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696445701;
-        bh=G5QCsBxCk9eibNWxIf6ck3SmhlHV2fYc1B9TJdB/V9o=;
+        s=k20201202; t=1696445915;
+        bh=tq7NZFlnZHqJn3BR7loczaVqdjig92RJVIObjwVIOys=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=nBhiDQjI/Y86QtC68JzXeOswi/z6hKnf9IJxkvPK5hF1muB0sOkBEFk8Pt2lqD87J
-         pi4b71LVP4jzyNPErNynNDW12amBVTqTCJtRISP4LiJybeNg5BFSxO8PQ/QvcmCCv1
-         pZSVUu7/1wNCGTrjoja1MW9CgzIk2UQu/QH+xkYa1oxiXe68o/FXL4YfDGpE+Kccex
-         nMCc00qDrI47Jvh1y3IsvpNfk1B3PtEOrYIEiwJcBRMaUqf9ezG/2yQVgO1ipirsDl
-         VRRmF2iA44MvXylP5NJc5/ChsOFrDCw5GSCsuP89YE66cebmh3Cxe2ZNA459MTuW8l
-         judFcTDi636+w==
-Date:   Wed, 4 Oct 2023 20:54:57 +0200 (CEST)
+        b=jHIH1Tyn86fi7HJ9R68SYq3FokwFMukaSVyE6JHrGJt/2Zw6AbBcl/kvKVEkjwIUz
+         PhPPGd/6diC/Z1PZuK89LdT8P4Q5P8X7zfUGxGUs5bRKwgkjpLFh/MxdrVBZETgnaW
+         IYjoeBHoulD3NmJQhnRMnyiPVC/F8Tufgn1BC07yrpFR830JiC4mG4TH4qxM8abQAr
+         MZ9/0NDyuvF0N+qSDtgqtg6I6Ec+cLaf+pIYcO55Zw0077wbLXWsLfvS6hMQ6mFMLa
+         Ov6l5L7uj2JQbNMF7kBWdqteIAJh+f9uinwmPhzsekZyN0esobhjjMC52ZuKr4rCRC
+         3kYcDXI+coQGg==
+Date:   Wed, 4 Oct 2023 20:58:31 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Rahul Rameshbabu <sergeantsagara@protonmail.com>
+To:     Rahul Rameshbabu <rrameshbabu@nvidia.com>
 cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rain <rain@sunshowers.io>
-Subject: Re: [PATCH] HID: multitouch: Add required quirk for Synaptics 0xcd7e
- device
-In-Reply-To: <20230917161802.39716-1-sergeantsagara@protonmail.com>
-Message-ID: <nycvar.YFH.7.76.2310042054390.3534@cbobk.fhfr.pm>
-References: <20230917161802.39716-1-sergeantsagara@protonmail.com>
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        kernel-janitors@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] HID: nvidia-shield: Fix the error handling path
+ of shield_probe()
+In-Reply-To: <20230918115432.30076-1-rrameshbabu@nvidia.com>
+Message-ID: <nycvar.YFH.7.76.2310042058000.3534@cbobk.fhfr.pm>
+References: <20230918115432.30076-1-rrameshbabu@nvidia.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -50,25 +50,51 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 17 Sep 2023, Rahul Rameshbabu wrote:
+On Mon, 18 Sep 2023, Rahul Rameshbabu wrote:
 
-> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multi
-> touch.c
-> index 521b2ffb4244..8db4ae05febc 100644
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -2144,6 +2144,10 @@ static const struct hid_device_id mt_devices[] = {
-> 			USB_DEVICE_ID_MTP_STM)},
+> This series fixes some missing clean-up function calls in the error handling of
+> the probe.
 > 
-> 	/* Synaptics devices */
-> +	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
-> +		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-> +			USB_VENDOR_ID_SYNAPTICS, 0xcd7e) },
-> +
-> 	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
-> 		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
+> Patch 1 and 2 fix some similar issues introduced in 2 different commits (hence 2
+> patches)
+> 
+> Patch 3 is an enhancement that creates a common function for cleaning up
+> thunderstrike instances.
+> 
+> Changes:
+> 
+>   v1->v2:
+>     - Add the LED_RETAIN_AT_SHUTDOWN flag to prevent
+>       led_classdev_unregister from trying to set the LED to off before a
+>       successful call to hid_hw_start.
+>     - Rename err_haptics label to err_ts_create to make the label name more
+>       accurate.
+>     - Re-order operations in thunderstrike_destroy to be in LIFO order with
+>       regards to the operations in thunderstrike_create.
+>   v2->v3:
+>     - Refactor thunderstrike_destroy to take a thunderstrike instance
+>       pointer as a parameter and prevent a variable from being unused
+>       in shield_probe.
+> 
+> Link: https://lore.kernel.org/linux-input/cover.1693070958.git.christophe.jaillet@wanadoo.fr/
+> Link: https://lore.kernel.org/linux-input/20230918041345.59859-1-rrameshbabu@nvidia.com/
+> 
+> Notes from Rahul:
+>   - Thank you so much Christophe for these patches.
+>   - Sent v2 without accounting for the fact that thunderstrike_destroy in v1
+>     makes the thunderstrike instance in shield_probe unused. Tested v3 with W=1.
+> 
+> Christophe JAILLET (3):
+>   HID: nvidia-shield: Fix a missing led_classdev_unregister() in the
+>     probe error handling path
+>   HID: nvidia-shield: Fix some missing function calls() in the probe
+>     error handling path
+>   HID: nvidia-shield: Introduce thunderstrike_destroy()
 
-Applied, thanks.
+I have applied 1/3 and 2/3 to for-6.6/upstream-fixes and 3/3 to 
+for-6.7/nvidia-shield.
+
+Thanks,
 
 -- 
 Jiri Kosina
