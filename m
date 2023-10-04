@@ -2,92 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D86097B8B2E
-	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 20:48:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6B0B7B8B4B
+	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 20:51:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244593AbjJDSrw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Oct 2023 14:47:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59984 "EHLO
+        id S243718AbjJDSvv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Oct 2023 14:51:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244601AbjJDSrw (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Oct 2023 14:47:52 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A0A8F0
-        for <linux-input@vger.kernel.org>; Wed,  4 Oct 2023 11:47:46 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id d2e1a72fcca58-690bd59322dso91872b3a.3
-        for <linux-input@vger.kernel.org>; Wed, 04 Oct 2023 11:47:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696445265; x=1697050065; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ekpvseGuK4E7ASaMOZteciHUpOShVKJfJMNnl7vdPIA=;
-        b=CKMcsrtNBdZkuna89iNDvS7CWXhFkkQlCJzRO5RF+QGzVJ4HW/QJLYrVKTAczpI+dB
-         PR7mgIsfmtpApv075k2sQ7MDHin8De8NBi/FXRYDNnztWz0xVCEtjyfq9STfnVHS7SCL
-         OL3eCwUFHoLwBRI+A+1fEGnRI6yhMJBeo1QyTpO6aPKuNgJHizlhBYpB/qcfjX6EzigC
-         7kxJVfgsTl9d2Y7mpTysT/iYA7WjFI1OdYbTCJEXpGvCeFdrvNeDHT9y+Tu/pjxt1QOf
-         xe0Ky9qwudcy1JCG/tBesMhFUAoJ4Oc0i9qWWCwiuBZcqrmZgE2t5S5dulZnNCBb5HQg
-         cENA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696445265; x=1697050065;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ekpvseGuK4E7ASaMOZteciHUpOShVKJfJMNnl7vdPIA=;
-        b=NOB3jY6EO2cxrf3RX1iRtmaUIWFn10y4KLbqUcYR3OFz10zdZD7Gp53o3hsbRlq8we
-         08aetC1HEKpL8VAxZIMwMD96NX202rt+yUApXPZcQ1JYsCxL//lw1fFxx4dMq0+Udw1i
-         +u/E8KXJyKHCesi4ZKTQOMWvKXIe/mYZhRJDrsO/wp0gINxnzU9zJUB+VtilieCL/wIp
-         RVSpKTvcT73TOYj0r4+IemDczOGFCO5dg5h3JjCcpyKcMt/YWDWFsQhtUNdA9boz50i9
-         iUss++AHOpGlsQqTVspCQrEybwEqEEqKaj6j5evrI72cLpFYRz9/Dmx9FgVzNyCBH8Dq
-         uQFw==
-X-Gm-Message-State: AOJu0Yy0fpaytm9LBZOMM8f2hiH6KMUmA7mQgsjT18+dRJRAXb2awP5A
-        iUGWOV9yi8TlXDuhEYyQYhw=
-X-Google-Smtp-Source: AGHT+IFONmtbV9D+qu4SdYXIN5B2KECt8psHxBelfzCWHHRWSRVoB5X1MRK3a9yIgdc1UtEUHEMtUA==
-X-Received: by 2002:a05:6a20:5490:b0:13d:8876:4c97 with SMTP id i16-20020a056a20549000b0013d88764c97mr3692843pzk.16.1696445265576;
-        Wed, 04 Oct 2023 11:47:45 -0700 (PDT)
-Received: from [10.10.13.50] ([104.129.198.116])
-        by smtp.gmail.com with ESMTPSA id j8-20020a170902da8800b001bb9bc8d232sm4055052plx.61.2023.10.04.11.47.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Oct 2023 11:47:44 -0700 (PDT)
-Message-ID: <0d4936cf-578b-4cbb-aaf7-f8ff00695000@gmail.com>
-Date:   Wed, 4 Oct 2023 11:47:43 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] Input: xpad - Add HyperX Clutch Gladiate Support
-Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     maxwell.nguyen@hp.com, chris.toledanes@hp.com, carl.ng@hp.com,
+        with ESMTP id S244308AbjJDSvu (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Oct 2023 14:51:50 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83CACC6
+        for <linux-input@vger.kernel.org>; Wed,  4 Oct 2023 11:51:45 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 502C1C433C7;
+        Wed,  4 Oct 2023 18:51:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696445505;
+        bh=vZgRLrHKbqTqaHMV05a0bFnbhmj9Rte/xaqv06i5N6s=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=oIcVJcQ21wIAf/JC9rwzAHCrawz9B4MN3YspeSeCjp//a6W5lbpch24bp1FXTg6HG
+         6BXgapSlK8xEjAzpMgJqYp90nlHp7nxAQMHRzOt7zs4IrhOnhx9qenvtRKHsCfr4m5
+         erYE3ElDDKidZ1sgQroJpCuWticf0fCZVQwZy7ugwBjPfee6E6iYXiaF0eWkZAITZX
+         6338kooPbFXZlzeBBRF4UiHFJbmr8OEciYsrMqKmfuNKCPt1W0fBrSq92AuXH5/GQu
+         nZkkFqPWTie4Qbk33S6dcUF8AFmUxZLA44XjAEurdrxvq8UR17jjOmRySJ+P9KYyoU
+         og/dV7qCUWQSQ==
+Date:   Wed, 4 Oct 2023 20:49:07 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Rahul Rameshbabu <rrameshbabu@nvidia.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org
-References: <ZQTEZEdd7xwHz9CN@google.com>
- <20230916014452.5241-1-hphyperxdev@gmail.com> <ZQfgV76yld8XGtG9@google.com>
-From:   "Nguyen, Max" <hphyperxdev@gmail.com>
-In-Reply-To: <ZQfgV76yld8XGtG9@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Subject: Re: [PATCH] HID: nvidia-shield: Select POWER_SUPPLY Kconfig option
+In-Reply-To: <875y478ngn.fsf@nvidia.com>
+Message-ID: <nycvar.YFH.7.76.2310042048280.3534@cbobk.fhfr.pm>
+References: <20230917151850.62505-1-rrameshbabu@nvidia.com> <nycvar.YFH.7.76.2309181656130.14216@cbobk.fhfr.pm> <875y478ngn.fsf@nvidia.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Mon, 18 Sep 2023, Rahul Rameshbabu wrote:
 
-On 9/17/2023 10:29 PM, Dmitry Torokhov wrote:
-> On Fri, Sep 15, 2023 at 06:44:52PM -0700, HP Dev wrote:
->> Hi Dmitry,
->> That should be ok.  Thanks again for your support.
-> Great, applied, thank you.
+> >> Battery information reported by the driver depends on the power supply 
+> >> subsystem. Select the required subsystem when the HID_NVIDIA_SHIELD 
+> >> Kconfig option is enabled.
+> >> 
+> >> Fixes: 3ab196f88237 ("HID: nvidia-shield: Add battery support for Thunderstrike")
+> >> Signed-off-by: Rahul Rameshbabu <rrameshbabu@nvidia.com>
+> >> ---
+> >>  drivers/hid/Kconfig | 1 +
+> >>  1 file changed, 1 insertion(+)
+> >> 
+> >> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> >> index e11c1c803676..dc227f477601 100644
+> >> --- a/drivers/hid/Kconfig
+> >> +++ b/drivers/hid/Kconfig
+> >> @@ -792,6 +792,7 @@ config HID_NVIDIA_SHIELD
+> >>  	tristate "NVIDIA SHIELD devices"
+> >>  	depends on USB_HID
+> >>  	depends on BT_HIDP
+> >> +	select POWER_SUPPLY
+> >
+> > Is there a reason not to do it the standard way using 'depends on', and 
+> > not vice versa?
+> 
+> I originally used 'depends on' for POWER_SUPPLY. I took a look at
+> drivers/hid/Kconfig and saw that all modules that depended on
+> POWER_SUPPLY in the hid subsystem used 'select' instead. I figured I
+> should follow the trend.
 
-Hi Dmitry,
+You are right.
 
-What's the typical process for the patch to merge to the main branch 
-once it is applied?  Just curious for future reference.
+I still don't like the fact that we are forcefully selecting POWER_SUPPLY 
+like this, but that's a 6.7 material.
 
-Also, should I reference this link for the latest?
-https://github.com/torvalds/linux/blob/master/drivers/input/joystick/xpad.c
+Appplied, thanks.
 
-Regards, Max
+-- 
+Jiri Kosina
+SUSE Labs
 
