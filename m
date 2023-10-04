@@ -2,130 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F024D7B77D9
-	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 08:35:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51F037B7810
+	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 08:42:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232735AbjJDGfK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Oct 2023 02:35:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59892 "EHLO
+        id S241423AbjJDGmn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Oct 2023 02:42:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231894AbjJDGfJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Oct 2023 02:35:09 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB7FFA6;
-        Tue,  3 Oct 2023 23:35:05 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qnvTG-000313-TH; Wed, 04 Oct 2023 08:34:58 +0200
-Message-ID: <fbac1212-7206-4fe5-9c28-7372e95f8575@leemhuis.info>
-Date:   Wed, 4 Oct 2023 08:34:58 +0200
+        with ESMTP id S232716AbjJDGmn (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Oct 2023 02:42:43 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3605CAD;
+        Tue,  3 Oct 2023 23:42:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696401759; x=1727937759;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fEbusEUadP7aAf4Qt7Tnn0hCBtGQxdtH+HZZwg9ht6Q=;
+  b=Bi08ZIEGRLDdiDLRZu9tNn2v2pphbOvTnvDDuxmiq+B6dG9bGMDEf6DP
+   r03QopO2z+0C/5UwgIYDaD9dNn/uoyDXLjkhrrKT9Sm0cal+u/adJAXcy
+   pDA3n3YIJ5SrctScZTuqFcM/OYVDUDq2gH5goHPYq1X9PUK5odaZrdmo+
+   KTtxVFIkEVO9WY3Td5H/rHctMc72PBRPoZL1VJIFDTRFDKFKYs/J/B7ka
+   QGNIHCXx/EsvTAiEjGwLz65iczNl9dwnhTakxLnA0b5YzyY5+abreYXg5
+   baS8x+fk9hsF437Sed4cKYdsN989hCw4SpWIHNyJg0mCzoNUcF5q28kFr
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="368134988"
+X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
+   d="scan'208";a="368134988"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 23:42:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="874976835"
+X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
+   d="scan'208";a="874976835"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 03 Oct 2023 23:42:35 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qnvab-000D9y-0c;
+        Wed, 04 Oct 2023 06:42:33 +0000
+Date:   Wed, 4 Oct 2023 14:42:15 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     karelb@gimli.ms.mff.cuni.cz,
+        Markuss Broks <markuss.broks@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+        Karel Balej <karelb@gimli.ms.mff.cuni.cz>
+Subject: Re: [PATCH v2 5/5] input/touchscreen: imagis: add support for
+ IST3032C
+Message-ID: <202310041406.DCcjrpLd-lkp@intel.com>
+References: <20231003133440.4696-6-karelb@gimli.ms.mff.cuni.cz>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Input: elantech - fix fast_reconnect callback in ps2 mode
-Content-Language: en-US, de-DE
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jeffery Miller <jefferymiller@google.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        regressions@lists.linux.dev, benjamin.tissoires@redhat.com,
-        Andrew Duggan <aduggan@synaptics.com>,
-        Andrew Duggan <andrew@duggan.us>, loic.poulain@linaro.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231004005729.3943515-1-jefferymiller@google.com>
- <2023100418-clapping-driven-bc09@gregkh>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Autocrypt: addr=linux@leemhuis.info; keydata=
- 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 n7RI
-In-Reply-To: <2023100418-clapping-driven-bc09@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1696401306;bf33fed2;
-X-HE-SMSGID: 1qnvTG-000313-TH
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231003133440.4696-6-karelb@gimli.ms.mff.cuni.cz>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 04.10.23 08:19, Greg Kroah-Hartman wrote:
-> On Tue, Oct 03, 2023 at 07:57:24PM -0500, Jeffery Miller wrote:
->> Make `elantech_setup_ps2` set a compatible fast_reconnect pointer
->> when its ps2 mode is used.
->>
->> When an SMBus connection is attempted and fails `psmouse_smbus_init`
->> sets fast_reconnect to `psmouse_smbus_reconnect`.
->> `psmouse_smbus_reconnect` expects `psmouse->private` to be
->> `struct psmouse_smbus_dev` but `elantech_setup_ps2` replaces
->> it with its private data. This was causing an issue on resume
->> since psmouse_smbus_reconnect was being called while in ps2, not SMBus
->> mode.
->>
->> This was uncovered by commit 92e24e0e57f7 ("Input: psmouse - add delay when
->> deactivating for SMBus mode")
->>
->> Closes:
->> Link:https://lore.kernel.org/all/ca0109fa-c64b-43c1-a651-75b294d750a1@leemhuis.info/
->> Reported-by: Thorsten Leemhuis <linux@leemhuis.info>
->>
->> Signed-off-by: Jeffery Miller <jefferymiller@google.com>
->> ---
->>
->> The other callbacks set in psmouse_smbus_init are already replaced.
->> Should fast_reconnect be set to `elantech_reconnect` instead?
-> 
-> What commit id does this fix? 
+Hi,
 
-Good point, yes, it also needs this:
+kernel test robot noticed the following build warnings:
 
-Fixes: 92e24e0e57f72e ("Input: psmouse - add delay when deactivating for
-SMBus mode")
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus robh/for-next linus/master v6.6-rc4 next-20231003]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> Should it also have a cc: stable tag?
+url:    https://github.com/intel-lab-lkp/linux/commits/karelb-gimli-ms-mff-cuni-cz/input-touchscreen-imagis-Correct-the-maximum-touch-area-value/20231003-213739
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20231003133440.4696-6-karelb%40gimli.ms.mff.cuni.cz
+patch subject: [PATCH v2 5/5] input/touchscreen: imagis: add support for IST3032C
+config: x86_64-randconfig-004-20231004 (https://download.01.org/0day-ci/archive/20231004/202310041406.DCcjrpLd-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310041406.DCcjrpLd-lkp@intel.com/reproduce)
 
-Not that I can see, as that commit was merged for 6.6 and not backported
-(no idea why Jeffery CCed the stable list, maybe I'm missing something)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310041406.DCcjrpLd-lkp@intel.com/
 
-Ciao, Thorsten
+All warnings (new ones prefixed by >>):
+
+   drivers/input/touchscreen/imagis.c:383:39: warning: 'imagis_3038c_data' defined but not used [-Wunused-const-variable=]
+     383 | static const struct imagis_properties imagis_3038c_data = {
+         |                                       ^~~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/imagis.c:375:39: warning: 'imagis_3038b_data' defined but not used [-Wunused-const-variable=]
+     375 | static const struct imagis_properties imagis_3038b_data = {
+         |                                       ^~~~~~~~~~~~~~~~~
+>> drivers/input/touchscreen/imagis.c:368:39: warning: 'imagis_3032c_data' defined but not used [-Wunused-const-variable=]
+     368 | static const struct imagis_properties imagis_3032c_data = {
+         |                                       ^~~~~~~~~~~~~~~~~
+
+
+vim +/imagis_3032c_data +368 drivers/input/touchscreen/imagis.c
+
+   367	
+ > 368	static const struct imagis_properties imagis_3032c_data = {
+   369		.interrupt_msg_cmd = IST3038C_REG_INTR_MESSAGE,
+   370		.touch_coord_cmd = IST3038C_REG_TOUCH_COORD,
+   371		.whoami_cmd = IST3038C_REG_CHIPID,
+   372		.whoami_val = IST3032C_WHOAMI,
+   373	};
+   374	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
