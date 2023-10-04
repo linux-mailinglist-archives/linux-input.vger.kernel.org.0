@@ -2,43 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 092297B7E97
-	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 14:03:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AE207B7ED5
+	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 14:14:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232936AbjJDMDK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Oct 2023 08:03:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35634 "EHLO
+        id S232818AbjJDMO2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Oct 2023 08:14:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232912AbjJDMDJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Oct 2023 08:03:09 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09442A1;
-        Wed,  4 Oct 2023 05:03:06 -0700 (PDT)
+        with ESMTP id S242325AbjJDMO1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Oct 2023 08:14:27 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D89F0A7;
+        Wed,  4 Oct 2023 05:14:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696420986; x=1727956986;
+  t=1696421662; x=1727957662;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=COkxRDA3NTjhwUlXdXz6fmnuuZh/DzTb7V6k+Dxbo2E=;
-  b=jxKvVY/YyBXpGdqKBgbhT8DoLMH8kER6G+h0aGwaNwUOEn+hVnaB8Ebk
-   JtTukbFgn8DrpVT/y0M9y1zdqMGaCuWmyH9lPsrIJM6YjkTq9OzYG5fhN
-   U0OvBHC3gqKS17fmxvZd6IcT/txS4G6Gj2rrwsXuAMh9RlG1g/c70uNJ1
-   99ILrcUKJimcretPCmkDVA3CDdHEJ7/8lRkDnlAZ1r1rx+t06qCHB9UWO
-   SEzwWgRN8bFtEzeWQmUo9nkdcxAlTC4Hb9L94k03LEX+GcCxc4PjPlhyj
-   I1wQcSIH4E7v+nNQfFRYacvhcpr1C93MhrUd9rrQirqOTcicxX0Zs4B9l
+  bh=hKl+4lMfJCeBDRazjZ9yVR8Zl1pBpZAy/hnGuwCs3+I=;
+  b=Jhy5osqhzMs3EQcjT+/XhB6HtAQ6sX3FE3yjGdKd0071Y1sJXvPhNgFw
+   3s3Wk6xvp7vYG1P3prwbkN7GzTE2ejb3Zs+4cAPqO5/EUMCfsLp3YDKmM
+   u2YcdMSaVZPK7a24y5N5xJYPT6SMBWh4GPAyFd6w/U6bd37vq7VuP15vC
+   rC5nZw2EZdDHg/gGjIArzBZNhDFVR3hprTy9f5PI92J5S63MqWFWEGTb/
+   DW73fbaOMynlgJ7d3xq/N0P6aTlZ+jM7AjIlYawvkUtI1K2Rt6n3o5BBk
+   3XAa73ALnYMwJL6MT859L71PHD+XLQ/5v7uDVQ+GlmW1Bmyj3kYedr4Rz
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="382012542"
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="447325596"
 X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; 
-   d="scan'208";a="382012542"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 05:03:05 -0700
+   d="scan'208";a="447325596"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 05:14:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="727978775"
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="754895877"
 X-IronPort-AV: E=Sophos;i="6.03,200,1694761200"; 
-   d="scan'208";a="727978775"
+   d="scan'208";a="754895877"
 Received: from cyrillet-mobl.ger.corp.intel.com ([10.252.55.203])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 05:03:00 -0700
-Date:   Wed, 4 Oct 2023 15:02:58 +0300 (EEST)
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 05:14:17 -0700
+Date:   Wed, 4 Oct 2023 15:14:15 +0300 (EEST)
 From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 cc:     Hans de Goede <hdegoede@redhat.com>, markgross@kernel.org,
@@ -48,16 +48,17 @@ cc:     Hans de Goede <hdegoede@redhat.com>, markgross@kernel.org,
         daniel@ffwll.ch, Patil.Reddy@amd.com, mario.limonciello@amd.com,
         platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
         amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 02/16] platform/x86/amd/pmf: Add support PMF-TA
- interaction
-In-Reply-To: <20230930083715.2050863-3-Shyam-sundar.S-k@amd.com>
-Message-ID: <454df7c3-b796-952b-a4d3-a79b6d55433@linux.intel.com>
-References: <20230930083715.2050863-1-Shyam-sundar.S-k@amd.com> <20230930083715.2050863-3-Shyam-sundar.S-k@amd.com>
+Subject: Re: [PATCH v2 06/16] platform/x86/amd/pmf: Add support to get inputs
+ from other subsystems
+In-Reply-To: <20230930083715.2050863-7-Shyam-sundar.S-k@amd.com>
+Message-ID: <2eb2b3e5-4849-10ec-1c1b-66d2f0ba561@linux.intel.com>
+References: <20230930083715.2050863-1-Shyam-sundar.S-k@amd.com> <20230930083715.2050863-7-Shyam-sundar.S-k@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -66,86 +67,166 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 On Sat, 30 Sep 2023, Shyam Sundar S K wrote:
 
-> PMF TA (Trusted Application) loads via the TEE environment into the
-> AMD ASP.
+> PMF driver sends changing inputs from each subystem to TA for evaluating
+> the conditions in the policy binary.
 > 
-> PMF-TA supports two commands:
-> 1) Init: Initialize the TA with the PMF Smart PC policy binary and
-> start the policy engine. A policy is a combination of inputs and
-> outputs, where;
->  - the inputs are the changing dynamics of the system like the user
->    behaviour, system heuristics etc.
->  - the outputs, which are the actions to be set on the system which
->    lead to better power management and enhanced user experience.
+> Add initial support of plumbing in the PMF driver for Smart PC to get
+> information from other subsystems in the kernel.
 > 
-> PMF driver acts as a central manager in this case to supply the
-> inputs required to the TA (either by getting the information from
-> the other kernel subsystems or from userland)
-> 
-> 2) Enact: Enact the output actions from the TA. The action could be
-> applying a new thermal limit to boost/throttle the power limits or
-> change system behavior.
-> 
-> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 > Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 > ---
->  drivers/platform/x86/amd/pmf/pmf.h    | 10 +++
->  drivers/platform/x86/amd/pmf/tee-if.c | 97 ++++++++++++++++++++++++++-
->  2 files changed, 106 insertions(+), 1 deletion(-)
+>  drivers/platform/x86/amd/pmf/Makefile |   2 +-
+>  drivers/platform/x86/amd/pmf/pmf.h    |  18 ++++
+>  drivers/platform/x86/amd/pmf/spc.c    | 119 ++++++++++++++++++++++++++
+>  drivers/platform/x86/amd/pmf/tee-if.c |   3 +
+>  4 files changed, 141 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/platform/x86/amd/pmf/spc.c
 > 
+> diff --git a/drivers/platform/x86/amd/pmf/Makefile b/drivers/platform/x86/amd/pmf/Makefile
+> index d2746ee7369f..6b26e48ce8ad 100644
+> --- a/drivers/platform/x86/amd/pmf/Makefile
+> +++ b/drivers/platform/x86/amd/pmf/Makefile
+> @@ -7,4 +7,4 @@
+>  obj-$(CONFIG_AMD_PMF) += amd-pmf.o
+>  amd-pmf-objs := core.o acpi.o sps.o \
+>  		auto-mode.o cnqf.o \
+> -		tee-if.o
+> +		tee-if.o spc.o
 > diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
-> index 02460c2a31ea..e0837799f521 100644
+> index 6f4b6f4ecee4..60b11455dadf 100644
 > --- a/drivers/platform/x86/amd/pmf/pmf.h
 > +++ b/drivers/platform/x86/amd/pmf/pmf.h
-> @@ -59,6 +59,9 @@
->  #define ARG_NONE 0
->  #define AVG_SAMPLE_SIZE 3
->  
-> +/* TA macros */
-> +#define PMF_TA_IF_VERSION_MAJOR				1
-> +
->  /* AMD PMF BIOS interfaces */
->  struct apmf_verify_interface {
->  	u16 size;
-> @@ -184,6 +187,7 @@ struct amd_pmf_dev {
->  	struct tee_shm *fw_shm_pool;
->  	u32 session_id;
->  	void *shbuf;
-> +	struct delayed_work pb_work;
->  	bool smart_pc_enabled;
->  };
->  
-> @@ -395,6 +399,12 @@ struct apmf_dyn_slider_output {
->  	struct apmf_cnqf_power_set ps[APMF_CNQF_MAX];
+> @@ -149,6 +149,21 @@ struct smu_pmf_metrics {
+>  	u16 infra_gfx_maxfreq; /* in MHz */
+>  	u16 skin_temp; /* in centi-Celsius */
+>  	u16 device_state;
+> +	u16 curtemp; /* in centi-Celsius */
+> +	u16 filter_alpha_value;
+> +	u16 avg_gfx_clkfrequency;
+> +	u16 avg_fclk_frequency;
+> +	u16 avg_gfx_activity;
+> +	u16 avg_socclk_frequency;
+> +	u16 avg_vclk_frequency;
+> +	u16 avg_vcn_activity;
+> +	u16 avg_dram_reads;
+> +	u16 avg_dram_writes;
+> +	u16 avg_socket_power;
+> +	u16 avg_core_power[2];
+> +	u16 avg_core_c0residency[16];
+> +	u16 spare1;
+> +	u32 metrics_counter;
 >  } __packed;
 >  
-> +/* cmd ids for TA communication */
-> +enum ta_pmf_command {
-> +	TA_PMF_COMMAND_POLICY_BUILDER_INITIALIZE,
-> +	TA_PMF_COMMAND_POLICY_BUILDER_ENACT_POLICIES,
+>  enum amd_stt_skin_temp {
+> @@ -595,4 +610,7 @@ extern const struct attribute_group cnqf_feature_attribute_group;
+>  int amd_pmf_init_smart_pc(struct amd_pmf_dev *dev);
+>  void amd_pmf_deinit_smart_pc(struct amd_pmf_dev *dev);
+>  int apmf_check_smart_pc(struct amd_pmf_dev *pmf_dev);
+> +
+> +/* Smart PC - TA interfaces */
+> +void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in);
+>  #endif /* PMF_H */
+> diff --git a/drivers/platform/x86/amd/pmf/spc.c b/drivers/platform/x86/amd/pmf/spc.c
+> new file mode 100644
+> index 000000000000..3113bde051d9
+> --- /dev/null
+> +++ b/drivers/platform/x86/amd/pmf/spc.c
+> @@ -0,0 +1,119 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * AMD Platform Management Framework Driver - Smart PC Capabilities
+> + *
+> + * Copyright (c) 2023, Advanced Micro Devices, Inc.
+> + * All Rights Reserved.
+> + *
+> + * Authors: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> + *          Patil Rajesh Reddy <Patil.Reddy@amd.com>
+> + */
+> +
+> +#include <acpi/button.h>
+> +#include <linux/power_supply.h>
+> +#include <linux/units.h>
+> +#include "pmf.h"
+> +
+> +static void amd_pmf_get_smu_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
+> +{
+> +	u16 max, avg = 0;
+> +	int i;
+> +
+> +	memset(dev->buf, 0, sizeof(dev->m_table));
+> +	amd_pmf_send_cmd(dev, SET_TRANSFER_TABLE, 0, 7, NULL);
+> +	memcpy(&dev->m_table, dev->buf, sizeof(dev->m_table));
+> +
+> +	in->ev_info.socket_power = dev->m_table.apu_power + dev->m_table.dgpu_power;
+> +	in->ev_info.skin_temperature = dev->m_table.skin_temp;
+> +
+> +	/* get the avg C0 residency of all the cores */
+> +	for (i = 0; i < ARRAY_SIZE(dev->m_table.avg_core_c0residency); i++)
+> +		avg += dev->m_table.avg_core_c0residency[i];
+> +
+> +	/* get the max C0 residency of all the cores */
+> +	max = dev->m_table.avg_core_c0residency[0];
+> +	for (i = 1; i < ARRAY_SIZE(dev->m_table.avg_core_c0residency); i++) {
+> +		if (dev->m_table.avg_core_c0residency[i] > max)
+> +			max = dev->m_table.avg_core_c0residency[i];
+> +	}
+
+My comments weren't either answered adequately or changes made here.
+Please check the v1 comments. I hope it's not because you feel hurry to 
+get the next version out...
+
+I'm still unsure if the u16 thing can overflow because I don't know what's 
+the max value for avg_core_c0residency[i].
+
+> +
+> +	in->ev_info.avg_c0residency = avg / ARRAY_SIZE(dev->m_table.avg_core_c0residency);
+> +	in->ev_info.max_c0residency = max;
+> +	in->ev_info.gfx_busy = dev->m_table.avg_gfx_activity;
+> +}
+> +
+> +static const char * const pmf_battery_supply_name[] = {
+> +	"BATT",
+> +	"BAT0",
 > +};
 > +
->  struct ta_pmf_shared_memory {
->  	int command_id;
->  	int resp_id;
-> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
-> index 4db80ca59a11..1b3985cd7c08 100644
-> --- a/drivers/platform/x86/amd/pmf/tee-if.c
-> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
-> @@ -13,9 +13,96 @@
->  #include "pmf.h"
->  
->  #define MAX_TEE_PARAM	4
+> +static int get_battery_prop(enum power_supply_property prop)
+> +{
+> +	union power_supply_propval value;
+> +	struct power_supply *psy;
+> +	int i, ret = -EINVAL;
 > +
-> +/* Policy binary actions sampling frequency (in ms) */
-> +static int pb_actions_ms = 1000;
+> +	for (i = 0; i < ARRAY_SIZE(pmf_battery_supply_name); i++) {
+> +		psy = power_supply_get_by_name(pmf_battery_supply_name[i]);
+> +		if (!psy)
+> +			continue;
+> +
+> +		ret = power_supply_get_property(psy, prop, &value);
+> +		if (ret) {
+> +			power_supply_put(psy);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return value.intval;
+> +}
+> +
+> +static int amd_pmf_get_battery_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
+> +{
+> +	int val;
+> +
+> +	val = get_battery_prop(POWER_SUPPLY_PROP_PRESENT);
+> +	if (val != 1)
+> +		return -EINVAL;
+> +
+> +	in->ev_info.bat_percentage = get_battery_prop(POWER_SUPPLY_PROP_CAPACITY);
+> +	/* all values in mWh metrics */
+> +	in->ev_info.bat_design = get_battery_prop(POWER_SUPPLY_PROP_ENERGY_FULL_DESIGN) / MILLI;
+> +	in->ev_info.full_charge_capacity = get_battery_prop(POWER_SUPPLY_PROP_ENERGY_FULL) / MILLI;
+> +	in->ev_info.drain_rate = get_battery_prop(POWER_SUPPLY_PROP_POWER_NOW) / MILLI;
 
-MSEC_PER_SEC (from #include <linux/time.h>, don't include the vdso one).
+There are defines specifically for watts so you should use them rather 
+than generic MILLI.
 
-> +#ifdef CONFIG_AMD_PMF_DEBUG
-> +module_param(pb_actions_ms, int, 0644);
-> +MODULE_PARM_DESC(pb_actions_ms, "Policy binary actions sampling frequency (default = 1000ms)");
-> +#endif
 
 -- 
  i.
