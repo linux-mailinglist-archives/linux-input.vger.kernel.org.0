@@ -2,101 +2,138 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E65BB7B8CC5
-	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 21:20:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3719C7B8CB3
+	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 21:20:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245459AbjJDTEx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Oct 2023 15:04:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57986 "EHLO
+        id S244826AbjJDTM7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Oct 2023 15:12:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344652AbjJDTD3 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Oct 2023 15:03:29 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77E78618D;
-        Wed,  4 Oct 2023 11:58:36 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1C37C433C9;
-        Wed,  4 Oct 2023 18:58:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696445915;
-        bh=tq7NZFlnZHqJn3BR7loczaVqdjig92RJVIObjwVIOys=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=jHIH1Tyn86fi7HJ9R68SYq3FokwFMukaSVyE6JHrGJt/2Zw6AbBcl/kvKVEkjwIUz
-         PhPPGd/6diC/Z1PZuK89LdT8P4Q5P8X7zfUGxGUs5bRKwgkjpLFh/MxdrVBZETgnaW
-         IYjoeBHoulD3NmJQhnRMnyiPVC/F8Tufgn1BC07yrpFR830JiC4mG4TH4qxM8abQAr
-         MZ9/0NDyuvF0N+qSDtgqtg6I6Ec+cLaf+pIYcO55Zw0077wbLXWsLfvS6hMQ6mFMLa
-         Ov6l5L7uj2JQbNMF7kBWdqteIAJh+f9uinwmPhzsekZyN0esobhjjMC52ZuKr4rCRC
-         3kYcDXI+coQGg==
-Date:   Wed, 4 Oct 2023 20:58:31 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Rahul Rameshbabu <rrameshbabu@nvidia.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        kernel-janitors@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] HID: nvidia-shield: Fix the error handling path
- of shield_probe()
-In-Reply-To: <20230918115432.30076-1-rrameshbabu@nvidia.com>
-Message-ID: <nycvar.YFH.7.76.2310042058000.3534@cbobk.fhfr.pm>
-References: <20230918115432.30076-1-rrameshbabu@nvidia.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        with ESMTP id S1343544AbjJDTG7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Oct 2023 15:06:59 -0400
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B751726A6;
+        Wed,  4 Oct 2023 12:01:52 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.west.internal (Postfix) with ESMTP id B34F73200A66;
+        Wed,  4 Oct 2023 15:01:49 -0400 (EDT)
+Received: from imap49 ([10.202.2.99])
+  by compute6.internal (MEProxy); Wed, 04 Oct 2023 15:01:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sunshowers.io;
+         h=cc:cc:content-type:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm3; t=1696446108; x=
+        1696532508; bh=j4BkRX3dHCjU+8qjgW830kXHGywOWcvQEGez1bheQQQ=; b=V
+        jreFZabblm+nW/BtsLzRyRIVXzNa6vOE8tGcffuklWy6pchFVS9Inj0ILuSZAAUR
+        sFT3H9MLKlwqA00f/kjR+ifWjR5l1R/9sqtCPjM+QWjLushOiH1s0BjGwqV2LPXC
+        Hvk59kg7fQCRafB8WEhHWRuV0QhB30fOr+d7ZNxPSwRikhlSy8cLGNxT1iVT4M73
+        jnq2AKMKHumcg2/lOb7xYDd7ikKv2oGS9l0vwBCu3aGBWknZzjEP9Q15ld/wzB4C
+        0pCjULT0RD4RAyz4zl1L/rmWxymWDq6lK08TdLLwj3pU538F+AGSamSmj4GVYPOy
+        L6HhoCkI7b/fgfgTygpMA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1696446108; x=1696532508; bh=j4BkRX3dHCjU+
+        8qjgW830kXHGywOWcvQEGez1bheQQQ=; b=XnCAxX6Zmm0GU2KCT3hB+66+FMhyE
+        3mXSh8eYwyxG+puw9+vhXtAT4bP7fnkkX/ClfNo4T/r5uxB2nueOFDPVPm/6VKHZ
+        8XVNyMrn7rdIjrLdFmdxqZ9eNM9jl2TJ6Lb22RASadGiA4Z2Exeu2GTHeybDPFLw
+        SK42S4ZsDSGoaW4Bh6UTpN55aJ1iIU2eSf8hkoAHBf7bSHTO5Ydu1oYy8SY8PLj0
+        CmjRwIIGkrmb/g+cmv6C/GnNpwAWTwqAhwCqhWwaz61xcaRYQX/uluCHkjgnWYy6
+        D/cXPTY/Ow5aPdF2UWAUaZiHJ+YvACMg8Np8BaiR9JCvFsl32DFkPfgvg==
+X-ME-Sender: <xms:nLYdZXY6KcIIR-u-IE3sr1P526Si7dmDg3FGCu1RCFKNUTtYefkH1A>
+    <xme:nLYdZWYE0jZrwefY8C1Li4KFVsmNLMuoaHbx0k1_zM2H866O0snlDjmKyzB0LKdaP
+    WqGcQ3CAL4HvRNoM1A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrgedvgddufedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpeftrghi
+    nhcuoehrrghinhesshhunhhshhhofigvrhhsrdhioheqnecuggftrfgrthhtvghrnhepue
+    eguefhieejgeffteffkeehjeeijefhudeifedtieevveeghfekgedvgfektefgnecuffho
+    mhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpehrrghinhesshhunhhshhhofigvrhhsrdhioh
+X-ME-Proxy: <xmx:nLYdZZ_bx4CLT2P-eWCvoj2WOA25WcD2ILaXyaCP_Ewfb1MwrqAmnQ>
+    <xmx:nLYdZdrI4AEwbKxrr8dN6V-MxF1lYmomBnDpofPsS_rTbu4XvNMJMg>
+    <xmx:nLYdZSolZTLZLw-QO5CzAlZ33VzoT46kOSe6aDvxWyrArcsWAwDnSw>
+    <xmx:nLYdZVVDel5eywCGbphSl1qQyO4pxx_bf3zfslLXHYW-NTS0SXyS9w>
+Feedback-ID: iaa1146ff:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id ECFAC15A0092; Wed,  4 Oct 2023 15:01:47 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-958-g1b1b911df8-fm-20230927.002-g1b1b911d
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Message-Id: <e0f33dd3-1a35-4c76-889f-a80e42da2ded@app.fastmail.com>
+In-Reply-To: <20230917161802.39716-1-sergeantsagara@protonmail.com>
+References: <20230917161802.39716-1-sergeantsagara@protonmail.com>
+Date:   Wed, 04 Oct 2023 12:01:27 -0700
+From:   Rain <rain@sunshowers.io>
+To:     "Rahul Rameshbabu" <sergeantsagara@protonmail.com>,
+        "Jiri Kosina" <jikos@kernel.org>,
+        "Benjamin Tissoires" <benjamin.tissoires@redhat.com>,
+        "Henrik Rydberg" <rydberg@bitmath.org>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: multitouch: Add required quirk for Synaptics 0xcd7e device
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 18 Sep 2023, Rahul Rameshbabu wrote:
+On Sun, Sep 17, 2023, at 09:18, Rahul Rameshbabu wrote:
+> Register the Synaptics device as a special multitouch device with certain
+> quirks that may improve usability of the touchpad device.
+>
+> Reported-by: Rain <rain@sunshowers.io>
+> Closes: 
+> https://lore.kernel.org/linux-input/2bbb8e1d-1793-4df1-810f-cb0137341ff4@app.fastmail.com/
+> Signed-off-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+> ---
+>
+> Notes:
+>     Theory:
+>    
+>       I think the Synaptics device in the related email to the linux-input
+>       mailing list requires certain quirks like MT_QUIRK_HOVERING to correctly
+>       reconfigure the distance configuration for multitouch events. This might
+>       explain why light touches were not registered originally when
+>       MT_CLS_DEFAULT was used by default for the device. Would like to have
+>       this patch tested before being merged. A Tested-by: git trailer can then
+>       be appended.
+>
+>  drivers/hid/hid-multitouch.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+> index 521b2ffb4244..8db4ae05febc 100644
+> --- a/drivers/hid/hid-multitouch.c
+> +++ b/drivers/hid/hid-multitouch.c
+> @@ -2144,6 +2144,10 @@ static const struct hid_device_id mt_devices[] = {
+>  			USB_DEVICE_ID_MTP_STM)},
+> 
+>  	/* Synaptics devices */
+> +	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
+> +		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
+> +			USB_VENDOR_ID_SYNAPTICS, 0xcd7e) },
 
-> This series fixes some missing clean-up function calls in the error handling of
-> the probe.
-> 
-> Patch 1 and 2 fix some similar issues introduced in 2 different commits (hence 2
-> patches)
-> 
-> Patch 3 is an enhancement that creates a common function for cleaning up
-> thunderstrike instances.
-> 
-> Changes:
-> 
->   v1->v2:
->     - Add the LED_RETAIN_AT_SHUTDOWN flag to prevent
->       led_classdev_unregister from trying to set the LED to off before a
->       successful call to hid_hw_start.
->     - Rename err_haptics label to err_ts_create to make the label name more
->       accurate.
->     - Re-order operations in thunderstrike_destroy to be in LIFO order with
->       regards to the operations in thunderstrike_create.
->   v2->v3:
->     - Refactor thunderstrike_destroy to take a thunderstrike instance
->       pointer as a parameter and prevent a variable from being unused
->       in shield_probe.
-> 
-> Link: https://lore.kernel.org/linux-input/cover.1693070958.git.christophe.jaillet@wanadoo.fr/
-> Link: https://lore.kernel.org/linux-input/20230918041345.59859-1-rrameshbabu@nvidia.com/
-> 
-> Notes from Rahul:
->   - Thank you so much Christophe for these patches.
->   - Sent v2 without accounting for the fact that thunderstrike_destroy in v1
->     makes the thunderstrike instance in shield_probe unused. Tested v3 with W=1.
-> 
-> Christophe JAILLET (3):
->   HID: nvidia-shield: Fix a missing led_classdev_unregister() in the
->     probe error handling path
->   HID: nvidia-shield: Fix some missing function calls() in the probe
->     error handling path
->   HID: nvidia-shield: Introduce thunderstrike_destroy()
+Thanks for the patch! I haven't tested it yet but it looks promising.
 
-I have applied 1/3 and 2/3 to for-6.6/upstream-fixes and 3/3 to 
-for-6.7/nvidia-shield.
+The vendor ID isn't USB_VENDOR_ID_SYNAPTICS (0x06cb),
+however -- it's SYNA7DB5 (0x7db5) which I guess is an alternative vendor
+ID for Synaptics. Would be worth fixing that.
 
-Thanks,
+> +
+>  	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
+>  		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
+>  			USB_VENDOR_ID_SYNAPTICS, 0xce08) },
+> -- 
+> 2.40.1
 
 -- 
-Jiri Kosina
-SUSE Labs
-
+Rain
+(they/she)
