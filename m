@@ -2,39 +2,41 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC5937B8D3C
-	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 21:21:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F6347B8D0D
+	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 21:21:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244985AbjJDTJ7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Oct 2023 15:09:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49732 "EHLO
+        id S245300AbjJDTPW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Oct 2023 15:15:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245619AbjJDTJh (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Oct 2023 15:09:37 -0400
+        with ESMTP id S245327AbjJDTPF (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Oct 2023 15:15:05 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 608A21BF5;
-        Wed,  4 Oct 2023 12:08:14 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA56FC433C8;
-        Wed,  4 Oct 2023 19:08:12 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AF0911B;
+        Wed,  4 Oct 2023 12:14:54 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD8A5C433C7;
+        Wed,  4 Oct 2023 19:14:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696446494;
-        bh=QNnMLUld3EP0hN/OdAh3qa/KhWWaME+HBFlqQYT6ChM=;
+        s=k20201202; t=1696446894;
+        bh=ApDtmv1qaYUzh+pCuxsBvwGBh8O049GYBAMvDvx1obk=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=rj3z/u3RnB7WfWljEWfz5tRqCuA4C7ZsQ/PuBNhU7cXWNX2QONvdVNdg4NHIrGP/9
-         99T5wGqyKjblSKmWNjgA1MUAAcmXxHQR9CBoh68MwyGPjPfQL7gbQ39hODtze55Bet
-         DVtiDvVEBm/Ug107suxPCo+bTxjkLZOO7bzn2H5zElaXxmJiqIWq2hDJlsfnJOsRwp
-         qebDykGKEdzdNSkL/92pM9VIbblpE0nMTUSuiv685jwfFqg1dr0GHqcPbZ4yRDT4Hp
-         fZzB8aIXJ9AXUfQ0Rvd76o+YeLREEF1/ptZzCofhgpmaeHST0/hIZkD4nvbVrFRTIr
-         yleN8q0FN7J0w==
-Date:   Wed, 4 Oct 2023 21:08:10 +0200 (CEST)
+        b=TMYJ03zG548A10EOdx0m9PqE48jMm461T/Vv7Y0d6un4xq17JNktqH5MSHtkkXXEr
+         NG9rwPnK/PGy8hojDP1JTJqjHV9/yq+Re46N6OfV48b8/aVaWQcabd9Z/Rs33wDYbQ
+         FUirFo19d3/UKpljDIECkCOOy7Yhg63BlhMBCYJ9qiaxPUiXzsVtPva7FnJb4eYum5
+         2vS5u0tQ1D0tm916wP5D0eN0xWM+aEoYD45kQJ+UIE2FI2aNT8A4ihfgrh01zC2Vbs
+         eTa+Ho2Heun97pSJmixDTbUrl5GQy9Z4i4Z1j0WEsmlEkp0kXbp83IdJDwYnA+w5a7
+         wsftpvSXDPrIA==
+Date:   Wed, 4 Oct 2023 21:14:50 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Martino Fontana <tinozzo123@gmail.com>
-cc:     djogorchock@gmail.com, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 RESEND] HID: nintendo: cleanup LED code
-In-Reply-To: <20230924141547.11597-1-tinozzo123@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2310042107570.3534@cbobk.fhfr.pm>
-References: <20230924141547.11597-1-tinozzo123@gmail.com>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>
+Subject: Re: [PATCH] HID: intel-ish-hid: ipc: Disable and reenable ACPI GPE
+ bit
+In-Reply-To: <20231003155332.1855569-1-srinivas.pandruvada@linux.intel.com>
+Message-ID: <nycvar.YFH.7.76.2310042114420.3534@cbobk.fhfr.pm>
+References: <20231003155332.1855569-1-srinivas.pandruvada@linux.intel.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -47,66 +49,51 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 24 Sep 2023, Martino Fontana wrote:
+On Tue, 3 Oct 2023, Srinivas Pandruvada wrote:
 
-> - Support player LED patterns up to 8 players.
->   (Note that the behavior still consinsts in increasing the player number
->   every time a controller is connected, never decreasing it. It should be
->   as is described in https://bugzilla.kernel.org/show_bug.cgi?id=216225.
->   However, any implementation here would stop making sense as soon as a
->   non-Nintendo controller is connected, which is why I'm not bothering.)
+> The EHL (Elkhart Lake) based platforms provide a OOB (Out of band)
+> service, which allows to wakup device when the system is in S5 (Soft-Off
+> state). This OOB service can be enabled/disabled from BIOS settings. When
+> enabled, the ISH device gets PME wake capability. To enable PME wakeup,
+> driver also needs to enable ACPI GPE bit.
 > 
-> - Split part of `joycon_home_led_brightness_set` (which is called by hid)
->   into `joycon_set_home_led` (which is what actually sets the LEDs), for
->   consistency with player LEDs.
+> On resume, BIOS will clear the wakeup bit. So driver need to re-enable it
+> in resume function to keep the next wakeup capability. But this BIOS
+> clearing of wakeup bit doesn't decrement internal OS GPE reference count,
+> so this reenabling on every resume will cause reference count to overflow.
 > 
-> - `joycon_player_led_brightness_set` won't try it to "determine which
->   player led this is" anymore: it's already looking at every LED
->   brightness value.
+> So first disable and reenable ACPI GPE bit using acpi_disable_gpe().
 > 
-> - Instead of first registering the `led_classdev`, then attempting to set
->   the LED and unregistering the `led_classdev` if it fails, first attempt
->   to set the LED, then register the `led_classdev` only if it succeeds
->   (the class is still filled up in either case).
-> 
-> - If setting the player LEDs fails, still attempt setting the home LED.
->   (I don't know there's a third party controller where this may actually
->   happen, but who knows...)
-> 
-> - Use `JC_NUM_LEDS` where appropriate instead of 4.
-> 
-> - Print return codes in more places.
-> 
-> - Use spinlock instead of mutex for `input_num`. Copy its value to a local
->   variable, so that it can be unlocked immediately.
-> 
-> - `input_num` starts counting from 0
-> 
-> - Less holding of mutexes in general.
-> 
-> Signed-off-by: Martino Fontana <tinozzo123@gmail.com>
+> Fixes: 2e23a70edabe ("HID: intel-ish-hid: ipc: finish power flow for EHL OOB")
+> Reported-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> Closes: https://lore.kernel.org/lkml/CAAd53p4=oLYiH2YbVSmrPNj1zpMcfp=Wxbasb5vhMXOWCArLCg@mail.gmail.com/T/
+> Tested-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 > ---
-> Changes for v2:
+>  drivers/hid/intel-ish-hid/ipc/pci-ish.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-> Applied suggestions, commit message explains more stuff, restored `return ret`
-> when `devm_led_classdev_register` fails (since all other hid drivers do this).
-> If setting LED fails, `hid_warn` now explicitly says "skipping registration".
-> 
-> Changes for v3 and v4:
-> 
-> Fixed errors and warnings from test robot.
-> 
-> Changes for v5:
-> 
-> I thought that when connecting the controller on an actual Nintendo Switch,
-> only the nth player LED would turn on, which is true... on Wii and Wii U.
-> So I reverted that, and to compensate, now this supports the LED patterns
-> up to 8 players.
-> 
->  drivers/hid/hid-nintendo.c | 133 +++++++++++++++++++++----------------
->  1 file changed, 76 insertions(+), 57 deletions(-)
+> diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+> index 55cb25038e63..710fda5f19e1 100644
+> --- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+> +++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+> @@ -133,6 +133,14 @@ static int enable_gpe(struct device *dev)
+>  	}
+>  	wakeup = &adev->wakeup;
+>  
+> +	/*
+> +	 * Call acpi_disable_gpe(), so that reference count
+> +	 * gpe_event_info->runtime_count doesn't overflow.
+> +	 * When gpe_event_info->runtime_count = 0, the call
+> +	 * to acpi_disable_gpe() simply return.
+> +	 */
+> +	acpi_disable_gpe(wakeup->gpe_device, wakeup->gpe_number);
+> +
+>  	acpi_sts = acpi_enable_gpe(wakeup->gpe_device, wakeup->gpe_number);
+>  	if (ACPI_FAILURE(acpi_sts)) {
+>  		dev_err(dev, "enable ose_gpe failed\n");
 
-Applied, thank you.
+Applied, thanks Srinivas.
 
 -- 
 Jiri Kosina
