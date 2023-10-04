@@ -2,94 +2,131 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3DC97B7630
-	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 03:18:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87E187B76B2
+	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 04:50:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232484AbjJDBSN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Oct 2023 21:18:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48072 "EHLO
+        id S232462AbjJDCuc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Oct 2023 22:50:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232262AbjJDBSN (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Oct 2023 21:18:13 -0400
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3290AB;
-        Tue,  3 Oct 2023 18:18:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bluemarch.art;
-        s=protonmail; t=1696382286; x=1696641486;
-        bh=0/NTixYReknMRRBO500wvyfnj9CRDEyPNDq3gOMgpyI=;
-        h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-         Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-        b=JbU8T7BH5W1VsBAqpE/+zgfEmkKsgSs0kuf9FlkkFVDIv6qxzN6UaauX4d6GHEMN4
-         +BI6WqLMcaizQwmsH5GFtwHOTFoekkpKXnLV1F3ShU9/380P7E9O2s/P8eXBxQCdK/
-         +vLLtiqZnZWrVyzACuRs8uXtt8ezSCYsjayaUZtf0Ukkq2dF/8sVMbFQ9NFJo8q81+
-         3LZejZypDcb1zacvXMqZxFk4pcFBqzW6M/pjW6Zz791TbEXIaj9E75moPosMKoxO3M
-         oRxk9RMdtTf5MEUNkPkguKvx/w52XR/Rx9ZR3OlE17/NWozm36tS72F6XlsRyFIOy2
-         U9Rwi/KfjA8rw==
-Date:   Wed, 04 Oct 2023 01:17:54 +0000
-To:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        dmitry.torokhov@gmail.com
-From:   Szilard Fabian <szfabian@bluemarch.art>
-Cc:     Szilard Fabian <szfabian@bluemarch.art>
-Subject: [PATCH] Input: i8042 - add Fujitsu Lifebook E5411 to i8042 quirk table
-Message-ID: <20231004011749.101789-1-szfabian@bluemarch.art>
-Feedback-ID: 87830438:user:proton
+        with ESMTP id S230447AbjJDCub (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Oct 2023 22:50:31 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D419B0;
+        Tue,  3 Oct 2023 19:50:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696387823; x=1727923823;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ClnmhsCaFZlRhEZGTnrJ+4K60cvJZGFBAonbTN8b/Ns=;
+  b=mYP9kx4jJ/V7ONPjZkpE4i0P7e+gO9awOPVpM7cX3QLVTXvXxIUd7POt
+   zimNXAxb8t2v/8dqBlg84Ly4M8fqdzJALw9s6Nqq2aTPVLREfD2M3nFr3
+   uMDZ7Hmhy22efEmUNgRldOP3HDQtv2LdNzrOMR5vwnbnFjc94eLBJJydR
+   s993rvZZpsp0ttHPmEEgZVViznpH/OKiN5J4Onw4P/rfUZvpgJmNAT1Jf
+   A951ZqfxLLUWmwWrfbZ4Ol2MLh4aF0Rpi+YLdqS9CWxI90Uip9JFJFl4T
+   t01+aRgdA2+FpQvrZgQuo3ZokcdEQRgOYdEvWTEBxjm+4qfel5hba5P2z
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="413955805"
+X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
+   d="scan'208";a="413955805"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 19:50:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="867135637"
+X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
+   d="scan'208";a="867135637"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 03 Oct 2023 19:50:19 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qnrxp-000AOs-0N;
+        Wed, 04 Oct 2023 02:50:17 +0000
+Date:   Wed, 4 Oct 2023 10:50:17 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     karelb@gimli.ms.mff.cuni.cz,
+        Markuss Broks <markuss.broks@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+        Karel Balej <karelb@gimli.ms.mff.cuni.cz>
+Subject: Re: [PATCH v2 3/5] input/touchscreen: imagis: Add support for Imagis
+ IST3038B
+Message-ID: <202310041036.tddy1jGm-lkp@intel.com>
+References: <20231003133440.4696-4-karelb@gimli.ms.mff.cuni.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231003133440.4696-4-karelb@gimli.ms.mff.cuni.cz>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In the initial boot stage the integrated keyboard of Fujitsu Lifebook E5411
-refuses to work and it's not possible to type for example a dm-crypt
-passphrase without the help of an external keyboard.
+Hi,
 
-i8042.nomux kernel parameter resolves this issue but using that a PS/2
-mouse is detected. This input device is unused even when the i2c-hid-acpi
-kernel module is blacklisted making the integrated ELAN touchpad
-(04F3:308A) not working at all.
+kernel test robot noticed the following build warnings:
 
-Since the integrated touchpad is managed by the i2c_designware input
-driver in the Linux kernel and you can't find a PS/2 mouse port on the
-computer I think it's safe to not use the PS/2 mouse port at all.
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus robh/for-next linus/master v6.6-rc4 next-20231003]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Szilard Fabian <szfabian@bluemarch.art>
----
-I think the same patch could be applied to E4411, E4511 and E5511 too
-but sadly I can't test this theory. But these computers use the same
-UEFI updates so I think there isn't much difference in input devices.
----
- drivers/input/serio/i8042-acpipnpio.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+url:    https://github.com/intel-lab-lkp/linux/commits/karelb-gimli-ms-mff-cuni-cz/input-touchscreen-imagis-Correct-the-maximum-touch-area-value/20231003-213739
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20231003133440.4696-4-karelb%40gimli.ms.mff.cuni.cz
+patch subject: [PATCH v2 3/5] input/touchscreen: imagis: Add support for Imagis IST3038B
+config: x86_64-randconfig-004-20231004 (https://download.01.org/0day-ci/archive/20231004/202310041036.tddy1jGm-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310041036.tddy1jGm-lkp@intel.com/reproduce)
 
-diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8=
-042-acpipnpio.h
-index 028e45bd050b..3f73fa69b8ce 100644
---- a/drivers/input/serio/i8042-acpipnpio.h
-+++ b/drivers/input/serio/i8042-acpipnpio.h
-@@ -618,6 +618,14 @@ static const struct dmi_system_id i8042_dmi_quirk_tabl=
-e[] __initconst =3D {
- =09=09},
- =09=09.driver_data =3D (void *)(SERIO_QUIRK_NOMUX)
- =09},
-+=09{
-+=09=09/* Fujitsu Lifebook E5411 */
-+=09=09.matches =3D {
-+=09=09=09DMI_MATCH(DMI_SYS_VENDOR, "FUJITSU CLIENT COMPUTING LIMITED"),
-+=09=09=09DMI_MATCH(DMI_PRODUCT_NAME, "LIFEBOOK E5411"),
-+=09=09},
-+=09=09.driver_data =3D (void *)(SERIO_QUIRK_NOAUX)
-+=09},
- =09{
- =09=09/* Gigabyte M912 */
- =09=09.matches =3D {
---=20
-2.42.0
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310041036.tddy1jGm-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/input/touchscreen/imagis.c:374:39: warning: 'imagis_3038c_data' defined but not used [-Wunused-const-variable=]
+     374 | static const struct imagis_properties imagis_3038c_data = {
+         |                                       ^~~~~~~~~~~~~~~~~
+>> drivers/input/touchscreen/imagis.c:366:39: warning: 'imagis_3038b_data' defined but not used [-Wunused-const-variable=]
+     366 | static const struct imagis_properties imagis_3038b_data = {
+         |                                       ^~~~~~~~~~~~~~~~~
 
 
+vim +/imagis_3038c_data +374 drivers/input/touchscreen/imagis.c
+
+   365	
+ > 366	static const struct imagis_properties imagis_3038b_data = {
+   367		.interrupt_msg_cmd = IST3038B_REG_STATUS,
+   368		.touch_coord_cmd = IST3038B_REG_STATUS,
+   369		.whoami_cmd = IST3038B_REG_CHIPID,
+   370		.whoami_val = IST3038B_WHOAMI,
+   371		.protocol_b = true,
+   372	};
+   373	
+ > 374	static const struct imagis_properties imagis_3038c_data = {
+   375		.interrupt_msg_cmd = IST3038C_REG_INTR_MESSAGE,
+   376		.touch_coord_cmd = IST3038C_REG_TOUCH_COORD,
+   377		.whoami_cmd = IST3038C_REG_CHIPID,
+   378		.whoami_val = IST3038C_WHOAMI,
+   379	};
+   380	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
