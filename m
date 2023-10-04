@@ -2,41 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F6347B8D0D
-	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 21:21:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 678127B8D38
+	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 21:21:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245300AbjJDTPW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Oct 2023 15:15:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58318 "EHLO
+        id S244683AbjJDTQW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Oct 2023 15:16:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245327AbjJDTPF (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Oct 2023 15:15:05 -0400
+        with ESMTP id S244619AbjJDTQU (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Oct 2023 15:16:20 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AF0911B;
-        Wed,  4 Oct 2023 12:14:54 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD8A5C433C7;
-        Wed,  4 Oct 2023 19:14:52 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26510171E;
+        Wed,  4 Oct 2023 12:16:16 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E0C6C433C8;
+        Wed,  4 Oct 2023 19:16:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696446894;
-        bh=ApDtmv1qaYUzh+pCuxsBvwGBh8O049GYBAMvDvx1obk=;
+        s=k20201202; t=1696446975;
+        bh=UGWfEq96LPoL2DJ4iPTL/UOZYg+9lvo1XfLHM+eQIc0=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=TMYJ03zG548A10EOdx0m9PqE48jMm461T/Vv7Y0d6un4xq17JNktqH5MSHtkkXXEr
-         NG9rwPnK/PGy8hojDP1JTJqjHV9/yq+Re46N6OfV48b8/aVaWQcabd9Z/Rs33wDYbQ
-         FUirFo19d3/UKpljDIECkCOOy7Yhg63BlhMBCYJ9qiaxPUiXzsVtPva7FnJb4eYum5
-         2vS5u0tQ1D0tm916wP5D0eN0xWM+aEoYD45kQJ+UIE2FI2aNT8A4ihfgrh01zC2Vbs
-         eTa+Ho2Heun97pSJmixDTbUrl5GQy9Z4i4Z1j0WEsmlEkp0kXbp83IdJDwYnA+w5a7
-         wsftpvSXDPrIA==
-Date:   Wed, 4 Oct 2023 21:14:50 +0200 (CEST)
+        b=tShegiyBNnzyHruJ+bS/TORGBESplQQ2gItE4COmHAoR34eMmuxG20vRiuJNLE/CK
+         8OIICuQJproFGrNTruF16/Wdothk/TD2emE5Itt7641nqnj3UOkweWCiuZXB2GcHZx
+         Hvmz1Xcz3zwpG1Z7xkaYy3qFM0GImuNC2D4V1ehm7gITRykaSP8knVpp88+kGoJAda
+         vrui+4TEZrH9rxu5rrR+MFV1dbubxSIsOzc9LqfO2ypWh58hHl2vjAdVBZAeRmeHx6
+         uVvd28njDsf3yUt/3T0LUw8GN4rWQz0+/ogEjgy8x9I5Sauqzo3CZxKfKvraT03B46
+         ujClQCAHkvC5g==
+Date:   Wed, 4 Oct 2023 21:16:12 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>
-Subject: Re: [PATCH] HID: intel-ish-hid: ipc: Disable and reenable ACPI GPE
- bit
-In-Reply-To: <20231003155332.1855569-1-srinivas.pandruvada@linux.intel.com>
-Message-ID: <nycvar.YFH.7.76.2310042114420.3534@cbobk.fhfr.pm>
-References: <20231003155332.1855569-1-srinivas.pandruvada@linux.intel.com>
+To:     Fabian Vogt <fabian@ritter-vogt.de>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: Add quirk to ignore the touchscreen battery on HP
+ ENVY 15-eu0556ng
+In-Reply-To: <4537226.LvFx2qVVIh@fabians-envy>
+Message-ID: <nycvar.YFH.7.76.2310042116030.3534@cbobk.fhfr.pm>
+References: <4537226.LvFx2qVVIh@fabians-envy>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -49,51 +48,44 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 3 Oct 2023, Srinivas Pandruvada wrote:
+On Tue, 3 Oct 2023, Fabian Vogt wrote:
 
-> The EHL (Elkhart Lake) based platforms provide a OOB (Out of band)
-> service, which allows to wakup device when the system is in S5 (Soft-Off
-> state). This OOB service can be enabled/disabled from BIOS settings. When
-> enabled, the ISH device gets PME wake capability. To enable PME wakeup,
-> driver also needs to enable ACPI GPE bit.
+> Like various other devices using similar hardware, this model reports a
+> perpetually empty battery (0-1%).
 > 
-> On resume, BIOS will clear the wakeup bit. So driver need to re-enable it
-> in resume function to keep the next wakeup capability. But this BIOS
-> clearing of wakeup bit doesn't decrement internal OS GPE reference count,
-> so this reenabling on every resume will cause reference count to overflow.
+> Join the others and apply HID_BATTERY_QUIRK_IGNORE.
 > 
-> So first disable and reenable ACPI GPE bit using acpi_disable_gpe().
-> 
-> Fixes: 2e23a70edabe ("HID: intel-ish-hid: ipc: finish power flow for EHL OOB")
-> Reported-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> Closes: https://lore.kernel.org/lkml/CAAd53p4=oLYiH2YbVSmrPNj1zpMcfp=Wxbasb5vhMXOWCArLCg@mail.gmail.com/T/
-> Tested-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Signed-off-by: Fabian Vogt <fabian@ritter-vogt.de>
 > ---
->  drivers/hid/intel-ish-hid/ipc/pci-ish.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  drivers/hid/hid-ids.h   | 1 +
+>  drivers/hid/hid-input.c | 2 ++
+>  2 files changed, 3 insertions(+)
 > 
-> diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> index 55cb25038e63..710fda5f19e1 100644
-> --- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> +++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> @@ -133,6 +133,14 @@ static int enable_gpe(struct device *dev)
->  	}
->  	wakeup = &adev->wakeup;
+> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> index 7e499992a793..e4d2dfd5d253 100644
+> --- a/drivers/hid/hid-ids.h
+> +++ b/drivers/hid/hid-ids.h
+> @@ -425,6 +425,7 @@
+>  #define I2C_DEVICE_ID_HP_SPECTRE_X360_13T_AW100	0x29F5
+>  #define I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V1	0x2BED
+>  #define I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V2	0x2BEE
+> +#define I2C_DEVICE_ID_HP_ENVY_X360_15_EU0556NG		0x2D02
 >  
-> +	/*
-> +	 * Call acpi_disable_gpe(), so that reference count
-> +	 * gpe_event_info->runtime_count doesn't overflow.
-> +	 * When gpe_event_info->runtime_count = 0, the call
-> +	 * to acpi_disable_gpe() simply return.
-> +	 */
-> +	acpi_disable_gpe(wakeup->gpe_device, wakeup->gpe_number);
-> +
->  	acpi_sts = acpi_enable_gpe(wakeup->gpe_device, wakeup->gpe_number);
->  	if (ACPI_FAILURE(acpi_sts)) {
->  		dev_err(dev, "enable ose_gpe failed\n");
+>  #define USB_VENDOR_ID_ELECOM		0x056e
+>  #define USB_DEVICE_ID_ELECOM_BM084	0x0061
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index 0235cc1690a1..c8b20d44b147 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -409,6 +409,8 @@ static const struct hid_device_id hid_battery_quirks[] = {
+>  	  HID_BATTERY_QUIRK_IGNORE },
+>  	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_14T_EA100_V2),
+>  	  HID_BATTERY_QUIRK_IGNORE },
+> +	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_ENVY_X360_15_EU0556NG),
+> +	  HID_BATTERY_QUIRK_IGNORE },
+>  	{}
 
-Applied, thanks Srinivas.
+Applied, thanks Fabian.
 
 -- 
 Jiri Kosina
