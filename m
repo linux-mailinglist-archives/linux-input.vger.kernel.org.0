@@ -2,103 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 165287B7621
-	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 03:08:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3DC97B7630
+	for <lists+linux-input@lfdr.de>; Wed,  4 Oct 2023 03:18:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232482AbjJDBIu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Oct 2023 21:08:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38776 "EHLO
+        id S232484AbjJDBSN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Oct 2023 21:18:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232262AbjJDBIu (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Oct 2023 21:08:50 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC2B0AB
-        for <linux-input@vger.kernel.org>; Tue,  3 Oct 2023 18:08:45 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-536ef8a7dcdso6588a12.0
-        for <linux-input@vger.kernel.org>; Tue, 03 Oct 2023 18:08:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1696381724; x=1696986524; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4vxM4zNVFuUMx5H9x8OKQLI8DNjHa1TcGf47a6wRUPc=;
-        b=KIdclyHoEzmJklFaDJN6ZoZSUZj3CFGeEKoiI2ETrEnikSBUc9hC3ODwehaskiFsZs
-         RoutitI9TP/W4DuaZAHyF3dfd3ymjk3XTe/TVHVur8pGpd2HGiPaJHEw0DcO3K1Bpiev
-         Ojidu1dW64GoMd4P4watTW8JjJeuB2JwsrvPyj9151Qb9UrppgrfNotnYOlB2050JvjK
-         aO575CsyrhOXhc9q/CyOGiqac64IS2nUO/LRy+GD4osP9/ImISd3gMhBaBlPI//TbiYn
-         VSQwu490tB9drluMeUji5XW3W7yLxdlfZOoLvsqrIXNfTBnCkMAIc5YagRvE9KgrNFxz
-         Z49g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696381724; x=1696986524;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4vxM4zNVFuUMx5H9x8OKQLI8DNjHa1TcGf47a6wRUPc=;
-        b=MTaulGMaO4+3offbntqGzJWk3sc/sRdICUUOuj4arn4gTaoNjxEYGnAzHe/ly185hV
-         q1H1Gc4ZG1hCw6keouCnY0hVKdR4E6riA+dZXbwNsc3+9skmeAlvf1QTw0zu13kggmue
-         6aomd5HdTiMSh3xUtxHDxJxzTyeJTZy5L8KpC/3dd1JULR36LYEKTdnmKO2EOPnSocJs
-         qNYFIzI6WvcAvh5kKAsYrtTa0UcmFDyC9hAbcv7Q9i317ykZMBuawMrr+v58+I/OZzOy
-         wAFpXf+d3b6fuFEL7Y7WKDR3SqzI9q7cGgZ0xFTXVX6elOrhUkmCpoKI1H7tH4rxUEV2
-         kBeA==
-X-Gm-Message-State: AOJu0YwxTRDcSaLQkmtzLflxoUu/QOLZ6bZBMZke4ZKWl0dp8X9Ohk2N
-        6/nxek1Jt9tsexPkwzZLc6i4WX5mIPOTeFqxxRF4Kg==
-X-Google-Smtp-Source: AGHT+IHDHKR3s5a3A/HxReBTzQR4+rqVuNCkERmQJmVfXcOBVLD3NZxto2J5t2WUWe44svD4BC43pI66NQw+/k+o6qI=
-X-Received: by 2002:a50:d083:0:b0:522:4741:d992 with SMTP id
- v3-20020a50d083000000b005224741d992mr64635edd.4.1696381724108; Tue, 03 Oct
- 2023 18:08:44 -0700 (PDT)
+        with ESMTP id S232262AbjJDBSN (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Oct 2023 21:18:13 -0400
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3290AB;
+        Tue,  3 Oct 2023 18:18:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bluemarch.art;
+        s=protonmail; t=1696382286; x=1696641486;
+        bh=0/NTixYReknMRRBO500wvyfnj9CRDEyPNDq3gOMgpyI=;
+        h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+         Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+        b=JbU8T7BH5W1VsBAqpE/+zgfEmkKsgSs0kuf9FlkkFVDIv6qxzN6UaauX4d6GHEMN4
+         +BI6WqLMcaizQwmsH5GFtwHOTFoekkpKXnLV1F3ShU9/380P7E9O2s/P8eXBxQCdK/
+         +vLLtiqZnZWrVyzACuRs8uXtt8ezSCYsjayaUZtf0Ukkq2dF/8sVMbFQ9NFJo8q81+
+         3LZejZypDcb1zacvXMqZxFk4pcFBqzW6M/pjW6Zz791TbEXIaj9E75moPosMKoxO3M
+         oRxk9RMdtTf5MEUNkPkguKvx/w52XR/Rx9ZR3OlE17/NWozm36tS72F6XlsRyFIOy2
+         U9Rwi/KfjA8rw==
+Date:   Wed, 04 Oct 2023 01:17:54 +0000
+To:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        dmitry.torokhov@gmail.com
+From:   Szilard Fabian <szfabian@bluemarch.art>
+Cc:     Szilard Fabian <szfabian@bluemarch.art>
+Subject: [PATCH] Input: i8042 - add Fujitsu Lifebook E5411 to i8042 quirk table
+Message-ID: <20231004011749.101789-1-szfabian@bluemarch.art>
+Feedback-ID: 87830438:user:proton
 MIME-Version: 1.0
-References: <ca0109fa-c64b-43c1-a651-75b294d750a1@leemhuis.info>
- <CAAzPG9NkoaUz_JRtZt_JomsYj-8ZPn4QH0w0eeR-oxd55-18Qg@mail.gmail.com>
- <CAAzPG9NWp8yPU52o7d2-jLjxjLodFOiE_AjoxmCAZ=MXtV__Aw@mail.gmail.com>
- <cf87d6a5-7ff3-4add-8c48-fd3447b32697@leemhuis.info> <1b3f8dd2-6364-4f00-a33e-8b15b8911dbf@leemhuis.info>
- <CAAzPG9MD+UQb_RdiMkPkpQGYe-arD1nMKWngMj4P5s3_zJvphQ@mail.gmail.com> <906cfb11-ee93-4251-a6ff-1c4d9656b577@leemhuis.info>
-In-Reply-To: <906cfb11-ee93-4251-a6ff-1c4d9656b577@leemhuis.info>
-From:   Jeffery Miller <jefferymiller@google.com>
-Date:   Tue, 3 Oct 2023 20:08:32 -0500
-Message-ID: <CAAzPG9PrOzOawLBRNenO0Xx1bArg020Qf0iPh1bNJbwUK1c-6A@mail.gmail.com>
-Subject: Re: [regression] Resume broken on T14s Gen1 (AMD) due to "Input:
- psmouse - add delay when deactivating for SMBus mode"
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Andrew Duggan <aduggan@synaptics.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Linux kernel regressions list <regressions@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Oct 3, 2023 at 2:30=E2=80=AFAM Thorsten Leemhuis <linux@leemhuis.in=
-fo> wrote:
->
-> This didn't print anything on resume, so `psmouse->private` apparently
-> is set.
->
+In the initial boot stage the integrated keyboard of Fujitsu Lifebook E5411
+refuses to work and it's not possible to type for example a dm-crypt
+passphrase without the help of an external keyboard.
 
-Thank you for reporting this and providing the information!
+i8042.nomux kernel parameter resolves this issue but using that a PS/2
+mouse is detected. This input device is unused even when the i2c-hid-acpi
+kernel module is blacklisted making the integrated ELAN touchpad
+(04F3:308A) not working at all.
 
-need_deactivate is never being set on the smbdev struct since it's elantouc=
-h.
-On this machine SMBus is not used so it falls back to PS/2 mode.
-When this occurs the psmouse->private pointer is being replaced but
-psmouse_smbus_reconnect is still being called on resume expecting smbdev.
-That explains why when it is setup needs_deactivate is false, but on resume=
- it
-has somehow changed to true.
+Since the integrated touchpad is managed by the i2c_designware input
+driver in the Linux kernel and you can't find a PS/2 mouse port on the
+computer I think it's safe to not use the PS/2 mouse port at all.
 
-I've submitted a fix for this at
-https://lore.kernel.org/all/20231004005729.3943515-1-jefferymiller@google.c=
-om/
-and it should resolve this issue for you.
+Signed-off-by: Szilard Fabian <szfabian@bluemarch.art>
+---
+I think the same patch could be applied to E4411, E4511 and E5511 too
+but sadly I can't test this theory. But these computers use the same
+UEFI updates so I think there isn't much difference in input devices.
+---
+ drivers/input/serio/i8042-acpipnpio.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Thanks,
-Jeff
+diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8=
+042-acpipnpio.h
+index 028e45bd050b..3f73fa69b8ce 100644
+--- a/drivers/input/serio/i8042-acpipnpio.h
++++ b/drivers/input/serio/i8042-acpipnpio.h
+@@ -618,6 +618,14 @@ static const struct dmi_system_id i8042_dmi_quirk_tabl=
+e[] __initconst =3D {
+ =09=09},
+ =09=09.driver_data =3D (void *)(SERIO_QUIRK_NOMUX)
+ =09},
++=09{
++=09=09/* Fujitsu Lifebook E5411 */
++=09=09.matches =3D {
++=09=09=09DMI_MATCH(DMI_SYS_VENDOR, "FUJITSU CLIENT COMPUTING LIMITED"),
++=09=09=09DMI_MATCH(DMI_PRODUCT_NAME, "LIFEBOOK E5411"),
++=09=09},
++=09=09.driver_data =3D (void *)(SERIO_QUIRK_NOAUX)
++=09},
+ =09{
+ =09=09/* Gigabyte M912 */
+ =09=09.matches =3D {
+--=20
+2.42.0
+
+
