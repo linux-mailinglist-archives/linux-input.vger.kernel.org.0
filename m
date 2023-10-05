@@ -2,64 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CFA07B9901
-	for <lists+linux-input@lfdr.de>; Thu,  5 Oct 2023 02:00:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EA7A7B992B
+	for <lists+linux-input@lfdr.de>; Thu,  5 Oct 2023 02:13:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240836AbjJEAAM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Oct 2023 20:00:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49692 "EHLO
+        id S244194AbjJEANm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Oct 2023 20:13:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbjJEAAM (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Oct 2023 20:00:12 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5F2CC9
-        for <linux-input@vger.kernel.org>; Wed,  4 Oct 2023 17:00:07 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-692c70bc440so308671b3a.3
-        for <linux-input@vger.kernel.org>; Wed, 04 Oct 2023 17:00:07 -0700 (PDT)
+        with ESMTP id S244152AbjJEANm (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Oct 2023 20:13:42 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 507A0DC
+        for <linux-input@vger.kernel.org>; Wed,  4 Oct 2023 17:13:38 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-50302e8fca8so2489e87.0
+        for <linux-input@vger.kernel.org>; Wed, 04 Oct 2023 17:13:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696464007; x=1697068807; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Eb+PA/MpdgnguBmnwOf+Jyj/X+3/mDrS5xvnttjyCSo=;
-        b=cJZ4byoDOTcSSWjgCBP972aujYgJ2Huy4VH/afHotAPS7XQWEGxWEg3Jcjcf3+ZQZH
-         XC2WKQ7dstwNa5iuikQ4Jgd6lm+TBoE7Ybgl2IqENuq4rUUrRrcQm5UiiZpv7sxHWQgt
-         AWDOjTAfu7sEpkMGrxy0aF9VdcVfWKfZHoabcUqLkDqlH+QEVsFvlLXUb05eemfRAdeG
-         HvYqoCVm1UPk3etmMjuWJemMrWROh1W8EYkHn9YEQtPHQS8D0sxaqj7QuBGhOq761VEg
-         1scGryCY2O2rYpA9U9wMCtXtvQr+AelGJrZdegL3A7FYkQ/f7oIWw3SN9j1QlenLTuTN
-         eZ8w==
+        d=google.com; s=20230601; t=1696464816; x=1697069616; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vRF+vIlJA3ZehEMRKa/evOkO3sf/u/GsKZC4fdcnalA=;
+        b=ZmI/mrHVP85i4YI8gJizJqD2zA296qfmmnX5RqwO71rE6I1rGR+W+NZE7tn2WFxCQq
+         /G/NkgTQ7VDt+msZOSEdZZ2ykmWzlFA3/9yv/mK41ixVRjx4C1QGxgSC01hAriA22XM8
+         AdW2t8wyUDy4IdAoNcO1EPxWC/0KaBj+nj2DwOHDtpFwz9nj7UFQLHz736Tf/IPtqKTy
+         Dc6TbqElB3FY9ZNpNd4UaqC4nS/TdEpcOLQezLUxuoD3NhOjjG9VsPO4SHcaoDiXuvSJ
+         p+f2MEupoqQ5HbwGoD48kquCu4ZfkA5Ljn6cOl1N6EuSNYcQe/dDusrrN8+WNz25QlVy
+         fIfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696464007; x=1697068807;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Eb+PA/MpdgnguBmnwOf+Jyj/X+3/mDrS5xvnttjyCSo=;
-        b=uLVpKHlHys2G+9VvwuP+rUkWuoR+6rwJ4tKHB3KejiSrBqXkoexWkR6UQ/0U7LrvdX
-         ApmpqvZGACwdHsATwibWgXEhIUhpFOZWaqveasp5pHREXVoBWGhesuF4uTC94fMwN5jR
-         YIxwpTQ0uFdDEpNVUSClUcbVzrGvsEhCmMh4AIMkTwmJnXWt/8cruIDdwbYXno8VGjIA
-         eYdJVjU7iNstQVC3qljzoKgXnbyQZH5ho8ZV2Qcq9Oe5ykBj7KWg1b6FIfCfqB175YM/
-         wJ6X89FxqK3gw5psTNvF6bt7y4wqTW7YPdtCnyz89gFDMf+T6lY4whzmYAXdGvKbQnd2
-         kblg==
-X-Gm-Message-State: AOJu0YxYWD2G7YvimyNv/+6n0i+iBRHoeryX+au0F4/KahA9mxfCXpRR
-        PxCa0AWNStKqbyAgXCiLxoHhbBpSerDa8Wen
-X-Google-Smtp-Source: AGHT+IHOlM0EVLKV2dQmwj0o+7rNA8B1egHdXQEgpLH6c2qpYH0PPsuPCYng3EReSP6yvEw1xGsPrA==
-X-Received: by 2002:a05:6a20:3d29:b0:15d:7e2a:cc77 with SMTP id y41-20020a056a203d2900b0015d7e2acc77mr4323722pzi.48.1696464006846;
-        Wed, 04 Oct 2023 17:00:06 -0700 (PDT)
-Received: from incineroar.home.arpa ([2804:14d:cc81:5b85:b62e:99ff:fef4:b1f3])
-        by smtp.gmail.com with ESMTPSA id c8-20020aa78e08000000b0068e4c5a4f3esm98239pfr.71.2023.10.04.17.00.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Oct 2023 17:00:06 -0700 (PDT)
-From:   Renan Guilherme Lebre Ramos <japareaggae@gmail.com>
-To:     linux-input@vger.kernel.org, hdegoede@redhat.com
-Cc:     Renan Guilherme Lebre Ramos <japareaggae@gmail.com>
-Subject: [PATCH] platform/x86: touchscreen_dmi: Add info for the Positivo C4128B
-Date:   Wed,  4 Oct 2023 19:59:00 -0400
-Message-ID: <20231004235900.426240-1-japareaggae@gmail.com>
-X-Mailer: git-send-email 2.42.0
+        d=1e100.net; s=20230601; t=1696464816; x=1697069616;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vRF+vIlJA3ZehEMRKa/evOkO3sf/u/GsKZC4fdcnalA=;
+        b=iPXq/SLYtXNxZuqV1irK1uI39JrWm6VkNatRniZ9JjIc02j8t2bMG4hJm9kJ7Ttz0k
+         psSZJGavp1sX3OsAf+56v3+pzLvOWo1whOdM+0rFDcF/RYmU6o5Yza/VNEmCE4IpjhjP
+         rwtKQhe0OWZ0J75pKL5jbw1UTX49cGWovPZ1Sn70LDLdAMMwGADZbdBL+lS8xhPhr2H/
+         YUTO4Y0/oW0RIPofB7M26g1TNlEDDjyjLoeMIxCJPlkWX82R4lkv5yNcaOMBCxSgBe6l
+         x7vgu8QGR/ce4hs1GRUNMoXbe07HU/XKaTQWAv0bO6Uo5vIqSdRSsn5a7t8WsjZ/muW+
+         1OMw==
+X-Gm-Message-State: AOJu0Yz0thNAxnxDiIFiP5ZQWegY1P5v0IJwDWyibLszScuKn7gbnDeo
+        7V5k4LvQ6EW0aoTTAGuBbjr7fk/MV9zGrCS4cku5Qgcx9QZPqsUaaCfRyq9B
+X-Google-Smtp-Source: AGHT+IG24SY+AmaIc+GhrEz329Y4vBmKjCMcDq+rUUT0zgxupE8c2rrSkXUVRsTg1cVaRBl7z6gixwGZa6VYIoacwHE=
+X-Received: by 2002:ac2:5d67:0:b0:502:932e:2e36 with SMTP id
+ h7-20020ac25d67000000b00502932e2e36mr31850lft.2.1696464816245; Wed, 04 Oct
+ 2023 17:13:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20231004005729.3943515-1-jefferymiller@google.com> <ZR1yUFJ8a9Zt606N@penguin>
+In-Reply-To: <ZR1yUFJ8a9Zt606N@penguin>
+From:   Jeffery Miller <jefferymiller@google.com>
+Date:   Wed, 4 Oct 2023 19:13:24 -0500
+Message-ID: <CAAzPG9Pp6mHfEziJiUuhDRmkKMfiiPD6axtfAMaCJcEAcuQPiA@mail.gmail.com>
+Subject: Re: [PATCH] Input: elantech - fix fast_reconnect callback in ps2 mode
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     regressions@lists.linux.dev, benjamin.tissoires@redhat.com,
+        linux@leemhuis.info, Andrew Duggan <aduggan@synaptics.com>,
+        Andrew Duggan <andrew@duggan.us>, loic.poulain@linaro.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,55 +72,29 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add information for the Positivo C4128B, a notebook/tablet convertible.
+Dmitry,
 
-Link: https://github.com/onitake/gsl-firmware/pull/217
-Signed-off-by: Renan Guilherme Lebre Ramos <japareaggae@gmail.com>
----
- drivers/platform/x86/touchscreen_dmi.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+On Wed, Oct 4, 2023 at 9:11=E2=80=AFAM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> In fact, now that I think about it more, we should rework the original
+> patch that added the delay, so that we do not wait these 30 msec in the
+> "fast" reconnect handler. It turns out your original approach was
+> better, but we should not be using retries, but rather the existing
+> reset_delay_ms already defined in rmi platform data. I would appreciate
+> if you try the draft patch at the end of this email (to be applied after
+> reverting your original one adding the delay in psmouse-smbus.c).
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index f9301a9382e7..0f6b30285381 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -756,6 +756,21 @@ static const struct ts_dmi_data pipo_w11_data = {
- 	.properties	= pipo_w11_props,
- };
- 
-+static const struct property_entry positivo_c4128b_props[] = {
-+	PROPERTY_ENTRY_U32("touchscreen-min-x", 4),
-+	PROPERTY_ENTRY_U32("touchscreen-min-y", 13),
-+	PROPERTY_ENTRY_U32("touchscreen-size-x", 1915),
-+	PROPERTY_ENTRY_U32("touchscreen-size-y", 1269),
-+	PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-positivo-c4128b.fw"),
-+	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
-+	{ }
-+};
-+
-+static const struct ts_dmi_data positivo_c4128b_data = {
-+	.acpi_name	= "MSSL1680:00",
-+	.properties	= positivo_c4128b_props,
-+};
-+
- static const struct property_entry pov_mobii_wintab_p800w_v20_props[] = {
- 	PROPERTY_ENTRY_U32("touchscreen-min-x", 32),
- 	PROPERTY_ENTRY_U32("touchscreen-min-y", 16),
-@@ -1480,6 +1495,14 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_BIOS_VERSION, "MOMO.G.WI71C.MABMRBA02"),
- 		},
- 	},
-+	{
-+		/* Positivo C4128B */
-+		.driver_data = (void *)&positivo_c4128b_data,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Positivo Tecnologia SA"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "C4128B-1"),
-+		},
-+	},
- 	{
- 		/* Point of View mobii wintab p800w (v2.0) */
- 		.driver_data = (void *)&pov_mobii_wintab_p800w_v20_data,
--- 
-2.42.0
+I tested the draft patch and it works. I did revert the previous delay
+patch while testing it.
 
+>
+> I think we need a similar change in synaptics.c as that one also can
+> fall back to PS/2 mode.
+>
+Ah, good point, yes it does appear this needs to be done as well.
+I have tested and will post an new version of the patch to include
+the fix in synaptics.c as well.
+
+Thanks,
+Jeff
