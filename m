@@ -2,174 +2,229 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66B1E7BA9B5
-	for <lists+linux-input@lfdr.de>; Thu,  5 Oct 2023 21:06:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 584217BA90E
+	for <lists+linux-input@lfdr.de>; Thu,  5 Oct 2023 20:27:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229596AbjJETGN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 5 Oct 2023 15:06:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44042 "EHLO
+        id S230331AbjJES1k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 Oct 2023 14:27:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232332AbjJESOK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 5 Oct 2023 14:14:10 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 631FEDE;
-        Thu,  5 Oct 2023 11:14:09 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2c15463ddd4so14522121fa.3;
-        Thu, 05 Oct 2023 11:14:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696529647; x=1697134447; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=4mkmrZ85KDPvgtxyxwHlcxR2FwXeKHeY2CWLRj7V6mQ=;
-        b=Xry8hv/YKZalo97emr9Rpz4cm+C2Q9juXc/5mXfj2c/vu9erJ1rWc/+p8WLOljt9S9
-         JfX9SYVTxEQG3FkG5zhDHc8yoMynohoT7maO7eaxJlSAIB8NCBhLUS4tB6leXKRPp05W
-         3wzcGw3DXYjZO9sXLyPfDk3oltIQlxYLMUbzHqR7VGRJMG39h2XM+XesYm7CiImw5+2N
-         8ZtJwS/MQkalgJ71k7cGI1KB+KfhRLr3Bbe8B3EUoI8pCvRAmbFfg9MoDZiWlSY7Aavw
-         0mB0jhakyMZ+ibrxQuCm0r0J8TAv4N3asbosNd4RYLUxVHJhZSEqffylC6VT+HYxZiLA
-         jB/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696529647; x=1697134447;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4mkmrZ85KDPvgtxyxwHlcxR2FwXeKHeY2CWLRj7V6mQ=;
-        b=IjEv6IM5m7ahtLC5JZsb+Y0ljSf42WowXPBpv1+spEgyUYO/CEt+DHnoONxxlZV8u8
-         BZGy8xQJzRLJeydOIKe1afJr8JA+q9pC8fXSoWH19ZQT9tBclzvkbjiE7Y143Cf88QGT
-         GW4bDWqpWZggOAlQhkJkK9rM5QomIk4MGcre/8uAzCNFm+Nj1xrfu/EuExBsVzuJqnVg
-         bKOUF7Sxp5hT52Dh+4G/9n/7yduaRfcoFuSAcLMyF5+8Pfz/Rb28jAeWALmnP9iwMolS
-         oG8CqNHyooneoK0OuKNEODgyGiflJrma1YnljThxkrI3HZV1By95f64c1bnJ+a5HRQr/
-         0lmg==
-X-Gm-Message-State: AOJu0YxxDX5NrS33zfnripPO5GgtvWHLKsJPjnMQ4MHWN8OulrLhVykk
-        OQzF3fyp1u8fwiwa1ECsMfw=
-X-Google-Smtp-Source: AGHT+IHGLAsSutIacUOwL8sK0JmdEvfw4ceipZby+beeO7d1Vfy6hKGZN5cCfh8lGxBm0rDxTQYCaA==
-X-Received: by 2002:a05:651c:1059:b0:2c0:bc5:5ff1 with SMTP id x25-20020a05651c105900b002c00bc55ff1mr5785854ljm.22.1696529647195;
-        Thu, 05 Oct 2023 11:14:07 -0700 (PDT)
-Received: from [192.168.1.95] (host-176-36-0-241.b024.la.net.ua. [176.36.0.241])
-        by smtp.gmail.com with ESMTPSA id u2-20020a2e8542000000b002c0d9d83f71sm381811ljj.62.2023.10.05.11.14.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Oct 2023 11:14:06 -0700 (PDT)
-Message-ID: <1e64c550b3ce044c1ab045ec74946d1b361f364e.camel@gmail.com>
-Subject: Re: [PATCH v3 0/3] selftests/hid: assorted fixes
-From:   Eduard Zingerman <eddyz87@gmail.com>
-To:     Benjamin Tissoires <bentiss@kernel.org>,
+        with ESMTP id S230087AbjJES1j (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 5 Oct 2023 14:27:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7A259E
+        for <linux-input@vger.kernel.org>; Thu,  5 Oct 2023 11:26:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1696530410;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=fmUjbZY2T1vMelTKwaqZsB5SAfYD+MqwMAcf6lUI0jY=;
+        b=ZmyVKsdpotl9/IvDpu7einX0Gdy6dj5flnoVzxRQ4KLewPuyLmv6UdH6JxbUukOopSxkgO
+        jqVhpOXkK5d9UmmmZVbof9JgjoqbWm+mzGBbHKlGDplyrynYN4zvvDGcjswJ+Zb4zrsHgm
+        mry5tOLEu7tjYTo8n7ZYoZvvoVRMY7Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-31-swILVgWFOZ6iV-2cm1bnfQ-1; Thu, 05 Oct 2023 14:26:46 -0400
+X-MC-Unique: swILVgWFOZ6iV-2cm1bnfQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C224C185A79C;
+        Thu,  5 Oct 2023 18:26:45 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.10])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A5502C158BA;
+        Thu,  5 Oct 2023 18:26:44 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
+        Bastien Nocera <hadess@hadess.net>,
         Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Justin Stitt <justinstitt@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-Date:   Thu, 05 Oct 2023 21:14:05 +0300
-In-Reply-To: <20230825-wip-selftests-v3-0-639963c54109@kernel.org>
-References: <20230825-wip-selftests-v3-0-639963c54109@kernel.org>
-Autocrypt: addr=eddyz87@gmail.com; prefer-encrypt=mutual; keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0 
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: [PATCH] HID: logitech-hidpp: Fix kernel crash on receiver USB disconnect
+Date:   Thu,  5 Oct 2023 20:26:38 +0200
+Message-ID: <20231005182638.3776-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 2023-10-05 at 17:55 +0200, Benjamin Tissoires wrote:
-> > And this is the last(?) revision of this series which should now compil=
-e
-> > with or without CONFIG_HID_BPF set.
-> >=20
-> > I had to do changes because [1] was failing
-> >=20
-> > Nick, I kept your Tested-by, even if I made small changes in 1/3. Feel
-> > free to shout if you don't want me to keep it.
-> >=20
-> > Eduard, You helped us a lot in the review of v1 but never sent your
-> > Reviewed-by or Acked-by. Do you want me to add one?
+hidpp_connect_event() has *four* time-of-check vs time-of-use (TOCTOU)
+races when it races with itself.
 
-Hi Benjamin,
+hidpp_connect_event() primarily runs from a workqueue but it also runs
+on probe() and if a "device-connected" packet is received by the hw
+when the thread running hidpp_connect_event() from probe() is waiting on
+the hw, then a second thread running hidpp_connect_event() will be
+started from the workqueue.
 
-I think there is no need, I just took part in the discussion and that's all=
-.
-Feel free to ping me if there is anything BPF related that needs clarificat=
-ion.
+This opens the following races (note the below code is simplified):
 
-Thanks,
-Eduard
+1. Retrieving + printing the protocol (harmless race):
 
-> >=20
-> > Cheers,
-> > Benjamin
-> >=20
-> > [1] https://gitlab.freedesktop.org/bentiss/hid/-/jobs/49754306
-> >=20
-> > For reference, the v2 cover letter:
-> >=20
-> > > > Hi, I am sending this series on behalf of myself and Benjamin Tisso=
-ires. There
-> > > > existed an initial n=3D3 patch series which was later expanded to n=
-=3D4 and
-> > > > is now back to n=3D3 with some fixes added in and rebased against
-> > > > mainline.
-> > > >=20
-> > > > This patch series aims to ensure that the hid/bpf selftests can be =
-built
-> > > > without errors.
-> > > >=20
-> > > > Here's Benjamin's initial cover letter for context:
-> > > > > >  These fixes have been triggered by [0]:
-> > > > > >  basically, if you do not recompile the kernel first, and are
-> > > > > >  running on an old kernel, vmlinux.h doesn't have the required
-> > > > > >  symbols and the compilation fails.
-> > > > > >=20
-> > > > > >  The tests will fail if you run them on that very same machine,
-> > > > > >  of course, but the binary should compile.
-> > > > > >=20
-> > > > > >  And while I was sorting out why it was failing, I realized I
-> > > > > >  could do a couple of improvements on the Makefile.
-> > > > > >=20
-> > > > > >  [0] https://lore.kernel.org/linux-input/56ba8125-2c6f-a9c9-d49=
-8-0ca1c153dcb2@redhat.com/T/#t
-> >=20
-> > Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-> > ---
-> > Changes in v3:
-> > - Also overwrite all of the enum symbols in patch 1/3
-> > - Link to v2: https://lore.kernel.org/r/20230908-kselftest-09-08-v2-0-0=
-def978a4c1b@google.com
-> >=20
-> > Changes in v2:
-> > - roll Justin's fix into patch 1/3
-> > - add __attribute__((preserve_access_index)) (thanks Eduard)
-> > - rebased onto mainline (2dde18cd1d8fac735875f2e4987f11817cc0bc2c)
-> > - Link to v1: https://lore.kernel.org/r/20230825-wip-selftests-v1-0-c86=
-2769020a8@kernel.org
-> >=20
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/1698
-> > Link: https://github.com/ClangBuiltLinux/continuous-integration2/issues=
-/61
-> >=20
-> > ---
-> > Benjamin Tissoires (3):
-> >       selftests/hid: ensure we can compile the tests on kernels pre-6.3
-> >       selftests/hid: do not manually call headers_install
-> >       selftests/hid: force using our compiled libbpf headers
-> >=20
-> >  tools/testing/selftests/hid/Makefile               | 10 ++-
-> >  tools/testing/selftests/hid/progs/hid.c            |  3 -
-> >  .../testing/selftests/hid/progs/hid_bpf_helpers.h  | 77 ++++++++++++++=
-++++++++
-> >  3 files changed, 81 insertions(+), 9 deletions(-)
-> > ---
-> > base-commit: 29aa98d0fe013e2ab62aae4266231b7fb05d47a2
-> > change-id: 20230825-wip-selftests-9a7502b56542
-> >=20
-> > Best regards,
+	if (!hidpp->protocol_major) {
+		hidpp_root_get_protocol_version()
+		hidpp->protocol_major = response.rap.params[0];
+	}
+
+We can actually see this race hit in the dmesg in the abrt output
+attached to rhbz#2227968:
+
+[ 3064.624215] logitech-hidpp-device 0003:046D:4071.0049: HID++ 4.5 device connected.
+[ 3064.658184] logitech-hidpp-device 0003:046D:4071.0049: HID++ 4.5 device connected.
+
+Testing with extra logging added has shown that after this the 2 threads
+take turn grabbing the hw access mutex (send_mutex) so they ping-pong
+through all the other TOCTOU cases managing to hit all of them:
+
+2. Updating the name to the HIDPP name (harmless race):
+
+	if (hidpp->name == hdev->name) {
+		...
+		hidpp->name = new_name;
+	}
+
+3. Initializing the power_supply class for the battery (problematic!):
+
+hidpp_initialize_battery()
+{
+        if (hidpp->battery.ps)
+                return 0;
+
+	probe_battery(); /* Blocks, threads take turns executing this */
+
+	hidpp->battery.desc.properties =
+		devm_kmemdup(dev, hidpp_battery_props, cnt, GFP_KERNEL);
+
+	hidpp->battery.ps =
+		devm_power_supply_register(&hidpp->hid_dev->dev,
+					   &hidpp->battery.desc, cfg);
+}
+
+4. Creating delayed input_device (potentially problematic):
+
+	if (hidpp->delayed_input)
+		return;
+
+	hidpp->delayed_input = hidpp_allocate_input(hdev);
+
+The really big problem here is 3. Hitting the race leads to the following
+sequence:
+
+	hidpp->battery.desc.properties =
+		devm_kmemdup(dev, hidpp_battery_props, cnt, GFP_KERNEL);
+
+	hidpp->battery.ps =
+		devm_power_supply_register(&hidpp->hid_dev->dev,
+					   &hidpp->battery.desc, cfg);
+
+	...
+
+	hidpp->battery.desc.properties =
+		devm_kmemdup(dev, hidpp_battery_props, cnt, GFP_KERNEL);
+
+	hidpp->battery.ps =
+		devm_power_supply_register(&hidpp->hid_dev->dev,
+					   &hidpp->battery.desc, cfg);
+
+So now we have registered 2 power supplies for the same battery,
+which looks a bit weird from userspace's pov but this is not even
+the really big problem.
+
+Notice how:
+
+1. This is all devm-maganaged
+2. The hidpp->battery.desc struct is shared between the 2 power supplies
+3. hidpp->battery.desc points to the result from the second devm_kmemdup()
+
+This causes a use after free scenario on USB disconnect of the receiver:
+1. The last registered power supply class device gets unregistered
+2. The memory from the last devm_kmemdup() call gets freed,
+   hidpp->battery.desc.properties now points to freed memory
+3. The first registered power supply class device gets unregistered,
+   this involves sending a remove uevent to userspace which invokes
+   power_supply_uevent() to fill the uevent data
+4. power_supply_uevent() uses hidpp->battery.desc.properties which
+   now points to freed memory leading to backtraces like this one:
+
+Sep 22 20:01:35 eric kernel: BUG: unable to handle page fault for address: ffffb2140e017f08
+...
+Sep 22 20:01:35 eric kernel: Workqueue: usb_hub_wq hub_event
+Sep 22 20:01:35 eric kernel: RIP: 0010:power_supply_uevent+0xee/0x1d0
+...
+Sep 22 20:01:35 eric kernel:  ? asm_exc_page_fault+0x26/0x30
+Sep 22 20:01:35 eric kernel:  ? power_supply_uevent+0xee/0x1d0
+Sep 22 20:01:35 eric kernel:  ? power_supply_uevent+0x10d/0x1d0
+Sep 22 20:01:35 eric kernel:  dev_uevent+0x10f/0x2d0
+Sep 22 20:01:35 eric kernel:  kobject_uevent_env+0x291/0x680
+Sep 22 20:01:35 eric kernel:  power_supply_unregister+0x8e/0xa0
+Sep 22 20:01:35 eric kernel:  release_nodes+0x3d/0xb0
+Sep 22 20:01:35 eric kernel:  devres_release_group+0xfc/0x130
+Sep 22 20:01:35 eric kernel:  hid_device_remove+0x56/0xa0
+Sep 22 20:01:35 eric kernel:  device_release_driver_internal+0x19f/0x200
+Sep 22 20:01:35 eric kernel:  bus_remove_device+0xc6/0x130
+Sep 22 20:01:35 eric kernel:  device_del+0x15c/0x3f0
+Sep 22 20:01:35 eric kernel:  ? __queue_work+0x1df/0x440
+Sep 22 20:01:35 eric kernel:  hid_destroy_device+0x4b/0x60
+Sep 22 20:01:35 eric kernel:  logi_dj_remove+0x9a/0x100 [hid_logitech_dj 5c91534a0ead2b65e04dd799a0437e3b99b21bc4]
+Sep 22 20:01:35 eric kernel:  hid_device_remove+0x44/0xa0
+Sep 22 20:01:35 eric kernel:  device_release_driver_internal+0x19f/0x200
+Sep 22 20:01:35 eric kernel:  bus_remove_device+0xc6/0x130
+Sep 22 20:01:35 eric kernel:  device_del+0x15c/0x3f0
+Sep 22 20:01:35 eric kernel:  ? __queue_work+0x1df/0x440
+Sep 22 20:01:35 eric kernel:  hid_destroy_device+0x4b/0x60
+Sep 22 20:01:35 eric kernel:  usbhid_disconnect+0x47/0x60 [usbhid 727dcc1c0b94e6b4418727a468398ac3bca492f3]
+Sep 22 20:01:35 eric kernel:  usb_unbind_interface+0x90/0x270
+Sep 22 20:01:35 eric kernel:  device_release_driver_internal+0x19f/0x200
+Sep 22 20:01:35 eric kernel:  bus_remove_device+0xc6/0x130
+Sep 22 20:01:35 eric kernel:  device_del+0x15c/0x3f0
+Sep 22 20:01:35 eric kernel:  ? kobject_put+0xa0/0x1d0
+Sep 22 20:01:35 eric kernel:  usb_disable_device+0xcd/0x1e0
+Sep 22 20:01:35 eric kernel:  usb_disconnect+0xde/0x2c0
+Sep 22 20:01:35 eric kernel:  usb_disconnect+0xc3/0x2c0
+Sep 22 20:01:35 eric kernel:  hub_event+0xe80/0x1c10
+
+There have been quite a few bug reports (see Link tags) about this crash.
+
+Fix all the TOCTOU issues, including the really bad power-supply related
+system crash on USB disconnect, by making probe() use the workqueue for
+running hidpp_connect_event() too, so that it can never run more then once.
+
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=2227221
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=2227968
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=2227968
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=2242189
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=217412#c58
+Cc: stable@vger.kernel.org
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/hid/hid-logitech-hidpp.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index ff077df0babf..a209d51bd247 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -4515,7 +4515,8 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 			goto hid_hw_init_fail;
+ 	}
+ 
+-	hidpp_connect_event(hidpp);
++	schedule_work(&hidpp->work);
++	flush_work(&hidpp->work);
+ 
+ 	if (will_restart) {
+ 		/* Reset the HID node state */
+-- 
+2.41.0
 
