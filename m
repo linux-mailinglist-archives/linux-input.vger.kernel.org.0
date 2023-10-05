@@ -2,146 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D3117BA6A2
-	for <lists+linux-input@lfdr.de>; Thu,  5 Oct 2023 18:40:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 114827BA768
+	for <lists+linux-input@lfdr.de>; Thu,  5 Oct 2023 19:14:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231673AbjJEQjo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 5 Oct 2023 12:39:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53080 "EHLO
+        id S229608AbjJEROV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 Oct 2023 13:14:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230055AbjJEQiz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 5 Oct 2023 12:38:55 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95EF316AAF
-        for <linux-input@vger.kernel.org>; Thu,  5 Oct 2023 09:31:56 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-31fa15f4cc6so1191547f8f.2
-        for <linux-input@vger.kernel.org>; Thu, 05 Oct 2023 09:31:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1696523512; x=1697128312; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fmpm/y06U0/9riyHMMSe5cH0ucZInbAT/vXKTDHZnrc=;
-        b=UBVl0WIvvp9UJQqfrp5NwP8PggszHWeWmgvqz79jMrl5wM0BQw3y3uUa563ChtEeB1
-         47cApKlLXqEmIJwMbDqZMYKG7Arke1wwY3TJ4A2NO22MVeimdG+JgMQ85HmQq3YAWZ4T
-         WtuWENurfx036e/U0VqPzY5K8IqF9xlGs9S5w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696523512; x=1697128312;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Fmpm/y06U0/9riyHMMSe5cH0ucZInbAT/vXKTDHZnrc=;
-        b=g0yFttKMx/6sdHGGnq8Kvom4fMFKoWc2Zipq0A5rkzCTMNBEA2TB72y5hQlprVtpW5
-         u9MSGdJAdONB+z0wyaCqHpBAqs8JDqjd+Ei0VntqRonj3XqSsyK54CwjpAjPcU1pn+vm
-         qPzY6hj4dWRe2JV7Sam4hg0A9Y0PWd2mP4kMi9IoFC2OQKHukjY6r6DCsTahsvXRhICP
-         cMSzbrtYU1ab1Kc1GFG8HmenLELfud5FzHb7RJNvD0iVIy8+Fo/gBP3Hy73WgBGZPmiq
-         NYDsnzJhBAjjXig4LC+IsNDB4U2UJGLUl+Tmx4HJQuibvl2I//A3TF+GTij9lvrmbm9T
-         KhTQ==
-X-Gm-Message-State: AOJu0YyGUpXVy14tfnK0P6GAZcS0MCnZ5NC4IgcKuVrOMcPSxqZdBhhc
-        8rMAy87gL6K5vCpa2Mk4NJf7ipw3kXwtJJf2DVuvORee
-X-Google-Smtp-Source: AGHT+IG1gYmI/sNqJDnc9lCr9u9PvvFNSegR6NAy3h5ZCCf7dA5MjTAamxn9u8k0wj2Ydrpaa/2cHA==
-X-Received: by 2002:a5d:6909:0:b0:314:dc0:2fca with SMTP id t9-20020a5d6909000000b003140dc02fcamr5370840wru.29.1696523512015;
-        Thu, 05 Oct 2023 09:31:52 -0700 (PDT)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com. [209.85.167.51])
-        by smtp.gmail.com with ESMTPSA id d17-20020a2e3311000000b002bcb9956a69sm359642ljc.41.2023.10.05.09.31.51
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Oct 2023 09:31:51 -0700 (PDT)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5032a508e74so5033e87.1
-        for <linux-input@vger.kernel.org>; Thu, 05 Oct 2023 09:31:51 -0700 (PDT)
-X-Received: by 2002:ac2:558c:0:b0:502:cdb6:f316 with SMTP id
- v12-20020ac2558c000000b00502cdb6f316mr38425lfg.3.1696523510776; Thu, 05 Oct
- 2023 09:31:50 -0700 (PDT)
+        with ESMTP id S230506AbjJERN1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 5 Oct 2023 13:13:27 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19E2F193;
+        Thu,  5 Oct 2023 10:03:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696525430; x=1728061430;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xwH19jaXuV3IRiERrelAUrnpdPnnnaE+ZD4sNqe01N8=;
+  b=gtfGmnLou5x98QXBqoeE25ff29dd2cj9xkyGsEtQz/pJCJqONF6SiIlt
+   uZY1KzEKXQvGoTrqFf/gwV3EL37rgxekfM2aFeyH4B2bNk5puCgXZ6Eoj
+   BuZ1N58zFblofCJ2cPjhrAHkChKQm2zAMo+Z9vTNzb7aPUwyOnTL6GbJO
+   iIg7JbOs2zJYK+V/rSQxQ7kQOebfrhPltMUBEVZ+6LDK3dRNoRwgnfBBy
+   +IIJU5h7tzEiXGT3H2/WT/YK8GIWHZ1LIVKQIWfs1Y8SXrMGULtXlEvhX
+   eMvTnwOmRxJ80GvdSlITSUTFhgWqwrZzT2TXbOCO0Rug2g2WKW6xjpCbX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="373912245"
+X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
+   d="scan'208";a="373912245"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 10:03:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="745528485"
+X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
+   d="scan'208";a="745528485"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 05 Oct 2023 10:03:41 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qoRlD-000Lgl-1p;
+        Thu, 05 Oct 2023 17:03:39 +0000
+Date:   Fri, 6 Oct 2023 01:02:54 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH] Input: max77693-haptic - add device-tree compatible
+ strings
+Message-ID: <202310060002.ucD2eiLJ-lkp@intel.com>
+References: <20231005114816.1101953-1-m.szyprowski@samsung.com>
 MIME-Version: 1.0
-References: <20231002155857.24584-1-johan+linaro@kernel.org> <cnnjghxj4od6fniotztlgorc7myzya2bsvixkf2cpk4metcipa@r2w2ouob5ths>
-In-Reply-To: <cnnjghxj4od6fniotztlgorc7myzya2bsvixkf2cpk4metcipa@r2w2ouob5ths>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Thu, 5 Oct 2023 09:31:34 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Wx2m2qgQwY7Od4T__SzC4zZ9Txr4D553+XmLGEaT15rA@mail.gmail.com>
-Message-ID: <CAD=FV=Wx2m2qgQwY7Od4T__SzC4zZ9Txr4D553+XmLGEaT15rA@mail.gmail.com>
-Subject: Re: [PATCH v2] HID: i2c-hid: fix handling of unpopulated devices
-To:     Benjamin Tissoires <bentiss@kernel.org>
-Cc:     Johan Hovold <johan+linaro@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Maxime Ripard <mripard@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231005114816.1101953-1-m.szyprowski@samsung.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Marek,
 
-On Thu, Oct 5, 2023 at 12:10=E2=80=AFAM Benjamin Tissoires <bentiss@kernel.=
-org> wrote:
->
-> On Oct 02 2023, Johan Hovold wrote:
-> > A recent commit reordered probe so that the interrupt line is now
-> > requested before making sure that the device exists.
-> >
-> > This breaks machines like the Lenovo ThinkPad X13s which rely on the
-> > HID driver to probe second-source devices and only register the variant
-> > that is actually populated. Specifically, the interrupt line may now
-> > already be (temporarily) claimed when doing asynchronous probing of the
-> > touchpad:
-> >
-> >       genirq: Flags mismatch irq 191. 00082008 (hid-over-i2c) vs. 00082=
-008 (hid-over-i2c)
-> >       i2c_hid_of 21-0015: Could not register for hid-over-i2c interrupt=
-, irq =3D 191, ret =3D -16
-> >       i2c_hid_of: probe of 21-0015 failed with error -16
-> >
-> > Fix this by restoring the old behaviour of first making sure the device
-> > exists before requesting the interrupt line.
-> >
-> > Note that something like this should probably be implemented also for
-> > "panel followers", whose actual probe is currently effectively deferred
-> > until the DRM panel is probed (e.g. by powering down the device after
-> > making sure it exists and only then register it as a follower).
-> >
-> > Fixes: 675cd877c952 ("HID: i2c-hid: Rearrange probe() to power things u=
-p later")
-> > Cc: Douglas Anderson <dianders@chromium.org>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> > ---
-> >
-> > Changes in v2
-> >  - initialise ihid->is_panel_follower sooner to avoid repeated property
-> >    lookups and so that it can be used consistently throughout the drive=
-r
-> >    for code that differs for "panel followers"
->
-> Patches looks good to me, but I can not test it unfortunately.
->
-> Doug, would you mind sending us your Ack or tested-by?
+kernel test robot noticed the following build warnings:
 
-Sure. Patches look OK to me, so if you're good with them then I'm good
-with them too.
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.6-rc4 next-20231005]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Szyprowski/Input-max77693-haptic-add-device-tree-compatible-strings/20231005-231602
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20231005114816.1101953-1-m.szyprowski%40samsung.com
+patch subject: [PATCH] Input: max77693-haptic - add device-tree compatible strings
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231006/202310060002.ucD2eiLJ-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310060002.ucD2eiLJ-lkp@intel.com/reproduce)
 
-I tested this on a board by adding a second i2c-hid device in the
-device tree and confirming that things appeared to work OK. I also
-tried this with a board setup to use panel-follower (but _not_ two
-sources of touchscreens) and that also worked OK. Thus:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310060002.ucD2eiLJ-lkp@intel.com/
 
-Tested-by: Douglas Anderson <dianders@chromium.org>
+All warnings (new ones prefixed by >>):
 
-As expected, combining panel-follower with two sources of touchscreen
-_didn't_ work because only one of them is able to acquire the
-interrupt. This is fine with me as there is nobody currently doing
-that. I'm still of the belief that we need a more complete solution
-for that and I'll continue to work on it.
+>> drivers/input/misc/max77693-haptic.c:415:34: warning: 'of_max77693_haptic_dt_match' defined but not used [-Wunused-const-variable=]
+     415 | static const struct of_device_id of_max77693_haptic_dt_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Thanks!
 
--Doug
+vim +/of_max77693_haptic_dt_match +415 drivers/input/misc/max77693-haptic.c
+
+   414	
+ > 415	static const struct of_device_id of_max77693_haptic_dt_match[] = {
+   416		{ .compatible = "maxim,max77693-haptic", },
+   417		{ .compatible = "maxim,max77843-haptic", },
+   418		{ /* sentinel */ },
+   419	};
+   420	MODULE_DEVICE_TABLE(of, of_max77693_haptic_dt_match);
+   421	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
