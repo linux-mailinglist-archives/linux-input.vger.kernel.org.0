@@ -2,114 +2,170 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 114827BA768
-	for <lists+linux-input@lfdr.de>; Thu,  5 Oct 2023 19:14:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBE737BA892
+	for <lists+linux-input@lfdr.de>; Thu,  5 Oct 2023 20:00:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229608AbjJEROV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 5 Oct 2023 13:14:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39216 "EHLO
+        id S231284AbjJESAg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 Oct 2023 14:00:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230506AbjJERN1 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 5 Oct 2023 13:13:27 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19E2F193;
-        Thu,  5 Oct 2023 10:03:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696525430; x=1728061430;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xwH19jaXuV3IRiERrelAUrnpdPnnnaE+ZD4sNqe01N8=;
-  b=gtfGmnLou5x98QXBqoeE25ff29dd2cj9xkyGsEtQz/pJCJqONF6SiIlt
-   uZY1KzEKXQvGoTrqFf/gwV3EL37rgxekfM2aFeyH4B2bNk5puCgXZ6Eoj
-   BuZ1N58zFblofCJ2cPjhrAHkChKQm2zAMo+Z9vTNzb7aPUwyOnTL6GbJO
-   iIg7JbOs2zJYK+V/rSQxQ7kQOebfrhPltMUBEVZ+6LDK3dRNoRwgnfBBy
-   +IIJU5h7tzEiXGT3H2/WT/YK8GIWHZ1LIVKQIWfs1Y8SXrMGULtXlEvhX
-   eMvTnwOmRxJ80GvdSlITSUTFhgWqwrZzT2TXbOCO0Rug2g2WKW6xjpCbX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="373912245"
-X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="373912245"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 10:03:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="745528485"
-X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="745528485"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 05 Oct 2023 10:03:41 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qoRlD-000Lgl-1p;
-        Thu, 05 Oct 2023 17:03:39 +0000
-Date:   Fri, 6 Oct 2023 01:02:54 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH] Input: max77693-haptic - add device-tree compatible
- strings
-Message-ID: <202310060002.ucD2eiLJ-lkp@intel.com>
-References: <20231005114816.1101953-1-m.szyprowski@samsung.com>
+        with ESMTP id S230525AbjJESAb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 5 Oct 2023 14:00:31 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 360A29B
+        for <linux-input@vger.kernel.org>; Thu,  5 Oct 2023 11:00:28 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-534659061afso2167445a12.3
+        for <linux-input@vger.kernel.org>; Thu, 05 Oct 2023 11:00:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1696528826; x=1697133626; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=soC/hI6qoVGb1EBSelNwhFg1ZrYnyxzAE+/e29uwgT4=;
+        b=22QnwidH5T8m0rE1qmnLt5HKBH53ChSY2UjyhuUrECXA4zPkPQVv66mhNptLztf2sk
+         mMguaiogQpVZBMqEtWvp4bSymATUAvvaORmfKpH4Rg270CNBuijTKfAJzrB629kKaLOO
+         pSbxbzk73QSNvp/0JsBkmC//eW+EaqR3H8Ic7EgZ5dQCMmg9wGIb8+uDckMgjFMJlQ4g
+         ggme4kxJDhLdpTLffXxy8v41oI9XzaviNKmJIigD1jnZcPSfhIMbpawzbMRDQuBniWlE
+         JmULgWkkDicR7UcNxdhjVDjcLl+IoAushx00kkqcQMc2rdzuje+wWqKpPTUTa9ipOjdU
+         bjCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696528826; x=1697133626;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=soC/hI6qoVGb1EBSelNwhFg1ZrYnyxzAE+/e29uwgT4=;
+        b=ZgfTrYtPHJyfvWkkh3L07GelnIeQk9C+jIFP6HuOfH4ksF8i1VTL6HZFFsV40SXbSc
+         cMJfUP5YXKaLKP4Nn/SNDPKKhmDNDZXapNJzwggXLvoaYa3dRh/IamlYEihPYgrnUjap
+         10WU/v0+xkDbZwealM4xR+UjJvkp44W4q22Fi0ZJZFISSyl1PW+6wUFWnbBLBy+afYBl
+         B7ffNYGDPZeMgC+UPxeqtMjee4ad+1nmG9BrTps907BGOlytFyyuq+OtDvcMFZhsAnOs
+         kOzXyrOAAseT/yhsyaxBZSuzCdZ/uptbhoYTJVVPeOok+zgvGyHVd464VQz3F/KG5U0Z
+         Iozw==
+X-Gm-Message-State: AOJu0Yxdo5Ay8pHtS21tej1KmgUiXn1p25CvBRLrL+Xx6RN8NAfsJBg6
+        8CR5hoONhf2WnY88efaZ4Cyhias5fHVXXv2foCOwPA==
+X-Google-Smtp-Source: AGHT+IGxbmrYGV4xHeUYWGp7FnCMXrpxOrueGBjqdlU6Zozm6OO34o5rxIoT+s90O/UZXNHJlVnMazAF5XJouq7eXCU=
+X-Received: by 2002:aa7:dd0e:0:b0:533:1832:f2b4 with SMTP id
+ i14-20020aa7dd0e000000b005331832f2b4mr5295009edv.13.1696528826582; Thu, 05
+ Oct 2023 11:00:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231005114816.1101953-1-m.szyprowski@samsung.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+References: <20230825-wip-selftests-v3-0-639963c54109@kernel.org>
+In-Reply-To: <20230825-wip-selftests-v3-0-639963c54109@kernel.org>
+From:   Justin Stitt <justinstitt@google.com>
+Date:   Thu, 5 Oct 2023 11:00:12 -0700
+Message-ID: <CAFhGd8pKbznU5Atj6vEhjTQc0e3G8wKEBPa5gMteyFAvua=nZQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] selftests/hid: assorted fixes
+To:     Benjamin Tissoires <bentiss@kernel.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Eduard Zingerman <eddyz87@gmail.com>,
+        linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Marek,
+On Thu, Oct 5, 2023 at 8:55=E2=80=AFAM Benjamin Tissoires <bentiss@kernel.o=
+rg> wrote:
+>
+> And this is the last(?) revision of this series which should now compile
+> with or without CONFIG_HID_BPF set.
+>
+> I had to do changes because [1] was failing
+>
+> Nick, I kept your Tested-by, even if I made small changes in 1/3. Feel
+> free to shout if you don't want me to keep it.
+>
+> Eduard, You helped us a lot in the review of v1 but never sent your
+> Reviewed-by or Acked-by. Do you want me to add one?
+>
+> Cheers,
+> Benjamin
+>
+> [1] https://gitlab.freedesktop.org/bentiss/hid/-/jobs/49754306
+>
+> For reference, the v2 cover letter:
+>
+> | Hi, I am sending this series on behalf of myself and Benjamin Tissoires=
+. There
+> | existed an initial n=3D3 patch series which was later expanded to n=3D4=
+ and
+> | is now back to n=3D3 with some fixes added in and rebased against
+> | mainline.
+> |
+> | This patch series aims to ensure that the hid/bpf selftests can be buil=
+t
+> | without errors.
+> |
+> | Here's Benjamin's initial cover letter for context:
+> | |  These fixes have been triggered by [0]:
+> | |  basically, if you do not recompile the kernel first, and are
+> | |  running on an old kernel, vmlinux.h doesn't have the required
+> | |  symbols and the compilation fails.
+> | |
+> | |  The tests will fail if you run them on that very same machine,
+> | |  of course, but the binary should compile.
+> | |
+> | |  And while I was sorting out why it was failing, I realized I
+> | |  could do a couple of improvements on the Makefile.
+> | |
+> | |  [0] https://lore.kernel.org/linux-input/56ba8125-2c6f-a9c9-d498-0ca1=
+c153dcb2@redhat.com/T/#t
+>
+> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+> ---
+> Changes in v3:
+> - Also overwrite all of the enum symbols in patch 1/3
+> - Link to v2: https://lore.kernel.org/r/20230908-kselftest-09-08-v2-0-0de=
+f978a4c1b@google.com
+>
+> Changes in v2:
+> - roll Justin's fix into patch 1/3
+> - add __attribute__((preserve_access_index)) (thanks Eduard)
+> - rebased onto mainline (2dde18cd1d8fac735875f2e4987f11817cc0bc2c)
+> - Link to v1: https://lore.kernel.org/r/20230825-wip-selftests-v1-0-c8627=
+69020a8@kernel.org
+>
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1698
+> Link: https://github.com/ClangBuiltLinux/continuous-integration2/issues/6=
+1
+>
+> ---
+> Benjamin Tissoires (3):
+>       selftests/hid: ensure we can compile the tests on kernels pre-6.3
+>       selftests/hid: do not manually call headers_install
+>       selftests/hid: force using our compiled libbpf headers
+>
+>  tools/testing/selftests/hid/Makefile               | 10 ++-
+>  tools/testing/selftests/hid/progs/hid.c            |  3 -
+>  .../testing/selftests/hid/progs/hid_bpf_helpers.h  | 77 ++++++++++++++++=
+++++++
+>  3 files changed, 81 insertions(+), 9 deletions(-)
+> ---
+> base-commit: 29aa98d0fe013e2ab62aae4266231b7fb05d47a2
+> change-id: 20230825-wip-selftests-9a7502b56542
+>
+> Best regards,
+> --
+> Benjamin Tissoires <bentiss@kernel.org>
+>
 
-kernel test robot noticed the following build warnings:
+Tested entire series.
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.6-rc4 next-20231005]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+ I can now build the tests using this command:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Szyprowski/Input-max77693-haptic-add-device-tree-compatible-strings/20231005-231602
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20231005114816.1101953-1-m.szyprowski%40samsung.com
-patch subject: [PATCH] Input: max77693-haptic - add device-tree compatible strings
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231006/202310060002.ucD2eiLJ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231006/202310060002.ucD2eiLJ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310060002.ucD2eiLJ-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/input/misc/max77693-haptic.c:415:34: warning: 'of_max77693_haptic_dt_match' defined but not used [-Wunused-const-variable=]
-     415 | static const struct of_device_id of_max77693_haptic_dt_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ make LLVM=3D1 -j128 ARCH=3Dx86_64 mrproper headers && make LLVM=3D1 -j128
+ARCH=3Dx86_64 -C tools/testing/selftests TARGETS=3Dhid
 
 
-vim +/of_max77693_haptic_dt_match +415 drivers/input/misc/max77693-haptic.c
-
-   414	
- > 415	static const struct of_device_id of_max77693_haptic_dt_match[] = {
-   416		{ .compatible = "maxim,max77693-haptic", },
-   417		{ .compatible = "maxim,max77843-haptic", },
-   418		{ /* sentinel */ },
-   419	};
-   420	MODULE_DEVICE_TABLE(of, of_max77693_haptic_dt_match);
-   421	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Tested-by:  Justin Stitt <justinstitt@google.com>
