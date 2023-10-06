@@ -2,96 +2,239 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08A2D7BB202
-	for <lists+linux-input@lfdr.de>; Fri,  6 Oct 2023 09:12:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2AEF7BB225
+	for <lists+linux-input@lfdr.de>; Fri,  6 Oct 2023 09:29:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230255AbjJFHMD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Oct 2023 03:12:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38978 "EHLO
+        id S230306AbjJFH3n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Oct 2023 03:29:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230247AbjJFHMC (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Oct 2023 03:12:02 -0400
-Received: from mail-vk1-xa2e.google.com (mail-vk1-xa2e.google.com [IPv6:2607:f8b0:4864:20::a2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77662E9
-        for <linux-input@vger.kernel.org>; Fri,  6 Oct 2023 00:12:00 -0700 (PDT)
-Received: by mail-vk1-xa2e.google.com with SMTP id 71dfb90a1353d-48feedb90d2so655987e0c.1
-        for <linux-input@vger.kernel.org>; Fri, 06 Oct 2023 00:12:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1696576319; x=1697181119; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iHzPDIF0nHvJ4MjZXtd+1YcUGWWggbQugVNz0aoRvm4=;
-        b=uoti3CP1UVIV4y6Az3AEUllKS7h0StIL6Gn5M0VSwN5J2LjQDgx/3fM6a5KHKfRPin
-         WPJNTf9VKGtmJj57NXv/hF+GqyJpGR5OY8LmTZ8SLDIUCPBLaqBe6iW2aHR5vk2Z94hu
-         tKw7liJchp9+hKSiGjzbKY1V7XhBAzjEUALg1ZWBP236ZkoRuQEhdtyFNljlW2JVKpcJ
-         l55foz2jy+6FfXFxVUbS7GMm8y7EDbLEM0b3qKhCAUP28otIEsYwBQd5rlBVXZtF/zLe
-         aopFz0015uSyrxJUwX1vvY+bqLTqk9EEfe98wwLMnp4AG9p4IL3WLHiT3bLdcukYkSbF
-         dnKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696576319; x=1697181119;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iHzPDIF0nHvJ4MjZXtd+1YcUGWWggbQugVNz0aoRvm4=;
-        b=SoqRBItHhtIIkK4I1dZr0fWu5FjRCY7z00aRjDkwEKQiasC9c32lJagDp+/qg2WuOC
-         8Ggdlhb2S7ofUtlDfmXDt3qTlfab609sTI+/59eX74+3R2ulm9enUtkvDRN/56lIcB0V
-         +LXFVO1hnGbYYmhLTwnqxhA4p7SYzuAYMwqKFHr9Ul7T9FVqqWZzK26/poKh0inohtku
-         CXrscwxRi6L3wK2GN3UJRHTsPscPv4HPDiR81BEAzQduPs6VJv4AS1dDkjvgOY1CsJPF
-         v80BL/h9H1/9HGpr7jeshMA5MHhP/vKM4Jdh7tqBgszSkEq+P1AzsOO/40B8Ep/LjQgD
-         0EmA==
-X-Gm-Message-State: AOJu0YxdJB/IUw/mzq6nBq7PM6jWI4/nkhu7M97LP7xpvg5YvtoViZNS
-        E/PSr1fM+2+GeJlpYE/y3rqgoCd/C7yP54RCvwYUig==
-X-Google-Smtp-Source: AGHT+IHiUqGjKQHUfgrIcgITqHkmD2z1HCMXkK+vuDHKcerGKLDJ+4ufx0fc/UxlguWUqe3soL3/3nEQ/msf2e3kc/I=
-X-Received: by 2002:a1f:a9d0:0:b0:49d:92e0:9cd1 with SMTP id
- s199-20020a1fa9d0000000b0049d92e09cd1mr7100923vke.11.1696576319479; Fri, 06
- Oct 2023 00:11:59 -0700 (PDT)
+        with ESMTP id S230246AbjJFH3m (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Oct 2023 03:29:42 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E106FCA;
+        Fri,  6 Oct 2023 00:29:40 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A853CC433C7;
+        Fri,  6 Oct 2023 07:29:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696577380;
+        bh=3CrtETtogGyJmQXlOGKrn/b4wtvuigxXU+frjWJh07k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ITmiUKgagC99nmc7DWlgk6iUydLJu2GlGJXUQKD04dRsFKGpa2Hf16xGtsZEfn8XR
+         9yxVVXn4jDImyt3OuBpAYaHnSaUw523eg4ZXVN/MCxmgleJHqfjyc4/b1avPhatNKf
+         tEM/0Ol4MkQR8LfmtPOlB9veafhyus6e6aD1QgAwCtMUDQtpdUqZtWuehcZ/HEm05d
+         KRmsZ5eQyRqElKQoA2t9A7bQIokj03+6+kRmh2xzJxCVPi0XhY1HDhZihhvVjMoxOL
+         nFkG5GXMNJMBHbwxKBRbCCSWpeGqg6LQb+uAw7dEgrpufC9s1p/MSQdMmkt+hFkW26
+         b6AFh0adnCDvQ==
+Date:   Fri, 6 Oct 2023 09:29:35 +0200
+From:   Benjamin Tissoires <bentiss@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Filipe =?utf-8?B?TGHDrW5z?= <lains@riseup.net>,
+        Bastien Nocera <hadess@hadess.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] HID: logitech-hidpp: Fix kernel crash on receiver USB
+ disconnect
+Message-ID: <krfqpnfzrubfiweaokbibvz7cfcnd6wi6ub6xazpgfou3uwdds@z6th2ckoqb52>
+References: <20231005182638.3776-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-References: <20231004-pxa-gpio-v5-0-d99ae6fceea8@skole.hr> <20231004-pxa-gpio-v5-6-d99ae6fceea8@skole.hr>
-In-Reply-To: <20231004-pxa-gpio-v5-6-d99ae6fceea8@skole.hr>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Fri, 6 Oct 2023 09:11:48 +0200
-Message-ID: <CAMRc=MeGvqnsn63o1sH66AwTFCPd5kqj+7V=B08afrwUZdZCvQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v5 6/6] input: ads7846: Move wait_for_sync() logic to driver
-To:     =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Cc:     Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Russell King <linux@armlinux.org.uk>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andy@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-spi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231005182638.3776-1-hdegoede@redhat.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Oct 4, 2023 at 4:56=E2=80=AFPM Duje Mihanovi=C4=87 <duje.mihanovic@=
-skole.hr> wrote:
->
-> If this code is left in the board file, the sync GPIO would have to be
-> separated into another lookup table during conversion to the GPIO
-> descriptor API (which is also done in this patch).
->
-> The only user of this code (Sharp Spitz) is also converted in this
-> patch.
->
-> Suggested-by: Linus Walleij <linus.walleij@linaro.org>
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Signed-off-by: Duje Mihanovi=C4=87 <duje.mihanovic@skole.hr>
-> ---
+Hi Hans,
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+On Oct 05 2023, Hans de Goede wrote:
+> hidpp_connect_event() has *four* time-of-check vs time-of-use (TOCTOU)
+> races when it races with itself.
+> 
+> hidpp_connect_event() primarily runs from a workqueue but it also runs
+> on probe() and if a "device-connected" packet is received by the hw
+> when the thread running hidpp_connect_event() from probe() is waiting on
+> the hw, then a second thread running hidpp_connect_event() will be
+> started from the workqueue.
+> 
+> This opens the following races (note the below code is simplified):
+> 
+> 1. Retrieving + printing the protocol (harmless race):
+> 
+> 	if (!hidpp->protocol_major) {
+> 		hidpp_root_get_protocol_version()
+> 		hidpp->protocol_major = response.rap.params[0];
+> 	}
+> 
+> We can actually see this race hit in the dmesg in the abrt output
+> attached to rhbz#2227968:
+> 
+> [ 3064.624215] logitech-hidpp-device 0003:046D:4071.0049: HID++ 4.5 device connected.
+> [ 3064.658184] logitech-hidpp-device 0003:046D:4071.0049: HID++ 4.5 device connected.
+> 
+> Testing with extra logging added has shown that after this the 2 threads
+> take turn grabbing the hw access mutex (send_mutex) so they ping-pong
+> through all the other TOCTOU cases managing to hit all of them:
+> 
+> 2. Updating the name to the HIDPP name (harmless race):
+> 
+> 	if (hidpp->name == hdev->name) {
+> 		...
+> 		hidpp->name = new_name;
+> 	}
+> 
+> 3. Initializing the power_supply class for the battery (problematic!):
+> 
+> hidpp_initialize_battery()
+> {
+>         if (hidpp->battery.ps)
+>                 return 0;
+> 
+> 	probe_battery(); /* Blocks, threads take turns executing this */
+> 
+> 	hidpp->battery.desc.properties =
+> 		devm_kmemdup(dev, hidpp_battery_props, cnt, GFP_KERNEL);
+> 
+> 	hidpp->battery.ps =
+> 		devm_power_supply_register(&hidpp->hid_dev->dev,
+> 					   &hidpp->battery.desc, cfg);
+> }
+> 
+> 4. Creating delayed input_device (potentially problematic):
+> 
+> 	if (hidpp->delayed_input)
+> 		return;
+> 
+> 	hidpp->delayed_input = hidpp_allocate_input(hdev);
+> 
+> The really big problem here is 3. Hitting the race leads to the following
+> sequence:
+> 
+> 	hidpp->battery.desc.properties =
+> 		devm_kmemdup(dev, hidpp_battery_props, cnt, GFP_KERNEL);
+> 
+> 	hidpp->battery.ps =
+> 		devm_power_supply_register(&hidpp->hid_dev->dev,
+> 					   &hidpp->battery.desc, cfg);
+> 
+> 	...
+> 
+> 	hidpp->battery.desc.properties =
+> 		devm_kmemdup(dev, hidpp_battery_props, cnt, GFP_KERNEL);
+> 
+> 	hidpp->battery.ps =
+> 		devm_power_supply_register(&hidpp->hid_dev->dev,
+> 					   &hidpp->battery.desc, cfg);
+> 
+> So now we have registered 2 power supplies for the same battery,
+> which looks a bit weird from userspace's pov but this is not even
+> the really big problem.
+> 
+> Notice how:
+> 
+> 1. This is all devm-maganaged
+> 2. The hidpp->battery.desc struct is shared between the 2 power supplies
+> 3. hidpp->battery.desc points to the result from the second devm_kmemdup()
+> 
+> This causes a use after free scenario on USB disconnect of the receiver:
+> 1. The last registered power supply class device gets unregistered
+> 2. The memory from the last devm_kmemdup() call gets freed,
+>    hidpp->battery.desc.properties now points to freed memory
+> 3. The first registered power supply class device gets unregistered,
+>    this involves sending a remove uevent to userspace which invokes
+>    power_supply_uevent() to fill the uevent data
+> 4. power_supply_uevent() uses hidpp->battery.desc.properties which
+>    now points to freed memory leading to backtraces like this one:
+> 
+> Sep 22 20:01:35 eric kernel: BUG: unable to handle page fault for address: ffffb2140e017f08
+> ...
+> Sep 22 20:01:35 eric kernel: Workqueue: usb_hub_wq hub_event
+> Sep 22 20:01:35 eric kernel: RIP: 0010:power_supply_uevent+0xee/0x1d0
+> ...
+> Sep 22 20:01:35 eric kernel:  ? asm_exc_page_fault+0x26/0x30
+> Sep 22 20:01:35 eric kernel:  ? power_supply_uevent+0xee/0x1d0
+> Sep 22 20:01:35 eric kernel:  ? power_supply_uevent+0x10d/0x1d0
+> Sep 22 20:01:35 eric kernel:  dev_uevent+0x10f/0x2d0
+> Sep 22 20:01:35 eric kernel:  kobject_uevent_env+0x291/0x680
+> Sep 22 20:01:35 eric kernel:  power_supply_unregister+0x8e/0xa0
+> Sep 22 20:01:35 eric kernel:  release_nodes+0x3d/0xb0
+> Sep 22 20:01:35 eric kernel:  devres_release_group+0xfc/0x130
+> Sep 22 20:01:35 eric kernel:  hid_device_remove+0x56/0xa0
+> Sep 22 20:01:35 eric kernel:  device_release_driver_internal+0x19f/0x200
+> Sep 22 20:01:35 eric kernel:  bus_remove_device+0xc6/0x130
+> Sep 22 20:01:35 eric kernel:  device_del+0x15c/0x3f0
+> Sep 22 20:01:35 eric kernel:  ? __queue_work+0x1df/0x440
+> Sep 22 20:01:35 eric kernel:  hid_destroy_device+0x4b/0x60
+> Sep 22 20:01:35 eric kernel:  logi_dj_remove+0x9a/0x100 [hid_logitech_dj 5c91534a0ead2b65e04dd799a0437e3b99b21bc4]
+> Sep 22 20:01:35 eric kernel:  hid_device_remove+0x44/0xa0
+> Sep 22 20:01:35 eric kernel:  device_release_driver_internal+0x19f/0x200
+> Sep 22 20:01:35 eric kernel:  bus_remove_device+0xc6/0x130
+> Sep 22 20:01:35 eric kernel:  device_del+0x15c/0x3f0
+> Sep 22 20:01:35 eric kernel:  ? __queue_work+0x1df/0x440
+> Sep 22 20:01:35 eric kernel:  hid_destroy_device+0x4b/0x60
+> Sep 22 20:01:35 eric kernel:  usbhid_disconnect+0x47/0x60 [usbhid 727dcc1c0b94e6b4418727a468398ac3bca492f3]
+> Sep 22 20:01:35 eric kernel:  usb_unbind_interface+0x90/0x270
+> Sep 22 20:01:35 eric kernel:  device_release_driver_internal+0x19f/0x200
+> Sep 22 20:01:35 eric kernel:  bus_remove_device+0xc6/0x130
+> Sep 22 20:01:35 eric kernel:  device_del+0x15c/0x3f0
+> Sep 22 20:01:35 eric kernel:  ? kobject_put+0xa0/0x1d0
+> Sep 22 20:01:35 eric kernel:  usb_disable_device+0xcd/0x1e0
+> Sep 22 20:01:35 eric kernel:  usb_disconnect+0xde/0x2c0
+> Sep 22 20:01:35 eric kernel:  usb_disconnect+0xc3/0x2c0
+> Sep 22 20:01:35 eric kernel:  hub_event+0xe80/0x1c10
+> 
+> There have been quite a few bug reports (see Link tags) about this crash.
+> 
+> Fix all the TOCTOU issues, including the really bad power-supply related
+> system crash on USB disconnect, by making probe() use the workqueue for
+> running hidpp_connect_event() too, so that it can never run more then once.
+> 
+> Link: https://bugzilla.redhat.com/show_bug.cgi?id=2227221
+> Link: https://bugzilla.redhat.com/show_bug.cgi?id=2227968
+> Link: https://bugzilla.redhat.com/show_bug.cgi?id=2227968
+> Link: https://bugzilla.redhat.com/show_bug.cgi?id=2242189
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217412#c58
+
+Many thanks for finding out the root cause of this. And sorry that you
+had to do it :(
+
+Out of curiosity, do you have an idea on when this was introduced?
+From these logs it seem that the symptoms started to appear in July in
+distributions, but I can not quickly reproduce it locally and so I'm a
+little bit puzzled.
+
+Anyway, with or without a Fixes tag, I think I'll apply it today and
+send this and the other patch from Johan to Linus ASAP.
+
+Cheers,
+Benjamin
+
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/hid/hid-logitech-hidpp.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+> index ff077df0babf..a209d51bd247 100644
+> --- a/drivers/hid/hid-logitech-hidpp.c
+> +++ b/drivers/hid/hid-logitech-hidpp.c
+> @@ -4515,7 +4515,8 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>  			goto hid_hw_init_fail;
+>  	}
+>  
+> -	hidpp_connect_event(hidpp);
+> +	schedule_work(&hidpp->work);
+> +	flush_work(&hidpp->work);
+>  
+>  	if (will_restart) {
+>  		/* Reset the HID node state */
+> -- 
+> 2.41.0
+> 
