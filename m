@@ -2,352 +2,180 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E4C277BBCB7
-	for <lists+linux-input@lfdr.de>; Fri,  6 Oct 2023 18:29:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7ACA7BBDA9
+	for <lists+linux-input@lfdr.de>; Fri,  6 Oct 2023 19:24:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232678AbjJFQ3F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Oct 2023 12:29:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41826 "EHLO
+        id S232988AbjJFRYa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Oct 2023 13:24:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232699AbjJFQ3E (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Oct 2023 12:29:04 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B81DFB9;
-        Fri,  6 Oct 2023 09:28:58 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1AD3C433C7;
-        Fri,  6 Oct 2023 16:28:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696609738;
-        bh=Qq+aYktCLuasjAA3QUpNr7HpyjYEpS8uNozsnROBpKo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dqtTt2g4gmke34mzhyO0O72Lew04tZqa3/mQrBDewYj1kvUjLZaDU/fbt1gpYDnRA
-         SCbMZiG9QOTOjgJJL09Dv3IWdyeuCaOkITAgGfiYNzLhtG3sZN+KHpO2AL7u7e4R7e
-         W3Ylvee56m2uc4DoaTl98KX9eYsCD///n5YrYe5uVPVZuVP+08lW2bb73mt9ALocWB
-         ah3XvDqdEdzSWCeJYqJfrBIheweBcP6woU2Gw2u+z/xivOOOQvdbLpfG1EgStczjfZ
-         S/NHLGIa2YXPBGGSq1p1+ufJtj5SHKUvAFpgEGfqixLu+SM02jfCZcWfavpvf/0SWt
-         kwZWTEoL+PBew==
-Date:   Fri, 6 Oct 2023 18:28:54 +0200
-From:   Benjamin Tissoires <bentiss@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Filipe =?utf-8?B?TGHDrW5z?= <lains@riseup.net>,
-        Bastien Nocera <hadess@hadess.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] HID: logitech-hidpp: Avoid hidpp_connect_event()
- running while probe() restarts IO
-Message-ID: <zjiang3fdy4o7r3daupwpnx6zesmeeerldpx5fno2adzialpre@cdp7tq4araww>
-References: <20231006081858.17677-1-hdegoede@redhat.com>
- <20231006081858.17677-2-hdegoede@redhat.com>
- <iqchunho27bqb6dp24ptfx32gdwbq6f6v654ftfme4kel3hoa6@5t2x4kcms2wk>
- <686e8973-613b-2fb3-efd6-26f3dd21ed9d@redhat.com>
+        with ESMTP id S232870AbjJFRY3 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Oct 2023 13:24:29 -0400
+Received: from mail-vk1-xa30.google.com (mail-vk1-xa30.google.com [IPv6:2607:f8b0:4864:20::a30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0A65C6
+        for <linux-input@vger.kernel.org>; Fri,  6 Oct 2023 10:24:27 -0700 (PDT)
+Received: by mail-vk1-xa30.google.com with SMTP id 71dfb90a1353d-49a99c43624so922419e0c.2
+        for <linux-input@vger.kernel.org>; Fri, 06 Oct 2023 10:24:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1696613067; x=1697217867; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MXg07Advx6F48OmXOI5LqKwE4lifCKB21IEnukLuOS4=;
+        b=qlOELpKp/HAVpMRkKgqLmrXrNXEFeJcdZrPQDXPF1PQRk+o3U5KA58Qh84cDnXru9K
+         Fr6HCQqqNt3zzF9hOvkttcmkStKcHdwUrjhxFpu1igNAfyWPPGMWAeEoHRfYbYw0Gklq
+         GKTfPg/yjXAwJGLkqDEveut58nRGXgyFsJfFjj0ebADnprrZu9B5BR+crSzZXyyjqYUh
+         EJfDGNK+3bILEsgMrdvzwaLc89zoTTSwBgCx9XHvdVZ1EFFlPlfPnNfM6z58tA/0qSzc
+         AFPDw1Ck2FPgNoInMTObhMQ7GfGHpChRD5yG1iZ7eVa1bi70fPquOkab5H5vBPOFro1p
+         2fFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696613067; x=1697217867;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MXg07Advx6F48OmXOI5LqKwE4lifCKB21IEnukLuOS4=;
+        b=ZILYlHhV6c+8S5jn6+Oujz71GXx4uq+Uj5w+JbUTcd+7F5Fkz8GPqXFJxepkc3h6HQ
+         jXRI69cGwi5+rY3z2Q3u1t8h+qv+dDAyaYz6/2agj1Y2NfMaMYv4385Ka5Dp6xK56gUR
+         4sCLeu+AEY1x1hud5sereqR63GqBE8Opaqhz/+mrydLw4eza90S2Iuo19kto6Ij0MD2t
+         TPcLxSIPFzPkVI7oPaONc8YnraXUrZNa3iraTLp0Iy/0BnXdUuvs4JTrkromAKL0D8js
+         5c9K4JXbvkRnxRFIqzVji3xO7wM3OF2TsIzOe0VrOuEbWrLiGZERSaUBkUiyvQHM4tGr
+         QfaA==
+X-Gm-Message-State: AOJu0Yy/+95BqpSPrfKVDRxUrUkqKSQGenrGooKvfJNgkLQQaLaQq0I6
+        5PidfhVH8tsxwH2asfbHp+euU5kN1V9Qh0UBMB8Lmw==
+X-Google-Smtp-Source: AGHT+IGfi4mWhaz+b8BorJFDpgBUjJUgMrmh9w4qb8vbAM4r9GKqJxQmeIxhjH0dns02JY2KOxOWrQmMHml9anSgJvU=
+X-Received: by 2002:a1f:49c5:0:b0:49a:b7bf:5a22 with SMTP id
+ w188-20020a1f49c5000000b0049ab7bf5a22mr7842989vka.14.1696613066638; Fri, 06
+ Oct 2023 10:24:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <686e8973-613b-2fb3-efd6-26f3dd21ed9d@redhat.com>
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        GUARANTEED_100_PERCENT,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+References: <20231006-pxa-gpio-v6-0-981b4910d599@skole.hr> <20231006-pxa-gpio-v6-1-981b4910d599@skole.hr>
+In-Reply-To: <20231006-pxa-gpio-v6-1-981b4910d599@skole.hr>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Fri, 6 Oct 2023 19:24:15 +0200
+Message-ID: <CAMRc=Mf3yoMF1Q5=-UtzJf4gqONQ=Dg=p68Q=DsVANaAPgwD=w@mail.gmail.com>
+Subject: Re: [PATCH RFT v6 1/6] ARM: pxa: Convert Spitz OHCI to GPIO descriptors
+To:     =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Cc:     Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Russell King <linux@armlinux.org.uk>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andy Shevchenko <andy@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-spi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Oct 06 2023, Hans de Goede wrote:
-> Hi Benjamin,
-> 
-> On 10/6/23 15:46, Benjamin Tissoires wrote:
-> > Hi Hans,
-> > 
-> > On Oct 06 2023, Hans de Goede wrote:
-> >> hidpp_probe() restarts IO after setting things up, if we get a connect
-> >> event just before hidpp_probe() stops all IO then hidpp_connect_event()
-> >> will see IO errors causing it to fail to setup the connected device.
-> > 
-> > I think I see why you are doing this, but it scares me to be honest.
-> > 
-> >>
-> >> Add a new io_mutex which hidpp_probe() locks while restarting IO and
-> >> which is also taken by hidpp_connect_event() to avoid these 2 things
-> >> from racing.
-> > 
-> > So now we are adding a new mutex to prevent a workqueue to be executed,
-> > which is held while there is another semaphore going down/up...
-> > It feels error prone to say the least and I'm not sure we are not
-> > actually fixing the problem.
-> > 
-> > My guts tells me that the issue is tackled at the wrong time, and that
-> > maybe there is a better solution that doesn't involve a new lock in the
-> > middle of 2 other locks being actually held...
-> 
-> Since the lock is only taken into 2 places and 1 of them is holding
-> no locks when taking it (because workqueue) I don't really see how
-> this would be a problem.
-> 
-> Actually introducing a new lock for this, rather then say trying
-> to use the send_mutex makes this much easier to reason about,
-> more on this below.
-> 
-> > One minor comment in the code.
-> > 
-> >>
-> >> Hopefully this will help with the occasional connect errors leading to
-> >> e.g. missing battery monitoring.
-> >>
-> >> Cc: stable@vger.kernel.org
-> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >> ---
-> >>  drivers/hid/hid-logitech-hidpp.c | 35 ++++++++++++++++++++++----------
-> >>  1 file changed, 24 insertions(+), 11 deletions(-)
-> >>
-> >> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-> >> index a209d51bd247..33f9cd98485a 100644
-> >> --- a/drivers/hid/hid-logitech-hidpp.c
-> >> +++ b/drivers/hid/hid-logitech-hidpp.c
-> >> @@ -181,6 +181,7 @@ struct hidpp_scroll_counter {
-> >>  struct hidpp_device {
-> >>  	struct hid_device *hid_dev;
-> >>  	struct input_dev *input;
-> >> +	struct mutex io_mutex;
-> >>  	struct mutex send_mutex;
-> >>  	void *send_receive_buf;
-> >>  	char *name;		/* will never be NULL and should not be freed */
-> >> @@ -4207,36 +4208,39 @@ static void hidpp_connect_event(struct hidpp_device *hidpp)
-> >>  		return;
-> >>  	}
-> >>  
-> >> +	/* Avoid probe() restarting IO */
-> >> +	mutex_lock(&hidpp->io_mutex);
-> > 
-> > I'd put a `__must_hold(&hidpp->io_mutex);` here, not changing any return
-> > path and forcing any caller to `hidpp_connect_event()` (which will
-> > eventually only be the work struct) to take the lock.
-> > 
-> > This should simplify the patch by a lot and also ensure someone doesn't
-> > forget the `goto out_unlock`.
-> 
-> Ok, I can add the __must_hold() here and make 
-> delayed_Work_cb take the lock, but that would make it
-> impossible to implement patch 2/2 in a clean manner and
-> I do like patch 2/2 since it makes it clear that
-> hidpp_connect_event must only run from the workqueue
-> but I guess we could just add a comment for that
-> instead.
+On Fri, Oct 6, 2023 at 3:45=E2=80=AFPM Duje Mihanovi=C4=87 <duje.mihanovic@=
+skole.hr> wrote:
+>
+> Sharp's Spitz board still uses the legacy GPIO interface for controlling
+> a GPIO pin related to the USB host controller.
+>
+> Convert this function to use the new GPIO descriptor interface.
+>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Duje Mihanovi=C4=87 <duje.mihanovic@skole.hr>
+> ---
+>  arch/arm/mach-pxa/spitz.c      | 13 ++++++-------
+>  drivers/usb/host/ohci-pxa27x.c |  7 +++++++
+>  2 files changed, 13 insertions(+), 7 deletions(-)
+>
+> diff --git a/arch/arm/mach-pxa/spitz.c b/arch/arm/mach-pxa/spitz.c
+> index cc691b199429..535e2b2e997b 100644
+> --- a/arch/arm/mach-pxa/spitz.c
+> +++ b/arch/arm/mach-pxa/spitz.c
+> @@ -649,23 +649,22 @@ static inline void spitz_mmc_init(void) {}
+>   * USB Host
+>   ***********************************************************************=
+*******/
+>  #if defined(CONFIG_USB_OHCI_HCD) || defined(CONFIG_USB_OHCI_HCD_MODULE)
+> +GPIO_LOOKUP_SINGLE(spitz_usb_host_gpio_table, "pxa27x-ohci", "gpio-pxa",
+> +               SPITZ_GPIO_USB_HOST, "usb-host", GPIO_ACTIVE_LOW);
+> +
+>  static int spitz_ohci_init(struct device *dev)
+>  {
+> -       int err;
+> -
+> -       err =3D gpio_request(SPITZ_GPIO_USB_HOST, "USB_HOST");
+> -       if (err)
+> -               return err;
+> +       gpiod_add_lookup_table(&spitz_usb_host_gpio_table);
+>
+>         /* Only Port 2 is connected, setup USB Port 2 Output Control Regi=
+ster */
+>         UP2OCR =3D UP2OCR_HXS | UP2OCR_HXOE | UP2OCR_DPPDE | UP2OCR_DMPDE=
+;
+>
+> -       return gpio_direction_output(SPITZ_GPIO_USB_HOST, 1);
+> +       return 0;
+>  }
+>
+>  static void spitz_ohci_exit(struct device *dev)
+>  {
+> -       gpio_free(SPITZ_GPIO_USB_HOST);
+> +       gpiod_remove_lookup_table(&spitz_usb_host_gpio_table);
+>  }
+>
+>  static struct pxaohci_platform_data spitz_ohci_platform_data =3D {
+> diff --git a/drivers/usb/host/ohci-pxa27x.c b/drivers/usb/host/ohci-pxa27=
+x.c
+> index 357d9aee38a3..7f04421c80d6 100644
+> --- a/drivers/usb/host/ohci-pxa27x.c
+> +++ b/drivers/usb/host/ohci-pxa27x.c
+> @@ -121,6 +121,7 @@ struct pxa27x_ohci {
+>         void __iomem    *mmio_base;
+>         struct regulator *vbus[3];
+>         bool            vbus_enabled[3];
+> +       struct gpio_desc *usb_host;
+>  };
+>
+>  #define to_pxa27x_ohci(hcd)    (struct pxa27x_ohci *)(hcd_to_ohci(hcd)->=
+priv)
+> @@ -447,6 +448,10 @@ static int ohci_hcd_pxa27x_probe(struct platform_dev=
+ice *pdev)
+>         pxa_ohci =3D to_pxa27x_ohci(hcd);
+>         pxa_ohci->clk =3D usb_clk;
+>         pxa_ohci->mmio_base =3D (void __iomem *)hcd->regs;
+> +       pxa_ohci->usb_host =3D devm_gpiod_get_optional(&pdev->dev, "usb-h=
+ost", GPIOD_OUT_LOW);
+> +       if (IS_ERR(pxa_ohci->usb_host))
+> +               return dev_err_probe(&pdev->dev, PTR_ERR(pxa_ohci->usb_ho=
+st),
+> +                               "failed to get USB host GPIO\n");
+>
+>         for (i =3D 0; i < 3; ++i) {
+>                 char name[6];
+> @@ -512,6 +517,8 @@ static void ohci_hcd_pxa27x_remove(struct platform_de=
+vice *pdev)
+>         for (i =3D 0; i < 3; ++i)
+>                 pxa27x_ohci_set_vbus_power(pxa_ohci, i, false);
+>
+> +       gpiod_put(pxa_ohci->usb_host);
 
-In 2/2, just rename this function to __do_hidpp_connect_event(), and
-have hidpp_connect_event() being the worker, which takes the lock, and
-calls __do_hidpp_connect_event().
+This is now wrong. Devres APIs are managed by the driver core. You no
+longer need this in your remove() callback.
 
-> 
-> Either way works for me, with a slight preference
-> for the current version even if it introduces
-> a bunch of gotos.
-> 
-> > 
-> >> +
-> >>  	if (hidpp->quirks & HIDPP_QUIRK_CLASS_WTP) {
-> >>  		ret = wtp_connect(hdev, connected);
-> >>  		if (ret)
-> >> -			return;
-> >> +			goto out_unlock;
-> >>  	} else if (hidpp->quirks & HIDPP_QUIRK_CLASS_M560) {
-> >>  		ret = m560_send_config_command(hdev, connected);
-> >>  		if (ret)
-> >> -			return;
-> >> +			goto out_unlock;
-> >>  	} else if (hidpp->quirks & HIDPP_QUIRK_CLASS_K400) {
-> >>  		ret = k400_connect(hdev, connected);
-> >>  		if (ret)
-> >> -			return;
-> >> +			goto out_unlock;
-> >>  	}
-> >>  
-> >>  	if (hidpp->quirks & HIDPP_QUIRK_HIDPP_WHEELS) {
-> >>  		ret = hidpp10_wheel_connect(hidpp);
-> >>  		if (ret)
-> >> -			return;
-> >> +			goto out_unlock;
-> >>  	}
-> >>  
-> >>  	if (hidpp->quirks & HIDPP_QUIRK_HIDPP_EXTRA_MOUSE_BTNS) {
-> >>  		ret = hidpp10_extra_mouse_buttons_connect(hidpp);
-> >>  		if (ret)
-> >> -			return;
-> >> +			goto out_unlock;
-> >>  	}
-> >>  
-> >>  	if (hidpp->quirks & HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS) {
-> >>  		ret = hidpp10_consumer_keys_connect(hidpp);
-> >>  		if (ret)
-> >> -			return;
-> >> +			goto out_unlock;
-> >>  	}
-> >>  
-> >>  	/* the device is already connected, we can ask for its name and
-> >> @@ -4245,7 +4249,7 @@ static void hidpp_connect_event(struct hidpp_device *hidpp)
-> >>  		ret = hidpp_root_get_protocol_version(hidpp);
-> >>  		if (ret) {
-> >>  			hid_err(hdev, "Can not get the protocol version.\n");
-> >> -			return;
-> >> +			goto out_unlock;
-> >>  		}
-> >>  	}
-> >>  
-> >> @@ -4256,7 +4260,7 @@ static void hidpp_connect_event(struct hidpp_device *hidpp)
-> >>  						   "%s", name);
-> >>  			kfree(name);
-> >>  			if (!devm_name)
-> >> -				return;
-> >> +				goto out_unlock;
-> >>  
-> >>  			hidpp->name = devm_name;
-> >>  		}
-> >> @@ -4291,12 +4295,12 @@ static void hidpp_connect_event(struct hidpp_device *hidpp)
-> >>  
-> >>  	if (!(hidpp->quirks & HIDPP_QUIRK_DELAYED_INIT) || hidpp->delayed_input)
-> >>  		/* if the input nodes are already created, we can stop now */
-> >> -		return;
-> >> +		goto out_unlock;
-> >>  
-> >>  	input = hidpp_allocate_input(hdev);
-> >>  	if (!input) {
-> >>  		hid_err(hdev, "cannot allocate new input device: %d\n", ret);
-> >> -		return;
-> >> +		goto out_unlock;
-> >>  	}
-> >>  
-> >>  	hidpp_populate_input(hidpp, input);
-> >> @@ -4304,10 +4308,12 @@ static void hidpp_connect_event(struct hidpp_device *hidpp)
-> >>  	ret = input_register_device(input);
-> >>  	if (ret) {
-> >>  		input_free_device(input);
-> >> -		return;
-> >> +		goto out_unlock;
-> >>  	}
-> >>  
-> >>  	hidpp->delayed_input = input;
-> >> +out_unlock:
-> >> +	mutex_unlock(&hidpp->io_mutex);
-> >>  }
-> >>  
-> >>  static DEVICE_ATTR(builtin_power_supply, 0000, NULL, NULL);
-> >> @@ -4450,6 +4456,7 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> >>  		will_restart = true;
-> >>  
-> >>  	INIT_WORK(&hidpp->work, delayed_work_cb);
-> >> +	mutex_init(&hidpp->io_mutex);
-> >>  	mutex_init(&hidpp->send_mutex);
-> >>  	init_waitqueue_head(&hidpp->wait);
-> >>  
-> >> @@ -4519,6 +4526,9 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> >>  	flush_work(&hidpp->work);
-> >>  
-> >>  	if (will_restart) {
-> >> +		/* Avoid hidpp_connect_event() running while restarting */
-> >> +		mutex_lock(&hidpp->io_mutex);
-> >> +
-> >>  		/* Reset the HID node state */
-> >>  		hid_device_io_stop(hdev);
-> > 
-> > That's the part that makes me raise an eyebrow. Because we lock, then
-> > release the semaphore to get it back later. Can this induce a dead lock?
-> > 
-> > Can't we solve that same scenario without a mutex, but forcing either
-> > the workqueue to not run or to be finished at this point?
-> 
-> I'm not sure what you are worried about after the mutex_lock
-> the line above we are 100% guaranteed that hidpp_connect_event()
-> is not running and since it is not running it will also not
-> be holding any other locks, so it can not cause any problems.
+Bart
 
-Agree, but my point is that you are not entirely solving the issue:
-if now, between hid_device_io_stop() and hid_hw_close() we receive a
-connect notification from the device, hid_input_report() will return
--EBUSY, and we will lose it (it will not be stacked in the workqueue).
-
-I was thinking at adding a flush_work(&hidpp->work) here, instead of
-the mutex solution, but yours ensures that any connect event already
-started will be handled properly, which is a plus.
-
-Still if between the mutex lock here we receive a connect event from the
-device, we still get -EBUSY at the hid-core layer, and so we will lose
-it. Maybe that's OK because we might re-ask for the device later (I
-don't remember exactly the code), but my point is that because we add a
-mutex doesn't mean we will solve all multi-thread problems. So finding a
-non-mutex solution sometimes is better :)
-
-And the fact that we need to think through every preemption case often
-means that there is something wrong *elsewhere*.
-
-> 
-> The other way around if hidpp_connect_event() is running
-> the mutex_lock() above ensures that it will finishes and
-> release any locks before we get here.
-> 
-> There is no way that both code paths can run at the same time
-> with the new lock. And there thus also is no way that they
-> can cause any new not already held locks to be taken while
-> the other side is running.
-> 
-> I actually introduced the new lock because in my mind
-> introducing the new lock allows to easily reason about
-> the impact on other locking (which is none).
-> 
-> I hope this helps explain. As for the making
-> hidpp_connect_event()'s caller take the lock thing, let me
-> know how you want to resolve that. Either way works for me
-> and I guess the less intrusive version of making the caller
-> take the lock is easier to backport so we should probably
-> go that route.
-
-Again, for that particular point, making the function a private one that
-doesn't have to cope with the mutex will be simpler in this patch and in
-the future.
-
-Cheers,
-Benjamin
-
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
-> >>  		hid_hw_close(hdev);
-> >> @@ -4529,6 +4539,7 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> >>  
-> >>  		/* Now export the actual inputs and hidraw nodes to the world */
-> >>  		ret = hid_hw_start(hdev, connect_mask);
-> >> +		mutex_unlock(&hidpp->io_mutex);
-> >>  		if (ret) {
-> >>  			hid_err(hdev, "%s:hid_hw_start returned error\n", __func__);
-> >>  			goto hid_hw_start_fail;
-> >> @@ -4553,6 +4564,7 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> >>  	sysfs_remove_group(&hdev->dev.kobj, &ps_attribute_group);
-> >>  	cancel_work_sync(&hidpp->work);
-> >>  	mutex_destroy(&hidpp->send_mutex);
-> >> +	mutex_destroy(&hidpp->io_mutex);
-> >>  	return ret;
-> >>  }
-> >>  
-> >> @@ -4568,6 +4580,7 @@ static void hidpp_remove(struct hid_device *hdev)
-> >>  	hid_hw_stop(hdev);
-> >>  	cancel_work_sync(&hidpp->work);
-> >>  	mutex_destroy(&hidpp->send_mutex);
-> >> +	mutex_destroy(&hidpp->io_mutex);
-> >>  }
-> >>  
-> >>  #define LDJ_DEVICE(product) \
-> >> -- 
-> >> 2.41.0
-> >>
-> > 
-> > Cheers,
-> > Benjamin
-> > 
-> 
-> 
-> 
+> +
+>         usb_put_hcd(hcd);
+>  }
+>
+>
+> --
+> 2.42.0
+>
+>
