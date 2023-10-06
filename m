@@ -2,180 +2,213 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7ACA7BBDA9
-	for <lists+linux-input@lfdr.de>; Fri,  6 Oct 2023 19:24:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78BAC7BBDB3
+	for <lists+linux-input@lfdr.de>; Fri,  6 Oct 2023 19:25:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232988AbjJFRYa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Oct 2023 13:24:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55884 "EHLO
+        id S233036AbjJFRZt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Oct 2023 13:25:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232870AbjJFRY3 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Oct 2023 13:24:29 -0400
-Received: from mail-vk1-xa30.google.com (mail-vk1-xa30.google.com [IPv6:2607:f8b0:4864:20::a30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0A65C6
-        for <linux-input@vger.kernel.org>; Fri,  6 Oct 2023 10:24:27 -0700 (PDT)
-Received: by mail-vk1-xa30.google.com with SMTP id 71dfb90a1353d-49a99c43624so922419e0c.2
-        for <linux-input@vger.kernel.org>; Fri, 06 Oct 2023 10:24:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1696613067; x=1697217867; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MXg07Advx6F48OmXOI5LqKwE4lifCKB21IEnukLuOS4=;
-        b=qlOELpKp/HAVpMRkKgqLmrXrNXEFeJcdZrPQDXPF1PQRk+o3U5KA58Qh84cDnXru9K
-         Fr6HCQqqNt3zzF9hOvkttcmkStKcHdwUrjhxFpu1igNAfyWPPGMWAeEoHRfYbYw0Gklq
-         GKTfPg/yjXAwJGLkqDEveut58nRGXgyFsJfFjj0ebADnprrZu9B5BR+crSzZXyyjqYUh
-         EJfDGNK+3bILEsgMrdvzwaLc89zoTTSwBgCx9XHvdVZ1EFFlPlfPnNfM6z58tA/0qSzc
-         AFPDw1Ck2FPgNoInMTObhMQ7GfGHpChRD5yG1iZ7eVa1bi70fPquOkab5H5vBPOFro1p
-         2fFA==
+        with ESMTP id S232404AbjJFRZr (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Oct 2023 13:25:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94502D8
+        for <linux-input@vger.kernel.org>; Fri,  6 Oct 2023 10:25:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1696613103;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=mLVUyshwnPobqcpQLpDXI/mKyIxKrhmdCJN7MIIJQGo=;
+        b=RlUC82N7TzNi0j1TDjBfwmTbUul5Wf8XsbU6KXO6W5STX1+dOWhsyCgoB2i8bAWOoIfhZL
+        EW/HezMljlGFdVskYQFcUwGikWD6bT0Y6yDITVPEywTAXgioNFwfxeFrmRcuZL3UzZzYbf
+        Soi+ViZnpOd0riM/r7uJhOTDgNByBCA=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-35-T0WBLwwqNeyheNEFwiEqSA-1; Fri, 06 Oct 2023 13:25:02 -0400
+X-MC-Unique: T0WBLwwqNeyheNEFwiEqSA-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-99bcb13d8ddso205967766b.0
+        for <linux-input@vger.kernel.org>; Fri, 06 Oct 2023 10:25:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696613067; x=1697217867;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MXg07Advx6F48OmXOI5LqKwE4lifCKB21IEnukLuOS4=;
-        b=ZILYlHhV6c+8S5jn6+Oujz71GXx4uq+Uj5w+JbUTcd+7F5Fkz8GPqXFJxepkc3h6HQ
-         jXRI69cGwi5+rY3z2Q3u1t8h+qv+dDAyaYz6/2agj1Y2NfMaMYv4385Ka5Dp6xK56gUR
-         4sCLeu+AEY1x1hud5sereqR63GqBE8Opaqhz/+mrydLw4eza90S2Iuo19kto6Ij0MD2t
-         TPcLxSIPFzPkVI7oPaONc8YnraXUrZNa3iraTLp0Iy/0BnXdUuvs4JTrkromAKL0D8js
-         5c9K4JXbvkRnxRFIqzVji3xO7wM3OF2TsIzOe0VrOuEbWrLiGZERSaUBkUiyvQHM4tGr
-         QfaA==
-X-Gm-Message-State: AOJu0Yy/+95BqpSPrfKVDRxUrUkqKSQGenrGooKvfJNgkLQQaLaQq0I6
-        5PidfhVH8tsxwH2asfbHp+euU5kN1V9Qh0UBMB8Lmw==
-X-Google-Smtp-Source: AGHT+IGfi4mWhaz+b8BorJFDpgBUjJUgMrmh9w4qb8vbAM4r9GKqJxQmeIxhjH0dns02JY2KOxOWrQmMHml9anSgJvU=
-X-Received: by 2002:a1f:49c5:0:b0:49a:b7bf:5a22 with SMTP id
- w188-20020a1f49c5000000b0049ab7bf5a22mr7842989vka.14.1696613066638; Fri, 06
- Oct 2023 10:24:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696613101; x=1697217901;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mLVUyshwnPobqcpQLpDXI/mKyIxKrhmdCJN7MIIJQGo=;
+        b=gN9xDsUKOEAjOd3PYuVEECGkBWpbbjlDMsB2a0CU1AMTzXPkIH9tYv1Vyzr8bCHNSQ
+         h6njdHLR7PBYhwnfOscp3Udf9S0arZOaWv8+FM1Nh3/abszUFepam0OpPqEkRhjV3D0T
+         +gqVb7z8z8YXafxN2EqUzg+ktAt6Ff8n/MYEs8phi7P3k1Jl2Jqg5LujiamzKO4CQPI4
+         byZoch5zQE9ZKgUaxpvAXwGlEYy2m7tVpw9zP5DcvTSZUQOTwL12av8I+8uzOq+xrgcj
+         1mmyqR+1uKTcrpCAqy+LhnGeFr8SlRQzL5EdpIzRjOsQc0iTBmpUVS0bBVrCg2oEkbIq
+         M67Q==
+X-Gm-Message-State: AOJu0YweX/KoEqgXGQHLeps2W8hIEV8Q0HpM7T269rrM01HvC00TrXdq
+        2MZjn7r4TJpxvO3xC4gb194f7W0Py2TmV7qvb8+yAPQdurDYtuEkRHNBjwvEuqdjm5P0wjAoxhY
+        d18si3JFaa1y6OV1ZvTa05t4=
+X-Received: by 2002:a17:906:1d:b0:9b2:be12:d9bd with SMTP id 29-20020a170906001d00b009b2be12d9bdmr6538913eja.77.1696613101179;
+        Fri, 06 Oct 2023 10:25:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGRNa55c2g9/ctollg94wEkfJry5YMJf4KRXKiNitRB43l1A3bH/tSlCrT9ezKyQWEe8NE5Jw==
+X-Received: by 2002:a17:906:1d:b0:9b2:be12:d9bd with SMTP id 29-20020a170906001d00b009b2be12d9bdmr6538902eja.77.1696613100838;
+        Fri, 06 Oct 2023 10:25:00 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id j24-20020a170906051800b00993470682e5sm3156694eja.32.2023.10.06.10.24.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Oct 2023 10:25:00 -0700 (PDT)
+Message-ID: <c5d79ddb-43ff-2a3d-8577-92fbd52ccb44@redhat.com>
+Date:   Fri, 6 Oct 2023 19:24:59 +0200
 MIME-Version: 1.0
-References: <20231006-pxa-gpio-v6-0-981b4910d599@skole.hr> <20231006-pxa-gpio-v6-1-981b4910d599@skole.hr>
-In-Reply-To: <20231006-pxa-gpio-v6-1-981b4910d599@skole.hr>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Fri, 6 Oct 2023 19:24:15 +0200
-Message-ID: <CAMRc=Mf3yoMF1Q5=-UtzJf4gqONQ=Dg=p68Q=DsVANaAPgwD=w@mail.gmail.com>
-Subject: Re: [PATCH RFT v6 1/6] ARM: pxa: Convert Spitz OHCI to GPIO descriptors
-To:     =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Cc:     Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Russell King <linux@armlinux.org.uk>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andy@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-spi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 1/2] HID: logitech-hidpp: Avoid hidpp_connect_event()
+ running while probe() restarts IO
+Content-Language: en-US, nl
+To:     Benjamin Tissoires <bentiss@kernel.org>
+Cc:     =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
+        Bastien Nocera <hadess@hadess.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, stable@vger.kernel.org
+References: <20231006081858.17677-1-hdegoede@redhat.com>
+ <20231006081858.17677-2-hdegoede@redhat.com>
+ <iqchunho27bqb6dp24ptfx32gdwbq6f6v654ftfme4kel3hoa6@5t2x4kcms2wk>
+ <686e8973-613b-2fb3-efd6-26f3dd21ed9d@redhat.com>
+ <zjiang3fdy4o7r3daupwpnx6zesmeeerldpx5fno2adzialpre@cdp7tq4araww>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <zjiang3fdy4o7r3daupwpnx6zesmeeerldpx5fno2adzialpre@cdp7tq4araww>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        GUARANTEED_100_PERCENT,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Oct 6, 2023 at 3:45=E2=80=AFPM Duje Mihanovi=C4=87 <duje.mihanovic@=
-skole.hr> wrote:
->
-> Sharp's Spitz board still uses the legacy GPIO interface for controlling
-> a GPIO pin related to the USB host controller.
->
-> Convert this function to use the new GPIO descriptor interface.
->
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Duje Mihanovi=C4=87 <duje.mihanovic@skole.hr>
-> ---
->  arch/arm/mach-pxa/spitz.c      | 13 ++++++-------
->  drivers/usb/host/ohci-pxa27x.c |  7 +++++++
->  2 files changed, 13 insertions(+), 7 deletions(-)
->
-> diff --git a/arch/arm/mach-pxa/spitz.c b/arch/arm/mach-pxa/spitz.c
-> index cc691b199429..535e2b2e997b 100644
-> --- a/arch/arm/mach-pxa/spitz.c
-> +++ b/arch/arm/mach-pxa/spitz.c
-> @@ -649,23 +649,22 @@ static inline void spitz_mmc_init(void) {}
->   * USB Host
->   ***********************************************************************=
-*******/
->  #if defined(CONFIG_USB_OHCI_HCD) || defined(CONFIG_USB_OHCI_HCD_MODULE)
-> +GPIO_LOOKUP_SINGLE(spitz_usb_host_gpio_table, "pxa27x-ohci", "gpio-pxa",
-> +               SPITZ_GPIO_USB_HOST, "usb-host", GPIO_ACTIVE_LOW);
-> +
->  static int spitz_ohci_init(struct device *dev)
->  {
-> -       int err;
-> -
-> -       err =3D gpio_request(SPITZ_GPIO_USB_HOST, "USB_HOST");
-> -       if (err)
-> -               return err;
-> +       gpiod_add_lookup_table(&spitz_usb_host_gpio_table);
->
->         /* Only Port 2 is connected, setup USB Port 2 Output Control Regi=
-ster */
->         UP2OCR =3D UP2OCR_HXS | UP2OCR_HXOE | UP2OCR_DPPDE | UP2OCR_DMPDE=
-;
->
-> -       return gpio_direction_output(SPITZ_GPIO_USB_HOST, 1);
-> +       return 0;
->  }
->
->  static void spitz_ohci_exit(struct device *dev)
->  {
-> -       gpio_free(SPITZ_GPIO_USB_HOST);
-> +       gpiod_remove_lookup_table(&spitz_usb_host_gpio_table);
->  }
->
->  static struct pxaohci_platform_data spitz_ohci_platform_data =3D {
-> diff --git a/drivers/usb/host/ohci-pxa27x.c b/drivers/usb/host/ohci-pxa27=
-x.c
-> index 357d9aee38a3..7f04421c80d6 100644
-> --- a/drivers/usb/host/ohci-pxa27x.c
-> +++ b/drivers/usb/host/ohci-pxa27x.c
-> @@ -121,6 +121,7 @@ struct pxa27x_ohci {
->         void __iomem    *mmio_base;
->         struct regulator *vbus[3];
->         bool            vbus_enabled[3];
-> +       struct gpio_desc *usb_host;
->  };
->
->  #define to_pxa27x_ohci(hcd)    (struct pxa27x_ohci *)(hcd_to_ohci(hcd)->=
-priv)
-> @@ -447,6 +448,10 @@ static int ohci_hcd_pxa27x_probe(struct platform_dev=
-ice *pdev)
->         pxa_ohci =3D to_pxa27x_ohci(hcd);
->         pxa_ohci->clk =3D usb_clk;
->         pxa_ohci->mmio_base =3D (void __iomem *)hcd->regs;
-> +       pxa_ohci->usb_host =3D devm_gpiod_get_optional(&pdev->dev, "usb-h=
-ost", GPIOD_OUT_LOW);
-> +       if (IS_ERR(pxa_ohci->usb_host))
-> +               return dev_err_probe(&pdev->dev, PTR_ERR(pxa_ohci->usb_ho=
-st),
-> +                               "failed to get USB host GPIO\n");
->
->         for (i =3D 0; i < 3; ++i) {
->                 char name[6];
-> @@ -512,6 +517,8 @@ static void ohci_hcd_pxa27x_remove(struct platform_de=
-vice *pdev)
->         for (i =3D 0; i < 3; ++i)
->                 pxa27x_ohci_set_vbus_power(pxa_ohci, i, false);
->
-> +       gpiod_put(pxa_ohci->usb_host);
+Hi,
 
-This is now wrong. Devres APIs are managed by the driver core. You no
-longer need this in your remove() callback.
+On 10/6/23 18:28, Benjamin Tissoires wrote:
+> On Oct 06 2023, Hans de Goede wrote:
 
-Bart
+<snip>
 
-> +
->         usb_put_hcd(hcd);
->  }
->
->
-> --
-> 2.42.0
->
->
+>>>> @@ -4207,36 +4208,39 @@ static void hidpp_connect_event(struct hidpp_device *hidpp)
+>>>>  		return;
+>>>>  	}
+>>>>  
+>>>> +	/* Avoid probe() restarting IO */
+>>>> +	mutex_lock(&hidpp->io_mutex);
+>>>
+>>> I'd put a `__must_hold(&hidpp->io_mutex);` here, not changing any return
+>>> path and forcing any caller to `hidpp_connect_event()` (which will
+>>> eventually only be the work struct) to take the lock.
+>>>
+>>> This should simplify the patch by a lot and also ensure someone doesn't
+>>> forget the `goto out_unlock`.
+>>
+>> Ok, I can add the __must_hold() here and make 
+>> delayed_Work_cb take the lock, but that would make it
+>> impossible to implement patch 2/2 in a clean manner and
+>> I do like patch 2/2 since it makes it clear that
+>> hidpp_connect_event must only run from the workqueue
+>> but I guess we could just add a comment for that
+>> instead.
+> 
+> In 2/2, just rename this function to __do_hidpp_connect_event(), and
+> have hidpp_connect_event() being the worker, which takes the lock, and
+> calls __do_hidpp_connect_event().
+
+Ok, will do for v2.
+
+<snip>
+
+>>>> @@ -4519,6 +4526,9 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>>>>  	flush_work(&hidpp->work);
+>>>>  
+>>>>  	if (will_restart) {
+>>>> +		/* Avoid hidpp_connect_event() running while restarting */
+>>>> +		mutex_lock(&hidpp->io_mutex);
+>>>> +
+>>>>  		/* Reset the HID node state */
+>>>>  		hid_device_io_stop(hdev);
+>>>
+>>> That's the part that makes me raise an eyebrow. Because we lock, then
+>>> release the semaphore to get it back later. Can this induce a dead lock?
+>>>
+>>> Can't we solve that same scenario without a mutex, but forcing either
+>>> the workqueue to not run or to be finished at this point?
+>>
+>> I'm not sure what you are worried about after the mutex_lock
+>> the line above we are 100% guaranteed that hidpp_connect_event()
+>> is not running and since it is not running it will also not
+>> be holding any other locks, so it can not cause any problems.
+> 
+> Agree, but my point is that you are not entirely solving the issue:
+> if now, between hid_device_io_stop() and hid_hw_close() we receive a
+> connect notification from the device, hid_input_report() will return
+> -EBUSY, and we will lose it (it will not be stacked in the workqueue).
+> 
+> I was thinking at adding a flush_work(&hidpp->work) here, instead of
+> the mutex solution, but yours ensures that any connect event already
+> started will be handled properly, which is a plus.
+> 
+> Still if between the mutex lock here we receive a connect event from the
+> device, we still get -EBUSY at the hid-core layer, and so we will lose
+> it. Maybe that's OK because we might re-ask for the device later (I
+> don't remember exactly the code), but my point is that because we add a
+> mutex doesn't mean we will solve all multi-thread problems. So finding a
+> non-mutex solution sometimes is better :)
+> 
+> And the fact that we need to think through every preemption case often
+> means that there is something wrong *elsewhere*.
+
+Right, I did consider seeing if we can get rid of the restart
+altogether, as the whole restarting thing is actually the problem
+here. AFAICT this is only really necessary in the WTP path since
+there where we need to know resolution before instantiating the
+input device.
+
+But atm this is also done for all unifying devices, which seems
+unnecessary.
+
+Buy we still need the restart anyways for the WTP case,
+so we need to make it work reliable anyways.
+
+Now that I understand your concern about the missed connect
+packet, which I agree is a real concern I think I know how to
+fix this. I'll prepare a new version of this series tomorrow.
+
+Hmm, thinking more about this, if we normally just create
+the input device right away even for unifying devices and
+we already always delay the creation for WTP even during
+the restart:
+
+                if (hidpp->quirks & HIDPP_QUIRK_DELAYED_INIT)
+                        connect_mask &= ~HID_CONNECT_HIDINPUT;
+
+Then I wonder why do we even bother to do the restart
+thing for unifying devices. Do you know what this is based on ?
+
+I guess this might have to do with ensuring the configure
+commands are send before creating the input + hidraw
+devices, but if the connect event comes later on then
+the configuration is already done later on after
+the input device has already been created ?
+
+So maybe we should indeed just remove the whole restart
+thing entirely and also always rely on hidpp_connect_event
+to send the configuration commands, because currently
+those are send twice if the device is already connnected
+at probe() time.
+
+Regards,
+
+Hans
+
+
+
+
