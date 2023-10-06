@@ -2,90 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E6797BC0B4
-	for <lists+linux-input@lfdr.de>; Fri,  6 Oct 2023 22:47:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E9017BC24C
+	for <lists+linux-input@lfdr.de>; Sat,  7 Oct 2023 00:44:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233595AbjJFUrz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Oct 2023 16:47:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37704 "EHLO
+        id S233805AbjJFWoo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Oct 2023 18:44:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233619AbjJFUrm (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Oct 2023 16:47:42 -0400
-Received: from omta040.useast.a.cloudfilter.net (omta040.useast.a.cloudfilter.net [44.202.169.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 741CCF1
-        for <linux-input@vger.kernel.org>; Fri,  6 Oct 2023 13:47:40 -0700 (PDT)
-Received: from eig-obgw-5006a.ext.cloudfilter.net ([10.0.29.179])
-        by cmsmtp with ESMTP
-        id orRPqHAH8aLCxorjXqnpQm; Fri, 06 Oct 2023 20:47:39 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with ESMTPS
-        id orjWqr7YXMlC2orjXqs68L; Fri, 06 Oct 2023 20:47:39 +0000
-X-Authority-Analysis: v=2.4 cv=I9B2+fsg c=1 sm=1 tr=0 ts=6520726b
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=Dx1Zrv+1i3YEdDUMOX3koA==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=IkcTkHD0fZMA:10 a=bhdUkHdE2iEA:10 a=wYkD_t78qR0A:10 a=pGLkceISAAAA:8
- a=VwQbUJbxAAAA:8 a=NEAV23lmAAAA:8 a=cm27Pg_UAAAA:8 a=0yL73Cyy68KADmUz8mEA:9
- a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22 a=xmb-EsYY8bH0VWELuYED:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=uutu2d96GOUWoDaNZkSgG8iTdQ1zETIvXR8LQU44b6c=; b=zp+qGE273mXifSnwj9eRj3iYCP
-        xQO6KK9aQwBPhPKnhKBMPnFbrObfSfjawnGJv2BXXqOl6EVmSsa02ad0UZZ19xZ+0IDNRtJwQg1G/
-        dKTYyHNyTULKWzmZZRO0rzTH8hzJRJQLG0RSbnHsmPcOlJsvr66LRQv1wCy19ijuVaLLhkYWOUa7z
-        9qEmidpfXeG5jHQTUr4eS26qJdDG8/tTaDiVIe9gb8RQqUFoMbIeE21ZPWxqWdIqaK/sNsMGX8sIT
-        n4sAlV5lZcQg1AVmUYVFUuYeHLPLyTMM1Ei/KNZwcQppTek5utZFho+0Mc6np9+5EvLdSI69P2cJr
-        up4vErBw==;
-Received: from 94-238-9-39.abo.bbox.fr ([94.238.9.39]:47408 helo=[192.168.1.98])
-        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.96.1)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1qorjW-001Bge-0I;
-        Fri, 06 Oct 2023 15:47:38 -0500
-Message-ID: <07438cd0-0bd2-4505-a787-cc30b2340719@embeddedor.com>
-Date:   Fri, 6 Oct 2023 22:47:35 +0200
+        with ESMTP id S233802AbjJFWon (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Oct 2023 18:44:43 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54B2F93;
+        Fri,  6 Oct 2023 15:44:40 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90726C433C7;
+        Fri,  6 Oct 2023 22:44:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696632279;
+        bh=YoE+IETji8jPLWdxvOTSBPuvIy3CWy3/W00cFbvaZVA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=sfdwVhXLnB5x0G2GMOhFQwyi7aN8LrsurzCp6eDI5oRAo6KLVOBCnf0ffzW8ch4s7
+         bT6XjnaWuoUAMtF57vrHlOOlnAYKSj49vR79/mRVfVLTNBg25KIRdFZhQNX2UTGJ+l
+         YUI45j/EvJbJ3R6bxXYg4oKVS3e7I2W+nLgoswk8ovhmY4eFtqKU/4khwbdS96LsZN
+         CaeH3D0FrfS9hqb4lg0jBwdUsir6f6SMDeJevG2TH8JrxndS0JTQ8h06Eoe4zefKSK
+         4X3XyaF4XMeyV4/9s9f7lfYYHWuVGEzqPxSK3z0oxLtzwLKJILE65qKnsMg4LYFyFP
+         vAoRGjMAneU6g==
+Received: (nullmailer pid 442832 invoked by uid 1000);
+        Fri, 06 Oct 2023 22:44:37 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     linux-input@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: tegra: Use device_get_match_data()
+Date:   Fri,  6 Oct 2023 17:44:32 -0500
+Message-Id: <20231006224432.442709-1-robh@kernel.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Input: Annotate struct ff_device with __counted_by
-Content-Language: en-US
-To:     Kees Cook <keescook@chromium.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-input@vger.kernel.org, linux-hardening@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev
-References: <20231006201739.work.350-kees@kernel.org>
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <20231006201739.work.350-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 94.238.9.39
-X-Source-L: No
-X-Exim-ID: 1qorjW-001Bge-0I
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 94-238-9-39.abo.bbox.fr ([192.168.1.98]) [94.238.9.39]:47408
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 74
-X-Org:  HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfPbZwk4KOq1KX/5ayThTFAJlZgqxP/3UnVFutfOvkiZPCX416KnQ/wZOr973n2WY/UTLLtlS2GRht6Iz4Jh1iJ5O3BCEtZO3wAy5h32j8UW8JFFgKLiD
- DmQJRg60JvX7h5DEtM8x0PB1ziUuG3cyMQPyARyZmF1Zhogwj0c3rkRlcAAoAW+GX6xP0GrBlU5R/GjLwGB17/WEZIEFb40vpS2EKWzyU/J32t9Rnyno74vS
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -93,44 +51,47 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Use preferred device_get_match_data() instead of of_match_device() to
+get the driver match data. With this, adjust the includes to explicitly
+include the correct headers.
 
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ drivers/input/keyboard/tegra-kbc.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-On 10/6/23 22:17, Kees Cook wrote:
-> Prepare for the coming implementation by GCC and Clang of the __counted_by
-> attribute. Flexible array members annotated with __counted_by can have
-> their accesses bounds-checked at run-time via CONFIG_UBSAN_BOUNDS (for
-> array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-> functions).
-> 
-> As found with Coccinelle[1], add __counted_by for struct ff_device.
-> 
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-hardening@vger.kernel.org
-> Link: https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci [1]
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-
-Thanks!
+diff --git a/drivers/input/keyboard/tegra-kbc.c b/drivers/input/keyboard/tegra-kbc.c
+index c9a823ea45d0..a1765ed8c825 100644
+--- a/drivers/input/keyboard/tegra-kbc.c
++++ b/drivers/input/keyboard/tegra-kbc.c
+@@ -14,7 +14,7 @@
+ #include <linux/io.h>
+ #include <linux/interrupt.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/property.h>
+ #include <linux/clk.h>
+ #include <linux/slab.h>
+ #include <linux/input/matrix_keypad.h>
+@@ -602,9 +602,6 @@ static int tegra_kbc_probe(struct platform_device *pdev)
+ 	unsigned int debounce_cnt;
+ 	unsigned int scan_time_rows;
+ 	unsigned int keymap_rows;
+-	const struct of_device_id *match;
+-
+-	match = of_match_device(tegra_kbc_of_match, &pdev->dev);
+ 
+ 	kbc = devm_kzalloc(&pdev->dev, sizeof(*kbc), GFP_KERNEL);
+ 	if (!kbc) {
+@@ -613,7 +610,7 @@ static int tegra_kbc_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	kbc->dev = &pdev->dev;
+-	kbc->hw_support = match->data;
++	kbc->hw_support = device_get_match_data(&pdev->dev);
+ 	kbc->max_keys = kbc->hw_support->max_rows *
+ 				kbc->hw_support->max_columns;
+ 	kbc->num_rows_and_columns = kbc->hw_support->max_rows +
 -- 
-Gustavo
+2.40.1
 
-> ---
->   include/linux/input.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/input.h b/include/linux/input.h
-> index 49790c1bd2c4..de6503c0edb8 100644
-> --- a/include/linux/input.h
-> +++ b/include/linux/input.h
-> @@ -562,7 +562,7 @@ struct ff_device {
->   
->   	int max_effects;
->   	struct ff_effect *effects;
-> -	struct file *effect_owners[];
-> +	struct file *effect_owners[] __counted_by(max_effects);
->   };
->   
->   int input_ff_create(struct input_dev *dev, unsigned int max_effects);
