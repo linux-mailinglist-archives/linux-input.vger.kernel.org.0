@@ -2,269 +2,165 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6252A7BB386
-	for <lists+linux-input@lfdr.de>; Fri,  6 Oct 2023 10:51:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 105967BB4B8
+	for <lists+linux-input@lfdr.de>; Fri,  6 Oct 2023 12:03:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230434AbjJFIvX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 6 Oct 2023 04:51:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50970 "EHLO
+        id S231559AbjJFKDh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 6 Oct 2023 06:03:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231183AbjJFIvW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Oct 2023 04:51:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E866783
-        for <linux-input@vger.kernel.org>; Fri,  6 Oct 2023 01:50:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1696582236;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Eom16eIvNGOn91Mfh2jIUZ+DHefNQaputYEjf4qDj2I=;
-        b=TxjvB7rT075VG2Owr2n/pEoqfRwbO247YSELloFvWt3QczlEhDW4/6Vlkoxc5HscI1uTZR
-        MQJKCyrLWosMzGcmroB/qFHGTUGr3epASgayx8KhNImlEFDqtCTpOyKAN7/hkCHw8XQr54
-        0LosO2Ki4dLCo1i/d8JdwBEmrj8Svtk=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-442-m0UVrX3rOhSH7FyFQZfN-Q-1; Fri, 06 Oct 2023 04:50:34 -0400
-X-MC-Unique: m0UVrX3rOhSH7FyFQZfN-Q-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9a9e3f703dfso149909266b.1
-        for <linux-input@vger.kernel.org>; Fri, 06 Oct 2023 01:50:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696582232; x=1697187032;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Eom16eIvNGOn91Mfh2jIUZ+DHefNQaputYEjf4qDj2I=;
-        b=Xu2Z7+IGTUzjTyUi0HSEdfoasp4aS12uykC/rAv8YBHMKOIl0NswN/Wna2/2oTi8k+
-         GxqsLXrQtyrc2gtAl2o+A4UibRUnxRE81/dH8Ke0/YRIe+DovCxYkK4ZpzsTJJ0ePw4M
-         z113fkE6UUVDfYV0h6Aa0HdmK7yxI4eYTpyIjq6y2NpyRz+iuAEy/37sFDAUGNxfIK1u
-         G6u7XCaBftwsUrHYgD/OY7vr+I2pKgTcu3nXUEJjYy3q8/NwpmyhS1Jju38qlvKMiakl
-         xecYXa8KRbLeqL6KukcEzCGjojCk+5A05001CXkf3s+5nHmp9/o070OuaOwn1VENWhcZ
-         9wRQ==
-X-Gm-Message-State: AOJu0Yz0XTSfcI/WL/DVDnPnmHUs9VAWcN6DYMgR42qE3WMkeazc0rnN
-        tz0sbcaW46/YUtON19LY14cMSpeHBWucGlhKW9zZpphspuowHWmPffXCjT2jb2Uibbj9q5GC+Qz
-        JugvIPSq9rKepCiRSBbiHfi509U7QPsI=
-X-Received: by 2002:a17:906:53:b0:9ae:738b:86d0 with SMTP id 19-20020a170906005300b009ae738b86d0mr6394348ejg.66.1696582232612;
-        Fri, 06 Oct 2023 01:50:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH/iVTWGbkR7Tn9AnvXiJQ/QgBFL34aainRwbbtHB6iTcByNrci08QEwGAN4A+CHvzOiQaBMA==
-X-Received: by 2002:a17:906:53:b0:9ae:738b:86d0 with SMTP id 19-20020a170906005300b009ae738b86d0mr6394332ejg.66.1696582232291;
-        Fri, 06 Oct 2023 01:50:32 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id sd23-20020a170906ce3700b009b2b9af0784sm2501539ejb.110.2023.10.06.01.50.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Oct 2023 01:50:31 -0700 (PDT)
-Message-ID: <0509ed50-571e-fa6e-a323-c73abbb938c7@redhat.com>
-Date:   Fri, 6 Oct 2023 10:50:31 +0200
+        with ESMTP id S231535AbjJFKDh (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 6 Oct 2023 06:03:37 -0400
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 875EAAD
+        for <linux-input@vger.kernel.org>; Fri,  6 Oct 2023 03:03:35 -0700 (PDT)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20231006100331euoutp023e661c7996f8b9968736e6e965627887~LfIjUNY8f0648406484euoutp02_
+        for <linux-input@vger.kernel.org>; Fri,  6 Oct 2023 10:03:31 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20231006100331euoutp023e661c7996f8b9968736e6e965627887~LfIjUNY8f0648406484euoutp02_
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1696586611;
+        bh=26Lv+is9OakJ4x7WmOArKP1bVEUcRhQ+PNABYJruimA=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=MNX202t/lPaJW2/nRGgKMAZbdaY2kTNdnJi1snu9xYQ/9qnLqS9brwm1pktJnHeMw
+         MdSalX71m+rdbATVhTwkvuj2OvMIMlvIneCOSHgCsPbydr47v7Mp+C3tfV6LXboy+Y
+         rimoXwAj8FGfoU3zkDie7ghrN0f0rpkBpcuODB14=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20231006100331eucas1p299bd17717fc99cb7d1a396ccabb5bb79~LfIjDikqN2220722207eucas1p2H;
+        Fri,  6 Oct 2023 10:03:31 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 75.D3.42423.37BDF156; Fri,  6
+        Oct 2023 11:03:31 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20231006100330eucas1p2c874f582336ed1de4dc1cd759c452ce2~LfIikuRin2220722207eucas1p2G;
+        Fri,  6 Oct 2023 10:03:30 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20231006100330eusmtrp10bd268b7432e420a68f9d8518074625c~LfIikKXZb2314123141eusmtrp1c;
+        Fri,  6 Oct 2023 10:03:30 +0000 (GMT)
+X-AuditID: cbfec7f2-a3bff7000002a5b7-20-651fdb73496a
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id 45.10.10549.27BDF156; Fri,  6
+        Oct 2023 11:03:30 +0100 (BST)
+Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20231006100330eusmtip2f3873f0c5b193a98db11e42c48717521~LfIiMf0Rj0569705697eusmtip2W;
+        Fri,  6 Oct 2023 10:03:30 +0000 (GMT)
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+To:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2] Input: max77693-haptic - add device-tree compatible
+ strings
+Date:   Fri,  6 Oct 2023 12:03:20 +0200
+Message-Id: <20231006100320.2908210-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] HID: logitech-hidpp: Fix kernel crash on receiver USB
- disconnect
-Content-Language: en-US, nl
-To:     =?UTF-8?Q?Filipe_La=c3=adns?= <lains@riseup.net>,
-        Bastien Nocera <hadess@hadess.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, stable@vger.kernel.org
-References: <20231005182638.3776-1-hdegoede@redhat.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231005182638.3776-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphleLIzCtJLcpLzFFi42LZduznOd3i2/KpBv0TxSwOL3rBaLH39VZ2
+        i5ufvrFaXN41h81i7ZG77A6sHjtn3WX3uHNtD5tH35ZVjB6fN8kFsERx2aSk5mSWpRbp2yVw
+        ZVz+P5Gx4IxAxdLuQ8wNjB18XYycHBICJhI7/1xl7GLk4hASWMEo8fz1FSYI5wujxNsVPawQ
+        zmdGiUNnP7HBtMy68BmqZTmjxMRVkxnhWvae28sIUsUmYCjR9bYLrENEwFZix4rpYHOZBaYx
+        Six+fZIdJCEsECjx6vMHJhCbRUBV4untH2A2r4C9RFvDQhaIdfIS+w+eZYaIC0qcnPkELM4M
+        FG/eOpsZZKiEQCeHxLG191khGlwkpp09DnWrsMSr41vYIWwZidOTe1ggGtoZJRb8vs8E4Uxg
+        lGh4fosRospa4s65X0DdHEArNCXW79KHCDtKdBzawAISlhDgk7jxVhDiCD6JSdumM0OEeSU6
+        2oQgqtUkZh1fB7f24IVLzBC2h0RDK8g5HMDQipV41cs0gVFhFpLPZiH5bBbCCQsYmVcxiqeW
+        FuempxYb5qWW6xUn5haX5qXrJefnbmIEJpTT/45/2sE499VHvUOMTByMhxglOJiVRHjTG2RS
+        hXhTEiurUovy44tKc1KLDzFKc7AoifOqpsinCgmkJ5akZqemFqQWwWSZODilGphaFpunmH5O
+        eHLszoV1DzsrQzdKhOxbvuu7eYlbspekqHeF2dy1D161Bcw6yrV8QfJR/ZmBAYXfHs80fG6U
+        5dx5/H1e/QEn7r2d2cprvhipLw1Ni+Wq9Vb8v90oUF7k/zJu8f5LMdVR5bPEtnNrqCQ73xWM
+        +uu35cakx7Y3Jk7okFH9zGFiZ5D1uyFA+1JeXeqHN7Hbn34RUP3fcOui9Xk1Q510HuHYkFl+
+        6d0NS4MP1c6JvZMVbP9K7fz3rGfdV6/flNw8+bXX85Bg+/Dt+rv3rrvjw7WoupbP55fXpX3n
+        TaY9VpgsuerY+hvs9gsfcMxfOL97bXlW5ct3WsE/GlLttz1ZFrzsIV9CQyTXlHAlluKMREMt
+        5qLiRACQMApJlwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrFLMWRmVeSWpSXmKPExsVy+t/xe7pFt+VTDd52m1ocXvSC0WLv663s
+        Fjc/fWO1uLxrDpvF2iN32R1YPXbOusvucefaHjaPvi2rGD0+b5ILYInSsynKLy1JVcjILy6x
+        VYo2tDDSM7S00DMysdQzNDaPtTIyVdK3s0lJzcksSy3St0vQy7j8fyJjwRmBiqXdh5gbGDv4
+        uhg5OSQETCRmXfjM2MXIxSEksJRRYt/lJcwQCRmJk9MaWCFsYYk/17rYIIo+MUrcPzCbHSTB
+        JmAo0fUWJMHJISJgL3H4zRoWkCJmgWmMEnNX/GMCSQgL+EusfzyfEcRmEVCVeHr7B1icF6ih
+        rWEhC8QGeYn9B88yQ8QFJU7OfAIWZwaKN2+dzTyBkW8WktQsJKkFjEyrGEVSS4tz03OLDfWK
+        E3OLS/PS9ZLzczcxAgN527Gfm3cwznv1Ue8QIxMH4yFGCQ5mJRHe9AaZVCHelMTKqtSi/Pii
+        0pzU4kOMpkD3TWSWEk3OB8ZSXkm8oZmBqaGJmaWBqaWZsZI4r2dBR6KQQHpiSWp2ampBahFM
+        HxMHp1QDk9vu0tzi3q9nDU5c2tmu2zMvkDvpaXKbfrRe+bOyu5/u8M7iePn11BKGN0oci44o
+        GTrwmvffF7m6z6a5x/rIihdVYik53GJPjvTvuH51ltm9z7VZzFZWCjuMTyv87WHhX/Z5wpWI
+        /z9fF8kHZmqVXUlNc+5yXro0nstBJeJAvKFtfu9U2e1pfx+x3Crs76ictTBU0k5Kw8Oh1Ub+
+        m9adrLnLomp/tbtfuV/3wmUtpyuz5TZvrwCvCkPP86zzZ6yTb+Y4+t/Oak/Tr5A8WdNj2ctl
+        XtsEFFXM0UoqOysn7KjT4d3vrCn3ZG70jgufA1fP/npZwOvHq/lT513fbPZQO6duz9YfPlX7
+        2FlmROUosRRnJBpqMRcVJwIAIFBl5O0CAAA=
+X-CMS-MailID: 20231006100330eucas1p2c874f582336ed1de4dc1cd759c452ce2
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20231006100330eucas1p2c874f582336ed1de4dc1cd759c452ce2
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20231006100330eucas1p2c874f582336ed1de4dc1cd759c452ce2
+References: <CGME20231006100330eucas1p2c874f582336ed1de4dc1cd759c452ce2@eucas1p2.samsung.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Add the needed device-tree compatible strings to the MAX77693 haptic
+driver, so it can be automatically loaded when compiled as a kernel
+module and given device-tree contains separate (i.e. 'motor-driver') node
+under the main PMIC node. When device is instantiated from device-tree,
+the driver data cannot be read via platform_get_device_id(), so get
+device type from the parent MFD device instead, what works for both
+cases.
 
-On 10/5/23 20:26, Hans de Goede wrote:
-> hidpp_connect_event() has *four* time-of-check vs time-of-use (TOCTOU)
-> races when it races with itself.
-> 
-> hidpp_connect_event() primarily runs from a workqueue but it also runs
-> on probe() and if a "device-connected" packet is received by the hw
-> when the thread running hidpp_connect_event() from probe() is waiting on
-> the hw, then a second thread running hidpp_connect_event() will be
-> started from the workqueue.
-> 
-> This opens the following races (note the below code is simplified):
-> 
-> 1. Retrieving + printing the protocol (harmless race):
-> 
-> 	if (!hidpp->protocol_major) {
-> 		hidpp_root_get_protocol_version()
-> 		hidpp->protocol_major = response.rap.params[0];
-> 	}
-> 
-> We can actually see this race hit in the dmesg in the abrt output
-> attached to rhbz#2227968:
-> 
-> [ 3064.624215] logitech-hidpp-device 0003:046D:4071.0049: HID++ 4.5 device connected.
-> [ 3064.658184] logitech-hidpp-device 0003:046D:4071.0049: HID++ 4.5 device connected.
-> 
-> Testing with extra logging added has shown that after this the 2 threads
-> take turn grabbing the hw access mutex (send_mutex) so they ping-pong
-> through all the other TOCTOU cases managing to hit all of them:
-> 
-> 2. Updating the name to the HIDPP name (harmless race):
-> 
-> 	if (hidpp->name == hdev->name) {
-> 		...
-> 		hidpp->name = new_name;
-> 	}
-> 
-> 3. Initializing the power_supply class for the battery (problematic!):
-> 
-> hidpp_initialize_battery()
-> {
->         if (hidpp->battery.ps)
->                 return 0;
-> 
-> 	probe_battery(); /* Blocks, threads take turns executing this */
-> 
-> 	hidpp->battery.desc.properties =
-> 		devm_kmemdup(dev, hidpp_battery_props, cnt, GFP_KERNEL);
-> 
-> 	hidpp->battery.ps =
-> 		devm_power_supply_register(&hidpp->hid_dev->dev,
-> 					   &hidpp->battery.desc, cfg);
-> }
-> 
-> 4. Creating delayed input_device (potentially problematic):
-> 
-> 	if (hidpp->delayed_input)
-> 		return;
-> 
-> 	hidpp->delayed_input = hidpp_allocate_input(hdev);
-> 
-> The really big problem here is 3. Hitting the race leads to the following
-> sequence:
-> 
-> 	hidpp->battery.desc.properties =
-> 		devm_kmemdup(dev, hidpp_battery_props, cnt, GFP_KERNEL);
-> 
-> 	hidpp->battery.ps =
-> 		devm_power_supply_register(&hidpp->hid_dev->dev,
-> 					   &hidpp->battery.desc, cfg);
-> 
-> 	...
-> 
-> 	hidpp->battery.desc.properties =
-> 		devm_kmemdup(dev, hidpp_battery_props, cnt, GFP_KERNEL);
-> 
-> 	hidpp->battery.ps =
-> 		devm_power_supply_register(&hidpp->hid_dev->dev,
-> 					   &hidpp->battery.desc, cfg);
-> 
-> So now we have registered 2 power supplies for the same battery,
-> which looks a bit weird from userspace's pov but this is not even
-> the really big problem.
-> 
-> Notice how:
-> 
-> 1. This is all devm-maganaged
-> 2. The hidpp->battery.desc struct is shared between the 2 power supplies
-> 3. hidpp->battery.desc points to the result from the second devm_kmemdup()
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+ drivers/input/misc/max77693-haptic.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-Small error in the commit msg here, please squash in a fix if possible, this
-should read:
-
-3. hidpp->battery.desc.properties points to the result from the second devm_kmemdup()
-
-
-Regards,
-
-Hans
-
-
-
-
-
-
-> This causes a use after free scenario on USB disconnect of the receiver:
-> 1. The last registered power supply class device gets unregistered
-> 2. The memory from the last devm_kmemdup() call gets freed,
->    hidpp->battery.desc.properties now points to freed memory
-> 3. The first registered power supply class device gets unregistered,
->    this involves sending a remove uevent to userspace which invokes
->    power_supply_uevent() to fill the uevent data
-> 4. power_supply_uevent() uses hidpp->battery.desc.properties which
->    now points to freed memory leading to backtraces like this one:
-> 
-> Sep 22 20:01:35 eric kernel: BUG: unable to handle page fault for address: ffffb2140e017f08
-> ...
-> Sep 22 20:01:35 eric kernel: Workqueue: usb_hub_wq hub_event
-> Sep 22 20:01:35 eric kernel: RIP: 0010:power_supply_uevent+0xee/0x1d0
-> ...
-> Sep 22 20:01:35 eric kernel:  ? asm_exc_page_fault+0x26/0x30
-> Sep 22 20:01:35 eric kernel:  ? power_supply_uevent+0xee/0x1d0
-> Sep 22 20:01:35 eric kernel:  ? power_supply_uevent+0x10d/0x1d0
-> Sep 22 20:01:35 eric kernel:  dev_uevent+0x10f/0x2d0
-> Sep 22 20:01:35 eric kernel:  kobject_uevent_env+0x291/0x680
-> Sep 22 20:01:35 eric kernel:  power_supply_unregister+0x8e/0xa0
-> Sep 22 20:01:35 eric kernel:  release_nodes+0x3d/0xb0
-> Sep 22 20:01:35 eric kernel:  devres_release_group+0xfc/0x130
-> Sep 22 20:01:35 eric kernel:  hid_device_remove+0x56/0xa0
-> Sep 22 20:01:35 eric kernel:  device_release_driver_internal+0x19f/0x200
-> Sep 22 20:01:35 eric kernel:  bus_remove_device+0xc6/0x130
-> Sep 22 20:01:35 eric kernel:  device_del+0x15c/0x3f0
-> Sep 22 20:01:35 eric kernel:  ? __queue_work+0x1df/0x440
-> Sep 22 20:01:35 eric kernel:  hid_destroy_device+0x4b/0x60
-> Sep 22 20:01:35 eric kernel:  logi_dj_remove+0x9a/0x100 [hid_logitech_dj 5c91534a0ead2b65e04dd799a0437e3b99b21bc4]
-> Sep 22 20:01:35 eric kernel:  hid_device_remove+0x44/0xa0
-> Sep 22 20:01:35 eric kernel:  device_release_driver_internal+0x19f/0x200
-> Sep 22 20:01:35 eric kernel:  bus_remove_device+0xc6/0x130
-> Sep 22 20:01:35 eric kernel:  device_del+0x15c/0x3f0
-> Sep 22 20:01:35 eric kernel:  ? __queue_work+0x1df/0x440
-> Sep 22 20:01:35 eric kernel:  hid_destroy_device+0x4b/0x60
-> Sep 22 20:01:35 eric kernel:  usbhid_disconnect+0x47/0x60 [usbhid 727dcc1c0b94e6b4418727a468398ac3bca492f3]
-> Sep 22 20:01:35 eric kernel:  usb_unbind_interface+0x90/0x270
-> Sep 22 20:01:35 eric kernel:  device_release_driver_internal+0x19f/0x200
-> Sep 22 20:01:35 eric kernel:  bus_remove_device+0xc6/0x130
-> Sep 22 20:01:35 eric kernel:  device_del+0x15c/0x3f0
-> Sep 22 20:01:35 eric kernel:  ? kobject_put+0xa0/0x1d0
-> Sep 22 20:01:35 eric kernel:  usb_disable_device+0xcd/0x1e0
-> Sep 22 20:01:35 eric kernel:  usb_disconnect+0xde/0x2c0
-> Sep 22 20:01:35 eric kernel:  usb_disconnect+0xc3/0x2c0
-> Sep 22 20:01:35 eric kernel:  hub_event+0xe80/0x1c10
-> 
-> There have been quite a few bug reports (see Link tags) about this crash.
-> 
-> Fix all the TOCTOU issues, including the really bad power-supply related
-> system crash on USB disconnect, by making probe() use the workqueue for
-> running hidpp_connect_event() too, so that it can never run more then once.
-> 
-> Link: https://bugzilla.redhat.com/show_bug.cgi?id=2227221
-> Link: https://bugzilla.redhat.com/show_bug.cgi?id=2227968
-> Link: https://bugzilla.redhat.com/show_bug.cgi?id=2227968
-> Link: https://bugzilla.redhat.com/show_bug.cgi?id=2242189
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217412#c58
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/hid/hid-logitech-hidpp.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-> index ff077df0babf..a209d51bd247 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -4515,7 +4515,8 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  			goto hid_hw_init_fail;
->  	}
->  
-> -	hidpp_connect_event(hidpp);
-> +	schedule_work(&hidpp->work);
-> +	flush_work(&hidpp->work);
->  
->  	if (will_restart) {
->  		/* Reset the HID node state */
+diff --git a/drivers/input/misc/max77693-haptic.c b/drivers/input/misc/max77693-haptic.c
+index 80f4416ffe2f..0e646f1b257b 100644
+--- a/drivers/input/misc/max77693-haptic.c
++++ b/drivers/input/misc/max77693-haptic.c
+@@ -307,7 +307,7 @@ static int max77693_haptic_probe(struct platform_device *pdev)
+ 	haptic->suspend_state = false;
+ 
+ 	/* Variant-specific init */
+-	haptic->dev_type = platform_get_device_id(pdev)->driver_data;
++	haptic->dev_type = max77693->type;
+ 	switch (haptic->dev_type) {
+ 	case TYPE_MAX77693:
+ 		haptic->regmap_haptic = max77693->regmap_haptic;
+@@ -406,16 +406,24 @@ static DEFINE_SIMPLE_DEV_PM_OPS(max77693_haptic_pm_ops,
+ 				max77693_haptic_resume);
+ 
+ static const struct platform_device_id max77693_haptic_id[] = {
+-	{ "max77693-haptic", TYPE_MAX77693 },
+-	{ "max77843-haptic", TYPE_MAX77843 },
++	{ "max77693-haptic", },
++	{ "max77843-haptic", },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(platform, max77693_haptic_id);
+ 
++static const struct of_device_id of_max77693_haptic_dt_match[] = {
++	{ .compatible = "maxim,max77693-haptic", },
++	{ .compatible = "maxim,max77843-haptic", },
++	{ /* sentinel */ },
++};
++MODULE_DEVICE_TABLE(of, of_max77693_haptic_dt_match);
++
+ static struct platform_driver max77693_haptic_driver = {
+ 	.driver		= {
+ 		.name	= "max77693-haptic",
+ 		.pm	= pm_sleep_ptr(&max77693_haptic_pm_ops),
++		.of_match_table = of_max77693_haptic_dt_match,
+ 	},
+ 	.probe		= max77693_haptic_probe,
+ 	.id_table	= max77693_haptic_id,
+-- 
+2.34.1
 
