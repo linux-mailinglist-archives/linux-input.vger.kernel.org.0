@@ -2,443 +2,250 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E8A37BC863
-	for <lists+linux-input@lfdr.de>; Sat,  7 Oct 2023 16:42:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B2437BC870
+	for <lists+linux-input@lfdr.de>; Sat,  7 Oct 2023 16:52:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233967AbjJGOm1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 7 Oct 2023 10:42:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47634 "EHLO
+        id S233614AbjJGOwc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 7 Oct 2023 10:52:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229824AbjJGOm0 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 7 Oct 2023 10:42:26 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6BAEBC;
-        Sat,  7 Oct 2023 07:42:23 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1c8a1541232so2404685ad.0;
-        Sat, 07 Oct 2023 07:42:23 -0700 (PDT)
+        with ESMTP id S229824AbjJGOwb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 7 Oct 2023 10:52:31 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20F04BA
+        for <linux-input@vger.kernel.org>; Sat,  7 Oct 2023 07:52:30 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-3248aa5cf4eso3036310f8f.1
+        for <linux-input@vger.kernel.org>; Sat, 07 Oct 2023 07:52:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696689743; x=1697294543; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GhFZ0ylJeJYc9W1IBEjFmY/pbEmLASmVaX25VxCW5Ec=;
-        b=kQwp4NVrU9N0rAaQGRtk8Rkl1J+C80sUYWC/u1d2GIe1hPMvFBKqNlFIGvjuJJ6Sh8
-         P3lrC0yltOvReaAVaJi1YpDMH748f8SIFSru+5T7F1QYZ67skPewBo9+H1RNI7x2O510
-         x/fsPDQZkMobpcjuXz4W90Y21iK/iIefzP2fVclYRTEkKIOBROpjMrj6j+rpZTgkFxUP
-         LGPlPvSxAxz3KkQ89GpHoLoI9/7vfGp3viZdy3hIS0oa7jqBJhtnqVwgS3KxP0RUYdt2
-         bF50yjhmZVtKILCImqFsHJtmrLFNI8Hk+LqnQ6rLxq1GWCpcjZDShlIKHdpkRBsRsFaP
-         ZgZA==
+        d=linaro.org; s=google; t=1696690348; x=1697295148; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Rr4KS+RdHXPaOwUEhGq6eyCLiCWzkyfb2ZUzhpz1DEU=;
+        b=Hq6qiJSWOntUSDbd34GuxaaxFlkzQjLtBVAB8ahOTbRNAOQxdbBFUiOYm6gylH/0Vv
+         WpNAmJEfcUte4XQ1j7uzT9AEGIn/ZTPOjNNWaULl7+LzL00SNwHS0QrKsMWM1YP3ZOuz
+         cSpxL5ZYHwCDmvZGMUtXFE9Q8EJiPey8hmLuRR2h9ImikfaasW2ZxKCEYn257SF7T86D
+         spj2n2MyZblN/I1RQHxaLrhwUQi2OS96hjwTms1CDs0VbOlokcNk3addKpBUekEW7waI
+         sFufNxaH3qdn+RdP9Ch7P10Lx85L4IpeHTZhPJN23N1mjlRoXhhldFYA1yZMs0sVbAIc
+         uF8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696689743; x=1697294543;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GhFZ0ylJeJYc9W1IBEjFmY/pbEmLASmVaX25VxCW5Ec=;
-        b=ZP5N11/b8C2Iu19qOVkzZRnh/+K/6YurA1tN/jkMtIMkmQJp68Fv5g0+JMPJ4VBqLx
-         kgxif2oTnBgwEh6hA044lQ0/oITXabKsZmDI1j2YSHTkUAxaansGYNRXZ/IKZ/LiUfdk
-         OjeuGNCvzFnVtYZAqQpEwCp/kdeDVII/pUaK3ZeenySsViQuk+BEH7FbNiHyVi//xnsg
-         20635bYSkBdUaAoEZwDxqMxaeFaOnGClJfLEWYGu6lbjbrURVHJn/qyd+qfrF68/nrVQ
-         Deu7Vs7dx5Qr2CWOLVZTMMuXbjf71BA0uFH5qjyyavhVjPKt7hc+LYGFO/LpDpdJqZQz
-         HMnw==
-X-Gm-Message-State: AOJu0YyPLr0qlVZj5/hqKXbe1DBNjDdNm3ouOW0kELp1ych+2jDFq7lw
-        BYR5rb8P8LImyT8muZPtKcOnZwWPrEm19kBp
-X-Google-Smtp-Source: AGHT+IF2uRpTS/yZQCnOVDisu/+touQEYOwpDVQYD9onvQlHVInRiiZ9/G/78LKYSeGyFLtcOW6QTQ==
-X-Received: by 2002:a17:903:1c1:b0:1c0:c4be:62ca with SMTP id e1-20020a17090301c100b001c0c4be62camr11352576plh.17.1696689742940;
-        Sat, 07 Oct 2023 07:42:22 -0700 (PDT)
-Received: from localhost.localdomain ([2401:4900:6291:4752:3191:cc16:9883:82e9])
-        by smtp.gmail.com with ESMTPSA id t24-20020a1709028c9800b001c73f51e61csm5962288plo.106.2023.10.07.07.42.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Oct 2023 07:42:22 -0700 (PDT)
-From:   Anshul Dalal <anshulusr@gmail.com>
-To:     linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     Anshul Dalal <anshulusr@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        d=1e100.net; s=20230601; t=1696690348; x=1697295148;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rr4KS+RdHXPaOwUEhGq6eyCLiCWzkyfb2ZUzhpz1DEU=;
+        b=WTEuctJ5jfwRGaSJa28uaR1EyXqc3o1J2vclb0syY3/4W/w8lRZ/w9kAJhGwcbcQJO
+         E+csPW0Lk1bEyVdTwLr2rZd9qZIs4cMEjManKCpEbgZdeNoTJAUMYb0c+4/t+IBapraj
+         d3cWMw/dhyvn5LA3Uhrh0WDai/o58fH7Qh4EooaAsSTmdnTv5qRmFGniq80fwGNpG949
+         3qZlh0/YAku9F+1G2/h3dxJXlwNpygJ+S8f/zxbggTgwYJX/A/oVuRuqarskUsAs9CoY
+         QRUqWjVUzm42vSQsDbTF661tRHmpAiuywLiZqxAj/unWP0JhA5XVSGSxJi73oJIN1Bkk
+         nCNQ==
+X-Gm-Message-State: AOJu0YykubptF6BHXkSwEQVkoeYAeJwbM3BdaIQz8eq0gkzVgmGz4HPK
+        xmWY1xFgimEZZpy8T+Iy0ekgHA==
+X-Google-Smtp-Source: AGHT+IGpxqpdeRFi0ygvuw0BeQessI8LTB38Hfohl4c6vDz4e4I/ahf4vqHBvHUebSJR1/VVlmWPLQ==
+X-Received: by 2002:a5d:6909:0:b0:314:dc0:2fca with SMTP id t9-20020a5d6909000000b003140dc02fcamr10005226wru.29.1696690348277;
+        Sat, 07 Oct 2023 07:52:28 -0700 (PDT)
+Received: from [192.168.1.197] (5-157-101-10.dyn.eolo.it. [5.157.101.10])
+        by smtp.gmail.com with ESMTPSA id i10-20020adff30a000000b0031f8a59dbeasm4414768wro.62.2023.10.07.07.52.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 07 Oct 2023 07:52:27 -0700 (PDT)
+Message-ID: <a84ab922-cf44-423c-bf63-a7623a90270e@linaro.org>
+Date:   Sat, 7 Oct 2023 16:52:25 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: Add bindings for Adafruit Seesaw Gamepad
+Content-Language: en-US
+To:     Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
         Shuah Khan <skhan@linuxfoundation.org>,
         linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH 2/2] input: add Adafruit Seesaw Gamepad driver
-Date:   Sat,  7 Oct 2023 20:10:50 +0530
-Message-ID: <20231007144052.1535417-2-anshulusr@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231007144052.1535417-1-anshulusr@gmail.com>
 References: <20231007144052.1535417-1-anshulusr@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231007144052.1535417-1-anshulusr@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-A simple driver for a mini gamepad that communicates over i2c, the gamepad
-has bidirectional thumb stick input and six buttons.
+On 07/10/2023 16:40, Anshul Dalal wrote:
+> A simple driver for a mini gamepad that communicates over i2c, the gamepad
+> has bidirectional thumb stick input and six buttons.
 
-The gamepad chip utilizes the open framework from Adafruit called 'Seesaw'
-to transmit the ADC data for the joystick and digital pin state for the
-buttons. I have only implemented the functionality required to receive the
-thumb stick and button state.
+Thank you for your patch. There is something to discuss/improve.
 
-Steps in reading the gamepad state over i2c:
-  1. Reset the registers
-  2. Set the pin mode of the pins specified by the `BUTTON_MASK` to input
-      `BUTTON_MASK`: A bit-map for the six digital pins internally
-       connected to the joystick buttons.
-  3. Enable internal pullup resistors for the `BUTTON_MASK`
-  4. Bulk set the pin state HIGH for `BUTTON_MASK`
-  5. Poll the device for button and joystick state done by:
-      `seesaw_read_data(struct i2c_client *client, struct seesaw_data *data)`
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching.
 
-Product page:
-  https://www.adafruit.com/product/5743
-Arduino driver:
-  https://github.com/adafruit/Adafruit_Seesaw
+> 
+> The gamepad chip utilizes the open framework from Adafruit called 'Seesaw'
+> to transmit the ADC data for the joystick and digital pin state for the
+> buttons. I have only implemented the functionality required to receive the
+> thumb stick and button state.
+> 
+> Steps in reading the gamepad state over i2c:
+>   1. Reset the registers
+>   2. Set the pin mode of the pins specified by the `BUTTON_MASK` to input
+>       `BUTTON_MASK`: A bit-map for the six digital pins internally
+>        connected to the joystick buttons.
+>   3. Enable internal pullup resistors for the `BUTTON_MASK`
+>   4. Bulk set the pin state HIGH for `BUTTON_MASK`
+>   5. Poll the device for button and joystick state done by:
+>       `seesaw_read_data(struct i2c_client *client, struct seesaw_data *data)`
 
-Tested on RPi Zero 2W
 
-Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
----
- MAINTAINERS                              |   7 +
- drivers/input/joystick/Kconfig           |   9 +
- drivers/input/joystick/Makefile          |   1 +
- drivers/input/joystick/adafruit_seesaw.c | 275 +++++++++++++++++++++++
- 4 files changed, 292 insertions(+)
- create mode 100644 drivers/input/joystick/adafruit_seesaw.c
+This describes driver, not bindings or hardware Please instead describe
+hardware.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 81d5fc0bba68..cd4f9deb77e2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -441,6 +441,13 @@ W:	http://wiki.analog.com/AD7879
- W:	https://ez.analog.com/linux-software-drivers
- F:	drivers/input/touchscreen/ad7879.c
- 
-+ADAFRUIT MINI I2C GAMEPAD
-+M:	Anshul Dalal <anshulusr@gmail.com>
-+L:	linux-input@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/input/adafruit_seesaw.yaml
-+F:	drivers/input/joystick/adafruit_seesaw.c
-+
- ADDRESS SPACE LAYOUT RANDOMIZATION (ASLR)
- M:	Jiri Kosina <jikos@kernel.org>
- S:	Maintained
-diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
-index ac6925ce8366..b8337edc6e22 100644
---- a/drivers/input/joystick/Kconfig
-+++ b/drivers/input/joystick/Kconfig
-@@ -412,4 +412,13 @@ config JOYSTICK_SENSEHAT
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called sensehat_joystick.
- 
-+config JOYSTICK_SEESAW
-+	tristate "Adafruit Mini I2C Gamepad with Seesaw"
-+	depends on I2C
-+	help
-+		Say Y here if you want to use the Adafruit Mini I2C Gamepad.
-+
-+		To compile this driver as a module, choose M here: the module will be
-+		called adafruit_seesaw.
-+
- endif
-diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Makefile
-index 3937535f0098..fdc653209542 100644
---- a/drivers/input/joystick/Makefile
-+++ b/drivers/input/joystick/Makefile
-@@ -28,6 +28,7 @@ obj-$(CONFIG_JOYSTICK_N64)		+= n64joy.o
- obj-$(CONFIG_JOYSTICK_PSXPAD_SPI)	+= psxpad-spi.o
- obj-$(CONFIG_JOYSTICK_PXRC)		+= pxrc.o
- obj-$(CONFIG_JOYSTICK_QWIIC)		+= qwiic-joystick.o
-+obj-$(CONFIG_JOYSTICK_SEESAW)		+= adafruit_seesaw.o
- obj-$(CONFIG_JOYSTICK_SENSEHAT)	+= sensehat-joystick.o
- obj-$(CONFIG_JOYSTICK_SIDEWINDER)	+= sidewinder.o
- obj-$(CONFIG_JOYSTICK_SPACEBALL)	+= spaceball.o
-diff --git a/drivers/input/joystick/adafruit_seesaw.c b/drivers/input/joystick/adafruit_seesaw.c
-new file mode 100644
-index 000000000000..a04df0469595
---- /dev/null
-+++ b/drivers/input/joystick/adafruit_seesaw.c
-@@ -0,0 +1,275 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright (C) 2023 Anshul Dalal <anshulusr@gmail.com>
-+ *
-+ * Driver for Adafruit Mini I2C Gamepad
-+ *
-+ * Based on the work of:
-+ *	Oleh Kravchenko (Sparkfun Qwiic Joystick driver)
-+ *
-+ * Product page: https://www.adafruit.com/product/5743
-+ * Firmware and hardware sources: https://github.com/adafruit/Adafruit_Seesaw
-+ */
-+
-+#include <linux/bits.h>
-+#include <linux/delay.h>
-+#include <linux/i2c.h>
-+#include <linux/input.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+
-+/* clang-format off */
-+#define SEESAW_DEVICE_NAME	"seesaw_gamepad"
-+
-+#define SEESAW_STATUS_BASE	0
-+#define SEESAW_GPIO_BASE	1
-+#define SEESAW_ADC_BASE		9
-+
-+#define SEESAW_GPIO_DIRCLR_BULK	3
-+#define SEESAW_GPIO_BULK	4
-+#define SEESAW_GPIO_BULK_SET	5
-+#define SEESAW_GPIO_PULLENSET	11
-+
-+#define SEESAW_STATUS_HW_ID	1
-+#define SEESAW_STATUS_SWRST	127
-+
-+#define SEESAW_ADC_OFFSET	7
-+
-+#define BUTTON_A	5
-+#define BUTTON_B	1
-+#define BUTTON_X	6
-+#define BUTTON_Y	2
-+#define BUTTON_START	16
-+#define BUTTON_SELECT	0
-+
-+#define ANALOG_X	14
-+#define ANALOG_Y	15
-+
-+#define SEESAW_JOYSTICK_MAX_AXIS	1023
-+#define SEESAW_JOYSTICK_FUZZ		2
-+#define SEESAW_JOYSTICK_FLAT		4
-+
-+#define SEESAW_GAMEPAD_POLL_INTERVAL	16
-+#define SEESAW_GAMEPAD_POLL_MIN		8
-+#define SEESAW_GAMEPAD_POLL_MAX		32
-+/* clang-format on */
-+
-+u32 BUTTON_MASK = (1UL << BUTTON_A) | (1UL << BUTTON_B) | (1UL << BUTTON_X) |
-+		  (1UL << BUTTON_Y) | (1UL << BUTTON_START) |
-+		  (1UL << BUTTON_SELECT);
-+
-+struct seesaw_gamepad {
-+	char physical_path[32];
-+	unsigned char hardware_id;
-+	struct input_dev *input_dev;
-+	struct i2c_client *i2c_client;
-+};
-+
-+struct seesaw_data {
-+	__be16 x;
-+	__be16 y;
-+	u8 button_a, button_b, button_x, button_y, button_start, button_select;
-+};
-+
-+static int seesaw_read_data(struct i2c_client *client, struct seesaw_data *data)
-+{
-+	int err;
-+	unsigned char write_buf[2] = { SEESAW_GPIO_BASE, SEESAW_GPIO_BULK };
-+	unsigned char read_buf[4];
-+
-+	err = i2c_master_send(client, write_buf, sizeof(write_buf));
-+	if (err < 0)
-+		return err;
-+	if (err != sizeof(write_buf))
-+		return -EIO;
-+	err = i2c_master_recv(client, read_buf, sizeof(read_buf));
-+	if (err < 0)
-+		return err;
-+	if (err != sizeof(read_buf))
-+		return -EIO;
-+	u32 result = ((u32)read_buf[0] << 24) | ((u32)read_buf[1] << 16) |
-+		     ((u32)read_buf[2] << 8) | (u32)read_buf[3];
-+	data->button_a = !(result & (1UL << BUTTON_A));
-+	data->button_b = !(result & (1UL << BUTTON_B));
-+	data->button_x = !(result & (1UL << BUTTON_X));
-+	data->button_y = !(result & (1UL << BUTTON_Y));
-+	data->button_start = !(result & (1UL << BUTTON_START));
-+	data->button_select = !(result & (1UL << BUTTON_SELECT));
-+
-+	write_buf[0] = SEESAW_ADC_BASE;
-+	write_buf[1] = SEESAW_ADC_OFFSET + ANALOG_X;
-+	err = i2c_master_send(client, write_buf, sizeof(write_buf));
-+	if (err < 0)
-+		return err;
-+	if (err != sizeof(write_buf))
-+		return -EIO;
-+	err = i2c_master_recv(client, (char *)&data->x, sizeof(data->x));
-+	if (err < 0)
-+		return err;
-+	if (err != sizeof(data->x))
-+		return -EIO;
-+	/*
-+	 * ADC reads left as max and right as 0, must be reversed since kernel
-+	 * expects reports in opposite order.
-+	 */
-+	data->x = SEESAW_JOYSTICK_MAX_AXIS - be16_to_cpu(data->x);
-+
-+	write_buf[1] = SEESAW_ADC_OFFSET + ANALOG_Y;
-+	err = i2c_master_send(client, write_buf, 2);
-+	if (err < 0)
-+		return err;
-+	if (err != sizeof(write_buf))
-+		return -EIO;
-+	err = i2c_master_recv(client, (char *)&data->y, data->y);
-+	if (err < 0)
-+		return err;
-+	if (err != data->y)
-+		return -EIO;
-+	data->y = be16_to_cpu(data->y);
-+
-+	return 0;
-+}
-+
-+static void seesaw_poll(struct input_dev *input)
-+{
-+	struct seesaw_gamepad *private = input_get_drvdata(input);
-+	struct seesaw_data data;
-+	int err;
-+
-+	err = seesaw_read_data(private->i2c_client, &data);
-+	if (err != 0)
-+		return;
-+
-+	input_report_abs(input, ABS_X, data.x);
-+	input_report_abs(input, ABS_Y, data.y);
-+	input_report_key(input, BTN_A, data.button_a);
-+	input_report_key(input, BTN_B, data.button_b);
-+	input_report_key(input, BTN_X, data.button_x);
-+	input_report_key(input, BTN_Y, data.button_y);
-+	input_report_key(input, BTN_START, data.button_start);
-+	input_report_key(input, BTN_SELECT, data.button_select);
-+	input_sync(input);
-+}
-+
-+static int seesaw_probe(struct i2c_client *client)
-+{
-+	int err;
-+	struct seesaw_gamepad *private;
-+	unsigned char register_reset[] = { SEESAW_STATUS_BASE,
-+					   SEESAW_STATUS_SWRST, 0xFF };
-+	unsigned char get_hw_id[] = { SEESAW_STATUS_BASE, SEESAW_STATUS_HW_ID };
-+
-+	err = i2c_master_send(client, register_reset, sizeof(register_reset));
-+	if (err < 0)
-+		return err;
-+	if (err != sizeof(register_reset))
-+		return -EIO;
-+	mdelay(10);
-+
-+	private = devm_kzalloc(&client->dev, sizeof(*private), GFP_KERNEL);
-+	if (!private)
-+		return -ENOMEM;
-+
-+	err = i2c_master_send(client, get_hw_id, sizeof(get_hw_id));
-+	if (err < 0)
-+		return err;
-+	if (err != sizeof(get_hw_id))
-+		return -EIO;
-+	err = i2c_master_recv(client, &private->hardware_id, 1);
-+	if (err < 0)
-+		return err;
-+	if (err != 1)
-+		return -EIO;
-+
-+	dev_dbg(&client->dev, "Adafruit Seesaw Gamepad, Hardware ID: %02x\n",
-+		private->hardware_id);
-+
-+	private->i2c_client = client;
-+	scnprintf(private->physical_path, sizeof(private->physical_path),
-+		  "i2c/%s", dev_name(&client->dev));
-+	i2c_set_clientdata(client, private);
-+
-+	private->input_dev = devm_input_allocate_device(&client->dev);
-+	if (!private->input_dev)
-+		return -ENOMEM;
-+
-+	private->input_dev->id.bustype = BUS_I2C;
-+	private->input_dev->name = "Adafruit Seesaw Gamepad";
-+	private->input_dev->phys = private->physical_path;
-+	input_set_drvdata(private->input_dev, private);
-+	input_set_abs_params(private->input_dev, ABS_X, 0,
-+			     SEESAW_JOYSTICK_MAX_AXIS, SEESAW_JOYSTICK_FUZZ,
-+			     SEESAW_JOYSTICK_FLAT);
-+	input_set_abs_params(private->input_dev, ABS_Y, 0,
-+			     SEESAW_JOYSTICK_MAX_AXIS, SEESAW_JOYSTICK_FUZZ,
-+			     SEESAW_JOYSTICK_FLAT);
-+	input_set_capability(private->input_dev, EV_KEY, BTN_A);
-+	input_set_capability(private->input_dev, EV_KEY, BTN_B);
-+	input_set_capability(private->input_dev, EV_KEY, BTN_X);
-+	input_set_capability(private->input_dev, EV_KEY, BTN_Y);
-+	input_set_capability(private->input_dev, EV_KEY, BTN_START);
-+	input_set_capability(private->input_dev, EV_KEY, BTN_SELECT);
-+
-+	err = input_setup_polling(private->input_dev, seesaw_poll);
-+	if (err) {
-+		dev_err(&client->dev, "failed to set up polling: %d\n", err);
-+		return err;
-+	}
-+
-+	input_set_poll_interval(private->input_dev,
-+				SEESAW_GAMEPAD_POLL_INTERVAL);
-+	input_set_max_poll_interval(private->input_dev,
-+				    SEESAW_GAMEPAD_POLL_MAX);
-+	input_set_min_poll_interval(private->input_dev,
-+				    SEESAW_GAMEPAD_POLL_MIN);
-+
-+	err = input_register_device(private->input_dev);
-+	if (err) {
-+		dev_err(&client->dev, "failed to register joystick: %d\n", err);
-+		return err;
-+	}
-+
-+	/* Set Pin Mode to input and enable pull-up resistors */
-+	unsigned char pin_mode[] = { SEESAW_GPIO_BASE,	SEESAW_GPIO_DIRCLR_BULK,
-+				     BUTTON_MASK >> 24, BUTTON_MASK >> 16,
-+				     BUTTON_MASK >> 8,	BUTTON_MASK };
-+	err = i2c_master_send(client, pin_mode, sizeof(pin_mode));
-+	pin_mode[1] = SEESAW_GPIO_PULLENSET;
-+	err |= i2c_master_send(client, pin_mode, sizeof(pin_mode));
-+	pin_mode[1] = SEESAW_GPIO_BULK_SET;
-+	err |= i2c_master_send(client, pin_mode, sizeof(pin_mode));
-+	if (err < 0)
-+		return err;
-+	if (err != sizeof(pin_mode))
-+		return -EIO;
-+
-+	return 0;
-+}
-+
-+#ifdef CONFIG_OF
-+static const struct of_device_id of_seesaw_match[] = {
-+	{
-+		.compatible = "adafruit,seesaw_gamepad",
-+	},
-+	{ /* Sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(of, of_seesaw_match);
-+#endif /* CONFIG_OF */
-+
-+static const struct i2c_device_id seesaw_id_table[] = { { KBUILD_MODNAME, 0 },
-+							{ /* Sentinel */ } };
-+MODULE_DEVICE_TABLE(i2c, seesaw_id_table);
-+
-+static struct i2c_driver seesaw_driver = {
-+	.driver = {
-+		.name = SEESAW_DEVICE_NAME,
-+		.of_match_table = of_match_ptr(of_seesaw_match),
-+	},
-+	.id_table = seesaw_id_table,
-+	.probe		= seesaw_probe,
-+};
-+module_i2c_driver(seesaw_driver);
-+
-+MODULE_AUTHOR("Anshul Dalal <anshulusr@gmail.com>");
-+MODULE_DESCRIPTION("Adafruit Mini I2C Gamepad driver");
-+MODULE_LICENSE("GPL");
--- 
-2.42.0
+> 
+> Product page:
+>   https://www.adafruit.com/product/5743
+> Arduino driver:
+>   https://github.com/adafruit/Adafruit_Seesaw
+> 
+> Tested on RPi Zero 2W
+
+How can you test bindings on RPi Zero 2W? Somehow I don't believe you,
+see below.
+
+> 
+> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+> ---
+>  .../bindings/input/adafruit_seesaw.yaml       | 45 +++++++++++++++++++
+>  1 file changed, 45 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/adafruit_seesaw.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/input/adafruit_seesaw.yaml b/Documentation/devicetree/bindings/input/adafruit_seesaw.yaml
+> new file mode 100644
+> index 000000000000..1d00d9da637a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/adafruit_seesaw.yaml
+
+Use compatible syntax, so vendor-prefix,device-name.yaml
+
+> @@ -0,0 +1,45 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/input/adafruit_seesaw.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+
+Drop quotes.
+
+It does not look like you tested the bindings, at least after quick
+look. Please run `make dt_binding_check` (see
+Documentation/devicetree/bindings/writing-schema.rst for instructions).
+Maybe you need to update your dtschema and yamllint.
+
+> +
+> +title: Adafruit Mini I2C Gamepad with seesaw
+> +
+> +maintainers:
+> +  - Anshul Dalal <anshulusr@gmail.com>
+> +
+> +description: |
+> +  Bindings for Adafruit Mini I2C Gamepad
+
+Drop "Bindings for"
+
+> +
+> +    +-----------------------------+
+> +    |   ___                       |
+> +    |  /   \               (X)    |
+> +    | |  S  |  __   __  (Y)   (A) |
+> +    |  \___/  |ST| |SE|    (B)    |
+> +    |                             |
+> +    +-----------------------------+
+> +
+> +  S -> 10-bit percision bidirectional analog joystick
+> +  ST -> Start
+> +  SE -> Select
+> +  X, A, B, Y -> Digital action buttons
+> +
+> +  Product page: https://www.adafruit.com/product/5743
+> +  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
+> +
+> +properties:
+> +  compatible:
+> +    const: adafruit,seesaw_gamepad
+> +
+> +required:
+> +  - compatible
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    seesaw_gamepad@50 {
+
+No underscores, generic node names.
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+
+> +        compatible = "adafruit,seesaw_gamepad";
+> +        reg = <0x50>;
+
+Second hint that you did not test it...
+
+> +    };
+
+Best regards,
+Krzysztof
 
