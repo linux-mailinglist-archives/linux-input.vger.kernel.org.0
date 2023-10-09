@@ -2,218 +2,155 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 70D2F7BE3D7
-	for <lists+linux-input@lfdr.de>; Mon,  9 Oct 2023 17:05:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06B707BE63A
+	for <lists+linux-input@lfdr.de>; Mon,  9 Oct 2023 18:21:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346602AbjJIPFb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 9 Oct 2023 11:05:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43220 "EHLO
+        id S1344542AbjJIQVL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Oct 2023 12:21:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346592AbjJIPFa (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Oct 2023 11:05:30 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 033F7D8
-        for <linux-input@vger.kernel.org>; Mon,  9 Oct 2023 08:05:28 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-32003aae100so3466317f8f.0
-        for <linux-input@vger.kernel.org>; Mon, 09 Oct 2023 08:05:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696863927; x=1697468727; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aYFlpDUBNVKYSWU0PsLSPqfktkJzIj4ysgwl93ZN8aM=;
-        b=WrVAI2G65vk772GK3mmO8SPiVbSV0Ug+xfIs8b18NqAQeWYay/6eBlQQk4COkVeeVD
-         j6b+PYw9jYvAsbqOjTbDI5WcqQ7aJ3ZyhwpTJkkzNfNI8xJQJtP2RBMCxuDjLO8y+NEG
-         7JeWRsVXFMpTm+V704yhR6ouYWJ0chQ5iZXOe5SEwhiWAMFUQLaa4youFrz6nct7xVOS
-         czprPfAa5L81uc01ti7+/R48nnUg4iTlDqCuqdFtygTn1ij7tpH+71AEVDp50TRGH2vx
-         9m2EYHB9YnZzzAtecr3MgDq8Sd2FhzVRIwDUfOwL97wdA3E8nGI4WGRhysvjywV8eZDE
-         4ymQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696863927; x=1697468727;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aYFlpDUBNVKYSWU0PsLSPqfktkJzIj4ysgwl93ZN8aM=;
-        b=W3dPQVzI6azd2hPFmc+WwBd3F7YoD7YfoWG3cvFHZGx9fAsU/9STwIGYBs5UvCiTCe
-         VZ0xVPjDg/HHck/zuBn0nNDiyFnLTPEANhAfIaSPXCE/2hNbif5kClp7PV9Rrkubb6Dy
-         S4FWrBI1Bc8RkzFxyy4N0ozHXyhMqn61nneNmDbzrDd7ggoj4bG3GdwQJSWEx7Q3T3hK
-         0vyRuJ+8wDI2A/4/T9U9fqYXK6OAv/Hmf/OgPFIudiXyeBJlwnTK1sxINdsDPPxC0/rV
-         LbWnkILeW2AGwy2HkfMczjjCYT8dH2Swwo55wLsls2sw27fH7/gpUhicSElBMXzLmQXM
-         vwlw==
-X-Gm-Message-State: AOJu0YwToJOKfzwQcchsICmrn0VwLVld8u6HWHgRC/h34zAsSeMqRXWh
-        0YgM+0410UedFSyxTjcu86T/Aw==
-X-Google-Smtp-Source: AGHT+IGv1UOZbFiWuDy52z6tBuQXrsUEn6VPQ2yLH2aHPUSgbPf5tkbpWzvcEssox4pxaw3YU92neQ==
-X-Received: by 2002:a5d:4e46:0:b0:31f:ebfa:54eb with SMTP id r6-20020a5d4e46000000b0031febfa54ebmr9619202wrt.3.1696863926522;
-        Mon, 09 Oct 2023 08:05:26 -0700 (PDT)
-Received: from [192.168.1.197] (5-157-101-10.dyn.eolo.it. [5.157.101.10])
-        by smtp.gmail.com with ESMTPSA id n10-20020a5d4c4a000000b00323287186aasm9886528wrt.32.2023.10.09.08.05.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Oct 2023 08:05:26 -0700 (PDT)
-Message-ID: <1c92f6ef-3bf1-46e6-9948-fcfddef748f5@linaro.org>
-Date:   Mon, 9 Oct 2023 17:05:24 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] dt-bindings: input: Add bindings for TouchNetix
- axiom touchscreen
-Content-Language: en-US
-To:     Kamel Bouhara <kamel.bouhara@bootlin.com>,
+        with ESMTP id S1346636AbjJIQVK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Oct 2023 12:21:10 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F8DCAC
+        for <linux-input@vger.kernel.org>; Mon,  9 Oct 2023 09:21:09 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45968C433C7;
+        Mon,  9 Oct 2023 16:21:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696868469;
+        bh=O+CpNqRt0P0QSThDKZt7Zfl0padZ2Q61mgM0eDkq4Co=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=X+OtNIrz44vZQfoTvmyAgUBWBWSm0UuHywY9ovT7YI2ug0RCOQoid6NlbRdiHXZ7s
+         asyPW2+REAEVUiYDZR8zAQDAHdlYcjw3wMAFaT/mlYGZNGghV9aK1T2BqoNer8A3oy
+         JldlnXuwihW/ED52gYsxT35b12dQquHo1J41t1CcmvrqkOTU9qI1x5RbFpIVKy3Jie
+         BxNrbPnx+INvAVSYSUato/u7+OmCy/wqoJqYoXCANChL3E/8R5qXuYpZzQI/06Xtdj
+         o9nhWUyseGY2qyfP4ADqzkGMmCIIAsmpmqQklI8NwrDcwVUnlKpotjsCUx+Lu24svK
+         93N/kkXd/bNCw==
+Date:   Mon, 9 Oct 2023 17:21:04 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Anshul Dalal <anshulusr@gmail.com>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, mark.satterthwaite@touchnetix.com,
-        pedro.torruella@touchnetix.com, bartp@baasheep.co.uk,
-        hannah.rossiter@touchnetix.com,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        bsp-development.geo@leica-geosystems.com
-References: <20231009134435.36311-1-kamel.bouhara@bootlin.com>
- <20231009134435.36311-3-kamel.bouhara@bootlin.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231009134435.36311-3-kamel.bouhara@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: input: bindings for Adafruit Seesaw
+ Gamepad
+Message-ID: <20231009-clatter-latrine-f6f9cd6f43c1@spud>
+References: <20231008185709.2448423-1-anshulusr@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="RH3Li9Lh/V1Q4IoS"
+Content-Disposition: inline
+In-Reply-To: <20231008185709.2448423-1-anshulusr@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 09/10/2023 15:44, Kamel Bouhara wrote:
-> Add the TouchNetix axiom I2C touchscreen device tree bindings
-> documentation.
 
-A nit, subject: drop second/last, redundant "bindings for". The
-"dt-bindings" prefix is already stating that these are bindings.
+--RH3Li9Lh/V1Q4IoS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+On Mon, Oct 09, 2023 at 12:27:06AM +0530, Anshul Dalal wrote:
+> A simple driver for a mini gamepad that communicates over i2c, the gamepad
+> has bidirectional thumb stick input and six buttons.
+>=20
+> The gamepad chip utilizes the open framework from Adafruit called 'Seesaw'
+> to transmit the ADC data for the joystick and digital pin state for the
+> buttons. I have only implemented the functionality required to receive the
+> thumb stick and button state.
+>=20
+> Product page:
+>   https://www.adafruit.com/product/5743
+> Arduino driver:
+>   https://github.com/adafruit/Adafruit_Seesaw
+>=20
+> For testing on a RPi Zero 2W, I utilized the following devicetree overlay:
+>=20
+> /dts-v1/;
+> /plugin/;
+> / {
+> 	compatible =3D "brcm,bcm2835";
+> 	fragment@0 {
+> 		target =3D <&i2c1>;
+> 		__overlay__ {
+> 			#address-cells =3D <1>;
+> 			#size-cells =3D <0>;
+> 			joystick@50 {
+> 				compatible =3D "adafruit,seesaw-gamepad";
+> 				reg =3D <0x50>;
+> 			};
+> 		};
+> 	};
+> };
+>=20
+> I used the above overlay as reference for writing this binding. Though the
+> gamepad also has an interrupt pin that needs to be enabled explicitly (not
+> currently implemented in driver). The pin triggers a rising edge when a
+> button is pressed or joystick is moved which can be detected on a GPIO
+> of the Microcontroller.
+>=20
+> I wasn't sure how to represent that functionality in the binding so I have
+> left it out for now.
+>=20
+> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
 > ---
->  .../touchscreen/touchnetix,axiom-ax54a.yaml   | 51 +++++++++++++++++++
->  MAINTAINERS                                   |  6 +++
->  2 files changed, 57 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/touchnetix,axiom-ax54a.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchnetix,axiom-ax54a.yaml b/Documentation/devicetree/bindings/input/touchscreen/touchnetix,axiom-ax54a.yaml
+>=20
+> Changes for v3:
+> - Updated id field to reflect updated file name from previous version
+> - Added `reg` property
+>=20
+> Changes for v2:
+> - Renamed file to `adafruit,seesaw-gamepad.yaml`
+> - Removed quotes for `$id` and `$schema`
+> - Removed "Bindings for" from the description
+> - Changed node name to the generic name "joystick"
+> - Changed compatible to 'adafruit,seesaw-gamepad' instead of 'adafruit,se=
+esaw_gamepad'
+>=20
+>  .../input/adafruit,seesaw-gamepad.yaml        | 54 +++++++++++++++++++
+>  1 file changed, 54 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/adafruit,sees=
+aw-gamepad.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-game=
+pad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.=
+yaml
 > new file mode 100644
-> index 000000000000..41201d7112a6
+> index 000000000000..610c99594439
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/touchnetix,axiom-ax54a.yaml
-> @@ -0,0 +1,51 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/touchscreen/touchnetix,axiom-ax54a.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: TouchNetix Axiom series touchscreen controller
-> +
-> +maintainers:
-> +  - Kamel Bouhara <kamel.bouhara@bootlin.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: touchnetix,axiom-ax54a
-> +
-> +  reg:
-> +    const: 0x66
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  irq-gpios:
-> +    maxItems: 1
 
-Why these are GPIOs? Interrupts are usually just interrupts... You need
-to clearly describe this.
+> +++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
 
+> +$id: http://devicetree.org/schemas/input/adafruit-seesaw.yaml#
 
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +additionalProperties: false
+You're at version 3 now, but do not seem to have figured out how to test
+the bindings?
+https://docs.kernel.org/devicetree/bindings/writing-schema.html#running-che=
+cks
 
-This goes after required: block.
+Thanks,
+Conor.
 
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +      axiom@66 {
+--RH3Li9Lh/V1Q4IoS
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZSQocAAKCRB4tDGHoIJi
+0i43AQCqkiPeSEJES0fFo407YP08/wBBsy0ymO0tWtBAoy27oAD+J091/NTFD2BM
+sxEFSte4EAQlQQDufLxbP1XreMb3HgM=
+=ODF5
+-----END PGP SIGNATURE-----
 
-
-> +        compatible = "touchnetix,axiom-ax54a";
-> +        reg = <0x66>;
-> +        interrupt-parent = <&gpio2>;
-> +        interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
-> +        irq-gpios = <&gpio2 0 GPIO_ACTIVE_LOW>;
-
-Eh? This looks really wrong.
-
-
-Best regards,
-Krzysztof
-
+--RH3Li9Lh/V1Q4IoS--
