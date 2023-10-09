@@ -2,99 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF46D7BDD9C
-	for <lists+linux-input@lfdr.de>; Mon,  9 Oct 2023 15:11:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBED77BE0D9
+	for <lists+linux-input@lfdr.de>; Mon,  9 Oct 2023 15:44:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376898AbjJINLN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 9 Oct 2023 09:11:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48352 "EHLO
+        id S1377381AbjJINoq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Oct 2023 09:44:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376893AbjJINKz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Oct 2023 09:10:55 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7EE812A;
-        Mon,  9 Oct 2023 06:10:25 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2A62C433D9;
-        Mon,  9 Oct 2023 13:10:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1696857025;
-        bh=jkvDx5+K2+lo0MKcZcWTC3ju5DS25KUe+EoX2cGlxqs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bLW5cSqete2/vtrTJGUJcnxgPokb825xOFhuL/F67+CUh4zpw1PxkvLTtJyjbsTHX
-         jpSo0Og8w/DzLfGHhkXMKSoC2l+vnsVobNRGZp1qCj2vYB+8JFmFPtrmHSHtOJzBI+
-         OFqDhszMzuR5VJoy/FoNrcjOu5Piej6gL6J4Ci3M=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     stable@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        patches@lists.linux.dev, Randy Dunlap <rdunlap@infradead.org>,
-        Rahul Rameshbabu <rrameshbabu@nvidia.com>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.5 071/163] HID: nvidia-shield: add LEDS_CLASS dependency
-Date:   Mon,  9 Oct 2023 15:00:35 +0200
-Message-ID: <20231009130126.010931258@linuxfoundation.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231009130124.021290599@linuxfoundation.org>
-References: <20231009130124.021290599@linuxfoundation.org>
-User-Agent: quilt/0.67
-X-stable: review
-X-Patchwork-Hint: ignore
+        with ESMTP id S1377428AbjJINoo (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Oct 2023 09:44:44 -0400
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FCF0A3;
+        Mon,  9 Oct 2023 06:44:41 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4B42CC000B;
+        Mon,  9 Oct 2023 13:44:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1696859079;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=3jhpCvsya+E2eGbigp8XihjymSXHP4xEBq7kko3/DmU=;
+        b=DSPt4iLu/HcnjbvtPQ0AC4c9yuKUKXmxAcXyFXorCIuFf/TOdT3pW/iINXnFcpfvDwdYkX
+        gKyBn5e0Uwe2WOdSMUDjO/gQ9n1g2p3rAo7WADpPnKNEQZp+pAV3YQ7Wfy/SMCrgN1fUBG
+        ntb5ZxB6XHHezFFDO8BK90ZorMjx0F8YOQQWtyARooSOZOnBgxxugSjwcsBDKyBdVdoRAx
+        mFgbo4YtPYqQ+gTqTQAMMXKC6ovhHBhw4o1krOpCClqR5b6m9v442fLRla+TQ34zrGIhXX
+        u29FH1S7LkgwpROCjGcBbj4qHGwNLo9z53MNGqsPeQWJ4XfwHEoKMWSn1iscbg==
+From:   Kamel Bouhara <kamel.bouhara@bootlin.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, mark.satterthwaite@touchnetix.com,
+        pedro.torruella@touchnetix.com, bartp@baasheep.co.uk,
+        hannah.rossiter@touchnetix.com,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        bsp-development.geo@leica-geosystems.com,
+        Kamel Bouhara <kamel.bouhara@bootlin.com>
+Subject: [PATCH v2 0/3] Input: Add TouchNetix aXiom touchscreen driver 
+Date:   Mon,  9 Oct 2023 15:44:32 +0200
+Message-Id: <20231009134435.36311-1-kamel.bouhara@bootlin.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-GND-Sasl: kamel.bouhara@bootlin.com
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-6.5-stable review patch.  If anyone has any objections, please let me know.
+Add a new driver for the TouchNetix's aXiom family of
+touchscreen controller. This driver only support i2c
+and can be later adapted for SPI and USB support.
 
-------------------
-
-From: Randy Dunlap <rdunlap@infradead.org>
-
-[ Upstream commit 058574879853260a22bbec1f94221dfc5149d85c ]
-
-The hid-nvidia-shield driver uses functions that are built
-only when LEDS_CLASS is set, so make the driver depend on that
-symbol to prevent build errors.
-
-riscv32-linux-ld: drivers/hid/hid-nvidia-shield.o: in function `.L11':
-hid-nvidia-shield.c:(.text+0x192): undefined reference to `led_classdev_unregister'
-riscv32-linux-ld: drivers/hid/hid-nvidia-shield.o: in function `.L113':
-hid-nvidia-shield.c:(.text+0xfa4): undefined reference to `led_classdev_register_ext'
-
-Fixes: 09308562d4af ("HID: nvidia-shield: Initial driver implementation with Thunderstrike support")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Cc: Jiri Kosina <jkosina@suse.cz>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: linux-input@vger.kernel.org
-Reviewed-by: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+Changes in v2:
+ - Add device tree binding documentation
+ - Move core functions in axiom_i2c as we only care about i2c support now
+ - Use static function when required
+ - Use syntax dev_err_probe()
+ - Add an hardware based reset
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index e11c1c8036769..dc456c86e9569 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -792,6 +792,7 @@ config HID_NVIDIA_SHIELD
- 	tristate "NVIDIA SHIELD devices"
- 	depends on USB_HID
- 	depends on BT_HIDP
-+	depends on LEDS_CLASS
- 	help
- 	  Support for NVIDIA SHIELD accessories.
- 
+Kamel Bouhara (3):
+  dt-bindings: vendor-prefixes: Add TouchNetix AS
+  dt-bindings: input: Add bindings for TouchNetix axiom touchscreen
+  Input: Add TouchNetix aXiom i2c touchscreen driver
+
+ .../touchscreen/touchnetix,axiom_ax54a.yaml   |  52 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ MAINTAINERS                                   |   6 +
+ drivers/input/touchscreen/Kconfig             |  13 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ .../input/touchscreen/touchnetix_axiom_i2c.c  | 751 ++++++++++++++++++
+ 6 files changed, 825 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/touchnetix,axiom_ax54a.yaml
+ create mode 100644 drivers/input/touchscreen/touchnetix_axiom_i2c.c
+
 -- 
-2.40.1
-
-
+2.25.1
 
