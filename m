@@ -2,206 +2,152 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00B4E7BD53B
-	for <lists+linux-input@lfdr.de>; Mon,  9 Oct 2023 10:29:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02B277BD87A
+	for <lists+linux-input@lfdr.de>; Mon,  9 Oct 2023 12:26:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234379AbjJII35 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 9 Oct 2023 04:29:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50126 "EHLO
+        id S1345748AbjJIK0V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Oct 2023 06:26:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234376AbjJII34 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Oct 2023 04:29:56 -0400
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02on2076.outbound.protection.outlook.com [40.107.241.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D2338F
-        for <linux-input@vger.kernel.org>; Mon,  9 Oct 2023 01:29:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QNPBXDC947WVMCtq/d/972gLY2OnK+m5aChSXjaLhYdCtz0DQlZZLMLyDTLj6pGaod8HmQUS+6GSqDx2amkhDe6RtD/oZdM+8WuBWeYTZPaNFcMCBbdG9tScNbS/600NT30Z6jj+vIM9YG9yQjKyXRpzsdln0pfT9gGufm2HmQoqE1BbtCmm6AfkBBPTLjhKcBTOi0yhPnSTXcds+28ilU9z6s9htKq8G/dpVMEyFccLPlC22VUhm4pLqD5+jD7q70Qz34E46Md+SRCb7YtwD3UQ4ApH2+Q8kYj42pM4ODbWaLLQVrIK3LnaccEsHJTXwY/vzOBBEQPWbZmyyMsrGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sV66txTMhbDqIoxpaDncP9i0z99yOOF5b+KqankPiUI=;
- b=O0pJcKYSCY2XIyBy930uYx23UQU/GMSGle+cU5b7L0w4Nv8kQxfhIFm+FYfQaoOO2g0+lXXcP/+/rDMGfzszXk0pNkRFC8R2BjYzC0bnJ2ySApWyKXnCLUJaFwkw3Q/JF9xqqEFENzAPlerpPp4rqO6MlCoaNyBKX9W2cLXOaV0tej5FL0Q1hRYqL0WNXI2dfTU1BUZjd57efFSe2jlbUFuA46A9jwtNt3suwphALPdORo8jWCjEqk7C69QMqjwPRvNKpRfxudX60C7epW+tztfvFpEzEFe106JR/egeFzoNTsrL3A+eDd1jFUnNGG9Uhw8BwTUtgQ4STiZzOUR4Dg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sV66txTMhbDqIoxpaDncP9i0z99yOOF5b+KqankPiUI=;
- b=b0N76JrwVK2z7+BmlY59pUUsvARtX5Y3UvjnDOxTqn9rQ5C9A0toufRBh49s2vWcUJuiCYDkM3PL/4UuIyhw7o93+7Ak70POuNiBYVxDWKiiMtTRnsIMjvKnl2CW4NbBgh/RUenRaXcsYvT6hyJh0sS6c+WR+IWbnK2dBsUqOcM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AS8PR04MB8642.eurprd04.prod.outlook.com (2603:10a6:20b:429::24)
- by AS1PR04MB9336.eurprd04.prod.outlook.com (2603:10a6:20b:4dc::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.35; Mon, 9 Oct
- 2023 08:29:50 +0000
-Received: from AS8PR04MB8642.eurprd04.prod.outlook.com
- ([fe80::258e:61b0:da64:d168]) by AS8PR04MB8642.eurprd04.prod.outlook.com
- ([fe80::258e:61b0:da64:d168%5]) with mapi id 15.20.6863.032; Mon, 9 Oct 2023
- 08:29:50 +0000
-From:   Jacky Bai <ping.bai@nxp.com>
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-imx@nxp.com
-Subject: [PATCH] input: bbnsm_pwrkey: Fix key press missed issue after suspend
-Date:   Mon,  9 Oct 2023 16:34:23 +0800
-Message-Id: <20231009083423.1937885-1-ping.bai@nxp.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR01CA0014.apcprd01.prod.exchangelabs.com
- (2603:1096:4:191::17) To AS8PR04MB8642.eurprd04.prod.outlook.com
- (2603:10a6:20b:429::24)
+        with ESMTP id S1345709AbjJIK0T (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Oct 2023 06:26:19 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97C3299;
+        Mon,  9 Oct 2023 03:26:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696847178; x=1728383178;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=1/cdl6TmyznVjvwUTt2iYmMvWoegBT6CdeEJuJVOJZQ=;
+  b=ddKOKiVqqpLfrkdj/ZvLn45ZIwIEss9f03JUBq7GoNAyxJtSl7Pybm6A
+   +grPLJmRUGrX1vgnJcgAdECxId3D/dOtxjvvbTTE1NHq4puNZRSiGQMOw
+   7+Nrnwq9Qby3UCgWSEnytHqwL/ShAoWPH6dXHhUZ7QM4D1xzALcUqgVcb
+   6OzuHd2W+2eGkKmQmqLEc8AfUJJuDxAjT8ZKF6LmMZ4e8DC7IEz+qU6is
+   OH8SvCOlc25X2zT1qUnxxfHX8bKo+HTJAavhLsBW3+sYEaZshTiLQj9yZ
+   aa7RkGlmhn5FrE0yx7dar7BtNGLcLEUJbAkkCMXhpQXAmwsG54ji7fNob
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="5658456"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
+   d="scan'208";a="5658456"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 03:26:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="896716897"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
+   d="scan'208";a="896716897"
+Received: from lshebash-mobl3.ccr.corp.intel.com ([10.252.57.254])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 03:24:33 -0700
+Date:   Mon, 9 Oct 2023 13:26:06 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+cc:     Hans de Goede <hdegoede@redhat.com>, markgross@kernel.org,
+        basavaraj.natikar@amd.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
+        christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+        daniel@ffwll.ch, Patil.Reddy@amd.com, mario.limonciello@amd.com,
+        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 06/16] platform/x86/amd/pmf: Add support to get inputs
+ from other subsystems
+In-Reply-To: <61840843-8cb6-4353-a92c-befc46960fad@amd.com>
+Message-ID: <bd917993-372f-3565-41d-5882e648e0b5@linux.intel.com>
+References: <20230930083715.2050863-1-Shyam-sundar.S-k@amd.com> <20230930083715.2050863-7-Shyam-sundar.S-k@amd.com> <2eb2b3e5-4849-10ec-1c1b-66d2f0ba561@linux.intel.com> <61840843-8cb6-4353-a92c-befc46960fad@amd.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR04MB8642:EE_|AS1PR04MB9336:EE_
-X-MS-Office365-Filtering-Correlation-Id: df283fc8-8651-4bcf-7202-08dbc8a1e786
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hqrVVeYOPbFWYgiuib4mojJ1hP7FSbsZLWEEDFnXlfKiMAI6e8zRfkYjaY6QOKT9o28xpZWLTAjyG2eAbMK3+5DkG7Jay6mVsszXIdw3ZGjoP3aW+/XmARXdyZHeEdzgw8H1RIDBf2PX15tAQA5YK+kW0qtve8b06RUpKDSeDVhIaoHZdgmS9PgcsPy5B/kPuem02PSQkKLtJFnm3l//ZIrTOsO/BXeM6GFFE8SRlt8jEHlRxYBWB+oJy2whRUCR6wXL7ftrDYuWwMIRR7VCaoCb3bVezPzdnSdnjL6LJsIhODdPF7DNtwYUsNX5/tx6YgUYxLw8IE9xA05/X7oYOyD6uDBFFTGHNgH8OdeRQYZ/Fb/P5S7UANV5hOmi9QrGYJpPeKhOfsfQ3e9Hs/8BcbPNa5+1BOV4JxM5QofHNOqvtZA4LgPaRZJ85CD1UEz/sejZk1BiqKsbckuTcU8M7wZfzYP6YidA/SRaDyhK/R8RHAp3/png3Fr1IoVXTWCzsQsmSVKSRfWOnCJ9GGJMGbfgitmAkoc/o3Ubnjg0O4lPJvz4uUq910w122S4DOz32X+F+eVEv030s1pSh2dcfmAEFk3nzajjyzZwRbAcSnk8IYcNdv+nY4jlWXh/QUob
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(366004)(376002)(136003)(396003)(230922051799003)(1800799009)(64100799003)(186009)(451199024)(15650500001)(8676002)(5660300002)(4326008)(2906002)(8936002)(41300700001)(1076003)(316002)(6916009)(66946007)(66476007)(66556008)(52116002)(26005)(6666004)(36756003)(38350700002)(2616005)(6512007)(6506007)(86362001)(83380400001)(6486002)(38100700002)(478600001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EVMsv9VUHded1G72dpUVnzSvU2cVU4ccdVat9+dgzwLo5M8xZptlj92TG/Gt?=
- =?us-ascii?Q?9umTd+Y3/Oc5iF+7LjBrfud8BvvI2cf0rcOIW76sS++nIMzISVuwkXudNCIn?=
- =?us-ascii?Q?7Xk7OgojULAYLEfuYvPAgtmw1Q3FuSFEITQ0e7o+sUJIbbN8ff+DxgqdXAYv?=
- =?us-ascii?Q?2Tvxjx7xDN5bOzVpzakltE8eNkNqCBkKJZhKH62JO7j7MUf20HBfC64ijF0W?=
- =?us-ascii?Q?JtknHd15Emk57rxu0TmIK/9NbhFPQR89RL/jDFQz7g/x+Qw7c53ctkiOBYT/?=
- =?us-ascii?Q?yKqHCE4JIQT/PoSWL8m+HqI1qLNgbFaqUPQiQ6aacbsD2752qBqsdVksQeWL?=
- =?us-ascii?Q?l4LOgtLUEo2dOqB1wW0sbmKXiK9Trx3hfoNsj9/4oU+svoyGiZbh8TIYPdqD?=
- =?us-ascii?Q?/q5FucTK1tCzeMRkvhoiPkR0TK6nCyqxmk9hKvredjDpFJAKrWMO/UhgCiot?=
- =?us-ascii?Q?mR0FWILq/36+Cj1kQezXFlDORH5pK/5xHWrarJhaZwuS6StuugVvP4QOSrWa?=
- =?us-ascii?Q?jPqXzZ3uPHMd1TIb9XIy6BKpAdPAPvTWLCD4yU2JvIlLxu6hjC9+dSrQKpZA?=
- =?us-ascii?Q?SqMPj3zM9ToznRMsmQ2gcVdjg81J7H8KU9HiJ12SJCVYKgf0US1q9UtJ2YQI?=
- =?us-ascii?Q?PjcOHuRWi9Mb/v2HscUaZK8RPerS5CzJyoGaap6xCLHXe2iBJNgIk3sJaT0Z?=
- =?us-ascii?Q?mLSRyjmoIIS+iI+eBPXFCBj4lQRGfcfvPQQyukY1/AsbRjt2yLSqak0xCz9l?=
- =?us-ascii?Q?TvJ5NTOrhSk3H7Vu71DU88dh+yqLLkxaHyEY9ylPUmLa4+gOCJFXz+2kHsGv?=
- =?us-ascii?Q?hPhp3jlp2QA66VxLiQ+F2VlLF1sqcyb0FZ51f40EER7lTGGEPMRKcj8duypb?=
- =?us-ascii?Q?PfeWfBbeAwHAjLYb9lR08lUfnIxlqJzeucDjfjrm79yMVXkSOuinxdofnlvP?=
- =?us-ascii?Q?WOnHsA2HxyEnUTcxJ2kUcA8QxMGTv04jvSPam3Zl0xgJwQy3FJH0uMMtkPGr?=
- =?us-ascii?Q?BtqTHlXHBXECDuiyezBV+R2sug2cOTXubsIzDSyyyGmpTfKYXTx3oBBf7b3x?=
- =?us-ascii?Q?BEFjIOWlckEmS+UmN0iPq3Qq/HlIibQ5bhlLK4h0Xs7oKkpS+/WC0pxMZsMq?=
- =?us-ascii?Q?TfgPZ1wWnUBFVc6zEwR16RUpniRSGD1ECRLGLRQe1jLOx6C18Du8CazUdM9a?=
- =?us-ascii?Q?CRjsCd7MC4amn+86yB4O57YEcHIMQciyiScP121djW0Ry59hjJ68NmBCtKHD?=
- =?us-ascii?Q?HR8Ap81VtnfefODqTHaj+SztjQg2B5mZIOfX6El8Ns62aL/FMMU57qIfPon4?=
- =?us-ascii?Q?CLphvr3Fu1k9etGqYz/2eqJ9G9IjjpBWdddiJ0l4wNVN1/bLFgga9/iQLlbp?=
- =?us-ascii?Q?Mox/ROONy+cDJ3B6ympSvodU7jpTplHuOU3ComA4WbLM49goU8zbl4+eqSdH?=
- =?us-ascii?Q?L3PH+WyS9PLSI6bDb9Y+wIycNGDvoQNMfwu7mWSXFZt7X79QcNr34KClgy/r?=
- =?us-ascii?Q?wxmSOlw3jNnuELyAF3eCoaE825i7W8Qmp5r2Z13NUcyYGSHAvQPiQ/qincXY?=
- =?us-ascii?Q?2+mSKp9apVh9dikH1/n28uew0PAvSnmTCMw8RVe4?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: df283fc8-8651-4bcf-7202-08dbc8a1e786
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2023 08:29:50.4720
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G1QvwPS3XHKMa9BjCSO5aDkJD537MIRWcRzFpOxh6pV6tCoWIHGGTiN1Lk7+WgvfZFJasBfE13u67h/zbxnkMA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR04MB9336
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/mixed; boundary="8323329-1231359689-1696847176=:1721"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When wakeup from a on/off key press event, need to report
-this input event directly to make sure no press event is
-missed when resume from suspend.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Fixes: 40e40fdfec3f ("Input: bbnsm_pwrkey - add bbnsm power key support")
-Signed-off-by: Jacky Bai <ping.bai@nxp.com>
----
- drivers/input/misc/nxp-bbnsm-pwrkey.c | 38 ++++++++++++++++++++++++++-
- 1 file changed, 37 insertions(+), 1 deletion(-)
+--8323329-1231359689-1696847176=:1721
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-diff --git a/drivers/input/misc/nxp-bbnsm-pwrkey.c b/drivers/input/misc/nxp-bbnsm-pwrkey.c
-index 1d99206dd3a8..55d4fd115887 100644
---- a/drivers/input/misc/nxp-bbnsm-pwrkey.c
-+++ b/drivers/input/misc/nxp-bbnsm-pwrkey.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- //
--// Copyright 2022 NXP.
-+// Copyright 2022-2023 NXP.
- 
- #include <linux/device.h>
- #include <linux/err.h>
-@@ -38,6 +38,7 @@ struct bbnsm_pwrkey {
- 	int irq;
- 	int keycode;
- 	int keystate;  /* 1:pressed */
-+	bool suspended;
- 	struct timer_list check_timer;
- 	struct input_dev *input;
- };
-@@ -70,6 +71,7 @@ static irqreturn_t bbnsm_pwrkey_interrupt(int irq, void *dev_id)
- {
- 	struct platform_device *pdev = dev_id;
- 	struct bbnsm_pwrkey *bbnsm = platform_get_drvdata(pdev);
-+	struct input_dev *input = bbnsm->input;
- 	u32 event;
- 
- 	regmap_read(bbnsm->regmap, BBNSM_EVENTS, &event);
-@@ -81,6 +83,16 @@ static irqreturn_t bbnsm_pwrkey_interrupt(int irq, void *dev_id)
- 	mod_timer(&bbnsm->check_timer,
- 		   jiffies + msecs_to_jiffies(DEBOUNCE_TIME));
- 
-+	/*
-+	 * Directly report key event after resume to make no key press
-+	 * event is missed.
-+	 */
-+	if (bbnsm->suspended) {
-+		bbnsm->keystate = 1;
-+		input_event(input, EV_KEY, bbnsm->keycode, 1);
-+		input_sync(input);
-+	}
-+
- 	/* clear PWR OFF */
- 	regmap_write(bbnsm->regmap, BBNSM_EVENTS, BBNSM_BTN_OFF);
- 
-@@ -173,6 +185,29 @@ static int bbnsm_pwrkey_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static int __maybe_unused bbnsm_pwrkey_suspend(struct device *dev)
-+{
-+	struct platform_device *pdev = to_platform_device(dev);
-+	struct bbnsm_pwrkey *bbnsm = platform_get_drvdata(pdev);
-+
-+	bbnsm->suspended = true;
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused bbnsm_pwrkey_resume(struct device *dev)
-+{
-+	struct platform_device *pdev = to_platform_device(dev);
-+	struct bbnsm_pwrkey *bbnsm = platform_get_drvdata(pdev);
-+
-+	bbnsm->suspended = false;
-+
-+	return 0;
-+}
-+
-+static SIMPLE_DEV_PM_OPS(bbnsm_pwrkey_pm_ops, bbnsm_pwrkey_suspend,
-+		bbnsm_pwrkey_resume);
-+
- static const struct of_device_id bbnsm_pwrkey_ids[] = {
- 	{ .compatible = "nxp,imx93-bbnsm-pwrkey" },
- 	{ /* sentinel */ }
-@@ -182,6 +217,7 @@ MODULE_DEVICE_TABLE(of, bbnsm_pwrkey_ids);
- static struct platform_driver bbnsm_pwrkey_driver = {
- 	.driver = {
- 		.name = "bbnsm_pwrkey",
-+		.pm = &bbnsm_pwrkey_pm_ops,
- 		.of_match_table = bbnsm_pwrkey_ids,
- 	},
- 	.probe = bbnsm_pwrkey_probe,
+On Mon, 9 Oct 2023, Shyam Sundar S K wrote:
+> On 10/4/2023 5:44 PM, Ilpo Järvinen wrote:
+> > On Sat, 30 Sep 2023, Shyam Sundar S K wrote:
+> > 
+> >> PMF driver sends changing inputs from each subystem to TA for evaluating
+> >> the conditions in the policy binary.
+> >>
+> >> Add initial support of plumbing in the PMF driver for Smart PC to get
+> >> information from other subsystems in the kernel.
+> >>
+> >> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+
+> >> diff --git a/drivers/platform/x86/amd/pmf/spc.c b/drivers/platform/x86/amd/pmf/spc.c
+> >> new file mode 100644
+> >> index 000000000000..3113bde051d9
+> >> --- /dev/null
+> >> +++ b/drivers/platform/x86/amd/pmf/spc.c
+> >> @@ -0,0 +1,119 @@
+> >> +// SPDX-License-Identifier: GPL-2.0
+> >> +/*
+> >> + * AMD Platform Management Framework Driver - Smart PC Capabilities
+> >> + *
+> >> + * Copyright (c) 2023, Advanced Micro Devices, Inc.
+> >> + * All Rights Reserved.
+> >> + *
+> >> + * Authors: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> >> + *          Patil Rajesh Reddy <Patil.Reddy@amd.com>
+> >> + */
+> >> +
+> >> +#include <acpi/button.h>
+> >> +#include <linux/power_supply.h>
+> >> +#include <linux/units.h>
+> >> +#include "pmf.h"
+> >> +
+> >> +static void amd_pmf_get_smu_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
+> >> +{
+> >> +	u16 max, avg = 0;
+> >> +	int i;
+> >> +
+> >> +	memset(dev->buf, 0, sizeof(dev->m_table));
+> >> +	amd_pmf_send_cmd(dev, SET_TRANSFER_TABLE, 0, 7, NULL);
+> >> +	memcpy(&dev->m_table, dev->buf, sizeof(dev->m_table));
+> >> +
+> >> +	in->ev_info.socket_power = dev->m_table.apu_power + dev->m_table.dgpu_power;
+> >> +	in->ev_info.skin_temperature = dev->m_table.skin_temp;
+> >> +
+> >> +	/* get the avg C0 residency of all the cores */
+> >> +	for (i = 0; i < ARRAY_SIZE(dev->m_table.avg_core_c0residency); i++)
+> >> +		avg += dev->m_table.avg_core_c0residency[i];
+> >> +
+> >> +	/* get the max C0 residency of all the cores */
+> >> +	max = dev->m_table.avg_core_c0residency[0];
+> >> +	for (i = 1; i < ARRAY_SIZE(dev->m_table.avg_core_c0residency); i++) {
+> >> +		if (dev->m_table.avg_core_c0residency[i] > max)
+> >> +			max = dev->m_table.avg_core_c0residency[i];
+> >> +	}
+> > 
+> > My comments weren't either answered adequately or changes made here.
+> > Please check the v1 comments. I hope it's not because you feel hurry to 
+> > get the next version out...
+> > 
+> > I'm still unsure if the u16 thing can overflow because I don't know what's 
+> > the max value for avg_core_c0residency[i].
+> 
+> the highest value for avg_core_c0residency[i] is merely a small number
+> and hence I retained the avg variable as u16. Not sure if there a
+> 'real' case where it can overflow.
+
+Okay, if you think it's fine, no problem with it then (not that there's 
+a big advantage having it as u16 instead of e.g. unsigned int).
+
+> Sorry, I missed to merge both into a single for loop. I will address
+> this in v3.
+
+Thanks.
+
 -- 
-2.34.1
+ i.
 
+--8323329-1231359689-1696847176=:1721--
