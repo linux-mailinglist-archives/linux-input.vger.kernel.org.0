@@ -2,147 +2,207 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 192A67BD3B5
-	for <lists+linux-input@lfdr.de>; Mon,  9 Oct 2023 08:44:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DACD7BD4F0
+	for <lists+linux-input@lfdr.de>; Mon,  9 Oct 2023 10:13:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345325AbjJIGoB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 9 Oct 2023 02:44:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47698 "EHLO
+        id S232759AbjJIINN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Oct 2023 04:13:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345333AbjJIGnw (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Oct 2023 02:43:52 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E272DA3;
-        Sun,  8 Oct 2023 23:43:50 -0700 (PDT)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.55])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4S3qCF5h4Tz17HcX;
-        Mon,  9 Oct 2023 14:39:53 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Mon, 9 Oct
- 2023 14:43:48 +0800
-From:   Jinjie Ruan <ruanjinjie@huawei.com>
-To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
-        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <jose.exposito89@gmail.com>
-CC:     <ruanjinjie@huawei.com>
-Subject: [PATCH v2 2/2] HID: uclogic: Fix a work->entry not empty bug in __queue_work()
-Date:   Mon, 9 Oct 2023 14:42:45 +0800
-Message-ID: <20231009064245.3573397-3-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231009064245.3573397-1-ruanjinjie@huawei.com>
-References: <20231009064245.3573397-1-ruanjinjie@huawei.com>
+        with ESMTP id S232666AbjJIINM (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Oct 2023 04:13:12 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A76528F
+        for <linux-input@vger.kernel.org>; Mon,  9 Oct 2023 01:13:11 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCC2DC433C8;
+        Mon,  9 Oct 2023 08:13:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696839191;
+        bh=IsltWJgTXPGyJz2SK+Sk67SSoZcLKaOTgFXENZxhJ5U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XPBoTtrsis0Xjb0Nhl0s6yGRwOr2lLEGTQGgHF26OfW9C2zh7HmXKZMkfRWXX4tdF
+         JOU0w8eSBwqQf95Fodk2DZO+ji7iUBTjUub1oYvz78qd0nc+cP7GzdJOLV9m1Z1mCF
+         iU8pKXPyyGOh8PdZ243GyTop7naBxrvNLWGLI15OUEaVnuZsxFEBtwdeDNp9+cEH5h
+         VTkzezgQkOJl+IYSw5opzAxLi4DaLYrC3uKCSkGRtCQt5DAxQt2mGETwcp9CebFGMN
+         pg1QUYOpPMzNPAk5fVSL/B4YLUOr40lVYj57W7Rla36teVqeai3oAjequJ59nPD+cm
+         /st+26vKqnA/A==
+Date:   Mon, 9 Oct 2023 10:13:06 +0200
+From:   Benjamin Tissoires <bentiss@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Filipe =?utf-8?B?TGHDrW5z?= <lains@riseup.net>,
+        Bastien Nocera <hadess@hadess.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v2 00/14] HID: logitech-hidpp: Avoid
+ hidpp_connect_event() running while probe() restarts IO
+Message-ID: <up2e4vgb24rb25cwnkhhrswusous2wyo376has23k2dakfdmgk@eb76ysbnz3yu>
+References: <20231008095458.8926-1-hdegoede@redhat.com>
+ <98bc1918-653e-b298-392c-c525d069ea31@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <98bc1918-653e-b298-392c-c525d069ea31@redhat.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When CONFIG_HID_UCLOGIC=y and CONFIG_KUNIT_ALL_TESTS=y, launch
-kernel and then the below work->entry not empty bug occurs.
 
-In hid_test_uclogic_exec_event_hook_test(), the filter->work is not
-initialized to be added to p.event_hooks->list, and then the
-schedule_work() in uclogic_exec_event_hook() will call __queue_work(),
-which check whether the work->entry is empty and cause the below
-warning call trace.
+Hi Hans,
 
-So call INIT_WORK() with a fake work to solve the issue. After applying
-this patch, the below work->entry not empty bug never occurs.
+On Oct 08 2023, Hans de Goede wrote:
+> Hi,
+> 
+> On 10/8/23 11:54, Hans de Goede wrote:
+> > Hi Benjamin,
+> > 
+> > Here is a v2 of my series to fix issues with hidpp_connect_event() running
+> > while restarting IO, which now also fixes the issues you mentioned with
+> > potentially missing connect events.
 
- WARNING: CPU: 0 PID: 2177 at kernel/workqueue.c:1787 __queue_work.part.0+0x780/0xad0
- Modules linked in:
- CPU: 0 PID: 2177 Comm: kunit_try_catch Tainted: G    B   W        N 6.6.0-rc2+ #30
- Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
- RIP: 0010:__queue_work.part.0+0x780/0xad0
- Code: 44 24 20 0f b6 00 84 c0 74 08 3c 03 0f 8e 52 03 00 00 f6 83 00 01 00 00 02 74 6f 4c 89 ef e8 c7 d8 f1 02 f3 90 e9 e5 f8 ff ff <0f> 0b e9 63 fc ff ff 89 e9 49 8d 57 68 4c 89 e6 4c 89 ff 83 c9 02
- RSP: 0000:ffff888102bb7ce8 EFLAGS: 00010086
- RAX: 0000000000000000 RBX: ffff888106b8e460 RCX: ffffffff84141cc7
- RDX: 1ffff11020d71c8c RSI: 0000000000000004 RDI: ffff8881001d0118
- RBP: dffffc0000000000 R08: 0000000000000001 R09: ffffed1020576f92
- R10: 0000000000000003 R11: ffff888102bb7980 R12: ffff888106b8e458
- R13: ffff888119c38800 R14: 0000000000000000 R15: ffff8881001d0100
- FS:  0000000000000000(0000) GS:ffff888119c00000(0000) knlGS:0000000000000000
- CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
- CR2: ffff888119506000 CR3: 0000000005286001 CR4: 0000000000770ef0
- DR0: ffffffff8fdd6ce0 DR1: ffffffff8fdd6ce1 DR2: ffffffff8fdd6ce3
- DR3: ffffffff8fdd6ce5 DR6: 00000000fffe0ff0 DR7: 0000000000000600
- PKRU: 55555554
- Call Trace:
-  <TASK>
-  ? __warn+0xc9/0x260
-  ? __queue_work.part.0+0x780/0xad0
-  ? report_bug+0x345/0x400
-  ? handle_bug+0x3c/0x70
-  ? exc_invalid_op+0x14/0x40
-  ? asm_exc_invalid_op+0x16/0x20
-  ? _raw_spin_lock+0x87/0xe0
-  ? __queue_work.part.0+0x780/0xad0
-  ? __queue_work.part.0+0x249/0xad0
-  queue_work_on+0x48/0x50
-  uclogic_exec_event_hook.isra.0+0xf7/0x160
-  hid_test_uclogic_exec_event_hook_test+0x2f1/0x5d0
-  ? try_to_wake_up+0x151/0x13e0
-  ? uclogic_exec_event_hook.isra.0+0x160/0x160
-  ? _raw_spin_lock_irqsave+0x8d/0xe0
-  ? __sched_text_end+0xa/0xa
-  ? __sched_text_end+0xa/0xa
-  ? migrate_enable+0x260/0x260
-  ? kunit_try_run_case_cleanup+0xe0/0xe0
-  kunit_generic_run_threadfn_adapter+0x4a/0x90
-  ? kunit_try_catch_throw+0x80/0x80
-  kthread+0x2b5/0x380
-  ? kthread_complete_and_exit+0x20/0x20
-  ret_from_fork+0x2d/0x70
-  ? kthread_complete_and_exit+0x20/0x20
-  ret_from_fork_asm+0x11/0x20
-  </TASK>
+Great, thanks a lot for this hard work.
 
-Fixes: a251d6576d2a ("HID: uclogic: Handle wireless device reconnection")
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-Reviewed-by: José Expósito <jose.exposito89@gmail.com>
----
-v2:
-- Add Reviewed-by.
----
- drivers/hid/hid-uclogic-core-test.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+> > 
+> > This series is best explained by a brief sketch of how probe()
+> > looks at the end of the series (1):
 
-diff --git a/drivers/hid/hid-uclogic-core-test.c b/drivers/hid/hid-uclogic-core-test.c
-index 2bb916226a38..cb274cde3ad2 100644
---- a/drivers/hid/hid-uclogic-core-test.c
-+++ b/drivers/hid/hid-uclogic-core-test.c
-@@ -56,6 +56,11 @@ static struct uclogic_raw_event_hook_test test_events[] = {
- 	},
- };
- 
-+static void fake_work(struct work_struct *work)
-+{
-+
-+}
-+
- static void hid_test_uclogic_exec_event_hook_test(struct kunit *test)
- {
- 	struct uclogic_params p = {0, };
-@@ -77,6 +82,8 @@ static void hid_test_uclogic_exec_event_hook_test(struct kunit *test)
- 		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filter->event);
- 		memcpy(filter->event, &hook_events[n].event[0], filter->size);
- 
-+		INIT_WORK(&filter->work, fake_work);
-+
- 		list_add_tail(&filter->list, &p.event_hooks->list);
- 	}
- 
--- 
-2.34.1
+TBH, I couldn't parse the following yesterday evening, but after looking
+at all patches one by one I can now get it :)
 
+> > 
+> > Prep work:
+> > 
+> > 1. All code depending on a device being in connected state is moved to
+> >    the hidpp_connect_event() workqueue item
+> > 
+> > 2. hidpp_connect_event() now checks the connected state itself by
+> >    checking that hidpp_root_get_protocol_version() succeeds, instead
+> >    of relying on possibly stale (racy) data in struct hidpp_device
+> > 
+> > With this in place the new probe() sequence looks like this:
+> > 
+> > 1. enable_connect_event flag starts at 0, this filters out / ignores any
+> >    connect-events in hidpp_raw_hidpp_event() avoiding
+> >    hidpp_connect_event() getting queued before the IO restart
+> > 
+> > 2. IO is started with connect-mask = 0
+> >    this avoids hid-input and hidraw connecting while probe() is setting
+> >    hdev->name and hdev->uniq
+> > 
+> > 3. Name and serialnr are retrieved and stored in hdev
+> > 
+> > 4. IO is fully restarted (including hw_open + io_start, not just hw_start)
+> >    with the actual connect-mask.
+> > 
+> > 5. enable_connect_event atomic_t is set to 1 to enable processing of
+> >    connect events.
+> > 
+> > 6. hidpp_connect_event() is queued + flushed to query the connected state
+> >    and do the connect work if the device is connected.
+> > 
+> > 7. probe() now ends with:
+> > 
+> >         /*
+> >          * This relies on logi_dj_ll_close() being a no-op so that
+> >          * DJ connection events will still be received.
+> >          */
+> >         hid_hw_close(hdev);
+> > 
+> >    Since on restarting IO it now is fully restarted so the hid_hw_open()
+> >    there needs to be balanced. 
+> > 
+> > This series now obviously is no longer 6.6 material, instead I hope we
+> > can get this rework (and IMHO nice cleanup) into 6.7 .
+
+Yeah, not 6.6 anymore, but should be doable for 6.7.
+
+> > 
+> > Regards,
+> > 
+> > Hans
+> 
+> I forgot to add info on the list of devices I tested this on:
+> 
+> Logitech Bluetooth Laser Travel Mouse (bluetooth, HID++ 1.0)
+> Logitech M720 Triathlon (bluetooth, HID++ 4.5)
+> Logitech K400 Pro (unifying, HID++ 4.1)
+> Logitech K270 (eQUAD nano Lite, HID++ 2.0)
+> Logitech M185 (eQUAD nano Lite, HID++ 4.5)
+> Logitech Keyboard LX501 (27 Mhz, HID++ builtin scroll-wheel, HID++ 1.0)
+> Logitech 27Mhz mouse (27 Mhz, HID++ extra mouse buttons, HID++ 1.0)
+
+We should probably add this list to the commit messages.
+I'll need to test also myself on some problematic devices that have a
+special case (WTP, USB wired, BLE).
+
+Anyway, I'll have to test everything, but this looks like it's in a
+better shape than previously.
+
+However, the thing I am afraid is that commit 498ba2069035 ("HID:
+logitech-hidpp: Don't restart communication if not necessary") was
+fixing devices that did not like the hid_hw_stop/start. I can't find the
+bug numbers however... So with your series, we might breaking those
+once again.
+
+How about we do the following (in pseudo code):
+probe():
+  hidpp_connect_and_start(connect_mask = 0)
+  // retrieve name and serial
+  hid_connect(connect_mask) // with connect_mask ensuring we don't
+                            // create inputs if HIDPP_QUIRK_DELAYED_INIT
+                            // is set, instead of stop/start
+  hid_hw_close(hdev); // to balance hidpp_connect_and_start()
+
+I think the above should even remove the need for the
+enable_connect_event atomic_t given that now we are not restarting the
+devices at all.
+
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+> > 1) For reviewing you may also want to apply the entire series and look
+> > at the end result to help you understand why various intermediate steps
+> > are taken.
+> > 
+> > 
+> > Hans de Goede (14):
+> >   HID: logitech-hidpp: Revert "Don't restart communication if not
+> >     necessary"
+> >   HID: logitech-hidpp: Move hidpp_overwrite_name() to before connect
+> >     check
+> >   HID: logitech-hidpp: Add hidpp_non_unifying_init() helper
+> >   HID: logitech-hidpp: Remove connected check for non-unifying devices
+> >   HID: logitech-hidpp: Move get_wireless_feature_index() check to
+> >     hidpp_connect_event()
+> >   HID: logitech-hidpp: Remove wtp_get_config() call from probe()
+> >   HID: logitech-hidpp: Remove connected check for g920_get_config() call
+> >   HID: logitech-hidpp: Add a hidpp_connect_and_start() helper
+> >   HID: logitech-hidpp: Move the connected check to after restarting IO
+> >   HID: logitech-hidpp: Move g920_get_config() to just before
+> >     hidpp_ff_init()
+> >   HID: logitech-hidpp: Remove unused connected param from *_connect()
+> >   HID: logitech-hidpp: Fix connect event race
+> >   HID: logitech-hidpp: Avoid hidpp_connect_event() running while probe()
+> >     restarts IO
+> >   HID: logitech-hidpp: Drop delayed_work_cb()
+> > 
+> >  drivers/hid/hid-logitech-hidpp.c | 211 +++++++++++++------------------
+> >  1 file changed, 91 insertions(+), 120 deletions(-)
+> > 
+
+I like when the total number of deletions is higher than the additions
+:)
+
+Cheers,
+Benjamin
+
+> 
