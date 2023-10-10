@@ -2,82 +2,174 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 611947BF3C6
-	for <lists+linux-input@lfdr.de>; Tue, 10 Oct 2023 09:08:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAC437BF3E7
+	for <lists+linux-input@lfdr.de>; Tue, 10 Oct 2023 09:15:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378097AbjJJHIm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Oct 2023 03:08:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54208 "EHLO
+        id S1442422AbjJJHPQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Oct 2023 03:15:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379429AbjJJHIl (ORCPT
+        with ESMTP id S1442324AbjJJHPP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Oct 2023 03:08:41 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1B8BBA;
-        Tue, 10 Oct 2023 00:08:39 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id 3f1490d57ef6-d81f079fe73so6183148276.3;
-        Tue, 10 Oct 2023 00:08:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696921719; x=1697526519; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=YeqyIlvho61HfPbMrSU3EeErwNBNPMJPgY5XJ95ZVZE=;
-        b=UtyXdDpO4OD9Ij3vNND0q46ob7+JnIf+64v65gNb2XiFACfSD1xV8ksj+KOQX5GMyi
-         XqwtT10Fp52IcMF3UuOMFM29zFlG/CIVjqvop3bgFmTAKia5Qh8E7VSSQncWT83jeBa3
-         kLH0qhcqTwqip3SPa0Kt5DnBJ1wW+gh0R6BjfJpnKjy9EgP9FUc4VOQSa6gOnpNHEC6q
-         duyfyPXald5hf+OXZu/5iu81eNTarF1mXzCmxDJlGtDvQYEPS23/4thAGaf3iGKgsLPS
-         8dctiu6OeWvKhsfZEj2/RppnT5CbA5rnl3oPM+O+5JzVdPiPzZfWlrPaG2xxVsAl5KRb
-         y3qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696921719; x=1697526519;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YeqyIlvho61HfPbMrSU3EeErwNBNPMJPgY5XJ95ZVZE=;
-        b=XfG+zXNeOkfMTm4R4xK2sjKmcSQIikfT1aLwNbegIOgmZ0KYS49GihrZch03BC42mA
-         p24F6AR+iH0qxU5a51XUfrCA6fMeJ/T4VwdihFNv8J+h0LL3K5dwmf4hdMgH+Uccclyt
-         9Ij/vSyzJ4AAyT4ix03OwFtfHUdyaVvv4lM7ikhsTqxHiRzVw92BL5ZzfVbUZAB5CRDW
-         GCsWTLywf/5XIx4uXfv5iLHm6KUqNcqGpEZ7gVRPCXpP2zXu2VHazqIqdvNzS8ZB/vRX
-         bIRg9X/6EjBX/ShON7u/7h2zMPtboSuyUO85Xdg+yhZtClQ6+CijO1gda+5C1fFdnXxA
-         jP7Q==
-X-Gm-Message-State: AOJu0Yxm49qz9fDUK8DoObZVVymrELU6gyVbFAucS1o4VTZbN/K2qcsi
-        UsPTWra04to7aPGD8dCip1QYZPrcTEzTpg5SiEyAW/Daq6M=
-X-Google-Smtp-Source: AGHT+IGEox/05sXpMcKhg4323i9rWS4KId6Al9MV6v8euRF/lWViJgCDs0xDXw1wli8zc+3jAtdKAE13Li4OVNV5ywo=
-X-Received: by 2002:a5b:ac5:0:b0:d11:2a52:3f35 with SMTP id
- a5-20020a5b0ac5000000b00d112a523f35mr15121360ybr.20.1696921718946; Tue, 10
- Oct 2023 00:08:38 -0700 (PDT)
+        Tue, 10 Oct 2023 03:15:15 -0400
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99EBCB6;
+        Tue, 10 Oct 2023 00:15:12 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPA id B4231E0002;
+        Tue, 10 Oct 2023 07:15:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1696922111;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=SWNhwB9xX+AIGst/dz41McHRtLFLngoPhPXaZJs1igY=;
+        b=QVdUreOdVIVCO7bF9WiWDvI72HiHRnyRMxT/mK7QIj5IA56Qys2e/rln3Smot1MH+EydwU
+        eZ4oQG0liGgBCUHUrKsFU3S3FDbDZYkEKz22Vz1SPgzGrlrNAQUVAyMnyIrRUSqtbTOeJP
+        xkYA4PFiVck+r+C6yTzJY2bsNLyMIMgeAnvC2T8pFu6U6ElP22nGHLrBRjXc3fzVYb88GS
+        TpRFO7Nu/NI+Os4YAhHX31fitVQTZeVCYcKkCRjkrBwNkFXXTrlOQWOkAZZ/eV4wj2HWdv
+        KSQgvQT6TtiOnwNIA4p09UBLL36ZBgJr5EQJ78enm5/ahtDqnat4P/FFXjf9MA==
 MIME-Version: 1.0
-From:   John Salamon <salamonj9@gmail.com>
-Date:   Tue, 10 Oct 2023 17:38:27 +1030
-Message-ID: <CA+fyA4RABYNPZZSk9+9U51u53kbSzqgwdi1KDDGRxXi8q5TtxQ@mail.gmail.com>
-Subject: uinput: waiting for UI_FF_UPLOAD events will not inform user when
- allocation is required
-To:     dmitry.torokhov@gmail.com, rydberg@bitmath.org
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Date:   Tue, 10 Oct 2023 09:15:08 +0200
+From:   kamel.bouhara@bootlin.com
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, mark.satterthwaite@touchnetix.com,
+        pedro.torruella@touchnetix.com, bartp@baasheep.co.uk,
+        hannah.rossiter@touchnetix.com,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        bsp-development.geo@leica-geosystems.com
+Subject: Re: [PATCH v2 2/3] dt-bindings: input: Add bindings for TouchNetix
+ axiom touchscreen
+Message-ID: <79160a2ebe3fd35fe7f9b93e30cf89fa@bootlin.com>
+X-Sender: kamel.bouhara@bootlin.com
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: kamel.bouhara@bootlin.com
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Currently the "fake" input events generated by uinput in response to
-effect uploads will return an effect with an id that has already been
-handled by input_ff_upload in ff-core.c, which can modify the effect
-id. This causes a problem specifically when the effect originally
-uploaded via the EVIOCSFF ioctl contained an effect with -1, as the
-userspace code handling UI_FF_UPLOAD receives an effect with an id
-other than -1, and therefore will not know an allocation was
-requested.
+Hello Krzysztof,
 
-I notice that the "old" field on the ff_effect struct is set to NULL
-when the -1 id is changed (in input_ff_upload), which can serve as a
-flag that an allocation was requested. If it is the intention is that
-uinput users check if old == NULL to know when allocations are needed
-I think uinput documentation should describe this.
+Le 2023-10-09 17:05, Krzysztof Kozlowski a écrit :
+> On 09/10/2023 15:44, Kamel Bouhara wrote:
+>> Add the TouchNetix axiom I2C touchscreen device tree bindings
+>> documentation.
+> 
+> A nit, subject: drop second/last, redundant "bindings for". The
+> "dt-bindings" prefix is already stating that these are bindings.
+> 
 
-I first noticed this using python-evdev, see my issue report here:
-https://github.com/gvalkov/python-evdev/issues/199
+OK.
+
+>> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+>> ---
+>>  .../touchscreen/touchnetix,axiom-ax54a.yaml   | 51 
+>> +++++++++++++++++++
+>>  MAINTAINERS                                   |  6 +++
+>>  2 files changed, 57 insertions(+)
+>>  create mode 100644 
+>> Documentation/devicetree/bindings/input/touchscreen/touchnetix,axiom-ax54a.yaml
+>> 
+>> diff --git 
+>> a/Documentation/devicetree/bindings/input/touchscreen/touchnetix,axiom-ax54a.yaml 
+>> b/Documentation/devicetree/bindings/input/touchscreen/touchnetix,axiom-ax54a.yaml
+>> new file mode 100644
+>> index 000000000000..41201d7112a6
+>> --- /dev/null
+>> +++ 
+>> b/Documentation/devicetree/bindings/input/touchscreen/touchnetix,axiom-ax54a.yaml
+>> @@ -0,0 +1,51 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: 
+>> http://devicetree.org/schemas/input/touchscreen/touchnetix,axiom-ax54a.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: TouchNetix Axiom series touchscreen controller
+>> +
+>> +maintainers:
+>> +  - Kamel Bouhara <kamel.bouhara@bootlin.com>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: touchnetix,axiom-ax54a
+>> +
+>> +  reg:
+>> +    const: 0x66
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  irq-gpios:
+>> +    maxItems: 1
+> 
+> Why these are GPIOs? Interrupts are usually just interrupts... You need
+> to clearly describe this.
+> 
+
+I've been using this for some specific acpi stuff hence it need to be 
+removed.
+
+> 
+>> +
+>> +  reset-gpios:
+>> +    maxItems: 1
+>> +
+>> +additionalProperties: false
+> 
+> This goes after required: block.
+> 
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/gpio/gpio.h>
+>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +    i2c {
+>> +      #address-cells = <1>;
+>> +      #size-cells = <0>;
+>> +      axiom@66 {
+> 
+> Node names should be generic. See also an explanation and list of
+> examples (not exhaustive) in DT specification:
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+> 
+
+Ack.
+
+> 
+> 
+>> +        compatible = "touchnetix,axiom-ax54a";
+>> +        reg = <0x66>;
+>> +        interrupt-parent = <&gpio2>;
+>> +        interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
+>> +        irq-gpios = <&gpio2 0 GPIO_ACTIVE_LOW>;
+> 
+> Eh? This looks really wrong.
+
+OK let's clean that as well.
+
+Thanks
+
+> 
+> 
+> Best regards,
+> Krzysztof
