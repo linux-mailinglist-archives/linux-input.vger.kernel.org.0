@@ -2,124 +2,211 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39D9B7BF9BC
-	for <lists+linux-input@lfdr.de>; Tue, 10 Oct 2023 13:29:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EEE67BFC2C
+	for <lists+linux-input@lfdr.de>; Tue, 10 Oct 2023 15:00:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231228AbjJJL3f (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Oct 2023 07:29:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40136 "EHLO
+        id S232405AbjJJNAZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Oct 2023 09:00:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229921AbjJJL3f (ORCPT
+        with ESMTP id S232362AbjJJNAP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Oct 2023 07:29:35 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A509A94
-        for <linux-input@vger.kernel.org>; Tue, 10 Oct 2023 04:29:33 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-4064876e8b8so54138805e9.0
-        for <linux-input@vger.kernel.org>; Tue, 10 Oct 2023 04:29:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696937372; x=1697542172; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=x+Nf1CNCCgCT3sbRocE4zA9mwzwZvQt3uYx/jW1M43Q=;
-        b=mbdUQUA/gNEBLdDTa3rD99fF1zGWVKoquiAEfJrYaBRS+p1F1e7KcgdKGC7GjGUqcb
-         XdcyU5TOhoPFZDQB/qzM2MB1S84hGYjSxDvgFQwTOVGtYYgImuHWTtEkwyGwNvwuH9k8
-         jnGDJljA7Tghrog81JErzbgaYx0+3EwwAqVpgHUpHh8IuMPXh4mBfG5ZWW+KN8PlHkjz
-         4ngrcjEruvmxlgdhjMnvM/2SnJZJ9O+9+R9rn11FxN6UN6UI0C6DZLnNtTnaTAxCCogx
-         wvSo4u2XltrDHGUh9Nz4X7C4avMFoMeer5S+0Bsnj79pyOIHe5OH2x14x0aySCHEmL4h
-         lBOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696937372; x=1697542172;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x+Nf1CNCCgCT3sbRocE4zA9mwzwZvQt3uYx/jW1M43Q=;
-        b=nrZxDV3FF2MM2iBAKgfJW49a/qI7eQ40TIlsz7SJ1WNDOvusVDoaTUBpLfFbK9oZ2Y
-         26X5dhyE0QwINAZZ13M4eJxmvsb7NgQZL4WPohyCQmCrM1AhREjQBqFw+BDzRsIgk1Li
-         Jtrsvj51OeJQaBh6MpNBTzddmdmbHO8ZZI/H+yJIT83Xdbb991UEGrIGxp7wJTfAdtuW
-         hRRyhqhUnqOPQATFJ82EzJfWM4zHd7hxnH+rWFSDCKbxVM7bCeg30yb87u0k0KBjyG+y
-         HqlPO1JIxOUW4+/gVwnUjPI0V6jyRvJfhRzebVScAlhkWRZCZO5XwBr6MWLOXrj8RRER
-         hIgw==
-X-Gm-Message-State: AOJu0YxJdlFFv1ezg6HV7I/5oF9yoCGNZnrZs2Jsu+me4DQE5R/J5xmn
-        b4MLVioz1jWIv8fELEo/+GG7wwC27Fg=
-X-Google-Smtp-Source: AGHT+IFkFuWxxtGLkDNXeh7fpogcoz1R3Y8N4aBcxUK5qwxfRTAAZz2x5RWDCjDafOdjfCytpRVEJA==
-X-Received: by 2002:adf:f505:0:b0:327:ffef:ba51 with SMTP id q5-20020adff505000000b00327ffefba51mr15741532wro.49.1696937372022;
-        Tue, 10 Oct 2023 04:29:32 -0700 (PDT)
-Received: from localhost ([2001:171b:c9bb:1ac0:c056:27ff:fec4:81cb])
-        by smtp.gmail.com with ESMTPSA id v5-20020a05600c214500b003fbe791a0e8sm13955372wml.0.2023.10.10.04.29.31
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 04:29:31 -0700 (PDT)
-Received: from localhost (localhost [local])
-        by localhost (OpenSMTPD) with ESMTPA id 1146e448
-        for <linux-input@vger.kernel.org>;
-        Tue, 10 Oct 2023 11:29:31 +0000 (UTC)
-Date:   Tue, 10 Oct 2023 13:29:31 +0200
-From:   David =?utf-8?B?TGF6xINy?= <dlazar@gmail.com>
-To:     linux-input@vger.kernel.org
-Subject: keyboard and touchpad not working on Lenovo V15 G4 AMN
-Message-ID: <ZSU1m7OiMMGcBLw5@localhost>
+        Tue, 10 Oct 2023 09:00:15 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2070.outbound.protection.outlook.com [40.107.92.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1662411B;
+        Tue, 10 Oct 2023 05:59:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QfyYsFdNiPkXjhxLuQA9aSX8wjv8gBg+/BLN3+7C7uXLh7umCAMX86AET3VP22YIi7J69X2QZCjvOQkgfAxIBnYxn8qwG6GUSM3HGhd23BfsXJhTS+OLYtcaSh1vi1ibpq1k/7EzdNqRj7cW0qr1D9nUII2D4M5SF7zGEZrZiA2xL7aWt9Jefq7GWcUXZqjCTZ3FfJS3NQa9LTgHjr5NLo0qJ3FW309mK3V4F1VxLTJoRkMmq3DIKSyJnBG2WXht53BxCPQdacm2fpu1BoMLxg/+6CqGTaupF3BTCgM5f2C5CZ21B+cY7d/ecGdhj7Fkc9cLW4mUoKheje3Vv25/kw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lkQgEkgJLFAS5jwaoPsD4qITFssizLRJDWY7g/AFAHU=;
+ b=W0v0OaTLzszLtQb0AYjbhbjsKfDbuqa4M+lVDjCJxA6N7Cc8t7s00n3XHgWMKrXCy64q32l/IalpxEeLNsdJ4jHqp9Bszbvq9BsNbw4bRakrGbRW1fChQk3dQqC3g3LfkEMBy88WfokGgpfvhtTb2n6u3tlwtuNT9aWhw4G0olMziEbONDtdiE+ZQIQOzBFSi3tGQ5h0yJ5eidQkC2KJ77WCiiaKr3zxWgWWwAE2SMVF55D4BosLjJ+S0wZvv3zjZrkHNmFBbYwsItV5/dLgg2gM0RnYW20XZ7v50MZJUQaNWNrgIrBNZ/jxA23gqfRlpy80QohDRrS+mr+lRl1cow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lkQgEkgJLFAS5jwaoPsD4qITFssizLRJDWY7g/AFAHU=;
+ b=scHBtaGeNQ5ByA3RpFAoQfaZFJ3g+hRIihH9Pyj5OkDDN7DijDzGRQ207TYo2aPq/UxbHjsOBd8nQFPknhdZRuzGtF9HiCmnp+0aXHe8VoLDWhQLcwsoT/++pqTn0Eqt7fqZwf6jiDSDTycrLITrnVtPPPoIPf1pU4m0wdqq6OE=
+Received: from CH2PR07CA0005.namprd07.prod.outlook.com (2603:10b6:610:20::18)
+ by LV3PR12MB9257.namprd12.prod.outlook.com (2603:10b6:408:1b7::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.41; Tue, 10 Oct
+ 2023 12:59:42 +0000
+Received: from DS2PEPF00003440.namprd02.prod.outlook.com
+ (2603:10b6:610:20:cafe::94) by CH2PR07CA0005.outlook.office365.com
+ (2603:10b6:610:20::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.27 via Frontend
+ Transport; Tue, 10 Oct 2023 12:59:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS2PEPF00003440.mail.protection.outlook.com (10.167.18.43) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6838.22 via Frontend Transport; Tue, 10 Oct 2023 12:59:41 +0000
+Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 10 Oct
+ 2023 07:59:36 -0500
+From:   Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+To:     <hdegoede@redhat.com>, <markgross@kernel.org>,
+        <ilpo.jarvinen@linux.intel.com>, <basavaraj.natikar@amd.com>,
+        <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
+        <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+        <Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>
+CC:     <Patil.Reddy@amd.com>, <mario.limonciello@amd.com>,
+        <platform-driver-x86@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
+        <dri-devel@lists.freedesktop.org>,
+        "Shyam Sundar S K" <Shyam-sundar.S-k@amd.com>
+Subject: [PATCH v3 00/16] Introduce PMF Smart PC Solution Builder Feature
+Date:   Tue, 10 Oct 2023 18:29:01 +0530
+Message-ID: <20231010125917.138225-1-Shyam-sundar.S-k@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PEPF00003440:EE_|LV3PR12MB9257:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1ea318f1-4529-43d1-6c77-08dbc990c4f9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sUVShyUtuwXtVZvj0dgqjZen3roPzt4GEzk3emQLlZJlioK2jffKOdqqpYTPpqSssKE9ruO5vJ/CEpJv3q/MDpBihE3ql431NHWOe9aIyLIlUGhuHqal2eso8Cyz04C98RUJtKm5wNTuk2ryQTcXBo8ysgp5a6ndaitmb3HgY2KsnhG+5zSbCAQWGkvJmeL8bHm2qGdWoipipFkRu1WQADYWWDIqDjx3QsyLTs53Mh9Yfsppmd6UpLy4Tj2jkle4zF+seBhmKzRx8GxrJLfhZ1WUThQIdacA9rIJOmEI4uF47F/Ufywqr7dq3zZP68zXhaWT9Rc/WldjJ7RVtz3eKczT7dV3FivHLvSNsL19W4ZstuIVe2PuBKCf8yli/YTR6i+q6HJOsoTPXPC58CQz68QXYMo/3dnka65r5+OM1XeECR5TNJ5ebz6JpvzkhVrg5AHt/IkPbj7HtLHobTv/xAMZrERqvrjdOYZVBsUOD1G9axeH2DSaL3/OQelkPI0D71uPWYAOqICAwDeIV6zRtXePJHLCmFG4lFkmrGv3mq9d8ZG6EejvbN0jALdsRK1OA3LlCq4oLvaS46O3mfcinE+vtcdhijBzFw80+2dVnTf7AjAVoe0tJ6eA4T0n2pfF8RnnwcBMPpzuDhc7wKUFYmtYZ3C0GO7AWBd+TFdSAO1lS8zign0dytRUw4ZFFlUGZzLKXBIC+biVoSe4KZOGUqU50Sper/AcRUptCZH3dG0wEAunbZBh/xeQXpFsu732h5hWUAyTUgjeCMuHuV7QPBxKJifSTZHFAJel7Zd057Y=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(136003)(346002)(376002)(396003)(230922051799003)(1800799009)(451199024)(186009)(82310400011)(64100799003)(40470700004)(46966006)(36840700001)(40480700001)(40460700003)(83380400001)(426003)(2616005)(336012)(1076003)(5660300002)(16526019)(36860700001)(26005)(70586007)(7416002)(47076005)(110136005)(70206006)(316002)(54906003)(8676002)(41300700001)(7696005)(478600001)(8936002)(82740400003)(4326008)(6666004)(2906002)(36756003)(81166007)(86362001)(356005)(921005)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 12:59:41.9273
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1ea318f1-4529-43d1-6c77-08dbc990c4f9
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF00003440.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9257
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Smart PC Solutions Builder allows for OEM to define a large number of
+custom system states to dynamically switch to. The system states are
+referred to as policies, and multiple policies can be loaded onto the
+system at any given time, however only one policy can be active at a
+given time.
 
-The keyboard and touchpad on the Lenovo V15 G4 AMN laptop (AMD Ryzen 3 7320U) work well in the UEFI setup interface and in the bootloader, but stop working after booting the Linux kernel (Debian's 6.1.55-1). [0][1]
+Policy is a combination of PMF input and output capabilities. The inputs
+are the incoming information from the other kernel subsystems like LID
+state, Sensor info, GPU info etc and the actions are the updating the 
+power limits of SMU etc.
 
-[0] https://bugs.launchpad.net/ubuntu/+source/linux-signed-hwe-6.2/+bug/2034477
-[1] https://www.reddit.com/r/archlinux/comments/13kuska/keyboard_trackpad_on_a_v15_g4_amn_not_working/
+The policy binary is signed and encrypted by a special key from AMD. This
+policy binary shall have the inputs and outputs which the OEMs can build
+for the platform customization that can enhance the user experience and
+system behavior.
 
-When booting, the i8042 driver prints the following message:
+This series adds the initial support for Smart PC solution to PMF driver.
 
-        i8042: PNP: PS/2 appears to have AUX port disabled, if this is incorrect please boot with i8042.nopnp
+Note that, on platforms where CnQF and Smart PC is advertised, Smart PC
+shall have higher precedence and same applies for Auto Mode.
 
-I have disassembled the DSTS ACPI table, and indeed, no mouse device seems to be declared (none of the PNP devices IDs listed in pnp_aux_devids appears, nothing using IRQ 12).  So I booted with the following kernel arguments (inspired by the i8042_dmi_quirk_table):
+v2->v3:
+---------
+- Remove pci_get_device() for getting gpu handle
+- add .suspend handler for pmf driver
+- remove unwanted type caste
+- Align comments, spaces etc.
+- add wrapper for print_hex_dump_debug()
+- Remove lkp tags in commit-msg
+- Add macros for magic numbers
+- use right format specifiers for printing
+- propagate error codes back to the caller
+- remove unwanted comments
 
-        i8042.debug=1 atkbd.reset=1 i8042.nomux=1 i8042.reset=1 i8042.nopnp=1 i8042.dumbkbd=1
 
-and this is what  I got:
+v1->v2:
+---------
+- Remove __func__ macros
+- Remove manual function names inside prints
+- Handle tee_shm_get_va() failure
+- Remove double _
+- Add meaningful prints
+- pass amd_pmf_set_dram_addr() failure errors
+- Add more information to commit messages
+- use right format specifiers
+- use devm_ioremap() instead of ioremap()
+- address unsigned long vs u32 problems
+- Fix lkp reported issues
+- Add amd_pmf_remove_pb() to remove the debugfs files created(if any).
+- Make amd_pmf_open_pb() as static.
+- Add cooling device APIs for controlling amdgpu backlight
+- handle amd_pmf_apply_policies() failures
+- Split v1 14/15 into 2 patches further
+- use linux/units.h for better handling
+- add "depends on" AMD_SFH_HID for interaction with SFH
+- other cosmetic remarks
 
-        i8042: PNP detection disabled
-        i8042: [0] aa -> i8042 (command)
-        i8042: [0] 55 <- i8042 (return)
-        i8042: [0] 20 -> i8042 (command)
-        i8042: [0] 67 <- i8042 (return)
-        i8042: [0] 20 -> i8042 (command)
-        i8042: [0] 67 <- i8042 (return)
-        i8042: [0] 60 -> i8042 (command)
-        i8042: [0] 76 -> i8042 (parameter)
-        i8042: [0] d3 -> i8042 (command)
-        i8042: [0] 5a -> i8042 (parameter)
-        i8042: [0] 5a <- i8042 (return)
-        i8042: [0] a7 -> i8042 (command)
-        i8042: [0] 20 -> i8042 (command)
-        i8042: [0] 76 <- i8042 (return)
-        i8042: [0] a8 -> i8042 (command)
-        i8042: [0] 20 -> i8042 (command)
-        i8042: [0] 56 <- i8042 (return)
-        i8042: [0] 60 -> i8042 (command)
-        i8042: [1] 56 -> i8042 (parameter)
-        i8042: [1] d3 -> i8042 (command)
-        i8042: [1] a5 -> i8042 (parameter)
-        i8042: [72]      -- i8042 (aux irq test timeout)
-        i8042: [72] a5 <- i8042 (flush, aux)
-        i8042: [72] 60 -> i8042 (command)
-        i8042: [72] 74 -> i8042 (parameter)
-        i8042: [72] 60 -> i8042 (command)
-        i8042: [72] 65 -> i8042 (parameter)
-        serio: i8042 KBD port at 0x60,0x64 irq 1
+Basavaraj Natikar (3):
+  HID: amd_sfh: rename float_to_int() to amd_sfh_float_to_int()
+  platform/x86/amd/pmf: Add PMF-AMDSFH interface for HPD
+  platform/x86/amd/pmf: Add PMF-AMDSFH interface for ALS
 
-To my untrained eyes, this looks like a reasonable PS/2 keyboard initialization sequence, (with the AUX port seemingly unresponsive), but the keyboard still does not work.
+Shyam Sundar S K (13):
+  platform/x86/amd/pmf: Add PMF TEE interface
+  platform/x86/amd/pmf: Add support PMF-TA interaction
+  platform/x86/amd/pmf: Change return type of amd_pmf_set_dram_addr()
+  platform/x86/amd/pmf: Add support for PMF Policy Binary
+  platform/x86/amd/pmf: change amd_pmf_init_features() call sequence
+  platform/x86/amd/pmf: Add support to get inputs from other subsystems
+  platform/x86/amd/pmf: Add support update p3t limit
+  platform/x86/amd/pmf: Add support to update system state
+  platform/x86/amd/pmf: Add facility to dump TA inputs
+  platform/x86/amd/pmf: Add capability to sideload of policy binary
+  platform/x86/amd/pmf: dump policy binary data
+  platform/x86/amd/pmf: Add PMF-AMDGPU get interface
+  platform/x86/amd/pmf: Add PMF-AMDGPU set interface
 
-I'm running out of ideas on what to try next, so I'd be grateful for any help.  Let me know if you need any other information I might have missed.
+ Documentation/admin-guide/index.rst           |   1 +
+ Documentation/admin-guide/pmf.rst             |  25 +
+ drivers/gpu/drm/amd/amdgpu/Makefile           |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c       | 154 ++++++
+ drivers/hid/amd-sfh-hid/amd_sfh_common.h      |   6 +
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c |  22 +-
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c |  17 +
+ .../amd-sfh-hid/sfh1_1/amd_sfh_interface.c    |  48 ++
+ .../amd-sfh-hid/sfh1_1/amd_sfh_interface.h    |   1 +
+ drivers/platform/x86/amd/pmf/Kconfig          |   3 +
+ drivers/platform/x86/amd/pmf/Makefile         |   3 +-
+ drivers/platform/x86/amd/pmf/acpi.c           |  37 ++
+ drivers/platform/x86/amd/pmf/core.c           |  68 ++-
+ drivers/platform/x86/amd/pmf/pmf.h            | 202 +++++++
+ drivers/platform/x86/amd/pmf/spc.c            | 197 +++++++
+ drivers/platform/x86/amd/pmf/sps.c            |   2 +-
+ drivers/platform/x86/amd/pmf/tee-if.c         | 507 ++++++++++++++++++
+ include/linux/amd-pmf-io.h                    |  55 ++
+ 19 files changed, 1324 insertions(+), 27 deletions(-)
+ create mode 100644 Documentation/admin-guide/pmf.rst
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
+ create mode 100644 drivers/platform/x86/amd/pmf/spc.c
+ create mode 100644 drivers/platform/x86/amd/pmf/tee-if.c
+ create mode 100644 include/linux/amd-pmf-io.h
 
-Thanks.
+-- 
+2.25.1
+
