@@ -2,53 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF4E17C58EF
-	for <lists+linux-input@lfdr.de>; Wed, 11 Oct 2023 18:15:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2837A7C5B4E
+	for <lists+linux-input@lfdr.de>; Wed, 11 Oct 2023 20:29:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232674AbjJKQPL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Oct 2023 12:15:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53984 "EHLO
+        id S233077AbjJKS3U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Oct 2023 14:29:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232880AbjJKQPK (ORCPT
+        with ESMTP id S232636AbjJKS3U (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Oct 2023 12:15:10 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8147F8F;
-        Wed, 11 Oct 2023 09:15:08 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06ED6C433C8;
-        Wed, 11 Oct 2023 16:15:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697040908;
-        bh=wtQMMdHrnFggk0m06ilUhF5VMAOMImQU9UM40mHBiVM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bs0AcPB4HUa9JKFIg7sdXg83lTzuhi2OLLs5zi4krsrYvKkFZflYBf5izlTEFYFOP
-         YvFLiFb3wyNSQ6tsiAy8O8YdDaQto5/2ejA3/wlhLEJFh+DjPPnVsVn1yULSEB49cL
-         VinmbeTTkJmHOe7f+Mw/vGKdY2McoxJ3LxjkVJEDbYjH4UgOQXIV1IQ6n5A7VWViqY
-         2djutKm3XqC32xhSqUTRM9doqqD/yVJBsJ+r6B8RN+V0zz+D6STCXNDgzOAFWFbN9r
-         j3syNlYhPWWm/HhBeiCYETIqLjcBcDEQeSTIRAcABeASEW/tgv7tTS0ie/ooyVKydW
-         6qJwMIDqkj1tQ==
-Date:   Wed, 11 Oct 2023 17:15:03 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Anshul Dalal <anshulusr@gmail.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] dt-bindings: input: bindings for Adafruit Seesaw
- Gamepad
-Message-ID: <20231011-powdering-recycled-71608e794eaa@spud>
-References: <20231010184827.1213507-1-anshulusr@gmail.com>
+        Wed, 11 Oct 2023 14:29:20 -0400
+Received: from gcc-spam-ims-002.plexus.com (gcc-spam-ims-002.plexus.com [206.209.244.62])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0BCF93
+        for <linux-input@vger.kernel.org>; Wed, 11 Oct 2023 11:29:18 -0700 (PDT)
+Received: from gcc-spam-ims-002.plexus.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6FC21134105;
+        Wed, 11 Oct 2023 13:29:17 -0500 (CDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=plexus.com; s=us;
+        t=1697048957; bh=9G9d4zmZlJdXSmbZU/4RzQL902HusKI4+hbskmU0nlI=;
+        h=From:To:Date;
+        b=f8z8Xq0eTqfMTsApuinOTXM4JN3YPhT1THuBy3+8tzPvj4jcNceaN+awZtdiBF3sa
+         zAkN1LyowqR/PG5jA6sYBuAPedgehr8p5xBl6tE7Y2nO2O3FiFTFR3Y0vvHagZYOrm
+         r1LBeM6ANFhB0cQtBlmFSD2212UUX5cxNDIKUDDk0+ZxfgJTF5uwKHkYYp84A2wntG
+         X8O2c+pO/Crs4y28CPhJKyAFsoVBOr/l0+GF1+UzssqenZNwSab4gDI+WQHU2OAT3f
+         N+203Bfg31gifKWwuBZyt6WuNdfShuNKXZA5wK37yZwvIj1X925cX9pZjNIj7TWQBM
+         KUaTzx2fEXvjA==
+Received: from gcc-spam-ims-002.plexus.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6310B1340FD;
+        Wed, 11 Oct 2023 13:29:17 -0500 (CDT)
+Received: from gcc-mail-mx-004.na.plexus.com (unknown [10.255.51.224])
+        by gcc-spam-ims-002.plexus.com (Postfix) with ESMTPS;
+        Wed, 11 Oct 2023 13:29:17 -0500 (CDT)
+Received: from gcc-mail-mx-002.Na.Plexus.com (10.255.51.221) by
+ gcc-mail-mx-004.na.plexus.com (10.255.51.224) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 11 Oct 2023 18:29:16 +0000
+Received: from LNDCL34533.neenah.na.plexus.com (10.255.48.203) by
+ gcc-mail-mx-002.Na.Plexus.com (10.255.51.221) with Microsoft SMTP Server id
+ 15.1.2507.32 via Frontend Transport; Wed, 11 Oct 2023 18:29:16 +0000
+From:   Danny Kaehn <danny.kaehn@plexus.com>
+To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
+        <andriy.shevchenko@linux.intel.com>
+CC:     <linux-input@vger.kernel.org>, <ethan.twardy@plexus.com>,
+        Danny Kaehn <danny.kaehn@plexus.com>
+Subject: [PATCH v2] hid: cp2112: Fix IRQ shutdown stopping polling for all IRQs on chip
+Date:   Wed, 11 Oct 2023 13:23:17 -0500
+Message-ID: <20231011182317.1053344-1-danny.kaehn@plexus.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="timCUOp0XhI+CNqU"
-Content-Disposition: inline
-In-Reply-To: <20231010184827.1213507-1-anshulusr@gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 6788294C848035D517CBCF12F05C4E959B738D0AE6B83567B8E9C4822F8F74082000:8
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSVA-9.1.0.2164-9.0.0.1002-27930.001
+X-TM-AS-Result: No--16.246-3.0-31-10
+X-imss-scan-details: No--16.246-3.0-31-10
+X-TMASE-Version: IMSVA-9.1.0.2164-9.0.1002-27930.001
+X-TMASE-Result: 10--16.246300-10.000000
+X-TMASE-MatchedRID: ZjlhEhW1wQ+jcB5AGOhX7jY9eRDvjeTZUBOomz25VdESEYfcJF0pRfX7
+        1s7cIJuTLtU3Flh33seYFC8uMwGxQS1u0Q3ICykxHU1P4jBke7SNATTg/xyXYU7nLUqYrlslFIu
+        BIWrdOeOjEIt+uIPPOCZle49VkKqHl/NSQGlzTvYbj3a5GzdeL3eXfumzA7TRngIgpj8eDcBpka
+        jQR5gb3lQwtQm7iV5jKrauXd3MZDUD/dHyT/Xh7Q==
+X-TMASE-SNAP-Result: 1.821001.0001-0-2-1:0,12:0,22:0,33:0,34:0-0
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -57,144 +74,44 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Previously cp2112_gpio_irq_shutdown() always cancelled the
+gpio_poll_worker, even if other IRQs were still active, and did not set
+the gpio_poll flag to false. This resulted in any call to _shutdown()
+resulting in interrupts no longer functioning on the chip until a
+_remove() occurred (a.e. the cp2112 is unplugged or system rebooted).
 
---timCUOp0XhI+CNqU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Only cancel polling if all IRQs are disabled/masked, and correctly set
+the gpio_poll flag, allowing polling to restart when an interrupt is
+next enabled.
 
-Hey,
+Signed-off-by: Danny Kaehn <danny.kaehn@plexus.com>
+---
 
-On Wed, Oct 11, 2023 at 12:18:23AM +0530, Anshul Dalal wrote:
-> Adds bindings for the Adafruit Seesaw Gamepad.
->=20
-> The gamepad functions as an i2c device with the default address of 0x50
-> and has an IRQ pin that can be enabled in the driver to allow for a rising
-> edge trigger on each button press or joystick movement.
->=20
-> Product page:
->   https://www.adafruit.com/product/5743
-> Arduino driver:
->   https://github.com/adafruit/Adafruit_Seesaw
->=20
-> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
-> ---
->=20
-> Changes for v4:
-> - Fixed the URI for the id field
-> - Added `interrupts` property
->=20
-> Changes for v3:
-> - Updated id field to reflect updated file name from previous version
-> - Added `reg` property
->=20
-> Changes for v2:
-> - Renamed file to `adafruit,seesaw-gamepad.yaml`
-> - Removed quotes for `$id` and `$schema`
-> - Removed "Bindings for" from the description
-> - Changed node name to the generic name "joystick"
-> - Changed compatible to 'adafruit,seesaw-gamepad' instead of
->   'adafruit,seesaw_gamepad'
->=20
->  .../input/adafruit,seesaw-gamepad.yaml        | 59 +++++++++++++++++++
->  1 file changed, 59 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/adafruit,sees=
-aw-gamepad.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-game=
-pad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.=
-yaml
-> new file mode 100644
-> index 000000000000..e8e676006d2f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
-> @@ -0,0 +1,59 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Adafruit Mini I2C Gamepad with seesaw
+Changes since v1 -- resolving comments from Andy:
+- Addressed patch message missing parens
+- Fixed opening bracket on newline
 
-Binding mostly looks good to me. My main question is what is a seesaw?
 
-> +
-> +maintainers:
-> +  - Anshul Dalal <anshulusr@gmail.com>
-> +
-> +description: |
-> +  Adafruit Mini I2C Gamepad
-> +
-> +    +-----------------------------+
-> +    |   ___                       |
-> +    |  /   \               (X)    |
-> +    | |  S  |  __   __  (Y)   (A) |
-> +    |  \___/  |ST| |SE|    (B)    |
-> +    |                             |
-> +    +-----------------------------+
-> +
-> +  S -> 10-bit percision bidirectional analog joystick
-> +  ST -> Start
-> +  SE -> Select
-> +  X, A, B, Y -> Digital action buttons
-> +
-> +  Product page: https://www.adafruit.com/product/5743
-> +  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
+ drivers/hid/hid-cp2112.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-I'm not really sure what the arduino driver has to do with the binding.
-Why is a link to it more relevant than the freebsd driver, or the linux
-driver etc? Is there info about how the pad works in the arduino driver
+diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
+index 54c33a24f844..b24d398f430f 100644
+--- a/drivers/hid/hid-cp2112.c
++++ b/drivers/hid/hid-cp2112.c
+@@ -1168,7 +1168,11 @@ static void cp2112_gpio_irq_shutdown(struct irq_data *d)
+ 	struct cp2112_device *dev = gpiochip_get_data(gc);
+ 
+ 	cp2112_gpio_irq_mask(d);
+-	cancel_delayed_work_sync(&dev->gpio_poll_worker);
++
++	if (!dev->irq_mask) {
++		dev->gpio_poll = false;
++		cancel_delayed_work_sync(&dev->gpio_poll_worker);
++	}
+ }
+ 
+ static int cp2112_gpio_irq_type(struct irq_data *d, unsigned int type)
+-- 
+2.25.1
 
-Otherwise, this seems good to me.
-
-Thanks,
-Conor.
-
-> +
-> +properties:
-> +  compatible:
-> +    const: adafruit,seesaw-gamepad
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description:
-> +      The gamepad's IRQ pin triggers a rising edge if interrupts are ena=
-bled.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        joystick@50 {
-> +            compatible =3D "adafruit,seesaw-gamepad";
-> +            reg =3D <0x50>;
-> +        };
-> +    };
-> --=20
-> 2.42.0
->=20
-
---timCUOp0XhI+CNqU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZSbKBwAKCRB4tDGHoIJi
-0uPyAP44XQzOQbflxL/UvrKTR2YMG9/YIVQXQK5aBzNTEXcMUAEA8xyeLKAOZtJx
-HK4Pss8t1U8E5lZrti8sa9pDht76Bws=
-=wvkn
------END PGP SIGNATURE-----
-
---timCUOp0XhI+CNqU--
