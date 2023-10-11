@@ -2,49 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0E877C481E
-	for <lists+linux-input@lfdr.de>; Wed, 11 Oct 2023 05:05:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0629E7C4859
+	for <lists+linux-input@lfdr.de>; Wed, 11 Oct 2023 05:17:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344935AbjJKDFt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Oct 2023 23:05:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58584 "EHLO
+        id S1344941AbjJKDRy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Oct 2023 23:17:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344901AbjJKDFr (ORCPT
+        with ESMTP id S1344915AbjJKDRw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Oct 2023 23:05:47 -0400
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2082.outbound.protection.outlook.com [40.107.220.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5E2B94;
-        Tue, 10 Oct 2023 20:05:41 -0700 (PDT)
+        Tue, 10 Oct 2023 23:17:52 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CF0B91;
+        Tue, 10 Oct 2023 20:17:49 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BQK0307AUiujDEqQLdcv7WsCkXAJWK2oxf1UM5oUVro4jkptNL637XbVk9fzT494X0eMgPVxALX7IoGzfRvGu9A+LabHFt2TRuckCoOsuMTUTALGykuvwqgQSBpIryf1JQIZ+RK5ZX4u99F9rCeROC0PBaS6R8+6xA17bX3iY6M8DHwxUM91Myw1g+G6kgshMhhYev1LV4afPZJgcM6TnnwfkGQBDGrDUwmPGbCYEMNTmdjsYKIzak/5Q2Hi0l0zAIyYVYOIkSfzN1ZRDOKZdAledrU/BNUzD2zoaHAh02qr52yMq1cnlq9qPuRPzTSPvy0oGGRYJFeiTmnjaDKkTw==
+ b=DSVStiruGpkrppSlraqazs6mZm3OBl/M6f8/W2aAPu4ZHtZvGHrMgNNBEhwl+VvUOMo4YtUpTIULuYeC9eBd1FmQUg6DLuAZp49cCcOMUIgd+bCFc31e6w0UskmwWxoXpXrnsi8ooTzdyMcpotkxUW/jgJloKPms2EFQ3ct96I8n4x5sWaNskoIqPFnCgfadjsCZ9P+wA8wrZShEiNrAKm46nXlaYGxI1S5mqwSQZ8sTnLYvO8zyyvZjQhqHGXIA4G5P99/04bxu35hitu4CwqwXTTlveSHHrdwzvfPwfWpZX5Khrky8UApNNVnV8znG6ayC9OoQTBVtucqYnGn6+g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cesph+ILlzU1AJ0od7iW4Z2zHZCclv5aFlADRaVh7gs=;
- b=dyhuS6UeJXNU5Z22THhNx91V/SuCcPMrTqcPMV0+KsWG9XZhshHWg0r/sId23peN4wAZ/CQS3MP0QOkRbaVjxZeSTtVhJ7u+jPlksGxSPLBC4VrSwMhTYfqdkjrXYG9Y5WfPkhqrwTSDQ0w2wVa1HPKgc/mo4z/huL9hppTJ8OdQCLCqgAeGnqu121pwtpiq+K5QYjv+ZF+jNuwNZG56NUOp+QldIzPnGqUfwMF8QcWPf+Z1ZFVtxeyBriM26hDJSVZkoKx/bniXP5svtU2nUIbODdyMPsulNgr6bwSugyHQHQOftvXytTvhp60YH0onUHk8Y7C9CiMOesvjtHYq5Q==
+ bh=W5WUQCSI/TE7QWG1AAnxR2GJaH2TYr8heqbX5r6QzDo=;
+ b=B5SA62icQekHyvw03M+IRb4uIKl/9laErypllm7x+IYorigzxk44S8WLlwkgRvccTaBQ2LRvHLv8woEY78+1MnX90wGSWNa4AiVKI+UxiGA/enW6vAod49PkbLZAbLVEnMvR/nnk6qMreZd6gsWSgkvwk7vI+VzH6oElo8l8l0GsiSlXv0zU3W++T9HB7Cmbefh6CCtGNlUlSWMbyNTrtoxCxHAY6GEUn2famy15peIwoula80wLURRrhbm7IqjyS/VeRVOgywGo89l1LOh2wqjXR6/n6D216CZuyCQ1npeNOfTDPqmfGhmayPKhBD5k0XSKNgsGmjOird7mtXkLMw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cesph+ILlzU1AJ0od7iW4Z2zHZCclv5aFlADRaVh7gs=;
- b=ImRGzRyoqyCihOK1hZvAA0UK/akOORaQCbMyuuQsptw1TRUslur8ARf9VPUx+aWM56fC0AAMN+cjndF5Q2q1GzxpxEs0kjZ7wXATDSuCk6GlNM0C9sxUGjNKRQR/4E1cxxl2vKkQVR+JqRDE4fxL+mXS4WbTOq7wPOZNJW4tzzA=
+ bh=W5WUQCSI/TE7QWG1AAnxR2GJaH2TYr8heqbX5r6QzDo=;
+ b=wEygTDxvtDSVvVlpp+I3v61oMK8jgpwgv2pRh53Cefgw/Qyvj3A9ixAZTOybSaTwzLVKPSOFQmodX23uP3jnAzVkmnVphzJuWXZ6w9RRqduZq2Gwj0SRmX3+NNySp7nkYED6nNpE0wsr+NRA+/bn4Sl2TikLRkOsTfUcIDt2H1A=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BL1PR12MB5176.namprd12.prod.outlook.com (2603:10b6:208:311::19)
- by BL1PR12MB5192.namprd12.prod.outlook.com (2603:10b6:208:311::16) with
+ by PH0PR12MB8799.namprd12.prod.outlook.com (2603:10b6:510:28e::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38; Wed, 11 Oct
- 2023 03:05:38 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.37; Wed, 11 Oct
+ 2023 03:17:46 +0000
 Received: from BL1PR12MB5176.namprd12.prod.outlook.com
  ([fe80::19d3:7b27:a6fc:95c5]) by BL1PR12MB5176.namprd12.prod.outlook.com
  ([fe80::19d3:7b27:a6fc:95c5%4]) with mapi id 15.20.6863.032; Wed, 11 Oct 2023
- 03:05:38 +0000
-Message-ID: <93d781b4-53d8-4fd9-8b2e-1b1a03c896cc@amd.com>
-Date:   Wed, 11 Oct 2023 08:35:24 +0530
+ 03:17:46 +0000
+Message-ID: <55a1230c-e9ef-421e-930c-13f5016546b4@amd.com>
+Date:   Wed, 11 Oct 2023 08:47:32 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/16] platform/x86/amd/pmf: Add support to update
- system state
+Subject: Re: [PATCH v3 04/16] platform/x86/amd/pmf: Add support for PMF Policy
+ Binary
 Content-Language: en-US
 To:     Mario Limonciello <mario.limonciello@amd.com>, hdegoede@redhat.com,
         markgross@kernel.org, ilpo.jarvinen@linux.intel.com,
@@ -56,72 +56,72 @@ Cc:     Patil.Reddy@amd.com, platform-driver-x86@vger.kernel.org,
         linux-input@vger.kernel.org, amd-gfx@lists.freedesktop.org,
         dri-devel@lists.freedesktop.org
 References: <20231010125917.138225-1-Shyam-sundar.S-k@amd.com>
- <20231010125917.138225-9-Shyam-sundar.S-k@amd.com>
- <0345caec-ccbc-4c54-a095-4fcef24fee25@amd.com>
+ <20231010125917.138225-5-Shyam-sundar.S-k@amd.com>
+ <db29fe6f-1ac1-4e8f-9f77-f3569c503a76@amd.com>
 From:   Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-In-Reply-To: <0345caec-ccbc-4c54-a095-4fcef24fee25@amd.com>
+In-Reply-To: <db29fe6f-1ac1-4e8f-9f77-f3569c503a76@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN3PR01CA0011.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:95::15) To BL1PR12MB5176.namprd12.prod.outlook.com
+X-ClientProxiedBy: PN3PR01CA0020.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:97::16) To BL1PR12MB5176.namprd12.prod.outlook.com
  (2603:10b6:208:311::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5176:EE_|BL1PR12MB5192:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7e9e06f5-9e7c-4d40-7670-08dbca06f1e3
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5176:EE_|PH0PR12MB8799:EE_
+X-MS-Office365-Filtering-Correlation-Id: 445147df-7ff7-4a87-0838-08dbca08a3d4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZcOpH0jWKdQqdvWpQfd8XhQaLlYPdoKlmgonOqic4LbcyQSGi+WiC73W3bj19TxzIeqbPFZRFnoehD0pYV9tIwJEpU+HWsn5aZs2AB52ECF4Go52ajCCtmFM3evMB2+ndVg/Igy5xVCuBMZ9EJmTjNUd6gWBSXYymjXYYD+rsSq9BJVk8pIgMJImtjcsyTaZcOB8+4VagLXXj/MkOcpwBy70pM/OtpM5EW0cbxIWn+bN9TrIWAwSqGwdoQ406Si+3WYe1AdgxmFOVpb7joJj8VEW8y9y3T28Ao7hQbwPGzc/YgA26fyRngZGzVixDDQ1peb5dzbv25khepnGG9s3xEhlDvWpqXprNHs5Z+AEReLIUqkJwOGHVFriT74ioF2daY2NUtYbANBHzhrIUdIRCx6lQ5orKMP4omqRM7/j4S8tolSGCgI7f7+gySKEYxlY+5B92yqM35PjsO27kQtCAZ0HmgEkpBQE2SSPykukcck/wAq5FL2RFzKbqxjdRAOKZJLfAKonIwKTNRm49lQEShoapMciamC+JiV4u7Nh+Oepd76PRVE59lzHGfmviq52hDEmABBOTk+B77U20iux2LsjPvbZ5OznX/pd98/6bRM3HRJuhH917caobv1yAWbq3UQTULvdkCSSINydNVQ27GCEDVMZu3dmSwTD7gpzRAM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5176.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(376002)(39860400002)(346002)(396003)(230922051799003)(1800799009)(64100799003)(186009)(451199024)(31686004)(6512007)(6506007)(2616005)(6666004)(53546011)(41300700001)(5660300002)(15650500001)(36756003)(2906002)(7416002)(4326008)(8676002)(8936002)(6486002)(478600001)(31696002)(921005)(316002)(66556008)(66946007)(66476007)(26005)(86362001)(83380400001)(38100700002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: +pI3eek2WwHxS4eVH8FE58JpvLkrMBbO27muUoCoIjn6v3MCxRhy6wCZ9ApFFy25yq5Bi867X+KnA9d0T80o1ebIe0yAGE3q9ihA4UrpvEoYche/XXMLYPqcUdno4+PQFEypCPx5+5JmSBUhNXTbcFghVEH8eETD8KgpTuuqnAVXdX7jyNWw2++AscB1pSWjcEythFhkEu54OS8jXfkmStUoE4lXQTfKZPPGWiMD4ChOQIepXOgqTEOd4OLQEO/Xj98QWk0tzXXz1wCgXBoCnqXUJhFgXRz19WXpy0kwDiRO03u2z3gx+6jn1NxEq5mPWkb/IL0n27T6XZsD5TjFAqrwHrvv3oAZddo16VIhppX+FGo7DtcUJHrViWlHFHz+1mKiI0TWA3yS/TUQQrTWk/gG4TPE/mJYDTbKEa9ZL5E/EzpwZxn8DDnaCDWLGpey8SuT//NTcobURirKyEBWW/9Y1uMyWkCbwqluiK/Eo/D1PU3QRa+do3v9aRt1rzQTu9j15EqPkddQ8xNoLjGuJJYj68iiWxiXdTwTiSjk9HleDryaKSVLn0RK47hcUka/DDbzuT1sdBxN4KSgvs18km1uMSowvFEFOIc7JK3FZD/oNfL1w2cCi8nkQuJfsrEcDVB+AeRPfojOfLpkvMZ1CoxQkgViQCtm+vhYrhiz90w=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5176.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(396003)(366004)(346002)(136003)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(6512007)(6506007)(53546011)(2616005)(478600001)(30864003)(41300700001)(316002)(6486002)(7416002)(2906002)(8676002)(5660300002)(66556008)(4326008)(66946007)(83380400001)(8936002)(26005)(921005)(31696002)(36756003)(66476007)(38100700002)(86362001)(6666004)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c0l5WFh3M29XTFJtWnlwUFB3TThkRXB4bHJaUlhjNkxDaktxb1pyWU1KU3Uw?=
- =?utf-8?B?ejk4dWZXSk84bGVPanlJZ0FSRW1mNk15NXZROGVwMk5UQWFpeWNjRi9DQUxT?=
- =?utf-8?B?Qml4Sjk5ZllWVWpZRDdQeTc5MXJzQlJBbFlaVkdQaVNXZEhWYjNYeVkzakUr?=
- =?utf-8?B?bXJDTDNvYWV4UG8rNlVOQ0tSSzZmblQyQk5SOFR0a0pCb3RQZ2lXa28zNW84?=
- =?utf-8?B?OGt6VnFzMnAyOHZzV2hVKzYzNDdnVXgvRjZ6eXU2YUJxSjIzZGlBN3RjY2ZB?=
- =?utf-8?B?Q0RHVmFRRlVUWW50RDFzR1RCeWw4SkVIdWpuNEQvM1g4bWtyOG1yaVdnZXV1?=
- =?utf-8?B?YmVaRStTNFJuMXhleWRURlhpamdEdXpOaHdXSjBmNC9NNDJLMlVMb1dhaGpt?=
- =?utf-8?B?ZWZhSUx5N2lYL242cmNhT2l0bUdlNThWeU9qVFhmT1hySGZYRE1wWURZV1BH?=
- =?utf-8?B?ZVpVOFZ1RHJRK2pZK0xOR0lrUUdaZkRZaG9tMDQ1NDEyYVJUUExmVjNCQldo?=
- =?utf-8?B?WUdaN0lTaFg5c1lldjJZT0ZHTFVWNVFUdzQrL0xBdGlteVVMUWt0amt6QmVG?=
- =?utf-8?B?a1FRN1pQb2ZkUGpEL0w0OVdrV0tldExXSWZob09TcCtSWHdVU3MwSUN3V2lU?=
- =?utf-8?B?MldkU3BKNUJ1cE1VSFAxMUVmNnVsa1dmcVB3MkhhNkVhT3V5STFGd2p0MVdD?=
- =?utf-8?B?NGpzT2JkSkQvTHlXbEpKeGMxamozdDNROFpqUzRKb0h2WGNGNy9IY3ptSlUw?=
- =?utf-8?B?NGZvbHUvSDFEY2NQVFFuaW1FbkFwTGRPU0t0eDNnRGI5V0xVRWxobWQzOUFx?=
- =?utf-8?B?U0h0THMyeEdkTURtZnlTU3o4NjlyL1F0NXdlYk0xSXhCTlFUTWZ4aWhFNlI0?=
- =?utf-8?B?YjZybEFTakhJY2FZZ3RqZktWdk9jeDNZYlZsMkllOHNGREYwVHFCdlk2VGxL?=
- =?utf-8?B?bzhoaG5MRldsS3cra1BzNGMxTW5wZng1MGlqZlQvVEJKWExzWnFJUXJBUm5j?=
- =?utf-8?B?S3FNTE1tRE5qUktJVG91bnp4dFZIU1ZtaGNvR09oRERHS3B0Um9wOTNxNlNF?=
- =?utf-8?B?MCs1QkJzRzNsaUhoMnAxY1QzbGRrVEVaOWFLTTZoRXIxQWUwU3U1STE2K0xw?=
- =?utf-8?B?TU1vMEhWeUd3eW1yc0MxbEZFbGdYbmh2QzlmNTc4Nk1uYnZodk5KYjgvcGtM?=
- =?utf-8?B?WE9oTnFoVEFSRFI3eXdZcEpOSVlPN2grWFZhUkk3QjhMWVUxeXdxNVgzTVpM?=
- =?utf-8?B?MDFYWEEvTGlhNlVyZm9iNWprQ2FEL2NnMnpJM2xQa09jYkZWRHNuWU9rR09k?=
- =?utf-8?B?UmxFVW5NcElYVGFYbm5PeHh3aHVnSjQ4SklqYTllQ3FpVmYrVytEMHgwZFA4?=
- =?utf-8?B?VFFPL1p4dnAzZWhlU2dkWG5lT3Rtc3lvUmZiREZnTkJ0ZGpOTzZKaGlKNlNw?=
- =?utf-8?B?MXRPaHNOZmlUdXBjclROVkppWHVyb3dWbjhjMzZOL1R1emRFd1FtRTJqd0dr?=
- =?utf-8?B?dlltcTB3MjJEeVlBSUJVK2R1cDV4dUM3UXBsTWhEbTZCVVVnSHZFaHFGckZp?=
- =?utf-8?B?SFlPZm9rNW1PUmZrektzOUNTblRXKzREb0tsb20xaWQvSWVnL29UZTFTZ3FD?=
- =?utf-8?B?ZnhxbDJ6SmRGZUZyZ056bWFhWVlSaTIxRzBFdlVCZW54eFJVeTJ6c1BsbzJq?=
- =?utf-8?B?R2FrbTFHVlpKd3ErMFUrOTV5QkJUdmJ0Z0VXbjFzQWFZT0JzNDlmUXRzTVhC?=
- =?utf-8?B?MWRkeFMwbm84YWZoRVBHL3hGUXVDSkw1Zk50Uml1azhENEhoQ3pOSnlacjZL?=
- =?utf-8?B?a1RxTlFwNmhrRnFCdzd2RERsSDBDM25Za1dsaXRIY3Znc3ZFWUt4QVFpN0xO?=
- =?utf-8?B?YWp6aUtkV0tvN2pmTmIvSVc4WUJ6TlI1MWFwNjQwQjVKS25DbE5ld2pLWHlD?=
- =?utf-8?B?OUVmZGdzZ0FJWE4zK2RzMVpjRUVQem5La1lTeXpJc2piRmtxMENmcVN6QkZj?=
- =?utf-8?B?RFBoN1BYS1Y3ODl1Sk5PeG1KMG5zakVLOVNNQS9vVUNJajZleXFDQTRrc3hP?=
- =?utf-8?B?WDgxQ1ZGNWgyelV0QlpQS0JsRjZ4c0x0QWVzK2JXcjR2ekluWFJlTloyUi9y?=
- =?utf-8?Q?EPZAEl02NSaVd+LZh62xsOY/C?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dVlyb0xiMmp6Sis5Z1pEbmx6dnpRd1l2YlpUYnZmWFFyNnhqKzIrY1NldlhM?=
+ =?utf-8?B?WkdJWDkxaEFXdU9DbWp0Wk5SZ3hVUWJZdEFXUThDRUJQOTU2R1NnbEpFQ25J?=
+ =?utf-8?B?bmhkZjRNdlVNdUNZbDNrMUpuVUNGYm51VlBPUHVWRnpVTlNCbTRDcjdnWTll?=
+ =?utf-8?B?Z1l5L0liZitlWDYzeDQ1Q1o2aUpPc3FFNCtja2IzU29UUnJtYWttRzJMS3pi?=
+ =?utf-8?B?RVdEUTV6cmZEVHFiQWIzV2YyQ1ZYRCtiVGYrSUhOa2xmS1dqbndycGpFRy9C?=
+ =?utf-8?B?MjNZaGJMREtmWDhLSWtFZ0ZQNEl2UTFiUWwzd2xxOGZ2WnJMYXp2c3lJSGdw?=
+ =?utf-8?B?UVVWQzY1VzFCUFZKNG1oNUJURmxkUTFwbVVkdXdRU010bnY4UWdVWGZNZFlH?=
+ =?utf-8?B?dVU5TVkxaWZzY1A3T1U5V0U3ZVJqUUt4bGYzSUJicVpRMmM3WkJMdFNnc3JW?=
+ =?utf-8?B?TUN5U3pKcXFoZ2IyZyt3eldWYUN5M1JTcXUwaHNjWVVNTUpZejV0d3R1b0tT?=
+ =?utf-8?B?WVlRMGhCSEh4LzNtbWFkSzFXRTFQMTFYQk83c0p2eHJmMW80eGJIOHhpOFRz?=
+ =?utf-8?B?Vm1nWUVmbjdHZVJMelZaRExaZTNHZDVDV2FRVFRPQmZ3Rm85ZWRqZ3BPbUVw?=
+ =?utf-8?B?MXNJSGFCZjgrRFdtVzN2ZWFHdEhqbkJvcnJyanNwekg2TXc4SzZsY1cvUEhE?=
+ =?utf-8?B?NjU5aHlVdU9xMmtsRjNPWlc2T2FzNWRKOWRPcjcvUWMrcDNNK0ZENU5vNmhp?=
+ =?utf-8?B?OXBHczVpV21GOHZzam9iT1VwME5lL00rekVKbVEzZjdXYlUvbDl6MjkvQlBm?=
+ =?utf-8?B?S05WMzh1a1VrZzdNMlZTM1BjQ291bmVWU1Ird0U2L2RaZmRMNTZwTEpYUEtq?=
+ =?utf-8?B?S1licktyL3Uwck04MTFCdzNZbS90ZXhTek03N1A1VXhIWG0yWDhrTnpNdEFW?=
+ =?utf-8?B?Q2d5ZU8zeDBXLzM5NTV1b2xMcVpicE93a3liakJ1aGJyU0dHZEZlRUpLNkpG?=
+ =?utf-8?B?dnp6MTVseVBmZUEvbmUxWThjT3l4L0FwYTdRZHZnc2tRM0lEMnY1QzgwUzVZ?=
+ =?utf-8?B?N2NwTTZJWGdDMEZ3R055RTd6TVNlREdYWWZOR0pVTWtxSnprTW9KZHFuQ1hE?=
+ =?utf-8?B?cVhVZ2lySHM2TnBCL0RhQmpiNnhzQUZ1a3VvYnh1K3BUcnYzNU9RMXVvdzlC?=
+ =?utf-8?B?UGJjQWd4RFN6dTVnRTRRWi9LOTJGM1Y5UWlGTzFOK2QwVFpBRkV1M3N1N3BX?=
+ =?utf-8?B?RnZjQ1ZMR2xjTWpZUXU4OGJ2Q1RKTkhCc0dRT2lMR1YvaUN5bEllT09lSE9r?=
+ =?utf-8?B?R2RZOXMzY2FmaGlTTGFlVVFrRmRZV2FTbndkMGFDdTQ3cDFGRUtDOUJOSEVa?=
+ =?utf-8?B?NDFGSGZhbDE2TG51RkxPNlZkL3RTcEs5Wm94TExIUWlXTWNPQ1dlb2xEdUhT?=
+ =?utf-8?B?Y0FoUjNST3NLS2ZESTZPT3FBcDFBVHRNMFVCbzI0WUFFWVA1Zy8zQ3JQaTB2?=
+ =?utf-8?B?YW1uVm1FaDA5alhxTWhUdzg4WGQySWhHdUgwTzNLelhSN2xtNCtnejZkVVo5?=
+ =?utf-8?B?VXBEOVoycDlPNDV0SzFFTnYvQUVKSGVGc1lrdUkydThDcmR1bDNCa250Q0pi?=
+ =?utf-8?B?QjZXTDNRNWZIbllOV084MjFhZzBaMy9mSXhEdUhwUnphUCtjQThGWTFCUXpV?=
+ =?utf-8?B?R0FnMmU2WThYakNvUHRaVlVvYnVmUXJaNnl2djQ2U1Q3NVh3WVR4UnlOQnVz?=
+ =?utf-8?B?Tkt3UW9ET09YaU1LeTV4RC90eDRTT1licDZwZEh5aWVyV0dlZXdsM2dlTTNi?=
+ =?utf-8?B?Z3RUSDFZNFhQakYwZkFrb1VMR3g0bWJHUTRucFU2SnN6UFNSWGhFRWNCSmhU?=
+ =?utf-8?B?L05HZnZTdG8wWWdVektTL3p4eVVRdWxrOFlLSGFFKzZiK1c0cmhjcjRvMWIv?=
+ =?utf-8?B?NGxlQUYrS0w2eDRIOENZdjZwRjc2bkkralp2ZUx0OThaRVFlb1pScjBrUmJX?=
+ =?utf-8?B?ZlBCbXZBWnVmNFFLK3o5Qnd3SEcwK2lHY2FPa1RjdGJYdmoycmxwVGlxVHo0?=
+ =?utf-8?B?ODNzSG1OOWVMZWhBaGVkeWVOM1pBaTY1NDdHVGdMWVpOVC81Tnl0M1IzU2th?=
+ =?utf-8?Q?04IPRRabu0JDCeYEGp42P3/0c?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e9e06f5-9e7c-4d40-7670-08dbca06f1e3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 445147df-7ff7-4a87-0838-08dbca08a3d4
 X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5176.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2023 03:05:38.3403
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2023 03:17:46.3423
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TvhJRYstuz+uPIkdC/sPQ27FuRDheB1eXCw6ZTOBUwj/4NVwlq6isFRJwBzVwoCQckBmd6XdDPLX7qPmxLz3dA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5192
+X-MS-Exchange-CrossTenant-UserPrincipalName: wc3ffPTiYNFW+An8Z0XyfyuDmMQZmQ7u+mviciONk9CdWQqLzCe/D3eERfH11UoedPqMFHWzbBIWAdYdw9Z+Tg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8799
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
@@ -134,191 +134,638 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 
 
-On 10/10/2023 9:33 PM, Mario Limonciello wrote:
+On 10/10/2023 9:56 PM, Mario Limonciello wrote:
 > On 10/10/2023 07:59, Shyam Sundar S K wrote:
->> PMF driver based on the output actions from the TA can request to
->> update
->> the system states like entering s0i3, lock screen etc. by generating
->> an uevent. Based on the udev rules set in the userspace the event id
->> matching the uevent shall get updated accordingly using the systemctl.
+>> PMF Policy binary is a encrypted and signed binary that will be part
+>> of the BIOS. PMF driver via the ACPI interface checks the existence
+>> of Smart PC bit. If the advertised bit is found, PMF driver walks
+>> the acpi namespace to find out the policy binary size and the address
+>> which has to be passed to the TA during the TA init sequence.
 >>
->> Sample udev rules under Documentation/admin-guide/pmf.rst.
+>> The policy binary is comprised of inputs (or the events) and outputs
+>> (or the actions). With the PMF ecosystem, OEMs generate the policy
+>> binary (or could be multiple binaries) that contains a supported set
+>> of inputs and outputs which could be specifically carved out for each
+>> usage segment (or for each user also) that could influence the system
+>> behavior either by enriching the user experience or/and boost/throttle
+>> power limits.
+>>
+>> Once the TA init command succeeds, the PMF driver sends the changing
+>> events in the current environment to the TA for a constant sampling
+>> frequency time (the event here could be a lid close or open) and
+>> if the policy binary has corresponding action built within it, the
+>> TA sends the action for it in the subsequent enact command.
+>>
+>> If the inputs sent to the TA has no output defined in the policy
+>> binary generated by OEMs, there will be no action to be performed
+>> by the PMF driver.
+>>
+>> Example policies:
+>>
+>> 1) if slider is performance ; set the SPL to 40W
+>> Here PMF driver registers with the platform profile interface and
+>> when the slider position is changed, PMF driver lets the TA know
+>> about this. TA sends back an action to update the Sustained
+>> Power Limit (SPL). PMF driver updates this limit via the PMFW mailbox.
+>>
+>> 2) if user_away ; then lock the system
+>> Here PMF driver hooks to the AMD SFH driver to know the user presence
+>> and send the inputs to TA and if the condition is met, the TA sends
+>> the action of locking the system. PMF driver generates a uevent and
+>> based on the udev rule in the userland the system gets locked with
+>> systemctl.
+>>
+>> The intent here is to provide the OEM's to make a policy to lock the
+>> system when the user is away ; but the userland can make a choice to
+>> ignore it.
+>>
+>> and so on.
+>>
+>> The OEMs will have an utility to create numerous such policies and
+>> the policies shall be reviewed by AMD before signing and encrypting
+>> them. Policies are shared between operating systems to have seemless
+>> user
+>> experience.
+>>
+>> Since all this action has to happen via the "amdtee" driver, currently
+>> there is no caller for it in the kernel which can load the amdtee
+>> driver.
+>> Without amdtee driver loading onto the system the "tee" calls shall
+>> fail
+>> from the PMF driver. Hence an explicit "request_module" has been added
+>> to address this.
 >>
 >> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> 
-> One minor nit below.
-> 
-> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-> 
 >> ---
->>   Documentation/admin-guide/index.rst   |  1 +
->>   Documentation/admin-guide/pmf.rst     | 25 +++++++++++++++++++
->>   drivers/platform/x86/amd/pmf/pmf.h    |  9 +++++++
->>   drivers/platform/x86/amd/pmf/tee-if.c | 36
->> ++++++++++++++++++++++++++-
->>   4 files changed, 70 insertions(+), 1 deletion(-)
->>   create mode 100644 Documentation/admin-guide/pmf.rst
+>>   drivers/platform/x86/amd/pmf/Kconfig  |   2 +-
+>>   drivers/platform/x86/amd/pmf/acpi.c   |  37 +++++++
+>>   drivers/platform/x86/amd/pmf/core.c   |  13 +++
+>>   drivers/platform/x86/amd/pmf/pmf.h    | 136 ++++++++++++++++++++++++
+>>   drivers/platform/x86/amd/pmf/tee-if.c | 146
+>> +++++++++++++++++++++++++-
+>>   5 files changed, 331 insertions(+), 3 deletions(-)
 >>
->> diff --git a/Documentation/admin-guide/index.rst
->> b/Documentation/admin-guide/index.rst
->> index 43ea35613dfc..fb40a1f6f79e 100644
->> --- a/Documentation/admin-guide/index.rst
->> +++ b/Documentation/admin-guide/index.rst
->> @@ -119,6 +119,7 @@ configure specific aspects of kernel behavior to
->> your liking.
->>      parport
->>      perf-security
->>      pm/index
->> +   pmf
->>      pnp
->>      rapidio
->>      ras
->> diff --git a/Documentation/admin-guide/pmf.rst
->> b/Documentation/admin-guide/pmf.rst
->> new file mode 100644
->> index 000000000000..6985bb5b9452
->> --- /dev/null
->> +++ b/Documentation/admin-guide/pmf.rst
->> @@ -0,0 +1,25 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +Set udev rules for PMF Smart PC Builder
->> +---------------------------------------
->> +
->> +AMD PMF(Platform Management Framework) Smart PC Solution builder
->> has to set the system states
->> +like S0i3, Screen lock, hibernate etc, based on the output actions
->> provided by the PMF
->> +TA (Trusted Application).
->> +
->> +In order for this to work the PMF driver generates a uevent for
->> userspace to react to. Below are
->> +sample udev rules that can facilitate this experience when a
->> machine has PMF Smart PC solution builder
->> +enabled.
->> +
->> +Please add the following line(s) to
->> +``/etc/udev/rules.d/99-local.rules``::
->> +
->> +        DRIVERS=="amd-pmf", ACTION=="change", ENV{EVENT_ID}=="0",
->> RUN+="/usr/bin/systemctl suspend"
->> +        DRIVERS=="amd-pmf", ACTION=="change", ENV{EVENT_ID}=="1",
->> RUN+="/usr/bin/systemctl hibernate"
->> +        DRIVERS=="amd-pmf", ACTION=="change", ENV{EVENT_ID}=="2",
->> RUN+="/bin/loginctl lock-sessions"
->> +
->> +EVENT_ID values:
->> +0= Put the system to S0i3/S2Idle
->> +1= Put the system to hibernate
->> +2= Lock the screen
->> +
->> diff --git a/drivers/platform/x86/amd/pmf/pmf.h
->> b/drivers/platform/x86/amd/pmf/pmf.h
->> index 20f3e16b0a32..67f11113d5a7 100644
->> --- a/drivers/platform/x86/amd/pmf/pmf.h
->> +++ b/drivers/platform/x86/amd/pmf/pmf.h
->> @@ -73,6 +73,7 @@
->>   #define PMF_POLICY_STT_MIN                    6
->>   #define PMF_POLICY_STT_SKINTEMP_APU                7
->>   #define PMF_POLICY_STT_SKINTEMP_HS2                8
->> +#define PMF_POLICY_SYSTEM_STATE                    9
->>   #define PMF_POLICY_P3T                        38
->>     /* TA macros */
->> @@ -440,6 +441,13 @@ struct apmf_dyn_slider_output {
->>   } __packed;
->>     /* Smart PC - TA internals */
-> 
-> I know that Ilpo had a comment about this in an earlier version that
-> there is a "__" instead of "_".  I know this is intended behavior for
-> consistency with internal usage, but maybe it's worth having a comment
-> somewhere mentioning it's intended behavior?  I'm not sure where.
-> 
-
-I missed to change here.  I have changed at other places too.
-
->> +enum system_state {
->> +    SYSTEM_STATE__S0i3,
->> +    SYSTEM_STATE__S4,
->> +    SYSTEM_STATE__SCREEN_LOCK,
->> +    SYSTEM_STATE__MAX
->> +};
->> +
->>   enum ta_slider {
->>       TA_BEST_BATTERY,    /* Best Battery */
->>       TA_BETTER_BATTERY,    /* Better Battery */
->> @@ -471,6 +479,7 @@ enum ta_pmf_error_type {
->>   };
->>     struct pmf_action_table {
->> +    enum system_state system_state;
->>       u32 spl;        /* in mW */
->>       u32 sppt;        /* in mW */
->>       u32 sppt_apuonly;    /* in mW */
->> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c
->> b/drivers/platform/x86/amd/pmf/tee-if.c
->> index 92879ae4f8f0..c08ef13a1494 100644
->> --- a/drivers/platform/x86/amd/pmf/tee-if.c
->> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
->> @@ -24,6 +24,20 @@ MODULE_PARM_DESC(pb_actions_ms, "Policy binary
->> actions sampling frequency (defau
->>   static const uuid_t amd_pmf_ta_uuid = UUID_INIT(0x6fd93b77,
->> 0x3fb8, 0x524d,
->>                           0xb1, 0x2d, 0xc5, 0x29, 0xb1, 0x3d, 0x85,
->> 0x43);
->>   +static const char *amd_pmf_uevent_as_str(unsigned int state)
+>> diff --git a/drivers/platform/x86/amd/pmf/Kconfig
+>> b/drivers/platform/x86/amd/pmf/Kconfig
+>> index 32a029e8db80..f246252bddd8 100644
+>> --- a/drivers/platform/x86/amd/pmf/Kconfig
+>> +++ b/drivers/platform/x86/amd/pmf/Kconfig
+>> @@ -9,7 +9,7 @@ config AMD_PMF
+>>       depends on POWER_SUPPLY
+>>       depends on AMD_NB
+>>       select ACPI_PLATFORM_PROFILE
+>> -    depends on TEE
+>> +    depends on TEE && AMDTEE
+>>       help
+>>         This driver provides support for the AMD Platform Management
+>> Framework.
+>>         The goal is to enhance end user experience by making AMD PCs
+>> smarter,
+>> diff --git a/drivers/platform/x86/amd/pmf/acpi.c
+>> b/drivers/platform/x86/amd/pmf/acpi.c
+>> index 3fc5e4547d9f..d0512af2cd42 100644
+>> --- a/drivers/platform/x86/amd/pmf/acpi.c
+>> +++ b/drivers/platform/x86/amd/pmf/acpi.c
+>> @@ -286,6 +286,43 @@ int apmf_install_handler(struct amd_pmf_dev
+>> *pmf_dev)
+>>       return 0;
+>>   }
+>>   +static acpi_status apmf_walk_resources(struct acpi_resource *res,
+>> void *data)
 >> +{
->> +    switch (state) {
->> +    case SYSTEM_STATE__S0i3:
->> +        return "S0i3";
->> +    case SYSTEM_STATE__S4:
->> +        return "S4";
->> +    case SYSTEM_STATE__SCREEN_LOCK:
->> +        return "SCREEN_LOCK";
->> +    default:
->> +        return "Unknown Smart PC event";
+>> +    struct amd_pmf_dev *dev = data;
+>> +
+>> +    switch (res->type) {
+>> +    case ACPI_RESOURCE_TYPE_ADDRESS64:
+>> +        dev->policy_addr = res->data.address64.address.minimum;
+>> +        dev->policy_sz = res->data.address64.address.address_length;
+>> +        break;
+>> +    case ACPI_RESOURCE_TYPE_FIXED_MEMORY32:
+>> +        dev->policy_addr = res->data.fixed_memory32.address;
+>> +        dev->policy_sz = res->data.fixed_memory32.address_length;
+>> +        break;
 >> +    }
+>> +
+>> +    if (!dev->policy_addr || dev->policy_sz > POLICY_BUF_MAX_SZ ||
+>> dev->policy_sz == 0) {
+>> +        pr_err("Incorrect Policy params, possibly a SBIOS bug\n");
+>> +        return AE_ERROR;
+>> +    }
+>> +
+>> +    return AE_OK;
 >> +}
 >> +
->>   static void amd_pmf_prepare_args(struct amd_pmf_dev *dev, int cmd,
->>                    struct tee_ioctl_invoke_arg *arg,
->>                    struct tee_param *param)
->> @@ -42,9 +56,23 @@ static void amd_pmf_prepare_args(struct
->> amd_pmf_dev *dev, int cmd,
->>       param[0].u.memref.shm_offs = 0;
->>   }
->>   +static int amd_pmf_update_uevents(struct amd_pmf_dev *dev, u16
->> event)
+>> +int apmf_check_smart_pc(struct amd_pmf_dev *pmf_dev)
 >> +{
->> +    char *envp[2] = {};
+>> +    acpi_handle ahandle = ACPI_HANDLE(pmf_dev->dev);
+>> +    acpi_status status;
 >> +
->> +    envp[0] = kasprintf(GFP_KERNEL, "EVENT_ID=%d", event);
->> +    if (!envp[0])
->> +        return -EINVAL;
+>> +    status = acpi_walk_resources(ahandle, METHOD_NAME__CRS,
+>> apmf_walk_resources, pmf_dev);
+>> +    if (ACPI_FAILURE(status)) {
+>> +        dev_err(pmf_dev->dev, "acpi_walk_resources failed\n");
+>> +        return status;
+> 
+> You're returning acpi_status here, but the return for the function is
+> int.  It "happens to work" but I think it would be better to do
+> something like:
+> 
+> dev_err(pmf_dev->dev, "acpi_walk_resources failed: %d\n, status);
+> return -EINVAL;
+
+OK, I will change this.
+
+> 
+>> +    }
 >> +
->> +    kobject_uevent_env(&dev->dev->kobj, KOBJ_CHANGE, envp);
->> +
->> +    kfree(envp[0]);
 >> +    return 0;
 >> +}
 >> +
->>   static void amd_pmf_apply_policies(struct amd_pmf_dev *dev, struct
->> ta_pmf_enact_result *out)
+>>   void apmf_acpi_deinit(struct amd_pmf_dev *pmf_dev)
 >>   {
->> -    u32 val;
->> +    u32 val, event = 0;
->>       int idx;
->>         for (idx = 0; idx < out->actions_count; idx++) {
->> @@ -113,6 +141,12 @@ static void amd_pmf_apply_policies(struct
->> amd_pmf_dev *dev, struct ta_pmf_enact_
->>                   dev->prev_data->p3t_limit = val;
->>               }
->>               break;
+>>       acpi_handle ahandle = ACPI_HANDLE(pmf_dev->dev);
+>> diff --git a/drivers/platform/x86/amd/pmf/core.c
+>> b/drivers/platform/x86/amd/pmf/core.c
+>> index ffb78e9709d9..96a41e7d4e7d 100644
+>> --- a/drivers/platform/x86/amd/pmf/core.c
+>> +++ b/drivers/platform/x86/amd/pmf/core.c
+>> @@ -395,6 +395,19 @@ static int amd_pmf_probe(struct platform_device
+>> *pdev)
+>>           return -ENOMEM;
+>>         dev->dev = &pdev->dev;
+>> +    err = apmf_check_smart_pc(dev);
+>> +    if (!err) {
+> 
+> Rather than just failing to init smart PC solution builder, shouldn't
+> you fail probe entirely if an err is set from probing the BIOS
+> resources?  This seems fairly fatal.
+> 
+> For example I'd think that setting up static slider is relatively
+> pointless on a system intending to use smart PC solution builder if
+> smart PC solution builder isn't working.
+> 
+
+What if - the BIOS advertises the smart PC bit and forgets to add
+resources (or a buggy ACPI thing)?
+
+Atleast that way if the static slider is enabled, atleast some amount
+of power saving can happen.
+
+Note that, I have tried the fallback to static slider if the smart pc
+fails and that's working with the current we have in place.
+
+
+>> +        /*
+>> +         * In order for Smart PC solution to work it has a hard
+>> dependency
+>> +         * on the amdtee driver to be loaded first even before the
+>> PMF driver
+>> +         * loads. PMF ASL has a _CRS method that advertises the
+>> existence
+>> +         * of Smart PC bit. If this information is present, use
+>> this to
+>> +         * explicitly probe the amdtee driver, so that "tee"
+>> plumbing is done
+>> +         * before the PMF Smart PC init happens.
+>> +         */
+>> +        if (request_module("amdtee"))
+>> +            pr_err("Failed to load amdtee. PMF Smart PC not
+>> enabled!\n");
+> 
+> Did that softdep thing Ilpo mentioned not work for modprobe? 
+> Hopefully that generally works for everything except the insmod case
+> so this code path is unlikely to be hit in the wild.
+> 
+
+unfortunately no. Hence that's the reason I had to retain back the
+request_module() here.
+
+>> +    }
+>>         rdev = pci_get_domain_bus_and_slot(0, 0, PCI_DEVFN(0, 0));
+>>       if (!rdev || !pci_match_id(pmf_pci_ids, rdev)) {
+>> diff --git a/drivers/platform/x86/amd/pmf/pmf.h
+>> b/drivers/platform/x86/amd/pmf/pmf.h
+>> index a91c22d9b532..51c0e17f7720 100644
+>> --- a/drivers/platform/x86/amd/pmf/pmf.h
+>> +++ b/drivers/platform/x86/amd/pmf/pmf.h
+>> @@ -14,6 +14,11 @@
+>>   #include <linux/acpi.h>
+>>   #include <linux/platform_profile.h>
+>>   +#define POLICY_BUF_MAX_SZ        0x4b000
+>> +#define POLICY_SIGN_COOKIE        0x31535024
+>> +#define POLICY_COOKIE_OFFSET        0x10
+>> +#define POLICY_COOKIE_LEN        0x14
 >> +
->> +        case PMF_POLICY_SYSTEM_STATE:
->> +            amd_pmf_update_uevents(dev, event);
->> +            dev_dbg(dev->dev, "update SYSTEM_STATE : %s\n",
->> +                amd_pmf_uevent_as_str(event));
+>>   /* APMF Functions */
+>>   #define APMF_FUNC_VERIFY_INTERFACE            0
+>>   #define APMF_FUNC_GET_SYS_PARAMS            1
+>> @@ -59,8 +64,21 @@
+>>   #define ARG_NONE 0
+>>   #define AVG_SAMPLE_SIZE 3
+>>   +/* Policy Actions */
+>> +#define PMF_POLICY_SPL                        2
+>> +#define PMF_POLICY_SPPT                        3
+>> +#define PMF_POLICY_FPPT                        4
+>> +#define PMF_POLICY_SPPT_APU_ONLY                5
+>> +#define PMF_POLICY_STT_MIN                    6
+>> +#define PMF_POLICY_STT_SKINTEMP_APU                7
+>> +#define PMF_POLICY_STT_SKINTEMP_HS2                8
+>> +
+>>   /* TA macros */
+>>   #define PMF_TA_IF_VERSION_MAJOR                1
+>> +#define TA_PMF_ACTION_MAX                    32
+>> +#define TA_PMF_UNDO_MAX                        8
+>> +#define TA_OUTPUT_RESERVED_MEM                906
+>> +#define MAX_OPERATION_PARAMS                    4
+>>     /* AMD PMF BIOS interfaces */
+>>   struct apmf_verify_interface {
+>> @@ -183,11 +201,16 @@ struct amd_pmf_dev {
+>>       bool cnqf_supported;
+>>       struct notifier_block pwr_src_notifier;
+>>       /* Smart PC solution builder */
+>> +    unsigned char *policy_buf;
+>> +    u32 policy_sz;
+>>       struct tee_context *tee_ctx;
+>>       struct tee_shm *fw_shm_pool;
+>>       u32 session_id;
+>>       void *shbuf;
+>>       struct delayed_work pb_work;
+>> +    struct pmf_action_table *prev_data;
+>> +    u64 policy_addr;
+>> +    void *policy_base;
+>>       bool smart_pc_enabled;
+>>   };
+>>   @@ -399,17 +422,129 @@ struct apmf_dyn_slider_output {
+>>       struct apmf_cnqf_power_set ps[APMF_CNQF_MAX];
+>>   } __packed;
+>>   +/* Smart PC - TA internals */
+>> +enum ta_slider {
+>> +    TA_BEST_BATTERY,    /* Best Battery */
+>> +    TA_BETTER_BATTERY,    /* Better Battery */
+>> +    TA_BETTER_PERFORMANCE,    /* Better Performance */
+>> +    TA_BEST_PERFORMANCE,    /* Best Performance */
+>> +    TA_MAX,
+>> +};
+> 
+> The comments above at end of the line don't add any value.
+
+OK.
+
+Thanks,
+Shyam
+
+> 
+>> +
+>>   /* cmd ids for TA communication */
+>>   enum ta_pmf_command {
+>>       TA_PMF_COMMAND_POLICY_BUILDER_INITIALIZE,
+>>       TA_PMF_COMMAND_POLICY_BUILDER_ENACT_POLICIES,
+>>   };
+>>   +enum ta_pmf_error_type {
+>> +    TA_PMF_TYPE_SUCCESS,
+>> +    TA_PMF_ERROR_TYPE_GENERIC,
+>> +    TA_PMF_ERROR_TYPE_CRYPTO,
+>> +    TA_PMF_ERROR_TYPE_CRYPTO_VALIDATE,
+>> +    TA_PMF_ERROR_TYPE_CRYPTO_VERIFY_OEM,
+>> +    TA_PMF_ERROR_TYPE_POLICY_BUILDER,
+>> +    TA_PMF_ERROR_TYPE_PB_CONVERT,
+>> +    TA_PMF_ERROR_TYPE_PB_SETUP,
+>> +    TA_PMF_ERROR_TYPE_PB_ENACT,
+>> +    TA_PMF_ERROR_TYPE_ASD_GET_DEVICE_INFO,
+>> +    TA_PMF_ERROR_TYPE_ASD_GET_DEVICE_PCIE_INFO,
+>> +    TA_PMF_ERROR_TYPE_SYS_DRV_FW_VALIDATION,
+>> +    TA_PMF_ERROR_TYPE_MAX,
+>> +};
+>> +
+>> +struct pmf_action_table {
+>> +    u32 spl;        /* in mW */
+>> +    u32 sppt;        /* in mW */
+>> +    u32 sppt_apuonly;    /* in mW */
+>> +    u32 fppt;        /* in mW */
+>> +    u32 stt_minlimit;    /* in mW */
+>> +    u32 stt_skintemp_apu;    /* in C */
+>> +    u32 stt_skintemp_hs2;    /* in C */
+>> +};
+>> +
+>> +/* Input conditions */
+>> +struct ta_pmf_condition_info {
+>> +    u32 power_source;
+>> +    u32 bat_percentage;
+>> +    u32 power_slider;
+>> +    u32 lid_state;
+>> +    bool user_present;
+>> +    u32 rsvd1[2];
+>> +    u32 monitor_count;
+>> +    u32 rsvd2[2];
+>> +    u32 bat_design;
+>> +    u32 full_charge_capacity;
+>> +    int drain_rate;
+>> +    bool user_engaged;
+>> +    u32 device_state;
+>> +    u32 socket_power;
+>> +    u32 skin_temperature;
+>> +    u32 rsvd3[5];
+>> +    u32 ambient_light;
+>> +    u32 length;
+>> +    u32 avg_c0residency;
+>> +    u32 max_c0residency;
+>> +    u32 s0i3_entry;
+>> +    u32 gfx_busy;
+>> +    u32 rsvd4[7];
+>> +    bool camera_state;
+>> +    u32 workload_type;
+>> +    u32 display_type;
+>> +    u32 display_state;
+>> +    u32 rsvd5[150];
+>> +};
+>> +
+>> +struct ta_pmf_load_policy_table {
+>> +    u32 table_size;
+>> +    u8 table[POLICY_BUF_MAX_SZ];
+>> +};
+>> +
+>> +/* TA initialization params */
+>> +struct ta_pmf_init_table {
+>> +    u32 frequency; /* SMU sampling frequency */
+>> +    bool validate;
+>> +    bool sku_check;
+>> +    bool metadata_macrocheck;
+>> +    struct ta_pmf_load_policy_table policies_table;
+>> +};
+>> +
+>> +/* Everything the TA needs to Enact Policies */
+>> +struct ta_pmf_enact_table {
+>> +    struct ta_pmf_condition_info ev_info;
+>> +    u32 name;
+>> +};
+>> +
+>> +struct ta_pmf_action {
+>> +    u32 action_index;
+>> +    u32 value;
+>> +};
+>> +
+>> +/* output actions from TA */
+>> +struct ta_pmf_enact_result {
+>> +    u32 actions_count;
+>> +    struct ta_pmf_action actions_list[TA_PMF_ACTION_MAX];
+>> +    u32 undo_count;
+>> +    struct ta_pmf_action undo_list[TA_PMF_UNDO_MAX];
+>> +};
+>> +
+>> +union ta_pmf_input {
+>> +    struct ta_pmf_enact_table enact_table;
+>> +    struct ta_pmf_init_table init_table;
+>> +};
+>> +
+>> +union ta_pmf_output {
+>> +    struct ta_pmf_enact_result policy_apply_table;
+>> +    u32 rsvd[TA_OUTPUT_RESERVED_MEM];
+>> +};
+>> +
+>>   struct ta_pmf_shared_memory {
+>>       int command_id;
+>>       int resp_id;
+>>       u32 pmf_result;
+>>       u32 if_version;
+>> +    union ta_pmf_output pmf_output;
+>> +    union ta_pmf_input pmf_input;
+>>   };
+>>     /* Core Layer */
+>> @@ -460,4 +595,5 @@ extern const struct attribute_group
+>> cnqf_feature_attribute_group;
+>>   /* Smart PC builder Layer */
+>>   int amd_pmf_init_smart_pc(struct amd_pmf_dev *dev);
+>>   void amd_pmf_deinit_smart_pc(struct amd_pmf_dev *dev);
+>> +int apmf_check_smart_pc(struct amd_pmf_dev *pmf_dev);
+>>   #endif /* PMF_H */
+>> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c
+>> b/drivers/platform/x86/amd/pmf/tee-if.c
+>> index 4036f435f1e2..38f02676261d 100644
+>> --- a/drivers/platform/x86/amd/pmf/tee-if.c
+>> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
+>> @@ -42,9 +42,77 @@ static void amd_pmf_prepare_args(struct
+>> amd_pmf_dev *dev, int cmd,
+>>       param[0].u.memref.shm_offs = 0;
+>>   }
+>>   +static void amd_pmf_apply_policies(struct amd_pmf_dev *dev,
+>> struct ta_pmf_enact_result *out)
+>> +{
+>> +    u32 val;
+>> +    int idx;
+>> +
+>> +    for (idx = 0; idx < out->actions_count; idx++) {
+>> +        val = out->actions_list[idx].value;
+>> +        switch (out->actions_list[idx].action_index) {
+>> +        case PMF_POLICY_SPL:
+>> +            if (dev->prev_data->spl != val) {
+>> +                amd_pmf_send_cmd(dev, SET_SPL, false, val, NULL);
+>> +                dev_dbg(dev->dev, "update SPL : %u\n", val);
+>> +                dev->prev_data->spl = val;
+>> +            }
 >> +            break;
->>           }
+>> +
+>> +        case PMF_POLICY_SPPT:
+>> +            if (dev->prev_data->sppt != val) {
+>> +                amd_pmf_send_cmd(dev, SET_SPPT, false, val, NULL);
+>> +                dev_dbg(dev->dev, "update SPPT : %u\n", val);
+>> +                dev->prev_data->sppt = val;
+>> +            }
+>> +            break;
+>> +
+>> +        case PMF_POLICY_FPPT:
+>> +            if (dev->prev_data->fppt != val) {
+>> +                amd_pmf_send_cmd(dev, SET_FPPT, false, val, NULL);
+>> +                dev_dbg(dev->dev, "update FPPT : %u\n", val);
+>> +                dev->prev_data->fppt = val;
+>> +            }
+>> +            break;
+>> +
+>> +        case PMF_POLICY_SPPT_APU_ONLY:
+>> +            if (dev->prev_data->sppt_apuonly != val) {
+>> +                amd_pmf_send_cmd(dev, SET_SPPT_APU_ONLY, false,
+>> val, NULL);
+>> +                dev_dbg(dev->dev, "update SPPT_APU_ONLY : %u\n", val);
+>> +                dev->prev_data->sppt_apuonly = val;
+>> +            }
+>> +            break;
+>> +
+>> +        case PMF_POLICY_STT_MIN:
+>> +            if (dev->prev_data->stt_minlimit != val) {
+>> +                amd_pmf_send_cmd(dev, SET_STT_MIN_LIMIT, false,
+>> val, NULL);
+>> +                dev_dbg(dev->dev, "update STT_MIN : %u\n", val);
+>> +                dev->prev_data->stt_minlimit = val;
+>> +            }
+>> +            break;
+>> +
+>> +        case PMF_POLICY_STT_SKINTEMP_APU:
+>> +            if (dev->prev_data->stt_skintemp_apu != val) {
+>> +                amd_pmf_send_cmd(dev, SET_STT_LIMIT_APU, false,
+>> val, NULL);
+>> +                dev_dbg(dev->dev, "update STT_SKINTEMP_APU : %u\n",
+>> val);
+>> +                dev->prev_data->stt_skintemp_apu = val;
+>> +            }
+>> +            break;
+>> +
+>> +        case PMF_POLICY_STT_SKINTEMP_HS2:
+>> +            if (dev->prev_data->stt_skintemp_hs2 != val) {
+>> +                amd_pmf_send_cmd(dev, SET_STT_LIMIT_HS2, false,
+>> val, NULL);
+>> +                dev_dbg(dev->dev, "update STT_SKINTEMP_HS2 : %u\n",
+>> val);
+>> +                dev->prev_data->stt_skintemp_hs2 = val;
+>> +            }
+>> +            break;
+>> +        }
+>> +    }
+>> +}
+>> +
+>>   static int amd_pmf_invoke_cmd_enact(struct amd_pmf_dev *dev)
+>>   {
+>>       struct ta_pmf_shared_memory *ta_sm = NULL;
+>> +    struct ta_pmf_enact_result *out = NULL;
+>>       struct tee_param param[MAX_TEE_PARAM];
+>>       struct tee_ioctl_invoke_arg arg;
+>>       int ret = 0;
+>> @@ -52,7 +120,10 @@ static int amd_pmf_invoke_cmd_enact(struct
+>> amd_pmf_dev *dev)
+>>       if (!dev->tee_ctx)
+>>           return -ENODEV;
+>>   +    memset(dev->shbuf, 0, dev->policy_sz);
+>>       ta_sm = dev->shbuf;
+>> +    out = &ta_sm->pmf_output.policy_apply_table;
+>> +
+>>       memset(ta_sm, 0, sizeof(*ta_sm));
+>>       ta_sm->command_id = TA_PMF_COMMAND_POLICY_BUILDER_ENACT_POLICIES;
+>>       ta_sm->if_version = PMF_TA_IF_VERSION_MAJOR;
+>> @@ -65,6 +136,12 @@ static int amd_pmf_invoke_cmd_enact(struct
+>> amd_pmf_dev *dev)
+>>           return ret;
 >>       }
+>>   +    if (ta_sm->pmf_result == TA_PMF_TYPE_SUCCESS &&
+>> out->actions_count) {
+>> +        dev_dbg(dev->dev, "action count:%u result:%x\n",
+>> out->actions_count,
+>> +            ta_sm->pmf_result);
+>> +        amd_pmf_apply_policies(dev, out);
+>> +    }
+>> +
+>>       return 0;
+>>   }
+>>   @@ -72,6 +149,7 @@ static int amd_pmf_invoke_cmd_init(struct
+>> amd_pmf_dev *dev)
+>>   {
+>>       struct ta_pmf_shared_memory *ta_sm = NULL;
+>>       struct tee_param param[MAX_TEE_PARAM];
+>> +    struct ta_pmf_init_table *in = NULL;
+>>       struct tee_ioctl_invoke_arg arg;
+>>       int ret = 0;
+>>   @@ -80,10 +158,21 @@ static int amd_pmf_invoke_cmd_init(struct
+>> amd_pmf_dev *dev)
+>>           return -ENODEV;
+>>       }
+>>   +    dev_dbg(dev->dev, "Policy Binary size: %u bytes\n",
+>> dev->policy_sz);
+>> +    memset(dev->shbuf, 0, dev->policy_sz);
+>>       ta_sm = dev->shbuf;
+>> +    in = &ta_sm->pmf_input.init_table;
+>> +
+>>       ta_sm->command_id = TA_PMF_COMMAND_POLICY_BUILDER_INITIALIZE;
+>>       ta_sm->if_version = PMF_TA_IF_VERSION_MAJOR;
+>>   +    in->metadata_macrocheck = false;
+>> +    in->sku_check = false;
+>> +    in->validate = true;
+>> +    in->frequency = pb_actions_ms;
+>> +    in->policies_table.table_size = dev->policy_sz;
+>> +
+>> +    memcpy(in->policies_table.table, dev->policy_buf, dev->policy_sz);
+>>       amd_pmf_prepare_args(dev,
+>> TA_PMF_COMMAND_POLICY_BUILDER_INITIALIZE, &arg, param);
+>>         ret = tee_client_invoke_func(dev->tee_ctx, &arg, param);
+>> @@ -103,6 +192,51 @@ static void amd_pmf_invoke_cmd(struct
+>> work_struct *work)
+>>       schedule_delayed_work(&dev->pb_work,
+>> msecs_to_jiffies(pb_actions_ms));
+>>   }
+>>   +static int amd_pmf_start_policy_engine(struct amd_pmf_dev *dev)
+>> +{
+>> +    u32 cookie, length;
+>> +    int res;
+>> +
+>> +    cookie = readl(dev->policy_buf + POLICY_COOKIE_OFFSET);
+>> +    length = readl(dev->policy_buf + POLICY_COOKIE_LEN);
+>> +
+>> +    if (cookie != POLICY_SIGN_COOKIE || !length)
+>> +        return -EINVAL;
+>> +
+>> +    /* update the actual length */
+>> +    dev->policy_sz = length + 512;
+>> +    res = amd_pmf_invoke_cmd_init(dev);
+>> +    if (res == TA_PMF_TYPE_SUCCESS) {
+>> +        /* now its safe to announce that smart pc is enabled */
+>> +        dev->smart_pc_enabled = 1;
+>> +        /*
+>> +         * Start collecting the data from PMFW after a small delay
+>> +         * or else, we might end up getting stale values.
+>> +         */
+>> +        schedule_delayed_work(&dev->pb_work,
+>> msecs_to_jiffies(pb_actions_ms * 3));
+>> +    } else {
+>> +        dev_err(dev->dev, "ta invoke cmd init failed err: %x\n", res);
+>> +        return res;
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
+>> +{
+>> +    dev->policy_buf = kzalloc(dev->policy_sz, GFP_KERNEL);
+>> +    if (!dev->policy_buf)
+>> +        return -ENOMEM;
+>> +
+>> +    dev->policy_base = devm_ioremap(dev->dev, dev->policy_addr,
+>> dev->policy_sz);
+>> +    if (!dev->policy_base)
+>> +        return -ENOMEM;
+>> +
+>> +    memcpy(dev->policy_buf, dev->policy_base, dev->policy_sz);
+>> +
+>> +    return amd_pmf_start_policy_engine(dev);
+>> +}
+>> +
+>>   static int amd_pmf_amdtee_ta_match(struct tee_ioctl_version_data
+>> *ver, const void *data)
+>>   {
+>>       return ver->impl_id == TEE_IMPL_ID_AMDTEE;
+>> @@ -146,7 +280,7 @@ static int amd_pmf_tee_init(struct amd_pmf_dev
+>> *dev)
+>>           goto out_ctx;
+>>       }
+>>   -    size = sizeof(struct ta_pmf_shared_memory);
+>> +    size = sizeof(struct ta_pmf_shared_memory) + dev->policy_sz;
+>>       dev->fw_shm_pool = tee_shm_alloc_kernel_buf(dev->tee_ctx, size);
+>>       if (IS_ERR(dev->fw_shm_pool)) {
+>>           dev_err(dev->dev, "Failed to alloc TEE shared memory\n");
+>> @@ -190,11 +324,19 @@ int amd_pmf_init_smart_pc(struct amd_pmf_dev
+>> *dev)
+>>           return ret;
+>>         INIT_DELAYED_WORK(&dev->pb_work, amd_pmf_invoke_cmd);
+>> -    return 0;
+>> +    amd_pmf_set_dram_addr(dev);
+>> +    amd_pmf_get_bios_buffer(dev);
+>> +    dev->prev_data = kzalloc(sizeof(*dev->prev_data), GFP_KERNEL);
+>> +    if (!dev->prev_data)
+>> +        return -ENOMEM;
+>> +
+>> +    return dev->smart_pc_enabled;
+>>   }
+>>     void amd_pmf_deinit_smart_pc(struct amd_pmf_dev *dev)
+>>   {
+>> +    kfree(dev->prev_data);
+>> +    kfree(dev->policy_buf);
+>>       cancel_delayed_work_sync(&dev->pb_work);
+>>       amd_pmf_tee_deinit(dev);
 >>   }
 > 
