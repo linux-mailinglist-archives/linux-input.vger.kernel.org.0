@@ -2,226 +2,151 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BA5D7C5D50
-	for <lists+linux-input@lfdr.de>; Wed, 11 Oct 2023 21:01:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 817387C5DB3
+	for <lists+linux-input@lfdr.de>; Wed, 11 Oct 2023 21:34:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233233AbjJKTBA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Oct 2023 15:01:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40228 "EHLO
+        id S233360AbjJKTe4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Oct 2023 15:34:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233342AbjJKTA7 (ORCPT
+        with ESMTP id S233354AbjJKTez (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Oct 2023 15:00:59 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3298E5;
-        Wed, 11 Oct 2023 12:00:54 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-692c70bc440so86479b3a.3;
-        Wed, 11 Oct 2023 12:00:54 -0700 (PDT)
+        Wed, 11 Oct 2023 15:34:55 -0400
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7892E94;
+        Wed, 11 Oct 2023 12:34:53 -0700 (PDT)
+Received: by mail-qt1-x82b.google.com with SMTP id d75a77b69052e-41959feaae2so1457571cf.0;
+        Wed, 11 Oct 2023 12:34:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697050854; x=1697655654; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lgH80giGdocd0lWZvSZ+nxWXaTP5RcrQOuV73pIouaA=;
-        b=dSt4g01mh0p3jsMk/yR3s+tnqBqWT/HFgRqGPjOJyxyj1TrzNPVXCzFLwGu1iCMzyJ
-         q6ElQq323+Ac4tG5SI56Dbik7kgkKvQyGNE2KuC02bv802VTINXseKfYPCQsgVA+fWrC
-         JW5Kpvi1Mg9tlWKSl0MeDrwKy9lwvg76qrg6vuARMKET2XY7IpJMk1JIxzVXuVUneayt
-         MVVO5+sfjFrI7TO/O02zguo68kPm1EmkG+wMCKrR/gILR7/+V2aC/D1KiP+Q9j2Two9J
-         LOok5ixJ92+WA4xALOzM9xsR1iyy3oB36fiHe+iI2/I6xK4cTLJ+DFe4USzwkv6CXJlV
-         sp6g==
+        d=gmail.com; s=20230601; t=1697052892; x=1697657692; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uMhxyW0joTpwkIFPxid1geHzJJshLGm7m/QaYWuizMU=;
+        b=GZP7eaK1LSCBBrIRtwcj4r7MfdcSR9WUT5eeOw15PjoCHPkbM/PGPIFy1WAEY01omD
+         gR12JCrr9f+49KxklCMJxVU5HTjv+UpLKnbUHBfBNW3e5JD3akJl3d6O9NEadU3mGQu9
+         J08qBr2gI9RZ9cEkQwWZbPW0ljl0WLz/qf70fMGv3qgUToiYU4dA9pe0zh04rvay+a3k
+         ej4A5RneercEQmsIIjPBHqEhTSPfD5lbDXNV1MtltZNWH2uCnYy1OA0FXUJQ4bmjXGCO
+         7jn3opP+H1nugIkvp0MF67wX/Yw7PtvWXFhUUbLEm1agNg/jWBCZewH2bU4HIEcFaQfr
+         x4jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697050854; x=1697655654;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lgH80giGdocd0lWZvSZ+nxWXaTP5RcrQOuV73pIouaA=;
-        b=wHHVpxH8DTAk/gn1CtKk5KlbpsHEV8SK+QYHvY9Rj5f9WBRTW7iOytOWy/FSu1JtV1
-         JmQ5lu2h00DJkx9Ajv/9mt3bWfWmI++4iJ/MZA+U3TCk+M82ilaAfZoCGcgnWqEx4c9W
-         +KB+al4TezL9Xs2leDY3YR/aIz5FpHY2xwylkG7nY+8T0T+zZmqruxqWdGHfFc80Ch8J
-         SxW5Gpdr3f67OwrMzsvpGoYwyHHUv9lu7uAjudKuzEeQFbs5GeP9Y1fMQlpvBPywqoLp
-         0GUO9SzB/tCFA0XT7wmDrxB0cEIdtSnEXw98QTaod0vSD+ACVkqezfn++EUCTbfLwh15
-         WeCQ==
-X-Gm-Message-State: AOJu0YykJrjN+2CxTRZZK/Pk5MuPeD5k5worS1Fcw89kXT0ezZSUAcBg
-        xNEIB5qQO2clB0Org5mMRGE=
-X-Google-Smtp-Source: AGHT+IHB87s15cez9sVKr6yfH1HSR+x0sakHHdwVAEYjQprXEksklIJbJPK0dnmo6MXrBEDLIsCFpQ==
-X-Received: by 2002:a05:6a00:2e20:b0:68e:42c9:74e0 with SMTP id fc32-20020a056a002e2000b0068e42c974e0mr22999550pfb.3.1697050854108;
-        Wed, 11 Oct 2023 12:00:54 -0700 (PDT)
-Received: from [10.3.171.174] ([103.4.221.252])
-        by smtp.gmail.com with ESMTPSA id n14-20020a62e50e000000b0069319bfed42sm10344972pff.79.2023.10.11.12.00.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Oct 2023 12:00:53 -0700 (PDT)
-Message-ID: <f1796d1a-bcd0-414d-b4e1-806e93eb202b@gmail.com>
-Date:   Thu, 12 Oct 2023 00:29:58 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] dt-bindings: input: bindings for Adafruit Seesaw
- Gamepad
-Content-Language: en-US
-To:     Conor Dooley <conor@kernel.org>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        d=1e100.net; s=20230601; t=1697052892; x=1697657692;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uMhxyW0joTpwkIFPxid1geHzJJshLGm7m/QaYWuizMU=;
+        b=PG4fr4OybzkM2wourhARgod31RLoeniJDxdTwV8MmVgcCBhKSQ00ohSTj7h0Ga8Rcc
+         eI0xBYbWjwXZWWZqIiP1EL2Y3qaspEr/HF7N67rzn1hAcgn/EbGBuoUH8GJLIrBz5l00
+         YzVz+SRV9dbA3BGfZwtA+f52p1+tUA9ohfFzBsXEa7C4yugtzyRKEbts06hnbtMfH63g
+         HoR1XNe05CWPptYxNbVNn8vcQ3Pjhi9P8mY9tqIN0zV1HQ6OuKQ3KgNN1TmpqnG6npR/
+         OXU8Qpz35u1bTI8VtfKJhbgTfM6eL/gi8EulKDCEcVd5rCH1EYgqTvqs7g/PfYSQF5It
+         Y0kA==
+X-Gm-Message-State: AOJu0YxBCMSQ2vzMe27vsWYEoK85SJgjFgZuIARRaRYabmCBrjyBXn/p
+        4K8zGCF/CEPn1rMDHg4O73nXvx0bftk=
+X-Google-Smtp-Source: AGHT+IFmmEg2FwIICOSgIOxwowdhvVBGcpvnCukQmxekoza0guKE4aJgLWMK5ehMuf5y7jxrkr8xnw==
+X-Received: by 2002:a05:622a:1316:b0:418:a14:9c30 with SMTP id v22-20020a05622a131600b004180a149c30mr26004028qtk.9.1697052891948;
+        Wed, 11 Oct 2023 12:34:51 -0700 (PDT)
+Received: from pm2-ws13.praxislan02.com (207-172-141-204.s8906.c3-0.slvr-cbr1.lnh-slvr.md.cable.rcncustomer.com. [207.172.141.204])
+        by smtp.gmail.com with ESMTPSA id g9-20020ac84689000000b00410ac0068d0sm5558667qto.91.2023.10.11.12.34.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Oct 2023 12:34:51 -0700 (PDT)
+From:   Jason Andryuk <jandryuk@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Jason Andryuk <jandryuk@gmail.com>,
+        Phillip Susi <phill@thesusis.net>, stable@vger.kernel.org,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-References: <20231010184827.1213507-1-anshulusr@gmail.com>
- <20231011-powdering-recycled-71608e794eaa@spud>
-From:   Anshul Dalal <anshulusr@gmail.com>
-In-Reply-To: <20231011-powdering-recycled-71608e794eaa@spud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        linux-input@vger.kernel.org
+Subject: [PATCH v3] Input: xen-kbdfront - drop keys to shrink modalias
+Date:   Wed, 11 Oct 2023 15:34:43 -0400
+Message-ID: <20231011193444.81254-1-jandryuk@gmail.com>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+xen kbdfront registers itself as being able to deliver *any* key since
+it doesn't know what keys the backend may produce.
 
-On 10/11/23 21:45, Conor Dooley wrote:
-> Hey,
-> 
-> On Wed, Oct 11, 2023 at 12:18:23AM +0530, Anshul Dalal wrote:
->> Adds bindings for the Adafruit Seesaw Gamepad.
->>
->> The gamepad functions as an i2c device with the default address of 0x50
->> and has an IRQ pin that can be enabled in the driver to allow for a rising
->> edge trigger on each button press or joystick movement.
->>
->> Product page:
->>   https://www.adafruit.com/product/5743
->> Arduino driver:
->>   https://github.com/adafruit/Adafruit_Seesaw
->>
->> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
->> ---
->>
->> Changes for v4:
->> - Fixed the URI for the id field
->> - Added `interrupts` property
->>
->> Changes for v3:
->> - Updated id field to reflect updated file name from previous version
->> - Added `reg` property
->>
->> Changes for v2:
->> - Renamed file to `adafruit,seesaw-gamepad.yaml`
->> - Removed quotes for `$id` and `$schema`
->> - Removed "Bindings for" from the description
->> - Changed node name to the generic name "joystick"
->> - Changed compatible to 'adafruit,seesaw-gamepad' instead of
->>   'adafruit,seesaw_gamepad'
->>
->>  .../input/adafruit,seesaw-gamepad.yaml        | 59 +++++++++++++++++++
->>  1 file changed, 59 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
->> new file mode 100644
->> index 000000000000..e8e676006d2f
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
->> @@ -0,0 +1,59 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Adafruit Mini I2C Gamepad with seesaw
-> 
-> Binding mostly looks good to me. My main question is what is a seesaw?
-> 
+Unfortunately, the generated modalias gets too large and uevent creation
+fails with -ENOMEM.
 
-Seesaw is a universal framework that enables extending I/O capabilities
-of the i2c master devices with a compatible breakout board. As it
-relates to the binding, this gamepad uses an AVR ATtiny816
-microcontroller that reads the data from the buttons and the joystick
-and sends the data to the master over i2c using the Seesaw framework.
+This can lead to gdm not using the keyboard since there is no seat
+associated [1] and the debian installer crashing [2].
 
->> +
->> +maintainers:
->> +  - Anshul Dalal <anshulusr@gmail.com>
->> +
->> +description: |
->> +  Adafruit Mini I2C Gamepad
->> +
->> +    +-----------------------------+
->> +    |   ___                       |
->> +    |  /   \               (X)    |
->> +    | |  S  |  __   __  (Y)   (A) |
->> +    |  \___/  |ST| |SE|    (B)    |
->> +    |                             |
->> +    +-----------------------------+
->> +
->> +  S -> 10-bit percision bidirectional analog joystick
->> +  ST -> Start
->> +  SE -> Select
->> +  X, A, B, Y -> Digital action buttons
->> +
->> +  Product page: https://www.adafruit.com/product/5743
->> +  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
-> 
-> I'm not really sure what the arduino driver has to do with the binding.
-> Why is a link to it more relevant than the freebsd driver, or the linux
-> driver etc? Is there info about how the pad works in the arduino driver
-> 
-> Otherwise, this seems good to me.
-> 
-> Thanks,
-> Conor.
+Trim the ranges of key capabilities by removing some BTN_* ranges.
+While doing this, some neighboring undefined ranges are removed to trim
+it further.
 
-The Arduino driver I linked was the only resource that had the
-implementation of the seesaw framework as well as the example code
-specific to this device:
-https://github.com/adafruit/Adafruit_Seesaw/tree/master/examples/Mini_I2C_Gamepad_QT
-On further thought, a link to the accompanying document from the
-manufacturer (https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.pdf)
-might be more relevant for the binding which includes the hardware
-description as well as links to the above-mentioned Arduino driver.
+An upper limit of KEY_KBD_LCD_MENU5 is still too large.  Use an upper
+limit of KEY_BRIGHTNESS_MENU.
 
-> 
->> +
->> +properties:
->> +  compatible:
->> +    const: adafruit,seesaw-gamepad
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +    description:
->> +      The gamepad's IRQ pin triggers a rising edge if interrupts are enabled.
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    i2c {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +
->> +        joystick@50 {
->> +            compatible = "adafruit,seesaw-gamepad";
->> +            reg = <0x50>;
->> +        };
->> +    };
->> -- 
->> 2.42.0
->>
+This removes:
+BTN_DPAD_UP(0x220)..BTN_DPAD_RIGHT(0x223)
+Empty space 0x224..0x229
 
-Thanks for the review.
+Empty space 0x28a..0x28f
+KEY_MACRO1(0x290)..KEY_MACRO30(0x2ad)
+KEY_MACRO_RECORD_START          0x2b0
+KEY_MACRO_RECORD_STOP           0x2b1
+KEY_MACRO_PRESET_CYCLE          0x2b2
+KEY_MACRO_PRESET1(0x2b3)..KEY_MACRO_PRESET3(0xb5)
+Empty space 0x2b6..0x2b7
+KEY_KBD_LCD_MENU1(0x2b8)..KEY_KBD_LCD_MENU5(0x2bc)
+Empty space 0x2bd..0x2bf
+BTN_TRIGGER_HAPPY(0x2c0)..BTN_TRIGGER_HAPPY40(0x2e7)
+Empty space 0x2e8..0x2ff
 
-Best Regards,
-Anshul
+The modalias shrinks from 2082 to 1550 bytes.
+
+A chunk of keys need to be removed to allow the keyboard to be used.
+This may break some functionality, but the hope is these macro keys are
+uncommon and don't affect any users.
+
+[1] https://github.com/systemd/systemd/issues/22944
+[2] https://lore.kernel.org/xen-devel/87o8dw52jc.fsf@vps.thesusis.net/T/
+
+Cc: Phillip Susi <phill@thesusis.net>
+Cc: stable@vger.kernel.org
+Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+---
+v3:
+Add Mattijs R-b
+Put /* and */ on separate lines
+---
+ drivers/input/misc/xen-kbdfront.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/input/misc/xen-kbdfront.c b/drivers/input/misc/xen-kbdfront.c
+index 67f1c7364c95..d59ba8f9852e 100644
+--- a/drivers/input/misc/xen-kbdfront.c
++++ b/drivers/input/misc/xen-kbdfront.c
+@@ -256,7 +256,16 @@ static int xenkbd_probe(struct xenbus_device *dev,
+ 		__set_bit(EV_KEY, kbd->evbit);
+ 		for (i = KEY_ESC; i < KEY_UNKNOWN; i++)
+ 			__set_bit(i, kbd->keybit);
+-		for (i = KEY_OK; i < KEY_MAX; i++)
++		/*
++		 * In theory we want to go KEY_OK..KEY_MAX, but that grows the
++		 * modalias line too long.  There is a gap of buttons from
++		 * BTN_DPAD_UP..BTN_DPAD_RIGHT and KEY_ALS_TOGGLE is the next
++		 * defined. Then continue up to KEY_BRIGHTNESS_MENU as an upper
++		 * limit.
++		 */
++		for (i = KEY_OK; i < BTN_DPAD_UP; i++)
++			__set_bit(i, kbd->keybit);
++		for (i = KEY_ALS_TOGGLE; i <= KEY_BRIGHTNESS_MENU; i++)
+ 			__set_bit(i, kbd->keybit);
+ 
+ 		ret = input_register_device(kbd);
+-- 
+2.41.0
+
