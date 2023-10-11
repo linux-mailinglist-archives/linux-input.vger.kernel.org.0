@@ -2,66 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 817387C5DB3
-	for <lists+linux-input@lfdr.de>; Wed, 11 Oct 2023 21:34:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 879177C5E4E
+	for <lists+linux-input@lfdr.de>; Wed, 11 Oct 2023 22:24:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233360AbjJKTe4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Oct 2023 15:34:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49042 "EHLO
+        id S233360AbjJKUYp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Oct 2023 16:24:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233354AbjJKTez (ORCPT
+        with ESMTP id S233279AbjJKUYo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Oct 2023 15:34:55 -0400
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7892E94;
-        Wed, 11 Oct 2023 12:34:53 -0700 (PDT)
-Received: by mail-qt1-x82b.google.com with SMTP id d75a77b69052e-41959feaae2so1457571cf.0;
-        Wed, 11 Oct 2023 12:34:53 -0700 (PDT)
+        Wed, 11 Oct 2023 16:24:44 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EE0891;
+        Wed, 11 Oct 2023 13:24:43 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-99bdeae1d0aso38372366b.1;
+        Wed, 11 Oct 2023 13:24:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697052892; x=1697657692; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uMhxyW0joTpwkIFPxid1geHzJJshLGm7m/QaYWuizMU=;
-        b=GZP7eaK1LSCBBrIRtwcj4r7MfdcSR9WUT5eeOw15PjoCHPkbM/PGPIFy1WAEY01omD
-         gR12JCrr9f+49KxklCMJxVU5HTjv+UpLKnbUHBfBNW3e5JD3akJl3d6O9NEadU3mGQu9
-         J08qBr2gI9RZ9cEkQwWZbPW0ljl0WLz/qf70fMGv3qgUToiYU4dA9pe0zh04rvay+a3k
-         ej4A5RneercEQmsIIjPBHqEhTSPfD5lbDXNV1MtltZNWH2uCnYy1OA0FXUJQ4bmjXGCO
-         7jn3opP+H1nugIkvp0MF67wX/Yw7PtvWXFhUUbLEm1agNg/jWBCZewH2bU4HIEcFaQfr
-         x4jg==
+        d=gmail.com; s=20230601; t=1697055881; x=1697660681; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uzvkbhkLaMUPqU7HMTRyBjb4pmEB3My0Qu8sb0+YfiQ=;
+        b=RnomGxJ3ysZqyBOEQ8DbLeXEJaLOvy3pQaObqvM0J/UwOgZoP/KujThEwd2QlBie1w
+         XhTsFHyN6bk6Q7PRSxsqTMJX4qDb9T0ppdYjiPk8+O9oVapFKST9e5WvYiFvVTrnpnYh
+         da2rCsthDyJP39X16ElauiJuXuWxbhAxbOWqe5r77NAxts01GPJK0DuLoUl9nGDiQc5U
+         M5rl+qhKvfRPbMBRaTcgPj+CFXZsFFrBfZiE4tZ7LeN3EchCwk3vLdQJK/0H1olEOeQL
+         6ymN6bXsZeThwckyjjXTz3AT2yGBdpLXmQDN5DOpa6nzH+EETesFZpjeFGZKQAbhZKdO
+         /r2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697052892; x=1697657692;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uMhxyW0joTpwkIFPxid1geHzJJshLGm7m/QaYWuizMU=;
-        b=PG4fr4OybzkM2wourhARgod31RLoeniJDxdTwV8MmVgcCBhKSQ00ohSTj7h0Ga8Rcc
-         eI0xBYbWjwXZWWZqIiP1EL2Y3qaspEr/HF7N67rzn1hAcgn/EbGBuoUH8GJLIrBz5l00
-         YzVz+SRV9dbA3BGfZwtA+f52p1+tUA9ohfFzBsXEa7C4yugtzyRKEbts06hnbtMfH63g
-         HoR1XNe05CWPptYxNbVNn8vcQ3Pjhi9P8mY9tqIN0zV1HQ6OuKQ3KgNN1TmpqnG6npR/
-         OXU8Qpz35u1bTI8VtfKJhbgTfM6eL/gi8EulKDCEcVd5rCH1EYgqTvqs7g/PfYSQF5It
-         Y0kA==
-X-Gm-Message-State: AOJu0YxBCMSQ2vzMe27vsWYEoK85SJgjFgZuIARRaRYabmCBrjyBXn/p
-        4K8zGCF/CEPn1rMDHg4O73nXvx0bftk=
-X-Google-Smtp-Source: AGHT+IFmmEg2FwIICOSgIOxwowdhvVBGcpvnCukQmxekoza0guKE4aJgLWMK5ehMuf5y7jxrkr8xnw==
-X-Received: by 2002:a05:622a:1316:b0:418:a14:9c30 with SMTP id v22-20020a05622a131600b004180a149c30mr26004028qtk.9.1697052891948;
-        Wed, 11 Oct 2023 12:34:51 -0700 (PDT)
-Received: from pm2-ws13.praxislan02.com (207-172-141-204.s8906.c3-0.slvr-cbr1.lnh-slvr.md.cable.rcncustomer.com. [207.172.141.204])
-        by smtp.gmail.com with ESMTPSA id g9-20020ac84689000000b00410ac0068d0sm5558667qto.91.2023.10.11.12.34.50
+        d=1e100.net; s=20230601; t=1697055881; x=1697660681;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uzvkbhkLaMUPqU7HMTRyBjb4pmEB3My0Qu8sb0+YfiQ=;
+        b=t+Scl7bHeD/9nGTAEfLll34SLc7YNl5MulEiUuH+beM0ILoJF4PKUky1U+yk9G0Sjq
+         /iOSEal2NdO/Iv+9Tx76D9l+6bxOkAIuzY/n8VtQjT3Fpi+MdSaiGDaUbaVt4lLfJZs3
+         nCriWCwWFkYHC3IffBndpzU7k1iGrlZz31ayNpjfVATeLToMatAse9YfZD52vZ/NDrRg
+         93WC3aRwe9b9Hh849Q2IkBJn6dv9GF1EflwzftqX2WDFKQEhpJKYeX52klLENmPwh2Rg
+         pWeWMF9xxhu2DZdecphkvwN6EoWKq/oTln1wzTpgwBDWIMk2/yTdpsvvHfEdGXjEL+uD
+         fQMQ==
+X-Gm-Message-State: AOJu0YzWxZzhgjf0+CPKHjGIpBux+vbWO9fKiHHM2br7oXiKC1gSaD8F
+        TZYrP7EYiQyQHUH7HBHe5PI=
+X-Google-Smtp-Source: AGHT+IGygcDlYEvQCHkHqj9FwQIkNeS15ycoNc0YrqsIvUTmjvBthYTots46Xd0hRCc9tkEJT5LYaQ==
+X-Received: by 2002:a17:906:53c6:b0:9ae:6ad0:f6cd with SMTP id p6-20020a17090653c600b009ae6ad0f6cdmr19804679ejo.24.1697055881232;
+        Wed, 11 Oct 2023 13:24:41 -0700 (PDT)
+Received: from orome.fritz.box (p200300e41f3f4900f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f3f:4900:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id lf8-20020a170906ae4800b009b27d4153c0sm10326077ejb.178.2023.10.11.13.24.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Oct 2023 12:34:51 -0700 (PDT)
-From:   Jason Andryuk <jandryuk@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Jason Andryuk <jandryuk@gmail.com>,
-        Phillip Susi <phill@thesusis.net>, stable@vger.kernel.org,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Wed, 11 Oct 2023 13:24:40 -0700 (PDT)
+Date:   Wed, 11 Oct 2023 22:24:39 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH v3] Input: xen-kbdfront - drop keys to shrink modalias
-Date:   Wed, 11 Oct 2023 15:34:43 -0400
-Message-ID: <20231011193444.81254-1-jandryuk@gmail.com>
-X-Mailer: git-send-email 2.41.0
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-input@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: tegra: Use device_get_match_data()
+Message-ID: <ZScEh0j0SlOZFcWv@orome.fritz.box>
+References: <20231006224432.442709-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="EpZWWdJP6+/QOGEM"
+Content-Disposition: inline
+In-Reply-To: <20231006224432.442709-1-robh@kernel.org>
+User-Agent: Mutt/2.2.12 (2023-09-09)
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -72,81 +77,42 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-xen kbdfront registers itself as being able to deliver *any* key since
-it doesn't know what keys the backend may produce.
 
-Unfortunately, the generated modalias gets too large and uevent creation
-fails with -ENOMEM.
+--EpZWWdJP6+/QOGEM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This can lead to gdm not using the keyboard since there is no seat
-associated [1] and the debian installer crashing [2].
+On Fri, Oct 06, 2023 at 05:44:32PM -0500, Rob Herring wrote:
+> Use preferred device_get_match_data() instead of of_match_device() to
+> get the driver match data. With this, adjust the includes to explicitly
+> include the correct headers.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  drivers/input/keyboard/tegra-kbc.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
 
-Trim the ranges of key capabilities by removing some BTN_* ranges.
-While doing this, some neighboring undefined ranges are removed to trim
-it further.
+Acked-by: Thierry Reding <treding@nvidia.com>
 
-An upper limit of KEY_KBD_LCD_MENU5 is still too large.  Use an upper
-limit of KEY_BRIGHTNESS_MENU.
+--EpZWWdJP6+/QOGEM
+Content-Type: application/pgp-signature; name="signature.asc"
 
-This removes:
-BTN_DPAD_UP(0x220)..BTN_DPAD_RIGHT(0x223)
-Empty space 0x224..0x229
+-----BEGIN PGP SIGNATURE-----
 
-Empty space 0x28a..0x28f
-KEY_MACRO1(0x290)..KEY_MACRO30(0x2ad)
-KEY_MACRO_RECORD_START          0x2b0
-KEY_MACRO_RECORD_STOP           0x2b1
-KEY_MACRO_PRESET_CYCLE          0x2b2
-KEY_MACRO_PRESET1(0x2b3)..KEY_MACRO_PRESET3(0xb5)
-Empty space 0x2b6..0x2b7
-KEY_KBD_LCD_MENU1(0x2b8)..KEY_KBD_LCD_MENU5(0x2bc)
-Empty space 0x2bd..0x2bf
-BTN_TRIGGER_HAPPY(0x2c0)..BTN_TRIGGER_HAPPY40(0x2e7)
-Empty space 0x2e8..0x2ff
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmUnBIcACgkQ3SOs138+
+s6HPEQ//WdVN2OUKGkF3D1pmcNQrs+kbsWE+RlouD5B/2En6FyPJuCy4nTBaWJhU
+4PvIIpCvEm7YD+vaO/D01a8cw/pC4bHTgsgsiGvRaJPnaX9ypzldeWjS8FW5hIgc
+zLaUbk0pDfw85Nix0Ru0/ApueorU4PkpNc93LrTwsggpDAuqjTMXZuzHtr9z6Bqb
+82IDUE5qEl8dE4kDdoX4oGWMZEKIrCSvGDUOPwNsLtF8nV2EUXRkW9PdNQAcj3Ty
+e+zk3mje2GDpsy38aXfOZcSXNWt2Jk6sVppa8T0PE9e/BNY6Vp4eo6fLJh3RJdjZ
+601g6oX+It3yBhm+4OrORgMuDu0IniMlABX636LYVS+oopQr9VXG6+QDTHkjcgE+
+1lU8HxlJ+/V+/Tk6aEwztHl42i3BcbNqGlwpiAc6ZtCHXOGcoYklfvVjMPY9kKzN
+JZevK8qnzDdG9xiwOwWBGhBsiY0jfaKeOyrRVdR4/aHFC4JtITrLyhbYVxG4u0uI
+vCLe/VQbrztt21lLz4lm4yekglOvupPH3NNPBf5aXdycRuZRrkFetf2I2aU9NpB3
+weiM8Pb0sHqYdwRCNxwKHrTh3vquAPiqe3ZZD9uKI93Bv0FTcu4iw1W/dq1A/NIH
+DWiop4xR28fsqhxZw+MUxpKXwA2vmeInmRz+FOTtPUuGLbNFejE=
+=LrBo
+-----END PGP SIGNATURE-----
 
-The modalias shrinks from 2082 to 1550 bytes.
-
-A chunk of keys need to be removed to allow the keyboard to be used.
-This may break some functionality, but the hope is these macro keys are
-uncommon and don't affect any users.
-
-[1] https://github.com/systemd/systemd/issues/22944
-[2] https://lore.kernel.org/xen-devel/87o8dw52jc.fsf@vps.thesusis.net/T/
-
-Cc: Phillip Susi <phill@thesusis.net>
-Cc: stable@vger.kernel.org
-Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
-Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
----
-v3:
-Add Mattijs R-b
-Put /* and */ on separate lines
----
- drivers/input/misc/xen-kbdfront.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/input/misc/xen-kbdfront.c b/drivers/input/misc/xen-kbdfront.c
-index 67f1c7364c95..d59ba8f9852e 100644
---- a/drivers/input/misc/xen-kbdfront.c
-+++ b/drivers/input/misc/xen-kbdfront.c
-@@ -256,7 +256,16 @@ static int xenkbd_probe(struct xenbus_device *dev,
- 		__set_bit(EV_KEY, kbd->evbit);
- 		for (i = KEY_ESC; i < KEY_UNKNOWN; i++)
- 			__set_bit(i, kbd->keybit);
--		for (i = KEY_OK; i < KEY_MAX; i++)
-+		/*
-+		 * In theory we want to go KEY_OK..KEY_MAX, but that grows the
-+		 * modalias line too long.  There is a gap of buttons from
-+		 * BTN_DPAD_UP..BTN_DPAD_RIGHT and KEY_ALS_TOGGLE is the next
-+		 * defined. Then continue up to KEY_BRIGHTNESS_MENU as an upper
-+		 * limit.
-+		 */
-+		for (i = KEY_OK; i < BTN_DPAD_UP; i++)
-+			__set_bit(i, kbd->keybit);
-+		for (i = KEY_ALS_TOGGLE; i <= KEY_BRIGHTNESS_MENU; i++)
- 			__set_bit(i, kbd->keybit);
- 
- 		ret = input_register_device(kbd);
--- 
-2.41.0
-
+--EpZWWdJP6+/QOGEM--
