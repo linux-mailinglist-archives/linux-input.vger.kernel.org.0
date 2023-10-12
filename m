@@ -2,117 +2,186 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 879177C5E4E
-	for <lists+linux-input@lfdr.de>; Wed, 11 Oct 2023 22:24:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2DF27C62C0
+	for <lists+linux-input@lfdr.de>; Thu, 12 Oct 2023 04:30:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233360AbjJKUYp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Oct 2023 16:24:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38046 "EHLO
+        id S1376302AbjJLCaU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Oct 2023 22:30:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233279AbjJKUYo (ORCPT
+        with ESMTP id S234107AbjJLCaT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Oct 2023 16:24:44 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EE0891;
-        Wed, 11 Oct 2023 13:24:43 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-99bdeae1d0aso38372366b.1;
-        Wed, 11 Oct 2023 13:24:42 -0700 (PDT)
+        Wed, 11 Oct 2023 22:30:19 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B05EB6
+        for <linux-input@vger.kernel.org>; Wed, 11 Oct 2023 19:30:17 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-53d9f001b35so851006a12.2
+        for <linux-input@vger.kernel.org>; Wed, 11 Oct 2023 19:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697055881; x=1697660681; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1697077816; x=1697682616; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uzvkbhkLaMUPqU7HMTRyBjb4pmEB3My0Qu8sb0+YfiQ=;
-        b=RnomGxJ3ysZqyBOEQ8DbLeXEJaLOvy3pQaObqvM0J/UwOgZoP/KujThEwd2QlBie1w
-         XhTsFHyN6bk6Q7PRSxsqTMJX4qDb9T0ppdYjiPk8+O9oVapFKST9e5WvYiFvVTrnpnYh
-         da2rCsthDyJP39X16ElauiJuXuWxbhAxbOWqe5r77NAxts01GPJK0DuLoUl9nGDiQc5U
-         M5rl+qhKvfRPbMBRaTcgPj+CFXZsFFrBfZiE4tZ7LeN3EchCwk3vLdQJK/0H1olEOeQL
-         6ymN6bXsZeThwckyjjXTz3AT2yGBdpLXmQDN5DOpa6nzH+EETesFZpjeFGZKQAbhZKdO
-         /r2g==
+        bh=7M55ocZS76xNGmS/lTIzjnpml9AAnWYYFgmJYm8DS+U=;
+        b=1MVD9ZzRNSE5DWr0ZEnXFkzr7jURSFVbXcrRlUvY8uGXxITW/0phQY4VCGUQ97VtzJ
+         fqXs5RlVkP6INfS2YzVVMs/jsJTfdRCmdWRee6A2Y6BbqTWjVwpINo5ONSbWMuC+U7Op
+         9tQ7Q4ovESi0csaRLJ5LZYU3yPlN8muHV1GRNGJkIg2ScGCfncaAecnpmehFZHV8UT+b
+         wWu/HYVL4kXffc0hflbEjNC1VZZRZeQerbmS/Ws5LA9obYe8XxO8anS1550/tb9OruC4
+         mMhTyp3BQFMUn9AX++eAPqsgBgID/Up3+bdaK624fpSrDqfHcJRVL7B7OTBwRfJx/hwS
+         u/TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697055881; x=1697660681;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1697077816; x=1697682616;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uzvkbhkLaMUPqU7HMTRyBjb4pmEB3My0Qu8sb0+YfiQ=;
-        b=t+Scl7bHeD/9nGTAEfLll34SLc7YNl5MulEiUuH+beM0ILoJF4PKUky1U+yk9G0Sjq
-         /iOSEal2NdO/Iv+9Tx76D9l+6bxOkAIuzY/n8VtQjT3Fpi+MdSaiGDaUbaVt4lLfJZs3
-         nCriWCwWFkYHC3IffBndpzU7k1iGrlZz31ayNpjfVATeLToMatAse9YfZD52vZ/NDrRg
-         93WC3aRwe9b9Hh849Q2IkBJn6dv9GF1EflwzftqX2WDFKQEhpJKYeX52klLENmPwh2Rg
-         pWeWMF9xxhu2DZdecphkvwN6EoWKq/oTln1wzTpgwBDWIMk2/yTdpsvvHfEdGXjEL+uD
-         fQMQ==
-X-Gm-Message-State: AOJu0YzWxZzhgjf0+CPKHjGIpBux+vbWO9fKiHHM2br7oXiKC1gSaD8F
-        TZYrP7EYiQyQHUH7HBHe5PI=
-X-Google-Smtp-Source: AGHT+IGygcDlYEvQCHkHqj9FwQIkNeS15ycoNc0YrqsIvUTmjvBthYTots46Xd0hRCc9tkEJT5LYaQ==
-X-Received: by 2002:a17:906:53c6:b0:9ae:6ad0:f6cd with SMTP id p6-20020a17090653c600b009ae6ad0f6cdmr19804679ejo.24.1697055881232;
-        Wed, 11 Oct 2023 13:24:41 -0700 (PDT)
-Received: from orome.fritz.box (p200300e41f3f4900f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f3f:4900:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id lf8-20020a170906ae4800b009b27d4153c0sm10326077ejb.178.2023.10.11.13.24.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Oct 2023 13:24:40 -0700 (PDT)
-Date:   Wed, 11 Oct 2023 22:24:39 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-input@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: tegra: Use device_get_match_data()
-Message-ID: <ZScEh0j0SlOZFcWv@orome.fritz.box>
-References: <20231006224432.442709-1-robh@kernel.org>
+        bh=7M55ocZS76xNGmS/lTIzjnpml9AAnWYYFgmJYm8DS+U=;
+        b=P1Fu14hvbeYQN+xmG/CN0IAF4P4PHdzXOzBXjqjkU7G3A9IFp3IM/1rxSfMZDNI4Iu
+         /BuSUw22O8COopHHVUnr1lWy7JJ9RaXjhQ+SjQkug/sKwntlhTsk5GLu8p2g0JEG8DsG
+         N37DFxn1NMRJjMVHo8zkPUoVcvJMFqcNi9cV9q3aQ1OYPWIulnkma/BJYb0x+aiy58M/
+         dKK/ZBmOcadu+COP079zm3wrYR64K+k8Pb21+wbkZL8UINVw/q31y6ydS3nYKQ8R+E3h
+         3wPQuyw4R8Ofu+i94yk+aY0LvgLz23f2seAZSDfqXR/82juigUU0/dJ1bW+39qMKlbKK
+         b8rA==
+X-Gm-Message-State: AOJu0YyZ05SrG9f/IVjrC03rq23VbrPKivvCeNpltJP11RnLXYEeBMWN
+        gf4cEugDgSKoIwUf8swY0U0wW7Q1NwluD1rWd1+mig==
+X-Google-Smtp-Source: AGHT+IHZIaUgj2GqE59cbKQ1dIQ/eHW4vLgOlQNGAQJsSBk8cVEPL6DgXGsmGYZ/FrXLeYdo/mL3yjF4HXCcvbTA9wA=
+X-Received: by 2002:aa7:d94e:0:b0:527:fa8d:d40b with SMTP id
+ l14-20020aa7d94e000000b00527fa8dd40bmr19306337eds.26.1697077815724; Wed, 11
+ Oct 2023 19:30:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="EpZWWdJP6+/QOGEM"
-Content-Disposition: inline
-In-Reply-To: <20231006224432.442709-1-robh@kernel.org>
-User-Agent: Mutt/2.2.12 (2023-09-09)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230922-removable-footwork-f1d4d96d38dd@spud>
+ <CAGD2q_Y467jJJnwCVH+3F-hh6a-1-OYRugcy0DdjPnTCC77Z8A@mail.gmail.com>
+ <20230925-cod-vacancy-08dc8d88f90e@wendy> <CAGD2q_a1nLtFj7H42f+u+J5Bih59MGS0aJLHCFJy5gM2ydys4w@mail.gmail.com>
+ <20230926-action-sludge-ec8e51fdd6d4@spud> <CAGD2q_YBfDT950tyxEF87ZeiANgea_x8S16Ud5K2bcQ+eL9T=w@mail.gmail.com>
+ <20230926-reverence-unlit-d0027225cc43@spud> <CAGD2q_ZzNPOL+Mhg7aWFTQd+UJJYVLz1ZE9hbNb0roS2M6y34g@mail.gmail.com>
+ <20230928-spectacle-civic-339c0d71d8d7@spud> <CAGD2q_b1gn8XAfgfzuNn3Jo6gEguBEacxERyRM5ms-V=+hWS+g@mail.gmail.com>
+ <20231009-pentagram-clamshell-b14ff00743fd@spud>
+In-Reply-To: <20231009-pentagram-clamshell-b14ff00743fd@spud>
+From:   yang tylor <tylor_yang@himax.corp-partner.google.com>
+Date:   Thu, 12 Oct 2023 10:30:03 +0800
+Message-ID: <CAGD2q_aqr+mu4K1SkTVC+65ctL6BsqRP4Ld0HD_H0_rgzFT9MQ@mail.gmail.com>
+Subject: Re: [PATCH V2 1/2] dt-bindings: input: Introduce Himax HID-over-SPI device
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Conor Dooley <conor.dooley@microchip.com>,
+        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        poyuan_chang@himax.corp-partner.google.com, hbarnor@chromium.org,
+        "jingyliang@chromium.org" <jingyliang@chromium.org>,
+        wuxy23@lenovo.com, luolm1@lenovo.com,
+        hung poyu <poyu_hung@himax.corp-partner.google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Tue, Oct 10, 2023 at 1:52=E2=80=AFAM Conor Dooley <conor@kernel.org> wro=
+te:
+>
+> On Mon, Oct 02, 2023 at 06:44:41PM +0800, yang tylor wrote:
+> > On Fri, Sep 29, 2023 at 12:56=E2=80=AFAM Conor Dooley <conor@kernel.org=
+> wrote:
+> > >
+> > > On Thu, Sep 28, 2023 at 10:12:41AM +0800, yang tylor wrote:
+> > > > On Tue, Sep 26, 2023 at 8:53=E2=80=AFPM Conor Dooley <conor@kernel.=
+org> wrote:
+> > > > > On Tue, Sep 26, 2023 at 05:52:39PM +0800, yang tylor wrote:
+> > > > > > On Tue, Sep 26, 2023 at 5:02=E2=80=AFPM Conor Dooley <conor@ker=
+nel.org> wrote:
+> > > > > > > On Mon, Sep 25, 2023 at 06:16:29PM +0800, yang tylor wrote:
+> > > > > > > > On Mon, Sep 25, 2023 at 4:41=E2=80=AFPM Conor Dooley <conor=
+.dooley@microchip.com> wrote:
+> > > > > > > > We have a default prefix firmware name(like himax_xxxx.bin)=
+ in the driver code.
+> > > > > > >
+> > > > > > > How do you intend generating the name of the firmware file? I=
+ assume the
+> > > > > > > same firmware doesn't work on every IC, so you'll need to pic=
+k a
+> > > > > > > different one depending on the compatible?
+> > > > > > >
+> > > > > > If considering a firmware library line-up for all the incoming =
+panels
+> > > > > > of this driver.
+> > > > > > We would use PID as part of the file name. Because all the supp=
+ort panels would
+> > > > > > have a unique PID associated. Which will make the firmware name=
+ like
+> > > > > > himax_xxx_{$PID}.bin. The problem is, we need to know PID befor=
+e firmware load
+> > > > > > at no flash condition. Thus PID information is required in dts =
+when
+> > > > > > no-flash-flag
+> > > > > > is specified.
+> > > > >
+> > > > > Firstly, where does the "xxx" come from?
+> > > > > And you're making it sound more like having firmware-name is suit=
+able
+> > > > > for this use case, given you need to determine the name of the fi=
+le to
+> > > > > use based on something that is hardware specific but is not
+> > > > > dynamically detectable.
+> > > > Current driver patch uses a prefix name "himax_i2chid" which comes
+> > > > from the previous project
+> > > >  and seems not suitable for this condition, so I use "xxx" and plan=
+ to
+> > > > replace it in the next version.
+> > > > For finding firmware, I think both solutions are reasonable.
+> > > > - provide firmware name directly: implies no-flash and use user
+> > > > specified firmware, no PID info.
+> > > > - provide no-flash-flag and PID info: loading firmware from organiz=
+ed
+> > > > names with PID info.
+> > > > I prefer the 2nd solution, but it needs more properties in dts. 1st
+> > > > has less properties and more
+> > > > intuitive.
+> > > >
+> > > > I don't know which one is more acceptable by the community, as you
+> > > > know I'm a newbie here.
+> > >
+> > > To be honest, I am not all that sure either! Does the panel id have
+> > > value in its own right, or is that only used to determine the firmwar=
+e
+> > > filename?
+> > Currently, PID stands for Panel/Project ID and is used for determining
+> > the firmware filename only. We haven't come up with any new attribute t=
+hat
+> > may attach to it. The differences between panels are handled in firmwar=
+e
+> > dedicated to its PID.
+> >
+> > > Also, if it does have value in its own right, rather than a "pid",
+> > > should the panel be a child node of this hid device with its own
+> > > compatible?
+> > It may need a child node if we find it necessary to add attributes to e=
+ach PID.
+> > But currently we have no idea about it.
+>
+> To be honest, it seems to me like you are using "PID" in place of a
+> compatible for the panel, since it needs to be provided via DT anyway.
 
---EpZWWdJP6+/QOGEM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hmm... So the more formal way is?
+If I add a sub-note inside this spi-device block, such as "panel" and
+add PID inside.
+Will it be more appropriate?
+...
+spi {
+...
+    hx_spi@0 {
+...
+        panel {
+            himax,pid =3D ...
+        };
+    }
+}
 
-On Fri, Oct 06, 2023 at 05:44:32PM -0500, Rob Herring wrote:
-> Use preferred device_get_match_data() instead of of_match_device() to
-> get the driver match data. With this, adjust the includes to explicitly
-> include the correct headers.
->=20
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  drivers/input/keyboard/tegra-kbc.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
-
-Acked-by: Thierry Reding <treding@nvidia.com>
-
---EpZWWdJP6+/QOGEM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmUnBIcACgkQ3SOs138+
-s6HPEQ//WdVN2OUKGkF3D1pmcNQrs+kbsWE+RlouD5B/2En6FyPJuCy4nTBaWJhU
-4PvIIpCvEm7YD+vaO/D01a8cw/pC4bHTgsgsiGvRaJPnaX9ypzldeWjS8FW5hIgc
-zLaUbk0pDfw85Nix0Ru0/ApueorU4PkpNc93LrTwsggpDAuqjTMXZuzHtr9z6Bqb
-82IDUE5qEl8dE4kDdoX4oGWMZEKIrCSvGDUOPwNsLtF8nV2EUXRkW9PdNQAcj3Ty
-e+zk3mje2GDpsy38aXfOZcSXNWt2Jk6sVppa8T0PE9e/BNY6Vp4eo6fLJh3RJdjZ
-601g6oX+It3yBhm+4OrORgMuDu0IniMlABX636LYVS+oopQr9VXG6+QDTHkjcgE+
-1lU8HxlJ+/V+/Tk6aEwztHl42i3BcbNqGlwpiAc6ZtCHXOGcoYklfvVjMPY9kKzN
-JZevK8qnzDdG9xiwOwWBGhBsiY0jfaKeOyrRVdR4/aHFC4JtITrLyhbYVxG4u0uI
-vCLe/VQbrztt21lLz4lm4yekglOvupPH3NNPBf5aXdycRuZRrkFetf2I2aU9NpB3
-weiM8Pb0sHqYdwRCNxwKHrTh3vquAPiqe3ZZD9uKI93Bv0FTcu4iw1W/dq1A/NIH
-DWiop4xR28fsqhxZw+MUxpKXwA2vmeInmRz+FOTtPUuGLbNFejE=
-=LrBo
------END PGP SIGNATURE-----
-
---EpZWWdJP6+/QOGEM--
+Thanks,
+Tylor
