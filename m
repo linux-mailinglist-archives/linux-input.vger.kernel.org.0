@@ -2,69 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F28F17C79B7
-	for <lists+linux-input@lfdr.de>; Fri, 13 Oct 2023 00:33:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECD247C79FA
+	for <lists+linux-input@lfdr.de>; Fri, 13 Oct 2023 00:53:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442914AbjJLWdl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Oct 2023 18:33:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40198 "EHLO
+        id S1443024AbjJLWxK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Oct 2023 18:53:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442995AbjJLWdj (ORCPT
+        with ESMTP id S1442450AbjJLWxK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Oct 2023 18:33:39 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FC0AE7
-        for <linux-input@vger.kernel.org>; Thu, 12 Oct 2023 15:33:36 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-51e24210395so5081a12.0
-        for <linux-input@vger.kernel.org>; Thu, 12 Oct 2023 15:33:36 -0700 (PDT)
+        Thu, 12 Oct 2023 18:53:10 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB9F7A9;
+        Thu, 12 Oct 2023 15:53:08 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-690d2441b95so1116408b3a.1;
+        Thu, 12 Oct 2023 15:53:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1697150015; x=1697754815; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Cgiii5Cu8IvXXLpwG+bpTpFG66DYnixIeo0dAtyx7SU=;
-        b=HAylIh5BkzCAscRxpDJSBrXbc0OZEl9G+NXGRmKYpLrwmHDB5Yh01zEXAxtvKhk11L
-         PzjzGeeZhv8Ge4qofMcmNEa7x4+fkLuoyv0RaiOC/+QyFLbqyppXXoeX0EuoruuXMmoE
-         Sq+QIfaagkj0qJPClFOKy3/qsC3dP8ArBdrE1BXNBBktzA9YrRKJEy8AyKGxOT0t5gpp
-         53/tHZlcYHm7plP2KBc20bxgnY7n2cTcY2fGmcsCCTCfFXD2oJUESMtkOuVwFzRlTIab
-         9pCX2t9nNWQl3CmCh4UST258hBvCUOynSI0dAD+W4eyBr/1wsep63ay1CAwp/DEfEP9t
-         gL0Q==
+        d=gmail.com; s=20230601; t=1697151188; x=1697755988; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=78dLfHiKtRMa9+mkxUCYKM56t0Kv23O6vbCoyWzPuyY=;
+        b=GwuDzZKW9OKn4fFk72XE3GOsg5imotFXb3+DINzqcMfIh7MHSvd6PbmQrlrO75kHfb
+         EU/d9wIgWXd1NPwk0+Jtzza+pTN+A2YOiFtMAuJGtZKJTB9dDCiF/OISD633Anhfd71x
+         l9QdNIRREbBXcskLxpN7whf0uN9sDxA2ovNNaLn3uevTpwLldB4grRXJtQU6/n/Xdy/J
+         xuB+GrbYgT06AFJxz4giLR9jc+onq7VogitRmv/CQvDIaYOjx/Bu9Aik/oHMixEbnnk7
+         74qv0B4wUH14I8rPQCvFIwP3Pu9l/dcg3hSfMCFEN55dyXmGkSdzM4Yhjv5QeqLCF204
+         kmiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697150015; x=1697754815;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Cgiii5Cu8IvXXLpwG+bpTpFG66DYnixIeo0dAtyx7SU=;
-        b=lrpBLpNssDV0dsg5pIIHQObc2bvbYall8YX6BXSK4shoTT05F/UmeuKhK2klMO9swf
-         DDUNYHYLrW7yNVhN4DdsBmmKa6W2dTXKFKxMTeIRaBL0b145zj2/nX2xyrMziqzlJkoX
-         qVspWzRqFk69rao7M5x1kmDwktHKmCAxFy9SDXkqWMfsShtVwuSmTb552psNkLYgu+6M
-         Spy/DYo6IJ0bqtIW7sl0wS3P7ptwnF+F92lLO8kW8IA5JVadxzU+HPvkzA4ODHe2fSBc
-         ksSQAzdGzNKowXp5U8du88C81ikcq9Rq3gjm32DEwVan+GnmWOJOGvrFL6ouiAI1YRVh
-         zc8w==
-X-Gm-Message-State: AOJu0Yytlr2I1cFUfmk57kQjSaIJraub1oiZW06YJnrxNhe8UkA3cHOx
-        6GrKgGEE90sXAZZcic9JrDcSOln3e3g6Itt09EGPcrzGqFtAqjYikL4P0g1U
-X-Google-Smtp-Source: AGHT+IG8cr/hUnVIGfE1E+m2akLBdaH9uGZ6EgMPafMZWioeg1BhztGE8ogPNo2+AIidJQ6f2HV0twOo4xlK8oj7AM0=
-X-Received: by 2002:a50:d084:0:b0:538:2941:ad10 with SMTP id
- v4-20020a50d084000000b005382941ad10mr22140edd.5.1697150015162; Thu, 12 Oct
- 2023 15:33:35 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697151188; x=1697755988;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=78dLfHiKtRMa9+mkxUCYKM56t0Kv23O6vbCoyWzPuyY=;
+        b=JoivqA7ex7VwARj1T5gzy9yBYij+cnkLDTwEeNOsG6WBZBtj1tTSmpdUexlgwkQimX
+         2G4jkbxR/42tdqRd/iJOqpmzlMNdla9tnZsl5KoEu5zUi+DRpRhUXduVVVRAb4RiKKeq
+         lHvZQ+R/8FGQ6UZ98C0n830wV4ofUHvQaf1qL498h5jyYlkTnZC2EufNkSxLj9GTVYr6
+         BM3Rir2TEKHdig8G3+f8MlltlZ0++oZdq+AnUA0dr/TM20KNc7DrkT7PMyEM27FxRYg8
+         d6+c55CujUiAKaa+fwwR53JxBVsJVcmzQ/uFPwZLGgQji8wpcl3y7VDhMpWY6tjMaeTu
+         txgw==
+X-Gm-Message-State: AOJu0YzJmA3hofHKe/qaOU4rYlTkB/hKXajuObtS4MXooha2L4lkJC/Z
+        D0my6XJT6uylISr7x+EU5Gg=
+X-Google-Smtp-Source: AGHT+IG5S/ip7RUwzEiiwV3FfRhxwAfJzPoA0AHgoWOeXhvM1SNfgqC3HnPqI744GDUGdf3PgLP/VQ==
+X-Received: by 2002:a05:6a00:21cc:b0:68e:351b:15b9 with SMTP id t12-20020a056a0021cc00b0068e351b15b9mr35521708pfj.4.1697151187538;
+        Thu, 12 Oct 2023 15:53:07 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:a118:bd3a:f198:d7ed])
+        by smtp.gmail.com with ESMTPSA id a19-20020a637f13000000b00578bb0066b6sm2220692pgd.71.2023.10.12.15.53.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Oct 2023 15:53:06 -0700 (PDT)
+Date:   Thu, 12 Oct 2023 15:53:04 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Jeffery Miller <jefferymiller@google.com>,
+        regressions@lists.linux.dev, benjamin.tissoires@redhat.com,
+        Andrew Duggan <aduggan@synaptics.com>,
+        Andrew Duggan <andrew@duggan.us>, loic.poulain@linaro.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: elantech - fix fast_reconnect callback in ps2 mode
+Message-ID: <ZSh40JethapBAjq1@google.com>
+References: <20231004005729.3943515-1-jefferymiller@google.com>
+ <ZR1yUFJ8a9Zt606N@penguin>
+ <CAAzPG9Pp6mHfEziJiUuhDRmkKMfiiPD6axtfAMaCJcEAcuQPiA@mail.gmail.com>
+ <25ac6b17-e3fa-4e98-95a6-eac12bdbcdd2@leemhuis.info>
 MIME-Version: 1.0
-References: <20231005002249.554877-1-jefferymiller@google.com>
-In-Reply-To: <20231005002249.554877-1-jefferymiller@google.com>
-From:   Jeffery Miller <jefferymiller@google.com>
-Date:   Thu, 12 Oct 2023 17:33:23 -0500
-Message-ID: <CAAzPG9NRkdExq39ZRE8VjjrZoV_otJnAbUrAm__gRVkNT-z4Fg@mail.gmail.com>
-Subject: Re: [PATCH v2] Input: psmouse - fix fast_reconnect function for PS/2 mode
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Andrew Duggan <andrew@duggan.us>,
-        Andrew Duggan <aduggan@synaptics.com>, loic.poulain@linaro.org,
-        linux@leemhuis.info, benjamin.tissoires@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <25ac6b17-e3fa-4e98-95a6-eac12bdbcdd2@leemhuis.info>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,60 +80,45 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Oct 4, 2023 at 7:23=E2=80=AFPM Jeffery Miller <jefferymiller@google=
-.com> wrote:
->
->  drivers/input/mouse/elantech.c  | 1 +
->  drivers/input/mouse/synaptics.c | 1 +
->  2 files changed, 2 insertions(+)
->
-> diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantec=
-h.c
-> index 2118b2075f43..4e38229404b4 100644
-> --- a/drivers/input/mouse/elantech.c
-> +++ b/drivers/input/mouse/elantech.c
-> @@ -2114,6 +2114,7 @@ static int elantech_setup_ps2(struct psmouse *psmou=
-se,
->         psmouse->protocol_handler =3D elantech_process_byte;
->         psmouse->disconnect =3D elantech_disconnect;
->         psmouse->reconnect =3D elantech_reconnect;
-> +       psmouse->fast_reconnect =3D NULL;
->         psmouse->pktsize =3D info->hw_version > 1 ? 6 : 4;
->
->         return 0;
-> diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synapt=
-ics.c
-> index ada299ec5bba..cefc74b3b34b 100644
-> --- a/drivers/input/mouse/synaptics.c
-> +++ b/drivers/input/mouse/synaptics.c
-> @@ -1623,6 +1623,7 @@ static int synaptics_init_ps2(struct psmouse *psmou=
-se,
->         psmouse->set_rate =3D synaptics_set_rate;
->         psmouse->disconnect =3D synaptics_disconnect;
->         psmouse->reconnect =3D synaptics_reconnect;
-> +       psmouse->fast_reconnect =3D NULL;
->         psmouse->cleanup =3D synaptics_reset;
->         /* Synaptics can usually stay in sync without extra help */
->         psmouse->resync_time =3D 0;
-> --
-> 2.42.0.582.g8ccd20d70d-goog
->
+Hi Thorsten,
 
-This fast_reconnect function pointer being left over has been here since co=
-mmit
-8eb92e5c9133 ("Input: psmouse - add support for SMBus companions")
+On Tue, Oct 10, 2023 at 09:08:23AM +0200, Thorsten Leemhuis wrote:
+> On 05.10.23 02:13, Jeffery Miller wrote:
+> > 
+> > On Wed, Oct 4, 2023 at 9:11 AM Dmitry Torokhov
+> > <dmitry.torokhov@gmail.com> wrote:
+> >>
+> >> In fact, now that I think about it more, we should rework the original
+> >> patch that added the delay, so that we do not wait these 30 msec in the
+> >> "fast" reconnect handler. It turns out your original approach was
+> >> better, but we should not be using retries, but rather the existing
+> >> reset_delay_ms already defined in rmi platform data. I would appreciate
+> >> if you try the draft patch at the end of this email (to be applied after
+> >> reverting your original one adding the delay in psmouse-smbus.c).
+> > I tested the draft patch and it works. I did revert the previous delay
+> > patch while testing it.
+> > 
+> >> I think we need a similar change in synaptics.c as that one also can
+> >> fall back to PS/2 mode.
+> >>
+> > Ah, good point, yes it does appear this needs to be done as well.
+> > I have tested and will post an new version of the patch to include
+> > the fix in synaptics.c as well.
+> 
+> As I'm affected by this problem (and somebody else reported to me in
+> private to be affected as well) and nothing afaics happened in the past
+> few days a quick question:
+> 
+> What's the way forward here now that -rc6 slowly comes into sight? Apply
+> Jeff's patch to fix my problem? Revert the culprit and fix this properly
+> up with Dmitry's and Jeff's patches in the next cycle? Something else?
 
-It is only recently noticed due to 92e24e0e57f7 ("Input: psmouse - add
-delay when deactivating for SMBus mode") which is in the v6.6 rc
-branches.
+I will revert the original patch introducing the delay now that we argee
+there is a better way. In the mean time I will merge Jeff's patch to
+reset fast_reconnect handlers, as it is right thing to do anyway, and
+will get into shape the patch setting reset-delay in RMI code.
 
-Shouldn't it be OK to merge regardless of a future refactor of
-8eb92e5c9133 ("Input: psmouse - add support for SMBus companions")
-as described in https://lore.kernel.org/all/ZR1yUFJ8a9Zt606N@penguin/?
+Thanks.
 
-This is a v2 from the previous submission at
-https://lore.kernel.org/all/20231004005729.3943515-1-jefferymiller@google.c=
-om/
-
-Thanks,
-Jeff
+-- 
+Dmitry
