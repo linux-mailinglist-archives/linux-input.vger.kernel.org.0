@@ -2,121 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA82A7C6E3D
-	for <lists+linux-input@lfdr.de>; Thu, 12 Oct 2023 14:36:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A6297C7157
+	for <lists+linux-input@lfdr.de>; Thu, 12 Oct 2023 17:24:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378006AbjJLMgT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Oct 2023 08:36:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56122 "EHLO
+        id S233578AbjJLPY4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Oct 2023 11:24:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235735AbjJLMgK (ORCPT
+        with ESMTP id S231680AbjJLPYz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Oct 2023 08:36:10 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AC8EB8
-        for <linux-input@vger.kernel.org>; Thu, 12 Oct 2023 05:36:08 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-5347e657a11so1484177a12.2
-        for <linux-input@vger.kernel.org>; Thu, 12 Oct 2023 05:36:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697114167; x=1697718967; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PTJ3N0+zBUPnWL/t7pno8dCVeMaEsrQlEIlUPJvdi34=;
-        b=jxZbq/ZNNCesknzzT21F+cJuLnTu01QJd9yL7dmm5iI1sDLnKWKszD2NBvIQ0AkwjD
-         3npMMO2GfheNMt+Riia9wZszTcn5pSWNyDakBv15yAk5hkCLTtkcB8D8fzjt9VWtXDAu
-         FeQg1cywSz4+P2gaWPMjE+f9kDRhtdXSu2RFiyr5/4OsfpIDpg6ysmh0GtVvaSnKRF4I
-         t8EzpglWXT2wQiEwdJZsr+Gzu54g2E6qD+SbrmN37QbvseXQsA36SGZIVNM7mdj7gxpK
-         49fAjNqs6OkdcxZCy+8jch/W/eXoXytjsht/VGKXGGQipNfNDXBoNEWWeaoLd9EezMlE
-         D1UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697114167; x=1697718967;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PTJ3N0+zBUPnWL/t7pno8dCVeMaEsrQlEIlUPJvdi34=;
-        b=TZ9mEt4yvWkIeNQPSU3OL2BlHg6fK6vxj9M8+EazyFip/rfTK0DSM0FDJ/q+0SRO75
-         Sp9yU6b+kT6s9oPQruUh4/klRvi0iaG1d6Por51mTXnkIAmhLRcVRVNHLmsjK/hA745L
-         /GET7AWRSyyUpL10ZsIf748Db8uu88l7FTZh0Wk0Zndp9yxvgztkyxwt7YYhb/avE38I
-         ocwWNjnh9ivgpw+AMLg0KfP6+EGfpRzzo2Qk8jezdgd53fg2p7K2bJbcFdPLVd/QHMbU
-         S1F+SLH8QTuRKtKJOUh8Bv00ZPXVemjsVQJ81Rg+AqRp6CdJyNBQxmos5XkSOvCA3d63
-         q9qQ==
-X-Gm-Message-State: AOJu0YywepMgayLCL/oP1edM2zIM+aS8HIBptptLx8xxXkm0GvSYbqwj
-        OoZQo2HDyBwMsDiXvpBeYdIGyg==
-X-Google-Smtp-Source: AGHT+IENCIkj/c1raiI2b5fJHFk31HUMsR6sEBycifmsG5zViuqGBzFkLywfRDwQQRHL6Hf97dhyIg==
-X-Received: by 2002:a05:6402:344a:b0:525:bbc0:2a8c with SMTP id l10-20020a056402344a00b00525bbc02a8cmr21677054edc.33.1697114167066;
-        Thu, 12 Oct 2023 05:36:07 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.100])
-        by smtp.gmail.com with ESMTPSA id n8-20020aa7db48000000b005364b54a4basm10091597edt.80.2023.10.12.05.36.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Oct 2023 05:36:06 -0700 (PDT)
-Message-ID: <18813f69-dd38-4fa3-b8d1-af118e1e2749@linaro.org>
-Date:   Thu, 12 Oct 2023 14:36:04 +0200
+        Thu, 12 Oct 2023 11:24:55 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45EEFB8;
+        Thu, 12 Oct 2023 08:24:54 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A12DCC433C8;
+        Thu, 12 Oct 2023 15:24:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1697124293;
+        bh=OKJBCSFkKCqs3p1kxIpfznOr5Kx+Ln+CvKc1ryKM064=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UrKOgGpdKTucaQSIszwtfLNSHpoeaQtp3JPhkD+wupEYTpBRIYUneRfPJ9v+kaMTE
+         1u5QNNHxQtivYltZ60D27w+BsTMO0gAiOGJOgK2f86r8JinpO97Weu8Hwz3vaa/OhS
+         Qjmqf+md6xdZvnsMtmAmPY953hqJYY0rEmSnpmMQIMUJjGW0YO/sYTdvn6dmgF3wEO
+         C0g+GYZR1MlaF1UYjWF87e0nTl5pdOWbLPKBm01s8fLC/P0Zz0Y0Vgy+/hPD5N9jCi
+         nXLhNlRn9hcWqTV8TgyFcYWPa9S+C56UmvQq/dNx26eOXJ4B1BoxgZ/3fmhWBAoGfc
+         XSuuf4bZ1fK2w==
+Date:   Thu, 12 Oct 2023 16:24:48 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     yang tylor <tylor_yang@himax.corp-partner.google.com>
+Cc:     Conor Dooley <conor.dooley@microchip.com>,
+        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        poyuan_chang@himax.corp-partner.google.com, hbarnor@chromium.org,
+        "jingyliang@chromium.org" <jingyliang@chromium.org>,
+        wuxy23@lenovo.com, luolm1@lenovo.com,
+        hung poyu <poyu_hung@himax.corp-partner.google.com>
+Subject: Re: [PATCH V2 1/2] dt-bindings: input: Introduce Himax HID-over-SPI
+ device
+Message-ID: <20231012-pope-denatured-c1898bc1e44b@spud>
+References: <20230925-cod-vacancy-08dc8d88f90e@wendy>
+ <CAGD2q_a1nLtFj7H42f+u+J5Bih59MGS0aJLHCFJy5gM2ydys4w@mail.gmail.com>
+ <20230926-action-sludge-ec8e51fdd6d4@spud>
+ <CAGD2q_YBfDT950tyxEF87ZeiANgea_x8S16Ud5K2bcQ+eL9T=w@mail.gmail.com>
+ <20230926-reverence-unlit-d0027225cc43@spud>
+ <CAGD2q_ZzNPOL+Mhg7aWFTQd+UJJYVLz1ZE9hbNb0roS2M6y34g@mail.gmail.com>
+ <20230928-spectacle-civic-339c0d71d8d7@spud>
+ <CAGD2q_b1gn8XAfgfzuNn3Jo6gEguBEacxERyRM5ms-V=+hWS+g@mail.gmail.com>
+ <20231009-pentagram-clamshell-b14ff00743fd@spud>
+ <CAGD2q_aqr+mu4K1SkTVC+65ctL6BsqRP4Ld0HD_H0_rgzFT9MQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] dt-bindings: input: bindings for Adafruit Seesaw
- Gamepad
-Content-Language: en-US
-To:     Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-References: <20231010184827.1213507-1-anshulusr@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231010184827.1213507-1-anshulusr@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="TueJpgnC2xZsHFU1"
+Content-Disposition: inline
+In-Reply-To: <CAGD2q_aqr+mu4K1SkTVC+65ctL6BsqRP4Ld0HD_H0_rgzFT9MQ@mail.gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -124,24 +67,122 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 10/10/2023 20:48, Anshul Dalal wrote:
-> Adds bindings for the Adafruit Seesaw Gamepad.
-> 
-> The gamepad functions as an i2c device with the default address of 0x50
-> and has an IRQ pin that can be enabled in the driver to allow for a rising
-> edge trigger on each button press or joystick movement.
-> 
-> Product page:
->   https://www.adafruit.com/product/5743
-> Arduino driver:
->   https://github.com/adafruit/Adafruit_Seesaw
-> 
-> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
-> ---
-> 
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+--TueJpgnC2xZsHFU1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
-Krzysztof
+On Thu, Oct 12, 2023 at 10:30:03AM +0800, yang tylor wrote:
+> On Tue, Oct 10, 2023 at 1:52=E2=80=AFAM Conor Dooley <conor@kernel.org> w=
+rote:
+> >
+> > On Mon, Oct 02, 2023 at 06:44:41PM +0800, yang tylor wrote:
+> > > On Fri, Sep 29, 2023 at 12:56=E2=80=AFAM Conor Dooley <conor@kernel.o=
+rg> wrote:
+> > > >
+> > > > On Thu, Sep 28, 2023 at 10:12:41AM +0800, yang tylor wrote:
+> > > > > On Tue, Sep 26, 2023 at 8:53=E2=80=AFPM Conor Dooley <conor@kerne=
+l.org> wrote:
+> > > > > > On Tue, Sep 26, 2023 at 05:52:39PM +0800, yang tylor wrote:
+> > > > > > > On Tue, Sep 26, 2023 at 5:02=E2=80=AFPM Conor Dooley <conor@k=
+ernel.org> wrote:
+> > > > > > > > On Mon, Sep 25, 2023 at 06:16:29PM +0800, yang tylor wrote:
+> > > > > > > > > On Mon, Sep 25, 2023 at 4:41=E2=80=AFPM Conor Dooley <con=
+or.dooley@microchip.com> wrote:
+> > > > > > > > > We have a default prefix firmware name(like himax_xxxx.bi=
+n) in the driver code.
+> > > > > > > >
+> > > > > > > > How do you intend generating the name of the firmware file?=
+ I assume the
+> > > > > > > > same firmware doesn't work on every IC, so you'll need to p=
+ick a
+> > > > > > > > different one depending on the compatible?
+> > > > > > > >
+> > > > > > > If considering a firmware library line-up for all the incomin=
+g panels
+> > > > > > > of this driver.
+> > > > > > > We would use PID as part of the file name. Because all the su=
+pport panels would
+> > > > > > > have a unique PID associated. Which will make the firmware na=
+me like
+> > > > > > > himax_xxx_{$PID}.bin. The problem is, we need to know PID bef=
+ore firmware load
+> > > > > > > at no flash condition. Thus PID information is required in dt=
+s when
+> > > > > > > no-flash-flag
+> > > > > > > is specified.
+> > > > > >
+> > > > > > Firstly, where does the "xxx" come from?
+> > > > > > And you're making it sound more like having firmware-name is su=
+itable
+> > > > > > for this use case, given you need to determine the name of the =
+file to
+> > > > > > use based on something that is hardware specific but is not
+> > > > > > dynamically detectable.
+> > > > > Current driver patch uses a prefix name "himax_i2chid" which comes
+> > > > > from the previous project
+> > > > >  and seems not suitable for this condition, so I use "xxx" and pl=
+an to
+> > > > > replace it in the next version.
+> > > > > For finding firmware, I think both solutions are reasonable.
+> > > > > - provide firmware name directly: implies no-flash and use user
+> > > > > specified firmware, no PID info.
+> > > > > - provide no-flash-flag and PID info: loading firmware from organ=
+ized
+> > > > > names with PID info.
+> > > > > I prefer the 2nd solution, but it needs more properties in dts. 1=
+st
+> > > > > has less properties and more
+> > > > > intuitive.
+> > > > >
+> > > > > I don't know which one is more acceptable by the community, as you
+> > > > > know I'm a newbie here.
+> > > >
+> > > > To be honest, I am not all that sure either! Does the panel id have
+> > > > value in its own right, or is that only used to determine the firmw=
+are
+> > > > filename?
+> > > Currently, PID stands for Panel/Project ID and is used for determining
+> > > the firmware filename only. We haven't come up with any new attribute=
+ that
+> > > may attach to it. The differences between panels are handled in firmw=
+are
+> > > dedicated to its PID.
+> > >
+> > > > Also, if it does have value in its own right, rather than a "pid",
+> > > > should the panel be a child node of this hid device with its own
+> > > > compatible?
+> > > It may need a child node if we find it necessary to add attributes to=
+ each PID.
+> > > But currently we have no idea about it.
+> >
+> > To be honest, it seems to me like you are using "PID" in place of a
+> > compatible for the panel, since it needs to be provided via DT anyway.
+>=20
+> Hmm... So the more formal way is?
+> If I add a sub-note inside this spi-device block, such as "panel" and
+> add PID inside.
+> Will it be more appropriate?
+> ...
+> spi {
+> ...
+>     hx_spi@0 {
+> ...
+>         panel {
+>             himax,pid =3D ...
 
+And this now looks exactly like compatible =3D "vendor,part" now, no?
+
+--TueJpgnC2xZsHFU1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZSgPwAAKCRB4tDGHoIJi
+0lVfAQC3Xdwum2IZViQ9BSMgWnqGIXLpMcp0mG/Bi4W2QnlqxAD9E1PoiPAHieT8
+HzDqyvik4FLQxj0E0m444srRUWHwKQU=
+=dlR1
+-----END PGP SIGNATURE-----
+
+--TueJpgnC2xZsHFU1--
