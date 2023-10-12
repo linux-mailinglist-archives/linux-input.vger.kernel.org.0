@@ -2,98 +2,182 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 771B27C7376
-	for <lists+linux-input@lfdr.de>; Thu, 12 Oct 2023 18:51:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4759A7C7377
+	for <lists+linux-input@lfdr.de>; Thu, 12 Oct 2023 18:51:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233290AbjJLQvC convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Thu, 12 Oct 2023 12:51:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54242 "EHLO
+        id S1343912AbjJLQv4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Oct 2023 12:51:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343912AbjJLQvB (ORCPT
+        with ESMTP id S1344025AbjJLQv4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Oct 2023 12:51:01 -0400
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04olkn2065.outbound.protection.outlook.com [40.92.73.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCA3ABE
-        for <linux-input@vger.kernel.org>; Thu, 12 Oct 2023 09:50:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oOSbiKvNz9RNberrH4DtvlXP3/v1+pmq361pgbbtmZvwt9Vxgrs69oY9ApOUmb+1eIRH0zQaj+A2NEQb39DomhD3quoZMx5qfupWcws2p5P7g8a5fNcvej2udmcNS8nEffsG/JtPd3r3iCPGrrC19N/Gu6wZzNtDkVj71jLgelthJhgB0QxcqWP8hFXUPOMV4wh2mUbNTiD/vOaIWNbQfuUC+YBTE5ohdvI1DqDYqRRmYh0x8D2atF426cK6/ZNPl9d4/QH9FbJAmZHAP1GjdCjQhpg7v70edh4xrkyn+yFhP1SbqV/BBB9ckv7p2qKL4TuqJAds8dTIFUy5TO9YaQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=echFivmQQnIqZ6iZ25GJu3d+swhxgcS3aVQeos0ZCAw=;
- b=FPAGAvqRjgMRW4BZATtFWvzu+jcz5b+ASDfu9oNncAE5deNOhcxbHi+utcp20hD/D3/EET/WHJb7pUa2+ng1BSLe+5QWDG4O7ZV5gkPhSP+tNVuD7a+TSCvvVeCBfbXHYrgcQGzW03jjaN+ppyYapIm8JcPNNyoA46u6o8Q3/j66ECoo34DQFnluv6OyYBKV/uD1T0np+NdpCbTGkggVZp0wm5A0mCtdllsxYlj6bw6heixCZay3hF06ZqI5T1Bjrl1V8in+1lz0G/GmMbakTRZ+LC6Y4aPb6CBL7ddr62B3Ly2hcKMo1Xb3FMPx9kclvAxlpP4ViU06o07icB8KxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from DB9P190MB1225.EURP190.PROD.OUTLOOK.COM (2603:10a6:10:223::20)
- by AM9P190MB1076.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:263::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.45; Thu, 12 Oct
- 2023 16:50:57 +0000
-Received: from DB9P190MB1225.EURP190.PROD.OUTLOOK.COM
- ([fe80::6369:4861:2444:1634]) by DB9P190MB1225.EURP190.PROD.OUTLOOK.COM
- ([fe80::6369:4861:2444:1634%6]) with mapi id 15.20.6863.043; Thu, 12 Oct 2023
- 16:50:57 +0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: PAYMENT.
-To:     "cs@coindame.net" <theroomsparkroad@hotmail.co.za>
-From:   "CoinDame BTC Trader" <theroomsparkroad@hotmail.co.za>
-Date:   Thu, 12 Oct 2023 18:50:18 +0200
-X-Mailer: TurboMailer 2
-X-TMN:  [zrRafEFySXRrJKc+Vi5Ygmm3H4QxsYTn]
-X-ClientProxiedBy: JNXP275CA0042.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::30)
- To DB9P190MB1225.EURP190.PROD.OUTLOOK.COM (2603:10a6:10:223::20)
-Message-ID: <DB9P190MB12252B4D4DC329B4EF422D9A92D3A@DB9P190MB1225.EURP190.PROD.OUTLOOK.COM>
+        Thu, 12 Oct 2023 12:51:56 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AEDCC0;
+        Thu, 12 Oct 2023 09:51:54 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id ffacd0b85a97d-32d849cc152so1163713f8f.1;
+        Thu, 12 Oct 2023 09:51:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697129513; x=1697734313; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MWIWibPC+lZXM3yshrS/ddiyrVa+kWvtvd0qlqC0KHM=;
+        b=S5kW3vxrGqrfxr5izbzQJvRLtbRh4Ndoe72pjv1R5bNt8zJqH3f72/5OTlp6sMsp2P
+         CgQIGvZSIL5qjc/JIBBzCZX7mSPbxuhH9wJ8X08dYvv9zz9ONICeGcWkUXQEgoBUaVAp
+         45hvdMK5DwaWKe6JHlzzVxRcN2f/GyjEpFdO6LIFuV/B7uTeHk5KyxvD4rraR4lV+fTN
+         nclm3xzibMwSRWRr5ele1R4OLKIKN2T18qgVYujXyqgEAk6mMDKykr4i1tFvXg45MS2R
+         pB0kDhmprxjYHKmIBomUqypJIBtSmq7iS5l/khN1p5vY0k82vyyubNl+a9TYXUjcei6o
+         ipTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697129513; x=1697734313;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MWIWibPC+lZXM3yshrS/ddiyrVa+kWvtvd0qlqC0KHM=;
+        b=wpH7kPErXKfVWOWDdUmdXogeNluqGYGr5U/QJVFfgDo+/93Q+IiXt4xsoctiIKj1eh
+         DplIW2AlmHUiUlvz1Bzw8+n5kGg9HCKkB3Q7VKF01DTX3Uf91F+S07GPZwCKVB1Qzizs
+         fvorlhzST3TsbyrhABcfSVmRjTU64MQWhFfgF8uroKJm18E+qlPiZyslXNfl7lJ19xZc
+         aovq+BlzOXiRPVkxAQIcYpgwpAEb40hVkiBwekzBzn0FhzlNQIB2p4H7/lW85nk8lpto
+         Rwq962sWyoFxrx0qiUk/7gSC9nlCkYbB7QSljI6V4/DE7B21gMpme6rLa3gXHK9f5C+c
+         mpfg==
+X-Gm-Message-State: AOJu0YyA7Lbvz3HvesqaughWG4ZYAUNAytsKJUI61BbGhJ1cDML318Gx
+        G9Cvr7AVyWyjttPJvRQwFgI=
+X-Google-Smtp-Source: AGHT+IFVikZZcsmhkf4IY3YvUh0p56H1Un3OXiSxM9FhhQ6ne3DWgfOcNjKrRzoZ7VS4LS+hpY1m/g==
+X-Received: by 2002:a05:6000:250:b0:32d:825b:e7da with SMTP id m16-20020a056000025000b0032d825be7damr4435591wrz.41.1697129512697;
+        Thu, 12 Oct 2023 09:51:52 -0700 (PDT)
+Received: from [127.0.1.1] (2a02-8389-41cf-e200-286e-16e6-ac28-b609.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:286e:16e6:ac28:b609])
+        by smtp.gmail.com with ESMTPSA id b3-20020adff243000000b0031431fb40fasm18841529wrp.89.2023.10.12.09.51.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Oct 2023 09:51:52 -0700 (PDT)
+From:   Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Date:   Thu, 12 Oct 2023 18:51:49 +0200
+Subject: [PATCH v2] Input: bcm5974 - check endpoint type before starting
+ traffic
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9P190MB1225:EE_|AM9P190MB1076:EE_
-X-MS-Office365-Filtering-Correlation-Id: 375abf76-15c7-4a91-f5fc-08dbcb436154
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: S3PZpZeSEYwYAO2wK5syrcifV0v6dDK5677KwsbS4S4tvIeusxapWQ2WP6QGMwmqgRPGIUjp1YEEWZ5Jrc8XVmJWAc/wtYU4gVxkms1PWwC4HQ0dKnVgbZmALVdW5oVUmQlK6fvnB6IzQy+/9MIx0T0w4kBh30daUqlOpmjWKnpmJD6Chws9srsJftF48sxY9Q2eNyHfJg8ylrH6BIByyGAzGaLF0pJS651JsVc/WDbHlwX+hlCF6ja+a1/CgAF9QTP8Hq9HWGSubWkJismb09seAvxXduPPqEMEvC1RJGx/t+44Qlo6qxUMhOTkK09KJwlHsO5g7WAqzf81pOqqLovOpi5WTdu+t2hTcQV/IltB2UfFtsonYSg2YAukCPyWyCnURXMcdREAxVfQosy4tgkmAH1Z/SEWrZuDysl7itPNd+B1AqH4aLw4ULPE+/77ag4zHho6SPoKZEXlAypCW2COJrqqawDfNaObW9z6NEyfF9SA6RHszCErs/8cr0GbuHoc0u0xBr3EwTooTRK++1YNcgzFvUaQUC8xNwijDEPMsg1faj4paRi5iaQau+JUzK7K+DwRXws8e+grr+xyLi7p25lMr9ihZIuNu1ZqE4s=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?AZz6LHR1Xl1f/AsdEIUNgdASHCE30mAnqEkhb6y3IcJAE0u70LMhP8BWLv?=
- =?iso-8859-1?Q?crDJtLtrRymsaZONmiogFASWcH0TxVjJ6aYZtC68FqklgEXOT3tcyXWwti?=
- =?iso-8859-1?Q?mapzpOFduHD5gXLLyKqdmyTjjbINscN2dmAVaBZCwrbyGCMHcv+3w045ZE?=
- =?iso-8859-1?Q?bXpAXICVJrHMwmusGJ3bDrqVxV4DcLwxrfz4KuxsvNZmE7mDIsOjqFVY5I?=
- =?iso-8859-1?Q?HuE2mfgc4C15nNo3DMeJ07wOpRAoXnuFsqZvlMZzSU6AjxefFLHxWJc8+s?=
- =?iso-8859-1?Q?oQG5RgETPRbtFkvwHfjD4Mo35LAH+O6nQm7zqoVJPvbQ7NzBXwpaGWcAxx?=
- =?iso-8859-1?Q?tsemeCkEtgYyoTO2Jpwn+TevtIBMsBoDNQKU7CICixPcYTbrIsMoymmWZv?=
- =?iso-8859-1?Q?KWVJuhql8VziH03YBgtGx/NhQy9I+D8LMWWXOjDEZl07efXhiM10BaAYal?=
- =?iso-8859-1?Q?qinYXWnlypOHPGrN+EaaMcEMTlBZiK7/SOmsEZ0GnYBAk81eEHYfS7MHD4?=
- =?iso-8859-1?Q?q4p6Njgnj4SRdPJgZvLordhdS0zAgb7Dl+9w4nnlVqmNWhxO2kfXQ7d5Fu?=
- =?iso-8859-1?Q?54gdKK6atVxgczATMPxU2MsmLgqYr8dQ+vF5ln3SV96iTeZZzDuRn4+lMP?=
- =?iso-8859-1?Q?mY99H7aaGOx6hq+Cx/puqTwP3SpCFIpw5iyuyqpCbavX7lG5PfwWy8ZFUD?=
- =?iso-8859-1?Q?r+730w8MpX08MRPBAmYDDj3ARjSlcePz8hxNT3STRKdaOzrOub6jprGGvf?=
- =?iso-8859-1?Q?JbYLkBaAeAEootHeb2I2oMUzOyxdMm/CNvCKYFj6bDdBOFeapRoCxBVf2z?=
- =?iso-8859-1?Q?n0tcZZdaMwnrOHeJk543eb/N6IKPVvXQrM4sV7D8V2xBYJyjaMLE8cDOp4?=
- =?iso-8859-1?Q?GrhwfE1z+IvaO0M3MAuobWtauO2nXwF+9Y6v4/q7gvl+a51LuJzfUIGnqy?=
- =?iso-8859-1?Q?v6Sg0ZrXX2GdnCtTobWgxa1x/IlNCRwKnA+BI28bY5i6neJtaG57hAgdvf?=
- =?iso-8859-1?Q?YVOrl41unuAZjs/hUjWpcBN0ymN/rclQr0Tw82ADeCamc2KSgjV8m79EV9?=
- =?iso-8859-1?Q?8EHeMoxENLDhV5XBWa7og4gbv69kfv7WrADTgVB+lNXTCeRort30XDalA9?=
- =?iso-8859-1?Q?y0cLHxve1AOZ591mHVgmbS6YX8RvNygZ1xufOBcxgRly6z9OnSx1nEQMdv?=
- =?iso-8859-1?Q?EtMHRF8hkqx0/EivYC0YefKH0fVCvA+AO2x5FrdJGTt6CY9lALUqbkvVl1?=
- =?iso-8859-1?Q?pI1UlBBG8A/JkWlizyZiA65sNX2wDtnnYZ+LEEPD3HpB9Fo3Ogr9FTkdRI?=
- =?iso-8859-1?Q?FzFE?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-91991.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 375abf76-15c7-4a91-f5fc-08dbcb436154
-X-MS-Exchange-CrossTenant-AuthSource: DB9P190MB1225.EURP190.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2023 16:50:46.9819
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9P190MB1076
-X-Spam-Status: No, score=1.6 required=5.0 tests=BAYES_50,BITCOIN_TOEQFM,
-        FREEMAIL_FROM,LOTS_OF_MONEY,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20231007-topic-bcm5974_bulk-v2-1-021131c83efb@gmail.com>
+X-B4-Tracking: v=1; b=H4sIACQkKGUC/32NWw6CMBBFt0L6bU3Lq+CX+zDEzJQCEyklLRINY
+ e8WFuDnuTcnZ2PBeDKB3ZKNebNSIDdFSC8J0wNMveHURmapSDMphOKLm0lz1LaoVf7E9/jiuix
+ R5RmCQmBRRAiGo4dJD4dqISzGH8fsTUefs/ZoIg8UFue/Z3yVx/q3s0oueVYUaOqugrYS994Cj
+ VftLGv2ff8Bijh3j80AAAA=
+To:     John Horan <knasher@gmail.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+        syzbot+348331f63b034f89b622@syzkaller.appspotmail.com
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1697129510; l=3614;
+ i=javier.carrasco.cruz@gmail.com; s=20230509; h=from:subject:message-id;
+ bh=kRntgPgZIrQXrR1MNd1CkRvqq0k+PSLVRxZtO8RvCqY=;
+ b=C9XHmdN7Soco6HIBjGp9ScookTWELwm1IHdUdVPRUyrN8aCspgRlIgwMKlfEiwiwVuVH8AD6n
+ FlIgEgG9IJsA/+kT8Q9EIDnd8CZHmoMetatKY3Nx2DxMnV8NZj79bWj
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=tIGJV7M+tCizagNijF0eGMBGcOsPD+0cWGfKjl4h6K8=
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Your Bitcoin Online Wallet has been funded with 29 BTC total of $ 750,500 USD, as submitted from CDT Crypto-Trade Account, To withdraw your current balance, and receive your account Login Information, Type "BTC" in a message and send to ( admin@coindame.net )
+syzbot has found a type mismatch between a USB pipe and the transfer
+endpoint, which is triggered by the bcm5974 driver[1].
+
+This driver expects the device to provide input interrupt endpoints and
+if that is not the case, the driver registration should terminate.
+
+Repros are available to reproduce this issue with a certain setup for
+the dummy_hcd, leading to an interrupt/bulk mismatch which is caught in
+the USB core after calling usb_submit_urb() with the following message:
+"BOGUS urb xfer, pipe 1 != type 3"
+
+Some other device drivers (like the appletouch driver bcm5974 is mainly
+based on) provide some checking mechanism to make sure that an IN
+interrupt endpoint is available. In this particular case the endpoint
+addresses are provided by a config table, so the checking can be
+targeted to the provided endpoints.
+
+Add some basic checking to guarantee that the endpoints available match
+the expected type for both the trackpad and button endpoints.
+
+This issue was only found for the trackpad endpoint, but the checking
+has been added to the button endpoint as well for the same reasons.
+
+Given that there was never a check for the endpoint type, this bug has
+been there since the first implementation of the driver (f89bd95c5c94).
+
+[1] https://syzkaller.appspot.com/bug?extid=348331f63b034f89b622
+
+Fixes: f89bd95c5c94 ("Input: bcm5974 - add driver for Macbook Air and Pro Penryn touchpads")
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Reported-and-tested-by: syzbot+348331f63b034f89b622@syzkaller.appspotmail.com
+---
+Changes in v2:
+- Keep error = -ENOMEM for the rest of the probe and return -ENODEV if
+  the endpoint check fails.
+- Check function returns now bool and was renamed (_is_ for
+  bool-returning functions).
+- Link to v1: https://lore.kernel.org/r/20231007-topic-bcm5974_bulk-v1-1-355be9f8ad80@gmail.com
+---
+ drivers/input/mouse/bcm5974.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/drivers/input/mouse/bcm5974.c b/drivers/input/mouse/bcm5974.c
+index ca150618d32f..9fc9dd96c96a 100644
+--- a/drivers/input/mouse/bcm5974.c
++++ b/drivers/input/mouse/bcm5974.c
+@@ -891,6 +891,21 @@ static int bcm5974_resume(struct usb_interface *iface)
+ 	return error;
+ }
+ 
++static bool bcm5974_ep_is_int_in(struct usb_host_interface *iface, int addr)
++{
++	struct usb_endpoint_descriptor *endpoint;
++	int i;
++
++	for (i = 0; i < iface->desc.bNumEndpoints; i++) {
++		endpoint = &iface->endpoint[i].desc;
++		if (endpoint->bEndpointAddress == addr) {
++			if (usb_endpoint_is_int_in(endpoint))
++				return true;
++		}
++	}
++	return false;
++}
++
+ static int bcm5974_probe(struct usb_interface *iface,
+ 			 const struct usb_device_id *id)
+ {
+@@ -903,6 +918,18 @@ static int bcm5974_probe(struct usb_interface *iface,
+ 	/* find the product index */
+ 	cfg = bcm5974_get_config(udev);
+ 
++	if (cfg->tp_type == TYPE1) {
++		if (!bcm5974_ep_is_int_in(iface->cur_altsetting, cfg->bt_ep)) {
++			dev_err(&iface->dev, "No int-in endpoint for the button\n");
++			return -ENODEV;
++		}
++	}
++
++	if (!bcm5974_ep_is_int_in(iface->cur_altsetting, cfg->tp_ep)) {
++		dev_err(&iface->dev, "No int-in endpoint for the trackpad\n");
++		return -ENODEV;
++	}
++
+ 	/* allocate memory for our device state and initialize it */
+ 	dev = kzalloc(sizeof(struct bcm5974), GFP_KERNEL);
+ 	input_dev = input_allocate_device();
+
+---
+base-commit: 401644852d0b2a278811de38081be23f74b5bb04
+change-id: 20231007-topic-bcm5974_bulk-c66b743ba7ba
+
+Best regards,
+-- 
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
+
