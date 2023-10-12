@@ -2,102 +2,178 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6AD97C6AF6
-	for <lists+linux-input@lfdr.de>; Thu, 12 Oct 2023 12:24:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 561AE7C6B98
+	for <lists+linux-input@lfdr.de>; Thu, 12 Oct 2023 12:55:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347129AbjJLKX7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Oct 2023 06:23:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44500 "EHLO
+        id S1343801AbjJLKz0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Oct 2023 06:55:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347133AbjJLKXw (ORCPT
+        with ESMTP id S1343721AbjJLKzZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Oct 2023 06:23:52 -0400
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC586D8;
-        Thu, 12 Oct 2023 03:23:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-        s=mail; t=1697106227;
-        bh=5SDzzt7XMUNLkvBvYEQuCiuGLibIrAFTowagRCe9Ajs=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=oWroPJNTMC8gtNsmULdL/9mutmcnqCq14qB3jD6uP8AeUqfk55rqGzOP+tshfTy+G
-         UoacmJ39q0qb5cpMrvr+HqrDDuJmqA0DV3JpdrwnoVCNNqnoSW5eK3gBAzmirhKuZv
-         qm3W1ENvyB5QtWZ4EppYfkq64C8rRifigulx8JR0=
-From:   =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date:   Thu, 12 Oct 2023 12:23:41 +0200
-Subject: [PATCH 4/4] HID: rmi: remove #ifdef CONFIG_PM
+        Thu, 12 Oct 2023 06:55:25 -0400
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com [IPv6:2001:4860:4864:20::2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AE2E90;
+        Thu, 12 Oct 2023 03:55:22 -0700 (PDT)
+Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-1e9c9d181d6so32496fac.0;
+        Thu, 12 Oct 2023 03:55:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697108121; x=1697712921; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=x3KnRFbiMBM4MEwZD3vZNUeQUH1/byVeDQygOKbchgU=;
+        b=WTxODGV7DWA8uTiweWgLbMsC/RtU3I8+C5Ko8KZy10od9GH/Up3PQXj8wT+wEA4kyN
+         z54L/PgsInp/H1bHwm73wgN9jiO/4917R8VnSFDsgUHefvsdXmmIKIH5aPPnUmdcp3+P
+         N//7krfuMAQbEzIgGtozZ3RMHajxzeqPEisVHz+CEfseBQkz8q/wSWL6r+UDnmC3h2uC
+         9ri3SU4DE13qXnLbrFUKVq4SV1Le3RcPT+yagoLdd2VGps5kCuCTH6IFct8Ib2zdLTa/
+         HAYfrnmd6BU7kpGBC2/BG6nFzrk85hnGHddX+LEuLshWcioxEnOIK0ym9v6/l3DBb0zj
+         4q5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697108121; x=1697712921;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x3KnRFbiMBM4MEwZD3vZNUeQUH1/byVeDQygOKbchgU=;
+        b=JjzegctEn9Wz8VYUgdYKaH3peE3aA96ZWDGmOuilH35IlR+kUcxgWMiH6JwadaHD1a
+         ZetH2lSmdLCo1quLF13K3/8Vb1R9C3POMzhXp/XHpyhk47V+A/9hbi8BHHjNTCPnNX1T
+         I05N27C1cHNmUeLrdKKS3bhZ9d23G0nNJyC/wjAee7FjLiIqJBzEY97gbnXPa24TUmMt
+         dqRVyp8FH08UdiJD5IHNDLnvRNoTuk/DmH4ktRG2jQpfDtTYR+VgSaYAgtkl4/21vg+g
+         0+S+wcNUsU2An2UeflfcNIKB25C6TIIzqNNFmEpSfGcrH7zvZ9JI71rRnjHZjjA95QXQ
+         MNMQ==
+X-Gm-Message-State: AOJu0YwHVJPG4Ya9l/RcmDFs/Xu4TCD5r6JCoGE6sjW6meKrrHGsbKpi
+        5H3Wc2PXyXwwKmdk1J5efO8=
+X-Google-Smtp-Source: AGHT+IHAoOJnsEI7SPBYfqlJ56NdhKD+FcQimx5Qlw3wyLT2TBtJDEUg0+ZXi811IaPilSrGm0fGZw==
+X-Received: by 2002:a05:6870:671b:b0:1e9:8a35:863a with SMTP id gb27-20020a056870671b00b001e98a35863amr6155284oab.20.1697108120826;
+        Thu, 12 Oct 2023 03:55:20 -0700 (PDT)
+Received: from [10.5.253.103] ([103.4.220.252])
+        by smtp.gmail.com with ESMTPSA id b8-20020a637148000000b00589b7a9ef01sm1456456pgn.36.2023.10.12.03.55.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Oct 2023 03:55:20 -0700 (PDT)
+Message-ID: <27068b3a-50dd-4b24-8947-1329889efe89@gmail.com>
+Date:   Thu, 12 Oct 2023 16:24:24 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20231012-hid-pm_ptr-v1-4-0a71531ca93b@weissschuh.net>
-References: <20231012-hid-pm_ptr-v1-0-0a71531ca93b@weissschuh.net>
-In-Reply-To: <20231012-hid-pm_ptr-v1-0-0a71531ca93b@weissschuh.net>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1697106227; l=1495;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=5SDzzt7XMUNLkvBvYEQuCiuGLibIrAFTowagRCe9Ajs=;
- b=M2Rn5UBq5P/gACg74ZfSclny/wCeyqbwxYn0CkHIk8fyb5HNmVZAcKUVOI7MrfDzNO2ubN77k
- UYptybFID/7BMvOT6sF2m4865QwQnEePXz3yrgm89ADgYFLSrkHFqGq
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+User-Agent: Mozilla Thunderbird
+From:   Anshul Dalal <anshulusr@gmail.com>
+Subject: Re: [PATCH v4 1/2] dt-bindings: input: bindings for Adafruit Seesaw
+ Gamepad
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org
+References: <20231010184827.1213507-1-anshulusr@gmail.com>
+ <7c570333-7334-435c-83cd-225817afc51c@linaro.org>
+Content-Language: en-US
+In-Reply-To: <7c570333-7334-435c-83cd-225817afc51c@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Through the usage of pm_ptr() the CONFIG_PM-dependent code will always be
-compiled, protecting against bitrot.
-The linker will then garbage-collect the unused function avoiding any overhead.
+On 10/12/23 14:09, Krzysztof Kozlowski wrote:
+> On 10/10/2023 20:48, Anshul Dalal wrote:
+>> Adds bindings for the Adafruit Seesaw Gamepad.
+>>
+>> The gamepad functions as an i2c device with the default address of 0x50
+>> and has an IRQ pin that can be enabled in the driver to allow for a rising
+>> edge trigger on each button press or joystick movement.
+>>
+>> Product page:
+>>   https://www.adafruit.com/product/5743
+>> Arduino driver:
+>>   https://github.com/adafruit/Adafruit_Seesaw
+>>
+>> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+>> ---
+>>
+>> Changes for v4:
+>> - Fixed the URI for the id field
+>> - Added `interrupts` property
+>>
+>> Changes for v3:
+>> - Updated id field to reflect updated file name from previous version
+>> - Added `reg` property
+>>
+>> Changes for v2:
+>> - Renamed file to `adafruit,seesaw-gamepad.yaml`
+>> - Removed quotes for `$id` and `$schema`
+>> - Removed "Bindings for" from the description
+>> - Changed node name to the generic name "joystick"
+>> - Changed compatible to 'adafruit,seesaw-gamepad' instead of
+>>   'adafruit,seesaw_gamepad'
+>>
+>>  .../input/adafruit,seesaw-gamepad.yaml        | 59 +++++++++++++++++++
+>>  1 file changed, 59 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+>> new file mode 100644
+>> index 000000000000..e8e676006d2f
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+>> @@ -0,0 +1,59 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Adafruit Mini I2C Gamepad with seesaw
+>> +
+>> +maintainers:
+>> +  - Anshul Dalal <anshulusr@gmail.com>
+>> +
+>> +description: |
+>> +  Adafruit Mini I2C Gamepad
+>> +
+>> +    +-----------------------------+
+>> +    |   ___                       |
+>> +    |  /   \               (X)    |
+>> +    | |  S  |  __   __  (Y)   (A) |
+>> +    |  \___/  |ST| |SE|    (B)    |
+>> +    |                             |
+>> +    +-----------------------------+
+>> +
+>> +  S -> 10-bit percision bidirectional analog joystick
+>> +  ST -> Start
+>> +  SE -> Select
+>> +  X, A, B, Y -> Digital action buttons
+>> +
+>> +  Product page: https://www.adafruit.com/product/5743
+>> +  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: adafruit,seesaw-gamepad
+> 
+> I thought seesaw is a name of a device, but it is not, thus it is  quite
+> a generic compatible. Are you sure device does not have its name?
+> Looking at product page, it indeed might not have.
+> 
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/hid/hid-rmi.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+I chose the title from the datasheet:
+https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.pdf
+It lists the product name as "Adafruit Mini I2C STEMMA QT Gamepad with
+seesaw" with STEMMA QT being the name of the 4-pin i2c connector that
+Adafruit uses on their products. That's the most specific name for the
+product I could find.
 
-diff --git a/drivers/hid/hid-rmi.c b/drivers/hid/hid-rmi.c
-index 84e7ba5314d3..d4af17fdba46 100644
---- a/drivers/hid/hid-rmi.c
-+++ b/drivers/hid/hid-rmi.c
-@@ -436,7 +436,6 @@ static void rmi_report(struct hid_device *hid, struct hid_report *report)
- 		input_sync(field->hidinput->input);
- }
- 
--#ifdef CONFIG_PM
- static int rmi_suspend(struct hid_device *hdev, pm_message_t message)
- {
- 	struct rmi_data *data = hid_get_drvdata(hdev);
-@@ -483,7 +482,6 @@ static int rmi_post_resume(struct hid_device *hdev)
- 	hid_hw_close(hdev);
- 	return ret;
- }
--#endif /* CONFIG_PM */
- 
- static int rmi_hid_reset(struct rmi_transport_dev *xport, u16 reset_addr)
- {
-@@ -774,11 +772,9 @@ static struct hid_driver rmi_driver = {
- 	.report			= rmi_report,
- 	.input_mapping		= rmi_input_mapping,
- 	.input_configured	= rmi_input_configured,
--#ifdef CONFIG_PM
--	.suspend		= rmi_suspend,
--	.resume			= rmi_post_resume,
--	.reset_resume		= rmi_post_resume,
--#endif
-+	.suspend		= pm_ptr(rmi_suspend),
-+	.resume			= pm_ptr(rmi_post_resume),
-+	.reset_resume		= pm_ptr(rmi_post_resume),
- };
- 
- module_hid_driver(rmi_driver);
+> 
+> Best regards,
+> Krzysztof
+> 
 
--- 
-2.42.0
-
+Thanks,
+Anshul
