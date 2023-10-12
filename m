@@ -2,82 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4759A7C7377
-	for <lists+linux-input@lfdr.de>; Thu, 12 Oct 2023 18:51:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F28F17C79B7
+	for <lists+linux-input@lfdr.de>; Fri, 13 Oct 2023 00:33:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343912AbjJLQv4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Oct 2023 12:51:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43284 "EHLO
+        id S1442914AbjJLWdl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Oct 2023 18:33:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344025AbjJLQv4 (ORCPT
+        with ESMTP id S1442995AbjJLWdj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Oct 2023 12:51:56 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AEDCC0;
-        Thu, 12 Oct 2023 09:51:54 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id ffacd0b85a97d-32d849cc152so1163713f8f.1;
-        Thu, 12 Oct 2023 09:51:54 -0700 (PDT)
+        Thu, 12 Oct 2023 18:33:39 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FC0AE7
+        for <linux-input@vger.kernel.org>; Thu, 12 Oct 2023 15:33:36 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-51e24210395so5081a12.0
+        for <linux-input@vger.kernel.org>; Thu, 12 Oct 2023 15:33:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697129513; x=1697734313; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MWIWibPC+lZXM3yshrS/ddiyrVa+kWvtvd0qlqC0KHM=;
-        b=S5kW3vxrGqrfxr5izbzQJvRLtbRh4Ndoe72pjv1R5bNt8zJqH3f72/5OTlp6sMsp2P
-         CgQIGvZSIL5qjc/JIBBzCZX7mSPbxuhH9wJ8X08dYvv9zz9ONICeGcWkUXQEgoBUaVAp
-         45hvdMK5DwaWKe6JHlzzVxRcN2f/GyjEpFdO6LIFuV/B7uTeHk5KyxvD4rraR4lV+fTN
-         nclm3xzibMwSRWRr5ele1R4OLKIKN2T18qgVYujXyqgEAk6mMDKykr4i1tFvXg45MS2R
-         pB0kDhmprxjYHKmIBomUqypJIBtSmq7iS5l/khN1p5vY0k82vyyubNl+a9TYXUjcei6o
-         ipTQ==
+        d=google.com; s=20230601; t=1697150015; x=1697754815; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Cgiii5Cu8IvXXLpwG+bpTpFG66DYnixIeo0dAtyx7SU=;
+        b=HAylIh5BkzCAscRxpDJSBrXbc0OZEl9G+NXGRmKYpLrwmHDB5Yh01zEXAxtvKhk11L
+         PzjzGeeZhv8Ge4qofMcmNEa7x4+fkLuoyv0RaiOC/+QyFLbqyppXXoeX0EuoruuXMmoE
+         Sq+QIfaagkj0qJPClFOKy3/qsC3dP8ArBdrE1BXNBBktzA9YrRKJEy8AyKGxOT0t5gpp
+         53/tHZlcYHm7plP2KBc20bxgnY7n2cTcY2fGmcsCCTCfFXD2oJUESMtkOuVwFzRlTIab
+         9pCX2t9nNWQl3CmCh4UST258hBvCUOynSI0dAD+W4eyBr/1wsep63ay1CAwp/DEfEP9t
+         gL0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697129513; x=1697734313;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MWIWibPC+lZXM3yshrS/ddiyrVa+kWvtvd0qlqC0KHM=;
-        b=wpH7kPErXKfVWOWDdUmdXogeNluqGYGr5U/QJVFfgDo+/93Q+IiXt4xsoctiIKj1eh
-         DplIW2AlmHUiUlvz1Bzw8+n5kGg9HCKkB3Q7VKF01DTX3Uf91F+S07GPZwCKVB1Qzizs
-         fvorlhzST3TsbyrhABcfSVmRjTU64MQWhFfgF8uroKJm18E+qlPiZyslXNfl7lJ19xZc
-         aovq+BlzOXiRPVkxAQIcYpgwpAEb40hVkiBwekzBzn0FhzlNQIB2p4H7/lW85nk8lpto
-         Rwq962sWyoFxrx0qiUk/7gSC9nlCkYbB7QSljI6V4/DE7B21gMpme6rLa3gXHK9f5C+c
-         mpfg==
-X-Gm-Message-State: AOJu0YyA7Lbvz3HvesqaughWG4ZYAUNAytsKJUI61BbGhJ1cDML318Gx
-        G9Cvr7AVyWyjttPJvRQwFgI=
-X-Google-Smtp-Source: AGHT+IFVikZZcsmhkf4IY3YvUh0p56H1Un3OXiSxM9FhhQ6ne3DWgfOcNjKrRzoZ7VS4LS+hpY1m/g==
-X-Received: by 2002:a05:6000:250:b0:32d:825b:e7da with SMTP id m16-20020a056000025000b0032d825be7damr4435591wrz.41.1697129512697;
-        Thu, 12 Oct 2023 09:51:52 -0700 (PDT)
-Received: from [127.0.1.1] (2a02-8389-41cf-e200-286e-16e6-ac28-b609.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:286e:16e6:ac28:b609])
-        by smtp.gmail.com with ESMTPSA id b3-20020adff243000000b0031431fb40fasm18841529wrp.89.2023.10.12.09.51.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Oct 2023 09:51:52 -0700 (PDT)
-From:   Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date:   Thu, 12 Oct 2023 18:51:49 +0200
-Subject: [PATCH v2] Input: bcm5974 - check endpoint type before starting
- traffic
+        d=1e100.net; s=20230601; t=1697150015; x=1697754815;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Cgiii5Cu8IvXXLpwG+bpTpFG66DYnixIeo0dAtyx7SU=;
+        b=lrpBLpNssDV0dsg5pIIHQObc2bvbYall8YX6BXSK4shoTT05F/UmeuKhK2klMO9swf
+         DDUNYHYLrW7yNVhN4DdsBmmKa6W2dTXKFKxMTeIRaBL0b145zj2/nX2xyrMziqzlJkoX
+         qVspWzRqFk69rao7M5x1kmDwktHKmCAxFy9SDXkqWMfsShtVwuSmTb552psNkLYgu+6M
+         Spy/DYo6IJ0bqtIW7sl0wS3P7ptwnF+F92lLO8kW8IA5JVadxzU+HPvkzA4ODHe2fSBc
+         ksSQAzdGzNKowXp5U8du88C81ikcq9Rq3gjm32DEwVan+GnmWOJOGvrFL6ouiAI1YRVh
+         zc8w==
+X-Gm-Message-State: AOJu0Yytlr2I1cFUfmk57kQjSaIJraub1oiZW06YJnrxNhe8UkA3cHOx
+        6GrKgGEE90sXAZZcic9JrDcSOln3e3g6Itt09EGPcrzGqFtAqjYikL4P0g1U
+X-Google-Smtp-Source: AGHT+IG8cr/hUnVIGfE1E+m2akLBdaH9uGZ6EgMPafMZWioeg1BhztGE8ogPNo2+AIidJQ6f2HV0twOo4xlK8oj7AM0=
+X-Received: by 2002:a50:d084:0:b0:538:2941:ad10 with SMTP id
+ v4-20020a50d084000000b005382941ad10mr22140edd.5.1697150015162; Thu, 12 Oct
+ 2023 15:33:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231007-topic-bcm5974_bulk-v2-1-021131c83efb@gmail.com>
-X-B4-Tracking: v=1; b=H4sIACQkKGUC/32NWw6CMBBFt0L6bU3Lq+CX+zDEzJQCEyklLRINY
- e8WFuDnuTcnZ2PBeDKB3ZKNebNSIDdFSC8J0wNMveHURmapSDMphOKLm0lz1LaoVf7E9/jiuix
- R5RmCQmBRRAiGo4dJD4dqISzGH8fsTUefs/ZoIg8UFue/Z3yVx/q3s0oueVYUaOqugrYS994Cj
- VftLGv2ff8Bijh3j80AAAA=
-To:     John Horan <knasher@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-        syzbot+348331f63b034f89b622@syzkaller.appspotmail.com
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1697129510; l=3614;
- i=javier.carrasco.cruz@gmail.com; s=20230509; h=from:subject:message-id;
- bh=kRntgPgZIrQXrR1MNd1CkRvqq0k+PSLVRxZtO8RvCqY=;
- b=C9XHmdN7Soco6HIBjGp9ScookTWELwm1IHdUdVPRUyrN8aCspgRlIgwMKlfEiwiwVuVH8AD6n
- FlIgEgG9IJsA/+kT8Q9EIDnd8CZHmoMetatKY3Nx2DxMnV8NZj79bWj
-X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
- pk=tIGJV7M+tCizagNijF0eGMBGcOsPD+0cWGfKjl4h6K8=
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20231005002249.554877-1-jefferymiller@google.com>
+In-Reply-To: <20231005002249.554877-1-jefferymiller@google.com>
+From:   Jeffery Miller <jefferymiller@google.com>
+Date:   Thu, 12 Oct 2023 17:33:23 -0500
+Message-ID: <CAAzPG9NRkdExq39ZRE8VjjrZoV_otJnAbUrAm__gRVkNT-z4Fg@mail.gmail.com>
+Subject: Re: [PATCH v2] Input: psmouse - fix fast_reconnect function for PS/2 mode
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Andrew Duggan <andrew@duggan.us>,
+        Andrew Duggan <aduggan@synaptics.com>, loic.poulain@linaro.org,
+        linux@leemhuis.info, benjamin.tissoires@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,99 +72,60 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-syzbot has found a type mismatch between a USB pipe and the transfer
-endpoint, which is triggered by the bcm5974 driver[1].
+On Wed, Oct 4, 2023 at 7:23=E2=80=AFPM Jeffery Miller <jefferymiller@google=
+.com> wrote:
+>
+>  drivers/input/mouse/elantech.c  | 1 +
+>  drivers/input/mouse/synaptics.c | 1 +
+>  2 files changed, 2 insertions(+)
+>
+> diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantec=
+h.c
+> index 2118b2075f43..4e38229404b4 100644
+> --- a/drivers/input/mouse/elantech.c
+> +++ b/drivers/input/mouse/elantech.c
+> @@ -2114,6 +2114,7 @@ static int elantech_setup_ps2(struct psmouse *psmou=
+se,
+>         psmouse->protocol_handler =3D elantech_process_byte;
+>         psmouse->disconnect =3D elantech_disconnect;
+>         psmouse->reconnect =3D elantech_reconnect;
+> +       psmouse->fast_reconnect =3D NULL;
+>         psmouse->pktsize =3D info->hw_version > 1 ? 6 : 4;
+>
+>         return 0;
+> diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synapt=
+ics.c
+> index ada299ec5bba..cefc74b3b34b 100644
+> --- a/drivers/input/mouse/synaptics.c
+> +++ b/drivers/input/mouse/synaptics.c
+> @@ -1623,6 +1623,7 @@ static int synaptics_init_ps2(struct psmouse *psmou=
+se,
+>         psmouse->set_rate =3D synaptics_set_rate;
+>         psmouse->disconnect =3D synaptics_disconnect;
+>         psmouse->reconnect =3D synaptics_reconnect;
+> +       psmouse->fast_reconnect =3D NULL;
+>         psmouse->cleanup =3D synaptics_reset;
+>         /* Synaptics can usually stay in sync without extra help */
+>         psmouse->resync_time =3D 0;
+> --
+> 2.42.0.582.g8ccd20d70d-goog
+>
 
-This driver expects the device to provide input interrupt endpoints and
-if that is not the case, the driver registration should terminate.
+This fast_reconnect function pointer being left over has been here since co=
+mmit
+8eb92e5c9133 ("Input: psmouse - add support for SMBus companions")
 
-Repros are available to reproduce this issue with a certain setup for
-the dummy_hcd, leading to an interrupt/bulk mismatch which is caught in
-the USB core after calling usb_submit_urb() with the following message:
-"BOGUS urb xfer, pipe 1 != type 3"
+It is only recently noticed due to 92e24e0e57f7 ("Input: psmouse - add
+delay when deactivating for SMBus mode") which is in the v6.6 rc
+branches.
 
-Some other device drivers (like the appletouch driver bcm5974 is mainly
-based on) provide some checking mechanism to make sure that an IN
-interrupt endpoint is available. In this particular case the endpoint
-addresses are provided by a config table, so the checking can be
-targeted to the provided endpoints.
+Shouldn't it be OK to merge regardless of a future refactor of
+8eb92e5c9133 ("Input: psmouse - add support for SMBus companions")
+as described in https://lore.kernel.org/all/ZR1yUFJ8a9Zt606N@penguin/?
 
-Add some basic checking to guarantee that the endpoints available match
-the expected type for both the trackpad and button endpoints.
+This is a v2 from the previous submission at
+https://lore.kernel.org/all/20231004005729.3943515-1-jefferymiller@google.c=
+om/
 
-This issue was only found for the trackpad endpoint, but the checking
-has been added to the button endpoint as well for the same reasons.
-
-Given that there was never a check for the endpoint type, this bug has
-been there since the first implementation of the driver (f89bd95c5c94).
-
-[1] https://syzkaller.appspot.com/bug?extid=348331f63b034f89b622
-
-Fixes: f89bd95c5c94 ("Input: bcm5974 - add driver for Macbook Air and Pro Penryn touchpads")
-Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Reported-and-tested-by: syzbot+348331f63b034f89b622@syzkaller.appspotmail.com
----
-Changes in v2:
-- Keep error = -ENOMEM for the rest of the probe and return -ENODEV if
-  the endpoint check fails.
-- Check function returns now bool and was renamed (_is_ for
-  bool-returning functions).
-- Link to v1: https://lore.kernel.org/r/20231007-topic-bcm5974_bulk-v1-1-355be9f8ad80@gmail.com
----
- drivers/input/mouse/bcm5974.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
-
-diff --git a/drivers/input/mouse/bcm5974.c b/drivers/input/mouse/bcm5974.c
-index ca150618d32f..9fc9dd96c96a 100644
---- a/drivers/input/mouse/bcm5974.c
-+++ b/drivers/input/mouse/bcm5974.c
-@@ -891,6 +891,21 @@ static int bcm5974_resume(struct usb_interface *iface)
- 	return error;
- }
- 
-+static bool bcm5974_ep_is_int_in(struct usb_host_interface *iface, int addr)
-+{
-+	struct usb_endpoint_descriptor *endpoint;
-+	int i;
-+
-+	for (i = 0; i < iface->desc.bNumEndpoints; i++) {
-+		endpoint = &iface->endpoint[i].desc;
-+		if (endpoint->bEndpointAddress == addr) {
-+			if (usb_endpoint_is_int_in(endpoint))
-+				return true;
-+		}
-+	}
-+	return false;
-+}
-+
- static int bcm5974_probe(struct usb_interface *iface,
- 			 const struct usb_device_id *id)
- {
-@@ -903,6 +918,18 @@ static int bcm5974_probe(struct usb_interface *iface,
- 	/* find the product index */
- 	cfg = bcm5974_get_config(udev);
- 
-+	if (cfg->tp_type == TYPE1) {
-+		if (!bcm5974_ep_is_int_in(iface->cur_altsetting, cfg->bt_ep)) {
-+			dev_err(&iface->dev, "No int-in endpoint for the button\n");
-+			return -ENODEV;
-+		}
-+	}
-+
-+	if (!bcm5974_ep_is_int_in(iface->cur_altsetting, cfg->tp_ep)) {
-+		dev_err(&iface->dev, "No int-in endpoint for the trackpad\n");
-+		return -ENODEV;
-+	}
-+
- 	/* allocate memory for our device state and initialize it */
- 	dev = kzalloc(sizeof(struct bcm5974), GFP_KERNEL);
- 	input_dev = input_allocate_device();
-
----
-base-commit: 401644852d0b2a278811de38081be23f74b5bb04
-change-id: 20231007-topic-bcm5974_bulk-c66b743ba7ba
-
-Best regards,
--- 
-Javier Carrasco <javier.carrasco.cruz@gmail.com>
-
+Thanks,
+Jeff
