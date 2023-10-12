@@ -2,76 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E4C217C6887
-	for <lists+linux-input@lfdr.de>; Thu, 12 Oct 2023 10:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB7D57C6843
+	for <lists+linux-input@lfdr.de>; Thu, 12 Oct 2023 10:54:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235425AbjJLIaq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Oct 2023 04:30:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34558 "EHLO
+        id S235463AbjJLIjT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Oct 2023 04:39:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233712AbjJLIaq (ORCPT
+        with ESMTP id S235460AbjJLIjS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Oct 2023 04:30:46 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9526798
-        for <linux-input@vger.kernel.org>; Thu, 12 Oct 2023 01:30:44 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-9ba081173a3so113324666b.1
-        for <linux-input@vger.kernel.org>; Thu, 12 Oct 2023 01:30:44 -0700 (PDT)
+        Thu, 12 Oct 2023 04:39:18 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEB2990
+        for <linux-input@vger.kernel.org>; Thu, 12 Oct 2023 01:39:15 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-405361bb94eso8841485e9.0
+        for <linux-input@vger.kernel.org>; Thu, 12 Oct 2023 01:39:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697099443; x=1697704243; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1697099954; x=1697704754; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=jaklfcc/8w9no/tCkE+VdArTvpdFxuGnKW7wR3NjovI=;
-        b=pYZw6dqJzFqsxbcXnS7Bvk4fTUNVHucRCOgx8+yDVOOSU5cVegFnnQ5jZUIdtu3brh
-         whubqbEb1mc+FZ3p9DTmNCMD0LG8JR/1P/OOBkLaBzS+4BiIkk4nrjEORTHSOzQ8REv3
-         9nbywB54d9qBpspM2i6McwLFcC0eIOVkslBpjhODH9Meq9PQDWKmnNE2y6ORxTEjnBIK
-         pUgmqFUVvh/q6f2v13wWQk6jf+nbEl7NJ/PoojYEV5p9VJ1K3GIjXNhO8CEHGlZhz6HS
-         dE3m4U2zmjrp305eFYBUmio8RK3CzQcCE2142JXFfaT55Q2G8RLNgYdRn+1shi1r0P3J
-         d2pQ==
+        bh=5/QtzDHCW7o30oEmmjJf54X8EtkkjmaGDgX3spSSCCI=;
+        b=myQ2qDU0MKsxrAukwpVWK+Kvo2uxwPRNHqP6aRFxUaL6iHg907KoGWSxQHmoPN4Cdo
+         jYHFcYr1Pyker1iP1ZY8uqHcAjb/noNcxZB4j0d+lisFZZxR4wLGv6XZ49xKmnCWMOpJ
+         FJwjr5SvWO1rb29denIsp3mF2IIi48UCniO6fGTAmYkmdipJnyMb7INL9A+5nh7m42Jw
+         +Pqjk26CkTjNwJ7I6bXryjvfwhvuizX5/HZxkiDa/uPjlonzEj2iaL5Tc3gPc+rgJ8wQ
+         Ax9LwAGlHjplVN3J6iAvV1LNtuloiRrsw/Yim2p4bbfJjmQ/krdhT5sIYlGXAXWLXBGf
+         D9Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697099443; x=1697704243;
+        d=1e100.net; s=20230601; t=1697099954; x=1697704754;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jaklfcc/8w9no/tCkE+VdArTvpdFxuGnKW7wR3NjovI=;
-        b=YZJRshOk47j7000g/z2JDkx6A1MqaoxjPJwP/GVqZXAJYbpKysoij9exIw4Ow2lMcx
-         8B5DldGkqaYiLqBtQHNFRHvn26VrZ2+r6p9PPqHq1LOnLopZiPipQmM5wEtKsAXrxnSj
-         GR0WwKQPd3w0jTSdMpwljBzT4ggq4HQ0KdJdlmi1+wTezo6cLMnc60fijJxy3bJ5gOJs
-         x0hI5sIqOVBxj6EVEpcUm54hpIMot9fOf90A2HqAvxqRrvLlEebcFh+YZYXfjq4lvyci
-         w1MWi1EujSgKco4m2QHKD5m/GH39Rc4iJzt+kT65RhD5GETdasqCJg6uFIqA7CFEcTRl
-         +lgA==
-X-Gm-Message-State: AOJu0YxRjsKY0uIPjGUdZDR0WVk1+NVIXJjPahY7IbeSniCXD8iQ/XHN
-        M0jzgicth50YBK68HErLMtHP7w==
-X-Google-Smtp-Source: AGHT+IGYFHiOJkPLX9EYHHf90agsXWY7oQXn1uKNfm76A8ADyaKBA179EGpq0OIMcJaPB1cq0JetXQ==
-X-Received: by 2002:a17:906:311b:b0:9b0:169b:eedf with SMTP id 27-20020a170906311b00b009b0169beedfmr22581222ejx.7.1697099442897;
-        Thu, 12 Oct 2023 01:30:42 -0700 (PDT)
+        bh=5/QtzDHCW7o30oEmmjJf54X8EtkkjmaGDgX3spSSCCI=;
+        b=TNcROfExT9kUR5gTbEY4CUJqzCttDcqualHwudQCdhNR7imTkScjTEtZCtr/uNy1Tk
+         sVj5K/kWAE7QyexJH5VFT9bTZaX29KxcVGZtGseyUMu1CLf/IvXG8Oh9Sa4tYK+C5J/I
+         EmtBJ1MYYuXZxiXugEyS/bSGjQjhyv8GCzlkvQmbK+yo/seuOtXlgw47FcxMJqabA6Rh
+         XE7h42TB2jk8aFh2eLMGMYmVfd3f9ZUiDzTF6/8q/e8fziFksMt0kMWxWJU7W4+9snal
+         YgiAxkt/jHOVnoTCcX74TVEB2QEZXqPe8aXLJ++ctCDGXB9GCrfx0b6UviFrF0yuurR0
+         OOGw==
+X-Gm-Message-State: AOJu0YzMFBYKeHuP2GGwRGQyoEaE8MBol7pilP/1jjN/VD2w9++rujxU
+        9bbb7eNOEyC3rgKQaYTcl1v7yQ==
+X-Google-Smtp-Source: AGHT+IE1VdJ2TXFw0xpanHyqgoxlbYmOptLH4v6cqX44fQuwFRoZyw6MpAQ0mKI2tu7J6D1XAntDzA==
+X-Received: by 2002:adf:e50b:0:b0:322:5d58:99b4 with SMTP id j11-20020adfe50b000000b003225d5899b4mr19854387wrm.0.1697099954387;
+        Thu, 12 Oct 2023 01:39:14 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.100])
-        by smtp.gmail.com with ESMTPSA id t24-20020a1709066bd800b009b29668fce7sm10711997ejs.113.2023.10.12.01.30.41
+        by smtp.gmail.com with ESMTPSA id v3-20020adfa1c3000000b0032d8354fb43sm4506073wrv.76.2023.10.12.01.39.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Oct 2023 01:30:42 -0700 (PDT)
-Message-ID: <0646903f-a7b6-4282-832a-095d507712d4@linaro.org>
-Date:   Thu, 12 Oct 2023 10:30:40 +0200
+        Thu, 12 Oct 2023 01:39:13 -0700 (PDT)
+Message-ID: <7c570333-7334-435c-83cd-225817afc51c@linaro.org>
+Date:   Thu, 12 Oct 2023 10:39:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] dt-bindings: input: Add TouchNetix axiom
- touchscreen
+Subject: Re: [PATCH v4 1/2] dt-bindings: input: bindings for Adafruit Seesaw
+ Gamepad
 Content-Language: en-US
-To:     Kamel Bouhara <kamel.bouhara@bootlin.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+To:     Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, Marco Felsch <m.felsch@pengutronix.de>,
-        mark.satterthwaite@touchnetix.com, bartp@baasheep.co.uk,
-        hannah.rossiter@touchnetix.com,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        bsp-development.geo@leica-geosystems.com
-References: <20231012074034.1090436-1-kamel.bouhara@bootlin.com>
- <20231012074034.1090436-3-kamel.bouhara@bootlin.com>
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org
+References: <20231010184827.1213507-1-anshulusr@gmail.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -117,11 +112,11 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231012074034.1090436-3-kamel.bouhara@bootlin.com>
+In-Reply-To: <20231010184827.1213507-1-anshulusr@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -130,14 +125,85 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 12/10/2023 09:40, Kamel Bouhara wrote:
-> Add the TouchNetix axiom I2C touchscreen device tree bindings
-> documentation.
+On 10/10/2023 20:48, Anshul Dalal wrote:
+> Adds bindings for the Adafruit Seesaw Gamepad.
 > 
-> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> The gamepad functions as an i2c device with the default address of 0x50
+> and has an IRQ pin that can be enabled in the driver to allow for a rising
+> edge trigger on each button press or joystick movement.
+> 
+> Product page:
+>   https://www.adafruit.com/product/5743
+> Arduino driver:
+>   https://github.com/adafruit/Adafruit_Seesaw
+> 
+> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
 > ---
+> 
+> Changes for v4:
+> - Fixed the URI for the id field
+> - Added `interrupts` property
+> 
+> Changes for v3:
+> - Updated id field to reflect updated file name from previous version
+> - Added `reg` property
+> 
+> Changes for v2:
+> - Renamed file to `adafruit,seesaw-gamepad.yaml`
+> - Removed quotes for `$id` and `$schema`
+> - Removed "Bindings for" from the description
+> - Changed node name to the generic name "joystick"
+> - Changed compatible to 'adafruit,seesaw-gamepad' instead of
+>   'adafruit,seesaw_gamepad'
+> 
+>  .../input/adafruit,seesaw-gamepad.yaml        | 59 +++++++++++++++++++
+>  1 file changed, 59 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+> new file mode 100644
+> index 000000000000..e8e676006d2f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+> @@ -0,0 +1,59 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Adafruit Mini I2C Gamepad with seesaw
+> +
+> +maintainers:
+> +  - Anshul Dalal <anshulusr@gmail.com>
+> +
+> +description: |
+> +  Adafruit Mini I2C Gamepad
+> +
+> +    +-----------------------------+
+> +    |   ___                       |
+> +    |  /   \               (X)    |
+> +    | |  S  |  __   __  (Y)   (A) |
+> +    |  \___/  |ST| |SE|    (B)    |
+> +    |                             |
+> +    +-----------------------------+
+> +
+> +  S -> 10-bit percision bidirectional analog joystick
+> +  ST -> Start
+> +  SE -> Select
+> +  X, A, B, Y -> Digital action buttons
+> +
+> +  Product page: https://www.adafruit.com/product/5743
+> +  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
+> +
+> +properties:
+> +  compatible:
+> +    const: adafruit,seesaw-gamepad
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+I thought seesaw is a name of a device, but it is not, thus it is  quite
+a generic compatible. Are you sure device does not have its name?
+Looking at product page, it indeed might not have.
+
 
 Best regards,
 Krzysztof
