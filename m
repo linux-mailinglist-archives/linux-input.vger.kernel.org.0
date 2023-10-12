@@ -2,197 +2,187 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D86E07C71CB
-	for <lists+linux-input@lfdr.de>; Thu, 12 Oct 2023 17:47:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16D457C7285
+	for <lists+linux-input@lfdr.de>; Thu, 12 Oct 2023 18:29:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232023AbjJLPrA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Oct 2023 11:47:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57876 "EHLO
+        id S1347319AbjJLQ3G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Oct 2023 12:29:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233988AbjJLPq7 (ORCPT
+        with ESMTP id S1347163AbjJLQ3F (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Oct 2023 11:46:59 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 312EFC0;
-        Thu, 12 Oct 2023 08:46:58 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9CD7C433C7;
-        Thu, 12 Oct 2023 15:46:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697125617;
-        bh=REtBZa8reasxyEfgbRlAa7AZo0WSj8gv4icvTE1IL6g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LevFwFpylTDyPIuMI4Jzt/nZXRVMSHT9pnY6QL5k2+EHdeoccGOJFp9AgM8w48saq
-         MHg1OtvfhdpP0gy7b1NR7FE/riKA0PKhcu86ibkx4j9sBlpfJ6eQB4TdDnZlUuzjTS
-         Tn7rJhKEA1AttdQDJXw4PCTgXKehMPE8TFWhdNBvluK95enI7sJOsTOozH12f3ihFN
-         sWCa3gwEx58XlbEPBcMZwoLwaW2BmbQ4bgMYAELkZXKGnuhXX+CgwL9o/39Oi9w3KY
-         6LQeuZ2p88j15QBwTVxGacM+jMR+eS/Owp5hLDVJZCunUSYJ30900SKFWGGHqaYlH9
-         fbK0kAyDRuoiA==
-Date:   Thu, 12 Oct 2023 16:46:53 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Anshul Dalal <anshulusr@gmail.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Thu, 12 Oct 2023 12:29:05 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 712AFA9;
+        Thu, 12 Oct 2023 09:29:01 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1c9c5a1b87bso9702925ad.3;
+        Thu, 12 Oct 2023 09:29:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697128141; x=1697732941; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fpenc3TC1wxTiSmB6vD1Cx4tRH9i7lUBaz0u5rLStfY=;
+        b=eYdN0SOKdzSYfnVLup0EWHcWxlXi+6TP6ygo0yAQkgCOcXr/sg9YEPK2jRTJTh9SEN
+         ZyCkKLgh8kyAaMJI6RYeZ4P/gop7Dp/D4ib9nJ9OQIYIl8tIn9Xtj+LnNJlGKmZyYL3z
+         gJbxo5lLDnN6cnUJxD8ize3EbdBPbva0lMmWE8VfNNOwzeRcJ2f8cFhZgy0llBsiOpwc
+         lBAV0h1hgx1/WFTjL+tYcaoX+gi3dzQtJUyPxqlMJuIGtouJbQ5cT0EZ4ZzACc3s/4Jk
+         WuaRYY10A+bS5canucz/Ms28kad3onE+LvKEQPsbd4FPELZd7D0yJONY+S7J04Ezl04i
+         CTpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697128141; x=1697732941;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fpenc3TC1wxTiSmB6vD1Cx4tRH9i7lUBaz0u5rLStfY=;
+        b=Z7c24/DvQCQL4bg0myiPQermFCg4SJmZbFJzEwrRpt72vitg7ZdSuyUcIKzdQCEgnE
+         eJLMZymMUe1E0brR0zjKo8TR+0TOwZ1U71vdmWNdBxcWqCk1DdHCBQEWy3dYRxTK1x4E
+         FjYoR8cVQeWfuzlej+LsrYMwuDklsge11IffM1E5d/vgdWzB0PNCwAoGlyjtTX5rZfXQ
+         ezBrZS5dhC1RaJ/gs7pxWuL7xYgUJJ6OgTvDtP3hXVknoht982W1VE5+UA43TiBNOotZ
+         Z41asGGY6c/G6ckspAMgZhmwNyTnaDz916VODkwZFpkS7ich+IbN1i1sfAyP6o4ZFhof
+         +YUw==
+X-Gm-Message-State: AOJu0YzCaLt4ucWpWeyjV9nTghWC75NkATcqX+uei/FwvADGPPDtizbh
+        B52a/civNIdhUH9dhSRfGAejLaOuC2lIu77C
+X-Google-Smtp-Source: AGHT+IFkWga7vo54OSr36L35yv47ognTjOFByF3OqK3ls8hf+tjE4WBSr1/XuS8nDNuwW3ZC7sFLJA==
+X-Received: by 2002:a17:902:8f8b:b0:1c1:eb8b:79a6 with SMTP id z11-20020a1709028f8b00b001c1eb8b79a6mr21673887plo.24.1697128140627;
+        Thu, 12 Oct 2023 09:29:00 -0700 (PDT)
+Received: from localhost.localdomain ([49.37.136.12])
+        by smtp.gmail.com with ESMTPSA id f9-20020a170902ce8900b001bb9f104328sm2181575plg.146.2023.10.12.09.28.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Oct 2023 09:29:00 -0700 (PDT)
+From:   Anshul Dalal <anshulusr@gmail.com>
+To:     linux-input@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Anshul Dalal <anshulusr@gmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
+        =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
         Shuah Khan <skhan@linuxfoundation.org>,
         linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] dt-bindings: input: bindings for Adafruit Seesaw
- Gamepad
-Message-ID: <20231012-woof-fit-8f5c163f07b0@spud>
-References: <20231010184827.1213507-1-anshulusr@gmail.com>
- <20231011-powdering-recycled-71608e794eaa@spud>
- <f1796d1a-bcd0-414d-b4e1-806e93eb202b@gmail.com>
+        linux-kernel@vger.kernel.org,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v5 1/2] dt-bindings: input: bindings for Adafruit Seesaw Gamepad
+Date:   Thu, 12 Oct 2023 21:57:55 +0530
+Message-ID: <20231012162759.691555-1-anshulusr@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="+Ch3KXm3gkqlOD2K"
-Content-Disposition: inline
-In-Reply-To: <f1796d1a-bcd0-414d-b4e1-806e93eb202b@gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Adds bindings for the Adafruit Seesaw Gamepad.
 
---+Ch3KXm3gkqlOD2K
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The gamepad functions as an i2c device with the default address of 0x50
+and has an IRQ pin that can be enabled in the driver to allow for a rising
+edge trigger on each button press or joystick movement.
 
-On Thu, Oct 12, 2023 at 12:29:58AM +0530, Anshul Dalal wrote:
-> Hello,
->=20
-> On 10/11/23 21:45, Conor Dooley wrote:
-> > Hey,
-> >=20
-> > On Wed, Oct 11, 2023 at 12:18:23AM +0530, Anshul Dalal wrote:
-> >> Adds bindings for the Adafruit Seesaw Gamepad.
-> >>
-> >> The gamepad functions as an i2c device with the default address of 0x50
-> >> and has an IRQ pin that can be enabled in the driver to allow for a ri=
-sing
-> >> edge trigger on each button press or joystick movement.
-> >>
-> >> Product page:
-> >>   https://www.adafruit.com/product/5743
-> >> Arduino driver:
-> >>   https://github.com/adafruit/Adafruit_Seesaw
-> >>
-> >> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
-> >> ---
-> >>
-> >> Changes for v4:
-> >> - Fixed the URI for the id field
-> >> - Added `interrupts` property
-> >>
-> >> Changes for v3:
-> >> - Updated id field to reflect updated file name from previous version
-> >> - Added `reg` property
-> >>
-> >> Changes for v2:
-> >> - Renamed file to `adafruit,seesaw-gamepad.yaml`
-> >> - Removed quotes for `$id` and `$schema`
-> >> - Removed "Bindings for" from the description
-> >> - Changed node name to the generic name "joystick"
-> >> - Changed compatible to 'adafruit,seesaw-gamepad' instead of
-> >>   'adafruit,seesaw_gamepad'
-> >>
-> >>  .../input/adafruit,seesaw-gamepad.yaml        | 59 +++++++++++++++++++
-> >>  1 file changed, 59 insertions(+)
-> >>  create mode 100644 Documentation/devicetree/bindings/input/adafruit,s=
-eesaw-gamepad.yaml
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-g=
-amepad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamep=
-ad.yaml
-> >> new file mode 100644
-> >> index 000000000000..e8e676006d2f
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.=
-yaml
-> >> @@ -0,0 +1,59 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: Adafruit Mini I2C Gamepad with seesaw
-> >=20
-> > Binding mostly looks good to me. My main question is what is a seesaw?
-> >=20
->=20
-> Seesaw is a universal framework that enables extending I/O capabilities
-> of the i2c master devices with a compatible breakout board. As it
-> relates to the binding, this gamepad uses an AVR ATtiny816
-> microcontroller that reads the data from the buttons and the joystick
-> and sends the data to the master over i2c using the Seesaw framework.
-
-Right. Not a framework I was aware of, thanks for explaining.
-
->=20
-> >> +
-> >> +maintainers:
-> >> +  - Anshul Dalal <anshulusr@gmail.com>
-> >> +
-> >> +description: |
-> >> +  Adafruit Mini I2C Gamepad
-> >> +
-> >> +    +-----------------------------+
-> >> +    |   ___                       |
-> >> +    |  /   \               (X)    |
-> >> +    | |  S  |  __   __  (Y)   (A) |
-> >> +    |  \___/  |ST| |SE|    (B)    |
-> >> +    |                             |
-> >> +    +-----------------------------+
-> >> +
-> >> +  S -> 10-bit percision bidirectional analog joystick
-> >> +  ST -> Start
-> >> +  SE -> Select
-> >> +  X, A, B, Y -> Digital action buttons
-> >> +
-> >> +  Product page: https://www.adafruit.com/product/5743
-> >> +  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
-> >=20
-> > I'm not really sure what the arduino driver has to do with the binding.
-> > Why is a link to it more relevant than the freebsd driver, or the linux
-> > driver etc? Is there info about how the pad works in the arduino driver
-> >=20
-> > Otherwise, this seems good to me.
-
-> The Arduino driver I linked was the only resource that had the
-> implementation of the seesaw framework as well as the example code
-> specific to this device:
-> https://github.com/adafruit/Adafruit_Seesaw/tree/master/examples/Mini_I2C=
-_Gamepad_QT
-> On further thought, a link to the accompanying document from the
-> manufacturer (https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.pdf)
-> might be more relevant for the binding which includes the hardware
-> description as well as links to the above-mentioned Arduino driver.
-
-A link to the manufacturer docs would be nice & if, as you say, the
-arduino driver was a useful resource for understanding the hardware then
-I suppose it can stay too :)
+Product page:
+  https://www.adafruit.com/product/5743
+Arduino driver:
+  https://github.com/adafruit/Adafruit_Seesaw
 
 Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+---
 
-Thanks,
-Conor.
+Changes for v5:
+- Added link to the datasheet
 
---+Ch3KXm3gkqlOD2K
-Content-Type: application/pgp-signature; name="signature.asc"
+Changes for v4:
+- Fixed the URI for the id field
+- Added `interrupts` property
 
------BEGIN PGP SIGNATURE-----
+Changes for v3:
+- Updated id field to reflect updated file name from previous version
+- Added `reg` property
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZSgU7QAKCRB4tDGHoIJi
-0qBbAQDkXpWdZQqk8AnLNCXjpHuzqn8N1ak3hT2yNwWlJI5MMAEAgeaWoOrvEHEi
-GkHd0KtNDCVE2jKKyCIyF7/N2eOYuwA=
-=rbZ4
------END PGP SIGNATURE-----
+Changes for v2:
+- Renamed file to `adafruit,seesaw-gamepad.yaml`
+- Removed quotes for `$id` and `$schema`
+- Removed "Bindings for" from the description
+- Changed node name to the generic name "joystick"
+- Changed compatible to 'adafruit,seesaw-gamepad' instead of
+  'adafruit,seesaw_gamepad'
 
---+Ch3KXm3gkqlOD2K--
+ .../input/adafruit,seesaw-gamepad.yaml        | 60 +++++++++++++++++++
+ 1 file changed, 60 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+
+diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+new file mode 100644
+index 000000000000..3f0d1c5a3b9b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+@@ -0,0 +1,60 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Adafruit Mini I2C Gamepad with seesaw
++
++maintainers:
++  - Anshul Dalal <anshulusr@gmail.com>
++
++description: |
++  Adafruit Mini I2C Gamepad
++
++    +-----------------------------+
++    |   ___                       |
++    |  /   \               (X)    |
++    | |  S  |  __   __  (Y)   (A) |
++    |  \___/  |ST| |SE|    (B)    |
++    |                             |
++    +-----------------------------+
++
++  S -> 10-bit percision bidirectional analog joystick
++  ST -> Start
++  SE -> Select
++  X, A, B, Y -> Digital action buttons
++
++  Datasheet: https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.pdf
++  Product page: https://www.adafruit.com/product/5743
++  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
++
++properties:
++  compatible:
++    const: adafruit,seesaw-gamepad
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++    description:
++      The gamepad's IRQ pin triggers a rising edge if interrupts are enabled.
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        joystick@50 {
++            compatible = "adafruit,seesaw-gamepad";
++            reg = <0x50>;
++        };
++    };
+-- 
+2.42.0
+
