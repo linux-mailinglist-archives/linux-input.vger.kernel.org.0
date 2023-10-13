@@ -2,123 +2,201 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECD247C79FA
-	for <lists+linux-input@lfdr.de>; Fri, 13 Oct 2023 00:53:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 801277C7B87
+	for <lists+linux-input@lfdr.de>; Fri, 13 Oct 2023 04:15:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1443024AbjJLWxK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Oct 2023 18:53:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54230 "EHLO
+        id S229441AbjJMCP1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Oct 2023 22:15:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442450AbjJLWxK (ORCPT
+        with ESMTP id S229482AbjJMCP1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Oct 2023 18:53:10 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB9F7A9;
-        Thu, 12 Oct 2023 15:53:08 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-690d2441b95so1116408b3a.1;
-        Thu, 12 Oct 2023 15:53:08 -0700 (PDT)
+        Thu, 12 Oct 2023 22:15:27 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DAB495
+        for <linux-input@vger.kernel.org>; Thu, 12 Oct 2023 19:15:25 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-40572aeb73cso17410625e9.3
+        for <linux-input@vger.kernel.org>; Thu, 12 Oct 2023 19:15:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697151188; x=1697755988; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=78dLfHiKtRMa9+mkxUCYKM56t0Kv23O6vbCoyWzPuyY=;
-        b=GwuDzZKW9OKn4fFk72XE3GOsg5imotFXb3+DINzqcMfIh7MHSvd6PbmQrlrO75kHfb
-         EU/d9wIgWXd1NPwk0+Jtzza+pTN+A2YOiFtMAuJGtZKJTB9dDCiF/OISD633Anhfd71x
-         l9QdNIRREbBXcskLxpN7whf0uN9sDxA2ovNNaLn3uevTpwLldB4grRXJtQU6/n/Xdy/J
-         xuB+GrbYgT06AFJxz4giLR9jc+onq7VogitRmv/CQvDIaYOjx/Bu9Aik/oHMixEbnnk7
-         74qv0B4wUH14I8rPQCvFIwP3Pu9l/dcg3hSfMCFEN55dyXmGkSdzM4Yhjv5QeqLCF204
-         kmiA==
+        d=google.com; s=20230601; t=1697163324; x=1697768124; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=479sT2wXZ3lF8ZnjGHtr1v6duycKwjupuTdioRmVjBQ=;
+        b=gJAtSS4rsORc76dR2jDaa4rHv4A8CgHZRqOVwnrCkuyVR60kwpSVnAgpibIQZ/X3Wc
+         yEUUHLs9RcWzIvqQSJw9EbYEb3ZT6oQNV2CB2t2RjGWLBwT2hE2JkjUpeUS8e7QYLTKc
+         TeevjP/OIBeeq5tr7+BWlAoaptjbu48lJtsILKUW74UIi3aOb+tgVTatZM9epxtdgiVx
+         CoZ5fDq67eCP3V8+AoPz5f2x9VVnZlH/aaHJv2mb0P+RULbzozHSN0AooSzukmWJA3Cp
+         0aXlCSzPZ83Teu9EcdNnkERYoB2PKKp45WS1TpIlOmvkmFmqfP6mlskl5G1IOcXzzNzu
+         h2ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697151188; x=1697755988;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=78dLfHiKtRMa9+mkxUCYKM56t0Kv23O6vbCoyWzPuyY=;
-        b=JoivqA7ex7VwARj1T5gzy9yBYij+cnkLDTwEeNOsG6WBZBtj1tTSmpdUexlgwkQimX
-         2G4jkbxR/42tdqRd/iJOqpmzlMNdla9tnZsl5KoEu5zUi+DRpRhUXduVVVRAb4RiKKeq
-         lHvZQ+R/8FGQ6UZ98C0n830wV4ofUHvQaf1qL498h5jyYlkTnZC2EufNkSxLj9GTVYr6
-         BM3Rir2TEKHdig8G3+f8MlltlZ0++oZdq+AnUA0dr/TM20KNc7DrkT7PMyEM27FxRYg8
-         d6+c55CujUiAKaa+fwwR53JxBVsJVcmzQ/uFPwZLGgQji8wpcl3y7VDhMpWY6tjMaeTu
-         txgw==
-X-Gm-Message-State: AOJu0YzJmA3hofHKe/qaOU4rYlTkB/hKXajuObtS4MXooha2L4lkJC/Z
-        D0my6XJT6uylISr7x+EU5Gg=
-X-Google-Smtp-Source: AGHT+IG5S/ip7RUwzEiiwV3FfRhxwAfJzPoA0AHgoWOeXhvM1SNfgqC3HnPqI744GDUGdf3PgLP/VQ==
-X-Received: by 2002:a05:6a00:21cc:b0:68e:351b:15b9 with SMTP id t12-20020a056a0021cc00b0068e351b15b9mr35521708pfj.4.1697151187538;
-        Thu, 12 Oct 2023 15:53:07 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:a118:bd3a:f198:d7ed])
-        by smtp.gmail.com with ESMTPSA id a19-20020a637f13000000b00578bb0066b6sm2220692pgd.71.2023.10.12.15.53.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Oct 2023 15:53:06 -0700 (PDT)
-Date:   Thu, 12 Oct 2023 15:53:04 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Jeffery Miller <jefferymiller@google.com>,
-        regressions@lists.linux.dev, benjamin.tissoires@redhat.com,
-        Andrew Duggan <aduggan@synaptics.com>,
-        Andrew Duggan <andrew@duggan.us>, loic.poulain@linaro.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: elantech - fix fast_reconnect callback in ps2 mode
-Message-ID: <ZSh40JethapBAjq1@google.com>
-References: <20231004005729.3943515-1-jefferymiller@google.com>
- <ZR1yUFJ8a9Zt606N@penguin>
- <CAAzPG9Pp6mHfEziJiUuhDRmkKMfiiPD6axtfAMaCJcEAcuQPiA@mail.gmail.com>
- <25ac6b17-e3fa-4e98-95a6-eac12bdbcdd2@leemhuis.info>
+        d=1e100.net; s=20230601; t=1697163324; x=1697768124;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=479sT2wXZ3lF8ZnjGHtr1v6duycKwjupuTdioRmVjBQ=;
+        b=DBBJTP9GNd/CzitNllER7tPhwO6gGOM8d2ZtqH+zOkymND8KERECxdxPR9IbwxD0YX
+         yn+HfaOJCb6FHEaoXpCX8AOaKTpTaGlbCeW91I+oKTEq5DXws69u9VU1QkJ4xGN0Agul
+         udutqEpaFJlQQ3/+faGKKLgJBLCyBQ67CTFMjqLTDrBX/vSCoGnA3ygdwxvCbVqv5izZ
+         /n3o+SjAUlcDmR2UbW+zhlyocUAWrbdDTzuvPlKeOzmWSSxctOyeO39NL4AeubeNo8sE
+         Sfzb/ALlrrq33E+2Wu+pr+UPom7GANVBUdpQcdRlX+HJu1yCHbPN9BsS3elr9bzHex4E
+         pVWg==
+X-Gm-Message-State: AOJu0Yy/V4mroOGZGqDSRjyT6PoJRkx/QFsM7j9EB8iAKNi3lg9Hdze6
+        ILZMiilrNXnTrYUKhVez7LfVh77MfUTLx2FEMoMSHg==
+X-Google-Smtp-Source: AGHT+IFhpyBP7U/5sPsuSV3WRb3/V3m+DTQDPdPSdTYu6ljAIoR+ANHbmo+h3/cwZ/iAOsdX96X0bgvSpXAcCKHMEck=
+X-Received: by 2002:adf:f4c5:0:b0:32d:9585:8680 with SMTP id
+ h5-20020adff4c5000000b0032d95858680mr2180378wrp.4.1697163323265; Thu, 12 Oct
+ 2023 19:15:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <25ac6b17-e3fa-4e98-95a6-eac12bdbcdd2@leemhuis.info>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230925-cod-vacancy-08dc8d88f90e@wendy> <CAGD2q_a1nLtFj7H42f+u+J5Bih59MGS0aJLHCFJy5gM2ydys4w@mail.gmail.com>
+ <20230926-action-sludge-ec8e51fdd6d4@spud> <CAGD2q_YBfDT950tyxEF87ZeiANgea_x8S16Ud5K2bcQ+eL9T=w@mail.gmail.com>
+ <20230926-reverence-unlit-d0027225cc43@spud> <CAGD2q_ZzNPOL+Mhg7aWFTQd+UJJYVLz1ZE9hbNb0roS2M6y34g@mail.gmail.com>
+ <20230928-spectacle-civic-339c0d71d8d7@spud> <CAGD2q_b1gn8XAfgfzuNn3Jo6gEguBEacxERyRM5ms-V=+hWS+g@mail.gmail.com>
+ <20231009-pentagram-clamshell-b14ff00743fd@spud> <CAGD2q_aqr+mu4K1SkTVC+65ctL6BsqRP4Ld0HD_H0_rgzFT9MQ@mail.gmail.com>
+ <20231012-pope-denatured-c1898bc1e44b@spud>
+In-Reply-To: <20231012-pope-denatured-c1898bc1e44b@spud>
+From:   yang tylor <tylor_yang@himax.corp-partner.google.com>
+Date:   Fri, 13 Oct 2023 10:15:13 +0800
+Message-ID: <CAGD2q_YKJyLn8q1F661kRRpZtCtN4w46+mdh2Fq9rkfQ78ssOA@mail.gmail.com>
+Subject: Re: [PATCH V2 1/2] dt-bindings: input: Introduce Himax HID-over-SPI device
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Conor Dooley <conor.dooley@microchip.com>,
+        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        poyuan_chang@himax.corp-partner.google.com, hbarnor@chromium.org,
+        "jingyliang@chromium.org" <jingyliang@chromium.org>,
+        wuxy23@lenovo.com, luolm1@lenovo.com,
+        hung poyu <poyu_hung@himax.corp-partner.google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Thorsten,
+On Thu, Oct 12, 2023 at 11:24=E2=80=AFPM Conor Dooley <conor@kernel.org> wr=
+ote:
+>
+> On Thu, Oct 12, 2023 at 10:30:03AM +0800, yang tylor wrote:
+> > On Tue, Oct 10, 2023 at 1:52=E2=80=AFAM Conor Dooley <conor@kernel.org>=
+ wrote:
+> > >
+> > > On Mon, Oct 02, 2023 at 06:44:41PM +0800, yang tylor wrote:
+> > > > On Fri, Sep 29, 2023 at 12:56=E2=80=AFAM Conor Dooley <conor@kernel=
+.org> wrote:
+> > > > >
+> > > > > On Thu, Sep 28, 2023 at 10:12:41AM +0800, yang tylor wrote:
+> > > > > > On Tue, Sep 26, 2023 at 8:53=E2=80=AFPM Conor Dooley <conor@ker=
+nel.org> wrote:
+> > > > > > > On Tue, Sep 26, 2023 at 05:52:39PM +0800, yang tylor wrote:
+> > > > > > > > On Tue, Sep 26, 2023 at 5:02=E2=80=AFPM Conor Dooley <conor=
+@kernel.org> wrote:
+> > > > > > > > > On Mon, Sep 25, 2023 at 06:16:29PM +0800, yang tylor wrot=
+e:
+> > > > > > > > > > On Mon, Sep 25, 2023 at 4:41=E2=80=AFPM Conor Dooley <c=
+onor.dooley@microchip.com> wrote:
+> > > > > > > > > > We have a default prefix firmware name(like himax_xxxx.=
+bin) in the driver code.
+> > > > > > > > >
+> > > > > > > > > How do you intend generating the name of the firmware fil=
+e? I assume the
+> > > > > > > > > same firmware doesn't work on every IC, so you'll need to=
+ pick a
+> > > > > > > > > different one depending on the compatible?
+> > > > > > > > >
+> > > > > > > > If considering a firmware library line-up for all the incom=
+ing panels
+> > > > > > > > of this driver.
+> > > > > > > > We would use PID as part of the file name. Because all the =
+support panels would
+> > > > > > > > have a unique PID associated. Which will make the firmware =
+name like
+> > > > > > > > himax_xxx_{$PID}.bin. The problem is, we need to know PID b=
+efore firmware load
+> > > > > > > > at no flash condition. Thus PID information is required in =
+dts when
+> > > > > > > > no-flash-flag
+> > > > > > > > is specified.
+> > > > > > >
+> > > > > > > Firstly, where does the "xxx" come from?
+> > > > > > > And you're making it sound more like having firmware-name is =
+suitable
+> > > > > > > for this use case, given you need to determine the name of th=
+e file to
+> > > > > > > use based on something that is hardware specific but is not
+> > > > > > > dynamically detectable.
+> > > > > > Current driver patch uses a prefix name "himax_i2chid" which co=
+mes
+> > > > > > from the previous project
+> > > > > >  and seems not suitable for this condition, so I use "xxx" and =
+plan to
+> > > > > > replace it in the next version.
+> > > > > > For finding firmware, I think both solutions are reasonable.
+> > > > > > - provide firmware name directly: implies no-flash and use user
+> > > > > > specified firmware, no PID info.
+> > > > > > - provide no-flash-flag and PID info: loading firmware from org=
+anized
+> > > > > > names with PID info.
+> > > > > > I prefer the 2nd solution, but it needs more properties in dts.=
+ 1st
+> > > > > > has less properties and more
+> > > > > > intuitive.
+> > > > > >
+> > > > > > I don't know which one is more acceptable by the community, as =
+you
+> > > > > > know I'm a newbie here.
+> > > > >
+> > > > > To be honest, I am not all that sure either! Does the panel id ha=
+ve
+> > > > > value in its own right, or is that only used to determine the fir=
+mware
+> > > > > filename?
+> > > > Currently, PID stands for Panel/Project ID and is used for determin=
+ing
+> > > > the firmware filename only. We haven't come up with any new attribu=
+te that
+> > > > may attach to it. The differences between panels are handled in fir=
+mware
+> > > > dedicated to its PID.
+> > > >
+> > > > > Also, if it does have value in its own right, rather than a "pid"=
+,
+> > > > > should the panel be a child node of this hid device with its own
+> > > > > compatible?
+> > > > It may need a child node if we find it necessary to add attributes =
+to each PID.
+> > > > But currently we have no idea about it.
+> > >
+> > > To be honest, it seems to me like you are using "PID" in place of a
+> > > compatible for the panel, since it needs to be provided via DT anyway=
+.
+> >
+> > Hmm... So the more formal way is?
+> > If I add a sub-note inside this spi-device block, such as "panel" and
+> > add PID inside.
+> > Will it be more appropriate?
+> > ...
+> > spi {
+> > ...
+> >     hx_spi@0 {
+> > ...
+> >         panel {
+> >             himax,pid =3D ...
+>
+> And this now looks exactly like compatible =3D "vendor,part" now, no?
 
-On Tue, Oct 10, 2023 at 09:08:23AM +0200, Thorsten Leemhuis wrote:
-> On 05.10.23 02:13, Jeffery Miller wrote:
-> > 
-> > On Wed, Oct 4, 2023 at 9:11 AM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
-> >>
-> >> In fact, now that I think about it more, we should rework the original
-> >> patch that added the delay, so that we do not wait these 30 msec in the
-> >> "fast" reconnect handler. It turns out your original approach was
-> >> better, but we should not be using retries, but rather the existing
-> >> reset_delay_ms already defined in rmi platform data. I would appreciate
-> >> if you try the draft patch at the end of this email (to be applied after
-> >> reverting your original one adding the delay in psmouse-smbus.c).
-> > I tested the draft patch and it works. I did revert the previous delay
-> > patch while testing it.
-> > 
-> >> I think we need a similar change in synaptics.c as that one also can
-> >> fall back to PS/2 mode.
-> >>
-> > Ah, good point, yes it does appear this needs to be done as well.
-> > I have tested and will post an new version of the patch to include
-> > the fix in synaptics.c as well.
-> 
-> As I'm affected by this problem (and somebody else reported to me in
-> private to be affected as well) and nothing afaics happened in the past
-> few days a quick question:
-> 
-> What's the way forward here now that -rc6 slowly comes into sight? Apply
-> Jeff's patch to fix my problem? Revert the culprit and fix this properly
-> up with Dmitry's and Jeff's patches in the next cycle? Something else?
+I think it's not the same, I thought "compatible" is used to target
+from the driver side.
+For finding other information inside the block. But I just store PID
+information in this
+one, not used for targeting but getting infos from it.
 
-I will revert the original patch introducing the delay now that we argee
-there is a better way. In the mean time I will merge Jeff's patch to
-reset fast_reconnect handlers, as it is right thing to do anyway, and
-will get into shape the patch setting reset-delay in RMI code.
-
-Thanks.
-
--- 
-Dmitry
+Thanks,
+Tylor
