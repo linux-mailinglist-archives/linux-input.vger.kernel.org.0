@@ -2,201 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 801277C7B87
-	for <lists+linux-input@lfdr.de>; Fri, 13 Oct 2023 04:15:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11D017C7D78
+	for <lists+linux-input@lfdr.de>; Fri, 13 Oct 2023 08:09:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229441AbjJMCP1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Oct 2023 22:15:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53106 "EHLO
+        id S229441AbjJMGJF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 Oct 2023 02:09:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjJMCP1 (ORCPT
+        with ESMTP id S229437AbjJMGJF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Oct 2023 22:15:27 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DAB495
-        for <linux-input@vger.kernel.org>; Thu, 12 Oct 2023 19:15:25 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-40572aeb73cso17410625e9.3
-        for <linux-input@vger.kernel.org>; Thu, 12 Oct 2023 19:15:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1697163324; x=1697768124; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=479sT2wXZ3lF8ZnjGHtr1v6duycKwjupuTdioRmVjBQ=;
-        b=gJAtSS4rsORc76dR2jDaa4rHv4A8CgHZRqOVwnrCkuyVR60kwpSVnAgpibIQZ/X3Wc
-         yEUUHLs9RcWzIvqQSJw9EbYEb3ZT6oQNV2CB2t2RjGWLBwT2hE2JkjUpeUS8e7QYLTKc
-         TeevjP/OIBeeq5tr7+BWlAoaptjbu48lJtsILKUW74UIi3aOb+tgVTatZM9epxtdgiVx
-         CoZ5fDq67eCP3V8+AoPz5f2x9VVnZlH/aaHJv2mb0P+RULbzozHSN0AooSzukmWJA3Cp
-         0aXlCSzPZ83Teu9EcdNnkERYoB2PKKp45WS1TpIlOmvkmFmqfP6mlskl5G1IOcXzzNzu
-         h2ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697163324; x=1697768124;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=479sT2wXZ3lF8ZnjGHtr1v6duycKwjupuTdioRmVjBQ=;
-        b=DBBJTP9GNd/CzitNllER7tPhwO6gGOM8d2ZtqH+zOkymND8KERECxdxPR9IbwxD0YX
-         yn+HfaOJCb6FHEaoXpCX8AOaKTpTaGlbCeW91I+oKTEq5DXws69u9VU1QkJ4xGN0Agul
-         udutqEpaFJlQQ3/+faGKKLgJBLCyBQ67CTFMjqLTDrBX/vSCoGnA3ygdwxvCbVqv5izZ
-         /n3o+SjAUlcDmR2UbW+zhlyocUAWrbdDTzuvPlKeOzmWSSxctOyeO39NL4AeubeNo8sE
-         Sfzb/ALlrrq33E+2Wu+pr+UPom7GANVBUdpQcdRlX+HJu1yCHbPN9BsS3elr9bzHex4E
-         pVWg==
-X-Gm-Message-State: AOJu0Yy/V4mroOGZGqDSRjyT6PoJRkx/QFsM7j9EB8iAKNi3lg9Hdze6
-        ILZMiilrNXnTrYUKhVez7LfVh77MfUTLx2FEMoMSHg==
-X-Google-Smtp-Source: AGHT+IFhpyBP7U/5sPsuSV3WRb3/V3m+DTQDPdPSdTYu6ljAIoR+ANHbmo+h3/cwZ/iAOsdX96X0bgvSpXAcCKHMEck=
-X-Received: by 2002:adf:f4c5:0:b0:32d:9585:8680 with SMTP id
- h5-20020adff4c5000000b0032d95858680mr2180378wrp.4.1697163323265; Thu, 12 Oct
- 2023 19:15:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230925-cod-vacancy-08dc8d88f90e@wendy> <CAGD2q_a1nLtFj7H42f+u+J5Bih59MGS0aJLHCFJy5gM2ydys4w@mail.gmail.com>
- <20230926-action-sludge-ec8e51fdd6d4@spud> <CAGD2q_YBfDT950tyxEF87ZeiANgea_x8S16Ud5K2bcQ+eL9T=w@mail.gmail.com>
- <20230926-reverence-unlit-d0027225cc43@spud> <CAGD2q_ZzNPOL+Mhg7aWFTQd+UJJYVLz1ZE9hbNb0roS2M6y34g@mail.gmail.com>
- <20230928-spectacle-civic-339c0d71d8d7@spud> <CAGD2q_b1gn8XAfgfzuNn3Jo6gEguBEacxERyRM5ms-V=+hWS+g@mail.gmail.com>
- <20231009-pentagram-clamshell-b14ff00743fd@spud> <CAGD2q_aqr+mu4K1SkTVC+65ctL6BsqRP4Ld0HD_H0_rgzFT9MQ@mail.gmail.com>
- <20231012-pope-denatured-c1898bc1e44b@spud>
-In-Reply-To: <20231012-pope-denatured-c1898bc1e44b@spud>
-From:   yang tylor <tylor_yang@himax.corp-partner.google.com>
-Date:   Fri, 13 Oct 2023 10:15:13 +0800
-Message-ID: <CAGD2q_YKJyLn8q1F661kRRpZtCtN4w46+mdh2Fq9rkfQ78ssOA@mail.gmail.com>
-Subject: Re: [PATCH V2 1/2] dt-bindings: input: Introduce Himax HID-over-SPI device
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Conor Dooley <conor.dooley@microchip.com>,
-        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        Fri, 13 Oct 2023 02:09:05 -0400
+Received: from mail.andi.de1.cc (unknown [IPv6:2a02:c205:3004:2154::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39DE5C0;
+        Thu, 12 Oct 2023 23:09:02 -0700 (PDT)
+Received: from p5dc58bc7.dip0.t-ipconnect.de ([93.197.139.199] helo=aktux)
+        by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <andreas@kemnade.info>)
+        id 1qrBLs-004u5D-Rg; Fri, 13 Oct 2023 08:08:48 +0200
+Date:   Fri, 13 Oct 2023 08:08:46 +0200
+From:   Andreas Kemnade <andreas@kemnade.info>
+To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        lee@kernel.org, bcousson@baylibre.com, tony@atomide.com,
+        mturquette@baylibre.com, sboyd@kernel.org, andreas@kemnade.info,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        poyuan_chang@himax.corp-partner.google.com, hbarnor@chromium.org,
-        "jingyliang@chromium.org" <jingyliang@chromium.org>,
-        wuxy23@lenovo.com, luolm1@lenovo.com,
-        hung poyu <poyu_hung@himax.corp-partner.google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH v4 4/5] clk: twl: add clock driver for TWL6032
+Message-ID: <20231013080846.2422475f@aktux>
+In-Reply-To: <20230916100515.1650336-5-andreas@kemnade.info>
+References: <20230916100515.1650336-1-andreas@kemnade.info>
+        <20230916100515.1650336-5-andreas@kemnade.info>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Oct 12, 2023 at 11:24=E2=80=AFPM Conor Dooley <conor@kernel.org> wr=
-ote:
->
-> On Thu, Oct 12, 2023 at 10:30:03AM +0800, yang tylor wrote:
-> > On Tue, Oct 10, 2023 at 1:52=E2=80=AFAM Conor Dooley <conor@kernel.org>=
- wrote:
-> > >
-> > > On Mon, Oct 02, 2023 at 06:44:41PM +0800, yang tylor wrote:
-> > > > On Fri, Sep 29, 2023 at 12:56=E2=80=AFAM Conor Dooley <conor@kernel=
-.org> wrote:
-> > > > >
-> > > > > On Thu, Sep 28, 2023 at 10:12:41AM +0800, yang tylor wrote:
-> > > > > > On Tue, Sep 26, 2023 at 8:53=E2=80=AFPM Conor Dooley <conor@ker=
-nel.org> wrote:
-> > > > > > > On Tue, Sep 26, 2023 at 05:52:39PM +0800, yang tylor wrote:
-> > > > > > > > On Tue, Sep 26, 2023 at 5:02=E2=80=AFPM Conor Dooley <conor=
-@kernel.org> wrote:
-> > > > > > > > > On Mon, Sep 25, 2023 at 06:16:29PM +0800, yang tylor wrot=
-e:
-> > > > > > > > > > On Mon, Sep 25, 2023 at 4:41=E2=80=AFPM Conor Dooley <c=
-onor.dooley@microchip.com> wrote:
-> > > > > > > > > > We have a default prefix firmware name(like himax_xxxx.=
-bin) in the driver code.
-> > > > > > > > >
-> > > > > > > > > How do you intend generating the name of the firmware fil=
-e? I assume the
-> > > > > > > > > same firmware doesn't work on every IC, so you'll need to=
- pick a
-> > > > > > > > > different one depending on the compatible?
-> > > > > > > > >
-> > > > > > > > If considering a firmware library line-up for all the incom=
-ing panels
-> > > > > > > > of this driver.
-> > > > > > > > We would use PID as part of the file name. Because all the =
-support panels would
-> > > > > > > > have a unique PID associated. Which will make the firmware =
-name like
-> > > > > > > > himax_xxx_{$PID}.bin. The problem is, we need to know PID b=
-efore firmware load
-> > > > > > > > at no flash condition. Thus PID information is required in =
-dts when
-> > > > > > > > no-flash-flag
-> > > > > > > > is specified.
-> > > > > > >
-> > > > > > > Firstly, where does the "xxx" come from?
-> > > > > > > And you're making it sound more like having firmware-name is =
-suitable
-> > > > > > > for this use case, given you need to determine the name of th=
-e file to
-> > > > > > > use based on something that is hardware specific but is not
-> > > > > > > dynamically detectable.
-> > > > > > Current driver patch uses a prefix name "himax_i2chid" which co=
-mes
-> > > > > > from the previous project
-> > > > > >  and seems not suitable for this condition, so I use "xxx" and =
-plan to
-> > > > > > replace it in the next version.
-> > > > > > For finding firmware, I think both solutions are reasonable.
-> > > > > > - provide firmware name directly: implies no-flash and use user
-> > > > > > specified firmware, no PID info.
-> > > > > > - provide no-flash-flag and PID info: loading firmware from org=
-anized
-> > > > > > names with PID info.
-> > > > > > I prefer the 2nd solution, but it needs more properties in dts.=
- 1st
-> > > > > > has less properties and more
-> > > > > > intuitive.
-> > > > > >
-> > > > > > I don't know which one is more acceptable by the community, as =
-you
-> > > > > > know I'm a newbie here.
-> > > > >
-> > > > > To be honest, I am not all that sure either! Does the panel id ha=
-ve
-> > > > > value in its own right, or is that only used to determine the fir=
-mware
-> > > > > filename?
-> > > > Currently, PID stands for Panel/Project ID and is used for determin=
-ing
-> > > > the firmware filename only. We haven't come up with any new attribu=
-te that
-> > > > may attach to it. The differences between panels are handled in fir=
-mware
-> > > > dedicated to its PID.
-> > > >
-> > > > > Also, if it does have value in its own right, rather than a "pid"=
-,
-> > > > > should the panel be a child node of this hid device with its own
-> > > > > compatible?
-> > > > It may need a child node if we find it necessary to add attributes =
-to each PID.
-> > > > But currently we have no idea about it.
-> > >
-> > > To be honest, it seems to me like you are using "PID" in place of a
-> > > compatible for the panel, since it needs to be provided via DT anyway=
-.
-> >
-> > Hmm... So the more formal way is?
-> > If I add a sub-note inside this spi-device block, such as "panel" and
-> > add PID inside.
-> > Will it be more appropriate?
-> > ...
-> > spi {
-> > ...
-> >     hx_spi@0 {
-> > ...
-> >         panel {
-> >             himax,pid =3D ...
->
-> And this now looks exactly like compatible =3D "vendor,part" now, no?
+On Sat, 16 Sep 2023 12:05:14 +0200
+Andreas Kemnade <andreas@kemnade.info> wrote:
 
-I think it's not the same, I thought "compatible" is used to target
-from the driver side.
-For finding other information inside the block. But I just store PID
-information in this
-one, not used for targeting but getting infos from it.
+> The TWL6032 has some clock outputs which are controlled like
+> fixed-voltage regulators, in some drivers for these chips
+> found in the wild, just the regulator api is abused for controlling
+> them, so simply use something similar to the regulator functions.
+> Due to a lack of hardware available for testing, leave out the
+> TWL6030-specific part of those functions.
+> 
+> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+> ---
+ping...
 
-Thanks,
-Tylor
+anything left to do here?
+
+Regards,
+Andreas
