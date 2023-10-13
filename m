@@ -2,108 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D64F07C8E14
-	for <lists+linux-input@lfdr.de>; Fri, 13 Oct 2023 22:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D1187C8FAD
+	for <lists+linux-input@lfdr.de>; Fri, 13 Oct 2023 23:59:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231886AbjJMUDF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Oct 2023 16:03:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36964 "EHLO
+        id S229679AbjJMV7q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 Oct 2023 17:59:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231846AbjJMUDF (ORCPT
+        with ESMTP id S229632AbjJMV7q (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Oct 2023 16:03:05 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 514A5C0;
-        Fri, 13 Oct 2023 13:03:03 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 144C11C0065; Fri, 13 Oct 2023 22:03:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1697227382;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=v9IjOJlh+NOlawd305vpof4MMBTGRJ5ONp9S38ZFw1c=;
-        b=LTVA2vMPDHy6f9X2wvaF0rXijKZtYNyIjqpLGCUmd5mR2C9PgaZvthJhljP4xJaxbljL+o
-        /LfA9tInl3ITndc8sEonRvdvh2i+lYudbFBS+3nLq6cyqCTTRtNp4iHxVUCdUdBAB1L4wx
-        ekJ7ejGxo1D0JcHvYd7/swG8suifaWA=
-Date:   Fri, 13 Oct 2023 22:03:01 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Werner Sembach <wse@tuxedocomputers.com>
-Cc:     ojeda@kernel.org, Lee Jones <lee@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-Message-ID: <ZSmidd1M5Nre4Qh+@duo.ucw.cz>
-References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
- <ZSe1GYLplZo5fsAe@duo.ucw.cz>
- <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
- <ZSf9QneKO/8IzWhd@duo.ucw.cz>
- <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
- <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
- <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+        Fri, 13 Oct 2023 17:59:46 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2AB4B7;
+        Fri, 13 Oct 2023 14:59:44 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1c735473d1aso19990255ad.1;
+        Fri, 13 Oct 2023 14:59:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697234384; x=1697839184; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2E01oW9FArDha6b2WRAcTTSaAEu+o4wpih5oGTOjVp8=;
+        b=FZzxN8EKy7ME8WncsBbp5KDNPiV6tNArijuyaWzLMiMnjIoJFoGSKKjtcOaOgzxuV4
+         91En0BfFtmV88ISMh04EajSHhCkmMOPb8J59gTN5L0TL+SUoO6M681aEji22HhW61XtX
+         uN2DxhTEfjOUYT5H4wZhaBFFCNK90ip1Z3AOLXeSY7Z2zgLzguEzo5ss0hRbTMgLyLal
+         /DoIuyFSBEUl+FswNEq1SfpdhJSwzoWb0u2A3OlffBABPs2EC/63mfdMovp0NYIaD/ih
+         yPq23xpMTTSRJ0gp+r0OCMSOXAWyfFh9VFkQ494PDmAXuEYeWfHVydaV502TmSYuTv/H
+         xPNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697234384; x=1697839184;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2E01oW9FArDha6b2WRAcTTSaAEu+o4wpih5oGTOjVp8=;
+        b=lQNCJ/lYMfpC5I4dk/6ZQWZP489+shD0qjUaZiAxUFBLYh9tKjJkqf11CA0EyH3ljF
+         apUHUxJipRPwHNa1w5czf6baPXsS1zkewi3l4hzx1knVn6fmQ5IQClmucNkk6xY9BXYO
+         wu+hnifwkhBHyu8E8huny6BJfsM6xgx3Yfb3u6WyP1tIiLqMr7OHYWwvx2y68rg+ay8M
+         7nbSqN7TtFakqjtd7yZc7wcnuE1vU05JNCqAn0hYzoKSHVaIw3KGpqPi6B2SEAJyHH37
+         3HePtGX+tDle6NCXxTh2jgnCkYd26nDmZvkXReLG/xILVlTMnHPNkz7RV3TUzyb65EU7
+         rc1Q==
+X-Gm-Message-State: AOJu0YyTtwBmtIhy/MOXcF52N31FHr2miB+hmekh+deKZwf19LbEvm66
+        tPLhRRxzNyAsngAr+ie/GJbUwi0NLuc=
+X-Google-Smtp-Source: AGHT+IHdd1fwx8ZoF6+US/sd1Hx80a8l9d6ZplVxf2Cs50Y1gb7N8WW19H5nI7NYiWJdjOx9Hnbv1A==
+X-Received: by 2002:a17:902:e5cc:b0:1ca:2a58:7ef9 with SMTP id u12-20020a170902e5cc00b001ca2a587ef9mr251184plf.67.1697234383942;
+        Fri, 13 Oct 2023 14:59:43 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:469c:3411:2771:1b7f])
+        by smtp.gmail.com with ESMTPSA id iw7-20020a170903044700b001b895336435sm4379605plb.21.2023.10.13.14.59.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Oct 2023 14:59:43 -0700 (PDT)
+Date:   Fri, 13 Oct 2023 14:59:41 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     John Salamon <salamonj9@gmail.com>
+Cc:     rydberg@bitmath.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: uinput: waiting for UI_FF_UPLOAD events will not inform user
+ when allocation is required
+Message-ID: <ZSm9zeepuZ94A-ZI@google.com>
+References: <CA+fyA4RABYNPZZSk9+9U51u53kbSzqgwdi1KDDGRxXi8q5TtxQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="96GhfOL9JQ93T59f"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+In-Reply-To: <CA+fyA4RABYNPZZSk9+9U51u53kbSzqgwdi1KDDGRxXi8q5TtxQ@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi John,
 
---96GhfOL9JQ93T59f
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Oct 10, 2023 at 05:38:27PM +1030, John Salamon wrote:
+> Currently the "fake" input events generated by uinput in response to
+> effect uploads will return an effect with an id that has already been
+> handled by input_ff_upload in ff-core.c, which can modify the effect
+> id. This causes a problem specifically when the effect originally
+> uploaded via the EVIOCSFF ioctl contained an effect with -1, as the
+> userspace code handling UI_FF_UPLOAD receives an effect with an id
+> other than -1, and therefore will not know an allocation was
+> requested.
 
-Hi!
+The kernel never changes ID of an existing effect, the only time ID is
+changed is when userspace indicates that a new effect should be created
+by setting effect ID to -1.
 
-> > The specific keyboard RGB controller I want to implement takes 6*21 rgb
-> > values. However not every one is actually mapped to a physical key. e.g=
-=2E the
-> > bottom row needs less entries because of the space bar. Additionally the
-> > keys are ofc not in a straight line from top to bottom.
->=20
-> So... a bit of rationale. The keyboard does not really fit into the
-> LED subsystem; LEDs are expected to be independent ("hdd led") and not
-> a matrix of them.
->=20
-> We do see various strange displays these days -- they commonly have
-> rounded corners and holes in them. I'm not sure how that's currently
-> supported, but I believe it is reasonable to view keyboard as a
-> display with slightly weird placing of pixels.
->=20
-> Plus, I'd really like to play tetris on one of those :-).
->=20
-> So, would presenting them as auxdisplay be acceptable? Or are there
-> better options?
+The handler of force feedback effects should know what effects (with
+what IDs) have been uploaded to the device so far, so whenever it sees a
+request for an effect with previously unseen effect_id it should
+recognize this as a signal that a new effect/id has been allocated by
+the kernel.
 
-Oh and... My existing keyboard membrane-based Chicony, and it is from
-time when PS/2 was still in wide use. I am slowly looking for a new
-keyboard. If you know of one with nice mechanical switches, RGB
-backlight with known protocol, and hopefully easily available in Czech
-republic, let me know.
+> 
+> I notice that the "old" field on the ff_effect struct is set to NULL
+> when the -1 id is changed (in input_ff_upload), which can serve as a
+> flag that an allocation was requested. If it is the intention is that
+> uinput users check if old == NULL to know when allocations are needed
+> I think uinput documentation should describe this.
 
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+No, not really, as explained above.
 
---96GhfOL9JQ93T59f
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> I first noticed this using python-evdev, see my issue report here:
+> https://github.com/gvalkov/python-evdev/issues/199
 
------BEGIN PGP SIGNATURE-----
+Thanks.
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZSmidQAKCRAw5/Bqldv6
-8qQ2AKCBGTKHxfVPIxGuMChs0D4oO1LDGwCfakWEaV9v+/Ut+yVuwzG27YC/Yqg=
-=mzp6
------END PGP SIGNATURE-----
-
---96GhfOL9JQ93T59f--
+-- 
+Dmitry
