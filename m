@@ -2,66 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AE327C926A
-	for <lists+linux-input@lfdr.de>; Sat, 14 Oct 2023 05:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87FC87C92B9
+	for <lists+linux-input@lfdr.de>; Sat, 14 Oct 2023 06:15:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232783AbjJNDNV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Oct 2023 23:13:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33020 "EHLO
+        id S229958AbjJNEPf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 14 Oct 2023 00:15:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231469AbjJNDNU (ORCPT
+        with ESMTP id S229830AbjJNEPe (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Oct 2023 23:13:20 -0400
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95A61BF;
-        Fri, 13 Oct 2023 20:13:19 -0700 (PDT)
-Received: by mail-il1-x133.google.com with SMTP id e9e14a558f8ab-3514bf96fd2so10458845ab.0;
-        Fri, 13 Oct 2023 20:13:19 -0700 (PDT)
+        Sat, 14 Oct 2023 00:15:34 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 575CEC2;
+        Fri, 13 Oct 2023 21:15:33 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1c9bca1d96cso21891635ad.3;
+        Fri, 13 Oct 2023 21:15:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697253199; x=1697857999; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gZR9GQ4UrQVETczfpFoA5oUJZGuPlJ1DionOkWcaQtk=;
-        b=E+UQMkxq4S2q8iDp+M69yYUIRhfG9s11dQp+w6gRT29teVC/OzSTBhq9eZ1VXXrG3U
-         Ht6goN8diPY3h+wmKq9Af4jU9kBI2C+F/pGHtz60ja7ymKVd6avE6oTBFAEvYltSn2Q6
-         jjT3+9mlx8YV+ZCTRsRpB9gpGdSUr71ykImJT4qI18PxpZB17A4bhdmUMQ8oMfFzPNxH
-         Gm3oxLEY6ZVlLGYB4nBqwXDwRbLdYzPZg1nnazyRQIqV6nI6wL2hM5NESRK4NmKB7kQ8
-         P2gcCdZFmTpAKryy2T2NbdTqEozmotPvb3I76OIOIfB30Qfa3GI+S2aEbX+YLhfw38a8
-         sN2Q==
+        d=gmail.com; s=20230601; t=1697256933; x=1697861733; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=O29APqEsWzl8rA+94kyGKt13NOeyzSLuuvl18117LsY=;
+        b=lYrZReYkj4Ryr5TqwvghSdfONM7+AehD5YMltTBN+sEFBfubtde/lCgynaDn9GBKiH
+         Rl3xEWoubI3V3hDv0L3tCOMGSh0m8R+mKFBh/nNgtx3HxK0FOKHaBDRClDg5wy4a3aIW
+         oAqZFo2TTOwm7qeOjOuIN7oPj+GQLIquEpb3lETag1xWWOZaLwzg1Ki8YhPDZJK328WD
+         yqH9snQjoxbZrWY/aX7fccM6bB68b+FAlPOc8JFYqxPnPSrfzHR60MbHj1cAbe5CE3Jb
+         WoQiZMGVyyWAOplmGCY70NbkOd5VyC1DVPB3/pZGfJ9Gs5xxGpbsaJ76Coxao1Gmd/LB
+         Bh0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697253199; x=1697857999;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gZR9GQ4UrQVETczfpFoA5oUJZGuPlJ1DionOkWcaQtk=;
-        b=Kvv3funiqW5gfcRoKcPbU8SS1dkvXxJXA1Yqi0nhypgQLZpmrTOUHFOZE6qiD/rBvk
-         I7RZ0d98jsPWRi9iJFCJX3FzIxZ1KQuGU1tUVSv3ktLuvGNeJkliEFgWZOZszeyDUDs/
-         BWWI7nZUDC31ceyqXIZ/WbBSl/wOP+jzJyJHnKin5gk7JHHLpcUqivb9AFrqUHjiGl/L
-         mI6VwM63Qy9EZCIBNJxkcWI80WAtLMecPvCMLkKWh+d0INQz/rPX/JUWfgt4RgX1SJEv
-         hG0EjfQZA3x5ZvSOMagAGluScizdqMNm4jMG3Haks+hn2U6k+Z+G3TgkH9DXWhSBhFKN
-         4mfA==
-X-Gm-Message-State: AOJu0YyLy2EXvtTFbMM/oVb67KikLOi8BbZMHmAukK9b3NjlW6YUJx8S
-        OVM9Ta3cTvmY9vyJMRqMRgU=
-X-Google-Smtp-Source: AGHT+IE1MZxT0XghpiJowhFJRgqww5CD22lTnCxtQabkQXxZ9NnqVBBA8Elvrko+kZZ4eIRkQ8bMCg==
-X-Received: by 2002:a05:6e02:f45:b0:357:478f:a744 with SMTP id y5-20020a056e020f4500b00357478fa744mr10335334ilj.10.1697253198835;
-        Fri, 13 Oct 2023 20:13:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697256933; x=1697861733;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=O29APqEsWzl8rA+94kyGKt13NOeyzSLuuvl18117LsY=;
+        b=HK2A3UYyCQ8uo5SuMGv/T+iItjzD0hBj5CDW1sv7TqtKqhvhqmMVbn5gImOwYoUHOj
+         VTHn40S6E3OjYepqmL3dYkYTRNMfCcjF0RE9LQL+QfFUqmkNHGCt4tt2suGUnEnn8oQ9
+         7LArRppycNli+oHvBGNK+A4igDUXtTD+RO5eLj5vIYaGAsGzQ9BSO6Qe3qeXaa0EMHyh
+         kB0p5idMJLbUn5nA41AAbxMzldIz7La06lh71z7Ie6oCf9BlP4J6sWyxyUT12bx/+Lxc
+         GUdtpEUagVMdj2eeH0CxhviMz56LROSsT5MkGuIuqFgDeNDTVBhHTKgvTvWmFctRtvt4
+         RRjA==
+X-Gm-Message-State: AOJu0YxfxctWVQ8wwHWSLwhtJNPK2iRzK4jF1Y//X9OF4UcOAXcIQOyp
+        dA1vgNy+Qi7X29NTXJfkkg0=
+X-Google-Smtp-Source: AGHT+IGgyC2DQfSdVc8KSHwyXcSQutk4y8K8RSM6gFxJWr/S1Yeqgh9hjW5kUtKB3XG/U2YYweuA8g==
+X-Received: by 2002:a17:902:c950:b0:1c9:d667:4e4a with SMTP id i16-20020a170902c95000b001c9d6674e4amr8589758pla.69.1697256932567;
+        Fri, 13 Oct 2023 21:15:32 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:469c:3411:2771:1b7f])
-        by smtp.gmail.com with ESMTPSA id bf6-20020a17090b0b0600b00274b9dd8519sm771138pjb.35.2023.10.13.20.13.18
+        by smtp.gmail.com with ESMTPSA id m6-20020a1709026bc600b001b8b45b177esm386154plt.274.2023.10.13.21.15.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Oct 2023 20:13:18 -0700 (PDT)
-Date:   Fri, 13 Oct 2023 20:13:16 -0700
+        Fri, 13 Oct 2023 21:15:32 -0700 (PDT)
+Date:   Fri, 13 Oct 2023 21:15:29 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzbot+0434ac83f907a1dbdd1e@syzkaller.appspotmail.com
-Subject: Re: [PATCH v3] Input: powermate - fix use-after-free in
- powermate_config_complete
-Message-ID: <ZSoHTMQSa17OBzOw@google.com>
-References: <20230916-topic-powermate_use_after_free-v3-1-64412b81a7a2@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v6.6-rc5
+Message-ID: <ZSoV4d4p8RKxEVeG@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230916-topic-powermate_use_after_free-v3-1-64412b81a7a2@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -72,22 +67,76 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Oct 04, 2023 at 04:36:13PM +0200, Javier Carrasco wrote:
-> syzbot has found a use-after-free bug [1] in the powermate driver. This
-> happens when the device is disconnected, which leads to a memory free
-> from the powermate_device struct.
-> When an asynchronous control message completes after the kfree and its
-> callback is invoked, the lock does not exist anymore and hence the bug.
-> 
-> Use usb_kill_urb() on pm->config to cancel any in-progress requests upon
-> device disconnection.
-> 
-> [1] https://syzkaller.appspot.com/bug?extid=0434ac83f907a1dbdd1e
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-> Reported-by: syzbot+0434ac83f907a1dbdd1e@syzkaller.appspotmail.com
+Hi Linus,
 
-Applied, thank you.
+Please pull from:
+
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.6-rc5
+
+to receive updates for the input subsystem. You will get:
+
+- a reworked way for handling reset delay on SMBus-connected Synaptics
+  touchpads (the original one, while being correct, uncovered an old bug
+  in fallback to PS/2 code that was fixed separately; the new one however
+  avoids having delay in serio port "fast" resume, and instead has the
+  wait in the RMI4 code)
+
+- a fix for potential crashes when devices with Elan controllers (and
+  Synaptics) fall back to PS/2 code. Can't be hit without the original
+  patch above, but still good to have it fixed
+
+- a couple new device IDs in xpad Xbox driver
+
+- another quirk for Goodix driver to deal with stuff vendors put in ACPI
+  tables
+
+- a fix for use-after-free on disconnect for powermate driver
+
+- a quirk to not initialize PS/2 mouse port on Fujitsu Lifebook E5411
+  laptop as it makes keyboard not usable and the device uses
+  hid-over-i2c touchpad anyways.
+
+
+Changelog:
+---------
+
+Dmitry Torokhov (2):
+      Revert "Input: psmouse - add delay when deactivating for SMBus mode"
+      Input: synaptics-rmi4 - handle reset delay when using SMBus trsnsport
+
+Hans de Goede (1):
+      Input: goodix - ensure int GPIO is in input for gpio_count == 1 && gpio_int_idx == 0 case
+
+Javier Carrasco (1):
+      Input: powermate - fix use-after-free in powermate_config_complete
+
+Jeffery Miller (1):
+      Input: psmouse - fix fast_reconnect function for PS/2 mode
+
+Matthias Berndt (1):
+      Input: xpad - add PXN V900 support
+
+Max Nguyen (1):
+      Input: xpad - add HyperX Clutch Gladiate Support
+
+Szilard Fabian (1):
+      Input: i8042 - add Fujitsu Lifebook E5411 to i8042 quirk table
+
+Diffstat:
+--------
+
+ drivers/input/joystick/xpad.c         |  4 +++
+ drivers/input/misc/powermate.c        |  1 +
+ drivers/input/mouse/elantech.c        |  1 +
+ drivers/input/mouse/psmouse-smbus.c   | 19 +++++--------
+ drivers/input/mouse/synaptics.c       |  2 ++
+ drivers/input/rmi4/rmi_smbus.c        | 50 ++++++++++++++++++++---------------
+ drivers/input/serio/i8042-acpipnpio.h |  8 ++++++
+ drivers/input/touchscreen/goodix.c    | 19 +++++++++++++
+ 8 files changed, 70 insertions(+), 34 deletions(-)
+
+Thanks.
+
 
 -- 
 Dmitry
