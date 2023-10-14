@@ -2,69 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D1187C8FAD
-	for <lists+linux-input@lfdr.de>; Fri, 13 Oct 2023 23:59:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 669707C925F
+	for <lists+linux-input@lfdr.de>; Sat, 14 Oct 2023 05:04:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbjJMV7q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Oct 2023 17:59:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42428 "EHLO
+        id S229518AbjJNDDr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 13 Oct 2023 23:03:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbjJMV7q (ORCPT
+        with ESMTP id S229958AbjJNDDq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Oct 2023 17:59:46 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2AB4B7;
-        Fri, 13 Oct 2023 14:59:44 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1c735473d1aso19990255ad.1;
-        Fri, 13 Oct 2023 14:59:44 -0700 (PDT)
+        Fri, 13 Oct 2023 23:03:46 -0400
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15EBBBF;
+        Fri, 13 Oct 2023 20:03:45 -0700 (PDT)
+Received: by mail-oi1-x231.google.com with SMTP id 5614622812f47-3b2bd27f203so83557b6e.3;
+        Fri, 13 Oct 2023 20:03:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697234384; x=1697839184; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1697252624; x=1697857424; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2E01oW9FArDha6b2WRAcTTSaAEu+o4wpih5oGTOjVp8=;
-        b=FZzxN8EKy7ME8WncsBbp5KDNPiV6tNArijuyaWzLMiMnjIoJFoGSKKjtcOaOgzxuV4
-         91En0BfFtmV88ISMh04EajSHhCkmMOPb8J59gTN5L0TL+SUoO6M681aEji22HhW61XtX
-         uN2DxhTEfjOUYT5H4wZhaBFFCNK90ip1Z3AOLXeSY7Z2zgLzguEzo5ss0hRbTMgLyLal
-         /DoIuyFSBEUl+FswNEq1SfpdhJSwzoWb0u2A3OlffBABPs2EC/63mfdMovp0NYIaD/ih
-         yPq23xpMTTSRJ0gp+r0OCMSOXAWyfFh9VFkQ494PDmAXuEYeWfHVydaV502TmSYuTv/H
-         xPNg==
+        bh=rJ41a+RB4Qcm7rS/XEuMa2q8TcH82epeacH0wtL3/8E=;
+        b=TYlvQymoO07ENRA7PXMwNyo1tkE6nWTgWc/VVEQThBy3y+ztGIaO+y1gh6bFazSw87
+         olSRLGoK+GUYZ8awURVf0yyFMqdD3RricuTuNkIGS1ODRswn79JkSjDFExBlfWE5APGR
+         kQocaO9rHMnIk5nJZELhd5AoN9Dct4FfF8OFv2EhYk+O/PBheYevrDtfc6FPkUxaQ7N5
+         flv6LSFiIpWc8lNQK80Ue7FMLz4oElIdSQj98jQZfU7lsS54Uvk1IrJQN4kspxUMyW9w
+         R2EmlsX41PozjLSTJUasV0sYmZ/ApNqr99AJNGyeMK7M3I4DHfa/cdZrAobsGdRNRWZB
+         xnIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697234384; x=1697839184;
+        d=1e100.net; s=20230601; t=1697252624; x=1697857424;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2E01oW9FArDha6b2WRAcTTSaAEu+o4wpih5oGTOjVp8=;
-        b=lQNCJ/lYMfpC5I4dk/6ZQWZP489+shD0qjUaZiAxUFBLYh9tKjJkqf11CA0EyH3ljF
-         apUHUxJipRPwHNa1w5czf6baPXsS1zkewi3l4hzx1knVn6fmQ5IQClmucNkk6xY9BXYO
-         wu+hnifwkhBHyu8E8huny6BJfsM6xgx3Yfb3u6WyP1tIiLqMr7OHYWwvx2y68rg+ay8M
-         7nbSqN7TtFakqjtd7yZc7wcnuE1vU05JNCqAn0hYzoKSHVaIw3KGpqPi6B2SEAJyHH37
-         3HePtGX+tDle6NCXxTh2jgnCkYd26nDmZvkXReLG/xILVlTMnHPNkz7RV3TUzyb65EU7
-         rc1Q==
-X-Gm-Message-State: AOJu0YyTtwBmtIhy/MOXcF52N31FHr2miB+hmekh+deKZwf19LbEvm66
-        tPLhRRxzNyAsngAr+ie/GJbUwi0NLuc=
-X-Google-Smtp-Source: AGHT+IHdd1fwx8ZoF6+US/sd1Hx80a8l9d6ZplVxf2Cs50Y1gb7N8WW19H5nI7NYiWJdjOx9Hnbv1A==
-X-Received: by 2002:a17:902:e5cc:b0:1ca:2a58:7ef9 with SMTP id u12-20020a170902e5cc00b001ca2a587ef9mr251184plf.67.1697234383942;
-        Fri, 13 Oct 2023 14:59:43 -0700 (PDT)
+        bh=rJ41a+RB4Qcm7rS/XEuMa2q8TcH82epeacH0wtL3/8E=;
+        b=gUWnaYDrcN9P7OggJZViJkwv2Fx+rWMKWp9cCnO2UAycYYrtte3lcvEKQhh3S0M7rI
+         UmneS4tFkTQDs8qfYazv0GdmWKWpYq+tt0AvNEKaCf893xgOZsMUJ0fUR7JLzhnqNcuA
+         td1MGT3VxbzNwTwUMql7Dxcokcv3mXdvZnKt0OldPeeYPIA59mig58oQnH8jfh7qAfhi
+         SAcJdIDrPfuTl78fkgPgAWHwjjjZ0Tc5zGlDjn6mToV5MbRknFy7aiL+eiCSBp5GfVnR
+         mh10bdGR+m54/66BbWDIZJkVQtUohlpVDG7eKAIcxyf949tmgmrmuDm9AP0kJ2MnuFeO
+         liMg==
+X-Gm-Message-State: AOJu0YxBZrvwlU0lFBXjHiv6XXAHh4yVWbQbvOxQ7wxtLHYuXfrcvprf
+        rdNBXBg3gecKSXtyEMUGwuQ=
+X-Google-Smtp-Source: AGHT+IEdMMcUV3So6+0HELJUoYR3j9NRzFHv3hhzcEMkDjVT4n7uyiM8sepNeVagyVxSIDwQEAHreQ==
+X-Received: by 2002:a05:6808:1146:b0:3a4:316c:8eeb with SMTP id u6-20020a056808114600b003a4316c8eebmr44717767oiu.40.1697252624151;
+        Fri, 13 Oct 2023 20:03:44 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:469c:3411:2771:1b7f])
-        by smtp.gmail.com with ESMTPSA id iw7-20020a170903044700b001b895336435sm4379605plb.21.2023.10.13.14.59.43
+        by smtp.gmail.com with ESMTPSA id hg20-20020a17090b301400b002776350b50dsm780310pjb.29.2023.10.13.20.03.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Oct 2023 14:59:43 -0700 (PDT)
-Date:   Fri, 13 Oct 2023 14:59:41 -0700
+        Fri, 13 Oct 2023 20:03:43 -0700 (PDT)
+Date:   Fri, 13 Oct 2023 20:03:40 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     John Salamon <salamonj9@gmail.com>
-Cc:     rydberg@bitmath.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: uinput: waiting for UI_FF_UPLOAD events will not inform user
- when allocation is required
-Message-ID: <ZSm9zeepuZ94A-ZI@google.com>
-References: <CA+fyA4RABYNPZZSk9+9U51u53kbSzqgwdi1KDDGRxXi8q5TtxQ@mail.gmail.com>
+To:     Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc:     John Horan <knasher@gmail.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        syzbot+348331f63b034f89b622@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2] Input: bcm5974 - check endpoint type before starting
+ traffic
+Message-ID: <ZSoFDLv8_CG1SGN6@google.com>
+References: <20231007-topic-bcm5974_bulk-v2-1-021131c83efb@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+fyA4RABYNPZZSk9+9U51u53kbSzqgwdi1KDDGRxXi8q5TtxQ@mail.gmail.com>
+In-Reply-To: <20231007-topic-bcm5974_bulk-v2-1-021131c83efb@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,40 +74,39 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi John,
+Hi Javier,
 
-On Tue, Oct 10, 2023 at 05:38:27PM +1030, John Salamon wrote:
-> Currently the "fake" input events generated by uinput in response to
-> effect uploads will return an effect with an id that has already been
-> handled by input_ff_upload in ff-core.c, which can modify the effect
-> id. This causes a problem specifically when the effect originally
-> uploaded via the EVIOCSFF ioctl contained an effect with -1, as the
-> userspace code handling UI_FF_UPLOAD receives an effect with an id
-> other than -1, and therefore will not know an allocation was
-> requested.
+On Thu, Oct 12, 2023 at 06:51:49PM +0200, Javier Carrasco wrote:
+>  
+> +static bool bcm5974_ep_is_int_in(struct usb_host_interface *iface, int addr)
+> +{
+> +	struct usb_endpoint_descriptor *endpoint;
+> +	int i;
+> +
+> +	for (i = 0; i < iface->desc.bNumEndpoints; i++) {
+> +		endpoint = &iface->endpoint[i].desc;
+> +		if (endpoint->bEndpointAddress == addr) {
+> +			if (usb_endpoint_is_int_in(endpoint))
+> +				return true;
+> +		}
+> +	}
+> +	return false;
+> +}
 
-The kernel never changes ID of an existing effect, the only time ID is
-changed is when userspace indicates that a new effect should be created
-by setting effect ID to -1.
+This essentially reimplements usb_find_endpoint() in a sense, so can we
+instead do:
 
-The handler of force feedback effects should know what effects (with
-what IDs) have been uploaded to the device so far, so whenever it sees a
-request for an effect with previously unseen effect_id it should
-recognize this as a signal that a new effect/id has been allocated by
-the kernel.
+	ep = usb_find_endpoint(iface, addr);
+	if (!ep || !usb_endpoint_is_int_in(ep)) {
+		dev_err(...);
+		return ...;
+	}
 
-> 
-> I notice that the "old" field on the ff_effect struct is set to NULL
-> when the -1 id is changed (in input_ff_upload), which can serve as a
-> flag that an allocation was requested. If it is the intention is that
-> uinput users check if old == NULL to know when allocations are needed
-> I think uinput documentation should describe this.
 
-No, not really, as explained above.
-
-> 
-> I first noticed this using python-evdev, see my issue report here:
-> https://github.com/gvalkov/python-evdev/issues/199
+Also it looks like the handling of button endpoint is interleaved with
+the trackpad endpoint, I wonder if it would not be better if we have a
+separate "if (cfg->tp_type == TYPE1)" where we would do the check,
+allocate URB, and did all the rest of set up for button transfers.
 
 Thanks.
 
