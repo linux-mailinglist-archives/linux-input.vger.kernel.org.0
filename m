@@ -2,68 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CD597C9893
-	for <lists+linux-input@lfdr.de>; Sun, 15 Oct 2023 12:06:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BAE47C98D6
+	for <lists+linux-input@lfdr.de>; Sun, 15 Oct 2023 13:34:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229596AbjJOKGW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 15 Oct 2023 06:06:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54638 "EHLO
+        id S229555AbjJOLen (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 15 Oct 2023 07:34:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229970AbjJOKGV (ORCPT
+        with ESMTP id S229522AbjJOLem (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 15 Oct 2023 06:06:21 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F41B0F3;
-        Sun, 15 Oct 2023 03:06:18 -0700 (PDT)
+        Sun, 15 Oct 2023 07:34:42 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F21DEC5
+        for <linux-input@vger.kernel.org>; Sun, 15 Oct 2023 04:34:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697364379; x=1728900379;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7UOJ3TZyf1lJoRWCpFGUSBPXBrcL5yCoPC+XN8DoJBw=;
-  b=UgXldoKm0dAyi2APl2VGUV7glm6DPx4VlVnFBhv89/YbL+N55xsYDL+x
-   fGsePY8bbHndYo+HtCl/ycrcv6Sdb0PJxGGSt/RwFxjlAH2k3Y6WxBVNW
-   NRlqRasUfpD7iCimLT3B0bROXG3Lm29WWq4kg+eEnTPfzhgxVMObVmaQU
-   wR1xOrL73VlgL5+MLVW/BGtinibm+sOvucsbmuWgH3OPCnfCT/BpoMuYA
-   YG7HULMaJPlYAghsF9ekZPsMi1ILTsqg3M/ht+0EstrJiwMYqSsvWcRnE
-   4nRE8+FzoHM1fDJtE/vnW823fUvaWUpHeHqwWFLGaHGWTlBxsASWA6AOp
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="449571888"
+  t=1697369680; x=1728905680;
+  h=date:from:to:cc:subject:message-id;
+  bh=1s6a3jUsdRynSwdMVZEda3frP7EFPJ/dpfcW29LgT9w=;
+  b=Y5prLiMOvOVyQhRps8Yjz1e41D0xcWzXdquQ5QOvj+NmE6nWKcl7+cZU
+   6PARH2LtnF2AJGOB+r3ddk6mkGnQNqhytxoyFcNz13L3vFKeU0S/TzUo3
+   zFMBAry0Ih2uLbrrj6rHJaZ4DTSt0PVnG5LMs9sMl/eS0RlQsSVDxqvs6
+   6Thts713Cy9oLrbGgDCUWuGgDzi234WeKHOmnHCeVSQwQ7sBdTfH+huxc
+   YI6sr5Puxrqpu9OJ6EyFRltLMhaa8EZb4f3SWggpN0stZxO1Iy6iGz4lu
+   cvRU3aCBFNi2G2IOOcQMphplCJs75PySGy7NmMh/kiTEUVv9+50KWRoZg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="364744964"
 X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="449571888"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2023 03:06:18 -0700
+   d="scan'208";a="364744964"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2023 04:34:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="821228975"
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="784751297"
 X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="821228975"
+   d="scan'208";a="784751297"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Oct 2023 03:06:13 -0700
+  by orsmga008.jf.intel.com with ESMTP; 15 Oct 2023 04:34:39 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1qry0h-0007J1-0x;
-        Sun, 15 Oct 2023 10:06:11 +0000
-Date:   Sun, 15 Oct 2023 18:05:54 +0800
+        id 1qrzOH-0007Ml-0C;
+        Sun, 15 Oct 2023 11:34:37 +0000
+Date:   Sun, 15 Oct 2023 19:34:23 +0800
 From:   kernel test robot <lkp@intel.com>
-To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, hdegoede@redhat.com,
-        markgross@kernel.org, ilpo.jarvinen@linux.intel.com,
-        basavaraj.natikar@amd.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
-        christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
-        daniel@ffwll.ch
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-        amd-gfx@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, Patil.Reddy@amd.com,
-        linux-input@vger.kernel.org, mario.limonciello@amd.com
-Subject: Re: [PATCH v3 09/16] platform/x86/amd/pmf: Add facility to dump TA
- inputs
-Message-ID: <202310151704.ofb4HSxK-lkp@intel.com>
-References: <20231010125917.138225-10-Shyam-sundar.S-k@amd.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231010125917.138225-10-Shyam-sundar.S-k@amd.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ 5c15c60e7be615f05a45cd905093a54b11f461bc
+Message-ID: <202310151921.zi9IlAYM-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
@@ -74,123 +60,136 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Shyam,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 5c15c60e7be615f05a45cd905093a54b11f461bc  Input: powermate - fix use-after-free in powermate_config_complete
 
-kernel test robot noticed the following build errors:
+elapsed time: 1877m
 
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on drm-misc/drm-misc-next linus/master v6.6-rc5 next-20231013]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+configs tested: 118
+configs skipped: 2
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shyam-Sundar-S-K/platform-x86-amd-pmf-Add-PMF-TEE-interface/20231010-210347
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20231010125917.138225-10-Shyam-sundar.S-k%40amd.com
-patch subject: [PATCH v3 09/16] platform/x86/amd/pmf: Add facility to dump TA inputs
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231015/202310151704.ofb4HSxK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231015/202310151704.ofb4HSxK-lkp@intel.com/reproduce)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310151704.ofb4HSxK-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/printk.h:564,
-                    from include/linux/kernel.h:30,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from drivers/platform/x86/amd/pmf/pmf.h:14,
-                    from drivers/platform/x86/amd/pmf/sps.c:11:
-   drivers/platform/x86/amd/pmf/sps.c: In function 'amd_pmf_dump_sps_defaults':
->> drivers/platform/x86/amd/pmf/sps.c:50:65: error: implicit declaration of function 'source_as_str' [-Werror=implicit-function-declaration]
-      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-         |                                                                 ^~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
-     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
-     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/platform/x86/amd/pmf/sps.c:50:25: note: in expansion of macro 'pr_debug'
-      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-         |                         ^~~~~~~~
-   drivers/platform/x86/amd/pmf/sps.c:50:34: warning: format '%s' expects argument of type 'char *', but argument 3 has type 'int' [-Wformat=]
-      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:345:21: note: in definition of macro 'pr_fmt'
-     345 | #define pr_fmt(fmt) fmt
-         |                     ^~~
-   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '__dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
-     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
-     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/platform/x86/amd/pmf/sps.c:50:25: note: in expansion of macro 'pr_debug'
-      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-         |                         ^~~~~~~~
-   drivers/platform/x86/amd/pmf/sps.c:50:47: note: format string is defined here
-      50 |                         pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-         |                                              ~^
-         |                                               |
-         |                                               char *
-         |                                              %d
-   cc1: some warnings being treated as errors
-
-
-vim +/source_as_str +50 drivers/platform/x86/amd/pmf/sps.c
-
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  41  
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  42  static void amd_pmf_dump_sps_defaults(struct amd_pmf_static_slider_granular *data)
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  43  {
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  44  	int i, j;
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  45  
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  46  	pr_debug("Static Slider Data - BEGIN\n");
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  47  
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  48  	for (i = 0; i < POWER_SOURCE_MAX; i++) {
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  49  		for (j = 0; j < POWER_MODE_MAX; j++) {
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10 @50  			pr_debug("--- Source:%s Mode:%s ---\n", source_as_str(i), slider_as_str(j));
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  51  			pr_debug("SPL: %u mW\n", data->prop[i][j].spl);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  52  			pr_debug("SPPT: %u mW\n", data->prop[i][j].sppt);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  53  			pr_debug("SPPT_ApuOnly: %u mW\n", data->prop[i][j].sppt_apu_only);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  54  			pr_debug("FPPT: %u mW\n", data->prop[i][j].fppt);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  55  			pr_debug("STTMinLimit: %u mW\n", data->prop[i][j].stt_min);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  56  			pr_debug("STT_SkinTempLimit_APU: %u C\n",
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  57  				 data->prop[i][j].stt_skin_temp[STT_TEMP_APU]);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  58  			pr_debug("STT_SkinTempLimit_HS2: %u C\n",
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  59  				 data->prop[i][j].stt_skin_temp[STT_TEMP_HS2]);
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  60  		}
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  61  	}
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  62  
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  63  	pr_debug("Static Slider Data - END\n");
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  64  }
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  65  #else
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  66  static void amd_pmf_dump_sps_defaults(struct amd_pmf_static_slider_granular *data) {}
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  67  #endif
-a82ebb3d800d7b Shyam Sundar S K 2023-05-10  68  
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20231014   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                      jornada720_defconfig   gcc  
+arm                       netwinder_defconfig   clang
+arm                   randconfig-001-20231014   gcc  
+arm64                            allmodconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231014   gcc  
+i386                  randconfig-002-20231014   gcc  
+i386                  randconfig-003-20231014   gcc  
+i386                  randconfig-004-20231014   gcc  
+i386                  randconfig-005-20231014   gcc  
+i386                  randconfig-006-20231014   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231014   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                      bmips_stb_defconfig   clang
+mips                     cu1000-neo_defconfig   clang
+mips                            gpr_defconfig   gcc  
+mips                  maltasmvp_eva_defconfig   gcc  
+mips                       rbtx49xx_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+powerpc                   bluestone_defconfig   clang
+powerpc                 canyonlands_defconfig   gcc  
+powerpc                 mpc834x_itx_defconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231014   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             alldefconfig   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231014   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                   rts7751r2dplus_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                 randconfig-001-20231014   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231014   gcc  
+x86_64                randconfig-002-20231014   gcc  
+x86_64                randconfig-003-20231014   gcc  
+x86_64                randconfig-004-20231014   gcc  
+x86_64                randconfig-005-20231014   gcc  
+x86_64                randconfig-006-20231014   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
 
 -- 
 0-DAY CI Kernel Test Service
