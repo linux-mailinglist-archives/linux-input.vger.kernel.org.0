@@ -2,177 +2,162 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 731727C999A
-	for <lists+linux-input@lfdr.de>; Sun, 15 Oct 2023 16:38:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13CE37C9BB9
+	for <lists+linux-input@lfdr.de>; Sun, 15 Oct 2023 23:12:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229672AbjJOOh6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 15 Oct 2023 10:37:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34610 "EHLO
+        id S230178AbjJOVME (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 15 Oct 2023 17:12:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbjJOOh5 (ORCPT
+        with ESMTP id S229766AbjJOVMD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 15 Oct 2023 10:37:57 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AED58A3
-        for <linux-input@vger.kernel.org>; Sun, 15 Oct 2023 07:37:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697380676; x=1728916676;
-  h=date:from:to:cc:subject:message-id;
-  bh=wadkGKBiBCilmAaFH5P3PfRNR+X0BZyC4n2MZTNuh20=;
-  b=JPnaQxItORnm4tXKGzCOLbCji073xU2QTymQ1l7M5PjxhOqNsgQGh9yx
-   aWeQkI4Ono9Pu8LW7BoAgrtnkjTSAbx6VEna0FvVPDhDPeKqnw8TJARJP
-   ejhSDSc7cfGqcLSGLOlgAKgtjOOMaTmXTZxnFpq78DZWm2Saq5zfirbTd
-   dbT1XJjXBoCtKHlOUEmOyJosuGsa0hSxihrKK/zAkTlPcx5rewOb8xl6r
-   Or29j83f5AERR3+1wxCcyq3UQyqaaymofmc3UlK9xPOkIYdNk0onagcBa
-   LR+VWVDL3jR7SkM+KgGsczlJz+TGfsARS57G6xgdXSMI4TASXS8dzgh4q
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="385233883"
-X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="385233883"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2023 07:37:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="755376325"
-X-IronPort-AV: E=Sophos;i="6.03,226,1694761200"; 
-   d="scan'208";a="755376325"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 15 Oct 2023 07:37:55 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qs2Fc-0007Ud-1j;
-        Sun, 15 Oct 2023 14:37:52 +0000
-Date:   Sun, 15 Oct 2023 22:37:46 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [dtor-input:next] BUILD SUCCESS
- 6cd256694afe2a0a94f62418fea95279de2b7ada
-Message-ID: <202310152244.EhhqvwNz-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Sun, 15 Oct 2023 17:12:03 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C4FFC1
+        for <linux-input@vger.kernel.org>; Sun, 15 Oct 2023 14:12:00 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-32db8f8441eso47108f8f.0
+        for <linux-input@vger.kernel.org>; Sun, 15 Oct 2023 14:12:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697404319; x=1698009119; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=20S+Zi7elh7aLrsKoDUlCT3P27T+k2m0t7D2LPdB+z4=;
+        b=x7okiY7YoHptuXu9jb9RX/AObiGXAc114+QJfmYVzmAXtM8U/ErZdnA1gnPGbOC3LH
+         V9wxO4Jv4DoOVF0icoZSYoJB1DBcUQpf5rIOrSyH5CIzpBUXw3pW5A5eYidJ0hVcwNSO
+         vVlz1s6NupOKBFe7hMOPPQtMveBqPjsfWcPtTlZMIS+7Z7zPgIaFMlERJWKem7/JJ44N
+         ORy9g6C7PAwLBYR+IxGods1S3QHdsmr06VIqAHxhYg8TIpCcXvtyeUiDac517d0ESIk6
+         7MVobY5pu47HR+AM/6BBQzerikqKb99DMQcVl3XAjxo2cpfwb8n3VcJQW0Pd6Y/cGjpV
+         AXug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697404319; x=1698009119;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=20S+Zi7elh7aLrsKoDUlCT3P27T+k2m0t7D2LPdB+z4=;
+        b=wpWBrWViESaTCMKZZvnYI1H/96ANw0GpUlI/mpsbmur2UVl4GFjoazF1GYiKf6yInW
+         yOpEBD/VrhIuG7k1gPvoC18Oto3JKZqHQx2d3Ye/7WEws+jgIvyb+AsABIFo/bX6emnX
+         t9qAdR9BZ0A9+B3NCbKh1EKXBsIwAUcdd8xPAoR9MmLSofF2bzfIZakc02hUO74KFDOB
+         cRG0i50oxOo5/DFX9h4iLQUyQSt19BKWn2DIhMPSTnFwQc0sP/eFO2+caX0ixfrtH6vH
+         FhRw1xxFE3vSVZ/aaGanRpdcnpEN9C7jTR+fjOdtXhszcWxSmNXmsOEIADO8mg+hTY61
+         /qWg==
+X-Gm-Message-State: AOJu0YyTe5OHhJARa7yvgyC61xzHHg5pMTGSTfsdfDOBJyxn9r1eQWe0
+        8GA3tuI6g8vYrnGchEHG/Yg/BA==
+X-Google-Smtp-Source: AGHT+IECSumT2r0PCYyiqzWjZFn7oRjS8L9sFtx878rqssf+v70qpMBjCDxJrfqfDpB7/LyhAX29uA==
+X-Received: by 2002:adf:a1d4:0:b0:32d:a310:cc2e with SMTP id v20-20020adfa1d4000000b0032da310cc2emr4244725wrv.34.1697404318959;
+        Sun, 15 Oct 2023 14:11:58 -0700 (PDT)
+Received: from lion.localdomain (host-2-99-112-229.as13285.net. [2.99.112.229])
+        by smtp.gmail.com with ESMTPSA id z17-20020a5d4d11000000b0032d9548240fsm8456734wrt.82.2023.10.15.14.11.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Oct 2023 14:11:58 -0700 (PDT)
+From:   Caleb Connolly <caleb.connolly@linaro.org>
+Subject: [PATCH v2 0/7] Input: synaptics-rmi4: add quirks for third party
+ touchscreen controllers
+Date:   Sun, 15 Oct 2023 22:11:48 +0100
+Message-Id: <20230929-caleb-rmi4-quirks-v2-0-b227ac498d88@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJRVLGUC/32NQQ6CMBAAv0J6ds1aVMST/zAc2rLAxtrqVoiG8
+ HcrD/A4k0xmVomEKalzMSuhiRPHkEFvCuUGE3oCbjMrjbrEWtfgjCcLcuc9PEeWWwI8aoOHiuq
+ TtSp31iQCKya4IZdh9D7Lh1DH73V0bTIPnF5RPut32v3sv8W0AwTnSldh2aHW7cVzMBK3UXrVL
+ MvyBd72d0fIAAAA
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Vincent Huang <vincent.huang@tw.synaptics.com>
+Cc:     methanal <baclofen@tuta.io>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht,
+        Caleb Connolly <caleb.connolly@linaro.org>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
+X-Mailer: b4 0.13-dev-46309
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3197;
+ i=caleb.connolly@linaro.org; h=from:subject:message-id;
+ bh=5rq1EpQX0MP46UWiKDEFWm1ONq98fPC9YIe92JAevoI=;
+ b=owGbwMvMwCFYaeA6f6eBkTjjabUkhlSd0Llfinqybkh/rV11LJ6nbLLxh4KFgco+xi3PPb0+3
+ i/Qj2bqKGVhEORgkBVTZBE/scyyae1le43tCy7AzGFlAhnCwMUpABN5L8vwP7q06tDTXvZTl1Ya
+ iE8+9fzuy+406/uJRy5p/3JZlq4215zhN5uritUUkeknxNNTlpUUfWWZsMxYcG77kuS1z/yMm/L
+ lzwIA
+X-Developer-Key: i=caleb.connolly@linaro.org; a=openpgp;
+ fpr=83B24DA7FE145076BC38BB250CD904EB673A7C47
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-branch HEAD: 6cd256694afe2a0a94f62418fea95279de2b7ada  Input: tegra-kbc - use device_get_match_data()
+With the growing popularity of running upstream Linux on mobile devices,
+we're beginning to run into more and more edgecases. The OnePlus 6 is a
+fairly well supported 2018 era smartphone, selling over a million units
+in it's first 22 days. With this level of popularity, it's almost
+inevitable that we get third party replacement displays, and as a
+result, replacement touchscreen controllers.
 
-elapsed time: 2060m
+The OnePlus 6 shipped with an extremely usecase specific touchscreen
+driver, it implemented only the bare minimum parts of the highly generic
+rmi4 protocol, instead hardcoding most of the register addresses.
 
-configs tested: 100
-configs skipped: 2
+As a result, the third party touchscreen controllers that are often
+found in replacement screens, implement only the registers that the
+downstream driver reads from. They additionally have other restrictions
+such as heavy penalties on unaligned reads.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+This series attempts to implement the necessary workaround to support
+some of these chips with the rmi4 driver. Although it's worth noting
+that at the time of writing there are other unofficial controllers in
+the wild that don't work even with these patches.
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231014   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                   randconfig-001-20231014   gcc  
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231014   gcc  
-i386                  randconfig-002-20231014   gcc  
-i386                  randconfig-003-20231014   gcc  
-i386                  randconfig-004-20231014   gcc  
-i386                  randconfig-005-20231014   gcc  
-i386                  randconfig-006-20231014   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231014   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20231014   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231014   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                 randconfig-001-20231014   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20231014   gcc  
-x86_64                randconfig-002-20231014   gcc  
-x86_64                randconfig-003-20231014   gcc  
-x86_64                randconfig-004-20231014   gcc  
-x86_64                randconfig-005-20231014   gcc  
-x86_64                randconfig-006-20231014   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
+We have been shipping these patches in postmarketOS for the last several
+months, and they are known to not cause any regressions on the OnePlus
+6/6T (with the official Synaptics controller), however I don't own any
+other rmi4 hardware to further validate this.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+These patches were contributed by a community developer who has given
+permission for me to submit them on their behalf.
+
+---
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Vincent Huang <vincent.huang@tw.synaptics.com>
+Cc: methanal <baclofen@tuta.io>
+Cc: linux-input@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: phone-devel@vger.kernel.org
+Cc: ~postmarketos/upstreaming@lists.sr.ht
+
+---
+Changes since v1:
+- Improve dt-bindings patch (thanks Rob)
+- Add missing cast in patch 5 to fix the pointer arithmetic
+- Link to v1: https://lore.kernel.org/r/20230929-caleb-rmi4-quirks-v1-0-cc3c703f022d@linaro.org
+
+---
+Caleb Connolly (2):
+      dt-bindings: input: syna,rmi4: document syna,pdt-fallback-desc
+      Input: synaptics-rmi4 - handle duplicate/unknown PDT entries
+
+methanal (5):
+      Input: synaptics-rmi4 - f12: use hardcoded values for aftermarket touch ICs
+      Input: synaptics-rmi4 - f55: handle zero electrode count
+      Input: synaptics-rmi4 - don't do unaligned reads in IRQ context
+      Input: synaptics-rmi4 - read product ID on aftermarket touch ICs
+      Input: synaptics-rmi4 - support fallback values for PDT descriptor bytes
+
+ .../devicetree/bindings/input/syna,rmi4.yaml       |  15 +++
+ drivers/input/rmi4/rmi_driver.c                    | 134 ++++++++++++++++++---
+ drivers/input/rmi4/rmi_driver.h                    |   8 ++
+ drivers/input/rmi4/rmi_f01.c                       |  14 +++
+ drivers/input/rmi4/rmi_f12.c                       | 117 ++++++++++++++----
+ drivers/input/rmi4/rmi_f55.c                       |   5 +
+ include/linux/rmi.h                                |   3 +
+ 7 files changed, 252 insertions(+), 44 deletions(-)
+---
+base-commit: b0d95ff7653ef6ace66a24d6c09147d0731825ce
+
+// Caleb (they/them)
+
