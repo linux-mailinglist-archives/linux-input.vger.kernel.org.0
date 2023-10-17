@@ -2,134 +2,261 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 58DD77CC557
-	for <lists+linux-input@lfdr.de>; Tue, 17 Oct 2023 15:58:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0D227CC565
+	for <lists+linux-input@lfdr.de>; Tue, 17 Oct 2023 16:00:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235060AbjJQN6t (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Oct 2023 09:58:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33692 "EHLO
+        id S1343977AbjJQOAH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Oct 2023 10:00:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344062AbjJQN6b (ORCPT
+        with ESMTP id S1343926AbjJQOAF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Oct 2023 09:58:31 -0400
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBF3B11A
-        for <linux-input@vger.kernel.org>; Tue, 17 Oct 2023 06:58:24 -0700 (PDT)
-X-QQ-mid: bizesmtp77t1697551013t4vpc3bk
-Received: from localhost.localdomain ( [58.249.112.42])
-        by bizesmtp.qq.com (ESMTP) with 
-        id ; Tue, 17 Oct 2023 21:56:30 +0800 (CST)
-X-QQ-SSF: 01400000000000B0F000000A0000000
-X-QQ-FEAT: QZiP3VLl9WaPuzxrj5CT6ixcIGbRGXPU/tExE2eSnniQzZM6dWyeAaK30R/l1
-        FAQpwOyT9g3y3orLipDQsz8E3SkJSMI5ssdAGfhdAFYyg+Ca0pwAEGz0pyN5nRj2zTSCOdF
-        WC0EuAGpqgtd9wJDUBZPh0kiCPKJy+Hw25JIAD/PWj8+3Axq/gqUwJ0nvImu0kjGLLIhEN2
-        T19rykUiMHnq/yxteExb2YWcTKMD0AbRFAcw/D8iZkWhYtv9VU/2pfdxphmMKf+LUlZVc8G
-        mU8oqFcPL9RcM1R1sa/46qoR8+Iux6ISINN9P95xddgxJbZsKKnduHwCoAbfpnc+WP2U3Lf
-        FkzM1vWYZA9zps2tUqA/Vk35MDp1EeNx2DGeCJm++3DP7vYm3bMQacsSrkeZQ==
-X-QQ-GoodBg: 2
-X-BIZMAIL-ID: 850482525066011867
-From:   Shang Ye <yesh25@mail2.sysu.edu.cn>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Shang Ye <yesh25@mail2.sysu.edu.cn>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 0/3] Input: atkbd - add skip_commands module parameter
-Date:   Tue, 17 Oct 2023 21:53:17 +0800
-Message-ID: <886D6167733841AE+20231017135318.11142-1-yesh25@mail2.sysu.edu.cn>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231005201544.26983-1-hdegoede@redhat.com>
-References: 
+        Tue, 17 Oct 2023 10:00:05 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 366B9F7;
+        Tue, 17 Oct 2023 07:00:04 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAFF9C433C9;
+        Tue, 17 Oct 2023 14:00:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1697551203;
+        bh=ogyJKWZQozXRb1pM2bJA3u5IHZ6moRSNNmWvQiTwxGQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DmDHg0xK9dsy8NLYVYANKT/5eKaAxXQXuVyZproHp/fyLPKkcZzhbdcN1qkrwIood
+         394/gE9mdk1eNyjtrsOSuSwct/0Cb/8goBkFgKH6PGRoMacR4sLDmc4yWn67wLpNSa
+         VBLUUOCaPuQw/Z0RLEdS02kQuzrEW+FaOtfroa0piPYQRbTW7fRGsLt1uGvmoEJ+Ld
+         dX8MSpZT0UAeRXBjidGg+8A5gWP+GWJPtnaEjuqzNp1X797RsIdOFobjW0aphp5V8j
+         QYHHrHBiXAkFjSZbNilE/dn8rz7y8HKL0yO3Cpds84w/p0HDEc/KwUPdY8l2ix/pvq
+         As0c2hCdFUmPA==
+Date:   Tue, 17 Oct 2023 14:59:58 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Tylor Yang <tylor_yang@himax.corp-partner.google.com>
+Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        poyuan_chang@himax.corp-partner.google.com,
+        jingyliang@chromium.org, hbarnor@chromium.org, wuxy23@lenovo.com,
+        luolm1@lenovo.com, poyu_hung@himax.corp-partner.google.com
+Subject: Re: [PATCH v3 1/4] dt-bindings: input: Introduce Himax HID-over-SPI
+ device
+Message-ID: <20231017-womb-lantern-186f16ce67af@spud>
+References: <20231017091900.801989-1-tylor_yang@himax.corp-partner.google.com>
+ <20231017091900.801989-2-tylor_yang@himax.corp-partner.google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:mail2.sysu.edu.cn:qybglogicsvrsz:qybglogicsvrsz3a-1
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,T_SPF_TEMPERROR
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="8k9kbDByS1+37zNr"
+Content-Disposition: inline
+In-Reply-To: <20231017091900.801989-2-tylor_yang@himax.corp-partner.google.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Hans,
 
-I very much support the inclusion of this patch, because there has been
-a similar keyboard issue on at least 3 (presumably 9) types of Lenovo
-laptops, which may also be avoided by simply skipping the GETID command.
-My patch and a list of the affected laptop types may be found at:
-https://github.com/yescallop/atkbd-nogetid
+--8k9kbDByS1+37zNr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In my last patch submission, I have included the issue details:
-https://lore.kernel.org/linux-input/20230530131340.39961-1-yesh25@mail2.sysu.edu.cn/
+Yo,
 
-There were also two other patch submissions aimed at enabling
-`i8042.dumbkbd` on some HP laptops in order to avoid sending the GETID
-command, which isn't very desirable because it breaks the Caps Lock LED:
-https://lore.kernel.org/linux-input/2iAJTwqZV6lQs26cTb38RNYqxvsink6SRmrZ5h0cBUSuf9NT0tZTsf9fEAbbto2maavHJEOP8GA1evlKa6xjKOsaskDhtJWxjcnrgPigzVo=@gurevit.ch/
-https://lore.kernel.org/linux-input/20210609073333.8425-1-egori@altlinux.org/
+On Tue, Oct 17, 2023 at 05:18:57PM +0800, Tylor Yang wrote:
+> The Himax HID-over-SPI framework support for Himax touchscreen ICs
+> that report HID packet through SPI bus. The driver core need reset
+>  pin to meet reset timing spec. of IC. An interrupt to disable
+> and enable interrupt when suspend/resume. Two optional power control
+>  if target board needed.
+>=20
+> Signed-off-by: Tylor Yang <tylor_yang@himax.corp-partner.google.com>
+> ---
+>  .../devicetree/bindings/input/himax,hid.yaml  | 123 ++++++++++++++++++
+>  MAINTAINERS                                   |   6 +
+>  2 files changed, 129 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/himax,hid.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/input/himax,hid.yaml b/Doc=
+umentation/devicetree/bindings/input/himax,hid.yaml
+> new file mode 100644
+> index 000000000000..9ba86fe1b7da
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/himax,hid.yaml
+> @@ -0,0 +1,123 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/himax,hid.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Himax TDDI devices using SPI to send HID packets
+> +
+> +maintainers:
+> +  - Tylor Yang <tylor_yang@himax.corp-partner.google.com>
+> +
+> +description: |
+> +  Support the Himax TDDI devices which using SPI interface to acquire
+> +  HID packets from the device. The device needs to be initialized using
+> +  Himax protocol before it start sending HID packets.
+> +
+> +properties:
+> +  compatible:
+> +    const: himax,hid
 
-And another patch submisson aimed at fixing the issue generically,
-which, sadly, did not work on my laptop because the GETID command would
-trigger more errornous behaviours on it:
-https://lore.kernel.org/linux-input/20210201160336.16008-1-anton@cpp.in/
+This compatible seems far too generic. Why are there not device specific
+compatibles for each TDDI device?
 
-I hope that these materials will help people better understand the
-nature of the issue and the urgency to address it.
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset:
+> +    maxItems: 1
+> +    description: Reset device, active low signal.
+> +
+> +  vccd-supply:
+> +    description:
+> +      Optional regulator for the 1.8V voltage.
+> +
+> +  vcca-supply:
+> +    description:
+> +      Optional regulator for the analog 3.3V voltage.
+> +
+> +  himax,id-gpios:
+> +    maxItems: 8
+> +    description: GPIOs to read physical Panel ID. Optional.
+> +
+> +  spi-cpha: true
+> +  spi-cpol: true
 
-Below are some comments on the patch:
+> +  himax,ic-det-delay-ms:
+> +    description:
+> +      Due to TDDI properties, the TPIC detection timing must after the
+> +      display panel initialized. This property is used to specify the
+> +      delay time when TPIC detection and display panel initialization
+> +      timing are overlapped. How much milliseconds to delay before TPIC
+> +      detection start.
+> +
+> +  himax,ic-resume-delay-ms:
+> +    description:
+> +      Due to TDDI properties, the TPIC resume timing must after the
+> +      display panel resumed. This property is used to specify the
+> +      delay time when TPIC resume and display panel resume
+> +      timing are overlapped. How much milliseconds to delay before TPIC
+> +      resume start.
 
-> +MODULE_PARM_DESC(skip_commands, "Bitfield where each bits skips a specific keyboard cmd (0 - 0x3f)");
 
-"bits" -> "bit"?
+> +  panel:
+> +    description:
+> +      The node of the display panel device. The driver will use this
+> +      node to get the project ID of the display panel. Optional.
+> +    type: object
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      himax,pid:
+> +        $ref: /schemas/types.yaml#/definitions/uint32-array
+> +        minItems: 1
+> +        maxItems: 8
+> +        items:
+> +          minimum: 0
+> +          maximum: 65535
+> +        description:
+> +          When only one value exist, represent Project ID of the device.
+> +          When multiple values exist, order in event number value repres=
+net
+> +          id value from id-gpios and odd number value represent Project =
+ID
+> +          relatives to prior id value. This is used to specify the firmw=
+are
+> +          for the device.
 
-I think we may also need to document the new module parameter at
-Documentation/admin-guide/kernel-parameters.txt and clarify which bit
-skips which keyboard command.
+I am sorry, but I still fail to understand why using device specific
+compatibles & firmware-name does not work here. It still seems like this
+property exists purely because you do not know what device you are
+because of a lack of specific compatibles.
 
-Lastly, would you think it is appropriate to include in this patch
-series the quirks for Lenovo laptops on which my patch was tested to
-work? If so, the quirk table entries would be:
+Thanks,
+Conor.
 
-System vendor: "LENOVO"
-Product names: "82G2", "82NC", "82TK"
-Driver data  : ATKBD_SKIP_GETID
+> +
+> +    required:
+> +      - himax,pid
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - reset
+> +
+> +unevaluatedProperties: false
+> +
+> +allOf:
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    spi {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        touchscreen@0 {
+> +            compatible =3D "himax,hid";
+> +            reg =3D <0x0>;
+> +            interrupt-parent =3D <&gpio1>;
+> +            interrupts =3D <7 IRQ_TYPE_LEVEL_LOW>;
+> +            pinctrl-0 =3D <&touch_pins>;
+> +            pinctrl-names =3D "default";
+> +
+> +            spi-max-frequency =3D <12500000>;
+> +            spi-cpha;
+> +            spi-cpol;
+> +
+> +            reset =3D <&gpio1 8 GPIO_ACTIVE_LOW>;
+> +            himax,ic-det-delay-ms =3D <500>;
+> +            himax,ic-resume-delay-ms =3D <100>;
+> +        };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7a7bd8bd80e9..883870ab316f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -9340,6 +9340,12 @@ L:	linux-kernel@vger.kernel.org
+>  S:	Maintained
+>  F:	drivers/misc/hisi_hikey_usb.c
+> =20
+> +HIMAX HID OVER SPI TOUCHSCREEN SUPPORT
+> +M:	Tylor Yang <tylor_yang@himax.corp-partner.google.com>
+> +L:	linux-input@vger.kernel.org
+> +S:	Supported
+> +F:	Documentation/devicetree/bindings/input/himax,hid.yaml
+> +
+>  HIMAX HX83112B TOUCHSCREEN SUPPORT
+>  M:	Job Noorman <job@noorman.info>
+>  L:	linux-input@vger.kernel.org
+> --=20
+> 2.25.1
+>=20
 
-Above all, thank you for working out this nice patch.
+--8k9kbDByS1+37zNr
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regards,
+-----BEGIN PGP SIGNATURE-----
 
-Shang
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZS6TXgAKCRB4tDGHoIJi
+0uyjAP4kfMd90YPnnCBnbn1Gdr6vm6VSF1jPM2346vOZLdXoBQD/fejsPeA8yFyB
+BtmW46Z7KRSpHjc5TD7Z5uzOFACf3gc=
+=Ewca
+-----END PGP SIGNATURE-----
 
-On 2023/10/06 04:15, Hans de Goede wrote:
-> Hi all,
-> 
-> While debugging a keyboard issue on some HP laptops adding i8042.dumbkbd
-> helped to avoid the issue. So one of the commands send by atkbd.c seemed
-> to be the culprit.
-> 
-> This series a skip_commands option to help debug cases like this by adding
-> a bit-field which allows disabling a subset of the ps2_command()
-> calls the atkbd driver makes.
-> 
-> It also replaces the existing atkbd_skip_deactivate flag
-> with the new parameter and adds a DMI quirk for the HP laptops
-> to avoid the keyboard issue there.
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> Hans de Goede (3):
->   Input: atkbd - add skip_commands module parameter
->   Input: atkbd - drop atkbd_skip_deactivate flag
->   Input: atkbd - set skip_commands = ATKBD_SKIP_GETID for HP laptop
->     15s-fq* laptops
-> 
->  drivers/input/keyboard/atkbd.c | 88 ++++++++++++++++++++++++++--------
->  1 file changed, 69 insertions(+), 19 deletions(-)
-> 
-> -- 
-> 2.41.0
->
+--8k9kbDByS1+37zNr--
