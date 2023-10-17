@@ -2,166 +2,211 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C98C7CC0BE
-	for <lists+linux-input@lfdr.de>; Tue, 17 Oct 2023 12:34:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E39CB7CC14D
+	for <lists+linux-input@lfdr.de>; Tue, 17 Oct 2023 13:00:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234833AbjJQKeh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Oct 2023 06:34:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44788 "EHLO
+        id S234608AbjJQLAU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Oct 2023 07:00:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234771AbjJQKeh (ORCPT
+        with ESMTP id S233570AbjJQLAT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Oct 2023 06:34:37 -0400
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EC0CA2
-        for <linux-input@vger.kernel.org>; Tue, 17 Oct 2023 03:34:33 -0700 (PDT)
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20231017103416epoutp0326bdceac5cf00ca395a9a4531d579c56~O3pikNnuR0741207412epoutp03O
-        for <linux-input@vger.kernel.org>; Tue, 17 Oct 2023 10:34:16 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20231017103416epoutp0326bdceac5cf00ca395a9a4531d579c56~O3pikNnuR0741207412epoutp03O
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1697538856;
-        bh=Q4z2iN7Ey/eoTr/LVn1MjXIK4fTsJi+C2xrNopgllbI=;
-        h=Date:Subject:Reply-To:From:To:CC:References:From;
-        b=clLMKjIKs8TJnVgIeXX4SbwIKqwa9Y4q/FcnitwDE/f/uQKbnCl4MBbMFrulKl6Ya
-         Fngfp5G/aCKq/C3kEE4AbKeHbkLD2RXDe6x4RPmJmcS0+WO9n/tzrFV4rl3lEYOdBM
-         ZDXmOFzNa5ES46Apuw/SwSYCDNlqfoqJhEYDypfE=
-Received: from epsmges5p3new.samsung.com (unknown [182.195.42.75]) by
-        epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-        20231017103416epcas5p2cbdda1bd7afd8bf74ab16c58304e3b38~O3piKf92U0963009630epcas5p29;
-        Tue, 17 Oct 2023 10:34:16 +0000 (GMT)
-X-AuditID: b6c32a4b-39fff700000025c8-d1-652e6328e377
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-        epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        D3.14.09672.8236E256; Tue, 17 Oct 2023 19:34:16 +0900 (KST)
-Date:   Tue, 17 Oct 2023 16:04:15 +0530
-Message-ID: <1830198030.734987.1697538855953@mail-kr5-1.mail-kr5.knoxportal-kr-prod-blue.svc.cluster.local>
-Mime-Version: 1.0
-Subject: [PATCH] input: gpio-keys - optimize wakeup sequence.
-Reply-To: abhi1.singh@samsung.com
-Sender: Abhishek Kumar Singh <abhi1.singh@samsung.com>
-From:   Abhishek Kumar Singh <abhi1.singh@samsung.com>
-To:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
-CC:     "robh@kernel.org" <robh@kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        SRI-N IT Security <sri-n.itsec@samsung.com>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-X-CMS-MailID: 20231017103415epcms5p2f8f5b28a8f5d71055622b82f71b0fc93
-Content-Type: multipart/mixed;
-        boundary="----=_Part_734986_747581812.1697538855953"
-CMS-TYPE: 105P
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBKsWRmVeSWpSXmKPExsWy7bCmpq5Gsl6qwZJ7PBaHF71gtLj56Rur
-        xeVdc9gs/u/ZwW5x4s8mZgdWj52z7rJ7bFrVyebRt2UVo8fnTXIBLFFcNimpOZllqUX6dglc
-        GZsPrWQsOCRe8XD2T/YGxtmiXYycHBICJhJPzy5j62Lk4hAS2M0o8ebMDPYuRg4OFgFViVUz
-        uEBqeAWyJZre72UCCfMKCEr83SEMEhYWsJVY+nsFE4gtJKAosWhOBzNE3Exi8913jCDlbEDj
-        V2znAQmLCFhLHNjXAbaJWeAKo0Tz1QtMECfwSsxof8oCYUtLbF++lRHCFpW4ufotO4z9/th8
-        qLiIROu9s8wQtqDEg5+7GWF6vx+4xQZh10uc+j6BBWSZhEAPo8S8uZ+gFphLnPnVA2W7SNz9
-        +wWsmVkgVGL50wMsEDafRO/vJ3DH7ZgHY6tK7D/7jxlm2Y5Jq6CO85D49/QoGyQgAiW+Tl3I
-        PIFRdhYiuGYh2QBha0ssW/iaGaSEWUBTYv0ufYiwmsSU/i9sELaTxKeze6BsRYkp3Q/ZFzCy
-        r2KUTC0ozk1PLTYtMM5LLdcrTswtLs1L10vOz93ECE4wWt47GB89+KB3iJGJg/EQowpQ+6MN
-        qy8wSrHk5eelKonwpgfrpArxpiRWVqUW5ccXleakFh9ilOZgURLnfd06N0VIID2xJDU7NbUg
-        tQgmy8TBKdXANCmSX2vzF+f+pJoHv5bPfjtfXvi49YKdOgVZmVv7Yus8o+rkJqbcnVUwp2vN
-        kdPPd1xlFLIvEGnfZXUg1n3xgiCGhQnTbDPlCrpUtmzy8Hb8/Njp6KWUlJ/nbHUELj+KcQpZ
-        4jW1KJrt77KErOoju9x0fJ1XX16lc1hi/07Z1on3bxmsfXr/IOtJ2ar5kaYu2W7dWt9ElEy/
-        TdGXVOWx+yywxebzvBRvKyt+FpOs2qOxMnf5Ot8fOBUsfKp4+9G7Yn/5dsl823vm7t4Hne8a
-        5237ztzCm+jy67fsI8nSTyxB6RcnzDI7WZ41PzJRfz7Ttn8ZwuWfxXNmnsv8wL/mbpXr5xMZ
-        rO+TNsQJhZ6+qMRSnJFoqMVcVJwIADT5VberAwAA
-X-CMS-RootMailID: 20231017103415epcms5p2f8f5b28a8f5d71055622b82f71b0fc93
-References: <CGME20231017103415epcms5p2f8f5b28a8f5d71055622b82f71b0fc93@epcms5p2>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 17 Oct 2023 07:00:19 -0400
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2047.outbound.protection.outlook.com [40.107.249.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C1CDA2;
+        Tue, 17 Oct 2023 04:00:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MDdlg/N8ajOjuk2w0hWM882kceqq2yM0x3YhjX49gWJjRxo2OvuQ71F+eNz3OJaR2WWX2u83TOwrHDdu6OockrgYT4qcV87Q4v2sP/bXhF2Q1Jttg9AjeZoKbg4BBdnOfT1OJZRffDeyMJj0UAEk05+8ZzHqafCM+OItQCZ9d3iMXCkAUYFihIIe1tUn4dXAHw+1mmyRzCBfnNDze2uk77R0os1dKz+RfJ53iCe151C07v2du5d9lRGq5EyiI1RT/lWFCd8k51/3I+7PmrwzmjIcO11FOJvnHbSpfKvb+KK4fxuGtJiR75p9Sh13a16k6N+cD1OOHpBepdMc8s0dAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lqvpOZgVuqAiTswabysgNNArqeLq+Bv8x8Yr9bv0T3g=;
+ b=OlExJ7KYM+3f7yciZo9liZWcdCVa/7glPnAEL+bGMDWDizwUuCIB0DAYJ4eyR4mOdSL/WCDzJ4/OOfZFLbxrt5u3HFnkKagAcaZhPJ9ZcM38EYK1EsN3ir6AbfkfUA+pNNMAilVHtl1hq994yrXgLQZ6vJA5Z5iE6WKg1PoR9EKtN0g9KPuWs7bgNligWS4BMh+hz9z/yk3QeCrzi7g8ZnurysRjUXeGAKUcaKhj/39sPQPKJQq/+AnMelziaGge3n2whzAeJwxLhrD/KNsH6Ji1MQHjcW1VyXQrs5QsawJk6Bkq2/xG6jBWDSnJ2cYNl2KeBjRNPnVMvrhx6o/h0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lqvpOZgVuqAiTswabysgNNArqeLq+Bv8x8Yr9bv0T3g=;
+ b=ZK4XaJ6zbQ2+HOTZXCdURJY1WHi4PlNoQb+GwEe+D4Vyeb5MAsw9bb3wYfbdz8OhGH997n6J7vww7FbMQ1tGTygyosf82SUVxneWnwGdAGI/zmA2PakAsTPczP76j87/M7T9i8bD0NYpqZdO2lEojVwGpYzirQPdIKjl9ZxtH00=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
+ by AS8PR08MB6295.eurprd08.prod.outlook.com (2603:10a6:20b:295::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.36; Tue, 17 Oct
+ 2023 11:00:14 +0000
+Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
+ ([fe80::bc92:216b:11ed:db63]) by VE1PR08MB4974.eurprd08.prod.outlook.com
+ ([fe80::bc92:216b:11ed:db63%6]) with mapi id 15.20.6886.034; Tue, 17 Oct 2023
+ 11:00:13 +0000
+From:   Javier Carrasco <javier.carrasco@wolfvision.net>
+Subject: [PATCH v5 0/4] Input: support overlay objects on touchscreens
+Date:   Tue, 17 Oct 2023 13:00:06 +0200
+Message-Id: <20230510-feature-ts_virtobj_patch-v5-0-ff6b5c4db693@wolfvision.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADZpLmUC/43PzY4CIQwH8FcxnBcDDB9mT76HMaZgu4MxMwYQd
+ 2Pm3Rfc43qY479Nf22fLGOKmNnn5skS1pjjPLVgPjYsjDB9IY/nlpkSahBGCk4I5Z6Ql3yqMZX
+ ZX043KGHkqKwzWgCg06yNe8jIfYIpjB2odqt5CrK3bgkpfr+2Ho4tjzGXOf28jqiyV1fsq5ILb
+ gAN7qQPyur9Y77S3wfbCQvrclVrNdU0sjuwntCBoLfasFYbmuY1eUdBe/DurabXarp/GmwQFCT
+ i2f7TlmX5Bf98YMrKAQAA
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Bastian Hecht <hechtb@gmail.com>,
+        Michael Riesch <michael.riesch@wolfvision.net>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Javier Carrasco <javier.carrasco@wolfvision.net>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1697540413; l=3347;
+ i=javier.carrasco@wolfvision.net; s=20230509; h=from:subject:message-id;
+ bh=9AhahKLvQy2iVxKfLpup2HNG8zrmddrtnSjz+rr2NvA=;
+ b=YFEoWxw7yC+jKqzzs4O8qoUMoZGkdCw7936nEyy4a+9rqZ51TQUjDONdYLozfHdfRCc6txNbV
+ eD7DQ9BgteCDw0nfusxxCox3vcC6uLjmTP2HsneUvBa9OrB8t6Xjnxt
+X-Developer-Key: i=javier.carrasco@wolfvision.net; a=ed25519;
+ pk=tIGJV7M+tCizagNijF0eGMBGcOsPD+0cWGfKjl4h6K8=
+X-ClientProxiedBy: VI1PR07CA0250.eurprd07.prod.outlook.com
+ (2603:10a6:803:b4::17) To VE1PR08MB4974.eurprd08.prod.outlook.com
+ (2603:10a6:803:111::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|AS8PR08MB6295:EE_
+X-MS-Office365-Filtering-Correlation-Id: 77f4ae82-a160-45b2-251a-08dbcf003d3f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QsI++GwjyAGvuXQfyOmT5vs60PRsqLBX7925lutAi2+n901BQn4rT/FeHjVkt6/OswwaR7LMadkHsrQ8qaKzuWZqcd+kV+L9dlQ9BLDW8OQQ5RQpzzWbmsnfNtGHsXlCormVZsycd/a/AurraCsZYAulk+e+w43Rpf2qSpaFAo2jq9l9jVNftxgmGr09orXi96qdZZKXAcq7OFzk0S4RTJH8hcznidummgN3JxKNvOrfEFFmHcBN+FC4TXxUwDD0m9V1qpWHqCbC2qCNrMlcLSlaRg5Q93n4hUrLJDAChpWvOkF07wFJVGgdI8Fak0fE+eBw4UUSNKrZBWYw6xNtFeg8tk2hw1yO39/yxWef3j3cAIczlVb6bLX1AoQgU2U7g83IdsK3LOXYIfRrCJQ5PE32OYqSwVyVQG+5IHOp5HSFIFKZBCIMBGoj+ssVL9jokgFy0jRpOf9oWlC9Z0BU5V+QG91GGtt/GCIKK4mKxewLNe5yPTdlyDMF3uuHARd9vIKZdWohs9R4e3yHiRKvA+YUrmPK9d6YFAp8zIpdLljFLWELJIIfyi72miyd/pDRfUd0iLD4baykSNxAdKib2kYTe/Gah6KmsbooiUQqVjs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4974.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(376002)(39840400004)(396003)(366004)(230922051799003)(451199024)(64100799003)(186009)(1800799009)(107886003)(478600001)(38100700002)(52116002)(6506007)(2616005)(6486002)(38350700005)(83380400001)(26005)(966005)(6512007)(6666004)(41300700001)(66899024)(44832011)(5660300002)(4326008)(8936002)(8676002)(316002)(66946007)(86362001)(110136005)(2906002)(66556008)(66476007)(6636002)(36756003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S0ZwMmRMY1VMZklqdktaczhzd3piMkd6U2p6cmRmQ3J2YWhrQUhkcFhDaEh1?=
+ =?utf-8?B?T0FyUGFRVU1yNm94QStlNzIvaHMwQy9JL3Bzb1huclFRVWZGUCtVK1J5MXo3?=
+ =?utf-8?B?TzdnVFEvU0pQNE1LeGI3eDhjUG5UT3drZ0hLUTExYWJDL3V3RHp4TnFYYVRw?=
+ =?utf-8?B?UkR2M2MyVzVyVHpJWE5Fb2ZRc0h2N3p2ek40dTBiMXdlNGpsb3BvN1ExQUlK?=
+ =?utf-8?B?L1gwZHlkMkZnV0tlajJkMDkwVzNjQ2VrSUtNK0FoakgzSVdVaG5Bdk1BQmN5?=
+ =?utf-8?B?K2NDck45NDRkZC95WHBtNEJoMERQbGxNMkV6MUZaY0ZNM0VDbCtPTFZzeHIv?=
+ =?utf-8?B?aGhDZkhOMTlYL0pMTkhOb3psM1ZLeGNzV3hrRDJqOVpHVHdoY1Q5TTB1Si9y?=
+ =?utf-8?B?Tlh4M1AzaStkT2FSSUxqRDlHdmNibWRTM0tmeFlBd3gzdkkzSmo5WkJIWk1W?=
+ =?utf-8?B?YzYxV25YQkRHZUZQYjI2SWovOERqTVplcmRBTlpVdVJsUzlQWnlxV3dLL3Bt?=
+ =?utf-8?B?SWx5UmFhaUNTQTMzbFl5ZDIvZ1dLb0tyRW5IZ1J2SjRpRExUc1A4bDRHbDFa?=
+ =?utf-8?B?dUt4dzVBQzdxSkhRQ2xCN3ZrcDlrejUwRDBqMjlLSkp2QzA5MStsNXdiRE9F?=
+ =?utf-8?B?aDgwa2w5UjBSbEpVb0F2MDExYVRkdkh6dko4MWdLME1wNDIxTmpyMEpEWkhK?=
+ =?utf-8?B?Vkh3UCtCTER0VllsdjJtZVBGNHBKY2hEWnhENkdhdHk0dFg4TU02QlUvV3ZB?=
+ =?utf-8?B?c0FYZ08xS3k4enpuejJiLzVzQ015QzdoMFFWZENvL2Jrb2s2VTRrUElJSG5X?=
+ =?utf-8?B?VnVUZXZpRjg1K09XVG43TG0vcW1aU0dkSDF6UTkzQlZWczAyZzJNUk1nWjM0?=
+ =?utf-8?B?T3VsWjVuMEJIYWI0RUNiY0xRSldqbGxKMzFiTW9MNDV5M3JhYVVJVUJVUmYw?=
+ =?utf-8?B?NDFxUURJT244RmpxQ21ySFRuTE82ajYxWGFtS0lPZjAyd1huZGdETXRFU1Z3?=
+ =?utf-8?B?WlhCdWQ4Z253S3dxMG55SlRRd2J1MkhtelVYRGpXeHJCVm5pazJwVlB6R0ta?=
+ =?utf-8?B?bWxMNWQ1Ni83RHFuVnBzRnZpUDAvbFRrcVFNZmFaMHZmcXNpbXFlSnI4Qk9M?=
+ =?utf-8?B?eDI0VmpBWDRPL3dHdmR3ckloNHpXUnYxUk01azBIYW85ZFhGRXdLOXhpVlVP?=
+ =?utf-8?B?NC9sUlRyenVXWkpvVkcxMXhtSnNjUURpWWVPYks0aFZhWjgwc1JhaGErS0Vw?=
+ =?utf-8?B?a2lVUzlVbnF5Qm9Yd2wrZHVYWDRiQWlYQk83OWVkRnQ0SGw1UVRNYVJUNzlW?=
+ =?utf-8?B?RXU2SEFZL0srSWF4aWZkR1d5ZDVvY0xnMHV4VmwxeXRjdUlMMHdaT3ZoTFhz?=
+ =?utf-8?B?cXN2WWhlZEdKY0VnamM1L1RVUWVUUjRuWWVRLzRWb1ZkZVJaSmtrYlRTYldn?=
+ =?utf-8?B?TXZ4QzNlOFFraDdEaTlkcWpWdGJqMlBHQkRIVmxjVnZMdU1UaXBiMCs4UlpM?=
+ =?utf-8?B?eGhSYVFuK3JZRHhUK0VxN2Y0cXVPNnF5UW9hZnlNZStOK29SVDNLSXZYSG50?=
+ =?utf-8?B?dkRFRDVONmlMUHA3bjc0ek9YR3J1VzdleXBkSFpTWlYyWVkwVTBJMDRaL0to?=
+ =?utf-8?B?MVc1MHUzMU5zcWltZ3R3QkhycVNEc1Ira1prdXlFRVNRR21BaHN3NDJZSTBO?=
+ =?utf-8?B?cWsxcExRa2FPQkNBSURPZG9va2hhQUtlWUtzVWRTVHlUd2ZxRUFmaVFPd2I4?=
+ =?utf-8?B?Wlc3N005M0JwdGpURVJCejVOaXJVWFl6TFl3VHBCTGVVYkpvd3gwSGY1Y1d6?=
+ =?utf-8?B?Y1ZacTBoQUNSU3REampiRjdKdjIwN3VGemxqajRLNjZoSm9ydmE5dWxLSW45?=
+ =?utf-8?B?Y3pQNzNzU2NuRVllT3p4dVpwWlFqSElTQmI1eG9IZUtXZkFxQ0tMRStWM3V3?=
+ =?utf-8?B?aUJxVmJGTXNTam1CSW5abFNjL2JhMy96ZEhiRWZ0OG9NNmRFeVNwcVdzUjVu?=
+ =?utf-8?B?cXk4SFJtWW10TFIwc1VFeW9sU0c3OXUrWDcyR2EwWGtCLzBxL1NjSExMYk9s?=
+ =?utf-8?B?SGRqS1M3R1ZCSUZMSGlBQ3JZSldXUnNaSGh2eFhyQzh5QXFIRnNVejFLZjd3?=
+ =?utf-8?B?WnZpdXRaSXhQQlUyRDFqRVE4czl4dlBqMGJKWGNlcldEeTBwbTVEQWJkcWhY?=
+ =?utf-8?Q?C/5g771Z2/yaHIs+BzMwHtI=3D?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77f4ae82-a160-45b2-251a-08dbcf003d3f
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2023 11:00:13.9005
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yRzDN3vQFcSInh1FbWEWSb+45YcVlvkNfzwnlQuw8/WQZc6uIH6NCiwAs+JJTx+BNF2Mj5rKMnE8sfTV3Z+UDk0U2eSG1v6XDdjbILEyBK4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6295
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-------=_Part_734986_747581812.1697538855953
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Some touchscreens are shipped with a physical layer on top of them where
+a number of buttons and a resized touchscreen surface might be available.
 
-Dear Mr. Dmitry,
+In order to generate proper key events by overlay buttons and adjust the
+touch events to a clipped surface, these patches offer a documented,
+device-tree-based solution by means of helper functions.
+An implementation for a specific touchscreen driver is also included.
 
-Greetings=21
+The functions in ts-overlay provide a simple workflow to acquire
+physical objects from the device tree, map them into the device driver
+structures as overlay objects and generate events according to
+the object descriptions.
 
+This feature has been tested with a JT240MHQS-E3 display, which consists
+of an st1624 as the base touchscreen and an overlay with two buttons and
+a frame that clips its effective surface mounted on it.
 
+Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+---
+Changes in v5:
+- touchscreen bindings: move overlay common properties to a $def entry (Rob Herring)
+- st1232 bindings: move overlays to the existing example instead of
+  making a new one (Rob Herring) 
+- Link to v4: https://lore.kernel.org/r/20230510-feature-ts_virtobj_patch-v4-0-5c6c0fc1eed6@wolfvision.net
 
-This patch is related to optimization in input key event driver of Kernel m=
-odule.
+Changes in v4:
+- General: rename "touchscreen" to "touch" to include other consumers.
+- PATCH 1/4: move touch-overlay feature to input core.
+- PATCH 1/4, 3/4: set key caps and report key events without consumer's
+  intervention.
+- PATCH 2/4: add missing 'required' field with the required properties.
+- Link to v3: https://lore.kernel.org/r/20230510-feature-ts_virtobj_patch-v3-0-b4fb7fc4bab7@wolfvision.net
 
-Suggested change to avoid the many APIs call chain if there is no key press=
- event triggered.
+Changes in v3:
+- General: rename "virtobj" and "virtual" to "overlay"
+- PATCH 1/4: Make feature bool instead of tristate (selected by
+  supported touchscreens)
+- Link to v2: https://lore.kernel.org/r/20230510-feature-ts_virtobj_patch-v2-0-f68a6bfe7a0f@wolfvision.net
 
+Changes in v2:
+- PATCH 1/4: remove preprocessor directives (the module is selected by
+  the drivers that support the feature). Typo in the commit message.
+- PATCH 2/4: more detailed documentation. Images and examples were added.
+- PATCH 3/4: select ts-virtobj automatically.
+- Link to v1: https://lore.kernel.org/r/20230510-feature-ts_virtobj_patch-v1-0-5ae5e81bc264@wolfvision.net
 
+---
+Javier Carrasco (4):
+      Input: touch-overlay - Add touchscreen overlay object handling
+      dt-bindings: touchscreen: add overlay-touchscreen and overlay-buttons properties
+      Input: st1232 - add touch overlays handling
+      dt-bindings: input: touchscreen: st1232: add touch-overlay example
 
-There is a call back function gpio_keys_resume() called for every suspend/r=
-esume of the device.
+ .../input/touchscreen/sitronix,st1232.yaml         |  28 ++
+ .../bindings/input/touchscreen/touchscreen.yaml    | 143 ++++++++
+ MAINTAINERS                                        |   7 +
+ drivers/input/Makefile                             |   2 +-
+ drivers/input/touch-overlay.c                      | 399 +++++++++++++++++++++
+ drivers/input/touchscreen/st1232.c                 |  70 +++-
+ include/linux/input/touch-overlay.h                |  34 ++
+ 7 files changed, 668 insertions(+), 15 deletions(-)
+---
+base-commit: 213f891525c222e8ed145ce1ce7ae1f47921cb9c
+change-id: 20230510-feature-ts_virtobj_patch-e267540aae74
 
-And whenever this function is called, it is reading the status of the key.=
-=20
+Best regards,
+-- 
+Javier Carrasco <javier.carrasco@wolfvision.net>
 
-And gpio_keys_resume() API further calls the below chain of API irrespectiv=
-e of key press event.
-
-
-
-APIs call chain:
-
-static void gpio_keys_report_state(struct gpio_keys_drvdata *ddata)
-
-static void gpio_keys_gpio_report_event(struct gpio_button_data *bdata)
-
-gpiod_get_value_cansleep(bdata->gpiod);
-
-input_event(input, type, *bdata->code, state);
-
-input_sync(input);
-
-
-
-
-Suggested changes to avoid the above APIs call chain if there is no key pre=
-ss event triggered.
-
-It will save the device computational resources, power resources and optimi=
-ze the suspend/resume time=22
-
-
-Please help to review the attached patch and integrate in main line kernel =
-code.
-
-=C2=A0=0D=0A=0D=0A=0D=0A=0D=0AThanks=20and=20Regards,=0D=0AAbhishek=20Kumar=
-=20Singh=0D=0ASr.=20Chief=20Engineer,=20Samsung=20Electronics,=20Noida-India
-------=_Part_734986_747581812.1697538855953
-Content-Type: application/octet-stream
-Content-Disposition: attachment; filename="input_keys_optimized.zip"
-Content-Transfer-Encoding: base64
-
-UEsDBBQAAAAIAIZaMlflZigaUAMAACkHAAAaAAAAaW5wdXRfa2V5c19vcHRpbWl6ZWQucGF0Y2it
-VF1vIjcUfca/4j5VUJhPCBCyJEHbjRpVraKSPq1WyGN7wM1gz9oeWNrmv/faQ5ImTVdNVQTj8f04
-9/j6XK6M3kJ2elIyejpNh5SNxlSUxYTn5ZizshwVo2LMR+U0H06m8KNWsBQ1ZBNI01n4Qp6mGblC
-mBnML365vYqmF58vFsVG2o24m+fpD82WGlyXUq03yfJgndji9kbvhTffUONwSZY/X0c/ackv5uQJ
-hiZLR8sS/R/UWiohTLKkW9uo9fx9Pl+kHyrBnNFKMot57yhWzWLrC13aNi5mentOvqNOzDz7AWTT
-cII8zYeQZbNsMjsZQT89GaZk2RS/It4MPt4sbt9//wluN8IIkBYoMFpVUFB2B2WjmJPYiHUt9epO
-HOzKCNtsRbcXogSHUhsidsIcwDa2FoonbQToEtxGABc7yUQMVHHYb4TysejAQo/gLdIApMP6xAjK
-8VQh2TrqGvsAhfVjWCDOK2wWN9cIaDDMBDzrM0ghKr0HtqFSeRAfJA3m1Hh0uQscEQZqNFlAZsrF
-hGCUbXsQEmfEs5AMdnhjz0rX2riVd4qudaZh7i9ebnacOgrfcr/0/gEjvB2BQvlnQEXjnFarFqdo
-cbyDr9bCrXa0asSKUWUrIepu8Efnwd87I1LVzQNmeB+AO9RicASKzpnmuAvsH8PtQbE2Gk0okfVa
-oIK574PCV3AaaDiBvw1aaOzgi2aBDFfVKknpl90FZySCGsFjcu1gLzHPUoR5UgqgiJEA9cqgFWCu
-bgwTdgC1n6InQ1CUrp3cyt9agBcCRI8gURQRqKRqvkTjeBRnWcIN3ryxSThnggQLTQ1PHi8lZvAH
-TKEfPj47g1JW4tgElOkYpLLCeIK22+8NIEfqlWj3UY8QLssSomiNeqbJW2sXb83Au+PiC2RDOi3o
-SRwzno3TUwFZmo5HI9+At7MgePT/wOTyEqLxdDLA7vklywEt/8f0AIEO/tFAV8Ic0jOQ8A54q+O6
-XVQ7LBZ9/X4PfseEztdnCZG+OWL450f56YxEnQ4K+PkseWPnayPbTuYZ6b+SjETQ3PnbAVs6yKRd
-53DMavcBC8G67TY6D7P+APZvyXTu/fMeO+F/r0w43KM6gOTxKIvTeI860nsbZ4T8CVBLAQIUABQA
-AAAIAIZaMlflZigaUAMAACkHAAAaAAAAAAAAAAEAIAAAAAAAAABpbnB1dF9rZXlzX29wdGltaXpl
-ZC5wYXRjaFBLBQYAAAAAAQABAEgAAACIAwAAAAA=
-
-------=_Part_734986_747581812.1697538855953--
