@@ -2,72 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AF6D7CC966
-	for <lists+linux-input@lfdr.de>; Tue, 17 Oct 2023 19:03:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 495EB7CC97C
+	for <lists+linux-input@lfdr.de>; Tue, 17 Oct 2023 19:08:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233940AbjJQRDa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Oct 2023 13:03:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48482 "EHLO
+        id S234913AbjJQRIJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Oct 2023 13:08:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232134AbjJQRD3 (ORCPT
+        with ESMTP id S233493AbjJQRII (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Oct 2023 13:03:29 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CF02AB
-        for <linux-input@vger.kernel.org>; Tue, 17 Oct 2023 10:03:27 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-9c53e8b7cf4so264431566b.1
-        for <linux-input@vger.kernel.org>; Tue, 17 Oct 2023 10:03:27 -0700 (PDT)
+        Tue, 17 Oct 2023 13:08:08 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2AFBAB
+        for <linux-input@vger.kernel.org>; Tue, 17 Oct 2023 10:08:05 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-405497850dbso56868255e9.0
+        for <linux-input@vger.kernel.org>; Tue, 17 Oct 2023 10:08:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697562206; x=1698167006; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1697562484; x=1698167284; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Kgy0xobdqAbjZ7PDnTLH7bL6TueBeeQA6u4OOu5zZug=;
-        b=QZUZ8le1HaPKrEVCJD/xnsVnaJmjFiryEPp4lHp97eNJAo2mWBQIqH0CYE3qyrkGe5
-         Rv7itiL5Nfz4fE8+TkTtWmsVwKfBv6dafygy9CLiYTx8852dJKo+IIoog1oL1BhLCtj+
-         5vh5IGWMOqmSHPxd0BmhUxRg+SIPdkuM61mK8yRL1XvVGo3kwyS808H1CSTcJkA3Wi34
-         oPBBmSyFWNFvcvj9+BPtviEAbhmzGF/lfBeOGYDWp615JdRFTNP9/DhAGt5I9dXVJPFx
-         gBDo2ortd/WBzusHGiwTDh/t/Q9DZL0zTCvAthLHiVRKgIatRCBgm8JEgUXWejLA94Fk
-         aK4w==
+        bh=wxLf5XyHvT0i+YFj0zy66WfQ0UBHwKFSI6ot74gg5Uw=;
+        b=nOBOIvvs3AuunwazWTHWogu+aFJa5P/nhqLTCMmMLi3J1QIKvLnBRHQPVl2AhJUITH
+         +QmRM4MNPmZjuCcDPrVl/yKLP4qAPiCes8vzIV1ez3obL+54zlnqLHPdzdQEL0PgYC6s
+         8tIEnAfMzrkEeWQSWgR6IHrl4kEjEQoMDq/vg6/byfCrq1MgVX7SL80I1Nl1cKqaAcmG
+         3iMHTHWfpoWZvKPXFRdr1lunF78g2l3zXtC56yFvc43Xm1Qrdx+X/+i+ogWQ0zVCfuly
+         FzRM5KLBRtwveifDitOojTPSaYtRvzbBT7j/kAClMHRBHDTWO9tdLd5VuJw2rHdjFDEt
+         HePg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697562206; x=1698167006;
+        d=1e100.net; s=20230601; t=1697562484; x=1698167284;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kgy0xobdqAbjZ7PDnTLH7bL6TueBeeQA6u4OOu5zZug=;
-        b=pAszkTYx8CprQk9ZWgG5tLO6VkUMp+RB76Q5Hd/3KlOQaHtrygt239YFixITD7NkIS
-         R9k+7bKFvMPB98OW2SRkRaddvGIpvzGnxu51/5AnEzOXAsQZGVwY1Eq075fhhF5sEhz6
-         8WsWhVry7nEtNRRhMkoeToJz8tZ8VemMPMn0JKCu8Ga8EIT2z14YHrbGacP8ceWuyFok
-         Xe+5Fd8wavFr662tFrjL7zSu4uKqpXvN58b00gWHONmoh3P4e1n0dJq6ptYx2SnvPTB2
-         DKiUTNuRQ/JikL6j1NIPTKuJzvnVCLKCO0OTJwEJhgcpD0hUjlHI/a2ViKsYTa5Wi53R
-         Eyyw==
-X-Gm-Message-State: AOJu0YyZe7Q90jYNS2aEu/8QTMmeg17zICryZEO9kNkzx/64PJ9uV2/f
-        tB/wR6FoAwKrtW22ykMlRPUG0w==
-X-Google-Smtp-Source: AGHT+IGTk9EVS6aqAErr7g6dhZbskEbYeowGHCgWBXaQ/vOTHbiUHAdtYMNHfeuzg9MS/rEUt1MEyQ==
-X-Received: by 2002:a17:906:7949:b0:9bf:39f3:f11d with SMTP id l9-20020a170906794900b009bf39f3f11dmr1824319ejo.30.1697562205938;
-        Tue, 17 Oct 2023 10:03:25 -0700 (PDT)
+        bh=wxLf5XyHvT0i+YFj0zy66WfQ0UBHwKFSI6ot74gg5Uw=;
+        b=fR/5jXZFGWOqSL7tD3ol2WFHXO4pKCioJeCmL2d25L+TmG4BRvMJA1gbd3qbJLC63g
+         zE0HZ32ZdWSBVEERqKpHk3eTX6jLY6XXGCFv4OAeUPMSbG+0UW9x4z4bUqVn77wuo1JE
+         2tiuUHFBkg226aF8a0O+I/RQQxaBDY2h3nN5K6HFAPBQ9W3Aaesxl/BIxQGYAjBxPChU
+         yau+m4NdUbDGlEPGVz+zkQe8bVinFHW6XhGRPQOyhZ2ZyALAnINqGC4moCg9XrofhQUu
+         jIbiCiri3+PP6n2U7lFPi3HTdPz025VGBYlK00BDDAteAqpXn9anMJO2OFIEY/QDKpQB
+         NFyg==
+X-Gm-Message-State: AOJu0YyIxIp6OOtxbW+MlUXqAY9xChpxpM8jr0dRQqKLh/2d0x96FSO/
+        p3Xv+iDJHrMCR42c/yhIclTn9A==
+X-Google-Smtp-Source: AGHT+IF+hwCCbhh2L5YcrtEDqHkl+JVInGYryubVQ89hKW56ue5tiPvEwAn+64VUbSlvYZrJRbDUOQ==
+X-Received: by 2002:a05:600c:2e16:b0:407:5b54:bb15 with SMTP id o22-20020a05600c2e1600b004075b54bb15mr2072759wmf.36.1697562484162;
+        Tue, 17 Oct 2023 10:08:04 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.154])
-        by smtp.gmail.com with ESMTPSA id k8-20020a170906054800b0099315454e76sm125677eja.211.2023.10.17.10.03.23
+        by smtp.gmail.com with ESMTPSA id v20-20020a05600c429400b00402d34ea099sm10213001wmc.29.2023.10.17.10.08.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Oct 2023 10:03:25 -0700 (PDT)
-Message-ID: <9da94b23-cfcb-4086-a080-7e6e59866d25@linaro.org>
-Date:   Tue, 17 Oct 2023 19:03:22 +0200
+        Tue, 17 Oct 2023 10:08:03 -0700 (PDT)
+Message-ID: <6c7d9c92-7616-4fad-806e-44302c33b63c@linaro.org>
+Date:   Tue, 17 Oct 2023 19:08:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] HID: touchscreen: Add initial support for Himax
- HID-over-SPI
+Subject: Re: [PATCH v3 0/4] HID: touchscreen: add himax hid-over-spi driver
 Content-Language: en-US
 To:     Tylor Yang <tylor_yang@himax.corp-partner.google.com>,
-        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     poyuan_chang@himax.corp-partner.google.com,
-        jingyliang@chromium.org, hbarnor@chromium.org, wuxy23@lenovo.com,
-        luolm1@lenovo.com, poyu_hung@himax.corp-partner.google.com
+        Doug Anderson <dianders@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>, jingyliang@chromium.org,
+        poyuan_chang@himax.corp-partner.google.com, hbarnor@chromium.org
+Cc:     jikos@kernel.org, wuxy23@lenovo.com, conor+dt@kernel.org,
+        luolm1@lenovo.com, robh+dt@kernel.org, dmitry.torokhov@gmail.com,
+        devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        poyu_hung@himax.corp-partner.google.com,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        benjamin.tissoires@redhat.com
 References: <20231017091900.801989-1-tylor_yang@himax.corp-partner.google.com>
- <20231017091900.801989-5-tylor_yang@himax.corp-partner.google.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -113,7 +112,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231017091900.801989-5-tylor_yang@himax.corp-partner.google.com>
+In-Reply-To: <20231017091900.801989-1-tylor_yang@himax.corp-partner.google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -126,32 +125,27 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 17/10/2023 11:19, Tylor Yang wrote:
+On 17/10/2023 11:18, Tylor Yang wrote:
+> Hello,
+> 
+> This patch series adds the driver for Himax HID-over-SPI touchscreen ICs.
+> This driver takes a position in [1], it intends to take advantage of SPI
+> transfer speed and HID interface.
+> 
 
-...
+Dear Google/Chromium folks,
 
-> +
-> +#if defined(CONFIG_FB)
-> +int fb_notifier_callback(struct notifier_block *self,
-> +			 unsigned long event, void *data)
-> +{
-> +	const struct fb_event *evdata = data;
-> +	int *blank;
-> +	struct himax_ts_data *ts =
-> +	    container_of(self, struct himax_ts_data, fb_notif);
-> +
-> +	I("entered");
-> +
-> +	if (!ts) {
-> +		E("ts is NULL");
-> +		return -ECANCELED;
-> +	}
+As a multi-billion company I am sure you can spare some small amount of
+time/effort/money for internal review before using community for this
+purpose. I mean reviewing trivial issues, like coding style, or just
+running checkpatch. You know, the obvious things.
 
-There are so many wrong things with this.... First, tell me, how
-container of valid pointer can be NULL?
+There is no need to use expensive time of community reviewers to review
+very simple mistakes, the ones which we fixed in Linux kernel years ago
+(also with automated tools). You can and you should do it, before
+submitting drivers for community review.
 
-Second, this is not Linux coding style.
-
+Thanks in advance.
 
 Best regards,
 Krzysztof
