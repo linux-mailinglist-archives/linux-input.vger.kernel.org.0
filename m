@@ -2,59 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 860517CC958
-	for <lists+linux-input@lfdr.de>; Tue, 17 Oct 2023 19:01:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AF6D7CC966
+	for <lists+linux-input@lfdr.de>; Tue, 17 Oct 2023 19:03:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232134AbjJQRBa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Oct 2023 13:01:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56540 "EHLO
+        id S233940AbjJQRDa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Oct 2023 13:03:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233940AbjJQRB3 (ORCPT
+        with ESMTP id S232134AbjJQRD3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Oct 2023 13:01:29 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA6E6ED
-        for <linux-input@vger.kernel.org>; Tue, 17 Oct 2023 10:01:26 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-53e2dc8fa02so8679207a12.2
-        for <linux-input@vger.kernel.org>; Tue, 17 Oct 2023 10:01:26 -0700 (PDT)
+        Tue, 17 Oct 2023 13:03:29 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CF02AB
+        for <linux-input@vger.kernel.org>; Tue, 17 Oct 2023 10:03:27 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-9c53e8b7cf4so264431566b.1
+        for <linux-input@vger.kernel.org>; Tue, 17 Oct 2023 10:03:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697562085; x=1698166885; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1697562206; x=1698167006; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=8dCbFI8/hJKUj+ad2n9M8RPpYFsoFt09ySpeSzWAUjg=;
-        b=vgEag2u+VomgOjH9f1YSAWkbK4eFTBWIljpfhioKLhd6rLT+vLVDTZCu6B8tc32+Jt
-         wsfJKE0bw//uwSwrRfpetWio2GFPBT9VSKPM2UrLoNVRVbvM3DkVd8RuwMRaGBhTMVRd
-         rBwtgk4N03WonU8FClGbF4ADUdju7enqvaDGtOiLFUGhhmkwQ1f3FSxxmwKMGfzkE9OD
-         xHl96eSoLks5TECDZHKmPu5ERBZ9E6pfJjrfZj8z7ekVzwCHGwmpTFhQ9DEOVjJzB6zC
-         7dm99kwG55Kj8pruzTTgb4K/fnTPP8ofOV4jNLCHciLq83yM+flFW5JkOFrS6vMJBocS
-         fOUw==
+        bh=Kgy0xobdqAbjZ7PDnTLH7bL6TueBeeQA6u4OOu5zZug=;
+        b=QZUZ8le1HaPKrEVCJD/xnsVnaJmjFiryEPp4lHp97eNJAo2mWBQIqH0CYE3qyrkGe5
+         Rv7itiL5Nfz4fE8+TkTtWmsVwKfBv6dafygy9CLiYTx8852dJKo+IIoog1oL1BhLCtj+
+         5vh5IGWMOqmSHPxd0BmhUxRg+SIPdkuM61mK8yRL1XvVGo3kwyS808H1CSTcJkA3Wi34
+         oPBBmSyFWNFvcvj9+BPtviEAbhmzGF/lfBeOGYDWp615JdRFTNP9/DhAGt5I9dXVJPFx
+         gBDo2ortd/WBzusHGiwTDh/t/Q9DZL0zTCvAthLHiVRKgIatRCBgm8JEgUXWejLA94Fk
+         aK4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697562085; x=1698166885;
+        d=1e100.net; s=20230601; t=1697562206; x=1698167006;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8dCbFI8/hJKUj+ad2n9M8RPpYFsoFt09ySpeSzWAUjg=;
-        b=hglYzdoTJD1oM8DxbtoxcIRGPZkTXZzXdjn2gqoY122RoO4QUQZxheA595Gomb0oSy
-         QvDd5uRExQbEkjYWPI01uOJc3ox7Ff+FcxYwYZ39n592wGszU9z07R/GVwdeVi4L2o7e
-         ro9RMRxo6dytyENtx1u357cITIdQLpKrcSGatkwwyQXu4HFIRIRQz9svoqBpd1A4KhAq
-         fZDxt5RCdnX2HRdP9AukFQzjajTAVZkBLiMOVwq9ga+ajz3N7gAek0QdWQjhdeYEs2WN
-         hiQU3aGrQOgtuuHD35D3FszdQmF6myg/jnEanwMgsE9MGpFK324cLq739cYpSHlV2HK1
-         dDNw==
-X-Gm-Message-State: AOJu0Yzr6CXLaYogzIGXd2fGQueRMOCy1BgeUrZ0JPu6e/OZXaxIeb86
-        trC+OkPDXhHbwcZPNloYMrU8/g==
-X-Google-Smtp-Source: AGHT+IEuVqprcZXsUObhszNBpu2NWjMMxUwaYaLozqOLmhg8gXaL7IZfxXuMhDsuSDXCdO8QPV9ACA==
-X-Received: by 2002:a17:907:268c:b0:9ba:65e:750e with SMTP id bn12-20020a170907268c00b009ba065e750emr1968560ejc.32.1697562085211;
-        Tue, 17 Oct 2023 10:01:25 -0700 (PDT)
+        bh=Kgy0xobdqAbjZ7PDnTLH7bL6TueBeeQA6u4OOu5zZug=;
+        b=pAszkTYx8CprQk9ZWgG5tLO6VkUMp+RB76Q5Hd/3KlOQaHtrygt239YFixITD7NkIS
+         R9k+7bKFvMPB98OW2SRkRaddvGIpvzGnxu51/5AnEzOXAsQZGVwY1Eq075fhhF5sEhz6
+         8WsWhVry7nEtNRRhMkoeToJz8tZ8VemMPMn0JKCu8Ga8EIT2z14YHrbGacP8ceWuyFok
+         Xe+5Fd8wavFr662tFrjL7zSu4uKqpXvN58b00gWHONmoh3P4e1n0dJq6ptYx2SnvPTB2
+         DKiUTNuRQ/JikL6j1NIPTKuJzvnVCLKCO0OTJwEJhgcpD0hUjlHI/a2ViKsYTa5Wi53R
+         Eyyw==
+X-Gm-Message-State: AOJu0YyZe7Q90jYNS2aEu/8QTMmeg17zICryZEO9kNkzx/64PJ9uV2/f
+        tB/wR6FoAwKrtW22ykMlRPUG0w==
+X-Google-Smtp-Source: AGHT+IGTk9EVS6aqAErr7g6dhZbskEbYeowGHCgWBXaQ/vOTHbiUHAdtYMNHfeuzg9MS/rEUt1MEyQ==
+X-Received: by 2002:a17:906:7949:b0:9bf:39f3:f11d with SMTP id l9-20020a170906794900b009bf39f3f11dmr1824319ejo.30.1697562205938;
+        Tue, 17 Oct 2023 10:03:25 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.154])
-        by smtp.gmail.com with ESMTPSA id f18-20020a17090624d200b009adc77fe165sm128227ejb.118.2023.10.17.10.01.23
+        by smtp.gmail.com with ESMTPSA id k8-20020a170906054800b0099315454e76sm125677eja.211.2023.10.17.10.03.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Oct 2023 10:01:24 -0700 (PDT)
-Message-ID: <dd47ff4f-bea8-4091-b572-5bef4aa187d3@linaro.org>
-Date:   Tue, 17 Oct 2023 19:01:22 +0200
+        Tue, 17 Oct 2023 10:03:25 -0700 (PDT)
+Message-ID: <9da94b23-cfcb-4086-a080-7e6e59866d25@linaro.org>
+Date:   Tue, 17 Oct 2023 19:03:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] HID: touchscreen: Add initial support for Himax
+Subject: Re: [PATCH v3 4/4] HID: touchscreen: Add initial support for Himax
  HID-over-SPI
 Content-Language: en-US
 To:     Tylor Yang <tylor_yang@himax.corp-partner.google.com>,
@@ -67,7 +67,7 @@ Cc:     poyuan_chang@himax.corp-partner.google.com,
         jingyliang@chromium.org, hbarnor@chromium.org, wuxy23@lenovo.com,
         luolm1@lenovo.com, poyu_hung@himax.corp-partner.google.com
 References: <20231017091900.801989-1-tylor_yang@himax.corp-partner.google.com>
- <20231017091900.801989-3-tylor_yang@himax.corp-partner.google.com>
+ <20231017091900.801989-5-tylor_yang@himax.corp-partner.google.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -113,7 +113,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231017091900.801989-3-tylor_yang@himax.corp-partner.google.com>
+In-Reply-To: <20231017091900.801989-5-tylor_yang@himax.corp-partner.google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -126,106 +126,32 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 17/10/2023 11:18, Tylor Yang wrote:
-> The hx83102j is a TDDI IC (Touch with Display Driver). The
-> IC using SPI to transferring HID packet to host CPU. The IC also
-> report HID report descriptor for driver to register HID device.
-> The driver is designed as a framework for future expansion and
-> hx83102j is the first case. Each hx_spi_hid_hx8xxxxx modules are
-> mutual exclusive, it should be initiate one at a time.
-> 
-> This driver takes a position similar to i2c-hid, it initialize
-> and control the touch IC below and register HID to upper hid-core.
-> When touch ic report an interrupt, it receive the data from IC
-> and report as HID input to hid-core. Let hid-core dispatch input
-> to registered hid-protocol and report to related input sub-system.
-> 
-> This driver also provide advanced functions by hidraw interface:
-> - runtime firmware update
-> - debug functions, such as reg r/w
-> - self test for touch panel
-> 
-> Due to patch size is too big, separate into 3 part. This is part 1.
-> 
-> Signed-off-by: Tylor Yang <tylor_yang@himax.corp-partner.google.com>
-> ---
->  MAINTAINERS                       |    1 +
->  drivers/hid/hx-hid/hx_acpi.c      |   81 ++
->  drivers/hid/hx-hid/hx_core.c      | 1605 +++++++++++++++++++++++++++++
->  drivers/hid/hx-hid/hx_core.h      |  489 +++++++++
->  drivers/hid/hx-hid/hx_hid.c       |  753 ++++++++++++++
->  drivers/hid/hx-hid/hx_hid.h       |   96 ++
->  drivers/hid/hx-hid/hx_ic_83102j.c |  340 ++++++
->  drivers/hid/hx-hid/hx_ic_83102j.h |   42 +
->  8 files changed, 3407 insertions(+)
->  create mode 100644 drivers/hid/hx-hid/hx_acpi.c
->  create mode 100644 drivers/hid/hx-hid/hx_core.c
->  create mode 100644 drivers/hid/hx-hid/hx_core.h
->  create mode 100644 drivers/hid/hx-hid/hx_hid.c
->  create mode 100644 drivers/hid/hx-hid/hx_hid.h
->  create mode 100644 drivers/hid/hx-hid/hx_ic_83102j.c
->  create mode 100644 drivers/hid/hx-hid/hx_ic_83102j.h
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 883870ab316f..95ea8159eced 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -9345,6 +9345,7 @@ M:	Tylor Yang <tylor_yang@himax.corp-partner.google.com>
->  L:	linux-input@vger.kernel.org
->  S:	Supported
->  F:	Documentation/devicetree/bindings/input/himax,hid.yaml
-> +F:	drivers/hid/hx-hid/
->  
->  HIMAX HX83112B TOUCHSCREEN SUPPORT
->  M:	Job Noorman <job@noorman.info>
-> diff --git a/drivers/hid/hx-hid/hx_acpi.c b/drivers/hid/hx-hid/hx_acpi.c
-> new file mode 100644
-> index 000000000000..2dc7c611a61a
-> --- /dev/null
-> +++ b/drivers/hid/hx-hid/hx_acpi.c
-> @@ -0,0 +1,81 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*  Himax Driver Code for Common IC to simulate HID
-> + *
-> + *  Copyright (C) 2023 Himax Corporation.
-> + *
-> + *  This software is licensed under the terms of the GNU General Public
-> + *  License version 2,  as published by the Free Software Foundation,  and
-> + *  may be copied,  distributed,  and modified under those terms.
-> + *
-> + *  This program is distributed in the hope that it will be useful,
-> + *   but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + *  GNU General Public License for more details.
+On 17/10/2023 11:19, Tylor Yang wrote:
 
-Drop boiler plate. It's gone since some years. Having it here suggests
-you just push downstream crappy code. Please don't. Start from scratch
-taking existing driver.
+...
 
-> + */
 > +
-> +#include "hx_core.h"
-> +
-> +int himax_parse_acpi(struct device *dev,
-> +		     struct himax_platform_data *pdata)
+> +#if defined(CONFIG_FB)
+> +int fb_notifier_callback(struct notifier_block *self,
+> +			 unsigned long event, void *data)
 > +{
-> +	int ret = 0;
-> +	struct gpio_desc *desc;
-> +	const u32 interrupt_pin_idx = 0;
-> +	// const u32 reset_pin_idx = 1;
-> +	const char *interrupt_pin_dsd_name = "irq"; // to name "irq-gpios"
-> +	const char *reset_pin_dsd_name = "reset"; // to name "reset-gpios"
-
-This style, dead code, comments is not a Linux coding style.
-
+> +	const struct fb_event *evdata = data;
+> +	int *blank;
+> +	struct himax_ts_data *ts =
+> +	    container_of(self, struct himax_ts_data, fb_notif);
 > +
-> +	D("Entered");
+> +	I("entered");
+> +
+> +	if (!ts) {
+> +		E("ts is NULL");
+> +		return -ECANCELED;
+> +	}
 
-OK, I'll finish review. A lot further looks even worse. This is not code
-suitable for inclusion in mainline. Please start from scratch from
-existing code and customize it per your needs. This way you will keep
-Linux coding style instead introducing some totally different coding
-style from downstream, terrible quality driver.
+There are so many wrong things with this.... First, tell me, how
+container of valid pointer can be NULL?
+
+Second, this is not Linux coding style.
+
 
 Best regards,
 Krzysztof
