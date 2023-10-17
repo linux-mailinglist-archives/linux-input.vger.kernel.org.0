@@ -2,97 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C9E177CC59F
-	for <lists+linux-input@lfdr.de>; Tue, 17 Oct 2023 16:11:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F41C07CC739
+	for <lists+linux-input@lfdr.de>; Tue, 17 Oct 2023 17:15:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233670AbjJQOLZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Oct 2023 10:11:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39286 "EHLO
+        id S235057AbjJQPPn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Oct 2023 11:15:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234973AbjJQOLY (ORCPT
+        with ESMTP id S235052AbjJQPPn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Oct 2023 10:11:24 -0400
-Received: from dsmtpq2-prd-nl1-vmo.edge.unified.services (dsmtpq2-prd-nl1-vmo.edge.unified.services [84.116.6.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74C45FC
-        for <linux-input@vger.kernel.org>; Tue, 17 Oct 2023 07:11:21 -0700 (PDT)
-Received: from csmtpq1-prd-nl1-vmo.edge.unified.services ([84.116.50.35])
-        by dsmtpq2-prd-nl1-vmo.edge.unified.services with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <gareth.randall@virgin.net>)
-        id 1qskmz-00G78h-Ql
-        for linux-input@vger.kernel.org; Tue, 17 Oct 2023 16:11:17 +0200
-Received: from csmtp3-prd-nl1-vmo.nl1.unified.services ([100.107.82.133] helo=csmtp3-prd-nl1-vmo.edge.unified.services)
-        by csmtpq1-prd-nl1-vmo.edge.unified.services with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <gareth.randall@virgin.net>)
-        id 1qskmv-00EpPK-L5
-        for linux-input@vger.kernel.org; Tue, 17 Oct 2023 16:11:13 +0200
-Received: from [192.168.0.10] ([94.175.123.86])
-        by csmtp3-prd-nl1-vmo.edge.unified.services with ESMTPA
-        id skmvqYH85xO9gskmvqdXTJ; Tue, 17 Oct 2023 16:11:13 +0200
-X-SourceIP: 94.175.123.86
-X-Authenticated-Sender: gareth.randall@virgin.net
-X-Spam: 0
-X-Authority: v=2.4 cv=L73bAcf8 c=1 sm=1 tr=0 ts=652e9601 cx=a_exe
- a=mwdPpgLduwvwBeoi1XfOCA==:117 a=mwdPpgLduwvwBeoi1XfOCA==:17
- a=IkcTkHD0fZMA:10 a=bhdUkHdE2iEA:10 a=sn4smrsDL-ITpKfMYTMA:9 a=QEXdDO2ut3YA:10
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virgin.net;
-        s=meg.feb2017; t=1697551873;
-        bh=lffuEQrbrY8v/weOXxyI+U5BXBfNioosONSsFzJbpK0=;
-        h=Date:Subject:From:To:Cc:References:In-Reply-To;
-        b=jkuET0mZp1MsYukdYspW8RDSVF5o0XrVMrNOYZxsStwpfjZ3o28UCWHl606S3WQru
-         L/N/0n7x9OLlNWnAIDQYXJh1A0bwNv1nzMsEVFzxnzRIWwhg4p3tJ2NduLa3+AwTx5
-         IKMg4JNXPBLk5IzFfUoO3bVPdgTVMEfDtzub4Fbt1+xTjVDadlU5nnE5KPqcscjDbA
-         zil7cBvsu3l/SUN4J9L5KzWoDurfWFjaTfiFr1McECjnqEH9JhubOhYANn/hRuHraF
-         bSkEnc9yB8X2+0dGxFZ3gk6v6qO8EWfNGKz8frUbDcQH1qxHZs1rU4WfrqtqrvyFLb
-         3Kjr+qn7HmCmg==
-Message-ID: <c7d1cb86-47ca-48af-95d0-d438593debf4@virgin.net>
-Date:   Tue, 17 Oct 2023 15:11:12 +0100
+        Tue, 17 Oct 2023 11:15:43 -0400
+Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0533CB0;
+        Tue, 17 Oct 2023 08:15:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bluemarch.art;
+        s=protonmail; t=1697555735; x=1697814935;
+        bh=++9pU1La/0B9FiBK0CkwIdzhIQraonwBLREebKGpRAg=;
+        h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+         Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+        b=gvxOeY1XwUMAs9i7bGuAlH66JEHL2qGdQ7chdlMiR5bHF50acZ0K2E6ztwRyv3yQO
+         JJk7JL8XOW8UHGeamXM896xnt6E1Oqs3wryhT/6tLSZc6l2DfLnqU1nbRNAT0Jq7Xs
+         y0wLb7O0SL9h/Sutb7+jqqBnHvULw0D31kYPaSzPVw/Z8zjEiMgGSjQCDbTbG0C2e3
+         wsmto76yMz+0b+wsOjWfpvYKQXKuYJQqchiUtEHwBmxXC+4DA3YOTPeB7PCW4Y8nKN
+         aRghUrDdv307FTbvr4n8qSdDF8jgm16BwXLZNrqIStnBEfHs/StU+ghuwbqUn8nibt
+         xmrHX8vFLzIhg==
+Date:   Tue, 17 Oct 2023 15:15:21 +0000
+To:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        dmitry.torokhov@gmail.com
+From:   Szilard Fabian <szfabian@bluemarch.art>
+Cc:     Szilard Fabian <szfabian@bluemarch.art>
+Subject: [PATCH] Input: i8042 - add Fujitsu Lifebook U728 to i8042 quirk table
+Message-ID: <20231017151114.99135-2-szfabian@bluemarch.art>
+Feedback-ID: 87830438:user:proton
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 1/1] Add support for touch screens using the
- General Touch ST6001S controller.
-Content-Language: en-GB
-From:   Gareth Randall <gareth.randall@virgin.net>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-References: <b7687459-1665-eb1c-b8ad-2bb37b7136ac@virgin.net>
- <YYi8FvXkV5i9baoN@google.com>
- <83a934eb-e1ee-fd79-33ee-76413be2e6ea@virgin.net>
-In-Reply-To: <83a934eb-e1ee-fd79-33ee-76413be2e6ea@virgin.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfF2xxR3BuuyBRpbKqtvCOGPzwrZhjM6qZs/00S+i1AHJJG/MhUHf3XNZhWJsBYQKmTKTXL6njiLzn3cylrWtne4QqCZzlEluCigyhc7PG2ch0fwtMrIh
- X1ZRp//lr9/rkNSXklDMN+E+rsP6oWb6pb1ysgqCGt5FKjEopbhRxFNaJDk36EePIYYlQ3yFSaWuc7UswLzaAk7BpTT60xJBwnATPXfCwmnWN8Q6ITRmFgH3
- wbH5UM8FgFA8HpOHUzqYZA==
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear Dmitry,
+Another Fujitsu-related patch.
 
-I've noticed that this update from a couple of weeks ago hasn't come up 
-in the Patchwork system, probably because the original post was too long 
-ago.
+In the initial boot stage the integrated keyboard of Fujitsu Lifebook U728
+refuses to work and it's not possible to type for example a dm-crypt
+passphrase without the help of an external keyboard.
 
-I'll happily resubmit this if you (or any other admins) would like me to.
+i8042.nomux kernel parameter resolves this issue but using that a PS/2
+mouse is detected. This input device is unused even when the i2c-hid-acpi
+kernel module is blacklisted making the integrated ELAN touchpad
+(04F3:3092) not working at all.
 
-Thanks.
+So this notebook uses a hid-over-i2c touchpad which is managed by the
+i2c_designware input driver. Since you can't find a PS/2 mouse port on this
+computer and you can't connect a PS/2 mouse to it even with an official
+port replicator I think it's safe to not use the PS/2 mouse port at all.
 
-Gareth
+Signed-off-by: Szilard Fabian <szfabian@bluemarch.art>
+---
+I think the same configuration could be applied to Lifebook U748 and U758
+too but I can't test this theory on these machines.
+---
+ drivers/input/serio/i8042-acpipnpio.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-On 03/10/2023 19:32, Gareth Randall wrote:
-> Hi Dmitry,
-> 
-> Thanks very much for the feedback. Apologies for the long delay in 
-> getting back to you on this. Updated patch is below, and apologies for 
-> the email layout. I've also added comments to your points in the quoted 
-> message.
-[snip]
+diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8=
+042-acpipnpio.h
+index 028e45bd050b..983f31014330 100644
+--- a/drivers/input/serio/i8042-acpipnpio.h
++++ b/drivers/input/serio/i8042-acpipnpio.h
+@@ -618,6 +618,14 @@ static const struct dmi_system_id i8042_dmi_quirk_tabl=
+e[] __initconst =3D {
+ =09=09},
+ =09=09.driver_data =3D (void *)(SERIO_QUIRK_NOMUX)
+ =09},
++=09{
++=09=09/* Fujitsu Lifebook U728 */
++=09=09.matches =3D {
++=09=09=09DMI_MATCH(DMI_SYS_VENDOR, "FUJITSU"),
++=09=09=09DMI_MATCH(DMI_PRODUCT_NAME, "LIFEBOOK U728"),
++=09=09},
++=09=09.driver_data =3D (void *)(SERIO_QUIRK_NOAUX)
++=09},
+ =09{
+ =09=09/* Gigabyte M912 */
+ =09=09.matches =3D {
+--=20
+2.42.0
+
 
