@@ -2,74 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B16F97CC94B
-	for <lists+linux-input@lfdr.de>; Tue, 17 Oct 2023 18:58:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 860517CC958
+	for <lists+linux-input@lfdr.de>; Tue, 17 Oct 2023 19:01:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232134AbjJQQ6w (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Oct 2023 12:58:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53172 "EHLO
+        id S232134AbjJQRBa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Oct 2023 13:01:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234953AbjJQQ6u (ORCPT
+        with ESMTP id S233940AbjJQRB3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Oct 2023 12:58:50 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8179F5
-        for <linux-input@vger.kernel.org>; Tue, 17 Oct 2023 09:58:47 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-99c3c8adb27so933976166b.1
-        for <linux-input@vger.kernel.org>; Tue, 17 Oct 2023 09:58:47 -0700 (PDT)
+        Tue, 17 Oct 2023 13:01:29 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA6E6ED
+        for <linux-input@vger.kernel.org>; Tue, 17 Oct 2023 10:01:26 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-53e2dc8fa02so8679207a12.2
+        for <linux-input@vger.kernel.org>; Tue, 17 Oct 2023 10:01:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697561926; x=1698166726; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1697562085; x=1698166885; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=sn8ReA+6EHyat1XVOf5lQ+OdxkKcUGO6UHfSeScub60=;
-        b=ZUMkAOEevg/vvpVW/qcy4KgOIhPK7ZxAe4o1rDC1sZQLOz1SqAoabFygqfWvkysGjO
-         GzkUdVwFSmrKwx3cW0NKDBfb08XHDQdM8uT9ZOOV/FHnKVkARmymCEjjm0nUw2PzYbIz
-         700jocec6QtfYrIP+XHQdVyTngVAzLFBWW9SgjM4wa5562XYRSXOcPVnd92lOJNHWBlR
-         v6KNpomk2ithoRbsJx8jq6Fy6wIt2oy2NgSYkRhvrRU7uGI/BII7kQlIa37BS1sVpoS0
-         f6q36LpYB9oE1GavtvIuLflQij+vw5V2vl/Ndt62GUmG8Xx6apBUe9c6CKx6ua6omy7a
-         oXow==
+        bh=8dCbFI8/hJKUj+ad2n9M8RPpYFsoFt09ySpeSzWAUjg=;
+        b=vgEag2u+VomgOjH9f1YSAWkbK4eFTBWIljpfhioKLhd6rLT+vLVDTZCu6B8tc32+Jt
+         wsfJKE0bw//uwSwrRfpetWio2GFPBT9VSKPM2UrLoNVRVbvM3DkVd8RuwMRaGBhTMVRd
+         rBwtgk4N03WonU8FClGbF4ADUdju7enqvaDGtOiLFUGhhmkwQ1f3FSxxmwKMGfzkE9OD
+         xHl96eSoLks5TECDZHKmPu5ERBZ9E6pfJjrfZj8z7ekVzwCHGwmpTFhQ9DEOVjJzB6zC
+         7dm99kwG55Kj8pruzTTgb4K/fnTPP8ofOV4jNLCHciLq83yM+flFW5JkOFrS6vMJBocS
+         fOUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697561926; x=1698166726;
+        d=1e100.net; s=20230601; t=1697562085; x=1698166885;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sn8ReA+6EHyat1XVOf5lQ+OdxkKcUGO6UHfSeScub60=;
-        b=Sxvv9a3BBuuyqusfxkm2FCycwgq1TQbXcNWm9l59efXI3yf0FCqfpWbGf+ATlEdRv2
-         g3Jpq1jf0Bj6w+pa13bixG3s37IwWcGdaOP88Ol7JizxCGD7tfqNUKaS1/XwVxsJ1N+n
-         vad/d9RF3hsFsnZN4CN1yMaBZ/oSF28r/DWK8f9yMXa0k24z3qHwJGlY1qVzxu775snn
-         jWTDtRZE4zJjGHfhe1anvc4G5+K85xahosb2Oxek2eUe9l69JyLzHTanFXxFqlPy8YPF
-         lpPZOdZiNy3f1FDQXRGVUKlxHPlk+iFucB8/9N5vhHsWdFl+gLpyhXWu0MfHtgTwiKdd
-         pyAg==
-X-Gm-Message-State: AOJu0Yzm58PlFMIz0BIRYYEbsPze+VcJ0zC8Z08N5dA7Tjre5QH1yGPx
-        R5zDOIyCj99yU5pJ/fQhGEXq4Q==
-X-Google-Smtp-Source: AGHT+IEepVdMHo1jVKr5jfgrzJr65rg1MXBAc6Xm0i6CLsKDavhXSJJkwRDcT95O874DhaQcJEB1Jw==
-X-Received: by 2002:a17:907:1c07:b0:9be:d55a:81ba with SMTP id nc7-20020a1709071c0700b009bed55a81bamr2268844ejc.65.1697561926185;
-        Tue, 17 Oct 2023 09:58:46 -0700 (PDT)
+        bh=8dCbFI8/hJKUj+ad2n9M8RPpYFsoFt09ySpeSzWAUjg=;
+        b=hglYzdoTJD1oM8DxbtoxcIRGPZkTXZzXdjn2gqoY122RoO4QUQZxheA595Gomb0oSy
+         QvDd5uRExQbEkjYWPI01uOJc3ox7Ff+FcxYwYZ39n592wGszU9z07R/GVwdeVi4L2o7e
+         ro9RMRxo6dytyENtx1u357cITIdQLpKrcSGatkwwyQXu4HFIRIRQz9svoqBpd1A4KhAq
+         fZDxt5RCdnX2HRdP9AukFQzjajTAVZkBLiMOVwq9ga+ajz3N7gAek0QdWQjhdeYEs2WN
+         hiQU3aGrQOgtuuHD35D3FszdQmF6myg/jnEanwMgsE9MGpFK324cLq739cYpSHlV2HK1
+         dDNw==
+X-Gm-Message-State: AOJu0Yzr6CXLaYogzIGXd2fGQueRMOCy1BgeUrZ0JPu6e/OZXaxIeb86
+        trC+OkPDXhHbwcZPNloYMrU8/g==
+X-Google-Smtp-Source: AGHT+IEuVqprcZXsUObhszNBpu2NWjMMxUwaYaLozqOLmhg8gXaL7IZfxXuMhDsuSDXCdO8QPV9ACA==
+X-Received: by 2002:a17:907:268c:b0:9ba:65e:750e with SMTP id bn12-20020a170907268c00b009ba065e750emr1968560ejc.32.1697562085211;
+        Tue, 17 Oct 2023 10:01:25 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.154])
-        by smtp.gmail.com with ESMTPSA id s2-20020a170906454200b009b977bea1dcsm139967ejq.23.2023.10.17.09.58.44
+        by smtp.gmail.com with ESMTPSA id f18-20020a17090624d200b009adc77fe165sm128227ejb.118.2023.10.17.10.01.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Oct 2023 09:58:45 -0700 (PDT)
-Message-ID: <9fd1c6cf-ae4d-499b-bd62-e74b580cd29c@linaro.org>
-Date:   Tue, 17 Oct 2023 18:58:43 +0200
+        Tue, 17 Oct 2023 10:01:24 -0700 (PDT)
+Message-ID: <dd47ff4f-bea8-4091-b572-5bef4aa187d3@linaro.org>
+Date:   Tue, 17 Oct 2023 19:01:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] dt-bindings: input: Introduce Himax HID-over-SPI
- device
+Subject: Re: [PATCH v3 2/4] HID: touchscreen: Add initial support for Himax
+ HID-over-SPI
 Content-Language: en-US
-To:     Conor Dooley <conor@kernel.org>,
-        Tylor Yang <tylor_yang@himax.corp-partner.google.com>
-Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+To:     Tylor Yang <tylor_yang@himax.corp-partner.google.com>,
+        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
         jikos@kernel.org, benjamin.tissoires@redhat.com,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        poyuan_chang@himax.corp-partner.google.com,
+        linux-kernel@vger.kernel.org
+Cc:     poyuan_chang@himax.corp-partner.google.com,
         jingyliang@chromium.org, hbarnor@chromium.org, wuxy23@lenovo.com,
         luolm1@lenovo.com, poyu_hung@himax.corp-partner.google.com
 References: <20231017091900.801989-1-tylor_yang@himax.corp-partner.google.com>
- <20231017091900.801989-2-tylor_yang@himax.corp-partner.google.com>
- <20231017-womb-lantern-186f16ce67af@spud>
+ <20231017091900.801989-3-tylor_yang@himax.corp-partner.google.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -115,116 +113,119 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231017-womb-lantern-186f16ce67af@spud>
+In-Reply-To: <20231017091900.801989-3-tylor_yang@himax.corp-partner.google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 17/10/2023 15:59, Conor Dooley wrote:
-> Yo,
+On 17/10/2023 11:18, Tylor Yang wrote:
+> The hx83102j is a TDDI IC (Touch with Display Driver). The
+> IC using SPI to transferring HID packet to host CPU. The IC also
+> report HID report descriptor for driver to register HID device.
+> The driver is designed as a framework for future expansion and
+> hx83102j is the first case. Each hx_spi_hid_hx8xxxxx modules are
+> mutual exclusive, it should be initiate one at a time.
 > 
-> On Tue, Oct 17, 2023 at 05:18:57PM +0800, Tylor Yang wrote:
->> The Himax HID-over-SPI framework support for Himax touchscreen ICs
->> that report HID packet through SPI bus. The driver core need reset
->>  pin to meet reset timing spec. of IC. An interrupt to disable
->> and enable interrupt when suspend/resume. Two optional power control
->>  if target board needed.
->>
->> Signed-off-by: Tylor Yang <tylor_yang@himax.corp-partner.google.com>
->> ---
->>  .../devicetree/bindings/input/himax,hid.yaml  | 123 ++++++++++++++++++
->>  MAINTAINERS                                   |   6 +
->>  2 files changed, 129 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/input/himax,hid.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/input/himax,hid.yaml b/Documentation/devicetree/bindings/input/himax,hid.yaml
->> new file mode 100644
->> index 000000000000..9ba86fe1b7da
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/input/himax,hid.yaml
->> @@ -0,0 +1,123 @@
->> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/input/himax,hid.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Himax TDDI devices using SPI to send HID packets
->> +
->> +maintainers:
->> +  - Tylor Yang <tylor_yang@himax.corp-partner.google.com>
->> +
->> +description: |
->> +  Support the Himax TDDI devices which using SPI interface to acquire
->> +  HID packets from the device. The device needs to be initialized using
->> +  Himax protocol before it start sending HID packets.
->> +
->> +properties:
->> +  compatible:
->> +    const: himax,hid
+> This driver takes a position similar to i2c-hid, it initialize
+> and control the touch IC below and register HID to upper hid-core.
+> When touch ic report an interrupt, it receive the data from IC
+> and report as HID input to hid-core. Let hid-core dispatch input
+> to registered hid-protocol and report to related input sub-system.
 > 
-> This compatible seems far too generic. Why are there not device specific
-> compatibles for each TDDI device?
-
-Which was pointed out by Rob in v2, so his feedback was ignored.
-
+> This driver also provide advanced functions by hidraw interface:
+> - runtime firmware update
+> - debug functions, such as reg r/w
+> - self test for touch panel
 > 
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  reset:
->> +    maxItems: 1
->> +    description: Reset device, active low signal.
-
-No, come one, read feedback from Rob.
-
->> +
->> +  vccd-supply:
->> +    description:
->> +      Optional regulator for the 1.8V voltage.
->> +
->> +  vcca-supply:
->> +    description:
->> +      Optional regulator for the analog 3.3V voltage.
->> +
->> +  himax,id-gpios:
->> +    maxItems: 8
->> +    description: GPIOs to read physical Panel ID. Optional.
->> +
->> +  spi-cpha: true
->> +  spi-cpol: true
+> Due to patch size is too big, separate into 3 part. This is part 1.
 > 
->> +  himax,ic-det-delay-ms:
->> +    description:
->> +      Due to TDDI properties, the TPIC detection timing must after the
->> +      display panel initialized. This property is used to specify the
->> +      delay time when TPIC detection and display panel initialization
->> +      timing are overlapped. How much milliseconds to delay before TPIC
->> +      detection start.
->> +
->> +  himax,ic-resume-delay-ms:
->> +    description:
->> +      Due to TDDI properties, the TPIC resume timing must after the
->> +      display panel resumed. This property is used to specify the
->> +      delay time when TPIC resume and display panel resume
->> +      timing are overlapped. How much milliseconds to delay before TPIC
->> +      resume start.
+> Signed-off-by: Tylor Yang <tylor_yang@himax.corp-partner.google.com>
+> ---
+>  MAINTAINERS                       |    1 +
+>  drivers/hid/hx-hid/hx_acpi.c      |   81 ++
+>  drivers/hid/hx-hid/hx_core.c      | 1605 +++++++++++++++++++++++++++++
+>  drivers/hid/hx-hid/hx_core.h      |  489 +++++++++
+>  drivers/hid/hx-hid/hx_hid.c       |  753 ++++++++++++++
+>  drivers/hid/hx-hid/hx_hid.h       |   96 ++
+>  drivers/hid/hx-hid/hx_ic_83102j.c |  340 ++++++
+>  drivers/hid/hx-hid/hx_ic_83102j.h |   42 +
+>  8 files changed, 3407 insertions(+)
+>  create mode 100644 drivers/hid/hx-hid/hx_acpi.c
+>  create mode 100644 drivers/hid/hx-hid/hx_core.c
+>  create mode 100644 drivers/hid/hx-hid/hx_core.h
+>  create mode 100644 drivers/hid/hx-hid/hx_hid.c
+>  create mode 100644 drivers/hid/hx-hid/hx_hid.h
+>  create mode 100644 drivers/hid/hx-hid/hx_ic_83102j.c
+>  create mode 100644 drivers/hid/hx-hid/hx_ic_83102j.h
 > 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 883870ab316f..95ea8159eced 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -9345,6 +9345,7 @@ M:	Tylor Yang <tylor_yang@himax.corp-partner.google.com>
+>  L:	linux-input@vger.kernel.org
+>  S:	Supported
+>  F:	Documentation/devicetree/bindings/input/himax,hid.yaml
+> +F:	drivers/hid/hx-hid/
+>  
+>  HIMAX HX83112B TOUCHSCREEN SUPPORT
+>  M:	Job Noorman <job@noorman.info>
+> diff --git a/drivers/hid/hx-hid/hx_acpi.c b/drivers/hid/hx-hid/hx_acpi.c
+> new file mode 100644
+> index 000000000000..2dc7c611a61a
+> --- /dev/null
+> +++ b/drivers/hid/hx-hid/hx_acpi.c
+> @@ -0,0 +1,81 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*  Himax Driver Code for Common IC to simulate HID
+> + *
+> + *  Copyright (C) 2023 Himax Corporation.
+> + *
+> + *  This software is licensed under the terms of the GNU General Public
+> + *  License version 2,  as published by the Free Software Foundation,  and
+> + *  may be copied,  distributed,  and modified under those terms.
+> + *
+> + *  This program is distributed in the hope that it will be useful,
+> + *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + *  GNU General Public License for more details.
 
-No improvements here...
+Drop boiler plate. It's gone since some years. Having it here suggests
+you just push downstream crappy code. Please don't. Start from scratch
+taking existing driver.
 
-You must implement all feedback from v2. Not pieces of it.
+> + */
+> +
+> +#include "hx_core.h"
+> +
+> +int himax_parse_acpi(struct device *dev,
+> +		     struct himax_platform_data *pdata)
+> +{
+> +	int ret = 0;
+> +	struct gpio_desc *desc;
+> +	const u32 interrupt_pin_idx = 0;
+> +	// const u32 reset_pin_idx = 1;
+> +	const char *interrupt_pin_dsd_name = "irq"; // to name "irq-gpios"
+> +	const char *reset_pin_dsd_name = "reset"; // to name "reset-gpios"
+
+This style, dead code, comments is not a Linux coding style.
+
+> +
+> +	D("Entered");
+
+OK, I'll finish review. A lot further looks even worse. This is not code
+suitable for inclusion in mainline. Please start from scratch from
+existing code and customize it per your needs. This way you will keep
+Linux coding style instead introducing some totally different coding
+style from downstream, terrible quality driver.
 
 Best regards,
 Krzysztof
