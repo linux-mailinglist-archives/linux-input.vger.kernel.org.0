@@ -2,52 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 800C67CB0F2
-	for <lists+linux-input@lfdr.de>; Mon, 16 Oct 2023 19:05:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0B8E7CB95E
+	for <lists+linux-input@lfdr.de>; Tue, 17 Oct 2023 05:45:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234563AbjJPRFY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 16 Oct 2023 13:05:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56754 "EHLO
+        id S230343AbjJQDpX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 16 Oct 2023 23:45:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229666AbjJPRFN (ORCPT
+        with ESMTP id S229666AbjJQDpW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 16 Oct 2023 13:05:13 -0400
-Received: from mail-ot1-f77.google.com (mail-ot1-f77.google.com [209.85.210.77])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 059841106
-        for <linux-input@vger.kernel.org>; Mon, 16 Oct 2023 10:01:19 -0700 (PDT)
-Received: by mail-ot1-f77.google.com with SMTP id 46e09a7af769-6c0f174540cso6780789a34.2
-        for <linux-input@vger.kernel.org>; Mon, 16 Oct 2023 10:01:18 -0700 (PDT)
+        Mon, 16 Oct 2023 23:45:22 -0400
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA3FF95;
+        Mon, 16 Oct 2023 20:45:20 -0700 (PDT)
+Received: by mail-qt1-x831.google.com with SMTP id d75a77b69052e-4194c3cf04aso36493621cf.3;
+        Mon, 16 Oct 2023 20:45:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697514319; x=1698119119; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fpenc3TC1wxTiSmB6vD1Cx4tRH9i7lUBaz0u5rLStfY=;
+        b=KXpZGRHF3QZK37bSiZxvsM1m4lMQlX8KKLE9A0IBlIXJCif5hk/gdHIXpZKN/KHSa/
+         uub/0wwO85/pvbSxLKpgqU4A5w3zCpZld/jR6MBLcnsrcp9HwS9X94bDTNxwo6x4q/oD
+         2jDKBvK9am0mKYe9+Om23l08IbAyxFXH5M2SVnJGHicyL1AqsXf2tk332ApPCY6eL8bi
+         BhFQigAVa0NGnBOzH70E8KKUplTEe5URes6bW1OyQYCYfJu0RqhcAOcur8FSt2BVkKeL
+         qkvbW0MukxTrL9X1orldf7YoMnsPf/Y+guIHamLjy/RTauzSAcqSeTrB9e3Go0l76Suh
+         2PBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697475678; x=1698080478;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AguIrS8FyQRIl/SV4QTd/CLsLIDTCPdYBXZP6uUmFLc=;
-        b=ibCQWkbnwme8t6DZLVMYoT62dAKFmOwsH9uJ193j4wY36P+7ylFhtogRwjT3D6V6bP
-         1hr7fnBkN0eCq38VLhkOA2hcFT7JvmQLyLevoNrTY+/DR2xReZEbtnYWcMy3C5PNQbeJ
-         URVjzIGkydx4c1aydeBi8XiTQPggczb1+KTBiCCJKF6rOQr4kPkImV0PC4cG51oEAhEP
-         HA0eYIK0tX4o56SK4Q1Gi0OvZmBlcx+P9healWdGiP4QllHwR2gMK0a0BReQqIl7P/mQ
-         U4W+uwcL24f2z+4gGCN4tpPBfQ48NETKXZUw8A+twKiU6BdUbFKBBwiUh9rhsFUwZHTh
-         iL2A==
-X-Gm-Message-State: AOJu0YzdJdIJm2n8vJ/b75iGJk/LvAi58ok6uTxg2YrAKozS7EF13lU7
-        Olj3o9IPv6ukmoO0gFXEQtNpbd/H8krhlJhfaw/FUfnuSn36
-X-Google-Smtp-Source: AGHT+IGtY86A9Xv6zUryal+okMN00ia8K4jA+UWmDt3j6OvjnXQxaUQe5Xhj/du7JH0L6SyaGtqS1qV2zcdm3pRW3gUQitIeOcEY
+        d=1e100.net; s=20230601; t=1697514319; x=1698119119;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fpenc3TC1wxTiSmB6vD1Cx4tRH9i7lUBaz0u5rLStfY=;
+        b=GWm5C8jQAZMDb9B1gkVwlKhL7nBZckKVaqH3SGcKntzfBucWQq3dI/Fgom/uN2IuZP
+         JO3ltTkKtp6Dxlu4kD+YwHJJSSjw7qllEIMrpRBC6zHayJF4In98xWC2xGJ/gPYks7FH
+         ffqYLu3kXOlFDcDpe2a5IkAYQpOJ6hNJyG+f3geMe0yZmNQp3EmEYRFoa5RWNdh4ACmF
+         FK2fjH9dWB4HMX9Y+HChM0i3OvIwScaTIDOQvY32QQ7+eC3jDyQei9P7fWp70hST4UNU
+         EJ5+S4tUONoOrevBJyjeWEZRDx2/iAdcpy4uVsMVe4MKvqXzFUcWDcEAcHYjUsk01Bxq
+         qwOw==
+X-Gm-Message-State: AOJu0YxTJRI7zUUNMTCiZFNBNlhvA58L3L7gRnRbS29QApcHGZK/JAt1
+        7mrOSvs/zQBvjMKuCVB+M18zWbA3qJhFQA==
+X-Google-Smtp-Source: AGHT+IGRVQZCVNJEkZXf9JzXVxV+zgsZwjKw5X1hyxT7Mx63UwrODkWivGNx/S67JTJ8V0W+53S9ow==
+X-Received: by 2002:a05:622a:1b8d:b0:417:914a:104d with SMTP id bp13-20020a05622a1b8d00b00417914a104dmr1544809qtb.49.1697514319434;
+        Mon, 16 Oct 2023 20:45:19 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:628c:a92e:5b03:91a2:57c8:16f3])
+        by smtp.gmail.com with ESMTPSA id y13-20020aa793cd000000b0069305627491sm313777pff.159.2023.10.16.20.45.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Oct 2023 20:45:19 -0700 (PDT)
+From:   Anshul Dalal <anshulusr@gmail.com>
+To:     linux-input@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Anshul Dalal <anshulusr@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v5 1/2] dt-bindings: input: bindings for Adafruit Seesaw Gamepad
+Date:   Tue, 17 Oct 2023 09:13:44 +0530
+Message-ID: <20231017034356.1436677-1-anshulusr@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-X-Received: by 2002:a9d:6656:0:b0:6bc:e2b0:7446 with SMTP id
- q22-20020a9d6656000000b006bce2b07446mr10041434otm.1.1697475678381; Mon, 16
- Oct 2023 10:01:18 -0700 (PDT)
-Date:   Mon, 16 Oct 2023 10:01:18 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000d330500607d85a5f@google.com>
-Subject: [syzbot] [usb?] UBSAN: array-index-out-of-bounds in usbhid_parse
-From:   syzbot <syzbot+c52569baf0c843f35495@syzkaller.appspotmail.com>
-To:     benjamin.tissoires@redhat.com, jikos@kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,103 +78,111 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+Adds bindings for the Adafruit Seesaw Gamepad.
 
-syzbot found the following issue on:
+The gamepad functions as an i2c device with the default address of 0x50
+and has an IRQ pin that can be enabled in the driver to allow for a rising
+edge trigger on each button press or joystick movement.
 
-HEAD commit:    ad7f1baed071 Merge tag 'acpi-6.6-rc6' of git://git.kernel...
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=1056d5c5680000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=32d0b9b42ceb8b10
-dashboard link: https://syzkaller.appspot.com/bug?extid=c52569baf0c843f35495
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1081f1e5680000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16c7bc4d680000
+Product page:
+  https://www.adafruit.com/product/5743
+Arduino driver:
+  https://github.com/adafruit/Adafruit_Seesaw
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/e3074ad3ff92/disk-ad7f1bae.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/94b298a1e285/vmlinux-ad7f1bae.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/1ad5cd9c2a48/bzImage-ad7f1bae.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c52569baf0c843f35495@syzkaller.appspotmail.com
-
-usb 1-1: string descriptor 0 read error: -22
-usb 1-1: New USB device found, idVendor=080e, idProduct=4eb9, bcdDevice=d7.f6
-usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-================================================================================
-UBSAN: array-index-out-of-bounds in drivers/hid/usbhid/hid-core.c:1024:18
-index 1 is out of range for type 'hid_class_descriptor [1]'
-CPU: 0 PID: 9 Comm: kworker/0:1 Not tainted 6.6.0-rc5-syzkaller-00227-gad7f1baed071 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/06/2023
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x125/0x1b0 lib/dump_stack.c:106
- ubsan_epilogue lib/ubsan.c:217 [inline]
- __ubsan_handle_out_of_bounds+0x111/0x150 lib/ubsan.c:348
- usbhid_parse+0x94a/0xa20 drivers/hid/usbhid/hid-core.c:1024
- hid_add_device+0x189/0xa60 drivers/hid/hid-core.c:2783
- usbhid_probe+0xd0a/0x1360 drivers/hid/usbhid/hid-core.c:1429
- usb_probe_interface+0x307/0x930 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:579 [inline]
- really_probe+0x234/0xc90 drivers/base/dd.c:658
- __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:800
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
- __device_attach_driver+0x1d4/0x300 drivers/base/dd.c:958
- bus_for_each_drv+0x157/0x1d0 drivers/base/bus.c:457
- __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
- bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
- device_add+0x117e/0x1aa0 drivers/base/core.c:3624
- usb_set_configuration+0x10cb/0x1c40 drivers/usb/core/message.c:2207
- usb_generic_driver_probe+0xca/0x130 drivers/usb/core/generic.c:238
- usb_probe_device+0xda/0x2c0 drivers/usb/core/driver.c:293
- call_driver_probe drivers/base/dd.c:579 [inline]
- really_probe+0x234/0xc90 drivers/base/dd.c:658
- __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:800
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
- __device_attach_driver+0x1d4/0x300 drivers/base/dd.c:958
- bus_for_each_drv+0x157/0x1d0 drivers/base/bus.c:457
- __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
- bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
- device_add+0x117e/0x1aa0 drivers/base/core.c:3624
- usb_new_device+0xd80/0x1960 drivers/usb/core/hub.c:2589
- hub_port_connect drivers/usb/core/hub.c:5440 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5580 [inline]
- port_event drivers/usb/core/hub.c:5740 [inline]
- hub_event+0x2daf/0x4e00 drivers/usb/core/hub.c:5822
- process_one_work+0x884/0x15c0 kernel/workqueue.c:2630
- process_scheduled_works kernel/workqueue.c:2703 [inline]
- worker_thread+0x8b9/0x1290 kernel/workqueue.c:2784
- kthread+0x33c/0x440 kernel/kthread.c:388
- ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:304
- </TASK>
-================================================================================
-
-
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Changes for v5:
+- Added link to the datasheet
 
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+Changes for v4:
+- Fixed the URI for the id field
+- Added `interrupts` property
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Changes for v3:
+- Updated id field to reflect updated file name from previous version
+- Added `reg` property
 
-If you want to overwrite bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+Changes for v2:
+- Renamed file to `adafruit,seesaw-gamepad.yaml`
+- Removed quotes for `$id` and `$schema`
+- Removed "Bindings for" from the description
+- Changed node name to the generic name "joystick"
+- Changed compatible to 'adafruit,seesaw-gamepad' instead of
+  'adafruit,seesaw_gamepad'
 
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
+ .../input/adafruit,seesaw-gamepad.yaml        | 60 +++++++++++++++++++
+ 1 file changed, 60 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
 
-If you want to undo deduplication, reply with:
-#syz undup
+diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+new file mode 100644
+index 000000000000..3f0d1c5a3b9b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+@@ -0,0 +1,60 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Adafruit Mini I2C Gamepad with seesaw
++
++maintainers:
++  - Anshul Dalal <anshulusr@gmail.com>
++
++description: |
++  Adafruit Mini I2C Gamepad
++
++    +-----------------------------+
++    |   ___                       |
++    |  /   \               (X)    |
++    | |  S  |  __   __  (Y)   (A) |
++    |  \___/  |ST| |SE|    (B)    |
++    |                             |
++    +-----------------------------+
++
++  S -> 10-bit percision bidirectional analog joystick
++  ST -> Start
++  SE -> Select
++  X, A, B, Y -> Digital action buttons
++
++  Datasheet: https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.pdf
++  Product page: https://www.adafruit.com/product/5743
++  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
++
++properties:
++  compatible:
++    const: adafruit,seesaw-gamepad
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++    description:
++      The gamepad's IRQ pin triggers a rising edge if interrupts are enabled.
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        joystick@50 {
++            compatible = "adafruit,seesaw-gamepad";
++            reg = <0x50>;
++        };
++    };
+-- 
+2.42.0
+
