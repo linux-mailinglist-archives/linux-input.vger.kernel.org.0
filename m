@@ -2,78 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12A547CD904
-	for <lists+linux-input@lfdr.de>; Wed, 18 Oct 2023 12:19:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CB027CD911
+	for <lists+linux-input@lfdr.de>; Wed, 18 Oct 2023 12:22:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229920AbjJRKT5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Oct 2023 06:19:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55298 "EHLO
+        id S229605AbjJRKWH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Oct 2023 06:22:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230431AbjJRKT4 (ORCPT
+        with ESMTP id S229563AbjJRKWG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Oct 2023 06:19:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C9C7B0
-        for <linux-input@vger.kernel.org>; Wed, 18 Oct 2023 03:19:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1697624352;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=kfpQdjH9sMarO2JewHOoNX3NAWXiYLoPZiJ8dkipcwE=;
-        b=fZPUm3VCRQFn+rEV1Q223GqVTacnmWqWTjx6DrPDjfM5sqlfoudopdfouxQJ8lkMYt+LCP
-        LOMrsUPRTX5f2b8so8ZuRPpAJi6+GUfZsCHKth+Za5Lr2apWNywBDxH9jqfJCifowsihwX
-        2JOJfKX9P1/D3TPE1FVQ4otMKp2EA8I=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-572-URwu5nybMwyLayQDPkOGcg-1; Wed, 18 Oct 2023 06:19:06 -0400
-X-MC-Unique: URwu5nybMwyLayQDPkOGcg-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-9b2e030e4caso827143366b.1
-        for <linux-input@vger.kernel.org>; Wed, 18 Oct 2023 03:19:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697624345; x=1698229145;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kfpQdjH9sMarO2JewHOoNX3NAWXiYLoPZiJ8dkipcwE=;
-        b=sFR4MPDTsRglLRwgcfSSJwn8r+cIUfIf/zIFSZKj/BZCvzJBfe1eE0HuvVDw5EEzQz
-         uJNghUan7lNRbrkJTo3trAL3kn/uDXQU6jzocwf2BZ7a/Ij4Kl5Pn+sE+0FuRdTb2XgN
-         to2lqnBUEIEGcCqwYwvbCuQcKphgxWzWAtedu7Bf1HQzqZ9cTZU61GPui7Z/7sZlBA1I
-         rP/VCAjn95H1D7MNvU/tdjl7dEP2y/0NGr4Js9s3SNKdn6RHsYmkyu1Px1ue+qh/D5+M
-         JbD+pWJON63tvbbMNb5uiKA21vErBpmkUFvTqkgqaThDJeI9/jb1PAre7tEWh+u53dyH
-         BirQ==
-X-Gm-Message-State: AOJu0Yx2qaLqGPhtlROjwtQo9waMJLE44nf34FwJz0+gPOaJrtPYrxap
-        M4NCp1XQDl1B6a1u34UuQznp+BOvz/T5TnTk7OQZ5E/jsDtclKFVJxxNEKplTDmMuiMYdfBEh5g
-        d+w+GcqN2MwRUrcgqflEMJK8=
-X-Received: by 2002:a17:907:9348:b0:9a5:7d34:e68a with SMTP id bv8-20020a170907934800b009a57d34e68amr3860497ejc.28.1697624345177;
-        Wed, 18 Oct 2023 03:19:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEGB+vsCI0deDC22JBvgJKqiP2/dZ+YMKgznZX7ISB2jmNI+NMSa3ZjKEZZ0OTnNC/5zm+9SA==
-X-Received: by 2002:a17:907:9348:b0:9a5:7d34:e68a with SMTP id bv8-20020a170907934800b009a57d34e68amr3860485ejc.28.1697624344792;
-        Wed, 18 Oct 2023 03:19:04 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id e10-20020a1709062d4a00b009944e955e19sm1405007eji.30.2023.10.18.03.19.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Oct 2023 03:19:04 -0700 (PDT)
-Message-ID: <1d1fcde5-6a0d-d91c-1bab-b2bbd1bfd7ea@redhat.com>
-Date:   Wed, 18 Oct 2023 12:19:03 +0200
+        Wed, 18 Oct 2023 06:22:06 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 230E3B0;
+        Wed, 18 Oct 2023 03:22:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697624525; x=1729160525;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=xDWK7EvYYMm8tp0hVJ/TwEDbQjIuQxVbahjC4hZ+APw=;
+  b=KBDOMq7d77KX2Ivh8kwfgbKr5HLzuw7ANk2C42KrfelnP5AAcZ+esRQ1
+   Pzb3RQ3OXr3EADBiH/ROzPRD996OVYc94sdrO9R5XligQu4mEuLNWe+rC
+   ejU/Ag3y26uWV2r/+YLZhFjt4+o778P9KhmCweKALMIYe5StEYhuthBmu
+   QYR9mPFYZj/TCoDloP9WTtxs+Moc/Oh3iny55aTYDQvzWhT97jKd7md9/
+   ppHYAmHU4nPmfoZXVtbV+NTv9CbdNLSh2rcVGLU9bC8AaAJON3ZIxb8ij
+   Ynd98PdOg5NICIm5c3X00/vh5mI1++46vOXAC2/kHyOS7rB5aVD1Xhki0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="384865058"
+X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
+   d="scan'208";a="384865058"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 03:22:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="756537906"
+X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
+   d="scan'208";a="756537906"
+Received: from gruberda-mobl1.ger.corp.intel.com ([10.252.62.52])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 03:21:59 -0700
+Date:   Wed, 18 Oct 2023 13:21:57 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+cc:     Hans de Goede <hdegoede@redhat.com>, markgross@kernel.org,
+        basavaraj.natikar@amd.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
+        christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+        daniel@ffwll.ch, Patil.Reddy@amd.com, mario.limonciello@amd.com,
+        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 11/17] platform/x86/amd/pmf: Add capability to sideload
+ of policy binary
+In-Reply-To: <20231018070241.2041529-12-Shyam-sundar.S-k@amd.com>
+Message-ID: <c6be6d40-f8d7-a4f-91c6-967ff920a44@linux.intel.com>
+References: <20231018070241.2041529-1-Shyam-sundar.S-k@amd.com> <20231018070241.2041529-12-Shyam-sundar.S-k@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 0/3] Input: atkbd - add skip_commands module parameter
-Content-Language: en-US, nl
-To:     Shang Ye <yesh25@mail2.sysu.edu.cn>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-References: <886D6167733841AE+20231017135318.11142-1-yesh25@mail2.sysu.edu.cn>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <886D6167733841AE+20231017135318.11142-1-yesh25@mail2.sysu.edu.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,112 +65,153 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Shang,
+On Wed, 18 Oct 2023, Shyam Sundar S K wrote:
 
-On 10/17/23 15:53, Shang Ye wrote:
-> Hi Hans,
+> A policy binary is OS agnostic, and the same policies are expected to work
+> across the OSes.  At times it becomes difficult to debug when the policies
+> inside the policy binaries starts to misbehave. Add a way to sideload such
+> policies independently to debug them via a debugfs entry.
 > 
-> I very much support the inclusion of this patch, because there has been
-> a similar keyboard issue on at least 3 (presumably 9) types of Lenovo
-> laptops, which may also be avoided by simply skipping the GETID command.
-> My patch and a list of the affected laptop types may be found at:
-> https://github.com/yescallop/atkbd-nogetid
+> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> ---
+>  drivers/platform/x86/amd/pmf/pmf.h    |  1 +
+>  drivers/platform/x86/amd/pmf/tee-if.c | 67 +++++++++++++++++++++++++++
+>  2 files changed, 68 insertions(+)
 > 
-> In my last patch submission, I have included the issue details:
-> https://lore.kernel.org/linux-input/20230530131340.39961-1-yesh25@mail2.sysu.edu.cn/
+> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
+> index 593930519039..8712299ad52b 100644
+> --- a/drivers/platform/x86/amd/pmf/pmf.h
+> +++ b/drivers/platform/x86/amd/pmf/pmf.h
+> @@ -219,6 +219,7 @@ struct amd_pmf_dev {
+>  	bool cnqf_supported;
+>  	struct notifier_block pwr_src_notifier;
+>  	/* Smart PC solution builder */
+> +	struct dentry *esbin;
+>  	unsigned char *policy_buf;
+>  	u32 policy_sz;
+>  	struct tee_context *tee_ctx;
+> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
+> index 0eba258f4040..6c4ce22ba518 100644
+> --- a/drivers/platform/x86/amd/pmf/tee-if.c
+> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
+> @@ -8,6 +8,7 @@
+>   * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+>   */
+>  
+> +#include <linux/debugfs.h>
+>  #include <linux/tee_drv.h>
+>  #include <linux/uuid.h>
+>  #include "pmf.h"
+> @@ -16,9 +17,14 @@
+>  
+>  /* Policy binary actions sampling frequency (in ms) */
+>  static int pb_actions_ms = MSEC_PER_SEC;
+> +/* Sideload policy binaries to debug policy failures */
+> +static bool pb_side_load;
+> +
+>  #ifdef CONFIG_AMD_PMF_DEBUG
+>  module_param(pb_actions_ms, int, 0644);
+>  MODULE_PARM_DESC(pb_actions_ms, "Policy binary actions sampling frequency (default = 1000ms)");
+> +module_param(pb_side_load, bool, 0444);
+> +MODULE_PARM_DESC(pb_side_load, "Sideload policy binaries debug policy failures");
+>  #endif
+>  
+>  static const uuid_t amd_pmf_ta_uuid = UUID_INIT(0x6fd93b77, 0x3fb8, 0x524d,
+> @@ -269,6 +275,61 @@ static int amd_pmf_start_policy_engine(struct amd_pmf_dev *dev)
+>  	return 0;
+>  }
+>  
+> +#ifdef CONFIG_AMD_PMF_DEBUG
+> +static ssize_t amd_pmf_get_pb_data(struct file *filp, const char __user *buf,
+> +				   size_t length, loff_t *pos)
+> +{
+> +	struct amd_pmf_dev *dev = filp->private_data;
+> +	int ret;
+> +
+> +	/* Policy binary size cannot exceed POLICY_BUF_MAX_SZ */
+> +	if (length > POLICY_BUF_MAX_SZ || length == 0)
+> +		return -EINVAL;
+> +
+> +	dev->policy_sz = length;
+> +	if (copy_from_user(dev->policy_buf, buf, dev->policy_sz))
+> +		return -EFAULT;
+> +
+> +	ret = amd_pmf_start_policy_engine(dev);
+> +	if (ret)
+> +		return -EINVAL;
+> +
+> +	return length;
+> +}
+> +
+> +static const struct file_operations pb_fops = {
+> +	.write = amd_pmf_get_pb_data,
+> +	.open = simple_open,
+> +};
+> +
+> +static int amd_pmf_open_pb(struct amd_pmf_dev *dev, struct dentry *debugfs_root)
+> +{
+> +	struct dentry *file = NULL;
+> +
+> +	dev->esbin = debugfs_create_dir("pb", debugfs_root);
+> +	if (IS_ERR(dev->esbin))
+> +		return -EINVAL;
+> +
+> +	file = debugfs_create_file("update_policy", 0644, dev->esbin, dev, &pb_fops);
+> +	if (!file)
+
+debugfs_create_file() returns ERR_PTR() on errors. I don't actually know 
+if NULL even needs to be checked or if it'd return errno in that case 
+because the usually custom is to just ignore debugfs_create_file() 
+return value.
+
+Why is this function returning int anyway? It's not checked by the caller 
+so why bother when all it does is deal with debugfs for which the normal 
+approach is to ignore the errors.
+
+-- 
+ i.
+
+
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+> +static void amd_pmf_remove_pb(struct amd_pmf_dev *dev)
+> +{
+> +	debugfs_remove_recursive(dev->esbin);
+> +}
+> +#else
+> +static int amd_pmf_open_pb(struct amd_pmf_dev *dev, struct dentry *debugfs_root)
+> +{
+> +	return 0;
+> +}
+> +
+> +static void amd_pmf_remove_pb(struct amd_pmf_dev *dev) {}
+> +#endif
+> +
+>  static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
+>  {
+>  	dev->policy_buf = kzalloc(dev->policy_sz, GFP_KERNEL);
+> @@ -281,6 +342,9 @@ static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
+>  
+>  	memcpy(dev->policy_buf, dev->policy_base, dev->policy_sz);
+>  
+> +	if (pb_side_load)
+> +		amd_pmf_open_pb(dev, dev->dbgfs_dir);
+> +
+>  	return amd_pmf_start_policy_engine(dev);
+>  }
+>  
+> @@ -382,6 +446,9 @@ int amd_pmf_init_smart_pc(struct amd_pmf_dev *dev)
+>  
+>  void amd_pmf_deinit_smart_pc(struct amd_pmf_dev *dev)
+>  {
+> +	if (pb_side_load)
+> +		amd_pmf_remove_pb(dev);
+> +
+>  	kfree(dev->prev_data);
+>  	kfree(dev->policy_buf);
+>  	cancel_delayed_work_sync(&dev->pb_work);
 > 
-> There were also two other patch submissions aimed at enabling
-> `i8042.dumbkbd` on some HP laptops in order to avoid sending the GETID
-> command, which isn't very desirable because it breaks the Caps Lock LED:
-> https://lore.kernel.org/linux-input/2iAJTwqZV6lQs26cTb38RNYqxvsink6SRmrZ5h0cBUSuf9NT0tZTsf9fEAbbto2maavHJEOP8GA1evlKa6xjKOsaskDhtJWxjcnrgPigzVo=@gurevit.ch/
-> https://lore.kernel.org/linux-input/20210609073333.8425-1-egori@altlinux.org/
-> 
-> And another patch submisson aimed at fixing the issue generically,
-> which, sadly, did not work on my laptop because the GETID command would
-> trigger more errornous behaviours on it:
-> https://lore.kernel.org/linux-input/20210201160336.16008-1-anton@cpp.in/
-
-Interesting, that might be the issue which is hitting the HP models
-which I wrote this series for too.
-
-> I hope that these materials will help people better understand the
-> nature of the issue and the urgency to address it.
-> 
-> Below are some comments on the patch:
-> 
->> +MODULE_PARM_DESC(skip_commands, "Bitfield where each bits skips a specific keyboard cmd (0 - 0x3f)");
-> 
-> "bits" -> "bit"?
-
-Indeed, if we go with this patch-series this should be fixed.
-
-> I think we may also need to document the new module parameter at
-> Documentation/admin-guide/kernel-parameters.txt and clarify which bit
-> skips which keyboard command.
-> 
-> Lastly, would you think it is appropriate to include in this patch
-> series the quirks for Lenovo laptops on which my patch was tested to
-> work? If so, the quirk table entries would be:
-> 
-> System vendor: "LENOVO"
-> Product names: "82G2", "82NC", "82TK"
-> Driver data  : ATKBD_SKIP_GETID
-
-Looking at your github and seeing how many models are affected,
-I'm thinking that we should maybe just skip the entire keyboard
-atkbd_probe() when atkbd->translated is set.
-
-The probe is really only necessary in the untranslated case
-to check if there is a mouse there or if there is one of the
-(quite old) special ps/2 keyboards there which have some
-special handling (search for "id == 0x" to find the special
-cases) these special cases are all only hit/valid when
-(atkbd->translated == 0) is true, so when atkbd->translated
-is true we can just skip the probe and use an assumed id of 0xab00
-(already used when i8042.dumbkbd is set) and then immediately bail
-from atkbd_probe(). I think this generic solution is a better
-approach then any of the previous approaches since it is nice
-and KISS and does not rely on any DMI quirks.
-
-Regards,
-
-Hans
-
-
-
-
-
-> On 2023/10/06 04:15, Hans de Goede wrote:
->> Hi all,
->>
->> While debugging a keyboard issue on some HP laptops adding i8042.dumbkbd
->> helped to avoid the issue. So one of the commands send by atkbd.c seemed
->> to be the culprit.
->>
->> This series a skip_commands option to help debug cases like this by adding
->> a bit-field which allows disabling a subset of the ps2_command()
->> calls the atkbd driver makes.
->>
->> It also replaces the existing atkbd_skip_deactivate flag
->> with the new parameter and adds a DMI quirk for the HP laptops
->> to avoid the keyboard issue there.
->>
->> Regards,
->>
->> Hans
->>
->>
->> Hans de Goede (3):
->>   Input: atkbd - add skip_commands module parameter
->>   Input: atkbd - drop atkbd_skip_deactivate flag
->>   Input: atkbd - set skip_commands = ATKBD_SKIP_GETID for HP laptop
->>     15s-fq* laptops
->>
->>  drivers/input/keyboard/atkbd.c | 88 ++++++++++++++++++++++++++--------
->>  1 file changed, 69 insertions(+), 19 deletions(-)
->>
->> -- 
->> 2.41.0
->>
-> 
-
