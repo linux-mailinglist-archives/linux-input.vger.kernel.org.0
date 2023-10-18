@@ -2,46 +2,44 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E64347CDE7B
-	for <lists+linux-input@lfdr.de>; Wed, 18 Oct 2023 16:12:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25F7D7CDE81
+	for <lists+linux-input@lfdr.de>; Wed, 18 Oct 2023 16:12:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231916AbjJROMX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Oct 2023 10:12:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56256 "EHLO
+        id S231931AbjJROMZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Oct 2023 10:12:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235199AbjJROML (ORCPT
+        with ESMTP id S231918AbjJROMU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Oct 2023 10:12:11 -0400
+        Wed, 18 Oct 2023 10:12:20 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D9B912D;
-        Wed, 18 Oct 2023 07:11:55 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9A0CC433C8;
-        Wed, 18 Oct 2023 14:11:53 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA57E10E;
+        Wed, 18 Oct 2023 07:12:18 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB84C433C7;
+        Wed, 18 Oct 2023 14:12:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697638315;
-        bh=ZdE/+Wi7kowc42dVlvNo1gm7hHy7ZdYIidGafejPTVg=;
-        h=From:To:Cc:Subject:Date:From;
-        b=k2AohL2QX2tXd642Vy/qxOABhL0exebAj+onZDgj/B13U24Z2LNnPUU5GNRJzwC4j
-         WxOKkx4c2v+0uNV9m3Ihe2T5O5X7c8wizdfb1qdjXZu9MClNEn2NzhjRR+8PrGrKeQ
-         3lacmh+S87RO7NzsL0KTqkAv0yblijl3YFK4SdfGd2NfyKkFrLLy3ZrNAW+HY+O82x
-         O8zH+8je8wanApqT3kvSsSvTl9Y7H6nvawv81BmsOh59zKCNv7F/2AH8iH4vSwZjWo
-         fUaOj9FRJc85I8bSu608Cas9TJSz/PpFnfBkRB+s+ivQI7Mjc/k2eKgF5+GDxy9MI4
-         wRnAPCiTFO7Ng==
+        s=k20201202; t=1697638338;
+        bh=kqVry2L3oD34A/U2KY1CFVfYMWD9gqUl302hptEGTyg=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=UxGOMtzx917fBeHtX5hJWOl37bO7pG88zujPkS6OCccR+ldy2eOcDRWeeGL9XbazK
+         QdmqMhYU6+uyzVDk5GuX1clni86OiAKzVLfoEZAq//HieeEWClzXzcwlZuiowjZA6G
+         lDXL9Qe8aYQ9DM3KwFKGguWAxHi+JJovTkb62tEaOk0BrrmYxRQamz1xxdu+ogmxhy
+         XRrr0aYMuBZsjsUVoOYF+hcFp18hXtqjY6eHyH3PPKBNo+nCXK6Cm8DI/Jh+LGNq5+
+         De2yfPUTStC6Ip6g5tnOZunA8IPLinD77t95y1uqGfgfJddYAYpXyCNQ2LrHEJmaRo
+         ZlWGZwKpGImuw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Max Nguyen <maxwell.nguyen@hp.com>,
-        Chris Toledanes <chris.toledanes@hp.com>,
-        Carl Ng <carl.ng@hp.com>,
-        Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+Cc:     Szilard Fabian <szfabian@bluemarch.art>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, vi@endrift.com,
-        swyterzone@gmail.com, doublej472@gmail.com,
-        pgriffais@valvesoftware.com, slouken@libsdl.org,
-        matthias.benkmann@gmail.com, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 01/31] Input: xpad - add HyperX Clutch Gladiate Support
-Date:   Wed, 18 Oct 2023 10:11:18 -0400
-Message-Id: <20231018141151.1334501-1-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, wse@tuxedocomputers.com,
+        hdegoede@redhat.com, jdenose@chromium.org, tiwai@suse.de,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.5 10/31] Input: i8042 - add Fujitsu Lifebook E5411 to i8042 quirk table
+Date:   Wed, 18 Oct 2023 10:11:27 -0400
+Message-Id: <20231018141151.1334501-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20231018141151.1334501-1-sashal@kernel.org>
+References: <20231018141151.1334501-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -56,43 +54,50 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Max Nguyen <maxwell.nguyen@hp.com>
+From: Szilard Fabian <szfabian@bluemarch.art>
 
-[ Upstream commit e28a0974d749e5105d77233c0a84d35c37da047e ]
+[ Upstream commit 80f39e1c27ba9e5a1ea7e68e21c569c9d8e46062 ]
 
-Add HyperX controller support to xpad_device and xpad_table.
+In the initial boot stage the integrated keyboard of Fujitsu Lifebook E5411
+refuses to work and it's not possible to type for example a dm-crypt
+passphrase without the help of an external keyboard.
 
-Suggested-by: Chris Toledanes <chris.toledanes@hp.com>
-Reviewed-by: Carl Ng <carl.ng@hp.com>
-Signed-off-by: Max Nguyen <maxwell.nguyen@hp.com>
-Reviewed-by: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Link: https://lore.kernel.org/r/20230906231514.4291-1-hphyperxdev@gmail.com
+i8042.nomux kernel parameter resolves this issue but using that a PS/2
+mouse is detected. This input device is unused even when the i2c-hid-acpi
+kernel module is blacklisted making the integrated ELAN touchpad
+(04F3:308A) not working at all.
+
+Since the integrated touchpad is managed by the i2c_designware input
+driver in the Linux kernel and you can't find a PS/2 mouse port on the
+computer I think it's safe to not use the PS/2 mouse port at all.
+
+Signed-off-by: Szilard Fabian <szfabian@bluemarch.art>
+Link: https://lore.kernel.org/r/20231004011749.101789-1-szfabian@bluemarch.art
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/joystick/xpad.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/input/serio/i8042-acpipnpio.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index cdb193317c3b6..1e377d040c435 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -130,6 +130,7 @@ static const struct xpad_device {
- 	{ 0x0079, 0x18d4, "GPD Win 2 X-Box Controller", 0, XTYPE_XBOX360 },
- 	{ 0x03eb, 0xff01, "Wooting One (Legacy)", 0, XTYPE_XBOX360 },
- 	{ 0x03eb, 0xff02, "Wooting Two (Legacy)", 0, XTYPE_XBOX360 },
-+	{ 0x03f0, 0x0495, "HyperX Clutch Gladiate", 0, XTYPE_XBOXONE },
- 	{ 0x044f, 0x0f00, "Thrustmaster Wheel", 0, XTYPE_XBOX },
- 	{ 0x044f, 0x0f03, "Thrustmaster Wheel", 0, XTYPE_XBOX },
- 	{ 0x044f, 0x0f07, "Thrustmaster, Inc. Controller", 0, XTYPE_XBOX },
-@@ -457,6 +458,7 @@ static const struct usb_device_id xpad_table[] = {
- 	{ USB_INTERFACE_INFO('X', 'B', 0) },	/* Xbox USB-IF not-approved class */
- 	XPAD_XBOX360_VENDOR(0x0079),		/* GPD Win 2 controller */
- 	XPAD_XBOX360_VENDOR(0x03eb),		/* Wooting Keyboards (Legacy) */
-+	XPAD_XBOXONE_VENDOR(0x03f0),		/* HP HyperX Xbox One controllers */
- 	XPAD_XBOX360_VENDOR(0x044f),		/* Thrustmaster Xbox 360 controllers */
- 	XPAD_XBOX360_VENDOR(0x045e),		/* Microsoft Xbox 360 controllers */
- 	XPAD_XBOXONE_VENDOR(0x045e),		/* Microsoft Xbox One controllers */
+diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
+index 1724d6cb8649d..9c39553d30fa2 100644
+--- a/drivers/input/serio/i8042-acpipnpio.h
++++ b/drivers/input/serio/i8042-acpipnpio.h
+@@ -618,6 +618,14 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+ 		},
+ 		.driver_data = (void *)(SERIO_QUIRK_NOMUX)
+ 	},
++	{
++		/* Fujitsu Lifebook E5411 */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "FUJITSU CLIENT COMPUTING LIMITED"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "LIFEBOOK E5411"),
++		},
++		.driver_data = (void *)(SERIO_QUIRK_NOAUX)
++	},
+ 	{
+ 		/* Gigabyte M912 */
+ 		.matches = {
 -- 
 2.40.1
 
