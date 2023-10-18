@@ -2,121 +2,191 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 45F857CD8EB
-	for <lists+linux-input@lfdr.de>; Wed, 18 Oct 2023 12:14:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12A547CD904
+	for <lists+linux-input@lfdr.de>; Wed, 18 Oct 2023 12:19:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229552AbjJRKOk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Oct 2023 06:14:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59060 "EHLO
+        id S229920AbjJRKT5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Oct 2023 06:19:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229510AbjJRKOk (ORCPT
+        with ESMTP id S230431AbjJRKT4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Oct 2023 06:14:40 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 475F695;
-        Wed, 18 Oct 2023 03:14:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697624079; x=1729160079;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gGMq4a5qiZYUn9Oln+qtDvu7lzpJ8vcxRcIG4w8ru0o=;
-  b=ZC67/UyLHxyshVEVrPwOrrE6FbYhKzZBvc/XOmgrVRHK409lN2OLT6LB
-   w9Hu1H4ibucLIBIKhTKBKN+SNIUrDVrqabo9NZmTgSgrV47XL8emr9b02
-   unwrlUTbSEAWEBs7G5v/nD1t8nW4xyI2Q/VPsU5UWW880wvqST4wbomDt
-   b9b/3I49IkCRU9ctwRJdfMwS/cU6WAsxQQzPzyth+dhl/i3aUnkmdEQQq
-   gUTX5yMiHwwn1Q+dXpl8OVFJk+cMqw57c1ZECoPJuhqXmJMdIZUePE30j
-   +yJucrTPJh9V9cyIxNDQqX1ejkGs05UdWGqtJeMvg4uVQCbGFBaQoTono
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="4579144"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
-   d="scan'208";a="4579144"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 03:14:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="760171482"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
-   d="scan'208";a="760171482"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Oct 2023 03:14:33 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qt3ZO-0000Ds-37;
-        Wed, 18 Oct 2023 10:14:30 +0000
-Date:   Wed, 18 Oct 2023 18:14:28 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Tylor Yang <tylor_yang@himax.corp-partner.google.com>,
-        dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev,
-        poyuan_chang@himax.corp-partner.google.com,
-        jingyliang@chromium.org, hbarnor@chromium.org, wuxy23@lenovo.com,
-        luolm1@lenovo.com, poyu_hung@himax.corp-partner.google.com,
-        Tylor Yang <tylor_yang@himax.corp-partner.google.com>
-Subject: Re: [PATCH v3 2/4] HID: touchscreen: Add initial support for Himax
- HID-over-SPI
-Message-ID: <202310181806.Ne95k5nt-lkp@intel.com>
-References: <20231017091900.801989-3-tylor_yang@himax.corp-partner.google.com>
+        Wed, 18 Oct 2023 06:19:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C9C7B0
+        for <linux-input@vger.kernel.org>; Wed, 18 Oct 2023 03:19:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1697624352;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kfpQdjH9sMarO2JewHOoNX3NAWXiYLoPZiJ8dkipcwE=;
+        b=fZPUm3VCRQFn+rEV1Q223GqVTacnmWqWTjx6DrPDjfM5sqlfoudopdfouxQJ8lkMYt+LCP
+        LOMrsUPRTX5f2b8so8ZuRPpAJi6+GUfZsCHKth+Za5Lr2apWNywBDxH9jqfJCifowsihwX
+        2JOJfKX9P1/D3TPE1FVQ4otMKp2EA8I=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-572-URwu5nybMwyLayQDPkOGcg-1; Wed, 18 Oct 2023 06:19:06 -0400
+X-MC-Unique: URwu5nybMwyLayQDPkOGcg-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-9b2e030e4caso827143366b.1
+        for <linux-input@vger.kernel.org>; Wed, 18 Oct 2023 03:19:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697624345; x=1698229145;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kfpQdjH9sMarO2JewHOoNX3NAWXiYLoPZiJ8dkipcwE=;
+        b=sFR4MPDTsRglLRwgcfSSJwn8r+cIUfIf/zIFSZKj/BZCvzJBfe1eE0HuvVDw5EEzQz
+         uJNghUan7lNRbrkJTo3trAL3kn/uDXQU6jzocwf2BZ7a/Ij4Kl5Pn+sE+0FuRdTb2XgN
+         to2lqnBUEIEGcCqwYwvbCuQcKphgxWzWAtedu7Bf1HQzqZ9cTZU61GPui7Z/7sZlBA1I
+         rP/VCAjn95H1D7MNvU/tdjl7dEP2y/0NGr4Js9s3SNKdn6RHsYmkyu1Px1ue+qh/D5+M
+         JbD+pWJON63tvbbMNb5uiKA21vErBpmkUFvTqkgqaThDJeI9/jb1PAre7tEWh+u53dyH
+         BirQ==
+X-Gm-Message-State: AOJu0Yx2qaLqGPhtlROjwtQo9waMJLE44nf34FwJz0+gPOaJrtPYrxap
+        M4NCp1XQDl1B6a1u34UuQznp+BOvz/T5TnTk7OQZ5E/jsDtclKFVJxxNEKplTDmMuiMYdfBEh5g
+        d+w+GcqN2MwRUrcgqflEMJK8=
+X-Received: by 2002:a17:907:9348:b0:9a5:7d34:e68a with SMTP id bv8-20020a170907934800b009a57d34e68amr3860497ejc.28.1697624345177;
+        Wed, 18 Oct 2023 03:19:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEGB+vsCI0deDC22JBvgJKqiP2/dZ+YMKgznZX7ISB2jmNI+NMSa3ZjKEZZ0OTnNC/5zm+9SA==
+X-Received: by 2002:a17:907:9348:b0:9a5:7d34:e68a with SMTP id bv8-20020a170907934800b009a57d34e68amr3860485ejc.28.1697624344792;
+        Wed, 18 Oct 2023 03:19:04 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id e10-20020a1709062d4a00b009944e955e19sm1405007eji.30.2023.10.18.03.19.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Oct 2023 03:19:04 -0700 (PDT)
+Message-ID: <1d1fcde5-6a0d-d91c-1bab-b2bbd1bfd7ea@redhat.com>
+Date:   Wed, 18 Oct 2023 12:19:03 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231017091900.801989-3-tylor_yang@himax.corp-partner.google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 0/3] Input: atkbd - add skip_commands module parameter
+Content-Language: en-US, nl
+To:     Shang Ye <yesh25@mail2.sysu.edu.cn>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+References: <886D6167733841AE+20231017135318.11142-1-yesh25@mail2.sysu.edu.cn>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <886D6167733841AE+20231017135318.11142-1-yesh25@mail2.sysu.edu.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Tylor,
+Hi Shang,
 
-kernel test robot noticed the following build warnings:
+On 10/17/23 15:53, Shang Ye wrote:
+> Hi Hans,
+> 
+> I very much support the inclusion of this patch, because there has been
+> a similar keyboard issue on at least 3 (presumably 9) types of Lenovo
+> laptops, which may also be avoided by simply skipping the GETID command.
+> My patch and a list of the affected laptop types may be found at:
+> https://github.com/yescallop/atkbd-nogetid
+> 
+> In my last patch submission, I have included the issue details:
+> https://lore.kernel.org/linux-input/20230530131340.39961-1-yesh25@mail2.sysu.edu.cn/
+> 
+> There were also two other patch submissions aimed at enabling
+> `i8042.dumbkbd` on some HP laptops in order to avoid sending the GETID
+> command, which isn't very desirable because it breaks the Caps Lock LED:
+> https://lore.kernel.org/linux-input/2iAJTwqZV6lQs26cTb38RNYqxvsink6SRmrZ5h0cBUSuf9NT0tZTsf9fEAbbto2maavHJEOP8GA1evlKa6xjKOsaskDhtJWxjcnrgPigzVo=@gurevit.ch/
+> https://lore.kernel.org/linux-input/20210609073333.8425-1-egori@altlinux.org/
+> 
+> And another patch submisson aimed at fixing the issue generically,
+> which, sadly, did not work on my laptop because the GETID command would
+> trigger more errornous behaviours on it:
+> https://lore.kernel.org/linux-input/20210201160336.16008-1-anton@cpp.in/
 
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on dtor-input/next dtor-input/for-linus robh/for-next linus/master v6.6-rc6 next-20231018]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Interesting, that might be the issue which is hitting the HP models
+which I wrote this series for too.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tylor-Yang/dt-bindings-input-Introduce-Himax-HID-over-SPI-device/20231017-172156
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20231017091900.801989-3-tylor_yang%40himax.corp-partner.google.com
-patch subject: [PATCH v3 2/4] HID: touchscreen: Add initial support for Himax HID-over-SPI
-reproduce: (https://download.01.org/0day-ci/archive/20231018/202310181806.Ne95k5nt-lkp@intel.com/reproduce)
+> I hope that these materials will help people better understand the
+> nature of the issue and the urgency to address it.
+> 
+> Below are some comments on the patch:
+> 
+>> +MODULE_PARM_DESC(skip_commands, "Bitfield where each bits skips a specific keyboard cmd (0 - 0x3f)");
+> 
+> "bits" -> "bit"?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310181806.Ne95k5nt-lkp@intel.com/
+Indeed, if we go with this patch-series this should be fixed.
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wrestrict -Warray-bounds -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wundef -funsigned-char -Wenum-conversion -Werror=return-type W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
->> ./drivers/hid/hx-hid/hx_core.h: 25 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+> I think we may also need to document the new module parameter at
+> Documentation/admin-guide/kernel-parameters.txt and clarify which bit
+> skips which keyboard command.
+> 
+> Lastly, would you think it is appropriate to include in this patch
+> series the quirks for Lenovo laptops on which my patch was tested to
+> work? If so, the quirk table entries would be:
+> 
+> System vendor: "LENOVO"
+> Product names: "82G2", "82NC", "82TK"
+> Driver data  : ATKBD_SKIP_GETID
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Looking at your github and seeing how many models are affected,
+I'm thinking that we should maybe just skip the entire keyboard
+atkbd_probe() when atkbd->translated is set.
+
+The probe is really only necessary in the untranslated case
+to check if there is a mouse there or if there is one of the
+(quite old) special ps/2 keyboards there which have some
+special handling (search for "id == 0x" to find the special
+cases) these special cases are all only hit/valid when
+(atkbd->translated == 0) is true, so when atkbd->translated
+is true we can just skip the probe and use an assumed id of 0xab00
+(already used when i8042.dumbkbd is set) and then immediately bail
+from atkbd_probe(). I think this generic solution is a better
+approach then any of the previous approaches since it is nice
+and KISS and does not rely on any DMI quirks.
+
+Regards,
+
+Hans
+
+
+
+
+
+> On 2023/10/06 04:15, Hans de Goede wrote:
+>> Hi all,
+>>
+>> While debugging a keyboard issue on some HP laptops adding i8042.dumbkbd
+>> helped to avoid the issue. So one of the commands send by atkbd.c seemed
+>> to be the culprit.
+>>
+>> This series a skip_commands option to help debug cases like this by adding
+>> a bit-field which allows disabling a subset of the ps2_command()
+>> calls the atkbd driver makes.
+>>
+>> It also replaces the existing atkbd_skip_deactivate flag
+>> with the new parameter and adds a DMI quirk for the HP laptops
+>> to avoid the keyboard issue there.
+>>
+>> Regards,
+>>
+>> Hans
+>>
+>>
+>> Hans de Goede (3):
+>>   Input: atkbd - add skip_commands module parameter
+>>   Input: atkbd - drop atkbd_skip_deactivate flag
+>>   Input: atkbd - set skip_commands = ATKBD_SKIP_GETID for HP laptop
+>>     15s-fq* laptops
+>>
+>>  drivers/input/keyboard/atkbd.c | 88 ++++++++++++++++++++++++++--------
+>>  1 file changed, 69 insertions(+), 19 deletions(-)
+>>
+>> -- 
+>> 2.41.0
+>>
+> 
+
