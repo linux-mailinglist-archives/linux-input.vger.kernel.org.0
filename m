@@ -2,47 +2,48 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71BCD7CDEE7
-	for <lists+linux-input@lfdr.de>; Wed, 18 Oct 2023 16:15:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60A317CDEFD
+	for <lists+linux-input@lfdr.de>; Wed, 18 Oct 2023 16:15:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345186AbjJROPG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Oct 2023 10:15:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40546 "EHLO
+        id S1345209AbjJROPq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Oct 2023 10:15:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232011AbjJROOS (ORCPT
+        with ESMTP id S1344973AbjJROPQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Oct 2023 10:14:18 -0400
+        Wed, 18 Oct 2023 10:15:16 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01ADD198C;
-        Wed, 18 Oct 2023 07:13:20 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F5E2C4163D;
-        Wed, 18 Oct 2023 14:13:19 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AA341FE4;
+        Wed, 18 Oct 2023 07:13:39 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14B61C433C8;
+        Wed, 18 Oct 2023 14:13:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697638400;
-        bh=lLQOKnXcGXnbg3+B5MRiapcu+9TSOsqsE5/4kZRhk3s=;
+        s=k20201202; t=1697638419;
+        bh=kqVry2L3oD34A/U2KY1CFVfYMWD9gqUl302hptEGTyg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BZNBTUWGlSsx/3JRuKJGUZxcgCut26KbqzcNqeJ27iXFaYhKCAMrs6wZd0Rivi/LA
-         RdjZS4Ei5T49uRBGtRNsMsi071CD5xbLKhI/lI7WckngjiWdehkBq2GB7GSBLaNxEq
-         UqiwNAdCqamgdgp0pP/Hm64Z08iE3Ag9GW+5u8eL4Oa6Z7F1xBdpdlguT5VrZQaW0n
-         JpQ8lA/8HkeMNQt9yNiElhrTKpdHqXpb3EGWNu8YmETkiXCW0MqtgMajytvKIc6LHM
-         yCpppRnKT0x9Y0Q2t5HRpqKL1QtMPbPV0MzUFo93amaszMoKooURbLuvxxXmLqj9+7
-         2wJNoxxIGCRqw==
+        b=vJ2ILXINdM50zK2c9KcfINTTrAkwBqqBDLGIIBTGyBUU3zFMYkAjtAK0edwEpFKjV
+         Mpm2JbxfACvzs195TpDMPxDokLgCLE227YDf5uycBiZRI9HzoKv1lNEWvhVfNt42l+
+         1Uonh8fn7D5XLh/WRiRhq8CBw979IyNR1yV7YbD3Q83Fb9CyY9relAYnMzEOL2QIz4
+         2ZIwOjrG2bVZtDkbQP7nHGxRYnWQcRrL7OStmXolYHaQxiMZMf3yTYvI7WqYqxK0l9
+         gU/X7x9HCcHPpg9ZQFdLdhsJ/95tPEux854lCZckumpBvcBs5Dje1EsV4MqEp5OkPJ
+         TO+pPECRWyU6Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-        syzbot+0434ac83f907a1dbdd1e@syzkaller.appspotmail.com,
+Cc:     Szilard Fabian <szfabian@bluemarch.art>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 31/31] Input: powermate - fix use-after-free in powermate_config_complete
-Date:   Wed, 18 Oct 2023 10:11:48 -0400
-Message-Id: <20231018141151.1334501-31-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, wse@tuxedocomputers.com,
+        hdegoede@redhat.com, tiwai@suse.de, jdenose@chromium.org,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 06/19] Input: i8042 - add Fujitsu Lifebook E5411 to i8042 quirk table
+Date:   Wed, 18 Oct 2023 10:13:08 -0400
+Message-Id: <20231018141323.1334898-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231018141151.1334501-1-sashal@kernel.org>
-References: <20231018141151.1334501-1-sashal@kernel.org>
+In-Reply-To: <20231018141323.1334898-1-sashal@kernel.org>
+References: <20231018141323.1334898-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.5.7
+X-stable-base: Linux 6.1.58
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
@@ -53,42 +54,50 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+From: Szilard Fabian <szfabian@bluemarch.art>
 
-[ Upstream commit 5c15c60e7be615f05a45cd905093a54b11f461bc ]
+[ Upstream commit 80f39e1c27ba9e5a1ea7e68e21c569c9d8e46062 ]
 
-syzbot has found a use-after-free bug [1] in the powermate driver. This
-happens when the device is disconnected, which leads to a memory free from
-the powermate_device struct.  When an asynchronous control message
-completes after the kfree and its callback is invoked, the lock does not
-exist anymore and hence the bug.
+In the initial boot stage the integrated keyboard of Fujitsu Lifebook E5411
+refuses to work and it's not possible to type for example a dm-crypt
+passphrase without the help of an external keyboard.
 
-Use usb_kill_urb() on pm->config to cancel any in-progress requests upon
-device disconnection.
+i8042.nomux kernel parameter resolves this issue but using that a PS/2
+mouse is detected. This input device is unused even when the i2c-hid-acpi
+kernel module is blacklisted making the integrated ELAN touchpad
+(04F3:308A) not working at all.
 
-[1] https://syzkaller.appspot.com/bug?extid=0434ac83f907a1dbdd1e
+Since the integrated touchpad is managed by the i2c_designware input
+driver in the Linux kernel and you can't find a PS/2 mouse port on the
+computer I think it's safe to not use the PS/2 mouse port at all.
 
-Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Reported-by: syzbot+0434ac83f907a1dbdd1e@syzkaller.appspotmail.com
-Link: https://lore.kernel.org/r/20230916-topic-powermate_use_after_free-v3-1-64412b81a7a2@gmail.com
+Signed-off-by: Szilard Fabian <szfabian@bluemarch.art>
+Link: https://lore.kernel.org/r/20231004011749.101789-1-szfabian@bluemarch.art
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/misc/powermate.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/input/serio/i8042-acpipnpio.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/input/misc/powermate.c b/drivers/input/misc/powermate.c
-index c1c733a9cb890..db2ba89adaefa 100644
---- a/drivers/input/misc/powermate.c
-+++ b/drivers/input/misc/powermate.c
-@@ -425,6 +425,7 @@ static void powermate_disconnect(struct usb_interface *intf)
- 		pm->requires_update = 0;
- 		usb_kill_urb(pm->irq);
- 		input_unregister_device(pm->input);
-+		usb_kill_urb(pm->config);
- 		usb_free_urb(pm->irq);
- 		usb_free_urb(pm->config);
- 		powermate_free_buffers(interface_to_usbdev(intf), pm);
+diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
+index 1724d6cb8649d..9c39553d30fa2 100644
+--- a/drivers/input/serio/i8042-acpipnpio.h
++++ b/drivers/input/serio/i8042-acpipnpio.h
+@@ -618,6 +618,14 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+ 		},
+ 		.driver_data = (void *)(SERIO_QUIRK_NOMUX)
+ 	},
++	{
++		/* Fujitsu Lifebook E5411 */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "FUJITSU CLIENT COMPUTING LIMITED"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "LIFEBOOK E5411"),
++		},
++		.driver_data = (void *)(SERIO_QUIRK_NOAUX)
++	},
+ 	{
+ 		/* Gigabyte M912 */
+ 		.matches = {
 -- 
 2.40.1
 
