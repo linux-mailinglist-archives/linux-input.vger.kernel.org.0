@@ -2,65 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5149E7D0577
-	for <lists+linux-input@lfdr.de>; Fri, 20 Oct 2023 01:43:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0976E7D0B11
+	for <lists+linux-input@lfdr.de>; Fri, 20 Oct 2023 11:03:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346719AbjJSXnX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Oct 2023 19:43:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40422 "EHLO
+        id S1376554AbjJTJDM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 Oct 2023 05:03:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233335AbjJSXnW (ORCPT
+        with ESMTP id S1376523AbjJTJDL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Oct 2023 19:43:22 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 328FC113;
-        Thu, 19 Oct 2023 16:43:21 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6121C433C7;
-        Thu, 19 Oct 2023 23:43:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697759000;
-        bh=fggoXZ8ybZvMC7HbEMQdngXXOLUAC2C2LgXwXWkInjM=;
-        h=In-Reply-To:References:Subject:From:To:Date:From;
-        b=u/J+mknHI+BtbrJX38Z4d6fYnNfHjcNPstGgoOMEGc4wsOiYCPiGlZG4ZsA+Uy0uG
-         PotHuJy1eBlPUNoFXkNbsssnEzHblf80T7gRPH5OR6KOgGwR9750Mgn4Z6i0sfwhug
-         mJ40NRqtsF3OWuCyoBplZfjPV20MKYc+P2MfjvAIxdrSRdBs/hIf0ZkjyUcHuNA11N
-         X64DIszkTAWLEI0jRYerSyhaT0peo/2USECCiEBtHIbEnnZw7GdazR3g51zKTCPKNM
-         6Y568M1s8hkDORBxL5bt89BofpzLEHv2A8qnc7aom+bIpxfQMotulkQzRdhF3hX4TL
-         JyNYHCsji6ekg==
-Message-ID: <bae818c0f067fd7ef9a7c7fdb15a2022.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+        Fri, 20 Oct 2023 05:03:11 -0400
+Received: from mail.nfschina.com (unknown [42.101.60.195])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id B937AD67;
+        Fri, 20 Oct 2023 02:03:06 -0700 (PDT)
+Received: from localhost.localdomain (unknown [180.167.10.98])
+        by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPA id 776BE60494CD8;
+        Fri, 20 Oct 2023 17:03:03 +0800 (CST)
+X-MD-Sfrom: suhui@nfschina.com
+X-MD-SrcIP: 180.167.10.98
+From:   Su Hui <suhui@nfschina.com>
+To:     ping.cheng@wacom.com, jason.gerecke@wacom.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com
+Cc:     Su Hui <suhui@nfschina.com>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] HID: wacom_sys: add error code check in wacom_feature_mapping
+Date:   Fri, 20 Oct 2023 17:02:38 +0800
+Message-Id: <20231020090237.201029-1-suhui@nfschina.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230916100515.1650336-5-andreas@kemnade.info>
-References: <20230916100515.1650336-1-andreas@kemnade.info> <20230916100515.1650336-5-andreas@kemnade.info>
-Subject: Re: [PATCH v4 4/5] clk: twl: add clock driver for TWL6032
-From:   Stephen Boyd <sboyd@kernel.org>
-To:     andreas@kemnade.info, bcousson@baylibre.com, conor+dt@kernel.org,
-        devicetree@vger.kernel.org, dmitry.torokhov@gmail.com,
-        krzysztof.kozlowski+dt@linaro.org, lee@kernel.org,
-        linux-clk@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
-        mturquette@baylibre.com, robh+dt@kernel.org, tony@atomide.com
-Date:   Thu, 19 Oct 2023 16:43:18 -0700
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RDNS_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Quoting Andreas Kemnade (2023-09-16 03:05:14)
-> The TWL6032 has some clock outputs which are controlled like
-> fixed-voltage regulators, in some drivers for these chips
-> found in the wild, just the regulator api is abused for controlling
-> them, so simply use something similar to the regulator functions.
-> Due to a lack of hardware available for testing, leave out the
-> TWL6030-specific part of those functions.
->=20
-> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
-> ---
+hid_report_raw_event() can return error code like '-ENOMEM' if
+failed, so check 'ret' to make sure all things work fine.
 
-Applied to clk-next
+Signed-off-by: Su Hui <suhui@nfschina.com>
+---
+ drivers/hid/wacom_sys.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+index 3f704b8072e8..1f898d4ee708 100644
+--- a/drivers/hid/wacom_sys.c
++++ b/drivers/hid/wacom_sys.c
+@@ -320,6 +320,8 @@ static void wacom_feature_mapping(struct hid_device *hdev,
+ 			if (ret == n && features->type == HID_GENERIC) {
+ 				ret = hid_report_raw_event(hdev,
+ 					HID_FEATURE_REPORT, data, n, 0);
++				if (ret)
++					hid_warn(hdev, "failed to report feature\n");
+ 			} else if (ret == 2 && features->type != HID_GENERIC) {
+ 				features->touch_max = data[1];
+ 			} else {
+@@ -381,6 +383,8 @@ static void wacom_feature_mapping(struct hid_device *hdev,
+ 		if (ret == n) {
+ 			ret = hid_report_raw_event(hdev, HID_FEATURE_REPORT,
+ 						   data, n, 0);
++			if (ret)
++				hid_warn(hdev, "failed to report feature\n");
+ 		} else {
+ 			hid_warn(hdev, "%s: could not retrieve sensor offsets\n",
+ 				 __func__);
+-- 
+2.30.2
+
