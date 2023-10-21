@@ -2,342 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37EC67D1CB9
-	for <lists+linux-input@lfdr.de>; Sat, 21 Oct 2023 13:09:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74F687D1DB1
+	for <lists+linux-input@lfdr.de>; Sat, 21 Oct 2023 16:56:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230307AbjJULJs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 21 Oct 2023 07:09:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46430 "EHLO
+        id S231622AbjJUO43 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 21 Oct 2023 10:56:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229668AbjJULJq (ORCPT
+        with ESMTP id S231403AbjJUO42 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 21 Oct 2023 07:09:46 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32433D7B
-        for <linux-input@vger.kernel.org>; Sat, 21 Oct 2023 04:09:34 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-40839652b97so13029085e9.3
-        for <linux-input@vger.kernel.org>; Sat, 21 Oct 2023 04:09:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697886572; x=1698491372; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aB4JTBbloeJlOrROqSHyOpiwaZu7mID8DECUoJEbjX8=;
-        b=p8EQ0XRsItLN5gweHBq20mlgztkddoKtXMPbe+ZDVuO/dkg2Wkq0cHYe44Xk4287+6
-         2d2zn7TbBKc4NsiRVc1O3n/fEO98NG1o2EB9SzirGFGWHNV0vu/hpMtXNXG54OTiK+Gv
-         DHdToP52Ml4Wl0e9yaQc2qNjngAq3YUUO+/3RKLcy0vTCca5XW5jiUJfuPHOrNUOyRQa
-         EmvTZvO3xUarLt5L8AG7gqFrCS1BgAP9tCco5DAmf9t1cdhrR4Qo1lRsVWLzxN+4nOai
-         iYAHJ6Rjcf0CcUjvXlcGKtddVdVnmmGN6bq8Fc0jl37J5+6nbcuJoqriAiSMmA1kXCgW
-         v1zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697886572; x=1698491372;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aB4JTBbloeJlOrROqSHyOpiwaZu7mID8DECUoJEbjX8=;
-        b=lwZzyIrtQgvZT6y0y+0nua/xeCnfmh7+XMrbbjESWad63ZaVbJL5AesunTcGIi7SQE
-         JZCxfY6YoieYz9KyaYNiCByD+2vMwIbUKWCiiUjwANUvG9k+dzK7jEysNo9y8Mn5Th3m
-         LTU+0Qt44XyFFvmskA4UA9xMUxq3WOZtyXUkQX820RMkJJjYyG2Nf5x1d8d7BNmAAgG+
-         Xxsrgcf2AI3TQt/dNsXIFAlXzckPaoFSlPqTe/0xZiFtOrSzt0LJxVDn/nXZZy6WWu8E
-         PUmjWYd0TrwEAaC9xtX8kVF2n/9lcLckjUrMCGUMO2bnmtnaYWqnbxWpbqDo5ZfzKJoN
-         m6uQ==
-X-Gm-Message-State: AOJu0Yz34GadnfY08NLHHu/OvVHvgTtXcl717bmIwnPARD/btLlvmRLv
-        QksjyCDzkvF/4MxcBor1caD9eA==
-X-Google-Smtp-Source: AGHT+IER4N7VJrvxFrDg8VCeFtUBg7uVVL9fZojtmawRNaSOvFI0acV+CXBQr9df6LEtCx88vvIbHw==
-X-Received: by 2002:adf:eecc:0:b0:32d:a2d7:ae88 with SMTP id a12-20020adfeecc000000b0032da2d7ae88mr3508639wrp.43.1697886572444;
-        Sat, 21 Oct 2023 04:09:32 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id o7-20020a056000010700b003232d122dbfsm3491096wrx.66.2023.10.21.04.09.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Oct 2023 04:09:32 -0700 (PDT)
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Sat, 21 Oct 2023 13:09:26 +0200
-Subject: [PATCH v9 4/4] Input: goodix-berlin - add SPI support for Goodix
- Berlin Touchscreen IC
+        Sat, 21 Oct 2023 10:56:28 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18236D7;
+        Sat, 21 Oct 2023 07:56:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697900183; x=1729436183;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mZbYrMuL0Hg/WJ42cgIbcLp2WjDVIiKbUXUWZ6rKagQ=;
+  b=Q0VneZA9pTyiat1WKEjeUZqL8ezKRU8bhqn8702JcOQnHiPOboFvKMqa
+   r2hHMoDc7HnX424NeAC/Uu/AEwxudv5JQo+SzUiZIFepZSU4wUv3l8UAd
+   NmhAEaNEH64QhRLISdf8hrRXasXXTvuqlfwJawI3QRq6PqLV67Or3vq8I
+   hir2n6rTFhmp04pxJ5djaCyXoH0yrTk4OKHJHzhRt1l9TGzXwXl1bc0f9
+   4FU9tST7pnwkbj2azfc9xRnbRJG8ObJyCRtSuRh1gwEltaujCwM1YF4xu
+   kZGZGdrYImb7NFIlxUdwdp2wBkiPXYAuizlu0ch3WZOhRgp1Jg2wVpSiO
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="472860090"
+X-IronPort-AV: E=Sophos;i="6.03,241,1694761200"; 
+   d="scan'208";a="472860090"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 07:56:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="874218846"
+X-IronPort-AV: E=Sophos;i="6.03,241,1694761200"; 
+   d="scan'208";a="874218846"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 21 Oct 2023 07:56:11 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1quDOb-0004ww-18;
+        Sat, 21 Oct 2023 14:56:09 +0000
+Date:   Sat, 21 Oct 2023 22:56:04 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     James Ogletree <james.ogletree@opensource.cirrus.com>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        James Ogletree <james.ogletree@cirrus.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Lee Jones <lee@kernel.org>,
+        Fred Treven <fred.treven@cirrus.com>,
+        Ben Bright <ben.bright@cirrus.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 3/4] mfd: cs40l50: Add support for CS40L50 core driver
+Message-ID: <202310212247.exrCjFhj-lkp@intel.com>
+References: <20231018175726.3879955-4-james.ogletree@opensource.cirrus.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231021-topic-goodix-berlin-upstream-initial-v9-4-13fb4e887156@linaro.org>
-References: <20231021-topic-goodix-berlin-upstream-initial-v9-0-13fb4e887156@linaro.org>
-In-Reply-To: <20231021-topic-goodix-berlin-upstream-initial-v9-0-13fb4e887156@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Jeff LaBundy <jeff@labundy.com>, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8018;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=Qt+npl8i2OE+s8j4Ze03++ftzJ+qPlUeps9Tw1QwAkg=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlM7FnrYS1E9+SBgVDdlT37AOWi1Y9DsgZKvl6r2ut
- rxH//XSJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZTOxZwAKCRB33NvayMhJ0RpxEA
- CrO12P596OWAKyIuD6Z8EpSlTKGOtFTMlBtdFG9LwhhlVYpNpSmCjVHhnpnCPWgQJBJ5i7c0onzGfS
- H8Swdij2CuVMRN/1rkyTxZ/wR48sxT0uJPcd4GtZCDovraGUrC0kN9s6+RvxO/pzU7TcK8zkjuCcY3
- MS1X4M0Sz+j+BAlvWXxTaplNqoES5a3wlWkDiQbt0HqKMBRPSeWG+enbwaNlIviKdrToKebAytxMWQ
- K9VkGrbS/o9cM+PNNxZejuijYJxd8DKLz/aJgQ12RymjAXlsaakKpaUeZ0NYgp+ir7D7b5EElU4Zrn
- WxmrXR5lSzCaSvPhi/4HI0YheXrf/mUVpN0xRBJu8KZG17VvlQwcd1vA+Hi2yuIU34lq9LY2T0uwb0
- SIiMZXBNPYZOrBuG6gQoVVY6tH9BzMXmUQ+Sa18bYEigBflM9+39gqnWRHoXP65zVVg2khjdl93CUG
- ghynQwd9h5AHZs4Os1IDAPOT/DlsD3z7KDjeqsexQ+paPoMKvydibjJkp5Sw1cbxDvI0T0JXbh9krB
- 3BkamdFZu9w4Y9Zyx1nJRFGsv5HB5VtPRmaFjsO3iajI0xzJVEKvyR4XFZUtLUh7z8lbtPkCGvuaRL
- WeK3btXw5ZisChihl4zeTjUQMQrpgtFGvvQVkBxYHW0R++yJfilLvVEJuEcQ==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231018175726.3879955-4-james.ogletree@opensource.cirrus.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add initial support for the new Goodix "Berlin" touchscreen ICs
-over the SPI interface.
+Hi James,
 
-The driver doesn't use the regmap_spi code since the SPI messages
-needs to be prefixed, thus this custom regmap code.
+kernel test robot noticed the following build errors:
 
-This initial driver is derived from the Goodix goodix_ts_berlin
-available at [1] and [2] and only supports the GT9916 IC
-present on the Qualcomm SM8550 MTP & QRD touch panel.
+[auto build test ERROR on dtor-input/next]
+[also build test ERROR on dtor-input/for-linus lee-mfd/for-mfd-next robh/for-next linus/master lee-mfd/for-mfd-fixes v6.6-rc6 next-20231020]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The current implementation only supports BerlinD, aka GT9916.
+url:    https://github.com/intel-lab-lkp/linux/commits/James-Ogletree/dt-bindings-input-cirrus-cs40l50-Add-initial-DT-binding/20231019-015950
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20231018175726.3879955-4-james.ogletree%40opensource.cirrus.com
+patch subject: [PATCH v4 3/4] mfd: cs40l50: Add support for CS40L50 core driver
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20231021/202310212247.exrCjFhj-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310212247.exrCjFhj-lkp@intel.com/reproduce)
 
-[1] https://github.com/goodix/goodix_ts_berlin
-[2] https://git.codelinaro.org/clo/la/platform/vendor/opensource/touch-drivers
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310212247.exrCjFhj-lkp@intel.com/
 
-Reviewed-by: Jeff LaBundy <jeff@labundy.com>
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- drivers/input/touchscreen/Kconfig             |  14 +++
- drivers/input/touchscreen/Makefile            |   1 +
- drivers/input/touchscreen/goodix_berlin_spi.c | 173 ++++++++++++++++++++++++++
- 3 files changed, 188 insertions(+)
+All errors (new ones prefixed by >>):
 
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index cc7b88118158..c821fe3ee794 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -433,6 +433,20 @@ config TOUCHSCREEN_GOODIX_BERLIN_I2C
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called goodix_berlin_i2c.
- 
-+config TOUCHSCREEN_GOODIX_BERLIN_SPI
-+	tristate "Goodix Berlin SPI touchscreen"
-+	depends on SPI_MASTER
-+	select REGMAP
-+	select TOUCHSCREEN_GOODIX_BERLIN_CORE
-+	help
-+	  Say Y here if you have a Goodix Berlin IC connected to
-+	  your system via SPI.
-+
-+	  If unsure, say N.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called goodix_berlin_spi.
-+
- config TOUCHSCREEN_HIDEEP
- 	tristate "HiDeep Touch IC"
- 	depends on I2C
-diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-index 7ef677cf7a10..a81cb5aa21a5 100644
---- a/drivers/input/touchscreen/Makefile
-+++ b/drivers/input/touchscreen/Makefile
-@@ -49,6 +49,7 @@ obj-$(CONFIG_TOUCHSCREEN_FUJITSU)	+= fujitsu_ts.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX)	+= goodix_ts.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_CORE)	+= goodix_berlin_core.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_I2C)	+= goodix_berlin_i2c.o
-+obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_SPI)	+= goodix_berlin_spi.o
- obj-$(CONFIG_TOUCHSCREEN_HIDEEP)	+= hideep.o
- obj-$(CONFIG_TOUCHSCREEN_HYNITRON_CSTXXX)	+= hynitron_cstxxx.o
- obj-$(CONFIG_TOUCHSCREEN_ILI210X)	+= ili210x.o
-diff --git a/drivers/input/touchscreen/goodix_berlin_spi.c b/drivers/input/touchscreen/goodix_berlin_spi.c
-new file mode 100644
-index 000000000000..1f57c3592918
---- /dev/null
-+++ b/drivers/input/touchscreen/goodix_berlin_spi.c
-@@ -0,0 +1,173 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Goodix Berlin Touchscreen Driver
-+ *
-+ * Copyright (C) 2020 - 2021 Goodix, Inc.
-+ * Copyright (C) 2023 Linaro Ltd.
-+ *
-+ * Based on goodix_ts_berlin driver.
-+ */
-+#include <asm/unaligned.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+#include <linux/spi/spi.h>
-+
-+#include "goodix_berlin.h"
-+
-+#define GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN	1
-+#define GOODIX_BERLIN_REGISTER_WIDTH		4
-+#define GOODIX_BERLIN_SPI_READ_DUMMY_LEN	3
-+#define GOODIX_BERLIN_SPI_READ_PREFIX_LEN	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
-+						 GOODIX_BERLIN_REGISTER_WIDTH + \
-+						 GOODIX_BERLIN_SPI_READ_DUMMY_LEN)
-+#define GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
-+						 GOODIX_BERLIN_REGISTER_WIDTH)
-+
-+#define GOODIX_BERLIN_SPI_WRITE_FLAG		0xF0
-+#define GOODIX_BERLIN_SPI_READ_FLAG		0xF1
-+
-+static int goodix_berlin_spi_read(void *context, const void *reg_buf,
-+				  size_t reg_size, void *val_buf,
-+				  size_t val_size)
-+{
-+	struct spi_device *spi = context;
-+	struct spi_transfer xfers;
-+	struct spi_message spi_msg;
-+	const u32 *reg = reg_buf; /* reg is stored as native u32 at start of buffer */
-+	u8 *buf;
-+	int error;
-+
-+	if (reg_size != GOODIX_BERLIN_REGISTER_WIDTH)
-+		return -EINVAL;
-+
-+	buf = kzalloc(GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	spi_message_init(&spi_msg);
-+	memset(&xfers, 0, sizeof(xfers));
-+
-+	/* buffer format: 0xF1 + addr(4bytes) + dummy(3bytes) + data */
-+	buf[0] = GOODIX_BERLIN_SPI_READ_FLAG;
-+	put_unaligned_be32(*reg, buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN);
-+	memset(buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + GOODIX_BERLIN_REGISTER_WIDTH,
-+	       0xff, GOODIX_BERLIN_SPI_READ_DUMMY_LEN);
-+
-+	xfers.tx_buf = buf;
-+	xfers.rx_buf = buf;
-+	xfers.len = GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size;
-+	xfers.cs_change = 0;
-+	spi_message_add_tail(&xfers, &spi_msg);
-+
-+	error = spi_sync(spi, &spi_msg);
-+	if (error < 0)
-+		dev_err(&spi->dev, "spi transfer error, %d", error);
-+	else
-+		memcpy(val_buf, buf + GOODIX_BERLIN_SPI_READ_PREFIX_LEN, val_size);
-+
-+	kfree(buf);
-+	return error;
-+}
-+
-+static int goodix_berlin_spi_write(void *context, const void *data,
-+				   size_t count)
-+{
-+	unsigned int len = count - GOODIX_BERLIN_REGISTER_WIDTH;
-+	struct spi_device *spi = context;
-+	struct spi_transfer xfers;
-+	struct spi_message spi_msg;
-+	const u32 *reg = data; /* reg is stored as native u32 at start of buffer */
-+	u8 *buf;
-+	int error;
-+
-+	buf = kzalloc(GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN + len, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	spi_message_init(&spi_msg);
-+	memset(&xfers, 0, sizeof(xfers));
-+
-+	buf[0] = GOODIX_BERLIN_SPI_WRITE_FLAG;
-+	put_unaligned_be32(*reg, buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN);
-+	memcpy(buf + GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN,
-+	       data + GOODIX_BERLIN_REGISTER_WIDTH, len);
-+
-+	xfers.tx_buf = buf;
-+	xfers.len = GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN + len;
-+	xfers.cs_change = 0;
-+	spi_message_add_tail(&xfers, &spi_msg);
-+
-+	error = spi_sync(spi, &spi_msg);
-+	if (error < 0)
-+		dev_err(&spi->dev, "spi transfer error, %d", error);
-+
-+	kfree(buf);
-+	return error;
-+}
-+
-+static const struct regmap_config goodix_berlin_spi_regmap_conf = {
-+	.reg_bits = 32,
-+	.val_bits = 8,
-+	.read = goodix_berlin_spi_read,
-+	.write = goodix_berlin_spi_write,
-+};
-+
-+/* vendor & product left unassigned here, should probably be updated from fw info */
-+static const struct input_id goodix_berlin_spi_input_id = {
-+	.bustype = BUS_SPI,
-+};
-+
-+static int goodix_berlin_spi_probe(struct spi_device *spi)
-+{
-+	struct regmap_config regmap_config;
-+	struct regmap *regmap;
-+	size_t max_size;
-+	int error = 0;
-+
-+	spi->mode = SPI_MODE_0;
-+	spi->bits_per_word = 8;
-+	error = spi_setup(spi);
-+	if (error)
-+		return error;
-+
-+	max_size = spi_max_transfer_size(spi);
-+
-+	regmap_config = goodix_berlin_spi_regmap_conf;
-+	regmap_config.max_raw_read = max_size - GOODIX_BERLIN_SPI_READ_PREFIX_LEN;
-+	regmap_config.max_raw_write = max_size - GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN;
-+
-+	regmap = devm_regmap_init(&spi->dev, NULL, spi, &regmap_config);
-+	if (IS_ERR(regmap))
-+		return PTR_ERR(regmap);
-+
-+	return goodix_berlin_probe(&spi->dev, spi->irq,
-+				   &goodix_berlin_spi_input_id, regmap);
-+}
-+
-+static const struct spi_device_id goodix_berlin_spi_ids[] = {
-+	{ "gt9916" },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(spi, goodix_berlin_spi_ids);
-+
-+static const struct of_device_id goodix_berlin_spi_of_match[] = {
-+	{ .compatible = "goodix,gt9916", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, goodix_berlin_spi_of_match);
-+
-+static struct spi_driver goodix_berlin_spi_driver = {
-+	.driver = {
-+		.name = "goodix-berlin-spi",
-+		.of_match_table = goodix_berlin_spi_of_match,
-+		.pm = pm_sleep_ptr(&goodix_berlin_pm_ops),
-+	},
-+	.probe = goodix_berlin_spi_probe,
-+	.id_table = goodix_berlin_spi_ids,
-+};
-+module_spi_driver(goodix_berlin_spi_driver);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("Goodix Berlin SPI Touchscreen driver");
-+MODULE_AUTHOR("Neil Armstrong <neil.armstrong@linaro.org>");
+>> drivers/mfd/cs40l50-spi.c:9:10: fatal error: linux/input/cs40l50.h: No such file or directory
+       9 | #include <linux/input/cs40l50.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +9 drivers/mfd/cs40l50-spi.c
+
+   > 9	#include <linux/input/cs40l50.h>
+    10	#include <linux/mfd/spi.h>
+    11	
 
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
