@@ -2,166 +2,190 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C67DD7D1B53
-	for <lists+linux-input@lfdr.de>; Sat, 21 Oct 2023 08:33:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A23507D1BFA
+	for <lists+linux-input@lfdr.de>; Sat, 21 Oct 2023 11:09:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229588AbjJUGdE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 21 Oct 2023 02:33:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40228 "EHLO
+        id S229590AbjJUJJs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 21 Oct 2023 05:09:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229503AbjJUGdD (ORCPT
+        with ESMTP id S229583AbjJUJJr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 21 Oct 2023 02:33:03 -0400
-Received: from mail-oa1-f79.google.com (mail-oa1-f79.google.com [209.85.160.79])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C119CD52
-        for <linux-input@vger.kernel.org>; Fri, 20 Oct 2023 23:32:57 -0700 (PDT)
-Received: by mail-oa1-f79.google.com with SMTP id 586e51a60fabf-1e103f22f74so1969886fac.1
-        for <linux-input@vger.kernel.org>; Fri, 20 Oct 2023 23:32:57 -0700 (PDT)
+        Sat, 21 Oct 2023 05:09:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B942710DA
+        for <linux-input@vger.kernel.org>; Sat, 21 Oct 2023 02:08:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1697879317;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Duv/vRzaqiVheQFpKN6BpeiI42/H7vnpG0VOqBtei/A=;
+        b=PTdkW4lSkMehhV7uMUoNChJsa52sfu+7H4ywbakqpvoDOP3cNfs1BelqXS97lMXs/gnaLh
+        yGl/tUxUZpbQepR9pMoGCjMtwVUmeveku1Sb/2Uh7L9D1MT3n88qpBruGoikG/zx30GfrY
+        1TBDVZjwy9c9ri0bSl3QBR+sY6SemzU=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-332-66pdaipUPHiIJXmDKQ9Y9w-1; Sat, 21 Oct 2023 05:08:26 -0400
+X-MC-Unique: 66pdaipUPHiIJXmDKQ9Y9w-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9bd91ce3033so103623766b.0
+        for <linux-input@vger.kernel.org>; Sat, 21 Oct 2023 02:08:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697869977; x=1698474777;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IkW/la3MNkqAK76T4FXoe2l8YKRJu+wHh+BtgtvaPjA=;
-        b=AjfhAcJl4s/GQtHrcK9o0dAuYdBSvXrm08DStxokqoP8squXWwMFeGTWnekM6w0Gc8
-         WwlfEhr9Fa/+SLdg2yuor92eYuDlFwv7+CyTyQCqbl+FPTjX2jGIZzohf+mawPzSd1XP
-         oeBMo+LFzXSiVxZ+KOb00RaeaC572dLEhaVWmPQEVY8lJFt5Oai7iUHMVIQuIe4I+DmJ
-         cUmtS7DoDnuRtLOGptinxUURyX6LzrUAhIRgZJ2uQw2XUBD17NDD+ucNc+GgAcW3cQTW
-         pcfH3fpQsn24zFwObD9rqlZ7rrVxyD0LeizY2DxQch2HZtFePC9JE7fAtwWWGObxVD5k
-         TNiA==
-X-Gm-Message-State: AOJu0YySxqPhYVaWXa+rSoCGlo+g226yZ7W784g6RseNhczM/f//2iVA
-        fukaNPHzU1RY/98tVt+2puskemu/T0Ubt3uPPDXVaRpgTkuj
-X-Google-Smtp-Source: AGHT+IFOaSAtVO2JWJNVqPZAKSM/060ynFIF6jGHT4dlqqe4LN3Y99GwTaAlkSLzaxBj/LEEhV/hJ7V+uyuF03KDt2V4X1XGiOdD
+        d=1e100.net; s=20230601; t=1697879305; x=1698484105;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Duv/vRzaqiVheQFpKN6BpeiI42/H7vnpG0VOqBtei/A=;
+        b=W+EdsH+X9jWoA0iwP3DyVBiB44AKeu9SQpRuLg3iotwXmNkkXkpt4RPhfAqMegNJxp
+         Q3HVtbOAh/BM/R4sNL5CqrblfqulR8mTUZ9KyzxDPbaqkmgXxxfFcQ3cOnHCJ9F1kHVh
+         4nl+LwcFSCrMW16Vp/eGsiMZ0Yx/8uM87QXy1mEkVrEATghYrYT8EVlnaDtG1aygrhlZ
+         ZCkMhvSSgdG/Sjt+2K594vqXv47f9+/uM5XwmpiHD6WZzP6XWG4VWyrczhTeEb2h9rL5
+         CWfLJQrwsrmifL7TLGNSGnez1Xm6kdMmKYfHbe/NhNMmNL6haMTmv8rIcFB1Xz1FFnMj
+         FKzA==
+X-Gm-Message-State: AOJu0Yzq8/IWeItl4NCoQR6dSad57YzrCuuHi7lUWqrxK5B1usgTqNBV
+        5G9crqjO683RRxz1GiXEnnCpZkc0c1RytxiW49Fh5sjn2tpJww4r7Kp8eqwTHYE84M4+190exub
+        LFR0jZ/HudY5J7vWXVpWB1DY=
+X-Received: by 2002:a17:907:2cc4:b0:9c3:d356:ad0c with SMTP id hg4-20020a1709072cc400b009c3d356ad0cmr3284618ejc.24.1697879305108;
+        Sat, 21 Oct 2023 02:08:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFNqtW+MndTr+TWmmj2VbzRQsCnDbztAGvz9JDMu9I4Oq15U8bQsUZjmiRgthR6bMx8lB0Nzg==
+X-Received: by 2002:a17:907:2cc4:b0:9c3:d356:ad0c with SMTP id hg4-20020a1709072cc400b009c3d356ad0cmr3284603ejc.24.1697879304753;
+        Sat, 21 Oct 2023 02:08:24 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id k9-20020a1709061c0900b0099ce025f8ccsm3201413ejg.186.2023.10.21.02.08.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 21 Oct 2023 02:08:23 -0700 (PDT)
+Message-ID: <01a505ac-320f-3819-a58d-2b82c1bf2a86@redhat.com>
+Date:   Sat, 21 Oct 2023 11:08:22 +0200
 MIME-Version: 1.0
-X-Received: by 2002:a05:6870:3042:b0:1e9:6ade:af41 with SMTP id
- u2-20020a056870304200b001e96adeaf41mr1820944oau.5.1697869977112; Fri, 20 Oct
- 2023 23:32:57 -0700 (PDT)
-Date:   Fri, 20 Oct 2023 23:32:57 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000dc5c0b06083428d3@google.com>
-Subject: [syzbot] [input?] WARNING in cm109_input_open/usb_submit_urb (2)
-From:   syzbot <syzbot+2e305789579d76b5c253@syzkaller.appspotmail.com>
-To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in
+ atomic context
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-pwm@vger.kernel.org,
+        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Mark Gross <markgross@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Helge Deller <deller@gmx.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+References: <cover.1697534024.git.sean@mess.org>
+ <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
+ <90728c06-4c6c-b3d2-4723-c24711be2fa5@redhat.com>
+ <20231019105118.64gdzzixwqrztjir@pengutronix.de>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20231019105118.64gdzzixwqrztjir@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+Hi Uwe,
 
-syzbot found the following issue on:
+On 10/19/23 12:51, Uwe Kleine-König wrote:
+> On Wed, Oct 18, 2023 at 03:57:48PM +0200, Hans de Goede wrote:
+>> Hi Sean,
+>>
+>> On 10/17/23 11:17, Sean Young wrote:
+>>> Some drivers require sleeping, for example if the pwm device is connected
+>>> over i2c. The pwm-ir-tx requires precise timing, and sleeping causes havoc
+>>> with the generated IR signal when sleeping occurs.
+>>>
+>>> This patch makes it possible to use pwm when the driver does not sleep,
+>>> by introducing the pwm_can_sleep() function.
+>>>
+>>> Signed-off-by: Sean Young <sean@mess.org>
+>>
+>> I have no objection to this patch by itself, but it seems a bit
+>> of unnecessary churn to change all current callers of pwm_apply_state()
+>> to a new API.
+> 
+> The idea is to improve the semantic of the function name, see
+> https://lore.kernel.org/linux-pwm/20231013180449.mcdmklbsz2rlymzz@pengutronix.de
+> for more context.
 
-HEAD commit:    213f891525c2 Merge tag 'probes-fixes-v6.6-rc6' of git://gi..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1645d5c5680000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3c2b0838e2a16cba
-dashboard link: https://syzkaller.appspot.com/bug?extid=2e305789579d76b5c253
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+Hmm, so the argument here is that the GPIO API has this, but GPIOs
+generally speaking can be set atomically, so there not being able
+to set it atomically is special.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+OTOH we have many many many other kernel functions which may sleep
+and we don't all postfix them with _can_sleep.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/b408820be5ac/disk-213f8915.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/4d1614ab03cf/vmlinux-213f8915.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/0405348b5203/bzImage-213f8915.xz
+And for PWM controllers pwm_apply_state is IMHO sorta expected to
+sleep. Many of these are attached over I2C so things will sleep,
+others have a handshake to wait for the current dutycycle to
+end before you can apply a second change on top of an earlier
+change during the current dutycycle which often also involves
+sleeping.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+2e305789579d76b5c253@syzkaller.appspotmail.com
+So the natural/expeected thing for pwm_apply_state() is to sleep
+and thus it does not need a postfix for this IMHO.
 
-usb 5-1: New USB device found, idVendor=0d8c, idProduct=000e, bcdDevice=8e.8f
-usb 5-1: New USB device strings: Mfr=0, Product=24, SerialNumber=3
-usb 5-1: Product: syz
-usb 5-1: SerialNumber: syz
-usb 5-1: config 0 descriptor??
-cm109 5-1:0.8: invalid payload size 0, expected 4
-input: CM109 USB driver as /devices/platform/dummy_hcd.4/usb5/5-1/5-1:0.8/input/input7
-------------[ cut here ]------------
-URB ffff88814239df00 submitted while active
-WARNING: CPU: 1 PID: 5140 at drivers/usb/core/urb.c:379 usb_submit_urb+0x14cb/0x1720 drivers/usb/core/urb.c:379
-Modules linked in:
-CPU: 1 PID: 5140 Comm: kworker/1:4 Not tainted 6.6.0-rc6-syzkaller-00029-g213f891525c2 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/06/2023
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:usb_submit_urb+0x14cb/0x1720 drivers/usb/core/urb.c:379
-Code: bf 0e fe eb cb bb fe ff ff ff e9 ca f3 ff ff e8 3b 43 42 fb 48 89 de 48 c7 c7 40 5e 40 8b c6 05 ae e5 72 08 01 e8 05 68 08 fb <0f> 0b e9 ba fe ff ff bb f8 ff ff ff e9 9e f3 ff ff 48 89 ef e8 3c
-RSP: 0018:ffffc900043eef30 EFLAGS: 00010282
-RAX: 0000000000000000 RBX: ffff88814239df00 RCX: ffffc90013d1f000
-RDX: 0000000000040000 RSI: ffffffff814df0c6 RDI: 0000000000000001
-RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000000
-R10: 0000000000000000 R11: 0a65766974636120 R12: ffff88801d85b810
-R13: ffff88801d85b8a0 R14: ffff88801d85b850 R15: ffff88802f7af2e8
-FS:  0000000000000000(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f691b620d58 CR3: 000000002b3be000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- cm109_input_open+0x271/0x460 drivers/input/misc/cm109.c:572
- input_open_device+0x1c9/0x310 drivers/input/input.c:654
- kbd_connect+0xff/0x150 drivers/tty/vt/keyboard.c:1593
- input_attach_handler.isra.0+0x17c/0x250 drivers/input/input.c:1064
- input_register_device+0xb1e/0x1130 drivers/input/input.c:2396
- cm109_usb_probe+0x1225/0x17b0 drivers/input/misc/cm109.c:806
- usb_probe_interface+0x307/0x930 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:579 [inline]
- really_probe+0x234/0xc90 drivers/base/dd.c:658
- __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:800
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
- __device_attach_driver+0x1d4/0x300 drivers/base/dd.c:958
- bus_for_each_drv+0x157/0x1d0 drivers/base/bus.c:457
- __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
- bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
- device_add+0x117e/0x1aa0 drivers/base/core.c:3624
- usb_set_configuration+0x10cb/0x1c40 drivers/usb/core/message.c:2207
- usb_generic_driver_probe+0xca/0x130 drivers/usb/core/generic.c:238
- usb_probe_device+0xda/0x2c0 drivers/usb/core/driver.c:293
- call_driver_probe drivers/base/dd.c:579 [inline]
- really_probe+0x234/0xc90 drivers/base/dd.c:658
- __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:800
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
- __device_attach_driver+0x1d4/0x300 drivers/base/dd.c:958
- bus_for_each_drv+0x157/0x1d0 drivers/base/bus.c:457
- __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
- bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
- device_add+0x117e/0x1aa0 drivers/base/core.c:3624
- usb_new_device+0xd80/0x1960 drivers/usb/core/hub.c:2597
- hub_port_connect drivers/usb/core/hub.c:5459 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5599 [inline]
- port_event drivers/usb/core/hub.c:5759 [inline]
- hub_event+0x2dac/0x4e10 drivers/usb/core/hub.c:5841
- process_one_work+0x884/0x15c0 kernel/workqueue.c:2630
- process_scheduled_works kernel/workqueue.c:2703 [inline]
- worker_thread+0x8b9/0x1290 kernel/workqueue.c:2784
- kthread+0x33c/0x440 kernel/kthread.c:388
- ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:304
- </TASK>
+> I think it's very subjective if you consider this
+> churn or not.
+
+I consider it churn because I don't think adding a postfix
+for what is the default/expected behavior is a good idea
+(with GPIOs not sleeping is the expected behavior).
+
+I agree that this is very subjective and very much goes
+into the territory of bikeshedding. So please consider
+the above my 2 cents on this and lets leave it at that.
+
+> While it's nice to have every caller converted in a single
+> step, I'd go for
+> 
+> 	#define pwm_apply_state(pwm, state) pwm_apply_cansleep(pwm, state)
+> 
+> , keep that macro for a while and convert all users step by step. This
+> way we don't needlessly break oot code and the changes to convert to the
+> new API can go via their usual trees without time pressure.
+
+I don't think there are enough users of pwm_apply_state() to warrant
+such an exercise.
+
+So if people want to move ahead with the _can_sleep postfix addition
+(still not a fan) here is my acked-by for the drivers/platform/x86
+changes, for merging this through the PWM tree in a single commit:
+
+Acked-by: Hans de Goede <hdegoede@redhat.com>
+
+Regards,
+
+Hans
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
