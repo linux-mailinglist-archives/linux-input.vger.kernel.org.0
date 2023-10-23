@@ -2,143 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF4827D300B
-	for <lists+linux-input@lfdr.de>; Mon, 23 Oct 2023 12:35:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 311FE7D3056
+	for <lists+linux-input@lfdr.de>; Mon, 23 Oct 2023 12:48:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229778AbjJWKfw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 Oct 2023 06:35:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58076 "EHLO
+        id S229685AbjJWKsS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Oct 2023 06:48:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbjJWKfv (ORCPT
+        with ESMTP id S229661AbjJWKsR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 Oct 2023 06:35:51 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2693FD6E;
-        Mon, 23 Oct 2023 03:35:49 -0700 (PDT)
+        Mon, 23 Oct 2023 06:48:17 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24B6EEE;
+        Mon, 23 Oct 2023 03:48:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698057349; x=1729593349;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hcyNvUgQiaQ72XY6XCfmfDq1LmiwOA/3EPhPZPeidk8=;
-  b=n3yviCV/S6HkEzA1a5rmMju0LQTx3gIXviXzqDa1I+fP8SI8yU+eKIUw
-   4Bpwdqy5p+baM+0TJSsRr8/3bCTW74E/aDM/3lssDU/dBCApa0uj84CgK
-   povR6+319XZJtUCX9TK6TgfeggvA9aTxSTPAbfMJdCVQGcS87XFjjxsN0
-   Jzs6FwQswzrXFEc9RoDPLn3wYS3T4UbB/VAZzIhEPKitXyqJKjjrnQ33y
-   e+wjEfGQoqxnnV0iUpdiaVb5wY70yc//h9HWg+gkcBj7AaW80LDWMd1dc
-   SoSDrmuSfw6d7qba/FOgzM5NNDE/kawML231HDMUn9kHGrHalAps+/mOs
+  t=1698058095; x=1729594095;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=j6gkewFE2ehbSRRm8yxR5V6tYph8e2bExlA+57BfIvw=;
+  b=bF0FOYM+BRR4CCf4BbSO3MbwKimuswQBUZn/illY++MONMcfP/6ch2cR
+   4mWlOuZTMAesYi3DqXv2DVGSCqNjxfwWgF5arYrQXnaaB0+xrJzh3EQIm
+   L7zIevLd8uXFgrQyaUAVCBkvkJEMXJ8UIr9sJhuOvmBxGoJxf26YMnbFj
+   l8TyX1xQQqKpRY8iHbvANwAuOkjWHc2FUjiu/OMOsG5cmI/FSuDn2I+uA
+   zJiemBV8RvU0tGA5oKJfXmvXUPdRLNOXpjR3zGeGdzM1K6umaCOZUDz2+
+   4Q5vLqPX+oEnjgxXPPLUrGRFnTiC18tLv7B3lM1ewQrw+FKStW7DW44Le
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="453280620"
+X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="371880227"
 X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; 
-   d="scan'208";a="453280620"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 03:35:48 -0700
+   d="scan'208";a="371880227"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 03:47:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="793083978"
+X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="823925172"
 X-IronPort-AV: E=Sophos;i="6.03,244,1694761200"; 
-   d="scan'208";a="793083978"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 23 Oct 2023 03:35:47 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qusHg-0006or-2Y;
-        Mon, 23 Oct 2023 10:35:44 +0000
-Date:   Mon, 23 Oct 2023 18:35:05 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     James Hilliard <james.hilliard1@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev,
-        James Hilliard <james.hilliard1@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
+   d="scan'208";a="823925172"
+Received: from evlad-mobl.ger.corp.intel.com (HELO localhost) ([10.252.47.180])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 03:47:47 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-pwm@vger.kernel.org,
+        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6ni?= =?utf-8?Q?g?= 
+        <u.kleine-koenig@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Support Opensource <support.opensource@diasemi.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: cyttsp5 - improve error handling and remove regmap
-Message-ID: <202310231838.JHHtGKmB-lkp@intel.com>
-References: <20231023085234.105572-1-james.hilliard1@gmail.com>
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Ilpo =?utf-8?Q?J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Mark Gross <markgross@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in
+ atomic context
+In-Reply-To: <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1697534024.git.sean@mess.org>
+ <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
+Date:   Mon, 23 Oct 2023 13:47:44 +0300
+Message-ID: <87y1ftboof.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231023085234.105572-1-james.hilliard1@gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi James,
+On Tue, 17 Oct 2023, Sean Young <sean@mess.org> wrote:
+> diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
+> index 2e8f17c045222..cf516190cde8f 100644
+> --- a/drivers/gpu/drm/i915/display/intel_backlight.c
+> +++ b/drivers/gpu/drm/i915/display/intel_backlight.c
+> @@ -274,7 +274,7 @@ static void ext_pwm_set_backlight(const struct drm_connector_state *conn_state,
+>  	struct intel_panel *panel = &to_intel_connector(conn_state->connector)->panel;
+>  
+>  	pwm_set_relative_duty_cycle(&panel->backlight.pwm_state, level, 100);
+> -	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
+> +	pwm_apply_cansleep(panel->backlight.pwm, &panel->backlight.pwm_state);
+>  }
+>  
+>  static void
+> @@ -427,7 +427,7 @@ static void ext_pwm_disable_backlight(const struct drm_connector_state *old_conn
+>  	intel_backlight_set_pwm_level(old_conn_state, level);
+>  
+>  	panel->backlight.pwm_state.enabled = false;
+> -	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
+> +	pwm_apply_cansleep(panel->backlight.pwm, &panel->backlight.pwm_state);
+>  }
+>  
+>  void intel_backlight_disable(const struct drm_connector_state *old_conn_state)
+> @@ -749,7 +749,7 @@ static void ext_pwm_enable_backlight(const struct intel_crtc_state *crtc_state,
+>  
+>  	pwm_set_relative_duty_cycle(&panel->backlight.pwm_state, level, 100);
+>  	panel->backlight.pwm_state.enabled = true;
+> -	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
+> +	pwm_apply_cansleep(panel->backlight.pwm, &panel->backlight.pwm_state);
+>  }
+>  
+>  static void __intel_backlight_enable(const struct intel_crtc_state *crtc_state,
 
-kernel test robot noticed the following build warnings:
+The i915 parts are
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.6-rc7 next-20231023]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Hilliard/Input-cyttsp5-improve-error-handling-and-remove-regmap/20231023-165327
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20231023085234.105572-1-james.hilliard1%40gmail.com
-patch subject: [PATCH] Input: cyttsp5 - improve error handling and remove regmap
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231023/202310231838.JHHtGKmB-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231023/202310231838.JHHtGKmB-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310231838.JHHtGKmB-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/input/touchscreen/cyttsp5.c: In function 'cyttsp5_get_hid_descriptor':
->> drivers/input/touchscreen/cyttsp5.c:684:22: warning: unused variable 'reg' [-Wunused-variable]
-     684 |         unsigned int reg = HID_DESC_REG;
-         |                      ^~~
-
-
-vim +/reg +684 drivers/input/touchscreen/cyttsp5.c
-
-   677	
-   678	static int cyttsp5_get_hid_descriptor(struct cyttsp5 *ts,
-   679					      struct cyttsp5_hid_desc *desc)
-   680	{
-   681		struct device *dev = ts->dev;
-   682		u8 cmd[2] = { 0 };
-   683		int rc;
- > 684		unsigned int reg = HID_DESC_REG;
-   685	
-   686		put_unaligned_le16(HID_DESC_REG, cmd);
-   687	
-   688		rc = cyttsp5_write(ts, HID_DESC_REG, cmd, 2);
-   689		if (rc) {
-   690			dev_err(dev, "Failed to get HID descriptor, rc=%d\n", rc);
-   691			return rc;
-   692		}
-   693	
-   694		rc = wait_for_completion_interruptible_timeout(&ts->cmd_done,
-   695				msecs_to_jiffies(CY_HID_GET_HID_DESCRIPTOR_TIMEOUT_MS));
-   696		if (rc <= 0) {
-   697			dev_err(ts->dev, "HID get descriptor timed out\n");
-   698			rc = -ETIMEDOUT;
-   699			return rc;
-   700		}
-   701	
-   702		memcpy(desc, ts->response_buf, sizeof(*desc));
-   703	
-   704		/* Check HID descriptor length and version */
-   705		if (le16_to_cpu(desc->hid_desc_len) != sizeof(*desc) ||
-   706		    le16_to_cpu(desc->bcd_version) != HID_VERSION) {
-   707			dev_err(dev, "Unsupported HID version\n");
-   708			return -ENODEV;
-   709		}
-   710	
-   711		return 0;
-   712	}
-   713	
+for merging via whichever tree you find most convenient, and with
+whatever naming you end up with.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jani Nikula, Intel
