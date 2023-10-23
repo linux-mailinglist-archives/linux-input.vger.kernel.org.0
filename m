@@ -2,49 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EDE97D29D1
-	for <lists+linux-input@lfdr.de>; Mon, 23 Oct 2023 07:56:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAFC07D2D39
+	for <lists+linux-input@lfdr.de>; Mon, 23 Oct 2023 10:52:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229469AbjJWF4O (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 Oct 2023 01:56:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33356 "EHLO
+        id S232532AbjJWIwr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Oct 2023 04:52:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjJWF4N (ORCPT
+        with ESMTP id S232478AbjJWIwr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 Oct 2023 01:56:13 -0400
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC3E11A4;
-        Sun, 22 Oct 2023 22:56:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=t-8ch.de; s=mail;
-        t=1698040567; bh=ZHgQD3EHuvEsSv6gBLoiwQtRPAFx9VbaGxJ6R9uNK1M=;
-        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-        b=TPpfXnLrzXfpGeVDsdb9mh51NIEHDq6b5jj4KfrSrnNiLviLPsuKVRgl1fel6Qd5F
-         kzMb+bx0OAjXrdq5eNGvvf48W9G0K3HPg1GfXvWepo50KrvUQgDx1rPLrvqPj78FZE
-         WHSSMAuXEO9LDAsBeniV8hwecnj/C7srkOPjkXVs=
-Date:   Mon, 23 Oct 2023 07:55:52 +0200 (GMT+02:00)
-From:   =?UTF-8?Q?Thomas_Wei=C3=9Fschuh_?= <thomas@t-8ch.de>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org,
+        Mon, 23 Oct 2023 04:52:47 -0400
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B087D5D;
+        Mon, 23 Oct 2023 01:52:43 -0700 (PDT)
+Received: by mail-io1-xd31.google.com with SMTP id ca18e2360f4ac-7a67b9cd230so127311739f.1;
+        Mon, 23 Oct 2023 01:52:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698051162; x=1698655962; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q6PnKFBLw6mp7zcpYLblvHmBSIxT+176ytBlVD6d+NI=;
+        b=KhcU+ftR6VSRV3aKP1Jc6LWDojJwrSJQ0S+vADPL/4na6bAX8u8QCYjbzUEePQKOva
+         TMcBPQSoB3jpLrcMSVtWTSeKGfV3RiHx1Y31wqmRtR4Wh5XaEEeoOm5UfPl/MpfCg2Wd
+         v8Y/W3IturaXFWz9NMg7lmaOaFHzPsLJTosI56IGBUYLfDLfOQ5FlkXlT46uK6DUtnKA
+         iFGQjIZyX/3zYtrwGZ93rFx+Fkkf26QN2PjxTho66IEnHEdLffaBioCxYyfaYvjHWVbY
+         qZGhQaWLONAckD45T9nn/WXXw02GgtiwR1618kXcvR2iKrhsiNhWzMWtePUecM3l6Jhj
+         wHlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698051162; x=1698655962;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Q6PnKFBLw6mp7zcpYLblvHmBSIxT+176ytBlVD6d+NI=;
+        b=XzlCI4Aje8QGNxl1vix0B2a4pMSVhXhwG7++LpCgve7IDdl3yR/+Fup5Ww/6oWJOOU
+         L6zcG/HMUZwFi4GNWC30/yzMskmbSClcVjxIUkh5BeiLDBHcAX13irB/2SrxaTl29V0+
+         uQ7pzuj+Nqz01UVxC3WzU1ACCJfkPDvNQoiy2f12ILAiqEGG6lk0CnhzS2hmlYtLeoCo
+         lA5DEX6GJ1JdRF4s2LLElwvlRTlA6e1ugjU617PxeAK/WaLRR53GoAnw8jgfHx3ZdFzG
+         5UIL8pbmmRVt796yDRpgVfpN2V7SSsjtVb88d1SNQrB6LCfNvaMhwSwqibf+jrxc3vEO
+         uA/A==
+X-Gm-Message-State: AOJu0YyM8ccd4aSO1Z4Q87PuafdX5HYA8+DSmAWATD8dlzRk+KGRgd4R
+        HsWIu17N//GWhkYSnw2eqxDDanvXvzY=
+X-Google-Smtp-Source: AGHT+IGaYtDS6uWA51zMs352BhyfnOqjGD7g8iwWptmhhLk0hm9QkGaAnup6rJLqEi4YTcoJxCuOkA==
+X-Received: by 2002:a05:6602:26d4:b0:7a6:7e93:6f86 with SMTP id g20-20020a05660226d400b007a67e936f86mr12160003ioo.10.1698051162442;
+        Mon, 23 Oct 2023 01:52:42 -0700 (PDT)
+Received: from james-x399.localdomain (71-218-233-104.hlrn.qwest.net. [71.218.233.104])
+        by smtp.gmail.com with ESMTPSA id y13-20020a056638014d00b00430245071ddsm2137485jao.176.2023.10.23.01.52.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Oct 2023 01:52:41 -0700 (PDT)
+From:   James Hilliard <james.hilliard1@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     James Hilliard <james.hilliard1@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
         linux-kernel@vger.kernel.org
-Message-ID: <00d2fcbc-3fd8-477d-8df1-afec20b458b6@t-8ch.de>
-In-Reply-To: <ZTWza+S+t+UZKlwu@nixie71>
-References: <20231017034356.1436677-1-anshulusr@gmail.com> <20231017034356.1436677-2-anshulusr@gmail.com> <ZTWza+S+t+UZKlwu@nixie71>
-Subject: Re: [PATCH v5 2/2] input: joystick: driver for Adafruit Seesaw
- Gamepad
+Subject: [PATCH] Input: cyttsp5 - improve error handling and remove regmap
+Date:   Mon, 23 Oct 2023 02:52:33 -0600
+Message-Id: <20231023085234.105572-1-james.hilliard1@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Correlation-ID: <00d2fcbc-3fd8-477d-8df1-afec20b458b6@t-8ch.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,623 +71,519 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jeff,
+The vendor cyttsp5 driver does not use regmap for i2c support, it
+would appear this is due to regmap not providing sufficient levels
+of control to handle various error conditions that may be present
+under some configuration/firmware variants.
 
-Oct 23, 2023 01:42:47 Jeff LaBundy <jeff@labundy.com>:
+To improve reliability lets refactor the cyttsp5 i2c interface to
+function more like the vendor driver and implement some of the error
+handling retry/recovery techniques present there.
 
-> Hi Anshul,
->
-> On Tue, Oct 17, 2023 at 09:13:45AM +0530, Anshul Dalal wrote:
->> Adds a driver for a mini gamepad that communicates over i2c, the gamepad
->> has bidirectional thumb stick input and six buttons.
->>
->> The gamepad chip utilizes the open framework from Adafruit called 'Seesa=
-w'
->> to transmit the ADC data for the joystick and digital pin state for the
->> buttons. I have only implemented the functionality required to receive t=
-he
->> thumb stick and button state.
->>
->> Steps in reading the gamepad state over i2c:
->> =C2=A0 1. Reset the registers
->> =C2=A0 2. Set the pin mode of the pins specified by the `BUTTON_MASK` to=
- input
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 `BUTTON_MASK`: A bit-map for the six digi=
-tal pins internally
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connected to the joystick buttons.
->> =C2=A0 3. Enable internal pullup resistors for the `BUTTON_MASK`
->> =C2=A0 4. Bulk set the pin state HIGH for `BUTTON_MASK`
->> =C2=A0 5. Poll the device for button and joystick state done by:
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 `seesaw_read_data(struct i2c_client *clie=
-nt, struct seesaw_data *data)`
->>
->> Product page:
->> =C2=A0 https://www.adafruit.com/product/5743
->> Arduino driver:
->> =C2=A0 https://github.com/adafruit/Adafruit_Seesaw
->>
->> Driver tested on RPi Zero 2W
->>
->> Reviewed-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
->> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
->> ---
->>
->> Changes for v5:
->> - Added link to the datasheet
->> - Added debug log message when `seesaw_read_data` fails
->>
->> Changes for v4:
->> - Changed `1UL << BUTTON_` to BIT(BUTTON_)
->> - Removed `hardware_id` field from `struct seesaw_gamepad`
->> - Removed redundant checks for the number of bytes written and received =
-by
->> =C2=A0 `i2c_master_send` and `i2c_master_recv`
->> - Used `get_unaligned_be32` to instantiate `u32 result` from `read_buf`
->> - Changed=C2=A0 `result & (1UL << BUTTON_)` to
->> =C2=A0 `test_bit(BUTTON_, (long *)&result)`
->> - Changed `KBUILD_MODNAME` in id-tables to `SEESAW_DEVICE_NAME`
->> - Fixed formatting issues
->> - Changed button reporting:
->> =C2=A0=C2=A0=C2=A0 Since the gamepad had the action buttons in a non-sta=
-ndard layout:
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (X)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (Y)=C2=A0=C2=A0 (A)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (B)
->> =C2=A0=C2=A0=C2=A0 Therefore moved to using generic directional action b=
-utton event codes
->> =C2=A0=C2=A0=C2=A0 instead of BTN_[ABXY].
->>
->> Changes for v3:
->> - no updates
->>
->> Changes for v2:
->> adafruit-seesaw.c:
->> - Renamed file from 'adafruit_seesaw.c'
->> - Changed device name from 'seesaw_gamepad' to 'seesaw-gamepad'
->> - Changed count parameter for receiving joystick x on line 118:
->> =C2=A0=C2=A0=C2=A0 `2` to `sizeof(write_buf)`
->> - Fixed invalid buffer size on line 123 and 126:
->> =C2=A0=C2=A0=C2=A0 `data->y` to `sizeof(data->y)`
->> - Added comment for the `mdelay(10)` on line 169
->> - Changed inconsistent indentation on line 271
->> Kconfig:
->> - Fixed indentation for the help text
->> - Updated module name
->> Makefile:
->> - Updated module object file name
->> MAINTAINERS:
->> - Updated file name for the driver and bindings
->>
->> MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 7 +
->> drivers/input/joystick/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 9 +
->> drivers/input/joystick/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
->> drivers/input/joystick/adafruit-seesaw.c | 273 +++++++++++++++++++++++
->> 4 files changed, 290 insertions(+)
->> create mode 100644 drivers/input/joystick/adafruit-seesaw.c
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 6c4cce45a09d..a314f9b48e21 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -441,6 +441,13 @@ W: http://wiki.analog.com/AD7879
->> W: https://ez.analog.com/linux-software-drivers
->> F: drivers/input/touchscreen/ad7879.c
->>
->> +ADAFRUIT MINI I2C GAMEPAD
->> +M: Anshul Dalal <anshulusr@gmail.com>
->> +L: linux-input@vger.kernel.org
->> +S: Maintained
->> +F: Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
->> +F: drivers/input/joystick/adafruit-seesaw.c
->> +
->> ADDRESS SPACE LAYOUT RANDOMIZATION (ASLR)
->> M: Jiri Kosina <jikos@kernel.org>
->> S: Maintained
->> diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kco=
-nfig
->> index ac6925ce8366..df9cd1830b29 100644
->> --- a/drivers/input/joystick/Kconfig
->> +++ b/drivers/input/joystick/Kconfig
->> @@ -412,4 +412,13 @@ config JOYSTICK_SENSEHAT
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 To compile this driver as a module, choos=
-e M here: the
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 module will be called sensehat_joystick.
->>
->> +config JOYSTICK_SEESAW
->> +=C2=A0=C2=A0 tristate "Adafruit Mini I2C Gamepad with Seesaw"
->> +=C2=A0=C2=A0 depends on I2C
->> +=C2=A0=C2=A0 help
->> +=C2=A0=C2=A0=C2=A0=C2=A0 Say Y here if you want to use the Adafruit Min=
-i I2C Gamepad.
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0 To compile this driver as a module, choose M h=
-ere: the module will be
->> +=C2=A0=C2=A0=C2=A0=C2=A0 called adafruit-seesaw.
->> +
->> endif
->> diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Ma=
-kefile
->> index 3937535f0098..9976f596a920 100644
->> --- a/drivers/input/joystick/Makefile
->> +++ b/drivers/input/joystick/Makefile
->> @@ -28,6 +28,7 @@ obj-$(CONFIG_JOYSTICK_N64)=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 +=3D n64joy.o
->> obj-$(CONFIG_JOYSTICK_PSXPAD_SPI)=C2=A0 +=3D psxpad-spi.o
->> obj-$(CONFIG_JOYSTICK_PXRC)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=
-=3D pxrc.o
->> obj-$(CONFIG_JOYSTICK_QWIIC)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=3D qw=
-iic-joystick.o
->> +obj-$(CONFIG_JOYSTICK_SEESAW)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=3D adafru=
-it-seesaw.o
->> obj-$(CONFIG_JOYSTICK_SENSEHAT)=C2=A0=C2=A0=C2=A0 +=3D sensehat-joystick=
-.o
->> obj-$(CONFIG_JOYSTICK_SIDEWINDER)=C2=A0 +=3D sidewinder.o
->> obj-$(CONFIG_JOYSTICK_SPACEBALL)=C2=A0=C2=A0 +=3D spaceball.o
->> diff --git a/drivers/input/joystick/adafruit-seesaw.c b/drivers/input/jo=
-ystick/adafruit-seesaw.c
->> new file mode 100644
->> index 000000000000..2a1eae8d2861
->> --- /dev/null
->> +++ b/drivers/input/joystick/adafruit-seesaw.c
->> @@ -0,0 +1,273 @@
->> +// SPDX-License-Identifier: GPL-2.0-or-later
->> +/*
->> + * Copyright (C) 2023 Anshul Dalal <anshulusr@gmail.com>
->> + *
->> + * Driver for Adafruit Mini I2C Gamepad
->> + *
->> + * Based on the work of:
->> + * Oleh Kravchenko (Sparkfun Qwiic Joystick driver)
->> + *
->> + * Datasheet: https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.p=
-df
->> + * Product page: https://www.adafruit.com/product/5743
->> + * Firmware and hardware sources: https://github.com/adafruit/Adafruit_=
-Seesaw
->> + */
->> +
->> +#include <asm-generic/unaligned.h>
->> +#include <linux/bits.h>
->> +#include <linux/delay.h>
->> +#include <linux/i2c.h>
->> +#include <linux/input.h>
->> +#include <linux/kernel.h>
->> +#include <linux/module.h>
->> +
->> +/* clang-format off */
->
-> I don't think we need this directive; at least, no other input drivers ha=
-ve
-> it, or really any drivers for that matter.
->
->> +#define SEESAW_DEVICE_NAME "seesaw-gamepad"
->> +
->> +#define SEESAW_STATUS_BASE 0
->> +#define SEESAW_GPIO_BASE=C2=A0=C2=A0 1
->> +#define SEESAW_ADC_BASE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 9
->> +
->> +#define SEESAW_GPIO_DIRCLR_BULK=C2=A0=C2=A0=C2=A0 3
->> +#define SEESAW_GPIO_BULK=C2=A0=C2=A0 4
->> +#define SEESAW_GPIO_BULK_SET=C2=A0=C2=A0 5
->> +#define SEESAW_GPIO_PULLENSET=C2=A0 11
->> +
->> +#define SEESAW_STATUS_HW_ID=C2=A0=C2=A0=C2=A0 1
->> +#define SEESAW_STATUS_SWRST=C2=A0=C2=A0=C2=A0 127
->> +
->> +#define SEESAW_ADC_OFFSET=C2=A0 7
->> +
->> +#define BUTTON_A=C2=A0=C2=A0 5
->> +#define BUTTON_B=C2=A0=C2=A0 1
->> +#define BUTTON_X=C2=A0=C2=A0 6
->> +#define BUTTON_Y=C2=A0=C2=A0 2
->> +#define BUTTON_START=C2=A0=C2=A0 16
->> +#define BUTTON_SELECT=C2=A0 0
->
-> Please namespace these (e.g. SEESAW_BUTTON_A) to make it clear they refer
-> to device-specific bits and not standard keycodes (e.g. BTN_A). In fact,
-> these seem better off as part of an array of structs; more on that below.
->
->> +
->> +#define ANALOG_X=C2=A0=C2=A0 14
->> +#define ANALOG_Y=C2=A0=C2=A0 15
->
-> Please namespace these as well.
->
->> +
->> +#define SEESAW_JOYSTICK_MAX_AXIS=C2=A0=C2=A0 1023
->> +#define SEESAW_JOYSTICK_FUZZ=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2
->> +#define SEESAW_JOYSTICK_FLAT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 4
->> +
->> +#define SEESAW_GAMEPAD_POLL_INTERVAL=C2=A0=C2=A0 16
->> +#define SEESAW_GAMEPAD_POLL_MIN=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 8
->> +#define SEESAW_GAMEPAD_POLL_MAX=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 32
->> +/* clang-format on */
->> +
->> +u32 BUTTON_MASK =3D BIT(BUTTON_A) | BIT(BUTTON_B) | BIT(BUTTON_X) |
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BIT(BUTTON_Y) | BIT(BU=
-TTON_START) | BIT(BUTTON_SELECT);
->> +
->> +struct seesaw_gamepad {
->> +=C2=A0=C2=A0 char physical_path[32];
->> +=C2=A0=C2=A0 struct input_dev *input_dev;
->> +=C2=A0=C2=A0 struct i2c_client *i2c_client;
->> +};
->> +
->> +struct seesaw_data {
->> +=C2=A0=C2=A0 __be16 x;
->> +=C2=A0=C2=A0 __be16 y;
->> +=C2=A0=C2=A0 u8 button_a, button_b, button_x, button_y, button_start, b=
-utton_select;
->
-> Please keep these each on a separate line.
->
->> +};
->
-> Please declare this struct as __packed, as that is how it appears to be u=
-sed.
->
->> +
->> +static int seesaw_read_data(struct i2c_client *client, struct seesaw_da=
-ta *data)
->> +{
->> +=C2=A0=C2=A0 int err;
->
-> Please use 'ret' for return variables that can indicate a positive value =
-on success.
->
->> +=C2=A0=C2=A0 unsigned char write_buf[2] =3D { SEESAW_GPIO_BASE, SEESAW_=
-GPIO_BULK };
->> +=C2=A0=C2=A0 unsigned char read_buf[4];
->
-> Please use standard kernel type definitions (i.e. u8 in this case).
->
->> +
->> +=C2=A0=C2=A0 err =3D i2c_master_send(client, write_buf, sizeof(write_bu=
-f));
->> +=C2=A0=C2=A0 if (err < 0)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return err;
->
-> You correctly return err (or rather, ret) for negative values, but you sh=
-ould also
-> check that ret matches the size of the data sent. For 0 <=3D ret < sizeof=
-(writebuf),
-> return -EIO.
+As part of this rather than assuming the device is in bootloader mode
+we should first check that the device is in bootloader and only
+attempt to launch the app if it actually is in the bootloader.
 
-The driver did this originally.
-I then requested it to be removed as this case
-can never happen.
-i2c_master_send will either return size of(writebuf) or an error.
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+---
+ drivers/input/touchscreen/cyttsp5.c | 260 ++++++++++++++++++----------
+ 1 file changed, 170 insertions(+), 90 deletions(-)
 
->> +=C2=A0=C2=A0 err =3D i2c_master_recv(client, read_buf, sizeof(read_buf)=
-);
->> +=C2=A0=C2=A0 if (err < 0)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return err;
->
-> And here.
->
->> +
->> +=C2=A0=C2=A0 u32 result =3D get_unaligned_be32(&read_buf);
->
-> Please do not mix declarations and code; all declarations must be at the
-> top of the function.
->
->> +
->> +=C2=A0=C2=A0 data->button_a =3D !test_bit(BUTTON_A, (long *)&result);
->> +=C2=A0=C2=A0 data->button_b =3D !test_bit(BUTTON_B, (long *)&result);
->> +=C2=A0=C2=A0 data->button_x =3D !test_bit(BUTTON_X, (long *)&result);
->> +=C2=A0=C2=A0 data->button_y =3D !test_bit(BUTTON_Y, (long *)&result);
->> +=C2=A0=C2=A0 data->button_start =3D !test_bit(BUTTON_START, (long *)&re=
-sult);
->> +=C2=A0=C2=A0 data->button_select =3D !test_bit(BUTTON_SELECT, (long *)&=
-result);
->> +
->> +=C2=A0=C2=A0 write_buf[0] =3D SEESAW_ADC_BASE;
->> +=C2=A0=C2=A0 write_buf[1] =3D SEESAW_ADC_OFFSET + ANALOG_X;
->> +=C2=A0=C2=A0 err =3D i2c_master_send(client, write_buf, sizeof(write_bu=
-f));
->> +=C2=A0=C2=A0 if (err < 0)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return err;
->> +=C2=A0=C2=A0 err =3D i2c_master_recv(client, (char *)&data->x, sizeof(d=
-ata->x));
->> +=C2=A0=C2=A0 if (err < 0)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return err;
->
-> This is starting to look like a 16-bit register map. To that end, please
-> consider using regmap instead of open-coding each of these standard write=
+diff --git a/drivers/input/touchscreen/cyttsp5.c b/drivers/input/touchscreen/cyttsp5.c
+index db5a885ecd72..334f535dc131 100644
+--- a/drivers/input/touchscreen/cyttsp5.c
++++ b/drivers/input/touchscreen/cyttsp5.c
+@@ -18,17 +18,18 @@
+ #include <linux/input/touchscreen.h>
+ #include <linux/interrupt.h>
+ #include <linux/i2c.h>
+-#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+-#include <linux/regmap.h>
++#include <linux/of_device.h>
+ #include <asm/unaligned.h>
+ 
+ #define CYTTSP5_NAME				"cyttsp5"
+ #define CY_I2C_DATA_SIZE			(2 * 256)
+ #define HID_VERSION				0x0100
+ #define CY_MAX_INPUT				512
++#define CY_PIP_1P7_EMPTY_BUF			0xFF00
+ #define CYTTSP5_PREALLOCATED_CMD_BUFFER		32
+ #define CY_BITS_PER_BTN				1
++#define CY_CORE_STARTUP_RETRY_COUNT		10
+ #define CY_NUM_BTN_EVENT_ID			GENMASK(CY_BITS_PER_BTN - 1, 0)
+ 
+ #define MAX_AREA				255
+@@ -67,6 +68,7 @@
+ #define HID_BTN_REPORT_ID			0x3
+ #define HID_APP_RESPONSE_REPORT_ID		0x1F
+ #define HID_APP_OUTPUT_REPORT_ID		0x2F
++#define HID_BL_REPORT_ID			0xFF
+ #define HID_BL_RESPONSE_REPORT_ID		0x30
+ #define HID_BL_OUTPUT_REPORT_ID			0x40
+ #define HID_RESPONSE_REPORT_ID			0xF0
+@@ -205,7 +207,6 @@ struct cyttsp5 {
+ 	struct input_dev *input;
+ 	char phys[NAME_MAX];
+ 	int num_prv_rec;
+-	struct regmap *regmap;
+ 	struct touchscreen_properties prop;
+ 	struct regulator *vdd;
+ };
+@@ -218,49 +219,65 @@ struct cyttsp5 {
+  */
+ static int cyttsp5_read(struct cyttsp5 *ts, u8 *buf, u32 max)
+ {
+-	int error;
++	struct i2c_client *client = to_i2c_client(ts->dev);
++	struct i2c_msg msgs[2];
++	u8 msg_count = 1;
++	int rc;
+ 	u32 size;
+-	u8 temp[2];
+ 
+-	/* Read the frame to retrieve the size */
+-	error = regmap_bulk_read(ts->regmap, HID_INPUT_REG, temp, sizeof(temp));
+-	if (error)
+-		return error;
++	if (!buf)
++		return -EINVAL;
+ 
+-	size = get_unaligned_le16(temp);
+-	if (!size || size == 2)
++	msgs[0].addr = client->addr;
++	msgs[0].flags = (client->flags & I2C_M_TEN) | I2C_M_RD;
++	msgs[0].len = 2;
++	msgs[0].buf = buf;
++	rc = i2c_transfer(client->adapter, msgs, msg_count);
++	if (rc < 0 || rc != msg_count)
++		return (rc < 0) ? rc : -EIO;
++
++	size = get_unaligned_le16(&buf[0]);
++	/*
++	 * Before PIP 1.7, empty buffer is 0x0002
++	 * From PIP 1.7, empty buffer is 0xFFXX
++	 */
++	if (!size || size == 2 || size >= CY_PIP_1P7_EMPTY_BUF)
+ 		return 0;
+ 
+ 	if (size > max)
+ 		return -EINVAL;
+ 
+-	/* Get the real value */
+-	return regmap_bulk_read(ts->regmap, HID_INPUT_REG, buf, size);
++	rc = i2c_master_recv(client, buf, size);
++
++	return (rc < 0) ? rc : rc != (int)size ? -EIO : 0;
+ }
+ 
+ static int cyttsp5_write(struct cyttsp5 *ts, unsigned int reg, u8 *data,
+ 			 size_t size)
+ {
+-	u8 cmd[HID_OUTPUT_MAX_CMD_SIZE];
++	u8 cmd[HID_OUTPUT_MAX_CMD_SIZE + 2];
++	struct i2c_client *client = to_i2c_client(ts->dev);
++	struct i2c_msg msgs[2];
++	u8 msg_count = 1;
++	int rc;
+ 
+-	if (size + 1 > HID_OUTPUT_MAX_CMD_SIZE)
++	if (size > HID_OUTPUT_MAX_CMD_SIZE + 2)
+ 		return -E2BIG;
+ 
+-	/* High bytes of register address needed as first byte of cmd */
+-	cmd[0] = (reg >> 8) & 0xFF;
 -
-> then-read operations.
->
-> Using regmap would also save you the trouble of managing the endianness
-> yourself, as well as having to check for incomplete transfers since its
-> functions return zero or a negative error code only.
->
->> +=C2=A0=C2=A0 /*
->> +=C2=A0=C2=A0=C2=A0 * ADC reads left as max and right as 0, must be reve=
-rsed since kernel
->> +=C2=A0=C2=A0=C2=A0 * expects reports in opposite order.
->> +=C2=A0=C2=A0=C2=A0 */
->> +=C2=A0=C2=A0 data->x =3D SEESAW_JOYSTICK_MAX_AXIS - be16_to_cpu(data->x=
-);
->> +
->> +=C2=A0=C2=A0 write_buf[1] =3D SEESAW_ADC_OFFSET + ANALOG_Y;
->> +=C2=A0=C2=A0 err =3D i2c_master_send(client, write_buf, sizeof(write_bu=
-f));
->> +=C2=A0=C2=A0 if (err < 0)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return err;
->> +=C2=A0=C2=A0 err =3D i2c_master_recv(client, (char *)&data->y, sizeof(d=
-ata->y));
->> +=C2=A0=C2=A0 if (err < 0)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return err;
->> +=C2=A0=C2=A0 data->y =3D be16_to_cpu(data->y);
->> +
->> +=C2=A0=C2=A0 return 0;
->> +}
->> +
->> +static void seesaw_poll(struct input_dev *input)
->> +{
->> +=C2=A0=C2=A0 struct seesaw_gamepad *private =3D input_get_drvdata(input=
-);
->> +=C2=A0=C2=A0 struct seesaw_data data;
->> +=C2=A0=C2=A0 int err;
->> +
->> +=C2=A0=C2=A0 err =3D seesaw_read_data(private->i2c_client, &data);
->> +=C2=A0=C2=A0 if (err !=3D 0) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_dbg(&input->dev, "failed to re=
-ad joystick state: %d\n",
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 err);
->
-> This should be dev_err_ratelimited().
->
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->> +=C2=A0=C2=A0 }
->> +
->> +=C2=A0=C2=A0 input_report_abs(input, ABS_X, data.x);
->> +=C2=A0=C2=A0 input_report_abs(input, ABS_Y, data.y);
->> +=C2=A0=C2=A0 input_report_key(input, BTN_EAST, data.button_a);
->> +=C2=A0=C2=A0 input_report_key(input, BTN_SOUTH, data.button_b);
->> +=C2=A0=C2=A0 input_report_key(input, BTN_NORTH, data.button_x);
->> +=C2=A0=C2=A0 input_report_key(input, BTN_WEST, data.button_y);
->> +=C2=A0=C2=A0 input_report_key(input, BTN_START, data.button_start);
->> +=C2=A0=C2=A0 input_report_key(input, BTN_SELECT, data.button_select);
->
-> I think you can make this much cleaner and smaller by defining an array
-> of structs, each with a key code and bit position. You can then simply
-> iterate over the array and call input_report_key() once per element as
-> in the following:
->
-> struct seesaw_btn_desc {
-> =C2=A0=C2=A0=C2=A0 unsigned int code;
-> =C2=A0=C2=A0=C2=A0 unsigned int shift;
-> };
->
-> static const struct seesaw_btn_desc seesaw_btns[] =3D {
-> =C2=A0=C2=A0=C2=A0 {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .code =3D BTN_EAST,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .mask =3D 5,
-> =C2=A0=C2=A0=C2=A0 },
-> =C2=A0=C2=A0=C2=A0 [...]
-> };
->
-> And then:
->
-> =C2=A0=C2=A0=C2=A0 btn_status =3D ...;
->
-> =C2=A0=C2=A0=C2=A0 for (i =3D 0; i < ARRAY_SIZE(seesaw_btns); i++)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 input_report_key(input, seesaw=
-_btns[i].code,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 btn_status & seesaw_btns[i].mask);
->
-> This would also make it easier to quickly discern what keycodes are mappe=
-d
-> to which bits in the register.
->
->> +=C2=A0=C2=A0 input_sync(input);
->> +}
->> +
->> +static int seesaw_probe(struct i2c_client *client)
->> +{
->> +=C2=A0=C2=A0 int err;
->> +=C2=A0=C2=A0 struct seesaw_gamepad *private;
->
-> I'd rather this be called something like 'seesaw' rather than private.
->
->> +=C2=A0=C2=A0 unsigned char register_reset[] =3D { SEESAW_STATUS_BASE,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SEESAW_STATUS_SWR=
-ST, 0xFF };
->> +=C2=A0=C2=A0 unsigned char get_hw_id[] =3D { SEESAW_STATUS_BASE, SEESAW=
-_STATUS_HW_ID };
->> +
->> +=C2=A0=C2=A0 err =3D i2c_master_send(client, register_reset, sizeof(reg=
-ister_reset));
->> +=C2=A0=C2=A0 if (err < 0)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return err;
->> +
->> +=C2=A0=C2=A0 /* Wait for the registers to reset before proceeding */
->> +=C2=A0=C2=A0 mdelay(10);
->> +
->> +=C2=A0=C2=A0 private =3D devm_kzalloc(&client->dev, sizeof(*private), G=
-FP_KERNEL);
->> +=C2=A0=C2=A0 if (!private)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENOMEM;
->> +
->> +=C2=A0=C2=A0 err =3D i2c_master_send(client, get_hw_id, sizeof(get_hw_i=
-d));
->> +=C2=A0=C2=A0 if (err < 0)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return err;
->> +
->> +=C2=A0=C2=A0 unsigned char hardware_id;
->
-> Same comment as earlier with regard to mixed declarations.
->
->> +
->> +=C2=A0=C2=A0 err =3D i2c_master_recv(client, &hardware_id, 1);
->> +=C2=A0=C2=A0 if (err < 0)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return err;
->> +
->> +=C2=A0=C2=A0 dev_dbg(&client->dev, "Adafruit Seesaw Gamepad, Hardware I=
-D: %02x\n",
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hardware_id);
->> +
->> +=C2=A0=C2=A0 private->i2c_client =3D client;
->> +=C2=A0=C2=A0 scnprintf(private->physical_path, sizeof(private->physical=
-_path),
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "i2c/%s", dev_name(&cl=
-ient->dev));
->
-> This seems overly complex; can we not simply set input_dev->phys to the
-> literal "i2c/seesaw-gamepad"? Why to copy at runtime and incur the cost
-> of carrying 'physical_path' throughout the life of the module?
->
->> +=C2=A0=C2=A0 i2c_set_clientdata(client, private);
->> +
->> +=C2=A0=C2=A0 private->input_dev =3D devm_input_allocate_device(&client-=
->dev);
->> +=C2=A0=C2=A0 if (!private->input_dev)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENOMEM;
->> +
->> +=C2=A0=C2=A0 private->input_dev->id.bustype =3D BUS_I2C;
->> +=C2=A0=C2=A0 private->input_dev->name =3D "Adafruit Seesaw Gamepad";
->> +=C2=A0=C2=A0 private->input_dev->phys =3D private->physical_path;
->> +=C2=A0=C2=A0 input_set_drvdata(private->input_dev, private);
->> +=C2=A0=C2=A0 input_set_abs_params(private->input_dev, ABS_X, 0,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 SEESAW_JOYSTICK_MAX_AXIS, SEESAW_JOYSTICK_FUZZ,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 SEESAW_JOYSTICK_FLAT);
->> +=C2=A0=C2=A0 input_set_abs_params(private->input_dev, ABS_Y, 0,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 SEESAW_JOYSTICK_MAX_AXIS, SEESAW_JOYSTICK_FUZZ,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 SEESAW_JOYSTICK_FLAT);
->> +=C2=A0=C2=A0 input_set_capability(private->input_dev, EV_KEY, BTN_EAST)=
-;
->> +=C2=A0=C2=A0 input_set_capability(private->input_dev, EV_KEY, BTN_SOUTH=
-);
->> +=C2=A0=C2=A0 input_set_capability(private->input_dev, EV_KEY, BTN_NORTH=
-);
->> +=C2=A0=C2=A0 input_set_capability(private->input_dev, EV_KEY, BTN_WEST)=
-;
->> +=C2=A0=C2=A0 input_set_capability(private->input_dev, EV_KEY, BTN_START=
-);
->> +=C2=A0=C2=A0 input_set_capability(private->input_dev, EV_KEY, BTN_SELEC=
-T);
->
-> Same comment with regard to creating an array of structs, and hence only
-> having to call input_set_capability() from within a small loop.
->
->> +
->> +=C2=A0=C2=A0 err =3D input_setup_polling(private->input_dev, seesaw_pol=
-l);
->> +=C2=A0=C2=A0 if (err) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_err(&client->dev, "failed to s=
-et up polling: %d\n", err);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return err;
->> +=C2=A0=C2=A0 }
->> +
->> +=C2=A0=C2=A0 input_set_poll_interval(private->input_dev,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 SEESAW_GAMEPAD_POLL_INTERVAL);
->> +=C2=A0=C2=A0 input_set_max_poll_interval(private->input_dev,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SEESAW_GAMEPAD_POLL_MAX);
->> +=C2=A0=C2=A0 input_set_min_poll_interval(private->input_dev,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SEESAW_GAMEPAD_POLL_MIN);
->> +
->> +=C2=A0=C2=A0 err =3D input_register_device(private->input_dev);
->> +=C2=A0=C2=A0 if (err) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_err(&client->dev, "failed to r=
-egister joystick: %d\n", err);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return err;
->> +=C2=A0=C2=A0 }
->> +
->> +=C2=A0=C2=A0 /* Set Pin Mode to input and enable pull-up resistors */
->> +=C2=A0=C2=A0 unsigned char pin_mode[] =3D { SEESAW_GPIO_BASE,=C2=A0 SEE=
-SAW_GPIO_DIRCLR_BULK,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUTTON_MASK >> 24, BUTTON_MAS=
-K >> 16,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUTTON_MASK >> 8,=C2=A0 BUTTO=
-N_MASK };
->> +=C2=A0=C2=A0 err =3D i2c_master_send(client, pin_mode, sizeof(pin_mode)=
-);
->> +=C2=A0=C2=A0 if (err < 0)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return err;
->> +=C2=A0=C2=A0 pin_mode[1] =3D SEESAW_GPIO_PULLENSET;
->> +=C2=A0=C2=A0 err =3D i2c_master_send(client, pin_mode, sizeof(pin_mode)=
-);
->> +=C2=A0=C2=A0 if (err < 0)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return err;
->> +=C2=A0=C2=A0 pin_mode[1] =3D SEESAW_GPIO_BULK_SET;
->> +=C2=A0=C2=A0 err =3D i2c_master_send(client, pin_mode, sizeof(pin_mode)=
-);
->> +=C2=A0=C2=A0 if (err < 0)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return err;
->
-> Please configure the HW before the input device is live and being polled.
->
->> +
->> +=C2=A0=C2=A0 return 0;
->> +}
->> +
->> +#ifdef CONFIG_OF
->> +static const struct of_device_id of_seesaw_match[] =3D {
->> +=C2=A0=C2=A0 {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .compatible =3D "adafruit,seesaw-g=
-amepad",
->> +=C2=A0=C2=A0 },
->> +=C2=A0=C2=A0 { /* Sentinel */ }
->> +};
->> +MODULE_DEVICE_TABLE(of, of_seesaw_match);
->> +#endif /* CONFIG_OF */
->
-> Please correct me if I am wrong, but it does not seem that OF support is
-> required by this driver. There are no properties beyond the standard ones
-> understood by the I2C core, which can match based on the ID table below.
->
->> +
->> +/* clang-format off */
->> +static const struct i2c_device_id seesaw_id_table[] =3D {
->> +=C2=A0=C2=A0 { SEESAW_DEVICE_NAME, 0 },
->> +=C2=A0=C2=A0 { /* Sentinel */ }
->> +};
->> +/* clang-format on */
->
-> Again, I don't see any need for these directives.
->
->> +
->
-> Nit: unnecessary NL.
->
->> +MODULE_DEVICE_TABLE(i2c, seesaw_id_table);
->> +
->> +static struct i2c_driver seesaw_driver =3D {
->> +=C2=A0=C2=A0 .driver =3D {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .name =3D SEESAW_DEVICE_NAME,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .of_match_table =3D of_match_ptr(o=
-f_seesaw_match),
->> +=C2=A0=C2=A0 },
->> +=C2=A0=C2=A0 .id_table =3D seesaw_id_table,
->> +=C2=A0=C2=A0 .probe =3D seesaw_probe,
->> +};
->> +module_i2c_driver(seesaw_driver);
->> +
->> +MODULE_AUTHOR("Anshul Dalal <anshulusr@gmail.com>");
->> +MODULE_DESCRIPTION("Adafruit Mini I2C Gamepad driver");
->> +MODULE_LICENSE("GPL");
->> --
->> 2.42.0
->>
->
-> Kind regards,
-> Jeff LaBundy
+ 	/* Copy the rest of the data */
+ 	if (data)
+-		memcpy(&cmd[1], data, size);
++		memcpy(&cmd[0], data, size);
+ 
+-	/*
+-	 * The hardware wants to receive a frame with the address register
+-	 * contained in the first two bytes. As the regmap_write function
+-	 * add the register adresse in the frame, we use the low byte as
+-	 * first frame byte for the address register and the first
+-	 * data byte is the high register + left of the cmd to send
+-	 */
+-	return regmap_bulk_write(ts->regmap, reg & 0xFF, cmd, size + 1);
++	msgs[0].addr = client->addr;
++	msgs[0].flags = client->flags & I2C_M_TEN;
++	msgs[0].len = size;
++	msgs[0].buf = cmd;
++	rc = i2c_transfer(client->adapter, msgs, msg_count);
++
++	if (rc < 0 || rc != msg_count)
++		return (rc < 0) ? rc : -EIO;
++
++	return 0;
+ }
+ 
+ static void cyttsp5_get_touch_axis(int *axis, int size, int max, u8 *xy_data,
+@@ -535,22 +552,29 @@ static int cyttsp5_get_sysinfo_regs(struct cyttsp5 *ts)
+ 	scd->len_x = get_unaligned_le16(&scd_dev->len_x);
+ 	scd->len_y = get_unaligned_le16(&scd_dev->len_y);
+ 
++	if (scd_dev->max_num_of_tch_per_refresh_cycle == 0)
++		return -EINVAL;
++
+ 	return 0;
+ }
+ 
+ static int cyttsp5_hid_output_get_sysinfo(struct cyttsp5 *ts)
+ {
+ 	int rc;
+-	u8 cmd[HID_OUTPUT_GET_SYSINFO_SIZE];
++	u8 cmd[HID_OUTPUT_GET_SYSINFO_SIZE + 2];
++
++	/* Set Output register */
++	memcpy(&cmd[0], &ts->hid_desc.output_register,
++			sizeof(ts->hid_desc.output_register));
+ 
+ 	/* HI bytes of Output register address */
+-	put_unaligned_le16(HID_OUTPUT_GET_SYSINFO_SIZE, cmd);
+-	cmd[2] = HID_APP_OUTPUT_REPORT_ID;
+-	cmd[3] = 0x0; /* Reserved */
+-	cmd[4] = HID_OUTPUT_GET_SYSINFO;
++	put_unaligned_le16(HID_OUTPUT_GET_SYSINFO_SIZE, &cmd[2]);
++	cmd[4] = HID_APP_OUTPUT_REPORT_ID;
++	cmd[5] = 0x0; /* Reserved */
++	cmd[6] = HID_OUTPUT_GET_SYSINFO;
+ 
+ 	rc = cyttsp5_write(ts, HID_OUTPUT_REG, cmd,
+-			   HID_OUTPUT_GET_SYSINFO_SIZE);
++			   HID_OUTPUT_GET_SYSINFO_SIZE + 2);
+ 	if (rc) {
+ 		dev_err(ts->dev, "Failed to write command %d", rc);
+ 		return rc;
+@@ -559,7 +583,7 @@ static int cyttsp5_hid_output_get_sysinfo(struct cyttsp5 *ts)
+ 	rc = wait_for_completion_interruptible_timeout(&ts->cmd_done,
+ 						msecs_to_jiffies(CY_HID_OUTPUT_GET_SYSINFO_TIMEOUT_MS));
+ 	if (rc <= 0) {
+-		dev_err(ts->dev, "HID output cmd execution timed out\n");
++		dev_err(ts->dev, "HID output get sysinfo cmd execution timed out\n");
+ 		rc = -ETIMEDOUT;
+ 		return rc;
+ 	}
+@@ -610,21 +634,25 @@ static int cyttsp5_power_control(struct cyttsp5 *ts, bool on)
+ static int cyttsp5_hid_output_bl_launch_app(struct cyttsp5 *ts)
+ {
+ 	int rc;
+-	u8 cmd[HID_OUTPUT_BL_LAUNCH_APP_SIZE];
++	u8 cmd[HID_OUTPUT_BL_LAUNCH_APP_SIZE + 2];
+ 	u16 crc;
+ 
+-	put_unaligned_le16(HID_OUTPUT_BL_LAUNCH_APP_SIZE, cmd);
+-	cmd[2] = HID_BL_OUTPUT_REPORT_ID;
+-	cmd[3] = 0x0; /* Reserved */
+-	cmd[4] = HID_OUTPUT_BL_SOP;
+-	cmd[5] = HID_OUTPUT_BL_LAUNCH_APP;
+-	put_unaligned_le16(0x00, &cmd[6]);
+-	crc = crc_itu_t(0xFFFF, &cmd[4], 4);
+-	put_unaligned_le16(crc, &cmd[8]);
+-	cmd[10] = HID_OUTPUT_BL_EOP;
++	/* Set Output register */
++	memcpy(&cmd[0], &ts->hid_desc.output_register,
++			sizeof(ts->hid_desc.output_register));
++
++	put_unaligned_le16(HID_OUTPUT_BL_LAUNCH_APP_SIZE, &cmd[2]);
++	cmd[4] = HID_BL_OUTPUT_REPORT_ID;
++	cmd[5] = 0x0; /* Reserved */
++	cmd[6] = HID_OUTPUT_BL_SOP;
++	cmd[7] = HID_OUTPUT_BL_LAUNCH_APP;
++	put_unaligned_le16(0x00, &cmd[8]);
++	crc = crc_itu_t(0xFFFF, &cmd[6], 4);
++	put_unaligned_le16(crc, &cmd[10]);
++	cmd[12] = HID_OUTPUT_BL_EOP;
+ 
+ 	rc = cyttsp5_write(ts, HID_OUTPUT_REG, cmd,
+-			   HID_OUTPUT_BL_LAUNCH_APP_SIZE);
++			   HID_OUTPUT_BL_LAUNCH_APP_SIZE + 2);
+ 	if (rc) {
+ 		dev_err(ts->dev, "Failed to write command %d", rc);
+ 		return rc;
+@@ -633,7 +661,7 @@ static int cyttsp5_hid_output_bl_launch_app(struct cyttsp5 *ts)
+ 	rc = wait_for_completion_interruptible_timeout(&ts->cmd_done,
+ 				msecs_to_jiffies(CY_HID_OUTPUT_TIMEOUT_MS));
+ 	if (rc <= 0) {
+-		dev_err(ts->dev, "HID output cmd execution timed out\n");
++		dev_err(ts->dev, "HID output bl launch app cmd execution timed out\n");
+ 		rc = -ETIMEDOUT;
+ 		return rc;
+ 	}
+@@ -651,9 +679,13 @@ static int cyttsp5_get_hid_descriptor(struct cyttsp5 *ts,
+ 				      struct cyttsp5_hid_desc *desc)
+ {
+ 	struct device *dev = ts->dev;
++	u8 cmd[2] = { 0 };
+ 	int rc;
++	unsigned int reg = HID_DESC_REG;
++
++	put_unaligned_le16(HID_DESC_REG, cmd);
+ 
+-	rc = cyttsp5_write(ts, HID_DESC_REG, NULL, 0);
++	rc = cyttsp5_write(ts, HID_DESC_REG, cmd, 2);
+ 	if (rc) {
+ 		dev_err(dev, "Failed to get HID descriptor, rc=%d\n", rc);
+ 		return rc;
+@@ -708,7 +740,8 @@ static irqreturn_t cyttsp5_handle_irq(int irq, void *handle)
+ 	if (size == 0) {
+ 		/* reset */
+ 		report_id = 0;
+-		size = 2;
++	} else if (size == 2 || size >= CY_PIP_1P7_EMPTY_BUF) {
++		return IRQ_HANDLED;
+ 	} else {
+ 		report_id = ts->input_buf[2];
+ 	}
+@@ -733,19 +766,38 @@ static irqreturn_t cyttsp5_handle_irq(int irq, void *handle)
+ 	return IRQ_HANDLED;
+ }
+ 
++static int cyttsp5_deassert_read(struct cyttsp5 *ts, u8 *buf, int size)
++{
++	struct i2c_client *client = to_i2c_client(ts->dev);
++	int rc;
++
++	if (!buf || !size || size > CY_I2C_DATA_SIZE)
++		return -EINVAL;
++
++	rc = i2c_master_recv(client, buf, size);
++
++	return (rc < 0) ? rc : rc != size ? -EIO : 0;
++}
++
+ static int cyttsp5_deassert_int(struct cyttsp5 *ts)
+ {
+ 	u16 size;
+-	u8 buf[2];
++	u8 retry = 3;
+ 	int error;
+ 
+-	error = regmap_bulk_read(ts->regmap, HID_INPUT_REG, buf, sizeof(buf));
+-	if (error < 0)
+-		return error;
++	do {
++		error = cyttsp5_deassert_read(ts, ts->input_buf, 2);
++		if (error < 0)
++			return error;
+ 
+-	size = get_unaligned_le16(&buf[0]);
+-	if (size == 2 || size == 0)
+-		return 0;
++		size = get_unaligned_le16(&ts->input_buf[0]);
++		if (size == 2 || size == 0 || size >= CY_PIP_1P7_EMPTY_BUF)
++			return 0;
++
++		error = cyttsp5_deassert_read(ts, ts->input_buf, size);
++		if (error < 0)
++			return error;
++	} while (retry--);
+ 
+ 	return -EINVAL;
+ }
+@@ -774,39 +826,65 @@ static int cyttsp5_fill_all_touch(struct cyttsp5 *ts)
+ 
+ static int cyttsp5_startup(struct cyttsp5 *ts)
+ {
++	int retry = CY_CORE_STARTUP_RETRY_COUNT;
+ 	int error;
+ 
++reset:
+ 	error = cyttsp5_deassert_int(ts);
+ 	if (error) {
+ 		dev_err(ts->dev, "Error on deassert int r=%d\n", error);
+-		return -ENODEV;
++	}
++
++	error = cyttsp5_get_hid_descriptor(ts, &ts->hid_desc);
++	if (error < 0) {
++		dev_err(ts->dev, "Error on getting HID descriptor r=%d\n", error);
++		if (retry--)
++			goto reset;
++		return error;
+ 	}
+ 
+ 	/*
+ 	 * Launch the application as the device starts in bootloader mode
+ 	 * because of a power-on-reset
+ 	 */
+-	error = cyttsp5_hid_output_bl_launch_app(ts);
+-	if (error < 0) {
+-		dev_err(ts->dev, "Error on launch app r=%d\n", error);
+-		return error;
+-	}
++	if (ts->hid_desc.packet_id == HID_BL_REPORT_ID) {
++		error = cyttsp5_hid_output_bl_launch_app(ts);
++		if (error < 0) {
++			dev_err(ts->dev, "Error on launch app r=%d\n", error);
++			if (retry--)
++				goto reset;
++			return error;
++		}
+ 
+-	error = cyttsp5_get_hid_descriptor(ts, &ts->hid_desc);
+-	if (error < 0) {
+-		dev_err(ts->dev, "Error on getting HID descriptor r=%d\n", error);
+-		return error;
++		error = cyttsp5_get_hid_descriptor(ts, &ts->hid_desc);
++		if (error < 0) {
++			dev_err(ts->dev, "Error on getting HID descriptor r=%d\n", error);
++			if (retry--)
++				goto reset;
++			return error;
++		}
++
++		if (ts->hid_desc.packet_id == HID_BL_REPORT_ID) {
++			dev_err(ts->dev, "Error on launch app still in bootloader\n");
++			if (retry--)
++				goto reset;
++			return -EPROTO;
++		}
+ 	}
+ 
+ 	error = cyttsp5_fill_all_touch(ts);
+ 	if (error < 0) {
+ 		dev_err(ts->dev, "Error on report descriptor r=%d\n", error);
++		if (retry--)
++			goto reset;
+ 		return error;
+ 	}
+ 
+ 	error = cyttsp5_hid_output_get_sysinfo(ts);
+ 	if (error) {
+ 		dev_err(ts->dev, "Error on getting sysinfo r=%d\n", error);
++		if (retry--)
++			goto reset;
+ 		return error;
+ 	}
+ 
+@@ -820,8 +898,7 @@ static void cyttsp5_cleanup(void *data)
+ 	regulator_disable(ts->vdd);
+ }
+ 
+-static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
+-			 const char *name)
++static struct cyttsp5 *cyttsp5_probe(struct device *dev, int irq, const char *name)
+ {
+ 	struct cyttsp5 *ts;
+ 	struct cyttsp5_sysinfo *si;
+@@ -829,10 +906,9 @@ static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
+ 
+ 	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
+ 	if (!ts)
+-		return -ENOMEM;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	/* Initialize device info */
+-	ts->regmap = regmap;
+ 	ts->dev = dev;
+ 	si = &ts->sysinfo;
+ 	dev_set_drvdata(dev, ts);
+@@ -843,21 +919,21 @@ static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
+ 	ts->vdd = devm_regulator_get(dev, "vdd");
+ 	if (IS_ERR(ts->vdd)) {
+ 		error = PTR_ERR(ts->vdd);
+-		return error;
++		return ERR_PTR(error);
+ 	}
+ 
+ 	error = devm_add_action_or_reset(dev, cyttsp5_cleanup, ts);
+ 	if (error)
+-		return error;
++		return ERR_PTR(error);
+ 
+ 	error = regulator_enable(ts->vdd);
+ 	if (error)
+-		return error;
++		return ERR_PTR(error);
+ 
+ 	ts->input = devm_input_allocate_device(dev);
+ 	if (!ts->input) {
+ 		dev_err(dev, "Error, failed to allocate input device\n");
+-		return -ENODEV;
++		return ERR_PTR(-ENODEV);
+ 	}
+ 
+ 	ts->input->name = "cyttsp5";
+@@ -870,7 +946,7 @@ static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
+ 	if (IS_ERR(ts->reset_gpio)) {
+ 		error = PTR_ERR(ts->reset_gpio);
+ 		dev_err(dev, "Failed to request reset gpio, error %d\n", error);
+-		return error;
++		return ERR_PTR(error);
+ 	}
+ 	gpiod_set_value_cansleep(ts->reset_gpio, 0);
+ 
+@@ -878,22 +954,22 @@ static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
+ 	msleep(20);
+ 
+ 	error = devm_request_threaded_irq(dev, irq, NULL, cyttsp5_handle_irq,
+-					  IRQF_ONESHOT, name, ts);
++					  IRQF_TRIGGER_LOW | IRQF_ONESHOT, name, ts);
+ 	if (error) {
+ 		dev_err(dev, "unable to request IRQ\n");
+-		return error;
++		return ERR_PTR(error);
+ 	}
+ 
+ 	error = cyttsp5_startup(ts);
+ 	if (error) {
+ 		dev_err(ts->dev, "Fail initial startup r=%d\n", error);
+-		return error;
++		return ERR_PTR(error);
+ 	}
+ 
+ 	error = cyttsp5_parse_dt_key_code(dev);
+ 	if (error < 0) {
+ 		dev_err(ts->dev, "Error while parsing dts %d\n", error);
+-		return error;
++		return ERR_PTR(error);
+ 	}
+ 
+ 	touchscreen_parse_properties(ts->input, true, &ts->prop);
+@@ -902,25 +978,29 @@ static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
+ 	for (i = 0; i < si->num_btns; i++)
+ 		__set_bit(si->key_code[i], ts->input->keybit);
+ 
+-	return cyttsp5_setup_input_device(dev);
++	error = cyttsp5_setup_input_device(dev);
++	if (error < 0)
++		return ERR_PTR(error);
++
++	return ts;
+ }
+ 
+ static int cyttsp5_i2c_probe(struct i2c_client *client)
+ {
+-	struct regmap *regmap;
+-	static const struct regmap_config config = {
+-		.reg_bits = 8,
+-		.val_bits = 8,
+-	};
++	struct cyttsp5 *ts;
+ 
+-	regmap = devm_regmap_init_i2c(client, &config);
+-	if (IS_ERR(regmap)) {
+-		dev_err(&client->dev, "regmap allocation failed: %ld\n",
+-			PTR_ERR(regmap));
+-		return PTR_ERR(regmap);
++	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
++		dev_err(&client->dev, "I2C functionality not Supported\n");
++		return -EIO;
+ 	}
+ 
+-	return cyttsp5_probe(&client->dev, regmap, client->irq, client->name);
++	ts = cyttsp5_probe(&client->dev, client->irq, client->name);
++
++	if (IS_ERR(ts))
++		return PTR_ERR(ts);
++
++	i2c_set_clientdata(client, ts);
++	return 0;
+ }
+ 
+ static const struct of_device_id cyttsp5_of_match[] = {
+-- 
+2.34.1
 
