@@ -2,245 +2,145 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D31347D2DF6
-	for <lists+linux-input@lfdr.de>; Mon, 23 Oct 2023 11:20:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02F5F7D2E89
+	for <lists+linux-input@lfdr.de>; Mon, 23 Oct 2023 11:36:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229524AbjJWJU4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 Oct 2023 05:20:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56174 "EHLO
+        id S230438AbjJWJgW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Oct 2023 05:36:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbjJWJUy (ORCPT
+        with ESMTP id S233196AbjJWJgK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 Oct 2023 05:20:54 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 447A7B0;
-        Mon, 23 Oct 2023 02:20:52 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A52C2C433C8;
-        Mon, 23 Oct 2023 09:20:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698052851;
-        bh=mniIZRFgQ+O4sqQT3y40h2IlKCqc+FHbY8l30523e64=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sc/8NNanHX5ny+kLtSTR/aPEvDiXB2wCMb0dLJSSI/3GP5E/e5Ivok4meeKLFLxFf
-         +Jy+fGqCvMH0iLfHTTxr/NNQomoYqw9lHoZ4JLcckR1c9GfjrQ/KwmKEuK05YBkyws
-         IzbNlN6qIj1XCBvv0ru3aRCJ8fhC9MeXIvhj8lA5I0ReA2FF9p0KEEOu1SHXLogRL7
-         nDI/l5mgrRV47V6rp9OEcanwWlPefYFS1LsgelRQV/W+I9Eelt6C5CQUZBoUcJ6yT8
-         yPJ1ZgTrpWNg/9Unewq9tOHxXXVU1DGIb5vitIrPs1BAogjbmxzFpyljzJ+z7+9xj9
-         XVuY5IlX7o3Pg==
-Date:   Mon, 23 Oct 2023 10:20:46 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     James Ogletree <James.Ogletree@cirrus.com>
-Cc:     James Ogletree <james.ogletree@opensource.cirrus.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fred Treven <Fred.Treven@cirrus.com>,
-        Ben Bright <Ben.Bright@cirrus.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 3/4] mfd: cs40l50: Add support for CS40L50 core driver
-Message-ID: <20231023092046.GA8909@google.com>
-References: <20231018175726.3879955-1-james.ogletree@opensource.cirrus.com>
- <20231018175726.3879955-4-james.ogletree@opensource.cirrus.com>
- <20231019162359.GF2424087@google.com>
- <E3224624-7FF4-48F6-BA53-08312B69EF9F@cirrus.com>
+        Mon, 23 Oct 2023 05:36:10 -0400
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 81D5B19AD;
+        Mon, 23 Oct 2023 02:35:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=eR952
+        nTK9QOHzSljh04R7YWcwf8JgCBhBkhmce4vaCg=; b=KXJWN37wv6TxZqLfCP7HQ
+        cpxC0NmCfMvFkTPdMYxQc1ORwL5dML/F5mKELBplATRgutijuF1/9Eia8psrlbRL
+        uIC/M56piQE9YM4BFjd799jp7Ycx3NaF87WhnPi83bfRQrA1xxvrLy1on0v/ZxV/
+        ezqQtNTAceDYquPc+TbNjg=
+Received: from ubuntu.. (unknown [171.83.44.150])
+        by zwqz-smtp-mta-g3-3 (Coremail) with SMTP id _____wCXnwFXPjZllUYmBQ--.56200S2;
+        Mon, 23 Oct 2023 17:35:19 +0800 (CST)
+From:   Charles Yi <be286@163.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Charles Yi <be286@163.com>
+Subject: [PATCH] HID: fix a crash in hid_debug_events_release
+Date:   Mon, 23 Oct 2023 17:35:00 +0800
+Message-Id: <20231023093500.1391443-1-be286@163.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <E3224624-7FF4-48F6-BA53-08312B69EF9F@cirrus.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-CM-TRANSID: _____wCXnwFXPjZllUYmBQ--.56200S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWw1kuFyUAry8Gr4fZFyxXwb_yoW5WF4UpF
+        95Ja90krW0yr1xWw1DJr1kuFyYqa40k3s5uryxC34agFnYkFyYqF1Sya4j9rs8XrWkAF43
+        Wr40qry8Ga1jyw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRwvtXUUUUU=
+X-Originating-IP: [171.83.44.150]
+X-CM-SenderInfo: dehsmli6rwjhhfrp/1tbiMhkS0lWB6LTXYQAAsV
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_BL,
+        RCVD_IN_MSPIKE_L4,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 20 Oct 2023, James Ogletree wrote:
+hid_debug_events_release() access released memory by
+hid_device_release(). This is fixed by the patch.
 
-> 
-> Thank you for your thorough review. Anything not replied to below will be
-> incorporated in the next version.
-> 
-> >> +/*
-> >> + * CS40L50 Advanced Haptic Driver with waveform memory,
-> > 
-> > s/Driver/device/
-> 
-> CS40L50 is a “haptic driver”, like a "motor driver" in a car. It is an
-> unfortunate name in this context, but it is straight from the datasheet.
+Signed-off-by: Charles Yi <be286@163.com>
+---
+ drivers/hid/hid-core.c  | 12 ++++++++++--
+ drivers/hid/hid-debug.c |  3 +++
+ include/linux/hid.h     |  3 +++
+ 3 files changed, 16 insertions(+), 2 deletions(-)
 
-Understood.  That's fine then.
-
-> >> +static const struct mfd_cell cs40l50_devs[] = {
-> >> + {
-> >> + .name = "cs40l50-vibra",
-> >> + },
-> > 
-> > 
-> > Where are the other devices?  Without them, it's not an MFD.
-> 
-> The driver will need to support I2S streaming to the device at some point
-> in the future, for which a codec driver will be added. I thought it better to
-> submit this as an MFD driver now, rather than as an Input driver, so as
-> not to have to move everything later.
-> 
-> Should I add the “cs40l50-codec” mfd_cell now, even though it does not
-> exist yet?
-
-What is your timeline for this to be authored?
-
-Does the device function well without it?
-
-> >> +static int cs40l50_handle_redc_est_done(struct cs40l50_private *cs40l50)
-> >> +{
-> >> + int error, fractional, integer, stored;
-> > 
-> > err or ret is traditional.
-> 
-> We received feedback to change from “ret” to “error” in the input
-> subsystem, and now the opposite in MFD. I have no problem adopting
-> “err” here, but is it understood that styles will be mixed across
-> components?
-
-That surprises me:
-
-% git grep "int .*error" | wc -l
-6152
-
-vs
-
-% git grep "int .*err" | grep -v error | wc -l
-34753
-% git grep "int .*ret" | wc -l  
-76584
-
-> >> +static irqreturn_t cs40l50_process_mbox(int irq, void *data)
-> >> +{
-> >> + struct cs40l50_private *cs40l50 = data;
-> >> + int error = 0;
-> >> + u32 val;
-> >> +
-> >> + mutex_lock(&cs40l50->lock);
-> >> +
-> >> + while (!cs40l50_mailbox_read_next(cs40l50, &val)) {
-> >> + switch (val) {
-> >> + case 0:
-> >> + mutex_unlock(&cs40l50->lock);
-> >> + dev_dbg(cs40l50->dev, "Reached end of queue\n");
-> >> + return IRQ_HANDLED;
-> >> + case CS40L50_MBOX_HAPTIC_TRIGGER_GPIO:
-> >> + dev_dbg(cs40l50->dev, "Mailbox: TRIGGER_GPIO\n");
-> > 
-> > These all appear to be no-ops?
-> 
-> Correct.
-
-Then why do the exist?
-
-> >> + case CS40L50_MBOX_RUNTIME_SHORT:
-> >> + dev_err(cs40l50->dev, "Runtime short detected\n");
-> >> + error = cs40l50_error_release(cs40l50);
-> >> + if (error)
-> >> + goto out_mutex;
-> >> + break;
-> >> + default:
-> >> + dev_err(cs40l50->dev, "Payload %#X not recognized\n", val);
-> >> + error = -EINVAL;
-> >> + goto out_mutex;
-> >> + }
-> >> + }
-> >> +
-> >> + error = -EIO;
-> >> +
-> >> +out_mutex:
-> >> + mutex_unlock(&cs40l50->lock);
-> >> +
-> >> + return IRQ_RETVAL(!error);
-> >> +}
-> > 
-> > Should the last two drivers live in drivers/mailbox?
-> 
-> Adopting the mailbox framework seems like an excessive amount
-> of overhead for our requirements.
-
-MFD isn't a dumping a ground for miscellaneous functionality.
-
-MFD requests resources and registers devices.
-
-Mailbox functionality should live in drivers/mailbox.
-
-> >> +static irqreturn_t cs40l50_error(int irq, void *data);
-> > 
-> > Why is this being forward declared?
-> > 
-> >> +static const struct cs40l50_irq cs40l50_irqs[] = {
-> >> + CS40L50_IRQ(AMP_SHORT, "Amp short", error),
-> > 
-> > I assume that last parameter is half of a function name.
-> > 
-> > Better to have 2 different structures and do 2 requests I feel.
-> 
-> I think I will combine the two handler functions into one, so as not
-> to need the struct handler parameter, or the forward declaration.
-
-Or the MACRO - win, win win.
-
-> >> +{
-> >> + struct device *dev = cs40l50->dev;
-> >> + int error;
-> >> +
-> >> + mutex_init(&cs40l50->lock);
-> > 
-> > Don't you need to destroy this in the error path?
-> 
-> My understanding based on past feedback is that mutex_destroy()
-> is an empty function unless mutex debugging is enabled, and there
-> is no need cleanup the mutex explicitly. I will change this if you
-> disagree with that feedback.
-
-It just seems odd to create something and not tear it down.
-
-> >> +struct cs40l50_irq {
-> >> + const char *name;
-> >> + int irq;
-> >> + irqreturn_t (*handler)(int irq, void *data);
-> >> +};
-> >> +
-> >> +struct cs40l50_private {
-> >> + struct device *dev;
-> >> + struct regmap *regmap;
-> >> + struct cs_dsp dsp;
-> >> + struct mutex lock;
-> >> + struct gpio_desc *reset_gpio;
-> >> + struct regmap_irq_chip_data *irq_data;
-> >> + struct input_dev *input;
-> > 
-> > Where is this used?
-> > 
-> >> + const struct firmware *wmfw;
-> > 
-> > Or this.
-> > 
-> >> + struct cs_hap haptics;
-> > 
-> > Or this?
-> > 
-> >> + u32 devid;
-> >> + u32 revid;
-> > 
-> > Are these used after they're set?
-> 
-> These are all used in the input driver, patch 4/4 of this series. If
-> this is not acceptable in some way, I will change it per your
-> suggestions.
-
-Do they need to be shared with other devices?
-
-If not, they should live where they are used.
-
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 8992e3c1e769..e0181218ad85 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -702,15 +702,22 @@ static void hid_close_report(struct hid_device *device)
+  * Free a device structure, all reports, and all fields.
+  */
+ 
+-static void hid_device_release(struct device *dev)
++void hiddev_free(struct kref *ref)
+ {
+-	struct hid_device *hid = to_hid_device(dev);
++	struct hid_device *hid = container_of(ref, struct hid_device, ref);
+ 
+ 	hid_close_report(hid);
+ 	kfree(hid->dev_rdesc);
+ 	kfree(hid);
+ }
+ 
++static void hid_device_release(struct device *dev)
++{
++	struct hid_device *hid = to_hid_device(dev);
++
++	kref_put(&hid->ref, hiddev_free);
++}
++
+ /*
+  * Fetch a report description item from the data stream. We support long
+  * items, though they are not used yet.
+@@ -2846,6 +2853,7 @@ struct hid_device *hid_allocate_device(void)
+ 	spin_lock_init(&hdev->debug_list_lock);
+ 	sema_init(&hdev->driver_input_lock, 1);
+ 	mutex_init(&hdev->ll_open_lock);
++	kref_init(&hdev->ref);
+ 
+ 	hid_bpf_device_init(hdev);
+ 
+diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+index e7ef1ea107c9..7dd83ec74f8a 100644
+--- a/drivers/hid/hid-debug.c
++++ b/drivers/hid/hid-debug.c
+@@ -1135,6 +1135,7 @@ static int hid_debug_events_open(struct inode *inode, struct file *file)
+ 		goto out;
+ 	}
+ 	list->hdev = (struct hid_device *) inode->i_private;
++	kref_get(&list->hdev->ref);
+ 	file->private_data = list;
+ 	mutex_init(&list->read_mutex);
+ 
+@@ -1227,6 +1228,8 @@ static int hid_debug_events_release(struct inode *inode, struct file *file)
+ 	list_del(&list->node);
+ 	spin_unlock_irqrestore(&list->hdev->debug_list_lock, flags);
+ 	kfifo_free(&list->hid_debug_fifo);
++
++	kref_put(&list->hdev->ref, hiddev_free);
+ 	kfree(list);
+ 
+ 	return 0;
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index 964ca1f15e3f..3b08a2957229 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -679,6 +679,7 @@ struct hid_device {							/* device report descriptor */
+ 	struct list_head debug_list;
+ 	spinlock_t  debug_list_lock;
+ 	wait_queue_head_t debug_wait;
++	struct kref			ref;
+ 
+ 	unsigned int id;						/* system unique id */
+ 
+@@ -687,6 +688,8 @@ struct hid_device {							/* device report descriptor */
+ #endif /* CONFIG_BPF */
+ };
+ 
++void hiddev_free(struct kref *ref);
++
+ #define to_hid_device(pdev) \
+ 	container_of(pdev, struct hid_device, dev)
+ 
 -- 
-Lee Jones [李琼斯]
+2.34.1
+
