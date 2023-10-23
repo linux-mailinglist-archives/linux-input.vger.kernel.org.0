@@ -2,232 +2,235 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4E097D35F5
-	for <lists+linux-input@lfdr.de>; Mon, 23 Oct 2023 13:59:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FA317D37A0
+	for <lists+linux-input@lfdr.de>; Mon, 23 Oct 2023 15:18:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233494AbjJWL7X (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 Oct 2023 07:59:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47902 "EHLO
+        id S230441AbjJWNSn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Oct 2023 09:18:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233435AbjJWL7W (ORCPT
+        with ESMTP id S230459AbjJWNSm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 Oct 2023 07:59:22 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D72EEFD;
-        Mon, 23 Oct 2023 04:59:20 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-6b1ef786b7fso3035582b3a.3;
-        Mon, 23 Oct 2023 04:59:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698062360; x=1698667160; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=E6JlAMQZhNgDG/MUNka90wVBdFQqbCnW3Dxoc9mKAi4=;
-        b=bZdPPbCdjjINR3aVE+hIhzHp5U8fhku3oUQdZ8OyQtlipWHUPWgAonozhnoYaM2ANX
-         mUfiolVFAWHtWkf1bkUXJLpAVgU6d/9zo27BoQNrte/0g18+SBSYEwr+sJAkCwZrFa0+
-         HAL/cS/rBKTQl3hY6U2NWmQlNavrktKuWLLBb59JSapq60inYRPd7KPj1Mk3pvHmUd/I
-         cVDp8cR9LEnRg3myqVwdstR3Xpp9dQsoRFByioMF4n0O0xf849csXyJIFByojH3wQt4H
-         t5G4+8+oX5oeR/51yLiftdDFbXd/D9jniCdXl3W3Og21yth+xAKs8BylEtkqI3c98x64
-         Exag==
+        Mon, 23 Oct 2023 09:18:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 491BF101
+        for <linux-input@vger.kernel.org>; Mon, 23 Oct 2023 06:17:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1698067072;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=sSFfEkjm+TRHFIpNtkrlAc+VslBdL04S4deDLRJut34=;
+        b=Iruzh5gnI/w3Af3RGAX3ByPZ1fbv15mUgP4GgT2eJ6yxt2o0z2OnXD1td+STnkAwA5arAT
+        aSysIlWMEbTzslQLLJrnqVhVIooq8hz50hIp86A7oUYcEGzKSPQ3Q/RiLyca4ca8A4WL9x
+        BM1bXpdmM33ocvNhO8hvyQFrMCGVd+c=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-130-OEdJhSD1PvmqjMwnoPbzzw-1; Mon, 23 Oct 2023 09:17:40 -0400
+X-MC-Unique: OEdJhSD1PvmqjMwnoPbzzw-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9c7558b838aso203014066b.2
+        for <linux-input@vger.kernel.org>; Mon, 23 Oct 2023 06:17:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698062360; x=1698667160;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1698067059; x=1698671859;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=E6JlAMQZhNgDG/MUNka90wVBdFQqbCnW3Dxoc9mKAi4=;
-        b=dCI8slcMZx0WYoARJ6zuio7poDs7gTZx9dXmoRBO/SBKkzONGNCas909Ggftq2dE/8
-         U9NW9Wd3fw2NRkAnPpjZlP13LENDmgLHOee/Q/L3qVabbrixLzogddtiih6SvHIQb8OO
-         a5Gft0bdxmlcSJjEDK9mbQq52XEuuTtfwIzLjYsmyUmDMaP/BxrYEBV2M6b+ACA9jWHj
-         eObyWrxuwWH3kUznWdOIE/YVL0rPsZd/MXcVdQCYVktp2MMHkM1MApyj4Cozt2NdUk8k
-         vsOM6//jU6hVANz+x/YVWPqIjRiAa0QkJU3W+K1On+C3IxOVb9Vq4YugtTKA2KX2H+x/
-         7i2g==
-X-Gm-Message-State: AOJu0YwOSISi7va+6Kgnr3FnPR4pBe9iJ4c6CHH0ERm/uLDEbi7cX3ys
-        0YUaksWQxzojetekr2kAF+YYKEWruR+PIESo
-X-Google-Smtp-Source: AGHT+IEXJ4bYW554Y1USLSlgYR6+LmpLGEpNPq/9gCTVmsxM35BqeiE0pvIzf7Q85QwCH14a5kGcVA==
-X-Received: by 2002:a05:6a21:7185:b0:154:3f13:1bb7 with SMTP id wq5-20020a056a21718500b001543f131bb7mr10609574pzb.49.1698062360162;
-        Mon, 23 Oct 2023 04:59:20 -0700 (PDT)
-Received: from [10.3.171.174] ([103.4.221.252])
-        by smtp.gmail.com with ESMTPSA id t63-20020a625f42000000b006bf84460e96sm2480162pfb.214.2023.10.23.04.59.16
+        bh=sSFfEkjm+TRHFIpNtkrlAc+VslBdL04S4deDLRJut34=;
+        b=wkp2B5zN0570RiPw1hqvQZ9aqaS5SC50zoZkJgHTPnVxHieAZIGi3tC+nJzHNGqlD/
+         DHJ0ow7spwtzEyfOj6i9LypYGZ3T3xtupzgNCz+1LBbl+zA28yMyWKCgdgdw2YIDjH9h
+         AxUT1nzvos+1dpB2u2PPRrJawi0cBF6Drhwb6aFWpb0j3osKeadDfB2ze8wi6jD2auuC
+         fqha+LtW2pAP8qE5gnbVWwow8CF6VcZOXRyCIiJ5Y/nvJKE4ANJKMha9UvuV6zVF2tvX
+         euzm9Fr36SJPAj2/w+oylVL0dwSWixQ14QfiYIg5YMtNWTfyXJrJdyWJvtpsHQQI1hQb
+         nsAA==
+X-Gm-Message-State: AOJu0YwnunmRNPptNUn5oS4SMltL4Z+4k5qXdT/jcxU6iAhKPkTLz4vp
+        iIAb55PmY9W/PPFnMJ5rmvDDPWRg3vpR29Po1knMyv5ohh3zySRdXfmAU6AoCDdDUGJvM44GL9e
+        hwRby8WczlyDFwraQ8b9pwts=
+X-Received: by 2002:a17:907:7da4:b0:9bf:4915:22c9 with SMTP id oz36-20020a1709077da400b009bf491522c9mr7444008ejc.32.1698067059556;
+        Mon, 23 Oct 2023 06:17:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEEw6I3Skyk2VSTQQ0L/ocw36Hx+FffccCo6LtPT9cF0KLaOGOuHE4Y/IuzoMVRWRlkthG96w==
+X-Received: by 2002:a17:907:7da4:b0:9bf:4915:22c9 with SMTP id oz36-20020a1709077da400b009bf491522c9mr7443986ejc.32.1698067059228;
+        Mon, 23 Oct 2023 06:17:39 -0700 (PDT)
+Received: from [10.40.98.142] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id a23-20020a1709064a5700b009ad89697c86sm6717636ejv.144.2023.10.23.06.17.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Oct 2023 04:59:19 -0700 (PDT)
-Message-ID: <7ef752b4-915b-4f9d-8425-79df8195656b@gmail.com>
-Date:   Mon, 23 Oct 2023 17:28:10 +0530
+        Mon, 23 Oct 2023 06:17:38 -0700 (PDT)
+Message-ID: <d1f0c5a5-77e1-a7de-88f7-6097a7338f54@redhat.com>
+Date:   Mon, 23 Oct 2023 15:17:37 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] dt-bindings: input: bindings for Adafruit Seesaw
- Gamepad
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20231017034356.1436677-1-anshulusr@gmail.com>
- <ZTW0p2WG3/m1Tx+Z@nixie71>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in
+ atomic context
 Content-Language: en-US
-From:   Anshul Dalal <anshulusr@gmail.com>
-In-Reply-To: <ZTW0p2WG3/m1Tx+Z@nixie71>
+To:     Sean Young <sean@mess.org>
+Cc:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Mark Gross <markgross@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Helge Deller <deller@gmx.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+References: <cover.1697534024.git.sean@mess.org>
+ <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
+ <90728c06-4c6c-b3d2-4723-c24711be2fa5@redhat.com>
+ <20231019105118.64gdzzixwqrztjir@pengutronix.de>
+ <01a505ac-320f-3819-a58d-2b82c1bf2a86@redhat.com>
+ <ZTT9fvEF+lqfzGJ/@gofer.mess.org>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <ZTT9fvEF+lqfzGJ/@gofer.mess.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Jeff,
+Hi Sean,
 
-On 10/23/23 05:17, Jeff LaBundy wrote:
-> Hi Anshul,
+On 10/22/23 12:46, Sean Young wrote:
+> Hi Hans,
 > 
-> On Tue, Oct 17, 2023 at 09:13:44AM +0530, Anshul Dalal wrote:
->> Adds bindings for the Adafruit Seesaw Gamepad.
+> On Sat, Oct 21, 2023 at 11:08:22AM +0200, Hans de Goede wrote:
+>> On 10/19/23 12:51, Uwe Kleine-König wrote:
+>>> On Wed, Oct 18, 2023 at 03:57:48PM +0200, Hans de Goede wrote:
+>>>> On 10/17/23 11:17, Sean Young wrote:
+>>>>> Some drivers require sleeping, for example if the pwm device is connected
+>>>>> over i2c. The pwm-ir-tx requires precise timing, and sleeping causes havoc
+>>>>> with the generated IR signal when sleeping occurs.
+>>>>>
+>>>>> This patch makes it possible to use pwm when the driver does not sleep,
+>>>>> by introducing the pwm_can_sleep() function.
+>>>>>
+>>>>> Signed-off-by: Sean Young <sean@mess.org>
+>>>>
+>>>> I have no objection to this patch by itself, but it seems a bit
+>>>> of unnecessary churn to change all current callers of pwm_apply_state()
+>>>> to a new API.
+>>>
+>>> The idea is to improve the semantic of the function name, see
+>>> https://lore.kernel.org/linux-pwm/20231013180449.mcdmklbsz2rlymzz@pengutronix.de
+>>> for more context.
 >>
->> The gamepad functions as an i2c device with the default address of 0x50
->> and has an IRQ pin that can be enabled in the driver to allow for a rising
->> edge trigger on each button press or joystick movement.
+>> Hmm, so the argument here is that the GPIO API has this, but GPIOs
+>> generally speaking can be set atomically, so there not being able
+>> to set it atomically is special.
 >>
->> Product page:
->>   https://www.adafruit.com/product/5743
->> Arduino driver:
->>   https://github.com/adafruit/Adafruit_Seesaw
+>> OTOH we have many many many other kernel functions which may sleep
+>> and we don't all postfix them with _can_sleep.
 >>
->> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
->> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+>> And for PWM controllers pwm_apply_state is IMHO sorta expected to
+>> sleep. Many of these are attached over I2C so things will sleep,
+>> others have a handshake to wait for the current dutycycle to
+>> end before you can apply a second change on top of an earlier
+>> change during the current dutycycle which often also involves
+>> sleeping.
+>>
+>> So the natural/expeected thing for pwm_apply_state() is to sleep
+>> and thus it does not need a postfix for this IMHO.
 > 
-> Perhaps this ship has sailed, but is there any reason this simple device
-> cannot be added to Documentation/devicetree/bindings/trivial-devices.yaml
-> as opposed to having its own binding?
+> Most pwm drivers look like they can be made to work in atomic context,
+> I think. Like you say this is not the case for all of them. Whatever
+> we choose to be the default for pwm_apply_state(), we should have a
+> clear function name for the alternative. This is essentially why
+> pam_apply_cansleep() was picked.
 > 
-> It has no vendor-specific properties, and the only properties are the
-> standard properties already understood by the I2C core. In case I have
-> misunderstood, please let me know.
+> The alternative to pwm_apply_cansleep() is to have a function name
+> which implies it can be used from atomic context. However, 
+> pwm_apply_atomic() is not great because the "atomic" could be
+> confused with the PWM atomic API, not the kernel process/atomic
+> context.
+
+Well pwm_apply_state() is the atomic PWM interface right?
+
+So to me pwm_apply_state_atomic() would be clearly about
+running atomically.
+
+> So what should the non-sleeping function be called then? 
+>  - pwm_apply_cannotsleep() 
+>  - pwm_apply_nosleep()
+>  - pwm_apply_nonsleeping()
+>  - pwm_apply_atomic_context()
+
+I would just go with:
+
+pwm_apply_state_atomic()
+
+but if this is disliked by others then lets just rename
+
+pwm_apply_state() to pwm_apply_state_cansleep() as
+is done in this patch and use plain pwm_apply_state()
+for the new atomic-context version.
+
+Regards,
+
+Hans
+
+
+
+> 
+>>> I think it's very subjective if you consider this
+>>> churn or not.
+>>
+>> I consider it churn because I don't think adding a postfix
+>> for what is the default/expected behavior is a good idea
+>> (with GPIOs not sleeping is the expected behavior).
+>>
+>> I agree that this is very subjective and very much goes
+>> into the territory of bikeshedding. So please consider
+>> the above my 2 cents on this and lets leave it at that.
+> 
+> You have a valid point. Let's focus on having descriptive function names.
+> 
+>>> While it's nice to have every caller converted in a single
+>>> step, I'd go for
+>>>
+>>> 	#define pwm_apply_state(pwm, state) pwm_apply_cansleep(pwm, state)
+>>>
+>>> , keep that macro for a while and convert all users step by step. This
+>>> way we don't needlessly break oot code and the changes to convert to the
+>>> new API can go via their usual trees without time pressure.
+>>
+>> I don't think there are enough users of pwm_apply_state() to warrant
+>> such an exercise.
+>>
+>> So if people want to move ahead with the _can_sleep postfix addition
+>> (still not a fan) here is my acked-by for the drivers/platform/x86
+>> changes, for merging this through the PWM tree in a single commit:
+>>
+>> Acked-by: Hans de Goede <hdegoede@redhat.com>
+> 
+> Thanks,
+> 
+> Sean
 > 
 
-The driver currently implements only a subset of the functionality in
-the Adafruit Seesaw specification. I eventually plan on adding adding
-full support for the Seesaw framework in the form of a driver for the
-atsamd09 seesaw breakout board:
-https://learn.adafruit.com/adafruit-seesaw-atsamd09-breakout
-
-Then I think it would be better for this driver to use the newly exposed
-seesaw APIs by the atsamd09 driver instead of relying on kernel's i2c APIs.
-
-I would also like to add support for the provided interrupt pin later
-down the line which is documented in the binding along with description
-of the non-standard action button layout.
-
-Above were my reasons for going for a standalone binding, please let me
-know if you disagree.
-
->> ---
->>
->> Changes for v5:
->> - Added link to the datasheet
->>
->> Changes for v4:
->> - Fixed the URI for the id field
->> - Added `interrupts` property
->>
->> Changes for v3:
->> - Updated id field to reflect updated file name from previous version
->> - Added `reg` property
->>
->> Changes for v2:
->> - Renamed file to `adafruit,seesaw-gamepad.yaml`
->> - Removed quotes for `$id` and `$schema`
->> - Removed "Bindings for" from the description
->> - Changed node name to the generic name "joystick"
->> - Changed compatible to 'adafruit,seesaw-gamepad' instead of
->>   'adafruit,seesaw_gamepad'
->>
->>  .../input/adafruit,seesaw-gamepad.yaml        | 60 +++++++++++++++++++
->>  1 file changed, 60 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
->> new file mode 100644
->> index 000000000000..3f0d1c5a3b9b
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
->> @@ -0,0 +1,60 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Adafruit Mini I2C Gamepad with seesaw
->> +
->> +maintainers:
->> +  - Anshul Dalal <anshulusr@gmail.com>
->> +
->> +description: |
->> +  Adafruit Mini I2C Gamepad
->> +
->> +    +-----------------------------+
->> +    |   ___                       |
->> +    |  /   \               (X)    |
->> +    | |  S  |  __   __  (Y)   (A) |
->> +    |  \___/  |ST| |SE|    (B)    |
->> +    |                             |
->> +    +-----------------------------+
->> +
->> +  S -> 10-bit percision bidirectional analog joystick
->> +  ST -> Start
->> +  SE -> Select
->> +  X, A, B, Y -> Digital action buttons
->> +
->> +  Datasheet: https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.pdf
->> +  Product page: https://www.adafruit.com/product/5743
->> +  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
->> +
->> +properties:
->> +  compatible:
->> +    const: adafruit,seesaw-gamepad
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +    description:
->> +      The gamepad's IRQ pin triggers a rising edge if interrupts are enabled.
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    i2c {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +
->> +        joystick@50 {
->> +            compatible = "adafruit,seesaw-gamepad";
->> +            reg = <0x50>;
->> +        };
->> +    };
->> -- 
->> 2.42.0
->>
-> 
-> Kind regards,
-> Jeff LaBundy
-
-Thank you,
-Anshul Dalal
