@@ -2,249 +2,206 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3852B7D3A8D
-	for <lists+linux-input@lfdr.de>; Mon, 23 Oct 2023 17:19:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E69207D3F94
+	for <lists+linux-input@lfdr.de>; Mon, 23 Oct 2023 20:53:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230449AbjJWPTA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 Oct 2023 11:19:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60980 "EHLO
+        id S230018AbjJWSxn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Oct 2023 14:53:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbjJWPS7 (ORCPT
+        with ESMTP id S229451AbjJWSxm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 Oct 2023 11:18:59 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A97193
-        for <linux-input@vger.kernel.org>; Mon, 23 Oct 2023 08:18:56 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2c51388ccebso50791171fa.3
-        for <linux-input@vger.kernel.org>; Mon, 23 Oct 2023 08:18:56 -0700 (PDT)
+        Mon, 23 Oct 2023 14:53:42 -0400
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2084.outbound.protection.outlook.com [40.107.96.84])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CABF100;
+        Mon, 23 Oct 2023 11:53:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VcVLvkylOAQJ8PLz/PiC0tt81nvt2ANWwceKZuYick62y2uF7d4JLJblMXjjkhHU09tFaN7UgdaOYkAaDaL9EMXZRwpgWvT7YEZbifJjuFsmaN23GH9ObAjgIUvd+MPQ4mx8HE/c8njsbNHJs4ra04SkJk+yyFzgrQyEV0jJf5sZ5j0AgSmZlv/775xp6+E3135XXEbn0U01rMDxHNNKskAnAj1jXA4V1ghMiKzE0P8c7O7O8l+B4ZNoaG5+8665dMYcde0WmdXfc0U8KAjJOUA+Aed9Gp5zkKjVmpBtur83wqArGAomt8Xs0XiRfDjR5N398DrYLI3IGYo78otBeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gMZ7JpkyzqpFAK4qylSuRvPrxXvFTcKg7CWDV8djZoc=;
+ b=M5ej9fgEtX2gPrg8yJ9CpSH9zD9LzhRypFMVLGk56YhwCllK6N0LIYLyDEE6Qw3FEtGWFfl/Kmf22L4e0v1jAyx1wRyPJVqdnPOtEcF2EuyuqxhUmwIHngNYo935VUVafZtcG1EfDV+e0VaIBw9a8VG8sCNdPMBigfrMJd/2GCRXzV3qCfbBR/VqZ2sTYOl7oTLCZkqD6UtK7DY0SNF5AqStQ45gilh9SXzGe56SAFptZlrL7asGIN5zKjsCoCXourcIzmBy4+zgtjup1i/UmEl97MGNA5kHYgZlA1LWkYpetuwe0mMPa20ufPDPK/NvpcOtgA1aML13QTBYRhGoMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698074335; x=1698679135; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=P1MLGwaWl3ZChj/jIuzuUz8ORV4VhUnXGKItCTv8F9w=;
-        b=xdVSdIfMyUwRv/7v20t9Vdlx7Li3MMJtzxOO4G8hai1L67qPTHI3GiHCS+Lfph0XGK
-         iDhdUYpTtgqLkjAAZcdMfaq6x5Wv2xuZLZb3wYshElI8mXt6F6RllRts2KTjAXQSVYM0
-         vuAoW8SQ1QMkL2HOHZ14fCTI/YR1ZejLnnoWpulJvfkMdeqOTR7cb+qYEO81Ui0Ym8/P
-         fD1JfNCh6lpplmrHkntzwHQ9wUz0mkKPI2qBg3fOBgiT10IePhldYT/50x6L0WCfWpFA
-         GubgPvAL28q2IvdC1EkU9GxDdmAQAHLfK0pQzx7EIlYhArEqNzQ4M19ljGYrEjcS7DRS
-         VVAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698074335; x=1698679135;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=P1MLGwaWl3ZChj/jIuzuUz8ORV4VhUnXGKItCTv8F9w=;
-        b=nXMsJB0PE4+jGxUdNyVPcnd3vjB2RCGxYINN4eTPUxKDsLBqtkW7/3ZtHIuJf7OwVn
-         B6p2dEKGijJKOgiGP4rfzgfB8WapKvhcACyPhjYN12BvaeR3Ktf7Rmy0wEzI4/htVHve
-         +4EXk4RcdJMVMq/MU+4KIOkR460ZcRUCgxf9Ua76tK3Rvt7TQrYCO8V7aOoL3PjMtnWS
-         whxgYZqCErR6n4sJjbRdKn1idzRh4kzkC7JPXGQjXfv/SIV2K0U66ovQI92iNE/+IJyl
-         obx8tXHHOb1rYbVkIMDAop01W5hEUIlK5hciW+QIh3KnRgxiAPpVep7/irVpFHxkb/YB
-         uTnQ==
-X-Gm-Message-State: AOJu0YyQ9aCQkhBQO9vdWafK+9JpG7r90LJUgYRzzvCEWZlmf9tWn9JQ
-        +f8Dc/vlRldc+7OMGXtiGsvTwg==
-X-Google-Smtp-Source: AGHT+IHB0J8y26HcqtTde0NBv2OOmtsa7H7+Log3XwhbM1zJ1Us50QS4+6dcdbGMQW98onusyJX6dQ==
-X-Received: by 2002:a2e:b4ba:0:b0:2c0:18b8:9656 with SMTP id q26-20020a2eb4ba000000b002c018b89656mr6038735ljm.24.1698074334662;
-        Mon, 23 Oct 2023 08:18:54 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:a36e:a5d9:26ae:74b1? ([2a01:e0a:982:cbb0:a36e:a5d9:26ae:74b1])
-        by smtp.gmail.com with ESMTPSA id t22-20020a05600c41d600b004083996dad8sm14241695wmh.18.2023.10.23.08.18.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Oct 2023 08:18:54 -0700 (PDT)
-Message-ID: <05ef5179-3233-4294-99e1-220454c5c81f@linaro.org>
-Date:   Mon, 23 Oct 2023 17:18:52 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH v10 0/4] Input: add initial support for Goodix Berlin
- touchscreen IC
-Content-Language: en-US, fr
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Rob Herring <robh+dt@kernel.org>,
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gMZ7JpkyzqpFAK4qylSuRvPrxXvFTcKg7CWDV8djZoc=;
+ b=FV3c6bdS2PAEDat2dQ2fjqlku54jKDOQAt70qcJBT9uYt1NVGvOTu6o8fMQ1NEVqbM/9r/Tf6FmK+ZRqt+QLCnbX1SsEikieUGaif5hs8zgmEi8zLVygvId7gQGYCrtVDd0fQLbmpcHnPl5g8kXVozRzKc3gpFHk4DMQCb4ahbw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=labundy.com;
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ (2603:10b6:803:43::21) by CH3PR08MB9685.namprd08.prod.outlook.com
+ (2603:10b6:610:1d0::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.26; Mon, 23 Oct
+ 2023 18:53:34 +0000
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::e73c:270b:75f7:5302]) by SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::e73c:270b:75f7:5302%4]) with mapi id 15.20.6907.032; Mon, 23 Oct 2023
+ 18:53:34 +0000
+Date:   Mon, 23 Oct 2023 13:53:26 -0500
+From:   Jeff LaBundy <jeff@labundy.com>
+To:     Anshul Dalal <anshulusr@gmail.com>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Jeff LaBundy <jeff@labundy.com>, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh@kernel.org>
-References: <20231023-topic-goodix-berlin-upstream-initial-v10-0-59066cf1f56f@linaro.org>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <20231023-topic-goodix-berlin-upstream-initial-v10-0-59066cf1f56f@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v5 1/2] dt-bindings: input: bindings for Adafruit Seesaw
+ Gamepad
+Message-ID: <ZTbBJnwI5FWYfnFd@nixie71>
+References: <20231017034356.1436677-1-anshulusr@gmail.com>
+ <ZTW0p2WG3/m1Tx+Z@nixie71>
+ <7ef752b4-915b-4f9d-8425-79df8195656b@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7ef752b4-915b-4f9d-8425-79df8195656b@gmail.com>
+X-ClientProxiedBy: SA0PR11CA0070.namprd11.prod.outlook.com
+ (2603:10b6:806:d2::15) To SN4PR0801MB3774.namprd08.prod.outlook.com
+ (2603:10b6:803:43::21)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|CH3PR08MB9685:EE_
+X-MS-Office365-Filtering-Correlation-Id: b413e3d1-07be-4de8-da2a-08dbd3f95bbb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +30G8vDV26fYygNp4fz1pg1BsNSft4evdhb/6dDfafko8l7f/0++CB6skg2lpcXMZ71PupDRAfoVnfNnbhg48zp9h3FgB1bRpJaDqsFvrEuj9FOSavmwuBP/fCeObIT8UZ51dZcCMUS7Dlsd8qL+3CKpGm0GJ7H+FekLu2bMZTmqPuNd8N0eRiZ6+m0f7WLisOmGVxqj7FGRuJUxPmrxwxrPTGLTaH5oLIhq8J5ya8Y9vgHYyMUFXQidy5UiYdTRq1m9LPFCJpwg06V4PocNbetEDeQKPjjYnzov34bkh10Y0VhxPO1DGqQxhA5zHd+kYi+6d19jVbTV9L1TniLzE33VUaJLN9azJvoPQ8ysZrCnqu4qHX0knFzTbcPnl2PsAyf7uPFwZxvnS7usPdJClN5QHKco9ofB1VposuF4dtadvqIw4wfCqracR3HBFWBbcQ9Gc5HaqVtsJqIkRzciP4lf0ThotJ4uE9VxTA6TRJrvS1JF3elIXzsioG8+GGPy7ZF0Lx/XU6lRlJ9aEW4GBHHBQpB/2vl5nSCed7E9MHU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(346002)(396003)(136003)(366004)(376002)(39830400003)(230922051799003)(451199024)(1800799009)(64100799003)(186009)(41300700001)(26005)(2906002)(7416002)(38100700002)(8676002)(8936002)(86362001)(4326008)(33716001)(83380400001)(9686003)(6512007)(6666004)(53546011)(6916009)(5660300002)(316002)(478600001)(6486002)(6506007)(54906003)(66556008)(66476007)(966005)(66946007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gyZCP0N8Vr+3iRXvBNqK5x9MEqWKR4TGiBy5RneGKkBd5e8YoQofLtlsK8pH?=
+ =?us-ascii?Q?IDDh9f/63JjnT/COrTfRG6ZolMcfSYpbdkUCA5KJlX7TLMqZWZYAV/8mvA2g?=
+ =?us-ascii?Q?nygRav6/jzWlvErC0vQvhDSIy7bMtm7DoV4ASoh/RMZnbMERHYwn4ZcTu2Is?=
+ =?us-ascii?Q?DH7oL4T+t2sdSOgyGhwB4gjL9hoogCqyWzfQY66ZBhiCYCV9mGZETUQ0ex8G?=
+ =?us-ascii?Q?o7raiP6kUqR9CiJ67DADrTmk/nbpKJN0e6LzHbMkYAp558/LpPWf1gxsz/7c?=
+ =?us-ascii?Q?29nnt2xZsZkict5VcmPE5C9CXcdAo+mYCfpwGas4FmMx+t9xJPA4fBlAztqm?=
+ =?us-ascii?Q?nwIiZAszExXb7l1RBUv+TDjcSbiEJjn+PRpp4L/aZ3llDHG1UIDEIRh8hT43?=
+ =?us-ascii?Q?eTH4Z11MC9QqkGc4iT4IKdGUTA1dooWMMb9mI7QvGrwW95jXhX1R0/PNkYk3?=
+ =?us-ascii?Q?kHCA21Iuier/r+9cMgVHVzWsmNtp5wl45WoUn0wKakA6fX4WgtrHd0R7JGL1?=
+ =?us-ascii?Q?x/hLRHsUIfUmn6lwEzubNau61R+BAxqTLRhipg/7oDeHu0fOUA+Ag9b5SzTj?=
+ =?us-ascii?Q?jPnd4XllMn2zJp0ARitpOrZgd0Gt48ZrGO9cIagykredngmVDY4F8dQvphaU?=
+ =?us-ascii?Q?0ql+QyA3M6kUlyCGPpz+JkjeulvYYEg2NBg+spN6c3aDhE2cu5hFmGWW/SpR?=
+ =?us-ascii?Q?XTcNpsPApNKC+I4NjQZTEpQ5Vmy9euw6hL19PmtjJQGELuoUR4J66ILuiV3o?=
+ =?us-ascii?Q?I0o6paShSmmksPiUa4RTqtNcRLyAlouz1pLOgeVliZ+R7VmEhh0e3whAFHUD?=
+ =?us-ascii?Q?BhYSY1+Lkts+IBoWoegKX9lCyk1+lTljpCDhwIsI2NeqLk/ajgS/NFVGoD4w?=
+ =?us-ascii?Q?TDI6ZyKOA9nzr+3SLe95xz6ed6x5y+mds01h9FWZeZAbFghcaBFVW1p93zr1?=
+ =?us-ascii?Q?RbhNzKRRk48jlsQaSk16qj5rDPah0Z5b71qTNSe2oyX7HAT8HUgOgTgaOh8n?=
+ =?us-ascii?Q?u9bSCTjhqna5EihRKfljORRh9W7UdSYZmBAarpqcnoVOX0W2H7TjJ571jFm5?=
+ =?us-ascii?Q?pOK5qWKQDLfdp3Z5jnFT9ZvfIv4QBfrstlOuW98Bt4RDvmEnl1dcqJ8kR4sb?=
+ =?us-ascii?Q?Pz7zIi2yHTLS3HpsjfCqjFRwHrUAEUY3bUDT0h0O7VeJMfne6j2+Dny1bd6Q?=
+ =?us-ascii?Q?mDWxULIjPs0/FZreU8n8nBSGMs4mLcspzkTVqMEFOLsUCSkXQd4SFKDQsnlE?=
+ =?us-ascii?Q?Ck1am/8gSfFRe0x8WXggaAun39m6HS5ksxONrt8dD10qxMsdbHO12jKla35/?=
+ =?us-ascii?Q?X2V2/UNJ+0c1Md9ttbo1BsRF1dZjziZ8tdImAZdwkFBetR2m/QFnVF6e0eum?=
+ =?us-ascii?Q?4SK58gFuci9m8EABgh28UuuLTPc/qs3uyfCr1hNunE7oqcdvuuaRVFqPVsVc?=
+ =?us-ascii?Q?usLn+TgOm9iepK/NZOw6e08HDVlpQOrbskt/vLRBE5wLlLavsJItcKaeACP5?=
+ =?us-ascii?Q?btTQFLYKaqrWrauW/R/+J+W2VIrHq2533yfI9NJa2tcxUSc5aiPS7RHZ2med?=
+ =?us-ascii?Q?LUwHxXgVn5TvTU+yD8S36tGXmhnpTJlorDUoSbQS?=
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b413e3d1-07be-4de8-da2a-08dbd3f95bbb
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2023 18:53:34.6584
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: R864CUiqm4qz8RyYkYMsQHrzHSIo3SYHjeI/6Bh4SU4kQk59wony3AwLYaa16jXhzfCWZA70Yo/m/JAt96z0bQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR08MB9685
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Anshul,
 
-Please ignore this cover letter, gmail's SMTP returned an error while sending it
-but still sent it....
+Thank you for this additional information.
 
-The properly sent patchset can be found at:
-https://lore.kernel.org/all/20231023-topic-goodix-berlin-upstream-initial-v10-0-88eec2e51c0b@linaro.org/
+On Mon, Oct 23, 2023 at 05:28:10PM +0530, Anshul Dalal wrote:
+> Hello Jeff,
+> 
+> On 10/23/23 05:17, Jeff LaBundy wrote:
+> > Hi Anshul,
+> > 
+> > On Tue, Oct 17, 2023 at 09:13:44AM +0530, Anshul Dalal wrote:
+> >> Adds bindings for the Adafruit Seesaw Gamepad.
+> >>
+> >> The gamepad functions as an i2c device with the default address of 0x50
+> >> and has an IRQ pin that can be enabled in the driver to allow for a rising
+> >> edge trigger on each button press or joystick movement.
+> >>
+> >> Product page:
+> >>   https://www.adafruit.com/product/5743
+> >> Arduino driver:
+> >>   https://github.com/adafruit/Adafruit_Seesaw
+> >>
+> >> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> >> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+> > 
+> > Perhaps this ship has sailed, but is there any reason this simple device
+> > cannot be added to Documentation/devicetree/bindings/trivial-devices.yaml
+> > as opposed to having its own binding?
+> > 
+> > It has no vendor-specific properties, and the only properties are the
+> > standard properties already understood by the I2C core. In case I have
+> > misunderstood, please let me know.
+> > 
+> 
+> The driver currently implements only a subset of the functionality in
+> the Adafruit Seesaw specification. I eventually plan on adding adding
+> full support for the Seesaw framework in the form of a driver for the
+> atsamd09 seesaw breakout board:
+> https://learn.adafruit.com/adafruit-seesaw-atsamd09-breakout
+> 
+> Then I think it would be better for this driver to use the newly exposed
+> seesaw APIs by the atsamd09 driver instead of relying on kernel's i2c APIs.
 
-Neil
+The underlying functions used to implement I2C communication are orthogonal
+to the binding. Whether you use the kernel's core I2C support, regmap, or
+your own wrappers built on top of either have no bearing on whether or not
+a binding is necessary.
 
-On 23/10/2023 17:03, Neil Armstrong wrote:
-> These touchscreen ICs support SPI, I2C and I3C interface, up to
-> 10 finger touch, stylus and gestures events.
-> 
-> This initial driver is derived from the Goodix goodix_ts_berlin
-> available at [1] and [2] and only supports the GT9916 IC
-> present on the Qualcomm SM8550 MTP & QRD touch panel.
-> 
-> The current implementation only supports BerlinD, aka GT9916.
-> 
-> Support for advanced features like:
-> - Firmware & config update
-> - Stylus events
-> - Gestures events
-> - Previous revisions support (BerlinA or BerlinB)
-> is not included in current version.
-> 
-> The current support will work with currently flashed firmware
-> and config, and bail out if firmware or config aren't flashed yet.
-> 
-> [1] https://github.com/goodix/goodix_ts_berlin
-> [2] https://git.codelinaro.org/clo/la/platform/vendor/opensource/touch-drivers
-> 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
-> Changes in v10:
-> - Fix according to Dmitry's review:
->   - move goodix_berlin_get_ic_info() afe_data to heap
->   - merge the goodix_berlin_parse_finger() loops and skip invalid fingers instead of returning
->   - remove unwanted goodix_berlin_touch_handler() "static" for buffer
->   - only call goodix_berlin_request_handle_reset() if gpio was provided
->   - use "error = func(); if(error) return error;" instead of "return func()" when function handles multiple error cases
-> - Link to v9: https://lore.kernel.org/r/20231021-topic-goodix-berlin-upstream-initial-v9-0-13fb4e887156@linaro.org
-> 
-> Changes in v9:
-> - Rebased on next-20231020
-> - Link to v8: https://lore.kernel.org/r/20231003-topic-goodix-berlin-upstream-initial-v8-0-171606102ed6@linaro.org
-> 
-> Changes in v8:
-> - Add missing bitfield.h include in core
-> - Link to v7: https://lore.kernel.org/r/20231002-topic-goodix-berlin-upstream-initial-v7-0-792fb91f5e88@linaro.org
-> 
-> Changes in v7:
-> - rebased on v6.6-rc3
-> - Link to v6: https://lore.kernel.org/r/20230912-topic-goodix-berlin-upstream-initial-v6-0-b4ecfa49fb9d@linaro.org
-> 
-> Changes in v6:
-> - rebased on v6.6-rc1
-> - changed commit message prefix to match the other Input commits
-> - Link to v5: https://lore.kernel.org/r/20230801-topic-goodix-berlin-upstream-initial-v5-0-079252935593@linaro.org
-> 
-> Changes in v5:
-> - rebased on next-20230801
-> - Link to v4: https://lore.kernel.org/r/20230606-topic-goodix-berlin-upstream-initial-v4-0-0947c489be17@linaro.org
-> 
-> Changes in v4:
-> - Core updates:
->   - drop kconfig depends, deps will be handled by _SPI and _I2C
->   - change power_on() error labels
->   - print errors on all dev_err() prints
->   - remove useless default variable initialization
->   - switch irq touch checksum error to dev_err()
->   - add Jeff's review tag
-> - I2C changes
->   - change REGMAP_I2C Kconfig from depends to select
->   - add Jeff's review tag
-> - SPI changes
->   - add select REGMAP to Kconfig
->   - added GOODIX_BERLIN_ prefix to defines
->   - switched from ret to error
->   - add Jeff's review tag
-> - Link to v3: https://lore.kernel.org/r/20230606-topic-goodix-berlin-upstream-initial-v3-0-f0577cead709@linaro.org
-> 
-> Changes in v3:
-> - Another guge cleanups after Jeff's review:
->   - appended goodix_berlin_ before all defines
->   - removed some unused defines
->   - removed retries on most of read functions, can be added back later
->   - added __le to ic_info structures
->   - reworked and simplified irq handling, dropped enum and ts_event structs
->   - added struct for touch data
->   - simplified and cleaned goodix_berlin_check_checksum & goodix_berlin_is_dummy_data
->   - moved touch_data_addr to the end of the main code_data
->   - reworked probe to get_irq last and right before setip input device
->   - cleaned probe by removing the "cd->dev"
->   - added short paragraph to justify new driver for berlin devices
->   - defined all offsets & masks
-> - Added bindings review tag
-> - Link to v2: https://lore.kernel.org/r/20230606-topic-goodix-berlin-upstream-initial-v2-0-26bc8fe1e90e@linaro.org
-> 
-> Changes in v2:
-> - Huge cleanups after Jeff's review:
->   - switch to error instead of ret
->   - drop dummy vendor/product ids
->   - drop unused defined/enums
->   - drop unused ic_info and only keep needes values
->   - cleanup namings and use goodix_berlin_ everywhere
->   - fix regulator setup
->   - fix default variables value when assigned afterwars
->   - removed indirections
->   - dropped debugfs
->   - cleaned input_dev setup
->   - dropped _remove()
->   - sync'ed i2c and spi drivers
-> - fixed yaml bindings
-> - Link to v1: https://lore.kernel.org/r/20230606-topic-goodix-berlin-upstream-initial-v1-0-4a0741b8aefd@linaro.org
-> 
-> ---
-> Neil Armstrong (4):
->        dt-bindings: input: document Goodix Berlin Touchscreen IC
->        Input: add core support for Goodix Berlin Touchscreen IC
->        Input: goodix-berlin - add I2C support for Goodix Berlin Touchscreen IC
->        Input: goodix-berlin - add SPI support for Goodix Berlin Touchscreen IC
-> 
->   .../bindings/input/touchscreen/goodix,gt9916.yaml  |  95 ++++
->   drivers/input/touchscreen/Kconfig                  |  31 ++
->   drivers/input/touchscreen/Makefile                 |   3 +
->   drivers/input/touchscreen/goodix_berlin.h          | 159 ++++++
->   drivers/input/touchscreen/goodix_berlin_core.c     | 594 +++++++++++++++++++++
->   drivers/input/touchscreen/goodix_berlin_i2c.c      |  74 +++
->   drivers/input/touchscreen/goodix_berlin_spi.c      | 177 ++++++
->   7 files changed, 1133 insertions(+)
-> ---
-> base-commit: 2030579113a1b1b5bfd7ff24c0852847836d8fd1
-> change-id: 20230606-topic-goodix-berlin-upstream-initial-ba97e8ec8f4c
-> 
-> Best regards,
+The binding is used to define device tree properties that describe the
+hardware and its constraints. Classic examples are things such as clock
+frequency, regulator voltage, etc. Drivers often translate device tree
+properties into register settings.
 
+In the case of this device, the only thing the driver needs to know about
+the hardware are its compatible string and I2C client address, both of
+which are already supported in the common trivial devices binding [1].
+
+> I would also like to add support for the provided interrupt pin later
+> down the line which is documented in the binding along with description
+> of the non-standard action button layout.
+
+The trivial devices binding includes interrupts as well; please see [1].
+My opinion is that the device's own documentation is responsible for
+describing the product and anything unique about its physical layout.
+
+> Above were my reasons for going for a standalone binding, please let me
+> know if you disagree.
+
+I don't see any need for a binding for this device because it has no vendor-
+specific properties, and the only properties it does have are covered by
+existing infrastructure.
+
+My feedback is that this patch can be replaced with at most a two-line patch
+to [1]. This is just my $.02; it is ultimately up to the maintainers. The
+existing binding, albeit unnecessary, is nicely written either way :)
+
+Kind regards,
+Jeff LaBundy
+
+[1] Documentation/devicetree/bindings/trivial-devices.yaml
