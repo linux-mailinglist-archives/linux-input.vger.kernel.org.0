@@ -2,75 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F65F7D3514
-	for <lists+linux-input@lfdr.de>; Mon, 23 Oct 2023 13:45:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4E097D35F5
+	for <lists+linux-input@lfdr.de>; Mon, 23 Oct 2023 13:59:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234416AbjJWLpP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 Oct 2023 07:45:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39046 "EHLO
+        id S233494AbjJWL7X (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Oct 2023 07:59:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234436AbjJWLpB (ORCPT
+        with ESMTP id S233435AbjJWL7W (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 Oct 2023 07:45:01 -0400
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03CC4D7C;
-        Mon, 23 Oct 2023 04:44:59 -0700 (PDT)
-Received: by mail-yb1-xb35.google.com with SMTP id 3f1490d57ef6-d9ad67058fcso3030019276.1;
-        Mon, 23 Oct 2023 04:44:59 -0700 (PDT)
+        Mon, 23 Oct 2023 07:59:22 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D72EEFD;
+        Mon, 23 Oct 2023 04:59:20 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-6b1ef786b7fso3035582b3a.3;
+        Mon, 23 Oct 2023 04:59:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698061498; x=1698666298; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y7b2hdSdEiM4o4XM7ucCEd7vEq2WMd68fJSI4N1cSH8=;
-        b=Pd1Ypr+6gYzF6Z/msQE/BLb3nB58yJ2Ni/YoIznV5qgD2MY2JPhVYzRbFDf0x+YgU3
-         aBwGt9MnqSsHFEkjYKAQHCR7NlMFPyis6DAnuia3IVCnBuIzfHef+Yz0ehM25rW2jG6W
-         wnvU5Qrx1pGTkL3cYI7VM61pVPJr4lXzmsoJtE7NQjn/1cATtDvqJp2l32IZGlcE84dX
-         yaqyxZPRtQuxzvIPXJaK3IuYvjjHw8JDPXMfFoMY8cbQc1/FQ/mTts353qcQDIuwugqB
-         tumLns7vt4HwbR5xhGHEG3dEogRXOeZR0h3HC+d7VzNOymiqhfjP9OJ0YbvilaSWeC9s
-         3srQ==
+        d=gmail.com; s=20230601; t=1698062360; x=1698667160; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=E6JlAMQZhNgDG/MUNka90wVBdFQqbCnW3Dxoc9mKAi4=;
+        b=bZdPPbCdjjINR3aVE+hIhzHp5U8fhku3oUQdZ8OyQtlipWHUPWgAonozhnoYaM2ANX
+         mUfiolVFAWHtWkf1bkUXJLpAVgU6d/9zo27BoQNrte/0g18+SBSYEwr+sJAkCwZrFa0+
+         HAL/cS/rBKTQl3hY6U2NWmQlNavrktKuWLLBb59JSapq60inYRPd7KPj1Mk3pvHmUd/I
+         cVDp8cR9LEnRg3myqVwdstR3Xpp9dQsoRFByioMF4n0O0xf849csXyJIFByojH3wQt4H
+         t5G4+8+oX5oeR/51yLiftdDFbXd/D9jniCdXl3W3Og21yth+xAKs8BylEtkqI3c98x64
+         Exag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698061498; x=1698666298;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y7b2hdSdEiM4o4XM7ucCEd7vEq2WMd68fJSI4N1cSH8=;
-        b=wHnpaIs9XRBKBP/HYEuFn3FKiCT9TmCvBQPKURNCy055kYW8iO29ntppglUNR/L8NT
-         qY9htuhNvY4Hjvir57bsDpsmrkZG3edHEOmRNhldp0owaES+B0KBcQHyHG3H71vKpRy8
-         79Bgy7kZI4lcyzX/CrOLpPr4fpvY/3Z/HvQQLXqaiCYwbcqleqtlEafzN0j5+izSUTJ1
-         jAVhQL8hr4GfpSZau6BazfiyF4OwTQ7GvvdO9sE+BuPDfSRGqTPnAXIWJQ0myO8+otVb
-         CmjqH6NR/ikI/v4yjl07GoJed39bLl2cUzEmS1rInHGKwA30Dx0g+gw3jyyFMZwXrApd
-         AW5Q==
-X-Gm-Message-State: AOJu0YwPx0ADfPI+ZSmDz+rg8mL5837+AtARVzzK/sDWZYUMwPrYa/56
-        sEa+0I59uj1LfGUFAVkpJKvjXQ+K7p4RuwYd/PgUXKqmiCo=
-X-Google-Smtp-Source: AGHT+IEl1Dvvreu0PH8ctorZ6vOxpcr1R02nRfhTfWYX9itZ1OXyNVSNZR6ZVjHTnprtQGvXOyRPq6Kuilsh3emHPDI=
-X-Received: by 2002:a25:428e:0:b0:d90:c424:53ee with SMTP id
- p136-20020a25428e000000b00d90c42453eemr9341179yba.9.1698061498418; Mon, 23
- Oct 2023 04:44:58 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1698062360; x=1698667160;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=E6JlAMQZhNgDG/MUNka90wVBdFQqbCnW3Dxoc9mKAi4=;
+        b=dCI8slcMZx0WYoARJ6zuio7poDs7gTZx9dXmoRBO/SBKkzONGNCas909Ggftq2dE/8
+         U9NW9Wd3fw2NRkAnPpjZlP13LENDmgLHOee/Q/L3qVabbrixLzogddtiih6SvHIQb8OO
+         a5Gft0bdxmlcSJjEDK9mbQq52XEuuTtfwIzLjYsmyUmDMaP/BxrYEBV2M6b+ACA9jWHj
+         eObyWrxuwWH3kUznWdOIE/YVL0rPsZd/MXcVdQCYVktp2MMHkM1MApyj4Cozt2NdUk8k
+         vsOM6//jU6hVANz+x/YVWPqIjRiAa0QkJU3W+K1On+C3IxOVb9Vq4YugtTKA2KX2H+x/
+         7i2g==
+X-Gm-Message-State: AOJu0YwOSISi7va+6Kgnr3FnPR4pBe9iJ4c6CHH0ERm/uLDEbi7cX3ys
+        0YUaksWQxzojetekr2kAF+YYKEWruR+PIESo
+X-Google-Smtp-Source: AGHT+IEXJ4bYW554Y1USLSlgYR6+LmpLGEpNPq/9gCTVmsxM35BqeiE0pvIzf7Q85QwCH14a5kGcVA==
+X-Received: by 2002:a05:6a21:7185:b0:154:3f13:1bb7 with SMTP id wq5-20020a056a21718500b001543f131bb7mr10609574pzb.49.1698062360162;
+        Mon, 23 Oct 2023 04:59:20 -0700 (PDT)
+Received: from [10.3.171.174] ([103.4.221.252])
+        by smtp.gmail.com with ESMTPSA id t63-20020a625f42000000b006bf84460e96sm2480162pfb.214.2023.10.23.04.59.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Oct 2023 04:59:19 -0700 (PDT)
+Message-ID: <7ef752b4-915b-4f9d-8425-79df8195656b@gmail.com>
+Date:   Mon, 23 Oct 2023 17:28:10 +0530
 MIME-Version: 1.0
-References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
- <ZSe1GYLplZo5fsAe@duo.ucw.cz> <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
- <ZSf9QneKO/8IzWhd@duo.ucw.cz> <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
- <ZSk16iTBmZ2fLHZ0@duo.ucw.cz> <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <ZSmg4tqXiYiX18K/@duo.ucw.cz> <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
- <87sf61bm8t.fsf@intel.com>
-In-Reply-To: <87sf61bm8t.fsf@intel.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 23 Oct 2023 13:44:46 +0200
-Message-ID: <CANiq72kvZcNp2ocXoqBae9q2UW+RPQy3dXUr+QS-izKpM1yyoA@mail.gmail.com>
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/2] dt-bindings: input: bindings for Adafruit Seesaw
+ Gamepad
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
         linux-kernel@vger.kernel.org,
-        Werner Sembach <wse@tuxedocomputers.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        linux-input@vger.kernel.org, ojeda@kernel.org,
-        linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Conor Dooley <conor.dooley@microchip.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20231017034356.1436677-1-anshulusr@gmail.com>
+ <ZTW0p2WG3/m1Tx+Z@nixie71>
+Content-Language: en-US
+From:   Anshul Dalal <anshulusr@gmail.com>
+In-Reply-To: <ZTW0p2WG3/m1Tx+Z@nixie71>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,24 +85,149 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Oct 23, 2023 at 1:40=E2=80=AFPM Jani Nikula <jani.nikula@linux.inte=
-l.com> wrote:
->
-> One could also reasonably make the argument that controlling the
-> individual keyboard key backlights should be part of the input
-> subsystem. It's not a display per se. (Unless you actually have small
-> displays on the keycaps, and I think that's a thing too.)
->
-> There's force feedback, there could be light feedback? There's also
-> drivers/input/input-leds.c for the keycaps that have leds, like caps
-> lock, num lock, etc.
->
-> Anyway, just throwing ideas around, no strong opinions, really.
+Hello Jeff,
 
-Yeah, sounds quite reasonable too, in fact it may make more sense
-there given the LEDs are associated per-key rather than being an
-uniform matrix in a rectangle if I understand correctly. If the input
-subsystem wants to take it, that would be great.
+On 10/23/23 05:17, Jeff LaBundy wrote:
+> Hi Anshul,
+> 
+> On Tue, Oct 17, 2023 at 09:13:44AM +0530, Anshul Dalal wrote:
+>> Adds bindings for the Adafruit Seesaw Gamepad.
+>>
+>> The gamepad functions as an i2c device with the default address of 0x50
+>> and has an IRQ pin that can be enabled in the driver to allow for a rising
+>> edge trigger on each button press or joystick movement.
+>>
+>> Product page:
+>>   https://www.adafruit.com/product/5743
+>> Arduino driver:
+>>   https://github.com/adafruit/Adafruit_Seesaw
+>>
+>> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+> 
+> Perhaps this ship has sailed, but is there any reason this simple device
+> cannot be added to Documentation/devicetree/bindings/trivial-devices.yaml
+> as opposed to having its own binding?
+> 
+> It has no vendor-specific properties, and the only properties are the
+> standard properties already understood by the I2C core. In case I have
+> misunderstood, please let me know.
+> 
 
-Cheers,
-Miguel
+The driver currently implements only a subset of the functionality in
+the Adafruit Seesaw specification. I eventually plan on adding adding
+full support for the Seesaw framework in the form of a driver for the
+atsamd09 seesaw breakout board:
+https://learn.adafruit.com/adafruit-seesaw-atsamd09-breakout
+
+Then I think it would be better for this driver to use the newly exposed
+seesaw APIs by the atsamd09 driver instead of relying on kernel's i2c APIs.
+
+I would also like to add support for the provided interrupt pin later
+down the line which is documented in the binding along with description
+of the non-standard action button layout.
+
+Above were my reasons for going for a standalone binding, please let me
+know if you disagree.
+
+>> ---
+>>
+>> Changes for v5:
+>> - Added link to the datasheet
+>>
+>> Changes for v4:
+>> - Fixed the URI for the id field
+>> - Added `interrupts` property
+>>
+>> Changes for v3:
+>> - Updated id field to reflect updated file name from previous version
+>> - Added `reg` property
+>>
+>> Changes for v2:
+>> - Renamed file to `adafruit,seesaw-gamepad.yaml`
+>> - Removed quotes for `$id` and `$schema`
+>> - Removed "Bindings for" from the description
+>> - Changed node name to the generic name "joystick"
+>> - Changed compatible to 'adafruit,seesaw-gamepad' instead of
+>>   'adafruit,seesaw_gamepad'
+>>
+>>  .../input/adafruit,seesaw-gamepad.yaml        | 60 +++++++++++++++++++
+>>  1 file changed, 60 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+>> new file mode 100644
+>> index 000000000000..3f0d1c5a3b9b
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+>> @@ -0,0 +1,60 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Adafruit Mini I2C Gamepad with seesaw
+>> +
+>> +maintainers:
+>> +  - Anshul Dalal <anshulusr@gmail.com>
+>> +
+>> +description: |
+>> +  Adafruit Mini I2C Gamepad
+>> +
+>> +    +-----------------------------+
+>> +    |   ___                       |
+>> +    |  /   \               (X)    |
+>> +    | |  S  |  __   __  (Y)   (A) |
+>> +    |  \___/  |ST| |SE|    (B)    |
+>> +    |                             |
+>> +    +-----------------------------+
+>> +
+>> +  S -> 10-bit percision bidirectional analog joystick
+>> +  ST -> Start
+>> +  SE -> Select
+>> +  X, A, B, Y -> Digital action buttons
+>> +
+>> +  Datasheet: https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.pdf
+>> +  Product page: https://www.adafruit.com/product/5743
+>> +  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: adafruit,seesaw-gamepad
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +    description:
+>> +      The gamepad's IRQ pin triggers a rising edge if interrupts are enabled.
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    i2c {
+>> +        #address-cells = <1>;
+>> +        #size-cells = <0>;
+>> +
+>> +        joystick@50 {
+>> +            compatible = "adafruit,seesaw-gamepad";
+>> +            reg = <0x50>;
+>> +        };
+>> +    };
+>> -- 
+>> 2.42.0
+>>
+> 
+> Kind regards,
+> Jeff LaBundy
+
+Thank you,
+Anshul Dalal
