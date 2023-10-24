@@ -2,61 +2,145 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB2797D4975
-	for <lists+linux-input@lfdr.de>; Tue, 24 Oct 2023 10:10:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94B147D4B44
+	for <lists+linux-input@lfdr.de>; Tue, 24 Oct 2023 10:56:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233873AbjJXIKu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Oct 2023 04:10:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43486 "EHLO
+        id S234205AbjJXI4O (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Oct 2023 04:56:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233818AbjJXIKt (ORCPT
+        with ESMTP id S233890AbjJXIz6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Oct 2023 04:10:49 -0400
-Received: from mail.citycodes.pl (mail.citycodes.pl [158.255.215.195])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E976F111
-        for <linux-input@vger.kernel.org>; Tue, 24 Oct 2023 01:10:46 -0700 (PDT)
-Received: by mail.citycodes.pl (Postfix, from userid 1001)
-        id 8A27421547; Tue, 24 Oct 2023 10:10:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=citycodes.pl; s=mail;
-        t=1698135045; bh=fClkhHu/p6gIm8tbpvFwCqGX3kXIMdqjiuDdSiYGEkk=;
-        h=Date:From:To:Subject:From;
-        b=Buz6Ea9c5fL3VZ6Ol418XRugI9XQ2bWAD3oA4d4Ea+46RBAcJGd4qgYVkxGLzI7ud
-         FhH6M9uydOtr9XMcm6QnrSnjcOo+7/qY7CYwXpS/VGRJOkV1ZptY8EYCvIzh9S+YQm
-         kJTDEqv10oIGUGsurcKM2znaesRy0Bn0/Snvk3K0YQ4N7aqOLAdyh5YxG9XQkC2wRL
-         Uq06+TKVcYqwFxCDXj0Pp3fIyKSh/Y3TA4YFgwqA4FxhY62bhp1js8548o1R9pjD08
-         2qsqCLWwbmcvejLPS15EqTXiEx/a4qWFJaEvpwsJx3hndTgV1W5mhMAY2KH52bl0aV
-         vucYcEQY+Y8+w==
-Received: by mail.citycodes.pl for <linux-input@vger.kernel.org>; Tue, 24 Oct 2023 08:10:35 GMT
-Message-ID: <20231024084500-0.1.8a.l80r.0.yrbum6hibg@citycodes.pl>
-Date:   Tue, 24 Oct 2023 08:10:35 GMT
-From:   "Kamil Lasek" <kamil.lasek@citycodes.pl>
-To:     <linux-input@vger.kernel.org>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.citycodes.pl
-MIME-Version: 1.0
+        Tue, 24 Oct 2023 04:55:58 -0400
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4812C1BD8
+        for <linux-input@vger.kernel.org>; Tue, 24 Oct 2023 01:55:28 -0700 (PDT)
+Received: from submission (posteo.de [185.67.36.169]) 
+        by mout02.posteo.de (Postfix) with ESMTPS id 16531240106
+        for <linux-input@vger.kernel.org>; Tue, 24 Oct 2023 10:55:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1698137726; bh=ctRKDMA8yPGXschkZ9aIEe4B0oYbgmQ2FdUIx2Ql04c=;
+        h=Message-ID:Subject:From:To:Cc:Date:Content-Transfer-Encoding:
+         MIME-Version:From;
+        b=g+N3UbG/m++dtxlfMRT5eZiYW987UAmSEBrg6LbKtcAZWHeyJgSjjFcdofUmWWlog
+         sPk5Phuwt/hO7hNh7b/rWodpZEwHqrb0mZl2J4yBohgxywKqZyy4CAN0wcy7rS6Njf
+         XNRARQreRIXQgZN3MdSsmbAlBG4keYHIObu2lsB4es/u70YCLtC2PTZj0U4+Rc3nOI
+         Apx3JbgdIms78ZvO22kiJh5I41VhTEH0tQWEZmF1zXmCTE8h59hXpBszFcwH9ntCSm
+         RE/DFVQyto3+zPakbKHqUdi8BoMnm44C01GY0V8GGCzNhUuetsuVZa0J6slkg4nfhf
+         IOzPSTsJEbDlQ==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4SF5Vh15NZz6twT;
+        Tue, 24 Oct 2023 10:55:24 +0200 (CEST)
+Message-ID: <e32494e6e797af74cc01be99465302b711140111.camel@posteo.de>
+Subject: Re: [PATCH] hid: lenovo: Resend all settings on reset_resume for
+ compact keyboards
+From:   Martin Kepplinger <martink@posteo.de>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com, jm@lentin.co.uk,
+        linux-kernel@vger.kernel.org
+Cc:     linux-input@vger.kernel.org, stable@vger.kernel.org,
+        mail@bernhard-seibold.de, hdegoede@redhat.com, iam@valdikss.org.ru
+Date:   Tue, 24 Oct 2023 08:55:22 +0000
+In-Reply-To: <20231002150914.22101-1-martink@posteo.de>
+References: <20231002150914.22101-1-martink@posteo.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dzie=C5=84 dobry,
+QW0gTW9udGFnLCBkZW0gMDIuMTAuMjAyMyB1bSAxNTowOSArMDAwMCBzY2hyaWViIE1hcnRpbiBL
+ZXBwbGluZ2VyOgo+IEZyb206IEphbWllIExlbnRpbiA8am1AbGVudGluLmNvLnVrPgo+IAo+IFRo
+ZSBVU0IgQ29tcGFjdCBLZXlib2FyZCB2YXJpYW50IHJlcXVpcmVzIGEgcmVzZXRfcmVzdW1lIGZ1
+bmN0aW9uIHRvCj4gcmVzdG9yZSBrZXlib2FyZCBjb25maWd1cmF0aW9uIGFmdGVyIGEgc3VzcGVu
+ZCBpbiBzb21lIHNpdHVhdGlvbnMuCj4gTW92ZQo+IGNvbmZpZ3VyYXRpb24gbm9ybWFsbHkgZG9u
+ZSBvbiBwcm9iZSB0byBsZW5vdm9fZmVhdHVyZXNfc2V0X2NwdGtiZCgpLAo+IHRoZW4KPiByZWN5
+Y2xlIHRoaXMgZm9yIHVzZSBvbiByZXNldF9yZXN1bWUuCj4gCj4gV2l0aG91dCwgdGhlIGtleWJv
+YXJkIGFuZCBkcml2ZXIgd291bGQgZW5kIHVwIGluIGFuIGluY29uc2lzdGVudAo+IHN0YXRlLAo+
+IGJyZWFraW5nIG1pZGRsZS1idXR0b24gc2Nyb2xsaW5nIGFtb25nc3Qgb3RoZXIgcHJvYmxlbXMs
+IGFuZAo+IHR3aWRkbGluZwo+IHN5c2ZzIHZhbHVlcyB3b3VsZG4ndCBoZWxwIGFzIHRoZSBtaWRk
+bGUtYnV0dG9uIG1vZGUgd29uJ3QgYmUgc2V0Cj4gdW50aWwKPiB0aGUgZHJpdmVyIGlzIHJlbG9h
+ZGVkLgo+IAo+IFRlc3RlZCBvbiBhIFVTQiBhbmQgQmx1ZXRvb3RoIFRoaW5rcGFkIENvbXBhY3Qg
+S2V5Ym9hcmQuCj4gCj4gQ0M6IHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmcKPiBGaXhlczogOTRlZWZh
+MjcxMzIzICgiSElEOiBsZW5vdm86IFVzZSBuYXRpdmUgbWlkZGxlLWJ1dHRvbiBtb2RlIGZvcgo+
+IGNvbXBhY3Qga2V5Ym9hcmRzIikKPiBTaWduZWQtb2ZmLWJ5OiBKYW1pZSBMZW50aW4gPGptQGxl
+bnRpbi5jby51az4KPiBTaWduZWQtb2ZmLWJ5OiBNYXJ0aW4gS2VwcGxpbmdlciA8bWFydGlua0Bw
+b3N0ZW8uZGU+CgpUaGlzIGlzIHNpdHRpbmcgb3ZlciAzIHdlZWtzIGFuZCBJIHNpbXBseSBhZGQg
+QmVybmhhcmQgYW5kIEhhbnMgd2hvCndyb3RlIGJpZyBwYXJ0cyBvZiB0aGUgZHJpdmVyLiBNYXli
+ZSBtb3JlIHJldmlldyBjYW4gaGVscCB3aXRoIHF1ZXVpbmcKdGhpcyBidWdmaXggdXA/IChzY3Jv
+bGxpbmcgYW5kIGZ1bmN0aW9uIGtleXMgYXJlIGN1cnJlbnRseSBicm9rZW4gYWZ0ZXIKcmVzdW1p
+bmcpCgpJIGJhc2ljYWxseSBzZW50IEphbWllJ3MgcGF0Y2ggYmVjYXVzZSBJIGhhdmUgdGhlIGhh
+cmR3YXJlOgpodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyMzEwMDIxNTA5MTQuMjIxMDEt
+MS1tYXJ0aW5rQHBvc3Rlby5kZS8KCnRoYW5rcywKICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIG1hcnRpbgoKCj4gLS0tCj4gwqBkcml2ZXJzL2hpZC9oaWQtbGVub3ZvLmMgfCA1MCArKysr
+KysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLQo+IC0tCj4gwqAxIGZpbGUgY2hhbmdl
+ZCwgMzQgaW5zZXJ0aW9ucygrKSwgMTYgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvaGlkL2hpZC1sZW5vdm8uYyBiL2RyaXZlcnMvaGlkL2hpZC1sZW5vdm8uYwo+IGluZGV4
+IDQ0NzYzYzBkYTQ0NC4uNjE0MzIwYmZmMzlmIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvaGlkL2hp
+ZC1sZW5vdm8uYwo+ICsrKyBiL2RyaXZlcnMvaGlkL2hpZC1sZW5vdm8uYwo+IEBAIC01MjEsNiAr
+NTIxLDE5IEBAIHN0YXRpYyB2b2lkIGxlbm92b19mZWF0dXJlc19zZXRfY3B0a2JkKHN0cnVjdAo+
+IGhpZF9kZXZpY2UgKmhkZXYpCj4gwqDCoMKgwqDCoMKgwqDCoGludCByZXQ7Cj4gwqDCoMKgwqDC
+oMKgwqDCoHN0cnVjdCBsZW5vdm9fZHJ2ZGF0YSAqY3B0a2JkX2RhdGEgPSBoaWRfZ2V0X2RydmRh
+dGEoaGRldik7Cj4gwqAKPiArwqDCoMKgwqDCoMKgwqAvKgo+ICvCoMKgwqDCoMKgwqDCoCAqIFRl
+bGwgdGhlIGtleWJvYXJkIGEgZHJpdmVyIHVuZGVyc3RhbmRzIGl0LCBhbmQgdHVybiBGNywKPiBG
+OSwgRjExIGludG8KPiArwqDCoMKgwqDCoMKgwqAgKiByZWd1bGFyIGtleXMKPiArwqDCoMKgwqDC
+oMKgwqAgKi8KPiArwqDCoMKgwqDCoMKgwqByZXQgPSBsZW5vdm9fc2VuZF9jbWRfY3B0a2JkKGhk
+ZXYsIDB4MDEsIDB4MDMpOwo+ICvCoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoGhpZF93YXJuKGhkZXYsICJGYWlsZWQgdG8gc3dpdGNoIEY3Lzkv
+MTEgbW9kZTogJWRcbiIsCj4gcmV0KTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgLyogU3dpdGNoIG1p
+ZGRsZSBidXR0b24gdG8gbmF0aXZlIG1vZGUgKi8KPiArwqDCoMKgwqDCoMKgwqByZXQgPSBsZW5v
+dm9fc2VuZF9jbWRfY3B0a2JkKGhkZXYsIDB4MDksIDB4MDEpOwo+ICvCoMKgwqDCoMKgwqDCoGlm
+IChyZXQpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGhpZF93YXJuKGhkZXYsICJG
+YWlsZWQgdG8gc3dpdGNoIG1pZGRsZSBidXR0b246Cj4gJWRcbiIsIHJldCk7Cj4gKwo+IMKgwqDC
+oMKgwqDCoMKgwqByZXQgPSBsZW5vdm9fc2VuZF9jbWRfY3B0a2JkKGhkZXYsIDB4MDUsIGNwdGti
+ZF9kYXRhLQo+ID5mbl9sb2NrKTsKPiDCoMKgwqDCoMKgwqDCoMKgaWYgKHJldCkKPiDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGhpZF9lcnIoaGRldiwgIkZuLWxvY2sgc2V0dGluZyBm
+YWlsZWQ6ICVkXG4iLCByZXQpOwo+IEBAIC0xMTI2LDIyICsxMTM5LDYgQEAgc3RhdGljIGludCBs
+ZW5vdm9fcHJvYmVfY3B0a2JkKHN0cnVjdAo+IGhpZF9kZXZpY2UgKmhkZXYpCj4gwqDCoMKgwqDC
+oMKgwqDCoH0KPiDCoMKgwqDCoMKgwqDCoMKgaGlkX3NldF9kcnZkYXRhKGhkZXYsIGNwdGtiZF9k
+YXRhKTsKPiDCoAo+IC3CoMKgwqDCoMKgwqDCoC8qCj4gLcKgwqDCoMKgwqDCoMKgICogVGVsbCB0
+aGUga2V5Ym9hcmQgYSBkcml2ZXIgdW5kZXJzdGFuZHMgaXQsIGFuZCB0dXJuIEY3LAo+IEY5LCBG
+MTEgaW50bwo+IC3CoMKgwqDCoMKgwqDCoCAqIHJlZ3VsYXIga2V5cyAoQ29tcGFjdCBvbmx5KQo+
+IC3CoMKgwqDCoMKgwqDCoCAqLwo+IC3CoMKgwqDCoMKgwqDCoGlmIChoZGV2LT5wcm9kdWN0ID09
+IFVTQl9ERVZJQ0VfSURfTEVOT1ZPX0NVU0JLQkQgfHwKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+aGRldi0+cHJvZHVjdCA9PSBVU0JfREVWSUNFX0lEX0xFTk9WT19DQlRLQkQpIHsKPiAtwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0ID0gbGVub3ZvX3NlbmRfY21kX2NwdGtiZChoZGV2
+LCAweDAxLCAweDAzKTsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKHJldCkK
+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGhpZF93YXJu
+KGhkZXYsICJGYWlsZWQgdG8gc3dpdGNoIEY3LzkvMTEKPiBtb2RlOiAlZFxuIiwgcmV0KTsKPiAt
+wqDCoMKgwqDCoMKgwqB9Cj4gLQo+IC3CoMKgwqDCoMKgwqDCoC8qIFN3aXRjaCBtaWRkbGUgYnV0
+dG9uIHRvIG5hdGl2ZSBtb2RlICovCj4gLcKgwqDCoMKgwqDCoMKgcmV0ID0gbGVub3ZvX3NlbmRf
+Y21kX2NwdGtiZChoZGV2LCAweDA5LCAweDAxKTsKPiAtwqDCoMKgwqDCoMKgwqBpZiAocmV0KQo+
+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBoaWRfd2FybihoZGV2LCAiRmFpbGVkIHRv
+IHN3aXRjaCBtaWRkbGUgYnV0dG9uOgo+ICVkXG4iLCByZXQpOwo+IC0KPiDCoMKgwqDCoMKgwqDC
+oMKgLyogU2V0IGtleWJvYXJkIHNldHRpbmdzIHRvIGtub3duIHN0YXRlICovCj4gwqDCoMKgwqDC
+oMKgwqDCoGNwdGtiZF9kYXRhLT5taWRkbGVidXR0b25fc3RhdGUgPSAwOwo+IMKgwqDCoMKgwqDC
+oMKgwqBjcHRrYmRfZGF0YS0+Zm5fbG9jayA9IHRydWU7Cj4gQEAgLTEyNjQsNiArMTI2MSwyNCBA
+QCBzdGF0aWMgaW50IGxlbm92b19wcm9iZShzdHJ1Y3QgaGlkX2RldmljZQo+ICpoZGV2LAo+IMKg
+wqDCoMKgwqDCoMKgwqByZXR1cm4gcmV0Owo+IMKgfQo+IMKgCj4gKyNpZmRlZiBDT05GSUdfUE0K
+PiArc3RhdGljIGludCBsZW5vdm9fcmVzZXRfcmVzdW1lKHN0cnVjdCBoaWRfZGV2aWNlICpoZGV2
+KQo+ICt7Cj4gK8KgwqDCoMKgwqDCoMKgc3dpdGNoIChoZGV2LT5wcm9kdWN0KSB7Cj4gK8KgwqDC
+oMKgwqDCoMKgY2FzZSBVU0JfREVWSUNFX0lEX0xFTk9WT19DVVNCS0JEOgo+ICvCoMKgwqDCoMKg
+wqDCoGNhc2UgVVNCX0RFVklDRV9JRF9MRU5PVk9fVFBJSVVTQktCRDoKPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgaWYgKGhkZXYtPnR5cGUgPT0gSElEX1RZUEVfVVNCTU9VU0UpCj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBsZW5vdm9fZmVh
+dHVyZXNfc2V0X2NwdGtiZChoZGV2KTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoGJyZWFrOwo+ICvCoMKgwqDCoMKgwqDCoGRlZmF1bHQ6Cj4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoGJyZWFrOwo+ICvCoMKgwqDCoMKgwqDCoH0KPiArCj4gK8KgwqDCoMKgwqDC
+oMKgcmV0dXJuIDA7Cj4gK30KPiArI2VuZGlmCj4gKwo+IMKgc3RhdGljIHZvaWQgbGVub3ZvX3Jl
+bW92ZV90cGtiZChzdHJ1Y3QgaGlkX2RldmljZSAqaGRldikKPiDCoHsKPiDCoMKgwqDCoMKgwqDC
+oMKgc3RydWN0IGxlbm92b19kcnZkYXRhICpkYXRhX3BvaW50ZXIgPSBoaWRfZ2V0X2RydmRhdGEo
+aGRldik7Cj4gQEAgLTEzODAsNiArMTM5NSw5IEBAIHN0YXRpYyBzdHJ1Y3QgaGlkX2RyaXZlciBs
+ZW5vdm9fZHJpdmVyID0gewo+IMKgwqDCoMKgwqDCoMKgwqAucmF3X2V2ZW50ID0gbGVub3ZvX3Jh
+d19ldmVudCwKPiDCoMKgwqDCoMKgwqDCoMKgLmV2ZW50ID0gbGVub3ZvX2V2ZW50LAo+IMKgwqDC
+oMKgwqDCoMKgwqAucmVwb3J0X2ZpeHVwID0gbGVub3ZvX3JlcG9ydF9maXh1cCwKPiArI2lmZGVm
+IENPTkZJR19QTQo+ICvCoMKgwqDCoMKgwqDCoC5yZXNldF9yZXN1bWUgPSBsZW5vdm9fcmVzZXRf
+cmVzdW1lLAo+ICsjZW5kaWYKPiDCoH07Cj4gwqBtb2R1bGVfaGlkX2RyaXZlcihsZW5vdm9fZHJp
+dmVyKTsKPiDCoAoK
 
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
-
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej.
-
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
-
-
-Pozdrawiam,
-Kamil Lasek
