@@ -2,102 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49C2F7D56DB
-	for <lists+linux-input@lfdr.de>; Tue, 24 Oct 2023 17:47:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 562737D5708
+	for <lists+linux-input@lfdr.de>; Tue, 24 Oct 2023 17:57:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234660AbjJXPrW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Oct 2023 11:47:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60204 "EHLO
+        id S1343746AbjJXP5K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Oct 2023 11:57:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjJXPrV (ORCPT
+        with ESMTP id S234948AbjJXP5G (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Oct 2023 11:47:21 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A6D4C2;
-        Tue, 24 Oct 2023 08:47:20 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5267FC433C7;
-        Tue, 24 Oct 2023 15:47:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698162439;
-        bh=IoRcMqQobOWmVc0E97Y2wJjL+IlvKc3OjGUUBJBdy2Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gfyqkcXuTiq9JCbtgds/gyTx61nkkPRAH+LYRCaqwbIIXsi+rXAYSPHMjOsSHf+tA
-         O74wFQtvu2Pd7Sutu6+aumBA5QZKjF5jY4CqlMaEeHKYP2ZmbTxc+NaKB0dyhkddEc
-         8AbaXFhRunA43jgMPC1VbFwV6vjgWhdE4jvStFumGsfz2emXRAzhiIlBpu3zHsbYG+
-         309vL/WkHIjSK/7vdjkxRO03Lx6uAH7sUL9/KFBbVhwZMfqLp38FlrNVWqltqT1V0l
-         SobbKEOcRejC2X6ewHA5cUmzn3uxhWPdvJVWV3Vm+Z4JxSqJN5s+ddiqRbD6NGBcDW
-         BDCZ81BCBiweQ==
-Date:   Tue, 24 Oct 2023 16:47:14 +0100
-From:   Lee Jones <lee@kernel.org>
+        Tue, 24 Oct 2023 11:57:06 -0400
+Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7146F10FC;
+        Tue, 24 Oct 2023 08:57:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=t-8ch.de; s=mail;
+        t=1698163020; bh=BNVJRacOEROOJUbOi3+VHcE+dWCyfrMR1wZHRSbWoM0=;
+        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+        b=aK7qefabd1HYLkS2rsJZke9BfVu/vDcyrJRTkRqhCctijuPOl27YWMUK0xzwwgZD5
+         8Hnf4FIfOL37zBXuKz6VYkKnjsiSMvqtSihMZm414gVikRARfNR/ju5dcQOQNDWpU9
+         +QutV/PKBIwRHkhBgW/Oyoz9TVZ6JYpBVrap1NJg=
+Date:   Tue, 24 Oct 2023 17:56:47 +0200 (GMT+02:00)
+From:   =?UTF-8?Q?Thomas_Wei=C3=9Fschuh_?= <thomas@t-8ch.de>
 To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     James Ogletree <James.Ogletree@cirrus.com>,
-        James Ogletree <james.ogletree@opensource.cirrus.com>,
+Cc:     Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fred Treven <Fred.Treven@cirrus.com>,
-        Ben Bright <Ben.Bright@cirrus.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 3/4] mfd: cs40l50: Add support for CS40L50 core driver
-Message-ID: <20231024154714.GK8909@google.com>
-References: <20231018175726.3879955-1-james.ogletree@opensource.cirrus.com>
- <20231018175726.3879955-4-james.ogletree@opensource.cirrus.com>
- <20231019162359.GF2424087@google.com>
- <E3224624-7FF4-48F6-BA53-08312B69EF9F@cirrus.com>
- <20231023092046.GA8909@google.com>
- <ZTcZIMbrFEhz+rm4@nixie71>
+        Conor Dooley <conor+dt@kernel.org>,
+        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org
+Message-ID: <51c4ab9a-1d45-4665-bb27-0214a9588a1c@t-8ch.de>
+In-Reply-To: <ZTbklpRhpMIPey2j@nixie71>
+References: <20231017034356.1436677-1-anshulusr@gmail.com> <20231017034356.1436677-2-anshulusr@gmail.com> <ZTWza+S+t+UZKlwu@nixie71> <00d2fcbc-3fd8-477d-8df1-afec20b458b6@t-8ch.de> <ZTbklpRhpMIPey2j@nixie71>
+Subject: Re: [PATCH v5 2/2] input: joystick: driver for Adafruit Seesaw
+ Gamepad
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZTcZIMbrFEhz+rm4@nixie71>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Correlation-ID: <51c4ab9a-1d45-4665-bb27-0214a9588a1c@t-8ch.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 23 Oct 2023, Jeff LaBundy wrote:
-> I understand that no customer would ever build the to-be-added codec
-> driver _without_ the input driver, but the MFD must be generic enough
-> to support this case. Would a codec-only implementation use f0 and ReDC
-> estimation? If so, then these functions _do_ belong in the MFD, albeit
-> with some comments to explain their nature.
+Hi Jeff,
 
-I'm not going to be able to accept a single-function device into the
-multi-function devices subsystem.  Please submit both once the codec is
-ready.
+Oct 23, 2023 23:24:55 Jeff LaBundy <jeff@labundy.com>:
+> On Mon, Oct 23, 2023 at 07:55:52AM +0200, Thomas Wei=C3=9Fschuh=C2=A0 wro=
+te:
+>
+> [...]
+>
+>>>> +=C2=A0=C2=A0 err =3D i2c_master_send(client, write_buf, sizeof(write_=
+buf));
+>>>> +=C2=A0=C2=A0 if (err < 0)
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return err;
+>>>
+>>> You correctly return err (or rather, ret) for negative values, but you =
+should also
+>>> check that ret matches the size of the data sent. For 0 <=3D ret < size=
+of(writebuf),
+>>> return -EIO.
+>>
+>> The driver did this originally.
+>> I then requested it to be removed as this case
+>> can never happen.
+>> i2c_master_send will either return size of(writebuf) or an error.
+>
+> Great catch; indeed you are correct. Apologies for having missed this
+> in the change log; this is good to know in the future.
 
-> > > >> + struct device *dev = cs40l50->dev;
-> > > >> + int error;
-> > > >> +
-> > > >> + mutex_init(&cs40l50->lock);
-> > > > 
-> > > > Don't you need to destroy this in the error path?
-> > > 
-> > > My understanding based on past feedback is that mutex_destroy()
-> > > is an empty function unless mutex debugging is enabled, and there
-> > > is no need cleanup the mutex explicitly. I will change this if you
-> > > disagree with that feedback.
-> > 
-> > It just seems odd to create something and not tear it down.
-> 
-> mutex_init() is not creating anything; the mutex struct is allocated as
-> part of the driver's private data, which is de-allocated as part of device
-> managed resources being freed when the module is unloaded.
-> 
-> mutex_destroy() is a NOP unless CONFIG_DEBUG_MUTEXES is set, and there are
-> roughly 4x fewer instances of it than mutex_init() in mainline. I recommend
-> not to add mutex_destroy() because it adds unnecessary tear-down paths and
-> remove() callbacks that wouldn't otherwise have to exist.
+I guess it would make sense to also adapt the
+function documentation to be more explicit
+about this invariant.
+No need to complicate every caller unnecessarily.
 
-Fair enough.
+I can send a patch somewhere next week, but
+if you want to send one I'll be happy to review it.
 
--- 
-Lee Jones [李琼斯]
+> That being said, it's a moot point IMO; this driver seems like a good
+> candidate for regmap. If regmap cannot be made to work here for some
+> reason, then I'd like to at least see some wrapper functions to avoid
+> duplicate code and manual assignments to a buffer.
+
+Ack.
+
+Thomas
