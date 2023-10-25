@@ -2,60 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD8717D60A7
-	for <lists+linux-input@lfdr.de>; Wed, 25 Oct 2023 05:55:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A52227D64D0
+	for <lists+linux-input@lfdr.de>; Wed, 25 Oct 2023 10:22:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232535AbjJYDzl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Oct 2023 23:55:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50440 "EHLO
+        id S233879AbjJYIWD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Oct 2023 04:22:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232698AbjJYDzk (ORCPT
+        with ESMTP id S233692AbjJYIWC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Oct 2023 23:55:40 -0400
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A451B0
-        for <linux-input@vger.kernel.org>; Tue, 24 Oct 2023 20:55:38 -0700 (PDT)
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id CDC1D2C08C9;
-        Wed, 25 Oct 2023 16:55:36 +1300 (NZDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-        s=mail181024; t=1698206136;
-        bh=w6roZGHMb0LOJxdVMG+K5YrKTIEQmrJ1Sow/7D1pHGI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EU4IE1Sst4kQR7sBGOifbRQZsc59YAPS/8kIVqTiOqUC2LgIG7Ur3P3kTxhmBst/a
-         n3MvSHpYlPimpoEqdVL5pjwwFAuaqOJU2Dn9WMXYHz4Zfh6lzaGwPFs9BB5WxWlSLR
-         mthwJtBA1ZxKFeZfVMQQ3NcSmCVcpgg/t0hggthKVNxVFzMETt+g+Cs5eotbEc2i+0
-         +hb6Qj4NdI3H2Nuf7shItTIqquFsbAj0RvxW+f6uXsB4an73KRJ89NMBALlPj+h5Zc
-         +A05B9PFtYtL59Z/jnTrywDC5+Z3H85Bul3gUBLZT26J8Ax2HZkrjL+HYgeQ1BckUB
-         598xhOMVg3Zxw==
-Received: from pat.atlnz.lc (Not Verified[10.32.16.33]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-        id <B653891b80000>; Wed, 25 Oct 2023 16:55:36 +1300
-Received: from hamishm-dl.ws.atlnz.lc (hamishm-dl.ws.atlnz.lc [10.33.24.11])
-        by pat.atlnz.lc (Postfix) with ESMTP id 9532F13EDA9;
-        Wed, 25 Oct 2023 16:55:36 +1300 (NZDT)
-Received: by hamishm-dl.ws.atlnz.lc (Postfix, from userid 1133)
-        id 93835242FEC; Wed, 25 Oct 2023 16:55:36 +1300 (NZDT)
-From:   Hamish Martin <hamish.martin@alliedtelesis.co.nz>
-To:     gupt21@gmail.com, jikos@kernel.org, benjamin.tissoires@redhat.com,
-        Enrik.Berkhan@inka.de, sven.zuehlsdorf@vigem.de
-Cc:     linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        Hamish Martin <hamish.martin@alliedtelesis.co.nz>
-Subject: [PATCH 5/5] HID: mcp2221: Handle reads greater than 60 bytes
-Date:   Wed, 25 Oct 2023 16:55:14 +1300
-Message-ID: <20231025035514.3450123-6-hamish.martin@alliedtelesis.co.nz>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231025035514.3450123-1-hamish.martin@alliedtelesis.co.nz>
-References: <20231025035514.3450123-1-hamish.martin@alliedtelesis.co.nz>
+        Wed, 25 Oct 2023 04:22:02 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BB2EB0;
+        Wed, 25 Oct 2023 01:22:01 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-6b44befac59so486620b3a.0;
+        Wed, 25 Oct 2023 01:22:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698222120; x=1698826920; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NvpdJed8NCe/yTREqi/Xqq5XpahV3XtayL2qO/vF1bc=;
+        b=hKaPJB6rUJ/OPCFcqGLTD6z8QY89YzvYem+rL0ZyLov/qiaQlOQScd7OBLjvM//ACW
+         dQ63D+Ry1ncSTH/trgi9prplJuba7yjn78GmybjeCY7APNEDvsrK9AhCME0CRLQt6NyZ
+         UbeeARe5+HO5yaZ0oec7RZO47QLVSOrFBdECBlbJA8i8dct+wkV1E4uSN5F1SwlgSDTb
+         45TFlQ+x63ykWTvxkq5NI3LCL3XyrzR1V/Vdx+qPDRqmL8ddu5iUCN/sIfNkICjjG/dh
+         sXdiK06WuYb+06bvoQYz8NkilE5ocWk3njilX03VZR/d/FlC2PpfFT4ubSrh4j+qxaoH
+         fQlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698222120; x=1698826920;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NvpdJed8NCe/yTREqi/Xqq5XpahV3XtayL2qO/vF1bc=;
+        b=Afk2c1DqSwxi6dgUS6UwIWF1MksHgeT5x0H/mZluMCZD949tOSPySfFPv/JmYjNfvI
+         0YdSrBBuu32r4R5I/jmw/QWrOKTdtcooE7U0t1gXgwZXTJgRaTOokATuFc1JTjnrvDix
+         /RX/hWQQDNAK+ahpnjkWNg7fOLX3qFNRAfgPD1ggHpEVlwXejJixxESMSaS72YfbQIIV
+         uK835mQlxKdO3gXvmIjPJbotBBVfyNiwtonL2+ex7FTSO31w0SSfQmpMdPHsggECA5eS
+         4dBqiV2A/pMsONr4JjmEz82DhrMVXdwcDuMBY0okLwjq2hvsU/useA5Gqj/CfUhTalXr
+         2BKQ==
+X-Gm-Message-State: AOJu0Yxluw0kQHpjI+PElidUUTqNB8ZclbTV5MxLfpraYGjUToqP4LLI
+        SzOdBhAvOBM5Ozmj9nBlLsoFPv0hOt3njCh/
+X-Google-Smtp-Source: AGHT+IGxHaO21Y7We44VFn56IIIjQpblfIOHyJnAwflJ2icjvRi5bnX2MikIvWC7cwv6ba89Al9keA==
+X-Received: by 2002:a05:6a21:6d89:b0:159:c07d:66f0 with SMTP id wl9-20020a056a216d8900b00159c07d66f0mr6177544pzb.6.1698222120380;
+        Wed, 25 Oct 2023 01:22:00 -0700 (PDT)
+Received: from localhost.localdomain (2001-b400-e38c-defd-6dc9-16c9-6f6d-2997.emome-ip6.hinet.net. [2001:b400:e38c:defd:6dc9:16c9:6f6d:2997])
+        by smtp.gmail.com with ESMTPSA id y66-20020a62ce45000000b00690ca4356f1sm9255860pfg.198.2023.10.25.01.21.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Oct 2023 01:21:59 -0700 (PDT)
+From:   Wei-Shih Lin <frank101417@gmail.com>
+X-Google-Original-From: Wei-Shih Lin <Weishih_Lin@novatek.com.tw>
+To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] Add Novatek NT519XX touchcreen driver
+Date:   Wed, 25 Oct 2023 16:20:52 +0800
+Message-ID: <20231025082054.1190-1-Weishih_Lin@novatek.com.tw>
+X-Mailer: git-send-email 2.42.0.windows.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-SEG-SpamProfiler-Analysis: v=2.3 cv=L6ZjvNb8 c=1 sm=1 tr=0 a=KLBiSEs5mFS1a/PbTCJxuA==:117 a=bhdUkHdE2iEA:10 a=9W1-fauBzXCwDuBwIPUA:9
-X-SEG-SpamProfiler-Score: 0
-x-atlnz-ls: pat
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,98 +71,29 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When a user requests more than 60 bytes of data the MCP2221 must chunk
-the data in chunks up to 60 bytes long (see command/response code 0x40
-in the datasheet).
-In order to signal that the device has more data the (undocumented) byte
-at byte index 2 of the Get I2C Data response uses the value 0x54. This
-contrasts with the case for the final data chunk where the value
-returned is 0x55 (MCP2221_I2C_READ_COMPL). The fact that 0x55 was not
-returned in the response was interpreted by the driver as a failure
-meaning that all reads of more than 60 bytes would fail.
+This series adds a driver for Novatek TDDI NT519XX which mainly used in 
+automotive display products. This driver is different from the existing 
+driver named as novatek-nvt-ts.c in the path drivers/input/touchscreen/. 
+The existing driver supports another Novatek IC NT11205 used in Acer 
+Iconia One 7 B1-750 tablet.
 
-Add support for reads that are split over multiple chunks by looking for
-the response code indicating that more data is expected and continuing
-the read as the code intended. Some timing delays are required to ensure
-the chip has time to refill its FIFO as data is read in from the I2C
-bus. This timing has been tested in my system when configured for bus
-speeds of 50KHz, 100KHz, and 400KHz and operates well.
+Wei-Shih Lin (2):
+  dt-bindings: touchscreen: Add Novatek NT519XX series bindings
+  Input: Add driver for Novatek NT519XX series touchscreen devices
 
-Signed-off-by: Hamish Martin <hamish.martin@alliedtelesis.co.nz>
----
- drivers/hid/hid-mcp2221.c | 32 +++++++++++++++++++++++---------
- 1 file changed, 23 insertions(+), 9 deletions(-)
+ .../input/touchscreen/novatek,nt519xx.yaml    |  60 ++
+ MAINTAINERS                                   |   9 +
+ drivers/input/touchscreen/Kconfig             |  12 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/nt519xx.c           | 995 ++++++++++++++++++
+ drivers/input/touchscreen/nt519xx.h           | 130 +++
+ drivers/input/touchscreen/nt519xx_mem_map.h   | 262 +++++
+ 7 files changed, 1469 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/novatek,nt519xx.yaml
+ create mode 100644 drivers/input/touchscreen/nt519xx.c
+ create mode 100644 drivers/input/touchscreen/nt519xx.h
+ create mode 100644 drivers/input/touchscreen/nt519xx_mem_map.h
 
-diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
-index d0dd14cb4156..f9cceaeffd08 100644
---- a/drivers/hid/hid-mcp2221.c
-+++ b/drivers/hid/hid-mcp2221.c
-@@ -49,6 +49,7 @@ enum {
- 	MCP2221_I2C_MASK_ADDR_NACK =3D 0x40,
- 	MCP2221_I2C_WRADDRL_SEND =3D 0x21,
- 	MCP2221_I2C_ADDR_NACK =3D 0x25,
-+	MCP2221_I2C_READ_PARTIAL =3D 0x54,
- 	MCP2221_I2C_READ_COMPL =3D 0x55,
- 	MCP2221_ALT_F_NOT_GPIOV =3D 0xEE,
- 	MCP2221_ALT_F_NOT_GPIOD =3D 0xEF,
-@@ -297,6 +298,7 @@ static int mcp_i2c_smbus_read(struct mcp2221 *mcp,
- {
- 	int ret;
- 	u16 total_len;
-+	int retries =3D 0;
-=20
- 	mcp->txbuf[0] =3D type;
- 	if (msg) {
-@@ -320,20 +322,31 @@ static int mcp_i2c_smbus_read(struct mcp2221 *mcp,
- 	mcp->rxbuf_idx =3D 0;
-=20
- 	do {
-+		/* Wait for the data to be read by the device */
-+		usleep_range(980, 1000);
-+
- 		memset(mcp->txbuf, 0, 4);
- 		mcp->txbuf[0] =3D MCP2221_I2C_GET_DATA;
-=20
- 		ret =3D mcp_send_data_req_status(mcp, mcp->txbuf, 1);
--		if (ret)
--			return ret;
--
--		ret =3D mcp_chk_last_cmd_status_free_bus(mcp);
--		if (ret)
--			return ret;
--
--		usleep_range(980, 1000);
-+		if (ret) {
-+			if (retries < 5) {
-+				/* The data wasn't ready to read.
-+				 * Wait a bit longer and try again.
-+				 */
-+				usleep_range(90, 100);
-+				retries++;
-+			} else {
-+				return ret;
-+			}
-+		} else {
-+			retries =3D 0;
-+		}
- 	} while (mcp->rxbuf_idx < total_len);
-=20
-+	usleep_range(980, 1000);
-+	ret =3D mcp_chk_last_cmd_status_free_bus(mcp);
-+
- 	return ret;
- }
-=20
-@@ -799,7 +812,8 @@ static int mcp2221_raw_event(struct hid_device *hdev,
- 				mcp->status =3D -EIO;
- 				break;
- 			}
--			if (data[2] =3D=3D MCP2221_I2C_READ_COMPL) {
-+			if (data[2] =3D=3D MCP2221_I2C_READ_COMPL ||
-+			    data[2] =3D=3D MCP2221_I2C_READ_PARTIAL) {
- 				buf =3D mcp->rxbuf;
- 				memcpy(&buf[mcp->rxbuf_idx], &data[4], data[3]);
- 				mcp->rxbuf_idx =3D mcp->rxbuf_idx + data[3];
---=20
-2.42.0
+-- 
+2.26.1
 
