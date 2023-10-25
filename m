@@ -2,46 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A0E87D5FAB
-	for <lists+linux-input@lfdr.de>; Wed, 25 Oct 2023 04:05:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 857617D6034
+	for <lists+linux-input@lfdr.de>; Wed, 25 Oct 2023 05:03:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229453AbjJYCFN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Oct 2023 22:05:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59392 "EHLO
+        id S229514AbjJYDDW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Oct 2023 23:03:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjJYCFM (ORCPT
+        with ESMTP id S232213AbjJYDDU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Oct 2023 22:05:12 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2074.outbound.protection.outlook.com [40.107.93.74])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0C9910D4;
-        Tue, 24 Oct 2023 19:05:07 -0700 (PDT)
+        Tue, 24 Oct 2023 23:03:20 -0400
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2082.outbound.protection.outlook.com [40.107.102.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A70F610E0;
+        Tue, 24 Oct 2023 20:03:15 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bSUfdJUyvPjudFHK0KVmsPGF4TSKPCw3Ib4q8T//oXRA9KwzU7nNp2MAmSwnbvR0XYKcJqIFz4YCetEo1u+aNPf7cGuFGaR50w+kEaMjVsFbDs+v47ZA8jooBmSYAfc8ffO0UcuqLFcAtb2QnuXBF9OMDcHsGgaUggZtW4Esp9Ph4ZO/MFMAeDSBeNlVuFG+uib6njQtJco3uTHEexb4hSbu0aT9eoWYs6x4KjBKXrGcc3R65N9OvBVqjD4FrOeP4FdvYy+/hFPOKsTxmXhzBIJwl+xjmussr/Q8kHIKShPQJ4awExZwp5gwOHuk/gWN/7vh+xCWtE16IOIQMkSk7A==
+ b=E5ZgRdCC/BSz51hfundq9I2IzVakhxxG5KO0xbdvYQZumLxjljCwe2Y20ppC/ov8nzjwW2crSlUiAOCDg9t74NMkym2OIRD7Qj5Bxr1N6nvQme5NwdEX82O7bWbiaJvdS8FN7CBW7qdqUQRNG9UV1UzNWvsmMY56EFf+MqMHaLmY0K8QTAdY+7W+oyzrAIwj0bI5ishVYshmRCu33oz9Le+PWbG1+++TfMMODWX9uP4DLbY3ou07MZUBXUJVpppN1v1THXzMy+d+uozuwTg8WAHqiRh5Cw3hscRKPqUrlj2fGwp2uyvax4oHfUquWmneGqER+iNxE7iRxDSxjp7RlQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dOGjRifQF1mXTUH1sp10dpnk1MO6fzukDHj/CvO9vVw=;
- b=SYR1NYkDLgIIL/GxEFp0ekePF5FKK0Pu6IsUO7bdFmJhwa4Q91EN61IsyRj3Nsa8bpbN0oXT/7XlJAid32YuEBkcr7RvOxxKZq1VGu392CD1+e9uRfjFPG2/DG/zjDXRmYWDx0XnKRwCFlVzrGUhAYcAhNk8OIsZqZbUd/PJBgnJl2i8uwN4H6J5dkJW1a4Uf873l7Exy7z+TIlJ0iejrxVuKtI3epekdL1z+KzjY79zRpDivfhcCzkxDuXCWZeEgUt/vbwR4Cm8fzAR68TnxlUrbzaVOEs6QkizQ6pD3pE1W2BVv66NX/98JmQfxkX/bEPn+QFv8a65zP8Hv0y+aQ==
+ bh=lifsBpGpGVWxGG2/Et38xwhn25wtt/0HTYeLunlwriI=;
+ b=Ggjo+Is4HEq3S2DlvygRdzqWOSdNHaYKe1TaruHUes5g98FY3NR1/+Y3Xav1TNSW0ynJfpA53/yUwjuJ6mCRMDr3JWw0zgen+oa1iUVrBJ9Nx29vaootvrqRTGTyU4OmpAiuTr5rpIaSOnReoWzW7OipiDatW7BywvCO76mv/K6MbZ38k8dY1bU/7HhiqG/wELT4yeRr8k3eXsDg4xUCJvG99TgXn14uAjMRZtothFdaCtNk02tHa0L2IvV4Jog2TUSngWkNKkXaJDuglskFMHwbBwMMZXSN2haymJHCiYFgSRNQnjZ8YK7gOWYRS5EHOFLFKQWLHoC689r4GsHAAw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dOGjRifQF1mXTUH1sp10dpnk1MO6fzukDHj/CvO9vVw=;
- b=lS8GG6pKTOzxd2Ua9La8FnsLBHPXzuI7/sNC+3lVcOfPw8vF95jsMthTAdIEOgTCVrpKakexj8MImYlhF49qaqG4WbEP1xHTxvO73s/4XHP6guAcMphsj2R5+5kRMSiwLR44RPRTcKgfTPxw/qt7FcOyDp1xZ5fwSxNmXHviLWI=
+ bh=lifsBpGpGVWxGG2/Et38xwhn25wtt/0HTYeLunlwriI=;
+ b=jsHOhJhmtmtuPGPNN78Z53YaLbDysYwBcwSyU1wCgjfL9lyilyXJe3viwB/eiMpJApVCckEeDX0k+zUJ1sXJHO+4lVNcKSDKKpCQngnR4IqXKFLeYZqKFKISeUAuiNW/88Y3nSP/3Yyi/DdCavL/Je2CGjK8dnqsRm3kab2CYgw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=labundy.com;
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by LV8PR08MB9127.namprd08.prod.outlook.com
- (2603:10b6:408:1f8::21) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:803:43::21) by BL3PR08MB7378.namprd08.prod.outlook.com
+ (2603:10b6:208:355::9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.19; Wed, 25 Oct
- 2023 02:05:03 +0000
+ 2023 03:03:13 +0000
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::e73c:270b:75f7:5302]) by SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::e73c:270b:75f7:5302%4]) with mapi id 15.20.6907.032; Wed, 25 Oct 2023
- 02:05:03 +0000
-Date:   Tue, 24 Oct 2023 21:04:55 -0500
+ 03:03:13 +0000
+Date:   Tue, 24 Oct 2023 22:03:10 -0500
 From:   Jeff LaBundy <jeff@labundy.com>
 To:     James Ogletree <james.ogletree@opensource.cirrus.com>
 Cc:     James Ogletree <james.ogletree@cirrus.com>,
@@ -53,67 +53,68 @@ Cc:     James Ogletree <james.ogletree@cirrus.com>,
         Ben Bright <ben.bright@cirrus.com>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] Input: cs40l50 - Add cirrus haptics base support
-Message-ID: <ZTh3qSAjIaj/oonc@nixie71>
+Subject: Re: [PATCH v4 4/4] Input: cs40l50 - Add support for the CS40L50
+ haptic driver
+Message-ID: <ZTiFbmutojF0LRZU@nixie71>
 References: <20231018175726.3879955-1-james.ogletree@opensource.cirrus.com>
- <20231018175726.3879955-3-james.ogletree@opensource.cirrus.com>
+ <20231018175726.3879955-5-james.ogletree@opensource.cirrus.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231018175726.3879955-3-james.ogletree@opensource.cirrus.com>
-X-ClientProxiedBy: SA1PR02CA0009.namprd02.prod.outlook.com
- (2603:10b6:806:2cf::14) To SN4PR0801MB3774.namprd08.prod.outlook.com
+In-Reply-To: <20231018175726.3879955-5-james.ogletree@opensource.cirrus.com>
+X-ClientProxiedBy: SA0PR11CA0204.namprd11.prod.outlook.com
+ (2603:10b6:806:1bc::29) To SN4PR0801MB3774.namprd08.prod.outlook.com
  (2603:10b6:803:43::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|LV8PR08MB9127:EE_
-X-MS-Office365-Filtering-Correlation-Id: cf7c0259-b375-4100-8864-08dbd4fecce9
+X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|BL3PR08MB7378:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1defdb87-94f2-4888-17c5-08dbd506ed5f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: V7G2x3K4JjcTaFxGTDv5xJmhyd48fyukSAcYIg1XXZZYuUc7Skaf4TYUUlOQHPmOup1HJQCqFVDacEPhLIFaLizT1EIbCH+z59NGqdn4iYcoDu43fV7q5lKeGVSgHAdige6I5Szr7TFjyeoBMQPVXP3C8eKjvP7sNxWOLbM8KsQqHE+qjBJg+ghcVzHlnKPiI0RLAWtN2UTnBtc+ps3Unbv6ut20tIqb/hjMh44jDVDwtyZzOApPBvaUYbh9QrIDHd1Qnzol9WwS+fH2YWg8ZrwwpX0cpbLw7b6mZZQeUGEY9OHA/Y1GEHXWFdqUOPaFU9zx5WM4llmUXK85Z08yBor1uZklBSWI+B/CKPjpYv9pLz/ZrXWgbrEB6tKte7/pq7MnQEmzw6BF1ylzb670DbFporsbWAl2bJnLoFUHyGr4mRo9WsuMDCM/hlT1kTPPU2LVKLgrI0lFfxMERaM+IbVECbTAbnZ/OGwe5DfbV2br+aedGmqm4QG8/5dPhSnCXm4VpPH2mTMb6Wj1OOLTe5pKZBqPuvh794iZ63lyIzNuU6eVLH7UfK2Q3T2Vu1WX
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(136003)(39830400003)(366004)(376002)(396003)(346002)(230922051799003)(1800799009)(64100799003)(186009)(451199024)(4326008)(8676002)(8936002)(66899024)(6512007)(9686003)(6506007)(33716001)(6666004)(86362001)(26005)(66556008)(54906003)(66946007)(66476007)(316002)(6916009)(6486002)(478600001)(38100700002)(83380400001)(5660300002)(7416002)(2906002)(30864003)(41300700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: aOp+Lc0BuwwGNlO3Rj4mZe1GrYTC4XvpY9hQWdSve56tmUIQ6yEZYa/XgHnahuJomkL4g7GAdWwcrIx5BrtMsle2xY5eoU988GuxzrZOEkWZsfInFfLwen3eXronbJllqgyBysdZqAfL4E7wytSk0LnWKtH28BvBYYqYVtIEvR+du5dpBXv28W6DQNaGqGuoZ4SowkeJIJiOv1L30bCZ+TalHx8S+BC0zv1K8tk8O1vTYMNZhSGMRuf7lYBU3kTsiTtNMvcPqXFd8DH44i/5pUoOfiVaXijQDnjetR8pWeth75vJyzbVwyBT80+eX6aX4FQttjxXAa9RG2tHWV28mN0rremmMgme46/gvXkT22D8y4Q2h8GvBjqWuhcI43ivb78jxHf/VHLuISAZvjq1O+QHRFbH4xs8vIpa+RBld8SHNeUuSdRNHUgO51xuExLOREt+zkzULCfRmC5WnoIRyhRaJ2GHcWRbZ01YNF6fyp3swk+I7EU4iWjWA6/74iYw7ny6sTjPY/YgOfUdeozycPEbwt56LWH03XfjvGyB7XfnfPnPNGuEcR0+t0M032Dh
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(39830400003)(396003)(366004)(346002)(376002)(136003)(230922051799003)(1800799009)(64100799003)(451199024)(186009)(7416002)(83380400001)(2906002)(8676002)(4326008)(8936002)(6486002)(30864003)(9686003)(41300700001)(5660300002)(86362001)(6512007)(6506007)(6916009)(316002)(26005)(478600001)(38100700002)(66946007)(66476007)(54906003)(66556008)(33716001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?bOmdKOJNigo5RirYz6SEyun9fI3v5rH/JOL+DV5v/D6YcLK+APBEOcGiC3qt?=
- =?us-ascii?Q?zyY8eyfy1cES9CBihjsPwUY/2aI6FrfKEMqyQm4NOqPITTokDMT11n3mJdqP?=
- =?us-ascii?Q?qiudlhNaU9uUDVYNN4n6tD35SXnT+5YAyjBz5JW0jJwg0aXuNRNmHn5FUvCJ?=
- =?us-ascii?Q?Zqxdkly9iZ5ViCqQV/Kk3WIBt/5ahrsZ3fv71FNGbKpJ8+hMN4LF9wdBymKY?=
- =?us-ascii?Q?i9leI1qsIapzK8z+3j8oLhy4bJQ1g1JGSwFxTpmii0UtKjFK3w9ecKg2SWUT?=
- =?us-ascii?Q?5pVjhL0G3P2aWjBO4CqEiQmvlzmEjNDDL57zX7S6USuuMTtc19b0tfBLNLIJ?=
- =?us-ascii?Q?Z1F0UPMIwk/+NGWc4XfOGWxkAYaOfsij4B9mfo7mPbB+xutTR2pMXdJ0dqjb?=
- =?us-ascii?Q?HbG8lsCbq3NA0p/JkXiXJvMutKPFiyf7SSfFKR06oprk1d9DMQj1ke0FFmYT?=
- =?us-ascii?Q?YauA/dJTCUxwk4kmaIrPTUCWx6K9/ae1Cr438AzbljwjMGfPmaDJMtvUdhO8?=
- =?us-ascii?Q?MlwO3x35Hj5a1s78vlb4YqvdE0jmCIrHOqTheb1l67ETnqDWcFMRM8x0XvYl?=
- =?us-ascii?Q?p3ubgvzvkhdwGu3cFnb0LzkUzyhKaowD6LQaVOdEKcDNI5AOqvQ4nCXce+Af?=
- =?us-ascii?Q?MGiInVywAww/OVYL1jhrA6AuPpXV+l5yjSufDx7VUx14YZ+VPIFQDTY0yw0f?=
- =?us-ascii?Q?x8R3pNa0PuWtr1jKsvIKFJspRgAVWg7oJq/liiZhSpSaelVm0yGt8TqhohkB?=
- =?us-ascii?Q?96Ij1ThuzsbXE5cd03awVkLesNwCKSVPdfH7iy3o4inke8Ma79vJEd5p0t1n?=
- =?us-ascii?Q?/LLTfie+uSpiGP5gr3qr4cgJLrUhSWj85ej+2/eDYQAMBDHHQcRC0iSqnBxm?=
- =?us-ascii?Q?ppFKvMgHxPQAa5Kk6DvaoX+tY3OvIuemxtRCDcZaO8FM9j6ftvToBjSt0n+z?=
- =?us-ascii?Q?kkD7TrxSjINLzr1Ggg9vrgsXcRBYnoPa7fxLkF9HqDiZDpAMZS53Cj8S2EyZ?=
- =?us-ascii?Q?BsnuhdUCZKw3AbHUJ27T5sYZ546oqFzC1+yS6ECqixmDQqMCHQyHJskye1ZW?=
- =?us-ascii?Q?KhY4MQ9AvNO83tHlYNniP95Yu1P2Yr4Pyh01A5pjzMZq1xPLk2sEr/QP7Rkf?=
- =?us-ascii?Q?kiNwkH9NIWV52FTtjdJ9on0jdSAeqxU0c7qm3HfBwTPrdTRCKQ9HA0mkBQCt?=
- =?us-ascii?Q?TsBx2F1hbPaH/oEsKEPs3BsKfJocLnKpO+5tum5d8ZY/nXEIw7Rwioc9Vbsh?=
- =?us-ascii?Q?uVqhh6f5QxtATu05mtlX9R0TpTwp70CFCzQbLLGebaRParT+XxgQOgLkb/Hn?=
- =?us-ascii?Q?xevD+dxlASWQc1M1vQLaSfezF8UBsgKEGO2K1hwn44k+uWl3mEvOp1o8/Axa?=
- =?us-ascii?Q?rjsMPe1qpkUE5vioAs/dFnRxfAfP5G+Xcel2KVtTHcNOO1/gK23VgeCYywuL?=
- =?us-ascii?Q?0jnIo+t8k/lFzktjrvSUY2MMkBYUvsZpJ63MznQH32n1NwbfzulcyIhJ1Omk?=
- =?us-ascii?Q?h4mjohKjGusRPlj+/HBlimSiGbIb77ZueQmTejtGabgY0T2A6HHqI3L7XNw8?=
- =?us-ascii?Q?RPvM7HdzhkUlocQQJp1WMDU5xtX30SEi/so5RiDA?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KE2nJq0C+OAZZuEvd3Q2SBotjVEA/w6aCjWo+bAA9m6jgZa6JBHYcOQ1drk/?=
+ =?us-ascii?Q?F5mzQrRRYbSqjmdHRd30JUvwHTQzzG/MO4F8MTw7nlZv3+kmwRcQ0niH38Zt?=
+ =?us-ascii?Q?Klu9JxRLT1N5Pp4KeqJgFGcp+RU9eLdptzFYA1sLo7X5YqcBf3rnQ+WfpOTt?=
+ =?us-ascii?Q?qLiBtscVHixhFPIZWsLbVUauMhKg3lW3+mpDAU0QGuoNc4e8k1eWs3BImWKq?=
+ =?us-ascii?Q?mDkothzCLaQL9zCCnAS9Mk5zR2y9uLPUxAGAlLypK5+5dAZZlajdTXSawahI?=
+ =?us-ascii?Q?0nBniQAVegpuVDIHd3CRK+nVS6EclaSexI7WHQk6VOus5Vjg0t3WT6OlsFN/?=
+ =?us-ascii?Q?p5iUX4i6kgMO6lklUN75bIC0OeJuhcRUy0ioi7WKq1wV1j2NTzYyemiS7QZG?=
+ =?us-ascii?Q?6erkd6n6c5D7ypRll1mlaU0ZAzstWt4O1pVKv6CQvKooL56MRqHD/H4VEl0C?=
+ =?us-ascii?Q?wtCqmry78/tp1F7KrK1wHHRRgWCPVcV6oxqIUF11O9JX+1iMZYxHJELfQufo?=
+ =?us-ascii?Q?+d+9cmsyWugnKgfu/1LlOkmTX1Ox7ecM58b9HuCN960Rfo8lHGVnXkvpL4/w?=
+ =?us-ascii?Q?VG/RuP7pxR9ikVhFt9ZiPqY/9vB0I5ug+9a5eXopv1vq3vGWA4UelHHvJhp5?=
+ =?us-ascii?Q?xrQIUZL860UhkWZVySmsgfL7S5bw3GMqWRXaLCwwQOk1L8Q7hgXvXTQVNINX?=
+ =?us-ascii?Q?q4yH+N6U0TjR47K7xkmKXnxPi+Fppof5IeaGYb2zpZAibOmLScbQ77JmSrrq?=
+ =?us-ascii?Q?MUrMKu5hKgq3H4xGykTx7pcUoTEXem21oYk76O1h7++2CjjYNVMhSO/UVS0c?=
+ =?us-ascii?Q?isqnLUhjZ09inb3qO8LxhSWtZhp13aUcPSExRzFhBnFNmG1PBUO5GMUS7T+u?=
+ =?us-ascii?Q?bS0YIJsViKuI+lLXPPr4ZgtCSdkbg3b/K7SSDuXj5N1lkbU/LkwBrNgMj1PE?=
+ =?us-ascii?Q?otynlPV6ojRwLhjBZUDlkljT6vGnJg2rTJeX5kk4RsmJg8bsvG+gcllVTa0v?=
+ =?us-ascii?Q?hMAx5wIuS2Bi5HtAiuL7reF0mB3sn1pdYPrdap5UBQpWaMF/sk+26UueQLxK?=
+ =?us-ascii?Q?Nd9TyHB4p1K0+c8BsjliYdj32KueeVV+VNa8i380wUXvz+ldhCasAMPZev5I?=
+ =?us-ascii?Q?9yeuc8fB6H+RRko2ag2Y1jARUnU/7ydyp17C7nmh9P1Ikq5/Vh9effIJEKBk?=
+ =?us-ascii?Q?PYxlxr1LFix230KkIkaFQnD4tq/2E3on1J7dFX4MZvRlFs2wpONorwvdUZvD?=
+ =?us-ascii?Q?ucTtFMENZZ6GRM4nneKzhFFFZ2j3XzpsAPJuJB9+y2F07d9R9vgi1yKIIJ+M?=
+ =?us-ascii?Q?m62lzEieMxKBmVBQPPpn+iNWT92BxYx3UJgQe7LdwduRKxcPad7i14XwF31/?=
+ =?us-ascii?Q?OC1aTUJlyjqCYO4gX4xT4bNTF2HsfEcd2lSEJxwz7M+x8fscixaZ8mJ8+MXn?=
+ =?us-ascii?Q?a2UwCu6O9gVY6AC5ep1LMOGBsFCVRuomMrRhs1q2Pp47FV0IGmRAqHOK6iLu?=
+ =?us-ascii?Q?gUXPy7ox9CzYhxk+KUSFpRK8ZSVvyBUqahCaZBOZmxTveTrukBXU3h6q6bYJ?=
+ =?us-ascii?Q?uxrmgVID6QgfpgSWR0alYgW6Gu2UJameuyAdh74G?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf7c0259-b375-4100-8864-08dbd4fecce9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1defdb87-94f2-4888-17c5-08dbd506ed5f
 X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2023 02:05:03.1752
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2023 03:03:13.3537
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V0qqdVWpJhJqDfTpIhuKi6712tonDKWCbLoNM9ez5sEE/dELRFJrYDSNsZKxJSMTAGluGTgopyH3ITrzw7aFXg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR08MB9127
+X-MS-Exchange-CrossTenant-UserPrincipalName: G31o7Dxe7qw2ndXj81YV717FcLVRJRaOVJy8hjgjVnBHiQqbbc7H2UlKufcIq7j/ABWiFJIOUH9HlmqVc/THug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR08MB7378
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -122,842 +123,435 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Hi James,
 
-Excellent work as always!
-
-On Wed, Oct 18, 2023 at 05:57:23PM +0000, James Ogletree wrote:
+On Wed, Oct 18, 2023 at 05:57:25PM +0000, James Ogletree wrote:
 > From: James Ogletree <james.ogletree@cirrus.com>
 > 
-> Introduce the cirrus haptics library which factors out
-> common haptics operations used by Cirrus Logic Input
-> drivers.
+> Introduce support for Cirrus Logic Device CS40L50: a
+> haptic driver with waveform memory, integrated DSP,
+> and closed-loop algorithms.
+> 
+> The input driver provides the interface for control of
+> haptic effects through the device.
 > 
 > Signed-off-by: James Ogletree <james.ogletree@cirrus.com>
 > ---
->  MAINTAINERS                          |   2 +
->  drivers/input/misc/cirrus_haptics.c  | 586 +++++++++++++++++++++++++++
->  include/linux/input/cirrus_haptics.h | 121 ++++++
->  3 files changed, 709 insertions(+)
->  create mode 100644 drivers/input/misc/cirrus_haptics.c
->  create mode 100644 include/linux/input/cirrus_haptics.h
+>  MAINTAINERS                        |   1 +
+>  drivers/input/misc/Kconfig         |  10 +
+>  drivers/input/misc/Makefile        |   1 +
+>  drivers/input/misc/cs40l50-vibra.c | 353 +++++++++++++++++++++++++++++
+>  4 files changed, 365 insertions(+)
+>  create mode 100644 drivers/input/misc/cs40l50-vibra.c
 > 
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index 28f0ca9324b3..57daf77bf550 100644
+> index 08e1e9695d49..24a00d8e5c1c 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -4970,6 +4970,8 @@ M:	Ben Bright <ben.bright@cirrus.com>
->  L:	patches@opensource.cirrus.com
+> @@ -4971,6 +4971,7 @@ L:	patches@opensource.cirrus.com
 >  S:	Supported
 >  F:	Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
-> +F:	drivers/input/misc/cirrus*
-> +F:	include/linux/input/cirrus*
+>  F:	drivers/input/misc/cirrus*
+> +F:	drivers/input/misc/cs40l*
+>  F:	drivers/mfd/cs40l*
+>  F:	include/linux/input/cirrus*
+>  F:	include/linux/mfd/cs40l*
+> diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+> index 9f088900f863..938090648126 100644
+> --- a/drivers/input/misc/Kconfig
+> +++ b/drivers/input/misc/Kconfig
+> @@ -129,6 +129,16 @@ config INPUT_BMA150
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called bma150.
 >  
->  CIRRUS LOGIC DSP FIRMWARE DRIVER
->  M:	Simon Trimmer <simont@opensource.cirrus.com>
-> diff --git a/drivers/input/misc/cirrus_haptics.c b/drivers/input/misc/cirrus_haptics.c
+> +config INPUT_CS40L50_VIBRA
+> +	tristate "CS40L50 Haptic Driver support"
+> +	depends on MFD_CS40L50_CORE
+> +	help
+> +	  Say Y here to enable support for Cirrus Logic's CS40L50
+> +	  haptic driver.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called cs40l50-vibra.
+> +
+>  config INPUT_E3X0_BUTTON
+>  	tristate "NI Ettus Research USRP E3xx Button support."
+>  	default n
+> diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+> index 6abefc41037b..6b653ed2124f 100644
+> --- a/drivers/input/misc/Makefile
+> +++ b/drivers/input/misc/Makefile
+> @@ -27,6 +27,7 @@ obj-$(CONFIG_INPUT_CMA3000)		+= cma3000_d0x.o
+>  obj-$(CONFIG_INPUT_CMA3000_I2C)		+= cma3000_d0x_i2c.o
+>  obj-$(CONFIG_INPUT_COBALT_BTNS)		+= cobalt_btns.o
+>  obj-$(CONFIG_INPUT_CPCAP_PWRBUTTON)	+= cpcap-pwrbutton.o
+> +obj-$(CONFIG_INPUT_CS40L50_VIBRA)	+= cs40l50-vibra.o cirrus_haptics.o
+>  obj-$(CONFIG_INPUT_DA7280_HAPTICS)	+= da7280.o
+>  obj-$(CONFIG_INPUT_DA9052_ONKEY)	+= da9052_onkey.o
+>  obj-$(CONFIG_INPUT_DA9055_ONKEY)	+= da9055_onkey.o
+> diff --git a/drivers/input/misc/cs40l50-vibra.c b/drivers/input/misc/cs40l50-vibra.c
 > new file mode 100644
-> index 000000000000..7e539cd45167
+> index 000000000000..3b3e4cb10de0
 > --- /dev/null
-> +++ b/drivers/input/misc/cirrus_haptics.c
-> @@ -0,0 +1,586 @@
+> +++ b/drivers/input/misc/cs40l50-vibra.c
+> @@ -0,0 +1,353 @@
 > +// SPDX-License-Identifier: GPL-2.0
 > +/*
-> + * Helper functions for dealing with wavetable
-> + * formats and DSP interfaces used by Cirrus
-> + * haptic drivers.
+> + * CS40L50 Advanced Haptic Driver with waveform memory,
+> + * integrated DSP, and closed-loop algorithms
 > + *
 > + * Copyright 2023 Cirrus Logic, Inc.
-> + */
-> +
-> +#include <linux/firmware/cirrus/cs_dsp.h>
-> +#include <linux/input.h>
-> +#include <linux/input/cirrus_haptics.h>
-> +#include <linux/pm_runtime.h>
-> +
-> +static int cs_hap_pseq_init(struct cs_hap *haptics)
-> +{
-> +	struct cs_hap_pseq_op *op;
-> +	int error, i, num_words;
-> +	u8 operation;
-> +	u32 *words;
-> +
-> +	if (!haptics->dsp.pseq_size || !haptics->dsp.pseq_reg)
-> +		return 0;
-> +
-> +	INIT_LIST_HEAD(&haptics->pseq_head);
-
-Anything that allocates or initializes an element that is normally held
-in a driver's private data, like a list head or mutex, belongs in probe()
-in my opinion. It's less of an issue here, but for more complex cases
-where we may set something up in probe() and tear it down in remove(),
-the driver is easier to maintain if helper functions such as cs_hap_pseq_init()
-only manipulate or organize the data, rather than absorb additional work.
-
-> +
-> +	words = kcalloc(haptics->dsp.pseq_size, sizeof(u32), GFP_KERNEL);
-> +	if (!words)
-> +		return -ENOMEM;
-> +
-> +	error = regmap_bulk_read(haptics->regmap, haptics->dsp.pseq_reg,
-> +				 words, haptics->dsp.pseq_size);
-> +	if (error)
-> +		goto err_free;
-> +
-> +	for (i = 0; i < haptics->dsp.pseq_size; i += num_words) {
-> +		operation = FIELD_GET(PSEQ_OP_MASK, words[i]);
-> +		switch (operation) {
-> +		case PSEQ_OP_END:
-> +		case PSEQ_OP_WRITE_UNLOCK:
-> +			num_words = PSEQ_OP_END_WORDS;
-> +			break;
-> +		case PSEQ_OP_WRITE_ADDR8:
-> +		case PSEQ_OP_WRITE_H16:
-> +		case PSEQ_OP_WRITE_L16:
-> +			num_words = PSEQ_OP_WRITE_X16_WORDS;
-> +			break;
-> +		case PSEQ_OP_WRITE_FULL:
-> +			num_words = PSEQ_OP_WRITE_FULL_WORDS;
-> +			break;
-> +		default:
-> +			error = -EINVAL;
-> +			dev_err(haptics->dev, "Unsupported op: %u\n", operation);
-> +			goto err_free;
-> +		}
-> +
-> +		op = devm_kzalloc(haptics->dev, sizeof(*op), GFP_KERNEL);
-> +		if (!op) {
-> +			error = -ENOMEM;
-> +			goto err_free;
-> +		}
-> +
-> +		op->size = num_words * sizeof(u32);
-> +		memcpy(op->words, &words[i], op->size);
-> +		op->offset = i * sizeof(u32);
-> +		op->operation = operation;
-> +		list_add(&op->list, &haptics->pseq_head);
-> +
-> +		if (operation == PSEQ_OP_END)
-> +			break;
-> +	}
-> +
-> +	if (operation != PSEQ_OP_END)
-> +		error = -ENOENT;
-> +
-> +err_free:
-> +	kfree(words);
-> +
-> +	return error;
-> +}
-
-My first thought as I reviewed this patch was that this and the lot
-of pseq-related functions are not necessarily related to haptics, but
-rather CS40L50 register access and housekeeping in general.
-
-I seem to recall on L25 and friends that the the power-on sequencer,
-i.e. PSEQ, is more or less a "tape recorder" of sorts in DSP memory
-that can play back a series of address/data pairs when the device
-comes out of hibernation, and any registers written during runtime
-must also be mirrored to the PSEQ for "playback" later. Is that still
-the case here?
-
-Assuming so, these functions seem like they belong in the MFD, not
-an input-specific library, because they will presumably be used by
-the codec driver as well, since that driver will write registers to
-set BCLK/LRCK ratio, etc.
-
-Therefore, I think it makes more sense for these functions to move to
-the MFD, which can then export them for use by the input/FF and codec
-children.
-
-This leaves cirrus_haptics.* with only a few functions related to
-starting and stopping work, which seem specific enough to just live
-in cs40l50-vibra.c. Presumably many of those could be re-used by
-the L30 down the road, but in that case I think we'd be looking to
-actually re-use the L50 driver and simply add a compatible string
-for L30.
-
-I recall L30 has some overhead that L50 does not, which may make
-it hairy for cs40l50-vibra.c to support both. But in that case,
-you could always fork a cs40l30-vibra.c with its own compatible
-string, then have the L50 MFD selectively load the correct child
-based on device ID. To summarize, we should have:
-
-* drivers/mfd/cs40l50-core.c: MFD cell definition, device discovery,
-  IRQ handling, exported PSEQ functions, etc.
-* sound/soc/codecs/cs40l50.c: codec driver, uses PSEQ library from
-  the MFD.
-* drivers/input/misc/cs40l50-vibra.c: input/FF driver, start/stop
-  work, also uses PSEQ library from the MFD.
-
-And down the road, depending on complexity, maybe we also have:
-
-* drivers/input/misc/cs40l30-vibra.c: another input/FF driver that
-  includes other functionality that didn't really fit in cs40l50-vibra.c;
-  also uses PSEQ library from, and is loaded by, the original L50 MFD.
-  If this driver duplicates small bits of cs40l50-vibra.c, it's not the
-  end of the world.
-
-All of these files would #include include/linux/mfd/cs40l50.h. And
-finally, cirrus_haptics.* simply go away. Same idea, just slightly
-more scalable, and closer to common design patterns.
-
-> +
-> +static int cs_hap_pseq_find_end(struct cs_hap *haptics,
-> +				struct cs_hap_pseq_op **op_end)
-> +{
-> +	u8 operation = PSEQ_OP_WRITE_FULL;
-> +	struct cs_hap_pseq_op *op;
-> +
-> +	list_for_each_entry(op, &haptics->pseq_head, list) {
-> +		operation = op->operation;
-> +		if (operation == PSEQ_OP_END)
-> +			break;
-> +	}
-> +
-> +	if (operation != PSEQ_OP_END) {
-> +		dev_err(haptics->dev, "Missing PSEQ list terminator\n");
-> +		return -ENOENT;
-> +	}
-> +
-> +	*op_end = op;
-> +
-> +	return 0;
-> +}
-> +
-> +static struct cs_hap_pseq_op *cs_hap_pseq_find_op(struct cs_hap_pseq_op *match_op,
-> +						  struct list_head *pseq_head)
-> +{
-> +	struct cs_hap_pseq_op *op;
-> +
-> +	list_for_each_entry(op, pseq_head, list) {
-> +		if (op->operation == PSEQ_OP_END)
-> +			break;
-
-Nit: a line break here makes this easier to read IMO.
-
-> +		if (op->operation != match_op->operation ||
-> +		    op->words[0] != match_op->words[0])
-> +			continue;
-
-And here.
-
-> +		switch (op->operation) {
-> +		case PSEQ_OP_WRITE_FULL:
-> +			if (FIELD_GET(GENMASK(23, 8), op->words[1]) ==
-> +			    FIELD_GET(GENMASK(23, 8), match_op->words[1]))
-> +				return op;
-> +			break;
-> +		case PSEQ_OP_WRITE_H16:
-> +		case PSEQ_OP_WRITE_L16:
-> +			if (FIELD_GET(GENMASK(23, 16), op->words[1]) ==
-> +			    FIELD_GET(GENMASK(23, 16), match_op->words[1]))
-> +				return op;
-> +			break;
-> +		default:
-> +			break;
-> +		}
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +int cs_hap_pseq_write(struct cs_hap *haptics, u32 addr,
-> +		      u32 data, bool update, u8 op_code)
-> +{
-> +	struct cs_hap_pseq_op *op, *op_end, *op_new;
-> +	struct cs_dsp_chunk ch;
-> +	u32 pseq_bytes;
-> +	int error;
-> +
-> +	op_new = devm_kzalloc(haptics->dev, sizeof(*op_new), GFP_KERNEL);
-> +	if (!op_new)
-> +		return -ENOMEM;
-> +
-> +	op_new->operation = op_code;
-> +
-> +	ch = cs_dsp_chunk((void *) op_new->words,
-> +			  PSEQ_OP_WRITE_FULL_WORDS * sizeof(u32));
-> +	cs_dsp_chunk_write(&ch, 8, op_code);
-> +	switch (op_code) {
-> +	case PSEQ_OP_WRITE_FULL:
-> +		cs_dsp_chunk_write(&ch, 32, addr);
-> +		cs_dsp_chunk_write(&ch, 32, data);
-> +		break;
-> +	case PSEQ_OP_WRITE_L16:
-> +	case PSEQ_OP_WRITE_H16:
-> +		cs_dsp_chunk_write(&ch, 24, addr);
-> +		cs_dsp_chunk_write(&ch, 16, data);
-> +		break;
-> +	default:
-> +		error = -EINVAL;
-> +		goto op_new_free;
-> +	}
-> +
-> +	op_new->size = cs_dsp_chunk_bytes(&ch);
-> +
-> +	if (update) {
-> +		op = cs_hap_pseq_find_op(op_new, &haptics->pseq_head);
-> +		if (!op) {
-> +			error = -EINVAL;
-> +			goto op_new_free;
-> +		}
-> +	}
-
-It seems we are relying on the developer to remember if he or she has
-already written 'addr' using a previous call to cs_hap_pseq_write(),
-then set the update flag accordingly; is that accurate?
-
-If so, that is a high risk for bugs to be introduced as the driver is
-maintained. Can we not search for an existing address/data entry upon
-any call to cs_hap_pseq_write() using cs_hap_pseq_find_op(), and add
-or replace a new address/data entry automatically?
-
-> +
-> +	error = cs_hap_pseq_find_end(haptics, &op_end);
-> +	if (error)
-> +		goto op_new_free;
-> +
-> +	pseq_bytes = haptics->dsp.pseq_size * sizeof(u32);
-> +
-> +	if (pseq_bytes - op_end->offset < op_new->size) {
-> +		error = -ENOMEM;
-> +		goto op_new_free;
-> +	}
-> +
-> +	if (update) {
-> +		op_new->offset = op->offset;
-> +	} else {
-> +		op_new->offset = op_end->offset;
-> +		op_end->offset += op_new->size;
-> +	}
-> +
-> +	error = regmap_raw_write(haptics->regmap, haptics->dsp.pseq_reg +
-> +				 op_new->offset, op_new->words, op_new->size);
-> +	if (error)
-> +		goto op_new_free;
-> +
-> +	if (update) {
-> +		list_replace(&op->list, &op_new->list);
-> +	} else {
-> +		error = regmap_raw_write(haptics->regmap, haptics->dsp.pseq_reg +
-> +					 op_end->offset, op_end->words,
-> +					 op_end->size);
-> +		if (error)
-> +			goto op_new_free;
-> +
-> +		list_add(&op_new->list, &haptics->pseq_head);
-> +	}
-> +
-> +	return 0;
-> +
-> +op_new_free:
-> +	devm_kfree(haptics->dev, op_new);
-> +
-> +	return error;
-> +}
-> +EXPORT_SYMBOL_GPL(cs_hap_pseq_write);
-> +
-> +int cs_hap_pseq_multi_write(struct cs_hap *haptics,
-> +			    const struct reg_sequence *reg_seq,
-> +			    int num_regs, bool update, u8 op_code)
-> +{
-> +	int error, i;
-> +
-> +	for (i = 0; i < num_regs; i++) {
-> +		error = cs_hap_pseq_write(haptics, reg_seq[i].reg,
-> +					  reg_seq[i].def, update, op_code);
-> +		if (error)
-> +			return error;
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(cs_hap_pseq_multi_write);
-> +
-> +static struct cs_hap_effect *cs_hap_find_effect(int id,
-> +						struct list_head *effect_head)
-> +{
-> +	struct cs_hap_effect *effect;
-> +
-> +	list_for_each_entry(effect, effect_head, list)
-> +		if (effect->id == id)
-> +			return effect;
-> +
-> +	return NULL;
-> +}
-> +
-> +static int cs_hap_effect_bank_set(struct cs_hap *haptics,
-> +				  struct cs_hap_effect *effect,
-> +				  struct ff_periodic_effect add_effect)
-> +{
-> +	s16 bank = add_effect.custom_data[0] & 0xffffu;
-> +	unsigned int len = add_effect.custom_len;
-> +
-> +	if (bank >= WVFRM_BANK_NUM) {
-> +		dev_err(haptics->dev, "Invalid waveform bank: %d\n", bank);
-> +		return -EINVAL;
-> +	}
-> +
-> +	effect->bank = len > CUSTOM_DATA_SIZE ? WVFRM_BANK_OWT : bank;
-> +
-> +	return 0;
-> +}
-> +
-> +static int cs_hap_effect_mapping_set(struct cs_hap *haptics, u16 button,
-> +				     struct cs_hap_effect *effect)
-> +{
-> +	u32 gpio_num, gpio_edge;
-> +
-> +	if (button) {
-> +		gpio_num = FIELD_GET(BTN_NUM_MASK, button);
-> +		gpio_edge = FIELD_GET(BTN_EDGE_MASK, button);
-> +		effect->mapping = haptics->dsp.gpio_base_reg +
-> +				  (gpio_num * 8) - gpio_edge;
-> +
-> +		return regmap_write(haptics->regmap, effect->mapping, button);
-> +	}
-> +
-> +	effect->mapping = GPIO_MAPPING_INVALID;
-> +
-> +	return 0;
-> +}
-> +
-> +static int cs_hap_effect_index_set(struct cs_hap *haptics,
-> +				   struct cs_hap_effect *effect,
-> +				   struct ff_periodic_effect add_effect)
-> +{
-> +	struct cs_hap_effect *owt_effect;
-> +	u32 base_index, max_index;
-> +
-> +	base_index = haptics->banks[effect->bank].base_index;
-> +	max_index = haptics->banks[effect->bank].max_index;
-> +
-> +	effect->index = base_index;
-> +
-> +	switch (effect->bank) {
-> +	case WVFRM_BANK_OWT:
-> +		list_for_each_entry(owt_effect, &haptics->effect_head, list)
-> +			if (owt_effect->bank == WVFRM_BANK_OWT)
-> +				effect->index++;
-> +		break;
-> +	case WVFRM_BANK_ROM:
-> +	case WVFRM_BANK_RAM:
-> +		effect->index += add_effect.custom_data[1] & 0xffffu;
-> +		break;
-> +	default:
-> +		dev_err(haptics->dev, "Bank not supported: %d\n", effect->bank);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (effect->index > max_index || effect->index < base_index) {
-> +		dev_err(haptics->dev, "Index out of bounds: %u\n", effect->index);
-> +		return -ENOSPC;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int cs_hap_upload_pwle(struct cs_hap *haptics,
-> +			      struct cs_hap_effect *effect,
-> +			      struct ff_periodic_effect add_effect)
-> +{
-> +	u32 len, wt_offset, wt_size_words;
-> +	struct cs_hap_pwle_header header;
-> +	u8 *out_data;
-> +	int error;
-> +
-> +	error = regmap_read(haptics->regmap, haptics->dsp.owt_offset_reg,
-> +			    &wt_offset);
-> +	if (error)
-> +		return error;
-> +
-> +	error = regmap_read(haptics->regmap, haptics->dsp.owt_size_reg,
-> +			    &wt_size_words);
-> +	if (error)
-> +		return error;
-> +
-> +	len = 2 * add_effect.custom_len;
-> +
-> +	if ((wt_size_words * sizeof(u32)) < OWT_HEADER_SIZE + len)
-> +		return -ENOSPC;
-> +
-> +	out_data = kzalloc(OWT_HEADER_SIZE + len, GFP_KERNEL);
-> +	if (!out_data)
-> +		return -ENOMEM;
-> +
-> +	header.type = add_effect.custom_data[0] == PCM_ID ? OWT_TYPE_PCM :
-> +							    OWT_TYPE_PWLE;
-> +	header.offset = OWT_HEADER_SIZE / sizeof(u32);
-> +	header.data_words = len / sizeof(u32);
-> +
-> +	memcpy(out_data, &header, sizeof(header));
-> +	memcpy(out_data + OWT_HEADER_SIZE, add_effect.custom_data, len);
-> +
-> +	error = regmap_bulk_write(haptics->regmap, haptics->dsp.owt_base_reg +
-> +				  (wt_offset * sizeof(u32)), out_data,
-> +				  OWT_HEADER_SIZE + len);
-> +	if (error)
-> +		goto err_free;
-> +
-> +	error = regmap_write(haptics->regmap, haptics->dsp.mailbox_reg,
-> +			     haptics->dsp.push_owt_cmd);
-> +
-> +err_free:
-> +	kfree(out_data);
-> +
-> +	return error;
-> +}
-> +
-> +static void cs_hap_add_worker(struct work_struct *work)
-> +{
-> +	struct cs_hap *haptics = container_of(work, struct cs_hap,
-> +					      add_work);
-> +	struct ff_effect add_effect = haptics->add_effect;
-> +	bool is_new = false;
-> +	struct cs_hap_effect *effect;
-> +	int error;
-> +
-> +	if (haptics->runtime_pm) {
-> +		error = pm_runtime_resume_and_get(haptics->dev);
-> +		if (error < 0) {
-> +			haptics->add_error = error;
-> +			return;
-> +		}
-> +	}
-> +
-> +	mutex_lock(&haptics->lock);
-> +
-> +	effect = cs_hap_find_effect(add_effect.id, &haptics->effect_head);
-> +	if (!effect) {
-> +		effect = kzalloc(sizeof(*effect), GFP_KERNEL);
-> +		if (!effect) {
-> +			error = -ENOMEM;
-> +			goto err_mutex;
-> +		}
-> +		effect->id = add_effect.id;
-> +		is_new = true;
-> +	}
-> +
-> +	error = cs_hap_effect_bank_set(haptics, effect, add_effect.u.periodic);
-> +	if (error)
-> +		goto err_free;
-> +
-> +	error = cs_hap_effect_index_set(haptics, effect, add_effect.u.periodic);
-> +	if (error)
-> +		goto err_free;
-> +
-> +	error = cs_hap_effect_mapping_set(haptics, add_effect.trigger.button,
-> +					  effect);
-> +	if (error)
-> +		goto err_free;
-> +
-> +	if (effect->bank == WVFRM_BANK_OWT)
-> +		error = cs_hap_upload_pwle(haptics, effect,
-> +					   add_effect.u.periodic);
-> +
-> +err_free:
-> +	if (is_new) {
-> +		if (error)
-> +			kfree(effect);
-> +		else
-> +			list_add(&effect->list, &haptics->effect_head);
-> +	}
-> +
-> +err_mutex:
-> +	mutex_unlock(&haptics->lock);
-> +
-> +	if (haptics->runtime_pm) {
-> +		pm_runtime_mark_last_busy(haptics->dev);
-> +		pm_runtime_put_autosuspend(haptics->dev);
-> +	}
-> +
-> +	haptics->add_error = error;
-> +}
-> +
-> +static void cs_hap_erase_worker(struct work_struct *work)
-> +{
-> +	struct cs_hap *haptics = container_of(work, struct cs_hap,
-> +					      erase_work);
-> +	int error = 0;
-> +	struct cs_hap_effect *owt_effect, *erase_effect;
-> +
-> +	if (haptics->runtime_pm) {
-> +		error = pm_runtime_resume_and_get(haptics->dev);
-> +		if (error < 0) {
-> +			haptics->erase_error = error;
-> +			return;
-> +		}
-> +	}
-> +
-> +	mutex_lock(&haptics->lock);
-> +
-> +	erase_effect = cs_hap_find_effect(haptics->erase_effect->id,
-> +					  &haptics->effect_head);
-> +	if (!erase_effect) {
-> +		dev_err(haptics->dev, "Effect to erase does not exist\n");
-> +		error = -EINVAL;
-> +		goto err_mutex;
-> +	}
-> +
-> +	if (erase_effect->mapping != GPIO_MAPPING_INVALID) {
-> +		error = regmap_write(haptics->regmap, erase_effect->mapping,
-> +				     GPIO_DISABLE);
-> +		if (error)
-> +			goto err_mutex;
-> +	}
-> +
-> +	if (erase_effect->bank == WVFRM_BANK_OWT) {
-> +		error = regmap_write(haptics->regmap, haptics->dsp.mailbox_reg,
-> +				     haptics->dsp.delete_owt_cmd |
-> +				     erase_effect->index);
-> +		if (error)
-> +			goto err_mutex;
-> +
-> +		list_for_each_entry(owt_effect, &haptics->effect_head, list)
-> +			if (owt_effect->bank == WVFRM_BANK_OWT &&
-> +			    owt_effect->index > erase_effect->index)
-> +				owt_effect->index--;
-> +	}
-> +
-> +	list_del(&erase_effect->list);
-> +	kfree(erase_effect);
-> +
-> +err_mutex:
-> +	mutex_unlock(&haptics->lock);
-> +
-> +	if (haptics->runtime_pm) {
-> +		pm_runtime_mark_last_busy(haptics->dev);
-> +		pm_runtime_put_autosuspend(haptics->dev);
-> +	}
-> +
-> +	haptics->erase_error = error;
-> +}
-> +
-> +static void cs_hap_vibe_start_worker(struct work_struct *work)
-> +{
-> +	struct cs_hap *haptics = container_of(work, struct cs_hap,
-> +					      vibe_start_work);
-> +	struct cs_hap_effect *effect;
-> +	int error;
-> +
-> +	if (haptics->runtime_pm) {
-> +		error = pm_runtime_resume_and_get(haptics->dev);
-> +		if (error < 0) {
-> +			haptics->start_error = error;
-> +			return;
-> +		}
-> +	}
-> +
-> +	mutex_lock(&haptics->lock);
-> +
-> +	effect = cs_hap_find_effect(haptics->start_effect->id,
-> +				    &haptics->effect_head);
-> +	if (effect) {
-> +		error = regmap_write(haptics->regmap, haptics->dsp.mailbox_reg,
-> +				     effect->index);
-> +	} else {
-> +		dev_err(haptics->dev, "Effect to start does not exist\n");
-> +		error = -EINVAL;
-> +	}
-> +
-> +	mutex_unlock(&haptics->lock);
-> +
-> +	if (haptics->runtime_pm) {
-> +		pm_runtime_mark_last_busy(haptics->dev);
-> +		pm_runtime_put_autosuspend(haptics->dev);
-> +	}
-> +
-> +	haptics->start_error = error;
-> +}
-> +
-> +static void cs_hap_vibe_stop_worker(struct work_struct *work)
-> +{
-> +	struct cs_hap *haptics = container_of(work, struct cs_hap,
-> +					      vibe_stop_work);
-> +	int error;
-> +
-> +	if (haptics->runtime_pm) {
-> +		error = pm_runtime_resume_and_get(haptics->dev);
-> +		if (error < 0) {
-> +			haptics->stop_error = error;
-> +			return;
-> +		}
-> +	}
-> +
-> +	mutex_lock(&haptics->lock);
-> +	error = regmap_write(haptics->regmap, haptics->dsp.mailbox_reg,
-> +			     haptics->dsp.stop_cmd);
-> +	mutex_unlock(&haptics->lock);
-> +
-> +	if (haptics->runtime_pm) {
-> +		pm_runtime_mark_last_busy(haptics->dev);
-> +		pm_runtime_put_autosuspend(haptics->dev);
-> +	}
-> +
-> +	haptics->stop_error = error;
-
-This seems like another argument for not separating the input/FF child
-from the meat of the driver; it just seems messy to pass around error
-codes within a driver's private data like this.
-
-That being said, where are start_error and stop_error used? I didn't
-see them in the input/FF child. We should only introduce code that has
-at least one user.
-
-> +}
-> +
-> +int cs_hap_init(struct cs_hap *haptics)
-> +{
-> +	haptics->vibe_wq = alloc_ordered_workqueue("vibe_wq", 0);
-> +	if (!haptics->vibe_wq)
-> +		return -ENOMEM;
-> +
-> +	mutex_init(&haptics->lock);
-> +
-> +	INIT_WORK(&haptics->vibe_start_work, cs_hap_vibe_start_worker);
-> +	INIT_WORK(&haptics->vibe_stop_work, cs_hap_vibe_stop_worker);
-> +	INIT_WORK(&haptics->erase_work, cs_hap_erase_worker);
-> +	INIT_WORK(&haptics->add_work, cs_hap_add_worker);
-> +
-> +	return cs_hap_pseq_init(haptics);
-> +}
-> +EXPORT_SYMBOL_GPL(cs_hap_init);
-> +
-> +void cs_hap_remove(struct cs_hap *haptics)
-> +{
-> +	flush_workqueue(haptics->vibe_wq);
-> +	destroy_workqueue(haptics->vibe_wq);
-> +}
-> +EXPORT_SYMBOL_GPL(cs_hap_remove);
-> +
-> +MODULE_DESCRIPTION("Cirrus Logic Haptics Support");
-> +MODULE_LICENSE("GPL");
-> diff --git a/include/linux/input/cirrus_haptics.h b/include/linux/input/cirrus_haptics.h
-> new file mode 100644
-> index 000000000000..42f6afed7944
-> --- /dev/null
-> +++ b/include/linux/input/cirrus_haptics.h
-> @@ -0,0 +1,121 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Helper functions for dealing with wavetable
-> + * formats and DSP interfaces used by Cirrus
-> + * haptic drivers.
 > + *
-> + * Copyright 2023 Cirrus Logic, Inc.
 > + */
 > +
-> +#ifndef __CIRRUS_HAPTICS_H
-> +#define __CIRRUS_HAPTICS_H
-> +
+> +#include <linux/firmware/cirrus/wmfw.h>
+> +#include <linux/mfd/cs40l50.h>
+> +#include <linux/platform_device.h>
 > +#include <linux/property.h>
-> +#include <linux/regmap.h>
 > +
-> +/* Power-on write sequencer */
-> +#define PSEQ_OP_MASK			GENMASK(23, 16)
-> +#define PSEQ_OP_SHIFT			16
-> +#define PSEQ_OP_WRITE_FULL_WORDS	3
-> +#define PSEQ_OP_WRITE_X16_WORDS		2
-> +#define PSEQ_OP_END_WORDS		1
-> +#define PSEQ_OP_WRITE_FULL		0x00
-> +#define PSEQ_OP_WRITE_ADDR8		0x02
-> +#define PSEQ_OP_WRITE_L16		0x04
-> +#define PSEQ_OP_WRITE_H16		0x05
-> +#define PSEQ_OP_WRITE_UNLOCK		0xFD
-> +#define PSEQ_OP_END			0xFF
+> +static int cs40l50_add(struct input_dev *dev,
+> +		       struct ff_effect *effect,
+> +		       struct ff_effect *old)
+> +{
+> +	struct cs40l50_private *cs40l50 = input_get_drvdata(dev);
+> +	u32 len = effect->u.periodic.custom_len;
 > +
-> +/* Open wavetable */
-> +#define OWT_HEADER_SIZE		12
-> +#define OWT_TYPE_PCM		8
-> +#define OWT_TYPE_PWLE		12
-> +#define PCM_ID			0x0
-> +#define CUSTOM_DATA_SIZE	2
+> +	if (effect->type != FF_PERIODIC || effect->u.periodic.waveform != FF_CUSTOM) {
+> +		dev_err(cs40l50->dev, "Type (%#X) or waveform (%#X) unsupported\n",
+> +			effect->type, effect->u.periodic.waveform);
+> +		return -EINVAL;
+> +	}
 > +
-> +/* GPIO */
-> +#define BTN_NUM_MASK		GENMASK(14, 12)
-> +#define BTN_EDGE_MASK		BIT(15)
-> +#define GPIO_MAPPING_INVALID	0
-> +#define GPIO_DISABLE		0x1FF
+> +	memcpy(&cs40l50->haptics.add_effect, effect, sizeof(struct ff_effect));
 > +
-> +enum cs_hap_bank_type {
-> +	WVFRM_BANK_RAM,
-> +	WVFRM_BANK_ROM,
-> +	WVFRM_BANK_OWT,
-> +	WVFRM_BANK_NUM,
+> +	cs40l50->haptics.add_effect.u.periodic.custom_data = kcalloc(len,
+> +								     sizeof(s16),
+> +								     GFP_KERNEL);
+> +	if (!cs40l50->haptics.add_effect.u.periodic.custom_data)
+> +		return -ENOMEM;
+> +
+> +	if (copy_from_user(cs40l50->haptics.add_effect.u.periodic.custom_data,
+> +			   effect->u.periodic.custom_data, sizeof(s16) * len)) {
+> +		cs40l50->haptics.add_error = -EFAULT;
+> +		goto out_free;
+> +	}
+> +
+> +	queue_work(cs40l50->haptics.vibe_wq, &cs40l50->haptics.add_work);
+> +	flush_work(&cs40l50->haptics.add_work);
+> +
+> +out_free:
+> +	kfree(cs40l50->haptics.add_effect.u.periodic.custom_data);
+> +	cs40l50->haptics.add_effect.u.periodic.custom_data = NULL;
+> +
+> +	return cs40l50->haptics.add_error;
+> +}
+> +
+> +static int cs40l50_playback(struct input_dev *dev, int effect_id, int val)
+> +{
+> +	struct cs40l50_private *cs40l50 = input_get_drvdata(dev);
+> +
+> +	if (val > 0) {
+> +		cs40l50->haptics.start_effect = &dev->ff->effects[effect_id];
+> +		queue_work(cs40l50->haptics.vibe_wq,
+> +			   &cs40l50->haptics.vibe_start_work);
+> +	} else {
+> +		queue_work(cs40l50->haptics.vibe_wq,
+> +			   &cs40l50->haptics.vibe_stop_work);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int cs40l50_erase(struct input_dev *dev, int effect_id)
+> +{
+> +	struct cs40l50_private *cs40l50 = input_get_drvdata(dev);
+> +
+> +	cs40l50->haptics.erase_effect = &dev->ff->effects[effect_id];
+> +
+> +	queue_work(cs40l50->haptics.vibe_wq, &cs40l50->haptics.erase_work);
+> +	flush_work(&cs40l50->haptics.erase_work);
+> +
+> +	return cs40l50->haptics.erase_error;
+> +}
+> +
+> +static const struct reg_sequence cs40l50_int_vamp_seq[] = {
+> +	{ CS40L50_BST_LPMODE_SEL,	CS40L50_DCM_LOW_POWER },
+> +	{ CS40L50_BLOCK_ENABLES2,	CS40L50_OVERTEMP_WARN },
 > +};
 > +
-> +struct cs_hap_pseq_op {
-> +	struct list_head list;
-> +	u32 words[3];
-> +	u16 offset;
-> +	u8 operation;
-> +	u8 size;
+> +static const struct reg_sequence cs40l50_irq_mask_seq[] = {
+> +	{ CS40L50_IRQ1_MASK_2,	CS40L50_IRQ_MASK_2_OVERRIDE },
+> +	{ CS40L50_IRQ1_MASK_20,	CS40L50_IRQ_MASK_20_OVERRIDE },
 > +};
 > +
-> +struct cs_hap_effect {
-> +	enum cs_hap_bank_type bank;
-> +	struct list_head list;
-> +	u32 mapping;
-> +	u32 index;
-> +	int id;
+> +static int cs40l50_hw_init(struct cs40l50_private *cs40l50)
+> +{
+> +	int error;
+> +
+> +	error = regmap_multi_reg_write(cs40l50->regmap,
+> +				       cs40l50_int_vamp_seq,
+> +				       ARRAY_SIZE(cs40l50_int_vamp_seq));
+> +	if (error)
+> +		return error;
+> +
+> +	error = cs_hap_pseq_multi_write(&cs40l50->haptics,
+> +					cs40l50_int_vamp_seq,
+> +					ARRAY_SIZE(cs40l50_int_vamp_seq),
+> +					false, PSEQ_OP_WRITE_FULL);
+> +	if (error)
+> +		return error;
+> +
+> +	error = regmap_multi_reg_write(cs40l50->regmap, cs40l50_irq_mask_seq,
+> +				       ARRAY_SIZE(cs40l50_irq_mask_seq));
+> +	if (error)
+> +		return error;
+> +
+> +	return cs_hap_pseq_multi_write(&cs40l50->haptics, cs40l50_irq_mask_seq,
+> +				       ARRAY_SIZE(cs40l50_irq_mask_seq), false,
+> +				       PSEQ_OP_WRITE_FULL);
+> +}
+> +
+> +static const struct cs_dsp_client_ops cs40l50_cs_dsp_client_ops;
+> +
+> +static const struct cs_dsp_region cs40l50_dsp_regions[] = {
+> +	{
+> +		.type = WMFW_HALO_PM_PACKED,
+> +		.base = CS40L50_DSP1_PMEM_0
+> +	},
+> +	{
+> +		.type = WMFW_HALO_XM_PACKED,
+> +		.base = CS40L50_DSP1_XMEM_PACKED_0
+> +	},
+> +	{
+> +		.type = WMFW_HALO_YM_PACKED,
+> +		.base = CS40L50_DSP1_YMEM_PACKED_0
+> +	},
+> +	{
+> +		.type = WMFW_ADSP2_XM,
+> +		.base = CS40L50_DSP1_XMEM_UNPACKED24_0
+> +	},
+> +	{
+> +		.type = WMFW_ADSP2_YM,
+> +		.base = CS40L50_DSP1_YMEM_UNPACKED24_0
+> +	},
 > +};
 > +
-> +struct cs_hap_pwle_header {
-> +	u32 type;
-> +	u32 data_words;
-> +	u32 offset;
-> +} __packed;
+> +static int cs40l50_cs_dsp_init(struct cs40l50_private *cs40l50)
+> +{
+> +	cs40l50->dsp.num = 1;
+> +	cs40l50->dsp.type = WMFW_HALO;
+> +	cs40l50->dsp.dev = cs40l50->dev;
+> +	cs40l50->dsp.regmap = cs40l50->regmap;
+> +	cs40l50->dsp.base = CS40L50_CORE_BASE;
+> +	cs40l50->dsp.base_sysinfo = CS40L50_SYS_INFO_ID;
+> +	cs40l50->dsp.mem = cs40l50_dsp_regions;
+> +	cs40l50->dsp.num_mems = ARRAY_SIZE(cs40l50_dsp_regions);
+> +	cs40l50->dsp.no_core_startstop = true;
+> +	cs40l50->dsp.client_ops = &cs40l50_cs_dsp_client_ops;
 > +
-> +struct cs_hap_bank {
-> +	enum cs_hap_bank_type bank;
-> +	u32 base_index;
-> +	u32 max_index;
+> +	return cs_dsp_halo_init(&cs40l50->dsp);
+> +}
+> +
+> +static struct cs_hap_bank cs40l50_banks[] = {
+> +	{
+> +		.bank =		WVFRM_BANK_RAM,
+> +		.base_index =	CS40L50_RAM_BANK_INDEX_START,
+> +		.max_index =	CS40L50_RAM_BANK_INDEX_START,
+> +	},
+> +	{
+> +		.bank =		WVFRM_BANK_ROM,
+> +		.base_index =	CS40L50_ROM_BANK_INDEX_START,
+> +		.max_index =	CS40L50_ROM_BANK_INDEX_END,
+> +	},
+> +	{
+> +		.bank =		WVFRM_BANK_OWT,
+> +		.base_index =	CS40L50_RTH_INDEX_START,
+> +		.max_index =	CS40L50_RTH_INDEX_END,
+> +	},
 > +};
+
+These structs describe the DSP, and hence the silicon; they are not
+specific to the input/FF device. Presumably the DSP could run algorithms
+that support only the I2S streaming case as well (e.g. A2H); therefore,
+these seem more appropriately placed in the MFD.
+
 > +
-> +struct cs_hap_dsp {
-> +	u32 gpio_base_reg;
-> +	u32 owt_offset_reg;
-> +	u32 owt_size_reg;
-> +	u32 owt_base_reg;
-> +	u32 mailbox_reg;
-> +	u32 pseq_reg;
-> +	u32 push_owt_cmd;
-> +	u32 delete_owt_cmd;
-> +	u32 stop_cmd;
-> +	u32 pseq_size;
+> +static int cs40l50_cs_hap_init(struct cs40l50_private *cs40l50)
+> +{
+> +	cs40l50->haptics.regmap = cs40l50->regmap;
+> +	cs40l50->haptics.dev = cs40l50->dev;
+> +	cs40l50->haptics.banks = cs40l50_banks;
+> +	cs40l50->haptics.dsp.gpio_base_reg = CS40L50_GPIO_BASE;
+> +	cs40l50->haptics.dsp.owt_base_reg = CS40L50_OWT_BASE;
+> +	cs40l50->haptics.dsp.owt_offset_reg = CS40L50_OWT_NEXT;
+> +	cs40l50->haptics.dsp.owt_size_reg = CS40L50_OWT_SIZE;
+> +	cs40l50->haptics.dsp.mailbox_reg = CS40L50_DSP_MBOX;
+> +	cs40l50->haptics.dsp.pseq_reg = CS40L50_POWER_ON_SEQ;
+> +	cs40l50->haptics.dsp.push_owt_cmd = CS40L50_OWT_PUSH;
+> +	cs40l50->haptics.dsp.delete_owt_cmd = CS40L50_OWT_DELETE;
+> +	cs40l50->haptics.dsp.stop_cmd = CS40L50_STOP_PLAYBACK;
+> +	cs40l50->haptics.dsp.pseq_size = CS40L50_PSEQ_SIZE;
+> +	cs40l50->haptics.runtime_pm = true;
+> +
+> +	return cs_hap_init(&cs40l50->haptics);
+> +}
+> +
+> +static void cs40l50_upload_wt(const struct firmware *bin, void *context)
+> +{
+> +	struct cs40l50_private *cs40l50 = context;
+> +	u32 nwaves;
+> +
+> +	mutex_lock(&cs40l50->lock);
+> +
+> +	if (cs40l50->wmfw) {
+> +		if (regmap_write(cs40l50->regmap, CS40L50_CCM_CORE_CONTROL,
+> +				 CS40L50_CLOCK_DISABLE))
+> +			goto err_mutex;
+> +
+> +		if (regmap_write(cs40l50->regmap, CS40L50_RAM_INIT,
+> +				 CS40L50_RAM_INIT_FLAG))
+> +			goto err_mutex;
+> +
+> +		if (regmap_write(cs40l50->regmap, CS40L50_PWRMGT_CTL,
+> +				 CS40L50_MEM_RDY_HW))
+> +			goto err_mutex;
+> +	}
+> +
+> +	cs_dsp_power_up(&cs40l50->dsp, cs40l50->wmfw, "cs40l50.wmfw",
+> +			bin, "cs40l50.bin", "cs40l50");
+> +
+> +	if (cs40l50->wmfw) {
+> +		if (regmap_write(cs40l50->regmap, CS40L50_CCM_CORE_CONTROL,
+> +				 CS40L50_CLOCK_ENABLE))
+> +			goto err_mutex;
+> +	}
+> +
+> +	if (regmap_read(cs40l50->regmap, CS40L50_NUM_OF_WAVES, &nwaves))
+> +		goto err_mutex;
+> +
+> +	cs40l50->haptics.banks[WVFRM_BANK_RAM].max_index += (nwaves - 1);
+> +
+> +err_mutex:
+> +	mutex_unlock(&cs40l50->lock);
+> +	release_firmware(bin);
+> +	release_firmware(cs40l50->wmfw);
+> +}
+> +
+> +static void cs40l50_upload_patch(const struct firmware *wmfw, void *context)
+> +{
+> +	struct cs40l50_private *cs40l50 = context;
+> +
+> +	cs40l50->wmfw = wmfw;
+> +
+> +	if (request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT, CS40L50_WT,
+> +				    cs40l50->dev, GFP_KERNEL,
+> +				    cs40l50, cs40l50_upload_wt))
+> +		release_firmware(cs40l50->wmfw);
+> +}
+> +
+> +static int cs40l50_input_init(struct cs40l50_private *cs40l50)
+> +{
+> +	int error;
+> +
+> +	cs40l50->input = devm_input_allocate_device(cs40l50->dev);
+> +	if (!cs40l50->input)
+> +		return -ENOMEM;
+> +
+> +	cs40l50->input->id.product = cs40l50->devid & 0xFFFF;
+> +	cs40l50->input->id.version = cs40l50->revid;
+> +	cs40l50->input->name = "cs40l50_vibra";
+> +
+> +	input_set_drvdata(cs40l50->input, cs40l50);
+> +	input_set_capability(cs40l50->input, EV_FF, FF_PERIODIC);
+> +	input_set_capability(cs40l50->input, EV_FF, FF_CUSTOM);
+> +
+> +	error = input_ff_create(cs40l50->input, FF_MAX_EFFECTS);
+> +	if (error)
+> +		return error;
+> +
+> +	cs40l50->input->ff->upload = cs40l50_add;
+> +	cs40l50->input->ff->playback = cs40l50_playback;
+> +	cs40l50->input->ff->erase = cs40l50_erase;
+> +
+> +	INIT_LIST_HEAD(&cs40l50->haptics.effect_head);
+> +
+> +	error = input_register_device(cs40l50->input);
+> +	if (error)
+> +		goto err_free_dev;
+> +
+> +	return cs40l50_cs_hap_init(cs40l50);
+> +
+> +err_free_dev:
+> +	input_free_device(cs40l50->input);
+> +	return error;
+> +}
+> +static int cs40l50_vibra_probe(struct platform_device *pdev)
+> +{
+> +	struct cs40l50_private *cs40l50 = dev_get_drvdata(pdev->dev.parent);
+> +	int error;
+> +
+> +	error = cs40l50_input_init(cs40l50);
+> +	if (error)
+> +		return error;
+> +
+> +	error = cs40l50_hw_init(cs40l50);
+> +	if (error)
+> +		goto err_input;
+> +
+> +	error = cs40l50_cs_dsp_init(cs40l50);
+> +	if (error)
+> +		goto err_input;
+> +
+> +	error = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
+> +					CS40L50_FW, cs40l50->dev,
+> +					GFP_KERNEL, cs40l50,
+> +					cs40l50_upload_patch);
+> +	if (error)
+> +		goto err_dsp;
+> +
+> +	return 0;
+> +
+> +err_dsp:
+> +	cs_dsp_remove(&cs40l50->dsp);
+> +err_input:
+> +	input_unregister_device(cs40l50->input);
+> +	cs_hap_remove(&cs40l50->haptics);
+> +
+> +	return error;
+> +}
+> +
+> +static int cs40l50_vibra_remove(struct platform_device *pdev)
+> +{
+> +	struct cs40l50_private *cs40l50 = dev_get_drvdata(pdev->dev.parent);
+> +
+> +	input_unregister_device(cs40l50->input);
+> +	cs_hap_remove(&cs40l50->haptics);
+> +
+> +	if (cs40l50->dsp.booted)
+> +		cs_dsp_power_down(&cs40l50->dsp);
+> +	if (&cs40l50->dsp)
+> +		cs_dsp_remove(&cs40l50->dsp);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct platform_device_id cs40l50_id_vibra[] = {
+> +	{"cs40l50-vibra", },
+> +	{}
 > +};
+> +MODULE_DEVICE_TABLE(platform, cs40l50_id_vibra);
 > +
-> +struct cs_hap {
-> +	struct regmap *regmap;
-> +	struct mutex lock;
-> +	struct device *dev;
-> +	struct list_head pseq_head;
-> +	struct cs_hap_bank *banks;
-> +	struct cs_hap_dsp dsp;
-> +	struct workqueue_struct *vibe_wq;
-> +	struct work_struct vibe_start_work;
-> +	struct work_struct vibe_stop_work;
-> +	struct work_struct erase_work;
-> +	struct work_struct add_work;
-> +	struct ff_effect *start_effect;
-> +	struct ff_effect *erase_effect;
-> +	struct ff_effect add_effect;
-> +	struct list_head effect_head;
-> +	int erase_error;
-> +	int start_error;
-> +	int stop_error;
-> +	int add_error;
-> +	bool runtime_pm;
+> +static struct platform_driver cs40l50_vibra_driver = {
+> +	.probe		= cs40l50_vibra_probe,
+> +	.remove		= cs40l50_vibra_remove,
+> +	.id_table	= cs40l50_id_vibra,
+> +	.driver		= {
+> +		.name	= "cs40l50-vibra",
+> +	},
 > +};
+> +module_platform_driver(cs40l50_vibra_driver);
 > +
-> +int cs_hap_pseq_write(struct cs_hap *haptics, u32 addr,
-> +		      u32 data, bool update, u8 op_code);
-> +int cs_hap_pseq_multi_write(struct cs_hap *haptics,
-> +			    const struct reg_sequence *reg_seq,
-> +			    int num_regs, bool update, u8 op_code);
-> +int cs_hap_init(struct cs_hap *haptics);
-> +void cs_hap_remove(struct cs_hap *haptics);
-> +
-> +#endif
+> +MODULE_DESCRIPTION("CS40L50 Advanced Haptic Driver");
+> +MODULE_AUTHOR("James Ogletree, Cirrus Logic Inc. <james.ogletree@cirrus.com>");
+> +MODULE_LICENSE("GPL");
 > -- 
 > 2.25.1
 > 
