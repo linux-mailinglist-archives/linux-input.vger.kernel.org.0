@@ -2,114 +2,219 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 369687D6F30
-	for <lists+linux-input@lfdr.de>; Wed, 25 Oct 2023 16:43:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07EC27D713C
+	for <lists+linux-input@lfdr.de>; Wed, 25 Oct 2023 17:51:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344933AbjJYOZS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Oct 2023 10:25:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41260 "EHLO
+        id S1344148AbjJYPvO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Oct 2023 11:51:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344661AbjJYOZR (ORCPT
+        with ESMTP id S1343780AbjJYPvN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Oct 2023 10:25:17 -0400
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F57099;
-        Wed, 25 Oct 2023 07:25:15 -0700 (PDT)
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6ce2cf67be2so3654683a34.2;
-        Wed, 25 Oct 2023 07:25:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698243914; x=1698848714;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=PsDU6unZ9oc6UCJkdOraO8O4Nijhy1TmXbsiiZnftNA=;
-        b=gw9ek/L9Itw033vgtb8l0IjmAR/T/6hKA26/cMGGXb6rErbH6nTKNwjnyuL3vGA35y
-         9aPVjgnLOZVNbI9vhNGMwQVKGPkzDS1OAFAJCW68EgAwvAf6g1y2LwvrJxnKERZe0mOV
-         BDJlvfG95ajNZXPiUrtGJEpPeQjCn4g6pg9WBGGbPkEMUVzppHD4Rm9y1hGfWJX5iHgM
-         JjVWnIsW5DUXxuYjvLjQvyee2yV88PGfIqIvCluPd4mXC2clPSGDbdGS1D/SmwyZb/KB
-         1N7auKv7Lf34fbNtjWJPON9w04Wdl8RE0aY6qlyzcJrRXkt3uAUcDuL0FGvVhdZ2kHgA
-         mxYA==
-X-Gm-Message-State: AOJu0YyJpG6r6x2hrPeU2v7ZqHviOAZcU9TJLaeG+OphjcGPTLEtTtQl
-        LRiYPrYO62rcqDOFLM4Odg==
-X-Google-Smtp-Source: AGHT+IEJMt/OKE5hn7HICeD4NHHvB/xTt8NPVXJOPA+84mEStvR1sIAotcj+fA8OdlowPY0s5aeQ6g==
-X-Received: by 2002:a05:6830:908:b0:6b9:bd9d:e333 with SMTP id v8-20020a056830090800b006b9bd9de333mr17227122ott.3.1698243914529;
-        Wed, 25 Oct 2023 07:25:14 -0700 (PDT)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id m6-20020a05683026c600b006c4d38e12b9sm2282446otu.65.2023.10.25.07.25.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Oct 2023 07:25:13 -0700 (PDT)
-Received: (nullmailer pid 112955 invoked by uid 1000);
-        Wed, 25 Oct 2023 14:25:12 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Wed, 25 Oct 2023 11:51:13 -0400
+Received: from csmtpq1-prd-nl1-vmo.edge.unified.services (csmtpq1-prd-nl1-vmo.edge.unified.services [84.116.50.35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDE74132
+        for <linux-input@vger.kernel.org>; Wed, 25 Oct 2023 08:51:09 -0700 (PDT)
+Received: from csmtp6-prd-nl1-vmo.nl1.unified.services ([100.107.82.136] helo=csmtp6-prd-nl1-vmo.edge.unified.services)
+        by csmtpq1-prd-nl1-vmo.edge.unified.services with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <gareth.randall@virgin.net>)
+        id 1qvg9y-00AUOT-FS
+        for linux-input@vger.kernel.org; Wed, 25 Oct 2023 17:51:06 +0200
+Received: from [192.168.0.10] ([94.175.123.86])
+        by csmtp6-prd-nl1-vmo.edge.unified.services with ESMTPA
+        id vg9xqdWmOQDxRvg9yqajph; Wed, 25 Oct 2023 17:51:06 +0200
+X-SourceIP: 94.175.123.86
+X-Authenticated-Sender: gareth.randall@virgin.net
+X-Spam: 0
+X-Authority: v=2.4 cv=MPKm2uVl c=1 sm=1 tr=0 ts=6539396a cx=a_exe
+ a=mwdPpgLduwvwBeoi1XfOCA==:117 a=mwdPpgLduwvwBeoi1XfOCA==:17
+ a=IkcTkHD0fZMA:10 a=bhdUkHdE2iEA:10 a=f6pUZMUfAAAA:8 a=ebxQGvp79oVuaUAvqBkA:9
+ a=QEXdDO2ut3YA:10 a=d852eiLty5LaP4K1k4iV:22 a=eZImKStj3dtCS-zw9-0K:22
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virgin.net;
+        s=meg.feb2017; t=1698249066;
+        bh=QwhJX5wPM3BKbhoVtSycZ9IQ1as6HhunIFqpAxtEoIU=;
+        h=Date:From:Subject:To:Cc;
+        b=IWXxhhp1w5Rc6kiBOFyzkoSFdj7QzMECB0r6/kjYz0bvW01HpH3kynq0zmzopXCIq
+         TQ0tjwVGQlq25zh3IRFWYHC9qUHuBBap7qYCCTfNJxAYk0XbIV/p9NSTGmOLGhXl7A
+         LjBZ3wGFde8PlFejFT1NlF+MpSrOSQHNavevMveQz5rlzB+Bqxf2/RHWebcRJLHfzC
+         mE+rTfZlb7nI6dUcQDHTy+b4lQTSgorSijnD2KUF+u/jFRHKAi//gUCCIW5aqAimYz
+         rZEittAjT3xT65PXVCW7h8pXryPR24VZZrUSrC7mQQ/FyfjLFXymVoqSvwqJ2WpyMs
+         tQQGU7qr/fa1Q==
+Message-ID: <4c792c2e-9de3-4faa-9948-47ddae77640e@virgin.net>
+Date:   Wed, 25 Oct 2023 16:51:05 +0100
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Wei-Shih Lin <frank101417@gmail.com>
-Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        linux-input@vger.kernel.org, conor+dt@kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dmitry.torokhov@gmail.com
-In-Reply-To: <20231025082054.1190-2-Weishih_Lin@novatek.com.tw>
-References: <20231025082054.1190-1-Weishih_Lin@novatek.com.tw>
- <20231025082054.1190-2-Weishih_Lin@novatek.com.tw>
-Message-Id: <169824355638.62574.6102936426435011763.robh@kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: touchscreen: Add Novatek NT519XX
- series bindings
-Date:   Wed, 25 Oct 2023 09:25:12 -0500
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Content-Language: en-GB
+From:   Gareth Randall <gareth.randall@virgin.net>
+Subject: [PATCH] Add support for touch screens using the General Touch ST6001S
+ controller.
+To:     Benjamin Tissoires <bentiss@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfE6m2Zh0XOgpzDX2TPPGFt/x2fCJ/9V1DkRUC1Zpy1bQYZ8tfEyRpFbwLrd+QIq+Wb7dTWKnD0+wBQKQM+Rh1Pi11yKiKt8m2l8Gk4rNZ7X9APMKJMPd
+ Ejz4IOI9WCWvODtFlhIA29vpQErqcpuP9eGfkyzK5WohdK3g2/1+ROn/zonnI+IPCRMUruUkL1QyfbgTzroGgjJrz5co9922839CWWf/E4O4ll9zkJ1OLMFA
+ 0OMsUSCEiiT/cq3uRvvoorzRixaHyB2ppN6dsbrVXtQ=
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Add support for touch screens using the General Touch ST6001S controller,
+as found in the GPEG model AOD22WZ-ST monitor. This controller can output
+the ELO 10-byte protocol, but requires different initialisation.
 
-On Wed, 25 Oct 2023 16:20:53 +0800, Wei-Shih Lin wrote:
-> This patch adds device tree bindings for Novatek NT519XX series
-> touchscreen devices.
-> 
-> Signed-off-by: Wei-Shih Lin <Weishih_Lin@novatek.com.tw>
-> ---
->  .../input/touchscreen/novatek,nt519xx.yaml    | 60 +++++++++++++++++++
->  MAINTAINERS                                   |  9 +++
->  2 files changed, 69 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/novatek,nt519xx.yaml
-> 
+Signed-off-by: Gareth Randall <gareth@garethrandall.com>
+---
+  drivers/input/touchscreen/elo.c | 81 ++++++++++++++++++++++++++++++++-
+  1 file changed, 80 insertions(+), 1 deletion(-)
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+diff --git a/drivers/input/touchscreen/elo.c b/drivers/input/touchscreen/elo.c
+index 96173232e53f..b233869ffa2a 100644
+--- a/drivers/input/touchscreen/elo.c
++++ b/drivers/input/touchscreen/elo.c
+@@ -26,6 +26,27 @@ MODULE_AUTHOR("Vojtech Pavlik <vojtech@ucw.cz>");
+  MODULE_DESCRIPTION(DRIVER_DESC);
+  MODULE_LICENSE("GPL");
 
-yamllint warnings/errors:
++static uint gt_abs_x_min;
++module_param(gt_abs_x_min, uint, 0444);
++MODULE_PARM_DESC(gt_abs_x_min, "abs_x min value in General Touch mode (default: 0)");
++
++static uint gt_abs_x_max = 4095;
++module_param(gt_abs_x_max, uint, 0444);
++MODULE_PARM_DESC(gt_abs_x_max, "abs_x max value in General Touch mode (default: 4095)");
++
++static uint gt_abs_y_min;
++module_param(gt_abs_y_min, uint, 0444);
++MODULE_PARM_DESC(gt_abs_y_min, "abs_y min value in General Touch mode (default: 0)");
++
++static uint gt_abs_y_max = 4095;
++module_param(gt_abs_y_max, uint, 0444);
++MODULE_PARM_DESC(gt_abs_y_max, "abs_y max value in General Touch mode (default: 4095)");
++
++static bool gt_mode_override;
++module_param(gt_mode_override, bool, 0444);
++MODULE_PARM_DESC(gt_mode_override, "force the use of General Touch mode (default: false)");
++
++
+  /*
+   * Definitions & global arrays.
+   */
+@@ -44,6 +65,8 @@ MODULE_LICENSE("GPL");
+  #define ELO10_ACK_PACKET	'A'
+  #define ELI10_ID_PACKET		'I'
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/touchscreen/novatek,nt519xx.yaml: title: 'Novatek nt519xx touchscreen controller bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-	hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-Error: Documentation/devicetree/bindings/input/touchscreen/novatek,nt519xx.example.dts:25.40-41 syntax error
-FATAL ERROR: Unable to parse input tree
-make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/input/touchscreen/novatek,nt519xx.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1427: dt_binding_check] Error 2
-make: *** [Makefile:234: __sub-make] Error 2
++#define ELO_GT_INIT_PACKET	"\001XfE\r"
++
+  /*
+   * Per-touchscreen data.
+   */
+@@ -201,6 +224,7 @@ static irqreturn_t elo_interrupt(struct serio *serio,
 
-doc reference errors (make refcheckdocs):
+  	switch (elo->id) {
+  	case 0:
++	case 4:
+  		elo_process_data_10(elo, data);
+  		break;
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231025082054.1190-2-Weishih_Lin@novatek.com.tw
+@@ -255,6 +279,50 @@ static int elo_command_10(struct elo *elo, unsigned char *packet)
+  	return rc;
+  }
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
++/*
++ * Initialise the General Touch ST6001S controller.
++ */
++static int elo_command_10_gt(struct elo *elo)
++{
++	int rc = -1;
++	int i;
++	unsigned char *packet = ELO_GT_INIT_PACKET;
++
++	mutex_lock(&elo->cmd_mutex);
++
++	serio_pause_rx(elo->serio);
++	init_completion(&elo->cmd_done);
++	serio_continue_rx(elo->serio);
++
++	for (i = 0; i < (int)strlen(packet); i++) {
++		if (serio_write(elo->serio, packet[i]))
++			goto out;
++	}
++
++	wait_for_completion_timeout(&elo->cmd_done, HZ);
++	rc = 0;
++
++ out:
++	mutex_unlock(&elo->cmd_mutex);
++	return rc;
++}
++
++static int elo_setup_10_gt(struct elo *elo)
++{
++	struct input_dev *dev = elo->dev;
++
++	if (elo_command_10_gt(elo))
++		return -EIO;
++
++	input_set_abs_params(dev, ABS_X, gt_abs_x_min, gt_abs_x_max, 0, 0);
++	input_set_abs_params(dev, ABS_Y, gt_abs_y_min, gt_abs_y_max, 0, 0);
++
++	dev_info(&elo->serio->dev,
++		 "GeneralTouch ST6001S touchscreen");
++
++	return 0;
++}
++
+  static int elo_setup_10(struct elo *elo)
+  {
+  	static const char *elo_types[] = { "Accu", "Dura", "Intelli", "Carroll" };
+@@ -273,7 +341,7 @@ static int elo_setup_10(struct elo *elo)
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+  	dev_info(&elo->serio->dev,
+  		 "%sTouch touchscreen, fw: %02x.%02x, features: 0x%02x, controller: 0x%02x\n",
+-		 elo_types[(packet[1] -'0') & 0x03],
++		 elo_types[(packet[1] - '0') & 0x03],
+  		 packet[5], packet[4], packet[3], packet[7]);
 
-pip3 install dtschema --upgrade
+  	return 0;
+@@ -332,12 +400,16 @@ static int elo_connect(struct serio *serio, struct serio_driver *drv)
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+  	input_dev->evbit[0] = BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS);
+  	input_dev->keybit[BIT_WORD(BTN_TOUCH)] = BIT_MASK(BTN_TOUCH);
++	__set_bit(INPUT_PROP_DIRECT, input_dev->propbit);
 
+  	serio_set_drvdata(serio, elo);
+  	err = serio_open(serio, drv);
+  	if (err)
+  		goto fail2;
+
++	if (gt_mode_override)
++		elo->id = 4;
++
+  	switch (elo->id) {
+
+  	case 0: /* 10-byte protocol */
+@@ -361,6 +433,13 @@ static int elo_connect(struct serio *serio, struct serio_driver *drv)
+  		input_set_abs_params(input_dev, ABS_X, 0, 255, 0, 0);
+  		input_set_abs_params(input_dev, ABS_Y, 0, 255, 0, 0);
+  		break;
++
++	case 4: /* 10-byte protocol with General Touch initialisation */
++		if (elo_setup_10_gt(elo)) {
++			err = -EIO;
++			goto fail3;
++		}
++		break;
+  	}
+
+  	err = input_register_device(elo->dev);
+-- 
+2.27.0
