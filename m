@@ -2,675 +2,587 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EFF67D5AA8
-	for <lists+linux-input@lfdr.de>; Tue, 24 Oct 2023 20:36:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC6977D5F87
+	for <lists+linux-input@lfdr.de>; Wed, 25 Oct 2023 03:40:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344172AbjJXSgK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Oct 2023 14:36:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53376 "EHLO
+        id S229485AbjJYBjw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Oct 2023 21:39:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344143AbjJXSgI (ORCPT
+        with ESMTP id S229453AbjJYBjv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Oct 2023 14:36:08 -0400
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [85.215.255.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42F3510D3;
-        Tue, 24 Oct 2023 11:36:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1698172554; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=Xxuv4+fd2Pb9vATAPvYzs341X+mQkIv6Vp8rKYB6jc4ygkRW24/8niVitekyd8xBuu
-    vRY/B+6VsA+ipg6VUx0pqP5LSMyqE2Y72f5gZjUVsnFeBC9srBqI4/vIlpdlLLrHjJ4V
-    cf0fmhX1aaEnjmvlHMLnQpqfzQr9ZIvcXS0i9Sh0yvJbY4S8D4kznjQhp4H1Fv+L+YsO
-    z6ZIt3BasqsD66tuk8XgxyeZMPzXH8u+oDlVGSmaN7YVIswDV2/8zfF/NrjheVO2gRUd
-    ccjSg6LFhec6W2Rr/MpkNSZb9u7rvL22RL/ujxNEpcvJMvuZf4+XwlaK3+9g9VGoqYOl
-    XvjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1698172554;
-    s=strato-dkim-0002; d=strato.com;
-    h=Cc:To:In-Reply-To:References:Message-Id:Subject:Date:From:Cc:Date:
-    From:Subject:Sender;
-    bh=REaKDc3ecuGqAeo08fXeRUV5mCnAuSiC6X9qIu311LQ=;
-    b=GWrvNns+uAaWJXrlh86KtNUPxtMAuiqQon4Ie0lNnKWPVGnxXpfw0sbtpr45XlM9LI
-    4SVMWeAY7eCy7E7VgOxEIP6nF68VkPk0QatvOqLI582Ana6wm5kt2zjXu8eEb4gfCm3p
-    IedWUGCXVJ4DaXBdkA9E9osRdr8CBaVOZSbKAk23eJoJN9fN0HyLQmFBEL1W6VoAF/Nr
-    haaB/CVO8OpXBBH6Vrib+2c1EOXv+H/wFr01CpwjPQqVqX1e1C9UbCwGOwQw755kx14K
-    lq6t9IOf79LOibgtchEGMJ0k1hkoFRBW2SHwa2izuuKzQjKBpVTh3vgAiNMtTw3sQ2lQ
-    YQ9g==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1698172554;
-    s=strato-dkim-0002; d=gerhold.net;
-    h=Cc:To:In-Reply-To:References:Message-Id:Subject:Date:From:Cc:Date:
-    From:Subject:Sender;
-    bh=REaKDc3ecuGqAeo08fXeRUV5mCnAuSiC6X9qIu311LQ=;
-    b=nKxkfAeRO3iKIngg/NUEd8qpefbpeHO5IB9TxPX4yY6A3a1F2Vk66V8vksLDfvx5Xh
-    C072D7dJcLn4zVRSCcLtFDpgq0CMhfzcvDCeG0pRdXjEOSMu4D+VH+yepqCNNDYWb/jH
-    53+wftobRb4nMaaBq8kIuiNyrJURPKnk+CqQaYdI89PfXvZKBlfZXi5RJzbeosa+MUu3
-    WxdKdHkiAE9sfXD3UGTAXLbd/XX9rVIfF8GkmOqnBsIVPfUD1nIChI9SsUal2Y8Sp+UV
-    AJXpgsz3WpmTlvLL2yfQ4zDN7iT4KL7ti2nXSyNjs9xlVoe0ulfnpqSIqBEF1pG7fOoq
-    9Y8g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1698172554;
-    s=strato-dkim-0003; d=gerhold.net;
-    h=Cc:To:In-Reply-To:References:Message-Id:Subject:Date:From:Cc:Date:
-    From:Subject:Sender;
-    bh=REaKDc3ecuGqAeo08fXeRUV5mCnAuSiC6X9qIu311LQ=;
-    b=YgznZ7tjxChKfMGg4+ZuLkqkGtekAHYicdBXByDYg06B6H7BHa/csX8uuNuybCq3je
-    zAl3/C7l/XUkD4p3fbCQ==
-X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQjVd4CteZ/7jYgS+mLFY+H0JAn8u4p39TY="
-Received: from [192.168.244.3]
-    by smtp.strato.de (RZmta 49.9.0 DYNA|AUTH)
-    with ESMTPSA id j34a49z9OIZsRxi
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Tue, 24 Oct 2023 20:35:54 +0200 (CEST)
-From:   Stephan Gerhold <stephan@gerhold.net>
-Date:   Tue, 24 Oct 2023 20:35:46 +0200
-Subject: [PATCH v3 2/2] Input: add Himax HX852x(ES) touchscreen driver
+        Tue, 24 Oct 2023 21:39:51 -0400
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2458910CF;
+        Tue, 24 Oct 2023 18:39:48 -0700 (PDT)
+Received: by mail-io1-xd2e.google.com with SMTP id ca18e2360f4ac-7a92727934eso134358939f.3;
+        Tue, 24 Oct 2023 18:39:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698197987; x=1698802787; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uOsjrhVvUC/ZRkcL8pkn5wdp7qX7357N34/7NmSINa0=;
+        b=faglFEUPvOpWeX+REgjqVORWr1lxt+QyVu0zqT5ZoMxfj7jviZYTYODL5ysuzzm3K1
+         5bl33UzOhzBYT5eUf+o2L13ociNv7JixjEA/yaeHhzKokgriENVyhxoncaX7VPV9KLfZ
+         adJmr0KuWkhhOLW8KGAQhMufd3FLxNz1bE06ogLHbzMRYYE7n5qKHomKAIenhyZm6YSn
+         GyeBtM9xT+rYsMZhzEqj22IGMMR/mfCW2dn+/yG124Dinwh0VsqWP7R88X7UCDr/moKF
+         7i6oyxQiMUpe/pdOfkheMkO5ep2up7AJzMbzgRxT2zIILsjAQ9QU8fhGU+D4qoSZAUvI
+         VK5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698197987; x=1698802787;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uOsjrhVvUC/ZRkcL8pkn5wdp7qX7357N34/7NmSINa0=;
+        b=ai9j9PMMSWwA0p/obq5Mg5h5ZXuNUjbVasgfoL3AX/w4eC70aC42MVyLcSSUz8iBlw
+         xK/lHzwDdzVHimrB9Kqm0Ss1BJAhJePX+JPtSsc751fj8CwDz3Ol0Sx3Mk6MAicvubbn
+         IRijqR8D40NYv7tZ8bZgE9RXk3M4joJWDmFIqaw0HqZkYQ21aaP+CGmA9Av8njzvgWUO
+         LzBtv9TAj0yYCmsthPgU26b/Uv1tV8qqBdySkse4OX1lkgCBll+3qI2xwUF0QnjBfn2H
+         xLfIjawnAFfAg68n2qXE0Df+Cf806hUBas//ReAEjyE2T2WPJKCObTTbps10YzGwmigK
+         A2tQ==
+X-Gm-Message-State: AOJu0YzYgtuap+7wmCiSKLMdXY+aZ8gedlB074YqRTj9xzeeU+yEU7aY
+        BXtzIqbUPt1MQVBkTgb/9dwGw+oBSpo=
+X-Google-Smtp-Source: AGHT+IHi5HCnYL/HRElnQNX/fm4rCVTONeuPBLuvztcm99V5l/pHAVkNMV2a7MX0m2Jce9vpfhrflA==
+X-Received: by 2002:a05:6602:1606:b0:7a9:9235:7813 with SMTP id x6-20020a056602160600b007a992357813mr2180694iow.11.1698197986895;
+        Tue, 24 Oct 2023 18:39:46 -0700 (PDT)
+Received: from james-x399.localdomain (71-218-233-104.hlrn.qwest.net. [71.218.233.104])
+        by smtp.gmail.com with ESMTPSA id g20-20020a02c554000000b0043cbc7f9958sm3135042jaj.110.2023.10.24.18.39.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Oct 2023 18:39:46 -0700 (PDT)
+From:   James Hilliard <james.hilliard1@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     James Hilliard <james.hilliard1@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] Input: cyttsp5 - improve error handling and remove regmap
+Date:   Tue, 24 Oct 2023 19:39:38 -0600
+Message-Id: <20231025013939.353553-1-james.hilliard1@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231024-hx852x-v3-2-a1890d3a81e9@gerhold.net>
-References: <20231024-hx852x-v3-0-a1890d3a81e9@gerhold.net>
-In-Reply-To: <20231024-hx852x-v3-0-a1890d3a81e9@gerhold.net>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jeff LaBundy <jeff@labundy.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Jonathan Albrieux <jonathan.albrieux@gmail.com>,
-        Stephan Gerhold <stephan@gerhold.net>
-X-Mailer: b4 0.12.3
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jonathan Albrieux <jonathan.albrieux@gmail.com>
+The vendor cyttsp5 driver does not use regmap for i2c support, it
+would appear this is due to regmap not providing sufficient levels
+of control to handle various error conditions that may be present
+under some configuration/firmware variants.
 
-Add a simple driver for the Himax HX852x(ES) touch panel controller,
-with support for multi-touch and capacitive touch keys.
+To improve reliability lets refactor the cyttsp5 i2c interface to
+function more like the vendor driver and implement some of the error
+handling retry/recovery techniques present there.
 
-The driver is somewhat based on sample code from Himax. However, that
-code was so extremely confusing that we spent a significant amount of
-time just trying to understand the packet format and register commands.
-In this driver they are described with clean structs and defines rather
-than lots of magic numbers and offset calculations.
+As part of this rather than assuming the device is in bootloader mode
+we should first check that the device is in bootloader and only
+attempt to launch the app if it actually is in the bootloader.
 
-Signed-off-by: Jonathan Albrieux <jonathan.albrieux@gmail.com>
-Co-developed-by: Stephan Gerhold <stephan@gerhold.net>
-Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- MAINTAINERS                              |   7 +
- drivers/input/touchscreen/Kconfig        |  10 +
- drivers/input/touchscreen/Makefile       |   1 +
- drivers/input/touchscreen/himax_hx852x.c | 500 +++++++++++++++++++++++++++++++
- 4 files changed, 518 insertions(+)
+Changes v1 -> v2:
+  - remove unused reg variable
+---
+ drivers/input/touchscreen/cyttsp5.c | 257 ++++++++++++++++++----------
+ 1 file changed, 168 insertions(+), 89 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4cc6bf79fdd8..c0004b25b524 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9264,6 +9264,13 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/input/touchscreen/himax,hx83112b.yaml
- F:	drivers/input/touchscreen/himax_hx83112b.c
+diff --git a/drivers/input/touchscreen/cyttsp5.c b/drivers/input/touchscreen/cyttsp5.c
+index db5a885ecd72..c17c740220f6 100644
+--- a/drivers/input/touchscreen/cyttsp5.c
++++ b/drivers/input/touchscreen/cyttsp5.c
+@@ -20,15 +20,16 @@
+ #include <linux/i2c.h>
+ #include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+-#include <linux/regmap.h>
+ #include <asm/unaligned.h>
  
-+HIMAX HX852X TOUCHSCREEN DRIVER
-+M:	Stephan Gerhold <stephan@gerhold.net>
-+L:	linux-input@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/input/touchscreen/himax,hx852es.yaml
-+F:	drivers/input/touchscreen/himax_hx852x.c
-+
- HIPPI
- M:	Jes Sorensen <jes@trained-monkey.org>
- L:	linux-hippi@sunsite.dk
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index e3e2324547b9..8e5667ae5dab 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -427,6 +427,16 @@ config TOUCHSCREEN_HIDEEP
- 	  To compile this driver as a module, choose M here : the
- 	  module will be called hideep_ts.
+ #define CYTTSP5_NAME				"cyttsp5"
+ #define CY_I2C_DATA_SIZE			(2 * 256)
+ #define HID_VERSION				0x0100
+ #define CY_MAX_INPUT				512
++#define CY_PIP_1P7_EMPTY_BUF			0xFF00
+ #define CYTTSP5_PREALLOCATED_CMD_BUFFER		32
+ #define CY_BITS_PER_BTN				1
++#define CY_CORE_STARTUP_RETRY_COUNT		10
+ #define CY_NUM_BTN_EVENT_ID			GENMASK(CY_BITS_PER_BTN - 1, 0)
  
-+config TOUCHSCREEN_HIMAX_HX852X
-+	tristate "Himax HX852x(ES) touchscreen"
-+	depends on I2C
-+	help
-+	  Say Y here if you have a Himax HX852x(ES) touchscreen.
-+	  If unsure, say N.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called himax_hx852x.
-+
- config TOUCHSCREEN_HYCON_HY46XX
- 	tristate "Hycon hy46xx touchscreen support"
- 	depends on I2C
-diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-index 62bd24f3ac8e..f42a87faa86c 100644
---- a/drivers/input/touchscreen/Makefile
-+++ b/drivers/input/touchscreen/Makefile
-@@ -48,6 +48,7 @@ obj-$(CONFIG_TOUCHSCREEN_EXC3000)	+= exc3000.o
- obj-$(CONFIG_TOUCHSCREEN_FUJITSU)	+= fujitsu_ts.o
- obj-$(CONFIG_TOUCHSCREEN_GOODIX)	+= goodix_ts.o
- obj-$(CONFIG_TOUCHSCREEN_HIDEEP)	+= hideep.o
-+obj-$(CONFIG_TOUCHSCREEN_HIMAX_HX852X)	+= himax_hx852x.o
- obj-$(CONFIG_TOUCHSCREEN_HYNITRON_CSTXXX)	+= hynitron_cstxxx.o
- obj-$(CONFIG_TOUCHSCREEN_ILI210X)	+= ili210x.o
- obj-$(CONFIG_TOUCHSCREEN_ILITEK)	+= ilitek_ts_i2c.o
-diff --git a/drivers/input/touchscreen/himax_hx852x.c b/drivers/input/touchscreen/himax_hx852x.c
-new file mode 100644
-index 000000000000..6aa39f02829d
---- /dev/null
-+++ b/drivers/input/touchscreen/himax_hx852x.c
-@@ -0,0 +1,500 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Himax HX852x(ES) Touchscreen Driver
-+ * Copyright (c) 2020-2023 Stephan Gerhold <stephan@gerhold.net>
-+ * Copyright (c) 2020 Jonathan Albrieux <jonathan.albrieux@gmail.com>
-+ *
-+ * Based on the Himax Android Driver Sample Code Ver 0.3 for HMX852xES chipset:
-+ * Copyright (c) 2014 Himax Corporation.
-+ */
-+
-+#include <asm/unaligned.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/input.h>
-+#include <linux/input/mt.h>
-+#include <linux/input/touchscreen.h>
-+#include <linux/interrupt.h>
-+#include <linux/kernel.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/regulator/consumer.h>
-+
-+#define HX852X_COORD_SIZE(fingers)	((fingers) * sizeof(struct hx852x_coord))
-+#define HX852X_WIDTH_SIZE(fingers)	ALIGN(fingers, 4)
-+#define HX852X_BUF_SIZE(fingers)	(HX852X_COORD_SIZE(fingers) + \
-+					 HX852X_WIDTH_SIZE(fingers) + \
-+					 sizeof(struct hx852x_touch_info))
-+
-+#define HX852X_MAX_FINGERS		12
-+#define HX852X_MAX_KEY_COUNT		4
-+#define HX852X_MAX_BUF_SIZE		HX852X_BUF_SIZE(HX852X_MAX_FINGERS)
-+
-+#define HX852X_TS_SLEEP_IN		0x80
-+#define HX852X_TS_SLEEP_OUT		0x81
-+#define HX852X_TS_SENSE_OFF		0x82
-+#define HX852X_TS_SENSE_ON		0x83
-+#define HX852X_READ_ONE_EVENT		0x85
-+#define HX852X_READ_ALL_EVENTS		0x86
-+#define HX852X_READ_LATEST_EVENT	0x87
-+#define HX852X_CLEAR_EVENT_STACK	0x88
-+
-+#define HX852X_REG_SRAM_SWITCH		0x8c
-+#define HX852X_REG_SRAM_ADDR		0x8b
-+#define HX852X_REG_FLASH_RPLACE		0x5a
-+
-+#define HX852X_SRAM_SWITCH_TEST_MODE	0x14
-+#define HX852X_SRAM_ADDR_CONFIG		0x7000
-+
-+struct hx852x {
-+	struct i2c_client *client;
-+	struct input_dev *input_dev;
-+	struct touchscreen_properties props;
-+	struct gpio_desc *reset_gpiod;
-+	struct regulator_bulk_data supplies[2];
-+	unsigned int max_fingers;
-+	unsigned int keycount;
-+	unsigned int keycodes[HX852X_MAX_KEY_COUNT];
-+};
-+
-+struct hx852x_config {
-+	u8 rx_num;
-+	u8 tx_num;
-+	u8 max_pt;
-+	u8 padding1[3];
-+	__be16 x_res;
-+	__be16 y_res;
-+	u8 padding2[2];
-+} __packed __aligned(4);
-+
-+struct hx852x_coord {
-+	__be16 x;
-+	__be16 y;
-+} __packed __aligned(4);
-+
-+struct hx852x_touch_info {
-+	u8 finger_num;
-+	__le16 finger_pressed;
-+	u8 padding;
-+} __packed __aligned(4);
-+
-+static int hx852x_i2c_read(struct hx852x *hx, u8 cmd, void *data, u16 len)
-+{
-+	struct i2c_client *client = hx->client;
-+	int ret;
-+
-+	struct i2c_msg msg[] = {
-+		{
-+			.addr = client->addr,
-+			.flags = 0,
-+			.len = 1,
-+			.buf = &cmd,
-+		},
-+		{
-+			.addr = client->addr,
-+			.flags = I2C_M_RD,
-+			.len = len,
-+			.buf = data,
-+		},
-+	};
-+
-+	ret = i2c_transfer(client->adapter, msg, ARRAY_SIZE(msg));
-+	if (ret != ARRAY_SIZE(msg)) {
-+		dev_err(&client->dev, "failed to read %#x: %d\n", cmd, ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int hx852x_power_on(struct hx852x *hx)
-+{
-+	struct device *dev = &hx->client->dev;
-+	int error;
-+
-+	error = regulator_bulk_enable(ARRAY_SIZE(hx->supplies), hx->supplies);
-+	if (error) {
-+		dev_err(dev, "failed to enable regulators: %d\n", error);
-+		return error;
-+	}
-+
-+	gpiod_set_value_cansleep(hx->reset_gpiod, 1);
-+	msleep(20);
-+	gpiod_set_value_cansleep(hx->reset_gpiod, 0);
-+	msleep(20);
-+
-+	return 0;
-+}
-+
-+static int hx852x_start(struct hx852x *hx)
-+{
-+	struct device *dev = &hx->client->dev;
-+	int error;
-+
-+	error = i2c_smbus_write_byte(hx->client, HX852X_TS_SLEEP_OUT);
-+	if (error) {
-+		dev_err(dev, "failed to send TS_SLEEP_OUT: %d\n", error);
-+		return error;
-+	}
-+	msleep(30);
-+
-+	error = i2c_smbus_write_byte(hx->client, HX852X_TS_SENSE_ON);
-+	if (error) {
-+		dev_err(dev, "failed to send TS_SENSE_ON: %d\n", error);
-+		return error;
-+	}
-+	msleep(20);
-+
-+	return 0;
-+}
-+
-+static int hx852x_stop(struct hx852x *hx)
-+{
-+	struct device *dev = &hx->client->dev;
-+	int error;
-+
-+	error = i2c_smbus_write_byte(hx->client, HX852X_TS_SENSE_OFF);
-+	if (error) {
-+		dev_err(dev, "failed to send TS_SENSE_OFF: %d\n", error);
-+		return error;
-+	}
-+	msleep(20);
-+
-+	error = i2c_smbus_write_byte(hx->client, HX852X_TS_SLEEP_IN);
-+	if (error) {
-+		dev_err(dev, "failed to send TS_SLEEP_IN: %d\n", error);
-+		return error;
-+	}
-+	msleep(30);
-+
-+	return 0;
-+}
-+
-+static int hx852x_power_off(struct hx852x *hx)
-+{
-+	struct device *dev = &hx->client->dev;
-+	int error;
-+
-+	error = regulator_bulk_disable(ARRAY_SIZE(hx->supplies), hx->supplies);
-+	if (error) {
-+		dev_err(dev, "failed to disable regulators: %d\n", error);
-+		return error;
-+	}
-+
-+	return 0;
-+}
-+
-+static int hx852x_read_config(struct hx852x *hx)
-+{
-+	struct device *dev = &hx->client->dev;
-+	struct hx852x_config conf;
-+	int x_res, y_res;
-+	int error;
-+
-+	error = hx852x_power_on(hx);
-+	if (error)
-+		return error;
-+
-+	/* Sensing must be turned on briefly to load the config */
-+	error = hx852x_start(hx);
-+	if (error)
-+		goto err_power_off;
-+
-+	error = hx852x_stop(hx);
-+	if (error)
-+		goto err_power_off;
-+
-+	error = i2c_smbus_write_byte_data(hx->client, HX852X_REG_SRAM_SWITCH,
-+					  HX852X_SRAM_SWITCH_TEST_MODE);
-+	if (error)
-+		goto err_power_off;
-+
-+	error = i2c_smbus_write_word_data(hx->client, HX852X_REG_SRAM_ADDR,
-+					  HX852X_SRAM_ADDR_CONFIG);
-+	if (error)
-+		goto err_test_mode;
-+
-+	error = hx852x_i2c_read(hx, HX852X_REG_FLASH_RPLACE, &conf, sizeof(conf));
-+	if (error)
-+		goto err_test_mode;
-+
-+	x_res = be16_to_cpu(conf.x_res);
-+	y_res = be16_to_cpu(conf.y_res);
-+	hx->max_fingers = (conf.max_pt & 0xf0) >> 4;
-+	dev_dbg(dev, "x res: %u, y res: %u, max fingers: %u\n",
-+		x_res, y_res, hx->max_fingers);
-+
-+	if (hx->max_fingers > HX852X_MAX_FINGERS) {
-+		dev_err(dev, "max supported fingers: %u, found: %u\n",
-+			HX852X_MAX_FINGERS, hx->max_fingers);
-+		error = -EINVAL;
-+		goto err_test_mode;
-+	}
-+
-+	if (x_res && y_res) {
-+		input_set_abs_params(hx->input_dev, ABS_MT_POSITION_X, 0, x_res - 1, 0, 0);
-+		input_set_abs_params(hx->input_dev, ABS_MT_POSITION_Y, 0, y_res - 1, 0, 0);
-+	}
-+
-+err_test_mode:
-+	error = i2c_smbus_write_byte_data(hx->client, HX852X_REG_SRAM_SWITCH, 0) ? : error;
-+err_power_off:
-+	return hx852x_power_off(hx) ? : error;
-+}
-+
-+static int hx852x_handle_events(struct hx852x *hx)
-+{
-+	/*
-+	 * The event packets have variable size, depending on the amount of
-+	 * supported fingers (hx->max_fingers). They are laid out as follows:
-+	 *  - struct hx852x_coord[hx->max_fingers]: Coordinates for each finger
-+	 *  - u8[ALIGN(hx->max_fingers, 4)]: Touch width for each finger
-+	 *      with padding for 32-bit alignment
-+	 *  - struct hx852x_touch_info
-+	 *
-+	 * Load everything into a 32-bit aligned buffer so the coordinates
-+	 * can be assigned directly, without using get_unaligned_*().
-+	 */
-+	u8 buf[HX852X_MAX_BUF_SIZE] __aligned(4);
-+	struct hx852x_coord *coord = (struct hx852x_coord *)buf;
-+	u8 *width = &buf[HX852X_COORD_SIZE(hx->max_fingers)];
-+	struct hx852x_touch_info *info = (struct hx852x_touch_info *)
-+		&width[HX852X_WIDTH_SIZE(hx->max_fingers)];
-+	unsigned long finger_pressed, key_pressed;
-+	unsigned int i, x, y, w;
-+	int error;
-+
-+	error = hx852x_i2c_read(hx, HX852X_READ_ALL_EVENTS, buf,
-+				HX852X_BUF_SIZE(hx->max_fingers));
-+	if (error)
-+		return error;
-+
-+	finger_pressed = get_unaligned_le16(&info->finger_pressed);
-+	key_pressed = finger_pressed >> HX852X_MAX_FINGERS;
-+
-+	/* All bits are set when no touch is detected */
-+	if (info->finger_num == 0xff || !(info->finger_num & 0x0f))
-+		finger_pressed = 0;
-+	if (key_pressed == 0xf)
-+		key_pressed = 0;
-+
-+	for_each_set_bit(i, &finger_pressed, hx->max_fingers) {
-+		x = be16_to_cpu(coord[i].x);
-+		y = be16_to_cpu(coord[i].y);
-+		w = width[i];
-+
-+		input_mt_slot(hx->input_dev, i);
-+		input_mt_report_slot_state(hx->input_dev, MT_TOOL_FINGER, 1);
-+		touchscreen_report_pos(hx->input_dev, &hx->props, x, y, true);
-+		input_report_abs(hx->input_dev, ABS_MT_TOUCH_MAJOR, w);
-+	}
-+	input_mt_sync_frame(hx->input_dev);
-+
-+	for (i = 0; i < hx->keycount; i++)
-+		input_report_key(hx->input_dev, hx->keycodes[i], key_pressed & BIT(i));
-+
-+	input_sync(hx->input_dev);
-+	return 0;
-+}
-+
-+static irqreturn_t hx852x_interrupt(int irq, void *ptr)
-+{
-+	struct hx852x *hx = ptr;
-+	int error;
-+
-+	error = hx852x_handle_events(hx);
-+	if (error) {
-+		dev_err_ratelimited(&hx->client->dev, "failed to handle events: %d\n", error);
-+		return IRQ_NONE;
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int hx852x_input_open(struct input_dev *dev)
-+{
-+	struct hx852x *hx = input_get_drvdata(dev);
-+	int error;
-+
-+	error = hx852x_power_on(hx);
-+	if (error)
-+		return error;
-+
-+	error = hx852x_start(hx);
-+	if (error) {
-+		hx852x_power_off(hx);
-+		return error;
-+	}
-+
-+	enable_irq(hx->client->irq);
-+	return 0;
-+}
-+
-+static void hx852x_input_close(struct input_dev *dev)
-+{
-+	struct hx852x *hx = input_get_drvdata(dev);
-+
-+	hx852x_stop(hx);
-+	disable_irq(hx->client->irq);
-+	hx852x_power_off(hx);
-+}
-+
-+static int hx852x_parse_properties(struct hx852x *hx)
-+{
-+	struct device *dev = &hx->client->dev;
-+	int error, count;
-+
-+	count = device_property_count_u32(dev, "linux,keycodes");
-+	if (count == -EINVAL) {
-+		/* Property does not exist, keycodes are optional */
-+		return 0;
-+	} else if (count < 0) {
-+		dev_err(dev, "Failed to read linux,keycodes: %d\n", count);
-+		return count;
-+	} else if (count > HX852X_MAX_KEY_COUNT) {
-+		dev_err(dev, "max supported keys: %u, found: %u\n",
-+			HX852X_MAX_KEY_COUNT, hx->keycount);
+ #define MAX_AREA				255
+@@ -67,6 +68,7 @@
+ #define HID_BTN_REPORT_ID			0x3
+ #define HID_APP_RESPONSE_REPORT_ID		0x1F
+ #define HID_APP_OUTPUT_REPORT_ID		0x2F
++#define HID_BL_REPORT_ID			0xFF
+ #define HID_BL_RESPONSE_REPORT_ID		0x30
+ #define HID_BL_OUTPUT_REPORT_ID			0x40
+ #define HID_RESPONSE_REPORT_ID			0xF0
+@@ -205,7 +207,6 @@ struct cyttsp5 {
+ 	struct input_dev *input;
+ 	char phys[NAME_MAX];
+ 	int num_prv_rec;
+-	struct regmap *regmap;
+ 	struct touchscreen_properties prop;
+ 	struct regulator *vdd;
+ };
+@@ -218,49 +219,65 @@ struct cyttsp5 {
+  */
+ static int cyttsp5_read(struct cyttsp5 *ts, u8 *buf, u32 max)
+ {
+-	int error;
++	struct i2c_client *client = to_i2c_client(ts->dev);
++	struct i2c_msg msgs[2];
++	u8 msg_count = 1;
++	int rc;
+ 	u32 size;
+-	u8 temp[2];
+ 
+-	/* Read the frame to retrieve the size */
+-	error = regmap_bulk_read(ts->regmap, HID_INPUT_REG, temp, sizeof(temp));
+-	if (error)
+-		return error;
++	if (!buf)
 +		return -EINVAL;
-+	}
-+	hx->keycount = count;
+ 
+-	size = get_unaligned_le16(temp);
+-	if (!size || size == 2)
++	msgs[0].addr = client->addr;
++	msgs[0].flags = (client->flags & I2C_M_TEN) | I2C_M_RD;
++	msgs[0].len = 2;
++	msgs[0].buf = buf;
++	rc = i2c_transfer(client->adapter, msgs, msg_count);
++	if (rc < 0 || rc != msg_count)
++		return (rc < 0) ? rc : -EIO;
 +
-+	error = device_property_read_u32_array(dev, "linux,keycodes",
-+					       hx->keycodes, hx->keycount);
-+	if (error) {
-+		dev_err(dev, "failed to read linux,keycodes: %d\n", error);
-+		return error;
-+	}
++	size = get_unaligned_le16(&buf[0]);
++	/*
++	 * Before PIP 1.7, empty buffer is 0x0002
++	 * From PIP 1.7, empty buffer is 0xFFXX
++	 */
++	if (!size || size == 2 || size >= CY_PIP_1P7_EMPTY_BUF)
+ 		return 0;
+ 
+ 	if (size > max)
+ 		return -EINVAL;
+ 
+-	/* Get the real value */
+-	return regmap_bulk_read(ts->regmap, HID_INPUT_REG, buf, size);
++	rc = i2c_master_recv(client, buf, size);
 +
-+	return 0;
-+}
++	return (rc < 0) ? rc : rc != (int)size ? -EIO : 0;
+ }
+ 
+ static int cyttsp5_write(struct cyttsp5 *ts, unsigned int reg, u8 *data,
+ 			 size_t size)
+ {
+-	u8 cmd[HID_OUTPUT_MAX_CMD_SIZE];
++	u8 cmd[HID_OUTPUT_MAX_CMD_SIZE + 2];
++	struct i2c_client *client = to_i2c_client(ts->dev);
++	struct i2c_msg msgs[2];
++	u8 msg_count = 1;
++	int rc;
+ 
+-	if (size + 1 > HID_OUTPUT_MAX_CMD_SIZE)
++	if (size > HID_OUTPUT_MAX_CMD_SIZE + 2)
+ 		return -E2BIG;
+ 
+-	/* High bytes of register address needed as first byte of cmd */
+-	cmd[0] = (reg >> 8) & 0xFF;
+-
+ 	/* Copy the rest of the data */
+ 	if (data)
+-		memcpy(&cmd[1], data, size);
++		memcpy(&cmd[0], data, size);
+ 
+-	/*
+-	 * The hardware wants to receive a frame with the address register
+-	 * contained in the first two bytes. As the regmap_write function
+-	 * add the register adresse in the frame, we use the low byte as
+-	 * first frame byte for the address register and the first
+-	 * data byte is the high register + left of the cmd to send
+-	 */
+-	return regmap_bulk_write(ts->regmap, reg & 0xFF, cmd, size + 1);
++	msgs[0].addr = client->addr;
++	msgs[0].flags = client->flags & I2C_M_TEN;
++	msgs[0].len = size;
++	msgs[0].buf = cmd;
++	rc = i2c_transfer(client->adapter, msgs, msg_count);
 +
-+static int hx852x_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct hx852x *hx;
-+	int error, i;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C |
-+				     I2C_FUNC_SMBUS_WRITE_BYTE |
-+				     I2C_FUNC_SMBUS_WRITE_BYTE_DATA |
-+				     I2C_FUNC_SMBUS_WRITE_WORD_DATA)) {
-+		dev_err(dev, "not all required i2c functionality supported\n");
-+		return -ENXIO;
-+	}
-+
-+	hx = devm_kzalloc(dev, sizeof(*hx), GFP_KERNEL);
-+	if (!hx)
-+		return -ENOMEM;
-+
-+	hx->client = client;
-+	hx->input_dev = devm_input_allocate_device(dev);
-+	if (!hx->input_dev)
-+		return -ENOMEM;
-+
-+	hx->input_dev->name = "Himax HX852x";
-+	hx->input_dev->id.bustype = BUS_I2C;
-+	hx->input_dev->open = hx852x_input_open;
-+	hx->input_dev->close = hx852x_input_close;
-+
-+	i2c_set_clientdata(client, hx);
-+	input_set_drvdata(hx->input_dev, hx);
-+
-+	hx->supplies[0].supply = "vcca";
-+	hx->supplies[1].supply = "vccd";
-+	error = devm_regulator_bulk_get(dev, ARRAY_SIZE(hx->supplies), hx->supplies);
-+	if (error)
-+		return dev_err_probe(dev, error, "failed to get regulators\n");
-+
-+	hx->reset_gpiod = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(hx->reset_gpiod))
-+		return dev_err_probe(dev, PTR_ERR(hx->reset_gpiod),
-+				     "failed to get reset gpio\n");
-+
-+	error = devm_request_threaded_irq(dev, client->irq, NULL, hx852x_interrupt,
-+					  IRQF_ONESHOT | IRQF_NO_AUTOEN, NULL, hx);
-+	if (error)
-+		return dev_err_probe(dev, error, "failed to request irq %d", client->irq);
-+
-+	error = hx852x_read_config(hx);
-+	if (error)
-+		return error;
-+
-+	input_set_capability(hx->input_dev, EV_ABS, ABS_MT_POSITION_X);
-+	input_set_capability(hx->input_dev, EV_ABS, ABS_MT_POSITION_Y);
-+	input_set_abs_params(hx->input_dev, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
-+
-+	touchscreen_parse_properties(hx->input_dev, true, &hx->props);
-+	error = hx852x_parse_properties(hx);
-+	if (error)
-+		return error;
-+
-+	hx->input_dev->keycode = hx->keycodes;
-+	hx->input_dev->keycodemax = hx->keycount;
-+	hx->input_dev->keycodesize = sizeof(hx->keycodes[0]);
-+	for (i = 0; i < hx->keycount; i++)
-+		input_set_capability(hx->input_dev, EV_KEY, hx->keycodes[i]);
-+
-+	error = input_mt_init_slots(hx->input_dev, hx->max_fingers,
-+				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
-+	if (error)
-+		return dev_err_probe(dev, error, "failed to init MT slots\n");
-+
-+	error = input_register_device(hx->input_dev);
-+	if (error)
-+		return dev_err_probe(dev, error, "failed to register input device\n");
++	if (rc < 0 || rc != msg_count)
++		return (rc < 0) ? rc : -EIO;
 +
 +	return 0;
-+}
+ }
+ 
+ static void cyttsp5_get_touch_axis(int *axis, int size, int max, u8 *xy_data,
+@@ -535,22 +552,29 @@ static int cyttsp5_get_sysinfo_regs(struct cyttsp5 *ts)
+ 	scd->len_x = get_unaligned_le16(&scd_dev->len_x);
+ 	scd->len_y = get_unaligned_le16(&scd_dev->len_y);
+ 
++	if (scd_dev->max_num_of_tch_per_refresh_cycle == 0)
++		return -EINVAL;
 +
-+static int hx852x_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+ static int cyttsp5_hid_output_get_sysinfo(struct cyttsp5 *ts)
+ {
+ 	int rc;
+-	u8 cmd[HID_OUTPUT_GET_SYSINFO_SIZE];
++	u8 cmd[HID_OUTPUT_GET_SYSINFO_SIZE + 2];
++
++	/* Set Output register */
++	memcpy(&cmd[0], &ts->hid_desc.output_register,
++			sizeof(ts->hid_desc.output_register));
+ 
+ 	/* HI bytes of Output register address */
+-	put_unaligned_le16(HID_OUTPUT_GET_SYSINFO_SIZE, cmd);
+-	cmd[2] = HID_APP_OUTPUT_REPORT_ID;
+-	cmd[3] = 0x0; /* Reserved */
+-	cmd[4] = HID_OUTPUT_GET_SYSINFO;
++	put_unaligned_le16(HID_OUTPUT_GET_SYSINFO_SIZE, &cmd[2]);
++	cmd[4] = HID_APP_OUTPUT_REPORT_ID;
++	cmd[5] = 0x0; /* Reserved */
++	cmd[6] = HID_OUTPUT_GET_SYSINFO;
+ 
+ 	rc = cyttsp5_write(ts, HID_OUTPUT_REG, cmd,
+-			   HID_OUTPUT_GET_SYSINFO_SIZE);
++			   HID_OUTPUT_GET_SYSINFO_SIZE + 2);
+ 	if (rc) {
+ 		dev_err(ts->dev, "Failed to write command %d", rc);
+ 		return rc;
+@@ -559,7 +583,7 @@ static int cyttsp5_hid_output_get_sysinfo(struct cyttsp5 *ts)
+ 	rc = wait_for_completion_interruptible_timeout(&ts->cmd_done,
+ 						msecs_to_jiffies(CY_HID_OUTPUT_GET_SYSINFO_TIMEOUT_MS));
+ 	if (rc <= 0) {
+-		dev_err(ts->dev, "HID output cmd execution timed out\n");
++		dev_err(ts->dev, "HID output get sysinfo cmd execution timed out\n");
+ 		rc = -ETIMEDOUT;
+ 		return rc;
+ 	}
+@@ -610,21 +634,25 @@ static int cyttsp5_power_control(struct cyttsp5 *ts, bool on)
+ static int cyttsp5_hid_output_bl_launch_app(struct cyttsp5 *ts)
+ {
+ 	int rc;
+-	u8 cmd[HID_OUTPUT_BL_LAUNCH_APP_SIZE];
++	u8 cmd[HID_OUTPUT_BL_LAUNCH_APP_SIZE + 2];
+ 	u16 crc;
+ 
+-	put_unaligned_le16(HID_OUTPUT_BL_LAUNCH_APP_SIZE, cmd);
+-	cmd[2] = HID_BL_OUTPUT_REPORT_ID;
+-	cmd[3] = 0x0; /* Reserved */
+-	cmd[4] = HID_OUTPUT_BL_SOP;
+-	cmd[5] = HID_OUTPUT_BL_LAUNCH_APP;
+-	put_unaligned_le16(0x00, &cmd[6]);
+-	crc = crc_itu_t(0xFFFF, &cmd[4], 4);
+-	put_unaligned_le16(crc, &cmd[8]);
+-	cmd[10] = HID_OUTPUT_BL_EOP;
++	/* Set Output register */
++	memcpy(&cmd[0], &ts->hid_desc.output_register,
++			sizeof(ts->hid_desc.output_register));
++
++	put_unaligned_le16(HID_OUTPUT_BL_LAUNCH_APP_SIZE, &cmd[2]);
++	cmd[4] = HID_BL_OUTPUT_REPORT_ID;
++	cmd[5] = 0x0; /* Reserved */
++	cmd[6] = HID_OUTPUT_BL_SOP;
++	cmd[7] = HID_OUTPUT_BL_LAUNCH_APP;
++	put_unaligned_le16(0x00, &cmd[8]);
++	crc = crc_itu_t(0xFFFF, &cmd[6], 4);
++	put_unaligned_le16(crc, &cmd[10]);
++	cmd[12] = HID_OUTPUT_BL_EOP;
+ 
+ 	rc = cyttsp5_write(ts, HID_OUTPUT_REG, cmd,
+-			   HID_OUTPUT_BL_LAUNCH_APP_SIZE);
++			   HID_OUTPUT_BL_LAUNCH_APP_SIZE + 2);
+ 	if (rc) {
+ 		dev_err(ts->dev, "Failed to write command %d", rc);
+ 		return rc;
+@@ -633,7 +661,7 @@ static int cyttsp5_hid_output_bl_launch_app(struct cyttsp5 *ts)
+ 	rc = wait_for_completion_interruptible_timeout(&ts->cmd_done,
+ 				msecs_to_jiffies(CY_HID_OUTPUT_TIMEOUT_MS));
+ 	if (rc <= 0) {
+-		dev_err(ts->dev, "HID output cmd execution timed out\n");
++		dev_err(ts->dev, "HID output bl launch app cmd execution timed out\n");
+ 		rc = -ETIMEDOUT;
+ 		return rc;
+ 	}
+@@ -651,9 +679,12 @@ static int cyttsp5_get_hid_descriptor(struct cyttsp5 *ts,
+ 				      struct cyttsp5_hid_desc *desc)
+ {
+ 	struct device *dev = ts->dev;
++	u8 cmd[2] = { 0 };
+ 	int rc;
+ 
+-	rc = cyttsp5_write(ts, HID_DESC_REG, NULL, 0);
++	put_unaligned_le16(HID_DESC_REG, cmd);
++
++	rc = cyttsp5_write(ts, HID_DESC_REG, cmd, 2);
+ 	if (rc) {
+ 		dev_err(dev, "Failed to get HID descriptor, rc=%d\n", rc);
+ 		return rc;
+@@ -708,7 +739,8 @@ static irqreturn_t cyttsp5_handle_irq(int irq, void *handle)
+ 	if (size == 0) {
+ 		/* reset */
+ 		report_id = 0;
+-		size = 2;
++	} else if (size == 2 || size >= CY_PIP_1P7_EMPTY_BUF) {
++		return IRQ_HANDLED;
+ 	} else {
+ 		report_id = ts->input_buf[2];
+ 	}
+@@ -733,19 +765,38 @@ static irqreturn_t cyttsp5_handle_irq(int irq, void *handle)
+ 	return IRQ_HANDLED;
+ }
+ 
++static int cyttsp5_deassert_read(struct cyttsp5 *ts, u8 *buf, int size)
 +{
-+	struct hx852x *hx = dev_get_drvdata(dev);
-+	int error = 0;
++	struct i2c_client *client = to_i2c_client(ts->dev);
++	int rc;
 +
-+	mutex_lock(&hx->input_dev->mutex);
-+	if (input_device_enabled(hx->input_dev))
-+		error = hx852x_stop(hx);
-+	mutex_unlock(&hx->input_dev->mutex);
++	if (!buf || !size || size > CY_I2C_DATA_SIZE)
++		return -EINVAL;
 +
-+	return error;
++	rc = i2c_master_recv(client, buf, size);
++
++	return (rc < 0) ? rc : rc != size ? -EIO : 0;
 +}
 +
-+static int hx852x_resume(struct device *dev)
-+{
-+	struct hx852x *hx = dev_get_drvdata(dev);
-+	int error = 0;
+ static int cyttsp5_deassert_int(struct cyttsp5 *ts)
+ {
+ 	u16 size;
+-	u8 buf[2];
++	u8 retry = 3;
+ 	int error;
+ 
+-	error = regmap_bulk_read(ts->regmap, HID_INPUT_REG, buf, sizeof(buf));
+-	if (error < 0)
+-		return error;
++	do {
++		error = cyttsp5_deassert_read(ts, ts->input_buf, 2);
++		if (error < 0)
++			return error;
+ 
+-	size = get_unaligned_le16(&buf[0]);
+-	if (size == 2 || size == 0)
+-		return 0;
++		size = get_unaligned_le16(&ts->input_buf[0]);
++		if (size == 2 || size == 0 || size >= CY_PIP_1P7_EMPTY_BUF)
++			return 0;
 +
-+	mutex_lock(&hx->input_dev->mutex);
-+	if (input_device_enabled(hx->input_dev))
-+		error = hx852x_start(hx);
-+	mutex_unlock(&hx->input_dev->mutex);
++		error = cyttsp5_deassert_read(ts, ts->input_buf, size);
++		if (error < 0)
++			return error;
++	} while (retry--);
+ 
+ 	return -EINVAL;
+ }
+@@ -774,39 +825,65 @@ static int cyttsp5_fill_all_touch(struct cyttsp5 *ts)
+ 
+ static int cyttsp5_startup(struct cyttsp5 *ts)
+ {
++	int retry = CY_CORE_STARTUP_RETRY_COUNT;
+ 	int error;
+ 
++reset:
+ 	error = cyttsp5_deassert_int(ts);
+ 	if (error) {
+ 		dev_err(ts->dev, "Error on deassert int r=%d\n", error);
+-		return -ENODEV;
++	}
 +
-+	return error;
-+}
++	error = cyttsp5_get_hid_descriptor(ts, &ts->hid_desc);
++	if (error < 0) {
++		dev_err(ts->dev, "Error on getting HID descriptor r=%d\n", error);
++		if (retry--)
++			goto reset;
++		return error;
+ 	}
+ 
+ 	/*
+ 	 * Launch the application as the device starts in bootloader mode
+ 	 * because of a power-on-reset
+ 	 */
+-	error = cyttsp5_hid_output_bl_launch_app(ts);
+-	if (error < 0) {
+-		dev_err(ts->dev, "Error on launch app r=%d\n", error);
+-		return error;
+-	}
++	if (ts->hid_desc.packet_id == HID_BL_REPORT_ID) {
++		error = cyttsp5_hid_output_bl_launch_app(ts);
++		if (error < 0) {
++			dev_err(ts->dev, "Error on launch app r=%d\n", error);
++			if (retry--)
++				goto reset;
++			return error;
++		}
+ 
+-	error = cyttsp5_get_hid_descriptor(ts, &ts->hid_desc);
+-	if (error < 0) {
+-		dev_err(ts->dev, "Error on getting HID descriptor r=%d\n", error);
+-		return error;
++		error = cyttsp5_get_hid_descriptor(ts, &ts->hid_desc);
++		if (error < 0) {
++			dev_err(ts->dev, "Error on getting HID descriptor r=%d\n", error);
++			if (retry--)
++				goto reset;
++			return error;
++		}
 +
-+static DEFINE_SIMPLE_DEV_PM_OPS(hx852x_pm_ops, hx852x_suspend, hx852x_resume);
++		if (ts->hid_desc.packet_id == HID_BL_REPORT_ID) {
++			dev_err(ts->dev, "Error on launch app still in bootloader\n");
++			if (retry--)
++				goto reset;
++			return -EPROTO;
++		}
+ 	}
+ 
+ 	error = cyttsp5_fill_all_touch(ts);
+ 	if (error < 0) {
+ 		dev_err(ts->dev, "Error on report descriptor r=%d\n", error);
++		if (retry--)
++			goto reset;
+ 		return error;
+ 	}
+ 
+ 	error = cyttsp5_hid_output_get_sysinfo(ts);
+ 	if (error) {
+ 		dev_err(ts->dev, "Error on getting sysinfo r=%d\n", error);
++		if (retry--)
++			goto reset;
+ 		return error;
+ 	}
+ 
+@@ -820,8 +897,7 @@ static void cyttsp5_cleanup(void *data)
+ 	regulator_disable(ts->vdd);
+ }
+ 
+-static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
+-			 const char *name)
++static struct cyttsp5 *cyttsp5_probe(struct device *dev, int irq, const char *name)
+ {
+ 	struct cyttsp5 *ts;
+ 	struct cyttsp5_sysinfo *si;
+@@ -829,10 +905,9 @@ static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
+ 
+ 	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
+ 	if (!ts)
+-		return -ENOMEM;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	/* Initialize device info */
+-	ts->regmap = regmap;
+ 	ts->dev = dev;
+ 	si = &ts->sysinfo;
+ 	dev_set_drvdata(dev, ts);
+@@ -843,21 +918,21 @@ static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
+ 	ts->vdd = devm_regulator_get(dev, "vdd");
+ 	if (IS_ERR(ts->vdd)) {
+ 		error = PTR_ERR(ts->vdd);
+-		return error;
++		return ERR_PTR(error);
+ 	}
+ 
+ 	error = devm_add_action_or_reset(dev, cyttsp5_cleanup, ts);
+ 	if (error)
+-		return error;
++		return ERR_PTR(error);
+ 
+ 	error = regulator_enable(ts->vdd);
+ 	if (error)
+-		return error;
++		return ERR_PTR(error);
+ 
+ 	ts->input = devm_input_allocate_device(dev);
+ 	if (!ts->input) {
+ 		dev_err(dev, "Error, failed to allocate input device\n");
+-		return -ENODEV;
++		return ERR_PTR(-ENODEV);
+ 	}
+ 
+ 	ts->input->name = "cyttsp5";
+@@ -870,7 +945,7 @@ static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
+ 	if (IS_ERR(ts->reset_gpio)) {
+ 		error = PTR_ERR(ts->reset_gpio);
+ 		dev_err(dev, "Failed to request reset gpio, error %d\n", error);
+-		return error;
++		return ERR_PTR(error);
+ 	}
+ 	gpiod_set_value_cansleep(ts->reset_gpio, 0);
+ 
+@@ -878,22 +953,22 @@ static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
+ 	msleep(20);
+ 
+ 	error = devm_request_threaded_irq(dev, irq, NULL, cyttsp5_handle_irq,
+-					  IRQF_ONESHOT, name, ts);
++					  IRQF_TRIGGER_LOW | IRQF_ONESHOT, name, ts);
+ 	if (error) {
+ 		dev_err(dev, "unable to request IRQ\n");
+-		return error;
++		return ERR_PTR(error);
+ 	}
+ 
+ 	error = cyttsp5_startup(ts);
+ 	if (error) {
+ 		dev_err(ts->dev, "Fail initial startup r=%d\n", error);
+-		return error;
++		return ERR_PTR(error);
+ 	}
+ 
+ 	error = cyttsp5_parse_dt_key_code(dev);
+ 	if (error < 0) {
+ 		dev_err(ts->dev, "Error while parsing dts %d\n", error);
+-		return error;
++		return ERR_PTR(error);
+ 	}
+ 
+ 	touchscreen_parse_properties(ts->input, true, &ts->prop);
+@@ -902,25 +977,29 @@ static int cyttsp5_probe(struct device *dev, struct regmap *regmap, int irq,
+ 	for (i = 0; i < si->num_btns; i++)
+ 		__set_bit(si->key_code[i], ts->input->keybit);
+ 
+-	return cyttsp5_setup_input_device(dev);
++	error = cyttsp5_setup_input_device(dev);
++	if (error < 0)
++		return ERR_PTR(error);
 +
-+#ifdef CONFIG_OF
-+static const struct of_device_id hx852x_of_match[] = {
-+	{ .compatible = "himax,hx852es" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, hx852x_of_match);
-+#endif
++	return ts;
+ }
+ 
+ static int cyttsp5_i2c_probe(struct i2c_client *client)
+ {
+-	struct regmap *regmap;
+-	static const struct regmap_config config = {
+-		.reg_bits = 8,
+-		.val_bits = 8,
+-	};
++	struct cyttsp5 *ts;
+ 
+-	regmap = devm_regmap_init_i2c(client, &config);
+-	if (IS_ERR(regmap)) {
+-		dev_err(&client->dev, "regmap allocation failed: %ld\n",
+-			PTR_ERR(regmap));
+-		return PTR_ERR(regmap);
++	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
++		dev_err(&client->dev, "I2C functionality not Supported\n");
++		return -EIO;
+ 	}
+ 
+-	return cyttsp5_probe(&client->dev, regmap, client->irq, client->name);
++	ts = cyttsp5_probe(&client->dev, client->irq, client->name);
 +
-+static struct i2c_driver hx852x_driver = {
-+	.probe = hx852x_probe,
-+	.driver = {
-+		.name = "himax_hx852x",
-+		.pm = pm_sleep_ptr(&hx852x_pm_ops),
-+		.of_match_table = of_match_ptr(hx852x_of_match),
-+	},
-+};
-+module_i2c_driver(hx852x_driver);
++	if (IS_ERR(ts))
++		return PTR_ERR(ts);
 +
-+MODULE_DESCRIPTION("Himax HX852x(ES) Touchscreen Driver");
-+MODULE_AUTHOR("Jonathan Albrieux <jonathan.albrieux@gmail.com>");
-+MODULE_AUTHOR("Stephan Gerhold <stephan@gerhold.net>");
-+MODULE_LICENSE("GPL");
-
++	i2c_set_clientdata(client, ts);
++	return 0;
+ }
+ 
+ static const struct of_device_id cyttsp5_of_match[] = {
 -- 
-2.42.0
+2.34.1
 
