@@ -2,49 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C20247D6F5A
-	for <lists+linux-input@lfdr.de>; Wed, 25 Oct 2023 16:43:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 369687D6F30
+	for <lists+linux-input@lfdr.de>; Wed, 25 Oct 2023 16:43:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235099AbjJYOR0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Oct 2023 10:17:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38544 "EHLO
+        id S1344933AbjJYOZS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Oct 2023 10:25:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344879AbjJYORR (ORCPT
+        with ESMTP id S1344661AbjJYOZR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Oct 2023 10:17:17 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE54718D
-        for <linux-input@vger.kernel.org>; Wed, 25 Oct 2023 07:17:10 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 181E5C433C7;
-        Wed, 25 Oct 2023 14:17:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698243430;
-        bh=OLj5uI4hRFVETXSlgqWaicXOwsQrARdHcWHpzyD5wL4=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=QUyPCfMtBXUaIVx8iPv6vXm71Zdhci9fXwPA0kZFGFpPCQGtD0UFJqc3Vz3BGzQyi
-         OLIWJ1h2vW13HZ//rzngigG5CZwePvi+n1P+3lllBjjBc90kVFjQ5pw6J88GWQPN+K
-         Lm7L0OQys46Ryz2Fo7CsRpAy+L4CIcnhPee78DWw17UGJir8pjsyrJZx73UuKJj4Fo
-         nGhixNi4nPSfoBn8GV5xK885ukGkfTgV7maMYZ3tuHKXRPRKgCa47bADNcLZuWfL1b
-         o6NSU2WeH5VcKnoygwQMq48l8FlJWZNRXMFs5YCXvfFhuDAhL58nj1lJFMMbg8rN5l
-         ft1O4P2ATYZnA==
-From:   Benjamin Tissoires <bentiss@kernel.org>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        andriy.shevchenko@linux.intel.com,
-        Danny Kaehn <danny.kaehn@plexus.com>
-Cc:     linux-input@vger.kernel.org, ethan.twardy@plexus.com
-In-Reply-To: <20231011182317.1053344-1-danny.kaehn@plexus.com>
-References: <20231011182317.1053344-1-danny.kaehn@plexus.com>
-Subject: Re: [PATCH v2] hid: cp2112: Fix IRQ shutdown stopping polling for
- all IRQs on chip
-Message-Id: <169824342881.92398.16480136950125316282.b4-ty@kernel.org>
-Date:   Wed, 25 Oct 2023 16:17:08 +0200
-MIME-Version: 1.0
+        Wed, 25 Oct 2023 10:25:17 -0400
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F57099;
+        Wed, 25 Oct 2023 07:25:15 -0700 (PDT)
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6ce2cf67be2so3654683a34.2;
+        Wed, 25 Oct 2023 07:25:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698243914; x=1698848714;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=PsDU6unZ9oc6UCJkdOraO8O4Nijhy1TmXbsiiZnftNA=;
+        b=gw9ek/L9Itw033vgtb8l0IjmAR/T/6hKA26/cMGGXb6rErbH6nTKNwjnyuL3vGA35y
+         9aPVjgnLOZVNbI9vhNGMwQVKGPkzDS1OAFAJCW68EgAwvAf6g1y2LwvrJxnKERZe0mOV
+         BDJlvfG95ajNZXPiUrtGJEpPeQjCn4g6pg9WBGGbPkEMUVzppHD4Rm9y1hGfWJX5iHgM
+         JjVWnIsW5DUXxuYjvLjQvyee2yV88PGfIqIvCluPd4mXC2clPSGDbdGS1D/SmwyZb/KB
+         1N7auKv7Lf34fbNtjWJPON9w04Wdl8RE0aY6qlyzcJrRXkt3uAUcDuL0FGvVhdZ2kHgA
+         mxYA==
+X-Gm-Message-State: AOJu0YyJpG6r6x2hrPeU2v7ZqHviOAZcU9TJLaeG+OphjcGPTLEtTtQl
+        LRiYPrYO62rcqDOFLM4Odg==
+X-Google-Smtp-Source: AGHT+IEJMt/OKE5hn7HICeD4NHHvB/xTt8NPVXJOPA+84mEStvR1sIAotcj+fA8OdlowPY0s5aeQ6g==
+X-Received: by 2002:a05:6830:908:b0:6b9:bd9d:e333 with SMTP id v8-20020a056830090800b006b9bd9de333mr17227122ott.3.1698243914529;
+        Wed, 25 Oct 2023 07:25:14 -0700 (PDT)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id m6-20020a05683026c600b006c4d38e12b9sm2282446otu.65.2023.10.25.07.25.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Oct 2023 07:25:13 -0700 (PDT)
+Received: (nullmailer pid 112955 invoked by uid 1000);
+        Wed, 25 Oct 2023 14:25:12 -0000
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+From:   Rob Herring <robh@kernel.org>
+To:     Wei-Shih Lin <frank101417@gmail.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        linux-input@vger.kernel.org, conor+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dmitry.torokhov@gmail.com
+In-Reply-To: <20231025082054.1190-2-Weishih_Lin@novatek.com.tw>
+References: <20231025082054.1190-1-Weishih_Lin@novatek.com.tw>
+ <20231025082054.1190-2-Weishih_Lin@novatek.com.tw>
+Message-Id: <169824355638.62574.6102936426435011763.robh@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: touchscreen: Add Novatek NT519XX
+ series bindings
+Date:   Wed, 25 Oct 2023 09:25:12 -0500
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,25 +67,49 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 11 Oct 2023 13:23:17 -0500, Danny Kaehn wrote:
-> Previously cp2112_gpio_irq_shutdown() always cancelled the
-> gpio_poll_worker, even if other IRQs were still active, and did not set
-> the gpio_poll flag to false. This resulted in any call to _shutdown()
-> resulting in interrupts no longer functioning on the chip until a
-> _remove() occurred (a.e. the cp2112 is unplugged or system rebooted).
+
+On Wed, 25 Oct 2023 16:20:53 +0800, Wei-Shih Lin wrote:
+> This patch adds device tree bindings for Novatek NT519XX series
+> touchscreen devices.
 > 
-> Only cancel polling if all IRQs are disabled/masked, and correctly set
-> the gpio_poll flag, allowing polling to restart when an interrupt is
-> next enabled.
+> Signed-off-by: Wei-Shih Lin <Weishih_Lin@novatek.com.tw>
+> ---
+>  .../input/touchscreen/novatek,nt519xx.yaml    | 60 +++++++++++++++++++
+>  MAINTAINERS                                   |  9 +++
+>  2 files changed, 69 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/novatek,nt519xx.yaml
 > 
-> [...]
 
-Applied to hid/hid.git (for-6.7/cp2112), thanks!
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-[1/1] hid: cp2112: Fix IRQ shutdown stopping polling for all IRQs on chip
-      https://git.kernel.org/hid/hid/c/dc3115e6c5d9
+yamllint warnings/errors:
 
-Cheers,
--- 
-Benjamin Tissoires <bentiss@kernel.org>
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/touchscreen/novatek,nt519xx.yaml: title: 'Novatek nt519xx touchscreen controller bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+	hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+Error: Documentation/devicetree/bindings/input/touchscreen/novatek,nt519xx.example.dts:25.40-41 syntax error
+FATAL ERROR: Unable to parse input tree
+make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/input/touchscreen/novatek,nt519xx.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1427: dt_binding_check] Error 2
+make: *** [Makefile:234: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231025082054.1190-2-Weishih_Lin@novatek.com.tw
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
