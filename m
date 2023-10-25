@@ -2,73 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C2567D73C4
-	for <lists+linux-input@lfdr.de>; Wed, 25 Oct 2023 21:01:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 501877D73CD
+	for <lists+linux-input@lfdr.de>; Wed, 25 Oct 2023 21:02:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229797AbjJYTBh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Oct 2023 15:01:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50236 "EHLO
+        id S229498AbjJYTCz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Oct 2023 15:02:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229733AbjJYTBh (ORCPT
+        with ESMTP id S234855AbjJYTCy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Oct 2023 15:01:37 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 483C8195;
-        Wed, 25 Oct 2023 12:01:34 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 411BEC433C8;
-        Wed, 25 Oct 2023 19:01:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698260493;
-        bh=cqpNLxz8QEJ10N9YfPvQwxHo4wYWmPCwAExeIfzZku4=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=oNnDSGbZgeOKtnZPz02wgvr7xlTPSdbewbHLDaI3iNXWB3jUzAPT3QHtEuRaVemYj
-         yWmrvfz73TYLTO37Jsg9eeBpTCiEXux7zpx+ltlPUjrYLFBCYF4uaN7/ERRDvdjdng
-         02py9nJro2mhHDoPw6M0ALY6aH3NbIaHoIwF4aaZk0vWTX4vz+SCtTMX+1V9ItZ+u+
-         DvVY1PDiD9Lqu5YpZxbBQKCTQJ2kZE/2PR1Sxg5zEJtG1lGS8YxmcC8W+B9o1fub5V
-         RWuDnuUG/5w/cxeoVpsqUiX4OEi8mqH8z8iF0MVzxElofEmxwsRctY4tYEf7hVx56y
-         OsTlLRZ2RieCg==
-From:   Benjamin Tissoires <bentiss@kernel.org>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com, jm@lentin.co.uk,
-        linux-kernel@vger.kernel.org, Martin Kepplinger <martink@posteo.de>
-Cc:     linux-input@vger.kernel.org, stable@vger.kernel.org
-In-Reply-To: <20231002150914.22101-1-martink@posteo.de>
-References: <20231002150914.22101-1-martink@posteo.de>
-Subject: Re: [PATCH] hid: lenovo: Resend all settings on reset_resume for
- compact keyboards
-Message-Id: <169826049199.324677.14789310817428601000.b4-ty@kernel.org>
-Date:   Wed, 25 Oct 2023 21:01:31 +0200
+        Wed, 25 Oct 2023 15:02:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9A0E10E
+        for <linux-input@vger.kernel.org>; Wed, 25 Oct 2023 12:02:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1698260524;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=elSlmue7Su3COBV+4fjCe/RzO4+Wu4hmNFcpbzWlleY=;
+        b=Nk0rDw4lMVjUM3EO72DhrP0csUAggei6JsGbU2U0LCtG1jc/5gcrmuqELUa56fD4cEnqdH
+        SCtr+MkIbXiOHpYwwPEOBRLgWjjDorFVjHRcehXBEr9B60dAAsIPbKTGbd1xfhaBOOQgAq
+        oeIzFyjYRvwPo43dq2FVsnb6xQeZurM=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-677-p8C6bcGZPLqR15cHKTWjqw-1; Wed,
+ 25 Oct 2023 15:02:01 -0400
+X-MC-Unique: p8C6bcGZPLqR15cHKTWjqw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5F3522810D47;
+        Wed, 25 Oct 2023 19:02:01 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.127])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6526240C6F79;
+        Wed, 25 Oct 2023 19:02:00 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
+        Bastien Nocera <hadess@hadess.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
+Subject: [PATCH] HID: logitech-hidpp: Stop IO before calling hid_connect()
+Date:   Wed, 25 Oct 2023 21:01:51 +0200
+Message-ID: <20231025190151.302376-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.1
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 02 Oct 2023 15:09:14 +0000, Martin Kepplinger wrote:
-> The USB Compact Keyboard variant requires a reset_resume function to
-> restore keyboard configuration after a suspend in some situations. Move
-> configuration normally done on probe to lenovo_features_set_cptkbd(), then
-> recycle this for use on reset_resume.
-> 
-> Without, the keyboard and driver would end up in an inconsistent state,
-> breaking middle-button scrolling amongst other problems, and twiddling
-> sysfs values wouldn't help as the middle-button mode won't be set until
-> the driver is reloaded.
-> 
-> [...]
+hid_connect() will call hid_pidff_init() which does
+hid_device_io_start() leading to an "io already started" warning.
 
-Applied to hid/hid.git (for-6.7/lenovo), thanks!
+To fix this call hid_device_io_stop() before calling hid_connect(),
+stopping IO means that connect events may be lost while hid_connect()
+runs, re-enable IO and move the hidpp_connect_event() work queuing
+after the hid_connect().
 
-[1/1] hid: lenovo: Resend all settings on reset_resume for compact keyboards
-      https://git.kernel.org/hid/hid/c/2f2bd7cbd1d1
+Note re-enabling IO is also necessary for the g920_get_config()
+call later during hidpp_probe().
 
-Cheers,
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/hid/hid-logitech-hidpp.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index c1bc89560612..fd6d8f1d9b8f 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -4461,19 +4461,22 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 	else
+ 		hidpp_non_unifying_init(hidpp);
+ 
+-	schedule_work(&hidpp->work);
+-	flush_work(&hidpp->work);
+-
+ 	if (hidpp->quirks & HIDPP_QUIRK_DELAYED_INIT)
+ 		connect_mask &= ~HID_CONNECT_HIDINPUT;
+ 
+ 	/* Now export the actual inputs and hidraw nodes to the world */
++	hid_device_io_stop(hdev);
+ 	ret = hid_connect(hdev, connect_mask);
+ 	if (ret) {
+ 		hid_err(hdev, "%s:hid_connect returned error %d\n", __func__, ret);
+ 		goto hid_hw_init_fail;
+ 	}
+ 
++	/* Check for connected devices now that incoming packets will not be disabled again */
++	hid_device_io_start(hdev);
++	schedule_work(&hidpp->work);
++	flush_work(&hidpp->work);
++
+ 	if (hidpp->quirks & HIDPP_QUIRK_CLASS_G920) {
+ 		struct hidpp_ff_private_data data;
+ 
 -- 
-Benjamin Tissoires <bentiss@kernel.org>
+2.41.0
 
