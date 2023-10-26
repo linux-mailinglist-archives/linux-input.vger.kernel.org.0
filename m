@@ -2,799 +2,714 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93B747D7B8E
-	for <lists+linux-input@lfdr.de>; Thu, 26 Oct 2023 06:38:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B149F7D7BDF
+	for <lists+linux-input@lfdr.de>; Thu, 26 Oct 2023 06:49:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229954AbjJZEim (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 Oct 2023 00:38:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41660 "EHLO
+        id S233132AbjJZEtQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 26 Oct 2023 00:49:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229554AbjJZEil (ORCPT
+        with ESMTP id S232398AbjJZEtP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 Oct 2023 00:38:41 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4AD318A;
-        Wed, 25 Oct 2023 21:38:36 -0700 (PDT)
+        Thu, 26 Oct 2023 00:49:15 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2057.outbound.protection.outlook.com [40.107.94.57])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB10C93;
+        Wed, 25 Oct 2023 21:49:11 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TD+Iwi2fZD4tlKUX6eO3gt8s422Cti2bT1Cyjt7lxTSigp0al+R2sNTy966QlvR2optxvZdZ1EIHESwRlgU9URNOs8IpsU5HkZoeq+qAliXCpAlU649Jun9x1XcRH2m4wRITYiqKWQOZW+L8GstbcItOUQic3TbIzQV0ah5/Mp5jVNLP62by/GkM+ucbLcVF3kmN/IRgbnLREehoDb0RGi2/XLDenvl7aw7R/FofgNKYiQpa9CxG9eVzPeZshX5j7C2wDjpaojc6lrwV7e9I5kThPfwjx49Ir0ML0ws9uS9ocbjpeshNreWydvIeajSgDXHdcdIYTd6VJDq//NluUA==
+ b=Zj6grUnPqJDzqJTvFhFhjbpUe7MToBlx5pcagKr1CSb4IugdOvzmewjfMHCVUg9te0byQmH50H8RPS9Ziwh6jUhyzd4KuhpIs1yPZU4yC3ofBQMGW9tzWCzZ0DvyXbAkytjHbLIsYUZJI9YS5ZE2/93gqu6dn9SrGLdcQl5+TMnwj3xNebVZxDM53RRD/ndUYyUW1EFtN1Nlxllge4M2pjL/w2TuBYmFNephBQiG4FSaYXQYGpqQwJaXicIiq1cJOcshFkT6wnWmLmkJ0CF4wLdODchf86iXjDgLH8cOLvL3oMg7JhUgezNRoNeWck4uAhiUA9K07RJ+JMQR4ESARg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UH7pMCczovcJF0KDREgCAlRllewwKJNvAy6V3cuJmVQ=;
- b=UqzjdsdXkhLPqDjYNWV1izCgKpOJzdsfmxZYPp1CdPuU1pQ7fGKaTQrzsnIrl2ER8RTtYpf4cupUCG+ZrBpHsOcTdrK5g2mEeLKhpJbS4ZNcFMJYE9Jb5gk/Jlue7tpRh8QRx+bmbzcjXbpvsEHgd/VGI+fd97GjmEWCT3xOUHYeSNUb3RrXyLqGrvNL/xHHzqrQFGbI7SNXwLR/H/d4+WeSMHp77gsKfrFafEhIaunLKdqZQWJMG5gKAhVX9KOIEIOW3/7rrCyQdmr4Dhum2KpHr10kfDT5NeiRgSigzLSdoq5mSDYSXe3ihWJfCIerTRH4UxG09ejD3TnkvT0Izg==
+ bh=sOcWma3GaFql1KzF/g86MqsdUANxnFBVJIoeuZZh+e0=;
+ b=NfcZiBse61ULAGH3Io/l/Ajl873YhDf3TS85XQyhi2fZNRRe15ft8OPofUhsY28NMtx46zpZWbCnmbW1BO6hiq3SYcW7qf0nU0vo6UiDpu9zFnsNZEPvPdm4+NdosQVU1eXIvoKOJe+5Zw4XRE0iFcyFJrpwCUf9IkO3qam8gRDDrvSFIX/lwWTg9+O9ejeX/2t562li2za7VxqhGYIZ+PtpfEuuh0ptrXz2ZkNlJvUzgBsk7n47g1RIRsxqhUTwEXWgq+T9AfqfSs5XeniyugE8sUUDlw586EhzDDbm4jzwlqPPd4T9S5tMKozTxof2oWIArw99ZCpwFLMb12DCew==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UH7pMCczovcJF0KDREgCAlRllewwKJNvAy6V3cuJmVQ=;
- b=lXFYwQGKIRxFRZUlAIarDPHLY7m7CBonBcVwNHqadKwDuVoZtPFvar+ZHbLFqHVQi47RZ7goAmw1nxn+P1PKxCML3OHwijDfaDEa84yRrkLD6SqRcUe76f66fg4JV73MOppNgz3bS3cvSYq9XVm5I1VRKQvI9whihvcT0YqbRKQ=
+ bh=sOcWma3GaFql1KzF/g86MqsdUANxnFBVJIoeuZZh+e0=;
+ b=TMRhsnLVy2VWs2Qel9V5spQcMECUIcOXYrhYppanfMGl9Kfs/edF2hZ1afgaswL6+7S/uJqiyRe6XQ/t6RbORvmJQI7/sQ2/+8BxR+lYm6AOk/xJ+TtZ5B02gSmHBqASJxh/rCh8pcXFnoz/3odmw2XM3Z0J31xOKkJFgkQ+rrc=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=labundy.com;
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by CH3PR08MB8971.namprd08.prod.outlook.com
- (2603:10b6:610:1c8::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.26; Thu, 26 Oct
- 2023 04:38:32 +0000
+ (2603:10b6:803:43::21) by DM8PR08MB7320.namprd08.prod.outlook.com
+ (2603:10b6:8:11::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.22; Thu, 26 Oct
+ 2023 04:49:07 +0000
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::e73c:270b:75f7:5302]) by SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::e73c:270b:75f7:5302%4]) with mapi id 15.20.6907.032; Thu, 26 Oct 2023
- 04:38:31 +0000
-Date:   Wed, 25 Oct 2023 23:38:24 -0500
+ 04:49:07 +0000
+Date:   Wed, 25 Oct 2023 23:49:01 -0500
 From:   Jeff LaBundy <jeff@labundy.com>
-To:     Anshul Dalal <anshulusr@gmail.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+To:     Stephan Gerhold <stephan@gerhold.net>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] input: joystick: driver for Adafruit Seesaw
- Gamepad
-Message-ID: <ZTntQNbk0bLkjuvc@nixie71>
-References: <20231017034356.1436677-1-anshulusr@gmail.com>
- <20231017034356.1436677-2-anshulusr@gmail.com>
- <ZTWza+S+t+UZKlwu@nixie71>
- <c4eed4e8-77e1-4129-ab6c-cc76ee4197db@gmail.com>
-Content-Type: text/plain; charset=iso-8859-1
+        Henrik Rydberg <rydberg@bitmath.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Jonathan Albrieux <jonathan.albrieux@gmail.com>
+Subject: Re: [PATCH v3 2/2] Input: add Himax HX852x(ES) touchscreen driver
+Message-ID: <ZTnvvaBciYqL+7gh@nixie71>
+References: <20231024-hx852x-v3-0-a1890d3a81e9@gerhold.net>
+ <20231024-hx852x-v3-2-a1890d3a81e9@gerhold.net>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c4eed4e8-77e1-4129-ab6c-cc76ee4197db@gmail.com>
-X-ClientProxiedBy: DS7PR03CA0182.namprd03.prod.outlook.com
- (2603:10b6:5:3b6::7) To SN4PR0801MB3774.namprd08.prod.outlook.com
+In-Reply-To: <20231024-hx852x-v3-2-a1890d3a81e9@gerhold.net>
+X-ClientProxiedBy: DM6PR03CA0008.namprd03.prod.outlook.com
+ (2603:10b6:5:40::21) To SN4PR0801MB3774.namprd08.prod.outlook.com
  (2603:10b6:803:43::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|CH3PR08MB8971:EE_
-X-MS-Office365-Filtering-Correlation-Id: ef904196-9edf-4ac5-c487-08dbd5dd67c0
+X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|DM8PR08MB7320:EE_
+X-MS-Office365-Filtering-Correlation-Id: b0ad9ffd-364d-4fc8-852a-08dbd5dee300
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wzGo+6vBjxXa8myh+0uDtQahhnbzlFKZQpY0RqvbKS2JhBFmzlLIXCswIHaTyVYQ1ebsjsMwdtt2VtSgD6BtypnwPVB3l4xWNu9jbf5gTwnlTDg2/e7UpLTGP81P/SPz0GYcXo3PgFH4D5HhZySK2fCuS38sx45nETyXEpkYNXx0/hdDD2kMu2/GTcijXPnZt7lCNWFO7PTBIsc7m8RzokI8FQqccCVWe0iY8dATIgJpKcRufDV/aBReC0EC7h68RGiNrRhcKMfvMkVvOXefCt1iCampPVDGQ0zrETDF2/5fcPA3EcwsjqaRjaHoOgG8JOMgwEFuytoF6YiaWh7IrD69XLaTsmJavamZJWQfCUgl6Xwgwrirbwey3JNDNwVxdBa0kPMrN4ffSKu6jrf6wwC/shwn8ybit0lMD5uJsG3hbyuYW54Ogj+0WxHJosxOPZne4pZPgBKkSAEMwpLsSNnkpwwZBtsTik5LnC+pDxwctUF9AS3LVmWFLFDTe+v4ry783BHk0Dnb26wBVkTJo/aHxf98+W14szSQncilxa0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(39830400003)(376002)(136003)(346002)(366004)(396003)(230922051799003)(186009)(451199024)(64100799003)(1800799009)(33716001)(26005)(2906002)(38100700002)(6916009)(30864003)(41300700001)(7416002)(4326008)(5660300002)(8936002)(8676002)(66556008)(6666004)(478600001)(6506007)(66476007)(86362001)(54906003)(316002)(66946007)(6512007)(66574015)(83380400001)(6486002)(9686003)(966005)(53546011);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: sFL3D2BnocuMSZ9PZvtPu7ugK8ursLL4P6zfbBGeVNTHaf1dgO2Toe9UvWeEhcne9HCc+QofkqkkU79ClzUv+OmCYwqqyIyWMxN2cWwLvYcYpDXgKU2kTaVucguIfaHkoDJl8n/mzV8X0C2QYJf6H2uj/OEj+E4bB0tzf7nd9S2kTOa3FI/Vxq7qBwLHypsnDEKN2wdNV/+t3ar+F+xEpxG8Aalj7f7HMRB65VuSHta18HlsV4ri8CUv2iVZ+cOHuBATSfJHQ0yFBC91kPmRKmUN9IobMDxRhnbClPGV2vEDSwwoHUCiG2KoWEoU+ie1KzszsHCO+xHCJDsVOWUIFRP7gdgvwomuAq4rlh+Cln8JD7x2FTY4XBO1+OVT0pD26V+VeNQi4f/bDnOn5vX7CfmVyw0v5kKo53g2jDgfGxYYd4l7seArhA8ypLV+e8e2F1V+tP8RXzQF/PG+CWRyjisRr02VEWj6Xz5bGtsS6If+YfPVoluGGaLbUbpnC1i/Ver/NdRhLgLQrlMEwct7j55hpDa1dKfxB8+aEyck11zDFTpSs0iao69HNpQPPUr+iLWNyjcVX0nBMMiiItmtOsi7gijdt2lL/FA3i5NfepA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(136003)(39830400003)(396003)(366004)(376002)(346002)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(41300700001)(7416002)(4326008)(8676002)(8936002)(5660300002)(86362001)(30864003)(2906002)(33716001)(83380400001)(38100700002)(6666004)(9686003)(6512007)(6506007)(6486002)(478600001)(26005)(54906003)(66556008)(66476007)(6916009)(316002)(66946007)(67856001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?m+a31rsCTd8Csy6XZw6jpxvyUQ7jWiCY5rMgQ49IDxIxRcdK4molB2Izon?=
- =?iso-8859-1?Q?9hrqF21m6t7fms4BrnCbGS8Iu/G3p44jKOsCqIiz/QvFQAAKvkzwAVxyOm?=
- =?iso-8859-1?Q?9yTYIxtgoxdcGOUWw9ndAy/vg2DgW2RR/QgEjG2PPFPcaRHs9O/sAdRHSF?=
- =?iso-8859-1?Q?4d8GVSZ8bePeiuo9fmhX4fHNu3+RFm7sKaAy6GG0lNS32xdtbYko6Ihsj7?=
- =?iso-8859-1?Q?VXgWmL5v5NHJCD92U4WJNpzyA2ZhDWikLk3IJq7D0QjSrl+Vb9GXijH7Ju?=
- =?iso-8859-1?Q?yBOBWr+Aw5fDF7bZaDBo8rVteP6l0Kx7whglrMTbIiSQjzTKfrRg6NFt2Y?=
- =?iso-8859-1?Q?iEUkE1JJqUa2nFfMR6YDmi+ayPZxeBOElJgxYCbhf77tIY7pcugMs8TVFe?=
- =?iso-8859-1?Q?NUWDGuz5UypQ2owwOjABO31fTtMvz4AHU9fHOk2eeWIqh918kPdXkAAoGD?=
- =?iso-8859-1?Q?RVlgKdtpaASih7SKox4AQ+2pexvfe7/V37744gd076qbLR5qPRXO+9bNWK?=
- =?iso-8859-1?Q?b8APavzr5IZ2sKhtQ/m4AA3+8+C9Ff1KruxiJmgoWeqXvFAHpuXnMAgBVz?=
- =?iso-8859-1?Q?7l3M3TPBoO9kaQ1FiTIpbvKWxOP9kNamFNQVke9ZVbWeMVoXlnPOmtjCZ7?=
- =?iso-8859-1?Q?ZJStNA4EJKdbeArfFpNwXCp73Sjq5kEEhVUMRIhAND4PWAJzhLod5AaANY?=
- =?iso-8859-1?Q?pImqfyBdnMnz76FPXq3GmqrUxvG3TDE6DrJR92L7PD4kBb0CjS2eDPrs0r?=
- =?iso-8859-1?Q?MGFFQEqX1x0fHG/6mINd9jEvsyazu7gmnc9Rlw482z3FmKGq7KwABEnewC?=
- =?iso-8859-1?Q?sSLxd7GIxVc+SzeAJWicFriMlKYx4ZeWJMaqQGSzmxw7B+xJ2J/uek5xBH?=
- =?iso-8859-1?Q?QtvbMGS+6Pcnhrog1YPHiv95+3mBjQ5iANHv6+Gh+JQ1bdJvJrVGKValc9?=
- =?iso-8859-1?Q?wvl6HxZdGU8kSIEtYdoe2Vf8X4ie0e6OazywuA+PBtejGYwrD/FO0SNrYB?=
- =?iso-8859-1?Q?Sq5/PqNjmhcVI4CYgJS7gFpY7r6t3tQROq9AW7rS/wgPTRNH42gilK1R++?=
- =?iso-8859-1?Q?3/BHLlxmB7hX2/g0AmZ+rT7TsODuA85H2yVDkLvp9PD7Q8PW7YsWSEM8qU?=
- =?iso-8859-1?Q?K5XNuXi6Z/+ZqqyImN/FXS5NS/Wt2sE+ywikPjvjrIqVtc3fUaZRJk0S3N?=
- =?iso-8859-1?Q?PWFwyqQAZ/9DFrXv50pIFDBhF4wVj+0263T4Pdh4RU4K/+L6X+RibYn6vZ?=
- =?iso-8859-1?Q?SAQio1FqxNrtywOU557wW8E2xF7J99cTuWbF739nFyGTxYWCqetFAd0j7j?=
- =?iso-8859-1?Q?Fd06djIC27jIQzbbPlOIuRkHQ9F83mv9RgBZ60uudXA4lh7TdkUZfwp0WP?=
- =?iso-8859-1?Q?H3R+/MXUpNwvs4lw5NvGV463nEhx7kfZvMTfr734QjiT7vC0hxAk4xeNR+?=
- =?iso-8859-1?Q?zyNUzr2mlAl0YYyrn1J4O3vVz2pwGskFhe/Mh7F4FeqKpWBFiSaR9If2cZ?=
- =?iso-8859-1?Q?F9Cmn0AOgsU8EN1ABT9R+kW7Lk4tZpPikgjiFDR8WnN0cOK4jXWRVFMpQl?=
- =?iso-8859-1?Q?jR+N2s4EPEn3WuCRq1RtnxreA9baIpLhb1rYX1bQUCIq0eeL4EVfACBRQM?=
- =?iso-8859-1?Q?YNPRWViy0VfTzBwTJlIWd4KoNYnAIcZEnQ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Kwq2aEWirzckjDim9QsKMs0lakUeeMC0tRMmF7vpxyy4wG3jCquda1u6siQ6?=
+ =?us-ascii?Q?5gM6Kldq8vi6aQfMxK+H3VufVJK4YMXiR+O2w4XnkiIyUJevKk731ImBfeLv?=
+ =?us-ascii?Q?HOK6RbREOq4AJIe1N+ck/g0WoP0vkv/f6CSsWaLXMa/J46aBd0CkuUlfKaBm?=
+ =?us-ascii?Q?ytOzIPN3RsrUrvrijzSWmEw1suEQZ4HU0mKiZQytAKKQTCDIY+OIyQAbAY2U?=
+ =?us-ascii?Q?/A8u4Zn3mtQIGzKOW23ONCrLLE8hKlRIcfTJ5Ste5MZQ5rBAncGbU4ASHqnM?=
+ =?us-ascii?Q?X8O2mZxuiudQgBdFfmpul8Yrff+loK/RebsrEzDgaFlmxVXPV5k0Y3gb8yLC?=
+ =?us-ascii?Q?sRqZthzKYS/rY+UzEnaoDRhZd47jGBqej90jl13iwY2P6ycaENWW0lmLNVNL?=
+ =?us-ascii?Q?ocgBBONaWNMXSWkMYh4X5wwqUsr7gaNwF3hzOSyESfGOaOUPmEIJHJmJUirK?=
+ =?us-ascii?Q?pRBu88HaYRS6ZLyD4bD2qSGAK7OU3L1rJy/B4mzwRbhJSO5uJtdJ0+y/qg0Q?=
+ =?us-ascii?Q?4lJ8iXOSZLY/U59FKX0wDxertcI+GCJUJNWT1wZk2SqqSMXDNn/Xq/UGPqQv?=
+ =?us-ascii?Q?vz8wzBvPFsXDMSG28Fm3tNsoOdvm7RL+u1kOyKhYmYO92Bo6AkJ1m93I7/bN?=
+ =?us-ascii?Q?PXNlu07RTI0NWZiIPVpqEaY/ZZvnO28O3joe83p6J8qSnBx8r2QNEcqJzOia?=
+ =?us-ascii?Q?KQ/fvBDuK1XBvx0Wf8tJR0z9IMZ9ieSVMLsrdgwnSPV2ZLNdByBnf6LyfwSs?=
+ =?us-ascii?Q?Yov3FztwpgvuyDV0jB5t9QnOMDktrywKSLC2iklyaR7rUV7ONzTf9Zvi6XgH?=
+ =?us-ascii?Q?4oBE/Hr+vNTWsqhwMxpKZ3yW0f8xBBNeglmYYvarGKlgKcJt9CukL0q4g5uA?=
+ =?us-ascii?Q?7IlzuUpdXcuSJAB98FF3WBA0VC9OZqYJxCAqD2SoZsQk7LcFWPAwKAx97Ery?=
+ =?us-ascii?Q?rUBV+ib/C87fImqaaxBPASqqtL8K7FsveXtSAIxpuSZ3Jn91xDtJO+cYwbrh?=
+ =?us-ascii?Q?LZ7ypXMSqhAx33J0Rbnt5DFFXVKUl9+A1E9xgUYHn3AUA9B4OmvMja8+Iqyo?=
+ =?us-ascii?Q?5BRjlfarhNz9LKjhb5se+YtEAIaE7pjEVC9E3vB259otfsg3jdzTv8vKNlVE?=
+ =?us-ascii?Q?l70dCMuc/CQ/TQI7QTgid3HX5yS8hn87s450YoAImYQw0QIc5v/Ra+4iLK84?=
+ =?us-ascii?Q?ytHxddW0TY7Ml3lCuKCZcUaBaEA3pZQ6pv2L/7xRYhkQG4GV7roZGfllUnWn?=
+ =?us-ascii?Q?s7Sotwz5t2BrJY/LpPdZr3zj6M4ueplj2HSV2Xn8wsrwKLDEoM3XwXriOm2z?=
+ =?us-ascii?Q?KSh6R2J7cp9qS9i7vgz5AE4JW7oBcp9EpDa3bTZEjbnqpiOyfW05fcJBPlbu?=
+ =?us-ascii?Q?e96CWD7Kym9Irv3bND76d/cTUI1vw/U9nS22bj+l3GR7mgmqhPj76V5cXKDI?=
+ =?us-ascii?Q?y1m0iGgyZun5+k6EnfWUUWeCSJSTe0s+XGtn/seozEGAQqBCkYxZTfcd/dkb?=
+ =?us-ascii?Q?fB8rMQZWvhtYLUJC1YnxeEHKkCDIVViumNRH599HwyGx7Lqj8Mtj6kM7cQHw?=
+ =?us-ascii?Q?NHT+jHxc7DnvJGenVW8g3vWZNK6kVfqAyhvwqCix?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef904196-9edf-4ac5-c487-08dbd5dd67c0
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0ad9ffd-364d-4fc8-852a-08dbd5dee300
 X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2023 04:38:31.2137
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2023 04:49:07.2903
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iaSsKrlqYEULcFBKZaJhAySewNzdU6QhHi+05xAhzxV3fvs/JNcB8ajjoWNTpSFdMDJ0ff/MlG5oIc3oBuLb9g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR08MB8971
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-UserPrincipalName: eBjEKRmhIS49HeZe8e/uA5JVITC1jj6zFSsGWokUaOiTD5NHgOlQqmSa9RKt4jIcmFLg42E9GKhZHzcZBA37Vw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR08MB7320
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Anshul,
+Hi Stephan,
 
-On Wed, Oct 25, 2023 at 03:50:04PM +0530, Anshul Dalal wrote:
-> Hello Jeff,
-> Thanks for the review, I plan on addressing the changes you requested in
-> the next version of the patch. Though I had a few questions:
-
-Sounds great; thank you for the informative discussion.
-
+On Tue, Oct 24, 2023 at 08:35:46PM +0200, Stephan Gerhold wrote:
+> From: Jonathan Albrieux <jonathan.albrieux@gmail.com>
 > 
-> On 10/23/23 05:12, Jeff LaBundy wrote:
-> > Hi Anshul,
-> > 
-> > On Tue, Oct 17, 2023 at 09:13:45AM +0530, Anshul Dalal wrote:
-> >> Adds a driver for a mini gamepad that communicates over i2c, the gamepad
-> >> has bidirectional thumb stick input and six buttons.
-> >>
-> >> The gamepad chip utilizes the open framework from Adafruit called 'Seesaw'
-> >> to transmit the ADC data for the joystick and digital pin state for the
-> >> buttons. I have only implemented the functionality required to receive the
-> >> thumb stick and button state.
-> >>
-> >> Steps in reading the gamepad state over i2c:
-> >>   1. Reset the registers
-> >>   2. Set the pin mode of the pins specified by the `BUTTON_MASK` to input
-> >>       `BUTTON_MASK`: A bit-map for the six digital pins internally
-> >>        connected to the joystick buttons.
-> >>   3. Enable internal pullup resistors for the `BUTTON_MASK`
-> >>   4. Bulk set the pin state HIGH for `BUTTON_MASK`
-> >>   5. Poll the device for button and joystick state done by:
-> >>       `seesaw_read_data(struct i2c_client *client, struct seesaw_data *data)`
-> >>
-> >> Product page:
-> >>   https://www.adafruit.com/product/5743
-> >> Arduino driver:
-> >>   https://github.com/adafruit/Adafruit_Seesaw
-> >>
-> >> Driver tested on RPi Zero 2W
-> >>
-> >> Reviewed-by: Thomas Weiﬂschuh <linux@weissschuh.net>
-> >> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
-> >> ---
-> >>
-> >> Changes for v5:
-> >> - Added link to the datasheet
-> >> - Added debug log message when `seesaw_read_data` fails
-> >>
-> >> Changes for v4:
-> >> - Changed `1UL << BUTTON_` to BIT(BUTTON_)
-> >> - Removed `hardware_id` field from `struct seesaw_gamepad`
-> >> - Removed redundant checks for the number of bytes written and received by
-> >>   `i2c_master_send` and `i2c_master_recv`
-> >> - Used `get_unaligned_be32` to instantiate `u32 result` from `read_buf`
-> >> - Changed  `result & (1UL << BUTTON_)` to
-> >>   `test_bit(BUTTON_, (long *)&result)`
-> >> - Changed `KBUILD_MODNAME` in id-tables to `SEESAW_DEVICE_NAME`
-> >> - Fixed formatting issues
-> >> - Changed button reporting:
-> >>     Since the gamepad had the action buttons in a non-standard layout:
-> >>          (X)
-> >>       (Y)   (A)
-> >>          (B)
-> >>     Therefore moved to using generic directional action button event codes
-> >>     instead of BTN_[ABXY].
-> >>
-> >> Changes for v3:
-> >> - no updates
-> >>
-> >> Changes for v2:
-> >> adafruit-seesaw.c:
-> >> - Renamed file from 'adafruit_seesaw.c'
-> >> - Changed device name from 'seesaw_gamepad' to 'seesaw-gamepad'
-> >> - Changed count parameter for receiving joystick x on line 118:
-> >>     `2` to `sizeof(write_buf)`
-> >> - Fixed invalid buffer size on line 123 and 126:
-> >>     `data->y` to `sizeof(data->y)`
-> >> - Added comment for the `mdelay(10)` on line 169
-> >> - Changed inconsistent indentation on line 271
-> >> Kconfig:
-> >> - Fixed indentation for the help text
-> >> - Updated module name
-> >> Makefile:
-> >> - Updated module object file name
-> >> MAINTAINERS:
-> >> - Updated file name for the driver and bindings
-> >>
-> >>  MAINTAINERS                              |   7 +
-> >>  drivers/input/joystick/Kconfig           |   9 +
-> >>  drivers/input/joystick/Makefile          |   1 +
-> >>  drivers/input/joystick/adafruit-seesaw.c | 273 +++++++++++++++++++++++
-> >>  4 files changed, 290 insertions(+)
-> >>  create mode 100644 drivers/input/joystick/adafruit-seesaw.c
-> >>
-> >> diff --git a/MAINTAINERS b/MAINTAINERS
-> >> index 6c4cce45a09d..a314f9b48e21 100644
-> >> --- a/MAINTAINERS
-> >> +++ b/MAINTAINERS
-> >> @@ -441,6 +441,13 @@ W:	http://wiki.analog.com/AD7879
-> >>  W:	https://ez.analog.com/linux-software-drivers
-> >>  F:	drivers/input/touchscreen/ad7879.c
-> >>  
-> >> +ADAFRUIT MINI I2C GAMEPAD
-> >> +M:	Anshul Dalal <anshulusr@gmail.com>
-> >> +L:	linux-input@vger.kernel.org
-> >> +S:	Maintained
-> >> +F:	Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
-> >> +F:	drivers/input/joystick/adafruit-seesaw.c
-> >> +
-> >>  ADDRESS SPACE LAYOUT RANDOMIZATION (ASLR)
-> >>  M:	Jiri Kosina <jikos@kernel.org>
-> >>  S:	Maintained
-> >> diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
-> >> index ac6925ce8366..df9cd1830b29 100644
-> >> --- a/drivers/input/joystick/Kconfig
-> >> +++ b/drivers/input/joystick/Kconfig
-> >> @@ -412,4 +412,13 @@ config JOYSTICK_SENSEHAT
-> >>  	  To compile this driver as a module, choose M here: the
-> >>  	  module will be called sensehat_joystick.
-> >>  
-> >> +config JOYSTICK_SEESAW
-> >> +	tristate "Adafruit Mini I2C Gamepad with Seesaw"
-> >> +	depends on I2C
-> >> +	help
-> >> +	  Say Y here if you want to use the Adafruit Mini I2C Gamepad.
-> >> +
-> >> +	  To compile this driver as a module, choose M here: the module will be
-> >> +	  called adafruit-seesaw.
-> >> +
-> >>  endif
-> >> diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Makefile
-> >> index 3937535f0098..9976f596a920 100644
-> >> --- a/drivers/input/joystick/Makefile
-> >> +++ b/drivers/input/joystick/Makefile
-> >> @@ -28,6 +28,7 @@ obj-$(CONFIG_JOYSTICK_N64)		+= n64joy.o
-> >>  obj-$(CONFIG_JOYSTICK_PSXPAD_SPI)	+= psxpad-spi.o
-> >>  obj-$(CONFIG_JOYSTICK_PXRC)		+= pxrc.o
-> >>  obj-$(CONFIG_JOYSTICK_QWIIC)		+= qwiic-joystick.o
-> >> +obj-$(CONFIG_JOYSTICK_SEESAW)		+= adafruit-seesaw.o
-> >>  obj-$(CONFIG_JOYSTICK_SENSEHAT)	+= sensehat-joystick.o
-> >>  obj-$(CONFIG_JOYSTICK_SIDEWINDER)	+= sidewinder.o
-> >>  obj-$(CONFIG_JOYSTICK_SPACEBALL)	+= spaceball.o
-> >> diff --git a/drivers/input/joystick/adafruit-seesaw.c b/drivers/input/joystick/adafruit-seesaw.c
-> >> new file mode 100644
-> >> index 000000000000..2a1eae8d2861
-> >> --- /dev/null
-> >> +++ b/drivers/input/joystick/adafruit-seesaw.c
-> >> @@ -0,0 +1,273 @@
-> >> +// SPDX-License-Identifier: GPL-2.0-or-later
-> >> +/*
-> >> + * Copyright (C) 2023 Anshul Dalal <anshulusr@gmail.com>
-> >> + *
-> >> + * Driver for Adafruit Mini I2C Gamepad
-> >> + *
-> >> + * Based on the work of:
-> >> + *	Oleh Kravchenko (Sparkfun Qwiic Joystick driver)
-> >> + *
-> >> + * Datasheet: https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.pdf
-> >> + * Product page: https://www.adafruit.com/product/5743
-> >> + * Firmware and hardware sources: https://github.com/adafruit/Adafruit_Seesaw
-> >> + */
-> >> +
-> >> +#include <asm-generic/unaligned.h>
-> >> +#include <linux/bits.h>
-> >> +#include <linux/delay.h>
-> >> +#include <linux/i2c.h>
-> >> +#include <linux/input.h>
-> >> +#include <linux/kernel.h>
-> >> +#include <linux/module.h>
-> >> +
-> >> +/* clang-format off */
-> > 
-> > I don't think we need this directive; at least, no other input drivers have
-> > it, or really any drivers for that matter.
-> > 
-> >> +#define SEESAW_DEVICE_NAME	"seesaw-gamepad"
-> >> +
-> >> +#define SEESAW_STATUS_BASE	0
-> >> +#define SEESAW_GPIO_BASE	1
-> >> +#define SEESAW_ADC_BASE		9
-> >> +
-> >> +#define SEESAW_GPIO_DIRCLR_BULK	3
-> >> +#define SEESAW_GPIO_BULK	4
-> >> +#define SEESAW_GPIO_BULK_SET	5
-> >> +#define SEESAW_GPIO_PULLENSET	11
-> >> +
-> >> +#define SEESAW_STATUS_HW_ID	1
-> >> +#define SEESAW_STATUS_SWRST	127
-> >> +
-> >> +#define SEESAW_ADC_OFFSET	7
-> >> +
-> >> +#define BUTTON_A	5
-> >> +#define BUTTON_B	1
-> >> +#define BUTTON_X	6
-> >> +#define BUTTON_Y	2
-> >> +#define BUTTON_START	16
-> >> +#define BUTTON_SELECT	0
-> > 
-> > Please namespace these (e.g. SEESAW_BUTTON_A) to make it clear they refer
-> > to device-specific bits and not standard keycodes (e.g. BTN_A). In fact,
-> > these seem better off as part of an array of structs; more on that below.
-> > 
-> >> +
-> >> +#define ANALOG_X	14
-> >> +#define ANALOG_Y	15
-> > 
-> > Please namespace these as well.
-> > 
-> >> +
-> >> +#define SEESAW_JOYSTICK_MAX_AXIS	1023
-> >> +#define SEESAW_JOYSTICK_FUZZ		2
-> >> +#define SEESAW_JOYSTICK_FLAT		4
-> >> +
-> >> +#define SEESAW_GAMEPAD_POLL_INTERVAL	16
-> >> +#define SEESAW_GAMEPAD_POLL_MIN		8
-> >> +#define SEESAW_GAMEPAD_POLL_MAX		32
-> >> +/* clang-format on */
-> >> +
-> >> +u32 BUTTON_MASK = BIT(BUTTON_A) | BIT(BUTTON_B) | BIT(BUTTON_X) |
-> >> +		  BIT(BUTTON_Y) | BIT(BUTTON_START) | BIT(BUTTON_SELECT);
-> >> +
-> >> +struct seesaw_gamepad {
-> >> +	char physical_path[32];
-> >> +	struct input_dev *input_dev;
-> >> +	struct i2c_client *i2c_client;
-> >> +};
-> >> +
-> >> +struct seesaw_data {
-> >> +	__be16 x;
-> >> +	__be16 y;
-> >> +	u8 button_a, button_b, button_x, button_y, button_start, button_select;
-> > 
-> > Please keep these each on a separate line.
-> > 
-> >> +};
-> > 
-> > Please declare this struct as __packed, as that is how it appears to be used.
-> > 
-> >> +
-> >> +static int seesaw_read_data(struct i2c_client *client, struct seesaw_data *data)
-> >> +{
-> >> +	int err;
-> > 
-> > Please use 'ret' for return variables that can indicate a positive value on success.
-> > 
-> >> +	unsigned char write_buf[2] = { SEESAW_GPIO_BASE, SEESAW_GPIO_BULK };
-> >> +	unsigned char read_buf[4];
-> > 
-> > Please use standard kernel type definitions (i.e. u8 in this case).
-> > 
-> >> +
-> >> +	err = i2c_master_send(client, write_buf, sizeof(write_buf));
-> >> +	if (err < 0)
-> >> +		return err;
-> > 
-> > You correctly return err (or rather, ret) for negative values, but you should also
-> > check that ret matches the size of the data sent. For 0 <= ret < sizeof(writebuf),
-> > return -EIO.
-> > 
-> >> +	err = i2c_master_recv(client, read_buf, sizeof(read_buf));
-> >> +	if (err < 0)
-> >> +		return err;
-> > 
-> > And here.
-> > 
-> >> +
-> >> +	u32 result = get_unaligned_be32(&read_buf);
-> > 
-> > Please do not mix declarations and code; all declarations must be at the
-> > top of the function.
-> > 
-> >> +
-> >> +	data->button_a = !test_bit(BUTTON_A, (long *)&result);
-> >> +	data->button_b = !test_bit(BUTTON_B, (long *)&result);
-> >> +	data->button_x = !test_bit(BUTTON_X, (long *)&result);
-> >> +	data->button_y = !test_bit(BUTTON_Y, (long *)&result);
-> >> +	data->button_start = !test_bit(BUTTON_START, (long *)&result);
-> >> +	data->button_select = !test_bit(BUTTON_SELECT, (long *)&result);
-> >> +
-> >> +	write_buf[0] = SEESAW_ADC_BASE;
-> >> +	write_buf[1] = SEESAW_ADC_OFFSET + ANALOG_X;
-> >> +	err = i2c_master_send(client, write_buf, sizeof(write_buf));
-> >> +	if (err < 0)
-> >> +		return err;
-> >> +	err = i2c_master_recv(client, (char *)&data->x, sizeof(data->x));
-> >> +	if (err < 0)
-> >> +		return err;
-> > 
-> > This is starting to look like a 16-bit register map. To that end, please
-> > consider using regmap instead of open-coding each of these standard write-
-> > then-read operations.
-> > 
-> > Using regmap would also save you the trouble of managing the endianness
-> > yourself, as well as having to check for incomplete transfers since its
-> > functions return zero or a negative error code only.
-> > 
-> In this driver there are only two places a 16-bit regmap could be used,
-> for getting the joystick X and Y values. I see minimal utility in adding
-> the boilerplate necessary to use the more sophisticated regmap API in
-> this case.
-
-I counted a total of three sequences that write two bytes (i.e. a 16-bit
-"address"), send a stop condition, then read back a modulo-2 number of
-bytes. If the hardware can tolerate a repeated start in between the write
-and read operations, which is quite common, all of these can be replaced
-with a single call to regmap_read().
-
-A fourth sequence reads back a single byte after the 16-bit "address",
-while a fifth writes a single byte after the 16-bit "address." Those two
-admittedly break the model.
-
-Given those two oddballs in seesaw_probe(), maybe regmap is not the best
-solution after all. You could, however, mix the two and use regmap where
-it works, and roll your own where it doesn't.
-
+> Add a simple driver for the Himax HX852x(ES) touch panel controller,
+> with support for multi-touch and capacitive touch keys.
 > 
-> As for the handling of endianness, if I am not mistaken the
-> `be16_to_cpu` macro should manage it.
-
-Right, what I mean to say is that regmap calls be16_to_cpu() for you. You
-do not need to do any extra operations on the values returned by regmap.
-
+> The driver is somewhat based on sample code from Himax. However, that
+> code was so extremely confusing that we spent a significant amount of
+> time just trying to understand the packet format and register commands.
+> In this driver they are described with clean structs and defines rather
+> than lots of magic numbers and offset calculations.
 > 
-> If you prefer I could add the following function to reduce code duplication:
+> Signed-off-by: Jonathan Albrieux <jonathan.albrieux@gmail.com>
+> Co-developed-by: Stephan Gerhold <stephan@gerhold.net>
+> Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
+
+Reviewed-by: Jeff LaBundy <jeff@labundy.com>
+
+Many thanks for the productive discussion.
+
+> ---
+>  MAINTAINERS                              |   7 +
+>  drivers/input/touchscreen/Kconfig        |  10 +
+>  drivers/input/touchscreen/Makefile       |   1 +
+>  drivers/input/touchscreen/himax_hx852x.c | 500 +++++++++++++++++++++++++++++++
+>  4 files changed, 518 insertions(+)
 > 
-> int seesaw_get_analog(int pin) {
-> 	__be16 result;
-> 	u8 write_buf[2] = { SEESAW_ADC_BASE, SEESAW_ADC_OFFSET + pin };
-> 	int ret;
-> 	ret = i2c_master_send(client, write_buf, sizeof(write_buf));
-> 	if (ret < 0)
-> 		return ret;
-> 	ret = i2c_master_recv(client, (char *)&result, sizeof(result));
-> 	if (ret < 0)
-> 		return ret;
-> 	return result;
-> }
-
-Assuming regmap is out of the picture, I'd like to see something even more
-generic like the following:
-
-static int seesaw_register_read(struct i2c_client *client,
-				u16 reg, void *val, u16 len)
-{
-	__be16 reg_buf = cpu_to_be16(reg);
-	int ret;
-
-	ret = i2c_master_send(client, (char *)&reg_buf, sizeof(reg_buf));
-	if (ret < 0)
-		return ret;
-
-	ret = i2c_master_recv(client, (char *)&val, len);
-	if (ret < 0)
-		return ret;
-
-	return 0;
-}
-
-A call to seesaw_register_read() might look like the following:
-
-	int error;
-	__be16 val;
-
-	error = seesaw_register_read(client,
-				     SEESAW_ADC_BASE + SEESAW_ADC_OFFSET + ANALOG_X,
-				     &val, sizeof(val);
-	if (error)
-		return error;
-
-	input_report_abs(input, ABS_X, be16_to_cpu(val));
-
-Last but not least:
-
-static int seesaw_register_write(struct i2c_client *client, u16 reg, u8 val)
-{
-	u8 buf[sizeof(reg) + sizeof(val)];
-	int ret;
-
-	put_unaligned_be16(reg, buf);
-	*(buf + sizeof(reg)) = val;
-
-        ret = i2c_master_send(client, (char *)&buf, sizeof(buf));
-        if (ret < 0)
-                return ret;
-
-	return 0;
-}
-
-And to reset the device:
-
-	error = seesaw_register_write(client,
-				      SEESAW_STATUS_BASE + SEESAW_STATUS_SWRST, 0xFF);
-	if (error)
-		return error;
-
-You can extend this as necessary to support the pin configuration registers
-discussed below. Does this seem like a reasonable compromise?
-
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 4cc6bf79fdd8..c0004b25b524 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -9264,6 +9264,13 @@ S:	Maintained
+>  F:	Documentation/devicetree/bindings/input/touchscreen/himax,hx83112b.yaml
+>  F:	drivers/input/touchscreen/himax_hx83112b.c
+>  
+> +HIMAX HX852X TOUCHSCREEN DRIVER
+> +M:	Stephan Gerhold <stephan@gerhold.net>
+> +L:	linux-input@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/input/touchscreen/himax,hx852es.yaml
+> +F:	drivers/input/touchscreen/himax_hx852x.c
+> +
+>  HIPPI
+>  M:	Jes Sorensen <jes@trained-monkey.org>
+>  L:	linux-hippi@sunsite.dk
+> diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
+> index e3e2324547b9..8e5667ae5dab 100644
+> --- a/drivers/input/touchscreen/Kconfig
+> +++ b/drivers/input/touchscreen/Kconfig
+> @@ -427,6 +427,16 @@ config TOUCHSCREEN_HIDEEP
+>  	  To compile this driver as a module, choose M here : the
+>  	  module will be called hideep_ts.
+>  
+> +config TOUCHSCREEN_HIMAX_HX852X
+> +	tristate "Himax HX852x(ES) touchscreen"
+> +	depends on I2C
+> +	help
+> +	  Say Y here if you have a Himax HX852x(ES) touchscreen.
+> +	  If unsure, say N.
+> +
+> +	  To compile this driver as a module, choose M here: the module
+> +	  will be called himax_hx852x.
+> +
+>  config TOUCHSCREEN_HYCON_HY46XX
+>  	tristate "Hycon hy46xx touchscreen support"
+>  	depends on I2C
+> diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
+> index 62bd24f3ac8e..f42a87faa86c 100644
+> --- a/drivers/input/touchscreen/Makefile
+> +++ b/drivers/input/touchscreen/Makefile
+> @@ -48,6 +48,7 @@ obj-$(CONFIG_TOUCHSCREEN_EXC3000)	+= exc3000.o
+>  obj-$(CONFIG_TOUCHSCREEN_FUJITSU)	+= fujitsu_ts.o
+>  obj-$(CONFIG_TOUCHSCREEN_GOODIX)	+= goodix_ts.o
+>  obj-$(CONFIG_TOUCHSCREEN_HIDEEP)	+= hideep.o
+> +obj-$(CONFIG_TOUCHSCREEN_HIMAX_HX852X)	+= himax_hx852x.o
+>  obj-$(CONFIG_TOUCHSCREEN_HYNITRON_CSTXXX)	+= hynitron_cstxxx.o
+>  obj-$(CONFIG_TOUCHSCREEN_ILI210X)	+= ili210x.o
+>  obj-$(CONFIG_TOUCHSCREEN_ILITEK)	+= ilitek_ts_i2c.o
+> diff --git a/drivers/input/touchscreen/himax_hx852x.c b/drivers/input/touchscreen/himax_hx852x.c
+> new file mode 100644
+> index 000000000000..6aa39f02829d
+> --- /dev/null
+> +++ b/drivers/input/touchscreen/himax_hx852x.c
+> @@ -0,0 +1,500 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Himax HX852x(ES) Touchscreen Driver
+> + * Copyright (c) 2020-2023 Stephan Gerhold <stephan@gerhold.net>
+> + * Copyright (c) 2020 Jonathan Albrieux <jonathan.albrieux@gmail.com>
+> + *
+> + * Based on the Himax Android Driver Sample Code Ver 0.3 for HMX852xES chipset:
+> + * Copyright (c) 2014 Himax Corporation.
+> + */
+> +
+> +#include <asm/unaligned.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/i2c.h>
+> +#include <linux/input.h>
+> +#include <linux/input/mt.h>
+> +#include <linux/input/touchscreen.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/regulator/consumer.h>
+> +
+> +#define HX852X_COORD_SIZE(fingers)	((fingers) * sizeof(struct hx852x_coord))
+> +#define HX852X_WIDTH_SIZE(fingers)	ALIGN(fingers, 4)
+> +#define HX852X_BUF_SIZE(fingers)	(HX852X_COORD_SIZE(fingers) + \
+> +					 HX852X_WIDTH_SIZE(fingers) + \
+> +					 sizeof(struct hx852x_touch_info))
+> +
+> +#define HX852X_MAX_FINGERS		12
+> +#define HX852X_MAX_KEY_COUNT		4
+> +#define HX852X_MAX_BUF_SIZE		HX852X_BUF_SIZE(HX852X_MAX_FINGERS)
+> +
+> +#define HX852X_TS_SLEEP_IN		0x80
+> +#define HX852X_TS_SLEEP_OUT		0x81
+> +#define HX852X_TS_SENSE_OFF		0x82
+> +#define HX852X_TS_SENSE_ON		0x83
+> +#define HX852X_READ_ONE_EVENT		0x85
+> +#define HX852X_READ_ALL_EVENTS		0x86
+> +#define HX852X_READ_LATEST_EVENT	0x87
+> +#define HX852X_CLEAR_EVENT_STACK	0x88
+> +
+> +#define HX852X_REG_SRAM_SWITCH		0x8c
+> +#define HX852X_REG_SRAM_ADDR		0x8b
+> +#define HX852X_REG_FLASH_RPLACE		0x5a
+> +
+> +#define HX852X_SRAM_SWITCH_TEST_MODE	0x14
+> +#define HX852X_SRAM_ADDR_CONFIG		0x7000
+> +
+> +struct hx852x {
+> +	struct i2c_client *client;
+> +	struct input_dev *input_dev;
+> +	struct touchscreen_properties props;
+> +	struct gpio_desc *reset_gpiod;
+> +	struct regulator_bulk_data supplies[2];
+> +	unsigned int max_fingers;
+> +	unsigned int keycount;
+> +	unsigned int keycodes[HX852X_MAX_KEY_COUNT];
+> +};
+> +
+> +struct hx852x_config {
+> +	u8 rx_num;
+> +	u8 tx_num;
+> +	u8 max_pt;
+> +	u8 padding1[3];
+> +	__be16 x_res;
+> +	__be16 y_res;
+> +	u8 padding2[2];
+> +} __packed __aligned(4);
+> +
+> +struct hx852x_coord {
+> +	__be16 x;
+> +	__be16 y;
+> +} __packed __aligned(4);
+> +
+> +struct hx852x_touch_info {
+> +	u8 finger_num;
+> +	__le16 finger_pressed;
+> +	u8 padding;
+> +} __packed __aligned(4);
+> +
+> +static int hx852x_i2c_read(struct hx852x *hx, u8 cmd, void *data, u16 len)
+> +{
+> +	struct i2c_client *client = hx->client;
+> +	int ret;
+> +
+> +	struct i2c_msg msg[] = {
+> +		{
+> +			.addr = client->addr,
+> +			.flags = 0,
+> +			.len = 1,
+> +			.buf = &cmd,
+> +		},
+> +		{
+> +			.addr = client->addr,
+> +			.flags = I2C_M_RD,
+> +			.len = len,
+> +			.buf = data,
+> +		},
+> +	};
+> +
+> +	ret = i2c_transfer(client->adapter, msg, ARRAY_SIZE(msg));
+> +	if (ret != ARRAY_SIZE(msg)) {
+> +		dev_err(&client->dev, "failed to read %#x: %d\n", cmd, ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int hx852x_power_on(struct hx852x *hx)
+> +{
+> +	struct device *dev = &hx->client->dev;
+> +	int error;
+> +
+> +	error = regulator_bulk_enable(ARRAY_SIZE(hx->supplies), hx->supplies);
+> +	if (error) {
+> +		dev_err(dev, "failed to enable regulators: %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	gpiod_set_value_cansleep(hx->reset_gpiod, 1);
+> +	msleep(20);
+> +	gpiod_set_value_cansleep(hx->reset_gpiod, 0);
+> +	msleep(20);
+> +
+> +	return 0;
+> +}
+> +
+> +static int hx852x_start(struct hx852x *hx)
+> +{
+> +	struct device *dev = &hx->client->dev;
+> +	int error;
+> +
+> +	error = i2c_smbus_write_byte(hx->client, HX852X_TS_SLEEP_OUT);
+> +	if (error) {
+> +		dev_err(dev, "failed to send TS_SLEEP_OUT: %d\n", error);
+> +		return error;
+> +	}
+> +	msleep(30);
+> +
+> +	error = i2c_smbus_write_byte(hx->client, HX852X_TS_SENSE_ON);
+> +	if (error) {
+> +		dev_err(dev, "failed to send TS_SENSE_ON: %d\n", error);
+> +		return error;
+> +	}
+> +	msleep(20);
+> +
+> +	return 0;
+> +}
+> +
+> +static int hx852x_stop(struct hx852x *hx)
+> +{
+> +	struct device *dev = &hx->client->dev;
+> +	int error;
+> +
+> +	error = i2c_smbus_write_byte(hx->client, HX852X_TS_SENSE_OFF);
+> +	if (error) {
+> +		dev_err(dev, "failed to send TS_SENSE_OFF: %d\n", error);
+> +		return error;
+> +	}
+> +	msleep(20);
+> +
+> +	error = i2c_smbus_write_byte(hx->client, HX852X_TS_SLEEP_IN);
+> +	if (error) {
+> +		dev_err(dev, "failed to send TS_SLEEP_IN: %d\n", error);
+> +		return error;
+> +	}
+> +	msleep(30);
+> +
+> +	return 0;
+> +}
+> +
+> +static int hx852x_power_off(struct hx852x *hx)
+> +{
+> +	struct device *dev = &hx->client->dev;
+> +	int error;
+> +
+> +	error = regulator_bulk_disable(ARRAY_SIZE(hx->supplies), hx->supplies);
+> +	if (error) {
+> +		dev_err(dev, "failed to disable regulators: %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int hx852x_read_config(struct hx852x *hx)
+> +{
+> +	struct device *dev = &hx->client->dev;
+> +	struct hx852x_config conf;
+> +	int x_res, y_res;
+> +	int error;
+> +
+> +	error = hx852x_power_on(hx);
+> +	if (error)
+> +		return error;
+> +
+> +	/* Sensing must be turned on briefly to load the config */
+> +	error = hx852x_start(hx);
+> +	if (error)
+> +		goto err_power_off;
+> +
+> +	error = hx852x_stop(hx);
+> +	if (error)
+> +		goto err_power_off;
+> +
+> +	error = i2c_smbus_write_byte_data(hx->client, HX852X_REG_SRAM_SWITCH,
+> +					  HX852X_SRAM_SWITCH_TEST_MODE);
+> +	if (error)
+> +		goto err_power_off;
+> +
+> +	error = i2c_smbus_write_word_data(hx->client, HX852X_REG_SRAM_ADDR,
+> +					  HX852X_SRAM_ADDR_CONFIG);
+> +	if (error)
+> +		goto err_test_mode;
+> +
+> +	error = hx852x_i2c_read(hx, HX852X_REG_FLASH_RPLACE, &conf, sizeof(conf));
+> +	if (error)
+> +		goto err_test_mode;
+> +
+> +	x_res = be16_to_cpu(conf.x_res);
+> +	y_res = be16_to_cpu(conf.y_res);
+> +	hx->max_fingers = (conf.max_pt & 0xf0) >> 4;
+> +	dev_dbg(dev, "x res: %u, y res: %u, max fingers: %u\n",
+> +		x_res, y_res, hx->max_fingers);
+> +
+> +	if (hx->max_fingers > HX852X_MAX_FINGERS) {
+> +		dev_err(dev, "max supported fingers: %u, found: %u\n",
+> +			HX852X_MAX_FINGERS, hx->max_fingers);
+> +		error = -EINVAL;
+> +		goto err_test_mode;
+> +	}
+> +
+> +	if (x_res && y_res) {
+> +		input_set_abs_params(hx->input_dev, ABS_MT_POSITION_X, 0, x_res - 1, 0, 0);
+> +		input_set_abs_params(hx->input_dev, ABS_MT_POSITION_Y, 0, y_res - 1, 0, 0);
+> +	}
+> +
+> +err_test_mode:
+> +	error = i2c_smbus_write_byte_data(hx->client, HX852X_REG_SRAM_SWITCH, 0) ? : error;
+> +err_power_off:
+> +	return hx852x_power_off(hx) ? : error;
+> +}
+> +
+> +static int hx852x_handle_events(struct hx852x *hx)
+> +{
+> +	/*
+> +	 * The event packets have variable size, depending on the amount of
+> +	 * supported fingers (hx->max_fingers). They are laid out as follows:
+> +	 *  - struct hx852x_coord[hx->max_fingers]: Coordinates for each finger
+> +	 *  - u8[ALIGN(hx->max_fingers, 4)]: Touch width for each finger
+> +	 *      with padding for 32-bit alignment
+> +	 *  - struct hx852x_touch_info
+> +	 *
+> +	 * Load everything into a 32-bit aligned buffer so the coordinates
+> +	 * can be assigned directly, without using get_unaligned_*().
+> +	 */
+> +	u8 buf[HX852X_MAX_BUF_SIZE] __aligned(4);
+> +	struct hx852x_coord *coord = (struct hx852x_coord *)buf;
+> +	u8 *width = &buf[HX852X_COORD_SIZE(hx->max_fingers)];
+> +	struct hx852x_touch_info *info = (struct hx852x_touch_info *)
+> +		&width[HX852X_WIDTH_SIZE(hx->max_fingers)];
+> +	unsigned long finger_pressed, key_pressed;
+> +	unsigned int i, x, y, w;
+> +	int error;
+> +
+> +	error = hx852x_i2c_read(hx, HX852X_READ_ALL_EVENTS, buf,
+> +				HX852X_BUF_SIZE(hx->max_fingers));
+> +	if (error)
+> +		return error;
+> +
+> +	finger_pressed = get_unaligned_le16(&info->finger_pressed);
+> +	key_pressed = finger_pressed >> HX852X_MAX_FINGERS;
+> +
+> +	/* All bits are set when no touch is detected */
+> +	if (info->finger_num == 0xff || !(info->finger_num & 0x0f))
+> +		finger_pressed = 0;
+> +	if (key_pressed == 0xf)
+> +		key_pressed = 0;
+> +
+> +	for_each_set_bit(i, &finger_pressed, hx->max_fingers) {
+> +		x = be16_to_cpu(coord[i].x);
+> +		y = be16_to_cpu(coord[i].y);
+> +		w = width[i];
+> +
+> +		input_mt_slot(hx->input_dev, i);
+> +		input_mt_report_slot_state(hx->input_dev, MT_TOOL_FINGER, 1);
+> +		touchscreen_report_pos(hx->input_dev, &hx->props, x, y, true);
+> +		input_report_abs(hx->input_dev, ABS_MT_TOUCH_MAJOR, w);
+> +	}
+> +	input_mt_sync_frame(hx->input_dev);
+> +
+> +	for (i = 0; i < hx->keycount; i++)
+> +		input_report_key(hx->input_dev, hx->keycodes[i], key_pressed & BIT(i));
+> +
+> +	input_sync(hx->input_dev);
+> +	return 0;
+> +}
+> +
+> +static irqreturn_t hx852x_interrupt(int irq, void *ptr)
+> +{
+> +	struct hx852x *hx = ptr;
+> +	int error;
+> +
+> +	error = hx852x_handle_events(hx);
+> +	if (error) {
+> +		dev_err_ratelimited(&hx->client->dev, "failed to handle events: %d\n", error);
+> +		return IRQ_NONE;
+> +	}
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int hx852x_input_open(struct input_dev *dev)
+> +{
+> +	struct hx852x *hx = input_get_drvdata(dev);
+> +	int error;
+> +
+> +	error = hx852x_power_on(hx);
+> +	if (error)
+> +		return error;
+> +
+> +	error = hx852x_start(hx);
+> +	if (error) {
+> +		hx852x_power_off(hx);
+> +		return error;
+> +	}
+> +
+> +	enable_irq(hx->client->irq);
+> +	return 0;
+> +}
+> +
+> +static void hx852x_input_close(struct input_dev *dev)
+> +{
+> +	struct hx852x *hx = input_get_drvdata(dev);
+> +
+> +	hx852x_stop(hx);
+> +	disable_irq(hx->client->irq);
+> +	hx852x_power_off(hx);
+> +}
+> +
+> +static int hx852x_parse_properties(struct hx852x *hx)
+> +{
+> +	struct device *dev = &hx->client->dev;
+> +	int error, count;
+> +
+> +	count = device_property_count_u32(dev, "linux,keycodes");
+> +	if (count == -EINVAL) {
+> +		/* Property does not exist, keycodes are optional */
+> +		return 0;
+> +	} else if (count < 0) {
+> +		dev_err(dev, "Failed to read linux,keycodes: %d\n", count);
+> +		return count;
+> +	} else if (count > HX852X_MAX_KEY_COUNT) {
+> +		dev_err(dev, "max supported keys: %u, found: %u\n",
+> +			HX852X_MAX_KEY_COUNT, hx->keycount);
+> +		return -EINVAL;
+> +	}
+> +	hx->keycount = count;
+> +
+> +	error = device_property_read_u32_array(dev, "linux,keycodes",
+> +					       hx->keycodes, hx->keycount);
+> +	if (error) {
+> +		dev_err(dev, "failed to read linux,keycodes: %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int hx852x_probe(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct hx852x *hx;
+> +	int error, i;
+> +
+> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C |
+> +				     I2C_FUNC_SMBUS_WRITE_BYTE |
+> +				     I2C_FUNC_SMBUS_WRITE_BYTE_DATA |
+> +				     I2C_FUNC_SMBUS_WRITE_WORD_DATA)) {
+> +		dev_err(dev, "not all required i2c functionality supported\n");
+> +		return -ENXIO;
+> +	}
+> +
+> +	hx = devm_kzalloc(dev, sizeof(*hx), GFP_KERNEL);
+> +	if (!hx)
+> +		return -ENOMEM;
+> +
+> +	hx->client = client;
+> +	hx->input_dev = devm_input_allocate_device(dev);
+> +	if (!hx->input_dev)
+> +		return -ENOMEM;
+> +
+> +	hx->input_dev->name = "Himax HX852x";
+> +	hx->input_dev->id.bustype = BUS_I2C;
+> +	hx->input_dev->open = hx852x_input_open;
+> +	hx->input_dev->close = hx852x_input_close;
+> +
+> +	i2c_set_clientdata(client, hx);
+> +	input_set_drvdata(hx->input_dev, hx);
+> +
+> +	hx->supplies[0].supply = "vcca";
+> +	hx->supplies[1].supply = "vccd";
+> +	error = devm_regulator_bulk_get(dev, ARRAY_SIZE(hx->supplies), hx->supplies);
+> +	if (error)
+> +		return dev_err_probe(dev, error, "failed to get regulators\n");
+> +
+> +	hx->reset_gpiod = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(hx->reset_gpiod))
+> +		return dev_err_probe(dev, PTR_ERR(hx->reset_gpiod),
+> +				     "failed to get reset gpio\n");
+> +
+> +	error = devm_request_threaded_irq(dev, client->irq, NULL, hx852x_interrupt,
+> +					  IRQF_ONESHOT | IRQF_NO_AUTOEN, NULL, hx);
+> +	if (error)
+> +		return dev_err_probe(dev, error, "failed to request irq %d", client->irq);
+> +
+> +	error = hx852x_read_config(hx);
+> +	if (error)
+> +		return error;
+> +
+> +	input_set_capability(hx->input_dev, EV_ABS, ABS_MT_POSITION_X);
+> +	input_set_capability(hx->input_dev, EV_ABS, ABS_MT_POSITION_Y);
+> +	input_set_abs_params(hx->input_dev, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
+> +
+> +	touchscreen_parse_properties(hx->input_dev, true, &hx->props);
+> +	error = hx852x_parse_properties(hx);
+> +	if (error)
+> +		return error;
+> +
+> +	hx->input_dev->keycode = hx->keycodes;
+> +	hx->input_dev->keycodemax = hx->keycount;
+> +	hx->input_dev->keycodesize = sizeof(hx->keycodes[0]);
+> +	for (i = 0; i < hx->keycount; i++)
+> +		input_set_capability(hx->input_dev, EV_KEY, hx->keycodes[i]);
+> +
+> +	error = input_mt_init_slots(hx->input_dev, hx->max_fingers,
+> +				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
+> +	if (error)
+> +		return dev_err_probe(dev, error, "failed to init MT slots\n");
+> +
+> +	error = input_register_device(hx->input_dev);
+> +	if (error)
+> +		return dev_err_probe(dev, error, "failed to register input device\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static int hx852x_suspend(struct device *dev)
+> +{
+> +	struct hx852x *hx = dev_get_drvdata(dev);
+> +	int error = 0;
+> +
+> +	mutex_lock(&hx->input_dev->mutex);
+> +	if (input_device_enabled(hx->input_dev))
+> +		error = hx852x_stop(hx);
+> +	mutex_unlock(&hx->input_dev->mutex);
+> +
+> +	return error;
+> +}
+> +
+> +static int hx852x_resume(struct device *dev)
+> +{
+> +	struct hx852x *hx = dev_get_drvdata(dev);
+> +	int error = 0;
+> +
+> +	mutex_lock(&hx->input_dev->mutex);
+> +	if (input_device_enabled(hx->input_dev))
+> +		error = hx852x_start(hx);
+> +	mutex_unlock(&hx->input_dev->mutex);
+> +
+> +	return error;
+> +}
+> +
+> +static DEFINE_SIMPLE_DEV_PM_OPS(hx852x_pm_ops, hx852x_suspend, hx852x_resume);
+> +
+> +#ifdef CONFIG_OF
+> +static const struct of_device_id hx852x_of_match[] = {
+> +	{ .compatible = "himax,hx852es" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, hx852x_of_match);
+> +#endif
+> +
+> +static struct i2c_driver hx852x_driver = {
+> +	.probe = hx852x_probe,
+> +	.driver = {
+> +		.name = "himax_hx852x",
+> +		.pm = pm_sleep_ptr(&hx852x_pm_ops),
+> +		.of_match_table = of_match_ptr(hx852x_of_match),
+> +	},
+> +};
+> +module_i2c_driver(hx852x_driver);
+> +
+> +MODULE_DESCRIPTION("Himax HX852x(ES) Touchscreen Driver");
+> +MODULE_AUTHOR("Jonathan Albrieux <jonathan.albrieux@gmail.com>");
+> +MODULE_AUTHOR("Stephan Gerhold <stephan@gerhold.net>");
+> +MODULE_LICENSE("GPL");
 > 
-> >> +	/*
-> >> +	 * ADC reads left as max and right as 0, must be reversed since kernel
-> >> +	 * expects reports in opposite order.
-> >> +	 */
-> >> +	data->x = SEESAW_JOYSTICK_MAX_AXIS - be16_to_cpu(data->x);
-> >> +
-> >> +	write_buf[1] = SEESAW_ADC_OFFSET + ANALOG_Y;
-> >> +	err = i2c_master_send(client, write_buf, sizeof(write_buf));
-> >> +	if (err < 0)
-> >> +		return err;
-> >> +	err = i2c_master_recv(client, (char *)&data->y, sizeof(data->y));
-> >> +	if (err < 0)
-> >> +		return err;
-> >> +	data->y = be16_to_cpu(data->y);
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +static void seesaw_poll(struct input_dev *input)
-> >> +{
-> >> +	struct seesaw_gamepad *private = input_get_drvdata(input);
-> >> +	struct seesaw_data data;
-> >> +	int err;
-> >> +
-> >> +	err = seesaw_read_data(private->i2c_client, &data);
-> >> +	if (err != 0) {
-> >> +		dev_dbg(&input->dev, "failed to read joystick state: %d\n",
-> >> +			err);
-> > 
-> > This should be dev_err_ratelimited().
-> > 
-> >> +		return;
-> >> +	}
-> >> +
-> >> +	input_report_abs(input, ABS_X, data.x);
-> >> +	input_report_abs(input, ABS_Y, data.y);
-> >> +	input_report_key(input, BTN_EAST, data.button_a);
-> >> +	input_report_key(input, BTN_SOUTH, data.button_b);
-> >> +	input_report_key(input, BTN_NORTH, data.button_x);
-> >> +	input_report_key(input, BTN_WEST, data.button_y);
-> >> +	input_report_key(input, BTN_START, data.button_start);
-> >> +	input_report_key(input, BTN_SELECT, data.button_select);
-> > 
-> > I think you can make this much cleaner and smaller by defining an array
-> > of structs, each with a key code and bit position. You can then simply
-> > iterate over the array and call input_report_key() once per element as
-> > in the following:
-> > 
-> > struct seesaw_btn_desc {
-> > 	unsigned int code;
-> > 	unsigned int shift;
-> > };
-> > 
-> > static const struct seesaw_btn_desc seesaw_btns[] = {
-> > 	{
-> > 		.code = BTN_EAST,
-> > 		.mask = 5,
-> > 	},
-> > 	[...]
-> > };
-> > 
-> > And then:
-> > 
-> > 	btn_status = ...;
-> > 
-> > 	for (i = 0; i < ARRAY_SIZE(seesaw_btns); i++)
-> > 		input_report_key(input, seesaw_btns[i].code,
-> > 				 btn_status & seesaw_btns[i].mask);
-> > 
-> > This would also make it easier to quickly discern what keycodes are mapped
-> > to which bits in the register.
-> > 
-> >> +	input_sync(input);
-> >> +}
-> >> +
-> >> +static int seesaw_probe(struct i2c_client *client)
-> >> +{
-> >> +	int err;
-> >> +	struct seesaw_gamepad *private;
-> > 
-> > I'd rather this be called something like 'seesaw' rather than private.
-> > 
-> >> +	unsigned char register_reset[] = { SEESAW_STATUS_BASE,
-> >> +					   SEESAW_STATUS_SWRST, 0xFF };
-> >> +	unsigned char get_hw_id[] = { SEESAW_STATUS_BASE, SEESAW_STATUS_HW_ID };
-> >> +
-> >> +	err = i2c_master_send(client, register_reset, sizeof(register_reset));
-> >> +	if (err < 0)
-> >> +		return err;
-> >> +
-> >> +	/* Wait for the registers to reset before proceeding */
-> >> +	mdelay(10);
-> >> +
-> >> +	private = devm_kzalloc(&client->dev, sizeof(*private), GFP_KERNEL);
-> >> +	if (!private)
-> >> +		return -ENOMEM;
-> >> +
-> >> +	err = i2c_master_send(client, get_hw_id, sizeof(get_hw_id));
-> >> +	if (err < 0)
-> >> +		return err;
-> >> +
-> >> +	unsigned char hardware_id;
-> > 
-> > Same comment as earlier with regard to mixed declarations.
-> > 
-> >> +
-> >> +	err = i2c_master_recv(client, &hardware_id, 1);
-> >> +	if (err < 0)
-> >> +		return err;
-> >> +
-> >> +	dev_dbg(&client->dev, "Adafruit Seesaw Gamepad, Hardware ID: %02x\n",
-> >> +		hardware_id);
-> >> +
-> >> +	private->i2c_client = client;
-> >> +	scnprintf(private->physical_path, sizeof(private->physical_path),
-> >> +		  "i2c/%s", dev_name(&client->dev));
-> > 
-> > This seems overly complex; can we not simply set input_dev->phys to the
-> > literal "i2c/seesaw-gamepad"? Why to copy at runtime and incur the cost
-> > of carrying 'physical_path' throughout the life of the module?
-> > 
-> >> +	i2c_set_clientdata(client, private);
-> >> +
-> >> +	private->input_dev = devm_input_allocate_device(&client->dev);
-> >> +	if (!private->input_dev)
-> >> +		return -ENOMEM;
-> >> +
-> >> +	private->input_dev->id.bustype = BUS_I2C;
-> >> +	private->input_dev->name = "Adafruit Seesaw Gamepad";
-> >> +	private->input_dev->phys = private->physical_path;
-> >> +	input_set_drvdata(private->input_dev, private);
-> >> +	input_set_abs_params(private->input_dev, ABS_X, 0,
-> >> +			     SEESAW_JOYSTICK_MAX_AXIS, SEESAW_JOYSTICK_FUZZ,
-> >> +			     SEESAW_JOYSTICK_FLAT);
-> >> +	input_set_abs_params(private->input_dev, ABS_Y, 0,
-> >> +			     SEESAW_JOYSTICK_MAX_AXIS, SEESAW_JOYSTICK_FUZZ,
-> >> +			     SEESAW_JOYSTICK_FLAT);
-> >> +	input_set_capability(private->input_dev, EV_KEY, BTN_EAST);
-> >> +	input_set_capability(private->input_dev, EV_KEY, BTN_SOUTH);
-> >> +	input_set_capability(private->input_dev, EV_KEY, BTN_NORTH);
-> >> +	input_set_capability(private->input_dev, EV_KEY, BTN_WEST);
-> >> +	input_set_capability(private->input_dev, EV_KEY, BTN_START);
-> >> +	input_set_capability(private->input_dev, EV_KEY, BTN_SELECT);
-> > 
-> > Same comment with regard to creating an array of structs, and hence only
-> > having to call input_set_capability() from within a small loop.
-> > 
-> >> +
-> >> +	err = input_setup_polling(private->input_dev, seesaw_poll);
-> >> +	if (err) {
-> >> +		dev_err(&client->dev, "failed to set up polling: %d\n", err);
-> >> +		return err;
-> >> +	}
-> >> +
-> >> +	input_set_poll_interval(private->input_dev,
-> >> +				SEESAW_GAMEPAD_POLL_INTERVAL);
-> >> +	input_set_max_poll_interval(private->input_dev,
-> >> +				    SEESAW_GAMEPAD_POLL_MAX);
-> >> +	input_set_min_poll_interval(private->input_dev,
-> >> +				    SEESAW_GAMEPAD_POLL_MIN);
-> >> +
-> >> +	err = input_register_device(private->input_dev);
-> >> +	if (err) {
-> >> +		dev_err(&client->dev, "failed to register joystick: %d\n", err);
-> >> +		return err;
-> >> +	}
-> >> +
-> >> +	/* Set Pin Mode to input and enable pull-up resistors */
-> >> +	unsigned char pin_mode[] = { SEESAW_GPIO_BASE,	SEESAW_GPIO_DIRCLR_BULK,
-> >> +				     BUTTON_MASK >> 24, BUTTON_MASK >> 16,
-> >> +				     BUTTON_MASK >> 8,	BUTTON_MASK };
-> >> +	err = i2c_master_send(client, pin_mode, sizeof(pin_mode));
-> >> +	if (err < 0)
-> >> +		return err;
-> >> +	pin_mode[1] = SEESAW_GPIO_PULLENSET;
-> >> +	err = i2c_master_send(client, pin_mode, sizeof(pin_mode));
-> >> +	if (err < 0)
-> >> +		return err;
-> >> +	pin_mode[1] = SEESAW_GPIO_BULK_SET;
-> >> +	err = i2c_master_send(client, pin_mode, sizeof(pin_mode));
-> >> +	if (err < 0)
-> >> +		return err;
-> > 
-> > Please configure the HW before the input device is live and being polled.
-> > 
+> -- 
+> 2.42.0
 > 
-> Could you elaborate on what you meant by this. To my knowledge, the
-> device is ready to be polled right after the pin state for the
-> `BUTTON_MASK` is configured. That is also how it's done in the Arduino
-> driver provided by the manufacturer. Please clarify if I'm missing
-> something here.
-
-Normally, we want to do the following:
-
-1. Configure the hardware.
-2. Register the input device.
-3. Request an interrupt line or enable polling.
-
-Here, we have placed step (1) at the end of the sequence, which is dangerous
-for two reasons:
-
-1. For a brief moment, the device is availing button status to the input core
-   while the pull-up resistors are not yet enabled, and the buttons are in an
-   undefined state. Any kind of electrical noise or disturbance may trigger a
-   false button event.
-
-2. The input poller is reading registers and changing the device's internal
-   address pointer at the same time probe() is still writing some registers.
-   This is a concurrency problem.
-
-If what is shown is how the Arduino reference design operates, then I would
-argue the reference design is mistaken, or not subject to the same constraints
-and behaviors as a Linux input driver. Therefore, please set the pin mode much
-earlier in probe().
-
-> 
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +#ifdef CONFIG_OF
-> >> +static const struct of_device_id of_seesaw_match[] = {
-> >> +	{
-> >> +		.compatible = "adafruit,seesaw-gamepad",
-> >> +	},
-> >> +	{ /* Sentinel */ }
-> >> +};
-> >> +MODULE_DEVICE_TABLE(of, of_seesaw_match);
-> >> +#endif /* CONFIG_OF */
-> > 
-> > Please correct me if I am wrong, but it does not seem that OF support is
-> > required by this driver. There are no properties beyond the standard ones
-> > understood by the I2C core, which can match based on the ID table below.
-> > 
-> >> +
-> >> +/* clang-format off */
-> >> +static const struct i2c_device_id seesaw_id_table[] = {
-> >> +	{ SEESAW_DEVICE_NAME, 0 },
-> >> +	{ /* Sentinel */ }
-> >> +};
-> >> +/* clang-format on */
-> > 
-> > Again, I don't see any need for these directives.
-> > 
-> >> +
-> > 
-> > Nit: unnecessary NL.
-> > 
-> >> +MODULE_DEVICE_TABLE(i2c, seesaw_id_table);
-> >> +
-> >> +static struct i2c_driver seesaw_driver = {
-> >> +	.driver = {
-> >> +		.name = SEESAW_DEVICE_NAME,
-> >> +		.of_match_table = of_match_ptr(of_seesaw_match),
-> >> +	},
-> >> +	.id_table = seesaw_id_table,
-> >> +	.probe = seesaw_probe,
-> >> +};
-> >> +module_i2c_driver(seesaw_driver);
-> >> +
-> >> +MODULE_AUTHOR("Anshul Dalal <anshulusr@gmail.com>");
-> >> +MODULE_DESCRIPTION("Adafruit Mini I2C Gamepad driver");
-> >> +MODULE_LICENSE("GPL");
-> >> -- 
-> >> 2.42.0
-> >>
-> > 
-> > Kind regards,
-> > Jeff LaBundy
-> 
-> Regards,
-> Anshul Dalal
 
 Kind regards,
 Jeff LaBundy
