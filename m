@@ -2,46 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E13837D8511
-	for <lists+linux-input@lfdr.de>; Thu, 26 Oct 2023 16:47:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0761E7D856D
+	for <lists+linux-input@lfdr.de>; Thu, 26 Oct 2023 17:01:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231303AbjJZOrG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 Oct 2023 10:47:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53654 "EHLO
+        id S1345312AbjJZPBK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 26 Oct 2023 11:01:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231346AbjJZOrF (ORCPT
+        with ESMTP id S1345305AbjJZPBJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 Oct 2023 10:47:05 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2075.outbound.protection.outlook.com [40.107.223.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D01DB9;
-        Thu, 26 Oct 2023 07:47:00 -0700 (PDT)
+        Thu, 26 Oct 2023 11:01:09 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2082.outbound.protection.outlook.com [40.107.220.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CB3D187;
+        Thu, 26 Oct 2023 08:01:05 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JnL/DPNz/rtwYb+VTvNVig7lIobB7wXKaMVVPi1AV9qT4k8vvyzOK6pz8OByMuGtxvYlerseP+NbxFoRt0ey8qYY0i86KHG7qF58amnYDA9TyctZL8d/d77Cluja9WJqL3JEBoPdqnsMW+FrhgvjgvA7qsADvcC9rEgjsssaOQiZ9XQtnrf39f7AflyMJ6Aq1HYKC1E4XH6uOB1yiB5ZeQF/SzqDtYRTSY/nFfmykU5msq0+PaWTRs3CVop1AtW1cvv88pMZu2bWKHLeOHqtgL5QO2TBP5rRQN3wt+lkruYK9hISlK61VUAVbg65uLrVfD55/H8j5lKNquiCUBzc+Q==
+ b=hLScpXPdx7KoYJ3Kl+Nh44EmS5zOETNWTz/AUWPxmzav25mttW/Hnq64c3OUXXZk1WFv+ensmP/uAHHAyIJ7Adtg8PeDfzMLm9lP86+k0t7bF/ec1kciANeSiF9jJCqO2/ZT6K3Myce5D+58lWyxLlTBkgqYtNzIZm0FxhspkrbLDP4bPJYnq8mB8hhpGS/LDeo45YyaWzdH8JRgqOV1SuRqlL3+ZEZdZcAeEMPZF3AUPW3g4Y7UcuaRh68GX5O/ueH2EhWryhU/fbmTapnTNBm2fFp5Pc/qYe1hzOgRi5sKbefcI7nAa1U/n5k9rt+CSu5lah+E0dkvCNWBGnYT8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7nLP7MnO/Y2tClb70JL2Jbn5boyp6Rx8xR2sfWa32j4=;
- b=bM5D0IVn3RH8XJZuKKg1TAgliaAfPoBKA+8v1a67+E/f6LZDtufJaabgGydp4VaNGbZppYMAptCEsfuWFLya67geqBtA0gzAb2+0KUEJyipbslMf3vne8ulVYmNf5iYDYO8fxp715dn6putTRrWHyn5Dvr4EaGBWXkmJG75AorLlKEPUc0T2ZgwPGj4y28mS5moZcMG7JcJTz5kYZAdjclRubEHFk4f1hIgCK1nyF4SGa0Nlc/cjuWiF9FDb1tYR1GjbN+qNJ+jWK2AIxg3/2tF5Eh5iHDXdQYvE2CtYCK5fm37+dJSqc/v/08P686UC7zZ2Jm7Ok8aZZX7uYksJFg==
+ bh=gOTs7KKpqy4bUrMgXfu80u0eFe0eOcMcnrPTaYztF/c=;
+ b=Lu/OLtx28S0OpkNu3vJ1dJPjYEw2tB29llkFGS/c1drZKSRnYqXP9PhHgtTm372E8LV2xNDwE7M3s4FkNTQewE8w38qIckLMvGZG6i3q+z9PFQ4RNggIzKSLMJzKTjMLKv86+YOPxCxO0bTpXX1Sl4s3MM6TCG8l7rHiKfiNYOYaH2guugP5btP0KQ/NjVDkG9oru6/fOlC6GpX0GWyKZ9ejaSoCjUEjZo1b7pVSYuzwE9+mDamspeF0QMRdzV+z01BXDibWWn+Dht1a1iaJa4X9YKFqKQkax8eHU3CJ0cu95LZ6eg0ZPOmc6NH8rI9G5KcOez9KawAoNxfA88M33g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7nLP7MnO/Y2tClb70JL2Jbn5boyp6Rx8xR2sfWa32j4=;
- b=iBkHnKMebkDzOj2BY0Aka2tvbiQxPQXdrpaIypOg6QkZPRucF63yGN2hUz2MfdPNKn32DKJCfAeJ5yv5JrmZSY5brTQ0kNv3m4la00mzG2EWvsprZwznoH+4bYgaugEbH+EqBrLkQLxpT8WgRfwBn9+jxzJ2+yLijlNZ221FNwc=
+ bh=gOTs7KKpqy4bUrMgXfu80u0eFe0eOcMcnrPTaYztF/c=;
+ b=EnLe8UAP7rvnlennYUNQh2QKpcjcYuHholA8gxGvg7jqzdkuR7kpBp2Ilm+tkJNXoKvmfPZfDWsuMFk88TohBFJAMQDIANb2HjT83fV0bCX9NWjVVaITpcI0mgBW8J3imdLCceBk3zkmT4RK+xNzswBvKsGZi/SpuzaQWh8mlPA=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=labundy.com;
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by DM3PR08MB9498.namprd08.prod.outlook.com
- (2603:10b6:8:1ad::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.19; Thu, 26 Oct
- 2023 14:46:57 +0000
+ (2603:10b6:803:43::21) by DM8PR08MB7381.namprd08.prod.outlook.com
+ (2603:10b6:8:12::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.22; Thu, 26 Oct
+ 2023 15:01:01 +0000
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::e73c:270b:75f7:5302]) by SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::e73c:270b:75f7:5302%4]) with mapi id 15.20.6907.032; Thu, 26 Oct 2023
- 14:46:57 +0000
-Date:   Thu, 26 Oct 2023 09:46:48 -0500
+ 15:01:00 +0000
+Date:   Thu, 26 Oct 2023 10:00:54 -0500
 From:   Jeff LaBundy <jeff@labundy.com>
 To:     Javier Carrasco <javier.carrasco@wolfvision.net>
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -53,75 +53,65 @@ Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Michael Riesch <michael.riesch@wolfvision.net>,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
         devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 2/4] dt-bindings: touchscreen: add overlay-touchscreen
- and overlay-buttons properties
-Message-ID: <ZTp72LUXxr+Z9gn8@nixie71>
+Subject: Re: [PATCH v5 1/4] Input: touch-overlay - Add touchscreen overlay
+ object handling
+Message-ID: <ZTp/JiriX4b3oIsP@nixie71>
 References: <20230510-feature-ts_virtobj_patch-v5-0-ff6b5c4db693@wolfvision.net>
- <20230510-feature-ts_virtobj_patch-v5-2-ff6b5c4db693@wolfvision.net>
-Content-Type: text/plain; charset=utf-8
+ <20230510-feature-ts_virtobj_patch-v5-1-ff6b5c4db693@wolfvision.net>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230510-feature-ts_virtobj_patch-v5-2-ff6b5c4db693@wolfvision.net>
-X-ClientProxiedBy: SN7PR04CA0087.namprd04.prod.outlook.com
- (2603:10b6:806:121::32) To SN4PR0801MB3774.namprd08.prod.outlook.com
+In-Reply-To: <20230510-feature-ts_virtobj_patch-v5-1-ff6b5c4db693@wolfvision.net>
+X-ClientProxiedBy: SN7PR18CA0020.namprd18.prod.outlook.com
+ (2603:10b6:806:f3::14) To SN4PR0801MB3774.namprd08.prod.outlook.com
  (2603:10b6:803:43::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|DM3PR08MB9498:EE_
-X-MS-Office365-Filtering-Correlation-Id: 34036bef-72dc-4517-5e8b-08dbd6326753
+X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|DM8PR08MB7381:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7ec0745b-ee92-45d1-a55e-08dbd6345de8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HV85cykgHpyjeIi0q5YF7dvSUyFtPFORRjqQ8HxWecnClRPpkTUagTlw4dD5IbEjFPPFCeizcsAI+/tXdqTI800UO5KPyOzblwGHgZPnlrKK+th2qS+JdP7XW7iSwdn5wSiclxcU+CVKFBqNAhFot9c/trg3y3ZXH4TAoRmUueL/PNwGqUS1tnfI6hPcRm9C4pFWedU+beG7Yc6x24LpFDx6DaFjvjj9n1UAlaA4aCTrBtiLsoILHBbotJVPq5r90l5D7BF/cub4t4ajvb5iS7tLWTkQwbekjlARZmSTRGzKbPTVxlsJiby8RXh7uJ8184pD92dylb85JrF7dRT96EB9c+U1ETfvIRd+l4AY0iyW8EQUpvWUoSkNFzERfycAyyKig6nc/HEa1+XyFLJE4pvN4Q4156q9vQJkoN0BQDvqiy8QbljKFL5+YqYFreO31LZ7tjv7nt/ORmmQxRVYrp4G+iVEqUqx5SHEFlmdPKBrWa03XleVORJlYNDd/dEu2JW2QPc7JxTlsiQ+uDvZidXc4fbASNt4SLxFZvhbguuD5MfITG0Q73BNbf+uD5dx06cHYqbe7lkTKK1rAL9hGn8In7W8nnEajiWVHjwb4Qo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(136003)(366004)(39830400003)(346002)(396003)(376002)(84040400005)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(66899024)(6666004)(478600001)(6506007)(66476007)(54906003)(66946007)(9686003)(6512007)(86362001)(6486002)(33716001)(41300700001)(26005)(38100700002)(8676002)(8936002)(83380400001)(66556008)(4326008)(7416002)(5660300002)(316002)(6916009)(2906002)(67856001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: PdE+CdxgQxnw90+qDpu2wy2f+IxCSY3qTzd31eC4ReEh+OnlxXiDRS1Z19luipfEV/RAcFEs6cDHmYUJX2aA+wMImw+90SGFjmHhfBBh4KcR/K6NeIZ0zJZQDbiAldoMqXXuIC2BF9S0Xv70nUQ13lg/bc1hi2zO/kS6fkGNmqgm/kZILG/NEnWKyeFRi/ojw9abt9D8im4edmrAXXd+JYyudYmqdSa3DJobaqHW/eGTu0w80AF9KSIKwa8VHn2A0Mj9EWa47UomwNTEIrMCx9hGc3iy5Pxe2ljFyJy6Mqh2MEGrDn0qfg+3EYyovZtWWWJPG1s+/WQyVfEnZsx+p0nEn6+OmR9KlhT8h9kD/jOA3hNVoXTbhGjFOrGWpnRFVkOfj/jmAsd5XGhJpp4aE470MdK3u8ZraTysdJ2YPgKhXM7BHBzBhqFCX4BHlEEvrBYt7n3Eg1IO6hWZjk/3kOna8cMg/Ey8tpN6c6EgX0SIExwrlshLuLupwKUwi5Pze5a+h3o1mvSTrN6CXKLYuOFBySw4TxPVp8k/QeIQl5w=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(39830400003)(376002)(136003)(396003)(346002)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(38100700002)(83380400001)(6506007)(9686003)(6666004)(6512007)(33716001)(66946007)(54906003)(966005)(6486002)(26005)(478600001)(316002)(66476007)(66556008)(6916009)(8676002)(8936002)(4326008)(5660300002)(41300700001)(7416002)(2906002)(30864003)(86362001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WXcvWFl5TkVVd2dwT3pWUDUyQTZqUmpNWDJkRGliNWlnTUpCLzVLZ252OElk?=
- =?utf-8?B?NW5TZXVhVjkrbVdBbWZmMkZaOHFCR1RhMUY1aytRcGl2SHRmZDFGTkxMQjVR?=
- =?utf-8?B?eitKcGFJRk5Xb3M0a2doUnBQcENEU2ZHRUsvaTlCZGpCVHBqaTNQK2xpWDBJ?=
- =?utf-8?B?b0d3dEkwVHRiR3p0S2hoNWRsdlBXakNDMHRVZzVFWS9FQlEzbTF5UC9SaXRS?=
- =?utf-8?B?M05raklpNlJWTU85MDl6SmM0NVdqbXQ2aVRMQWErZXJwYm9uaU1iVzh5Skdi?=
- =?utf-8?B?L3RJUlZZbTJCWnNuS291bGVSU3kxdWJzYm8rbHZNSjBTLzNuOEdNM0ppQUd4?=
- =?utf-8?B?ejFGZ2Z4dmluRWVpUk9kTjlnMS9uUFo5bGZiOUwxM3hTMlhJSk1pOSt4RVRr?=
- =?utf-8?B?QUduOWFnalJ5aWVQYi9XR3lkN2lPQ2Rsa3RQVDRXb1pvUEpHN3FXTDJXQUVD?=
- =?utf-8?B?NXFHbW1EbGI3NzJ5VHM2MmVvWVhGRzVTblNCNUtUU1lJdTNURmt0Rm1lUHRH?=
- =?utf-8?B?aHA4ZFZhVXdnUlZoMnkvSlNlckxHc09LQWNRTHJQd2lJNzFOYjcxRDQvTEVP?=
- =?utf-8?B?YTA1R1U5Z1VyYlVIZzJhaHVUTVA0NFM3Y3pwNll2TGVWc080a3kwNkFDU0Q5?=
- =?utf-8?B?eDIveWY4V3ljeE5QNHNZQXB3ajdDQXRYUzZjVEFlbU9ka1pMajRDNlZhb1du?=
- =?utf-8?B?c1VGWmxiTDhLaXRYYU8wUzZSVXg2R00xSTNUcy9YZEs0bk5wUnpBSGYyd3hK?=
- =?utf-8?B?YnFzSFBnMHh5Y2R5enp1MlVxTW1aV3JLNkk1SU1OL0hsTUk3cHlFeVFXNm4v?=
- =?utf-8?B?K3Y5YWJMK0ZDdEdtY1RwdmNJVjdyTkNHT3NpZDhvL1RqNDFiWlZORC9XTlpP?=
- =?utf-8?B?azRyRkFzWUFYZVZ3TzFVT2tpUFZoUWFuZ1QwZVpyNzZReFpQT01Ud1lHbkFN?=
- =?utf-8?B?eGNvQVZ4eU4rTnEzYVZnSHh3VXZGV1haRHNjWDQxNzNKVVhTLzRlNXlMLzQw?=
- =?utf-8?B?STBvbE1SMTcxb2taeHhjakRQcE85Qm9tMW0wQjRZYlNVV3BUdUFYdi83dVVB?=
- =?utf-8?B?TWNZSy8yL3Y3TURrbHlNOGVsT21RN3YvS2EyQTVhaml4cnFjYjRGaXgzeGRy?=
- =?utf-8?B?bkJuRHN1dGtLVHVQOHF6UjRXRm5iWkFsSThrZEZIdjl0dlZGRnhiek9ncFht?=
- =?utf-8?B?dk9NK1lBZEFRc0EvZS9ySXp2a1RhdXNZVGxMRHpDTVJOU2VGTi9FeHQ1SG9h?=
- =?utf-8?B?SWFuNk1ZVXhBZEtlNGg3NW5odXVpb2RWeG1ZNFFzcThOZVc0VEI5cEpGa1VP?=
- =?utf-8?B?Q2lUbFJNWGM4NUN2ZnF2d3NNaDRjQis1MEdTU1ZJazhOY0pZRENMZDNRR2NT?=
- =?utf-8?B?bmI3bXc0eHRjT3JCcVo5dklOVE5MSEtSRWhMbEwxczZWb0ZxdXkrSHArN2xG?=
- =?utf-8?B?bjJpbTVNaXhVc05ZTGZkQSs3MjR1V1BIMVArOFBrZS9SUGVZL253dEQ3aWps?=
- =?utf-8?B?NGIwYmx3dGhkR1Q5TERvVnpxZWJTa1FTN2FHcFFRTkhmWTVxMEh6MDgwZXFD?=
- =?utf-8?B?cWZwVzhnbG9FYXhUSHh4cXlWUjA3RzJEREtmNGhuZGJVZU5UZytzN0w4S0dK?=
- =?utf-8?B?bjd5RDlES25WMEdnaEJXVy92QWNaZTZFYzJXRS9STXhkb0ZiN2N3WUZETHYy?=
- =?utf-8?B?LzVuN3IwMTlvN1Z2ZEdXeDJzclUrbHNFTVN6QStTTzFSUkQzcFp5QnVLYkdz?=
- =?utf-8?B?L3VTYjA0dDRycGVwTlVPbHBKUWpNTGRtalBYMXhqbWVLZW1HMlJpREFlbHIz?=
- =?utf-8?B?YU5DMzU2aDR2cGkxZ2FRbS9TMkpKTnMwQ256OENyRUlNMzRaU3pjUy96Uy85?=
- =?utf-8?B?bmZOdlU3WjhiZlNRbFJqbnN3S3pZNk1MR3grRXM2ZWdUVGl0ZkV0WFljYS9U?=
- =?utf-8?B?RWdSRHgxS09DV1RrWU04a3ZtZnkvSjc0MWlKcnAwN3dwbnJrVGRjNXdRSVUx?=
- =?utf-8?B?aEpZQXBnTlFNQWphNVcvSC9tZTBCditQQ0pmWWlyZVAyWDdqSzVLc3VFa3l0?=
- =?utf-8?B?VHBHUVl4bmU5NXlLM3p4YU5ZVXVjdjY4MzRKMjhMVHZRVDduZ25NcmZkRU1o?=
- =?utf-8?Q?Ao1UVyHoiuaRLh27o9zYpcycr?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5V5LAFyC/IMbJ9n3ZSTYLd8Y+ugz7pryXBAtCgqj/8O8sc0VvOEE0Tz7NDnp?=
+ =?us-ascii?Q?/QRbEq21KnZT01zJibJ0V1QdEcEVWWviA1n3t87cVmxpNVRQNvxp/3cFFLh8?=
+ =?us-ascii?Q?wNR5dgegY1SNqEaW0pvFYTu/kFFv4zWGqZZ4sLJrXbzDFcACEoUB41wTla0n?=
+ =?us-ascii?Q?puUCDu5vUFVjnUsb1cFlhbGFWIGwoHt9Xrheg2Rh0F8j2fKsKJSR0pStfJGf?=
+ =?us-ascii?Q?+KmMX/7ainx05hA3WX7KzWS884s0zdwy+sSeLjqSb7ciDru5A2zFaxdSN91u?=
+ =?us-ascii?Q?AfUDocKNsF/a0gkzflhssTtFY3bXQA3vhbHZhdkkAwlIoJAPQY53Ha2mMzfk?=
+ =?us-ascii?Q?pDu0zdFKGA3GDJqDB9dyFhbFWw+2u87geZaQ34WvH9hVFclsZj9XEjJ95lDO?=
+ =?us-ascii?Q?NySXOM+dYAvF+rSzvFGRstwWI7YyWYwTPItN+k8JlJ/qqpgFahpQak8EJ3y9?=
+ =?us-ascii?Q?Wm0+qAjwX5t5ybV1RO7uNbpTRKfGpOejfdZgSoycTDwC6Dyo7MA/mpDV/WiW?=
+ =?us-ascii?Q?fuYNAUzZZ7A7EvuWGQ1EuhESxAbqgBR3mUmoGB4uLpF9iQeXZi4ok0LqFDPF?=
+ =?us-ascii?Q?f+J61EHTXbELK2/oJG+rQZgp2Xt/awEKOQ4Ko3mfvGdWoK/D3RRPfAfqu3gV?=
+ =?us-ascii?Q?N5xO/CD45qwaGmGEGVq01TaliY08Ou/X120yypaAclnDAq86E1sdJcMl92kq?=
+ =?us-ascii?Q?R9oJ1LtVQahTsM4BsXMVwgj8pQwWZ+v+WjrvpmUf6b//aTPPAfoa6Maq2BUz?=
+ =?us-ascii?Q?8paWxgVmIb2jKBGUapfO+KNPPV9eLxrgz2geXILPmPH4m0rrClSP5qUJQBry?=
+ =?us-ascii?Q?QiAR7+u8tXsVDL5jX2743YR+XGmUL9iRY6ckVBDChZMkyfka/s+PptDaMfRp?=
+ =?us-ascii?Q?AdPKQeiIDfx/qM6+XHfk2S60TgzbvXAfKqgdTHOkkLHHatp8uTtmhA1V4mBt?=
+ =?us-ascii?Q?MPtJguJ8THkurna2iW/MgGbTpsxrnFCYtLDvZfqLLxeMKX8DpdicfMGnTwcb?=
+ =?us-ascii?Q?LyuSKdX6e1qjQcdsKfxOPmNufIGZDZWN8jv3OIgM76hu9KxFLIUbUmczEGTE?=
+ =?us-ascii?Q?fV3TgX4RGxKd4B9dPwqUpmEYwO3qrWDKhkEN2weaU8mXoQdhRZcG8etKBSxA?=
+ =?us-ascii?Q?Zxme3tAXHZqR3M3cMRjNAyeRZK63YLGhYU4kx5RTqVbD9aYn87k2zVDW5Le/?=
+ =?us-ascii?Q?48p8e/0uya9u3vUCnajwOGPipLjVcvJP2lOGy7h+kc5PMrQSq7DD6ftaVDOn?=
+ =?us-ascii?Q?ktR8megeqXJucl5JQcYnzDBI89vpXKLasniQrI8GxGmVpLyGK5/83G73t7ZX?=
+ =?us-ascii?Q?TuyWiLDn9uFX1JczkRSYLNSY1FtaboQjhpqCRCcGiI90+LfhMoM4VC/sNk4V?=
+ =?us-ascii?Q?T9pOfF8prDCTArx58GxeFnJcXXQJGqW4NP3sD4vkuhpsC1ekpzNOXhVNo5At?=
+ =?us-ascii?Q?8ukSAy/GnwIQTx4kEpELW/R/Z7uDlHHtdShQKONItO0Mv+b5Ap6y8UJyP16R?=
+ =?us-ascii?Q?gWuwb2V7MP7iT9DRD0L9v7j299t794iudAxdUyzFs5ULIvoydVGZoFKz1qJs?=
+ =?us-ascii?Q?rMYFMpTfdVM3CbpTjHOtMhUJ5uxmBPBODjEYUYxA?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34036bef-72dc-4517-5e8b-08dbd6326753
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ec0745b-ee92-45d1-a55e-08dbd6345de8
 X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2023 14:46:57.5587
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2023 15:01:00.7018
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hZU12LohNdG1XwcSu/VV6OnCKgLmda6O/on2SytoENUa38EsasO02LU2VnzjMyaGT+J9Zet1UfeGdcgSn5USsQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR08MB9498
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1KWYoaZco4aeKJi2Gr5bIt0zerW5FNC2urmzZKxggyYYo9VwBppwttoWPhjpqhadhFTSe+kXYgjMywcQAeONeg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR08MB7381
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -133,262 +123,525 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Hi Javier,
 
-Thank you for continuing to drive this high-quality work.
+Just a few minor comments in addition to my over-arching question in
+patch [2/4].
 
-On Tue, Oct 17, 2023 at 01:00:08PM +0200, Javier Carrasco wrote:
-> The overlay-touchscreen object defines an area within the touchscreen
-> where touch events are reported and their coordinates get converted to
-> the overlay origin. This object avoids getting events from areas that
-> are physically hidden by overlay frames.
+On Tue, Oct 17, 2023 at 01:00:07PM +0200, Javier Carrasco wrote:
+> Some touch devices provide mechanical overlays with different objects
+> like buttons or clipped touchscreen surfaces.
 > 
-> For touchscreens where overlay buttons on the touchscreen surface are
-> provided, the overlay-buttons object contains a node for every button
-> and the key event that should be reported when pressed.
+> In order to support these objects, add a series of helper functions
+> to the input subsystem to transform them into overlay objects via
+> device tree nodes.
+> 
+> These overlay objects consume the raw touch events and report the
+> expected input events depending on the object properties.
+
+Normally binding patches precede the code that parses the corresponding
+properties, so that the documentation is in the tree by the time the
+code is applied.
+
+Typically this only matters for compatible strings, since checkpatch
+may complain about undocumented compatible strings when applying a
+driver whose binding is not yet merged. That's obviously not the case
+here, but I would say let's swap patches 1/2 and 3/4 for consistency.
+
 > 
 > Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
 > ---
->  .../bindings/input/touchscreen/touchscreen.yaml    | 143 +++++++++++++++++++++
->  1 file changed, 143 insertions(+)
+>  MAINTAINERS                         |   7 +
+>  drivers/input/Makefile              |   2 +-
+>  drivers/input/touch-overlay.c       | 399 ++++++++++++++++++++++++++++++++++++
+>  include/linux/input/touch-overlay.h |  34 +++
+>  4 files changed, 441 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-> index 431c13335c40..5c58eb79ee9a 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-> @@ -87,6 +87,129 @@ properties:
->    touchscreen-y-plate-ohms:
->      description: Resistance of the Y-plate in Ohms
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7a7bd8bd80e9..00c03824c3ac 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -21884,6 +21884,13 @@ W:	https://github.com/srcres258/linux-doc
+>  T:	git git://github.com/srcres258/linux-doc.git doc-zh-tw
+>  F:	Documentation/translations/zh_TW/
 >  
-> +  overlay-touchscreen:
-> +    description: Clipped touchscreen area
+> +TOUCH OVERLAY OBJECTS
+> +M:	Javier Carrasco <javier.carrasco@wolfvision.net>
+> +L:	linux-input@vger.kernel.org
+> +S:	Maintained
+> +F:	drivers/input/touch-overlay.c
+> +F:	include/linux/input/touch-overlay.h
 > +
-> +      This object can be used to describe a frame that restricts the area
-> +      within touch events are reported, ignoring the events that occur outside
-> +      this area. This is of special interest if the touchscreen is shipped
-> +      with a physical overlay on top of it with a frame that hides some part
-> +      of the original touchscreen area.
-> +
-> +      The x-origin and y-origin properties of this object define the offset of
-> +      a new origin from where the touchscreen events are referenced.
-> +      This offset is applied to the events accordingly. The x-size and y-size
-> +      properties define the size of the overlay-touchscreen (effective area).
-> +
-> +      The following example shows the new touchscreen area and the new origin
-> +      (0',0') for the touch events generated by the device.
-> +
-> +                   Touchscreen (full area)
-> +         ┌────────────────────────────────────────┐
-> +         │    ┌───────────────────────────────┐   │
-> +         │    │                               │   │
-> +         │    ├ y-size                        │   │
-> +         │    │                               │   │
-> +         │    │      overlay-touchscreen      │   │
-> +         │    │                               │   │
-> +         │    │                               │   │
-> +         │    │            x-size             │   │
-> +         │   ┌└──────────────┴────────────────┘   │
-> +         │(0',0')                                 │
-> +        ┌└────────────────────────────────────────┘
-> +      (0,0)
-> +
-> +     where (0',0') = (0+x-origin,0+y-origin)
-> +
-> +    type: object
-> +    $ref: '#/$defs/overlay-node'
-> +    unevaluatedProperties: false
-> +
-> +    required:
-> +      - x-origin
-> +      - y-origin
-> +      - x-size
-> +      - y-size
-> +
-> +  overlay-buttons:
-> +    description: list of nodes defining the buttons on the touchscreen
-> +
-> +      This object can be used to describe buttons on the touchscreen area,
-> +      reporting the touch events on their surface as key events instead of
-> +      the original touch events.
-> +
-> +      This is of special interest if the touchscreen is shipped with a
-> +      physical overlay on top of it where a number of buttons with some
-> +      predefined functionality are printed. In that case a specific behavior
-> +      is expected from those buttons instead of raw touch events.
-> +
-> +      The overlay-buttons properties define a per-button area as well as an
-> +      origin relative to the real touchscreen origin. Touch events within the
-> +      button area are reported as the key event defined in the linux,code
-> +      property. Given that the key events do not provide coordinates, the
-> +      button origin is only used to place the button area on the touchscreen
-> +      surface. Any event outside the overlay-buttons object is reported as a
-> +      touch event with no coordinate transformation.
-> +
-> +      The following example shows a touchscreen with a single button on it
-> +
-> +              Touchscreen (full area)
-> +        ┌───────────────────────────────────┐
-> +        │                                   │
-> +        │                                   │
-> +        │   ┌─────────┐                     │
-> +        │   │button 0 │                     │
-> +        │   │KEY_POWER│                     │
-> +        │   └─────────┘                     │
-> +        │                                   │
-> +        │                                   │
-> +       ┌└───────────────────────────────────┘
-> +     (0,0)
-> +
-> +      The overlay-buttons object can  be combined with the overlay-touchscreen
-> +      object as shown in the following example. In that case only the events
-> +      within the overlay-touchscreen object are reported as touch events.
-> +
-> +                  Touchscreen (full area)
-> +        ┌─────────┬──────────────────────────────┐
-> +        │         │                              │
-> +        │         │    ┌───────────────────────┐ │
-> +        │ button 0│    │                       │ │
-> +        │KEY_POWER│    │                       │ │
-> +        │         │    │                       │ │
-> +        ├─────────┤    │  overlay-touchscreen  │ │
-> +        │         │    │                       │ │
-> +        │         │    │                       │ │
-> +        │ button 1│    │                       │ │
-> +        │ KEY_INFO│   ┌└───────────────────────┘ │
-> +        │         │(0',0')                       │
-> +       ┌└─────────┴──────────────────────────────┘
-> +     (0,0)
-> +
-> +    type: object
-
-I am still confused why the buttons need to live under an 'overlay-buttons'
-parent node, which seems like an imaginary boundary. In my view, the touch
-surface comprises the following types of rectangular areas:
-
-1. A touchscreen, wherein granular coordinates and pressure are reported.
-2. A momentary button, wherein pressure is quantized into a binary value
-   (press or release), and coordinates are ignored.
-
-Any contact that falls outside of (1) and (2) is presumed to be part of a
-border or matting, and is hence ignored.
-
-Areas (1) and (2) exist in the same "plane", so why can they not reside
-under the same parent node? The following seems much more representative
-of the actual hardware we intend to describe in the device tree:
-
-	touchscreen {
-		compatible = "...";
-		reg = <...>;
-
-		/* raw coordinates reported here */
-		touch-area-1 {
-			x-origin = <...>;
-			y-origin = <...>;
-			x-size = <...>;
-			y-size = <...>;
-		};
-
-		/* a button */
-		touch-area-2a {
-			x-origin = <...>;
-			y-origin = <...>;
-			x-size = <...>;
-			y-size = <...>;
-			linux,code = <KEY_POWER>;
-		};
-
-		/* another button */
-		touch-area-2b {
-			x-origin = <...>;
-			y-origin = <...>;
-			x-size = <...>;
-			y-size = <...>;
-			linux,code = <KEY_INFO>;
-		};
-	};
-
-With this method, the driver merely stores a list head. The parsing code
-then walks the client device node; for each touch* child encountered, it
-allocates memory for a structure of five members, and adds it to the list.
-
-The event handling code then simply iterates through the list and checks
-if the coordinates reported by the hardware fall within each rectangle. If
-so, and the keycode in the list element is equal to KEY_RESERVED (zero),
-we assume the rectangle is of type (1); the coordinates are passed to
-touchscreen_report_pos() and the pressure is reported as well.
-
-If the keycode is not equal to KEY_RESERVED (e.g. KEY_POWER), we assume
-the rectangle is of type (2); input_report_key() is called instead and
-the coordinates are ignored altogether.
-
-Instead, the existing implementation has two separate structures, one of
-which inherits the other. Its corresponding properties are then parsed in
-a separate function to account for the fact that the two structures exist
-at different layers in the heirarchy.
-
-My argument is that all nodes can be parsed in the same way, without having
-to understand whether they represent case (1) or (2). The existing method
-also has to count the nodes; this would not be necessary with a linked list.
-
-Can you help me understand why the buttons must be "wrapped" in their own
-node? As I mention in v2, this isn't a deal breaker necessarily, but I'd
-like to understand the reasoning behind what I interpret as additional
-complexity, and a degree of separation from a natural description of the
-touch surface.
-
-The only reason I can think to insert the 'overlay-buttons' parent is in
-case we want to specify a property within this node that applies to all
-buttons, but this does not exist in the current implementation, nor do I
-see a compelling reason to do so in the future.
-
-> +
-> +    patternProperties:
-> +      '^button-':
-> +        type: object
-> +        description:
-> +          Each button (key) is represented as a sub-node.
-> +        $ref: '#/$defs/overlay-node'
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          label:
-> +            $ref: /schemas/types.yaml#/definitions/string
-> +            description: descriptive name of the button
-> +
-> +          linux,code: true
-> +
-> +        required:
-> +          - linux,code
-> +          - x-origin
-> +          - y-origin
-> +          - x-size
-> +          - y-size
-> +
->  dependencies:
->    touchscreen-size-x: [ touchscreen-size-y ]
->    touchscreen-size-y: [ touchscreen-size-x ]
-> @@ -94,3 +217,23 @@ dependencies:
->    touchscreen-y-mm: [ touchscreen-x-mm ]
+>  TTY LAYER AND SERIAL DRIVERS
+>  M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>  M:	Jiri Slaby <jirislaby@kernel.org>
+> diff --git a/drivers/input/Makefile b/drivers/input/Makefile
+> index c78753274921..393e9f4d00dc 100644
+> --- a/drivers/input/Makefile
+> +++ b/drivers/input/Makefile
+> @@ -7,7 +7,7 @@
 >  
->  additionalProperties: true
+>  obj-$(CONFIG_INPUT)		+= input-core.o
+>  input-core-y := input.o input-compat.o input-mt.o input-poller.o ff-core.o
+> -input-core-y += touchscreen.o
+> +input-core-y += touchscreen.o touch-overlay.o
+>  
+>  obj-$(CONFIG_INPUT_FF_MEMLESS)	+= ff-memless.o
+>  obj-$(CONFIG_INPUT_SPARSEKMAP)	+= sparse-keymap.o
+> diff --git a/drivers/input/touch-overlay.c b/drivers/input/touch-overlay.c
+> new file mode 100644
+> index 000000000000..007dbd994474
+> --- /dev/null
+> +++ b/drivers/input/touch-overlay.c
+> @@ -0,0 +1,399 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + *  Helper functions for overlay objects on touchscreens
+> + *
+> + *  Copyright (c) 2023 Javier Carrasco <javier.carrasco@wolfvision.net>
+> + */
 > +
-> +$defs:
-> +  overlay-node:
-> +    type: object
-> +    properties:
-> +      x-origin:
-> +        description: horizontal origin of the node area
-> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +#include <linux/input.h>
+> +#include <linux/input/mt.h>
+> +#include <linux/input/touch-overlay.h>
+> +#include <linux/module.h>
+> +#include <linux/property.h>
 > +
-> +      y-origin:
-> +        description: vertical origin of the node area
-> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +enum touch_overlay_valid_objects {
+> +	TOUCH_OVERLAY_TS,
+> +	TOUCH_OVERLAY_BTN,
+> +};
 > +
-> +      x-size:
-> +        description: horizontal resolution of the node area
-> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +static const char *const object_names[] = {
+> +	[TOUCH_OVERLAY_TS] = "overlay-touchscreen",
+> +	[TOUCH_OVERLAY_BTN] = "overlay-buttons",
+> +};
 > +
-> +      y-size:
-> +        description: vertical resolution of the node area
-> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +struct touch_overlay_segment {
+> +	u32 x_origin;
+> +	u32 y_origin;
+> +	u32 x_size;
+> +	u32 y_size;
+> +};
+> +
+> +struct touch_overlay_button {
+> +	struct touch_overlay_segment segment;
+> +	u32 key;
+> +	bool pressed;
+> +	int slot;
+> +};
+> +
+> +static int touch_overlay_get_segment_props(struct fwnode_handle *segment_node,
+> +					   struct touch_overlay_segment *segment)
+> +{
+> +	int error;
+> +
+> +	error = fwnode_property_read_u32(segment_node, "x-origin",
+> +					 &segment->x_origin);
+> +	if (error < 0)
+
+It is sufficient, and much more common in input, to write this as 'if (error)'
+as the only nonzero return values are negative anyway.
+
+> +		return error;
+> +
+> +	error = fwnode_property_read_u32(segment_node, "y-origin",
+> +					 &segment->y_origin);
+> +	if (error < 0)
+> +		return error;
+> +
+> +	error = fwnode_property_read_u32(segment_node, "x-size",
+> +					 &segment->x_size);
+> +	if (error < 0)
+> +		return error;
+> +
+> +	error = fwnode_property_read_u32(segment_node, "y-size",
+> +					 &segment->y_size);
+> +	if (error < 0)
+> +		return error;
+> +
+> +	return 0;
+> +}
+> +
+> +static int
+> +touch_overlay_get_button_properties(struct device *dev,
+> +				    struct fwnode_handle *overlay_node,
+> +				    struct touch_overlay_button *btn)
+> +{
+> +	struct fwnode_handle *btn_node;
+> +	int error;
+> +	int j = 0;
+> +
+> +	fwnode_for_each_child_node(overlay_node, btn_node) {
+> +		error = touch_overlay_get_segment_props(btn_node,
+> +							&btn[j].segment);
+> +		if (error < 0)
+> +			goto button_put;
+> +
+> +		error = fwnode_property_read_u32(btn_node, "linux,code",
+> +						 &btn[j].key);
+> +		if (error < 0)
+> +			goto button_put;
+> +
+> +		dev_dbg(dev, "Added button at (%u, %u), size %ux%u, code=%u\n",
+> +			btn[j].segment.x_origin, btn[j].segment.y_origin,
+> +			btn[j].segment.x_size, btn[j].segment.y_size, btn[j].key);
+> +		j++;
+> +	}
+> +
+> +	return 0;
+> +
+> +button_put:
+> +	fwnode_handle_put(btn_node);
+> +	return error;
+> +}
+> +
+> +static void touch_overlay_set_button_caps(struct touch_overlay_map *map,
+> +					  struct input_dev *dev)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < map->button_count; i++)
+> +		input_set_capability(dev, EV_KEY, map->buttons[i].key);
+> +}
+> +
+> +static int touch_overlay_count_buttons(struct device *dev)
+> +{
+> +	struct fwnode_handle *overlay;
+> +	struct fwnode_handle *button;
+> +	int count = 0;
+> +
+> +	overlay = device_get_named_child_node(dev,
+> +					      object_names[TOUCH_OVERLAY_BTN]);
+> +	if (!overlay)
+> +		return 0;
+> +
+> +	fwnode_for_each_child_node(overlay, button)
+> +		count++;
+> +	fwnode_handle_put(overlay);
+> +
+> +	return count;
+> +}
+> +
+> +static int touch_overlay_map_touchscreen(struct device *dev,
+> +					 struct touch_overlay_map *map)
+> +{
+> +	struct fwnode_handle *ts_node;
+> +	int error = 0;
+> +
+> +	ts_node = device_get_named_child_node(dev,
+> +					      object_names[TOUCH_OVERLAY_TS]);
+> +	if (!ts_node)
+> +		return 0;
+> +
+> +	map->touchscreen =
+> +		devm_kzalloc(dev, sizeof(*map->touchscreen), GFP_KERNEL);
+
+This line break was a bit confusing to read; the choice of line break in
+touch_overlay_map_buttons() is much more clear.
+
+> +	if (!map->touchscreen) {
+> +		error = -ENOMEM;
+> +		goto handle_put;
+> +	}
+> +	error = touch_overlay_get_segment_props(ts_node, map->touchscreen);
+> +	if (error < 0)
+> +		goto handle_put;
+> +
+> +	map->overlay_touchscreen = true;
+> +	dev_dbg(dev, "Added overlay touchscreen at (%u, %u), size %u x %u\n",
+> +		map->touchscreen->x_origin, map->touchscreen->y_origin,
+> +		map->touchscreen->x_size, map->touchscreen->y_size);
+> +
+> +handle_put:
+> +	fwnode_handle_put(ts_node);
+> +
+> +	return error;
+> +}
+> +
+> +static int touch_overlay_map_buttons(struct device *dev,
+> +				     struct touch_overlay_map *map)
+> +{
+> +	struct fwnode_handle *button;
+> +	u32 count;
+> +	int error = 0;
+> +
+> +	count = touch_overlay_count_buttons(dev);
+> +	if (!count)
+> +		return 0;
+> +
+> +	map->buttons = devm_kcalloc(dev, count,
+> +				    sizeof(*map->buttons), GFP_KERNEL);
+> +	if (!map->buttons) {
+> +		error = -ENOMEM;
+> +		goto map_buttons_ret;
+> +	}
+> +	button = device_get_named_child_node(dev,
+> +					     object_names[TOUCH_OVERLAY_BTN]);
+> +	if (unlikely(!button)) {
+> +		error = -ENODEV;
+> +		goto map_buttons_ret;
+> +	}
+> +
+> +	error = touch_overlay_get_button_properties(dev, button,
+> +						    map->buttons);
+> +
+> +	if (error < 0)
+> +		goto map_buttons_put;
+> +
+> +	map->button_count = count;
+> +
+> +map_buttons_put:
+> +	fwnode_handle_put(button);
+> +map_buttons_ret:
+> +	return error;
+> +}
+> +
+> +static bool touch_overlay_defined_objects(struct device *dev)
+> +{
+> +	struct fwnode_handle *obj_node;
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(object_names); i++) {
+> +		obj_node = device_get_named_child_node(dev, object_names[i]);
+> +		if (obj_node) {
+> +			fwnode_handle_put(obj_node);
+> +			return true;
+> +		}
+> +		fwnode_handle_put(obj_node);
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +/**
+> + * touch_overlay_map_overlay - map overlay objects from the device tree and set
+> + * key capabilities if buttons are defined.
+> + * @keypad: pointer to the already allocated input_dev.
+> + *
+> + * Returns a pointer to the object mapping struct.
+> + *
+> + * If a keypad input device is provided and overlay buttons are defined,
+> + * its button capabilities are set accordingly.
+> + */
+> +struct touch_overlay_map *touch_overlay_map_overlay(struct input_dev *keypad)
+> +{
+> +	struct device *dev = keypad->dev.parent;
+> +	struct touch_overlay_map *map = NULL;
+> +	int error;
+> +
+> +	if (!touch_overlay_defined_objects(dev))
+> +		return NULL;
+> +
+> +	map = devm_kzalloc(dev, sizeof(*map), GFP_KERNEL);
+> +	if (!map) {
+> +		error = -ENOMEM;
+> +		goto map_error;
+> +	}
+> +	error = touch_overlay_map_touchscreen(dev, map);
+> +	if (error < 0)
+> +		goto map_error;
+> +
+> +	error = touch_overlay_map_buttons(dev, map);
+> +	if (error < 0)
+> +		goto map_error;
+> +
+> +	touch_overlay_set_button_caps(map, keypad);
+> +
+> +	return map;
+> +
+> +map_error:
+> +	return ERR_PTR(error);
+> +}
+> +EXPORT_SYMBOL(touch_overlay_map_overlay);
+> +
+> +/**
+> + * touch_overlay_get_touchscreen_abs - get abs size from the overlay node
+> + * @map: pointer to the struct that holds the object mapping
+> + * @x: horizontal abs
+> + * @y: vertical abs
+> + *
+> + */
+> +void touch_overlay_get_touchscreen_abs(struct touch_overlay_map *map, u16 *x,
+> +				       u16 *y)
+> +{
+> +	*x = map->touchscreen->x_size - 1;
+> +	*y = map->touchscreen->y_size - 1;
+> +}
+> +EXPORT_SYMBOL(touch_overlay_get_touchscreen_abs);
+> +
+> +static bool touch_overlay_segment_event(struct touch_overlay_segment *seg,
+> +					u32 x, u32 y)
+> +{
+> +	if (!seg)
+> +		return false;
+> +
+> +	if (x >= seg->x_origin && x < (seg->x_origin + seg->x_size) &&
+> +	    y >= seg->y_origin && y < (seg->y_origin + seg->y_size))
+> +		return true;
+> +
+> +	return false;
+> +}
+> +
+> +/**
+> + * touch_overlay_mapped_touchscreen - check if an overlay touchscreen is mapped
+> + * @map: pointer to the struct that holds the object mapping
+> + *
+> + * Returns true if an overlay touchscreen is mapped or false otherwise.
+> + */
+> +bool touch_overlay_mapped_touchscreen(struct touch_overlay_map *map)
+> +{
+> +	if (!map || !map->overlay_touchscreen)
+> +		return false;
+> +
+> +	return true;
+> +}
+> +EXPORT_SYMBOL(touch_overlay_mapped_touchscreen);
+> +
+> +/**
+> + * touch_overlay_mapped_buttons - check if overlay buttons are mapped
+> + * @map: pointer to the struct that holds the object mapping
+> + *
+> + * Returns true if overlay buttons mapped or false otherwise.
+> + */
+> +bool touch_overlay_mapped_buttons(struct touch_overlay_map *map)
+> +{
+> +	if (!map || !map->button_count)
+> +		return false;
+> +
+> +	return true;
+> +}
+> +EXPORT_SYMBOL(touch_overlay_mapped_buttons);
+> +
+> +static bool touch_overlay_mt_on_touchscreen(struct touch_overlay_map *map,
+> +					    u32 *x, u32 *y)
+> +{
+> +	bool contact = x && y;
+> +
+> +	if (!touch_overlay_mapped_touchscreen(map))
+> +		return true;
+> +
+> +	/* Let the caller handle events with no coordinates (release) */
+> +	if (!contact)
+> +		return false;
+> +
+> +	if (touch_overlay_segment_event(map->touchscreen, *x, *y)) {
+> +		*x -= map->touchscreen->x_origin;
+> +		*y -= map->touchscreen->y_origin;
+> +		return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +static bool touch_overlay_button_event(struct input_dev *input,
+> +				       struct touch_overlay_button *button,
+> +				       const u32 *x, const u32 *y, u32 slot)
+> +{
+> +	bool contact = x && y;
+> +
+> +	if (!contact && button->pressed && button->slot == slot) {
+> +		button->pressed = false;
+> +		input_report_key(input, button->key, false);
+> +		input_sync(input);
+> +		return true;
+> +	} else if (contact && touch_overlay_segment_event(&button->segment,
+> +							  *x, *y)) {
+> +		button->pressed = true;
+> +		button->slot = slot;
+> +		input_report_key(input, button->key, true);
+> +		input_sync(input);
+> +		return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +/**
+> + * touch_overlay_process_event - process input events according to the overlay
+> + * mapping. This function acts as a filter to release the calling driver from
+> + * the events that are either related to overlay buttons or out of the overlay
+> + * touchscreen area if defined.
+> + * @map: pointer to the struct that holds the object mapping
+> + * @input: pointer to the input device associated to the event
+> + * @x: pointer to the x coordinate (NULL if not available - no contact)
+> + * @y: pointer to the y coordinate (NULL if not available - no contact)
+> + * @slot: slot associated to the event
+> + *
+> + * Returns true if the event was processed (reported for valid key events
+> + * and dropped for events outside the overlay touchscreen area) or false
+> + * if the event must be processed by the caller. In that case this function
+> + * shifts the (x,y) coordinates to the overlay touchscreen axis if required
+> + */
+> +bool touch_overlay_process_event(struct touch_overlay_map *map,
+> +				 struct input_dev *input,
+> +				 u32 *x, u32 *y, u32 slot)
+> +{
+> +	int i;
+> +
+> +	if (!map)
+> +		return false;
+> +
+> +	/* buttons must be prioritized over overlay touchscreens to account for
+> +	 * overlappings e.g. a button inside the touchscreen area
+> +	 */
+
+Please refer to the kernel coding style guide regarding multi-line comments.
+
+> +	if (touch_overlay_mapped_buttons(map)) {
+> +		for (i = 0; i < map->button_count; i++) {
+> +			if (touch_overlay_button_event(input, &map->buttons[i],
+> +						       x, y, slot))
+> +				return true;
+> +		}
+> +	}
+> +	/* valid touch events on the overlay touchscreen are left for the client
+> +	 * to be processed/reported according to its (possibly) unique features
+> +	 */
+> +	return !touch_overlay_mt_on_touchscreen(map, x, y);
+> +}
+> +EXPORT_SYMBOL(touch_overlay_process_event);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("Helper functions for overlay objects on touch devices");
+> diff --git a/include/linux/input/touch-overlay.h b/include/linux/input/touch-overlay.h
+> new file mode 100644
+> index 000000000000..3e0db813dc34
+> --- /dev/null
+> +++ b/include/linux/input/touch-overlay.h
+> @@ -0,0 +1,34 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2023 Javier Carrasco <javier.carrasco@wolfvision.net>
+> + */
+> +
+> +#ifndef _TOUCH_OVERLAY
+> +#define _TOUCH_OVERLAY
+> +
+> +#include <linux/types.h>
+> +
+> +struct input_dev;
+> +struct device;
+> +
+> +struct touch_overlay_map {
+> +	struct touch_overlay_segment *touchscreen;
+> +	bool overlay_touchscreen;
+> +	struct touch_overlay_button *buttons;
+> +	u32 button_count;
+> +};
+> +
+> +struct touch_overlay_map *touch_overlay_map_overlay(struct input_dev *keypad);
+> +
+> +void touch_overlay_get_touchscreen_abs(struct touch_overlay_map *map,
+> +				       u16 *x, u16 *y);
+> +
+> +bool touch_overlay_mapped_touchscreen(struct touch_overlay_map *map);
+> +
+> +bool touch_overlay_mapped_buttons(struct touch_overlay_map *map);
+> +
+> +bool touch_overlay_process_event(struct touch_overlay_map *map,
+> +				 struct input_dev *input,
+> +				 u32 *x, u32 *y, u32 slot);
+> +
+> +#endif
 > 
 > -- 
 > 2.39.2
