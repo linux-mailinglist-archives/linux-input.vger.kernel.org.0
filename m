@@ -2,73 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33D727DAA74
-	for <lists+linux-input@lfdr.de>; Sun, 29 Oct 2023 03:12:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6330A7DAA89
+	for <lists+linux-input@lfdr.de>; Sun, 29 Oct 2023 03:54:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229451AbjJ2CMK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 28 Oct 2023 22:12:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39686 "EHLO
+        id S229486AbjJ2CyX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 28 Oct 2023 22:54:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjJ2CMJ (ORCPT
+        with ESMTP id S229446AbjJ2CyW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 28 Oct 2023 22:12:09 -0400
-Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com [IPv6:2607:f8b0:4864:20::c35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F070B8;
-        Sat, 28 Oct 2023 19:12:07 -0700 (PDT)
-Received: by mail-oo1-xc35.google.com with SMTP id 006d021491bc7-581de3e691dso1975132eaf.3;
-        Sat, 28 Oct 2023 19:12:07 -0700 (PDT)
+        Sat, 28 Oct 2023 22:54:22 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58F9FCC;
+        Sat, 28 Oct 2023 19:54:20 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id 41be03b00d2f7-577e62e2adfso2325065a12.2;
+        Sat, 28 Oct 2023 19:54:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698545526; x=1699150326; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=y2Y1d8nePAl7fO5QsXvyHc6h9sOCIWDjlfedyMENuIc=;
-        b=AasFdDUhjTtIdQdNsM/Di95gRa99hBx2cQ013tD7XweSJH8gnAxu2rTndU3zyIpPj3
-         mhBZ96UGMJa7L/MaOVqiy6LV1sVvhW/dDpIWtV426YBWBvZZTiOHHwiKfYfxASfQGtd0
-         j0PfU1p4osS7Q3lpAwnRJaM/E/bYO76psPScyH4vR3ZiQ3xJQPQu4LE4FXASXB9Bl4eF
-         btQKG6wnn2hBlhWTycYdArGcRXDXrHJcM+nXj6b0WW5MkJnK8TFDDqXpcg3QHdvTdAIy
-         alP7ToIzgYyUB6vY3bhRFkYvptaDn9/WUwyGYBt9n6NR6NJ+wGzKEZRxYX4jMlKW6Amj
-         ioCA==
+        d=gmail.com; s=20230601; t=1698548060; x=1699152860; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=c8Ad4IK0kybFM1k7TSKyGMSMPkHhzxeJmmhckcgCxTs=;
+        b=VRjEeplTlHJG+1oPW7VaXi79RrZhjVrXsK37Q7KMhRTk6l2hXoQyY+xkqctXwtd1H9
+         TXrnSIZpuz8TeWGKhn8iaETUOqghco5pLO7qc30JOvmYK7ZkpOeJN62QLXb62ghEubmb
+         LqCb/beHdtGKNJnXvGiaIdVLNizN0xZitVf1qOXY7Kc9lEyKisSac8/aK269XFlnW5JF
+         C5xcOhCR5ggydArp/ulKMD+x2Px5fZu+1/WCwCx6fZryp0aJJwMhY+Se//CbNzNWOKaJ
+         kUnmPqIP5864olzVemqvtLaD7wdlLImFQqo7+JllUDlBjIxF8rFHmwkPnbAQ7aebo7gF
+         dduA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698545526; x=1699150326;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y2Y1d8nePAl7fO5QsXvyHc6h9sOCIWDjlfedyMENuIc=;
-        b=FjUb6c7sm707CSdYur7X/Kbyot1mgJzcTPyzK5Dkht/gDgaWXebhpja1N1J6kNBrwc
-         AkspU7xgM34oozXYMllHAVxV4qZiONRn4BO8/pKtvjUBCwu+EB7qqw9Pk7yZVXT46tj+
-         X1Q4upGpwUyYieS/jiZvLEpNmtgYO9UOWk6BqC99vBjnuADOj2Ge0n6gLsSwpCPxQ+aC
-         g0wPzcNsXNiIj3da55iJ7gmTWidgAfCnoc7i7Auctl1zY+E3BlFpu5GZS48f1HeM4ELT
-         Fx6C29+yk3ONo68xDTpdk9eQwPfwfHk+WLg+AK7KBfcyyKtvFPpV85IkEufzvAu3fa2O
-         EJww==
-X-Gm-Message-State: AOJu0Yw9buAQPLeznOoV8+z5xKTvenqrMobyXhMFX10pdxpGw8uCSqXK
-        UKTK9/309MqMBxKS02+9cPEbg3mMB1U=
-X-Google-Smtp-Source: AGHT+IHWdOwO5H9afje5/FUl0swZ2f8PT5tmE2MjYebsTpkRnn8EyT1taHcvEcWwtmauRid5Vk5zpA==
-X-Received: by 2002:a05:6358:52c1:b0:168:d2b1:6f58 with SMTP id z1-20020a05635852c100b00168d2b16f58mr10176969rwz.22.1698545526346;
-        Sat, 28 Oct 2023 19:12:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1698548060; x=1699152860;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c8Ad4IK0kybFM1k7TSKyGMSMPkHhzxeJmmhckcgCxTs=;
+        b=TNG4QSQsiyi4JUc/V6XVaV+YBbWK6dB6C2JtEYpDHjhMHG9MJj4Gs5wbgrLeqXDikU
+         +wdk2TrUxIsnToYE8xa+b3TgxLweQvGbPaER83kgrw7ySTCWbkkxvxUWeL57LLPgYMnL
+         RJYYsotXNlXMs/6KKfqp/UVs2233GeNbfaeiZl97sMM8c2se2d7bAUrCq/irTO1MTTm5
+         IGH2AxpqDws+7CVrCVFutbxNMWBsj2r+djjB3SEry+1+a0lgC/4YsyNtki19Lsw7JAgn
+         ltJOIwp008Veomj8SiUCynU2XNH5cVO1X3cosWQxg14PwdS81D/I7IXx6og2UVpt3Gjq
+         6tKg==
+X-Gm-Message-State: AOJu0YxEOPFPR/5BSQY8cYzuuU5vQeXxHrB6jaOl5g6HOM8H4rAq7HA6
+        WUX1XG8mdcQNeFlCJQoxyME=
+X-Google-Smtp-Source: AGHT+IH1ZIjgKbDJu+Sz7YzWme1WJLgfKnF/NCTVyOfOOjc8KwHzbgtC8BAdZ3gnqrF3EwzvfM1q/g==
+X-Received: by 2002:a17:902:f1d1:b0:1cc:2456:c17a with SMTP id e17-20020a170902f1d100b001cc2456c17amr3193184plc.33.1698548059529;
+        Sat, 28 Oct 2023 19:54:19 -0700 (PDT)
 Received: from google.com ([205.220.129.30])
-        by smtp.gmail.com with ESMTPSA id 34-20020a17090a09a500b002804af3afb7sm200800pjo.49.2023.10.28.19.11.56
+        by smtp.gmail.com with ESMTPSA id b8-20020a170902d50800b001c60635c13esm3798662plg.115.2023.10.28.19.54.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Oct 2023 19:12:05 -0700 (PDT)
-Date:   Sun, 29 Oct 2023 02:11:40 +0000
-From:   "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
-To:     Abhishek Kumar Singh <abhi1.singh@samsung.com>
-Cc:     "robh@kernel.org" <robh@kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        SRI-N IT Security <sri-n.itsec@samsung.com>
-Subject: Re: [PATCH] input: gpio-keys - optimize wakeup sequence.
-Message-ID: <ZT2_XI-6D24gjbrO@google.com>
-References: <CGME20231017103415epcms5p2f8f5b28a8f5d71055622b82f71b0fc93@epcms5p4>
- <899376598.3134980.1698299600677@mail-kr5-0.mail-kr5.knoxportal-kr-prod-blue.svc.cluster.local>
+        Sat, 28 Oct 2023 19:54:18 -0700 (PDT)
+Date:   Sun, 29 Oct 2023 02:54:01 +0000
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Dan Carpenter <dan.carpenter@linaro.org>
+Cc:     Nick Dyer <nick@shmanahar.org>,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        Christopher Heiny <cheiny@synaptics.com>,
+        linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] Input: synaptics-rmi4 - fix use after free in
+ rmi_unregister_function()
+Message-ID: <ZT3JSaeOOHYZpKb8@google.com>
+References: <706efd36-7561-42f3-adfa-dd1d0bd4f5a1@moroto.mountain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <899376598.3134980.1698299600677@mail-kr5-0.mail-kr5.knoxportal-kr-prod-blue.svc.cluster.local>
+In-Reply-To: <706efd36-7561-42f3-adfa-dd1d0bd4f5a1@moroto.mountain>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,44 +74,15 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Abhishek,
+On Fri, Oct 27, 2023 at 03:18:28PM +0300, Dan Carpenter wrote:
+> The put_device() calls rmi_release_function() which frees "fn" so the
+> dereference on the next line "fn->num_of_irqs" is a use after free.
+> Move the put_device() to the end to fix this.
+> 
+> Fixes: 24d28e4f1271 ("Input: synaptics-rmi4 - convert irq distribution to irq_domain")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-On Thu, Oct 26, 2023 at 11:23:20AM +0530, Abhishek Kumar Singh wrote:
-> Dear Mr. Dmitry,
-> Greetings!
-> 
-> 
-> The patch removes unused many APIs call chain for every suspend/resume of the device 
-> if no key press event triggered.
-> 
-> 
-> There is a call back function gpio_keys_resume() called for
-> every suspend/resume of the device. and whenever this function called, it is
-> reading the status of the key. And gpio_keys_resume() API further calls the
-> below chain of API irrespective of key press event
-> 
-> 
-> APIs call chain:
-> static void gpio_keys_report_state(struct gpio_keys_drvdata *ddata)
-> static void gpio_keys_gpio_report_event(struct gpio_button_data *bdata)
-> gpiod_get_value_cansleep(bdata->gpiod);
-> input_event(input, type, *bdata->code, state);
-> input_sync(input);
-> 
-> 
-> The patch avoid the above APIs call chain if there is no key press event triggered.
-> It will save the device computational resources, power resources and optimize the suspend/resume time
-
-Unfortunately it also breaks the driver as button->value does not hold
-the current state of the GPIO but rather set one via device tree so that
-the driver can use that value when sending EV_ABS events. So with
-typical GPIO-backed keys or buttons you change results in no events
-reported on resume.
-
-I also wonder what kind of measurements you did on improvements to
-suspend/resume time with your change.
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
