@@ -2,128 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D468D7DAD63
-	for <lists+linux-input@lfdr.de>; Sun, 29 Oct 2023 18:06:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92B2E7DAE11
+	for <lists+linux-input@lfdr.de>; Sun, 29 Oct 2023 20:56:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbjJ2RGV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 29 Oct 2023 13:06:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46820 "EHLO
+        id S230230AbjJ2T4d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 29 Oct 2023 15:56:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230155AbjJ2RGU (ORCPT
+        with ESMTP id S229533AbjJ2T4c (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 29 Oct 2023 13:06:20 -0400
-Received: from AUS01-SY4-obe.outbound.protection.outlook.com (mail-sy4aus01olkn2180.outbound.protection.outlook.com [40.92.62.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DD869B;
-        Sun, 29 Oct 2023 10:06:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tio6nt1YXkeGI+71a7GKytlsSx9SxOxB7jm890sp6hWEBKeqjR6mIgj4ud8NHY3Hc/GTjTwi1CrUOrtDI79omagYHoqkuI7cgEbtIUXvGHKzZHXnEMTfzbguOfbeMovca2Ey8wRUi9jeipx0vYy/9junw72Ib69sL5HGuRvyOchP8A7qOi037KKtfGPDoxikJFiOazcSu/ldBHX5Fi8jboySEjwq4qsvlvulerExS+hA7z/fs2OW+fKVmbL3gMhPqj7C4Eh7PICqF+fQ4m5dO7ATAWbBsm5O5bHSGQC2/0uUYJ4Ld9kFPPL31plVjw7u3NFX5cxaeaK7RGe3z4bWlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tiDvTMOTYKxvPVSYElkAiLllbD9f2SUr5oGuEtAXapc=;
- b=EFv+LCbRyEXrRRfBi6IiHlOYrc+wxDfwLStHNaaO3LeWUJq95ZRrqdBx+gzn0ard0METfegriwY08D5T4soB8fTZxZZ2GcelfqEs0uqvNPfQcakGGd1dn2w1R0m2TYMmF2WO+OU5mK+fGWACT+dPOI6xHQnssrgvzT93c+fuCLEBCWloY2Vnbd5FsQEOCcDizQv7yrW5QzBwlPIo/uB+aDwyMaQqRkJ6+5VOfewEHrXXhIE5plsoFyoZ32tQ88+Dbgvwz6IPhg3whgUliKB5dmi3Ab6mUTXHW+P8pEDTTAQ8+V838lYcekMt+YiDVafG/0CSZGOoUxQjiPY5CBj+SQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tiDvTMOTYKxvPVSYElkAiLllbD9f2SUr5oGuEtAXapc=;
- b=RwACsaFBRGy2F3Aek8G9OKIbbMgUo/xcnceNfg7Ke7utlGuogBXcfv/jHN/KOXOFqOc7v8iVpi+xVduk2qFL/PU+hWiTRiGyimRa4F37GlBk0WnjHh3fgaLrW+8nNSoxKH8Eqw+Wh6suyhKYuWz27qHhpoCcJEW1MzvN/orK52Ny5flwemh29jwlTsSXjiY5xBtp4Y8eIV/Ot2Fgwr0nss252Hzfz0oOe4e7MTHSR4X7uAFEaNDY//xNCd7zkXmLA1K72GKBMIxc0f4E/oPLrw8FqCQJrhUHOnm+j9vh5Fqrf+V241UBrio1x46+R2QwuEnPKrMX6uaI/r4bfMPWUQ==
-Received: from SYYP282MB2110.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:dd::7) by
- SY7P282MB4517.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:274::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6933.26; Sun, 29 Oct 2023 17:06:13 +0000
-Received: from SYYP282MB2110.AUSP282.PROD.OUTLOOK.COM
- ([fe80::7b4f:c2f2:e037:7f68]) by SYYP282MB2110.AUSP282.PROD.OUTLOOK.COM
- ([fe80::7b4f:c2f2:e037:7f68%4]) with mapi id 15.20.6933.027; Sun, 29 Oct 2023
- 17:06:13 +0000
-From:   Yihong Cao <caoyihong4@outlook.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Yihong Cao <caoyihong4@outlook.com>,
-        linux-input@vger.kernel.org (open list:HID CORE LAYER),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] HID: apple: add Jamesdonkey and A3R to non-apple keyboards list
-Date:   Mon, 30 Oct 2023 01:05:38 +0800
-Message-ID: <SYYP282MB2110B4E87983EAFEDC8741E49BA2A@SYYP282MB2110.AUSP282.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.42.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN:  [591oj4R3DDtFoIqJ3KzKtkgmE+n7KhiA]
-X-ClientProxiedBy: SGXP274CA0019.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::31)
- To SYYP282MB2110.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:dd::7)
-X-Microsoft-Original-Message-ID: <20231029170539.108529-1-caoyihong4@outlook.com>
+        Sun, 29 Oct 2023 15:56:32 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3FD7C0
+        for <linux-input@vger.kernel.org>; Sun, 29 Oct 2023 12:56:29 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-4083f613272so31648525e9.1
+        for <linux-input@vger.kernel.org>; Sun, 29 Oct 2023 12:56:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698609388; x=1699214188; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MBjaEDFH2L20pCiIDxvatCP6Y3N/isgm8vU1EI+Cv9k=;
+        b=mZMy5FL7v4eWKOG7xM+D1+YMg8qx3cN4t9c2DV7n2W0YFN2jyg7KOJp61ZzyZR6OfG
+         XMD15AVBEXELLKSDBYK43x2uZocQOZSswHgFdl2GHPqi0wesU/ZVlzVDYqsg3NEuqrRQ
+         Je9PwRlPwcTiuVZKuu3ZQT+eXEVqcir+AFINJxy/+B5K9ANAqqbtTKYu+BVfU7pFo+SA
+         lPjs8JD79BqU2Myj0exYjuwVxmMocB98uhkW6WdNCj9AAJ91sHcoG2xa2FWf9DE7q1pK
+         6jJhnP4p/BzIlE+iSLPx5G+2jQHZKxVWFxz/WpalKEwnfjesS/Mvg+BaUI0dr4WkHGgE
+         +/Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698609388; x=1699214188;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MBjaEDFH2L20pCiIDxvatCP6Y3N/isgm8vU1EI+Cv9k=;
+        b=cbat5Q1AxvkoZycZLFi1AgxbQhSNKyp49wabmzd5a1NpjixPnl/xFI1f1wfiHZyZgE
+         MQueNzveEB7BaosnCZ0xV60tgPERUTtzepYwrpe6Hz7rQU3TQhbj0nX5bwRNp3ocQkLg
+         HPCHt0ERHWcN9H863pCaLjOA/W8oWoV0gWsZ+ORG2x9/spWmksdCn9PTRZbAxlv0Pgda
+         HWw5NFySIUppjDK7zp1dpYNmddVuQwj7sLtRKtNymVJhFtKNGTruR4DIXitr9ivhQNX2
+         205Oe3KMMXvp5XhChkYS8S06QXyg4GuCBrxtGsujQR78WmqQ5cXpRTP3X25wAPo6Xbgy
+         s1GA==
+X-Gm-Message-State: AOJu0YyaStjohLA5cIoS6R4W0/Ss5qccYfRVcYb5fCOQc6sVl7dNqxbs
+        WQUe5FAERJAqdIdQfpkxO54At25tFRK5/DXpTdGv0w==
+X-Google-Smtp-Source: AGHT+IEi1Yyfb3UFTgrRlCELfvUo+XrKxRvz3CPs1ECtt3zmTkP2oaRcalosIGlPQTA3Htg7mSge+Q==
+X-Received: by 2002:a05:600c:4f81:b0:401:23fc:1f92 with SMTP id n1-20020a05600c4f8100b0040123fc1f92mr6929891wmq.25.1698609387737;
+        Sun, 29 Oct 2023 12:56:27 -0700 (PDT)
+Received: from [192.168.1.15] (host-2-99-112-229.as13285.net. [2.99.112.229])
+        by smtp.gmail.com with ESMTPSA id u7-20020a05600c138700b003feea62440bsm7385225wmf.43.2023.10.29.12.56.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 29 Oct 2023 12:56:27 -0700 (PDT)
+Message-ID: <298df163-c4f2-4075-a33f-661276b2e657@linaro.org>
+Date:   Sun, 29 Oct 2023 19:56:26 +0000
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SYYP282MB2110:EE_|SY7P282MB4517:EE_
-X-MS-Office365-Filtering-Correlation-Id: 464d0f9b-ce62-4538-ae95-08dbd8a15a87
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eugP1pkXLdr/O1z8afEBD9YfXLqVhAKM3T3nQnycxPhjJPL3CXSR8XW4lz7nb47fhYik7XCs628G4qMq6yPDSTgdifZa63yE8ZZ4n8Nvtt5eaVVet6SursR03K3Tr2cfD7q+O+WxMeDlUb3yI0t0rTxW/zGkX7Fc+GdY6iMlMC/iGm7/1GCuTR2SixHbkUkXHynl3FIcBHQYmrFbGMwOwOuGkqT6mXZL3/JN3lRhkpqcowS9jnJp3zgVUK6sa8WjI0KR9nJj8Qo6x4TIL+FkWHaEwIJT+cMSIM1KeQZA5YiJeS6s5HgVxXEMxLVVS0N29O8+UNcZXVDm9m7GYYp2XdqM9oV4r3QM1JVETA++U9TOXaJwVA+B8nLIZnyZIfEpaXFIJN2pGywDZbLwpVRBRQS+2CPhhsI+/PFTGKaZ4JD9GckZiD+fXFwm6ypjXVMZ9By7kwBTdDa+65hqpj6I/QzobeMTkwOaAlZVkF2qOGfhqnDRu0rzS5HVX3h+tV+DO0a72EKC3qmOi1EMowrRTw2lUvufg0aPWt9ePtFBzzA+xDqz7P1xbDq5x73Faws5kJ/exgzg6bDaP7O1Ly7+g21ZrygWF0HbQeS8VDRFDIebjgHZCGRXhCiPC4MT8ork
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YQvVyRys91IYHAOAhq4kVN34VzKkH2I2i41uZvEuAMBVknn7rfQk77Y/5qp8?=
- =?us-ascii?Q?C70JwYtgcITpu9VuhZiL7ir0DfvUyQ9GSKHpzg29lyk0Y8cMWFY98FuZ+IjF?=
- =?us-ascii?Q?Vxe5YG0zDdomu53csA4eTTxHBezGm0XfIgT7BUdUHFVwoWlNsGfH4FBV9QGE?=
- =?us-ascii?Q?6aDcJfz2ZBWZYxW4d3ZiSrtOL/sSNCjHLHiNRpI5zsfjLIkK6ilEKsdERN0r?=
- =?us-ascii?Q?ij00y07VDVJKTCyU3sJEKS9hCDaPq8RvL8sDihVJJypUFUEUoSPXttKVEhiq?=
- =?us-ascii?Q?zYnKJ67YrBQe7ihk/iWQjv7EwBMbE4kf8rVGafvo4BWVX0E59K3daBSIimq0?=
- =?us-ascii?Q?gyAWF/uSygJR83Sz1G91qegCbCl8I9H2ZYi4Ts1jJXrJdqIm2sz1rYSwk9J/?=
- =?us-ascii?Q?Rn7dXrG+LC9om1GriCa1FYzwkTpKZDVnbQUFi6hi6U2EW/TsDJShdtDWugI2?=
- =?us-ascii?Q?32igngxydHFojHsqLnJvd9f3hBmwyHsuX1oDfhTWJaYH/QFueEyPyXSRbtuQ?=
- =?us-ascii?Q?NA3DwpOIT4Y8EwtNXPD7SGqxVmb31+eH8Af89xINsjCN4QZGqySOxpsVdZD2?=
- =?us-ascii?Q?qGeUTazH6t0+SkulXvX7Z8cB72rERChAPfXNW+Rzvsyqh+AeedYLHtzBdUk7?=
- =?us-ascii?Q?sKjQsA16Cx5doLMAPvOA356aGGsJqwc8UZNAlwWWTlfffnDW5DsBIuYB4MSo?=
- =?us-ascii?Q?c/3Mao7DpiaZ2ZieqVh3LAS+1LoMulwLhz8Cg3bJ7/Q66GI+UNiCG5XDKrdS?=
- =?us-ascii?Q?NfsldImbWu+kqTSb1x4h0j1kqM1PyvtpIVV6MG/R3HmGASKCBK0n7tpXWY+f?=
- =?us-ascii?Q?vhCNqKdcejSGVLL6awwzU8s8WtmGFY6wzM/EcRnDLuOA+9/MPVWomqlWskYk?=
- =?us-ascii?Q?bVNu/Rre1ZjZ13a1e+i6n33vFnfUAP88YupPD0vUh4rybmH31W4e1ABsprbS?=
- =?us-ascii?Q?xer9f1x2/zZccl9+jxFa+/Du6uofsnnHJOSIbcpa29wsY8dR6jSEzDwG0PYA?=
- =?us-ascii?Q?IvVtKmeXL8yc/fcPhGunrajQkByUqkH9EG5OVGg5k0RseZgs6Ae/wiNgGHnt?=
- =?us-ascii?Q?15xkW4GL18TSjRfmVH8osXphEnTZz2ORoOG4Wkh9lyCp+fUd1K9VYqs/7e9U?=
- =?us-ascii?Q?cjJfrJUW7yprP9ShR4X+0opcgQ12T+Em9Npf58fUFaxdox4ewvFixnxrHzsD?=
- =?us-ascii?Q?XFENO+uQ5qlMzwtsL3NDSFOxDxGNTUE1aoOn+Q=3D=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 464d0f9b-ce62-4538-ae95-08dbd8a15a87
-X-MS-Exchange-CrossTenant-AuthSource: SYYP282MB2110.AUSP282.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2023 17:06:13.0962
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY7P282MB4517
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/7] Input: synaptics-rmi4 - f12: use hardcoded values for
+ aftermarket touch ICs
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Vincent Huang <vincent.huang@tw.synaptics.com>,
+        methanal <baclofen@tuta.io>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+References: <20230929-caleb-rmi4-quirks-v1-0-cc3c703f022d@linaro.org>
+ <20230929-caleb-rmi4-quirks-v1-3-cc3c703f022d@linaro.org>
+ <ZTzlChOS0OR95Ykp@localhost>
+Content-Language: en-US
+From:   Caleb Connolly <caleb.connolly@linaro.org>
+In-Reply-To: <ZTzlChOS0OR95Ykp@localhost>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Jamesdonkey A3R keyboard is identified as "Jamesdonkey A3R" in wired
-mode, "A3R-U" in wireless mode and "A3R" in bluetooth mode. Adding them
-to non-apple keyboards fixes function key.
 
-Signed-off-by: Yihong Cao <caoyihong4@outlook.com>
----
- drivers/hid/hid-apple.c | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 3ca45975c686..d9e9829b2200 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -345,6 +345,8 @@ static const struct apple_non_apple_keyboard non_apple_keyboards[] = {
- 	{ "AONE" },
- 	{ "GANSS" },
- 	{ "Hailuck" },
-+	{ "Jamesdonkey" },
-+	{ "A3R" },
- };
- 
- static bool apple_is_non_apple_keyboard(struct hid_device *hdev)
+On 28/10/2023 11:40, Pavel Machek wrote:
+> Hi!
+> 
+>> Some replacement displays include third-party touch ICs which are
+>> devoid of register descriptors. Create a fake data register descriptor
+>> for such ICs and provide hardcoded default values.
+>>
+>> It isn't possible to reliably determine if the touch IC is original or
+>> not, so these fallback values are offered as an alternative to the error
+>> path when register descriptors aren't available.
+>>
+>> Signed-off-by: methanal <baclofen@tuta.io>
+> 
+> I guess we should have full/real name here.
+
+I must disagree [1] [2]. These patches have my SoB and are being sent by
+me on behalf of the author, who has no interest in contributing upstream.
+
+[1]:
+https://lore.kernel.org/lkml/c1bf62a2-e381-c796-2219-17a578987a76@marcan.st/T/
+
+[2]:
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=d4563201f33a022fc0353033d9dfeb1606a88330
+> 
+> Best regards,
+> 							Pavel
+> 							
+
 -- 
-2.42.0
-
+// Caleb (they/them)
