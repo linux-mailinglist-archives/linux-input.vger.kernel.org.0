@@ -2,235 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6B797DF032
-	for <lists+linux-input@lfdr.de>; Thu,  2 Nov 2023 11:35:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1616D7DF2ED
+	for <lists+linux-input@lfdr.de>; Thu,  2 Nov 2023 13:54:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346678AbjKBKc2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Nov 2023 06:32:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38826 "EHLO
+        id S234476AbjKBMyw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Nov 2023 08:54:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346861AbjKBKc1 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Nov 2023 06:32:27 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6D6A13A
-        for <linux-input@vger.kernel.org>; Thu,  2 Nov 2023 03:32:18 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-32f7c80ab33so446805f8f.0
-        for <linux-input@vger.kernel.org>; Thu, 02 Nov 2023 03:32:18 -0700 (PDT)
+        with ESMTP id S229770AbjKBMyv (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Nov 2023 08:54:51 -0400
+Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com [IPv6:2607:f8b0:4864:20::c2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4170CDB
+        for <linux-input@vger.kernel.org>; Thu,  2 Nov 2023 05:54:46 -0700 (PDT)
+Received: by mail-oo1-xc2d.google.com with SMTP id 006d021491bc7-586ae6edf77so422949eaf.1
+        for <linux-input@vger.kernel.org>; Thu, 02 Nov 2023 05:54:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698921137; x=1699525937; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hL5GAkNYX5lf5Xnnqavo6wfZxNcky+vNwT6ydKIiCK0=;
-        b=WEzbl58iLKcndODZjAdZophctyQu2r9oOt3DuwJGGxJUQCltuFXJ0iYytUTcgpfFte
-         xYQy7bgKHO+eGYTa+tp7+LKQ+8fgug9kN/ploet0ZFkefynsVWVsPw2+tJcttGOyhXwj
-         bhA0Rm99IJ/+4NzLDmd6b3gFSsff/ugQM5Ec8Ty8Lfi3Am74CLBXhj7MGcmJ+8f0eRKw
-         xAx8qEyhmW5D6Hbnqj3FIJyFLJkt5666RLfYzRR302aOC2Lx2zsDKtse70iA+QFmMjWD
-         rinDi9eXvXooe5wqfwg+yJc2ZaGLuMJhgEzICbToy4OdaArFFV5cVZXdgvgjQ0NWx3Hb
-         oLHA==
+        d=chromium.org; s=google; t=1698929685; x=1699534485; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=i0TjCm27kPn1fbRaa234/Wv9QR/vO4k2O7cQuwk/rSc=;
+        b=L1F5E1utA+x9G89a2yC+T8k1CZ43hoXSnIIhShvy7072c2gMFxkFYZj1VCIfvmNrew
+         xfXR7ldbuLUcWiOK+i8huJWDOq6zEd6kbh2Zd1gKEvFWu1DQ6SwCO2PEjw1/eNrjgIgy
+         nbnoL10ot+YYspl6PwJO7Lad4a0YEOY9uKg54=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698921137; x=1699525937;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=hL5GAkNYX5lf5Xnnqavo6wfZxNcky+vNwT6ydKIiCK0=;
-        b=uBGgopzAu/9y2xN/iGbEeZfw0LI6mZiY8Hm/0Am6yNUi3gR0STAYVX2KgkXW7uXrZK
-         UDwC1XJRf7lclephpetCMZEVMPThByk0ECxVBSEzx9thlu+xxSyeN/IJ+TV1MOv9CQzr
-         Hua/G/FW+FNhjURlQzD+2sfDrLVxkRVPNHrYM2oWDtDfnp9WxlnwHhxybtPfuvUNyB3j
-         q57eldWScS4377nlkykE9kJmRuKyojfIy4CESs+LeIZyebz3TkRAWxOpUM4BaENw4goJ
-         IKbh0Vyt3JczQU1pCz+x8KhNcb8JnHA4z8S+wgUA6MvLreH3nr6KGgB5UhTIR+ybjGIU
-         lAAg==
-X-Gm-Message-State: AOJu0YygiN/nRAbtVtL4evwT85s+8xlIQj24gKDdNgZDnpfIZDM77Zba
-        H77GrKPy58UdzKF1fMdSO6iq3Q==
-X-Google-Smtp-Source: AGHT+IFPxwdfmh35qsrDuZo1uOZ2JxX6Pr4ET8SmzWDoqC5BsYtR7YOjn4l0q9vCDunbUwW0/3h7uw==
-X-Received: by 2002:a5d:46c7:0:b0:32f:b1f2:1f99 with SMTP id g7-20020a5d46c7000000b0032fb1f21f99mr18289wrs.9.1698921135424;
-        Thu, 02 Nov 2023 03:32:15 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:4ac1:f109:811c:51be? ([2a01:e0a:982:cbb0:4ac1:f109:811c:51be])
-        by smtp.gmail.com with ESMTPSA id bk28-20020a0560001d9c00b0032dab20e773sm2081738wrb.69.2023.11.02.03.32.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Nov 2023 03:32:14 -0700 (PDT)
-Message-ID: <0126493b-6735-42a6-b346-dfabdf23bcaf@linaro.org>
-Date:   Thu, 2 Nov 2023 11:32:13 +0100
+        d=1e100.net; s=20230601; t=1698929685; x=1699534485;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=i0TjCm27kPn1fbRaa234/Wv9QR/vO4k2O7cQuwk/rSc=;
+        b=wFQoKm2DzwePa5itNJmc/3pm1WsZREkr52H19MYeaXVSrHUeNScF9yMeiJJMlj7d4l
+         BDNya/solHyX9bUx4nyji7WSgHmu5DeMc9cw3lKpG85/u0yo9PsxxLkp3JbFkpe8ucmM
+         3XoH0WdM4dJoA97Fmbuj6nShv+0M5Wkgnm0CjDzUlXzCZczl7KZTcwDeYEBTe9fTWCXo
+         7UtXguHvEmAZrRZ7Db4Z9VpzKiGVdgG3xjL5EXaYHKav4rpzJ1ofIRZjBhVbrmj+wshQ
+         K0633xGbhVTVvaekkdNxLa9L6GjzJkHdbslMY+cx1V//VlVQyhWBGGyAknLBB0OI6I44
+         SBdQ==
+X-Gm-Message-State: AOJu0YxjS4PVM2xPqhCHCKuZRCYUCZ/Cr4pJGpm8lY9qBwXvLMOuqeRI
+        d5WzgRVERG08ZsHerdAmTEDbIQ==
+X-Google-Smtp-Source: AGHT+IEe6gqoIsRx0Ax4Od60cbOYQ3dQrsZKcWcNwHbsGzZe7MJ/wwlkxulQpadaMEjkTYHO1hC+2A==
+X-Received: by 2002:a4a:c885:0:b0:587:2b9b:985a with SMTP id t5-20020a4ac885000000b005872b9b985amr7860727ooq.9.1698929685302;
+        Thu, 02 Nov 2023 05:54:45 -0700 (PDT)
+Received: from jdenose34.roam.corp.google.com (99-137-158-190.lightspeed.cicril.sbcglobal.net. [99.137.158.190])
+        by smtp.gmail.com with ESMTPSA id d200-20020a4a52d1000000b005737ca61829sm996467oob.13.2023.11.02.05.54.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Nov 2023 05:54:44 -0700 (PDT)
+From:   Jonathan Denose <jdenose@chromium.org>
+X-Google-Original-From: Jonathan Denose <jdenose@google.com>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     jefferymiller@google.com, Jonathan Denose <jdenose@google.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Raul Rangel <rrangel@chromium.org>, linux-input@vger.kernel.org
+Subject: [PATCH] Input: psmouse - add resync_on_resume dmi check
+Date:   Thu,  2 Nov 2023 07:52:47 -0500
+Message-ID: <20231102075243.1.Idb37ff8043a29f607beab6440c32b9ae52525825@changeid>
+X-Mailer: git-send-email 2.42.0.820.g83a721a137-goog
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH v10 2/4] Input: add core support for Goodix Berlin
- Touchscreen IC
-Content-Language: en-US, fr
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20231023-topic-goodix-berlin-upstream-initial-v10-0-88eec2e51c0b@linaro.org>
- <20231023-topic-goodix-berlin-upstream-initial-v10-2-88eec2e51c0b@linaro.org>
- <ZTnzorJ4h1zva1AZ@nixie71>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <ZTnzorJ4h1zva1AZ@nixie71>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jeff,
+Some elantech touchpads consistently fail after resuming from
+suspend at sanity_check in elantech_packet_check_v4. This means
+the touchpad is completely unusable after suspend resume.
 
-On 26/10/2023 07:05, Jeff LaBundy wrote:
-> Hi Neil,
-> 
-> On Mon, Oct 23, 2023 at 05:03:46PM +0200, Neil Armstrong wrote:
-> 
-> [...]
-> 
->> +static int goodix_berlin_get_ic_info(struct goodix_berlin_core *cd)
->> +{
->> +	__le16 length_raw;
->> +	u8 *afe_data;
->> +	u16 length;
->> +	int error;
->> +
->> +	afe_data = kzalloc(GOODIX_BERLIN_IC_INFO_MAX_LEN, GFP_KERNEL);
->> +	if (!afe_data)
->> +		return -ENOMEM;
->> +
->> +	error = regmap_raw_read(cd->regmap, GOODIX_BERLIN_IC_INFO_ADDR,
->> +				&length_raw, sizeof(length_raw));
->> +	if (error) {
->> +		dev_info(cd->dev, "failed get ic info length, %d\n", error);
-> 
-> This should be dev_err().
+With different permutations of i8042 nomux, nopnp, reset, and noloop
+kernel options enabled, and with crc_enabled the touchpad fails in
+the same way.
 
-Ack
+Resyncing the touchpad after receiving the
+PACKET_UNKNOWN/PSMOUSE_BAD_DATA return code allows the touchpad to
+function correctly on resume. The touchpad fails to reconnect with
+the serio reconnect no matter how many times it retries, so this
+change skips over that retry sequence and goes directly to resync.
 
-> 
->> +		goto free_afe_data;
->> +	}
->> +
->> +	length = le16_to_cpu(length_raw);
->> +	if (length >= GOODIX_BERLIN_IC_INFO_MAX_LEN) {
->> +		dev_info(cd->dev, "invalid ic info length %d\n", length);
-> 
-> And here.
+Signed-off-by: Jonathan Denose <jdenose@google.com>
+---
 
-Ack
+ drivers/input/mouse/psmouse-base.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-> 
->> +		error = -EINVAL;
->> +		goto free_afe_data;
->> +	}
->> +
->> +	error = regmap_raw_read(cd->regmap, GOODIX_BERLIN_IC_INFO_ADDR,
->> +				afe_data, length);
->> +	if (error) {
->> +		dev_info(cd->dev, "failed get ic info data, %d\n", error);
->> +		return error;
->> +		goto free_afe_data;
->> +	}
-> 
-> This return statement is left over from v9; the print should also be dev_err().
-
-Ack
-
-> 
->> +
->> +	/* check whether the data is valid (ex. bus default values) */
->> +	if (goodix_berlin_is_dummy_data(cd, afe_data, length)) {
->> +		dev_err(cd->dev, "fw info data invalid\n");
->> +		error = -EINVAL;
->> +		goto free_afe_data;
->> +	}
->> +
->> +	if (!goodix_berlin_checksum_valid(afe_data, length)) {
->> +		dev_info(cd->dev, "fw info checksum error\n");
-> 
-> And here.
-
-Ack
-
-> 
->> +		error = -EINVAL;
->> +		goto free_afe_data;
->> +	}
->> +
->> +	error = goodix_berlin_convert_ic_info(cd, afe_data, length);
->> +	if (error)
->> +		goto free_afe_data;
->> +
->> +	/* check some key info */
->> +	if (!cd->touch_data_addr) {
->> +		dev_err(cd->dev, "touch_data_addr is null\n");
->> +		error = -EINVAL;
->> +		goto free_afe_data;
->> +	}
->> +
->> +	return 0;
->> +
->> +free_afe_data:
->> +	kfree(afe_data);
->> +
->> +	return error;
->> +}
-> 
-> [...]
-> 
->> +static int goodix_berlin_request_handle_reset(struct goodix_berlin_core *cd)
->> +{
->> +	gpiod_set_value(cd->reset_gpio, 1);
->> +	usleep_range(2000, 2100);
->> +	gpiod_set_value(cd->reset_gpio, 0);
-> 
-> I see that now, this function is only called if the reset GPIO is defined,
-> but there used to be another msleep() here that has since been dropped. Is
-> that intentional?
-
-Indeed, it was dropped, I'll add it back thx for noticing !
-
-> 
->> +
->> +	return 0;
->> +}
-> 
-> Kind regards,
-> Jeff LaBundy
-
-Thanks,
-Neil
+diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
+index a0aac76b1e41d..3c6eefcb9582f 100644
+--- a/drivers/input/mouse/psmouse-base.c
++++ b/drivers/input/mouse/psmouse-base.c
+@@ -12,6 +12,7 @@
+ 
+ #include <linux/bitops.h>
+ #include <linux/delay.h>
++#include <linux/dmi.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
+ #include <linux/interrupt.h>
+@@ -105,6 +106,16 @@ static struct attribute *psmouse_dev_attrs[] = {
+ 
+ ATTRIBUTE_GROUPS(psmouse_dev);
+ 
++static const struct dmi_system_id resync_on_resume[] = {
++	{
++		.ident = "Lenovo N24",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo N24"),
++		},
++	}
++};
++
+ /*
+  * psmouse_mutex protects all operations changing state of mouse
+  * (connecting, disconnecting, changing rate or resolution via
+@@ -285,6 +296,12 @@ static int psmouse_handle_byte(struct psmouse *psmouse)
+ 				     "%s at %s lost sync at byte %d\n",
+ 				     psmouse->name, psmouse->phys,
+ 				     psmouse->pktcnt);
++			if (dmi_check_system(resync_on_resume)) {
++				psmouse_notice(psmouse, "issuing resync request");
++				__psmouse_set_state(psmouse, PSMOUSE_RESYNCING);
++				psmouse_queue_work(psmouse, &psmouse->resync_work, 0);
++				return -EIO;
++			}
+ 			if (++psmouse->out_of_sync_cnt == psmouse->resetafter) {
+ 				__psmouse_set_state(psmouse, PSMOUSE_IGNORE);
+ 				psmouse_notice(psmouse,
+-- 
+2.42.0.820.g83a721a137-goog
 
