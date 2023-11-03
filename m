@@ -2,135 +2,205 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CC667DF4A5
-	for <lists+linux-input@lfdr.de>; Thu,  2 Nov 2023 15:11:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 737F47DFDB5
+	for <lists+linux-input@lfdr.de>; Fri,  3 Nov 2023 02:21:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235264AbjKBOL6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Nov 2023 10:11:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39678 "EHLO
+        id S229657AbjKCBU7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Nov 2023 21:20:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbjKBOL6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Nov 2023 10:11:58 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96837128;
-        Thu,  2 Nov 2023 07:11:52 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-6c3443083f2so278059b3a.0;
-        Thu, 02 Nov 2023 07:11:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698934312; x=1699539112; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YeyFP7WMW0RjDqklzVx1kbYfEg/rdHyVxFLBKwTmGxA=;
-        b=V8+ZWOUOW+Uog4+J7EeSAkhzKwes2yJQP0hzoVZV/zpmnXrN2PbuC9nzkEyW9BBKCK
-         dFtEYkdiStMHP0um+tvHI36YeivsncYupmv9TtcIks0A7svZeUR5N+MUoRa/qdKXsqYA
-         01XP9zVVA3sTWhuaoMeENTXEQO2Ml3VKMjycoRsoB8YGRk/BhwlhT5HtjS7tObGwR7+r
-         kDPUsW+HaouQSGLoHJ5lKt71X4QpzMdlafbhTgEQTJ+fs/uk9dYSKomrGkW/ilJT3x0C
-         ecJ7aVw6F73kG6mEcKEtxA8dVGi1L+CVdu+cSq9ZQK2iazfh2uC9M18wm1eAhXHMOlwU
-         r/yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698934312; x=1699539112;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YeyFP7WMW0RjDqklzVx1kbYfEg/rdHyVxFLBKwTmGxA=;
-        b=PWymQ8q8qx+EZSsjkhl0GzNavjnYzccwS6irwFpU0Jlk/ySFlslDtnUwgiGJ/AL/Jf
-         py1vlu9N+8+Kfr7JYamnFoSAe0HkO0+huSOIEp3Tj59QzszhchVpeKr9A/1Chay+atMP
-         K3RMq+O4aNeIV5H4PuS67ycgiUs32GuDvrR1AEFGa0ApK/65chH7AAKDbG21J0wGDAdk
-         RcVl0iE3SVbTjV5p6i33+ivAAleUGyEQR5U/zju9iiosPYV/feNAyQtgasP723VTg8NL
-         xG74xV2Eu6PjhqzMEE1SAPNeYFySnUiVvJiH5H1PKEc3Q8rZCeAsY42bMheGGeOX5pnW
-         Pqzw==
-X-Gm-Message-State: AOJu0Yzfqha5lVIoqlRkYL7EefZP5rCsICbFZ4QFhqxuBfSGMzrBp0GI
-        je2AUReBj7aDuBa+4xe7KCBwXLLC6LE=
-X-Google-Smtp-Source: AGHT+IEOJ0B7C0nr9peL6eqLxZmuiUXorl8e5tMZ2eb2nOkE3SyIQIQwO5CMJg8XGG7sEFw+ZGTAGA==
-X-Received: by 2002:a05:6a20:548b:b0:14e:a1f0:a8ea with SMTP id i11-20020a056a20548b00b0014ea1f0a8eamr21471203pzk.3.1698934311673;
-        Thu, 02 Nov 2023 07:11:51 -0700 (PDT)
-Received: from [192.168.0.106] ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id v5-20020aa78085000000b006bdc8bb2ed5sm2945197pff.82.2023.11.02.07.11.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Nov 2023 07:11:50 -0700 (PDT)
-Message-ID: <6929ebbf-f2e0-4cd4-addc-1e33ecf3277f@gmail.com>
-Date:   Thu, 2 Nov 2023 21:11:42 +0700
+        with ESMTP id S229615AbjKCBU6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Nov 2023 21:20:58 -0400
+X-Greylist: delayed 568 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 02 Nov 2023 18:20:50 PDT
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB809187
+        for <linux-input@vger.kernel.org>; Thu,  2 Nov 2023 18:20:50 -0700 (PDT)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+        by mailnew.nyi.internal (Postfix) with ESMTP id E1839580A41;
+        Thu,  2 Nov 2023 21:11:21 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute7.internal (MEProxy); Thu, 02 Nov 2023 21:11:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+        cc:cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:message-id:mime-version:reply-to:sender:subject
+        :subject:to:to; s=fm3; t=1698973881; x=1698977481; bh=46nVxG98tw
+        eWOrfDert6stNGU2EAW8J2F6CKhpkaGxw=; b=nXZVbmuRyIPSOc9MNL3q2KRcpt
+        t7FW1VfGxqwVj9ZmBSq1J94o21Jgsrf8teIP9fMAcx7kwr5LxachB/sEPjBEW+F8
+        gD74+19pxxjE4r3D/Zh+V34cmo61TmrnTsf76l2LQseFLHw4RN6GMfeexKAojskn
+        4yNiBw34IjqEf+PWihmzHnMVLD0CK9xobYYr9WVmOuZDd20hTgqB7TdKAaRQZMBT
+        JkWf3aAvU0FyvwigdF6gqiySc3NjWv/quNxezDbN9+hp3nrSxM0RoUNXgbSRKzFz
+        FKtTq0HvBD1wNRoDh+nozDrspNUzOGfEPuwNO9qRRey/GGetpKKlqPjUGlxw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:message-id:mime-version:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; t=1698973881; x=1698977481; bh=46nVxG98tweWO
+        rfDert6stNGU2EAW8J2F6CKhpkaGxw=; b=HqI8NVjIYa9g/oqvryIpj0QsgBl5R
+        etyL1saJXntPYUHbxEHf/1YSKBVZGSFEzvLN+RnZeGTd2SOhFJm55r9JUVB8Hc81
+        hJWPtN8KDsSRGtqpvQb67lcdIFWrAmb3rhqtkP7FjQFc90M3e3MmzmetkmlzCznw
+        vUAZ1nWfRdgrFr7x5jfblKbszhEtxpZuOWmVHbkmYNWcIF669Ks9ZHV4EkUyJtT8
+        W+iys+9D4TeVlN3IYpSTF1lWedQGEzK1ySrMBAZXEwjlrtYiIOD4AH6N8B8hpNzX
+        2srCcArafU7Uhe9MquziBItFhKzAyhqcty7WhXVkKwFidkQLQNW4fdkUw==
+X-ME-Sender: <xms:uUhEZUf6mOwLafiuGgOf_LTR7XFwh-u2XkrttCaEBM1BQq64B7okkQ>
+    <xme:uUhEZWN2aMEMqkRzquTypkDsyeGQZcLpndGNK468jL6zYLMQ349CHmBQUjmncnnhp
+    oAKJbDc0YmHJdpEYxQ>
+X-ME-Received: <xmr:uUhEZViyeyiyxaq6X3WCrBncFuATepf3ul30sH_EK1_rJ4IczoylJ9SFYpNwb1RPdUe1d9nHaLQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedruddtjedgfedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpeeurhgvthhtucftrgihvgcuoegsrhgrhigvsehfrghsthhmrghi
+    lhdrtghomheqnecuggftrfgrthhtvghrnheptdefiedvgfffueefteekheegueeukefhhe
+    dutefhueegueettdfgfedukeelffehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
+    rghmpehmrghilhhfrhhomhepsghrrgihvgesfhgrshhtmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:uUhEZZ9r6VxIKrdpPKKMmbHYXxYzWzQdaT1TcuheXRqTfz3vuAkhEA>
+    <xmx:uUhEZQtx65rf6aSDZRFo3DOiz8kUyvAq6YIUG3WTpzgzy1wbte6lig>
+    <xmx:uUhEZQGg2b6PCO7ruXGgSUgWOYCRI5SU2Gl3NxVTkJe9A4kPANTLWg>
+    <xmx:uUhEZZ508Rv6Gz1wkj9G81XcAwi9WiUVSpFR_eN7OJOzc1nIQNTz5w>
+Feedback-ID: ice5149f5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 2 Nov 2023 21:11:20 -0400 (EDT)
+From:   Brett Raye <braye@fastmail.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        Brett Raye <braye@fastmail.com>
+Subject: [PATCH] HID: glorious: fix Glorious Model I HID report
+Date:   Thu,  2 Nov 2023 18:10:38 -0700
+Message-Id: <20231103011038.27462-1-braye@fastmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Regressions <regressions@lists.linux.dev>,
-        Linux Input Devices <linux-input@vger.kernel.org>
-Cc:     Mavroudis Chatzilazaridis <mavchatz@protonmail.com>,
-        =?UTF-8?Q?Filipe_La=C3=ADns?= <lains@riseup.net>,
-        Bastien Nocera <hadess@hadess.net>,
-        Jiri Kosina <jkosina@suse.cz>,
-        LinuxCat <masch77.linuxcat@gmail.com>,
-        Marcelo <mmbossoni@gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Fwd: Logitech G915 Wireless Keyboard acts weird on 6.6.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+The Glorious Model I mouse has a buggy HID report descriptor for its
+keyboard endpoint (used for programmable buttons). For report ID 2, there
+is a mismatch between Logical Minimum and Usage Minimum in the array that
+reports keycodes.
 
-I notice a regression report on Bugzilla [1]. Quoting from it:
+The offending portion of the descriptor: (from hid-decode)
 
-> Hello,
-> After upgrading from 6.5.9 to 6.6.0, my keyboard started acting really weird in its wireless mode, key actions sent are completely wrong, see video attached. 
-> 
-> Most keys are perceived as either E, 3 or F7, with F8 and <, as well. 
-> 
-> Modifier keys (CTRL, ALT, ALT GR, Shift and Super) are working normally, as well as media control keys (pause/play, previous, next, mute and sound up/down).
-> 
-> The keyboard works as expected if it's wired.
+0x95, 0x05,                    //  Report Count (5)                   30
+0x75, 0x08,                    //  Report Size (8)                    32
+0x15, 0x00,                    //  Logical Minimum (0)                34
+0x25, 0x65,                    //  Logical Maximum (101)              36
+0x05, 0x07,                    //  Usage Page (Keyboard)              38
+0x19, 0x01,                    //  Usage Minimum (1)                  40
+0x29, 0x65,                    //  Usage Maximum (101)                42
+0x81, 0x00,                    //  Input (Data,Arr,Abs)               44
 
-Another reporter bisected the regression:
+This bug shifts all programmed keycodes up by 1. Importantly, this causes
+"empty" array indexes of 0x00 to be interpreted as 0x01, ErrorRollOver.
+The presence of ErrorRollOver causes the system to ignore all keypresses
+from the endpoint and breaks the ability to use the programmable buttons.
 
-> Bisected to 
-> 
-> 9d1bd9346241cd6963b58da7ffb7ed303285f684 is the first bad commit
-> commit 9d1bd9346241cd6963b58da7ffb7ed303285f684
-> Author: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
-> Date: Sun Jul 16 18:23:44 2023 +0000
-> 
-> HID: logitech-dj: Add support for a new lightspeed receiver iteration
-> 
-> The lightspeed receiver for the Pro X Superlight uses 13 byte mouse reports
-> without a report id. The workaround for such cases has been adjusted to
-> handle these larger packets.
-> 
-> The device now reports the status of its battery in wireless mode and
-> libratbag now recognizes the device and it can be configured with Piper.
-> 
-> https://github.com/libratbag/libratbag/pull/1122
-> 
-> Co-developed-by: Filipe Laíns <lains@riseup.net>
-> Signed-off-by: Filipe Laíns <lains@riseup.net>
-> Signed-off-by: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
-> Reviewed-by: Bastien Nocera <hadess@hadess.net>
-> Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-> 
-> drivers/hid/hid-ids.h | 1 +
-> drivers/hid/hid-logitech-dj.c | 11 ++++++++---
-> 2 files changed, 9 insertions(+), 3 deletions(-)
+Setting byte 41 to 0x00 fixes this, and causes keycodes to be interpreted
+correctly.
 
-See Bugzilla for the full thread.
+Also, USB_VENDOR_ID_GLORIOUS is changed to USB_VENDOR_ID_SINOWEALTH,
+and a new ID for Laview Technology is added. Glorious seems to be
+white-labeling controller boards or mice from these vendors. There isn't a
+single canonical vendor ID for Glorious products.
 
-Anyway, I'm adding this regression to regzbot:
+Signed-off-by: Brett Raye <braye@fastmail.com>
+---
+ drivers/hid/hid-glorious.c | 16 ++++++++++++++--
+ drivers/hid/hid-ids.h      | 11 +++++++----
+ 2 files changed, 21 insertions(+), 6 deletions(-)
 
-#regzbot introduced: 9d1bd9346241cd https://bugzilla.kernel.org/show_bug.cgi?id=218094
-#regzbot title: Logitech G915 Wireless Keyboard key event only detects few key codes
-#regzbot link: https://streamable.com/ac6l8u
-
-Thanks.
-
-[1]: https://bugzilla.kernel.org/show_bug.cgi?id=218094
-
+diff --git a/drivers/hid/hid-glorious.c b/drivers/hid/hid-glorious.c
+index 558eb08c19ef..281b3a7187ce 100644
+--- a/drivers/hid/hid-glorious.c
++++ b/drivers/hid/hid-glorious.c
+@@ -21,6 +21,10 @@ MODULE_DESCRIPTION("HID driver for Glorious PC Gaming Race mice");
+  * Glorious Model O and O- specify the const flag in the consumer input
+  * report descriptor, which leads to inputs being ignored. Fix this
+  * by patching the descriptor.
++ *
++ * Glorious Model I incorrectly specifes the Usage Minimum for its
++ * keyboard HID report, causing keycodes to be misinterpreted.
++ * Fix this by setting Usage Minimum to 0 in that report.
+  */
+ static __u8 *glorious_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 		unsigned int *rsize)
+@@ -32,6 +36,10 @@ static __u8 *glorious_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 		rdesc[85] = rdesc[113] = rdesc[141] = \
+ 			HID_MAIN_ITEM_VARIABLE | HID_MAIN_ITEM_RELATIVE;
+ 	}
++	if (*rsize == 156 && rdesc[41] == 1) {
++		hid_info(hdev, "patching Glorious Model I keyboard report descriptor\n");
++		rdesc[41] = 0;
++	}
+ 	return rdesc;
+ }
+ 
+@@ -44,6 +52,8 @@ static void glorious_update_name(struct hid_device *hdev)
+ 		model = "Model O"; break;
+ 	case USB_DEVICE_ID_GLORIOUS_MODEL_D:
+ 		model = "Model D"; break;
++	case USB_DEVICE_ID_GLORIOUS_MODEL_I:
++		model = "Model I"; break;
+ 	}
+ 
+ 	snprintf(hdev->name, sizeof(hdev->name), "%s %s", "Glorious", model);
+@@ -66,10 +76,12 @@ static int glorious_probe(struct hid_device *hdev,
+ }
+ 
+ static const struct hid_device_id glorious_devices[] = {
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_GLORIOUS,
++	{ HID_USB_DEVICE(USB_VENDOR_ID_SINOWEALTH,
+ 		USB_DEVICE_ID_GLORIOUS_MODEL_O) },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_GLORIOUS,
++	{ HID_USB_DEVICE(USB_VENDOR_ID_SINOWEALTH,
+ 		USB_DEVICE_ID_GLORIOUS_MODEL_D) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_LAVIEW,
++		USB_DEVICE_ID_GLORIOUS_MODEL_I) },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(hid, glorious_devices);
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index e4d2dfd5d253..9ed9ec03ad1b 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -510,10 +510,6 @@
+ #define USB_DEVICE_ID_GENERAL_TOUCH_WIN8_PIT_010A 0x010a
+ #define USB_DEVICE_ID_GENERAL_TOUCH_WIN8_PIT_E100 0xe100
+ 
+-#define USB_VENDOR_ID_GLORIOUS  0x258a
+-#define USB_DEVICE_ID_GLORIOUS_MODEL_D 0x0033
+-#define USB_DEVICE_ID_GLORIOUS_MODEL_O 0x0036
+-
+ #define I2C_VENDOR_ID_GOODIX		0x27c6
+ #define I2C_DEVICE_ID_GOODIX_01F0	0x01f0
+ 
+@@ -744,6 +740,9 @@
+ #define USB_VENDOR_ID_LABTEC		0x1020
+ #define USB_DEVICE_ID_LABTEC_WIRELESS_KEYBOARD	0x0006
+ 
++#define USB_VENDOR_ID_LAVIEW		0x22D4
++#define USB_DEVICE_ID_GLORIOUS_MODEL_I	0x1503
++
+ #define USB_VENDOR_ID_LCPOWER		0x1241
+ #define USB_DEVICE_ID_LCPOWER_LC1000	0xf767
+ 
+@@ -1159,6 +1158,10 @@
+ #define USB_VENDOR_ID_SIGMATEL		0x066F
+ #define USB_DEVICE_ID_SIGMATEL_STMP3780	0x3780
+ 
++#define USB_VENDOR_ID_SINOWEALTH  0x258a
++#define USB_DEVICE_ID_GLORIOUS_MODEL_D 0x0033
++#define USB_DEVICE_ID_GLORIOUS_MODEL_O 0x0036
++
+ #define USB_VENDOR_ID_SIS_TOUCH		0x0457
+ #define USB_DEVICE_ID_SIS9200_TOUCH	0x9200
+ #define USB_DEVICE_ID_SIS817_TOUCH	0x0817
 -- 
-An old man doll... just what I always wanted! - Clara
+2.40.1
+
