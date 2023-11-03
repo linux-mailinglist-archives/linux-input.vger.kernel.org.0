@@ -2,86 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C7027E09EC
-	for <lists+linux-input@lfdr.de>; Fri,  3 Nov 2023 21:11:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C340D7E0B6D
+	for <lists+linux-input@lfdr.de>; Fri,  3 Nov 2023 23:59:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229527AbjKCULE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 3 Nov 2023 16:11:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50934 "EHLO
+        id S234115AbjKCWw6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 3 Nov 2023 18:52:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230379AbjKCULE (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Nov 2023 16:11:04 -0400
-X-Greylist: delayed 310 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 03 Nov 2023 13:11:00 PDT
-Received: from mailout1n.rrzn.uni-hannover.de (mailout1n.rrzn.uni-hannover.de [130.75.2.107])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18A61D63;
-        Fri,  3 Nov 2023 13:10:59 -0700 (PDT)
-Received: from seminarraum.sra.uni-hannover.de (mmsrv.sra.uni-hannover.de [130.75.33.181])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mailout1n.rrzn.uni-hannover.de (Postfix) with ESMTPSA id CC8161BA9;
-        Fri,  3 Nov 2023 21:05:46 +0100 (CET)
-From:   Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>
-To:     jkosina@suse.cz
-Cc:     benjamin.tissoires@redhat.com, davidrevoy@protonmail.com,
-        jason.gerecke@wacom.com, jose.exposito89@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        nils@nilsfuhler.de, peter.hutterer@who-t.net, ping.cheng@wacom.com,
-        bagasdotme@gmail.com,
-        Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>
-Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel issue
-Date:   Fri,  3 Nov 2023 21:05:25 +0100
-Message-Id: <20231103200524.53930-1-ostapyshyn@sra.uni-hannover.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm>
-References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm>
+        with ESMTP id S230429AbjKCWw6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Nov 2023 18:52:58 -0400
+X-Greylist: delayed 590 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 03 Nov 2023 15:52:55 PDT
+Received: from mail.celforyon.fr (unknown [IPv6:2001:41d0:1004:1a5d::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0194D18B
+        for <linux-input@vger.kernel.org>; Fri,  3 Nov 2023 15:52:54 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CC0951784396
+        for <linux-input@vger.kernel.org>; Fri,  3 Nov 2023 23:43:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=eldred.fr; s=dkim;
+        t=1699051382; h=from:subject:date:message-id:to:mime-version:content-type:
+         content-transfer-encoding:content-language;
+        bh=7e0GxoRLEI7qv6YePk/r+vXaVfW0UbuVC+0C3kR3dgY=;
+        b=d5JZb2lgYVc3j9zv+HvD64ZweHdqF2GwCBoD9JVPByRpuBxg/Crcilys5DeWjmEqEle8F6
+        AsRc4t25rrhQ49SSKx45QuXWWJ+Fe9woLHN1gBpUJ8WueM7zWOHDpEXF+d7B4y1I8g76Sp
+        a4fEJ+h90NYVSgpJjjsCHwQlqmkWaNofaHSaje5wKwiAe5l8siZfd9r/rgpYNRfP0f2ZfF
+        jgXOXndXBhBLs73vFkxanKjEQettAMDK/h0/Afckq170Gd7qKiUeY/1bOrMg1ohr1jiDKB
+        qQbdssPQigRcXu7B0UBMmh8NSGKJOJgjH/5sl43MatX4ti0ubcB6BAm7zlCZPQ==
+Message-ID: <2f02766e-44bc-45d8-96fe-afbd4e389cdc@eldred.fr>
+Date:   Fri, 3 Nov 2023 23:42:36 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.9 at mailout1n
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To:     linux-input@vger.kernel.org
+From:   Eldred HABERT <me@eldred.fr>
+Subject: Synaptics "different bus" message
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
+X-Spam-Status: No, score=1.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,RDNS_NONE,
+        SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,T_SPF_PERMERROR autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello David, Hello Jiri,
+Hello!
 
-The XP-Pen hardware reports the Eraser usage for the upper stylus button.
-Generally, styli report Invert usages when erasing, as described in [1].
-XP-Pen digitizers, however, tend to omit them.
+I was browsing my kernel logs while troubleshooting something else, and 
+I happened upon the following message:
 
-The generic driver maps the Eraser usage to BTN_TOUCH and the Invert
-usage to BTN_TOOL_RUBBER.  Pens conforming to [1] send the Invert usage
-first (switching the tool to BTN_TOOL_RUBBER) followed by Eraser, which
-appears in userspace as a BTN_TOUCH event with the rubber tool set.
+psmouse serio1: synaptics: Your touchpad (PNP: SYN1509 SYN1500 SYN0002 
+PNP0f13 SYN1507) says it can support a different bus. If i2c-hid and 
+hid-rmi are not used, you might want to try setting 
+psmouse.synaptics_intertouch to 1 and report this to 
+linux-input@vger.kernel.org.
 
-Due to an oversight, devices not reporting Invert had the BTN_TOOL_RUBBER
-event masked.  This has caused the kernel to send only BTN_TOUCH events
-without the tool switch when erasing.
+I have tried unloading and re-loading the `psmouse` driver with that 
+parameter, and the touchpad seems to function normally. And I'm 
+reporting this :)
 
-The situation got worse with refactoring done in 87562fcd1342.  An eraser
-without Invert caused the hidinput_hid_event state machine to get stuck
-with BTN_TOOL_RUBBER internally (due to it being masked).  For the
-userspace, this looked as if the pen was never hovering again, rendering
-it unusable until the next reset.  276e14e6c3 fixes this by adding
-support for digitizers that do not report Invert usages when erasing.
+Do I need to take any further action?
 
----
+Cheers,
+~ ISSOtm
 
-David, we are sorry that our patch broke your workflow.  However,
-forwarding hardware events *as-is* to the userspace has always been the
-intended behavior, with a kernel bug preventing it so far.  You can still
-remap the eraser button to a right click using xsetwacom:
-
-xsetwacom set "UGTABLET 24 inch PenDisplay eraser" "Button" "1" "3"
-
-Replace the device name with the corresponding *eraser* device from
-"xsetwacom list devices".  You can also do this with "xinput set-button-map",
-which works for libinput as well.  We have tested this with several
-XP-Pen devices, including Artist 24.
-
-[1] https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/windows-pen-states
