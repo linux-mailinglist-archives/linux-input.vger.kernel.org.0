@@ -2,41 +2,42 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F4F67E0F04
-	for <lists+linux-input@lfdr.de>; Sat,  4 Nov 2023 12:19:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23D557E0F00
+	for <lists+linux-input@lfdr.de>; Sat,  4 Nov 2023 12:19:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231958AbjKDLSk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 4 Nov 2023 07:18:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35050 "EHLO
+        id S232017AbjKDLSr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 4 Nov 2023 07:18:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjKDLSj (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 4 Nov 2023 07:18:39 -0400
+        with ESMTP id S231956AbjKDLSq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 4 Nov 2023 07:18:46 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6384D1BF
-        for <linux-input@vger.kernel.org>; Sat,  4 Nov 2023 04:17:51 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4EA91BD
+        for <linux-input@vger.kernel.org>; Sat,  4 Nov 2023 04:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1699096670;
+        s=mimecast20190719; t=1699096675;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=aNrJLcFevb4M5p6qOPU82B1rBtjup87bnZrUYmo2Kc0=;
-        b=EhDH+7pZnq3NDuif70FrQsXQEdTghqxUbQ25kUsLkgmW2uHKXKsP04ToGsbtJJWngm/5an
-        GANcO+gXsrUUsbzU6Ano3rZ0DMeZ2LyCo1zyIiKD9BFJHfbKn1Wr1xZC5bcUcnp8eFyoYI
-        EYqPZ8SzxfJA3xFod5V/iqP94gCZfL8=
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=zk4l95jEHoH1JCWxauxXu/AiDVZKo7MG3MMmwMuKEUU=;
+        b=KRSsphIEfHpfBKn8B7rm8Kp4pyjLO6oY2xX6KdSz+Pzq9+lqGOQqNeRZx4WmeDC8e44PnK
+        pc0TlKKna8bFgGuUC07cgZ3rO6FkNPYV1FLZKleIrrSKVzPUHeeNqlXJ6vD8KWoB1anVdr
+        O4pK2fpSDn+3UcNbOmckJ5PX2WgcdeY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-517-NzgKcIrbNdWzqs9O4sgyCQ-1; Sat, 04 Nov 2023 07:17:46 -0400
-X-MC-Unique: NzgKcIrbNdWzqs9O4sgyCQ-1
+ us-mta-567-ZgVZI_fFN86CVJvdtGJzNw-1; Sat, 04 Nov 2023 07:17:48 -0400
+X-MC-Unique: ZgVZI_fFN86CVJvdtGJzNw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3E21285A58A;
-        Sat,  4 Nov 2023 11:17:46 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1F1AE811E7D;
+        Sat,  4 Nov 2023 11:17:48 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.2])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 21F75502E;
-        Sat,  4 Nov 2023 11:17:44 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 71096502E;
+        Sat,  4 Nov 2023 11:17:46 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
@@ -49,11 +50,12 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Rene Wagner <redhatbugzilla@callerid.de>,
         Federico Ricchiuto <fed.ricchiuto@gmail.com>,
         linux-input@vger.kernel.org
-Subject: [PATCH 0/7] HID: i2c-hid: Rework wait for reset to match Windows
-Date:   Sat,  4 Nov 2023 12:17:36 +0100
-Message-ID: <20231104111743.14668-1-hdegoede@redhat.com>
+Subject: [PATCH 1/7] HID: i2c-hid: Fold i2c_hid_execute_reset() into i2c_hid_hwreset()
+Date:   Sat,  4 Nov 2023 12:17:37 +0100
+Message-ID: <20231104111743.14668-2-hdegoede@redhat.com>
+In-Reply-To: <20231104111743.14668-1-hdegoede@redhat.com>
+References: <20231104111743.14668-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -66,68 +68,130 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi All,
+i2c_hid_hwreset() is the only caller of i2c_hid_execute_reset(),
+fold the latter into the former.
 
-Looking at:
+This is a preparation patch for removing the need for
+I2C_HID_QUIRK_NO_IRQ_AFTER_RESET by making i2c-hid behave
+more like Windows.
 
-"2247751 - Touchpad not working on Lenovo Thinkbook 15 Gen 5"
-https://bugzilla.redhat.com/show_bug.cgi?id=2247751
+No functional changes intended.
 
-I thought at first that this was another touchpad needing
-a I2C_HID_QUIRK_NO_IRQ_AFTER_RESET quirk, further testing
-has shown this seems to be an IRQ not working issue though,
-so this series does not help for that bug.
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/hid/i2c-hid/i2c-hid-core.c | 80 +++++++++++++-----------------
+ 1 file changed, 34 insertions(+), 46 deletions(-)
 
-The bug has made me revisit I2C_HID_QUIRK_NO_IRQ_AFTER_RESET though and it
-made me look at Microsoft's i2c-hid docs again and I noticed the following:
-
-"""
-4. Issue a RESET (Host Initiated Reset) to the Device.
-5. Retrieve report descriptor from the device.
-
-Note: Steps 4 and 5 may be done in parallel to optimize for time on I²C.
-Since report descriptors are (a) static and (b) quite long, Windows 8 may
-issue a request for 5 while it is waiting for a response from the device
-on 4.
-"""
-
-which made me think that maybe on some touchpads the reset ack is delayed
-till after the report descriptor is read ?
-
-Testing a T-BAO Tbook Air 12.5 with a 0911:5288 (SIPODEV SP1064?) touchpad,
-for which the I2C_HID_QUIRK_NO_IRQ_AFTER_RESET quirk was first introduced,
-shows that about 1 ms after the report descriptor read finishes the reset
-indeed does get acked.
-
-So this series refactors the reset handling to move the waiting for
-the ack to after reading the report-descriptor, so that
-the I2C_HID_QUIRK_NO_IRQ_AFTER_RESET quirk is no longer necessary.
-
-Julian, I've added you to the Cc because you developed the code
-for touchpads where the HID report descriptors are missing and are
-provided by the kernel through a DMI quirk. The behavior for these
-touchpads should be unchanged, but if you can test on a laptop
-with such a touchpad that would be great.
-
-Regards,
-
-Hans
-
-
-Hans de Goede (7):
-  HID: i2c-hid: Fold i2c_hid_execute_reset() into i2c_hid_hwreset()
-  HID: i2c-hid: Split i2c_hid_hwreset() in start() and finish()
-    functions
-  HID: i2c-hid: Switch i2c_hid_parse() to goto style error handling
-  HID: i2c-hid: Move i2c_hid_finish_hwreset() to after reading the
-    report-descriptor
-  HID: i2c-hid: Remove I2C_HID_QUIRK_NO_IRQ_AFTER_RESET quirks
-  HID: i2c-hid: Remove I2C_HID_QUIRK_SET_PWR_WAKEUP_DEV quirk
-  HID: i2c-hid: Renumber I2C_HID_QUIRK_ defines
-
- drivers/hid/i2c-hid/i2c-hid-core.c | 155 +++++++++++++++--------------
- 1 file changed, 79 insertions(+), 76 deletions(-)
-
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index 2735cd585af0..12a9edb23f82 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -426,49 +426,9 @@ static int i2c_hid_set_power(struct i2c_hid *ihid, int power_state)
+ 	return ret;
+ }
+ 
+-static int i2c_hid_execute_reset(struct i2c_hid *ihid)
+-{
+-	size_t length = 0;
+-	int ret;
+-
+-	i2c_hid_dbg(ihid, "resetting...\n");
+-
+-	/* Prepare reset command. Command register goes first. */
+-	*(__le16 *)ihid->cmdbuf = ihid->hdesc.wCommandRegister;
+-	length += sizeof(__le16);
+-	/* Next is RESET command itself */
+-	length += i2c_hid_encode_command(ihid->cmdbuf + length,
+-					 I2C_HID_OPCODE_RESET, 0, 0);
+-
+-	set_bit(I2C_HID_RESET_PENDING, &ihid->flags);
+-
+-	ret = i2c_hid_xfer(ihid, ihid->cmdbuf, length, NULL, 0);
+-	if (ret) {
+-		dev_err(&ihid->client->dev, "failed to reset device.\n");
+-		goto out;
+-	}
+-
+-	if (ihid->quirks & I2C_HID_QUIRK_NO_IRQ_AFTER_RESET) {
+-		msleep(100);
+-		goto out;
+-	}
+-
+-	i2c_hid_dbg(ihid, "%s: waiting...\n", __func__);
+-	if (!wait_event_timeout(ihid->wait,
+-				!test_bit(I2C_HID_RESET_PENDING, &ihid->flags),
+-				msecs_to_jiffies(5000))) {
+-		ret = -ENODATA;
+-		goto out;
+-	}
+-	i2c_hid_dbg(ihid, "%s: finished.\n", __func__);
+-
+-out:
+-	clear_bit(I2C_HID_RESET_PENDING, &ihid->flags);
+-	return ret;
+-}
+-
+ static int i2c_hid_hwreset(struct i2c_hid *ihid)
+ {
++	size_t length = 0;
+ 	int ret;
+ 
+ 	i2c_hid_dbg(ihid, "%s\n", __func__);
+@@ -482,21 +442,49 @@ static int i2c_hid_hwreset(struct i2c_hid *ihid)
+ 
+ 	ret = i2c_hid_set_power(ihid, I2C_HID_PWR_ON);
+ 	if (ret)
+-		goto out_unlock;
++		goto err_unlock;
+ 
+-	ret = i2c_hid_execute_reset(ihid);
++	/* Prepare reset command. Command register goes first. */
++	*(__le16 *)ihid->cmdbuf = ihid->hdesc.wCommandRegister;
++	length += sizeof(__le16);
++	/* Next is RESET command itself */
++	length += i2c_hid_encode_command(ihid->cmdbuf + length,
++					 I2C_HID_OPCODE_RESET, 0, 0);
++
++	set_bit(I2C_HID_RESET_PENDING, &ihid->flags);
++
++	ret = i2c_hid_xfer(ihid, ihid->cmdbuf, length, NULL, 0);
+ 	if (ret) {
+ 		dev_err(&ihid->client->dev,
+ 			"failed to reset device: %d\n", ret);
+-		i2c_hid_set_power(ihid, I2C_HID_PWR_SLEEP);
+-		goto out_unlock;
++		goto err_clear_reset;
+ 	}
+ 
++	if (ihid->quirks & I2C_HID_QUIRK_NO_IRQ_AFTER_RESET) {
++		msleep(100);
++		clear_bit(I2C_HID_RESET_PENDING, &ihid->flags);
++	}
++
++	i2c_hid_dbg(ihid, "%s: waiting...\n", __func__);
++	if (!wait_event_timeout(ihid->wait,
++				!test_bit(I2C_HID_RESET_PENDING, &ihid->flags),
++				msecs_to_jiffies(5000))) {
++		ret = -ENODATA;
++		goto err_clear_reset;
++	}
++	i2c_hid_dbg(ihid, "%s: finished.\n", __func__);
++
+ 	/* At least some SIS devices need this after reset */
+ 	if (!(ihid->quirks & I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET))
+ 		ret = i2c_hid_set_power(ihid, I2C_HID_PWR_ON);
+ 
+-out_unlock:
++	mutex_unlock(&ihid->reset_lock);
++	return ret;
++
++err_clear_reset:
++	clear_bit(I2C_HID_RESET_PENDING, &ihid->flags);
++	i2c_hid_set_power(ihid, I2C_HID_PWR_SLEEP);
++err_unlock:
+ 	mutex_unlock(&ihid->reset_lock);
+ 	return ret;
+ }
 -- 
 2.41.0
 
