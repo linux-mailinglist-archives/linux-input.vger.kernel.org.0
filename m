@@ -2,69 +2,142 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C340D7E0B6D
-	for <lists+linux-input@lfdr.de>; Fri,  3 Nov 2023 23:59:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30F277E0CE5
+	for <lists+linux-input@lfdr.de>; Sat,  4 Nov 2023 01:46:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234115AbjKCWw6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 3 Nov 2023 18:52:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50238 "EHLO
+        id S231226AbjKDAq6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 3 Nov 2023 20:46:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230429AbjKCWw6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Nov 2023 18:52:58 -0400
-X-Greylist: delayed 590 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 03 Nov 2023 15:52:55 PDT
-Received: from mail.celforyon.fr (unknown [IPv6:2001:41d0:1004:1a5d::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0194D18B
-        for <linux-input@vger.kernel.org>; Fri,  3 Nov 2023 15:52:54 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CC0951784396
-        for <linux-input@vger.kernel.org>; Fri,  3 Nov 2023 23:43:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=eldred.fr; s=dkim;
-        t=1699051382; h=from:subject:date:message-id:to:mime-version:content-type:
-         content-transfer-encoding:content-language;
-        bh=7e0GxoRLEI7qv6YePk/r+vXaVfW0UbuVC+0C3kR3dgY=;
-        b=d5JZb2lgYVc3j9zv+HvD64ZweHdqF2GwCBoD9JVPByRpuBxg/Crcilys5DeWjmEqEle8F6
-        AsRc4t25rrhQ49SSKx45QuXWWJ+Fe9woLHN1gBpUJ8WueM7zWOHDpEXF+d7B4y1I8g76Sp
-        a4fEJ+h90NYVSgpJjjsCHwQlqmkWaNofaHSaje5wKwiAe5l8siZfd9r/rgpYNRfP0f2ZfF
-        jgXOXndXBhBLs73vFkxanKjEQettAMDK/h0/Afckq170Gd7qKiUeY/1bOrMg1ohr1jiDKB
-        qQbdssPQigRcXu7B0UBMmh8NSGKJOJgjH/5sl43MatX4ti0ubcB6BAm7zlCZPQ==
-Message-ID: <2f02766e-44bc-45d8-96fe-afbd4e389cdc@eldred.fr>
-Date:   Fri, 3 Nov 2023 23:42:36 +0100
+        with ESMTP id S229864AbjKDAq5 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 3 Nov 2023 20:46:57 -0400
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com [IPv6:2607:f8b0:4864:20::c34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 485E3DC;
+        Fri,  3 Nov 2023 17:46:54 -0700 (PDT)
+Received: by mail-oo1-xc34.google.com with SMTP id 006d021491bc7-581edcde26cso1466211eaf.1;
+        Fri, 03 Nov 2023 17:46:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699058813; x=1699663613; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kTmKPjcRZJist4lZxNa147OmNAqZvh+S7QiW2Uxgbjc=;
+        b=l/dZ/prZDhu5ZxCaaK7MNEriHndlLxBzIiyqrY7Jm6den9u/gkHd/CYcSKCXfsBZem
+         G5SrJgz8IkB+4oZI1WluKt+q6apq7piq4I8ctndPtg3S/ieWSSFHfRKNR1prZp/lyMYB
+         jKwptS2iPA2rpl9TReQ986WuZsto27iEYzJIvBdL626mcVEp5rndRFHeVMohmNln2XLl
+         p1XRS4BsNAuwoiP6WTpQfkJriVYQqKwqgd0cSwbySCkFzO7I4shV9yATG33v+DIpfHR1
+         4bv3OQhrG7LLgRlXolp43CQnGKnRpaO+fhum3E2CqX2Lpg2vj3XhCoi1Wa0DwGJJ58JY
+         7nZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699058813; x=1699663613;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kTmKPjcRZJist4lZxNa147OmNAqZvh+S7QiW2Uxgbjc=;
+        b=Wily4vMvYS07MQuK2W5auFaoEdIvAdG+1Moy3L9JGFbhY/HyC+xuHJME4hpCBaR/+L
+         l5pYh0+lf/LH+uR3Ogmw3gK0Fb80TrzPc5gxHVySPfzFu5R0UaTA1l+8VWG57gbneFi0
+         1ZsScq9oyqZE0tdQnDT/c51u7MR5Vz2GIi/5iGoteK5q1KXN2pcGipGWjkEQ4Aoo0Epg
+         sVKRHSylnR9sYQAPnC2EsIgAnZ1OM7pZDglCZqfpCY1/BZ58wW4RVrUceFWNFCNpEjkx
+         MVvgrLd0OQYE1vZYV2VJbU6Fn/x/FTLl3L+0plfI9o4/xUcKabtmZQmdhcu8uGcRTm9L
+         fdQQ==
+X-Gm-Message-State: AOJu0Yw8u0iFlFrnJ8JOQOcmSPyb+Jtvn5/Mwcj88jdz0dl9sGAIVYVu
+        A5srrBSVjLVbgeRA1QaUFUM=
+X-Google-Smtp-Source: AGHT+IGIpnRR+mGcX0p/yhWRFfucs3KqPF4qSgw09Em6DZaK6+xYkJkoGOWhuJl8pvFMe36lnCrykQ==
+X-Received: by 2002:a05:6358:903:b0:168:dc03:5b90 with SMTP id r3-20020a056358090300b00168dc035b90mr31425074rwi.23.1699058813362;
+        Fri, 03 Nov 2023 17:46:53 -0700 (PDT)
+Received: from debian.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id 9-20020a17090a018900b00280469602bcsm2183224pjc.2.2023.11.03.17.46.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Nov 2023 17:46:52 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id C00A1803A590; Sat,  4 Nov 2023 07:46:48 +0700 (WIB)
+Date:   Sat, 4 Nov 2023 07:46:48 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>, jkosina@suse.cz
+Cc:     benjamin.tissoires@redhat.com, davidrevoy@protonmail.com,
+        jason.gerecke@wacom.com, jose.exposito89@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        nils@nilsfuhler.de, peter.hutterer@who-t.net, ping.cheng@wacom.com
+Subject: Re: Requesting your attention and expertise regarding a
+ Tablet/Kernel issue
+Message-ID: <ZUWUeEYtvpldMTp1@debian.me>
+References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm>
+ <20231103200524.53930-1-ostapyshyn@sra.uni-hannover.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To:     linux-input@vger.kernel.org
-From:   Eldred HABERT <me@eldred.fr>
-Subject: Synaptics "different bus" message
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
-X-Spam-Status: No, score=1.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,RDNS_NONE,
-        SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,T_SPF_PERMERROR autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="GPUkFEtqwjEqRlrq"
+Content-Disposition: inline
+In-Reply-To: <20231103200524.53930-1-ostapyshyn@sra.uni-hannover.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello!
 
-I was browsing my kernel logs while troubleshooting something else, and 
-I happened upon the following message:
+--GPUkFEtqwjEqRlrq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-psmouse serio1: synaptics: Your touchpad (PNP: SYN1509 SYN1500 SYN0002 
-PNP0f13 SYN1507) says it can support a different bus. If i2c-hid and 
-hid-rmi are not used, you might want to try setting 
-psmouse.synaptics_intertouch to 1 and report this to 
-linux-input@vger.kernel.org.
+On Fri, Nov 03, 2023 at 09:05:25PM +0100, Illia Ostapyshyn wrote:
+> Hello David, Hello Jiri,
+>=20
+> The XP-Pen hardware reports the Eraser usage for the upper stylus button.
+> Generally, styli report Invert usages when erasing, as described in [1].
+> XP-Pen digitizers, however, tend to omit them.
+>=20
+> The generic driver maps the Eraser usage to BTN_TOUCH and the Invert
+> usage to BTN_TOOL_RUBBER.  Pens conforming to [1] send the Invert usage
+> first (switching the tool to BTN_TOOL_RUBBER) followed by Eraser, which
+> appears in userspace as a BTN_TOUCH event with the rubber tool set.
+>=20
+> Due to an oversight, devices not reporting Invert had the BTN_TOOL_RUBBER
+> event masked.  This has caused the kernel to send only BTN_TOUCH events
+> without the tool switch when erasing.
+>=20
+> The situation got worse with refactoring done in 87562fcd1342.  An eraser
+> without Invert caused the hidinput_hid_event state machine to get stuck
+> with BTN_TOOL_RUBBER internally (due to it being masked).  For the
+> userspace, this looked as if the pen was never hovering again, rendering
+> it unusable until the next reset.  276e14e6c3 fixes this by adding
+> support for digitizers that do not report Invert usages when erasing.
+>=20
+> ---
+>=20
+> David, we are sorry that our patch broke your workflow.  However,
+> forwarding hardware events *as-is* to the userspace has always been the
+> intended behavior, with a kernel bug preventing it so far.  You can still
+> remap the eraser button to a right click using xsetwacom:
+>=20
+> xsetwacom set "UGTABLET 24 inch PenDisplay eraser" "Button" "1" "3"
+>=20
+> Replace the device name with the corresponding *eraser* device from
+> "xsetwacom list devices".  You can also do this with "xinput set-button-m=
+ap",
+> which works for libinput as well.  We have tested this with several
+> XP-Pen devices, including Artist 24.
+>=20
+> [1] https://learn.microsoft.com/en-us/windows-hardware/design/component-g=
+uidelines/windows-pen-states
 
-I have tried unloading and re-loading the `psmouse` driver with that 
-parameter, and the touchpad seems to function normally. And I'm 
-reporting this :)
+Thanks for the explanation!
 
-Do I need to take any further action?
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Cheers,
-~ ISSOtm
+--GPUkFEtqwjEqRlrq
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZUWUcwAKCRD2uYlJVVFO
+o7foAQD9gE01APXiONGlCkh8yPLpMWJGLXm/0vOpOjVeITU34QEA5B4nwPEHixv4
+t6bPBwtMOmcY02/OpcpxAZIdWNIrQQg=
+=wMbT
+-----END PGP SIGNATURE-----
+
+--GPUkFEtqwjEqRlrq--
