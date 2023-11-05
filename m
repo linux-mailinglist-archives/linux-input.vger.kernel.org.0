@@ -2,57 +2,57 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B94A97E16BF
-	for <lists+linux-input@lfdr.de>; Sun,  5 Nov 2023 22:09:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C5A47E16CA
+	for <lists+linux-input@lfdr.de>; Sun,  5 Nov 2023 22:20:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229478AbjKEVI7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 5 Nov 2023 16:08:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46082 "EHLO
+        id S229767AbjKEVUF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 5 Nov 2023 16:20:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229801AbjKEVI6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Nov 2023 16:08:58 -0500
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A42CDE
-        for <linux-input@vger.kernel.org>; Sun,  5 Nov 2023 13:08:56 -0800 (PST)
-Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-5ae143e08b1so44424437b3.1
-        for <linux-input@vger.kernel.org>; Sun, 05 Nov 2023 13:08:56 -0800 (PST)
+        with ESMTP id S229679AbjKEVUB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Nov 2023 16:20:01 -0500
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59B20DE
+        for <linux-input@vger.kernel.org>; Sun,  5 Nov 2023 13:19:58 -0800 (PST)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-5b31c5143a0so45978277b3.3
+        for <linux-input@vger.kernel.org>; Sun, 05 Nov 2023 13:19:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699218535; x=1699823335; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1699219197; x=1699823997; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+0zXtrcqAa/SL+O0N/SakZQ4wpvBiPy922c2Sz5wrLU=;
-        b=dvlPzyJumI9Dycy0PWlF8GCps3YDfCwEx3g2OlNS4WzIEC3LpYgzTFarLNkOqNvFwm
-         YMZ5ZWkdN7RYDhu+Dc5GJLpuTW3IZsGKZOhVTz3BTACNtPRUjUCBhPAkuNSVELiz+yH5
-         MKohNwfbB56LJQGHvudr4qFz9/ozVT7Eq8tk7csKCDZ586Ft6NN6SAOMW2kxu47rU9qW
-         DpBrK6XfDWugupkjHJ/bWnpn8+aoLCOsxbOVgp48sY37uXtPJamYlpXaMEAZsveyrcGG
-         8AMUYDGqQXQvYRV3UDtYfsRaA8J04LcfoLb8M8EGvg6Ymau9qNPjObnhXs6zESjZ689M
-         gAzQ==
+        bh=ZLnVpTbQiwfXIg8wGXozHxE1Sjn0Em7Ol/PU3YKzMxA=;
+        b=PSzxJfZldtV2UFVuZWEnHtxWTTUSXXSytm4p4pqguJPPvpOG/IacbnsC/zLbrsjWtP
+         ht9BAjhqWis8GExRE6Ot+/2XxX250CCdlH/xjlbdK9iwF5M2LsAB7YPtSvMCv6nwjoCU
+         zi9vrHPPKZ3HnUC4Fw9Ep5g10jiWidjJZSA09UZzVxALiJlE3W6DnpORkQ4uZXCgVUNF
+         u3PBOrJ+to8hGb84wD9YBCNaDBWnAYP860FJvF2jPIrWy6vaAVyMmwxHxwdvkNOAJBZn
+         IDoeP5H0hF//VB5sHQ/zBqk9Y4bup6Ma12RVIF0Imv/qDY/fc0VUFxrSeSnK+12UMVON
+         kN9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699218535; x=1699823335;
+        d=1e100.net; s=20230601; t=1699219197; x=1699823997;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+0zXtrcqAa/SL+O0N/SakZQ4wpvBiPy922c2Sz5wrLU=;
-        b=J7BFPFssDMXTi8I81QhxwYBYw0ue1qJyeelWb21kbmEhqYA2Ug07DUKpE5bXSZHIv6
-         QBxSU8zhtB0p2yiAEF7f1anlGjYN3G7QpmSFxnddttjWU44DAX1Fe7fbzS0HJGIdn1K6
-         AUd7DJoHoTHouebgaRSI7GncALwa1ffD5DEr2t69JRQ7SkqKMDyeXsfTy8ZJ5l1EMVPw
-         bRla0Qn6tMhBcA9mK8Jp4UmJx2Nk8MOEJMkO5TAQJt4AiZTdVT6r0dowyFvOSK+saGPD
-         abyQZcocdA2XAD0uay/lkjxsvsYsYMeVHezoeTgUs6GRT9xHNneP+xCl5XjvqP94uoKi
-         Oi+g==
-X-Gm-Message-State: AOJu0YyZpHpHArV/TmThrVTDSjN2XM5XwfCmD0EGJ09Ehvj3wORCf31Z
-        4gplXpsGvzuLfYwFg67iC7XzANQPUcMCqGai9a/gHg==
-X-Google-Smtp-Source: AGHT+IEEZy2W9vu4C1dVy/URpJcNjc6x40y+K42qvhhGfEz/dRPXDQ7B8b3lnlZoV7Hetr7t+cWm5mvTXbsynGi3xT8=
-X-Received: by 2002:a05:690c:f8e:b0:589:c065:b419 with SMTP id
- df14-20020a05690c0f8e00b00589c065b419mr11425447ywb.34.1699218535408; Sun, 05
- Nov 2023 13:08:55 -0800 (PST)
+        bh=ZLnVpTbQiwfXIg8wGXozHxE1Sjn0Em7Ol/PU3YKzMxA=;
+        b=AovB6+qJt0/L9wJW9vfJs1vG6oy3NS9fqCaO3o1gczGbnmxe70dTZnKp7u3JRekCuF
+         XxSUwwJ2U23/cSRq4a1QKKjBLkYPAoYhv2hlC7UvhMF1jyhhG0wHvd9lLx2ePuigh8F9
+         9PocMGbz39nSICAq8aiaOzAKlp6xR2fbr/+hNlwIOVM4/K20eJxyWZ1rLz710FNjdbcP
+         bcFoUKGB0YTJohEHlLp6LkcPBOUvobKwWa5IGB3QblT9T8u1xMvhn0bRgDGQ1xdINFT/
+         /3boUROUTjAgdWuR/6a71OsvuF9tJVhlgPNwvIhdWh5wpQ/WwoQnjvumNVgmLKWgpwLc
+         nOQA==
+X-Gm-Message-State: AOJu0Yz3L+CmUQfQhOKBaSaPUSpuZ5oT4qjvvNHi0ZMwNpdZLzp/LKKu
+        cBDBNJGZo+ZBrpmFMA4hAza/771WXG9svJNNGDmS0w==
+X-Google-Smtp-Source: AGHT+IFPMLz9ALOoujwosu7oN9lqlUr2Y2o8wAtyxVnWRsqtayeiUj0yzzdPWV3JUUcn7AIOW0Vgrh8vqXn2WgXwZEY=
+X-Received: by 2002:a0d:ca50:0:b0:5a8:e303:1db2 with SMTP id
+ m77-20020a0dca50000000b005a8e3031db2mr9978764ywd.23.1699219197562; Sun, 05
+ Nov 2023 13:19:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20231105204759.37107-1-bryant@mai.rs> <20231105204759.37107-2-bryant@mai.rs>
-In-Reply-To: <20231105204759.37107-2-bryant@mai.rs>
+References: <20231105204759.37107-1-bryant@mai.rs>
+In-Reply-To: <20231105204759.37107-1-bryant@mai.rs>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 5 Nov 2023 22:08:44 +0100
-Message-ID: <CACRpkdZxF=_5ejxmPB84MmrbJ+Tv4S+OKqfc3sou4HWmZCw8Ng@mail.gmail.com>
-Subject: Re: [PATCH 1/7] dt-bindings: input: melfas,mms114: add MMS252 compatible
+Date:   Sun, 5 Nov 2023 22:19:45 +0100
+Message-ID: <CACRpkdYmJkaS5dA7RcSGpN3zS58vWE_BmUtidhbR0N3ZqpD9cg@mail.gmail.com>
+Subject: Re: [PATCH 0/7] Add samsung-milletwifi
 To:     Bryant Mairs <bryant@mai.rs>
 Cc:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
@@ -62,14 +62,13 @@ Cc:     Andy Gross <agross@kernel.org>,
         Conor Dooley <conor+dt@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Luca Weiss <luca@z3ntu.xyz>
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -78,16 +77,15 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 On Sun, Nov 5, 2023 at 9:48=E2=80=AFPM Bryant Mairs <bryant@mai.rs> wrote:
 
-> From: Luca Weiss <luca@z3ntu.xyz>
->
-> Add a compatible for MMS252 touchscreen which appears to work fine with
-> the MMS114 driver.
->
-> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> Signed-off-by: Bryant Mairs <bryant@mai.rs>
+> This series adds support for samsung-milletwifi, the smaller cousin
+> to samsung-matisselte. I've used the manufacturer's naming convention
+> for consistency.
 
-LGTM:
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+The series looks very good to me:
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
+
+I also see that DRM+panel is in the works for this interesting device,
+which is great!
 
 Yours,
 Linus Walleij
