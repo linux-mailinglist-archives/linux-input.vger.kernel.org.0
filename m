@@ -2,122 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B30B27E1698
-	for <lists+linux-input@lfdr.de>; Sun,  5 Nov 2023 21:49:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B94A97E16BF
+	for <lists+linux-input@lfdr.de>; Sun,  5 Nov 2023 22:09:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229690AbjKEUt4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 5 Nov 2023 15:49:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36000 "EHLO
+        id S229478AbjKEVI7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 5 Nov 2023 16:08:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229786AbjKEUsU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Nov 2023 15:48:20 -0500
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FC58E1;
-        Sun,  5 Nov 2023 12:48:17 -0800 (PST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id EA5F55C00D8;
-        Sun,  5 Nov 2023 15:48:16 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Sun, 05 Nov 2023 15:48:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mai.rs; h=cc
-        :content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm2; t=1699217296; x=
-        1699303696; bh=80TY+AmD8+fXcnPnfddIxJ7QVb/Un0cY9LHkEYEImdI=; b=S
-        hI1mbael042HlvOYmFd7CjdXHnraVii7kw02Nt+HEC3MpOxOeWwICwq88dSZm5Ct
-        Lh/mjZIAe30Lu+AhUeIG8zIQTrXyVVUVoLjw56YhvQPe5hdb9xkDx6jPsJNHiziE
-        yvjooImkE4ouw91aQvs4lMgJvCDma6O91yD+qfiSErLYgnAapbh2gdh87hDwr+gT
-        RYDgD4r5GMV9o4HWvYCMOIREh1g4ULBuU5gs7uzLTL7Q+5aCcddGCbxd49zgYBDu
-        E9CnhTQPchrIheMz7EmYEe8fv7UijVzKnW4TzVVKBiF4JNNaNFwwXiwrJGeILvij
-        /u9wxLl4qo+cCqvzfnckg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:date:feedback-id:feedback-id:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm3; t=1699217296; x=1699303696; bh=8
-        0TY+AmD8+fXcnPnfddIxJ7QVb/Un0cY9LHkEYEImdI=; b=a3qAcJaNjcxPm0LOc
-        XV0/ZFXDa3ExlBWDVDXRWMrUqRSXENTCaeqe7o2onMDpHtPHb+XccAdzZWBJYoKP
-        kfplIp3RSTYuNuGG1EOm+/97lzrE5VoyQrWUn+GcHmLRt9LZVkvM4ornKS3pIWMF
-        970SCjv8n45Q5yUr+aXcbFuwewlRwl/Cdqmb4LhhN9aPKYSUuIdwWPJOnUL7E4GW
-        oi9VAq2EKHNJvGcJGN2F4iMUu3PSxURCjOurvYRWRDlO1Kl57/Kw2dKh3WjOD2W+
-        E4/RWAbigx56r4unjR07XlojMTLykZQAQOYx9bcqa6tjQQClh4Y2COkoEIDp40UC
-        sIoqw==
-X-ME-Sender: <xms:kP9HZb-jgBOipdAoWX7vYDchc_UxHP_k7L4VXHHGnINJ2o41K3esQA>
-    <xme:kP9HZXtu7b6rHqWArGbHp3IuLZ-UnxDFVgub_zsgew4YzWWS6dkN2A1mJMeT6X1fI
-    8XhV8H9J5bRwV3FfA>
-X-ME-Received: <xmr:kP9HZZDkHhfyjmmYrAdhqH6q1WaNFpntC0F6cgllGhugkRrVGlnyrsMACb_Al20>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudduvddgudegudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepuehrhigr
-    nhhtucforghirhhsuceosghrhigrnhhtsehmrghirdhrsheqnecuggftrfgrthhtvghrnh
-    epvdegkeekkeehffehveeltdekvdfhffejuefgjeelfeefgffgleekheeffefggeefnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsghrhigrnh
-    htsehmrghirdhrsh
-X-ME-Proxy: <xmx:kP9HZXcdJHM6DE6R1zGFuRdZNJJeb98P2-bRJnVIdli4fKNQ55vCRQ>
-    <xmx:kP9HZQM60RBaRQthqBqVMYFk_vS9nozhrgnNWSumgVXjQqDEBnmyBw>
-    <xmx:kP9HZZkB37jqTZumoG_rrKb_RVsZwOyHylW2GXWdCtzk15cqRefQsA>
-    <xmx:kP9HZRFTVuH6WSSvX7B6c4EtWTMSBXenBjJuuiZC7DZtUOdQlAjfFg>
-Feedback-ID: i891b436e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 5 Nov 2023 15:48:15 -0500 (EST)
-From:   Bryant Mairs <bryant@mai.rs>
-To:     Andy Gross <agross@kernel.org>,
+        with ESMTP id S229801AbjKEVI6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Nov 2023 16:08:58 -0500
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A42CDE
+        for <linux-input@vger.kernel.org>; Sun,  5 Nov 2023 13:08:56 -0800 (PST)
+Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-5ae143e08b1so44424437b3.1
+        for <linux-input@vger.kernel.org>; Sun, 05 Nov 2023 13:08:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699218535; x=1699823335; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+0zXtrcqAa/SL+O0N/SakZQ4wpvBiPy922c2Sz5wrLU=;
+        b=dvlPzyJumI9Dycy0PWlF8GCps3YDfCwEx3g2OlNS4WzIEC3LpYgzTFarLNkOqNvFwm
+         YMZ5ZWkdN7RYDhu+Dc5GJLpuTW3IZsGKZOhVTz3BTACNtPRUjUCBhPAkuNSVELiz+yH5
+         MKohNwfbB56LJQGHvudr4qFz9/ozVT7Eq8tk7csKCDZ586Ft6NN6SAOMW2kxu47rU9qW
+         DpBrK6XfDWugupkjHJ/bWnpn8+aoLCOsxbOVgp48sY37uXtPJamYlpXaMEAZsveyrcGG
+         8AMUYDGqQXQvYRV3UDtYfsRaA8J04LcfoLb8M8EGvg6Ymau9qNPjObnhXs6zESjZ689M
+         gAzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699218535; x=1699823335;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+0zXtrcqAa/SL+O0N/SakZQ4wpvBiPy922c2Sz5wrLU=;
+        b=J7BFPFssDMXTi8I81QhxwYBYw0ue1qJyeelWb21kbmEhqYA2Ug07DUKpE5bXSZHIv6
+         QBxSU8zhtB0p2yiAEF7f1anlGjYN3G7QpmSFxnddttjWU44DAX1Fe7fbzS0HJGIdn1K6
+         AUd7DJoHoTHouebgaRSI7GncALwa1ffD5DEr2t69JRQ7SkqKMDyeXsfTy8ZJ5l1EMVPw
+         bRla0Qn6tMhBcA9mK8Jp4UmJx2Nk8MOEJMkO5TAQJt4AiZTdVT6r0dowyFvOSK+saGPD
+         abyQZcocdA2XAD0uay/lkjxsvsYsYMeVHezoeTgUs6GRT9xHNneP+xCl5XjvqP94uoKi
+         Oi+g==
+X-Gm-Message-State: AOJu0YyZpHpHArV/TmThrVTDSjN2XM5XwfCmD0EGJ09Ehvj3wORCf31Z
+        4gplXpsGvzuLfYwFg67iC7XzANQPUcMCqGai9a/gHg==
+X-Google-Smtp-Source: AGHT+IEEZy2W9vu4C1dVy/URpJcNjc6x40y+K42qvhhGfEz/dRPXDQ7B8b3lnlZoV7Hetr7t+cWm5mvTXbsynGi3xT8=
+X-Received: by 2002:a05:690c:f8e:b0:589:c065:b419 with SMTP id
+ df14-20020a05690c0f8e00b00589c065b419mr11425447ywb.34.1699218535408; Sun, 05
+ Nov 2023 13:08:55 -0800 (PST)
+MIME-Version: 1.0
+References: <20231105204759.37107-1-bryant@mai.rs> <20231105204759.37107-2-bryant@mai.rs>
+In-Reply-To: <20231105204759.37107-2-bryant@mai.rs>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 5 Nov 2023 22:08:44 +0100
+Message-ID: <CACRpkdZxF=_5ejxmPB84MmrbJ+Tv4S+OKqfc3sou4HWmZCw8Ng@mail.gmail.com>
+Subject: Re: [PATCH 1/7] dt-bindings: input: melfas,mms114: add MMS252 compatible
+To:     Bryant Mairs <bryant@mai.rs>
+Cc:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH 7/7] ARM: dts: qcom: apq8026-samsung-milletwifi: Enable modem
-Date:   Sun,  5 Nov 2023 21:46:22 +0100
-Message-ID: <20231105204759.37107-8-bryant@mai.rs>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231105204759.37107-1-bryant@mai.rs>
-References: <20231105204759.37107-1-bryant@mai.rs>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Luca Weiss <luca@z3ntu.xyz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Enable the modem hardware for milletwifi, which is actually only the GPS
-functionality.
+On Sun, Nov 5, 2023 at 9:48=E2=80=AFPM Bryant Mairs <bryant@mai.rs> wrote:
 
-Signed-off-by: Bryant Mairs <bryant@mai.rs>
----
- arch/arm/boot/dts/qcom/qcom-apq8026-samsung-milletwifi.dts | 7 +++++++
- 1 file changed, 7 insertions(+)
+> From: Luca Weiss <luca@z3ntu.xyz>
+>
+> Add a compatible for MMS252 touchscreen which appears to work fine with
+> the MMS114 driver.
+>
+> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+> Signed-off-by: Bryant Mairs <bryant@mai.rs>
 
-diff --git a/arch/arm/boot/dts/qcom/qcom-apq8026-samsung-milletwifi.dts b/arch/arm/boot/dts/qcom/qcom-apq8026-samsung-milletwifi.dts
-index 57f50af487c1..b6750cf850f0 100644
---- a/arch/arm/boot/dts/qcom/qcom-apq8026-samsung-milletwifi.dts
-+++ b/arch/arm/boot/dts/qcom/qcom-apq8026-samsung-milletwifi.dts
-@@ -310,6 +310,13 @@ touchscreen@48 {
- 	};
- };
- 
-+&modem {
-+	mx-supply = <&pm8226_l3>;
-+	pll-supply = <&pm8226_l8>;
-+
-+	status = "okay";
-+};
-+
- &pronto {
- 	vddmx-supply = <&pm8226_l3>;
- 	vddpx-supply = <&pm8226_l6>;
--- 
-2.41.0
+LGTM:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
+Yours,
+Linus Walleij
