@@ -2,78 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 206777E2C74
-	for <lists+linux-input@lfdr.de>; Mon,  6 Nov 2023 19:55:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 054397E2D9B
+	for <lists+linux-input@lfdr.de>; Mon,  6 Nov 2023 21:06:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232329AbjKFSz2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Nov 2023 13:55:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52450 "EHLO
+        id S231777AbjKFUGo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Nov 2023 15:06:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232542AbjKFSz2 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Nov 2023 13:55:28 -0500
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 772D7EA
-        for <linux-input@vger.kernel.org>; Mon,  6 Nov 2023 10:55:25 -0800 (PST)
-Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-9d2e7726d5bso715615066b.0
-        for <linux-input@vger.kernel.org>; Mon, 06 Nov 2023 10:55:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1699296923; x=1699901723; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Hq98Gg4NJjOvWLJEpkFCz5lW1CjebvluI31GxJZEO/s=;
-        b=oEYm9fTx85RCy7qkcbPpZfM/WEc2kfZ43s7DsD7Ztti9OxRPMzLd1ZQNWTNT48ug6T
-         UjW9Jdk5WSWdi3TL0apIHEcYgIGU4FZmzGfHZndglC0vktLfxzGS/K47hzdHXWkjIkev
-         l3/iQ6ewqOpqnrLSgle/kv0iZtV8vX6D3Og5E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699296923; x=1699901723;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Hq98Gg4NJjOvWLJEpkFCz5lW1CjebvluI31GxJZEO/s=;
-        b=ulehF938cC67LQBfLKo2v9y1UJcM9CDiPkrUGDdjKjb3kykd+Ofz0zAwOK7s4IZPEt
-         jpzE+bEnblENgaa8HtpDr5+6LJCw6dYbIlaXsVNunZzG14vYSkIiTTs/PnHZsOHLDjg8
-         4CQkqjDQ+3JK1Ak37Z9WOrY0z8PqEXkw0Yo8Kx2lB65xmmEpc7LHin3hXcJNkAkaf0Do
-         g5xOlQL+n+GFF4U6YCFkDEXcNjVQfnkHhfuX0yT2u3gYPlNh2kjfdLCKqUp3FVEv5t90
-         kpUPF2Fjw5s4nek0B2p64APcSt9YT8PPXCnrnLWLaJvNGzuPSuPXO7o21ZtUuVT1ltfO
-         4fsw==
-X-Gm-Message-State: AOJu0YyQTLtMHNFLZIfYr2CC5beGbPOfHW1Vk+PoqxDRgFh00m1pyl3p
-        rlYL/rzAO1174ZO51JY6B9p0Slnko7+AjDkqfEGMaopy
-X-Google-Smtp-Source: AGHT+IHNzymddfth2MfIdQtM1JFl/zK/16QzgISYIdQNV2uPU10V++jjBswEeZbyXSw3mTilSK2IRw==
-X-Received: by 2002:a17:907:3ea7:b0:9d3:afe1:b3e5 with SMTP id hs39-20020a1709073ea700b009d3afe1b3e5mr14478725ejc.75.1699296922875;
-        Mon, 06 Nov 2023 10:55:22 -0800 (PST)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com. [209.85.128.50])
-        by smtp.gmail.com with ESMTPSA id lc13-20020a170906f90d00b009a1c05bd672sm137008ejb.127.2023.11.06.10.55.19
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Nov 2023 10:55:19 -0800 (PST)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40837124e1cso10655e9.0
-        for <linux-input@vger.kernel.org>; Mon, 06 Nov 2023 10:55:19 -0800 (PST)
-X-Received: by 2002:a05:600c:3107:b0:400:c6de:6a20 with SMTP id
- g7-20020a05600c310700b00400c6de6a20mr12628wmo.3.1699296918899; Mon, 06 Nov
- 2023 10:55:18 -0800 (PST)
+        with ESMTP id S231801AbjKFUGo (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Nov 2023 15:06:44 -0500
+Received: from mailout1n.rrzn.uni-hannover.de (mailout1n.rrzn.uni-hannover.de [130.75.2.107])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2A62D51;
+        Mon,  6 Nov 2023 12:06:39 -0800 (PST)
+Received: from [10.23.33.142] (mmsrv.sra.uni-hannover.de [130.75.33.181])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mailout1n.rrzn.uni-hannover.de (Postfix) with ESMTPSA id 2975F10E;
+        Mon,  6 Nov 2023 21:06:37 +0100 (CET)
+Message-ID: <eb8e22f3-77dc-4923-a7ba-e237ee226edb@sra.uni-hannover.de>
+Date:   Mon, 6 Nov 2023 21:06:36 +0100
 MIME-Version: 1.0
-References: <20231104111743.14668-1-hdegoede@redhat.com> <20231104111743.14668-8-hdegoede@redhat.com>
-In-Reply-To: <20231104111743.14668-8-hdegoede@redhat.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Mon, 6 Nov 2023 10:55:06 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=U0NhrUmxWFUGZ-ASdrFZke-f0UAbmn1GN7U9_iKYtMsA@mail.gmail.com>
-Message-ID: <CAD=FV=U0NhrUmxWFUGZ-ASdrFZke-f0UAbmn1GN7U9_iKYtMsA@mail.gmail.com>
-Subject: Re: [PATCH 7/7] HID: i2c-hid: Renumber I2C_HID_QUIRK_ defines
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Julian Sax <jsbc@gmx.de>, ahormann@gmx.net,
-        Bruno Jesus <bruno.fl.jesus@gmail.com>,
-        Dietrich <enaut.w@googlemail.com>, kloxdami@yahoo.com,
-        Tim Aldridge <taldridge@mac.com>,
-        Rene Wagner <redhatbugzilla@callerid.de>,
-        Federico Ricchiuto <fed.ricchiuto@gmail.com>,
-        linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+User-Agent: Mozilla Thunderbird
+Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel
+ issue
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        David Revoy <davidrevoy@protonmail.com>
+Cc:     jkosina@suse.cz, jason.gerecke@wacom.com,
+        jose.exposito89@gmail.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, nils@nilsfuhler.de,
+        peter.hutterer@who-t.net, ping.cheng@wacom.com,
+        bagasdotme@gmail.com
+References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm>
+ <20231103200524.53930-1-ostapyshyn@sra.uni-hannover.de>
+ <bokQB3BK040-4fGy8tNfZrdM2mNmWxZud9O-KMmYqOkfa1JTC1ocUjoAzCEpPsbsAvY5qb5TcSP6XsQLaja2XO0gapOcsZyeVdCvq6T31qA=@protonmail.com>
+ <CAO-hwJLpKTb9yxvxaPDLZkF9kDF8u2VRJUf9yiQd+neOyxPeug@mail.gmail.com>
+Content-Language: en-US
+From:   Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>
+In-Reply-To: <CAO-hwJLpKTb9yxvxaPDLZkF9kDF8u2VRJUf9yiQd+neOyxPeug@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.9 at mailout1n
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -82,18 +53,73 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On 11/6/23 17:59, Benjamin Tissoires wrote:
 
-On Sat, Nov 4, 2023 at 4:18=E2=80=AFAM Hans de Goede <hdegoede@redhat.com> =
-wrote:
->
-> The quirks variable and the I2C_HID_QUIRK_ defines are never used /
-> exported outside of the i2c-hid code renumber them to start at
-> BIT(0) again.
->
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/hid/i2c-hid/i2c-hid-core.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> If the pen has 2 buttons, and an eraser side, it would be a serious
+> design flow for XPPEN to report both as eraser.
+> 
+> Could you please use sudo hid-recorder from hid-tools[1] on any kernel
+> version and send us the logs here?
+> I'll be able to replay the events locally, and understand why the
+> kernel doesn't work properly.
+> 
+> And if there is a design flaw that can be fixed, we might even be able
+> to use hid-bpf to change it :)
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+My wild guess is that XP-Pen 16 Artist Pro reports an Eraser usage 
+without Invert for the upper button and Eraser with Invert for the 
+eraser tip.  A device-specific driver could work with that, but there 
+seems to be no way to incorporate two different erasers (thus, allowing 
+userspace to map them to different actions arbitrarily) in the generic 
+driver currently.
+
+> Generally speaking, relying on X to fix your hardware is going to be a
+> dead end. When you switch to wayland, you'll lose all of your fixes,
+> which isn't great.
+
+> AFAIU, the kernel now "merges" both buttons, which is a problem. It
+> seems to be a serious regression. This case is also worrying because I
+> added regression tests on hid, but I don't have access to all of the
+> various tablets, so I implemented them from the Microsoft
+> specification[0]. We need a special case for you here.
+
+The issue preventing David from mapping HID_DG_ERASER to BTN_STYLUS2 is 
+that the hidinput_hid_event is not compatible with hidinput_setkeycode. 
+If usage->code is no longer BTN_TOUCH after remapping, it won't be 
+released when Eraser reports 0.  A simple fix is:
+
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -1589,7 +1589,7 @@ void hidinput_hid_event(struct hid_device *hid, 
+struct hid_field *field, struct
+  			/* value is off, tool is not rubber, ignore */
+  			return;
+  		else if (*quirks & HID_QUIRK_NOINVERT &&
+-			 !test_bit(BTN_TOUCH, input->key)) {
++			 !test_bit(usage->code, input->key)) {
+  			/*
+  			 * There is no invert to release the tool, let hid_input
+  			 * send BTN_TOUCH with scancode and release the tool after.
+
+This change alone fixes David's problem and the right-click mapping in 
+hwdb works again.  However, the tool switches to rubber for the remapped 
+eraser (here BTN_STYLUS2) events, both for devices with and without 
+Invert.  This does no harm but is not useful either.  A cleaner solution 
+for devices without Invert would be to omit the whole tool switching 
+logic in this case:
+
+@@ -1577,6 +1577,9 @@ void hidinput_hid_event(struct hid_device *hid, 
+struct hid_field *field, struct
+
+  	switch (usage->hid) {
+  	case HID_DG_ERASER:
++		if (*quirks & HID_QUIRK_NOINVERT && usage->code != BTN_TOUCH)
++			break;
++
+  		report->tool_active |= !!value;
+
+Remapping Invert does not work anyway as the Invert tool is hardcoded in 
+hidinput_hid_event.  Even worse, I guess (not tested) trying to do so 
+would mask BTN_TOOL_RUBBER from dev->keybit and could cause weird 
+behavior similar to one between 87562fcd1342 and 276e14e6c3.  This 
+raises the question: should users be able to remap Invert after all?
