@@ -2,561 +2,331 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E06177E2A27
-	for <lists+linux-input@lfdr.de>; Mon,  6 Nov 2023 17:43:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E28517E2A8C
+	for <lists+linux-input@lfdr.de>; Mon,  6 Nov 2023 18:00:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232845AbjKFQni (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Nov 2023 11:43:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51892 "EHLO
+        id S232779AbjKFRAh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Nov 2023 12:00:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232844AbjKFQnf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Nov 2023 11:43:35 -0500
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78AAED6A;
-        Mon,  6 Nov 2023 08:43:31 -0800 (PST)
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-6b20a48522fso3917407b3a.1;
-        Mon, 06 Nov 2023 08:43:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699289010; x=1699893810; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AP87UhSCC46+0c928P7ouPYnXUNXXO4Vz6ijcnIzTD8=;
-        b=nsvY1P+e7SCtDGeda6eOR3abtOxDai8DQ80lu9v9FqIazQ27VTSZkNJqxs30LVDJ7g
-         XQJT5QbKwNSwBY5U86xHRVPbtvxcNcQeMzuxyfxVWFO5kJ8sMU1COvkjd/Wjbss7K+E7
-         7byS8o+4xKDg8412OM2PyO3Cj+Zr73Wzp4t67tVkfp1/Oe7dsxelYQfU0Vutz+r0MAZw
-         qdrWdczoAhJRIXe2h/Xm4G6Dh+Lxwgb0up+MrPwONiS80X0LbCVz5Er2cmYU+O0kRTMk
-         QoJxKUuZm+d/m6tDK+2kaar9IDuvl4DxAQVlz0gMdinhOx+kxBxsTZqpmYfMf9ZX1VsU
-         R+zg==
+        with ESMTP id S232405AbjKFRAg (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Nov 2023 12:00:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61293D69
+        for <linux-input@vger.kernel.org>; Mon,  6 Nov 2023 08:59:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1699289989;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=cnEe3obE9Slno+EoWn5RaqEd5AWSblLM5ZXIy5ySlG0=;
+        b=KIBxhzETffWO/BmcfC67b8Zf5PpRYChVJIeBC+y3BFOrP8jzBhmqPqwro3OKlRzBVE+oN9
+        sb5O5kcQIsxbViJp+IG1SZe5Mu+0p9jutmExF5Efomk8Ii2HnVHE2b4Fs0bGm40JQ+gJlb
+        9TzbCcisZcbgcbzFMPBoq3jBpzkRFwM=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-297-S2iMWkAmPCGYDMBgbaS-aw-1; Mon, 06 Nov 2023 11:59:47 -0500
+X-MC-Unique: S2iMWkAmPCGYDMBgbaS-aw-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9c7f0a33afbso336960166b.3
+        for <linux-input@vger.kernel.org>; Mon, 06 Nov 2023 08:59:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699289010; x=1699893810;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1699289987; x=1699894787;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AP87UhSCC46+0c928P7ouPYnXUNXXO4Vz6ijcnIzTD8=;
-        b=eQocTXYGowsMPSJcsxrJXfZsqG3FZn+K4zY3i5FTGXlOJGyuaDCk2atiSLArAGPPck
-         cKTe3OZMnJX5oHcr1/m6hKngjWz1MvSxPBQ62Lyq/Umqjj9NGvhN7GW/WOSxwmBMZyHI
-         HKrkHzT/DBM2UfG5ckJViAGy9sTy94bjGVsOgyLzO9Dj/KyFcl5pwTQQ1lWpSDLObDSW
-         MsyDbkHMB8bexmu8shAM2Do3Nd0+zhc+FtFZ5v7S2uiuzzXk6SqXZpW8JZjc4di9w3h3
-         icBYhLnLBxN+oZq+pp1oDO+O9xia5sofBS05aGUzalwNU1qMiev2y1J4zCJBFUMKbZYw
-         EPnA==
-X-Gm-Message-State: AOJu0YyZxOfasNqoIiF1em3E6DaXotqV6/W80SKTj6zshb7i2A58phOK
-        jrquZjhfWnPj7K34W0QD86zuDXQvh3VceUbc
-X-Google-Smtp-Source: AGHT+IGZpcEKGhDjlddo0oTBeKfc7jgJTuvIBOxlRqoN8wR1J+6id150fQL4Jlu9OdPhI8L4tsjjkQ==
-X-Received: by 2002:a05:6a00:816:b0:6bc:b13c:35d5 with SMTP id m22-20020a056a00081600b006bcb13c35d5mr28249801pfk.13.1699289010324;
-        Mon, 06 Nov 2023 08:43:30 -0800 (PST)
-Received: from archlinux.srmu.edu.in ([103.4.222.252])
-        by smtp.gmail.com with ESMTPSA id b6-20020a056a000a8600b006933e71956dsm5828227pfl.9.2023.11.06.08.43.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Nov 2023 08:43:30 -0800 (PST)
-From:   Anshul Dalal <anshulusr@gmail.com>
-To:     linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     Anshul Dalal <anshulusr@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-        Jeff LaBundy <jeff@labundy.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v7 2/2] input: joystick: driver for Adafruit Seesaw Gamepad
-Date:   Mon,  6 Nov 2023 22:11:32 +0530
-Message-ID: <20231106164134.114668-2-anshulusr@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231106164134.114668-1-anshulusr@gmail.com>
-References: <20231106164134.114668-1-anshulusr@gmail.com>
+        bh=cnEe3obE9Slno+EoWn5RaqEd5AWSblLM5ZXIy5ySlG0=;
+        b=N3CbVo9NL731J1SBBhzntj42VoC4Ke4SKEKZtq7iKuY4ZPHPLkKqt6eR1Ry8TPJXb1
+         58sqx5DFfDA9ivRATeMCjKFNPThF2vLH3aYOQXr5ns4tjKaYWsTfM4SzQNsDgGrW37ZD
+         f2IKUgtQAXbzU4XAyOrjEHvpiBjHs6u3gnLjWIENNGRtHJXEZbISqN3e3sL0D/I/czDE
+         9rPIK1j3Z/EFXp2W64EbGyVMAVPSk3EqA0pEnoECc4j0ZyCL7dUrveMwIsXoTT52aevv
+         FH3GiDYt30gqMP6jvL96rP9t4RJQP/nXP9JHOlqhCGFiFxB8mE4CUHpPQuEMwNu5llU2
+         8tGA==
+X-Gm-Message-State: AOJu0YwpoVbM8AmVQbQ2cBQK0NvEV/+0/3WEpmR4EspwRgZ/bv40lziZ
+        mcR0NW8+eerLAVOVUT2go8+qMM1VDC2Y7NS0r6uC54UCTZ5ECxxTS/OEMUED7m3RwusSQGlkZV0
+        R+PffWODoIh7jLMmEwXnik3ZLHgggfWCCxdnegnA=
+X-Received: by 2002:a17:907:3f0d:b0:9ae:6a8b:f8aa with SMTP id hq13-20020a1709073f0d00b009ae6a8bf8aamr16598425ejc.26.1699289986198;
+        Mon, 06 Nov 2023 08:59:46 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH+GcWgc5JZgj2v/3nu12tgR3ByrR/XQLRRHiL2fdkmZXxUk5EgZ0kDmpFbmj2FKkTzlU7kdnIasw9A1lKBZv4=
+X-Received: by 2002:a17:907:3f0d:b0:9ae:6a8b:f8aa with SMTP id
+ hq13-20020a1709073f0d00b009ae6a8bf8aamr16598401ejc.26.1699289985765; Mon, 06
+ Nov 2023 08:59:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm>
+ <20231103200524.53930-1-ostapyshyn@sra.uni-hannover.de> <bokQB3BK040-4fGy8tNfZrdM2mNmWxZud9O-KMmYqOkfa1JTC1ocUjoAzCEpPsbsAvY5qb5TcSP6XsQLaja2XO0gapOcsZyeVdCvq6T31qA=@protonmail.com>
+In-Reply-To: <bokQB3BK040-4fGy8tNfZrdM2mNmWxZud9O-KMmYqOkfa1JTC1ocUjoAzCEpPsbsAvY5qb5TcSP6XsQLaja2XO0gapOcsZyeVdCvq6T31qA=@protonmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 6 Nov 2023 17:59:33 +0100
+Message-ID: <CAO-hwJLpKTb9yxvxaPDLZkF9kDF8u2VRJUf9yiQd+neOyxPeug@mail.gmail.com>
+Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel issue
+To:     David Revoy <davidrevoy@protonmail.com>
+Cc:     Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>, jkosina@suse.cz,
+        jason.gerecke@wacom.com, jose.exposito89@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        nils@nilsfuhler.de, peter.hutterer@who-t.net, ping.cheng@wacom.com,
+        bagasdotme@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Adds a driver for a mini gamepad that communicates over i2c, the gamepad
-has bidirectional thumb stick input and six buttons.
+Hi David,
 
-The gamepad chip utilizes the open framework from Adafruit called 'Seesaw'
-to transmit the ADC data for the joystick and digital pin state for the
-buttons. I have only implemented the functionality required to receive the
-thumb stick and button state.
+On Mon, Nov 6, 2023 at 2:18=E2=80=AFPM David Revoy <davidrevoy@protonmail.c=
+om> wrote:
+>
+> Hi Illia, Jiri, Bagas,
+>
+> Thanks to Jiri for forwarding my request for help to this mailing list.
+>
+> I apologise in advance to Bagas and you all for not being able to properl=
+y configure my email client to follow the correct etiquette (Protonmail, un=
+suitable for kernel development, but we've made some progress with them on =
+Mastodon on the encryption issue [1]).
 
-Steps in reading the gamepad state over i2c:
-  1. Reset the registers
-  2. Set the pin mode of the pins specified by the `BUTTON_MASK` to input
-      `BUTTON_MASK`: A bit-map for the six digital pins internally
-       connected to the joystick buttons.
-  3. Enable internal pullup resistors for the `BUTTON_MASK`
-  4. Bulk set the pin state HIGH for `BUTTON_MASK`
-  5. Poll the device for button and joystick state done by:
-      `seesaw_read_data(struct i2c_client *client, struct seesaw_data *data)`
+Hopefully you'll be able to figure out a way to have your emails
+posted to the lkml soon. It's very valuable to have them in
+lore.kernel.org to get the thread context.
 
-Product page:
-  https://www.adafruit.com/product/5743
-Arduino driver:
-  https://github.com/adafruit/Adafruit_Seesaw
+>
+> Thanks to Illia for the detailed explanation. Thanks also for fixing it, =
+and for explaining how the fix broke my workflow, and for your kind words a=
+bout the situation. I appreciate it.
+>
+> However, after reading your reply, I still have my doubts about the prefe=
+rence to put an eraser on the top button of the pen by default. But after a=
+ few days and re-reading your first sentence "The XP-Pen hardware reports t=
+he Eraser usage for the upper stylus button.", I *think* I understood it: t=
+his is an internal signal that is sent by the device itself, and is therefo=
+re a specification that has to be followed, right? In this case, it makes s=
+ense for a generic driver to follow such a signal if it is sent by the hard=
+ware.
 
-Driver tested on RPi Zero 2W
+Yes, you are correct. The device talks a given protocol (HID) and is
+supposed to use the specification from Microsoft[0] on how to behave
+properly. As such, it has to convey the "eraser" state by adding
+dedicated information in the event stream.
 
-Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
----
+In your case, I think we (the kernel and your stylus) simply talk past
+each other and we lose information.
 
-Changes for v7:
-adafruit-seesaw.c
-- Fixed formatting for macro definitions
-- Made SEESAW_BUTTON_MASK static const
-- Removed __be16 type for x and y fields of seesaw_data
-- Used sparse_keymap implementation instead of custom keymap
-- Used i2c_msg instead of i2c_master_send and recv in
-  seesaw_register_read
-- Use temporary variable `adc_data` to store data received from ADC
-- Changed read_buf from u8[4] to __be32
-- Use usleep_range instead of msleep
-- Removed 'Reviewed-by: Thomas Weißschuh' due to large number of changes
-  since last review
-Kconfig:
-- Added `select INPUT_SPARSEKMAP`
+>
+> Having said that, behaving like this still makes no sense in one case: I'=
+m thinking of my other display tablet, the XPPEN 16 Artist Pro (Gen2). In t=
+his case, the stylus has the top button as an eraser, and an eraser tip as =
+well, as you can see in this photo [2]. Was it also a decision by XPPEN to =
+include this signal in the hardware, knowing that they already had an erase=
+r tip? In this case, please let me know, as it sounds like a hardware probl=
+em at the design stage and I have probably a way of passing on the informat=
+ion to their technical team.
 
-Changes for v6:
-- Added TODO
-- Removed `clang-format` directives
-- Namespaced device buttons
-- Removed `char physical_path[32]` field from `struct seesaw_gamepad`
-- Added `packed` attribute to `struct seesaw_data`
-- Moved from having booleans per button to single `u32 button_state`
-- Added `seesaw_button_description` array to directly associate device
-  buttons with respective keycodes
-- Added wrapper functions `seesaw_register_` around `i2c_master_` API
-- Ratelimited input error reporting with `dev_err_ratelimited`
-- Removed `of_device_id`
+If the pen has 2 buttons, and an eraser side, it would be a serious
+design flow for XPPEN to report both as eraser.
 
-Changes for v5:
-- Added link to the datasheet
-- Added debug log message when `seesaw_read_data` fails
+Could you please use sudo hid-recorder from hid-tools[1] on any kernel
+version and send us the logs here?
+I'll be able to replay the events locally, and understand why the
+kernel doesn't work properly.
 
-Changes for v4:
-- Changed `1UL << BUTTON_` to BIT(BUTTON_)
-- Removed `hardware_id` field from `struct seesaw_gamepad`
-- Removed redundant checks for the number of bytes written and received by
-  `i2c_master_send` and `i2c_master_recv`
-- Used `get_unaligned_be32` to instantiate `u32 result` from `read_buf`
-- Changed  `result & (1UL << BUTTON_)` to
-  `test_bit(BUTTON_, (long *)&result)`
-- Changed `KBUILD_MODNAME` in id-tables to `SEESAW_DEVICE_NAME`
-- Fixed formatting issues
-- Changed button reporting:
-    Since the gamepad had the action buttons in a non-standard layout:
-         (X)
-      (Y)   (A)
-         (B)
-    Therefore moved to using generic directional action button event codes
-    instead of BTN_[ABXY].
+And if there is a design flaw that can be fixed, we might even be able
+to use hid-bpf to change it :)
 
-Changes for v3:
-- no updates
+>
+> > You can still remap the eraser button to a right click using xsetwacom:
+> > xsetwacom set "UGTABLET 24 inch PenDisplay eraser" "Button" "1" "3"
+>
+> Unfortunately, it doesn't work.
+>
+> Firstly, such tablets are often connected to a computer that already has =
+a display. So each device (pen/eraser) needs to be mapped to the correct di=
+splay and set to the correct 'Area' for calibration. A better syntax in my =
+case to test your workaround is written like this:
+>
+> tableteraser=3D"UGTABLET 24 inch PenDisplay eraser"
+> xsetwacom set "$tableteraser" MapToOutput "DisplayPort-2"
+> xsetwacom set "$tableteraser" Area 100 120 32794 32797
+> xsetwacom set "$tableteraser" "Button" "1" "3"
+>
+> Secondly, forwarding the eraser button 1 to button 3 (a right click) in x=
+setwacom doesn't work.
+>
+> Pressing the button switches the device to an eraser and no right click h=
+appens. You'll need to hold down the button and click with the tip of the p=
+en to create a right-click event.
+>
+> In a digital painting session in Krita, the software will switch your dev=
+ice to an eraser tool preset while you hold down the button, and the feedba=
+ck on the canvas will be the eraser cursor. You'll then have to click "with=
+ the eraser" to get the right-click that triggers the pop-up palette [3].
+>
+> I'd also like to mention that if you haven't correctly mapped and calibra=
+ted your eraser device with xsetwacom, as I did in the code snippet above, =
+the cursor will by default jump to a different location when you hold down =
+the eraser button. It can be on a different display.
+>
+> Finally, in the case of the XPPEN 16 Artist Pro (Gen2) with a real eraser=
+ device (Photo, [2]), the setting 'xsetwacom set "$tableteraser" "Button" "=
+1" "3"' will affect both erasers. Flipping the stylus on the eraser side an=
+d entering in 'hover' mode will return a correct eraser, but as soon as you=
+ start erasing with the tip, a right click will also be entered.
+>
+> > You can also do this with "xinput set-button-map", which works for libi=
+nput as well.
+>
+> $ xinput list
+> =E2=8E=A1 Virtual core pointer
+> =E2=8E=9C   =E2=86=B3 UGTABLET 24 inch PenDisplay Mouse         id=3D8   =
+ [slave  pointer  (2)]
+> =E2=8E=9C   =E2=86=B3 UGTABLET 24 inch PenDisplay stylus        id=3D10  =
+ [slave  pointer  (2)]
+> =E2=8E=9C   =E2=86=B3 UGTABLET 24 inch PenDisplay eraser        id=3D17  =
+ [slave  pointer  (2)]
+> [...]
+> $ xinput get-button-map 17
+> 1 2 3 4 5 6 7 8
+> $ xinput set-button-map 17 3 3 3 3 3 3 3 3
+> $ xinput get-button-map 17
+> 3 3 3 3 3 3 3 3
+>
+> Even after that, it doesn't work. My original article [4] mentions in the=
+ last paragraph that I have tested almost all methods, and this was one of =
+them. Even a udev rule doesn't fix it. For reference, xinput produces the s=
+ame behaviour as xsetwacom: you have to hold the button (it triggers an era=
+ser device switch) then click with the tip to get a right-click...
 
-Changes for v2:
-adafruit-seesaw.c:
-- Renamed file from 'adafruit_seesaw.c'
-- Changed device name from 'seesaw_gamepad' to 'seesaw-gamepad'
-- Changed count parameter for receiving joystick x on line 118:
-    `2` to `sizeof(write_buf)`
-- Fixed invalid buffer size on line 123 and 126:
-    `data->y` to `sizeof(data->y)`
-- Added comment for the `mdelay(10)` on line 169
-- Changed inconsistent indentation on line 271
-Kconfig:
-- Fixed indentation for the help text
-- Updated module name
-Makefile:
-- Updated module object file name
-MAINTAINERS:
-- Updated file name for the driver and bindings
----
- MAINTAINERS                              |   7 +
- drivers/input/joystick/Kconfig           |  10 +
- drivers/input/joystick/Makefile          |   1 +
- drivers/input/joystick/adafruit-seesaw.c | 315 +++++++++++++++++++++++
- 4 files changed, 333 insertions(+)
- create mode 100644 drivers/input/joystick/adafruit-seesaw.c
+Generally speaking, relying on X to fix your hardware is going to be a
+dead end. When you switch to wayland, you'll lose all of your fixes,
+which isn't great.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 81d5fc0bba68..cd4f9deb77e2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -441,6 +441,13 @@ W:	http://wiki.analog.com/AD7879
- W:	https://ez.analog.com/linux-software-drivers
- F:	drivers/input/touchscreen/ad7879.c
- 
-+ADAFRUIT MINI I2C GAMEPAD
-+M:	Anshul Dalal <anshulusr@gmail.com>
-+L:	linux-input@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/input/adafruit_seesaw.yaml
-+F:	drivers/input/joystick/adafruit_seesaw.c
-+
- ADDRESS SPACE LAYOUT RANDOMIZATION (ASLR)
- M:	Jiri Kosina <jikos@kernel.org>
- S:	Maintained
-diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
-index ac6925ce8366..7914bef999b7 100644
---- a/drivers/input/joystick/Kconfig
-+++ b/drivers/input/joystick/Kconfig
-@@ -412,4 +412,14 @@ config JOYSTICK_SENSEHAT
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called sensehat_joystick.
- 
-+config JOYSTICK_SEESAW
-+	tristate "Adafruit Mini I2C Gamepad with Seesaw"
-+	depends on I2C
-+	select INPUT_SPARSEKMAP
-+	help
-+	  Say Y here if you want to use the Adafruit Mini I2C Gamepad.
-+
-+	  To compile this driver as a module, choose M here: the module will be
-+	  called adafruit_seesaw.
-+
- endif
-diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Makefile
-index 3937535f0098..fdc653209542 100644
---- a/drivers/input/joystick/Makefile
-+++ b/drivers/input/joystick/Makefile
-@@ -28,6 +28,7 @@ obj-$(CONFIG_JOYSTICK_N64)		+= n64joy.o
- obj-$(CONFIG_JOYSTICK_PSXPAD_SPI)	+= psxpad-spi.o
- obj-$(CONFIG_JOYSTICK_PXRC)		+= pxrc.o
- obj-$(CONFIG_JOYSTICK_QWIIC)		+= qwiic-joystick.o
-+obj-$(CONFIG_JOYSTICK_SEESAW)		+= adafruit_seesaw.o
- obj-$(CONFIG_JOYSTICK_SENSEHAT)	+= sensehat-joystick.o
- obj-$(CONFIG_JOYSTICK_SIDEWINDER)	+= sidewinder.o
- obj-$(CONFIG_JOYSTICK_SPACEBALL)	+= spaceball.o
-diff --git a/drivers/input/joystick/adafruit-seesaw.c b/drivers/input/joystick/adafruit-seesaw.c
-new file mode 100644
-index 000000000000..8e8ef26a585f
---- /dev/null
-+++ b/drivers/input/joystick/adafruit-seesaw.c
-@@ -0,0 +1,315 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright (C) 2023 Anshul Dalal <anshulusr@gmail.com>
-+ *
-+ * Driver for Adafruit Mini I2C Gamepad
-+ *
-+ * Based on the work of:
-+ *	Oleh Kravchenko (Sparkfun Qwiic Joystick driver)
-+ *
-+ * Datasheet: https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.pdf
-+ * Product page: https://www.adafruit.com/product/5743
-+ * Firmware and hardware sources: https://github.com/adafruit/Adafruit_Seesaw
-+ *
-+ * TODO:
-+ *	- Add interrupt support
-+ */
-+
-+#include <asm-generic/unaligned.h>
-+#include <linux/bits.h>
-+#include <linux/delay.h>
-+#include <linux/i2c.h>
-+#include <linux/input.h>
-+#include <linux/input/sparse-keymap.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+
-+#define SEESAW_DEVICE_NAME	     "seesaw-gamepad"
-+
-+#define SEESAW_STATUS_BASE	     0x00
-+#define SEESAW_GPIO_BASE	     0x01
-+#define SEESAW_ADC_BASE		     0x09
-+
-+#define SEESAW_GPIO_DIRCLR_BULK	     0x03
-+#define SEESAW_GPIO_BULK	     0x04
-+#define SEESAW_GPIO_BULK_SET	     0x05
-+#define SEESAW_GPIO_PULLENSET	     0x0b
-+
-+#define SEESAW_STATUS_HW_ID	     0x01
-+#define SEESAW_STATUS_SWRST	     0x7f
-+
-+#define SEESAW_ADC_OFFSET	     0x07
-+
-+#define SEESAW_BUTTON_A		     0x05
-+#define SEESAW_BUTTON_B		     0x01
-+#define SEESAW_BUTTON_X		     0x06
-+#define SEESAW_BUTTON_Y		     0x02
-+#define SEESAW_BUTTON_START	     0x10
-+#define SEESAW_BUTTON_SELECT	     0x00
-+
-+#define SEESAW_ANALOG_X		     0x0e
-+#define SEESAW_ANALOG_Y		     0x0f
-+
-+#define SEESAW_JOYSTICK_MAX_AXIS     1023
-+#define SEESAW_JOYSTICK_FUZZ	     2
-+#define SEESAW_JOYSTICK_FLAT	     4
-+
-+#define SEESAW_GAMEPAD_POLL_INTERVAL 16
-+#define SEESAW_GAMEPAD_POLL_MIN	     8
-+#define SEESAW_GAMEPAD_POLL_MAX	     32
-+
-+static const u32 SEESAW_BUTTON_MASK =
-+	BIT(SEESAW_BUTTON_A) | BIT(SEESAW_BUTTON_B) | BIT(SEESAW_BUTTON_X) |
-+	BIT(SEESAW_BUTTON_Y) | BIT(SEESAW_BUTTON_START) |
-+	BIT(SEESAW_BUTTON_SELECT);
-+
-+struct seesaw_gamepad {
-+	struct input_dev *input_dev;
-+	struct i2c_client *i2c_client;
-+};
-+
-+struct seesaw_data {
-+	u16 x;
-+	u16 y;
-+	u32 button_state;
-+};
-+
-+struct seesaw_button_description {
-+	unsigned int code;
-+	unsigned int bit;
-+};
-+
-+static const struct key_entry seesaw_buttons_new[] = {
-+	{ KE_KEY, SEESAW_BUTTON_A, .keycode = BTN_SOUTH },
-+	{ KE_KEY, SEESAW_BUTTON_B, .keycode = BTN_EAST },
-+	{ KE_KEY, SEESAW_BUTTON_X, .keycode = BTN_NORTH },
-+	{ KE_KEY, SEESAW_BUTTON_Y, .keycode = BTN_WEST },
-+	{ KE_KEY, SEESAW_BUTTON_START, .keycode = BTN_START },
-+	{ KE_KEY, SEESAW_BUTTON_SELECT, .keycode = BTN_SELECT },
-+	{ KE_END, 0 },
-+};
-+
-+static int seesaw_register_read(struct i2c_client *client, u8 register_high,
-+				u8 register_low, char *buf, int count)
-+{
-+	int ret;
-+	u8 register_buf[2] = { register_high, register_low };
-+
-+	struct i2c_msg message_buf[2] = {
-+		{
-+			.addr = client->addr,
-+			.flags = client->flags,
-+			.len = sizeof(register_buf),
-+			.buf = register_buf
-+		},
-+		{
-+			.addr = client->addr,
-+			.flags = client->flags | I2C_M_RD,
-+			.len = count,
-+			.buf = buf
-+		},
-+	};
-+	ret = i2c_transfer(client->adapter, message_buf,
-+			   ARRAY_SIZE(message_buf));
-+
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int seesaw_register_write_u8(struct i2c_client *client, u8 register_high,
-+				    u8 register_low, u8 value)
-+{
-+	int ret;
-+	u8 write_buf[3] = { register_high, register_low, value };
-+
-+	ret = i2c_master_send(client, write_buf, sizeof(write_buf));
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int seesaw_register_write_u32(struct i2c_client *client,
-+				     u8 register_high, u8 register_low,
-+				     u32 value)
-+{
-+	int ret;
-+	u8 write_buf[6] = { register_high, register_low };
-+
-+	put_unaligned_be32(value, write_buf + 2);
-+	ret = i2c_master_send(client, write_buf, sizeof(write_buf));
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int seesaw_read_data(struct i2c_client *client, struct seesaw_data *data)
-+{
-+	int ret;
-+	__be16 adc_data;
-+	__be32 read_buf;
-+
-+	ret = seesaw_register_read(client, SEESAW_GPIO_BASE, SEESAW_GPIO_BULK,
-+				   (char *)&read_buf, sizeof(read_buf));
-+	if (ret)
-+		return ret;
-+
-+	data->button_state = ~be32_to_cpu(read_buf);
-+
-+	ret = seesaw_register_read(client, SEESAW_ADC_BASE,
-+				   SEESAW_ADC_OFFSET + SEESAW_ANALOG_X,
-+				   (char *)&adc_data, sizeof(adc_data));
-+	if (ret)
-+		return ret;
-+	/*
-+	 * ADC reads left as max and right as 0, must be reversed since kernel
-+	 * expects reports in opposite order.
-+	 */
-+	data->x = SEESAW_JOYSTICK_MAX_AXIS - be16_to_cpu(adc_data);
-+
-+	ret = seesaw_register_read(client, SEESAW_ADC_BASE,
-+				   SEESAW_ADC_OFFSET + SEESAW_ANALOG_Y,
-+				   (char *)&adc_data, sizeof(adc_data));
-+	if (ret)
-+		return ret;
-+	data->y = be16_to_cpu(adc_data);
-+
-+	return 0;
-+}
-+
-+static void seesaw_poll(struct input_dev *input)
-+{
-+	int err, i;
-+	struct seesaw_gamepad *private = input_get_drvdata(input);
-+	struct seesaw_data data;
-+
-+	err = seesaw_read_data(private->i2c_client, &data);
-+	if (err) {
-+		dev_err_ratelimited(&input->dev,
-+				    "failed to read joystick state: %d\n", err);
-+		return;
-+	}
-+
-+	input_report_abs(input, ABS_X, data.x);
-+	input_report_abs(input, ABS_Y, data.y);
-+
-+	for_each_set_bit(i, (long *)&SEESAW_BUTTON_MASK,
-+			 BITS_PER_TYPE(SEESAW_BUTTON_MASK)) {
-+		if (!sparse_keymap_report_event(
-+			    input, i, data.button_state & BIT(i), false)) {
-+			dev_err_ratelimited(&input->dev,
-+					    "failed to report keymap event");
-+			return;
-+		};
-+	}
-+
-+	input_sync(input);
-+}
-+
-+static int seesaw_probe(struct i2c_client *client)
-+{
-+	int ret;
-+	u8 hardware_id;
-+	struct seesaw_gamepad *seesaw;
-+
-+	ret = seesaw_register_write_u8(client, SEESAW_STATUS_BASE,
-+				       SEESAW_STATUS_SWRST, 0xFF);
-+	if (ret)
-+		return ret;
-+
-+	/* Wait for the registers to reset before proceeding */
-+	usleep_range(10000, 15000);
-+
-+	seesaw = devm_kzalloc(&client->dev, sizeof(*seesaw), GFP_KERNEL);
-+	if (!seesaw)
-+		return -ENOMEM;
-+
-+	ret = seesaw_register_read(client, SEESAW_STATUS_BASE,
-+				   SEESAW_STATUS_HW_ID, &hardware_id,
-+				   sizeof(hardware_id));
-+	if (ret)
-+		return ret;
-+
-+	dev_dbg(&client->dev, "Adafruit Seesaw Gamepad, Hardware ID: %02x\n",
-+		hardware_id);
-+
-+	/* Set Pin Mode to input and enable pull-up resistors */
-+	ret = seesaw_register_write_u32(client, SEESAW_GPIO_BASE,
-+					SEESAW_GPIO_DIRCLR_BULK,
-+					SEESAW_BUTTON_MASK);
-+	if (ret)
-+		return ret;
-+	ret = seesaw_register_write_u32(client, SEESAW_GPIO_BASE,
-+					SEESAW_GPIO_PULLENSET,
-+					SEESAW_BUTTON_MASK);
-+	if (ret)
-+		return ret;
-+	ret = seesaw_register_write_u32(client, SEESAW_GPIO_BASE,
-+					SEESAW_GPIO_BULK_SET,
-+					SEESAW_BUTTON_MASK);
-+	if (ret)
-+		return ret;
-+
-+	seesaw->i2c_client = client;
-+	seesaw->input_dev = devm_input_allocate_device(&client->dev);
-+	if (!seesaw->input_dev)
-+		return -ENOMEM;
-+
-+	seesaw->input_dev->id.bustype = BUS_I2C;
-+	seesaw->input_dev->name = "Adafruit Seesaw Gamepad";
-+	seesaw->input_dev->phys = "i2c/" SEESAW_DEVICE_NAME;
-+	input_set_drvdata(seesaw->input_dev, seesaw);
-+	input_set_abs_params(seesaw->input_dev, ABS_X, 0,
-+			     SEESAW_JOYSTICK_MAX_AXIS, SEESAW_JOYSTICK_FUZZ,
-+			     SEESAW_JOYSTICK_FLAT);
-+	input_set_abs_params(seesaw->input_dev, ABS_Y, 0,
-+			     SEESAW_JOYSTICK_MAX_AXIS, SEESAW_JOYSTICK_FUZZ,
-+			     SEESAW_JOYSTICK_FLAT);
-+
-+	ret = sparse_keymap_setup(seesaw->input_dev, seesaw_buttons_new, NULL);
-+	if (ret) {
-+		dev_err(&client->dev,
-+			"failed to set up input device keymap: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = input_setup_polling(seesaw->input_dev, seesaw_poll);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to set up polling: %d\n", ret);
-+		return ret;
-+	}
-+
-+	input_set_poll_interval(seesaw->input_dev, SEESAW_GAMEPAD_POLL_INTERVAL);
-+	input_set_max_poll_interval(seesaw->input_dev, SEESAW_GAMEPAD_POLL_MAX);
-+	input_set_min_poll_interval(seesaw->input_dev, SEESAW_GAMEPAD_POLL_MIN);
-+
-+	ret = input_register_device(seesaw->input_dev);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to register joystick: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct i2c_device_id seesaw_id_table[] = {
-+	{ SEESAW_DEVICE_NAME, 0 },
-+	{ /* Sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(i2c, seesaw_id_table);
-+
-+static struct i2c_driver seesaw_driver = {
-+	.driver = {
-+		.name = SEESAW_DEVICE_NAME,
-+	},
-+	.id_table = seesaw_id_table,
-+	.probe = seesaw_probe,
-+};
-+module_i2c_driver(seesaw_driver);
-+
-+MODULE_AUTHOR("Anshul Dalal <anshulusr@gmail.com>");
-+MODULE_DESCRIPTION("Adafruit Mini I2C Gamepad driver");
-+MODULE_LICENSE("GPL");
--- 
-2.42.0
+>
+> > We have tested this with several XP-Pen devices, including Artist 24.
+>
+> Sorry if my tests show something different. Maybe there is something wron=
+g with my GNU/Linux operating system (Fedora 38 KDE spin). Let me know if y=
+ou have any idea why I get these results and guide me with what distro I sh=
+ould switch to get a similar observation than you do (and also to report th=
+e issue to the Fedora team).
+>
+> ---
+>
+> All in all (and in the case that my observations and tests are correct), =
+I still stand by the points that I made in my blog post:
+>
+> - I don't have any way to customise the hardcoded eraser buttons in users=
+pace and **it is a problem**: for devices without a touchscreen or mouse, n=
+ot having access to a right-click by default on the device is a handicap. M=
+any actions on the D.E. and applications use the right click. The preferenc=
+e to replace it with an 'eraser switch' action by default is IMHO highly de=
+batable here.
+
+AFAIU, the kernel now "merges" both buttons, which is a problem. It
+seems to be a serious regression. This case is also worrying because I
+added regression tests on hid, but I don't have access to all of the
+various tablets, so I implemented them from the Microsoft
+specification[0]. We need a special case for you here.
+
+> - In the case of a pen that already has an eraser tip on the other side o=
+f the device [2], it makes no sense to exchange the right-click top button =
+for another way to erase. Also in userspace, there seems to be no way to di=
+stinguish between the two buttons (the eraser tip and the eraser button). A=
+ll actions from xsetwacom, xinput/libinput target the two eraser devices, a=
+nd they target them unsuccessfully too.
+
+Again, we can't do more than what the device reports. Well, we can
+always quirk it in some cases, but ideally we don't have to do
+anything. MS spec [0], only shows a single button pen with an eraser
+tail or a pen with 2 buttons, one of them being the eraser one. I'm
+not sure if they decided to prevent dual button pens with eraser tail,
+but Wacom definitely has some, and they work.
+
+Without the actual data from your pen, I can not tell much, because I
+don't follow which path we are taking on the kernel side. Please
+report with your hid-recorder logs, so I can understand why this is
+happening and how we can fix it.
+
+>
+> [1]: https://mastodon.social/@protonmail/111346195283677411
+> [2]: https://www.davidrevoy.com/data/images/blog/2023/2023-11-01_linux-ke=
+rnel-broke-my-stylus_xp-pen-artist-pro-16-gen2_net.jpg
+> [3]: https://docs.krita.org/en/reference_manual/popup-palette.html
+> [4]: https://www.davidrevoy.com/article995/how-a-kernel-update-broke-my-s=
+tylus-need-help
+>
+>
+> ------- Original Message -------
+> On Friday, November 3rd, 2023 at 21:05, Illia Ostapyshyn <ostapyshyn@sra.=
+uni-hannover.de> wrote:
+>
+>
+> > Hello David, Hello Jiri,
+> >
+> > The XP-Pen hardware reports the Eraser usage for the upper stylus butto=
+n.
+> > Generally, styli report Invert usages when erasing, as described in [1]=
+.
+> > XP-Pen digitizers, however, tend to omit them.
+> >
+> > The generic driver maps the Eraser usage to BTN_TOUCH and the Invert
+> > usage to BTN_TOOL_RUBBER. Pens conforming to [1] send the Invert usage
+> > first (switching the tool to BTN_TOOL_RUBBER) followed by Eraser, which
+> > appears in userspace as a BTN_TOUCH event with the rubber tool set.
+> >
+> > Due to an oversight, devices not reporting Invert had the BTN_TOOL_RUBB=
+ER
+> > event masked. This has caused the kernel to send only BTN_TOUCH events
+> > without the tool switch when erasing.
+> >
+> > The situation got worse with refactoring done in 87562fcd1342. An erase=
+r
+> > without Invert caused the hidinput_hid_event state machine to get stuck
+> > with BTN_TOOL_RUBBER internally (due to it being masked). For the
+> > userspace, this looked as if the pen was never hovering again, renderin=
+g
+> > it unusable until the next reset. 276e14e6c3 fixes this by adding
+> > support for digitizers that do not report Invert usages when erasing.
+
+AFAICT 276e14e6c3 already had the hid tests integrated at
+tools/testing/selftests/hid/tests/test_tablet.py
+
+It would have been great to add the cases you are mentioning here,
+because there is a strong chance I'll break things once again when we
+try to fix that regression.
+
+
+> >
+> > ---
+> >
+> > David, we are sorry that our patch broke your workflow. However,
+> > forwarding hardware events as-is to the userspace has always been the
+> > intended behavior, with a kernel bug preventing it so far. You can stil=
+l
+> > remap the eraser button to a right click using xsetwacom:
+> >
+> > xsetwacom set "UGTABLET 24 inch PenDisplay eraser" "Button" "1" "3"
+> >
+> > Replace the device name with the corresponding eraser device from
+> > "xsetwacom list devices". You can also do this with "xinput set-button-=
+map",
+> > which works for libinput as well. We have tested this with several
+> > XP-Pen devices, including Artist 24.
+> >
+> > [1] https://learn.microsoft.com/en-us/windows-hardware/design/component=
+-guidelines/windows-pen-states
+>
+
+Cheers,
+Benjamin
+
+[0] https://learn.microsoft.com/en-us/windows-hardware/design/component-gui=
+delines/windows-pen-states
+[1] https://gitlab.freedesktop.org/libevdev/hid-tools
 
