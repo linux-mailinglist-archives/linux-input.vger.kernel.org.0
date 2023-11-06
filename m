@@ -2,59 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EEA57E1B67
-	for <lists+linux-input@lfdr.de>; Mon,  6 Nov 2023 08:40:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDA297E1B6B
+	for <lists+linux-input@lfdr.de>; Mon,  6 Nov 2023 08:41:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231152AbjKFHkv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Nov 2023 02:40:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42546 "EHLO
+        id S231168AbjKFHlD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Nov 2023 02:41:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230490AbjKFHku (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Nov 2023 02:40:50 -0500
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7598DFA
-        for <linux-input@vger.kernel.org>; Sun,  5 Nov 2023 23:40:47 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-50930f126b1so5083135e87.3
-        for <linux-input@vger.kernel.org>; Sun, 05 Nov 2023 23:40:47 -0800 (PST)
+        with ESMTP id S231247AbjKFHlA (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Nov 2023 02:41:00 -0500
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2079D67
+        for <linux-input@vger.kernel.org>; Sun,  5 Nov 2023 23:40:56 -0800 (PST)
+Received: by mail-lj1-x22f.google.com with SMTP id 38308e7fff4ca-2c6efcef4eeso49923761fa.1
+        for <linux-input@vger.kernel.org>; Sun, 05 Nov 2023 23:40:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699256445; x=1699861245; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1699256455; x=1699861255; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=JmqTrOYNtDPmBkwNAHZr1Cesr1m1VYhAo3UET3rJVVU=;
-        b=J9niIEDZr1NVInwskLB0ZqND+Rk3S6TyC1mOfD57km+n81+L/wg9eSoBOk20fH2CxY
-         QPf8hUMECfU+dpFMJaYEak0yNq8RiwdMKUNYTdHACaE3UWibPG3xZB6528rBz86Kr0ue
-         WpZmULbGueMObdn5/+25/Lccf16/4POWDqP4Y7s+/SogDFKMMlNirqQU2RJMnd5aFS/M
-         HjwxQ2nV2y31u5fm2D6JdazHsiuaUU5lAmx33HcyNNkmRIMyS1HMkByXeZ95xlwRr645
-         viNp9ho9/eN/d4HfndCZiaHPs9KLKRrPOfryf52hqZVDXjGrXHO/ar1Xibb2HVZNldFq
-         gPgg==
+        bh=zZtAMBRWYfS3ZEecMf62oA+uLVzuLeNQUxImYAURQqs=;
+        b=OYf0cjkd5oNUe2dQCdmVZX3cRGGMWsKvOQnmfzqXUg7kVXkhOIDFY4/9FR/IjfBUQO
+         x0+1djbsmSc94c5pSzowuKP4zijVxYKrbgSXvAvSHlPfgvp7AV0ZbrIv3sEV9H0rbPP4
+         Al6LOIbRofcemwZSiXfEuw3G4FgUQXx6V2noQW2i77hMaPDpmOO3FP+1qJFqCcQSErgL
+         gylGxhsjn73P489LsiyYk06f+5F6t1Im43ZxaOW3poaDRfBC5E3fOhORvMeRtdtMynG3
+         8Nhi7rNYCXMZSy2cQreaTC4ahkMOcXOCBIQZI9n4SKSXWVaZsDDaBGmNhBMO4SVVQ/nw
+         fBMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699256445; x=1699861245;
+        d=1e100.net; s=20230601; t=1699256455; x=1699861255;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JmqTrOYNtDPmBkwNAHZr1Cesr1m1VYhAo3UET3rJVVU=;
-        b=NTJwiy0mTDrLcV6/EJiAjDIWh/LaJgh91ZAQJ+dR3Iq6CqLTgYYkTplY0jMznBzfRI
-         bNJSFfAL8W7z8werGgQY95dKbMvAJaRcZZtAGoneQnd/+K1s+mYClX/Xpt3CN+LsOwGj
-         OY+tqoi5SHYcjjZhIo3jQTB3iG3Tm3NhqB0SVk29EfYG6rM0O2DggCSMvJu1bnpuAHRP
-         bW1VHjBOMSZ46W5rbqxRhqusKd2LJQFg5vBYNThd3KLYGwj2ffgbYcnKDlD2WIJHnhwM
-         /slWbU93hf9G2hFXYev6Ftj4Mdv2IJhgsB1ohd/ezQZhA9ya5WFKwmtkKBXJowCU61zi
-         6uCg==
-X-Gm-Message-State: AOJu0YzlLbN+otHhsxxa4vjY5QRa6lz6HgSe/DCfBBPk3dsQMiaU0cAn
-        KZW9p7PgMQYJLIRAUxd0LkK7iQ==
-X-Google-Smtp-Source: AGHT+IEFy+GYGWH1jiJLdv5hdtx8dmCqwLxu2m++pzY2tw2EguQxIuOxCtYwk+/Trat0+SmHNFMqlw==
-X-Received: by 2002:a05:6512:33c3:b0:509:489f:d84e with SMTP id d3-20020a05651233c300b00509489fd84emr11939322lfg.37.1699256445742;
-        Sun, 05 Nov 2023 23:40:45 -0800 (PST)
+        bh=zZtAMBRWYfS3ZEecMf62oA+uLVzuLeNQUxImYAURQqs=;
+        b=SZuTeGYyDPMSZHltKzlAR3SWco/QsYUpLivVpjdAjC/aPM+bgDA6/op+vth2udQ3GR
+         m0owSnr4m00DNJSBZDJnwScEC/aWifGcFznEAa7Uic8IlJZmU/leOGgMjzo/Z/ZcSXvy
+         eSpAYQGErhcYWaCuQ6LvldGb4pM7v6mZmL+8qdzPTfxNYUjJpqw4+FqvIAxM9CqAkuZA
+         AkZUnkHZQYNXYbeF4QGuQWNf6Io+s3VyhqFCuYzdt89R2tq4uZKzYKzlCXr7sNmxVDhD
+         eRJpplTtwOkaZAPRE/ahKIlLKsDghjpQxs6NjU+DsQG0CFTyXoFaSYAzHsKPTPOVexYA
+         CmOQ==
+X-Gm-Message-State: AOJu0Yy+MGWijQnZS9wpqVkxjgUA4PFL9PWEGMn/UN2i4ky81hrKq/v4
+        SpSZ7hliYKX4BI60Xsf19DtX5w==
+X-Google-Smtp-Source: AGHT+IFltuEmUKFldA0/lrmtPMQMOc8+F6NWE7QplkX7MaWYlFeyM1D6r7AVIHNWCdBztiuWwKxhSw==
+X-Received: by 2002:a2e:9d15:0:b0:2c6:ed8b:5f81 with SMTP id t21-20020a2e9d15000000b002c6ed8b5f81mr9536227lji.44.1699256455034;
+        Sun, 05 Nov 2023 23:40:55 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id e10-20020a05600c4e4a00b00406447b798bsm11486805wmq.37.2023.11.05.23.40.44
+        by smtp.gmail.com with ESMTPSA id e10-20020a05600c4e4a00b00406447b798bsm11486805wmq.37.2023.11.05.23.40.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Nov 2023 23:40:45 -0800 (PST)
-Message-ID: <8c6fc5db-520e-4fb0-9b15-647221a8bd84@linaro.org>
-Date:   Mon, 6 Nov 2023 08:40:44 +0100
+        Sun, 05 Nov 2023 23:40:54 -0800 (PST)
+Message-ID: <a99c7041-f023-4bd4-8f8a-5a72a7b0c44c@linaro.org>
+Date:   Mon, 6 Nov 2023 08:40:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/7] ARM: dts: qcom: apq8026-samsung-milletwifi: Enable
- charger
+Subject: Re: [PATCH 6/7] ARM: dts: qcom: apq8026-samsung-milletwifi: Enable
+ Wi-Fi and Bluetooth
 Content-Language: en-US
 To:     Bryant Mairs <bryant@mai.rs>, Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
@@ -67,7 +67,7 @@ To:     Bryant Mairs <bryant@mai.rs>, Andy Gross <agross@kernel.org>,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
 References: <20231105204759.37107-1-bryant@mai.rs>
- <20231105204759.37107-6-bryant@mai.rs>
+ <20231105204759.37107-7-bryant@mai.rs>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -113,7 +113,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231105204759.37107-6-bryant@mai.rs>
+In-Reply-To: <20231105204759.37107-7-bryant@mai.rs>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -127,15 +127,12 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 On 05/11/2023 21:46, Bryant Mairs wrote:
-> Enable charging support.
+> Enable Wi-Fi and Bluetooth support for milletwifi. This device
+> uses the WCN3660A that is already supported, so it only needs to be
+> enabled in the DTS.
 > 
-> Signed-off-by: Bryant Mairs <bryant@mai.rs>
-> ---
->  .../qcom/qcom-apq8026-samsung-milletwifi.dts  | 28 +++++++++++++++++++
->  1 file changed, 28 insertions(+)
 
-Squash with new board. One logical change is to add new board. Not add
-incomplete board and immediately fix it.
+Squash.
 
 Best regards,
 Krzysztof
