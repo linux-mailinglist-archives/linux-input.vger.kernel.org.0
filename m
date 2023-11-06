@@ -2,39 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 041317E1933
-	for <lists+linux-input@lfdr.de>; Mon,  6 Nov 2023 04:28:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 587687E1948
+	for <lists+linux-input@lfdr.de>; Mon,  6 Nov 2023 04:57:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230117AbjKFD2n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 5 Nov 2023 22:28:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35912 "EHLO
+        id S230145AbjKFD5w (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 5 Nov 2023 22:57:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229485AbjKFD2n (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Nov 2023 22:28:43 -0500
+        with ESMTP id S229485AbjKFD5v (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 5 Nov 2023 22:57:51 -0500
 Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 990A6FB
-        for <linux-input@vger.kernel.org>; Sun,  5 Nov 2023 19:28:40 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D613FD6
+        for <linux-input@vger.kernel.org>; Sun,  5 Nov 2023 19:57:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1699241318; x=1699500518;
-        bh=kdEtC/vnjbTWkwy6LdABWJguWjTmbGR+LqobrWEGpLA=;
+        s=protonmail3; t=1699243066; x=1699502266;
+        bh=As3a27QMW/BoHW+UlSXOW4dmynjX02XHuetDPzr1fAg=;
         h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
          Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
          Message-ID:BIMI-Selector;
-        b=LyUzXsvNc57vDlVzWTPR0ScrUMYdHQg12m/Wg9Anu+S6P5QWtD2SL2ymbF2BTBtFw
-         SFtaoRczbf+QShbx1mywYk4RRnAVPntcrbpYfkMOg9JeZpePnI+bg1ahkX1FebhL4s
-         FE+nM14jN6HzKeFjs3MLBPoOeqzDY5fPAILTOWqRT8367ca/lXyo6xZbsozDB+qfmx
-         GqF9f/1hIIacSgQCH5O9fXseNNJe6foF6eRNrfAfN/RIGevZHjL2gC+EWoObHXlKHG
-         Zt8rH22lGJpluNvS26NMkdECfPbgUfCjMSofTDVTQ+Y/1Yb8ieXwtVN4bqjiltSUYt
-         ijSumKNwP2KaQ==
-Date:   Mon, 06 Nov 2023 03:28:31 +0000
-To:     Brett Raye <braye@fastmail.com>
+        b=BlhvldTx+ZtolLJefmPmmfXaOWSIoBHIGgVD+Ozt4PdRogycXX5xb/xAjyTNQJkoN
+         1gG1i0KW01EJD/WZ929bmEkGbwsexNCyMqEXdYZC/127RtzPlTSRal2Aypr3Nuv7k+
+         QRpizadcihXeVXMqOcRy0VdIa3J+E3oCGMgHkzNBk/lQi1OxE9X6RsgYUjOHpHEmdV
+         8MiR0g/1UXnAG2bQjilDkbwTYXEEkp351zsCtQXUUHRY2QuWLVPN/6RZyay0KvoDP8
+         K2eOMom3LhYidTXM0riGHoot+2itGyI6MxGDnvd5NoRU15MRhhar2jMW5aWQBznbIB
+         6J7BGZ3Rr9bxQ==
+Date:   Mon, 06 Nov 2023 03:57:39 +0000
+To:     Su Hui <suhui@nfschina.com>
 From:   Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] HID: glorious: fix Glorious Model I HID report
-Message-ID: <875y2f1rxg.fsf@protonmail.com>
-In-Reply-To: <20231103011038.27462-1-braye@fastmail.com>
-References: <20231103011038.27462-1-braye@fastmail.com>
+Cc:     ping.cheng@wacom.com, jason.gerecke@wacom.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] HID: wacom_sys: add error code check in wacom_feature_mapping
+Message-ID: <871qd31qkx.fsf@protonmail.com>
+In-Reply-To: <20231020090237.201029-1-suhui@nfschina.com>
+References: <20231020090237.201029-1-suhui@nfschina.com>
 Feedback-ID: 26003777:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -49,50 +50,53 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 02 Nov, 2023 18:10:38 -0700 "Brett Raye" <braye@fastmail.com> wrote=
-:
-> The Glorious Model I mouse has a buggy HID report descriptor for its
-> keyboard endpoint (used for programmable buttons). For report ID 2, there
-> is a mismatch between Logical Minimum and Usage Minimum in the array that
-> reports keycodes.
->
-> The offending portion of the descriptor: (from hid-decode)
->
-> 0x95, 0x05,                    //  Report Count (5)                   30
-> 0x75, 0x08,                    //  Report Size (8)                    32
-> 0x15, 0x00,                    //  Logical Minimum (0)                34
-> 0x25, 0x65,                    //  Logical Maximum (101)              36
-> 0x05, 0x07,                    //  Usage Page (Keyboard)              38
-> 0x19, 0x01,                    //  Usage Minimum (1)                  40
-> 0x29, 0x65,                    //  Usage Maximum (101)                42
-> 0x81, 0x00,                    //  Input (Data,Arr,Abs)               44
->
-> This bug shifts all programmed keycodes up by 1. Importantly, this causes
-> "empty" array indexes of 0x00 to be interpreted as 0x01, ErrorRollOver.
-> The presence of ErrorRollOver causes the system to ignore all keypresses
-> from the endpoint and breaks the ability to use the programmable buttons.
->
-> Setting byte 41 to 0x00 fixes this, and causes keycodes to be interpreted
-> correctly.
->
-> Also, USB_VENDOR_ID_GLORIOUS is changed to USB_VENDOR_ID_SINOWEALTH,
-> and a new ID for Laview Technology is added. Glorious seems to be
-> white-labeling controller boards or mice from these vendors. There isn't =
-a
-> single canonical vendor ID for Glorious products.
+On Fri, 20 Oct, 2023 17:02:38 +0800 "Su Hui" <suhui@nfschina.com> wrote:
+> hid_report_raw_event() can return error code like '-ENOMEM' if
+> failed, so check 'ret' to make sure all things work fine.
 
-I agree with what this patch is doing overall. However, I think this
-patch should be split into two patches that are part of a patch series.
-One patch that does s/USB_VENDOR_ID_GLORIOUS/USB_VENDOR_ID_SINOWEALTH.
-The follow-up patch in the series will contain the work on the Model I
-keyboard.
+I can agree with adding logging for error cases personally.
 
 >
-> Signed-off-by: Brett Raye <braye@fastmail.com>
+> Signed-off-by: Su Hui <suhui@nfschina.com>
 > ---
+>  drivers/hid/wacom_sys.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+> index 3f704b8072e8..1f898d4ee708 100644
+> --- a/drivers/hid/wacom_sys.c
+> +++ b/drivers/hid/wacom_sys.c
+> @@ -320,6 +320,8 @@ static void wacom_feature_mapping(struct hid_device *=
+hdev,
+>  =09=09=09if (ret =3D=3D n && features->type =3D=3D HID_GENERIC) {
+>  =09=09=09=09ret =3D hid_report_raw_event(hdev,
+>  =09=09=09=09=09HID_FEATURE_REPORT, data, n, 0);
+> +=09=09=09=09if (ret)
+> +=09=09=09=09=09hid_warn(hdev, "failed to report feature\n");
+
+I think we should report the returned error information as well.
+
+  https://docs.kernel.org/core-api/printk-formats.html#error-pointers
+
+Typically what I do is use ERR_PTR in tandem with the %pe modifier for
+printing errors.
+
+>  =09=09=09} else if (ret =3D=3D 2 && features->type !=3D HID_GENERIC) {
+>  =09=09=09=09features->touch_max =3D data[1];
+>  =09=09=09} else {
+> @@ -381,6 +383,8 @@ static void wacom_feature_mapping(struct hid_device *=
+hdev,
+>  =09=09if (ret =3D=3D n) {
+>  =09=09=09ret =3D hid_report_raw_event(hdev, HID_FEATURE_REPORT,
+>  =09=09=09=09=09=09   data, n, 0);
+> +=09=09=09if (ret)
+> +=09=09=09=09hid_warn(hdev, "failed to report feature\n");
+>  =09=09} else {
+>  =09=09=09hid_warn(hdev, "%s: could not retrieve sensor offsets\n",
+>  =09=09=09=09 __func__);
 
 --
-Thanks,
+Thanks for the patch,
 
 Rahul Rameshbabu
 
