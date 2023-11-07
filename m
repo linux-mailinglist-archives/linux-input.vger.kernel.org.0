@@ -2,124 +2,131 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB2937E3B15
-	for <lists+linux-input@lfdr.de>; Tue,  7 Nov 2023 12:26:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3113F7E4029
+	for <lists+linux-input@lfdr.de>; Tue,  7 Nov 2023 14:40:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232141AbjKGL0Y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Nov 2023 06:26:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41800 "EHLO
+        id S229580AbjKGNkp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Nov 2023 08:40:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229720AbjKGL0Y (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Nov 2023 06:26:24 -0500
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 170BEDF;
-        Tue,  7 Nov 2023 03:26:21 -0800 (PST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id 813643200989;
-        Tue,  7 Nov 2023 06:26:19 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Tue, 07 Nov 2023 06:26:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mai.rs; h=cc
-        :content-transfer-encoding:content-type:content-type:date:date
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
-        1699356379; x=1699442779; bh=BbC8a1ekJu1ULn7WHDPfqzEIoC0lq6pA5dK
-        U5yRw8tk=; b=skEoBdtKwVdbyGGL5qoe52tI98qGaPDiE8J1hI5gGBVKma+hzYt
-        Z7zUQ2tq0R79+aYVWLZDKUA9VICHMeV1mjo+VK+HfvGcD56pdKV6slmnE/Y52vFj
-        k+Zc3NAlmq/inZNSwH9eEkiiUzLT5Ozq3lftLJADYwdjo0eXG3q4fF2WW5FqRs0+
-        im5j5Qt1azrzIRalEcIL7ni7wxnV/ofeUdTUFFZxuFNLDVM2LoC7Z+MwblApqJYC
-        GuFRxnsZPLSVEOIVQy6JHq8SGzwEEVYi9b4JU1vXEPcGe2jLbCbqLP9EoICWfZeQ
-        V1nggYpi1mNMgOqVD5NTHTncqfLzIx42adw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1699356379; x=
-        1699442779; bh=BbC8a1ekJu1ULn7WHDPfqzEIoC0lq6pA5dKU5yRw8tk=; b=I
-        Mh/ETbpHG8s3c1gK5nnMA8c3iB+GTwEW/x8TsyFcirbmi09uwnEZ2Z84mR6M4IHX
-        wgbamZ4Z5SVM94jFWojUW5w6QAA8vwToAJKMfmgOQ73M2k2vnvEFz6fJgQkppmIX
-        zd024L82r+VdT61sSRYa1vq6Jxsc0GqIJGBq9lWlm86bfjoCYOIVO/d2j/7kZVUQ
-        1B2k57KqEBVpTNkf+E8WiML3N5kNaY8tENwqug0Z6ozFY1Ei4pMduHswzbIsX6Ic
-        oMbJgz53XSjDSrpZuCo/gnz97kuI7nn2eb6wJ58NH/C6quysZwpKc/CXREq0Grf8
-        XtnsFcEPPW8AGBk5UpKEg==
-X-ME-Sender: <xms:2h5KZYsDT8rN9Iw7aqPNWm9JyEKove0e_NaSR8aO_lX4reolDQyinA>
-    <xme:2h5KZVeA7TYqETC_rFG9y3_UyvFrxtVElJUzAIyIz_bSfhrv-p_za4ImUWKnqV_ab
-    jPAhPzRWYw_J2W0Yw>
-X-ME-Received: <xmr:2h5KZTwnAn5Vx4dbJl74JsRH7Qv5vIoCAQNKgCvvLOe7rUVv9va-dyE9RqRCWqg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudduiedgvdeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffufggjfhfkgggtgfesthhqmhdttderjeenucfhrhhomhepuehrhigr
-    nhhtucforghirhhsuceosghrhigrnhhtsehmrghirdhrsheqnecuggftrfgrthhtvghrnh
-    epueduvefhueeftdekuedvjefgfeduuefgfeehhedvhfeitdelleeuveduhfejffevnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsghrhigrnh
-    htsehmrghirdhrsh
-X-ME-Proxy: <xmx:2h5KZbMIXg6FG-mtl8GrwTJzNBD2iatRTPHtQcPaMvIF9F7oPZ734Q>
-    <xmx:2h5KZY9KIhUdMuLqzJgO4fUyu6yl925a-3KlrMRCV5k2gPeSRDzmyA>
-    <xmx:2h5KZTXVUA2E4pWOQuZmZ6mz1z8J1FscLrWqrokjet8huwucwqcSrA>
-    <xmx:2x5KZTWfyr3u7pPfRgqZXAEpUmsEleEMUzSOcQiSmcjeqozA3_5Kwg>
-Feedback-ID: i891b436e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 7 Nov 2023 06:26:18 -0500 (EST)
-Date:   Tue, 07 Nov 2023 12:26:15 +0100
-From:   Bryant Mairs <bryant@mai.rs>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_3/7=5D_ARM=3A_dts=3A_qcom=3A_Add_sup?= =?US-ASCII?Q?port_for_Samsung_Galaxy_Tab_4_8=2E0_Wi-Fi?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <466ffc6c-19c9-44e0-b97b-8fa4358f34ab@linaro.org>
-References: <20231105204759.37107-1-bryant@mai.rs> <20231105204759.37107-4-bryant@mai.rs> <466ffc6c-19c9-44e0-b97b-8fa4358f34ab@linaro.org>
-Message-ID: <AF3239AF-F0D7-4611-9450-1430B83CE2F8@mai.rs>
+        with ESMTP id S232686AbjKGNko (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Nov 2023 08:40:44 -0500
+Received: from mailout1n.rrzn.uni-hannover.de (mailout1n.rrzn.uni-hannover.de [130.75.2.107])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B60C9F;
+        Tue,  7 Nov 2023 05:40:41 -0800 (PST)
+Received: from [10.23.33.142] (mmsrv.sra.uni-hannover.de [130.75.33.181])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mailout1n.rrzn.uni-hannover.de (Postfix) with ESMTPSA id D83B11B6;
+        Tue,  7 Nov 2023 14:40:39 +0100 (CET)
+Message-ID: <7bcf210f-c68f-4ffc-b84f-f4c47bdbbf62@sra.uni-hannover.de>
+Date:   Tue, 7 Nov 2023 14:40:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+From:   Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>
+Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel
+ issue
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     David Revoy <davidrevoy@protonmail.com>, jkosina@suse.cz,
+        jason.gerecke@wacom.com, jose.exposito89@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        nils@nilsfuhler.de, peter.hutterer@who-t.net, ping.cheng@wacom.com,
+        bagasdotme@gmail.com
+References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm>
+ <20231103200524.53930-1-ostapyshyn@sra.uni-hannover.de>
+ <bokQB3BK040-4fGy8tNfZrdM2mNmWxZud9O-KMmYqOkfa1JTC1ocUjoAzCEpPsbsAvY5qb5TcSP6XsQLaja2XO0gapOcsZyeVdCvq6T31qA=@protonmail.com>
+ <CAO-hwJLpKTb9yxvxaPDLZkF9kDF8u2VRJUf9yiQd+neOyxPeug@mail.gmail.com>
+ <eb8e22f3-77dc-4923-a7ba-e237ee226edb@sra.uni-hannover.de>
+ <CAO-hwJKVwZK00yZFjuyyR9Xt4Y2-r8eLJNZfnyeopHxoZQ0eGA@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CAO-hwJKVwZK00yZFjuyyR9Xt4Y2-r8eLJNZfnyeopHxoZQ0eGA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.9 at mailout1n
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Indeed, very sorry about that! Forgot where I left off when doing this and =
-missed an (the?) important step=2E
+Sending again because the mail bounced from the mailing list due to the
+attachment.
 
-I'll take the feedback I've already gotten, clean this up, make sure thing=
-s build ;), and resubmit soon!
+Benjamin Tissoires <benjamin.tissoires@redhat.com> writes:
 
-- B
+> And BTW, if you have a tool affected by 276e14e6c3, I'd be curious to
+> get a hid-recorder sample for it so I can get regression tests for it.
 
-On November 7, 2023 8:29:10 AM GMT+01:00, Krzysztof Kozlowski <krzysztof=
-=2Ekozlowski@linaro=2Eorg> wrote:
->On 05/11/2023 21:46, Bryant Mairs wrote:
->> Add support for this tablet based on the MSM8226 SoC, codenamed
->> "milletwifi"=2E
->>=20
->> Signed-off-by: Bryant Mairs <bryant@mai=2Ers>
->> ---
->>  arch/arm/boot/dts/qcom/Makefile               |   1 +
->>  =2E=2E=2E/qcom/qcom-apq8026-samsung-milletwifi=2Edts  | 543 ++++++++++=
-++++++++
->>  2 files changed, 544 insertions(+)
->>  create mode 100644 arch/arm/boot/dts/qcom/qcom-apq8026-samsung-milletw=
-ifi=2Edts
->>=20
->
->LKP reports that patches were most likely not even built :(
->
->Best regards,
->Krzysztof
->
+I have attached [3] the recording of me:
+
+(1) Bringing the stylus in range, touching the screen with the tip and
+    bringing the stylus out of range.
+
+(2) Bringing the stylus in range, pressing the top barrel button and
+    bringing the stylus out of range.
+
+(3) Bringing the stylus in range, touching the screen with the tip again
+    and bringing the stylus out of range.
+
+The digitizer is the one of the two that David uses, XP-Pen Artist 24.
+I don't have the other one with two erasers here, so we'd have to wait
+for David's recording to investigate further.
+
+If you revert 276e14e6c3, you can observe that after pressing the eraser
+button, neither BTN_TOOL_PEN nor BTN_TOUCH events will appear in evdev
+anymore for (3).
+
+> I must confess, being the one who refactored everything, I still don't
+> believe this is as simple as it may seem. I paged out all of the
+> special cases, and now, without seeing the event flow I just can not
+> understand why this would fix the situation.
+
+David uses hwdb to remap Eraser (0xd0045) to BTN_STYLUS2 (0x14c) [1]:
+
+evdev:input:b0003v28BDp092De0100-e0*
+ KEYBOARD_KEY_d0045=0x14c
+
+In the end, this translates to a hidinput_setkeycode with the respective
+arguments, setting usage->code to BTN_STYLUS2.  In the current state,
+doing so results in BTN_STYLUS2 being permanently set and never released
+when pressing the top barrel switch.  You can replay and observe this
+with the attached [3] recording.
+
+The if statement [2] is there to release BTN_TOOL_RUBBER if the device
+has no Invert, but only after BTN_TOUCH has been released.  Eraser with
+value 0 releases BTN_TOUCH in the first iteration and BTN_TOOL_RUBBER in
+the second (when BTN_TOUCH is not in input->key anymore).
+
+The problem is that the condition assumes usage->code is BTN_TOUCH.
+When this is not the case, (!test_bit(BTN_TOUCH, input->key)) is always
+true, we release the tool and return prematurely.  Therefore,
+usage->code is never released.
+
+As such, BTN_TOOL_RUBBER is not the problem and does no harm (except for
+maybe showing the rubber icon in Krita).  It is required, however, for a
+functional eraser out of the box.  I think, in the HID_QUIRK_NOINVERT
+case, BTN_TOOL_RUBBER should better be omitted if Eraser is remapped to
+something else, like BTN_STYLUS2.  Hence the second proposal.
+
+> So either the explanation was wrong, or it's not explaining the
+> situation (I also understand that this is not a formal submission, so
+> maybe that's the reason why the comment is not updated).
+
+Right, the example was not meant as a formal submission, that's why I
+didn't change the comment.  Sorry for that.  We should fix the comment
+below it (line 1603) too after this is resolved.
+
+Cheers,
+Illia
+
+[1]
+https://www.davidrevoy.com/article842/review-xp-pen-artist-24-pro-on-linux
+[2]
+https://elixir.bootlin.com/linux/latest/source/drivers/hid/hid-input.c#L1594
+[3] https://dl.uni-h.de/?t=dc4a5542a8e4d54964e298045a173049
+
