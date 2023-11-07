@@ -2,202 +2,191 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D0137E3628
-	for <lists+linux-input@lfdr.de>; Tue,  7 Nov 2023 09:00:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D54B07E3640
+	for <lists+linux-input@lfdr.de>; Tue,  7 Nov 2023 09:05:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233658AbjKGIAy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Nov 2023 03:00:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58290 "EHLO
+        id S233680AbjKGIFT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Nov 2023 03:05:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233660AbjKGIAx (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Nov 2023 03:00:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD1C8F3
-        for <linux-input@vger.kernel.org>; Tue,  7 Nov 2023 00:00:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1699344004;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fS33WX/TP1PBbgnGRlYS4ZqDoFTuXKV4PZ845SjCyEc=;
-        b=YA2lBfx7Wrd6i8FuWBzkq4X7pJVh541adBHrnb3yUmUAnW/g3b89YC89YPMa6SKzDzxy0S
-        ILZhK8saSBPDiwXMywkvdWKH/L3aguSIray4rptfuA9laMyQOKFSMjR6PL5nyl91oFqylK
-        SJ+MC9rPfWBK6WfbcFX16iupp/33oP8=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-64-3LFrHB_zMcecoQhSbYnGSw-1; Tue, 07 Nov 2023 03:00:03 -0500
-X-MC-Unique: 3LFrHB_zMcecoQhSbYnGSw-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9dd58f582a0so254010866b.0
-        for <linux-input@vger.kernel.org>; Tue, 07 Nov 2023 00:00:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699344002; x=1699948802;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fS33WX/TP1PBbgnGRlYS4ZqDoFTuXKV4PZ845SjCyEc=;
-        b=ZNRptdOdm1FOarVmA5rMu5+OUJIyuNDk+7ytTyfXYRvWHeO9ut6w+VE0gKFeAepb+c
-         BQ7IFF8mWhX2zCVMXqs6Pyej3vUfmJB6SGNj67fkdLRdGOjeVCcR3gScB5+e1L2EfGaB
-         eAqZVHqd760JNPtIzM7xvThVDbwtrGw5yTPZk82zPD0QLldcmG4GBPVwj7pRRluOkgOF
-         9mGQ21htEurnKRGoTLY3nIeYarsKnoolFriMAX3e6l9qrJMpWkO8MBxvVNOm+n1pZ5i9
-         SLF1p1DJ8htACKPH+gIrO97SzlBoHuvq+PSEqlxJo7Mzu4UzI/PItafjOhdn7Cz14hIC
-         hp+g==
-X-Gm-Message-State: AOJu0Yy86Ucr+vHB89m4lStO19yo9uUcbhLSWhagH+9PNs7YumvdunHb
-        UXYLXaZjI0W/nT6OkZ9wxk/edYzkevVQxUn2nfAcQs6LKpYYB21PSUifjaNtMBuhR8lL9HVSOMz
-        Dp+oJ+/Vvhso4jlJwol0HlXjig2VE3jjUkdBEg94=
-X-Received: by 2002:a17:907:1392:b0:9d6:e1b5:1afa with SMTP id vs18-20020a170907139200b009d6e1b51afamr10270523ejb.46.1699344002155;
-        Tue, 07 Nov 2023 00:00:02 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFA8+5QQSDmxCU+xJTHQaQQA6ateLho1sCb2m5X93a+V/hkk0uakR0CKeLROgbnj7bo4pQQdVBXLsuog22tlTw=
-X-Received: by 2002:a17:907:1392:b0:9d6:e1b5:1afa with SMTP id
- vs18-20020a170907139200b009d6e1b51afamr10270509ejb.46.1699344001694; Tue, 07
- Nov 2023 00:00:01 -0800 (PST)
+        with ESMTP id S233612AbjKGIFR (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Nov 2023 03:05:17 -0500
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.216])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 22752E8;
+        Tue,  7 Nov 2023 00:05:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=kYQeg
+        h/QfFqsh6jP1ZZl1l94qLLke8BDo3CDxrdS44I=; b=kyEsmVY0v6riYcm6MK5Tl
+        jzznJrsf2EdT6sBLVTF0PY2PAjmGIS1GnLKCLdbvEKCADqQ1fEiu0dNH8A5mOZT4
+        4m5ANjaQJtoZjvHvDyJiUfpnzWGkyDBiSxBf5iFR84iQ86NHLC16HMNZpPt00ryl
+        Kg3rE22q4jRSBsk8VD6j3k=
+Received: from ubuntu.. (unknown [171.83.46.2])
+        by zwqz-smtp-mta-g5-4 (Coremail) with SMTP id _____wDXnzil70llMS6CAA--.1650S2;
+        Tue, 07 Nov 2023 16:04:53 +0800 (CST)
+From:   Charles Yi <be286@163.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Charles Yi <be286@163.com>
+Subject: [PATCH] HID: fix HID device resource race between HID core and debugging support
+Date:   Tue,  7 Nov 2023 16:04:27 +0800
+Message-Id: <20231107080427.30818-1-be286@163.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm>
- <20231103200524.53930-1-ostapyshyn@sra.uni-hannover.de> <bokQB3BK040-4fGy8tNfZrdM2mNmWxZud9O-KMmYqOkfa1JTC1ocUjoAzCEpPsbsAvY5qb5TcSP6XsQLaja2XO0gapOcsZyeVdCvq6T31qA=@protonmail.com>
- <CAO-hwJLpKTb9yxvxaPDLZkF9kDF8u2VRJUf9yiQd+neOyxPeug@mail.gmail.com> <eb8e22f3-77dc-4923-a7ba-e237ee226edb@sra.uni-hannover.de>
-In-Reply-To: <eb8e22f3-77dc-4923-a7ba-e237ee226edb@sra.uni-hannover.de>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 7 Nov 2023 08:59:50 +0100
-Message-ID: <CAO-hwJKVwZK00yZFjuyyR9Xt4Y2-r8eLJNZfnyeopHxoZQ0eGA@mail.gmail.com>
-Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel issue
-To:     Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>
-Cc:     David Revoy <davidrevoy@protonmail.com>, jkosina@suse.cz,
-        jason.gerecke@wacom.com, jose.exposito89@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        nils@nilsfuhler.de, peter.hutterer@who-t.net, ping.cheng@wacom.com,
-        bagasdotme@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wDXnzil70llMS6CAA--.1650S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3XF45WFWfXFy3uw4Dtr18Krg_yoW7ur1xpr
+        1ktFZrCrW8Jrn7G34DCr4Dur9Iga10yas8ury7Cr93Wr1kWF98tFW7tFyY9rs5WrWkJFW7
+        Grn5Zr48KFWxXw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pR5kucUUUUU=
+X-Originating-IP: [171.83.46.2]
+X-CM-SenderInfo: dehsmli6rwjhhfrp/1S2mpwkh0lethT-DCgAAsU
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_BL,
+        RCVD_IN_MSPIKE_L4,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Nov 6, 2023 at 9:06=E2=80=AFPM Illia Ostapyshyn
-<ostapyshyn@sra.uni-hannover.de> wrote:
->
-> On 11/6/23 17:59, Benjamin Tissoires wrote:
->
-> > If the pen has 2 buttons, and an eraser side, it would be a serious
-> > design flow for XPPEN to report both as eraser.
-> >
-> > Could you please use sudo hid-recorder from hid-tools[1] on any kernel
-> > version and send us the logs here?
-> > I'll be able to replay the events locally, and understand why the
-> > kernel doesn't work properly.
-> >
-> > And if there is a design flaw that can be fixed, we might even be able
-> > to use hid-bpf to change it :)
->
-> My wild guess is that XP-Pen 16 Artist Pro reports an Eraser usage
-> without Invert for the upper button and Eraser with Invert for the
-> eraser tip.  A device-specific driver could work with that, but there
-> seems to be no way to incorporate two different erasers (thus, allowing
-> userspace to map them to different actions arbitrarily) in the generic
-> driver currently.
+hid_debug_events_release releases resources bound to the HID device
+instance. hid_device_release releases the underlying HID device
+instance potentially before hid_debug_events_release has completed
+releasing debug resources bound to the same HID device instance.
 
-That's exactly why I want to see the exact event flow. We can not do
-"wild guesses" unfortunately (not meaning any offenses).
-And I am very suspicious about the fact that the stylus reports 2
-identical erasers. Because in the past David seemed to be able to have
-2 distincts behaviors for the 2 "buttons" (physical button and eraser
-tail).
+Reference count to prevent the HID device instance from being torn
+down preemptively when HID debugging support is used. When count
+reaches zero, release core resources of HID device instance using
+hid_hiddev_free.
 
->
->
-> > Generally speaking, relying on X to fix your hardware is going to be a
-> > dead end. When you switch to wayland, you'll lose all of your fixes,
-> > which isn't great.
->
-> > AFAIU, the kernel now "merges" both buttons, which is a problem. It
-> > seems to be a serious regression. This case is also worrying because I
-> > added regression tests on hid, but I don't have access to all of the
-> > various tablets, so I implemented them from the Microsoft
-> > specification[0]. We need a special case for you here.
->
-> The issue preventing David from mapping HID_DG_ERASER to BTN_STYLUS2 is
-> that the hidinput_hid_event is not compatible with hidinput_setkeycode.
-> If usage->code is no longer BTN_TOUCH after remapping, it won't be
-> released when Eraser reports 0.  A simple fix is:
+The crash:
+[  120.728477][ T4396] kernel BUG at lib/list_debug.c:53!
+[  120.728505][ T4396] Internal error: Oops - BUG: 0 [#1] PREEMPT SMP
+[  120.739806][ T4396] Modules linked in: bcmdhd dhd_static_buf 8822cu pcie_mhi r8168
+[  120.747386][ T4396] CPU: 1 PID: 4396 Comm: hidt_bridge Not tainted 5.10.110 #257
+[  120.754771][ T4396] Hardware name: Rockchip RK3588 EVB4 LP4 V10 Board (DT)
+[  120.761643][ T4396] pstate: 60400089 (nZCv daIf +PAN -UAO -TCO BTYPE=--)
+[  120.768338][ T4396] pc : __list_del_entry_valid+0x98/0xac
+[  120.773730][ T4396] lr : __list_del_entry_valid+0x98/0xac
+[  120.779120][ T4396] sp : ffffffc01e62bb60
+[  120.783126][ T4396] x29: ffffffc01e62bb60 x28: ffffff818ce3a200
+[  120.789126][ T4396] x27: 0000000000000009 x26: 0000000000980000
+[  120.795126][ T4396] x25: ffffffc012431000 x24: ffffff802c6d4e00
+[  120.801125][ T4396] x23: ffffff8005c66f00 x22: ffffffc01183b5b8
+[  120.807125][ T4396] x21: ffffff819df2f100 x20: 0000000000000000
+[  120.813124][ T4396] x19: ffffff802c3f0700 x18: ffffffc01d2cd058
+[  120.819124][ T4396] x17: 0000000000000000 x16: 0000000000000000
+[  120.825124][ T4396] x15: 0000000000000004 x14: 0000000000003fff
+[  120.831123][ T4396] x13: ffffffc012085588 x12: 0000000000000003
+[  120.837123][ T4396] x11: 00000000ffffbfff x10: 0000000000000003
+[  120.843123][ T4396] x9 : 455103d46b329300 x8 : 455103d46b329300
+[  120.849124][ T4396] x7 : 74707572726f6320 x6 : ffffffc0124b8cb5
+[  120.855124][ T4396] x5 : ffffffffffffffff x4 : 0000000000000000
+[  120.861123][ T4396] x3 : ffffffc011cf4f90 x2 : ffffff81fee7b948
+[  120.867122][ T4396] x1 : ffffffc011cf4f90 x0 : 0000000000000054
+[  120.873122][ T4396] Call trace:
+[  120.876259][ T4396]  __list_del_entry_valid+0x98/0xac
+[  120.881304][ T4396]  hid_debug_events_release+0x48/0x12c
+[  120.886617][ T4396]  full_proxy_release+0x50/0xbc
+[  120.891323][ T4396]  __fput+0xdc/0x238
+[  120.895075][ T4396]  ____fput+0x14/0x24
+[  120.898911][ T4396]  task_work_run+0x90/0x148
+[  120.903268][ T4396]  do_exit+0x1bc/0x8a4
+[  120.907193][ T4396]  do_group_exit+0x8c/0xa4
+[  120.911458][ T4396]  get_signal+0x468/0x744
+[  120.915643][ T4396]  do_signal+0x84/0x280
+[  120.919650][ T4396]  do_notify_resume+0xd0/0x218
+[  120.924262][ T4396]  work_pending+0xc/0x3f0
 
-I must confess, being the one who refactored everything, I still don't
-believe this is as simple as it may seem. I paged out all of the
-special cases, and now, without seeing the event flow I just can not
-understand why this would fix the situation.
+Fixes: <cd667ce24796> (HID: use debugfs for events/reports dumping)
+Signed-off-by: Charles Yi <be286@163.com>
+---
+ drivers/hid/hid-core.c  | 12 ++++++++++--
+ drivers/hid/hid-debug.c |  3 +++
+ include/linux/hid.h     |  3 +++
+ 3 files changed, 16 insertions(+), 2 deletions(-)
 
-And BTW, if you have a tool affected by 276e14e6c3, I'd be curious to
-get a hid-recorder sample for it so I can get regression tests for it.
-
->
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -1589,7 +1589,7 @@ void hidinput_hid_event(struct hid_device *hid,
-> struct hid_field *field, struct
->                         /* value is off, tool is not rubber, ignore */
->                         return;
->                 else if (*quirks & HID_QUIRK_NOINVERT &&
-> -                        !test_bit(BTN_TOUCH, input->key)) {
-> +                        !test_bit(usage->code, input->key)) {
-
-I don't want to be rude, but this feels very much like black magic,
-especially because there is a comment just below and it is not
-updated. So either the explanation was wrong, or it's not explaining
-the situation (I also understand that this is not a formal submission,
-so maybe that's the reason why the comment is not updated).
-
->                         /*
->                          * There is no invert to release the tool, let hi=
-d_input
->                          * send BTN_TOUCH with scancode and release the t=
-ool after.
->
-> This change alone fixes David's problem and the right-click mapping in
-> hwdb works again.  However, the tool switches to rubber for the remapped
-> eraser (here BTN_STYLUS2) events, both for devices with and without
-> Invert.  This does no harm but is not useful either.  A cleaner solution
-> for devices without Invert would be to omit the whole tool switching
-> logic in this case:
->
-> @@ -1577,6 +1577,9 @@ void hidinput_hid_event(struct hid_device *hid,
-> struct hid_field *field, struct
->
->         switch (usage->hid) {
->         case HID_DG_ERASER:
-> +               if (*quirks & HID_QUIRK_NOINVERT && usage->code !=3D BTN_=
-TOUCH)
-> +                       break;
-> +
->                 report->tool_active |=3D !!value;
->
-> Remapping Invert does not work anyway as the Invert tool is hardcoded in
-> hidinput_hid_event.  Even worse, I guess (not tested) trying to do so
-> would mask BTN_TOOL_RUBBER from dev->keybit and could cause weird
-> behavior similar to one between 87562fcd1342 and 276e14e6c3.  This
-> raises the question: should users be able to remap Invert after all?
->
-
-The kernel is supposed to transfer what the device is. So if it says
-this is an eraser, we should not try to change it. Users can then
-tweak their own device if they wish through hid-bpf or through
-libinput quirks, but when you install a fresh kernel without tweaks,
-we should be as accurate as possible.
-
-My main concern is that now we have a device which exports 2 different
-interactions as being the same. So either the firmware is wrong, and
-we need to quirk it, or the kernel is wrong and merges both, and this
-needs fixes as well.
-
-Once every interaction on the device gets its own behavior, userspace
-can do whatever they want. It's not the kernel's concern anymore.
-
-BTW, David, were you able to do a revert of 276e14e6c3?
-
-Cheers,
-Benjamin
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 8992e3c1e769..bd2f58e0e87a 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -702,15 +702,22 @@ static void hid_close_report(struct hid_device *device)
+  * Free a device structure, all reports, and all fields.
+  */
+ 
+-static void hid_device_release(struct device *dev)
++void hid_hiddev_free(struct kref *ref)
+ {
+-	struct hid_device *hid = to_hid_device(dev);
++	struct hid_device *hid = container_of(ref, struct hid_device, ref);
+ 
+ 	hid_close_report(hid);
+ 	kfree(hid->dev_rdesc);
+ 	kfree(hid);
+ }
+ 
++static void hid_device_release(struct device *dev)
++{
++	struct hid_device *hid = to_hid_device(dev);
++
++	kref_put(&hid->ref, hid_hiddev_free);
++}
++
+ /*
+  * Fetch a report description item from the data stream. We support long
+  * items, though they are not used yet.
+@@ -2846,6 +2853,7 @@ struct hid_device *hid_allocate_device(void)
+ 	spin_lock_init(&hdev->debug_list_lock);
+ 	sema_init(&hdev->driver_input_lock, 1);
+ 	mutex_init(&hdev->ll_open_lock);
++	kref_init(&hdev->ref);
+ 
+ 	hid_bpf_device_init(hdev);
+ 
+diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+index e7ef1ea107c9..36c47012d79f 100644
+--- a/drivers/hid/hid-debug.c
++++ b/drivers/hid/hid-debug.c
+@@ -1135,6 +1135,7 @@ static int hid_debug_events_open(struct inode *inode, struct file *file)
+ 		goto out;
+ 	}
+ 	list->hdev = (struct hid_device *) inode->i_private;
++	kref_get(&list->hdev->ref);
+ 	file->private_data = list;
+ 	mutex_init(&list->read_mutex);
+ 
+@@ -1227,6 +1228,8 @@ static int hid_debug_events_release(struct inode *inode, struct file *file)
+ 	list_del(&list->node);
+ 	spin_unlock_irqrestore(&list->hdev->debug_list_lock, flags);
+ 	kfifo_free(&list->hid_debug_fifo);
++
++	kref_put(&list->hdev->ref, hid_hiddev_free);
+ 	kfree(list);
+ 
+ 	return 0;
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index 964ca1f15e3f..7867f571376c 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -679,6 +679,7 @@ struct hid_device {							/* device report descriptor */
+ 	struct list_head debug_list;
+ 	spinlock_t  debug_list_lock;
+ 	wait_queue_head_t debug_wait;
++	struct kref			ref;
+ 
+ 	unsigned int id;						/* system unique id */
+ 
+@@ -687,6 +688,8 @@ struct hid_device {							/* device report descriptor */
+ #endif /* CONFIG_BPF */
+ };
+ 
++void hid_hiddev_free(struct kref *ref);
++
+ #define to_hid_device(pdev) \
+ 	container_of(pdev, struct hid_device, dev)
+ 
+-- 
+2.34.1
 
