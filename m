@@ -2,49 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D54B07E3640
-	for <lists+linux-input@lfdr.de>; Tue,  7 Nov 2023 09:05:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E9F97E3688
+	for <lists+linux-input@lfdr.de>; Tue,  7 Nov 2023 09:17:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233680AbjKGIFT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Nov 2023 03:05:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55588 "EHLO
+        id S233590AbjKGIRZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Nov 2023 03:17:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233612AbjKGIFR (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Nov 2023 03:05:17 -0500
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.216])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 22752E8;
-        Tue,  7 Nov 2023 00:05:12 -0800 (PST)
+        with ESMTP id S233657AbjKGIRY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Nov 2023 03:17:24 -0500
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BEA5592;
+        Tue,  7 Nov 2023 00:17:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=kYQeg
-        h/QfFqsh6jP1ZZl1l94qLLke8BDo3CDxrdS44I=; b=kyEsmVY0v6riYcm6MK5Tl
-        jzznJrsf2EdT6sBLVTF0PY2PAjmGIS1GnLKCLdbvEKCADqQ1fEiu0dNH8A5mOZT4
-        4m5ANjaQJtoZjvHvDyJiUfpnzWGkyDBiSxBf5iFR84iQ86NHLC16HMNZpPt00ryl
-        Kg3rE22q4jRSBsk8VD6j3k=
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=lf8ds
+        p7XsLea1uHVLftm+re6ORw7flG8Nj9Grxqg+Yo=; b=mAQe5jwZev+BM82LK9NiF
+        tYtaqTU+G4Y17G/G5ZUg+IpJ4u/53qB3KCaraT9Qd7T8CBB6iFNmY8f2WD54s5Xz
+        Y7Enm/R8m5pOF7SP6QIM8gRwRQKNZHnXubWtSo1cSHQCFIFsCiwUJ6DQIfYVsATA
+        C7p9DDsQkzXNx/Aaz8IP/M=
 Received: from ubuntu.. (unknown [171.83.46.2])
-        by zwqz-smtp-mta-g5-4 (Coremail) with SMTP id _____wDXnzil70llMS6CAA--.1650S2;
-        Tue, 07 Nov 2023 16:04:53 +0800 (CST)
+        by zwqz-smtp-mta-g5-2 (Coremail) with SMTP id _____wD3v0t88klltO0YCg--.1864S2;
+        Tue, 07 Nov 2023 16:17:00 +0800 (CST)
 From:   Charles Yi <be286@163.com>
 To:     jikos@kernel.org, benjamin.tissoires@redhat.com
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         Charles Yi <be286@163.com>
-Subject: [PATCH] HID: fix HID device resource race between HID core and debugging support
-Date:   Tue,  7 Nov 2023 16:04:27 +0800
-Message-Id: <20231107080427.30818-1-be286@163.com>
+Subject: [PATCH v2] HID: fix HID device resource race between HID core and debugging support
+Date:   Tue,  7 Nov 2023 16:16:30 +0800
+Message-Id: <20231107081630.34233-1-be286@163.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDXnzil70llMS6CAA--.1650S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3XF45WFWfXFy3uw4Dtr18Krg_yoW7ur1xpr
-        1ktFZrCrW8Jrn7G34DCr4Dur9Iga10yas8ury7Cr93Wr1kWF98tFW7tFyY9rs5WrWkJFW7
-        Grn5Zr48KFWxXw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pR5kucUUUUU=
+X-CM-TRANSID: _____wD3v0t88klltO0YCg--.1864S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3XF45WFWfXFy3tr18GFy7trb_yoW7uF1kpr
+        1ktFZrCrW8Jrn7G34DCr4Dur9xKa10yas8ury7Cr93Wr1kWF98tFW7tFyY9rs5WrWkJFW7
+        Grn5Xr48KFWxXw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pR5l1kUUUUU=
 X-Originating-IP: [171.83.46.2]
-X-CM-SenderInfo: dehsmli6rwjhhfrp/1S2mpwkh0lethT-DCgAAsU
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+X-CM-SenderInfo: dehsmli6rwjhhfrp/1tbiPh8h0lxBupKFOAAAsa
+X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
         FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_BL,
-        RCVD_IN_MSPIKE_L4,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_L4,RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -100,8 +100,11 @@ The crash:
 [  120.919650][ T4396]  do_notify_resume+0xd0/0x218
 [  120.924262][ T4396]  work_pending+0xc/0x3f0
 
-Fixes: <cd667ce24796> (HID: use debugfs for events/reports dumping)
+Fixes: cd667ce24796 ("HID: use debugfs for events/reports dumping")
 Signed-off-by: Charles Yi <be286@163.com>
+---
+Changes in V2:
+-The formatting of the "Fixes" tag
 ---
  drivers/hid/hid-core.c  | 12 ++++++++++--
  drivers/hid/hid-debug.c |  3 +++
