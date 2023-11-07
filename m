@@ -2,188 +2,202 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63C5A7E3624
-	for <lists+linux-input@lfdr.de>; Tue,  7 Nov 2023 09:00:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D0137E3628
+	for <lists+linux-input@lfdr.de>; Tue,  7 Nov 2023 09:00:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233657AbjKGIA2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Nov 2023 03:00:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43654 "EHLO
+        id S233658AbjKGIAy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Nov 2023 03:00:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233658AbjKGIA1 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Nov 2023 03:00:27 -0500
-Received: from m1380.mail.163.com (m1380.mail.163.com [220.181.13.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 18B7011F;
-        Tue,  7 Nov 2023 00:00:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-        Message-ID; bh=HByXJJsOLd4AJra/H4KO/IT7Sn1NRLOvjFfe8DTdSSE=; b=B
-        vq85G9alh2bTopdOq7r2hsH7txhXcEdA6F8h1UknLaqOhSDPGhMmYp1/bdbfAoAy
-        0u9Tk/Ghnul7SrD/Vu27HhxCIzrBUuGvtWjzlH7tWKtn5ddvnWPKSMt8qJVSMxQf
-        4Vw6QmotTY4N/a7/Z2riFUrKxOk/J4rptErmsbScZM=
-Received: from be286$163.com ( [171.83.46.2] ) by ajax-webmail-wmsvr80
- (Coremail) ; Tue, 7 Nov 2023 15:59:43 +0800 (CST)
-X-Originating-IP: [171.83.46.2]
-Date:   Tue, 7 Nov 2023 15:59:43 +0800 (CST)
-From:   be286 <be286@163.com>
-To:     "Rahul Rameshbabu" <sergeantsagara@protonmail.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re:Re: [PATCH v2] HID: fix a crash in hid_debug_events_release
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2023 www.mailtech.cn 163com
-In-Reply-To: <87ttpzzdpm.fsf@protonmail.com>
-References: <20231031043239.157943-1-be286@163.com>
- <87ttpzzdpm.fsf@protonmail.com>
-X-NTES-SC: AL_QuySC/+fvEEj5SKeZekWnkwahec9XsK3vPQi349TN5k0hyr/5ScJQkBCN3/o4MGUES+Ajye6SRRe8cF1ZLd9U4ESs5wxnTTTli1NUkurYfIe
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+        with ESMTP id S233660AbjKGIAx (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Nov 2023 03:00:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD1C8F3
+        for <linux-input@vger.kernel.org>; Tue,  7 Nov 2023 00:00:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1699344004;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=fS33WX/TP1PBbgnGRlYS4ZqDoFTuXKV4PZ845SjCyEc=;
+        b=YA2lBfx7Wrd6i8FuWBzkq4X7pJVh541adBHrnb3yUmUAnW/g3b89YC89YPMa6SKzDzxy0S
+        ILZhK8saSBPDiwXMywkvdWKH/L3aguSIray4rptfuA9laMyQOKFSMjR6PL5nyl91oFqylK
+        SJ+MC9rPfWBK6WfbcFX16iupp/33oP8=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-64-3LFrHB_zMcecoQhSbYnGSw-1; Tue, 07 Nov 2023 03:00:03 -0500
+X-MC-Unique: 3LFrHB_zMcecoQhSbYnGSw-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9dd58f582a0so254010866b.0
+        for <linux-input@vger.kernel.org>; Tue, 07 Nov 2023 00:00:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699344002; x=1699948802;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fS33WX/TP1PBbgnGRlYS4ZqDoFTuXKV4PZ845SjCyEc=;
+        b=ZNRptdOdm1FOarVmA5rMu5+OUJIyuNDk+7ytTyfXYRvWHeO9ut6w+VE0gKFeAepb+c
+         BQ7IFF8mWhX2zCVMXqs6Pyej3vUfmJB6SGNj67fkdLRdGOjeVCcR3gScB5+e1L2EfGaB
+         eAqZVHqd760JNPtIzM7xvThVDbwtrGw5yTPZk82zPD0QLldcmG4GBPVwj7pRRluOkgOF
+         9mGQ21htEurnKRGoTLY3nIeYarsKnoolFriMAX3e6l9qrJMpWkO8MBxvVNOm+n1pZ5i9
+         SLF1p1DJ8htACKPH+gIrO97SzlBoHuvq+PSEqlxJo7Mzu4UzI/PItafjOhdn7Cz14hIC
+         hp+g==
+X-Gm-Message-State: AOJu0Yy86Ucr+vHB89m4lStO19yo9uUcbhLSWhagH+9PNs7YumvdunHb
+        UXYLXaZjI0W/nT6OkZ9wxk/edYzkevVQxUn2nfAcQs6LKpYYB21PSUifjaNtMBuhR8lL9HVSOMz
+        Dp+oJ+/Vvhso4jlJwol0HlXjig2VE3jjUkdBEg94=
+X-Received: by 2002:a17:907:1392:b0:9d6:e1b5:1afa with SMTP id vs18-20020a170907139200b009d6e1b51afamr10270523ejb.46.1699344002155;
+        Tue, 07 Nov 2023 00:00:02 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFA8+5QQSDmxCU+xJTHQaQQA6ateLho1sCb2m5X93a+V/hkk0uakR0CKeLROgbnj7bo4pQQdVBXLsuog22tlTw=
+X-Received: by 2002:a17:907:1392:b0:9d6:e1b5:1afa with SMTP id
+ vs18-20020a170907139200b009d6e1b51afamr10270509ejb.46.1699344001694; Tue, 07
+ Nov 2023 00:00:01 -0800 (PST)
 MIME-Version: 1.0
-Message-ID: <4dcce25f.452e.18ba8cb629e.Coremail.be286@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: UMGowADnz1xv7kllDGUZAA--.1309W
-X-CM-SenderInfo: dehsmli6rwjhhfrp/1tbiPg4g0lxBunNB5AADsw
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm>
+ <20231103200524.53930-1-ostapyshyn@sra.uni-hannover.de> <bokQB3BK040-4fGy8tNfZrdM2mNmWxZud9O-KMmYqOkfa1JTC1ocUjoAzCEpPsbsAvY5qb5TcSP6XsQLaja2XO0gapOcsZyeVdCvq6T31qA=@protonmail.com>
+ <CAO-hwJLpKTb9yxvxaPDLZkF9kDF8u2VRJUf9yiQd+neOyxPeug@mail.gmail.com> <eb8e22f3-77dc-4923-a7ba-e237ee226edb@sra.uni-hannover.de>
+In-Reply-To: <eb8e22f3-77dc-4923-a7ba-e237ee226edb@sra.uni-hannover.de>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 7 Nov 2023 08:59:50 +0100
+Message-ID: <CAO-hwJKVwZK00yZFjuyyR9Xt4Y2-r8eLJNZfnyeopHxoZQ0eGA@mail.gmail.com>
+Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel issue
+To:     Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>
+Cc:     David Revoy <davidrevoy@protonmail.com>, jkosina@suse.cz,
+        jason.gerecke@wacom.com, jose.exposito89@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        nils@nilsfuhler.de, peter.hutterer@who-t.net, ping.cheng@wacom.com,
+        bagasdotme@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-SGkgUmFodWwsCgpUaGFuayB5b3UgZm9yIHlvdXIgcmVwbHkuIEl0IGhhcyBiZWVuIHZlcnkgaGVs
-cGZ1bCB0byBtZSBhbmQgSSBhY2NlcHQgaXQuCgpXaXRoIHJlZ2FyZHMsCgpDaGFybGVzIFlpCgoK
-CgpBdCAyMDIzLTExLTA2IDEyOjUxOjM4LCAiUmFodWwgUmFtZXNoYmFidSIgPHNlcmdlYW50c2Fn
-YXJhQHByb3Rvbm1haWwuY29tPiB3cm90ZToKPkxldHMgY2xlYW4gdXAgdGhlIHN1YmplY3QvY29t
-bWl0IG1lc3NhZ2UgaGVhZGluZy4KPgo+ICBISUQ6IGZpeCBISUQgZGV2aWNlIHJlc291cmNlIHJh
-Y2UgYmV0d2VlbiBISUQgY29yZSBhbmQgZGVidWdnaW5nIHN1cHBvcnQKPgo+SW4gdGhlIGNvbW1p
-dCBtZXNzYWdlIGJvZHksIHdlIGNhbiBleHBhbmQgb24gdGhlIGRldGFpbHMgYSBiaXQgbW9yZS4K
-Pgo+T24gVHVlLCAzMSBPY3QsIDIwMjMgMTI6MzI6MzkgKzA4MDAgIkNoYXJsZXMgWWkiIDxiZTI4
-NkAxNjMuY29tPiB3cm90ZToKPj4gaGlkX2RlYnVnX2V2ZW50c19yZWxlYXNlKCkgYWNjZXNzIHJl
-bGVhc2VkIG1lbW9yeSBieQo+PiBoaWRfZGV2aWNlX3JlbGVhc2UoKS4gVGhpcyBpcyBmaXhlZCBi
-eSB0aGUgcGF0Y2guCj4+Cj4+IFdoZW4gaGlkX2RlYnVnX2V2ZW50c19yZWxlYXNlKCkgd2FzIGJl
-aW5nIGNhbGxlZCwgaW4gbW9zdCBjYXNlLAo+PiBoaWRfZGV2aWNlX3JlbGVhc2UoKSBmaW5pc2gg
-YWxyZWFkeSwgdGhlIG1lbW9yeSBvZiBsaXN0LT5oZGV2Cj4+IGZyZWVkIGJ5IGhpZF9kZXZpY2Vf
-cmVsZWFzZSgpLCBpZiBsaXN0LT5oZGV2IG1lbW9yeQo+PiByZWFsbG9jYXRlIGJ5IG90aGVycywg
-YW5kIGl0J3MgbW9kaWZpZWQsIHplcm9lZCwgdGhlbgo+PiBsaXN0LT5oZGV2LT5kZWJ1Z19saXN0
-X2xvY2sgb2NjYXNpb25lZCBjcmFzaCBjb21lIG91dC4KPgo+TGV0cyBjbGVhbiB1cCB0aGVzZSBw
-YXJhZ3JhcGhzIGEgYml0Lgo+Cj4gIGhpZF9kZWJ1Z19ldmVudHNfcmVsZWFzZSByZWxlYXNlcyBy
-ZXNvdXJjZXMgYm91bmQgdG8gdGhlIEhJRCBkZXZpY2UKPiAgaW5zdGFuY2UuIGhpZF9kZXZpY2Vf
-cmVsZWFzZSByZWxlYXNlcyB0aGUgdW5kZXJseWluZyBISUQgZGV2aWNlCj4gIGluc3RhbmNlIHBv
-dGVudGlhbGx5IGJlZm9yZSBoaWRfZGVidWdfZXZlbnRzX3JlbGVhc2UgaGFzIGNvbXBsZXRlZAo+
-ICByZWxlYXNpbmcgZGVidWcgcmVzb3VyY2VzIGJvdW5kIHRvIHRoZSBzYW1lIEhJRCBkZXZpY2Ug
-aW5zdGFuY2UuCj4KPiAgUmVmZXJlbmNlIGNvdW50IHRvIHByZXZlbnQgdGhlIEhJRCBkZXZpY2Ug
-aW5zdGFuY2UgZnJvbSBiZWluZyB0b3JuCj4gIGRvd24gcHJlZW1wdGl2ZWx5IHdoZW4gSElEIGRl
-YnVnZ2luZyBzdXBwb3J0IGlzIHVzZWQuIFdoZW4gY291bnQKPiAgcmVhY2hlcyB6ZXJvLCByZWxl
-YXNlIGNvcmUgcmVzb3VyY2VzIG9mIEhJRCBkZXZpY2UgaW5zdGFuY2UgdXNpbmcKPiAgaGlkZGV2
-X2ZyZWUuCj4KPkZlZWwgZnJlZSB0byB1c2UgdGhlIGFib3ZlIGlmIHlvdSB0aGluayBpdHMgbmlj
-ZSBvciBmZWVsIGZyZWUgdG8gcG9saXNoCj51cCB0aGUgY29tbWl0IG1lc3NhZ2UgYm9keSB5b3Ug
-b3JpZ2luYWxseSBoYWQgYSBiaXQgbW9yZS4KPgo+Pgo+PiBUaGUgY3Jhc2g6Cj4+Cj4+IFsgIDEy
-MC43Mjg0NzddWyBUNDM5Nl0ga2VybmVsIEJVRyBhdCBsaWIvbGlzdF9kZWJ1Zy5jOjUzIQo+PiBb
-ICAxMjAuNzI4NTA1XVsgVDQzOTZdIEludGVybmFsIGVycm9yOiBPb3BzIC0gQlVHOiAwIFsjMV0g
-UFJFRU1QVCBTTVAKPj4gWyAgMTIwLjczOTgwNl1bIFQ0Mzk2XSBNb2R1bGVzIGxpbmtlZCBpbjog
-YmNtZGhkIGRoZF9zdGF0aWNfYnVmIDg4MjJjdSBwY2llX21oaSByODE2OAo+PiBbICAxMjAuNzQ3
-Mzg2XVsgVDQzOTZdIENQVTogMSBQSUQ6IDQzOTYgQ29tbTogaGlkdF9icmlkZ2UgTm90IHRhaW50
-ZWQgNS4xMC4xMTAgIzI1Nwo+PiBbICAxMjAuNzU0NzcxXVsgVDQzOTZdIEhhcmR3YXJlIG5hbWU6
-IFJvY2tjaGlwIFJLMzU4OCBFVkI0IExQNCBWMTAgQm9hcmQgKERUKQo+PiBbICAxMjAuNzYxNjQz
-XVsgVDQzOTZdIHBzdGF0ZTogNjA0MDAwODkgKG5aQ3YgZGFJZiArUEFOIC1VQU8gLVRDTyBCVFlQ
-RT0tLSkKPj4gWyAgMTIwLjc2ODMzOF1bIFQ0Mzk2XSBwYyA6IF9fbGlzdF9kZWxfZW50cnlfdmFs
-aWQrMHg5OC8weGFjCj4+IFsgIDEyMC43NzM3MzBdWyBUNDM5Nl0gbHIgOiBfX2xpc3RfZGVsX2Vu
-dHJ5X3ZhbGlkKzB4OTgvMHhhYwo+PiBbICAxMjAuNzc5MTIwXVsgVDQzOTZdIHNwIDogZmZmZmZm
-YzAxZTYyYmI2MAo+PiBbICAxMjAuNzgzMTI2XVsgVDQzOTZdIHgyOTogZmZmZmZmYzAxZTYyYmI2
-MCB4Mjg6IGZmZmZmZjgxOGNlM2EyMDAKPj4gWyAgMTIwLjc4OTEyNl1bIFQ0Mzk2XSB4Mjc6IDAw
-MDAwMDAwMDAwMDAwMDkgeDI2OiAwMDAwMDAwMDAwOTgwMDAwCj4+IFsgIDEyMC43OTUxMjZdWyBU
-NDM5Nl0geDI1OiBmZmZmZmZjMDEyNDMxMDAwIHgyNDogZmZmZmZmODAyYzZkNGUwMAo+PiBbICAx
-MjAuODAxMTI1XVsgVDQzOTZdIHgyMzogZmZmZmZmODAwNWM2NmYwMCB4MjI6IGZmZmZmZmMwMTE4
-M2I1YjgKPj4gWyAgMTIwLjgwNzEyNV1bIFQ0Mzk2XSB4MjE6IGZmZmZmZjgxOWRmMmYxMDAgeDIw
-OiAwMDAwMDAwMDAwMDAwMDAwCj4+IFsgIDEyMC44MTMxMjRdWyBUNDM5Nl0geDE5OiBmZmZmZmY4
-MDJjM2YwNzAwIHgxODogZmZmZmZmYzAxZDJjZDA1OAo+PiBbICAxMjAuODE5MTI0XVsgVDQzOTZd
-IHgxNzogMDAwMDAwMDAwMDAwMDAwMCB4MTY6IDAwMDAwMDAwMDAwMDAwMDAKPj4gWyAgMTIwLjgy
-NTEyNF1bIFQ0Mzk2XSB4MTU6IDAwMDAwMDAwMDAwMDAwMDQgeDE0OiAwMDAwMDAwMDAwMDAzZmZm
-Cj4+IFsgIDEyMC44MzExMjNdWyBUNDM5Nl0geDEzOiBmZmZmZmZjMDEyMDg1NTg4IHgxMjogMDAw
-MDAwMDAwMDAwMDAwMwo+PiBbICAxMjAuODM3MTIzXVsgVDQzOTZdIHgxMTogMDAwMDAwMDBmZmZm
-YmZmZiB4MTA6IDAwMDAwMDAwMDAwMDAwMDMKPj4gWyAgMTIwLjg0MzEyM11bIFQ0Mzk2XSB4OSA6
-IDQ1NTEwM2Q0NmIzMjkzMDAgeDggOiA0NTUxMDNkNDZiMzI5MzAwCj4+IFsgIDEyMC44NDkxMjRd
-WyBUNDM5Nl0geDcgOiA3NDcwNzU3MjcyNmY2MzIwIHg2IDogZmZmZmZmYzAxMjRiOGNiNQo+PiBb
-ICAxMjAuODU1MTI0XVsgVDQzOTZdIHg1IDogZmZmZmZmZmZmZmZmZmZmZiB4NCA6IDAwMDAwMDAw
-MDAwMDAwMDAKPj4gWyAgMTIwLjg2MTEyM11bIFQ0Mzk2XSB4MyA6IGZmZmZmZmMwMTFjZjRmOTAg
-eDIgOiBmZmZmZmY4MWZlZTdiOTQ4Cj4+IFsgIDEyMC44NjcxMjJdWyBUNDM5Nl0geDEgOiBmZmZm
-ZmZjMDExY2Y0ZjkwIHgwIDogMDAwMDAwMDAwMDAwMDA1NAo+PiBbICAxMjAuODczMTIyXVsgVDQz
-OTZdIENhbGwgdHJhY2U6Cj4+IFsgIDEyMC44NzYyNTldWyBUNDM5Nl0gIF9fbGlzdF9kZWxfZW50
-cnlfdmFsaWQrMHg5OC8weGFjCj4+IFsgIDEyMC44ODEzMDRdWyBUNDM5Nl0gIGhpZF9kZWJ1Z19l
-dmVudHNfcmVsZWFzZSsweDQ4LzB4MTJjCj4+IFsgIDEyMC44ODY2MTddWyBUNDM5Nl0gIGZ1bGxf
-cHJveHlfcmVsZWFzZSsweDUwLzB4YmMKPj4gWyAgMTIwLjg5MTMyM11bIFQ0Mzk2XSAgX19mcHV0
-KzB4ZGMvMHgyMzgKPj4gWyAgMTIwLjg5NTA3NV1bIFQ0Mzk2XSAgX19fX2ZwdXQrMHgxNC8weDI0
-Cj4+IFsgIDEyMC44OTg5MTFdWyBUNDM5Nl0gIHRhc2tfd29ya19ydW4rMHg5MC8weDE0OAo+PiBb
-ICAxMjAuOTAzMjY4XVsgVDQzOTZdICBkb19leGl0KzB4MWJjLzB4OGE0Cj4+IFsgIDEyMC45MDcx
-OTNdWyBUNDM5Nl0gIGRvX2dyb3VwX2V4aXQrMHg4Yy8weGE0Cj4+IFsgIDEyMC45MTE0NThdWyBU
-NDM5Nl0gIGdldF9zaWduYWwrMHg0NjgvMHg3NDQKPj4gWyAgMTIwLjkxNTY0M11bIFQ0Mzk2XSAg
-ZG9fc2lnbmFsKzB4ODQvMHgyODAKPj4gWyAgMTIwLjkxOTY1MF1bIFQ0Mzk2XSAgZG9fbm90aWZ5
-X3Jlc3VtZSsweGQwLzB4MjE4Cj4+IFsgIDEyMC45MjQyNjJdWyBUNDM5Nl0gIHdvcmtfcGVuZGlu
-ZysweGMvMHgzZjAKPj4KPj4gRml4ZXM6IDxjZDY2N2NlMjQ3OTY+IChISUQ6IHVzZSBkZWJ1Z2Zz
-IGZvciBldmVudHMvcmVwb3J0cyBkdW1waW5nKQo+Cj5UaGUgZm9ybWF0dGluZyBvZiB0aGUgRml4
-ZXM6IHRhZyB3b3VsZCBsb29rIGxpa2UgdGhlIGZvbGxvd2luZy4KPgo+ICBGaXhlczogY2Q2Njdj
-ZTI0Nzk2ICgiSElEOiB1c2UgZGVidWdmcyBmb3IgZXZlbnRzL3JlcG9ydHMgZHVtcGluZyIpCj4K
-PllvdSBjYW4gYWxzbyBlbGltaW5hdGUgdGhlIHdoaXRlc3BhY2UgYmV0d2VlbiB5b3VyIGdpdCB0
-cmFpbGVycywgc28gdGhlCj5lbmQgcmVzdWx0IGxvb2tzIGxpa2UgdGhlIGZvbGxvd2luZyAobWlu
-dXMgdGhlIGluZGVudGF0aW9uKS4KPgo+ICBGaXhlczogY2Q2NjdjZTI0Nzk2ICgiSElEOiB1c2Ug
-ZGVidWdmcyBmb3IgZXZlbnRzL3JlcG9ydHMgZHVtcGluZyIpCj4gIFNpZ25lZC1vZmYtYnk6IENo
-YXJsZXMgWWkgPGJlMjg2QDE2My5jb20+Cj4KPj4KPj4gU2lnbmVkLW9mZi1ieTogQ2hhcmxlcyBZ
-aSA8YmUyODZAMTYzLmNvbT4KPj4KPj4gLS0tCj4+IENoYW5nZXMgaW4gVjI6Cj4+IC0gQWRkICJG
-aXhlczoiIHRhZyBhbmQgY2FsbCB0cmFjZSB0byBjb21taXQgbWVzc2FnZS4KPj4gLS0tCj4+ICBk
-cml2ZXJzL2hpZC9oaWQtY29yZS5jICB8IDEyICsrKysrKysrKystLQo+PiAgZHJpdmVycy9oaWQv
-aGlkLWRlYnVnLmMgfCAgMyArKysKPj4gIGluY2x1ZGUvbGludXgvaGlkLmggICAgIHwgIDMgKysr
-Cj4+ICAzIGZpbGVzIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4+
-Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2hpZC9oaWQtY29yZS5jIGIvZHJpdmVycy9oaWQvaGlk
-LWNvcmUuYwo+PiBpbmRleCA4OTkyZTNjMWU3NjkuLmUwMTgxMjE4YWQ4NSAxMDA2NDQKPj4gLS0t
-IGEvZHJpdmVycy9oaWQvaGlkLWNvcmUuYwo+PiArKysgYi9kcml2ZXJzL2hpZC9oaWQtY29yZS5j
-Cj4+IEBAIC03MDIsMTUgKzcwMiwyMiBAQCBzdGF0aWMgdm9pZCBoaWRfY2xvc2VfcmVwb3J0KHN0
-cnVjdCBoaWRfZGV2aWNlICpkZXZpY2UpCj4+ICAgKiBGcmVlIGEgZGV2aWNlIHN0cnVjdHVyZSwg
-YWxsIHJlcG9ydHMsIGFuZCBhbGwgZmllbGRzLgo+PiAgICovCj4+Cj4+IC1zdGF0aWMgdm9pZCBo
-aWRfZGV2aWNlX3JlbGVhc2Uoc3RydWN0IGRldmljZSAqZGV2KQo+PiArdm9pZCBoaWRkZXZfZnJl
-ZShzdHJ1Y3Qga3JlZiAqcmVmKQo+Cj5MZXRzIGNhbGwgdGhpcyBoaWRfaGlkZGV2X2ZyZWUuIFRv
-b2sgYSBsb29rIHRocm91Z2ggaGlkLWNvcmUuYywgYW5kIEkKPnRoaW5rIHRoaXMgd291bGQgYmUg
-YmV0dGVyIHRoYW4gY2FsbGluZyBpdCBqdXN0IGhpZGRldl9mcmVlLgo+Cj4+ICB7Cj4+IC0Jc3Ry
-dWN0IGhpZF9kZXZpY2UgKmhpZCA9IHRvX2hpZF9kZXZpY2UoZGV2KTsKPj4gKwlzdHJ1Y3QgaGlk
-X2RldmljZSAqaGlkID0gY29udGFpbmVyX29mKHJlZiwgc3RydWN0IGhpZF9kZXZpY2UsIHJlZik7
-Cj4+Cj4+ICAJaGlkX2Nsb3NlX3JlcG9ydChoaWQpOwo+PiAgCWtmcmVlKGhpZC0+ZGV2X3JkZXNj
-KTsKPj4gIAlrZnJlZShoaWQpOwo+PiAgfQo+Pgo+PiArc3RhdGljIHZvaWQgaGlkX2RldmljZV9y
-ZWxlYXNlKHN0cnVjdCBkZXZpY2UgKmRldikKPj4gK3sKPj4gKwlzdHJ1Y3QgaGlkX2RldmljZSAq
-aGlkID0gdG9faGlkX2RldmljZShkZXYpOwo+PiArCj4+ICsJa3JlZl9wdXQoJmhpZC0+cmVmLCBo
-aWRkZXZfZnJlZSk7Cj4+ICt9Cj4+ICsKPj4gIC8qCj4+ICAgKiBGZXRjaCBhIHJlcG9ydCBkZXNj
-cmlwdGlvbiBpdGVtIGZyb20gdGhlIGRhdGEgc3RyZWFtLiBXZSBzdXBwb3J0IGxvbmcKPj4gICAq
-IGl0ZW1zLCB0aG91Z2ggdGhleSBhcmUgbm90IHVzZWQgeWV0Lgo+PiBAQCAtMjg0Niw2ICsyODUz
-LDcgQEAgc3RydWN0IGhpZF9kZXZpY2UgKmhpZF9hbGxvY2F0ZV9kZXZpY2Uodm9pZCkKPj4gIAlz
-cGluX2xvY2tfaW5pdCgmaGRldi0+ZGVidWdfbGlzdF9sb2NrKTsKPj4gIAlzZW1hX2luaXQoJmhk
-ZXYtPmRyaXZlcl9pbnB1dF9sb2NrLCAxKTsKPj4gIAltdXRleF9pbml0KCZoZGV2LT5sbF9vcGVu
-X2xvY2spOwo+PiArCWtyZWZfaW5pdCgmaGRldi0+cmVmKTsKPj4KPj4gIAloaWRfYnBmX2Rldmlj
-ZV9pbml0KGhkZXYpOwo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9oaWQvaGlkLWRlYnVnLmMg
-Yi9kcml2ZXJzL2hpZC9oaWQtZGVidWcuYwo+PiBpbmRleCBlN2VmMWVhMTA3YzkuLjdkZDgzZWM3
-NGY4YSAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9oaWQvaGlkLWRlYnVnLmMKPj4gKysrIGIvZHJp
-dmVycy9oaWQvaGlkLWRlYnVnLmMKPj4gQEAgLTExMzUsNiArMTEzNSw3IEBAIHN0YXRpYyBpbnQg
-aGlkX2RlYnVnX2V2ZW50c19vcGVuKHN0cnVjdCBpbm9kZSAqaW5vZGUsIHN0cnVjdCBmaWxlICpm
-aWxlKQo+PiAgCQlnb3RvIG91dDsKPj4gIAl9Cj4+ICAJbGlzdC0+aGRldiA9IChzdHJ1Y3QgaGlk
-X2RldmljZSAqKSBpbm9kZS0+aV9wcml2YXRlOwo+PiArCWtyZWZfZ2V0KCZsaXN0LT5oZGV2LT5y
-ZWYpOwo+PiAgCWZpbGUtPnByaXZhdGVfZGF0YSA9IGxpc3Q7Cj4+ICAJbXV0ZXhfaW5pdCgmbGlz
-dC0+cmVhZF9tdXRleCk7Cj4+Cj4+IEBAIC0xMjI3LDYgKzEyMjgsOCBAQCBzdGF0aWMgaW50IGhp
-ZF9kZWJ1Z19ldmVudHNfcmVsZWFzZShzdHJ1Y3QgaW5vZGUgKmlub2RlLCBzdHJ1Y3QgZmlsZSAq
-ZmlsZSkKPj4gIAlsaXN0X2RlbCgmbGlzdC0+bm9kZSk7Cj4+ICAJc3Bpbl91bmxvY2tfaXJxcmVz
-dG9yZSgmbGlzdC0+aGRldi0+ZGVidWdfbGlzdF9sb2NrLCBmbGFncyk7Cj4+ICAJa2ZpZm9fZnJl
-ZSgmbGlzdC0+aGlkX2RlYnVnX2ZpZm8pOwo+PiArCj4+ICsJa3JlZl9wdXQoJmxpc3QtPmhkZXYt
-PnJlZiwgaGlkZGV2X2ZyZWUpOwo+PiAgCWtmcmVlKGxpc3QpOwo+Pgo+PiAgCXJldHVybiAwOwo+
-PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9oaWQuaCBiL2luY2x1ZGUvbGludXgvaGlkLmgK
-Pj4gaW5kZXggOTY0Y2ExZjE1ZTNmLi4zYjA4YTI5NTcyMjkgMTAwNjQ0Cj4+IC0tLSBhL2luY2x1
-ZGUvbGludXgvaGlkLmgKPj4gKysrIGIvaW5jbHVkZS9saW51eC9oaWQuaAo+PiBAQCAtNjc5LDYg
-KzY3OSw3IEBAIHN0cnVjdCBoaWRfZGV2aWNlIHsJCQkJCQkJLyogZGV2aWNlIHJlcG9ydCBkZXNj
-cmlwdG9yICovCj4+ICAJc3RydWN0IGxpc3RfaGVhZCBkZWJ1Z19saXN0Owo+PiAgCXNwaW5sb2Nr
-X3QgIGRlYnVnX2xpc3RfbG9jazsKPj4gIAl3YWl0X3F1ZXVlX2hlYWRfdCBkZWJ1Z193YWl0Owo+
-PiArCXN0cnVjdCBrcmVmCQkJcmVmOwo+Pgo+PiAgCXVuc2lnbmVkIGludCBpZDsJCQkJCQkvKiBz
-eXN0ZW0gdW5pcXVlIGlkICovCj4+Cj4+IEBAIC02ODcsNiArNjg4LDggQEAgc3RydWN0IGhpZF9k
-ZXZpY2UgewkJCQkJCQkvKiBkZXZpY2UgcmVwb3J0IGRlc2NyaXB0b3IgKi8KPj4gICNlbmRpZiAv
-KiBDT05GSUdfQlBGICovCj4+ICB9Owo+Pgo+PiArdm9pZCBoaWRkZXZfZnJlZShzdHJ1Y3Qga3Jl
-ZiAqcmVmKTsKPj4gKwo+PiAgI2RlZmluZSB0b19oaWRfZGV2aWNlKHBkZXYpIFwKPj4gIAljb250
-YWluZXJfb2YocGRldiwgc3RydWN0IGhpZF9kZXZpY2UsIGRldikKPgo+LS0KPlRoYW5rcyBmb3Ig
-dGhlIHBhdGNoLAo+Cj5SYWh1bCBSYW1lc2hiYWJ1Cg==
+On Mon, Nov 6, 2023 at 9:06=E2=80=AFPM Illia Ostapyshyn
+<ostapyshyn@sra.uni-hannover.de> wrote:
+>
+> On 11/6/23 17:59, Benjamin Tissoires wrote:
+>
+> > If the pen has 2 buttons, and an eraser side, it would be a serious
+> > design flow for XPPEN to report both as eraser.
+> >
+> > Could you please use sudo hid-recorder from hid-tools[1] on any kernel
+> > version and send us the logs here?
+> > I'll be able to replay the events locally, and understand why the
+> > kernel doesn't work properly.
+> >
+> > And if there is a design flaw that can be fixed, we might even be able
+> > to use hid-bpf to change it :)
+>
+> My wild guess is that XP-Pen 16 Artist Pro reports an Eraser usage
+> without Invert for the upper button and Eraser with Invert for the
+> eraser tip.  A device-specific driver could work with that, but there
+> seems to be no way to incorporate two different erasers (thus, allowing
+> userspace to map them to different actions arbitrarily) in the generic
+> driver currently.
+
+That's exactly why I want to see the exact event flow. We can not do
+"wild guesses" unfortunately (not meaning any offenses).
+And I am very suspicious about the fact that the stylus reports 2
+identical erasers. Because in the past David seemed to be able to have
+2 distincts behaviors for the 2 "buttons" (physical button and eraser
+tail).
+
+>
+>
+> > Generally speaking, relying on X to fix your hardware is going to be a
+> > dead end. When you switch to wayland, you'll lose all of your fixes,
+> > which isn't great.
+>
+> > AFAIU, the kernel now "merges" both buttons, which is a problem. It
+> > seems to be a serious regression. This case is also worrying because I
+> > added regression tests on hid, but I don't have access to all of the
+> > various tablets, so I implemented them from the Microsoft
+> > specification[0]. We need a special case for you here.
+>
+> The issue preventing David from mapping HID_DG_ERASER to BTN_STYLUS2 is
+> that the hidinput_hid_event is not compatible with hidinput_setkeycode.
+> If usage->code is no longer BTN_TOUCH after remapping, it won't be
+> released when Eraser reports 0.  A simple fix is:
+
+I must confess, being the one who refactored everything, I still don't
+believe this is as simple as it may seem. I paged out all of the
+special cases, and now, without seeing the event flow I just can not
+understand why this would fix the situation.
+
+And BTW, if you have a tool affected by 276e14e6c3, I'd be curious to
+get a hid-recorder sample for it so I can get regression tests for it.
+
+>
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -1589,7 +1589,7 @@ void hidinput_hid_event(struct hid_device *hid,
+> struct hid_field *field, struct
+>                         /* value is off, tool is not rubber, ignore */
+>                         return;
+>                 else if (*quirks & HID_QUIRK_NOINVERT &&
+> -                        !test_bit(BTN_TOUCH, input->key)) {
+> +                        !test_bit(usage->code, input->key)) {
+
+I don't want to be rude, but this feels very much like black magic,
+especially because there is a comment just below and it is not
+updated. So either the explanation was wrong, or it's not explaining
+the situation (I also understand that this is not a formal submission,
+so maybe that's the reason why the comment is not updated).
+
+>                         /*
+>                          * There is no invert to release the tool, let hi=
+d_input
+>                          * send BTN_TOUCH with scancode and release the t=
+ool after.
+>
+> This change alone fixes David's problem and the right-click mapping in
+> hwdb works again.  However, the tool switches to rubber for the remapped
+> eraser (here BTN_STYLUS2) events, both for devices with and without
+> Invert.  This does no harm but is not useful either.  A cleaner solution
+> for devices without Invert would be to omit the whole tool switching
+> logic in this case:
+>
+> @@ -1577,6 +1577,9 @@ void hidinput_hid_event(struct hid_device *hid,
+> struct hid_field *field, struct
+>
+>         switch (usage->hid) {
+>         case HID_DG_ERASER:
+> +               if (*quirks & HID_QUIRK_NOINVERT && usage->code !=3D BTN_=
+TOUCH)
+> +                       break;
+> +
+>                 report->tool_active |=3D !!value;
+>
+> Remapping Invert does not work anyway as the Invert tool is hardcoded in
+> hidinput_hid_event.  Even worse, I guess (not tested) trying to do so
+> would mask BTN_TOOL_RUBBER from dev->keybit and could cause weird
+> behavior similar to one between 87562fcd1342 and 276e14e6c3.  This
+> raises the question: should users be able to remap Invert after all?
+>
+
+The kernel is supposed to transfer what the device is. So if it says
+this is an eraser, we should not try to change it. Users can then
+tweak their own device if they wish through hid-bpf or through
+libinput quirks, but when you install a fresh kernel without tweaks,
+we should be as accurate as possible.
+
+My main concern is that now we have a device which exports 2 different
+interactions as being the same. So either the firmware is wrong, and
+we need to quirk it, or the kernel is wrong and merges both, and this
+needs fixes as well.
+
+Once every interaction on the device gets its own behavior, userspace
+can do whatever they want. It's not the kernel's concern anymore.
+
+BTW, David, were you able to do a revert of 276e14e6c3?
+
+Cheers,
+Benjamin
+
