@@ -2,90 +2,169 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A28FF7E4597
-	for <lists+linux-input@lfdr.de>; Tue,  7 Nov 2023 17:14:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14FFE7E4501
+	for <lists+linux-input@lfdr.de>; Tue,  7 Nov 2023 17:00:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235166AbjKGQO2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Nov 2023 11:14:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41136 "EHLO
+        id S1344317AbjKGQAX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 7 Nov 2023 11:00:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344233AbjKGQOQ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Nov 2023 11:14:16 -0500
+        with ESMTP id S1344599AbjKGP7U (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 7 Nov 2023 10:59:20 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3435765B8;
-        Tue,  7 Nov 2023 07:51:28 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EB03C433CA;
-        Tue,  7 Nov 2023 15:51:26 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24CC77A83;
+        Tue,  7 Nov 2023 07:52:11 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3555C433C9;
+        Tue,  7 Nov 2023 15:52:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699372287;
-        bh=umYFQDCGcqqcUrGZDMiUVq/rfYGnJx2Cb/CkACMWFew=;
+        s=k20201202; t=1699372331;
+        bh=vyefD/3zIztutmESLIgo+iS24PgXOvk/d6ea8CtU5pE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VNGxTwfA9xGi/ETDbkJeprAHcDW4ly8HEwALmSNuUMFr5idiGl/9Aco/KZZ3Eqcka
-         I+MjXaeK0B0ChDQlVusOZUu/v/SMyk3AeMtaQWX+fJxpNonQuuV2pLZDmz3uVpNHzG
-         d/UY74QivXPpoPmPDIIQfGCY0hHlNMFMY6v82rorGhEh7evyhdEmOmgWPl2Wh9jIRp
-         dUdkmcqFFbFlKvqdnMhspWBCHV2nNa6s0Zj3lJWyISf0j7lFmLY/wO00QT3oFYFWXD
-         L1v7l6kHIw8lRTQe67b5VpMYCBHA6x5ixBMT98TVt4Ue+cgfLz057Thnah9Tadglzn
-         KGi4U9RggQnFA==
+        b=fYgw1QPspEpGOBxLUPBAkkiB9C+jC6QktnB238xBEHQviUJtCXPyvqZkT+wnX8lF/
+         My4VFT2U4S22dLqmZunmO00e2iKMnmRI3qxFCHl70ltTEfM857SsOQDZwE+JgvWxT4
+         sZnsgHb9erjMQ8zvm1fKxHyRq8TrdfBxx85AhIxknPk9UYa8QnDAzkWQYNslPCT4O/
+         W/YOMXE+G8hrIXekLmVm2ofnv2M74i9bD71w5+QxpMz6OLzZ9/dE/PETbuaj9/I92x
+         vL8VsGVshtoHz0L7hnAFH1dqavOt7F8hYrPFwbcBIloUxuWkxfZXvZmGM581+T4VK7
+         Vk9wOCNB6Gi7A==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jiri Kosina <jkosina@suse.cz>,
-        Robert Ayrapetyan <robert.ayrapetyan@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 28/30] HID: Add quirk for Dell Pro Wireless Keyboard and Mouse KM5221W
-Date:   Tue,  7 Nov 2023 10:50:02 -0500
-Message-ID: <20231107155024.3766950-28-sashal@kernel.org>
+Cc:     Mikhail Khvainitski <me@khvoinitsky.org>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 10/22] HID: lenovo: Detect quirk-free fw on cptkbd and stop applying workaround
+Date:   Tue,  7 Nov 2023 10:51:19 -0500
+Message-ID: <20231107155146.3767610-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231107155024.3766950-1-sashal@kernel.org>
-References: <20231107155024.3766950-1-sashal@kernel.org>
+In-Reply-To: <20231107155146.3767610-1-sashal@kernel.org>
+References: <20231107155146.3767610-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.61
+X-stable-base: Linux 5.15.137
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jiri Kosina <jkosina@suse.cz>
+From: Mikhail Khvainitski <me@khvoinitsky.org>
 
-[ Upstream commit 62cc9c3cb3ec1bf31cc116146185ed97b450836a ]
+[ Upstream commit 46a0a2c96f0f47628190f122c2e3d879e590bcbe ]
 
-This device needs ALWAYS_POLL quirk, otherwise it keeps reconnecting
-indefinitely.
+Built-in firmware of cptkbd handles scrolling by itself (when middle
+button is pressed) but with issues: it does not support horizontal and
+hi-res scrolling and upon middle button release it sends middle button
+click even if there was a scrolling event. Commit 3cb5ff0220e3 ("HID:
+lenovo: Hide middle-button press until release") workarounds last
+issue but it's impossible to workaround scrolling-related issues
+without firmware modification.
 
-Reported-by: Robert Ayrapetyan <robert.ayrapetyan@gmail.com>
+Likely, Dennis Schneider has reverse engineered the firmware and
+provided an instruction on how to patch it [1]. However,
+aforementioned workaround prevents userspace (libinput) from knowing
+exact moment when middle button has been pressed down and performing
+"On-Button scrolling". This commit detects correctly-behaving patched
+firmware if cursor movement events has been received during middle
+button being pressed and stops applying workaround for this device.
+
+Link: https://hohlerde.org/rauch/en/elektronik/projekte/tpkbd-fix/ [1]
+
+Signed-off-by: Mikhail Khvainitski <me@khvoinitsky.org>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/hid/hid-lenovo.c | 68 ++++++++++++++++++++++++++--------------
+ 1 file changed, 45 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 9a17e5cc3539b..130fc5f341422 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -365,6 +365,7 @@
+diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
+index 93b1f935e526e..901c1959efed4 100644
+--- a/drivers/hid/hid-lenovo.c
++++ b/drivers/hid/hid-lenovo.c
+@@ -50,7 +50,12 @@ struct lenovo_drvdata {
+ 	int select_right;
+ 	int sensitivity;
+ 	int press_speed;
+-	u8 middlebutton_state; /* 0:Up, 1:Down (undecided), 2:Scrolling */
++	/* 0: Up
++	 * 1: Down (undecided)
++	 * 2: Scrolling
++	 * 3: Patched firmware, disable workaround
++	 */
++	u8 middlebutton_state;
+ 	bool fn_lock;
+ };
  
- #define USB_VENDOR_ID_DELL				0x413c
- #define USB_DEVICE_ID_DELL_PIXART_USB_OPTICAL_MOUSE	0x301a
-+#define USB_DEVICE_ID_DELL_PRO_WIRELESS_KM5221W		0x4503
+@@ -529,31 +534,48 @@ static int lenovo_event_cptkbd(struct hid_device *hdev,
+ {
+ 	struct lenovo_drvdata *cptkbd_data = hid_get_drvdata(hdev);
  
- #define USB_VENDOR_ID_DELORME		0x1163
- #define USB_DEVICE_ID_DELORME_EARTHMATE	0x0100
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index f8f20a7c24b17..056bb32091285 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -66,6 +66,7 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_DEVICE_ID_CORSAIR_STRAFE), HID_QUIRK_NO_INIT_REPORTS | HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CREATIVELABS, USB_DEVICE_ID_CREATIVE_SB_OMNI_SURROUND_51), HID_QUIRK_NOGET },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DELL, USB_DEVICE_ID_DELL_PIXART_USB_OPTICAL_MOUSE), HID_QUIRK_ALWAYS_POLL },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_DELL, USB_DEVICE_ID_DELL_PRO_WIRELESS_KM5221W), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DMI, USB_DEVICE_ID_DMI_ENC), HID_QUIRK_NOGET },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRACAL_RAPHNET, USB_DEVICE_ID_RAPHNET_2NES2SNES), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRACAL_RAPHNET, USB_DEVICE_ID_RAPHNET_4NES4SNES), HID_QUIRK_MULTI_INPUT },
+-	/* "wheel" scroll events */
+-	if (usage->type == EV_REL && (usage->code == REL_WHEEL ||
+-			usage->code == REL_HWHEEL)) {
+-		/* Scroll events disable middle-click event */
+-		cptkbd_data->middlebutton_state = 2;
+-		return 0;
+-	}
++	if (cptkbd_data->middlebutton_state != 3) {
++		/* REL_X and REL_Y events during middle button pressed
++		 * are only possible on patched, bug-free firmware
++		 * so set middlebutton_state to 3
++		 * to never apply workaround anymore
++		 */
++		if (cptkbd_data->middlebutton_state == 1 &&
++				usage->type == EV_REL &&
++				(usage->code == REL_X || usage->code == REL_Y)) {
++			cptkbd_data->middlebutton_state = 3;
++			/* send middle button press which was hold before */
++			input_event(field->hidinput->input,
++				EV_KEY, BTN_MIDDLE, 1);
++			input_sync(field->hidinput->input);
++		}
+ 
+-	/* Middle click events */
+-	if (usage->type == EV_KEY && usage->code == BTN_MIDDLE) {
+-		if (value == 1) {
+-			cptkbd_data->middlebutton_state = 1;
+-		} else if (value == 0) {
+-			if (cptkbd_data->middlebutton_state == 1) {
+-				/* No scrolling inbetween, send middle-click */
+-				input_event(field->hidinput->input,
+-					EV_KEY, BTN_MIDDLE, 1);
+-				input_sync(field->hidinput->input);
+-				input_event(field->hidinput->input,
+-					EV_KEY, BTN_MIDDLE, 0);
+-				input_sync(field->hidinput->input);
++		/* "wheel" scroll events */
++		if (usage->type == EV_REL && (usage->code == REL_WHEEL ||
++				usage->code == REL_HWHEEL)) {
++			/* Scroll events disable middle-click event */
++			cptkbd_data->middlebutton_state = 2;
++			return 0;
++		}
++
++		/* Middle click events */
++		if (usage->type == EV_KEY && usage->code == BTN_MIDDLE) {
++			if (value == 1) {
++				cptkbd_data->middlebutton_state = 1;
++			} else if (value == 0) {
++				if (cptkbd_data->middlebutton_state == 1) {
++					/* No scrolling inbetween, send middle-click */
++					input_event(field->hidinput->input,
++						EV_KEY, BTN_MIDDLE, 1);
++					input_sync(field->hidinput->input);
++					input_event(field->hidinput->input,
++						EV_KEY, BTN_MIDDLE, 0);
++					input_sync(field->hidinput->input);
++				}
++				cptkbd_data->middlebutton_state = 0;
+ 			}
+-			cptkbd_data->middlebutton_state = 0;
++			return 1;
+ 		}
+-		return 1;
+ 	}
+ 
+ 	return 0;
 -- 
 2.42.0
 
