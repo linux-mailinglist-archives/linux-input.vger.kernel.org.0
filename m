@@ -2,132 +2,175 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 28D9E7E5A9D
-	for <lists+linux-input@lfdr.de>; Wed,  8 Nov 2023 16:57:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0400F7E5D1B
+	for <lists+linux-input@lfdr.de>; Wed,  8 Nov 2023 19:22:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232086AbjKHP5P (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Nov 2023 10:57:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36812 "EHLO
+        id S229583AbjKHSWZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Nov 2023 13:22:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232831AbjKHP5N (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Nov 2023 10:57:13 -0500
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2046.outbound.protection.outlook.com [40.107.20.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E08171FE1;
-        Wed,  8 Nov 2023 07:57:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kA+c/9332IRcA9pgeJWeWW+P5SJC0TwT5Ek+T79syp6XuPnBRs11lEDkGy8TXda93Ou9Qw0xV7+NjDnO84T+lb1lbrYl0oJSmH+V0lYpbOTtVuOZ626dIiKyFFXpwgx6v+tcJkQigi7q5bKirhQiXXPM5a267ognzS+Cq2z7NuSmMlGr93ybRfpYoaeeVoNJAOqZv7Lap/0oQ2jtLOLHmX05IE+y+amTCYaD3tmh+fuFizLuvCtNqirPuvRaZJqxzPAIzcUNl50qQvBhB4IgXqM/BRBb9TI6fPnqZ8AkZWfhk/sBuVbeJDo9TBFGwx/d3vE2V/2Bbb4MqJYhKurqig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g/TXOXVEhWUf4cxEo/jB8TMyttY35vqVR0XLwmU4afE=;
- b=fRpjCLONCDIYeNHn7nr9qKAtHgKjFUDxY7qthfH8WYYV0W0AT1tV0FEXXALZmFoHKPs0b3ufpd9tZbfzBvsNqF5d43F126ajOJuTCqpjBjx7otoVKgypaTYd4N3QI0pWBs652tM3gLBJLCLvhZQtvrAf7vC3gUKduuIcjy89od3h6LY3y+OcfhtU2zEQ+gxVhPcT/megbZH7WMLlKl6DR5xLd1Fmk4qYsMydmGpFRf/dnrnBMvM7pyE0H3R//Ar8Pksk5z77fLRy80ZBMPf7rID9p3BGbgMJ7yODDNQe5AEwnoCpmuKScfhjIH/RzO5om9WYO6b3xf2eAUyCHPuhWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 195.60.68.100) smtp.rcpttodomain=linaro.org smtp.mailfrom=2n.com; dmarc=fail
- (p=none sp=none pct=100) action=none header.from=axis.com; dkim=none (message
- not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g/TXOXVEhWUf4cxEo/jB8TMyttY35vqVR0XLwmU4afE=;
- b=sEVZOFn3MacTe86bdwRKg1+bJ0YxcatnBB6OBki9xPs+nS+r2JBC6A0MdBJE8c+BnMXy4DtF5O/d8JTBGlrkeyWYW6OzDoBnqJuRe+jyxXPYHRrQGOWcRSahDSzdcXpmNDxEbIR4xJecELAkgGePxCHrkL0UyBDeyztAKKzc7zA=
-Received: from AS9PR01CA0015.eurprd01.prod.exchangelabs.com
- (2603:10a6:20b:540::28) by AM7PR02MB5781.eurprd02.prod.outlook.com
- (2603:10a6:20b:108::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Wed, 8 Nov
- 2023 15:57:08 +0000
-Received: from AM2PEPF0001C714.eurprd05.prod.outlook.com
- (2603:10a6:20b:540:cafe::c2) by AS9PR01CA0015.outlook.office365.com
- (2603:10a6:20b:540::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.18 via Frontend
- Transport; Wed, 8 Nov 2023 15:57:08 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 195.60.68.100)
- smtp.mailfrom=2n.com; dkim=none (message not signed) header.d=none;dmarc=fail
- action=none header.from=axis.com;
-Received-SPF: Fail (protection.outlook.com: domain of 2n.com does not
- designate 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com;
-Received: from mail.axis.com (195.60.68.100) by
- AM2PEPF0001C714.mail.protection.outlook.com (10.167.16.184) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6977.17 via Frontend Transport; Wed, 8 Nov 2023 15:57:08 +0000
-Received: from lap5cg227217h.axis.com (10.0.5.60) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 8 Nov
- 2023 16:57:07 +0100
-From:   Jiri Valek - 2N <jiriv@axis.com>
-To:     <krzysztof.kozlowski+dt@linaro.org>, <dmitry.torokhov@gmail.com>
-CC:     <jiriv@axis.com>, <devicetree@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <robh+dt@kernel.org>, <u.kleine-koenig@pengutronix.de>
-Subject: [PATCH v5 3/3] Input: cap11xx - remove unnecessary IRQ parsing
-Date:   Wed, 8 Nov 2023 16:56:47 +0100
-Message-ID: <20231108155647.1812835-4-jiriv@axis.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231108155647.1812835-1-jiriv@axis.com>
-References: <20231108155647.1812835-1-jiriv@axis.com>
+        with ESMTP id S229521AbjKHSWY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Nov 2023 13:22:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B65A172E
+        for <linux-input@vger.kernel.org>; Wed,  8 Nov 2023 10:21:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1699467701;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=nM25pz9FDJ2xEFXEWA0rCb20z2Slt1QqjiMFrxf2tbc=;
+        b=gB8hBnTJWciF4RuzKN0xB+JyS4+cXiQYK7j1P4UIMTrAqaOhRooJtyixe0fZ5d/w3xjOHT
+        DQoijqMCFtAUY0+ijX1EIawBo17F0BFNe/uWxm+qzmkuX9iBNVXRO4uA/+XfqgD+0YjwWp
+        PTKPLalZO9xRwRJSxW4IEou/82XZNrU=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-637-LXobSW0BMQmMsTmcJy_dig-1; Wed, 08 Nov 2023 13:21:39 -0500
+X-MC-Unique: LXobSW0BMQmMsTmcJy_dig-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-99bca0b9234so1001866b.2
+        for <linux-input@vger.kernel.org>; Wed, 08 Nov 2023 10:21:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699467698; x=1700072498;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nM25pz9FDJ2xEFXEWA0rCb20z2Slt1QqjiMFrxf2tbc=;
+        b=RB7BIXyLan9+hLTmLU5jhx6wjoGAX1Ixf44/X8Yf74dsoIV8ONkooMC9APrzYJQi7D
+         zSvweB4n738PAYNf6tPWD2mnF79ZITINIa+IDPSUagY/zHyJ/YRbD2u2WkOAKxGjO29P
+         VxUPu3utC+pKarZwLos98tW79B36Mh6aEuQb0mouPuovoVP04t87h+9KtPPMR4pjKKoL
+         bnWYzfEouhtvOVkTGs60hK8FX5qq5T8afXfStTn2WXqmb3X4nFAw4k3xsAkafj/wysR5
+         ibfum/lfVVL+pbrEWtSC/M0lOk3HzHxUtlOvnJ4+MrJx2u7V1PGy7xkjVU1l25uJXYNE
+         MlfQ==
+X-Gm-Message-State: AOJu0YxJDVTQ9ZVvGHJIVJ0yMDrQbIJdPrLHtHmjG70t983wf9WSiOtK
+        4kwpuFWghB8nEcn4WBaxN0Uc9VWgRqSE5/zDinwGjaM+013F0kf5rNX+aPb6QGQFLanUxfofIwt
+        dnRFbICOxcpCEFU2N2tIz3b946vQvKeJiE0U7Drs=
+X-Received: by 2002:a17:906:dc92:b0:9ae:420e:739b with SMTP id cs18-20020a170906dc9200b009ae420e739bmr1666254ejc.46.1699467698292;
+        Wed, 08 Nov 2023 10:21:38 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEJlPNVhDtklUG03CTF6jBxy5u25hWVE1q1Iuj+GVBqlz7cdAhD+ekN0tD/nC9WkOEIuafaTQ8CTj9itlB+8OI=
+X-Received: by 2002:a17:906:dc92:b0:9ae:420e:739b with SMTP id
+ cs18-20020a170906dc9200b009ae420e739bmr1666238ejc.46.1699467698013; Wed, 08
+ Nov 2023 10:21:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.0.5.60]
-X-ClientProxiedBy: se-mail02w.axis.com (10.20.40.8) To se-mail01w.axis.com
- (10.20.40.7)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM2PEPF0001C714:EE_|AM7PR02MB5781:EE_
-X-MS-Office365-Filtering-Correlation-Id: f96db592-e659-4fa6-c4e2-08dbe0735ccf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: W1kYN0do9e+I81AxKs5UxQ6t2Q2XlcPCXazSL0ILxJZAOhrwnRLzczzOSuhF9oU4fwvZUIVC4eomX9n+UDq1pN1LbEvKefwvRMb7h/AcHyOZC7mSyOde+ekE6cPj8cZd8DyPuNYQRXojnPta9xCM1lS6qg+K5xwRAm4yl4HJ0BiXiuOv9hkfOCrOgrXYExNPUfRgq8L6qyEZ/BsprMulqqGU6Uqe1naB5zM1KeicK/arrsSI90Yc5yIwpA2euaiX9I7ovqxQBatbcX0fECXlIwGpew4PwvwLH+I/TNdm7brl6Y5eAsU6sKoMXdr794EznWNx+x01RYE3cRSkO7vL96w2k6KpktpgaxyrykleZIP25FAByE2FJ8MGkJLlHY1VNepuNgYsdSL98AbFxVDOBbSzTYEvMGmhW24jAAhktxxEcGFuhvqu4kKoQvWQhGyKJCPz0lpD5Ltok8mVaBnZk5exgHmgx9917cuEO7+2l4Tl1zODOW7hEYlo7KGJm1QrKYIuiYlZQctneH/cmlmxBRiQQt6RJLL+So7YXvZZVrGfs8jcm1Dx6GHbadVUt9GAEYSb1G6z4u6XissBMHUGBOJ4LyoLiUyYZXDVyBv6AwmLc6mfEgHybiYU3kD3DdxMxz02fz1DSrm88HASM1UBc7k9GCWlj0Ib/xE7euRFSFluztq/2w2xyCDF2VGPG7vqu+hbo7Xo1gHoPVpMjHYfCdmx/q3RvJrN8ZxFtxC7qnWMY1rFlQgjf6SsqtrT53P0nIcK4zskzUfa3uPGuonsDw==
-X-Forefront-Antispam-Report: CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(39850400004)(376002)(136003)(396003)(230922051799003)(1800799009)(186009)(82310400011)(64100799003)(451199024)(46966006)(36840700001)(40470700004)(16526019)(7696005)(6666004)(2616005)(478600001)(82740400003)(83380400001)(426003)(1076003)(70206006)(336012)(26005)(42882007)(54906003)(47076005)(2906002)(110136005)(70586007)(4326008)(41300700001)(316002)(8936002)(8676002)(5660300002)(83170400001)(36756003)(36860700001)(356005)(81166007)(40480700001)(40460700003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2023 15:57:08.5725
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f96db592-e659-4fa6-c4e2-08dbe0735ccf
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: AM2PEPF0001C714.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR02MB5781
+References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm>
+ <20231103200524.53930-1-ostapyshyn@sra.uni-hannover.de> <bokQB3BK040-4fGy8tNfZrdM2mNmWxZud9O-KMmYqOkfa1JTC1ocUjoAzCEpPsbsAvY5qb5TcSP6XsQLaja2XO0gapOcsZyeVdCvq6T31qA=@protonmail.com>
+ <CAO-hwJLpKTb9yxvxaPDLZkF9kDF8u2VRJUf9yiQd+neOyxPeug@mail.gmail.com>
+ <eb8e22f3-77dc-4923-a7ba-e237ee226edb@sra.uni-hannover.de>
+ <CAO-hwJKVwZK00yZFjuyyR9Xt4Y2-r8eLJNZfnyeopHxoZQ0eGA@mail.gmail.com>
+ <20231108062306.33f5dcd0@dryade> <CAO-hwJK_xp1A=dEOV-2v3KJAf0bRLDWNcrFQeBpgEuxT-qSBnw@mail.gmail.com>
+ <ZUtTpKyP0oxWhnn8@fedora> <CAO-hwJLjtjdr2gtrOWJFPZ-38YzKB8XfhDKWf_2jUPeiaP3EcA@mail.gmail.com>
+In-Reply-To: <CAO-hwJLjtjdr2gtrOWJFPZ-38YzKB8XfhDKWf_2jUPeiaP3EcA@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 8 Nov 2023 19:21:25 +0100
+Message-ID: <CAO-hwJKNcwcDGEh33NZq4kSYtoxZzg9M2nzE_hVDYNFgA4g_dg@mail.gmail.com>
+Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel issue
+To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc:     Eric GOUYER <folays@gmail.com>,
+        Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>,
+        David Revoy <davidrevoy@protonmail.com>, jkosina@suse.cz,
+        jason.gerecke@wacom.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Separate IRQ parsing is not necessary, I2C core do the job.
+On Wed, Nov 8, 2023 at 10:34=E2=80=AFAM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> On Wed, Nov 8, 2023 at 10:23=E2=80=AFAM Jos=C3=A9 Exp=C3=B3sito <jose.exp=
+osito89@gmail.com> wrote:
+> >
+> > Hi Benjamin,
+> >
+> > On Wed, Nov 08, 2023 at 10:04:30AM +0100, Benjamin Tissoires wrote:
+> [...]
+> > >
+> > > >
+> > > > So, the behavior probably breaks the specs, but sincerely I'm happy=
+ to
+> > > > have the "eraser" button independent of the "rubber eraser", which
+> > > > makes the stylus a somewhat 4-buttons stylus (tip, button1, button2=
+,
+> > > > rubber), and I would like to keep this.
+> > >
+> > > Yes, and I'd like to keep it that way, even if 6.6 and 6.5.8
+> > > apparently broke it.
+> > >
+> > > So, to me:
+> > > - 276e14e6c3993317257e1787e93b7166fbc30905 is wrong: this is a
+> > > firmware bug (reporting invert through eraser) and should not be
+> > > tackled at the generic level, thus it should be reverted
+> > > - both of these tablets are forwarding the useful information, but no=
+t
+> > > correctly, which confuses the kernel
+> > > - I should now be able to write regression tests
+> > > - I should be able to provide HID-BPF fixes for those tablets so that
+> > > we can keep them working with or without
+> > > 276e14e6c3993317257e1787e93b7166fbc30905
+> > > reverted (hopefully)
+> > > - problem is I still don't have the mechanics to integrate the HID-BP=
+F
+> > > fixes directly in the kernel tree, so maybe I'll have to write a
+> > > driver for XP-Pen while these internals are set (it shouldn't
+> > > interfere with the HID-BPF out of the tree).
+> >
+> > I already added support for a few XP-Pen devices on the UCLogic driver
+> > and I was planning to start working on this one during the weekend in
+> > my DIGImend fork (to simplify testing).
+> >
+> > Let me know if you prefer to add it yourself or if you want me to ping
+> > you in the DIGImend discussion.
+> >
+>
+> So far, I really have to work on this now. It's a good use case for
+> HID-BPF and it's a regression that I'd like to be fixed ASAP.
+> I'd appreciate any reviews :)
 
-Signed-off-by: Jiri Valek - 2N <jiriv@axis.com>
----
- drivers/input/keyboard/cap11xx.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+Alright, I made quite some progress so far:
+- regressions tests have been written (branch wip/xp-pen of my fork on
+freedesktop[0])
+  that branch can not go in directly as it just adds the tests, and
+thus is failing
+- I made the fixes through HID-BPF[1]
 
-diff --git a/drivers/input/keyboard/cap11xx.c b/drivers/input/keyboard/cap11xx.c
-index 4711ea985627..ccca9936ef25 100644
---- a/drivers/input/keyboard/cap11xx.c
-+++ b/drivers/input/keyboard/cap11xx.c
-@@ -518,7 +518,7 @@ static int cap11xx_i2c_probe(struct i2c_client *i2c_client)
- 	struct device *dev = &i2c_client->dev;
- 	struct cap11xx_priv *priv;
- 	const struct cap11xx_hw_model *cap;
--	int i, error, irq;
-+	int i, error;
- 	unsigned int val, rev;
- 
- 	if (id->driver_data >= ARRAY_SIZE(cap11xx_devices)) {
-@@ -624,13 +624,7 @@ static int cap11xx_i2c_probe(struct i2c_client *i2c_client)
- 	if (error)
- 		return error;
- 
--	irq = irq_of_parse_and_map(dev->of_node, 0);
--	if (!irq) {
--		dev_err(dev, "Unable to parse or map IRQ\n");
--		return -ENXIO;
--	}
--
--	error = devm_request_threaded_irq(dev, irq, NULL, cap11xx_thread_func,
-+	error = devm_request_threaded_irq(dev, i2c_client->irq, NULL, cap11xx_thread_func,
- 					  IRQF_ONESHOT, dev_name(dev), priv);
- 	if (error)
- 		return error;
--- 
-2.25.1
+Anyone using those 2 tablets and using Fedora should be able to just
+grab the artifact at [2], uncompress it and run `sudo ./install.sh
+--verbose`.
+This will install the bpf programs in /lib/firmware/hid/bpf/ and will
+automatically load them when the device is connected.
+
+For those not using Fedora, the binary might work (or not, not sure),
+but you can always decompress it, and check if running
+`udev-hid-bpf_0.1.0/bin/udev-hid-bpf --version` returns the correct
+version or just fails. If you get "udev-hid-bpf 0.1.0", then running
+`sudo ./install.sh --verbose` should work, as long as the kernel has
+CONFIG_HID_BPF set to 'Y'.
+
+>
+> Also, good to know that I can probably piggyback on hid-uclogic for
+> fixing those 2 devices in the kernel.
+>
+
+Next step will be to fix them using a kernel driver, but it seems that
+the uclogic driver is doing more than just report descriptor fixups,
+so maybe I'll have to use a different driver.
+But the point is, in theory, if you are affected by those bugs, using
+the udev-hid-bpf should fix the issue, and this should also be
+resilient to further kernel updates.
+
+I'd appreciate testing when I got the full kernel series up and ready,
+of course.
+
+Cheers,
+Benjamin
+
+[0] https://gitlab.freedesktop.org/bentiss/hid/-/tree/wip/xp-pen?ref_type=
+=3Dheads
+[1] https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_requests/2=
+7
+[2] https://gitlab.freedesktop.org/bentiss/udev-hid-bpf/-/jobs/51350589/art=
+ifacts/raw/udev-hid-bpf_0.1.0.tar.xz
 
