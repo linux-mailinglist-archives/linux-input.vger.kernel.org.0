@@ -2,130 +2,174 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C49417E52B0
-	for <lists+linux-input@lfdr.de>; Wed,  8 Nov 2023 10:35:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 824E67E561C
+	for <lists+linux-input@lfdr.de>; Wed,  8 Nov 2023 13:20:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233518AbjKHJf6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Nov 2023 04:35:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48104 "EHLO
+        id S233967AbjKHMUs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Nov 2023 07:20:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232723AbjKHJf4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Nov 2023 04:35:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B1F61B1
-        for <linux-input@vger.kernel.org>; Wed,  8 Nov 2023 01:35:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1699436107;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=M+MRVaoubCsfZL2xAOUYnuM3Xqs25BNegkvVAxeKkpQ=;
-        b=Y0HVQgs8tjNCq5XQ0zH3RumnbdNvt5EjojVfLgTGkiH6YV3lrMtK0BciN1tNoYMIYAS6rX
-        xvPJx6je5yXZYiIrOYfcgNsXmQMaunXliN0tHkMQtTkU4sKzts/rhY+l9d3Rwqq8Cq02uk
-        TD27N9S1Km2XoY3zEE+cfDIc74BJGYI=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-477-a6Q8nrjCO02XNJHv5hTJFQ-1; Wed, 08 Nov 2023 04:35:05 -0500
-X-MC-Unique: a6Q8nrjCO02XNJHv5hTJFQ-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9dd89e2ce17so366772466b.0
-        for <linux-input@vger.kernel.org>; Wed, 08 Nov 2023 01:35:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699436104; x=1700040904;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=M+MRVaoubCsfZL2xAOUYnuM3Xqs25BNegkvVAxeKkpQ=;
-        b=aOu23NPdtduuKewqEdhlkPCIVgLW1huLCRhMDmizqgOCGjvoxt5A6qcrtydN16aWjc
-         tXGqT92q/1+7+EGvQGxgEiwP5BmbUtV4EhfOJYhDL+Q5bHiJF/azkLqF8s/LN7e8Vkvj
-         SE3gKGcAvYQPcLGJu93GW2/A7urtNpJo1/LXlgOubNB0NLU4bGicZbxvBgmNZSFUHT0k
-         Hxv+oZTEUvjm/7hEUS71VzO+4nJwURw+5iceRkina2SQynzUc8ZzEClpIbzBMXoqEYu2
-         +yCEjH0mxTo1B0KTbdjELpPwStJVyg8rxDNs5DMt+36fM7TtLXTEc5gD40OMPFNOOFAB
-         Vw3Q==
-X-Gm-Message-State: AOJu0YzNsNM7g1a+toGhDQsPoK/1ObDcgDuVAG0O0sZ+hdY/DC5QBBf6
-        Msv4CFrJRbXXCtoAR6gFKAFqHvNlJRLjScX078Qo3MCW++vKAncnMha6zSAjxk6iRi7Llg/0kpl
-        8MId+vWFHAezDaFfn7YY1DsBdUAQ4W+JyGXmNQeo=
-X-Received: by 2002:a17:907:d1f:b0:9e2:af56:c375 with SMTP id gn31-20020a1709070d1f00b009e2af56c375mr978698ejc.52.1699436104719;
-        Wed, 08 Nov 2023 01:35:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHZZprx1+rT4HrMuiEotWLpZSzqUWjQ82jb9o/I+V6JpuyK+TuW+mRyd2O+u8rJk89XZKOhv/kJ9IaM7i/zvUM=
-X-Received: by 2002:a17:907:d1f:b0:9e2:af56:c375 with SMTP id
- gn31-20020a1709070d1f00b009e2af56c375mr978685ejc.52.1699436104435; Wed, 08
- Nov 2023 01:35:04 -0800 (PST)
-MIME-Version: 1.0
-References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm>
- <20231103200524.53930-1-ostapyshyn@sra.uni-hannover.de> <bokQB3BK040-4fGy8tNfZrdM2mNmWxZud9O-KMmYqOkfa1JTC1ocUjoAzCEpPsbsAvY5qb5TcSP6XsQLaja2XO0gapOcsZyeVdCvq6T31qA=@protonmail.com>
- <CAO-hwJLpKTb9yxvxaPDLZkF9kDF8u2VRJUf9yiQd+neOyxPeug@mail.gmail.com>
- <eb8e22f3-77dc-4923-a7ba-e237ee226edb@sra.uni-hannover.de>
- <CAO-hwJKVwZK00yZFjuyyR9Xt4Y2-r8eLJNZfnyeopHxoZQ0eGA@mail.gmail.com>
- <20231108062306.33f5dcd0@dryade> <CAO-hwJK_xp1A=dEOV-2v3KJAf0bRLDWNcrFQeBpgEuxT-qSBnw@mail.gmail.com>
- <ZUtTpKyP0oxWhnn8@fedora>
-In-Reply-To: <ZUtTpKyP0oxWhnn8@fedora>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 8 Nov 2023 10:34:52 +0100
-Message-ID: <CAO-hwJLjtjdr2gtrOWJFPZ-38YzKB8XfhDKWf_2jUPeiaP3EcA@mail.gmail.com>
-Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel issue
-To:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Cc:     Eric GOUYER <folays@gmail.com>,
-        Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>,
-        David Revoy <davidrevoy@protonmail.com>, jkosina@suse.cz,
-        jason.gerecke@wacom.com, linux-input@vger.kernel.org,
+        with ESMTP id S229924AbjKHMUq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Nov 2023 07:20:46 -0500
+Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC2C019A5;
+        Wed,  8 Nov 2023 04:20:44 -0800 (PST)
+Received: from localhost.localdomain (unknown [10.101.196.174])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 6D9283F6DC;
+        Wed,  8 Nov 2023 12:20:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1699446043;
+        bh=E9tPQVwzEhlooRe4K4Q7wJl4JNG7qDs+SM/Us4/qStU=;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+        b=j6+GfkbJEKd30I/ExzPH+erSfujCAlTYCzF5l1oJIE7vbNa2ZxRpjNrHGnV4PFapP
+         v+tRR0AOcsUQqm5PmHMKvOkvTobTqQs+gfVdg+ab2GA6OmqWWMe4r5vY7b2KRYx+V7
+         w6n4lcUaftoWYhdb0QGWJxgoZHxbNO/T7szw4BVcOBgakNmT9CIERutKOXCg6Ju6nA
+         wl/XfL++SlUflfDR2K7NI+w9FJ3k5dOEXIY7Zf1/XRvh7Abj182fjN6QP5aycKgpDA
+         cIjQuiuLaGv+NAZNT9BWoUdWsya1jFDzy+dQKzlTez5ui28G8zNOWaRzJXDLFAoUuh
+         X6cMt063Cx1aQ==
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+To:     srinivas.pandruvada@linux.intel.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com
+Cc:     linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Jian Hui Lee <jianhui.lee@canonical.com>,
+        Even Xu <even.xu@intel.com>, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: [PATCH v2] HID: intel-ish-hid: ipc: Rework EHL OOB wakeup
+Date:   Wed,  8 Nov 2023 14:19:39 +0200
+Message-Id: <20231108121940.288005-1-kai.heng.feng@canonical.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 8, 2023 at 10:23=E2=80=AFAM Jos=C3=A9 Exp=C3=B3sito <jose.expos=
-ito89@gmail.com> wrote:
->
-> Hi Benjamin,
->
-> On Wed, Nov 08, 2023 at 10:04:30AM +0100, Benjamin Tissoires wrote:
-[...]
-> >
-> > >
-> > > So, the behavior probably breaks the specs, but sincerely I'm happy t=
-o
-> > > have the "eraser" button independent of the "rubber eraser", which
-> > > makes the stylus a somewhat 4-buttons stylus (tip, button1, button2,
-> > > rubber), and I would like to keep this.
-> >
-> > Yes, and I'd like to keep it that way, even if 6.6 and 6.5.8
-> > apparently broke it.
-> >
-> > So, to me:
-> > - 276e14e6c3993317257e1787e93b7166fbc30905 is wrong: this is a
-> > firmware bug (reporting invert through eraser) and should not be
-> > tackled at the generic level, thus it should be reverted
-> > - both of these tablets are forwarding the useful information, but not
-> > correctly, which confuses the kernel
-> > - I should now be able to write regression tests
-> > - I should be able to provide HID-BPF fixes for those tablets so that
-> > we can keep them working with or without
-> > 276e14e6c3993317257e1787e93b7166fbc30905
-> > reverted (hopefully)
-> > - problem is I still don't have the mechanics to integrate the HID-BPF
-> > fixes directly in the kernel tree, so maybe I'll have to write a
-> > driver for XP-Pen while these internals are set (it shouldn't
-> > interfere with the HID-BPF out of the tree).
->
-> I already added support for a few XP-Pen devices on the UCLogic driver
-> and I was planning to start working on this one during the weekend in
-> my DIGImend fork (to simplify testing).
->
-> Let me know if you prefer to add it yourself or if you want me to ping
-> you in the DIGImend discussion.
->
+Since PCI core and ACPI core already handles PCI PME wake and GPE wake
+when the device has wakeup capability, use device_init_wakeup() to let
+them do the wakeup setting work.
 
-So far, I really have to work on this now. It's a good use case for
-HID-BPF and it's a regression that I'd like to be fixed ASAP.
-I'd appreciate any reviews :)
+Also add a shutdown callback which uses pci_prepare_to_sleep() to let
+PCI and ACPI set OOB wakeup for S5.
 
-Also, good to know that I can probably piggyback on hid-uclogic for
-fixing those 2 devices in the kernel.
+Cc: Jian Hui Lee <jianhui.lee@canonical.com>
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+---
+v2:
+ Rebase on ("HID: intel-ish-hid: ipc: Disable and reenable ACPI GPE bit")
 
-Cheers,
-Benjamin
+ drivers/hid/intel-ish-hid/ipc/pci-ish.c | 67 ++++++-------------------
+ 1 file changed, 15 insertions(+), 52 deletions(-)
+
+diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+index 710fda5f19e1..65e7eeb2fa64 100644
+--- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
++++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+@@ -119,50 +119,6 @@ static inline bool ish_should_leave_d0i3(struct pci_dev *pdev)
+ 	return !pm_resume_via_firmware() || pdev->device == CHV_DEVICE_ID;
+ }
+ 
+-static int enable_gpe(struct device *dev)
+-{
+-#ifdef CONFIG_ACPI
+-	acpi_status acpi_sts;
+-	struct acpi_device *adev;
+-	struct acpi_device_wakeup *wakeup;
+-
+-	adev = ACPI_COMPANION(dev);
+-	if (!adev) {
+-		dev_err(dev, "get acpi handle failed\n");
+-		return -ENODEV;
+-	}
+-	wakeup = &adev->wakeup;
+-
+-	/*
+-	 * Call acpi_disable_gpe(), so that reference count
+-	 * gpe_event_info->runtime_count doesn't overflow.
+-	 * When gpe_event_info->runtime_count = 0, the call
+-	 * to acpi_disable_gpe() simply return.
+-	 */
+-	acpi_disable_gpe(wakeup->gpe_device, wakeup->gpe_number);
+-
+-	acpi_sts = acpi_enable_gpe(wakeup->gpe_device, wakeup->gpe_number);
+-	if (ACPI_FAILURE(acpi_sts)) {
+-		dev_err(dev, "enable ose_gpe failed\n");
+-		return -EIO;
+-	}
+-
+-	return 0;
+-#else
+-	return -ENODEV;
+-#endif
+-}
+-
+-static void enable_pme_wake(struct pci_dev *pdev)
+-{
+-	if ((pci_pme_capable(pdev, PCI_D0) ||
+-	     pci_pme_capable(pdev, PCI_D3hot) ||
+-	     pci_pme_capable(pdev, PCI_D3cold)) && !enable_gpe(&pdev->dev)) {
+-		pci_pme_active(pdev, true);
+-		dev_dbg(&pdev->dev, "ish ipc driver pme wake enabled\n");
+-	}
+-}
+-
+ /**
+  * ish_probe() - PCI driver probe callback
+  * @pdev:	pci device
+@@ -233,7 +189,7 @@ static int ish_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 
+ 	/* Enable PME for EHL */
+ 	if (pdev->device == EHL_Ax_DEVICE_ID)
+-		enable_pme_wake(pdev);
++		device_init_wakeup(dev, true);
+ 
+ 	ret = ish_init(ishtp);
+ 	if (ret)
+@@ -256,6 +212,19 @@ static void ish_remove(struct pci_dev *pdev)
+ 	ish_device_disable(ishtp_dev);
+ }
+ 
++
++/**
++ * ish_shutdown() - PCI driver shutdown callback
++ * @pdev:	pci device
++ *
++ * This function sets up wakeup for S5
++ */
++static void ish_shutdown(struct pci_dev *pdev)
++{
++	if (pdev->device == EHL_Ax_DEVICE_ID)
++		pci_prepare_to_sleep(pdev);
++}
++
+ static struct device __maybe_unused *ish_resume_device;
+ 
+ /* 50ms to get resume response */
+@@ -378,13 +347,6 @@ static int __maybe_unused ish_resume(struct device *device)
+ 	struct pci_dev *pdev = to_pci_dev(device);
+ 	struct ishtp_device *dev = pci_get_drvdata(pdev);
+ 
+-	/* add this to finish power flow for EHL */
+-	if (dev->pdev->device == EHL_Ax_DEVICE_ID) {
+-		pci_set_power_state(pdev, PCI_D0);
+-		enable_pme_wake(pdev);
+-		dev_dbg(dev->devc, "set power state to D0 for ehl\n");
+-	}
+-
+ 	ish_resume_device = device;
+ 	dev->resume_flag = 1;
+ 
+@@ -400,6 +362,7 @@ static struct pci_driver ish_driver = {
+ 	.id_table = ish_pci_tbl,
+ 	.probe = ish_probe,
+ 	.remove = ish_remove,
++	.shutdown = ish_shutdown,
+ 	.driver.pm = &ish_pm_ops,
+ };
+ 
+-- 
+2.34.1
 
