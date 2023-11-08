@@ -2,190 +2,370 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BCFF37E5121
-	for <lists+linux-input@lfdr.de>; Wed,  8 Nov 2023 08:36:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB7597E5267
+	for <lists+linux-input@lfdr.de>; Wed,  8 Nov 2023 10:10:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235198AbjKHHg7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Nov 2023 02:36:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43434 "EHLO
+        id S235444AbjKHJKj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Nov 2023 04:10:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234928AbjKHHg6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Nov 2023 02:36:58 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BC9B1712;
-        Tue,  7 Nov 2023 23:36:56 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C71AEC43391;
-        Wed,  8 Nov 2023 07:36:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699429015;
-        bh=DmQ7v8XOka3ZnDfCNSbZLIVIjhSv7gUIq7ZztoA3hr8=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-        b=Ftzwuao33vY/id63aUiPXstAdgNG76V6GN8JuyYlc42PskxIbpzcxNm2ySgAe4nbV
-         lLRjeCLgLcw1RsvssoJ1vHMZ7TYIZnkqS3vAZ0dENTZokaVbg0KR8SK1+kd03cEgop
-         BwUoG3k5B9MDyIAlj5k3k1VsW14P9GDV9hyMeK4/K2oVu4rNunhbJtnmzYq3WfkGbZ
-         01F8g4LkLiEB0yuSxSv3fKfQ4Ie4tkzQbnifsuMSU5ow5MpMV1hgPF8d7CiKbArQ9Z
-         9WpWxXHwmZP67RoZs23Osgk+pIJMrPpagZshqrkxIFi2xFfqaXFEogRvC7wyszf9m5
-         TL/IsINLV8NLQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by smtp.lore.kernel.org (Postfix) with ESMTP id AF19AC41535;
-        Wed,  8 Nov 2023 07:36:55 +0000 (UTC)
-From:   Fenglin Wu via B4 Relay 
-        <devnull+quic_fenglinw.quicinc.com@kernel.org>
-Date:   Wed, 08 Nov 2023 15:36:36 +0800
-Subject: [PATCH RESEND v7 3/3] input: pm8xxx-vibrator: add new SPMI
- vibrator support
+        with ESMTP id S235217AbjKHJKi (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Nov 2023 04:10:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FFD310A
+        for <linux-input@vger.kernel.org>; Wed,  8 Nov 2023 01:09:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1699434589;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=n48joY3mqOUbTK1WxRcj/uQ40d2qheaInDUI7l6zsPI=;
+        b=h/7VHtWBVLj4qhQFxdPLClCbYa/zcHZ7I2KkAfgFpWbwgMY4BxOxAN8vNHOSr0qA68/f8I
+        8wnTi3cWynSxJ9xRBXEg/++MawhTU+9hz5D6pfQxS521sS7uOI1dUpicOt7nC4ffqykJGI
+        gdHqo+/Orh056AWSOR4ZfIuOYtUi5b0=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-142-iktD4x_MPFGr4Ug0kab5DA-1; Wed, 08 Nov 2023 04:09:48 -0500
+X-MC-Unique: iktD4x_MPFGr4Ug0kab5DA-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-9e28d82339aso116558966b.2
+        for <linux-input@vger.kernel.org>; Wed, 08 Nov 2023 01:09:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699434283; x=1700039083;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=n48joY3mqOUbTK1WxRcj/uQ40d2qheaInDUI7l6zsPI=;
+        b=Az36HTAq59EWPIOzJKn7xQtXlKnhP2FGOvvH4fieLDfW+LMeZg2/zMSG9PdPFOoE6d
+         YGhoqOOuCeOVgADV2LVGfmgaSFG4HcTGa+XMnZVkVZVOnh8ml7wSDW07SdaTZrTCEDwE
+         6dz15qMaeZeLnEp8yj6WGvND/niZuKPWrA4UHQt+7Jw2zBkNPlCzJeVS4O4CNZZwtO1b
+         4AdRfOuxHNKLRwxJd40+cCTIMIihMSnwKC6FniOI0YWMbnLmBKivzA6693E4/3v98NhL
+         ZLXWZ+Jn3qTizw+fk/e/y/qN0xJAlUjgiKw9U8Ivjzh0H7SgKtpw46WAj0oKQKe4oZIs
+         0lUg==
+X-Gm-Message-State: AOJu0YwZjNaPQ4UOLrzi5ULVZaircQAVX3bwew0ScNsQos3JBBO8wXlH
+        5oGLMHxSGRbxEa4zLWJYZI/pz0skt5WYFp5HTBI95bhm9Q5K4CUaBLIvpnztfoJgVFSQoB5SfLz
+        Uywmh+cqvv5qPetl+L4JMzGzYhNyN0HkUiQuyyfo=
+X-Received: by 2002:a17:907:7d87:b0:9cf:35a7:9ebd with SMTP id oz7-20020a1709077d8700b009cf35a79ebdmr859186ejc.43.1699434282952;
+        Wed, 08 Nov 2023 01:04:42 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH9Uk2M2Kd2yp+zo0a9rZAzWKYPzVKqhOPpmzllQcFZW10pX9pgbEbVgDYmSGX8Z2VkmCa/pkL3nsiwUvenLgY=
+X-Received: by 2002:a17:907:7d87:b0:9cf:35a7:9ebd with SMTP id
+ oz7-20020a1709077d8700b009cf35a79ebdmr859154ejc.43.1699434282459; Wed, 08 Nov
+ 2023 01:04:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231108-pm8xxx-vibrator-v7-3-632c731d25a8@quicinc.com>
-References: <20231108-pm8xxx-vibrator-v7-0-632c731d25a8@quicinc.com>
-In-Reply-To: <20231108-pm8xxx-vibrator-v7-0-632c731d25a8@quicinc.com>
-To:     linux-arm-msm@vger.kernel.org, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, quic_collinsd@quicinc.com,
-        quic_subbaram@quicinc.com, quic_kamalw@quicinc.com,
-        jestar@qti.qualcomm.com, Luca Weiss <luca.weiss@fairphone.com>,
-        Fenglin Wu <quic_fenglinw@quicinc.com>
-X-Mailer: b4 0.13-dev-83828
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1699429013; l=3749;
- i=quic_fenglinw@quicinc.com; s=20230725; h=from:subject:message-id;
- bh=wJayTUhik7klfO9cHbbqPgCXQ4qQW2jIadjS/C/xeqc=;
- b=DjrEFk0hcNjBhnUa4usIq1v7z/9LSEFGcDTvarvAIjpg6ryyFgAXUp9oaZT41mU8PvB3EjW2d
- 1Jvu/HzC7m6C9KVqVSic++o6N3LwaOyunHdtIH8xkoGDSbuBY6ZoEeE
-X-Developer-Key: i=quic_fenglinw@quicinc.com; a=ed25519;
- pk=hleIDz3Unk1zeiwwOnZUjoQVMMelRancDFXg927lNjI=
-X-Endpoint-Received: by B4 Relay for quic_fenglinw@quicinc.com/20230725 with auth_id=68
-X-Original-From: Fenglin Wu <quic_fenglinw@quicinc.com>
-Reply-To: <quic_fenglinw@quicinc.com>
+References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm>
+ <20231103200524.53930-1-ostapyshyn@sra.uni-hannover.de> <bokQB3BK040-4fGy8tNfZrdM2mNmWxZud9O-KMmYqOkfa1JTC1ocUjoAzCEpPsbsAvY5qb5TcSP6XsQLaja2XO0gapOcsZyeVdCvq6T31qA=@protonmail.com>
+ <CAO-hwJLpKTb9yxvxaPDLZkF9kDF8u2VRJUf9yiQd+neOyxPeug@mail.gmail.com>
+ <eb8e22f3-77dc-4923-a7ba-e237ee226edb@sra.uni-hannover.de>
+ <CAO-hwJKVwZK00yZFjuyyR9Xt4Y2-r8eLJNZfnyeopHxoZQ0eGA@mail.gmail.com> <20231108062306.33f5dcd0@dryade>
+In-Reply-To: <20231108062306.33f5dcd0@dryade>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 8 Nov 2023 10:04:30 +0100
+Message-ID: <CAO-hwJK_xp1A=dEOV-2v3KJAf0bRLDWNcrFQeBpgEuxT-qSBnw@mail.gmail.com>
+Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel issue
+To:     Eric GOUYER <folays@gmail.com>
+Cc:     Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>,
+        David Revoy <davidrevoy@protonmail.com>, jkosina@suse.cz,
+        jason.gerecke@wacom.com, jose.exposito89@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Fenglin Wu <quic_fenglinw@quicinc.com>
+Thanks Eric and Illia for the logs and the explanations.
 
-Add new SPMI vibrator module which is very similar to the SPMI vibrator
-module inside PM8916 but just has a finer drive voltage step (1mV vs
-100mV) hence its drive level control is expanded to across 2 registers.
-The vibrator module can be found in Qualcomm PMIC PMI632, then following
-PM7250B, PM7325B, PM7550BA PMICs.
+On Wed, Nov 8, 2023 at 6:23=E2=80=AFAM Eric GOUYER <folays@gmail.com> wrote=
+:
+>
+> Sorry, below I re-send my email which bounced due to exceeding 100k
+> (hid-recorder traces included), so I re-send it without them, for some
+> book-keeping.
+>
+> I had originally replied-to-all, so mainteners involved should have
+> received those traces just before (I hope).
+>
+> Best Regards,
+>
+> -----8<-----8<-----8<-----8<
+>
+> Hello, I have the same tablet than OP (David) :
+> - XP-Pen Artist Pro 16 Gen 2
+> - on Ubuntu 23.10 linux-image-generic 6.5.0.10.12
+>
+> I am not (yet ?) encountering the problem described above since I guess
+> that my kernel is before the suspected regression.
+>
+> Here below I included much detail, but you can TL;DR + jump at the five
+> hid-recorder traces below.
+>
+> > On Mon, Nov 6, 2023 at 9:06=E2=80=AFPM Illia Ostapyshyn
+> > <ostapyshyn@sra.uni-hannover.de> wrote:
+> > >
+> > > On 11/6/23 17:59, Benjamin Tissoires wrote:
+> > >
+> > > > If the pen has 2 buttons, and an eraser side, it would be a
+> > > > serious design flow for XPPEN to report both as eraser.
+> > > >
+> > > > Could you please use sudo hid-recorder from hid-tools[1] on any
+> > > > kernel version and send us the logs here?
+> > > > I'll be able to replay the events locally, and understand why the
+> > > > kernel doesn't work properly.
+> > > >
+> > > > And if there is a design flaw that can be fixed, we might even be
+> > > > able to use hid-bpf to change it :)
+> > >
+> > > My wild guess is that XP-Pen 16 Artist Pro reports :
+> > > - (1) an Eraser usage without Invert for the upper button
+> > > - (2) and Eraser with Invert for the eraser tip.
+>
+> I think you will agree with below traces that :
+> - (1) : correct (it reports invert=3D0 eraser=3D1 tipSwitch=3D1)
+> - (2) : no, for the rubber tip, it reports invert=3D1 eraser=3D0 tipSwitc=
+h=3D1
+>
+> > > A device-specific driver could work with that, but
+> > > there seems to be no way to incorporate two different erasers
+> > > (thus, allowing userspace to map them to different actions
+> > > arbitrarily) in the generic driver currently.
+> >
+> > That's exactly why I want to see the exact event flow. We can not do
+> > "wild guesses" unfortunately (not meaning any offenses).
+> > And I am very suspicious about the fact that the stylus reports 2
+> > identical erasers. Because in the past David seemed to be able to have
+> > 2 distincts behaviors for the 2 "buttons" (physical button and eraser
+> > tail).
+>
+> The Pen, hardware-wise, has the following possibilities :
+> - The (main) pressure tip
+> - The "bottom" button (nearest of the main pressure tip)
+> - The "top" button (farthest of the main tip
+> - The "back" pressure tip (it has pressure!) somewhat called rubber
+>
+> All of those works I think -natively- on my kernel version, without
+> external 3rd-party kernel modules.
+>
+> It works especially on Blender, where I can :
+> - click (or paint) with main pressure-tip
+> - middle-click (to pan viewport) with "bottom" button + move main tip
+> - right-click with "top" button
+> - erase with backside pressure-tip
+>
+> I installed a .deb from the official website [1] which does not contain
+> kernel modules, and seems to only contains :
+> - a udev rule to, I think, chmod 0666 to input character devices
+> - a Qt app to configure some behavior, only userland-side.
+>
+> I think I observed that before running the Qt app, there was only 3
+> xinput devices, and after launching it, there were 4 more (7 total).
+>
+> Blender would not receive pen input without lanching the Qt app.
+> Indeed, the "first" 3 /dev/input/event* associated to the pen are
+> chmod'ed too restrictively (0660) for an underprivileged user.
 
-Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
-Tested-by: Luca Weiss <luca.weiss@fairphone.com> # sdm632-fairphone-fp3 (pmi632)
----
- drivers/input/misc/pm8xxx-vibrator.c | 42 +++++++++++++++++++++++++++++++++---
- 1 file changed, 39 insertions(+), 3 deletions(-)
+This is wrong (not your fault, of course). There is no way Blender
+should directly talk to the input nodes. It should use the events from
+the compositor, not randomly getting values from input nodes. sigh...
 
-diff --git a/drivers/input/misc/pm8xxx-vibrator.c b/drivers/input/misc/pm8xxx-vibrator.c
-index ba9be374f892..82c788841f1f 100644
---- a/drivers/input/misc/pm8xxx-vibrator.c
-+++ b/drivers/input/misc/pm8xxx-vibrator.c
-@@ -21,6 +21,13 @@
- #define SPMI_VIB_DRV_LEVEL_MASK		GENMASK(4, 0)
- #define SPMI_VIB_DRV_SHIFT		0
- 
-+#define SPMI_VIB_GEN2_DRV_REG		0x40
-+#define SPMI_VIB_GEN2_DRV_MASK		GENMASK(7, 0)
-+#define SPMI_VIB_GEN2_DRV_SHIFT		0
-+#define SPMI_VIB_GEN2_DRV2_REG		0x41
-+#define SPMI_VIB_GEN2_DRV2_MASK		GENMASK(3, 0)
-+#define SPMI_VIB_GEN2_DRV2_SHIFT	8
-+
- #define SPMI_VIB_EN_REG			0x46
- #define SPMI_VIB_EN_BIT			BIT(7)
- 
-@@ -33,12 +40,14 @@
- enum vib_hw_type {
- 	SSBI_VIB,
- 	SPMI_VIB,
-+	SPMI_VIB_GEN2
- };
- 
- struct pm8xxx_vib_data {
- 	enum vib_hw_type	hw_type;
- 	unsigned int		enable_addr;
- 	unsigned int		drv_addr;
-+	unsigned int		drv2_addr;
- };
- 
- static const struct pm8xxx_vib_data ssbi_vib_data = {
-@@ -52,6 +61,13 @@ static const struct pm8xxx_vib_data spmi_vib_data = {
- 	.drv_addr	= SPMI_VIB_DRV_REG,
- };
- 
-+static const struct pm8xxx_vib_data spmi_vib_gen2_data = {
-+	.hw_type	= SPMI_VIB_GEN2,
-+	.enable_addr	= SPMI_VIB_EN_REG,
-+	.drv_addr	= SPMI_VIB_GEN2_DRV_REG,
-+	.drv2_addr	= SPMI_VIB_GEN2_DRV2_REG,
-+};
-+
- /**
-  * struct pm8xxx_vib - structure to hold vibrator data
-  * @vib_input_dev: input device supporting force feedback
-@@ -96,9 +112,12 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
- 		mask = SPMI_VIB_DRV_LEVEL_MASK;
- 		shift = SPMI_VIB_DRV_SHIFT;
- 		break;
-+	case SPMI_VIB_GEN2:
-+		mask = SPMI_VIB_GEN2_DRV_MASK;
-+		shift = SPMI_VIB_GEN2_DRV_SHIFT;
-+		break;
- 	default:
- 		return -EINVAL;
--
- 	}
- 
- 	if (on)
-@@ -112,6 +131,19 @@ static int pm8xxx_vib_set(struct pm8xxx_vib *vib, bool on)
- 
- 	vib->reg_vib_drv = val;
- 
-+	if (vib->data->hw_type == SPMI_VIB_GEN2) {
-+		mask = SPMI_VIB_GEN2_DRV2_MASK;
-+		shift = SPMI_VIB_GEN2_DRV2_SHIFT;
-+		if (on)
-+			val = (vib->level >> shift) & mask;
-+		else
-+			val = 0;
-+		rc = regmap_update_bits(vib->regmap,
-+				vib->reg_base + vib->data->drv2_addr, mask, val);
-+		if (rc < 0)
-+			return rc;
-+	}
-+
- 	if (vib->data->hw_type == SSBI_VIB)
- 		return 0;
- 
-@@ -136,10 +168,13 @@ static void pm8xxx_work_handler(struct work_struct *work)
- 		vib->active = true;
- 		vib->level = ((VIB_MAX_LEVELS * vib->speed) / MAX_FF_SPEED) +
- 						VIB_MIN_LEVEL_mV;
--		vib->level /= 100;
-+		if (vib->data->hw_type != SPMI_VIB_GEN2)
-+			vib->level /= 100;
- 	} else {
- 		vib->active = false;
--		vib->level = VIB_MIN_LEVEL_mV / 100;
-+		vib->level = VIB_MIN_LEVEL_mV;
-+		if (vib->data->hw_type != SPMI_VIB_GEN2)
-+			vib->level /= 100;
- 	}
- 
- 	pm8xxx_vib_set(vib, vib->active);
-@@ -274,6 +309,7 @@ static const struct of_device_id pm8xxx_vib_id_table[] = {
- 	{ .compatible = "qcom,pm8058-vib", .data = &ssbi_vib_data },
- 	{ .compatible = "qcom,pm8921-vib", .data = &ssbi_vib_data },
- 	{ .compatible = "qcom,pm8916-vib", .data = &spmi_vib_data },
-+	{ .compatible = "qcom,pmi632-vib", .data = &spmi_vib_gen2_data },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, pm8xxx_vib_id_table);
+>
+> Anyway, after running the Qt App, 4 *ANOTHER* /dev/input/event* pops,
+> correctly chmod'ed (thanks to the udev rules), and Blender works.
 
--- 
-2.25.1
+I got a quick look, and those events are coming from uinput. So their
+Qt App is just a horrible user space driver to fix their tablet. Ouch.
+
+>
+> My best guess would be that the first 3 very-native /dev/input/
+> devices are somewhat "raw", and that the Qt app feeds those inputs to
+> the Qt app's configured pressure curve + remap the button to the input
+> as chosen by the user.
+
+The "raw" nodes are giving all of the information, but not correctly.
+So they are using a separate userspace driver to "fix" it.
+
+>
+> Here is the dmesg before launching the Qt App :
+> -----8<-----8<-----8<-----8<
+> usb 3-9: new full-speed USB device number 64 using xhci_hcd
+> usb 3-9: New USB device found, idVendor=3D28bd, idProduct=3D095b,
+> bcdDevice=3D 0.00
+> usb 3-9: New USB device strings: Mfr=3D1, Product=3D2, SerialNumber=3D3
+> usb 3-9: Product: Artist Pro 16 (Gen2)
+> usb 3-9: Manufacturer: UGTABLET
+> usb 3-9: SerialNumber: 00000
+> input: UGTABLET Artist Pro 16 (Gen2) Mouse as
+> /devices/pci0000:00/0000:00:02.1/0000:04:00.0/0000:05:08.0/0000:07:00.0/
+> 0000:08:0c.0/0000:69:00.0/usb3/3-9/3-9:1.0/0003:28BD:095B.009E/input/inpu=
+t196
+> input: UGTABLET Artist Pro 16 (Gen2) Keyboard as
+> /devices/pci0000:00/0000:00:02.1/0000:04:00.0/0000:05:08.0/0000:07:00.0/
+> 0000:08:0c.0/0000:69:00.0/usb3/3-9/3-9:1.0/0003:28BD:095B.009E/input/inpu=
+t197
+> hid-generic 0003:28BD:095B.009E: input,hidraw4: USB HID v1.00 Mouse
+> [UGTABLET Artist Pro 16 (Gen2)] on usb-0000:69:00.0-9/input0
+> input: UGTABLET Artist Pro 16 (Gen2) as
+> /devices/pci0000:00/0000:00:02.1/0000:04:00.0/0000:05:08.0/0000:07:00.0/
+> 0000:08:0c.0/0000:69:00.0/usb3/3-9/3-9:1.1/0003:28BD:095B.009F/input/inpu=
+t198
+> hid-generic 0003:28BD:095B.009F: input,hidraw7: USB HID v1.00 Device
+> [UGTABLET Artist Pro 16 (Gen2)] on usb-0000:69:00.0-9/input1
+> hid-generic 0003:28BD:095B.00A0: hiddev0,hidraw12: USB HID v1.00 Device
+> [UGTABLET Artist Pro 16 (Gen2)] on usb-0000:69:00.0-9/input2
+> -----8<-----8<-----8<-----8<
+>
+> This make "sudo xinput" reports 3 new devices :
+> UGTABLET Artist Pro 16 (Gen2) Mouse id=3Dx [slave pointer (n)]
+> UGTABLET Artist Pro 16 (Gen2) Keyboard id=3Dy [slave keyboard (n+1)]
+> UGTABLET Artist Pro 16 (Gen2) id=3Dz [slave keyboard (n+1)]
+> (sorry I've masked the id to prevent confusion, I did not run "xinput"
+> at the same time/power cycle than "dmesg")
+>
+> Running the Qt App makes "sudo xinput" report 4 new devices :
+> XP-Pen Mouse id=3Dxc [slave pointer (n)]
+> XP-Pen Eraser id=3Dxa [slave keyboard (n+1)]
+> XP-Pen Pen id=3Dxb [slave keyboard (n+1)] << only this chmod'ed 0666
+> XP-Pen Mouse id=3Dxd [slave keyboard (n+1)]
+>
+> And... it suffices to make Blender works without configuring anything.
+>
+> Anyway, besides this user experience / userland Qt app, here are some
+> five hid-recorder traces ;
+
+Many thanks for attaching them and for digging into them.
+
+> I re-used the terminology appearing in the traces :
+> - "barrel" : the "bottom" button nearest of the main tip
+> - "erase" : the farther "top" button, just above "barrel"
+> - "back" : the "rubber" secondary pressure tip at the back of the pen
+>
+> (1) hidraw7_inRange_contact_move_lift_outOfRange
+> I "contact" the main tip, move it, and lift it out or range.
+>
+> (2) hidraw7_inRange_contact_barrelPress\
+> _move_barrelRelease_lift_outOfRange
+> I "contact" the main tip, press "barrel" (which is the button nearest
+> of the tip), move the pen, release the button, move it out of range.
+>
+> (3) hidraw7_inRange_contact_erasePress\
+> _move_eraseRelease_lift_outOfRange
+> The same than above, except that I instead use the "erase" button,
+> i.e. the button just above ("vertically speaking") of the "main" button.
+>
+> (4) hidraw7_inRange_contact_BOTHbarrelAnderasePress_move_\
+> BOTHbarrelAnderaseRelease_lift_outOfRange
+> That's just plain stupid, and uncomfortable to do, but it's just to
+> show an example of the capability of the hardware ;
+> In this one, I'm doing the same than above, except I stupidly press BOTH
+> buttons.
+> It means that I "contact" the main tip, press both barrel+erase, move
+> the pen, release both button, lift it out of range.
+>
+> (5) hidraw7_inRange_contact_backPress_move_backRelease_lift_outOfRange
+> Back to non-stupid tests, here I am using the "rubber" (which has
+> pressure !), i.e. I use the back of the pen.
+> I contact it, press the rubber to have some pressure, move it, release
+> the pressure, move the pen ouf of contact and out of range.
+>
+> Reading those traces, I think I observed some (to me) very logical
+> behavior ;
+>
+> I agree that the Pen is possibly not acting in respect of the
+> specification, by the fact that... the spec does not differentiate the
+> "eraser" 2nd button, versus the "backside" rubber pressure tip.
+>
+> The traces shows that :
+> - In range [0 - 1] is correctly reported, both for main tip + rubber tip
+> - Tip Pressure [0 - n] is correctly reported, for both pressure tips
+
+Yep, that part is correct and follows the specification
+
+>
+> - Tip Switch [0 - 1] is correctly set to ONE for all traces, when the
+>   in-range tip goes to contact. (either main tip or rubber tip)
+
+This is half wrong (spec-wise):
+- tip switch should only be used when the actual tip is in contact.
+- when using the rubber tip, we should get an eraser event :(
+
+>
+> - Barrel Switch [0 - 1] is correctly set to ONE only when pressing
+>   button down, and of course only when using the main tip
+
+This is correct (as in it follows the spec)
+
+>
+> - Invert [0 - 1] is set to ONE when (and only) using the back rubber
+>   tip, and the ERASE button (2nd button) does NOT set it, so "INVERT"
+
+In your case, the invert usage is correct.
+In Illia's case, the invert usage is forwarded by the eraser usage, so
+this is just plain wrong there.
+
+>
+> - Eraser [0 - 1] is set to ONE ONLY when pressing the 2nd top button,
+>   and of :
+>   - ONLY when using the main itp
+>   - and if you were to instead use the "back" of the pen (rubber tip),
+>     then you will have invert=3D1 + eraser=3D0
+
+This is not correct (again, according to the specification). XP-Pen
+should report SecondaryBarrelSwitch (0x5a in the HID usage table[0])
+And again, in Illia's case, this button should be reported as an
+invert, and eraser when the tip touches the tablet.
+
+>
+> The main extract of those is, I think, that :
+> - eraser "top" button is completely independent of the back "rubber"
+
+Yes
+
+> - eraser "top" button NEVER concerns itself to set invert=3D1
+
+yes
+
+> - backside "rubber" pressure tip will set invert=3D1, but leave eraser=3D=
+0
+
+yes, but that's not correct, it should report eraser=3D1 when you touch
+the rubber on the surface.
+
+>
+> So, the behavior probably breaks the specs, but sincerely I'm happy to
+> have the "eraser" button independent of the "rubber eraser", which
+> makes the stylus a somewhat 4-buttons stylus (tip, button1, button2,
+> rubber), and I would like to keep this.
+
+Yes, and I'd like to keep it that way, even if 6.6 and 6.5.8
+apparently broke it.
+
+So, to me:
+- 276e14e6c3993317257e1787e93b7166fbc30905 is wrong: this is a
+firmware bug (reporting invert through eraser) and should not be
+tackled at the generic level, thus it should be reverted
+- both of these tablets are forwarding the useful information, but not
+correctly, which confuses the kernel
+- I should now be able to write regression tests
+- I should be able to provide HID-BPF fixes for those tablets so that
+we can keep them working with or without
+276e14e6c3993317257e1787e93b7166fbc30905
+reverted (hopefully)
+- problem is I still don't have the mechanics to integrate the HID-BPF
+fixes directly in the kernel tree, so maybe I'll have to write a
+driver for XP-Pen while these internals are set (it shouldn't
+interfere with the HID-BPF out of the tree).
+
+Cheers,
+Benjamin
+
+>
+> Best Regards,
+>
+> [1] https://www.xp-pen.fr/download-1027.html ; the .deb Qt app
+>
+> --
+> Eric GOUYER
+>
+
+[0] https://usb.org/document-library/hid-usage-tables-14
 
