@@ -2,220 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 112F87E5F40
-	for <lists+linux-input@lfdr.de>; Wed,  8 Nov 2023 21:35:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 920437E5F55
+	for <lists+linux-input@lfdr.de>; Wed,  8 Nov 2023 21:42:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230283AbjKHUfR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Nov 2023 15:35:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53098 "EHLO
+        id S229506AbjKHUmL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Nov 2023 15:42:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229933AbjKHUfO (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Nov 2023 15:35:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AC411B5
-        for <linux-input@vger.kernel.org>; Wed,  8 Nov 2023 12:34:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1699475665;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=dFXXJ4iJ1CFY4HPtPmC8ieq/tgarKy+p6y1wSuxcM04=;
-        b=hyzNZ+l1G5yP6DPL7EYRYORziBraEDjagf4VJ32xDzWJ7yZDzFBPtD51ZaHl3y6xIPpzV7
-        Ci+8uS+HTPn5g2k+kQeXNO/6iI3E9Fy8q/XOjzZgNiMKKFhTAYFa22UY1zVFeooC2mt1xp
-        rDCPf6nJndF/BWAQO2IF3wv+JK9mC5k=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-86-fjrJCPh0Op6gwfGD2ZVT6g-1; Wed, 08 Nov 2023 15:34:21 -0500
-X-MC-Unique: fjrJCPh0Op6gwfGD2ZVT6g-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9c749c28651so10651366b.0
-        for <linux-input@vger.kernel.org>; Wed, 08 Nov 2023 12:34:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699475660; x=1700080460;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dFXXJ4iJ1CFY4HPtPmC8ieq/tgarKy+p6y1wSuxcM04=;
-        b=gxltNLGFb86g0FA/JE/XNQ1jflr2c0KLqIHLDy1aSgikKdJ6KJ7vH1uqt6Iqx2eiXc
-         wBjVuHTaNSu0pCfXr3nokXQ/d/miRC1dnWaDebGv0XKMzXoOOYTjPZcN8NGehkxuksZM
-         DSExzpF4Rrssi8k1O7UgrGgEFOo1Pd/IUjOpvAg88IILjHnKDbeZXsSObEl23+B9b2Mh
-         1PB8VEiUrOn+hbeB7ReJ78WgbRkF8bLOsNIsLySX/eRXah1a7DpBa2OQtZsljoCgGhiy
-         N2wYYjpNCZ8XjWmeR39yk8XFsrDnvWuGtZ6B317cfyaybnsgxwkaIVCuuQ8J1iFrqHnt
-         84+w==
-X-Gm-Message-State: AOJu0YzFGw51hPJHsoZTkhZwG+e71uJTOXmRkffnvALc0AW7FE6Nd3FI
-        QmAzRtJ8YaSjXwHCE0Or0FfKv+MnzdtsqBi11lHVifpWv+9jBojPryncPmwJfNrBZ9DXp2NWF0Y
-        DkhFJTeH48evb0qYWJokwiJxSRR+Ckb9FbU6JBGk=
-X-Received: by 2002:a17:907:c5c6:b0:9e3:b88c:d735 with SMTP id ts6-20020a170907c5c600b009e3b88cd735mr3049341ejc.61.1699475660011;
-        Wed, 08 Nov 2023 12:34:20 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGtgzC0Ez0CFIIAF50p/Vlbu8Dk51oR/oGP9e+6leQLD9WcjLWGWl4lB5teFMNB3Aq1UUudO2YSVbK6KmGeqro=
-X-Received: by 2002:a17:907:c5c6:b0:9e3:b88c:d735 with SMTP id
- ts6-20020a170907c5c600b009e3b88cd735mr3049329ejc.61.1699475659712; Wed, 08
- Nov 2023 12:34:19 -0800 (PST)
+        with ESMTP id S229722AbjKHUmK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Nov 2023 15:42:10 -0500
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4D932126
+        for <linux-input@vger.kernel.org>; Wed,  8 Nov 2023 12:42:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+        t=1699476103; x=1700080903; i=jsbc@gmx.de;
+        bh=Hi7h1GDsKPoU4lNhSifjgIq5gOMvGD8N0C+BOwYdmlo=;
+        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+         In-Reply-To;
+        b=dUgiGGM6PJc0X41PmL9Yj6jSvdk85W38XCMxGD+k/d3EmmfS+bUJLPbMSlv/yLOv
+         JJ8fLF1jqYGBH5cEn87jln3u3cOzoodiAlVF2Gzrizps7cGTn2FWvhBhfCdVBRK/W
+         CUedu/TViKr8p5RRARZ/g3PuOYUxbQjBtU5R9+CnUg9H8Ss/wCoIGyHdusZ368oGP
+         F21E30qZqah3COLn7m70Tr/KKe2rBPwDAry4tpGFb7zuzUVyM/nMKWivB+xta313A
+         nOO5KP9JmKfbmQCIt2eLBsrxXVD7063h+monpcoJhM16DDLwBk0oV/KrYYDy6zz3W
+         wloH38D2LXdmm7qd3g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [10.3.6.184] ([79.214.253.248]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M8ygO-1r5lJp2In0-006A25; Wed, 08
+ Nov 2023 21:41:43 +0100
+Message-ID: <94818595-be2d-4cba-bd82-1585b8d11fed@gmx.de>
+Date:   Wed, 8 Nov 2023 21:41:42 +0100
 MIME-Version: 1.0
-References: <CAO-hwJK_xp1A=dEOV-2v3KJAf0bRLDWNcrFQeBpgEuxT-qSBnw@mail.gmail.com>
- <20231108194051.279435-2-nils@nilsfuhler.de>
-In-Reply-To: <20231108194051.279435-2-nils@nilsfuhler.de>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 8 Nov 2023 21:34:07 +0100
-Message-ID: <CAO-hwJ+b4q+8g=Cg5MRJQT2EsxkFZrK_XgJqmHWm=GBHskhDqQ@mail.gmail.com>
-Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel issue
-To:     Nils Fuhler <nils@nilsfuhler.de>
-Cc:     davidrevoy@protonmail.com, folays@gmail.com,
-        jason.gerecke@wacom.com, jkosina@suse.cz,
-        jose.exposito89@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ostapyshyn@sra.uni-hannover.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/7] HID: i2c-hid: Rework wait for reset to match Windows
+Content-Language: en-US
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Douglas Anderson <dianders@chromium.org>, ahormann@gmx.net,
+        Bruno Jesus <bruno.fl.jesus@gmail.com>,
+        Dietrich <enaut.w@googlemail.com>, kloxdami@yahoo.com,
+        Tim Aldridge <taldridge@mac.com>,
+        Rene Wagner <redhatbugzilla@callerid.de>,
+        Federico Ricchiuto <fed.ricchiuto@gmail.com>,
+        linux-input@vger.kernel.org
+References: <20231104111743.14668-1-hdegoede@redhat.com>
+From:   Julian Sax <jsbc@gmx.de>
+In-Reply-To: <20231104111743.14668-1-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:aIMvu6eT540nCHAMTUlOlpV1JXJIh03QASAkC4a4ZzZXTRWNUM8
+ OHn7/v+jxjCv/Y7eOErez0MCd2AXbe9znSiuEj1Vc5YcLnmMJrwTJBLvn3jFjOHvdE7bWU7
+ 6aUWu5CQg9mHZHhiI6xRdAf9KKRhLLlrPs4m53c4n9KJ45GTfMGahctkNke6vFlCpsBZFHZ
+ CK9G0DjXD9wjCmW9u5biQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:MuRNo9p13w4=;bVjiPxAVQG7N1tKm6NTVtD0c7lL
+ LdsbyRkH7LZv/itugkAwzYgXQfyZPmuLVWr7DTcSK7C4ECTraFaqsjimkaJZL10Pm4BR5aW56
+ d5zE01fYBCUZyeYEuAdnPKTNu5XLF5Afi5sDZgCD7Vp5/PsllKGsKz+MMRCf38uYGrL7b9/JM
+ OTOHdA5Cf+cNGVJZsGR2AuiQrgAlUuAZFPeNDhVhaLe5nWB859KNRrTChnJuDt3d9CpscO7Nb
+ j6a7wKDtFrCuLaQxV4aTJ/8FLC4hj5Nq3LfW9zKPUnqhet+nfNy+3Kfv2vTRrTLGc5Xns00RO
+ FAYmYocRg6Dbs+Fm5Qj+7z8XxC7HZdTYIM84LNZ9n8nB8UAyFnk88OdLt+u/r+JycNN5Hw9vk
+ 3Z7IYZfvoVPRGKVnh2o94wGCMEmQQSzKSMBCQrQtslZiFoKcbNUHK1cgA3IaEkuOtWqSmCH0i
+ 8zyyxR+hdmWlxqMQSiCuCYXHlqK+dp6jBxYGln/S21kmNGE5lfkIYLtcp+S+dc/Lg7j6KZ18d
+ GEj801LP9doA/XRUpxS2yLILeHRmKOPckIYZAsHRMG58iH6vl6AkXZCcHxlGi9T1Y7viUbcrv
+ Cy10qE1FOBQyluRZj03os+sCyY8R2g8ejMykNm4xJs/zgrOAohAznUySINaUYidnSU00mYf2F
+ gTqvKQL+2seLM4OnF9IP3VlFR5RQ8rs8n622isicxQoIGY9CuPMistrb5BuMr5Np3wQR5tzQX
+ 2LObwUccfqkrLul5WPPhnXy1vA0IF3NRypMzT9VsDT62drMY4EXdLZBy1pjnxpP5QAIcrt4lI
+ EZI1ZputQuAwmS8AT3wOPe4jvpp/H5dSiiLPQ9dQRHmEkKg/whyd2qq7VUKLO7m6dFD055r7+
+ Zy/tfe78JNpcrmNAPiALOpfZ7QHKkA4oLzz7w3+/3npjPw/Sh5k6JYkUcGDL8IagWE1Yei9Xe
+ bHGYytLDnwcL70pdsNHLfRGY9jw=
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 8, 2023 at 8:41=E2=80=AFPM Nils Fuhler <nils@nilsfuhler.de> wro=
-te:
->
-> Benjamin Tissoires <benjamin.tissoires@redhat.com> writes:
->
-> > So, to me:
-> > - 276e14e6c3993317257e1787e93b7166fbc30905 is wrong: this is a
-> > firmware bug (reporting invert through eraser) and should not be
-> > tackled at the generic level, thus it should be reverted
->
-> Surely that can't be the solution.  [1] is not a specification but a
-> suggestion that many manufacturers seem to follow.  Apparently, there
-> are devices that directly report "erasing" for the upper button,
-> skipping the whole "intent to erase" business.  A questionable decision,
-> but clearly intended.
 
-How many of such devices do we have? Are they all UGTablet like the
-XP-PEN? Are they behaving properly on Windows without a proprietary
-driver?
-We can try to make the code work based on suppositions, but this is
-the first time I see such a behavior, so I'd prefer fix it when I see
-it rather than adding complexity in the driver where changing anything
-is hard. I'm writing regression tests for that exact same purpose.
-
+Am 04.11.23 um 12:17 schrieb Hans de Goede:
+> Julian, I've added you to the Cc because you developed the code
+> for touchpads where the HID report descriptors are missing and are
+> provided by the kernel through a DMI quirk. The behavior for these
+> touchpads should be unchanged, but if you can test on a laptop
+> with such a touchpad that would be great.
 >
-> The evdev input protocol represents the erasing action as BTN_TOUCH with
-> BTN_TOOL_RUBBER being active.  Previously, it was assumed that there is
-> an Invert usage that would toggle BTN_TOOL_RUBBER.  XP-Pen Artist 24
-> (and possibly other devices) does not have Invert in its report
-> descriptor, resulting in missing BTN_TOOL_RUBBER.  BTN_TOUCH without an
-> active tool has no meaning in the input stream.
->
-> 276e14e6c3 adds a quirk for this and sends the required BTN_TOOL_RUBBER
-> events *only* for styli not doing it themselves via Invert.  In fact,
-> 276e14e6c3 does not even affect the "two-eraser" XP-Pen Artist Pro 16
-> Gen 2 and all other devices having Invert in their report descriptors.
-> The quirk is not set, the behavior is unchanged [2].
 
-Yes. That quirk only affects the device clearly not following the
-specification. Which is why it wasn't noticed that it was wrong.
+Hi Hans,
 
->
-> As Illia already described, the *real problem* is the missing
-> compatibility of the whole hidinput_hid_event state machine with
-> hidinput_setkeycode, invoked from userspace via the EVIOCSKEYCODE ioctl.
-> In David's case, this is done by hwdb.
+I just tested the touchpad with these patches, everything still works fine.
 
-Sorry but I tend to disagree. Relying on the ioctl EVIOCSKEYCODE for
-tuning the behavior of a state machine is just plain wrong. When
-people do that, they are doing it at the wrong level and introducing
-further bugs.
 
-The whole pen and touch HID protocols rely on a state machine. You
-just can not change the meaning of it because your hardware maker
-produced a faulty hardware.
-The correct solution is to submit a fix here, so that everyone gets
-the benefit of it. But that fix can now be a HID-BPF program, which
-will be eventually integrated in the kernel tree as soon as I manage
-to get enough time to work on it.
+Regards,
 
->
-> This has been the case at least since the refactoring and even affects
-> styli *completely* adhering to [1]: remapping Invert to something other
-> than BTN_TOOL_RUBBER borks the device.  If you replay the recording [3]
-> (with or without 276e14e6c3) and remap [4] 0xd003c (Invert) to something
-> other than BTN_TOOL_RUBBER, you can observe that:
-
-In the same way, if you remap Tip Switch to KEY-A, you won't get
-clicks from your pen. Assuming you can do that with any event on any
-HID device is just plain wrong.
-That ioctl is OK-ish for "remapping" simple things like keys. In our
-case, the whole firmware follows a state machine, so we can not change
-it. It has to be remapped in a later layer, in libinput, your
-compositor, or in your end user application.
-
->
-> (1) Remapped Invert does not trigger the event it was remapped to -- this
->     is due to hardcoded BTN_TOOL_RUBBER and BTN_TOUCH in hidinput_hid_eve=
-nt
->
-> (2) After triggering Invert once, BTN_TOOL_PEN and BTN_TOUCH never appear
->     in the event stream again -- remapping Invert masks BTN_TOOL_RUBBER,
->     causing it to get permanently stuck in report->tool.
->
-> 276e14e6c3 does extend this issue onto Eraser remappings for devices
-> without Invert, resulting in this regression.  However, the solution is
-> to fix 276e14e6c3 (and the whole function, while we're at it), not to
-> revert it.
-
-Again, you convinced me that this commit was wrong. If people needs to
-also use an ioctl to "fix" it, then there is something wrong.
-
->
-> > - both of these tablets are forwarding the useful information, but not
-> > correctly, which confuses the kernel
-> > - I should now be able to write regression tests
-> > - I should be able to provide HID-BPF fixes for those tablets so that
-> > we can keep them working with or without
-> > 276e14e6c3993317257e1787e93b7166fbc30905
-> > reverted (hopefully)
-> > - problem is I still don't have the mechanics to integrate the HID-BPF
-> > fixes directly in the kernel tree, so maybe I'll have to write a
-> > driver for XP-Pen while these internals are set (it shouldn't
-> > interfere with the HID-BPF out of the tree).
->
-> As you can see, there is no need for rewriting anything.  The generic
-> solution for "invertless" digitizers is already in place and has no
-> impact on other devices.  IMHO, it would be wiser to fix the regression
-> by making hidinput_hid_event compatible with EVIOCSKEYCODE, than to miss
-> the point of what is actually broken and write device-specific drivers.
-
-EVIOCSKEYCODE is called by userspace *after* the kernel parsed the
-device and is ready to accept events. There is no way we can make this
-consistent with the event stream. If you need to call that ioctl to
-fix your device, it's a bug in the kernel, and it needs to be fixed
-there before being presented to the userspace.
-
-I might buy the "invertless" devices are a thing if I can get more
-data about it. So far there are only 2 of them, and they add extra
-complexity in the code when we can just patch the devices to do the
-right thing.
-
->
-> [1] https://learn.microsoft.com/en-us/windows-hardware/design/component-g=
-uidelines/windows-pen-states
->
-> [2] David confirms it in his blog post: "I now know it is there for a
->     long time, because even with the "old" kernel, my newer XPPen 16 Pro
->     (gen2) also reacts this way."
->     https://www.davidrevoy.com/article995/how-a-kernel-update-broke-my-st=
-ylus-need-help
-
-New hardware isn't supposed to be supported on an old kernel and is
-not considered as a regression. However, David mentioned that the
-device was "working" on 6.5.0 but broke in 6.5.8 with the patch
-mentioned above. This is a regression that needs to be tackled.
-Especially because it was introduced in 6.6 but backported into 6.5.
-
-Cheers,
-Benjamin
-
->
-> [3] https://dl.uni-h.de/?t=3D6b2cabd8f15ac8ff281b52e25920c0a9
->
-> [4] https://github.com/iostapyshyn/evmap is a handy EVIOCSKEYCODE wrapper
->     for remapping.
->
+Julian
 
