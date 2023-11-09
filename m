@@ -2,296 +2,253 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 364947E65D0
-	for <lists+linux-input@lfdr.de>; Thu,  9 Nov 2023 09:56:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31B8C7E674F
+	for <lists+linux-input@lfdr.de>; Thu,  9 Nov 2023 11:06:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232521AbjKII4t (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Nov 2023 03:56:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55460 "EHLO
+        id S232642AbjKIKGn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Nov 2023 05:06:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233801AbjKII4t (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Nov 2023 03:56:49 -0500
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF40E18C;
-        Thu,  9 Nov 2023 00:56:46 -0800 (PST)
-Received: by mail-pg1-x531.google.com with SMTP id 41be03b00d2f7-5bcfc508d14so517768a12.3;
-        Thu, 09 Nov 2023 00:56:46 -0800 (PST)
+        with ESMTP id S232602AbjKIKGm (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Nov 2023 05:06:42 -0500
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B59BC2D67
+        for <linux-input@vger.kernel.org>; Thu,  9 Nov 2023 02:06:40 -0800 (PST)
+Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-1cc5b7057d5so6300625ad.2
+        for <linux-input@vger.kernel.org>; Thu, 09 Nov 2023 02:06:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699520206; x=1700125006; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cDLgNugE0c+yztBBF8zbtCz4wwlRM6dod3FpN94iGlU=;
-        b=FyxIsMD9f0TsKuTsaL4ylX2cJARHXVJRS8hG8Teo89VfxlOYGEbNB68neWPL56dlPQ
-         6EZ6urMcD16RxfuCgJGrBloLl7PCD5GdT/UL9XxzuoaQ/7coOAVzcjzYp4pyhUTdV1Gv
-         ba+0l/Hw3/tA6PA/4xCQ5iDrKJ415czlxxBahts6GnRzto0gxroy1tk6W9eueO9dVdQ4
-         P166utnztjKbtxa7Z9xRg2XEE0SU8ka7xoib/8qDNA+SSV9OukdMec7gsFUaNnxwQJx4
-         879RfDdAPpytX6Hl6aRvmWaE5cMIQ1zRy8j0LuHGe+b39ZlNEF3jUsyYf63NvMGg4Dci
-         kNpA==
+        d=chromium.org; s=google; t=1699524400; x=1700129200; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fJvWVs2pvEah4vcu8xn+6aEsMzIEVFQ3nL2+j2vnxy4=;
+        b=L901mAJg+s8HDZtKm2ry/XnVBkEYxhR8+I15n3LJGxXFg8lduSjOtOtRFnM+0s5NBg
+         cJH7d0fz1m9aa+b/qMmuV8nEdAP17pBm/5/KZSPk187szGndLrIR+1opkwnaA4WDJfxT
+         3v84gF/qKLEOriJYzIpfc11YuqDT65poM1P6g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699520206; x=1700125006;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cDLgNugE0c+yztBBF8zbtCz4wwlRM6dod3FpN94iGlU=;
-        b=knpcsWSnS6OyAPKtzsSpEKLxKzdFkSk6Ajw/zQfwzV2PxzUH3YZBs4OuI7DL7yKpfV
-         QKD4HjNbZ96LQN4gsH0W0B6qe9rxu0VfHzRfoxNxxzqEv0rcWjLgLuT44x3/jc4MM+vT
-         OchYMr28YYa7bCNyOZ0BYIcUSgpoB+C0heroavapbIIr3h6Z3NK5mokfm+JCCeHq8ycU
-         VMkY694D57G8tFz8CaH1Yb27QxmF/s4puSMCZtAHVsMekIpHP3nOoq0k7BKbW2h9rT8f
-         6uKu6ya5JaNvGRyfb7wKkuvfGaxm2Ua/qE3bvCLcmSv5d3dtop/oXSmr358PY/ymeSWZ
-         8f9g==
-X-Gm-Message-State: AOJu0YzxOjXJgvA4PF0JK+NduOPfn0zCSVVKBRzVi/Z3BVDsoQLJGNqf
-        L5etaFkp6Exe5evSa0CBaRE=
-X-Google-Smtp-Source: AGHT+IHcQugFvLtnFl9wt8y75QyVX89mYEcdnJqy7AnJbVNPztfs5rwjKG6DJUGQTx33I1VObs4QBg==
-X-Received: by 2002:a17:90a:e7cf:b0:280:1729:b3e6 with SMTP id kb15-20020a17090ae7cf00b002801729b3e6mr1025727pjb.10.1699520206106;
-        Thu, 09 Nov 2023 00:56:46 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:c99d:e08e:5968:1b85])
-        by smtp.gmail.com with ESMTPSA id o7-20020a17090ab88700b00280cd4fbd83sm805627pjr.55.2023.11.09.00.56.45
+        d=1e100.net; s=20230601; t=1699524400; x=1700129200;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fJvWVs2pvEah4vcu8xn+6aEsMzIEVFQ3nL2+j2vnxy4=;
+        b=hSmw4+zVemfklG3LRtdrWcqLPOeunoSFwQYD/U/nwb92F9A14BRNyimHQOe1YRoV50
+         FXHa+MrqWdu90nk7Zyvi6SUwM7DvtPcFY/w6QTPsCqNrVoMszh1VBB60JyWMQAen39FP
+         UpBKsn9TeuNqmmpq18r5MMds/P2FbEA/8PQuo7yk/RT7oEbHneqRBe/+c6S7/XSIwSaa
+         8TJqroKiwFdr+Ar4eUE9HFaTAcruZ9N+gSy/Hw3q1QuAKvRhVNaYiTeZI/BcNHlhjcJ2
+         mHnY7pX0fATW1uX+bnjWmr9u41LAr57leUfF8qDLbLheWSKc3qG6i7EWeA46tYCKNi1S
+         6OCA==
+X-Gm-Message-State: AOJu0YxR3oaeVPkx4+W6Mg719cmxY5S4XSJdkTr3St7pcimxkckz/CMs
+        M+iP8OVOJjsMX8RXhRvEs3fHWQ==
+X-Google-Smtp-Source: AGHT+IHHefmAjeD5eN0+LN0jhER8LNSGYduJSaVRik8xs8t3KLkMHkAAnrszpGlm6KPVGIKhFjBxqA==
+X-Received: by 2002:a17:902:d48b:b0:1c0:cbaf:6930 with SMTP id c11-20020a170902d48b00b001c0cbaf6930mr5153488plg.54.1699524400148;
+        Thu, 09 Nov 2023 02:06:40 -0800 (PST)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:6f57:d4c:468c:5daf])
+        by smtp.gmail.com with ESMTPSA id c13-20020a170902d48d00b001c60ba709b7sm3127511plg.125.2023.11.09.02.06.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Nov 2023 00:56:45 -0800 (PST)
-Date:   Thu, 9 Nov 2023 00:56:43 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [git pull] Input updates for v6.7-rc0
-Message-ID: <ZUyey2l2Cfri8715@google.com>
+        Thu, 09 Nov 2023 02:06:39 -0800 (PST)
+From:   Chen-Yu Tsai <wenst@chromium.org>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        andriy.shevchenko@linux.intel.com, Jiri Kosina <jikos@kernel.org>,
+        linus.walleij@linaro.org, broonie@kernel.org,
+        gregkh@linuxfoundation.org, hdegoede@redhat.com,
+        james.clark@arm.com, james@equiv.tech, keescook@chromium.org,
+        petr.tesarik.ext@huawei.com, rafael@kernel.org, tglx@linutronix.de,
+        Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
+        Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Douglas Anderson <dianders@chromium.org>,
+        Johan Hovold <johan@kernel.org>
+Subject: [RFC PATCH v2 0/7] of: Introduce hardware prober driver
+Date:   Thu,  9 Nov 2023 18:05:57 +0800
+Message-ID: <20231109100606.1245545-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.42.0.869.gea05f2083d-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+Hi everyone,
 
-Please pull from:
+This v2 series continues Doug's "of: device: Support 2nd sources of
+probeable but undiscoverable devices" [1] series, but follows the scheme
+suggested by Rob, marking all second source component device nodes
+as "fail-needs-probe-XXX", and having a hardware prober driver enable
+the one of them. I tried to include everyone from the original Cc: list.
+Please let me know if you would like to be dropped from future
+submissions.
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.7-rc0
 
-to receive updates for the input subsystem. You will get:
+For the I2C component (touchscreens and trackpads) case from the
+original series, the hardware prober driver finds the particular
+class of device in the device tree, gets its parent I2C adapter,
+and tries to initiate a simple I2C read for each device under that
+I2C bus. When it finds one that responds, it considers that one
+present, marks it as "okay", and returns, letting the driver core
+actually probe the device.
 
-- a number of input drivers has been converted to use facilities provided
-  by the device core to instantiate driver-specific attributes instead of
-  using devm_device_add_group() and similar APIs
+This works fine in most cases since these components are connected
+via ribbon cable and always have the same resources. The driver as
+implemented currently doesn't deal with regulators or GPIO pins,
+since in the existing device trees they are either always on for
+regulators, or have GPIO hogs or pinmux and pinconfig directly
+tied to the pin controller.
 
-- platform input devices have been converted to use remove() callback
-  returning void
 
-- a fix for use-after-free when tearing down a Synaptics RMI device
+Another case this driver could handle is selecting components based
+on some identifier passed in by the firmware. On Chromebooks we have
+a SKU ID which is inserted by the bootloader at
+/firmware/coreboot/sku-id. When a new combination of components is
+introduced, a new SKU ID is allocated to it. To have SKU ID based
+device trees, we would need to have one per SKU ID. This ends up
+increasing the number of device trees we have a lot. The recent
+MT8186 devices already have 10+10 SKUs [2], with possibly more to come.
 
-- a few flexible arrays in input structures have been annotated with
-  __counted_by to help hardening efforts
+Instead, we could have just one device tree for each device, with
+component options listed and marked as "fail-needs-probe-XXX", and
+let the hardware prober enable one of them based on the given SKU ID.
+The driver will also fix up OF graph remote endpoints to point to the
+enabled component.
 
-- handling of vddio supply in cyttsp5 driver
+The MT8186 Corsola series [2] can also benefit from this, though I
+haven't implemented anything yet.
 
-- other miscellaneous fixups
 
-Changelog:
----------
+Patch 1 adds of_device_is_fail() for the new driver to use.
 
-Dan Carpenter (1):
-      Input: synaptics-rmi4 - fix use after free in rmi_unregister_function()
+Patch 2 implements the first case, probing the I2C bus for presence
+of components. This initial version targets the Hana Chromebooks.
 
-Dmitry Torokhov (22):
-      Input: cros_ec_keyb - use device core to create driver-specific device attributes
-      Input: cyapa - use device core to create driver-specific device attributes
-      Input: iqs269a - use device core to create driver-specific device attributes
-      Input: kxtj9 - use device core to create driver-specific device attributes
-      Input: ad7877 - use device core to create driver-specific device attributes
-      Input: ad7879 - use device core to create driver-specific device attributes
-      Input: ads7846 - use device core to create driver-specific device attributes
-      Input: edt-ft5x06 - use device core to create driver-specific device attributes
-      Input: elants_i2c - use device core to create driver-specific device attributes
-      Input: exc3000 - use device core to create driver-specific device attributes
-      Input: hideep - use device core to create driver-specific device attributes
-      Input: hycon-hy46xx - use device core to create driver-specific device attributes
-      Input: ili210x - use device core to create driver-specific device attributes
-      Input: ilitek_ts_i2c - use device core to create driver-specific device attributes
-      Input: iqs5xx - use device core to create driver-specific device attributes
-      Input: melfas-mip4 - use device core to create driver-specific device attributes
-      Input: raydium_i2c_ts - use device core to create driver-specific device attributes
-      Input: rohm_bu21023 - use device core to create driver-specific device attributes
-      Input: s6sy761 - use device core to create driver-specific device attributes
-      Input: stmfts - use device core to create driver-specific device attributes
-      Input: tsc2004/5 - use device core to create driver-specific device attributes
-      Input: wdt87xx_i2c - use device core to create driver-specific device attributes
+Patch 3 modifies the Hana device tree and marks the touchscreens
+and trackpads as "fail-needs-probe-XXX", ready for the driver to
+probe.
 
-Fabio Estevam (1):
-      dt-bindings: input: fsl,scu-key: Document wakeup-source
+Patch 4 adds a missing touchscreen variant to Hana.
 
-Justin Stitt (2):
-      Input: synaptics-rmi4 - replace deprecated strncpy
-      Input: axp20x-pek - avoid needless newline removal
+Patch 5 implements the second case, selectively enabling components
+based on the SKU ID. This initial version targets the Krane ChromeOS
+tablet, which has two possible MIPI DSI display panel options.
 
-Kees Cook (4):
-      Input: evdev - annotate struct evdev_client with __counted_by
-      Input: leds - annotate struct input_leds with __counted_by
-      Input: mt - annotate struct input_mt with __counted_by
-      Input: Annotate struct ff_device with __counted_by
+Patch 6 drops Krane's SKU-specific compatible strings from the bindings.
 
-Li Zetao (1):
-      Input: walkera0701 - use module_parport_driver macro to simplify the code
+Patch 7 merges Krane's SKU-specific device trees into one, with the
+device tree now containing two possible panels. This unfortunately
+introduces a dtc warning:
 
-Lin, Meng-Bo (2):
-      dt-bindings: input: cyttsp5: document vddio-supply
-      Input: cyttsp5 - add handling for vddio regulator
+    arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dts:81.13-83.6:
+        Warning (graph_endpoint): /soc/dsi@14014000/panel2@0/port/endpoint:
+	graph connection to node '/soc/dsi@14014000/ports/port/endpoint'
+	    is not bidirectional
 
-Rob Herring (1):
-      Input: tegra-kbc - use device_get_match_data()
 
-Uwe Kleine-König (52):
-      Input: adp5520-keys - convert to platform remove callback returning void
-      Input: cros_ec_keyb - convert to platform remove callback returning void
-      Input: ep93xx_keypad - convert to platform remove callback returning void
-      Input: iqs62x-keys - convert to platform remove callback returning void
-      Input: matrix_keypad - convert to platform remove callback returning void
-      Input: omap-keypad - convert to platform remove callback returning void
-      Input: omap4-keypad - convert to platform remove callback returning void
-      Input: samsung-keypad - convert to platform remove callback returning void
-      Input: sh_keysc - convert to platform remove callback returning void
-      Input: spear-keyboard - convert to platform remove callback returning void
-      Input: stmpe-keypad - convert to platform remove callback returning void
-      Input: 88pm80x_onkey - convert to platform remove callback returning void
-      Input: da9052_onkey - convert to platform remove callback returning void
-      Input: da9055_onkey - convert to platform remove callback returning void
-      Input: ideapad_slidebar - convert to platform remove callback returning void
-      Input: m68kspkr - convert to platform remove callback returning void
-      Input: max8997_haptic - convert to platform remove callback returning void
-      Input: mc13783-pwrbutton - convert to platform remove callback returning void
-      Input: palmas-pwrbutton - convert to platform remove callback returning void
-      Input: pcap_keys - convert to platform remove callback returning void
-      Input: pcf50633-input - convert to platform remove callback returning void
-      Input: pcspkr - convert to platform remove callback returning void
-      Input: pm8941-pwrkey - convert to platform remove callback returning void
-      Input: soc_button_array - convert to platform remove callback returning void
-      Input: sparcspkr - convert to platform remove callback returning void
-      Input: wistron_btns - convert to platform remove callback returning void
-      Input: wm831x-on - convert to platform remove callback returning void
-      Input: navpoint - convert to platform remove callback returning void
-      Input: altera_ps2 - convert to platform remove callback returning void
-      Input: ams_delta_serio - convert to platform remove callback returning void
-      Input: apbps2 - convert to platform remove callback returning void
-      Input: arc_ps2 - convert to platform remove callback returning void
-      Input: ct82c710 - convert to platform remove callback returning void
-      Input: i8042-sparcio - convert to platform remove callback returning void
-      Input: i8042 - convert to platform remove callback returning void
-      Input: ioc3kbd - convert to platform remove callback returning void
-      Input: maceps2 - convert to platform remove callback returning void
-      Input: olpc_apsp - convert to platform remove callback returning void
-      Input: ps2-gpio - convert to platform remove callback returning void
-      Input: q40kbd - convert to platform remove callback returning void
-      Input: rpckbd - convert to platform remove callback returning void
-      Input: sun4i-ps2 - convert to platform remove callback returning void
-      Input: xilinx_ps2 - convert to platform remove callback returning void
-      Input: da9052_tsi - convert to platform remove callback returning void
-      Input: mainstone-wm97xx - convert to platform remove callback returning void
-      Input: mc13783_ts - convert to platform remove callback returning void
-      Input: pcap_ts - convert to platform remove callback returning void
-      Input: stmpe-ts - convert to platform remove callback returning void
-      Input: sun4i-ts - convert to platform remove callback returning void
-      Input: ti_am335x_tsc - convert to platform remove callback returning void
-      Input: wm831x-ts - convert to platform remove callback returning void
-      Input: wm97xx-core - convert to platform remove callback returning void
+Please take a look.
 
-Diffstat:
---------
+Johan, I'm not sure if this works as is for the Lenovo Thinkpad 13S
+case, since it looks like the trackpad shares the I2C bus with the
+keyboard.
 
- .../devicetree/bindings/input/fsl,scu-key.yaml     |  2 ++
- .../input/touchscreen/cypress,tt21000.yaml         |  3 +++
- drivers/input/evdev.c                              |  2 +-
- drivers/input/input-leds.c                         |  2 +-
- drivers/input/joystick/walkera0701.c               | 13 +---------
- drivers/input/keyboard/adp5520-keys.c              |  6 ++---
- drivers/input/keyboard/cros_ec_keyb.c              | 16 ++++--------
- drivers/input/keyboard/ep93xx_keypad.c             |  6 ++---
- drivers/input/keyboard/iqs62x-keys.c               |  6 ++---
- drivers/input/keyboard/matrix_keypad.c             |  6 ++---
- drivers/input/keyboard/omap-keypad.c               |  6 ++---
- drivers/input/keyboard/omap4-keypad.c              |  6 ++---
- drivers/input/keyboard/samsung-keypad.c            |  6 ++---
- drivers/input/keyboard/sh_keysc.c                  |  6 ++---
- drivers/input/keyboard/spear-keyboard.c            |  6 ++---
- drivers/input/keyboard/stmpe-keypad.c              |  6 ++---
- drivers/input/keyboard/tegra-kbc.c                 |  7 ++----
- drivers/input/misc/88pm80x_onkey.c                 |  5 ++--
- drivers/input/misc/axp20x-pek.c                    | 11 +-------
- drivers/input/misc/da9052_onkey.c                  |  6 ++---
- drivers/input/misc/da9055_onkey.c                  |  6 ++---
- drivers/input/misc/ideapad_slidebar.c              |  6 ++---
- drivers/input/misc/iqs269a.c                       | 10 ++------
- drivers/input/misc/kxtj9.c                         | 29 +++++++++++++---------
- drivers/input/misc/m68kspkr.c                      |  6 ++---
- drivers/input/misc/max8997_haptic.c                |  6 ++---
- drivers/input/misc/mc13783-pwrbutton.c             |  6 ++---
- drivers/input/misc/palmas-pwrbutton.c              |  6 ++---
- drivers/input/misc/pcap_keys.c                     |  6 ++---
- drivers/input/misc/pcf50633-input.c                |  6 ++---
- drivers/input/misc/pcspkr.c                        |  6 ++---
- drivers/input/misc/pm8941-pwrkey.c                 |  6 ++---
- drivers/input/misc/soc_button_array.c              |  6 ++---
- drivers/input/misc/sparcspkr.c                     | 12 +++------
- drivers/input/misc/wistron_btns.c                  |  6 ++---
- drivers/input/misc/wm831x-on.c                     |  6 ++---
- drivers/input/mouse/cyapa.c                        | 14 +++--------
- drivers/input/mouse/navpoint.c                     |  6 ++---
- drivers/input/rmi4/rmi_bus.c                       |  2 +-
- drivers/input/rmi4/rmi_f34.c                       |  2 +-
- drivers/input/serio/altera_ps2.c                   |  6 ++---
- drivers/input/serio/ams_delta_serio.c              |  6 ++---
- drivers/input/serio/apbps2.c                       |  6 ++---
- drivers/input/serio/arc_ps2.c                      |  6 ++---
- drivers/input/serio/ct82c710.c                     |  6 ++---
- drivers/input/serio/i8042-sparcio.h                |  6 ++---
- drivers/input/serio/i8042.c                        |  6 ++---
- drivers/input/serio/ioc3kbd.c                      |  6 ++---
- drivers/input/serio/maceps2.c                      |  6 ++---
- drivers/input/serio/olpc_apsp.c                    |  6 ++---
- drivers/input/serio/ps2-gpio.c                     |  5 ++--
- drivers/input/serio/q40kbd.c                       |  6 ++---
- drivers/input/serio/rpckbd.c                       |  6 ++---
- drivers/input/serio/sun4i-ps2.c                    |  6 ++---
- drivers/input/serio/xilinx_ps2.c                   |  6 ++---
- drivers/input/touchscreen/ad7877.c                 | 12 ++++-----
- drivers/input/touchscreen/ad7879-i2c.c             |  7 +++---
- drivers/input/touchscreen/ad7879-spi.c             |  7 +++---
- drivers/input/touchscreen/ad7879.c                 | 10 +++++---
- drivers/input/touchscreen/ad7879.h                 |  3 +++
- drivers/input/touchscreen/ads7846.c                | 18 +++++---------
- drivers/input/touchscreen/cyttsp5.c                | 19 ++++++++------
- drivers/input/touchscreen/da9052_tsi.c             |  6 ++---
- drivers/input/touchscreen/edt-ft5x06.c             | 10 ++------
- drivers/input/touchscreen/elants_i2c.c             | 15 +++--------
- drivers/input/touchscreen/exc3000.c                | 12 +++------
- drivers/input/touchscreen/hideep.c                 | 15 +++--------
- drivers/input/touchscreen/hycon-hy46xx.c           | 10 ++------
- drivers/input/touchscreen/ili210x.c                | 15 ++++-------
- drivers/input/touchscreen/ilitek_ts_i2c.c          | 12 ++-------
- drivers/input/touchscreen/iqs5xx.c                 | 10 +++-----
- drivers/input/touchscreen/mainstone-wm97xx.c       |  6 ++---
- drivers/input/touchscreen/mc13783_ts.c             |  6 ++---
- drivers/input/touchscreen/melfas_mip4.c            | 13 ++--------
- drivers/input/touchscreen/pcap_ts.c                |  6 ++---
- drivers/input/touchscreen/raydium_i2c_ts.c         | 16 +++---------
- drivers/input/touchscreen/rohm_bu21023.c           | 12 ++-------
- drivers/input/touchscreen/s6sy761.c                | 10 ++------
- drivers/input/touchscreen/stmfts.c                 | 10 ++------
- drivers/input/touchscreen/stmpe-ts.c               |  6 ++---
- drivers/input/touchscreen/sun4i-ts.c               |  6 ++---
- drivers/input/touchscreen/ti_am335x_tsc.c          |  5 ++--
- drivers/input/touchscreen/tsc2004.c                |  7 +++---
- drivers/input/touchscreen/tsc2005.c                |  7 +++---
- drivers/input/touchscreen/tsc200x-core.c           | 18 ++++++--------
- drivers/input/touchscreen/tsc200x-core.h           |  1 +
- drivers/input/touchscreen/wdt87xx_i2c.c            | 16 +++---------
- drivers/input/touchscreen/wm831x-ts.c              |  6 ++---
- drivers/input/touchscreen/wm97xx-core.c            |  6 ++---
- include/linux/input.h                              |  2 +-
- include/linux/input/mt.h                           |  2 +-
- 91 files changed, 240 insertions(+), 471 deletions(-)
 
-Thanks.
+Thanks
+ChenYu
 
+
+Background as given in Doug's cover letter:
+
+Support for multiple "equivalent" sources for components (also known
+as second sourcing components) is a standard practice that helps keep
+cost down and also makes sure that if one component is unavailable due
+to a shortage that we don't need to stop production for the whole
+product.
+
+Some components are very easy to second source. eMMC, for instance, is
+fully discoverable and probable so you can stuff a wide variety of
+similar eMMC chips on your board and things will work without a hitch.
+
+Some components are more difficult to second source, specifically
+because it's difficult for software to probe what component is present
+on any given board. In cases like this software is provided
+supplementary information to help it, like a GPIO strap or a SKU ID
+programmed into an EEPROM. This helpful information can allow the
+bootloader to select a different device tree. The various different
+"SKUs" of different Chromebooks are examples of this.
+
+Some components are somewhere in between. These in-between components
+are the subject of this patch. Specifically, these components are
+easily "probeable" but not easily "discoverable".
+
+A good example of a probeable but undiscoverable device is an
+i2c-connected touchscreen or trackpad. Two separate components may be
+electrically compatible with each other and may have compatible power
+sequencing requirements but may require different software. If
+software is told about the different possible components (because it
+can't discover them), it can safely probe them to figure out which
+ones are present.
+
+On systems using device tree, if we want to tell the OS about all of
+the different components we need to list them all in the device
+tree. This leads to a problem. The multiple sources for components
+likely use the same resources (GPIOs, interrupts, regulators). If the
+OS tries to probe all of these components at the same time then it
+will detect a resource conflict and that's a fatal error.
+
+The fact that Linux can't handle these probeable but undiscoverable
+devices well has had a few consequences:
+1. In some cases, we've abandoned the idea of second sourcing
+   components for a given board, which increases cost / generates
+   manufacturing headaches.
+2. In some cases, we've been forced to add some sort of strapping /
+   EEPROM to indicate which component is present. This adds difficulty
+   to manufacturing / refurb processes.
+3. In some cases, we've managed to make things work by the skin of our
+   teeth through slightly hacky solutions. Specifically, if we remove
+   the "pinctrl" entry from the various options then it won't
+   conflict. Regulators inherently can have more than one consumer, so
+   as long as there are no GPIOs involved in power sequencing and
+   probing devices then things can work. This is how
+   "sc8280xp-lenovo-thinkpad-x13s" works and also how
+   "mt8173-elm-hana" works.
+
+End of background from Doug's cover letter.
+
+[1] https://lore.kernel.org/all/20230921102420.RFC.1.I9dddd99ccdca175e3ceb1b9fa1827df0928c5101@changeid/
+[2] https://lore.kernel.org/linux-mediatek/20231012230237.2676469-1-wenst@chromium.org/
+
+Chen-Yu Tsai (7):
+  of: base: Add of_device_is_fail
+  of: Introduce hardware prober driver
+  arm64: dts: mediatek: mt8173-elm-hana: Mark touchscreens and trackpads
+    as fail
+  arm64: dts: mediatek: mt8173-elm-hana: Add G2touch G7500 touchscreen
+  of: hw_prober: Support Chromebook SKU ID based component selection
+  dt-bindings: arm: mediatek: Remove SKU specific compatibles for Google
+    Krane
+  arm64: dts: mediatek: mt8183-kukui: Merge Krane device trees
+
+ .../devicetree/bindings/arm/mediatek.yaml     |   3 -
+ arch/arm64/boot/dts/mediatek/Makefile         |   3 +-
+ .../boot/dts/mediatek/mt8173-elm-hana.dtsi    |  20 ++
+ .../dts/mediatek/mt8183-kukui-krane-sku0.dts  |  24 --
+ .../mediatek/mt8183-kukui-krane-sku176.dts    |  24 --
+ ...ukui-krane.dtsi => mt8183-kukui-krane.dts} |  47 ++-
+ drivers/of/Kconfig                            |  13 +
+ drivers/of/Makefile                           |   1 +
+ drivers/of/base.c                             |  20 ++
+ drivers/of/hw_prober.c                        | 314 ++++++++++++++++++
+ include/linux/of.h                            |   6 +
+ 11 files changed, 418 insertions(+), 57 deletions(-)
+ delete mode 100644 arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dts
+ delete mode 100644 arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dts
+ rename arch/arm64/boot/dts/mediatek/{mt8183-kukui-krane.dtsi => mt8183-kukui-krane.dts} (86%)
+ create mode 100644 drivers/of/hw_prober.c
 
 -- 
-Dmitry
+2.42.0.869.gea05f2083d-goog
+
