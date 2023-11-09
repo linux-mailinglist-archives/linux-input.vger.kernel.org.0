@@ -2,50 +2,50 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 505807E6765
-	for <lists+linux-input@lfdr.de>; Thu,  9 Nov 2023 11:07:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19A267E6769
+	for <lists+linux-input@lfdr.de>; Thu,  9 Nov 2023 11:07:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233433AbjKIKH2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Nov 2023 05:07:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51674 "EHLO
+        id S234046AbjKIKHn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Nov 2023 05:07:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233907AbjKIKHS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Nov 2023 05:07:18 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B1413251
-        for <linux-input@vger.kernel.org>; Thu,  9 Nov 2023 02:07:09 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1cc329ce84cso6282025ad.2
-        for <linux-input@vger.kernel.org>; Thu, 09 Nov 2023 02:07:09 -0800 (PST)
+        with ESMTP id S233577AbjKIKHW (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Nov 2023 05:07:22 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F3B6358B
+        for <linux-input@vger.kernel.org>; Thu,  9 Nov 2023 02:07:13 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-6c3363a2b93so711724b3a.3
+        for <linux-input@vger.kernel.org>; Thu, 09 Nov 2023 02:07:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1699524428; x=1700129228; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1699524433; x=1700129233; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0ireTpCfN0lAkDpS22SoHjbEWTJUzLlFEUnZESQj8kY=;
-        b=V+U3PVkfF5uxOrXpN8BVULqi55XRpztj0ymrjnICLVyJmKd10JQNEw0fITvjirFT0S
-         kik+ceQR3+ctMCdte0jR42wXZWRkoVmrmRqVtcCGiAdVfi/krDrfZC9zTyL2/U0yP2EW
-         xRwymNhHUdCT7ZuaIklIrRPeOvpXWr5Vn05ZY=
+        bh=onLNc+Oko6/d4dZDi8m4Ahc5zglhx4oC8hmNsm3uUAA=;
+        b=CdwuVzTcLaNuBWm+5+Eyq35jTiVIQezZYsIJ/TuYU3pt1Cm54umZ2eQZ/7u92dCADF
+         mVmV/nvqCJrh9HIh3sURGPaARnApWRc39+IT95mTp/ryN3aV4BjyK0dTyGXe8OJcmshg
+         BrYsnYxfDR5Y0Onaai+8FCNo5TTuyV1p7O9ZQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699524428; x=1700129228;
+        d=1e100.net; s=20230601; t=1699524433; x=1700129233;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0ireTpCfN0lAkDpS22SoHjbEWTJUzLlFEUnZESQj8kY=;
-        b=D8uMhLE1M4O5C/ZTc0DSItQCtUpFNPlY9JGMTQK3EwdyAgu/vZYOrFQLv2BFv325zo
-         iqVXxIYltAKyWq1ZQ2240oDnQZ/i7bAlR3629Uy1l9J2XF+spaUL9e/MM2N9d2LrO1wB
-         HBzIGnk6NKPkF7GlijW5UQeJDmrGgNM4+6SOuz+mrN9RuqaQTXZN9uAwMP+psPudNnyj
-         37Nr8vz4tAybazTRu1KjhJJ0pGytY7aJZh0yfLiMfnwi4nM7+h8XhdbwOhP/4tdEykVS
-         JhDQJ4bwyoCahJYklDqBIQJCUpIaa2wtYtUhLvKFGLCCJt8y2DN/A947PcXVKwqg1Zjl
-         O6KA==
-X-Gm-Message-State: AOJu0Ywt3UAC2c6DXezvzFFPA6dO2HB7jvYJqFMFyb86gma7oMdeg2A/
-        /QCy9FY1t6WJX4+iVqmDBHZW3g==
-X-Google-Smtp-Source: AGHT+IFYLvEMMUZ9GrbH908WNtQJvicj83HyjofOmfRWFZrCflNz7TaOuy+rHHNosFSsiJ8aNjo+JQ==
-X-Received: by 2002:a17:902:ecc1:b0:1cc:2ed0:5ab1 with SMTP id a1-20020a170902ecc100b001cc2ed05ab1mr5039394plh.17.1699524428617;
-        Thu, 09 Nov 2023 02:07:08 -0800 (PST)
+        bh=onLNc+Oko6/d4dZDi8m4Ahc5zglhx4oC8hmNsm3uUAA=;
+        b=NXt4Qs+HQIZpxbznhDsyc6wolZihKatc5tNr1jI/yrfILPDK7OSzJNj9gD/C7iJnB+
+         dd7ZlT2+YZe83Eav5pcEFfZfuE0z50Wey7GRTM8PP7hqvvcdXUfaepoW8NDla/K40Kqy
+         pLH39tl3svJpIWuaZKpclqZC4aYi2daMa3wVJFdr0s72bOkrzQDGcSI/kCY1/SI7dD/W
+         Coi48gwjzcwcMqmKRijJdeK1NYkjWmIvx8MV/iv0J4N9v76W5UMcfMfc+f96ESxqcoSn
+         SOi0t0uQp6pxVv6A4dfA2B9l6K55E3fvfO9pgTq/YEOuNtleohGVdgVZRs8TYr+SHXAz
+         dGaQ==
+X-Gm-Message-State: AOJu0YwMajZqH6XerpalJS0R9cjgySMp0tnreSQIbgFEPPqBdv53jsIL
+        7Fg4QLFMFgMZGTPkORPqORCmZg==
+X-Google-Smtp-Source: AGHT+IE47jHpK3aDbKhKoDgiHCyXY2l2uWAuEaUiNlv/nfVr6trsVMV2KYbXDfC5qwkSNTHKG8ky5g==
+X-Received: by 2002:a05:6a21:19a:b0:181:10ee:20d5 with SMTP id le26-20020a056a21019a00b0018110ee20d5mr6079204pzb.12.1699524433438;
+        Thu, 09 Nov 2023 02:07:13 -0800 (PST)
 Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:6f57:d4c:468c:5daf])
-        by smtp.gmail.com with ESMTPSA id c13-20020a170902d48d00b001c60ba709b7sm3127511plg.125.2023.11.09.02.07.04
+        by smtp.gmail.com with ESMTPSA id c13-20020a170902d48d00b001c60ba709b7sm3127511plg.125.2023.11.09.02.07.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Nov 2023 02:07:08 -0800 (PST)
+        Thu, 09 Nov 2023 02:07:12 -0800 (PST)
 From:   Chen-Yu Tsai <wenst@chromium.org>
 To:     Rob Herring <robh+dt@kernel.org>,
         Frank Rowand <frowand.list@gmail.com>,
@@ -67,9 +67,9 @@ Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
         Douglas Anderson <dianders@chromium.org>,
         Johan Hovold <johan@kernel.org>
-Subject: [RFC PATCH v2 6/7] dt-bindings: arm: mediatek: Remove SKU specific compatibles for Google Krane
-Date:   Thu,  9 Nov 2023 18:06:03 +0800
-Message-ID: <20231109100606.1245545-7-wenst@chromium.org>
+Subject: [RFC PATCH v2 7/7] arm64: dts: mediatek: mt8183-kukui: Merge Krane device trees
+Date:   Thu,  9 Nov 2023 18:06:04 +0800
+Message-ID: <20231109100606.1245545-8-wenst@chromium.org>
 X-Mailer: git-send-email 2.42.0.869.gea05f2083d-goog
 In-Reply-To: <20231109100606.1245545-1-wenst@chromium.org>
 References: <20231109100606.1245545-1-wenst@chromium.org>
@@ -84,30 +84,182 @@ components (MIPI DSI panels, MIPI CSI camera sensors, or trackpad /
 touchscreens with conflicting addresses), a different SKU ID is
 allocated to each specific combination. This SKU ID is exported by the
 bootloader into the device tree, and can be used to "discover" which
-combination is present on the current machine. Thus we no longer have
-to specify separate compatible strings for each of them.
+combination is present on the current machine.
 
-Remove the SKU specific compatible strings for Google Krane.
+Merge the separate Krane dtsi/dts files into one shared for all SKUs.
+A new device node is added for the alternative panel. Both it and the
+original panel are marked as "fail-needs-probe-panel" to let the
+hardware prober handle it.
+
+Also move the cros_ec node so that all node references are ordered
+alphabetically.
 
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
- Documentation/devicetree/bindings/arm/mediatek.yaml | 3 ---
- 1 file changed, 3 deletions(-)
+ arch/arm64/boot/dts/mediatek/Makefile         |  3 +-
+ .../dts/mediatek/mt8183-kukui-krane-sku0.dts  | 24 ----------
+ .../mediatek/mt8183-kukui-krane-sku176.dts    | 24 ----------
+ ...ukui-krane.dtsi => mt8183-kukui-krane.dts} | 47 +++++++++++++++++--
+ 4 files changed, 44 insertions(+), 54 deletions(-)
+ delete mode 100644 arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dts
+ delete mode 100644 arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dts
+ rename arch/arm64/boot/dts/mediatek/{mt8183-kukui-krane.dtsi => mt8183-kukui-krane.dts} (86%)
 
-diff --git a/Documentation/devicetree/bindings/arm/mediatek.yaml b/Documentation/devicetree/bindings/arm/mediatek.yaml
-index a4541855a838..ef3dfb286814 100644
---- a/Documentation/devicetree/bindings/arm/mediatek.yaml
-+++ b/Documentation/devicetree/bindings/arm/mediatek.yaml
-@@ -186,9 +186,6 @@ properties:
-           - const: mediatek,mt8183
-       - description: Google Krane (Lenovo IdeaPad Duet, 10e,...)
-         items:
--          - enum:
--              - google,krane-sku0
--              - google,krane-sku176
-           - const: google,krane
-           - const: mediatek,mt8183
-       - description: Google Willow (Acer Chromebook 311 C722/C722T)
+diff --git a/arch/arm64/boot/dts/mediatek/Makefile b/arch/arm64/boot/dts/mediatek/Makefile
+index 7e365e9516ab..d4d97b315b2f 100644
+--- a/arch/arm64/boot/dts/mediatek/Makefile
++++ b/arch/arm64/boot/dts/mediatek/Makefile
+@@ -40,8 +40,7 @@ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8183-kukui-kodama-sku16.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8183-kukui-kodama-sku272.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8183-kukui-kodama-sku288.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8183-kukui-kodama-sku32.dtb
+-dtb-$(CONFIG_ARCH_MEDIATEK) += mt8183-kukui-krane-sku0.dtb
+-dtb-$(CONFIG_ARCH_MEDIATEK) += mt8183-kukui-krane-sku176.dtb
++dtb-$(CONFIG_ARCH_MEDIATEK) += mt8183-kukui-krane.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8183-pumpkin.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-magneton-sku393216.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-magneton-sku393217.dtb
+diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dts b/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dts
+deleted file mode 100644
+index 4ac75806fa94..000000000000
+--- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dts
++++ /dev/null
+@@ -1,24 +0,0 @@
+-// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+-/*
+- * Copyright 2019 Google LLC
+- *
+- * Device-tree for Krane sku0.
+- *
+- * SKU is a 8-bit value (0x00 == 0):
+- *  - Bits 7..4: Panel ID: 0x0 (AUO)
+- *  - Bits 3..0: SKU ID:   0x0 (default)
+- */
+-
+-/dts-v1/;
+-#include "mt8183-kukui-krane.dtsi"
+-
+-/ {
+-	model = "MediaTek krane sku0 board";
+-	chassis-type = "tablet";
+-	compatible = "google,krane-sku0", "google,krane", "mediatek,mt8183";
+-};
+-
+-&panel {
+-	status = "okay";
+-	compatible = "auo,kd101n80-45na";
+-};
+diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dts b/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dts
+deleted file mode 100644
+index 095279e55d50..000000000000
+--- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dts
++++ /dev/null
+@@ -1,24 +0,0 @@
+-// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+-/*
+- * Copyright 2019 Google LLC
+- *
+- * Device-tree for Krane sku176.
+- *
+- * SKU is a 8-bit value (0xb0 == 176):
+- *  - Bits 7..4: Panel ID: 0xb (BOE)
+- *  - Bits 3..0: SKU ID:   0x0 (default)
+- */
+-
+-/dts-v1/;
+-#include "mt8183-kukui-krane.dtsi"
+-
+-/ {
+-	model = "MediaTek krane sku176 board";
+-	chassis-type = "tablet";
+-	compatible = "google,krane-sku176", "google,krane", "mediatek,mt8183";
+-};
+-
+-&panel {
+-        status = "okay";
+-        compatible = "boe,tv101wum-nl6";
+-};
+diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dts
+similarity index 86%
+rename from arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi
+rename to arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dts
+index d5f41c6c9881..75a734c0fbcc 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dts
+@@ -1,12 +1,24 @@
+ // SPDX-License-Identifier: (GPL-2.0 OR MIT)
+ /*
+  * Copyright 2019 Google LLC
++ *
++ * Device tree for Krane Chromebook family.
++ *
++ * SKU ID is a 8-bit value (0x00 == 0):
++ *  - Bits 7..4: Panel ID: 0x0 (AUO)
++ *                         0xb (BOE)
++ *  - Bits 3..0: SKU ID:   0x0 (default)
+  */
+ 
++/dts-v1/;
+ #include "mt8183-kukui.dtsi"
+ #include "mt8183-kukui-audio-max98357a.dtsi"
+ 
+ / {
++	model = "Google Krane Chromebook";
++	chassis-type = "tablet";
++	compatible = "google,krane", "mediatek,mt8183";
++
+ 	ppvarn_lcd: ppvarn-lcd {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "ppvarn_lcd";
+@@ -45,6 +57,34 @@ &bluetooth {
+ 	firmware-name = "nvm_00440302_i2s_eu.bin";
+ };
+ 
++&cros_ec {
++	keyboard-controller {
++		compatible = "google,cros-ec-keyb-switches";
++	};
++};
++
++&dsi0 {
++	panel2@0 {
++		compatible = "boe,tv101wum-nl6";
++		reg = <0>;
++		enable-gpios = <&pio 45 0>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&panel_pins_default>;
++		avdd-supply = <&ppvarn_lcd>;
++		avee-supply = <&ppvarp_lcd>;
++		pp1800-supply = <&pp1800_lcd>;
++		backlight = <&backlight_lcd0>;
++		rotation = <270>;
++		status = "fail-needs-probe-panel";
++
++		port {
++			endpoint {
++				remote-endpoint = <&dsi_out>;
++			};
++		};
++	};
++};
++
+ &i2c0 {
+ 	status = "okay";
+ 
+@@ -343,10 +383,9 @@ rst_pin {
+ 	};
+ };
+ 
+-&cros_ec {
+-	keyboard-controller {
+-		compatible = "google,cros-ec-keyb-switches";
+-	};
++&panel {
++	compatible = "auo,kd101n80-45na";
++	status = "fail-needs-probe-panel";
+ };
+ 
+ &qca_wifi {
 -- 
 2.42.0.869.gea05f2083d-goog
 
