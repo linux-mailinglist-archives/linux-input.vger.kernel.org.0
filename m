@@ -2,58 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 19A267E6769
-	for <lists+linux-input@lfdr.de>; Thu,  9 Nov 2023 11:07:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 405337E68E0
+	for <lists+linux-input@lfdr.de>; Thu,  9 Nov 2023 11:54:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234046AbjKIKHn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Nov 2023 05:07:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33114 "EHLO
+        id S231703AbjKIKyM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Nov 2023 05:54:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233577AbjKIKHW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Nov 2023 05:07:22 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F3B6358B
-        for <linux-input@vger.kernel.org>; Thu,  9 Nov 2023 02:07:13 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-6c3363a2b93so711724b3a.3
-        for <linux-input@vger.kernel.org>; Thu, 09 Nov 2023 02:07:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1699524433; x=1700129233; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=onLNc+Oko6/d4dZDi8m4Ahc5zglhx4oC8hmNsm3uUAA=;
-        b=CdwuVzTcLaNuBWm+5+Eyq35jTiVIQezZYsIJ/TuYU3pt1Cm54umZ2eQZ/7u92dCADF
-         mVmV/nvqCJrh9HIh3sURGPaARnApWRc39+IT95mTp/ryN3aV4BjyK0dTyGXe8OJcmshg
-         BrYsnYxfDR5Y0Onaai+8FCNo5TTuyV1p7O9ZQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699524433; x=1700129233;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=onLNc+Oko6/d4dZDi8m4Ahc5zglhx4oC8hmNsm3uUAA=;
-        b=NXt4Qs+HQIZpxbznhDsyc6wolZihKatc5tNr1jI/yrfILPDK7OSzJNj9gD/C7iJnB+
-         dd7ZlT2+YZe83Eav5pcEFfZfuE0z50Wey7GRTM8PP7hqvvcdXUfaepoW8NDla/K40Kqy
-         pLH39tl3svJpIWuaZKpclqZC4aYi2daMa3wVJFdr0s72bOkrzQDGcSI/kCY1/SI7dD/W
-         Coi48gwjzcwcMqmKRijJdeK1NYkjWmIvx8MV/iv0J4N9v76W5UMcfMfc+f96ESxqcoSn
-         SOi0t0uQp6pxVv6A4dfA2B9l6K55E3fvfO9pgTq/YEOuNtleohGVdgVZRs8TYr+SHXAz
-         dGaQ==
-X-Gm-Message-State: AOJu0YwMajZqH6XerpalJS0R9cjgySMp0tnreSQIbgFEPPqBdv53jsIL
-        7Fg4QLFMFgMZGTPkORPqORCmZg==
-X-Google-Smtp-Source: AGHT+IE47jHpK3aDbKhKoDgiHCyXY2l2uWAuEaUiNlv/nfVr6trsVMV2KYbXDfC5qwkSNTHKG8ky5g==
-X-Received: by 2002:a05:6a21:19a:b0:181:10ee:20d5 with SMTP id le26-20020a056a21019a00b0018110ee20d5mr6079204pzb.12.1699524433438;
-        Thu, 09 Nov 2023 02:07:13 -0800 (PST)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:6f57:d4c:468c:5daf])
-        by smtp.gmail.com with ESMTPSA id c13-20020a170902d48d00b001c60ba709b7sm3127511plg.125.2023.11.09.02.07.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Nov 2023 02:07:12 -0800 (PST)
-From:   Chen-Yu Tsai <wenst@chromium.org>
-To:     Rob Herring <robh+dt@kernel.org>,
+        with ESMTP id S231447AbjKIKyL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Nov 2023 05:54:11 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61BAA2590;
+        Thu,  9 Nov 2023 02:54:09 -0800 (PST)
+Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 1CD6C6607418;
+        Thu,  9 Nov 2023 10:54:06 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1699527247;
+        bh=LkXl+rP/UNmUub3S7DGui7pcqUg+FDfvcQ/RuBUWIrM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=BiKodqoMotSlAmDi8beLZ+RPWVZ1WoIOL/rtTrwmK5mtCnqaMz67p19i8qq0CNWQ/
+         lHHe9kFlHqAodC4C8/VBiXNwNy/C4NjS1vwhHzdJtbAFm9/sSgr4kQAlyLvDjNvB7i
+         aeEdKITPOyIll8pE5uAt7WrIQF7amZcqQ9locycFDdhgRadFe/z9GRZ+WgN2bTb/G5
+         U9G3HVWbT7rGhsd2lF4vHE9Wux3OIiSFJppayz/LbYYwQArNv422T6sgXtqu31duKV
+         g22Y1nzOYwrxRpbwPQwO90oepW0PyPJd8TgrIDsFR2P9Axrz/J8sZ7EIXGGELUxBN7
+         wgBZQK8TfZKNA==
+Message-ID: <859ac058-c50a-4eb8-99b6-3011ef4e7529@collabora.com>
+Date:   Thu, 9 Nov 2023 11:54:03 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 0/7] of: Introduce hardware prober driver
+Content-Language: en-US
+To:     Chen-Yu Tsai <wenst@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Frank Rowand <frowand.list@gmail.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
+        Matthias Brugger <matthias.bgg@gmail.com>
 Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         andriy.shevchenko@linux.intel.com, Jiri Kosina <jikos@kernel.org>,
@@ -62,204 +51,252 @@ Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
         james.clark@arm.com, james@equiv.tech, keescook@chromium.org,
         petr.tesarik.ext@huawei.com, rafael@kernel.org, tglx@linutronix.de,
         Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
-        Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
         Douglas Anderson <dianders@chromium.org>,
         Johan Hovold <johan@kernel.org>
-Subject: [RFC PATCH v2 7/7] arm64: dts: mediatek: mt8183-kukui: Merge Krane device trees
-Date:   Thu,  9 Nov 2023 18:06:04 +0800
-Message-ID: <20231109100606.1245545-8-wenst@chromium.org>
-X-Mailer: git-send-email 2.42.0.869.gea05f2083d-goog
-In-Reply-To: <20231109100606.1245545-1-wenst@chromium.org>
 References: <20231109100606.1245545-1-wenst@chromium.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20231109100606.1245545-1-wenst@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In cases where the same Chromebook model is manufactured with different
-components (MIPI DSI panels, MIPI CSI camera sensors, or trackpad /
-touchscreens with conflicting addresses), a different SKU ID is
-allocated to each specific combination. This SKU ID is exported by the
-bootloader into the device tree, and can be used to "discover" which
-combination is present on the current machine.
+Il 09/11/23 11:05, Chen-Yu Tsai ha scritto:
+> Hi everyone,
+> 
+> This v2 series continues Doug's "of: device: Support 2nd sources of
+> probeable but undiscoverable devices" [1] series, but follows the scheme
+> suggested by Rob, marking all second source component device nodes
+> as "fail-needs-probe-XXX", and having a hardware prober driver enable
+> the one of them. I tried to include everyone from the original Cc: list.
+> Please let me know if you would like to be dropped from future
+> submissions.
+> 
+> 
+> For the I2C component (touchscreens and trackpads) case from the
+> original series, the hardware prober driver finds the particular
+> class of device in the device tree, gets its parent I2C adapter,
+> and tries to initiate a simple I2C read for each device under that
+> I2C bus. When it finds one that responds, it considers that one
+> present, marks it as "okay", and returns, letting the driver core
+> actually probe the device.
+> 
+> This works fine in most cases since these components are connected
+> via ribbon cable and always have the same resources. The driver as
+> implemented currently doesn't deal with regulators or GPIO pins,
+> since in the existing device trees they are either always on for
+> regulators, or have GPIO hogs or pinmux and pinconfig directly
+> tied to the pin controller.
+> 
+> 
+> Another case this driver could handle is selecting components based
+> on some identifier passed in by the firmware. On Chromebooks we have
+> a SKU ID which is inserted by the bootloader at
+> /firmware/coreboot/sku-id. When a new combination of components is
+> introduced, a new SKU ID is allocated to it. To have SKU ID based
+> device trees, we would need to have one per SKU ID. This ends up
+> increasing the number of device trees we have a lot. The recent
+> MT8186 devices already have 10+10 SKUs [2], with possibly more to come.
+> 
+> Instead, we could have just one device tree for each device, with
+> component options listed and marked as "fail-needs-probe-XXX", and
+> let the hardware prober enable one of them based on the given SKU ID.
+> The driver will also fix up OF graph remote endpoints to point to the
+> enabled component.
+> 
+> The MT8186 Corsola series [2] can also benefit from this, though I
+> haven't implemented anything yet.
+> 
+> 
+> Patch 1 adds of_device_is_fail() for the new driver to use.
+> 
+> Patch 2 implements the first case, probing the I2C bus for presence
+> of components. This initial version targets the Hana Chromebooks.
+> 
+> Patch 3 modifies the Hana device tree and marks the touchscreens
+> and trackpads as "fail-needs-probe-XXX", ready for the driver to
+> probe.
+> 
+> Patch 4 adds a missing touchscreen variant to Hana.
+> 
+> Patch 5 implements the second case, selectively enabling components
+> based on the SKU ID. This initial version targets the Krane ChromeOS
+> tablet, which has two possible MIPI DSI display panel options.
+> 
+> Patch 6 drops Krane's SKU-specific compatible strings from the bindings.
+> 
+> Patch 7 merges Krane's SKU-specific device trees into one, with the
+> device tree now containing two possible panels. This unfortunately
+> introduces a dtc warning:
+> 
+>      arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dts:81.13-83.6:
+>          Warning (graph_endpoint): /soc/dsi@14014000/panel2@0/port/endpoint:
+> 	graph connection to node '/soc/dsi@14014000/ports/port/endpoint'
+> 	    is not bidirectional
+> 
+> 
+> Please take a look.
+> 
+> Johan, I'm not sure if this works as is for the Lenovo Thinkpad 13S
+> case, since it looks like the trackpad shares the I2C bus with the
+> keyboard.
+> 
+> 
+> Thanks
+> ChenYu
+> 
+> 
+> Background as given in Doug's cover letter:
+> 
+> Support for multiple "equivalent" sources for components (also known
+> as second sourcing components) is a standard practice that helps keep
+> cost down and also makes sure that if one component is unavailable due
+> to a shortage that we don't need to stop production for the whole
+> product.
+> 
+> Some components are very easy to second source. eMMC, for instance, is
+> fully discoverable and probable so you can stuff a wide variety of
+> similar eMMC chips on your board and things will work without a hitch.
+> 
+> Some components are more difficult to second source, specifically
+> because it's difficult for software to probe what component is present
+> on any given board. In cases like this software is provided
+> supplementary information to help it, like a GPIO strap or a SKU ID
+> programmed into an EEPROM. This helpful information can allow the
+> bootloader to select a different device tree. The various different
+> "SKUs" of different Chromebooks are examples of this.
+> 
+> Some components are somewhere in between. These in-between components
+> are the subject of this patch. Specifically, these components are
+> easily "probeable" but not easily "discoverable".
+> 
+> A good example of a probeable but undiscoverable device is an
+> i2c-connected touchscreen or trackpad. Two separate components may be
+> electrically compatible with each other and may have compatible power
+> sequencing requirements but may require different software. If
+> software is told about the different possible components (because it
+> can't discover them), it can safely probe them to figure out which
+> ones are present.
+> 
+> On systems using device tree, if we want to tell the OS about all of
+> the different components we need to list them all in the device
+> tree. This leads to a problem. The multiple sources for components
+> likely use the same resources (GPIOs, interrupts, regulators). If the
+> OS tries to probe all of these components at the same time then it
+> will detect a resource conflict and that's a fatal error.
+> 
+> The fact that Linux can't handle these probeable but undiscoverable
+> devices well has had a few consequences:
+> 1. In some cases, we've abandoned the idea of second sourcing
+>     components for a given board, which increases cost / generates
+>     manufacturing headaches.
+> 2. In some cases, we've been forced to add some sort of strapping /
+>     EEPROM to indicate which component is present. This adds difficulty
+>     to manufacturing / refurb processes.
+> 3. In some cases, we've managed to make things work by the skin of our
+>     teeth through slightly hacky solutions. Specifically, if we remove
+>     the "pinctrl" entry from the various options then it won't
+>     conflict. Regulators inherently can have more than one consumer, so
+>     as long as there are no GPIOs involved in power sequencing and
+>     probing devices then things can work. This is how
+>     "sc8280xp-lenovo-thinkpad-x13s" works and also how
+>     "mt8173-elm-hana" works.
+> 
+> End of background from Doug's cover letter.
 
-Merge the separate Krane dtsi/dts files into one shared for all SKUs.
-A new device node is added for the alternative panel. Both it and the
-original panel are marked as "fail-needs-probe-panel" to let the
-hardware prober handle it.
+I think that using "status" is not a good idea, I find that confusing.
 
-Also move the cros_ec node so that all node references are ordered
-alphabetically.
+Perhaps we could have a node like
 
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
- arch/arm64/boot/dts/mediatek/Makefile         |  3 +-
- .../dts/mediatek/mt8183-kukui-krane-sku0.dts  | 24 ----------
- .../mediatek/mt8183-kukui-krane-sku176.dts    | 24 ----------
- ...ukui-krane.dtsi => mt8183-kukui-krane.dts} | 47 +++++++++++++++++--
- 4 files changed, 44 insertions(+), 54 deletions(-)
- delete mode 100644 arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dts
- delete mode 100644 arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dts
- rename arch/arm64/boot/dts/mediatek/{mt8183-kukui-krane.dtsi => mt8183-kukui-krane.dts} (86%)
+something {
+	device-class-one = <&device1>, <&device2>, <&device3>;
+	device-class-two = <&device4>, <&device5>, <&device6>;
+}
 
-diff --git a/arch/arm64/boot/dts/mediatek/Makefile b/arch/arm64/boot/dts/mediatek/Makefile
-index 7e365e9516ab..d4d97b315b2f 100644
---- a/arch/arm64/boot/dts/mediatek/Makefile
-+++ b/arch/arm64/boot/dts/mediatek/Makefile
-@@ -40,8 +40,7 @@ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8183-kukui-kodama-sku16.dtb
- dtb-$(CONFIG_ARCH_MEDIATEK) += mt8183-kukui-kodama-sku272.dtb
- dtb-$(CONFIG_ARCH_MEDIATEK) += mt8183-kukui-kodama-sku288.dtb
- dtb-$(CONFIG_ARCH_MEDIATEK) += mt8183-kukui-kodama-sku32.dtb
--dtb-$(CONFIG_ARCH_MEDIATEK) += mt8183-kukui-krane-sku0.dtb
--dtb-$(CONFIG_ARCH_MEDIATEK) += mt8183-kukui-krane-sku176.dtb
-+dtb-$(CONFIG_ARCH_MEDIATEK) += mt8183-kukui-krane.dtb
- dtb-$(CONFIG_ARCH_MEDIATEK) += mt8183-pumpkin.dtb
- dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-magneton-sku393216.dtb
- dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-magneton-sku393217.dtb
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dts b/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dts
-deleted file mode 100644
-index 4ac75806fa94..000000000000
---- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dts
-+++ /dev/null
-@@ -1,24 +0,0 @@
--// SPDX-License-Identifier: (GPL-2.0 OR MIT)
--/*
-- * Copyright 2019 Google LLC
-- *
-- * Device-tree for Krane sku0.
-- *
-- * SKU is a 8-bit value (0x00 == 0):
-- *  - Bits 7..4: Panel ID: 0x0 (AUO)
-- *  - Bits 3..0: SKU ID:   0x0 (default)
-- */
--
--/dts-v1/;
--#include "mt8183-kukui-krane.dtsi"
--
--/ {
--	model = "MediaTek krane sku0 board";
--	chassis-type = "tablet";
--	compatible = "google,krane-sku0", "google,krane", "mediatek,mt8183";
--};
--
--&panel {
--	status = "okay";
--	compatible = "auo,kd101n80-45na";
--};
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dts b/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dts
-deleted file mode 100644
-index 095279e55d50..000000000000
---- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dts
-+++ /dev/null
-@@ -1,24 +0,0 @@
--// SPDX-License-Identifier: (GPL-2.0 OR MIT)
--/*
-- * Copyright 2019 Google LLC
-- *
-- * Device-tree for Krane sku176.
-- *
-- * SKU is a 8-bit value (0xb0 == 176):
-- *  - Bits 7..4: Panel ID: 0xb (BOE)
-- *  - Bits 3..0: SKU ID:   0x0 (default)
-- */
--
--/dts-v1/;
--#include "mt8183-kukui-krane.dtsi"
--
--/ {
--	model = "MediaTek krane sku176 board";
--	chassis-type = "tablet";
--	compatible = "google,krane-sku176", "google,krane", "mediatek,mt8183";
--};
--
--&panel {
--        status = "okay";
--        compatible = "boe,tv101wum-nl6";
--};
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dts
-similarity index 86%
-rename from arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi
-rename to arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dts
-index d5f41c6c9881..75a734c0fbcc 100644
---- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dts
-@@ -1,12 +1,24 @@
- // SPDX-License-Identifier: (GPL-2.0 OR MIT)
- /*
-  * Copyright 2019 Google LLC
-+ *
-+ * Device tree for Krane Chromebook family.
-+ *
-+ * SKU ID is a 8-bit value (0x00 == 0):
-+ *  - Bits 7..4: Panel ID: 0x0 (AUO)
-+ *                         0xb (BOE)
-+ *  - Bits 3..0: SKU ID:   0x0 (default)
-  */
- 
-+/dts-v1/;
- #include "mt8183-kukui.dtsi"
- #include "mt8183-kukui-audio-max98357a.dtsi"
- 
- / {
-+	model = "Google Krane Chromebook";
-+	chassis-type = "tablet";
-+	compatible = "google,krane", "mediatek,mt8183";
-+
- 	ppvarn_lcd: ppvarn-lcd {
- 		compatible = "regulator-fixed";
- 		regulator-name = "ppvarn_lcd";
-@@ -45,6 +57,34 @@ &bluetooth {
- 	firmware-name = "nvm_00440302_i2s_eu.bin";
- };
- 
-+&cros_ec {
-+	keyboard-controller {
-+		compatible = "google,cros-ec-keyb-switches";
-+	};
-+};
-+
-+&dsi0 {
-+	panel2@0 {
-+		compatible = "boe,tv101wum-nl6";
-+		reg = <0>;
-+		enable-gpios = <&pio 45 0>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&panel_pins_default>;
-+		avdd-supply = <&ppvarn_lcd>;
-+		avee-supply = <&ppvarp_lcd>;
-+		pp1800-supply = <&pp1800_lcd>;
-+		backlight = <&backlight_lcd0>;
-+		rotation = <270>;
-+		status = "fail-needs-probe-panel";
-+
-+		port {
-+			endpoint {
-+				remote-endpoint = <&dsi_out>;
-+			};
-+		};
-+	};
-+};
-+
- &i2c0 {
- 	status = "okay";
- 
-@@ -343,10 +383,9 @@ rst_pin {
- 	};
- };
- 
--&cros_ec {
--	keyboard-controller {
--		compatible = "google,cros-ec-keyb-switches";
--	};
-+&panel {
-+	compatible = "auo,kd101n80-45na";
-+	status = "fail-needs-probe-panel";
- };
- 
- &qca_wifi {
--- 
-2.42.0.869.gea05f2083d-goog
+so that'd be more or less
+
+hw-prober {
+	trackpads = <&tp1>, <&tp2>;
+	keyboards = <&kb1>, <&kb2>;
+	touchscreens = <&ts1>, <&ts2>;
+}
+
+Besides, something else I can suggest here is to make this more generic: actually,
+this issue is spread across way more devices than you maybe think... for example,
+I know of some smartphones that may have the same situation with DSI displays and
+they're sometimes distinguished by an ADC value, sometimes by reading back the
+manufacturer ID (or panel id) through DSI.
+
+Also, if Chromebooks really need something "special", such as that coreboot sku-id
+parameter, I think that this should be registered externally into the hw prober
+and not embedded inside of the *generic* hw prober driver.
+
+We can even reuse of_device_id instead of inventing a new hw_prober_entry struct...
+
+Idea:
+
+drivers/platform/chrome/cros_of_hw_prober.c
+
+static int cros_sku_hw_prober(struct platform_device *pdev, const void *data)
+{
+	...this is your cros_sku_component_selector() function, anyway...
+}
+
+static const struct of_device_id cros_hw_prober_ids[] = {
+	{ .compatible = "google,hana", .data = something },
+	{ /* sentinel */ }
+};
+
+static int some_kind_of_early_init_function(something)
+{
+	int a,b,c,ret,something;
+
+	.. some logic if necessary ..
+
+	return of_hw_prober_register(cros_sku_hw_prober, cros_hw_prober_ids);
+}
+
+
+Btw, thanks for starting that. If this will be done the right way, it's going to
+be useful to many, many people.
+
+Regards,
+Angelo	
+
+> 
+> [1] https://lore.kernel.org/all/20230921102420.RFC.1.I9dddd99ccdca175e3ceb1b9fa1827df0928c5101@changeid/
+> [2] https://lore.kernel.org/linux-mediatek/20231012230237.2676469-1-wenst@chromium.org/
+> 
+> Chen-Yu Tsai (7):
+>    of: base: Add of_device_is_fail
+>    of: Introduce hardware prober driver
+>    arm64: dts: mediatek: mt8173-elm-hana: Mark touchscreens and trackpads
+>      as fail
+>    arm64: dts: mediatek: mt8173-elm-hana: Add G2touch G7500 touchscreen
+>    of: hw_prober: Support Chromebook SKU ID based component selection
+>    dt-bindings: arm: mediatek: Remove SKU specific compatibles for Google
+>      Krane
+>    arm64: dts: mediatek: mt8183-kukui: Merge Krane device trees
+> 
+>   .../devicetree/bindings/arm/mediatek.yaml     |   3 -
+>   arch/arm64/boot/dts/mediatek/Makefile         |   3 +-
+>   .../boot/dts/mediatek/mt8173-elm-hana.dtsi    |  20 ++
+>   .../dts/mediatek/mt8183-kukui-krane-sku0.dts  |  24 --
+>   .../mediatek/mt8183-kukui-krane-sku176.dts    |  24 --
+>   ...ukui-krane.dtsi => mt8183-kukui-krane.dts} |  47 ++-
+>   drivers/of/Kconfig                            |  13 +
+>   drivers/of/Makefile                           |   1 +
+>   drivers/of/base.c                             |  20 ++
+>   drivers/of/hw_prober.c                        | 314 ++++++++++++++++++
+>   include/linux/of.h                            |   6 +
+>   11 files changed, 418 insertions(+), 57 deletions(-)
+>   delete mode 100644 arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dts
+>   delete mode 100644 arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dts
+>   rename arch/arm64/boot/dts/mediatek/{mt8183-kukui-krane.dtsi => mt8183-kukui-krane.dts} (86%)
+>   create mode 100644 drivers/of/hw_prober.c
+> 
 
