@@ -2,218 +2,209 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A90547E616C
-	for <lists+linux-input@lfdr.de>; Thu,  9 Nov 2023 01:32:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B36267E62E2
+	for <lists+linux-input@lfdr.de>; Thu,  9 Nov 2023 05:43:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230303AbjKIAcd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Nov 2023 19:32:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50756 "EHLO
+        id S230451AbjKIEnR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Nov 2023 23:43:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229473AbjKIAcd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Nov 2023 19:32:33 -0500
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCFA9268F
-        for <linux-input@vger.kernel.org>; Wed,  8 Nov 2023 16:32:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1699489947; x=1699749147;
-        bh=mbas3qgCafFlNKUOVoJnFndc2NTEFuTXuNWWCAWewGw=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=osEayDi40a1PpKI5GROe9OK93e5Z3KR4XCK17f3deHnxeOLldFdgW98EYp21q2pBk
-         8kEhzHGSEgeoqe1CsC/tauam4Rn1d2cnF6zLJpXc4bK76gagstKIoCojOyQey3yfex
-         5Avu07OkSdfq5ogas6PEeZ0vikUOeq9rwn1/PPwTaFY+niVuE4COfAFyniVDzA9871
-         DstDV26bwvi5YGeuAQH+57sWGcTPKRawhqItZrOKdUA/V59coiblPm8hJnXHbXchrM
-         oQtZywOjbJuZXRZthLWtF187k/t/Dn9p1zy/O1KEoi9d6m21fJANKcUAb1MIXucdWa
-         tx4FFwiZAaXmw==
-Date:   Thu, 09 Nov 2023 00:32:12 +0000
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-From:   David Revoy <davidrevoy@protonmail.com>
-Cc:     =?utf-8?Q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
-        Eric GOUYER <folays@gmail.com>,
-        Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>,
-        jkosina@suse.cz, jason.gerecke@wacom.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel issue
-Message-ID: <_DEF7tHL1p_ExY7GJlJvT5gRA7ZvNnVMJuURb8_WCV-0fbYXkLN2p5zHloi6wiJPNzGEjFAkq2sjbCU633_eNF_cGm0rAbmCOOIOfwe1jWo=@protonmail.com>
-In-Reply-To: <CAO-hwJKNcwcDGEh33NZq4kSYtoxZzg9M2nzE_hVDYNFgA4g_dg@mail.gmail.com>
-References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm> <CAO-hwJLpKTb9yxvxaPDLZkF9kDF8u2VRJUf9yiQd+neOyxPeug@mail.gmail.com> <eb8e22f3-77dc-4923-a7ba-e237ee226edb@sra.uni-hannover.de> <CAO-hwJKVwZK00yZFjuyyR9Xt4Y2-r8eLJNZfnyeopHxoZQ0eGA@mail.gmail.com> <20231108062306.33f5dcd0@dryade> <CAO-hwJK_xp1A=dEOV-2v3KJAf0bRLDWNcrFQeBpgEuxT-qSBnw@mail.gmail.com> <ZUtTpKyP0oxWhnn8@fedora> <CAO-hwJLjtjdr2gtrOWJFPZ-38YzKB8XfhDKWf_2jUPeiaP3EcA@mail.gmail.com> <CAO-hwJKNcwcDGEh33NZq4kSYtoxZzg9M2nzE_hVDYNFgA4g_dg@mail.gmail.com>
-Feedback-ID: 5460171:user:proton
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S230295AbjKIEnR (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Nov 2023 23:43:17 -0500
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AC3D26A0
+        for <linux-input@vger.kernel.org>; Wed,  8 Nov 2023 20:43:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699504995; x=1731040995;
+  h=date:from:to:cc:subject:message-id;
+  bh=2y1ARoVKZSE7G6l54BzH0nEeNyAChY7M+hCXHSCiwoo=;
+  b=l2yoF2BD0DqtFYsGgJHAG/X+YvBhPQbNOCtuQZYn99kKIiXidG76vuIw
+   UzQftho1gI7ilSSFdePGRoHGXfxDwEmMc8kvct7ONxPXlOxNyS/HlCA9n
+   M6NuZ8DoO1LYXajRvCWhz8Xe+Tgfb7Ya7aDUEyCJ8Erac109eiVnBFvny
+   jLMfT/ozTxV7bU/3lVlpAc7+mmN3cghJWr3vckm7gPK6opzuEVohlxz2g
+   nmOlyXdaTpcSbSQMRKxcMHm2OKddz6Mej2M9SpSO/+OcDkrL0IhmRgdvx
+   v2U/ySsIZkadfw3wWvGF6pA7llMuNvARJcxT8TIRn+BDC4z3igKfTRiMQ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="387081315"
+X-IronPort-AV: E=Sophos;i="6.03,288,1694761200"; 
+   d="scan'208";a="387081315"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 20:43:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="886883360"
+X-IronPort-AV: E=Sophos;i="6.03,288,1694761200"; 
+   d="scan'208";a="886883360"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 08 Nov 2023 20:43:13 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1r0wsp-0008Uy-2B;
+        Thu, 09 Nov 2023 04:43:11 +0000
+Date:   Thu, 09 Nov 2023 12:43:09 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ cdd5b5a9761fd66d17586e4f4ba6588c70e640ea
+Message-ID: <202311091207.tzbvCNb9-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: cdd5b5a9761fd66d17586e4f4ba6588c70e640ea  Merge branch 'next' into for-linus
 
-> Alright, I made quite some progress so far:
-> - regressions tests have been written (branch wip/xp-pen of my fork on
-> freedesktop[0])
-> that branch can not go in directly as it just adds the tests, and
-> thus is failing
-> - I made the fixes through HID-BPF[1]
->=20
-> Anyone using those 2 tablets and using Fedora should be able to just
-> grab the artifact at [2], uncompress it and run `sudo ./install.sh --verb=
-ose`.
-> This will install the bpf programs in /lib/firmware/hid/bpf/ and will
-> automatically load them when the device is connected.
->=20
-> For those not using Fedora, the binary might work (or not, not sure),
-> but you can always decompress it, and check if running
-> `udev-hid-bpf_0.1.0/bin/udev-hid-bpf --version` returns the correct
-> version or just fails. If you get "udev-hid-bpf 0.1.0", then running
-> `sudo ./install.sh --verbose` should work, as long as the kernel has
-> CONFIG_HID_BPF set to 'Y'.
-> [...]
-> [0] https://gitlab.freedesktop.org/bentiss/hid/-/tree/wip/xp-pen?ref_type=
-=3Dheads
-> [1] https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_requests=
-/27
-> [2] https://gitlab.freedesktop.org/bentiss/udev-hid-bpf/-/jobs/51350589/a=
-rtifacts/raw/udev-hid-bpf_0.1.0.tar.xz
+elapsed time: 3076m
 
-Thank you for this package.=20
+configs tested: 139
+configs skipped: 2
 
-I was able to test it even though the link in (2) at the bottom of your ema=
-il returned a blank page. I was able to find my way after manually visiting=
- gitlab.freedesktop.org [1] and then manually downloading the article from =
-51350589. I unzipped it and ran `sudo ./install.sh --verbose`. Everything l=
-ooks like it was successful [2]. I then rebooted my Fedora 38 'Linux workst=
-ation 6.5.8-200.fc38.x86_64' kernel (the one I blamed in my post) and teste=
-d both tablets.=20
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Here are my observation:
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20231108   gcc  
+arc                   randconfig-002-20231108   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                                 defconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20231108   gcc  
+csky                  randconfig-002-20231108   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20231108   gcc  
+i386         buildonly-randconfig-002-20231108   gcc  
+i386         buildonly-randconfig-003-20231108   gcc  
+i386         buildonly-randconfig-004-20231108   gcc  
+i386         buildonly-randconfig-005-20231108   gcc  
+i386         buildonly-randconfig-006-20231108   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231108   gcc  
+i386                  randconfig-002-20231108   gcc  
+i386                  randconfig-003-20231108   gcc  
+i386                  randconfig-004-20231108   gcc  
+i386                  randconfig-005-20231108   gcc  
+i386                  randconfig-006-20231108   gcc  
+i386                  randconfig-011-20231108   gcc  
+i386                  randconfig-012-20231108   gcc  
+i386                  randconfig-013-20231108   gcc  
+i386                  randconfig-014-20231108   gcc  
+i386                  randconfig-015-20231108   gcc  
+i386                  randconfig-016-20231108   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231108   gcc  
+loongarch             randconfig-002-20231108   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20231108   gcc  
+nios2                 randconfig-002-20231108   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20231108   gcc  
+parisc                randconfig-002-20231108   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+powerpc               randconfig-001-20231108   gcc  
+powerpc               randconfig-002-20231108   gcc  
+powerpc               randconfig-003-20231108   gcc  
+powerpc64             randconfig-001-20231108   gcc  
+powerpc64             randconfig-002-20231108   gcc  
+powerpc64             randconfig-003-20231108   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231108   gcc  
+riscv                 randconfig-002-20231108   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231108   gcc  
+s390                  randconfig-002-20231108   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20231108   gcc  
+sh                    randconfig-002-20231108   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                 randconfig-001-20231108   gcc  
+sparc                 randconfig-002-20231108   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20231108   gcc  
+sparc64               randconfig-002-20231108   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20231108   gcc  
+um                    randconfig-002-20231108   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-001-20231108   gcc  
+x86_64       buildonly-randconfig-002-20231108   gcc  
+x86_64       buildonly-randconfig-003-20231108   gcc  
+x86_64       buildonly-randconfig-004-20231108   gcc  
+x86_64       buildonly-randconfig-005-20231108   gcc  
+x86_64       buildonly-randconfig-006-20231108   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231109   gcc  
+x86_64                randconfig-002-20231109   gcc  
+x86_64                randconfig-003-20231109   gcc  
+x86_64                randconfig-004-20231109   gcc  
+x86_64                randconfig-005-20231109   gcc  
+x86_64                randconfig-006-20231109   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                randconfig-001-20231108   gcc  
+xtensa                randconfig-002-20231108   gcc  
 
-XPPEN Artist Pro 24
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Nothing changed for this device (it's the one with two buttons and no 'eras=
-er tip'). Nor my hwdb/udev rules or `xsetwacom set "UGTABLET 24 inch PenDis=
-play eraser" button 1 3` affects the upper button of the stylus: if I hold =
-it hover the canvas, Krita switch the tool and cursor for an eraser. If I c=
-lick on the canvas with the pen tip while holding the upper button pressed,=
- I get the right-click Pop-up Palette (but not all the time, probably Krita=
- has hard time to triage Eraser or Right-click).
-
-XPPEN Artist Pro 16 (Gen2)
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-Something changed. `xsetwacom set "UGTABLET Artist Pro 16 (Gen2) eraser" bu=
-tton 1 3` successfully affected the upper button of the stylus. Now if I cl=
-ick it while hovering the canvas, Krita shows the right click Pop-up Palett=
-e.
-On the downside; the real eraser tip when I flip the stylus bugs. When I fl=
-ip the stylus on eraser hovering the canvas, Krita shows the Eraser icon an=
-d switch tool. As soon as I draw with the eraser tip, Krita will also show =
-a right-click color palette and with also not a 100% consistency, as if the=
- event were mixed.
-
-[1] https://gitlab.freedesktop.org/bentiss/udev-hid-bpf/-/artifacts =20
-[2] https://www.peppercarrot.com/extras/temp/2023-11-09_screenshot_005214_n=
-et.jpg
-
-
-On Wednesday, November 8th, 2023 at 19:21, Benjamin Tissoires <benjamin.tis=
-soires@redhat.com> wrote:
-
-
-> On Wed, Nov 8, 2023 at 10:34=E2=80=AFAM Benjamin Tissoires
-> benjamin.tissoires@redhat.com wrote:
->=20
-> > On Wed, Nov 8, 2023 at 10:23=E2=80=AFAM Jos=C3=A9 Exp=C3=B3sito jose.ex=
-posito89@gmail.com wrote:
-> >=20
-> > > Hi Benjamin,
-> > >=20
-> > > On Wed, Nov 08, 2023 at 10:04:30AM +0100, Benjamin Tissoires wrote:
-> > > [...]
-> > >=20
-> > > > > So, the behavior probably breaks the specs, but sincerely I'm hap=
-py to
-> > > > > have the "eraser" button independent of the "rubber eraser", whic=
-h
-> > > > > makes the stylus a somewhat 4-buttons stylus (tip, button1, butto=
-n2,
-> > > > > rubber), and I would like to keep this.
-> > > >=20
-> > > > Yes, and I'd like to keep it that way, even if 6.6 and 6.5.8
-> > > > apparently broke it.
-> > > >=20
-> > > > So, to me:
-> > > > - 276e14e6c3993317257e1787e93b7166fbc30905 is wrong: this is a
-> > > > firmware bug (reporting invert through eraser) and should not be
-> > > > tackled at the generic level, thus it should be reverted
-> > > > - both of these tablets are forwarding the useful information, but =
-not
-> > > > correctly, which confuses the kernel
-> > > > - I should now be able to write regression tests
-> > > > - I should be able to provide HID-BPF fixes for those tablets so th=
-at
-> > > > we can keep them working with or without
-> > > > 276e14e6c3993317257e1787e93b7166fbc30905
-> > > > reverted (hopefully)
-> > > > - problem is I still don't have the mechanics to integrate the HID-=
-BPF
-> > > > fixes directly in the kernel tree, so maybe I'll have to write a
-> > > > driver for XP-Pen while these internals are set (it shouldn't
-> > > > interfere with the HID-BPF out of the tree).
-> > >=20
-> > > I already added support for a few XP-Pen devices on the UCLogic drive=
-r
-> > > and I was planning to start working on this one during the weekend in
-> > > my DIGImend fork (to simplify testing).
-> > >=20
-> > > Let me know if you prefer to add it yourself or if you want me to pin=
-g
-> > > you in the DIGImend discussion.
-> >=20
-> > So far, I really have to work on this now. It's a good use case for
-> > HID-BPF and it's a regression that I'd like to be fixed ASAP.
-> > I'd appreciate any reviews :)
->=20
->=20
-> Alright, I made quite some progress so far:
-> - regressions tests have been written (branch wip/xp-pen of my fork on
-> freedesktop[0])
-> that branch can not go in directly as it just adds the tests, and
-> thus is failing
-> - I made the fixes through HID-BPF[1]
->=20
-> Anyone using those 2 tablets and using Fedora should be able to just
-> grab the artifact at [2], uncompress it and run `sudo ./install.sh --verb=
-ose`.
-> This will install the bpf programs in /lib/firmware/hid/bpf/ and will
-> automatically load them when the device is connected.
->=20
-> For those not using Fedora, the binary might work (or not, not sure),
-> but you can always decompress it, and check if running
-> `udev-hid-bpf_0.1.0/bin/udev-hid-bpf --version` returns the correct
-> version or just fails. If you get "udev-hid-bpf 0.1.0", then running
-> `sudo ./install.sh --verbose` should work, as long as the kernel has
-> CONFIG_HID_BPF set to 'Y'.
->=20
-> > Also, good to know that I can probably piggyback on hid-uclogic for
-> > fixing those 2 devices in the kernel.
->=20
->=20
-> Next step will be to fix them using a kernel driver, but it seems that
-> the uclogic driver is doing more than just report descriptor fixups,
-> so maybe I'll have to use a different driver.
-> But the point is, in theory, if you are affected by those bugs, using
-> the udev-hid-bpf should fix the issue, and this should also be
-> resilient to further kernel updates.
->=20
-> I'd appreciate testing when I got the full kernel series up and ready,
-> of course.
->=20
-> Cheers,
-> Benjamin
->=20
-> [0] https://gitlab.freedesktop.org/bentiss/hid/-/tree/wip/xp-pen?ref_type=
-=3Dheads
-> [1] https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_requests=
-/27
-> [2] https://gitlab.freedesktop.org/bentiss/udev-hid-bpf/-/jobs/51350589/a=
-rtifacts/raw/udev-hid-bpf_0.1.0.tar.xz
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
