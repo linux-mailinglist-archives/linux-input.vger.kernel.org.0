@@ -2,238 +2,288 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C38C7E69E7
-	for <lists+linux-input@lfdr.de>; Thu,  9 Nov 2023 12:48:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F30457E6A2F
+	for <lists+linux-input@lfdr.de>; Thu,  9 Nov 2023 12:59:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231964AbjKILsu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Nov 2023 06:48:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51978 "EHLO
+        id S234703AbjKIL7u (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Nov 2023 06:59:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231826AbjKILsu (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Nov 2023 06:48:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC9391719
-        for <linux-input@vger.kernel.org>; Thu,  9 Nov 2023 03:48:07 -0800 (PST)
+        with ESMTP id S1343612AbjKIL7T (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Nov 2023 06:59:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A3063855
+        for <linux-input@vger.kernel.org>; Thu,  9 Nov 2023 03:58:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1699530487;
+        s=mimecast20190719; t=1699531082;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=ouPBDpRxc5cEOBjMwovayc5MQYZY8bX6UAk2LVNeErc=;
-        b=D1fQEBkBj092blq5H3oBQe5bMuTG8+NfrxvnZi0D7HZ1UZ5AFdISZaYDMOgKUEn4CimkSr
-        cEnYmaoELRh55AVHvNePM+q5nO+MckM3gN9l6xuRAW6sJZNz8FZhE4fHGnp/nS+FZoa4iB
-        kMGJeqyW0g3XfTJDnSOrmqplLlIWjoI=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=rxgiQfG57B8WYlQaIBGWpOfAz7KPJ/cKr6geqUfke5Q=;
+        b=RFL9bkxb5XDeFgrF2qvcFApnP8eztdDMQ9OEbEOnokzsD8kPcXlECjLrzGXconVPvEn6tz
+        i2iw285MmTHrKa5cir9R6ofl0/BfvHAJkcCb2bSjGc/87Cv/xTcp3PiI52XUep3+C085XI
+        FTcd7KoTin2zZDaCdgMPHOWAmTjZMZQ=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-172-I98sLlIXMJWf2JJwD-OZSQ-1; Thu, 09 Nov 2023 06:48:05 -0500
-X-MC-Unique: I98sLlIXMJWf2JJwD-OZSQ-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9c75b999aaaso60496366b.2
-        for <linux-input@vger.kernel.org>; Thu, 09 Nov 2023 03:48:05 -0800 (PST)
+ us-mta-2-CUS0eIscNz-iBjapnr1T_w-1; Thu, 09 Nov 2023 06:56:55 -0500
+X-MC-Unique: CUS0eIscNz-iBjapnr1T_w-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9dfbccc2a8cso65806866b.1
+        for <linux-input@vger.kernel.org>; Thu, 09 Nov 2023 03:56:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699530484; x=1700135284;
+        d=1e100.net; s=20230601; t=1699531014; x=1700135814;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ouPBDpRxc5cEOBjMwovayc5MQYZY8bX6UAk2LVNeErc=;
-        b=Ww4d/zCqi24aabIqOVmNHl72F7/hnnyj9ZGK9CShYA7TP4R3NliPbqfa649kPpZGcG
-         onoC/mBBmuUQrKPVh8ihfbrt9j5I9T89JM3p1AFRrxTq5CPq0ekr7UDYM9eas3eq0fqP
-         OFhsa/BrPuS1RBd+8W5lTGu4ZYIlL8ZBSOsIVfVs67twpP7kNIxGbFD7fL5EIcJjEbVV
-         VEKxn4/X0P0wfeBy1sF1wXsCsR+LrO3jo+v/bNbF6J3yPZ9bVdM9l/XO4J551BtsBZCa
-         VgUYeYSR7QAJ6vEnoOL2Ffuu/3tZmhAQocJxwzJelAx7pVSxuTNHzZBKmdz4xTkMH6yG
-         fr3w==
-X-Gm-Message-State: AOJu0YxBbqi3XlxfGzBRx+dzOkcjoI2iotShXDG18gV1K9xl9MAJy+GZ
-        fuJMWnhQl2HJ0WQ7GDdMjKG68Z6qyRI4ic2O8Wh8D5Unv853kiRbs97U5uWkl/DZ2Yb3aQ0/uIs
-        1ieDhcjBieuhrVOZ1BAdj6AQsWqdsVWp7JPT09FM=
-X-Received: by 2002:a17:907:ea6:b0:9e1:46a2:b827 with SMTP id ho38-20020a1709070ea600b009e146a2b827mr4357071ejc.29.1699530484718;
-        Thu, 09 Nov 2023 03:48:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEAEH2uL1uOIqy1J9TKIH6vxPugMmWZqnXzhJ/jMbyp5T5l5mx/gtw6f5M2GYsMMlZS84z6zB97BjxSfj21T/8=
-X-Received: by 2002:a17:907:ea6:b0:9e1:46a2:b827 with SMTP id
- ho38-20020a1709070ea600b009e146a2b827mr4357043ejc.29.1699530484394; Thu, 09
- Nov 2023 03:48:04 -0800 (PST)
+        bh=rxgiQfG57B8WYlQaIBGWpOfAz7KPJ/cKr6geqUfke5Q=;
+        b=NN6E424jajKGkAEM5+fSTzG5+SjtkAWH8xMP5/ca5yU5EWu2+ddANQzXECJahJxQr5
+         TOXwpd5WwEPTmBv0MY0Ci5Br3Yz31XkERvVYDWDp/Yp4nMVMh3khM3EVm0zUxwjIYuZD
+         D3odpnAFQET+TyG+ayAO6ctuTt2xi9vPe9Iqc1mdZiulzbkpUuxiqAeHZQqghSQobsm1
+         RTXo7eBGL1yTrw2/Pnt4hPrWACxrrRpuWwq5c0E13bTdMiKyfXImw+RT8X6ZvFAHqVWa
+         ve4CcTwcl77egCnnO77/PKiwEeZPCixPEPg82NxupyNc8ORdS8qkBNuofYGVo5axbQfO
+         gdpA==
+X-Gm-Message-State: AOJu0YwRZtx2pqQom9t208P1qbAsWHyzwU0ba+ssJSsumuaCo2Fesfds
+        TC5WIAwUbbsZjLqISCQwHQ69AIsC1UWha6p6tHu8NNbgmytoUf2wCALTL7fX8AIe2+twgIC2Uk+
+        2EHaWE54LMN3CXYQghS/VewvevFfxlwAJFKXY2eo=
+X-Received: by 2002:a17:907:72d2:b0:9e0:5d5c:aa6d with SMTP id du18-20020a17090772d200b009e05d5caa6dmr4139559ejc.20.1699531014202;
+        Thu, 09 Nov 2023 03:56:54 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHxlrCZEP0Zf3bUap3zbIZY7FqJUmcGsAUa5ALjEfjFj+HW1CWZDvytrHMWS0qZ2D2ZlOhPOClx5L48I6cUeuc=
+X-Received: by 2002:a17:907:72d2:b0:9e0:5d5c:aa6d with SMTP id
+ du18-20020a17090772d200b009e05d5caa6dmr4139541ejc.20.1699531013829; Thu, 09
+ Nov 2023 03:56:53 -0800 (PST)
 MIME-Version: 1.0
 References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm>
- <20231103200524.53930-1-ostapyshyn@sra.uni-hannover.de> <bokQB3BK040-4fGy8tNfZrdM2mNmWxZud9O-KMmYqOkfa1JTC1ocUjoAzCEpPsbsAvY5qb5TcSP6XsQLaja2XO0gapOcsZyeVdCvq6T31qA=@protonmail.com>
  <CAO-hwJLpKTb9yxvxaPDLZkF9kDF8u2VRJUf9yiQd+neOyxPeug@mail.gmail.com>
  <eb8e22f3-77dc-4923-a7ba-e237ee226edb@sra.uni-hannover.de>
- <CAO-hwJKVwZK00yZFjuyyR9Xt4Y2-r8eLJNZfnyeopHxoZQ0eGA@mail.gmail.com> <A01KgwZWh8vP1ux3J92E572eCVMfYPzBcHLuuGfSTYntQMVErkqIcPhJtWRxJsinbI_AfHvD_GcnGvQ1kFtxR36ozCPj_VH8Ys8OlA02MZQ=@protonmail.com>
-In-Reply-To: <A01KgwZWh8vP1ux3J92E572eCVMfYPzBcHLuuGfSTYntQMVErkqIcPhJtWRxJsinbI_AfHvD_GcnGvQ1kFtxR36ozCPj_VH8Ys8OlA02MZQ=@protonmail.com>
+ <CAO-hwJKVwZK00yZFjuyyR9Xt4Y2-r8eLJNZfnyeopHxoZQ0eGA@mail.gmail.com>
+ <20231108062306.33f5dcd0@dryade> <CAO-hwJK_xp1A=dEOV-2v3KJAf0bRLDWNcrFQeBpgEuxT-qSBnw@mail.gmail.com>
+ <ZUtTpKyP0oxWhnn8@fedora> <CAO-hwJLjtjdr2gtrOWJFPZ-38YzKB8XfhDKWf_2jUPeiaP3EcA@mail.gmail.com>
+ <CAO-hwJKNcwcDGEh33NZq4kSYtoxZzg9M2nzE_hVDYNFgA4g_dg@mail.gmail.com> <_DEF7tHL1p_ExY7GJlJvT5gRA7ZvNnVMJuURb8_WCV-0fbYXkLN2p5zHloi6wiJPNzGEjFAkq2sjbCU633_eNF_cGm0rAbmCOOIOfwe1jWo=@protonmail.com>
+In-Reply-To: <_DEF7tHL1p_ExY7GJlJvT5gRA7ZvNnVMJuURb8_WCV-0fbYXkLN2p5zHloi6wiJPNzGEjFAkq2sjbCU633_eNF_cGm0rAbmCOOIOfwe1jWo=@protonmail.com>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 9 Nov 2023 12:47:52 +0100
-Message-ID: <CAO-hwJJ3jxoWq0bcAZkVrDTySdYrkHs30NDGdMwTp2KPbJDmEg@mail.gmail.com>
+Date:   Thu, 9 Nov 2023 12:56:41 +0100
+Message-ID: <CAO-hwJ+zm=R7NwrALaLVmfPDtMNXpj0eoQgLkiS1wa6wd+hu+A@mail.gmail.com>
 Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel issue
 To:     David Revoy <davidrevoy@protonmail.com>
-Cc:     Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>, jkosina@suse.cz,
-        jason.gerecke@wacom.com, jose.exposito89@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        nils@nilsfuhler.de, peter.hutterer@who-t.net, ping.cheng@wacom.com,
-        bagasdotme@gmail.com
+Cc:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+        Eric GOUYER <folays@gmail.com>,
+        Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>,
+        jkosina@suse.cz, jason.gerecke@wacom.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Nov 9, 2023 at 12:19=E2=80=AFAM David Revoy <davidrevoy@protonmail.=
-com> wrote:
->
-> > BTW, David, were you able to do a revert of 276e14e6c3?
->
-> I'm sorry Benjamin: I did some research on how to build a kernel [1], on =
-how to revert a commit (easy, I know a bit of Git), and started following i=
-t step by step. Result: I failed and concluded that it probably requires to=
-o much computer knowledge compared to what I can do now. I'm afraid I won't=
- be able to build a custom kernel for testing.
+Hi David,
 
-No worries. And I'm actually happy, because you definitely fit into
-the HID-BPF model where I want to fix a user's device without
-requiring kernel compilation, and fixing the device in a reliable way
-that we can do the general fix without impacting the reporter.
+On Thu, Nov 9, 2023 at 1:32=E2=80=AFAM David Revoy <davidrevoy@protonmail.c=
+om> wrote:
+>
+> Hi Benjamin,
+>
+> > Alright, I made quite some progress so far:
+> > - regressions tests have been written (branch wip/xp-pen of my fork on
+> > freedesktop[0])
+> > that branch can not go in directly as it just adds the tests, and
+> > thus is failing
+> > - I made the fixes through HID-BPF[1]
+> >
+> > Anyone using those 2 tablets and using Fedora should be able to just
+> > grab the artifact at [2], uncompress it and run `sudo ./install.sh --ve=
+rbose`.
+> > This will install the bpf programs in /lib/firmware/hid/bpf/ and will
+> > automatically load them when the device is connected.
+> >
+> > For those not using Fedora, the binary might work (or not, not sure),
+> > but you can always decompress it, and check if running
+> > `udev-hid-bpf_0.1.0/bin/udev-hid-bpf --version` returns the correct
+> > version or just fails. If you get "udev-hid-bpf 0.1.0", then running
+> > `sudo ./install.sh --verbose` should work, as long as the kernel has
+> > CONFIG_HID_BPF set to 'Y'.
+> > [...]
+> > [0] https://gitlab.freedesktop.org/bentiss/hid/-/tree/wip/xp-pen?ref_ty=
+pe=3Dheads
+> > [1] https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_reques=
+ts/27
+> > [2] https://gitlab.freedesktop.org/bentiss/udev-hid-bpf/-/jobs/51350589=
+/artifacts/raw/udev-hid-bpf_0.1.0.tar.xz
+>
+> Thank you for this package.
+>
+> I was able to test it even though the link in (2) at the bottom of your e=
+mail returned a blank page. I was able to find my way after manually visiti=
+ng gitlab.freedesktop.org [1] and then manually downloading the article fro=
+m 51350589. I unzipped it and ran `sudo ./install.sh --verbose`. Everything=
+ looks like it was successful [2]. I then rebooted my Fedora 38 'Linux work=
+station 6.5.8-200.fc38.x86_64' kernel (the one I blamed in my post) and tes=
+ted both tablets.
+
+Weird that you had to manually retrieve it. It works here, but maybe
+because I am logged in on gitlab.fd.o.
+
+Also, just FYI, you shouldn't have to reboot. Just unplug/replug and
+you are good. In the same way, if you uninstall the package, you can
+just unplug/replug to not have the programs loaded.
+
+>
+> Here are my observation:
+>
+> XPPEN Artist Pro 24
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Nothing changed for this device (it's the one with two buttons and no 'er=
+aser tip'). Nor my hwdb/udev rules or `xsetwacom set "UGTABLET 24 inch PenD=
+isplay eraser" button 1 3` affects the upper button of the stylus: if I hol=
+d it hover the canvas, Krita switch the tool and cursor for an eraser. If I=
+ click on the canvas with the pen tip while holding the upper button presse=
+d, I get the right-click Pop-up Palette (but not all the time, probably Kri=
+ta has hard time to triage Eraser or Right-click).
+
+As I mentioned in another reply, the more I think of it, the more I
+think I should get rid of the "eraser mode". In that Artist Pro 24 I
+can detect it through the same mechanics as the HID_QUIRK_NOINVERT
+from Illia's patch. But instead of trying to force the device into the
+eraser mode, we should just say "this is actually BUTTON_STYLUS_2".
+
+So I'm going to amend the bpf program to do this and hopefully you
+won't need the hwdb/udev rule at all.
+
+>
+> XPPEN Artist Pro 16 (Gen2)
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> Something changed. `xsetwacom set "UGTABLET Artist Pro 16 (Gen2) eraser" =
+button 1 3` successfully affected the upper button of the stylus. Now if I =
+click it while hovering the canvas, Krita shows the right click Pop-up Pale=
+tte.
+
+I'm surprised you need to teach the wacom driver that BTN_STYLUS_2 is
+the right click.
+
+> On the downside; the real eraser tip when I flip the stylus bugs. When I =
+flip the stylus on eraser hovering the canvas, Krita shows the Eraser icon =
+and switch tool. As soon as I draw with the eraser tip, Krita will also sho=
+w a right-click color palette and with also not a 100% consistency, as if t=
+he event were mixed.
+
+I'll investigate. Maybe I messed up with my event flow patch.
+
+But just to be sure, you don't have a custom configuration in place
+for that tablet device?
 
 Cheers,
 Benjamin
 
 >
-> [1] https://docs.fedoraproject.org/en-US/quick-docs/kernel-build-custom/#=
-_building_a_vanilla_upstream_kernel
+> [1] https://gitlab.freedesktop.org/bentiss/udev-hid-bpf/-/artifacts
+> [2] https://www.peppercarrot.com/extras/temp/2023-11-09_screenshot_005214=
+_net.jpg
 >
 >
-> On Tuesday, November 7th, 2023 at 08:59, Benjamin Tissoires <benjamin.tis=
-soires@redhat.com> wrote:
+> On Wednesday, November 8th, 2023 at 19:21, Benjamin Tissoires <benjamin.t=
+issoires@redhat.com> wrote:
 >
 >
-> > On Mon, Nov 6, 2023 at 9:06=E2=80=AFPM Illia Ostapyshyn
-> > ostapyshyn@sra.uni-hannover.de wrote:
+> > On Wed, Nov 8, 2023 at 10:34=E2=80=AFAM Benjamin Tissoires
+> > benjamin.tissoires@redhat.com wrote:
 > >
-> > > On 11/6/23 17:59, Benjamin Tissoires wrote:
+> > > On Wed, Nov 8, 2023 at 10:23=E2=80=AFAM Jos=C3=A9 Exp=C3=B3sito jose.=
+exposito89@gmail.com wrote:
 > > >
-> > > > If the pen has 2 buttons, and an eraser side, it would be a serious
-> > > > design flow for XPPEN to report both as eraser.
+> > > > Hi Benjamin,
 > > > >
-> > > > Could you please use sudo hid-recorder from hid-tools[1] on any ker=
-nel
-> > > > version and send us the logs here?
-> > > > I'll be able to replay the events locally, and understand why the
-> > > > kernel doesn't work properly.
+> > > > On Wed, Nov 08, 2023 at 10:04:30AM +0100, Benjamin Tissoires wrote:
+> > > > [...]
 > > > >
-> > > > And if there is a design flaw that can be fixed, we might even be a=
-ble
-> > > > to use hid-bpf to change it :)
+> > > > > > So, the behavior probably breaks the specs, but sincerely I'm h=
+appy to
+> > > > > > have the "eraser" button independent of the "rubber eraser", wh=
+ich
+> > > > > > makes the stylus a somewhat 4-buttons stylus (tip, button1, but=
+ton2,
+> > > > > > rubber), and I would like to keep this.
+> > > > >
+> > > > > Yes, and I'd like to keep it that way, even if 6.6 and 6.5.8
+> > > > > apparently broke it.
+> > > > >
+> > > > > So, to me:
+> > > > > - 276e14e6c3993317257e1787e93b7166fbc30905 is wrong: this is a
+> > > > > firmware bug (reporting invert through eraser) and should not be
+> > > > > tackled at the generic level, thus it should be reverted
+> > > > > - both of these tablets are forwarding the useful information, bu=
+t not
+> > > > > correctly, which confuses the kernel
+> > > > > - I should now be able to write regression tests
+> > > > > - I should be able to provide HID-BPF fixes for those tablets so =
+that
+> > > > > we can keep them working with or without
+> > > > > 276e14e6c3993317257e1787e93b7166fbc30905
+> > > > > reverted (hopefully)
+> > > > > - problem is I still don't have the mechanics to integrate the HI=
+D-BPF
+> > > > > fixes directly in the kernel tree, so maybe I'll have to write a
+> > > > > driver for XP-Pen while these internals are set (it shouldn't
+> > > > > interfere with the HID-BPF out of the tree).
+> > > >
+> > > > I already added support for a few XP-Pen devices on the UCLogic dri=
+ver
+> > > > and I was planning to start working on this one during the weekend =
+in
+> > > > my DIGImend fork (to simplify testing).
+> > > >
+> > > > Let me know if you prefer to add it yourself or if you want me to p=
+ing
+> > > > you in the DIGImend discussion.
 > > >
-> > > My wild guess is that XP-Pen 16 Artist Pro reports an Eraser usage
-> > > without Invert for the upper button and Eraser with Invert for the
-> > > eraser tip. A device-specific driver could work with that, but there
-> > > seems to be no way to incorporate two different erasers (thus, allowi=
-ng
-> > > userspace to map them to different actions arbitrarily) in the generi=
-c
-> > > driver currently.
+> > > So far, I really have to work on this now. It's a good use case for
+> > > HID-BPF and it's a regression that I'd like to be fixed ASAP.
+> > > I'd appreciate any reviews :)
 > >
 > >
-> > That's exactly why I want to see the exact event flow. We can not do
-> > "wild guesses" unfortunately (not meaning any offenses).
-> > And I am very suspicious about the fact that the stylus reports 2
-> > identical erasers. Because in the past David seemed to be able to have
-> > 2 distincts behaviors for the 2 "buttons" (physical button and eraser
-> > tail).
+> > Alright, I made quite some progress so far:
+> > - regressions tests have been written (branch wip/xp-pen of my fork on
+> > freedesktop[0])
+> > that branch can not go in directly as it just adds the tests, and
+> > thus is failing
+> > - I made the fixes through HID-BPF[1]
 > >
-> > > > Generally speaking, relying on X to fix your hardware is going to b=
-e a
-> > > > dead end. When you switch to wayland, you'll lose all of your fixes=
-,
-> > > > which isn't great.
-> > >
-> > > > AFAIU, the kernel now "merges" both buttons, which is a problem. It
-> > > > seems to be a serious regression. This case is also worrying becaus=
-e I
-> > > > added regression tests on hid, but I don't have access to all of th=
-e
-> > > > various tablets, so I implemented them from the Microsoft
-> > > > specification[0]. We need a special case for you here.
-> > >
-> > > The issue preventing David from mapping HID_DG_ERASER to BTN_STYLUS2 =
-is
-> > > that the hidinput_hid_event is not compatible with hidinput_setkeycod=
-e.
-> > > If usage->code is no longer BTN_TOUCH after remapping, it won't be
-> > > released when Eraser reports 0. A simple fix is:
+> > Anyone using those 2 tablets and using Fedora should be able to just
+> > grab the artifact at [2], uncompress it and run `sudo ./install.sh --ve=
+rbose`.
+> > This will install the bpf programs in /lib/firmware/hid/bpf/ and will
+> > automatically load them when the device is connected.
+> >
+> > For those not using Fedora, the binary might work (or not, not sure),
+> > but you can always decompress it, and check if running
+> > `udev-hid-bpf_0.1.0/bin/udev-hid-bpf --version` returns the correct
+> > version or just fails. If you get "udev-hid-bpf 0.1.0", then running
+> > `sudo ./install.sh --verbose` should work, as long as the kernel has
+> > CONFIG_HID_BPF set to 'Y'.
+> >
+> > > Also, good to know that I can probably piggyback on hid-uclogic for
+> > > fixing those 2 devices in the kernel.
 > >
 > >
-> > I must confess, being the one who refactored everything, I still don't
-> > believe this is as simple as it may seem. I paged out all of the
-> > special cases, and now, without seeing the event flow I just can not
-> > understand why this would fix the situation.
+> > Next step will be to fix them using a kernel driver, but it seems that
+> > the uclogic driver is doing more than just report descriptor fixups,
+> > so maybe I'll have to use a different driver.
+> > But the point is, in theory, if you are affected by those bugs, using
+> > the udev-hid-bpf should fix the issue, and this should also be
+> > resilient to further kernel updates.
 > >
-> > And BTW, if you have a tool affected by 276e14e6c3, I'd be curious to
-> > get a hid-recorder sample for it so I can get regression tests for it.
-> >
-> > > --- a/drivers/hid/hid-input.c
-> > > +++ b/drivers/hid/hid-input.c
-> > > @@ -1589,7 +1589,7 @@ void hidinput_hid_event(struct hid_device *hid,
-> > > struct hid_field field, struct
-> > > / value is off, tool is not rubber, ignore */
-> > > return;
-> > > else if (*quirks & HID_QUIRK_NOINVERT &&
-> > > - !test_bit(BTN_TOUCH, input->key)) {
-> > > + !test_bit(usage->code, input->key)) {
-> >
-> >
-> > I don't want to be rude, but this feels very much like black magic,
-> > especially because there is a comment just below and it is not
-> > updated. So either the explanation was wrong, or it's not explaining
-> > the situation (I also understand that this is not a formal submission,
-> > so maybe that's the reason why the comment is not updated).
-> >
-> > > /*
-> > > * There is no invert to release the tool, let hid_input
-> > > * send BTN_TOUCH with scancode and release the tool after.
-> > >
-> > > This change alone fixes David's problem and the right-click mapping i=
-n
-> > > hwdb works again. However, the tool switches to rubber for the remapp=
-ed
-> > > eraser (here BTN_STYLUS2) events, both for devices with and without
-> > > Invert. This does no harm but is not useful either. A cleaner solutio=
-n
-> > > for devices without Invert would be to omit the whole tool switching
-> > > logic in this case:
-> > >
-> > > @@ -1577,6 +1577,9 @@ void hidinput_hid_event(struct hid_device *hid,
-> > > struct hid_field *field, struct
-> > >
-> > > switch (usage->hid) {
-> > > case HID_DG_ERASER:
-> > > + if (*quirks & HID_QUIRK_NOINVERT && usage->code !=3D BTN_TOUCH)
-> > > + break;
-> > > +
-> > > report->tool_active |=3D !!value;
-> > >
-> > > Remapping Invert does not work anyway as the Invert tool is hardcoded=
- in
-> > > hidinput_hid_event. Even worse, I guess (not tested) trying to do so
-> > > would mask BTN_TOOL_RUBBER from dev->keybit and could cause weird
-> > > behavior similar to one between 87562fcd1342 and 276e14e6c3. This
-> > > raises the question: should users be able to remap Invert after all?
-> >
-> >
-> > The kernel is supposed to transfer what the device is. So if it says
-> > this is an eraser, we should not try to change it. Users can then
-> > tweak their own device if they wish through hid-bpf or through
-> > libinput quirks, but when you install a fresh kernel without tweaks,
-> > we should be as accurate as possible.
-> >
-> > My main concern is that now we have a device which exports 2 different
-> > interactions as being the same. So either the firmware is wrong, and
-> > we need to quirk it, or the kernel is wrong and merges both, and this
-> > needs fixes as well.
-> >
-> > Once every interaction on the device gets its own behavior, userspace
-> > can do whatever they want. It's not the kernel's concern anymore.
-> >
-> > BTW, David, were you able to do a revert of 276e14e6c3?
+> > I'd appreciate testing when I got the full kernel series up and ready,
+> > of course.
 > >
 > > Cheers,
 > > Benjamin
+> >
+> > [0] https://gitlab.freedesktop.org/bentiss/hid/-/tree/wip/xp-pen?ref_ty=
+pe=3Dheads
+> > [1] https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_reques=
+ts/27
+> > [2] https://gitlab.freedesktop.org/bentiss/udev-hid-bpf/-/jobs/51350589=
+/artifacts/raw/udev-hid-bpf_0.1.0.tar.xz
 >
 
