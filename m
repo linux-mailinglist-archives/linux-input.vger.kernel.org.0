@@ -2,89 +2,213 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BF1C7E6E52
-	for <lists+linux-input@lfdr.de>; Thu,  9 Nov 2023 17:13:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BDEB7E6E64
+	for <lists+linux-input@lfdr.de>; Thu,  9 Nov 2023 17:15:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230185AbjKIQNV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Nov 2023 11:13:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57726 "EHLO
+        id S234626AbjKIQPC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Nov 2023 11:15:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229914AbjKIQNU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Nov 2023 11:13:20 -0500
-Received: from csmtpq3-prd-nl1-vmo.edge.unified.services (csmtpq3-prd-nl1-vmo.edge.unified.services [84.116.50.34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 280EF324A
-        for <linux-input@vger.kernel.org>; Thu,  9 Nov 2023 08:13:18 -0800 (PST)
-Received: from csmtp5-prd-nl1-vmo.nl1.unified.services ([100.107.82.68] helo=csmtp5-prd-nl1-vmo.edge.unified.services)
-        by csmtpq3-prd-nl1-vmo.edge.unified.services with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <gareth.randall@virgin.net>)
-        id 1r17ed-002wga-Ax
-        for linux-input@vger.kernel.org; Thu, 09 Nov 2023 17:13:15 +0100
-Received: from [192.168.0.10] ([94.175.123.86])
-        by csmtp5-prd-nl1-vmo.edge.unified.services with ESMTPA
-        id 17ecrBiz2owqL17edrjjOo; Thu, 09 Nov 2023 17:13:15 +0100
-X-SourceIP: 94.175.123.86
-X-Authenticated-Sender: gareth.randall@virgin.net
-X-Spam: 0
-X-Authority: v=2.4 cv=F7RRdLhN c=1 sm=1 tr=0 ts=654d051b cx=a_exe
- a=mwdPpgLduwvwBeoi1XfOCA==:117 a=mwdPpgLduwvwBeoi1XfOCA==:17
- a=IkcTkHD0fZMA:10 a=BNY50KLci1gA:10 a=f6pUZMUfAAAA:8 a=LNJ0kZsZub98i_LgeWYA:9
- a=QEXdDO2ut3YA:10 a=eZImKStj3dtCS-zw9-0K:22
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virgin.net;
-        s=meg.feb2017; t=1699546395;
-        bh=gmnvDjIbX2Ox/XpwVyc0KVOve5gGtQGoQgwCwwzMXog=;
-        h=Date:Subject:From:To:Cc:References:In-Reply-To;
-        b=gilMQAjOnk9iAairnwhNU9bzMj05RUsNOMDkNkBWSjpfGDCRrzlSRL+rqz69P1QsY
-         KUg2+q1n8QSfN7yd0P1Se1XfaRNAkQpLAXVwLHKDf8egAQ6JmROcEaOLgMcs0fjzbe
-         Hg+peWWhnQLpUyCQ4WNtnUvYuMg+DI+Fwcoggglp58TLQqwbSNMp9Sceliaoi+3Yth
-         m4T5y2//f6B68JP1ofXKXfCjQV7JoX7cwgEQNNyqUo+v5AKE4B0FStCPx+myLlQOPb
-         NRGDAzTwFfv6EOJKr4VXQYJD6wuJ7wdcLMMnmQoeqTtiEvdN1JL4zArpc/7VOk16wq
-         kPybfSMpgw3dg==
-Message-ID: <c5140a73-a2d6-4a64-aedc-115fb01342c0@virgin.net>
-Date:   Thu, 9 Nov 2023 16:13:14 +0000
+        with ESMTP id S234691AbjKIQO6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Nov 2023 11:14:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D533A324A
+        for <linux-input@vger.kernel.org>; Thu,  9 Nov 2023 08:14:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1699546448;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=YRbyLc/2EfGb6Ms93DwiyFkj3WWvI48paLLsUDFKqtk=;
+        b=Gq5tpdfx2Pxas3/yxeaqecV05fnSGKBSViacKVdh1vEnVj3snFtbxoK3MYQ1eD6yhIhuXG
+        4KSD/vn7wT/iEeD8o0iQo4LdbaTfmwkrJPZWDUfXwegXaoWkdQ2U9wmTf3a5bnPDKjoScO
+        Lt3KUbnm0R5oCRU3/FOqp8rp+UhSWfA=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-580-usz0hzznMiOrN6K1Wx8tkA-1; Thu, 09 Nov 2023 11:14:05 -0500
+X-MC-Unique: usz0hzznMiOrN6K1Wx8tkA-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-99bca0b9234so86863266b.2
+        for <linux-input@vger.kernel.org>; Thu, 09 Nov 2023 08:14:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699546444; x=1700151244;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YRbyLc/2EfGb6Ms93DwiyFkj3WWvI48paLLsUDFKqtk=;
+        b=o2EuHzXgnt8A+CKXHVGvC6xI9ftT69bkLs/1OqI9ZKeiLEWfgyMeFbNgGk9m5tgQne
+         djXBUIwIFwBYMlx2nZ6/dcG9MZii1ktCxQB6KVQbTW177rAVSCCrjsqJDMdtKTkvLD/R
+         LjQHdKY2dwQeXgat6Z8S2so6XbKCRgS0aLlxhiFI8ZvRM0vRaeeh8ACJFK7s8L6d3yAb
+         xYiI5wD2IAaCyIiE035NH8udqtWfz+BArRRBGNjAjze12+RObFLe/Ltx/zMcHZvh7EDz
+         pvG8GkAnOppR93PeWVV4VSgKBNTVo6QF6BoNJdgTuGCPIiUDo9eV5HZ46YWHZ+9Vmz3N
+         Fv1A==
+X-Gm-Message-State: AOJu0YwGTVb93GmZjGIkE4+XDClLFHljPjMrPDTCIeZhlVQaSmM6Z2HL
+        VCM8t9BBc9PgX+b6QYfxG5acR0XCrVBZOIQNVZ9LdMP9bemzqhg+hwxJDWw0zA1PwN7wQ4N0WxJ
+        mF1uk1hZ7WUGS0q3hY208V831h16rntU1tV7mFCY=
+X-Received: by 2002:a17:907:934b:b0:9c4:67f:3ef5 with SMTP id bv11-20020a170907934b00b009c4067f3ef5mr4707302ejc.50.1699546444073;
+        Thu, 09 Nov 2023 08:14:04 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGH/vCdBTb9AR1h3trZVPI9wHo8Q1qKaGn2f+LOy8onw/MVVLaTHPDLDFgIsp2l0Y0B2mIG+C8w+Mo9JQ7YH10=
+X-Received: by 2002:a17:907:934b:b0:9c4:67f:3ef5 with SMTP id
+ bv11-20020a170907934b00b009c4067f3ef5mr4707283ejc.50.1699546443745; Thu, 09
+ Nov 2023 08:14:03 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Add support for touch screens using the General Touch
- ST6001S controller.
-Content-Language: en-GB
-From:   Gareth Randall <gareth.randall@virgin.net>
-To:     Benjamin Tissoires <bentiss@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-References: <4c792c2e-9de3-4faa-9948-47ddae77640e@virgin.net>
-In-Reply-To: <4c792c2e-9de3-4faa-9948-47ddae77640e@virgin.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfBN+C1Us9tjvpo+qS+zC5vIMGbAacp6G8Z+9FewpCo8Mn7YEpLXcHpVWYxpOXYBdcAh8CSmoq8+csu/wspXyjYq5xVgJWSyE3zZnNWtJW9M7SkHTq1RN
- Z4U4gjP3TYPRJWG0ywFWILTGsWVrneJYK/N5XnH1Ybiji8V9HrGo4BQSXEu/1Y+cwbrbFtODrEV8RJzFaAMYn2oADH8o9yXgGXgGITheN/Ure+Ff4WX7h421
- /R+4K+Fqb2zfWQsYz57uWTmv9VMDi3AT5rp052Q1x5U=
+References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm>
+ <CAO-hwJLpKTb9yxvxaPDLZkF9kDF8u2VRJUf9yiQd+neOyxPeug@mail.gmail.com>
+ <eb8e22f3-77dc-4923-a7ba-e237ee226edb@sra.uni-hannover.de>
+ <CAO-hwJKVwZK00yZFjuyyR9Xt4Y2-r8eLJNZfnyeopHxoZQ0eGA@mail.gmail.com>
+ <20231108062306.33f5dcd0@dryade> <CAO-hwJK_xp1A=dEOV-2v3KJAf0bRLDWNcrFQeBpgEuxT-qSBnw@mail.gmail.com>
+ <ZUtTpKyP0oxWhnn8@fedora> <CAO-hwJLjtjdr2gtrOWJFPZ-38YzKB8XfhDKWf_2jUPeiaP3EcA@mail.gmail.com>
+ <CAO-hwJKNcwcDGEh33NZq4kSYtoxZzg9M2nzE_hVDYNFgA4g_dg@mail.gmail.com>
+ <_DEF7tHL1p_ExY7GJlJvT5gRA7ZvNnVMJuURb8_WCV-0fbYXkLN2p5zHloi6wiJPNzGEjFAkq2sjbCU633_eNF_cGm0rAbmCOOIOfwe1jWo=@protonmail.com>
+ <CAO-hwJ+zm=R7NwrALaLVmfPDtMNXpj0eoQgLkiS1wa6wd+hu+A@mail.gmail.com>
+In-Reply-To: <CAO-hwJ+zm=R7NwrALaLVmfPDtMNXpj0eoQgLkiS1wa6wd+hu+A@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 9 Nov 2023 17:13:51 +0100
+Message-ID: <CAO-hwJKJW5jGDdaaS8eB7kcLQUvWO_1XkOzJG4HAcaRzw1cGnQ@mail.gmail.com>
+Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel issue
+To:     David Revoy <davidrevoy@protonmail.com>
+Cc:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+        Eric GOUYER <folays@gmail.com>,
+        Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>,
+        jkosina@suse.cz, jason.gerecke@wacom.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear Benjamin and Dmitry,
+On Thu, Nov 9, 2023 at 12:56=E2=80=AFPM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> Hi David,
+>
+> On Thu, Nov 9, 2023 at 1:32=E2=80=AFAM David Revoy <davidrevoy@protonmail=
+.com> wrote:
+> >
+> > Hi Benjamin,
+> >
+> > > Alright, I made quite some progress so far:
+> > > - regressions tests have been written (branch wip/xp-pen of my fork o=
+n
+> > > freedesktop[0])
+> > > that branch can not go in directly as it just adds the tests, and
+> > > thus is failing
+> > > - I made the fixes through HID-BPF[1]
+> > >
+> > > Anyone using those 2 tablets and using Fedora should be able to just
+> > > grab the artifact at [2], uncompress it and run `sudo ./install.sh --=
+verbose`.
+> > > This will install the bpf programs in /lib/firmware/hid/bpf/ and will
+> > > automatically load them when the device is connected.
+> > >
+> > > For those not using Fedora, the binary might work (or not, not sure),
+> > > but you can always decompress it, and check if running
+> > > `udev-hid-bpf_0.1.0/bin/udev-hid-bpf --version` returns the correct
+> > > version or just fails. If you get "udev-hid-bpf 0.1.0", then running
+> > > `sudo ./install.sh --verbose` should work, as long as the kernel has
+> > > CONFIG_HID_BPF set to 'Y'.
+> > > [...]
+> > > [0] https://gitlab.freedesktop.org/bentiss/hid/-/tree/wip/xp-pen?ref_=
+type=3Dheads
+> > > [1] https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_requ=
+ests/27
+> > > [2] https://gitlab.freedesktop.org/bentiss/udev-hid-bpf/-/jobs/513505=
+89/artifacts/raw/udev-hid-bpf_0.1.0.tar.xz
+> >
+> > Thank you for this package.
+> >
+> > I was able to test it even though the link in (2) at the bottom of your=
+ email returned a blank page. I was able to find my way after manually visi=
+ting gitlab.freedesktop.org [1] and then manually downloading the article f=
+rom 51350589. I unzipped it and ran `sudo ./install.sh --verbose`. Everythi=
+ng looks like it was successful [2]. I then rebooted my Fedora 38 'Linux wo=
+rkstation 6.5.8-200.fc38.x86_64' kernel (the one I blamed in my post) and t=
+ested both tablets.
+>
+> Weird that you had to manually retrieve it. It works here, but maybe
+> because I am logged in on gitlab.fd.o.
+>
+> Also, just FYI, you shouldn't have to reboot. Just unplug/replug and
+> you are good. In the same way, if you uninstall the package, you can
+> just unplug/replug to not have the programs loaded.
 
-I wonder if you have had a chance to look at this patch. It was resubmitted on 3rd Oct 2023 then 
-again to make it appear in Patchwork properly. This is my first patch so any feedback on both the 
-patch and whether I'm following the process properly would be very useful.
+I've pushed an update of the file[0], turns out I made several mistakes.
+As a general rule of thumb, you can follow the MR I've opened at [1],
+click on the pipeline, open the last job ("make release"), then browse
+the artifacts and pull the file from there.
 
-Thanks very much.
+>
+> >
+> > Here are my observation:
+> >
+> > XPPEN Artist Pro 24
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > Nothing changed for this device (it's the one with two buttons and no '=
+eraser tip'). Nor my hwdb/udev rules or `xsetwacom set "UGTABLET 24 inch Pe=
+nDisplay eraser" button 1 3` affects the upper button of the stylus: if I h=
+old it hover the canvas, Krita switch the tool and cursor for an eraser. If=
+ I click on the canvas with the pen tip while holding the upper button pres=
+sed, I get the right-click Pop-up Palette (but not all the time, probably K=
+rita has hard time to triage Eraser or Right-click).
+>
+> As I mentioned in another reply, the more I think of it, the more I
+> think I should get rid of the "eraser mode". In that Artist Pro 24 I
+> can detect it through the same mechanics as the HID_QUIRK_NOINVERT
+> from Illia's patch. But instead of trying to force the device into the
+> eraser mode, we should just say "this is actually BUTTON_STYLUS_2".
+>
+> So I'm going to amend the bpf program to do this and hopefully you
+> won't need the hwdb/udev rule at all.
 
-Yours,
+I've fixed that one normally. There were a couple of issues:
+- the PID in use was the one from the pro 16 gen2, which explained why
+no change was appearing
+- I've now decided to not export the second button as an eraser, as
+mentioned above.
 
-Gareth
+>
+> >
+> > XPPEN Artist Pro 16 (Gen2)
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> > Something changed. `xsetwacom set "UGTABLET Artist Pro 16 (Gen2) eraser=
+" button 1 3` successfully affected the upper button of the stylus. Now if =
+I click it while hovering the canvas, Krita shows the right click Pop-up Pa=
+lette.
+>
+> I'm surprised you need to teach the wacom driver that BTN_STYLUS_2 is
+> the right click.
+>
+> > On the downside; the real eraser tip when I flip the stylus bugs. When =
+I flip the stylus on eraser hovering the canvas, Krita shows the Eraser ico=
+n and switch tool. As soon as I draw with the eraser tip, Krita will also s=
+how a right-click color palette and with also not a 100% consistency, as if=
+ the event were mixed.
+>
+> I'll investigate. Maybe I messed up with my event flow patch.
 
-On 25/10/2023 16:51, Gareth Randall wrote:
-> Add support for touch screens using the General Touch ST6001S controller,
-> as found in the GPEG model AOD22WZ-ST monitor. This controller can output
-> the ELO 10-byte protocol, but requires different initialisation.
-> 
-> Signed-off-by: Gareth Randall <gareth@garethrandall.com>
-> ---
->   drivers/input/touchscreen/elo.c | 81 ++++++++++++++++++++++++++++++++-
->   1 file changed, 80 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/touchscreen/elo.c b/drivers/input/touchscreen/elo.c
-> index 96173232e53f..b233869ffa2a 100644
-[snip]
+Definitely my mistake: both the bpf programs I wrote were attached to
+the same device. Thus, the 2 fixes were stacking on each other,
+leading to some interesting side effects.
+
+You can check that the bpf are properly loaded by having a look at the
+report descriptor when you replug the device:
+if you see "Secondary Barrel Switch" at offset 16 instead of "Eraser"
+on both of your tablets (with hid-recorder), you should have
+successfully patched your devices.
+
+Cheers,
+Benjamin
+
+>
+> But just to be sure, you don't have a custom configuration in place
+> for that tablet device?
+>
+
+[0] https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/jobs/51399392/ar=
+tifacts/file/udev-hid-bpf_0.1.0.tar.xz
+[1] https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_requests/2=
+7
 
