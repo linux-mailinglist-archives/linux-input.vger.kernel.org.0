@@ -2,301 +2,227 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 405337E68E0
-	for <lists+linux-input@lfdr.de>; Thu,  9 Nov 2023 11:54:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 481487E69E3
+	for <lists+linux-input@lfdr.de>; Thu,  9 Nov 2023 12:47:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231703AbjKIKyM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Nov 2023 05:54:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37634 "EHLO
+        id S231878AbjKILrJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Nov 2023 06:47:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231447AbjKIKyL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Nov 2023 05:54:11 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61BAA2590;
-        Thu,  9 Nov 2023 02:54:09 -0800 (PST)
-Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 1CD6C6607418;
-        Thu,  9 Nov 2023 10:54:06 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1699527247;
-        bh=LkXl+rP/UNmUub3S7DGui7pcqUg+FDfvcQ/RuBUWIrM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=BiKodqoMotSlAmDi8beLZ+RPWVZ1WoIOL/rtTrwmK5mtCnqaMz67p19i8qq0CNWQ/
-         lHHe9kFlHqAodC4C8/VBiXNwNy/C4NjS1vwhHzdJtbAFm9/sSgr4kQAlyLvDjNvB7i
-         aeEdKITPOyIll8pE5uAt7WrIQF7amZcqQ9locycFDdhgRadFe/z9GRZ+WgN2bTb/G5
-         U9G3HVWbT7rGhsd2lF4vHE9Wux3OIiSFJppayz/LbYYwQArNv422T6sgXtqu31duKV
-         g22Y1nzOYwrxRpbwPQwO90oepW0PyPJd8TgrIDsFR2P9Axrz/J8sZ7EIXGGELUxBN7
-         wgBZQK8TfZKNA==
-Message-ID: <859ac058-c50a-4eb8-99b6-3011ef4e7529@collabora.com>
-Date:   Thu, 9 Nov 2023 11:54:03 +0100
+        with ESMTP id S231877AbjKILrI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Nov 2023 06:47:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2E25269A
+        for <linux-input@vger.kernel.org>; Thu,  9 Nov 2023 03:46:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1699530381;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Xx9vhxDzXDx3FeqkfjvNzmV81Ex2XQnYZudM398Ndgc=;
+        b=Ui2oisf0C0IV1dD9/S4brhLPxd1hB8buWbTDI0+YlG9akyIpKHAmz4QlCkHRtOJVaeb9Aw
+        FC/Z/GzmjaxmOoNfLMH3WCc0gjTS3ByXaZxFrNpAwNhWY/PZq5gzrNlE+Zaj/CwwhLyDzj
+        O8XD67yTs0MBcxPJlKSlCp93/ExmhjE=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-503-a3KZGgNTMaiyuxiXl3U6TQ-1; Thu, 09 Nov 2023 06:46:19 -0500
+X-MC-Unique: a3KZGgNTMaiyuxiXl3U6TQ-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-99bca0b9234so62839666b.2
+        for <linux-input@vger.kernel.org>; Thu, 09 Nov 2023 03:46:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699530378; x=1700135178;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Xx9vhxDzXDx3FeqkfjvNzmV81Ex2XQnYZudM398Ndgc=;
+        b=YqrielAqbOhlP3HWYxAGjVJgWk0prGtvtOvxStO/OPVCFWrBjDvFKCpa46ay58RQGI
+         ktx03IVrjl9J33mUR30wbEZIofu0aMU/VrFIjIAVVz9FX1LtbGsNeyqkZDF8WVuBa+G0
+         6C46EgLRP7fYF2yVUUIvGFsU5HmcNahMU/Fj6CwcPrCT72JkpcbDiM9zhEkbZwTzvKSx
+         2VoMu2mIQat2RrEzNgVQSM9Mgh7NLWHMUnsDkZp/i8jBbqvmrAmdHe/1zAYAju9sg4b4
+         w+BhK83B8+SrWYnZ8w2fDjkBcDZlWbH7mKILnryc8JiQvocwev0eRl1G+36cO4eZp3ku
+         iXVA==
+X-Gm-Message-State: AOJu0Ywo1I+IX02tsqzK9DhzJ3xPYerViEZ4CWMmQzrcWBvE5HVQ9RCj
+        u78OW8SRT0BHDlRwop+RQlv8P98O4vse9IvJTMgLiHycJCvU5nbXb07QhbbX+A5uMEmE9XgNeHx
+        rm1cHve3lCgqoMUbT2yuB+B9O/QoUNUkpfAyw/rQ=
+X-Received: by 2002:a17:907:3e81:b0:9c3:1d7e:f5b5 with SMTP id hs1-20020a1709073e8100b009c31d7ef5b5mr3869801ejc.20.1699530378468;
+        Thu, 09 Nov 2023 03:46:18 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEJhwyykRuVv/L8SJga/nU+RHtyHjpDDz9uPB8KSXhUziWnNTPl03QiW2qPbkNK9V/EjcEv28gPLcZQdqB8Uds=
+X-Received: by 2002:a17:907:3e81:b0:9c3:1d7e:f5b5 with SMTP id
+ hs1-20020a1709073e8100b009c31d7ef5b5mr3869785ejc.20.1699530378150; Thu, 09
+ Nov 2023 03:46:18 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 0/7] of: Introduce hardware prober driver
-Content-Language: en-US
-To:     Chen-Yu Tsai <wenst@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        andriy.shevchenko@linux.intel.com, Jiri Kosina <jikos@kernel.org>,
-        linus.walleij@linaro.org, broonie@kernel.org,
-        gregkh@linuxfoundation.org, hdegoede@redhat.com,
-        james.clark@arm.com, james@equiv.tech, keescook@chromium.org,
-        petr.tesarik.ext@huawei.com, rafael@kernel.org, tglx@linutronix.de,
-        Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Douglas Anderson <dianders@chromium.org>,
-        Johan Hovold <johan@kernel.org>
-References: <20231109100606.1245545-1-wenst@chromium.org>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231109100606.1245545-1-wenst@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <CAO-hwJK_xp1A=dEOV-2v3KJAf0bRLDWNcrFQeBpgEuxT-qSBnw@mail.gmail.com>
+ <20231108194051.279435-2-nils@nilsfuhler.de> <CAO-hwJ+b4q+8g=Cg5MRJQT2EsxkFZrK_XgJqmHWm=GBHskhDqQ@mail.gmail.com>
+ <87zfzndghj.fsf@sra.uni-hannover.de>
+In-Reply-To: <87zfzndghj.fsf@sra.uni-hannover.de>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 9 Nov 2023 12:46:05 +0100
+Message-ID: <CAO-hwJ+xMc2O0d1JJdQt4f3BAd+ASSv9hA4SH+3WS4iTNpU61w@mail.gmail.com>
+Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel issue
+To:     ostapyshyn@sra.uni-hannover.de
+Cc:     Nils Fuhler <nils@nilsfuhler.de>, davidrevoy@protonmail.com,
+        folays@gmail.com, jason.gerecke@wacom.com, jkosina@suse.cz,
+        jose.exposito89@gmail.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Il 09/11/23 11:05, Chen-Yu Tsai ha scritto:
-> Hi everyone,
-> 
-> This v2 series continues Doug's "of: device: Support 2nd sources of
-> probeable but undiscoverable devices" [1] series, but follows the scheme
-> suggested by Rob, marking all second source component device nodes
-> as "fail-needs-probe-XXX", and having a hardware prober driver enable
-> the one of them. I tried to include everyone from the original Cc: list.
-> Please let me know if you would like to be dropped from future
-> submissions.
-> 
-> 
-> For the I2C component (touchscreens and trackpads) case from the
-> original series, the hardware prober driver finds the particular
-> class of device in the device tree, gets its parent I2C adapter,
-> and tries to initiate a simple I2C read for each device under that
-> I2C bus. When it finds one that responds, it considers that one
-> present, marks it as "okay", and returns, letting the driver core
-> actually probe the device.
-> 
-> This works fine in most cases since these components are connected
-> via ribbon cable and always have the same resources. The driver as
-> implemented currently doesn't deal with regulators or GPIO pins,
-> since in the existing device trees they are either always on for
-> regulators, or have GPIO hogs or pinmux and pinconfig directly
-> tied to the pin controller.
-> 
-> 
-> Another case this driver could handle is selecting components based
-> on some identifier passed in by the firmware. On Chromebooks we have
-> a SKU ID which is inserted by the bootloader at
-> /firmware/coreboot/sku-id. When a new combination of components is
-> introduced, a new SKU ID is allocated to it. To have SKU ID based
-> device trees, we would need to have one per SKU ID. This ends up
-> increasing the number of device trees we have a lot. The recent
-> MT8186 devices already have 10+10 SKUs [2], with possibly more to come.
-> 
-> Instead, we could have just one device tree for each device, with
-> component options listed and marked as "fail-needs-probe-XXX", and
-> let the hardware prober enable one of them based on the given SKU ID.
-> The driver will also fix up OF graph remote endpoints to point to the
-> enabled component.
-> 
-> The MT8186 Corsola series [2] can also benefit from this, though I
-> haven't implemented anything yet.
-> 
-> 
-> Patch 1 adds of_device_is_fail() for the new driver to use.
-> 
-> Patch 2 implements the first case, probing the I2C bus for presence
-> of components. This initial version targets the Hana Chromebooks.
-> 
-> Patch 3 modifies the Hana device tree and marks the touchscreens
-> and trackpads as "fail-needs-probe-XXX", ready for the driver to
-> probe.
-> 
-> Patch 4 adds a missing touchscreen variant to Hana.
-> 
-> Patch 5 implements the second case, selectively enabling components
-> based on the SKU ID. This initial version targets the Krane ChromeOS
-> tablet, which has two possible MIPI DSI display panel options.
-> 
-> Patch 6 drops Krane's SKU-specific compatible strings from the bindings.
-> 
-> Patch 7 merges Krane's SKU-specific device trees into one, with the
-> device tree now containing two possible panels. This unfortunately
-> introduces a dtc warning:
-> 
->      arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dts:81.13-83.6:
->          Warning (graph_endpoint): /soc/dsi@14014000/panel2@0/port/endpoint:
-> 	graph connection to node '/soc/dsi@14014000/ports/port/endpoint'
-> 	    is not bidirectional
-> 
-> 
-> Please take a look.
-> 
-> Johan, I'm not sure if this works as is for the Lenovo Thinkpad 13S
-> case, since it looks like the trackpad shares the I2C bus with the
-> keyboard.
-> 
-> 
-> Thanks
-> ChenYu
-> 
-> 
-> Background as given in Doug's cover letter:
-> 
-> Support for multiple "equivalent" sources for components (also known
-> as second sourcing components) is a standard practice that helps keep
-> cost down and also makes sure that if one component is unavailable due
-> to a shortage that we don't need to stop production for the whole
-> product.
-> 
-> Some components are very easy to second source. eMMC, for instance, is
-> fully discoverable and probable so you can stuff a wide variety of
-> similar eMMC chips on your board and things will work without a hitch.
-> 
-> Some components are more difficult to second source, specifically
-> because it's difficult for software to probe what component is present
-> on any given board. In cases like this software is provided
-> supplementary information to help it, like a GPIO strap or a SKU ID
-> programmed into an EEPROM. This helpful information can allow the
-> bootloader to select a different device tree. The various different
-> "SKUs" of different Chromebooks are examples of this.
-> 
-> Some components are somewhere in between. These in-between components
-> are the subject of this patch. Specifically, these components are
-> easily "probeable" but not easily "discoverable".
-> 
-> A good example of a probeable but undiscoverable device is an
-> i2c-connected touchscreen or trackpad. Two separate components may be
-> electrically compatible with each other and may have compatible power
-> sequencing requirements but may require different software. If
-> software is told about the different possible components (because it
-> can't discover them), it can safely probe them to figure out which
-> ones are present.
-> 
-> On systems using device tree, if we want to tell the OS about all of
-> the different components we need to list them all in the device
-> tree. This leads to a problem. The multiple sources for components
-> likely use the same resources (GPIOs, interrupts, regulators). If the
-> OS tries to probe all of these components at the same time then it
-> will detect a resource conflict and that's a fatal error.
-> 
-> The fact that Linux can't handle these probeable but undiscoverable
-> devices well has had a few consequences:
-> 1. In some cases, we've abandoned the idea of second sourcing
->     components for a given board, which increases cost / generates
->     manufacturing headaches.
-> 2. In some cases, we've been forced to add some sort of strapping /
->     EEPROM to indicate which component is present. This adds difficulty
->     to manufacturing / refurb processes.
-> 3. In some cases, we've managed to make things work by the skin of our
->     teeth through slightly hacky solutions. Specifically, if we remove
->     the "pinctrl" entry from the various options then it won't
->     conflict. Regulators inherently can have more than one consumer, so
->     as long as there are no GPIOs involved in power sequencing and
->     probing devices then things can work. This is how
->     "sc8280xp-lenovo-thinkpad-x13s" works and also how
->     "mt8173-elm-hana" works.
-> 
-> End of background from Doug's cover letter.
+On Wed, Nov 8, 2023 at 11:32=E2=80=AFPM <ostapyshyn@sra.uni-hannover.de> wr=
+ote:
+>
+> On 11/8/23 21:34, Benjamin Tissoires wrote:
+>
+> > Again, you convinced me that this commit was wrong. If people needs to
+> > also use an ioctl to "fix" it, then there is something wrong.
+>
+> I don't think we're on the same page here.  Nobody needs to use an ioctl
+> to fix 276e14e6c3.  Rather, the _exact opposite_: the bug reporter used
+> an ioctl to remap Eraser to BTN_STYLUS2.  It stopped working after
+> 276e14e6c3 and broke his workflow.  He reported it as a regression,
+> starting this whole thread.
 
-I think that using "status" is not a good idea, I find that confusing.
+After more thoughts about Niels' email, the whole thread and a
+not-so-good night's sleep, I think I now understand what is the
+problem.
 
-Perhaps we could have a node like
+And yes, most of the problem comes from that remap *after* the kernel
+parsed the device and made a decision based on what was provided to
+it.
 
-something {
-	device-class-one = <&device1>, <&device2>, <&device3>;
-	device-class-two = <&device4>, <&device5>, <&device6>;
-}
+>
+> > Sorry but I tend to disagree. Relying on the ioctl EVIOCSKEYCODE for
+> > tuning the behavior of a state machine is just plain wrong. When
+> > people do that, they are doing it at the wrong level and introducing
+> > further bugs.
+> >
+> > The whole pen and touch HID protocols rely on a state machine. You
+> > just can not change the meaning of it because your hardware maker
+> > produced a faulty hardware.
+> >
+> > [...]
+> >
+> > In the same way, if you remap Tip Switch to KEY-A, you won't get
+> > clicks from your pen. Assuming you can do that with any event on any
+> > HID device is just plain wrong.
+> > That ioctl is OK-ish for "remapping" simple things like keys. In our
+> > case, the whole firmware follows a state machine, so we can not change
+> > it. It has to be remapped in a later layer, in libinput, your
+> > compositor, or in your end user application.
+>
+> I don't disagree.  Forbidding EVIOCSKEYCODE ioctls for pen and touch HID
+> is a legitimate way to resolve this (an appealing one too -- accounting
+> for it in hidinput_hid_event might be a hellish task).
 
-so that'd be more or less
+I think it would be best not to require the need for the ioctl in the
+first place.
 
-hw-prober {
-	trackpads = <&tp1>, <&tp2>;
-	keyboards = <&kb1>, <&kb2>;
-	touchscreens = <&ts1>, <&ts2>;
-}
+Looking at David's blog, I'm starting to wonder if we actually need to
+report BTN_TOOL_RUBBER after all in the case where there is no Invert
+usage.
 
-Besides, something else I can suggest here is to make this more generic: actually,
-this issue is spread across way more devices than you maybe think... for example,
-I know of some smartphones that may have the same situation with DSI displays and
-they're sometimes distinguished by an ADC value, sometimes by reading back the
-manufacturer ID (or panel id) through DSI.
+>
+> Should we forbid remapping Eraser too?  If your answer is yes, then we
+> can finish this conversation here and leave the code as it is now,
+> because __the regression__ is a user not being able to use an ioctl to
+> remap Eraser after 276e14e6c3.  Otherwise, if we do make an exemption for
+> David's Eraser, the fix is as simple as replacing BTN_TOUCH with
+> usage->code on line 1594 of hid-input.c.
+>
+> > How many of such devices do we have? Are they all UGTablet like the
+> > XP-PEN? Are they behaving properly on Windows without a proprietary
+> > driver?
+> >
+> > [...]
+> >
+> > I might buy the "invertless" devices are a thing if I can get more
+> > data about it. So far there are only 2 of them, and they add extra
+> > complexity in the code when we can just patch the devices to do the
+> > right thing.
+>
+> There might or might not be more devices like this in the wild.  It looks
+> like BarrelSwitch2 was added only 2013 [1], which is why so many styli
+> use Eraser for the second button.  Setting two bits for a single button
+> just to adhere to Microsoft's *recommendation* is nice for compatibility,
+> but I can imagine vendors taking a shortcut and omitting Invert
+> altogether.  The HID specification alone just lists the usages and says
+> nothing about how they relate to each other.
 
-Also, if Chromebooks really need something "special", such as that coreboot sku-id
-parameter, I think that this should be registered externally into the hw prober
-and not embedded inside of the *generic* hw prober driver.
-
-We can even reuse of_device_id instead of inventing a new hw_prober_entry struct...
-
-Idea:
-
-drivers/platform/chrome/cros_of_hw_prober.c
-
-static int cros_sku_hw_prober(struct platform_device *pdev, const void *data)
-{
-	...this is your cros_sku_component_selector() function, anyway...
-}
-
-static const struct of_device_id cros_hw_prober_ids[] = {
-	{ .compatible = "google,hana", .data = something },
-	{ /* sentinel */ }
-};
-
-static int some_kind_of_early_init_function(something)
-{
-	int a,b,c,ret,something;
-
-	.. some logic if necessary ..
-
-	return of_hw_prober_register(cros_sku_hw_prober, cros_hw_prober_ids);
-}
+Right. So maybe instead of trying to force the "no Invert" pens into
+the "oh, this looks like an eraser", maybe we should remap in that
+case the eraser usage into a secondary barrel switch.
+We then need to filter the proximity out event that is sent when the
+user presses it, but all in all it should be doable (hopefully).
 
 
-Btw, thanks for starting that. If this will be done the right way, it's going to
-be useful to many, many people.
+>
+> XP-Pen Artist 24 does work on Windows with the generic driver.  The
+> Eraser engages as soon as the button is pressed, without touching the
+> screen.
 
-Regards,
-Angelo	
+OK, thanks for the confirmation.
 
-> 
-> [1] https://lore.kernel.org/all/20230921102420.RFC.1.I9dddd99ccdca175e3ceb1b9fa1827df0928c5101@changeid/
-> [2] https://lore.kernel.org/linux-mediatek/20231012230237.2676469-1-wenst@chromium.org/
-> 
-> Chen-Yu Tsai (7):
->    of: base: Add of_device_is_fail
->    of: Introduce hardware prober driver
->    arm64: dts: mediatek: mt8173-elm-hana: Mark touchscreens and trackpads
->      as fail
->    arm64: dts: mediatek: mt8173-elm-hana: Add G2touch G7500 touchscreen
->    of: hw_prober: Support Chromebook SKU ID based component selection
->    dt-bindings: arm: mediatek: Remove SKU specific compatibles for Google
->      Krane
->    arm64: dts: mediatek: mt8183-kukui: Merge Krane device trees
-> 
->   .../devicetree/bindings/arm/mediatek.yaml     |   3 -
->   arch/arm64/boot/dts/mediatek/Makefile         |   3 +-
->   .../boot/dts/mediatek/mt8173-elm-hana.dtsi    |  20 ++
->   .../dts/mediatek/mt8183-kukui-krane-sku0.dts  |  24 --
->   .../mediatek/mt8183-kukui-krane-sku176.dts    |  24 --
->   ...ukui-krane.dtsi => mt8183-kukui-krane.dts} |  47 ++-
->   drivers/of/Kconfig                            |  13 +
->   drivers/of/Makefile                           |   1 +
->   drivers/of/base.c                             |  20 ++
->   drivers/of/hw_prober.c                        | 314 ++++++++++++++++++
->   include/linux/of.h                            |   6 +
->   11 files changed, 418 insertions(+), 57 deletions(-)
->   delete mode 100644 arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dts
->   delete mode 100644 arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dts
->   rename arch/arm64/boot/dts/mediatek/{mt8183-kukui-krane.dtsi => mt8183-kukui-krane.dts} (86%)
->   create mode 100644 drivers/of/hw_prober.c
-> 
+I just had a meeting with Peter Hutterer, and he told me it would be
+best if the kernel doesn't follow the entire "this button is an eraser
+mode". But that requires some filtering of the events because some
+hardware (like the Artist 24 here) partially implements the
+"specification" by sending a proximity out event when the button is
+pressed.
+
+So my idea would be to do that change in HID-BPF, so that it's only
+included when libinput supports it (no regressions then), and we can
+actually change the heuristics more easily than having to patch the
+kernel.
+
+I'd also need to get the behavior of:
+- stylus is in range -> second button is pressed -> stylus touches the
+surface with the button still pressed -> button is released -> stylus
+leaves the surface and goes out of proximity.
+- stylus is in range -> stylus touches the surface without any button
+pressed -> second button is pressed -> stylus leaves the surface and
+goes out of proximity
+- stylus is in range -> stylus touches the surface without any button
+pressed -> second button is pressed -> second button is released ->
+stylus leaves the surface and goes out of proximity
+
+And probably some other weird corner cases.
+
+If we get the "eraser" event being set to 0/1 when the button is
+pressed whether the stylus touches the surface or not, it would be
+simple enough to change the purpose of the button in HID-BPF and
+filter the eventual prox out events.
+
+
+>
+> > New hardware isn't supposed to be supported on an old kernel and is
+> > not considered as a regression. However, David mentioned that the
+> > device was "working" on 6.5.0 but broke in 6.5.8 with the patch
+> > mentioned above. This is a regression that needs to be tackled.
+> > Especially because it was introduced in 6.6 but backported into 6.5.
+>
+> To make sure we're talking about the same thing:
+>
+> 1. "Broke" in this context means that the ioctl remapping from Eraser to
+>    right-click stopped working.
+
+Yeah, you're correct. This isn't a regression, it's a user tempering
+with the kernel and the kernel can't deal with it.
+But the use case is still valid. It's the way it was done that was wrong.
+
+>
+> 2. XPPen 16 Pro Gen2 is a whole different topic, untouched by 276e14e6c3.
+
+I still need to figure out what is wrong after my HID-BPF changes. But
+yeah, it is orthogonal.
+
+Cheers,
+Benjamin
+
+>
+> [1] https://www.usb.org/sites/default/files/hutrr46e.txt
+>
 
