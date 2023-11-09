@@ -2,288 +2,246 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F30457E6A2F
-	for <lists+linux-input@lfdr.de>; Thu,  9 Nov 2023 12:59:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4B417E6B9A
+	for <lists+linux-input@lfdr.de>; Thu,  9 Nov 2023 14:52:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234703AbjKIL7u (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Nov 2023 06:59:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47712 "EHLO
+        id S234184AbjKINwE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Nov 2023 08:52:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343612AbjKIL7T (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Nov 2023 06:59:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A3063855
-        for <linux-input@vger.kernel.org>; Thu,  9 Nov 2023 03:58:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1699531082;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=rxgiQfG57B8WYlQaIBGWpOfAz7KPJ/cKr6geqUfke5Q=;
-        b=RFL9bkxb5XDeFgrF2qvcFApnP8eztdDMQ9OEbEOnokzsD8kPcXlECjLrzGXconVPvEn6tz
-        i2iw285MmTHrKa5cir9R6ofl0/BfvHAJkcCb2bSjGc/87Cv/xTcp3PiI52XUep3+C085XI
-        FTcd7KoTin2zZDaCdgMPHOWAmTjZMZQ=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-2-CUS0eIscNz-iBjapnr1T_w-1; Thu, 09 Nov 2023 06:56:55 -0500
-X-MC-Unique: CUS0eIscNz-iBjapnr1T_w-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9dfbccc2a8cso65806866b.1
-        for <linux-input@vger.kernel.org>; Thu, 09 Nov 2023 03:56:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699531014; x=1700135814;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rxgiQfG57B8WYlQaIBGWpOfAz7KPJ/cKr6geqUfke5Q=;
-        b=NN6E424jajKGkAEM5+fSTzG5+SjtkAWH8xMP5/ca5yU5EWu2+ddANQzXECJahJxQr5
-         TOXwpd5WwEPTmBv0MY0Ci5Br3Yz31XkERvVYDWDp/Yp4nMVMh3khM3EVm0zUxwjIYuZD
-         D3odpnAFQET+TyG+ayAO6ctuTt2xi9vPe9Iqc1mdZiulzbkpUuxiqAeHZQqghSQobsm1
-         RTXo7eBGL1yTrw2/Pnt4hPrWACxrrRpuWwq5c0E13bTdMiKyfXImw+RT8X6ZvFAHqVWa
-         ve4CcTwcl77egCnnO77/PKiwEeZPCixPEPg82NxupyNc8ORdS8qkBNuofYGVo5axbQfO
-         gdpA==
-X-Gm-Message-State: AOJu0YwRZtx2pqQom9t208P1qbAsWHyzwU0ba+ssJSsumuaCo2Fesfds
-        TC5WIAwUbbsZjLqISCQwHQ69AIsC1UWha6p6tHu8NNbgmytoUf2wCALTL7fX8AIe2+twgIC2Uk+
-        2EHaWE54LMN3CXYQghS/VewvevFfxlwAJFKXY2eo=
-X-Received: by 2002:a17:907:72d2:b0:9e0:5d5c:aa6d with SMTP id du18-20020a17090772d200b009e05d5caa6dmr4139559ejc.20.1699531014202;
-        Thu, 09 Nov 2023 03:56:54 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHxlrCZEP0Zf3bUap3zbIZY7FqJUmcGsAUa5ALjEfjFj+HW1CWZDvytrHMWS0qZ2D2ZlOhPOClx5L48I6cUeuc=
-X-Received: by 2002:a17:907:72d2:b0:9e0:5d5c:aa6d with SMTP id
- du18-20020a17090772d200b009e05d5caa6dmr4139541ejc.20.1699531013829; Thu, 09
- Nov 2023 03:56:53 -0800 (PST)
+        with ESMTP id S234166AbjKINwD (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Nov 2023 08:52:03 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0275E30D2;
+        Thu,  9 Nov 2023 05:52:01 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93849C43395;
+        Thu,  9 Nov 2023 13:52:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1699537920;
+        bh=FFkhHR6zONA657K44Icp6MBkFGWCenGcJS5ZGEO0rM0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=PGczriILDOeKDBxPaMki9Pkjlz0Q3w3CnFLAJS0cnkCY77NFqemaq6uTyM1kGbAVC
+         OmnDwPG2yaa4/1pgaYR/8k3WIcurGwbpaRM9w+RimR9FcxIJlQdNrfoGgOJTGIZBtR
+         5Pb+A0QLmCBDruJ+mqyiWG5imJfIfvkGpBCcD2lM9+dmG4Kqvf1KoWe++3UT67qHLM
+         MRfEi4XRj0hjkuPhdM7xDbhJzmkUPDlYZQnSas+DP6rB0FLnjdugCvlFxFnK/6in9n
+         6W8gr+g6fQQwtUGWJUrBwnuD8yAyqljkOwLgkqua3B61SopCOi4TzXV/NN1vXXWPEI
+         X4Y3B92sN71mA==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-507973f3b65so1134659e87.3;
+        Thu, 09 Nov 2023 05:52:00 -0800 (PST)
+X-Gm-Message-State: AOJu0YyFiFW2bPPRZSh2qI+wZWkzutxeJgXV3GkAQKPSSVU2LqvYRd+i
+        YLr10RwnuLXv8rTqzLzxobuQ8gL8BlIvx+7MLg==
+X-Google-Smtp-Source: AGHT+IG9/kgPzv5XhrN8/jQMMd6yVLRKaSGIV1+0jPtpk0hYQw+Fo0kHJiioOILImXzxpX3r8GCNSfxdsoXcPID4Vcc=
+X-Received: by 2002:a19:f502:0:b0:509:47ba:3160 with SMTP id
+ j2-20020a19f502000000b0050947ba3160mr1219621lfb.56.1699537918648; Thu, 09 Nov
+ 2023 05:51:58 -0800 (PST)
 MIME-Version: 1.0
-References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm>
- <CAO-hwJLpKTb9yxvxaPDLZkF9kDF8u2VRJUf9yiQd+neOyxPeug@mail.gmail.com>
- <eb8e22f3-77dc-4923-a7ba-e237ee226edb@sra.uni-hannover.de>
- <CAO-hwJKVwZK00yZFjuyyR9Xt4Y2-r8eLJNZfnyeopHxoZQ0eGA@mail.gmail.com>
- <20231108062306.33f5dcd0@dryade> <CAO-hwJK_xp1A=dEOV-2v3KJAf0bRLDWNcrFQeBpgEuxT-qSBnw@mail.gmail.com>
- <ZUtTpKyP0oxWhnn8@fedora> <CAO-hwJLjtjdr2gtrOWJFPZ-38YzKB8XfhDKWf_2jUPeiaP3EcA@mail.gmail.com>
- <CAO-hwJKNcwcDGEh33NZq4kSYtoxZzg9M2nzE_hVDYNFgA4g_dg@mail.gmail.com> <_DEF7tHL1p_ExY7GJlJvT5gRA7ZvNnVMJuURb8_WCV-0fbYXkLN2p5zHloi6wiJPNzGEjFAkq2sjbCU633_eNF_cGm0rAbmCOOIOfwe1jWo=@protonmail.com>
-In-Reply-To: <_DEF7tHL1p_ExY7GJlJvT5gRA7ZvNnVMJuURb8_WCV-0fbYXkLN2p5zHloi6wiJPNzGEjFAkq2sjbCU633_eNF_cGm0rAbmCOOIOfwe1jWo=@protonmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 9 Nov 2023 12:56:41 +0100
-Message-ID: <CAO-hwJ+zm=R7NwrALaLVmfPDtMNXpj0eoQgLkiS1wa6wd+hu+A@mail.gmail.com>
-Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel issue
-To:     David Revoy <davidrevoy@protonmail.com>
-Cc:     =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
-        Eric GOUYER <folays@gmail.com>,
-        Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>,
-        jkosina@suse.cz, jason.gerecke@wacom.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231109100606.1245545-1-wenst@chromium.org> <859ac058-c50a-4eb8-99b6-3011ef4e7529@collabora.com>
+In-Reply-To: <859ac058-c50a-4eb8-99b6-3011ef4e7529@collabora.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Thu, 9 Nov 2023 07:51:45 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqK64w3+r_LJZoh50PzAUcsvH6ahSDCqgSiKrD3LBAXE9g@mail.gmail.com>
+Message-ID: <CAL_JsqK64w3+r_LJZoh50PzAUcsvH6ahSDCqgSiKrD3LBAXE9g@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 0/7] of: Introduce hardware prober driver
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        andriy.shevchenko@linux.intel.com, Jiri Kosina <jikos@kernel.org>,
+        linus.walleij@linaro.org, broonie@kernel.org,
+        gregkh@linuxfoundation.org, hdegoede@redhat.com,
+        james.clark@arm.com, james@equiv.tech, keescook@chromium.org,
+        petr.tesarik.ext@huawei.com, rafael@kernel.org, tglx@linutronix.de,
+        Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Douglas Anderson <dianders@chromium.org>,
+        Johan Hovold <johan@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi David,
-
-On Thu, Nov 9, 2023 at 1:32=E2=80=AFAM David Revoy <davidrevoy@protonmail.c=
-om> wrote:
+On Thu, Nov 9, 2023 at 4:54=E2=80=AFAM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
 >
-> Hi Benjamin,
->
-> > Alright, I made quite some progress so far:
-> > - regressions tests have been written (branch wip/xp-pen of my fork on
-> > freedesktop[0])
-> > that branch can not go in directly as it just adds the tests, and
-> > thus is failing
-> > - I made the fixes through HID-BPF[1]
+> Il 09/11/23 11:05, Chen-Yu Tsai ha scritto:
+> > Hi everyone,
 > >
-> > Anyone using those 2 tablets and using Fedora should be able to just
-> > grab the artifact at [2], uncompress it and run `sudo ./install.sh --ve=
-rbose`.
-> > This will install the bpf programs in /lib/firmware/hid/bpf/ and will
-> > automatically load them when the device is connected.
-> >
-> > For those not using Fedora, the binary might work (or not, not sure),
-> > but you can always decompress it, and check if running
-> > `udev-hid-bpf_0.1.0/bin/udev-hid-bpf --version` returns the correct
-> > version or just fails. If you get "udev-hid-bpf 0.1.0", then running
-> > `sudo ./install.sh --verbose` should work, as long as the kernel has
-> > CONFIG_HID_BPF set to 'Y'.
-> > [...]
-> > [0] https://gitlab.freedesktop.org/bentiss/hid/-/tree/wip/xp-pen?ref_ty=
-pe=3Dheads
-> > [1] https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_reques=
-ts/27
-> > [2] https://gitlab.freedesktop.org/bentiss/udev-hid-bpf/-/jobs/51350589=
-/artifacts/raw/udev-hid-bpf_0.1.0.tar.xz
->
-> Thank you for this package.
->
-> I was able to test it even though the link in (2) at the bottom of your e=
-mail returned a blank page. I was able to find my way after manually visiti=
-ng gitlab.freedesktop.org [1] and then manually downloading the article fro=
-m 51350589. I unzipped it and ran `sudo ./install.sh --verbose`. Everything=
- looks like it was successful [2]. I then rebooted my Fedora 38 'Linux work=
-station 6.5.8-200.fc38.x86_64' kernel (the one I blamed in my post) and tes=
-ted both tablets.
-
-Weird that you had to manually retrieve it. It works here, but maybe
-because I am logged in on gitlab.fd.o.
-
-Also, just FYI, you shouldn't have to reboot. Just unplug/replug and
-you are good. In the same way, if you uninstall the package, you can
-just unplug/replug to not have the programs loaded.
-
->
-> Here are my observation:
->
-> XPPEN Artist Pro 24
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Nothing changed for this device (it's the one with two buttons and no 'er=
-aser tip'). Nor my hwdb/udev rules or `xsetwacom set "UGTABLET 24 inch PenD=
-isplay eraser" button 1 3` affects the upper button of the stylus: if I hol=
-d it hover the canvas, Krita switch the tool and cursor for an eraser. If I=
- click on the canvas with the pen tip while holding the upper button presse=
-d, I get the right-click Pop-up Palette (but not all the time, probably Kri=
-ta has hard time to triage Eraser or Right-click).
-
-As I mentioned in another reply, the more I think of it, the more I
-think I should get rid of the "eraser mode". In that Artist Pro 24 I
-can detect it through the same mechanics as the HID_QUIRK_NOINVERT
-from Illia's patch. But instead of trying to force the device into the
-eraser mode, we should just say "this is actually BUTTON_STYLUS_2".
-
-So I'm going to amend the bpf program to do this and hopefully you
-won't need the hwdb/udev rule at all.
-
->
-> XPPEN Artist Pro 16 (Gen2)
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> Something changed. `xsetwacom set "UGTABLET Artist Pro 16 (Gen2) eraser" =
-button 1 3` successfully affected the upper button of the stylus. Now if I =
-click it while hovering the canvas, Krita shows the right click Pop-up Pale=
-tte.
-
-I'm surprised you need to teach the wacom driver that BTN_STYLUS_2 is
-the right click.
-
-> On the downside; the real eraser tip when I flip the stylus bugs. When I =
-flip the stylus on eraser hovering the canvas, Krita shows the Eraser icon =
-and switch tool. As soon as I draw with the eraser tip, Krita will also sho=
-w a right-click color palette and with also not a 100% consistency, as if t=
-he event were mixed.
-
-I'll investigate. Maybe I messed up with my event flow patch.
-
-But just to be sure, you don't have a custom configuration in place
-for that tablet device?
-
-Cheers,
-Benjamin
-
->
-> [1] https://gitlab.freedesktop.org/bentiss/udev-hid-bpf/-/artifacts
-> [2] https://www.peppercarrot.com/extras/temp/2023-11-09_screenshot_005214=
-_net.jpg
->
->
-> On Wednesday, November 8th, 2023 at 19:21, Benjamin Tissoires <benjamin.t=
-issoires@redhat.com> wrote:
->
->
-> > On Wed, Nov 8, 2023 at 10:34=E2=80=AFAM Benjamin Tissoires
-> > benjamin.tissoires@redhat.com wrote:
-> >
-> > > On Wed, Nov 8, 2023 at 10:23=E2=80=AFAM Jos=C3=A9 Exp=C3=B3sito jose.=
-exposito89@gmail.com wrote:
-> > >
-> > > > Hi Benjamin,
-> > > >
-> > > > On Wed, Nov 08, 2023 at 10:04:30AM +0100, Benjamin Tissoires wrote:
-> > > > [...]
-> > > >
-> > > > > > So, the behavior probably breaks the specs, but sincerely I'm h=
-appy to
-> > > > > > have the "eraser" button independent of the "rubber eraser", wh=
-ich
-> > > > > > makes the stylus a somewhat 4-buttons stylus (tip, button1, but=
-ton2,
-> > > > > > rubber), and I would like to keep this.
-> > > > >
-> > > > > Yes, and I'd like to keep it that way, even if 6.6 and 6.5.8
-> > > > > apparently broke it.
-> > > > >
-> > > > > So, to me:
-> > > > > - 276e14e6c3993317257e1787e93b7166fbc30905 is wrong: this is a
-> > > > > firmware bug (reporting invert through eraser) and should not be
-> > > > > tackled at the generic level, thus it should be reverted
-> > > > > - both of these tablets are forwarding the useful information, bu=
-t not
-> > > > > correctly, which confuses the kernel
-> > > > > - I should now be able to write regression tests
-> > > > > - I should be able to provide HID-BPF fixes for those tablets so =
-that
-> > > > > we can keep them working with or without
-> > > > > 276e14e6c3993317257e1787e93b7166fbc30905
-> > > > > reverted (hopefully)
-> > > > > - problem is I still don't have the mechanics to integrate the HI=
-D-BPF
-> > > > > fixes directly in the kernel tree, so maybe I'll have to write a
-> > > > > driver for XP-Pen while these internals are set (it shouldn't
-> > > > > interfere with the HID-BPF out of the tree).
-> > > >
-> > > > I already added support for a few XP-Pen devices on the UCLogic dri=
-ver
-> > > > and I was planning to start working on this one during the weekend =
-in
-> > > > my DIGImend fork (to simplify testing).
-> > > >
-> > > > Let me know if you prefer to add it yourself or if you want me to p=
-ing
-> > > > you in the DIGImend discussion.
-> > >
-> > > So far, I really have to work on this now. It's a good use case for
-> > > HID-BPF and it's a regression that I'd like to be fixed ASAP.
-> > > I'd appreciate any reviews :)
+> > This v2 series continues Doug's "of: device: Support 2nd sources of
+> > probeable but undiscoverable devices" [1] series, but follows the schem=
+e
+> > suggested by Rob, marking all second source component device nodes
+> > as "fail-needs-probe-XXX", and having a hardware prober driver enable
+> > the one of them. I tried to include everyone from the original Cc: list=
+.
+> > Please let me know if you would like to be dropped from future
+> > submissions.
 > >
 > >
-> > Alright, I made quite some progress so far:
-> > - regressions tests have been written (branch wip/xp-pen of my fork on
-> > freedesktop[0])
-> > that branch can not go in directly as it just adds the tests, and
-> > thus is failing
-> > - I made the fixes through HID-BPF[1]
+> > For the I2C component (touchscreens and trackpads) case from the
+> > original series, the hardware prober driver finds the particular
+> > class of device in the device tree, gets its parent I2C adapter,
+> > and tries to initiate a simple I2C read for each device under that
+> > I2C bus. When it finds one that responds, it considers that one
+> > present, marks it as "okay", and returns, letting the driver core
+> > actually probe the device.
 > >
-> > Anyone using those 2 tablets and using Fedora should be able to just
-> > grab the artifact at [2], uncompress it and run `sudo ./install.sh --ve=
-rbose`.
-> > This will install the bpf programs in /lib/firmware/hid/bpf/ and will
-> > automatically load them when the device is connected.
-> >
-> > For those not using Fedora, the binary might work (or not, not sure),
-> > but you can always decompress it, and check if running
-> > `udev-hid-bpf_0.1.0/bin/udev-hid-bpf --version` returns the correct
-> > version or just fails. If you get "udev-hid-bpf 0.1.0", then running
-> > `sudo ./install.sh --verbose` should work, as long as the kernel has
-> > CONFIG_HID_BPF set to 'Y'.
-> >
-> > > Also, good to know that I can probably piggyback on hid-uclogic for
-> > > fixing those 2 devices in the kernel.
+> > This works fine in most cases since these components are connected
+> > via ribbon cable and always have the same resources. The driver as
+> > implemented currently doesn't deal with regulators or GPIO pins,
+> > since in the existing device trees they are either always on for
+> > regulators, or have GPIO hogs or pinmux and pinconfig directly
+> > tied to the pin controller.
 > >
 > >
-> > Next step will be to fix them using a kernel driver, but it seems that
-> > the uclogic driver is doing more than just report descriptor fixups,
-> > so maybe I'll have to use a different driver.
-> > But the point is, in theory, if you are affected by those bugs, using
-> > the udev-hid-bpf should fix the issue, and this should also be
-> > resilient to further kernel updates.
+> > Another case this driver could handle is selecting components based
+> > on some identifier passed in by the firmware. On Chromebooks we have
+> > a SKU ID which is inserted by the bootloader at
+> > /firmware/coreboot/sku-id. When a new combination of components is
+> > introduced, a new SKU ID is allocated to it. To have SKU ID based
+> > device trees, we would need to have one per SKU ID. This ends up
+> > increasing the number of device trees we have a lot. The recent
+> > MT8186 devices already have 10+10 SKUs [2], with possibly more to come.
 > >
-> > I'd appreciate testing when I got the full kernel series up and ready,
-> > of course.
+> > Instead, we could have just one device tree for each device, with
+> > component options listed and marked as "fail-needs-probe-XXX", and
+> > let the hardware prober enable one of them based on the given SKU ID.
+> > The driver will also fix up OF graph remote endpoints to point to the
+> > enabled component.
 > >
-> > Cheers,
-> > Benjamin
+> > The MT8186 Corsola series [2] can also benefit from this, though I
+> > haven't implemented anything yet.
 > >
-> > [0] https://gitlab.freedesktop.org/bentiss/hid/-/tree/wip/xp-pen?ref_ty=
-pe=3Dheads
-> > [1] https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_reques=
-ts/27
-> > [2] https://gitlab.freedesktop.org/bentiss/udev-hid-bpf/-/jobs/51350589=
-/artifacts/raw/udev-hid-bpf_0.1.0.tar.xz
+> >
+> > Patch 1 adds of_device_is_fail() for the new driver to use.
+> >
+> > Patch 2 implements the first case, probing the I2C bus for presence
+> > of components. This initial version targets the Hana Chromebooks.
+> >
+> > Patch 3 modifies the Hana device tree and marks the touchscreens
+> > and trackpads as "fail-needs-probe-XXX", ready for the driver to
+> > probe.
+> >
+> > Patch 4 adds a missing touchscreen variant to Hana.
+> >
+> > Patch 5 implements the second case, selectively enabling components
+> > based on the SKU ID. This initial version targets the Krane ChromeOS
+> > tablet, which has two possible MIPI DSI display panel options.
+> >
+> > Patch 6 drops Krane's SKU-specific compatible strings from the bindings=
+.
+> >
+> > Patch 7 merges Krane's SKU-specific device trees into one, with the
+> > device tree now containing two possible panels. This unfortunately
+> > introduces a dtc warning:
+> >
+> >      arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dts:81.13-83.6:
+> >          Warning (graph_endpoint): /soc/dsi@14014000/panel2@0/port/endp=
+oint:
+> >       graph connection to node '/soc/dsi@14014000/ports/port/endpoint'
+> >           is not bidirectional
+> >
+> >
+> > Please take a look.
+> >
+> > Johan, I'm not sure if this works as is for the Lenovo Thinkpad 13S
+> > case, since it looks like the trackpad shares the I2C bus with the
+> > keyboard.
+> >
+> >
+> > Thanks
+> > ChenYu
+> >
+> >
+> > Background as given in Doug's cover letter:
+> >
+> > Support for multiple "equivalent" sources for components (also known
+> > as second sourcing components) is a standard practice that helps keep
+> > cost down and also makes sure that if one component is unavailable due
+> > to a shortage that we don't need to stop production for the whole
+> > product.
+> >
+> > Some components are very easy to second source. eMMC, for instance, is
+> > fully discoverable and probable so you can stuff a wide variety of
+> > similar eMMC chips on your board and things will work without a hitch.
+> >
+> > Some components are more difficult to second source, specifically
+> > because it's difficult for software to probe what component is present
+> > on any given board. In cases like this software is provided
+> > supplementary information to help it, like a GPIO strap or a SKU ID
+> > programmed into an EEPROM. This helpful information can allow the
+> > bootloader to select a different device tree. The various different
+> > "SKUs" of different Chromebooks are examples of this.
+> >
+> > Some components are somewhere in between. These in-between components
+> > are the subject of this patch. Specifically, these components are
+> > easily "probeable" but not easily "discoverable".
+> >
+> > A good example of a probeable but undiscoverable device is an
+> > i2c-connected touchscreen or trackpad. Two separate components may be
+> > electrically compatible with each other and may have compatible power
+> > sequencing requirements but may require different software. If
+> > software is told about the different possible components (because it
+> > can't discover them), it can safely probe them to figure out which
+> > ones are present.
+> >
+> > On systems using device tree, if we want to tell the OS about all of
+> > the different components we need to list them all in the device
+> > tree. This leads to a problem. The multiple sources for components
+> > likely use the same resources (GPIOs, interrupts, regulators). If the
+> > OS tries to probe all of these components at the same time then it
+> > will detect a resource conflict and that's a fatal error.
+> >
+> > The fact that Linux can't handle these probeable but undiscoverable
+> > devices well has had a few consequences:
+> > 1. In some cases, we've abandoned the idea of second sourcing
+> >     components for a given board, which increases cost / generates
+> >     manufacturing headaches.
+> > 2. In some cases, we've been forced to add some sort of strapping /
+> >     EEPROM to indicate which component is present. This adds difficulty
+> >     to manufacturing / refurb processes.
+> > 3. In some cases, we've managed to make things work by the skin of our
+> >     teeth through slightly hacky solutions. Specifically, if we remove
+> >     the "pinctrl" entry from the various options then it won't
+> >     conflict. Regulators inherently can have more than one consumer, so
+> >     as long as there are no GPIOs involved in power sequencing and
+> >     probing devices then things can work. This is how
+> >     "sc8280xp-lenovo-thinkpad-x13s" works and also how
+> >     "mt8173-elm-hana" works.
+> >
+> > End of background from Doug's cover letter.
 >
+> I think that using "status" is not a good idea, I find that confusing.
 
+"status" is what defines a device's state in terms of enabled,
+present, available. That's exactly what we're expressing here.
+
+Now, I do not think we should be mixing the device class (e.g.
+touchscreen) into status. I said this on v1, but apparently that was
+not listened to.
+
+>
+> Perhaps we could have a node like
+>
+> something {
+>         device-class-one =3D <&device1>, <&device2>, <&device3>;
+>         device-class-two =3D <&device4>, <&device5>, <&device6>;
+> }
+>
+> so that'd be more or less
+>
+> hw-prober {
+>         trackpads =3D <&tp1>, <&tp2>;
+>         keyboards =3D <&kb1>, <&kb2>;
+>         touchscreens =3D <&ts1>, <&ts2>;
+> }
+
+No. That's more or less what v1 had.
+
+Rob
