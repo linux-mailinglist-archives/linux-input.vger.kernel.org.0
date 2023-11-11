@@ -1,120 +1,139 @@
-Return-Path: <linux-input+bounces-16-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-17-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC5657E8BCD
-	for <lists+linux-input@lfdr.de>; Sat, 11 Nov 2023 18:15:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C617E8C0E
+	for <lists+linux-input@lfdr.de>; Sat, 11 Nov 2023 19:18:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27098280CAE
-	for <lists+linux-input@lfdr.de>; Sat, 11 Nov 2023 17:15:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D7E27280E75
+	for <lists+linux-input@lfdr.de>; Sat, 11 Nov 2023 18:18:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 379161B292;
-	Sat, 11 Nov 2023 17:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFAE11C298;
+	Sat, 11 Nov 2023 18:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ldh8Gy7H"
 X-Original-To: linux-input@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DF914265
-	for <linux-input@vger.kernel.org>; Sat, 11 Nov 2023 17:15:13 +0000 (UTC)
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9993F3860;
-	Sat, 11 Nov 2023 09:15:11 -0800 (PST)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1r1rZa-00070P-A7; Sat, 11 Nov 2023 18:15:06 +0100
-Message-ID: <ea4bcb2f-3038-498c-8b9c-14c16d2c2514@leemhuis.info>
-Date: Sat, 11 Nov 2023 18:15:05 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E041C281;
+	Sat, 11 Nov 2023 18:18:36 +0000 (UTC)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B75032D77;
+	Sat, 11 Nov 2023 10:18:33 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-507a0907896so4148744e87.2;
+        Sat, 11 Nov 2023 10:18:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699726712; x=1700331512; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Os4KBIFKBrhxCNe2iV6sYOSUCifSAC9wTubOo6x2YGA=;
+        b=ldh8Gy7H+fB07WnLwLs4whDNnMWJ9t73ETCn0BOh3NQjk1P1KoAlxgUQzAeWW8GcEn
+         jzLSifyLLc751Uhmr6jpH6gTwvteDNMBluLUa3smHHCpHWKKDWUN4dw3Q8Dn3lJzrVtn
+         xEw0kEw4h4uaZge4XWlBny6oXs5UkBAyI0NcnaLEEDIU37btmMlQnuiTj9RID6/QzKY6
+         FZaIhrW49f6tl7kkn+onwyBlDyVwEeuEvAi6yBSPDyy237djg6kfIAWH8TPD4WgoasJj
+         CHY9BOytR4oy1nGYgsmRCW/GSxsy158ud7ywWmUzL6pxcwW84MUFaekqH3WgVGMuX8C6
+         K+fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699726712; x=1700331512;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Os4KBIFKBrhxCNe2iV6sYOSUCifSAC9wTubOo6x2YGA=;
+        b=rDwZOUddggUx0kGP8x3bgps8bw0XOL69m5Xdbnci9ss2kVsz6ANLdI5s3Y+KSbIpPU
+         /HpwQGGBlLio72Nn5u/WDECuImnOIB6YKWuMhabbUITXyMJG13KLar2QK+3G7o/CgRUT
+         QDenmyAWgDClNK0uASFgveKvnoL+GkLAgxHM1HjN745fXoG7i1VpTcLxfWAXtz+MK5+g
+         ef3JDJx6RGIx2T7iikvmKKj/zWh6yB16+TgS550TnACKWhOabFmOWS3D91CzJIADLAd1
+         kh59cCpsAAbCPeGCCb/I5Z7RaoBaGJ24W7RUikiBPsP4T8tMzfEVYy5RAZa3QV+JpJzD
+         YzxQ==
+X-Gm-Message-State: AOJu0YyoYna2ZbQlghrWUrG/L99ZoFMxRCgiVHqKkmxFbL32PCkBRsKB
+	DLkDLgT5gynjqGHCQXhjo4Q=
+X-Google-Smtp-Source: AGHT+IGWSLvEEWKMjKSkylq9sGZ0KV/8c86kVFIgYc1m0RkjmWY37s2qpjH05vtA3bG5UrjESvvwcA==
+X-Received: by 2002:a05:6512:2399:b0:500:be57:ce53 with SMTP id c25-20020a056512239900b00500be57ce53mr2275395lfv.42.1699726711568;
+        Sat, 11 Nov 2023 10:18:31 -0800 (PST)
+Received: from giga-mm.home ([2a02:1210:8629:800:82ee:73ff:feb8:99e3])
+        by smtp.gmail.com with ESMTPSA id n20-20020a170906b31400b009e656ce2930sm1403421ejz.60.2023.11.11.10.18.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Nov 2023 10:18:30 -0800 (PST)
+Message-ID: <80ed91bb971516638fa1793d648939815eba7630.camel@gmail.com>
+Subject: Re: [PATCH v3 14/42] power: reset: Add a driver for the ep93xx reset
+From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+To: Andy Shevchenko <andy@kernel.org>, nikita.shubin@maquefel.me
+Cc: Hartley Sweeten <hsweeten@visionengravers.com>, Lennert Buytenhek
+ <kernel@wantstofly.org>, Russell King <linux@armlinux.org.uk>, Lukasz
+ Majewski <lukma@denx.de>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
+ Golaszewski <brgl@bgdev.pl>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>,  Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Daniel Lezcano
+ <daniel.lezcano@linaro.org>,  Thomas Gleixner <tglx@linutronix.de>,
+ Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+  Guenter Roeck <linux@roeck-us.net>, Sebastian Reichel <sre@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Uwe
+ =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, Mark
+ Brown <broonie@kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,  Paolo
+ Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, Miquel Raynal
+ <miquel.raynal@bootlin.com>,  Richard Weinberger <richard@nod.at>, Vignesh
+ Raghavendra <vigneshr@ti.com>, Damien Le Moal <dlemoal@kernel.org>, Sergey
+ Shtylyov <s.shtylyov@omp.ru>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+ soc@kernel.org, Liam Girdwood <lgirdwood@gmail.com>,  Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Michael Peters
+ <mpeters@embeddedts.com>, Kris Bahnsen <kris@embeddedts.com>, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-rtc@vger.kernel.org, 
+ linux-watchdog@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
+ netdev@vger.kernel.org,  dmaengine@vger.kernel.org,
+ linux-mtd@lists.infradead.org,  linux-ide@vger.kernel.org,
+ linux-input@vger.kernel.org,  alsa-devel@alsa-project.org
+Date: Sat, 11 Nov 2023 19:18:28 +0100
+In-Reply-To: <ZLq0Z0QgBdCoDpV+@smile.fi.intel.com>
+References: <20230605-ep93xx-v3-0-3d63a5f1103e@maquefel.me>
+	 <20230605-ep93xx-v3-14-3d63a5f1103e@maquefel.me>
+	 <ZLq0Z0QgBdCoDpV+@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel
- issue
-Content-Language: en-US, de-DE
-To: David Revoy <davidrevoy@protonmail.com>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>, jkosina@suse.cz,
- jason.gerecke@wacom.com, jose.exposito89@gmail.com,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- nils@nilsfuhler.de, peter.hutterer@who-t.net, ping.cheng@wacom.com,
- bagasdotme@gmail.com
-References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm>
- <20231103200524.53930-1-ostapyshyn@sra.uni-hannover.de>
- <bokQB3BK040-4fGy8tNfZrdM2mNmWxZud9O-KMmYqOkfa1JTC1ocUjoAzCEpPsbsAvY5qb5TcSP6XsQLaja2XO0gapOcsZyeVdCvq6T31qA=@protonmail.com>
- <CAO-hwJLpKTb9yxvxaPDLZkF9kDF8u2VRJUf9yiQd+neOyxPeug@mail.gmail.com>
- <eb8e22f3-77dc-4923-a7ba-e237ee226edb@sra.uni-hannover.de>
- <CAO-hwJKVwZK00yZFjuyyR9Xt4Y2-r8eLJNZfnyeopHxoZQ0eGA@mail.gmail.com>
- <A01KgwZWh8vP1ux3J92E572eCVMfYPzBcHLuuGfSTYntQMVErkqIcPhJtWRxJsinbI_AfHvD_GcnGvQ1kFtxR36ozCPj_VH8Ys8OlA02MZQ=@protonmail.com>
-From: Thorsten Leemhuis <linux@leemhuis.info>
-Autocrypt: addr=linux@leemhuis.info; keydata=
- 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 n7RI
-In-Reply-To: <A01KgwZWh8vP1ux3J92E572eCVMfYPzBcHLuuGfSTYntQMVErkqIcPhJtWRxJsinbI_AfHvD_GcnGvQ1kFtxR36ozCPj_VH8Ys8OlA02MZQ=@protonmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1699722911;0cbd3d91;
-X-HE-SMSGID: 1r1rZa-00070P-A7
 
-On 09.11.23 00:18, David Revoy wrote:
->> BTW, David, were you able to do a revert of 276e14e6c3?
-> 
-> I'm sorry Benjamin: I did some research on how to build a kernel [1], on how to revert a commit (easy, I know a bit of Git), and started following it step by step. Result: I failed and concluded that it probably requires too much computer knowledge compared to what I can do now. I'm afraid I won't be able to build a custom kernel for testing.
-> 
-> [1] https://docs.fedoraproject.org/en-US/quick-docs/kernel-build-custom/#_building_a_vanilla_upstream_kernel
+Hi Andy,
 
-FWIW, in case you want to try again: give the upstream text on building
-your own kernel a try, maybe it works better for your:
+On Fri, 2023-07-21 at 19:37 +0300, Andy Shevchenko wrote:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* Issue the reboot */
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ep93xx_devcfg_set_clear(priv=
+->map, EP93XX_SYSCON_DEVCFG_SWRST, 0x00);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ep93xx_devcfg_set_clear(priv=
+->map, 0x00, EP93XX_SYSCON_DEVCFG_SWRST);
+>=20
+>=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0mdelay(1000);
+>=20
+> Atomic?! Such a huge delay must be explained, esp. why it's atomic.
 
-https://docs.kernel.org/admin-guide/quickly-build-trimmed-linux.html
+atomic or not, SoC is supposed to reset itself here.
+However there is an errata [1] and the SoC can lockup instead.
+So even pr_emerg() makes sense to me.
 
-It should work on Fedora (but you might want to install the latest
-updates first, there recently was a problem).
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pr_emerg("Unable to restart =
+system\n");
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return NOTIFY_DONE;
 
-Ciao, Thorsten
+[1] http://web.archive.org/web/20161130230727/http://www.cirrus.com/en/pubs=
+/appNote/AN258REV2.pdf
+
+--=20
+Alexander Sverdlin.
+
 
