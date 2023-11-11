@@ -1,125 +1,142 @@
-Return-Path: <linux-input+bounces-8-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-9-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F4D27E84F3
-	for <lists+linux-input@lfdr.de>; Fri, 10 Nov 2023 22:07:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C15E97E86D6
+	for <lists+linux-input@lfdr.de>; Sat, 11 Nov 2023 01:12:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF38D2812B1
-	for <lists+linux-input@lfdr.de>; Fri, 10 Nov 2023 21:07:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7BF98280FDC
+	for <lists+linux-input@lfdr.de>; Sat, 11 Nov 2023 00:12:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E0753C09E;
-	Fri, 10 Nov 2023 21:07:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18FABA3D;
+	Sat, 11 Nov 2023 00:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="i0piSaOJ"
 X-Original-To: linux-input@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91AC3C2D2;
-	Fri, 10 Nov 2023 21:07:20 +0000 (UTC)
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 510C21A5;
-	Fri, 10 Nov 2023 13:07:19 -0800 (PST)
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3b2df2fb611so1568097b6e.0;
-        Fri, 10 Nov 2023 13:07:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699650438; x=1700255238;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DFD31396
+	for <linux-input@vger.kernel.org>; Sat, 11 Nov 2023 00:12:49 +0000 (UTC)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B51D420B
+	for <linux-input@vger.kernel.org>; Fri, 10 Nov 2023 16:12:47 -0800 (PST)
+Received: by mail-lj1-x233.google.com with SMTP id 38308e7fff4ca-2c509d5ab43so36353121fa.0
+        for <linux-input@vger.kernel.org>; Fri, 10 Nov 2023 16:12:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1699661563; x=1700266363; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZhcaUbufGGCGl+oelTC2ECkW5UU6FCUTDhDK/m2sCfs=;
-        b=XCxhNq2i+SJco4U/QUBzzTNEJYDRGbSemA/Ytn390VKM9D6ORpAJeXH6l9J2eFTLHI
-         lOARsjKojknd0b3vydqzBxcZfzVgG7CPCT36kPQ+f7VH2Hoa36YpEJi8Cmq/Ttr/Mtl7
-         Y/am0CYLXqw+istz8BKTl9nOYLJsKSSk4STpej+zVz/z6YlcOkCMbh4caWEcFw42hhpa
-         K0JDcdQdXUD2XnUV9wRpoC/VTU1KXXE0WZTBVFjptUU4sOz6OB72ft7KNwv8tQf2c6h1
-         biYLUi0jlOIFt+s8+v4zK7R21LYBDjc/7/7LuAVjJZY/2/akL864lU6fxv22h6hehybp
-         y71w==
-X-Gm-Message-State: AOJu0YxVeOVSvITd6YYeuxYEs4dgWusvyeeFkTpCA0jqF3qovYCkT3ka
-	3r/DJaS/T/o8Dcv8B2kiaA==
-X-Google-Smtp-Source: AGHT+IEQ7c/sxZ5ogUqRUDBd0ii59Sbjxux7vfokGIfN/0AadRuyYuXRaQGnZx2kQuCJ3B3CfRxsGA==
-X-Received: by 2002:a05:6870:2b13:b0:1ef:b809:3f26 with SMTP id ld19-20020a0568702b1300b001efb8093f26mr476789oab.17.1699650438610;
-        Fri, 10 Nov 2023 13:07:18 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id e5-20020a056870920500b001e9b02b00e9sm67574oaf.22.2023.11.10.13.07.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Nov 2023 13:07:18 -0800 (PST)
-Received: (nullmailer pid 434762 invoked by uid 1000);
-	Fri, 10 Nov 2023 21:07:16 -0000
-Date: Fri, 10 Nov 2023 15:07:16 -0600
-From: Rob Herring <robh@kernel.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Frank Rowand <frowand.list@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Hsin-Yi Wang <hsinyi@chromium.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, andriy.shevchenko@linux.intel.com, Jiri Kosina <jikos@kernel.org>, linus.walleij@linaro.org, broonie@kernel.org, gregkh@linuxfoundation.org, hdegoede@redhat.com, james.clark@arm.com, james@equiv.tech, keescook@chromium.org, petr.tesarik.ext@huawei.com, rafael@kernel.org, tglx@linutronix.de, Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>, Johan Hovold <johan@kernel.org>
-Subject: Re: [RFC PATCH v2 5/7] of: hw_prober: Support Chromebook SKU ID
- based component selection
-Message-ID: <20231110210716.GB419831-robh@kernel.org>
-References: <20231109100606.1245545-1-wenst@chromium.org>
- <20231109100606.1245545-6-wenst@chromium.org>
+        bh=pdD5p4ZJ2xs0jbe3PMitwqM3ZIGCltDGGJH36M99UsU=;
+        b=i0piSaOJ9ZHeRlHtZtzAeSiAiWKX4HfWoocJqfOhKQlnnlDSgpG6VXHzTnCvtF8nfY
+         EE4tObCD64J+eN2pN+yGq7X58JW45zqlMDAPpKOswOrdjYbqo0yxzaY22Sy+scQKvZwt
+         pHv/EukwEjk2q865SkLS9phsnKLkaaQcA/64g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699661563; x=1700266363;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pdD5p4ZJ2xs0jbe3PMitwqM3ZIGCltDGGJH36M99UsU=;
+        b=HwA7IZzHwF9yoiDB0IAsKHMHnDWot5FVeap1iLhshQdUDK+GPzgzyDKOeBQLa7W+11
+         Mp2b1gu67EkZ9mtphFpeMqHMGKEuE45eNFBqjz5OYCUNJNBILZue5K3xw8UQ+5u1jhyC
+         mRIkFka7a+jUJvf5BMDsnTnn3HZyxtYtux6+744uCAnV5n2Zhayg+lHpz8dFPe/MDs5K
+         HSQkTiL4kXEQxp3dD2A9zNDJxJuO7t0Hsax3Nf8b3aCAyvn5PDIU9N4m7gjc0semNNYC
+         toKtmuV6UOvqXVBog5blGBwKNoZ+snb9DWOSNc/0RHUo/LYkWBAKB+x69FC+J6lQeh9l
+         4nQQ==
+X-Gm-Message-State: AOJu0YxxRNVr/EWxl9XsisQlbZ2/8yQRZXkcSfq8BGWsnpi8cCt11UKK
+	RltrooMGO1BdrIHVXTvHmuo92Rr1SUd+USertLlpdA==
+X-Google-Smtp-Source: AGHT+IEK5lWJQH/KapVxCFIfIn6yvuDVa22HLjinapqSbTkTMltjRBqJvrojO4Z9qS5QvnbIFCPSoQ==
+X-Received: by 2002:a2e:978d:0:b0:2bb:78ad:56cb with SMTP id y13-20020a2e978d000000b002bb78ad56cbmr539975lji.37.1699661563661;
+        Fri, 10 Nov 2023 16:12:43 -0800 (PST)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com. [209.85.208.44])
+        by smtp.gmail.com with ESMTPSA id o21-20020a170906601500b009e655c77a53sm239178ejj.132.2023.11.10.16.12.43
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Nov 2023 16:12:43 -0800 (PST)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-51e24210395so4980a12.0
+        for <linux-input@vger.kernel.org>; Fri, 10 Nov 2023 16:12:43 -0800 (PST)
+X-Received: by 2002:a05:600c:1c11:b0:3f6:f4b:d4a6 with SMTP id
+ j17-20020a05600c1c1100b003f60f4bd4a6mr5724wms.7.1699661542490; Fri, 10 Nov
+ 2023 16:12:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231109100606.1245545-6-wenst@chromium.org>
+References: <20231109100606.1245545-1-wenst@chromium.org> <859ac058-c50a-4eb8-99b6-3011ef4e7529@collabora.com>
+ <CAL_JsqK64w3+r_LJZoh50PzAUcsvH6ahSDCqgSiKrD3LBAXE9g@mail.gmail.com>
+In-Reply-To: <CAL_JsqK64w3+r_LJZoh50PzAUcsvH6ahSDCqgSiKrD3LBAXE9g@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 10 Nov 2023 16:12:06 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=VUZy9DaZgKafSpXXopD5k8ExGSR97BjAqC5tupPoxNfQ@mail.gmail.com>
+Message-ID: <CAD=FV=VUZy9DaZgKafSpXXopD5k8ExGSR97BjAqC5tupPoxNfQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 0/7] of: Introduce hardware prober driver
+To: Rob Herring <robh+dt@kernel.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Chen-Yu Tsai <wenst@chromium.org>, Frank Rowand <frowand.list@gmail.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Hsin-Yi Wang <hsinyi@chromium.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, andriy.shevchenko@linux.intel.com, 
+	Jiri Kosina <jikos@kernel.org>, linus.walleij@linaro.org, broonie@kernel.org, 
+	gregkh@linuxfoundation.org, hdegoede@redhat.com, james.clark@arm.com, 
+	james@equiv.tech, keescook@chromium.org, petr.tesarik.ext@huawei.com, 
+	rafael@kernel.org, tglx@linutronix.de, Jeff LaBundy <jeff@labundy.com>, 
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 09, 2023 at 06:06:02PM +0800, Chen-Yu Tsai wrote:
-> In cases where the same Chromebook model is manufactured with different
-> components (MIPI DSI panels, MIPI CSI camera sensors, or trackpad /
-> touchscreens with conflicting addresses), a different SKU ID is
-> allocated to each specific combination. This SKU ID is exported by the
-> bootloader into the device tree, and can be used to "discover" which
-> combination is present on the current machine.
-> 
-> This change adds a hardware prober that will match the SKU ID against
-> a provided table, and enable the component for the matched entry based
-> on the given compatible string. In the MIPI DSI panel and MIPI CSI
-> camera sensor cases which have OF graphs, it will also update the
-> remote endpoint to point to the enabled component. This assumes a single
-> endpoint only.
-> 
-> This will provide a path to reducing the number of Chromebook device
-> trees.
-> 
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
->  drivers/of/hw_prober.c | 160 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 160 insertions(+)
+Hi,
 
-This certainly does not belong in drivers/of/.
+On Thu, Nov 9, 2023 at 5:52=E2=80=AFAM Rob Herring <robh+dt@kernel.org> wro=
+te:
+>
+> > > End of background from Doug's cover letter.
+> >
+> > I think that using "status" is not a good idea, I find that confusing.
+>
+> "status" is what defines a device's state in terms of enabled,
+> present, available. That's exactly what we're expressing here.
+>
+> Now, I do not think we should be mixing the device class (e.g.
+> touchscreen) into status. I said this on v1, but apparently that was
+> not listened to.
 
+Interesting. I must have missed the "don't mix device class into
+status" part. Do you have a link to your post about that? Maybe
+there's other stuff I missed... Having the device class stuck at the
+end there was at least part of my last post [1] which gathered no
+response.
 
-> diff --git a/drivers/of/hw_prober.c b/drivers/of/hw_prober.c
-> index 442da6eff896..4345e5aed6d8 100644
-> --- a/drivers/of/hw_prober.c
-> +++ b/drivers/of/hw_prober.c
-> @@ -8,6 +8,7 @@
->  #include <linux/array_size.h>
->  #include <linux/i2c.h>
->  #include <linux/of.h>
-> +#include <linux/of_graph.h>
->  #include <linux/platform_device.h>
->  
->  #define DRV_NAME	"hw_prober"
-> @@ -108,9 +109,168 @@ static int i2c_component_prober(struct platform_device *pdev, const void *data)
->  	return ret;
->  }
->  
-> +static int cros_get_coreboot_sku_id(struct device *dev, u32 *sku_id)
-> +{
-> +	struct device_node *node = NULL;
-> +	int ret;
-> +
-> +	node = of_find_node_by_path("/firmware/coreboot");
-> +	if (!node)
-> +		return dev_err_probe(dev, -EINVAL, "Cannot find coreboot firmware node\n");
-> +
-> +	ret = of_property_read_u32(node, "sku-id", sku_id);
+I think one of the reasons that I felt we needed to mux the device
+class into status was that it was going to make the code a lot less
+fragile. Everything I've seen indicates that you don't want us to
+create a "HW prober" node that could be used to provide relevant
+phandles for different classes of devices, so the "HW prober" code
+needs to either search through the whole device tree for a status of
+"failed-needs-probe" or needs to contain per-board, hardcoded,
+fully-qualified paths.
 
-Not documented.
+I don't think we want to include hardcoded, fully-qualified paths in
+the code. That would mean that if someone changed a node name
+somewhere in the path to one of the devices that we're dealing with
+then it would break.
 
-Rob
+So if we're searching the whole device tree for "failed-needs-probe"
+then we need to figure out which devices are related to each other. If
+a given board has second sources for MIPI panels, touchscreens, and
+trackpads then we need to know which of the "failed-needs-probe"
+devices are trackpads, which are touchscreens, and which are MIPI
+panels. Do you have any suggestions for how we should do that? Maybe
+it was in some other thread that I missed? I guess we could have a
+board-specific table mapping (compatible + node name + reg) to a
+class, but that feels awkward.
+
+[1] https://lore.kernel.org/r/CAD=3DFV=3DUjVAgT-febtj4=3DUZ2GQp01D-ern2Ff9+=
+ODcHeQBOsdTQ@mail.gmail.com
 
