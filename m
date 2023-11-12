@@ -1,125 +1,72 @@
-Return-Path: <linux-input+bounces-20-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-21-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4FB7E924D
-	for <lists+linux-input@lfdr.de>; Sun, 12 Nov 2023 20:43:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A33D7E9269
+	for <lists+linux-input@lfdr.de>; Sun, 12 Nov 2023 21:04:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3F40A1C20358
-	for <lists+linux-input@lfdr.de>; Sun, 12 Nov 2023 19:43:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DDCCE1F20ECB
+	for <lists+linux-input@lfdr.de>; Sun, 12 Nov 2023 20:04:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55434171B5;
-	Sun, 12 Nov 2023 19:43:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F9C018047;
+	Sun, 12 Nov 2023 20:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gnu-linux.rocks header.i=@gnu-linux.rocks header.b="QAtdUVWo"
 X-Original-To: linux-input@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A74E171B7
-	for <linux-input@vger.kernel.org>; Sun, 12 Nov 2023 19:43:44 +0000 (UTC)
-Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 611791BFF;
-	Sun, 12 Nov 2023 11:43:42 -0800 (PST)
-Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
-	by mx.skole.hr (mx.skole.hr) with ESMTP id A225B86A13;
-	Sun, 12 Nov 2023 20:43:39 +0100 (CET)
-From: =?UTF-8?q?Duje=20Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-To: Markuss Broks <markuss.broks@gmail.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: ~postmarketos/upstreaming@lists.sr.ht,
-	phone-devel@vger.kernel.org,
-	Karel Balej <balejk@matfyz.cz>,
-	=?UTF-8?q?Duje=20Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7372018048
+	for <linux-input@vger.kernel.org>; Sun, 12 Nov 2023 20:04:21 +0000 (UTC)
+X-Greylist: delayed 358 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 12 Nov 2023 12:04:19 PST
+Received: from mail.gnu-linux.rocks (unknown [82.165.184.165])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 701F91FFB;
+	Sun, 12 Nov 2023 12:04:19 -0800 (PST)
+Received: from localhost.localdomain (ip5f5be8be.dynamic.kabel-deutschland.de [95.91.232.190])
+	by mail.gnu-linux.rocks (Postfix) with ESMTPSA id E1D4E3FF28;
+	Sun, 12 Nov 2023 19:58:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnu-linux.rocks;
+	s=mail; t=1699819100;
+	bh=KnudzStFE2cldjxqz5zKtdvJz6QG1VHUiZ8lWW0Ruos=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=QAtdUVWo2B/VWIJI05/4KZSRLuEU0oqRpj9EhPT96wrlnAUbAV5kfnMSeDjIfcYg6
+	 pj7AIQppKKexu0ByJx7d3ZRggX3HGSB02tU8YmPTr9B8FbHMNiRssFBw+PkEP28F7H
+	 TqwkGH9PRniynS1ZVNlcTT5tn59he7UqoJpIPghSdE311fSlO2Ikvr0B8wOG/NCVH4
+	 jN0MzmoSZWibi8/lMDTmlqnNC9XHq7/OgdXGWb1FEzlVF/6ArvUsTeeRF6ALjhw6c6
+	 8Z37jwxJvMWyefB9e0UQps26Q4RG13xsXYQig6Yei/MlN/6vQ+G+lxT79s/X3v53pQ
+	 grJKNVjXb506g==
+From: Johannes Roith <johannes@gnu-linux.rocks>
+To: benjamin.tissoires@redhat.com,
+	jikos@kernel.org
+Cc: sergeantsagara@protonmail.com,
+	andi.shyti@kernel.org,
+	christophe.jaillet@wanadoo.fr,
+	johannes@gnu-linux.rocks,
 	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] input: touchscreen: imagis: Add touch key support
-Date: Sun, 12 Nov 2023 20:41:24 +0100
-Message-ID: <20231112194124.24916-1-duje.mihanovic@skole.hr>
+	linux-kernel@vger.kernel.org,
+	rdunlap@infradead.org
+Subject: Re: [PATCH v7] HID: mcp2200: added driver for GPIOs of MCP2200
+Date: Sun, 12 Nov 2023 20:58:12 +0100
+Message-ID: <20231112195812.243155-1-johannes@gnu-linux.rocks>
 X-Mailer: git-send-email 2.42.1
+In-Reply-To: <87r0mqhlp6.fsf@protonmail.com>
+References: <87r0mqhlp6.fsf@protonmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-IST3032C (and possibly some other models) has touch keys. Add support
-for them to the imagis driver.
+Dear Maintainers, 
 
-Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
----
-This patch depends on the series generalizing the driver and adding IST3032C
-support: https://lore.kernel.org/all/20231003133440.4696-1-karelb@gimli.ms.mff.cuni.cz/
----
- drivers/input/touchscreen/imagis.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+my patch has undergone review by Rahul Rameshbabu, and I have addressed the feedback accordingly.
 
-diff --git a/drivers/input/touchscreen/imagis.c b/drivers/input/touchscreen/imagis.c
-index 41f28e6e9cb1..5a54ce291655 100644
---- a/drivers/input/touchscreen/imagis.c
-+++ b/drivers/input/touchscreen/imagis.c
-@@ -30,6 +30,7 @@
- #define IST3038C_FINGER_COUNT_MASK	GENMASK(15, 12)
- #define IST3038C_FINGER_COUNT_SHIFT	12
- #define IST3038C_FINGER_STATUS_MASK	GENMASK(9, 0)
-+#define IST3032C_KEY_STATUS_MASK	GENMASK(20, 16)
- 
- #define IST3038B_REG_STATUS		0x20
- #define IST3038B_REG_CHIPID		0x30
-@@ -43,6 +44,7 @@ struct imagis_properties {
- 	unsigned int whoami_cmd;
- 	unsigned int whoami_val;
- 	bool protocol_b;
-+	bool touch_keys_supported;
- };
- 
- struct imagis_ts {
-@@ -95,7 +97,7 @@ static irqreturn_t imagis_interrupt(int irq, void *dev_id)
- {
- 	struct imagis_ts *ts = dev_id;
- 	u32 intr_message, finger_status;
--	unsigned int finger_count, finger_pressed;
-+	unsigned int finger_count, finger_pressed, key_pressed;
- 	int i;
- 	int error;
- 
-@@ -144,6 +146,11 @@ static irqreturn_t imagis_interrupt(int irq, void *dev_id)
- 					IST3038C_AREA_SHIFT);
- 	}
- 
-+	key_pressed = FIELD_GET(IST3032C_KEY_STATUS_MASK, intr_message);
-+
-+	input_report_key(ts->input_dev, KEY_APPSELECT, (key_pressed & BIT(0)));
-+	input_report_key(ts->input_dev, KEY_BACK, (key_pressed & BIT(1)));
-+
- 	input_mt_sync_frame(ts->input_dev);
- 	input_sync(ts->input_dev);
- 
-@@ -229,6 +236,10 @@ static int imagis_init_input_dev(struct imagis_ts *ts)
- 	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_X);
- 	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_Y);
- 	input_set_abs_params(input_dev, ABS_MT_TOUCH_MAJOR, 0, 16, 0, 0);
-+	if (ts->tdata->touch_keys_supported) {
-+		input_set_capability(input_dev, EV_KEY, KEY_BACK);
-+		input_set_capability(input_dev, EV_KEY, KEY_APPSELECT);
-+	}
- 
- 	touchscreen_parse_properties(input_dev, true, &ts->prop);
- 	if (!ts->prop.max_x || !ts->prop.max_y) {
-@@ -370,6 +381,7 @@ static const struct imagis_properties imagis_3032c_data = {
- 	.touch_coord_cmd = IST3038C_REG_TOUCH_COORD,
- 	.whoami_cmd = IST3038C_REG_CHIPID,
- 	.whoami_val = IST3032C_WHOAMI,
-+	.touch_keys_supported = true,
- };
- 
- static const struct imagis_properties imagis_3038b_data = {
--- 
-2.42.1
+I understand that you all have busy schedules, and I appreciate the time and effort you dedicate to maintaining the Linux kernel. However, I would be grateful if you could provide an update on the patch's status and whether there are any further actions required from my end.
 
-
+Best regards,
+Johannes Roith
 
