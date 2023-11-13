@@ -1,111 +1,115 @@
-Return-Path: <linux-input+bounces-25-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-26-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 355437E945D
-	for <lists+linux-input@lfdr.de>; Mon, 13 Nov 2023 03:09:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 063E37E9572
+	for <lists+linux-input@lfdr.de>; Mon, 13 Nov 2023 04:24:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C8A961F20CCA
-	for <lists+linux-input@lfdr.de>; Mon, 13 Nov 2023 02:09:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4EEF280FE8
+	for <lists+linux-input@lfdr.de>; Mon, 13 Nov 2023 03:24:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD837522F;
-	Mon, 13 Nov 2023 02:08:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC1138F4D;
+	Mon, 13 Nov 2023 03:23:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="VQCjcPAX"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tXXHDD4v"
 X-Original-To: linux-input@vger.kernel.org
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16BD75232
-	for <linux-input@vger.kernel.org>; Mon, 13 Nov 2023 02:08:56 +0000 (UTC)
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D38D1735;
-	Sun, 12 Nov 2023 18:08:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1699841328; x=1700100528;
-	bh=KVsl/FDYxgLBMYuSnBmP709gUyQZ2vIzfl59/vhyfQU=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=VQCjcPAX64n6lh4+oidN9/GFJE3tQY92xkTVzNhDQRLUy8Cmo5ewExVny+/MAoGBk
-	 Nw42O+x8+hFdAY3xYSFrSE5u10JN5UmcVQgb+Xxt46j+8LaOWPVReXs99ZzTfvJWip
-	 EeFyiygpkMSTzCmDgbs3q9G3dnmwQKrWPP/Dyga7keBvejpjWuPvqGrSnDCK2jqE1s
-	 xT3Ry4IxpwtXd4/BIEiBMTvdJ7Lo0IlbYvkslU6FHrsKaG20M+r9CU1yGbVWedpL2L
-	 nxfAoUgCQT1M2llTPH3u7+lL93c17u24U8szxHZUrHis7iphLinfBUjzsjo+BLvcRt
-	 xaP74TYoMWmng==
-Date: Mon, 13 Nov 2023 02:08:32 +0000
-To: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc: Yihong Cao <caoyihong4@outlook.com>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: apple: add Jamesdonkey and A3R to non-apple keyboards list
-Message-ID: <87fs1a76cj.fsf@protonmail.com>
-Feedback-ID: 26003777:user:proton
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0E4883B;
+	Mon, 13 Nov 2023 03:23:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 23FFBC4339A;
+	Mon, 13 Nov 2023 03:23:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699845835;
+	bh=M3Qhhjk/BU+r9ygb4BrBodry+Iy+/+c1KAZvoMB6Rjg=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=tXXHDD4vc13CqUYQaDnEhtGLHW1POo2WeYIwiz7RivcXeGCX56ZEHdMgH4lWjscCu
+	 TRYnwpJvawaBHgmt3cJfhHfVuEEyj9Z4oVfuW4J44Vk+fwBuqUmSiItgpGhvBEvQWa
+	 uUY+5xo82BA1kb1ChCxUiL+iwRg+RpcI0uc8TxmBIlmhU8AqiNRK+dsRlb77FjXT/g
+	 wQmKVPKgIAbBig2lnZ0zl7BxNArqSB9iMwH9Hasgm6eV8Xb3HRP1Y0E25pUR2iuJfO
+	 qIWWcsuFRmJ/kI0wDOLJTjshHmYrPMDwNu0Rpk8xwHufp8wdnYSlDWWi5G6haP8284
+	 LAsQGZ+w47fZg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E412EE32714;
+	Mon, 13 Nov 2023 03:23:54 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 00/49] iio: Convert to platform remove callback returning void
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <169984583492.27851.676337627622488866.git-patchwork-notify@kernel.org>
+Date: Mon, 13 Nov 2023 03:23:54 +0000
+References: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@codeaurora.org
+Cc: jic23@kernel.org, jikos@kernel.org, srinivas.pandruvada@linux.intel.com,
+ lars@metafoo.de, linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+ kernel@pengutronix.de, linus.walleij@linaro.org,
+ linux-arm-kernel@lists.infradead.org, eugen.hristev@collabora.com,
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+ claudiu.beznea@tuxon.dev, ruanjinjie@huawei.com, robh@kernel.org,
+ heiko@sntech.de, yangyingliang@huawei.com, wens@csie.org,
+ aidanmacdonald.0x0@gmail.com, andy.shevchenko@gmail.com, rjui@broadcom.com,
+ sbranden@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+ hsweeten@visionengravers.com, alexander.sverdlin@gmail.com,
+ krzysztof.kozlowski@linaro.org, alim.akhtar@samsung.com,
+ linux-samsung-soc@vger.kernel.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+ ak@it-klinger.de, cai.huoqing@linux.dev, haibo.chen@nxp.com,
+ neil.armstrong@linaro.org, khilman@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com, gnstark@sberdevices.ru,
+ andriy.shevchenko@linux.intel.com, nuno.sa@analog.com,
+ linux-amlogic@lists.infradead.org, sravanhome@gmail.com, jkluo@hust.edu.cn,
+ dzm91@hust.edu.cn, avifishman70@gmail.com, tmaimon77@gmail.com,
+ tali.perry1@gmail.com, venture@google.com, yuenn@google.com,
+ benjaminfair@google.com, openbmc@lists.ozlabs.org, agross@kernel.org,
+ andersson@kernel.org, konrad.dybcio@linaro.org,
+ linux-arm-msm@vger.kernel.org, marek.vasut@gmail.com,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+ olivier.moysan@foss.st.com, fabrice.gasnier@foss.st.com,
+ zhang_shurong@foxmail.com, frank.li@vivo.com,
+ linux-stm32@st-md-mailman.stormreply.com, sean@geanix.com, trix@redhat.com,
+ jernej.skrabec@gmail.com, samuel@sholland.org, rafael.j.wysocki@intel.com,
+ damien.lemoal@opensource.wdc.com, broonie@kernel.org, idosch@nvidia.com,
+ daniel.lezcano@linaro.org, linux-sunxi@lists.linux.dev,
+ dmitry.torokhov@gmail.com, andreas@kemnade.info, peda@axentia.se,
+ vz@mleia.com, ktsai@capellamicro.com, bleung@chromium.org,
+ groeck@chromium.org, chrome-platform@lists.linux.dev
 
+Hello:
 
-On Mon, 13 Nov, 2023 01:46:25 +0000 "Rahul Rameshbabu" <sergeantsagara@prot=
-onmail.com> wrote:
-> On Wed, 08 Nov, 2023 00:08:31 +0800 "Yihong Cao" <caoyihong4@outlook.com>=
- wrote:
->> On Mon, Nov 06, 2023 at 03:11:09AM +0000, Rahul Rameshbabu wrote:
->>> On Mon, 30 Oct, 2023 01:05:38 +0800 "Yihong Cao" <caoyihong4@outlook.co=
-m> wrote:
->>> > Jamesdonkey A3R keyboard is identified as "Jamesdonkey A3R" in wired
->>> > mode, "A3R-U" in wireless mode and "A3R" in bluetooth mode. Adding th=
-em
->>> > to non-apple keyboards fixes function key.
->>> >
->>> > Signed-off-by: Yihong Cao <caoyihong4@outlook.com>
->>> > ---
->>> >  drivers/hid/hid-apple.c | 2 ++
->>> >  1 file changed, 2 insertions(+)
->>> >
->>> > diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
->>> > index 3ca45975c686..d9e9829b2200 100644
->>> > --- a/drivers/hid/hid-apple.c
->>> > +++ b/drivers/hid/hid-apple.c
->>> > @@ -345,6 +345,8 @@ static const struct apple_non_apple_keyboard non_=
-apple_keyboards[] =3D {
->>> >  =09{ "AONE" },
->>> >  =09{ "GANSS" },
->>> >  =09{ "Hailuck" },
->>> > +=09{ "Jamesdonkey" },
->>>
->>> Sorry, maybe I misunderstood the commit message. In wired mode, if the
->>> keyboard is identified as "Jamesdonkey A3R", shouldn't this value be
->>> "Jamesdonkey A3R" instead of "Jamesdonkey"?
->>>
->>
->> Hi!
->>
->> "Jamesdonkey" is the manufacturer and "A3R" is the model. I think adding
->> manufacturer to non-apple list is suggested, just like commit
->> c4444d8749f696384947192b602718fa310c1caf,
->> 20afcc462579c0bd79a59ab2b87b82ffa833d118, and
->> a0a05054583fed17f522172e101594f1ff265463 did.
->>
->
->   static bool apple_is_non_apple_keyboard(struct hid_device *hdev)
->   {
->     int i;
->
->     for (i =3D 0; i < ARRAY_SIZE(non_apple_keyboards); i++) {
->       char *non_apple =3D non_apple_keyboards[i].name;
->
->       if (strncmp(hdev->name, non_apple, strlen(non_apple)) =3D=3D 0)
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Jonathan Cameron <Jonathan.Cameron@huawei.com>:
 
-Sorry, my brain slipped here. This is essentially a prefix check. Your
-commit works fine :). I consider this patch reviewed. Sorry about that
-confusion.
+On Tue, 19 Sep 2023 19:48:42 +0200 you wrote:
+> this series converts all platform drivers below drivers/iio to use
+> .remove_new(). The motivation is to get rid of an integer return code
+> that is (mostly) ignored by the platform driver core and error prone on
+> the driver side. As all platform drivers return zero unconditionally in their
+> remove callback up to now, the conversions are "trivial".
+> 
+> See commit 5c5a7680e67b ("platform: Provide a remove callback that
+> returns no value") for an extended explanation and the eventual goal.
+> 
+> [...]
 
-Reviewed-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Here is the summary with links:
+  - [45/49] iio: proximity: cros_ec_mkbp: Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/2df694f710d2
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
