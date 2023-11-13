@@ -1,110 +1,105 @@
-Return-Path: <linux-input+bounces-43-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-44-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 082D27EA00B
-	for <lists+linux-input@lfdr.de>; Mon, 13 Nov 2023 16:33:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD5277EA5B6
+	for <lists+linux-input@lfdr.de>; Mon, 13 Nov 2023 23:08:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 88299B208C8
-	for <lists+linux-input@lfdr.de>; Mon, 13 Nov 2023 15:33:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 099D31C2088C
+	for <lists+linux-input@lfdr.de>; Mon, 13 Nov 2023 22:08:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0744219E2;
-	Mon, 13 Nov 2023 15:33:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C07D2D622;
+	Mon, 13 Nov 2023 22:08:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S2Pzoa88"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="s/MJK+6z"
 X-Original-To: linux-input@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A7521358;
-	Mon, 13 Nov 2023 15:33:39 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A306DD63;
-	Mon, 13 Nov 2023 07:33:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699889618; x=1731425618;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=traB1khJAcOjJDjDW0iULSetW36qB0wE8R68eicfZN8=;
-  b=S2Pzoa88/5HcnA1uGLzcvHrs0Q9CcsoYdggKtQ3b8S3VU7KhZeuXbZ4K
-   DrNxFOSmxnwDbmIdAcVn8eB5HKjMbCHMphYexkpsl7j65woT+Ov3njpAb
-   ru1al5eAkFtUgDRmDYdXoNcHF2KNJG8ZxI2d2s1dbIHi3JeFaasQHjhqv
-   tGH9eYAZumNFjpz625HbgLlPJr5SZYIDinQd0o86ObEZWVxFexrhm1YvI
-   vI3Y84XIsYTr4GYgoa3OqX6DTH87SZC6tB/U5hu2NWA5ypd8XAEFdqX1T
-   TIzvfoZGRJlGRONpggrX6+CmMn4Ipy7qOpYteb4zhPW5G8zFUafP9lX76
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="369791859"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="369791859"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 07:33:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="830265088"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="830265088"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 07:33:24 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1r2YwD-0000000Daff-0esz;
-	Mon, 13 Nov 2023 17:33:21 +0200
-Date: Mon, 13 Nov 2023 17:33:20 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Yang Yingliang <yangyingliang@huawei.com>,
-	Mark Brown <broonie@kernel.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Subject: Re: [PATCH v1 1/1] treewide, spi: Get rid of SPI_MASTER_HALF_DUPLEX
-Message-ID: <ZVJBwFYO7nHHAcli@smile.fi.intel.com>
-References: <20231113111249.3982461-1-andriy.shevchenko@linux.intel.com>
- <2023111307-payer-retiring-0d72@gregkh>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16A92D627
+	for <linux-input@vger.kernel.org>; Mon, 13 Nov 2023 22:08:36 +0000 (UTC)
+Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F05110C
+	for <linux-input@vger.kernel.org>; Mon, 13 Nov 2023 14:08:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1699913308; x=1700172508;
+	bh=Cgx6Jlyi/PqfWlF1PLRvcbzm0SmQSL/fmBdfVpYYr8U=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=s/MJK+6zQSB9dDZMJJoPt8ViBmm/2VBPiDbsaPRBftmQ9rq63Vu1qAfF5+ay4R1bv
+	 dj0tqSg4LYq26TeKQuKrsOhuLj58T3Rrwy6V1/cpMBl0R2J1dD9IRQN9ZdvEGNR1ij
+	 buiBABuLad6Pz1vatHEhDYhdxcabwHzOG17bhiWkKPaNH5BW09Rn+l5YcjOimBKZbM
+	 OLd6wMSvhKgieD4jT/ix9+zeiObMWJ2biV0kecdLfcZQpFfFWMpHqSIC2W3xb5EIin
+	 X5LqHaOETBUfpvCnGXUdNxlDXxW6Vw58yZgq/T3lJqOJFM9dalwuTcKKtF+bW0yFJo
+	 a+X8L6mZ+MmRQ==
+Date: Mon, 13 Nov 2023 22:08:03 +0000
+To: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+From: David Revoy <davidrevoy@protonmail.com>
+Cc: =?utf-8?Q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>, Eric GOUYER <folays@gmail.com>, Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>, jkosina@suse.cz, jason.gerecke@wacom.com, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel issue
+Message-ID: <nFHw6XePiH5p60JsbQSbssRkiuABiTiR_n5fIYFZjPgkV3ObjjZuwTC84BJ_1vXYVufPbG3UvZ1L7ODSrrGlq9CrI7BTKhsV5QeAQoakV18=@protonmail.com>
+In-Reply-To: <CAO-hwJJ+nx72_TPfxcWRPBDZdDaPrO5yMNH4Y_mj6ej651Mesw@mail.gmail.com>
+References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm> <ZUtTpKyP0oxWhnn8@fedora> <CAO-hwJLjtjdr2gtrOWJFPZ-38YzKB8XfhDKWf_2jUPeiaP3EcA@mail.gmail.com> <CAO-hwJKNcwcDGEh33NZq4kSYtoxZzg9M2nzE_hVDYNFgA4g_dg@mail.gmail.com> <_DEF7tHL1p_ExY7GJlJvT5gRA7ZvNnVMJuURb8_WCV-0fbYXkLN2p5zHloi6wiJPNzGEjFAkq2sjbCU633_eNF_cGm0rAbmCOOIOfwe1jWo=@protonmail.com> <CAO-hwJ+zm=R7NwrALaLVmfPDtMNXpj0eoQgLkiS1wa6wd+hu+A@mail.gmail.com> <CAO-hwJKJW5jGDdaaS8eB7kcLQUvWO_1XkOzJG4HAcaRzw1cGnQ@mail.gmail.com> <7wmtNlKuYResf5cFQ7M2QTalzIUtw0I6ohvPcz69Jo1c8flezyIlnJu1IwAgXhJ-u0NlRL3IV7HnL0Kza6fVBqd7X7jhc-Z6QCi3oqHEvpY=@protonmail.com> <CAO-hwJJ+nx72_TPfxcWRPBDZdDaPrO5yMNH4Y_mj6ej651Mesw@mail.gmail.com>
+Feedback-ID: 5460171:user:proton
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2023111307-payer-retiring-0d72@gregkh>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 13, 2023 at 09:29:39AM -0500, Greg Kroah-Hartman wrote:
-> On Mon, Nov 13, 2023 at 01:12:49PM +0200, Andy Shevchenko wrote:
+Hi Benjamin,
 
-...
+> Here is a little bit of history of why you were encountering this bug [..=
+.]
 
-> >  drivers/input/rmi4/rmi_spi.c             | 2 +-
-> >  drivers/mmc/host/mmc_spi.c               | 2 +-
-> >  drivers/net/ethernet/micrel/ks8851_spi.c | 4 ++--
-> >  drivers/usb/gadget/udc/max3420_udc.c     | 2 +-
-> >  include/linux/spi/spi.h                  | 2 --
-> >  5 files changed, 5 insertions(+), 7 deletions(-)
-> 
-> This should go through the spi tree, right?  If so:
+Many thanks for all the details you wrote about the bug, I found=20
+your email so interesting that I couldn't resist to copy/paste it=20
+on my blog[1]. =20
 
-Correct.
+> And that's exactly what happened in your case David. Which is why I'm
+> so happy (also because I fixed the tools from an author I like and
+> already had the books at home :-P):
 
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> 
-> For the USB portion.
+Please send me an email in private with your adress; I'll be happy to
+send you an original drawing. That will be my way to thank you :-)=20
 
-Thank you!
+> Could you please once again attach the hid-recorder of the Pro 24
+> while doing the following sequence:
+> - touch with the tip of the stylus the tablet
+> - while touching, press the upper button (the problematic one)
+> - still while touching, release the button
+> - remove the stylus
 
--- 
-With Best Regards,
-Andy Shevchenko
+Sure, you'll find the action (repeated three times) recorded here [2]
 
+> you could also give a test of the artifacts of job 51469284[3].
+>=20
+> The points to check are:
+> - if you right click while touching the surface, do you still get only
+> a right click or some weird glitches in addition to it?
+> - if you right click while not touching (hovering), no glitches?
 
+I tested. It's a bit hard to tell if it causes glitches or if the
+behavior is normal or not. I'm not using the right-click this way.
+I always use it in "hover mode". With artifact or without, the=20
+behavior is while the tip is pressed, the right-click quickly=20
+'disapear' but it is probably normal because I test on contextual
+menu and clicking somewhere else makes this type of menu disapear.
+
+I hope this will help,
+Cheers,
+
+David
+
+[1] https://www.davidrevoy.com/article1002/how-a-kernel-developer-made-my-s=
+tyluses-work-again =20
+[2] https://www.peppercarrot.com/extras/mailing-list/hid-records/XPPEN-Arti=
+st-24-Pro/XPPEN-Artist-24-Pro_pen_tip-contact-and-action-press-release-uppe=
+r-stylus-button-x3.txt  
 
