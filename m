@@ -1,39 +1,39 @@
-Return-Path: <linux-input+bounces-28-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-29-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668427E959A
-	for <lists+linux-input@lfdr.de>; Mon, 13 Nov 2023 04:42:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D71E7E95A3
+	for <lists+linux-input@lfdr.de>; Mon, 13 Nov 2023 04:42:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 03325B20A76
-	for <lists+linux-input@lfdr.de>; Mon, 13 Nov 2023 03:42:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7C090B20944
+	for <lists+linux-input@lfdr.de>; Mon, 13 Nov 2023 03:42:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01AABC13E;
-	Mon, 13 Nov 2023 03:42:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24174C2CD;
+	Mon, 13 Nov 2023 03:42:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ea8hxNwi"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XlxhlH2K"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3B38F47;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B8FC132;
 	Mon, 13 Nov 2023 03:42:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 30071C43391;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3BFD9C43397;
 	Mon, 13 Nov 2023 03:42:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1699846957;
-	bh=jdxeDVtgM5/V3SaVfri5ZhvhnazvM3zMI/UV31SAZgM=;
+	bh=cJyTsg2/ykeyXvrK54v0p7rMm498zi6eFEDrVxQoqHU=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Ea8hxNwisz1LC/1DzBtjKwF55VCjbDAlXbgbnY45zFxU2WoW0zsWunTZmPaVRAsLA
-	 QJVKUKpitKTbZgtNrsWEeapO9yD0BLH5nWZdygQvmoxqWjiYDi7mXbWyFQGnPY9uFm
-	 ysOFDGLvKa8Ut01D53wuNH/MjQMgT0U9BJUKXrFQZZkE5os7Kqj5v8hQIXF6x8Y7Ik
-	 DPFvCHxRDQK4+Mc2QMy7IBUSf5HjkTjEQPSMjV/VpAcEmMtnjuPqXNCloVYyAK6fqU
-	 qErzOeo2HHErGox/8maRe/4DiNSlfXMO/woseQri91k++DciByjTKNswmtOUiirZWt
-	 EpeJnWQEJISpw==
+	b=XlxhlH2Ky0/ppr6cbSjHHpmiaiAVtSAxgBo4szAffgNq3Vw2d4mxasFwD8OxzJ9Zc
+	 f4QvUyLxBzdsORjYJ/jIA3bMgB6rFLhgu9WGPPq6txPrGEpYMonIfKKyLZFKV9Ikgr
+	 i46ejT5aoIaDrxYme/xKHKediCRPVMl04Gq+WxbwWhon8SoJXo7GvqFTX7QGYoTGuv
+	 Q+xiS2gFfR3PcLmP2/s/s4W4dBHixX8YysXwO7Btaoc8ufZji2Kt6zGcmxlXEjGfeS
+	 Tys2pX5hYdkuhdMzwFp19SMxgYZGEqpYnLIzX7HltYLcLL+0OAkYB96UQAAEngliA1
+	 T3cWunvqmrg/g==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0AB63E32712;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2142AE32714;
 	Mon, 13 Nov 2023 03:42:37 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -43,68 +43,53 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 00/49] iio: Convert to platform remove callback returning void
+Subject: Re: [PATCH 00/52] input: Convert to platform remove callback returning
+ void
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <169984695702.27851.17182787496510678882.git-patchwork-notify@kernel.org>
+ <169984695713.27851.5146160260731495399.git-patchwork-notify@kernel.org>
 Date: Mon, 13 Nov 2023 03:42:37 +0000
-References: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230919174931.1417681-1-u.kleine-koenig@pengutronix.de>
+References: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230920125829.1478827-1-u.kleine-koenig@pengutronix.de>
 To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@codeaurora.org
-Cc: jic23@kernel.org, jikos@kernel.org, srinivas.pandruvada@linux.intel.com,
- lars@metafoo.de, linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
- kernel@pengutronix.de, linus.walleij@linaro.org,
- linux-arm-kernel@lists.infradead.org, eugen.hristev@collabora.com,
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
- claudiu.beznea@tuxon.dev, ruanjinjie@huawei.com, robh@kernel.org,
- heiko@sntech.de, yangyingliang@huawei.com, wens@csie.org,
- aidanmacdonald.0x0@gmail.com, andy.shevchenko@gmail.com, rjui@broadcom.com,
- sbranden@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
- hsweeten@visionengravers.com, alexander.sverdlin@gmail.com,
- krzysztof.kozlowski@linaro.org, alim.akhtar@samsung.com,
- linux-samsung-soc@vger.kernel.org, shawnguo@kernel.org,
- s.hauer@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
- ak@it-klinger.de, cai.huoqing@linux.dev, haibo.chen@nxp.com,
- neil.armstrong@linaro.org, khilman@baylibre.com, jbrunet@baylibre.com,
- martin.blumenstingl@googlemail.com, gnstark@sberdevices.ru,
- andriy.shevchenko@linux.intel.com, nuno.sa@analog.com,
- linux-amlogic@lists.infradead.org, sravanhome@gmail.com, jkluo@hust.edu.cn,
- dzm91@hust.edu.cn, avifishman70@gmail.com, tmaimon77@gmail.com,
- tali.perry1@gmail.com, venture@google.com, yuenn@google.com,
- benjaminfair@google.com, openbmc@lists.ozlabs.org, agross@kernel.org,
- andersson@kernel.org, konrad.dybcio@linaro.org,
- linux-arm-msm@vger.kernel.org, marek.vasut@gmail.com,
- mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
- olivier.moysan@foss.st.com, fabrice.gasnier@foss.st.com,
- zhang_shurong@foxmail.com, frank.li@vivo.com,
- linux-stm32@st-md-mailman.stormreply.com, sean@geanix.com, trix@redhat.com,
- jernej.skrabec@gmail.com, samuel@sholland.org, rafael.j.wysocki@intel.com,
- damien.lemoal@opensource.wdc.com, broonie@kernel.org, idosch@nvidia.com,
- daniel.lezcano@linaro.org, linux-sunxi@lists.linux.dev,
- dmitry.torokhov@gmail.com, andreas@kemnade.info, peda@axentia.se,
- vz@mleia.com, ktsai@capellamicro.com, bleung@chromium.org,
- groeck@chromium.org, chrome-platform@lists.linux.dev
+Cc: dmitry.torokhov@gmail.com, michael.hennerich@analog.com,
+ linux-input@vger.kernel.org, kernel@pengutronix.de, bleung@chromium.org,
+ groeck@chromium.org, gregkh@linuxfoundation.org, Jonathan.Cameron@huawei.com,
+ joewu@msi.com, chrome-platform@lists.linux.dev,
+ andriy.shevchenko@linux.intel.com, mkorpershoek@baylibre.com,
+ jeff@labundy.com, robh@kernel.org, lis8215@gmail.com, pavel@ucw.cz,
+ rostedt@goodmis.org, pabeni@redhat.com, kvalo@kernel.org, frank.li@vivo.com,
+ ye.xingchen@zte.com.cn, mcoquelin.stm32@gmail.com,
+ alexandre.torgue@foss.st.com, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, support.opensource@diasemi.com,
+ o2g.org.ru@gmail.com, lee@kernel.org, linus.walleij@linaro.org,
+ agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+ linux-arm-msm@vger.kernel.org, hdegoede@redhat.com, mitr@volny.cz,
+ patches@opensource.cirrus.com, christophe.jaillet@wanadoo.fr, windhl@126.com,
+ chenjun102@huawei.com, ruanjinjie@huawei.com, wens@csie.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org, linux-sunxi@lists.linux.dev,
+ michal.simek@amd.com, robert.jarzmik@free.fr, dmitry.baryshkov@linaro.org,
+ arnd@arndb.de, rafael.j.wysocki@intel.com, krzysztof.kozlowski@linaro.org,
+ daniel.lezcano@linaro.org, corbet@lwn.net
 
 Hello:
 
 This patch was applied to chrome-platform/linux.git (for-next)
-by Jonathan Cameron <Jonathan.Cameron@huawei.com>:
+by Dmitry Torokhov <dmitry.torokhov@gmail.com>:
 
-On Tue, 19 Sep 2023 19:48:42 +0200 you wrote:
-> this series converts all platform drivers below drivers/iio to use
-> .remove_new(). The motivation is to get rid of an integer return code
-> that is (mostly) ignored by the platform driver core and error prone on
-> the driver side. As all platform drivers return zero unconditionally in their
-> remove callback up to now, the conversions are "trivial".
+On Wed, 20 Sep 2023 14:57:37 +0200 you wrote:
+> Hello,
 > 
-> See commit 5c5a7680e67b ("platform: Provide a remove callback that
-> returns no value") for an extended explanation and the eventual goal.
+> this series converts all platform drivers below drivers/input to use
+> remove_new. The motivation is to get rid of an integer return code
+> that is (mostly) ignored by the platform driver core and error prone on
+> the driver side.
 > 
 > [...]
 
 Here is the summary with links:
-  - [45/49] iio: proximity: cros_ec_mkbp: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/2df694f710d2
+  - [02/52] input: cros_ec_keyb - Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/63ef64cb6453
 
 You are awesome, thank you!
 -- 
