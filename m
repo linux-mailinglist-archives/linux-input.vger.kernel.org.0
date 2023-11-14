@@ -1,257 +1,192 @@
-Return-Path: <linux-input+bounces-59-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-60-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B547EB7D6
-	for <lists+linux-input@lfdr.de>; Tue, 14 Nov 2023 21:32:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96B5D7EBA52
+	for <lists+linux-input@lfdr.de>; Wed, 15 Nov 2023 00:57:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A537281329
-	for <lists+linux-input@lfdr.de>; Tue, 14 Nov 2023 20:32:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B24571C20954
+	for <lists+linux-input@lfdr.de>; Tue, 14 Nov 2023 23:57:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 124DA2FC2D;
-	Tue, 14 Nov 2023 20:32:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AE622FC5C;
+	Tue, 14 Nov 2023 23:57:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rfC8INpk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OJQEDKvN"
 X-Original-To: linux-input@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616262FC2E
-	for <linux-input@vger.kernel.org>; Tue, 14 Nov 2023 20:32:18 +0000 (UTC)
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F168F5
-	for <linux-input@vger.kernel.org>; Tue, 14 Nov 2023 12:32:16 -0800 (PST)
-Received: by mail-ot1-x335.google.com with SMTP id 46e09a7af769-6ce2988d62eso3576121a34.1
-        for <linux-input@vger.kernel.org>; Tue, 14 Nov 2023 12:32:16 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7182FC2D
+	for <linux-input@vger.kernel.org>; Tue, 14 Nov 2023 23:57:39 +0000 (UTC)
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1F5CCD
+	for <linux-input@vger.kernel.org>; Tue, 14 Nov 2023 15:57:37 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-6bcef66f9caso1180608b3a.0
+        for <linux-input@vger.kernel.org>; Tue, 14 Nov 2023 15:57:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699993935; x=1700598735; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B76Bj7QSkdqe5RgWuzmisGli3L6/dGQzU+oDX8ILkao=;
-        b=rfC8INpkqLDIhdYdUFKoqh5gsBtjsRb2337Gzk4LUe91OQ0YBZZBd0mjlL+HmENbyu
-         HPU5KtHRpiNjZu44rGKqoia2Z4zgJzSItmhLlZ02s4pWbKrg5gK1m6Trl/I2BSt4Y3fH
-         Yg1mkbnv/Nh48Wbww9ivNQ+DE07zjVXutDkOJwNETgnUxOfkkOoy+fDBhAklJN52swEG
-         rXnBByEBxThUTADR+6na/61PfQ7zn5EbSf1KTyQjS9yZLD3qvxgbIERiF+I/M+kl3N7N
-         +NHQIVtb8l4bhcRKVXvuFwUwaX5oW0ThPEu2p4SknQLHHucq0TNR/Yj985PZVZk2ACxm
-         oeDQ==
+        d=gmail.com; s=20230601; t=1700006257; x=1700611057; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qSjAVyU9KnFUolvxv3AgmcIIggThi1NdClOcfcUA/A4=;
+        b=OJQEDKvN9bJ69XhwcIfLN8q535+wYAJfkstaiL9BMOa0bjCu+OCYitHpA9mRLUMwuG
+         +1Z57jJjgpfCvTCuL6NJ34N7XlPMUgj+jn8hgiX5aKOUHw9klyZAHGxBv9xdS8WAxOzI
+         c4Ad606en3rAbjq79F87jrgCgNXOhP/DRF1SM0z512ouMPbkNLaKlDtI+zDjxptIieij
+         r0eksD0flJOfJfkV4DP8jrjbXRp6UGmYNQMerUgiho5pr+Fr0WXNRki2Z//99+rNkVFI
+         IzbMfMrwuisP+MN4tOVP3YDHBiH3pKON2yqfqQWsGVlM+HIY1eY7xnPTY7iVuqoZ6er4
+         KnHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699993935; x=1700598735;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B76Bj7QSkdqe5RgWuzmisGli3L6/dGQzU+oDX8ILkao=;
-        b=PTWpdNRbRbkUjmkCJTuxQXnoz9JUngPZXeMCr8rwv9FmOo36rssVEolA5zTRIlR/jb
-         nvuRIF/figDR/2Qx74TtrmDBZWFhiyrrj6mfASOMwvps0GS6JpiJs/5uPQuX+miqdzsj
-         ZQkO4nKQpUnqdk5sMGTeCfO5oqFh/0ZAgCrTlOngDWAa/+XL6pX8708iZ4m0sCUn336h
-         I17ZVj4mobrSDpegmYeZ0VyBpqzk5v3gtqB4QjuNheQUr/Totsc0NNSDCp78nkz/jRK+
-         MvP8dvdLraHPWU73gK9l8/AjXbXb9dlXHNmC4p88e8EURQLxmDboRiOkCvlcU+g0OOzY
-         vImQ==
-X-Gm-Message-State: AOJu0YztpgSyGrl0gql8hSiwzpnl3ummG/kvDTTVf2w6LqNGVyXgulUg
-	H6nRHPYK2qfgVthscnrakszZeg==
-X-Google-Smtp-Source: AGHT+IHWuJowqXdwedX9Bz2Qb/ucm0pdfbQO5Zy4r7Im9oftuEVjqUAp1mE8lMHliIP5TnecnFZjZQ==
-X-Received: by 2002:a05:6830:18fc:b0:6d3:2960:c49 with SMTP id d28-20020a05683018fc00b006d329600c49mr3456703otf.26.1699993935462;
-        Tue, 14 Nov 2023 12:32:15 -0800 (PST)
-Received: from [172.25.83.73] ([12.186.190.1])
-        by smtp.gmail.com with ESMTPSA id h13-20020a0ceecd000000b00671b009412asm3132110qvs.141.2023.11.14.12.32.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Nov 2023 12:32:14 -0800 (PST)
-Message-ID: <f8c3910a-ee05-4478-aeff-6f6bf6e1c6a4@linaro.org>
-Date: Tue, 14 Nov 2023 21:32:14 +0100
+        d=1e100.net; s=20230601; t=1700006257; x=1700611057;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qSjAVyU9KnFUolvxv3AgmcIIggThi1NdClOcfcUA/A4=;
+        b=auNAY85IH4Csq3zUsf9RYJV/9lujKTGJwrk/FGThj8Ki2XA/6gM9O+989B2hnHARCX
+         h6qltvqwomgrEd5DDTMrLAYtm1FsX7OOboaFIq4rGKrej6kqL4bAdOkicpSpCC+wkf6Y
+         hQcce7rMfS9KOCTIX7eVdVWgWcOVxpbWH88GQxpMzTFwLC/TVctEpgIAPY2MyLsCovgY
+         rwVY4anU3TnAczwX8Hu9zWboGgW9aqFGAjsPiRs5TBex0J/COw7ZJY9U/rgUueNZqGsF
+         srOImV6HnfqJ3chpiXDtsuBim9OlQb42dMqdkfkYCaJSv50e3kQkEsf6XyS/CCDKWaNJ
+         ENgg==
+X-Gm-Message-State: AOJu0YzaI/JyG5E9f/cIMUsIh1r23Fkg1tG4tWfCvhjKQ+uoNjyhQzpO
+	eOY+ygsFl/T3CAZyIThzFPUqPWIV7NnzPtuF
+X-Google-Smtp-Source: AGHT+IFMUZI3kwZerW490/CDVqBMx7H5pOL6BOB2ujvss1Ddpail6tM7LfxBr5UIQ9K3wsHTfVNU2g==
+X-Received: by 2002:a05:6a00:3016:b0:6b2:51a0:e1c9 with SMTP id ay22-20020a056a00301600b006b251a0e1c9mr1029394pfb.1.1700006256762;
+        Tue, 14 Nov 2023 15:57:36 -0800 (PST)
+Received: from Rongo.stama1.kt.home.ne.jp (110-131-90-90.rev.home.ne.jp. [110.131.90.90])
+        by smtp.gmail.com with ESMTPSA id fh23-20020a056a00391700b006be0bd6a4d8sm1767570pfb.36.2023.11.14.15.57.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Nov 2023 15:57:36 -0800 (PST)
+From: Tatsunosuke Tobita <tatsunosuke.wacom@gmail.com>
+To: linux-input@vger.kernel.org,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Jiri Kosina <jikos@kernel.org>
+Cc: Ping Cheng <pinglinux@gmail.com>,
+	Jason Gerecke <killertofu@gmail.com>,
+	Aaron Armstrong Skomra <skomra@gmail.com>,
+	Joshua Dickens <Joshua@Joshua-Dickens.com>,
+	Tatsunosuke Tobita <tatsunosuke.tobita@wacom.com>,
+	Tatsunosuke Tobita <tatsunosuke.wacom@gmail.com>,
+	Jason Gerecke <Jason.Gerecke@wacom.com>,
+	Aaron Skomra <aaron.skomra@wacom.com>,
+	Josh Dickens <joshua.dickens@wacom.com>
+Subject: [PATCH] HID: wacom: Remove AES power_supply after extended inactivity
+Date: Wed, 15 Nov 2023 08:57:29 +0900
+Message-Id: <20231114235729.6867-1-tatsunosuke.wacom@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/2] dt-bindings: input: bindings for Adafruit Seesaw
- Gamepad
-Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Anshul Dalal <anshulusr@gmail.com>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jeff LaBundy <jeff@labundy.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231108005337.45069-1-anshulusr@gmail.com>
- <0defc0e3-dc15-459d-9e71-64f3c38a6931@t-8ch.de>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <0defc0e3-dc15-459d-9e71-64f3c38a6931@t-8ch.de>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 14/11/2023 20:20, Thomas Weißschuh wrote:
-> On 2023-11-08 06:23:35+0530, Anshul Dalal wrote:
->> Adds bindings for the Adafruit Seesaw Gamepad.
->>
->> The gamepad functions as an i2c device with the default address of 0x50
->> and has an IRQ pin that can be enabled in the driver to allow for a rising
->> edge trigger on each button press or joystick movement.
->>
->> Product page:
->>   https://www.adafruit.com/product/5743
->> Arduino driver:
->>   https://github.com/adafruit/Adafruit_Seesaw
->>
->> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
->> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
->> ---
->>
->> Changes for v8:
->> - no updates
->>
->> Changes for v7:
->> - no updates
->>
->> Changes for v6:
->> - no updates
->>
->> Changes for v5:
->> - Added link to the datasheet
->>
->> Changes for v4:
->> - Fixed the URI for the id field
->> - Added `interrupts` property
->>
->> Changes for v3:
->> - Updated id field to reflect updated file name from previous version
->> - Added `reg` property
->>
->> Changes for v2:
->> - Renamed file to `adafruit,seesaw-gamepad.yaml`
->> - Removed quotes for `$id` and `$schema`
->> - Removed "Bindings for" from the description
->> - Changed node name to the generic name "joystick"
->> - Changed compatible to 'adafruit,seesaw-gamepad' instead of
->>   'adafruit,seesaw_gamepad'
->> ---
->>  .../input/adafruit,seesaw-gamepad.yaml        | 60 +++++++++++++++++++
->>  1 file changed, 60 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
->> new file mode 100644
->> index 000000000000..3f0d1c5a3b9b
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
->> @@ -0,0 +1,60 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Adafruit Mini I2C Gamepad with seesaw
->> +
->> +maintainers:
->> +  - Anshul Dalal <anshulusr@gmail.com>
->> +
->> +description: |
->> +  Adafruit Mini I2C Gamepad
->> +
->> +    +-----------------------------+
->> +    |   ___                       |
->> +    |  /   \               (X)    |
->> +    | |  S  |  __   __  (Y)   (A) |
->> +    |  \___/  |ST| |SE|    (B)    |
->> +    |                             |
->> +    +-----------------------------+
->> +
->> +  S -> 10-bit percision bidirectional analog joystick
->> +  ST -> Start
->> +  SE -> Select
->> +  X, A, B, Y -> Digital action buttons
->> +
->> +  Datasheet: https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.pdf
->> +  Product page: https://www.adafruit.com/product/5743
->> +  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
->> +
->> +properties:
->> +  compatible:
->> +    const: adafruit,seesaw-gamepad
-> 
-> I don't really have any clue about devicetree, but shouldn't the actual
-> driver have an id-table for this "compatible"?
+Even if a user does not use their AES pen for an extended period,
+the battery power supply attributes continue to exist.
+This results in the desktop showing battery status for a pen
+that is no longer in use and which may in fact be in a different
+state (e.g. the user may be charging the pen).
+To avoid confusion and ensure userspace has an accurate view
+of the battery state, this patch automatically removes
+the power_supply after 30 minutes of inactivity.
 
-It should, why was it dropped?
+Signed-off-by: Tatsunosuke Tobita <tatsunosuke.tobita@wacom.com>
+Reviewed-by: Jason Gerecke <Jason.Gerecke@wacom.com>
+Reviewed-by: Aaron Skomra <aaron.skomra@wacom.com>
+Reviewed-by: Josh Dickens <joshua.dickens@wacom.com>
+---
+ drivers/hid/wacom.h     |  1 +
+ drivers/hid/wacom_sys.c |  8 ++++++++
+ drivers/hid/wacom_wac.c | 12 +++++++++++-
+ drivers/hid/wacom_wac.h |  1 +
+ 4 files changed, 21 insertions(+), 1 deletion(-)
 
-> 
-> It had one up to v5 of the patchset.
-> 
-> Jeff had some comments about the OF aspect [0], but to me the state now
-> seems incorrect.
-> Maybe the DT can be dropped completely?
-> 
-> Jeff, could you advise?
-> 
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +    description:
->> +      The gamepad's IRQ pin triggers a rising edge if interrupts are enabled.
-> 
-> Interrupts are not supported yet by the driver.
-> Should the property be there already?
-
-Bindings describe the hardware, no the driver. If the hardware has
-interrupt line, it should be described here.
-
-
-Best regards,
-Krzysztof
+diff --git a/drivers/hid/wacom.h b/drivers/hid/wacom.h
+index 166a76c9bcad..77c5fb26cd14 100644
+--- a/drivers/hid/wacom.h
++++ b/drivers/hid/wacom.h
+@@ -164,6 +164,7 @@ struct wacom {
+ 	struct work_struct battery_work;
+ 	struct work_struct remote_work;
+ 	struct delayed_work init_work;
++	struct delayed_work aes_battery_work;
+ 	struct wacom_remote *remote;
+ 	struct work_struct mode_change_work;
+ 	struct timer_list idleprox_timer;
+diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
+index 3f704b8072e8..b613f11ed949 100644
+--- a/drivers/hid/wacom_sys.c
++++ b/drivers/hid/wacom_sys.c
+@@ -1813,6 +1813,13 @@ static void wacom_destroy_battery(struct wacom *wacom)
+ 	}
+ }
+ 
++static void wacom_aes_battery_handler(struct work_struct *work)
++{
++	struct wacom *wacom = container_of(work, struct wacom, aes_battery_work.work);
++
++	wacom_destroy_battery(wacom);
++}
++
+ static ssize_t wacom_show_speed(struct device *dev,
+ 				struct device_attribute
+ 				*attr, char *buf)
+@@ -2794,6 +2801,7 @@ static int wacom_probe(struct hid_device *hdev,
+ 
+ 	mutex_init(&wacom->lock);
+ 	INIT_DELAYED_WORK(&wacom->init_work, wacom_init_work);
++	INIT_DELAYED_WORK(&wacom->aes_battery_work, wacom_aes_battery_handler);
+ 	INIT_WORK(&wacom->wireless_work, wacom_wireless_work);
+ 	INIT_WORK(&wacom->battery_work, wacom_battery_work);
+ 	INIT_WORK(&wacom->remote_work, wacom_remote_work);
+diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+index 471db78dbbf0..c205198ded11 100644
+--- a/drivers/hid/wacom_wac.c
++++ b/drivers/hid/wacom_wac.c
+@@ -2528,11 +2528,12 @@ static void wacom_wac_pen_report(struct hid_device *hdev,
+ 	struct input_dev *input = wacom_wac->pen_input;
+ 	bool range = wacom_wac->hid_data.inrange_state;
+ 	bool sense = wacom_wac->hid_data.sense_state;
++	bool entering_range = !wacom_wac->tool[0] && range;
+ 
+ 	if (wacom_wac->is_invalid_bt_frame)
+ 		return;
+ 
+-	if (!wacom_wac->tool[0] && range) { /* first in range */
++	if (entering_range) { /* first in range */
+ 		/* Going into range select tool */
+ 		if (wacom_wac->hid_data.invert_state)
+ 			wacom_wac->tool[0] = BTN_TOOL_RUBBER;
+@@ -2583,6 +2584,15 @@ static void wacom_wac_pen_report(struct hid_device *hdev,
+ 		input_sync(input);
+ 	}
+ 
++	/* Handle AES battery timeout behavior */
++	if (wacom_wac->features.quirks & WACOM_QUIRK_AESPEN) {
++		if (entering_range)
++			cancel_delayed_work(&wacom->aes_battery_work);
++		if (!sense)
++			schedule_delayed_work(&wacom->aes_battery_work,
++					      msecs_to_jiffies(WACOM_AES_BATTERY_TIMEOUT));
++	}
++
+ 	if (!sense) {
+ 		wacom_wac->tool[0] = 0;
+ 		wacom_wac->id[0] = 0;
+diff --git a/drivers/hid/wacom_wac.h b/drivers/hid/wacom_wac.h
+index 57e185f18d53..e63b1e806e34 100644
+--- a/drivers/hid/wacom_wac.h
++++ b/drivers/hid/wacom_wac.h
+@@ -14,6 +14,7 @@
+ #define WACOM_MAX_REMOTES	5
+ #define WACOM_STATUS_UNKNOWN	255
+ #define WACOM_REMOTE_BATTERY_TIMEOUT	21000000000ll
++#define WACOM_AES_BATTERY_TIMEOUT       1800000
+ 
+ /* packet length for individual models */
+ #define WACOM_PKGLEN_BBFUN	 9
+-- 
+2.34.1
 
 
