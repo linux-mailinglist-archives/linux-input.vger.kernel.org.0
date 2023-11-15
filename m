@@ -1,208 +1,176 @@
-Return-Path: <linux-input+bounces-62-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-63-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE0C37EC6EE
-	for <lists+linux-input@lfdr.de>; Wed, 15 Nov 2023 16:14:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C8B7EC782
+	for <lists+linux-input@lfdr.de>; Wed, 15 Nov 2023 16:38:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E89741C208E0
-	for <lists+linux-input@lfdr.de>; Wed, 15 Nov 2023 15:14:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8AB5D1C20B7C
+	for <lists+linux-input@lfdr.de>; Wed, 15 Nov 2023 15:38:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6D2833061;
-	Wed, 15 Nov 2023 15:14:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CD0139FFC;
+	Wed, 15 Nov 2023 15:38:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BABK6BTt"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CuxKxtnH"
 X-Original-To: linux-input@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF667381A3
-	for <linux-input@vger.kernel.org>; Wed, 15 Nov 2023 15:14:50 +0000 (UTC)
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F37319D
-	for <linux-input@vger.kernel.org>; Wed, 15 Nov 2023 07:14:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700061288;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VjkOmI2I0GDZgSZOoiwJ6/mRH4CBJ4Y9hZDkyw5qt0c=;
-	b=BABK6BTtGoy5Z8pLP1v8tOePtuCqUeGK97zvwAEMgXJtK0VsNSvMOnpBb+zkye/veoHoOe
-	2MJ3/PstnzTrxijOwBu4AfDY8IXigAOHhumAAfsyYekeTR7xF5MOUvIC/qZSXOAM7LjjA4
-	rs84QcDS72f/v2wKcuyGH0QH8N742AY=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-15-oeCbagA-OpSytZaIP_eyOg-1; Wed, 15 Nov 2023 10:14:46 -0500
-X-MC-Unique: oeCbagA-OpSytZaIP_eyOg-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9c7f0a33afbso450892966b.3
-        for <linux-input@vger.kernel.org>; Wed, 15 Nov 2023 07:14:46 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F6933090
+	for <linux-input@vger.kernel.org>; Wed, 15 Nov 2023 15:38:32 +0000 (UTC)
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3B721A5
+	for <linux-input@vger.kernel.org>; Wed, 15 Nov 2023 07:38:29 -0800 (PST)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-5a7eef0b931so79189577b3.0
+        for <linux-input@vger.kernel.org>; Wed, 15 Nov 2023 07:38:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700062709; x=1700667509; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DrqmeQ1b3jWvPwiKhEDKttHMvlM+GcVpLzujKePYQsk=;
+        b=CuxKxtnH4kzYw+M0xHyaxgP5+GGYXJ70eWVH8/FRkTEnTsxVm22mn6BbJP9uUi03lY
+         0tAwykSybKQkXS90Wv/4gw0D4VBWZ/e9Ka9Wc9cG9q7jF7d/q79P4Y2gZ2nl/m2dZpbi
+         VK+ROHI9Za+s/gCknoD7RxhFNCR957NT1tlARx9LTG8Y9ROPFo0NXLggv++9mTpPg/1i
+         jlkWFnlgKKWCFFjjGmxu6z79kJpvOkEWm2Rc31aB5VyCe0E6M+ThHd+muRI5k+j4ThYG
+         zOd7zCSNhrHCMIielG9tp4KAMxKWW3z3z7aO+t6wPig1gOFM4cZsVrccaTidEy3jpI42
+         LbnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700061285; x=1700666085;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VjkOmI2I0GDZgSZOoiwJ6/mRH4CBJ4Y9hZDkyw5qt0c=;
-        b=XYaCgoQISHXtc4kYdsHpMjgCekwC8ogAWa3KdyTY84H62iWPrEDo6vp4KToVXetL6n
-         L8l8nmbsv59dNs4yDgHMu5mm+q/gtaJhanQ1h74iXgrJwqKUHFu4jV/bzgDFdIzQGd7H
-         SoViCTapVyTJ4gfV20yB3gWdFeSjrhVvS8CyRrUWX44ioxrY2ByviT7Q8QYjO41q/CI4
-         4fnEEZaSor2iHri8gmotygHJLkeaFIIBvW+3MBuiODWEOr+KLzX6eMNoKcizTg9zdHkY
-         w8elrbPxcMh0pm5ft+YSZEJXFKduZJuihQFeW+exzppBBzLke0d5F/4oh89QTLzM1cRy
-         ediw==
-X-Gm-Message-State: AOJu0YwLzLHKiqZzmdwPfF9d55lTdb4E7Ttxn+CA5qcGPV6pOltRigP/
-	LSAOKrKm1HiYB3YrJA2EW2pKncZDPlDUZ4zXNEzbnFXEtO53qR+09fRNrJogeCPBsnDDGmRLt/t
-	6BOj1VfXCKk18NDGsRzfiVynKrPUklgF1kMr42BM=
-X-Received: by 2002:a17:907:36c5:b0:9e7:c1cd:a4dc with SMTP id bj5-20020a17090736c500b009e7c1cda4dcmr8998347ejc.6.1700061285290;
-        Wed, 15 Nov 2023 07:14:45 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEYIqCwTu6ghWGkICTGTw9KmCBb0p2Al1kzemXlJXZapp74C6Cy3lUDyjYHnP6SLEss9RIo7JJJJsn8cAPMeRQ=
-X-Received: by 2002:a17:907:36c5:b0:9e7:c1cd:a4dc with SMTP id
- bj5-20020a17090736c500b009e7c1cda4dcmr8998325ejc.6.1700061284952; Wed, 15 Nov
- 2023 07:14:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1700062709; x=1700667509;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DrqmeQ1b3jWvPwiKhEDKttHMvlM+GcVpLzujKePYQsk=;
+        b=LW8lK6e4ekSJcO01Zin5dpeu1WF+TCQsU0t5q4kOzlnw72leH2ibiAztOSPyDvcotz
+         trS/Pi6ygSy41egObxYrA+eAZxU1g6n10oYbev+Qo8P95WjPeYzbTiBkDB+bo4T0udKH
+         Rq6L64fg+a9YQq7B6isNzSxod0VoK9423unKcxi9m4P9MI3wm0ExT+lWTGBKwQl5IIrx
+         dZdS9TqlYagcjlQfQeXDkSsq13dc6L/3QgZQ5u/gSKFh8LOHAJ5gSZytMhOwZ7QuQOPR
+         wdAvV5HWFD3r6aIDszCyLR3z4HfcRps50S2hxxng+Jq3eBWmZzEf1wfFWziBvqfqlzlz
+         zb3A==
+X-Gm-Message-State: AOJu0YyLb1piKGeAQYtKy4frgkzy84/g74pWRTqV+HoYRbRNzzKMO050
+	n1YYZWHyxgTvPpBmOQiRGtAk4jEy9EbPcCuPfbCelQ==
+X-Google-Smtp-Source: AGHT+IHle69HGMM73axSbTrxTEchdRM11aGWeB2nuHgAcv5unqlb5d7O8Uri7BhbV0Cqu/PwgfL+Pytmev0WUwA2OgM=
+X-Received: by 2002:a0d:e855:0:b0:5a7:f002:4fe4 with SMTP id
+ r82-20020a0de855000000b005a7f0024fe4mr14385322ywe.23.1700062709022; Wed, 15
+ Nov 2023 07:38:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm>
- <ZUtTpKyP0oxWhnn8@fedora> <CAO-hwJLjtjdr2gtrOWJFPZ-38YzKB8XfhDKWf_2jUPeiaP3EcA@mail.gmail.com>
- <CAO-hwJKNcwcDGEh33NZq4kSYtoxZzg9M2nzE_hVDYNFgA4g_dg@mail.gmail.com>
- <_DEF7tHL1p_ExY7GJlJvT5gRA7ZvNnVMJuURb8_WCV-0fbYXkLN2p5zHloi6wiJPNzGEjFAkq2sjbCU633_eNF_cGm0rAbmCOOIOfwe1jWo=@protonmail.com>
- <CAO-hwJ+zm=R7NwrALaLVmfPDtMNXpj0eoQgLkiS1wa6wd+hu+A@mail.gmail.com>
- <CAO-hwJKJW5jGDdaaS8eB7kcLQUvWO_1XkOzJG4HAcaRzw1cGnQ@mail.gmail.com>
- <7wmtNlKuYResf5cFQ7M2QTalzIUtw0I6ohvPcz69Jo1c8flezyIlnJu1IwAgXhJ-u0NlRL3IV7HnL0Kza6fVBqd7X7jhc-Z6QCi3oqHEvpY=@protonmail.com>
- <CAO-hwJJ+nx72_TPfxcWRPBDZdDaPrO5yMNH4Y_mj6ej651Mesw@mail.gmail.com>
- <nFHw6XePiH5p60JsbQSbssRkiuABiTiR_n5fIYFZjPgkV3ObjjZuwTC84BJ_1vXYVufPbG3UvZ1L7ODSrrGlq9CrI7BTKhsV5QeAQoakV18=@protonmail.com>
- <CAO-hwJ+jwmTE-v7FsPi3f70mB8SqUha7Ek9DtptZ0auiFpGM7w@mail.gmail.com>
-In-Reply-To: <CAO-hwJ+jwmTE-v7FsPi3f70mB8SqUha7Ek9DtptZ0auiFpGM7w@mail.gmail.com>
-From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date: Wed, 15 Nov 2023 16:14:32 +0100
-Message-ID: <CAO-hwJJoCp0_kxf_HHN9n9EWy9YDSY4rP8ysYNrNg2xTUYtKEQ@mail.gmail.com>
-Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel issue
-To: David Revoy <davidrevoy@protonmail.com>
-Cc: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>, 
-	Eric GOUYER <folays@gmail.com>, Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>, jkosina@suse.cz, 
-	jason.gerecke@wacom.com, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20231113111249.3982461-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20231113111249.3982461-1-andriy.shevchenko@linux.intel.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 15 Nov 2023 16:37:52 +0100
+Message-ID: <CAPDyKFrZdHseZ6udjNSdOG7hwK82G1wT30j39A1KwKBAaY_cMg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] treewide, spi: Get rid of SPI_MASTER_HALF_DUPLEX
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>, Yang Yingliang <yangyingliang@huawei.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mark Brown <broonie@kernel.org>, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-spi@vger.kernel.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi David,
-
-On Tue, Nov 14, 2023 at 3:35=E2=80=AFPM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
-[...]
-> > > Could you please once again attach the hid-recorder of the Pro 24
-> > > while doing the following sequence:
-> > > - touch with the tip of the stylus the tablet
-> > > - while touching, press the upper button (the problematic one)
-> > > - still while touching, release the button
-> > > - remove the stylus
-> >
-> > Sure, you'll find the action (repeated three times) recorded here [2]
+On Mon, 13 Nov 2023 at 12:15, Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 >
-> Thanks a lot. However, I realized this morning 2 issues (sorry):
-> - you made the recording while the HID-BPF program was attached, which
-> is now obvious that anyone would do that. But the program sometimes
-> discards events, so I am not sure now if sometimes the device is not
-> sending the spurious events, or if the filter was acting correctly.
-> (Note to self, next time, while in the testing phase, do not blindly
-> discard the events, but remap them to an ignored report)
-> - that device is really "interesting" in how it behaves with the
-> eraser mode emulation: when you press the second button while touching
-> the pen, we get a spurious release of the touch event... And this
-> leads me to think that I'm not sure about all of the transitions we
-> can have with buttons :(
+> The SPI_MASTER_HALF_DUPLEX is the legacy name of a definition
+> for a half duplex flag. Since all others had been replaced with
+> the respective SPI_CONTROLLER prefix get rid of the last one
+> as well. There is no functional change intended.
 >
-> TL;DR: there is still work to do for me and for you if you still agree
-> to send me more traces.
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+Acked-by: Ulf Hansson <ulf.hansson@linaro.org> # For MMC
+
+> ---
+>  drivers/input/rmi4/rmi_spi.c             | 2 +-
+>  drivers/mmc/host/mmc_spi.c               | 2 +-
+>  drivers/net/ethernet/micrel/ks8851_spi.c | 4 ++--
+>  drivers/usb/gadget/udc/max3420_udc.c     | 2 +-
+>  include/linux/spi/spi.h                  | 2 --
+>  5 files changed, 5 insertions(+), 7 deletions(-)
 >
-
-I managed to refine the bpf filter. Assuming I am correct in what I
-understand from the device, of course.
-Also this time I made sure the original events are still around but
-unprocessed by the input layer :)
-
-So it would be nice if you could try the artifacts of job 51600738[4].
-Again, download them (udev-hid-bpf_0.1.0-4-g5ab02ec.tar.xz), unpack,
-sudo ./install --verbose, then unplug/replug the artist Pro 24.
-
-Then, I'll need the following sequence (ideally repeated twice or
-three times, given that your last record show a slight difference in
-the first and second attempt):
-
-- outside of the proximity of the sensor, press the upper button
-- approach the stylus to the surface keeping the upper button pressed
-- touch the surface with the tip while holding the upper button pressed
-- release the upper button while keeping the tip pressed (like previously)
-- press once again the upper button while keeping the tip touching the
-surface (like previously)
-- lift of the pen, keeping the upper button pressed, and still in
-range of the sensor
-- remove the pen from the proximity of the sensor entirely (move away
-20 cm or so), while still keeping the upper button pressed
-
-It's actually longer to describe than to execute :)
-
-> >
-> > > you could also give a test of the artifacts of job 51469284[3].
-> > >
-> > > The points to check are:
-> > > - if you right click while touching the surface, do you still get onl=
-y
-> > > a right click or some weird glitches in addition to it?
-> > > - if you right click while not touching (hovering), no glitches?
-> >
-> > I tested. It's a bit hard to tell if it causes glitches or if the
-> > behavior is normal or not. I'm not using the right-click this way.
-> > I always use it in "hover mode". With artifact or without, the
-> > behavior is while the tip is pressed, the right-click quickly
-> > 'disapear' but it is probably normal because I test on contextual
-> > menu and clicking somewhere else makes this type of menu disapear.
+> diff --git a/drivers/input/rmi4/rmi_spi.c b/drivers/input/rmi4/rmi_spi.c
+> index 852aeb0b2c07..07c866f42296 100644
+> --- a/drivers/input/rmi4/rmi_spi.c
+> +++ b/drivers/input/rmi4/rmi_spi.c
+> @@ -375,7 +375,7 @@ static int rmi_spi_probe(struct spi_device *spi)
+>         struct rmi_device_platform_data *spi_pdata = spi->dev.platform_data;
+>         int error;
 >
-> AFAICT you used the artifacts from job 51469284. Which is good. But as
-> I mentioned above, the tablet is sending a spurious event I haven't
-> anticipated, which results in a left click (well release/click) from
-> the host point of view. And that very well explains the disappearance
-> of the right-click menu.
-
-I think I managed to remove the spurious release/click with the latest
-udev-hid-bpf pipeline.
-
+> -       if (spi->master->flags & SPI_MASTER_HALF_DUPLEX)
+> +       if (spi->master->flags & SPI_CONTROLLER_HALF_DUPLEX)
+>                 return -EINVAL;
 >
-> >
-> > I hope this will help,
+>         rmi_spi = devm_kzalloc(&spi->dev, sizeof(struct rmi_spi_xport),
+> diff --git a/drivers/mmc/host/mmc_spi.c b/drivers/mmc/host/mmc_spi.c
+> index cc333ad67cac..b0cccef4cfbf 100644
+> --- a/drivers/mmc/host/mmc_spi.c
+> +++ b/drivers/mmc/host/mmc_spi.c
+> @@ -1322,7 +1322,7 @@ static int mmc_spi_probe(struct spi_device *spi)
+>         /* We rely on full duplex transfers, mostly to reduce
+>          * per-transfer overheads (by making fewer transfers).
+>          */
+> -       if (spi->master->flags & SPI_MASTER_HALF_DUPLEX)
+> +       if (spi->master->flags & SPI_CONTROLLER_HALF_DUPLEX)
+>                 return -EINVAL;
 >
-> It does, but there are glitches that I'd like to fix. I need to iron
-> out the bpf filter for those use cases. I rewrote the tests today to
-> take those into account (assuming I understand the HW enough) and I
-> think they are better now.
+>         /* MMC and SD specs only seem to care that sampling is on the
+> diff --git a/drivers/net/ethernet/micrel/ks8851_spi.c b/drivers/net/ethernet/micrel/ks8851_spi.c
+> index 70bc7253454f..7c41623dac90 100644
+> --- a/drivers/net/ethernet/micrel/ks8851_spi.c
+> +++ b/drivers/net/ethernet/micrel/ks8851_spi.c
+> @@ -156,7 +156,7 @@ static void ks8851_rdreg(struct ks8851_net *ks, unsigned int op,
 >
-> But I would also totally understand that you had enough debugging and
-> you would rather focus on using the tablets, instead of debugging
-> them. In which case, someone else from the community might help me.
+>         txb[0] = cpu_to_le16(op | KS_SPIOP_RD);
 >
-> Cheers,
-> Benjamin
+> -       if (kss->spidev->master->flags & SPI_MASTER_HALF_DUPLEX) {
+> +       if (kss->spidev->master->flags & SPI_CONTROLLER_HALF_DUPLEX) {
+>                 msg = &kss->spi_msg2;
+>                 xfer = kss->spi_xfer2;
 >
+> @@ -180,7 +180,7 @@ static void ks8851_rdreg(struct ks8851_net *ks, unsigned int op,
+>         ret = spi_sync(kss->spidev, msg);
+>         if (ret < 0)
+>                 netdev_err(ks->netdev, "read: spi_sync() failed\n");
+> -       else if (kss->spidev->master->flags & SPI_MASTER_HALF_DUPLEX)
+> +       else if (kss->spidev->master->flags & SPI_CONTROLLER_HALF_DUPLEX)
+>                 memcpy(rxb, trx, rxl);
+>         else
+>                 memcpy(rxb, trx + 2, rxl);
+> diff --git a/drivers/usb/gadget/udc/max3420_udc.c b/drivers/usb/gadget/udc/max3420_udc.c
+> index 2d57786d3db7..89e8cf2a2a7d 100644
+> --- a/drivers/usb/gadget/udc/max3420_udc.c
+> +++ b/drivers/usb/gadget/udc/max3420_udc.c
+> @@ -1201,7 +1201,7 @@ static int max3420_probe(struct spi_device *spi)
+>         int err, irq;
+>         u8 reg[8];
 >
-> > Cheers,
-> >
-> > David
-> >
-> > [1] https://www.davidrevoy.com/article1002/how-a-kernel-developer-made-=
-my-styluses-work-again
-> > [2] https://www.peppercarrot.com/extras/mailing-list/hid-records/XPPEN-=
-Artist-24-Pro/XPPEN-Artist-24-Pro_pen_tip-contact-and-action-press-release-=
-upper-stylus-button-x3.txt
-> >
-
-Cheers,
-Benjamin
-
-[4] https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/jobs/51600738
-
+> -       if (spi->master->flags & SPI_MASTER_HALF_DUPLEX) {
+> +       if (spi->master->flags & SPI_CONTROLLER_HALF_DUPLEX) {
+>                 dev_err(&spi->dev, "UDC needs full duplex to work\n");
+>                 return -EINVAL;
+>         }
+> diff --git a/include/linux/spi/spi.h b/include/linux/spi/spi.h
+> index 255a0562aea5..7b4baff63c5c 100644
+> --- a/include/linux/spi/spi.h
+> +++ b/include/linux/spi/spi.h
+> @@ -1638,8 +1638,6 @@ spi_transfer_is_last(struct spi_controller *ctlr, struct spi_transfer *xfer)
+>  /* Compatibility layer */
+>  #define spi_master                     spi_controller
+>
+> -#define SPI_MASTER_HALF_DUPLEX         SPI_CONTROLLER_HALF_DUPLEX
+> -
+>  #define spi_master_get_devdata(_ctlr)  spi_controller_get_devdata(_ctlr)
+>  #define spi_master_set_devdata(_ctlr, _data)   \
+>         spi_controller_set_devdata(_ctlr, _data)
+> --
+> 2.43.0.rc1.1.gbec44491f096
+>
 
