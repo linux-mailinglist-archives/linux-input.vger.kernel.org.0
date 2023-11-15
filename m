@@ -1,200 +1,138 @@
-Return-Path: <linux-input+bounces-68-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-69-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F35D67EC9DF
-	for <lists+linux-input@lfdr.de>; Wed, 15 Nov 2023 18:46:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E5947ECC50
+	for <lists+linux-input@lfdr.de>; Wed, 15 Nov 2023 20:28:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2FB751C20832
-	for <lists+linux-input@lfdr.de>; Wed, 15 Nov 2023 17:46:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D74681F26F31
+	for <lists+linux-input@lfdr.de>; Wed, 15 Nov 2023 19:28:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A1E83175D;
-	Wed, 15 Nov 2023 17:46:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FB3C3D3BB;
+	Wed, 15 Nov 2023 19:28:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XwvRxtbx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Or31r+GD"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4938CE0
-	for <linux-input@vger.kernel.org>; Wed, 15 Nov 2023 09:46:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700070391;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=6maJUMkmIdtKDQswMni32cESB0H8FHGz7TSvIi0J1OU=;
-	b=XwvRxtbx3Q+fV08KO4p+m0Dbz1EqwRTJc6+k1mom1LC4RLjkDIR74x8kA1l8GfCrRhMkjP
-	xVxWnV/Q5pX2FhTptPW6T4hQoL2uER9rY8/gMIvbLLRB8mc2nMc3MEQWU8nu/IOX+O771l
-	29J9qjpg8qDY71agEIuFGlH3AjuSqP0=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-396-gQslVJHKNwWo4nJnnWoyyw-1; Wed,
- 15 Nov 2023 12:46:29 -0500
-X-MC-Unique: gQslVJHKNwWo4nJnnWoyyw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 05CA52824769;
-	Wed, 15 Nov 2023 17:46:29 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.72])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 667EA40C6EB9;
-	Wed, 15 Nov 2023 17:46:26 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	linux-input@vger.kernel.org,
-	Shang Ye <yesh25@mail2.sysu.edu.cn>,
-	gurevitch <mail@gurevit.ch>,
-	Egor Ignatov <egori@altlinux.org>,
-	Anton Zhilyaev <anton@cpp.in>
-Subject: [PATCH v2] Input: atkbd - Skip ATKBD_CMD_GETID in translated mode
-Date: Wed, 15 Nov 2023 18:46:25 +0100
-Message-ID: <20231115174625.7462-1-hdegoede@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF45364A8;
+	Wed, 15 Nov 2023 19:28:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 323DFC433CB;
+	Wed, 15 Nov 2023 19:28:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700076507;
+	bh=6X29YxgOJSekJMMYnxMuAiE4h71bPpKLkyOGCG+ZdDw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Or31r+GDQxBg0Kl8952bupTT20NKuDwPAAhds0bRUOCSZpFXveuXNiRPeMF9U4ZFC
+	 AvZlT63J2FDw7+KmeblxmRPR4g5Vzt0k5NC4KfM41F7s7MjmEPfuSQ+P4J7ydI9oVD
+	 RJiksoxrLz7lCCBhDKMXsqog4bhDw0xNI9zPLaN1G/e6lKLuBptX7qINXIZDokxuWt
+	 WplEtsGC5+kLHE64Dvk+Anp0N+yInACzDd1UP7BuR52jRkPU6rnnE3t9i9qMr9smHu
+	 4SU5hizO3uCkiFzud6h13enoHxr6HU1OvKZM8mdcDPdJqWAWQU2dfZcIq3tmPAasfy
+	 JwiL2+5acw0qg==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-507adc3381cso9569949e87.3;
+        Wed, 15 Nov 2023 11:28:27 -0800 (PST)
+X-Gm-Message-State: AOJu0YxYLkeGNB1MwJsOGObG0WBrmDTdIlugbfB7vOm83DeDvdDJBPDE
+	3A1MpMmL6gLNGveBIzHLZql28/I95G9499v3Wg==
+X-Google-Smtp-Source: AGHT+IGtuiOaHigoe4PCchL0ez6WkPrADjlwvvM4lywCiYHOdKs1gl3YzfWtoBm3uafJe5HtghJLBMHgFaaktMSfqQo=
+X-Received: by 2002:ac2:54b9:0:b0:500:d4d9:25b5 with SMTP id
+ w25-20020ac254b9000000b00500d4d925b5mr9071774lfk.56.1700076505201; Wed, 15
+ Nov 2023 11:28:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
+References: <20231109100606.1245545-1-wenst@chromium.org> <859ac058-c50a-4eb8-99b6-3011ef4e7529@collabora.com>
+ <CAL_JsqK64w3+r_LJZoh50PzAUcsvH6ahSDCqgSiKrD3LBAXE9g@mail.gmail.com> <CAD=FV=VUZy9DaZgKafSpXXopD5k8ExGSR97BjAqC5tupPoxNfQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=VUZy9DaZgKafSpXXopD5k8ExGSR97BjAqC5tupPoxNfQ@mail.gmail.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Wed, 15 Nov 2023 13:28:12 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+puq20EWkQg1RTs2zfmh4DGbqz1krp+19c=wPXnLT5dA@mail.gmail.com>
+Message-ID: <CAL_Jsq+puq20EWkQg1RTs2zfmh4DGbqz1krp+19c=wPXnLT5dA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 0/7] of: Introduce hardware prober driver
+To: Doug Anderson <dianders@chromium.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Chen-Yu Tsai <wenst@chromium.org>, Frank Rowand <frowand.list@gmail.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Hsin-Yi Wang <hsinyi@chromium.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, andriy.shevchenko@linux.intel.com, 
+	Jiri Kosina <jikos@kernel.org>, linus.walleij@linaro.org, broonie@kernel.org, 
+	gregkh@linuxfoundation.org, hdegoede@redhat.com, james.clark@arm.com, 
+	james@equiv.tech, keescook@chromium.org, petr.tesarik.ext@huawei.com, 
+	rafael@kernel.org, tglx@linutronix.de, Jeff LaBundy <jeff@labundy.com>, 
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-There have been multiple reports of keyboard issues on recent laptop models
-which can be worked around by setting i8042.dumbkbd, with the downside
-being this breaks the capslock LED.
+On Fri, Nov 10, 2023 at 6:12=E2=80=AFPM Doug Anderson <dianders@chromium.or=
+g> wrote:
+>
+> Hi,
+>
+> On Thu, Nov 9, 2023 at 5:52=E2=80=AFAM Rob Herring <robh+dt@kernel.org> w=
+rote:
+> >
+> > > > End of background from Doug's cover letter.
+> > >
+> > > I think that using "status" is not a good idea, I find that confusing=
+.
+> >
+> > "status" is what defines a device's state in terms of enabled,
+> > present, available. That's exactly what we're expressing here.
+> >
+> > Now, I do not think we should be mixing the device class (e.g.
+> > touchscreen) into status. I said this on v1, but apparently that was
+> > not listened to.
+>
+> Interesting. I must have missed the "don't mix device class into
+> status" part. Do you have a link to your post about that? Maybe
+> there's other stuff I missed... Having the device class stuck at the
+> end there was at least part of my last post [1] which gathered no
+> response.
 
-It seems that these issues are caused by recent laptops getting confused by
-ATKBD_CMD_GETID. Rather then adding and endless growing list of quirks for
-this, just skip ATKBD_CMD_GETID alltogether on laptops in translated mode.
+https://lore.kernel.org/all/CAL_JsqKK0tjeXNv=3Da8L3k0AjhCa15XOq1tPWqVod9myc=
+sKXJHg@mail.gmail.com/
 
-The main goal of sending ATKBD_CMD_GETID is to skip binding to ps/2
-mice/touchpads and those are never used in translated mode.
+"I would not combine the 2 things. Knowing the class/type of the device
+may be useful independent of your problem."
 
-Examples of laptop models which benefit from skipping ATKBD_CMD_GETID:
 
-* "HP Laptop 15s-fq2xxx", "HP laptop 15s-fq4xxx" and "HP Laptop 15-dy2xxx"
-  models the kbd stops working for the first 2 - 5 minutes after boot
-  (waiting for EC watchdog reset?)
+> I think one of the reasons that I felt we needed to mux the device
+> class into status was that it was going to make the code a lot less
+> fragile. Everything I've seen indicates that you don't want us to
+> create a "HW prober" node that could be used to provide relevant
+> phandles for different classes of devices, so the "HW prober" code
+> needs to either search through the whole device tree for a status of
+> "failed-needs-probe" or needs to contain per-board, hardcoded,
+> fully-qualified paths.
+>
+> I don't think we want to include hardcoded, fully-qualified paths in
+> the code. That would mean that if someone changed a node name
+> somewhere in the path to one of the devices that we're dealing with
+> then it would break.
 
-* On "HP Spectre x360 13-aw2xxx" atkbd fails to probe the keyboard
+Right, nothing should depend on the full path. That's not an ABI just
+like the device path in sysfs is not (despite what Android HALs do).
 
-* At least 9 different Lenovo models have issues with ATKBD_CMD_GETID, see:
-  https://github.com/yescallop/atkbd-nogetid
+> So if we're searching the whole device tree for "failed-needs-probe"
+> then we need to figure out which devices are related to each other. If
+> a given board has second sources for MIPI panels, touchscreens, and
+> trackpads then we need to know which of the "failed-needs-probe"
+> devices are trackpads, which are touchscreens, and which are MIPI
+> panels. Do you have any suggestions for how we should do that? Maybe
+> it was in some other thread that I missed? I guess we could have a
+> board-specific table mapping (compatible + node name + reg) to a
+> class, but that feels awkward.
 
-This has been tested on:
+Node name is supposed to correspond to device class, so why not use
+that (no path or unit-address.) and nothing else (well, besides
+"status")?
 
-1. A MSI B550M PRO-VDH WIFI desktop, where the i8042 controller is not
-   in translated mode when no keyboard is plugged in and with a ps/2 kbd
-   a "AT Translated Set 2 keyboard" /dev/input/event# node shows up
-
-2. A Lenovo ThinkPad X1 Yoga gen 8 (always has a translated set 2 keyboard)
-
-Reported-by: Shang Ye <yesh25@mail2.sysu.edu.cn>
-Closes: https://lore.kernel.org/linux-input/886D6167733841AE+20231017135318.11142-1-yesh25@mail2.sysu.edu.cn/
-Closes: https://github.com/yescallop/atkbd-nogetid
-Reported-by: gurevitch <mail@gurevit.ch>
-Closes: https://lore.kernel.org/linux-input/2iAJTwqZV6lQs26cTb38RNYqxvsink6SRmrZ5h0cBUSuf9NT0tZTsf9fEAbbto2maavHJEOP8GA1evlKa6xjKOsaskDhtJWxjcnrgPigzVo=@gurevit.ch/
-Reported-by: Egor Ignatov <egori@altlinux.org>
-Closes: https://lore.kernel.org/all/20210609073333.8425-1-egori@altlinux.org/
-Reported-by: Anton Zhilyaev <anton@cpp.in>
-Closes: https://lore.kernel.org/linux-input/20210201160336.16008-1-anton@cpp.in/
-Closes: https://bugzilla.redhat.com/show_bug.cgi?id=2086156
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Note this supersedes my previous atkbd series:
-https://lore.kernel.org/linux-input/20231005201544.26983-1-hdegoede@redhat.com/
----
-Changes in v2:
-- Add DMI check for laptop chassis types and only skip ATKBD_CMD_GETID
-  on laptops with the i8042 in translated mode
----
- drivers/input/keyboard/atkbd.c | 61 +++++++++++++++++++++++++++++++---
- 1 file changed, 57 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
-index c92e544c792d..5667f1e80839 100644
---- a/drivers/input/keyboard/atkbd.c
-+++ b/drivers/input/keyboard/atkbd.c
-@@ -765,6 +765,59 @@ static void atkbd_deactivate(struct atkbd *atkbd)
- 			ps2dev->serio->phys);
- }
- 
-+#ifdef CONFIG_X86
-+static const struct dmi_system_id atkbd_dmi_laptop_table[] = {
-+	{
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_CHASSIS_TYPE, "8"), /* Portable */
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_CHASSIS_TYPE, "9"), /* Laptop */
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_CHASSIS_TYPE, "10"), /* Notebook */
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_CHASSIS_TYPE, "14"), /* Sub-Notebook */
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_CHASSIS_TYPE, "31"), /* Convertible */
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_CHASSIS_TYPE, "32"), /* Detachable */
-+		},
-+	},
-+	{ }
-+};
-+
-+/*
-+ * On many modern laptops ATKBD_CMD_GETID may cause problems, on these laptops
-+ * the controller is always in translated mode. In this mode mice/touchpads will
-+ * not work. So in this case simply assume a keyboard is connected to avoid
-+ * confusing some laptop keyboards.
-+ *
-+ * Skipping ATKBD_CMD_GETID ends up using a fake keyboard id. Using a fake id is
-+ * ok in translated mode, only atkbd_select_set() checks atkbd->id and in
-+ * translated mode that is a no-op.
-+ */
-+static bool atkbd_skip_getid(struct atkbd *atkbd)
-+{
-+	return atkbd->translated && dmi_check_system(atkbd_dmi_laptop_table);
-+}
-+#else
-+static inline bool atkbd_skip_getid(struct atkbd *atkbd) { return false; }
-+#endif
-+
- /*
-  * atkbd_probe() probes for an AT keyboard on a serio port.
-  */
-@@ -794,12 +847,12 @@ static int atkbd_probe(struct atkbd *atkbd)
-  */
- 
- 	param[0] = param[1] = 0xa5;	/* initialize with invalid values */
--	if (ps2_command(ps2dev, param, ATKBD_CMD_GETID)) {
-+	if (atkbd_skip_getid(atkbd) || ps2_command(ps2dev, param, ATKBD_CMD_GETID)) {
- 
- /*
-- * If the get ID command failed, we check if we can at least set the LEDs on
-- * the keyboard. This should work on every keyboard out there. It also turns
-- * the LEDs off, which we want anyway.
-+ * If the get ID command was skipped or failed, we check if we can at least set
-+ * the LEDs on the keyboard. This should work on every keyboard out there.
-+ * It also turns the LEDs off, which we want anyway.
-  */
- 		param[0] = 0;
- 		if (ps2_command(ps2dev, param, ATKBD_CMD_SETLEDS))
--- 
-2.41.0
-
+Rob
 
