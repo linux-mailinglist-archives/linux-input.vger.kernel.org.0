@@ -1,78 +1,73 @@
-Return-Path: <linux-input+bounces-64-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-65-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6548D7EC88D
-	for <lists+linux-input@lfdr.de>; Wed, 15 Nov 2023 17:29:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A733A7EC89F
+	for <lists+linux-input@lfdr.de>; Wed, 15 Nov 2023 17:31:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1F39F2814B1
-	for <lists+linux-input@lfdr.de>; Wed, 15 Nov 2023 16:29:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5F2B9281487
+	for <lists+linux-input@lfdr.de>; Wed, 15 Nov 2023 16:31:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8B933BB28;
-	Wed, 15 Nov 2023 16:29:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 944C028E35;
+	Wed, 15 Nov 2023 16:31:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VlZd5o+L"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K/aErExJ"
 X-Original-To: linux-input@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90AAEA930;
-	Wed, 15 Nov 2023 16:29:02 +0000 (UTC)
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71EB0E6;
-	Wed, 15 Nov 2023 08:29:01 -0800 (PST)
-Received: by mail-qk1-x72d.google.com with SMTP id af79cd13be357-7781b176131so367239585a.1;
-        Wed, 15 Nov 2023 08:29:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 376FE3BB55;
+	Wed, 15 Nov 2023 16:31:10 +0000 (UTC)
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF8671994;
+	Wed, 15 Nov 2023 08:31:04 -0800 (PST)
+Received: by mail-qv1-xf2f.google.com with SMTP id 6a1803df08f44-66d190a8f87so40218496d6.0;
+        Wed, 15 Nov 2023 08:31:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700065740; x=1700670540; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1700065864; x=1700670664; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qx3vpjTb9V9uPnz9xtV/2168OTukcHSXztsVSOdsyO0=;
-        b=VlZd5o+LjeCp8ta8ah8fxWow8Zry7xnqCfAcYu7GkUypmoMP/1VzJ+tYPkj5d2X5ra
-         qLh+ZV1SUOTnQ3YCRyUMHXuJekYIWrpp3n7HuOy5A9T73K2YxGlRl9mKMXJbULZ+XHv1
-         mfwrcBBRaR5d7LoN+6yUWl+md49LF3lY2e7kj+TqLS0igdkB3sHeqITrbPLwBpAJotoA
-         k+arGp3ENjWBFzVycke9P+z89646WRGcdw+aD3gRE8oKuHlPhuJFoGBBetK0Kol9S3Bi
-         s4p0M0nIEd3QPOIgLW+9Uie6Yl1NYSebQFwWbIDWgpMTzs7c0wUYgcw7l+hA9EZU1eNe
-         iQpQ==
+        bh=+INF42k1XG4+6QzaNisuOEUhiKYehEiojUz+F/VMRXU=;
+        b=K/aErExJvYgXc45ckszJGSWC9EyIuuFbXt6BCQ/ozGRj5UFyQfbGKzi5ZTrkQ3dMRe
+         pYSp50RcP/vHiNP/2DMmZ4re5ZhXFJjP72d+eGqJcHuTDUcjGhADot+npIIT4IwcgBPQ
+         DrFhsTnwu1Q/vuA1QYpq1Ihyz79/vPy/MEQ9Wc1lUsXQB8ilq5Yw2McQJJY8CLjoJQoL
+         910ZDlQlo5uBsEVBDz90mo9aSlOcqbeKTULVv7u5zG6+by4tpRnsOTrtgVlNjkIMGkr9
+         RGBJBvLg3iBnBMVvNeCrLk8yOGi1sb6yZtQHoctLuTUEuqpHwdtm2+9f36lnRA9ujcq2
+         HAIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700065740; x=1700670540;
+        d=1e100.net; s=20230601; t=1700065864; x=1700670664;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qx3vpjTb9V9uPnz9xtV/2168OTukcHSXztsVSOdsyO0=;
-        b=TeY7IyN08jenKfTsO151sQV2dTW+JxLLqNbN2s3eSVgBmWmgqxY62Y0PXff5Lpzf2+
-         AsOTtHpCnQ5TJHtkRUdiOdGs3aTULZ2KujrhRrLP4QfPwdn2BdibQ21jMcahrphAIVJL
-         F3jCu2bjlGhuFlSR5q/SPSChbxkZyZFva6YI26E1feGGxBfCyNgwM4DeNxvtPk+WN5XH
-         soBUCKiCAjP8LkTpipMjrsom4N+R4eOGJ128HuR694Hzk4s8NHIHWCjkNe+xtQTJARU6
-         2XY6qiKwRRDJHjQYF9KFDfBKt/55Km5MIzaOsI//BGX2HovQdRKOrW8i4FVisMhVl0gb
-         Y08Q==
-X-Gm-Message-State: AOJu0Yw4GyiHUdZCCu7p0IhYey4B7XJqnMA4odXPzhGMiw7Hv1EkNf/J
-	dIA+C5DvDWyhES+deXUH00U=
-X-Google-Smtp-Source: AGHT+IF5NKClhj+lvUnav8OhyXMsa/XqFEZyXxK2HRXBTeJq9vJesW4uPM1z3QXPUZ+PqbfFyQPXLQ==
-X-Received: by 2002:a05:620a:24ca:b0:776:f5bb:f2fc with SMTP id m10-20020a05620a24ca00b00776f5bbf2fcmr7066286qkn.9.1700065740456;
-        Wed, 15 Nov 2023 08:29:00 -0800 (PST)
+        bh=+INF42k1XG4+6QzaNisuOEUhiKYehEiojUz+F/VMRXU=;
+        b=P73yNDHGuf6Y5rFszBWOm8uxmHN3kjwbGK+ClfDmTazlqkREyc4/UleXAkz7/PUSAm
+         xs+wHSgGLT4vhGGeV+D8OD+TbBod6dXO8ds8L53ESU+KTPSs10+0xQPFtxua4vREYd5H
+         u+n74PNkKR4YnyZupypmBG3wFnDrfbDYn+kLCDoaQDV4Yocg+ofidFny6/GxTbRr9OQc
+         boKxYrBN+WYr0IMKXfqHnsoxCzyEZfwJwHnQtjuG2nP+R8gz9pvFuhGus5zfBCXrlEzQ
+         tar4Q5W5jgDxZXhVEceXOkTu4cLVQWCetUFYFYNXP1CD9EceUGW2loFAWiIYshr4YWOc
+         V+ZA==
+X-Gm-Message-State: AOJu0YwBVYpsT6ttfYwweFvRhnqsL79L2KB15+5mtEMdfTiBXocoDmVd
+	5N5/k9AH+U9uU4ySKBMxQMQIh5A6dv0=
+X-Google-Smtp-Source: AGHT+IEn/2rz+rcSYv3U4p1KtnF5wJpHNs7HX9mybwVu8k08zuexww2lEBpj2J9tC2zhD37VjYepbA==
+X-Received: by 2002:a05:6214:560c:b0:66d:6388:bb2c with SMTP id mg12-20020a056214560c00b0066d6388bb2cmr4834783qvb.54.1700065863627;
+        Wed, 15 Nov 2023 08:31:03 -0800 (PST)
 Received: from google.com ([12.186.190.2])
-        by smtp.gmail.com with ESMTPSA id x3-20020a05620a0b4300b0076cda7eab11sm3550801qkg.133.2023.11.15.08.28.57
+        by smtp.gmail.com with ESMTPSA id l16-20020ad44d10000000b00656e2464719sm650908qvl.92.2023.11.15.08.31.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Nov 2023 08:28:59 -0800 (PST)
-Date: Wed, 15 Nov 2023 16:28:54 +0000
+        Wed, 15 Nov 2023 08:31:03 -0800 (PST)
+Date: Wed, 15 Nov 2023 16:30:59 +0000
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Yang Yingliang <yangyingliang@huawei.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mark Brown <broonie@kernel.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-spi@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Subject: Re: [PATCH v1 1/1] treewide, spi: Get rid of SPI_MASTER_HALF_DUPLEX
-Message-ID: <ZVTxxrBgR708zC03@google.com>
-References: <20231113111249.3982461-1-andriy.shevchenko@linux.intel.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: input: samsung,s6sy761: convert to DT schema
+Message-ID: <ZVTyQx7hpADGGk8l@google.com>
+References: <20231111143221.55452-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -81,19 +76,15 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231113111249.3982461-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20231111143221.55452-1-krzysztof.kozlowski@linaro.org>
 
-On Mon, Nov 13, 2023 at 01:12:49PM +0200, Andy Shevchenko wrote:
-> The SPI_MASTER_HALF_DUPLEX is the legacy name of a definition
-> for a half duplex flag. Since all others had been replaced with
-> the respective SPI_CONTROLLER prefix get rid of the last one
-> as well. There is no functional change intended.
+On Sat, Nov 11, 2023 at 03:32:21PM +0100, Krzysztof Kozlowski wrote:
+> Convert Samsung  S6SY761 touchscreen controller bindings to DT schema.
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com> # for input
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
