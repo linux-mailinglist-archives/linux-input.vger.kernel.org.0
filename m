@@ -1,103 +1,152 @@
-Return-Path: <linux-input+bounces-66-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-67-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ABB67EC8FB
-	for <lists+linux-input@lfdr.de>; Wed, 15 Nov 2023 17:57:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBAD97EC9DE
+	for <lists+linux-input@lfdr.de>; Wed, 15 Nov 2023 18:45:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E339D281414
-	for <lists+linux-input@lfdr.de>; Wed, 15 Nov 2023 16:57:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 754011F266B5
+	for <lists+linux-input@lfdr.de>; Wed, 15 Nov 2023 17:45:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E6213EA62;
-	Wed, 15 Nov 2023 16:57:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97D483175D;
+	Wed, 15 Nov 2023 17:45:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EJhr7I/J"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aIA7mo/b"
 X-Original-To: linux-input@vger.kernel.org
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF15739FC6
-	for <linux-input@vger.kernel.org>; Wed, 15 Nov 2023 16:57:43 +0000 (UTC)
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A57A7A6
-	for <linux-input@vger.kernel.org>; Wed, 15 Nov 2023 08:57:42 -0800 (PST)
-Received: by mail-qv1-xf29.google.com with SMTP id 6a1803df08f44-66d17bdabe1so44386676d6.0
-        for <linux-input@vger.kernel.org>; Wed, 15 Nov 2023 08:57:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700067462; x=1700672262; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=1x9R1YSMtIDXOY8NGRNz1DEQdPm/O2O78pgU5S8Hxw4=;
-        b=EJhr7I/JowDz1Po3AsdM2M/i1zyLhzScScRjfbxkebOOpLPDdxdy+90DwyxW32INCV
-         g7bb3bJSW0m/aF8jbW4m8yEw3hnhlV6o1MC4eFZxHBYlxq6GTnrETwS1Vo3KLNe4yAKd
-         7Pf+EYIvEnKzEtrEcdJXvZNrQKBkuDIu2aK+l8gGuCEck5A2gSLgnBsUk0cSyzdoHJW4
-         S8L8gEjNwklLo5OwAbl6nhkDhZ+mYmtwPXz3HKE1FVL6w+Qattmb5ztmM60WiejpKrUT
-         3iYrqKJiCQP5tq6218Je1irVpgDG/vZK2pA7ubTBKwaJAqC5BCMrBtqm6jUELj3usQde
-         zagQ==
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3494C196
+	for <linux-input@vger.kernel.org>; Wed, 15 Nov 2023 09:45:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1700070337;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HNSW9xt0BuxgJERzL4j9Lp2C2xtqLvps6QDDmuILMkY=;
+	b=aIA7mo/bWgl5T5yQBIr0dmiQ5c+RATxhpWc27/l2TdulOqTBgo1qzMkbjMFWrd2THGtaZe
+	Ft7CgHRSsgW2cv8iLM8SsX+ERqdbPNkPBbYPYIwooE+oi+6OZ8+/xWqG7fs8wsEDeSOnRN
+	HQnNMasKngEqi4mwe80bjWFS1U0wydY=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-60-rhxta5gNMmCBFXKdNnktOg-1; Wed, 15 Nov 2023 12:45:35 -0500
+X-MC-Unique: rhxta5gNMmCBFXKdNnktOg-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9bea60bd1adso137761666b.0
+        for <linux-input@vger.kernel.org>; Wed, 15 Nov 2023 09:45:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700067462; x=1700672262;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1700070333; x=1700675133;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1x9R1YSMtIDXOY8NGRNz1DEQdPm/O2O78pgU5S8Hxw4=;
-        b=UkVjlGSJuCzbaNJzjE9bh+CJeyovVo1vKXKMizCLocMw2SQ47cF3h8haKeNlCK06ET
-         lrXFQqgNvNpuMvoT7WsW7ZKm3iBMExGOVFuRloDQpr3pkAdkLJLu1Q4KZYvPk4tp2MQF
-         pSNaw1KTgGH/YoK99gchDnOwg/R7ap2Ln0gFsjHw6VpwKZCbH8UfyaSmDdvbC+tfSAkt
-         7VOwf3QgxsNGh/MKDjzDIQhMx38WHcVxYVzn8hnhiVoBZNwrIOy5QXnnrcIZj1u64KHx
-         9qiZxdOwp8FyOSwqYh/MLClVTAcxWEeKpZufToIATU+jj4gMFJS5dKdihC7l7G5v+qXU
-         sWpw==
-X-Gm-Message-State: AOJu0YzwAz9yABWT8nQUS4+LPPhclxlphmEvQilJqv5jvVQ2KbGTeU8E
-	hlgRDSge8O+OnqzFKa0ehTw=
-X-Google-Smtp-Source: AGHT+IFz+mw4hPmT4In3mdPGGl4jilSo2flRmV/qc0FnnkrlDaXtzRHshv+tlmwNmEUBGLkOQhhwWg==
-X-Received: by 2002:a05:6214:c25:b0:66d:1624:2203 with SMTP id a5-20020a0562140c2500b0066d16242203mr6753177qvd.20.1700067461669;
-        Wed, 15 Nov 2023 08:57:41 -0800 (PST)
-Received: from google.com ([12.186.190.1])
-        by smtp.gmail.com with ESMTPSA id a5-20020ad441c5000000b0065af366bdc1sm655942qvq.103.2023.11.15.08.57.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Nov 2023 08:57:41 -0800 (PST)
-Date: Wed, 15 Nov 2023 16:57:38 +0000
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: =?iso-8859-1?Q?Jos=E9?= Pekkarinen <jose.pekkarinen@foxhound.fi>
-Cc: skhan@linuxfoundation.org, rrangel@chromium.org,
-	jefferymiller@google.com, linux-input@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH RESEND] Input: synaptics: enable InterTouch for ThinkPad
- L14 G1
-Message-ID: <ZVT4gorWmFwNvGU4@google.com>
-References: <20231114063607.71772-1-jose.pekkarinen@foxhound.fi>
+        bh=HNSW9xt0BuxgJERzL4j9Lp2C2xtqLvps6QDDmuILMkY=;
+        b=nVAa3FbQnIJdCgwHK9XtbzcQYDzIe26m3jU4VmxluyGtYrLaobcAGt7TgVB9/yLWhS
+         WzdN4J5YAQELOMmTI3fOOFStHzJAXUIZN/Duwf+wbMJ37ACkLrjQMuUxGOsk6PS8aP31
+         ok4Gmj2oWQt5pkL4dbRR3HZBPAz2X2PeEMgHcFEWquqwve5xlbToxIiXSvsBw/xudHFn
+         6IA14qV+RddfwzXSqnoD5b7W+cj5MUneVy4wQWkd4fY4rC+i1HEcu8E8DFUjFqmuh5pG
+         /JVQXwJhg4hrZSgyuwyXMYBXoCPKaFsooWWfvrvsYlSVWsRRkRJD1p77WZMJzdR7QE5D
+         4Uiw==
+X-Gm-Message-State: AOJu0YxTq2GYWfvOsOAIZ4ivO1tW+5yPxW2H91G/DM4AGvLr0t8eO5yg
+	DCUVd35ZuYvk5oiXn19N2BW0ml6WKLRIMgLDDqpHdXFbG0/Cp4/CRieFJQ08Ph4eBrUs371ZfkG
+	MnzgXKvpdfJY2zH2hgHm9vZhiAgMjNHY=
+X-Received: by 2002:a17:906:3013:b0:9ae:50ec:bd81 with SMTP id 19-20020a170906301300b009ae50ecbd81mr5625655ejz.21.1700070333490;
+        Wed, 15 Nov 2023 09:45:33 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE+1I9WlKqIYh1MchEACIL0Rm/6rmxfTt99Fb1WAfhK2Ht1CkWjGC0oGEiL1EQyX9yXERsU6g==
+X-Received: by 2002:a17:906:3013:b0:9ae:50ec:bd81 with SMTP id 19-20020a170906301300b009ae50ecbd81mr5625637ejz.21.1700070333163;
+        Wed, 15 Nov 2023 09:45:33 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id o18-20020a1709061d5200b009a1c05bd672sm7354029ejh.127.2023.11.15.09.45.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Nov 2023 09:45:32 -0800 (PST)
+Message-ID: <4fdc57c7-3362-45e8-a37c-dec9296d0f6c@redhat.com>
+Date: Wed, 15 Nov 2023 18:45:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231114063607.71772-1-jose.pekkarinen@foxhound.fi>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Input: atkbd - Skip ATKBD_CMD_GETID in translated mode
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, Shang Ye <yesh25@mail2.sysu.edu.cn>,
+ gurevitch <mail@gurevit.ch>, Egor Ignatov <egori@altlinux.org>,
+ Anton Zhilyaev <anton@cpp.in>
+References: <20231106155429.5377-1-hdegoede@redhat.com>
+ <ZVOZUa1i9dQfm76M@google.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <ZVOZUa1i9dQfm76M@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 14, 2023 at 08:36:07AM +0200, José Pekkarinen wrote:
-> Observed on dmesg of my laptop I see the following
-> output:
-> 
-> [   19.898700] psmouse serio1: synaptics: queried max coordinates: x [..5678], y [..4694]
-> [   19.936057] psmouse serio1: synaptics: queried min coordinates: x [1266..], y [1162..]
-> [   19.936076] psmouse serio1: synaptics: Your touchpad (PNP: LEN0411 PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi are not used, you might want to try setting psmouse.synaptics_intertouch to 1 and report this to linux-input@vger.kernel.org.
-> [   20.008901] psmouse serio1: synaptics: Touchpad model: 1, fw: 10.32, id: 0x1e2a1, caps: 0xf014a3/0x940300/0x12e800/0x500000, board id: 3471, fw id: 2909640
-> [   20.008925] psmouse serio1: synaptics: serio: Synaptics pass-through port at isa0060/serio1/input0
-> [   20.053344] input: SynPS/2 Synaptics TouchPad as /devices/platform/i8042/serio1/input/input7
-> [   20.397608] mousedev: PS/2 mouse device common for all mice
-> 
-> This patch will add its pnp id to the smbus list to
-> produce the setup of intertouch for the device.
-> 
-> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
+Hi Dmitry,
 
-Applied, thank you.
+Thank you for the review.
 
--- 
-Dmitry
+On 11/14/23 16:59, Dmitry Torokhov wrote:
+> Hi Hans,
+> 
+> On Mon, Nov 06, 2023 at 04:54:29PM +0100, Hans de Goede wrote:
+>> There have been multiple reports of keyboard issues on recent laptop models
+>> which can be worked around by setting i8042.dumbkbd, with the downside
+>> being this breaks the capslock LED.
+>>
+>> It seems that these issues are caused by recent laptops getting confused by
+>> ATKBD_CMD_GETID. Rather then adding and endless growing list of quirks for
+>> this, lets just skip ATKBD_CMD_GETID alltogether when in translated mode.
+>>
+>> The main goal of sending ATKBD_CMD_GETID is to skip binding to ps/2
+>> mice/touchpads and those are never used in translated mode.
+>>
+>> Examples of laptop models which benefit from skipping ATKBD_CMD_GETID:
+>>
+>> * "HP Laptop 15s-fq2xxx", "HP laptop 15s-fq4xxx" and "HP Laptop 15-dy2xxx"
+>>   models the kbd stops working for the first 2 - 5 minutes after boot
+>>   (waiting for EC watchdog reset?)
+>>
+>> * On "HP Spectre x360 13-aw2xxx" atkbd fails to probe the keyboard
+>>
+>> * At least 9 different Lenovo models have issues with ATKBD_CMD_GETID, see:
+>>   https://github.com/yaescallop/atkbd-nogetid
+>>
+>> Note this also removes the "NCD terminal keyboards are only supported on
+>> non-translating controllers." warning since that code is now unreachable.
+>>
+>> This has been tested on:
+>>
+>> 1. A MSI B550M PRO-VDH WIFI desktop, where the i8042 controller is not
+>>    in translated mode when no keyboard is plugged in and with a ps/2 kbd
+>>    a "AT Translated Set 2 keyboard" /dev/input/event# node shows up
+>>
+>> 2. A Dell Latitude 9420 (always has a "AT Translated Set 2 keyboard")
+>>
+>> 3. A Lenovo ThinkPad X1 Yoga gen 8 (idem)
+> 
+> I agree that the mice/touchpads are not going to work if the controller
+> is in translated mode, however I wonder if on a device with external
+> PS/2 ports we could not end up with a port in translated mode with
+> "wrong" device plugged in.
+> 
+> Can we consider not skipping the check completely, but rather use DMI to
+> check the chassis type (we already have a similar check in 8042)
+> and skip ATKBD_CMD_GETID on mobile devices, but still try
+> ATKBD_CMD_SETLEDS on them?
+
+I think that should work. At least the patches from:
+
+https://github.com/yescallop/atkbd-nogetid
+
+for the affected Lenovo models to exactly that and from my (remote)
+debugging of the issue on one of the HP laptops I expect it to work
+fine there too.
+
+I've prepared a v2 implementing this and I'll send v2 out
+right after this email.
+
+Regards,
+
+Hans
+
 
