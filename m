@@ -1,90 +1,110 @@
-Return-Path: <linux-input+bounces-73-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-74-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C5A7EDA9D
-	for <lists+linux-input@lfdr.de>; Thu, 16 Nov 2023 05:11:31 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C767E7EDAB2
+	for <lists+linux-input@lfdr.de>; Thu, 16 Nov 2023 05:25:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A62341C20A97
-	for <lists+linux-input@lfdr.de>; Thu, 16 Nov 2023 04:11:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6A584B20A88
+	for <lists+linux-input@lfdr.de>; Thu, 16 Nov 2023 04:24:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5027DC2F0;
-	Thu, 16 Nov 2023 04:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B929FC2DE;
+	Thu, 16 Nov 2023 04:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lgmo+62G"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBEE9196
-	for <linux-input@vger.kernel.org>; Wed, 15 Nov 2023 20:11:23 -0800 (PST)
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-6c337818f4cso503937b3a.1
-        for <linux-input@vger.kernel.org>; Wed, 15 Nov 2023 20:11:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700107883; x=1700712683;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=i8IXLXeNcaAAR8ZGk9y+7PnIgpB7vu6o0n5/j1w4vYc=;
-        b=gvX33HlccTP5wB0qwuo6tKz6hx3Fao/zuxC6z5n+6hE4W/0miCmoOwQjdz9Cq0J/3g
-         dpMgJgOvcX0avVDjBLT95AzpwpmCXK92y1GAgXKa03i+td3uPyPF0t1lFYEPr3l0RpFE
-         7EgdYq1eThP0f38ilPwmINrBZTiSfV8Htb0uRsmNl4N02+BM5Fxb/JjZsb91do9fpf8w
-         ez4ch8nxHnVMGOBuo4cHsgJkh7AM9rVg3Zbyp42/TAiVb2mb0H9Y1+MAB/yxPBlc90iQ
-         7gZcSOR+1KRULPn7serBYTdDRcoVtSzbtHExcR5TKTE1VeePMY2Fsyza9ngFEAEbZOLx
-         2BHw==
-X-Gm-Message-State: AOJu0YwFnPstClPhj+rEGg4skTm2FkG4ygL80150b76xH6Fx204Mgk+h
-	ZifbdzLpVwLU6exM3RTHSmX/+ebE4yIPW3hSt/tuSMCwx5U2REE=
-X-Google-Smtp-Source: AGHT+IGoKsZpryOdawCz6/jD3MqrWQV4nW47DCdc42I/JdweDoWbAYYpKK41TO7HPLkgYn5bq0eMLybta1yiBKd6kVRpjKSNdsl7
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13175193;
+	Wed, 15 Nov 2023 20:24:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700108686; x=1731644686;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TiPWqw/qM6n/38QVo1PwW/L4da+B9xY4k/95Cn88Zbc=;
+  b=Lgmo+62GVcO098ywtoDA50J4yL27ZBw7QPDigHHfcIZ+y40kGWJ1QJOd
+   4YjWWkN7NSzG6SzxmUIw4tfmTp7JgeTkzobppdBMBiuSsS62LEjzcbKNW
+   KiRpaHYPLXdFlszNAVHwJiEZS/j1LxKvE9hDDd/PoArZlY6cnvHb2TakL
+   EwQpgV8m37hRL/0Iesnv4hA8GSEaAEmfbItS0jNG5FS7ezKMY0hNcDZdp
+   /TZdVTKpJDrShZ9rPpmysl8f6jIh29w1bXbItOeaVP+rzxISZHLurpfEG
+   1q9lmvtY8VsyB/zhjd+wDXFyxHglHopYsT4UTBg/y4bHyfbxAAB3R+m6y
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="4087191"
+X-IronPort-AV: E=Sophos;i="6.03,307,1694761200"; 
+   d="scan'208";a="4087191"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 20:24:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="768795669"
+X-IronPort-AV: E=Sophos;i="6.03,307,1694761200"; 
+   d="scan'208";a="768795669"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 15 Nov 2023 20:24:43 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r3Tvl-0001Hn-1G;
+	Thu, 16 Nov 2023 04:24:41 +0000
+Date: Thu, 16 Nov 2023 12:24:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bryant Mairs <bryant@mai.rs>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 6/7] ARM: dts: qcom: apq8026-samsung-milletwifi: Enable
+ Wi-Fi and Bluetooth
+Message-ID: <202311161232.aXIYGTAD-lkp@intel.com>
+References: <20231105204759.37107-7-bryant@mai.rs>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6a00:880c:b0:6be:393:2f66 with SMTP id
- ho12-20020a056a00880c00b006be03932f66mr3747620pfb.4.1700107883260; Wed, 15
- Nov 2023 20:11:23 -0800 (PST)
-Date: Wed, 15 Nov 2023 20:11:23 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000763d1c060a3d36eb@google.com>
-Subject: [syzbot] Monthly input report (Nov 2023)
-From: syzbot <syzbot+list7e880ff6acb0d13abeec@syzkaller.appspotmail.com>
-To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231105204759.37107-7-bryant@mai.rs>
 
-Hello input maintainers/developers,
+Hi Bryant,
 
-This is a 31-day syzbot report for the input subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/input
+kernel test robot noticed the following build errors:
 
-During the period, 1 new issues were detected and 0 were fixed.
-In total, 13 issues are still open and 51 have been fixed so far.
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on dtor-input/next dtor-input/for-linus linus/master v6.7-rc1 next-20231115]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Some of the still happening issues:
+url:    https://github.com/intel-lab-lkp/linux/commits/Bryant-Mairs/dt-bindings-input-melfas-mms114-add-MMS252-compatible/20231106-045021
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20231105204759.37107-7-bryant%40mai.rs
+patch subject: [PATCH 6/7] ARM: dts: qcom: apq8026-samsung-milletwifi: Enable Wi-Fi and Bluetooth
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20231116/202311161232.aXIYGTAD-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311161232.aXIYGTAD-lkp@intel.com/reproduce)
 
-Ref Crashes Repro Title
-<1> 3671    Yes   WARNING in input_mt_init_slots
-                  https://syzkaller.appspot.com/bug?extid=0122fa359a69694395d5
-<2> 281     No    possible deadlock in evdev_pass_values (2)
-                  https://syzkaller.appspot.com/bug?extid=13d3cb2a3dc61e6092f5
-<3> 121     Yes   WARNING in cm109_urb_irq_callback/usb_submit_urb
-                  https://syzkaller.appspot.com/bug?extid=2d6d691af5ab4b7e66df
-<4> 57      Yes   INFO: task hung in uhid_char_release
-                  https://syzkaller.appspot.com/bug?extid=8fe2d362af0e1cba8735
-<5> 38      Yes   WARNING in bcm5974_start_traffic/usb_submit_urb
-                  https://syzkaller.appspot.com/bug?extid=348331f63b034f89b622
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311161232.aXIYGTAD-lkp@intel.com/
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+All errors (new ones prefixed by >>):
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+   Error: arch/arm/boot/dts/qcom/qcom-apq8026-samsung-milletwifi.dts:15.15-26 Label or path mba_region not found
+   Error: arch/arm/boot/dts/qcom/qcom-apq8026-samsung-milletwifi.dts:16.15-27 Label or path mpss_region not found
+   Error: arch/arm/boot/dts/qcom/qcom-apq8026-samsung-milletwifi.dts:18.15-28 Label or path wcnss_region not found
+>> Error: arch/arm/boot/dts/qcom/qcom-apq8026-samsung-milletwifi.dts:313.1-8 Label or path pronto not found
+   FATAL ERROR: Syntax error parsing input tree
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
