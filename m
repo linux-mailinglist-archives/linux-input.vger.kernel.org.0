@@ -1,66 +1,60 @@
-Return-Path: <linux-input+bounces-80-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-81-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB9FD7EE565
-	for <lists+linux-input@lfdr.de>; Thu, 16 Nov 2023 17:46:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C84847EE5DC
+	for <lists+linux-input@lfdr.de>; Thu, 16 Nov 2023 18:24:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6BDE11F25122
-	for <lists+linux-input@lfdr.de>; Thu, 16 Nov 2023 16:46:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 02CC51C20A5C
+	for <lists+linux-input@lfdr.de>; Thu, 16 Nov 2023 17:24:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15FB934574;
-	Thu, 16 Nov 2023 16:46:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4ABD364BC;
+	Thu, 16 Nov 2023 17:24:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eYo1zzPJ"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MhvgL7X8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9948EB7
-	for <linux-input@vger.kernel.org>; Thu, 16 Nov 2023 08:46:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700153209;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HzI8Lj1/9iT+PCxe2faEIlZsP1wHe9N89YPTOooiVwM=;
-	b=eYo1zzPJ85wMVjVKUKAVeGMO7jyVfv57si2ndCQWAs7lXotxmgzlxeVrKDxy9mujeYRQsF
-	9UBEx3fb74u5MGnqw8s8AAfdmDnaL9OoxPNmfyi7sBwREtjJxJOYCYkxD5ft9suKJn5hAJ
-	TkDDhqeJCun+5iMMqKLKe+llq9HyRLM=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-93-XDyRnAWxMimuxrFoz-O1MQ-1; Thu, 16 Nov 2023 11:46:48 -0500
-X-MC-Unique: XDyRnAWxMimuxrFoz-O1MQ-1
-Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2c503af866dso8599681fa.2
-        for <linux-input@vger.kernel.org>; Thu, 16 Nov 2023 08:46:48 -0800 (PST)
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EE951A8
+	for <linux-input@vger.kernel.org>; Thu, 16 Nov 2023 09:24:12 -0800 (PST)
+Received: by mail-qk1-x733.google.com with SMTP id af79cd13be357-7781bc3783fso64045685a.1
+        for <linux-input@vger.kernel.org>; Thu, 16 Nov 2023 09:24:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700155451; x=1700760251; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=41B+9Id080E/lA30UzcHBu/af+VTyRdDHO4WCg6iwZQ=;
+        b=MhvgL7X8zLqG4TXziaO5qvKJ5mC98dugqkArUfRykNgNc78EtSBRAt0dXsTFRywnPI
+         Q+WmWm5sisKRAO/i61GaefZNBDXYm8G4Poth72yCihl5ckvj0rNFhuVNWIWPXSuLqe3m
+         7owFZDe50bV4nRCJz+3PjnILRyWDCBO97ZCESGTu5IR6otu7oUMYgpnxf0ZUWbvHcUl4
+         0bIsIfZnDDUd/spQ4JKWLz1KPoSHg5KiN3xM50Gsd/ZW10eZrDAN3vB7fQunb+aqT0Kx
+         4daNuO0hQRdimO9HfFe15WbShIRInojm8WDLXyVn8eciMvPvmSSwjCwTaKgX7DmAIIF4
+         vEXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700153207; x=1700758007;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1700155451; x=1700760251;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HzI8Lj1/9iT+PCxe2faEIlZsP1wHe9N89YPTOooiVwM=;
-        b=WK1UqcSVCM+D2KytHGWN4pvGv/24zFM9ZjTyCtblybcjplzpSDBnI0Xd8RhDaXSYPW
-         kLfdwyUbEEiwrlVjFBfkbgiicNKyYHzQyUT8BdpIqOw29eCMfMcIBxzGFd5OLCqAUQ4Z
-         5ZSujf0dbuyao2S6EbSlh8Xru9wd8D277OSjLOBLcZY0EqByA53kSEXw1+9SnIm3wEDj
-         b7aunytW39eoKweMrqpIPnuaU7vVyuJyZ4fx6ZNKeNS2hmx6if/8A6gZCtAmJjT9UFmX
-         i7T1hg7EpDEm9F0OQU4z7ff42sb1G+W5Zxz67JzLBnNVWTM1GTmPfbXRoMDZp5x99Rf0
-         H3yA==
-X-Gm-Message-State: AOJu0YyEf0an4aDA7zr5p/3r22HF9+V+kMbOL/728kRYXZiIqNXndOoC
-	qXNICgD7+3V/P/1Py4BKbDrtqbxdFbdGcdY0GQagdgdPf8KNtJ/vWXqpd61CEKVHYsQ2XNn+F70
-	FUMk8NgcXQ81D1wZI+VVUptg=
-X-Received: by 2002:a05:6512:3da6:b0:50a:7868:d3c0 with SMTP id k38-20020a0565123da600b0050a7868d3c0mr2734831lfv.23.1700153206934;
-        Thu, 16 Nov 2023 08:46:46 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHDN4P4yLZBOiQTKcK27l5+Y7ob2sSec+bl+8jxs7M0/XhR1+sNxMl6znkDvh238ypXRjyzUA==
-X-Received: by 2002:a05:6512:3da6:b0:50a:7868:d3c0 with SMTP id k38-20020a0565123da600b0050a7868d3c0mr2734810lfv.23.1700153206617;
-        Thu, 16 Nov 2023 08:46:46 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id la7-20020a170906ad8700b009e67122edd6sm8594104ejb.79.2023.11.16.08.46.45
+        bh=41B+9Id080E/lA30UzcHBu/af+VTyRdDHO4WCg6iwZQ=;
+        b=igduhEvFaI5lgnZG7FAyPfltrpjfzD72vVIdes85p+xhVFPB+q7c61HyXHPHpPkdYD
+         4lVHLTLSjEbivf06T9FUeIr+lQR/dvEYBHwxDbE7pXSdL3X/rB9iQPt7PlCE48CLyij1
+         zjWOyttfVYG+c5USOOqpNnI5NPLzMhUcRuIcdGVkZ5oZSV549wC6gezu1o5WFm4gsZhZ
+         JkVFkM6KqMtwwaeaxL9ztwp3Z3+potTPs0W/Oq/l97dr1uU2y4YmavO9LDhKxdpSvDeq
+         6TIHyXH0Fk8TH1JiBDxc5oATV2aIPju06dWylrH9mneVL1bvn5r6eO6M184VGUapreTg
+         zoQg==
+X-Gm-Message-State: AOJu0YyQgO2KnycX7fGCAawjBVdT/yKMRNAg1p3qIO5fWZJCxiARdJ2H
+	EHzJvs71lsTvAxCk8ybFyrPAlA==
+X-Google-Smtp-Source: AGHT+IGtipLrEGlJDumuhAyuw6PFydwkIrhAl4mhxOzkY8FotDBONNunJ6YOeC+SL41x6k2AHAJzXg==
+X-Received: by 2002:a05:6214:c62:b0:671:3493:61e8 with SMTP id t2-20020a0562140c6200b00671349361e8mr12240400qvj.26.1700155451364;
+        Thu, 16 Nov 2023 09:24:11 -0800 (PST)
+Received: from [10.44.189.251] ([12.161.6.169])
+        by smtp.gmail.com with ESMTPSA id k9-20020a05621414e900b00671ab3da5d0sm1488706qvw.105.2023.11.16.09.24.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Nov 2023 08:46:45 -0800 (PST)
-Message-ID: <ece62b22-189f-4e33-89c0-9bff503940ed@redhat.com>
-Date: Thu, 16 Nov 2023 17:46:44 +0100
+        Thu, 16 Nov 2023 09:24:10 -0800 (PST)
+Message-ID: <5b526a71-0f49-4c20-8ef6-8abf1eba06d2@linaro.org>
+Date: Thu, 16 Nov 2023 18:24:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -68,44 +62,86 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] HID: i2c-hid: Rework wait for reset to match Windows
-To: Julian Sax <jsbc@gmx.de>
-Cc: Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Douglas Anderson <dianders@chromium.org>, ahormann@gmx.net,
- Bruno Jesus <bruno.fl.jesus@gmail.com>, Dietrich <enaut.w@googlemail.com>,
- kloxdami@yahoo.com, Tim Aldridge <taldridge@mac.com>,
- Rene Wagner <redhatbugzilla@callerid.de>,
- Federico Ricchiuto <fed.ricchiuto@gmail.com>, linux-input@vger.kernel.org
-References: <20231104111743.14668-1-hdegoede@redhat.com>
- <94818595-be2d-4cba-bd82-1585b8d11fed@gmx.de>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <94818595-be2d-4cba-bd82-1585b8d11fed@gmx.de>
+Subject: Re: [PATCH v5 1/3] dt-bindings: input: microchip,cap11xx: add
+ advanced sensitivity settings
+Content-Language: en-US
+To: Jiri Valek - 2N <jiriv@axis.com>, krzysztof.kozlowski+dt@linaro.org,
+ dmitry.torokhov@gmail.com
+Cc: devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ u.kleine-koenig@pengutronix.de
+References: <20231108155647.1812835-1-jiriv@axis.com>
+ <20231108155647.1812835-2-jiriv@axis.com>
+ <eede2e04-45e5-46fb-ba00-fec0a7862711@linaro.org>
+ <368eea0d-0445-4286-8489-9a4a109606db@axis.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <368eea0d-0445-4286-8489-9a4a109606db@axis.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
+On 16/11/2023 17:00, Jiri Valek - 2N wrote:
 
-On 11/8/23 21:41, Julian Sax wrote:
-> 
-> Am 04.11.23 um 12:17 schrieb Hans de Goede:
->> Julian, I've added you to the Cc because you developed the code
->> for touchpads where the HID report descriptors are missing and are
->> provided by the kernel through a DMI quirk. The behavior for these
->> touchpads should be unchanged, but if you can test on a laptop
->> with such a touchpad that would be great.
+>>> +      The number of entries must correspond to the number of channels.
+>>> +
+>>>  patternProperties:
+>>>    "^led@[0-7]$":
+>>
+>>
+>> Best regards,
+>> Krzysztof
 >>
 > 
-> Hi Hans,
-> 
-> I just tested the touchpad with these patches, everything still works fine.
+> So are these changes fine for you?
+> If yes I prepare new patch revision.
 
-That is good to hear, thank you for testing.
 
-Regards,
+Yes
 
-Hans
-
+Best regards,
+Krzysztof
 
 
