@@ -1,79 +1,76 @@
-Return-Path: <linux-input+bounces-90-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-91-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9766E7EED0A
-	for <lists+linux-input@lfdr.de>; Fri, 17 Nov 2023 09:01:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E64247EED15
+	for <lists+linux-input@lfdr.de>; Fri, 17 Nov 2023 09:04:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 00103B209C0
-	for <lists+linux-input@lfdr.de>; Fri, 17 Nov 2023 08:01:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 217EEB209B8
+	for <lists+linux-input@lfdr.de>; Fri, 17 Nov 2023 08:04:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96A9CDF69;
-	Fri, 17 Nov 2023 08:01:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD58CEAED;
+	Fri, 17 Nov 2023 08:04:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="y9/jSeYY"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="QkyUOpeV"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2067.outbound.protection.outlook.com [40.107.220.67])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9ECBD55;
-	Fri, 17 Nov 2023 00:01:08 -0800 (PST)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2072.outbound.protection.outlook.com [40.107.220.72])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF2DDB7;
+	Fri, 17 Nov 2023 00:04:44 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cz5ven0tm8MC0EEp+Ga3YgaR02zUANtMZ80e+2CVzU1fVquWB1iYjPoTCo2LXT5VEzign6UoB/AF0GnFrYYUZ6tfJXq3nv1n3sL28z1X+P1ZzwgABJVOJnS4wIJi9CI7SE5JzhJDeHsH6ccjxX1TJhTwgiNoHY+uWcc4zK7urZtgXkQWMO3ratrQNpggqqZhcwUoK08I+JEEfwcm2CrXAZ5CWmflV0iJRyMEAx53Ibtn6G/Z6AHISTd2I+UnaduGmPza+h5uXlr+ig+oNeZQLzVlfA3D5WK9zMnnD51Mo0hEhPTywI8cOPfUhkk7lQ5S2sd+qOgmtLfy2/KAK/s9SQ==
+ b=iGbHCNa+uTrWTnEoMGsNYhKutpvDJ2+Pp5t7b2MNBFWpuzsSTZ4EbPyXmz6BtkoCY/gzDpek2uJ1/fRlBZT6ypW1fLwWTUtv4qxEMeK/PKSX77tts/Hk1EJXdnp0dYyWHAG+ZHCxQ88aQb/O+bY5tdM/yWeNNvtEWmLlcF/u6P54vju6yO/NresHVgcbo5Z+IMzut3UNAz40ClBKujgLXChFnUg6DTX3xFLYFkaC4C1hV9l+Y89nBdJCkkJzN2jkFfafzjKyegMNG3Xdm0u/OT+ssFi5sH6oFKfHIAx4Zu8RrwKQ7zXODNmpldd/zgfUI6eBpdYZMevRarcRoJ1HTA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sjE1DdI91HBiCL+9OlfK6BWSSi6l9/tHRjfUd1QnCVA=;
- b=dQA9LRXQpW3NUmayYL3tlLF06FMIlZLqDQ+GLqKoW3RLj3Aqh1JP8R94IbxgMTEPHYqjxCPjC2J+VPToDKLOS3qVr8IFzw4X68/pOQZlcFC/YR4YUkzIm1Q+DHh1Kuf0wMAOIxZLvLjCAMLSPvv+RVtuqOskRMocPniaJPZdnwHd49ZnfDyOyq8jRvHfIziOvJN81itLxeCmJbN915u8UjcNhKqLAja6YRwUkCf+0XcKvUnIS8fbFPhRk3/9A2Zxno9gNgjkcVIsAOH+xJERUOLaF19IZ4ber8bIyP9oz6DS9CCXpP5PIJZN1FMLurhgSwbk/0VZ5t8dLaNRrhzWFw==
+ bh=n3DJ6nwt8FU4fRyZTTl/+QCMjJE9R4TYdakQhcavDrI=;
+ b=adlYg/2JpgDCcpMEobJ+WDub7hupnMV5diiuOMJmzI3/SJK3ib1v5CjjRFHfk4qejn+t5XjLEB6fo3oWfnXvUSwEwSWOntvAHH8dRGM9aXnxVJgGYG2KluG8znpIQ6DrqBT6h2XlDLksiy5wegDg1Srr+PGxzOsI4CYMWSPUi4uz5R2L0awvDm5BId/gA3uTXfqTtvhhzCymaWZG4vlK8/6jV4hHI0gzQQz+21MRERA3xr1IFvO4ONONY9AHGeAhEnQ9WRb62QpUvvD5V1MylFwfn4BEZHQQec3EZ/rqPrwlTMx0PRs/kyKtCNfcGNfeRWD7wjsFdf08V2jlVGsL4Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sjE1DdI91HBiCL+9OlfK6BWSSi6l9/tHRjfUd1QnCVA=;
- b=y9/jSeYYcVVYUMQ+umXDg2LbrPEJSlqxfi5h6Sqhd2bXXgPRNmne3e3Ma+TwBQgQJXEh7jpMS6etwT5XfG/PIc67fgRlccKh80LZqYggucWH/pP83Ntmw2c1TAx28APnM3243fbjBkQQtj4afS3lhlUmA3HN4PkHeGRXlO8cv8A=
+ bh=n3DJ6nwt8FU4fRyZTTl/+QCMjJE9R4TYdakQhcavDrI=;
+ b=QkyUOpeVY1wHx15zx5+rqx5S///8PKkP0DFnm8KagN8daafElAHu8XkqLPrrVeQ1HKEPyoB1mD5NRWqoo7z3zSD0ww0VMszyBLo0cbLQnxQv5oNE86zXsJkE1l5HnkyOG7oBOhGjRqx5lM3MKeYNOhnPxpv1ttmWopG5U2EJLLo=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BL1PR12MB5176.namprd12.prod.outlook.com (2603:10b6:208:311::19)
  by PH7PR12MB6835.namprd12.prod.outlook.com (2603:10b6:510:1b5::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.17; Fri, 17 Nov
- 2023 08:01:05 +0000
+ 2023 08:04:40 +0000
 Received: from BL1PR12MB5176.namprd12.prod.outlook.com
  ([fe80::ef5c:c073:d1f9:e649]) by BL1PR12MB5176.namprd12.prod.outlook.com
  ([fe80::ef5c:c073:d1f9:e649%5]) with mapi id 15.20.7002.022; Fri, 17 Nov 2023
- 08:01:04 +0000
-Message-ID: <831efaf6-3926-421d-93d4-c89f147b3cac@amd.com>
-Date: Fri, 17 Nov 2023 13:30:53 +0530
+ 08:04:39 +0000
+Message-ID: <8e2fde3e-bc8e-4c58-af93-c406dc6ac151@amd.com>
+Date: Fri, 17 Nov 2023 13:34:23 +0530
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 13/17] platform/x86/amd/pmf: Add PMF-AMDGPU get
  interface
 Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+To: Hans de Goede <hdegoede@redhat.com>,
  Mario Limonciello <mario.limonciello@amd.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@redhat.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, markgross@kernel.org,
- basavaraj.natikar@amd.com, jikos@kernel.org, benjamin.tissoires@redhat.com,
- alexander.deucher@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- Patil.Reddy@amd.com, platform-driver-x86@vger.kernel.org,
- linux-input@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: markgross@kernel.org, basavaraj.natikar@amd.com, jikos@kernel.org,
+ benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch, Patil.Reddy@amd.com,
+ platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 References: <20231018070241.2041529-1-Shyam-sundar.S-k@amd.com>
  <20231018070241.2041529-14-Shyam-sundar.S-k@amd.com>
  <9e6c4a42-fbce-c5ea-15ce-5eb22fc3767a@linux.intel.com>
  <84af64f2-42bd-4e09-a1c9-bde2a935c8f2@amd.com>
  <92bba3b3-a3f9-4fab-86c7-4d0ef4c23fcb@amd.com>
  <238f915f-b95f-4d85-ad67-66781f53e75d@amd.com>
- <c8ed2e1e-77b9-459e-b81a-e95db4d22a9b@amd.com>
- <80fcdcb2-1a22-4002-9bfd-d6cf15d5a57b@amd.com>
- <0c816746-7f52-442f-aea5-0d8c713aa2ce@amd.com>
+ <e143bbe2-212c-cfc8-131f-8ec9c0bff56d@redhat.com>
 From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-In-Reply-To: <0c816746-7f52-442f-aea5-0d8c713aa2ce@amd.com>
+In-Reply-To: <e143bbe2-212c-cfc8-131f-8ec9c0bff56d@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN3PR01CA0007.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:95::13) To BL1PR12MB5176.namprd12.prod.outlook.com
+X-ClientProxiedBy: BM1P287CA0010.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:b00:40::20) To BL1PR12MB5176.namprd12.prod.outlook.com
  (2603:10b6:208:311::19)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -83,624 +80,177 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BL1PR12MB5176:EE_|PH7PR12MB6835:EE_
-X-MS-Office365-Filtering-Correlation-Id: c108959e-b643-4f6a-c48b-08dbe74358bd
+X-MS-Office365-Filtering-Correlation-Id: 3a572fbd-1e1f-4b29-0b8c-08dbe743d930
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	X26vNgEktJgi79ngUfns7yvBMpiYcM7gjzi+/pDXvtXDwcTmcoLvUEE6Zym8OeNamS/adLOIxXX6A+so84jGSEEbKrLIZSrvvBsyBdISvesWZHXzgkwodbjLS3iJ6MlssxfC8FH9zBtYp9gKtWs+u06v+U04UKCkWs7VuidmuXF8vxv9Hu1KgT35F/nt6tN00tAsf9MmZagqRlQHRCzydwj08f4Y+eY4o2fpNFZxmuoo7+N7IoEJ0uNsyfiM8cLYYpA1MNh6z5XdqQX7MZykq7Oh/SCNVTBrmxrdTlwKoOzxXkyAZPTecw/msW4dInle2Gu79MGhzSSimJFf50yuUYzbwgCMo4nvMxNBWPSBELeVd2QjvtumpA87903FE8NLWtOzovhIZ1r6zHGaGrrxeUaJ4Jh4dGYKeDXJMR/KLcgzGRmH1uIwqZI8SKKIs62puNOw/cvzc3cBzGKIv6LZar2f7Bu+E29faKnzYTaaOLEkpvzER5D3tyZO73IPaPXXwsU8Ui3jY0qOr3aMQYoOyF/L77Z7sh0Fm8PPqgqjFQFyPoH8InnHUayYpiTcHgLIo3zWelW/6VsAjxUD4yaEcI7ugmuG6QGqyW9iL3MO0ntVZxsKq1J4xIMd+kQux2bcWTbZCAfGFZMkp0UzRIiDDQ==
+	WLeeGkCM4fSu3EpYwrMWSj44aRwRLopa1WeUv7gj74p5w6eP/X90ulzKXH60WGbNIRm7WzgPubZ8MWqVAeD7PIEL5P7EO/b4G7xqUSGpgOtp7EfdlqfSfv9HzxCa36oty0BiZPSuxLqPcqK4O+ZgGCAcypWY1Plo3h0Aa/33relAsWma/KAA+cWkHGKEY4m+odspvmTr2FS7pHQiPgAvwrBufUxsNwoK+p065ouZbhU1e+4lXtkK+uKYJhKnHEDpj3Wlc0ghkdnsNuxuVeHcij1HXVVcszpSO+y6vqVlgCtqn8TQK7UkUTXvNTOikqrmhr3XvdA8UD4zurSPNaJhKmWz9tp26xGzQx9cmo4/+XTxxD9gmfzYle7vBN4+Anth6ru+kaYfTqFedz/SC2dJkEB2t5yYk2VrCUmJLIs+Qsweju3Uvo6gc1vOoCAz5wbeBLwD86EQprBVmhUcO6eB50aHRX8ZL3b99MgV2fqq0hiJbk9Goux7ziOkeWtUmIrWq6QJogCPn6vXjV3HBydSF6hRLydEGJW+1yemCoU9y0uIMB+9IVW5o1aa3ZJ4wIMdNkHviTQm9I3ibE6oDuXF+HVyWO7K6945z1Q9sgl6fXpGaSujbIQkr7Dcdsz89+l1qOIz1VVxxDfE4T3gi7xMUg==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5176.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(39860400002)(396003)(376002)(346002)(230922051799003)(1800799009)(451199024)(186009)(64100799003)(6512007)(66899024)(26005)(7416002)(2616005)(66556008)(66574015)(6486002)(966005)(478600001)(36756003)(8936002)(31696002)(4326008)(86362001)(41300700001)(2906002)(316002)(110136005)(66946007)(66476007)(8676002)(30864003)(5660300002)(6506007)(6666004)(45080400002)(53546011)(38100700002)(31686004)(83380400001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5176.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(230922051799003)(1800799009)(451199024)(186009)(6512007)(26005)(7416002)(2616005)(66556008)(6486002)(508600001)(36756003)(8936002)(31696002)(4326008)(86362001)(2906002)(110136005)(66946007)(66476007)(8676002)(5660300002)(6506007)(6666004)(53546011)(38100700002)(31686004)(83380400001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QktKZVJnOW9wU3FmM3hJVkFvS2djbEhhVjlQU1hDZjJnbUk5Sy9kdzNwdURu?=
- =?utf-8?B?K1FXcEdRM29ZSk54dmRiUDlWbGdiZ0c0N2QrS3FQVGVFclJlUmljcEtiTDlw?=
- =?utf-8?B?WW05WmdLWTUwV1ZhSG9CcmZ1QnJjTUJoREVXbWVOdmx0aTZNbUhjVkM1d2N4?=
- =?utf-8?B?ZmhXelR5eTZXUDNGd2VINWVKaTNuandkZjJ0ZHVPQ21EK24zclpESTlIRnpK?=
- =?utf-8?B?bkk4Z0tNVlhSZk93K1lkZC9FSmcvaU16Q0tMaVArbnd1NzI1V2g1N083M3po?=
- =?utf-8?B?MVBORU84UU1VWWw0K0RHZ05NdnZ6N1p4YVpHZHkzeVdqcUJpcERyTGRnVUk3?=
- =?utf-8?B?WWNWd1AzV2lzYjVaWnJZWStMYmVnMys2cm1JcHQ3MnNrdHBHblFITHNFQlVJ?=
- =?utf-8?B?cjhSSmVZeHg1dGtNWFVPdkF6cUc5ZFhVNStyRjhnYVpFaDNKUk9FMkFxOWht?=
- =?utf-8?B?VVJ6L2lkbkNHdDlNdVpUcWZpbWx2dTZQK1BoYXRuT01IQVR0ZjB1L3R2RmpU?=
- =?utf-8?B?YXNBTkpDNzZJRnQvY3N2djJnWHMyOHZhU2MxMDFyOUdGMXhlU0NoTlhOeHVT?=
- =?utf-8?B?eXVLd2JmUHZuUVg1ODlNNHdzemwvUTZ0RWcvc2lCZ3pnbldSN3JrbUcvYTJB?=
- =?utf-8?B?Zmlva1Z4dG81NFVMZnYzbnYraDNZWkVDUnpPT0FOdXh4NlJ6T1JRTjg1S1Aw?=
- =?utf-8?B?V2xMQkdrT0Zuc25QUUtJeGlGNWllcExKenpmVmNtb3BXQkZPRlZZRmhlWVVs?=
- =?utf-8?B?akw1czB5ZkZWUS9OaTRxbFhzOGh5WFZnZUViNWQweUZCalZPRDZVWG0reStj?=
- =?utf-8?B?alF5ZGZRMk5QT2FEbzR4SnBSc1JVNWdBMEVBUUtkOVdDZkNpRFRlZDJsR3A1?=
- =?utf-8?B?ZXNwZGlkOUdmd0JVOXpONnlnYXpBMjNEc2YxWURBWmJtdTc5enJqV3VKUm5T?=
- =?utf-8?B?NjkwUDFzZExMcjZzdTZLT2hRNzZuaVBON1o5Qk51WGRDbmVacm9za3NtcUtR?=
- =?utf-8?B?L1k2eEVGUjB1YWVqWVRxczhSYlV5NTFMWElUcFl3bEhUeE96MVlZaUFiTFlQ?=
- =?utf-8?B?SWVQd1dabjdzZXV6SnJWR1FibE1ZUCsyK2hDWVgwZ1pyYkhTRUFtb3EwTnZm?=
- =?utf-8?B?YllGaHBnenJscDBaWFcvUG1EenVlRzU0UGU2RnRIWXFoL3hGQlFJTldTbXFX?=
- =?utf-8?B?Ty9DVEZVcHNMeUFPTmVWaUV0Z3YySC91cWNwSnRoVmJ3R3ZRcXpIMnRWZkQ5?=
- =?utf-8?B?Uk5qOGlrakgvL1ZVT2d1ckdxYjQ3bEp4NDRKcHJHc1VoNjdpVE5JNWxybDhi?=
- =?utf-8?B?ZWlQVUNCem85c0oxd0QybkVNaGJiWUlXZFczSXQ5V2ZWb0pQR1pYQjdSblAr?=
- =?utf-8?B?TzFENnQxMG5mOGlDMmVXcURLK3FEeW95Tk5VTWswZ09CYldESEE1ajByVDVY?=
- =?utf-8?B?OGhmUTBiSnEwTVhxN3ZFUmY3MHAxbjlROGVENUVQZEdUOG9lZHQvd29JVmR2?=
- =?utf-8?B?c1VGOTY2cmVpZWNkcG9KbHZkaXNVTEFjQkZQNTBrSDRqWmxTOXdGMTcwWVVI?=
- =?utf-8?B?dG9ydzFRNWMyOTJ4WUw2RmNJbXFtNTBzVll3NW9DR29YRU11bHUvME4xNGVG?=
- =?utf-8?B?N01wZjJVbDdOVUMydGVzSE95d0RrR1ZhUDNhbnN6UE1JV3dqb1hFQzAxU2hq?=
- =?utf-8?B?UkpoSkxPT25QSTJ0OE15S2xWRGR0SUNvOXNaWVhJOTBXM25taEkvZHRpNWlL?=
- =?utf-8?B?cW9PTFdWV012T1RaeEFOQjB6cCtYVW02bkNRaCsxZUo3WU1JbWdGakRaSWcr?=
- =?utf-8?B?VHFZc0NHdjd3MUJGN0pEUWVWTkZ1QmpxL0lLdVBHUzllVERaMHVrWVdmYVJJ?=
- =?utf-8?B?MWZLS0NJeGlqUzk0RGFpbGN3ZGRrWDNFWHVoTmYzbStXMXE3TFoxM3g1M0Rt?=
- =?utf-8?B?S3JZYW9jWUtqUUUyeEFmSGhNL3lKRzdITGZrdjVPMU9EYzhrcE5EVFlJM0hy?=
- =?utf-8?B?c21PQmdoYTlRVWJ2c3JnL3pJK1V5cDRDMVZoUXdhOTh1aXhqb2M4TmxESzlj?=
- =?utf-8?B?bTY1SkwzbS9xckNNN01GZm1ET2hsOUpCZmpFRHkwaFcrZmNvM3hwME5CdjZK?=
- =?utf-8?Q?oi7kMrrtsAs9by7JBI4RzIi44?=
+	=?utf-8?B?VU04RlZZaG5ydE1wME1EMGE3NTVMemJXdVl3aW9wc1hQcytlQndrYWtabGFQ?=
+ =?utf-8?B?ZjRhQkg0blhwUHZ6dXQ3WkVhOGdxR0hXT1dFSnJjeVNSK3VYMERPbEdYYjJo?=
+ =?utf-8?B?WFEvSFNvK2d2MDBWcFdWdys1YzRmWW9UNU9HTWs2cVdXSS9LakE1c0owQU1M?=
+ =?utf-8?B?MUl3ZzhLcUQ1eWkwaEJHM3BPaHBQTnc2dHpnL0lwZ01uaHp0NVN4WFA4M0hk?=
+ =?utf-8?B?RnlmN2p1OUJBRWMzTm42aGZ4Wmx5Z1dlaDBLUkdjOFBxYmVqSVZvQnNCcFZX?=
+ =?utf-8?B?aFBFYTh4QU5XRy8wQ1lBb1d2NXZaREt3QWRsMElTMmJjZEV1OXJlMXhESTc3?=
+ =?utf-8?B?S0w5VklOcWRNNjEzbTluQ1daRm1MTTRlZHRvdjBWWHhCWkUyU09NL0ZlemZo?=
+ =?utf-8?B?VmRBUUV0NzF1OEpGWmQ1NjN3VVlkMDJDRWxVVFU0eUEvNDlTKy9qcnIwS0pV?=
+ =?utf-8?B?Qloya0d6TUJ0RTlOOHlTK3k0cHM3NmhabG1rTVhpb0g3c09ScEl1azRzUWph?=
+ =?utf-8?B?M0FrWTQ4akRtblh2NzNWNTg3bzBlK2ZIZXV1YSsxUkQ2WjFmcU05S24reS92?=
+ =?utf-8?B?UkFmYWg4Q3IzWXQ4WU5IaExJWXZSWlVTQUx1RDBKak40NTlBYUt0UVZLcjR4?=
+ =?utf-8?B?Zm5zeTdqTWlrY3c5U2s2NWJJdFZWRGFPWXRwN2RLYU9yQkY3QlZxZjZnZXlZ?=
+ =?utf-8?B?ejUyMWRrNzcyb1dGRWRpL01VMHphaTZEaFQ1MzJCQlBqeTJXWlZET0FWRXEw?=
+ =?utf-8?B?aWFzRlJ4bzBBSk9lK0RTL2RvSEpzWnFYQUJ1d2VkVGZzTElvQXo4ZzVlOHgz?=
+ =?utf-8?B?RXR0TWI1UENDV3h5bmxTK1I5SFlXZS9rOW95bDc4NDVIQkY2QXhMc01sYXRS?=
+ =?utf-8?B?b0xBR3VrVk54RFFNdlR4TkJnd3k5VDZMc3RLamZjQVRRU09jNm02WWVtMFlD?=
+ =?utf-8?B?cEhZb3Axb2ZTSmRQVFBPc3dyUlBIbG9Ubk93d2I4WGlVd0FBRWlWNEdMT1Bq?=
+ =?utf-8?B?QnZZRmRSRzczc2FDeitjYXBUUmxrcUpEQU43TWVVcXJiV1ZFRi9HdTdZTkpN?=
+ =?utf-8?B?MUVFVlJ4SmloM3Bac1pLci9yWTcxQWoyUkNuazBOUUhGUm1VM3ZuRENWYSt4?=
+ =?utf-8?B?V1oxY2dYS1NURCtCci9sWittcVVFWitZTVJoaC9oRXRkVTFPN28waXNXYkZJ?=
+ =?utf-8?B?RHZ4dUJPZFEvSEhUTkxpTmV4TWRSOW93TDNSQ2Vwa0c0MGF4THJobG1DdGMy?=
+ =?utf-8?B?bU42Z2FaVDhXMHlKMysyMGtNL2cvWEljRHBTaDFKMkxEUU9CdllUZndaZ0cy?=
+ =?utf-8?B?bHZndm1SOWpvcW95RnZZZjRKdGNtNmZaOHhnQ2VnRHdzVXB6V25OMkRrbFRJ?=
+ =?utf-8?B?Sm91bmtKZmk3T1RWS3JmcUZDWjB4dWpqUFI3R3VOeDlzdFJmMUEzN2p4ZnVJ?=
+ =?utf-8?B?eCttakNGcmhrS2dxZzVYcTlXbDBJN1M1d2VtajhFakpzSFlQQWJoYjQxWHZO?=
+ =?utf-8?B?UlN5Z2JNOGhOamdCQnA4YU1YNzV1NGxYeTdpdTdQMkxqM0xLeHhNaFFQNk93?=
+ =?utf-8?B?SkEvSDhzTXFwblRId2NHUjhvNE5SY3hxY1N3aHlHL2FHM2t5Umpxemh3YWRn?=
+ =?utf-8?B?MGN2bGt6OW9xYnBlWE5aeEpPSkZDTXRneWRBVHN4bkVqYno1N1M5NW9BVHRi?=
+ =?utf-8?B?MzYvd3Vqc1RNTEo5VG9PSEtJd0xPbFQyUVFLbmt2SjFtY3o0VVVUZWxsblA0?=
+ =?utf-8?B?U2N5YURlVVl0K08wWTkyUDZ5ZXY5UDNuS2piZjhBWHdabWtaVWxMTHp5RUJH?=
+ =?utf-8?B?RGwzcklJSk1icUZBaDFWYk14WStHTnJBWktDN3U2SFRYOXI2c0l5WkU5TVhz?=
+ =?utf-8?B?N21GRk03aU02K0VGbTNUQkE2blByTkNpOEg4TGNLeHZ3TzVGMzQ0dGNhaW5y?=
+ =?utf-8?B?QmhYb0x5R0VmNUxXNFRZTHpkYW84Mnd3VTlzUGM3bFliQ29UM3BwSzVzdFkz?=
+ =?utf-8?B?dXRaYkVEZ25tak5PczhHekV1TUhXYXJhNlRoYWlJbnNBMzZjRlJQd09acWo4?=
+ =?utf-8?B?eWphQ0NvcWlOMVA1SFBqWEZhL0RWU040UjdKR3J5R25jMEVOWmI3NzV5STNI?=
+ =?utf-8?Q?Yi6bVrXQktRvkK0LB65fINZ3H?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c108959e-b643-4f6a-c48b-08dbe74358bd
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a572fbd-1e1f-4b29-0b8c-08dbe743d930
 X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5176.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2023 08:01:04.8841
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2023 08:04:39.8620
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Dfsd56Td+1jWH/makg0UFQ7sGeBEIDS7h6gkaDCF5tKpJ2ntZjFV2XMJB0gndYp3a+BCvl/dxOJ8eD3rWFHPIA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: GjD1F4eyqChjzBjbORWhVrr9OfuRitkUXg0z7zAlnlAzQdA3rhifLbLIyM5n0YD0+7WF4aHqPMSIS0qO6mJC9Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6835
 
+Hi Hans,
 
+Apologies for the long delay.
 
-On 10/19/2023 2:31 PM, Christian König wrote:
-> Am 18.10.23 um 19:05 schrieb Shyam Sundar S K:
->>
->> On 10/18/2023 9:37 PM, Christian König wrote:
->>> Am 18.10.23 um 17:47 schrieb Mario Limonciello:
->>>> On 10/18/2023 08:40, Christian König wrote:
->>>>>
->>>>> Am 18.10.23 um 11:28 schrieb Shyam Sundar S K:
->>>>>> On 10/18/2023 2:50 PM, Ilpo Järvinen wrote:
->>>>>>> On Wed, 18 Oct 2023, Shyam Sundar S K wrote:
->>>>>>>
->>>>>>>> In order to provide GPU inputs to TA for the Smart PC solution
->>>>>>>> to work, we
->>>>>>>> need to have interface between the PMF driver and the AMDGPU
->>>>>>>> driver.
->>>>>>>>
->>>>>>>> Add the initial code path for get interface from AMDGPU.
->>>>>>>>
->>>>>>>> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
->>>>>>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->>>>>>>> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->>>>>>>> ---
->>>>>>>>    drivers/gpu/drm/amd/amdgpu/Makefile     |   2 +
->>>>>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu.h     |   1 +
->>>>>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c | 138
->>>>>>>> ++++++++++++++++++++++++
->>>>>>>>    drivers/platform/x86/amd/pmf/Kconfig    |   1 +
->>>>>>>>    drivers/platform/x86/amd/pmf/core.c     |   1 +
->>>>>>>>    drivers/platform/x86/amd/pmf/pmf.h      |   3 +
->>>>>>>>    drivers/platform/x86/amd/pmf/spc.c      |  13 +++
->>>>>>>>    drivers/platform/x86/amd/pmf/tee-if.c   |  26 +++++
->>>>>>>>    include/linux/amd-pmf-io.h              |  35 ++++++
->>>>>>>>    9 files changed, 220 insertions(+)
->>>>>>>>    create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
->>>>>>>>    create mode 100644 include/linux/amd-pmf-io.h
->>>>>>>>
->>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile
->>>>>>>> b/drivers/gpu/drm/amd/amdgpu/Makefile
->>>>>>>> index 384b798a9bad..7fafccefbd7a 100644
->>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/Makefile
->>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/Makefile
->>>>>>>> @@ -86,6 +86,8 @@ amdgpu-$(CONFIG_PROC_FS) += amdgpu_fdinfo.o
->>>>>>>>    amdgpu-$(CONFIG_PERF_EVENTS) += amdgpu_pmu.o
->>>>>>>> +amdgpu-$(CONFIG_AMD_PMF) += amdgpu_pmf.o
->>>>>>>> +
->>>>>>>>    # add asic specific block
->>>>>>>>    amdgpu-$(CONFIG_DRM_AMDGPU_CIK)+= cik.o cik_ih.o \
->>>>>>>>        dce_v8_0.o gfx_v7_0.o cik_sdma.o uvd_v4_2.o vce_v2_0.o
->>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->>>>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->>>>>>>> index a79d53bdbe13..26ffa1b4fe57 100644
->>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->>>>>>>> @@ -50,6 +50,7 @@
->>>>>>>>    #include <linux/hashtable.h>
->>>>>>>>    #include <linux/dma-fence.h>
->>>>>>>>    #include <linux/pci.h>
->>>>>>>> +#include <linux/amd-pmf-io.h>
->>>>>>>>    #include <drm/ttm/ttm_bo.h>
->>>>>>>>    #include <drm/ttm/ttm_placement.h>
->>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
->>>>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
->>>>>>>> new file mode 100644
->>>>>>>> index 000000000000..ac981848df50
->>>>>>>> --- /dev/null
->>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmf.c
->>>>>>>> @@ -0,0 +1,138 @@
->>>>>>>> +/*
->>>>>>>> + * Copyright 2023 Advanced Micro Devices, Inc.
->>>>>>>> + *
->>>>>>>> + * Permission is hereby granted, free of charge, to any person
->>>>>>>> obtaining a
->>>>>>>> + * copy of this software and associated documentation files
->>>>>>>> (the "Software"),
->>>>>>>> + * to deal in the Software without restriction, including
->>>>>>>> without limitation
->>>>>>>> + * the rights to use, copy, modify, merge, publish, distribute,
->>>>>>>> sublicense,
->>>>>>>> + * and/or sell copies of the Software, and to permit persons to
->>>>>>>> whom the
->>>>>>>> + * Software is furnished to do so, subject to the following
->>>>>>>> conditions:
->>>>>>>> + *
->>>>>>>> + * The above copyright notice and this permission notice shall
->>>>>>>> be included in
->>>>>>>> + * all copies or substantial portions of the Software.
->>>>>>>> + *
->>>>>>>> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
->>>>>>>> KIND, EXPRESS OR
->>>>>>>> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
->>>>>>>> MERCHANTABILITY,
->>>>>>>> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
->>>>>>>> EVENT SHALL
->>>>>>>> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY
->>>>>>>> CLAIM, DAMAGES OR
->>>>>>>> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
->>>>>>>> OTHERWISE,
->>>>>>>> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
->>>>>>>> THE USE OR
->>>>>>>> + * OTHER DEALINGS IN THE SOFTWARE.
->>>>>>> This is MIT, right? Add the required SPDX-License-Identifier line
->>>>>>> for it
->>>>>>> at the top of the file, thank you.
->>>>>>>
->>>>>> all the files in drivers/gpu/drm/amd/amdgpu/* carry the same
->>>>>> license
->>>>>> text. So, have retained it to maintain uniformity.
->>>>> Please add the SPDX License Identifier for any file you add.
->> OK. I thought to keep it same like the other files. I will change this
->> to SPDX in the next revision.
->>
->>>>> Apart from that the whole approach of attaching this directly to
->>>>> amdgpu looks extremely questionable to me.
->>>>>
->>>> What's the long term outlook for things that are needed directly
->>>> from amdgpu?  Is there going to be more besides the backlight and
->>>> the display count/type?
->>> Yeah, that goes into the same direction as my concern.
->> PMF is an APU only feature and will need inputs from multiple
->> subsystems (in this case its GPU) to send changing system information
->> to PMF TA (Trusted Application, running on ASP/PSP) as input.
->>
->> Its not only about the display count/type and backlight, there are
->> many others things in pipe like the GPU engine running time,
->> utilization percentage etc, that guide the TA to make better decisions.
->>
->> This series is only targeted to build the initial plubming with the
->> subsystems inside the kernel and later keep adding changes to get more
->> information from other subsystems.
+On 10/19/2023 12:38 AM, Hans de Goede wrote:
+> Hi,
 > 
-> Yeah, and that's what I strongly disagree on. Don't come up with such
-> an approach without consulting with upstream maintainers first.
-
-PMF is there since sometime and this is an additional feature, so you
-should presume that its being consulted.
-
+> I was not following this at first, so my apologies for
+> jumping in in the middle of the thread:
 > 
-> What you propose here is a system wide framework for improving power
-> management, that's fine. The problem is that we already have something
-> very similar in the thermal framework.
 > 
-> See for example the Intel solution here
-> https://docs.kernel.org/driver-api/thermal/intel_dptf.html
+> <snip>
 > 
-> From the general design the job of the amdgpu driver is to drive the
-> display hardware. So this should in general be completely decoupled
-> from this driver. As Mario suggested as well you can iterate over the
-> connected displays independently. Same thing for the backlight.
-
-Well. Same should be case even with PMF driver as well. It should
-provide overall interfaces for OEMs and ecosystem partners.
-
-So, PMF should not have the DRM related changes IMHO and should have
-an interface defined to talk to AMDGPU.
-
+>>>>>> +static int amd_pmf_gpu_get_cur_state(struct thermal_cooling_device *cooling_dev,
+>>>>>> +                     unsigned long *state)
+>>>>>> +{
+>>>>>> +    struct backlight_device *bd;
+>>>>>> +
+>>>>>> +    if (!acpi_video_backlight_use_native())
+>>>>>> +        return -ENODEV;
+>>>>>> +
+>>>>>> +    bd = backlight_device_get_by_type(BACKLIGHT_RAW);
+>>>>>> +    if (!bd)
+>>>>>> +        return -ENODEV;
+>>>>>> +
+>>>>>> +    *state = backlight_get_brightness(bd);
+>>>>>> +
+>>>>>> +    return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static int amd_pmf_gpu_get_max_state(struct thermal_cooling_device *cooling_dev,
+>>>>>> +                     unsigned long *state)
+>>>>>> +{
+>>>>>> +    struct backlight_device *bd;
+>>>>>> +
+>>>>>> +    if (!acpi_video_backlight_use_native())
+>>>>>> +        return -ENODEV;
+>>>>>> +
+>>>>>> +    bd = backlight_device_get_by_type(BACKLIGHT_RAW);
+>>>>>> +    if (!bd)
+>>>>>> +        return -ENODEV;
+>>>>>> +
+>>>>>> +    if (backlight_is_blank(bd))
+>>>>>> +        *state = 0;
+>>>>>> +    else
+>>>>>> +        *state = bd->props.max_brightness;
+>>>>>> +
+>>>>>> +    return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static const struct thermal_cooling_device_ops bd_cooling_ops = {
+>>>>>> +    .get_max_state = amd_pmf_gpu_get_max_state,
+>>>>>> +    .get_cur_state = amd_pmf_gpu_get_cur_state,
+>>>>>> +};
 > 
-> When it comes to hardware state like GPU engine utilization then we
-> don't have that inside amdgpu either.
+> So first of all, good to see that this is using the
+> thermal_cooling_device APIs now, that is great thank you.
+> 
+> But the whole idea behind using the thermal_cooling_device APIs
+> is that amdgpu exports the cooling_device itself, rather then have
+> the AMD PMF code export it. Now the AMD PMF code is still poking
+> at the backlight_device itself, while the idea was to delegate
+> this to the GPU driver.
+> 
+> Actually seeing all the acpi_video_backlight_use_native()
+> checks here, I wonder why only have this work with native backlight
+> control. One step better would be to add thermal_cooling_device
+> support to the backlight core in:
+> drivers/video/backlight/backlight.c
+> 
+> Then it will work with any backlight control provider!
+> 
+> 
+> 
+> Last but not least this code MUST not call
+> acpi_video_backlight_use_native()
+> 
+> No code other then native GPU drivers must ever call
+> acpi_video_backlight_use_native(). This special function
+> not only checks if the native backlight control is the
+> one which the detection code in drivers/acpi/video_detect.c
+> has selected, it also signals to video_detect.c that
+> native GPU backlight control is available.
+> 
+> So by calling this in the AMD PMF code you are now
+> telling video_detect.c that native GPU backlight control
+> is available on all systems where AMD PMF runs.
+> 
+> As I already said I really believe the whole cooling
+> device should be registered somewhere else. But if you
+> do end up sticking with this then you MUST replace
+> the acpi_video_backlight_use_native() calls with:
+> 
+> 	if (acpi_video_get_backlight_type() == acpi_backlight_native) {...}
 
-I spent sometime to get the stats for GPU utilization and other
-information required to be passed to PMF TA, but the results were not
-really favourable (maybe these could be issues in the PMF-TA as well).
+Thank you very much for your detailed feedback. This helped.
 
-So for now, I think it makes sense to have the DRM related code
-changes within the PMF driver. But once we have other inputs from the
-GPU/DRM subsystem ready, IMO GPU driver should provide these inputs
-back to PMF driver.
+I have moved the code from amdgpu to PMF driver which has changes for
+DRM. This also has changed w.r.t thermal device change what you suggested.
 
-Let me know if you have a different opinion on this.
+I have used the checks where ever appropriate:
+acpi_video_get_backlight_type() == acpi_backlight_native
+
+Kindly take a look at v5 submission.
 
 Thanks,
 Shyam
 
 > 
 > Regards,
-> Christian.
 > 
->>
->> that is the reason you see that, this patch proposes amd-pmf-io.h as
->> the interface to talk to other subsystems. For the initial path, I
->> have opted to get information from SFH and GPU drivers. But this is
->> meant to grow in future.
->>
->>>> At least for the display count I suppose one way that it could be
->>>> "decoupled" from amdgpu is to use drm_for_each_connector_iter to
->>>> iterate all the connectors and then count the connected ones.
->>> And what if the number of connected displays change? How is amdgpu
->>> supposed to signal events like that?
->> PMF driver polls for the information based on a configurable sampling
->> frequency.
->>
->> you can look at amd_pmf_get_gpu_info(), that gets called from
->> amd_pmf_populate_ta_inputs() in spc.c in this proposed series.
->>
->> Thanks,
->> Shyam
->>
->>> This whole solution doesn't looks well thought through.
->>>
->>> Regards,
->>> Christian.
->>>
->>>>> Regards,
->>>>> Christian.
->>>>>
->>>>>>>> + *
->>>>>>>> + * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->>>>>>>> + *
->>>>>>>> + */
->>>>>>> Remove the extra empty line at the end of the comment.
->>>>>>>
->>>>>> I just took the standard template for all the gpu files. Is that
->>>>>> OK to
->>>>>> retain the blank line?
->>>>>>
->>>>>> If not, I can remove it in the next version.
->>>>>>
->>>>>> Rest all remarks I will address.
->>>>>>
->>>>>> Thanks,
->>>>>> Shyam
->>>>>>
->>>>>>>> +
->>>>>>>> +#include <linux/backlight.h>
->>>>>>>> +#include "amdgpu.h"
->>>>>>>> +
->>>>>>>> +int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf)
->>>>>>>> +{
->>>>>>>> +    struct drm_device *drm_dev = pci_get_drvdata(pmf->gpu_dev);
->>>>>>>> +    struct drm_mode_config *mode_config = &drm_dev->mode_config;
->>>>>>>> +    struct amdgpu_device *adev = drm_to_adev(drm_dev);
->>>>>>>> +    struct drm_connector_list_iter iter;
->>>>>>>> +    struct drm_connector *connector;
->>>>>>>> +    int i = 0;
->>>>>>>> +
->>>>>>>> +    /* Reset the count to zero */
->>>>>>>> +    pmf->display_count = 0;
->>>>>>>> +    if (!(adev->flags & AMD_IS_APU)) {
->>>>>>>> +        DRM_ERROR("PMF-AMDGPU interface not supported\n");
->>>>>>>> +        return -ENODEV;
->>>>>>>> +    }
->>>>>>>> +
->>>>>>>> +    mutex_lock(&mode_config->mutex);
->>>>>>>> +    drm_connector_list_iter_begin(drm_dev, &iter);
->>>>>>>> +    drm_for_each_connector_iter(connector, &iter) {
->>>>>>>> +        if (connector->status == connector_status_connected)
->>>>>>>> +            pmf->display_count++;
->>>>>>>> +        if (connector->status != pmf->con_status[i])
->>>>>>>> +            pmf->con_status[i] = connector->status;
->>>>>>>> +        if (connector->connector_type != pmf->connector_type[i])
->>>>>>>> +            pmf->connector_type[i] = connector->connector_type;
->>>>>>>> +
->>>>>>>> +        i++;
->>>>>>>> +        if (i >= MAX_SUPPORTED)
->>>>>>>> +            break;
->>>>>>>> +    }
->>>>>>>> +    drm_connector_list_iter_end(&iter);
->>>>>>>> +    mutex_unlock(&mode_config->mutex);
->>>>>>>> +
->>>>>>>> +    return 0;
->>>>>>>> +}
->>>>>>>> +EXPORT_SYMBOL_GPL(amd_pmf_get_gfx_data);
->>>>>>>> +
->>>>>>>> +static int amd_pmf_gpu_get_cur_state(struct
->>>>>>>> thermal_cooling_device *cooling_dev,
->>>>>>>> +                     unsigned long *state)
->>>>>>>> +{
->>>>>>>> +    struct backlight_device *bd;
->>>>>>>> +
->>>>>>>> +    if (!acpi_video_backlight_use_native())
->>>>>>>> +        return -ENODEV;
->>>>>>>> +
->>>>>>>> +    bd = backlight_device_get_by_type(BACKLIGHT_RAW);
->>>>>>>> +    if (!bd)
->>>>>>>> +        return -ENODEV;
->>>>>>>> +
->>>>>>>> +    *state = backlight_get_brightness(bd);
->>>>>>>> +
->>>>>>>> +    return 0;
->>>>>>>> +}
->>>>>>>> +
->>>>>>>> +static int amd_pmf_gpu_get_max_state(struct
->>>>>>>> thermal_cooling_device *cooling_dev,
->>>>>>>> +                     unsigned long *state)
->>>>>>>> +{
->>>>>>>> +    struct backlight_device *bd;
->>>>>>>> +
->>>>>>>> +    if (!acpi_video_backlight_use_native())
->>>>>>>> +        return -ENODEV;
->>>>>>>> +
->>>>>>>> +    bd = backlight_device_get_by_type(BACKLIGHT_RAW);
->>>>>>>> +    if (!bd)
->>>>>>>> +        return -ENODEV;
->>>>>>>> +
->>>>>>>> +    if (backlight_is_blank(bd))
->>>>>>>> +        *state = 0;
->>>>>>>> +    else
->>>>>>>> +        *state = bd->props.max_brightness;
->>>>>>>> +
->>>>>>>> +    return 0;
->>>>>>>> +}
->>>>>>>> +
->>>>>>>> +static const struct thermal_cooling_device_ops bd_cooling_ops
->>>>>>>> = {
->>>>>>>> +    .get_max_state = amd_pmf_gpu_get_max_state,
->>>>>>>> +    .get_cur_state = amd_pmf_gpu_get_cur_state,
->>>>>>>> +};
->>>>>>>> +
->>>>>>>> +int amd_pmf_gpu_init(struct amd_gpu_pmf_data *pmf)
->>>>>>>> +{
->>>>>>>> +    struct drm_device *drm_dev = pci_get_drvdata(pmf->gpu_dev);
->>>>>>>> +    struct amdgpu_device *adev = drm_to_adev(drm_dev);
->>>>>>>> +
->>>>>>>> +    if (!(adev->flags & AMD_IS_APU)) {
->>>>>>>> +        DRM_ERROR("PMF-AMDGPU interface not supported\n");
->>>>>>>> +        return -ENODEV;
->>>>>>>> +    }
->>>>>>>> +
->>>>>>>> +    if (!acpi_video_backlight_use_native())
->>>>>>>> +        return -ENODEV;
->>>>>>>> +
->>>>>>>> +    pmf->raw_bd = backlight_device_get_by_type(BACKLIGHT_RAW);
->>>>>>>> +    if (!pmf->raw_bd)
->>>>>>>> +        return -ENODEV;
->>>>>>>> +
->>>>>>>> +    pmf->cooling_dev =
->>>>>>>> thermal_cooling_device_register("pmf_gpu_bd",
->>>>>>>> +                               pmf, &bd_cooling_ops);
->>>>>>>> +    if (IS_ERR(pmf->cooling_dev))
->>>>>>>> +        return -ENODEV;
->>>>>>>> +
->>>>>>>> +    return 0;
->>>>>>>> +}
->>>>>>>> +EXPORT_SYMBOL_GPL(amd_pmf_gpu_init);
->>>>>>>> +
->>>>>>>> +void amd_pmf_gpu_deinit(struct amd_gpu_pmf_data *pmf)
->>>>>>>> +{
->>>>>>>> + thermal_cooling_device_unregister(pmf->cooling_dev);
->>>>>>>> +}
->>>>>>>> +EXPORT_SYMBOL_GPL(amd_pmf_gpu_deinit);
->>>>>>>> diff --git a/drivers/platform/x86/amd/pmf/Kconfig
->>>>>>>> b/drivers/platform/x86/amd/pmf/Kconfig
->>>>>>>> index f246252bddd8..7f430de7af44 100644
->>>>>>>> --- a/drivers/platform/x86/amd/pmf/Kconfig
->>>>>>>> +++ b/drivers/platform/x86/amd/pmf/Kconfig
->>>>>>>> @@ -10,6 +10,7 @@ config AMD_PMF
->>>>>>>>        depends on AMD_NB
->>>>>>>>        select ACPI_PLATFORM_PROFILE
->>>>>>>>        depends on TEE && AMDTEE
->>>>>>>> +    depends on DRM_AMDGPU
->>>>>>>>        help
->>>>>>>>          This driver provides support for the AMD Platform
->>>>>>>> Management Framework.
->>>>>>>>          The goal is to enhance end user experience by making AMD
->>>>>>>> PCs smarter,
->>>>>>>> diff --git a/drivers/platform/x86/amd/pmf/core.c
->>>>>>>> b/drivers/platform/x86/amd/pmf/core.c
->>>>>>>> index 4b8156033fa6..c59ba527ff49 100644
->>>>>>>> --- a/drivers/platform/x86/amd/pmf/core.c
->>>>>>>> +++ b/drivers/platform/x86/amd/pmf/core.c
->>>>>>>> @@ -411,6 +411,7 @@ static int amd_pmf_probe(struct
->>>>>>>> platform_device *pdev)
->>>>>>>>        }
->>>>>>>>        dev->cpu_id = rdev->device;
->>>>>>>> +    dev->root = rdev;
->>>>>>>>        err = amd_smn_read(0, AMD_PMF_BASE_ADDR_LO, &val);
->>>>>>>>        if (err) {
->>>>>>>> diff --git a/drivers/platform/x86/amd/pmf/pmf.h
->>>>>>>> b/drivers/platform/x86/amd/pmf/pmf.h
->>>>>>>> index 8712299ad52b..615cd3a31986 100644
->>>>>>>> --- a/drivers/platform/x86/amd/pmf/pmf.h
->>>>>>>> +++ b/drivers/platform/x86/amd/pmf/pmf.h
->>>>>>>> @@ -13,6 +13,7 @@
->>>>>>>>    #include <linux/acpi.h>
->>>>>>>>    #include <linux/platform_profile.h>
->>>>>>>> +#include <linux/amd-pmf-io.h>
->>>>>>>>    #define POLICY_BUF_MAX_SZ        0x4b000
->>>>>>>>    #define POLICY_SIGN_COOKIE        0x31535024
->>>>>>>> @@ -228,9 +229,11 @@ struct amd_pmf_dev {
->>>>>>>>        void *shbuf;
->>>>>>>>        struct delayed_work pb_work;
->>>>>>>>        struct pmf_action_table *prev_data;
->>>>>>>> +    struct amd_gpu_pmf_data gfx_data;
->>>>>>>>        u64 policy_addr;
->>>>>>>>        void *policy_base;
->>>>>>>>        bool smart_pc_enabled;
->>>>>>>> +    struct pci_dev *root;
->>>>>>>>    };
->>>>>>>>    struct apmf_sps_prop_granular {
->>>>>>>> diff --git a/drivers/platform/x86/amd/pmf/spc.c
->>>>>>>> b/drivers/platform/x86/amd/pmf/spc.c
->>>>>>>> index 512e0c66efdc..cf4962ef97c2 100644
->>>>>>>> --- a/drivers/platform/x86/amd/pmf/spc.c
->>>>>>>> +++ b/drivers/platform/x86/amd/pmf/spc.c
->>>>>>>> @@ -44,6 +44,10 @@ void amd_pmf_dump_ta_inputs(struct
->>>>>>>> amd_pmf_dev *dev, struct ta_pmf_enact_table *
->>>>>>>>        dev_dbg(dev->dev, "Max C0 Residency : %u\n",
->>>>>>>> in->ev_info.max_c0residency);
->>>>>>>>        dev_dbg(dev->dev, "GFX Busy : %u\n",
->>>>>>>> in->ev_info.gfx_busy);
->>>>>>>>        dev_dbg(dev->dev, "Connected Display Count : %u\n",
->>>>>>>> in->ev_info.monitor_count);
->>>>>>>> +    dev_dbg(dev->dev, "Primary Display Type : %s\n",
->>>>>>>> + drm_get_connector_type_name(in->ev_info.display_type));
->>>>>>>> +    dev_dbg(dev->dev, "Primary Display State : %s\n",
->>>>>>>> in->ev_info.display_state ?
->>>>>>>> +            "Connected" : "disconnected/unknown");
->>>>>>>>        dev_dbg(dev->dev, "LID State : %s\n",
->>>>>>>> in->ev_info.lid_state ? "Close" : "Open");
->>>>>>>>        dev_dbg(dev->dev, "==== TA inputs END ====\n");
->>>>>>>>    }
->>>>>>>> @@ -146,6 +150,14 @@ static int amd_pmf_get_slider_info(struct
->>>>>>>> amd_pmf_dev *dev, struct ta_pmf_enact_
->>>>>>>>        return 0;
->>>>>>>>    }
->>>>>>>> +static void amd_pmf_get_gpu_info(struct amd_pmf_dev *dev,
->>>>>>>> struct ta_pmf_enact_table *in)
->>>>>>>> +{
->>>>>>>> +    amd_pmf_get_gfx_data(&dev->gfx_data);
->>>>>>>> +    in->ev_info.monitor_count = dev->gfx_data.display_count;
->>>>>>>> +    in->ev_info.display_type = dev->gfx_data.connector_type[0];
->>>>>>>> +    in->ev_info.display_state = dev->gfx_data.con_status[0];
->>>>>>>> +}
->>>>>>>> +
->>>>>>>>    void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev,
->>>>>>>> struct ta_pmf_enact_table *in)
->>>>>>>>    {
->>>>>>>>        /* TA side lid open is 1 and close is 0, hence the !
->>>>>>>> here */
->>>>>>>> @@ -154,4 +166,5 @@ void amd_pmf_populate_ta_inputs(struct
->>>>>>>> amd_pmf_dev *dev, struct ta_pmf_enact_tab
->>>>>>>>        amd_pmf_get_smu_info(dev, in);
->>>>>>>>        amd_pmf_get_battery_info(dev, in);
->>>>>>>>        amd_pmf_get_slider_info(dev, in);
->>>>>>>> +    amd_pmf_get_gpu_info(dev, in);
->>>>>>>>    }
->>>>>>>> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c
->>>>>>>> b/drivers/platform/x86/amd/pmf/tee-if.c
->>>>>>>> index 2f5fb8623c20..956e66b78605 100644
->>>>>>>> --- a/drivers/platform/x86/amd/pmf/tee-if.c
->>>>>>>> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
->>>>>>>> @@ -9,6 +9,7 @@
->>>>>>>>     */
->>>>>>>>    #include <linux/debugfs.h>
->>>>>>>> +#include <linux/pci.h>
->>>>>>>>    #include <linux/tee_drv.h>
->>>>>>>>    #include <linux/uuid.h>
->>>>>>>>    #include "pmf.h"
->>>>>>>> @@ -357,6 +358,19 @@ static int amd_pmf_get_bios_buffer(struct
->>>>>>>> amd_pmf_dev *dev)
->>>>>>>>        return amd_pmf_start_policy_engine(dev);
->>>>>>>>    }
->>>>>>>> +static int amd_pmf_get_gpu_handle(struct pci_dev *pdev, void
->>>>>>>> *data)
->>>>>>>> +{
->>>>>>>> +    struct amd_pmf_dev *dev = data;
->>>>>>>> +
->>>>>>>> +    if (pdev->vendor == PCI_VENDOR_ID_ATI && pdev->devfn == 0) {
->>>>>>>> +        /* Found the amdgpu handle from the pci root after
->>>>>>>> walking through the pci bus */
->>>>>>> If you insist on having this comment, make it a function comment
->>>>>>> instead
->>>>>>> (with appropriate modifications into the content of it) but I
->>>>>>> personally
->>>>>>> don't find it that useful so it could be just dropped as well,
->>>>>>> IMO.
->>>>>>>
->>>>>>>> +        dev->gfx_data.gpu_dev = pdev;
->>>>>>>> +        return 1; /* Stop walking */
->>>>>>>> +    }
->>>>>>>> +
->>>>>>>> +    return 0; /* Continue walking */
->>>>>>>> +}
->>>>>>>> +
->>>>>>>>    static int amd_pmf_amdtee_ta_match(struct
->>>>>>>> tee_ioctl_version_data *ver, const void *data)
->>>>>>>>    {
->>>>>>>>        return ver->impl_id == TEE_IMPL_ID_AMDTEE;
->>>>>>>> @@ -446,6 +460,15 @@ int amd_pmf_init_smart_pc(struct
->>>>>>>> amd_pmf_dev *dev)
->>>>>>>>        INIT_DELAYED_WORK(&dev->pb_work, amd_pmf_invoke_cmd);
->>>>>>>>        amd_pmf_set_dram_addr(dev);
->>>>>>>>        amd_pmf_get_bios_buffer(dev);
->>>>>>>> +
->>>>>>>> +    /* Get amdgpu handle */
->>>>>>> Useless comment.
->>>>>>>
->>>>>>>> + pci_walk_bus(dev->root->bus, amd_pmf_get_gpu_handle, dev);
->>>>>>>> +    if (!dev->gfx_data.gpu_dev)
->>>>>>>> +        dev_err(dev->dev, "GPU handle not found!\n");
->>>>>>>> +
->>>>>>>> +    if (!amd_pmf_gpu_init(&dev->gfx_data))
->>>>>>>> +        dev->gfx_data.gpu_dev_en = true;
->>>>>>>> +
->>>>>>>>        dev->prev_data = kzalloc(sizeof(*dev->prev_data),
->>>>>>>> GFP_KERNEL);
->>>>>>>>        if (!dev->prev_data)
->>>>>>>>            return -ENOMEM;
->>>>>>>> @@ -461,5 +484,8 @@ void amd_pmf_deinit_smart_pc(struct
->>>>>>>> amd_pmf_dev *dev)
->>>>>>>>        kfree(dev->prev_data);
->>>>>>>>        kfree(dev->policy_buf);
->>>>>>>>        cancel_delayed_work_sync(&dev->pb_work);
->>>>>>>> +    if (dev->gfx_data.gpu_dev_en)
->>>>>>>> +        amd_pmf_gpu_deinit(&dev->gfx_data);
->>>>>>>> +    pci_dev_put(dev->gfx_data.gpu_dev);
->>>>>>>>        amd_pmf_tee_deinit(dev);
->>>>>>>>    }
->>>>>>>> diff --git a/include/linux/amd-pmf-io.h
->>>>>>>> b/include/linux/amd-pmf-io.h
->>>>>>>> new file mode 100644
->>>>>>>> index 000000000000..5f79e66a41b3
->>>>>>>> --- /dev/null
->>>>>>>> +++ b/include/linux/amd-pmf-io.h
->>>>>>>> @@ -0,0 +1,35 @@
->>>>>>>> +/* SPDX-License-Identifier: GPL-2.0 */
->>>>>>>> +/*
->>>>>>>> + * AMD Platform Management Framework Interface
->>>>>>>> + *
->>>>>>>> + * Copyright (c) 2023, Advanced Micro Devices, Inc.
->>>>>>>> + * All Rights Reserved.
->>>>>>>> + *
->>>>>>>> + * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->>>>>>>> + */
->>>>>>>> +
->>>>>>>> +#ifndef AMD_PMF_IO_H
->>>>>>>> +#define AMD_PMF_IO_H
->>>>>>>> +
->>>>>>>> +#include <acpi/video.h>
->>>>>>>> +#include <drm/drm_connector.h>
->>>>>>>> +#include <linux/backlight.h>
->>>>>>>> +#include <linux/thermal.h>
->>>>>>>> +
->>>>>>>> +#define MAX_SUPPORTED 4
->>>>>>>> +
->>>>>>>> +/* amdgpu */
->>>>>>> Document the structure properly with kerneldoc instead of an
->>>>>>> unhelpful
->>>>>>> comment like above :-). Please also check if you add any other
->>>>>>> structs
->>>>>>> into kernel-wide headers that you didn't document yet. Or fields
->>>>>>> into
->>>>>>> existing structs.
->>>>>>>
->>>>>>>> +struct amd_gpu_pmf_data {
->>>>>>>> +    struct pci_dev *gpu_dev;
->>>>>>>> +    struct backlight_device *raw_bd;
->>>>>>>> +    struct thermal_cooling_device *cooling_dev;
->>>>>>>> +    enum drm_connector_status con_status[MAX_SUPPORTED];
->>>>>>>> +    int display_count;
->>>>>>>> +    int connector_type[MAX_SUPPORTED];
->>>>>>>> +    bool gpu_dev_en;
->>>>>>>> +};
->>>>>>>> +
->>>>>>>> +int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf);
->>>>>>>> +int amd_pmf_gpu_init(struct amd_gpu_pmf_data *pmf);
->>>>>>>> +void amd_pmf_gpu_deinit(struct amd_gpu_pmf_data *pmf);
->>>>>>>> +#endif
->>>>>>>>
+> Hans
+> 
+> 
 > 
 
