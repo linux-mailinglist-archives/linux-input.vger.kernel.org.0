@@ -1,146 +1,116 @@
-Return-Path: <linux-input+bounces-87-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-88-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AB5D7EEAA2
-	for <lists+linux-input@lfdr.de>; Fri, 17 Nov 2023 02:16:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DEC17EEB4A
+	for <lists+linux-input@lfdr.de>; Fri, 17 Nov 2023 04:00:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C0A4F1F25C60
-	for <lists+linux-input@lfdr.de>; Fri, 17 Nov 2023 01:16:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF03C1C2085B
+	for <lists+linux-input@lfdr.de>; Fri, 17 Nov 2023 03:00:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3193D1398;
-	Fri, 17 Nov 2023 01:16:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9271146B1;
+	Fri, 17 Nov 2023 03:00:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="CmfGtmGu";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jzb6JGxZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NlF90bvE"
 X-Original-To: linux-input@vger.kernel.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FDA9182;
-	Thu, 16 Nov 2023 17:16:24 -0800 (PST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 9EAC45C01D0;
-	Thu, 16 Nov 2023 20:16:23 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Thu, 16 Nov 2023 20:16:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1700183783; x=
-	1700270183; bh=eW7/wu+ICidmfZHSNxKv48b4TD+SrR9ios0hX/9qiic=; b=C
-	mfGtmGuSaYypQGBqeXOqsgU84svGsmxsKEI6B1P7Up6LKAMVV4memvlhpkkpvSmu
-	NbUpUijlEN5j+nHGZAc41KnIN2lFjlWVKkWxnfQG+LpVEhlyMHbv9/FJbxF9XvTm
-	GK8PcciRWt5dSntKZw+Yn8GumCwPDGy3Tzwx3M6PFwbo+SzzsKox1mTATb0BVPmz
-	y9yHl/CH8n6Vw1/IiILvCjT5D7Pg9R6t6n25ks6pa8lhTpGPdt+u0j2gAj+I9tKe
-	sGnZ36pZN0Fxe7gfgC8vnjhCKtSAmzjwHJZ/106YHvNB9KVk78hbYw3VsqmdhcBi
-	TPdREbF0UnXZc0T/+fAPA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1700183783; x=
-	1700270183; bh=eW7/wu+ICidmfZHSNxKv48b4TD+SrR9ios0hX/9qiic=; b=j
-	zb6JGxZ5/h3mYwvyarhtE20qVT9ZQZcRtxt/hLoF71iKmwdBcQDGwx7uza6O5KXN
-	gyp9FKKDeyA8B4U04jhXWIcgy4M6PP5qTD+U4YMvy8vIhA3tBa/sS1DOYHIHqFzN
-	QSh/bPDxrY7ztw6xouoFRm1z1pBLLHOsJCB3akgFd53xPYVx/U2f4F3qvh0rSfli
-	rEIh/FkqbBMGe0NLClXiKLKGAQUm1EX4wnur8HVgwuv7zc+EGZhqD03OTQSrBcIO
-	PYjwqjDtXen/ynFbWP03uBPKJ1cevJIRt2MWrndItRwMeuZeD7Ru/IRFxGxPOJjb
-	KSWodEkqKycqzJCQUnbaw==
-X-ME-Sender: <xms:575WZdqmRNoWh0wdaiEx75GCMCyj_7B51QYsgd73h0-TQbHDhXy2zw>
-    <xme:575WZfoCEcLPijY4Y9_zZT56J9vXWcbixQBf77SxmVTTCaP6ltHIzvUP6Qv16cuJc
-    aMYTkQFJ4J4cK-SxBg>
-X-ME-Received: <xmr:575WZaM4w2tfNzCs_O9IADh1kf8PLApFT54gO9RLalFlkVsF3Hy-FiCGHl5M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudefledgfeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
-    ertdertddtnecuhfhrohhmpedfnfhukhgvucffrdculfhonhgvshdfuceolhhukhgvsehl
-    jhhonhgvshdruggvvheqnecuggftrfgrthhtvghrnhepgfetfedugfetudeuheetjefhue
-    fggfelleetvdevtefhueeujeefvdegleevhefgnecuvehluhhsthgvrhfuihiivgeptden
-    ucfrrghrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvh
-X-ME-Proxy: <xmx:575WZY77KBxh-bL85znFipiE-ggUKTJ2tDIDTvTm9YF0kJarn0AkQA>
-    <xmx:575WZc5zoBYeJvYPSo1lIUmVXBPbdx227RtLugZedyX_ACQs4jPdBQ>
-    <xmx:575WZQj_KrFlWDt48A8oN1-mT__TYIKuv7g6oiImr1BNemELhZUkxg>
-    <xmx:575WZcHsLP6IeIta4DTX1y66Yx02mgxpKuYqDaML9NNskFO4QUZEfQ>
-Feedback-ID: i5ec1447f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Nov 2023 20:16:20 -0500 (EST)
-From: "Luke D. Jones" <luke@ljones.dev>
-To: jikos@kernel.org
-Cc: benjamin.tissoires@redhat.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	benato.denis96@gmail.com
-Subject: [PATCH 2/2] hid-asus: reset the backlight brightness level on resume
-Date: Fri, 17 Nov 2023 14:15:56 +1300
-Message-ID: <20231117011556.13067-3-luke@ljones.dev>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231117011556.13067-1-luke@ljones.dev>
-References: <20231117011556.13067-1-luke@ljones.dev>
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F19AD4A;
+	Thu, 16 Nov 2023 19:00:31 -0800 (PST)
+Received: by mail-qv1-xf32.google.com with SMTP id 6a1803df08f44-66d24ccc6f2so23788386d6.0;
+        Thu, 16 Nov 2023 19:00:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700190031; x=1700794831; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=cfh/n50sV9zDL7CpRsgoAkjALbUjhc6nk0SgI0MAzG8=;
+        b=NlF90bvEH73dPaEZfsH2+uGwQi4zuEfkAm3wEsDVqy3U2TH/t9yyRCeo3CDBnIo2LQ
+         cDukCVOuz0L2pMgLXTsWK5rfrahvnQMED71pzqG7ummZPO3mtaB0XNGYBoNu06N54yhE
+         8KTeSWbYDmqVSYdFBtci14yl5P9atNsDf9uE64roeiFxgp4Buyz+YwTGMmk2ki8cOLa3
+         YtpsVg7ATlrD6SRUP/8Y7esTD8SVhXqd4Z6Yvo+AXBSh0Q85z4AQVxMkutzK8ju98gts
+         OE/E1OZsWq9SBHSZ/AHNRsaoMm5GZ4g+JmiprDK3ewLWaEJ3BTm0nqP0Mv4yXpsrq/ed
+         qsOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700190031; x=1700794831;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cfh/n50sV9zDL7CpRsgoAkjALbUjhc6nk0SgI0MAzG8=;
+        b=AJ9mdmDyEOVkflu9hayjz6bTXzw01OcKxEc41CGWook+jo/gkVE7oUYLbcYbvCEF5c
+         TvK1hA1JLL+ixH4RacAaYE8fp3GgJlDa3xai2beETseKXt2f4rZfQXY89gYUW7iBPJcL
+         X7lvwyvxLdmifIgcfirBt2Jybr6GQ6JsOqmz+IqPBBdFLPhrKwg1EIAg/oEBaHkDdthv
+         wfaTIwXUKxfeK/OvfYc9VGuuKVnjx+zpp6Dsz7Y+VPrp7G5dW4zDJb2J3HHY6oPSkQyB
+         7jaO1WM+Su+5VItz+uzP5h3UK1KkSupsOyJlMkp5pu8XmlxE2IdLXqvUdGQQ0Ka4E1qG
+         0pzw==
+X-Gm-Message-State: AOJu0YwlHIbnFIlVF95ydOrXxV+2UfqDDBoFn7h0XwdLT7e+lWrTU5En
+	JvBiQbyCp8ANM2QwsAmO9FE=
+X-Google-Smtp-Source: AGHT+IFFvYGeUevkkm4iGUX82D5/wf+kjQ1tbxFALDK15kELTovdQXDsQi0snNEfVRxy812FA7AiAA==
+X-Received: by 2002:ad4:5d47:0:b0:66d:303a:46bd with SMTP id jk7-20020ad45d47000000b0066d303a46bdmr7163090qvb.13.1700190030594;
+        Thu, 16 Nov 2023 19:00:30 -0800 (PST)
+Received: from google.com ([205.220.129.19])
+        by smtp.gmail.com with ESMTPSA id rv13-20020a05620a688d00b0077a7d02cffbsm294058qkn.24.2023.11.16.19.00.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Nov 2023 19:00:30 -0800 (PST)
+Date: Fri, 17 Nov 2023 02:59:44 +0000
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Jiri Valek - 2N <jiriv@axis.com>
+Cc: Rob Herring <robh+dt@kernel.org>, krzysztof.kozlowski+dt@linaro.org,
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, u.kleine-koenig@pengutronix.de
+Subject: Re: [PATCH v5 3/3] Input: cap11xx - remove unnecessary IRQ parsing
+Message-ID: <ZVbWZXvzudWTFpBk@google.com>
+References: <20231108155647.1812835-1-jiriv@axis.com>
+ <20231108155647.1812835-4-jiriv@axis.com>
+ <CAL_JsqL3veRuuDqWnZ+eUTP5Mvz5WffYktrBh6HqyARRThzmYQ@mail.gmail.com>
+ <f2df3ba6-76d2-4e2e-9c7e-54f6a84464b7@axis.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <f2df3ba6-76d2-4e2e-9c7e-54f6a84464b7@axis.com>
 
-From: Denis Benato <benato.denis96@gmail.com>
+On Thu, Nov 16, 2023 at 08:43:00AM +0100, Jiri Valek - 2N wrote:
+> On 11/8/23 20:53, Rob Herring wrote:
+> > On Wed, Nov 8, 2023 at 9:57 AM Jiri Valek - 2N <jiriv@axis.com> wrote:
+> >>
+> >> Separate IRQ parsing is not necessary, I2C core do the job.
+> >>
+> >> Signed-off-by: Jiri Valek - 2N <jiriv@axis.com>
+> >> ---
+> >>  drivers/input/keyboard/cap11xx.c | 10 ++--------
+> >>  1 file changed, 2 insertions(+), 8 deletions(-)
+> >>
+> >> diff --git a/drivers/input/keyboard/cap11xx.c b/drivers/input/keyboard/cap11xx.c
+> >> index 4711ea985627..ccca9936ef25 100644
+> >> --- a/drivers/input/keyboard/cap11xx.c
+> >> +++ b/drivers/input/keyboard/cap11xx.c
+> >> @@ -518,7 +518,7 @@ static int cap11xx_i2c_probe(struct i2c_client *i2c_client)
+> >>         struct device *dev = &i2c_client->dev;
+> >>         struct cap11xx_priv *priv;
+> >>         const struct cap11xx_hw_model *cap;
+> >> -       int i, error, irq;
+> >> +       int i, error;
+> >>         unsigned int val, rev;
+> >>
+> >>         if (id->driver_data >= ARRAY_SIZE(cap11xx_devices)) {
+> >> @@ -624,13 +624,7 @@ static int cap11xx_i2c_probe(struct i2c_client *i2c_client)
+> >>         if (error)
+> >>                 return error;
+> >>
+> >> -       irq = irq_of_parse_and_map(dev->of_node, 0);
+> > 
+> > Probably can drop the include of of_irq.h as well.
+> Ack. Thanks for notice!
 
-Some devices managed by this driver automatically set brightness to 0
-before entering a suspended state and reset it back to a default
-brightness level after the resume:
-this has the effect of having the kernel report wrong brightness
-status after a sleep, and on some devices (like the Asus RC71L) that
-brightness is the intensity of LEDs directly facing the user.
+I replaced it with #include <of.h> and applied, thank you.
 
-Fix the above issue by setting back brightness to the level it had
-before entering a sleep state.
-
-Signed-off-by: Denis Benato <benato.denis96@gmail.com>
----
- drivers/hid/hid-asus.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
-
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index b70673a929a1..78cdfb8b9a7a 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -1000,6 +1000,24 @@ static int asus_start_multitouch(struct hid_device *hdev)
- 	return 0;
- }
- 
-+static int __maybe_unused asus_resume(struct hid_device *hdev) {
-+	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
-+	int ret = 0;
-+
-+	if (drvdata->kbd_backlight) {
-+		const u8 buf[] = { FEATURE_KBD_REPORT_ID, 0xba, 0xc5, 0xc4,
-+				drvdata->kbd_backlight->cdev.brightness };
-+		ret = asus_kbd_set_report(hdev, buf, sizeof(buf));
-+		if (ret < 0) {
-+			hid_err(hdev, "Asus failed to set keyboard backlight: %d\n", ret);
-+			goto asus_resume_err;
-+		}
-+	}
-+
-+asus_resume_err:
-+	return ret;
-+}
-+
- static int __maybe_unused asus_reset_resume(struct hid_device *hdev)
- {
- 	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
-@@ -1294,6 +1312,7 @@ static struct hid_driver asus_driver = {
- 	.input_configured       = asus_input_configured,
- #ifdef CONFIG_PM
- 	.reset_resume           = asus_reset_resume,
-+	.resume					= asus_resume,
- #endif
- 	.event			= asus_event,
- 	.raw_event		= asus_raw_event
 -- 
-2.42.1
-
+Dmitry
 
