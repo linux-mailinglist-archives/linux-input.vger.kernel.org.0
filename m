@@ -1,88 +1,164 @@
-Return-Path: <linux-input+bounces-126-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-127-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66CF07F066A
-	for <lists+linux-input@lfdr.de>; Sun, 19 Nov 2023 14:26:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEC0C7F06E4
+	for <lists+linux-input@lfdr.de>; Sun, 19 Nov 2023 15:34:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0ED271F20FE7
-	for <lists+linux-input@lfdr.de>; Sun, 19 Nov 2023 13:26:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 826D8B2099E
+	for <lists+linux-input@lfdr.de>; Sun, 19 Nov 2023 14:34:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67FED748F;
-	Sun, 19 Nov 2023 13:26:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=catboys.cloud header.i=@catboys.cloud header.b="JhJMp7fU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CCA515B0;
+	Sun, 19 Nov 2023 14:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-input@vger.kernel.org
-X-Greylist: delayed 397 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 19 Nov 2023 05:25:55 PST
-Received: from mail.catboys.cloud (mail.catboys.cloud [IPv6:2a03:4000:24:c2:1820:f0ff:fea1:a4fe])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37E7FE5
-	for <linux-input@vger.kernel.org>; Sun, 19 Nov 2023 05:25:55 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 78563C01A6;
-	Sun, 19 Nov 2023 14:19:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=catboys.cloud;
-	s=dkim; t=1700399954; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=7LtC/bvzMI0v0YZiXT39yHcKG9tQFDME2f3QAeNmr1g=;
-	b=JhJMp7fUJfa0HSbJdc1wGCf6lhw4aEP4rZ9zgh0ykX9/59pkokyMVVJOdzdOQqGkaDcz2D
-	z2XVJxLVGROktzTYpps9CZvol9B8uFMCIcjW5L/myOO/BhLp+jZ44y48nPUQIz+eKzXZPz
-	QVDzIFSC4lArZEwiILP+rDl7y+YzILdGRK/V4Lv7Gv07J5WrpAiys1D9p+PElQLNesfgCi
-	IJ1B7eHVV+tNPIBYidlaj+gE8cTd61CtsnAxwobUoewH3b8eQqOjB5qztubA5bWJSidKpH
-	050wmg06gnQbV3wmcLgjXF1LROqvwllFds3FUbbnH/cUnj0ArNozVhQahNtTVw==
-From: tom@catboys.cloud
-To: linux-input@vger.kernel.org,
- Basavaraj Natikar <basavaraj.natikar@amd.com>,
- Steven Presser <steve@pressers.name>
-Subject:
- Re: amd-sfh bug: Accelerometer will not initialize on Lenovo 300e 2nd
- generation
-Date: Sun, 19 Nov 2023 14:19:07 +0100
-Message-ID: <2306055.ElGaqSPkdT@toms-envy-x360>
-In-Reply-To: <744f43e1-93f2-97c8-03b8-f9025386abe0@pressers.name>
-References: <744f43e1-93f2-97c8-03b8-f9025386abe0@pressers.name>
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99F6DBA;
+	Sun, 19 Nov 2023 06:34:47 -0800 (PST)
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5845213c583so2007482eaf.0;
+        Sun, 19 Nov 2023 06:34:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700404487; x=1701009287;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wbAOew7EQhvdTMrxu7VzSwL0APRrGG2LAuJjAHyG3Ic=;
+        b=lMHTbeIY3keviR+eGP7t/elfJXZo1af0Fe+0LhKk/NDFBV2f9uY8Q/mjU/h3wLrwBM
+         vFQC+5krCaiIKKp6QKREGlLewVS2whA90Ia9UWFwKW7bm2oPNauEnzVBea5QNa1mL9Pk
+         11w0OJHf5CxlrYcBz2kIayHKVcMYSUM0XhhGyv4YxHvbIXSdQnq2VcGOIx6KcxMzOCAd
+         NQ/KHqIHWOeaiT4EcW6ZuJ0NNSjhalYQ7ydT4vcGMUchfXdFSjQ/4E9nimBzzIVcdhn6
+         PT2UaD5LcCSHqEXQbEScfXjplqylU0AYPfaHKYns1KnKRnX0YwEZwoeMEJs9KNmQWv6+
+         Q2qA==
+X-Gm-Message-State: AOJu0YxDuZq7pJGqQ+U3jAMysBxKfPv0QmXKJ1TYSi8V4Z/7O/lJhpds
+	UNzvGMOquSlMbqxmidlKmg==
+X-Google-Smtp-Source: AGHT+IFb+T9RykUaRT49skiYcMHAWrA0Yrdg/vQdhUJcpftXjvADNdhiMeRf/RUyq/2tEoqOp1kpfg==
+X-Received: by 2002:a05:6820:2290:b0:57b:3b48:6f11 with SMTP id ck16-20020a056820229000b0057b3b486f11mr5163096oob.4.1700404486826;
+        Sun, 19 Nov 2023 06:34:46 -0800 (PST)
+Received: from herring.priv ([2607:fb90:45e3:889f:15b4:1348:6d64:224b])
+        by smtp.gmail.com with ESMTPSA id w18-20020a4ae4d2000000b00581fc1af0a7sm1055669oov.28.2023.11.19.06.34.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Nov 2023 06:34:45 -0800 (PST)
+Received: (nullmailer pid 173773 invoked by uid 1000);
+	Sun, 19 Nov 2023 14:34:41 -0000
+Date: Sun, 19 Nov 2023 08:34:41 -0600
+From: Rob Herring <robh@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Chen-Yu Tsai <wenst@chromium.org>, Frank Rowand <frowand.list@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Hsin-Yi Wang <hsinyi@chromium.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, andriy.shevchenko@linux.intel.com, Jiri Kosina <jikos@kernel.org>, linus.walleij@linaro.org, broonie@kernel.org, gregkh@linuxfoundation.org, hdegoede@redhat.com, james.clark@arm.com, james@equiv.tech, keescook@chromium.org, petr.tesarik.ext@huawei.com, rafael@kernel.org, tglx@linutronix.de, Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: Re: [RFC PATCH v2 0/7] of: Introduce hardware prober driver
+Message-ID: <20231119143441.GA157654-robh@kernel.org>
+References: <20231109100606.1245545-1-wenst@chromium.org>
+ <859ac058-c50a-4eb8-99b6-3011ef4e7529@collabora.com>
+ <CAL_JsqK64w3+r_LJZoh50PzAUcsvH6ahSDCqgSiKrD3LBAXE9g@mail.gmail.com>
+ <CAD=FV=VUZy9DaZgKafSpXXopD5k8ExGSR97BjAqC5tupPoxNfQ@mail.gmail.com>
+ <CAL_Jsq+puq20EWkQg1RTs2zfmh4DGbqz1krp+19c=wPXnLT5dA@mail.gmail.com>
+ <CAD=FV=X-17COQ2-tycV1bSuCrGy7MJ88Un8nA-a-ODexvgi9TQ@mail.gmail.com>
+ <CAL_JsqKR_YD6hm4Lv+OuCKms8Ha61BZRKUuiLYPgSkz3_3NCFA@mail.gmail.com>
+ <CAD=FV=XO5VNuaVKwBHLQC1ukdpHQO0-XTaKnRM=rigbcdOytgQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD=FV=XO5VNuaVKwBHLQC1ukdpHQO0-XTaKnRM=rigbcdOytgQ@mail.gmail.com>
 
-Hi there,
-
-> I have a Lenovo 300e 2nd Generation, a "2-in-1". This device uses an
-> accelerometer via the AMD Sensor Fusion Hub to detect laptop and tablet
-> mode. Despite being attached to the (supported) AMD SFH, this
-> accelerometer does not function. When the system tries to initialize the
-> accelerometer, it simply reports:
+On Wed, Nov 15, 2023 at 05:13:50PM -0500, Doug Anderson wrote:
+> Hi,
 > 
-> [    8.850222] pcie_mp2_amd 0000:04:00.7: sid 0x0 (accelerometer) status
-> 0x5
-> [    8.850240] pcie_mp2_amd 0000:04:00.7: Failed to discover, sensors
-> not enabled is 0
-> [    8.850276] pcie_mp2_amd: probe of 0000:04:00.7 failed with error -95
+> On Wed, Nov 15, 2023 at 4:35 PM Rob Herring <robh+dt@kernel.org> wrote:
+> >
+> > On Wed, Nov 15, 2023 at 2:45 PM Doug Anderson <dianders@chromium.org> wrote:
+> > >
+> > > Hi,
+> > >
+> > > On Wed, Nov 15, 2023 at 2:28 PM Rob Herring <robh+dt@kernel.org> wrote:
+> > > >
+> > > > > So if we're searching the whole device tree for "failed-needs-probe"
+> > > > > then we need to figure out which devices are related to each other. If
+> > > > > a given board has second sources for MIPI panels, touchscreens, and
+> > > > > trackpads then we need to know which of the "failed-needs-probe"
+> > > > > devices are trackpads, which are touchscreens, and which are MIPI
+> > > > > panels. Do you have any suggestions for how we should do that? Maybe
+> > > > > it was in some other thread that I missed? I guess we could have a
+> > > > > board-specific table mapping (compatible + node name + reg) to a
+> > > > > class, but that feels awkward.
+> > > >
+> > > > Node name is supposed to correspond to device class, so why not use
+> > > > that (no path or unit-address.) and nothing else (well, besides
+> > > > "status")?
+> > >
+> > > One problem is that I could imagine having two second source trackpads
+> > > that both have the same i2c address. That would give them the same
+> > > name, right? I guess you could maybe come up with some sort of suffix
+> > > rule? Like
+> > >
+> > > trackpad-1@10 {
+> > >   compatible = "elan,blah";
+> > >   ret = <0x10>;
+> > >   status = "failed-needs-probe";
+> > >   ...
+> > > }
+> > > trackpad-2@10 {
+> > >   compatible = "goodix,gt7375p";
+> > >   ret = <0x10>;
+> > >   status = "failed-needs-probe";
+> > >   ...
+> > > }
+> > >
+> > > Then I guess the class would be "trackpad"?
+> >
+> > That issue is somewhat orthogonal because it is not following the spec.
 > 
-> The device works correctly under Windows, so I know this isn't broken
-> hardware.
+> I'm not sure why you say it's orthogonal. The whole reason why we get
+> into the situation above is that we could have two devices, only one
+> of which is present (hence the status of "failed-needs-probe"), that
+> are the same type and have the same "reg" address.
 
-I have an "HP ENVY x360 Convertible 13-ay0xxx " and the same problem. The 
-sensors work on Windows, but on Linux I can't get them to work (running kernel 
-6.6.1).
+I just mean that defining a node name for 2 devices of the same class 
+and at same address is separate problem from selecting which one to 
+enable.
 
-I'm getting a similar dmesg message:
+> 
+> Essentially the whole "failed-needs-probe" is extending the spec,
+> right? While extending the spec, we also need to talk about what to do
+> if some of the devices that we need to probe have the same class and
+> the same "reg".
+> 
+> 
+> > I'm not sure mixing the 2 styles of node names is a good idea. While
+> > not used too much, matching by node name does ignore the unit-address,
+> > but I'm not sure we could ignore a '-N'.
+> >
+> > I think our options are either add something to the unit-address or
+> > use i2c-mux binding. Adding to the unit-address is not unprecedented.
+> > I did that for some of the register bit level bindings where you have
+> > a node for different bits at the same address. The downside is
+> > unit-address is bus specific, so we'd have to add that for multiple
+> > buses. For the i2c-mux, it's perhaps a bit complex and I'm not sure
+> > what if anything you'd have to do to manage the mux that's not really
+> > there.
+> 
+> Somehow it feels weird to use an i2c-mux because there's no real mux
+> present, right? ...so this would be a virtual (bogus) device that
+> doesn't really exist in hardware.
 
-[    3.353367] pcie_mp2_amd 0000:04:00.7: enabling device (0000 -> 0002)
-[    8.154761] pcie_mp2_amd 0000:04:00.7: Failed to discover, sensors not 
-enabled is 0
-[    8.154793] pcie_mp2_amd: probe of 0000:04:00.7 failed with error -95
-
-I'd also be happy to help with debugging this. 
-
-Thank you for your time!
-Tom
+Yes, shrug... 
 
 
+> ...though I guess if the "mux" type binding is OK then maybe we just
+> use that as the HW prober, at least for i2c devices...
+
+Except for any other case where it's different addresses or different 
+buses. Maybe different addresses could still use the same thing. I 
+suppose the same class of device is unlikely to be on a different bus.
+
+An extension to the unit-address would be the simpler solution, so we 
+should explore that first I think.
+
+Rob
 
