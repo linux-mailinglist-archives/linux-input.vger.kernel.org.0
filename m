@@ -1,164 +1,126 @@
-Return-Path: <linux-input+bounces-127-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-128-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEC0C7F06E4
-	for <lists+linux-input@lfdr.de>; Sun, 19 Nov 2023 15:34:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 515E87F09D1
+	for <lists+linux-input@lfdr.de>; Mon, 20 Nov 2023 00:15:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 826D8B2099E
-	for <lists+linux-input@lfdr.de>; Sun, 19 Nov 2023 14:34:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 839701C2042B
+	for <lists+linux-input@lfdr.de>; Sun, 19 Nov 2023 23:15:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CCA515B0;
-	Sun, 19 Nov 2023 14:34:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2440E1A5A8;
+	Sun, 19 Nov 2023 23:15:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cfPH9Rms"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99F6DBA;
-	Sun, 19 Nov 2023 06:34:47 -0800 (PST)
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5845213c583so2007482eaf.0;
-        Sun, 19 Nov 2023 06:34:47 -0800 (PST)
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8FBC12D;
+	Sun, 19 Nov 2023 15:15:09 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id 41be03b00d2f7-5aa7172bafdso2329112a12.1;
+        Sun, 19 Nov 2023 15:15:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700435709; x=1701040509; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=G6/k5GA4Zu2CBZHKMjmxzODMRb4rQCOlqXBDpojsfK4=;
+        b=cfPH9RmsBgKpdCP3OWFxO47lJiw20itBdGv5+lIOc/FuutC5zcMWrLxJxeDjidMFYB
+         aKR+C+08EKTbMTiUc+QxD4yAQlgNHpT4+RgimB3PUCi6E9BYGLCRMbLsN879oW6/5DwA
+         c30f+KQAONFYClzCRYvfjb8XitrTipAjoUi1XYFA/Q7tmBE08ZJ0yd+JB2iKICe1Hdcd
+         jxFSn5grlColyNHWdw+k44AtwCjvJOA8TWWOV14RZ61oYVPFOc3g/blyQKg8zWZaxdUO
+         4KNv3vvCNsrb5QE9QrMDldF8ZUp15HIfvBdeyQfNHlei1UvS7LyMmg3gL+LDx+p1Bj5h
+         D6aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700404487; x=1701009287;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wbAOew7EQhvdTMrxu7VzSwL0APRrGG2LAuJjAHyG3Ic=;
-        b=lMHTbeIY3keviR+eGP7t/elfJXZo1af0Fe+0LhKk/NDFBV2f9uY8Q/mjU/h3wLrwBM
-         vFQC+5krCaiIKKp6QKREGlLewVS2whA90Ia9UWFwKW7bm2oPNauEnzVBea5QNa1mL9Pk
-         11w0OJHf5CxlrYcBz2kIayHKVcMYSUM0XhhGyv4YxHvbIXSdQnq2VcGOIx6KcxMzOCAd
-         NQ/KHqIHWOeaiT4EcW6ZuJ0NNSjhalYQ7ydT4vcGMUchfXdFSjQ/4E9nimBzzIVcdhn6
-         PT2UaD5LcCSHqEXQbEScfXjplqylU0AYPfaHKYns1KnKRnX0YwEZwoeMEJs9KNmQWv6+
-         Q2qA==
-X-Gm-Message-State: AOJu0YxDuZq7pJGqQ+U3jAMysBxKfPv0QmXKJ1TYSi8V4Z/7O/lJhpds
-	UNzvGMOquSlMbqxmidlKmg==
-X-Google-Smtp-Source: AGHT+IFb+T9RykUaRT49skiYcMHAWrA0Yrdg/vQdhUJcpftXjvADNdhiMeRf/RUyq/2tEoqOp1kpfg==
-X-Received: by 2002:a05:6820:2290:b0:57b:3b48:6f11 with SMTP id ck16-20020a056820229000b0057b3b486f11mr5163096oob.4.1700404486826;
-        Sun, 19 Nov 2023 06:34:46 -0800 (PST)
-Received: from herring.priv ([2607:fb90:45e3:889f:15b4:1348:6d64:224b])
-        by smtp.gmail.com with ESMTPSA id w18-20020a4ae4d2000000b00581fc1af0a7sm1055669oov.28.2023.11.19.06.34.43
+        d=1e100.net; s=20230601; t=1700435709; x=1701040509;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G6/k5GA4Zu2CBZHKMjmxzODMRb4rQCOlqXBDpojsfK4=;
+        b=hR9IMFN4XjW5JV0/LmJdhIMgSEf9y/KyjCUT1MJf7428Aoj/E3nynw5I59A12qDBru
+         Z/BIq2x1nyS4mrZ/zPdYVYQAnQEA2ySbbnbsuc+n9ln/bko/Trh6SoiBpDzfKraJf2A8
+         g1VoSzBlLaBht+3D+V54ZVI40bx3ZCVwWj2zMpXfm4F2XCcyJHYu2NzjMTyoBQqzzcrb
+         ptOpWa5F3IZeLZqr6wW9n0DtbmN/eDMzZtc7VhSa0EDAXKX3q3wXR4DhfIWXKGdwNHd1
+         ybYDG/l58Qa2SSPfcuJcWVXi0LlcSl3ei3cij2ABgL3bdt+SbgYt3q/FhfX74VH8wdnc
+         fc+g==
+X-Gm-Message-State: AOJu0YzN/LPTBFQnwj/tzflTXasqQ1r5MHW8sKoi8huXMsplgbQ2rCWQ
+	TYDtUkb6AKD9N/yTWb4p2tI=
+X-Google-Smtp-Source: AGHT+IGZD+EOLCB2oniF4xIOMnu0nOKZnxU9Sb/a4aFuMwwTyHgjsXLjF0jrEAksNzjiyG0JL5bEQg==
+X-Received: by 2002:a05:6a21:9812:b0:187:72e7:6d8c with SMTP id ue18-20020a056a21981200b0018772e76d8cmr3714726pzb.31.1700435709219;
+        Sun, 19 Nov 2023 15:15:09 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id z10-20020a17090a1fca00b0028010142010sm7148064pjz.21.2023.11.19.15.15.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Nov 2023 06:34:45 -0800 (PST)
-Received: (nullmailer pid 173773 invoked by uid 1000);
-	Sun, 19 Nov 2023 14:34:41 -0000
-Date: Sun, 19 Nov 2023 08:34:41 -0600
-From: Rob Herring <robh@kernel.org>
-To: Doug Anderson <dianders@chromium.org>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Chen-Yu Tsai <wenst@chromium.org>, Frank Rowand <frowand.list@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Hsin-Yi Wang <hsinyi@chromium.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, andriy.shevchenko@linux.intel.com, Jiri Kosina <jikos@kernel.org>, linus.walleij@linaro.org, broonie@kernel.org, gregkh@linuxfoundation.org, hdegoede@redhat.com, james.clark@arm.com, james@equiv.tech, keescook@chromium.org, petr.tesarik.ext@huawei.com, rafael@kernel.org, tglx@linutronix.de, Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: Re: [RFC PATCH v2 0/7] of: Introduce hardware prober driver
-Message-ID: <20231119143441.GA157654-robh@kernel.org>
-References: <20231109100606.1245545-1-wenst@chromium.org>
- <859ac058-c50a-4eb8-99b6-3011ef4e7529@collabora.com>
- <CAL_JsqK64w3+r_LJZoh50PzAUcsvH6ahSDCqgSiKrD3LBAXE9g@mail.gmail.com>
- <CAD=FV=VUZy9DaZgKafSpXXopD5k8ExGSR97BjAqC5tupPoxNfQ@mail.gmail.com>
- <CAL_Jsq+puq20EWkQg1RTs2zfmh4DGbqz1krp+19c=wPXnLT5dA@mail.gmail.com>
- <CAD=FV=X-17COQ2-tycV1bSuCrGy7MJ88Un8nA-a-ODexvgi9TQ@mail.gmail.com>
- <CAL_JsqKR_YD6hm4Lv+OuCKms8Ha61BZRKUuiLYPgSkz3_3NCFA@mail.gmail.com>
- <CAD=FV=XO5VNuaVKwBHLQC1ukdpHQO0-XTaKnRM=rigbcdOytgQ@mail.gmail.com>
+        Sun, 19 Nov 2023 15:15:08 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id AD6CE101D818B; Mon, 20 Nov 2023 06:15:05 +0700 (WIB)
+Date: Mon, 20 Nov 2023 06:15:05 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: =?utf-8?B?QW5kcsOp?= Kunz <donatusmusic@gmx.de>,
+	Linux Stable <stable@vger.kernel.org>,
+	Linux Input Devices <linux-input@vger.kernel.org>,
+	Linux Regressions <regressions@lists.linux.dev>
+Cc: Filipe =?utf-8?B?TGHDrW5z?= <lains@riseup.net>,
+	Bastien Nocera <hadess@hadess.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: Re: Found a bug with my gaming gear
+Message-ID: <ZVqW-Ux7NM2958MR@archie.me>
+References: <bd1a6eb1-a8af-4181-b9e4-c7b8d3af1eea@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="t4to0E1nKF26Mn34"
+Content-Disposition: inline
+In-Reply-To: <bd1a6eb1-a8af-4181-b9e4-c7b8d3af1eea@gmx.de>
+
+
+--t4to0E1nKF26Mn34
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=XO5VNuaVKwBHLQC1ukdpHQO0-XTaKnRM=rigbcdOytgQ@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 15, 2023 at 05:13:50PM -0500, Doug Anderson wrote:
-> Hi,
-> 
-> On Wed, Nov 15, 2023 at 4:35 PM Rob Herring <robh+dt@kernel.org> wrote:
-> >
-> > On Wed, Nov 15, 2023 at 2:45 PM Doug Anderson <dianders@chromium.org> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Wed, Nov 15, 2023 at 2:28 PM Rob Herring <robh+dt@kernel.org> wrote:
-> > > >
-> > > > > So if we're searching the whole device tree for "failed-needs-probe"
-> > > > > then we need to figure out which devices are related to each other. If
-> > > > > a given board has second sources for MIPI panels, touchscreens, and
-> > > > > trackpads then we need to know which of the "failed-needs-probe"
-> > > > > devices are trackpads, which are touchscreens, and which are MIPI
-> > > > > panels. Do you have any suggestions for how we should do that? Maybe
-> > > > > it was in some other thread that I missed? I guess we could have a
-> > > > > board-specific table mapping (compatible + node name + reg) to a
-> > > > > class, but that feels awkward.
-> > > >
-> > > > Node name is supposed to correspond to device class, so why not use
-> > > > that (no path or unit-address.) and nothing else (well, besides
-> > > > "status")?
-> > >
-> > > One problem is that I could imagine having two second source trackpads
-> > > that both have the same i2c address. That would give them the same
-> > > name, right? I guess you could maybe come up with some sort of suffix
-> > > rule? Like
-> > >
-> > > trackpad-1@10 {
-> > >   compatible = "elan,blah";
-> > >   ret = <0x10>;
-> > >   status = "failed-needs-probe";
-> > >   ...
-> > > }
-> > > trackpad-2@10 {
-> > >   compatible = "goodix,gt7375p";
-> > >   ret = <0x10>;
-> > >   status = "failed-needs-probe";
-> > >   ...
-> > > }
-> > >
-> > > Then I guess the class would be "trackpad"?
-> >
-> > That issue is somewhat orthogonal because it is not following the spec.
-> 
-> I'm not sure why you say it's orthogonal. The whole reason why we get
-> into the situation above is that we could have two devices, only one
-> of which is present (hence the status of "failed-needs-probe"), that
-> are the same type and have the same "reg" address.
+On Thu, Nov 16, 2023 at 11:41:34PM +0100, Andr=C3=A9 Kunz wrote:
+> Hey there guys,
+>=20
+> This is my first kernel "bug" report ever, so please bear with me if I
+> didn't catch the precise right way to report this.
+>=20
+> The bug I've found:
+>=20
+> I'm running stable kernel 6.6.1-1 and as soon as I install it, many of
+> my mouse's hardware buttons stop working. I have a Logitech G502 X Plus
+> (it's a wireless mouse). As soon as I install 6.6.1 the mouse's hardware
+> buttons won't work, i.e. only the two side-buttons would work, not the
+> buttons (and/or my created profiles/macros) would. I have a few macros
+> assigned to some buttons, which work perfectly fine under 6.5.11 (and
+> earlier), but as soon as I'm on 6.6 they'd stop working.
+>=20
+> Just wanted to report this and I hope there can be a fix.
+>=20
 
-I just mean that defining a node name for 2 devices of the same class 
-and at same address is separate problem from selecting which one to 
-enable.
+Thanks for the regression report. I'm adding it to regzbot:
 
-> 
-> Essentially the whole "failed-needs-probe" is extending the spec,
-> right? While extending the spec, we also need to talk about what to do
-> if some of the devices that we need to probe have the same class and
-> the same "reg".
-> 
-> 
-> > I'm not sure mixing the 2 styles of node names is a good idea. While
-> > not used too much, matching by node name does ignore the unit-address,
-> > but I'm not sure we could ignore a '-N'.
-> >
-> > I think our options are either add something to the unit-address or
-> > use i2c-mux binding. Adding to the unit-address is not unprecedented.
-> > I did that for some of the register bit level bindings where you have
-> > a node for different bits at the same address. The downside is
-> > unit-address is bus specific, so we'd have to add that for multiple
-> > buses. For the i2c-mux, it's perhaps a bit complex and I'm not sure
-> > what if anything you'd have to do to manage the mux that's not really
-> > there.
-> 
-> Somehow it feels weird to use an i2c-mux because there's no real mux
-> present, right? ...so this would be a virtual (bogus) device that
-> doesn't really exist in hardware.
+#regzbot ^introduced: v6.5..v6.6
+#regzbot title: only two side buttons of Logitech G502 X Plus works on kern=
+el 6.6.1
 
-Yes, shrug... 
+--=20
+An old man doll... just what I always wanted! - Clara
 
+--t4to0E1nKF26Mn34
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> ...though I guess if the "mux" type binding is OK then maybe we just
-> use that as the HW prober, at least for i2c devices...
+-----BEGIN PGP SIGNATURE-----
 
-Except for any other case where it's different addresses or different 
-buses. Maybe different addresses could still use the same thing. I 
-suppose the same class of device is unlikely to be on a different bus.
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZVqW9QAKCRD2uYlJVVFO
+o8PPAQCq0F+cAeJ176ztPmrCMvN0ZhNToRKuvLv1ZWZyFDA1+AD+PRj9t7cEmyF5
+dFgpz6+r6olAybxIkgk5DXSb/31v9Aw=
+=Yfpq
+-----END PGP SIGNATURE-----
 
-An extension to the unit-address would be the simpler solution, so we 
-should explore that first I think.
-
-Rob
+--t4to0E1nKF26Mn34--
 
