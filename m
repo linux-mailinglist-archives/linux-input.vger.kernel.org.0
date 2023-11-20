@@ -1,107 +1,101 @@
-Return-Path: <linux-input+bounces-140-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-141-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F318E7F1D5D
-	for <lists+linux-input@lfdr.de>; Mon, 20 Nov 2023 20:33:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55CBD7F1DF9
+	for <lists+linux-input@lfdr.de>; Mon, 20 Nov 2023 21:23:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3074A1C2183A
-	for <lists+linux-input@lfdr.de>; Mon, 20 Nov 2023 19:33:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0FD9E282337
+	for <lists+linux-input@lfdr.de>; Mon, 20 Nov 2023 20:23:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 718CC36AF0;
-	Mon, 20 Nov 2023 19:33:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AF2036B06;
+	Mon, 20 Nov 2023 20:23:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jEEFWC8P"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UJqmfgyA"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6B68B9
-	for <linux-input@vger.kernel.org>; Mon, 20 Nov 2023 11:33:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700508825;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z3iOt6TF4m21HqgKip0VNs6/jW+2VNd+2q+MwQfbRg0=;
-	b=jEEFWC8PaX4FfA+0ptzxCRsBkWCe98ArMSrdID01FpOXoYl/GeWQ9ahdtoip+aeXgWFq7e
-	XU/64XE0xD3y6Fa7yOf2Spr82ww6XcpqqL/pD+uywTPsrj63IlZhAqwoOmIGomFBtthyw6
-	+qhTvwxC0vplTP6Dz8U/KNwwtv6pS58=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-144-nwnsRGyiOdWAYz0przMNAQ-1; Mon,
- 20 Nov 2023 14:33:38 -0500
-X-MC-Unique: nwnsRGyiOdWAYz0przMNAQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 26DE43804524;
-	Mon, 20 Nov 2023 19:33:38 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.193.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3F3132166B26;
-	Mon, 20 Nov 2023 19:33:36 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Julian Sax <jsbc@gmx.de>,
-	ahormann@gmx.net,
-	Bruno Jesus <bruno.fl.jesus@gmail.com>,
-	Dietrich <enaut.w@googlemail.com>,
-	kloxdami@yahoo.com,
-	Tim Aldridge <taldridge@mac.com>,
-	Rene Wagner <redhatbugzilla@callerid.de>,
-	Federico Ricchiuto <fed.ricchiuto@gmail.com>,
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72F8DE8;
+	Mon, 20 Nov 2023 12:23:25 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-507bd64814fso6708038e87.1;
+        Mon, 20 Nov 2023 12:23:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700511803; x=1701116603; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lKHqxNOb0s+yYoiwVra6G4KKWe01UXwqHln/ApyC2m4=;
+        b=UJqmfgyAh/3nLkP39+aMZROgvKTO5UM0D+r+M923uueKERFDqUOv2DUdvDXN7PPR9D
+         rOAGTGqPzSv0+G94kJw2BhceK0zmUexZEB1e9VAxwHTofK9ExPlGJdVajz36ph7L4iUB
+         76CTS6IFHvKC+jn4vvFiR9W8sKOMMNwI9Y3T/qOREZqH4PYi0B5Pdf2zplOjvgPDBR7o
+         BgsJIms2TFJ/yFGXo9J32mDWu/46uwqqUojnPK4E4/hTaftYaOdJJSXJYputnAoaIxAn
+         H4RLsFtC19YjQ1dGQ3rY+kneV3qDx3Mtrdsm+lTh68/nsr1Wuqvpqqzp9GTzKvnNQuKz
+         EsXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700511803; x=1701116603;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lKHqxNOb0s+yYoiwVra6G4KKWe01UXwqHln/ApyC2m4=;
+        b=Goz24CwTX538ynYYf5bELA6T4cm8i7NjzjSxykkeMiRZlpKkYojVHw3W1CvYSWJI9x
+         UBZtc+1PwM1aLDlS2rC/w1+7ONeOJsLxJlQTam935pNTDq/MXoES2eMJgXQTPWa0b31f
+         ry8QCtkWanMX2JcJnrdsMG6e32W1RxEkQ5JaSXwc4wAsA1fF0qF7Fci9G90fJMhmFpH/
+         TIOkTsPHIv5NB8KHuVDHQH6PWO4NJSO7FdPkakOc7BEt//zHVx4WS3fHaXtlaI3HLifK
+         GJaMn7oGlhQbpLbWF44EVkOKDf5ZPXG7cgLRqmijOYbyx3myBpxTs3huyxjybdIaf/su
+         +YCQ==
+X-Gm-Message-State: AOJu0YwFoYS/YRd825lUuzBHkdXVzom30AnOf+ITTJlciMX34DB1mEqp
+	0tuvwanjtN4TK7bdKglVn48=
+X-Google-Smtp-Source: AGHT+IFhXcnX4W2V7BVPtVW8s0A9taRDZ0J2v7bLApCBOk+kw4ysyv1kTbiCoFZmZAbjQLPwtNoywQ==
+X-Received: by 2002:a05:651c:3da:b0:2c8:7443:d111 with SMTP id f26-20020a05651c03da00b002c87443d111mr4938734ljp.10.1700511803167;
+        Mon, 20 Nov 2023 12:23:23 -0800 (PST)
+Received: from tp440p.steeds.sam ([2602:fbf6:10:a::2])
+        by smtp.gmail.com with ESMTPSA id uz4-20020a170907118400b009fc2a76ddedsm2357663ejb.17.2023.11.20.12.23.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Nov 2023 12:23:22 -0800 (PST)
+Date: Mon, 20 Nov 2023 22:23:13 +0200
+From: Sicelo <absicsz@gmail.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: David Lechner <dlechner@baylibre.com>, linux-iio@vger.kernel.org,
+	maemo-leste@lists.dyne.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
 	linux-input@vger.kernel.org
-Subject: [RFC v2 7/7] HID: i2c-hid: Renumber I2C_HID_QUIRK_ defines
-Date: Mon, 20 Nov 2023 20:33:13 +0100
-Message-ID: <20231120193313.666912-8-hdegoede@redhat.com>
-In-Reply-To: <20231120193313.666912-1-hdegoede@redhat.com>
-References: <20231120193313.666912-1-hdegoede@redhat.com>
+Subject: Re: supporting binary (near-far) proximity sensors over gpio
+Message-ID: <ZVvAMbggKe9WLmw1@tp440p.steeds.sam>
+References: <ZVevR_ajeB1jfDS9@tp440p.steeds.sam>
+ <CAMknhBE5A3w7ntdWC9cFDYSrPQNPoH7sQ5PVXKEy6MAJmZ93SA@mail.gmail.com>
+ <20231120173131.000058a2@Huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231120173131.000058a2@Huawei.com>
 
-The quirks variable and the I2C_HID_QUIRK_ defines are never used /
-exported outside of the i2c-hid code renumber them to start at
-BIT(0) again.
+Hi
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/hid/i2c-hid/i2c-hid-core.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+On Mon, Nov 20, 2023 at 05:31:31PM +0000, Jonathan Cameron wrote:
+> > Since this is really a proximity switch (it is either on or off)
+> > rather than measuring a proximity value over a continuous range, it
+> > doesn't seem like a good fit for the iio subsystem. If the sensor is
+> > on a phone, then it is likely to detect human presence so the input
+> > subsystem does seem like the right one for that application.
+> > 
+> > More at https://www.kernel.org/doc/html/latest/driver-api/iio/intro.html
+> > 
+> Agreed.  This one at least has a working distance of 30mm sensor, so
+> definitely switch type usecases where input tends to be the right choice.
+> 
+> If we wanted to use proximity range sensor for this usecase, we'd probably
+> bridge it to input (maybe in userspace, maybe in kernel) from the
+> underlying IIO driver.
+> 
+> Jonathan
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 3bdfd3e89de5..151d5a5c87ca 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -44,11 +44,11 @@
- #include "i2c-hid.h"
- 
- /* quirks to control the device */
--#define I2C_HID_QUIRK_NO_IRQ_AFTER_RESET	BIT(1)
--#define I2C_HID_QUIRK_BOGUS_IRQ			BIT(4)
--#define I2C_HID_QUIRK_RESET_ON_RESUME		BIT(5)
--#define I2C_HID_QUIRK_BAD_INPUT_SIZE		BIT(6)
--#define I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET	BIT(7)
-+#define I2C_HID_QUIRK_NO_IRQ_AFTER_RESET	BIT(0)
-+#define I2C_HID_QUIRK_BOGUS_IRQ			BIT(1)
-+#define I2C_HID_QUIRK_RESET_ON_RESUME		BIT(2)
-+#define I2C_HID_QUIRK_BAD_INPUT_SIZE		BIT(3)
-+#define I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET	BIT(4)
- 
- /* Command opcodes */
- #define I2C_HID_OPCODE_RESET			0x01
--- 
-2.41.0
+Thank you so much for the input. It makes sense.
 
+Sincerely
+Sicelo
 
