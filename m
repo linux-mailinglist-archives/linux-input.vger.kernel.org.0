@@ -1,111 +1,124 @@
-Return-Path: <linux-input+bounces-143-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-144-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D9AB7F1E3B
-	for <lists+linux-input@lfdr.de>; Mon, 20 Nov 2023 21:54:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0357F1FF1
+	for <lists+linux-input@lfdr.de>; Mon, 20 Nov 2023 23:06:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5DBC01C20D67
-	for <lists+linux-input@lfdr.de>; Mon, 20 Nov 2023 20:54:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F1AD3282409
+	for <lists+linux-input@lfdr.de>; Mon, 20 Nov 2023 22:06:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2C82225CA;
-	Mon, 20 Nov 2023 20:53:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD11439848;
+	Mon, 20 Nov 2023 22:06:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="eLNR+Dfu"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gRM72vDw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7982D2;
-	Mon, 20 Nov 2023 12:53:53 -0800 (PST)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 7E54A1C0050; Mon, 20 Nov 2023 21:53:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1700513632;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T6LfoMY/Fvp0UXzBZ+W7X81hPAVnp3D1vcRIVa9CydA=;
-	b=eLNR+DfutupDoKP3c+C0DbY1+lXsFmpXNqcRY2eGyyJiC+LFIxjZecUl6vD1nvFUkbTnB2
-	YmqpbfQNE0HH5kFd/oyl997swsjsEr5veurdUfW7I5FcrEMyOV3zJH200Dv6srV1ymkYhb
-	YI7sDEE4i1X6oCwkGwaPtFw5K209GFU=
-Date: Mon, 20 Nov 2023 21:53:52 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, jikos@kernel.org
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Lee Jones <lee@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Werner Sembach <wse@tuxedocomputers.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	linux-input@vger.kernel.org, ojeda@kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-Message-ID: <ZVvHYAsM1p8O7J8r@duo.ucw.cz>
-References: <ZSe1GYLplZo5fsAe@duo.ucw.cz>
- <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
- <ZSf9QneKO/8IzWhd@duo.ucw.cz>
- <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
- <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
- <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <ZSmg4tqXiYiX18K/@duo.ucw.cz>
- <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
- <87sf61bm8t.fsf@intel.com>
- <CANiq72kvZcNp2ocXoqBae9q2UW+RPQy3dXUr+QS-izKpM1yyoA@mail.gmail.com>
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4BD4E3
+	for <linux-input@vger.kernel.org>; Mon, 20 Nov 2023 14:06:03 -0800 (PST)
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-9fffa4c4f43so143046466b.3
+        for <linux-input@vger.kernel.org>; Mon, 20 Nov 2023 14:06:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1700517959; x=1701122759; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F5xCISuJl03JzTUtNeMk98+Y5may7EpY5qxBQYc7F6M=;
+        b=gRM72vDwbg9EIGwcM/nHA44cMXQuhy4tnfBSQwTlMSBNucdw0+NCwJwr/AMSVfezDd
+         9ZAJrL6VeqxMkZ87lRv9cW/g3129UypCzoj5+cIigbT5hU5y3TWC6OoB6C0U9WQzYX0a
+         cKk8u4fPEJoeiUB2cx8FZoj8asQKHUfHItB0g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700517959; x=1701122759;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=F5xCISuJl03JzTUtNeMk98+Y5may7EpY5qxBQYc7F6M=;
+        b=QV0342VGfdiS6goiO8KpnxQ9kWj59VTrPvVxI159Z6VDlbXybK8Cy1rcqs1JpG6ozs
+         Gb/VdGcGvDSBSLPvmKl40GMbuW4vE8OxXijYMM3RwrXATzL0ecXllfbVHtlC642p3lol
+         i6hM82XYEsQ8EoI1iH+2KaWmK4o1AabC8/PzHQpVlN8wzo+8xut3s+uc1lFFgBfBydGQ
+         qOSkk48/P8IbL4BSlpnax3FuimSmNdvg9kwGcpnxNMtcAEoBBrpRd29OSgn22Io+ZGb0
+         dO0dFJC7m98WZE1N9NkprR51vUx2aQmvlLC2TYojwzCIhk69nooC/Y/L1F4uZS1Yo1rV
+         nz1A==
+X-Gm-Message-State: AOJu0YyjL08A4kGkmbqLoH/wN5ZTzyRJ+DdVwbRm69anV+G93B4FwNZC
+	uywFUlcbolb/kMnUHexQiMFJxt5TpaewLnA7yJMkwg==
+X-Google-Smtp-Source: AGHT+IE2O29SCq23iWvbpGt3x/b1NnCCdjLX3a8NTl/AD8b0fo7DGE+jbEnJSXybSJ68w9vQ1Sfk4Q==
+X-Received: by 2002:a17:906:2787:b0:9fd:1cd7:f68d with SMTP id j7-20020a170906278700b009fd1cd7f68dmr3889540ejc.67.1700517958503;
+        Mon, 20 Nov 2023 14:05:58 -0800 (PST)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com. [209.85.128.51])
+        by smtp.gmail.com with ESMTPSA id e10-20020a170906314a00b009a13fdc139fsm4298118eje.183.2023.11.20.14.05.57
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Nov 2023 14:05:58 -0800 (PST)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-408c6ec1fd1so6705e9.1
+        for <linux-input@vger.kernel.org>; Mon, 20 Nov 2023 14:05:57 -0800 (PST)
+X-Received: by 2002:a05:600c:3c8b:b0:3f7:3e85:36a with SMTP id
+ bg11-20020a05600c3c8b00b003f73e85036amr432589wmb.7.1700517957474; Mon, 20 Nov
+ 2023 14:05:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="9jeVF7q2cF6LMKnm"
-Content-Disposition: inline
-In-Reply-To: <CANiq72kvZcNp2ocXoqBae9q2UW+RPQy3dXUr+QS-izKpM1yyoA@mail.gmail.com>
-
-
---9jeVF7q2cF6LMKnm
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20231120193313.666912-1-hdegoede@redhat.com> <20231120193313.666912-2-hdegoede@redhat.com>
+In-Reply-To: <20231120193313.666912-2-hdegoede@redhat.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 20 Nov 2023 14:05:39 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=W0Erw0MHB-MeSOTNYy3Nd9ea69ke742wd6_dsUtTbB8A@mail.gmail.com>
+Message-ID: <CAD=FV=W0Erw0MHB-MeSOTNYy3Nd9ea69ke742wd6_dsUtTbB8A@mail.gmail.com>
+Subject: Re: [RFC v2 1/7] HID: i2c-hid: Fold i2c_hid_execute_reset() into i2c_hid_hwreset()
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+	Julian Sax <jsbc@gmx.de>, ahormann@gmx.net, Bruno Jesus <bruno.fl.jesus@gmail.com>, 
+	Dietrich <enaut.w@googlemail.com>, kloxdami@yahoo.com, 
+	Tim Aldridge <taldridge@mac.com>, Rene Wagner <redhatbugzilla@callerid.de>, 
+	Federico Ricchiuto <fed.ricchiuto@gmail.com>, linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon 2023-10-23 13:44:46, Miguel Ojeda wrote:
-> On Mon, Oct 23, 2023 at 1:40=E2=80=AFPM Jani Nikula <jani.nikula@linux.in=
-tel.com> wrote:
-> >
-> > One could also reasonably make the argument that controlling the
-> > individual keyboard key backlights should be part of the input
-> > subsystem. It's not a display per se. (Unless you actually have small
-> > displays on the keycaps, and I think that's a thing too.)
-> >
-> > There's force feedback, there could be light feedback? There's also
-> > drivers/input/input-leds.c for the keycaps that have leds, like caps
-> > lock, num lock, etc.
-> >
-> > Anyway, just throwing ideas around, no strong opinions, really.
->=20
-> Yeah, sounds quite reasonable too, in fact it may make more sense
-> there given the LEDs are associated per-key rather than being an
-> uniform matrix in a rectangle if I understand correctly. If the input
-> subsystem wants to take it, that would be great.
+Hi,
 
-Unfortunately we are getting no input from input subsystem. Question
-seems to be more of "is auxdisplay willing to take it if it is done
-properly"?
+On Mon, Nov 20, 2023 at 11:33=E2=80=AFAM Hans de Goede <hdegoede@redhat.com=
+> wrote:
+>
+> @@ -482,21 +442,50 @@ static int i2c_hid_hwreset(struct i2c_hid *ihid)
+>
+>         ret =3D i2c_hid_set_power(ihid, I2C_HID_PWR_ON);
+>         if (ret)
+> -               goto out_unlock;
+> +               goto err_unlock;
+>
+> -       ret =3D i2c_hid_execute_reset(ihid);
+> +       /* Prepare reset command. Command register goes first. */
+> +       *(__le16 *)ihid->cmdbuf =3D ihid->hdesc.wCommandRegister;
+> +       length +=3D sizeof(__le16);
+> +       /* Next is RESET command itself */
+> +       length +=3D i2c_hid_encode_command(ihid->cmdbuf + length,
+> +                                        I2C_HID_OPCODE_RESET, 0, 0);
+> +
+> +       set_bit(I2C_HID_RESET_PENDING, &ihid->flags);
+> +
+> +       ret =3D i2c_hid_xfer(ihid, ihid->cmdbuf, length, NULL, 0);
+>         if (ret) {
+>                 dev_err(&ihid->client->dev,
+>                         "failed to reset device: %d\n", ret);
+> -               i2c_hid_set_power(ihid, I2C_HID_PWR_SLEEP);
+> -               goto out_unlock;
+> +               goto err_clear_reset;
+>         }
+>
+> +       i2c_hid_dbg(ihid, "%s: waiting...\n", __func__);
+> +
+> +       if (ihid->quirks & I2C_HID_QUIRK_NO_IRQ_AFTER_RESET) {
+> +               msleep(100);
+> +               clear_bit(I2C_HID_RESET_PENDING, &ihid->flags);
+> +       }
+> +
+> +       if (!wait_event_timeout(ihid->wait,
 
-Best regards,
-								Pavel
-
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---9jeVF7q2cF6LMKnm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZVvHYAAKCRAw5/Bqldv6
-8tamAJ9ay6bqjz3WKWY0hzcjA1oaf0rrFACghHK4/NlmCVR1KurSm8xzJvVcKSs=
-=1Jqp
------END PGP SIGNATURE-----
-
---9jeVF7q2cF6LMKnm--
+optional: as mentioned in v1, I probably would have made the above an
+"else if" to make it clear that it's not ever true if you ran the
+"I2C_HID_QUIRK_NO_IRQ_AFTER_RESET" logic.
 
