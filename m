@@ -1,101 +1,142 @@
-Return-Path: <linux-input+bounces-141-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-142-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55CBD7F1DF9
-	for <lists+linux-input@lfdr.de>; Mon, 20 Nov 2023 21:23:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A57B97F1E36
+	for <lists+linux-input@lfdr.de>; Mon, 20 Nov 2023 21:52:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0FD9E282337
-	for <lists+linux-input@lfdr.de>; Mon, 20 Nov 2023 20:23:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 502541F25913
+	for <lists+linux-input@lfdr.de>; Mon, 20 Nov 2023 20:52:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AF2036B06;
-	Mon, 20 Nov 2023 20:23:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 762B020B1E;
+	Mon, 20 Nov 2023 20:52:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UJqmfgyA"
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="LC/ryqAw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72F8DE8;
-	Mon, 20 Nov 2023 12:23:25 -0800 (PST)
-Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-507bd64814fso6708038e87.1;
-        Mon, 20 Nov 2023 12:23:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700511803; x=1701116603; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lKHqxNOb0s+yYoiwVra6G4KKWe01UXwqHln/ApyC2m4=;
-        b=UJqmfgyAh/3nLkP39+aMZROgvKTO5UM0D+r+M923uueKERFDqUOv2DUdvDXN7PPR9D
-         rOAGTGqPzSv0+G94kJw2BhceK0zmUexZEB1e9VAxwHTofK9ExPlGJdVajz36ph7L4iUB
-         76CTS6IFHvKC+jn4vvFiR9W8sKOMMNwI9Y3T/qOREZqH4PYi0B5Pdf2zplOjvgPDBR7o
-         BgsJIms2TFJ/yFGXo9J32mDWu/46uwqqUojnPK4E4/hTaftYaOdJJSXJYputnAoaIxAn
-         H4RLsFtC19YjQ1dGQ3rY+kneV3qDx3Mtrdsm+lTh68/nsr1Wuqvpqqzp9GTzKvnNQuKz
-         EsXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700511803; x=1701116603;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lKHqxNOb0s+yYoiwVra6G4KKWe01UXwqHln/ApyC2m4=;
-        b=Goz24CwTX538ynYYf5bELA6T4cm8i7NjzjSxykkeMiRZlpKkYojVHw3W1CvYSWJI9x
-         UBZtc+1PwM1aLDlS2rC/w1+7ONeOJsLxJlQTam935pNTDq/MXoES2eMJgXQTPWa0b31f
-         ry8QCtkWanMX2JcJnrdsMG6e32W1RxEkQ5JaSXwc4wAsA1fF0qF7Fci9G90fJMhmFpH/
-         TIOkTsPHIv5NB8KHuVDHQH6PWO4NJSO7FdPkakOc7BEt//zHVx4WS3fHaXtlaI3HLifK
-         GJaMn7oGlhQbpLbWF44EVkOKDf5ZPXG7cgLRqmijOYbyx3myBpxTs3huyxjybdIaf/su
-         +YCQ==
-X-Gm-Message-State: AOJu0YwFoYS/YRd825lUuzBHkdXVzom30AnOf+ITTJlciMX34DB1mEqp
-	0tuvwanjtN4TK7bdKglVn48=
-X-Google-Smtp-Source: AGHT+IFhXcnX4W2V7BVPtVW8s0A9taRDZ0J2v7bLApCBOk+kw4ysyv1kTbiCoFZmZAbjQLPwtNoywQ==
-X-Received: by 2002:a05:651c:3da:b0:2c8:7443:d111 with SMTP id f26-20020a05651c03da00b002c87443d111mr4938734ljp.10.1700511803167;
-        Mon, 20 Nov 2023 12:23:23 -0800 (PST)
-Received: from tp440p.steeds.sam ([2602:fbf6:10:a::2])
-        by smtp.gmail.com with ESMTPSA id uz4-20020a170907118400b009fc2a76ddedsm2357663ejb.17.2023.11.20.12.23.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 12:23:22 -0800 (PST)
-Date: Mon, 20 Nov 2023 22:23:13 +0200
-From: Sicelo <absicsz@gmail.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: David Lechner <dlechner@baylibre.com>, linux-iio@vger.kernel.org,
-	maemo-leste@lists.dyne.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	linux-input@vger.kernel.org
-Subject: Re: supporting binary (near-far) proximity sensors over gpio
-Message-ID: <ZVvAMbggKe9WLmw1@tp440p.steeds.sam>
-References: <ZVevR_ajeB1jfDS9@tp440p.steeds.sam>
- <CAMknhBE5A3w7ntdWC9cFDYSrPQNPoH7sQ5PVXKEy6MAJmZ93SA@mail.gmail.com>
- <20231120173131.000058a2@Huawei.com>
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CB47CC;
+	Mon, 20 Nov 2023 12:52:46 -0800 (PST)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 3238D1C0050; Mon, 20 Nov 2023 21:52:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1700513564;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XmYv3UZocdypqxuydUEGfEMndPZRJHoMutba992HhG4=;
+	b=LC/ryqAwHZMovN00YnWHQnp6TzEJCoa/1N8SH+6PrNzOIChJA8sbYrJ4hLlp/BDrG0q7Mm
+	lHy/fJ4jdc0pQ0VhuxmAKsc1YGGbCUUrNuo6Atj1H1D/qKz1xkum6UnNDsLzYQs019SBjY
+	iSDcC+FWipuxZ7+GT08fRqJ0tKEB4AY=
+Date: Mon, 20 Nov 2023 21:52:43 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Jani Nikula <jani.nikula@linux.intel.com>, hdegoede@redhat.com,
+	jikos@kernel.org
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+	Werner Sembach <wse@tuxedocomputers.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	linux-input@vger.kernel.org, ojeda@kernel.org,
+	linux-leds@vger.kernel.org
+Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+Message-ID: <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
+ <ZSe1GYLplZo5fsAe@duo.ucw.cz>
+ <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
+ <ZSf9QneKO/8IzWhd@duo.ucw.cz>
+ <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
+ <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
+ <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+ <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+ <87sf61bm8t.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="iuztSBtSd0N/7Hw5"
+Content-Disposition: inline
+In-Reply-To: <87sf61bm8t.fsf@intel.com>
+
+
+--iuztSBtSd0N/7Hw5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231120173131.000058a2@Huawei.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi
+Hi!
 
-On Mon, Nov 20, 2023 at 05:31:31PM +0000, Jonathan Cameron wrote:
-> > Since this is really a proximity switch (it is either on or off)
-> > rather than measuring a proximity value over a continuous range, it
-> > doesn't seem like a good fit for the iio subsystem. If the sensor is
-> > on a phone, then it is likely to detect human presence so the input
-> > subsystem does seem like the right one for that application.
-> > 
-> > More at https://www.kernel.org/doc/html/latest/driver-api/iio/intro.html
-> > 
-> Agreed.  This one at least has a working distance of 30mm sensor, so
-> definitely switch type usecases where input tends to be the right choice.
-> 
-> If we wanted to use proximity range sensor for this usecase, we'd probably
-> bridge it to input (maybe in userspace, maybe in kernel) from the
-> underlying IIO driver.
-> 
-> Jonathan
+> >> So... a bit of rationale. The keyboard does not really fit into the
+> >> LED subsystem; LEDs are expected to be independent ("hdd led") and not
+> >> a matrix of them.
+> >
+> > Makes sense.
+> >
+> >> We do see various strange displays these days -- they commonly have
+> >> rounded corners and holes in them. I'm not sure how that's currently
+> >> supported, but I believe it is reasonable to view keyboard as a
+> >> display with slightly weird placing of pixels.
+> >>
+> >> Plus, I'd really like to play tetris on one of those :-).
+> >>
+> >> So, would presenting them as auxdisplay be acceptable? Or are there
+> >> better options?
+> >
+> > It sounds like a fair use case -- auxdisplay are typically simple
+> > character-based or small graphical displays, e.g. 128x64, that may not
+> > be a "main" / usual screen as typically understood, but the concept is
+> > a bit fuzzy and we are a bit of a catch-all.
+> >
+> > And "keyboard backlight display with a pixel/color per-key" does not
+> > sound like a "main" screen, and having some cute effects displayed
+> > there are the kind of thing that one could do in the usual small
+> > graphical ones too. :)
+> >
+> > But if somebody prefers to create new categories (or subcategories
+> > within auxdisplay) to hold these, that could be nice too (in the
+> > latter case, I would perhaps suggest reorganizing all of the existing
+> > ones while at it).
+>=20
+> One could also reasonably make the argument that controlling the
+> individual keyboard key backlights should be part of the input
+> subsystem. It's not a display per se. (Unless you actually have small
+> displays on the keycaps, and I think that's a thing too.)
 
-Thank you so much for the input. It makes sense.
+While it would not be completely crazy to do that... I believe the
+backlight is more of a display and less of a keyboard. Plus input
+subystem is very far away from supporting this, and we had no input
+=66rom input people here.
 
-Sincerely
-Sicelo
+I don't think LED subsystem is right place for this, and I believe
+auxdisplay makes slightly more sense than input.
+
+Unless someone steps up, I'd suggest Werner tries to implement this as
+an auxdisplay. [And yes, this will not be simple task. RGB on LED is
+different from RGB on display. But there are other LED displays, so
+auxdisplay should handle this. Plus pixels are really funnily
+shaped. But displays with missing pixels -- aka holes for camera --
+are common in phones, and I believe we'll get variable pixel densities
+-- less dense over camera -- too. So displays will have to deal with
+these in the end.]
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--iuztSBtSd0N/7Hw5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZVvHGwAKCRAw5/Bqldv6
+8nzcAKCH+YE+d5eAe0VW6rfZmAJwikFR7gCfVhTufr+Do9q4oVaeBHZ3Xm/o9xY=
+=kzI/
+-----END PGP SIGNATURE-----
+
+--iuztSBtSd0N/7Hw5--
 
