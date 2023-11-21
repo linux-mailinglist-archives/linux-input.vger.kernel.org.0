@@ -1,134 +1,139 @@
-Return-Path: <linux-input+bounces-185-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-186-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1999B7F3250
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 16:25:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1CC37F32BA
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 16:53:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3BF871C208D2
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 15:25:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0F3DF1C21C24
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 15:53:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1EF019BCF;
-	Tue, 21 Nov 2023 15:25:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B929D5812B;
+	Tue, 21 Nov 2023 15:53:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UOKl40bI"
+	dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b="EHP3tdxu"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 217DF10CA
-	for <linux-input@vger.kernel.org>; Tue, 21 Nov 2023 07:25:24 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-a0029289b1bso254467466b.1
-        for <linux-input@vger.kernel.org>; Tue, 21 Nov 2023 07:25:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1700580321; x=1701185121; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zz8gkbBXufE/EC7nvTHjQQiY8tzszf3uuPb7T6KTUFg=;
-        b=UOKl40bIvwF0CLLXFU0FL+gquhTWhoOicqJF6W27vBHBMn+xg0xyDCRtKghjup2Jr6
-         O/jMfmTteqLBd8Ni04AfHOY3k6M8aaN5rsN2lbb4jSbwXGbhZs4/K8YOcjEtHw/w3oUN
-         TaUNGnJ1cmtfOAbmCBUpLzifTf6wZEyurCqJw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700580321; x=1701185121;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zz8gkbBXufE/EC7nvTHjQQiY8tzszf3uuPb7T6KTUFg=;
-        b=SVt/PV4RLxfkucOMdiuEMhbDweXL2cL+M06rKs81BPm3ACYEJXMPpAR/RU/2bVDBfg
-         TWDNv1IyiK0VP4F0rOoLTjROLPgJDwYdODSHX+HF78E4p9W7sf4mZIrMHIve/dAOKhG3
-         DbNxOflTJCD+3z1Uq5JMjCNfqXdamFbQLtNMwvYSKLBGzimnN2/2wWsg95sWHXjo3CHC
-         NxLbrmu8yFJC5wrX/f1fMjdWlLn/RrA5aC2lMGY2xUNJN7OwzqWkI9T1rVombNi5ZZGT
-         LR6zUMoMTF6rmG86DCggx+DB35P+7wxt/TQr/KhqZ4DgyknkltbOI5vF5evfH3P4kK56
-         5DrQ==
-X-Gm-Message-State: AOJu0YwkvXv6wLY74kjdSDzTgE+l05qLHggWaxB6CahTfBnJQ3BkqvF0
-	c9xYL0bTNqvk2Aej2dEguBdYvyvI6SysbhnI9oOkREVE
-X-Google-Smtp-Source: AGHT+IFGLJYu61OgD9Rfl8+olnDWGgVfTWoeCwuzfiAEmnf2g1d9EgxAGmmkb1dQfJxtrs2LXVUYoA==
-X-Received: by 2002:a17:906:5347:b0:a01:de07:5926 with SMTP id j7-20020a170906534700b00a01de075926mr1615939ejo.45.1700580321068;
-        Tue, 21 Nov 2023 07:25:21 -0800 (PST)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com. [209.85.208.46])
-        by smtp.gmail.com with ESMTPSA id o20-20020a170906359400b009ffba6f1aafsm2038097ejb.109.2023.11.21.07.25.20
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Nov 2023 07:25:20 -0800 (PST)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-548c6efc020so16412a12.0
-        for <linux-input@vger.kernel.org>; Tue, 21 Nov 2023 07:25:20 -0800 (PST)
-X-Received: by 2002:a05:6402:128d:b0:548:c1b1:96b2 with SMTP id
- w13-20020a056402128d00b00548c1b196b2mr2569edv.6.1700580320221; Tue, 21 Nov
- 2023 07:25:20 -0800 (PST)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2075.outbound.protection.outlook.com [40.107.6.75])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18C80132;
+	Tue, 21 Nov 2023 07:53:08 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Fkh7tq3Ggfj9pOxtIeVF5n6eSZDx9GUQmI4j9Q/ejvCQ55hiR6Ww6X30N3Wxqjw2nLIE3H/bWUpLLbd8Ag7QlMceibTG1T23+aR0oD+DLCZ9V8oPvve8qQ5IDx/wXYKRe4c80MIVSgkHH2EFM7zVsliEAuAgysEFNAJyELJ8E9sinQv7eeXihV6R+TR+baMJX3vgowpNvoUfee8QEz2+fZZpYk69B5XgGwdIf+2HZOHNgWe1r9/mHUlTuysZfaPuprsKXRmYJR9GHxuiOyRhYoCdMBWBqyvMMfA3P3wUgzGDQ9dovcmxuqkopj4xnTY8C3uHH1+Kg3dt1OBm6DLPKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cp5Bd5Dc2cafLcc1SqxB1pIoTRtbtzvQAIdyqS4OH10=;
+ b=hv2Y7YMWgL8spbCgMGbsZZDFxugGreJLmh3vxwHv+j/Y6EQpIQKyPJaxeklqxCcg3EOD1DgxQ8vs8j4ID5Se0GlN0ZD+CSd9CILaZtNAX2iBokVW87hLHzXpqBuvm9sYxuLRBEjuAouYF41is0AwxYCCcCNYR0VNwHu8iaq71rky6rIVkvdKGIX4P6QlE9OjMVVTh/JCj0kdtYZgaP3RZY9ne4UFSQa4OMw5zbmGS3k5cUgjl2mlHBKX1Mc67/wIwhYp2cznQKJfTFnggYfqQhWJB5Z3hr3aNXqU0WUCGv96rXh1u2UH3WvN0pbYhEpmPdMCS9BSeFDqJMAyqNejhg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=linaro.org smtp.mailfrom=2n.com; dmarc=fail
+ (p=none sp=none pct=100) action=none header.from=axis.com; dkim=none (message
+ not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cp5Bd5Dc2cafLcc1SqxB1pIoTRtbtzvQAIdyqS4OH10=;
+ b=EHP3tdxuB/hRsoGOoGoTcNVfx25nTzGkMvLADyEQ84HjiqrCLkiQdnbNJKkqrfwa+/Uy0Eg9a711ffgw9zVNyAuKZPqMfNafO4rJ2PVSL6f0ewGji34rW1cLSL9RKtMtfAV3Cfal1KHporY+vY9iXoliGWBvucmoaqliKi4jZrs=
+Received: from AS8P250CA0002.EURP250.PROD.OUTLOOK.COM (2603:10a6:20b:330::7)
+ by DU0PR02MB8783.eurprd02.prod.outlook.com (2603:10a6:10:411::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.28; Tue, 21 Nov
+ 2023 15:53:06 +0000
+Received: from AM2PEPF0001C70A.eurprd05.prod.outlook.com
+ (2603:10a6:20b:330:cafe::93) by AS8P250CA0002.outlook.office365.com
+ (2603:10a6:20b:330::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.28 via Frontend
+ Transport; Tue, 21 Nov 2023 15:53:06 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 195.60.68.100)
+ smtp.mailfrom=2n.com; dkim=none (message not signed) header.d=none;dmarc=fail
+ action=none header.from=axis.com;
+Received-SPF: Fail (protection.outlook.com: domain of 2n.com does not
+ designate 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com;
+Received: from mail.axis.com (195.60.68.100) by
+ AM2PEPF0001C70A.mail.protection.outlook.com (10.167.16.198) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7025.13 via Frontend Transport; Tue, 21 Nov 2023 15:53:05 +0000
+Received: from lap5cg227217h.2n.cz.axis.com (10.0.5.60) by se-mail01w.axis.com
+ (10.20.40.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 21 Nov
+ 2023 16:53:04 +0100
+From: Jiri Valek - 2N <jiriv@axis.com>
+To: <krzysztof.kozlowski+dt@linaro.org>, <dmitry.torokhov@gmail.com>
+CC: <jiriv@axis.com>, <devicetree@vger.kernel.org>,
+	<linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<robh+dt@kernel.org>, <u.kleine-koenig@pengutronix.de>
+Subject: [PATCH v6 0/2] Input: cap11xx add advanced sensitivity settings
+Date: Tue, 21 Nov 2023 16:52:48 +0100
+Message-ID: <20231121155250.613242-1-jiriv@axis.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231120193313.666912-1-hdegoede@redhat.com> <20231120193313.666912-5-hdegoede@redhat.com>
- <CAD=FV=U+emgVbnRT2yQonZ013CRmYXK1bxh8+xGGn5LCnOmL5Q@mail.gmail.com> <32d4a384-2fb3-4f67-9f14-7a639a0621bb@redhat.com>
-In-Reply-To: <32d4a384-2fb3-4f67-9f14-7a639a0621bb@redhat.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 21 Nov 2023 07:25:08 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UPiW+6CyawQXUvSOj0QH8_ynFq0GZapHCrDVc7LNAmVQ@mail.gmail.com>
-Message-ID: <CAD=FV=UPiW+6CyawQXUvSOj0QH8_ynFq0GZapHCrDVc7LNAmVQ@mail.gmail.com>
-Subject: Re: [RFC v2 4/7] HID: i2c-hid: Move i2c_hid_finish_hwreset() to after
- reading the report-descriptor
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-	Julian Sax <jsbc@gmx.de>, ahormann@gmx.net, Bruno Jesus <bruno.fl.jesus@gmail.com>, 
-	Dietrich <enaut.w@googlemail.com>, kloxdami@yahoo.com, 
-	Tim Aldridge <taldridge@mac.com>, Rene Wagner <redhatbugzilla@callerid.de>, 
-	Federico Ricchiuto <fed.ricchiuto@gmail.com>, linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: se-mail01w.axis.com (10.20.40.7) To se-mail01w.axis.com
+ (10.20.40.7)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM2PEPF0001C70A:EE_|DU0PR02MB8783:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2cc22c6e-ee60-4c19-1500-08dbeaa9f351
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	QkMfT7i5ogmO8RT5rH/8xdmWps9jtzUrp4VdtldF/NAKjRUbXnv9QbG3GH+XRr4enQB2nRQMOF+//bsPDAhljuY19oGlZBADX91pPFI2v+oVe1rC2848DHw4UVRxOSrZShxPlI+9rRGqgolIwq5KVGCsk3jIUx79dhfXffW9WvEP8GDrYwOw4L+/Cmf942mG5roU412+MZ2xGLDnaXXBaVxLdusUTbvNW/P8UADXf+2EYUx+7/ZR0Ec9vHC96ESbE5tKY2IKS6d5ISZWaqIZI8AefAbL6SmnyhsrCC/CafQFYCmiAU26q57799zX9w8bO/gpUhEO57JFtW5Dc/9QINjRyB3cUIraegQcUo0IXU99goZtlEIjF8NZk58QUwBDgzC/GPwF79vep2M+/+NRDwvmU7+wIJyVapkdlRfOKQ8ZKskDLYDBA07CcyjbWzz9W4lP6ixjlzZp8yr2YNwS/LWUHkpt4ef0nVfbkFv9jdFXEE+jU4sITrianKNV4EMTpB8X+6Zuwb/EPBLuGZj8beHODGHV3uBDPspFjOc85GQqzbckIE+2v5QQcX1MvJ+D+jHGKNkwKl/o7VnZ8F2/kf1GVcWix+mDm/C08GWTZbsqMgO3UtEg6o4In/u2XCJUEILO9wlcxOuvWE6r4AN/RbFGwREIirUaWzy1XdbJSblhMeN84IHmILpyBiElZVu3oaCU1scbqZn5nJ9ZDBtr0pEui9D0t/eWF3DFIlZ8xhWYhcspDUQBqbnNOXMQKUhd8PK3AJUF5ZgJph6JD03JBw==
+X-Forefront-Antispam-Report:
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(136003)(376002)(39860400002)(346002)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(82310400011)(36840700001)(40470700004)(46966006)(36860700001)(40480700001)(7696005)(83380400001)(6666004)(478600001)(16526019)(82740400003)(316002)(8676002)(8936002)(336012)(42882007)(2616005)(70586007)(110136005)(70206006)(426003)(54906003)(356005)(81166007)(83170400001)(47076005)(4326008)(1076003)(2906002)(5660300002)(40460700003)(26005)(41300700001)(36756003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 15:53:05.5294
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2cc22c6e-ee60-4c19-1500-08dbeaa9f351
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AM2PEPF0001C70A.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR02MB8783
 
-Hi,
+PATCH 1 - add documentation for new options
+PATCH 2 - add support for advanced settings into driver
 
-On Tue, Nov 21, 2023 at 1:53=E2=80=AFAM Hans de Goede <hdegoede@redhat.com>=
- wrote:
->
-> > Right after this loop, you have:
-> >
-> > if (ret)
-> >   return ret;
-> >
-> > That will return with the mutex held. It needs to be a "goto
-> > abort_reset". You'd also need to init `use_override` then, I think.
->
-> Ah, good catch, I will fix this for the next version.
->
-> Assuming there will be a next version. Did you read the cover-letter
-> part about the moving of the wait for reset to after the descriptor
-> read not fixing the missing reset ack 100% but rather only 50% or
-> so of the time ?
->
-> And do you have any opinion on if we should still move forward with
-> this patch-set or not ?
+Changes in v2:
+  - Removed "sensitivity-base-shift" parameter (not HW propertie) in PATCH 2.
+  - Used IRQ from I2C subsystem instead of parsing it again.
+  - Fixed some documentation issues in PATCH 1
+  
+Changes in v3:
+  - Remove incorrectly used "Reviewed-by" tag in PATCH 1 and 2
 
-I'd tend to leave it to your judgement. I have a bias towards landing
-it because it improves probe speed in a way that matches what the spec
-suggests and, IMO, probe speed is important. It also has the potential
-to avoid the need for quirks on some devices, even if it didn't work
-out that way for the device you tested with.
+Changes in v4:
+  - Remove unused variable in PATCH 2
 
-The only downside you have listed is the potential for regressions,
-but that's something that's a risk for nearly any change. This doesn't
-feel like an excessively risky change to me and, as you've pointed
-out, it's documented in the spec. If someone reports a regression then
-it seems like we should address it as it comes...
+Changes in v5:
+  - Revert IRQ parsing in PATCH 2 and move to separate PATCH 3
+  - Fix 'if' condition for properties in PATCH 1
 
+Changes in v6:
+  - Fix typo in PATCH 1 and 2
+  - Added more description to some params in PATCH 1
+  - Removed redundant "optional" label in PATCH 1
+  - PATCH 3 already applied, so it's not part of this set
 
-> > I'll also note that it seems awkward that
-> > `clear_bit(I2C_HID_RESET_PENDING, &ihid->flags)` is scattered in so
-> > many places for error handling, but I couldn't really find a better
-> > way to do it. :-P
->
-> I guess we could just no clear it? Only the wait for reset
-> wait_event_timeout() cares about its value and if we run that
-> a second time then the bit will be set to 1 again before calling
-> it anyways...    Not sure I like my own suggestion here, but
-> it is an option. I'm afraid it may bite us later thogh if we
-> ever decide to check for the bit in another place.
+Jiri Valek - 2N (2):
+  dt-bindings: input: microchip,cap11xx: add advanced sensitivity
+    settings
+  Input: cap11xx - add advanced sensitivity settings
 
-Yeah, I didn't have any great ideas either and I think it's fine as
-you have it. It just bothered me as I was reviewing and so I figured
-I'd mention it in case some brilliant idea occurred to you. ;-)
+ .../bindings/input/microchip,cap11xx.yaml     |  80 +++++-
+ drivers/input/keyboard/cap11xx.c              | 242 ++++++++++++++----
+ 2 files changed, 273 insertions(+), 49 deletions(-)
+
+-- 
+2.25.1
+
 
