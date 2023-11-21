@@ -1,159 +1,134 @@
-Return-Path: <linux-input+bounces-184-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-185-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2E17F3078
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 15:15:51 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1999B7F3250
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 16:25:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F3CBCB2122A
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 14:15:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3BF871C208D2
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 15:25:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FA2654F9B;
-	Tue, 21 Nov 2023 14:15:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1EF019BCF;
+	Tue, 21 Nov 2023 15:25:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="ylDvzFC7"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UOKl40bI"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE8F610C8;
-	Tue, 21 Nov 2023 06:15:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1700576138; x=1700835338;
-	bh=w6t3q7QiWYrDWual5a1/k9jSpxXTVHrIAMwIDut4tJ8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=ylDvzFC7K1X2DMe57S7NqIa9Pn+wuA3+9DagRAm8S15QY8XKyJQDM2bbNSvxZnQwW
-	 5vtCk9ACjQT1uYSByu104tw9pN6pb6KejP3JnRDH81TE1yfAm514FyOrkeX0Z0JplE
-	 0BDsAz2xDyquXRomdmc9zs78QlXvHxK2gs/X0oaQaNWevTvsK97gfxnuqDIDpy9OS9
-	 y2fTBOmeXvs3fNMRQW/zkY39GBNK/Sa9wZr2e671N4hNQYmTKBLFfQ+gLP6K+J+h/i
-	 iH0pEilx8NJEV+MxlwEA+l+t9O3rYf9ilKvSCxUFEgfficB0lpzBpK1CSK+VwU2RIr
-	 konvICt6dTGwA==
-Date: Tue, 21 Nov 2023 14:15:31 +0000
-To: Jiri Kosina <jikos@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-From: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Regressions <regressions@lists.linux.dev>, Linux Input Devices <linux-input@vger.kernel.org>, Thorsten Leemhuis <regressions@leemhuis.info>, =?utf-8?Q?Filipe_La=C3=ADns?= <lains@riseup.net>, Bastien Nocera <hadess@hadess.net>, LinuxCat <masch77.linuxcat@gmail.com>, Marcelo <mmbossoni@gmail.com>, Takashi Iwai <tiwai@suse.de>, Hans de Goede <hdegoede@redhat.com>, Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: Fwd: Logitech G915 Wireless Keyboard acts weird on 6.6.0
-Message-ID: <4071999d-77ca-4a75-a9e0-d8ccac0dada1@protonmail.com>
-In-Reply-To: <nycvar.YFH.7.76.2311211435050.29220@cbobk.fhfr.pm>
-References: <6929ebbf-f2e0-4cd4-addc-1e33ecf3277f@gmail.com> <ZVyr-of1X4RudpWG@archie.me> <nycvar.YFH.7.76.2311211435050.29220@cbobk.fhfr.pm>
-Feedback-ID: 20039310:user:proton
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 217DF10CA
+	for <linux-input@vger.kernel.org>; Tue, 21 Nov 2023 07:25:24 -0800 (PST)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-a0029289b1bso254467466b.1
+        for <linux-input@vger.kernel.org>; Tue, 21 Nov 2023 07:25:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1700580321; x=1701185121; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zz8gkbBXufE/EC7nvTHjQQiY8tzszf3uuPb7T6KTUFg=;
+        b=UOKl40bIvwF0CLLXFU0FL+gquhTWhoOicqJF6W27vBHBMn+xg0xyDCRtKghjup2Jr6
+         O/jMfmTteqLBd8Ni04AfHOY3k6M8aaN5rsN2lbb4jSbwXGbhZs4/K8YOcjEtHw/w3oUN
+         TaUNGnJ1cmtfOAbmCBUpLzifTf6wZEyurCqJw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700580321; x=1701185121;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zz8gkbBXufE/EC7nvTHjQQiY8tzszf3uuPb7T6KTUFg=;
+        b=SVt/PV4RLxfkucOMdiuEMhbDweXL2cL+M06rKs81BPm3ACYEJXMPpAR/RU/2bVDBfg
+         TWDNv1IyiK0VP4F0rOoLTjROLPgJDwYdODSHX+HF78E4p9W7sf4mZIrMHIve/dAOKhG3
+         DbNxOflTJCD+3z1Uq5JMjCNfqXdamFbQLtNMwvYSKLBGzimnN2/2wWsg95sWHXjo3CHC
+         NxLbrmu8yFJC5wrX/f1fMjdWlLn/RrA5aC2lMGY2xUNJN7OwzqWkI9T1rVombNi5ZZGT
+         LR6zUMoMTF6rmG86DCggx+DB35P+7wxt/TQr/KhqZ4DgyknkltbOI5vF5evfH3P4kK56
+         5DrQ==
+X-Gm-Message-State: AOJu0YwkvXv6wLY74kjdSDzTgE+l05qLHggWaxB6CahTfBnJQ3BkqvF0
+	c9xYL0bTNqvk2Aej2dEguBdYvyvI6SysbhnI9oOkREVE
+X-Google-Smtp-Source: AGHT+IFGLJYu61OgD9Rfl8+olnDWGgVfTWoeCwuzfiAEmnf2g1d9EgxAGmmkb1dQfJxtrs2LXVUYoA==
+X-Received: by 2002:a17:906:5347:b0:a01:de07:5926 with SMTP id j7-20020a170906534700b00a01de075926mr1615939ejo.45.1700580321068;
+        Tue, 21 Nov 2023 07:25:21 -0800 (PST)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com. [209.85.208.46])
+        by smtp.gmail.com with ESMTPSA id o20-20020a170906359400b009ffba6f1aafsm2038097ejb.109.2023.11.21.07.25.20
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Nov 2023 07:25:20 -0800 (PST)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-548c6efc020so16412a12.0
+        for <linux-input@vger.kernel.org>; Tue, 21 Nov 2023 07:25:20 -0800 (PST)
+X-Received: by 2002:a05:6402:128d:b0:548:c1b1:96b2 with SMTP id
+ w13-20020a056402128d00b00548c1b196b2mr2569edv.6.1700580320221; Tue, 21 Nov
+ 2023 07:25:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20231120193313.666912-1-hdegoede@redhat.com> <20231120193313.666912-5-hdegoede@redhat.com>
+ <CAD=FV=U+emgVbnRT2yQonZ013CRmYXK1bxh8+xGGn5LCnOmL5Q@mail.gmail.com> <32d4a384-2fb3-4f67-9f14-7a639a0621bb@redhat.com>
+In-Reply-To: <32d4a384-2fb3-4f67-9f14-7a639a0621bb@redhat.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 21 Nov 2023 07:25:08 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UPiW+6CyawQXUvSOj0QH8_ynFq0GZapHCrDVc7LNAmVQ@mail.gmail.com>
+Message-ID: <CAD=FV=UPiW+6CyawQXUvSOj0QH8_ynFq0GZapHCrDVc7LNAmVQ@mail.gmail.com>
+Subject: Re: [RFC v2 4/7] HID: i2c-hid: Move i2c_hid_finish_hwreset() to after
+ reading the report-descriptor
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+	Julian Sax <jsbc@gmx.de>, ahormann@gmx.net, Bruno Jesus <bruno.fl.jesus@gmail.com>, 
+	Dietrich <enaut.w@googlemail.com>, kloxdami@yahoo.com, 
+	Tim Aldridge <taldridge@mac.com>, Rene Wagner <redhatbugzilla@callerid.de>, 
+	Federico Ricchiuto <fed.ricchiuto@gmail.com>, linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 2023-11-21 15:37, Jiri Kosina wrote:
-> On Tue, 21 Nov 2023, Bagas Sanjaya wrote:
->=20
->> Hi Thorsten and all,
->>
->> On Thu, Nov 02, 2023 at 09:11:42PM +0700, Bagas Sanjaya wrote:
->>> Hi,
->>>
->>> I notice a regression report on Bugzilla [1]. Quoting from it:
->>>
->>>> Hello,
->>>> After upgrading from 6.5.9 to 6.6.0, my keyboard started acting really=
- weird in its wireless mode, key actions sent are completely wrong, see vid=
-eo attached.
->>>>
->>>> Most keys are perceived as either E, 3 or F7, with F8 and <, as well.
->>>>
->>>> Modifier keys (CTRL, ALT, ALT GR, Shift and Super) are working normall=
-y, as well as media control keys (pause/play, previous, next, mute and soun=
-d up/down).
->>>>
->>>> The keyboard works as expected if it's wired.
->>>
->>> Another reporter bisected the regression:
->>>
->>>> Bisected to
->>>>
->>>> 9d1bd9346241cd6963b58da7ffb7ed303285f684 is the first bad commit
->>>> commit 9d1bd9346241cd6963b58da7ffb7ed303285f684
->>>> Author: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
->>>> Date: Sun Jul 16 18:23:44 2023 +0000
->>>>
->>>> HID: logitech-dj: Add support for a new lightspeed receiver iteration
->>>>
->>>> The lightspeed receiver for the Pro X Superlight uses 13 byte mouse re=
-ports
->>>> without a report id. The workaround for such cases has been adjusted t=
-o
->>>> handle these larger packets.
->>>>
->>>> The device now reports the status of its battery in wireless mode and
->>>> libratbag now recognizes the device and it can be configured with Pipe=
-r.
->>>>
->>>> https://github.com/libratbag/libratbag/pull/1122
->>>>
->>>> Co-developed-by: Filipe La=C3=ADns <lains@riseup.net>
->>>> Signed-off-by: Filipe La=C3=ADns <lains@riseup.net>
->>>> Signed-off-by: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
->>>> Reviewed-by: Bastien Nocera <hadess@hadess.net>
->>>> Signed-off-by: Jiri Kosina <jkosina@suse.cz>
->>>>
->>>> drivers/hid/hid-ids.h | 1 +
->>>> drivers/hid/hid-logitech-dj.c | 11 ++++++++---
->>>> 2 files changed, 9 insertions(+), 3 deletions(-)
->>>
->>> See Bugzilla for the full thread.
->>>
->>> Anyway, I'm adding this regression to regzbot:
->>>
->>> #regzbot introduced: 9d1bd9346241cd https://bugzilla.kernel.org/show_bu=
-g.cgi?id=3D218094
->>> #regzbot title: Logitech G915 Wireless Keyboard key event only detects =
-few key codes
->>> #regzbot link: https://streamable.com/ac6l8u
->>>
->>
->> There's no reply from culprit author nor linux-input people (did they mi=
-ss
->> this regression?). And on Bugzilla, other reporters replied that reverti=
-ng
->> the culprit fixed the regression.
->>
->> FYI, there's similar Bugzilla report on [1].
->=20
-> As there was no reaction from Mavroudis in order to figure out why he is
-> not observing the issues the other reporters do and what to do to fix
-> those, I already do have revert in my queue for -rc3.
->=20
-> My first guess would be that the extra buttons in the extended report are
-> not properly reflected in the emulated report descriptor, but that
-> wouldn't explain why it worked for the author of the commit.
->=20
-> So revert it is, and once Marvoudis resurfaces, we can try again for some
-> of later releases.
->=20
-> --
-> Jiri Kosina
-> SUSE Labs
->=20
+Hi,
 
-Apologies for not requesting a revert earlier, I was away on vacation=20
-and didn't realize it would take me this long to get to it.
+On Tue, Nov 21, 2023 at 1:53=E2=80=AFAM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
+>
+> > Right after this loop, you have:
+> >
+> > if (ret)
+> >   return ret;
+> >
+> > That will return with the mutex held. It needs to be a "goto
+> > abort_reset". You'd also need to init `use_override` then, I think.
+>
+> Ah, good catch, I will fix this for the next version.
+>
+> Assuming there will be a next version. Did you read the cover-letter
+> part about the moving of the wait for reset to after the descriptor
+> read not fixing the missing reset ack 100% but rather only 50% or
+> so of the time ?
+>
+> And do you have any opinion on if we should still move forward with
+> this patch-set or not ?
 
-As I mentioned in this bugzilla report [0], I think the extra buttons=20
-are handled by vendor defined bytes at the end of the descriptor, so it=20
-boils down to the emulated descriptor not being updated.
-This patch worked for me as the Superlight X that I own only has two=20
-side buttons. In addition, I was unaware of how many devices this would=20
-affect.
+I'd tend to leave it to your judgement. I have a bias towards landing
+it because it improves probe speed in a way that matches what the spec
+suggests and, IMO, probe speed is important. It also has the potential
+to avoid the need for quirks on some devices, even if it didn't work
+out that way for the device you tested with.
 
-For now let's make sure this commit is reverted so that people have=20
-working devices and I will get to fixing the issues that showed up.
+The only downside you have listed is the potential for regressions,
+but that's something that's a risk for nearly any change. This doesn't
+feel like an excessively risky change to me and, as you've pointed
+out, it's documented in the spec. If someone reports a regression then
+it seems like we should address it as it comes...
 
-Once again, apologies for this.
 
-[0] https://bugzilla.kernel.org/show_bug.cgi?id=3D218172#c9
+> > I'll also note that it seems awkward that
+> > `clear_bit(I2C_HID_RESET_PENDING, &ihid->flags)` is scattered in so
+> > many places for error handling, but I couldn't really find a better
+> > way to do it. :-P
+>
+> I guess we could just no clear it? Only the wait for reset
+> wait_event_timeout() cares about its value and if we run that
+> a second time then the bit will be set to 1 again before calling
+> it anyways...    Not sure I like my own suggestion here, but
+> it is an option. I'm afraid it may bite us later thogh if we
+> ever decide to check for the bit in another place.
 
+Yeah, I didn't have any great ideas either and I think it's fine as
+you have it. It just bothered me as I was reviewing and so I figured
+I'd mention it in case some brilliant idea occurred to you. ;-)
 
