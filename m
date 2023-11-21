@@ -1,169 +1,116 @@
-Return-Path: <linux-input+bounces-193-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-194-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC6457F390B
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 23:15:57 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA1387F3980
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 23:52:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1BD5E1C20B4B
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 22:15:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8A7A6B2189F
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 22:52:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D3D842051;
-	Tue, 21 Nov 2023 22:15:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A78F5A10D;
+	Tue, 21 Nov 2023 22:52:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="b/ZtwYFV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GNzzSA8P"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2043.outbound.protection.outlook.com [40.107.94.43])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6792CD49
-	for <linux-input@vger.kernel.org>; Tue, 21 Nov 2023 14:15:51 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nFe4EVsnKxjmilAZFAQ5byhhQ72u3kF4goFXsfPF5+ivSYlrmrg/AgygIMI8huAqQucbEj2uPno1NgG22DNLx2u1Wc5tk+yc5/Wic4lnovnRcu5r/pRpu54arWMRafvD2eoN38kXiV0AIVUOgLU1jZYPSaF7YooaF3hyzbozzNO4Zb0AsxZnvBAzmi5+VNyX6nfmqyUmDYYrQS55jEIHYxtcNhcAXQkHBSQ7a0Hj3X8a0QdJ9ERPV+SM3nG+/MLKZ8q/AQ9ScWzfd/QZ88xSTEwumIt7p3Lhj9nb3GS1WiWIGpiOvpgIJCUinxLRLGZjYz5sqAfJWG5LIWdWKfS+Bw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=et7KvFCcEGfEkCfe5dPO3tmI4IS547RyUfpsPiTaOh0=;
- b=UCpUnCJBiE/ZRjSQyi5dloIINGESuvhgL732rXvvnpWPbfVRZwR8HeRc/1FVa4XP0dUTCmvVsDFUv1W4N4W3p0qeZ6d4XbbapHA0OkATcw4MyiIwSYJGE1dcxMQa7In28lnv4RgzlvddeBX9CwU1WjFGg3piCq5eTTq63AKdEuFd0+ZGXFjYZPKV1hqUVlnR7US23xeRZQwRUD3iV2oj++XRBox8wA8JaVE2pGTlqrYFiRfwIJc9ghIQJ+7Lc8vOGEGKA+Ht6t9VQO0SXT3Tak1A7qEgaOpOiRQ6rfovWh1IDRRzVr3GJNALs5G/+44ky/A6W+ceZX4i9WIx/NYz+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=et7KvFCcEGfEkCfe5dPO3tmI4IS547RyUfpsPiTaOh0=;
- b=b/ZtwYFVGKcP/oGNLHtMvTBBlCevnSGTjM19aIUSQPhC4FNBLzu7XGNPM1QTwZ5wxUjBlMAN/zb10CpwxR6SsC1ZM6Rb9CFsfFiAhqFLMoPMIqOjmDGA+VGXngrNYz+utusJ39JNyfv2uKQo+Ry/K1HEv1X7XIbJ5cZ94G1+XqqvzRmReSjVGRo8Fr1DxWtDyAFj3v0pxuiMqD1zN++1YmGzIJ5/61JqUSqTrQcyasqaDFAoH/Q6S2pR5VCdGtxTvaEck9K3FT+J1jeVeMZ9GhaAf6mcKIRuL1Cwaa1bF0Q3qI8chAuK+d7jwmH7Oz2YEVkdxGVTR5ZCzyVIp/ZUEg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
- by SA0PR12MB4574.namprd12.prod.outlook.com (2603:10b6:806:94::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.26; Tue, 21 Nov
- 2023 22:15:48 +0000
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::44b4:6f7e:da62:fad4]) by BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::44b4:6f7e:da62:fad4%3]) with mapi id 15.20.7002.027; Tue, 21 Nov 2023
- 22:15:48 +0000
-From: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-To: Jiri Kosina <jikos@kernel.org>
-Cc: Brett Raye <braye@fastmail.com>,  benjamin.tissoires@redhat.com,
-  linux-input@vger.kernel.org
-Subject: Re: [PATCH] HID: glorious: fix Glorious Model I HID report
-References: <20231103011038.27462-1-braye@fastmail.com>
-	<nycvar.YFH.7.76.2311210938070.29220@cbobk.fhfr.pm>
-Date: Tue, 21 Nov 2023 14:15:40 -0800
-In-Reply-To: <nycvar.YFH.7.76.2311210938070.29220@cbobk.fhfr.pm> (Jiri
-	Kosina's message of "Tue, 21 Nov 2023 09:38:16 +0100 (CET)")
-Message-ID: <87pm02g3cj.fsf@nvidia.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Content-Type: text/plain
-X-ClientProxiedBy: SJ2PR07CA0024.namprd07.prod.outlook.com
- (2603:10b6:a03:505::14) To BYAPR12MB2743.namprd12.prod.outlook.com
- (2603:10b6:a03:61::28)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94D291AC;
+	Tue, 21 Nov 2023 14:52:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700607144; x=1732143144;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7S8HcKQ5GauB14UB7Q9FL/WHd07QSS8icHvhl2hO0n4=;
+  b=GNzzSA8PPLCLFZGYzJb6jalvzNrCd75tqIXJeFFZmlLx8RF6xANaEdBP
+   OtW9XMEe2AbhxvtzG+Pzfue6+ITc3yRPpn6/keWqpt7FyEoR3N3oM9+X7
+   D8nci/p9UMRmhuKSwc9rXa4xf2aGBqaMSEn0TqXc6QfNdCIIxoGCqTfWX
+   388iNr1h7kjbUlesR9giZdSEpT3f1gw/hJ24LWH2NHG7vLIqGs6HgZQ1X
+   et7A0UfLbUZ/6jUtMxZWlArHv0tEXZSfMK8UM25iajnUG5z+1jJwxAA2b
+   2Y8PpCulTFY8EV5h/toJssH57kYEG+068kqC/K4bKHMCeWHURUzRaGy35
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="395860397"
+X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
+   d="scan'208";a="395860397"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 14:52:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
+   d="scan'208";a="15045297"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 21 Nov 2023 14:52:21 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r5ZbO-0008N2-2m;
+	Tue, 21 Nov 2023 22:52:18 +0000
+Date: Wed, 22 Nov 2023 06:52:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Anshul Dalal <anshulusr@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>, Jeff LaBundy <jeff@labundy.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v10 2/2] input: joystick: driver for Adafruit Seesaw
+ Gamepad
+Message-ID: <202311220544.BV7xhjMy-lkp@intel.com>
+References: <20231121123409.2231115-2-anshulusr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|SA0PR12MB4574:EE_
-X-MS-Office365-Filtering-Correlation-Id: 17c673c7-f1c7-4113-d7af-08dbeadf69e8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	I/H6wdE5DpAs45XJzUCg5lN0gEQl0Hp3IWghi0bPfmJP6O6aHWzpqPH2BiUeyQNeHZmFbTkw55jm0HhGEL1p3jUFtp1PjJzPgfEbF8snlJMoWBD9SVyyTFQ7KVKY3ynUhk3Wt54xba5r0Pu+qIW41aeWBKYQyy5iCxfCkdqlFFzNHuEW8nPxVEyBoxmBWeMiFKLGS3YRuT0GeKgkeVAbwqneOsFhuUM457MrQlyhd1Ekrt9KjZ32KwsKHTS9DGrV/KnnEYqQdo6TveDjV9mWWXMjXBIipdv+6LnPK3qnxqxVAMKtf/LtqJuhmv+d7CLRTKK083PKfsATmejVEO5CMpqsdQXz3+e9UjCsR/VWk6uWlmrJ5a5YvZPXlqwm5WfuyX01nSCyr7eJiBNC81Ox6j/SCmz00jZEcory1FMZ6mdaG8DOxzFJwL7YzP66utNbHXWVemHYjE5rC02y6IKUj14CBlHsh59fiHGNuy2baAq1QkM++fdsB4y57c+8CY8J0W7/zhEJkVAZxctDOs7vXLEOhJk5XrqeXQg710kZOsFeJikyfYUs4wFDYdoJMX72QGOoImyNOsgoc9ui/8IiEHUBTuGnfJqTKgyKG7avaO4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(346002)(136003)(39860400002)(366004)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(36756003)(86362001)(38100700002)(41300700001)(66946007)(8676002)(66556008)(66476007)(6916009)(316002)(8936002)(4326008)(5660300002)(2906002)(6512007)(6506007)(2616005)(26005)(966005)(478600001)(6486002)(6666004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?k8UZJdSZgOXAhlzfbnwuDeo1dU4RHiZxdOteC8mRqSrXvPieIL7dWoezMxcz?=
- =?us-ascii?Q?10s76CG0d9vRT5Ft959EfivZ4yhncFPjsmaYPQ4bJQf6g7fnTZ9FokLHpmjh?=
- =?us-ascii?Q?8dfYJ3TGltjK7uYcWoRFwgEoU4HR51IQAYLQpIKTSCMJ9FEhKCLDE04mJ7zT?=
- =?us-ascii?Q?x7tU+5kzoadz/FIqS5mauNW8UzdnJQmY/qKnbheBqlpl8U+bV/ltzppIcI7s?=
- =?us-ascii?Q?1X39T6DeRLrSTrrbXUpPSdXJ6uE/iKKZvzpWasl0Ufw1oCXxjoNtpglQMdbY?=
- =?us-ascii?Q?pIcUjvqWnu9sDyH2ZkYPNGmlQsJVYzAf/HAtyoJ4UpAw8hUOtJhxXGqCAXhz?=
- =?us-ascii?Q?0MSoHjwIXJ+LEa6tT8Nl9QUdbnPjYLE65VurG5mZRVq38nfzXL2QOwCOcPjO?=
- =?us-ascii?Q?vDl04LwkNxnkrfmySb0EOu/6E7Dk518DOvPJiQPa8Bw8E3JRa6o/MxuxPWNj?=
- =?us-ascii?Q?Q51KDgJNkXG9EiDQ9cIlRkgnATE2qqz4LLQFJKoHBpI+qXK5Jwin5llLu9Uf?=
- =?us-ascii?Q?ZFFAsWqz3gr1ZFOiJOV434J9V1dposFzn3wWJajQfb+vHhUBgXvfxYTvSrQq?=
- =?us-ascii?Q?fj4LZvCmugjP4KW+BmGl5RSL4SMqJBb/eG/qo6h24gfL76pMaGFGFNV5gvqL?=
- =?us-ascii?Q?OpjOiNfwEkusKF9BqhpRYzLh2N7N6b7Qeu3olt7ez/1kZEYmuh6JznLgQ9Bs?=
- =?us-ascii?Q?S9xOThaN3XgVSFNMGjRHFqGZjMjDeo//ZmBiLcQ/3dWLJ1g+L0A5P3DBkNL3?=
- =?us-ascii?Q?vXRrK+WcnEB4r+Iqaru+J0O21v/w1Fxn4fCgl8D9gyJmbD+8AJvHJwkS7mCk?=
- =?us-ascii?Q?NiASelO7RXvlKfHs4D+FS78AZKJbIy8T5jW8rvP5fjCfiSgTlClHEzbyzXB6?=
- =?us-ascii?Q?V0ZCmV5iconl/Ay688lzkurqhEFN+2/SYhemZizzteHY808uhPr49F33hQ5K?=
- =?us-ascii?Q?l7oBQe0PvSNh3O3PYJu5zCAWiOzmntvFcuOKT+62D0qe3cxHeE2Uqmr5CAXX?=
- =?us-ascii?Q?j0FjKw3gpfUKmjjKoShuBZVbRbs+AGvLWBbkul09pDaL/ImruzX9MuqYSVYp?=
- =?us-ascii?Q?ULuUsoGg1Div9uowhqTR+enjDYgP/b7FNGry665aEfKe5TKwRWIxpnicwe4P?=
- =?us-ascii?Q?Dxw9HXcviDepRrEHQ6tDeuJxmqAIlY3LitudnLQ596f8GfH2RkMGZSZjaKMu?=
- =?us-ascii?Q?klg+SUzoenRHdJDv4PWNHKwD9mbqOetdhq+PVSjJfQKdArmoRBjiof0INEyf?=
- =?us-ascii?Q?Jqng4kpj0XZgufh6aqagdijiC0rvhscpKZihAD39XvUU5+QBomqn6+Wis9c4?=
- =?us-ascii?Q?pJENa1c4fducQzna3ocmN3jvysNz3msykpZEALdeyh23iMpa61vEUmV3TQxd?=
- =?us-ascii?Q?PePme41oMAhmt+1C15K4wzZ2eU1hjFz7rh1+iGYEYWPJikIolSac39Yr0YiV?=
- =?us-ascii?Q?zi5KTZhOQpZv9CGjmNDX98vV5x4RRS2C5rfsfb+RV0a9tZGnWtjAo73ctGCP?=
- =?us-ascii?Q?+tkwRJ27ZLOFJlLjCKL4TLWaZVHXd7lMkpTVoC3g/qH4s9Dr2pLW3pyAwomo?=
- =?us-ascii?Q?72VcfWonRV0+6/29fNZBEg0B5l31q4k/g1jrUCZU9Gt3vj9OFDZBfe02jvcp?=
- =?us-ascii?Q?aQ=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17c673c7-f1c7-4113-d7af-08dbeadf69e8
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 22:15:48.0272
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 919NnSP7PWwukjwAmhN4N0CG6J6o3uW3aLse7CXQ+NFFvgLNavNx0IaTEQ4Wb0WsqiKmWwfID5FUrkJ4zDQATA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4574
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231121123409.2231115-2-anshulusr@gmail.com>
 
-On Tue, 21 Nov, 2023 09:38:16 +0100 Jiri Kosina <jikos@kernel.org> wrote:
-> On Thu, 2 Nov 2023, Brett Raye wrote:
->
->> The Glorious Model I mouse has a buggy HID report descriptor for its
->> keyboard endpoint (used for programmable buttons). For report ID 2, there
->> is a mismatch between Logical Minimum and Usage Minimum in the array that
->> reports keycodes.
->> 
->> The offending portion of the descriptor: (from hid-decode)
->> 
->> 0x95, 0x05,                    //  Report Count (5)                   30
->> 0x75, 0x08,                    //  Report Size (8)                    32
->> 0x15, 0x00,                    //  Logical Minimum (0)                34
->> 0x25, 0x65,                    //  Logical Maximum (101)              36
->> 0x05, 0x07,                    //  Usage Page (Keyboard)              38
->> 0x19, 0x01,                    //  Usage Minimum (1)                  40
->> 0x29, 0x65,                    //  Usage Maximum (101)                42
->> 0x81, 0x00,                    //  Input (Data,Arr,Abs)               44
->> 
->> This bug shifts all programmed keycodes up by 1. Importantly, this causes
->> "empty" array indexes of 0x00 to be interpreted as 0x01, ErrorRollOver.
->> The presence of ErrorRollOver causes the system to ignore all keypresses
->> from the endpoint and breaks the ability to use the programmable buttons.
->> 
->> Setting byte 41 to 0x00 fixes this, and causes keycodes to be interpreted
->> correctly.
->> 
->> Also, USB_VENDOR_ID_GLORIOUS is changed to USB_VENDOR_ID_SINOWEALTH,
->> and a new ID for Laview Technology is added. Glorious seems to be
->> white-labeling controller boards or mice from these vendors. There isn't a
->> single canonical vendor ID for Glorious products.
->> 
->> Signed-off-by: Brett Raye <braye@fastmail.com>
->
-> Applied, thanks.
+Hi Anshul,
 
-Hi Jiri,
+kernel test robot noticed the following build warnings:
 
-Did you apply the v2 of this patch or the v1?
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.7-rc2 next-20231121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-  https://lore.kernel.org/linux-input/20231106235557.8741-1-braye@fastmail.com/
+url:    https://github.com/intel-lab-lkp/linux/commits/Anshul-Dalal/input-joystick-driver-for-Adafruit-Seesaw-Gamepad/20231121-204243
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20231121123409.2231115-2-anshulusr%40gmail.com
+patch subject: [PATCH v10 2/2] input: joystick: driver for Adafruit Seesaw Gamepad
+config: alpha-randconfig-r112-20231122 (https://download.01.org/0day-ci/archive/20231122/202311220544.BV7xhjMy-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220544.BV7xhjMy-lkp@intel.com/reproduce)
 
-I think the v2 would be better given the patch split.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311220544.BV7xhjMy-lkp@intel.com/
 
---
-Thanks,
+All warnings (new ones prefixed by >>):
 
-Rahul Rameshbabu
+>> drivers/input/joystick/adafruit-seesaw.c:300:34: warning: 'seesaw_of_table' defined but not used [-Wunused-const-variable=]
+     300 | static const struct of_device_id seesaw_of_table[] = {
+         |                                  ^~~~~~~~~~~~~~~
+
+
+vim +/seesaw_of_table +300 drivers/input/joystick/adafruit-seesaw.c
+
+   299	
+ > 300	static const struct of_device_id seesaw_of_table[] = {
+   301		{ .compatible = "adafruit,seesaw-gamepad"},
+   302		{ /* Sentinel */ }
+   303	};
+   304	MODULE_DEVICE_TABLE(of, seesaw_of_table);
+   305	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
