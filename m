@@ -1,47 +1,48 @@
-Return-Path: <linux-input+bounces-151-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-152-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031467F277A
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 09:31:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D11157F2782
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 09:32:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B0F532828A4
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 08:31:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 04C8E1C218C4
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 08:32:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D18C33B7B5;
-	Tue, 21 Nov 2023 08:31:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EAE23B785;
+	Tue, 21 Nov 2023 08:32:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LZS0Mpbj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uc2JScwO"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65A43B79D;
-	Tue, 21 Nov 2023 08:31:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81623C433C7;
-	Tue, 21 Nov 2023 08:31:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317E63B78D
+	for <linux-input@vger.kernel.org>; Tue, 21 Nov 2023 08:32:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC31AC433C9;
+	Tue, 21 Nov 2023 08:32:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700555468;
-	bh=z4UtWQZZa+ttzNxT4dJLgWb71f/Kl8eEqsMtKTWnNEI=;
+	s=k20201202; t=1700555535;
+	bh=qyOqw1vmpf9f3BB2JiFLuh6XeTrJmOiGfETBWHfF9bM=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=LZS0MpbjcH4E3jcE7IxOrDpOyqzlUQOWrXSGR0l9IgMsDjKEr+nGBZMSkhFLb2uYG
-	 LHBzcjKug4c5NS6qE/WOLtt3qjh0joHqMe7HDojtiMCPO3q10pVFMLw2hLzIFn1y5y
-	 /UsiINKQHhyDYzFW0d185wvNtL7gRSOKRR62RXhZP+jDQb8Nf+JZXy5kzgNRmMTeSz
-	 8iaLs2l8N7dGibLOtGR1QxwzunP165mAt2HSA2E2O9O7hA8GmzUr7Sz0LkuGibpiV3
-	 Oxv3eTQmCg9gcWhienCGy9KpKdYPYWM09QGmVRhRp9YbbDj3Ilglt8LDIXELcyTtLK
-	 i2SWNfkKjc6xw==
-Date: Tue, 21 Nov 2023 09:31:04 +0100 (CET)
+	b=uc2JScwOoas3p4YQlTcq1HZNtLPQ3XBZ/jIZD/j4lHwBYd2YYAqucpkgzUt8mJldS
+	 iJeHRYavrO240i+wOIF2UAyJkjBlMb1i/LbvF1kCd9nq5DtkQTi2841jby8k/eepre
+	 Glp4Bv0lkwsh3Gw38CFLN3Hbtr+5GPIgkUsxIWhsrqNMnAvswiXD7NmTrKzH6I74qA
+	 px4IUQZvo/T2W96Smplqs1BfoEtOHZ0E0+YfFPjxgdE39Ygoy/Y5mSPt1wfgqrs8HR
+	 jg+nSFTeaEuJPsHxZyddTH9hXR2pPLV+jrkdPExtbeDo9QM00PBz3C5WXgYUQVIWWF
+	 cE5DnGnLfb/aQ==
+Date: Tue, 21 Nov 2023 09:32:12 +0100 (CET)
 From: Jiri Kosina <jikos@kernel.org>
-To: Hamish Martin <hamish.martin@alliedtelesis.co.nz>
-cc: gupt21@gmail.com, benjamin.tissoires@redhat.com, Enrik.Berkhan@inka.de, 
-    sven.zuehlsdorf@vigem.de, linux-i2c@vger.kernel.org, 
-    linux-input@vger.kernel.org
-Subject: Re: [PATCH 0/5] MCP2221 Improvements
-In-Reply-To: <20231025035514.3450123-1-hamish.martin@alliedtelesis.co.nz>
-Message-ID: <nycvar.YFH.7.76.2311210930440.29220@cbobk.fhfr.pm>
-References: <20231025035514.3450123-1-hamish.martin@alliedtelesis.co.nz>
+To: Yihong Cao <caoyihong4@outlook.com>
+cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+    "open list:HID CORE LAYER" <linux-input@vger.kernel.org>, 
+    open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] HID: apple: add Jamesdonkey and A3R to non-apple keyboards
+ list
+In-Reply-To: <SYYP282MB2110B4E87983EAFEDC8741E49BA2A@SYYP282MB2110.AUSP282.PROD.OUTLOOK.COM>
+Message-ID: <nycvar.YFH.7.76.2311210932060.29220@cbobk.fhfr.pm>
+References: <SYYP282MB2110B4E87983EAFEDC8741E49BA2A@SYYP282MB2110.AUSP282.PROD.OUTLOOK.COM>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -51,25 +52,13 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Wed, 25 Oct 2023, Hamish Martin wrote:
+On Mon, 30 Oct 2023, Yihong Cao wrote:
 
-> Recently I've been prototyping a new system which uses a MCP2221 chip as
-> the I2C bus. During that development a few issues were found that form
-> the patches in this series.
-> 
-> The first two are resolving long standing issues that have both been
-> reported before, patches submitted, but it appears never accepted.
-> The ACPI patch resolves an issue in my x86_64 system.
-> The final two address fundamental issues with the driver that have not
-> worked correctly from the beginning it seems.
-> 
-> Please review and let me know what you think.
+> Jamesdonkey A3R keyboard is identified as "Jamesdonkey A3R" in wired
+> mode, "A3R-U" in wireless mode and "A3R" in bluetooth mode. Adding them
+> to non-apple keyboards fixes function key.
 
-Hi,
-
-I have applied 1/5 and 2/5 for 6.7 and the rest of the series for 6.8.
-
-Thanks,
+Applied, thanks.
 
 -- 
 Jiri Kosina
