@@ -1,173 +1,140 @@
-Return-Path: <linux-input+bounces-176-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-177-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D507F2E51
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 14:29:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 767AF7F2E75
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 14:38:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5D9E0B20F34
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 13:29:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 30B4628188E
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 13:38:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AC8251C21;
-	Tue, 21 Nov 2023 13:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDB534A9B0;
+	Tue, 21 Nov 2023 13:37:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="Yt0RXSrB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sR3ePWLZ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA204D4C;
-	Tue, 21 Nov 2023 05:29:35 -0800 (PST)
-Received: from [192.168.42.20] (p5b164862.dip0.t-ipconnect.de [91.22.72.98])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id B65852FC01F9;
-	Tue, 21 Nov 2023 14:29:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1700573374;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oJvMBifarv+hJKntJue/VPuBCrrPqYvgBBAEq0tUgBQ=;
-	b=Yt0RXSrB8OTBqGx5lC1udvYoRk+uLncyJ6HykBuza5D5QHxSph0sgH15Zb4V4Uq6Yl7GiT
-	17ChoLECQ+17MS3IN080yzOB8bageGcjIq5h8MWDWwWqA1L50jEY/SZPn/qkuzCEPKGcbQ
-	YGEgcmRpYLyQLZ1VbogozQIxsgZ3gOg=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
-Date: Tue, 21 Nov 2023 14:29:33 +0100
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD532168CB;
+	Tue, 21 Nov 2023 13:37:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 746AAC433C9;
+	Tue, 21 Nov 2023 13:37:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700573877;
+	bh=dM931tHIvx5PgNza4hqCxEgSnaT/GM+RuhzruNQGcQs=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=sR3ePWLZlRHca+ae7IPYtfSGqAr0/bHVAEqyfaDO2CzV+1wt9BrIgYtWnTv0+Kx/r
+	 N341b6KrUP6Vmukg2st+9QUzrJefvybEWb8tD4G50EXn2shObI+eXkvp4525Gbm0fs
+	 cmSgYPw9EM/WrUUeiWhn384sL2hLAb4tqZOu3fZE03IAYi/PKtKkJEgNXMK7Tc61nh
+	 zt3Kaag7f/XOZhN20FSBRD3ainOgbo1Qgka96I26IeyV8B6Y91nny6F+orzA04dzL+
+	 CmqCyKlwzCuavAC8afoYMjJUTXO+qCacucfx8M2QZb8JzFjru3+XKuVm3GSNQsp+Lh
+	 jERuwSl9YY8+Q==
+Date: Tue, 21 Nov 2023 14:37:52 +0100 (CET)
+From: Jiri Kosina <jikos@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+    Linux Regressions <regressions@lists.linux.dev>, 
+    Linux Input Devices <linux-input@vger.kernel.org>, 
+    Thorsten Leemhuis <regressions@leemhuis.info>, 
+    Mavroudis Chatzilazaridis <mavchatz@protonmail.com>, 
+    =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>, 
+    Bastien Nocera <hadess@hadess.net>, LinuxCat <masch77.linuxcat@gmail.com>, 
+    Marcelo <mmbossoni@gmail.com>, Takashi Iwai <tiwai@suse.de>, 
+    Hans de Goede <hdegoede@redhat.com>, 
+    Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: Fwd: Logitech G915 Wireless Keyboard acts weird on 6.6.0
+In-Reply-To: <ZVyr-of1X4RudpWG@archie.me>
+Message-ID: <nycvar.YFH.7.76.2311211435050.29220@cbobk.fhfr.pm>
+References: <6929ebbf-f2e0-4cd4-addc-1e33ecf3277f@gmail.com> <ZVyr-of1X4RudpWG@archie.me>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-Content-Language: en-US
-To: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>,
- Jani Nikula <jani.nikula@linux.intel.com>, jikos@kernel.org
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Lee Jones
- <lee@kernel.org>, linux-kernel@vger.kernel.org,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
-References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
- <ZSe1GYLplZo5fsAe@duo.ucw.cz>
- <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
- <ZSf9QneKO/8IzWhd@duo.ucw.cz>
- <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
- <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
- <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <ZSmg4tqXiYiX18K/@duo.ucw.cz>
- <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
- <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
- <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
- <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 
+On Tue, 21 Nov 2023, Bagas Sanjaya wrote:
 
-Am 21.11.23 um 13:20 schrieb Hans de Goede:
-> Hi Werner,
->
-> On 11/21/23 12:33, Werner Sembach wrote:
->> Hi,
->>
->> Am 20.11.23 um 21:52 schrieb Pavel Machek:
->>> Hi!
->>>
->>>>>> So... a bit of rationale. The keyboard does not really fit into the
->>>>>> LED subsystem; LEDs are expected to be independent ("hdd led") and not
->>>>>> a matrix of them.
->>>>> Makes sense.
->>>>>
->>>>>> We do see various strange displays these days -- they commonly have
->>>>>> rounded corners and holes in them. I'm not sure how that's currently
->>>>>> supported, but I believe it is reasonable to view keyboard as a
->>>>>> display with slightly weird placing of pixels.
->>>>>>
->>>>>> Plus, I'd really like to play tetris on one of those :-).
->>>>>>
->>>>>> So, would presenting them as auxdisplay be acceptable? Or are there
->>>>>> better options?
->>>>> It sounds like a fair use case -- auxdisplay are typically simple
->>>>> character-based or small graphical displays, e.g. 128x64, that may not
->>>>> be a "main" / usual screen as typically understood, but the concept is
->>>>> a bit fuzzy and we are a bit of a catch-all.
->>>>>
->>>>> And "keyboard backlight display with a pixel/color per-key" does not
->>>>> sound like a "main" screen, and having some cute effects displayed
->>>>> there are the kind of thing that one could do in the usual small
->>>>> graphical ones too. :)
->>>>>
->>>>> But if somebody prefers to create new categories (or subcategories
->>>>> within auxdisplay) to hold these, that could be nice too (in the
->>>>> latter case, I would perhaps suggest reorganizing all of the existing
->>>>> ones while at it).
->>>> One could also reasonably make the argument that controlling the
->>>> individual keyboard key backlights should be part of the input
->>>> subsystem. It's not a display per se. (Unless you actually have small
->>>> displays on the keycaps, and I think that's a thing too.)
->>> While it would not be completely crazy to do that... I believe the
->>> backlight is more of a display and less of a keyboard. Plus input
->>> subystem is very far away from supporting this, and we had no input
->>> from input people here.
->>>
->>> I don't think LED subsystem is right place for this, and I believe
->>> auxdisplay makes slightly more sense than input.
->>>
->>> Unless someone steps up, I'd suggest Werner tries to implement this as
->>> an auxdisplay. [And yes, this will not be simple task. RGB on LED is
->>> different from RGB on display. But there are other LED displays, so
->>> auxdisplay should handle this. Plus pixels are really funnily
->>> shaped. But displays with missing pixels -- aka holes for camera --
->>> are common in phones, and I believe we'll get variable pixel densities
->>> -- less dense over camera -- too. So displays will have to deal with
->>> these in the end.]
->> Another idea I want to throw in the mix:
->>
->> Maybe the kernel is not the right place to implement this at all. RGB stuff is not at all standardized and every vendor is doing completely different interfaces, which does not fit the kernel userpsace apis desire to be uniformal and fixed. e.g. Auxdisplay might fit static setting of RGB values, but it does not fit the snake-effect mode, or the raindrops mode, or the 4-different-colors-in-the-edges-breathing-and-color-cycling mode.
->>
->> So my current idea: Implement these keyboards as a single zone RGB kbd_backlight in the leds interface to have something functional out of the box, but make it runtime disable-able if something like https://gitlab.com/CalcProgrammer1/OpenRGB wants to take over more fine granular control from userspace via hidraw.
-> That sounds like a good approach to me. We are seeing the same with game controllers where steam and wine/proton also sometimes use hidraw mode to get access to all the crazy^W interesting features.
->
-> That would mean that all we need to standardize and the kernel <-> userspace API level is adding a standard way to disable the single zone RGB kbd_backlight support in the kernel.
+> Hi Thorsten and all,
+> 
+> On Thu, Nov 02, 2023 at 09:11:42PM +0700, Bagas Sanjaya wrote:
+> > Hi,
+> > 
+> > I notice a regression report on Bugzilla [1]. Quoting from it:
+> > 
+> > > Hello,
+> > > After upgrading from 6.5.9 to 6.6.0, my keyboard started acting really weird in its wireless mode, key actions sent are completely wrong, see video attached. 
+> > > 
+> > > Most keys are perceived as either E, 3 or F7, with F8 and <, as well. 
+> > > 
+> > > Modifier keys (CTRL, ALT, ALT GR, Shift and Super) are working normally, as well as media control keys (pause/play, previous, next, mute and sound up/down).
+> > > 
+> > > The keyboard works as expected if it's wired.
+> > 
+> > Another reporter bisected the regression:
+> > 
+> > > Bisected to 
+> > > 
+> > > 9d1bd9346241cd6963b58da7ffb7ed303285f684 is the first bad commit
+> > > commit 9d1bd9346241cd6963b58da7ffb7ed303285f684
+> > > Author: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
+> > > Date: Sun Jul 16 18:23:44 2023 +0000
+> > > 
+> > > HID: logitech-dj: Add support for a new lightspeed receiver iteration
+> > > 
+> > > The lightspeed receiver for the Pro X Superlight uses 13 byte mouse reports
+> > > without a report id. The workaround for such cases has been adjusted to
+> > > handle these larger packets.
+> > > 
+> > > The device now reports the status of its battery in wireless mode and
+> > > libratbag now recognizes the device and it can be configured with Piper.
+> > > 
+> > > https://github.com/libratbag/libratbag/pull/1122
+> > > 
+> > > Co-developed-by: Filipe Laíns <lains@riseup.net>
+> > > Signed-off-by: Filipe Laíns <lains@riseup.net>
+> > > Signed-off-by: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
+> > > Reviewed-by: Bastien Nocera <hadess@hadess.net>
+> > > Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+> > > 
+> > > drivers/hid/hid-ids.h | 1 +
+> > > drivers/hid/hid-logitech-dj.c | 11 ++++++++---
+> > > 2 files changed, 9 insertions(+), 3 deletions(-)
+> > 
+> > See Bugzilla for the full thread.
+> > 
+> > Anyway, I'm adding this regression to regzbot:
+> > 
+> > #regzbot introduced: 9d1bd9346241cd https://bugzilla.kernel.org/show_bug.cgi?id=218094
+> > #regzbot title: Logitech G915 Wireless Keyboard key event only detects few key codes
+> > #regzbot link: https://streamable.com/ac6l8u
+> > 
+> 
+> There's no reply from culprit author nor linux-input people (did they miss
+> this regression?). And on Bugzilla, other reporters replied that reverting
+> the culprit fixed the regression.
+> 
+> FYI, there's similar Bugzilla report on [1].
 
-I would suggest a simple "enable" entry. Default is 1. When set to 0 the kernel 
-driver no longer does anything.
+As there was no reaction from Mavroudis in order to figure out why he is 
+not observing the issues the other reporters do and what to do to fix 
+those, I already do have revert in my queue for -rc3.
 
-Questions:
+My first guess would be that the extra buttons in the extended report are 
+not properly reflected in the emulated report descriptor, but that 
+wouldn't explain why it worked for the author of the commit.
 
-- Should the driver try to reset the settings to boot default? Or just leave the 
-device in the current state? With the former I could see issues that they 
-keyboard is flashing when changing from kernelspace control to userspace 
-control. With the later the burden on bringing the device to a know state lies 
-with the userspace driver.
+So revert it is, and once Marvoudis resurfaces, we can try again for some 
+of later releases.
 
-- Should this be a optional entry that only shows up on drivers supporting it, 
-or could this implemented in a generic way affecting all current led entries?
+-- 
+Jiri Kosina
+SUSE Labs
 
-- I guess UPower integration for the userspace driver could be archived with 
-https://www.kernel.org/doc/html/latest/leds/uleds.html however this limited to 
-brightness atm, so when accent colors actually come to UPower this would also 
-need some expansion to be able to pass a preferred color to the userspace driver 
-(regardless of what that driver is then doing with that information).
-
-On a different note: This approach does currently not cover the older EC 
-controlled 3 zone keyboards from clevo. Here only the kernel has access access 
-to the device so the kernel driver has to expose all functionality somehow. 
-Should this be done by an arbitrarily designed platform device?
-
-Kind regards,
-
-Werner
-
->
-> Regards,
->
-> Hans
->
->
 
