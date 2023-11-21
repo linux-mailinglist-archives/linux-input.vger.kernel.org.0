@@ -1,146 +1,164 @@
-Return-Path: <linux-input+bounces-165-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-164-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA99B7F2BF0
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 12:41:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 731B17F2BE4
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 12:37:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 84D7928268A
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 11:41:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 00DD91F245B7
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 11:37:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D045BF4EC;
-	Tue, 21 Nov 2023 11:41:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="thbtr9T8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6210F487A2;
+	Tue, 21 Nov 2023 11:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-input@vger.kernel.org
-X-Greylist: delayed 476 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 21 Nov 2023 03:41:13 PST
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D28CA9C;
-	Tue, 21 Nov 2023 03:41:13 -0800 (PST)
-Received: from [192.168.42.20] (p5b164862.dip0.t-ipconnect.de [91.22.72.98])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 10D352FC01F8;
-	Tue, 21 Nov 2023 12:33:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1700566395;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bE/DZ6jSuHVY0GZUKmeiKrvkfUErx6XZ/rLhfW6+yWE=;
-	b=thbtr9T8Yuz+G62q4lI97f1h/EewjqDXX3f+f386nsC9W23YpT9QO1b1CmGW1avIKk10yr
-	LgJU9QZ5xf26OisbyPn4UmNLt2Z5KKKtMWgIGoP8MPCoaIXc8tabtrq8knuJKvq1vET/yD
-	G1Ssnz+cJoo5/oSznGQ/eBl7Oc2uqb4=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
-Date: Tue, 21 Nov 2023 12:33:13 +0100
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 637D39C;
+	Tue, 21 Nov 2023 03:37:32 -0800 (PST)
+Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-7a66aa8ebb7so215205939f.3;
+        Tue, 21 Nov 2023 03:37:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700566651; x=1701171451;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=jxdRsb+4u+iDRHXDxaazTznHq5QV0/4kpZbydWlBH4k=;
+        b=B7LwIxmXoXapblGwGTwfKaq3ox7s6TQSs9Khn8pCGc0uoUqO2h3r8oN4QnvE5rgWVr
+         /GzAKjg4tvQvKy07MzsxnURM3u4wijK/CL22iGZNHT2mVhO7ofUkV5kIHQDEAkbcPmj0
+         FwyHmqBT5s66K8M9oVrW3I6OgckaLd+9iW8TlUVVHm1ZOnodJPqFWPWkLEuZ1BdAkzjK
+         WSqMN0s+SBUyzK0MrvaoBTNht4BzQsTmmsxY1jCygJf38qw1YJtm4Ammy1H/qVuWkBBw
+         akLtEAUnuW377nKfQwwFpAnR9ofeeJwwfpmIg3ikS4RN6wNDdjji7+YoW1aOLm7D7tcj
+         FclQ==
+X-Gm-Message-State: AOJu0YzQHv66Be+t1UWtvJpmL6LE6qjaEHfKGx193ST5DVVok0Eklh89
+	3hx75d0EDvfUeh+QAuuUdfioYDodZg==
+X-Google-Smtp-Source: AGHT+IF9RwR/tdwpnUsKSCPwqO9C9QV8Z9hofoZuMU2wzV56JcTooNqaq/juo/EIVhFfdZm0D55nKQ==
+X-Received: by 2002:a6b:d316:0:b0:794:eaef:f43e with SMTP id s22-20020a6bd316000000b00794eaeff43emr10576258iob.1.1700566651419;
+        Tue, 21 Nov 2023 03:37:31 -0800 (PST)
+Received: from herring.priv ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id s8-20020a056602240800b0079ab2787139sm2853899ioa.7.2023.11.21.03.37.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Nov 2023 03:37:30 -0800 (PST)
+Received: (nullmailer pid 1352673 invoked by uid 1000);
+	Tue, 21 Nov 2023 11:37:28 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-To: Pavel Machek <pavel@ucw.cz>, Jani Nikula <jani.nikula@linux.intel.com>,
- hdegoede@redhat.com, jikos@kernel.org
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Lee Jones
- <lee@kernel.org>, linux-kernel@vger.kernel.org,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
-References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
- <ZSe1GYLplZo5fsAe@duo.ucw.cz>
- <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
- <ZSf9QneKO/8IzWhd@duo.ucw.cz>
- <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
- <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
- <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <ZSmg4tqXiYiX18K/@duo.ucw.cz>
- <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
- <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Rob Herring <robh@kernel.org>
+To: Anshul Dalal <anshulusr@gmail.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel-mentees@lists.linuxfoundation.org, Conor Dooley <conor.dooley@microchip.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Jeff LaBundy <jeff@labundy.com>, devicetree@vger.kernel.org, linux-input@vger.kernel.org, =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20231121101751.2189965-1-anshulusr@gmail.com>
+References: <20231121101751.2189965-1-anshulusr@gmail.com>
+Message-Id: <170056664884.1352637.4950371378934551272.robh@kernel.org>
+Subject: Re: [PATCH v9 1/2] dt-bindings: input: bindings for Adafruit
+ Seesaw Gamepad
+Date: Tue, 21 Nov 2023 04:37:28 -0700
 
-Hi,
 
-Am 20.11.23 um 21:52 schrieb Pavel Machek:
-> Hi!
->
->>>> So... a bit of rationale. The keyboard does not really fit into the
->>>> LED subsystem; LEDs are expected to be independent ("hdd led") and not
->>>> a matrix of them.
->>> Makes sense.
->>>
->>>> We do see various strange displays these days -- they commonly have
->>>> rounded corners and holes in them. I'm not sure how that's currently
->>>> supported, but I believe it is reasonable to view keyboard as a
->>>> display with slightly weird placing of pixels.
->>>>
->>>> Plus, I'd really like to play tetris on one of those :-).
->>>>
->>>> So, would presenting them as auxdisplay be acceptable? Or are there
->>>> better options?
->>> It sounds like a fair use case -- auxdisplay are typically simple
->>> character-based or small graphical displays, e.g. 128x64, that may not
->>> be a "main" / usual screen as typically understood, but the concept is
->>> a bit fuzzy and we are a bit of a catch-all.
->>>
->>> And "keyboard backlight display with a pixel/color per-key" does not
->>> sound like a "main" screen, and having some cute effects displayed
->>> there are the kind of thing that one could do in the usual small
->>> graphical ones too. :)
->>>
->>> But if somebody prefers to create new categories (or subcategories
->>> within auxdisplay) to hold these, that could be nice too (in the
->>> latter case, I would perhaps suggest reorganizing all of the existing
->>> ones while at it).
->> One could also reasonably make the argument that controlling the
->> individual keyboard key backlights should be part of the input
->> subsystem. It's not a display per se. (Unless you actually have small
->> displays on the keycaps, and I think that's a thing too.)
-> While it would not be completely crazy to do that... I believe the
-> backlight is more of a display and less of a keyboard. Plus input
-> subystem is very far away from supporting this, and we had no input
-> from input people here.
->
-> I don't think LED subsystem is right place for this, and I believe
-> auxdisplay makes slightly more sense than input.
->
-> Unless someone steps up, I'd suggest Werner tries to implement this as
-> an auxdisplay. [And yes, this will not be simple task. RGB on LED is
-> different from RGB on display. But there are other LED displays, so
-> auxdisplay should handle this. Plus pixels are really funnily
-> shaped. But displays with missing pixels -- aka holes for camera --
-> are common in phones, and I believe we'll get variable pixel densities
-> -- less dense over camera -- too. So displays will have to deal with
-> these in the end.]
+On Tue, 21 Nov 2023 15:47:48 +0530, Anshul Dalal wrote:
+> Adds bindings for the Adafruit Seesaw Gamepad.
+> 
+> The gamepad functions as an i2c device with the default address of 0x50
+> and has an IRQ pin that can be enabled in the driver to allow for a rising
+> edge trigger on each button press or joystick movement.
+> 
+> Product page:
+>   https://www.adafruit.com/product/5743
+> Arduino driver:
+>   https://github.com/adafruit/Adafruit_Seesaw
+> 
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+> 
+> ---
+> 
+> Changes for v9:
+> - Added interrupt in example
+> 
+> v8: https://lore.kernel.org/lkml/20231108005337.45069-1-anshulusr@gmail.com/
+> 
+> Changes for v8:
+> - no updates
+> 
+> v7: https://lore.kernel.org/lkml/20231106164134.114668-1-anshulusr@gmail.com/
+> 
+> Changes for v7:
+> - no updates
+> 
+> v6: https://lore.kernel.org/lkml/20231027051819.81333-1-anshulusr@gmail.com/
+> 
+> Changes for v6:
+> - no updates
+> 
+> v5: https://lore.kernel.org/lkml/20231017034356.1436677-1-anshulusr@gmail.com/
+> 
+> Changes for v5:
+> - Added link to the datasheet
+> 
+> v4: https://lore.kernel.org/lkml/20231010184827.1213507-1-anshulusr@gmail.com/
+> 
+> Changes for v4:
+> - Fixed the URI for the id field
+> - Added `interrupts` property
+> 
+> v3: https://lore.kernel.org/linux-input/20231008185709.2448423-1-anshulusr@gmail.com/
+> 
+> Changes for v3:
+> - Updated id field to reflect updated file name from previous version
+> - Added `reg` property
+> 
+> v2: https://lore.kernel.org/linux-input/20231008172435.2391009-1-anshulusr@gmail.com/
+> 
+> Changes for v2:
+> - Renamed file to `adafruit,seesaw-gamepad.yaml`
+> - Removed quotes for `$id` and `$schema`
+> - Removed "Bindings for" from the description
+> - Changed node name to the generic name "joystick"
+> - Changed compatible to 'adafruit,seesaw-gamepad' instead of
+>   'adafruit,seesaw_gamepad'
+> 
+> v1: https://lore.kernel.org/linux-input/20231007144052.1535417-1-anshulusr@gmail.com/
+> ---
+>  .../input/adafruit,seesaw-gamepad.yaml        | 61 +++++++++++++++++++
+>  1 file changed, 61 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+> 
 
-Another idea I want to throw in the mix:
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Maybe the kernel is not the right place to implement this at all. RGB stuff is 
-not at all standardized and every vendor is doing completely different 
-interfaces, which does not fit the kernel userpsace apis desire to be uniformal 
-and fixed. e.g. Auxdisplay might fit static setting of RGB values, but it does 
-not fit the snake-effect mode, or the raindrops mode, or the 
-4-different-colors-in-the-edges-breathing-and-color-cycling mode.
+yamllint warnings/errors:
 
-So my current idea: Implement these keyboards as a single zone RGB kbd_backlight 
-in the leds interface to have something functional out of the box, but make it 
-runtime disable-able if something like 
-https://gitlab.com/CalcProgrammer1/OpenRGB wants to take over more fine granular 
-control from userspace via hidraw.
+dtschema/dtc warnings/errors:
+Error: Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.example.dts:30.34-35 syntax error
+FATAL ERROR: Unable to parse input tree
+make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1424: dt_binding_check] Error 2
+make: *** [Makefile:234: __sub-make] Error 2
 
-Kind regards,
+doc reference errors (make refcheckdocs):
 
-Werner
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231121101751.2189965-1-anshulusr@gmail.com
 
->
-> Best regards,
-> 								Pavel
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
