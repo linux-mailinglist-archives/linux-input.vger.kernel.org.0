@@ -1,164 +1,120 @@
-Return-Path: <linux-input+bounces-164-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-166-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 731B17F2BE4
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 12:37:41 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD6B87F2C7B
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 13:03:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 00DD91F245B7
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 11:37:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5E123B20F96
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 12:03:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6210F487A2;
-	Tue, 21 Nov 2023 11:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C61C4642D;
+	Tue, 21 Nov 2023 12:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UOXeWSF3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 637D39C;
-	Tue, 21 Nov 2023 03:37:32 -0800 (PST)
-Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-7a66aa8ebb7so215205939f.3;
-        Tue, 21 Nov 2023 03:37:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700566651; x=1701171451;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=jxdRsb+4u+iDRHXDxaazTznHq5QV0/4kpZbydWlBH4k=;
-        b=B7LwIxmXoXapblGwGTwfKaq3ox7s6TQSs9Khn8pCGc0uoUqO2h3r8oN4QnvE5rgWVr
-         /GzAKjg4tvQvKy07MzsxnURM3u4wijK/CL22iGZNHT2mVhO7ofUkV5kIHQDEAkbcPmj0
-         FwyHmqBT5s66K8M9oVrW3I6OgckaLd+9iW8TlUVVHm1ZOnodJPqFWPWkLEuZ1BdAkzjK
-         WSqMN0s+SBUyzK0MrvaoBTNht4BzQsTmmsxY1jCygJf38qw1YJtm4Ammy1H/qVuWkBBw
-         akLtEAUnuW377nKfQwwFpAnR9ofeeJwwfpmIg3ikS4RN6wNDdjji7+YoW1aOLm7D7tcj
-         FclQ==
-X-Gm-Message-State: AOJu0YzQHv66Be+t1UWtvJpmL6LE6qjaEHfKGx193ST5DVVok0Eklh89
-	3hx75d0EDvfUeh+QAuuUdfioYDodZg==
-X-Google-Smtp-Source: AGHT+IF9RwR/tdwpnUsKSCPwqO9C9QV8Z9hofoZuMU2wzV56JcTooNqaq/juo/EIVhFfdZm0D55nKQ==
-X-Received: by 2002:a6b:d316:0:b0:794:eaef:f43e with SMTP id s22-20020a6bd316000000b00794eaeff43emr10576258iob.1.1700566651419;
-        Tue, 21 Nov 2023 03:37:31 -0800 (PST)
-Received: from herring.priv ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id s8-20020a056602240800b0079ab2787139sm2853899ioa.7.2023.11.21.03.37.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Nov 2023 03:37:30 -0800 (PST)
-Received: (nullmailer pid 1352673 invoked by uid 1000);
-	Tue, 21 Nov 2023 11:37:28 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58807122;
+	Tue, 21 Nov 2023 04:02:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700568180; x=1732104180;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=qB2VK/LgbHjxH/7OIGkKCnelQVjm7bxsSfMewaJJDuI=;
+  b=UOXeWSF33Anbze3YR8lW7kWRBqU/UoL7RWrkK2UELal4KNqVpnDsZOjj
+   vXfYPIEfPJzY8hV+TrHt+MRFJMTkZWuweFS0634OU/v8Ftl6sf5MhfRr6
+   PtZJHGoiXIGMEymUWAOpIooSueClevbCi/c9JGzHRGxpCvpIJqmJRp+T6
+   GkjOPkLrut0ii9YEDEeUtAUCIj6hkiqeD0RtzXJh3u/682ogcmhJZigIZ
+   7CmqfQIOYQEmSRPxl268VNM+5dIqVZzMFna7/pB4nUzzxKpGoa2fXwkzp
+   xMejoReoNWylJPmg2+G/XqlsriS3435L8QdImr6wjM1dokn4XX3uNuLnQ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="422921936"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
+   d="scan'208";a="422921936"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 04:02:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="716514204"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
+   d="scan'208";a="716514204"
+Received: from sbouradx-mobl.ger.corp.intel.com ([10.252.58.80])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 04:02:56 -0800
+Date: Tue, 21 Nov 2023 14:02:53 +0200 (EET)
+From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+cc: Hans de Goede <hdegoede@redhat.com>, markgross@kernel.org, 
+    basavaraj.natikar@amd.com, jikos@kernel.org, benjamin.tissoires@redhat.com, 
+    Patil.Reddy@amd.com, mario.limonciello@amd.com, 
+    platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH v5 06/17] platform/x86/amd/pmf: Add support to get inputs
+ from other subsystems
+In-Reply-To: <20231117080747.3643990-7-Shyam-sundar.S-k@amd.com>
+Message-ID: <ae5cec34-ca52-ad32-4f90-bed2ad15dd4@linux.intel.com>
+References: <20231117080747.3643990-1-Shyam-sundar.S-k@amd.com> <20231117080747.3643990-7-Shyam-sundar.S-k@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Anshul Dalal <anshulusr@gmail.com>
-Cc: Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel-mentees@lists.linuxfoundation.org, Conor Dooley <conor.dooley@microchip.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Jeff LaBundy <jeff@labundy.com>, devicetree@vger.kernel.org, linux-input@vger.kernel.org, =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20231121101751.2189965-1-anshulusr@gmail.com>
-References: <20231121101751.2189965-1-anshulusr@gmail.com>
-Message-Id: <170056664884.1352637.4950371378934551272.robh@kernel.org>
-Subject: Re: [PATCH v9 1/2] dt-bindings: input: bindings for Adafruit
- Seesaw Gamepad
-Date: Tue, 21 Nov 2023 04:37:28 -0700
+Content-Type: multipart/mixed; boundary="8323329-471844286-1700568178=:1688"
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On Tue, 21 Nov 2023 15:47:48 +0530, Anshul Dalal wrote:
-> Adds bindings for the Adafruit Seesaw Gamepad.
+--8323329-471844286-1700568178=:1688
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: 8BIT
+
+On Fri, 17 Nov 2023, Shyam Sundar S K wrote:
+
+> PMF driver sends changing inputs from each subystem to TA for evaluating
+> the conditions in the policy binary.
 > 
-> The gamepad functions as an i2c device with the default address of 0x50
-> and has an IRQ pin that can be enabled in the driver to allow for a rising
-> edge trigger on each button press or joystick movement.
+> Add initial support of plumbing in the PMF driver for Smart PC to get
+> information from other subsystems in the kernel.
 > 
-> Product page:
->   https://www.adafruit.com/product/5743
-> Arduino driver:
->   https://github.com/adafruit/Adafruit_Seesaw
-> 
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
-> 
+> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 > ---
-> 
-> Changes for v9:
-> - Added interrupt in example
-> 
-> v8: https://lore.kernel.org/lkml/20231108005337.45069-1-anshulusr@gmail.com/
-> 
-> Changes for v8:
-> - no updates
-> 
-> v7: https://lore.kernel.org/lkml/20231106164134.114668-1-anshulusr@gmail.com/
-> 
-> Changes for v7:
-> - no updates
-> 
-> v6: https://lore.kernel.org/lkml/20231027051819.81333-1-anshulusr@gmail.com/
-> 
-> Changes for v6:
-> - no updates
-> 
-> v5: https://lore.kernel.org/lkml/20231017034356.1436677-1-anshulusr@gmail.com/
-> 
-> Changes for v5:
-> - Added link to the datasheet
-> 
-> v4: https://lore.kernel.org/lkml/20231010184827.1213507-1-anshulusr@gmail.com/
-> 
-> Changes for v4:
-> - Fixed the URI for the id field
-> - Added `interrupts` property
-> 
-> v3: https://lore.kernel.org/linux-input/20231008185709.2448423-1-anshulusr@gmail.com/
-> 
-> Changes for v3:
-> - Updated id field to reflect updated file name from previous version
-> - Added `reg` property
-> 
-> v2: https://lore.kernel.org/linux-input/20231008172435.2391009-1-anshulusr@gmail.com/
-> 
-> Changes for v2:
-> - Renamed file to `adafruit,seesaw-gamepad.yaml`
-> - Removed quotes for `$id` and `$schema`
-> - Removed "Bindings for" from the description
-> - Changed node name to the generic name "joystick"
-> - Changed compatible to 'adafruit,seesaw-gamepad' instead of
->   'adafruit,seesaw_gamepad'
-> 
-> v1: https://lore.kernel.org/linux-input/20231007144052.1535417-1-anshulusr@gmail.com/
-> ---
->  .../input/adafruit,seesaw-gamepad.yaml        | 61 +++++++++++++++++++
->  1 file changed, 61 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
-> 
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> +static int amd_pmf_get_battery_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
+> +{
+> +	int val;
+> +
+> +	val = amd_pmf_get_battery_prop(POWER_SUPPLY_PROP_PRESENT);
+> +	if (val >= 0 && val != 1)
+> +		return -ENODEV;
 
-yamllint warnings/errors:
+This no longer handles errors and was not what I suggested. With 
+splitting the check into two I meant this:
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.example.dts:30.34-35 syntax error
-FATAL ERROR: Unable to parse input tree
-make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1424: dt_binding_check] Error 2
-make: *** [Makefile:234: __sub-make] Error 2
+	val = amd_pmf_get_battery_prop(POWER_SUPPLY_PROP_PRESENT);
+	if (val < 0)
+		return val;
+	if (val != 1)
+		return -NODEV;
 
-doc reference errors (make refcheckdocs):
+After fixing this, please add:
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231121101751.2189965-1-anshulusr@gmail.com
+Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+> +	in->ev_info.bat_percentage = amd_pmf_get_battery_prop(POWER_SUPPLY_PROP_CAPACITY);
+> +	/* all values in mWh metrics */
+> +	in->ev_info.bat_design = amd_pmf_get_battery_prop(POWER_SUPPLY_PROP_ENERGY_FULL_DESIGN) /
+> +		MILLIWATT_PER_WATT;
+> +	in->ev_info.full_charge_capacity = amd_pmf_get_battery_prop(POWER_SUPPLY_PROP_ENERGY_FULL) /
+> +		MILLIWATT_PER_WATT;
+> +	in->ev_info.drain_rate = amd_pmf_get_battery_prop(POWER_SUPPLY_PROP_POWER_NOW) /
+> +		MILLIWATT_PER_WATT;
+> +
+> +	return 0;
+> +}
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+-- 
+ i.
 
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+--8323329-471844286-1700568178=:1688--
 
