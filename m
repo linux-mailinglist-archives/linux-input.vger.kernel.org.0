@@ -1,155 +1,226 @@
-Return-Path: <linux-input+bounces-170-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-171-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1F47F2D07
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 13:23:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 015A87F2D4C
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 13:36:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 911D4281C90
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 12:23:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5AA3F281F26
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 12:36:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 482C74A992;
-	Tue, 21 Nov 2023 12:23:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 240013C09A;
+	Tue, 21 Nov 2023 12:35:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="SLNmRty0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a6KmmP9O"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12olkn2061.outbound.protection.outlook.com [40.92.21.61])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43F89191
-	for <linux-input@vger.kernel.org>; Tue, 21 Nov 2023 04:23:22 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mZ58OnxTK04/3I/MseVVKEVggkICAYtc7/7YafT5vJLgLSTKBO04FMmO9Xx7I6ZBXJO1SuDw0Ejye61l/dEq0D3bzXUOHVGirgEEXybzIUt4fmdq+55silzItNjK9aUsbXduyXM4SxPq1z3vUOEt8F1c1izcriY31KvbXP2rVMFgRvSCeL3ekx5lR8LAR2g8CHhEvF0lwhvCmfOoZ0hEN9Jcz3BgAoqebAOkIKR76gqwO6N3r3s5XA2UvbISIAmeegM+zoDQPfvVq5j7atNtiTN5eWI5nCARAFyUA5VPi0dWHD5rHB0k6+vKYs9Wz7YTU1qrwP0+e1A1PUviB6M3uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+uUEnHiOQWuvB79zTym8wZ7n7PgEbWWXqSjqdM4mGik=;
- b=Yy8Y0Kr2EyDBRZK2ueJetaHS5U594VE8ypL4Nl4e8j+3AVgdjHmm0ErO66qQZ3hJQuMGGINPBjliP+ks+KyIXmYumJTgcBJFMOc48wQVojcx6nqpwIOvpae5NMdC3sRb0nCVh2cB5IC75JvCVJeRAZ3KnojX+7TuM2w1dvZI/klyCsN8Mi0BlBX1Oa+DwOabj6EO0KppdEtHpPetPFYPNTuQaeCa5IvW6NMJ6g0z5Y6IMGcrybvg4B0yd6L72VFMfMcxEBN1/pG7nb8z5Att0NZ5CP7STe1qGCOhJ3SQviUyuA0zx8/eXW95Ljq1gIPy9lXfuqn4K49vnFbjSmcvWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+uUEnHiOQWuvB79zTym8wZ7n7PgEbWWXqSjqdM4mGik=;
- b=SLNmRty0RWpke+sxog2oB0JHDUR/EiLsfHruVhk1UB0Wj16RKJgFUmdcVGRj4QABQGCnZ0gadNDGnyW+9AfK3MYRnToHC6wGxyuIhKL6EdvjJOQBX8z80IIxzMDyOfg6nLyY341n9ABkLr3gjO2oXHo0zAHvOUnfBo46wIkTbBGBmY8AelZYteGS3fMgmAT61wdYDWK/cswKZq9PwqOldfPRQ0gyKKKO+2EppUeyIeCG7ySZM9EdYnojMNKN673dlViYbwIJy4c6Ti3atnjxwQNknzMluEvmwMy2lHUgh59xXwvuREuKIKvDQmQeb0aovexKUiNIBtb1X6rLoe72WA==
-Received: from DM6PR04MB4121.namprd04.prod.outlook.com (2603:10b6:5:a0::10) by
- CO6PR04MB7889.namprd04.prod.outlook.com (2603:10b6:5:354::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7002.27; Tue, 21 Nov 2023 12:23:19 +0000
-Received: from DM6PR04MB4121.namprd04.prod.outlook.com
- ([fe80::3c6e:ae8:ec6b:efb1]) by DM6PR04MB4121.namprd04.prod.outlook.com
- ([fe80::3c6e:ae8:ec6b:efb1%6]) with mapi id 15.20.7002.027; Tue, 21 Nov 2023
- 12:23:19 +0000
-Message-ID:
- <DM6PR04MB412153443FCC205E5A9DF20DCEBBA@DM6PR04MB4121.namprd04.prod.outlook.com>
-Subject: [PATCH RESEND] HID: multitouch: Add quirk for HONOR GLO-GXXX
- touchpad
-From: Aoba K <nexp_0x17@outlook.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina
- <jikos@jikos.cz>,  Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Henrik Rydberg <rydberg@bitmath.org>
-Cc: linux-input@vger.kernel.org
-Date: Tue, 21 Nov 2023 20:23:11 +0800
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
-X-TMN: [iDnT92PRPr9m+G1nuBYDlFQl3Sl0jC60]
-X-ClientProxiedBy: SG2P153CA0005.APCP153.PROD.OUTLOOK.COM (2603:1096::15) To
- DM6PR04MB4121.namprd04.prod.outlook.com (2603:10b6:5:a0::10)
-X-Microsoft-Original-Message-ID:
- <7f3c1b358b594c094263ff3b625ba1c560b6e28e.camel@outlook.com>
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 356F512A;
+	Tue, 21 Nov 2023 04:35:56 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1ce5e65ba37so28759325ad.1;
+        Tue, 21 Nov 2023 04:35:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700570155; x=1701174955; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BVHOuGYwxoI/ien1Js+ADNjcb3WBPI5CxYXxkzPCUlo=;
+        b=a6KmmP9OdrIKK3rR/CY1kkomvfu79dXJMY6K/6ERD3gnXIx3W+o5OFrYEsUVN7+Bcj
+         3UEHtUTLnw8ISPMKyYgKE8CI6odRjWV/XhvTDakBtd68QOZjyfB+ZFDrPkuTKyU9c9Dk
+         Cy61jh7I36kA3ERmQKXIsE8XfJOwc6d19dM3gCTmONS6b6ttacL3ForcY2uF8ijdYfdc
+         Nzjk3s5yOuZKnPkXjOE+zjKnU/vpkBSxOpol4XjeFD8Ws3LpvgY0vlNMx9E1Y+jw/INp
+         vkLjgrXkAX+rB3XTuzyLt7lnFWjdSw91QPpVGWc7evJPur8LooEJ7bz7XQ+DS++7OJGO
+         oWWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700570155; x=1701174955;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BVHOuGYwxoI/ien1Js+ADNjcb3WBPI5CxYXxkzPCUlo=;
+        b=GjIwDQN0I5DY1g2pjtAH2IpZhnJJOd/iDpojwVm4ov875XvJH2w5zcL19avXdByU4T
+         g4ruUknyeNJRFw/81QF/s/L/lf6TgKiJxLlPm43ago3SmSmKiRd/4avAuPXxcLoRcUza
+         1Hc4LMgam8DhB3eviYV3YbLxQ5taMRFFJgBlUN6OnfhGMdbshzbld/G/DjpiEbCKbsPW
+         nwhHrZP5k8glRnZI3J+mc2BUuBQza1s4cKH2bJexYTNWmAqDcX17HeW9IejBSox+cFIS
+         8hqd5SYYDtqxkWJ96oaAAwZ36d4whjkXQc+DIkUQYcXZHF/SIWTLiLxciC5M7IIaqt8T
+         v1Bw==
+X-Gm-Message-State: AOJu0YwAKearoa7QIECNXjSoFYWduhaY0LPN0naK/YpMpXD8r911hUXl
+	1vsKaisJWnhA/htBTFxQJowVG4f9Aft2p0ST
+X-Google-Smtp-Source: AGHT+IEfyBmj0fJQWwLMQun9Vu8GL+cZJg4GfHD8QDRj93peVGM3TZ0cfFQuRioVmCCdTQ+RAOYctw==
+X-Received: by 2002:a17:903:32c4:b0:1cc:36fb:22ae with SMTP id i4-20020a17090332c400b001cc36fb22aemr4178526plr.2.1700570155041;
+        Tue, 21 Nov 2023 04:35:55 -0800 (PST)
+Received: from archlinux.srmu.edu.in ([103.4.221.252])
+        by smtp.gmail.com with ESMTPSA id e8-20020a170902744800b001c3f7fd1ef7sm7846614plt.12.2023.11.21.04.35.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Nov 2023 04:35:54 -0800 (PST)
+From: Anshul Dalal <anshulusr@gmail.com>
+To: linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: Anshul Dalal <anshulusr@gmail.com>,
+	"Conor Dooley" <conor+dt@kernel.org>,
+	"Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	linux-kernel@vger.kernel.org,
+	"Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+	"Conor Dooley" <conor.dooley@microchip.com>,
+	"Rob Herring" <robh+dt@kernel.org>,
+	"Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+	"Jeff LaBundy" <jeff@labundy.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH v10 1/2] dt-bindings: input: bindings for Adafruit Seesaw Gamepad
+Date: Tue, 21 Nov 2023 18:04:07 +0530
+Message-ID: <20231121123409.2231115-1-anshulusr@gmail.com>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR04MB4121:EE_|CO6PR04MB7889:EE_
-X-MS-Office365-Filtering-Correlation-Id: 68250560-cf1a-4525-d5ef-08dbea8ca54f
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	18/bEDbAR29ANkosHxdU2p0pzh8+sLNaxvh6grCKmY7M8g/Mo1A6KdnHD1yD/QmmZMwWur8OPKLDG3m7ac7swvLyFfOryIbdApigonI+Haz/DxpbdQmcy7/9Zb8Iu3/HGXWBvGHT5GWVGW8X2sphjhG6WAeeI6xa4lybKDKd3n0plVr9O5IJilDh03Jfplz04l/4COqJmwDsku3+czb3iD6hPENwJGBWLL/XSxgPFVeWxViyF1xz5xDVoFXz6MeiBdvF5h0DLWWuR3t967+oSTVlSSkg0X1j5EuuZHGRxF2WN4/NhXZd9t+CsV4ZNvG22yvmkHYphwN44ayEojJvInyOhG7ch+Vm3XoZUFDvNsfkdYJqE1Uk+IV7vYPL0ksLsb3X1hc4mgtngJSCpZQOF4fjvX1bSLfoIVat9uLOjo9t8jf8sVFKgAu2rrNwb86j24zJH7FiBjU+EnNdUt/W0C8qKwO6ckxvikv0mh/Uzl6KSbmv+6A0WreesztTJtD8h9zYow3NIE0T5UUQ0LA4Wm7ztvlVQdHaxaBUID7TsEVdOFcdFQINFX47Mgku23dV
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SGE4eGlxbllzZ2pjTWM0MUw0SnJpdUMyVlVqdkx3VldMa0dIYmdMeVFGSnVl?=
- =?utf-8?B?MXZmODlZejZoNWNEM0RDMnM4QXFBUzJlTWhxOG1yTklSR1lKanhhbGpNY3dR?=
- =?utf-8?B?Q0R3YlV2UUlPU2JTQ1RRNEZQa3NIU3phaWdMUlh3NzhFcEhBSHE5ekhnRFZ3?=
- =?utf-8?B?dGNXRE5kS1FWVjJJdXJoWFVRYWFXUld4dmlzdEdPcUxtYkhBY0dFS1RVMFc5?=
- =?utf-8?B?NkhtZlZZZG5BNDZoRkUwT2JHaUR1RFN5bzIySHdaNDRGQWg4UWhidU5xMEpk?=
- =?utf-8?B?ZHhaZDJYZ0xxWnUwVDBmQjBkSE9pb3IrVkdjTTJWL1J2YkdVMGZnK0llUXAw?=
- =?utf-8?B?KzBIaWdoSDJVcTJSYTJ2K1crM0ZObjd2NVBpR0cwaGRkL2FnMXNqeDVMUEpN?=
- =?utf-8?B?TFpLdFpQWWZvQ2RqT2IzWW5xaWppaEN3N3FrYkljT3NlUGo0NXN2Y3lCRCsy?=
- =?utf-8?B?NlJ6WTFSME8rZEQvWXpEK3B1ZXUvUDZpQjhPN1ZTSWJlTHJ5alNZTFlQN2xI?=
- =?utf-8?B?OTVueUcwNmQvbHEza0xHb0JXL25YOWw0ZmY1SlpGLzgrd2ZVNWU3SmpVcmlD?=
- =?utf-8?B?ZXYwb2JGMUxvS1FrZ2VXMFZRdUFLZ1ZKVDFlS2tTYlNrTVZlbUM3UExVSW1Y?=
- =?utf-8?B?RXVBR3ZEOE1EM0NCcUJlYVZvMTJpeFRwelJDRVZQazYrWUVIekdJcnlxRHMr?=
- =?utf-8?B?akpjRldTa1BseDRkUlF6NDVNYXR5bTJWRU5hU0pmQzZ1dkJSeVNHUkt6R3pR?=
- =?utf-8?B?SllEZEhYSDFwVU9ibHlHdXNEVmxncVdITVFnMjNwYnFBL3g5b3I1YytHQmhZ?=
- =?utf-8?B?alNLQksrWHo0UlIvZzZtYTlTV01TRU0rQkY0TjBBK0c2WXdxaWhkeUM1d24v?=
- =?utf-8?B?ZndaUkM2MDU0bkRQWWFVbzRSTkJjZytRajNMVVJuakFMZXZRd2VUMU5Gek4y?=
- =?utf-8?B?QlI1Mjk5MTRid3lRSDB6MGFUUFdmNTYvdW04dzdtNExiNGJ3TDVqalZUK1c2?=
- =?utf-8?B?N0w4YXFVRWVrYjA4REV5czNPbnFwbWJqbm9BMWltVDJqd0NSK29SNkpDUktZ?=
- =?utf-8?B?Z1IvbURxR1EvVllTaURncTBQeXorS3Jtdk10RHI5TUdIK3lDS3ArWjhORENx?=
- =?utf-8?B?Tzl3Sk9pT1pIL0dod2x2dUg0djZ1YmkweVloN2xKbURoNERrbHRDWXF0WWJ3?=
- =?utf-8?B?YUNaZGQwV3ZEZFYrdk5HeWxUWDE0MmpPeTkwQ0dNdTRoWnlYT0ZxSEtJaml6?=
- =?utf-8?B?N2haUE0raVpTejZNRkpyMmVzanVLQVRDeFhlSGt6blg5bFlzcnVTVHV1dHlr?=
- =?utf-8?B?eWVuc2RGR1BrYTBWOXI0ckRIbFNKN2VBenRSaWo1MCs1ZDBmcU11STBCcTYw?=
- =?utf-8?B?V2xsSnBKYkNTdHI1OFBZUVA4bmZMYzA5N0U2dnRuK0c2OGxpRkk5ZC9pYVNv?=
- =?utf-8?B?MjZpYWZ3US9IOHhXZTFtK1VJZHVxMitPR1ovVU5PQkpTTFQ2QXpIV2pXdTFP?=
- =?utf-8?B?L0RkemRHYTQ5eHRHUTBySDlCamVZZklTWEovc0E4WitVak9oY09YZW8wMGN6?=
- =?utf-8?B?aFQ5b2d6aVFNb3NtWi9obUhOckFubGp2dU1vcUJRYnYyOEoxMGpnMXBsRERj?=
- =?utf-8?B?d2E4OHNjK05JZ2NidEt6MUdjTmFRV0E9PQ==?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68250560-cf1a-4525-d5ef-08dbea8ca54f
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB4121.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 12:23:19.5269
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR04MB7889
+Content-Transfer-Encoding: 8bit
 
-Honor MagicBook 13 2023 has a touchpad which do not switch to the
-multitouch mode until the input mode feature is written by the host.
-The touchpad do report the input mode at touchpad(3), while itself
-working under mouse mode. As a workaround, it is possible to call
-MT_QUIRE_FORCE_GET_FEATURE to force set feature in mt_set_input_mode
-for such device.
-The touchpad reports as BLTP7853, which cannot retrive any useful
-manufacture information on the internel by this string at present.
-As the serial number of the laptop is GLO-G52, while DMI info reports
-the laptop serial number as GLO-GXXX, this workaround should applied
-to all models which has the GLO-GXXX.
+Adds bindings for the Adafruit Seesaw Gamepad.
 
-Signed-off-by: Aoba K <nexp_0x17@outlook.com>
+The gamepad functions as an i2c device with the default address of 0x50
+and has an IRQ pin that can be enabled in the driver to allow for a rising
+edge trigger on each button press or joystick movement.
+
+Product page:
+  https://www.adafruit.com/product/5743
+Arduino driver:
+  https://github.com/adafruit/Adafruit_Seesaw
+
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+
 ---
- drivers/hid/hid-multitouch.c | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index e098cc7b39..fd5b0637da 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -2046,6 +2046,11 @@ static const struct hid_device_id mt_devices[] =3D {
- 		MT_USB_DEVICE(USB_VENDOR_ID_HANVON_ALT,
- 			USB_DEVICE_ID_HANVON_ALT_MULTITOUCH) },
-=20
-+	/* HONOR GLO-GXXX panel */
-+	{ .driver_data =3D MT_CLS_VTL,
-+		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-+			0x347d, 0x7853) },
+Changes for v10:
+- Added interrupt-controller/irq.h header
+
+v9: https://lore.kernel.org/lkml/20231121101751.2189965-1-anshulusr@gmail.com/
+
+Changes for v9:
+- Added interrupt in example
+
+v8: https://lore.kernel.org/lkml/20231108005337.45069-1-anshulusr@gmail.com/
+
+Changes for v8:
+- no updates
+
+v7: https://lore.kernel.org/lkml/20231106164134.114668-1-anshulusr@gmail.com/
+
+Changes for v7:
+- no updates
+
+v6: https://lore.kernel.org/lkml/20231027051819.81333-1-anshulusr@gmail.com/
+
+Changes for v6:
+- no updates
+
+v5: https://lore.kernel.org/lkml/20231017034356.1436677-1-anshulusr@gmail.com/
+
+Changes for v5:
+- Added link to the datasheet
+
+v4: https://lore.kernel.org/lkml/20231010184827.1213507-1-anshulusr@gmail.com/
+
+Changes for v4:
+- Fixed the URI for the id field
+- Added `interrupts` property
+
+v3: https://lore.kernel.org/linux-input/20231008185709.2448423-1-anshulusr@gmail.com/
+
+Changes for v3:
+- Updated id field to reflect updated file name from previous version
+- Added `reg` property
+
+v2: https://lore.kernel.org/linux-input/20231008172435.2391009-1-anshulusr@gmail.com/
+
+Changes for v2:
+- Renamed file to `adafruit,seesaw-gamepad.yaml`
+- Removed quotes for `$id` and `$schema`
+- Removed "Bindings for" from the description
+- Changed node name to the generic name "joystick"
+- Changed compatible to 'adafruit,seesaw-gamepad' instead of
+  'adafruit,seesaw_gamepad'
+
+v1: https://lore.kernel.org/linux-input/20231007144052.1535417-1-anshulusr@gmail.com/
+---
+ .../input/adafruit,seesaw-gamepad.yaml        | 63 +++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+
+diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+new file mode 100644
+index 000000000000..5e86f6de6978
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+@@ -0,0 +1,63 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 	/* Ilitek dual touch panel */
- 	{  .driver_data =3D MT_CLS_NSMU,
- 		MT_USB_DEVICE(USB_VENDOR_ID_ILITEK,
-
-base-commit: 4ea4ed22b57846facd9cb4af5f67cb7bd2792cf3
---=20
-2.42.0
-
++title: Adafruit Mini I2C Gamepad with seesaw
++
++maintainers:
++  - Anshul Dalal <anshulusr@gmail.com>
++
++description: |
++  Adafruit Mini I2C Gamepad
++
++    +-----------------------------+
++    |   ___                       |
++    |  /   \               (X)    |
++    | |  S  |  __   __  (Y)   (A) |
++    |  \___/  |ST| |SE|    (B)    |
++    |                             |
++    +-----------------------------+
++
++  S -> 10-bit precision bidirectional analog joystick
++  ST -> Start
++  SE -> Select
++  X, A, B, Y -> Digital action buttons
++
++  Datasheet: https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.pdf
++  Product page: https://www.adafruit.com/product/5743
++  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
++
++properties:
++  compatible:
++    const: adafruit,seesaw-gamepad
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++    description:
++      The gamepad's IRQ pin triggers a rising edge if interrupts are enabled.
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        joystick@50 {
++            compatible = "adafruit,seesaw-gamepad";
++            interrupts = <18 IRQ_TYPE_EDGE_RISING>;
++            reg = <0x50>;
++        };
++    };
+-- 
+2.42.1
 
 
