@@ -1,167 +1,155 @@
-Return-Path: <linux-input+bounces-169-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-170-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F5D77F2CFA
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 13:20:13 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1F47F2D07
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 13:23:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4900A281F55
-	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 12:20:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 911D4281C90
+	for <lists+linux-input@lfdr.de>; Tue, 21 Nov 2023 12:23:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A97F7495E3;
-	Tue, 21 Nov 2023 12:20:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 482C74A992;
+	Tue, 21 Nov 2023 12:23:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dnbfuPlU"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="SLNmRty0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DB9E18A
-	for <linux-input@vger.kernel.org>; Tue, 21 Nov 2023 04:20:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700569206;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0lxOA43UTP/R6zFUk37R+i+jJVYEbt1d8xZiecNyn/E=;
-	b=dnbfuPlU0W/gPa6/yQJH9Gfd5NZ4qLBlK5Cwr1+nCyWx4Gl7KSkUm5sWZM3vzW5MTdycbx
-	kKXbUsbXNCzBUDQctLRmzLeoJ8Ay3P//cZD4F/rCO/xlpGEmkrPOuyyUbo9S6Y7Wtdw9ut
-	X0rQjnjOWeVqps0A+Lo3zkSsrf3kdxM=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-510-MJ7n3LUyMLqgYJQ67v0mKw-1; Tue, 21 Nov 2023 07:20:05 -0500
-X-MC-Unique: MJ7n3LUyMLqgYJQ67v0mKw-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a020d91dc93so42471766b.0
-        for <linux-input@vger.kernel.org>; Tue, 21 Nov 2023 04:20:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700569204; x=1701174004;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0lxOA43UTP/R6zFUk37R+i+jJVYEbt1d8xZiecNyn/E=;
-        b=i2datsJoQ08mbxBSZDBA/Ias1S04E9ky18el/bvMDip0lqwmEHaFQhiYAIFcvevKod
-         ddz5ogLc1lNakZLoPLFqYcTUM7yI/u9QKc7JngKgsfSKIccvhRk9u+HYbch/l13n5Otc
-         Nax1+Q5wt1HaGQeCXLj2SWF/317T83aOBwrFsGQ9RSIngZMtDUj0h+/xY4ymQNed9KWz
-         32i9rXB8S5KRcPNKbakFb9yZmsgFkmDix2OJu3J+CPXq0tlsM9+9R1UxxdguMwkmluCS
-         9wk8Tfua+fugh3KFT2pQ0Xn30tMrzzFB0SHUCfrOILt8owVOe1ks5Xk7vmSg7OYMyUEj
-         BrTQ==
-X-Gm-Message-State: AOJu0YxD49ODwZpHcmCV2usBRITx+UPA/1F28a3gN9OVIWHQs1yJ32Px
-	A9QPFX/xEj6DNj1FYSieBUVASlVPqwsL6e1DaXAY8hwgPknDld51BuwpiR3vJEe/NbBkFJwXLC7
-	Nt3F1YF74mHdHE/mnsemT5FM=
-X-Received: by 2002:a17:906:2e85:b0:9c7:5667:5643 with SMTP id o5-20020a1709062e8500b009c756675643mr6684056eji.72.1700569203956;
-        Tue, 21 Nov 2023 04:20:03 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE92EhPr1HPBGhXFRPyS78A/cFsflqXUs5leyf965m9/E+JG/G4eTF6Hlli+Hm2DJ2NWAwGIQ==
-X-Received: by 2002:a17:906:2e85:b0:9c7:5667:5643 with SMTP id o5-20020a1709062e8500b009c756675643mr6684039eji.72.1700569203641;
-        Tue, 21 Nov 2023 04:20:03 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id l20-20020a1709060e1400b009ff783d892esm1938300eji.146.2023.11.21.04.20.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Nov 2023 04:20:03 -0800 (PST)
-Message-ID: <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
-Date: Tue, 21 Nov 2023 13:20:01 +0100
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12olkn2061.outbound.protection.outlook.com [40.92.21.61])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43F89191
+	for <linux-input@vger.kernel.org>; Tue, 21 Nov 2023 04:23:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mZ58OnxTK04/3I/MseVVKEVggkICAYtc7/7YafT5vJLgLSTKBO04FMmO9Xx7I6ZBXJO1SuDw0Ejye61l/dEq0D3bzXUOHVGirgEEXybzIUt4fmdq+55silzItNjK9aUsbXduyXM4SxPq1z3vUOEt8F1c1izcriY31KvbXP2rVMFgRvSCeL3ekx5lR8LAR2g8CHhEvF0lwhvCmfOoZ0hEN9Jcz3BgAoqebAOkIKR76gqwO6N3r3s5XA2UvbISIAmeegM+zoDQPfvVq5j7atNtiTN5eWI5nCARAFyUA5VPi0dWHD5rHB0k6+vKYs9Wz7YTU1qrwP0+e1A1PUviB6M3uw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+uUEnHiOQWuvB79zTym8wZ7n7PgEbWWXqSjqdM4mGik=;
+ b=Yy8Y0Kr2EyDBRZK2ueJetaHS5U594VE8ypL4Nl4e8j+3AVgdjHmm0ErO66qQZ3hJQuMGGINPBjliP+ks+KyIXmYumJTgcBJFMOc48wQVojcx6nqpwIOvpae5NMdC3sRb0nCVh2cB5IC75JvCVJeRAZ3KnojX+7TuM2w1dvZI/klyCsN8Mi0BlBX1Oa+DwOabj6EO0KppdEtHpPetPFYPNTuQaeCa5IvW6NMJ6g0z5Y6IMGcrybvg4B0yd6L72VFMfMcxEBN1/pG7nb8z5Att0NZ5CP7STe1qGCOhJ3SQviUyuA0zx8/eXW95Ljq1gIPy9lXfuqn4K49vnFbjSmcvWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+uUEnHiOQWuvB79zTym8wZ7n7PgEbWWXqSjqdM4mGik=;
+ b=SLNmRty0RWpke+sxog2oB0JHDUR/EiLsfHruVhk1UB0Wj16RKJgFUmdcVGRj4QABQGCnZ0gadNDGnyW+9AfK3MYRnToHC6wGxyuIhKL6EdvjJOQBX8z80IIxzMDyOfg6nLyY341n9ABkLr3gjO2oXHo0zAHvOUnfBo46wIkTbBGBmY8AelZYteGS3fMgmAT61wdYDWK/cswKZq9PwqOldfPRQ0gyKKKO+2EppUeyIeCG7ySZM9EdYnojMNKN673dlViYbwIJy4c6Ti3atnjxwQNknzMluEvmwMy2lHUgh59xXwvuREuKIKvDQmQeb0aovexKUiNIBtb1X6rLoe72WA==
+Received: from DM6PR04MB4121.namprd04.prod.outlook.com (2603:10b6:5:a0::10) by
+ CO6PR04MB7889.namprd04.prod.outlook.com (2603:10b6:5:354::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7002.27; Tue, 21 Nov 2023 12:23:19 +0000
+Received: from DM6PR04MB4121.namprd04.prod.outlook.com
+ ([fe80::3c6e:ae8:ec6b:efb1]) by DM6PR04MB4121.namprd04.prod.outlook.com
+ ([fe80::3c6e:ae8:ec6b:efb1%6]) with mapi id 15.20.7002.027; Tue, 21 Nov 2023
+ 12:23:19 +0000
+Message-ID:
+ <DM6PR04MB412153443FCC205E5A9DF20DCEBBA@DM6PR04MB4121.namprd04.prod.outlook.com>
+Subject: [PATCH RESEND] HID: multitouch: Add quirk for HONOR GLO-GXXX
+ touchpad
+From: Aoba K <nexp_0x17@outlook.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina
+ <jikos@jikos.cz>,  Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Henrik Rydberg <rydberg@bitmath.org>
+Cc: linux-input@vger.kernel.org
+Date: Tue, 21 Nov 2023 20:23:11 +0800
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+X-TMN: [iDnT92PRPr9m+G1nuBYDlFQl3Sl0jC60]
+X-ClientProxiedBy: SG2P153CA0005.APCP153.PROD.OUTLOOK.COM (2603:1096::15) To
+ DM6PR04MB4121.namprd04.prod.outlook.com (2603:10b6:5:a0::10)
+X-Microsoft-Original-Message-ID:
+ <7f3c1b358b594c094263ff3b625ba1c560b6e28e.camel@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-To: Werner Sembach <wse@tuxedocomputers.com>, Pavel Machek <pavel@ucw.cz>,
- Jani Nikula <jani.nikula@linux.intel.com>, jikos@kernel.org
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Lee Jones
- <lee@kernel.org>, linux-kernel@vger.kernel.org,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
-References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
- <ZSe1GYLplZo5fsAe@duo.ucw.cz>
- <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
- <ZSf9QneKO/8IzWhd@duo.ucw.cz>
- <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
- <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
- <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <ZSmg4tqXiYiX18K/@duo.ucw.cz>
- <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
- <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
- <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR04MB4121:EE_|CO6PR04MB7889:EE_
+X-MS-Office365-Filtering-Correlation-Id: 68250560-cf1a-4525-d5ef-08dbea8ca54f
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	18/bEDbAR29ANkosHxdU2p0pzh8+sLNaxvh6grCKmY7M8g/Mo1A6KdnHD1yD/QmmZMwWur8OPKLDG3m7ac7swvLyFfOryIbdApigonI+Haz/DxpbdQmcy7/9Zb8Iu3/HGXWBvGHT5GWVGW8X2sphjhG6WAeeI6xa4lybKDKd3n0plVr9O5IJilDh03Jfplz04l/4COqJmwDsku3+czb3iD6hPENwJGBWLL/XSxgPFVeWxViyF1xz5xDVoFXz6MeiBdvF5h0DLWWuR3t967+oSTVlSSkg0X1j5EuuZHGRxF2WN4/NhXZd9t+CsV4ZNvG22yvmkHYphwN44ayEojJvInyOhG7ch+Vm3XoZUFDvNsfkdYJqE1Uk+IV7vYPL0ksLsb3X1hc4mgtngJSCpZQOF4fjvX1bSLfoIVat9uLOjo9t8jf8sVFKgAu2rrNwb86j24zJH7FiBjU+EnNdUt/W0C8qKwO6ckxvikv0mh/Uzl6KSbmv+6A0WreesztTJtD8h9zYow3NIE0T5UUQ0LA4Wm7ztvlVQdHaxaBUID7TsEVdOFcdFQINFX47Mgku23dV
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SGE4eGlxbllzZ2pjTWM0MUw0SnJpdUMyVlVqdkx3VldMa0dIYmdMeVFGSnVl?=
+ =?utf-8?B?MXZmODlZejZoNWNEM0RDMnM4QXFBUzJlTWhxOG1yTklSR1lKanhhbGpNY3dR?=
+ =?utf-8?B?Q0R3YlV2UUlPU2JTQ1RRNEZQa3NIU3phaWdMUlh3NzhFcEhBSHE5ekhnRFZ3?=
+ =?utf-8?B?dGNXRE5kS1FWVjJJdXJoWFVRYWFXUld4dmlzdEdPcUxtYkhBY0dFS1RVMFc5?=
+ =?utf-8?B?NkhtZlZZZG5BNDZoRkUwT2JHaUR1RFN5bzIySHdaNDRGQWg4UWhidU5xMEpk?=
+ =?utf-8?B?ZHhaZDJYZ0xxWnUwVDBmQjBkSE9pb3IrVkdjTTJWL1J2YkdVMGZnK0llUXAw?=
+ =?utf-8?B?KzBIaWdoSDJVcTJSYTJ2K1crM0ZObjd2NVBpR0cwaGRkL2FnMXNqeDVMUEpN?=
+ =?utf-8?B?TFpLdFpQWWZvQ2RqT2IzWW5xaWppaEN3N3FrYkljT3NlUGo0NXN2Y3lCRCsy?=
+ =?utf-8?B?NlJ6WTFSME8rZEQvWXpEK3B1ZXUvUDZpQjhPN1ZTSWJlTHJ5alNZTFlQN2xI?=
+ =?utf-8?B?OTVueUcwNmQvbHEza0xHb0JXL25YOWw0ZmY1SlpGLzgrd2ZVNWU3SmpVcmlD?=
+ =?utf-8?B?ZXYwb2JGMUxvS1FrZ2VXMFZRdUFLZ1ZKVDFlS2tTYlNrTVZlbUM3UExVSW1Y?=
+ =?utf-8?B?RXVBR3ZEOE1EM0NCcUJlYVZvMTJpeFRwelJDRVZQazYrWUVIekdJcnlxRHMr?=
+ =?utf-8?B?akpjRldTa1BseDRkUlF6NDVNYXR5bTJWRU5hU0pmQzZ1dkJSeVNHUkt6R3pR?=
+ =?utf-8?B?SllEZEhYSDFwVU9ibHlHdXNEVmxncVdITVFnMjNwYnFBL3g5b3I1YytHQmhZ?=
+ =?utf-8?B?alNLQksrWHo0UlIvZzZtYTlTV01TRU0rQkY0TjBBK0c2WXdxaWhkeUM1d24v?=
+ =?utf-8?B?ZndaUkM2MDU0bkRQWWFVbzRSTkJjZytRajNMVVJuakFMZXZRd2VUMU5Gek4y?=
+ =?utf-8?B?QlI1Mjk5MTRid3lRSDB6MGFUUFdmNTYvdW04dzdtNExiNGJ3TDVqalZUK1c2?=
+ =?utf-8?B?N0w4YXFVRWVrYjA4REV5czNPbnFwbWJqbm9BMWltVDJqd0NSK29SNkpDUktZ?=
+ =?utf-8?B?Z1IvbURxR1EvVllTaURncTBQeXorS3Jtdk10RHI5TUdIK3lDS3ArWjhORENx?=
+ =?utf-8?B?Tzl3Sk9pT1pIL0dod2x2dUg0djZ1YmkweVloN2xKbURoNERrbHRDWXF0WWJ3?=
+ =?utf-8?B?YUNaZGQwV3ZEZFYrdk5HeWxUWDE0MmpPeTkwQ0dNdTRoWnlYT0ZxSEtJaml6?=
+ =?utf-8?B?N2haUE0raVpTejZNRkpyMmVzanVLQVRDeFhlSGt6blg5bFlzcnVTVHV1dHlr?=
+ =?utf-8?B?eWVuc2RGR1BrYTBWOXI0ckRIbFNKN2VBenRSaWo1MCs1ZDBmcU11STBCcTYw?=
+ =?utf-8?B?V2xsSnBKYkNTdHI1OFBZUVA4bmZMYzA5N0U2dnRuK0c2OGxpRkk5ZC9pYVNv?=
+ =?utf-8?B?MjZpYWZ3US9IOHhXZTFtK1VJZHVxMitPR1ovVU5PQkpTTFQ2QXpIV2pXdTFP?=
+ =?utf-8?B?L0RkemRHYTQ5eHRHUTBySDlCamVZZklTWEovc0E4WitVak9oY09YZW8wMGN6?=
+ =?utf-8?B?aFQ5b2d6aVFNb3NtWi9obUhOckFubGp2dU1vcUJRYnYyOEoxMGpnMXBsRERj?=
+ =?utf-8?B?d2E4OHNjK05JZ2NidEt6MUdjTmFRV0E9PQ==?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68250560-cf1a-4525-d5ef-08dbea8ca54f
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB4121.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 12:23:19.5269
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR04MB7889
 
-Hi Werner,
+Honor MagicBook 13 2023 has a touchpad which do not switch to the
+multitouch mode until the input mode feature is written by the host.
+The touchpad do report the input mode at touchpad(3), while itself
+working under mouse mode. As a workaround, it is possible to call
+MT_QUIRE_FORCE_GET_FEATURE to force set feature in mt_set_input_mode
+for such device.
+The touchpad reports as BLTP7853, which cannot retrive any useful
+manufacture information on the internel by this string at present.
+As the serial number of the laptop is GLO-G52, while DMI info reports
+the laptop serial number as GLO-GXXX, this workaround should applied
+to all models which has the GLO-GXXX.
 
-On 11/21/23 12:33, Werner Sembach wrote:
-> Hi,
-> 
-> Am 20.11.23 um 21:52 schrieb Pavel Machek:
->> Hi!
->>
->>>>> So... a bit of rationale. The keyboard does not really fit into the
->>>>> LED subsystem; LEDs are expected to be independent ("hdd led") and not
->>>>> a matrix of them.
->>>> Makes sense.
->>>>
->>>>> We do see various strange displays these days -- they commonly have
->>>>> rounded corners and holes in them. I'm not sure how that's currently
->>>>> supported, but I believe it is reasonable to view keyboard as a
->>>>> display with slightly weird placing of pixels.
->>>>>
->>>>> Plus, I'd really like to play tetris on one of those :-).
->>>>>
->>>>> So, would presenting them as auxdisplay be acceptable? Or are there
->>>>> better options?
->>>> It sounds like a fair use case -- auxdisplay are typically simple
->>>> character-based or small graphical displays, e.g. 128x64, that may not
->>>> be a "main" / usual screen as typically understood, but the concept is
->>>> a bit fuzzy and we are a bit of a catch-all.
->>>>
->>>> And "keyboard backlight display with a pixel/color per-key" does not
->>>> sound like a "main" screen, and having some cute effects displayed
->>>> there are the kind of thing that one could do in the usual small
->>>> graphical ones too. :)
->>>>
->>>> But if somebody prefers to create new categories (or subcategories
->>>> within auxdisplay) to hold these, that could be nice too (in the
->>>> latter case, I would perhaps suggest reorganizing all of the existing
->>>> ones while at it).
->>> One could also reasonably make the argument that controlling the
->>> individual keyboard key backlights should be part of the input
->>> subsystem. It's not a display per se. (Unless you actually have small
->>> displays on the keycaps, and I think that's a thing too.)
->> While it would not be completely crazy to do that... I believe the
->> backlight is more of a display and less of a keyboard. Plus input
->> subystem is very far away from supporting this, and we had no input
->> from input people here.
->>
->> I don't think LED subsystem is right place for this, and I believe
->> auxdisplay makes slightly more sense than input.
->>
->> Unless someone steps up, I'd suggest Werner tries to implement this as
->> an auxdisplay. [And yes, this will not be simple task. RGB on LED is
->> different from RGB on display. But there are other LED displays, so
->> auxdisplay should handle this. Plus pixels are really funnily
->> shaped. But displays with missing pixels -- aka holes for camera --
->> are common in phones, and I believe we'll get variable pixel densities
->> -- less dense over camera -- too. So displays will have to deal with
->> these in the end.]
-> 
-> Another idea I want to throw in the mix:
-> 
-> Maybe the kernel is not the right place to implement this at all. RGB stuff is not at all standardized and every vendor is doing completely different interfaces, which does not fit the kernel userpsace apis desire to be uniformal and fixed. e.g. Auxdisplay might fit static setting of RGB values, but it does not fit the snake-effect mode, or the raindrops mode, or the 4-different-colors-in-the-edges-breathing-and-color-cycling mode.
-> 
-> So my current idea: Implement these keyboards as a single zone RGB kbd_backlight in the leds interface to have something functional out of the box, but make it runtime disable-able if something like https://gitlab.com/CalcProgrammer1/OpenRGB wants to take over more fine granular control from userspace via hidraw.
+Signed-off-by: Aoba K <nexp_0x17@outlook.com>
+---
+ drivers/hid/hid-multitouch.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-That sounds like a good approach to me. We are seeing the same with game controllers where steam and wine/proton also sometimes use hidraw mode to get access to all the crazy^W interesting features.
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index e098cc7b39..fd5b0637da 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -2046,6 +2046,11 @@ static const struct hid_device_id mt_devices[] =3D {
+ 		MT_USB_DEVICE(USB_VENDOR_ID_HANVON_ALT,
+ 			USB_DEVICE_ID_HANVON_ALT_MULTITOUCH) },
+=20
++	/* HONOR GLO-GXXX panel */
++	{ .driver_data =3D MT_CLS_VTL,
++		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
++			0x347d, 0x7853) },
++
+ 	/* Ilitek dual touch panel */
+ 	{  .driver_data =3D MT_CLS_NSMU,
+ 		MT_USB_DEVICE(USB_VENDOR_ID_ILITEK,
 
-That would mean that all we need to standardize and the kernel <-> userspace API level is adding a standard way to disable the single zone RGB kbd_backlight support in the kernel.
-
-Regards,
-
-Hans
+base-commit: 4ea4ed22b57846facd9cb4af5f67cb7bd2792cf3
+--=20
+2.42.0
 
 
 
