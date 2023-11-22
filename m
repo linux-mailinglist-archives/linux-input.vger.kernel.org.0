@@ -1,129 +1,93 @@
-Return-Path: <linux-input+bounces-204-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-205-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E83447F4A0F
-	for <lists+linux-input@lfdr.de>; Wed, 22 Nov 2023 16:17:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C507F4E36
+	for <lists+linux-input@lfdr.de>; Wed, 22 Nov 2023 18:21:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 254E81C203BB
-	for <lists+linux-input@lfdr.de>; Wed, 22 Nov 2023 15:17:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 63A7E1C208C3
+	for <lists+linux-input@lfdr.de>; Wed, 22 Nov 2023 17:21:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C90292574D;
-	Wed, 22 Nov 2023 15:17:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0361357891;
+	Wed, 22 Nov 2023 17:21:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hF4nUseY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ir4zVGFs"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2410812A
-	for <linux-input@vger.kernel.org>; Wed, 22 Nov 2023 07:17:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700666227;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HNZF0SqnqKoxtxQfSsYiCYBkXnRbbx9Gogs3wh0979A=;
-	b=hF4nUseY1sn4eYrWfUD9lQu31uau0ThYLNQeZU+5INFaB3XmWNYCV8vwZGbeAiaqGI8/ia
-	gMM+MJcb2EEwtkuz3xPRCAnS8P2ETfq4vBGeIIJj0208McivEGVv9OChdT4t4m158Kkd0v
-	DsoMkjM4SIPtFn4ajD4UosBzd1zMBzg=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-527-PDzlG0wbM5K1dBrc7bkaKQ-1; Wed, 22 Nov 2023 10:17:04 -0500
-X-MC-Unique: PDzlG0wbM5K1dBrc7bkaKQ-1
-Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-50aa9aee5f9so4229988e87.3
-        for <linux-input@vger.kernel.org>; Wed, 22 Nov 2023 07:17:04 -0800 (PST)
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AEB083
+	for <linux-input@vger.kernel.org>; Wed, 22 Nov 2023 09:21:49 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-6cb9dd2ab56so37022b3a.3
+        for <linux-input@vger.kernel.org>; Wed, 22 Nov 2023 09:21:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700673708; x=1701278508; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=znCgUVjyPUsuiOV6uODJ0dusaR6D3T5wY/y+LHOiytY=;
+        b=Ir4zVGFshlJUztM+kh7YS6oWWdmTZh4ijjltc6Vuy0qmW/3fivjm0JgNvus0RMkBag
+         WJd8uRCwAiqLKk14p9tkwAYqpog4lv00F0gHXK8s3fqxIiIhFGxNY7dV3MmP1grvbUS6
+         yV/nJFodX/WXpjLlOTZ2peluviDoSjBIiIUEPIzGEj2y9270cX7gix1LDug3k1KkB8kY
+         B1/ov9LETWXFEpIhC21b1GT4OMiKT/2uLeiVttXMUnutWt/mact6A8mtsfUPDaunWAgU
+         iFkOXPCrBLFLlQumhTzUmAhOUrkPRflIxpO/rNf5tIJM7uXE9wSS5MLo19U4dU1q78qL
+         yG+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700666223; x=1701271023;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HNZF0SqnqKoxtxQfSsYiCYBkXnRbbx9Gogs3wh0979A=;
-        b=kjqxWzEvjlNxYFQmFEaDi1IDukn/+M0i3d3N7s5d44o6rgUQ5MewUcA0RjkuwpAEoL
-         vF74mKQDLHfS6+vpmjh7AkCY0iFBWjDYmm9iJL8nSwaZ1TrUi2Gn8SCcYG+Q3vviy175
-         seSCeDLRZmCLN7cKywizpKrLJcCp2hzRROaexe6E843Qi9m80tfDHn6XMtDBB5cH8nWt
-         INqQzGUTBntPJRl3v6TjePY9R01+HrrPayzyqtb1S9Ollo9lKezqBLkjq1C5E0X4Kwad
-         +ZrqlwDijixUEuYu3fPUkFCXmt2x8qdTXlmzyraOTe6sNFMRF1lSPsHqX3mpKQe7q5NN
-         fuiA==
-X-Gm-Message-State: AOJu0YxblO8pWsGF0R9MYJUdNOXnNLU6ior3wFgCfeM6EhH00Y89x4PY
-	yCv2vHhO8EbrLxXwmYx375oZHl7++zSAdp7OyhaPL1Y1pJ9xLKwhj8+A3scjtAvtmuSRS0bojl6
-	S0N5TNw8wXSUiNgezSnpLj6Gj1H2gJlU=
-X-Received: by 2002:a19:f818:0:b0:509:8e22:ae5 with SMTP id a24-20020a19f818000000b005098e220ae5mr1804416lff.60.1700666223055;
-        Wed, 22 Nov 2023 07:17:03 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGhNkk8osKUkuMiPV2p7kvM34eDJmsK95p+FLf/21RrBimt6NwiyXB5Qui/5kgPXgAMHMEmbw==
-X-Received: by 2002:a19:f818:0:b0:509:8e22:ae5 with SMTP id a24-20020a19f818000000b005098e220ae5mr1804397lff.60.1700666222725;
-        Wed, 22 Nov 2023 07:17:02 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id u10-20020aa7d88a000000b00548ac1f7c5esm4002104edq.64.2023.11.22.07.17.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Nov 2023 07:17:02 -0800 (PST)
-Message-ID: <0e3cd2e2-ea09-4772-88ed-b90a913937a0@redhat.com>
-Date: Wed, 22 Nov 2023 16:17:01 +0100
+        d=1e100.net; s=20230601; t=1700673708; x=1701278508;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=znCgUVjyPUsuiOV6uODJ0dusaR6D3T5wY/y+LHOiytY=;
+        b=SA7eYBNF0xXmBfgIcxUz/P0xDN34jbmG+XGNsQ2EQe4nnLlEOLSMTdD1wnMWY5dXVO
+         plSAKry2odc8XyUZ3dtTenr4LrLQFzmwTsK8GFTlMnxazSWXkXwnGwXFbcDDsfMVh7Zd
+         4eCKbiWjSN0bOHJLEHn729zuzU22AN9ese0chNBQdDmTJlkNDmt1oQTARj++pAaTPPTm
+         HGrcR4tWmgd31Y7Lrj3OtDd4mrOSixVh8dINkNS8UapOlR3o1o7TlSzRnxIAPyxT8duM
+         fL17RTWtHwsrYdIF8uXkDgCWfF6WUMMpkvQ6kxvi+gZb424CGwv1kZJIUB/sX0VklX6M
+         rtiA==
+X-Gm-Message-State: AOJu0YwkcAGr8QR4OTWkG2avDyrj56jJIlpzlb/HqQejorRppcslCaTj
+	DQ7dJNcpbfLB7vrEYRqF+DJzcfOzhAIrxQ/69tZbB56vp8I=
+X-Google-Smtp-Source: AGHT+IGPFp7bs2tGjs/OOMluLPBiHJM34LXRBHAsHI0FBCnQn33onN2hN1HS/SMZouDz5rhALdRaQq/2+0EyNTaAQOw=
+X-Received: by 2002:a05:6a00:1147:b0:6cb:cc67:90c2 with SMTP id
+ b7-20020a056a00114700b006cbcc6790c2mr2732471pfm.17.1700673708084; Wed, 22 Nov
+ 2023 09:21:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Input: i8042 - add quirk for Lenovo ThinkPad T14 Gen 1
-Content-Language: en-US, nl
-To: Jonathan Denose <jdenose@chromium.org>
-Cc: linux-input@vger.kernel.org, Jonathan Denose <jdenose@google.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Huacai Chen <chenhuacai@kernel.org>,
- Mattijs Korpershoek <mkorpershoek@baylibre.com>, Takashi Iwai
- <tiwai@suse.de>, Werner Sembach <wse@tuxedocomputers.com>,
- linux-kernel@vger.kernel.org
-References: <20230925163313.1.I55bfb5880d6755094a995d3ae44c13810ae98be4@changeid>
- <fbcf0fee-b97d-8f47-9df4-44bc1b475144@redhat.com>
- <CALNJtpUH_0+ETa+7MfKRbpc_c1TTTasUrZ4zA4V9EHb_BtAUwg@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CALNJtpUH_0+ETa+7MfKRbpc_c1TTTasUrZ4zA4V9EHb_BtAUwg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Andre Eisenbach <int2str@gmail.com>
+Date: Wed, 22 Nov 2023 12:21:34 -0500
+Message-ID: <CAOEevLOrTSugnLePJwpcqx2_AacNbBxFZDTqp0Qm_jjVpWKgFQ@mail.gmail.com>
+Subject: Logitech G915 TKL broken; SHA identified; Please revert
+To: linux-input@vger.kernel.org
+Cc: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>, Jiri Kosina <jikos@kernel.org>, 
+	=?UTF-8?Q?Filipe_La=C3=ADns?= <lains@riseup.net>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Jonathan,
+HID developers,
 
-On 11/21/23 21:23, Jonathan Denose wrote:
-> Hello Hans,
-> 
-> On Tue, Sep 26, 2023 at 5:37 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi,
->>
->> On 9/25/23 23:33, Jonathan Denose wrote:
->>> The ThinkPad T14 Gen 1 touchpad works fine except that clicking
->>> and dragging by tapping the touchpad or depressing the touchpad
->>> do not work. Disabling PNP for controller setting discovery enables
->>> click and drag without negatively impacting other touchpad features.
->>>
->>> Signed-off-by: Jonathan Denose <jdenose@google.com>
->>
->> Thanks, patch looks good to me:
->>
->> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
->>
->> Regards,
->>
->> Hans
-> 
-> I just wanted to double check that I haven't missed anything, has this
-> patch been applied yet?
+Ever since this commit:
+9d1bd9346241 HID: logitech-dj: Add support for a new lightspeed
+receiver iteration
 
-Dmitry unfortunately does not have a lot of time for
-reviewing / merging input subsystem patches. So AFAICT this
-has not been processed / merged yet.
+My Logitech G915 TKL keyboard does not work anymore. There is an error
+message in the kernel log:
+logitech-hidpp-device 0003:046D:408E.0004:
+hidpp_root_get_protocol_version: received protocol error 0x08
 
-I've just send Dmitry a friendly worded email ping for another
-patch, I've also brought this patch to his attention in
-that email.
+And the key mapping is broken (ex. pressing the 'F' key results in a '3').
 
-Regards,
+The receiver I'm using has the USB PID 0xc547 which was added to a
+list of devices using the logitech-dh driver with that commit. So I
+believe it's using the logitech-dj driver instead of a generic hid
+driver  from that point on. However, that causes my issues...
 
-Hans
+I would humbly ask this commit to be reverted or the PID above be
+removed from the list while this issue can be investigated and
+resolved.
 
+Please let me know if I can provide any more information or help
+resolve this issue somehow.
 
+Thanks,
+     Andre
 
