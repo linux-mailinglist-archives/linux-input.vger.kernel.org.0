@@ -1,100 +1,188 @@
-Return-Path: <linux-input+bounces-202-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-203-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D457F4495
-	for <lists+linux-input@lfdr.de>; Wed, 22 Nov 2023 12:02:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 598B67F46AF
+	for <lists+linux-input@lfdr.de>; Wed, 22 Nov 2023 13:49:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4ED761C20A18
-	for <lists+linux-input@lfdr.de>; Wed, 22 Nov 2023 11:02:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 790E41C2094F
+	for <lists+linux-input@lfdr.de>; Wed, 22 Nov 2023 12:49:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D41CE26292;
-	Wed, 22 Nov 2023 11:02:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9ADA4C611;
+	Wed, 22 Nov 2023 12:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SCiIhqLd"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E99BCD8;
-	Wed, 22 Nov 2023 03:02:34 -0800 (PST)
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-7b34e7c829fso39853439f.2;
-        Wed, 22 Nov 2023 03:02:34 -0800 (PST)
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6F9910C;
+	Wed, 22 Nov 2023 04:48:59 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-5441305cbd1so9276094a12.2;
+        Wed, 22 Nov 2023 04:48:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700657338; x=1701262138; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=S9YdyaqidxNHgQu3f+/04CWCZm/l6aMN9d1kNzF3ISg=;
+        b=SCiIhqLdJWDVB8vNZVi7LtmjKLlIiu+KbWWlDQwNFgKl2fHi0kTJi344MKdQ4JKFaq
+         h7Jn1GdtcpWG+iQOBJAWtvTRDR7uh+bKjantjiDMV7yhJH1+s5U7HPgvBakmc/Ii3/Ef
+         CbQICJHJXkylb/oCKlNsTAcNOpmpL18oPKFvC/5Wn73WZXz0bOF4Nt3LsSr8Ulm8S8Ux
+         nFZL2zJDuW6txUmMgWE0GRKkSIP/eWbDCy6Fko3g+vOjMZZd7jTRqUoDXPEtaP4EFG9b
+         dABQUa+t0O73A6L6yy4GTsehOzfSLOUH6Gh8R5qEchn3OzKvocWgBd4lBy80/xZ+wchv
+         2sOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700650954; x=1701255754;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=eiBSC2kAnOrbX9wM+8OFXkbvY1npbxoCVLQe1hYRSgs=;
-        b=U24o8WImB9xwnOi7UfhTCvNIlXGMlNwhA6dBEI6MKteaNxESmGSw1gebmO6wYsg3MT
-         9PdENuqDkumHsOS2Jx0/B7UUxKfVqn6vmYiE9/5MruYrzSR5eIRE6mp08XLmZlt7FS9T
-         njd1TmyQ32NUCtIwROQ4Ub4vOAqYXtP3xdQQi9dOzpsOw9cs04Pa8EBbxgxjp6q6vFgR
-         zj2QOj28/5TOY1LLr37KWJgCBHRpwp3HbBonYv9xlox2wRAOTA6VlvgM4h+HNsnWZGyS
-         jnX4w9DN/GFFXg4SuhE0iYpBA+07taazmFSqKurKueMs+N9xYdD27rzC/BtnvsSKDpyC
-         y8Lw==
-X-Gm-Message-State: AOJu0YxnR1WYpid+nqw9tlZHt0Qc8/gruWgk/bCFJ3RGuhBrdErpQf1R
-	gjvVhquWfu401Fi9YobgNQ==
-X-Google-Smtp-Source: AGHT+IHd2RAZI4ut8gHQIsru4fuNJzM6M50xt76LRGT0qAPUuxj2gou5lr1wf2egkMC+53awGlvBxQ==
-X-Received: by 2002:a05:6602:370e:b0:792:6963:df30 with SMTP id bh14-20020a056602370e00b007926963df30mr2060536iob.0.1700650954135;
-        Wed, 22 Nov 2023 03:02:34 -0800 (PST)
-Received: from herring.priv ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id ge23-20020a056638681700b0043978165d54sm3177120jab.104.2023.11.22.03.02.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 03:02:33 -0800 (PST)
-Received: (nullmailer pid 116324 invoked by uid 1000);
-	Wed, 22 Nov 2023 11:02:29 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20230601; t=1700657338; x=1701262138;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S9YdyaqidxNHgQu3f+/04CWCZm/l6aMN9d1kNzF3ISg=;
+        b=uSHMTOi8sjk9FGnkac4maskfZn/BsiIOwTDExIyUz8LD4C9+iae8cRmV+Bo1H1yJwX
+         YezEaaO4RdJHutu//Wd3T80TSy7vt/cc7Dv94q0h34LD2H099UlK5HprcSURGkYrNLuD
+         HZmNSK6RUKqrDOP6c15900EXoDb/PvHoSxHzW17vfOtWnWv5PfE+X+ZHl/5T/GEWpnSX
+         l6R8IYsOxT9wToQkNnk74JoPyzBrlh7vj7RMnkgDzYdSliOFaZke1nUjXk9EQea+/ZH6
+         cYaMShyl88ZD3WgOXTqGqSmust1waM78S2RcNm3Rex5sZ4HQA8r8n/kOW0Dr1/4+arW2
+         x8qg==
+X-Gm-Message-State: AOJu0YxsHGJ8TQhdMqMWW2uJV12M2yhmyx7PZKG6zu9NGbw934J8vJTO
+	rkvH9AajJ3R8+10vxBG7PMY=
+X-Google-Smtp-Source: AGHT+IFqjD/KCU7ZngsnrhPKksmdkk+WRbkSvFaBR+8abwH25FrPa5R5r8Qr38fG6A7zDpSEeYeCXg==
+X-Received: by 2002:a05:6402:150f:b0:54a:8e8c:80ac with SMTP id f15-20020a056402150f00b0054a8e8c80acmr461955edw.30.1700657338019;
+        Wed, 22 Nov 2023 04:48:58 -0800 (PST)
+Received: from [10.10.53.143] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
+        by smtp.gmail.com with ESMTPSA id j19-20020aa7ca53000000b005488ae52752sm4424561edt.18.2023.11.22.04.48.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Nov 2023 04:48:57 -0800 (PST)
+Message-ID: <c8661c01-94b1-4b10-840b-2fd7c1f0c95d@gmail.com>
+Date: Wed, 22 Nov 2023 13:48:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Nikita Shubin <nikita.shubin@maquefel.me>
-Cc: Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Alexander Sverdlin <alexander.sverdlin@gmail.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, devicetree@vger.kernel.org
-In-Reply-To: <20231122-ep93xx-v5-22-d59a76d5df29@maquefel.me>
-References: <20231122-ep93xx-v5-0-d59a76d5df29@maquefel.me>
- <20231122-ep93xx-v5-22-d59a76d5df29@maquefel.me>
-Message-Id: <170065094261.116114.9958175828656550459.robh@kernel.org>
-Subject: Re: [PATCH v5 22/39] dt-bindings: input: Add Cirrus EP93xx keypad
-Date: Wed, 22 Nov 2023 04:02:29 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] Input: bcm5974 - check endpoint type before starting
+ traffic
+Content-Language: en-US
+To: John Horan <knasher@gmail.com>, Henrik Rydberg <rydberg@bitmath.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzbot+348331f63b034f89b622@syzkaller.appspotmail.com
+References: <20231007-topic-bcm5974_bulk-v3-1-d0f38b9d2935@gmail.com>
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+In-Reply-To: <20231007-topic-bcm5974_bulk-v3-1-d0f38b9d2935@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-
-On Wed, 22 Nov 2023 12:00:00 +0300, Nikita Shubin wrote:
-> Add YAML bindings for ep93xx SoC keypad.
+On 14.10.23 12:20, Javier Carrasco wrote:
+> syzbot has found a type mismatch between a USB pipe and the transfer
+> endpoint, which is triggered by the bcm5974 driver[1].
 > 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
+> This driver expects the device to provide input interrupt endpoints and
+> if that is not the case, the driver registration should terminate.
+> 
+> Repros are available to reproduce this issue with a certain setup for
+> the dummy_hcd, leading to an interrupt/bulk mismatch which is caught in
+> the USB core after calling usb_submit_urb() with the following message:
+> "BOGUS urb xfer, pipe 1 != type 3"
+> 
+> Some other device drivers (like the appletouch driver bcm5974 is mainly
+> based on) provide some checking mechanism to make sure that an IN
+> interrupt endpoint is available. In this particular case the endpoint
+> addresses are provided by a config table, so the checking can be
+> targeted to the provided endpoints.
+> 
+> Add some basic checking to guarantee that the endpoints available match
+> the expected type for both the trackpad and button endpoints.
+> 
+> This issue was only found for the trackpad endpoint, but the checking
+> has been added to the button endpoint as well for the same reasons.
+> 
+> Given that there was never a check for the endpoint type, this bug has
+> been there since the first implementation of the driver (f89bd95c5c94).
+> 
+> [1] https://syzkaller.appspot.com/bug?extid=348331f63b034f89b622
+> 
+> Fixes: f89bd95c5c94 ("Input: bcm5974 - add driver for Macbook Air and Pro Penryn touchpads")
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> Reported-and-tested-by: syzbot+348331f63b034f89b622@syzkaller.appspotmail.com
 > ---
->  .../bindings/input/cirrus,ep9307-keypad.yaml       | 87 ++++++++++++++++++++++
->  1 file changed, 87 insertions(+)
+> Changes in v3:
+> - Use usb_check_int_endpoints() to validate the endpoints.
+> - Link to v2: https://lore.kernel.org/r/20231007-topic-bcm5974_bulk-v2-1-021131c83efb@gmail.com
 > 
+> Changes in v2:
+> - Keep error = -ENOMEM for the rest of the probe and return -ENODEV if
+>   the endpoint check fails.
+> - Check function returns now bool and was renamed (_is_ for
+>   bool-returning functions).
+> - Link to v1: https://lore.kernel.org/r/20231007-topic-bcm5974_bulk-v1-1-355be9f8ad80@gmail.com
+> ---
+>  drivers/input/mouse/bcm5974.c | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/drivers/input/mouse/bcm5974.c b/drivers/input/mouse/bcm5974.c
+> index ca150618d32f..953992b458e9 100644
+> --- a/drivers/input/mouse/bcm5974.c
+> +++ b/drivers/input/mouse/bcm5974.c
+> @@ -19,6 +19,7 @@
+>   * Copyright (C) 2006	   Nicolas Boichat (nicolas@boichat.ch)
+>   */
+>  
+> +#include "linux/usb.h"
+>  #include <linux/kernel.h>
+>  #include <linux/errno.h>
+>  #include <linux/slab.h>
+> @@ -193,6 +194,8 @@ enum tp_type {
+>  
+>  /* list of device capability bits */
+>  #define HAS_INTEGRATED_BUTTON	1
+> +/* maximum number of supported endpoints (currently trackpad and button) */
+> +#define MAX_ENDPOINTS	2
+>  
+>  /* trackpad finger data block size */
+>  #define FSIZE_TYPE1		(14 * sizeof(__le16))
+> @@ -891,6 +894,18 @@ static int bcm5974_resume(struct usb_interface *iface)
+>  	return error;
+>  }
+>  
+> +static bool bcm5974_check_endpoints(struct usb_interface *iface,
+> +				    const struct bcm5974_config *cfg)
+> +{
+> +	u8 ep_addr[MAX_ENDPOINTS + 1] = {0};
+> +
+> +	ep_addr[0] = cfg->tp_ep;
+> +	if (cfg->tp_type == TYPE1)
+> +		ep_addr[1] = cfg->bt_ep;
+> +
+> +	return usb_check_int_endpoints(iface, ep_addr);
+> +}
+> +
+>  static int bcm5974_probe(struct usb_interface *iface,
+>  			 const struct usb_device_id *id)
+>  {
+> @@ -903,6 +918,11 @@ static int bcm5974_probe(struct usb_interface *iface,
+>  	/* find the product index */
+>  	cfg = bcm5974_get_config(udev);
+>  
+> +	if (!bcm5974_check_endpoints(iface, cfg)) {
+> +		dev_err(&iface->dev, "Unexpected non-int endpoint\n");
+> +		return -ENODEV;
+> +	}
+> +
+>  	/* allocate memory for our device state and initialize it */
+>  	dev = kzalloc(sizeof(struct bcm5974), GFP_KERNEL);
+>  	input_dev = input_allocate_device();
+> 
+> ---
+> base-commit: 401644852d0b2a278811de38081be23f74b5bb04
+> change-id: 20231007-topic-bcm5974_bulk-c66b743ba7ba
+> 
+> Best regards,
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Gentle ping, syzbot keeps on reporting this bug (last report 7 days ago).
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/dma/cirrus,ep9301-dma-m2m.example.dts:24:18: fatal error: dt-bindings/soc/cirrus,ep9301-syscon.h: No such file or directory
-make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/dma/cirrus,ep9301-dma-m2m.example.dtb] Error 1
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231122-ep93xx-v5-22-d59a76d5df29@maquefel.me
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Thanks and best regards,
+Javier Carrasco
 
