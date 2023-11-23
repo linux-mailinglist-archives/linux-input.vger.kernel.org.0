@@ -1,41 +1,78 @@
-Return-Path: <linux-input+bounces-223-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-224-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9F07F5535
-	for <lists+linux-input@lfdr.de>; Thu, 23 Nov 2023 01:18:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB46C7F627B
+	for <lists+linux-input@lfdr.de>; Thu, 23 Nov 2023 16:16:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4447C2813C2
-	for <lists+linux-input@lfdr.de>; Thu, 23 Nov 2023 00:18:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DD4A51C21182
+	for <lists+linux-input@lfdr.de>; Thu, 23 Nov 2023 15:16:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDCDC63B;
-	Thu, 23 Nov 2023 00:18:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE60335EEB;
+	Thu, 23 Nov 2023 15:16:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="jJzgbuZW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aHqy9roY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D836189
-	for <linux-input@vger.kernel.org>; Wed, 22 Nov 2023 16:18:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1700698726; x=1700957926;
-	bh=1Z+IIJ6L/N0OcGMEeyWKr7zC6tBBMqbZUKv3Pez8x5o=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=jJzgbuZW0zeAxbwnX15ptXnmRrrHvR4hcNH1hhQyy5MNES8ieqXHdXA2PmppdP4+l
-	 2geItjLxsKcKtPM/oYYzfSer1omoAqWUfsMrl2UUUrOPyYumyytthCpkDZ58ufJMTh
-	 rIEOyAyDYz4BBTKVaADYeEv1v/uzoU8a8mbAnSAjIH6H2MjB67dG15VzWL9Z8nLH8U
-	 cQI6uw+grK/1R2vB3uMqdSclvligUz8i1KUkND0dy2sUhVV3S/ueIy26wyu7ge+uOb
-	 nqB8opirgj01Q34utwC9/epzPGWqv2B9atJnIh1kpigB2PZcRe4F77NUX0Tg6NNkZ2
-	 jCeKIcy4p8Wzw==
-Date: Thu, 23 Nov 2023 00:18:36 +0000
-To: "roderick.colenbrander@sony.com" <roderick.colenbrander@sony.com>
-From: Alexander Koskovich <AKoskovich@protonmail.com>
-Cc: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: Wrong inputs on DualSense Edge Wireless Controller
-Message-ID: <o-hu9PCGr9R5LPS2ZnqssxnR22SBfwuDa0xuSsPwr3op3vBs1lbSsyH7RZMxkw7Ro2EuEzXbekDPrbiFoJ_R2_TzDlQ1g5zDaCogEU2w0sI=@protonmail.com>
-Feedback-ID: 37836827:user:proton
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962F635EE8;
+	Thu, 23 Nov 2023 15:16:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F0C6C433C9;
+	Thu, 23 Nov 2023 15:15:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700752567;
+	bh=lzVZxJXSuVlg5TJP4dPDommHt63YQoouP8CMSO2x+6s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aHqy9roYY5/JVAeimPivoDsCudYKtwdFnGpoLH3m76OeL8P0BDyL5Sc/3miQr2PmL
+	 hRZDRRGAm1Uye0c+yqVpFAK/beZ5hDj70CfWngjrStrTzTvXtSc8NSYhr3ldpsQfaY
+	 r0YfI3xAzbQ5IZOXus3baO9WeGtvVe+D4X7QQ1qjU3B6uwub042jUFn6y80DWhT82k
+	 MTX1bTMLehElqjnjKV5oO01PHxy/Uz+zYAXPf8w7C1cEIoT3gWUSjO5jdkHK4u5/SP
+	 VhJvtTHQuu7E5vz/fTds/fpgnXUPXA1bUvRWNF23KUPZaqQcD2SqRGBwVcGpofXsbE
+	 B/Co9nS6vBIOA==
+Date: Thu, 23 Nov 2023 15:15:56 +0000
+From: Lee Jones <lee@kernel.org>
+To: Sean Young <sean@mess.org>
+Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Mark Gross <markgross@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+	Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v5 1/4] pwm: rename pwm_apply_state() to
+ pwm_apply_cansleep()
+Message-ID: <20231123151556.GC1354538@google.com>
+References: <cover.1700323916.git.sean@mess.org>
+ <2b973840d800ffb71c2683c37bc996e0cf90a140.1700323916.git.sean@mess.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -43,29 +80,58 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2b973840d800ffb71c2683c37bc996e0cf90a140.1700323916.git.sean@mess.org>
 
-[Resending email due to lack HTML message rejected]
+On Sat, 18 Nov 2023, Sean Young wrote:
 
-Hello,
+> In order to introduce a pwm api which can be used from atomic context,
+> we will need two functions for applying pwm changes:
+> 
+> 	int pwm_apply_cansleep(struct pwm *, struct pwm_state *);
+> 	int pwm_apply_atomic(struct pwm *, struct pwm_state *);
+> 
+> This commit just deals with renaming pwm_apply_state(), a following
+> commit will introduce the pwm_apply_atomic() function.
+> 
+> Acked-by: Hans de Goede <hdegoede@redhat.com>
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
+> Signed-off-by: Sean Young <sean@mess.org>
+> ---
+>  Documentation/driver-api/pwm.rst              |  8 +++---
+>  .../gpu/drm/i915/display/intel_backlight.c    |  6 ++--
+>  drivers/gpu/drm/solomon/ssd130x.c             |  2 +-
+>  drivers/hwmon/pwm-fan.c                       |  8 +++---
+>  drivers/input/misc/da7280.c                   |  4 +--
+>  drivers/input/misc/pwm-beeper.c               |  4 +--
+>  drivers/input/misc/pwm-vibra.c                |  8 +++---
 
-I am currently on Fedora 39 (6.5.12-300.fc39.x86_64) and I am noticing that=
- the inputs for this controller are wrong primarily on the right side of th=
-e controller.
+>  drivers/leds/leds-pwm.c                       |  2 +-
+>  drivers/leds/rgb/leds-pwm-multicolor.c        |  4 +--
 
-playstation 0005:054C:0DF2.000C: hidraw11: BLUETOOTH HID v1.00 Gamepad [Dua=
-lSense Edge Wireless Controller] on 10:3d:1c:fd:30:bc
-playstation 0005:054C:0DF2.000C: Registered DualSense controller hw_version=
-=3D0x01000208 fw_version=3D0x01000036
+Acked-by: Lee Jones <lee@kernel.org>
 
-This is the current mapping that I'm seeing with the hid_playstation module=
- loaded:
-"X" is actually "Square"
-"Square" is "Triangle"
-"Triangle" is "Circle"
-"Circle" is "X"
+>  drivers/media/rc/pwm-ir-tx.c                  |  4 +--
+>  drivers/platform/x86/lenovo-yogabook.c        |  2 +-
+>  drivers/pwm/core.c                            | 18 ++++++------
+>  drivers/pwm/pwm-twl-led.c                     |  2 +-
+>  drivers/pwm/pwm-vt8500.c                      |  2 +-
+>  drivers/pwm/sysfs.c                           | 10 +++----
+>  drivers/regulator/pwm-regulator.c             |  4 +--
 
-Also the right joystick seems to be controlling "R2" instead of the right j=
-oystick. "L2" and "R2" triggers control the joystick instead. It's overall =
-very weird. Has there been any similar reports to this?
+>  drivers/video/backlight/lm3630a_bl.c          |  2 +-
+>  drivers/video/backlight/lp855x_bl.c           |  2 +-
+>  drivers/video/backlight/pwm_bl.c              | 12 ++++----
+
+Acked-by: Lee Jones <lee@kernel.org>
+
+>  drivers/video/fbdev/ssd1307fb.c               |  2 +-
+>  include/linux/pwm.h                           | 28 +++++++++----------
+>  21 files changed, 67 insertions(+), 67 deletions(-)
+
+[...]
+
+-- 
+Lee Jones [李琼斯]
 
