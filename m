@@ -1,152 +1,174 @@
-Return-Path: <linux-input+bounces-230-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-231-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9360F7F751E
-	for <lists+linux-input@lfdr.de>; Fri, 24 Nov 2023 14:31:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 031CA7F7A40
+	for <lists+linux-input@lfdr.de>; Fri, 24 Nov 2023 18:18:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4DF47281E29
-	for <lists+linux-input@lfdr.de>; Fri, 24 Nov 2023 13:31:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B28C42815A8
+	for <lists+linux-input@lfdr.de>; Fri, 24 Nov 2023 17:18:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5706228DD4;
-	Fri, 24 Nov 2023 13:31:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46261381BE;
+	Fri, 24 Nov 2023 17:18:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jc7pzhnd"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KBumr2go"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6032B1721;
-	Fri, 24 Nov 2023 05:31:23 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-a00f67f120aso263956766b.2;
-        Fri, 24 Nov 2023 05:31:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700832682; x=1701437482; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xqoNh8/DGOCDjWGBAsyHy8zDaolvBGz6WR/aPalN8vA=;
-        b=jc7pzhndHV74TrW5Y6euP8yk3htKIp8W3o1J4svRrdUUZjIdDRWgvExoS9S0QJD/zU
-         rBFEIT2MxFeZ/RzClYiIL0/02BNJdUr2xcGIsYQ77LaRf35g73whiGnOOChNAdVWSOrI
-         3hoq8vKd69rpowWA013qKYH7Bo61cWyy4QgiMXLsdISIwruZm2QyMOky9gdvpigFT2kh
-         1fDO4jvhAIcvXHr6BSmtl7uTFXktnDXDFMVWUS4DaHBnHSBtYtswpMLFp79/pPk1yWRG
-         hmZEhc/S29RsphTAt0pf2F0NPDGxYOfd/0JNu3TNk7MPkdFYp/43uE6PvHkLxFHbM6ee
-         ZfYA==
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79FFB19A8
+	for <linux-input@vger.kernel.org>; Fri, 24 Nov 2023 09:18:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1700846327;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SHbzOtA4hzteJQDcB8FFU+7O7arSeNmceXHgvsMd7BI=;
+	b=KBumr2go4r5EemLzBESrTW7BecCpbtYC3DNpDumnfB7frrq+NuilGOBJCFW5xM+9CmZFeN
+	+yvbSDNIXsKSW/wLWwixVMPGgqXAS4ypS/u4+wIFz51pi7yblyE1XeydwrTuTngq636SLB
+	ma/lTwqhihyaJ1TKF8rX4uIRfAcTiAU=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-173-n9fWAlgaOya1UNx7RxOvzw-1; Fri, 24 Nov 2023 12:18:45 -0500
+X-MC-Unique: n9fWAlgaOya1UNx7RxOvzw-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a01e91673ecso146840466b.1
+        for <linux-input@vger.kernel.org>; Fri, 24 Nov 2023 09:18:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700832682; x=1701437482;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1700846324; x=1701451124;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xqoNh8/DGOCDjWGBAsyHy8zDaolvBGz6WR/aPalN8vA=;
-        b=C0nGbEllQd0ZR9UGYNYIabEcZU4JD8C4NYjDZNpA7s+0dg2NqPP62OPWLMLz/5M+78
-         tmpXg8oVR1r1kZlVcj8bEdUHzE3TPASfVNWVYIHvrhKOQoQYzN0wuRoyMRLPPE/+6Ovy
-         ZADRjidfCaGRO9R8L+NVGSt9DfoHfPWXnLMvxpTMKbojBG56AvwWtji0wwC1jWKR/131
-         /BKk4Zi6MGdDyIz9IRP9E/sQDEELpVn1H/Ist3FnTBsPOM0reHjQ0Xr+OaRIPGOobYge
-         XINBminf+wxL25fA4hoDhLRwrTKsXxPIaP0D1X5uq7tFW57KBgHdj36ParxPaVNgGetL
-         ah2g==
-X-Gm-Message-State: AOJu0Yxm62nmPBvJXSHKOOIkD7oKbpAsw8xRU5Yr17p55DoW6b0eC3DF
-	kyWzyWAWzcpI3hUuINPbNBs=
-X-Google-Smtp-Source: AGHT+IF2CMWqW6QgTEUE8dPizHd4yGlrN9Vk/VgdOvaxxbdjXw50mDYgNNx7FjDnvVExXduvtyJWvw==
-X-Received: by 2002:a17:906:5da:b0:a03:a857:c6e0 with SMTP id t26-20020a17090605da00b00a03a857c6e0mr1663923ejt.77.1700832681495;
-        Fri, 24 Nov 2023 05:31:21 -0800 (PST)
-Received: from orome.fritz.box (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id c24-20020a170906529800b009fe2f96ee9bsm2064075ejm.8.2023.11.24.05.31.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 05:31:21 -0800 (PST)
-Date: Fri, 24 Nov 2023 14:31:18 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Sean Young <sean@mess.org>
-Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Gross <markgross@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v5 1/4] pwm: rename pwm_apply_state() to
- pwm_apply_cansleep()
-Message-ID: <ZWClpnMRg_vjuI_R@orome.fritz.box>
-References: <cover.1700323916.git.sean@mess.org>
- <2b973840d800ffb71c2683c37bc996e0cf90a140.1700323916.git.sean@mess.org>
+        bh=SHbzOtA4hzteJQDcB8FFU+7O7arSeNmceXHgvsMd7BI=;
+        b=AgKIoqzcloQOGasypAaNLZ0cgd/hnF52WeqoIhs6pEnLVu55eXHjqn+3ome2gOf908
+         idOKvsBUgpVrWrburSFL7wBMF+BUwP/j3MfAr8iWGB0ymwXV9erVvZEhdZVFbeHXITcr
+         dZ5FP5R/8Q9E2n42jibdkl9//+xjGzlBzMjrBSYTRXJqaJf2iSh8HCUP4QnFIw29h9ps
+         Fhi1ZRB2aK7jbkYkt7h0b8rCTX8sQQiUNzxHpAyG7aoNf6ll/K6cuBTUnlY5WIqUWlYw
+         60IN/xc3s9KQcIUT/vGtetJJSwvXwOj0ueB0KwwjiLwQ7SwlUy08ukNO4/cpjzesvanH
+         0xAQ==
+X-Gm-Message-State: AOJu0YxwazYm/4NvBsNukja16hLZ9+YmjZpaEgNw1LTkCg4nVvWd6d5z
+	mB/LmP23s20O2b4EmLqc1QqtR3IwKghJOy9sjdTkzzXKkG0OsQzNSpyTmToOmC3NiJNWbJahquH
+	OwcHaT9CA8xWhethqBoI/OrP2O/bO+MVFmZU9re8=
+X-Received: by 2002:a17:907:b00a:b0:9fe:5afc:bd3e with SMTP id fu10-20020a170907b00a00b009fe5afcbd3emr2306084ejc.22.1700846324377;
+        Fri, 24 Nov 2023 09:18:44 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG0BQ9ZSpmBE+CVwJFWzPye++8Z1ZHU4yOXjYYGEwtuxkE958vjctmeNuZA99dXe4VUxWBl2CoTRLdtdTAS6Lc=
+X-Received: by 2002:a17:907:b00a:b0:9fe:5afc:bd3e with SMTP id
+ fu10-20020a170907b00a00b009fe5afcbd3emr2306074ejc.22.1700846324107; Fri, 24
+ Nov 2023 09:18:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="mURPCj0PduVIws0V"
-Content-Disposition: inline
-In-Reply-To: <2b973840d800ffb71c2683c37bc996e0cf90a140.1700323916.git.sean@mess.org>
-User-Agent: Mutt/2.2.12 (2023-09-09)
-
-
---mURPCj0PduVIws0V
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm>
+ <_DEF7tHL1p_ExY7GJlJvT5gRA7ZvNnVMJuURb8_WCV-0fbYXkLN2p5zHloi6wiJPNzGEjFAkq2sjbCU633_eNF_cGm0rAbmCOOIOfwe1jWo=@protonmail.com>
+ <CAO-hwJ+zm=R7NwrALaLVmfPDtMNXpj0eoQgLkiS1wa6wd+hu+A@mail.gmail.com>
+ <CAO-hwJKJW5jGDdaaS8eB7kcLQUvWO_1XkOzJG4HAcaRzw1cGnQ@mail.gmail.com>
+ <7wmtNlKuYResf5cFQ7M2QTalzIUtw0I6ohvPcz69Jo1c8flezyIlnJu1IwAgXhJ-u0NlRL3IV7HnL0Kza6fVBqd7X7jhc-Z6QCi3oqHEvpY=@protonmail.com>
+ <CAO-hwJJ+nx72_TPfxcWRPBDZdDaPrO5yMNH4Y_mj6ej651Mesw@mail.gmail.com>
+ <nFHw6XePiH5p60JsbQSbssRkiuABiTiR_n5fIYFZjPgkV3ObjjZuwTC84BJ_1vXYVufPbG3UvZ1L7ODSrrGlq9CrI7BTKhsV5QeAQoakV18=@protonmail.com>
+ <CAO-hwJ+jwmTE-v7FsPi3f70mB8SqUha7Ek9DtptZ0auiFpGM7w@mail.gmail.com>
+ <CAO-hwJJoCp0_kxf_HHN9n9EWy9YDSY4rP8ysYNrNg2xTUYtKEQ@mail.gmail.com> <evHI05gyKuWwynY1WdyVvXqKPUaPE8W34cc3tFfp9FWh94TWfA9FWfHun7AAscF9lqfbiYsLKGC7kTSZ9xWNZg88-PTpbGTLcFMc9D3P2HE=@protonmail.com>
+In-Reply-To: <evHI05gyKuWwynY1WdyVvXqKPUaPE8W34cc3tFfp9FWh94TWfA9FWfHun7AAscF9lqfbiYsLKGC7kTSZ9xWNZg88-PTpbGTLcFMc9D3P2HE=@protonmail.com>
+From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date: Fri, 24 Nov 2023 18:18:31 +0100
+Message-ID: <CAO-hwJLinACPsk=mEHrEz_YJroknmm=9PcX8byHiqEDxqOConQ@mail.gmail.com>
+Subject: Re: Requesting your attention and expertise regarding a Tablet/Kernel issue
+To: David Revoy <davidrevoy@protonmail.com>
+Cc: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>, 
+	Eric GOUYER <folays@gmail.com>, Illia Ostapyshyn <ostapyshyn@sra.uni-hannover.de>, jkosina@suse.cz, 
+	jason.gerecke@wacom.com, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 18, 2023 at 04:16:17PM +0000, Sean Young wrote:
-> In order to introduce a pwm api which can be used from atomic context,
-> we will need two functions for applying pwm changes:
->=20
-> 	int pwm_apply_cansleep(struct pwm *, struct pwm_state *);
-> 	int pwm_apply_atomic(struct pwm *, struct pwm_state *);
->=20
-> This commit just deals with renaming pwm_apply_state(), a following
-> commit will introduce the pwm_apply_atomic() function.
+Hi David,
 
-Sorry, I still don't agree with that _cansleep suffix. I think it's the
-wrong terminology. Just because something can sleep doesn't mean that it
-ever will. "Might sleep" is much more accurate because it says exactly
-what might happen and indicates what we're guarding against.
+On Thu, Nov 23, 2023 at 11:12=E2=80=AFPM David Revoy <davidrevoy@protonmail=
+.com> wrote:
+>
+> Hi Benjamin,
+>
+> Sorry for late reply.
+>
+> > So it would be nice if you could try the artifacts of job 51600738[4].
+> > Again, download them (udev-hid-bpf_0.1.0-4-g5ab02ec.tar.xz), unpack,
+> > sudo ./install --verbose, then unplug/replug the artist Pro 24.
+>
+> Ok, the main change I experienced after installing is xsetwacom
+> listing the ID name of the device with twice the name Stylus on
+> "UGTABLET 24 inch PenDisplay Stylus stylus". Before it was only
+> "UGTABLET 24 inch PenDisplay stylus".
+>
+> $ xsetwacom --list
+> UGTABLET 24 inch PenDisplay Stylus stylus       id: 10  type: STYLUS
+>
+> Not a big deal, but I thought it was worth to mention it.
 
-Thierry
+Oh, this might be because I added a debug device. Given that there are
+2 devices on the HID node, then one is tagged as Stylus by the kernel.
+Nothing to worry about.
 
---mURPCj0PduVIws0V
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> > Then, I'll need the following sequence (ideally repeated twice or
+> > three times, given that your last record show a slight difference in
+> > the first and second attempt):
+> >
+> > - outside of the proximity of the sensor, press the upper button
+> > - approach the stylus to the surface keeping the upper button pressed
+> > - touch the surface with the tip while holding the upper button pressed
+> > - release the upper button while keeping the tip pressed (like previous=
+ly)
+> > - press once again the upper button while keeping the tip touching the
+> > surface (like previously)
+> > - lift of the pen, keeping the upper button pressed, and still in
+> > range of the sensor
+> > - remove the pen from the proximity of the sensor entirely (move away
+> > 20 cm or so), while still keeping the upper button pressed
+> >
+> > It's actually longer to describe than to execute :)
+> >
+>
+> Thank you for the detailed steps. True, it makes sens once
+> practising it. I made the gesture three time on:
+>
+> https://www.peppercarrot.com/extras/mailing-list/hid-records/XPPEN-Artist=
+-24-Pro/2023-11-23_XPPEN-Artist-24-Pro_pen_tip-contact-and-press-release-up=
+per-stylus-button-while-pressed-x3.txt
 
------BEGIN PGP SIGNATURE-----
+Thanks a lot. And of course this device doesn't react in the way I expected=
+ :)
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmVgpaQACgkQ3SOs138+
-s6HS8A/7BjtLlUH5CMfFlBTprZQsDfOXKtQTFT7vSIrS5EOAuemIkCNWaesc5juC
-gFpHk93q2Y8+pTg499tii+Ztr7m6Z00sAA8fpGEFwUn03iU9qrrC6/7gwVu8Dsjv
-m326JeQsUo8SL3s5JqH7vKQDUU0agG/rMAFwo5nIzD5xRGmtg1VB+Vg57/T0K4a4
-W99vEqpxwYAZLNQeId2ZTCZHREypDELrwcq0l0JYOOXdsvYa4r34dPep1KDfTvxK
-p6fGafsCc1qJ8S9ygxlTGPv/5+56JXyOEB75XXxBK2QaqEz9iHPxgfJsHz7K3DFx
-cpZtcEd899PpMbAiW5fag0BJcnUNffFf4CoZU34H8MPsp4DzKs7UvJlbQ79KNz6N
-VIjXUsk876G5NuLjwomvkmaxx1cQPbom4YknTav6Zm5dloV36kppnYuZ9+PV8NlW
-uudn06BsR8Yp7d2hpCHK6Vou1zbJtQHxQosq3e4e11mnMXxpnftSCuWZCeUedAhG
-zufpjdOkX1q24J9odZWGWz8rhGWgJUwtIpF8SOkPromrYAxZK+yJAb7AvepYNQNh
-i3X0j8HUnYCWUx7ty20NjF5rVY/GJh5DXncoB5cQqVlLCr8YUvFsOQ9YaUuFa/J5
-M/YrTcS9Bi0p3ps9qE3ec5+WY2E85s4+KeG0Z0/GD1ifS+r4fls=
-=1cUS
------END PGP SIGNATURE-----
+Transitions from/to the tip touching the surface while the second
+button is pressed are normal, there are no extra events...
 
---mURPCj0PduVIws0V--
+But this also showed that the previous filter was better when pressing
+the upper button while touching the tip on the surface, because now we
+get another spurious event that was filtered before (and because it
+was filtered, I thought it was not there).
+
+Anyway, I couldn't rewrite the filter today, but I'll work on it next
+week for sure.
+
+>
+> > But I would also totally understand that you had enough debugging and
+> > you would rather focus on using the tablets, instead of debugging
+> > them. In which case, someone else from the community might help me.
+>
+> No problem for continue testing, I'm around! Thank you again
+> for improving the behavior of the tablets.
+>
+
+great!
+
+Cheers,
+Benjamin
+
+
+> Cheers,
+> David
+>
+
 
