@@ -1,158 +1,156 @@
-Return-Path: <linux-input+bounces-242-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-243-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE1B7F8FDD
-	for <lists+linux-input@lfdr.de>; Sat, 25 Nov 2023 23:40:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF2B67F905F
+	for <lists+linux-input@lfdr.de>; Sun, 26 Nov 2023 00:51:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C58BE1F20D3A
-	for <lists+linux-input@lfdr.de>; Sat, 25 Nov 2023 22:40:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 10FFB2813A5
+	for <lists+linux-input@lfdr.de>; Sat, 25 Nov 2023 23:51:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C00F28DB8;
-	Sat, 25 Nov 2023 22:39:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEED6315B8;
+	Sat, 25 Nov 2023 23:51:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="otEgidex"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=p.jungkamp@gmx.net header.b="WRaSL56m"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2049.outbound.protection.outlook.com [40.107.100.49])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6080FEA;
-	Sat, 25 Nov 2023 14:39:51 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ocpls+Kd9u5f9xpTVIKs+rPrXWrcsed31qUjmAgDLXEEPj9Wrwe5LBMAoO0aG6+MkNOX5SXai1D663uk9mZByk6/lnpQbUoLDXwA/ddNPC6EKgV2r9bxjsiIXhJFsVSI8cKQHYwnmXo0cf5TzEv6grjdQQbum6mjpoq/a7iazrNqQhyAda45pitm6mcEe0bTDSIuy0Gic2eSAL1ewF9wbWclWrMtYPccozw4LxjyzS7KS8VsyHjHIJoNIvITL/igHwgb0k9ZGzpKu2MBIhGBE6FaRPq9RaEy8rjA9uOk1SGAHbVrXB3wUVvhIcCkhljWn9yjVZtZ+SzxFtUVtairUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Lc8h7MyMCFM/s74QT6QBbByTMUt01ouZCRThragDUuY=;
- b=MSjVq7E1rzDqoWydg+ssWFU6BfTmZpJxfpOJAKU3bMN/fbepguiwfXyiMhEqQvGOi+7xG5SSj5+cfkPmbPDXfTbn3fVn0zkzmjffBLC26SkyBcfCmvd+pzmX6/WABJ46Xu7AsIlMa8B5zNc2iNmHaYUDBrFX3amzSGfFHgKYip9OEo8BO+RZ6R66ZxeYEpSFEsc3LeLsxLnCrvUWi/pPyu/SsP74PYdgNCdEn4eUKoLcpqTdabC1wSbr2+hQhIT3DTctBfYLwIc4yBK9E/e0zTyIr6QtVPLB/3BWO7HYs/NkQKkG+1cZ4zXr3sASsRWvrcDVGgq64PwY7xHR27xk/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lc8h7MyMCFM/s74QT6QBbByTMUt01ouZCRThragDUuY=;
- b=otEgidex7JmNiw0urAqKVcOMX+3VjX1EHpTYkXWHRA4ElmFGVKsunpZnfJ0hxpnaRlH/QkNun9jB+e3DBTjS7I47Q9wV+MCar/HBEK5DIVVrzFjAoicYG3OM/fpi82wj2Lcb/n9WyTENO2UCQTL9nwYxpeCAFhedm8AWsk+Dbtw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=labundy.com;
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by CO1PR08MB7256.namprd08.prod.outlook.com
- (2603:10b6:303:f2::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.25; Sat, 25 Nov
- 2023 22:39:48 +0000
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::36f2:78d1:ad7d:66da]) by SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::36f2:78d1:ad7d:66da%4]) with mapi id 15.20.7025.022; Sat, 25 Nov 2023
- 22:39:47 +0000
-Date: Sat, 25 Nov 2023 16:39:44 -0600
-From: Jeff LaBundy <jeff@labundy.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 2/2] input: joystick: driver for Adafruit Seesaw
- Gamepad
-Message-ID: <ZWJ3sFfrVQA3djmi@nixie71>
-References: <20231027051819.81333-1-anshulusr@gmail.com>
- <20231027051819.81333-2-anshulusr@gmail.com>
- <d1dd2142-546f-42b7-8966-ab75fd4f8817@t-8ch.de>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d1dd2142-546f-42b7-8966-ab75fd4f8817@t-8ch.de>
-X-ClientProxiedBy: DM6PR02CA0121.namprd02.prod.outlook.com
- (2603:10b6:5:1b4::23) To SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21014127;
+	Sat, 25 Nov 2023 15:51:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1700956297; x=1701561097; i=p.jungkamp@gmx.net;
+	bh=mi7QRaCs5iBY7O6PT5gZCyK68V6tg6DzCWv18RXo6TU=;
+	h=X-UI-Sender-Class:Subject:From:Cc:Date;
+	b=WRaSL56m/zSabZ9La/qORpRqgs0n1XswDfO9DIbOUtpvC4Ksn63RjT4Ic8+2GP5C
+	 4jtDFjMVltFi3g0HHGfM2wYh7tubuZmvmptBgI4f5UkZV43RkTAHOsXhdPQHp+Kh3
+	 L9zfWWnXL4kAmc3o92yK8qMuSyVL2dE6dEH0rgo1GzVY8wJsl1ugPZ2Z74SRmyuE1
+	 4Frp/L0soD1IQoWrX0XnqZUeNMXGmNXAMChrMq0QYckAwwCjBAzSOGU4tVBv9Gx2Q
+	 BvjHMXkW6TeQF/xV6aPor4upmZn1RV5e5YmZu14GDaeLHwgXhs2hHuy9W4PoFZBTU
+	 lQ6izV/wcL96+0TO/w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from yoga9.fritz.box ([149.50.181.176]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MA7Ka-1qzutv1RaE-00BfDP; Sun, 26
+ Nov 2023 00:51:37 +0100
+Message-ID: <5ab4a33c8750df642c6030412c292890b52b1ae8.camel@gmx.net>
+Subject: Empty Intel ISH HID custom sensor feature attributes on Linux 6.6
+From: Philipp Jungkamp <p.jungkamp@gmx.net>
+Cc: linux-iio@vger.kernel.org, linux-input@vger.kernel.org
+Date: Sun, 26 Nov 2023 00:51:36 +0100
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|CO1PR08MB7256:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6b7fc18b-73e4-4e5d-5c71-08dbee076da5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	kSbTiM/HpFODn3mtmdqA1DHi1VXuX+fsj1LKIezLoZgnhaU1JJuwznjWXXA5G2/tQjYWJ6fEMfaSACu4w6BxphjdCON/zHTDT66lVzC2Tj+cex41UrDCFbgtCzriTn9irJN3S699qNHa04KbMx0mNxkhvLCkoV233LNbUWaEGgrgs1e/f//Xb++mnwNWm/1YvdRisPLbk8erDqa7hRwa6iqz2hc/aisYVtZeDpkTgD33PCJV5Ze/dBUUfnRTnLl7w/6YU7FSqGu73OAR4nofvZlY1v/imORt6c5XkAr8ipFoVxXl7n0vuBv2zyFuwFfzLiEGWmw3kfxkq6g6vUUIa0AD43+TpGf6uhcKDXkYlvWHXUSQZL8hsKzBUCpFDYwPctaJa/qgSd1JOr4jOJ2g2fT522uKRBZKgHozZhsk4RH6s47hT+FbCMFor+msN1pvxXvjU4QE/cEb8/vIGHqqjlrQrmMuZQeuUb8ftycy1IC5HnE7BMWShrW73Ua874NEAy7qcGFpLFAvm7G1UrsmSqyx0+AbsQ2/Jc/5cHP75ecfPRfsup0RRdPXoSO2lNi9
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(346002)(366004)(396003)(136003)(39830400003)(230922051799003)(64100799003)(451199024)(1800799012)(186009)(38100700002)(33716001)(86362001)(41300700001)(4326008)(8936002)(8676002)(6916009)(54906003)(66476007)(316002)(66556008)(66946007)(9686003)(6512007)(6666004)(6506007)(478600001)(6486002)(5660300002)(7416002)(2906002)(4744005)(26005)(83380400001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?bG9E84EpC2FUR3qvcvhyQ/gKOfxlfgvVKuQC8p72HGlGVwUdHWa1x+0MwQ?=
- =?iso-8859-1?Q?Dme/m96Tugaz+qIxN+iCJkPNaRS7Q0irTAV6NFde1LIbS7zyDe21bd0Juk?=
- =?iso-8859-1?Q?beJNYOms+VX+VdiscV5oQ6cI/zdosiduF62UiSlsQqENzYICzw4wCrZW4/?=
- =?iso-8859-1?Q?QsOfMo8yQVdcVCOQkJbqRQAJu4fn8dG17Z/5aRcfbpDerjxC8BWa1tzcXx?=
- =?iso-8859-1?Q?f4uoBCraOUMlNKYjThvJb4rlt32/t0jvB72thtHXEj4zcxU0AHvcLqsX2w?=
- =?iso-8859-1?Q?8cILi9d4FVMiAw65qhXvxUnGCWly+rXiAqyCbQXVgbcKOdWhpuX5DIpHQf?=
- =?iso-8859-1?Q?GHSDoRfCYh7eS4L09k/ahZbPylZ5a0ALsHqi5b42pn8XU+z2Hu9S5XM9Wm?=
- =?iso-8859-1?Q?xSnnwglDQqUQZ416fjzC2vnDrreZCLvITX9wONFeAt5uwNZyvKckiaHIHg?=
- =?iso-8859-1?Q?xSxuIjuHBUtbglpZlaUf9dmznBdE3DqEzERKYzYXc5zYfLDOfACHlMztho?=
- =?iso-8859-1?Q?iDpTecp3jYCnOjjlWr2jk+3uHaWfJ9+GMTWC5zFr0zhKp4KfWAiAXNhRjX?=
- =?iso-8859-1?Q?+VEg3h7j1kHOyFjT2ii1pr3rS6Uu7pJjdR3t5AvwlIAQmesCN/mjP0QyCp?=
- =?iso-8859-1?Q?ZK5p8LcTgNDwAhAR49pCB38FsrnBPsM0KjjYdIGQmzH7hzV5skiMcUAsnd?=
- =?iso-8859-1?Q?WAsg8Wrtoc02xRh3SNCSxTNAWWC3rpLFgST6OfzRZf5xRmQj+xPf0We5QP?=
- =?iso-8859-1?Q?JZsrQdyAlxS/81R2GsnHrqAqULN1afv/0anr3b/BQ9N1JvwE1pz5kdMj0s?=
- =?iso-8859-1?Q?P3iqMnS2zy01NnDQIP4cVFO/iy8xzCp2Wl8lrp6fCgcmyqJNnyJfona8Go?=
- =?iso-8859-1?Q?pco1i0GD5LWqOUH+T+5nqgUjiiHuyuwweA8xEKBm4eZ1iX5ADwk5uX0VqV?=
- =?iso-8859-1?Q?WmuyH+D0SnQqzxZBXYJuJR2F3o/AXqqvqo4MbZKgaxaQqc6sK5Cz75NF2T?=
- =?iso-8859-1?Q?q95JBqAw8Keu8eTZUBzd9ibnwRzbgY3eZMSk8ykhEU+KA9PkrEeTPs48aE?=
- =?iso-8859-1?Q?jjN5+kT2G9I+iySZ0vF4jFTNE2M+JWpl2lmkm67Zr6FrH0ijrg2zxu4WzC?=
- =?iso-8859-1?Q?dsYxMTG8QPhSIStMS8q120hxmK6ILkl3R9HQF3AYJKTGHz8IsJvi9qKGid?=
- =?iso-8859-1?Q?y0+A3noG/qR7E6q+BEwlXxf00Z13hX2nqjLQgZm2vaTS1hk1H88X3FpIHM?=
- =?iso-8859-1?Q?2WhvWaXqjSliqqa/lPoOWaLLyYo+hJjI2bSLYshAZHGiX6r9pBlML9VSbL?=
- =?iso-8859-1?Q?hCAbQcUsbzMRK64+Ph1nYs3zc6BjijanCIXzE0D1iWGL2Xv43bJhEF6r1e?=
- =?iso-8859-1?Q?qPlP1HGgOLKxkUQwWLgR7QxnxJiORiLJu4WD3s5OvAcz27azCh2f/HgTyp?=
- =?iso-8859-1?Q?Jmk8okUJe0KIYZEiR3mWd5TsMMibRWtZ4V/f9txWB4WdfLfDLFj1gu+niv?=
- =?iso-8859-1?Q?7GfS7RsoMaUEq2CXalLT6EzjS5jNCXBY5ZZaEzWPjzHo/bflAlqMhmqrvi?=
- =?iso-8859-1?Q?evwUSMMNVJMBAsME2uIp1dwwOBF7yoMYGHL+spuhBXJXzNHxWCMRUdmoTW?=
- =?iso-8859-1?Q?3Lmb8FJkXwSJG/Y5ezt6uZPwkYTuRTbmYX?=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b7fc18b-73e4-4e5d-5c71-08dbee076da5
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2023 22:39:47.6645
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wj7QxmTzqplEy0Xx2bCXRQcSdE7KYzZY7dfPoHnBlmLpPuCTY5l4QQAruGChyYdkBVIq+kos21c/PoK8kZfFgg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR08MB7256
+X-Provags-ID: V03:K1:KgsX/V8H23dr3ox7bQztBWlnPIO3QDaPyZBFHtAJsF1Id7YW4uG
+ xB6t7U3KR8PCj2s+hBRW9lAfaid+YDUmVAx+4fm1+cU7Mg6DlngSOO3smyHwv+bcYbSHujg
+ 7FaMuPLZl78UmfZgmCb5LXbHq+UEZMLscwmKIub3H+Wmy3Q2KQgSTfA6p7iF6+zQfzfk45g
+ I+19r0MK6PgGflOv0AQcQ==
+UI-OutboundReport: notjunk:1;M01:P0:jZa4VyVDjOw=;9f3fKLF9CP3NXXlMJngO+34M50O
+ 3s89nJpb2jlPydHf9AOBLwzrhJdMjqGaYDQ7RaVqUISCPG/0INJByHgP2U3kaaaqZQEqJEoMe
+ 6nxB7p6S+LJsZfk/WfSQVuLZ08ZC7GkI+x6AMet7cEyzgDUZwTsak9JvdxVICkjP+Q3c4FlQq
+ SFozVfPpg3+XVY5e14W8QCJ1wxIuRGV85kktZbyv6WjepLZe/sXDFYkNtLr7pg3u1mqTmJu4j
+ Sk90DWVl9I+rKFmWlV6MkyUTfYKonX3i4z6RFqigFEuIQkUsH75+4H0Z4tbIyLQy7y+YifONn
+ h1aNPRX/OtOzPr6gaplFCTHwsFvj7XUA5zWuQVK6YV9CWBhNcTHTyOynUWqLnV7l1QuEoz2DS
+ u8BcDN71UcY+OPUZqNMSPgM3PufnB5tkAzncM+03KtP8AvJP+GZ/nrf/O/N//d6xdOSRNzwGg
+ 4Bva8GxIZ4kW/aWmslABEaVuT/935GJ4KYoqfxL//hz7mCTqAb23igWBwmF287sWEZL9cSAKD
+ FGCtL2xldW8AL9rodSGYNx4RBOAVhZ8DEkpVHM/vCzXQsBoddQV7aqVXczgxiBOFlAlpgyv9t
+ Pgnc63vUwqeMFta9lKJ6FAx3LVBEFuDj34aUfzd2rpa9trce4sJuAfgc8RMfMSRfMGb/SO6Lq
+ 7HAqagNub3uqEkfql1st90IO1z1UWTU7ocnImf30LULp/ye1i+g8G5NPILGrl+FlpWM6Pmo05
+ Zw7l4nhZi/OM4dkU4h9O/9WsDuXoQekeOqhzQaXaF/mYjY7jfHKk4HhLEOTAzaYYrHJOvJSIP
+ O1AOZaIHtl2uXtXqYBR5oJBWREsOeRZWYc7uQrRFOUSeUUdRohl8ow9D4c8TFpWPAOsw+Uu9H
+ +uzd14yLlN96oNGX4kTMqyWXUsLMITo5qGdML3BCup+Qei0hug0sfjT2jJGmx0ktRMb5aslhW
+ FgZvbQ==
+X-Spam-Level: *
 
-Hi Thomas and Anshul,
+Hello,
 
-On Fri, Oct 27, 2023 at 06:14:58AM +0000, Thomas Weißschuh wrote:
+it seems like the query of custom sensor feature information is not
+working in for kernels in the 6.6 series. I've been using a simple
+shell script to see what custom sensors are present on my system.
 
-[...]
+This is now failing to output any information. All bytes in the
+feature-*-value file of an HID-SENSOR-2000e1.* sensor in the sysfs are
+filled with zeroes. It seems like the underlying call to
+hid_sensor_hub_get_feature does only write zeroes into the given
+buffer.
 
-> > +struct seesaw_data {
-> > +	__be16 x;
-> > +	__be16 y;
-> 
-> The fact that these are big endian is now an implementation detail
-> hidden within seesaw_read_data(), so the __be16 can go away.
-> 
-> > +	u32 button_state;
-> > +} __packed;
-> 
-> While this was requested by Jeff I don't think it's correct.
-> The struct is never received in this form from the device.
-> I guess he also got confused, like me, by the fact that data is directly
-> read into the fields of the struct.
+The hid-sensor-custom logic that checks for the presence of my ambient
+light sensor using that logic is also not working, the HID-SENSOR-LISS-
+* device is not showing up. The hid-sensor-hub in question is the Intel
+ISH of my Lenovo Yoga 9 14IAP7.
 
-Apologies for some confusion on my part here; Thomas is correct and
-my comment can be disregarded. Originally I thought this struct was
-mapped to a continguous range of registers, but after studying the
-documentation some more, that is clearly not the case :)
+Is this a known problem with the 6.6 series?
+Where there related changes in the modules in the stack? E.g.:
+- hid-sensor-custom
+- hid-sensor-hub
+- ishtp-hid
 
-Kind regards,
-Jeff LaBundy
+I've not found anything immediatly obvious while checking the git logs.
+I'll try to bisect the issue between 6.5 and 6.6 and report back.
+
+Regards,
+Philipp Jungkamp
+
+
+
+This is the fish script to parse the sysfs feature attributes:
+
+  set -a properties property-friendly-name:'Friendly Name'
+  set -a properties property-sensor-model:'Sensor Model'
+  set -a properties property-sensor-manufacturer:'Manufacturer'
+  set -a properties property-sensor-serial-number:'Serial Number'
+
+  function get_value -a file
+    set_color blue
+    for letter in (string split -n ' ' < $file)
+      test ! $letter -eq 0
+      and printf \\(printf %o $letter)
+    end
+    set_color normal
+  end
+
+  function check_property -a property feature
+    if string match -q (string split -f1 ':' $property) -- (cat
+feature/*-name)
+      echo \t(string split -f2 ':' $property): (get_value $feature/*-
+value)
+    end
+  end
+
+  for sensor in /sys/bus/hid/devices/*/HID-SENSOR-2000e1*
+    echo Sensor: (set_color green; realpath $sensor; set_color normal)
+    for feature in $sensor/feature-*
+      for property in $properties
+        check_property $property $feature
+      end
+    end
+    echo
+  end
+
+
+Example output from Linux 6.5:
+
+  Sensor: /sys/devices/pci0000:00/0000:00:12.0/{33AECD58-B679-4E54-
+9BD9-A04D34F0C226}/001F:8087:0AC2.0003/HID-SENSOR-2000e1.7.auto=20
+	Serial Number: LUID:00E1001A270E0080
+	Sensor Model: LENOVO_ST_HUMANSENSE S
+	Manufacturer: LENOVO
+	Friendly Name: Lenovo ST HPD v201 Sensor
+
+
+Example output from Linux 6.6:
+
+  Sensor: /sys/devices/pci0000:00/0000:00:12.0/{33AECD58-B679-4E54-
+9BD9-A04D34F0C226}/001F:8087:0AC2.0003/HID-SENSOR-2000e1.7.auto=20
+	Serial Number:=20
+	Sensor Model:
+	Manufacturer:
+	Friendly Name:
+
+
 
