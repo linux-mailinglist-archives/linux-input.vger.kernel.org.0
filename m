@@ -1,72 +1,66 @@
-Return-Path: <linux-input+bounces-250-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-251-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52FE77F9130
-	for <lists+linux-input@lfdr.de>; Sun, 26 Nov 2023 05:10:52 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DCA37F9142
+	for <lists+linux-input@lfdr.de>; Sun, 26 Nov 2023 05:34:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 065B7281271
-	for <lists+linux-input@lfdr.de>; Sun, 26 Nov 2023 04:10:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C2572B20ED3
+	for <lists+linux-input@lfdr.de>; Sun, 26 Nov 2023 04:34:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 476D11FD2;
-	Sun, 26 Nov 2023 04:10:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 097D1EC2;
+	Sun, 26 Nov 2023 04:34:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="vFM4tTWm"
+	dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="utMIr6Pb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2087.outbound.protection.outlook.com [40.107.220.87])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBA49AF;
-	Sat, 25 Nov 2023 20:10:43 -0800 (PST)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2053.outbound.protection.outlook.com [40.107.94.53])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F0DC10D;
+	Sat, 25 Nov 2023 20:34:03 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FmjC6CKacskh5wIIq3uQ2imKUnCth1HT6E2HFahnlgKyIC4jFgI3+Yn8q4tg5LTeJzauarQ4XaU3+huZ7fg4nCn0CrSusA//ibTthuuDFAyzMHNmZ7MQfWh9AFasJS9iFm9sfCUuEmRL1W21cTFMWZkQdBdmYsowzTSZYFBDD2173JOhEDyk2/lkPxokAu9V+q/5XfwZmTGN84peDkYTtypjRZIkg1UwGVeu7FAQ/OEiT0fWjlgj8owBKqI9G9Wf/Lcwfqex99oyjlSUSjRNAblOPNSlFgyJ+N2YprJ7rlrcl2sxDhG91Zds2s5hj1//1Y/V/wgnPUHlDAJHNp1MOg==
+ b=TZCQChWLuwYxzqLuvmUhgdC8t7HaYcwDEP+nUv2HOPio4OO1absa1dmKjEAlkMbbqCZ+YaO0njSirNxlO5Xsy6WIoSyEazS8EYlW+rEVA61dh9jutFjbJQnmoyoxbYK27vfs+H0afjDAe1vJJ4hgUUj2Xuo6RQwqDrIQbH7YjZlDmsXEo+GJ1YaVqGgEVc2IAb1vdP4Ed+gW6HrVZuWKIl4qAIfi2pzT6FpTGtEIfR9VUZbgoGNgFqx82ieCfjYWclziae8tulzPqYHGxjqsFNCuK4XB3c/ef8Mq/Jo+QPvnKSfGcDDTGdCuXoD4WWKxac3LAwK9SNPBBR36u+W0EQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cOx43Rm564whuojAtVKnnB22TdJx4wnlEB6caKxekrY=;
- b=ggKZpM5dcRnhacMQajPU63/DYvZeRQO1LFC/irUpQyz6Qcz8Am+N6yIOTj0GYZ1pZtDSIUEtmJuEWxlDPrKUKqUVA8mtQRj97BsyMnfVVHQQPrM2TTrc07xcfDY7Qf9k4e1SfsB33SkyR0ASkXlzc6slN9MMpQ+6ijpM1fSZfR9n6z5RLlkZ7Cy9wQ5Ek8M0Kwi2gjoxpmZyomcJjBSwT4+T23sZCxTj1adIYxD+0v8HJo1VlgNmUekNEIi4nTGb01V03fHoeuqVtKTWiEjVJ2a6rGVss5/Z3HG/8zU47AeeN7/X/UJPwTlid7/Fl5WrQWtf0dS6cIZfNNri1ccPxw==
+ bh=sTtQW01j3UBOvM1ANiiwJxetPoPGFuGTqaXoelac0No=;
+ b=T4ZQ3I7dimNsrPK3yY+OXRsjo89wR1IO8LYT6EoOhayHY7x98TBz4PRR6Sdc6ZIuDufWylTiJeDjxoqBw24bN8FvfczR5Dim3Ev95Ny4Q9dPYLTAF9O7N84Ngjbk7oJ6BUBby+riDDKPKFM6clqqDHfrzkx8L8tA3eiYLdC1tvYXVU6pRpx3qzO2jMHAKzOP8J83T2C+Lx0JWZs1RyuHB7fEqXBLOwYvWAEbbA9UPO0eODA3B81NTDRL7FApQkGA5gdum9SoMj2aNgHDvTm57aB7GP5ns79IulSp+gnR8RF1vqxuh8t+OrW0dHECsYvRVhZMMD0ZodBDKWBacQ47TQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cOx43Rm564whuojAtVKnnB22TdJx4wnlEB6caKxekrY=;
- b=vFM4tTWmybjovR/L8byD4QEywL73SufMfiPmTp7PfpqQ5vOlpDj1MyjoMrxGbYIm9KeL8eHNFOEtkRT866oQx1IyEvQ5BviBJAz/+0Ewm1ZQJY8yuBIxbojBwO67QydvzBQTRtzvHY5JvewPUIM5MX3JCe0sG6HzpD3ypGRhaYc=
+ bh=sTtQW01j3UBOvM1ANiiwJxetPoPGFuGTqaXoelac0No=;
+ b=utMIr6PbZYbZ8+lUBxxuYRgB9jQGJDgR2b0c1N6dnvXX6900l0j39fUoILMH7eubRrAkK37LxLG8cdGzH0P/KVmgiocUYJfWJb+9P1hKcyAib6lOgQ/A4VzFnQ9B46/KzWQxklDuciVO0OxEiXCiye55ID7EyGChaiR3MpCDH2U=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=labundy.com;
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by DM3PR08MB9645.namprd08.prod.outlook.com
- (2603:10b6:8:1ae::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.19; Sun, 26 Nov
- 2023 04:10:40 +0000
+ (2603:10b6:803:43::21) by PH7PR08MB8229.namprd08.prod.outlook.com
+ (2603:10b6:510:12c::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.25; Sun, 26 Nov
+ 2023 04:33:59 +0000
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::36f2:78d1:ad7d:66da]) by SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::36f2:78d1:ad7d:66da%4]) with mapi id 15.20.7025.022; Sun, 26 Nov 2023
- 04:10:39 +0000
-Date: Sat, 25 Nov 2023 22:10:33 -0600
+ 04:33:59 +0000
+Date: Sat, 25 Nov 2023 22:33:53 -0600
 From: Jeff LaBundy <jeff@labundy.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v8 1/2] dt-bindings: input: bindings for Adafruit Seesaw
- Gamepad
-Message-ID: <ZWLFOV/U90bhm4ow@nixie71>
-References: <20231108005337.45069-1-anshulusr@gmail.com>
- <0defc0e3-dc15-459d-9e71-64f3c38a6931@t-8ch.de>
-Content-Type: text/plain; charset=iso-8859-1
+To: David Lechner <dlechner@baylibre.com>
+Cc: Sicelo <absicsz@gmail.com>, linux-iio@vger.kernel.org,
+	maemo-leste@lists.dyne.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	linux-input@vger.kernel.org
+Subject: Re: supporting binary (near-far) proximity sensors over gpio
+Message-ID: <ZWLKsVu/v8m9nA0U@nixie71>
+References: <ZVevR_ajeB1jfDS9@tp440p.steeds.sam>
+ <CAMknhBE5A3w7ntdWC9cFDYSrPQNPoH7sQ5PVXKEy6MAJmZ93SA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0defc0e3-dc15-459d-9e71-64f3c38a6931@t-8ch.de>
-X-ClientProxiedBy: SN7PR04CA0061.namprd04.prod.outlook.com
- (2603:10b6:806:121::6) To SN4PR0801MB3774.namprd08.prod.outlook.com
+In-Reply-To: <CAMknhBE5A3w7ntdWC9cFDYSrPQNPoH7sQ5PVXKEy6MAJmZ93SA@mail.gmail.com>
+X-ClientProxiedBy: SA1P222CA0163.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:3c3::22) To SN4PR0801MB3774.namprd08.prod.outlook.com
  (2603:10b6:803:43::21)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -75,153 +69,111 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|DM3PR08MB9645:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1be0dff7-ff30-4186-4fbd-08dbee35a662
+X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|PH7PR08MB8229:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8fb7b1e9-0ab5-4ada-7c0f-08dbee38e887
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	whkkBWY1IYyE5Tkk0QpvkpcJjF4Xjo3VuKfr+bl/KgvSCQF4qDnVtadlRZa2NQBzUNudOtDfjeNbmTUxTeUBcy9eYMfVRK7z3GfjNIpMkPeZkQrHQJ4zoaSDJP+szzEtk1Qnujwg4Y5UQK5IxFJZ+ZQfhJYJnw+BgSgnjaIirW82P754RZ7zClkUzJh3zRbEraC/lQn8ed96u4DlJRqmQPgnrYWw0Q4PHYsJYKw3IG7yFl0iNYnfPZJkhcAs4PExxw8readcEh9oenT1ptMPF40k45AXekanh55fpFpoAOdjlFgAu8Cs7Ce6+3bIwRykNlO9Pf/bQdhIVNYM7cDSJ+F1N+KIAPwazwXdOX6G+KVEKDmeEYKu3fCKpLFdsjWZXlWbcxqP2hokQv3u2fv6nigX2WYPoTXNTVUNBq/oM5kuLFoOYPAecSDO32M5PSA9zVVP132ltkYSCoM+knMFmsjRldm3biG3dDOEzftdGhu568MSKJY7mPjOfTU618KcNWGHIkGq/Fa7XeUqbEF4xVHUm40syKLIjeiH7dzcG8k=
+	kujE0rHHBEP/ebBzWoQln0Cu0bBgMMBsKH01b1252x1Ir1B7Q4QUrGgAAQNpkONTjvKLY1Ikga1laD4gFEtXoAj/dqg2KaWvTBHemTwgM4BXuEkqSCCETROIppqXDuPfK/8iTC/0ICiTW48T/pr3P1olWY77hSykTMfKxXAitQzSBVwudZgnJ1AH79kUU27PEeqCx/mBXeZXFc3izp+Taoc+cpYwYdB1tMoCjwCn4B0bdQZM5/9GpJqlJHYSQpiLNaF8Ip/7jGQct6OOkZBLztAHFXaNQWsiMKypOnQWBYsOZKhinEY5masZtS7JlTGi3ybSQexCYMZU+Q22nZasGRxNgzLmUHIfy3kJZpZ+rQQRyymTk+seOcc+Oc/i8xJI/TAsmFATG47w4vUgPVG35h3WXRaAhpg56UnvZcnqAFAw21sPHT/KYofsWyQImTwG1tNkWdN8FXExSx89b6UyhCx38IFC3+6sm76LfjWwZdMGxw4ifrQ5KSxDY8AfBDwHL3BfnNr0tYhuBQac0yjTGGCa/7fYZdMZFp2XCoMZdh4=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(136003)(346002)(39830400003)(366004)(396003)(230922051799003)(1800799012)(64100799003)(186009)(451199024)(66556008)(38100700002)(66476007)(54906003)(86362001)(6512007)(478600001)(6506007)(6666004)(33716001)(6486002)(9686003)(66946007)(2906002)(7416002)(66574015)(316002)(26005)(5660300002)(8936002)(41300700001)(8676002)(6916009)(966005)(4326008);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(136003)(366004)(396003)(376002)(39830400003)(346002)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(54906003)(6916009)(316002)(66476007)(66946007)(66556008)(8936002)(8676002)(4326008)(478600001)(6486002)(966005)(86362001)(5660300002)(41300700001)(2906002)(38100700002)(6506007)(6666004)(53546011)(9686003)(6512007)(83380400001)(26005)(33716001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?+ytXkehfYEaVCzuQlgU2OSjeAoNFUDRA3hRSydBszJzZ18EG4jlqsXc+Y4?=
- =?iso-8859-1?Q?ROCRQQQS1ifstgPhZVytKmdFIOMAECagGTJRanTWwgivA1ubuH2KykjIJ4?=
- =?iso-8859-1?Q?gXs2MOBmNaMnbD0RCr2EsQsDKx4nyi5jjqViKYz13R2l4JxpYEkoFkDyZD?=
- =?iso-8859-1?Q?k1Eye5jARPq8d74zfqbCDnKaz6hhbq/6BIssyjSg1Q4C8Mqk0vtpHOSHAk?=
- =?iso-8859-1?Q?hMKfUL7+328Pz1ylkbsQ16egnzxxSiQCOUAuX+mWSKWMqzOV6tpWAtLVyi?=
- =?iso-8859-1?Q?ZSBBed+my3KR8kttzk1fFjwuoHBMgEf71N0CRYRzxjjrFMnjBaxrhcetcb?=
- =?iso-8859-1?Q?BdxcEUqCN73eGnYN7cHIyPEK7sYj1/rm+3DRjVrCw3edFcZm5D/7iO2Tu1?=
- =?iso-8859-1?Q?PL00KU9Mtwg0B4OYG63OqtVKBhCkPb9i9qA5e32E9g/5PHOVEwojtE33Nv?=
- =?iso-8859-1?Q?kHi8azzL6THK+Y6WzAEGdxJSpwkjtXCft4Man+e9Pnf+6NkCoumQH5Htdw?=
- =?iso-8859-1?Q?1sx3XeQeHMdymLwxrK/ds6TaoC96nkisgar62oN/pxvE6KWxwJ3ZaJlPuZ?=
- =?iso-8859-1?Q?ypFSvTUBTpWIF2NOimkzG5X7HWR7NBCZSg6XBL+fQWHxZrVTX2ir/eJdQI?=
- =?iso-8859-1?Q?RIUf68dYHS/BUqrDaXRKgKc6SYGeWiNYIu5q7Tlvscwy5MmmdT2uxzYhfz?=
- =?iso-8859-1?Q?OPhPP5tnDpgp0seo9dBWTlpvc1d/u5vbXIvkIjZl1o2El6dv2/FHQltBhu?=
- =?iso-8859-1?Q?VBl+CYZBYz+dPwF1OA3+cocVPSgeZtce87oTRiPs80qzh3XtAcsUXHzhWV?=
- =?iso-8859-1?Q?MWcaRfc/0/Mt8/XvB9kbZu81sqThOOi+YJ/BmoRKRrd//UwNyxyAelAHuM?=
- =?iso-8859-1?Q?mDLXmZRs5m9r2w0gQluqVCdutqN93xDC+UDtMH1tK2h0dR6tTW2qyOfVGK?=
- =?iso-8859-1?Q?WkGO6fdmEvaRg/+BCFrjjixJnVj+lw9gA6ID0HWKQ7qd2JpsXTsndXqXEh?=
- =?iso-8859-1?Q?CAaDY+2ewUN/cCutxiuyS+LpdqS1ghztMS7eUtb3CF7hRsEKprNHno7Pgg?=
- =?iso-8859-1?Q?rQqMMWMBzKtY9NxO7ujOuarMlGyQdnCBdVxUyRgkvv56oy3kWIHttRFRjr?=
- =?iso-8859-1?Q?5k8UUHPhQdHBaIXqLWu085NC7AKraRDvUVrHpsXkqf4WfrfQIsnjKKa1Zo?=
- =?iso-8859-1?Q?nL1k7EWX4gG+klAttgklErZ0upYKC3c/0yETDcMJPvJXYXpH9yGiqRhCRE?=
- =?iso-8859-1?Q?tl+GFKWtw3H4HF1X46NDrdr1iHXmZzTIVD7DzBDvHhamZyZvXVck4FYn4s?=
- =?iso-8859-1?Q?XCTJh+qUGPNngrWJK4vXqj0iWGFq5li3CmOMRGK/vG8Io0UW/FxUCcxro2?=
- =?iso-8859-1?Q?VZpuD3ynj9+X3qcdG57NoTEQ2xOHeuUZWv0EA2IgJmnwXBxCGt2IPQzDOA?=
- =?iso-8859-1?Q?f5gFbNkoeEWHhuRfESsLa1WM2rVR9p17EeJla4KTorHYBjtE3myAafI6SE?=
- =?iso-8859-1?Q?L4ZuJsmrAnkpVQyUpFAYFmaOW5Eu82TaeP8CZavd+77kYKBAKZh9VJCi8A?=
- =?iso-8859-1?Q?GHyfDQYq1BkEa+VWV4czOj6E2BtN7QId4YmSgAbwUUU9abQye5Yaj/gniU?=
- =?iso-8859-1?Q?uHcXZ9ilKPTE6azG6ljC1DN0oJq/JZVqBF?=
+	=?utf-8?B?YzZUZzRaZVlyZ1FZVzhYZGN4UW5MdERkRVdTREE2NTIyTUZvdmlxdkYySGwz?=
+ =?utf-8?B?VHJVRnRZVjdGQXVhdXpMcitscmx5cWNBY2JvZ2pkRWp6ZlFMT2RBU083bkhG?=
+ =?utf-8?B?OW1DckRVdUJVbnd4Z1NjV3l0UjJoMDhGRFdnYnczTE1EbUtpZzlKQXoxWkJq?=
+ =?utf-8?B?RmtuUVd6YnRPVGYzS051S3N0Yy9HTGhtSXNIdGVLK3puVHBicUc5dWg1VEMr?=
+ =?utf-8?B?OEt0dTFTcDYwcHVkdE9Ub2YwTlIzaGc1UnFtUTY4RXgxZHQrYk5PMDRodDg5?=
+ =?utf-8?B?R1VhR0UrVEdtZU1aaGZ0QVQ5R05BNDcraUhwRDlRcWV3MkFuOFFMS1drNHNz?=
+ =?utf-8?B?dWpVR0FybDNDQWxCL2UrZEdGWGlYUGdFUWhIYWdSdWZyZFlENDd2NGpQRlll?=
+ =?utf-8?B?RVBSam53QXNVZ3M2L0NQOEJsQjZKUXoxTWc1cys1SjUyQlV0RFowS21ocXpF?=
+ =?utf-8?B?cU42NEl0cVJKWU1GVXdaRFhkVDJYdlJlbmdRZGZnTCtDT1lpbW04Y2dYdWVj?=
+ =?utf-8?B?OE9JYkdMcnZtR3VDVk92dHM5SzZtQWZWc24wQ2FqUkdJaEtoNkVTWFZSOTUw?=
+ =?utf-8?B?a2xtSHRyeEJkeXlxR1dGODBmWUxJd2c4WkYzVXNidnVzNnN2WFJ2NTQ4dUly?=
+ =?utf-8?B?TDlDcXNNM1FaeTRmZHphWXZYdldBclFYMHBUWm8vdUlPRTV3UTgzY2ozWE1B?=
+ =?utf-8?B?ZEY1T0U2SWFORUxQMWlCeHVDTFlhR0l6SVlPbWV1Q1RaUzJRVytYaWEyWjMy?=
+ =?utf-8?B?TUlBSXNVRHdGcWh2bXlPU3llU0lOMHIwZFAySzRmSGdHOE53Ykd5NVREOTNu?=
+ =?utf-8?B?bDJEeG81N2MxdUVId0hwMm9oQzZ0YmNzLzUwek9BYzdFTnNQNXR3eGgrMndG?=
+ =?utf-8?B?RVFKMmFzYkNuZmNGOWNvYXZDWWMxcWhSeExVMHJmbExBWFU0WEJOWEMzZkJM?=
+ =?utf-8?B?OGNYUjgvZ1ovd2toN1EyTWU5MGRSV3NRVFJwMFJLRDhjTC9Fd0NldWJBOGli?=
+ =?utf-8?B?SVRwZkRBSkFBVTYwUHA1Q2drcFVhazdicDB4QStuM2tvRzY2c0hlWUprMXZy?=
+ =?utf-8?B?Wllxa0p4WWMzYTBBdUVIZjRsYW5DdndlNEJCRjZjcDNIU0xpR1Q3ZDU3ZnRD?=
+ =?utf-8?B?aUYrdFpMS2orTGNVYUxJenlNZHBQU2tGcU1SVGlDdFlvU3ZUTG0wZERleDll?=
+ =?utf-8?B?VFZLMVhLTlNJZjdrTUkzd3NiR3VkOU5DbTFMU1NJMklYNnJxcXdHWTJ1aGpJ?=
+ =?utf-8?B?R01jT3ZGdlpaYXdzUUVaMi9mT3VCNWpvSTNYU2FzWUV2SDhLN2ZDWStUamtZ?=
+ =?utf-8?B?ZXJMZW9TaUxXY2M4RmtoMzMrcVY5c0FFTGNSbnVvbEtkREpod2o2ZnJqblJq?=
+ =?utf-8?B?aUJ2VDVFSWpDUmpHTDhHZW45RHVZN2UvZU9TN0ZIeGZlVTBnaHpsMzdxOVdT?=
+ =?utf-8?B?MjNJU0JhekdiUDh5M241cmhJeUZqRnZwVmRxc0xCbnVteU1oM3p0L21sV2h2?=
+ =?utf-8?B?b3V1TVFZSWxUZVZtRlVVTGhTS1lMSDNOdzJmSlgzWUhpKzhyOFJPbDJUYnMv?=
+ =?utf-8?B?R0F2VmoxSGJXRmRqWU9LRS9yc2ZnbVMrVUZKckFhcWRTWVJITTMwVVdZRTJ3?=
+ =?utf-8?B?MEkrQVNjZWRmVW9lTkZIajJUbmkyKzUxUDBWWHhETmMzV3pSbWlMVmN6Njkv?=
+ =?utf-8?B?enR2WnhiK3EyeG96U1pqVCtXOWEzU01wdVlCMFRXY2xKRnViNDFIQkNYQ0dQ?=
+ =?utf-8?B?LzJKU0QrWjE4KzVNbmZieGRNc1NXTGY1SFdoZE03U0h2cFFPbmNQVDNQM3FT?=
+ =?utf-8?B?REZIQ3dzNFlZYUhsWVB0eDJLb3FPa1FxQ3B4eisvOWp6V1dMZWFHcEFCQ1dB?=
+ =?utf-8?B?MGxuSHp6TlFpcklrbDFCY21tU0U1eHpldkRlV0hpd0tFVjAyNnlqMFk3aDIy?=
+ =?utf-8?B?NXg1ZzFGN05iTmZWTmE0L3lXVlY2bVE1RUI5YmMxOUxzaGN0U0dGaDg1a2h5?=
+ =?utf-8?B?Tk9JcER1Smx0M1dEWWZaUXJzdTlQeHBmUmRrYk5WNlpZbFdvZG92MVk2UGE4?=
+ =?utf-8?B?WEZ4S1FFTVpqVzY0QTFjOU1oRGZOcHNwQWdZcm1mU0N3WFN3VFdwK3ZsUjdx?=
+ =?utf-8?Q?Nkr7OMEy+MiF57Vxz92NmqFVg?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1be0dff7-ff30-4186-4fbd-08dbee35a662
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8fb7b1e9-0ab5-4ada-7c0f-08dbee38e887
 X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2023 04:10:39.6603
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2023 04:33:59.3637
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZeZFvRfx+K70dYnEV8wtl9ys3fkeUkTjUWYt9eIxTOmI2O4IhpVootleH2wY/uRH6FxTpDm6Z6jPzwNfMAyCqA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR08MB9645
+X-MS-Exchange-CrossTenant-UserPrincipalName: WsCnKRubQrQku+CXDjyAPj77d8fbQnGqAfkmP9vd7LNlxXgfOWpOaObnaqABAStoLjY28Oe7atTbWpNOXVK5nA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR08MB8229
 
-Hi Thomas and Anshul,
+Hi Sicelo and David,
 
-On Tue, Nov 14, 2023 at 08:20:46PM +0100, Thomas Weißschuh wrote:
-> On 2023-11-08 06:23:35+0530, Anshul Dalal wrote:
-> > Adds bindings for the Adafruit Seesaw Gamepad.
-> > 
-> > The gamepad functions as an i2c device with the default address of 0x50
-> > and has an IRQ pin that can be enabled in the driver to allow for a rising
-> > edge trigger on each button press or joystick movement.
-> > 
-> > Product page:
-> >   https://www.adafruit.com/product/5743
-> > Arduino driver:
-> >   https://github.com/adafruit/Adafruit_Seesaw
-> > 
-> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
-> > ---
-
-[...]
-
-> > +properties:
-> > +  compatible:
-> > +    const: adafruit,seesaw-gamepad
+On Sat, Nov 18, 2023 at 06:09:18PM -0600, David Lechner wrote:
+> On Fri, Nov 17, 2023 at 12:22â€¯PM Sicelo <absicsz@gmail.com> wrote:
+> >
+> > Hi
+> >
+> > Some phones have 1-bit proximity sensors, which simply toggle a GPIO
+> > line to indicate that an object is near or far. Thresholds are set at
+> > hardware level. One such sensor is OSRAM SFH 7741 [1], which is used on
+> > the Nokia N900.
+> >
+> > It is currently exported over evdev, emitting the SW_FRONT_PROXIMITY key
+> > code [2].
+> >
+> > So the question is: should a new, general purpose iio-gpio driver be
+> > written, that would switch such a proximity sensor to the iio framework?
+> > Or evdev is really the best place to support it?
+> >
+> > There are a couple of people who are willing to write such an iio
+> > driver, if iio is the way to go.
+> >
+> > Regards,
+> > Sicelo
+> >
+> > [1] https://media.digikey.com/pdf/Data%20Sheets/Osram%20PDFs/SFH_7741.pdf
+> > [2] https://elixir.bootlin.com/linux/v6.6.1/source/arch/arm/boot/dts/ti/omap/omap3-n900.dts#L111
+> >
+> Since this is really a proximity switch (it is either on or off)
+> rather than measuring a proximity value over a continuous range, it
+> doesn't seem like a good fit for the iio subsystem. If the sensor is
+> on a phone, then it is likely to detect human presence so the input
+> subsystem does seem like the right one for that application.
 > 
-> I don't really have any clue about devicetree, but shouldn't the actual
-> driver have an id-table for this "compatible"?
+> More at https://www.kernel.org/doc/html/latest/driver-api/iio/intro.html
 > 
-> It had one up to v5 of the patchset.
-> 
-> Jeff had some comments about the OF aspect [0], but to me the state now
-> seems incorrect.
-> Maybe the DT can be dropped completely?
-> 
-> Jeff, could you advise?
 
-My original comment was merely to say that this driver doesn't need an
-entire binding because it is easily covered by trivial-devices.yaml. The
-whole point of that binding is to save the trouble of writing a new file
-such as this for trivial devices with this same set of common properties.
+I tend to agree; if there are only two discrete states as is the case for a
+GPIO, then this is technically a switch and not a sensor. Therefore, input
+seems like a better fit; that is just my $.02.
 
-I don't feel strongly about _not_ adding a new binding for this device,
-it just seems like unnecessary work for all involved. If the maintainers
-do not mind, then I don't either :)
-
-Taking things a step further, this driver really doesn't need to define
-an of_device_id struct either, because I seem to recall that OF can still
-bind to drivers with "compatible" strings specified in the i2c_device_id
-struct.
-
-At any rate, this version is most certainly broken because the compatible
-string defined in this binding does not match SEESAW_DEVICE_NAME specified
-in the driver's i2c_device_id struct, and there is no of_device_id struct.
-So there is no way the driver would bind if this binding were followed in
-earnest.
-
-I see this has been addressed in the latest version, so I will take a look
-at that one.
-
-> 
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +    description:
-> > +      The gamepad's IRQ pin triggers a rising edge if interrupts are enabled.
-> 
-> Interrupts are not supported yet by the driver.
-> Should the property be there already?
-> 
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    i2c {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        joystick@50 {
-> > +            compatible = "adafruit,seesaw-gamepad";
-> > +            reg = <0x50>;
-> > +        };
-> > +    };
-> > -- 
-> > 2.42.0
-> 
-> [0] https://lore.kernel.org/lkml/ZTWza+S+t+UZKlwu@nixie71/
+FWIW, a similar discussion came up a few years ago in [1] and again the key
+differentiator was whether the output is discrete or continuous.
 
 Kind regards,
 Jeff LaBundy
+
+[1] https://lore.kernel.org/linux-iio/9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com/
 
