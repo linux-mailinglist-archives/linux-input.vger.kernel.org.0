@@ -1,74 +1,73 @@
-Return-Path: <linux-input+bounces-248-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-249-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC9B7F90A0
-	for <lists+linux-input@lfdr.de>; Sun, 26 Nov 2023 02:11:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FF3A7F9127
+	for <lists+linux-input@lfdr.de>; Sun, 26 Nov 2023 04:48:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 290B7281311
-	for <lists+linux-input@lfdr.de>; Sun, 26 Nov 2023 01:11:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ADD9828136A
+	for <lists+linux-input@lfdr.de>; Sun, 26 Nov 2023 03:48:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25ECEECB;
-	Sun, 26 Nov 2023 01:11:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C56951C2D;
+	Sun, 26 Nov 2023 03:48:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="eW5sqv+W"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="bLQ4Zi8F"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2060.outbound.protection.outlook.com [40.107.94.60])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CB3BA9;
-	Sat, 25 Nov 2023 17:11:10 -0800 (PST)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2056.outbound.protection.outlook.com [40.107.94.56])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13A09DD;
+	Sat, 25 Nov 2023 19:48:40 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kDJY+3QeWIPOtr2y/5P4dar5d0czQ+A8Ws56c3eW4udXnZU6pR8t+yZ85DCqLlqiFYzo171UP+JKhUIEBSqoLlwGXOXCVpbh8NI1ZVi/vbu57vlCCx2fyK42jp4tdE+iQD+MbHYyEUXEvVO0cet+HsBiDwMCCphZEzad8oRUQ8Ci4+we8cGeWhXsd9NGboaE4TVzJamQlXz04bIEiiREs7lhLIR+XNohUuZ8L+5G9kF5gUKGOq8RKZ4sTTi7CPTM0hbBj24uMR7FDKUl+fl7ZEK5i+aG4JOKPpuP38AxAnmWW0ozokpU1C6yRosF4nFCk2GHW409+cokHNE114dehQ==
+ b=My1Vian5xcjlAAtP9aX5avvMU5jBVF3E96MkEzAcDMstXCWl9IQuF5X8CJ2lq9cTcuZ87DLf2UgTLzHwv2ryyzP38/T+1ERlRJHGEdUQMTFw6dtwVqovb3DZ5v3Vm4u8fD2FxeIioDxdeG6HjYtD0MRDISrOzcsnJQB8CIPD9spcLJhydnSd3BBJFXaUFDBK9AbCKfmty3kVSn/U/joN5rJdjIYtPlJgdi62TNnQq+9/bQtCnZPrqUJB/EraEXwB9C0Xvt0v9ysalVOtFXsyq9mPKCNAuW/ydjknPskWZocKLxNGY1jjmk0HuCS6dJR7pfCQEt+I2i1iNlux/y2QEA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=deTUEiCdMpnT/Dw4s/uzkL6wypLShyTZwWLr8gQRhSw=;
- b=RZQ1yUcbdI2QPQKz1Ef7DSlgGljCpKKlAr4W7U/41vnk3ikOllFNG49LrlChxJTXWquvb8H6u+Fp16zSSm0j4ZJroJ11LFKkTfQprHeiDwTnkOSR+DbD22luA9WXYiy2CXElBwC9RhMG8iPVbLXzAEPwKeXtA+JI+vsHTOnHuj3qMtj0tBn3JdYpqZJrODylwiH4hcbPnIo6dJsjx/76iokko/UjO5Pe5AqYFFee26tPhQTJnxtvtuxxEXQBGwIHiSurmcuP+qst9tjhf6t8k/HY2vEuaSJGsdoPVYhUcMcTwkc2oGfMUW1j4fR+NJooemRlrhETKvPXifNm0kXK8w==
+ bh=WDgosMiWx5YERBBDgxA2WalVFkwwAsktVR+V9SBX7fE=;
+ b=LAr1cGZgtHSODyvWeFcOKpP/3C2eMiwIE8liAqHGWiycgdcJB+QxDjOskwlzOre8TzXZDmRqkSjxhMGYGIX7E2ij80JtlSB5UUIvwv+GIYcTIpSI40ivBFX/zdWJbIdByK1ONczdyZC2td2IUAhoqdoM4ozMsGuncFUnIc7aCXbHSIwdkKm4yDK2xycrfN0lQ+lfjG8T/K4WbhgKpuv8mxAqg5ZxiIB1OhwDELeTwj65FnN0reOpKZ2fDhp7wf6N9mqSY4lFCTuVnIeAOW3ehmdDrKzulK7eE0JqcR/gqwRtrClePMfODdrosmhdBSRibWzqTftfg8E4o/CfznRKNg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=deTUEiCdMpnT/Dw4s/uzkL6wypLShyTZwWLr8gQRhSw=;
- b=eW5sqv+WvXpzQT0fF4QtdG2aXUuUMyPOl7KhxPcfK/jSc7XjJdK9/4+bq2h1xcwR2M+doHE5LMkveig/12nX1czn9sJtflCLwoS0OfVZxsWECMcr98LhT5G/h8HSaWLq9+NLtFOYwj78S7Etl0s+kPpHbEdiaOoZ8we+0FFeJF8=
+ bh=WDgosMiWx5YERBBDgxA2WalVFkwwAsktVR+V9SBX7fE=;
+ b=bLQ4Zi8FMeuMg/0me6qZVpD+OM0hwqBUu7KWkPXS3EVAR4H0XC+RHV6pO099gk1Qn+TqrktZY7gLhqPesS6R2VMWRvHphSdgmkHkcBSvWhyuCe40s7v8TCu8mES/4yyllgUXdkYX+iebWdBDIi/QQmQXTCFRRX4u6Q9le0PNHnY=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=labundy.com;
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by DM6PR08MB6316.namprd08.prod.outlook.com
- (2603:10b6:5:1e7::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.25; Sun, 26 Nov
- 2023 01:11:08 +0000
+ (2603:10b6:803:43::21) by SJ0PR08MB7781.namprd08.prod.outlook.com
+ (2603:10b6:a03:3d9::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.26; Sun, 26 Nov
+ 2023 03:48:34 +0000
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::36f2:78d1:ad7d:66da]) by SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::36f2:78d1:ad7d:66da%4]) with mapi id 15.20.7025.022; Sun, 26 Nov 2023
- 01:11:08 +0000
-Date: Sat, 25 Nov 2023 19:11:05 -0600
+ 03:48:34 +0000
+Date: Sat, 25 Nov 2023 21:48:24 -0600
 From: Jeff LaBundy <jeff@labundy.com>
-To: James Ogletree <James.Ogletree@cirrus.com>
-Cc: James Ogletree <james.ogletree@opensource.cirrus.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+To: kamel.bouhara@bootlin.com
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Lee Jones <lee@kernel.org>, Fred Treven <Fred.Treven@cirrus.com>,
-	Ben Bright <Ben.Bright@cirrus.com>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 4/4] Input: cs40l50 - Add support for the CS40L50
- haptic driver
-Message-ID: <ZWKbKT4NjkriuEx1@nixie71>
-References: <20231018175726.3879955-1-james.ogletree@opensource.cirrus.com>
- <20231018175726.3879955-5-james.ogletree@opensource.cirrus.com>
- <ZTiFbmutojF0LRZU@nixie71>
- <120DA9BB-2607-4A85-B96C-5A2490E50876@cirrus.com>
-Content-Type: text/plain; charset=utf-8
+	Conor Dooley <conor+dt@kernel.org>,
+	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	mark.satterthwaite@touchnetix.com, bartp@baasheep.co.uk,
+	hannah.rossiter@touchnetix.com,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	bsp-development.geo@leica-geosystems.com
+Subject: Re: [PATCH v3 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
+Message-ID: <ZWLACNZrDzcHHA7D@nixie71>
+References: <d760ad5e60b21816a395713f004ca14c@bootlin.com>
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <120DA9BB-2607-4A85-B96C-5A2490E50876@cirrus.com>
-X-ClientProxiedBy: SN7P222CA0010.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:124::33) To SN4PR0801MB3774.namprd08.prod.outlook.com
+In-Reply-To: <d760ad5e60b21816a395713f004ca14c@bootlin.com>
+X-ClientProxiedBy: DM6PR04CA0016.namprd04.prod.outlook.com
+ (2603:10b6:5:334::21) To SN4PR0801MB3774.namprd08.prod.outlook.com
  (2603:10b6:803:43::21)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -77,147 +76,358 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|DM6PR08MB6316:EE_
-X-MS-Office365-Filtering-Correlation-Id: f5215cb1-ace5-43e6-92c1-08dbee1c91e2
+X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|SJ0PR08MB7781:EE_
+X-MS-Office365-Filtering-Correlation-Id: ed3632b7-e724-4cfb-99ee-08dbee329064
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	plYTb/s9dzdZmxH01XzyD1Ash2a+1Y2UWVjVX9du6lJwTi47yHG1/OjxLQ8VFDEBZ1nbXhcPmOxVKHeDuyc7BYNtXUHFbnRy6msi0FRlvVEP0zyIHwbj/NJ3NNJbf4MGeVNKZDMgIujZ58EuPD+rJjvqMj4C9G/J163nZo+D69TM7WMN3eI5BDp22wrbkt7FguR0rjBMx4yulY2EElYMXIgdlq1qzx85NLh4gvGkiV0pE+sA6PRn1QnYEM/Upu37kXLcKLN4Dkg5FsmAUV5InEp/Aehlm5mAJZe8EkFgIXR5rsyNySrJYJRNT4dEfn+WBZglbV+Yu/RpFJUxVUAs0+pD6Um6m6XCxrculPd7rHotkBR4E6s9fiGDnTScYS+wM81rw7i3LvdCAtSqr6ajIBZXbM/TAogC0DD83msn0aIVPy6jbMaEr5l31Mvi4u3rKL/+WrQqUlS8oh5BEvc1kHsJWkEdZMQOFLm/6qQYnSALwf8X896dMAOkpdv5KEL62qptLi/iXiNQH4esAnGH52orjnLZimD4JHxa8KEttcm6IZf32xTYnDK29FnBJxXK
+	Lz61YRQR0JnCV7OE8wBNRSYWuckgLb4hsGP/lSrpC8FPDZ8oyt9m8j9VgqYhvcaj7lSYZXjFhrhv2frfHpZlW3XGlhfoymzk0nHvyyk6uqSvwSw8eU87JSs2ou69zKW89WcEc5rVs+lwsgVnw4K2ausEtW72C6TYPfj+RPK8Vf2fF6JxnDvxmZqP/No+wd24KLpejiEgADzTxlcgfKonC50N5iq6Y3p7k5mokLMxhjeoXZ6ZZVN6cruhaJHoGr4J2Qc/LhBtNzY/5Vrrxei05nuN2sJwJA9eh75yDx4Yr3Y0e0ODmE6tfHm601uTAEnOOchwSWpqBfCo433R/4oZ+pq9qnpb8JfUrQSx6auZl5QlXMXmH8lCQXhWVz2vdaIXp6qWb/anBZQmiWk0ueTxiePLnzOe4BvD30/+8EFVNx1u7GnYiI37RIWjjwdt+ESrxQztXsKa5RVoAsRjWx5UOCR9iloWXmdXYSeT4jhEEPBqYEtBwjmahOR0GE1tRgPR347QDvq8bOq5y37Az6Rw+8BnfIBwnzVejxPzgsB5bYWkGISu94wvEuXAa+hTW1Iv
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(39830400003)(396003)(346002)(136003)(366004)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(5660300002)(7416002)(2906002)(6666004)(86362001)(33716001)(6506007)(53546011)(478600001)(26005)(9686003)(6512007)(316002)(54906003)(66946007)(66556008)(66476007)(6916009)(8676002)(4326008)(8936002)(6486002)(38100700002)(83380400001)(41300700001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(396003)(346002)(366004)(136003)(39830400003)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(6666004)(66574015)(26005)(6512007)(9686003)(6506007)(83380400001)(7416002)(478600001)(5660300002)(2906002)(33716001)(4001150100001)(41300700001)(6486002)(4326008)(8676002)(8936002)(54906003)(66476007)(66556008)(66946007)(6916009)(316002)(38100700002)(86362001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Q1prOHY5SEpBalFUQ0t4clNLWGEwN0dabTNpcHMyTnZ4MzNIaWY5UzZNcER0?=
- =?utf-8?B?Yk9TUEd5YWxBUTVoNEYvbFdZblpTeVl2Qm5FWXpuRnlLVXlVSkhQZDBDd0ly?=
- =?utf-8?B?YUxTbEFmMTVWZWVrdW11dCtiTFlyY1VmSlJxNmFpQnJndE5HQ09ENDRlZUR2?=
- =?utf-8?B?VjB2OXZ2d09PeXFGOVcwNUFUdlR4d0lEcHk2d1RtV09DUzY5UVg2RDljNHRW?=
- =?utf-8?B?ejBxcnRXNEJ1dVNOaXBDZk1HaHlXOFRSd1YvMmN3T2hrbTNjRUpib1lNbWdH?=
- =?utf-8?B?MG1MZU53d3Vnb1Jxc2R5V1FFNVFjK0tYRUhweFl0aENzSVFvRmRhdndIZ2ta?=
- =?utf-8?B?emhyanA2YWxRYjBidjFXZjl5UFRNeW53TUxUMGFibXl0aTd0TS9nNWZOWXFF?=
- =?utf-8?B?bUs1NFdzK2F4R0dxWW9XU2tOUXpoYk9XNUdBb3F2U3JUc0pHV2U4L0d1VlJE?=
- =?utf-8?B?Y2lYSmxOU0NiYm5jbDNCSnp2RlVNTjlMUUVhdThybkQ3UzJqaEFjU29yMGVP?=
- =?utf-8?B?V01IU01ZcEVZdFZla1l1eGpJYy9OeVBDdjgyUVZsRVVyWXU0YWNsS216RVV5?=
- =?utf-8?B?S3hqZzdTSE11WHNWSGZtKzh0SFNDcG0yNE1QUEZiVmdwZzA0RXZUMXZrSS9W?=
- =?utf-8?B?WE85QTY3TnlWNjRvRnRkWWEwZnA1Snp2QWhjWTZTbnhQTDdZb3c5dFZsQ0I2?=
- =?utf-8?B?VXl0dGt2THl5M3orQ0dmRzk5bjBnUUQ0emZ6Ti9zNnN2eHVic2lCQmlSQ0Mz?=
- =?utf-8?B?UDRwRFV5andCVWI2Y0pkc1R0NG9SQXdRU002anNjLytPLzREMTFyL2YyZXNl?=
- =?utf-8?B?aVBDbkpON2syREVXTFVEUmVRREVWa21nbVJqYlpBR092eEZHTU9UajV6bFpS?=
- =?utf-8?B?bmFtLzJnYUpmR01oWXJGcURTUmdicys1VW9sVndlV3JRZlg5SkU4UXd3c2xY?=
- =?utf-8?B?UGl5d0NJQ254NFVOMFFkZXI2ZVk4bkJkK0M2MXJzSDAvVmJJWURqYXMwemtR?=
- =?utf-8?B?WlBTMjlJVXErb2RSWDNBVDhLQzJIUG82VXNMYndHL1BEMEdxc1daVUdMWFp6?=
- =?utf-8?B?dGRtZTEzV2liOXhFTzlQQjY4ZHd3UFk0WXFWM1BWeXlQK29DbWVOT3JZNWxq?=
- =?utf-8?B?RXdIa2g5MXBVSTBVZHZmaHB2TEZJNUR2bUt5Y0dQaVovd1hvWnVKNGc5c3Bn?=
- =?utf-8?B?SDk4NnA1VVphTmVyTjhIcUsvR29NMWJ1dGt3dEU3bXVtbHpEU21zMVRuZ2dG?=
- =?utf-8?B?c29HRjJXb3loZnNnbzBkb0trVUpBODFvQnpYb2xic0JxTTlsMkdhQlBOcXkr?=
- =?utf-8?B?Z2FWckh2RllOV2VoRVdKeUpsS0FwYmtSVlNuM1pnbFFaY0lTbTlEcUtvR1Jt?=
- =?utf-8?B?VGhTNTFxYzlFOEJmRXNjT3NNaUN3eWhBZ2FwQTAzR3p0bTZhRk01RXhXVlhv?=
- =?utf-8?B?KzdEaHAvY0M3NWNTUnBRelZKLzNla1lEZVFDTitPTzhSZmdlTXNHdnBhUis1?=
- =?utf-8?B?T2szUGNZblRWUjdKalUvejEyRjBOUU0rSUxQR05CWEhOZFNUSjZVUXVKbFJu?=
- =?utf-8?B?QkpwZkpFWnVBRHUyODdKb205TmppelBKUTdRYWRBT0hha2xpbVpNOUxjcU9o?=
- =?utf-8?B?NUtBZzZ2bnREUzY3ajh4R3ZDUHlXRUNidExXeG5CK1hZdkNZdGRZKzZPT3NO?=
- =?utf-8?B?NkU5SlpQVlJnbXB3MkVSZURUNUtxS3A0aUJLemYxZ3BzZG5rUWpzN2FSSjZM?=
- =?utf-8?B?R3ZScnF4c252VUs2Q3BiSS9CTmpPZ0JxSUlxUzFVdTkwYmlkbGl5YWI1RENH?=
- =?utf-8?B?Z21UNU4zYnMzNm9zZ2Y4bzdTK2gwbVU5enlaemhxVjJNbVFQWUJLMWoxM215?=
- =?utf-8?B?cVRoZ2YwWkZIdEp3ZkVBWTBZaGNzbTlzUWZieS95a2NHK2U1OTV4c1R1NmZJ?=
- =?utf-8?B?OG5yckkyYlFNOFpZZ0FaOE5FVXQxU29uZUN6WFdMNG1uSmVqSDhBbWdNeGZu?=
- =?utf-8?B?c1hZVnJ3NDFoUE92YllEMzg2Q0ZNWWdBRHduWXJOZVdEOGgwUjV5dG52QUdY?=
- =?utf-8?B?ak91UCt1dXhTVjZQdmNNL2p3RXJNT2l2OXdiVUtHVUVXV0ZUbEZmMWdOcktW?=
- =?utf-8?Q?Pj0ZbMcnZ8sx217hxAXDZW2m3?=
+	=?iso-8859-1?Q?vGx6+ysj7dmeyl4qdhCkCiRLgC3CVuJVstOgOdbcAI6OLUSRaWdBpMWpbV?=
+ =?iso-8859-1?Q?oas5oXXzHj/8YACJdUvR9t74mHlMTaS5iy9eS+0MeosK5UshXuapdGpp1h?=
+ =?iso-8859-1?Q?228yXEjauHh6m+r27J362MXQQ5ZTSPt059xd/qmQqQJQxvjf2Igicr8N17?=
+ =?iso-8859-1?Q?QMC7g38rfHOyelNtNCUkQDE07f4O69wnjOK/xZgDeMfJVif1Q7EPeIXdO+?=
+ =?iso-8859-1?Q?2I2bd7Pm9m7dIgKwQaeieUu13kJTxpp81+oj3HgokurOxo1TyLNosQX/s1?=
+ =?iso-8859-1?Q?aWtlplReRLk/smRak0ypxIHIk99NR1MV/T261qhpSkeI2gFCusNj2wCdml?=
+ =?iso-8859-1?Q?vsUjBrE50pXKYpXa5lHa8EYlUl47HdOepUvPsx3PVbq+aEdVlKUHA8QvJ7?=
+ =?iso-8859-1?Q?3dCDuaKXsPYWQO/3VdFM4iz2EdE/El92N71Earo7I4gPmhy00IAasheV58?=
+ =?iso-8859-1?Q?1TGQS910nugbsnUa5t59SJV6dbzxuXKcmvnapEdiqq2TuY1P+2LukTKT8k?=
+ =?iso-8859-1?Q?NnyXTJzf2YEKUUjasEB4bdXQ55O6w1+kG//fWHCz1srLhr/zuH9dUpvoQU?=
+ =?iso-8859-1?Q?HqQwu6Rn/7FHXv4WPAbrj4VRwHp41deIPZyU6zyC+7kzcjsYPREQaaS9du?=
+ =?iso-8859-1?Q?yjq7EzS8dsxfbt0q3XThSiO415GldU7SoAdZVa7rH5s0ceT5iLH6H8vgvV?=
+ =?iso-8859-1?Q?jQ8irG4l+Ja9T8p01POGp9BYP/wjv9oyit/P9xmSRfKwKBnVaxDD1aCujo?=
+ =?iso-8859-1?Q?y8Kftyz7N8lorBmAqgdL4TQNtltTniorCQ12uWO+In4+DpizooADPaqYHV?=
+ =?iso-8859-1?Q?Jtm8gHheRVMi4UVit1nTsW1QoVVlUlJDtGAdJG+avnxV9KVr2gxjcepixR?=
+ =?iso-8859-1?Q?2wmZ+n8MEspfdvF0Zii/zhVvVDnXCybWgkqFo1kL4ndQioldGAycLajHr4?=
+ =?iso-8859-1?Q?qJVMsJEG49S/RrPjr9mAJwbTZ9a+rpVABImONe251zTfUcqwoKUK68xFpZ?=
+ =?iso-8859-1?Q?haqQ4CRKww/twxNnWv0yt0UK0Xw8avofiTWtVZeSFgv6fyVDy4r8cHr711?=
+ =?iso-8859-1?Q?GYDTbqGkc6Ke/+4g0Qq9BHuTOHcgLSOepeQKApbqq6Ie6OHyvefJYWFrIT?=
+ =?iso-8859-1?Q?vMaP9jM7xdbaSYTbYDCBDBO7HN+7D7NMG9Ln+eisQKKj9yksP7NRWctJWv?=
+ =?iso-8859-1?Q?lvCwhHIcv4ApMqrRHlJgI8MYd27LOsI4VvNd/guzz34RPPQkKUMgVQgR0f?=
+ =?iso-8859-1?Q?+NcfcBpX9BtAIdX0s4hKDAuQ1V5p1qTZ2fPDY6caeQuUUo6FCNcaBQV7G1?=
+ =?iso-8859-1?Q?qkM7C/TXxwjklb4Qbicvcdir0xNU4sJwYvI57wqYuU/lP42Nq0ICI5dY+p?=
+ =?iso-8859-1?Q?j+wQTZo5+Yu/XBT/UTuqJobud2yEYogZXSLKsyhgqinLcpO98M8LaupiJF?=
+ =?iso-8859-1?Q?AbTbwdQkFK61QSswOFPTcvo3Z23v+we4I9+2ez9oucOEJVUZYadOrqUspi?=
+ =?iso-8859-1?Q?GF+oyTJ0+G3M4V7GLj1dh6lD9igCQOKaXqSodMMap09Hv2PgYAE1bXYK0v?=
+ =?iso-8859-1?Q?PnLHnxTyuOjDWdX23uhSJTeyF6IQl9PjbRLrmC/1Hv8lP/+3+jvC0erg5i?=
+ =?iso-8859-1?Q?NKricSkk6cDZzNDli2jma1qQYv1IepJbYu?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5215cb1-ace5-43e6-92c1-08dbee1c91e2
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed3632b7-e724-4cfb-99ee-08dbee329064
 X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2023 01:11:08.0444
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2023 03:48:34.2998
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NFLPrElm+JYqvbeShhT7J+iR9Th7X9p7Z5n7a9Ahp7AKSOPPnepdbyJU1cIybs8nOUdQEu5WuF0Isb79LL+AnA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR08MB6316
+X-MS-Exchange-CrossTenant-UserPrincipalName: CTCuR217BwCWfq4r09xUP1Ffdw2+Evs1R9OdnlO0cCl8za/rHzivmtEUS12wOZ1e6d9wxnrwRWVFCIKKkGgGlg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR08MB7781
 
-Hi James,
+Hi Kamel,
 
-On Wed, Nov 01, 2023 at 08:47:07PM +0000, James Ogletree wrote:
+On Mon, Nov 13, 2023 at 02:32:12PM +0100, kamel.bouhara@bootlin.com wrote:
+> Le 2023-10-22 23:54, Jeff LaBundy a écrit :
+> > Hi Kamel,
+> 
 > Hi Jeff,
 > 
-> > On Oct 24, 2023, at 10:03 PM, Jeff LaBundy <jeff@labundy.com> wrote:
-> >> 
-> >> +static const struct cs_dsp_client_ops cs40l50_cs_dsp_client_ops;
-> >> +
-> >> +static const struct cs_dsp_region cs40l50_dsp_regions[] = {
-> >> + {
-> >> + .type = WMFW_HALO_PM_PACKED,
-> >> + .base = CS40L50_DSP1_PMEM_0
-> >> + },
-> >> + {
-> >> + .type = WMFW_HALO_XM_PACKED,
-> >> + .base = CS40L50_DSP1_XMEM_PACKED_0
-> >> + },
-> >> + {
-> >> + .type = WMFW_HALO_YM_PACKED,
-> >> + .base = CS40L50_DSP1_YMEM_PACKED_0
-> >> + },
-> >> + {
-> >> + .type = WMFW_ADSP2_XM,
-> >> + .base = CS40L50_DSP1_XMEM_UNPACKED24_0
-> >> + },
-> >> + {
-> >> + .type = WMFW_ADSP2_YM,
-> >> + .base = CS40L50_DSP1_YMEM_UNPACKED24_0
-> >> + },
-> >> +};
-> >> +
-> >> +static int cs40l50_cs_dsp_init(struct cs40l50_private *cs40l50)
-> >> +{
-> >> + cs40l50->dsp.num = 1;
-> >> + cs40l50->dsp.type = WMFW_HALO;
-> >> + cs40l50->dsp.dev = cs40l50->dev;
-> >> + cs40l50->dsp.regmap = cs40l50->regmap;
-> >> + cs40l50->dsp.base = CS40L50_CORE_BASE;
-> >> + cs40l50->dsp.base_sysinfo = CS40L50_SYS_INFO_ID;
-> >> + cs40l50->dsp.mem = cs40l50_dsp_regions;
-> >> + cs40l50->dsp.num_mems = ARRAY_SIZE(cs40l50_dsp_regions);
-> >> + cs40l50->dsp.no_core_startstop = true;
-> >> + cs40l50->dsp.client_ops = &cs40l50_cs_dsp_client_ops;
-> >> +
-> >> + return cs_dsp_halo_init(&cs40l50->dsp);
-> >> +}
-> >> +
-> >> +static struct cs_hap_bank cs40l50_banks[] = {
-> >> + {
-> >> + .bank = WVFRM_BANK_RAM,
-> >> + .base_index = CS40L50_RAM_BANK_INDEX_START,
-> >> + .max_index = CS40L50_RAM_BANK_INDEX_START,
-> >> + },
-> >> + {
-> >> + .bank = WVFRM_BANK_ROM,
-> >> + .base_index = CS40L50_ROM_BANK_INDEX_START,
-> >> + .max_index = CS40L50_ROM_BANK_INDEX_END,
-> >> + },
-> >> + {
-> >> + .bank = WVFRM_BANK_OWT,
-> >> + .base_index = CS40L50_RTH_INDEX_START,
-> >> + .max_index = CS40L50_RTH_INDEX_END,
-> >> + },
-> >> +};
 > > 
-> > These structs describe the DSP, and hence the silicon; they are not
-> > specific to the input/FF device. Presumably the DSP could run algorithms
-> > that support only the I2S streaming case as well (e.g. A2H); therefore,
-> > these seem more appropriately placed in the MFD.
+> > On Thu, Oct 12, 2023 at 09:40:34AM +0200, Kamel Bouhara wrote:
+> > > Add a new driver for the TouchNetix's axiom family of
+> > > touchscreen controllers. This driver only supports i2c
+> > > and can be later adapted for SPI and USB support.
+> > > 
+> > > Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> > > ---
+> > >  MAINTAINERS                                   |   1 +
+> > >  drivers/input/touchscreen/Kconfig             |  13 +
+> > >  drivers/input/touchscreen/Makefile            |   1 +
+> > >  .../input/touchscreen/touchnetix_axiom_i2c.c  | 740
+> > > ++++++++++++++++++
+> > >  4 files changed, 755 insertions(+)
+> > >  create mode 100644 drivers/input/touchscreen/touchnetix_axiom_i2c.c
+> > 
+> > Please do not include 'i2c' in the filename. If the driver is expanded
+> > in
+> > the future to support SPI, it would make sense to have
+> > touchnetix_axiom.c,
+> > touchnetix_axiom_i2c.c and touchnetix_axiom_spi.c. To prevent this
+> > driver
+> > from having to be renamed in that case, just call it touchnetix_axiom.c.
+> > 
 > 
-> Acknowledged, but would you consider the last struct â€œcs40l50_banksâ€ as
-> an exception? It would go unused in a codec-only setup.
+> Sure but the generic part of the code could also be moved to
+> touchnetix_axiom.c.
 
-I agree with you; I should have inserted my comment after cs40l50_cs_dsp_init()
-and not cs40l50_banks[].
+Right; I'm simply saying to do this now as opposed to having a giant patch
+later when SPI support comes along. In case I have misunderstood your reply,
+please let me know.
+
+[...]
+
+> > > +#include <linux/crc16.h>
+> > > +#include <linux/delay.h>
+> > > +#include <linux/device.h>
+> > > +#include <linux/gpio/consumer.h>
+> > > +#include <linux/i2c.h>
+> > > +#include <linux/input.h>
+> > > +#include <linux/input/mt.h>
+> > > +#include <linux/interrupt.h>
+> > > +#include <linux/kernel.h>
+> > > +#include <linux/module.h>
+> > 
+> > Please #include mod_devicetable.h as well.
+> > 
+> 
+> OK is this only for the sake of clarity ? As mod_devicetable.h is already
+> included in linux/of.h ?
+
+I haphazardly wrote this comment while in the process of reviewing
+dbce1a7d5dce ("Input: Explicitly include correct DT includes"); however
+you are correct. That being said, do you really need the entire of.h
+for this driver?
 
 > 
-> Best,
-> James
+> > > +#include <linux/of.h>
+> > > +#include <linux/pm.h>
+
+[...]
+
+> > > +static int
+> > > +axiom_i2c_read(struct i2c_client *client, u8 usage, u8 page, u8
+> > > *buf, u16 len)
+> > > +{
+> > > +	struct axiom_data *ts = i2c_get_clientdata(client);
+> > > +	struct axiom_cmd_header cmd_header;
+> > > +	struct i2c_msg msg[2];
+> > > +	int ret;
+> > > +
+> > > +	cmd_header.target_address =
+> > > cpu_to_le16(usage_to_target_address(ts, usage, page, 0));
+> > > +	cmd_header.length = cpu_to_le16(len);
+> > > +	cmd_header.read = 1;
+> > > +
+> > > +	msg[0].addr = client->addr;
+> > > +	msg[0].flags = 0;
+> > > +	msg[0].len = sizeof(cmd_header);
+> > > +	msg[0].buf = (u8 *)&cmd_header;
+> > > +
+> > > +	msg[1].addr = client->addr;
+> > > +	msg[1].flags = I2C_M_RD;
+> > > +	msg[1].len = len;
+> > > +	msg[1].buf = (char *)buf;
+> > 
+> > Again, please use u8 in place of char, as was done for the first
+> > element.
 > 
+> OK.
 > 
+> > 
+> > > +
+> > > +	ret = i2c_transfer(client->adapter, msg, 2);
+> > 
+> > Please use ARRAY_SIZE(msg) above as you do below.
+> > 
+> > > +	if (ret != ARRAY_SIZE(msg)) {
+> > > +		dev_err(&client->dev,
+> > > +			"Failed reading usage %#x page %#x, error=%d\n",
+> > > +			usage, page, ret);
+> > > +		return -EIO;
+> > > +	}
+> > 
+> > This check papers over negative error codes that may have been returned
+> > by
+> > i2c_transfer(). For ret < 0 you should return ret, and only return -EIO
+> > for
+> > 0 <= ret < ARRAY_SIZE(msg).
+> > 
+> > More importantly, however, if this device supports multiple transports
+> > and
+> > you expect SPI support can be added in the future, you really should use
+> > regmap throughout in order to avoid ripping up this driver later.
+> > 
+> 
+> I have a doubt on wether or not regmap can be used for SPI as there is some
+> specific padding required for SPI.
+
+You can still define your own read and write callbacks in the small SPI
+driver, leaving generic regmap calls in the core driver.
+
+> 
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int
+> > > +axiom_i2c_write(struct i2c_client *client, u8 usage, u8 page, u8
+> > > *buf, u16 len)
+> > > +{
+> > > +	struct axiom_data *ts = i2c_get_clientdata(client);
+> > > +	struct axiom_cmd_header cmd_header;
+> > > +	struct i2c_msg msg[2];
+> > > +	int ret;
+> > > +
+> > > +	cmd_header.target_address =
+> > > cpu_to_le16(usage_to_target_address(ts, usage, page, 0));
+> > > +	cmd_header.length = cpu_to_le16(len);
+> > > +	cmd_header.read = 0;
+> > > +
+> > > +	msg[0].addr = client->addr;
+> > > +	msg[0].flags = 0;
+> > > +	msg[0].len = sizeof(cmd_header);
+> > > +	msg[0].buf = (u8 *)&cmd_header;
+> > > +
+> > > +	msg[1].addr = client->addr;
+> > > +	msg[1].flags = 0;
+> > > +	msg[1].len = len;
+> > > +	msg[1].buf = (char *)buf;
+> > > +
+> > > +	ret = i2c_transfer(client->adapter, msg, 2);
+> > > +	if (ret < 0) {
+> > > +		dev_err(&client->dev,
+> > > +			"Failed to write usage %#x page %#x, error=%d\n", usage,
+> > > +			page, ret);
+> > > +		return ret;
+> > > +	}
+> > 
+> > The error handling between your read and write wrappers is inconsistent;
+> > please see my comment above.
+> > 
+> > Is there any reason i2c_master_send() cannot work here? I'm guessing the
+> > controller needs a repeated start in between the two messages?
+> > 
+> 
+> Yes reads requires repeated starts between each messages.
+> 
+> For writes I could still use i2c_master_send() but what makes it more
+> relevant here ?
+
+The code can be a bit smaller in terms of lines with the header and payload
+copied into a small buffer and written with i2c_master_send(), but this is
+fine too.
+
+[...]
+
+> 
+> > For these kind of special requirements, it's helpful to add some
+> > comments
+> > as to why the HW calls for additional housekeeping.
+> > 
+> 
+> OK.
+> 
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +/*
+> > > + * Decodes and populates the local Usage Table.
+> > > + * Given a buffer of data read from page 1 onwards of u31 from an
+> > > aXiom
+> > > + * device.
+> > > + */
+> > 
+> > What is a usage table? These comments aren't helpful unless some of the
+> > underlying concepts are defined as well.
+> 
+> It's a set of registers regrouped in categories (data, configuration, device
+> and report).
+> 
+> I'll try to clarify it.
+
+ACK, thanks.
+
+[...]
+
+> > > +/* Rebaseline the touchscreen, effectively zero-ing it */
+> > 
+> > What does it mean to rebaseline the touchscreen? I'm guessing it means
+> > to null out or normalize pressure? Please consider a less colloquialized
+> > function name.
+> > 
+> > Out of curiousity, what happens if the user's hand happens to be on the
+> > touch surface at the time you call axiom_rebaseline()? Does the device
+> > recover on its own?
+> 
+> This indeed force the controller to measure a new capacitance by zeoring it,
+> I don't really know if it's harmful, yet the documentation says rebaseline
+> is
+> for tuning or debug purpose.
+> 
+> I believe this is done for testing the communication.
+
+ACK, thanks.
+
+> 
+> > 
+> > > +static int axiom_rebaseline(struct axiom_data *ts)
+> > > +{
+> > > +	char buffer[8] = {};
+> > 
+> > Are you expecting each element to be initialized to zero?
+> 
+> Yes.
+
+ACK, I merely had not seen this method before.
+
+> 
+> > 
+> > > +
+> > > +	buffer[0] = AXIOM_REBASELINE_CMD;
+> > > +
+> > > +	return axiom_i2c_write(ts->client, AXIOM_REPORT_USAGE_ID, 0,
+> > > buffer, sizeof(buffer));
+> > > +}
+> > > +
+> > > +static int axiom_i2c_probe(struct i2c_client *client)
+> > > +{
+> > > +	struct device *dev = &client->dev;
+> > > +	struct input_dev *input_dev;
+> > > +	struct axiom_data *ts;
+> > > +	int ret;
+> > > +	int target;
+> > > +
+> > > +	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
+> > > +	if (!ts)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	ts->client = client;
+> > > +	i2c_set_clientdata(client, ts);
+> > > +	ts->dev = dev;
+> > > +
+> > > +	ts->irq_gpio = devm_gpiod_get_optional(dev, "irq", GPIOD_IN);
+> > > +	if (IS_ERR(ts->irq_gpio))
+> > > +		return dev_err_probe(dev, PTR_ERR(ts->irq_gpio), "failed to get
+> > > irq GPIO");
+> > > +
+> > > +	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+> > > GPIOD_OUT_HIGH);
+> > > +	if (IS_ERR(ts->reset_gpio))
+> > > +		return dev_err_probe(dev, PTR_ERR(ts->reset_gpio), "failed to get
+> > > reset GPIO\n");
+> > > +
+> > > +	axiom_reset(ts->reset_gpio);
+> > 
+> > We shouldn't call axiom_reset() if reset_gpio is NULL. Even though the
+> > calls to gpiod_set_value_cansleep() will bail safely, there is no reason
+> > to make the CPU sleep for 100 ms if the device was not actually reset.
+> > 
+> > > +
+> > > +	if (ts->irq_gpio) {
+> > > +		ret = devm_request_threaded_irq(dev, client->irq, NULL,
+> > > +						axiom_irq, 0, dev_name(dev), ts);
+> > 
+> > Did you mean to set IRQF_ONESHOT?
+> 
+> No
+
+OK, why not? This is a threaded handler and it's obviously not meant to be
+reentrant. Why is this implementation different than any other driver with
+a threaded handler? In case I have misunderstood, please let me know.
 
 Kind regards,
 Jeff LaBundy
