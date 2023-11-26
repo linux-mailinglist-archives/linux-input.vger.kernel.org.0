@@ -1,73 +1,72 @@
-Return-Path: <linux-input+bounces-249-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-250-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF3A7F9127
-	for <lists+linux-input@lfdr.de>; Sun, 26 Nov 2023 04:48:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52FE77F9130
+	for <lists+linux-input@lfdr.de>; Sun, 26 Nov 2023 05:10:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ADD9828136A
-	for <lists+linux-input@lfdr.de>; Sun, 26 Nov 2023 03:48:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 065B7281271
+	for <lists+linux-input@lfdr.de>; Sun, 26 Nov 2023 04:10:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C56951C2D;
-	Sun, 26 Nov 2023 03:48:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 476D11FD2;
+	Sun, 26 Nov 2023 04:10:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="bLQ4Zi8F"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="vFM4tTWm"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2056.outbound.protection.outlook.com [40.107.94.56])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13A09DD;
-	Sat, 25 Nov 2023 19:48:40 -0800 (PST)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2087.outbound.protection.outlook.com [40.107.220.87])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBA49AF;
+	Sat, 25 Nov 2023 20:10:43 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=My1Vian5xcjlAAtP9aX5avvMU5jBVF3E96MkEzAcDMstXCWl9IQuF5X8CJ2lq9cTcuZ87DLf2UgTLzHwv2ryyzP38/T+1ERlRJHGEdUQMTFw6dtwVqovb3DZ5v3Vm4u8fD2FxeIioDxdeG6HjYtD0MRDISrOzcsnJQB8CIPD9spcLJhydnSd3BBJFXaUFDBK9AbCKfmty3kVSn/U/joN5rJdjIYtPlJgdi62TNnQq+9/bQtCnZPrqUJB/EraEXwB9C0Xvt0v9ysalVOtFXsyq9mPKCNAuW/ydjknPskWZocKLxNGY1jjmk0HuCS6dJR7pfCQEt+I2i1iNlux/y2QEA==
+ b=FmjC6CKacskh5wIIq3uQ2imKUnCth1HT6E2HFahnlgKyIC4jFgI3+Yn8q4tg5LTeJzauarQ4XaU3+huZ7fg4nCn0CrSusA//ibTthuuDFAyzMHNmZ7MQfWh9AFasJS9iFm9sfCUuEmRL1W21cTFMWZkQdBdmYsowzTSZYFBDD2173JOhEDyk2/lkPxokAu9V+q/5XfwZmTGN84peDkYTtypjRZIkg1UwGVeu7FAQ/OEiT0fWjlgj8owBKqI9G9Wf/Lcwfqex99oyjlSUSjRNAblOPNSlFgyJ+N2YprJ7rlrcl2sxDhG91Zds2s5hj1//1Y/V/wgnPUHlDAJHNp1MOg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WDgosMiWx5YERBBDgxA2WalVFkwwAsktVR+V9SBX7fE=;
- b=LAr1cGZgtHSODyvWeFcOKpP/3C2eMiwIE8liAqHGWiycgdcJB+QxDjOskwlzOre8TzXZDmRqkSjxhMGYGIX7E2ij80JtlSB5UUIvwv+GIYcTIpSI40ivBFX/zdWJbIdByK1ONczdyZC2td2IUAhoqdoM4ozMsGuncFUnIc7aCXbHSIwdkKm4yDK2xycrfN0lQ+lfjG8T/K4WbhgKpuv8mxAqg5ZxiIB1OhwDELeTwj65FnN0reOpKZ2fDhp7wf6N9mqSY4lFCTuVnIeAOW3ehmdDrKzulK7eE0JqcR/gqwRtrClePMfODdrosmhdBSRibWzqTftfg8E4o/CfznRKNg==
+ bh=cOx43Rm564whuojAtVKnnB22TdJx4wnlEB6caKxekrY=;
+ b=ggKZpM5dcRnhacMQajPU63/DYvZeRQO1LFC/irUpQyz6Qcz8Am+N6yIOTj0GYZ1pZtDSIUEtmJuEWxlDPrKUKqUVA8mtQRj97BsyMnfVVHQQPrM2TTrc07xcfDY7Qf9k4e1SfsB33SkyR0ASkXlzc6slN9MMpQ+6ijpM1fSZfR9n6z5RLlkZ7Cy9wQ5Ek8M0Kwi2gjoxpmZyomcJjBSwT4+T23sZCxTj1adIYxD+0v8HJo1VlgNmUekNEIi4nTGb01V03fHoeuqVtKTWiEjVJ2a6rGVss5/Z3HG/8zU47AeeN7/X/UJPwTlid7/Fl5WrQWtf0dS6cIZfNNri1ccPxw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WDgosMiWx5YERBBDgxA2WalVFkwwAsktVR+V9SBX7fE=;
- b=bLQ4Zi8FMeuMg/0me6qZVpD+OM0hwqBUu7KWkPXS3EVAR4H0XC+RHV6pO099gk1Qn+TqrktZY7gLhqPesS6R2VMWRvHphSdgmkHkcBSvWhyuCe40s7v8TCu8mES/4yyllgUXdkYX+iebWdBDIi/QQmQXTCFRRX4u6Q9le0PNHnY=
+ bh=cOx43Rm564whuojAtVKnnB22TdJx4wnlEB6caKxekrY=;
+ b=vFM4tTWmybjovR/L8byD4QEywL73SufMfiPmTp7PfpqQ5vOlpDj1MyjoMrxGbYIm9KeL8eHNFOEtkRT866oQx1IyEvQ5BviBJAz/+0Ewm1ZQJY8yuBIxbojBwO67QydvzBQTRtzvHY5JvewPUIM5MX3JCe0sG6HzpD3ypGRhaYc=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=labundy.com;
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by SJ0PR08MB7781.namprd08.prod.outlook.com
- (2603:10b6:a03:3d9::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.26; Sun, 26 Nov
- 2023 03:48:34 +0000
+ (2603:10b6:803:43::21) by DM3PR08MB9645.namprd08.prod.outlook.com
+ (2603:10b6:8:1ae::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.19; Sun, 26 Nov
+ 2023 04:10:40 +0000
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::36f2:78d1:ad7d:66da]) by SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::36f2:78d1:ad7d:66da%4]) with mapi id 15.20.7025.022; Sun, 26 Nov 2023
- 03:48:34 +0000
-Date: Sat, 25 Nov 2023 21:48:24 -0600
+ 04:10:39 +0000
+Date: Sat, 25 Nov 2023 22:10:33 -0600
 From: Jeff LaBundy <jeff@labundy.com>
-To: kamel.bouhara@bootlin.com
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	mark.satterthwaite@touchnetix.com, bartp@baasheep.co.uk,
-	hannah.rossiter@touchnetix.com,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	bsp-development.geo@leica-geosystems.com
-Subject: Re: [PATCH v3 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
-Message-ID: <ZWLACNZrDzcHHA7D@nixie71>
-References: <d760ad5e60b21816a395713f004ca14c@bootlin.com>
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v8 1/2] dt-bindings: input: bindings for Adafruit Seesaw
+ Gamepad
+Message-ID: <ZWLFOV/U90bhm4ow@nixie71>
+References: <20231108005337.45069-1-anshulusr@gmail.com>
+ <0defc0e3-dc15-459d-9e71-64f3c38a6931@t-8ch.de>
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d760ad5e60b21816a395713f004ca14c@bootlin.com>
-X-ClientProxiedBy: DM6PR04CA0016.namprd04.prod.outlook.com
- (2603:10b6:5:334::21) To SN4PR0801MB3774.namprd08.prod.outlook.com
+In-Reply-To: <0defc0e3-dc15-459d-9e71-64f3c38a6931@t-8ch.de>
+X-ClientProxiedBy: SN7PR04CA0061.namprd04.prod.outlook.com
+ (2603:10b6:806:121::6) To SN4PR0801MB3774.namprd08.prod.outlook.com
  (2603:10b6:803:43::21)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -76,358 +75,152 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|SJ0PR08MB7781:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed3632b7-e724-4cfb-99ee-08dbee329064
+X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|DM3PR08MB9645:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1be0dff7-ff30-4186-4fbd-08dbee35a662
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	Lz61YRQR0JnCV7OE8wBNRSYWuckgLb4hsGP/lSrpC8FPDZ8oyt9m8j9VgqYhvcaj7lSYZXjFhrhv2frfHpZlW3XGlhfoymzk0nHvyyk6uqSvwSw8eU87JSs2ou69zKW89WcEc5rVs+lwsgVnw4K2ausEtW72C6TYPfj+RPK8Vf2fF6JxnDvxmZqP/No+wd24KLpejiEgADzTxlcgfKonC50N5iq6Y3p7k5mokLMxhjeoXZ6ZZVN6cruhaJHoGr4J2Qc/LhBtNzY/5Vrrxei05nuN2sJwJA9eh75yDx4Yr3Y0e0ODmE6tfHm601uTAEnOOchwSWpqBfCo433R/4oZ+pq9qnpb8JfUrQSx6auZl5QlXMXmH8lCQXhWVz2vdaIXp6qWb/anBZQmiWk0ueTxiePLnzOe4BvD30/+8EFVNx1u7GnYiI37RIWjjwdt+ESrxQztXsKa5RVoAsRjWx5UOCR9iloWXmdXYSeT4jhEEPBqYEtBwjmahOR0GE1tRgPR347QDvq8bOq5y37Az6Rw+8BnfIBwnzVejxPzgsB5bYWkGISu94wvEuXAa+hTW1Iv
+	whkkBWY1IYyE5Tkk0QpvkpcJjF4Xjo3VuKfr+bl/KgvSCQF4qDnVtadlRZa2NQBzUNudOtDfjeNbmTUxTeUBcy9eYMfVRK7z3GfjNIpMkPeZkQrHQJ4zoaSDJP+szzEtk1Qnujwg4Y5UQK5IxFJZ+ZQfhJYJnw+BgSgnjaIirW82P754RZ7zClkUzJh3zRbEraC/lQn8ed96u4DlJRqmQPgnrYWw0Q4PHYsJYKw3IG7yFl0iNYnfPZJkhcAs4PExxw8readcEh9oenT1ptMPF40k45AXekanh55fpFpoAOdjlFgAu8Cs7Ce6+3bIwRykNlO9Pf/bQdhIVNYM7cDSJ+F1N+KIAPwazwXdOX6G+KVEKDmeEYKu3fCKpLFdsjWZXlWbcxqP2hokQv3u2fv6nigX2WYPoTXNTVUNBq/oM5kuLFoOYPAecSDO32M5PSA9zVVP132ltkYSCoM+knMFmsjRldm3biG3dDOEzftdGhu568MSKJY7mPjOfTU618KcNWGHIkGq/Fa7XeUqbEF4xVHUm40syKLIjeiH7dzcG8k=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(396003)(346002)(366004)(136003)(39830400003)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(6666004)(66574015)(26005)(6512007)(9686003)(6506007)(83380400001)(7416002)(478600001)(5660300002)(2906002)(33716001)(4001150100001)(41300700001)(6486002)(4326008)(8676002)(8936002)(54906003)(66476007)(66556008)(66946007)(6916009)(316002)(38100700002)(86362001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(136003)(346002)(39830400003)(366004)(396003)(230922051799003)(1800799012)(64100799003)(186009)(451199024)(66556008)(38100700002)(66476007)(54906003)(86362001)(6512007)(478600001)(6506007)(6666004)(33716001)(6486002)(9686003)(66946007)(2906002)(7416002)(66574015)(316002)(26005)(5660300002)(8936002)(41300700001)(8676002)(6916009)(966005)(4326008);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?vGx6+ysj7dmeyl4qdhCkCiRLgC3CVuJVstOgOdbcAI6OLUSRaWdBpMWpbV?=
- =?iso-8859-1?Q?oas5oXXzHj/8YACJdUvR9t74mHlMTaS5iy9eS+0MeosK5UshXuapdGpp1h?=
- =?iso-8859-1?Q?228yXEjauHh6m+r27J362MXQQ5ZTSPt059xd/qmQqQJQxvjf2Igicr8N17?=
- =?iso-8859-1?Q?QMC7g38rfHOyelNtNCUkQDE07f4O69wnjOK/xZgDeMfJVif1Q7EPeIXdO+?=
- =?iso-8859-1?Q?2I2bd7Pm9m7dIgKwQaeieUu13kJTxpp81+oj3HgokurOxo1TyLNosQX/s1?=
- =?iso-8859-1?Q?aWtlplReRLk/smRak0ypxIHIk99NR1MV/T261qhpSkeI2gFCusNj2wCdml?=
- =?iso-8859-1?Q?vsUjBrE50pXKYpXa5lHa8EYlUl47HdOepUvPsx3PVbq+aEdVlKUHA8QvJ7?=
- =?iso-8859-1?Q?3dCDuaKXsPYWQO/3VdFM4iz2EdE/El92N71Earo7I4gPmhy00IAasheV58?=
- =?iso-8859-1?Q?1TGQS910nugbsnUa5t59SJV6dbzxuXKcmvnapEdiqq2TuY1P+2LukTKT8k?=
- =?iso-8859-1?Q?NnyXTJzf2YEKUUjasEB4bdXQ55O6w1+kG//fWHCz1srLhr/zuH9dUpvoQU?=
- =?iso-8859-1?Q?HqQwu6Rn/7FHXv4WPAbrj4VRwHp41deIPZyU6zyC+7kzcjsYPREQaaS9du?=
- =?iso-8859-1?Q?yjq7EzS8dsxfbt0q3XThSiO415GldU7SoAdZVa7rH5s0ceT5iLH6H8vgvV?=
- =?iso-8859-1?Q?jQ8irG4l+Ja9T8p01POGp9BYP/wjv9oyit/P9xmSRfKwKBnVaxDD1aCujo?=
- =?iso-8859-1?Q?y8Kftyz7N8lorBmAqgdL4TQNtltTniorCQ12uWO+In4+DpizooADPaqYHV?=
- =?iso-8859-1?Q?Jtm8gHheRVMi4UVit1nTsW1QoVVlUlJDtGAdJG+avnxV9KVr2gxjcepixR?=
- =?iso-8859-1?Q?2wmZ+n8MEspfdvF0Zii/zhVvVDnXCybWgkqFo1kL4ndQioldGAycLajHr4?=
- =?iso-8859-1?Q?qJVMsJEG49S/RrPjr9mAJwbTZ9a+rpVABImONe251zTfUcqwoKUK68xFpZ?=
- =?iso-8859-1?Q?haqQ4CRKww/twxNnWv0yt0UK0Xw8avofiTWtVZeSFgv6fyVDy4r8cHr711?=
- =?iso-8859-1?Q?GYDTbqGkc6Ke/+4g0Qq9BHuTOHcgLSOepeQKApbqq6Ie6OHyvefJYWFrIT?=
- =?iso-8859-1?Q?vMaP9jM7xdbaSYTbYDCBDBO7HN+7D7NMG9Ln+eisQKKj9yksP7NRWctJWv?=
- =?iso-8859-1?Q?lvCwhHIcv4ApMqrRHlJgI8MYd27LOsI4VvNd/guzz34RPPQkKUMgVQgR0f?=
- =?iso-8859-1?Q?+NcfcBpX9BtAIdX0s4hKDAuQ1V5p1qTZ2fPDY6caeQuUUo6FCNcaBQV7G1?=
- =?iso-8859-1?Q?qkM7C/TXxwjklb4Qbicvcdir0xNU4sJwYvI57wqYuU/lP42Nq0ICI5dY+p?=
- =?iso-8859-1?Q?j+wQTZo5+Yu/XBT/UTuqJobud2yEYogZXSLKsyhgqinLcpO98M8LaupiJF?=
- =?iso-8859-1?Q?AbTbwdQkFK61QSswOFPTcvo3Z23v+we4I9+2ez9oucOEJVUZYadOrqUspi?=
- =?iso-8859-1?Q?GF+oyTJ0+G3M4V7GLj1dh6lD9igCQOKaXqSodMMap09Hv2PgYAE1bXYK0v?=
- =?iso-8859-1?Q?PnLHnxTyuOjDWdX23uhSJTeyF6IQl9PjbRLrmC/1Hv8lP/+3+jvC0erg5i?=
- =?iso-8859-1?Q?NKricSkk6cDZzNDli2jma1qQYv1IepJbYu?=
+	=?iso-8859-1?Q?+ytXkehfYEaVCzuQlgU2OSjeAoNFUDRA3hRSydBszJzZ18EG4jlqsXc+Y4?=
+ =?iso-8859-1?Q?ROCRQQQS1ifstgPhZVytKmdFIOMAECagGTJRanTWwgivA1ubuH2KykjIJ4?=
+ =?iso-8859-1?Q?gXs2MOBmNaMnbD0RCr2EsQsDKx4nyi5jjqViKYz13R2l4JxpYEkoFkDyZD?=
+ =?iso-8859-1?Q?k1Eye5jARPq8d74zfqbCDnKaz6hhbq/6BIssyjSg1Q4C8Mqk0vtpHOSHAk?=
+ =?iso-8859-1?Q?hMKfUL7+328Pz1ylkbsQ16egnzxxSiQCOUAuX+mWSKWMqzOV6tpWAtLVyi?=
+ =?iso-8859-1?Q?ZSBBed+my3KR8kttzk1fFjwuoHBMgEf71N0CRYRzxjjrFMnjBaxrhcetcb?=
+ =?iso-8859-1?Q?BdxcEUqCN73eGnYN7cHIyPEK7sYj1/rm+3DRjVrCw3edFcZm5D/7iO2Tu1?=
+ =?iso-8859-1?Q?PL00KU9Mtwg0B4OYG63OqtVKBhCkPb9i9qA5e32E9g/5PHOVEwojtE33Nv?=
+ =?iso-8859-1?Q?kHi8azzL6THK+Y6WzAEGdxJSpwkjtXCft4Man+e9Pnf+6NkCoumQH5Htdw?=
+ =?iso-8859-1?Q?1sx3XeQeHMdymLwxrK/ds6TaoC96nkisgar62oN/pxvE6KWxwJ3ZaJlPuZ?=
+ =?iso-8859-1?Q?ypFSvTUBTpWIF2NOimkzG5X7HWR7NBCZSg6XBL+fQWHxZrVTX2ir/eJdQI?=
+ =?iso-8859-1?Q?RIUf68dYHS/BUqrDaXRKgKc6SYGeWiNYIu5q7Tlvscwy5MmmdT2uxzYhfz?=
+ =?iso-8859-1?Q?OPhPP5tnDpgp0seo9dBWTlpvc1d/u5vbXIvkIjZl1o2El6dv2/FHQltBhu?=
+ =?iso-8859-1?Q?VBl+CYZBYz+dPwF1OA3+cocVPSgeZtce87oTRiPs80qzh3XtAcsUXHzhWV?=
+ =?iso-8859-1?Q?MWcaRfc/0/Mt8/XvB9kbZu81sqThOOi+YJ/BmoRKRrd//UwNyxyAelAHuM?=
+ =?iso-8859-1?Q?mDLXmZRs5m9r2w0gQluqVCdutqN93xDC+UDtMH1tK2h0dR6tTW2qyOfVGK?=
+ =?iso-8859-1?Q?WkGO6fdmEvaRg/+BCFrjjixJnVj+lw9gA6ID0HWKQ7qd2JpsXTsndXqXEh?=
+ =?iso-8859-1?Q?CAaDY+2ewUN/cCutxiuyS+LpdqS1ghztMS7eUtb3CF7hRsEKprNHno7Pgg?=
+ =?iso-8859-1?Q?rQqMMWMBzKtY9NxO7ujOuarMlGyQdnCBdVxUyRgkvv56oy3kWIHttRFRjr?=
+ =?iso-8859-1?Q?5k8UUHPhQdHBaIXqLWu085NC7AKraRDvUVrHpsXkqf4WfrfQIsnjKKa1Zo?=
+ =?iso-8859-1?Q?nL1k7EWX4gG+klAttgklErZ0upYKC3c/0yETDcMJPvJXYXpH9yGiqRhCRE?=
+ =?iso-8859-1?Q?tl+GFKWtw3H4HF1X46NDrdr1iHXmZzTIVD7DzBDvHhamZyZvXVck4FYn4s?=
+ =?iso-8859-1?Q?XCTJh+qUGPNngrWJK4vXqj0iWGFq5li3CmOMRGK/vG8Io0UW/FxUCcxro2?=
+ =?iso-8859-1?Q?VZpuD3ynj9+X3qcdG57NoTEQ2xOHeuUZWv0EA2IgJmnwXBxCGt2IPQzDOA?=
+ =?iso-8859-1?Q?f5gFbNkoeEWHhuRfESsLa1WM2rVR9p17EeJla4KTorHYBjtE3myAafI6SE?=
+ =?iso-8859-1?Q?L4ZuJsmrAnkpVQyUpFAYFmaOW5Eu82TaeP8CZavd+77kYKBAKZh9VJCi8A?=
+ =?iso-8859-1?Q?GHyfDQYq1BkEa+VWV4czOj6E2BtN7QId4YmSgAbwUUU9abQye5Yaj/gniU?=
+ =?iso-8859-1?Q?uHcXZ9ilKPTE6azG6ljC1DN0oJq/JZVqBF?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed3632b7-e724-4cfb-99ee-08dbee329064
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1be0dff7-ff30-4186-4fbd-08dbee35a662
 X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2023 03:48:34.2998
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2023 04:10:39.6603
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CTCuR217BwCWfq4r09xUP1Ffdw2+Evs1R9OdnlO0cCl8za/rHzivmtEUS12wOZ1e6d9wxnrwRWVFCIKKkGgGlg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR08MB7781
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZeZFvRfx+K70dYnEV8wtl9ys3fkeUkTjUWYt9eIxTOmI2O4IhpVootleH2wY/uRH6FxTpDm6Z6jPzwNfMAyCqA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR08MB9645
 
-Hi Kamel,
+Hi Thomas and Anshul,
 
-On Mon, Nov 13, 2023 at 02:32:12PM +0100, kamel.bouhara@bootlin.com wrote:
-> Le 2023-10-22 23:54, Jeff LaBundy a écrit :
-> > Hi Kamel,
-> 
-> Hi Jeff,
-> 
+On Tue, Nov 14, 2023 at 08:20:46PM +0100, Thomas Weißschuh wrote:
+> On 2023-11-08 06:23:35+0530, Anshul Dalal wrote:
+> > Adds bindings for the Adafruit Seesaw Gamepad.
 > > 
-> > On Thu, Oct 12, 2023 at 09:40:34AM +0200, Kamel Bouhara wrote:
-> > > Add a new driver for the TouchNetix's axiom family of
-> > > touchscreen controllers. This driver only supports i2c
-> > > and can be later adapted for SPI and USB support.
-> > > 
-> > > Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> > > ---
-> > >  MAINTAINERS                                   |   1 +
-> > >  drivers/input/touchscreen/Kconfig             |  13 +
-> > >  drivers/input/touchscreen/Makefile            |   1 +
-> > >  .../input/touchscreen/touchnetix_axiom_i2c.c  | 740
-> > > ++++++++++++++++++
-> > >  4 files changed, 755 insertions(+)
-> > >  create mode 100644 drivers/input/touchscreen/touchnetix_axiom_i2c.c
+> > The gamepad functions as an i2c device with the default address of 0x50
+> > and has an IRQ pin that can be enabled in the driver to allow for a rising
+> > edge trigger on each button press or joystick movement.
 > > 
-> > Please do not include 'i2c' in the filename. If the driver is expanded
-> > in
-> > the future to support SPI, it would make sense to have
-> > touchnetix_axiom.c,
-> > touchnetix_axiom_i2c.c and touchnetix_axiom_spi.c. To prevent this
-> > driver
-> > from having to be renamed in that case, just call it touchnetix_axiom.c.
+> > Product page:
+> >   https://www.adafruit.com/product/5743
+> > Arduino driver:
+> >   https://github.com/adafruit/Adafruit_Seesaw
 > > 
-> 
-> Sure but the generic part of the code could also be moved to
-> touchnetix_axiom.c.
-
-Right; I'm simply saying to do this now as opposed to having a giant patch
-later when SPI support comes along. In case I have misunderstood your reply,
-please let me know.
+> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+> > ---
 
 [...]
 
-> > > +#include <linux/crc16.h>
-> > > +#include <linux/delay.h>
-> > > +#include <linux/device.h>
-> > > +#include <linux/gpio/consumer.h>
-> > > +#include <linux/i2c.h>
-> > > +#include <linux/input.h>
-> > > +#include <linux/input/mt.h>
-> > > +#include <linux/interrupt.h>
-> > > +#include <linux/kernel.h>
-> > > +#include <linux/module.h>
-> > 
-> > Please #include mod_devicetable.h as well.
-> > 
+> > +properties:
+> > +  compatible:
+> > +    const: adafruit,seesaw-gamepad
 > 
-> OK is this only for the sake of clarity ? As mod_devicetable.h is already
-> included in linux/of.h ?
-
-I haphazardly wrote this comment while in the process of reviewing
-dbce1a7d5dce ("Input: Explicitly include correct DT includes"); however
-you are correct. That being said, do you really need the entire of.h
-for this driver?
-
+> I don't really have any clue about devicetree, but shouldn't the actual
+> driver have an id-table for this "compatible"?
 > 
-> > > +#include <linux/of.h>
-> > > +#include <linux/pm.h>
-
-[...]
-
-> > > +static int
-> > > +axiom_i2c_read(struct i2c_client *client, u8 usage, u8 page, u8
-> > > *buf, u16 len)
-> > > +{
-> > > +	struct axiom_data *ts = i2c_get_clientdata(client);
-> > > +	struct axiom_cmd_header cmd_header;
-> > > +	struct i2c_msg msg[2];
-> > > +	int ret;
-> > > +
-> > > +	cmd_header.target_address =
-> > > cpu_to_le16(usage_to_target_address(ts, usage, page, 0));
-> > > +	cmd_header.length = cpu_to_le16(len);
-> > > +	cmd_header.read = 1;
-> > > +
-> > > +	msg[0].addr = client->addr;
-> > > +	msg[0].flags = 0;
-> > > +	msg[0].len = sizeof(cmd_header);
-> > > +	msg[0].buf = (u8 *)&cmd_header;
-> > > +
-> > > +	msg[1].addr = client->addr;
-> > > +	msg[1].flags = I2C_M_RD;
-> > > +	msg[1].len = len;
-> > > +	msg[1].buf = (char *)buf;
-> > 
-> > Again, please use u8 in place of char, as was done for the first
-> > element.
+> It had one up to v5 of the patchset.
 > 
-> OK.
+> Jeff had some comments about the OF aspect [0], but to me the state now
+> seems incorrect.
+> Maybe the DT can be dropped completely?
 > 
-> > 
-> > > +
-> > > +	ret = i2c_transfer(client->adapter, msg, 2);
-> > 
-> > Please use ARRAY_SIZE(msg) above as you do below.
-> > 
-> > > +	if (ret != ARRAY_SIZE(msg)) {
-> > > +		dev_err(&client->dev,
-> > > +			"Failed reading usage %#x page %#x, error=%d\n",
-> > > +			usage, page, ret);
-> > > +		return -EIO;
-> > > +	}
-> > 
-> > This check papers over negative error codes that may have been returned
-> > by
-> > i2c_transfer(). For ret < 0 you should return ret, and only return -EIO
-> > for
-> > 0 <= ret < ARRAY_SIZE(msg).
-> > 
-> > More importantly, however, if this device supports multiple transports
-> > and
-> > you expect SPI support can be added in the future, you really should use
-> > regmap throughout in order to avoid ripping up this driver later.
-> > 
-> 
-> I have a doubt on wether or not regmap can be used for SPI as there is some
-> specific padding required for SPI.
+> Jeff, could you advise?
 
-You can still define your own read and write callbacks in the small SPI
-driver, leaving generic regmap calls in the core driver.
+My original comment was merely to say that this driver doesn't need an
+entire binding because it is easily covered by trivial-devices.yaml. The
+whole point of that binding is to save the trouble of writing a new file
+such as this for trivial devices with this same set of common properties.
+
+I don't feel strongly about _not_ adding a new binding for this device,
+it just seems like unnecessary work for all involved. If the maintainers
+do not mind, then I don't either :)
+
+Taking things a step further, this driver really doesn't need to define
+an of_device_id struct either, because I seem to recall that OF can still
+bind to drivers with "compatible" strings specified in the i2c_device_id
+struct.
+
+At any rate, this version is most certainly broken because the compatible
+string defined in this binding does not match SEESAW_DEVICE_NAME specified
+in the driver's i2c_device_id struct, and there is no of_device_id struct.
+So there is no way the driver would bind if this binding were followed in
+earnest.
+
+I see this has been addressed in the latest version, so I will take a look
+at that one.
 
 > 
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int
-> > > +axiom_i2c_write(struct i2c_client *client, u8 usage, u8 page, u8
-> > > *buf, u16 len)
-> > > +{
-> > > +	struct axiom_data *ts = i2c_get_clientdata(client);
-> > > +	struct axiom_cmd_header cmd_header;
-> > > +	struct i2c_msg msg[2];
-> > > +	int ret;
-> > > +
-> > > +	cmd_header.target_address =
-> > > cpu_to_le16(usage_to_target_address(ts, usage, page, 0));
-> > > +	cmd_header.length = cpu_to_le16(len);
-> > > +	cmd_header.read = 0;
-> > > +
-> > > +	msg[0].addr = client->addr;
-> > > +	msg[0].flags = 0;
-> > > +	msg[0].len = sizeof(cmd_header);
-> > > +	msg[0].buf = (u8 *)&cmd_header;
-> > > +
-> > > +	msg[1].addr = client->addr;
-> > > +	msg[1].flags = 0;
-> > > +	msg[1].len = len;
-> > > +	msg[1].buf = (char *)buf;
-> > > +
-> > > +	ret = i2c_transfer(client->adapter, msg, 2);
-> > > +	if (ret < 0) {
-> > > +		dev_err(&client->dev,
-> > > +			"Failed to write usage %#x page %#x, error=%d\n", usage,
-> > > +			page, ret);
-> > > +		return ret;
-> > > +	}
-> > 
-> > The error handling between your read and write wrappers is inconsistent;
-> > please see my comment above.
-> > 
-> > Is there any reason i2c_master_send() cannot work here? I'm guessing the
-> > controller needs a repeated start in between the two messages?
-> > 
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +    description:
+> > +      The gamepad's IRQ pin triggers a rising edge if interrupts are enabled.
 > 
-> Yes reads requires repeated starts between each messages.
+> Interrupts are not supported yet by the driver.
+> Should the property be there already?
 > 
-> For writes I could still use i2c_master_send() but what makes it more
-> relevant here ?
-
-The code can be a bit smaller in terms of lines with the header and payload
-copied into a small buffer and written with i2c_master_send(), but this is
-fine too.
-
-[...]
-
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    i2c {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        joystick@50 {
+> > +            compatible = "adafruit,seesaw-gamepad";
+> > +            reg = <0x50>;
+> > +        };
+> > +    };
+> > -- 
+> > 2.42.0
 > 
-> > For these kind of special requirements, it's helpful to add some
-> > comments
-> > as to why the HW calls for additional housekeeping.
-> > 
-> 
-> OK.
-> 
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +/*
-> > > + * Decodes and populates the local Usage Table.
-> > > + * Given a buffer of data read from page 1 onwards of u31 from an
-> > > aXiom
-> > > + * device.
-> > > + */
-> > 
-> > What is a usage table? These comments aren't helpful unless some of the
-> > underlying concepts are defined as well.
-> 
-> It's a set of registers regrouped in categories (data, configuration, device
-> and report).
-> 
-> I'll try to clarify it.
-
-ACK, thanks.
-
-[...]
-
-> > > +/* Rebaseline the touchscreen, effectively zero-ing it */
-> > 
-> > What does it mean to rebaseline the touchscreen? I'm guessing it means
-> > to null out or normalize pressure? Please consider a less colloquialized
-> > function name.
-> > 
-> > Out of curiousity, what happens if the user's hand happens to be on the
-> > touch surface at the time you call axiom_rebaseline()? Does the device
-> > recover on its own?
-> 
-> This indeed force the controller to measure a new capacitance by zeoring it,
-> I don't really know if it's harmful, yet the documentation says rebaseline
-> is
-> for tuning or debug purpose.
-> 
-> I believe this is done for testing the communication.
-
-ACK, thanks.
-
-> 
-> > 
-> > > +static int axiom_rebaseline(struct axiom_data *ts)
-> > > +{
-> > > +	char buffer[8] = {};
-> > 
-> > Are you expecting each element to be initialized to zero?
-> 
-> Yes.
-
-ACK, I merely had not seen this method before.
-
-> 
-> > 
-> > > +
-> > > +	buffer[0] = AXIOM_REBASELINE_CMD;
-> > > +
-> > > +	return axiom_i2c_write(ts->client, AXIOM_REPORT_USAGE_ID, 0,
-> > > buffer, sizeof(buffer));
-> > > +}
-> > > +
-> > > +static int axiom_i2c_probe(struct i2c_client *client)
-> > > +{
-> > > +	struct device *dev = &client->dev;
-> > > +	struct input_dev *input_dev;
-> > > +	struct axiom_data *ts;
-> > > +	int ret;
-> > > +	int target;
-> > > +
-> > > +	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
-> > > +	if (!ts)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	ts->client = client;
-> > > +	i2c_set_clientdata(client, ts);
-> > > +	ts->dev = dev;
-> > > +
-> > > +	ts->irq_gpio = devm_gpiod_get_optional(dev, "irq", GPIOD_IN);
-> > > +	if (IS_ERR(ts->irq_gpio))
-> > > +		return dev_err_probe(dev, PTR_ERR(ts->irq_gpio), "failed to get
-> > > irq GPIO");
-> > > +
-> > > +	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset",
-> > > GPIOD_OUT_HIGH);
-> > > +	if (IS_ERR(ts->reset_gpio))
-> > > +		return dev_err_probe(dev, PTR_ERR(ts->reset_gpio), "failed to get
-> > > reset GPIO\n");
-> > > +
-> > > +	axiom_reset(ts->reset_gpio);
-> > 
-> > We shouldn't call axiom_reset() if reset_gpio is NULL. Even though the
-> > calls to gpiod_set_value_cansleep() will bail safely, there is no reason
-> > to make the CPU sleep for 100 ms if the device was not actually reset.
-> > 
-> > > +
-> > > +	if (ts->irq_gpio) {
-> > > +		ret = devm_request_threaded_irq(dev, client->irq, NULL,
-> > > +						axiom_irq, 0, dev_name(dev), ts);
-> > 
-> > Did you mean to set IRQF_ONESHOT?
-> 
-> No
-
-OK, why not? This is a threaded handler and it's obviously not meant to be
-reentrant. Why is this implementation different than any other driver with
-a threaded handler? In case I have misunderstood, please let me know.
+> [0] https://lore.kernel.org/lkml/ZTWza+S+t+UZKlwu@nixie71/
 
 Kind regards,
 Jeff LaBundy
