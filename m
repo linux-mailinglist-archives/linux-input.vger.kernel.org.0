@@ -1,161 +1,203 @@
-Return-Path: <linux-input+bounces-244-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-245-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2021E7F906D
-	for <lists+linux-input@lfdr.de>; Sun, 26 Nov 2023 01:16:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 601697F9080
+	for <lists+linux-input@lfdr.de>; Sun, 26 Nov 2023 01:40:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 50B791C20A8F
-	for <lists+linux-input@lfdr.de>; Sun, 26 Nov 2023 00:16:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A26AEB20B40
+	for <lists+linux-input@lfdr.de>; Sun, 26 Nov 2023 00:40:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C07D9384;
-	Sun, 26 Nov 2023 00:16:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCD2B812;
+	Sun, 26 Nov 2023 00:40:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="YFIGQbOZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JxoE/biR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12324133;
-	Sat, 25 Nov 2023 16:16:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1700957767; x=1701216967;
-	bh=P1pnzMB33pcjyYnWs1uOpWPQE6zW15EcToOjweNN8qU=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=YFIGQbOZGbogg9ojHIfruFn7qEDtyi7Sb3c8jwg8ulDZiC28C6w9MLBVeCemhVFZT
-	 diOT6Cb/nnUsL+wNTiLuVTdO+51ijhS6amaQLM2EpMY+jXbFAaR7tF0wUHb+GJ2EsZ
-	 QqaCTRhV+2DjtDTDmt/osTdl8FEfKzZW4q6VyoYnWkp6TkC/nKP1Y7hpfuzYtOMmf9
-	 pphoOBMmWUb1yJ2Slkd9i1z4elzTqd78G5+gXzyMJLnhhhSqqaX6Un/lxiJzGo8I4p
-	 myDQfXY1ANJZ1/PRcNEcCnSWk5rHZ9/E29P5JQhpDmZJ84YXDaDzM+JxsukjaQs4wO
-	 T+PT2GBJasRTw==
-Date: Sun, 26 Nov 2023 00:15:49 +0000
-To: roderick.colenbrander@sony.com, jikos@kernel.org, benjamin.tissoires@redhat.com, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-From: Alexander Koskovich <AKoskovich@pm.me>
-Cc: Alexander Koskovich <akoskovich@pm.me>
-Subject: [PATCH 1/1] hid-playstation: Fix button maps for the DualSense Edge controller
-Message-ID: <20231126001544.747151-1-akoskovich@pm.me>
-Feedback-ID: 37836894:user:proton
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF87FBF;
+	Sat, 25 Nov 2023 16:40:04 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-6b709048f32so2625211b3a.0;
+        Sat, 25 Nov 2023 16:40:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700959204; x=1701564004; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SHq5f/6OqXRrM49Y3ioTgH9keEVnfFWt3uMj717zmSE=;
+        b=JxoE/biRI4QfPP8k1hd3F5Bw8uOnws9sLrlbiTsNI+uQHVMcwCUi5yYciJWjsq7nQc
+         ODdFgq06vM1ya9yq7z5GzAYZxxAnEyBO7qKpl2V7zsGD9D69mYdelCNtV6/qHAUgUOs4
+         KHs7YzKEjE7qncfdevmU3l9cfrMrSPmEDxir5HAq/DAmn43P9NK8gCX8C1NmPYENn/1d
+         A/1sd8B+r8fxrCBHeupDem1keuRJh+CNOx5+Wycea8LlUa+KrNissoRYN4f/8oOWU9Qd
+         qbsZEXEplAcz1dTQVpEYjrbs0gOrZzAZuXiR8pNWGXgMtNW1mnbT3OD9qd6kCeXzBH2P
+         hbGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700959204; x=1701564004;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SHq5f/6OqXRrM49Y3ioTgH9keEVnfFWt3uMj717zmSE=;
+        b=k9Zn7aC62pujCQfbPTASdrTaCcHDBTe/5KHjHs1aJrqTaZOdZJH4d2FfgVO7hf6w3t
+         uE435hiTnpaidgwhHzSWy7NeZ4yqM+HxNuAOTJ7mX8Oa8IgXrUZqdIAxcxYCEinuFF2w
+         zBRw8qjSsvneZn+Js/UmV77rZKOMwjXRZoZD8wLFuLndMla3yDtqLMKgbpWs4r34Igzn
+         jCfm3q1sdt87Xz9FHm+yPK5Kxwn0ZaYAysyfFNbUCSnMvR86z7jBVAGLj64JFYV+TrMa
+         jE1YcjLz0xQmYTvsACFPb97yZqsjNgr8YFnKWoRHAxGHhwL/CiAYpshI3sskflvDUgyY
+         vH/A==
+X-Gm-Message-State: AOJu0Yx3E35dqcCNlZVdEmdS8MvACype5vnZbE+Pplss4xZ2kdIwTXg4
+	0ddbZdfjDjbokYKjD97dZFM=
+X-Google-Smtp-Source: AGHT+IHFSW1MZ7Dd1j811im7QwasoW1JS++x8pRpqg9u6W/tsLDDWrGBrM4mUVkGpd0Wf5QioPKoTw==
+X-Received: by 2002:a05:6a20:d80f:b0:187:652d:95b5 with SMTP id iv15-20020a056a20d80f00b00187652d95b5mr8387882pzb.62.1700959204217;
+        Sat, 25 Nov 2023 16:40:04 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id z8-20020a1709027e8800b001c61e628e9dsm5635716pla.77.2023.11.25.16.40.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Nov 2023 16:40:03 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 4AB2B1021185D; Sun, 26 Nov 2023 07:40:01 +0700 (WIB)
+Date: Sun, 26 Nov 2023 07:40:00 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Philipp Jungkamp <p.jungkamp@gmx.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Mark Pearson <markpearson@lenovo.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Linux Industrial I/O <linux-iio@vger.kernel.org>,
+	Linux Input Devices <linux-input@vger.kernel.org>,
+	Linux x86 Platform Drivers <platform-driver-x86@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Regressions <regressions@lists.linux.dev>
+Subject: Re: Empty Intel ISH HID custom sensor feature attributes on Linux 6.6
+Message-ID: <ZWKT4PbWq_y7HCLZ@archie.me>
+References: <5ab4a33c8750df642c6030412c292890b52b1ae8.camel@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="czvGzu9ywLTIMpAJ"
+Content-Disposition: inline
+In-Reply-To: <5ab4a33c8750df642c6030412c292890b52b1ae8.camel@gmx.net>
+
+
+--czvGzu9ywLTIMpAJ
 Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-This brings functionality of the DualSense Edge controller inline
-with the stock PS5 controller.
+On Sun, Nov 26, 2023 at 12:51:36AM +0100, Philipp Jungkamp wrote:
+> Hello,
+>=20
+> it seems like the query of custom sensor feature information is not
+> working in for kernels in the 6.6 series. I've been using a simple
+> shell script to see what custom sensors are present on my system.
+>=20
+> This is now failing to output any information. All bytes in the
+> feature-*-value file of an HID-SENSOR-2000e1.* sensor in the sysfs are
+> filled with zeroes. It seems like the underlying call to
+> hid_sensor_hub_get_feature does only write zeroes into the given
+> buffer.
+>=20
+> The hid-sensor-custom logic that checks for the presence of my ambient
+> light sensor using that logic is also not working, the HID-SENSOR-LISS-
+> * device is not showing up. The hid-sensor-hub in question is the Intel
+> ISH of my Lenovo Yoga 9 14IAP7.
+>=20
+> Is this a known problem with the 6.6 series?
+> Where there related changes in the modules in the stack? E.g.:
+> - hid-sensor-custom
+> - hid-sensor-hub
+> - ishtp-hid
+>=20
+> I've not found anything immediatly obvious while checking the git logs.
+> I'll try to bisect the issue between 6.5 and 6.6 and report back.
+>=20
+> Regards,
+> Philipp Jungkamp
+>=20
+>=20
+>=20
+> This is the fish script to parse the sysfs feature attributes:
+>=20
+>   set -a properties property-friendly-name:'Friendly Name'
+>   set -a properties property-sensor-model:'Sensor Model'
+>   set -a properties property-sensor-manufacturer:'Manufacturer'
+>   set -a properties property-sensor-serial-number:'Serial Number'
+>=20
+>   function get_value -a file
+>     set_color blue
+>     for letter in (string split -n ' ' < $file)
+>       test ! $letter -eq 0
+>       and printf \\(printf %o $letter)
+>     end
+>     set_color normal
+>   end
+>=20
+>   function check_property -a property feature
+>     if string match -q (string split -f1 ':' $property) -- (cat
+> feature/*-name)
+>       echo \t(string split -f2 ':' $property): (get_value $feature/*-
+> value)
+>     end
+>   end
+>=20
+>   for sensor in /sys/bus/hid/devices/*/HID-SENSOR-2000e1*
+>     echo Sensor: (set_color green; realpath $sensor; set_color normal)
+>     for feature in $sensor/feature-*
+>       for property in $properties
+>         check_property $property $feature
+>       end
+>     end
+>     echo
+>   end
+>=20
+>=20
+> Example output from Linux 6.5:
+>=20
+>   Sensor: /sys/devices/pci0000:00/0000:00:12.0/{33AECD58-B679-4E54-
+> 9BD9-A04D34F0C226}/001F:8087:0AC2.0003/HID-SENSOR-2000e1.7.auto=20
+> 	Serial Number: LUID:00E1001A270E0080
+> 	Sensor Model: LENOVO_ST_HUMANSENSE S
+> 	Manufacturer: LENOVO
+> 	Friendly Name: Lenovo ST HPD v201 Sensor
+>=20
+>=20
+> Example output from Linux 6.6:
+>=20
+>   Sensor: /sys/devices/pci0000:00/0000:00:12.0/{33AECD58-B679-4E54-
+> 9BD9-A04D34F0C226}/001F:8087:0AC2.0003/HID-SENSOR-2000e1.7.auto=20
+> 	Serial Number:=20
+> 	Sensor Model:
+> 	Manufacturer:
+> 	Friendly Name:
+>=20
+>=20
 
-Signed-off-by: Alexander Koskovich <akoskovich@pm.me>
----
- drivers/hid/hid-playstation.c | 60 ++++++++++++++++++++++++++++-------
- 1 file changed, 49 insertions(+), 11 deletions(-)
+AFAIK, this is somewhat related to regression on system76 devices [1].
 
-diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index 8ac8f7b8e317..fc42003cc0eb 100644
---- a/drivers/hid/hid-playstation.c
-+++ b/drivers/hid/hid-playstation.c
-@@ -1344,10 +1344,18 @@ static int dualsense_parse_report(struct ps_device =
-*ps_dev, struct hid_report *r
-=20
- =09input_report_abs(ds->gamepad, ABS_X,  ds_report->x);
- =09input_report_abs(ds->gamepad, ABS_Y,  ds_report->y);
--=09input_report_abs(ds->gamepad, ABS_RX, ds_report->rx);
--=09input_report_abs(ds->gamepad, ABS_RY, ds_report->ry);
--=09input_report_abs(ds->gamepad, ABS_Z,  ds_report->z);
--=09input_report_abs(ds->gamepad, ABS_RZ, ds_report->rz);
-+
-+=09if (hdev->product =3D=3D USB_DEVICE_ID_SONY_PS5_CONTROLLER_2) {
-+=09=09input_report_abs(ds->gamepad, ABS_RX, ds_report->z);
-+=09=09input_report_abs(ds->gamepad, ABS_RY, ds_report->rz);
-+=09=09input_report_abs(ds->gamepad, ABS_Z,  ds_report->rx);
-+=09=09input_report_abs(ds->gamepad, ABS_RZ, ds_report->ry);
-+=09} else {
-+=09=09input_report_abs(ds->gamepad, ABS_RX, ds_report->rx);
-+=09=09input_report_abs(ds->gamepad, ABS_RY, ds_report->ry);
-+=09=09input_report_abs(ds->gamepad, ABS_Z,  ds_report->z);
-+=09=09input_report_abs(ds->gamepad, ABS_RZ, ds_report->rz);
-+=09}
-=20
- =09value =3D ds_report->buttons[0] & DS_BUTTONS0_HAT_SWITCH;
- =09if (value >=3D ARRAY_SIZE(ps_gamepad_hat_mapping))
-@@ -1355,19 +1363,49 @@ static int dualsense_parse_report(struct ps_device =
-*ps_dev, struct hid_report *r
- =09input_report_abs(ds->gamepad, ABS_HAT0X, ps_gamepad_hat_mapping[value].=
-x);
- =09input_report_abs(ds->gamepad, ABS_HAT0Y, ps_gamepad_hat_mapping[value].=
-y);
-=20
--=09input_report_key(ds->gamepad, BTN_WEST,   ds_report->buttons[0] & DS_BU=
-TTONS0_SQUARE);
--=09input_report_key(ds->gamepad, BTN_SOUTH,  ds_report->buttons[0] & DS_BU=
-TTONS0_CROSS);
--=09input_report_key(ds->gamepad, BTN_EAST,   ds_report->buttons[0] & DS_BU=
-TTONS0_CIRCLE);
--=09input_report_key(ds->gamepad, BTN_NORTH,  ds_report->buttons[0] & DS_BU=
-TTONS0_TRIANGLE);
-+=09if (hdev->product =3D=3D USB_DEVICE_ID_SONY_PS5_CONTROLLER_2) {
-+=09=09input_report_key(ds->gamepad, BTN_WEST,
-+=09=09=09=09ds_report->buttons[0] & DS_BUTTONS0_TRIANGLE);
-+=09=09input_report_key(ds->gamepad, BTN_SOUTH,
-+=09=09=09=09ds_report->buttons[0] & DS_BUTTONS0_SQUARE);
-+=09=09input_report_key(ds->gamepad, BTN_EAST,
-+=09=09=09=09ds_report->buttons[0] & DS_BUTTONS0_CROSS);
-+=09=09input_report_key(ds->gamepad, BTN_NORTH,
-+=09=09=09=09ds_report->buttons[0] & DS_BUTTONS0_CIRCLE);
-+=09} else {
-+=09=09input_report_key(ds->gamepad, BTN_WEST,
-+=09=09=09=09ds_report->buttons[0] & DS_BUTTONS0_SQUARE);
-+=09=09input_report_key(ds->gamepad, BTN_SOUTH,
-+=09=09=09=09ds_report->buttons[0] & DS_BUTTONS0_CROSS);
-+=09=09input_report_key(ds->gamepad, BTN_EAST,
-+=09=09=09=09ds_report->buttons[0] & DS_BUTTONS0_CIRCLE);
-+=09=09input_report_key(ds->gamepad, BTN_NORTH,
-+=09=09=09=09ds_report->buttons[0] & DS_BUTTONS0_TRIANGLE);
-+=09}
-+
- =09input_report_key(ds->gamepad, BTN_TL,     ds_report->buttons[1] & DS_BU=
-TTONS1_L1);
- =09input_report_key(ds->gamepad, BTN_TR,     ds_report->buttons[1] & DS_BU=
-TTONS1_R1);
- =09input_report_key(ds->gamepad, BTN_TL2,    ds_report->buttons[1] & DS_BU=
-TTONS1_L2);
- =09input_report_key(ds->gamepad, BTN_TR2,    ds_report->buttons[1] & DS_BU=
-TTONS1_R2);
- =09input_report_key(ds->gamepad, BTN_SELECT, ds_report->buttons[1] & DS_BU=
-TTONS1_CREATE);
- =09input_report_key(ds->gamepad, BTN_START,  ds_report->buttons[1] & DS_BU=
-TTONS1_OPTIONS);
--=09input_report_key(ds->gamepad, BTN_THUMBL, ds_report->buttons[1] & DS_BU=
-TTONS1_L3);
--=09input_report_key(ds->gamepad, BTN_THUMBR, ds_report->buttons[1] & DS_BU=
-TTONS1_R3);
--=09input_report_key(ds->gamepad, BTN_MODE,   ds_report->buttons[2] & DS_BU=
-TTONS2_PS_HOME);
-+
-+=09if (hdev->product =3D=3D USB_DEVICE_ID_SONY_PS5_CONTROLLER_2) {
-+=09=09input_report_key(ds->gamepad, BTN_THUMBL,
-+=09=09=09=09ds_report->buttons[1] & DS_BUTTONS1_R3);
-+=09=09input_report_key(ds->gamepad, BTN_THUMBR,
-+=09=09=09=09ds_report->buttons[2] & DS_BUTTONS2_PS_HOME);
-+=09=09input_report_key(ds->gamepad, BTN_MODE,
-+=09=09=09=09ds_report->buttons[1] & DS_BUTTONS1_L3);
-+=09} else {
-+=09=09input_report_key(ds->gamepad, BTN_THUMBL,
-+=09=09=09=09ds_report->buttons[1] & DS_BUTTONS1_L3);
-+=09=09input_report_key(ds->gamepad, BTN_THUMBR,
-+=09=09=09=09ds_report->buttons[1] & DS_BUTTONS1_R3);
-+=09=09input_report_key(ds->gamepad, BTN_MODE,
-+=09=09=09=09ds_report->buttons[2] & DS_BUTTONS2_PS_HOME);
-+=09}
-+
- =09input_sync(ds->gamepad);
-=20
- =09/*
+Anyway, thanks for the regression report. I'm adding it to regzbot:
+
+#regzbot ^introduced: v6.5..v6.6
+
+[1]: https://lore.kernel.org/regressions/b5646db3-acff-45aa-baef-df3f660486=
+fb@gmail.com/
+
 --=20
-2.43.0
+An old man doll... just what I always wanted! - Clara
 
+--czvGzu9ywLTIMpAJ
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZWKT2AAKCRD2uYlJVVFO
+o/BBAP9bwZa+1rK+EcVrk4mVcnmo4ILImzaI4pjsGr9N3L42ZgD/b8lC0ib0Cggu
+25faxgjNrVTRJ8nPj6x4eFNzYTbXvQM=
+=ayW1
+-----END PGP SIGNATURE-----
+
+--czvGzu9ywLTIMpAJ--
 
