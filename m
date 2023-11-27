@@ -1,126 +1,114 @@
-Return-Path: <linux-input+bounces-259-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-260-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D730A7FA087
-	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 14:17:21 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E70117FA306
+	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 15:38:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7F865B21179
-	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 13:17:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 85B28B21108
+	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 14:38:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 009F02E3FE;
-	Mon, 27 Nov 2023 13:17:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC1EE31728;
+	Mon, 27 Nov 2023 14:37:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AGOtLW9V"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F4106189;
-	Mon, 27 Nov 2023 05:17:04 -0800 (PST)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BA0CE203E5;
-	Mon, 27 Nov 2023 13:17:02 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 7CF3C13B3D;
-	Mon, 27 Nov 2023 13:17:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id QOlUHc6WZGUhLQAAn2gu4w
-	(envelope-from <tzimmermann@suse.de>); Mon, 27 Nov 2023 13:17:02 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com,
-	deller@gmx.de
-Cc: linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	=?UTF-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	linux-input@vger.kernel.org,
-	Jiri Kosina <jkosina@suse.cz>
-Subject: [PATCH v2 11/32] hid/picolcd_fb: Set FBINFO_VIRTFB flag
-Date: Mon, 27 Nov 2023 14:15:40 +0100
-Message-ID: <20231127131655.4020-12-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231127131655.4020-1-tzimmermann@suse.de>
-References: <20231127131655.4020-1-tzimmermann@suse.de>
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18454EA
+	for <linux-input@vger.kernel.org>; Mon, 27 Nov 2023 06:37:56 -0800 (PST)
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-a00191363c1so631737266b.0
+        for <linux-input@vger.kernel.org>; Mon, 27 Nov 2023 06:37:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701095874; x=1701700674; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=quXdQRz24dunOIxV0+tgT+GyOLZAZyd0m5jC6YhycjQ=;
+        b=AGOtLW9VipzxbS5JYiutTdkfcREf5ybarpsmF35FmPBaR8P5J6JCZPdPEO2hwi0K89
+         zGllor4U4qE9O9vzB0J7/tKx51GuH/Jmv/1oBeej7RyD5VnpEfzVacP6jUXBfwElfnDE
+         GGFR2ZphclDhxAwY3beIitROprr91U3I9oXcRfSTGTFzmWL2uSM97vV59eFu3+JGQaqR
+         Oeb61YhYhZnZTP0BgFn06ANRkpM1m7Gc7CgS530gqfXXXmqxZv3ZyMwlAKVElLEGxWcL
+         tLFExXKNkgCllXvoADZCk+4inzixol2wi44fkId4Jpxgo+BADoPkIFHgc1wFKGXDLFzV
+         BIbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701095874; x=1701700674;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=quXdQRz24dunOIxV0+tgT+GyOLZAZyd0m5jC6YhycjQ=;
+        b=ty4c9vUcvikZJarQVXIOKB0w/JM7glYk0c++lxCd9G7XW3zvRqDnWuLsD9vYuhK/dK
+         x0t9ahLyrHR8CtW6aCW+0YPNNBb05WwPMp8UG6uRLsn/alU9RbQAfrOEF+bgalyFm5SL
+         OnvHtGCwv5EZ1xNpQGWoxkxP+khRCgR1onMdMvW8wlHvDjMnWCdVaguJCXME1XEhtkJp
+         8jRI4wmwKPFkRyBi1oPlUCIR+DKb/7l0nGDsc/7ulcBrVWqJlRu8IjgBvgkZGlRnS6oZ
+         MruNahp8HxlHe29sOM3DnMeKpEc/bQbG09PPViGM5/p5892qJrT1eK0H+fc08bqI5ABn
+         2Crw==
+X-Gm-Message-State: AOJu0Yye1SqrfNeIx2mPTFznBi0RTTf6oCfNtAPuP11JvpgeTn22s+p5
+	sY/SliWZkpUKunnolpYrXDmSC/EwPzPPb8PJgn2yf+CW
+X-Google-Smtp-Source: AGHT+IHewFr/vlMQW7L5sxpSRozYczCn5dayhTtoKdl9tRgfwgomxtx2sbQE3XZNhmbjrj38VbC5+5ePzLX1YCwnkPY=
+X-Received: by 2002:a17:907:3daa:b0:9a2:225a:8d01 with SMTP id
+ he42-20020a1709073daa00b009a2225a8d01mr9983857ejc.7.1701095874278; Mon, 27
+ Nov 2023 06:37:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: ++++++
-X-Spam-Score: 6.77
-X-Rspamd-Server: rspamd1
-Authentication-Results: smtp-out2.suse.de;
-	dkim=none;
-	spf=softfail (smtp-out2.suse.de: 2a07:de40:b281:104:10:150:64:98 is neither permitted nor denied by domain of tzimmermann@suse.de) smtp.mailfrom=tzimmermann@suse.de;
-	dmarc=fail reason="No valid SPF, No valid DKIM" header.from=suse.de (policy=none)
-X-Rspamd-Queue-Id: BA0CE203E5
-X-Spamd-Result: default: False [6.77 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmx.de];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-0.85)[-0.851];
-	 R_SPF_SOFTFAIL(4.60)[~all:c];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_HAM_SHORT(-0.17)[-0.828];
-	 RCPT_COUNT_SEVEN(0.00)[10];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.de:email];
-	 FREEMAIL_TO(0.00)[redhat.com,gmx.de];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 R_DKIM_NA(2.20)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.00)[31.20%];
-	 DMARC_POLICY_SOFTFAIL(0.10)[suse.de : No valid SPF, No valid DKIM,none]
+References: <o-hu9PCGr9R5LPS2ZnqssxnR22SBfwuDa0xuSsPwr3op3vBs1lbSsyH7RZMxkw7Ro2EuEzXbekDPrbiFoJ_R2_TzDlQ1g5zDaCogEU2w0sI=@protonmail.com>
+In-Reply-To: <o-hu9PCGr9R5LPS2ZnqssxnR22SBfwuDa0xuSsPwr3op3vBs1lbSsyH7RZMxkw7Ro2EuEzXbekDPrbiFoJ_R2_TzDlQ1g5zDaCogEU2w0sI=@protonmail.com>
+From: Roderick Colenbrander <thunderbird2k@gmail.com>
+Date: Mon, 27 Nov 2023 06:37:42 -0800
+Message-ID: <CAEc3jaBpdY0J8hwJ6FMBOi5JH3Z-pEPxP38RYD0Y74+9=cfUOw@mail.gmail.com>
+Subject: Re: Wrong inputs on DualSense Edge Wireless Controller
+To: Alexander Koskovich <AKoskovich@protonmail.com>
+Cc: "roderick.colenbrander@sony.com" <roderick.colenbrander@sony.com>, 
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The picolcd_fb driver operates on system memory. Mark the framebuffer
-accordingly. Helpers operating on the framebuffer memory will test
-for the presence of this flag.
+Hi Alexander,
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: "Bruno Prémont" <bonbons@linux-vserver.org>
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: linux-input@vger.kernel.org
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Bruno Prémont  <bonbons@linux-vserver.org>
-Acked-by: Jiri Kosina <jkosina@suse.cz>
----
- drivers/hid/hid-picolcd_fb.c | 1 +
- 1 file changed, 1 insertion(+)
+Sorry for the late reply, but I have been out for a few days. I'm not
+aware of any button/axis mapping change between Edge and regular
+DualSense. The HID reports stayed the same.
 
-diff --git a/drivers/hid/hid-picolcd_fb.c b/drivers/hid/hid-picolcd_fb.c
-index a4dccdcda26fc..d7dddd99d325e 100644
---- a/drivers/hid/hid-picolcd_fb.c
-+++ b/drivers/hid/hid-picolcd_fb.c
-@@ -505,6 +505,7 @@ int picolcd_init_framebuffer(struct picolcd_data *data)
- 		dev_err(dev, "can't get a free page for framebuffer\n");
- 		goto err_nomem;
- 	}
-+	info->flags |= FBINFO_VIRTFB;
- 	info->screen_buffer = fbdata->bitmap;
- 	info->fix.smem_start = (unsigned long)fbdata->bitmap;
- 	memset(fbdata->vbitmap, 0xff, PICOLCDFB_SIZE);
--- 
-2.43.0
+I just did a quick check on my laptop also on Fedora 38 / kernel 6.5
+and the mapping seems to be fine. In evtest, triangle reports
+BTN_NORTH, square BTN_WEST, etcetera.
 
+The sticks, triggers and buttons seem to be fine as well. How are you
+testing this?
+
+Thanks,
+Roderick
+
+On Wed, Nov 22, 2023 at 4:18=E2=80=AFPM Alexander Koskovich
+<AKoskovich@protonmail.com> wrote:
+>
+> [Resending email due to lack HTML message rejected]
+>
+> Hello,
+>
+> I am currently on Fedora 39 (6.5.12-300.fc39.x86_64) and I am noticing th=
+at the inputs for this controller are wrong primarily on the right side of =
+the controller.
+>
+> playstation 0005:054C:0DF2.000C: hidraw11: BLUETOOTH HID v1.00 Gamepad [D=
+ualSense Edge Wireless Controller] on 10:3d:1c:fd:30:bc
+> playstation 0005:054C:0DF2.000C: Registered DualSense controller hw_versi=
+on=3D0x01000208 fw_version=3D0x01000036
+>
+> This is the current mapping that I'm seeing with the hid_playstation modu=
+le loaded:
+> "X" is actually "Square"
+> "Square" is "Triangle"
+> "Triangle" is "Circle"
+> "Circle" is "X"
+>
+> Also the right joystick seems to be controlling "R2" instead of the right=
+ joystick. "L2" and "R2" triggers control the joystick instead. It's overal=
+l very weird. Has there been any similar reports to this?
+>
 
