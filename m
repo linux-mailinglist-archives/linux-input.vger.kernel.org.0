@@ -1,312 +1,255 @@
-Return-Path: <linux-input+bounces-257-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-258-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04E07F9B46
-	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 09:06:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E274A7F9E0C
+	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 12:00:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5FA79B20AA7
-	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 08:06:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 994FC2813B4
+	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 11:00:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8908710A27;
-	Mon, 27 Nov 2023 08:06:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08AD418E3A;
+	Mon, 27 Nov 2023 10:59:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N/on/KYA"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="OAUKknIa"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E131B113
-	for <linux-input@vger.kernel.org>; Mon, 27 Nov 2023 00:06:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701072378; x=1732608378;
-  h=date:from:to:cc:subject:message-id;
-  bh=cWlC5qHzF/ct5H46DBr8Nk2KmQ7V3ozsYmK5nY7x2WA=;
-  b=N/on/KYA2Tk0sKll/n0HgB53HPMgfijfESWsS/WsqYthHeCtSswDzQRf
-   ampjVDjEM3UfzxXEagaZnFd+Jjf4su3Dp8c9MmOvR2W8jxlPTF7TkS5At
-   qQgiPMY18UzQ356Myw/wvh/wlCBxubE73qRq3HP4wXV4XQumeq8lILuGM
-   jgsfM8DPNPXx51yVrLMJNZWIexxVicLZf8VBGxDkQN1xEdGJF2AtafYDL
-   FEnR6OVK/agKI6/kuIS4/zuekgNdAiF22Cl85whL6DV54hwl1k8LXbK5A
-   82ElXp2Q86TfkRGkz/cT+7HdHgQa8CkbkI9j3M6mq6IISZzCV8LQPSvXI
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="377689976"
-X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="377689976"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 00:06:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="717956856"
-X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="717956856"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 27 Nov 2023 00:06:16 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r7WdC-00061r-2G;
-	Mon, 27 Nov 2023 08:06:14 +0000
-Date: Mon, 27 Nov 2023 16:05:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:master] BUILD REGRESSION
- fedfa36d045ab78ea9a0aa2c5a3d5d74c27207d3
-Message-ID: <202311271636.t5ApxzSI-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E80AF111;
+	Mon, 27 Nov 2023 02:59:53 -0800 (PST)
+Received: from [192.168.42.20] (p5b164862.dip0.t-ipconnect.de [91.22.72.98])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 87C812FC0048;
+	Mon, 27 Nov 2023 11:59:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1701082792;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nbU2k/kMmm5ocGXjEMeXuk5Iu3qkqA+oEUDAkRMSimM=;
+	b=OAUKknIa2UDNliD87gXDT6W74PHafjt8zUK/lu6NMT30uriZOF8aVJAWTLI3lyQgt+ec9e
+	rTkrJoVuy0dKiLck4tJAe8COvY9PcSh1pDBI8KPZnuRKrmnmrtsNRbCQiNY8gDqKaqeYbL
+	y0b+TPtX0SDSMpmj7mGgZkE3RuaTunY=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+Date: Mon, 27 Nov 2023 11:59:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+Content-Language: en-US
+To: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+ Jani Nikula <jani.nikula@linux.intel.com>, jikos@kernel.org,
+ Jelle van der Waa <jelle@vdwaa.nl>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Lee Jones
+ <lee@kernel.org>, linux-kernel@vger.kernel.org,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
+References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
+ <ZSe1GYLplZo5fsAe@duo.ucw.cz>
+ <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
+ <ZSf9QneKO/8IzWhd@duo.ucw.cz>
+ <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
+ <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
+ <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+ <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+ <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+ <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
+ <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+ <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
-branch HEAD: fedfa36d045ab78ea9a0aa2c5a3d5d74c27207d3  Input: cap11xx - remove unnecessary IRQ parsing
+Hi Hans,
 
-Error/Warning ids grouped by kconfigs:
+Am 22.11.23 um 19:34 schrieb Hans de Goede:
+> Hi Werner,
+[snip]
+>>>> Another idea I want to throw in the mix:
+>>>>
+>>>> Maybe the kernel is not the right place to implement this at all. RGB stuff is not at all standardized and every vendor is doing completely different interfaces, which does not fit the kernel userpsace apis desire to be uniformal and fixed. e.g. Auxdisplay might fit static setting of RGB values, but it does not fit the snake-effect mode, or the raindrops mode, or the 4-different-colors-in-the-edges-breathing-and-color-cycling mode.
+>>>>
+>>>> So my current idea: Implement these keyboards as a single zone RGB kbd_backlight in the leds interface to have something functional out of the box, but make it runtime disable-able if something like https://gitlab.com/CalcProgrammer1/OpenRGB wants to take over more fine granular control from userspace via hidraw.
+>>> That sounds like a good approach to me. We are seeing the same with game controllers where steam and wine/proton also sometimes use hidraw mode to get access to all the crazy^W interesting features.
+>>>
+>>> That would mean that all we need to standardize and the kernel <-> userspace API level is adding a standard way to disable the single zone RGB kbd_backlight support in the kernel.
+>> I would suggest a simple "enable" entry. Default is 1. When set to 0 the kernel driver no longer does anything.
+> I'm not in favor of using "enable" as sysfs attribute for this,
+> I would like to see a more descriptive name, how about:
+>
+> "disable_kernel_kbd_backlight_support"
+>
+> And then maybe also have the driver actually unregister
+> the LED class device ?
+>
+> Or just make the support inactive when writing 1 to
+> this and allow re-enabling it by writing 0?
 
-gcc_recent_errors
-`-- powerpc-randconfig-r131-20231126
-    |-- arch-powerpc-kexec-core.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-unsigned-long-long-static-addressable-toplevel-usertype-crashk_base-got-restricted-__be32-usertype
-    |-- arch-powerpc-kexec-core.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-unsigned-long-long-static-addressable-toplevel-usertype-crashk_size-got-restricted-__be32-usertype
-    |-- arch-powerpc-kexec-core.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-unsigned-long-long-static-addressable-toplevel-usertype-kernel_end-got-restricted-__be32-usertype
-    |-- arch-powerpc-sysdev-fsl_rio.c:sparse:sparse:symbol-fsl_map_inb_mem-was-not-declared.-Should-it-be-static
-    |-- arch-powerpc-sysdev-fsl_rio.c:sparse:sparse:symbol-fsl_unmap_inb_mem-was-not-declared.-Should-it-be-static
-    `-- arch-powerpc-sysdev-fsl_rmu.c:sparse:sparse:symbol-msg_unit_error_handler-was-not-declared.-Should-it-be-static
-clang_recent_errors
-|-- arm-randconfig-003-20231126
-|   `-- bin-bash:line:Segmentation-fault-scripts-mod-modpost-m-a-w-N-W-o-Module.symvers-n-T-modules.order-vmlinux.o
-|-- hexagon-randconfig-002-20231126
-|   |-- drivers-media-platform-mediatek-mdp3-mtk-mdp3-comp.c:warning:unused-variable-mdp_comp_dt_ids
-|   `-- drivers-media-platform-mediatek-mdp3-mtk-mdp3-core.c:warning:unused-variable-mdp_of_ids
-|-- powerpc64-randconfig-r123-20231126
-|   |-- arch-powerpc-kvm-book3s_64_vio.c:sparse:sparse:cast-to-restricted-__be64
-|   |-- arch-powerpc-kvm-book3s_64_vio.c:sparse:sparse:function-kvm_spapr_tce_attach_iommu_group-with-external-linkage-has-definition
-|   `-- arch-powerpc-kvm-book3s_64_vio.c:sparse:sparse:function-kvm_spapr_tce_release_iommu_group-with-external-linkage-has-definition
-`-- s390-randconfig-r121-20231126
-    |-- open-dice.c:(.text):undefined-reference-to-devm_memremap
-    |-- s39-linux-ld:irq-al-fic.c:(.init.text):undefined-reference-to-iounmap
-    |-- s39-linux-ld:open-dice.c:(.text):undefined-reference-to-devm_memunmap
-    `-- xillybus_of.c:(.text):undefined-reference-to-devm_platform_ioremap_resource
+Unregistering would mean that it can't be reenabled without module reload/reboot?
 
-elapsed time: 1448m
+I would prefer that the userspace driver could easily give back control to the 
+leds interface.
 
-configs tested: 211
-configs skipped: 3
+>
+>> Questions:
+>>
+>> - Should the driver try to reset the settings to boot default? Or just leave the device in the current state? With the former I could see issues that they keyboard is flashing when changing from kernelspace control to userspace control. With the later the burden on bringing the device to a know state lies with the userspace driver.
+> My vote would go to leave the state as is. Even if the hw
+> does not support state readback, then the userspace code
+> can readback the state before writing 1 to
+> "disable_kernel_kbd_backlight_support"
+ack
+>
+>> - Should this be a optional entry that only shows up on drivers supporting it, or could this implemented in a generic way affecting all current led entries?
+> IMHO this should be optional. If we go with the variant
+> where writing 1 to "disable_kernel_kbd_backlight_support"
+> just disables support and 0 re-enables it then I guess
+> we could have support for this in the LED-core, enabled
+> by a flag set by the driver.
+>
+> If we go with unregistering the led class device,
+> then this needs to be mostly handled in the driver.
+>
+> Either way the kernel driver should know about this even
+> if it is mostly handled in the LED core so that e.g.
+> it does not try to restore settings on resume from suspend.
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231126   gcc  
-arc                   randconfig-002-20231126   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                       aspeed_g5_defconfig   gcc  
-arm                                 defconfig   clang
-arm                         lpc18xx_defconfig   gcc  
-arm                         lpc32xx_defconfig   clang
-arm                            mps2_defconfig   gcc  
-arm                         mv78xx0_defconfig   clang
-arm                         orion5x_defconfig   clang
-arm                             pxa_defconfig   gcc  
-arm                   randconfig-001-20231126   clang
-arm                   randconfig-002-20231126   clang
-arm                   randconfig-003-20231126   clang
-arm                   randconfig-004-20231126   clang
-arm                        spear6xx_defconfig   gcc  
-arm                       versatile_defconfig   clang
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20231126   clang
-arm64                 randconfig-002-20231126   clang
-arm64                 randconfig-003-20231126   clang
-arm64                 randconfig-004-20231126   clang
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20231126   gcc  
-csky                  randconfig-002-20231126   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20231126   clang
-hexagon               randconfig-002-20231126   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20231126   clang
-i386         buildonly-randconfig-002-20231126   clang
-i386         buildonly-randconfig-003-20231126   clang
-i386         buildonly-randconfig-004-20231126   clang
-i386         buildonly-randconfig-005-20231126   clang
-i386         buildonly-randconfig-006-20231126   clang
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231126   clang
-i386                  randconfig-002-20231126   clang
-i386                  randconfig-003-20231126   clang
-i386                  randconfig-004-20231126   clang
-i386                  randconfig-005-20231126   clang
-i386                  randconfig-006-20231126   clang
-i386                  randconfig-011-20231126   gcc  
-i386                  randconfig-012-20231126   gcc  
-i386                  randconfig-013-20231126   gcc  
-i386                  randconfig-014-20231126   gcc  
-i386                  randconfig-015-20231126   gcc  
-i386                  randconfig-016-20231126   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231126   gcc  
-loongarch             randconfig-002-20231126   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                          amiga_defconfig   gcc  
-m68k                       bvme6000_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                        mvme16x_defconfig   gcc  
-m68k                           virt_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   clang
-mips                             allyesconfig   gcc  
-mips                         cobalt_defconfig   gcc  
-mips                     cu1830-neo_defconfig   clang
-mips                           jazz_defconfig   gcc  
-mips                      maltaaprp_defconfig   clang
-mips                          rb532_defconfig   gcc  
-mips                           rs90_defconfig   clang
-mips                        vocore2_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20231126   gcc  
-nios2                 randconfig-002-20231126   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20231126   gcc  
-parisc                randconfig-002-20231126   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   clang
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                     asp8347_defconfig   gcc  
-powerpc                 canyonlands_defconfig   gcc  
-powerpc                      cm5200_defconfig   gcc  
-powerpc                       eiger_defconfig   gcc  
-powerpc                     ep8248e_defconfig   gcc  
-powerpc                 mpc8315_rdb_defconfig   clang
-powerpc               randconfig-001-20231126   clang
-powerpc               randconfig-002-20231126   clang
-powerpc               randconfig-003-20231126   clang
-powerpc                    sam440ep_defconfig   gcc  
-powerpc                     tqm8541_defconfig   gcc  
-powerpc64             randconfig-001-20231126   clang
-powerpc64             randconfig-002-20231126   clang
-powerpc64             randconfig-003-20231126   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20231126   clang
-riscv                 randconfig-002-20231126   clang
-riscv                          rv32_defconfig   clang
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231126   gcc  
-s390                  randconfig-002-20231126   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                 kfr2r09-romimage_defconfig   gcc  
-sh                          landisk_defconfig   gcc  
-sh                            migor_defconfig   gcc  
-sh                    randconfig-001-20231126   gcc  
-sh                    randconfig-002-20231126   gcc  
-sh                          rsk7269_defconfig   gcc  
-sh                      rts7751r2d1_defconfig   gcc  
-sh                           se7343_defconfig   gcc  
-sh                           se7619_defconfig   gcc  
-sh                           se7724_defconfig   gcc  
-sh                           se7751_defconfig   gcc  
-sh                             sh03_defconfig   gcc  
-sh                        sh7757lcr_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20231126   gcc  
-sparc64               randconfig-002-20231126   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20231126   clang
-um                    randconfig-002-20231126   clang
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20231126   clang
-x86_64       buildonly-randconfig-002-20231126   clang
-x86_64       buildonly-randconfig-003-20231126   clang
-x86_64       buildonly-randconfig-004-20231126   clang
-x86_64       buildonly-randconfig-005-20231126   clang
-x86_64       buildonly-randconfig-006-20231126   clang
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64                randconfig-001-20231126   gcc  
-x86_64                randconfig-002-20231126   gcc  
-x86_64                randconfig-003-20231126   gcc  
-x86_64                randconfig-004-20231126   gcc  
-x86_64                randconfig-005-20231126   gcc  
-x86_64                randconfig-006-20231126   gcc  
-x86_64                randconfig-011-20231126   clang
-x86_64                randconfig-012-20231126   clang
-x86_64                randconfig-013-20231126   clang
-x86_64                randconfig-014-20231126   clang
-x86_64                randconfig-015-20231126   clang
-x86_64                randconfig-016-20231126   clang
-x86_64                randconfig-071-20231126   clang
-x86_64                randconfig-072-20231126   clang
-x86_64                randconfig-073-20231126   clang
-x86_64                randconfig-074-20231126   clang
-x86_64                randconfig-075-20231126   clang
-x86_64                randconfig-076-20231126   clang
-x86_64                           rhel-8.3-bpf   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                generic_kc705_defconfig   gcc  
-xtensa                  nommu_kc705_defconfig   gcc  
-xtensa                randconfig-001-20231126   gcc  
-xtensa                randconfig-002-20231126   gcc  
+So a generic implementation would still require all current led drivers to be 
+touched?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+For the sake of simplicity I would then prefer the optional variant.
+
+>
+>> - I guess UPower integration for the userspace driver could be archived with https://www.kernel.org/doc/html/latest/leds/uleds.html however this limited to brightness atm, so when accent colors actually come to UPower this would also need some expansion to be able to pass a preferred color to the userspace driver (regardless of what that driver is then doing with that information).
+> Using uleds is an interesting suggestion, but upower atm
+> does not support LED class kbd_backlight devices getting
+> hot-plugged. It only scans for them once at boot.
+>
+> Jelle van der Waa (a colleague of mine, added to the Cc)
+> has indicated he is interested in maybe working on fixing
+> this upower short-coming as a side project, once his
+> current side-projects are finished.
+Nice to hear.
+>
+>> On a different note: This approach does currently not cover the older EC controlled 3 zone keyboards from clevo. Here only the kernel has access access to the device so the kernel driver has to expose all functionality somehow. Should this be done by an arbitrarily designed platform device?
+> Interesting question, this reminds there was a discussion
+> about how to handle zoned keyboards using plain LED class
+> APIs here:
+>
+> https://lore.kernel.org/linux-leds/544484b9-c0ac-2fd0-1f41-8fa94cb94d4b@redhat.com/
+>
+> Basically the idea discussed there is to create
+> separate multi-color LED sysfs devices for each zone,
+> using :rgb:kbd_zoned_backlight-xxx as postfix, e.g. :
+>
+>   :rgb:kbd_zoned_backlight-left
+>   :rgb:kbd_zoned_backlight-middle
+>   :rgb:kbd_zoned_backlight-right
+>   :rgb:kbd_zoned_backlight-wasd
+>
+> As postfixes for the 4 per zone LED class devices
+> and then teach upower to just treat this as
+> a single kbd-backlight for the existing upower
+> DBUS API and maybe later extend the DBUS API.
+>
+> Would something like this work for the Clevo
+> case you are describing?
+
+Not entirely as some concept for the special modes would still be required.
+
+Also it would be nice to be able to set the whole keyboard with a singular file 
+access so that the keyboard changes at once and not zone by zone.
+
+>
+> Unfortunately this was never implemented but
+> I think that for simple zoned backlighting
+> this still makes sense. Where as for per key
+> controllable backlighting as mention in
+> $subject I do believe that just using hidraw
+> access directly from userspace is best.
+>
+> Regards,
+>
+> Hans
+I also stumbled across a new Problem:
+
+We have an upcoming device that has a per-key keyboard backlight, but does the 
+control completely via a wmi/acpi interface. So no usable hidraw here for a 
+potential userspace driver implementation ...
+
+So a quick summary for the ideas floating in this thread so far:
+
+1. Expand leds interface allowing arbitrary modes with semi arbitrary optional 
+attributes:
+
+     - Pro:
+
+         - Still offers all default attributes for use with UPower
+
+         - Fairly simple to implement from the preexisting codebase
+
+         - Could be implemented for all (to me) known internal keyboard backlights
+
+     - Con:
+
+         - Violates the simplicity paradigm of the leds interface (e.g. with 
+this one leds entry controls possible multiple leds)
+
+2. Implement per-key keyboards as auxdisplay
+
+     - Pro:
+
+         - Already has a concept for led positions
+
+         - Is conceptually closer to "multiple leds forming a singular entity"
+
+     - Con:
+
+         - No preexisting UPower support
+
+         - No concept for special hardware lightning modes
+
+         - No support for arbitrary led outlines yet (e.g. ISO style enter-key)
+
+3. Implement in input subsystem
+
+     - Pro:
+
+         - Preexisting concept for keys and key purpose
+
+     - Con:
+
+         - Not in scope for subsystem
+
+         - No other preexisting light infrastructure
+
+4. Implement a simple leds driver only supporting a small subset of the 
+capabilities and make it disable-able for a userspace driver to take over
+
+     - Pro:
+
+         - Most simple to implement basic support
+
+         - In scope for led subsystem simplicity paradigm
+
+     - Con:
+
+         - Not all built in keyboard backlights can be implemented in a 
+userspace only driver
+
+Kind Regards,
+
+Werner
+
 
