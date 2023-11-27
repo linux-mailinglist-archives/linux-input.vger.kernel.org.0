@@ -1,106 +1,224 @@
-Return-Path: <linux-input+bounces-261-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-262-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4122F7FA32F
-	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 15:42:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60EF17FA5E0
+	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 17:14:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 711A51C20DE1
-	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 14:42:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1CF092813FB
+	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 16:14:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A891C1E501;
-	Mon, 27 Nov 2023 14:42:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D83835F14;
+	Mon, 27 Nov 2023 16:14:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="d7iKkuCt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OFQtu5kH"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A6D3C2
-	for <linux-input@vger.kernel.org>; Mon, 27 Nov 2023 06:42:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1701096136; x=1701355336;
-	bh=wfYjajjY9wslIQCWTKNeP7Xh9Ur1JRbyGZS0/4rZegQ=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=d7iKkuCtCUdl8UpLHyjWKAVdi7Y85TKtL5udywlFJ7TPdUJtBTVbtjmg28oCCzqO9
-	 lXR522flj7Q+iDgIKPy2ihzKNw7LWfawTccl+cpc8HuXKqJl8o1QSslSQ+xtJQUa1D
-	 2h9MqAsAcYS/4JNcju+LE2KmQjoFTAsbK9ThC7684cm1TgAbTruHkDkY6MBywe9+cy
-	 XX/48SjgbEOzXsNy1nlqjQLfIVhOJOs/vNAv8SEivKAgsLeVBexiRfjraCYPJrskeR
-	 nlGSdnAndOABJbgKx3eQodbp/4+xWMSLG9PP+WD7rJZlyGqzyJIQuVYn3kyU72Ltt1
-	 q5tlr+UUn9JhA==
-Date: Mon, 27 Nov 2023 14:41:42 +0000
-To: Roderick Colenbrander <thunderbird2k@gmail.com>
-From: Alexander Koskovich <AKoskovich@protonmail.com>
-Cc: "roderick.colenbrander@sony.com" <roderick.colenbrander@sony.com>, "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: Re: Wrong inputs on DualSense Edge Wireless Controller
-Message-ID: <ivOCP7WJIYExbRiOtMQq1_X5Lrm691_Jzu2MB_EoHi94WQwoWQtn0YUt2Bf20BQ6BSNuIOZBrrJ5rYTzag5mWGlrn2Yfis9TziSb6VfPxbY=@protonmail.com>
-In-Reply-To: <CAEc3jaBpdY0J8hwJ6FMBOi5JH3Z-pEPxP38RYD0Y74+9=cfUOw@mail.gmail.com>
-References: <o-hu9PCGr9R5LPS2ZnqssxnR22SBfwuDa0xuSsPwr3op3vBs1lbSsyH7RZMxkw7Ro2EuEzXbekDPrbiFoJ_R2_TzDlQ1g5zDaCogEU2w0sI=@protonmail.com> <CAEc3jaBpdY0J8hwJ6FMBOi5JH3Z-pEPxP38RYD0Y74+9=cfUOw@mail.gmail.com>
-Feedback-ID: 37836827:user:proton
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DAB2DE;
+	Mon, 27 Nov 2023 08:13:56 -0800 (PST)
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-6cb4d366248so3588389b3a.0;
+        Mon, 27 Nov 2023 08:13:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701101636; x=1701706436; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=m8Y+/hfdU1/FxZi+VliIj7cuRUi8YqKczVoB/rQ19O4=;
+        b=OFQtu5kHnEJ5P7uiXi+xBQ0Ny77hMxzYvROCbRDXlflyLzFcLLyzRA9RzWGrxyv6Mj
+         mz/MtnrLEUOh9Oi/b0NoNzAvIxs9mBDoDoafOxUGWS8cXrJo3aKryZFzxfzmkITf/mMN
+         YQZyYGmNrCdeoHTjmd7QLH25vkSHDddhnSCK+bjAeLaEcEDanRGJJxHoViOPwjpX5LuY
+         xul3rUlmV9YA8WHm8TV1SaZAV5J2LwgGV/DNAE94YZnIKwuayQc3GszLJqyfKbAlcuGd
+         +Lh/uy54d86pmRamx27+bKIsMcmo9oUzYT2hRWgoZvD7jzEa9uE1Mlgw0K9kxb9nXrX9
+         o9jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701101636; x=1701706436;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m8Y+/hfdU1/FxZi+VliIj7cuRUi8YqKczVoB/rQ19O4=;
+        b=UiSrzxrjkTqfzUI2LU2idKxobhVXUEit5h1+DOvjkYjDWb+By1RpxX8X6r287BLtoN
+         wZF1p10k7ecAR459bdKmPevxe8/OnHMg+okZGv09KApEo05MIii9AYVqQNcN1bGDMFPh
+         v2nyUH8zbu1k2h2EMVn9qTj1ivItlx/W0ogGL8Agn3/UeCsqKHbGTG2SJTJiIS/NszL6
+         y7D7Sfnhx10/pb9zgxtXOACZiD3CMFuBMpm1Jvhk5281gRLk1Rezs2kqX4SKL6OKBlmB
+         EuZ2UlULyXTW1T2HD3R8XcSIVV1t7BCqNkfzE1A9vIMKNAVkUmxTf5A/b5wDJj7ZNPmM
+         yAQw==
+X-Gm-Message-State: AOJu0YyK3Wx8yoJ2qsANYBew20KcffR5e5N9Pked4zPrhOMvEWo2z+c9
+	fes0LimhdNjYnrusItZMZ8ahLu3Y6dR0NX/x
+X-Google-Smtp-Source: AGHT+IHvuGZIsXw6I2fqnukGj9fiXf1SOYmJVzN0HXKYP/vLOR2dWrVgP03mT4QP79jk/BA//dgPaw==
+X-Received: by 2002:a05:6a20:d704:b0:189:c0e1:4979 with SMTP id iz4-20020a056a20d70400b00189c0e14979mr15074487pzb.29.1701101635605;
+        Mon, 27 Nov 2023 08:13:55 -0800 (PST)
+Received: from localhost.localdomain ([2401:4900:2353:8963:b940:1ac0:2fbc:6b6])
+        by smtp.gmail.com with ESMTPSA id v1-20020a632f01000000b005898df17ea4sm7740194pgv.27.2023.11.27.08.13.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Nov 2023 08:13:55 -0800 (PST)
+From: Anshul Dalal <anshulusr@gmail.com>
+To: linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: Anshul Dalal <anshulusr@gmail.com>,
+	"Conor Dooley" <conor+dt@kernel.org>,
+	"Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	linux-kernel@vger.kernel.org,
+	"Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+	"Conor Dooley" <conor.dooley@microchip.com>,
+	"Rob Herring" <robh+dt@kernel.org>,
+	"Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+	"Jeff LaBundy" <jeff@labundy.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH v11 1/2] dt-bindings: input: bindings for Adafruit Seesaw Gamepad
+Date: Mon, 27 Nov 2023 21:41:53 +0530
+Message-ID: <20231127161158.1651716-1-anshulusr@gmail.com>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-I was testing this in the Steam controller test, Cyberpunk 2077 (through GO=
-G, not through Steam), and SuperTuxKart. All of these have wrong mappings f=
-or the Edge controller exclusively.
-For additional context I have a PS5 controller (non Edge) and it works out =
-of the box. This just seems to be an issue with the Edge variant.
+Adds bindings for the Adafruit Seesaw Gamepad.
 
+The gamepad functions as an i2c device with the default address of 0x50
+and has an IRQ pin that can be enabled in the driver to allow for a rising
+edge trigger on each button press or joystick movement.
 
-On Monday, November 27th, 2023 at 9:37 AM, Roderick Colenbrander <thunderbi=
-rd2k@gmail.com> wrote:
+Product page:
+  https://www.adafruit.com/product/5743
+Arduino driver:
+  https://github.com/adafruit/Adafruit_Seesaw
 
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
 
->=20
->=20
-> Hi Alexander,
->=20
-> Sorry for the late reply, but I have been out for a few days. I'm not
-> aware of any button/axis mapping change between Edge and regular
-> DualSense. The HID reports stayed the same.
->=20
-> I just did a quick check on my laptop also on Fedora 38 / kernel 6.5
-> and the mapping seems to be fine. In evtest, triangle reports
-> BTN_NORTH, square BTN_WEST, etcetera.
->=20
-> The sticks, triggers and buttons seem to be fine as well. How are you
-> testing this?
->=20
-> Thanks,
-> Roderick
->=20
-> On Wed, Nov 22, 2023 at 4:18=E2=80=AFPM Alexander Koskovich
-> AKoskovich@protonmail.com wrote:
->=20
-> > [Resending email due to lack HTML message rejected]
-> >=20
-> > Hello,
-> >=20
-> > I am currently on Fedora 39 (6.5.12-300.fc39.x86_64) and I am noticing =
-that the inputs for this controller are wrong primarily on the right side o=
-f the controller.
-> >=20
-> > playstation 0005:054C:0DF2.000C: hidraw11: BLUETOOTH HID v1.00 Gamepad =
-[DualSense Edge Wireless Controller] on 10:3d:1c:fd:30:bc
-> > playstation 0005:054C:0DF2.000C: Registered DualSense controller hw_ver=
-sion=3D0x01000208 fw_version=3D0x01000036
-> >=20
-> > This is the current mapping that I'm seeing with the hid_playstation mo=
-dule loaded:
-> > "X" is actually "Square"
-> > "Square" is "Triangle"
-> > "Triangle" is "Circle"
-> > "Circle" is "X"
-> >=20
-> > Also the right joystick seems to be controlling "R2" instead of the rig=
-ht joystick. "L2" and "R2" triggers control the joystick instead. It's over=
-all very weird. Has there been any similar reports to this?
+---
+
+Changes for v11:
+- no updates
+
+Changes for v10:
+- Added interrupt-controller/irq.h header
+
+Changes for v9:
+- Added interrupt in example
+
+Changes for v8:
+- no updates
+
+Changes for v7:
+- no updates
+
+Changes for v6:
+- no updates
+
+Changes for v5:
+- Added link to the datasheet
+
+Changes for v4:
+- Fixed the URI for the id field
+- Added `interrupts` property
+
+Changes for v3:
+- Updated id field to reflect updated file name from previous version
+- Added `reg` property
+
+Changes for v2:
+- Renamed file to `adafruit,seesaw-gamepad.yaml`
+- Removed quotes for `$id` and `$schema`
+- Removed "Bindings for" from the description
+- Changed node name to the generic name "joystick"
+- Changed compatible to 'adafruit,seesaw-gamepad' instead of
+  'adafruit,seesaw_gamepad'
+
+Previous versions:
+v10: https://lore.kernel.org/lkml/20231121123409.2231115-1-anshulusr@gmail.com/
+v9: https://lore.kernel.org/lkml/20231121101751.2189965-1-anshulusr@gmail.com/
+v8: https://lore.kernel.org/lkml/20231108005337.45069-1-anshulusr@gmail.com/
+v7: https://lore.kernel.org/lkml/20231106164134.114668-1-anshulusr@gmail.com/
+v6: https://lore.kernel.org/lkml/20231027051819.81333-1-anshulusr@gmail.com/
+v5: https://lore.kernel.org/lkml/20231017034356.1436677-1-anshulusr@gmail.com/
+v4: https://lore.kernel.org/lkml/20231010184827.1213507-1-anshulusr@gmail.com/
+v3: https://lore.kernel.org/linux-input/20231008185709.2448423-1-anshulusr@gmail.com/
+v2: https://lore.kernel.org/linux-input/20231008172435.2391009-1-anshulusr@gmail.com/
+v1: https://lore.kernel.org/linux-input/20231007144052.1535417-1-anshulusr@gmail.com/
+
+---
+ .../input/adafruit,seesaw-gamepad.yaml        | 63 +++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+
+diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+new file mode 100644
+index 000000000000..5e86f6de6978
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+@@ -0,0 +1,63 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Adafruit Mini I2C Gamepad with seesaw
++
++maintainers:
++  - Anshul Dalal <anshulusr@gmail.com>
++
++description: |
++  Adafruit Mini I2C Gamepad
++
++    +-----------------------------+
++    |   ___                       |
++    |  /   \               (X)    |
++    | |  S  |  __   __  (Y)   (A) |
++    |  \___/  |ST| |SE|    (B)    |
++    |                             |
++    +-----------------------------+
++
++  S -> 10-bit precision bidirectional analog joystick
++  ST -> Start
++  SE -> Select
++  X, A, B, Y -> Digital action buttons
++
++  Datasheet: https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.pdf
++  Product page: https://www.adafruit.com/product/5743
++  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
++
++properties:
++  compatible:
++    const: adafruit,seesaw-gamepad
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++    description:
++      The gamepad's IRQ pin triggers a rising edge if interrupts are enabled.
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        joystick@50 {
++            compatible = "adafruit,seesaw-gamepad";
++            interrupts = <18 IRQ_TYPE_EDGE_RISING>;
++            reg = <0x50>;
++        };
++    };
+-- 
+2.42.1
+
 
