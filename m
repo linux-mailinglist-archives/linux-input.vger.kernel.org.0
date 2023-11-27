@@ -1,142 +1,104 @@
-Return-Path: <linux-input+bounces-267-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-268-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 538577FA8B3
-	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 19:15:34 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6281A7FAC03
+	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 21:50:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 855071C2091C
-	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 18:15:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 04A11B20DA5
+	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 20:50:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF1C13AC21;
-	Mon, 27 Nov 2023 18:15:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E0383EA60;
+	Mon, 27 Nov 2023 20:50:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="HOCmpKfX"
+	dkim=pass (2048-bit key) header.d=kde.org header.i=@kde.org header.b="LwMZNHjP"
 X-Original-To: linux-input@vger.kernel.org
-X-Greylist: delayed 488 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 27 Nov 2023 10:15:26 PST
-Received: from ms11p00im-qufo17281701.me.com (ms11p00im-qufo17281701.me.com [17.58.38.54])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B31419B
-	for <linux-input@vger.kernel.org>; Mon, 27 Nov 2023 10:15:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; t=1701108438;
-	bh=iqGRI7XYS1dBDhWzHPED2IxVXtYj1cIPzjyBmkOZ09U=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type;
-	b=HOCmpKfXy2yI4jstTkkgKnfiPfxBin+vpQBUIh6itd/3T2F28FrOTlIybdeJ9xw6c
-	 KzEDcpkpkSU0Y6cYXN/6HGlmbmZ2Y4Kjdb+MFUaGu4UhGywanuCRlVAUeTxeIF3FcG
-	 jMiiy2vAPIsk8p7H3rvTj+pNoo+IwAJpVBWNgK9Yj8XIocTPYFfVq12i4+JyTQMlle
-	 FDpJt8lr0i33c1r4VlNk8buFAX1+axKswugq4sDbtOijHSGD3cIYXUhs34vIlj1rbK
-	 jsa5Ja+UPQP8aT3C3tefTo6KbocytFYZgzaDs0qqNPWd29RQV54mJURUF44g4iA/pg
-	 MY2VXUPemsPNw==
-Received: from [192.168.0.49] (ms11p00im-dlb-asmtpmailmevip.me.com [17.57.154.19])
-	by ms11p00im-qufo17281701.me.com (Postfix) with ESMTPSA id 501A77424BB
-	for <linux-input@vger.kernel.org>; Mon, 27 Nov 2023 18:07:16 +0000 (UTC)
-Message-ID: <51312c2f-ac0a-4755-924a-237bb9335b05@icloud.com>
-Date: Mon, 27 Nov 2023 11:07:15 -0700
+X-Greylist: delayed 488 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 27 Nov 2023 12:50:27 PST
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C57FA19D;
+	Mon, 27 Nov 2023 12:50:27 -0800 (PST)
+Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net [173.49.113.140])
+	(Authenticated sender: zack)
+	by letterbox.kde.org (Postfix) with ESMTPSA id 5A23D32F798;
+	Mon, 27 Nov 2023 20:42:15 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+	t=1701117736; bh=wYChciMP/u7b3bVBtF5SUMzfxSiI5SlS5MrqMpbiQK8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LwMZNHjPKu3gQGUs2zBpToliB1ZzYCMuL34W2376Ck6cOVyI7BnjmkZLR8+7sFdJm
+	 p0igcbnr2XaZs9e1C0xn9cljMXxomKf5+gzZwVGu+pNPGxTRfTCv2KAt8R+w211UUJ
+	 kdtXbq8ylXxg8zp7lP3Cp1Byh9Tv0QsKCG3/QbqrhkC9rGvfGYDUT/EP/yTDHVO4FS
+	 hWW6MiNpAMkHLIsnZjdQsmP+dJmUH26o/uR15Vc/Q7uysUC28Yt4N7wR/27GayWwD+
+	 OaibKxWZA/5lrDJrP8/CqkH8Ay85xAw/sIJ3PGDlVMmJSepHXER1DZE98GJwFUqggF
+	 0hjpDJUqqHUVQ==
+From: Zack Rusin <zack@kde.org>
+To: linux-kernel@vger.kernel.org
+Cc: Zack Rusin <zackr@vmware.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Raul Rangel <rrangel@chromium.org>,
+	linux-input@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] input/vmmouse: Fix device name copies
+Date: Mon, 27 Nov 2023 15:42:06 -0500
+Message-Id: <20231127204206.3593559-1-zack@kde.org>
+X-Mailer: git-send-email 2.39.2
+Reply-To: Zack Rusin <zackr@vmware.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: linux-input@vger.kernel.org
-From: Kim <kpgenti@icloud.com>
-Subject: hid_logitech_dj/hidpp disable high resolution wheel scroll quirk
- needed
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: 63eDNaVllxJC5UHQxlr7c7KgfsEnIyln
-X-Proofpoint-GUID: 63eDNaVllxJC5UHQxlr7c7KgfsEnIyln
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.0.605.474.0000000_definitions?=
- =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2020-01-23?=
- =?UTF-8?Q?=5F02_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 spamscore=0
- phishscore=0 suspectscore=0 mlxlogscore=999 mlxscore=0 clxscore=1011
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2311270125
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Reported to libinput, [Logitech G604 metal wheel unintended scroll 
-caused by high resolution setting enforced by kernel 
-drivers](https://gitlab.freedesktop.org/libinput/libinput/-/issues/949) 
-and isolated to kernel modules hid_logitech_dj/hid_logitech_hidpp, 
-though dj is for receiver setup.
+From: Zack Rusin <zackr@vmware.com>
 
-The G604 exhibits extremely sensitive scroll wheel, so much so, that a 
-minor jolt (from lifting and bringing the mouse back down on a surface), 
-is enough to generate unintentional wheel scroll.
+Make sure vmmouse_data::phys can hold serio::phys (which is 32 bytes)
+plus an extra string, extend it to 64.
 
-The problem is in hardware, caused by a trivial "bounce" of the metal 
-scroll wheel, and can be mitigated by lightly holding the wheel with one 
-finger.  Even so, this unintended wheel scrolling doesn't occur in 
-Windows 10/11 or Android OS.  It is suspected that the hires scroll 
-wheel is not enabled in those operating systems.  A quirk is needed to 
-override and force lowres scroll wheel sensitivity.
+Fixes gcc13 warnings:
+drivers/input/mouse/vmmouse.c: In function ‘vmmouse_init’:
+drivers/input/mouse/vmmouse.c:455:53: warning: ‘/input1’ directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
+  455 |         snprintf(priv->phys, sizeof(priv->phys), "%s/input1",
+      |                                                     ^~~~~~~
+drivers/input/mouse/vmmouse.c:455:9: note: ‘snprintf’ output between 8 and 39 bytes into a destination of size 32
+  455 |         snprintf(priv->phys, sizeof(priv->phys), "%s/input1",
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  456 |                  psmouse->ps2dev.serio->phys);
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-hidpp initializes the mouse and sets the sensitivity such that it 
-persists through a reboot.  Blacklisting hid_logitech_dj/hidpp is not 
-enough.  The mouse must be disconnected from the USB bus, and is 
-reinitialized upon reconnect.
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+Fixes: 8b8be51b4fd3 ("Input: add vmmouse driver")
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Robert Jarzmik <robert.jarzmik@free.fr>
+Cc: Raul Rangel <rrangel@chromium.org>
+Cc: linux-input@vger.kernel.org
+Cc: <stable@vger.kernel.org> # v4.1+
+---
+ drivers/input/mouse/vmmouse.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Please advise on what further information needs to be provided to 
-facilitate isolation and resolution.
-
-
-
-Tested on Manjaro Linux which is rolling release the LTS Kernel 6.6.1, 
-details found at [Manjaro 
-releases](https://forum.manjaro.org/c/announcements/stable-updates/12)
-
-Blacklisting just hid_logitech_dj (the lightspeed receiver) is enough to 
-clear the issue, as this effectively prevents both dj and hidpp from 
-being loaded.
-
-Without hid-logitech-dj/hidpp the G604 is identified as Logitech 
-Wireless Mouse PID:4085 Mouse; with, it is registered as Logitech G604.
-
-[hid-ids.h](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/drivers/hid/hid-ids.h)
-[hid-logitech-hidpp](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/drivers/hid/hid-logitech-hidpp.c)
-[hid-logitech-dj](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/drivers/hid/hid-logitech-dj.c)
-
-modinfo hid-logitech-dj has alias for G604:
-
-lsusb
-Bus 001 Device 010: ID 046d:c539 Logitech, Inc. Lightspeed Receiver
-
-modinfo hid-logitech-dj
-filename: 
-/lib/modules/6.6.1-1-MANJARO/kernel/drivers/hid/hid-logitech-dj.ko.zst
-author:         nlopezcasad@logitech.com
-author:         Nestor Lopez Casado
-author:         Logitech
-license:        GPL
-srcversion:     012CD0C907AC711AE721D02
-alias:          hid:b0003g*v0000046Dp0000C539
-depends:        usbhid
-
-grep -i hid_logitech_ /lib/modules/$(uname -r)/modules.alias
-alias hid:b0003g*v0000046Dp0000C539 hid_logitech_dj
-
-evt=22 ; udevadm info -an /dev/input/event"$evt" |grep -B3 DRIVERS==
-   looking at parent device 
-'/devices/pci0000:00/0000:00:14.0/usb1/1-5/1-5.1/1-5.1.1/1-5.1.1.1/1-5.1.1.1.2/1-5.1.1.1.2:1.2/0003:046D:C539.0004/0003:046D:4085.000B':
-     KERNELS=="0003:046D:4085.000B"
-     SUBSYSTEMS=="hid"
-     DRIVERS=="logitech-hidpp-device"
---
-   looking at parent device 
-'/devices/pci0000:00/0000:00:14.0/usb1/1-5/1-5.1/1-5.1.1/1-5.1.1.1/1-5.1.1.1.2/1-5.1.1.1.2:1.2/0003:046D:C539.0004':
-     KERNELS=="0003:046D:C539.0004"
-     SUBSYSTEMS=="hid"
-     DRIVERS=="logitech-djreceiver"
-
-
-
-ID present in hid-ids.h
-
-#define USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1	0xc539
+diff --git a/drivers/input/mouse/vmmouse.c b/drivers/input/mouse/vmmouse.c
+index ea9eff7c8099..7248cada4c8c 100644
+--- a/drivers/input/mouse/vmmouse.c
++++ b/drivers/input/mouse/vmmouse.c
+@@ -72,7 +72,7 @@
+  */
+ struct vmmouse_data {
+ 	struct input_dev *abs_dev;
+-	char phys[32];
++	char phys[64];
+ 	char dev_name[128];
+ };
+ 
+-- 
+2.39.2
 
 
