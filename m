@@ -1,105 +1,96 @@
-Return-Path: <linux-input+bounces-264-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-265-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D3D7FA6A1
-	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 17:39:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51CA57FA728
+	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 17:57:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C94A2818EB
-	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 16:39:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 834AD1C20C37
+	for <lists+linux-input@lfdr.de>; Mon, 27 Nov 2023 16:57:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1D7135888;
-	Mon, 27 Nov 2023 16:39:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EB1D3DBA5;
+	Mon, 27 Nov 2023 16:55:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iP02GF5e"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="bUW8uWS5"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22349CE
-	for <linux-input@vger.kernel.org>; Mon, 27 Nov 2023 08:39:10 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-507be298d2aso6044834e87.1
-        for <linux-input@vger.kernel.org>; Mon, 27 Nov 2023 08:39:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701103148; x=1701707948; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mbaBvVs4jJomuZqndjy6yrs8VhBzsYpU6MK+yNn7wYo=;
-        b=iP02GF5eKWdrEOLl75L3zMir44AgVKPu0jJSymY7S8h/X3xWdYWBxC3Ruxe8kReObY
-         M1IpKQY5RmJ6RFVWA+tLJ9D87irdYaxGvBB0xBuAMQz4ctwDHMR3d3+Ts00OnXdzvwiV
-         M7zdfOh5EK50IQ9ExTsD25xwxwssHKUOPcNT8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701103148; x=1701707948;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mbaBvVs4jJomuZqndjy6yrs8VhBzsYpU6MK+yNn7wYo=;
-        b=C29isPVAujecwacWzuCMZCE9GzVE1RPLDPOly5b6yHKmqOd40OKGJXe8yL1g05GYt9
-         cfscYGRbjf5vyme/kQ23+zJ6Yi+qQaxvGeQk8joy6Cd1kLaWEG27qFeHvVpZoHPWEYDb
-         wZdfBV4w4A4O2jxWBx927YJ2RdMiB5ozMqvJ/402BbnGrXxQ5bO8l5kmqZDBz5ZSYdnx
-         KmCU+rLc7l+PbLTt58v7F39MSj+z0vDiOapnrUfbaT0Zwcs+Nx7gDBiMqIozyLQWRQbR
-         AW7YinGX9acZmgGnzwwYjO6y2/uG0pjlJNtWZOa8ajtiMO06zLHvoiBszgK1VVCEWzZv
-         hwMQ==
-X-Gm-Message-State: AOJu0YwIGkNt63X5iTVhqa9bvuvxRLD5RKtK/+N/KV93nFVAwbOS0FJx
-	Ffi7oUkA6KhFLq6wYqVMtcnnr9YKQLtvAM/P0KO9XA==
-X-Google-Smtp-Source: AGHT+IG1KaGzzgqkd/bVl0htNdKZU5Bn8cbei0/SCcALuzYLvd3G7A/NDsEbwNme3869KE8Y7hH9x4OGUsfYwhzFnkY=
-X-Received: by 2002:a05:6512:3190:b0:50a:68f4:6361 with SMTP id
- i16-20020a056512319000b0050a68f46361mr9952921lfe.17.1701103148299; Mon, 27
- Nov 2023 08:39:08 -0800 (PST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E840210D;
+	Mon, 27 Nov 2023 08:55:33 -0800 (PST)
+Received: from benjamin-XPS-13-9310.. (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 3586B66073CA;
+	Mon, 27 Nov 2023 16:55:31 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1701104131;
+	bh=zWGO+xQMxELWOf7KdTdR8LG3JTriZNDDb/EP2aovBFc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=bUW8uWS5GW0QXyBTRzhuFADv/y2EtdYvOtkMLrer7hDPeWcEz2eOSftisYiD15p3q
+	 rGznA676mshUPeo1Vt77h7d8o7lH9BfYqnhBFPaUg92Fx0LtkyXgsWOxYZHfYsCG6W
+	 lluewMKI+WXpr/nfDPLvWH+OvFxxSrA+su6FcnSC/xfYTSsPBEyX2xyn/+DxR3jZUx
+	 rjLWHFj4/AWStGyBxF3ejvARfP/Kur946umnB7qJIXur/ca7OKbeU5boLXbyOPchaa
+	 LPmgq22GT8Mg+Id+g2wryn/7gJxCz4DzYdNqEQ+rf/fwuGkQ28K07y1ZarUEfUUXgp
+	 BJMwf+JBqV4LA==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: hverkuil@xs4all.nl,
+	mchehab@kernel.org,
+	tfiga@chromium.org,
+	m.szyprowski@samsung.com,
+	matt.ranostay@konsulko.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Nick Dyer <nick@shmanahar.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Subject: [PATCH 33/55] input: touchscreen: atmel: Stop abusing of min_buffers_needed field
+Date: Mon, 27 Nov 2023 17:54:32 +0100
+Message-Id: <20231127165454.166373-34-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
+References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20230925163313.1.I55bfb5880d6755094a995d3ae44c13810ae98be4@changeid>
- <ZWF76ALANQwP_9b1@google.com>
-In-Reply-To: <ZWF76ALANQwP_9b1@google.com>
-From: Jonathan Denose <jdenose@chromium.org>
-Date: Mon, 27 Nov 2023 10:38:57 -0600
-Message-ID: <CALNJtpUHHaq6g0wSuyaNBxtOE9kt6vDzdAGGu6j=JJdJmerDWQ@mail.gmail.com>
-Subject: Re: [PATCH] Input: i8042 - add quirk for Lenovo ThinkPad T14 Gen 1
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org, Jonathan Denose <jdenose@google.com>, 
-	Hans de Goede <hdegoede@redhat.com>, Huacai Chen <chenhuacai@kernel.org>, 
-	Mattijs Korpershoek <mkorpershoek@baylibre.com>, Takashi Iwai <tiwai@suse.de>, 
-	Werner Sembach <wse@tuxedocomputers.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Dmitry
+'min_buffers_needed' is suppose to be used to indicate the number
+of buffers needed by DMA engine to start streaming.
+atmel touchscreen driver doesn't use DMA engine and just want to specify
+the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
+That 'min_reqbufs_allocation' field purpose so use it.
 
-On Fri, Nov 24, 2023 at 10:45=E2=80=AFPM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> Hi Jonathan,
->
-> On Mon, Sep 25, 2023 at 04:33:20PM -0500, Jonathan Denose wrote:
-> > The ThinkPad T14 Gen 1 touchpad works fine except that clicking
-> > and dragging by tapping the touchpad or depressing the touchpad
-> > do not work. Disabling PNP for controller setting discovery enables
-> > click and drag without negatively impacting other touchpad features.
->
-> I would like to understand more on how enabling PnP discovery for i8042
-> affects the touchpad. Do you see it using different interrupt or IO
-> ports? What protocol does the touchpad use with/without PnP? If the
-> protocol is the same, do you see difference in the ranges (pressure,
-> etc) reported by the device?
->
-> Thanks.
->
-> --
-> Dmitry
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+CC: Nick Dyer <nick@shmanahar.org>
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC: linux-input@vger.kernel.org
+---
+ drivers/input/touchscreen/atmel_mxt_ts.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Without PnP discovery the touchpad is using the SynPS/2 protocol, with
-PnP discovery, the touchpad is using the rmi4 protocol. Since the
-protocols are different, so are the ranges but let me know if you
-still want to see them.
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index 20094b9899f0..47f2b3aafa4d 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -2546,7 +2546,7 @@ static const struct vb2_queue mxt_queue = {
+ 	.ops = &mxt_queue_ops,
+ 	.mem_ops = &vb2_vmalloc_memops,
+ 	.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC,
+-	.min_buffers_needed = 1,
++	.min_reqbufs_allocation = 1,
+ };
+ 
+ static int mxt_vidioc_querycap(struct file *file, void *priv,
+-- 
+2.39.2
 
-Can you tell me how to check the interrupt/IO ports? I'm not sure how
-to do that.
-
-Thanks,
-Jonathan
 
