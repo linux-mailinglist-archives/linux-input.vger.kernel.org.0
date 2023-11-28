@@ -1,388 +1,263 @@
-Return-Path: <linux-input+bounces-278-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-279-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD18D7FB20B
-	for <lists+linux-input@lfdr.de>; Tue, 28 Nov 2023 07:44:43 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F217FB493
+	for <lists+linux-input@lfdr.de>; Tue, 28 Nov 2023 09:45:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1BFE4B20E53
-	for <lists+linux-input@lfdr.de>; Tue, 28 Nov 2023 06:44:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B5D7281879
+	for <lists+linux-input@lfdr.de>; Tue, 28 Nov 2023 08:45:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 602415682;
-	Tue, 28 Nov 2023 06:44:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 628A5199AF;
+	Tue, 28 Nov 2023 08:45:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HtVOSHwT"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SLRRJjWL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D0DF113
-	for <linux-input@vger.kernel.org>; Mon, 27 Nov 2023 22:44:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701153873; x=1732689873;
-  h=date:from:to:cc:subject:message-id;
-  bh=8xdCfjxcUWSqykeDbKIg/IBRzFlUO8CNiHeAhy1NS38=;
-  b=HtVOSHwTZzbUxsIpV+Y6hgw7W/QJTgyoTltJv48rwD2UGGZVV0NZ7Fhj
-   ucI+lLlt7r3S50xRhTgzrwOc14gRf28mKw5o43Lj88xLvFVTZ2sqQeSFE
-   GMC5NtqVvyJSgI/xJkFPKAMy6GxNlMgwTgqOI43otZ3E925M4T/wKdCbZ
-   zKOFwvuAxYe/9EuT4ybwWFMNPUWth59XuH3pnnxJnMeeDBfXlK/1zAUnN
-   iDArReZebMHVJqCJKsVhew77Yl2GiA0s4h2vAyKguUSBFVuQBExKrtkWw
-   5efqGaYlKe6sjg7qwg33DjCWm9n/ACnuzqVBlPXleVxM/kHp3xyQUr2EN
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="14419591"
-X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
-   d="scan'208";a="14419591"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 22:44:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="838967955"
-X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
-   d="scan'208";a="838967955"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 27 Nov 2023 22:44:31 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r7rpd-0007CN-2M;
-	Tue, 28 Nov 2023 06:44:29 +0000
-Date: Tue, 28 Nov 2023 14:43:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:for-linus] BUILD SUCCESS
- 936e4d49ecbc8c404790504386e1422b599dec39
-Message-ID: <202311281435.v2ojgQtD-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B40F10E6
+	for <linux-input@vger.kernel.org>; Tue, 28 Nov 2023 00:45:01 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1cfabcbda7bso24682155ad.0
+        for <linux-input@vger.kernel.org>; Tue, 28 Nov 2023 00:45:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1701161101; x=1701765901; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RQ8OywwOJb3LFaBwr6mMhYpmBsDcdIoX+4ygc5IgZ6U=;
+        b=SLRRJjWL9nUXo04Hq0FLqCMjg6PpRewsCugnE0Os7hG156LDM8//rXW5FTBnxRiAHC
+         32pkW9KT6Yy65WMRAjXRN+Xts/fxv9iGm0kqGUNGUhb1BNhJKxngoShxCWkifMGkrEI6
+         Ez+UcSldhdDymNXpNVg36e816neGwA/MCEMn4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701161101; x=1701765901;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RQ8OywwOJb3LFaBwr6mMhYpmBsDcdIoX+4ygc5IgZ6U=;
+        b=hKXasFdVix/gUPsfUHa0+J/7eMfA4FYX+FZQxLRjVgV1SUAaIfxZFvloTFfXHbUmyh
+         azwQGcs+cufJTuS0uDrx2LGiDkVqBCICsejVZ1+3MxbQieqrVGokbTbZ5+EdqxTRjMQD
+         7EtV3b3iMoBrGknpNigS6+/n9zljCNBElCEKp9v0P026IZBmvX0RCUB3bgmO+G+kUaM5
+         camcaPnTPXgIuVJsenXTPXsanN8bXl2mPz1zm48sw5Yb/RdMAyNMzyBpzuX4kNvJT915
+         tGQRbCsk1N3IlxHkU2SnwWFZREYGt26ACzL337qViEMwQtjitPw7Yw3nQ/Mg2VJSUsuX
+         nQmw==
+X-Gm-Message-State: AOJu0YyZrpfM4xm2/I8k+/0cTDrH5FJbNUxxwByoQNyYvkRI1HVOxoWq
+	fgOzIVny5ZINusQKyglmIplS+A==
+X-Google-Smtp-Source: AGHT+IE+ifoo8mgSxSw5S/xxmI2DMsomMPuTsaot5+xQeJxVwLn/vJiYkhRhgcbDX2yhQ4p2oAgnhg==
+X-Received: by 2002:a17:903:22c9:b0:1cf:7bf7:e648 with SMTP id y9-20020a17090322c900b001cf7bf7e648mr25962620plg.33.1701161100925;
+        Tue, 28 Nov 2023 00:45:00 -0800 (PST)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:a990:1e95:a915:9c70])
+        by smtp.gmail.com with ESMTPSA id j1-20020a170902c08100b001ab39cd875csm8358074pld.133.2023.11.28.00.44.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Nov 2023 00:45:00 -0800 (PST)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Rob Herring <robh+dt@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>,
+	Johan Hovold <johan@kernel.org>,
+	Hsin-Yi Wang <hsinyi@chromium.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	andriy.shevchenko@linux.intel.com,
+	Jiri Kosina <jikos@kernel.org>,
+	linus.walleij@linaro.org,
+	broonie@kernel.org,
+	gregkh@linuxfoundation.org,
+	hdegoede@redhat.com,
+	james.clark@arm.com,
+	james@equiv.tech,
+	keescook@chromium.org,
+	rafael@kernel.org,
+	tglx@linutronix.de,
+	Jeff LaBundy <jeff@labundy.com>,
+	linux-input@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+Subject: [RFC PATCH v3 0/5] platform/chrome: Introduce DT hardware prober
+Date: Tue, 28 Nov 2023 16:42:29 +0800
+Message-ID: <20231128084236.157152-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.43.0.rc1.413.gea7ed67945-goog
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: 936e4d49ecbc8c404790504386e1422b599dec39  Input: atkbd - skip ATKBD_CMD_GETID in translated mode
+Hi everyone,
 
-elapsed time: 2807m
+This is v3 of my "of: Introduce hardware prober driver" [1] series.
+v2 continued Doug's "of: device: Support 2nd sources of probeable but
+undiscoverable devices" [2] series, but follows the scheme suggested by Rob, marking all second
+source component device nodes as "fail-needs-probe", and having a
+hardware prober driver enable the one of them. I tried to include
+everyone from the original Cc: list. Please let me know if you would
+like to be dropped from future submissions.
 
-configs tested: 310
-configs skipped: 3
+Changes since v2:
+- Added of_changeset_update_prop_string()
+- Moved generic I2C code to the I2C core
+- Moved remaining platform specific code to platform/chrome/
+- Switched to of_node_is_available() to check if node is enabled.
+- Switched to OF changeset API to update status property
+- I2C probe helper function now accepts "struct device *dev" instead to
+  reduce line length and dereferences
+- Moved "ret = 0" to just before for_each_child_of_node(i2c_node, node)
+- Depend on rather than select CONFIG_I2C
+- Copied machine check to driver init function
+- Explicitly mentioned "device tree" or OF in driver name, description
+  and Kconfig symbol
+- Dropped filename from inside the file
+- Made loop variable size_t (instead of unsigned int as Andy asked)
+- Switched to PLATFORM_DEVID_NONE instead of raw -1
+- Switched to standard goto error path pattern in hw_prober_driver_init()
+- Dropped device class from status property
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Patches removed from v3 and saved for later:
+- of: base: Add of_device_is_fail
+- of: hw_prober: Support Chromebook SKU ID based component selection
+- dt-bindings: arm: mediatek: Remove SKU specific compatibles for Google Krane
+- arm64: dts: mediatek: mt8183-kukui: Merge Krane device trees
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                          axs103_defconfig   gcc  
-arc                                 defconfig   gcc  
-arc                         haps_hs_defconfig   gcc  
-arc                 nsimosci_hs_smp_defconfig   gcc  
-arc                   randconfig-001-20231126   gcc  
-arc                   randconfig-001-20231127   gcc  
-arc                   randconfig-002-20231126   gcc  
-arc                   randconfig-002-20231127   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                         assabet_defconfig   gcc  
-arm                        clps711x_defconfig   gcc  
-arm                                 defconfig   clang
-arm                           h3600_defconfig   gcc  
-arm                      integrator_defconfig   gcc  
-arm                         lpc18xx_defconfig   gcc  
-arm                            mmp2_defconfig   clang
-arm                       omap2plus_defconfig   gcc  
-arm                          pxa910_defconfig   gcc  
-arm                            qcom_defconfig   gcc  
-arm                   randconfig-001-20231126   clang
-arm                   randconfig-001-20231127   gcc  
-arm                   randconfig-002-20231126   clang
-arm                   randconfig-002-20231127   gcc  
-arm                   randconfig-003-20231126   clang
-arm                   randconfig-003-20231127   gcc  
-arm                   randconfig-004-20231126   clang
-arm                   randconfig-004-20231127   gcc  
-arm                        shmobile_defconfig   gcc  
-arm                        spear3xx_defconfig   clang
-arm                        spear6xx_defconfig   gcc  
-arm                           sunxi_defconfig   gcc  
-arm                           tegra_defconfig   gcc  
-arm                         vf610m4_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20231126   clang
-arm64                 randconfig-001-20231127   gcc  
-arm64                 randconfig-002-20231126   clang
-arm64                 randconfig-002-20231127   gcc  
-arm64                 randconfig-003-20231126   clang
-arm64                 randconfig-003-20231127   gcc  
-arm64                 randconfig-004-20231126   clang
-arm64                 randconfig-004-20231127   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20231126   gcc  
-csky                  randconfig-001-20231127   gcc  
-csky                  randconfig-002-20231126   gcc  
-csky                  randconfig-002-20231127   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20231126   clang
-hexagon               randconfig-002-20231126   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20231126   clang
-i386         buildonly-randconfig-002-20231126   clang
-i386         buildonly-randconfig-003-20231126   clang
-i386         buildonly-randconfig-004-20231126   clang
-i386         buildonly-randconfig-005-20231126   clang
-i386         buildonly-randconfig-006-20231126   clang
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231126   clang
-i386                  randconfig-002-20231126   clang
-i386                  randconfig-003-20231126   clang
-i386                  randconfig-004-20231126   clang
-i386                  randconfig-005-20231126   clang
-i386                  randconfig-006-20231126   clang
-i386                  randconfig-011-20231126   gcc  
-i386                  randconfig-011-20231127   clang
-i386                  randconfig-012-20231126   gcc  
-i386                  randconfig-012-20231127   clang
-i386                  randconfig-013-20231126   gcc  
-i386                  randconfig-013-20231127   clang
-i386                  randconfig-014-20231126   gcc  
-i386                  randconfig-014-20231127   clang
-i386                  randconfig-015-20231126   gcc  
-i386                  randconfig-015-20231127   clang
-i386                  randconfig-016-20231126   gcc  
-i386                  randconfig-016-20231127   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231126   gcc  
-loongarch             randconfig-001-20231127   gcc  
-loongarch             randconfig-002-20231126   gcc  
-loongarch             randconfig-002-20231127   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                       bvme6000_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                       m5249evb_defconfig   gcc  
-m68k                       m5275evb_defconfig   gcc  
-m68k                            mac_defconfig   gcc  
-m68k                        mvme147_defconfig   gcc  
-m68k                        mvme16x_defconfig   gcc  
-m68k                        stmark2_defconfig   gcc  
-m68k                           sun3_defconfig   gcc  
-m68k                           virt_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-microblaze                      mmu_defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   clang
-mips                             allyesconfig   gcc  
-mips                         bigsur_defconfig   gcc  
-mips                       bmips_be_defconfig   gcc  
-mips                  decstation_64_defconfig   gcc  
-mips                     decstation_defconfig   gcc  
-mips                           jazz_defconfig   gcc  
-mips                      loongson3_defconfig   gcc  
-mips                    maltaup_xpa_defconfig   gcc  
-mips                        omega2p_defconfig   clang
-mips                           rs90_defconfig   clang
-mips                         rt305x_defconfig   gcc  
-mips                        vocore2_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20231126   gcc  
-nios2                 randconfig-001-20231127   gcc  
-nios2                 randconfig-002-20231126   gcc  
-nios2                 randconfig-002-20231127   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                generic-32bit_defconfig   gcc  
-parisc                randconfig-001-20231126   gcc  
-parisc                randconfig-001-20231127   gcc  
-parisc                randconfig-002-20231126   gcc  
-parisc                randconfig-002-20231127   gcc  
-parisc64                            defconfig   gcc  
-powerpc                    adder875_defconfig   gcc  
-powerpc                          allmodconfig   clang
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                      bamboo_defconfig   gcc  
-powerpc                      cm5200_defconfig   gcc  
-powerpc                     ep8248e_defconfig   gcc  
-powerpc                    gamecube_defconfig   clang
-powerpc                       holly_defconfig   gcc  
-powerpc                    klondike_defconfig   gcc  
-powerpc                       maple_defconfig   gcc  
-powerpc                      mgcoge_defconfig   gcc  
-powerpc                 mpc834x_itx_defconfig   gcc  
-powerpc                 mpc836x_rdk_defconfig   clang
-powerpc                 mpc837x_rdb_defconfig   gcc  
-powerpc                      pcm030_defconfig   gcc  
-powerpc               randconfig-001-20231126   clang
-powerpc               randconfig-001-20231127   gcc  
-powerpc               randconfig-002-20231126   clang
-powerpc               randconfig-002-20231127   gcc  
-powerpc               randconfig-003-20231126   clang
-powerpc               randconfig-003-20231127   gcc  
-powerpc                    sam440ep_defconfig   gcc  
-powerpc                     stx_gp3_defconfig   gcc  
-powerpc                        warp_defconfig   gcc  
-powerpc64                        alldefconfig   gcc  
-powerpc64             randconfig-001-20231126   clang
-powerpc64             randconfig-001-20231127   gcc  
-powerpc64             randconfig-002-20231126   clang
-powerpc64             randconfig-002-20231127   gcc  
-powerpc64             randconfig-003-20231126   clang
-powerpc64             randconfig-003-20231127   gcc  
-riscv                            alldefconfig   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                    nommu_k210_defconfig   gcc  
-riscv                 randconfig-001-20231126   clang
-riscv                 randconfig-001-20231127   gcc  
-riscv                 randconfig-002-20231126   clang
-riscv                 randconfig-002-20231127   gcc  
-riscv                          rv32_defconfig   clang
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231126   gcc  
-s390                  randconfig-002-20231126   gcc  
-sh                               alldefconfig   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                        dreamcast_defconfig   gcc  
-sh                 kfr2r09-romimage_defconfig   gcc  
-sh                            migor_defconfig   gcc  
-sh                          polaris_defconfig   gcc  
-sh                          r7785rp_defconfig   gcc  
-sh                    randconfig-001-20231126   gcc  
-sh                    randconfig-001-20231127   gcc  
-sh                    randconfig-002-20231126   gcc  
-sh                    randconfig-002-20231127   gcc  
-sh                          rsk7269_defconfig   gcc  
-sh                      rts7751r2d1_defconfig   gcc  
-sh                   rts7751r2dplus_defconfig   gcc  
-sh                          sdk7786_defconfig   gcc  
-sh                           se7206_defconfig   gcc  
-sh                           se7750_defconfig   gcc  
-sh                           sh2007_defconfig   gcc  
-sh                  sh7785lcr_32bit_defconfig   gcc  
-sh                            shmin_defconfig   gcc  
-sh                             shx3_defconfig   gcc  
-sh                            titan_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc64                          alldefconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20231126   gcc  
-sparc64               randconfig-001-20231127   gcc  
-sparc64               randconfig-002-20231126   gcc  
-sparc64               randconfig-002-20231127   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20231126   clang
-um                    randconfig-001-20231127   gcc  
-um                    randconfig-002-20231126   clang
-um                    randconfig-002-20231127   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20231126   clang
-x86_64       buildonly-randconfig-001-20231127   gcc  
-x86_64       buildonly-randconfig-002-20231126   clang
-x86_64       buildonly-randconfig-002-20231127   gcc  
-x86_64       buildonly-randconfig-003-20231126   clang
-x86_64       buildonly-randconfig-003-20231127   gcc  
-x86_64       buildonly-randconfig-004-20231126   clang
-x86_64       buildonly-randconfig-004-20231127   gcc  
-x86_64       buildonly-randconfig-005-20231126   clang
-x86_64       buildonly-randconfig-005-20231127   gcc  
-x86_64       buildonly-randconfig-006-20231126   clang
-x86_64       buildonly-randconfig-006-20231127   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64                randconfig-001-20231126   gcc  
-x86_64                randconfig-002-20231126   gcc  
-x86_64                randconfig-003-20231126   gcc  
-x86_64                randconfig-004-20231126   gcc  
-x86_64                randconfig-005-20231126   gcc  
-x86_64                randconfig-006-20231126   gcc  
-x86_64                randconfig-011-20231126   clang
-x86_64                randconfig-011-20231127   gcc  
-x86_64                randconfig-012-20231126   clang
-x86_64                randconfig-012-20231127   gcc  
-x86_64                randconfig-013-20231126   clang
-x86_64                randconfig-013-20231127   gcc  
-x86_64                randconfig-014-20231126   clang
-x86_64                randconfig-014-20231127   gcc  
-x86_64                randconfig-015-20231126   clang
-x86_64                randconfig-015-20231127   gcc  
-x86_64                randconfig-016-20231126   clang
-x86_64                randconfig-016-20231127   gcc  
-x86_64                randconfig-071-20231126   clang
-x86_64                randconfig-071-20231127   gcc  
-x86_64                randconfig-072-20231126   clang
-x86_64                randconfig-072-20231127   gcc  
-x86_64                randconfig-073-20231126   clang
-x86_64                randconfig-073-20231127   gcc  
-x86_64                randconfig-074-20231126   clang
-x86_64                randconfig-074-20231127   gcc  
-x86_64                randconfig-075-20231126   clang
-x86_64                randconfig-075-20231127   gcc  
-x86_64                randconfig-076-20231126   clang
-x86_64                randconfig-076-20231127   gcc  
-x86_64                           rhel-8.3-bpf   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                           alldefconfig   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                generic_kc705_defconfig   gcc  
-xtensa                          iss_defconfig   gcc  
-xtensa                  nommu_kc705_defconfig   gcc  
-xtensa                randconfig-001-20231126   gcc  
-xtensa                randconfig-001-20231127   gcc  
-xtensa                randconfig-002-20231126   gcc  
-xtensa                randconfig-002-20231127   gcc  
-xtensa                    smp_lx200_defconfig   gcc  
+For the I2C component (touchscreens and trackpads) case from the
+original series, the hardware prober driver finds the particular
+class of device in the device tree, gets its parent I2C adapter,
+and tries to initiate a simple I2C read for each device under that
+I2C bus. When it finds one that responds, it considers that one
+present, marks it as "okay", and returns, letting the driver core
+actually probe the device.
+
+This works fine in most cases since these components are connected
+via ribbon cable and always have the same resources. The driver as
+implemented currently doesn't deal with regulators or GPIO pins,
+since in the existing device trees they are either always on for
+regulators, or have GPIO hogs or pinmux and pinconfig directly
+tied to the pin controller.
+
+The other case, selecting a display panel to use based on the SKU ID
+from the firmware, hit a bit of an issue with fixing the OF graph.
+I've left it out of v3 for now.
+
+Patch 1 adds of_changeset_update_prop_string(), as requested by Rob.
+
+Patch 2 implements probing the I2C bus for presence of components as
+a helper function in the I2C core.
+
+Patch 3 adds a ChromeOS specific DT hardware prober. This initial
+version targets the Hana Chromebooks, probing its I2C trackpads and
+touchscreens.
+
+Patch 4 modifies the Hana device tree and marks the touchscreens
+and trackpads as "fail-needs-probe", ready for the driver to probe.
+
+Patch 5 adds a missing touchscreen variant to Hana. This patch
+conflicts with another one in flight [3] that is almost the same.
+
+
+Assuming this is acceptable to folks, because there are compile
+time dependencies, I think it would be easier for the code bits
+(patches 1 through 4) to go through either the OF tree or I2C
+tree. Patches 5 and 6 can go through the soc tree via the mediatek
+tree.
+
+
+Thanks
+ChenYu
+
+
+Background as given in Doug's cover letter:
+
+Support for multiple "equivalent" sources for components (also known
+as second sourcing components) is a standard practice that helps keep
+cost down and also makes sure that if one component is unavailable due
+to a shortage that we don't need to stop production for the whole
+product.
+
+Some components are very easy to second source. eMMC, for instance, is
+fully discoverable and probable so you can stuff a wide variety of
+similar eMMC chips on your board and things will work without a hitch.
+
+Some components are more difficult to second source, specifically
+because it's difficult for software to probe what component is present
+on any given board. In cases like this software is provided
+supplementary information to help it, like a GPIO strap or a SKU ID
+programmed into an EEPROM. This helpful information can allow the
+bootloader to select a different device tree. The various different
+"SKUs" of different Chromebooks are examples of this.
+
+Some components are somewhere in between. These in-between components
+are the subject of this patch. Specifically, these components are
+easily "probeable" but not easily "discoverable".
+
+A good example of a probeable but undiscoverable device is an
+i2c-connected touchscreen or trackpad. Two separate components may be
+electrically compatible with each other and may have compatible power
+sequencing requirements but may require different software. If
+software is told about the different possible components (because it
+can't discover them), it can safely probe them to figure out which
+ones are present.
+
+On systems using device tree, if we want to tell the OS about all of
+the different components we need to list them all in the device
+tree. This leads to a problem. The multiple sources for components
+likely use the same resources (GPIOs, interrupts, regulators). If the
+OS tries to probe all of these components at the same time then it
+will detect a resource conflict and that's a fatal error.
+
+The fact that Linux can't handle these probeable but undiscoverable
+devices well has had a few consequences:
+1. In some cases, we've abandoned the idea of second sourcing
+   components for a given board, which increases cost / generates
+   manufacturing headaches.
+2. In some cases, we've been forced to add some sort of strapping /
+   EEPROM to indicate which component is present. This adds difficulty
+   to manufacturing / refurb processes.
+3. In some cases, we've managed to make things work by the skin of our
+   teeth through slightly hacky solutions. Specifically, if we remove
+   the "pinctrl" entry from the various options then it won't
+   conflict. Regulators inherently can have more than one consumer, so
+   as long as there are no GPIOs involved in power sequencing and
+   probing devices then things can work. This is how
+   "sc8280xp-lenovo-thinkpad-x13s" works and also how
+   "mt8173-elm-hana" works.
+
+End of background from Doug's cover letter.
+
+[1] https://lore.kernel.org/linux-arm-kernel/20231109100606.1245545-1-wenst@chromium.org/
+[2] https://lore.kernel.org/all/20230921102420.RFC.1.I9dddd99ccdca175e3ceb1b9fa1827df0928c5101@changeid/
+[3] https://lore.kernel.org/linux-mediatek/20231115043511.2670477-1-treapking@chromium.org/
+
+Chen-Yu Tsai (5):
+  of: dynamic: Add of_changeset_update_prop_string
+  i2c: of: Introduce component probe function
+  platform/chrome: Introduce device tree hardware prober
+  arm64: dts: mediatek: mt8173-elm-hana: Mark touchscreens and trackpads
+    as fail
+  arm64: dts: mediatek: mt8173-elm-hana: Add G2touch G7500 touchscreen
+
+ .../boot/dts/mediatek/mt8173-elm-hana.dtsi    |  20 ++++
+ drivers/i2c/i2c-core-of.c                     | 110 ++++++++++++++++++
+ drivers/of/dynamic.c                          |  47 ++++++++
+ drivers/platform/chrome/Kconfig               |  11 ++
+ drivers/platform/chrome/Makefile              |   1 +
+ .../platform/chrome/chromeos_of_hw_prober.c   |  89 ++++++++++++++
+ include/linux/i2c.h                           |   4 +
+ include/linux/of.h                            |   3 +
+ 8 files changed, 285 insertions(+)
+ create mode 100644 drivers/platform/chrome/chromeos_of_hw_prober.c
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0.rc1.413.gea7ed67945-goog
+
 
