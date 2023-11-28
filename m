@@ -1,101 +1,102 @@
-Return-Path: <linux-input+bounces-316-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-317-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77F47FC7BA
-	for <lists+linux-input@lfdr.de>; Tue, 28 Nov 2023 22:12:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64C4D7FC82D
+	for <lists+linux-input@lfdr.de>; Tue, 28 Nov 2023 22:48:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 67B82B23FF4
-	for <lists+linux-input@lfdr.de>; Tue, 28 Nov 2023 21:12:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1FCAA282857
+	for <lists+linux-input@lfdr.de>; Tue, 28 Nov 2023 21:48:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDAAE46B9B;
-	Tue, 28 Nov 2023 21:10:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iS84HzhY"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AC5144C97;
+	Tue, 28 Nov 2023 21:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB1742ABA;
-	Tue, 28 Nov 2023 21:10:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F2BDC4339A;
-	Tue, 28 Nov 2023 21:10:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701205829;
-	bh=OUs5FG7ULH224TIbE83Vh9ZuqywUndaQmOhejOrmEoE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iS84HzhYyyCiHhUtGkP4/azjAdQk4qTABoUusaqVu+yjAGix/OQtoiVZ2cVeuFtUZ
-	 0O+bbB2dU81+wbp9LyIua0l45akKiCNverj1T7NacvRgG/mYI59TOJe/yzfdUOKJWv
-	 4JAHxICn+kEjxyIulPulOapvSQAxe5iWI6HD5WtYCbIjJjXFpNb6zX7Wg+dS1Ge+kv
-	 SFN0K81PpLu1qerM51AuKkg0KU/jIqkB6oStx4TqbCl6L7txhC6w9rmEAO1lOKwOQ/
-	 KP72Sat6sXjnJjlIWDqmouvziQjAt1am2d8mC6GOv23NudrjqO0kI2HG7h9HblDHYI
-	 i5mRpuJXZdGGQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Aoba K <nexp_0x17@outlook.com>,
-	Jiri Kosina <jkosina@suse.cz>,
-	Sasha Levin <sashal@kernel.org>,
-	jikos@kernel.org,
-	benjamin.tissoires@redhat.com,
-	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 5/7] HID: multitouch: Add quirk for HONOR GLO-GXXX touchpad
-Date: Tue, 28 Nov 2023 16:10:15 -0500
-Message-ID: <20231128211018.877548-5-sashal@kernel.org>
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 225EE18E;
+	Tue, 28 Nov 2023 13:48:17 -0800 (PST)
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-58d98188dc0so1223281eaf.3;
+        Tue, 28 Nov 2023 13:48:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701208096; x=1701812896;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7VeCqj7xAWGgdqeCPC+zBx1L4TjliSLt+8rEsZfECMc=;
+        b=FLyp43fWJayG/Am1OkrLiRDjP+7ADeThTpIfogdHjRRUQwcDMiDxq3ow2qlTAqDgkh
+         xnU1bxHVumx42l5I0+HeU32t1Xj2DCPEKKCW2EqwV3batXCEmlKVDg7DJ/y2ztROte1N
+         3IrVctQ5LtHiIYVnzLZZbOOkEtTUAfpbaOJx+7Nz/7GryXquZ6wt7zUCr7C1+hOr+tio
+         6VZE4SkOLQLyvQMtv8Avf0NoY6BSlAm2Ma/61b6sEorZlpNyE60ZTz6++o/cRuBFrVTq
+         CKimgjM8BxLANkzpayZf15XSihd4ZzTFwyyZN+yrnss76a0CXSsvcm5VrMFc9U76zrrv
+         YPRg==
+X-Gm-Message-State: AOJu0YyTVZfMu+LciDWDv8EsB8mCEYCLr8EK+h6xa4o0EWHFwDpcshvH
+	RiAAXjOSC3WQFhoCDghBPiFcwiftvg==
+X-Google-Smtp-Source: AGHT+IEj1G9Dh/0hwnl1115jTQx3rIQfJdyMFm1+p5JJqV7h1qobUaiEGtlUOkF/vjtYMTxo8erufA==
+X-Received: by 2002:a05:6820:81f:b0:58d:72cb:2232 with SMTP id bg31-20020a056820081f00b0058d72cb2232mr9431652oob.6.1701208096203;
+        Tue, 28 Nov 2023 13:48:16 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id bl13-20020a056820194d00b00581fedcb06csm1987026oob.19.2023.11.28.13.48.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Nov 2023 13:48:15 -0800 (PST)
+Received: (nullmailer pid 3975858 invoked by uid 1000);
+	Tue, 28 Nov 2023 21:48:13 -0000
+From: Rob Herring <robh@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: input: sprd,sc27xx-vibrator: Drop incomplete example
+Date: Tue, 28 Nov 2023 15:48:09 -0600
+Message-ID: <20231128214809.3975719-1-robh@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231128211018.877548-1-sashal@kernel.org>
-References: <20231128211018.877548-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.14.331
 Content-Transfer-Encoding: 8bit
 
-From: Aoba K <nexp_0x17@outlook.com>
+The example for the Spreadtrum SC27xx PMIC vibrator is incomplete as the
+binding is the full PMIC, not just the sub-functions. It is preferred
+for MFD examples to be complete in the top-level MFD device binding
+rather than piecemeal in each sub-function binding.
 
-[ Upstream commit 9ffccb691adb854e7b7f3ee57fbbda12ff70533f ]
+This also fixes an undocumented (by schema) compatible warning for
+"sprd,sc2731".
 
-Honor MagicBook 13 2023 has a touchpad which do not switch to the multitouch
-mode until the input mode feature is written by the host.  The touchpad do
-report the input mode at touchpad(3), while itself working under mouse mode. As
-a workaround, it is possible to call MT_QUIRE_FORCE_GET_FEATURE to force set
-feature in mt_set_input_mode for such device.
-
-The touchpad reports as BLTP7853, which cannot retrive any useful manufacture
-information on the internel by this string at present.  As the serial number of
-the laptop is GLO-G52, while DMI info reports the laptop serial number as
-GLO-GXXX, this workaround should applied to all models which has the GLO-GXXX.
-
-Signed-off-by: Aoba K <nexp_0x17@outlook.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- drivers/hid/hid-multitouch.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../bindings/input/sprd,sc27xx-vibrator.yaml  | 19 +------------------
+ 1 file changed, 1 insertion(+), 18 deletions(-)
 
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 55b1023af31fa..2fa9013c90c82 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -1602,6 +1602,11 @@ static const struct hid_device_id mt_devices[] = {
- 		MT_USB_DEVICE(USB_VENDOR_ID_HANVON_ALT,
- 			USB_DEVICE_ID_HANVON_ALT_MULTITOUCH) },
+diff --git a/Documentation/devicetree/bindings/input/sprd,sc27xx-vibrator.yaml b/Documentation/devicetree/bindings/input/sprd,sc27xx-vibrator.yaml
+index a401a0bfcbec..4c8d303ff93c 100644
+--- a/Documentation/devicetree/bindings/input/sprd,sc27xx-vibrator.yaml
++++ b/Documentation/devicetree/bindings/input/sprd,sc27xx-vibrator.yaml
+@@ -28,21 +28,4 @@ required:
  
-+	/* HONOR GLO-GXXX panel */
-+	{ .driver_data = MT_CLS_VTL,
-+		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-+			0x347d, 0x7853) },
-+
- 	/* Ilitek dual touch panel */
- 	{  .driver_data = MT_CLS_NSMU,
- 		MT_USB_DEVICE(USB_VENDOR_ID_ILITEK,
+ additionalProperties: false
+ 
+-examples:
+-  - |
+-    #include <dt-bindings/interrupt-controller/arm-gic.h>
+-    sc2731_pmic: pmic@0 {
+-      compatible = "sprd,sc2731";
+-      reg = <0 0>;
+-      spi-max-frequency = <26000000>;
+-      interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
+-      interrupt-controller;
+-      #interrupt-cells = <2>;
+-      #address-cells = <1>;
+-      #size-cells = <0>;
+-
+-      vibrator@eb4 {
+-        compatible = "sprd,sc2731-vibrator";
+-        reg = <0xeb4>;
+-      };
+-    };
++...
 -- 
 2.42.0
 
