@@ -1,61 +1,41 @@
-Return-Path: <linux-input+bounces-335-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-336-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79B347FD8AB
-	for <lists+linux-input@lfdr.de>; Wed, 29 Nov 2023 14:52:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B52057FDB2F
+	for <lists+linux-input@lfdr.de>; Wed, 29 Nov 2023 16:25:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0BF67B213A7
-	for <lists+linux-input@lfdr.de>; Wed, 29 Nov 2023 13:52:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 90C901C20B5C
+	for <lists+linux-input@lfdr.de>; Wed, 29 Nov 2023 15:25:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91280210F0;
-	Wed, 29 Nov 2023 13:51:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DFC4374FB;
+	Wed, 29 Nov 2023 15:25:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HuuG7Tf7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QhX2ObSP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BDBBE6
-	for <linux-input@vger.kernel.org>; Wed, 29 Nov 2023 05:51:52 -0800 (PST)
-Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-50bb92811c0so929492e87.1
-        for <linux-input@vger.kernel.org>; Wed, 29 Nov 2023 05:51:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701265910; x=1701870710; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0/WsO25oVrNPSsIiQTRTA56r+srmgXJ6yKUYJL3dXxU=;
-        b=HuuG7Tf7zaHE5IiomQ84G4gfp08KZq4Rm8CUrdMwwhqxobWiN7vxGFigvfZEJ8yMZk
-         l9cJowSGUASU3Do1lwjg0vYJrfQVdZJhmNeBqdBf3rYHnAr+FrmRyvq/oMlDu1wrv5qZ
-         6bfe2Ix2CMQA7PSAWq1xU+hpojML9x+Db3jy0f1vmvD8w2+4guMmG8RMLp4lztyfRqwg
-         yCjTjNqjeuUqXOQehka2+XU1PQiT0gHDerH7/AU/0Dbf0sSImIsPsF2zUAHPCtnsqKmQ
-         3MYa71cJ9sPufJWUcxKCQWXDw0/fNG8GOp6XLyB5MkaeFpbzQGcKddKmz8qOWYe7QiT5
-         7tmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701265910; x=1701870710;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0/WsO25oVrNPSsIiQTRTA56r+srmgXJ6yKUYJL3dXxU=;
-        b=CXR6KZKv7r9CiJ6qZL7AwGmTS8ZoEpEerEvbSy5EayoHxx2YDIIp6RujzTqcWO5Pa7
-         +tu1Ns2u6vWPueau7UtWmFuxZ0z+vot59D9IXOt+l29ZjP6cRCnkbi081pWxsGFJLCTO
-         Dph708SxFcj7wbMYOmdBg6PnHbXx1FIXgEk/iVf4W8TRvpOcVbVhk5mNE9+HEsJXOU4I
-         QJNgQJvVlVqD+wVYcajypi3DoAht6Prag+API/8cnRCR8TqMbIJbDtZSvVZilt9RLVdI
-         gInMBoG6pOU621gifOdMhW4D3ckTTz0vIuUPoXvDrscpjSqUPFTlUpjGVkOypxc5VoQJ
-         ujJw==
-X-Gm-Message-State: AOJu0YxEbmTNWim/B2X92Vcq38T/LV1MYlXgGsZw/XtTxxKp9eMUKPbO
-	8aGqOuw7IWCdkb0KPZDT8/xXHGT8MMzxXETDfeo=
-X-Google-Smtp-Source: AGHT+IFVCeLnx8W6HKSTMwYGJPSCe8mFdeYYyeec+lswRttmQ9fnaE+G2h7GmlMFe82v3ymxpxF4aA==
-X-Received: by 2002:a05:6512:2812:b0:50a:a6ea:405f with SMTP id cf18-20020a056512281200b0050aa6ea405fmr6596712lfb.4.1701265910170;
-        Wed, 29 Nov 2023 05:51:50 -0800 (PST)
-Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id a28-20020ac2521c000000b0050ab88758b8sm2164280lfl.84.2023.11.29.05.51.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 05:51:49 -0800 (PST)
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 29 Nov 2023 14:51:48 +0100
-Subject: [PATCH 4/4] Input: as5011 - Convert to GPIO descriptor
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2F137146;
+	Wed, 29 Nov 2023 15:25:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 241E9C433C7;
+	Wed, 29 Nov 2023 15:24:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701271501;
+	bh=cZBkVWd4/6X6QdhqP9qGKmaGIqbyGs6bbXMaN3ewrnE=;
+	h=From:Subject:Date:To:Cc:From;
+	b=QhX2ObSP4vuiRN89P3DObSkygZj45XzBHq0O57ay8hpLuz5qJM3jzw1br1tonuGM6
+	 U4mtnbvtDNL20/7q18PRF+qQ4asBaD71fkpzgZy2BXwVGsHJqlwBJWQlcEZ5Htijr7
+	 LigfN2aX4Pd5kYkZ7GP3kIoBtkzYOJj/hd0NrTZGkE43xtz/ceqs94MWHOh3mTB+u2
+	 JgzrKS6xJR1/NJFlY/w8hS2dV6RODrdJCRCIdaAz/s6QsCPPsLmRJcEXUaA18J88cY
+	 CKXHXhYSrWEOxmo04eJHvaOGJlzuW+aesKSW8eTmH3cnq/AL6T+QqMOom0nIsGCZJZ
+	 Ntp5bte5WOf2w==
+From: Benjamin Tissoires <bentiss@kernel.org>
+Subject: [PATCH 00/12] selftests/hid: tablets fixes
+Date: Wed, 29 Nov 2023 16:24:25 +0100
+Message-Id: <20231129-wip-selftests-v1-0-ba15a1fe1b0d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -64,132 +44,70 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231129-descriptors-input-v1-4-9433162914a3@linaro.org>
-References: <20231129-descriptors-input-v1-0-9433162914a3@linaro.org>
-In-Reply-To: <20231129-descriptors-input-v1-0-9433162914a3@linaro.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Tony Lindgren <tony@atomide.com>
-Cc: linux-input@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAKlXZ2UC/x3MMQqAMAxA0atIZgtNFBWvIg5FowZEpSkqlN7d4
+ viG/yMoe2GFvojg+RaV88jAsoBpc8fKRuZsIEsVIqF55DLK+xJYgxpr0U01tWy7BnJzeV7k/X/
+ DmNIHXPFSuF8AAAA=
+To: Jiri Kosina <jikos@kernel.org>, 
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+ Shuah Khan <shuah@kernel.org>, Peter Hutterer <peter.hutterer@who-t.net>
+Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>
 X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1701271499; l=1942;
+ i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
+ bh=cZBkVWd4/6X6QdhqP9qGKmaGIqbyGs6bbXMaN3ewrnE=;
+ b=sAY39EC2SafO3vFoESZlRu2bryuijrK3ykmpRUQU/H9rmM2cLfZt1Y+vBZSgqfpI1hDW4or2b
+ kF/NgbmL04wDPW1m3dNaZx6nhX6BwGZPQ7wdd8xJUP1p+qLGRWH2DuO
+X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-This driver does not have any in-tree users but is passing a
-legacy GPIO number through platform data.
+Hi,
 
-Convert it to use a GPIO descriptor, new users or outoftree
-users can easily be implemented using GPIO descriptor tables
-or software nodes.
+the main trigger of this series was the XP-Pen issue[0].
+Basically, the tablets tests were good-ish but couldn't
+handle that tablet both in terms of emulation or in terms
+of detection of issues.
 
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+So rework the tablets test a bit to be able to include the
+XP-Pen patch later, once I have a kernel fix for it (right
+now I only have a HID-BPF fix, meaning that the test will
+fail if I include them).
+
+Also, vmtest.sh needed a little bit of care, because
+boot2container moved, and I made it easier to reuse in a CI
+environment.
+
+Cheers,
+Benjamin
+
+[0] https://lore.kernel.org/all/nycvar.YFH.7.76.2311012033290.29220@cbobk.fhfr.pm/
+
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
 ---
- drivers/input/joystick/as5011.c | 24 +++++++++++-------------
- include/linux/input/as5011.h    |  1 -
- 2 files changed, 11 insertions(+), 14 deletions(-)
+Benjamin Tissoires (12):
+      selftests/hid: vmtest.sh: update vm2c and container
+      selftests/hid: vmtest.sh: allow finer control on the build steps
+      selftests/hid: base: allow for multiple skip_if_uhdev
+      selftests/hid: tablets: remove unused class
+      selftests/hid: tablets: move the transitions to PenState
+      selftests/hid: tablets: move move_to function to PenDigitizer
+      selftests/hid: tablets: do not set invert when the eraser is used
+      selftests/hid: tablets: set initial data for tilt/twist
+      selftests/hid: tablets: add variants of states with buttons
+      selftests/hid: tablets: convert the primary button tests
+      selftests/hid: tablets: add a secondary barrel switch test
+      selftests/hid: tablets: be stricter for some transitions
 
-diff --git a/drivers/input/joystick/as5011.c b/drivers/input/joystick/as5011.c
-index bf8b1cc0ea9c..f1822c19a289 100644
---- a/drivers/input/joystick/as5011.c
-+++ b/drivers/input/joystick/as5011.c
-@@ -13,7 +13,7 @@
- #include <linux/i2c.h>
- #include <linux/interrupt.h>
- #include <linux/input.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/delay.h>
- #include <linux/input/as5011.h>
- #include <linux/slab.h>
-@@ -61,7 +61,7 @@ MODULE_LICENSE("GPL");
- struct as5011_device {
- 	struct input_dev *input_dev;
- 	struct i2c_client *i2c_client;
--	unsigned int button_gpio;
-+	struct gpio_desc *button_gpiod;
- 	unsigned int button_irq;
- 	unsigned int axis_irq;
- };
-@@ -114,7 +114,7 @@ static int as5011_i2c_read(struct i2c_client *client,
- static irqreturn_t as5011_button_interrupt(int irq, void *dev_id)
- {
- 	struct as5011_device *as5011 = dev_id;
--	int val = gpio_get_value_cansleep(as5011->button_gpio);
-+	int val = gpiod_get_value_cansleep(as5011->button_gpiod);
- 
- 	input_report_key(as5011->input_dev, BTN_JOYSTICK, !val);
- 	input_sync(as5011->input_dev);
-@@ -248,7 +248,6 @@ static int as5011_probe(struct i2c_client *client)
- 
- 	as5011->i2c_client = client;
- 	as5011->input_dev = input_dev;
--	as5011->button_gpio = plat_data->button_gpio;
- 	as5011->axis_irq = plat_data->axis_irq;
- 
- 	input_dev->name = "Austria Microsystem as5011 joystick";
-@@ -262,18 +261,20 @@ static int as5011_probe(struct i2c_client *client)
- 	input_set_abs_params(as5011->input_dev, ABS_Y,
- 		AS5011_MIN_AXIS, AS5011_MAX_AXIS, AS5011_FUZZ, AS5011_FLAT);
- 
--	error = gpio_request(as5011->button_gpio, "AS5011 button");
--	if (error < 0) {
--		dev_err(&client->dev, "Failed to request button gpio\n");
-+	as5011->button_gpiod = devm_gpiod_get(&client->dev, NULL, GPIOD_IN);
-+	if (IS_ERR(as5011->button_gpiod)) {
-+		error = PTR_ERR(as5011->button_gpiod);
-+		dev_err(&client->dev, "Failed to request button GPIO\n");
- 		goto err_free_mem;
- 	}
-+	gpiod_set_consumer_name(as5011->button_gpiod, "AS5011 button");
- 
--	irq = gpio_to_irq(as5011->button_gpio);
-+	irq = gpiod_to_irq(as5011->button_gpiod);
- 	if (irq < 0) {
- 		dev_err(&client->dev,
- 			"Failed to get irq number for button gpio\n");
- 		error = irq;
--		goto err_free_button_gpio;
-+		goto err_free_mem;
- 	}
- 
- 	as5011->button_irq = irq;
-@@ -286,7 +287,7 @@ static int as5011_probe(struct i2c_client *client)
- 	if (error < 0) {
- 		dev_err(&client->dev,
- 			"Can't allocate button irq %d\n", as5011->button_irq);
--		goto err_free_button_gpio;
-+		goto err_free_mem;
- 	}
- 
- 	error = as5011_configure_chip(as5011, plat_data);
-@@ -317,8 +318,6 @@ static int as5011_probe(struct i2c_client *client)
- 	free_irq(as5011->axis_irq, as5011);
- err_free_button_irq:
- 	free_irq(as5011->button_irq, as5011);
--err_free_button_gpio:
--	gpio_free(as5011->button_gpio);
- err_free_mem:
- 	input_free_device(input_dev);
- 	kfree(as5011);
-@@ -332,7 +331,6 @@ static void as5011_remove(struct i2c_client *client)
- 
- 	free_irq(as5011->axis_irq, as5011);
- 	free_irq(as5011->button_irq, as5011);
--	gpio_free(as5011->button_gpio);
- 
- 	input_unregister_device(as5011->input_dev);
- 	kfree(as5011);
-diff --git a/include/linux/input/as5011.h b/include/linux/input/as5011.h
-index 5fba52a56cd6..5705d5de3aea 100644
---- a/include/linux/input/as5011.h
-+++ b/include/linux/input/as5011.h
-@@ -7,7 +7,6 @@
-  */
- 
- struct as5011_platform_data {
--	unsigned int button_gpio;
- 	unsigned int axis_irq; /* irq number */
- 	unsigned long axis_irqflags;
- 	char xp, xn; /* threshold for x axis */
+ tools/testing/selftests/hid/tests/base.py        |   3 +-
+ tools/testing/selftests/hid/tests/test_tablet.py | 727 ++++++++++++++++-------
+ tools/testing/selftests/hid/vmtest.sh            |  46 +-
+ 3 files changed, 525 insertions(+), 251 deletions(-)
+---
+base-commit: 4ea4ed22b57846facd9cb4af5f67cb7bd2792cf3
+change-id: 20231121-wip-selftests-001ac427e086
 
+Best regards,
 -- 
-2.34.1
+Benjamin Tissoires <bentiss@kernel.org>
 
 
