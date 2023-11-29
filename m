@@ -1,60 +1,60 @@
-Return-Path: <linux-input+bounces-323-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-324-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B3857FD0D4
-	for <lists+linux-input@lfdr.de>; Wed, 29 Nov 2023 09:29:55 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69FDE7FD0DD
+	for <lists+linux-input@lfdr.de>; Wed, 29 Nov 2023 09:30:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BCF191C20C8B
-	for <lists+linux-input@lfdr.de>; Wed, 29 Nov 2023 08:29:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 26912282775
+	for <lists+linux-input@lfdr.de>; Wed, 29 Nov 2023 08:30:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E8E7125C8;
-	Wed, 29 Nov 2023 08:29:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE5AD125C8;
+	Wed, 29 Nov 2023 08:30:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZssTQcba"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LLh2RVO/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73F941BFA
-	for <linux-input@vger.kernel.org>; Wed, 29 Nov 2023 00:29:30 -0800 (PST)
-Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-548f0b7ab11so8562260a12.1
-        for <linux-input@vger.kernel.org>; Wed, 29 Nov 2023 00:29:30 -0800 (PST)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EC1430F4
+	for <linux-input@vger.kernel.org>; Wed, 29 Nov 2023 00:30:06 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-5488bf9e193so8716285a12.2
+        for <linux-input@vger.kernel.org>; Wed, 29 Nov 2023 00:30:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701246569; x=1701851369; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1701246604; x=1701851404; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=h5/n7/2j+le0n0ii3nybOlnJwwNlhKzL/VsjeohpXH4=;
-        b=ZssTQcba3td1jG25DLNYKAzL2bHDaYX0l3eXN9Si5rZBroqHVmf81HZTrCe8/lsEsX
-         FhO1dW2yMZ/wQJo+y8RoYwQaToHwtoG9cNuEUMN2cIh2KSkaeCvgs/quMvfR7nM9oWh2
-         eVrb45SQ0YKhOV2qSYisLKYmqXUbAI5mdpyS5EEPFAJGLhrMHHS3eD7p7bAh0w9gZ3CI
-         Yod/sKjFzICCfsh4cTzDb6rN0HmY8KYEtTXUsIgO/ugTznKkiqSZabe/pDa/D8lb77fR
-         4FjbFR6oXq5qqlXiO4JGWx2N/1cl7goVrdtlj1094X1Au+Fc6eA2oduxb09uVgGWfncR
-         VcXw==
+        bh=cIkKt9PK0AODZiRUbqHHzxny5OFXvxPC67ADE16OqfU=;
+        b=LLh2RVO/lV7RNvQo+Mfh4fZM104AdQWLRe85LWfUX8tjgl+k5tGLGMUCGhGXMMxbf4
+         IOS3y+fS1uGXtBjJVxwi+LVzxv+l+mr5t6kHTLqBcD2xS7jTbocNsgy3FemBSRvcFjGp
+         Ini9rFFYahT18f7zETPiAY+b6hjtcZPkC/5LE03ZI13oJK0uzosI7TnuNbF0Ok49RlHP
+         XiNpFAnpRwGGc6ePgpbIfhPpWEoA4UVDI2hB1XLJlb7DByySLbWkOaDxgk8mPuHXhRdl
+         mWUSdT1h7QpdfsyXsTSERZvh4qYmkRfkUYAWPv5/4hDHm4PS8gqrqdzA8FKeX71NE1li
+         YHWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701246569; x=1701851369;
+        d=1e100.net; s=20230601; t=1701246604; x=1701851404;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h5/n7/2j+le0n0ii3nybOlnJwwNlhKzL/VsjeohpXH4=;
-        b=G6MLnpO8gv0Y0t0UMrPCtOdkBE8bxi0m0PU93/rk+/opz2rziGhJSu/+/E6YE6MvWW
-         i74WLtCHAw4viaGUf47/Ex8p4G3N4yE3n2VfjI0Bj8yVG20OkCLiXnB1eHJ98/meq1J8
-         KVC6kNtmHbTQ+vgHD6v1RY2j620821RhiKMFuyvsfv7Wgr5CK3j6FGDecvTgaPhGiN3h
-         42DCepsYU9tDzFYDsm/fCgAxC0vVAw9q5EoE0NwTRXNkZg7zAf+1Krpxy9VcKHtwTmNM
-         vnPBUZqhRqDgkV4naixenQ77H5jCBj/27lzJOnwhoEIs8CETYrf6jJgrpk/Mpynt8bEO
-         2XEg==
-X-Gm-Message-State: AOJu0YzlvrT/QqXNwTq6DnGsbvnJq7sJl263u0aMgv/nJvN3koasQm36
-	Vy6ZzY4CCpIH2OfgSfk7eoUu0g==
-X-Google-Smtp-Source: AGHT+IERsLez/Xv+WTv797ECd/PRTl/73WaQWRaC3FxYuN40SD1k431+XtOMj9wL6CrV8DBy+jn6Gw==
-X-Received: by 2002:aa7:d5c1:0:b0:54b:3edc:194 with SMTP id d1-20020aa7d5c1000000b0054b3edc0194mr7472436eds.26.1701246568984;
-        Wed, 29 Nov 2023 00:29:28 -0800 (PST)
+        bh=cIkKt9PK0AODZiRUbqHHzxny5OFXvxPC67ADE16OqfU=;
+        b=ds6JS0DGi2hxbLYxUXFTpD32ucjycKnNQZ++JqVgvlqSh1VNeyg5pRiNASahHvyHoG
+         Sn+tAHRVdSp6Ymy7cBrD6MlXVTczhv2oDRatbAUo7iSxfBYKNFVrvurmKW8eQNu3IL/f
+         TNVeT5VvMcnJ8Cff/zFhoXBzgdgK0bEwmixuN0lyh3MXqsa9m00UW5LP6PYzbtynLbyZ
+         t2dWdtdyHlDvUBTPZDGFl3GBhv5EjBQqxQDppE2OER+wrBLvnkV/g3d0VKnnhxYkX4hU
+         GFek5JeMWjJkwMcnGFdqAExba4VwQzFvsIRtgbd7W/7CHc83XF8sYgrOJ/YBPg6NQ0OZ
+         H5pQ==
+X-Gm-Message-State: AOJu0YxfhLe8NPsx5I2DRgrMGzAEjakc86HQaKPqiRW2MeF7fdr/FE8t
+	JyoIDu0JTgMpVocdakf6+S1EZg==
+X-Google-Smtp-Source: AGHT+IGllvGedGMRk4HyrzVz4iCL3jN/Uw9BUuNQNRJKHZDIycDMuR8lTfMv9uj1z4vwQ7gQLYK7HA==
+X-Received: by 2002:a50:c102:0:b0:54b:2af0:dee2 with SMTP id l2-20020a50c102000000b0054b2af0dee2mr9339750edf.4.1701246604323;
+        Wed, 29 Nov 2023 00:30:04 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.109])
-        by smtp.gmail.com with ESMTPSA id b9-20020a056402350900b0054b7e312b97sm2519566edd.38.2023.11.29.00.29.27
+        by smtp.gmail.com with ESMTPSA id b9-20020a056402350900b0054b7e312b97sm2519566edd.38.2023.11.29.00.30.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 00:29:28 -0800 (PST)
-Message-ID: <69565d9a-a517-4170-99d6-45fdf749450b@linaro.org>
-Date: Wed, 29 Nov 2023 09:29:27 +0100
+        Wed, 29 Nov 2023 00:30:03 -0800 (PST)
+Message-ID: <416c49da-aa19-4329-be28-6544bb9a1738@linaro.org>
+Date: Wed, 29 Nov 2023 09:30:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -62,20 +62,18 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: input: mediatek,pmic-keys: Drop incomplete
+Subject: Re: [PATCH] dt-bindings: input: sprd,sc27xx-vibrator: Drop incomplete
  example
 Content-Language: en-US
 To: Rob Herring <robh@kernel.org>, Dmitry Torokhov
  <dmitry.torokhov@gmail.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Chen Zhong <chen.zhong@mediatek.com>
+ Conor Dooley <conor+dt@kernel.org>, Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>
 Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
-References: <20231128214816.3975893-1-robh@kernel.org>
+ linux-kernel@vger.kernel.org
+References: <20231128214809.3975719-1-robh@kernel.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -121,18 +119,18 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231128214816.3975893-1-robh@kernel.org>
+In-Reply-To: <20231128214809.3975719-1-robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 28/11/2023 22:48, Rob Herring wrote:
-> The example for the Mediatek PMIC keys is incomplete as the binding is
-> the full PMIC, not just the sub-functions. It is preferred for MFD
-> examples to be complete in the top-level MFD device binding rather than
-> piecemeal in each sub-function binding.
+> The example for the Spreadtrum SC27xx PMIC vibrator is incomplete as the
+> binding is the full PMIC, not just the sub-functions. It is preferred
+> for MFD examples to be complete in the top-level MFD device binding
+> rather than piecemeal in each sub-function binding.
 > 
 > This also fixes an undocumented (by schema) compatible warning for
-> "mediatek,mt6397".
+> "sprd,sc2731".
 > 
 > Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
