@@ -1,60 +1,115 @@
-Return-Path: <linux-input+bounces-356-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-357-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF1D47FEEB2
-	for <lists+linux-input@lfdr.de>; Thu, 30 Nov 2023 13:15:51 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A337FFBD6
+	for <lists+linux-input@lfdr.de>; Thu, 30 Nov 2023 20:56:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 356E01C20B10
-	for <lists+linux-input@lfdr.de>; Thu, 30 Nov 2023 12:15:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB130281995
+	for <lists+linux-input@lfdr.de>; Thu, 30 Nov 2023 19:56:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A60045949;
-	Thu, 30 Nov 2023 12:15:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A073537ED;
+	Thu, 30 Nov 2023 19:56:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=atomide.com header.i=@atomide.com header.b="b6vcnrzh"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Pyc5AnrN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEA6CD46
-	for <linux-input@vger.kernel.org>; Thu, 30 Nov 2023 04:15:45 -0800 (PST)
-Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
-	by mail5.25mail.st (Postfix) with ESMTPSA id C249A60513;
-	Thu, 30 Nov 2023 12:15:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
-	s=25mailst; t=1701346545;
-	bh=Xcv7BSUEDf312JviWiQadR3dOJXljJO+faF18GGsn2w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b6vcnrzh+ptm06btotfIhiCuBM+EEJ11byn9loKKbPOCH+YV9LmJwA4HSFgNCSNAH
-	 ZEcgHJSsgmJQJ7kkeew3DhTdqD3h2rKqlyTEiZUREFBN+txp5B90178kjlgUnknodz
-	 D70f7nItfTvokyY+xtp4g0IyotkL2yh9zSuEa+pkoVDn/JoTkA6UabU6an300jx/Hk
-	 8pFWKjj1pu6qEM/WCRk/22EYKmRpw/BzsZOrF7iWWJphuNSE5lDvuXO7/khZ18wRNR
-	 vJdbqGcZz5+KK9CpnH4QVBse63EgUtIOteTHQQjPNGwcQAopV70izyh81gT3TZHqCt
-	 ttYJ0JZ2Ihs6g==
-Date: Thu, 30 Nov 2023 14:15:36 +0200
-From: Tony Lindgren <tony@atomide.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org
-Subject: Re: [PATCH 3/4] Input: omap-keypad - Drop optional GPIO support
-Message-ID: <20231130121536.GR5166@atomide.com>
-References: <20231129-descriptors-input-v1-0-9433162914a3@linaro.org>
- <20231129-descriptors-input-v1-3-9433162914a3@linaro.org>
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D760DD
+	for <linux-input@vger.kernel.org>; Thu, 30 Nov 2023 11:56:36 -0800 (PST)
+Received: by mail-yb1-xb2b.google.com with SMTP id 3f1490d57ef6-da3b4b7c6bdso1262909276.2
+        for <linux-input@vger.kernel.org>; Thu, 30 Nov 2023 11:56:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1701374195; x=1701978995; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1ylcdNyt/KgUOR07ZWWJkcl4KatMQeoh7FaMP2m7i8c=;
+        b=Pyc5AnrNfKBSmzjlMHMk6HGki80P0UphIlXxWoSQ7dKgwdElDeE40x82eryEHct3JZ
+         qPWtB7g+HlWeY6q2zVZ0qkeiyHrzZExYReGMu3aKEqxOyflrkBTTLIl8ohYBovnJyI7N
+         cGupptA7UTgerChxc495dD0abjr12IN5F6m6I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701374195; x=1701978995;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1ylcdNyt/KgUOR07ZWWJkcl4KatMQeoh7FaMP2m7i8c=;
+        b=dr/JiqW2q3QByA/YZmkaQm5emXcKpVQ/fpRNCAfJZqE7JibFGfotr+WW9WJbOzIRpg
+         wpFKgmeC+dMdNF0yFv+JShtqvrtLp8DViFDA0vb8HJ0MPs9uI9KlNMpsx/wWp0egt8mI
+         uyOAvwSmB/6kc97Juzt2HYSUQDiWO1QaAlXvPr20LtBBHEiFUn/djPFu5RpNNHRmfC8V
+         YFXmlG81IiizSx9ejxadGsUnXmlzshfPLhT3PDsZPyMpMM46Z42aJ92pGljO6XIs8xXX
+         6nBttdBKKzJLsqzqaa1fudwWnVub2rL2t3ixEy95vGJemNt2blgoRb/81AfeWZT6y52l
+         6Ewg==
+X-Gm-Message-State: AOJu0YzyGPwMrk0YUsCLIXSvTUTzNxHhBzAHhjzt7em+Zy/zj+DVy3oP
+	CcaFk5Ucw7Bvi3HH3AHZbn4i8w==
+X-Google-Smtp-Source: AGHT+IEkuCKfvEd40usAvYx3mzY4LjwGa+9w3CAhq7hGzQiQ4JddG3l9cvrLwAGDY9oCbg8YNLpnRg==
+X-Received: by 2002:a5b:a52:0:b0:db5:d88:d463 with SMTP id z18-20020a5b0a52000000b00db50d88d463mr8689641ybq.51.1701374195338;
+        Thu, 30 Nov 2023 11:56:35 -0800 (PST)
+Received: from localhost (55.87.194.35.bc.googleusercontent.com. [35.194.87.55])
+        by smtp.gmail.com with UTF8SMTPSA id c15-20020a0ce14f000000b0067a39a44ca5sm769778qvl.77.2023.11.30.11.56.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Nov 2023 11:56:34 -0800 (PST)
+From: Esther Shimanovich <eshimanovich@chromium.org>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: linux-input@vger.kernel.org,
+	Esther Shimanovich <eshimanovich@chromium.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jonathan Denose <jdenose@chromium.org>,
+	Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+	Werner Sembach <wse@tuxedocomputers.com>
+Subject: [PATCH v2] Input: i8042 - add nomux quirk for Acer P459-G2-M
+Date: Thu, 30 Nov 2023 19:56:19 +0000
+Message-ID: <20231130195615.v2.1.Ibe78a9df97ecd18dc227a5cff67d3029631d9c11@changeid>
+X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231129-descriptors-input-v1-3-9433162914a3@linaro.org>
+Content-Transfer-Encoding: 8bit
 
-* Linus Walleij <linus.walleij@linaro.org> [231129 13:51]:
-> Remove the support for these unused GPIOs, if need be support can
-> be reestablished in an organized fashion using GPIO descriptors.
+After the laptop lid is opened, and the device resumes from S3 deep
+sleep, if the user presses a keyboard key while the screen is still black,
+the mouse and keyboard become unusable.
 
-Sounds good to me:
+Enabling this quirk prevents this behavior from occurring.
 
-Reviewed-by: Tony Lindgren <tony@atomide.com>
+Signed-off-by: Esther Shimanovich <eshimanovich@chromium.org>
+---
+Hello! Thanks for the prompt response. I had previously tried the
+i8042.nomux=1 quirk which didn't seem to work. But I was trying it
+together with other quirks, which may have changed the behavior.
+When I applied the nomux quirk to the driver, that did fix the bug
+on my device. Submitting the new patch!
+
+Changes in v2:
+- change noloop to nomux
+
+ drivers/input/serio/i8042-acpipnpio.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
+index 028e45bd050bf..612c4e3427cef 100644
+--- a/drivers/input/serio/i8042-acpipnpio.h
++++ b/drivers/input/serio/i8042-acpipnpio.h
+@@ -360,6 +360,14 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
+ 		},
+ 		.driver_data = (void *)(SERIO_QUIRK_DRITEK)
+ 	},
++	{
++		/* Acer TravelMate P459-G2-M */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "TravelMate P459-G2-M"),
++		},
++		.driver_data = (void *)(SERIO_QUIRK_NOMUX)
++	},
+ 	{
+ 		/* Amoi M636/A737 */
+ 		.matches = {
+-- 
+2.43.0.rc2.451.g8631bc7472-goog
+
 
