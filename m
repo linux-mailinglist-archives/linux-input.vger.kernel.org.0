@@ -1,303 +1,194 @@
-Return-Path: <linux-input+bounces-375-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-376-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC8D88014A7
-	for <lists+linux-input@lfdr.de>; Fri,  1 Dec 2023 21:40:08 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71FC280179F
+	for <lists+linux-input@lfdr.de>; Sat,  2 Dec 2023 00:25:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 92349281D77
-	for <lists+linux-input@lfdr.de>; Fri,  1 Dec 2023 20:40:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 25CF91F21117
+	for <lists+linux-input@lfdr.de>; Fri,  1 Dec 2023 23:25:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3478658AD0;
-	Fri,  1 Dec 2023 20:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F3674EB3B;
+	Fri,  1 Dec 2023 23:25:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mzD2/1X2"
+	dkim=pass (1024-bit key) header.d=vmware.com header.i=@vmware.com header.b="GhvMrELa"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDD37F1
-	for <linux-input@vger.kernel.org>; Fri,  1 Dec 2023 12:40:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701463203; x=1732999203;
-  h=date:from:to:cc:subject:message-id;
-  bh=G5USPxcyN6M/oGhjZuxZVF9bQWdUDr0XULvLC8lTyq4=;
-  b=mzD2/1X2cF9ygHiBjDNf112DjaxassVwc1SD6NTDCboeVinWcGniOIe3
-   BngcFZ6n39h03mmUJRmnvx2/Lu9RtbFYAFrt1QSkMgTHvNGg2mQ/JAPeB
-   0m+u8XSgSF5M16imLZiyNUn1vjro2OlKReuqK5FwBzgyMhdfdOd/ey5Dh
-   AFWJ2qc3M7W78gmerpKfvLOuSjyuL7SPxkGhJqr3VJx1VMSrqoTG4ZnNt
-   mEi9TJPRblnzo0RJQkaW+VRsNmsIXFiYMbpH7KFUbV6b4jHIYhIqvKhE9
-   vJrN2qsylQrlqYgdcd9l51EpKMODxXaaVgSulHCNz958c45cpk+W4P0Oe
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="460041727"
-X-IronPort-AV: E=Sophos;i="6.04,242,1695711600"; 
-   d="scan'208";a="460041727"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 12:40:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="840303670"
-X-IronPort-AV: E=Sophos;i="6.04,242,1695711600"; 
-   d="scan'208";a="840303670"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 01 Dec 2023 12:40:02 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r9AIp-0004GW-1S;
-	Fri, 01 Dec 2023 20:39:59 +0000
-Date: Sat, 02 Dec 2023 04:39:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Subject: [dtor-input:for-linus] BUILD SUCCESS
- 335fe00319e030d481a54d5e0e68d50c5e672c0e
-Message-ID: <202312020437.HuqbUG8E-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Received: from MW2PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012013.outbound.protection.outlook.com [52.101.48.13])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF7B3C1;
+	Fri,  1 Dec 2023 15:25:24 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UA3zUv7HWR9u9TQP32ZcK7zMfPes4As9ZhSv9aweEMgOOQY16YfaKPqQp1f65UrdH2FVASShcDb3sV65wXBoD4XDNzh2JVL8hbwCUldQQvqBq3nGkKm3y1jTA4XVkorP06LvrvJ5WPi0bN43VIxQOG+1/+5mnGJFDBGbUWTEbDXD1Xk9+fy9mI/gUosPbK6Whe0tAE/PCNU8XH+/ar36/3BTXGcctJhoAjk7f+ZW80HYq9nun64sGUIOHwJPAlr8Z/esNLk4jsEyMW6FjgdUbsvzQEbZbHwZJudDBJjwGsW5hDuod44x5DG9JB6ihEtHsIn+JU3OGa3XWi1ncN0HTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TPOUHCXmygdEkzbrmdAnw2+yVj7EiUemlaEy4umZI+Q=;
+ b=l8Y7StJtIqtlp5OEF3xd1QfsBohSV1Ev5/3fT9W0KimF12h1uEn/+bHgwQzgTynM/ZEJZqzyN9Dyz+/G4grL/3nK2hDwrKawZLzi5HfdnbxLru9TEOZoqzhPfU9PVYEHu95YBv3m9Z21Pnnu1gmczKZemstpUSgMjmy/kGAHRYA0WUTm8BH8sPQ/giBPP0ZT4VkdjpTiBddgN036oClMV40jj2efeMoaVjL64Ul0R/zJxKhf+0qVY63KiNiiDjXMZ+atVvHDJGzRkSEbR8pam6nvxemTQRfPGBkSAiQZvAVQ3WmWpgUERllUveOTPw8jC1lL9k7M2e+KgAVl/CHOow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TPOUHCXmygdEkzbrmdAnw2+yVj7EiUemlaEy4umZI+Q=;
+ b=GhvMrELaFJqzIxc73ouqq11bWg38OCitMHjAkDCshrcFXW1vgj5SMn9RhqaJMRilKXevXgaHF58fUpEJdgd3gmyKfd2/2uvseB84zTJtFeocl4WXFMg2YMrq4ttLr/DUQGNL/LkTtYaESadqF8kjIedq8oEd978LvwG8gluAlQM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+Received: from MWHPR05MB3648.namprd05.prod.outlook.com (2603:10b6:301:45::23)
+ by SJ0PR05MB7787.namprd05.prod.outlook.com (2603:10b6:a03:2e4::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.27; Fri, 1 Dec
+ 2023 23:25:05 +0000
+Received: from MWHPR05MB3648.namprd05.prod.outlook.com
+ ([fe80::10f0:590a:708:4ad7]) by MWHPR05MB3648.namprd05.prod.outlook.com
+ ([fe80::10f0:590a:708:4ad7%2]) with mapi id 15.20.7025.021; Fri, 1 Dec 2023
+ 23:25:05 +0000
+From: Alexey Makhalov <amakhalov@vmware.com>
+To: linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	hpa@zytor.com,
+	dave.hansen@linux.intel.co,
+	bp@alien8.d,
+	mingo@redhat.com,
+	tglx@linutronix.de
+Cc: x86@kernel.org,
+	netdev@vger.kernel.org,
+	richardcochran@gmail.com,
+	linux-input@vger.kernel.org,
+	dmitry.torokhov@gmail.com,
+	zackr@vmware.com,
+	linux-graphics-maintainer@vmware.com,
+	pv-drivers@vmware.com,
+	namit@vmware.com,
+	timothym@vmware.com,
+	akaher@vmware.com,
+	jsipek@vmware.com,
+	dri-devel@lists.freedesktop.org,
+	daniel@ffwll.ch,
+	airlied@gmail.com,
+	tzimmermann@suse.de,
+	mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com,
+	horms@kernel.org
+Subject: [PATCH v2 0/6] VMware hypercalls enhancements
+Date: Fri,  1 Dec 2023 15:24:46 -0800
+Message-Id: <20231201232452.220355-1-amakhalov@vmware.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231122233058.185601-8-amakhalov@vmware.com>
+References: <20231122233058.185601-8-amakhalov@vmware.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ2PR07CA0017.namprd07.prod.outlook.com
+ (2603:10b6:a03:505::17) To MWHPR05MB3648.namprd05.prod.outlook.com
+ (2603:10b6:301:45::23)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWHPR05MB3648:EE_|SJ0PR05MB7787:EE_
+X-MS-Office365-Filtering-Correlation-Id: 94d14b7a-8f5f-41bb-db8d-08dbf2c4bfdd
+X-LD-Processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtFwd,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	CLVZ8PYbeLz95BcxaydHAqYHwbZV4LJcSaiR5+V1CktXh8Rb0OMmiorBCXn7ZinfMbVdesWunbMYDEg3yZ6/dB1ZwxcKiJpiuUZPG4eWcPAnyBkyof2Ur/w/9//P4iYc08emgzVjSjYBDyyKKBO6LsDHT4oQhVCFJ7G3IbwUtqGnQyYfSunAPzZcIbic/bEwXpJcFy2LLdAduvL0MxS2ervv69VHkdf8FaN0Go10M75/9a4K2iNYhl30CA3lRhGyIcsYPvUrdaovpVuE22xMtEg+lb18Xvb0FPGotzzE8IscdZanHaERTFKmWcw4L3jgo4GSLX1CwiEtGo3Tcxh+AzS4gUqCZCjC62pUi82lXdp3voPt8P7brLKcEdAoYs+uA+ZxjqvJgl5tgWhIIlx0GPsTzyaI7MeYL4RxPD0m/C3mDvclfAmL1nVx+3H/sRyBJs9Um3BBYOl9JPzPSPcQi1klH2jsD99Dej0lorAjMSCgoRRjH+dDLRxgosQqcPfT+PwxUqG/GzxtizFpmKR96UAuXGW5FtloGQyeQEeQhiqklp9KVdBLgxNh+FusgdLLoz5ByMsPZr5CjL2VkIJDeN7PkD3+gRRfR+jpgqnwYgjT3l/08xxAeVNUI1xXKEAlz28pKImjnm2b4TNtY8xEBdEhTL+IlhtPGSDhnuboLvk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR05MB3648.namprd05.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(366004)(376002)(396003)(136003)(230922051799003)(451199024)(186009)(1800799012)(64100799003)(36756003)(8936002)(316002)(66556008)(66946007)(66476007)(8676002)(4326008)(478600001)(6486002)(41300700001)(2906002)(7416002)(86362001)(5660300002)(38350700005)(38100700002)(2616005)(26005)(1076003)(6666004)(6506007)(52116002)(83380400001)(6512007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?gkMa84Ovp5lQeKp0m8DV9hjB5kQWKAUucqztCfGGmAwLBCE5cOF7mcx+Ar8D?=
+ =?us-ascii?Q?5/xSEGkFOi0LWYa4PbKRilZcOCizHVsvPSHoESFnv5bn+vboxgG77CyLHMc4?=
+ =?us-ascii?Q?qP912ez+K+akUeYry50SFIuLb+B7+e16oUkHbCSe93D8eCpU0QobDVA3ijRk?=
+ =?us-ascii?Q?xlc1btpbgjnhNTsFLQ8DC0Xty3zNNO8vCxER0EZN/6WjwzPyxteKT9DQrWMe?=
+ =?us-ascii?Q?mAPJxJZ3tjDibkPM2Zr5n7yHXd9VVV5OOOlWN3IVGe+Mm7i+meAVL8Ta5F4d?=
+ =?us-ascii?Q?Sx9n3fiQ2KPF/am0qq5tiHstplY8BdizjQZt9ft2AjuCtV5OviKxAZ+U1hzp?=
+ =?us-ascii?Q?bgGa3RcNB3RiTumEaejkMJGyKmoUbQaxm+2zrBBW12Y94Axa8NufkPwZObuh?=
+ =?us-ascii?Q?i0XIPpo2e1nyPbNvHoJf8H4Xig9SV05Yzp3FBr6Zr/o9zOAr0IVwJ1hHl2iY?=
+ =?us-ascii?Q?D6zujunRE5vK2lwDPl+NwV8ZWEIHMIw23kEEiHUJUfu/UCM51aGGFbr53ypm?=
+ =?us-ascii?Q?rUBZ8Dn2V4AQergTFd3u54H0UGIV5nt+VM9z7DgSak5pRrvCBVk9Ch/qQImT?=
+ =?us-ascii?Q?190jvFciNmwEMgKzQgIlBGADOBXetKT+7RHCnRUrVneLoK+AFM4z2diSxM+7?=
+ =?us-ascii?Q?5dq7klrP2bbjQKgrbO8uGYpJYhAfQQbXpOS9mN+qTrD9aJNeoTRLLTlBZ75X?=
+ =?us-ascii?Q?6Uzbd/qJqe3g+I+oESOIN5sLY7yKBib5MjWzK6dKhpbkjNAo0+Yej8vocVT3?=
+ =?us-ascii?Q?21p7bGbfmGfYvlbl9PD3wq2zrWOtRo0ONv/PJoVQsaVO7to8w3Eb9qCdNmuu?=
+ =?us-ascii?Q?REdga77Z8v7XZwn5lqONC7K6jvqPHov/+7aE87nWqT8I9TDQeNHyyp/+X2dV?=
+ =?us-ascii?Q?VHIxuYMICo/kG2hu2lsN8+vvuhj62/plVa1zKbrO5tdUBjkWPAdxfiKb0ooG?=
+ =?us-ascii?Q?7DiN9THp5S6KbK5CNpkPG1qK74LW/OfUq9+XzEU6X41rbypP5tcnE2qbZ2Hf?=
+ =?us-ascii?Q?wfllGEc2iTghVDppvMw/gEKbtxPG1FoRaR/1EPxsr0tHfZYRoJDRsHg/2dXB?=
+ =?us-ascii?Q?XAZopEc9p9EcXkvKJbGZmkdC2PYwh1jFa5HKKCEMOOqMcRRG/JQcHxcT3JIL?=
+ =?us-ascii?Q?XS1gCOccdJZhCC7W9D/LLToBopWlJ7nBI5LP5T9jPh5UrECQa+4ZX6AIQL4x?=
+ =?us-ascii?Q?uvhwSQkXIFWQFEHg7VQFS0QKYoTMUiAeBnWa0WMt17h7f2nNZZG9aUBTY2+q?=
+ =?us-ascii?Q?P2XTKkeRKNb00etg4RQoL2NLq9PeAFXnIvqoCCEcgMXMX+/E3E3/bxSAmQXU?=
+ =?us-ascii?Q?ihAareH7EHviv98S3VarfQpkmco6Yk3SdOarp2igrVXrzGBEMTuOyyLWppfS?=
+ =?us-ascii?Q?KmK0zymGKPCQRX+tG/qmm4abaKwi9amBpWz6IYl0+5yz6nQgug7Vf70iJJlf?=
+ =?us-ascii?Q?HGsSaduCaDOJmb9Jua8+MlRatmJZnF5wa7k/QaCghLbQeRbllE2VaD+SMm01?=
+ =?us-ascii?Q?aALvpW3hERl/HuYil0pGlxU1wp8kVumAPnQHM6fXiTSedYLT2MuyJRm3LjiR?=
+ =?us-ascii?Q?LdSn4aAMw5Vle1PstdXmUDvSXd9yRMh0hskDaRd7?=
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 94d14b7a-8f5f-41bb-db8d-08dbf2c4bfdd
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR05MB3648.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2023 23:25:05.4332
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7+L/jgdkMy6B5UOMCuEuNFYZnGiRA1JerU9ZOYrpgB95DqpZfedG0tthOYp26eVH+kC10PCcBfWJ+FUnMIVn7w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR05MB7787
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: 335fe00319e030d481a54d5e0e68d50c5e672c0e  Input: i8042 - add nomux quirk for Acer P459-G2-M
+From: Alexey Makhalov <alexey.amakhalov@broadcom.com>
 
-elapsed time: 1459m
+VMware hypercalls invocations were all spread out across the kernel
+implementing same ABI as in-place asm-inline. With encrypted memory
+and confidential computing it became harder to maintain every changes
+in these hypercall implementations.
 
-configs tested: 225
-configs skipped: 2
+Intention of this patchset is to introduce arch independent VMware
+hypercall API layer other subsystems such as device drivers can call
+to, while hiding architecture specific implementation behind.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Second patch introduces the vmware_hypercall low and high bandwidth
+families of functions, with little enhancements there.
+Sixth patch adds tdx hypercall support
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                            hsdk_defconfig   gcc  
-arc                   randconfig-001-20231201   gcc  
-arc                   randconfig-002-20231201   gcc  
-arc                           tb10x_defconfig   gcc  
-arc                        vdk_hs38_defconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                         bcm2835_defconfig   clang
-arm                                 defconfig   clang
-arm                         orion5x_defconfig   clang
-arm                   randconfig-001-20231201   gcc  
-arm                   randconfig-002-20231201   gcc  
-arm                   randconfig-003-20231201   gcc  
-arm                   randconfig-004-20231201   gcc  
-arm                        realview_defconfig   gcc  
-arm                        spear6xx_defconfig   gcc  
-arm                           spitz_defconfig   clang
-arm                    vt8500_v6_v7_defconfig   clang
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20231201   gcc  
-arm64                 randconfig-002-20231201   gcc  
-arm64                 randconfig-003-20231201   gcc  
-arm64                 randconfig-004-20231201   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20231201   gcc  
-csky                  randconfig-002-20231201   gcc  
-hexagon                          alldefconfig   clang
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20231201   clang
-hexagon               randconfig-002-20231201   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20231201   gcc  
-i386         buildonly-randconfig-002-20231201   gcc  
-i386         buildonly-randconfig-003-20231201   gcc  
-i386         buildonly-randconfig-004-20231201   gcc  
-i386         buildonly-randconfig-005-20231201   gcc  
-i386         buildonly-randconfig-006-20231201   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231201   gcc  
-i386                  randconfig-002-20231201   gcc  
-i386                  randconfig-003-20231201   gcc  
-i386                  randconfig-004-20231201   gcc  
-i386                  randconfig-005-20231201   gcc  
-i386                  randconfig-006-20231201   gcc  
-i386                  randconfig-011-20231201   clang
-i386                  randconfig-012-20231201   clang
-i386                  randconfig-013-20231201   clang
-i386                  randconfig-014-20231201   clang
-i386                  randconfig-015-20231201   clang
-i386                  randconfig-016-20231201   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch                 loongson3_defconfig   gcc  
-loongarch             randconfig-001-20231201   gcc  
-loongarch             randconfig-002-20231201   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                          hp300_defconfig   gcc  
-m68k                        m5307c3_defconfig   gcc  
-m68k                        m5407c3_defconfig   gcc  
-m68k                           virt_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   clang
-mips                             allyesconfig   gcc  
-mips                         db1xxx_defconfig   gcc  
-mips                     decstation_defconfig   gcc  
-mips                      fuloong2e_defconfig   gcc  
-mips                            gpr_defconfig   gcc  
-mips                     loongson1b_defconfig   gcc  
-mips                          malta_defconfig   clang
-mips                          rb532_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20231201   gcc  
-nios2                 randconfig-002-20231201   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                generic-64bit_defconfig   gcc  
-parisc                randconfig-001-20231201   gcc  
-parisc                randconfig-002-20231201   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   clang
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                      bamboo_defconfig   gcc  
-powerpc                      chrp32_defconfig   gcc  
-powerpc                       eiger_defconfig   gcc  
-powerpc                        icon_defconfig   clang
-powerpc                 linkstation_defconfig   gcc  
-powerpc                   motionpro_defconfig   gcc  
-powerpc                     rainier_defconfig   gcc  
-powerpc               randconfig-001-20231201   gcc  
-powerpc               randconfig-002-20231201   gcc  
-powerpc               randconfig-003-20231201   gcc  
-powerpc                    sam440ep_defconfig   gcc  
-powerpc                     taishan_defconfig   gcc  
-powerpc                     tqm8541_defconfig   gcc  
-powerpc64                        alldefconfig   gcc  
-powerpc64             randconfig-001-20231201   gcc  
-powerpc64             randconfig-002-20231201   gcc  
-powerpc64             randconfig-003-20231201   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20231201   gcc  
-riscv                 randconfig-002-20231201   gcc  
-riscv                          rv32_defconfig   clang
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                          debug_defconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231201   clang
-s390                  randconfig-002-20231201   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                        apsh4ad0a_defconfig   gcc  
-sh                                  defconfig   gcc  
-sh                            hp6xx_defconfig   gcc  
-sh                 kfr2r09-romimage_defconfig   gcc  
-sh                          r7780mp_defconfig   gcc  
-sh                          r7785rp_defconfig   gcc  
-sh                    randconfig-001-20231201   gcc  
-sh                    randconfig-002-20231201   gcc  
-sh                          rsk7201_defconfig   gcc  
-sh                      rts7751r2d1_defconfig   gcc  
-sh                          sdk7780_defconfig   gcc  
-sh                          sdk7786_defconfig   gcc  
-sh                           se7619_defconfig   gcc  
-sh                             sh03_defconfig   gcc  
-sh                   sh7724_generic_defconfig   gcc  
-sh                        sh7763rdp_defconfig   gcc  
-sh                   sh7770_generic_defconfig   gcc  
-sh                  sh7785lcr_32bit_defconfig   gcc  
-sh                            shmin_defconfig   gcc  
-sh                          urquell_defconfig   gcc  
-sparc                            alldefconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                       sparc32_defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20231201   gcc  
-sparc64               randconfig-002-20231201   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20231201   gcc  
-um                    randconfig-002-20231201   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20231201   gcc  
-x86_64       buildonly-randconfig-002-20231201   gcc  
-x86_64       buildonly-randconfig-003-20231201   gcc  
-x86_64       buildonly-randconfig-004-20231201   gcc  
-x86_64       buildonly-randconfig-005-20231201   gcc  
-x86_64       buildonly-randconfig-006-20231201   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64                randconfig-001-20231201   clang
-x86_64                randconfig-002-20231201   clang
-x86_64                randconfig-003-20231201   clang
-x86_64                randconfig-004-20231201   clang
-x86_64                randconfig-005-20231201   clang
-x86_64                randconfig-006-20231201   clang
-x86_64                randconfig-011-20231201   gcc  
-x86_64                randconfig-012-20231201   gcc  
-x86_64                randconfig-013-20231201   gcc  
-x86_64                randconfig-014-20231201   gcc  
-x86_64                randconfig-015-20231201   gcc  
-x86_64                randconfig-016-20231201   gcc  
-x86_64                randconfig-071-20231201   gcc  
-x86_64                randconfig-072-20231201   gcc  
-x86_64                randconfig-073-20231201   gcc  
-x86_64                randconfig-074-20231201   gcc  
-x86_64                randconfig-075-20231201   gcc  
-x86_64                randconfig-076-20231201   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                           alldefconfig   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                randconfig-001-20231201   gcc  
-xtensa                randconfig-002-20231201   gcc  
-xtensa                         virt_defconfig   gcc  
+arm64 implementation of vmware_hypercalls is in drivers/gpu/drm/
+vmwgfx/vmwgfx_msg_arm64.h and going to be moved to arch/arm64 with
+a separate patchset with the introduction of VMware Linux guest
+support for arm64.
+
+No functional changes in drivers/input/mouse/vmmouse.c and
+drivers/ptp/ptp_vmw.c
+
+v1->v2 changes (no functional changes):
+- Improved commit message in patches 2 and 5.
+- Added Reviewed-by for all patches.
+- Added Ack from Dmitry Torokhov in patch 4. No fixes regarding reported
+  by Simon Horman gcc error in this patch.
+
+x86 maintainers, please consider merging this patch set in your branch. 
+
+Alexey Makhalov (6):
+  x86/vmware: Move common macros to vmware.h
+  x86/vmware: Introduce vmware_hypercall API
+  ptp/vmware: Use vmware_hypercall API
+  input/vmmouse: Use vmware_hypercall API
+  drm/vmwgfx: Use vmware_hypercall API
+  x86/vmware: Add TDX hypercall support
+
+ arch/x86/include/asm/vmware.h             | 327 ++++++++++++++++++++--
+ arch/x86/kernel/cpu/vmware.c              | 101 ++-----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c       | 173 ++++--------
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h | 197 +++++++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h   | 185 ------------
+ drivers/input/mouse/vmmouse.c             |  76 ++---
+ drivers/ptp/ptp_vmw.c                     |  12 +-
+ 7 files changed, 551 insertions(+), 520 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.0
+
 
