@@ -1,75 +1,75 @@
-Return-Path: <linux-input+bounces-387-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-388-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9241801939
-	for <lists+linux-input@lfdr.de>; Sat,  2 Dec 2023 01:59:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C63D801944
+	for <lists+linux-input@lfdr.de>; Sat,  2 Dec 2023 02:04:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 72488281FA1
-	for <lists+linux-input@lfdr.de>; Sat,  2 Dec 2023 00:59:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 83D4A281BD7
+	for <lists+linux-input@lfdr.de>; Sat,  2 Dec 2023 01:04:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDB5717C4;
-	Sat,  2 Dec 2023 00:59:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84251EC3;
+	Sat,  2 Dec 2023 01:04:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="H+v/A6DF"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PaDdeNJP"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDF36B2
-	for <linux-input@vger.kernel.org>; Fri,  1 Dec 2023 16:58:58 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-332c0c32d19so2103405f8f.3
-        for <linux-input@vger.kernel.org>; Fri, 01 Dec 2023 16:58:58 -0800 (PST)
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC274D54
+	for <linux-input@vger.kernel.org>; Fri,  1 Dec 2023 17:04:38 -0800 (PST)
+Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2c9afe6e21fso37777481fa.0
+        for <linux-input@vger.kernel.org>; Fri, 01 Dec 2023 17:04:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701478733; x=1702083533; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1701479076; x=1702083876; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QbR8KzXYL0ybnYKqP2A2MrIjHre31FRqYESM+8DIU+s=;
-        b=H+v/A6DFm2l2aPBE227oSQxDGVmPpxKmmyGt9Bs9JwL+2eUBI2TYJtsUo3+AXHilfk
-         AEB6ot+iXL+n0/vVkDTZzV8pFQj+Vf5109WXvZiMQvF+mUWSXGwpSWETJCMN3OEsxul1
-         vcdTu1tCcipWaQ9Y1NDt6U3nO/lSD5WIa7MqE=
+        bh=2AjpI9QlzX4/sI/azrgjTOEsQmOURin+5qeGoAR1AD0=;
+        b=PaDdeNJPDNh0ignJrHhV4gQubECEuPhUO+RjRF/bS3ZqFXouS0qk0Kxe0GAYTSDb9k
+         3K9xXAYY261e1JSO85i/I0X98hTER5Fjww1YJzci9GAKKaY63TC1Qq9CjiE4sud/og8I
+         HipnDHH8KmTLgXfQ90phQHR1rUP5p94qdjguA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701478733; x=1702083533;
+        d=1e100.net; s=20230601; t=1701479076; x=1702083876;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QbR8KzXYL0ybnYKqP2A2MrIjHre31FRqYESM+8DIU+s=;
-        b=FT8Puigb0mVAJBekqXz1hhRfHI0IfhEcIJ3U4lL7/JJ54QFhoDSDHq5hU+z/wQg9sr
-         tU+dlmsCu/F4HOa+uQx/MXFCy74FFRVfr0q79jw+Ath8P/uB34L5e04KpT/i2I32WjGW
-         sX9AUIMUu3o43XehlTBAr1Ty9N6dW6g2n5BzrT5labfPtBtE5DwhfIJ0m8mLvRe7EDfr
-         beI2ejMzW1fsHeNCBGVanmd5lGxgsa8SPzr0okOm6bYCJLtneeUY8BXdCdV9I1cTF097
-         CZGgZGE661+8mKmue5yoWo1BiaAEZHAb/akpCVJdh21dVOwH+dAAiQGAPMEKXo6pQdwJ
-         rddg==
-X-Gm-Message-State: AOJu0Yz0K/vFxMjZI4RPpJPC8XQ79H5VKXrb5/Njq33l65CcYW4Rde6o
-	mAe5QYZT+mWpnVcfDellYyk0FoZaO1qq76xWflThD4Ng
-X-Google-Smtp-Source: AGHT+IGdJBuDWm19MvjRxEaSN0ZXsZeWMvVgwofT9lUYKDDyUhGyErUn0tnrA/4Nz0I4RmVsao4aFg==
-X-Received: by 2002:a5d:6a05:0:b0:333:39b6:6800 with SMTP id m5-20020a5d6a05000000b0033339b66800mr172463wru.118.1701478733755;
-        Fri, 01 Dec 2023 16:58:53 -0800 (PST)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com. [209.85.128.44])
-        by smtp.gmail.com with ESMTPSA id z25-20020a170906241900b00a14311b5c5dsm2471276eja.185.2023.12.01.16.58.53
+        bh=2AjpI9QlzX4/sI/azrgjTOEsQmOURin+5qeGoAR1AD0=;
+        b=dov6lzpDOcq1HOpHYzS1/GY9Vg+apxQXyoUMHNYGmEorAYVs+INMT3/s2T531R/7hn
+         zhv4dcv87WyJ1GjQDWHnLmkQNjaIUdntcXI/w4L3ZF+pC67rrgOh1IIQ3DwXCtLaTMPB
+         7/ss/L0BXZ/zAwtesXIy5puyE0xgrUd6fGfOhMu/NkkvlHGjUg3cCZaDjEQdW+STd0Wv
+         dRKdmWOcQ8NGj2E1j7Hby4l0xjbvyUIvrard817JdtqPN/4MEUoJS7y/76jSP5RzDXm9
+         maDnPg82SeF4pq6b/BJRArlJpb5UeKVk24/ZM1Dq54ZFs1XbzOGcj0tHOQ/vNxJs+x5U
+         80Ow==
+X-Gm-Message-State: AOJu0Yz82tNoB5qg2wTFGV/NPEgd+G5olcfPcK0tRMXg7SoB0ubnOj2x
+	SaOf4cPqQTLlfHXCWoKvzIOnrRA/IAnUAYgkayMFK9aU
+X-Google-Smtp-Source: AGHT+IEori+mry4QqLMql1xKo0sf0I3Ek3Am52ZtsQAantRsGW6zVbInI44+0ALojDc++T9Y6gA2xA==
+X-Received: by 2002:a2e:97c8:0:b0:2c9:c00d:9527 with SMTP id m8-20020a2e97c8000000b002c9c00d9527mr1301089ljj.6.1701479076472;
+        Fri, 01 Dec 2023 17:04:36 -0800 (PST)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com. [209.85.208.51])
+        by smtp.gmail.com with ESMTPSA id i23-20020a170906115700b00a18ed83ce42sm2230988eja.15.2023.12.01.17.04.35
         for <linux-input@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Dec 2023 16:58:53 -0800 (PST)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40b367a0a12so12785e9.1
-        for <linux-input@vger.kernel.org>; Fri, 01 Dec 2023 16:58:53 -0800 (PST)
-X-Received: by 2002:a7b:cb59:0:b0:40b:4221:4085 with SMTP id
- v25-20020a7bcb59000000b0040b42214085mr244275wmj.1.1701478712415; Fri, 01 Dec
- 2023 16:58:32 -0800 (PST)
+        Fri, 01 Dec 2023 17:04:35 -0800 (PST)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-548ae9a5eeaso2194a12.1
+        for <linux-input@vger.kernel.org>; Fri, 01 Dec 2023 17:04:35 -0800 (PST)
+X-Received: by 2002:a7b:c4c6:0:b0:40b:3d89:ba70 with SMTP id
+ g6-20020a7bc4c6000000b0040b3d89ba70mr237236wmk.7.1701478730440; Fri, 01 Dec
+ 2023 16:58:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231128084236.157152-1-wenst@chromium.org> <20231128084236.157152-4-wenst@chromium.org>
-In-Reply-To: <20231128084236.157152-4-wenst@chromium.org>
+References: <20231128084236.157152-1-wenst@chromium.org> <20231128084236.157152-5-wenst@chromium.org>
+In-Reply-To: <20231128084236.157152-5-wenst@chromium.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 1 Dec 2023 16:58:20 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=XV0+G=uFBE_n6WFGVW2szGcKToZgCNTdSrNf3LVk9MOQ@mail.gmail.com>
-Message-ID: <CAD=FV=XV0+G=uFBE_n6WFGVW2szGcKToZgCNTdSrNf3LVk9MOQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 3/5] platform/chrome: Introduce device tree
- hardware prober
+Date: Fri, 1 Dec 2023 16:58:34 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=W01gfxV6RN2o6CVS7jjf8qgKP-jUy9Bp94d2hWzVC48A@mail.gmail.com>
+Message-ID: <CAD=FV=W01gfxV6RN2o6CVS7jjf8qgKP-jUy9Bp94d2hWzVC48A@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 4/5] arm64: dts: mediatek: mt8173-elm-hana: Mark
+ touchscreens and trackpads as fail
 To: Chen-Yu Tsai <wenst@chromium.org>
 Cc: Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -93,48 +93,12 @@ Hi,
 On Tue, Nov 28, 2023 at 12:45=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> =
 wrote:
 >
-> @@ -61,6 +61,17 @@ config CHROMEOS_TBMC
->           To compile this driver as a module, choose M here: the
->           module will be called chromeos_tbmc.
->
-> +config CHROMEOS_OF_HW_PROBER
-> +       bool "ChromeOS Device Tree Hardware Prober"
+> @@ -44,6 +46,7 @@ trackpad2: trackpad@2c {
+>                 reg =3D <0x2c>;
+>                 hid-descr-addr =3D <0x0020>;
+>                 wakeup-source;
+> +               status =3D "fail-needs-probe";
 
-Any reason that it can't be a module?
-
-
-> +       depends on OF
-> +       depends on I2C
-> +       select OF_DYNAMIC
-> +       default OF
-
-You probably don't want "default OF". This means that everyone will
-automatically get this new driver enabled which is unlikely to be
-right.
-
-
-> +static int chromeos_of_hw_prober_probe(struct platform_device *pdev)
-> +{
-> +       for (size_t i =3D 0; i < ARRAY_SIZE(hw_prober_platforms); i++)
-> +               if (of_machine_is_compatible(hw_prober_platforms[i].compa=
-tible)) {
-> +                       int ret;
-> +
-> +                       ret =3D hw_prober_platforms[i].prober(&pdev->dev,
-> +                                                           hw_prober_pla=
-tforms[i].data);
-> +                       if (ret)
-
-Should it only check for -EPROBE_DEFER here? ...and then maybe warn
-for other cases and go through the loop? If there's some error
-enabling the touchscreen I'd still want the trackpad to probe...
-
-
-> +                               return ret;
-> +               }
-> +
-> +       return 0;
-
-Random thought: once we get here, the driver is useless / just wasting
-memory. Any way to have it freed? ;-)
+While doing this, you could also remove the hack where the trackpad
+IRQ pinctrl is listed under i2c4.
 
