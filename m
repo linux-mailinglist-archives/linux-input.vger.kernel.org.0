@@ -1,187 +1,124 @@
-Return-Path: <linux-input+bounces-398-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-399-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88262801E45
-	for <lists+linux-input@lfdr.de>; Sat,  2 Dec 2023 20:26:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C879801F36
+	for <lists+linux-input@lfdr.de>; Sat,  2 Dec 2023 23:46:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 333301F211C6
-	for <lists+linux-input@lfdr.de>; Sat,  2 Dec 2023 19:26:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3DB641C208E3
+	for <lists+linux-input@lfdr.de>; Sat,  2 Dec 2023 22:46:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BB15208D4;
-	Sat,  2 Dec 2023 19:26:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1347321352;
+	Sat,  2 Dec 2023 22:46:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gzIfYbRx"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id AA2CD11A;
-	Sat,  2 Dec 2023 11:26:04 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="6.04,246,1695654000"; 
-   d="scan'208";a="185089892"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 03 Dec 2023 04:26:04 +0900
-Received: from localhost.localdomain (unknown [10.226.92.28])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0A5EC40764EE;
-	Sun,  3 Dec 2023 04:25:59 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 03/11] dt-bindings: input: Convert da906{1,2,3} onkey to json-schema
-Date: Sat,  2 Dec 2023 19:25:27 +0000
-Message-Id: <20231202192536.266885-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231202192536.266885-1-biju.das.jz@bp.renesas.com>
-References: <20231202192536.266885-1-biju.das.jz@bp.renesas.com>
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9227D116
+	for <linux-input@vger.kernel.org>; Sat,  2 Dec 2023 14:46:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701557182;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vFNE/UYCosX/dFguXm9sfoEAqaOtTWkpGicbd3olGYw=;
+	b=gzIfYbRxPPQaO8LcAvWWD6Exm1BjmMJeEe2g9b9vYEzWpTtQLNayqI/2w1uGnID5kRIvvQ
+	CiEXe3LX+y1JwzN4UxX8YEaC9R+FAmT/GmZND/qWEuBCbZ5XvxoEyTRzTqJQRKbfWuQ+bS
+	qv6yF2+tfiwqxU5X91331CnrnoZ6NOY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-618-ZOaiE4DPOMuPQtpS5sAVaw-1; Sat, 02 Dec 2023 17:46:18 -0500
+X-MC-Unique: ZOaiE4DPOMuPQtpS5sAVaw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D18DE803C92;
+	Sat,  2 Dec 2023 22:46:17 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id BA2C42166B26;
+	Sat,  2 Dec 2023 22:46:15 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	Julian Sax <jsbc@gmx.de>,
+	ahormann@gmx.net,
+	Bruno Jesus <bruno.fl.jesus@gmail.com>,
+	Dietrich <enaut.w@googlemail.com>,
+	kloxdami@yahoo.com,
+	Tim Aldridge <taldridge@mac.com>,
+	Rene Wagner <redhatbugzilla@callerid.de>,
+	Federico Ricchiuto <fed.ricchiuto@gmail.com>,
+	linux-input@vger.kernel.org
+Subject: [PATCH v3 0/7] HID: i2c-hid: Rework wait for reset to match Windows
+Date: Sat,  2 Dec 2023 23:46:07 +0100
+Message-ID: <20231202224615.24818-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
 
-Convert the da906{1,2,3} onkey device tree binding documentation to
-json-schema.
+Here is v3 of my i2c-hid series reworking how the i2c-hid-core waits
+for reset to complete.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- .../bindings/input/da9062-onkey.txt           | 47 --------------
- .../bindings/input/dlg,da9062-onkey.yaml      | 61 +++++++++++++++++++
- 2 files changed, 61 insertions(+), 47 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/da9062-onkey.txt
- create mode 100644 Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
+Further testing on the laptop for which I2C_HID_QUIRK_NO_IRQ_AFTER_RESET
+was first introduced, shows that reading the report descriptor before
+waiting for the reset helps with the missing reset IRQ, but it only helps
+some of the time. About 50% of the time the reset still does not get
+acked properly.
 
-diff --git a/Documentation/devicetree/bindings/input/da9062-onkey.txt b/Documentation/devicetree/bindings/input/da9062-onkey.txt
-deleted file mode 100644
-index e5eef59a93dc..000000000000
---- a/Documentation/devicetree/bindings/input/da9062-onkey.txt
-+++ /dev/null
-@@ -1,47 +0,0 @@
--* Dialog DA9061/62/63 OnKey Module
--
--This module is part of the DA9061/DA9062/DA9063. For more details about entire
--DA9062 and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
--For DA9063 see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
--
--This module provides the KEY_POWER event.
--
--Required properties:
--
--- compatible: should be one of the following valid compatible string lines:
--	"dlg,da9061-onkey", "dlg,da9062-onkey"
--	"dlg,da9062-onkey"
--	"dlg,da9063-onkey"
--
--Optional properties:
--
--- dlg,disable-key-power : Disable power-down using a long key-press. If this
--    entry exists the OnKey driver will remove support for the KEY_POWER key
--    press when triggered using a long press of the OnKey.
--
--Example: DA9063
--
--	pmic0: da9063@58 {
--		onkey {
--			compatible = "dlg,da9063-onkey";
--			dlg,disable-key-power;
--		};
--	};
--
--Example: DA9062
--
--	pmic0: da9062@58 {
--		onkey {
--			compatible = "dlg,da9062-onkey";
--			dlg,disable-key-power;
--		};
--	};
--
--Example: DA9061 using a fall-back compatible for the DA9062 onkey driver
--
--	pmic0: da9061@58 {
--		onkey {
--			compatible = "dlg,da9061-onkey", "dlg,da9062-onkey";
--			dlg,disable-key-power;
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml b/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
-new file mode 100644
-index 000000000000..34f2e00cf045
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
-@@ -0,0 +1,61 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/dlg,da9062-onkey.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Dialog DA9061/62/63 OnKey Module
-+
-+maintainers:
-+  - Biju Das <biju.das.jz@bp.renesas.com>
-+
-+description: |
-+  This module is part of the DA9061/DA9062/DA9063. For more details about entire
-+  DA9062 and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
-+  For DA906{1,2,3} see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-+
-+  This module provides the KEY_POWER event.
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - dlg,da9062-onkey
-+              - dlg,da9063-onkey
-+      - items:
-+          - enum:
-+              - dlg,da9061-onkey
-+          - const: dlg,da9062-onkey # da9062-onkey fallback
-+
-+  dlg,disable-key-power:
-+    type: boolean
-+    description:
-+      Disable power-down using a long key-press. If this entry exists
-+      the OnKey driver will remove support for the KEY_POWER key press
-+      when triggered using a long press of the OnKey.
-+
-+required:
-+  - compatible
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      pmic@58 {
-+        compatible = "dlg,da9063";
-+        reg = <0x58>;
-+        interrupt-parent = <&gpio6>;
-+        interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
-+        interrupt-controller;
-+
-+        onkey {
-+          compatible = "dlg,da9063-onkey";
-+          dlg,disable-key-power;
-+        };
-+      };
-+    };
+Still I believe that it would be good to move forward with
+this series:
+
+1. Reading descriptors before waiting for reset does make the reset ack IRQ
+   happen some of the time, so it does seem to improve things somewhat and
+   maybe it does fully fix the issue on some other models
+
+2. This series should reduce the probe time of the i2c-hid driver
+
+Changes in v3:
+- Use "else if" to only wait for reset timeout when
+  the I2C_HID_QUIRK_NO_IRQ_AFTER_RESET quirk is not set
+- Use goto abort_reset instead of return on i2c_hid_start_hwreset()
+  failure, so that the mutex gets properly unlocked
+
+Changes in v2:
+- Drop the patch dropping the I2C_HID_QUIRK_NO_IRQ_AFTER_RESET quirks
+- Add a patch changing a missing reset ack from an error into a warning
+- Move the mutex_[un]lock(&ihid->reset_lock) calls out of
+  i2c_hid_start_hwreset() / i2c_hid_finish_hwreset() and into their
+  callers, as suggested by Douglas Anderson
+
+Regards,
+
+Hans
+
+
+Hans de Goede (7):
+  HID: i2c-hid: Fold i2c_hid_execute_reset() into i2c_hid_hwreset()
+  HID: i2c-hid: Split i2c_hid_hwreset() in start() and finish()
+    functions
+  HID: i2c-hid: Switch i2c_hid_parse() to goto style error handling
+  HID: i2c-hid: Move i2c_hid_finish_hwreset() to after reading the
+    report-descriptor
+  HID: i2c-hid: Turn missing reset ack into a warning
+  HID: i2c-hid: Remove I2C_HID_QUIRK_SET_PWR_WAKEUP_DEV quirk
+  HID: i2c-hid: Renumber I2C_HID_QUIRK_ defines
+
+ drivers/hid/i2c-hid/i2c-hid-core.c | 137 +++++++++++++++--------------
+ 1 file changed, 70 insertions(+), 67 deletions(-)
+
 -- 
-2.39.2
+2.41.0
 
 
