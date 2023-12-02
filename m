@@ -1,122 +1,216 @@
-Return-Path: <linux-input+bounces-392-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-396-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF26801CEF
-	for <lists+linux-input@lfdr.de>; Sat,  2 Dec 2023 14:09:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A05A801DE2
+	for <lists+linux-input@lfdr.de>; Sat,  2 Dec 2023 17:55:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6F4981F2118C
-	for <lists+linux-input@lfdr.de>; Sat,  2 Dec 2023 13:09:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6C0751C20918
+	for <lists+linux-input@lfdr.de>; Sat,  2 Dec 2023 16:55:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 154AB18652;
-	Sat,  2 Dec 2023 13:09:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 110F9D29F;
+	Sat,  2 Dec 2023 16:55:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gimli.ms.mff.cuni.cz header.i=@gimli.ms.mff.cuni.cz header.b="I8HEMqrC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FxLGuKWj"
 X-Original-To: linux-input@vger.kernel.org
-X-Greylist: delayed 558 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 02 Dec 2023 05:09:39 PST
-Received: from nikam.ms.mff.cuni.cz (nikam.ms.mff.cuni.cz [195.113.20.16])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C26311D;
-	Sat,  2 Dec 2023 05:09:39 -0800 (PST)
-Received: from gimli.ms.mff.cuni.cz (gimli.ms.mff.cuni.cz [195.113.20.176])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by nikam.ms.mff.cuni.cz (Postfix) with ESMTPS id 01E0128BDEE;
-	Sat,  2 Dec 2023 14:00:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gimli.ms.mff.cuni.cz;
-	s=gen1; t=1701522045;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dlwa5psbH4GuBlFOgG5dQBJEh+/E3KdGiPUq4tEBZPw=;
-	b=I8HEMqrCNV63kBxXZ+OeFCG+1g7cW9Pf5/KgMCjocGqRX+DFupxcT+R7CZyrxfqVDOCUFz
-	XmBbUa/UozgbVwJOMhx8kMwY0nH0gC+Nb7U7dYEXYlY4j7ENIWOHRyLQ3SghteYQicNVAR
-	D/8JSwirogd25XzlX0T0Gq3ZQpe0ork=
-Received: from localhost (internet5.mraknet.com [185.200.108.250])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: karelb)
-	by gimli.ms.mff.cuni.cz (Postfix) with ESMTPSA id D53FA4443E5;
-	Sat,  2 Dec 2023 14:00:44 +0100 (CET)
-From: Karel Balej <karelb@gimli.ms.mff.cuni.cz>
-To: Markuss Broks <markuss.broks@gmail.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: =?UTF-8?q?Duje=20Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-	~postmarketos/upstreaming@lists.sr.ht,
-	phone-devel@vger.kernel.org,
-	Karel Balej <balejk@matfyz.cz>
-Subject: [PATCH v3 5/5] input/touchscreen: imagis: add support for IST3032C
-Date: Sat,  2 Dec 2023 13:48:36 +0100
-Message-ID: <20231202125948.10345-6-karelb@gimli.ms.mff.cuni.cz>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231202125948.10345-1-karelb@gimli.ms.mff.cuni.cz>
-References: <20231202125948.10345-1-karelb@gimli.ms.mff.cuni.cz>
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07C0611D;
+	Sat,  2 Dec 2023 08:55:48 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-50bd8efb765so2500301e87.1;
+        Sat, 02 Dec 2023 08:55:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701536146; x=1702140946; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OqM23L3ZBOiFkrQehgKT9qIc91HIQNnBMvZSBVgd4XU=;
+        b=FxLGuKWjAKmbiejX5qZYZ9XxjcTjHGvDQKdykO5/9AElm0TADX5p36+JeQKpGgq70V
+         Cq+KHMsgfVf7UDYiZ+Hev0pyv1yJBk2+oBXiYzQKuQqaUiVRuO8WRyZwYahcUqeZRElO
+         5v6uiEMX0R9PKtAiHC60k6S5DpMn4deftiJFVwJ06/I8l1JHZCymSllyFuwlb3pT6Xgl
+         w3HpUgO4fg1ipZU8bMMcNV14AOtS733pFlvnqvambdYpZn9uErmYjJgtDphqGAT+QYil
+         eBxCpVLNoxeXIFdy3a3ZYzdrppW8kNRFAkg9tALve2n1Y2LuvhtYKYcIpRWSwWTjKPGU
+         5KdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701536146; x=1702140946;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OqM23L3ZBOiFkrQehgKT9qIc91HIQNnBMvZSBVgd4XU=;
+        b=qM6iNQAjbVl1PHfKuHfnBVToi+JWR/uwOrUa2QWldixT2lGAzDFs1JzN2yNs8uSiAe
+         +SFmWZg3eQwzejGa3mvWL1WASw0aoEol1Mr8cCjBLZ1zjHkPyPwQynJ94yd0VBCxw0sd
+         yQfSNkzyj5Ro84Q3qqjy+4iEbgAC+4iJdievP3VAlfPFI0e/SwmvJsEEsZ5hE/rxCbZi
+         03qtwsjqxUEnbTBu1f4gMuwY+mCpo/mFzvMeZ4nu16/xcgLDpP2cB4OCXLbcJ7VitqYK
+         9WtuAS4fPoDDfKuo72mRexqdBtq+1k5tex6scPTRaKyAYUUbixhGwlfIRMt3Gzey79tJ
+         4C5Q==
+X-Gm-Message-State: AOJu0Yw1PJQ95UtMqICe5KliAxSfDg7jFOaY5z17aew0IOtQ4Z+wy9ix
+	n0DqTE9dWMrFPj4pMNwXIA0uKXxKhI8=
+X-Google-Smtp-Source: AGHT+IGnGZN3yTELLaOclWjuFFz2e4dOCHO1zuHAZ7JwAp/3pySmAB8nEUrgpPg/0Y7s+Q+4k3qL8Q==
+X-Received: by 2002:a05:6512:32a6:b0:50b:c4c3:367e with SMTP id q6-20020a05651232a600b0050bc4c3367emr1813480lfe.36.1701536145475;
+        Sat, 02 Dec 2023 08:55:45 -0800 (PST)
+Received: from [192.168.20.11] (83-233-6-197.cust.bredband2.com. [83.233.6.197])
+        by smtp.gmail.com with ESMTPSA id p5-20020ac24ec5000000b0050bed20fba4sm132400lfr.5.2023.12.02.08.55.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Dec 2023 08:55:44 -0800 (PST)
+From: Marcus Folkesson <marcus.folkesson@gmail.com>
+Date: Sat, 02 Dec 2023 17:59:48 +0100
+Subject: [PATCH v3] Input: pxrc - simplify mutex handling with guard macro
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20231202-pxrc-guard-v3-1-2ca8bc8cf689@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAINia2UC/3WMQQ6CMBAAv0L2bA3blS548h/GA5QKTYSSVhsM4
+ e8WbiZ6nElmFgjGWxPgnC3gTbTBujEBHTLQfT12Rtg2MchcEsocxTR7LbpX7VuRU6upYMaGFKR
+ g8uZu5312vSXubXg6/97fETf7cxNRoKCyIjaqYFLlpRtq+zhqN8C2ifJ/KlPKeGKuFMtGf6Xru
+ n4ABiHEQ98AAAA=
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Marcus Folkesson <marcus.folkesson@gmail.com>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3397;
+ i=marcus.folkesson@gmail.com; h=from:subject:message-id;
+ bh=rp2QrbcyItVfZQOhCeBm/WAOyO3FQQkXSpIoX1Nfpzk=;
+ b=owEBbQKS/ZANAwAIAYiATm9ZXVIyAcsmYgBla2KdEzLLTcPVc1Vh0+mMELnAP9qdICs2kMVwm
+ LKEeqWSu5mJAjMEAAEIAB0WIQQFUaLotmy1TWTBLGWIgE5vWV1SMgUCZWtinQAKCRCIgE5vWV1S
+ MkV5EADU4J8H+rAaeTTwC9N8hdh0wBiXtFOQUV22PtuZuyWTxFqhCsm1ltuIj4bvSLpK2vcXdNO
+ cOgTMQj76lRYsagmLFCuhXpHMCNg/s6BxfdIVQEE0ywXGMPZCkclJ9Tp9SxurvRuuau+gDk6yIP
+ aiuUxXCONWDZylXnh5W78Yhygmj1Hs8/S7isC5OP0vM9RVcI46ICew5fT6Ml5JYARaASQvL+ksu
+ Xuc/NBvcY7bKgfdYXL4UoPuaujhJPFaTuOEbREOE1tbkHHXTQ2ren+ItLppHOWkQLO2+D5nECi/
+ 3QquCvb1jZJgW/hnOmXr94nrzIDDu8qo+OvEFYXC0Xg9ADVLp4EgPKyjkQOmBbBRFZh6NXrpEIP
+ 1hEegWbtZ7mk0dO8L+GxuSiT3/RMHGzUxu8iNogbNY+hiuzQ4LKwYZIAjDu9d8KIxqu7bYY4ZqD
+ 5Qn0VaYyBtJ4l1S1St7SZjqBlMOtNTpg6r+ZPT9Xsm+S7NZUwKwtaCepr0uF9P+fGLblE/DF9ol
+ uEIakFUY/RifcWtB+8fuAEiJBP3gVxQPBduUIYPaafi2x/9Q9I1UpfTjvT06VVtV5hDSR4Ewp7S
+ T2QbayPNn3aXqVEbMe1ukm9CFe0DKYeK1i0e7A1NQy1nSl0dhdyxUGPqmfqa4p33ug6q+ZoP5Ec
+ Oxp9Fci8x79l5uw==
+X-Developer-Key: i=marcus.folkesson@gmail.com; a=openpgp;
+ fpr=AB91D46C7E0F6E6FB2AB640EC0FE25D598F6C127
 
-From: Karel Balej <balejk@matfyz.cz>
+Use the guard(mutex) macro for handle mutex lock/unlocks.
 
-IST3032C is a touchscreen chip used for instance in the
-samsung,coreprimevelte smartphone, with which this was tested. Add the
-chip specific information to the driver.
-
-Signed-off-by: Karel Balej <balejk@matfyz.cz>
+Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 ---
- drivers/input/touchscreen/imagis.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Changes in v3:
+- Rename retval->error in pxrc_open() as it now only holds error code
+- Return early instead of assign retval in pxrc_resume()
+- Link to v2: https://lore.kernel.org/r/20231201-pxrc-guard-v2-1-714779672bc8@gmail.com
 
-diff --git a/drivers/input/touchscreen/imagis.c b/drivers/input/touchscreen/imagis.c
-index 84a02672ac47..41f28e6e9cb1 100644
---- a/drivers/input/touchscreen/imagis.c
-+++ b/drivers/input/touchscreen/imagis.c
-@@ -35,6 +35,8 @@
- #define IST3038B_REG_CHIPID		0x30
- #define IST3038B_WHOAMI			0x30380b
+Changes in v2:
+- Add guard in pxrc_open()
+- Link to v1: https://lore.kernel.org/r/20231201-pxrc-guard-v1-1-38937e657368@gmail.com
+---
+ drivers/input/joystick/pxrc.c | 42 ++++++++++++++++++------------------------
+ 1 file changed, 18 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/input/joystick/pxrc.c b/drivers/input/joystick/pxrc.c
+index ea2bf5951d67..52d9eab667b7 100644
+--- a/drivers/input/joystick/pxrc.c
++++ b/drivers/input/joystick/pxrc.c
+@@ -5,15 +5,17 @@
+  * Copyright (C) 2018 Marcus Folkesson <marcus.folkesson@gmail.com>
+  */
  
-+#define IST3032C_WHOAMI			0x32c
+-#include <linux/kernel.h>
++#include <linux/cleanup.h>
+ #include <linux/errno.h>
+-#include <linux/slab.h>
++#include <linux/input.h>
++#include <linux/kernel.h>
+ #include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/slab.h>
+ #include <linux/uaccess.h>
 +
- struct imagis_properties {
- 	unsigned int interrupt_msg_cmd;
- 	unsigned int touch_coord_cmd;
-@@ -363,6 +365,13 @@ static int imagis_resume(struct device *dev)
+ #include <linux/usb.h>
+ #include <linux/usb/input.h>
+-#include <linux/mutex.h>
+-#include <linux/input.h>
  
- static DEFINE_SIMPLE_DEV_PM_OPS(imagis_pm_ops, imagis_suspend, imagis_resume);
+ #define PXRC_VENDOR_ID		0x1781
+ #define PXRC_PRODUCT_ID		0x0898
+@@ -81,33 +83,28 @@ static void pxrc_usb_irq(struct urb *urb)
+ static int pxrc_open(struct input_dev *input)
+ {
+ 	struct pxrc *pxrc = input_get_drvdata(input);
+-	int retval;
++	int error;
  
-+static const struct imagis_properties imagis_3032c_data = {
-+	.interrupt_msg_cmd = IST3038C_REG_INTR_MESSAGE,
-+	.touch_coord_cmd = IST3038C_REG_TOUCH_COORD,
-+	.whoami_cmd = IST3038C_REG_CHIPID,
-+	.whoami_val = IST3032C_WHOAMI,
-+};
-+
- static const struct imagis_properties imagis_3038b_data = {
- 	.interrupt_msg_cmd = IST3038B_REG_STATUS,
- 	.touch_coord_cmd = IST3038B_REG_STATUS,
-@@ -380,6 +389,7 @@ static const struct imagis_properties imagis_3038c_data = {
+-	mutex_lock(&pxrc->pm_mutex);
+-	retval = usb_submit_urb(pxrc->urb, GFP_KERNEL);
+-	if (retval) {
++	guard(mutex)(&pxrc->pm_mutex);
++	error = usb_submit_urb(pxrc->urb, GFP_KERNEL);
++	if (error) {
+ 		dev_err(&pxrc->intf->dev,
+ 			"%s - usb_submit_urb failed, error: %d\n",
+-			__func__, retval);
+-		retval = -EIO;
+-		goto out;
++			__func__, error);
++		return -EIO;
+ 	}
  
- #ifdef CONFIG_OF
- static const struct of_device_id imagis_of_match[] = {
-+	{ .compatible = "imagis,ist3032c", .data = &imagis_3032c_data },
- 	{ .compatible = "imagis,ist3038b", .data = &imagis_3038b_data },
- 	{ .compatible = "imagis,ist3038c", .data = &imagis_3038c_data },
- 	{ },
+ 	pxrc->is_open = true;
+-
+-out:
+-	mutex_unlock(&pxrc->pm_mutex);
+-	return retval;
++	return 0;
+ }
+ 
+ static void pxrc_close(struct input_dev *input)
+ {
+ 	struct pxrc *pxrc = input_get_drvdata(input);
+ 
+-	mutex_lock(&pxrc->pm_mutex);
++	guard(mutex)(&pxrc->pm_mutex);
+ 	usb_kill_urb(pxrc->urb);
+ 	pxrc->is_open = false;
+-	mutex_unlock(&pxrc->pm_mutex);
+ }
+ 
+ static void pxrc_free_urb(void *_pxrc)
+@@ -208,10 +205,9 @@ static int pxrc_suspend(struct usb_interface *intf, pm_message_t message)
+ {
+ 	struct pxrc *pxrc = usb_get_intfdata(intf);
+ 
+-	mutex_lock(&pxrc->pm_mutex);
++	guard(mutex)(&pxrc->pm_mutex);
+ 	if (pxrc->is_open)
+ 		usb_kill_urb(pxrc->urb);
+-	mutex_unlock(&pxrc->pm_mutex);
+ 
+ 	return 0;
+ }
+@@ -219,14 +215,12 @@ static int pxrc_suspend(struct usb_interface *intf, pm_message_t message)
+ static int pxrc_resume(struct usb_interface *intf)
+ {
+ 	struct pxrc *pxrc = usb_get_intfdata(intf);
+-	int retval = 0;
+ 
+-	mutex_lock(&pxrc->pm_mutex);
++	guard(mutex)(&pxrc->pm_mutex);
+ 	if (pxrc->is_open && usb_submit_urb(pxrc->urb, GFP_KERNEL) < 0)
+-		retval = -EIO;
++		return -EIO;
+ 
+-	mutex_unlock(&pxrc->pm_mutex);
+-	return retval;
++	return 0;
+ }
+ 
+ static int pxrc_pre_reset(struct usb_interface *intf)
+
+---
+base-commit: ffc253263a1375a65fa6c9f62a893e9767fbebfa
+change-id: 20231201-pxrc-guard-03dc35771b36
+
+Best regards,
 -- 
-2.43.0
+Marcus Folkesson <marcus.folkesson@gmail.com>
 
 
