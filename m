@@ -1,162 +1,121 @@
-Return-Path: <linux-input+bounces-410-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-412-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA13D802089
-	for <lists+linux-input@lfdr.de>; Sun,  3 Dec 2023 04:25:14 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE6918022AA
+	for <lists+linux-input@lfdr.de>; Sun,  3 Dec 2023 12:19:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3F53280FA5
-	for <lists+linux-input@lfdr.de>; Sun,  3 Dec 2023 03:25:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6F8F01F2107C
+	for <lists+linux-input@lfdr.de>; Sun,  3 Dec 2023 11:19:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EB40A55;
-	Sun,  3 Dec 2023 03:25:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D340F9465;
+	Sun,  3 Dec 2023 11:19:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="q33j4/Mq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jNmBJZNv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2061.outbound.protection.outlook.com [40.107.101.61])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED93D129;
-	Sat,  2 Dec 2023 19:25:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z0mmMj1iYygOWIT41Jz7XyLcAididk7sses968+cA5hCn4F0+vgdv/8yZo/4kdrAhcwmjp9R9vf2qqElisAvh0EeqjWfg6zCQE9voazO2bRJCCJQ5pGmHf1nyTSb/6fLxlxkOPkMaaSjo8Lz4JCXDMCO/pjKiiE3IBWkBMjdfvxmj0ArIQXlkhTgf8Uz5iKAFlPSGXqmV4uwhr1vGnHRcqpa/oUNlYeuoS0ngqwLb//eON0I1eS1GG04ZFCvd3o0ddIK6hJgoOWpJkHQkc0i8xoBvped0tLMWJ7U1HSCF0GhIkNgW8WZr8cCMfmenhUGZ0kcRPHd0D1efyagt2GNyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZkNnhou1V5ivCfCa5w9PIWPJQIN4sko9TxRljLDGuNc=;
- b=fKwYcgpXtjiRLjC8krrimGeBYGItzJBE6YOCdtLOWqxurDjMtHH0Ax5FuvG5FIs6lT+opaUvMo9xai2mN+8i8qhIJXAvOjm2q4j7B0XiGI6VXmGndmanSCWQ1eVXZDw4Ss4ZSDjMVvEmuTm/KlD8L+bTFIjQLdoX019sqAN7Wwh8YpCVoTffhpzKjEs+s3GOqb74mdj7R4EEwy8bgVsDVZ1/VSIqL4diOLN5yCcYLmoXBQ1pVvukkDx+go44GQvfwqvvuOk4iq8/lXpdPamuAHmNbKTXvD60IVDuDh8awfUvJAwEF86w2U7mJhKIO0AKm/8QU+/0xo9Zq2j+vOLjLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZkNnhou1V5ivCfCa5w9PIWPJQIN4sko9TxRljLDGuNc=;
- b=q33j4/Mq/PceW3wtIXNFoTfADLRfwkSzg4Aqhx69FuULBIjN+kxUyW2RMxENUErqDk91fEO/KoJ4KM/9PNj2C7mQfmPPBC0KHRNDLX09B8Ir0zFU6292Jh16hYvbKgiBsn3Q2Wv194wwDWHX+BocvMuTUDu+vIa/p8GEppk+VnU=
-Received: from BL1PR13CA0246.namprd13.prod.outlook.com (2603:10b6:208:2ba::11)
- by BL1PR12MB5141.namprd12.prod.outlook.com (2603:10b6:208:309::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.32; Sun, 3 Dec
- 2023 03:25:01 +0000
-Received: from BL6PEPF0001AB4B.namprd04.prod.outlook.com
- (2603:10b6:208:2ba:cafe::b5) by BL1PR13CA0246.outlook.office365.com
- (2603:10b6:208:2ba::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.18 via Frontend
- Transport; Sun, 3 Dec 2023 03:25:01 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL6PEPF0001AB4B.mail.protection.outlook.com (10.167.242.69) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7068.20 via Frontend Transport; Sun, 3 Dec 2023 03:25:01 +0000
-Received: from AUS-P9-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Sat, 2 Dec
- 2023 21:25:00 -0600
-From: Mario Limonciello <mario.limonciello@amd.com>
-To: Linus Walleij <linus.walleij@linaro.org>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>
-CC: "open list:PIN CONTROL SUBSYSTEM" <linux-gpio@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>, Basavaraj Natikar
-	<Basavaraj.Natikar@amd.com>, "open list:HID CORE LAYER"
-	<linux-input@vger.kernel.org>, Mario Limonciello <mario.limonciello@amd.com>,
-	Marcus Aram <marcus+oss@oxar.nl>, Mark Herbert <mark.herbert42@gmail.com>
-Subject: [PATCH 2/2] pinctrl: amd: Mask non-wake source pins with interrupt enabled at suspend
-Date: Sat, 2 Dec 2023 21:24:31 -0600
-Message-ID: <20231203032431.30277-3-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231203032431.30277-1-mario.limonciello@amd.com>
-References: <20231203032431.30277-1-mario.limonciello@amd.com>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A245A8833;
+	Sun,  3 Dec 2023 11:19:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63A2DC433C8;
+	Sun,  3 Dec 2023 11:19:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701602375;
+	bh=khbZlB+CudlpWOtcypC7aIzJI1JQViaEerLoXBkjgWQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jNmBJZNvjRJCnN+ObC8oLMUvyhaVt+0R8AseNwAN+iRBv99qvZeOI5D3CLwYyBTeh
+	 cyPIuheJ9y1AxJv2ArZyfzVggoM+ipgiEP/QW82jYbzQJQ0qnLEs7uEAEnqoEk8lRb
+	 V24AlYKPLAwcmAiQadAxTNx3wQvxfK3PDCz2uLyBiXA1krhcWSkc1+YBpUEIFs0Qcm
+	 XRKOmTVe+rePAA/R/yQd/W49W94uF2BRpaF6G8yYh/tagnNCPf711ENN8oJWVyUklk
+	 av0Y3/sDQjZyCRs1hn4AL9VNio5GtZ5R0bGo9R53BPMEI9NY0Ba+huHD+H7OIjRz7A
+	 MkuYtYlpPmi/A==
+Date: Sun, 3 Dec 2023 11:19:30 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Karel Balej <karelb@gimli.ms.mff.cuni.cz>
+Cc: Markuss Broks <markuss.broks@gmail.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+	Karel Balej <balejk@matfyz.cz>
+Subject: Re: [PATCH v3 4/5] dt-bindings: input/touchscreen: imagis: add
+ compatible for IST3032C
+Message-ID: <20231203-mundane-riches-b6e4ef157384@spud>
+References: <20231202125948.10345-1-karelb@gimli.ms.mff.cuni.cz>
+ <20231202125948.10345-5-karelb@gimli.ms.mff.cuni.cz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB4B:EE_|BL1PR12MB5141:EE_
-X-MS-Office365-Filtering-Correlation-Id: ad35fcfa-3ec8-4cb1-f4c9-08dbf3af6f48
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	PkU2i3/5BWJ0F6VTqPFwD4doCvcQF3zI2GfJnk8dqgG6BZ8efWhiSUyN5AuEg0dZ54huW26oWq63hZgcjiR4Ob+GTzmba2jVUhRzCGgzwnQk2O0EXG91vnM++sgDYhb7DVefnZHdIEU25Pa5bugQAR8vIe39Th2rd8IwlGlpowRYHhW2V5M1Ahclll4qbZekLT6rwZUNTPy9QJKrXdR++ncMPrJtXkbPWoq6okoauh4yuGld4DutjnW+U6GscPPIxDRdT2irEVftyQXZ+d0QlnlPCxgHoinr167DrokLgqFTmAtLVid2f3od2UlB4MSk6G13wuzu8tA+VrTslHqSAlCGizEa9HJrbtB9eCK54a1R6rSaj8jEbDqychdRDkg0pleO0wWcM36UKaM177yMe+5jNGDeTksL5ez6s2kJlwALhiiT916XvZLhQJMFSJmRsJPWoyIP41838jUs4AsGXca5y9EN5upM9x0ToRfX25wvGwUT7Li8jF4wGdJ5BLT1C6XtLz3b7Q0BAtGxqtwX03zfdUH3M1ijHuD6qZRlmrT1FeSSqyi5t4GAL6h7HuvHo1/BEWWwin1jJKj1u8iSxIOxKXqrCRmsUVvDmMrVU4EsGW1XAFFFXCVpKs3z5YheokMgY0S4QyyRWNIcBjq11Xd7afQ5GNNaB8n12FQkiVsPKhiqwsJqpFZ/wl1Lsbwr3wnemBv0eriMsUs+NZKzkbqxd0kfF8WH2xK8ze1WrfJiVG0B+VVHvjbBu4iF2FRI
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(396003)(39860400002)(346002)(376002)(230922051799003)(186009)(64100799003)(451199024)(82310400011)(1800799012)(36840700001)(40470700004)(46966006)(5660300002)(40460700003)(44832011)(86362001)(4326008)(8676002)(8936002)(2906002)(15650500001)(41300700001)(36756003)(2616005)(40480700001)(1076003)(356005)(81166007)(82740400003)(426003)(83380400001)(16526019)(336012)(966005)(478600001)(26005)(7696005)(6666004)(47076005)(36860700001)(110136005)(316002)(54906003)(70586007)(70206006)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2023 03:25:01.4466
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad35fcfa-3ec8-4cb1-f4c9-08dbf3af6f48
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB4B.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5141
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="BTVe8SmajlARbciW"
+Content-Disposition: inline
+In-Reply-To: <20231202125948.10345-5-karelb@gimli.ms.mff.cuni.cz>
 
-If a pin isn't marked as a wake source processing any interrupts is
-just going to destroy battery life.  The APU may wake up from a hardware
-sleep state to process the interrupt but not return control to the OS.
 
-Mask interrupt for all non-wake source pins at suspend. They'll be
-re-enabled at resume.
+--BTVe8SmajlARbciW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reported-and-tested-by: Marcus Aram <marcus+oss@oxar.nl>
-Reported-and-tested-by: Mark Herbert <mark.herbert42@gmail.com>
-Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2812
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- drivers/pinctrl/pinctrl-amd.c | 9 +++++++++
- drivers/pinctrl/pinctrl-amd.h | 5 +++++
- 2 files changed, 14 insertions(+)
+On Sat, Dec 02, 2023 at 01:48:35PM +0100, Karel Balej wrote:
+> From: Karel Balej <balejk@matfyz.cz>
+>=20
+> Document possible usage of the Imagis driver with the IST3032C
+> touchscreen.
 
-diff --git a/drivers/pinctrl/pinctrl-amd.c b/drivers/pinctrl/pinctrl-amd.c
-index fb58acb843d9..03ecb3d1aaf6 100644
---- a/drivers/pinctrl/pinctrl-amd.c
-+++ b/drivers/pinctrl/pinctrl-amd.c
-@@ -923,6 +923,15 @@ static int amd_gpio_suspend(struct device *dev)
- 
- 		raw_spin_lock_irqsave(&gpio_dev->lock, flags);
- 		gpio_dev->saved_regs[i] = readl(gpio_dev->base + pin * 4) & ~PIN_IRQ_PENDING;
-+
-+		/* mask any interrupts not intended to be a wake source */
-+		if (!(gpio_dev->saved_regs[i] & WAKE_SOURCE)) {
-+			writel(gpio_dev->saved_regs[i] & ~BIT(INTERRUPT_MASK_OFF),
-+			       gpio_dev->base + pin * 4);
-+			pm_pr_dbg("Disabling GPIO #%d interrupt for suspend.\n",
-+				  pin);
-+		}
-+
- 		raw_spin_unlock_irqrestore(&gpio_dev->lock, flags);
- 	}
- 
-diff --git a/drivers/pinctrl/pinctrl-amd.h b/drivers/pinctrl/pinctrl-amd.h
-index 34c5c3e71fb2..cf59089f2776 100644
---- a/drivers/pinctrl/pinctrl-amd.h
-+++ b/drivers/pinctrl/pinctrl-amd.h
-@@ -80,6 +80,11 @@
- #define FUNCTION_MASK		GENMASK(1, 0)
- #define FUNCTION_INVALID	GENMASK(7, 0)
- 
-+#define WAKE_SOURCE	(BIT(WAKE_CNTRL_OFF_S0I3) | \
-+			 BIT(WAKE_CNTRL_OFF_S3)   | \
-+			 BIT(WAKE_CNTRL_OFF_S4)   | \
-+			 BIT(WAKECNTRL_Z_OFF))
-+
- struct amd_function {
- 	const char *name;
- 	const char * const groups[NSELECTS];
--- 
-2.34.1
+Please leave mention of the driver out of the binding patch (we deal
+only with the hardware here) and instead describe what is incompatibly
+different between these two devices.
 
+Thanks,
+Conor.
+
+>=20
+> Signed-off-by: Karel Balej <balejk@matfyz.cz>
+> ---
+>  .../devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml   | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/imagis,i=
+st3038c.yaml b/Documentation/devicetree/bindings/input/touchscreen/imagis,i=
+st3038c.yaml
+> index b5372c4eae56..2af71cbcc97d 100644
+> --- a/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c=
+=2Eyaml
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c=
+=2Eyaml
+> @@ -18,6 +18,7 @@ properties:
+> =20
+>    compatible:
+>      enum:
+> +      - imagis,ist3032c
+>        - imagis,ist3038b
+>        - imagis,ist3038c
+> =20
+> --=20
+> 2.43.0
+>=20
+
+--BTVe8SmajlARbciW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZWxkQQAKCRB4tDGHoIJi
+0uU4AQDTvFOKjE2bh6MzjfwEJnPy0DVF+pBxGiHPa9Xd1r4gMwEAyprc91Hn2MfG
+eWzTwFa8NMflUIYdHWmrAXPq84fGVA8=
+=7rqZ
+-----END PGP SIGNATURE-----
+
+--BTVe8SmajlARbciW--
 
