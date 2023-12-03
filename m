@@ -1,150 +1,100 @@
-Return-Path: <linux-input+bounces-418-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-419-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D0D802346
-	for <lists+linux-input@lfdr.de>; Sun,  3 Dec 2023 12:43:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBAD0802378
+	for <lists+linux-input@lfdr.de>; Sun,  3 Dec 2023 12:51:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 352841C2084C
-	for <lists+linux-input@lfdr.de>; Sun,  3 Dec 2023 11:43:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 873E81F2101A
+	for <lists+linux-input@lfdr.de>; Sun,  3 Dec 2023 11:51:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12728BE4B;
-	Sun,  3 Dec 2023 11:43:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F92F2F38;
+	Sun,  3 Dec 2023 11:51:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gi/JfyVy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ng5xksxh"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D9D9473;
-	Sun,  3 Dec 2023 11:43:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18C47C433C7;
-	Sun,  3 Dec 2023 11:43:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701603791;
-	bh=9AmAExZTT0E8gSkeYl4/8vj3YGEGHEeebEe4KpaBne4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gi/JfyVyzJ0rE4i9QOSZe/dUMF56zu89IKsDD7ODQJX2KSWMl5CpEqydezQmqsBc7
-	 Vty5xatyeZdoz+KlDZQnsBWeSjMTVInIU4TzC7gCD3mWnl84MlrGE7lmQ/e73Ad3Ug
-	 ZJr0cEr2eCKB0QtCArIcTGijUzkfEjtlVbAfI6wH+FC3bz9HUazAWkfo7h58LBdwd+
-	 f/iET0uMKW9Ff6Vlv7Oee5c4BMeoAiDg4a6bOdhgp2tUvLC4MwthxWsshLyZ3mXv44
-	 5x1I0+v2EQpdFUxrT028TSh/yv0GzPU5BlvZrXYuxKzBbSvfo7qKkEbhK/YlJLCkX3
-	 dRHMzegQmfdkw==
-Date: Sun, 3 Dec 2023 11:43:05 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-	Support Opensource <support.opensource@diasemi.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Steve Twiss <stwiss.opensource@diasemi.com>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 00/11] Convert DA906{1,2} bindings to json-schema
-Message-ID: <20231203-unthread-suffering-411df4cb0f4c@spud>
-References: <20231203113159.92316-1-biju.das.jz@bp.renesas.com>
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60342C4
+	for <linux-input@vger.kernel.org>; Sun,  3 Dec 2023 03:51:12 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1d07aaba357so7514485ad.2
+        for <linux-input@vger.kernel.org>; Sun, 03 Dec 2023 03:51:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701604272; x=1702209072; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+o0t0pjdgQJJ0K1mMayhpEJ8fFevS3M3ZrNqFytOR1k=;
+        b=Ng5xksxheUPc4PTF10Ieok/G23Saz4BYHKrKDDUcey3YGhMiOw9fFhyVHGtqTA7B95
+         rzHx8R4wHseb8E7LiQUaukb0l4uKZ3cjWcYUEEfZ1ydsUEzn3efOMXTbwizWyhQmu5o3
+         T9XfIOX891En8+G5TagnuoBfs7LpqDsWoflmaic63D+DVmNeSdQXpIKbrIWWJVX7e0CY
+         B9ywEFwsPAajcsJ8/a81+Tmys6DFkNKV/d8SE0tVStXc00jViSLNlx8DWeRbx+spoLH0
+         g3Gpv99Oz5rmU4hAu1ynv8AgRN40vWoYL7o7P1MZpZxgRFVl9+MRsaRAVJOSQZhmQh1L
+         ocjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701604272; x=1702209072;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+o0t0pjdgQJJ0K1mMayhpEJ8fFevS3M3ZrNqFytOR1k=;
+        b=bGBzNrSoI1TsOE1ydFhEp1UauwW0jPWx6KAoWUKBZXXUOB2NTYK/bCo1hYnPdWzJjP
+         lL6ghjeTE6nKuUi3hEfOG6YVbWpu2FNqIOjGX6TMgS8hdgGJUTa2+LHLaEJg+jFJd+hg
+         subR6YTffaOsb6EWafZv+rgFwvlStuut/CrA/vkQYdqfsI8RlEqqki6tsF9N44ydDsNX
+         Lj/d/wWnHLVcqF5lSCoA2vkDSX1lZXdhWYrOuZWrFQ2v5oD6FuRDAAQaMi2+Rw/3tY9v
+         ZRGIcaHgsz8TmHBJbWVRAYPyRfkPkJkOw4Thiwr4KZw0H+Fmd8c6hjqRpGR24jc4NiNV
+         vAmw==
+X-Gm-Message-State: AOJu0Ywx7wIVIM5eRa5DcL9HnNfhcaerJKNq5zU77DGnVyUBCbbU0NyZ
+	IQRhrzkSEVre5+A5ejRy0UonCBXb9ZWOA6HrZ8sBeLFW
+X-Google-Smtp-Source: AGHT+IG7G5SMd4wnuHjtQ5yM4koKBLCCtvqc5V5AnoGyPkhhVAx6ccyD7GOtVElePkTJLlFffU3/8w==
+X-Received: by 2002:a17:902:b708:b0:1d0:9228:575e with SMTP id d8-20020a170902b70800b001d09228575emr673461pls.43.1701604271810;
+        Sun, 03 Dec 2023 03:51:11 -0800 (PST)
+Received: from arch.localdomain ([154.18.161.222])
+        by smtp.gmail.com with ESMTPSA id j15-20020a170902da8f00b001c7453fae33sm6461547plx.280.2023.12.03.03.51.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Dec 2023 03:51:11 -0800 (PST)
+From: yjun <jerrysteve1101@gmail.com>
+To: jkosina@suse.cz
+Cc: jikos@kernel.org,
+	benjamin.tissoires@redhat.com,
+	linux-input@vger.kernel.org,
+	yjun <jerrysteve1101@gmail.com>
+Subject: [PATCH] HID: apple: Add "hfd.cn" and "WKB603" to the list of non-apple keyboards
+Date: Sun,  3 Dec 2023 19:50:58 +0800
+Message-ID: <20231203115058.54631-1-jerrysteve1101@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="zzVAK3BzRdnge7Et"
-Content-Disposition: inline
-In-Reply-To: <20231203113159.92316-1-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
+JingZao(京造) WKB603 keyboard is a rebranded product
+of Jamesdonkey RS2 keyboard, identified as "hfd.cn WKB603"
+in wired mode, "WKB603" in bluetooth mode. Adding them
+to the list of non-apple keyboards fixes function key.
 
---zzVAK3BzRdnge7Et
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Yan Jun <jerrysteve1101@gmail.com>
+---
+ drivers/hid/hid-apple.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Sun, Dec 03, 2023 at 11:31:48AM +0000, Biju Das wrote:
-> Convert the below bindings to json-schema
-> 1) DA906{1,2} mfd bindings
-> 2) DA906{1,2,3} onkey bindings
-> 3) DA906{1,2,3} thermal bindings
->=20
-> Also add fallback for DA9061 watchdog device and document
-> DA9063 watchdog device.
+diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+index d9e9829b2200..b9c7c0ed7bcc 100644
+--- a/drivers/hid/hid-apple.c
++++ b/drivers/hid/hid-apple.c
+@@ -347,6 +347,8 @@ static const struct apple_non_apple_keyboard non_apple_keyboards[] = {
+ 	{ "Hailuck" },
+ 	{ "Jamesdonkey" },
+ 	{ "A3R" },
++	{ "hfd.cn" },
++	{ "WKB603" },
+ };
+ 
+ static bool apple_is_non_apple_keyboard(struct hid_device *hdev)
+-- 
+2.43.0
 
-Horrible timing, you sent this after I started looking at the previous
-revision of the patchset :( I left some comments and tags on the
-previous version which I would imagine that some of them also apply
-here.
-
->=20
-> v2->v3:
->  * Updated Maintainer entries for watchdog,onkey and thermal bindings
->  * Fixed bot errors related to MAINTAINERS entry, invalid doc
->    references and thermal examples by merging patch#4.=20
->=20
-> v1->v2:
->  Ref: https://lore.kernel.org/all/20231201110840.37408-5-biju.das.jz@bp.r=
-enesas.com/
->  * DA9062 and DA9061 merged with DA9063
->  * Sorted the child devices
->  * mfd,onkey and thermal are pointing to child bindings
->=20
->=20
->=20
-> Biju Das (11):
->   MAINTAINERS: Update da9062-watchdog bindings
->   dt-bindings: watchdog: dlg,da9062-watchdog: Add fallback for DA9061
->     watchdog
->   dt-bindings: watchdog: dlg,da9062-watchdog: Document DA9063 watchdog
->   dt-bindings: input: Convert da906{1,2,3} onkey to json-schema
->   dt-bindings: mfd: dlg,da9063: Update watchdog property
->   dt-bindings: mfd: dlg,da9063: Update onkey property
->   dt-bindings: mfd: dlg,da9063: Sort child devices
->   dt-bindings: mfd: da9062: Update watchdog description
->   dt-bindings: mfd: da9062: Update onkey description
->   dt-bindings: mfd: da9062: Update thermal description
->   dt-bindings: mfd: dlg,da9063: Convert da9062 to json-schema
->=20
->  .../bindings/input/da9062-onkey.txt           |  47 ----
->  .../bindings/input/dlg,da9062-onkey.yaml      |  60 +++++
->  .../devicetree/bindings/mfd/da9062.txt        | 124 ----------
->  .../devicetree/bindings/mfd/dlg,da9063.yaml   | 221 +++++++++++++++---
->  .../bindings/thermal/da9062-thermal.txt       |  36 ---
->  .../bindings/thermal/dlg,da9062-thermal.yaml  |  78 +++++++
->  .../watchdog/dlg,da9062-watchdog.yaml         |  12 +-
->  MAINTAINERS                                   |   6 +-
->  8 files changed, 336 insertions(+), 248 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/input/da9062-onkey.=
-txt
->  create mode 100644 Documentation/devicetree/bindings/input/dlg,da9062-on=
-key.yaml
->  delete mode 100644 Documentation/devicetree/bindings/mfd/da9062.txt
->  delete mode 100644 Documentation/devicetree/bindings/thermal/da9062-ther=
-mal.txt
->  create mode 100644 Documentation/devicetree/bindings/thermal/dlg,da9062-=
-thermal.yaml
->=20
-> --=20
-> 2.39.2
->=20
-
---zzVAK3BzRdnge7Et
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZWxpyQAKCRB4tDGHoIJi
-0l42AQDnWMEWPdUfCAwhRas6WCnOuUPuc6ZtX0mWYXUe/vuD/wD8DgLeHrMNFJEd
-AJaeOfdEOnoTE0oR2tHjToYrOumSjAM=
-=PJLz
------END PGP SIGNATURE-----
-
---zzVAK3BzRdnge7Et--
 
