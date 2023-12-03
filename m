@@ -1,84 +1,133 @@
-Return-Path: <linux-input+bounces-425-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-426-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D5A2802688
-	for <lists+linux-input@lfdr.de>; Sun,  3 Dec 2023 20:06:39 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8595B802795
+	for <lists+linux-input@lfdr.de>; Sun,  3 Dec 2023 21:51:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 51DD31F20FAB
-	for <lists+linux-input@lfdr.de>; Sun,  3 Dec 2023 19:06:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E7F24B207FA
+	for <lists+linux-input@lfdr.de>; Sun,  3 Dec 2023 20:51:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 542A11799E;
-	Sun,  3 Dec 2023 19:06:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3F9018054;
+	Sun,  3 Dec 2023 20:51:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F6wyskXG"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="dLvCS2kc";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Z3FUh2jo"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A817A1;
-	Sun,  3 Dec 2023 11:06:31 -0800 (PST)
-Received: by mail-qv1-xf36.google.com with SMTP id 6a1803df08f44-67a9cba087aso21787596d6.3;
-        Sun, 03 Dec 2023 11:06:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701630390; x=1702235190; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ps6r7g84dej2iXkt9eKsvqXbWsrUKi3Q/Yryr1CTCAU=;
-        b=F6wyskXGMMBePCsoWEYdvji8gix/8LxHALFr6sAa5QLW5b41HVvvH3txALkh5WenjR
-         SxI9WISliAIdbbLsvKHjGXYpKdMzglZ0AGVgImQ8vcO9271d4aYqvT8zcfPty4dpz7PC
-         qB1et7FKzepjiFCejt8c/HL9cbv2CjeRnwyNJAALGpiFCQsgM6BFKmY77+bluzYjhEKz
-         r2oRvYXv+UqylQf9r8gmcDCyxIAqkth3jJR1Ur43jPt81AupovfzQfAMJNKaaYaCpvUM
-         /eLe3aTj/0tqBLWzr2IiOyTkN5WR6VLvo/ibdxGXH9eKMAOZB5oh3yRoIaSKDxQbro4j
-         tkFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701630390; x=1702235190;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ps6r7g84dej2iXkt9eKsvqXbWsrUKi3Q/Yryr1CTCAU=;
-        b=D7RyxVkuYFhdYNhp5Z+aeQ8TxMBRjAAepIDOJQaifLeCs3USvT7PASrp/zVN924I/C
-         +GEdE7lGPG9te0X3CtxYIORG2f/+LrMkhu2kj02gEe+h7gozwBL2xDXgdpU5q80zdp2U
-         gmn3jbP67JPk5qUE3Xy7ImFB32dqapPEfJNBdufhbZkAuYeILY1lMoVTmXR0bkjbKrHf
-         M4gekVvs/HJGkPcsCr7VA4sj5HKUfizUAynoXABfVk8iYGnI2RRou8L2uZ0hqbNqScPJ
-         6aAIH4sHK3OW3+BhfyyuWTac3z9iiVldcwKKvoF3E7gDyRvym4jmBIDmSD74syKjjrcX
-         BUbA==
-X-Gm-Message-State: AOJu0YynQ5c5rC0P5EalzbnhLHMrCnQ4I3H83v1SK295QGFvWSv3clNj
-	NZvvUhfeRoMCUcPxN7zH56trSZQUvjw=
-X-Google-Smtp-Source: AGHT+IHSZbpgjuAE4pTErekVoiDs5F/pXk9m/mmWeM7SZhBaFZUCgVuf3SVJEUjW6pLgtj5I5fn6jQ==
-X-Received: by 2002:ad4:4e4b:0:b0:67a:c636:179c with SMTP id eb11-20020ad44e4b000000b0067ac636179cmr859020qvb.37.1701630390150;
-        Sun, 03 Dec 2023 11:06:30 -0800 (PST)
-Received: from google.com ([205.220.129.26])
-        by smtp.gmail.com with ESMTPSA id g9-20020a0cf849000000b0067a9e2d26easm2418097qvo.112.2023.12.03.11.06.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Dec 2023 11:06:29 -0800 (PST)
-Date: Sun, 3 Dec 2023 19:06:15 +0000
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Haoran Liu <liuhaoran14@163.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ipaq-micro-keys: Add error handling for devm_kmemdup
-Message-ID: <ZWzRp9xP66plWt1Z@google.com>
-References: <20231203164653.38983-1-liuhaoran14@163.com>
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E2A6CF;
+	Sun,  3 Dec 2023 12:51:16 -0800 (PST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 1FE0E32004E7;
+	Sun,  3 Dec 2023 15:51:13 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Sun, 03 Dec 2023 15:51:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to; s=fm3; t=
+	1701636672; x=1701723072; bh=mkoL5GRW1yQRxowg4OvJz3ED7Ey6jz21dth
+	CJqqVr+U=; b=dLvCS2kcTUwS9N4Xm5V+Ixe/ePgUeMixtxKJf6bEK8zUMcZGQHk
+	ihibKZJnuFVA0v76C7DNwXB8RbrZdA2z8QJUhbFwKIa839NgpObO4CnVS22/n4UO
+	QE9fk/dvYOBy2HUTEqb8BMa5/WcJl/dD2QNkL7V7nHsxjotSDl+owVhCjjLJtPjr
+	ovNMAjv0sLXUcIfL9buo0+YcB8gV84cVcMgQEwaK7ZZ9oUXeSxOwHWH+oia7ib6u
+	xX2KbQfx9FR7mRrx8klT4bvZ7DFS+yPlFNEglfBCAB+FXawMFrHMYpNB7U8Z1qtj
+	vmFR7fU4VioOlLM5lJc9KldGa5nn1kXNDXg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1701636672; x=1701723072; bh=mkoL5GRW1yQRxowg4OvJz3ED7Ey6jz21dth
+	CJqqVr+U=; b=Z3FUh2joJ1dbaU9RDz9StRNo6WbzpMM2RNCmYusIJP4eVk9yP/z
+	CasVYXX8XXAbdfgyx2Q08w1X13OMg6hxfXCSUt+d1u54y+s4EPvZQKqtwW6syjIN
+	JZ1NkiwsXcHPTAn215EPuc9x86iITXaPjkkzYBBf1oP91yTxSuRhveJBJv1kz5AR
+	OdrlHJQ8XlhX6F+rTT9v0/mtpBygAbBPQXlrbIDLwOv4/h6Rb978hQlXt8nG29w1
+	WZF3M9nPft2prjyQtr3jIDZpyFckO4VFNJ/jSvpx+KMNcqyq9L9x5Rt0XPqFSCmK
+	qVlgXkOPxNwtDJuVle2iUK3pY0aaisxopsw==
+X-ME-Sender: <xms:QOpsZYHs0OwSGa7EubYD9zNO7Ok40cmOuVYrK306vyUTUN6MOCT1PQ>
+    <xme:QOpsZRW1UrbkXKYesxG3MGW-ai-cbrcbrzUeFq664RHUR-UgecYz0pDOA2GidyDkN
+    Dzabj9EWrhw0NQoj1c>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudejgedgudegvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedf
+    tehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrf
+    grthhtvghrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudek
+    tdfgjeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    eprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:QOpsZSJQpAwxp8q__I9nN2JHe5GdnAFofplzqxH4jJyIf2hU1W0Gtw>
+    <xmx:QOpsZaEWMKLUkFkerTtNabH1mQ9kqcZ7UNfH8PdQlKYZd7BH6Om_Ww>
+    <xmx:QOpsZeUMfvkCWJpfq6aBG7ZtDRxQljPcspglDCX1u5q9DNfEPicVXQ>
+    <xmx:QOpsZQeWZkK8Zpt40IfxooiIgNXINL8-8uawybNvvPWg-xW8plK7bQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 58C5DB60089; Sun,  3 Dec 2023 15:51:12 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1178-geeaf0069a7-fm-20231114.001-geeaf0069
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231203164653.38983-1-liuhaoran14@163.com>
+Message-Id: <d180f06b-64b0-4885-9794-5127c297a0f0@app.fastmail.com>
+In-Reply-To: <ZWzLvctpo1nNTMOo@google.com>
+References: <20231127204206.3593559-1-zack@kde.org>
+ <ZWzLvctpo1nNTMOo@google.com>
+Date: Sun, 03 Dec 2023 21:50:51 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ "Zack Rusin" <zackr@vmware.com>
+Cc: linux-kernel@vger.kernel.org,
+ "VMware Graphics Reviewers" <linux-graphics-maintainer@vmware.com>,
+ "Robert Jarzmik" <robert.jarzmik@free.fr>,
+ "Raul Rangel" <rrangel@chromium.org>, linux-input@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH] input/vmmouse: Fix device name copies
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Dec 03, 2023 at 08:46:53AM -0800, Haoran Liu wrote:
-> Check the return value of i2c_add_adapter. Static analysis revealed that
-> the function did not properly handle potential failures of
-> i2c_add_adapter, which could lead to partial initialization of the I2C
-> adapter and unstable operation.
-> 
-> Signed-off-by: Haoran Liu <liuhaoran14@163.com>
+On Sun, Dec 3, 2023, at 19:41, Dmitry Torokhov wrote:
+> On Mon, Nov 27, 2023 at 03:42:06PM -0500, Zack Rusin wrote:
+>> From: Zack Rusin <zackr@vmware.com>
+>>=20
+>> Make sure vmmouse_data::phys can hold serio::phys (which is 32 bytes)
+>> plus an extra string, extend it to 64.
+>>=20
+>> Fixes gcc13 warnings:
+>> drivers/input/mouse/vmmouse.c: In function =E2=80=98vmmouse_init=E2=80=
+=99:
+>> drivers/input/mouse/vmmouse.c:455:53: warning: =E2=80=98/input1=E2=80=
+=99 directive output may be truncated writing 7 bytes into a region of s=
+ize between 1 and 32 [-Wformat-truncation=3D]
+>>   455 |         snprintf(priv->phys, sizeof(priv->phys), "%s/input1",
+>>       |                                                     ^~~~~~~
+>> drivers/input/mouse/vmmouse.c:455:9: note: =E2=80=98snprintf=E2=80=99=
+ output between 8 and 39 bytes into a destination of size 32
+>>   455 |         snprintf(priv->phys, sizeof(priv->phys), "%s/input1",
+>>       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>   456 |                  psmouse->ps2dev.serio->phys);
+>>       |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>
+> This simply wastes 32 bytes. It is perfectly fine to truncate phys
+> (which does not happen in real life).
+>
+> -Wformat-truncation is disabled in normal builds, folks should stop
+> using it with W=3D1 as well.
 
-Applied, thank you.
+It does find real bugs, and we are fairly close to being able
+to enable it by default once the remaining warnings are all
+fixed.
 
--- 
-Dmitry
+It also doesn't waste any memory in this specific case since
+vmmouse_data is currently at 168 bytes, which gets rounded
+up to either 192 or 256 bytes anyway. I'd suggest using
+the minimum size that is large enough though, in this case
+39 bytes for the string I guess.
+
+     Arnd
 
