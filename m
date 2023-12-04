@@ -1,485 +1,156 @@
-Return-Path: <linux-input+bounces-476-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-477-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15879803B7B
-	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 18:26:09 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D75A803C02
+	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 18:50:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC52B28061F
-	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 17:26:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 63F10B20A3B
+	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 17:50:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3993F2E83B;
-	Mon,  4 Dec 2023 17:26:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B34CA2E85F;
+	Mon,  4 Dec 2023 17:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jDde/L8V"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 10A92CB;
-	Mon,  4 Dec 2023 09:25:56 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="6.04,250,1695654000"; 
-   d="scan'208";a="185273277"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Dec 2023 02:25:56 +0900
-Received: from localhost.localdomain (unknown [10.226.93.142])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4B8894031BE0;
-	Tue,  5 Dec 2023 02:25:51 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lee Jones <lee@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Steve Twiss <stwiss.opensource@diasemi.com>,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3.1 8/8] dt-bindings: mfd: dlg,da9063: Convert da9062 to json-schema
-Date: Mon,  4 Dec 2023 17:25:10 +0000
-Message-Id: <20231204172510.35041-9-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231204172510.35041-1-biju.das.jz@bp.renesas.com>
-References: <20231204172510.35041-1-biju.das.jz@bp.renesas.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9768FA;
+	Mon,  4 Dec 2023 09:50:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701712240; x=1733248240;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=dP2gqvhdyuIc7UuUZhxvKqlHMQ8j8ifDZkXZKxj+rq8=;
+  b=jDde/L8VrkDjiH31O7yXkYy0yL2bwrlhrtRuTDH/Us0YEqEVoWYKbeJN
+   yqwrY2HMv4PSYmAGl6QDnm2poaGxmEPpqejOLMdOhlGD3AwW3Iy49Ogn9
+   AJpHNeBFkXCQvpLOE7ZQwu2ryzOnunZRCWo5zPCHE/Ns67Qfsic0qurTW
+   hFFBS5CEOoJgTC34T1EzGED0xKq+4qhUOfgiUJotLcEzsNYmoLzkrs8VH
+   s60qP7z+1tBHol6ZWJ8HegoJMdj2BFFq/AfSTRsKlGQ6/9LwFoJ0lMwhk
+   hAJCCzanITYHFiNdzykiyFq5u7zRnUp1Rs7NUN8T9s+aVA7MeBOGVZ1FH
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="458092331"
+X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
+   d="scan'208";a="458092331"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 09:50:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="894076328"
+X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
+   d="scan'208";a="894076328"
+Received: from jjstacey-mobl2.amr.corp.intel.com (HELO [10.213.160.16]) ([10.213.160.16])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 09:50:37 -0800
+Message-ID: <cc6c162407c69c53ec256bf887a0384361dd0516.camel@linux.intel.com>
+Subject: Re: [PATCH v2] HID: intel-ish-hid: ipc: Rework EHL OOB wakeup
+From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To: Kai-Heng Feng <kai.heng.feng@canonical.com>, jikos@kernel.org, 
+	benjamin.tissoires@redhat.com
+Cc: linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, Jian Hui Lee
+	 <jianhui.lee@canonical.com>, Even Xu <even.xu@intel.com>, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Mon, 04 Dec 2023 12:50:35 -0500
+In-Reply-To: <20231108121940.288005-1-kai.heng.feng@canonical.com>
+References: <20231108121940.288005-1-kai.heng.feng@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Convert the da9062 PMIC device tree binding documentation to json-schema.
-
-Update the example to match reality.
-
-While at it, update description with link to product information.
-
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v3->v3.1:
- * Split the thermal binding patch separate.
- * Updated the description.
-v2->v3:
- * Fixed bot errors related to MAINTAINERS entry, invalid doc
-   references and thermal examples by merging patch#4.
-v2:
- * New patch
----
- .../bindings/input/dlg,da9062-onkey.yaml      |   3 +-
- .../devicetree/bindings/mfd/da9062.txt        | 124 ------------
- .../devicetree/bindings/mfd/dlg,da9063.yaml   | 186 +++++++++++++++++-
- .../bindings/thermal/dlg,da9062-thermal.yaml  |   2 +-
- 4 files changed, 183 insertions(+), 132 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/mfd/da9062.txt
-
-diff --git a/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml b/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
-index 4cff91f4bd34..18b6a3f02c07 100644
---- a/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
-+++ b/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
-@@ -11,8 +11,7 @@ maintainers:
- 
- description: |
-   This module is part of the DA9061/DA9062/DA9063. For more details about entire
--  DA9062 and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
--  For DA9063 see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-+  DA906{1,2,3} chips see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
- 
-   This module provides the KEY_POWER event.
- 
-diff --git a/Documentation/devicetree/bindings/mfd/da9062.txt b/Documentation/devicetree/bindings/mfd/da9062.txt
-deleted file mode 100644
-index c8a7f119ac84..000000000000
---- a/Documentation/devicetree/bindings/mfd/da9062.txt
-+++ /dev/null
-@@ -1,124 +0,0 @@
--* Dialog DA9062 Power Management Integrated Circuit (PMIC)
--
--Product information for the DA9062 and DA9061 devices can be found here:
--- https://www.dialog-semiconductor.com/products/da9062
--- https://www.dialog-semiconductor.com/products/da9061
--
--The DA9062 PMIC consists of:
--
--Device                   Supply Names    Description
--------                   ------------    -----------
--da9062-regulator        :               : LDOs & BUCKs
--da9062-rtc              :               : Real-Time Clock
--da9062-onkey            :               : On Key
--da9062-watchdog         :               : Watchdog Timer
--da9062-thermal          :               : Thermal
--da9062-gpio             :               : GPIOs
--
--The DA9061 PMIC consists of:
--
--Device                   Supply Names    Description
--------                   ------------    -----------
--da9062-regulator        :               : LDOs & BUCKs
--da9062-onkey            :               : On Key
--da9062-watchdog         :               : Watchdog Timer
--da9062-thermal          :               : Thermal
--
--======
--
--Required properties:
--
--- compatible : Should be
--    "dlg,da9062" for DA9062
--    "dlg,da9061" for DA9061
--- reg : Specifies the I2C slave address (this defaults to 0x58 but it can be
--  modified to match the chip's OTP settings).
--
--Optional properties:
--
--- gpio-controller : Marks the device as a gpio controller.
--- #gpio-cells     : Should be two. The first cell is the pin number and the
--                    second cell is used to specify the gpio polarity.
--
--See Documentation/devicetree/bindings/gpio/gpio.txt for further information on
--GPIO bindings.
--
--- interrupts : IRQ line information.
--- interrupt-controller
--
--See Documentation/devicetree/bindings/interrupt-controller/interrupts.txt for
--further information on IRQ bindings.
--
--Sub-nodes:
--
--- regulators : This node defines the settings for the LDOs and BUCKs.
--  The DA9062 regulators are bound using their names listed below:
--
--    buck1    : BUCK_1
--    buck2    : BUCK_2
--    buck3    : BUCK_3
--    buck4    : BUCK_4
--    ldo1     : LDO_1
--    ldo2     : LDO_2
--    ldo3     : LDO_3
--    ldo4     : LDO_4
--
--  The DA9061 regulators are bound using their names listed below:
--
--    buck1    : BUCK_1
--    buck2    : BUCK_2
--    buck3    : BUCK_3
--    ldo1     : LDO_1
--    ldo2     : LDO_2
--    ldo3     : LDO_3
--    ldo4     : LDO_4
--
--  The component follows the standard regulator framework and the bindings
--  details of individual regulator device can be found in:
--  Documentation/devicetree/bindings/regulator/regulator.txt
--
--  regulator-initial-mode may be specified for buck regulators using mode values
--  from include/dt-bindings/regulator/dlg,da9063-regulator.h.
--
--- rtc : This node defines settings required for the Real-Time Clock associated
--  with the DA9062. There are currently no entries in this binding, however
--  compatible = "dlg,da9062-rtc" should be added if a node is created.
--
--- onkey : See ../input/dlg,da9062-onkey.yaml
--
--- watchdog: See ../watchdog/dlg,da9062-watchdog.yaml
--
--- thermal : See ../thermal/dlg,da9062-thermal.yaml
--
--Example:
--
--	pmic0: da9062@58 {
--		compatible = "dlg,da9062";
--		reg = <0x58>;
--		interrupt-parent = <&gpio6>;
--		interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
--		interrupt-controller;
--
--		rtc {
--			compatible = "dlg,da9062-rtc";
--		};
--
--		regulators {
--			DA9062_BUCK1: buck1 {
--				regulator-name = "BUCK1";
--				regulator-min-microvolt = <300000>;
--				regulator-max-microvolt = <1570000>;
--				regulator-min-microamp = <500000>;
--				regulator-max-microamp = <2000000>;
--				regulator-initial-mode = <DA9063_BUCK_MODE_SYNC>;
--				regulator-boot-on;
--			};
--			DA9062_LDO1: ldo1 {
--				regulator-name = "LDO_1";
--				regulator-min-microvolt = <900000>;
--				regulator-max-microvolt = <3600000>;
--				regulator-boot-on;
--			};
--		};
--	};
--
-diff --git a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml b/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-index 676b4f2566ae..54bb23dbc73f 100644
---- a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-+++ b/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-@@ -4,7 +4,7 @@
- $id: http://devicetree.org/schemas/mfd/dlg,da9063.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
--title: Dialog DA9063/DA9063L Power Management Integrated Circuit (PMIC)
-+title: Dialog DA906{3L,3,2,1} Power Management Integrated Circuit (PMIC)
- 
- maintainers:
-   - Steve Twiss <stwiss.opensource@diasemi.com>
-@@ -17,10 +17,17 @@ description: |
-   moment where all voltage monitors are disabled. Next, as da9063 only supports
-   UV *and* OV monitoring, both must be set to the same severity and value
-   (0: disable, 1: enable).
-+  Product information for the DA906{3L,3,2,1} devices can be found here:
-+  - https://www.dialog-semiconductor.com/products/da9063l
-+  - https://www.dialog-semiconductor.com/products/da9063
-+  - https://www.dialog-semiconductor.com/products/da9062
-+  - https://www.dialog-semiconductor.com/products/da9061
- 
- properties:
-   compatible:
-     enum:
-+      - dlg,da9061
-+      - dlg,da9062
-       - dlg,da9063
-       - dlg,da9063l
- 
-@@ -35,6 +42,19 @@ properties:
-   "#interrupt-cells":
-     const: 2
- 
-+  gpio:
-+    type: object
-+    $ref: /schemas/gpio/gpio.yaml#
-+    unevaluatedProperties: false
-+    properties:
-+      compatible:
-+        const: dlg,da9062-gpio
-+
-+  gpio-controller: true
-+
-+  "#gpio-cells":
-+    const: 2
-+
-   onkey:
-     $ref: /schemas/input/dlg,da9062-onkey.yaml
- 
-@@ -42,7 +62,7 @@ properties:
-     type: object
-     additionalProperties: false
-     patternProperties:
--      "^(ldo([1-9]|1[01])|bcore([1-2]|s-merged)|b(pro|mem|io|peri)|bmem-bio-merged)$":
-+      "^(ldo([1-9]|1[01])|bcore([1-2]|s-merged)|b(pro|mem|io|peri)|bmem-bio-merged|buck[1-4])$":
-         $ref: /schemas/regulator/regulator.yaml
-         unevaluatedProperties: false
- 
-@@ -52,7 +72,12 @@ properties:
-     unevaluatedProperties: false
-     properties:
-       compatible:
--        const: dlg,da9063-rtc
-+        enum:
-+          - dlg,da9063-rtc
-+          - dlg,da9062-rtc
-+
-+  thermal:
-+    $ref: /schemas/thermal/dlg,da9062-thermal.yaml
- 
-   watchdog:
-     $ref: /schemas/watchdog/dlg,da9062-watchdog.yaml
-@@ -60,8 +85,65 @@ properties:
- required:
-   - compatible
-   - reg
--  - interrupts
--  - interrupt-controller
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - dlg,da9063
-+              - dlg,da9063l
-+    then:
-+      properties:
-+        thermal: false
-+        gpio: false
-+        gpio-controller: false
-+        "#gpio-cells": false
-+        regulators:
-+          patternProperties:
-+            "^buck[1-4]$": false
-+      required:
-+        - interrupts
-+        - interrupt-controller
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - dlg,da9062
-+    then:
-+      properties:
-+        regulators:
-+          patternProperties:
-+            "^(ldo([5-9]|10|11)|bcore([1-2]|s-merged)|b(pro|mem|io|peri)|bmem-bio-merged)$": false
-+      required:
-+        - gpio
-+        - onkey
-+        - rtc
-+        - thermal
-+        - watchdog
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - dlg,da9061
-+    then:
-+      properties:
-+        gpio: false
-+        gpio-controller: false
-+        "#gpio-cells": false
-+        regulators:
-+          patternProperties:
-+            "^(ldo([5-9]|10|11)|bcore([1-2]|s-merged)|b(pro|mem|io|peri)|bmem-bio-merged|buck4)$": false
-+        rtc: false
-+      required:
-+        - onkey
-+        - thermal
-+        - watchdog
- 
- additionalProperties: false
- 
-@@ -118,4 +200,98 @@ examples:
-         };
-       };
-     };
-+
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/regulator/dlg,da9063-regulator.h>
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      pmic@58 {
-+        compatible = "dlg,da9062";
-+        reg = <0x58>;
-+        #interrupt-cells = <2>;
-+        interrupt-parent = <&gpio1>;
-+        interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
-+        interrupt-controller;
-+
-+        gpio {
-+          compatible = "dlg,da9062-gpio";
-+          status = "disabled";
-+        };
-+
-+        onkey {
-+          compatible = "dlg,da9062-onkey";
-+        };
-+
-+        regulators {
-+          buck1 {
-+            regulator-name = "vdd_arm";
-+            regulator-min-microvolt = <925000>;
-+            regulator-max-microvolt = <1380000>;
-+            regulator-initial-mode = <DA9063_BUCK_MODE_SYNC>;
-+            regulator-always-on;
-+          };
-+          buck2 {
-+            regulator-name = "vdd_soc";
-+            regulator-min-microvolt = <1150000>;
-+            regulator-max-microvolt = <1380000>;
-+            regulator-initial-mode = <DA9063_BUCK_MODE_SYNC>;
-+            regulator-always-on;
-+          };
-+          buck3 {
-+            regulator-name = "vdd_ddr3";
-+            regulator-min-microvolt = <1500000>;
-+            regulator-max-microvolt = <1500000>;
-+            regulator-initial-mode = <DA9063_BUCK_MODE_SYNC>;
-+            regulator-always-on;
-+          };
-+          buck4 {
-+            regulator-name = "vdd_eth";
-+            regulator-min-microvolt = <1200000>;
-+            regulator-max-microvolt = <1200000>;
-+            regulator-initial-mode = <DA9063_BUCK_MODE_SYNC>;
-+            regulator-always-on;
-+          };
-+          ldo1 {
-+            regulator-name = "vdd_snvs";
-+            regulator-min-microvolt = <3000000>;
-+            regulator-max-microvolt = <3000000>;
-+            regulator-always-on;
-+          };
-+          ldo2 {
-+            regulator-name = "vdd_high";
-+            regulator-min-microvolt = <3000000>;
-+            regulator-max-microvolt = <3000000>;
-+            regulator-always-on;
-+          };
-+          ldo3 {
-+            regulator-name = "vdd_eth_io";
-+            regulator-min-microvolt = <2500000>;
-+            regulator-max-microvolt = <2500000>;
-+          };
-+          ldo4 {
-+            regulator-name = "vdd_emmc";
-+            regulator-min-microvolt = <1800000>;
-+            regulator-max-microvolt = <1800000>;
-+            regulator-always-on;
-+          };
-+        };
-+
-+        rtc {
-+          compatible = "dlg,da9062-rtc";
-+          status = "disabled";
-+        };
-+
-+        thermal {
-+          compatible = "dlg,da9062-thermal";
-+          status = "disabled";
-+        };
-+
-+        watchdog {
-+          compatible = "dlg,da9062-watchdog";
-+          dlg,use-sw-pm;
-+        };
-+      };
-+    };
- ...
-diff --git a/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml b/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
-index 206635f74850..e8b2cac41084 100644
---- a/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
-+++ b/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
-@@ -11,7 +11,7 @@ maintainers:
- 
- description: |
-   This module is part of the DA9061/DA9062. For more details about entire
--  DA9062 and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
-+  DA906{1,2} chips see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
- 
-   Junction temperature thermal module uses an interrupt signal to identify
-   high THERMAL_TRIP_HOT temperatures for the PMIC device.
--- 
-2.39.2
+SGkgS2FpLAoKU29ycnkgZm9yIGhlIGRlbGF5IGluIGdldHRpbmcgYmFjayBvbiB0aGlzLiBJIGhh
+dmUgYSBxdWVzdGlvbiBiZWxvdzoKCk9uIFdlZCwgMjAyMy0xMS0wOCBhdCAxNDoxOSArMDIwMCwg
+S2FpLUhlbmcgRmVuZyB3cm90ZToKPiBTaW5jZSBQQ0kgY29yZSBhbmQgQUNQSSBjb3JlIGFscmVh
+ZHkgaGFuZGxlcyBQQ0kgUE1FIHdha2UgYW5kIEdQRQo+IHdha2UKPiB3aGVuIHRoZSBkZXZpY2Ug
+aGFzIHdha2V1cCBjYXBhYmlsaXR5LCB1c2UgZGV2aWNlX2luaXRfd2FrZXVwKCkgdG8KPiBsZXQK
+PiB0aGVtIGRvIHRoZSB3YWtldXAgc2V0dGluZyB3b3JrLgo+IAo+IEFsc28gYWRkIGEgc2h1dGRv
+d24gY2FsbGJhY2sgd2hpY2ggdXNlcyBwY2lfcHJlcGFyZV90b19zbGVlcCgpIHRvIGxldAo+IFBD
+SSBhbmQgQUNQSSBzZXQgT09CIHdha2V1cCBmb3IgUzUuCj4gCj4gQ2M6IEppYW4gSHVpIExlZSA8
+amlhbmh1aS5sZWVAY2Fub25pY2FsLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBLYWktSGVuZyBGZW5n
+IDxrYWkuaGVuZy5mZW5nQGNhbm9uaWNhbC5jb20+Cj4gLS0tCj4gdjI6Cj4gwqBSZWJhc2Ugb24g
+KCJISUQ6IGludGVsLWlzaC1oaWQ6IGlwYzogRGlzYWJsZSBhbmQgcmVlbmFibGUgQUNQSSBHUEUK
+PiBiaXQiKQo+IAo+IMKgZHJpdmVycy9oaWQvaW50ZWwtaXNoLWhpZC9pcGMvcGNpLWlzaC5jIHwg
+NjcgKysrKysrLS0tLS0tLS0tLS0tLS0tLS0KPiAtLQo+IMKgMSBmaWxlIGNoYW5nZWQsIDE1IGlu
+c2VydGlvbnMoKyksIDUyIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2hp
+ZC9pbnRlbC1pc2gtaGlkL2lwYy9wY2ktaXNoLmMKPiBiL2RyaXZlcnMvaGlkL2ludGVsLWlzaC1o
+aWQvaXBjL3BjaS1pc2guYwo+IGluZGV4IDcxMGZkYTVmMTllMS4uNjVlN2VlYjJmYTY0IDEwMDY0
+NAo+IC0tLSBhL2RyaXZlcnMvaGlkL2ludGVsLWlzaC1oaWQvaXBjL3BjaS1pc2guYwo+ICsrKyBi
+L2RyaXZlcnMvaGlkL2ludGVsLWlzaC1oaWQvaXBjL3BjaS1pc2guYwo+IEBAIC0xMTksNTAgKzEx
+OSw2IEBAIHN0YXRpYyBpbmxpbmUgYm9vbCBpc2hfc2hvdWxkX2xlYXZlX2QwaTMoc3RydWN0Cj4g
+cGNpX2RldiAqcGRldikKPiDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuICFwbV9yZXN1bWVfdmlhX2Zp
+cm13YXJlKCkgfHwgcGRldi0+ZGV2aWNlID09Cj4gQ0hWX0RFVklDRV9JRDsKPiDCoH0KPiDCoAo+
+IC1zdGF0aWMgaW50IGVuYWJsZV9ncGUoc3RydWN0IGRldmljZSAqZGV2KQo+IC17Cj4gLSNpZmRl
+ZiBDT05GSUdfQUNQSQo+IC3CoMKgwqDCoMKgwqDCoGFjcGlfc3RhdHVzIGFjcGlfc3RzOwo+IC3C
+oMKgwqDCoMKgwqDCoHN0cnVjdCBhY3BpX2RldmljZSAqYWRldjsKPiAtwqDCoMKgwqDCoMKgwqBz
+dHJ1Y3QgYWNwaV9kZXZpY2Vfd2FrZXVwICp3YWtldXA7Cj4gLQo+IC3CoMKgwqDCoMKgwqDCoGFk
+ZXYgPSBBQ1BJX0NPTVBBTklPTihkZXYpOwo+IC3CoMKgwqDCoMKgwqDCoGlmICghYWRldikgewo+
+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkZXZfZXJyKGRldiwgImdldCBhY3BpIGhh
+bmRsZSBmYWlsZWRcbiIpOwo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4g
+LUVOT0RFVjsKPiAtwqDCoMKgwqDCoMKgwqB9Cj4gLcKgwqDCoMKgwqDCoMKgd2FrZXVwID0gJmFk
+ZXYtPndha2V1cDsKPiAtCj4gLcKgwqDCoMKgwqDCoMKgLyoKPiAtwqDCoMKgwqDCoMKgwqAgKiBD
+YWxsIGFjcGlfZGlzYWJsZV9ncGUoKSwgc28gdGhhdCByZWZlcmVuY2UgY291bnQKPiAtwqDCoMKg
+wqDCoMKgwqAgKiBncGVfZXZlbnRfaW5mby0+cnVudGltZV9jb3VudCBkb2Vzbid0IG92ZXJmbG93
+Lgo+IC3CoMKgwqDCoMKgwqDCoCAqIFdoZW4gZ3BlX2V2ZW50X2luZm8tPnJ1bnRpbWVfY291bnQg
+PSAwLCB0aGUgY2FsbAo+IC3CoMKgwqDCoMKgwqDCoCAqIHRvIGFjcGlfZGlzYWJsZV9ncGUoKSBz
+aW1wbHkgcmV0dXJuLgo+IC3CoMKgwqDCoMKgwqDCoCAqLwo+IC3CoMKgwqDCoMKgwqDCoGFjcGlf
+ZGlzYWJsZV9ncGUod2FrZXVwLT5ncGVfZGV2aWNlLCB3YWtldXAtPmdwZV9udW1iZXIpOwo+IC0K
+PiAtwqDCoMKgwqDCoMKgwqBhY3BpX3N0cyA9IGFjcGlfZW5hYmxlX2dwZSh3YWtldXAtPmdwZV9k
+ZXZpY2UsIHdha2V1cC0KPiA+Z3BlX251bWJlcik7Cj4gLcKgwqDCoMKgwqDCoMKgaWYgKEFDUElf
+RkFJTFVSRShhY3BpX3N0cykpIHsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZGV2
+X2VycihkZXYsICJlbmFibGUgb3NlX2dwZSBmYWlsZWRcbiIpOwo+IC3CoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqByZXR1cm4gLUVJTzsKPiAtwqDCoMKgwqDCoMKgwqB9Cj4gLQo+IC3CoMKg
+wqDCoMKgwqDCoHJldHVybiAwOwo+IC0jZWxzZQo+IC3CoMKgwqDCoMKgwqDCoHJldHVybiAtRU5P
+REVWOwo+IC0jZW5kaWYKPiAtfQo+IC0KPiAtc3RhdGljIHZvaWQgZW5hYmxlX3BtZV93YWtlKHN0
+cnVjdCBwY2lfZGV2ICpwZGV2KQo+IC17Cj4gLcKgwqDCoMKgwqDCoMKgaWYgKChwY2lfcG1lX2Nh
+cGFibGUocGRldiwgUENJX0QwKSB8fAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHBjaV9wbWVf
+Y2FwYWJsZShwZGV2LCBQQ0lfRDNob3QpIHx8Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcGNp
+X3BtZV9jYXBhYmxlKHBkZXYsIFBDSV9EM2NvbGQpKSAmJiAhZW5hYmxlX2dwZSgmcGRldi0KPiA+
+ZGV2KSkgewo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwY2lfcG1lX2FjdGl2ZShw
+ZGV2LCB0cnVlKTsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZGV2X2RiZygmcGRl
+di0+ZGV2LCAiaXNoIGlwYyBkcml2ZXIgcG1lIHdha2UKPiBlbmFibGVkXG4iKTsKPiAtwqDCoMKg
+wqDCoMKgwqB9Cj4gLX0KPiAtCj4gwqAvKioKPiDCoCAqIGlzaF9wcm9iZSgpIC0gUENJIGRyaXZl
+ciBwcm9iZSBjYWxsYmFjawo+IMKgICogQHBkZXY6wqDCoMKgwqDCoMKgcGNpIGRldmljZQo+IEBA
+IC0yMzMsNyArMTg5LDcgQEAgc3RhdGljIGludCBpc2hfcHJvYmUoc3RydWN0IHBjaV9kZXYgKnBk
+ZXYsIGNvbnN0Cj4gc3RydWN0IHBjaV9kZXZpY2VfaWQgKmVudCkKPiDCoAo+IMKgwqDCoMKgwqDC
+oMKgwqAvKiBFbmFibGUgUE1FIGZvciBFSEwgKi8KPiDCoMKgwqDCoMKgwqDCoMKgaWYgKHBkZXYt
+PmRldmljZSA9PSBFSExfQXhfREVWSUNFX0lEKQo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqBlbmFibGVfcG1lX3dha2UocGRldik7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoGRldmljZV9pbml0X3dha2V1cChkZXYsIHRydWUpOwoKRm9yIGFwcGxlIHRvIGFwcGxlIGNv
+bXBhcmlzb24sIHdoaWNoIHBhdGggd2lsbCBjYWxsCmh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29t
+L2xpbnV4L2xhdGVzdC9DL2lkZW50L19fcGNpX2VuYWJsZV93YWtlCndoaWNoIHdpbGwgY2FsbCBw
+Y2lfcG1lX2FjdGl2ZSgpPwoKVGhhbmtzLApTcmluaXZhcwoKPiDCoAo+IMKgwqDCoMKgwqDCoMKg
+wqByZXQgPSBpc2hfaW5pdChpc2h0cCk7Cj4gwqDCoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gQEAg
+LTI1Niw2ICsyMTIsMTkgQEAgc3RhdGljIHZvaWQgaXNoX3JlbW92ZShzdHJ1Y3QgcGNpX2RldiAq
+cGRldikKPiDCoMKgwqDCoMKgwqDCoMKgaXNoX2RldmljZV9kaXNhYmxlKGlzaHRwX2Rldik7Cj4g
+wqB9Cj4gwqAKPiArCj4gKy8qKgo+ICsgKiBpc2hfc2h1dGRvd24oKSAtIFBDSSBkcml2ZXIgc2h1
+dGRvd24gY2FsbGJhY2sKPiArICogQHBkZXY6wqDCoMKgwqDCoMKgcGNpIGRldmljZQo+ICsgKgo+
+ICsgKiBUaGlzIGZ1bmN0aW9uIHNldHMgdXAgd2FrZXVwIGZvciBTNQo+ICsgKi8KPiArc3RhdGlj
+IHZvaWQgaXNoX3NodXRkb3duKHN0cnVjdCBwY2lfZGV2ICpwZGV2KQo+ICt7Cj4gK8KgwqDCoMKg
+wqDCoMKgaWYgKHBkZXYtPmRldmljZSA9PSBFSExfQXhfREVWSUNFX0lEKQo+ICvCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqBwY2lfcHJlcGFyZV90b19zbGVlcChwZGV2KTsKPiArfQo+ICsK
+PiDCoHN0YXRpYyBzdHJ1Y3QgZGV2aWNlIF9fbWF5YmVfdW51c2VkICppc2hfcmVzdW1lX2Rldmlj
+ZTsKPiDCoAo+IMKgLyogNTBtcyB0byBnZXQgcmVzdW1lIHJlc3BvbnNlICovCj4gQEAgLTM3OCwx
+MyArMzQ3LDYgQEAgc3RhdGljIGludCBfX21heWJlX3VudXNlZCBpc2hfcmVzdW1lKHN0cnVjdAo+
+IGRldmljZSAqZGV2aWNlKQo+IMKgwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgcGNpX2RldiAqcGRldiA9
+IHRvX3BjaV9kZXYoZGV2aWNlKTsKPiDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGlzaHRwX2Rldmlj
+ZSAqZGV2ID0gcGNpX2dldF9kcnZkYXRhKHBkZXYpOwo+IMKgCj4gLcKgwqDCoMKgwqDCoMKgLyog
+YWRkIHRoaXMgdG8gZmluaXNoIHBvd2VyIGZsb3cgZm9yIEVITCAqLwo+IC3CoMKgwqDCoMKgwqDC
+oGlmIChkZXYtPnBkZXYtPmRldmljZSA9PSBFSExfQXhfREVWSUNFX0lEKSB7Cj4gLcKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoHBjaV9zZXRfcG93ZXJfc3RhdGUocGRldiwgUENJX0QwKTsK
+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZW5hYmxlX3BtZV93YWtlKHBkZXYpOwo+
+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkZXZfZGJnKGRldi0+ZGV2YywgInNldCBw
+b3dlciBzdGF0ZSB0byBEMCBmb3IKPiBlaGxcbiIpOwo+IC3CoMKgwqDCoMKgwqDCoH0KPiAtCj4g
+wqDCoMKgwqDCoMKgwqDCoGlzaF9yZXN1bWVfZGV2aWNlID0gZGV2aWNlOwo+IMKgwqDCoMKgwqDC
+oMKgwqBkZXYtPnJlc3VtZV9mbGFnID0gMTsKPiDCoAo+IEBAIC00MDAsNiArMzYyLDcgQEAgc3Rh
+dGljIHN0cnVjdCBwY2lfZHJpdmVyIGlzaF9kcml2ZXIgPSB7Cj4gwqDCoMKgwqDCoMKgwqDCoC5p
+ZF90YWJsZSA9IGlzaF9wY2lfdGJsLAo+IMKgwqDCoMKgwqDCoMKgwqAucHJvYmUgPSBpc2hfcHJv
+YmUsCj4gwqDCoMKgwqDCoMKgwqDCoC5yZW1vdmUgPSBpc2hfcmVtb3ZlLAo+ICvCoMKgwqDCoMKg
+wqDCoC5zaHV0ZG93biA9IGlzaF9zaHV0ZG93biwKPiDCoMKgwqDCoMKgwqDCoMKgLmRyaXZlci5w
+bSA9ICZpc2hfcG1fb3BzLAo+IMKgfTsKPiDCoAoK
 
 
