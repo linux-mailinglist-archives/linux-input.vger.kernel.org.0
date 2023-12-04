@@ -1,53 +1,53 @@
-Return-Path: <linux-input+bounces-480-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-481-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3FF803DFF
-	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 20:02:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F8E803E05
+	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 20:04:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F20101C20B23
-	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 19:02:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 423E21F210A5
+	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 19:04:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 851BA30F8D;
-	Mon,  4 Dec 2023 19:02:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 931E630F84;
+	Mon,  4 Dec 2023 19:03:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3k+ecigk"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="t0gTEmd2"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2048.outbound.protection.outlook.com [40.107.94.48])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B505FD7;
-	Mon,  4 Dec 2023 11:02:49 -0800 (PST)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2055.outbound.protection.outlook.com [40.107.237.55])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC6A4CA;
+	Mon,  4 Dec 2023 11:03:54 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W76ztgPLU+eav5A9qT51OuekMA2qF5DgwKrKG+tCX2YGVKm5vzyYbv/z/x2NplO/I3A+IKYcMd71xQHqykFe3mf1N246k8XlZCpxb5iGmIV6eq8sjlF2pK+nE15jKebykp7o+MjqjN9/WxhOUPt8tIok4KcKM8eLMSpEscBjtoZRu2U+lc3Exh4vsUyz/VxJ3/8g5wLQ96uQUtdf6fpYwS4RRMTD8ZJCyjuosqgwjneuxhvQ/ZxWqAkeEPrPCscMpgXlaOl8RQGgaYPPLl4MopI6bNSK5NAKxphPbryOHOfzjRk8OGe0y7r0xog0FbZDJc1YtYNOt+Yq3KxjA2nvQA==
+ b=OYNevkQ+hJZmjO70kugyz/YmOrnib/sqo/14LNNAsqIORh1qxiZs4j/PVr0mg3f4gG+KXN6tyM1FMdLjiQXrjo6CjSmqLFIruCHI0h0gJn4pFz7AauYobBIU2k1+1vQydLdFky7zbFnwUr40ZgRhOaqb8cU4YO4FKvom4WSVpjMyN9AL8gO1aeMpzF5IdMsdLUn6KDfqFzRXDR8ofh/p2gIIUAgpXleNbMjr07AOzSGD8O0hqpHEwHe6FFF9tLE4c5v8ivibdfN1R+iLHrmmA3hXqeZasKksqUhs94ZwWx0nV8DCoLnCPcta+jP3PqnS1S8lxqPkX4xvgS6EnkXVyA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4vru/hj0rHQH9A/XcNx6uFwf6rXnzyogZdXYrGvCKrg=;
- b=DK47Czd0hOx5OTy2/dBB/eZgbYFeR52djBFlEARcCv4waUWSwqXCrAiEP9xViG5kjJFWiE8WIxD+fsc1wsU/2tK1saHL8yEL9cVUc5lTEkiwvPHZEF/3LY7+5tMVaowulhmH7+XLdM9L8xgUUT7lRz0tuDfjL5T69F56x/ZAD9zPlyz0JCxNu53wcQROB0qiGHO3PkjxyUuCc0rVXFSSuHuUC14J34/JFWE/LA72srOBqFsyPqp1+oMTUi8UHghrxJmheYUMJQ9iE79Q722rEhiJOfmUiJse4V0xnsplDBCLsFNSaxu2JpYl83tL6DPDDQZydubSXfOC3x8W8Vk2zA==
+ bh=IymmwATEKSjB33wUXUOan2Uo42j06LGw76qFV2QqQIc=;
+ b=W9jA8/1Ibr5TZ6ASoFf3apUqUuAHS7pfxBB+sfIRkObzU0nic2C6HcLodpzwmLv5Vl1hwgHA5PjwhAr/XlnDbYJ2Nc3sk6/hgEV6QnvTg2LHTBUvYazU9krdU9pON6PAUmr1YKey9cZDO9DM1bMZ8IKZdWwVdcGFzM0kxuo1MBHvsj7vRSi4yLu54ZAqfwof+lwt8eZQPSyVCi8C+KeNuMxqZ2HWuDgeB+AEZCTQc53fXgSSVheBhN9IxeWZt49+aLY2DYnF+KYgszdRxV9WowUqQvgEzAxiiKFJw1OTZfg0VLiu2riPJRyd6dlbfOnvyhf4u/aUNXz3MRTwTXrKXg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4vru/hj0rHQH9A/XcNx6uFwf6rXnzyogZdXYrGvCKrg=;
- b=3k+ecigka6AO61TfQ01525Eei7LNCA2d5XaYsFK152C+uSThqVVORvEk9MCwkM95xlnC8ZubQunlJBLF9rLdSVYYMtwALCMsIgU8HTdjrd+lsid12AMnGnmu6JaY+6uuxGxmaN5ZwdKsC/qhUdUbsA9IxnDrfHxHcx3NgDVA2OM=
+ bh=IymmwATEKSjB33wUXUOan2Uo42j06LGw76qFV2QqQIc=;
+ b=t0gTEmd2xi1fIzjfrEkhpLewYKaT7ApKbYKO9vQlbzSYVZCfFBIkGxA28SMvX2YtTY2GKF1WMUzTHVTJP34ErVOVLfhuf1cLyznKp7uGzkjuOwsIsX165Sa/on7zbgdR6bz8kzP+SsC5VGqWJQLJerHfXNyrv7YQiXRS6KbKLRs=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by IA1PR12MB8312.namprd12.prod.outlook.com (2603:10b6:208:3fc::16) with
+ by IA1PR12MB8586.namprd12.prod.outlook.com (2603:10b6:208:44e::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.33; Mon, 4 Dec
- 2023 19:02:47 +0000
+ 2023 19:03:51 +0000
 Received: from MN0PR12MB6101.namprd12.prod.outlook.com
  ([fe80::83d7:9c4f:4d9b:1f2a]) by MN0PR12MB6101.namprd12.prod.outlook.com
  ([fe80::83d7:9c4f:4d9b:1f2a%5]) with mapi id 15.20.7046.034; Mon, 4 Dec 2023
- 19:02:47 +0000
-Message-ID: <ba6ded1b-7132-4165-b6be-77211c014e08@amd.com>
-Date: Mon, 4 Dec 2023 13:02:45 -0600
+ 19:03:51 +0000
+Message-ID: <666fba72-b9bc-452e-948a-76e146f14997@amd.com>
+Date: Mon, 4 Dec 2023 13:03:49 -0600
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 13/15] HID: amd_sfh: rename float_to_int() to
- amd_sfh_float_to_int()
+Subject: Re: [PATCH v6 06/15] platform/x86/amd/pmf: Add support to get inputs
+ from other subsystems
 Content-Language: en-US
 To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, hdegoede@redhat.com,
  markgross@kernel.org, ilpo.jarvinen@linux.intel.com,
@@ -55,9 +55,9 @@ To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, hdegoede@redhat.com,
 Cc: Patil.Reddy@amd.com, platform-driver-x86@vger.kernel.org,
  linux-input@vger.kernel.org
 References: <20231204101548.1458499-1-Shyam-sundar.S-k@amd.com>
- <20231204101548.1458499-14-Shyam-sundar.S-k@amd.com>
+ <20231204101548.1458499-7-Shyam-sundar.S-k@amd.com>
 From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20231204101548.1458499-14-Shyam-sundar.S-k@amd.com>
+In-Reply-To: <20231204101548.1458499-7-Shyam-sundar.S-k@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: SJ2PR07CA0019.namprd07.prod.outlook.com
@@ -70,166 +70,280 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|IA1PR12MB8312:EE_
-X-MS-Office365-Filtering-Correlation-Id: 78a80bb7-9b66-4e38-7583-08dbf4fb9a6a
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|IA1PR12MB8586:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0ba4cf54-ba5b-4ec6-207f-08dbf4fbc0f9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	QNUFjg1U3NeXL9RHz/miTj5xmRrRmovW7VzB/ESEYKrLEWBZ3q5+RB581Q6zANYlunyHScK2Dqo5QSIjTe6Dk3eSzAJlwnD0WRnnuoaPMmKfUr3XmJ3ZBcxd9vyV0Tl8u9tk7tMyhR776CUmGjQiQn4FI88XPbVsoaS4mShBotKm5gYQiIjU4L9WDour+TGiukcwj2ZQYDyCQmeaoTqO1T0BdcwnJatupoPIWoLzQ68ZBBzkyX62vDtDGrEnOSlsIljZFNCcpfPbVUm+PuIxOHOWvawwMphFuLJz89RwNswS9w4D5ngw38Q2vp25929+QN23OD0dL94VBVmMlC2a0xHA0z4z7T8g/ZOqgBduTDnhK2XI44aIcxw9eb9sWdbpfY4IIfWmfs+8QKdn8QlvRf8Krzx3jB/s5Mwg6lV42S5aRvCXcMccDRScQwCwRU5QUiegTSzfMlMDqvO8c0gauVFXgczWgOoEoC7We0LvBdMlIKcxKm05/mo+QxCPNQivcsKclsGxUzbWf36ncbfk6AkY6nH5t4ddnnlnkMqWjZBnw3ZWDEtQSWxdC9zIBG1TRnGTi2YBKE54mJifscZphbA2pVmYRT5+0/TGmd9fJvS0xvHUtRHv/G6QNoEAbkvF5aSQ4QJbfHF8nr+4dcb9Bw==
+	J8ebSyoNw5HqlQ/cEBtkrH3JcKYBqZOFA9aLBbgNVcIFdrKBZo8qHdrQKLUdQzsBRLQsZe5veqbVnt90ODbuSTc5jlfKVV9eKy5e+zuUruCx5JQq5RkKV3+LVuVrUyH4vfPYQYxS/vkJYUp6f4Q4+OUS3+8q/IQ72TJTaIK4id+w1CXH9sYWwvmRQhZ+RC5ALC++M7gsyLp9C57o/XvK6p8ImV3IGVr1uxA3TlOzXsbp7l/8enq1W/QJT2/CWBgAi/vr/TqCNM0MXumGyr073lhM+Og0DbU9Sx6gnejT3MlLKY/zsxYepJmD+HtvdGvBg0/4kJIN482NFk1ImHITnKD+airq8v6sfUlI83dj93yaNcRuNBeI3ARGGRZelM9uiwS0xA6o4sEQKFL+yVvgq4yEzak5aO5rdibaP/tfPal2CXTA7oe1MtdAoqjYty7A/2AAzhfDqOY9XWlFXYrDxDfVp+9qayy7JSp/0VoyoSvhGwpCqOXOzGctmprnpTyuwUE1hevqNGL5TZeJTpbe/FBtIY1g35P1InY9wuFKXnGaLsJIi5LdlNLktVoKY6itSRupUWCTNvC5DIWZjgs7bSMqdZqHRxvCeVXIlo4EdnoBDCKvv/8bR631LNKDAP2KbQb6vKJ8pmWJZjqXfDHnOw==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(39860400002)(136003)(396003)(366004)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(66556008)(66476007)(66946007)(316002)(478600001)(6486002)(38100700002)(5660300002)(41300700001)(36756003)(2906002)(86362001)(31696002)(44832011)(4326008)(8676002)(8936002)(31686004)(2616005)(83380400001)(26005)(66574015)(6512007)(53546011)(6506007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(136003)(366004)(39860400002)(346002)(230922051799003)(64100799003)(451199024)(1800799012)(186009)(66476007)(8936002)(316002)(86362001)(8676002)(44832011)(31696002)(4326008)(66556008)(6486002)(478600001)(66946007)(41300700001)(36756003)(2906002)(5660300002)(26005)(2616005)(6506007)(6512007)(53546011)(83380400001)(66574015)(38100700002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RzhHczlQc0IwR25wSUU2T0F0MUY4NmNTelRTS2pkYVBjbXVIUVJYSVBUdDdv?=
- =?utf-8?B?UE5IUld4V2xEbXk2YmxINEMwSzRTMUdTUXl3MWgwMDh2clVLL0xZWXlHdnVj?=
- =?utf-8?B?R3lBaDNyWDV1b0hJZjVNdmJnNFZUY0FoSXkrS3JWOXJqRDZkcUI0VCtEM1lw?=
- =?utf-8?B?ODdlaVNnREh5RnhQZk0yOEhKeGtXVENldHlQYVZNZUpNWldhOUhoWEdMZjJt?=
- =?utf-8?B?NG5hUUFXSjh1OEVVTFdEOFZrdFF5TFZIZ0JVd216bjNEaFNuVjZCL3d2UllD?=
- =?utf-8?B?MjhWUStESTlvMTR6R1AxQzg0S2dSQUo1b3NZSWpLMTR6bk5pTmNWRDNJWmhF?=
- =?utf-8?B?dWhmMHdCZ3oycFF3V2puRGJCU1BjcDBZY0Jwc1FrbEJlN1JDOW5JQ2RPSjVL?=
- =?utf-8?B?OGtZdkw3TnJpaWZlcTlVWGZOeWd4RXYzSVl2VUZtRmR2czBqVndndXJkZ1JO?=
- =?utf-8?B?eUVoYjRidXFNUFFYa21ydW9zaTJDUUJXeGZmazRxR0E2NXpRUXpUbzFJOGZj?=
- =?utf-8?B?MjRrT2ZLTnBqeXRDMUtBMEhySHE2b3A4NzVET05pTGtmYlRNTFlWbTZOeUxS?=
- =?utf-8?B?RXUxVHRJSC9zWWpINlNRa2YyanZEYXdzdlpvTFdqUHhCVkg3NWlyMTdrN3o5?=
- =?utf-8?B?TzVsYWVyeFAvWTREN24rOUo4eUluNit1aUZja1RxUzkyWXBqeHg3ZEJKTFdn?=
- =?utf-8?B?NU5YRHNTUnc0WEVFci8wNHAwS0FVT1pwL2VzRDlFaDNFOFdNcytsMnA0RTJz?=
- =?utf-8?B?SGVqVHF6VXdQQTc4ZmluU3NhaDZKOUNyWG1LRFJGM2RnVUUzZ09RZHVocUNn?=
- =?utf-8?B?TjlOQmxSNysvNnBmelcwZFdDQW1TcHFnUHl6aHdrdzRkNHNsVGtRYTZnNW8x?=
- =?utf-8?B?UEhiUkU3VWJaR2Y5NWRRZHRBZmtzcm9xZEtKdG9CVDI2MWdsRkx1N2hVN0or?=
- =?utf-8?B?K2M4UDB3ViticGREc1NsVXJuNnpJUlNobG85V2VtQkkyMnB0ek9IVDRXSlQx?=
- =?utf-8?B?ejYvbFJJOGpxYUhSVUJ2Zm5oNVBNTnc3Z1FzRTJjbnhNLzJhMnZmRkxrQmxL?=
- =?utf-8?B?bFRsVHo4MEF4b2tqVGlDNFZQbUR3eHZkWUJpUUJRdzFtdTErcUtWMGthZzNt?=
- =?utf-8?B?Vy9KTksrb3NqNFlWa3I5czFQV0UxbnFpNTUzRldTSXlNcTVXNGY2aFRUUFo3?=
- =?utf-8?B?ZzZENThKSTVRY2VzTlczRTJyQVhhSnZxK0k2SjdqQVVvZEFJNS9QTFR3NkpB?=
- =?utf-8?B?OExFQXBmRXVqbWtiZ1owdUo4MFhRZHN6K0F0YUNqYzJ3Q01xdDZkZGFtQTdh?=
- =?utf-8?B?VjRqUTFEZEJJREZldEtrVU1ERjE5K2tGajJNNTJlMDFSMEo0Y2I3RFhIb085?=
- =?utf-8?B?L3pGNndNbkNUTmtIMktqOW5XZWpxQytkVkxKMXU5YTVKZDArUXVJdnY2VFVR?=
- =?utf-8?B?YTNOaG1INjBQd3lENUorNVVlMTNXaFpONGJxZHZlcmpYcHc2eitXampsTldR?=
- =?utf-8?B?ajVuYWZtSGVzc0I5amtIaHN4QVJKenRQV3RsUDZucDRmTGIrM21kRWdkbE9s?=
- =?utf-8?B?VHpvcWJrQ3JYUnhaZm4xUlI5WEN4ekV2Y05ieFlnam0rck43d1hOMGZiMXox?=
- =?utf-8?B?L21rQkNMWGkvbjZXdndOZ003SkJCejZib2Y3aTQzMFJHNi9PSW1RSGpIckw3?=
- =?utf-8?B?SXFHcXRlUnZjekRxd1VPaWkzOTA1bmNjVGNGSjNLTHJoeXBUd2pyK0c4blJT?=
- =?utf-8?B?ZG9EZUtNRitVbStTb3NhVEZEa0hMeWczR2hyNjdvSG9UYnBacmE2TzIxcnBw?=
- =?utf-8?B?S1UwUjBad0dobms0MnNGc1RJY2ZnclRjOU9ZenZIZ2JiaTNlQVA5TWFVQTRt?=
- =?utf-8?B?aTBtUFlmd1F2U0czUERyeGdaRmxtQVl3cHlpVnNOWEYxdFZ4UlRNQ3hCYlJD?=
- =?utf-8?B?UWRkMnBSYzRnd0E0ZGJlSld0R1pOSlZzQTA4djJvNVRsRjM1bWV4N2NUcDE4?=
- =?utf-8?B?YitaREpUWW8xcm00Mlc3UkYzMWZRRHRZc0dZUE9uaVpsWWFkUDQzeU51L0w3?=
- =?utf-8?B?ZkRyNmt4SzBiYTl5VVJ4SWwzY2k5M3ZOeHpZVUVsRTBpV0tIdEN0Zm1wMTVn?=
- =?utf-8?Q?YWhTao0YJLjDqPE1W64bPDGKZ?=
+	=?utf-8?B?SU5XSVJzSGhOdmI2OUxDdldlUXBGaU9aVkRIZStjWlRXSXFyTWpBVnMxMmlt?=
+ =?utf-8?B?a0JOSjA5VDBjbStIQVNWajRicHNlS3cxc0pOQ1dhNmFNZ2h3Wkl1bk1CYXg4?=
+ =?utf-8?B?U3R0K0hRc0t5dmVYOURKbG56ZG9Mbk03TENhRUhkaXJ5WjVaREl1b3VTeFhv?=
+ =?utf-8?B?eWxFY2xLU201d3Q0STh5S1Z3Z3F2UUx3SWMrQUJMS2NVemZzNTlnekNVd0Vi?=
+ =?utf-8?B?Y1QrOFdSS2g0MUluck56eC8vK0tGLzFtbG4xVDNjRytlWldOaEZwTkU1RmN1?=
+ =?utf-8?B?aUVTZ09XYnNFelVhQTVDUW1Ga3ZzVXc3TDMxNTdqR1RoczJZOUVYV09HUFc5?=
+ =?utf-8?B?b0g4Z2VhcVpZK01QOHNWYU94b1piNldsdE43YUxqK0tScmdESGwvcisyeVpk?=
+ =?utf-8?B?YlR3VERLWUxDc3ozRmt0dk5iNURrbjN4a2lQTHdXVmh6cUlJRHN2ZGhadEVR?=
+ =?utf-8?B?TFdQS1RnZVhzN3plRGtWMlNKWlZFSTEwVis5bXRDNEVrNWk2SE9CUXVnQzlO?=
+ =?utf-8?B?REFzZU5kN28yUzZ2Y0RhVW0zVXY2eE90L0tpVFNGcDljbVNmQ2RtZHlFMDVV?=
+ =?utf-8?B?ZTFIaEhiNWZ4RVlod0V0R0hwSkphQlpNd2pWSGtPZjlzZUNzUzhqbElldnNB?=
+ =?utf-8?B?RVVrcFlTTlRQbUJaYTVDN3prUG02eDRYWXRKcW00d1I2Q2YxcmpKUnVoNEFB?=
+ =?utf-8?B?Q2hLUG9Pb2lPMDYzMHk1d2VIaDkwSU54a3d2YVFxWXJqN3hrWFBSeTJnbytG?=
+ =?utf-8?B?MUdRbVJFWjdRVFhtdWdIZEhpbmt4aThDK1dqamJXQkt4NCtZM2VzNGZUMk91?=
+ =?utf-8?B?OFRuQ2NFVFdPZlR2Ryt0UUxrSk5pbVpQdmdFM0srRS9kK1RYak1qQWVGdUxZ?=
+ =?utf-8?B?dVJ5MUlBaEVGd090Mm01ZjFJMStWMzRGR3Rma0RRSUtFcFlRSERpbHpzcUtY?=
+ =?utf-8?B?WXYyMm5qYUw2QnA5RUNKL2IzUzRXSFh5MkJjVW1SUmg5T3B6dHFHOUJWWXRD?=
+ =?utf-8?B?SGJjdEtFbmRIdXVrTjRseW9lWkhMT3VqWDhxZHVrQTB1dHozVDFXYmZHZ05Y?=
+ =?utf-8?B?UFZMUUM1SStVUHJKaGk0MjlZU21qK2Vtc3EzWXhDZW1YQ0RueFBXRHpaMXIx?=
+ =?utf-8?B?a0x5YnZBY09NRnNkemV1YmJ6a3dZVkhhb2lOV3ZJbzRwelNoU0ZJMTJ5Y0h3?=
+ =?utf-8?B?Y1pOUzRlSjY2MGo4VEwvdzh6VkxKbzNMVEU3azJDMmVuRlV2dDRJUFlpeWJE?=
+ =?utf-8?B?TzlxNEV1UFg1cnUzSjBKVUpxMS9vQy9NQjM5U1kwNVJVWWR4RjM2cldWVTNi?=
+ =?utf-8?B?NWN1MDF3QURMR3pPSXhCMmhoZ3RadWtOV0pmWVBPeUJVNW5FNElITEd1ZkpL?=
+ =?utf-8?B?YnZYRW8zWVFiRXFMWlJVV2ZvN2h6cEpZdTY2QzZkVUJIbElXTitsdnN1Z20v?=
+ =?utf-8?B?cUc4RFd5Y2tlc05hcGNXaXpHTk1Oa09CUWM0M1dJV0xiY2V1QWQveFBrQjkw?=
+ =?utf-8?B?MGkydk5pUW9sbzhQdGRsdzhKSFJ0cGduTmxZbCtIdGVHZ3kvdzNiWXArTVpr?=
+ =?utf-8?B?ckgyNFAvSFZxakZrYVNrVTFBZmFmT0tvMUhuR0ZlaE15alMyZjg0ZldXZGc5?=
+ =?utf-8?B?ck5iam4wVTlCTytjUjhlb3lCTTRwUktTbVBBdEtIUG5DSm1QR2I2V0NmWEo0?=
+ =?utf-8?B?NURySkVnUmN0elArblF6eUppSXQ5R2NFNGxDYzhLdjBscEY3ajdVWEs5TXRp?=
+ =?utf-8?B?bUs4VVJBMkJ2djdCeWxRd2lBdUhjeDg2aUZlcDhRdG9tOERvck0zdmU1eXNJ?=
+ =?utf-8?B?bGRBb3ZKU0JNMjdRdlpFZWd5RHFSTlUxQXgzZDE0OUNncEdGUG40WWpaL01y?=
+ =?utf-8?B?djVzeFpMKytxaDIwdjdKNCtkYzRSWXpNdVZiOUN2NG9KNTRkVWp5QnFEbUF1?=
+ =?utf-8?B?ZUhoRWgxeGJ1NzJ0UC9FM2FjK2RTbkc5eVcvQWhhMm8yT2lNdHExQ0JGcUli?=
+ =?utf-8?B?a1NOR2o5bVRmVmV0VFFoaS9EMW1wZFhwRnFKTzZ3THVFeFBDNFRYRXo5V2t4?=
+ =?utf-8?B?aGlCZ2RBeG1WdVMzSGF6OTdXM0t3QlBLeUxwTXk1RHpUNXNONFlyMmZha3k5?=
+ =?utf-8?Q?anI437m6HcBq8RwSlAxe39+6M?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78a80bb7-9b66-4e38-7583-08dbf4fb9a6a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ba4cf54-ba5b-4ec6-207f-08dbf4fbc0f9
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2023 19:02:46.9570
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2023 19:03:51.6845
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JYdzGbwSVs8a9RK1CaN+c8Xzo4/M6LzuNF47h2Sw5Zqa4ADACRvKvOPStz1Y4MkDEXperh+P7db1dkfyRW1Trw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8312
+X-MS-Exchange-CrossTenant-UserPrincipalName: vLtYwj+NmO4s3Q81yrAJVgO1zaafz+YE6eGfTpYDUc3b5p43PLYqZCKzOK7HzPSY1Dj/gZq6fxlrcxRPMxrIRg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8586
 
 On 12/4/2023 04:15, Shyam Sundar S K wrote:
-> From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+> PMF driver sends changing inputs from each subystem to TA for evaluating
+> the conditions in the policy binary.
 > 
-> Current amd_sfh driver has float_to_int() to convert units from
-> float to int. This is fine until this function gets called outside of
-> the current scope of file.
-> 
-> Add a prefix "amd_sfh" to float_to_int() so that function represents
-> the driver name. This function will be called by multiple callers in the
-> next patch.
+> Add initial support of plumbing in the PMF driver for Smart PC to get
+> information from other subsystems in the kernel.
 > 
 > Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-> Co-developed-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 > Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 > ---
->   drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c | 28 ++++++++++---------
->   .../amd-sfh-hid/sfh1_1/amd_sfh_interface.h    |  1 +
->   2 files changed, 16 insertions(+), 13 deletions(-)
+>   drivers/platform/x86/amd/pmf/Makefile |   2 +-
+>   drivers/platform/x86/amd/pmf/pmf.h    |  18 ++++
+>   drivers/platform/x86/amd/pmf/spc.c    | 122 ++++++++++++++++++++++++++
+>   drivers/platform/x86/amd/pmf/tee-if.c |   3 +
+>   4 files changed, 144 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/platform/x86/amd/pmf/spc.c
 > 
-> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
-> index 8a037de08e92..33fbdde8aff0 100644
-> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
-> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
-> @@ -132,7 +132,7 @@ static void get_common_inputs(struct common_input_property *common, int report_i
->   	common->event_type = HID_USAGE_SENSOR_EVENT_DATA_UPDATED_ENUM;
->   }
+> diff --git a/drivers/platform/x86/amd/pmf/Makefile b/drivers/platform/x86/amd/pmf/Makefile
+> index d2746ee7369f..6b26e48ce8ad 100644
+> --- a/drivers/platform/x86/amd/pmf/Makefile
+> +++ b/drivers/platform/x86/amd/pmf/Makefile
+> @@ -7,4 +7,4 @@
+>   obj-$(CONFIG_AMD_PMF) += amd-pmf.o
+>   amd-pmf-objs := core.o acpi.o sps.o \
+>   		auto-mode.o cnqf.o \
+> -		tee-if.o
+> +		tee-if.o spc.o
+> diff --git a/drivers/platform/x86/amd/pmf/pmf.h b/drivers/platform/x86/amd/pmf/pmf.h
+> index 092be501d4d3..a4a73b845c09 100644
+> --- a/drivers/platform/x86/amd/pmf/pmf.h
+> +++ b/drivers/platform/x86/amd/pmf/pmf.h
+> @@ -150,6 +150,21 @@ struct smu_pmf_metrics {
+>   	u16 infra_gfx_maxfreq; /* in MHz */
+>   	u16 skin_temp; /* in centi-Celsius */
+>   	u16 device_state;
+> +	u16 curtemp; /* in centi-Celsius */
+> +	u16 filter_alpha_value;
+> +	u16 avg_gfx_clkfrequency;
+> +	u16 avg_fclk_frequency;
+> +	u16 avg_gfx_activity;
+> +	u16 avg_socclk_frequency;
+> +	u16 avg_vclk_frequency;
+> +	u16 avg_vcn_activity;
+> +	u16 avg_dram_reads;
+> +	u16 avg_dram_writes;
+> +	u16 avg_socket_power;
+> +	u16 avg_core_power[2];
+> +	u16 avg_core_c0residency[16];
+> +	u16 spare1;
+> +	u32 metrics_counter;
+>   } __packed;
 >   
-> -static int float_to_int(u32 flt32_val)
-> +int amd_sfh_float_to_int(u32 flt32_val)
+>   enum amd_stt_skin_temp {
+> @@ -601,4 +616,7 @@ extern const struct attribute_group cnqf_feature_attribute_group;
+>   int amd_pmf_init_smart_pc(struct amd_pmf_dev *dev);
+>   void amd_pmf_deinit_smart_pc(struct amd_pmf_dev *dev);
+>   int apmf_check_smart_pc(struct amd_pmf_dev *pmf_dev);
+> +
+> +/* Smart PC - TA interfaces */
+> +void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in);
+>   #endif /* PMF_H */
+> diff --git a/drivers/platform/x86/amd/pmf/spc.c b/drivers/platform/x86/amd/pmf/spc.c
+> new file mode 100644
+> index 000000000000..351efcbe83c4
+> --- /dev/null
+> +++ b/drivers/platform/x86/amd/pmf/spc.c
+> @@ -0,0 +1,122 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * AMD Platform Management Framework Driver - Smart PC Capabilities
+> + *
+> + * Copyright (c) 2023, Advanced Micro Devices, Inc.
+> + * All Rights Reserved.
+> + *
+> + * Authors: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> + *          Patil Rajesh Reddy <Patil.Reddy@amd.com>
+> + */
+> +
+> +#include <acpi/button.h>
+> +#include <linux/power_supply.h>
+> +#include <linux/units.h>
+> +#include "pmf.h"
+> +
+> +static void amd_pmf_get_smu_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
+> +{
+> +	u16 max, avg = 0;
+> +	int i;
+> +
+> +	memset(dev->buf, 0, sizeof(dev->m_table));
+> +	amd_pmf_send_cmd(dev, SET_TRANSFER_TABLE, 0, 7, NULL);
+> +	memcpy(&dev->m_table, dev->buf, sizeof(dev->m_table));
+> +
+> +	in->ev_info.socket_power = dev->m_table.apu_power + dev->m_table.dgpu_power;
+> +	in->ev_info.skin_temperature = dev->m_table.skin_temp;
+> +
+> +	/* Get the avg and max C0 residency of all the cores */
+> +	max = dev->m_table.avg_core_c0residency[0];
+> +	for (i = 0; i < ARRAY_SIZE(dev->m_table.avg_core_c0residency); i++) {
+> +		avg += dev->m_table.avg_core_c0residency[i];
+> +		if (dev->m_table.avg_core_c0residency[i] > max)
+> +			max = dev->m_table.avg_core_c0residency[i];
+> +	}
+> +
+> +	avg = DIV_ROUND_CLOSEST(avg, ARRAY_SIZE(dev->m_table.avg_core_c0residency));
+> +	in->ev_info.avg_c0residency = avg;
+> +	in->ev_info.max_c0residency = max;
+> +	in->ev_info.gfx_busy = dev->m_table.avg_gfx_activity;
+> +}
+> +
+> +static const char * const pmf_battery_supply_name[] = {
+> +	"BATT",
+> +	"BAT0",
+> +};
+> +
+> +static int amd_pmf_get_battery_prop(enum power_supply_property prop)
+> +{
+> +	union power_supply_propval value;
+> +	struct power_supply *psy;
+> +	int i, ret;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(pmf_battery_supply_name); i++) {
+> +		psy = power_supply_get_by_name(pmf_battery_supply_name[i]);
+> +		if (!psy)
+> +			continue;
+> +
+> +		ret = power_supply_get_property(psy, prop, &value);
+> +		if (ret) {
+> +			power_supply_put(psy);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return value.intval;
+> +}
+> +
+> +static int amd_pmf_get_battery_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
+> +{
+> +	int val;
+> +
+> +	val = amd_pmf_get_battery_prop(POWER_SUPPLY_PROP_PRESENT);
+> +	if (val < 0)
+> +		return val;
+> +	if (val != 1)
+> +		return -ENODEV;
+> +
+> +	in->ev_info.bat_percentage = amd_pmf_get_battery_prop(POWER_SUPPLY_PROP_CAPACITY);
+> +	/* all values in mWh metrics */
+> +	in->ev_info.bat_design = amd_pmf_get_battery_prop(POWER_SUPPLY_PROP_ENERGY_FULL_DESIGN) /
+> +		MILLIWATT_PER_WATT;
+> +	in->ev_info.full_charge_capacity = amd_pmf_get_battery_prop(POWER_SUPPLY_PROP_ENERGY_FULL) /
+> +		MILLIWATT_PER_WATT;
+> +	in->ev_info.drain_rate = amd_pmf_get_battery_prop(POWER_SUPPLY_PROP_POWER_NOW) /
+> +		MILLIWATT_PER_WATT;
+> +
+> +	return 0;
+> +}
+> +
+> +static int amd_pmf_get_slider_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
+> +{
+> +	int val;
+> +
+> +	switch (dev->current_profile) {
+> +	case PLATFORM_PROFILE_PERFORMANCE:
+> +		val = TA_BEST_PERFORMANCE;
+> +		break;
+> +	case PLATFORM_PROFILE_BALANCED:
+> +		val = TA_BETTER_PERFORMANCE;
+> +		break;
+> +	case PLATFORM_PROFILE_LOW_POWER:
+> +		val = TA_BEST_BATTERY;
+> +		break;
+> +	default:
+> +		dev_err(dev->dev, "Unknown Platform Profile.\n");
+> +		return -EOPNOTSUPP;
+> +	}
+> +	in->ev_info.power_slider = val;
+> +
+> +	return 0;
+> +}
+> +
+> +void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
+> +{
+> +	/* TA side lid open is 1 and close is 0, hence the ! here */
+> +	in->ev_info.lid_state = !acpi_lid_open();
+> +	in->ev_info.power_source = amd_pmf_get_power_source();
+> +	amd_pmf_get_smu_info(dev, in);
+> +	amd_pmf_get_battery_info(dev, in);
+> +	amd_pmf_get_slider_info(dev, in);
+> +}
+> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
+> index 468f3797a848..e3f17852d532 100644
+> --- a/drivers/platform/x86/amd/pmf/tee-if.c
+> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
+> @@ -113,6 +113,7 @@ static int amd_pmf_invoke_cmd_enact(struct amd_pmf_dev *dev)
 >   {
->   	int fraction, shift, mantissa, sign, exp, zeropre;
+>   	struct ta_pmf_shared_memory *ta_sm = NULL;
+>   	struct ta_pmf_enact_result *out = NULL;
+> +	struct ta_pmf_enact_table *in = NULL;
+>   	struct tee_param param[MAX_TEE_PARAM];
+>   	struct tee_ioctl_invoke_arg arg;
+>   	int ret = 0;
+> @@ -123,11 +124,13 @@ static int amd_pmf_invoke_cmd_enact(struct amd_pmf_dev *dev)
+>   	memset(dev->shbuf, 0, dev->policy_sz);
+>   	ta_sm = dev->shbuf;
+>   	out = &ta_sm->pmf_output.policy_apply_table;
+> +	in = &ta_sm->pmf_input.enact_table;
 >   
-> @@ -201,9 +201,9 @@ static u8 get_input_rep(u8 current_index, int sensor_idx, int report_id,
->   			     OFFSET_SENSOR_DATA_DEFAULT;
->   		memcpy_fromio(&accel_data, sensoraddr, sizeof(struct sfh_accel_data));
->   		get_common_inputs(&acc_input.common_property, report_id);
-> -		acc_input.in_accel_x_value = float_to_int(accel_data.acceldata.x) / 100;
-> -		acc_input.in_accel_y_value = float_to_int(accel_data.acceldata.y) / 100;
-> -		acc_input.in_accel_z_value = float_to_int(accel_data.acceldata.z) / 100;
-> +		acc_input.in_accel_x_value = amd_sfh_float_to_int(accel_data.acceldata.x) / 100;
-> +		acc_input.in_accel_y_value = amd_sfh_float_to_int(accel_data.acceldata.y) / 100;
-> +		acc_input.in_accel_z_value = amd_sfh_float_to_int(accel_data.acceldata.z) / 100;
->   		memcpy(input_report, &acc_input, sizeof(acc_input));
->   		report_size = sizeof(acc_input);
->   		break;
-> @@ -212,9 +212,9 @@ static u8 get_input_rep(u8 current_index, int sensor_idx, int report_id,
->   			     OFFSET_SENSOR_DATA_DEFAULT;
->   		memcpy_fromio(&gyro_data, sensoraddr, sizeof(struct sfh_gyro_data));
->   		get_common_inputs(&gyro_input.common_property, report_id);
-> -		gyro_input.in_angel_x_value = float_to_int(gyro_data.gyrodata.x) / 1000;
-> -		gyro_input.in_angel_y_value = float_to_int(gyro_data.gyrodata.y) / 1000;
-> -		gyro_input.in_angel_z_value = float_to_int(gyro_data.gyrodata.z) / 1000;
-> +		gyro_input.in_angel_x_value = amd_sfh_float_to_int(gyro_data.gyrodata.x) / 1000;
-> +		gyro_input.in_angel_y_value = amd_sfh_float_to_int(gyro_data.gyrodata.y) / 1000;
-> +		gyro_input.in_angel_z_value = amd_sfh_float_to_int(gyro_data.gyrodata.z) / 1000;
->   		memcpy(input_report, &gyro_input, sizeof(gyro_input));
->   		report_size = sizeof(gyro_input);
->   		break;
-> @@ -223,9 +223,9 @@ static u8 get_input_rep(u8 current_index, int sensor_idx, int report_id,
->   			     OFFSET_SENSOR_DATA_DEFAULT;
->   		memcpy_fromio(&mag_data, sensoraddr, sizeof(struct sfh_mag_data));
->   		get_common_inputs(&magno_input.common_property, report_id);
-> -		magno_input.in_magno_x = float_to_int(mag_data.magdata.x) / 100;
-> -		magno_input.in_magno_y = float_to_int(mag_data.magdata.y) / 100;
-> -		magno_input.in_magno_z = float_to_int(mag_data.magdata.z) / 100;
-> +		magno_input.in_magno_x = amd_sfh_float_to_int(mag_data.magdata.x) / 100;
-> +		magno_input.in_magno_y = amd_sfh_float_to_int(mag_data.magdata.y) / 100;
-> +		magno_input.in_magno_z = amd_sfh_float_to_int(mag_data.magdata.z) / 100;
->   		magno_input.in_magno_accuracy = mag_data.accuracy / 100;
->   		memcpy(input_report, &magno_input, sizeof(magno_input));
->   		report_size = sizeof(magno_input);
-> @@ -235,13 +235,15 @@ static u8 get_input_rep(u8 current_index, int sensor_idx, int report_id,
->   			     OFFSET_SENSOR_DATA_DEFAULT;
->   		memcpy_fromio(&als_data, sensoraddr, sizeof(struct sfh_als_data));
->   		get_common_inputs(&als_input.common_property, report_id);
-> -		als_input.illuminance_value = float_to_int(als_data.lux);
-> +		als_input.illuminance_value = amd_sfh_float_to_int(als_data.lux);
+>   	memset(ta_sm, 0, sizeof(*ta_sm));
+>   	ta_sm->command_id = TA_PMF_COMMAND_POLICY_BUILDER_ENACT_POLICIES;
+>   	ta_sm->if_version = PMF_TA_IF_VERSION_MAJOR;
 >   
->   		memcpy_fromio(&binfo, mp2->vsbase, sizeof(struct sfh_base_info));
->   		if (binfo.sbase.s_prop[ALS_IDX].sf.feat & 0x2) {
->   			als_input.light_color_temp = als_data.light_color_temp;
-> -			als_input.chromaticity_x_value = float_to_int(als_data.chromaticity_x);
-> -			als_input.chromaticity_y_value = float_to_int(als_data.chromaticity_y);
-> +			als_input.chromaticity_x_value =
-> +				amd_sfh_float_to_int(als_data.chromaticity_x);
-> +			als_input.chromaticity_y_value =
-> +				amd_sfh_float_to_int(als_data.chromaticity_y);
->   		}
+> +	amd_pmf_populate_ta_inputs(dev, in);
+>   	amd_pmf_prepare_args(dev, TA_PMF_COMMAND_POLICY_BUILDER_ENACT_POLICIES, &arg, param);
 >   
->   		report_size = sizeof(als_input);
-> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
-> index 656c3e95ef8c..75267b0fec70 100644
-> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
-> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
-> @@ -166,4 +166,5 @@ struct hpd_status {
->   
->   void sfh_interface_init(struct amd_mp2_dev *mp2);
->   void amd_sfh1_1_set_desc_ops(struct amd_mp2_ops *mp2_ops);
-> +int amd_sfh_float_to_int(u32 flt32_val);
->   #endif
+>   	ret = tee_client_invoke_func(dev->tee_ctx, &arg, param);
 
 
