@@ -1,40 +1,40 @@
-Return-Path: <linux-input+bounces-459-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-460-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A82380348B
-	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 14:24:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D6F8034B5
+	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 14:26:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 45215280FD9
-	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 13:24:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D7D4B1C209A3
+	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 13:26:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0EF0250EE;
-	Mon,  4 Dec 2023 13:24:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D47B4250EE;
+	Mon,  4 Dec 2023 13:24:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="iGgq6AMr"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="es63y+ws"
 X-Original-To: linux-input@vger.kernel.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A1EE187;
-	Mon,  4 Dec 2023 05:24:00 -0800 (PST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E52361BF7;
+	Mon,  4 Dec 2023 05:24:31 -0800 (PST)
 Received: from benjamin-XPS-13-9310.. (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 4DE0A6607090;
-	Mon,  4 Dec 2023 13:23:58 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id C82BF660739A;
+	Mon,  4 Dec 2023 13:24:29 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701696238;
-	bh=JC1ApPThEFi+YkEPaYavKRjqsYCfmAjyWnjgDZQA57Q=;
+	s=mail; t=1701696270;
+	bh=2gAqxxEJ2KqwbPuMzplAmWNudI3ZJjJVcvYYervFwW8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iGgq6AMrz/K6w72xKTX2JlOjH5fAYO4VyU8r4gTG5zhCF9vZdh6XfNr7UqL5sAOp+
-	 yig/ihVATezjkLt35itsHyTI3bHdGtrz/yDhtV6el27SDNamXMZW2RRZY41roQKKfv
-	 1A6dXuesJNJnxiORpnVTE4QphvJNAi7d9+PTRsjFzmINtILg7Tb8DttYbxf7wA7nLj
-	 KOoB2tIV47W8mplraKZ8dMwpJQgE6nfC/T+1FWJy0S1ka8vPd/Ub1QZRuYPuHUayi1
-	 mhVdCzArsjjHnVtif3FbIfedLSRlNvIGwT6Hayo1bAFyJDDH/BLdL6KxhSFf8DdvsW
-	 LRbO4121PBseA==
+	b=es63y+wsk9NKG3N9BfzW7OCQ50+rqsy6ihBjbe9zjdwDiu3CBBKh/qkdxbd6heTM4
+	 vefSwEUytpO5F+pQSjdFUOT99RlbDTSBk8QkBnhfqfi75GSCLM72yBLX/1/CJ2wTI/
+	 JSTttSE1HP0oo31PiqCfbKl1vQKsXjtWq0OoqQFDjfPXX/oUHVXG2cTxtwpalWKrhz
+	 A2Ie6leRnNjvtLFCER+hiY200xUyhOu+6mWhy/vEFBzkXIQhAn/QobIw8c6swWT0zg
+	 WeFQNxVW7qpVQKpiRhERnu8mCEMR/eNgnaQJZ3CaBlz0yL7XvMF2bhEM5+W3nqgPMv
+	 BlJQZGE2Vc3jQ==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: hverkuil@xs4all.nl,
 	mchehab@kernel.org,
@@ -46,12 +46,11 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Nick Dyer <nick@shmanahar.org>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	linux-input@vger.kernel.org
-Subject: [PATCH v2 12/36] input: touchscreen: atmel: Remove useless setting of min_buffers_needed
-Date: Mon,  4 Dec 2023 14:22:59 +0100
-Message-Id: <20231204132323.22811-13-benjamin.gaignard@collabora.com>
+Subject: [PATCH v2 35/36] input: touchscreen: sur40: Fix misuse of min_buffers_needed field
+Date: Mon,  4 Dec 2023 14:23:22 +0100
+Message-Id: <20231204132323.22811-36-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
 References: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
@@ -63,32 +62,32 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This driver uses min_buffers_needed which vb2 uses to ensure
-start_streaming is called when at least 'min_buffers_needed'
-buffers are queued. However, this driver doesn't need this,
-it can stream fine without any buffers queued.
-Just drop this unnecessary restriction.
+'min_buffers_needed' is suppose to be used to indicate the number
+of buffers needed by DMA engine to start streaming.
+sur40 touchscreen driver doesn't use DMA engine and just want to specify
+the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
+That 'min_reqbufs_allocation' field purpose so use it.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Nick Dyer <nick@shmanahar.org>
 CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 CC: linux-input@vger.kernel.org
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/input/touchscreen/sur40.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 20094b9899f0..d98cf9560511 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -2546,7 +2546,6 @@ static const struct vb2_queue mxt_queue = {
- 	.ops = &mxt_queue_ops,
- 	.mem_ops = &vb2_vmalloc_memops,
+diff --git a/drivers/input/touchscreen/sur40.c b/drivers/input/touchscreen/sur40.c
+index e7d2a52169a0..4da3063c352e 100644
+--- a/drivers/input/touchscreen/sur40.c
++++ b/drivers/input/touchscreen/sur40.c
+@@ -1124,7 +1124,7 @@ static const struct vb2_queue sur40_queue = {
+ 	.ops = &sur40_queue_ops,
+ 	.mem_ops = &vb2_dma_sg_memops,
  	.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC,
--	.min_buffers_needed = 1,
+-	.min_buffers_needed = 3,
++	.min_reqbufs_allocation = 3,
  };
  
- static int mxt_vidioc_querycap(struct file *file, void *priv,
+ static const struct v4l2_file_operations sur40_video_fops = {
 -- 
 2.39.2
 
