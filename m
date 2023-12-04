@@ -1,65 +1,65 @@
-Return-Path: <linux-input+bounces-479-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-480-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33879803DFC
-	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 20:02:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF3FF803DFF
+	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 20:02:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5566F1C20A8E
-	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 19:02:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F20101C20B23
+	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 19:02:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 311F12F85F;
-	Mon,  4 Dec 2023 19:02:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 851BA30F8D;
+	Mon,  4 Dec 2023 19:02:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4bUX8V2v"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3k+ecigk"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2053.outbound.protection.outlook.com [40.107.223.53])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC39BB2;
-	Mon,  4 Dec 2023 11:02:23 -0800 (PST)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2048.outbound.protection.outlook.com [40.107.94.48])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B505FD7;
+	Mon,  4 Dec 2023 11:02:49 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RsKZX9Kfc6k+497+Uj/u7ohTwizZrUtEvruruz9Ui27xXlILavVruWD6IU4OgwWtYfvvIjTKe80EYLKp1YsdsrZmy7ExmP2pbl/Yj7n9od9Sb2bcemni6Qj7IAyLDuZGgc6Zk0QOiR74wIc+UZ8gzWu6oM4iuKzwjqrhMv4nN7RTCk+t0aAOOEPjB64yzceaGIB0rTTfzrA7KReZz1gTsI8r9LSNXtbWqBXcSeffJBSEKJPZ1ekCWKEA0Vde2DW/3yXiTHRm1xNU/zberb/cFJHmeTqXWfCg7zLvjdsSCH8XvolBc0YfD0ae5v6tQBPBFe4rBTdbvdnOXPIC3QjK+w==
+ b=W76ztgPLU+eav5A9qT51OuekMA2qF5DgwKrKG+tCX2YGVKm5vzyYbv/z/x2NplO/I3A+IKYcMd71xQHqykFe3mf1N246k8XlZCpxb5iGmIV6eq8sjlF2pK+nE15jKebykp7o+MjqjN9/WxhOUPt8tIok4KcKM8eLMSpEscBjtoZRu2U+lc3Exh4vsUyz/VxJ3/8g5wLQ96uQUtdf6fpYwS4RRMTD8ZJCyjuosqgwjneuxhvQ/ZxWqAkeEPrPCscMpgXlaOl8RQGgaYPPLl4MopI6bNSK5NAKxphPbryOHOfzjRk8OGe0y7r0xog0FbZDJc1YtYNOt+Yq3KxjA2nvQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DRi/2b0b9jegDdHucKpfR5CFgv6ODB3HrSikqdRHkx0=;
- b=k8Jm1eEW3CKQPQ9MZ2YkTH2Hfl7v0mghVBRcZyDLoMhwqiB2qVJWFWXmzFjEjnLQRzzdCsnpaxaNIJ1Ya33+NLz9oV1ymxxYZL/rixNqNSIE9dPda4kxbAZcCwdUaZubl390LLyU0eXv9Fgm+/oPNvX3bJGvo1Xmeprm4xVnnmJbbNzsFxCBWNmBEEURD2vMcWVzS9Nn55peWJru3OC4wLHR7EqqJ+ponAtf/SGTEinf/1GDLojQMdqxnt+byvhWXr6aPzLRQmHJCfBwGR5+QfxLyI6h9Ej9aso+JaMHJJNbB3sE5Glmtn8IhG4dDZFugYyk9UuITM10A7SYLzqsfg==
+ bh=4vru/hj0rHQH9A/XcNx6uFwf6rXnzyogZdXYrGvCKrg=;
+ b=DK47Czd0hOx5OTy2/dBB/eZgbYFeR52djBFlEARcCv4waUWSwqXCrAiEP9xViG5kjJFWiE8WIxD+fsc1wsU/2tK1saHL8yEL9cVUc5lTEkiwvPHZEF/3LY7+5tMVaowulhmH7+XLdM9L8xgUUT7lRz0tuDfjL5T69F56x/ZAD9zPlyz0JCxNu53wcQROB0qiGHO3PkjxyUuCc0rVXFSSuHuUC14J34/JFWE/LA72srOBqFsyPqp1+oMTUi8UHghrxJmheYUMJQ9iE79Q722rEhiJOfmUiJse4V0xnsplDBCLsFNSaxu2JpYl83tL6DPDDQZydubSXfOC3x8W8Vk2zA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DRi/2b0b9jegDdHucKpfR5CFgv6ODB3HrSikqdRHkx0=;
- b=4bUX8V2vNQsEG1kB5mpNWqL5JTcXo9r1Lj2nRml+SqS5pRUdzbPQQiDASPR0xxofHSBbRJCX4cu8RsaeeAC0D4TFxorROvEcE+9OA4edL1QWE6hGincAKa3U0Lh4wreTj+D9+NquftR3LfMTW8+VLrBAdAR92Cud5FpHczAK16M=
+ bh=4vru/hj0rHQH9A/XcNx6uFwf6rXnzyogZdXYrGvCKrg=;
+ b=3k+ecigka6AO61TfQ01525Eei7LNCA2d5XaYsFK152C+uSThqVVORvEk9MCwkM95xlnC8ZubQunlJBLF9rLdSVYYMtwALCMsIgU8HTdjrd+lsid12AMnGnmu6JaY+6uuxGxmaN5ZwdKsC/qhUdUbsA9IxnDrfHxHcx3NgDVA2OM=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
  by IA1PR12MB8312.namprd12.prod.outlook.com (2603:10b6:208:3fc::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.33; Mon, 4 Dec
- 2023 19:02:20 +0000
+ 2023 19:02:47 +0000
 Received: from MN0PR12MB6101.namprd12.prod.outlook.com
  ([fe80::83d7:9c4f:4d9b:1f2a]) by MN0PR12MB6101.namprd12.prod.outlook.com
  ([fe80::83d7:9c4f:4d9b:1f2a%5]) with mapi id 15.20.7046.034; Mon, 4 Dec 2023
- 19:02:20 +0000
-Message-ID: <9e7f0d00-483c-4187-8bec-d7832ab8816b@amd.com>
-Date: Mon, 4 Dec 2023 13:02:16 -0600
+ 19:02:47 +0000
+Message-ID: <ba6ded1b-7132-4165-b6be-77211c014e08@amd.com>
+Date: Mon, 4 Dec 2023 13:02:45 -0600
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 14/15] platform/x86/amd/pmf: Add PMF-AMDSFH interface
- for HPD
+Subject: Re: [PATCH v6 13/15] HID: amd_sfh: rename float_to_int() to
+ amd_sfh_float_to_int()
+Content-Language: en-US
 To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, hdegoede@redhat.com,
  markgross@kernel.org, ilpo.jarvinen@linux.intel.com,
  basavaraj.natikar@amd.com, jikos@kernel.org, benjamin.tissoires@redhat.com
 Cc: Patil.Reddy@amd.com, platform-driver-x86@vger.kernel.org,
  linux-input@vger.kernel.org
 References: <20231204101548.1458499-1-Shyam-sundar.S-k@amd.com>
- <20231204101548.1458499-15-Shyam-sundar.S-k@amd.com>
-Content-Language: en-US
+ <20231204101548.1458499-14-Shyam-sundar.S-k@amd.com>
 From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20231204101548.1458499-15-Shyam-sundar.S-k@amd.com>
+In-Reply-To: <20231204101548.1458499-14-Shyam-sundar.S-k@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: SJ2PR07CA0019.namprd07.prod.outlook.com
  (2603:10b6:a03:505::21) To MN0PR12MB6101.namprd12.prod.outlook.com
  (2603:10b6:208:3cb::10)
@@ -71,362 +71,165 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|IA1PR12MB8312:EE_
-X-MS-Office365-Filtering-Correlation-Id: 08d5acab-f884-44b8-fd5b-08dbf4fb8a67
+X-MS-Office365-Filtering-Correlation-Id: 78a80bb7-9b66-4e38-7583-08dbf4fb9a6a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	mLmLbvO83Q4aHZ/zl8bhkaarWJG1F0gbYYxF0UpDpxrF/ktv3FD81niEVQzll2FKTfHxIDy+eS2KEunTTK/EL0MPqmkYzyWw3WGwbASARhdA6btXyLs8gxDofWr8J9L8EbUkT9HRjyVpJNlvjHdScfQFzuWQUw3xlHKyun6doPOkdC/7EJFd4UFDi/TnyWGhiZXGkVhcUjll6JiIeWlMfQsa0wXIL2mf5QPeI/HHkgrXQrSR+BYutYtTnGmpozjs2epNyxoMk3yXmMge4PUZ00ze8k4lU+Bai0BdzhztUXS608X2kzmWq8KGS+BCckq7KT3Ww8ObrGSxohPCOIh79jLlQlQYp5lCC9hKTSfuaKA6hoPUgJABGI6ad1q8ere2ekSqHpZmXUrdU+7lzpirKI7QlGAI6oGt4oDBHlB5ChV/ebIxewrMhj/8DPGzO++r9/+EOvUAxAddfI6tZSghhAwCupPGzn+CpACblkbaTtFrKrsjBr7f1SMjmpqsFE54PfpLHBulIV0po2Q2sI2jdzmrTeh9cEv53eL00qDAS4eE581FP5r52zOUALtXnxZuxtTLpTMa7KowO4yxsktlj16z0+4gfj5iyO4/pN6SkiKVfG7eE7bNVauxTyF6CS5oEGmwtg6wOD4VWBLgwRodnQ==
+	QNUFjg1U3NeXL9RHz/miTj5xmRrRmovW7VzB/ESEYKrLEWBZ3q5+RB581Q6zANYlunyHScK2Dqo5QSIjTe6Dk3eSzAJlwnD0WRnnuoaPMmKfUr3XmJ3ZBcxd9vyV0Tl8u9tk7tMyhR776CUmGjQiQn4FI88XPbVsoaS4mShBotKm5gYQiIjU4L9WDour+TGiukcwj2ZQYDyCQmeaoTqO1T0BdcwnJatupoPIWoLzQ68ZBBzkyX62vDtDGrEnOSlsIljZFNCcpfPbVUm+PuIxOHOWvawwMphFuLJz89RwNswS9w4D5ngw38Q2vp25929+QN23OD0dL94VBVmMlC2a0xHA0z4z7T8g/ZOqgBduTDnhK2XI44aIcxw9eb9sWdbpfY4IIfWmfs+8QKdn8QlvRf8Krzx3jB/s5Mwg6lV42S5aRvCXcMccDRScQwCwRU5QUiegTSzfMlMDqvO8c0gauVFXgczWgOoEoC7We0LvBdMlIKcxKm05/mo+QxCPNQivcsKclsGxUzbWf36ncbfk6AkY6nH5t4ddnnlnkMqWjZBnw3ZWDEtQSWxdC9zIBG1TRnGTi2YBKE54mJifscZphbA2pVmYRT5+0/TGmd9fJvS0xvHUtRHv/G6QNoEAbkvF5aSQ4QJbfHF8nr+4dcb9Bw==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(39860400002)(136003)(396003)(366004)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(66556008)(66476007)(66946007)(316002)(478600001)(6486002)(6666004)(38100700002)(5660300002)(41300700001)(36756003)(2906002)(86362001)(31696002)(44832011)(4326008)(8676002)(8936002)(31686004)(2616005)(83380400001)(26005)(6512007)(53546011)(6506007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(39860400002)(136003)(396003)(366004)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(66556008)(66476007)(66946007)(316002)(478600001)(6486002)(38100700002)(5660300002)(41300700001)(36756003)(2906002)(86362001)(31696002)(44832011)(4326008)(8676002)(8936002)(31686004)(2616005)(83380400001)(26005)(66574015)(6512007)(53546011)(6506007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eHV4Kzd1cU51RUZXUURKQlZ5KysycGI0blN1WHFWenVpOCt2OGF1QUp2RzhQ?=
- =?utf-8?B?aGc5S0pnTlpLNVRHb01CUXFmc1crNjVucXBxQ2NzNVNiZzVrMWtOb1N6MW1H?=
- =?utf-8?B?aVFvQWllYnUxN3VtVW5oUy9xcTM5NHdHM3RJR2Fhb1BUb2k0NmwrbWVwRU1M?=
- =?utf-8?B?K1lxL1ptOXFjMzBuVU5KQlUvOEtJUTl6ZDRvU3lUZ0xYTG8veXhNL0tHRDNL?=
- =?utf-8?B?RmN6aEFCcmcwQjBZQ0ZOd1NnUTl5QUxJbTFLRVJ1S3hxOFIzODg4NjN5NDlS?=
- =?utf-8?B?cWE2dm8yMVVuU0dFMWdYcm5DNDdMN1lUR0RNYjlGcWljckM4SmhkMTB4WHBu?=
- =?utf-8?B?TXdnZEJjVTMyTmJvMzhRWmJlbmJ3czN6TGRaNUYraWtWb0txQWJIaVFSRjhV?=
- =?utf-8?B?M1VJbzB3bkJ5QlA3bjEvdmtjTkFhTTY0ejlkdjJUOWQ2ZXFPeHNQZ3cvcWtl?=
- =?utf-8?B?Nll4dmUvc2R4TVhhcGJGRlhxaXpJanlYZG5kc3UvaGhKRW8xTENmU0Fsdjc2?=
- =?utf-8?B?M0pGdEp2UU9vVEthK1B6UXdJdW9sWTVSMXl2TERTYjlwN1UzZDZwcmxHMWZW?=
- =?utf-8?B?Q2dnN1JPU1JRQlQ3Q1k0MlkyUFpON0hPZHJjYzBSTjFXSXVCVHlDTDA1NVdn?=
- =?utf-8?B?UVBQOWdocURRRk9BRnRCc3NwbVRxbGoreC9ZRFlCbkVJY3N1ZlN6aHFUNXJC?=
- =?utf-8?B?T0ZhKzNwWkFPYWZEbVkxaHFSNVg3bGs4WS9oWVhwODhMYXBYY002YkRTRTJG?=
- =?utf-8?B?MXd5blY5eFdpUDl6L2lQaHNzWExkSkdpUWd2am5MZ1dHemxaaHhSRWtVUk8w?=
- =?utf-8?B?bGxCT3N1cEg1Sk1KdlpKU3VWK0lrb0VVVjRhL3NKOUxmV0ljZDdIZ1Fwb2xt?=
- =?utf-8?B?a0Fxd0E5Q21TdFYwczM1ZTVZa3pUSm5oTnhkWi9WTExGVXVUUEFEOFErOUNZ?=
- =?utf-8?B?cE9Ic1B0b3kzVTdyQ1hWdDJWRzJhVDlGSmRUeDQwVUNqYlhuWUcxSmlIaHQv?=
- =?utf-8?B?LzdLRzJvTGExMFFieXMzbi9yazgvcSt5Tm52cGdSNmdDc0Zmc3ZDczJiZklY?=
- =?utf-8?B?Nzc2Y3dod0lKL1ZaTTZUOUJXNjh5V1IyREtFaEZoMVlKT3ZDaE5WOXFKdWc1?=
- =?utf-8?B?ajhlSVowc2kzOHRaVU9LTGV4UG1IUUdyTncyL1IwRWNaN0JUc0JhcGl3cmV2?=
- =?utf-8?B?ZDI4U0NuVFY3Y2NnQTJLLzBFTFpkdFlycXV6RlE3V01yTkZmN1gveGxmK1JO?=
- =?utf-8?B?V2JRalF0L2dkQm5XeFc1UTI0QXpjaDRkMi9nYzJzbTR3eFBDMGV0QkU3V0Rz?=
- =?utf-8?B?MmtBbzdsRytOSFZCc1hCbTk1eW14djJyMFN1Y013NmJia3paVUpBVEk1RGVP?=
- =?utf-8?B?KzdvN2hyTjNHUUxVK3RXTFRNbnpPcmlMYk4zRFRUb0FsZGthYndKT0NJeTh1?=
- =?utf-8?B?MVNkZXFpS3VkbmFRMnZYQmNGNElzTmJPdlRrcE1sSTVxMEhxb213N05MTTJr?=
- =?utf-8?B?aU95azhJSHpLbUFXUEtBdzIvZTl4K1FONTVNTVNkc1Yzc2JBS0FHeThqRVVJ?=
- =?utf-8?B?SzBzN2ZiMi9HalhwaUswNm01amF4NmIrOVY0aXE3cTFUOGZVNmJmdHJFMWJI?=
- =?utf-8?B?dk1abkx3R2pQeFgxL1lXK2lra21SWENHN2lDd3E4UWJhNldHYVB3M3BjYlNR?=
- =?utf-8?B?TUxoTmZZWW9aRjF5QmVVTTUvMjRqWFUwVG00L001Vk5ObmFhczkrSFpQTG5Z?=
- =?utf-8?B?cnM3MlBPVEtDRG9FcVRtb0NNVVFKejIyOVJWaG5TcGdxeGNHd1NjMm1odmFT?=
- =?utf-8?B?MTZvOFpyd1VGQW9Ua045UGNwY2treWtGaFY1eEhtajNGakx6d3B0TDAyVXVT?=
- =?utf-8?B?K2tHbCtzeVZ3NTZTZ1g5Q21zcVB2UHZNUGozWWlYSTJzaVJEUHRPcEd5VzF1?=
- =?utf-8?B?UDlLVDN5dFE5cjdkRVRmS0lXWnpRVGpSNDhkbTQxTEFWdDBRK0lxTytzMEp4?=
- =?utf-8?B?elBTbjlnMk5nWlE4NXNTWlhFck5PekdLQmRlTldzcmdwNXEvY3Q0bWUwUlNG?=
- =?utf-8?B?ZVJHNVl4eVVRNHhURVQ4VGZaRU1LanZaSEk0Z2twMHVkOGJsc3ZiZEViUlNz?=
- =?utf-8?Q?nCa5dh1p5Jm66Jt3uHTjWEQ0o?=
+	=?utf-8?B?RzhHczlQc0IwR25wSUU2T0F0MUY4NmNTelRTS2pkYVBjbXVIUVJYSVBUdDdv?=
+ =?utf-8?B?UE5IUld4V2xEbXk2YmxINEMwSzRTMUdTUXl3MWgwMDh2clVLL0xZWXlHdnVj?=
+ =?utf-8?B?R3lBaDNyWDV1b0hJZjVNdmJnNFZUY0FoSXkrS3JWOXJqRDZkcUI0VCtEM1lw?=
+ =?utf-8?B?ODdlaVNnREh5RnhQZk0yOEhKeGtXVENldHlQYVZNZUpNWldhOUhoWEdMZjJt?=
+ =?utf-8?B?NG5hUUFXSjh1OEVVTFdEOFZrdFF5TFZIZ0JVd216bjNEaFNuVjZCL3d2UllD?=
+ =?utf-8?B?MjhWUStESTlvMTR6R1AxQzg0S2dSQUo1b3NZSWpLMTR6bk5pTmNWRDNJWmhF?=
+ =?utf-8?B?dWhmMHdCZ3oycFF3V2puRGJCU1BjcDBZY0Jwc1FrbEJlN1JDOW5JQ2RPSjVL?=
+ =?utf-8?B?OGtZdkw3TnJpaWZlcTlVWGZOeWd4RXYzSVl2VUZtRmR2czBqVndndXJkZ1JO?=
+ =?utf-8?B?eUVoYjRidXFNUFFYa21ydW9zaTJDUUJXeGZmazRxR0E2NXpRUXpUbzFJOGZj?=
+ =?utf-8?B?MjRrT2ZLTnBqeXRDMUtBMEhySHE2b3A4NzVET05pTGtmYlRNTFlWbTZOeUxS?=
+ =?utf-8?B?RXUxVHRJSC9zWWpINlNRa2YyanZEYXdzdlpvTFdqUHhCVkg3NWlyMTdrN3o5?=
+ =?utf-8?B?TzVsYWVyeFAvWTREN24rOUo4eUluNit1aUZja1RxUzkyWXBqeHg3ZEJKTFdn?=
+ =?utf-8?B?NU5YRHNTUnc0WEVFci8wNHAwS0FVT1pwL2VzRDlFaDNFOFdNcytsMnA0RTJz?=
+ =?utf-8?B?SGVqVHF6VXdQQTc4ZmluU3NhaDZKOUNyWG1LRFJGM2RnVUUzZ09RZHVocUNn?=
+ =?utf-8?B?TjlOQmxSNysvNnBmelcwZFdDQW1TcHFnUHl6aHdrdzRkNHNsVGtRYTZnNW8x?=
+ =?utf-8?B?UEhiUkU3VWJaR2Y5NWRRZHRBZmtzcm9xZEtKdG9CVDI2MWdsRkx1N2hVN0or?=
+ =?utf-8?B?K2M4UDB3ViticGREc1NsVXJuNnpJUlNobG85V2VtQkkyMnB0ek9IVDRXSlQx?=
+ =?utf-8?B?ejYvbFJJOGpxYUhSVUJ2Zm5oNVBNTnc3Z1FzRTJjbnhNLzJhMnZmRkxrQmxL?=
+ =?utf-8?B?bFRsVHo4MEF4b2tqVGlDNFZQbUR3eHZkWUJpUUJRdzFtdTErcUtWMGthZzNt?=
+ =?utf-8?B?Vy9KTksrb3NqNFlWa3I5czFQV0UxbnFpNTUzRldTSXlNcTVXNGY2aFRUUFo3?=
+ =?utf-8?B?ZzZENThKSTVRY2VzTlczRTJyQVhhSnZxK0k2SjdqQVVvZEFJNS9QTFR3NkpB?=
+ =?utf-8?B?OExFQXBmRXVqbWtiZ1owdUo4MFhRZHN6K0F0YUNqYzJ3Q01xdDZkZGFtQTdh?=
+ =?utf-8?B?VjRqUTFEZEJJREZldEtrVU1ERjE5K2tGajJNNTJlMDFSMEo0Y2I3RFhIb085?=
+ =?utf-8?B?L3pGNndNbkNUTmtIMktqOW5XZWpxQytkVkxKMXU5YTVKZDArUXVJdnY2VFVR?=
+ =?utf-8?B?YTNOaG1INjBQd3lENUorNVVlMTNXaFpONGJxZHZlcmpYcHc2eitXampsTldR?=
+ =?utf-8?B?ajVuYWZtSGVzc0I5amtIaHN4QVJKenRQV3RsUDZucDRmTGIrM21kRWdkbE9s?=
+ =?utf-8?B?VHpvcWJrQ3JYUnhaZm4xUlI5WEN4ekV2Y05ieFlnam0rck43d1hOMGZiMXox?=
+ =?utf-8?B?L21rQkNMWGkvbjZXdndOZ003SkJCejZib2Y3aTQzMFJHNi9PSW1RSGpIckw3?=
+ =?utf-8?B?SXFHcXRlUnZjekRxd1VPaWkzOTA1bmNjVGNGSjNLTHJoeXBUd2pyK0c4blJT?=
+ =?utf-8?B?ZG9EZUtNRitVbStTb3NhVEZEa0hMeWczR2hyNjdvSG9UYnBacmE2TzIxcnBw?=
+ =?utf-8?B?S1UwUjBad0dobms0MnNGc1RJY2ZnclRjOU9ZenZIZ2JiaTNlQVA5TWFVQTRt?=
+ =?utf-8?B?aTBtUFlmd1F2U0czUERyeGdaRmxtQVl3cHlpVnNOWEYxdFZ4UlRNQ3hCYlJD?=
+ =?utf-8?B?UWRkMnBSYzRnd0E0ZGJlSld0R1pOSlZzQTA4djJvNVRsRjM1bWV4N2NUcDE4?=
+ =?utf-8?B?YitaREpUWW8xcm00Mlc3UkYzMWZRRHRZc0dZUE9uaVpsWWFkUDQzeU51L0w3?=
+ =?utf-8?B?ZkRyNmt4SzBiYTl5VVJ4SWwzY2k5M3ZOeHpZVUVsRTBpV0tIdEN0Zm1wMTVn?=
+ =?utf-8?Q?YWhTao0YJLjDqPE1W64bPDGKZ?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08d5acab-f884-44b8-fd5b-08dbf4fb8a67
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78a80bb7-9b66-4e38-7583-08dbf4fb9a6a
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2023 19:02:20.2231
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2023 19:02:46.9570
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Redhy4vv9Aw2TYB/scUpHd4++vlnr/gkA+K8ifIZsUSldxpRS7oTKElKa4SXPB9KoW+sguydh33nYo7pwBLumg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: JYdzGbwSVs8a9RK1CaN+c8Xzo4/M6LzuNF47h2Sw5Zqa4ADACRvKvOPStz1Y4MkDEXperh+P7db1dkfyRW1Trw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8312
 
 On 12/4/2023 04:15, Shyam Sundar S K wrote:
 > From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 > 
-> AMDSFH has information about the User presence information via the Human
-> Presence Detection (HPD) sensor which is part of the AMD sensor fusion hub.
-> Add PMF and AMDSFH interface to get this information.
+> Current amd_sfh driver has float_to_int() to convert units from
+> float to int. This is fine until this function gets called outside of
+> the current scope of file.
 > 
+> Add a prefix "amd_sfh" to float_to_int() so that function represents
+> the driver name. This function will be called by multiple callers in the
+> next patch.
+> 
+> Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 > Co-developed-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 > Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 > Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 > ---
->   drivers/hid/amd-sfh-hid/amd_sfh_common.h      |  5 ++
->   drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 14 ++++++
->   .../amd-sfh-hid/sfh1_1/amd_sfh_interface.c    | 33 +++++++++++++
+>   drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c | 28 ++++++++++---------
 >   .../amd-sfh-hid/sfh1_1/amd_sfh_interface.h    |  1 +
->   drivers/platform/x86/amd/pmf/Kconfig          |  1 +
->   drivers/platform/x86/amd/pmf/spc.c            | 22 +++++++++
->   include/linux/amd-pmf-io.h                    | 46 +++++++++++++++++++
->   7 files changed, 122 insertions(+)
->   create mode 100644 include/linux/amd-pmf-io.h
+>   2 files changed, 16 insertions(+), 13 deletions(-)
 > 
-> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_common.h b/drivers/hid/amd-sfh-hid/amd_sfh_common.h
-> index 2643bb14fee2..cd57037bf217 100644
-> --- a/drivers/hid/amd-sfh-hid/amd_sfh_common.h
-> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_common.h
-> @@ -37,6 +37,10 @@ struct amd_mp2_sensor_info {
->   	dma_addr_t dma_address;
->   };
->   
-> +struct sfh_dev_status {
-> +	bool is_hpd_present;
-> +};
-> +
->   struct amd_mp2_dev {
->   	struct pci_dev *pdev;
->   	struct amdtp_cl_data *cl_data;
-> @@ -47,6 +51,7 @@ struct amd_mp2_dev {
->   	struct amd_input_data in_data;
->   	/* mp2 active control status */
->   	u32 mp2_acs;
-> +	struct sfh_dev_status dev_en;
->   };
->   
->   struct amd_mp2_ops {
-> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
-> index e9c6413af24a..0351b0fd394a 100644
-> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
-> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
-> @@ -73,6 +73,12 @@ static int amd_sfh_hid_client_deinit(struct amd_mp2_dev *privdata)
->   	int i, status;
->   
->   	for (i = 0; i < cl_data->num_hid_devices; i++) {
-> +		switch (cl_data->sensor_idx[i]) {
-> +		case HPD_IDX:
-> +			privdata->dev_en.is_hpd_present = false;
-> +			break;
-> +		}
-> +
->   		if (cl_data->sensor_sts[i] == SENSOR_ENABLED) {
->   			privdata->mp2_ops->stop(privdata, cl_data->sensor_idx[i]);
->   			status = amd_sfh_wait_for_response
-> @@ -178,6 +184,11 @@ static int amd_sfh1_1_hid_client_init(struct amd_mp2_dev *privdata)
->   			rc = amdtp_hid_probe(i, cl_data);
->   			if (rc)
->   				goto cleanup;
-> +			switch (cl_data->sensor_idx[i]) {
-> +			case HPD_IDX:
-> +				privdata->dev_en.is_hpd_present = true;
-> +				break;
-> +			}
->   		}
->   		dev_dbg(dev, "sid 0x%x (%s) status 0x%x\n",
->   			cl_data->sensor_idx[i], get_sensor_name(cl_data->sensor_idx[i]),
-> @@ -259,6 +270,7 @@ static void amd_mp2_pci_remove(void *privdata)
->   {
->   	struct amd_mp2_dev *mp2 = privdata;
->   
-> +	sfh_deinit_emp2();
->   	amd_sfh_hid_client_deinit(privdata);
->   	mp2->mp2_ops->stop_all(mp2);
->   	pci_intx(mp2->pdev, false);
-> @@ -311,12 +323,14 @@ int amd_sfh1_1_init(struct amd_mp2_dev *mp2)
->   
->   	rc = amd_sfh_irq_init(mp2);
->   	if (rc) {
-> +		sfh_deinit_emp2();
->   		dev_err(dev, "amd_sfh_irq_init failed\n");
->   		return rc;
->   	}
->   
->   	rc = amd_sfh1_1_hid_client_init(mp2);
->   	if (rc) {
-> +		sfh_deinit_emp2();
->   		dev_err(dev, "amd_sfh1_1_hid_client_init failed\n");
->   		return rc;
->   	}
-> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
-> index 4f81ef2d4f56..f8758fb70b1a 100644
-> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
-> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
-> @@ -7,11 +7,14 @@
->    *
->    * Author: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
->    */
-> +#include <linux/amd-pmf-io.h>
->   #include <linux/io-64-nonatomic-lo-hi.h>
->   #include <linux/iopoll.h>
->   
->   #include "amd_sfh_interface.h"
->   
-> +static struct amd_mp2_dev *emp2;
-> +
->   static int amd_sfh_wait_response(struct amd_mp2_dev *mp2, u8 sid, u32 cmd_id)
->   {
->   	struct sfh_cmd_response cmd_resp;
-> @@ -73,7 +76,37 @@ static struct amd_mp2_ops amd_sfh_ops = {
->   	.response = amd_sfh_wait_response,
->   };
->   
-> +void sfh_deinit_emp2(void)
-> +{
-> +	emp2 = NULL;
-> +}
-> +
->   void sfh_interface_init(struct amd_mp2_dev *mp2)
->   {
->   	mp2->mp2_ops = &amd_sfh_ops;
-> +	emp2 = mp2;
-> +}
-> +
-> +static int amd_sfh_hpd_info(u8 *user_present)
-> +{
-> +	struct hpd_status hpdstatus;
-> +
-> +	if (!emp2 || !emp2->dev_en.is_hpd_present)
-> +		return -ENODEV;
-> +
-> +	hpdstatus.val = readl(emp2->mmio + AMD_C2P_MSG(4));
-> +	*user_present = hpdstatus.shpd.presence;
-
-It's an unlikely problem considering there is only one consumer for this 
-function but if amd_sfh_hpd_info() was called with NULL as an argument 
-this is a NULL pointer derefence.
-
-So I think this function should have at the beginning:
-
-if (!user_present)
-	return -EINVAL;
-
-> +	return 0;
-> +}
-> +
-> +int amd_get_sfh_info(struct amd_sfh_info *sfh_info, enum sfh_message_type op)
-> +{
-> +	if (sfh_info) {
-> +		switch (op) {
-> +		case MT_HPD:
-> +			return amd_sfh_hpd_info(&sfh_info->user_present);
-> +		}
-> +	}
-> +	return -EINVAL;
+> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
+> index 8a037de08e92..33fbdde8aff0 100644
+> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
+> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
+> @@ -132,7 +132,7 @@ static void get_common_inputs(struct common_input_property *common, int report_i
+>   	common->event_type = HID_USAGE_SENSOR_EVENT_DATA_UPDATED_ENUM;
 >   }
-> +EXPORT_SYMBOL_GPL(amd_get_sfh_info);
+>   
+> -static int float_to_int(u32 flt32_val)
+> +int amd_sfh_float_to_int(u32 flt32_val)
+>   {
+>   	int fraction, shift, mantissa, sign, exp, zeropre;
+>   
+> @@ -201,9 +201,9 @@ static u8 get_input_rep(u8 current_index, int sensor_idx, int report_id,
+>   			     OFFSET_SENSOR_DATA_DEFAULT;
+>   		memcpy_fromio(&accel_data, sensoraddr, sizeof(struct sfh_accel_data));
+>   		get_common_inputs(&acc_input.common_property, report_id);
+> -		acc_input.in_accel_x_value = float_to_int(accel_data.acceldata.x) / 100;
+> -		acc_input.in_accel_y_value = float_to_int(accel_data.acceldata.y) / 100;
+> -		acc_input.in_accel_z_value = float_to_int(accel_data.acceldata.z) / 100;
+> +		acc_input.in_accel_x_value = amd_sfh_float_to_int(accel_data.acceldata.x) / 100;
+> +		acc_input.in_accel_y_value = amd_sfh_float_to_int(accel_data.acceldata.y) / 100;
+> +		acc_input.in_accel_z_value = amd_sfh_float_to_int(accel_data.acceldata.z) / 100;
+>   		memcpy(input_report, &acc_input, sizeof(acc_input));
+>   		report_size = sizeof(acc_input);
+>   		break;
+> @@ -212,9 +212,9 @@ static u8 get_input_rep(u8 current_index, int sensor_idx, int report_id,
+>   			     OFFSET_SENSOR_DATA_DEFAULT;
+>   		memcpy_fromio(&gyro_data, sensoraddr, sizeof(struct sfh_gyro_data));
+>   		get_common_inputs(&gyro_input.common_property, report_id);
+> -		gyro_input.in_angel_x_value = float_to_int(gyro_data.gyrodata.x) / 1000;
+> -		gyro_input.in_angel_y_value = float_to_int(gyro_data.gyrodata.y) / 1000;
+> -		gyro_input.in_angel_z_value = float_to_int(gyro_data.gyrodata.z) / 1000;
+> +		gyro_input.in_angel_x_value = amd_sfh_float_to_int(gyro_data.gyrodata.x) / 1000;
+> +		gyro_input.in_angel_y_value = amd_sfh_float_to_int(gyro_data.gyrodata.y) / 1000;
+> +		gyro_input.in_angel_z_value = amd_sfh_float_to_int(gyro_data.gyrodata.z) / 1000;
+>   		memcpy(input_report, &gyro_input, sizeof(gyro_input));
+>   		report_size = sizeof(gyro_input);
+>   		break;
+> @@ -223,9 +223,9 @@ static u8 get_input_rep(u8 current_index, int sensor_idx, int report_id,
+>   			     OFFSET_SENSOR_DATA_DEFAULT;
+>   		memcpy_fromio(&mag_data, sensoraddr, sizeof(struct sfh_mag_data));
+>   		get_common_inputs(&magno_input.common_property, report_id);
+> -		magno_input.in_magno_x = float_to_int(mag_data.magdata.x) / 100;
+> -		magno_input.in_magno_y = float_to_int(mag_data.magdata.y) / 100;
+> -		magno_input.in_magno_z = float_to_int(mag_data.magdata.z) / 100;
+> +		magno_input.in_magno_x = amd_sfh_float_to_int(mag_data.magdata.x) / 100;
+> +		magno_input.in_magno_y = amd_sfh_float_to_int(mag_data.magdata.y) / 100;
+> +		magno_input.in_magno_z = amd_sfh_float_to_int(mag_data.magdata.z) / 100;
+>   		magno_input.in_magno_accuracy = mag_data.accuracy / 100;
+>   		memcpy(input_report, &magno_input, sizeof(magno_input));
+>   		report_size = sizeof(magno_input);
+> @@ -235,13 +235,15 @@ static u8 get_input_rep(u8 current_index, int sensor_idx, int report_id,
+>   			     OFFSET_SENSOR_DATA_DEFAULT;
+>   		memcpy_fromio(&als_data, sensoraddr, sizeof(struct sfh_als_data));
+>   		get_common_inputs(&als_input.common_property, report_id);
+> -		als_input.illuminance_value = float_to_int(als_data.lux);
+> +		als_input.illuminance_value = amd_sfh_float_to_int(als_data.lux);
+>   
+>   		memcpy_fromio(&binfo, mp2->vsbase, sizeof(struct sfh_base_info));
+>   		if (binfo.sbase.s_prop[ALS_IDX].sf.feat & 0x2) {
+>   			als_input.light_color_temp = als_data.light_color_temp;
+> -			als_input.chromaticity_x_value = float_to_int(als_data.chromaticity_x);
+> -			als_input.chromaticity_y_value = float_to_int(als_data.chromaticity_y);
+> +			als_input.chromaticity_x_value =
+> +				amd_sfh_float_to_int(als_data.chromaticity_x);
+> +			als_input.chromaticity_y_value =
+> +				amd_sfh_float_to_int(als_data.chromaticity_y);
+>   		}
+>   
+>   		report_size = sizeof(als_input);
 > diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
-> index 75267b0fec70..2c211d28764d 100644
+> index 656c3e95ef8c..75267b0fec70 100644
 > --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
 > +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
-> @@ -165,6 +165,7 @@ struct hpd_status {
->   };
+> @@ -166,4 +166,5 @@ struct hpd_status {
 >   
 >   void sfh_interface_init(struct amd_mp2_dev *mp2);
-> +void sfh_deinit_emp2(void);
 >   void amd_sfh1_1_set_desc_ops(struct amd_mp2_ops *mp2_ops);
->   int amd_sfh_float_to_int(u32 flt32_val);
+> +int amd_sfh_float_to_int(u32 flt32_val);
 >   #endif
-> diff --git a/drivers/platform/x86/amd/pmf/Kconfig b/drivers/platform/x86/amd/pmf/Kconfig
-> index f246252bddd8..f4fa8bd8bda8 100644
-> --- a/drivers/platform/x86/amd/pmf/Kconfig
-> +++ b/drivers/platform/x86/amd/pmf/Kconfig
-> @@ -10,6 +10,7 @@ config AMD_PMF
->   	depends on AMD_NB
->   	select ACPI_PLATFORM_PROFILE
->   	depends on TEE && AMDTEE
-> +	depends on AMD_SFH_HID
->   	help
->   	  This driver provides support for the AMD Platform Management Framework.
->   	  The goal is to enhance end user experience by making AMD PCs smarter,
-> diff --git a/drivers/platform/x86/amd/pmf/spc.c b/drivers/platform/x86/amd/pmf/spc.c
-> index a0423942f771..5e769dcb075a 100644
-> --- a/drivers/platform/x86/amd/pmf/spc.c
-> +++ b/drivers/platform/x86/amd/pmf/spc.c
-> @@ -10,6 +10,7 @@
->    */
->   
->   #include <acpi/button.h>
-> +#include <linux/amd-pmf-io.h>
->   #include <linux/power_supply.h>
->   #include <linux/units.h>
->   #include "pmf.h"
-> @@ -44,6 +45,7 @@ void amd_pmf_dump_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *
->   	dev_dbg(dev->dev, "Max C0 Residency: %u\n", in->ev_info.max_c0residency);
->   	dev_dbg(dev->dev, "GFX Busy: %u\n", in->ev_info.gfx_busy);
->   	dev_dbg(dev->dev, "LID State: %s\n", in->ev_info.lid_state ? "close" : "open");
-> +	dev_dbg(dev->dev, "User Presence: %s\n", in->ev_info.user_present ? "Present" : "Away");
->   	dev_dbg(dev->dev, "==== TA inputs END ====\n");
->   }
->   #else
-> @@ -147,6 +149,25 @@ static int amd_pmf_get_slider_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_
->   	return 0;
->   }
->   
-> +static void amd_pmf_get_sensor_info(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
-> +{
-> +	struct amd_sfh_info sfh_info;
-> +
-> +	/* get HPD data */
-> +	amd_get_sfh_info(&sfh_info, MT_HPD);
-
-There is still an error handling miss here.  amd_get_sfh_info() can 
-return error codes but they're discarded and sfh_info hasn't been 
-initialized to anything so this could be garbage going into the switch() 
-statement.
-
-So can you explicitly check for errors on amd_get_sfh_info()?
-
-> +	switch (sfh_info.user_present) {
-> +	case SFH_NOT_DETECTED:
-> +		in->ev_info.user_present = 0xff; /* assume no sensors connected */
-> +		break;
-> +	case SFH_USER_PRESENT:
-> +		in->ev_info.user_present = 1;
-> +		break;
-> +	case SFH_USER_AWAY:
-> +		in->ev_info.user_present = 0;
-> +		break;
-> +	}
-> +}
-> +
->   void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *in)
->   {
->   	/* TA side lid open is 1 and close is 0, hence the ! here */
-> @@ -155,4 +176,5 @@ void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_tab
->   	amd_pmf_get_smu_info(dev, in);
->   	amd_pmf_get_battery_info(dev, in);
->   	amd_pmf_get_slider_info(dev, in);
-> +	amd_pmf_get_sensor_info(dev, in);
->   }
-> diff --git a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h
-> new file mode 100644
-> index 000000000000..5b6d29d36922
-> --- /dev/null
-> +++ b/include/linux/amd-pmf-io.h
-> @@ -0,0 +1,46 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * AMD Platform Management Framework Interface
-> + *
-> + * Copyright (c) 2023, Advanced Micro Devices, Inc.
-> + * All Rights Reserved.
-> + *
-> + * Authors: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> + *          Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-> + */
-> +
-> +#ifndef AMD_PMF_IO_H
-> +#define AMD_PMF_IO_H
-> +
-> +#include <linux/types.h>
-> +
-> +/**
-> + * enum sfh_message_type - Query the SFH message type
-> + * @MT_HPD: Message ID to know the Human presence info from MP2 FW
-> + */
-> +enum sfh_message_type {
-> +	MT_HPD,
-> +};
-> +
-> +/**
-> + * enum sfh_hpd_info - Query the Human presence information
-> + * @SFH_NOT_DETECTED: Check the HPD connection information from MP2 FW
-> + * @SFH_USER_PRESENT: Check if the user is present from HPD sensor
-> + * @SFH_USER_AWAY: Check if the user is away from HPD sensor
-> + */
-> +enum sfh_hpd_info {
-> +	SFH_NOT_DETECTED,
-> +	SFH_USER_PRESENT,
-> +	SFH_USER_AWAY,
-> +};
-> +
-> +/**
-> + * struct amd_sfh_info - get HPD sensor info from MP2 FW
-> + * @user_present: Populates the user presence information
-> + */
-> +struct amd_sfh_info {
-> +	u8 user_present;
-> +};
-> +
-> +int amd_get_sfh_info(struct amd_sfh_info *sfh_info, enum sfh_message_type op);
-> +#endif
 
 
