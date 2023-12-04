@@ -1,96 +1,133 @@
-Return-Path: <linux-input+bounces-455-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-456-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E82868032B5
-	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 13:31:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 645D8803334
+	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 13:40:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A5A3E280E1E
-	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 12:31:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1FE39280F18
+	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 12:40:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38CEF1CF8C;
-	Mon,  4 Dec 2023 12:31:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8F1D224EC;
+	Mon,  4 Dec 2023 12:40:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="cx2cuEvw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fjf1Kq7/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19BBCD2
-	for <linux-input@vger.kernel.org>; Mon,  4 Dec 2023 04:31:20 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-40c09dfa03cso11904925e9.2
-        for <linux-input@vger.kernel.org>; Mon, 04 Dec 2023 04:31:20 -0800 (PST)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B14E1C0;
+	Mon,  4 Dec 2023 04:40:49 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-50bfe99b6edso255009e87.1;
+        Mon, 04 Dec 2023 04:40:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1701693078; x=1702297878; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:in-reply-to:subject
-         :cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=W55/T9K6+K8UUWjjypa9TYy5bFm9BSQxOhQzpcpwFHU=;
-        b=cx2cuEvwmmOfaQaFFuYLcGVg225tEU7qu5HUIvPrYhEtuq7byST0CVcWBWHHjeicAL
-         P1eBeR891ioXEbfJvrypwAh6zkKP9YXoyPpLGZT8IaOl6IRRMppZcdpmrtijMzI9aMwd
-         i9As71Ed0mDWWzJWCoZJsjD1CWHUJ3eQ3ovFXg1n1PXaR+zqHFk/PUWMirkafdyb5jgb
-         d3kD+v91m5PM1D5puj01QuYHu4tomTiup+g/DIQkaVpo0b49E0viOMFkErcYR6X4nPxq
-         mCCwfV/8v5qFLSVcJRsW1ZnDG4KBILJPR3yrjfa3GeQrf74b/1b3og1ts6mxCs7Tt9YL
-         CZAA==
+        d=gmail.com; s=20230601; t=1701693648; x=1702298448; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vsvgyciOFfSmw/EJbODu9yWaFL86QzDmPatwDo6fAHA=;
+        b=Fjf1Kq7/tv9oz7JTqV64win0IKsNL3NWQEfjpZuPkkNen0d5gINb3pV8wOq+e+5mE9
+         DZrBIuu2sLrpbCtMNZRKTZJhqd37XsAO231t7gp9DTIKZmRj9937fS8h+631sirpirG7
+         nIwiKrP6My4OMqzSeG+tUfUZYYR5j5+5veVnKFBvLeKaE4Ljdx/FGw+iMyRxevOauZhB
+         peCYbW5pSDAALcqCr65/XJt9+5LouX8tlrVSHnSmGavqnVYUO2cTblRdnZ1q6fQYzNqF
+         DewAQTP00qjTAM9t6Muq8v7DiwzvkmJzW19dJgXHwuJFCiP97fQ6eZZhUOtGBvhXZEOX
+         qj1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701693078; x=1702297878;
-        h=mime-version:user-agent:references:message-id:in-reply-to:subject
-         :cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W55/T9K6+K8UUWjjypa9TYy5bFm9BSQxOhQzpcpwFHU=;
-        b=EyYTBKNjRNLfsYLJFqUB0GdpciF58a+vmIXqANNaHjQy6K3302jvogE2dmSEq56erF
-         rNg5CN0kNLbgz2uBv36stS4UR7DPBODtk1Te/5cdHY1fdC6QemViDQi3frGe6mR/5g6o
-         QemUvRRFturhOaQFXnuSOnSuYM1qHPlYB/UNxLWxt0l8oR82niPkuIYS2r0yLpGm2Apg
-         GMpCij/Q3blBKU4MaQ7PuKOEfWgTY8rTM1SoU1pZ8ypu+CaGn2B7UDkseJKq1KjtDeVn
-         y7QkSdT+Pod0L7tsFDqh8a6aWyyDwXNv4V9URRaEIamWqOBUoZOYyxUTgRlqik+fgK/r
-         rJLw==
-X-Gm-Message-State: AOJu0YwfG4J4CxOjOf6I5LWwR4M6ayb9mJSW0Al5IKj6K2x9ca2PR1OD
-	8SO3XlDADkifAm2CFi8EyS3Urw==
-X-Google-Smtp-Source: AGHT+IHB8BRFdhuNviEObNj50i/Qccig1rQTpxR703fqIvFCYt8GYXuVrTy0FmlwVcezeH1TnfE56A==
-X-Received: by 2002:a05:600c:5128:b0:40b:5e21:d370 with SMTP id o40-20020a05600c512800b0040b5e21d370mr2452561wms.121.1701693078623;
-        Mon, 04 Dec 2023 04:31:18 -0800 (PST)
-Received: from localhost ([193.86.92.180])
-        by smtp.gmail.com with ESMTPSA id bh12-20020a05600c3d0c00b0040b2976eb02sm14922744wmb.10.2023.12.04.04.31.18
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 04 Dec 2023 04:31:18 -0800 (PST)
-From: Jiri Kosina <jkosina@suse.com>
-X-Google-Original-From: Jiri Kosina <jikos@kernel.org>
-Date: Mon, 4 Dec 2023 13:31:18 +0100 (CET)
-To: Kai-Heng Feng <kai.heng.feng@canonical.com>
-cc: srinivas.pandruvada@linux.intel.com, benjamin.tissoires@redhat.com, 
-    linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
-    Jian Hui Lee <jianhui.lee@canonical.com>, Even Xu <even.xu@intel.com>, 
-    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] HID: intel-ish-hid: ipc: Rework EHL OOB wakeup
-In-Reply-To: <20231108121940.288005-1-kai.heng.feng@canonical.com>
-Message-ID: <nycvar.YFH.7.76.2312041331050.29220@cbobk.fhfr.pm>
-References: <20231108121940.288005-1-kai.heng.feng@canonical.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        d=1e100.net; s=20230601; t=1701693648; x=1702298448;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vsvgyciOFfSmw/EJbODu9yWaFL86QzDmPatwDo6fAHA=;
+        b=pjC29NF12R9rzw1BLisL6whKAz0JhBEtsgznK9Sci1O0OnZo+yHRh8iKPuFUMZyoXt
+         J6Dyhae9VixBzH0jjTbB1e7JD+XB2Bw2VLFoU9woCqlt97R4ljUfKO5pVVGL4BfGg+1V
+         3ZbmAGtg4AOubYxQhEAs6JlZ0tDLS9H14jqXu+HhQior/kA0QUbHQNbP0xeJAq51EfAt
+         XWt6RXqeKXj5hmJOLk+HTjAiK5l/iai9p3K9TukuSNU5NLPDeTCZnljA+I6RjCOijReu
+         lymXOTKEk/59FTLSEu8dxODzFWfoxrGOciWCSs8GIcIrkC/zNhjokXIHmw5UqYEPv2fS
+         3ZsA==
+X-Gm-Message-State: AOJu0YyEHL7/NCeg9dgr8UQ0eQq65Ey47lgDDe+rQMYqQOHzul2EU/PU
+	u/wYyjW/S60S6X8x4qFfchE=
+X-Google-Smtp-Source: AGHT+IGt7rvUqmjUimncGXW2IXVdDHVFAV2T7wKaPCUQGmJMe3Y29H7WiKNl0nj1VyY+oyfMrbTxdA==
+X-Received: by 2002:ac2:560a:0:b0:50b:f041:e434 with SMTP id v10-20020ac2560a000000b0050bf041e434mr1055315lfd.70.1701693647568;
+        Mon, 04 Dec 2023 04:40:47 -0800 (PST)
+Received: from ?IPV6:2a02:2378:120d:1a46:8f76:bf32:c739:eb6e? ([2a02:2378:120d:1a46:8f76:bf32:c739:eb6e])
+        by smtp.gmail.com with ESMTPSA id q3-20020ac246e3000000b004fb7848bacbsm1250826lfo.46.2023.12.04.04.40.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Dec 2023 04:40:47 -0800 (PST)
+Message-ID: <0a035c62-9d35-4f85-b1f3-bcb7dea17d52@gmail.com>
+Date: Mon, 4 Dec 2023 14:40:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/5] dt-bindings: input/touchscreen: Add compatible for
+ IST3038B
+Content-Language: en-US
+To: Conor Dooley <conor@kernel.org>, Karel Balej <karelb@gimli.ms.mff.cuni.cz>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, =?UTF-8?Q?Duje_Mihanovi=C4=87?=
+ <duje.mihanovic@skole.hr>, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org, Karel Balej <balejk@matfyz.cz>
+References: <20231202125948.10345-1-karelb@gimli.ms.mff.cuni.cz>
+ <20231202125948.10345-3-karelb@gimli.ms.mff.cuni.cz>
+ <20231203-outskirts-reformat-e0a833903841@spud>
+From: Markuss Broks <markuss.broks@gmail.com>
+In-Reply-To: <20231203-outskirts-reformat-e0a833903841@spud>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 8 Nov 2023, Kai-Heng Feng wrote:
+Hi Conor,
 
-> Since PCI core and ACPI core already handles PCI PME wake and GPE wake
-> when the device has wakeup capability, use device_init_wakeup() to let
-> them do the wakeup setting work.
-> 
-> Also add a shutdown callback which uses pci_prepare_to_sleep() to let
-> PCI and ACPI set OOB wakeup for S5.
-> 
-> Cc: Jian Hui Lee <jianhui.lee@canonical.com>
-> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+On 12/3/23 13:20, Conor Dooley wrote:
+> On Sat, Dec 02, 2023 at 01:48:33PM +0100, Karel Balej wrote:
+>> From: Markuss Broks <markuss.broks@gmail.com>
+>>
+>> Imagis IST3038B is a variant (firmware?) of Imagis IST3038 IC,
+>> add the compatible for it to the IST3038C bindings.
+> This one is better, but would be well served by mentioning what
+> specifically is different (register addresses or firmware commands?)
 
-Srinivas, do you please have any feedback on this patch?
+I don't think anyone knows this other than Imagis itself. I would guess 
+it's different hardware, since register addresses are indeed different, 
+but on the other hand, there is a possibility that firmware on the MCU 
+could be responding to those commands. I suppose "... IST3038B is a 
+hardware variant of ... IST3038" would be more correct.
 
-Thanks,
+The reason why I think it could be firmware-defined is because we have a 
+lot of variants (30xxA, 30xxB, 30xxC, plain 30xx), and the numbers 
+usually mean feature level/completeness, e.g. some don't support the 
+touch pressure or touchkeys, and we don't know what A/B/C/none means.
 
--- 
-Jiri Kosina
-SUSE Labs
-
+>
+> Cheers,
+> Conor.
+>
+>> Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
+>> Signed-off-by: Karel Balej <balejk@matfyz.cz>
+>> ---
+>>   .../devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml   | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml b/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
+>> index 0d6b033fd5fb..b5372c4eae56 100644
+>> --- a/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
+>> +++ b/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml
+>> @@ -18,6 +18,7 @@ properties:
+>>   
+>>     compatible:
+>>       enum:
+>> +      - imagis,ist3038b
+>>         - imagis,ist3038c
+>>   
+>>     reg:
+>> -- 
+>> 2.43.0
+>>
+- Markuss
 
