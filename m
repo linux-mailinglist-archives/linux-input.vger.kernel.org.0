@@ -1,109 +1,120 @@
-Return-Path: <linux-input+bounces-427-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-428-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8459A8027B7
-	for <lists+linux-input@lfdr.de>; Sun,  3 Dec 2023 22:15:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1545802BA0
+	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 07:28:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0953D280D3E
-	for <lists+linux-input@lfdr.de>; Sun,  3 Dec 2023 21:15:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 072E61C208DB
+	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 06:28:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DB3918C27;
-	Sun,  3 Dec 2023 21:15:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1E7F79F2;
+	Mon,  4 Dec 2023 06:28:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cxx1r+XX"
 X-Original-To: linux-input@vger.kernel.org
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C38B2CF
-	for <linux-input@vger.kernel.org>; Sun,  3 Dec 2023 13:15:08 -0800 (PST)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-304-X4AvT-tEMg2K4WwiKTdRmw-1; Sun, 03 Dec 2023 21:15:05 +0000
-X-MC-Unique: X4AvT-tEMg2K4WwiKTdRmw-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sun, 3 Dec
- 2023 21:14:49 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Sun, 3 Dec 2023 21:14:49 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Arnd Bergmann' <arnd@arndb.de>, Dmitry Torokhov
-	<dmitry.torokhov@gmail.com>, Zack Rusin <zackr@vmware.com>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "VMware
- Graphics Reviewers" <linux-graphics-maintainer@vmware.com>, Robert Jarzmik
-	<robert.jarzmik@free.fr>, Raul Rangel <rrangel@chromium.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: RE: [PATCH] input/vmmouse: Fix device name copies
-Thread-Topic: [PATCH] input/vmmouse: Fix device name copies
-Thread-Index: AQHaJipxBM/uGJI7Q0K7wjneTI1KYbCYDPww
-Date: Sun, 3 Dec 2023 21:14:49 +0000
-Message-ID: <f3e6cab719c646bf91265b6fd2887061@AcuMS.aculab.com>
-References: <20231127204206.3593559-1-zack@kde.org>
- <ZWzLvctpo1nNTMOo@google.com>
- <d180f06b-64b0-4885-9794-5127c297a0f0@app.fastmail.com>
-In-Reply-To: <d180f06b-64b0-4885-9794-5127c297a0f0@app.fastmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9A0BCD
+	for <linux-input@vger.kernel.org>; Sun,  3 Dec 2023 22:28:32 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-50bc2e7f1e4so5442714e87.1
+        for <linux-input@vger.kernel.org>; Sun, 03 Dec 2023 22:28:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1701671311; x=1702276111; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nKeCfLZc7mdf5ttEOE5xpGWsNMCS5nBu7bohK0rYA9k=;
+        b=cxx1r+XXew+5s+HnBUjs9bSZmFf1RrhwwZDVsG1B+j/MITFaoTbHWKgHOhiW3qydkw
+         s8tWVThoy8yct0MUtGo7xf9dTnNaJNzDqfMIBThvpiF1MADlftto1/VQnB9Jg/jN9swv
+         qtbTm3gOL0TojgktRRfmW992C/4HWC0BarWkE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701671311; x=1702276111;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nKeCfLZc7mdf5ttEOE5xpGWsNMCS5nBu7bohK0rYA9k=;
+        b=FTl/8Vp44mzcwJHo2dpDjq0obgixzGE2Je+HYijdGqiz4OrDWrm+nqV2sECc98NMqT
+         AMzqEbAB8eOSrsPS0tghrrTrTbc6HUfa4Lruz+W8RfIJ5QxVgux66tEYYv5dElfbfrxB
+         4fpy6inoWDtttX29YuyE/SAUI20SW9iyBqHdglO/Y7SJ6O0KuVlEL4o6Nl4sujjtl9AF
+         KuReQMTxhkbZXcjCHpJBP5EcKj/H6FU7zePRoEPCl1LTA/6+/c3lFK3rcYC2l4JxnPqv
+         ZDrsi69E5/9X1VQU7q/4STTNyL70bkcTmnvZetOMxpDdpFhyX3mt4X4CVeLKvPYzo5zt
+         rc0A==
+X-Gm-Message-State: AOJu0YyFaxHYdlVtsFSYw+IDs6UGmjWEfZxyu6nKYZF2pRo/4sx+P/kc
+	C249hSosyEsVmKXpAu4MB2l9pnskMiCSNfpWsGTJ9Q==
+X-Google-Smtp-Source: AGHT+IG95fL6ZmhFrrdBZs1yHZpwJEkMdnWR6Z3TRg/FZYz0mqiHrefYfWV2agXhFMwbCcFaJSeavkE3C7jpb9RAWYc=
+X-Received: by 2002:a05:6512:368f:b0:50b:f88a:dd63 with SMTP id
+ d15-20020a056512368f00b0050bf88add63mr334344lfs.102.1701671311129; Sun, 03
+ Dec 2023 22:28:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+References: <20231128084236.157152-1-wenst@chromium.org> <20231128084236.157152-2-wenst@chromium.org>
+ <CAD=FV=V_v11eZ6+3gUwOvdWGNM9owG7zCK5EiezTY7RJ3eaEMw@mail.gmail.com>
+In-Reply-To: <CAD=FV=V_v11eZ6+3gUwOvdWGNM9owG7zCK5EiezTY7RJ3eaEMw@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Mon, 4 Dec 2023 14:28:20 +0800
+Message-ID: <CAGXv+5GiwgF4CJBPT7JucV8qEMY0jLAvT3TqRzvLjCKcVMZ0Mg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 1/5] of: dynamic: Add of_changeset_update_prop_string
+To: Doug Anderson <dianders@chromium.org>
+Cc: Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
+	Hsin-Yi Wang <hsinyi@chromium.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	andriy.shevchenko@linux.intel.com, Jiri Kosina <jikos@kernel.org>, 
+	linus.walleij@linaro.org, broonie@kernel.org, gregkh@linuxfoundation.org, 
+	hdegoede@redhat.com, james.clark@arm.com, james@equiv.tech, 
+	keescook@chromium.org, rafael@kernel.org, tglx@linutronix.de, 
+	Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org, linux-i2c@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-RnJvbTogQXJuZCBCZXJnbWFubg0KPiBTZW50OiAwMyBEZWNlbWJlciAyMDIzIDIwOjUxDQo+IE9u
-IFN1biwgRGVjIDMsIDIwMjMsIGF0IDE5OjQxLCBEbWl0cnkgVG9yb2tob3Ygd3JvdGU6DQo+ID4g
-T24gTW9uLCBOb3YgMjcsIDIwMjMgYXQgMDM6NDI6MDZQTSAtMDUwMCwgWmFjayBSdXNpbiB3cm90
-ZToNCj4gPj4gRnJvbTogWmFjayBSdXNpbiA8emFja3JAdm13YXJlLmNvbT4NCj4gPj4NCj4gPj4g
-TWFrZSBzdXJlIHZtbW91c2VfZGF0YTo6cGh5cyBjYW4gaG9sZCBzZXJpbzo6cGh5cyAod2hpY2gg
-aXMgMzIgYnl0ZXMpDQo+ID4+IHBsdXMgYW4gZXh0cmEgc3RyaW5nLCBleHRlbmQgaXQgdG8gNjQu
-DQo+ID4+DQo+ID4+IEZpeGVzIGdjYzEzIHdhcm5pbmdzOg0KPiA+PiBkcml2ZXJzL2lucHV0L21v
-dXNlL3ZtbW91c2UuYzogSW4gZnVuY3Rpb24g4oCYdm1tb3VzZV9pbml04oCZOg0KPiA+PiBkcml2
-ZXJzL2lucHV0L21vdXNlL3ZtbW91c2UuYzo0NTU6NTM6IHdhcm5pbmc6IOKAmC9pbnB1dDHigJkg
-ZGlyZWN0aXZlIG91dHB1dCBtYXkgYmUgdHJ1bmNhdGVkIHdyaXRpbmcNCj4gNyBieXRlcyBpbnRv
-IGEgcmVnaW9uIG9mIHNpemUgYmV0d2VlbiAxIGFuZCAzMiBbLVdmb3JtYXQtdHJ1bmNhdGlvbj1d
-DQo+ID4+ICAgNDU1IHwgICAgICAgICBzbnByaW50Zihwcml2LT5waHlzLCBzaXplb2YocHJpdi0+
-cGh5cyksICIlcy9pbnB1dDEiLA0KPiA+PiAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+DQo+ID4+IGRyaXZlcnMvaW5wdXQv
-bW91c2Uvdm1tb3VzZS5jOjQ1NTo5OiBub3RlOiDigJhzbnByaW50ZuKAmSBvdXRwdXQgYmV0d2Vl
-biA4IGFuZCAzOSBieXRlcyBpbnRvIGENCj4gZGVzdGluYXRpb24gb2Ygc2l6ZSAzMg0KPiA+PiAg
-IDQ1NSB8ICAgICAgICAgc25wcmludGYocHJpdi0+cGh5cywgc2l6ZW9mKHByaXYtPnBoeXMpLCAi
-JXMvaW5wdXQxIiwNCj4gPj4gICAgICAgfCAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+DQo+ID4+ICAgNDU2IHwgICAgICAgICAgICAg
-ICAgICBwc21vdXNlLT5wczJkZXYuc2VyaW8tPnBoeXMpOw0KPiA+PiAgICAgICB8ICAgICAgICAg
-ICAgICAgICAgfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fg0KPiA+DQo+ID4gVGhpcyBzaW1w
-bHkgd2FzdGVzIDMyIGJ5dGVzLiBJdCBpcyBwZXJmZWN0bHkgZmluZSB0byB0cnVuY2F0ZSBwaHlz
-DQo+ID4gKHdoaWNoIGRvZXMgbm90IGhhcHBlbiBpbiByZWFsIGxpZmUpLg0KPiA+DQo+ID4gLVdm
-b3JtYXQtdHJ1bmNhdGlvbiBpcyBkaXNhYmxlZCBpbiBub3JtYWwgYnVpbGRzLCBmb2xrcyBzaG91
-bGQgc3RvcA0KPiA+IHVzaW5nIGl0IHdpdGggVz0xIGFzIHdlbGwuDQo+IA0KPiBJdCBkb2VzIGZp
-bmQgcmVhbCBidWdzLCBhbmQgd2UgYXJlIGZhaXJseSBjbG9zZSB0byBiZWluZyBhYmxlDQo+IHRv
-IGVuYWJsZSBpdCBieSBkZWZhdWx0IG9uY2UgdGhlIHJlbWFpbmluZyB3YXJuaW5ncyBhcmUgYWxs
-DQo+IGZpeGVkLg0KPiANCj4gSXQgYWxzbyBkb2Vzbid0IHdhc3RlIGFueSBtZW1vcnkgaW4gdGhp
-cyBzcGVjaWZpYyBjYXNlIHNpbmNlDQo+IHZtbW91c2VfZGF0YSBpcyBjdXJyZW50bHkgYXQgMTY4
-IGJ5dGVzLCB3aGljaCBnZXRzIHJvdW5kZWQNCj4gdXAgdG8gZWl0aGVyIDE5MiBvciAyNTYgYnl0
-ZXMgYW55d2F5LiBJJ2Qgc3VnZ2VzdCB1c2luZw0KPiB0aGUgbWluaW11bSBzaXplIHRoYXQgaXMg
-bGFyZ2UgZW5vdWdoIHRob3VnaCwgaW4gdGhpcyBjYXNlDQo+IDM5IGJ5dGVzIGZvciB0aGUgc3Ry
-aW5nIEkgZ3Vlc3MuDQoNClRoYXQgcmF0aGVyIGRlcGVuZHMgb24gd2hldGhlciBhbnkgb2YgdGhl
-IGVhcmxpZXIgY2hhcltdIGxlbmd0aHMNCmhhdmUgYmVlbiByb3VuZGVkIHVwIHRvIGEgJ25pY2Un
-IHZhbHVlLg0KDQpJJ2QgYWxzbyBoYXZlIHRob3VnaHQgdGhhdCBkYW5nZXJvdXMgb3ZlcmZsb3dz
-IHdvdWxkIGNvbWUgZnJvbQ0KdW5ib3VuZGVkICVzIGZvcm1hdHMsIG5vdCBmaXhlZCBzaXplIHN0
-cmluZ3Mgb3IgaW50ZWdlcnMgdGhhdCBhcmUNCmFsd2F5cyBzbWFsbC4NCg0KVGhlcmUgcmVhbGx5
-IG91Z2h0IHRvIGJlIGEgc2FuZSBtZXRob2Qgb2YgdGVsbGluZyBnY2Mgbm90IHRvIGJsZWF0DQph
-Ym91dCBzbnByaW50ZigpIHBvdGVudGlhbGx5IG92ZXJmbG93aW5nIHRoZSB0YXJnZXQuDQoNCkkn
-dmUgdHJpZWQgYSBmZXcgdGhpbmcgYnV0IG5vbmUgb2YgdGhlbSB3b3JrLg0KSUlSQyB1c2luZyB0
-aGUgcmVzdWx0IChpbiBzb21lIHdheXMpIGlzIGVub3VnaCwgYnV0IG5laXRoZXINCih2b2lkKXNu
-cHJpbnRmKC4uLik7IG9yIGlmIChzbnByaW50ZiguLi4pKTsgaXMgZW5vdWdoDQooYnV0IHRoZXkg
-J2ZpeCcgJ3dhcm4gdW51c2VkIHJlc3VsdCcpLg0KDQoJRGF2aWQNCg0KPiANCj4gICAgICBBcm5k
-DQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBG
-YXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2
-IChXYWxlcykNCg==
+On Sat, Dec 2, 2023 at 9:01=E2=80=AFAM Doug Anderson <dianders@chromium.org=
+> wrote:
+>
+> Hi,
+>
+> On Tue, Nov 28, 2023 at 12:45=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org=
+> wrote:
+> >
+> > @@ -1039,3 +1039,50 @@ int of_changeset_add_prop_u32_array(struct of_ch=
+angeset *ocs,
+> >         return ret;
+> >  }
+> >  EXPORT_SYMBOL_GPL(of_changeset_add_prop_u32_array);
+> > +
+> > +static int of_changeset_update_prop_helper(struct of_changeset *ocs,
+> > +                                          struct device_node *np,
+> > +                                          const struct property *pp)
+> > +{
+> > +       struct property *new_pp;
+> > +       int ret;
+> > +
+> > +       new_pp =3D __of_prop_dup(pp, GFP_KERNEL);
+> > +       if (!new_pp)
+> > +               return -ENOMEM;
+> > +
+> > +       ret =3D of_changeset_update_property(ocs, np, new_pp);
+> > +       if (ret) {
+> > +               kfree(new_pp->name);
+> > +               kfree(new_pp->value);
+> > +               kfree(new_pp);
+>
+> Given that this is the 3rd copy of the freeing logic, does it make
+> sense to make __of_prop_free() that's documented to free what was
+> returned by __of_prop_dupe()?
 
+Makes sense.  There's also one in property_list_free(). I'll add a patch
+for it.
+
+ChenYu
 
