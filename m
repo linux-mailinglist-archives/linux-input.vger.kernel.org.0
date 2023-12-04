@@ -1,142 +1,167 @@
-Return-Path: <linux-input+bounces-457-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-458-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E68803351
-	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 13:45:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00AFE80336C
+	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 13:53:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7840D1F2114D
-	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 12:45:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 31B971C209F9
+	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 12:53:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2AC0241FC;
-	Mon,  4 Dec 2023 12:45:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCFD623759;
+	Mon,  4 Dec 2023 12:53:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KCX9Yv1n"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="KzPaBXZu"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA28FC3;
-	Mon,  4 Dec 2023 04:45:13 -0800 (PST)
-Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2c9f751663bso17517941fa.1;
-        Mon, 04 Dec 2023 04:45:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701693912; x=1702298712; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1HBLZybjftIGabZbm0Ye/1bPR801qDd5qZ9HTYuLRbI=;
-        b=KCX9Yv1neKGUGZ3grAMbQ+2S9xtJAxzGeWAdO65NZOgT2nLIl7GdUMTtHI4Incv35G
-         MLaM2pxSZkylSnX/rFeaDO6Jlk5NVZixdr41RDuQAZn3sLshDYmH+2OLKB6x/OsODvQp
-         Atm88xrPjs2QzZb8+Kbvg1qXQwrhCvWvPvWMzw1bPejIzbS663H1owqgEq1s5ObTEWnN
-         yItPMkEgtTrkThBZ/OwZAYySXYrUS66/cMdiKUbMsixAHfgVZBHg4sqG8xAVwEfGuutn
-         p5eKvG6IZRsn2ZLv07Sx0r4BN7JC8+j2Iuk9qMwWXhV2E2uL5xQVC9kERGl62fc0DDaj
-         QoBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701693912; x=1702298712;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1HBLZybjftIGabZbm0Ye/1bPR801qDd5qZ9HTYuLRbI=;
-        b=C9MbaalWMKRF4iEfw/4apwqEKc7PbxljU+H/vxoTCcXczAo+6ULMDK+/4pT4JqPlCH
-         KJuvIe3RMSuXertJqyd1tBmYZ+JUd1dJ3fp6NMbIslh/HNRNSSPKmRh9Wl0Q02Xpnkxl
-         y9mpZ0QQkNHxIUrygnhYc7kCtG4w566iIzArWOtoQegqz5PqtUjqiJoFxmAsjplpyn+A
-         U4P0mCKbAB3dh6EewVgfeHgnxDz0PSyvOUxM6TGqqAuNgmnst4oE1m0jhlBzMoWdujQk
-         XK1+EVPHaGsO6lBzhHnFAiyw+vgoLuee4eLzRpN0LbkvhZpCq9ehuKuH7QK8ind9t2gi
-         fSQA==
-X-Gm-Message-State: AOJu0Ywb8+1n0cY67pD1E0xGiOc+xxGQ/WnEyb7HXZNdsGIqZTeZx9sC
-	3Jhy3egsUelhHmFp/2ezVeY=
-X-Google-Smtp-Source: AGHT+IEOliBtuZ1V9WfGZ9329l3YbMsOVqiATXrwGqkJXoUyZ86vXHpk7NJg96l9OcTU4BJ1YYDxUQ==
-X-Received: by 2002:a2e:2c1a:0:b0:2c9:e982:2761 with SMTP id s26-20020a2e2c1a000000b002c9e9822761mr949246ljs.211.1701693911705;
-        Mon, 04 Dec 2023 04:45:11 -0800 (PST)
-Received: from ?IPV6:2a02:2378:120d:1a46:8f76:bf32:c739:eb6e? ([2a02:2378:120d:1a46:8f76:bf32:c739:eb6e])
-        by smtp.gmail.com with ESMTPSA id o17-20020a2e90d1000000b002c993c5d4c6sm1235669ljg.105.2023.12.04.04.45.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Dec 2023 04:45:11 -0800 (PST)
-Message-ID: <89f7e7de-c574-49ab-885d-c6d4427fe64f@gmail.com>
-Date: Mon, 4 Dec 2023 14:45:08 +0200
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE190C0;
+	Mon,  4 Dec 2023 04:53:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1701694420; x=1733230420;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HdUGpKAxSFIn+PH7iL9D+/kVSuOVunnGsl9L0zIDHME=;
+  b=KzPaBXZup421uE6KJWQvRSMlF6OK/hdNAWQ0H5R4i6DGnmotjJV4+Pv0
+   C+i916dIF7rUvaD0nASZQ4EuC4/eYaq2q4NWOYubYDuuyEFcRp97kS0d9
+   6PPIFXLtMIXsrJdd7kItzpoAO048n3sX89V5q8dCEc6Ao8XMhN6ZFcm0J
+   aJ1eA8pSnntEgJ0Ycircv3ID5EJ1fkjyPOorVBfcplXMJBMLC99n5S6+9
+   iQz8bmbU4bm/FibPBxX8Dld2F8rlBrsWJ2Pq4QhzlLBjrpJOSUnUq3kH6
+   FJUkxnJVrBAdRPxVgf9fduSv5XAP94tfX2DFjqeABqwggu6q/rTiQcJPe
+   Q==;
+X-CSE-ConnectionGUID: hl/R1P4LRW6u9LnPnoG1PQ==
+X-CSE-MsgGUID: m9nCz6fVTi69cFHzmcHKpg==
+X-ThreatScanner-Verdict: Negative
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
+   d="asc'?scan'208";a="12652088"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 04 Dec 2023 05:53:38 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
+ chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 4 Dec 2023 05:53:30 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex02.mchp-main.com (10.10.85.144)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Mon, 4 Dec 2023 05:53:27 -0700
+Date: Mon, 4 Dec 2023 12:52:57 +0000
+From: Conor Dooley <conor.dooley@microchip.com>
+To: Markuss Broks <markuss.broks@gmail.com>
+CC: Conor Dooley <conor@kernel.org>, Karel Balej
+	<karelb@gimli.ms.mff.cuni.cz>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+	Henrik Rydberg <rydberg@bitmath.org>, <linux-input@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Duje
+ =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+	<~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>, Karel
+ Balej <balejk@matfyz.cz>
+Subject: Re: [PATCH v3 2/5] dt-bindings: input/touchscreen: Add compatible
+ for IST3038B
+Message-ID: <20231204-stooge-impotent-fe8d2d9177e4@wendy>
+References: <20231202125948.10345-1-karelb@gimli.ms.mff.cuni.cz>
+ <20231202125948.10345-3-karelb@gimli.ms.mff.cuni.cz>
+ <20231203-outskirts-reformat-e0a833903841@spud>
+ <0a035c62-9d35-4f85-b1f3-bcb7dea17d52@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/5] input/touchscreen: imagis: add support for
- IST3032C
-Content-Language: en-US
-To: Karel Balej <karelb@gimli.ms.mff.cuni.cz>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- Karel Balej <balejk@matfyz.cz>
-References: <20231202125948.10345-1-karelb@gimli.ms.mff.cuni.cz>
- <20231202125948.10345-6-karelb@gimli.ms.mff.cuni.cz>
-From: Markuss Broks <markuss.broks@gmail.com>
-In-Reply-To: <20231202125948.10345-6-karelb@gimli.ms.mff.cuni.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="BFu57CgKFWeoAbz6"
+Content-Disposition: inline
+In-Reply-To: <0a035c62-9d35-4f85-b1f3-bcb7dea17d52@gmail.com>
 
-Hi Karel,
+--BFu57CgKFWeoAbz6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 12/2/23 14:48, Karel Balej wrote:
-> From: Karel Balej <balejk@matfyz.cz>
->
-> IST3032C is a touchscreen chip used for instance in the
-> samsung,coreprimevelte smartphone, with which this was tested. Add the
-> chip specific information to the driver.
->
-> Signed-off-by: Karel Balej <balejk@matfyz.cz>
-> ---
->   drivers/input/touchscreen/imagis.c | 10 ++++++++++
->   1 file changed, 10 insertions(+)
->
-> diff --git a/drivers/input/touchscreen/imagis.c b/drivers/input/touchscreen/imagis.c
-> index 84a02672ac47..41f28e6e9cb1 100644
-> --- a/drivers/input/touchscreen/imagis.c
-> +++ b/drivers/input/touchscreen/imagis.c
-> @@ -35,6 +35,8 @@
->   #define IST3038B_REG_CHIPID		0x30
->   #define IST3038B_WHOAMI			0x30380b
->   
-> +#define IST3032C_WHOAMI			0x32c
-> +
-Perhaps it should be ordered in alphabetic/alphanumeric order, 
-alternatively, the chip ID values could be grouped.
->   struct imagis_properties {
->   	unsigned int interrupt_msg_cmd;
->   	unsigned int touch_coord_cmd;
-> @@ -363,6 +365,13 @@ static int imagis_resume(struct device *dev)
->   
->   static DEFINE_SIMPLE_DEV_PM_OPS(imagis_pm_ops, imagis_suspend, imagis_resume);
->   
-> +static const struct imagis_properties imagis_3032c_data = {
-> +	.interrupt_msg_cmd = IST3038C_REG_INTR_MESSAGE,
-> +	.touch_coord_cmd = IST3038C_REG_TOUCH_COORD,
-> +	.whoami_cmd = IST3038C_REG_CHIPID,
-> +	.whoami_val = IST3032C_WHOAMI,
-> +};
-> +
->   static const struct imagis_properties imagis_3038b_data = {
->   	.interrupt_msg_cmd = IST3038B_REG_STATUS,
->   	.touch_coord_cmd = IST3038B_REG_STATUS,
-> @@ -380,6 +389,7 @@ static const struct imagis_properties imagis_3038c_data = {
->   
->   #ifdef CONFIG_OF
->   static const struct of_device_id imagis_of_match[] = {
-> +	{ .compatible = "imagis,ist3032c", .data = &imagis_3032c_data },
->   	{ .compatible = "imagis,ist3038b", .data = &imagis_3038b_data },
->   	{ .compatible = "imagis,ist3038c", .data = &imagis_3038c_data },
->   	{ },
+On Mon, Dec 04, 2023 at 02:40:44PM +0200, Markuss Broks wrote:
+> On 12/3/23 13:20, Conor Dooley wrote:
+> > On Sat, Dec 02, 2023 at 01:48:33PM +0100, Karel Balej wrote:
+> > > From: Markuss Broks <markuss.broks@gmail.com>
+> > >=20
+> > > Imagis IST3038B is a variant (firmware?) of Imagis IST3038 IC,
+> > > add the compatible for it to the IST3038C bindings.
+> > This one is better, but would be well served by mentioning what
+> > specifically is different (register addresses or firmware commands?)
+>=20
+> I don't think anyone knows this other than Imagis itself. I would guess i=
+t's
+> different hardware, since register addresses are indeed different, but on
+> the other hand, there is a possibility that firmware on the MCU could be
+> responding to those commands. I suppose "... IST3038B is a hardware varia=
+nt
+> of ... IST3038" would be more correct.
 
-Other than that,
+Only Imagis might know the specifics, but you (plural) have made driver
+changes so you know what is different in terms of the programming model.
+I'm just asking for you to mention how the programming model varies in
+the commit message. Otherwise I can't know whether you should have added
+a fallback compatible, without going and reading your driver change. The
+commit message for the bindings should stand on its own merit in that
+regard.
+"Variant" alone does not suffice, as many variants of devices have a
+compatible programming model, be that for a subset of features or
+complete compatibility.
 
-Reviewed-by: Markuss Broks <markuss.broks@gmail.com>
+> The reason why I think it could be firmware-defined is because we have a =
+lot
+> of variants (30xxA, 30xxB, 30xxC, plain 30xx), and the numbers usually me=
+an
+> feature level/completeness, e.g. some don't support the touch pressure or
+> touchkeys, and we don't know what A/B/C/none means.
 
-- Markuss
+Ultimately whether it is due to firmware or the hardware isn't
+particular important, just mention what is incompatibly different.
 
+Cheers,
+Conor.
+
+
+> > > Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
+> > > Signed-off-by: Karel Balej <balejk@matfyz.cz>
+> > > ---
+> > >   .../devicetree/bindings/input/touchscreen/imagis,ist3038c.yaml   | =
+1 +
+> > >   1 file changed, 1 insertion(+)
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/input/touchscreen/imag=
+is,ist3038c.yaml b/Documentation/devicetree/bindings/input/touchscreen/imag=
+is,ist3038c.yaml
+> > > index 0d6b033fd5fb..b5372c4eae56 100644
+> > > --- a/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3=
+038c.yaml
+> > > +++ b/Documentation/devicetree/bindings/input/touchscreen/imagis,ist3=
+038c.yaml
+> > > @@ -18,6 +18,7 @@ properties:
+> > >     compatible:
+> > >       enum:
+> > > +      - imagis,ist3038b
+> > >         - imagis,ist3038c
+> > >     reg:
+> > > --=20
+> > > 2.43.0
+> > >=20
+> - Markuss
+
+--BFu57CgKFWeoAbz6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZW3LqQAKCRB4tDGHoIJi
+0rCWAP4gThPAB9EJ6NjESl6ryX3gO0BfCj8UNHASwMJcmRL3GgD/bFa4X++Poy3R
+YiCIDUDAw8pGfZvpoOGoQot7N2vpLw8=
+=O6OL
+-----END PGP SIGNATURE-----
+
+--BFu57CgKFWeoAbz6--
 
