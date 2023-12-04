@@ -1,90 +1,167 @@
-Return-Path: <linux-input+bounces-469-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-470-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 215E580389D
-	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 16:21:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F2F803991
+	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 17:04:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D19412811AB
-	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 15:21:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D65631C20A8C
+	for <lists+linux-input@lfdr.de>; Mon,  4 Dec 2023 16:04:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B81842375B;
-	Mon,  4 Dec 2023 15:21:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAF912D04B;
+	Mon,  4 Dec 2023 16:04:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="QEAPVjlK"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ArzIiCH6"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A65FF3
-	for <linux-input@vger.kernel.org>; Mon,  4 Dec 2023 07:21:36 -0800 (PST)
-Received: by mail-wm1-x344.google.com with SMTP id 5b1f17b1804b1-40c09d62b70so15565255e9.1
-        for <linux-input@vger.kernel.org>; Mon, 04 Dec 2023 07:21:36 -0800 (PST)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0F68109
+	for <linux-input@vger.kernel.org>; Mon,  4 Dec 2023 08:04:25 -0800 (PST)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-a00191363c1so641337166b.0
+        for <linux-input@vger.kernel.org>; Mon, 04 Dec 2023 08:04:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1701703295; x=1702308095; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:in-reply-to:subject
-         :cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LSAKOWebFNp94GKV3HkeSU5/HPs+IMNshF27lrPuQCY=;
-        b=QEAPVjlKfQHvALcsNInkV5TyV0NC5yB7lXr9Qr+7QtEuajokZCaQlfAYPd0TGuv/bz
-         Blv4E8GIYhBfvBA2k108bf6tr4LUF6NZ1vHpRRxCa/f82sVKz18hamH/LTkse8s+rDNt
-         kP1Bt8i9Qa5w4G/VlfweoKzX2yYk2HnzEr5V7RlCKvvRfqbadcrC8tP+h079TAZXB4Y4
-         Z1O9Iu0CjtBWWhOWxROxLKRZN/e/lJrnwSn9i/x69fxY6FSSkAAz3Db18umKeQjYrwsL
-         IDiA+niDuN7sk4TfdDXNpj2R5ihrZGd/4vJnHLor2fq1/xc/aUxEuIeiJHi++8t82Jkt
-         KH1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701703295; x=1702308095;
-        h=mime-version:user-agent:references:message-id:in-reply-to:subject
-         :cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1701705863; x=1702310663; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LSAKOWebFNp94GKV3HkeSU5/HPs+IMNshF27lrPuQCY=;
-        b=qYlHoSWmiBmmulR0ENAoV7SvfCz8O00Q6dkgBZbB99h75pWyroBkd88olLR2C2iSmh
-         DEgGgUZ5pkETvKP+gjmzd1720o6ugM7BhmjwhksbJ3veu4ZNA8mla9K7uXQiUaUd0qhQ
-         kK1NHduN3l0kTTce7Cse4HvA9gloRmC9L6hYGKVqC+ljAevHY9wTyx3HivQalsk/6l3p
-         wXh3SwMNjGyW9pMwI0X0XceIZPOgEcK4Xsi5Y0erpppgvvvYlBj+1nNRi1FZwwOJU6em
-         pGZmiNz8JYy+ROxYDhmICJdW4WZC/zIED5umYY0orCcIZnX1b4ZRnNKT4i4flky9/W7m
-         T3PQ==
-X-Gm-Message-State: AOJu0YxC6PcWJKBzkd/pqYtYMgGwwieDO5TUo5djCznXRz3eT8b65Qgz
-	csXhgPJIv+zsXVCP1c8qAhTklg==
-X-Google-Smtp-Source: AGHT+IGetaO1EAnCnUo5mhhy4SSYh7k6kz+yUbq2YUUQIAKncCWRdjqS/v3Ss34aLpNeUsq7HOGJVA==
-X-Received: by 2002:a7b:c04b:0:b0:40b:5e59:99c9 with SMTP id u11-20020a7bc04b000000b0040b5e5999c9mr1704770wmc.233.1701703294850;
-        Mon, 04 Dec 2023 07:21:34 -0800 (PST)
-Received: from localhost ([193.86.92.180])
-        by smtp.gmail.com with ESMTPSA id ay31-20020a05600c1e1f00b004080f0376a0sm15375509wmb.42.2023.12.04.07.21.34
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 04 Dec 2023 07:21:34 -0800 (PST)
-From: Jiri Kosina <jkosina@suse.com>
-X-Google-Original-From: Jiri Kosina <jikos@kernel.org>
-Date: Mon, 4 Dec 2023 16:21:35 +0100 (CET)
-To: Sebastian Parschauer <s.parschauer@gmx.de>
-cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-    linux-input@vger.kernel.org
-Subject: Re: [PATCH] HID: Add quirk for Labtec/ODDOR/aikeec handbrake
-In-Reply-To: <20231127224937.9407-1-s.parschauer@gmx.de>
-Message-ID: <nycvar.YFH.7.76.2312041621260.29220@cbobk.fhfr.pm>
-References: <20231127224937.9407-1-s.parschauer@gmx.de>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        bh=7fXQC8kMEIVpKhirV/8r5WlQUD6sGUWR7e162LHNTZo=;
+        b=ArzIiCH6G3huoVVlm4nAo3S1W9v4NAESzcEiRQHLx4KrscXG0dXjKiQQySw1YfPiG4
+         mb0sEuXlxn/vjITM8xu6qBQkAHfSZ9Tb4dhv5u4ilX0DHXfO8TZW74t7jn4E7YkdeJL/
+         j/phLAnb+mroBOycvdhzOWE/wMTMkNeuf4cH4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701705863; x=1702310663;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7fXQC8kMEIVpKhirV/8r5WlQUD6sGUWR7e162LHNTZo=;
+        b=B3AlojMAVjdsCuPaoaqObgy3cIEqQCdx6/q9kroHHG3LnDYPZZoo7n8v3E5KdmvWea
+         dN3u7pnyZR8JBCzt200EfjTTeA9lzB/NwzSEn0xyZNmfLSdH2P0rjFU0br1zIvzjOcaR
+         uzmhT+yYc5VoCfHQrkna4MZRhSdBOWGgsG5gF8ZdPyNZ0fUI1ecqQZBoXyG/qJ64lp57
+         hA/OFVp9Jn9V5012AVs3/3eGpWUB37KBFE6JndfII6bLO4ei5bBortR298MLlAy7NMyj
+         a37sAObp1GZc41bSDY0wyMOjJ18t1mcQyvGkKtbcphtwhg9T4vjTqa2O64XJ6lCsXrHx
+         Z1eA==
+X-Gm-Message-State: AOJu0YyaHY3OozIUOcH3uZk9X8JUQWkzXRzzaXrWB/dZAuxxMDKIUBJo
+	wL0pH9CkDGXHvOobmWAwpir62OHxEnpOLi8f2HHqUND5
+X-Google-Smtp-Source: AGHT+IEPmidn4VCn74O/LqZxJ0A/kqXhVgHZz9KOZxfYTo9MBxjrklswRIGkHrsXE9WYw1fcO0cwfg==
+X-Received: by 2002:a17:907:6023:b0:a19:d40a:d233 with SMTP id fs35-20020a170907602300b00a19d40ad233mr1353739ejc.255.1701705863058;
+        Mon, 04 Dec 2023 08:04:23 -0800 (PST)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com. [209.85.128.49])
+        by smtp.gmail.com with ESMTPSA id cf6-20020a170906b2c600b00a1937153bddsm4861161ejb.20.2023.12.04.08.04.22
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Dec 2023 08:04:22 -0800 (PST)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40b422a274dso111475e9.0
+        for <linux-input@vger.kernel.org>; Mon, 04 Dec 2023 08:04:22 -0800 (PST)
+X-Received: by 2002:a50:99de:0:b0:54a:ee8b:7a99 with SMTP id
+ n30-20020a5099de000000b0054aee8b7a99mr280850edb.0.1701705841514; Mon, 04 Dec
+ 2023 08:04:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20231128084236.157152-1-wenst@chromium.org> <20231128084236.157152-3-wenst@chromium.org>
+ <CAD=FV=U_+iQJtV0Wii89DQT1V_fJCeS9wcqA8EJAs-hmmmLLLg@mail.gmail.com> <CAGXv+5EpA531O1tW=h1RvK34+LMvtdve3=cNmfN=2+9t1jL_bA@mail.gmail.com>
+In-Reply-To: <CAGXv+5EpA531O1tW=h1RvK34+LMvtdve3=cNmfN=2+9t1jL_bA@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 4 Dec 2023 08:03:44 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WtvPUD+tXv0GghreG3w5yWedeHTYzhk-LNzf94fJ6B_Q@mail.gmail.com>
+Message-ID: <CAD=FV=WtvPUD+tXv0GghreG3w5yWedeHTYzhk-LNzf94fJ6B_Q@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 2/5] i2c: of: Introduce component probe function
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Wolfram Sang <wsa@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Frank Rowand <frowand.list@gmail.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
+	Hsin-Yi Wang <hsinyi@chromium.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	andriy.shevchenko@linux.intel.com, Jiri Kosina <jikos@kernel.org>, 
+	linus.walleij@linaro.org, broonie@kernel.org, gregkh@linuxfoundation.org, 
+	hdegoede@redhat.com, james.clark@arm.com, james@equiv.tech, 
+	keescook@chromium.org, rafael@kernel.org, tglx@linutronix.de, 
+	Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org, linux-i2c@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 27 Nov 2023, Sebastian Parschauer wrote:
+Hi,
 
-> This device needs ALWAYS_POLL quirk, otherwise it keeps reconnecting
-> indefinitely. It is a handbrake for sim racing detected as joystick.
-> Reported and tested by GitHub user N0th1ngM4tt3rs.
-> 
-> Link: https://github.com/sriemer/fix-linux-mouse issue 22
-> Signed-off-by: Sebastian Parschauer <s.parschauer@gmx.de>
+On Mon, Dec 4, 2023 at 1:53=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> wr=
+ote:
+>
+> > IMO you should prototype how you're going to handle regulators and
+> > GPIOs before finalizing the design. I was going to write that you
+> > should just document that it was up to the caller to power things up
+> > before calling this function, but then I realized that the caller
+> > would have to duplicate much of this function in order to do so. In
+> > the very least they'd have to find the nodes of the relevant devices
+> > so that they could grab regulators and/or GPIOs. In order to avoid
+> > this duplication, would the design need to change? Perhaps this would
+> > be as simple as adding a callback function here that's called with all
+> > of the nodes before probing? If that's right, it would be nice to have
+> > that callback from the beginning so we don't need two variants of the
+> > function...
+>
+> So I think I can prototype designs with one GPIO and multiple regulators,
+> assuming each node has the same number of both? At least they should if
+> they're on the same connector.
+>
+> More than one GPIO probably means there are some ordering and timing
+> constraints, and won't be as generic.
 
-Applied, thanks.
+I was hoping to see a prototype of how this could work in the
+non-generic case where the board needed a custom function to power
+things up. It seems like we'd still want to be able to use your code
+for probing.
 
 
--- 
-Jiri Kosina
-SUSE Labs
+> > > +       for_each_child_of_node(i2c_node, node) {
+> > > +               union i2c_smbus_data data;
+> > > +               u32 addr;
+> > > +
+> > > +               if (!of_node_name_prefix(node, type))
+> > > +                       continue;
+> > > +               if (of_property_read_u32(node, "reg", &addr))
+> > > +                       continue;
+> > > +               if (i2c_smbus_xfer(i2c, addr, 0, I2C_SMBUS_READ, 0, I=
+2C_SMBUS_BYTE, &data) < 0)
+> >
+> > I'd be tempted to say that the caller should be able to pass in a
+> > function pointer here so they could use an alternative method to probe
+> > instead of i2c_smbus_xfer(), though you'd want to make it easy to
+> > default to i2c_smbus_xfer(). I could imagine someone might need a
+> > different way to probe. For instance if you had two touchscreens both
+> > at the same "reg" but that had different "hid-descr-addr" then this
+> > could be important.
+>
+> I'd say the only specific probable type is hid-i2c. And that could be
+> generic enough that we could incorporate it here if we wanted. However
+> I think we want to keep the initial version a bit simpler.
 
+I don't mind if the initial version is simpler, but I'd love to
+understand how this will grow. It doesn't feel terrible to take in a
+function pointer that will probe the device and then provide a
+function that callers could pass in that simply did the simple
+i2c_smbus_xfer().
+
+
+> > > +                       continue;
+> > > +
+> >
+> > Put the "break" right here. You've found the device and that was the
+> > point of the loop.
+>
+> In its place we'd have an if (node) { <enable node> } block. I guess it
+> makes it easier to read still?
+
+...or perhaps an "if (!node) goto exit" block and then you don't need
+indentation? Essentially the loop becomes the implementation: "node =3D
+find_the_one_that_exists(...)".
+
+-Doug
 
