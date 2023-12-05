@@ -1,105 +1,94 @@
-Return-Path: <linux-input+bounces-504-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-506-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24BB9805F49
-	for <lists+linux-input@lfdr.de>; Tue,  5 Dec 2023 21:20:00 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B813805F66
+	for <lists+linux-input@lfdr.de>; Tue,  5 Dec 2023 21:27:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF07F1F21705
-	for <lists+linux-input@lfdr.de>; Tue,  5 Dec 2023 20:19:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 25956B21008
+	for <lists+linux-input@lfdr.de>; Tue,  5 Dec 2023 20:27:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F10C36DD0E;
-	Tue,  5 Dec 2023 20:19:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF3036DD1B;
+	Tue,  5 Dec 2023 20:27:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VbGEDd5P"
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Y4QJXKFl"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1BA6C0;
-	Tue,  5 Dec 2023 12:19:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701807591; x=1733343591;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qhZbtP+3qPhRMJWXOLcAYqsF2u004cK5/va3Lrnp/Rk=;
-  b=VbGEDd5PdkCDDU/E8hMcDbYtAqKhN2r76inBo0is5W4iblhqvoLTIv3x
-   +l5w0Phor0s64EBjtIkfGI5TOoz1XOntMkpPH/q8eKPP4Yy6/azGZMCRK
-   kahAbCHQSly3D2r1S76zgi5sVPA/TKYxeOtGBkMdwpe4y8BLInRDpe78w
-   /YJPpiQ+fn3raiVdXqHg+UXtBCSiit3Wy76qc68VGW6n964Xgzv7wZ+3B
-   atG3WpUMJPyNHhnLvA+8M0UNYS9b3MERtSgp6s9CTorlFCvmuwGS2T4Ml
-   0dnlZF7smbXIOZbwyPwu985ay1wlP9xVrgcpOGlKGBGuFV4Az4m11Pz7I
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="849871"
-X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="849871"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 12:19:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="841594338"
-X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="841594338"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 05 Dec 2023 12:19:47 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAbtR-0009fP-1N;
-	Tue, 05 Dec 2023 20:19:45 +0000
-Date: Wed, 6 Dec 2023 04:19:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Biju Das <biju.das.jz@bp.renesas.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 03/11] dt-bindings: input: Convert da906{1,2,3} onkey
- to json-schema
-Message-ID: <202312060431.fHDo1Yk9-lkp@intel.com>
-References: <20231202192536.266885-4-biju.das.jz@bp.renesas.com>
+Received: from mail.alien8.de (mail.alien8.de [IPv6:2a01:4f9:3051:3f93::2])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37BC3C6;
+	Tue,  5 Dec 2023 12:27:40 -0800 (PST)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id F018040E0195;
+	Tue,  5 Dec 2023 20:27:37 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 0DbshhlbnEIz; Tue,  5 Dec 2023 20:27:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1701808056; bh=uA2hJ4fVupdMziiNt0kfklNPGuoMpg4ALqlVG80QktE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y4QJXKFl4RtofbKfcrV8Od1c5MXix6a4l7FeCuYf8nvptijcUjjQHMFPuXKoz57/6
+	 Kyce2V3ri7B+CzbjEB7H7UG0I8aFePTBPyz7/lCaqLLgtx0wsCJXWcDOPXr3kv4Cc6
+	 CUAByGkaqOQEAj0kqj9/e9FqT86n9DhpVxiuPlGUM56csvruCA1M01J/ul50TpO5hq
+	 yLSQHnIkH1zb+hWXLrm0zDPkUH2i2m01pjXO5QBqZlwq5AmyFGSsMllztFWXFiKZ7k
+	 VROTu8ZdnO/IDjk0vkyyxBfoOESwWocsvqqFxCGaCDo+/ddWhcU8NshDBZWBcLS0GV
+	 UYgD1HyEJzFZayMtWOLkcC/oTEowJKYuh4mwjzpkHfmGwyTBqFykoqsEU173p229IQ
+	 GFT1I2sJjFYZe+pX/mI0D3FjIldJ/P4h1R9skZ+wDHoL/StmZ4qmqxI1uvwftn+E6k
+	 rV2acJ5oSIlbQZLdxxJ8a2vUVVTvoSSNw3ftv1AbjpOt0lIz0eXYXaHWcljPl9yv6Z
+	 P/C+ZqKvo2B9v9Kq4uM4Icgng7geUrNwu3jM/yEBQbJM82WwJXNwklHVt2YqVI2BuX
+	 6/pIygb17U9sOzs/IqIkyeSQyPLdJ4RlQOlVj9C818BNJ1GMymh1MX1OhySCmD9eD/
+	 kkI+j0u2Yj92vcJoQF5eGhVM=
+Received: from zn.tnic (pd95304da.dip0.t-ipconnect.de [217.83.4.218])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C412340E014B;
+	Tue,  5 Dec 2023 20:27:08 +0000 (UTC)
+Date: Tue, 5 Dec 2023 21:27:03 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Alexey Makhalov <amakhalov@vmware.com>
+Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+	hpa@zytor.com, dave.hansen@linux.intel.co, bp@alien8.d,
+	mingo@redhat.com, tglx@linutronix.de, x86@kernel.org,
+	netdev@vger.kernel.org, richardcochran@gmail.com,
+	linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+	zackr@vmware.com, linux-graphics-maintainer@vmware.com,
+	pv-drivers@vmware.com, namit@vmware.com, timothym@vmware.com,
+	akaher@vmware.com, jsipek@vmware.com,
+	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
+	tzimmermann@suse.de, mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com, horms@kernel.org
+Subject: Re: [PATCH v2 5/6] drm/vmwgfx: Use vmware_hypercall API
+Message-ID: <20231205202703.GIZW+Hl814mKqEDy/m@fat_crate.local>
+References: <20231122233058.185601-8-amakhalov@vmware.com>
+ <20231201232452.220355-1-amakhalov@vmware.com>
+ <20231201232452.220355-6-amakhalov@vmware.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231202192536.266885-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20231201232452.220355-6-amakhalov@vmware.com>
 
-Hi Biju,
+On Fri, Dec 01, 2023 at 03:24:51PM -0800, Alexey Makhalov wrote:
+> Switch from VMWARE_HYPERCALL macro to vmware_hypercall API.
+> Eliminate arch specific code.
+> 
+> drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h: implement arm64 variant
+> of vmware_hypercall here for now. The move of these functions to
+> arch/arm64/include/asm/vmware.h as well as removal of
+> drivers/gpu/drm/vmwgfx/vmwgfx_msg_{x86,arm64}.h header files will
+> be performed in the follow up patchset.
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on lee-mfd/for-mfd-next]
-[also build test WARNING on robh/for-next rafael-pm/thermal groeck-staging/hwmon-next linus/master v6.7-rc4 next-20231205]
-[cannot apply to dtor-input/next dtor-input/for-linus lee-mfd/for-mfd-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Biju-Das/dt-bindings-watchdog-dlg-da9062-watchdog-Document-DA9063-watchdog/20231203-042557
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-patch link:    https://lore.kernel.org/r/20231202192536.266885-4-biju.das.jz%40bp.renesas.com
-patch subject: [PATCH v2 03/11] dt-bindings: input: Convert da906{1,2,3} onkey to json-schema
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060431.fHDo1Yk9-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060431.fHDo1Yk9-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/input/da90??-onkey.txt
+Same note as for patch 1 - no commit order in git.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
 
