@@ -1,54 +1,59 @@
-Return-Path: <linux-input+bounces-499-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-500-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF20805AA0
-	for <lists+linux-input@lfdr.de>; Tue,  5 Dec 2023 18:01:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09482805AE9
+	for <lists+linux-input@lfdr.de>; Tue,  5 Dec 2023 18:12:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3D73F1F21714
-	for <lists+linux-input@lfdr.de>; Tue,  5 Dec 2023 17:01:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B2FEE1F21D6A
+	for <lists+linux-input@lfdr.de>; Tue,  5 Dec 2023 17:12:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E54C63DFF;
-	Tue,  5 Dec 2023 17:01:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 529A269292;
+	Tue,  5 Dec 2023 17:12:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fR2Hc/Os"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QBxqVkc1"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE15763DF8;
-	Tue,  5 Dec 2023 17:01:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 438B8C433C8;
-	Tue,  5 Dec 2023 17:01:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F4769280;
+	Tue,  5 Dec 2023 17:12:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50413C433CA;
+	Tue,  5 Dec 2023 17:12:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701795708;
-	bh=hvoZmvi5kVxk0mKJg/p4H7TFldJx6GDXwB6b10p0uR4=;
+	s=k20201202; t=1701796336;
+	bh=+0SRtpBwj79hIz/hHBCulYEHeN2HzGzV1N8GdMPi31w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fR2Hc/OslizATX35uwXnI7Yz3TsBy2irvFrhCksyJFJeKU7QY3Pv6S1TiijifowEi
-	 NKF9D7AFAqoMoxJ7sCnsaylG3pihVGZiJUGDjsxpb2QAI5MkLTZ1pjLTyWW0CbMcXd
-	 ivXTpjZKGhOD9bJ7pOPudMirLdpL6WP6rZPx9VKjM0kdtFfeaVpZlakvloRnIHNXYl
-	 PIG6C6EAgDcIR6PIhfJbGpxhMGIxHNbyXmqORzU4Y1w4hAZ0wkaAuvBEWXLcCVTGl5
-	 DMmPmopRNYUVpWEWMZeJLZnTfbpnhUTd2DgGsXiDOV7ms2Ax9WmPUD4I48Y0uXlIS9
-	 A1eFJEWJsvpKA==
-Date: Tue, 5 Dec 2023 17:01:43 +0000
+	b=QBxqVkc1BziMmuPR3tIkkMNgJr+V3run3T4gG81YFKuJTAzX/zKyDCkEzv7frte7m
+	 lAT1Artq+rZz/ciZE1ZjUffmsv718UE2U6YvMqCtFHC7LfI4go6ThDchoT4vKQ4OMK
+	 Mf4ikzZ/4aJy7xjamZk7AdokjjW3bf4DWDvonwbsryiBj1Yd5KXmb16OyJD8DtTFB/
+	 j0BXj9qdVSTsQQTvtZUYaQFBFF0L/YW0OcjTlwk0TbtgKgBon3piss3mXQGuen0iIo
+	 V8+4NdEQhNh+q0kBH4psHqHgnyNRG55uDj9+vhMPIgSntYHeeu0RxO0Rt/qm0P2F5W
+	 9ChT+OSFwLXtw==
+Date: Tue, 5 Dec 2023 17:12:10 +0000
 From: Conor Dooley <conor@kernel.org>
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
 	Support Opensource <support.opensource@diasemi.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Steve Twiss <stwiss.opensource@diasemi.com>,
 	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-pm@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3.1 5/8] dt-bindings: input: Convert da906{1,2,3} onkey
- to json-schema
-Message-ID: <20231205-mobilize-eldercare-868f30da5018@spud>
+Subject: Re: [PATCH v3.1 8/8] dt-bindings: mfd: dlg,da9063: Convert da9062 to
+ json-schema
+Message-ID: <20231205-negate-matrix-0e55c151017b@spud>
 References: <20231204172510.35041-1-biju.das.jz@bp.renesas.com>
- <20231204172510.35041-6-biju.das.jz@bp.renesas.com>
+ <20231204172510.35041-9-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -56,46 +61,144 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="EOW+nDDhcTc8iYm6"
+	protocol="application/pgp-signature"; boundary="4rzgZ3xOApeS7mXd"
 Content-Disposition: inline
-In-Reply-To: <20231204172510.35041-6-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20231204172510.35041-9-biju.das.jz@bp.renesas.com>
 
 
---EOW+nDDhcTc8iYm6
+--4rzgZ3xOApeS7mXd
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 04, 2023 at 05:25:07PM +0000, Biju Das wrote:
-> Convert the da906{1,2,3} onkey device tree binding documentation to
-> json-schema.
->=20
-> Update MAINTAINERS entries, description and onkey property by
-> referring to dlg,da9062-onkey binding file.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v3->v3.1:
->  * Squashed with patch#6 and patch#9 from v2.
->  * Replaced enum->const for dlg,da9061-onkey and its fallback.
->  * Dropped example
+On Mon, Dec 04, 2023 at 05:25:10PM +0000, Biju Das wrote:
 
-I think this looks good
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> @@ -60,8 +85,65 @@ properties:
+>  required:
+>    - compatible
+>    - reg
+> -  - interrupts
+> -  - interrupt-controller
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - dlg,da9063
+> +              - dlg,da9063l
+> +    then:
+> +      properties:
+> +        thermal: false
+> +        gpio: false
+> +        gpio-controller: false
+> +        "#gpio-cells": false
+> +        regulators:
+> +          patternProperties:
+> +            "^buck[1-4]$": false
+> +      required:
+> +        - interrupts
+> +        - interrupt-controller
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - dlg,da9062
+> +    then:
+> +      properties:
+> +        regulators:
+> +          patternProperties:
+> +            "^(ldo([5-9]|10|11)|bcore([1-2]|s-merged)|b(pro|mem|io|peri)=
+|bmem-bio-merged)$": false
+> +      required:
+> +        - gpio
+> +        - onkey
+> +        - rtc
+> +        - thermal
+> +        - watchdog
 
-Cheers,
+Why are these required for the 9062 (and another set for the 9061)?
+The original binding does not seem to require them, nor does the yaml
+binding for the 9063.
+
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - dlg,da9061
+> +    then:
+> +      properties:
+> +        gpio: false
+> +        gpio-controller: false
+> +        "#gpio-cells": false
+> +        regulators:
+> +          patternProperties:
+> +            "^(ldo([5-9]|10|11)|bcore([1-2]|s-merged)|b(pro|mem|io|peri)=
+|bmem-bio-merged|buck4)$": false
+> +        rtc: false
+> +      required:
+> +        - onkey
+> +        - thermal
+> +        - watchdog
+> =20
+>  additionalProperties: false
+> =20
+> @@ -118,4 +200,98 @@ examples:
+>          };
+>        };
+>      };
+> +
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/regulator/dlg,da9063-regulator.h>
+> +    i2c {
+> +      #address-cells =3D <1>;
+> +      #size-cells =3D <0>;
+> +      pmic@58 {
+> +        compatible =3D "dlg,da9062";
+> +        reg =3D <0x58>;
+> +        #interrupt-cells =3D <2>;
+> +        interrupt-parent =3D <&gpio1>;
+> +        interrupts =3D <2 IRQ_TYPE_LEVEL_LOW>;
+> +        interrupt-controller;
+> +
+> +        gpio {
+> +          compatible =3D "dlg,da9062-gpio";
+> +          status =3D "disabled";
+
+Why add it disabled? This should be enabled IMO.
+
+> +        rtc {
+> +          compatible =3D "dlg,da9062-rtc";
+> +          status =3D "disabled";
+> +        };
+> +
+> +        thermal {
+> +          compatible =3D "dlg,da9062-thermal";
+> +          status =3D "disabled";
+> +        };
+
+Ditto for these.
+
+Thanks,
 Conor.
 
---EOW+nDDhcTc8iYm6
+
+--4rzgZ3xOApeS7mXd
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZW9XdwAKCRB4tDGHoIJi
-0lIGAQDo5aN83IrA9nHWbyIhxaqc8rLOnl9ey0qNKRcC3jTXUgEAwFsn3VUZCK8j
-2YPZeSTnjUf6JZtL0DDYVPkgf56P9g0=
-=h6KR
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZW9Z6QAKCRB4tDGHoIJi
+0s25AQCT8XSj7t9IWgumkPnfPudYqItXou/tVFS/+9+gGopdIQD5AUYZftVFIznQ
+csQ+dxbWkG9X4t5mJHnZ9/RohqMsFAU=
+=qT5H
 -----END PGP SIGNATURE-----
 
---EOW+nDDhcTc8iYm6--
+--4rzgZ3xOApeS7mXd--
 
