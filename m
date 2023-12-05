@@ -1,169 +1,147 @@
-Return-Path: <linux-input+bounces-507-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-508-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3FA0806017
-	for <lists+linux-input@lfdr.de>; Tue,  5 Dec 2023 22:05:08 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DED63806087
+	for <lists+linux-input@lfdr.de>; Tue,  5 Dec 2023 22:16:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9BB73281837
-	for <lists+linux-input@lfdr.de>; Tue,  5 Dec 2023 21:05:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F9881F211C7
+	for <lists+linux-input@lfdr.de>; Tue,  5 Dec 2023 21:16:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B55646ABB6;
-	Tue,  5 Dec 2023 21:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D6E96E58C;
+	Tue,  5 Dec 2023 21:16:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LcdgIhPC"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="Tl4Dlk1W"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9BE91BD;
-	Tue,  5 Dec 2023 13:05:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701810301; x=1733346301;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QoRB+kUlNzcFbM1jcDY4W8+DKPtN7knm2yCQx9BeXHw=;
-  b=LcdgIhPCvGw7/HfGxdIo47Sh5jlPpB6c7qwxdNU3k0KMXqJpBcG2SzVV
-   kgj6Hv0KfXC3FtfP6BlxnP2ufODoePbVt9CZYjU4MBYMBOvIYWYNabwyx
-   pCWmXdqT8M/iqgttbuDkwrr5tMwbcDdWxt+0tP43Wv7SOE7KGOHSie4F6
-   khtq+/MlVxjqGktZJMdySlGunxZHtNC/DXRP5+YQGtrkJ+STrg2MiOQxF
-   TMLUp79h7P9P9Xr5yoM5E0FHLNVa4WI95avJebS33lADZzONEa1AyiNil
-   aY9P8HthgFv2U7rINIM76EqfY3KNRHMa4FsiU/R6T4/dcH04D9yJi9Ws/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="458275354"
-X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="458275354"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 13:05:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="800104497"
-X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="800104497"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 05 Dec 2023 13:04:52 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAcb3-0009jG-2T;
-	Tue, 05 Dec 2023 21:04:49 +0000
-Date: Wed, 6 Dec 2023 05:04:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexey Makhalov <amakhalov@vmware.com>, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev, hpa@zytor.com,
-	dave.hansen@linux.intel.co, bp@alien8.d, mingo@redhat.com,
-	tglx@linutronix.de
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, x86@kernel.org,
-	netdev@vger.kernel.org, richardcochran@gmail.com,
-	linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
-	zackr@vmware.com, linux-graphics-maintainer@vmware.com,
-	pv-drivers@vmware.com, namit@vmware.com, timothym@vmware.com,
-	akaher@vmware.com, jsipek@vmware.com,
-	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
-	tzimmermann@suse.de, mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com, horms@kernel.org
-Subject: Re: [PATCH v2 6/6] x86/vmware: Add TDX hypercall support
-Message-ID: <202312060432.8e2xdh6F-lkp@intel.com>
-References: <20231201232452.220355-7-amakhalov@vmware.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 311A8A5
+	for <linux-input@vger.kernel.org>; Tue,  5 Dec 2023 13:16:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=MzESY+uw6TR4Q8H/dqOGcqohVUvZ95RD8T+mWZCXh6I=; b=Tl4Dlk1W6g4R93fpHGy04vT77u
+	CZVah9NqikM6ruSqEbqtPWOw1SKNBwTxcYBcYoBjBZDX2w4tIdMS4DfGXnWs7AgBMyAM3DEMjt4XL
+	/f299ZBshfDkYirzv390Cusa5O0RsigSE/IQk+ZPGLKquCrCYbrT/rfJFUNLSdKQ+B8nKPJ/I1Bcd
+	WoylLBhnI9HKmb6CpnootbVjnsTvjzWYf1M1UJKnmS1pLGk44OwsPeXkeKTP6gqTqrhB3eyTio8Qm
+	sBflBJZ1NVTB+y9+smBAcvRFF9UjuN0N2NU3Lrr+A8W/IzojbZfW68EIBGw5kXuJr3NvPSkouKwp6
+	qEDcubtQ==;
+Received: from [179.232.147.2] (helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1rAcmV-00Ak2A-Ha; Tue, 05 Dec 2023 22:16:40 +0100
+From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+To: djogorchock@gmail.com,
+	linux-input@vger.kernel.org
+Cc: jikos@kernel.org,
+	benjamin.tissoires@redhat.com,
+	kernel@gpiccoli.net,
+	kernel-dev@igalia.com,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Subject: [PATCH] HID: nintendo: Prevent divide-by-zero on code
+Date: Tue,  5 Dec 2023 18:15:51 -0300
+Message-ID: <20231205211628.993129-1-gpiccoli@igalia.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231201232452.220355-7-amakhalov@vmware.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Alexey,
+It was reported [0] that adding a generic joycon to the system caused
+a kernel crash on Steam Deck, with the below panic spew:
 
-kernel test robot noticed the following build errors:
+divide error: 0000 [#1] PREEMPT SMP NOPTI
+[...]
+Hardware name: Valve Jupiter/Jupiter, BIOS F7A0119 10/24/2023
+RIP: 0010:nintendo_hid_event+0x340/0xcc1 [hid_nintendo]
+[...]
+Call Trace:
+ [...]
+ ? exc_divide_error+0x38/0x50
+ ? nintendo_hid_event+0x340/0xcc1 [hid_nintendo]
+ ? asm_exc_divide_error+0x1a/0x20
+ ? nintendo_hid_event+0x307/0xcc1 [hid_nintendo]
+ hid_input_report+0x143/0x160
+ hidp_session_run+0x1ce/0x700 [hidp]
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on dtor-input/next dtor-input/for-linus linus/master v6.7-rc4 next-20231205]
-[cannot apply to tip/x86/vmware]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Since it's a divide-by-0 error, by tracking the code for potential
+denominator issues, we've spotted 2 places in which this could happen;
+so let's guard against the possibility and log in the kernel if the
+condition happens. This is specially useful since some data that
+fills some denominators are read from the joycon HW in some cases,
+increasing the potential for flaws.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexey-Makhalov/x86-vmware-Move-common-macros-to-vmware-h/20231202-072821
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231201232452.220355-7-amakhalov%40vmware.com
-patch subject: [PATCH v2 6/6] x86/vmware: Add TDX hypercall support
-config: i386-buildonly-randconfig-005-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060432.8e2xdh6F-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060432.8e2xdh6F-lkp@intel.com/reproduce)
+[0] https://github.com/ValveSoftware/SteamOS/issues/1070
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060432.8e2xdh6F-lkp@intel.com/
+Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+---
+ drivers/hid/hid-nintendo.c | 27 ++++++++++++++++++++-------
+ 1 file changed, 20 insertions(+), 7 deletions(-)
 
-All error/warnings (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/vmwgfx/vmwgfx_msg.c:37:
-   In file included from drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h:38:
->> arch/x86/include/asm/vmware.h:46:46: warning: declaration of 'struct tdx_module_args' will not be visible outside of this function [-Wvisibility]
-   extern void vmware_tdx_hypercall_args(struct tdx_module_args *args);
-                                                ^
->> arch/x86/include/asm/vmware.h:61:25: error: variable has incomplete type 'struct tdx_module_args'
-           struct tdx_module_args args = {
-                                  ^
-   arch/x86/include/asm/vmware.h:61:9: note: forward declaration of 'struct tdx_module_args'
-           struct tdx_module_args args = {
-                  ^
-   1 warning and 1 error generated.
-
-
-vim +61 arch/x86/include/asm/vmware.h
-
-    45	
-  > 46	extern void vmware_tdx_hypercall_args(struct tdx_module_args *args);
-    47	
-    48	/*
-    49	 * TDCALL[TDG.VP.VMCALL] uses rax (arg0) and rcx (arg2), while the use of
-    50	 * rbp (arg6) is discouraged by the TDX specification. Therefore, we
-    51	 * remap those registers to r12, r13 and r14, respectively.
-    52	 */
-    53	static inline
-    54	unsigned long vmware_tdx_hypercall(unsigned long cmd, unsigned long in1,
-    55					   unsigned long in3, unsigned long in4,
-    56					   unsigned long in5, unsigned long in6,
-    57					   uint32_t *out1, uint32_t *out2,
-    58					   uint32_t *out3, uint32_t *out4,
-    59					   uint32_t *out5, uint32_t *out6)
-    60	{
-  > 61		struct tdx_module_args args = {
-    62			.r10 = VMWARE_TDX_VENDOR_LEAF,
-    63			.r11 = VMWARE_TDX_HCALL_FUNC,
-    64			.r12 = VMWARE_HYPERVISOR_MAGIC,
-    65			.r13 = cmd,
-    66			.rbx = in1,
-    67			.rdx = in3,
-    68			.rsi = in4,
-    69			.rdi = in5,
-    70			.r14 = in6,
-    71		};
-    72	
-    73		vmware_tdx_hypercall_args(&args);
-    74	
-    75		if (out1)
-    76			*out1 = args.rbx;
-    77		if (out2)
-    78			*out2 = args.r13;
-    79		if (out3)
-    80			*out3 = args.rdx;
-    81		if (out4)
-    82			*out4 = args.rsi;
-    83		if (out5)
-    84			*out5 = args.rdi;
-    85		if (out6)
-    86			*out6 = args.r14;
-    87	
-    88		return args.r12;
-    89	}
-    90	
-
+diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+index 138f154fecef..23f3f96c8c85 100644
+--- a/drivers/hid/hid-nintendo.c
++++ b/drivers/hid/hid-nintendo.c
+@@ -927,14 +927,27 @@ static int joycon_request_calibration(struct joycon_ctlr *ctlr)
+  */
+ static void joycon_calc_imu_cal_divisors(struct joycon_ctlr *ctlr)
+ {
+-	int i;
++	int i, divz = 0;
+ 
+ 	for (i = 0; i < 3; i++) {
+ 		ctlr->imu_cal_accel_divisor[i] = ctlr->accel_cal.scale[i] -
+ 						ctlr->accel_cal.offset[i];
+ 		ctlr->imu_cal_gyro_divisor[i] = ctlr->gyro_cal.scale[i] -
+ 						ctlr->gyro_cal.offset[i];
++
++		if (ctlr->imu_cal_accel_divisor[i] == 0) {
++			ctlr->imu_cal_accel_divisor[i] = 1;
++			divz++;
++		}
++
++		if (ctlr->imu_cal_gyro_divisor[i] == 0) {
++			ctlr->imu_cal_gyro_divisor[i] = 1;
++			divz++;
++		}
+ 	}
++
++	if (divz)
++		hid_warn(ctlr->hdev, "inaccurate IMU divisors (%d)\n", divz);
+ }
+ 
+ static const s16 DFLT_ACCEL_OFFSET /*= 0*/;
+@@ -1163,16 +1176,16 @@ static void joycon_parse_imu_report(struct joycon_ctlr *ctlr,
+ 		    JC_IMU_SAMPLES_PER_DELTA_AVG) {
+ 			ctlr->imu_avg_delta_ms = ctlr->imu_delta_samples_sum /
+ 						 ctlr->imu_delta_samples_count;
+-			/* don't ever want divide by zero shenanigans */
+-			if (ctlr->imu_avg_delta_ms == 0) {
+-				ctlr->imu_avg_delta_ms = 1;
+-				hid_warn(ctlr->hdev,
+-					 "calculated avg imu delta of 0\n");
+-			}
+ 			ctlr->imu_delta_samples_count = 0;
+ 			ctlr->imu_delta_samples_sum = 0;
+ 		}
+ 
++		/* don't ever want divide by zero shenanigans */
++		if (ctlr->imu_avg_delta_ms == 0) {
++			ctlr->imu_avg_delta_ms = 1;
++			hid_warn(ctlr->hdev, "calculated avg imu delta of 0\n");
++		}
++
+ 		/* useful for debugging IMU sample rate */
+ 		hid_dbg(ctlr->hdev,
+ 			"imu_report: ms=%u last_ms=%u delta=%u avg_delta=%u\n",
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.42.0
+
 
