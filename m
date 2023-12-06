@@ -1,134 +1,103 @@
-Return-Path: <linux-input+bounces-524-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-525-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BDBD806B3A
-	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 11:02:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21978806C02
+	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 11:34:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ACA971F2129D
-	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 10:02:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5BC291C209A8
+	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 10:34:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DBD4288B6;
-	Wed,  6 Dec 2023 10:02:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 418E32DF7E;
+	Wed,  6 Dec 2023 10:34:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QqSgwEI2"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="HR09C4xw"
 X-Original-To: linux-input@vger.kernel.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5811FA;
-	Wed,  6 Dec 2023 02:02:33 -0800 (PST)
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 73A4166072EC;
-	Wed,  6 Dec 2023 10:02:30 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701856952;
-	bh=cr+tV0XqzVvByUwmvFvRoMfvYN0mf8oLqsTQmUgIzdI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QqSgwEI2TEj20+Ep5cFRKALAPW2dGLQ+U6+O//hmeymH+I85vaA544p42v4fUIYGq
-	 kMTDOzwhdnCgN0qBdKruKDYPv5cEtZ/wsKeAU9n6p7vqnXjI0wXAidADulKD6AOpUG
-	 ++lhp2UKrtuta7g1DPvnGCIsleozW5Px79utFaF1GLkYQjuwKXpfBK+LyQauseX66+
-	 /Y2FfupnUpxOAnSQEA7GHWDWvXcJzC0hFTZzBg6ENhNKkqDhTNTlBifqMgGHYo2QKI
-	 xBmn+cRsEul8n19Mmgk7LsBm/5G5JIG0W5sBfdxuLyqMhsgDyv0h+ZHinXRZDricCI
-	 +SIkKoNwWXvew==
-Message-ID: <4b9ea82c-d1a4-47b6-ba03-346cfdedef05@collabora.com>
-Date: Wed, 6 Dec 2023 11:02:30 +0100
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E08A91A5
+	for <linux-input@vger.kernel.org>; Wed,  6 Dec 2023 02:34:19 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-3333fbbeab9so558073f8f.2
+        for <linux-input@vger.kernel.org>; Wed, 06 Dec 2023 02:34:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1701858858; x=1702463658; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PkqurgaRmjaLu2pCU3OGXo3U4UmjRqbubj+U5Qx3nMc=;
+        b=HR09C4xwCEoHf8vaufFnoRDk1DR/I0kzCToI0Pz7eDVQ1Yxly0Nq7mGuuQjtfivU6N
+         DszBuun8BeMj3hm92Ec67SALkaaCFOaynORuZ7lpjCWWA3r/XrJwE/WVTING2XDGF1pg
+         LcPpYL93vbTgaNwuyt4u9rGLmZ0exfjlxemi0yHuuu+YOYa0e0HPZ4sd5wU6jZFrvrHu
+         Xc6atv1ZfD3PFZAeBtXN2gsdfWHnLFWIeUfIb4gSZSr5lKbBAOJvPap8EYHBbeCYOQWG
+         Kbgi2ASJvGFlj3Q1i2XbJn/RAlMaNc4qNbLoDg7Y+HW8tHPCAm5kRpU7RVds+wSuVlsF
+         xwzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701858858; x=1702463658;
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PkqurgaRmjaLu2pCU3OGXo3U4UmjRqbubj+U5Qx3nMc=;
+        b=XSWmBuu8xq54ahBdP+Cc7cW1cT1DqSAnvC4Z3umjyVaDqvCvIlaYEM4TRWDJj4Y16d
+         7gKsHBxPKlIPb68RsU8vaqwVhKNdvUnFEwpB4yZJrbpFtQTza3OY8WRcxknhzFoWvGEq
+         rYPIIMDZV6Dqhmc020qbFjcVM4c9rR/p/MDuIY+WFb1tXF2P73cpKIRBHEBQ15ED4oKN
+         31wEhzcXmYMi+mu6UPuQaROWr2ssONKGblSKzBQpdq1WroFPN1Yx2kFka+ekWUyZv46+
+         gbfnD/oHECiX5pDdfm1hyMCeifDswpGnKPNv5PQISPDgTUiGBoNILrj4wyG6ky9vkzdg
+         Etgw==
+X-Gm-Message-State: AOJu0YxBjcGbfAh66uf0KbL3xMWwSwzNm/07ijcnZU0NpGSvCrkSkOcO
+	QyX7EsNUksAEdOMC0jFtwjBLDA==
+X-Google-Smtp-Source: AGHT+IGydOHhQc8hj4pdsRCVfI7xupjllVV2cYAvnk9xvpQfdj1pdTOPuyTtnGm+kybSdb3zkcH1Dg==
+X-Received: by 2002:adf:e502:0:b0:333:48d7:f56 with SMTP id j2-20020adfe502000000b0033348d70f56mr346921wrm.49.1701858858376;
+        Wed, 06 Dec 2023 02:34:18 -0800 (PST)
+Received: from localhost ([193.86.92.180])
+        by smtp.gmail.com with ESMTPSA id q3-20020adff783000000b003332febec90sm14589786wrp.7.2023.12.06.02.34.18
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 06 Dec 2023 02:34:18 -0800 (PST)
+From: Jiri Kosina <jkosina@suse.com>
+X-Google-Original-From: Jiri Kosina <jikos@kernel.org>
+Date: Wed, 6 Dec 2023 11:34:18 +0100 (CET)
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+cc: Even Xu <even.xu@intel.com>, srinivas.pandruvada@linux.intel.com, 
+    bleung@chromium.org, groeck@chromium.org, linux-input@vger.kernel.org, 
+    chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 4/4] platform: chrome: cros_ec_ishtp: use helper functions
+ for connection
+In-Reply-To: <ZW_rdCJ7EdtmJYFz@google.com>
+Message-ID: <nycvar.YFH.7.76.2312061133470.29220@cbobk.fhfr.pm>
+References: <1701741033-26222-1-git-send-email-even.xu@intel.com> <1701741033-26222-5-git-send-email-even.xu@intel.com> <ZW_rdCJ7EdtmJYFz@google.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 4/5] arm64: dts: mediatek: mt8173-elm-hana: Mark
- touchscreens and trackpads as fail
-Content-Language: en-US
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Doug Anderson <dianders@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Wolfram Sang <wsa@kernel.org>,
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- andriy.shevchenko@linux.intel.com, Jiri Kosina <jikos@kernel.org>,
- linus.walleij@linaro.org, broonie@kernel.org, gregkh@linuxfoundation.org,
- hdegoede@redhat.com, james.clark@arm.com, james@equiv.tech,
- keescook@chromium.org, rafael@kernel.org, tglx@linutronix.de,
- Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
- linux-i2c@vger.kernel.org
-References: <20231128084236.157152-1-wenst@chromium.org>
- <20231128084236.157152-5-wenst@chromium.org>
- <CAD=FV=W01gfxV6RN2o6CVS7jjf8qgKP-jUy9Bp94d2hWzVC48A@mail.gmail.com>
- <CAGXv+5E+R292XsOFSL-j0KJMmVJjWtxMRgCK8besP7mo6NDOWA@mail.gmail.com>
- <CAD=FV=UQkAjgMuR85cPikNtCxsODWPWs7cibOcOoNGdjSSvF8Q@mail.gmail.com>
- <3700f05f-2411-4422-972f-f3df690efb84@collabora.com>
- <CAGXv+5G5fFTv8zn=YamSdccjuYemE5oKBqjb8CSyGzu9aMJ0eg@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <CAGXv+5G5fFTv8zn=YamSdccjuYemE5oKBqjb8CSyGzu9aMJ0eg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-Il 06/12/23 03:55, Chen-Yu Tsai ha scritto:
-> On Tue, Dec 5, 2023 at 6:22 PM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
->>
->> Il 04/12/23 17:50, Doug Anderson ha scritto:
->>> Hi,
->>>
->>> On Sun, Dec 3, 2023 at 10:59 PM Chen-Yu Tsai <wenst@chromium.org> wrote:
->>>>
->>>> On Sat, Dec 2, 2023 at 8:58 AM Doug Anderson <dianders@chromium.org> wrote:
->>>>>
->>>>> Hi,
->>>>>
->>>>> On Tue, Nov 28, 2023 at 12:45 AM Chen-Yu Tsai <wenst@chromium.org> wrote:
->>>>>>
->>>>>> @@ -44,6 +46,7 @@ trackpad2: trackpad@2c {
->>>>>>                   reg = <0x2c>;
->>>>>>                   hid-descr-addr = <0x0020>;
->>>>>>                   wakeup-source;
->>>>>> +               status = "fail-needs-probe";
->>>>>
->>>>> While doing this, you could also remove the hack where the trackpad
->>>>> IRQ pinctrl is listed under i2c4.
->>>>
->>>> Sure. I do think we can do away with it though. According to at least one
->>>> schematic, the interrupt line has pull-ups on both sides of the voltage
->>>> shifter.
->>>>
->>>> BTW, The touchscreen doesn't have pinctrl entries. This has pull-ups on
->>>> both sides of the voltage shifter as well.
->>>
->>> I dunno if the convention is different on Mediatek boards, but at
->>> least on boards I've been involved with in the past we've always put
->>> pinctrl entries just to make things explicit. This meant that we
->>> didn't rely on the firmware/bootrom/defaults to leave pulls in any
->>> particular state. ...otherwise those external pull-ups could be
->>> fighting with internal pull-downs, right?
->>>
->>
->> MediaTek boards aren't special and there's no good reason for those to rely on
->> firmware/bootrom/defaults - so there is no good reason to avoid declaring any
->> relevant pinctrl entry.
-> 
-> I think this should be migrated to use the proper GPIO bindings: the
-> GPIO_PULL_UP / GPIO_PULL_DOWN / GPIO_BIAS_DISABLE flags.
-> 
-> But that's a different discussion.
-> 
+On Wed, 6 Dec 2023, Tzung-Bi Shih wrote:
 
-100% agreed.
+> On Tue, Dec 05, 2023 at 09:50:33AM +0800, Even Xu wrote:
+> > Use helper functions ishtp_cl_establish_connection() and
+> > ishtp_cl_destroy_connection() to establish and destroy connection
+> > respectively. These functions are used during initialization, reset and
+> > deinitialization flows.
+> > 
+> > No functional changes are expected.
+> > 
+> > Signed-off-by: Even Xu <even.xu@intel.com>
+> > Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> 
+> Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-Cheers,
-Angelo
+Thanks.
+
+> One minor suggestion: we usually use "platform/chrome:" instead of
+> "platform: chrome:" for the title prefix.
+
+I have changed that, and am taking it together with the rest of the series 
+through hid.git#for-6.8/intel-ish.
+
+-- 
+Jiri Kosina
+SUSE Labs
 
 
