@@ -1,143 +1,183 @@
-Return-Path: <linux-input+bounces-561-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-562-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D718780772C
-	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 18:58:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 143368077E4
+	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 19:46:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 350A2B20D58
-	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 17:58:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A82391C20F34
+	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 18:46:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 918D26DCEE;
-	Wed,  6 Dec 2023 17:58:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02A086EB69;
+	Wed,  6 Dec 2023 18:46:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="zGnHc5cY"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="arLca5+d"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2043.outbound.protection.outlook.com [40.107.92.43])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 129EDD62;
-	Wed,  6 Dec 2023 09:58:47 -0800 (PST)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2076.outbound.protection.outlook.com [40.107.102.76])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6486610C9;
+	Wed,  6 Dec 2023 10:46:44 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=apFncT64ahdQHTiuVIAltreR4cTIpiHXcCxoDU0QenRmz5sTLV2rsjYdyzwwZD1UEglMU046vBy6NBr2l1URqwu7D285A+cAIJtf7x9DULOt4dFKgS2DzA9GWeMUPubxRhz7K/7lvXdZg6UDrAP0WChvSF+CPHo9dEWm3mDEE52Bx5z+XBgvOtwfmWlMicPm2DrFshjISCV3SKNbvtA2UzrUFhXMdE4R1y7s3fKMWJyWaL45bUSPks1P0ejIX5T4OeqstaG/noENt1aBeM3bORbG93tVbo33elxd/1EvsQZw+kEwr+fLViZR1TAckSEsrt8EFC46EWLgrDCwHSLspA==
+ b=JOWr53mqnVzcyzI4GJSijoSPgu8/HFnOE9qy4f+LDQyR7ERDGMmpRGoSPw8UaPuYpanU8p/ePEQ1mTEq9bYAxQwmDk8FQw+gEJI+gEr63xFN7aBizgyfiHm7GHUezRJSQmfngK2YqjM74esD4sSA0qVKE/e5aa3tsbX9qLmilr9+4QfKUUxNX2WngpPH11FF4dPgqXUzrPbVs/nceT7O9wIbRzfGcE4lPDzzND62AunMQWOHqXrncmO6e3++fq0RL0iPvgZf7dEzzzDjob2jblaveNwow7PeghWkByxKCQo9cMaa0hGz11fzQWOLYUZks8xyuUlJtUQq7985cYsPYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i6ddM0n9CKVFEHqrcOU/WeQVuxcnxXw4Bp7h8fskh6o=;
- b=JAkD67TeCN6z4v241T1irpbPWlSwHvi4j/1ei31NDwqFEGB8pcbEEkKUxL48W7otr2qROPsPFdnbWmh8JOnIDiBBEJiWPoSOfigHL3pFKe34WEGh62wDjhdaTQbVdBknIKDExxh/1reXNvaFaSsJ0HzfqLfAX03luArDDJ8QeLDzcUdcW1icWkK6xxnOADVPQc2XbSeNq4zuNN1dmi3EJE3YMdjv9qkoQXiEphcIC3vdk/OtTrULkL+ecDyP2fuqxG1dm8pHtQ75NP635PQ2pnZhs9ToVpblbkT1ElHxjWujaJ2hHma31/c6N5cjAEwWF4b8rVP8pOU9GpaS04Yc6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=HDdwhv1Rn+2IRFL8jhpO4NOTD19NFwrgRhDzzBg7lxI=;
+ b=n1nyQTa/qT361qwadCUBzzynxtWvZ2/DRlm27XiYw0ofjeVBK7MIH0cROWICnt7hoe4A9rGy9CJkZvU4wEC+ROIbY01/t0EAi6V+9W5zs9zJ1Eg6YnpxOT1C9tjxBbdz5cgcoCO/XkgC6zNIsJmipHMSZ3JlOtrg4uXJPob0V4wpG2JJ1qUJQBI27Q9HWwTU9FBkmtDY8eXl/4G+qycDmwAQI78eaTWU5my8aVPIjsJ4DotkrSdiZFhJFYQkwsowqF6NObT0lL+rHXzdhEccjtX8AxJqIwyPo348NB13VZbVyEmqcU+AuuCuB1WR/ze0R4tMagddwY/7cHEO2TZxTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i6ddM0n9CKVFEHqrcOU/WeQVuxcnxXw4Bp7h8fskh6o=;
- b=zGnHc5cYNJEuTPHZej0YU8V+CuGZ/G/K3MJ/AVxQqx1rzfE7wWGrWnLtIisZbRPTHujONoClV/qP1FftFKpxOf1DVUpPw/TTxKcgsE2Iy4fGVa0+E06hN7OSiHvqQ5++15blTsHFbA3Eja9frMwLu/FgxWLsvZn+vLsD30ODF94=
-Received: from SA9P223CA0027.NAMP223.PROD.OUTLOOK.COM (2603:10b6:806:26::32)
- by MW4PR12MB7309.namprd12.prod.outlook.com (2603:10b6:303:22f::17) with
+ bh=HDdwhv1Rn+2IRFL8jhpO4NOTD19NFwrgRhDzzBg7lxI=;
+ b=arLca5+dD2Pqh+R7LM3cKH4OYW8E4jnwsO2qieGei15CiA+ffzlT0PcU7DlGBXVKszltLXRXhzI5lun4qQuGopQi6nbXch5ss1IW3Ttu3P9/41dwQMLzhcQLDcQRIxz2kBokUNfSNB5qdTsS33ZbDq57poJIdWEyi+aNf/j9X+HdkspjB33/0RWMssDWY8QyHIaGxzL7VmRK8Fyafc8d/VB0DCtJappn3mD1HnJfmWMwnwnkx1VjPRtgbeAHUjtSiI5wmkjn3iRpn5OhqdAgbRLDRmpxKSZFcHhgg4aNIfLmhlTJEEanPTGQAAbhZmSv3gKETC2gxdAzKY3oqhkdjg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
+ by BN9PR12MB5276.namprd12.prod.outlook.com (2603:10b6:408:101::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.25; Wed, 6 Dec
- 2023 17:58:44 +0000
-Received: from SN1PEPF000252A2.namprd05.prod.outlook.com
- (2603:10b6:806:26:cafe::5) by SA9P223CA0027.outlook.office365.com
- (2603:10b6:806:26::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34 via Frontend
- Transport; Wed, 6 Dec 2023 17:58:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SN1PEPF000252A2.mail.protection.outlook.com (10.167.242.9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7068.20 via Frontend Transport; Wed, 6 Dec 2023 17:58:44 +0000
-Received: from AUS-P9-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Wed, 6 Dec
- 2023 11:58:43 -0600
-From: Mario Limonciello <mario.limonciello@amd.com>
-To: <dmitry.torokhov@gmail.com>
-CC: <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Mario
- Limonciello" <mario.limonciello@amd.com>
-Subject: [PATCH] Input: i8042: Quiet down probe failure messages
-Date: Wed, 6 Dec 2023 11:58:18 -0600
-Message-ID: <20231206175818.2568-1-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.34.1
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.36; Wed, 6 Dec
+ 2023 18:46:41 +0000
+Received: from BYAPR12MB2743.namprd12.prod.outlook.com
+ ([fe80::ab86:edf7:348:d117]) by BYAPR12MB2743.namprd12.prod.outlook.com
+ ([fe80::ab86:edf7:348:d117%3]) with mapi id 15.20.7046.034; Wed, 6 Dec 2023
+ 18:46:41 +0000
+From: Rahul Rameshbabu <rrameshbabu@nvidia.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: <dmitry.torokhov@gmail.com>,  <linux-input@vger.kernel.org>,
+  <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Input: i8042: Quiet down probe failure messages
+References: <20231206175818.2568-1-mario.limonciello@amd.com>
+Date: Wed, 06 Dec 2023 10:46:27 -0800
+In-Reply-To: <20231206175818.2568-1-mario.limonciello@amd.com> (Mario
+	Limonciello's message of "Wed, 6 Dec 2023 11:58:18 -0600")
+Message-ID: <87zfyngoe4.fsf@nvidia.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR01CA0030.prod.exchangelabs.com (2603:10b6:a02:80::43)
+ To BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF000252A2:EE_|MW4PR12MB7309:EE_
-X-MS-Office365-Filtering-Correlation-Id: c8c7e405-af07-4a04-2d78-08dbf684fd20
+X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|BN9PR12MB5276:EE_
+X-MS-Office365-Filtering-Correlation-Id: 79505db0-d844-4db1-7c71-08dbf68baf9c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	7ppXZCTz7v/NOxEdpXoqQa8cNO3pmsG4PI4bzIgz8pCg0eMKgD72itOli/9uXM9DJvSWc4Xslw0tKmCapHry1InFZXGid7CNbiEfHG1JLOpFCvlDqtA3ZdZCQcDwv2t7a010uHHwEzKfhLx0NBB+ZHHgcBUMSWSf/zawEKpzrsNlhUzftfI8dMSlc8N1/sOmgPFoNNtp7m+qPvqmDnvolQCdF2+dEWZO6P58q8BVDSUiBwBJqBp31XXsjhwXH1+eRVaq1u5Gfmurcr7R/Oi/X9E9I8E8RwDIhCA3J/bxgiGizMEFkuS425sast5sAa/Mk5miLi1qwU8yVjndi6//5Bo66XYNxjdriOnlvWKngWo8FW1bdUVfhPwqttXomEp+FG20iWvIxqnO3EDaj5mnhkDQKxAWSWbSyItXu6R45qxoLz8TgbawozGAUdgWfsABVa78wxlbNjlbnof4wrXajxv75USDkDqhkOnCLazgnijir7/b3WKprjUhHQ8X8C+k1BCPLqAM0yCDuO2rOK0Soqsezw2w8SXxQM3IgaDHAIe1Qj/VvWl3uGGX3s7ir/LiMR5r43MOAPgUriOElyesdJFbnNITXMn/SXEcSo77SE/GueskG2gtXmJCFokabF/cCd13chx4P8R4pa1Y8QTcOVVhGZ4LnNyow2liSkCvZYQDHAQrlpe8tjjnJhfLW4BFuEawqO1i+WQkMsPNuqZs10Ux0Qf0+x1JjMQ6HreypMHUAM/ZA6sLcZNOb2CnTmKDjkxk7sF5Dc0DfySWWu3v0XnGLU6lcICkKNUaKkk/YSiN+wa7MKU4wkdh5Y2fC9+k
+	ztuz+2SvEYxjyDb+vGcQaXitHeqvLetGH7x7raLSasKwH56sBjU/j0TVGJu+/u0cB2ntVqvna8+6qqo/xx+iQZXQi7XCCjgEQEhIW6n7xcadVt9OGo6NR0+Fo7AuYgtYCPFvh8kt7FN96Wsu9zgbuDBWKAB74BP6O3eaUgYRmIqi+ZwyUL2jia1nwnYGjL4iCh8VlOP5LoRwhwlVUUhiw0EcdeSwjEP1PqwBJsIlnLuZxEg2eXrPsAHpieWiWmIXlOtNWszFoLcH5PP8zvIqf+WV2D1a+/A94abDzlFuBGIFZpVhCWCYMJ7eOR5cjgW5lnjYPpv78Lk0iZMdJ3hWtQW+tM3iB7u2ED4kQUg21KEOb4C8pkhJRZ5t7la3uIDE3/woS0IWtnNcMtkKQXVw6Kz0DBuE9SPbqxtcFNQwideQa4mPrYRIUUKnf5aAMp1ZNGxp9+C3PHf+qsPgxcFCk1/x0vlZNf+pFlIcXvftiyW/jqqzZIGO8akDRf4wo74ocJzc578B5Mtk2QIIAU5w+2ciB48toHy1CJk4U4eQndjbx20oQd5UTJp92xbraeOCduLg5qQgQinjbF9mdS6iuEEGHM/Bty9KwlDlkKHkPUUKmCc949LJf/ZvUJU4YGlt
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(396003)(136003)(376002)(39860400002)(230173577357003)(230922051799003)(230273577357003)(451199024)(64100799003)(82310400011)(186009)(1800799012)(46966006)(40470700004)(36840700001)(83380400001)(426003)(7696005)(40460700003)(6666004)(1076003)(2616005)(16526019)(26005)(336012)(316002)(70206006)(70586007)(54906003)(6916009)(40480700001)(15650500001)(5660300002)(2906002)(4326008)(86362001)(8676002)(8936002)(36756003)(44832011)(41300700001)(81166007)(478600001)(356005)(82740400003)(36860700001)(47076005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2023 17:58:44.5292
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(396003)(136003)(376002)(39860400002)(230922051799003)(230173577357003)(230273577357003)(186009)(451199024)(64100799003)(1800799012)(6666004)(6506007)(83380400001)(26005)(6512007)(2616005)(66946007)(66556008)(66476007)(54906003)(6916009)(5660300002)(15650500001)(38100700002)(41300700001)(2906002)(316002)(36756003)(86362001)(8936002)(8676002)(4326008)(478600001)(6486002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?938OqVwgyvNXS6ETfrAqYG1OJfvJoWdOyFMTDwRsoH/BCVZvLPdizwNX3c9y?=
+ =?us-ascii?Q?Xfc/D6+I4Yo9xac1NX8nenE5LnaYp+CFgHlzJo0ROhr5B3VzRowskU2EW++t?=
+ =?us-ascii?Q?3REIM42oFpxeZsUrVfEYSoJIBBu71VlK6PymIBqgR5YWh8Jnim/DDamVz7ce?=
+ =?us-ascii?Q?CEtC9R2ghBZcWMpdCFZ6eoNpWXGeJcUu6PMJ8a/1pcE1AR/Q8eviwWI3T+rg?=
+ =?us-ascii?Q?f1kIMrzA3mUvnX7cXm5vOyhLZF0P4VJ6rAu+dlsHssGfR102uxfxMqBaYPsT?=
+ =?us-ascii?Q?+a8loGguoZ93eJcOUesOG6X1qgejc/W0+f37NTS6XurXV0wy8rCY14IyYdWK?=
+ =?us-ascii?Q?XZZhGQKejlnuqptt55/dj2Y+V/JKLzLkBmNWHfKCTQYNJV8TiyZvATo2pZ4c?=
+ =?us-ascii?Q?1KP1dtWsGfx03HGrdhQpM9xb8eJo9CP5yz3FRyhC4xDXRQICtvDFvdCA/EJt?=
+ =?us-ascii?Q?L8zo3a63iHbNO/KpUFKswKN2V3nnhjMkID3y2WnhVb2uyVC6TyI4ve0zCs5N?=
+ =?us-ascii?Q?ctOsq8ysdYdpO3d5H6nGXp8BfdMBEisQNOpo2OzxzL+R9p+rMQ5+auRllm+1?=
+ =?us-ascii?Q?TjQ0EOv5HphtbTPNSR1Q0RIOCYv4G7x2v6t+kxDaVh1xsBwQFRLHdxu1JziM?=
+ =?us-ascii?Q?mIFtKVyPdGqkW5Ch5ON207Wzg60Uw5lv1s15c2+Y4a9c2VRTEawlZ8hTYnBj?=
+ =?us-ascii?Q?+3twNL1VGeXbU6OxYntRd9yRSy+IPBpno8kcs5Ouz3oBB+OA63vdfFVypKpK?=
+ =?us-ascii?Q?bjMJUudTqOvt9xCqNJIzkgSEyTjuC1c6YIUJFCEs9uTWXVg+R8rdEkexifyG?=
+ =?us-ascii?Q?SbxEyzKpPATZLGgk9zdw3CiL7mPgqsct8aAzcZqnTL7bprtUh4JASc3LCyCM?=
+ =?us-ascii?Q?QMcZDOcLO0VJ1KELAlgwNB3t4VckdSOQw8m7KPaoJdPF5xE/1/YjfGPYtF2d?=
+ =?us-ascii?Q?3LM9olT53GoZV0iTAR8Azoxca1JOp9Nig4aAG6mdFpp8cnip56OVRBHrda5X?=
+ =?us-ascii?Q?qwwF0hifg3mhnpXJ/RoT2BcrdePWIBrvECw8tBsI8tTrfnR75Lvqev4n6qz+?=
+ =?us-ascii?Q?3qCGDz1ImMzJC3ENjLAYwdUqUtAYFrCWm6rfd+ZgrniboWtvqErAawTVUvRx?=
+ =?us-ascii?Q?5YoOPbyLsFTipH/H5iFLevKpO3GQaVeIha+KWiDOtQoXQYur1BKtm6oVMYWa?=
+ =?us-ascii?Q?eW7yYilJ8lMeyWRVRqc5stKnGGeQ1CJqs4fIUrWAKJ2ElPO4Bhmg6YzLW31W?=
+ =?us-ascii?Q?Y8i6uJFcvAhxEXXzQZYI4NXrtvXixaE64CMoSlAo+KXp6GIBDEam42EmAR5y?=
+ =?us-ascii?Q?0PZylxhdI+CBH1QUTiWhqyYkHHULbOh7IkB/sg3wEr1JaTu4Du0Gn7DSpA44?=
+ =?us-ascii?Q?i2ZyEEt17mY6YXH1Typfvfo8jTkJaqqKXHEl8nRln/RzvHrn0FT/jmkkBlzW?=
+ =?us-ascii?Q?gQ1DIApwc29VkmaoxR/dNtdKAqFPQlAvn9K33ca10Rq2ei3U1d1c27D1NDrA?=
+ =?us-ascii?Q?9YXwSOM8BD+TlI1+/bPa9+RTkpNOLKc3th2VwcQ+YBH6k4RKOgJSqMgVFaoF?=
+ =?us-ascii?Q?Rh0w89yEDCP/wXC7CUf4c0QywBN8SvQuBD2YgYfu?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 79505db0-d844-4db1-7c71-08dbf68baf9c
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2023 18:46:41.3542
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8c7e405-af07-4a04-2d78-08dbf684fd20
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF000252A2.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7309
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: h/h6fcFMWkZP4qdDFpC8zTBz7yGPzHqvrEYKEbEwdcm74bQ6gMPZbCJreYvweer+IjCmotgT+DoTGxA9mQmUHg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5276
 
-The Framework 16" laptop doesn't have a PS/2 keyboard. At bootup the
-following messages are emitted:
+On Wed, 06 Dec, 2023 11:58:18 -0600 Mario Limonciello <mario.limonciello@amd.com> wrote:
+> The Framework 16" laptop doesn't have a PS/2 keyboard. At bootup the
+> following messages are emitted:
+>
+> i8042: PNP: No PS/2 controller found.
+> i8042: PNP: Probing ports directly.
+> i8042: Can't read CTR while initializing i8042
+> i8042: probe of i8042 failed with error -5
+>
+> The last two messages are ERR and WARN respectively.  These messages
+> might be useful for one boot while diagnosing a problem for someone
+> but as there is no PS/2 controller in PNP or on the machine they're
+> needlessly noisy to emit every boot.
+>
+> Downgrade the CTR message to debug and change the error code for the
+> failure so that the base device code doesn't emit a warning.
+>
+> If someone has problems with i8042 and they need this information,
+> they can turn on dynamic debugging to get these messages.
+>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
 
-i8042: PNP: No PS/2 controller found.
-i8042: PNP: Probing ports directly.
-i8042: Can't read CTR while initializing i8042
-i8042: probe of i8042 failed with error -5
+For the Framework 16, I think the following should be done.
 
-The last two messages are ERR and WARN respectively.  These messages
-might be useful for one boot while diagnosing a problem for someone
-but as there is no PS/2 controller in PNP or on the machine they're
-needlessly noisy to emit every boot.
+Use SERIO_QUIRK_NOPNP for the device to avoid the PS/2 controller
+probing. You can find examples in drivers/input/serio/i8042-acpipnpio.h
+under the i8042_dmi_quirk_table. This will prevent emitting the first
+two messages in the shared snippet.
 
-Downgrade the CTR message to debug and change the error code for the
-failure so that the base device code doesn't emit a warning.
 
-If someone has problems with i8042 and they need this information,
-they can turn on dynamic debugging to get these messages.
+>  drivers/input/serio/i8042.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+> index 9fbb8d31575a..95dd585fdc1a 100644
+> --- a/drivers/input/serio/i8042.c
+> +++ b/drivers/input/serio/i8042.c
+> @@ -1008,8 +1008,8 @@ static int i8042_controller_init(void)
+>  			udelay(50);
+>  
+>  		if (i8042_command(&ctr[n++ % 2], I8042_CMD_CTL_RCTR)) {
+> -			pr_err("Can't read CTR while initializing i8042\n");
+> -			return i8042_probe_defer ? -EPROBE_DEFER : -EIO;
+> +			pr_debug("Can't read CTR while initializing\n");
 
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- drivers/input/serio/i8042.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I also think this error message should be pr_err in the situation that
+the SERIO_QUIRK_PROBE_DEFER quirk is not used. I think what you are
+likely looking for is avoiding emitting this message when the
+SERIO_QUIRK_PROBE_DEFER quirk is used for noise reduction purposes.
 
-diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
-index 9fbb8d31575a..95dd585fdc1a 100644
---- a/drivers/input/serio/i8042.c
-+++ b/drivers/input/serio/i8042.c
-@@ -1008,8 +1008,8 @@ static int i8042_controller_init(void)
- 			udelay(50);
- 
- 		if (i8042_command(&ctr[n++ % 2], I8042_CMD_CTL_RCTR)) {
--			pr_err("Can't read CTR while initializing i8042\n");
--			return i8042_probe_defer ? -EPROBE_DEFER : -EIO;
-+			pr_debug("Can't read CTR while initializing\n");
-+			return i8042_probe_defer ? -EPROBE_DEFER : -ENXIO;
- 		}
- 
- 	} while (n < 2 || ctr[0] != ctr[1]);
--- 
-2.34.1
+> +			return i8042_probe_defer ? -EPROBE_DEFER : -ENXIO;
 
+I do not think this change makes sense to me personally. It is indeed an
+I/O issue with the i8042 controller on the Framework motherboard, so the
+error should be -EIO when i8042_probe_defer is not set.
+
+>  		}
+>  
+>  	} while (n < 2 || ctr[0] != ctr[1]);
+
+--
+Thanks,
+
+Rahul Rameshbabu
 
