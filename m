@@ -1,60 +1,60 @@
-Return-Path: <linux-input+bounces-550-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-551-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BA7A806D40
-	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 12:04:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 591BA806D57
+	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 12:06:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CB672281A5E
-	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 11:04:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 13D172819CF
+	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 11:06:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0080D30CF2;
-	Wed,  6 Dec 2023 11:04:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4640130FB3;
+	Wed,  6 Dec 2023 11:06:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="INDI4F6G"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Wrs6mYs9"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89C551BD0
-	for <linux-input@vger.kernel.org>; Wed,  6 Dec 2023 03:01:39 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-332fd78fa9dso567226f8f.3
-        for <linux-input@vger.kernel.org>; Wed, 06 Dec 2023 03:01:39 -0800 (PST)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F41D19AF
+	for <linux-input@vger.kernel.org>; Wed,  6 Dec 2023 03:06:20 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-40c039e9719so48681155e9.1
+        for <linux-input@vger.kernel.org>; Wed, 06 Dec 2023 03:06:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701860466; x=1702465266; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google; t=1701860778; x=1702465578; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=u7VWu46RJcWVBaO3VsBmAuO5ZqODdSZUgUmBKc59vt4=;
-        b=INDI4F6GdRe3tYpNBWJAU40DCIrJAKidpfeGK68r35Ix38QvjXpKfYVN0LOuTOX/Xm
-         8FoGNfZnPAPL/HBD3Eoh4V6I3+2i4noynBzb6mqCYVn/LBEHiDwYWOMVxoWtzNVe8XnM
-         A/97HdcAy60IZCaBD6STYevm8HS8aQ29QW+Jy1zRH4HwR25Q7mufduVwnwdEc6NFPSLq
-         paKc/ea4TAJP5WkfBmXW6R5CE52BdNOSTsLf46wPlrFFApaJ4Rnly08jN1t9qmCE41NW
-         3rkk6mmV+DBrZcXI4zQgH9ZqVsbgmMgL3X7B3yjpNyehLs/X9fmXRE0jh2gBZcWTqcV3
-         Ap0Q==
+        bh=jClcqTKkEdlh/0n7GUFJamNERw69d7IUU8YIMDhi+mA=;
+        b=Wrs6mYs9AEL6tIA5ntG7olO4OAA+eBadszsc7d5gZeNW+0+X6R8Wt1s4Eja2DY6Ym+
+         6YJyGClcon6llEifVlGeBdq7p3U477c2tf0aDpJvzYuMwx1hkjkCaLUsSzf5cIMWTUgs
+         Lxr0E0CEp6tdYyUxkJ5e+F2Ffiyy9cGEbxeyYRrWVPH6+cLzXU9YUonRTO8TWqNriDpV
+         nGXvSvUh/kgqAnD7nO2dxVPTw9B9c4U8pwsLDAN/ghegY5n6g8NLphmclHt2ZCN+SlTi
+         BPQLB3d65E1jWJ9RwDvk39+qVixHH25DgBsvarheXLsyzPG3p2nb9nnqDLJRF0jnVLIJ
+         fIJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701860466; x=1702465266;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1701860778; x=1702465578;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=u7VWu46RJcWVBaO3VsBmAuO5ZqODdSZUgUmBKc59vt4=;
-        b=OLxb60JnJvYKW3Xq8xs8HJCT/1I7wDAoSknqLymROf2/3kDQLcTcdciNUyIG3zXebG
-         MmRC0fgOY7fYEg2qrFUbKDdJMloILE3vYhNhB6kaZdXb0bhuMhLEuv0iKlwIe436zLos
-         bFEhjOl4uOELo0NkZKsQQouLWaL+ihCGrc8W8QKm7M6Dodgjd0LOWoNGCAfmAov5SdZq
-         aPKYBA9Bcz9kVIvR49ykd61gB6AH5jeeMcGFh2ywWS/Ms2oGNvM04Ld0bg09WieR+2HJ
-         vIvX7Vke4I10pT69Tn9U3OA6Lu8gBAsKclrozqwKh8XUu9/uVIBrVNNeQf+pcs5A2vpD
-         bKBQ==
-X-Gm-Message-State: AOJu0YwjALdO9lBfy6HKg/IGmcibMM2+GPwMeuuG91VvRtpK/3Zmnh/R
-	Umv9dhbY56Zp+RdKtSPIPzmK8g==
-X-Google-Smtp-Source: AGHT+IFJ4h7uhrpbkcPJAPfSbR2scO6garrpGpd5o2EOhJAO81DWTuGxrkeMgAyRPEqm5mww8jQCpg==
-X-Received: by 2002:a5d:65c5:0:b0:333:3b0d:457f with SMTP id e5-20020a5d65c5000000b003333b0d457fmr185038wrw.218.1701860466400;
-        Wed, 06 Dec 2023 03:01:06 -0800 (PST)
+        bh=jClcqTKkEdlh/0n7GUFJamNERw69d7IUU8YIMDhi+mA=;
+        b=ASzTBleZQL3/4ilRac/aGowYECb7Jjiz2rav/cTI2CyrJaDh4SVN7qBeT+Rf1WUl4n
+         SR5WKSdGSjL8RtrGv8010b0/T6E+0uxhQXsD8GVfi9G6eSIeRCcRv1PyL2GPRHRwiKhm
+         yHTNvytU69upO/eX4E8EUMOw4pzmIK9R8aqgXd/YZBjOblkusWxVzutoM/PNe+bN9dCR
+         67rZ1Jd4MJjOy6YRWj+EUI0n1Cqz2w4zav66tn8NaENKXvefcECZR+hxSd0Oeqvd/HHt
+         rxe2Egsl7r3YEaah4pgM33Ehb+Hq9j6dIze6ou95i5y4frRhBNjG+S0SpQt5p8A36RZR
+         qjbg==
+X-Gm-Message-State: AOJu0YznRU+yYAw/Ag4oueR36aysQXJ051XEEGApWUYZF7GHK8ql0JH5
+	MYAzzOBQdUNpoD65ZvDbSTgXVA==
+X-Google-Smtp-Source: AGHT+IH0VuWe5InqREqifmqooyinWBx+yfuLzH9q5QbfammxeOLg8AeNYOhYqj0HtNtgF1CVmZH67A==
+X-Received: by 2002:a7b:c447:0:b0:40b:5e59:e9df with SMTP id l7-20020a7bc447000000b0040b5e59e9dfmr489123wmi.126.1701860778670;
+        Wed, 06 Dec 2023 03:06:18 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id ba18-20020a0560001c1200b00333479734a7sm8669148wrb.99.2023.12.06.03.01.05
+        by smtp.gmail.com with ESMTPSA id je18-20020a05600c1f9200b003feea62440bsm21897673wmb.43.2023.12.06.03.06.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Dec 2023 03:01:05 -0800 (PST)
-Message-ID: <f7e1b02a-f8fe-45d4-8bed-2773b68335f9@linaro.org>
-Date: Wed, 6 Dec 2023 12:01:05 +0100
+        Wed, 06 Dec 2023 03:06:18 -0800 (PST)
+Message-ID: <332dfce5-f2a8-421a-878e-85f95aa64d10@linaro.org>
+Date: Wed, 6 Dec 2023 12:06:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -62,15 +62,22 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] Input: Add Himax HX83102J touchscreen driver
+Subject: Re: [PATCH v3.1 0/8] Convert DA906{1,2} bindings to json-schema
 Content-Language: en-US
-To: Allen_Lin <allencl_lin@hotmail.com>, dmitry.torokhov@gmail.com,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- jikos@kernel.org, benjamin.tissoires@redhat.com,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20231206103546.808680-1-allencl_lin@hotmail.com>
- <TY0PR06MB56119F0D60142F4C1435767C9E84A@TY0PR06MB5611.apcprd06.prod.outlook.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>, Lee Jones <lee@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: Support Opensource <support.opensource@diasemi.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Steve Twiss <stwiss.opensource@diasemi.com>, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
+References: <20231204172510.35041-1-biju.das.jz@bp.renesas.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -116,32 +123,53 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <TY0PR06MB56119F0D60142F4C1435767C9E84A@TY0PR06MB5611.apcprd06.prod.outlook.com>
+In-Reply-To: <20231204172510.35041-1-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 06/12/2023 11:35, Allen_Lin wrote:
-> Add a new driver for Himax  touchscreen series touchscreen controllers.
-> This driver supports Himax IC using the SPI interface to
-> acquire HID packets.
+On 04/12/2023 18:25, Biju Das wrote:
+> Convert the below bindings to json-schema
+> 1) DA906{1,2} mfd bindings
+> 2) DA906{1,2,3} onkey bindings
+> 3) DA906{1,2,3} thermal bindings
 > 
-> Signed-off-by: Allen_Lin <allencl_lin@hotmail.com>
-> ---
-> v1 -> v2: Fix kernel test robot build warnings
-> Signed-off-by: Allen_Lin <allencl_lin@hotmail.com>
-> ---
->  MAINTAINERS                    |    2 +
->  drivers/hid/Kconfig            |    9 +-
->  drivers/hid/Makefile           |    2 +-
->  drivers/hid/hid-himax-83102j.c | 3175 ++++++++++++++++++++++++++++++++
->  drivers/hid/hid-himax-83102j.h |  923 ++++++++++
->  5 files changed, 4109 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/hid/hid-himax-83102j.c
->  create mode 100644 drivers/hid/hid-himax-83102j.h
+> Also add fallback for DA9061 watchdog device and document
+> DA9063 watchdog device.
+> 
+> v3->v3.1:
+>  * Patch#1 is merge of patch#1 from v2 + patch#8 from v2.
+>  * Dropped comment for d9061 watchdog fallback
+>  * Replaced enum->const for dlg,da9061-watchdog and its fallback.
+>  * Restored patch#4 in series 1 and dropped the thermal example
+>  * Added Ack from Conor Dooley for da9063 watchdog binding support.
+>  * Updated title DA9062/61->DA906{1,2,3} as it supports DA9063.
+>  * Retained Rb tag since the changes are trivial.
+>  * Added Ack from Conor for updating watchdog property
+>  * Dropped link to product information.
+>  * Patch#5(onkey) is squashed with patch#6 and patch#9 from v2.
+>  * Replaced enum->const for dlg,da9061-onkey and its fallback.
+>  * Dropped example
+>  * Restored the thermal binding patch from v2.
+>  * Dropped example
+>  * Replaced enum->const for compatible property.
+>  * Added Rb tag from Rob and retained Rb tag as changes are trivial.
+>  * Added Ack from Conor Dooley for patch#7.
+>  * Split the thermal binding patch separate
+>  * Updated the description
 
-Implement review from v1.
 
-NAK
+Hundreds of changes and just "3 -> 3.1"? This does not make sense.
+
+Also, use normal versioning:
+
+b4 diff '<20231204172510.35041-9-biju.das.jz@bp.renesas.com>'
+Grabbing thread from
+lore.kernel.org/all/20231204172510.35041-9-biju.das.jz@bp.renesas.com/t.mbox.gz
+---
+Analyzing 21 messages in the thread
+ERROR: Could not auto-find previous revision
+       Run "b4 am -T" manually, then "b4 diff -m mbx1 mbx2"
+
 
 Best regards,
 Krzysztof
