@@ -1,65 +1,66 @@
-Return-Path: <linux-input+bounces-564-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-565-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 184B2807907
-	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 20:55:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F5F807921
+	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 21:06:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 415851C20E88
-	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 19:55:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 43ACA1F21211
+	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 20:06:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5400F47F79;
-	Wed,  6 Dec 2023 19:55:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97A394E63D;
+	Wed,  6 Dec 2023 20:06:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="dplESuC5"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4j0PQUb3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2052.outbound.protection.outlook.com [40.107.93.52])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E848D4E;
-	Wed,  6 Dec 2023 11:55:35 -0800 (PST)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2088.outbound.protection.outlook.com [40.107.102.88])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 603C618D;
+	Wed,  6 Dec 2023 12:06:28 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DZc0DkjK5nZGxEat0AucSOQcHBcZtE+apsRqrhnaky/NPjWObbng5IhY7BGNH44bXihNmJ+GmM3Ev8yhQQcasvjHhzJYB+v6a1BIINcXPZwYY5cPrYwZCDVehPzoDlUrG2eXak9F/wYTLo4b8Bow/9vYGL7TPj2WNot2pPTu1+mNLQ9gtDiiUa6mI7HWn0BTV2WOVoSzYo84Y/TCTIw0Gd7iGnCl+zJPJURkrJdypGdnvDcC11PZSwcpyFVkp+LCqjSkLXQ3bprrSaJa57KeAKtTDb2IWiDSWaVS+5mHb4lAJS1rL/Rg5HVw6iSxvY4MLpxN38SojjEHBrnsWv+mag==
+ b=hLZ5kTM1DTda+cHhwPI2NEutHqyzkeh+cU7iPBpNDynBoQln0FNkbaq+U16v6OE89yxEImAgblA5MRssGH8D+F2bHJ0M3quNPmnUsP5RsLtlw8nkLwKCSfhWtYsxLl8yNUidv1TtXIio7T/PpCpL8aZbLYyPQ69GaL7lfgFtT/AdGxSyuvhic8Eg8mE/At717myN6F9uEmg/SPpEELrtJvzmO7/x1GHlxDuJubqEmpx3sCjhD0WbWHfB1FY9YxhLJFoarbadSbogI9kBe5V4t+tc93acv8X3YqAln/apngQC3BdkjffhI6s//EG/o6XkBkpEeQ4LqgXWsjhz/dORjQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CveNRXCZw4gnaU/VIHMZdAJzxUs7wTfrZyLFV5c7Pwc=;
- b=eEah/ZFA799hNVgku+BzOFXSD61hFA96YgKJs85bMzgcAT8zh+/e3tQLP2fEty6x/R+Y9jGPXgDK5AftvkLf18N5KjTunfs5w6xRG+3oQ0hhbR4wQ7NBcYIcDx8N9JZ+sJzfI4WTUdVx8+xNfL2W5uyDd2mxvBRvTrlV27nbC8LOI6fQQ5ZVEsYHz+baCX1+uCewhQQ8iRgjM++gh/NzhuW+aP1FxSx4wwV3wodiWkWdNzfHTrcO8qzDphyzcL9ard0On5eLGM4qZdg6eN7lyB1lnnvjxJ+q+ZawgIdh02yiCsXHJdUcr488lNT1ZV38D+Q7Qe1JK5r7L1a3DK+tdg==
+ bh=QJIMNHysTXxwajYasySRxIbhTq3TPUvUzfAFeaXAW0A=;
+ b=eZo/1O/n0ntImGObTJrCNw+1S8hXdvBac36X7QrEjYFiOs91K8PBmyHUEAQAD2R4cAaw8x/G87z+uUc8nlXb16TL6rGb8Sj9UP8Df5C4f7uUfJsYbaE4ch8358fJYrAhtSz5bFAkQqYsPEtN8cCfJy4LQzexJZPlk7VYamYlStJwBTLFehMXRq2NjI+MiBJiiyuDYddw5cnoHkNNHCR2DKABTw2nGadBbNl1wocrppKtY003F8TLb0CR5N/lUxT4bAq0SDTBLZ/AkkQ2rbtqY+nrqhn805IQtlRyNX1t0M8YkHmRwiauXH07u5pVZxKEPYlcwgSp/XtLctCZkDwtXQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CveNRXCZw4gnaU/VIHMZdAJzxUs7wTfrZyLFV5c7Pwc=;
- b=dplESuC5aSHUVKl82WvyBu4pNZAXP6tC0ZTmrCyJUUjBtxkX/nATSQ078rzDNOnZRvLOgNmg+yoZn7pwIWoLilXKAvwEKtiJOPo66r+AfHmpFT2QKVHgzvAh77g5OhGZj0QEQiwsC5VGBuxKocu2eYvBiqtSWVKgTo2K9EetY0dHzQwXrWOdwWaqiYigyq6MomJxKQMP47M8toJRYejRTzkNMeqBE2VnNW4ZQ5dqgu5PhRzCOvU8MIN4d8seCLQTlXrezySxWBbYEhyd3rfn2qRjwYC6eKyTufpo8AeByESFy93RtCJ+wdzXwD40yvqTjWvTj2CManeJnsk7K6tyNA==
+ bh=QJIMNHysTXxwajYasySRxIbhTq3TPUvUzfAFeaXAW0A=;
+ b=4j0PQUb32/XWpzE/3AuwGiNbnR/Iwxfm2SKH1H/yW7A7X/5kW+k3KhLlO9n5DqEoIqOLZP6V5J3sFTkfH4wWfI58mD2laxYSIZPxaJ5mW77z0gf9MYdIaPm5DmSTJB8hJdddHVY4ywrV+dhcEBImE2lc0+ai8GXFKG1GGXTn9fk=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
- by DM4PR12MB5086.namprd12.prod.outlook.com (2603:10b6:5:389::9) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by CH3PR12MB9025.namprd12.prod.outlook.com (2603:10b6:610:129::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34; Wed, 6 Dec
- 2023 19:55:32 +0000
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::ab86:edf7:348:d117]) by BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::ab86:edf7:348:d117%3]) with mapi id 15.20.7046.034; Wed, 6 Dec 2023
- 19:55:32 +0000
-From: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: dmitry.torokhov@gmail.com,  linux-input@vger.kernel.org,
-  linux-kernel@vger.kernel.org
+ 2023 20:06:25 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::83d7:9c4f:4d9b:1f2a]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::83d7:9c4f:4d9b:1f2a%5]) with mapi id 15.20.7068.025; Wed, 6 Dec 2023
+ 20:06:25 +0000
+Message-ID: <31feee1c-f1a2-43cd-a2cd-ee3fc30c0609@amd.com>
+Date: Wed, 6 Dec 2023 14:06:24 -0600
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] Input: i8042: Quiet down probe failure messages
+Content-Language: en-US
+To: Rahul Rameshbabu <rrameshbabu@nvidia.com>
+Cc: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 References: <20231206175818.2568-1-mario.limonciello@amd.com>
-	<87zfyngoe4.fsf@nvidia.com> <abc96443-ed27-4021-afa9-280be027e355@amd.com>
-Date: Wed, 06 Dec 2023 11:55:21 -0800
-In-Reply-To: <abc96443-ed27-4021-afa9-280be027e355@amd.com> (Mario
-	Limonciello's message of "Wed, 6 Dec 2023 13:22:25 -0600")
-Message-ID: <87v89bgl7a.fsf@nvidia.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0069.namprd03.prod.outlook.com
- (2603:10b6:a03:331::14) To BYAPR12MB2743.namprd12.prod.outlook.com
- (2603:10b6:a03:61::28)
+ <87zfyngoe4.fsf@nvidia.com> <abc96443-ed27-4021-afa9-280be027e355@amd.com>
+ <87v89bgl7a.fsf@nvidia.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <87v89bgl7a.fsf@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA0PR11CA0157.namprd11.prod.outlook.com
+ (2603:10b6:806:1bb::12) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -67,178 +68,206 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|DM4PR12MB5086:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7bd2076f-0203-456f-77ef-08dbf6954dbf
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|CH3PR12MB9025:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6f561f04-bc89-473f-6dab-08dbf696d368
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	hG1voYfVeqH5rBijCs7rEC5vB/r7Ps5FujKNS1PyOp+c25tewlBQTaU0BCEszkzewSQ06wLeGoqlh9EHoqkOk+m2xAfp6AOwSo4vkS7AvW8xbVl7hKvLgBG9Q/ZI2XFsg9lwBHVN8oKfdAcGs/5MImA8Z5EUMvz5TlsJ0kFkGKDmJxrr4hbqMR4cfzIu2UISScwvjCUkzkNLUq90kPfBjF+EItsVqy6cV6aDQrB6cAZ1OMvF9l3ny5q/qQxPcfJR+N3pib6NBNzCmK/7w1A5F7byp2GhDnEzzy4LjsPWvQMhy86E5f8jZiwt6JVWXVLJl2MQED2CzB/z+lAJ7mz6bXMOznvNOBDLHbYBLB5tFOATg1HwimikNvV+/2WOxhOaGndUsAyPtrc1KrPJTc3V/v8FpcKoTVrLiBcYw/p/nFBkQwPuEHerU7/PRuTNYQh+ESzhlQPhDwhZ3Y/nTmrVxn/eYwrqhVAQKXQ0zTnIy08AKGPwM63Nujf/mYL0nLbCrw8vCKIDblAFfWIb/5z9t2/TcgG1KJ+Uhej0wS5nLxL+Dk+g2wqjVRs5jb9KNu5OdGu74vUh5ImKe2hyQD8nJSZH/Rud1rzvc+B9KDACMLSc0GSfe3jGCH0Wl8dGsv9pzjvCEK0dmBhuWS/hRcBhd2LiNWtmgZ3D7tps8i0ptRU=
+	V0dQlXLaFqwbnpg9t0Lry2G4Big4V3B4Tq8zP6uvmE4QVo5xYNALIEROzHIpWZu0lHKgoPDX7KjhTY2z7YdFvXviSNDzlitgL7YGm3Kh8ZVhQ5Lt29ix/V1aoUpmAkfZRX4ezBcDMyX/r5frOGB/tV2MTN4hvE3WB6pA4Cfa2BoUs69yxTKeFz5Xl8sm1fL8NJ9q0YjCURKCLj+/LjmktNjFLclQ0ZjkxBzMAzjCb5/Ev3G4hE0nvhd6jJ/Vj5ODWJBsOtfDg3c6R4wLoSsiV+Gr8gYOA+DVDrSZoSyfRFgsmCI4aNALr4eu8Ys3On7DYWP1Bcykx5BaoFwli4fAS44AD7PAIaJjBWbPRNkwEy5F2rWz5zaDZpUh3fZE86YhQEximTGmjjx7a/cI+5hZ/PR5o8JB20Ql0HXKkVD+FKJAs6K5sGzsLLXgypLM3GEQzLzd7P9J0ypBU9+7FZZjTf0cc/XKBohuYcyD9lj9IqY54/p8QGWjsO7feK0isrdkimQQi1KjOgfXKMyTHlpb5PM2PSSDgSaoORtnTqXbjwJyA2enQFuZNw3xbnIdpy6vicVEkZX5VNAmoWlIteozaHlv7x+6bxw7GVNvfuydjF7RHYz189vclIGXjpAW4CjWwOw53hJo66BGu1zeNjU+AYMOw5+Djnd6/+qkxxrpR6L/W0Wd8k3Enx0XeKujA6/f
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39860400002)(376002)(136003)(396003)(366004)(230173577357003)(230922051799003)(230273577357003)(1800799012)(64100799003)(186009)(451199024)(478600001)(6512007)(6666004)(2616005)(4326008)(8676002)(8936002)(66556008)(66946007)(66476007)(38100700002)(6916009)(316002)(966005)(26005)(83380400001)(6506007)(53546011)(6486002)(5660300002)(2906002)(15650500001)(86362001)(41300700001)(36756003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(346002)(396003)(376002)(39860400002)(230273577357003)(230922051799003)(230173577357003)(1800799012)(451199024)(186009)(64100799003)(6486002)(83380400001)(478600001)(6512007)(2616005)(6506007)(53546011)(26005)(966005)(316002)(6916009)(66476007)(66556008)(86362001)(41300700001)(8936002)(36756003)(66946007)(8676002)(4326008)(15650500001)(31696002)(2906002)(44832011)(5660300002)(38100700002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?9wrxw3czAJtpJrzU8WmyDKifSGbmMdTU2K1bwmLdcxXunljklRatOlNg23jQ?=
- =?us-ascii?Q?oZZT5PaGJejJeOHmk5+sc9BXvcKiqw8e6uQTeaJs9MQg3n3IC9O4SGRReIvj?=
- =?us-ascii?Q?qxPobYJJkqOeERFzY2BjtcEuPWvtIm1e8wkPfxOHD2AR89+ecfyUrgDJS5h9?=
- =?us-ascii?Q?g+ckqp3tmzU6L4hsmE3hdg/SN0mMOgHgLGXjnYhlhJ6Tgfyb/yqOXZOszctk?=
- =?us-ascii?Q?MbS0INRBJCsWzoqb+Nv1kc4Ts3RFt2ShVnRPIqDf1EYye/DCH2RX+IXKaxmP?=
- =?us-ascii?Q?OwPteSRxW9kBQ35ntJg+m7nlzz8MFIAyyhlTplEDr5cTBoPvdjdSzL8H+7y4?=
- =?us-ascii?Q?+NFQ6rsunWiNpYH8Nvd3NHpnyPqTqX3JLmy1/fYSRemiI5bZGEQUT0H9xEje?=
- =?us-ascii?Q?p1yoEYu2fLoPw0KIk2+nBrg6GUH87rHotn5/bMRz4u3LuyUBckmVF5agl2/9?=
- =?us-ascii?Q?0UzIDnKQgM6G9IVq9MMxw3tyIZhwM7nf8MTxHGeVElrKyQRHB42pYE5SfS//?=
- =?us-ascii?Q?RrVT43KYirTzBbXDCpwJIKhuvCKLmFTOBqgdOWxKpGqSGxbfNVKbtV0HcDPW?=
- =?us-ascii?Q?ucmSmXQenMWfHwDatYTjVbxYxeOPoa2X4LaJNJB6b2K95LTqXloaTkp5+Yba?=
- =?us-ascii?Q?LCliEtWncwDfcYXQ7MtrCsvrCIUJFKEx8IJYtR6+6WvgMlCZKrW0L46f2RH0?=
- =?us-ascii?Q?hfZixrIdE5yJZZ8jfEdPoKFiNlBcoLas5IknOwyqMq0jjgD/b5bPCDUfvOaO?=
- =?us-ascii?Q?RxlBE4lpc53nLhuWMX8W3buRpmKBa5hbofzMxkHkWA5CX20oQPgoq7dto/Yq?=
- =?us-ascii?Q?RBRpHaD1SoQZsZ8E9hZnXoje1bkPTjqzyLjVpqgFRrjFDhlQeL92zx0FCETJ?=
- =?us-ascii?Q?9as0+9iv8vRVCNmC/7un5UbBu4x6gaAllhgGmMYrWzA+pc2ETsg0vnPnubrv?=
- =?us-ascii?Q?5Ws6Gz/HQaJSuoSABMfrYMRnwO7zvILpOieHbINRLUkLnV6U7kNLxgh1Qafj?=
- =?us-ascii?Q?Q00v9F4zI2erCyVQQXHLOMUr+SY7cgvw9+zwemt5GNFy7HgOfPf3WBIyI7Au?=
- =?us-ascii?Q?xZhtVPHnv27CK0MQuA+5wvjSq0AXzDNilQxP5ZxE5gsS5qdlmKYpdoyClELc?=
- =?us-ascii?Q?uYKej/8TdkDEghrnDVqoD42Cj2pal00iT2dueVPN8qCU/bCA8nsxzQanc7Wz?=
- =?us-ascii?Q?GCigtMfxBh+L+pX2BmeJTodEymrYVcPPSkjpqngDKX8NgnhiWLQ/vM0nGzZL?=
- =?us-ascii?Q?LlHp8k2VdUk7yMkUHCQnq1SvcE1g0CS1CQLqxw0nWtXSCrZKOsVifZkIeNXA?=
- =?us-ascii?Q?8hQQ7UKJENVFGSUnXH+XvJ++j4wCTD5czL8u30cFafHADB2O8BnIILw6FIEy?=
- =?us-ascii?Q?/kqQt3mnS3zpzAO0Yx7T7AtcczYUCv1nxYXJ9kx0fKOBU7gDg0wky6dVRUDW?=
- =?us-ascii?Q?EeMcf1KT27xMg7c32KPZnHVjl9hbP3S9JEetwN1oOzdsdKJdiDTt0VMDc1cl?=
- =?us-ascii?Q?R1Y2mUqL+S5F6vBamvdJxqI3T4lUDRgQ9cbhBZC3GZ/H4YJGpWPSilh/lk4O?=
- =?us-ascii?Q?JR7sgPqIbTrO6wd9OZOxqvhhTYFAn+pwZTsUP0NP?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7bd2076f-0203-456f-77ef-08dbf6954dbf
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
+	=?utf-8?B?bWpTNUs5bTJSS3FDK2hObkM5bXl0M1NmbERmWFk2QzVLSHRZYWRVVmw4Z1pZ?=
+ =?utf-8?B?ZmcyNUQ5Y08vRWxrNWl0V21uUzU5OUVNWDN6Q2pFREdpWkRiVFk3Rjd2THZh?=
+ =?utf-8?B?NnZUR0RpSzFERCtxZTEvWCtKbUxQODNuTTRJMGd1amVPZnFtakxxUitVSWk5?=
+ =?utf-8?B?bDJNVHczS1d4ektiZ2JwSzJZL29ScU1lYlA3VXNESU1wRE5uRndXUmdVcXF5?=
+ =?utf-8?B?TE1GdjJZc1IzR3EvbUdqRHgyZ3VKSXBra05KcEcweWpxaHNQMHp5UUZuN3Iz?=
+ =?utf-8?B?MGllSEsrd2t0WVFDWWRqOWgrcXNRclUwVGFHa0pra2wxMHM4UlIxcHZQRlk0?=
+ =?utf-8?B?V0ljdDhzc1diVjc3dVgvV1lxTGxYQ0ZBOGdPQTZVeEZnZlRyUGd2RTJGWTN3?=
+ =?utf-8?B?UXhjOU1vdzl0K2hlUml6NHBBYzdwN0JFaDNmT2YwSzFKeis4RDNBb2trRC9R?=
+ =?utf-8?B?M1RrOXI5RlZ0WFhXSkE1aHVoL2UrRGdpTlRMSml0WS9ReXMrUHpxV1NCZ0pw?=
+ =?utf-8?B?akF0ejYxTjExak5keEVLdXl6N0R1UjEzWlpIVlJjR05rbVNzMlhEL1dtOVFJ?=
+ =?utf-8?B?SlEwZ0psT1hjcGQwM0xpR3dlSjQxNWlaalJlQmdIWkFjZ3dFTU12b2tpNGxV?=
+ =?utf-8?B?SXlDZzFWQytUeXlTVnZadTN4dEJreE10dHVPb1NTdzZFMDYvQUZESDRyL2tD?=
+ =?utf-8?B?bXc0VUdCazhELzloWGhvaWxIMlpwUXIzYjZDS3d5TndTT2swYk1xK0h1cWkz?=
+ =?utf-8?B?ZDJDYzJHMm53ODRTanZuZkhDNkhkVG5PLy9HRVVoNEM2VWZsVzhxSzYya0J6?=
+ =?utf-8?B?SEFJZ1RBRVlRZ2hmUXVxenZjSkF5c0JGU1hrSlp0ZXBETFprcHF0a0VpeThj?=
+ =?utf-8?B?ZVQ2Nk5JQXAwN0lSQXpTQ0ZSYlJYbjY0eUo2aHNaa2NHOXp5TXdCUmx2a01P?=
+ =?utf-8?B?YkJCb3pqK01qWll6OUxTRmVLSUJaSXh2eWRiMnRCTzJjcU1vbVg0eTVnQm5u?=
+ =?utf-8?B?aWQyUkJBUkx5bDFGKzZLYm4xT2cwZTBxZEtzcWFKYy90QWZBNFY4dTgyU0lP?=
+ =?utf-8?B?UDJYTTluU3hsa01zVTNVbU1IaVNBNFFUUnJuU05qWldQM2JnNkVrR3BCOEZT?=
+ =?utf-8?B?VnBWTVkzNHNoRDRyeFdPSkxyeE9pVVowM1Z3MUx1K29STDJDcExyUERYbDJy?=
+ =?utf-8?B?SWNwTHhhQUVjdnRPOE5Gakp3SEhjVkRkRFJkcVJPSWNzMUpyR0tqOEdIN2Ru?=
+ =?utf-8?B?QXFKNzlnN1NxYlRFenk1TStZU1FudEJMSFJoVWZLMi9Rd2lRNjBOZVJCWUxk?=
+ =?utf-8?B?VmE5c043c2U4aFJFcHcybWhYUmlQV0FyWHRzZnJPYkxVdE5xUTZuUTh4NW1J?=
+ =?utf-8?B?akJrWWV6K05GNFc2UEJQY3l0VDVxQUNUT21pYXpjVFgvZXZLL2h4OHJsMnpJ?=
+ =?utf-8?B?OUhCTnRlbzVKamZkNitIT2I5ZkhINldqc2xuVEkvOVM5Q3U1ZE9IZngrZC91?=
+ =?utf-8?B?MUpnYU44MnM4V0E3Uy9QYjdXSnlpNXNNd2VUcG1PUC95VUNHYnZrVWpNYlM2?=
+ =?utf-8?B?bVFPeE1UUGV2Tmw5NTliY1ZQcFR6QkZFV2lrajlXSVd3R1BJNDl0eG5DVXl6?=
+ =?utf-8?B?ODJ4eGhjRlpVUFF4M1M5aVFDZnFZN3dMdU1HbjJucWN5R2hpTnc4Q2JWUnJV?=
+ =?utf-8?B?YVEwRitkb2Z2RmJDU2FucDJlN25idWduVWVjYlEraHErMEhDSkw1b0FFYWFG?=
+ =?utf-8?B?SlB6Y05tdHhFRjF5cm1PQ3hTaWJaeTNLS2x1b1ZqVXpYTklPNkZIc2NmaHhp?=
+ =?utf-8?B?OXhZRWFNa3ZKaHZSbk5PZytRbFVsdHNMOUd4UlBDTFVwZ3ZDTHM4VG1jb1RJ?=
+ =?utf-8?B?cmNnWEpVcHhiRWpLU0NxUWp0Nndodm5XOUlIU2srOERDaldqS29WNkE0TFJ0?=
+ =?utf-8?B?SDU5RjRaVW9QTDVlMjU1N0F0OFNlbEJxWHlOekI1ZDRwbjBHUDVIM2xrdGdi?=
+ =?utf-8?B?SjNYeVlsOTRnc1ZmSFBHNGNrMjcrMlovQVpEeFJkM3VLdUdHSGNCWU9lUXI3?=
+ =?utf-8?B?VE5HQkpJNGViWjlwZ25OOENlSEZUdUVndThPSmxBYnkyM2owa3UwM3dlKzdS?=
+ =?utf-8?Q?5rkTVfKcpqevBoFCX8T0n0chj?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f561f04-bc89-473f-6dab-08dbf696d368
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2023 19:55:32.0053
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2023 20:06:25.6711
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +/1DAT+VOgXbcPVj+BDTa/Uq6BN5Hquss5y0WQfg4cgDlokVjUa9IHhWOOqgBbs9sW3CrCnLEHXARY5//jx1rw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5086
+X-MS-Exchange-CrossTenant-UserPrincipalName: Iqn5QZyb/L3X9ofNLwLmFL/ZgNbC88WfKTr5Lz74ktSvZ6/aAmlaN0claJkgbTWesc78kD0k+DG1M5tEgKqDSw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9025
 
-On Wed, 06 Dec, 2023 13:22:25 -0600 Mario Limonciello <mario.limonciello@amd.com> wrote:
-> On 12/6/2023 12:46, Rahul Rameshbabu wrote:
->> On Wed, 06 Dec, 2023 11:58:18 -0600 Mario Limonciello <mario.limonciello@amd.com> wrote:
->>> The Framework 16" laptop doesn't have a PS/2 keyboard. At bootup the
->>> following messages are emitted:
+On 12/6/2023 13:55, Rahul Rameshbabu wrote:
+> On Wed, 06 Dec, 2023 13:22:25 -0600 Mario Limonciello <mario.limonciello@amd.com> wrote:
+>> On 12/6/2023 12:46, Rahul Rameshbabu wrote:
+>>> On Wed, 06 Dec, 2023 11:58:18 -0600 Mario Limonciello <mario.limonciello@amd.com> wrote:
+>>>> The Framework 16" laptop doesn't have a PS/2 keyboard. At bootup the
+>>>> following messages are emitted:
+>>>>
+>>>> i8042: PNP: No PS/2 controller found.
+>>>> i8042: PNP: Probing ports directly.
+>>>> i8042: Can't read CTR while initializing i8042
+>>>> i8042: probe of i8042 failed with error -5
+>>>>
+>>>> The last two messages are ERR and WARN respectively.  These messages
+>>>> might be useful for one boot while diagnosing a problem for someone
+>>>> but as there is no PS/2 controller in PNP or on the machine they're
+>>>> needlessly noisy to emit every boot.
+>>>>
+>>>> Downgrade the CTR message to debug and change the error code for the
+>>>> failure so that the base device code doesn't emit a warning.
+>>>>
+>>>> If someone has problems with i8042 and they need this information,
+>>>> they can turn on dynamic debugging to get these messages.
+>>>>
+>>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>>>> ---
+>>> For the Framework 16, I think the following should be done.
+>>> Use SERIO_QUIRK_NOPNP for the device to avoid the PS/2 controller
+>>> probing. You can find examples in drivers/input/serio/i8042-acpipnpio.h
+>>> under the i8042_dmi_quirk_table. This will prevent emitting the first
+>>> two messages in the shared snippet.
+>>
+>> I had tried this initially, and yes those first two messages are removed.  But
+>> TBH I'm not too worried about those as they're INFO. Adding a quirk just
+>> switches them over to a new INFO message.
+>>
+> 
+> Right, I can imagine someone owning this device panic-ing about the logs
+> in red/yellow in journalctl or dmesg output. That said, since we know
+> that the device should not bother with PNP, I think we should add the
+> quirk, none the less.
+> 
+>> But the ERR and WARN messages still come up.  The 3 messages that show up are:
+>>
+>> i8042: PNP detection disabled
+>> i8042: Can't read CTR while initializing i8042
+>> i8042: probe of i8042 failed with error -5
+>>
+>> I'm more concerned that ERR and WARN messages show up making you think there is
+>> a problem to look into.
+>>
 >>>
->>> i8042: PNP: No PS/2 controller found.
->>> i8042: PNP: Probing ports directly.
->>> i8042: Can't read CTR while initializing i8042
->>> i8042: probe of i8042 failed with error -5
+>>>>    drivers/input/serio/i8042.c | 4 ++--
+>>>>    1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+>>>> index 9fbb8d31575a..95dd585fdc1a 100644
+>>>> --- a/drivers/input/serio/i8042.c
+>>>> +++ b/drivers/input/serio/i8042.c
+>>>> @@ -1008,8 +1008,8 @@ static int i8042_controller_init(void)
+>>>>    			udelay(50);
+>>>>      		if (i8042_command(&ctr[n++ % 2], I8042_CMD_CTL_RCTR)) {
+>>>> -			pr_err("Can't read CTR while initializing i8042\n");
+>>>> -			return i8042_probe_defer ? -EPROBE_DEFER : -EIO;
+>>>> +			pr_debug("Can't read CTR while initializing\n");
+>>> I also think this error message should be pr_err in the situation that
+>>> the SERIO_QUIRK_PROBE_DEFER quirk is not used. I think what you are
+>>> likely looking for is avoiding emitting this message when the
+>>> SERIO_QUIRK_PROBE_DEFER quirk is used for noise reduction purposes.
+>>
+>> SERIO_QUIRK_PROBE_DEFER isn't set on this machine.
+>>
+> 
+> Yeah, I would like to add this quirk as well for the device potentially
+> along with SERIO_QUIRK_NOPNP. I'll get into why I think this might be a
+> good idea later in this email.
+
+OK if we end up with a quirk for this system in the end I'll add both.
+
+> 
 >>>
->>> The last two messages are ERR and WARN respectively.  These messages
->>> might be useful for one boot while diagnosing a problem for someone
->>> but as there is no PS/2 controller in PNP or on the machine they're
->>> needlessly noisy to emit every boot.
+>>>> +			return i8042_probe_defer ? -EPROBE_DEFER : -ENXIO;
+>>> I do not think this change makes sense to me personally. It is indeed an
+>>> I/O issue with the i8042 controller on the Framework motherboard, so the
+>>> error should be -EIO when i8042_probe_defer is not set.
+>>
+>> With i8042.debug enabled I can see that the error is a wait read timeout.  So I
+>> had thought -ENXIO ("No such device or address") made sense here.
+> 
+> Right, I think that wait read timeout you are seeing is likely a symptom
+> of something very similar to the experience on laptops like the ASUS
+> ZenBook UX425UA, which inspired the introduction of the probe deferring
+> in the i8042 driver.
+> 
+>    https://lore.kernel.org/lkml/20211112180022.10850-1-tiwai@suse.de/T/
+> 
+> In this case though, the ASUS ZenBook device did have a PS/2 device
+> attached, while in the Framework device this shouldn't be the case. Will
+> delve more into this nuance in my next section.
+
+OK let me experiment with this and get back on what happens.
+> 
+>>
+>> If you feel strongly that the errors and warnings should stay as is I I wonder
+>> if this should be looked at from i8042_pnp_init().
+>>
+>> In the no PNP device declared case it still probes, why isn't PNP trusted?
+>>
+> 
+> My understanding is this is due to some PS/2 devices not supporting PNP
+> so this manual probe path must still be taken even when we add the
+> SERIO_QUIRK_NOPNP quirk. I think if we add the quirk for deferred
+> probing for the device, we can then also have a patch that does not omit
+> the error to the logs when this quirk is enabled.
+> 
+> My question now becomes the following. If the Framework device does not
+> want to expose its Intel 8042 controller to the host since its some
+> unused hardware on the mainboard, why does it bother to advertise the
+> 8042 over the ACPI table? Wouldn't it be better to have some UEFI update
+> that fixes the ACPI table listing to avoid advertising the 8042?
+> 
+>    https://wiki.osdev.org/%228042%22_PS/2_Controller
+
+You hit on the head my confusion.  The laptop doesn't advertise any of 
+the PNP IDs listed in pnp_kbd_devids.
+
+I double checked in /sys/bus/acpi/devices.
+
+It seems that they're ignored anyway and will probe whether they are 
+there or not.
+
+So how could the firmware actually advertise this so the kernel would 
+trust it?
+
+> 
 >>>
->>> Downgrade the CTR message to debug and change the error code for the
->>> failure so that the base device code doesn't emit a warning.
->>>
->>> If someone has problems with i8042 and they need this information,
->>> they can turn on dynamic debugging to get these messages.
->>>
->>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->>> ---
->> For the Framework 16, I think the following should be done.
->> Use SERIO_QUIRK_NOPNP for the device to avoid the PS/2 controller
->> probing. You can find examples in drivers/input/serio/i8042-acpipnpio.h
->> under the i8042_dmi_quirk_table. This will prevent emitting the first
->> two messages in the shared snippet.
->
-> I had tried this initially, and yes those first two messages are removed.  But
-> TBH I'm not too worried about those as they're INFO. Adding a quirk just
-> switches them over to a new INFO message.
->
+>>>>    		}
+>>>>      	} while (n < 2 || ctr[0] != ctr[1]);
+> 
+> --
+> Thanks,
+> 
+> Rahul Rameshbabu
 
-Right, I can imagine someone owning this device panic-ing about the logs
-in red/yellow in journalctl or dmesg output. That said, since we know
-that the device should not bother with PNP, I think we should add the
-quirk, none the less.
-
-> But the ERR and WARN messages still come up.  The 3 messages that show up are:
->
-> i8042: PNP detection disabled
-> i8042: Can't read CTR while initializing i8042
-> i8042: probe of i8042 failed with error -5
->
-> I'm more concerned that ERR and WARN messages show up making you think there is
-> a problem to look into.
->
->> 
->>>   drivers/input/serio/i8042.c | 4 ++--
->>>   1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
->>> index 9fbb8d31575a..95dd585fdc1a 100644
->>> --- a/drivers/input/serio/i8042.c
->>> +++ b/drivers/input/serio/i8042.c
->>> @@ -1008,8 +1008,8 @@ static int i8042_controller_init(void)
->>>   			udelay(50);
->>>     		if (i8042_command(&ctr[n++ % 2], I8042_CMD_CTL_RCTR)) {
->>> -			pr_err("Can't read CTR while initializing i8042\n");
->>> -			return i8042_probe_defer ? -EPROBE_DEFER : -EIO;
->>> +			pr_debug("Can't read CTR while initializing\n");
->> I also think this error message should be pr_err in the situation that
->> the SERIO_QUIRK_PROBE_DEFER quirk is not used. I think what you are
->> likely looking for is avoiding emitting this message when the
->> SERIO_QUIRK_PROBE_DEFER quirk is used for noise reduction purposes.
->
-> SERIO_QUIRK_PROBE_DEFER isn't set on this machine.
->
-
-Yeah, I would like to add this quirk as well for the device potentially
-along with SERIO_QUIRK_NOPNP. I'll get into why I think this might be a
-good idea later in this email.
-
->> 
->>> +			return i8042_probe_defer ? -EPROBE_DEFER : -ENXIO;
->> I do not think this change makes sense to me personally. It is indeed an
->> I/O issue with the i8042 controller on the Framework motherboard, so the
->> error should be -EIO when i8042_probe_defer is not set.
->
-> With i8042.debug enabled I can see that the error is a wait read timeout.  So I
-> had thought -ENXIO ("No such device or address") made sense here.
-
-Right, I think that wait read timeout you are seeing is likely a symptom
-of something very similar to the experience on laptops like the ASUS
-ZenBook UX425UA, which inspired the introduction of the probe deferring
-in the i8042 driver.
-
-  https://lore.kernel.org/lkml/20211112180022.10850-1-tiwai@suse.de/T/
-
-In this case though, the ASUS ZenBook device did have a PS/2 device
-attached, while in the Framework device this shouldn't be the case. Will
-delve more into this nuance in my next section.
-
->
-> If you feel strongly that the errors and warnings should stay as is I I wonder
-> if this should be looked at from i8042_pnp_init().
->
-> In the no PNP device declared case it still probes, why isn't PNP trusted?
->
-
-My understanding is this is due to some PS/2 devices not supporting PNP
-so this manual probe path must still be taken even when we add the
-SERIO_QUIRK_NOPNP quirk. I think if we add the quirk for deferred
-probing for the device, we can then also have a patch that does not omit
-the error to the logs when this quirk is enabled.
-
-My question now becomes the following. If the Framework device does not
-want to expose its Intel 8042 controller to the host since its some
-unused hardware on the mainboard, why does it bother to advertise the
-8042 over the ACPI table? Wouldn't it be better to have some UEFI update
-that fixes the ACPI table listing to avoid advertising the 8042?
-
-  https://wiki.osdev.org/%228042%22_PS/2_Controller
-
->> 
->>>   		}
->>>     	} while (n < 2 || ctr[0] != ctr[1]);
-
---
-Thanks,
-
-Rahul Rameshbabu
 
