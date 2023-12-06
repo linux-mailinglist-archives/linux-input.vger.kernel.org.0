@@ -1,174 +1,143 @@
-Return-Path: <linux-input+bounces-560-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-561-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B461A8075F3
-	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 18:01:29 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D718780772C
+	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 18:58:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D5CE41C20ED5
-	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 17:01:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 350A2B20D58
+	for <lists+linux-input@lfdr.de>; Wed,  6 Dec 2023 17:58:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D1A537160;
-	Wed,  6 Dec 2023 17:01:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 918D26DCEE;
+	Wed,  6 Dec 2023 17:58:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Lg+uQ0ZV"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="zGnHc5cY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE761BD
-	for <linux-input@vger.kernel.org>; Wed,  6 Dec 2023 09:01:21 -0800 (PST)
-Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2c9fbb846b7so46835621fa.2
-        for <linux-input@vger.kernel.org>; Wed, 06 Dec 2023 09:01:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701882078; x=1702486878; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6USO49247dIS4iM67DLL61cvXhjKL/DNTtVy5lpNUks=;
-        b=Lg+uQ0ZVQkeebudztZX5+ujD8tCcYzcIj63pKJVuZ5ANSGk/CN2jn/OXUL4XAOqn23
-         gAWRa3V8QtgpsDU5gBCkppeFrPx6181NngjWmgKA6CcuBlc68WtfQdlIOqZqvSMdFFkJ
-         3Cu8MJM4Ff2fz9Vn5TAviEjxRmoVrvETo3CzE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701882078; x=1702486878;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6USO49247dIS4iM67DLL61cvXhjKL/DNTtVy5lpNUks=;
-        b=Kc8LVE9ta5zExNsD6gv+H59K2zMBEnG+pOttNeuRPu0xQhbTnXELFHq4wCixMo4S6+
-         pMQ6cgzsVeuufWlnqiK2fH/WBT5utcJup0I8oxa69WONZGa8Qi1odTlvHyS4NqMnTFTX
-         8fM4+J98UMGOv61c5x1b8aNiQXHSaenYvfdSshwW9uXiDSDtUpeA/dW3miPfaGdo9UVr
-         PAtQcFCEKPs4UKlz6P2K/9Kjb9o4+flUjLX0CYrBmQ3EX1AleVWVwvwwRHhy20tuwju6
-         s94nuBeGKV8BEkFS+Kz2X7YIXDZSFuBNFkdPD8pg9DzJdVdOoq1mgq2o2GQHXMY/PtYN
-         gz0g==
-X-Gm-Message-State: AOJu0Ywmc6YjjWPJA1NHC/Ri+4V/HldWq/TYlbxIf2i57FwyOJtjoIaG
-	B9UqechfO7Z5/5F//i64zyuhLBhhQvStF6kicVMhGLJ2
-X-Google-Smtp-Source: AGHT+IEjdmX8//3JFBDSUX4Jd2phYt8EVdseKC1MxUCpEf+zKHyPVBXwP62RwPSMjA7rw9CdHXvpsg==
-X-Received: by 2002:a2e:9d94:0:b0:2c9:ef1a:1b3 with SMTP id c20-20020a2e9d94000000b002c9ef1a01b3mr801180ljj.48.1701882078205;
-        Wed, 06 Dec 2023 09:01:18 -0800 (PST)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com. [209.85.208.45])
-        by smtp.gmail.com with ESMTPSA id gf7-20020a170906e20700b00a1db7b3b536sm179999ejb.12.2023.12.06.09.01.18
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Dec 2023 09:01:18 -0800 (PST)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-548ae9a5eeaso12012a12.1
-        for <linux-input@vger.kernel.org>; Wed, 06 Dec 2023 09:01:17 -0800 (PST)
-X-Received: by 2002:a05:600c:4e8d:b0:40b:33aa:a2b9 with SMTP id
- f13-20020a05600c4e8d00b0040b33aaa2b9mr101895wmq.4.1701882057134; Wed, 06 Dec
- 2023 09:00:57 -0800 (PST)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2043.outbound.protection.outlook.com [40.107.92.43])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 129EDD62;
+	Wed,  6 Dec 2023 09:58:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=apFncT64ahdQHTiuVIAltreR4cTIpiHXcCxoDU0QenRmz5sTLV2rsjYdyzwwZD1UEglMU046vBy6NBr2l1URqwu7D285A+cAIJtf7x9DULOt4dFKgS2DzA9GWeMUPubxRhz7K/7lvXdZg6UDrAP0WChvSF+CPHo9dEWm3mDEE52Bx5z+XBgvOtwfmWlMicPm2DrFshjISCV3SKNbvtA2UzrUFhXMdE4R1y7s3fKMWJyWaL45bUSPks1P0ejIX5T4OeqstaG/noENt1aBeM3bORbG93tVbo33elxd/1EvsQZw+kEwr+fLViZR1TAckSEsrt8EFC46EWLgrDCwHSLspA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=i6ddM0n9CKVFEHqrcOU/WeQVuxcnxXw4Bp7h8fskh6o=;
+ b=JAkD67TeCN6z4v241T1irpbPWlSwHvi4j/1ei31NDwqFEGB8pcbEEkKUxL48W7otr2qROPsPFdnbWmh8JOnIDiBBEJiWPoSOfigHL3pFKe34WEGh62wDjhdaTQbVdBknIKDExxh/1reXNvaFaSsJ0HzfqLfAX03luArDDJ8QeLDzcUdcW1icWkK6xxnOADVPQc2XbSeNq4zuNN1dmi3EJE3YMdjv9qkoQXiEphcIC3vdk/OtTrULkL+ecDyP2fuqxG1dm8pHtQ75NP635PQ2pnZhs9ToVpblbkT1ElHxjWujaJ2hHma31/c6N5cjAEwWF4b8rVP8pOU9GpaS04Yc6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i6ddM0n9CKVFEHqrcOU/WeQVuxcnxXw4Bp7h8fskh6o=;
+ b=zGnHc5cYNJEuTPHZej0YU8V+CuGZ/G/K3MJ/AVxQqx1rzfE7wWGrWnLtIisZbRPTHujONoClV/qP1FftFKpxOf1DVUpPw/TTxKcgsE2Iy4fGVa0+E06hN7OSiHvqQ5++15blTsHFbA3Eja9frMwLu/FgxWLsvZn+vLsD30ODF94=
+Received: from SA9P223CA0027.NAMP223.PROD.OUTLOOK.COM (2603:10b6:806:26::32)
+ by MW4PR12MB7309.namprd12.prod.outlook.com (2603:10b6:303:22f::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.25; Wed, 6 Dec
+ 2023 17:58:44 +0000
+Received: from SN1PEPF000252A2.namprd05.prod.outlook.com
+ (2603:10b6:806:26:cafe::5) by SA9P223CA0027.outlook.office365.com
+ (2603:10b6:806:26::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34 via Frontend
+ Transport; Wed, 6 Dec 2023 17:58:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SN1PEPF000252A2.mail.protection.outlook.com (10.167.242.9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7068.20 via Frontend Transport; Wed, 6 Dec 2023 17:58:44 +0000
+Received: from AUS-P9-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Wed, 6 Dec
+ 2023 11:58:43 -0600
+From: Mario Limonciello <mario.limonciello@amd.com>
+To: <dmitry.torokhov@gmail.com>
+CC: <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Mario
+ Limonciello" <mario.limonciello@amd.com>
+Subject: [PATCH] Input: i8042: Quiet down probe failure messages
+Date: Wed, 6 Dec 2023 11:58:18 -0600
+Message-ID: <20231206175818.2568-1-mario.limonciello@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231128084236.157152-1-wenst@chromium.org> <20231128084236.157152-5-wenst@chromium.org>
- <CAD=FV=W01gfxV6RN2o6CVS7jjf8qgKP-jUy9Bp94d2hWzVC48A@mail.gmail.com>
- <CAGXv+5E+R292XsOFSL-j0KJMmVJjWtxMRgCK8besP7mo6NDOWA@mail.gmail.com>
- <CAD=FV=UQkAjgMuR85cPikNtCxsODWPWs7cibOcOoNGdjSSvF8Q@mail.gmail.com>
- <3700f05f-2411-4422-972f-f3df690efb84@collabora.com> <CAGXv+5G5fFTv8zn=YamSdccjuYemE5oKBqjb8CSyGzu9aMJ0eg@mail.gmail.com>
- <4b9ea82c-d1a4-47b6-ba03-346cfdedef05@collabora.com>
-In-Reply-To: <4b9ea82c-d1a4-47b6-ba03-346cfdedef05@collabora.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 6 Dec 2023 09:00:40 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UMRRYieChp2+4Z6zxL-CSVZabiokuHH=qrnMMSmjNM2Q@mail.gmail.com>
-Message-ID: <CAD=FV=UMRRYieChp2+4Z6zxL-CSVZabiokuHH=qrnMMSmjNM2Q@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 4/5] arm64: dts: mediatek: mt8173-elm-hana: Mark
- touchscreens and trackpads as fail
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, Rob Herring <robh+dt@kernel.org>, 
-	Frank Rowand <frowand.list@gmail.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Wolfram Sang <wsa@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
-	Hsin-Yi Wang <hsinyi@chromium.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	andriy.shevchenko@linux.intel.com, Jiri Kosina <jikos@kernel.org>, 
-	linus.walleij@linaro.org, broonie@kernel.org, gregkh@linuxfoundation.org, 
-	hdegoede@redhat.com, james.clark@arm.com, james@equiv.tech, 
-	keescook@chromium.org, rafael@kernel.org, tglx@linutronix.de, 
-	Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org, linux-i2c@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF000252A2:EE_|MW4PR12MB7309:EE_
+X-MS-Office365-Filtering-Correlation-Id: c8c7e405-af07-4a04-2d78-08dbf684fd20
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	7ppXZCTz7v/NOxEdpXoqQa8cNO3pmsG4PI4bzIgz8pCg0eMKgD72itOli/9uXM9DJvSWc4Xslw0tKmCapHry1InFZXGid7CNbiEfHG1JLOpFCvlDqtA3ZdZCQcDwv2t7a010uHHwEzKfhLx0NBB+ZHHgcBUMSWSf/zawEKpzrsNlhUzftfI8dMSlc8N1/sOmgPFoNNtp7m+qPvqmDnvolQCdF2+dEWZO6P58q8BVDSUiBwBJqBp31XXsjhwXH1+eRVaq1u5Gfmurcr7R/Oi/X9E9I8E8RwDIhCA3J/bxgiGizMEFkuS425sast5sAa/Mk5miLi1qwU8yVjndi6//5Bo66XYNxjdriOnlvWKngWo8FW1bdUVfhPwqttXomEp+FG20iWvIxqnO3EDaj5mnhkDQKxAWSWbSyItXu6R45qxoLz8TgbawozGAUdgWfsABVa78wxlbNjlbnof4wrXajxv75USDkDqhkOnCLazgnijir7/b3WKprjUhHQ8X8C+k1BCPLqAM0yCDuO2rOK0Soqsezw2w8SXxQM3IgaDHAIe1Qj/VvWl3uGGX3s7ir/LiMR5r43MOAPgUriOElyesdJFbnNITXMn/SXEcSo77SE/GueskG2gtXmJCFokabF/cCd13chx4P8R4pa1Y8QTcOVVhGZ4LnNyow2liSkCvZYQDHAQrlpe8tjjnJhfLW4BFuEawqO1i+WQkMsPNuqZs10Ux0Qf0+x1JjMQ6HreypMHUAM/ZA6sLcZNOb2CnTmKDjkxk7sF5Dc0DfySWWu3v0XnGLU6lcICkKNUaKkk/YSiN+wa7MKU4wkdh5Y2fC9+k
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(396003)(136003)(376002)(39860400002)(230173577357003)(230922051799003)(230273577357003)(451199024)(64100799003)(82310400011)(186009)(1800799012)(46966006)(40470700004)(36840700001)(83380400001)(426003)(7696005)(40460700003)(6666004)(1076003)(2616005)(16526019)(26005)(336012)(316002)(70206006)(70586007)(54906003)(6916009)(40480700001)(15650500001)(5660300002)(2906002)(4326008)(86362001)(8676002)(8936002)(36756003)(44832011)(41300700001)(81166007)(478600001)(356005)(82740400003)(36860700001)(47076005)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2023 17:58:44.5292
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8c7e405-af07-4a04-2d78-08dbf684fd20
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF000252A2.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7309
 
-Hi,
+The Framework 16" laptop doesn't have a PS/2 keyboard. At bootup the
+following messages are emitted:
 
-On Wed, Dec 6, 2023 at 2:02=E2=80=AFAM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Il 06/12/23 03:55, Chen-Yu Tsai ha scritto:
-> > On Tue, Dec 5, 2023 at 6:22=E2=80=AFPM AngeloGioacchino Del Regno
-> > <angelogioacchino.delregno@collabora.com> wrote:
-> >>
-> >> Il 04/12/23 17:50, Doug Anderson ha scritto:
-> >>> Hi,
-> >>>
-> >>> On Sun, Dec 3, 2023 at 10:59=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.=
-org> wrote:
-> >>>>
-> >>>> On Sat, Dec 2, 2023 at 8:58=E2=80=AFAM Doug Anderson <dianders@chrom=
-ium.org> wrote:
-> >>>>>
-> >>>>> Hi,
-> >>>>>
-> >>>>> On Tue, Nov 28, 2023 at 12:45=E2=80=AFAM Chen-Yu Tsai <wenst@chromi=
-um.org> wrote:
-> >>>>>>
-> >>>>>> @@ -44,6 +46,7 @@ trackpad2: trackpad@2c {
-> >>>>>>                   reg =3D <0x2c>;
-> >>>>>>                   hid-descr-addr =3D <0x0020>;
-> >>>>>>                   wakeup-source;
-> >>>>>> +               status =3D "fail-needs-probe";
-> >>>>>
-> >>>>> While doing this, you could also remove the hack where the trackpad
-> >>>>> IRQ pinctrl is listed under i2c4.
-> >>>>
-> >>>> Sure. I do think we can do away with it though. According to at leas=
-t one
-> >>>> schematic, the interrupt line has pull-ups on both sides of the volt=
-age
-> >>>> shifter.
-> >>>>
-> >>>> BTW, The touchscreen doesn't have pinctrl entries. This has pull-ups=
- on
-> >>>> both sides of the voltage shifter as well.
-> >>>
-> >>> I dunno if the convention is different on Mediatek boards, but at
-> >>> least on boards I've been involved with in the past we've always put
-> >>> pinctrl entries just to make things explicit. This meant that we
-> >>> didn't rely on the firmware/bootrom/defaults to leave pulls in any
-> >>> particular state. ...otherwise those external pull-ups could be
-> >>> fighting with internal pull-downs, right?
-> >>>
-> >>
-> >> MediaTek boards aren't special and there's no good reason for those to=
- rely on
-> >> firmware/bootrom/defaults - so there is no good reason to avoid declar=
-ing any
-> >> relevant pinctrl entry.
-> >
-> > I think this should be migrated to use the proper GPIO bindings: the
-> > GPIO_PULL_UP / GPIO_PULL_DOWN / GPIO_BIAS_DISABLE flags.
-> >
-> > But that's a different discussion.
-> >
->
-> 100% agreed.
+i8042: PNP: No PS/2 controller found.
+i8042: PNP: Probing ports directly.
+i8042: Can't read CTR while initializing i8042
+i8042: probe of i8042 failed with error -5
 
-I guess I'd need to see patches as an example to see how this looks,
-but I'm at least slightly skeptical. In this case the GPIO is
-indirectly specified via "interrupts". Would you add these flags to
-the interrupts specifier, too? There's another potential pull as well
-(PIN_CONFIG_BIAS_BUS_HOLD) as well as other pin configuration
-(PIN_CONFIG_INPUT_DEBOUNCE, for instance). Do we try to fit all of
-these into the GPIO / interrupt specifier?
+The last two messages are ERR and WARN respectively.  These messages
+might be useful for one boot while diagnosing a problem for someone
+but as there is no PS/2 controller in PNP or on the machine they're
+needlessly noisy to emit every boot.
 
-Certainly I will admit that this is a complicated topic, but it seems
-weird to say that we use pinctrl to specify pin configuration / pulls
-for all pins except ones that are configured as GPIOs or GPIO
-interrupts.
+Downgrade the CTR message to debug and change the error code for the
+failure so that the base device code doesn't emit a warning.
 
--Doug
+If someone has problems with i8042 and they need this information,
+they can turn on dynamic debugging to get these messages.
+
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+ drivers/input/serio/i8042.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+index 9fbb8d31575a..95dd585fdc1a 100644
+--- a/drivers/input/serio/i8042.c
++++ b/drivers/input/serio/i8042.c
+@@ -1008,8 +1008,8 @@ static int i8042_controller_init(void)
+ 			udelay(50);
+ 
+ 		if (i8042_command(&ctr[n++ % 2], I8042_CMD_CTL_RCTR)) {
+-			pr_err("Can't read CTR while initializing i8042\n");
+-			return i8042_probe_defer ? -EPROBE_DEFER : -EIO;
++			pr_debug("Can't read CTR while initializing\n");
++			return i8042_probe_defer ? -EPROBE_DEFER : -ENXIO;
+ 		}
+ 
+ 	} while (n < 2 || ctr[0] != ctr[1]);
+-- 
+2.34.1
+
 
