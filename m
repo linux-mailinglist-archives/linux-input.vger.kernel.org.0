@@ -1,112 +1,90 @@
-Return-Path: <linux-input+bounces-592-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-593-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0AD808798
-	for <lists+linux-input@lfdr.de>; Thu,  7 Dec 2023 13:22:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69AD0808824
+	for <lists+linux-input@lfdr.de>; Thu,  7 Dec 2023 13:44:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3A2E5283C4E
-	for <lists+linux-input@lfdr.de>; Thu,  7 Dec 2023 12:22:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C970BB219D3
+	for <lists+linux-input@lfdr.de>; Thu,  7 Dec 2023 12:44:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F81839FF3;
-	Thu,  7 Dec 2023 12:22:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BF853A8C1;
+	Thu,  7 Dec 2023 12:44:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZRuAepFh"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="gS0F9CoG"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4AA39AF6;
-	Thu,  7 Dec 2023 12:22:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB499C433C8;
-	Thu,  7 Dec 2023 12:22:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701951764;
-	bh=epH6N4HOQY9d/F5eZFuiUiKcD6erclTqiNFuoeHNibM=;
-	h=From:Date:Subject:To:Cc:From;
-	b=ZRuAepFhfUG/d4JUckztQmMS323WJgPb0oGVjoiVT16Sw9k3gd2mcP1s2X+UCQhvm
-	 TTX8vLZ/lNjgv68XatsoQiJNDp2Kmmq9H854ivI9VPmVLP9p70meAooJGYxI1LJTgL
-	 QT/RAmD1b14G3rSJqRc4372ZDLz6i5nKmz2lsxe4xSDv12Y2ByD3xiexVsFxncGrDS
-	 TOt/qKsUYnZ/laPTjMCTRn0sqo0B84C9zuiZ566wL1mJ04fGJnN8aY5gdcLCG56hkV
-	 9aevdE7LoYOLkHTHMomf0iLxG91JcLifQyl1l9vrt/8PZHvaTouWNw3vypYTYqvEE0
-	 ss+Dg2q8YUkIQ==
-From: Benjamin Tissoires <bentiss@kernel.org>
-Date: Thu, 07 Dec 2023 13:22:39 +0100
-Subject: [PATCH] selftests/hid: fix failing tablet button tests
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64583D57
+	for <linux-input@vger.kernel.org>; Thu,  7 Dec 2023 04:44:23 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-40c0a0d068bso9263725e9.3
+        for <linux-input@vger.kernel.org>; Thu, 07 Dec 2023 04:44:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1701953062; x=1702557862; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OsE8VKSbmAi+XCUf7rJv0gnWrUVEmUsv4rH9rY5pctA=;
+        b=gS0F9CoGehLZx+t8NgrD6u2bop+kxz3vrXxyOlnwSK44XvjRQmb5X5Igvq+RkGf7ld
+         zotNuFan722MfrKK0gDuE2pd9/0MwTq+BYaX77TY3YV98G3179EJ5/yW0ha5nzFMcdqm
+         RYjNhXgaCodiOb/tyEuHD4E5eJxvaPcc6KgKgYyyHgg1F/DPuIL2qUJZ/m6KbX8Lo1/o
+         IXfTFAEYr4NYflJ6ByJtD2+c5PnrEKMdmfTHCmVynAoL7pMZRT0mOqCXqq0FiJkDiq7e
+         AYYYOf2gKTtPSxf8SZZnUsCuW9ozCRJTtrvmWd3r2x10UtLHEYiZ9Ssmycc/KC8uJJQx
+         wlkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701953062; x=1702557862;
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OsE8VKSbmAi+XCUf7rJv0gnWrUVEmUsv4rH9rY5pctA=;
+        b=X7hCejoHhEnPzdLgk193RJp0vw9VHcQtFhU0r4SgK/0Pvzk4dwA634s024iQQw1VZ2
+         ySd8a3RSggMF02yLDC3gji9ujlKQv8nNyJfzIOmOtN03piK0A67SycUCevoe0Z1thXbP
+         YwDn+nF8t52xj260rymyzuZUokyL1ZVaEQaW9LwJTRQTU6dY6w9myodiqjrdwpQEOiQr
+         Kuy2vQSff7TiHNUMODvgHlQ8r9dXLKWADp2ZarvmUKDvPDNtu4UAzAo9yUS/AMBRai+A
+         QvodOiCwpIbltvwdima8qk9bnb4TOCf0+sYsBvdb6leHa4YIQdJF/aiYpI26bqkG4TYk
+         9gmg==
+X-Gm-Message-State: AOJu0YwiwLt8od0bYw/t0W09P8EGZBB09pDaOHxlEI06SsvQEcXGs3mQ
+	Hglcnit8dXbAakPfJE/O6wFbjA==
+X-Google-Smtp-Source: AGHT+IH0bdOVfz7f3tCZzVLnygI36YPXIwbVzYnykMM8nZfSU0jI0uQOTzmslWb2tU3WnJlf3MiVMQ==
+X-Received: by 2002:a05:600c:4512:b0:40b:5e1b:54a3 with SMTP id t18-20020a05600c451200b0040b5e1b54a3mr1575292wmo.47.1701953061849;
+        Thu, 07 Dec 2023 04:44:21 -0800 (PST)
+Received: from localhost ([193.86.92.180])
+        by smtp.gmail.com with ESMTPSA id w2-20020adfec42000000b0033342f72bf8sm1372820wrn.9.2023.12.07.04.44.21
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 07 Dec 2023 04:44:21 -0800 (PST)
+From: Jiri Kosina <jkosina@suse.com>
+X-Google-Original-From: Jiri Kosina <jikos@kernel.org>
+Date: Thu, 7 Dec 2023 13:44:22 +0100 (CET)
+To: Benjamin Tissoires <bentiss@kernel.org>
+cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+    Shuah Khan <shuah@kernel.org>, Peter Hutterer <peter.hutterer@who-t.net>, 
+    linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] selftests/hid: fix failing tablet button tests
+In-Reply-To: <20231207-b4-wip-selftests-v1-1-c4e13fe04a70@kernel.org>
+Message-ID: <nycvar.YFH.7.76.2312071344050.29220@cbobk.fhfr.pm>
+References: <20231207-b4-wip-selftests-v1-1-c4e13fe04a70@kernel.org>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231207-b4-wip-selftests-v1-1-c4e13fe04a70@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAA65cWUC/x3MQQ5AMBBA0avIrE2i1SKuIha0g0kE6QiSxt01l
- m/xfwShwCTQZhECXSy8bwkqz8AtwzYTsk8GXehS6aLG0eDNBwqt00lyCjplK+uNN7ZuIGVHoIm
- ff9n17/sBuP0ArGIAAAA=
-To: Jiri Kosina <jikos@kernel.org>, 
- Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
- Shuah Khan <shuah@kernel.org>, Peter Hutterer <peter.hutterer@who-t.net>
-Cc: Jiri Kosina <jkosina@suse.com>, Benjamin Tissoires <bentiss@kernel.org>, 
- linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1701951762; l=1894;
- i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=epH6N4HOQY9d/F5eZFuiUiKcD6erclTqiNFuoeHNibM=;
- b=n/90PDIVzBVYmex40erDeyr8UfBLYJJvGN2LIAvfkl2wkUtPc4ZONsXa4LXWuHGuUhRNjEr3t
- S29RzIxWhgoCbx0SJBI78CjhJjrx8MqBr1/El5ybpfDF2e1WRSpLa54
-X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
+Content-Type: text/plain; charset=US-ASCII
 
-An overlook from commit 74452d6329be ("selftests/hid: tablets: add
-variants of states with buttons"), where I don't use the Enum...
+On Thu, 7 Dec 2023, Benjamin Tissoires wrote:
 
-Fixes: 74452d6329be ("selftests/hid: tablets: add variants of states with buttons")
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
----
-Not sure what happened, but I mustn't have run the tests before
-sending the series, and they fail blatently.
-I'm deeply sorry for that, I thought these failures were fixed.
+> An overlook from commit 74452d6329be ("selftests/hid: tablets: add
+> variants of states with buttons"), where I don't use the Enum...
+> 
+> Fixes: 74452d6329be ("selftests/hid: tablets: add variants of states with buttons")
+> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
 
-Cheers,
-Benjamin
----
- tools/testing/selftests/hid/tests/test_tablet.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Acked-by: Jiri Kosina <jkosina@suse.com>
 
-diff --git a/tools/testing/selftests/hid/tests/test_tablet.py b/tools/testing/selftests/hid/tests/test_tablet.py
-index dc8b0fe9e7f3..903f19f7cbe9 100644
---- a/tools/testing/selftests/hid/tests/test_tablet.py
-+++ b/tools/testing/selftests/hid/tests/test_tablet.py
-@@ -115,7 +115,7 @@ class PenState(Enum):
-         # we take only the highest button in account
-         for b in [libevdev.EV_KEY.BTN_STYLUS, libevdev.EV_KEY.BTN_STYLUS2]:
-             if bool(evdev.value[b]):
--                button = b
-+                button = BtnPressed(b)
- 
-         # the kernel tends to insert an EV_SYN once removing the tool, so
-         # the button will be released after
-@@ -155,7 +155,7 @@ class PenState(Enum):
-                 if button_found:
-                     raise ValueError(f"duplicated BTN_STYLUS* in {events}")
-                 button_found = True
--                button = ev.code if ev.value else None
-+                button = BtnPressed(ev.code) if ev.value else None
- 
-         # the kernel tends to insert an EV_SYN once removing the tool, so
-         # the button will be released after
-
----
-base-commit: f556aa957df8cb3e98af0f54bf1fa65f59ae47a3
-change-id: 20231207-b4-wip-selftests-c1565d4d4578
-
-Best regards,
 -- 
-Benjamin Tissoires <bentiss@kernel.org>
+Jiri Kosina
+SUSE Labs
 
 
