@@ -1,97 +1,107 @@
-Return-Path: <linux-input+bounces-583-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-584-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB58808391
-	for <lists+linux-input@lfdr.de>; Thu,  7 Dec 2023 09:53:20 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52573808393
+	for <lists+linux-input@lfdr.de>; Thu,  7 Dec 2023 09:53:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35F8C283DE6
-	for <lists+linux-input@lfdr.de>; Thu,  7 Dec 2023 08:53:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D507BB21C3F
+	for <lists+linux-input@lfdr.de>; Thu,  7 Dec 2023 08:53:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B4D218E0F;
-	Thu,  7 Dec 2023 08:53:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FE5418E0F;
+	Thu,  7 Dec 2023 08:53:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iejhpSNK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sukd+z35"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0520910B
-	for <linux-input@vger.kernel.org>; Thu,  7 Dec 2023 00:53:12 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-332fd78fa9dso608641f8f.3
-        for <linux-input@vger.kernel.org>; Thu, 07 Dec 2023 00:53:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701939190; x=1702543990; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K5+J2LUrKF38xRqWK50x1df9pbzlgKrpyAn+HVZYCqU=;
-        b=iejhpSNKhVdDkNDn13RLsYeEVR9isVLQDJ4wPPCR3ByDvpcPWf5U3kF5nFXWd4HztA
-         RB0TJy9qX+RPnve48IP/BGNaPBbDqQcg9YK9aHtncyOaBfXCBi/G1yIorTDQptI/7xPN
-         /hr4h0MfoxL4hJKRhFb808KcKkJsSuDK6DeX0pSv3baBSgdhdpj41Rv0HP82SZc28jD8
-         +qBJZ9dDFqmzx9048lKemIhr9C+0P4KeDHy/iOg1QbsKPMW8vdlrcqMvaUBwQ3/LITVS
-         n+QfkN3b1DhMqlbeMedwlxwr3Z3s74CmDi40ACRuws/3Eozq6qv5UeP7YpvncTDVuDbd
-         hZ1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701939190; x=1702543990;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K5+J2LUrKF38xRqWK50x1df9pbzlgKrpyAn+HVZYCqU=;
-        b=LPiWEMpOS95MV0YoPz449omF04N0hD2XqygD0blRySFuuNFojq65Xxm+YBkig2+NFa
-         FcY/egXVDSNKT3ugY6hhcSxaaQo1qAPOQiQox50Lo6EO6aCUrzQ0a/x8xwwEYsdy3sd8
-         k5xdcp7GLNZCD6fHDXlnNUgcAVnQs6XRJkiGSjvglLkZh6hNRMAvRtyn940arNsCGmbS
-         0ULlA8jDZLBsSybpycADyhFkZupaX+gMRi4otWPFdYXnTaJfz/LajvJKBdD28EvcwKyq
-         dxSUizQdV9pJEWZdlkvbIDBCTpz59lNPxm139qv1TRfJZfSpC19SZeIwzd8/TSxxGrMA
-         EicA==
-X-Gm-Message-State: AOJu0YzU2Cpg8+quqMvvXeVkAFxWgA4cCIqEtQEc/cSJOoDUsCh/9fzI
-	/sHyvZp6wXl7Uf0qzVso2VIEPqZmQHQ28VwZ5F4E5J2a
-X-Google-Smtp-Source: AGHT+IF1T8EGh1FmJg8sp2rx3AngJe3zTw6TX8p3d+RV333bb7BNd9mZRo8tEWbsjsxfaHDg9bb4zD1gDGL1tEbmAZ4=
-X-Received: by 2002:adf:da4a:0:b0:333:43b5:6ec0 with SMTP id
- r10-20020adfda4a000000b0033343b56ec0mr703839wrl.114.1701939189998; Thu, 07
- Dec 2023 00:53:09 -0800 (PST)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616401400F;
+	Thu,  7 Dec 2023 08:53:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D33FC433C8;
+	Thu,  7 Dec 2023 08:53:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701939208;
+	bh=DhSbqjsnrf7h3qd/f9SD+8GsKgMde5b6jsS8tzFL0Tc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Sukd+z35LV7PFNWE1vLfL8foH9cYFCR3ZR2Tu0hpnkI6Hc5+V/5LwFBR5VyNDHW9a
+	 /MWsvUaxFy7+n0Oy5gqltAeo/+1nZBQ1jtvzFIdwcz+5eBpV0VnAR/JqxqREvXeDPE
+	 AF1wxNOqLyRiMLOQhR9Xqd1obQXGQ7yk8dc5YsP8ojmAh2GFrg/x4VM7z/Vg1x1ZPC
+	 jkTYfbTZLEB9mxkXU635xG+MfVRgvEeJjBnat1gPz4jPNbgHMk38K0g4YmxHlQkPEE
+	 jMETGQT1tJ+kP+ILo8HLxMkY+UqtIH1ORDvdU/j3qCG8cIQt5WUVk7s/pmPkKmF7OV
+	 JOsiVE0BA/Ejw==
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Jiri Kosina <jikos@kernel.org>, 
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+ Shuah Khan <shuah@kernel.org>, Peter Hutterer <peter.hutterer@who-t.net>, 
+ Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20231206-wip-selftests-v2-0-c0350c2f5986@kernel.org>
+References: <20231206-wip-selftests-v2-0-c0350c2f5986@kernel.org>
+Subject: Re: [PATCH v2 00/15] selftests/hid: tablets fixes
+Message-Id: <170193920703.229356.5910722658341910962.b4-ty@kernel.org>
+Date: Thu, 07 Dec 2023 09:53:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAFR=A7mFbMH9xt=FnzQzeZUtYv0AAMK=9DfPaBNcttpFj1z7Jg@mail.gmail.com>
-In-Reply-To: <CAFR=A7mFbMH9xt=FnzQzeZUtYv0AAMK=9DfPaBNcttpFj1z7Jg@mail.gmail.com>
-From: Kamil Duljas <kamil.duljas@gmail.com>
-Date: Thu, 7 Dec 2023 09:52:58 +0100
-Message-ID: <CAFR=A7kPqerLy_7_XcyuG-GDiYKr64bpRJUYw0LnbEi3G1p1Vg@mail.gmail.com>
-Subject: Re: RMI4: The RMI4 specification not found
-To: linux-input@vger.kernel.org, dmitry.torokhov@gmail.com, 
-	Andrew Duggan <aduggan@synaptics.com>, Christopher Heiny <cheiny@synaptics.com>, 
-	marge.yang@tw.synaptics.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.4
 
-It nice to update this document. I found a problem with out-of-bounds
-memory during probe device. I need new manual to create issue.
+On Wed, 06 Dec 2023 11:45:51 +0100, Benjamin Tissoires wrote:
+> the main trigger of this series was the XP-Pen issue[0].
+> Basically, the tablets tests were good-ish but couldn't
+> handle that tablet both in terms of emulation or in terms
+> of detection of issues.
+> 
+> So rework the tablets test a bit to be able to include the
+> XP-Pen patch later, once I have a kernel fix for it (right
+> now I only have a HID-BPF fix, meaning that the test will
+> fail if I include them).
+> 
+> [...]
 
-Kamil
+Applied to https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git (for-5.8/selftests), thanks!
 
-=C5=9Br., 22 lis 2023 o 21:46 Kamil Duljas <kamil.duljas@gmail.com> napisa=
-=C5=82(a):
->
-> Hi,
-> I would like to become familiar with RMI4 driver in the recent linux
-> kernel but I couldn't find a reference manual to RMI4 specification.
-> On the net I found an old version without the f12 feature.
-> Follow path: drivers/input/rmi4/rmi_driver.c contains link
-> http://www.synaptics.com/sites/default/files/511-000136-01-Rev-E-RMI4-Int=
-erfacing-Guide.pdf
-> returns 404
->
-> --
-> Pozdrawiam,
-> Kamil Duljas
+[01/15] selftests/hid: vmtest.sh: update vm2c and container
+        https://git.kernel.org/hid/hid/c/887f8094b335
+[02/15] selftests/hid: vmtest.sh: allow finer control on the build steps
+        https://git.kernel.org/hid/hid/c/46bc0277c250
+[03/15] selftests/hid: base: allow for multiple skip_if_uhdev
+        https://git.kernel.org/hid/hid/c/110292a77f7c
+[04/15] selftests/hid: tablets: remove unused class
+        https://git.kernel.org/hid/hid/c/b5edacf79c8e
+[05/15] selftests/hid: tablets: move the transitions to PenState
+        https://git.kernel.org/hid/hid/c/d52f52069fed
+[06/15] selftests/hid: tablets: move move_to function to PenDigitizer
+        https://git.kernel.org/hid/hid/c/881ccc36b426
+[07/15] selftests/hid: tablets: do not set invert when the eraser is used
+        https://git.kernel.org/hid/hid/c/d8d7aa2266a7
+[08/15] selftests/hid: tablets: set initial data for tilt/twist
+        https://git.kernel.org/hid/hid/c/e08e493ff961
+[09/15] selftests/hid: tablets: define the elements of PenState
+        https://git.kernel.org/hid/hid/c/83912f83fabc
+[10/15] selftests/hid: tablets: add variants of states with buttons
+        https://git.kernel.org/hid/hid/c/74452d6329be
+[11/15] selftests/hid: tablets: convert the primary button tests
+        https://git.kernel.org/hid/hid/c/1f01537ef17e
+[12/15] selftests/hid: tablets: add a secondary barrel switch test
+        https://git.kernel.org/hid/hid/c/76df1f72fb25
+[13/15] selftests/hid: tablets: be stricter for some transitions
+        https://git.kernel.org/hid/hid/c/ab9b82909e9b
+[14/15] selftests/hid: fix mypy complains
+        https://git.kernel.org/hid/hid/c/ed5bc56cedca
+[15/15] selftests/hid: fix ruff linter complains
+        https://git.kernel.org/hid/hid/c/f556aa957df8
 
+Cheers,
+-- 
+Benjamin Tissoires <bentiss@kernel.org>
 
-
---=20
-Pozdrawiam,
-Kamil Duljas
 
