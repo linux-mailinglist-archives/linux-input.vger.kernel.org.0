@@ -1,245 +1,152 @@
-Return-Path: <linux-input+bounces-575-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-576-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64AC0807EDD
-	for <lists+linux-input@lfdr.de>; Thu,  7 Dec 2023 03:45:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D8780802A
+	for <lists+linux-input@lfdr.de>; Thu,  7 Dec 2023 06:28:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D075FB210C8
-	for <lists+linux-input@lfdr.de>; Thu,  7 Dec 2023 02:45:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F3B211C209D2
+	for <lists+linux-input@lfdr.de>; Thu,  7 Dec 2023 05:28:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBA1E1868;
-	Thu,  7 Dec 2023 02:45:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95A0110A02;
+	Thu,  7 Dec 2023 05:28:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="IX96ERYa"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SlKTAiHg"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C011CD65
-	for <linux-input@vger.kernel.org>; Wed,  6 Dec 2023 18:45:04 -0800 (PST)
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 8EB6F3FAE8
-	for <linux-input@vger.kernel.org>; Thu,  7 Dec 2023 02:45:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1701917100;
-	bh=a0FiCBQ5zRlPvqo0KD1dys1aMCjFnIg1vx4iclYQmRk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type;
-	b=IX96ERYa5NqOch6Isax4xPnh1vPTM1mpRReV8I+1krmeTdT+ToQRqeiQzUAsrRSfh
-	 x924clIOf4uYzNa3+lnDOBmvZexh5vZGDCDr1+3M/s/aSag9cSN7Q0yabNVx4QL2sf
-	 qfLePSS1HV9wj9r+STE1V3NwhAhTmHpN55P6eZPEVAOfseEmySPdkyt7yEM+O2Th7e
-	 J4/HX3sUOamOjT9A5YIRd0B9Aa1IW2wQ/yp5S8FXoUZb6cmAwIYfi9yMNye1AAW2Ol
-	 iKDzzKzFjkJMi4QbKtvMzbr48JbENGe31kec95LuHdiqA7EIlZc41K4Hf/sm/8bB1W
-	 TMCSibyFJjqSg==
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-5c627dd2accso232390a12.0
-        for <linux-input@vger.kernel.org>; Wed, 06 Dec 2023 18:45:00 -0800 (PST)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B98E1B4
+	for <linux-input@vger.kernel.org>; Wed,  6 Dec 2023 21:28:20 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-332fd78fa9dso500347f8f.3
+        for <linux-input@vger.kernel.org>; Wed, 06 Dec 2023 21:28:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701926898; x=1702531698; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=P/w8d4bx85GCzG3q+XMNSr3H2oW0ZXJ+JkTmbFE6i40=;
+        b=SlKTAiHgnD1ZCmZC7CNQolawMayWBfo/d2VTdQfQqMkCcj9ODW7cYpZiRaU2n3gvD0
+         8bc4nzAJCFgKZc0gPmG34Dv7iHYLF+eMLG2QQRN0B7V+Re8L5p5P+zDSawTfpmcpanDn
+         cwLhsrsRDQd7vs5WltPkNWnSWiY6UILCYzFRZ/bBTnWWVN2hDJbaBPK2/vdORYlEtpok
+         9JOp3xN06eUJ7yHK+53sK1PG2BBk+ZYOZGLT31YVYRdGSkJit/JdBLNnjI8+vI0AkQih
+         Txbnhxv7BMNLHSa1q1dHFvIIZOSC3I/xBo71PAOqEjW6ETvGjUptty8SRlepI21i9kiw
+         LoMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701917099; x=1702521899;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a0FiCBQ5zRlPvqo0KD1dys1aMCjFnIg1vx4iclYQmRk=;
-        b=uod3TryaQ8Y8Vj9WBnkRboig0wjEZ3OAJOC/oYH4v3UksTjDC/hqxWupsBgmRqbrQu
-         ovpdnPCDSh3XV3eVTx4DSeZj7sifyoPpl5Vj94bcCmTtoeHc2M0SpUySA5EeVb4JIDGU
-         lG89M3T+yEbQxw3YjxId2/nbxWTcPpmEtg7gSW6lou1ffOKCLy54KLCmgmKAgvK4WiBI
-         qcMG7JN9F5EocLW0FcFM0YUYwCdpC9UPbynFu5ZSyJeGxoppu9QLpthX95zxQbOsAGMZ
-         CssFkUzYZgCvb94CVLA2sSQI8kbFpjSfFWYvAmozy07Wz/Y/U1hzhtrcaEa5r8p+aZV2
-         hy1A==
-X-Gm-Message-State: AOJu0YzcgTe9kyDb2ldX58Jfilq9tZO3ynNrCeoSSOfnWlBWZxdEVCzn
-	wrDNEYOointAjilzO0rWBh0PhRxv04h90sqAIc+jC8ydnzS5jncgR7bn/Gjk6Db8P1J54mYMpJn
-	NDB62FV7lQs4nbm68ZjNMN0CNCOsHZg3lLS7frEzl/W4Xfb3i8nSv5oe0
-X-Received: by 2002:a05:6a21:188:b0:187:a581:cc4e with SMTP id le8-20020a056a21018800b00187a581cc4emr1937415pzb.29.1701917099023;
-        Wed, 06 Dec 2023 18:44:59 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGJuq6Px8ETG4vq115qTLsAI+oHErFQds0ZcKptoR6sQ0x3lkYVrsYu9YAZ9p9nPIFyjh313U5hVSE+M4UX2Q8=
-X-Received: by 2002:a05:6a21:188:b0:187:a581:cc4e with SMTP id
- le8-20020a056a21018800b00187a581cc4emr1937404pzb.29.1701917098657; Wed, 06
- Dec 2023 18:44:58 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701926898; x=1702531698;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P/w8d4bx85GCzG3q+XMNSr3H2oW0ZXJ+JkTmbFE6i40=;
+        b=JCWuXw24eaUGj2HzRAs4lZ4fEd8tp35phYYQgcUHtGB1p15z5uXyfpqp0tQLms/gvS
+         QgYkV+SHNxq9j4C6Sw7rQ2zklbjunhJE5/Cd7Tv8OoheSfMCT2wDTKmH1IGAtaiYF+Eb
+         LNP8K0QGL+KF+JVcrDdrErkwxRKuD4e+phZxODwnzXW6s0rBcZzYtOoRrasrivXkb3rt
+         quWZakq0reeBrj5nOLZbsTktJ3mkC/t2sUq9zCrt44U46GL1XHsBhnyaYOdfrkDqFTLI
+         nhp2pI3Cu65oIVbWa+XMaK7w+r8/J0p9PVXoZf17WWiJcSos1gFtH4x12vrP0IvQdZoJ
+         AA9A==
+X-Gm-Message-State: AOJu0YwdbqJzLX+CufgpUL56bTV9aXZEw3Pa048QGaNmYudwBa/8EMJc
+	ki/i03pysAsXMouKR5pfYEBvSw==
+X-Google-Smtp-Source: AGHT+IE21IJuS8tBsselAAGayu4ujjz1P+t5qXxU0Ss8ACQiY5yyBYE/DI31YW+Ox7NMislqtWHqQA==
+X-Received: by 2002:adf:a355:0:b0:333:2fd2:7665 with SMTP id d21-20020adfa355000000b003332fd27665mr518094wrb.86.1701926898494;
+        Wed, 06 Dec 2023 21:28:18 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id i15-20020adfe48f000000b0033344e2522dsm453279wrm.37.2023.12.06.21.28.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Dec 2023 21:28:18 -0800 (PST)
+Date: Thu, 7 Dec 2023 08:28:15 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Jeff LaBundy <jeff@labundy.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	catalin.popescu@leica-geosystems.com,
+	mark.satterthwaite@touchnetix.com, bartp@baasheep.co.uk,
+	hannah.rossiter@touchnetix.com,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	bsp-development.geo@leica-geosystems.com,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>
+Subject: Re: [PATCH v4 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
+Message-ID: <6f8e3b64-5b21-4a50-8680-063ef7a93bdb@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231108121940.288005-1-kai.heng.feng@canonical.com> <cc6c162407c69c53ec256bf887a0384361dd0516.camel@linux.intel.com>
-In-Reply-To: <cc6c162407c69c53ec256bf887a0384361dd0516.camel@linux.intel.com>
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Date: Thu, 7 Dec 2023 10:44:47 +0800
-Message-ID: <CAAd53p7do2rrB=qbpWKbNCWB_qfZ2YZPtB_55VcfGjDYXgLfzA@mail.gmail.com>
-Subject: Re: [PATCH v2] HID: intel-ish-hid: ipc: Rework EHL OOB wakeup
-To: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: jikos@kernel.org, benjamin.tissoires@redhat.com, linux-pm@vger.kernel.org, 
-	linux-pci@vger.kernel.org, Jian Hui Lee <jianhui.lee@canonical.com>, 
-	Even Xu <even.xu@intel.com>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231204140505.2838916-4-kamel.bouhara@bootlin.com>
 
-On Tue, Dec 5, 2023 at 1:50=E2=80=AFAM srinivas pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
->
-> Hi Kai,
->
-> Sorry for he delay in getting back on this. I have a question below:
->
-> On Wed, 2023-11-08 at 14:19 +0200, Kai-Heng Feng wrote:
-> > Since PCI core and ACPI core already handles PCI PME wake and GPE
-> > wake
-> > when the device has wakeup capability, use device_init_wakeup() to
-> > let
-> > them do the wakeup setting work.
-> >
-> > Also add a shutdown callback which uses pci_prepare_to_sleep() to let
-> > PCI and ACPI set OOB wakeup for S5.
-> >
-> > Cc: Jian Hui Lee <jianhui.lee@canonical.com>
-> > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> > ---
-> > v2:
-> >  Rebase on ("HID: intel-ish-hid: ipc: Disable and reenable ACPI GPE
-> > bit")
-> >
-> >  drivers/hid/intel-ish-hid/ipc/pci-ish.c | 67 ++++++-----------------
-> > --
-> >  1 file changed, 15 insertions(+), 52 deletions(-)
-> >
-> > diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> > b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> > index 710fda5f19e1..65e7eeb2fa64 100644
-> > --- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> > +++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> > @@ -119,50 +119,6 @@ static inline bool ish_should_leave_d0i3(struct
-> > pci_dev *pdev)
-> >         return !pm_resume_via_firmware() || pdev->device =3D=3D
-> > CHV_DEVICE_ID;
-> >  }
-> >
-> > -static int enable_gpe(struct device *dev)
-> > -{
-> > -#ifdef CONFIG_ACPI
-> > -       acpi_status acpi_sts;
-> > -       struct acpi_device *adev;
-> > -       struct acpi_device_wakeup *wakeup;
-> > -
-> > -       adev =3D ACPI_COMPANION(dev);
-> > -       if (!adev) {
-> > -               dev_err(dev, "get acpi handle failed\n");
-> > -               return -ENODEV;
-> > -       }
-> > -       wakeup =3D &adev->wakeup;
-> > -
-> > -       /*
-> > -        * Call acpi_disable_gpe(), so that reference count
-> > -        * gpe_event_info->runtime_count doesn't overflow.
-> > -        * When gpe_event_info->runtime_count =3D 0, the call
-> > -        * to acpi_disable_gpe() simply return.
-> > -        */
-> > -       acpi_disable_gpe(wakeup->gpe_device, wakeup->gpe_number);
-> > -
-> > -       acpi_sts =3D acpi_enable_gpe(wakeup->gpe_device, wakeup-
-> > >gpe_number);
-> > -       if (ACPI_FAILURE(acpi_sts)) {
-> > -               dev_err(dev, "enable ose_gpe failed\n");
-> > -               return -EIO;
-> > -       }
-> > -
-> > -       return 0;
-> > -#else
-> > -       return -ENODEV;
-> > -#endif
-> > -}
-> > -
-> > -static void enable_pme_wake(struct pci_dev *pdev)
-> > -{
-> > -       if ((pci_pme_capable(pdev, PCI_D0) ||
-> > -            pci_pme_capable(pdev, PCI_D3hot) ||
-> > -            pci_pme_capable(pdev, PCI_D3cold)) && !enable_gpe(&pdev-
-> > >dev)) {
-> > -               pci_pme_active(pdev, true);
-> > -               dev_dbg(&pdev->dev, "ish ipc driver pme wake
-> > enabled\n");
-> > -       }
-> > -}
-> > -
-> >  /**
-> >   * ish_probe() - PCI driver probe callback
-> >   * @pdev:      pci device
-> > @@ -233,7 +189,7 @@ static int ish_probe(struct pci_dev *pdev, const
-> > struct pci_device_id *ent)
-> >
-> >         /* Enable PME for EHL */
-> >         if (pdev->device =3D=3D EHL_Ax_DEVICE_ID)
-> > -               enable_pme_wake(pdev);
-> > +               device_init_wakeup(dev, true);
->
-> For apple to apple comparison, which path will call
-> https://elixir.bootlin.com/linux/latest/C/ident/__pci_enable_wake
-> which will call pci_pme_active()?
+Hi Kamel,
 
-Here's the flow:
-device_shutdown()
-  pci_device_shutdown()
-    ish_shutdown()
-      pci_prepare_to_sleep()
-        __pci_enable_wake()
-          pci_pme_active()
-            __pci_pme_active()
+kernel test robot noticed the following build warnings:
 
-Kai-Heng
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->
-> Thanks,
-> Srinivas
->
-> >
-> >         ret =3D ish_init(ishtp);
-> >         if (ret)
-> > @@ -256,6 +212,19 @@ static void ish_remove(struct pci_dev *pdev)
-> >         ish_device_disable(ishtp_dev);
-> >  }
-> >
-> > +
-> > +/**
-> > + * ish_shutdown() - PCI driver shutdown callback
-> > + * @pdev:      pci device
-> > + *
-> > + * This function sets up wakeup for S5
-> > + */
-> > +static void ish_shutdown(struct pci_dev *pdev)
-> > +{
-> > +       if (pdev->device =3D=3D EHL_Ax_DEVICE_ID)
-> > +               pci_prepare_to_sleep(pdev);
-> > +}
-> > +
-> >  static struct device __maybe_unused *ish_resume_device;
-> >
-> >  /* 50ms to get resume response */
-> > @@ -378,13 +347,6 @@ static int __maybe_unused ish_resume(struct
-> > device *device)
-> >         struct pci_dev *pdev =3D to_pci_dev(device);
-> >         struct ishtp_device *dev =3D pci_get_drvdata(pdev);
-> >
-> > -       /* add this to finish power flow for EHL */
-> > -       if (dev->pdev->device =3D=3D EHL_Ax_DEVICE_ID) {
-> > -               pci_set_power_state(pdev, PCI_D0);
-> > -               enable_pme_wake(pdev);
-> > -               dev_dbg(dev->devc, "set power state to D0 for
-> > ehl\n");
-> > -       }
-> > -
-> >         ish_resume_device =3D device;
-> >         dev->resume_flag =3D 1;
-> >
-> > @@ -400,6 +362,7 @@ static struct pci_driver ish_driver =3D {
-> >         .id_table =3D ish_pci_tbl,
-> >         .probe =3D ish_probe,
-> >         .remove =3D ish_remove,
-> > +       .shutdown =3D ish_shutdown,
-> >         .driver.pm =3D &ish_pm_ops,
-> >  };
-> >
->
+url:    https://github.com/intel-lab-lkp/linux/commits/Kamel-Bouhara/dt-bindings-vendor-prefixes-Add-TouchNetix-AS/20231204-222017
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20231204140505.2838916-4-kamel.bouhara%40bootlin.com
+patch subject: [PATCH v4 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
+config: i386-randconfig-r071-20231206 (https://download.01.org/0day-ci/archive/20231207/202312070608.vxtNAYhk-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231207/202312070608.vxtNAYhk-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202312070608.vxtNAYhk-lkp@intel.com/
+
+smatch warnings:
+drivers/input/touchscreen/touchnetix_axiom.c:565 axiom_i2c_probe() warn: passing zero to 'PTR_ERR'
+
+vim +/PTR_ERR +565 drivers/input/touchscreen/touchnetix_axiom.c
+
+a9f3450f06a026 Kamel Bouhara 2023-12-04  536  static int axiom_i2c_probe(struct i2c_client *client)
+a9f3450f06a026 Kamel Bouhara 2023-12-04  537  {
+a9f3450f06a026 Kamel Bouhara 2023-12-04  538  	struct device *dev = &client->dev;
+a9f3450f06a026 Kamel Bouhara 2023-12-04  539  	struct input_dev *input_dev;
+a9f3450f06a026 Kamel Bouhara 2023-12-04  540  	struct axiom_data *ts;
+a9f3450f06a026 Kamel Bouhara 2023-12-04  541  	u32 startup_delay_ms;
+a9f3450f06a026 Kamel Bouhara 2023-12-04  542  	u32 poll_interval;
+a9f3450f06a026 Kamel Bouhara 2023-12-04  543  	int target;
+a9f3450f06a026 Kamel Bouhara 2023-12-04  544  	int error;
+a9f3450f06a026 Kamel Bouhara 2023-12-04  545  
+a9f3450f06a026 Kamel Bouhara 2023-12-04  546  	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
+a9f3450f06a026 Kamel Bouhara 2023-12-04  547  	if (!ts)
+a9f3450f06a026 Kamel Bouhara 2023-12-04  548  		return -ENOMEM;
+a9f3450f06a026 Kamel Bouhara 2023-12-04  549  
+a9f3450f06a026 Kamel Bouhara 2023-12-04  550  	ts->client = client;
+a9f3450f06a026 Kamel Bouhara 2023-12-04  551  	i2c_set_clientdata(client, ts);
+a9f3450f06a026 Kamel Bouhara 2023-12-04  552  	ts->dev = dev;
+a9f3450f06a026 Kamel Bouhara 2023-12-04  553  
+a9f3450f06a026 Kamel Bouhara 2023-12-04  554  	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+a9f3450f06a026 Kamel Bouhara 2023-12-04  555  	if (IS_ERR(ts->reset_gpio))
+a9f3450f06a026 Kamel Bouhara 2023-12-04  556  		return dev_err_probe(dev, PTR_ERR(ts->reset_gpio), "failed to get reset GPIO\n");
+a9f3450f06a026 Kamel Bouhara 2023-12-04  557  
+a9f3450f06a026 Kamel Bouhara 2023-12-04  558  	if (ts->reset_gpio)
+a9f3450f06a026 Kamel Bouhara 2023-12-04  559  		axiom_reset(ts->reset_gpio);
+a9f3450f06a026 Kamel Bouhara 2023-12-04  560  
+a9f3450f06a026 Kamel Bouhara 2023-12-04  561  	ts->vddi = devm_regulator_get_optional(dev, "VDDI");
+a9f3450f06a026 Kamel Bouhara 2023-12-04  562  	if (!IS_ERR(ts->vddi)) {
+a9f3450f06a026 Kamel Bouhara 2023-12-04  563  		error = regulator_enable(ts->vddi);
+a9f3450f06a026 Kamel Bouhara 2023-12-04  564  		if (error)
+a9f3450f06a026 Kamel Bouhara 2023-12-04 @565  			return dev_err_probe(&client->dev, PTR_ERR(ts->vddi),
+                                                                                                   ^^^^^^^^^^^^^^^^^^
+s/PTR_ERR(ts->vddi)/error/
+
+a9f3450f06a026 Kamel Bouhara 2023-12-04  566  					     "Failed to enable VDDI regulator\n");
+a9f3450f06a026 Kamel Bouhara 2023-12-04  567  	}
+a9f3450f06a026 Kamel Bouhara 2023-12-04  568  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
 
