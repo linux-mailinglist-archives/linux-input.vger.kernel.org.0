@@ -1,78 +1,190 @@
-Return-Path: <linux-input+bounces-598-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-599-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E122F808B5B
-	for <lists+linux-input@lfdr.de>; Thu,  7 Dec 2023 16:04:43 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9A4808DB1
+	for <lists+linux-input@lfdr.de>; Thu,  7 Dec 2023 17:42:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1CB5E1C20B80
-	for <lists+linux-input@lfdr.de>; Thu,  7 Dec 2023 15:04:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D6E33281D55
+	for <lists+linux-input@lfdr.de>; Thu,  7 Dec 2023 16:42:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 545B144387;
-	Thu,  7 Dec 2023 15:04:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F72B46B95;
+	Thu,  7 Dec 2023 16:42:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="DbZpTd+R"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="tNXpzAqc"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46CCED5B
-	for <linux-input@vger.kernel.org>; Thu,  7 Dec 2023 07:04:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1701961476; x=1702220676;
-	bh=NYodcFpX/b1E1VWmahb0cxH1HMeWexFPLm+/MO5VZa0=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=DbZpTd+RCw007BN+kHHXkzxf1r7t3UmejqtgjZsqAFR6syJ5YlSWm1y+o5lM0FC7M
-	 /MpM8ne4aOhcZksrQjz3k801fEe7NjGlbkcIv225Qwxs+PD5PTPH4sLgtP9LhJQqgZ
-	 dz3pYMZoL5wIVfA175KG/ebiBkow+WA9w8dkaB5ZCJ9mnfpcrvEYY+v6woHeuWlCl3
-	 FuMOjhd4ynAn9CMIA2YbQG9Qx3BnmEwnjUzn95MFtTi6VOywOOkQR8T2DB0uMxLE+m
-	 a9fAl/xGO8IJnRPm2mZN1BcCSlaXt5KHYyKMtv5jMHh/JD2ku4z7Z35NZ45CEBUsW5
-	 zf7FNVnTbTYWQ==
-Date: Thu, 07 Dec 2023 15:04:19 +0000
-To: Jiri Kosina <jikos@kernel.org>, Linux regressions mailing list <regressions@lists.linux.dev>
-From: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Input Devices <linux-input@vger.kernel.org>, =?utf-8?Q?Filipe_La=C3=ADns?= <lains@riseup.net>, Bastien Nocera <hadess@hadess.net>, LinuxCat <masch77.linuxcat@gmail.com>, Marcelo <mmbossoni@gmail.com>, Takashi Iwai <tiwai@suse.de>, Hans de Goede <hdegoede@redhat.com>, Linus Torvalds <torvalds@linux-foundation.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: Fwd: Logitech G915 Wireless Keyboard acts weird on 6.6.0
-Message-ID: <1358c8e3-8495-461c-a8d8-a551cc4a0d11@protonmail.com>
-In-Reply-To: <nycvar.YFH.7.76.2311211458030.29220@cbobk.fhfr.pm>
-References: <6929ebbf-f2e0-4cd4-addc-1e33ecf3277f@gmail.com> <ZVyr-of1X4RudpWG@archie.me> <0e10112a-7560-4dd8-8a03-5fdfc838168f@leemhuis.info> <nycvar.YFH.7.76.2311211458030.29220@cbobk.fhfr.pm>
-Feedback-ID: 20039310:user:proton
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2118.outbound.protection.outlook.com [40.107.113.118])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 602B610D1;
+	Thu,  7 Dec 2023 08:42:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=COrywJh3lNGURlLIgVkeyOAV+855Xmm0NN2OX5DJXULJZyPvzwM2kcQc9BaG2TmFOS1vPHe7HCKnzyei7/c2BBlmmSiudhJUdL7zUjxaIPc5hsZy0WPlkDk4KnC3P1tKuof+oVVONCUIt7Q44K093vlm1m5DUdAPQbnGTsyKBmnlL22WjAxQuhEU94O4P8GAfmHzfBT2FRF7MUzccral4OLzbWuu3e/ZUp2RmPF2pawb/hoioM8M+4g8/MShhlHeOlFsyERa/SQp1bm4qe2Ew+zx1RHdB1Dof+dPc1uTJXjUSqBiaZ8JZwejXi3bzfHIL0+0GVtjfuJeVfS8gnYQlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YC6Q6XcaUTkq/j8h/M2vTlTVBqjyO51+Z8lOLiKB1Zk=;
+ b=nYmTRVPz46bffKiKHBXpQr8F8tXnBt0XZ/7sPvAm4rMIE/fIzU5MQfTDKzfw7DmdAMrwEeymOQKX+9bTJ+s8dlBJOk9egI0k/DeddT+U6ig8DX0C7UYNeuvw/itklm0X/79wqqoKl6sTGE0Hya/J0LEcvzZ+SpJWTqFIg6+5/AXF4bMSi3iZQgoPhAKU9/UoxYowI5sxDDVhteFSCCt5ztv6BpTT0/VXhtMVol5iF8gxt7q1eLqU0gwl/PzpsOWrWWvb1Dvr3yqXlGM8qKou+c7xWsWhfjkTeiXABCgqKMVFCeHORj3X3pU2MpJ5GzArDDfl3FWDspRKTR9eaHF9Kw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YC6Q6XcaUTkq/j8h/M2vTlTVBqjyO51+Z8lOLiKB1Zk=;
+ b=tNXpzAqcNuOoG8mOtw0u9yjaRMTaAfFh20siBc6EDugzmd3IzghyhRbvlL42z7qzuGomwf4GXFoDI3OwiQHF6CU9u7LfOAIB40Rcw65qX7aUMyG/OgKbOoO3saDzy+FIbqnPXN6KPTsq5jBQ25jtzhOkCqdpnguOakoq50mIYAY=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by TYCPR01MB11939.jpnprd01.prod.outlook.com
+ (2603:1096:400:3e3::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34; Thu, 7 Dec
+ 2023 16:42:45 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::4af6:b31a:8826:51ac]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::4af6:b31a:8826:51ac%6]) with mapi id 15.20.7091.010; Thu, 7 Dec 2023
+ 16:42:45 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Dmitry Torokhov
+	<dmitry.torokhov@gmail.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+	<conor+dt@kernel.org>
+CC: Support Opensource <support.opensource@diasemi.com>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+	<biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v4 5/8] dt-bindings: input: Convert da906{1,2,3} onkey to
+ json-schema
+Thread-Topic: [PATCH v4 5/8] dt-bindings: input: Convert da906{1,2,3} onkey to
+ json-schema
+Thread-Index: AQHaKF0EkoKNlmsKwk+KaIIYLixCu7CdgF8AgACHZlA=
+Date: Thu, 7 Dec 2023 16:42:45 +0000
+Message-ID:
+ <TYCPR01MB11269D1B6D2183207BD84381A868BA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20231206155740.5278-1-biju.das.jz@bp.renesas.com>
+ <20231206155740.5278-6-biju.das.jz@bp.renesas.com>
+ <39094951-6ecb-4948-8be5-7ab13dd5269b@linaro.org>
+In-Reply-To: <39094951-6ecb-4948-8be5-7ab13dd5269b@linaro.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYCPR01MB11939:EE_
+x-ms-office365-filtering-correlation-id: cf782eae-e10e-4932-f61e-08dbf7438a34
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ eAb3N8exXGozHaGOUJKx61un1q6dURgVMvvDTDPILEMJEBLIq9hYxTpc8Rac0QPFN7g00Sa41TAtqvLjssxyby6FdC/R0f0MLpDooyrwRX8AJndbW+aUb8MshY2cZtEbCTs/K34EcXePrQgEF9Vi6i1WQDdrq9ULYCf3aKT8tzsQCIvK3ANtAc+C+PLRAFxE7tcaN+HrshC3tSdIY+iNk8psMx7UxJy2OnblWjkgBaD1bgxzlq6I0IM0lDptFHohR1b1kY3ETwkIDSqjZN/FShqQxKP4Pt9OVIV+SjqG7aKlk713EbRHaqW5tkeK88Y9BENZoONcGRuWs0cv2uYv4neHMjHnPxrxCzMeN+huRlmEySpzH+/ftdSLLtxNaaSdnE6jbVAirMNiRMsRECtGW8aOIDGmeiyNU7vNPyCWUYYpGs0CaORytFan8A/jTxv5sbqw/q098CBtEJnv6Z4c1kFrXHMXhGsLgpGlf/7VhXLTJkyQTHbKs9/nTH11O1j9jLjH9/4wsEHtxwYdwVTud3TqI+daDdL53XkoJt2Zc+VIp5fFmajAsKID7rvz3Mt9SFV9KKTa+XPs7h3jJSxD9+QGBu4VAFXIgMYmarPbXNffgmTgL+sP9EDEJyQt2KtZ
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(366004)(376002)(136003)(39860400002)(230922051799003)(186009)(1800799012)(64100799003)(451199024)(41300700001)(7416002)(38100700002)(5660300002)(86362001)(2906002)(33656002)(122000001)(6506007)(53546011)(71200400001)(26005)(7696005)(478600001)(8676002)(52536014)(66946007)(76116006)(4326008)(66556008)(66476007)(64756008)(9686003)(110136005)(54906003)(83380400001)(66446008)(316002)(8936002)(38070700009)(55016003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?tyae5uT4AC0eyiQAPWRlvdN6s7+GkOfTzu5H2fkFCxVZUY9MuYnh+fnGPRg/?=
+ =?us-ascii?Q?1keo3XE6FKmb6TuaTm4qY3M/p4zQGaDY8dGubnL0zLX7QvvkWC9aMwqdO5KA?=
+ =?us-ascii?Q?pXyyVvXB5NGMCz0IGvNh7x9jmoUVDMwD9jF41oRs3PlfYjReiVjOKl2k7mSk?=
+ =?us-ascii?Q?iR2xn7ZdWT0TPljbT5P8kdmKgqJJhSj5Lzy0UMJMFl2L+XO4+ah5aZVw8wWj?=
+ =?us-ascii?Q?1XnMFBIYDoWKgA60S/G2FCDdZd130moqJTW+6vQ8iH7k0OimBcaeDPazKDwa?=
+ =?us-ascii?Q?kBK6Pp8UZFhDLalJ96ZXdCu3J5PwqD1uudNlmeyWYVBUM8MuHcSmvnqUQ116?=
+ =?us-ascii?Q?PMD1C0Ms6ueB77dajv9s39bW/8KjUY2JQerJujld/nAo4+ML0FnuIZaPlxkR?=
+ =?us-ascii?Q?oOoLzc1ctBVreIEAb6AP94Fpoue3tJWhShk8HDZ+vrlEXvZyx0LpvNdiWjec?=
+ =?us-ascii?Q?LrlLeSZS98Cu+ne3UTJWTkJSblbda09l6esi5e5YlbdOx1DZ9NMZyEeKpuaD?=
+ =?us-ascii?Q?zOdNWiw0QVo9ZQZWXYFnf/bHmwVz3IY61JUy5r5w4MvO6dP+XjCg5pG9YW+3?=
+ =?us-ascii?Q?MOPKjlzfD0PjMpYL46mIQjgzmi/YIIam6J6ouFI7pdFn2QPk7kQFyUOJ+jqU?=
+ =?us-ascii?Q?/52SkFbgCOm0FKdSyg6ckNoHPc9mfvGTAnc4NohelyioldZpBtgUWEoJPLzG?=
+ =?us-ascii?Q?3QkJnMkqOqXcw9T2sZlB7glhD0hrLYIeKyI9XxwwTJLGHaSpAXkXakh5ipHS?=
+ =?us-ascii?Q?LTJ0FuvKLpJUq5YGH19PsmVjscPI2qHM6qqGXjr2Bbx1wIaiI8iJC6I4R5dw?=
+ =?us-ascii?Q?En23kmSNDLZdo8iHfk6a9UQtsRCOCUHItWWLfcI7SlPaSge1Tve0q8SV5FDV?=
+ =?us-ascii?Q?2oOaB0rd+L97oX9ix49eKyACWMnce24EC2hA/VQBiM+CmtXxV+FvvKA8BNvo?=
+ =?us-ascii?Q?jVFKvNMnbLSau4uwSlxzUJ2c3YEhIVX7QfHfKII0FdLDXD6GJ+KP0fuM9F8Z?=
+ =?us-ascii?Q?GK74/UolWiN/ETYUB1scVijE+8wSKFHACYqcd3X0GN1dbYzifBs6mXWMCbfF?=
+ =?us-ascii?Q?lP8KAd/lz5bFW9dOHr3SZqF8F4NI1BL/cOTqnHjNuYIK7aYgqbzEaRZKb0vD?=
+ =?us-ascii?Q?GyJ4P6XgtcojVhoEaJdO1HyHg7283JtlFqJnF3VRxsjFy6DHkr/tVMDpG602?=
+ =?us-ascii?Q?n4If2SJzgO8zW8jlnKxvIVNVTntliCAobqKzsB7YUrpS9z3w1sHuxNOPJEuT?=
+ =?us-ascii?Q?jawZ6aHRot8SDytJCLbqesjfpoULj/tpLBio/doWAO4FCKH5nQ4goRlwcEoZ?=
+ =?us-ascii?Q?jGbMmpE649/+2+LTWhns2lVaYj9rmXUrpX5OGV6eZGVQMnS88yuIMCc4lAVC?=
+ =?us-ascii?Q?8N1MAWyVJxRMpbg26eyVR/z4af6YEXbPf3Xo7fB/s3VA8l1JgjVj4eo50OA6?=
+ =?us-ascii?Q?2cC2kquVJIp8dGEn9T92jph0GLm3kyAnb9e51hpdQHg9yCO5ZuQYMsndnBPt?=
+ =?us-ascii?Q?55KTcxJ39Sl8L0RJBA5/048PMJBkZjS+qmbeNH610Nc2VcNUlXPuMHoaqCr+?=
+ =?us-ascii?Q?cpvqs+EKeqw6mNoT3d1xdyx08nffWt40N+QLb4KvQewbALB/LQwmOIQQTZK8?=
+ =?us-ascii?Q?1Q=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf782eae-e10e-4932-f61e-08dbf7438a34
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Dec 2023 16:42:45.6551
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: i6quPAXmlOJWSknKWovwTXtA27asHmVIi+8ybZ8xN3BBRtWqrxAb9IcjE2QhqPvwLv0BS9tkVkTWwALIefafh8noOwkybgEHBCHSiGI6FrM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB11939
 
-On 2023-11-21 16:00, Jiri Kosina wrote:> A comment from Mavroudis just=20
-appeared in
+Hi Krzysztof Kozlowski,
+
+> -----Original Message-----
+> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Sent: Thursday, December 7, 2023 8:37 AM
+> Subject: Re: [PATCH v4 5/8] dt-bindings: input: Convert da906{1,2,3} onke=
+y
+> to json-schema
 >=20
-> =09https://bugzilla.kernel.org/show_bug.cgi?id=3D218172
+> On 06/12/2023 16:57, Biju Das wrote:
+> > Convert the da906{1,2,3} onkey device tree binding documentation to
+> > json-schema.
+> >
+> > Update MAINTAINERS entries, description and onkey property by
+> > referring to dlg,da9062-onkey binding file.
+> >
 >=20
-> pointing out that indeed the report descriptor of the device he is workin=
-g
-> on is different than the ones from the reporter.
+> ...
 >=20
-> Until this mess gets figured out, I am now pretty sure revert is the way
-> to go for 6.7.
+> > +---
+> > +$id:
+> > +
+> > +title: Dialog DA9061/62/63 OnKey Module
+> > +
+> > +maintainers:
+> > +  - Biju Das <biju.das.jz@bp.renesas.com>
+> > +
+> > +description: |
+> > +  This module is part of the DA9061/DA9062/DA9063. For more details
+> > +about entire
+> > +  DA9062 and DA9061 chips see
+> > +Documentation/devicetree/bindings/mfd/da9062.txt
+> > +  For DA9063 see
+> > +Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
+> > +
+> > +  This module provides the KEY_POWER event.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
 >=20
-> --
-> Jiri Kosina
-> SUSE Labs
+> Drop items
+
+Agreed.
+
+Cheers,
+Biju
+
 >=20
-
-Greetings everyone,
-
-I have recently made a new patch [0] aimed at addressing the issues that=20
-have been identified.
-
-I would appreciate it if you could test it and provide any feedback on it.
-
-
-[0] https://bugzilla.kernel.org/show_bug.cgi?id=3D218172#c14
+>=20
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> Best
+> regards, Krzysztof
 
 
