@@ -1,212 +1,102 @@
-Return-Path: <linux-input+bounces-628-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-629-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7ECA80AC1C
-	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 19:34:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E87C80AD17
+	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 20:32:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 05E2A1C20B66
-	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 18:34:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E0D61C20B01
+	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 19:32:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A8A433090;
-	Fri,  8 Dec 2023 18:34:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 554174CB48;
+	Fri,  8 Dec 2023 19:32:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E3oiQdo3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GD8LY9PW"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3F4112E;
-	Fri,  8 Dec 2023 10:34:48 -0800 (PST)
-Received: by mail-ot1-x336.google.com with SMTP id 46e09a7af769-6d84ddd642fso1473169a34.0;
-        Fri, 08 Dec 2023 10:34:48 -0800 (PST)
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6C1E1706
+	for <linux-input@vger.kernel.org>; Fri,  8 Dec 2023 11:32:19 -0800 (PST)
+Received: by mail-oo1-xc33.google.com with SMTP id 006d021491bc7-5906c569a1fso997744eaf.1
+        for <linux-input@vger.kernel.org>; Fri, 08 Dec 2023 11:32:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702060488; x=1702665288; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=W/80bz9Uv86Lw/jPf2dcBPDXTUKYtcqEXNMQKWUmzLY=;
-        b=E3oiQdo36WCtXuHnbx7gUGTSRnTr8I1jPea/QhGkUtp0t/us0/5hj2YF4ikLNPyzC+
-         v9dKJsDNvl2J5kDwzZnfpDu1mO3EGaYM5lvJaB2G0wvJJUX6CMVdQR7Cj3DDDF9uWSVa
-         HPDNL//qTCriXXH81VWs0dqMyqFhFoeDBEOO9EVeXXpOOiH0eidPQabzf3JPQS5eYMoH
-         DtWK7WQqLTQ3yWLHc3nYiHRlzsZcPRFJjTAYo6nuNmy2+mKGZNULWHVV82zwoFBdJ9Rz
-         PkuXM3aXB6TIAmeg+E6MX1UjYslS06zXkUjqRCecKbzPAFHrPZzkZ2WzWeZ4BVqgC1fh
-         qA8w==
+        d=gmail.com; s=20230601; t=1702063939; x=1702668739; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=o7D4Z/EyGfTuWtFWgsc7kQYg1GqzlSr92oTa3CH9igs=;
+        b=GD8LY9PWBMn5vjyl7FxBJ/lhqqDSP+ETbi/2dx0KnvztktvvxXCglQQLtZm53QeJ+x
+         oOd1GuVkMoMkMviZDottu3RY7zm9bX2ntmQEkj250+7SuCKyek3tlj6aHbFgLlrcSfQV
+         nK9MBvF0XpMtUSY7GlyT9x+wcwxbPv0Z21Nm/Po/PQwMWRSENXUxSLlLnNUCGShDj97p
+         sm6AqRwWl+ON9U5WnXGU4tIF3YF/OGuQ3LSP9Pqa0yrzZI5WH/QqwmRilb7u2RVIKN4T
+         4tJUBRy+A/u1HodQ/AF0FLgEuwgbVjl6hJiOEVSQd+jPmGjT7Ls/1cdATv5s2fJOFpMh
+         jaxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702060488; x=1702665288;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W/80bz9Uv86Lw/jPf2dcBPDXTUKYtcqEXNMQKWUmzLY=;
-        b=fcWZqYaJZ14o+Zi4+TmsL9dZxRAGW2eMo6EgTZIBepsP/2j97Y7vqV/a3YvGEcIZR3
-         BYNs+FKQg5JM3z4RnRKByYNcqaqYbxFJiB2oq/QZQNjMIKnEOmOidNhz/7Qzdb1WFXzj
-         JNLk+M6un7QVmz6T24TZ4HazMOJva2X3gYPb5UiCgd3BsYGjeaVBJSgI9g6LKu7S3Eiz
-         G8Kun1vsvDwQ75dcJTMFqGLKopz2YsQr0swUhwN7U79jsY+LewtxiW4Mh55JntEN6cLC
-         V7ViKV0M8fYAK/siKr9Mvtc8b+CMJSdfwo1nGwKgTscR2yF31T7f296QlrQcEiDmPycY
-         0q/g==
-X-Gm-Message-State: AOJu0Yx4QcnOZ9YucKuBSwk2g5/pxr1vX+OtWbNZoQStx4dwZsd2Xhoy
-	0AfYb3qx+ORgkocjK7LTdVw=
-X-Google-Smtp-Source: AGHT+IEXynjgWplklUBM1lD+jCE4/0VqbMYGUjXjam2ZAwGSWq3LYOJQHJ+e+0Jk3ag3voA6zgYxrw==
-X-Received: by 2002:a9d:4d83:0:b0:6d9:e48c:f08a with SMTP id u3-20020a9d4d83000000b006d9e48cf08amr493929otk.11.1702060487852;
-        Fri, 08 Dec 2023 10:34:47 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id c9-20020a056830000900b006d87b167c41sm385040otp.8.2023.12.08.10.34.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Dec 2023 10:34:47 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <4282d240-bf0c-4e4c-ac18-503067715ebf@roeck-us.net>
-Date: Fri, 8 Dec 2023 10:34:45 -0800
+        d=1e100.net; s=20230601; t=1702063939; x=1702668739;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o7D4Z/EyGfTuWtFWgsc7kQYg1GqzlSr92oTa3CH9igs=;
+        b=swq5nWKmPg6n4XJHNl5lui97zW0UPCJNMxrS2377cwKeREd1C4ngcxhECVmW0tqo9Z
+         GfPFq1KuvHWsMjo+3U+7Bi2UgyQlN3QwyXU45vfBx1O3S/hEcgPUoWmBRacZ/Gf4hWkx
+         oU+Jx4lF0BapHAPjZgNVYvw3F1689qfmGpr/ZuZOluNCBk8iaFqrgt0FCeUo29YrVHag
+         RxJXRjYSEy1mHLetHA4hsylE15kWx64HqsbUQqAuRdVZcgYiTtdvtRF3hEabfRzDdXQt
+         EjQgGW0fbrobBheXiZIGdy03Dj09vJDyxa2P0F8lOF7MMAK+HHyB7j8JdhpRuq5xwLIn
+         tv1w==
+X-Gm-Message-State: AOJu0YyLTZ2iT9qlbn1g5rr5H1ND5nICtR0wkUuCtXi6Hai8HvQHxzx6
+	1oS++05bcYaJsbNHZdL7UEWY8YRSnLKDLg==
+X-Google-Smtp-Source: AGHT+IGo2O5u4U3cGCk308tNd2Y/O+2nTBdKj6UL/avmCPGOfcN1Q4R0BXj8W709T/968a9RdUGeww==
+X-Received: by 2002:a05:6820:551:b0:590:8733:bbe2 with SMTP id n17-20020a056820055100b005908733bbe2mr439526ooj.6.1702063938807;
+        Fri, 08 Dec 2023 11:32:18 -0800 (PST)
+Received: from google.com ([187.144.5.80])
+        by smtp.gmail.com with ESMTPSA id g23-20020a4a2517000000b0058abaf23ff8sm409371ooa.3.2023.12.08.11.32.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Dec 2023 11:32:18 -0800 (PST)
+Date: Fri, 8 Dec 2023 19:32:16 +0000
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Vicki Pfau <vi@endrift.com>
+Cc: linux-input@vger.kernel.org
+Subject: Re: [PATCH 1/2] Input: uinput - Allow uinput_request_submit wait
+ interrupting
+Message-ID: <ZXNvQCFxPoH0-i-P@google.com>
+References: <20231207063406.556770-1-vi@endrift.com>
+ <20231207063406.556770-2-vi@endrift.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] hwmon: (corsair-psu) Fix failure to load when built-in to
- kernel
-Content-Language: en-US
-To: Aleksa Savic <savicaleksa83@gmail.com>,
- Wilken Gottwalt <wilken.gottwalt@posteo.net>
-Cc: linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>
-References: <20231208130710.191420-1-savicaleksa83@gmail.com>
- <d91d4bf1-3e8d-4b63-baa9-479a91d04eb7@gmail.com>
- <20231208145742.6def047a@posteo.net>
- <b2b3f17d-0f86-4d40-a471-f44153efd6fe@roeck-us.net>
- <fe16b501-759a-492b-9835-83ebf8761ae8@gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <fe16b501-759a-492b-9835-83ebf8761ae8@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231207063406.556770-2-vi@endrift.com>
 
-On 12/8/23 08:52, Aleksa Savic wrote:
-> On 2023-12-08 16:43:07 GMT+01:00, Guenter Roeck wrote:
->> On 12/8/23 05:57, Wilken Gottwalt wrote:
->>> On Fri, 8 Dec 2023 14:11:44 +0100
->>> Aleksa Savic <savicaleksa83@gmail.com> wrote:
->>>
->>>> On 2023-12-08 14:07:10 GMT+01:00, Aleksa Savic wrote:
->>>>> When built-in to the kernel, the corsair-psu driver fails to register with
->>>>> the following message:
->>>>>
->>>>> "Driver 'corsair-psu' was unable to register with bus_type 'hid'
->>>>> because the bus was not initialized."
->>>>>
->>>>> Fix this by initializing the driver after the HID bus using
->>>>> late_initcall(), as hwmon is built before HID.
->>>>>
->>>>> Fixes: d115b51e0e56 ("hwmon: add Corsair PSU HID controller driver")
->>>>> Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
->>>>> ---
->>>>>    drivers/hwmon/corsair-psu.c | 15 ++++++++++++++-
->>>>>    1 file changed, 14 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/hwmon/corsair-psu.c b/drivers/hwmon/corsair-psu.c
->>>>> index 904890598c11..48831a528965 100644
->>>>> --- a/drivers/hwmon/corsair-psu.c
->>>>> +++ b/drivers/hwmon/corsair-psu.c
->>>>> @@ -899,7 +899,20 @@ static struct hid_driver corsairpsu_driver = {
->>>>>        .reset_resume    = corsairpsu_resume,
->>>>>    #endif
->>>>>    };
->>>>> -module_hid_driver(corsairpsu_driver);
->>>>> +
->>>>> +static int __init corsairpsu_hid_init(void)
->>>>> +{
->>>>> +    return hid_register_driver(&corsairpsu_driver);
->>>>> +}
->>>>> +
->>>>> +static void __exit corsairpsu_hid_exit(void)
->>>>> +{
->>>>> +    hid_unregister_driver(&corsairpsu_driver);
->>>>> +}
->>>>> +
->>>>> +/* When compiled into the kernel, initialize after the hid bus */
->>>>> +late_initcall(corsairpsu_hid_init);
->>>>> +module_exit(corsairpsu_hid_exit);
->>>>>      MODULE_LICENSE("GPL");
->>>>>    MODULE_AUTHOR("Wilken Gottwalt <wilken.gottwalt@posteo.net>");
->>>>
->>>>
->>>> Woops! Just saw that the same fix was sent yesterday. Please disregard, sorry!
->>>>
->>>> Aleksa
->>>
->>> It is fine. I just start to wonder if there was a change in the subsystem. I
->>> used the driver as built-in in the past for several months and never had that
->>> issue. And now it is a real flood of reports.
->>>
->>
->> Maybe there was a change in the build order, or some subtle change
->> in driver registration code. Question though is _when_ this changed.
->> It would be great if someone could bisect it. For example, bus registration
->> code has been changed significantly in v6.3. I am copying linux-input
->> and the hid maintainers for feedback.
-> 
-> The late_initcall() was also needed in 2020. when corsair-cpro was added in
-> 40c3a4454225 ("hwmon: add Corsair Commander Pro driver").
-> 
-> There was also discussion on the list about it:
-> 
-> https://lore.kernel.org/all/3864498.z6qT3ff8q6@marius/
-> 
-> nzxt-smart2 (from the tail of 2021.) also has a comment about the message.
-> 
-> (Just providing references.)
-> 
+Hi Vicki,
 
-Ah yes, thanks for the reminder. We actually had a similar problem with
-watchdog drivers and worked around it by deferring watchdog driver registration
-until the watchdog core is initialized. That is of course just a kludge.
-No idea if a clean(er) solution is even possible.
+On Wed, Dec 06, 2023 at 10:34:05PM -0800, Vicki Pfau wrote:
+> Currently, uinput_request_submit will only fail if the request wait times out.
+> However, in other places this wait is interruptable, and in this specific
+> location it can lead to issues, such as causing system suspend to hang until
+> the request times out.
 
-Guenter
+Could you please explain how a sleeping process can cause suspend to
+hang?
 
+> Since the timeout is so long, this can cause the
+> appearance of a total system freeze. Making the wait interruptable resolves
+> this and possibly further issues.
+
+I think you are trying to find a justification too hard and it does not
+make sense, however I agree that allowing to kill the process issuing
+the request without waiting for the timeout to expire if the other side
+is stuck might be desirable.
+
+I think the best way to use wait_for_completion_killable_timeout()
+so that stray signals do not disturb userspace, but the processes can
+still be terminated.
+
+Thanks.
+
+-- 
+Dmitry
 
