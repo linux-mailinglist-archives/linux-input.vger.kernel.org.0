@@ -1,76 +1,68 @@
-Return-Path: <linux-input+bounces-619-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-620-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99EED80A68F
-	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 16:06:59 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D0E80A6EE
+	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 16:10:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA4A31C20D53
-	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 15:06:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2E827B20A58
+	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 15:10:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F95D208AB;
-	Fri,  8 Dec 2023 15:06:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fhnPXzOv"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87C5A225D0;
+	Fri,  8 Dec 2023 15:10:41 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7B02199B;
-	Fri,  8 Dec 2023 07:06:52 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-548f853fc9eso3007904a12.1;
-        Fri, 08 Dec 2023 07:06:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702048011; x=1702652811; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=V1/9BltMcK/T1WnIZlF2XMjFfUalFA2keeh04VI0Egk=;
-        b=fhnPXzOvG59tMyuIahr2kpoT926GU9WOEFey6gcKP7ymuZRapW0dYgyzNRNWBNSrd8
-         pJKcwi/JEsz+5GfMUy/RmVs5coBFpqTPt1Yz15sLMNIK/uPZY/8522zEHwX+HoMTjYf8
-         M6fXQjMc+Kh9jVY5zFchrSWrUxuR+jLN4ecuq2rqha/9Wly8QigGAgL4mUxJuZ7IQU4d
-         2Ik8L4J9EvjoPfKOhPHdUfaoE5P8nvCoMCK7JEleQP1uZMztF1JKqu81ejxVzaQWIKGl
-         7giXIpKRjQ5V0417kcSIeR9V4QR4uHFgy9t8Iq6Z4uiqUL9rZdiKs1LpUKNud8uHhp6r
-         Dk1g==
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF5851BFC;
+	Fri,  8 Dec 2023 07:10:17 -0800 (PST)
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3b9d2b8c3c6so1388694b6e.1;
+        Fri, 08 Dec 2023 07:10:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702048011; x=1702652811;
+        d=1e100.net; s=20230601; t=1702048217; x=1702653017;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=V1/9BltMcK/T1WnIZlF2XMjFfUalFA2keeh04VI0Egk=;
-        b=qAh5ZTzKaQgwJXNnCkN1ncfTAnWNP4l0Gb+Gt2oAjkts4usUyqiddmPpebUIxLYI4y
-         UWn+VxZZUhHyB9X+FNvt7jIiEkSVwwL/o9LCJhRGu16b/uoqgOKG9JUvDJO35kBXK+kn
-         0XI9k276R1Jg1LjnXAkShPwrDdFXWegG43UVuHPQJr2g61j5sAt6sXz3dho4pZ11ZceJ
-         +n5hfeig9swqeVozD5ruJhJAUcWjznLasANf9u7aoUqBBrWQZdx0NeU9eoo6tet4IPTY
-         jPOeoCJ65AP6cl3QVJqNbmT8Lmvi1/FtxTgjEwjkSM1uIUu6izb5y2y4zbxGcc4tBst9
-         Ga0g==
-X-Gm-Message-State: AOJu0YwdraJF4JvAt+ALaAS1qDVkAYysw5V5/g18mYDlF/Aewz6iy0Dc
-	XLEXL4kNQHWKavo+vqMEqXyowKfEUYkUYA==
-X-Google-Smtp-Source: AGHT+IGS9lboT4wrlJKPIq2Hm6L99GqDZgzqgrHzo+ijDjlH86ZVCasSlzK2nWDHcxc6Iz23891S1A==
-X-Received: by 2002:aa7:c504:0:b0:54c:4fec:fb with SMTP id o4-20020aa7c504000000b0054c4fec00fbmr69983edq.138.1702048010983;
-        Fri, 08 Dec 2023 07:06:50 -0800 (PST)
-Received: from eichest-laptop ([2a02:168:af72:0:905b:7c28:f9e2:a6aa])
-        by smtp.gmail.com with ESMTPSA id o12-20020a50c90c000000b0054da352618asm841707edh.94.2023.12.08.07.06.00
+        bh=xNnSwjzfk0DFwMUnASYe+Mep7H717D8Hg3L4xcCwxL4=;
+        b=l4SjBFP+Nj7oam8uEENpy0Nd4C03Vqhm9k5WFFCwmmgL+B9GkSLhs2wi1C55L2wgZk
+         QGTY6UpnuvrEZdjLrQRXDB+daGiOltaRTAhMLf2oJg08TJc9X2AVVAmVBjQzTBYyESTc
+         6uJGonMvLL4IpWuU93TL853ucTPNUprlsgCvcm1LcB+v7UW4tnuTeW5Q7AJ5a1KtUW74
+         ey+NZP9QXrEsq6zKgb95LCTDPT/AWgQQpC5EyfND6sLucUQ5zW99CcnS0nZVyp9HnMZn
+         lqIxxebEQG8E2ZQai1/RgTzQyL5nR0m0TBU3GmCNEenGQm+Ry0sFKn2yudyYQLZBMV3d
+         GlGg==
+X-Gm-Message-State: AOJu0Ywkh6tpjzseG8D7cMGi7V2Q0pDWwDSqiEPd+7cN5thYSeAnf4nE
+	nqV+k43BxMFj2O6lRDIsoQ==
+X-Google-Smtp-Source: AGHT+IEvVmbu2+Qv9wFJy8R9H8r5dTeownvX+CKH+WYzlbAzevvw6b0vu0w5WzVXyWLw9sofpqWUuA==
+X-Received: by 2002:a05:6808:d4d:b0:3b8:b063:8258 with SMTP id w13-20020a0568080d4d00b003b8b0638258mr172675oik.90.1702048217115;
+        Fri, 08 Dec 2023 07:10:17 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id 14-20020aca280e000000b003b8b3bdeb6bsm348309oix.30.2023.12.08.07.10.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Dec 2023 07:06:23 -0800 (PST)
-Date: Fri, 8 Dec 2023 16:05:50 +0100
-From: Stefan Eichenberger <eichest@gmail.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: nick@shmanahar.org, dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-	claudiu.beznea@tuxon.dev, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Stefan Eichenberger <stefan.eichenberger@toradex.com>
-Subject: Re: [PATCH v1 1/2] dt-bindings: input: atmel,maxtouch: add
- poweroff-in-suspend property
-Message-ID: <ZXMwzqF8tHZuWVBN@eichest-laptop>
-References: <20231207111300.80581-1-eichest@gmail.com>
- <20231207111300.80581-2-eichest@gmail.com>
- <CACRpkdbSs-vebvchxx-Tg+O5CUF5M3vZf-iytuW=ZECnHb2anA@mail.gmail.com>
- <ZXMV9gzFbc05IEKg@eichest-laptop>
- <CACRpkdao83-nALj2YOq-XHrOh6GEaxufN3Fn+3W52qkL2x+VUQ@mail.gmail.com>
+        Fri, 08 Dec 2023 07:10:16 -0800 (PST)
+Received: (nullmailer pid 1354509 invoked by uid 1000);
+	Fri, 08 Dec 2023 15:10:11 -0000
+Date: Fri, 8 Dec 2023 09:10:11 -0600
+From: Rob Herring <robh@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, Frank Rowand <frowand.list@gmail.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
+	Hsin-Yi Wang <hsinyi@chromium.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	andriy.shevchenko@linux.intel.com, Jiri Kosina <jikos@kernel.org>, 
+	linus.walleij@linaro.org, broonie@kernel.org, gregkh@linuxfoundation.org, 
+	hdegoede@redhat.com, james.clark@arm.com, james@equiv.tech, 
+	keescook@chromium.org, rafael@kernel.org, tglx@linutronix.de, 
+	Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org, linux-i2c@vger.kernel.org
+Subject: Re: [RFC PATCH v3 2/5] i2c: of: Introduce component probe function
+Message-ID: <20231208151011.GA1289359-robh@kernel.org>
+References: <20231128084236.157152-1-wenst@chromium.org>
+ <20231128084236.157152-3-wenst@chromium.org>
+ <CAD=FV=U_+iQJtV0Wii89DQT1V_fJCeS9wcqA8EJAs-hmmmLLLg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -80,89 +72,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdao83-nALj2YOq-XHrOh6GEaxufN3Fn+3W52qkL2x+VUQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=U_+iQJtV0Wii89DQT1V_fJCeS9wcqA8EJAs-hmmmLLLg@mail.gmail.com>
 
-Hi Linus,
-
-On Fri, Dec 08, 2023 at 03:23:54PM +0100, Linus Walleij wrote:
-> On Fri, Dec 8, 2023 at 2:11 PM Stefan Eichenberger <eichest@gmail.com> wrote:
+On Fri, Dec 01, 2023 at 04:57:46PM -0800, Doug Anderson wrote:
+> Hi,
 > 
-> > > I can't help but wonder: shouldn't that pretty much be the default behaviour
-> > > if wakeup-source is *not* specified?
-> > >
-> > > I.e. the property kind of describes !wakeup-source.
+> On Tue, Nov 28, 2023 at 12:45 AM Chen-Yu Tsai <wenst@chromium.org> wrote:
 > >
-> > The maxtouch controller has a deep sleep mode which is currently used
-> > without powering down vdd and vdda. However, because we have a shared
-> > regulator which powers other peripherals that we want to shut down in
-> > suspend we need a way to power down vdd and vdda. However, I agree this
-> > is not really a feature of the device. The feature would basically be
-> > the internal deep sleep mode.
+> > @@ -217,4 +217,114 @@ static int of_i2c_notify(struct notifier_block *nb, unsigned long action,
+> >  struct notifier_block i2c_of_notifier = {
+> >         .notifier_call = of_i2c_notify,
+> >  };
+> > +
+> > +/*
+> > + * Some devices, such as Google Hana Chromebooks, are produced by multiple
+> > + * vendors each using their preferred components. Such components are all
+> > + * in the device tree. Instead of having all of them enabled and having each
+> > + * driver separately try and probe its device while fighting over shared
+> > + * resources, they can be marked as "fail-needs-probe" and have a prober
+> > + * figure out which one is actually used beforehand.
+> > + *
+> > + * This prober assumes such drop-in parts are on the same I2C bus, have
+> > + * non-conflicting addresses, and can be directly probed by seeing which
+> > + * address responds.
+> > + *
+> > + * TODO:
+> > + * - Support handling common regulators and GPIOs.
 > 
-> While it is of no concern to the device tree bindings, Linux regulators
-> are counting meaning that you need to make all peripherals disable
-> their regulators and it will come down.
+> IMO you should prototype how you're going to handle regulators and
+> GPIOs before finalizing the design. I was going to write that you
+> should just document that it was up to the caller to power things up
+> before calling this function, but then I realized that the caller
+> would have to duplicate much of this function in order to do so. In
+> the very least they'd have to find the nodes of the relevant devices
+> so that they could grab regulators and/or GPIOs. In order to avoid
+> this duplication, would the design need to change? Perhaps this would
+> be as simple as adding a callback function here that's called with all
+> of the nodes before probing? If that's right, it would be nice to have
+> that callback from the beginning so we don't need two variants of the
+> function...
+> 
+> > + * - Support I2C muxes
+> > + */
+> > +
+> > +/**
+> > + * i2c_of_probe_component() - probe for devices of "type" on the same i2c bus
+> > + * @dev: &struct device of the caller, only used for dev_* printk messages
+> > + * @type: a string to match the device node name prefix to probe for
+> > + *
+> > + * Probe for possible I2C components of the same "type" on the same I2C bus
+> > + * that have their status marked as "fail".
+> 
+> Should document these current limitations with the code:
+> 
+> * Assumes that across the entire device tree the only instances of
+> nodes named "type" are ones we're trying to handle second sourcing
+> for. In other words if we're searching for "touchscreen" then all
+> nodes named "touchscreen" are ones that need to be probed.
 
-Yes we are working on that one. This is the last driver we need to allow
-disabling the regulator, afterward it should hoepfully work on our
-target system.
+named "type" and marked as needs probe.
 
 > 
-> > I didn't want to change the default
-> > behaviour of the driver, so I added this property but maybe I could
-> > change it to:
-> >
-> > atmel,deep-sleep:
-> >   description: |
-> >      Use the maxtouch deep-sleep mode instead of powering down vdd and
-> >      vdda.
-> >
-> > Or to not change the default behaviour:
-> > atmel,no-deep-sleep:
-> >   description: |
-> >      Do not use the maxtouch deep-sleep mode but power down vdd and vdda
-> >      in suspend.
-> >
-> > As I understand the datasheet even if the maxtouch is using its deep
-> > sleep mode it does not act as a wakeup source.
-> 
-> Do you mean it can still work as a wakeup source in deep sleep mode?
-> (there is a "not" too much above ...)
+> * Assumes that there is exactly one group of each "type". In other
+> words, if we're searching for "touchscreen" then exactly one
+> touchscreen will be enabled across the whole tree.
 
-Sorry for the confusion. As it is configured now, it can not work as
-wakeup source in deep sleep mode. Touch is completely disabled.
+Does that need to be a limitation? If you just keep going thru all 
+devices, wouldn't that just work?
 
-> > It is just faster in
-> > waking up because it can keep the configuration in memory.
-> 
-> That sounds like a good reason to have the property, because that
-> means that if you can control the wakeup latency and specify in the binding
-> how much in absolute time units it is affected.
-> 
-> I would define it in positive terms instead of reverse "no-deep-sleep"
-> though such as "atmel,fast-wakeup".
-> 
-> And: If you disable the regulators it will probably *not* be able to wake the
-> system up, right? And that is just a few lines of code in the driver such as:
-> 
-> go_to_sleep():
->   if (!wakeup_source):
->      disable_regulators()
-
-So to not change the default behaviour I would have to name it:
-atmel,slow-wakeup
-or maybe even full wakeup because it does a wakeup from the disabled
-state?
-atmel,full-wakeup
-
-Exactly, the added code looks more or less exactly as you wrote. And on
-resume it does the opposite + configure it:
-
-resume():
-  if (!wakeup_source):
-     enable_regulators()
-     configure_maxtouch()
-
-Regards,
-Stefan
+Rob
 
