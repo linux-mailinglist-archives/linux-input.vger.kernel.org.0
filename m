@@ -1,199 +1,161 @@
-Return-Path: <linux-input+bounces-604-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-605-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77FD809755
-	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 01:38:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8857980992B
+	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 03:27:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 23E0F1C20C0F
-	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 00:38:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 866691C20D2D
+	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 02:27:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BD81366;
-	Fri,  8 Dec 2023 00:38:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB3C41FB3;
+	Fri,  8 Dec 2023 02:27:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JM3La8We"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="VhFn13j3"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 139A6D5B
-	for <linux-input@vger.kernel.org>; Thu,  7 Dec 2023 16:38:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701995903; x=1733531903;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=G7bGzHjUVYwhx64MKWEGfxk1JCnjMsLXtoAFCpIeXuo=;
-  b=JM3La8Weivk5p+bLvUby8CUsQEHC1hbl87ORl9vX/+j00mvpgvTRNHSf
-   r6GgkK0br4GWf/vglOLyctLdiWSvR0Jq3NJuTk7SnwEnpybJmZz9BgLMX
-   gvGdMZLP/y1Aj9Sqz85txifTMSoSry7rrfuH2WfV4RASVI8jIbVZcBNCO
-   N/Zuvhv2ASk1FJYT3sTvfHEMQH888nsIYYHGrwLXCClXGdrFtSXSteZmG
-   JPucEcKptNlVp+qBd51dR7/wnl2MPWmNqV+Ef8bmB9bEuysEMRxOKO7DB
-   G2wucVSXm4c4+Zd+Nr0kIUhDfIKz7hEulsSV/1G2POKYNvajdV4+tA830
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="397121499"
-X-IronPort-AV: E=Sophos;i="6.04,259,1695711600"; 
-   d="scan'208";a="397121499"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 16:38:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="775630134"
-X-IronPort-AV: E=Sophos;i="6.04,259,1695711600"; 
-   d="scan'208";a="775630134"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmsmga007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 07 Dec 2023 16:38:21 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 7 Dec 2023 16:38:21 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 7 Dec 2023 16:38:21 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 7 Dec 2023 16:38:13 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=caIKKRYtqUYe9/1+bCMVzk16TnE1SlOjIwx7tEsFz3Mt09SL15q0nrPLA3DbissLGIGl42blRsRGKe0aGx5m876Ve92pfi/rJD+nrWYODEd9uN5Q7rCzzGlU283cEid1DyQlSqGeOSTzZg5oIy08p5C7RiSwIdJutrlldp5VnkhglN0I+J0PfDWku7B9ObsnLGOyIYnPf5VxZzfTZ9sLksQxTi/uSqvQGSeTS8AQHik1rzA1S3juK/mgXnpTkjREwGdwyzOSHb+D7euyejM1wXUJdA0aV9CtEzspddQOaWja39/91wmf63kh0fqOzAxoDazladoUyhWZ/zcMZ61awQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G7bGzHjUVYwhx64MKWEGfxk1JCnjMsLXtoAFCpIeXuo=;
- b=OLFd1+hEu8DsLU7d6fSlhyKWElCTsUcDYE9dD9itWqDPYprbVWU0ZTi0f6AJI82Ib8aJd9lFkXgO9pc0yADJfKMFWHIMTf8Ik2UFx4Q6wzLudJmzSE8QPasCXPGPoJgA3SACbUshB3B9NSjW3M9wjkVq+TWk+BKfq3kknjgBg3zlPJlchgowYsBqYwb6le1GGE93Nh+ouFEmOVzXDq+XhqDUTca9n7jrQVGl5aW7Sq5HuUdN/auin2itoPvv5Y2fb+l3qiWICFPazOaKIjq2wSPKw/jUDRjp6OXlFK9MNhqYsKMbPfUjxt1LIG6ksdA8F1Hwsk/8fBWFdigq216Z/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB2618.namprd11.prod.outlook.com (2603:10b6:5:c0::30) by
- PH8PR11MB6612.namprd11.prod.outlook.com (2603:10b6:510:1cf::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.22; Fri, 8 Dec
- 2023 00:38:11 +0000
-Received: from DM6PR11MB2618.namprd11.prod.outlook.com
- ([fe80::72c9:baf5:4298:34d9]) by DM6PR11MB2618.namprd11.prod.outlook.com
- ([fe80::72c9:baf5:4298:34d9%5]) with mapi id 15.20.7068.027; Fri, 8 Dec 2023
- 00:38:11 +0000
-From: "Xu, Even" <even.xu@intel.com>
-To: Jiri Kosina <jkosina@suse.com>, Tzung-Bi Shih <tzungbi@kernel.org>
-CC: "srinivas.pandruvada@linux.intel.com"
-	<srinivas.pandruvada@linux.intel.com>, "bleung@chromium.org"
-	<bleung@chromium.org>, "groeck@chromium.org" <groeck@chromium.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>
-Subject: RE: [PATCH 4/4] platform: chrome: cros_ec_ishtp: use helper functions
- for connection
-Thread-Topic: [PATCH 4/4] platform: chrome: cros_ec_ishtp: use helper
- functions for connection
-Thread-Index: AQHaJx2uw/KO/zzP6U+uHdhDNt8IrbCbm6AAgAB1rACAAn4CgA==
-Date: Fri, 8 Dec 2023 00:38:11 +0000
-Message-ID: <DM6PR11MB2618C7784CF94041F1EF0B00F48AA@DM6PR11MB2618.namprd11.prod.outlook.com>
-References: <1701741033-26222-1-git-send-email-even.xu@intel.com>
- <1701741033-26222-5-git-send-email-even.xu@intel.com>
- <ZW_rdCJ7EdtmJYFz@google.com>
- <nycvar.YFH.7.76.2312061133470.29220@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2312061133470.29220@cbobk.fhfr.pm>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR11MB2618:EE_|PH8PR11MB6612:EE_
-x-ms-office365-filtering-correlation-id: bc5e030d-e5e3-4855-2767-08dbf785f527
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: J3OZ8lr9JfFZaLx93U/jooTYAHW5EhG7cXfH7jA4Qh2U664gboKg/MT47AF/h8QwHomp9Sx/BLaN3CX9UAAPozDH06A7olrSPGDnQlXOz56XdqjMuNXIEvcJlsKb7566Eo0wMTrxYre0Vn/kzEuu28HPjgeAlZ7a3J/5sbHMjG6a6fa2+vfCIvYKTsEf9KaUey/WOoyxzc/y4CY4KN5Mge9bAGs80ZZ/FznPt6UZ/3DjnJ1CLtZAfrROKruqE3sVuiIQ7zUKojn3sMplk66X0NoBUTKKTmiJw6xONA5CyW3cCtndMg420sz5LMKpADlvqo8zxaXSLr7jqPZQabkBzfU5X/uQnwl2pybZ0S5L4LmOCSYh5jBD5MvKAWbfc6YCTQ+8mFuzbuVonz3Xi3UR4pyGFSqReZFErv6Hkk5Z5CMn198EPLUyROMvwG5o6EuPZvqS9Ae8PViAWMSpyOMSmAiJdpVWjNxSMtItyFj/IgiPY3z9GZloibUtEBk1DQ4VxPvqjn9qt6w5KU9oKVOEHD9nL7+B/sUNiiCJvYqMmfwhLn6hjXE+cKQ2rsa3/RsxawlOylpiF0PVBlEW0Yhl5YPAwYJrC/lk7JNuI6peqNsJu2PQabxnxID1Tz2pFIAD
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB2618.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39860400002)(366004)(136003)(346002)(396003)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(83380400001)(66946007)(76116006)(38070700009)(26005)(7696005)(52536014)(66556008)(5660300002)(66446008)(110136005)(53546011)(66476007)(54906003)(86362001)(4326008)(2906002)(8936002)(41300700001)(33656002)(316002)(6506007)(9686003)(71200400001)(478600001)(64756008)(8676002)(82960400001)(122000001)(38100700002)(55016003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ZFARH2KhrMN9Thx1ZNvKSbLsr70jurhMf2oXIFMwOImJc79s0t7rEysv9gAA?=
- =?us-ascii?Q?DJrjTLqAqb3M9CUusDvffHOdv1/UkWTKXnRmKUwUp7zE6nboQTu6NRbys/pt?=
- =?us-ascii?Q?QK4nWIR4xh8CPr15ucyY4VvtKcjmMibt2IfSqPbkC7uhf9eZqrSDRaU/utBS?=
- =?us-ascii?Q?OovqAKKhMkw91vK7XL+ngStE4EMlXlx1/xQg4ilv9LuX2kZcXjO0zBPBFzNG?=
- =?us-ascii?Q?FG+6MvkD5x93WAqRLMXen02A1IvQ8c6+NBPzeQTQsrpbgcT2YkM/Hu79iFo8?=
- =?us-ascii?Q?CLqyNiIk7SQdeLe2pI90phlTZCF/Tl1GDbRIPT0s/XtqfX1iMrWNlmSDFac6?=
- =?us-ascii?Q?CV8o0in9iRQ45WPtxFrn1N3qt/v4+rr+XN7mBNrHbSO6b3WfIqZuPDOabUgg?=
- =?us-ascii?Q?E6e6LIBd/c46XpMic5vuu1vALaR9W40TaJw62Rdj06AqTs0r225Y1NR9hNa8?=
- =?us-ascii?Q?lr259o4GDULwDE8A8+TqEWUI1uD1z4UYN0IS92T/6Y+NvtQC9X+RDo/uX1YD?=
- =?us-ascii?Q?gEb8FBbFu1+5yjrFbw/7PBxLLKbonHm/Sy2KqH+5yMAMV4XL2oqo2TOKz8YD?=
- =?us-ascii?Q?0P5u2766hroH+I1FwyYDFNWBh4ecqAu0+NrUcMTKAecQ8Mc4lFRzt94u6dwm?=
- =?us-ascii?Q?C4Ehn0DbdtSPWHqjzyvTxaZmFzmEYTB3JDUg+8vaxnQUqV8zP7GZZX00dOky?=
- =?us-ascii?Q?huYt+2kN6f8cv1lT9PWXss3qPg5rXQ9sYfDKFkaEwspsijdMi7H5WbrD1vxS?=
- =?us-ascii?Q?PONRhPczb/4ABqOOmlP3XXf01DX0qJJ5+Hxs867dOUEQmko2JuFMtSqGFLtY?=
- =?us-ascii?Q?Za0anpTf2XUPrE+nHH+6YrxMCCdIqopoXanZGwdMuX5JceQzw+R9ib8wPRuT?=
- =?us-ascii?Q?0iivYeGBOI3raYQ6HaObnoIh0T1LO/bZ0qoaOr9koZSngdr5ex3s3rnyi2JT?=
- =?us-ascii?Q?784KnJZGWOsrFlzqmFd4ADSUwZ6GFgPg3hQAw6mE/pQJ4kc1OzDYgT+ewqe9?=
- =?us-ascii?Q?HQZIeEKDcPRT3DEK6qGiwHEbuI2F1f1Rns/uCzsWXFmV/SgMN5U2ImH4C1+o?=
- =?us-ascii?Q?DpjtgaIessxwu1y9aQKhnZWeuA+U2ujN86NjHUFHLyyB8xO38ZeXzgXq8Vtb?=
- =?us-ascii?Q?2oL+Sqzd20VgKLl6DGUKzKKrmbFYa2isBqSeCO/E6iPmRPb1S8BQVhWcC6gk?=
- =?us-ascii?Q?nC0QtIpJ2Na2S6xQNuJXZWi98ZrZn0vDvoY5lAnF0TBEqcIy96Ta9HvgE7vF?=
- =?us-ascii?Q?u3Puv5qxAiP9EPHVJ6fla48hxUUuTkK1SYPvmR+e0DEyvUdMGTNyCcex6Wfd?=
- =?us-ascii?Q?iy+NmRQs2vVp9brQ+2HnDeg+XPuH8rxl7sjNanIfZC0Y32Egsb8u0EnfUtDw?=
- =?us-ascii?Q?q7bLkkdbmDwTOVRIzXTq46p0m5ala10wQHUG5AmVqIGWM9drC5pX7mRBW82M?=
- =?us-ascii?Q?c5SM7FlhqLtsNHI5Ta6ERhkD/K3ZbbGagOkryB3OPa2WHFCXfll9cRZT2oLN?=
- =?us-ascii?Q?pxpHfI0DoR8oKlI+2c9/fgKuTk3FtYh65eWf92jWEdrnPCXabv4zqUedclen?=
- =?us-ascii?Q?iVv9HzHkXyGgrkt0nJg=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9457A1708
+	for <linux-input@vger.kernel.org>; Thu,  7 Dec 2023 18:27:43 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1d048d38881so12430555ad.2
+        for <linux-input@vger.kernel.org>; Thu, 07 Dec 2023 18:27:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1702002463; x=1702607263; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bYKvR9biHT3dayV04op9dSPEQWRRtNPHfVpKUnfsyTI=;
+        b=VhFn13j3PqZWb5TLNVMvYBK+V5TLVyqMayuvjHvDyM27TAFpwf3ydIrUHG8tP0NGjg
+         sBuigy4LfAo0iq0+besGdnnVIxZJkyW91LPWvRPZvzaNM9//TSdHtI4sn5ht2kdYlsvl
+         f7RLVnWnv2hSjuKhUzZM5kpwoBEj+YjwPX4Nw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702002463; x=1702607263;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bYKvR9biHT3dayV04op9dSPEQWRRtNPHfVpKUnfsyTI=;
+        b=r2gGOC0gu6+LOAj1hizy8aNz8X9LB1vQx6qTDF8tsdEnaspU+c1y011+AAHZ1hrLUM
+         Tp3WYbSr3C/YHlePMhs2F9Nbxbzc+eyvaPGt4bkoNQisZbseqN7pDP7ZJc1MgkihmYIU
+         rIMgnXOjLnKSjTIZNZVBXPEXJR/zxlDkzOsNPM80r+Y3J+iADMjnGrS+LsFUlETRkoJp
+         Ib+8rtah6b/pbTcVUJ0IrVAilN/NMkGf5TsocZgraVfsi+2RuUiOBfSXS94ZrnX3eXtH
+         4GC/XhtfMA9OPRvtDB//PRR8PUfWCpYgKqNkWVA9j3d31/cCotPDxFbn4q63wEUOVKHC
+         oEmw==
+X-Gm-Message-State: AOJu0YwcbG+V/RWrQ2PAVObOUtyO+Ni3a5CWzmOYwFkYwn3pcRKhlUGU
+	WDHXjpAQ4aUdr/h5YB0Qpm0yGg==
+X-Google-Smtp-Source: AGHT+IE+YH6XCFuLw8IMGfclF6KPMZA8MDgow7b5AP5v+501j19hkR62ob7PHHZkLnrwYuYQEJvI6w==
+X-Received: by 2002:a17:903:230b:b0:1d0:6ffd:cea8 with SMTP id d11-20020a170903230b00b001d06ffdcea8mr3531967plh.97.1702002462996;
+        Thu, 07 Dec 2023 18:27:42 -0800 (PST)
+Received: from [192.168.0.212] ([50.47.85.47])
+        by smtp.gmail.com with ESMTPSA id a7-20020a170902b58700b001d0c41b1d03sm512054pls.32.2023.12.07.18.27.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Dec 2023 18:27:42 -0800 (PST)
+Message-ID: <64074f04-fd72-488b-831a-ad744bbcd950@broadcom.com>
+Date: Thu, 7 Dec 2023 18:27:39 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB2618.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc5e030d-e5e3-4855-2767-08dbf785f527
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Dec 2023 00:38:11.8230
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Zb0XcVjMzJEBrkncmBkP6XOhRVcDjaHGzYDhtxhJ3XtoDs92Tj7RJKiQP24h+P9StP0CLTEK5WaGgv+zF5hN+g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6612
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] x86/vmware: Add TDX hypercall support
+Content-Language: en-US
+To: Dave Hansen <dave.hansen@intel.com>, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux.dev, hpa@zytor.com, dave.hansen@linux.intel.co,
+ bp@alien8.d, mingo@redhat.com, tglx@linutronix.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, netdev@vger.kernel.org, richardcochran@gmail.com,
+ linux-input@vger.kernel.org, dmitry.torokhov@gmail.com, zackr@vmware.com,
+ linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
+ namit@vmware.com, timothym@vmware.com, akaher@vmware.com, jsipek@vmware.com,
+ dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
+ tzimmermann@suse.de, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ horms@kernel.org
+References: <ef8d3e17-7028-47fd-ad31-54dadbb6796d@broadcom.com>
+ <20231206071527.59171-1-alexey.makhalov@broadcom.com>
+ <53592a3a-3d96-4aa1-8357-ec595f59c5f3@intel.com>
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
+ 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 EuY0
+In-Reply-To: <53592a3a-3d96-4aa1-8357-ec595f59c5f3@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thanks Jiri!
 
-Best Regards,
-Even Xu
 
------Original Message-----
-From: Jiri Kosina <jkosina@suse.com>=20
-Sent: Wednesday, December 6, 2023 6:34 PM
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Xu, Even <even.xu@intel.com>; srinivas.pandruvada@linux.intel.com; bleu=
-ng@chromium.org; groeck@chromium.org; linux-input@vger.kernel.org; chrome-p=
-latform@lists.linux.dev
-Subject: Re: [PATCH 4/4] platform: chrome: cros_ec_ishtp: use helper functi=
-ons for connection
+On 12/7/23 9:12 AM, Dave Hansen wrote:
+> On 12/5/23 23:15, Alexey Makhalov wrote:
+>> +#ifdef CONFIG_INTEL_TDX_GUEST
+>> +/* Export tdx hypercall and allow it only for VMware guests. */
+>> +void vmware_tdx_hypercall_args(struct tdx_module_args *args)
+>> +{
+>> +	if (hypervisor_is_type(X86_HYPER_VMWARE))
+>> +		__tdx_hypercall(args);
+>> +}
+>> +EXPORT_SYMBOL_GPL(vmware_tdx_hypercall_args);
+>> +#endif
+> 
+> I think this is still too generic.  This still allows anything setting
+> X86_HYPER_VMWARE to make any TDX hypercall.
+> 
+> I'd *much* rather you export something like vmware_tdx_hypercall() or
+> even the high-level calls like hypervisor_ppn_reset_all().  The higher
+> level and more specialized the interface, the less likely it is to be
+> abused.
 
-On Wed, 6 Dec 2023, Tzung-Bi Shih wrote:
+Dave, I understood your point. Please take a look on the next version of 
+the patch.
 
-> On Tue, Dec 05, 2023 at 09:50:33AM +0800, Even Xu wrote:
-> > Use helper functions ishtp_cl_establish_connection() and
-> > ishtp_cl_destroy_connection() to establish and destroy connection=20
-> > respectively. These functions are used during initialization, reset=20
-> > and deinitialization flows.
-> >=20
-> > No functional changes are expected.
-> >=20
-> > Signed-off-by: Even Xu <even.xu@intel.com>
-> > Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
->=20
-> Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
+I export vmware_tdx_hypercall(), while vmware_tdx_hypercall_args() is a
+static inline wrapper on top.
+Most of the vmware hypercall logic plus sanity checks are now in 
+exported function. While only input and output argument handling remains 
+in the wrapper to allow compiler optimization for hypercalls with few 
+argument. Exporting vmware_tdx_hypercall1, vmware_tdx_hypercall3, and so 
+on is not an option either.
 
-Thanks.
-
-> One minor suggestion: we usually use "platform/chrome:" instead of
-> "platform: chrome:" for the title prefix.
-
-I have changed that, and am taking it together with the rest of the series =
-through hid.git#for-6.8/intel-ish.
-
---
-Jiri Kosina
-SUSE Labs
-
+Regards,
+--Alexey
 
