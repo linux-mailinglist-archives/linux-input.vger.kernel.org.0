@@ -1,234 +1,203 @@
-Return-Path: <linux-input+bounces-608-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-609-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BFDF809D9E
-	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 08:55:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91EBE809DCD
+	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 09:00:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BA7E31C20AB6
-	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 07:55:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D40F028160C
+	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 08:00:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2DD210964;
-	Fri,  8 Dec 2023 07:55:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB5E510946;
+	Fri,  8 Dec 2023 08:00:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gx8dOrbl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ug3adxAf"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEE81171D
-	for <linux-input@vger.kernel.org>; Thu,  7 Dec 2023 23:55:45 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-40c0fc1cf3dso18727445e9.0
-        for <linux-input@vger.kernel.org>; Thu, 07 Dec 2023 23:55:45 -0800 (PST)
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2E8C3854
+	for <linux-input@vger.kernel.org>; Thu,  7 Dec 2023 23:59:45 -0800 (PST)
+Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1d045097b4cso13841945ad.0
+        for <linux-input@vger.kernel.org>; Thu, 07 Dec 2023 23:59:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702022144; x=1702626944; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uHm62M5jwRi7iYi7IHAISb40o03/KQfYK7QFQL572kA=;
-        b=gx8dOrblD7VTDayrZPyl8kqge4JP9Uc0CcyrNLnriKaIqQVIqYhTool6xKxipnSMmB
-         ccJIi7+/8cP2i/0GhZz2vnUcI7drNdaI0o6YWLaUmYA60fkat31f0Wks/ZqpncHRm7It
-         3Avx9Uhos3/snUp8cxEf/rkeE9lE3LHrOxd6NKR709fJjlsgEfM5TtkoVLhAgcDc/i+q
-         tB4cTRFrg6eXXXxAb01Ay8mfuGnib75S4lzxWQ8vM6fjqxhRww3mRAfbOUPRV3CBf918
-         CZO543ka5IyUAq8/C5ou9szrMHP7KsQZL5EkFBLyjxlwRuPv31XG9ILF0W982UgRnW7/
-         8acA==
+        d=gmail.com; s=20230601; t=1702022385; x=1702627185; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=V5xqh18YaxLIRiRDwEYdV0oMi2TRc/nVV9ErNJB/2AY=;
+        b=Ug3adxAfry/dsDRedr5xsEn5obtaZ+YUJLKbwmCxfE7co1wgTGUPmL5yGxozcYLl7a
+         Z6cDka6bBUoRDThuEhuVhdJmKp+UjaGD+a79bu4MZ1RhyWH29rDQiRc6KnzpbFCWok99
+         lTI46uljezCaHkEiksluuG77LpZvuTqub+5UYrmsDUUZTYO7++Wno5nGSs+2NOVZbT2A
+         rWGpNwSTIIs6HI4cs70x00MOp02Emhj/hSIdGuGR2mn0YUfn8MfPf9Rt01+TSnmEWQnv
+         YfQTYMzRcNcXAiIO+6WysU62qoVeI5l3U27ei5avjY9eOprmRme1H6gq7svTFjerkGLL
+         h9Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702022144; x=1702626944;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uHm62M5jwRi7iYi7IHAISb40o03/KQfYK7QFQL572kA=;
-        b=Y1wdwCzk+03SLY8By5jh95j/4NTHFVtZFyvCGnz+gPyJaOowJPztSaBw56is4xXWYf
-         OkD3VjB9+g5T2c0TrI6Dj9NyjWbWkq9FRl1Xhu93v/DVugEXUYHwj5O6N+FxwXSkos79
-         IUrwWWVGwO6U3is/B5UPJdapxnieKN8W5e43jyY7FNvOR7FyYhdpZixbKsGND7milz0I
-         UOuM7VmbG4g44M7j9YPlbKl9SdYEAAUTHK9nFrZW/XLbyxuB99zal+u59nDHqg4SwzNS
-         hVmMkr/WyQtTD6m3N73uTna1U6LnPpTOL2KPLuFB8Vzm+jcRceU2swP77m4GZdDtrtY3
-         MWPQ==
-X-Gm-Message-State: AOJu0YwwvWJqQJfxETmOW1Hzh7Ctp84NPT19UpNytp9IylfZvT214Csr
-	rlgFl/6SaLwlVoQKGOWpKn+RZm2VOe9HIZaNK+k=
-X-Google-Smtp-Source: AGHT+IGifDXkEn0OeTASRJ3qAeneLdfWlqJjxkOxATBQnYLCawzcT498tM5YBxDS8Aomow8q1jOYdA==
-X-Received: by 2002:a05:600c:1e16:b0:40c:2082:a38f with SMTP id ay22-20020a05600c1e1600b0040c2082a38fmr2182773wmb.14.1702022144112;
-        Thu, 07 Dec 2023 23:55:44 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id az23-20020a05600c601700b0040c0902dc22sm2033038wmb.31.2023.12.07.23.55.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Dec 2023 23:55:43 -0800 (PST)
-Message-ID: <11ec89a8-5fdd-456c-b070-988bbf8f312d@linaro.org>
-Date: Fri, 8 Dec 2023 08:55:41 +0100
+        d=1e100.net; s=20230601; t=1702022385; x=1702627185;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=V5xqh18YaxLIRiRDwEYdV0oMi2TRc/nVV9ErNJB/2AY=;
+        b=pX2rbmVeoDfncc5awgx5v8bzQSdXJPvx6NGciZz5ut2Pp/s+Kgc5YqU8t8/sMtm/qe
+         kWzn5ceJ27TVQ3NYg7C5vjjYuaHEN7GAdch2k/jqwVt7ZtXG/Y7z3MP3HecHT6tLlb3O
+         D8nnSDmrjuwPcbYh92aPc8xVy/3nZ35gdLDqNmqppSgOYozMzEBL+d4aT1SzScmePTDu
+         UIT5pPp/3nwpSwWAUMZ0/hdEoas4K+ELZ6XQinMOSIshn86lQN3h0H35vWJgBdnnunzW
+         ixKAdi0C59RNvcZJ3KbK5xcxBFeNYMOFukN9AlBxMcBLhTpZDegxwdApsQ7EszSuU2mL
+         QBuA==
+X-Gm-Message-State: AOJu0Yyv+D+fteOs3fLU5ATyMdchZBeUrZw0JaT31HosN8Kimc2E4ulU
+	f8AKRtqv8AXBu6uxvmNLAFGIsF4WWT1Oc80c
+X-Google-Smtp-Source: AGHT+IFzYKWVDiK78ikuCWkqeT1RR5lvFFbPBZfBDlj/PqpjhklAngJFBEv/lLGrbwl37F7s+ZcTGA==
+X-Received: by 2002:a17:902:e80a:b0:1cf:fe32:632f with SMTP id u10-20020a170902e80a00b001cffe32632fmr3971736plg.22.1702022384957;
+        Thu, 07 Dec 2023 23:59:44 -0800 (PST)
+Received: from localhost.localdomain ([50.47.187.252])
+        by smtp.gmail.com with ESMTPSA id jg6-20020a17090326c600b001cc50146b43sm1047689plb.202.2023.12.07.23.59.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Dec 2023 23:59:44 -0800 (PST)
+From: Ryan McClelland <rymcclel@gmail.com>
+To: linux-input@vger.kernel.org
+Cc: djogorchock@gmail.com,
+	benjamin.tissoires@redhat.com,
+	jikos@kernel.org,
+	Ryan McClelland <rymcclel@gmail.com>
+Subject: [PATCH] HID: nintendo: use slots for led patterns
+Date: Thu,  7 Dec 2023 23:59:28 -0800
+Message-Id: <20231208075928.4293-1-rymcclel@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 8/8] dt-bindings: mfd: dlg,da9063: Convert da9062 to
- json-schema
-Content-Language: en-US
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Lee Jones <lee@kernel.org>
-Cc: Support Opensource <support.opensource@diasemi.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>,
- Steve Twiss <stwiss.opensource@diasemi.com>,
- "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "biju.das.au" <biju.das.au@gmail.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-References: <20231206155740.5278-1-biju.das.jz@bp.renesas.com>
- <20231206155740.5278-9-biju.das.jz@bp.renesas.com>
- <114c9baf-66d1-4055-a47c-916642b6dedd@linaro.org>
- <TYCPR01MB11269C774B8FFE9E43455EB61868BA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <TYCPR01MB11269C774B8FFE9E43455EB61868BA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 07/12/2023 18:03, Biju Das wrote:
+Previously, the leds pattern would just increment with every controller
+connected. This wouldn't take into consideration when controllers are
+disconnected. The same controller could be connected and disconnected
+with the pattern increasing player count each time.
 
-Trim the quote from irrelevant context, especially if your email client
-malforms replies... (because it does)
+This changes it so now a bitmask is used defining the free controller
+slots for each "player". When a controller is connected, it searches
+for the first bit in the bitmask that is available and acquires that
+"slot" for it's led pattern.
 
->>> @@ -35,6 +42,19 @@ properties:
->>>    "#interrupt-cells":
->>>      const: 2
->>>
->>> +  gpio:
->>
->> Old binding did not have such node and nothing in commit msg explained
->> changes from pure conversion.
-> 
-> OK will update the commit message. Check patch complained about undocumented compatible.
-> 
->>
->>> +    type: object
->>> +    $ref: /schemas/gpio/gpio.yaml#
->>
->> ?!? Why? First: It's always selected. Second, so you have two gpio
->> controllers? And original binding had 0? Why this is not explained at all?
->> Open the binding and look at its properties.
-> 
-> 
-> I have referred[1] and [2] to add gpio controller property. 
-> 
-> 
-> [1]
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/arch/arm/boot/dts/nxp/imx/imx6qdl-phytec-phycore-som.dtsi?h=next-20231207#n95
-> 
-> [2]
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/mfd/da9062.txt?h=next-20231207#n38
+When a controller is disconnected, it sets the position back to 'free'
+allowing for a new controller that is to be connected to obtain that
+slot.
 
-But does it make sense? Don't just blindly copy things, but actually
-investigate whether this is correct DTS.
+Signed-off-by: Ryan McClelland <rymcclel@gmail.com>
+---
+ drivers/hid/hid-nintendo.c | 45 ++++++++++++++++++++++++++++----------
+ 1 file changed, 33 insertions(+), 12 deletions(-)
 
-> 
->>
->>
->>> +    unevaluatedProperties: false
->>> +    properties:
->>> +      compatible:
->>> +        const: dlg,da9062-gpio
->>> +
->>> +  gpio-controller: true
->>
->> And here is the second gpio-controller...
-> 
-> So you mean it is redundant as $ref: /schemas/gpio/gpio.yaml
-> has already defined gpio-controller for this object??
-
-I meant this would mean you have two GPIO controllers. Why one device
-would have two GPIO controllers? Please answer to this in commit msg, so
-there will be no questions/concerns. You have entire commit msg to
-explain all weird and unexpected things with this binding.
-
-...
-
->>> +    #include <dt-bindings/interrupt-controller/irq.h>
->>> +    #include <dt-bindings/regulator/dlg,da9063-regulator.h>
->>> +    i2c {
->>> +      #address-cells = <1>;
->>> +      #size-cells = <0>;
->>> +      pmic@58 {
->>> +        compatible = "dlg,da9062";
->>> +        reg = <0x58>;
->>> +        #interrupt-cells = <2>;
->>> +        interrupt-parent = <&gpio1>;
->>> +        interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
->>> +        interrupt-controller;
->>> +
->>> +        gpio {
->>> +          compatible = "dlg,da9062-gpio";
->>> +          status = "disabled";
->>
->> Why?
-
-Why disabling? Drop all statuses from all your binding examples.
-
->> Where are gpio-controller and cells? For this node and for parent? Why
->> this example is incomplete?
-> 
-> I have used a real example [1] here.
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/arch/arm/boot/dts/nxp/imx/imx6qdl-phytec-phycore-som.dtsi?h=next-20231207#n95
-> 
-> Currently I don't see any driver is using this compatible other than MFD.
-
-Open the MFD so you will see it...
-
-
-Best regards,
-Krzysztof
+diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+index 138f154fecef..cfe43a6b5a46 100644
+--- a/drivers/hid/hid-nintendo.c
++++ b/drivers/hid/hid-nintendo.c
+@@ -410,7 +410,8 @@ static const char * const joycon_player_led_names[] = {
+ 	LED_FUNCTION_PLAYER4,
+ };
+ #define JC_NUM_LEDS		ARRAY_SIZE(joycon_player_led_names)
+-#define JC_NUM_LED_PATTERNS 8
++#define JC_NUM_LED_PATTERNS	9
++#define JC_LED_DEF_PATTERN	8
+ /* Taken from https://www.nintendo.com/my/support/qa/detail/33822 */
+ static const enum led_brightness joycon_player_led_patterns[JC_NUM_LED_PATTERNS][JC_NUM_LEDS] = {
+ 	{ 1, 0, 0, 0 },
+@@ -421,8 +422,13 @@ static const enum led_brightness joycon_player_led_patterns[JC_NUM_LED_PATTERNS]
+ 	{ 1, 0, 1, 0 },
+ 	{ 1, 0, 1, 1 },
+ 	{ 0, 1, 1, 0 },
++	{ 1, 1, 1, 1 }, /* >8 players */
+ };
+ 
++/* Used to set the number of leds on each controller */
++static DEFINE_SPINLOCK(joycon_input_bm_spinlock);
++static int jc_input_free_bm = GENMASK(7, 0);
++
+ /* Each physical controller is associated with a joycon_ctlr struct */
+ struct joycon_ctlr {
+ 	struct hid_device *hdev;
+@@ -491,6 +497,9 @@ struct joycon_ctlr {
+ 	unsigned int imu_delta_samples_count;
+ 	unsigned int imu_delta_samples_sum;
+ 	unsigned int imu_avg_delta_ms;
++
++	/* led */
++	int player_led_pattern;
+ };
+ 
+ /* Helper macros for checking controller type */
+@@ -1917,7 +1926,6 @@ static int joycon_home_led_brightness_set(struct led_classdev *led,
+ 	return ret;
+ }
+ 
+-static DEFINE_SPINLOCK(joycon_input_num_spinlock);
+ static int joycon_leds_create(struct joycon_ctlr *ctlr)
+ {
+ 	struct hid_device *hdev = ctlr->hdev;
+@@ -1929,17 +1937,24 @@ static int joycon_leds_create(struct joycon_ctlr *ctlr)
+ 	int ret;
+ 	int i;
+ 	unsigned long flags;
+-	int player_led_pattern;
+-	static int input_num;
+ 
+ 	/*
+-	 * Set the player leds based on controller number
+-	 * Because there is no standard concept of "player number", the pattern
+-	 * number will simply increase by 1 every time a controller is connected.
++	 * Set the player leds based on a free slot. If there
++	 * are more than 8 controllers. Then load the default
++	 * pattern.
+ 	 */
+-	spin_lock_irqsave(&joycon_input_num_spinlock, flags);
+-	player_led_pattern = input_num++ % JC_NUM_LED_PATTERNS;
+-	spin_unlock_irqrestore(&joycon_input_num_spinlock, flags);
++	spin_lock_irqsave(&joycon_input_bm_spinlock, flags);
++	if (!jc_input_free_bm) {
++		ctlr->player_led_pattern = JC_LED_DEF_PATTERN;
++	} else {
++		ctlr->player_led_pattern = ffs(jc_input_free_bm) - 1;
++		jc_input_free_bm &= ~(BIT(ctlr->player_led_pattern));
++	}
++	spin_unlock_irqrestore(&joycon_input_bm_spinlock, flags);
++	if (ctlr->player_led_pattern == JC_LED_DEF_PATTERN)
++		hid_info(ctlr->hdev, "more than 8 controllers connected, assigning default led pattern");
++	else
++		hid_info(ctlr->hdev, "assigned player %d led pattern", ctlr->player_led_pattern + 1);
+ 
+ 	/* configure the player LEDs */
+ 	for (i = 0; i < JC_NUM_LEDS; i++) {
+@@ -1952,13 +1967,13 @@ static int joycon_leds_create(struct joycon_ctlr *ctlr)
+ 
+ 		led = &ctlr->leds[i];
+ 		led->name = name;
+-		led->brightness = joycon_player_led_patterns[player_led_pattern][i];
++		led->brightness = joycon_player_led_patterns[ctlr->player_led_pattern][i];
+ 		led->max_brightness = 1;
+ 		led->brightness_set_blocking =
+ 					joycon_player_led_brightness_set;
+ 		led->flags = LED_CORE_SUSPENDRESUME | LED_HW_PLUGGABLE;
+ 
+-		led_val |= joycon_player_led_patterns[player_led_pattern][i] << i;
++		led_val |= joycon_player_led_patterns[ctlr->player_led_pattern][i] << i;
+ 	}
+ 	mutex_lock(&ctlr->output_mutex);
+ 	ret = joycon_set_player_leds(ctlr, 0, led_val);
+@@ -2409,6 +2424,12 @@ static void nintendo_hid_remove(struct hid_device *hdev)
+ 	ctlr->ctlr_state = JOYCON_CTLR_STATE_REMOVED;
+ 	spin_unlock_irqrestore(&ctlr->lock, flags);
+ 
++	/* Controller removed, so free the slot */
++	spin_lock_irqsave(&joycon_input_bm_spinlock, flags);
++	if (ctlr->player_led_pattern != JC_LED_DEF_PATTERN)
++		jc_input_free_bm |= BIT(ctlr->player_led_pattern);
++	spin_unlock_irqrestore(&joycon_input_bm_spinlock, flags);
++
+ 	destroy_workqueue(ctlr->rumble_queue);
+ 
+ 	hid_hw_close(hdev);
+-- 
+2.34.1
 
 
