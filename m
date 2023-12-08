@@ -1,109 +1,140 @@
-Return-Path: <linux-input+bounces-617-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-618-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45BF280A4CC
-	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 14:52:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F7580A55B
+	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 15:24:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 76EAC1C20B05
-	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 13:52:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4D9C61C20A29
+	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 14:24:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC47913FE7;
-	Fri,  8 Dec 2023 13:52:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 116C71DFD3;
+	Fri,  8 Dec 2023 14:24:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="nAP3teOR";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bZenc8Vk"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZpzaXwVF"
 X-Original-To: linux-input@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7E971BDD;
-	Fri,  8 Dec 2023 05:52:16 -0800 (PST)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1702043535;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cY9h0xpNYKD1GgCvWHIKW7HxGN+8BOpJODQvyF1W+hY=;
-	b=nAP3teORNrgb4+iSl0XCr7IocYbmCc58imHsXHX07xA1XqNYB1OArt5TfIIN+eQCWSq/Kb
-	iTEUt/DiAn1H5y55mvTdO00SjxWGlAMMnZAE4N0ufBmb6ot+zuABwf8/jkRcn9FAdAlFQ/
-	NNKr+yKwQUx18Aw46eCOoTcMyn0klacYLyofWGdsuHjANSlrQ+309UNijL4xxSUvJe1diP
-	8HXA1Q7wFbqMBuHRPhtS2/0W0R7DNn42JTZBGbATU5J+7U67V8u6yoxxtBRhBwZ9N7zp59
-	KQHn5NITOKge59tCgQ+tJ/P7J/2doZBojf6J22+42nlFx3W3L/lyC36sFLRN8w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1702043535;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cY9h0xpNYKD1GgCvWHIKW7HxGN+8BOpJODQvyF1W+hY=;
-	b=bZenc8VkW0nAI4Gc+s8z/wMG8In/d3PRW3XJxVEzw+mRzQfIGK54m30DndTSIRhg8XpKRI
-	ipsNWhATBUSfg8Cg==
-To: xiongxin <xiongxin@kylinos.cn>, jikos@kernel.org,
- benjamin.tissoires@redhat.com
-Cc: linux-input@vger.kernel.org, xiongxin <xiongxin@kylinos.cn>,
- stable@vger.kernel.org, Riwen Lu <luriwen@kylinos.cn>
-Subject: Re: [PATCH] irq: Resolve that mask_irq/unmask_irq may not be called
- in pairs
-In-Reply-To: <20231207014003.12919-1-xiongxin@kylinos.cn>
-References: <20231207014003.12919-1-xiongxin@kylinos.cn>
-Date: Fri, 08 Dec 2023 14:52:14 +0100
-Message-ID: <87ttosssxd.ffs@tglx>
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA6781738
+	for <linux-input@vger.kernel.org>; Fri,  8 Dec 2023 06:24:06 -0800 (PST)
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-5de93b677f4so6037717b3.2
+        for <linux-input@vger.kernel.org>; Fri, 08 Dec 2023 06:24:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702045446; x=1702650246; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2WcPHH8hCzuApfJI8+uPOYiQNMztI2zWo5AZvPnBwtk=;
+        b=ZpzaXwVFZEGdX3pPLDMlY7htBuW9a/14C7bGcOtm/1dLEYxVq9Iz8KFvfB3P4QF/c+
+         HptqCjyEh+O3zdsUhFGARTXYeI3T//N6at0jUNeCkGFLqeGMDWfe0y+o+xsgUPTGzWhe
+         klmEwlH31EsEasteE0EZaAhFmssKJNPc5Q8Iec5kto7W5vSoY7aCv/kZskR+epP4TXsc
+         a8Yroi8OWnOgz0Kg1gvisg0WDAxyEEGw3jKcdIWODQrFaNtqw+DWuLDaleC2TcQm8My7
+         +tw1AXpuQUVFcns0XiwD+fwEoCLNWRBBeQeZ8J4f606GEIDnshrvdP6S3CtWg+AUsuBI
+         i7ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702045446; x=1702650246;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2WcPHH8hCzuApfJI8+uPOYiQNMztI2zWo5AZvPnBwtk=;
+        b=edyrNvLGU4tLWnEaPknjWi4/h959MvHA0l5F5xBiGI4M8DNN5Rga6/atfw9A3RWQFG
+         GVzNLGGBhy0AouO7jz2JB8E1fRFfFONJcd1iep2m/4QboMH9uMmpwyxHRYE3AH7I1P36
+         o6pgsSA/nbybeEQ2IA6BrlYrBSWIICi1rhOfJxFrfscx49X8JzJM8wb2iaPSTSlkASwU
+         L6d6Hre0IAR9nB/otpEPWmaykwcILY6rLAfSuxFJ2C35hvSIFCV8/jtmvtfWMT/X5Kd0
+         YXK8M6YlJ6Btbej79ocqzHY6dT5MGHWbSRyf7hoAnZWpSy2GB1TxFCttxfOHvnEHf8v3
+         Twvw==
+X-Gm-Message-State: AOJu0YyS9J5hB/SZwg32Gozr6hAwSnIUZkCrD8J6eT8FyzWueWBHEDil
+	Yp/ub3gJO1UcT2+BMGV+1l6jKkbodNZ4bqu+LY7yDg==
+X-Google-Smtp-Source: AGHT+IGadGjgU7n/ytBaR8av490goiNnuPW2kEarmWtfhU396Hor6OBA7126/eHuod0bo/NL4glLCtjBv99/zsck2B0=
+X-Received: by 2002:a81:7286:0:b0:5d7:1940:7d90 with SMTP id
+ n128-20020a817286000000b005d719407d90mr2135ywc.103.1702045446059; Fri, 08 Dec
+ 2023 06:24:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20231207111300.80581-1-eichest@gmail.com> <20231207111300.80581-2-eichest@gmail.com>
+ <CACRpkdbSs-vebvchxx-Tg+O5CUF5M3vZf-iytuW=ZECnHb2anA@mail.gmail.com> <ZXMV9gzFbc05IEKg@eichest-laptop>
+In-Reply-To: <ZXMV9gzFbc05IEKg@eichest-laptop>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 8 Dec 2023 15:23:54 +0100
+Message-ID: <CACRpkdao83-nALj2YOq-XHrOh6GEaxufN3Fn+3W52qkL2x+VUQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] dt-bindings: input: atmel,maxtouch: add
+ poweroff-in-suspend property
+To: Stefan Eichenberger <eichest@gmail.com>
+Cc: nick@shmanahar.org, dmitry.torokhov@gmail.com, robh+dt@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
+	claudiu.beznea@tuxon.dev, linux-input@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, 
+	Stefan Eichenberger <stefan.eichenberger@toradex.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 07 2023 at 09:40, xiongxin@kylinos.cn wrote:
-> When an interrupt controller uses a function such as handle_level_irq()
-> as an interrupt handler and the controller implements the irq_disable()
-> callback, the following scenario will appear in the i2c-hid driver in
-> the sleep scenario:
+On Fri, Dec 8, 2023 at 2:11=E2=80=AFPM Stefan Eichenberger <eichest@gmail.c=
+om> wrote:
+
+> > I can't help but wonder: shouldn't that pretty much be the default beha=
+viour
+> > if wakeup-source is *not* specified?
+> >
+> > I.e. the property kind of describes !wakeup-source.
 >
-> in the sleep flow, while the user is still triggering the i2c-hid
-> interrupt, we get the following function call:
+> The maxtouch controller has a deep sleep mode which is currently used
+> without powering down vdd and vdda. However, because we have a shared
+> regulator which powers other peripherals that we want to shut down in
+> suspend we need a way to power down vdd and vdda. However, I agree this
+> is not really a feature of the device. The feature would basically be
+> the internal deep sleep mode.
+
+While it is of no concern to the device tree bindings, Linux regulators
+are counting meaning that you need to make all peripherals disable
+their regulators and it will come down.
+
+> I didn't want to change the default
+> behaviour of the driver, so I added this property but maybe I could
+> change it to:
 >
->   handle_level_irq()
->     -> mask_ack_irq()
->       -> mask_irq()
-> 				i2c_hid_core_suspend()
-> 				  -> disable_irq()
-> 				    -> __irq_disable()
-> 				      -> irq_state_set_disabled()
-> 				      -> irq_state_set_masked()
+> atmel,deep-sleep:
+>   description: |
+>      Use the maxtouch deep-sleep mode instead of powering down vdd and
+>      vdda.
 >
->   irq_thread_fn()
->     -> irq_finalize_oneshot()
->       -> if (!desc->threads_oneshot && !irqd_irq_disabled() &&
-> 	     irqd_irq_masked())
->       	 	unmask_threaded_irq()
-> 		  -> unmask_irq()
+> Or to not change the default behaviour:
+> atmel,no-deep-sleep:
+>   description: |
+>      Do not use the maxtouch deep-sleep mode but power down vdd and vdda
+>      in suspend.
 >
-> That is, when __irq_disable() is called between mask_irq() and
-> irq_finalize_oneshot(), the code in irq_finalize_oneshot() will cause
-> the !irqd_irq_disabled() fails to enter the unmask_irq() branch, which
-> causes mask_irq/unmask_irq to be called unpaired and the i2c-hid
-> interrupt to be masked.
->
-> Since mask_irq/unmask_irq and irq_disabled() belong to two different
-> hardware registers or policies, the !irqd_irq_disabled() assertion may
-> not be used to determine whether unmask_irq() needs to be called.
+> As I understand the datasheet even if the maxtouch is using its deep
+> sleep mode it does not act as a wakeup source.
 
-No. That's fundamentally wrong.
+Do you mean it can still work as a wakeup source in deep sleep mode?
+(there is a "not" too much above ...)
 
-Disabled interrupts are disabled and can only be reenabled by the
-corresponding enable call. The existing code is entirely correct.
+> It is just faster in
+> waking up because it can keep the configuration in memory.
 
-What you are trying to do is unmasking a disabled interrupt, which
-results in inconsistent state.
+That sounds like a good reason to have the property, because that
+means that if you can control the wakeup latency and specify in the binding
+how much in absolute time units it is affected.
 
-Which interrupt chip is involved here?
+I would define it in positive terms instead of reverse "no-deep-sleep"
+though such as "atmel,fast-wakeup".
 
-Thanks,
+And: If you disable the regulators it will probably *not* be able to wake t=
+he
+system up, right? And that is just a few lines of code in the driver such a=
+s:
 
-        tglx
+go_to_sleep():
+  if (!wakeup_source):
+     disable_regulators()
 
+Yours,
+Linus Walleij
 
