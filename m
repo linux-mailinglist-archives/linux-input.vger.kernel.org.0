@@ -1,203 +1,143 @@
-Return-Path: <linux-input+bounces-609-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-610-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91EBE809DCD
-	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 09:00:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C41EE80A0C5
+	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 11:27:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D40F028160C
-	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 08:00:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 00F921C20B19
+	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 10:27:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB5E510946;
-	Fri,  8 Dec 2023 08:00:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DCCC18656;
+	Fri,  8 Dec 2023 10:27:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ug3adxAf"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C9yq5xpB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2E8C3854
-	for <linux-input@vger.kernel.org>; Thu,  7 Dec 2023 23:59:45 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1d045097b4cso13841945ad.0
-        for <linux-input@vger.kernel.org>; Thu, 07 Dec 2023 23:59:45 -0800 (PST)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CF601FDE
+	for <linux-input@vger.kernel.org>; Fri,  8 Dec 2023 02:27:18 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-40c0fc1cf3dso19940155e9.0
+        for <linux-input@vger.kernel.org>; Fri, 08 Dec 2023 02:27:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702022385; x=1702627185; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=V5xqh18YaxLIRiRDwEYdV0oMi2TRc/nVV9ErNJB/2AY=;
-        b=Ug3adxAfry/dsDRedr5xsEn5obtaZ+YUJLKbwmCxfE7co1wgTGUPmL5yGxozcYLl7a
-         Z6cDka6bBUoRDThuEhuVhdJmKp+UjaGD+a79bu4MZ1RhyWH29rDQiRc6KnzpbFCWok99
-         lTI46uljezCaHkEiksluuG77LpZvuTqub+5UYrmsDUUZTYO7++Wno5nGSs+2NOVZbT2A
-         rWGpNwSTIIs6HI4cs70x00MOp02Emhj/hSIdGuGR2mn0YUfn8MfPf9Rt01+TSnmEWQnv
-         YfQTYMzRcNcXAiIO+6WysU62qoVeI5l3U27ei5avjY9eOprmRme1H6gq7svTFjerkGLL
-         h9Wg==
+        d=linaro.org; s=google; t=1702031237; x=1702636037; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cWhZUf+gPe/bSO5zGD/j3fVyXtRrqs3wk2HxPi4TO80=;
+        b=C9yq5xpBkHKn5vGPnix39zu+GIVyj/MyldTlafusV1TmQasyw0W0ylcUCXMr3cs0ox
+         6rHwU5VNcUxemKDtcagOqfZnXcRNAjJ7BTJ687KigQIR52PAUMo0tgk4rntzZweVcOEx
+         FYfNcbdghl/H4b4xWmN6MYl/Owg4MdZpDFj3/d1NYT61e99/g6oLCzuLbEuVJV/VLrLL
+         GJlCg+3b7wXp4UO/WvEbcxcSSrmQzM2lmx8qvBtZGrTcnyoObykHmUiLy0iG8431WZxO
+         nofb5glHyj4dzcy8G+NBbkdohNJLKgPVZVx0sL8sXWdfGA9jPSV3MU3YK+s2/zmydk76
+         xbUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702022385; x=1702627185;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=V5xqh18YaxLIRiRDwEYdV0oMi2TRc/nVV9ErNJB/2AY=;
-        b=pX2rbmVeoDfncc5awgx5v8bzQSdXJPvx6NGciZz5ut2Pp/s+Kgc5YqU8t8/sMtm/qe
-         kWzn5ceJ27TVQ3NYg7C5vjjYuaHEN7GAdch2k/jqwVt7ZtXG/Y7z3MP3HecHT6tLlb3O
-         D8nnSDmrjuwPcbYh92aPc8xVy/3nZ35gdLDqNmqppSgOYozMzEBL+d4aT1SzScmePTDu
-         UIT5pPp/3nwpSwWAUMZ0/hdEoas4K+ELZ6XQinMOSIshn86lQN3h0H35vWJgBdnnunzW
-         ixKAdi0C59RNvcZJ3KbK5xcxBFeNYMOFukN9AlBxMcBLhTpZDegxwdApsQ7EszSuU2mL
-         QBuA==
-X-Gm-Message-State: AOJu0Yyv+D+fteOs3fLU5ATyMdchZBeUrZw0JaT31HosN8Kimc2E4ulU
-	f8AKRtqv8AXBu6uxvmNLAFGIsF4WWT1Oc80c
-X-Google-Smtp-Source: AGHT+IFzYKWVDiK78ikuCWkqeT1RR5lvFFbPBZfBDlj/PqpjhklAngJFBEv/lLGrbwl37F7s+ZcTGA==
-X-Received: by 2002:a17:902:e80a:b0:1cf:fe32:632f with SMTP id u10-20020a170902e80a00b001cffe32632fmr3971736plg.22.1702022384957;
-        Thu, 07 Dec 2023 23:59:44 -0800 (PST)
-Received: from localhost.localdomain ([50.47.187.252])
-        by smtp.gmail.com with ESMTPSA id jg6-20020a17090326c600b001cc50146b43sm1047689plb.202.2023.12.07.23.59.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Dec 2023 23:59:44 -0800 (PST)
-From: Ryan McClelland <rymcclel@gmail.com>
-To: linux-input@vger.kernel.org
-Cc: djogorchock@gmail.com,
-	benjamin.tissoires@redhat.com,
-	jikos@kernel.org,
-	Ryan McClelland <rymcclel@gmail.com>
-Subject: [PATCH] HID: nintendo: use slots for led patterns
-Date: Thu,  7 Dec 2023 23:59:28 -0800
-Message-Id: <20231208075928.4293-1-rymcclel@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1702031237; x=1702636037;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cWhZUf+gPe/bSO5zGD/j3fVyXtRrqs3wk2HxPi4TO80=;
+        b=B7RYz4qJBR3fnESd6Cg6ZoFQsyBHmkVrrj12pvZ0Jkmz1YbBS7i7k4H6+tiTLEAwlS
+         EhZBlIBd39bAAc+FY1UnUitIN4bFp4rIsmag7F+LgMqMMDcMLfUga19k3wC2ZetvPniz
+         OW6fEAxdyULqScdqsZpUDy+jhVatv4PFD4Xm7Qx50oDNRxV4+lm1iJN2lH91+l6J2x4Y
+         HrjivgmSjH6M2no7r2s/B2Y0TJNd1S62jUvXXESE5bxy9f52cFMO1b0XLlmCTf/W9a3Z
+         rPGYOPiEml6H/aUCJga+lkZ8VT6tLg64hP3gAiqkikKiu8ylvJQ+SsiHSQCx3Uo3/2jA
+         Qm1Q==
+X-Gm-Message-State: AOJu0Yy6DhoJZXSy9hASXLzGMpwiKDGK2aobIZd04ihNcnqwMiLLGXuO
+	3N9SVttiNzE4vS9k3xqdkxPjNw==
+X-Google-Smtp-Source: AGHT+IGABS69s/xUxEK6ZM9bQa31757uK5VXDhOxM+BCcRCdazOk6trSZt79eDgnO/hCeNdgO+I6LQ==
+X-Received: by 2002:a05:600c:4e94:b0:40a:4c7e:6f37 with SMTP id f20-20020a05600c4e9400b0040a4c7e6f37mr2526050wmq.20.1702031236886;
+        Fri, 08 Dec 2023 02:27:16 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+        by smtp.gmail.com with ESMTPSA id h11-20020a05600c350b00b0040b4cb14d40sm4660869wmq.19.2023.12.08.02.27.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Dec 2023 02:27:16 -0800 (PST)
+Message-ID: <c8e4d495-1d4e-40cb-b599-5a01f75f9257@linaro.org>
+Date: Fri, 8 Dec 2023 11:27:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] dt-bindings: input: convert gpio-mouse to json-schema
+Content-Language: en-US
+To: Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20231208075037.114598-1-anshulusr@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231208075037.114598-1-anshulusr@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Previously, the leds pattern would just increment with every controller
-connected. This wouldn't take into consideration when controllers are
-disconnected. The same controller could be connected and disconnected
-with the pattern increasing player count each time.
+On 08/12/2023 08:50, Anshul Dalal wrote:
+> Convert device tree binding documentation for GPIO attached mouse to
+> json-schema.
+> 
+> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-This changes it so now a bitmask is used defining the free controller
-slots for each "player". When a controller is connected, it searches
-for the first bit in the bitmask that is available and acquires that
-"slot" for it's led pattern.
+You cannot have v1 being already reviewed. This is some newer version.
 
-When a controller is disconnected, it sets the position back to 'free'
-allowing for a new controller that is to be connected to obtain that
-slot.
+> ---
 
-Signed-off-by: Ryan McClelland <rymcclel@gmail.com>
----
- drivers/hid/hid-nintendo.c | 45 ++++++++++++++++++++++++++++----------
- 1 file changed, 33 insertions(+), 12 deletions(-)
+Missing changelog.
 
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 138f154fecef..cfe43a6b5a46 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -410,7 +410,8 @@ static const char * const joycon_player_led_names[] = {
- 	LED_FUNCTION_PLAYER4,
- };
- #define JC_NUM_LEDS		ARRAY_SIZE(joycon_player_led_names)
--#define JC_NUM_LED_PATTERNS 8
-+#define JC_NUM_LED_PATTERNS	9
-+#define JC_LED_DEF_PATTERN	8
- /* Taken from https://www.nintendo.com/my/support/qa/detail/33822 */
- static const enum led_brightness joycon_player_led_patterns[JC_NUM_LED_PATTERNS][JC_NUM_LEDS] = {
- 	{ 1, 0, 0, 0 },
-@@ -421,8 +422,13 @@ static const enum led_brightness joycon_player_led_patterns[JC_NUM_LED_PATTERNS]
- 	{ 1, 0, 1, 0 },
- 	{ 1, 0, 1, 1 },
- 	{ 0, 1, 1, 0 },
-+	{ 1, 1, 1, 1 }, /* >8 players */
- };
- 
-+/* Used to set the number of leds on each controller */
-+static DEFINE_SPINLOCK(joycon_input_bm_spinlock);
-+static int jc_input_free_bm = GENMASK(7, 0);
-+
- /* Each physical controller is associated with a joycon_ctlr struct */
- struct joycon_ctlr {
- 	struct hid_device *hdev;
-@@ -491,6 +497,9 @@ struct joycon_ctlr {
- 	unsigned int imu_delta_samples_count;
- 	unsigned int imu_delta_samples_sum;
- 	unsigned int imu_avg_delta_ms;
-+
-+	/* led */
-+	int player_led_pattern;
- };
- 
- /* Helper macros for checking controller type */
-@@ -1917,7 +1926,6 @@ static int joycon_home_led_brightness_set(struct led_classdev *led,
- 	return ret;
- }
- 
--static DEFINE_SPINLOCK(joycon_input_num_spinlock);
- static int joycon_leds_create(struct joycon_ctlr *ctlr)
- {
- 	struct hid_device *hdev = ctlr->hdev;
-@@ -1929,17 +1937,24 @@ static int joycon_leds_create(struct joycon_ctlr *ctlr)
- 	int ret;
- 	int i;
- 	unsigned long flags;
--	int player_led_pattern;
--	static int input_num;
- 
- 	/*
--	 * Set the player leds based on controller number
--	 * Because there is no standard concept of "player number", the pattern
--	 * number will simply increase by 1 every time a controller is connected.
-+	 * Set the player leds based on a free slot. If there
-+	 * are more than 8 controllers. Then load the default
-+	 * pattern.
- 	 */
--	spin_lock_irqsave(&joycon_input_num_spinlock, flags);
--	player_led_pattern = input_num++ % JC_NUM_LED_PATTERNS;
--	spin_unlock_irqrestore(&joycon_input_num_spinlock, flags);
-+	spin_lock_irqsave(&joycon_input_bm_spinlock, flags);
-+	if (!jc_input_free_bm) {
-+		ctlr->player_led_pattern = JC_LED_DEF_PATTERN;
-+	} else {
-+		ctlr->player_led_pattern = ffs(jc_input_free_bm) - 1;
-+		jc_input_free_bm &= ~(BIT(ctlr->player_led_pattern));
-+	}
-+	spin_unlock_irqrestore(&joycon_input_bm_spinlock, flags);
-+	if (ctlr->player_led_pattern == JC_LED_DEF_PATTERN)
-+		hid_info(ctlr->hdev, "more than 8 controllers connected, assigning default led pattern");
-+	else
-+		hid_info(ctlr->hdev, "assigned player %d led pattern", ctlr->player_led_pattern + 1);
- 
- 	/* configure the player LEDs */
- 	for (i = 0; i < JC_NUM_LEDS; i++) {
-@@ -1952,13 +1967,13 @@ static int joycon_leds_create(struct joycon_ctlr *ctlr)
- 
- 		led = &ctlr->leds[i];
- 		led->name = name;
--		led->brightness = joycon_player_led_patterns[player_led_pattern][i];
-+		led->brightness = joycon_player_led_patterns[ctlr->player_led_pattern][i];
- 		led->max_brightness = 1;
- 		led->brightness_set_blocking =
- 					joycon_player_led_brightness_set;
- 		led->flags = LED_CORE_SUSPENDRESUME | LED_HW_PLUGGABLE;
- 
--		led_val |= joycon_player_led_patterns[player_led_pattern][i] << i;
-+		led_val |= joycon_player_led_patterns[ctlr->player_led_pattern][i] << i;
- 	}
- 	mutex_lock(&ctlr->output_mutex);
- 	ret = joycon_set_player_leds(ctlr, 0, led_val);
-@@ -2409,6 +2424,12 @@ static void nintendo_hid_remove(struct hid_device *hdev)
- 	ctlr->ctlr_state = JOYCON_CTLR_STATE_REMOVED;
- 	spin_unlock_irqrestore(&ctlr->lock, flags);
- 
-+	/* Controller removed, so free the slot */
-+	spin_lock_irqsave(&joycon_input_bm_spinlock, flags);
-+	if (ctlr->player_led_pattern != JC_LED_DEF_PATTERN)
-+		jc_input_free_bm |= BIT(ctlr->player_led_pattern);
-+	spin_unlock_irqrestore(&joycon_input_bm_spinlock, flags);
-+
- 	destroy_workqueue(ctlr->rumble_queue);
- 
- 	hid_hw_close(hdev);
--- 
-2.34.1
+
+Best regards,
+Krzysztof
 
 
