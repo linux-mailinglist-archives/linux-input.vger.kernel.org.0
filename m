@@ -1,88 +1,73 @@
-Return-Path: <linux-input+bounces-606-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-607-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F9B9809938
-	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 03:32:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B40D809D99
+	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 08:52:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 172592822C3
-	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 02:32:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EDB0228158B
+	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 07:52:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DEAB210D;
-	Fri,  8 Dec 2023 02:32:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 982BE10945;
+	Fri,  8 Dec 2023 07:52:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="J3Aiyqp7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l9zxM5YB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 118EE1708
-	for <linux-input@vger.kernel.org>; Thu,  7 Dec 2023 18:32:42 -0800 (PST)
-Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-5bcfc508d14so1396448a12.3
-        for <linux-input@vger.kernel.org>; Thu, 07 Dec 2023 18:32:42 -0800 (PST)
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAA1A1712;
+	Thu,  7 Dec 2023 23:52:43 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1d05e4a94c3so16209855ad.1;
+        Thu, 07 Dec 2023 23:52:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1702002761; x=1702607561; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sK+dpfhTNn2ryOO3zkIQxrXe0eF4GP377XOMqpOvjVM=;
-        b=J3Aiyqp7Mp8ZwSkGaIXodgshkVRpVfGn8fspAuAOiDe/BVXzvplauUDT7WqeyQwn72
-         rmp2DwRswmymNjogO5G2KHKW9/vIqmf09Mb4S8Qee4XWIujccbIBAD3mvVKaDtJjjhBj
-         pdzzVWr9SdcxHlWeq73tn8eeqwqFiy8C9MYus=
+        d=gmail.com; s=20230601; t=1702021963; x=1702626763; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jnJ6XwvpjbxwbP8d9dhoDJBnR66AamT1l+ZC7uW8glY=;
+        b=l9zxM5YBVBnbdO/eIjXJMFeSNqMYcE8weurIk6PSVoOEU8BTXUzWC5pNvitOrCWLe/
+         l9f7kPxy6BQjV1qYAW0ARNd4+at4CRg4gkLwmY3rSpKTuLnfjYFfbdGXLQnTYqQiACiG
+         UhkFEBn+gViAqIHH2In8P8fBswK3H7HgloO1lhSlxFynh9Cl0VhnTEmPjGOILpJwY69I
+         kM68YTGoI0EZ5DgEORoAO9jAWQRnuPpoGGhnNZnouooe/fyXKBaAYsC6CLWctuRLm9rX
+         2BEYEL+QdQU7Kq6wwltWSVX/yh5VWlYswz1zytZ8U54ecVvJRP3QHfUQ17KNTxCqAIIU
+         Ztiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702002761; x=1702607561;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sK+dpfhTNn2ryOO3zkIQxrXe0eF4GP377XOMqpOvjVM=;
-        b=C7J3b531gU9slPOoXw+vxSYRohh7i+r11T/n6Uy9N90w885MkAArkGuKVPppr9hH84
-         e0aQDebcw17pNN4cY6s/PYTsO6lELNLpDt0CCeq7osOW2qS4VcFfSBoMvLXz1a+/j39F
-         Ddg+R1+uVoE5WVjlL4iEmNN1OiJiKf090fR7fyVnrK7K0I+Vvp0sfB3Iwal2GtYrJQB5
-         HaNfT1KtMBpegcfGCztIgWeNUWmjZIKnF+mValNReq4WDqbKv5zDWofRKcxTTSi9gLC0
-         C64CQKm34HoRL+uiSvLUYxtRXz/TXZmDsGPW43aIv0B9pMQCJPL0oAOvERmwaxGdb+JE
-         U5tw==
-X-Gm-Message-State: AOJu0YyKBAWwoiNdH2sYgfJWLzKoblu70iY2bVLjeUVw6CauM8oImFkN
-	X0D7jG3q0A2LuPmmPwsVoWOhaA==
-X-Google-Smtp-Source: AGHT+IEzveokbMoywO7bnYhPg9EUBTWQ79PqRORS8/rPU6xUCtgIKr75zOGibzyV7HydSoCKic+JYA==
-X-Received: by 2002:a05:6a20:8f24:b0:18b:4dc2:a4c7 with SMTP id b36-20020a056a208f2400b0018b4dc2a4c7mr4129011pzk.14.1702002761513;
-        Thu, 07 Dec 2023 18:32:41 -0800 (PST)
-Received: from amakhalov-build-vm.eng.vmware.com ([128.177.82.146])
-        by smtp.gmail.com with ESMTPSA id pq18-20020a17090b3d9200b00286dfa09e7asm615887pjb.24.2023.12.07.18.32.39
+        d=1e100.net; s=20230601; t=1702021963; x=1702626763;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jnJ6XwvpjbxwbP8d9dhoDJBnR66AamT1l+ZC7uW8glY=;
+        b=b/0lVuFM/B/FCsWYuz3RWjmmXcCJX58qZ+DLJYLsU5AhHiPrJx5UPlZ6NKVMcKuFEU
+         x3TloFAM0qjm+5MezHyXrcIxS00zhyxkOw1Y8kdr7Y5Qt2XRZXNjQsW8/3wdCeij25Id
+         +J5MYoeNQvuAlySHc7SO0Fkz29bocXtTjoSLmdG06SerkiGGvfBytTAR+3vHU/0HHIHt
+         TnRIv7rVMXFX/3H9E73MpJ+8mxLpPft9a/T2L4fZXQRaxaq9+K7OlWM5o5m2fvCRABZV
+         W4tl8pEneo1GPjNuPRljBI4f4jjkJLNcMjrUtNGYUUzyC147ZxWjyqJ5y3tngkMW6mi9
+         7pRg==
+X-Gm-Message-State: AOJu0YyZMX+PtPXS+2aJlgO8PUVGI3iSU0plQ5T9rhDWolqdIeTdJ6C/
+	3s32fdAwvYS0qSAhYMzQ4nnEZDJwBXpR7R/3
+X-Google-Smtp-Source: AGHT+IF54PYlnGCJpAmNVLe/3ul/Libt8yVj5HcHU8Kmm1Fq4rt1bVUHsYiPTxpmgxZ20YeobsKPJg==
+X-Received: by 2002:a17:902:f68d:b0:1d0:977e:29b0 with SMTP id l13-20020a170902f68d00b001d0977e29b0mr4184857plg.49.1702021962887;
+        Thu, 07 Dec 2023 23:52:42 -0800 (PST)
+Received: from localhost.localdomain ([2401:4900:6277:8af4:45bc:8bc9:c94a:54d2])
+        by smtp.gmail.com with ESMTPSA id j3-20020a170902c08300b001bf52834696sm1028228pld.207.2023.12.07.23.52.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Dec 2023 18:32:41 -0800 (PST)
-From: Alexey Makhalov <alexey.makhalov@broadcom.com>
-To: linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	bp@alien8.de,
-	hpa@zytor.com,
-	dave.hansen@linux.intel.com,
-	mingo@redhat.com,
-	tglx@linutronix.de
-Cc: x86@kernel.org,
-	netdev@vger.kernel.org,
-	richardcochran@gmail.com,
-	linux-input@vger.kernel.org,
-	dmitry.torokhov@gmail.com,
-	zackr@vmware.com,
-	linux-graphics-maintainer@vmware.com,
-	pv-drivers@vmware.com,
-	namit@vmware.com,
-	timothym@vmware.com,
-	akaher@vmware.com,
-	jsipek@vmware.com,
-	dri-devel@lists.freedesktop.org,
-	daniel@ffwll.ch,
-	airlied@gmail.com,
-	tzimmermann@suse.de,
-	mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com,
-	horms@kernel.org
-Subject: [PATCH] x86/vmware: Add TDX hypercall support
-Date: Thu,  7 Dec 2023 18:32:33 -0800
-Message-Id: <20231208023233.71170-1-alexey.makhalov@broadcom.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <64074f04-fd72-488b-831a-ad744bbcd950@broadcom.com>
-References: <64074f04-fd72-488b-831a-ad744bbcd950@broadcom.com>
+        Thu, 07 Dec 2023 23:52:42 -0800 (PST)
+From: Anshul Dalal <anshulusr@gmail.com>
+To: linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: Anshul Dalal <anshulusr@gmail.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v1] dt-bindings: input: convert gpio-mouse to json-schema
+Date: Fri,  8 Dec 2023 13:20:35 +0530
+Message-ID: <20231208075037.114598-1-anshulusr@gmail.com>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -91,199 +76,132 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Alexey Makhalov <amakhalov@vmware.com>
+Convert device tree binding documentation for GPIO attached mouse to
+json-schema.
 
-VMware hypercalls use I/O port, VMCALL or VMMCALL instructions.
-Add __tdx_hypercall path to support TDX guests.
-
-No change in high bandwidth hypercalls, as only low bandwidth
-ones are supported for TDX guests.
-
-Co-developed-by: Tim Merrifield <timothym@vmware.com>
-Signed-off-by: Tim Merrifield <timothym@vmware.com>
-Signed-off-by: Alexey Makhalov <amakhalov@vmware.com>
-Reviewed-by: Nadav Amit <namit@vmware.com>
+Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- arch/x86/include/asm/vmware.h | 83 +++++++++++++++++++++++++++++++++++
- arch/x86/kernel/cpu/vmware.c  | 22 ++++++++++
- 2 files changed, 105 insertions(+)
+ .../devicetree/bindings/input/gpio-mouse.txt  | 32 ---------
+ .../devicetree/bindings/input/gpio-mouse.yaml | 68 +++++++++++++++++++
+ 2 files changed, 68 insertions(+), 32 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/gpio-mouse.txt
+ create mode 100644 Documentation/devicetree/bindings/input/gpio-mouse.yaml
 
-diff --git a/arch/x86/include/asm/vmware.h b/arch/x86/include/asm/vmware.h
-index 719e41260ece..04c698b905ab 100644
---- a/arch/x86/include/asm/vmware.h
-+++ b/arch/x86/include/asm/vmware.h
-@@ -34,12 +34,65 @@
- #define VMWARE_CMD_GETHZ		45
- #define VMWARE_CMD_GETVCPU_INFO		68
- #define VMWARE_CMD_STEALCLOCK		91
-+/*
-+ * Hypercall command mask:
-+ *   bits[6:0] command, range [0, 127]
-+ *   bits[19:16] sub-command, range [0, 15]
-+ */
-+#define VMWARE_CMD_MASK			0xf007fULL
- 
- #define CPUID_VMWARE_FEATURES_ECX_VMMCALL	BIT(0)
- #define CPUID_VMWARE_FEATURES_ECX_VMCALL	BIT(1)
- 
- extern u8 vmware_hypercall_mode;
- 
-+#define VMWARE_TDX_VENDOR_LEAF 0x1af7e4909ULL
-+#define VMWARE_TDX_HCALL_FUNC  1
+diff --git a/Documentation/devicetree/bindings/input/gpio-mouse.txt b/Documentation/devicetree/bindings/input/gpio-mouse.txt
+deleted file mode 100644
+index 519510a11af9..000000000000
+--- a/Documentation/devicetree/bindings/input/gpio-mouse.txt
++++ /dev/null
+@@ -1,32 +0,0 @@
+-Device-Tree bindings for GPIO attached mice
+-
+-This simply uses standard GPIO handles to define a simple mouse connected
+-to 5-7 GPIO lines.
+-
+-Required properties:
+-	- compatible: must be "gpio-mouse"
+-	- scan-interval-ms: The scanning interval in milliseconds
+-	- up-gpios: GPIO line phandle to the line indicating "up"
+-	- down-gpios: GPIO line phandle to the line indicating "down"
+-	- left-gpios: GPIO line phandle to the line indicating "left"
+-	- right-gpios: GPIO line phandle to the line indicating "right"
+-
+-Optional properties:
+-	- button-left-gpios: GPIO line handle to the left mouse button
+-	- button-middle-gpios: GPIO line handle to the middle mouse button
+-	- button-right-gpios: GPIO line handle to the right mouse button
+-Example:
+-
+-#include <dt-bindings/gpio/gpio.h>
+-
+-gpio-mouse {
+-	compatible = "gpio-mouse";
+-	scan-interval-ms = <50>;
+-	up-gpios = <&gpio0 0 GPIO_ACTIVE_LOW>;
+-	down-gpios = <&gpio0 1 GPIO_ACTIVE_LOW>;
+-	left-gpios = <&gpio0 2 GPIO_ACTIVE_LOW>;
+-	right-gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
+-	button-left-gpios = <&gpio0 4 GPIO_ACTIVE_LOW>;
+-	button-middle-gpios = <&gpio0 5 GPIO_ACTIVE_LOW>;
+-	button-right-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;
+-};
+diff --git a/Documentation/devicetree/bindings/input/gpio-mouse.yaml b/Documentation/devicetree/bindings/input/gpio-mouse.yaml
+new file mode 100644
+index 000000000000..3928ec6aff1d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/gpio-mouse.yaml
+@@ -0,0 +1,68 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/gpio-mouse.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+extern unsigned long vmware_tdx_hypercall(struct tdx_module_args *args);
++title: GPIO attached mouse
 +
-+/*
-+ * TDCALL[TDG.VP.VMCALL] uses rax (arg0) and rcx (arg2), while the use of
-+ * rbp (arg6) is discouraged by the TDX specification. Therefore, we
-+ * remap those registers to r12, r13 and r14, respectively.
-+ */
-+static inline
-+unsigned long vmware_tdx_hypercall_args(unsigned long cmd, unsigned long in1,
-+					unsigned long in3, unsigned long in4,
-+					unsigned long in5, unsigned long in6,
-+					uint32_t *out1, uint32_t *out2,
-+					uint32_t *out3, uint32_t *out4,
-+					uint32_t *out5, uint32_t *out6)
-+{
-+	unsigned long ret;
++description: |
++  This simply uses standard GPIO handles to define a simple mouse connected
++  to 5-7 GPIO lines.
 +
-+	struct tdx_module_args args = {
-+		.r13 = cmd,
-+		.rbx = in1,
-+		.rdx = in3,
-+		.rsi = in4,
-+		.rdi = in5,
-+		.r14 = in6,
-+	};
++maintainers:
++  - Anshul Dalal <anshulusr@gmail.com>
 +
-+	ret = vmware_tdx_hypercall(&args);
++properties:
++  compatible:
++    const: gpio-mouse
 +
-+	if (out1)
-+		*out1 = args.rbx;
-+	if (out2)
-+		*out2 = args.r13;
-+	if (out3)
-+		*out3 = args.rdx;
-+	if (out4)
-+		*out4 = args.rsi;
-+	if (out5)
-+		*out5 = args.rdi;
-+	if (out6)
-+		*out6 = args.r14;
++  scan-interval-ms:
++    maxItems: 1
 +
-+	return ret;
-+}
++  up-gpios:
++    maxItems: 1
 +
- /*
-  * The low bandwidth call. The low word of edx is presumed to have OUT bit
-  * set. The high word of edx may contain input data from the caller.
-@@ -67,6 +120,11 @@ unsigned long vmware_hypercall1(unsigned long cmd, unsigned long in1)
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, 0, 0, 0, 0,
-+						 NULL, NULL, NULL,
-+						 NULL, NULL, NULL);
++  down-gpios:
++    maxItems: 1
 +
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -85,6 +143,11 @@ unsigned long vmware_hypercall3(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, 0, 0, 0, 0,
-+						 out1, out2, NULL,
-+						 NULL, NULL, NULL);
++  left-gpios:
++    maxItems: 1
 +
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=b" (*out1), "=c" (*out2)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -104,6 +167,11 @@ unsigned long vmware_hypercall4(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, 0, 0, 0, 0,
-+						 out1, out2, out3,
-+						 NULL, NULL, NULL);
++  right-gpios:
++    maxItems: 1
 +
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=b" (*out1), "=c" (*out2), "=d" (*out3)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -123,6 +191,11 @@ unsigned long vmware_hypercall5(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, in3, in4, in5, 0,
-+						 NULL, out2, NULL,
-+						 NULL, NULL, NULL);
++  button-left-gpios:
++    maxItems: 1
 +
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=c" (*out2)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -145,6 +218,11 @@ unsigned long vmware_hypercall6(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, in3, 0, 0, 0,
-+						 NULL, out2, out3,
-+						 out4, out5, NULL);
++  button-middle-gpios:
++    maxItems: 1
 +
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=c" (*out2), "=d" (*out3), "=S" (*out4),
- 		  "=D" (*out5)
-@@ -166,6 +244,11 @@ unsigned long vmware_hypercall7(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, in3, in4, in5, 0,
-+						 out1, out2, out3,
-+						 NULL, NULL, NULL);
++  button-right-gpios:
++    maxItems: 1
 +
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=b" (*out1), "=c" (*out2), "=d" (*out3)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
-index 3aa1adaed18f..bcf1d0fb3e89 100644
---- a/arch/x86/kernel/cpu/vmware.c
-+++ b/arch/x86/kernel/cpu/vmware.c
-@@ -428,6 +428,28 @@ static bool __init vmware_legacy_x2apic_available(void)
- 		(eax & BIT(VCPU_LEGACY_X2APIC));
- }
- 
-+#ifdef CONFIG_INTEL_TDX_GUEST
-+unsigned long vmware_tdx_hypercall(struct tdx_module_args *args)
-+{
-+	if (!hypervisor_is_type(X86_HYPER_VMWARE))
-+		return 0;
++required:
++  - compatible
++  - scan-interval-ms
++  - up-gpios
++  - down-gpios
++  - left-gpios
++  - right-gpios
 +
-+	if (args->r13 & ~VMWARE_CMD_MASK) {
-+		pr_warn("Out of range command %llx\n", args->r13);
-+		return 0;
-+	}
++additionalProperties: false
 +
-+	args->r10 = VMWARE_TDX_VENDOR_LEAF;
-+	args->r11 = VMWARE_TDX_HCALL_FUNC;
-+	args->r12 = VMWARE_HYPERVISOR_MAGIC;
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
 +
-+	__tdx_hypercall(args);
-+
-+	return args->r12;
-+}
-+EXPORT_SYMBOL_GPL(vmware_tdx_hypercall);
-+#endif
-+
- #ifdef CONFIG_AMD_MEM_ENCRYPT
- static void vmware_sev_es_hcall_prepare(struct ghcb *ghcb,
- 					struct pt_regs *regs)
++    gpio-mouse {
++        compatible = "gpio-mouse";
++        scan-interval-ms = <50>;
++        up-gpios = <&gpio0 0 GPIO_ACTIVE_LOW>;
++        down-gpios = <&gpio0 1 GPIO_ACTIVE_LOW>;
++        left-gpios = <&gpio0 2 GPIO_ACTIVE_LOW>;
++        right-gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
++        button-left-gpios = <&gpio0 4 GPIO_ACTIVE_LOW>;
++        button-middle-gpios = <&gpio0 5 GPIO_ACTIVE_LOW>;
++        button-right-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;
++    };
 -- 
-2.39.0
+2.42.1
 
 
