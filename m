@@ -1,144 +1,198 @@
-Return-Path: <linux-input+bounces-620-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-621-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D0E80A6EE
-	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 16:10:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E55680A7C0
+	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 16:43:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2E827B20A58
-	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 15:10:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D87C31F21091
+	for <lists+linux-input@lfdr.de>; Fri,  8 Dec 2023 15:43:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87C5A225D0;
-	Fri,  8 Dec 2023 15:10:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76C2E315A6;
+	Fri,  8 Dec 2023 15:43:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WLt7FeaC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF5851BFC;
-	Fri,  8 Dec 2023 07:10:17 -0800 (PST)
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3b9d2b8c3c6so1388694b6e.1;
-        Fri, 08 Dec 2023 07:10:17 -0800 (PST)
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2DB810EB;
+	Fri,  8 Dec 2023 07:43:09 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id 98e67ed59e1d1-2851a2b30a2so1840592a91.3;
+        Fri, 08 Dec 2023 07:43:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702050189; x=1702654989; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=WdZ6XGEPzhT5jj/IPHXYwoO9J2EgJOhsZV1HjQOLiWk=;
+        b=WLt7FeaCRmjoXsyorS5u05JlruCGkrn4NaWJ5a1wUihAXZixxWrq2dkzo8gcdxUsgb
+         kIDQ8j6zN3snZkumYCym3j8Un86bpCiPqLT+vsPorhPSeI1tjJPfSiIRLCcMFsGFcRO9
+         2E4oiyeo7jpMfOGXrfw3WOH7kc+loF2YEpHwC8FrpS0P2RAa6lVENgjObXWjY3c9fJf5
+         l4BkitoLorCRHrn2GqVDVAo23bv9EkA2cAdpijFvRN7DvYS887p/BC9z8MVxAkBpozbO
+         NBx1cwtq13fWSGy8nU3/LT1ueEd0GNZ0rhqPO+63fyv66p1RLjqKmuB5X8IlMSHZJNLc
+         AaJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702048217; x=1702653017;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xNnSwjzfk0DFwMUnASYe+Mep7H717D8Hg3L4xcCwxL4=;
-        b=l4SjBFP+Nj7oam8uEENpy0Nd4C03Vqhm9k5WFFCwmmgL+B9GkSLhs2wi1C55L2wgZk
-         QGTY6UpnuvrEZdjLrQRXDB+daGiOltaRTAhMLf2oJg08TJc9X2AVVAmVBjQzTBYyESTc
-         6uJGonMvLL4IpWuU93TL853ucTPNUprlsgCvcm1LcB+v7UW4tnuTeW5Q7AJ5a1KtUW74
-         ey+NZP9QXrEsq6zKgb95LCTDPT/AWgQQpC5EyfND6sLucUQ5zW99CcnS0nZVyp9HnMZn
-         lqIxxebEQG8E2ZQai1/RgTzQyL5nR0m0TBU3GmCNEenGQm+Ry0sFKn2yudyYQLZBMV3d
-         GlGg==
-X-Gm-Message-State: AOJu0Ywkh6tpjzseG8D7cMGi7V2Q0pDWwDSqiEPd+7cN5thYSeAnf4nE
-	nqV+k43BxMFj2O6lRDIsoQ==
-X-Google-Smtp-Source: AGHT+IEvVmbu2+Qv9wFJy8R9H8r5dTeownvX+CKH+WYzlbAzevvw6b0vu0w5WzVXyWLw9sofpqWUuA==
-X-Received: by 2002:a05:6808:d4d:b0:3b8:b063:8258 with SMTP id w13-20020a0568080d4d00b003b8b0638258mr172675oik.90.1702048217115;
-        Fri, 08 Dec 2023 07:10:17 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id 14-20020aca280e000000b003b8b3bdeb6bsm348309oix.30.2023.12.08.07.10.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Dec 2023 07:10:16 -0800 (PST)
-Received: (nullmailer pid 1354509 invoked by uid 1000);
-	Fri, 08 Dec 2023 15:10:11 -0000
-Date: Fri, 8 Dec 2023 09:10:11 -0600
-From: Rob Herring <robh@kernel.org>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, Frank Rowand <frowand.list@gmail.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wolfram Sang <wsa@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
-	Hsin-Yi Wang <hsinyi@chromium.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	andriy.shevchenko@linux.intel.com, Jiri Kosina <jikos@kernel.org>, 
-	linus.walleij@linaro.org, broonie@kernel.org, gregkh@linuxfoundation.org, 
-	hdegoede@redhat.com, james.clark@arm.com, james@equiv.tech, 
-	keescook@chromium.org, rafael@kernel.org, tglx@linutronix.de, 
-	Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org, linux-i2c@vger.kernel.org
-Subject: Re: [RFC PATCH v3 2/5] i2c: of: Introduce component probe function
-Message-ID: <20231208151011.GA1289359-robh@kernel.org>
-References: <20231128084236.157152-1-wenst@chromium.org>
- <20231128084236.157152-3-wenst@chromium.org>
- <CAD=FV=U_+iQJtV0Wii89DQT1V_fJCeS9wcqA8EJAs-hmmmLLLg@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1702050189; x=1702654989;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WdZ6XGEPzhT5jj/IPHXYwoO9J2EgJOhsZV1HjQOLiWk=;
+        b=LhduWvQfvtQic8q1mGbqKK/Ih6wlBian4fEUtbCChyg4Gc0EpkrEAgbb2lbO2UEh/p
+         RM1kawAgzN+yEmEYk9C0rknUWAuD0ohSd/gOcd10M0vwStuJQAhXDT1cSwnplL4rq7cG
+         tqhSEgbTLJnur7S+zMsQMlaTXPOg1iRE8f0+v4tZrKonrjRN6J3ds30GHnpDMzsbd1rL
+         JF1OAse82vUJPO0/dC7ArQqstNoyDbN3U8GQeEhHvAreo6cmb6ZTWVpKPjvL0P8aV0mL
+         RjxJfq14BWWJBoyZIDCxlY7tIP3Dt9k35h6S6Co15/37Fh7QXaQ0Orm65odawNdcNvXV
+         h5wQ==
+X-Gm-Message-State: AOJu0Yw9gg0o3m6b6gwwVSGbPg81HDLJD0Wsh7ZOYqdeBfb318piJMeI
+	4YlRQ1+adrBTdO6edYc4GXg=
+X-Google-Smtp-Source: AGHT+IEaWnrXi2VV5U/tdIVeucRXBn67c4mmL/hC75+j2aQXn32dkoik18nHKehgUuf3+s1NWHZ8WQ==
+X-Received: by 2002:a17:90a:df86:b0:28a:464d:5ecb with SMTP id p6-20020a17090adf8600b0028a464d5ecbmr268789pjv.36.1702050189043;
+        Fri, 08 Dec 2023 07:43:09 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 26-20020a17090a191a00b00286e69c8fb1sm2122269pjg.52.2023.12.08.07.43.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Dec 2023 07:43:08 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <b2b3f17d-0f86-4d40-a471-f44153efd6fe@roeck-us.net>
+Date: Fri, 8 Dec 2023 07:43:07 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=U_+iQJtV0Wii89DQT1V_fJCeS9wcqA8EJAs-hmmmLLLg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] hwmon: (corsair-psu) Fix failure to load when built-in to
+ kernel
+Content-Language: en-US
+To: Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+ Aleksa Savic <savicaleksa83@gmail.com>
+Cc: linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+ Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>
+References: <20231208130710.191420-1-savicaleksa83@gmail.com>
+ <d91d4bf1-3e8d-4b63-baa9-479a91d04eb7@gmail.com>
+ <20231208145742.6def047a@posteo.net>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20231208145742.6def047a@posteo.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Dec 01, 2023 at 04:57:46PM -0800, Doug Anderson wrote:
-> Hi,
+On 12/8/23 05:57, Wilken Gottwalt wrote:
+> On Fri, 8 Dec 2023 14:11:44 +0100
+> Aleksa Savic <savicaleksa83@gmail.com> wrote:
 > 
-> On Tue, Nov 28, 2023 at 12:45 AM Chen-Yu Tsai <wenst@chromium.org> wrote:
-> >
-> > @@ -217,4 +217,114 @@ static int of_i2c_notify(struct notifier_block *nb, unsigned long action,
-> >  struct notifier_block i2c_of_notifier = {
-> >         .notifier_call = of_i2c_notify,
-> >  };
-> > +
-> > +/*
-> > + * Some devices, such as Google Hana Chromebooks, are produced by multiple
-> > + * vendors each using their preferred components. Such components are all
-> > + * in the device tree. Instead of having all of them enabled and having each
-> > + * driver separately try and probe its device while fighting over shared
-> > + * resources, they can be marked as "fail-needs-probe" and have a prober
-> > + * figure out which one is actually used beforehand.
-> > + *
-> > + * This prober assumes such drop-in parts are on the same I2C bus, have
-> > + * non-conflicting addresses, and can be directly probed by seeing which
-> > + * address responds.
-> > + *
-> > + * TODO:
-> > + * - Support handling common regulators and GPIOs.
+>> On 2023-12-08 14:07:10 GMT+01:00, Aleksa Savic wrote:
+>>> When built-in to the kernel, the corsair-psu driver fails to register with
+>>> the following message:
+>>>
+>>> "Driver 'corsair-psu' was unable to register with bus_type 'hid'
+>>> because the bus was not initialized."
+>>>
+>>> Fix this by initializing the driver after the HID bus using
+>>> late_initcall(), as hwmon is built before HID.
+>>>
+>>> Fixes: d115b51e0e56 ("hwmon: add Corsair PSU HID controller driver")
+>>> Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
+>>> ---
+>>>   drivers/hwmon/corsair-psu.c | 15 ++++++++++++++-
+>>>   1 file changed, 14 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/hwmon/corsair-psu.c b/drivers/hwmon/corsair-psu.c
+>>> index 904890598c11..48831a528965 100644
+>>> --- a/drivers/hwmon/corsair-psu.c
+>>> +++ b/drivers/hwmon/corsair-psu.c
+>>> @@ -899,7 +899,20 @@ static struct hid_driver corsairpsu_driver = {
+>>>   	.reset_resume	= corsairpsu_resume,
+>>>   #endif
+>>>   };
+>>> -module_hid_driver(corsairpsu_driver);
+>>> +
+>>> +static int __init corsairpsu_hid_init(void)
+>>> +{
+>>> +	return hid_register_driver(&corsairpsu_driver);
+>>> +}
+>>> +
+>>> +static void __exit corsairpsu_hid_exit(void)
+>>> +{
+>>> +	hid_unregister_driver(&corsairpsu_driver);
+>>> +}
+>>> +
+>>> +/* When compiled into the kernel, initialize after the hid bus */
+>>> +late_initcall(corsairpsu_hid_init);
+>>> +module_exit(corsairpsu_hid_exit);
+>>>   
+>>>   MODULE_LICENSE("GPL");
+>>>   MODULE_AUTHOR("Wilken Gottwalt <wilken.gottwalt@posteo.net>");
+>>
+>>
+>> Woops! Just saw that the same fix was sent yesterday. Please disregard, sorry!
+>>
+>> Aleksa
 > 
-> IMO you should prototype how you're going to handle regulators and
-> GPIOs before finalizing the design. I was going to write that you
-> should just document that it was up to the caller to power things up
-> before calling this function, but then I realized that the caller
-> would have to duplicate much of this function in order to do so. In
-> the very least they'd have to find the nodes of the relevant devices
-> so that they could grab regulators and/or GPIOs. In order to avoid
-> this duplication, would the design need to change? Perhaps this would
-> be as simple as adding a callback function here that's called with all
-> of the nodes before probing? If that's right, it would be nice to have
-> that callback from the beginning so we don't need two variants of the
-> function...
+> It is fine. I just start to wonder if there was a change in the subsystem. I
+> used the driver as built-in in the past for several months and never had that
+> issue. And now it is a real flood of reports.
 > 
-> > + * - Support I2C muxes
-> > + */
-> > +
-> > +/**
-> > + * i2c_of_probe_component() - probe for devices of "type" on the same i2c bus
-> > + * @dev: &struct device of the caller, only used for dev_* printk messages
-> > + * @type: a string to match the device node name prefix to probe for
-> > + *
-> > + * Probe for possible I2C components of the same "type" on the same I2C bus
-> > + * that have their status marked as "fail".
-> 
-> Should document these current limitations with the code:
-> 
-> * Assumes that across the entire device tree the only instances of
-> nodes named "type" are ones we're trying to handle second sourcing
-> for. In other words if we're searching for "touchscreen" then all
-> nodes named "touchscreen" are ones that need to be probed.
 
-named "type" and marked as needs probe.
+Maybe there was a change in the build order, or some subtle change
+in driver registration code. Question though is _when_ this changed.
+It would be great if someone could bisect it. For example, bus registration
+code has been changed significantly in v6.3. I am copying linux-input
+and the hid maintainers for feedback.
 
-> 
-> * Assumes that there is exactly one group of each "type". In other
-> words, if we're searching for "touchscreen" then exactly one
-> touchscreen will be enabled across the whole tree.
+Either case, I now have two patches and at least the first one was actually
+tested, but no Reviewed-by: or Tested-by: for either of them. While that is
+of course a formality, it would still be useful to show that it is not just
+a random change.
 
-Does that need to be a limitation? If you just keep going thru all 
-devices, wouldn't that just work?
+Thanks,
+Guenter
 
-Rob
 
