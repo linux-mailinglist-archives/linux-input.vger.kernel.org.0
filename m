@@ -1,37 +1,37 @@
-Return-Path: <linux-input+bounces-635-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-636-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B150480B1E5
-	for <lists+linux-input@lfdr.de>; Sat,  9 Dec 2023 04:24:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFFD580B1E6
+	for <lists+linux-input@lfdr.de>; Sat,  9 Dec 2023 04:24:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DCDA81C20AFC
-	for <lists+linux-input@lfdr.de>; Sat,  9 Dec 2023 03:24:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 91EB52818CA
+	for <lists+linux-input@lfdr.de>; Sat,  9 Dec 2023 03:24:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59C541101;
-	Sat,  9 Dec 2023 03:24:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A84F010F6;
+	Sat,  9 Dec 2023 03:24:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="WKnAUHZ4"
+	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="qIR+nWr8"
 X-Original-To: linux-input@vger.kernel.org
 Received: from endrift.com (endrift.com [173.255.198.10])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07ADF84
-	for <linux-input@vger.kernel.org>; Fri,  8 Dec 2023 19:24:41 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 198F5BA
+	for <linux-input@vger.kernel.org>; Fri,  8 Dec 2023 19:24:44 -0800 (PST)
 Received: from [192.168.0.22] (71-212-26-68.tukw.qwest.net [71.212.26.68])
-	by endrift.com (Postfix) with ESMTPSA id 2820CA028;
-	Fri,  8 Dec 2023 19:24:41 -0800 (PST)
+	by endrift.com (Postfix) with ESMTPSA id 832BBA028;
+	Fri,  8 Dec 2023 19:24:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
-	t=1702092281; bh=8QD01xS13o/E/j7ns5E17KypTMsvN6pKHyU0khO0U1c=;
+	t=1702092283; bh=4rQiWYIEjSITKM/3haGDheWiKuK5pwvwyUPRY3G4DJc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=WKnAUHZ4jAM5kaqz34qjrPifLUXbk4Rvuz/lqQVObPWHcvZ2+CPURrBWWyBfk8XiJ
-	 G94QzhmWU5tVcusmhhsjoQrY16DT3Q2CALFRxMR27IfrYKaze2YiE22W4EuMt+r+Ck
-	 4Enotz/G9ierCro4rYFYHF/18p5OqhqLAxAECYbHRdwOOqGvUKVC3+klJ75YOnldS2
-	 tt+t4enEsw9WzIoRN20+ouR8TleY5AWPrnS4Owsj0GV5h9DMWrk2c1MUwjL2vTZJXW
-	 NiY53zh2JGMzTmD3/DvXulbx7XGa1wWpCYBoqL/kr+31MMOUse/bLpoJ9RnMxI9bCY
-	 dtka2ZY30v7AQ==
-Message-ID: <b54584c2-9db8-4715-966a-6fdf57fdee1a@endrift.com>
-Date: Fri, 8 Dec 2023 19:24:40 -0800
+	b=qIR+nWr8UciPyC44NhoPxZBotf4FNHIKqHfbHWrHOqQvJ0/GURzf4RYbXy26Pq33E
+	 +7Ge6ewt4DsHXB4X+g+mrS2oosdM5Fw4b2GkedP8dy2IAd3Pj9AXywQtjOYj8C01r/
+	 JT0cuDW/XorcNVGndToUZ5ecDFDlb7gprDk+J2PS6DMcCrDoopF8Hpc6BLDHIhZeSs
+	 7VKW+QZzQy/IqdXzEMa3Su67XnSlFAOvWnOiSvBW11VGrEsXL3LEDdXrdsX9uNj6Ak
+	 MmkGa47VgSysaeDZAX8hIbJZtkpXR+77PoyJihlC/DPvykLMWrxU+NNdp9pFD7EXNV
+	 ++74goIsdfr5Q==
+Message-ID: <ab8dd2f1-31b1-4883-a378-f6a62e3d2434@endrift.com>
+Date: Fri, 8 Dec 2023 19:24:43 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -39,57 +39,56 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] Input: uinput - Allow uinput_request_submit wait
- interrupting
+Subject: Re: [PATCH 2/2] Input: uinput - Release mutex while unregistering
+ input device
 Content-Language: en-US
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: linux-input@vger.kernel.org
 References: <20231207063406.556770-1-vi@endrift.com>
- <20231207063406.556770-2-vi@endrift.com> <ZXNvQCFxPoH0-i-P@google.com>
+ <20231207063406.556770-3-vi@endrift.com> <ZXN1ZFYZBekXryha@google.com>
 From: Vicki Pfau <vi@endrift.com>
-In-Reply-To: <ZXNvQCFxPoH0-i-P@google.com>
+In-Reply-To: <ZXN1ZFYZBekXryha@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi Dmitry,
 
-On 12/8/23 11:32, Dmitry Torokhov wrote:
+On 12/8/23 11:58, Dmitry Torokhov wrote:
 > Hi Vicki,
 > 
-> On Wed, Dec 06, 2023 at 10:34:05PM -0800, Vicki Pfau wrote:
->> Currently, uinput_request_submit will only fail if the request wait times out.
->> However, in other places this wait is interruptable, and in this specific
->> location it can lead to issues, such as causing system suspend to hang until
->> the request times out.
+> On Wed, Dec 06, 2023 at 10:34:06PM -0800, Vicki Pfau wrote:
+>> Any pending requests may be holding a mutex from its own subsystem, e.g.
+>> evdev, while waiting to be able to claim the uinput device mutex.
+>> However, unregistering the device may try to claim that mutex, leading
+>> to a deadlock. To prevent this from happening, we need to temporarily
+>> give up the lock before calling input_unregister_device.
 > 
-> Could you please explain how a sleeping process can cause suspend to
-> hang?
+> I do not think we can simply give up the lock, the whole thing with
+> UI_DEV_DESTROY allowing reusing connection to create a new input device
+> was a huge mistake because if you try to do UI_DEV_CREATE again on
+> the same fd you'll end up reusing whatever is in udev instance,
+> including the state and the mutex, and will make a huge mess.
 
-While I'm not 100% sure how it happens, given I found this by reproducing it before I came up with a theory for why it happened, my guess is that as it's trying to suspend all of userspace programs, it suspends the process that owns the uinput handle, so it can't continue to service requests, while the other process hangs in the uninterruptable call, blocking suspend for 30 seconds until the call times out.
-
-> 
->> Since the timeout is so long, this can cause the
->> appearance of a total system freeze. Making the wait interruptable resolves
->> this and possibly further issues.
-> 
-> I think you are trying to find a justification too hard and it does not
-> make sense, however I agree that allowing to kill the process issuing
-> the request without waiting for the timeout to expire if the other side
-> is stuck might be desirable.
-
-This isn't reaching. As I said above, I discovered the patched line of code *after* observing suspend hanging for 30 seconds while trying to reproduce another bug. I wrote this patch, retested, and found that it now suspended immediately, leading to a visible -ERESTARTSYS in strace on coming back from suspend.
-
-I can post the reproduction case somewhere, but the test program is only the evdev client end, with the uinput side being Steam, which I don't have source code for.
+Yeah, I was curious why this was possible in the first place. It seemed overcomplicated compared to just opening a new fd. I suppose that that makes more sense, though it's a bit involved for this.
 
 > 
-> I think the best way to use wait_for_completion_killable_timeout()
-> so that stray signals do not disturb userspace, but the processes can
-> still be terminated.
+> I think the only reasonable way forward is change the driver so that no
+> ioctls are accepted after UI_DEV_DESTROY and then start untangling the
+> locking issues (possibly by dropping the lock on destroy after setting
+> the status - I think you will not observe the lockups you mention if
+> your application will stop using UI_DEV_DESTROY and simply closes the
+> fd).
 
-There's already a mutex_lock_interruptable in uinput_request_send that could cause this to fall back to userspace under similar circumstances. The only difference I can find, which is admittedly a bug in this patch now that I look at it again, is that uinput_dev_event would get called twice, leading to the request getting duplicated.
+This does sound like a reasonable way forward. Unfortunately, I don't have access to the uinput-side application code, but I have been trying to work with them to flatten out bugs in it. I can pass this suggestion along, though there is still a reproducible deadlock that could theoretically happen with other programs in the meantime (though the likelihood of it being hit without actively trying for it is low).
 
-If there's a better way to handle the suspend case let me know, but this is not a hypothetical issue.
+> 
+>>
+>> Fixes: e8b95728f724 ("Input: uinput - avoid FF flush when destroying device")
+> 
+> This is not the commit that introduced the problem, it has been there
+> since forever.
 
+My mistake. If I prepare a v2, which I may not, I'll drop the line.
 > 
 > Thanks.
 > 
