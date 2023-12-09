@@ -1,200 +1,130 @@
-Return-Path: <linux-input+bounces-652-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-653-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5B3980B5DD
-	for <lists+linux-input@lfdr.de>; Sat,  9 Dec 2023 19:21:43 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA8A480B659
+	for <lists+linux-input@lfdr.de>; Sat,  9 Dec 2023 21:51:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 90EA3281101
-	for <lists+linux-input@lfdr.de>; Sat,  9 Dec 2023 18:21:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9AB1B1F21090
+	for <lists+linux-input@lfdr.de>; Sat,  9 Dec 2023 20:51:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30894199A5;
-	Sat,  9 Dec 2023 18:21:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF7D61A727;
+	Sat,  9 Dec 2023 20:51:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l7xk7dfa"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XWHaz69E"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0385DE1;
-	Sat,  9 Dec 2023 10:21:35 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-54cb4fa667bso4479176a12.3;
-        Sat, 09 Dec 2023 10:21:34 -0800 (PST)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD68C10E;
+	Sat,  9 Dec 2023 12:50:57 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-40c2308faedso34858275e9.1;
+        Sat, 09 Dec 2023 12:50:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702146093; x=1702750893; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gLNpODQhsbffwfVK0H46y0Kl5VvUcYrmGC1lnrr3gSM=;
-        b=l7xk7dfaeSs2MCYC6dea/WCxFoXPof2sTaZYhvMlZdFNTIIR47kA869QBfzu6fWRkO
-         hkKd1QtMWcdLDdj88cz194FZ3RJI3lQsXGfDod2T4bJS5j3ayFcHWKbSpvuz3NtXqqEj
-         sGojKgj0EkajvhidcXxhUMjhmXRTr4XGeW110Vmc9uuFlGWSvcFPfiSOkcPsqUYt9Ozr
-         g1Ar8nAekt8JiAaCFd4OKb43ZyPa5eLM4Y+H1t1HnXI7ZCyeEwzqvMhMUVzJq5FkqB1S
-         FFWwENmZgu0thnWhhntfyN2mBnHiqe2k7zUICIuzTd79yxLPyHwf4TKmv21KSfzrX49r
-         iG8w==
+        d=gmail.com; s=20230601; t=1702155056; x=1702759856; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pMJPi3iIzMIlCjs861+CyhhSUrX7bsn8d7c7Kriq3JY=;
+        b=XWHaz69EJ4RlcPfmlKhwbAH2RtOoNXIy37Pb77HAycSS5Dti/TdQBCBN7mbiw1iYXC
+         tfDbhG5PhgS/VYdj6by1qdPK0cRiLcgcAvy516db5075zh88DBg5hzS34zMeuCLrKG9S
+         u8jZvFNMDaHZkXovf1UVNEBWHb1AfYFtaW4rFwsNzmRzjqjscaku82ED656iTOob9i83
+         RlYgostLjLVkRqgqr5gasMk+XjCx0keOhRJFSfWWttDYe5bj01tqePj4XfTyiCuQbvu5
+         xPG+AszawNVyO6TiBKR+tTXVFGNmHLr9/yHUZKkGULdlmT4rIBupwpRHY6sESSOwzjot
+         2nVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702146093; x=1702750893;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gLNpODQhsbffwfVK0H46y0Kl5VvUcYrmGC1lnrr3gSM=;
-        b=pT+80KZAOHxTvQnPusSYMn3co1+tYk4Ajahc6eMX6ic7+WUhgxVX1xQJ67HiaKWTlc
-         zYajvp8B68n+8zYQYfHR+HjmZEuIIYvp5wTaLbhJTDpF2VkdVQR6o5Je1/GaR3nhKqBq
-         6doGUnWMTVA9+lNBRVMB102QkJai+UZmcalGOZd2puGqWz6GK+/EKq0jzYhFc+5p9eZ5
-         wRthRr386xBADCNutGQSzgQPXsEcPxMI1XLUB1kygcMAOkEzcZqdEEf81MEuK/OekL67
-         72PSx7KfjLHRaJpLmgpbkeHLhxgLEZoWrDlU6+uJi64VAzzgreNBBQcXfeN6pKHKL2rD
-         yglg==
-X-Gm-Message-State: AOJu0YxC5GuFwsde24oZFrkMB3ccdxuU6IA3XZC30zB7NOgnheur9uqT
-	W4JlLi0S+ZNpXoDafIGZZChsLRoEDJw=
-X-Google-Smtp-Source: AGHT+IH+bySArn2Haq5pFCbq0Za/Y6yj1x90D80RuBMXSS477lqJcuD8dYdWUZ+SMHXQrAGtvPnOZw==
-X-Received: by 2002:a17:907:350e:b0:a1f:705b:3de7 with SMTP id zz14-20020a170907350e00b00a1f705b3de7mr787354ejb.140.1702146093147;
-        Sat, 09 Dec 2023 10:21:33 -0800 (PST)
-Received: from jekhomev ([46.251.53.180])
-        by smtp.gmail.com with ESMTPSA id sf22-20020a1709078a9600b00a1ca020cdfasm2463383ejc.161.2023.12.09.10.21.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Dec 2023 10:21:32 -0800 (PST)
-Date: Sat, 9 Dec 2023 20:21:32 +0200
-From: Yauhen Kharuzhy <jekhor@gmail.com>
-To: Mikhail Khvainitski <me@khvoinitsky.org>
-Cc: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	ValdikSS <iam@valdikss.org.ru>
-Subject: Re: [PATCH] HID: lenovo: Detect quirk-free fw on cptkbd and stop
- applying workaround
-Message-ID: <20231209182132.i3saw7kcjyykhizu@jekhomev>
-References: <20230918145042.37368-1-me@khvoinitsky.org>
- <20230923231522.94060-1-me@khvoinitsky.org>
- <20230923231522.94060-2-me@khvoinitsky.org>
- <ZXRiiPsBKNasioqH@jekhomev>
- <20231209165648.4rfe4gxubaajrl2z@jekhomev>
+        d=1e100.net; s=20230601; t=1702155056; x=1702759856;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pMJPi3iIzMIlCjs861+CyhhSUrX7bsn8d7c7Kriq3JY=;
+        b=E+yuQgASaM2wKui5saCuDiQb8OHCC/GG2dVmBg5iFGvthiqwhKZf34+r+ttEcDQ9wc
+         nNGep3HkbLWBSjjMmgZW9UIsHny7cMQgqqHjDyYpihgg6KfkGtcskv82n/6JPT8eP5w6
+         VtQp7zltuZ0LRq/cQ74LOD/MsW4HPCVuBMtpTIo//yMeCmzVY+uMx7n0cv5b/i69SRvg
+         VNo9UEDHcEWcvbFMrKu/tLhGVQ/urMVgVDjAp+w9FivUD+2+qHu9XxUuYJbR3DZ6xQ0H
+         7+MMQwvbDFavnVcpnSet2ulE5YxyHoc3ebNYiAlRAvUAhgZrSNLh4EjL5/hJDiqGV4ct
+         78bQ==
+X-Gm-Message-State: AOJu0YxMf4/Hvq1e40isMPpGUvXHNocaWgOKKQQ8XC2+0oxTaUAiNgsX
+	Qo7WmksNBHUOEEtZSEbvIfA=
+X-Google-Smtp-Source: AGHT+IE3XEEBii+B9JkJKs6o8ET+jTzHybvoiVXKO2G9EClU8u3uG0zRe1zismiE6cerLl60ogNGrA==
+X-Received: by 2002:a05:600c:3107:b0:40c:32fa:4f41 with SMTP id g7-20020a05600c310700b0040c32fa4f41mr1048497wmo.142.1702155055686;
+        Sat, 09 Dec 2023 12:50:55 -0800 (PST)
+Received: from [192.168.1.7] ([95.133.122.84])
+        by smtp.gmail.com with ESMTPSA id fa7-20020a05600c518700b0040648217f4fsm9686079wmb.39.2023.12.09.12.50.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 09 Dec 2023 12:50:55 -0800 (PST)
+Message-ID: <da6d2828-41db-4c29-a1aa-024b1fbcc43a@gmail.com>
+Date: Sat, 9 Dec 2023 22:50:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231209165648.4rfe4gxubaajrl2z@jekhomev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/5] input/touchscreen: imagis: add support for
+ IST3032C
+To: Karel Balej <karelb@gimli.ms.mff.cuni.cz>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ Karel Balej <balejk@matfyz.cz>
+References: <20231202125948.10345-1-karelb@gimli.ms.mff.cuni.cz>
+ <20231202125948.10345-6-karelb@gimli.ms.mff.cuni.cz>
+ <89f7e7de-c574-49ab-885d-c6d4427fe64f@gmail.com>
+ <CXJAG826ZTNA.2F8WOGVNYADKP@gimli.ms.mff.cuni.cz>
+Content-Language: en-US
+From: Markuss Broks <markuss.broks@gmail.com>
+In-Reply-To: <CXJAG826ZTNA.2F8WOGVNYADKP@gimli.ms.mff.cuni.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Dec 09, 2023 at 06:56:48PM +0200, Yauhen Kharuzhy wrote:
-> On Sat, Dec 09, 2023 at 02:50:16PM +0200, Yauhen Kharuzhy wrote:
-> > On Sun, Sep 24, 2023 at 01:58:30AM +0300, Mikhail Khvainitski wrote:
-> > > Built-in firmware of cptkbd handles scrolling by itself (when middle
-> > > button is pressed) but with issues: it does not support horizontal and
-> > > hi-res scrolling and upon middle button release it sends middle button
-> > > click even if there was a scrolling event. Commit 3cb5ff0220e3 ("HID:
-> > > lenovo: Hide middle-button press until release") workarounds last
-> > > issue but it's impossible to workaround scrolling-related issues
-> > > without firmware modification.
-> > > 
-> > > Likely, Dennis Schneider has reverse engineered the firmware and
-> > > provided an instruction on how to patch it [1]. However,
-> > > aforementioned workaround prevents userspace (libinput) from knowing
-> > > exact moment when middle button has been pressed down and performing
-> > > "On-Button scrolling". This commit detects correctly-behaving patched
-> > > firmware if cursor movement events has been received during middle
-> > > button being pressed and stops applying workaround for this device.
-> > > 
-> > > Link: https://hohlerde.org/rauch/en/elektronik/projekte/tpkbd-fix/ [1]
-> > 
-> > This patch breaks a scrolling at my ThinkPad TrackPoint Keyboard II: it
-> > starts to report middle-button push/release events with scrolling events
-> > between. A support for this keyboard was added in
-> > 24401f291dcc4f2c18b9e2f65763cbaadc7a1528 "HID: lenovo: Add support for
-> > ThinkPad TrackPoint Keyboard II" commit.
-> 
-> I figured this out.
-> 
-> This keyboard can emit REL_Y/REL_X events between of middle-button
-> events (if user was moving a cursor and press middle button without of
-> stopping this), so this algorithm does a false-positive detection and switches
-> the workaround off like for patched firmware:
-> 
-> Event: time 1702140625.854777, type 2 (EV_REL), code 1 (REL_Y), value 2
-> Event: time 1702140625.854777, -------------- SYN_REPORT ------------
-> Event: time 1702140625.870769, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 1
-> Event: time 1702140625.870769, -------------- SYN_REPORT ------------
-> Event: time 1702140625.870771, type 2 (EV_REL), code 1 (REL_Y), value 2
-> Event: time 1702140625.870771, -------------- SYN_REPORT ------------
-> Event: time 1702140625.970780, type 2 (EV_REL), code 8 (REL_WHEEL), value -1
-> Event: time 1702140625.970780, -------------- SYN_REPORT ------------
-> Event: time 1702140626.058800, type 2 (EV_REL), code 8 (REL_WHEEL), value -1
-> Event: time 1702140626.058800, -------------- SYN_REPORT ------------
-> Event: time 1702140630.462974, type 4 (EV_MSC), code 4 (MSC_SCAN), value ffa000fb
-> Event: time 1702140630.462974, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 0
-> Event: time 1702140630.462974, -------------- SYN_REPORT ------------
+Hi Karel,
 
-Maybe we should map the wheel HID reports to REL_Y/REL_X in
-lenovo_input_mapping_tpIIkbd() to allow libinput to do its wheel emulation job?
-I tried this but I am not familiar with HID drivers and had no success.
+On 12/8/23 23:59, Karel Balej wrote:
+> Markuss,
+>
+> thank you for the review.
+>
+>>> diff --git a/drivers/input/touchscreen/imagis.c b/drivers/input/touchscreen/imagis.c
+>>> index 84a02672ac47..41f28e6e9cb1 100644
+>>> --- a/drivers/input/touchscreen/imagis.c
+>>> +++ b/drivers/input/touchscreen/imagis.c
+>>> @@ -35,6 +35,8 @@
+>>>    #define IST3038B_REG_CHIPID		0x30
+>>>    #define IST3038B_WHOAMI			0x30380b
+>>>    
+>>> +#define IST3032C_WHOAMI			0x32c
+>>> +
+>> Perhaps it should be ordered in alphabetic/alphanumeric order,
+>> alternatively, the chip ID values could be grouped.
+> Here I followed suit and just started a new section for the new chip,
+> except there is only one entry. I do agree that it would be better to
+> sort the chips alphanumerically and I am actually surprised that I
+> didn't do that - but now I see that the chips that you added are not
+> sorted either, so it might be because of that.
+>
+> I propose to definitely swap the order of the sections, putting 32C
+> first, then 38B and 38C at the end (from top to bottom). The chip ID
+> values could then still be grouped in a new section, but I think I would
+> actually prefer to keep them as parts of the respective sections as it
+> is now, although it is in no way a strong preference.
+We could do that, yeah. It is not a problem right now since there's only 
+3 models supported, but it would maker sense and set some order for when 
+we'd have more supported devices.
+>
+> Please let me know whether you agree with this or have a different
+> preference. And if the former, please confirm that I can add your
+> Reviewed-by trailer to the patch modified in such a way.
+Yeah, it's fine.
+>
+> Best regards,
+> K. B.
 
+- Markuss
 
-> 
-> 
-> > 
-> > There is an evtest output below:
-> > 
-> > Without of commit:
-> > 
-> > Middle-button click:
-> > Event: time 1702122290.593300, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 1
-> > Event: time 1702122290.593300, -------------- SYN_REPORT ------------
-> > Event: time 1702122290.593312, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 0
-> > Event: time 1702122290.593312, -------------- SYN_REPORT ------------
-> > 
-> > Vertical scrolling:
-> > Event: time 1702122300.441627, type 2 (EV_REL), code 8 (REL_WHEEL), value -1
-> > Event: time 1702122300.441627, -------------- SYN_REPORT ------------
-> > Event: time 1702122300.565663, type 2 (EV_REL), code 8 (REL_WHEEL), value -1
-> > Event: time 1702122300.565663, -------------- SYN_REPORT ------------
-> > 
-> > Horizontal scrolling:
-> > Event: time 1702122307.845969, type 2 (EV_REL), code 6 (REL_HWHEEL), value -1
-> > Event: time 1702122307.845969, -------------- SYN_REPORT ------------
-> > Event: time 1702122307.981954, type 2 (EV_REL), code 6 (REL_HWHEEL), value -1
-> > Event: time 1702122307.981954, -------------- SYN_REPORT ------------
-> > 
-> > 
-> > 
-> > After commit:
-> > 
-> > Middle-button click:
-> > Event: time 1702125091.290045, type 4 (EV_MSC), code 4 (MSC_SCAN), value ffa000fb
-> > Event: time 1702125091.290045, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 1
-> > Event: time 1702125091.290045, -------------- SYN_REPORT ------------
-> > Event: time 1702125092.626118, type 4 (EV_MSC), code 4 (MSC_SCAN), value ffa000fb
-> > Event: time 1702125092.626118, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 0
-> > Event: time 1702125092.626118, -------------- SYN_REPORT ------------
-> > 
-> > 
-> > Vscroll:
-> > Event: time 1702125286.653639, type 4 (EV_MSC), code 4 (MSC_SCAN), value ffa000fb
-> > Event: time 1702125286.653639, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 1
-> > Event: time 1702125286.653639, -------------- SYN_REPORT ------------
-> > Event: time 1702125287.929689, type 2 (EV_REL), code 8 (REL_WHEEL), value -1
-> > Event: time 1702125287.929689, -------------- SYN_REPORT ------------
-> > Event: time 1702125288.037688, type 2 (EV_REL), code 8 (REL_WHEEL), value -1
-> > Event: time 1702125288.037688, -------------- SYN_REPORT ------------
-> > Event: time 1702125290.481787, type 4 (EV_MSC), code 4 (MSC_SCAN), value ffa000fb
-> > Event: time 1702125290.481787, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 0
-> > Event: time 1702125290.481787, -------------- SYN_REPORT ------------
-> > 
-> > Hscroll:
-> > Event: time 1702125293.841920, type 4 (EV_MSC), code 4 (MSC_SCAN), value ffa000fb
-> > Event: time 1702125293.841920, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 1
-> > Event: time 1702125293.841920, -------------- SYN_REPORT ------------
-> > Event: time 1702125294.761952, type 2 (EV_REL), code 6 (REL_HWHEEL), value -1
-> > Event: time 1702125294.761952, -------------- SYN_REPORT ------------
-> > Event: time 1702125294.893967, type 2 (EV_REL), code 6 (REL_HWHEEL), value -1
-> > Event: time 1702125294.893967, -------------- SYN_REPORT ------------
-> > Event: time 1702125296.134006, type 4 (EV_MSC), code 4 (MSC_SCAN), value ffa000fb
-> > Event: time 1702125296.134006, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 0
-> > Event: time 1702125296.134006, -------------- SYN_REPORT ------------
-> 
-> -- 
-> Yauhen Kharuzhy
-
--- 
-Yauhen Kharuzhy
 
