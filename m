@@ -1,145 +1,130 @@
-Return-Path: <linux-input+bounces-644-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-645-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B18C80B3D3
-	for <lists+linux-input@lfdr.de>; Sat,  9 Dec 2023 11:58:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A0380B3F0
+	for <lists+linux-input@lfdr.de>; Sat,  9 Dec 2023 12:21:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D84B31F21144
-	for <lists+linux-input@lfdr.de>; Sat,  9 Dec 2023 10:58:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 566A31C2084B
+	for <lists+linux-input@lfdr.de>; Sat,  9 Dec 2023 11:21:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D68FE13AD8;
-	Sat,  9 Dec 2023 10:58:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDAEE13ADF;
+	Sat,  9 Dec 2023 11:21:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OEqb5mZY"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="vxvzh2tC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFAA05671;
-	Sat,  9 Dec 2023 10:58:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FE68C433C8;
-	Sat,  9 Dec 2023 10:58:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702119507;
-	bh=shMP58WBd4mK4VRt80ZFFRHtI8Ye/dBzaRFSsMTjqDw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OEqb5mZYrDLrOdAlPG2lCYwcYIMg8S6cPlRrWy/l/8nK7b/8GHcmYKieiichGGNXS
-	 aFi8TqjM8GFWA2USvCryR45vGpiJEOeZ5PhD1VoHyWrvQB3jctuxQ3DswAeu10owhI
-	 wvu/GfzVkllpGtzi5FC86agD+1tMKlVBmnNKPX82vTAkPfdHUkQNCaEAbp8yJ+1BiY
-	 wwFomvcW8DUqOXIXuekQi8A6NlqRr/3fKVingsgR0w9My/Ih7n1zTEIOITaRg4wdeE
-	 lb/XNdQ2aHGeBdhTsyAWcZu5ve6Gmku3Xzo7VMjDiQsthR/fKl55f2GYY1ieZpU260
-	 LwRKLN0r8ASZg==
-Date: Sat, 9 Dec 2023 10:58:22 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Karel Balej <karelb@gimli.ms.mff.cuni.cz>
-Cc: Conor Dooley <conor.dooley@microchip.com>,
-	Markuss Broks <markuss.broks@gmail.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-	Karel Balej <balejk@matfyz.cz>
-Subject: Re: [PATCH v3 2/5] dt-bindings: input/touchscreen: Add compatible
- for IST3038B
-Message-ID: <20231209-casing-music-bded1c7b5475@spud>
-References: <20231202125948.10345-1-karelb@gimli.ms.mff.cuni.cz>
- <20231202125948.10345-3-karelb@gimli.ms.mff.cuni.cz>
- <20231203-outskirts-reformat-e0a833903841@spud>
- <0a035c62-9d35-4f85-b1f3-bcb7dea17d52@gmail.com>
- <20231204-stooge-impotent-fe8d2d9177e4@wendy>
- <CXJOLS2I8WH7.1IMVJGPUNG4VB@gimli.ms.mff.cuni.cz>
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [IPv6:2a02:c205:3004:2154::1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD18110E0;
+	Sat,  9 Dec 2023 03:21:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=xucqkHPBJF36oXeOi/pc0yQ5CBxoZP6i5FtuLPSX75U=; b=vxvzh2tC5vuR0OgFJ3PNto2G57
+	mBHkdc50jbPSKeXA99iXTls69eVMEgjrbaXDimki3efaQEV+gXPXgfC9GJicy5TYubkFRyqsqrui3
+	c34v6Y+u+ofYQoGE7Uwiu3y4enY5fJEAYiqn0sabQFGGaZq10wpMzSUvWKMaKBKTaP2a7SgYnrDGE
+	VWiRvmEJwMENawn640CPapiicTueA+JRtW5AOnyNxi7kWJaP2e8DNt9yzw19/x4Wm8lO5H7R5zItF
+	Nvt+7JPsuzBOFRthNeb6VUEgGaefordUyP0u6tsOOzLShhNCFkRlfPTkKWBLnWmpO9fQ1z2lWGFIq
+	S6do7aPQ==;
+Received: from p200301077700c3001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:107:7700:c300:1a3d:a2ff:febf:d33a] helo=aktux)
+	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <andreas@kemnade.info>)
+	id 1rBvOH-007CLA-3K; Sat, 09 Dec 2023 12:21:01 +0100
+Received: from andi by aktux with local (Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1rBvOG-001tr9-0W;
+	Sat, 09 Dec 2023 12:21:00 +0100
+From: Andreas Kemnade <andreas@kemnade.info>
+To: dmitry.torokhov@gmail.com,
+	tony@atomide.com,
+	frank.li@vivo.com,
+	u.kleine-koenig@pengutronix.de,
+	Jonathan.Cameron@huawei.com,
+	robh@kernel.org,
+	andreas@kemnade.info,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH RESEND] Input: omap4-keypad: react on keypresses if device is runtime-suspended
+Date: Sat,  9 Dec 2023 12:20:58 +0100
+Message-Id: <20231209112058.453030-1-andreas@kemnade.info>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="CZZDMln35Xfb6FgC"
-Content-Disposition: inline
-In-Reply-To: <CXJOLS2I8WH7.1IMVJGPUNG4VB@gimli.ms.mff.cuni.cz>
+Content-Transfer-Encoding: 8bit
 
+According to SWPU235AB, table 26-6, fclk is required to generate events
+at least on OMAP4460, so keep fclk enabled all the time the device
+is opened.
 
---CZZDMln35Xfb6FgC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Suggested-by: Tony Lindgren <tony@atomide.com>
+Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+Reviewed-by: Tony Lindgren <tony@atomide.com>
+---
+Changes since RFC:
+- add R-by:
 
-On Sat, Dec 09, 2023 at 10:05:27AM +0100, Karel Balej wrote:
-> On Mon Dec 4, 2023 at 1:52 PM CET, Conor Dooley wrote:
-> > On Mon, Dec 04, 2023 at 02:40:44PM +0200, Markuss Broks wrote:
-> > > On 12/3/23 13:20, Conor Dooley wrote:
-> > > > On Sat, Dec 02, 2023 at 01:48:33PM +0100, Karel Balej wrote:
-> > > > > From: Markuss Broks <markuss.broks@gmail.com>
-> > > > >=20
-> > > > > Imagis IST3038B is a variant (firmware?) of Imagis IST3038 IC,
-> > > > > add the compatible for it to the IST3038C bindings.
-> > > > This one is better, but would be well served by mentioning what
-> > > > specifically is different (register addresses or firmware commands?)
-> > >=20
-> > > I don't think anyone knows this other than Imagis itself. I would gue=
-ss it's
-> > > different hardware, since register addresses are indeed different, bu=
-t on
-> > > the other hand, there is a possibility that firmware on the MCU could=
- be
-> > > responding to those commands. I suppose "... IST3038B is a hardware v=
-ariant
-> > > of ... IST3038" would be more correct.
-> >
-> > Only Imagis might know the specifics, but you (plural) have made driver
-> > changes so you know what is different in terms of the programming model.
-> > I'm just asking for you to mention how the programming model varies in
-> > the commit message. Otherwise I can't know whether you should have added
-> > a fallback compatible, without going and reading your driver change. The
-> > commit message for the bindings should stand on its own merit in that
-> > regard.
-> > "Variant" alone does not suffice, as many variants of devices have a
-> > compatible programming model, be that for a subset of features or
-> > complete compatibility.
-> >
-> > > The reason why I think it could be firmware-defined is because we hav=
-e a lot
-> > > of variants (30xxA, 30xxB, 30xxC, plain 30xx), and the numbers usuall=
-y mean
-> > > feature level/completeness, e.g. some don't support the touch pressur=
-e or
-> > > touchkeys, and we don't know what A/B/C/none means.
-> >
-> > Ultimately whether it is due to firmware or the hardware isn't
-> > particular important, just mention what is incompatibly different.
->=20
-> I propose to update the commit description as such:
->=20
-> 	Imagis IST3038B is a variant (firmware?) of Imagis IST3038 IC
-> 	differing from IST3038C in its register interface. Add the
-> 	compatible for it to the IST3038C bindings.
+ drivers/input/keyboard/omap4-keypad.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
+diff --git a/drivers/input/keyboard/omap4-keypad.c b/drivers/input/keyboard/omap4-keypad.c
+index d3f8688fdd9c3..7d83aff95617f 100644
+--- a/drivers/input/keyboard/omap4-keypad.c
++++ b/drivers/input/keyboard/omap4-keypad.c
+@@ -11,6 +11,7 @@
+ #include <linux/module.h>
+ #include <linux/interrupt.h>
+ #include <linux/platform_device.h>
++#include <linux/clk.h>
+ #include <linux/errno.h>
+ #include <linux/io.h>
+ #include <linux/of.h>
+@@ -83,6 +84,7 @@ struct omap4_keypad {
+ 	bool no_autorepeat;
+ 	u64 keys;
+ 	unsigned short *keymap;
++	struct clk *fck;
+ };
+ 
+ static int kbd_readl(struct omap4_keypad *keypad_data, u32 offset)
+@@ -211,6 +213,8 @@ static int omap4_keypad_open(struct input_dev *input)
+ 
+ 	disable_irq(keypad_data->irq);
+ 
++	clk_prepare_enable(keypad_data->fck);
++
+ 	kbd_writel(keypad_data, OMAP4_KBD_CTRL,
+ 			OMAP4_DEF_CTRL_NOSOFTMODE |
+ 			(OMAP4_KEYPAD_PTV_DIV_128 << OMAP4_DEF_CTRL_PTV_SHIFT));
+@@ -258,6 +262,7 @@ static void omap4_keypad_close(struct input_dev *input)
+ 	disable_irq(keypad_data->irq);
+ 	omap4_keypad_stop(keypad_data);
+ 	enable_irq(keypad_data->irq);
++	clk_disable_unprepare(keypad_data->fck);
+ 
+ 	pm_runtime_mark_last_busy(dev);
+ 	pm_runtime_put_autosuspend(dev);
+@@ -356,6 +361,11 @@ static int omap4_keypad_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	keypad_data->irq = irq;
++	keypad_data->fck = devm_clk_get(&pdev->dev, "fck");
++	if (IS_ERR(keypad_data->fck))
++		return dev_err_probe(&pdev->dev, PTR_ERR(keypad_data->fck),
++				     "unable to get fck");
++
+ 	mutex_init(&keypad_data->lock);
+ 	platform_set_drvdata(pdev, keypad_data);
+ 
+-- 
+2.39.2
 
-SGTM. You can add
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-with that commit message update.
-
-Thanks,
-Conor.
-
---CZZDMln35Xfb6FgC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZXRITgAKCRB4tDGHoIJi
-0mKTAP0RiHYmJl2KkMmHaJTsYwSOJtsQ2l0qxVgrHUXBtSYHCAD/eA8UQ6V5QmRy
-ZRugsrwMlJ2vJ8azdUm9Anq90NWd7wE=
-=g/yN
------END PGP SIGNATURE-----
-
---CZZDMln35Xfb6FgC--
 
