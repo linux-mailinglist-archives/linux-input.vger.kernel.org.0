@@ -1,130 +1,164 @@
-Return-Path: <linux-input+bounces-645-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-646-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A0380B3F0
-	for <lists+linux-input@lfdr.de>; Sat,  9 Dec 2023 12:21:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C5180B455
+	for <lists+linux-input@lfdr.de>; Sat,  9 Dec 2023 13:50:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 566A31C2084B
-	for <lists+linux-input@lfdr.de>; Sat,  9 Dec 2023 11:21:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C78572810C7
+	for <lists+linux-input@lfdr.de>; Sat,  9 Dec 2023 12:50:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDAEE13ADF;
-	Sat,  9 Dec 2023 11:21:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BC07134DE;
+	Sat,  9 Dec 2023 12:50:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="vxvzh2tC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HqRb5VOg"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [IPv6:2a02:c205:3004:2154::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD18110E0;
-	Sat,  9 Dec 2023 03:21:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
-	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=xucqkHPBJF36oXeOi/pc0yQ5CBxoZP6i5FtuLPSX75U=; b=vxvzh2tC5vuR0OgFJ3PNto2G57
-	mBHkdc50jbPSKeXA99iXTls69eVMEgjrbaXDimki3efaQEV+gXPXgfC9GJicy5TYubkFRyqsqrui3
-	c34v6Y+u+ofYQoGE7Uwiu3y4enY5fJEAYiqn0sabQFGGaZq10wpMzSUvWKMaKBKTaP2a7SgYnrDGE
-	VWiRvmEJwMENawn640CPapiicTueA+JRtW5AOnyNxi7kWJaP2e8DNt9yzw19/x4Wm8lO5H7R5zItF
-	Nvt+7JPsuzBOFRthNeb6VUEgGaefordUyP0u6tsOOzLShhNCFkRlfPTkKWBLnWmpO9fQ1z2lWGFIq
-	S6do7aPQ==;
-Received: from p200301077700c3001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:107:7700:c300:1a3d:a2ff:febf:d33a] helo=aktux)
-	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <andreas@kemnade.info>)
-	id 1rBvOH-007CLA-3K; Sat, 09 Dec 2023 12:21:01 +0100
-Received: from andi by aktux with local (Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1rBvOG-001tr9-0W;
-	Sat, 09 Dec 2023 12:21:00 +0100
-From: Andreas Kemnade <andreas@kemnade.info>
-To: dmitry.torokhov@gmail.com,
-	tony@atomide.com,
-	frank.li@vivo.com,
-	u.kleine-koenig@pengutronix.de,
-	Jonathan.Cameron@huawei.com,
-	robh@kernel.org,
-	andreas@kemnade.info,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] Input: omap4-keypad: react on keypresses if device is runtime-suspended
-Date: Sat,  9 Dec 2023 12:20:58 +0100
-Message-Id: <20231209112058.453030-1-andreas@kemnade.info>
-X-Mailer: git-send-email 2.39.2
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D796210D0;
+	Sat,  9 Dec 2023 04:50:19 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id 4fb4d7f45d1cf-54c1cd8d239so4124153a12.0;
+        Sat, 09 Dec 2023 04:50:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702126218; x=1702731018; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OtHFtnbtWJeZSrfGhByyO6irsFCj2VH4M4OLNb3uFzE=;
+        b=HqRb5VOgX6/GMJHBE2b4kp6dcidgcX8CWS32tdZMA/7rEBgW7jaA4K5t+HKY2jGQa0
+         6OFwWmLm7bUt1jFxqs3nzVC68CPV8HhWz7AYVheTuc2EagRjUwxWe1UE5yMWylT2ToGd
+         HWMn5rg8lB+Ato4+ZEHoLChtuqyIrSaDBPHrQ034hlIZWN6R9Z006C8x9lFjwnmESMqx
+         RXgMhs4uLj4W0UjgvpHeDemIjhO6DbXckJxwplC31J6aFGvgT/gi797LFci9XfJUvhxU
+         4fxLGb2SlZrCoU2Pb8kP5oJIaRrQ1V9mq/lYqfZQXNvaPLWK9Ctm/IKcwwsSwniuhRAj
+         nWaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702126218; x=1702731018;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OtHFtnbtWJeZSrfGhByyO6irsFCj2VH4M4OLNb3uFzE=;
+        b=grN9HU1Cjp63kUjz5Wf1oM+MyWvfHyg17Ht95WnWbouE0Gut97bD5fXrs6ZdHGBZkN
+         pKCTylkMHqgCFIt/F6RtzE69MNUnPdwCRJ+oWQVc25uEbSTeNvxiJekViN9i5Z6t0k5s
+         Zs2J53c2MU+oWu1npWkjW9jZe4ADQWGeplTvJDZzCV2/Lcl6Fw6hIE9q8QSIGDeVQBVB
+         9ue4+Y/qu+mZLpT5Yfd6gqQX/EtzS682eEyB0YlEivgEBIvzAyk5ymTEKjmvAJ6uCTUH
+         MGgm1TWhGD2dtpXScY3O56hr2eHFHPjgOqh3hTyn5LN/t/ENaUxAqYi6Ni20Keoa4887
+         ABgg==
+X-Gm-Message-State: AOJu0YwSQNc9ec7zBBCQ1/djicyplo+7B/j8KCvzy1XqN+fL3Piqz9QB
+	UdtY//eppvqfm7pcZTsxf7E=
+X-Google-Smtp-Source: AGHT+IHFAx3T5unQnVwrSO4TOBfFs42jwXMxxvFtKoOP1ERshpTEc1PItY3WEvtWlz6vmUHVAG6OsA==
+X-Received: by 2002:a50:ee06:0:b0:54f:5842:4537 with SMTP id g6-20020a50ee06000000b0054f58424537mr642887eds.166.1702126218210;
+        Sat, 09 Dec 2023 04:50:18 -0800 (PST)
+Received: from jekhomev ([46.251.53.180])
+        by smtp.gmail.com with ESMTPSA id dj10-20020a05640231aa00b0054b25e865f6sm1626852edb.18.2023.12.09.04.50.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Dec 2023 04:50:17 -0800 (PST)
+Date: Sat, 9 Dec 2023 14:50:16 +0200
+From: Yauhen Kharuzhy <jekhor@gmail.com>
+To: Mikhail Khvainitski <me@khvoinitsky.org>
+Cc: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	ValdikSS <iam@valdikss.org.ru>
+Subject: Re: [PATCH] HID: lenovo: Detect quirk-free fw on cptkbd and stop
+ applying workaround
+Message-ID: <ZXRiiPsBKNasioqH@jekhomev>
+References: <20230918145042.37368-1-me@khvoinitsky.org>
+ <20230923231522.94060-1-me@khvoinitsky.org>
+ <20230923231522.94060-2-me@khvoinitsky.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230923231522.94060-2-me@khvoinitsky.org>
 
-According to SWPU235AB, table 26-6, fclk is required to generate events
-at least on OMAP4460, so keep fclk enabled all the time the device
-is opened.
+On Sun, Sep 24, 2023 at 01:58:30AM +0300, Mikhail Khvainitski wrote:
+> Built-in firmware of cptkbd handles scrolling by itself (when middle
+> button is pressed) but with issues: it does not support horizontal and
+> hi-res scrolling and upon middle button release it sends middle button
+> click even if there was a scrolling event. Commit 3cb5ff0220e3 ("HID:
+> lenovo: Hide middle-button press until release") workarounds last
+> issue but it's impossible to workaround scrolling-related issues
+> without firmware modification.
+> 
+> Likely, Dennis Schneider has reverse engineered the firmware and
+> provided an instruction on how to patch it [1]. However,
+> aforementioned workaround prevents userspace (libinput) from knowing
+> exact moment when middle button has been pressed down and performing
+> "On-Button scrolling". This commit detects correctly-behaving patched
+> firmware if cursor movement events has been received during middle
+> button being pressed and stops applying workaround for this device.
+> 
+> Link: https://hohlerde.org/rauch/en/elektronik/projekte/tpkbd-fix/ [1]
 
-Suggested-by: Tony Lindgren <tony@atomide.com>
-Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
-Reviewed-by: Tony Lindgren <tony@atomide.com>
----
-Changes since RFC:
-- add R-by:
+This patch breaks a scrolling at my ThinkPad TrackPoint Keyboard II: it
+starts to report middle-button push/release events with scrolling events
+between. A support for this keyboard was added in
+24401f291dcc4f2c18b9e2f65763cbaadc7a1528 "HID: lenovo: Add support for
+ThinkPad TrackPoint Keyboard II" commit.
 
- drivers/input/keyboard/omap4-keypad.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+There is an evtest output below:
 
-diff --git a/drivers/input/keyboard/omap4-keypad.c b/drivers/input/keyboard/omap4-keypad.c
-index d3f8688fdd9c3..7d83aff95617f 100644
---- a/drivers/input/keyboard/omap4-keypad.c
-+++ b/drivers/input/keyboard/omap4-keypad.c
-@@ -11,6 +11,7 @@
- #include <linux/module.h>
- #include <linux/interrupt.h>
- #include <linux/platform_device.h>
-+#include <linux/clk.h>
- #include <linux/errno.h>
- #include <linux/io.h>
- #include <linux/of.h>
-@@ -83,6 +84,7 @@ struct omap4_keypad {
- 	bool no_autorepeat;
- 	u64 keys;
- 	unsigned short *keymap;
-+	struct clk *fck;
- };
- 
- static int kbd_readl(struct omap4_keypad *keypad_data, u32 offset)
-@@ -211,6 +213,8 @@ static int omap4_keypad_open(struct input_dev *input)
- 
- 	disable_irq(keypad_data->irq);
- 
-+	clk_prepare_enable(keypad_data->fck);
-+
- 	kbd_writel(keypad_data, OMAP4_KBD_CTRL,
- 			OMAP4_DEF_CTRL_NOSOFTMODE |
- 			(OMAP4_KEYPAD_PTV_DIV_128 << OMAP4_DEF_CTRL_PTV_SHIFT));
-@@ -258,6 +262,7 @@ static void omap4_keypad_close(struct input_dev *input)
- 	disable_irq(keypad_data->irq);
- 	omap4_keypad_stop(keypad_data);
- 	enable_irq(keypad_data->irq);
-+	clk_disable_unprepare(keypad_data->fck);
- 
- 	pm_runtime_mark_last_busy(dev);
- 	pm_runtime_put_autosuspend(dev);
-@@ -356,6 +361,11 @@ static int omap4_keypad_probe(struct platform_device *pdev)
- 	}
- 
- 	keypad_data->irq = irq;
-+	keypad_data->fck = devm_clk_get(&pdev->dev, "fck");
-+	if (IS_ERR(keypad_data->fck))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(keypad_data->fck),
-+				     "unable to get fck");
-+
- 	mutex_init(&keypad_data->lock);
- 	platform_set_drvdata(pdev, keypad_data);
- 
+Without of commit:
+
+Middle-button click:
+Event: time 1702122290.593300, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 1
+Event: time 1702122290.593300, -------------- SYN_REPORT ------------
+Event: time 1702122290.593312, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 0
+Event: time 1702122290.593312, -------------- SYN_REPORT ------------
+
+Vertical scrolling:
+Event: time 1702122300.441627, type 2 (EV_REL), code 8 (REL_WHEEL), value -1
+Event: time 1702122300.441627, -------------- SYN_REPORT ------------
+Event: time 1702122300.565663, type 2 (EV_REL), code 8 (REL_WHEEL), value -1
+Event: time 1702122300.565663, -------------- SYN_REPORT ------------
+
+Horizontal scrolling:
+Event: time 1702122307.845969, type 2 (EV_REL), code 6 (REL_HWHEEL), value -1
+Event: time 1702122307.845969, -------------- SYN_REPORT ------------
+Event: time 1702122307.981954, type 2 (EV_REL), code 6 (REL_HWHEEL), value -1
+Event: time 1702122307.981954, -------------- SYN_REPORT ------------
+
+
+
+After commit:
+
+Middle-button click:
+Event: time 1702125091.290045, type 4 (EV_MSC), code 4 (MSC_SCAN), value ffa000fb
+Event: time 1702125091.290045, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 1
+Event: time 1702125091.290045, -------------- SYN_REPORT ------------
+Event: time 1702125092.626118, type 4 (EV_MSC), code 4 (MSC_SCAN), value ffa000fb
+Event: time 1702125092.626118, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 0
+Event: time 1702125092.626118, -------------- SYN_REPORT ------------
+
+
+Vscroll:
+Event: time 1702125286.653639, type 4 (EV_MSC), code 4 (MSC_SCAN), value ffa000fb
+Event: time 1702125286.653639, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 1
+Event: time 1702125286.653639, -------------- SYN_REPORT ------------
+Event: time 1702125287.929689, type 2 (EV_REL), code 8 (REL_WHEEL), value -1
+Event: time 1702125287.929689, -------------- SYN_REPORT ------------
+Event: time 1702125288.037688, type 2 (EV_REL), code 8 (REL_WHEEL), value -1
+Event: time 1702125288.037688, -------------- SYN_REPORT ------------
+Event: time 1702125290.481787, type 4 (EV_MSC), code 4 (MSC_SCAN), value ffa000fb
+Event: time 1702125290.481787, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 0
+Event: time 1702125290.481787, -------------- SYN_REPORT ------------
+
+Hscroll:
+Event: time 1702125293.841920, type 4 (EV_MSC), code 4 (MSC_SCAN), value ffa000fb
+Event: time 1702125293.841920, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 1
+Event: time 1702125293.841920, -------------- SYN_REPORT ------------
+Event: time 1702125294.761952, type 2 (EV_REL), code 6 (REL_HWHEEL), value -1
+Event: time 1702125294.761952, -------------- SYN_REPORT ------------
+Event: time 1702125294.893967, type 2 (EV_REL), code 6 (REL_HWHEEL), value -1
+Event: time 1702125294.893967, -------------- SYN_REPORT ------------
+Event: time 1702125296.134006, type 4 (EV_MSC), code 4 (MSC_SCAN), value ffa000fb
+Event: time 1702125296.134006, type 1 (EV_KEY), code 274 (BTN_MIDDLE), value 0
+Event: time 1702125296.134006, -------------- SYN_REPORT ------------
+
 -- 
-2.39.2
-
+Yauhen Kharuzhy
 
