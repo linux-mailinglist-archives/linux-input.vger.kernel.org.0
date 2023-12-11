@@ -1,66 +1,62 @@
-Return-Path: <linux-input+bounces-673-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-674-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BC0D80C42E
-	for <lists+linux-input@lfdr.de>; Mon, 11 Dec 2023 10:16:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE6C280C4A2
+	for <lists+linux-input@lfdr.de>; Mon, 11 Dec 2023 10:31:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5BE331C20CB1
-	for <lists+linux-input@lfdr.de>; Mon, 11 Dec 2023 09:16:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1A8621C20A6C
+	for <lists+linux-input@lfdr.de>; Mon, 11 Dec 2023 09:31:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECD4921102;
-	Mon, 11 Dec 2023 09:16:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AF4D21363;
+	Mon, 11 Dec 2023 09:31:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c0hOzhRj"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LG6BZT0m"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66369FC
-	for <linux-input@vger.kernel.org>; Mon, 11 Dec 2023 01:16:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1702286161;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jUybIe9KqFLYcWP/O6bBcrUunOZCGQTAWb7qxrL5p9o=;
-	b=c0hOzhRj56jZ0R5uFHLyphEcqNwKfck7a3osmETEwaT3WlELrO2rs+mL3pvOmRAB6l8as8
-	jRg1N/NzNkQ3eEcXXUqbxzypFa0DOF/bSWCb/JV7kArQXoc46ZMZDSRpMNaJihNp6gKGz2
-	zvG//leETwx1LY4LluEbSGNfHskjsIw=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-29-yA74I9F9OBSHh1wa2l7fFg-1; Mon, 11 Dec 2023 04:16:00 -0500
-X-MC-Unique: yA74I9F9OBSHh1wa2l7fFg-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-9fd0a58549bso476725166b.0
-        for <linux-input@vger.kernel.org>; Mon, 11 Dec 2023 01:15:59 -0800 (PST)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6347F107
+	for <linux-input@vger.kernel.org>; Mon, 11 Dec 2023 01:31:31 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-40c19f5f822so22835545e9.1
+        for <linux-input@vger.kernel.org>; Mon, 11 Dec 2023 01:31:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702287090; x=1702891890; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :references:cc:to:content-language:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pLp5kesKJckufFT5n27BxZr41mn/oRMjNbRkVj04JLg=;
+        b=LG6BZT0mUwWMl1i4l8jdsHGFueZ/Z0aknmKvX7HyBe2K09J8Z/+aYgoMiD9W1i4HZo
+         6o6/sCBnqEtPsRyigc0GKmmVJv9zYwJwk29fYuUg599zE6hW9W2tVGbihcq8XjD1p2dT
+         l6wcITQHbakXRvqxLY8MuUwhOLOI+YbMgi/1PjaZsvwCWzp6IXc67ZT1jishoyg8+EBD
+         6tTV/q2g19D6JSFmngY6UeHF3OdIz6+uE2lK4LuEmgx1Mkssr1InWGL1b/pyFRnW3CoO
+         lLUhbzOAcS/xiDQV2AMkLtShaeINc7mxX/D6Lni+FFfmySb6PJfiK2JNM3b4rxV+elZP
+         1p5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702286159; x=1702890959;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jUybIe9KqFLYcWP/O6bBcrUunOZCGQTAWb7qxrL5p9o=;
-        b=pvsBVZzRRYRGnsNyun2ymz8eh83grVt1BBCQxuZ5Hcny/+gbgRYdGdPI962Z1/oRGz
-         vI7UgpnVBZEJSXaynMbI+XrMWIognWMZQTD6LwMp9PjSA3SeiBHKRQvA27PxXMB9IaR8
-         +M5QGjIECpZkwS2ScOwfPwOMHYNmRU3TZEvLogzUYRW3xAuH36cdv9ZASbmB8xypO4Ca
-         2RomAONWIcyNbmoLOZWx4UrWZ0CgsKzo1cxkrraC6sjxneMQclZ2Fq8nU47vRoL+bZus
-         24u818oI/8r8OSYNASYrxAtwVjmXxt2Amp7MxbtbRW/AxNa3IoSuuj1QPHEk3McuriNW
-         s/JA==
-X-Gm-Message-State: AOJu0Yxz3PlBytJ1engdOylE2YanyWdlENseLJlpj3ssezYGBL2tgRVk
-	320qvm7E7JzqQ76qzHFTrOxqAHuhY3Q6JHGQd/YH/uQ5UOLazSwc3vViH+LbCpnBwVoJaYB4+oW
-	pDYNMHRkANQk6sFW25KyusFI=
-X-Received: by 2002:a17:906:d8b7:b0:a1e:9373:155d with SMTP id qc23-20020a170906d8b700b00a1e9373155dmr3875676ejb.30.1702286158644;
-        Mon, 11 Dec 2023 01:15:58 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGW1e+waL/QAdSpSyUmPOaSmsPd59r49OwBNwRqu8vficgePrUyWjV5v7UzdONOfkjFDQt5Ng==
-X-Received: by 2002:a17:906:d8b7:b0:a1e:9373:155d with SMTP id qc23-20020a170906d8b700b00a1e9373155dmr3875668ejb.30.1702286158309;
-        Mon, 11 Dec 2023 01:15:58 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id tz9-20020a170907c78900b00a19afc16d23sm4518226ejc.104.2023.12.11.01.15.57
+        d=1e100.net; s=20230601; t=1702287090; x=1702891890;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :references:cc:to:content-language:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=pLp5kesKJckufFT5n27BxZr41mn/oRMjNbRkVj04JLg=;
+        b=tzrtZRDEG1RWnaSbLapGtjeZbu9etUYwAFREVT9/0Jgd3mbq8LpoV3KsciY/wG3BHP
+         oY5YdD1UWgEiFFoJ5f1r7jXIrW1fT0d8VjW5+dIh0IwAKGS0tTa6V4iX1RRuc8eUUdTV
+         Hd6TS0MhREcv/9Et/IySO1ap6PAcUAr4eMg1VkNwhAEt9P8nEirHOWPMyJ9/QPQtUAAp
+         p45FV52uLnzYvgs73wmr79SNLn5Oka51YbGynZQ/lZutoXwBm1jMUP/735vH2kP3qIgq
+         2vNfxqwm8tmh9sia6Oty66EmVnWYlLJ+Xrw35cQQLRmifjNAyWkAVTna5kg0xKsWzebD
+         kcnw==
+X-Gm-Message-State: AOJu0YwyXWxlrqpEZOu8QJLBZL4TyyilwRiD7yt9HnJjZWzRIeC8lpph
+	UjNMMJbteHGF/1wsHQKdlvYPMw==
+X-Google-Smtp-Source: AGHT+IHooRnLsQwGd6JlWAB5k7FvLwPeFXh8PqpqG0Ux6inQQyaaNoBZWdcw2yV3v7DMu19vAxfKkA==
+X-Received: by 2002:a05:600c:3d91:b0:40c:243f:1f6 with SMTP id bi17-20020a05600c3d9100b0040c243f01f6mr2280439wmb.152.1702287089682;
+        Mon, 11 Dec 2023 01:31:29 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:302e:e0c2:d42c:cb23? ([2a01:e0a:982:cbb0:302e:e0c2:d42c:cb23])
+        by smtp.gmail.com with ESMTPSA id d13-20020a05600c34cd00b0040c496c64cfsm1959683wmq.12.2023.12.11.01.31.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Dec 2023 01:15:57 -0800 (PST)
-Message-ID: <ad064333-48a4-4cfa-9428-69e8a7c44667@redhat.com>
-Date: Mon, 11 Dec 2023 10:15:56 +0100
+        Mon, 11 Dec 2023 01:31:29 -0800 (PST)
+Message-ID: <e7cd1271-ed10-40da-8b04-275507fee710@linaro.org>
+Date: Mon, 11 Dec 2023 10:31:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -68,70 +64,112 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 15/15] platform/x86/amd/pmf: Add PMF-AMDSFH interface
- for ALS
-Content-Language: en-US, nl
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, markgross@kernel.org,
- ilpo.jarvinen@linux.intel.com, basavaraj.natikar@amd.com, jikos@kernel.org,
- benjamin.tissoires@redhat.com
-Cc: Patil.Reddy@amd.com, mario.limonciello@amd.com,
- platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
-References: <20231204101548.1458499-1-Shyam-sundar.S-k@amd.com>
- <20231204101548.1458499-16-Shyam-sundar.S-k@amd.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231204101548.1458499-16-Shyam-sundar.S-k@amd.com>
-Content-Type: text/plain; charset=UTF-8
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH v12 2/4] Input: add core support for Goodix Berlin
+ Touchscreen IC
+Content-Language: en-US, fr
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bastien Nocera <hadess@hadess.net>,
+ Hans de Goede <hdegoede@redhat.com>, Henrik Rydberg <rydberg@bitmath.org>,
+ Jeff LaBundy <jeff@labundy.com>, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231209-topic-goodix-berlin-upstream-initial-v12-0-eaffaeb53fb5@linaro.org>
+ <20231209-topic-goodix-berlin-upstream-initial-v12-2-eaffaeb53fb5@linaro.org>
+ <ZXVgYuzE6jPPSfnZ@google.com>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <ZXVgYuzE6jPPSfnZ@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi Dmitry,
 
-On 12/4/23 11:15, Shyam Sundar S K wrote:
-> From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+On 10/12/2023 07:53, Dmitry Torokhov wrote:
+> Hi Neil,
 > 
-> AMDSFH has information about the Ambient light via the Ambient
-> Light Sensor (ALS) which is part of the AMD sensor fusion hub.
-> Add PMF and AMDSFH interface to get this information.
+> On Sat, Dec 09, 2023 at 08:33:40AM +0100, Neil Armstrong wrote:
+>> Add initial support for the new Goodix "Berlin" touchscreen ICs.
+>>
+>> These touchscreen ICs support SPI, I2C and I3C interface, up to
+>> 10 finger touch, stylus and gestures events.
+>>
+>> This initial driver is derived from the Goodix goodix_ts_berlin
+>> available at [1] and [2] and only supports the GT9916 IC
+>> present on the Qualcomm SM8550 MTP & QRD touch panel.
+>>
+>> The current implementation only supports BerlinD, aka GT9916.
+>>
+>> Support for advanced features like:
+>> - Firmware & config update
+>> - Stylus events
+>> - Gestures events
+>> - Previous revisions support (BerlinA or BerlinB)
+>> is not included in current version.
+>>
+>> The current support will work with currently flashed firmware
+>> and config, and bail out if firmware or config aren't flashed yet.
+>>
+>> [1] https://github.com/goodix/goodix_ts_berlin
+>> [2] https://git.codelinaro.org/clo/la/platform/vendor/opensource/touch-drivers
+>>
+>> Reviewed-by: Jeff LaBundy <jeff@labundy.com>
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 > 
-> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-> Co-developed-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-> ---
->  drivers/hid/amd-sfh-hid/amd_sfh_common.h      |  1 +
->  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c |  6 ++++++
->  .../amd-sfh-hid/sfh1_1/amd_sfh_interface.c    | 19 +++++++++++++++++++
->  drivers/platform/x86/amd/pmf/spc.c            |  9 ++++++++-
->  include/linux/amd-pmf-io.h                    |  4 ++++
->  5 files changed, 38 insertions(+), 1 deletion(-)
+> Thank you for resending the patch. I think there is an issue in how you
+> read and parse the data in case of more than 2 fingers. It looks like in
+> that case you are overwriting the checksum form the first 2 and then not
+> reading the new checksum but use some garbage past the touch data. I
+> might be mistaken though...
 
-Ok so with this patch also added in the mix I guess the
-multi-plexing nature of amd_get_sfh_info() makes sense,
-so it is ok to keep that.
+Sure, let me check again to be sure it's not the case
 
-But this patch also needs to have its HID parts split out
-from the rest and the HID patches need to be merged
-separately.
+> 
+> I also believe you are leaking afe_data in case of success. We have the
+> newfangled __free(kfree) from cleanup.h that should help there.
 
-Since the merge-window is getting close I would like
-to propose the following:
+Indeed, it was added in the meantime, so let's switch to it
 
-1. Send a v7 addressing review remarks consisting of
-only patches 1-12, assuming all review remarks are
-fixed in v7 I can merge that then.
+> 
+> Another request - we should not have anything in goodix_berlin.h that is
+> not used by the I2C and SPI sub-drivers, so the only thing it should
+> contain is goodix_berlin_probe() declaration and dev_pm_ops. All other
+> defines and definitions should go to goodix_berlin_core.h.
+> 
+> I made a few more cosmetic changes in the attached patch, please
+> consider applying it.
 
-2. Send a 3 patch HID patch series separately:
+Sure, I'll apply it, thanks for the suggestions,
 
-[PATCH 1/3] HID: amd_sfh: rename float_to_int() to amd_sfh_float_to_int()
-[PATCH 2/3] HID: amd_sfh: adding the HID hpd bits + amd_get_sfh_info() function
-[PATCH 3/3] HID: amd_sfh: adding the HID als bits
+Neil
 
-3. Once v7 of patches 1-12 + hopefully the 3 patch HID series have
-landed in 6.8-rc1 then I would be willing to take a patch using
-amd_get_sfh_info() to implement hpd + als support in the spc code
-as a fix for 6.8-rc# .
-
-Regards,
-
-Hans
+> 
+> Thanks.
+> 
 
 
