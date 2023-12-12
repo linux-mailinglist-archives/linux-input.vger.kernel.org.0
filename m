@@ -1,163 +1,88 @@
-Return-Path: <linux-input+bounces-707-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-708-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F326780E112
-	for <lists+linux-input@lfdr.de>; Tue, 12 Dec 2023 02:48:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E95280E251
+	for <lists+linux-input@lfdr.de>; Tue, 12 Dec 2023 03:50:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DE291F21C3E
-	for <lists+linux-input@lfdr.de>; Tue, 12 Dec 2023 01:48:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F42F1C2170B
+	for <lists+linux-input@lfdr.de>; Tue, 12 Dec 2023 02:50:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D47320EA;
-	Tue, 12 Dec 2023 01:48:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5B794696;
+	Tue, 12 Dec 2023 02:50:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UB7s+ixW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D5Fkcq6l"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2041.outbound.protection.outlook.com [40.107.244.41])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8CAFCF;
-	Mon, 11 Dec 2023 17:48:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YUopxZ3FF9wnCn4pUSbkwZNhapdLtaOS9ji/0WUhiwY2bRoYxezdcidxqJ6vhu7WRFrgAlT/HB4PNjaxvBUkgPLMlbAou+or2aZ+RMKWzf5B+x2qprIdjftCH5tmwlSqyfF8M1TBC9sag6m67ogvhFZWbgKasV2TOhYb2tgOYPP8/Kf/OTvQSmvuajpdA8JK8f9nvP6T47iUJtA+pXtscEdphJ9R2z1W69+uhxk5NYwJ8uKSd6E3uB9krxXkWqIUL/S/0yijNShsJf/UTarj/4nM1P+Mpjju4MHGUN10X70q27KTr9jQ4DW6cd88Gj0798zehZaVduZbz7IA245fGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2T6paaQkVopXsVw2oQkEhI2WAq/Zg7f1IYVEUyZUcIs=;
- b=IICoDqILUkx6ZhI289n2lIMGfec7FZ151gCE1jdxtEft0vPQ43oGjTfkUrdH6MJ2tx6qrXnAhhlE5Jq4UUk+7shYRJP/T5uW1TdeY5qqU/HjfF4pt1XqfL/aDtUQ0juVTfiLqw73z2R5obBffT/4of27/mOX6dK6BlVkCmMz4PUGwvXMtd/f5aTc9BGBqd+yqzMjlzGh2uPqRhKVENC9aNNUby4c71v6OdvFvh1p+o2IexPY1niXv7b+5NFRam199JYWi4847B4L2VHNlh+Fdwd4auTOwSj4voYpO2plKshyoGFaWwn2JZOdKSHlqzhDrBJ63ZNaq2yOIYflTaK1mg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2T6paaQkVopXsVw2oQkEhI2WAq/Zg7f1IYVEUyZUcIs=;
- b=UB7s+ixWMutRCwWMFfoIuaHZ+/lZSprXoWxhdyTrQ/EQQKWUemMcnmG7vWf3nrikQFm9lE/9slVI13NJqwY/zP7/Xfw0tW2tOkiuwmrNFvAnSX2ny1pAMAcGdjp3DJJNX9bWFlayPuIZqVr/AhXWrQxuwoL39sw0VcChOCht4/I=
-Received: from CY8P220CA0023.NAMP220.PROD.OUTLOOK.COM (2603:10b6:930:46::13)
- by DS0PR12MB7972.namprd12.prod.outlook.com (2603:10b6:8:14f::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33; Tue, 12 Dec
- 2023 01:48:30 +0000
-Received: from CY4PEPF0000FCBF.namprd03.prod.outlook.com
- (2603:10b6:930:46:cafe::2a) by CY8P220CA0023.outlook.office365.com
- (2603:10b6:930:46::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33 via Frontend
- Transport; Tue, 12 Dec 2023 01:48:30 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000FCBF.mail.protection.outlook.com (10.167.242.101) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7091.18 via Frontend Transport; Tue, 12 Dec 2023 01:48:30 +0000
-Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Mon, 11 Dec
- 2023 19:48:26 -0600
-From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-To: <hdegoede@redhat.com>, <markgross@kernel.org>,
-	<ilpo.jarvinen@linux.intel.com>, <basavaraj.natikar@amd.com>,
-	<jikos@kernel.org>, <benjamin.tissoires@redhat.com>
-CC: <Patil.Reddy@amd.com>, <mario.limonciello@amd.com>,
-	<platform-driver-x86@vger.kernel.org>, <linux-input@vger.kernel.org>, "Shyam
- Sundar S K" <Shyam-sundar.S-k@amd.com>
-Subject: [PATCH v7 12/12] platform/x86/amd/pmf: dump policy binary data
-Date: Tue, 12 Dec 2023 07:17:05 +0530
-Message-ID: <20231212014705.2017474-13-Shyam-sundar.S-k@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231212014705.2017474-1-Shyam-sundar.S-k@amd.com>
-References: <20231212014705.2017474-1-Shyam-sundar.S-k@amd.com>
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90358AD;
+	Mon, 11 Dec 2023 18:50:23 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1d0b2752dc6so45447915ad.3;
+        Mon, 11 Dec 2023 18:50:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702349423; x=1702954223; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=K5wKOiCgqswdmnAE+7GTByJH/L22v0TKX6Ot3bMlqWs=;
+        b=D5Fkcq6lLgkYpR2n3TGxEpX8CyGrJ48HOymhkJwVZzlX0DFTPM8DY4gwS4PRuaZDVx
+         zPrn8mJ6qPeSKdX1UFrh6CTRO6nStm/kyHPfGYSbelo1CP3vSgbCekHX8+mhargJWoVj
+         h+g6mCA09LZOSys/pwu+IGVqaHkdsIvviSfRsyGn8dfhTOSD1mo+kLm3rPbC9VloJoEV
+         fvFJIO75Jn9YkffpNKnKwkY/klZ1oSurQ/ApayM/Q7LaKsgxnM8ZJILlE6KwEekuKCey
+         2CX0ui2RBY+kHB5kXNpiZxNx1N4Qll+broESwoQBrlsOfBpn1R172oX16ZuVIMxKo+3V
+         0q2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702349423; x=1702954223;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K5wKOiCgqswdmnAE+7GTByJH/L22v0TKX6Ot3bMlqWs=;
+        b=VphMqxHcwIKTBQmeEXW5bOu8dsWqaYTm7uclozXch1lJB0tzy075nJ2dtnfbcnqSZa
+         26FJ4/ht/uWaoytGFfoH0Bk5QosnOgl30Rzt9813MKq9mV3K51/FeMsc6dfPkgDm4nGF
+         41z/ileQYL84AjfhRTyFAWn2uFcRdZMsDNpmC5J68Dl662x1Px7AB4poUx2X/ANMTb8P
+         CP7P1V+Kosk5yoVV/Hjf4800+NpLZ3yB9Z7l1KPt3y9ChXtcHf2eTJeEYuwoUM6OOyoL
+         9v0JlP7p1NZg4J1KAqsm6lKv94dxjoUR4ETy4jxXkdRlNDYNSllBkNEAUJjsAq7BkDup
+         dNKg==
+X-Gm-Message-State: AOJu0Yz17CIPtgshF7P/8KW7E+ua2hnimeBGWoHwZEmtrdIOPJAOFiQi
+	c8x9uGrkNHfTwt9PZES6qb8J+YkCfPbW5w==
+X-Google-Smtp-Source: AGHT+IHZNi5dCKJ59opPtFzEyCZt2GcAMbOQONIBrgmAJOj06J3uNAoDVaL19FQTCvoYrB8RxekVuw==
+X-Received: by 2002:a17:903:2791:b0:1d0:6ffd:9e30 with SMTP id jw17-20020a170903279100b001d06ffd9e30mr5493893plb.130.1702349422865;
+        Mon, 11 Dec 2023 18:50:22 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:46e0:3920:a552:71cb])
+        by smtp.gmail.com with ESMTPSA id z14-20020a170903018e00b001cfc15993efsm7408879plg.163.2023.12.11.18.50.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Dec 2023 18:50:22 -0800 (PST)
+Date: Mon, 11 Dec 2023 18:50:19 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Andreas Kemnade <andreas@kemnade.info>
+Cc: Jonathan.Cameron@huawei.com, tony@atomide.com, robh@kernel.org,
+	frank.li@vivo.com, u.kleine-koenig@pengutronix.de,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Input: omap4-keypad: react on keypresses if device is
+ runtime-suspended
+Message-ID: <ZXfKa_LjCgvskb99@google.com>
+References: <20231211221757.517427-1-andreas@kemnade.info>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCBF:EE_|DS0PR12MB7972:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f9de861-c177-435a-8bc9-08dbfab47130
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	aC54jwzYF4HWUsV7/PZO0fPDd5nzMy0HFdZC4YGzlzHOoItZz/oyeIBYwpwHMQ2QsZXpmwHIwuN87w2sDw1OrDm++IiEc7KPuB2vDrKndgLN0nSi/p9k4UELRxyYPN9lflPUos+M2ABhccVQkY5qYB9bV0VGxXa+rupbsPrqVKlMxJYNxUVcatC5oIiW7s6GTrZjSRlfxB40s9n24uAiDQ8ktTvnGzXfiNlU9Do4hjxjaWp866UBio0lGv7vzbGdkzM45+ozgmFa9VCZhcMcUQ3ZMSK5MtoIz1ytZMelo3B2SUdwZce/9/BtkHn+PvHI71tvOmgvlt5LILQqwT8+HkTH2W4t3tHgrVr+zVBua02rASLFrEpN86RpWcfsjd3jqwjmZMvat1nHp1tuRwb7AESXg/iNYaPs2eIQMlATJN6yS87IFdR1HqkQtxkVEZB8d9IiuF9dEWB5SzF1rMwXEZr6xQOF9GoJPmRlCeKr+Xab61jQH4G1GqrC4UjAZHzN2qKmgHo+5ILN0xWgO4rcWGCC1iSpoZjdAf3UpYX7lvT/Q6awgsZd5696IPK9MX+kM9paGhhFG0eRckPEjGYA68rRlPRDzdFPXLx/zt4m1cnwx7iyAqHd+qLoqZJA0a8c6N/2hItJNDXu6+eZIBB1DxMDvOhwItaCOqAp7WQewdfVSeaAIZwp8WbDUO4CtcDklLWAXQ4BSUs9UiIezEUf+tJ9T7ZXsoqOjPtFZe6AC/C4GsBlegq9KYHsxul7fcCYjHWTGRFQZQu7oU66MqXLjA==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(396003)(346002)(39860400002)(376002)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(82310400011)(40470700004)(46966006)(36840700001)(40460700003)(40480700001)(336012)(26005)(2616005)(7696005)(16526019)(6666004)(478600001)(1076003)(47076005)(81166007)(82740400003)(86362001)(36756003)(356005)(2906002)(5660300002)(70586007)(70206006)(54906003)(41300700001)(426003)(36860700001)(8676002)(8936002)(110136005)(316002)(4326008)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2023 01:48:30.2183
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f9de861-c177-435a-8bc9-08dbfab47130
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000FCBF.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7972
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231211221757.517427-1-andreas@kemnade.info>
 
-Sometimes policy binary retrieved from the BIOS maybe incorrect that can
-end up in failing to enable the Smart PC solution feature.
+On Mon, Dec 11, 2023 at 11:17:57PM +0100, Andreas Kemnade wrote:
+> According to SWPU235AB, table 26-6, fclk is required to generate events
+> at least on OMAP4460, so keep fclk enabled all the time the device
+> is opened.
+> 
+> Suggested-by: Tony Lindgren <tony@atomide.com>
+> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+> Reviewed-by: Tony Lindgren <tony@atomide.com>
 
-Use print_hex_dump_debug() to dump the policy binary in hex, so that we
-debug the issues related to the binary even before sending that to TA.
+Applied, thank you.
 
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
----
- drivers/platform/x86/amd/pmf/tee-if.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
-index cf95251741c7..9a4757f4f521 100644
---- a/drivers/platform/x86/amd/pmf/tee-if.c
-+++ b/drivers/platform/x86/amd/pmf/tee-if.c
-@@ -276,6 +276,12 @@ static int amd_pmf_start_policy_engine(struct amd_pmf_dev *dev)
- }
- 
- #ifdef CONFIG_AMD_PMF_DEBUG
-+static void amd_pmf_hex_dump_pb(struct amd_pmf_dev *dev)
-+{
-+	print_hex_dump_debug("(pb):  ", DUMP_PREFIX_OFFSET, 16, 1, dev->policy_buf,
-+			     dev->policy_sz, false);
-+}
-+
- static ssize_t amd_pmf_get_pb_data(struct file *filp, const char __user *buf,
- 				   size_t length, loff_t *pos)
- {
-@@ -296,6 +302,7 @@ static ssize_t amd_pmf_get_pb_data(struct file *filp, const char __user *buf,
- 	if (copy_from_user(dev->policy_buf, buf, dev->policy_sz))
- 		return -EFAULT;
- 
-+	amd_pmf_hex_dump_pb(dev);
- 	ret = amd_pmf_start_policy_engine(dev);
- 	if (ret)
- 		return -EINVAL;
-@@ -321,6 +328,7 @@ static void amd_pmf_remove_pb(struct amd_pmf_dev *dev)
- #else
- static void amd_pmf_open_pb(struct amd_pmf_dev *dev, struct dentry *debugfs_root) {}
- static void amd_pmf_remove_pb(struct amd_pmf_dev *dev) {}
-+static void amd_pmf_hex_dump_pb(struct amd_pmf_dev *dev) {}
- #endif
- 
- static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
-@@ -335,6 +343,7 @@ static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
- 
- 	memcpy(dev->policy_buf, dev->policy_base, dev->policy_sz);
- 
-+	amd_pmf_hex_dump_pb(dev);
- 	if (pb_side_load)
- 		amd_pmf_open_pb(dev, dev->dbgfs_dir);
- 
 -- 
-2.25.1
-
+Dmitry
 
