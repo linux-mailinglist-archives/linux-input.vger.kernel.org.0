@@ -1,28 +1,28 @@
-Return-Path: <linux-input+bounces-774-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-775-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C2D8120E1
-	for <lists+linux-input@lfdr.de>; Wed, 13 Dec 2023 22:48:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE218120E4
+	for <lists+linux-input@lfdr.de>; Wed, 13 Dec 2023 22:48:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B6E34282741
-	for <lists+linux-input@lfdr.de>; Wed, 13 Dec 2023 21:48:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A684A1F21911
+	for <lists+linux-input@lfdr.de>; Wed, 13 Dec 2023 21:48:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A9F57FBAD;
-	Wed, 13 Dec 2023 21:48:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10CD07FBB2;
+	Wed, 13 Dec 2023 21:48:22 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0044AAC;
-	Wed, 13 Dec 2023 13:48:14 -0800 (PST)
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 96363E0;
+	Wed, 13 Dec 2023 13:48:17 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="6.04,273,1695654000"; 
-   d="scan'208";a="190259912"
+   d="scan'208";a="186385648"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 14 Dec 2023 06:48:14 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 14 Dec 2023 06:48:17 +0900
 Received: from localhost.localdomain (unknown [10.26.240.14])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3AA5A40BB729;
-	Thu, 14 Dec 2023 06:48:10 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 98DFA40BB731;
+	Thu, 14 Dec 2023 06:48:14 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
@@ -32,9 +32,9 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 1/4] Input: da9063 - Simplify obtaining OF match data
-Date: Wed, 13 Dec 2023 21:48:00 +0000
-Message-Id: <20231213214803.9931-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 2/4] Input: da9063 - Drop redundant prints in probe()
+Date: Wed, 13 Dec 2023 21:48:01 +0000
+Message-Id: <20231213214803.9931-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231213214803.9931-1-biju.das.jz@bp.renesas.com>
 References: <20231213214803.9931-1-biju.das.jz@bp.renesas.com>
@@ -46,85 +46,78 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Simplify probe() by replacing of_match_node() for retrieving match data by
-device_get_match_data().
+The memory allocation core code already prints error message in case of
+OOM. So, drop additional print messages for OOM cases.
 
-Some minor cleanups:
- * Remove the trailing comma in the terminator entry for the OF
-   table making code robust against (theoretical) misrebases or other
-   similar things where the new entry goes _after_ the termination without
-   the compiler noticing.
- * Move OF table near to the user.
- * Arrange variables in reverse xmas tree order in probe().
+While at it, input_register_device() is already printing error messages on
+failure. Drop the redundant print.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-v1->v2:
- * No change.
+v2:
+ * New patch.
 ---
- drivers/input/misc/da9063_onkey.c | 27 ++++++++++++---------------
- 1 file changed, 12 insertions(+), 15 deletions(-)
+ drivers/input/misc/da9063_onkey.c | 23 ++++-------------------
+ 1 file changed, 4 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/input/misc/da9063_onkey.c b/drivers/input/misc/da9063_onkey.c
-index 74808bae326a..9351ce0bb405 100644
+index 9351ce0bb405..80878274204e 100644
 --- a/drivers/input/misc/da9063_onkey.c
 +++ b/drivers/input/misc/da9063_onkey.c
-@@ -74,13 +74,6 @@ static const struct da906x_chip_config da9062_regs = {
- 	.name = "da9062-onkey",
- };
- 
--static const struct of_device_id da9063_compatible_reg_id_table[] = {
--	{ .compatible = "dlg,da9063-onkey", .data = &da9063_regs },
--	{ .compatible = "dlg,da9062-onkey", .data = &da9062_regs },
--	{ },
--};
--MODULE_DEVICE_TABLE(of, da9063_compatible_reg_id_table);
--
- static void da9063_poll_on(struct work_struct *work)
- {
- 	struct da9063_onkey *onkey = container_of(work,
-@@ -187,14 +180,8 @@ static irqreturn_t da9063_onkey_irq_handler(int irq, void *data)
- static int da9063_onkey_probe(struct platform_device *pdev)
- {
- 	struct da9063_onkey *onkey;
--	const struct of_device_id *match;
--	int irq;
- 	int error;
--
--	match = of_match_node(da9063_compatible_reg_id_table,
--			      pdev->dev.of_node);
--	if (!match)
--		return -ENXIO;
-+	int irq;
+@@ -185,10 +185,8 @@ static int da9063_onkey_probe(struct platform_device *pdev)
  
  	onkey = devm_kzalloc(&pdev->dev, sizeof(struct da9063_onkey),
  			     GFP_KERNEL);
-@@ -203,7 +190,10 @@ static int da9063_onkey_probe(struct platform_device *pdev)
+-	if (!onkey) {
+-		dev_err(&pdev->dev, "Failed to allocate memory.\n");
++	if (!onkey)
  		return -ENOMEM;
- 	}
+-	}
  
--	onkey->config = match->data;
-+	onkey->config = device_get_match_data(&pdev->dev);
-+	if (!onkey->config)
-+		return -ENXIO;
-+
- 	onkey->dev = &pdev->dev;
+ 	onkey->config = device_get_match_data(&pdev->dev);
+ 	if (!onkey->config)
+@@ -206,10 +204,8 @@ static int da9063_onkey_probe(struct platform_device *pdev)
+ 						  "dlg,disable-key-power");
  
- 	onkey->regmap = dev_get_regmap(pdev->dev.parent, NULL);
-@@ -270,6 +260,13 @@ static int da9063_onkey_probe(struct platform_device *pdev)
- 	return 0;
+ 	onkey->input = devm_input_allocate_device(&pdev->dev);
+-	if (!onkey->input) {
+-		dev_err(&pdev->dev, "Failed to allocated input device.\n");
++	if (!onkey->input)
+ 		return -ENOMEM;
+-	}
+ 
+ 	onkey->input->name = onkey->config->name;
+ 	snprintf(onkey->phys, sizeof(onkey->phys), "%s/input0",
+@@ -221,12 +217,8 @@ static int da9063_onkey_probe(struct platform_device *pdev)
+ 
+ 	error = devm_delayed_work_autocancel(&pdev->dev, &onkey->work,
+ 					     da9063_poll_on);
+-	if (error) {
+-		dev_err(&pdev->dev,
+-			"Failed to add cancel poll action: %d\n",
+-			error);
++	if (error)
+ 		return error;
+-	}
+ 
+ 	irq = platform_get_irq_byname(pdev, "ONKEY");
+ 	if (irq < 0)
+@@ -250,14 +242,7 @@ static int da9063_onkey_probe(struct platform_device *pdev)
+ 	else
+ 		device_init_wakeup(&pdev->dev, true);
+ 
+-	error = input_register_device(onkey->input);
+-	if (error) {
+-		dev_err(&pdev->dev,
+-			"Failed to register input device: %d\n", error);
+-		return error;
+-	}
+-
+-	return 0;
++	return input_register_device(onkey->input);
  }
  
-+static const struct of_device_id da9063_compatible_reg_id_table[] = {
-+	{ .compatible = "dlg,da9063-onkey", .data = &da9063_regs },
-+	{ .compatible = "dlg,da9062-onkey", .data = &da9062_regs },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, da9063_compatible_reg_id_table);
-+
- static struct platform_driver da9063_onkey_driver = {
- 	.probe	= da9063_onkey_probe,
- 	.driver	= {
+ static const struct of_device_id da9063_compatible_reg_id_table[] = {
 -- 
 2.25.1
 
