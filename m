@@ -1,61 +1,61 @@
-Return-Path: <linux-input+bounces-766-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-768-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724EB811A95
-	for <lists+linux-input@lfdr.de>; Wed, 13 Dec 2023 18:13:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07825811A97
+	for <lists+linux-input@lfdr.de>; Wed, 13 Dec 2023 18:13:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BE8C6B21278
-	for <lists+linux-input@lfdr.de>; Wed, 13 Dec 2023 17:13:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 200BA1C2119A
+	for <lists+linux-input@lfdr.de>; Wed, 13 Dec 2023 17:13:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F036F3B796;
-	Wed, 13 Dec 2023 17:13:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B071A54BEF;
+	Wed, 13 Dec 2023 17:13:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pSr7xydS"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hX6BtFlN"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F0E610E
-	for <linux-input@vger.kernel.org>; Wed, 13 Dec 2023 09:13:25 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40c2308faedso73641735e9.1
-        for <linux-input@vger.kernel.org>; Wed, 13 Dec 2023 09:13:25 -0800 (PST)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8213D111
+	for <linux-input@vger.kernel.org>; Wed, 13 Dec 2023 09:13:26 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-40c48d7a7a7so30725015e9.3
+        for <linux-input@vger.kernel.org>; Wed, 13 Dec 2023 09:13:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702487604; x=1703092404; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1702487605; x=1703092405; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tid5p5CbwnFew1OoFmZZ3rTS9lA993ke+t72lpp1p7Y=;
-        b=pSr7xydSqfVB+HNRDEbWU5q+MGqUiekIMXejqpEGwrynrMcdxX+k8mdSJpE5EicUId
-         eGHukWuypFmzeyWRz4VIvRynnGXQulRDRekw7HEv1SRUpDnG3ZW+4JQT/tIAPok9BSdN
-         QHlSOHN7mZPlr1ykbV3EQaVjbgA9u8DdTMEvwTLCpJSPye+HhpuEfMI0wl327qOxejjl
-         f8UuALJ/H+PEEZ1XnYZDHiFDnGCvTlyuPCV+/tBknSQFECIqeVIOICOt7wDP1quQSTN5
-         h1iNS7wDpJ+eHglJA9qpoNK1ZA933LsUFQpCYvqnXcFDhrTFoBKP8nvSqUNBZ27XUx6J
-         Ztig==
+        bh=OxnVNSfczT25XAfpC4X+ICgFqABO9v8W+zLZSFvXeiM=;
+        b=hX6BtFlNsUUCBB0i8bCvZMu4X7wMObrGy9LdpvXrch8K0+YJNanC7FLiKCczDgumh9
+         hGL8BWCtWR5+RU9E4Bn4A+ElaHl0OnJxG+kqPtQpZLQpt7nroEQDUWP/Eid0He+ViV3W
+         EcO19EHBaJngHQMq+mIGN5wYfSamAtxQh2xSeZR9JxB97Oi4RSR5O/KRAdwyNDRF+a81
+         OHOQl929bB/TtzHHYubfEd0T7ekbiLxLop2mGZvH/Xz+Od1lkLHt4tyevk1+2ftIw0IV
+         sI6zyWrGLLtphO0ew8CepCVFH/vaCSjaySWuPt7oBatdHwrmAIKegQ9HG4gXWb2matn4
+         bRng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702487604; x=1703092404;
+        d=1e100.net; s=20230601; t=1702487605; x=1703092405;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tid5p5CbwnFew1OoFmZZ3rTS9lA993ke+t72lpp1p7Y=;
-        b=Yh4pvMlSHW6xuk3dtEFlXWQ5Wi4tb2HBGxzv/T1gTAYWGTqCl9a0T3B9x3k5PE8Mh/
-         o20/E52eUeLV73lfycsd7+WNZplwnNA9HQgVH+zJHebwaPiZJzNlhs2+G00mfEHKYdOK
-         afpq4OZD4TWAh/pPbxTjEyfWS21JwnVNLKbwbToH4sanHuEEmgGrz0VjbeZqruZCI06B
-         TFI3xqkWOsvkwJD2QKI9tXS1mNU9FLZG1XKELD7oepnhMxK1aSY6Ug7eTZ7mzPEvXu56
-         LJD+U28zr8ZhpFTvmNucG4pjooSSy/zDpoLzYjbmXIBX+n4mQW25Z0JQYA2M32Wsp6fs
-         sPUg==
-X-Gm-Message-State: AOJu0YwsjvSdMfnr4S9EUNdaVutacK99IdcvO1HoRMIP2bhVF5qM2YYH
-	ErgmyGUFB3JXxVTDNP08nyo3DQ==
-X-Google-Smtp-Source: AGHT+IGEHMMgGlTIIx4pngBGR7i1+o1o1tDCUpM8BHyWuTNwF1HfHYMSCsZ72RQz9pChhJhwauJruw==
-X-Received: by 2002:a05:600c:a3af:b0:40c:2c36:2a23 with SMTP id hn47-20020a05600ca3af00b0040c2c362a23mr4038457wmb.180.1702487603916;
-        Wed, 13 Dec 2023 09:13:23 -0800 (PST)
+        bh=OxnVNSfczT25XAfpC4X+ICgFqABO9v8W+zLZSFvXeiM=;
+        b=VjvfqK3IVeWrEQUjJsnF0asItf8fGMVf+HmZ2JOt3WUaGy/utFy3c8KHYgaHjovCGr
+         axWN8SIFlvtD4CjH4hbjctnq/YqJfjMnS4z7EGfWt8MyIkaegIeGoD75YzJnUsYIoZHz
+         2JBBBEZeb8QFCnpeBQ5T1wxiwjhnVJJI30FVcrT5JmfM6hk87qAIVxcS6fNIaefda/+/
+         R70keuW8dZGrDHpJTrpMmENsIVV2akUX242Kdp+rT8o3ed010Sm7Y1PK57ptGdnS13F+
+         J6KQFU+d7jFjgPGanSK45+g6DetdYp9fJ5CTgxps0CLYmgKc/tKPtR/E5XK0BL3GaLUW
+         MqzQ==
+X-Gm-Message-State: AOJu0YxJc3FX64UM1bDD85QS81bmP8tHKmyYKQodzK4P9Msd4u6l/qXq
+	wBoJ1+t6XTjp3+H0hic4y7h32w==
+X-Google-Smtp-Source: AGHT+IH1Dl/k4FwHknd8WNNERXzxdIk6D8+u0zwliSjifrDoKxzr6a7uVHIVoXTJdh3ZToafzMMAog==
+X-Received: by 2002:a7b:cb95:0:b0:40c:1946:be03 with SMTP id m21-20020a7bcb95000000b0040c1946be03mr4836755wmi.111.1702487604922;
+        Wed, 13 Dec 2023 09:13:24 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id fs27-20020a05600c3f9b00b0040b36050f1bsm20711039wmb.44.2023.12.13.09.13.23
+        by smtp.gmail.com with ESMTPSA id fs27-20020a05600c3f9b00b0040b36050f1bsm20711039wmb.44.2023.12.13.09.13.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 09:13:23 -0800 (PST)
+        Wed, 13 Dec 2023 09:13:24 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Wed, 13 Dec 2023 18:13:17 +0100
-Subject: [PATCH v13 3/4] Input: goodix-berlin - add I2C support for Goodix
+Date: Wed, 13 Dec 2023 18:13:18 +0100
+Subject: [PATCH v13 4/4] Input: goodix-berlin - add SPI support for Goodix
  Berlin Touchscreen IC
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -65,7 +65,7 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231213-topic-goodix-berlin-upstream-initial-v13-3-5d7a26a5eaa2@linaro.org>
+Message-Id: <20231213-topic-goodix-berlin-upstream-initial-v13-4-5d7a26a5eaa2@linaro.org>
 References: <20231213-topic-goodix-berlin-upstream-initial-v13-0-5d7a26a5eaa2@linaro.org>
 In-Reply-To: <20231213-topic-goodix-berlin-upstream-initial-v13-0-5d7a26a5eaa2@linaro.org>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
@@ -78,25 +78,28 @@ Cc: Rob Herring <robh+dt@kernel.org>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4539;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8067;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=/29OxaflwzQer1E/gOu8Bz3LG+5phtsz3jcz094am9k=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBleeYu47Op4hdNJnatpilIR9IsMvIUgFeoNQrGH4i9
- FZN5BfuJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZXnmLgAKCRB33NvayMhJ0XlED/
- 9jQxCkGe9yo9aVigft/mk6hC094hF3kONRfxFWKmclqOjFtp8eVV0pItHXub98E+2aYIwpu6RphJxP
- ZX3zoPqEEmiCcviE6cLgZ+eWCsnQJoDmXNXUNPpzUgV9rNPfGtJJb2KEnvpCa5PXwn8SwAyXEknqWU
- zIxiCEHbytJ3sMvJN/NFccXzjGzw4cgSohxtrc7scuJVYB6yPlh+4xGAt47HLq/YkuL3+6zbZ3aFEc
- HuMl3rZfOokgAkseOUt+dGhkDw14zSbqaQbWuH/UwSd2L4venNMKkWVpQPx/zcsg81MqkLzrYlE2LH
- 7hQWlMTabLUOaWhp7zZViMDOBj2ehX7SWQDpsJ+zv3Kyg0BPyIoiv9YOpKgnucdAs8WfEsXzpRSCuZ
- bd/aLiUXafrxPHOWgtonO5ubTI8i+bX5LnFCfjMpFDX715KVzmOPdMxWFQkaC49CkIgL/RQJB/wQGr
- kcHlDhgj7f/+3XEzvwiucVRpvBOVF+aXR3mN+xdSmCJri6LvzYYUv4YdkFIAHYDsVHkvV081jcY3+A
- OZypCIZykLbssWH37mlb/nt+7qMnz1BrKe1PpoIpqBtktRrkTmC9NuAv742XmTvn+hwu9/VGXrsaLP
- J7zBH6FDV6iIdtS5V9MVRvdnwF0IM24K3vmpHa8yE6iqBtS3Ywe6gKTOGh9A==
+ bh=IRI86qOlgcP+lY+pewvMbMLCeQCDU17m1zaFOv0kod4=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBleeYvm2BQ9H2qKM6nS0xv74oPM4C33GxAOi+ExNtj
+ 8mdRKHmJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZXnmLwAKCRB33NvayMhJ0fTZD/
+ 0ZG9+BCUZUOLEafoYDv3lf0SVGpWUHaYlnxTJlOEhinj8XyDpYjKo+Ip+GtDYL9/JSQfZNjBjwcK8A
+ lcFFgyJNT87qoO3YlvdK/w1WCkbr2IWV8N4oAnoBqyujlKIhabzvbsSjG12SLdYzZg56KDQofxPmHn
+ KQyPCd+ZpKoR/zVBwTrW747Y+F9S8iVuKbWPVddiiuSSqsigiooH8v9sTiJweXdocBgQ7IjKf6Z4Pg
+ ospue5EQSVHUWp1AgyPFJadiA5inG+iRY3rcJRHiecmP2v1YB8aY7iEjS1bR6FUWEX91x+zMBoAhf4
+ n0dQ4eU969a1cPRjJawnGsFifxGJioSQ4kgVf2ZSsdJ1gn5s5XhX31ZIfT3R3/CkjqjxK3v8Fasxlx
+ I2gOjwudIIGQlOK6Oc3pvj1+7tUwX+muVudZfWnpynnsWzEt84/B+iBN7N9eYegSNjmheJ3/iWgE1X
+ 5yEQCy2CdXEcIpFQ9+2on5L3Ch9aMFs2Mes0nnZY75B0rImaaSFmKuCuXLR/8iPZiL8BePgtixTQfR
+ 7XYVWqrMqoHaEKaI9TEEtcDchbRivuqum7vennT/x1k1Vrp0djzU3oRl/WAm5JfpeF64XZdA+lXS/r
+ +htNOaIUoxo9aOb6aSItt1vzq5e5cjKtpqmELzcB0CrZp6blI3YuQ4W8VVwg==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
 Add initial support for the new Goodix "Berlin" touchscreen ICs
-over the I2C interface.
+over the SPI interface.
+
+The driver doesn't use the regmap_spi code since the SPI messages
+needs to be prefixed, thus this custom regmap code.
 
 This initial driver is derived from the Goodix goodix_ts_berlin
 available at [1] and [2] and only supports the GT9916 IC
@@ -110,54 +113,54 @@ The current implementation only supports BerlinD, aka GT9916.
 Reviewed-by: Jeff LaBundy <jeff@labundy.com>
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- drivers/input/touchscreen/Kconfig             | 14 +++++
- drivers/input/touchscreen/Makefile            |  1 +
- drivers/input/touchscreen/goodix_berlin_i2c.c | 74 +++++++++++++++++++++++++++
- 3 files changed, 89 insertions(+)
+ drivers/input/touchscreen/Kconfig             |  14 ++
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/goodix_berlin_spi.c | 177 ++++++++++++++++++++++++++
+ 3 files changed, 192 insertions(+)
 
 diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index 950da599ae1a..cc7b88118158 100644
+index cc7b88118158..c821fe3ee794 100644
 --- a/drivers/input/touchscreen/Kconfig
 +++ b/drivers/input/touchscreen/Kconfig
-@@ -419,6 +419,20 @@ config TOUCHSCREEN_GOODIX
- config TOUCHSCREEN_GOODIX_BERLIN_CORE
- 	tristate
+@@ -433,6 +433,20 @@ config TOUCHSCREEN_GOODIX_BERLIN_I2C
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called goodix_berlin_i2c.
  
-+config TOUCHSCREEN_GOODIX_BERLIN_I2C
-+	tristate "Goodix Berlin I2C touchscreen"
-+	depends on I2C
-+	select REGMAP_I2C
++config TOUCHSCREEN_GOODIX_BERLIN_SPI
++	tristate "Goodix Berlin SPI touchscreen"
++	depends on SPI_MASTER
++	select REGMAP
 +	select TOUCHSCREEN_GOODIX_BERLIN_CORE
 +	help
 +	  Say Y here if you have a Goodix Berlin IC connected to
-+	  your system via I2C.
++	  your system via SPI.
 +
 +	  If unsure, say N.
 +
 +	  To compile this driver as a module, choose M here: the
-+	  module will be called goodix_berlin_i2c.
++	  module will be called goodix_berlin_spi.
 +
  config TOUCHSCREEN_HIDEEP
  	tristate "HiDeep Touch IC"
  	depends on I2C
 diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-index 2e2f3e70cd2c..7ef677cf7a10 100644
+index 7ef677cf7a10..a81cb5aa21a5 100644
 --- a/drivers/input/touchscreen/Makefile
 +++ b/drivers/input/touchscreen/Makefile
-@@ -48,6 +48,7 @@ obj-$(CONFIG_TOUCHSCREEN_EXC3000)	+= exc3000.o
- obj-$(CONFIG_TOUCHSCREEN_FUJITSU)	+= fujitsu_ts.o
+@@ -49,6 +49,7 @@ obj-$(CONFIG_TOUCHSCREEN_FUJITSU)	+= fujitsu_ts.o
  obj-$(CONFIG_TOUCHSCREEN_GOODIX)	+= goodix_ts.o
  obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_CORE)	+= goodix_berlin_core.o
-+obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_I2C)	+= goodix_berlin_i2c.o
+ obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_I2C)	+= goodix_berlin_i2c.o
++obj-$(CONFIG_TOUCHSCREEN_GOODIX_BERLIN_SPI)	+= goodix_berlin_spi.o
  obj-$(CONFIG_TOUCHSCREEN_HIDEEP)	+= hideep.o
  obj-$(CONFIG_TOUCHSCREEN_HYNITRON_CSTXXX)	+= hynitron_cstxxx.o
  obj-$(CONFIG_TOUCHSCREEN_ILI210X)	+= ili210x.o
-diff --git a/drivers/input/touchscreen/goodix_berlin_i2c.c b/drivers/input/touchscreen/goodix_berlin_i2c.c
+diff --git a/drivers/input/touchscreen/goodix_berlin_spi.c b/drivers/input/touchscreen/goodix_berlin_spi.c
 new file mode 100644
-index 000000000000..4d5bcc101569
+index 000000000000..502b143e9e05
 --- /dev/null
-+++ b/drivers/input/touchscreen/goodix_berlin_i2c.c
-@@ -0,0 +1,74 @@
++++ b/drivers/input/touchscreen/goodix_berlin_spi.c
+@@ -0,0 +1,177 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +/*
 + * Goodix Berlin Touchscreen Driver
@@ -167,70 +170,173 @@ index 000000000000..4d5bcc101569
 + *
 + * Based on goodix_ts_berlin driver.
 + */
-+#include <linux/i2c.h>
++#include <asm/unaligned.h>
 +#include <linux/kernel.h>
 +#include <linux/module.h>
 +#include <linux/regmap.h>
++#include <linux/spi/spi.h>
 +
 +#include "goodix_berlin.h"
 +
-+#define I2C_MAX_TRANSFER_SIZE		256
++#define GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN	1
++#define GOODIX_BERLIN_REGISTER_WIDTH		4
++#define GOODIX_BERLIN_SPI_READ_DUMMY_LEN	3
++#define GOODIX_BERLIN_SPI_READ_PREFIX_LEN	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
++						 GOODIX_BERLIN_REGISTER_WIDTH + \
++						 GOODIX_BERLIN_SPI_READ_DUMMY_LEN)
++#define GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN	(GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + \
++						 GOODIX_BERLIN_REGISTER_WIDTH)
 +
-+static const struct regmap_config goodix_berlin_i2c_regmap_conf = {
++#define GOODIX_BERLIN_SPI_WRITE_FLAG		0xF0
++#define GOODIX_BERLIN_SPI_READ_FLAG		0xF1
++
++static int goodix_berlin_spi_read(void *context, const void *reg_buf,
++				  size_t reg_size, void *val_buf,
++				  size_t val_size)
++{
++	struct spi_device *spi = context;
++	struct spi_transfer xfers;
++	struct spi_message spi_msg;
++	const u32 *reg = reg_buf; /* reg is stored as native u32 at start of buffer */
++	u8 *buf;
++	int error;
++
++	if (reg_size != GOODIX_BERLIN_REGISTER_WIDTH)
++		return -EINVAL;
++
++	buf = kzalloc(GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++
++	spi_message_init(&spi_msg);
++	memset(&xfers, 0, sizeof(xfers));
++
++	/* buffer format: 0xF1 + addr(4bytes) + dummy(3bytes) + data */
++	buf[0] = GOODIX_BERLIN_SPI_READ_FLAG;
++	put_unaligned_be32(*reg, buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN);
++	memset(buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN + GOODIX_BERLIN_REGISTER_WIDTH,
++	       0xff, GOODIX_BERLIN_SPI_READ_DUMMY_LEN);
++
++	xfers.tx_buf = buf;
++	xfers.rx_buf = buf;
++	xfers.len = GOODIX_BERLIN_SPI_READ_PREFIX_LEN + val_size;
++	xfers.cs_change = 0;
++	spi_message_add_tail(&xfers, &spi_msg);
++
++	error = spi_sync(spi, &spi_msg);
++	if (error < 0)
++		dev_err(&spi->dev, "spi transfer error, %d", error);
++	else
++		memcpy(val_buf, buf + GOODIX_BERLIN_SPI_READ_PREFIX_LEN, val_size);
++
++	kfree(buf);
++	return error;
++}
++
++static int goodix_berlin_spi_write(void *context, const void *data,
++				   size_t count)
++{
++	unsigned int len = count - GOODIX_BERLIN_REGISTER_WIDTH;
++	struct spi_device *spi = context;
++	struct spi_transfer xfers;
++	struct spi_message spi_msg;
++	const u32 *reg = data; /* reg is stored as native u32 at start of buffer */
++	u8 *buf;
++	int error;
++
++	buf = kzalloc(GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN + len, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++
++	spi_message_init(&spi_msg);
++	memset(&xfers, 0, sizeof(xfers));
++
++	buf[0] = GOODIX_BERLIN_SPI_WRITE_FLAG;
++	put_unaligned_be32(*reg, buf + GOODIX_BERLIN_SPI_TRANS_PREFIX_LEN);
++	memcpy(buf + GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN,
++	       data + GOODIX_BERLIN_REGISTER_WIDTH, len);
++
++	xfers.tx_buf = buf;
++	xfers.len = GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN + len;
++	xfers.cs_change = 0;
++	spi_message_add_tail(&xfers, &spi_msg);
++
++	error = spi_sync(spi, &spi_msg);
++	if (error < 0)
++		dev_err(&spi->dev, "spi transfer error, %d", error);
++
++	kfree(buf);
++	return error;
++}
++
++static const struct regmap_config goodix_berlin_spi_regmap_conf = {
 +	.reg_bits = 32,
 +	.val_bits = 8,
-+	.max_raw_read = I2C_MAX_TRANSFER_SIZE,
-+	.max_raw_write = I2C_MAX_TRANSFER_SIZE,
++	.read = goodix_berlin_spi_read,
++	.write = goodix_berlin_spi_write,
 +};
 +
 +/* vendor & product left unassigned here, should probably be updated from fw info */
-+static const struct input_id goodix_berlin_i2c_input_id = {
-+	.bustype = BUS_I2C,
++static const struct input_id goodix_berlin_spi_input_id = {
++	.bustype = BUS_SPI,
 +};
 +
-+static int goodix_berlin_i2c_probe(struct i2c_client *client)
++static int goodix_berlin_spi_probe(struct spi_device *spi)
 +{
++	struct regmap_config regmap_config;
 +	struct regmap *regmap;
-+	int error;
++	size_t max_size;
++	int error = 0;
 +
-+	regmap = devm_regmap_init_i2c(client, &goodix_berlin_i2c_regmap_conf);
++	spi->mode = SPI_MODE_0;
++	spi->bits_per_word = 8;
++	error = spi_setup(spi);
++	if (error)
++		return error;
++
++	max_size = spi_max_transfer_size(spi);
++
++	regmap_config = goodix_berlin_spi_regmap_conf;
++	regmap_config.max_raw_read = max_size - GOODIX_BERLIN_SPI_READ_PREFIX_LEN;
++	regmap_config.max_raw_write = max_size - GOODIX_BERLIN_SPI_WRITE_PREFIX_LEN;
++
++	regmap = devm_regmap_init(&spi->dev, NULL, spi, &regmap_config);
 +	if (IS_ERR(regmap))
 +		return PTR_ERR(regmap);
 +
-+	error = goodix_berlin_probe(&client->dev, client->irq,
-+				    &goodix_berlin_i2c_input_id, regmap);
++	error = goodix_berlin_probe(&spi->dev, spi->irq,
++				    &goodix_berlin_spi_input_id, regmap);
 +	if (error)
 +		return error;
 +
 +	return 0;
 +}
 +
-+static const struct i2c_device_id goodix_berlin_i2c_id[] = {
-+	{ "gt9916", 0 },
-+	{ }
++static const struct spi_device_id goodix_berlin_spi_ids[] = {
++	{ "gt9916" },
++	{ },
 +};
++MODULE_DEVICE_TABLE(spi, goodix_berlin_spi_ids);
 +
-+MODULE_DEVICE_TABLE(i2c, goodix_berlin_i2c_id);
-+
-+static const struct of_device_id goodix_berlin_i2c_of_match[] = {
++static const struct of_device_id goodix_berlin_spi_of_match[] = {
 +	{ .compatible = "goodix,gt9916", },
 +	{ }
 +};
-+MODULE_DEVICE_TABLE(of, goodix_berlin_i2c_of_match);
++MODULE_DEVICE_TABLE(of, goodix_berlin_spi_of_match);
 +
-+static struct i2c_driver goodix_berlin_i2c_driver = {
++static struct spi_driver goodix_berlin_spi_driver = {
 +	.driver = {
-+		.name = "goodix-berlin-i2c",
-+		.of_match_table = goodix_berlin_i2c_of_match,
++		.name = "goodix-berlin-spi",
++		.of_match_table = goodix_berlin_spi_of_match,
 +		.pm = pm_sleep_ptr(&goodix_berlin_pm_ops),
 +	},
-+	.probe = goodix_berlin_i2c_probe,
-+	.id_table = goodix_berlin_i2c_id,
++	.probe = goodix_berlin_spi_probe,
++	.id_table = goodix_berlin_spi_ids,
 +};
-+module_i2c_driver(goodix_berlin_i2c_driver);
++module_spi_driver(goodix_berlin_spi_driver);
 +
 +MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("Goodix Berlin I2C Touchscreen driver");
++MODULE_DESCRIPTION("Goodix Berlin SPI Touchscreen driver");
 +MODULE_AUTHOR("Neil Armstrong <neil.armstrong@linaro.org>");
 
 -- 
