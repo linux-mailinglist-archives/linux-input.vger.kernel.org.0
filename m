@@ -1,177 +1,268 @@
-Return-Path: <linux-input+bounces-780-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-781-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2979812538
-	for <lists+linux-input@lfdr.de>; Thu, 14 Dec 2023 03:25:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA7D0812659
+	for <lists+linux-input@lfdr.de>; Thu, 14 Dec 2023 05:23:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C11D282646
-	for <lists+linux-input@lfdr.de>; Thu, 14 Dec 2023 02:24:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1D5921C2140B
+	for <lists+linux-input@lfdr.de>; Thu, 14 Dec 2023 04:23:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C0A8814;
-	Thu, 14 Dec 2023 02:24:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C9F41FB0;
+	Thu, 14 Dec 2023 04:23:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="C3n91Vwq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LK9oMgkp"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2055.outbound.protection.outlook.com [40.107.93.55])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E10FB7;
-	Wed, 13 Dec 2023 18:24:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HAvCklEDdIJKHjtsNZOyRo8qzdsc5Z2FIlLiJ8rmR83Vuih+uYDjoZc4GJu5fPgSoTXNGWZIDwNj7IAGSAsLkf9dfqFAExQ+nfZPsICwpVIWdIWIQGaanvio4DnmlXI+tl+4OeLGbxDpCa2w4BbYda6WhK+5yKecL5JFTGHwkBoxRimJ8e7VIYbsCb3xMuKUG1v/JEVvjfCHnh79y8zLX6z8OkSNTYpiLAqsWfmCnX0XLNBGQJXTOOhSwfCIfsDBCP1CxeJqXdwkgE/eI6N/plJ3jHBhumKX3Wk5rmK7FkHemzWuyVEBkCUIOpuo4S2l0JTshIrKMqGb8JV84lEIIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RYY8jUcaZGyQVRO3EW9u4/m/uqBq/MYTjYB3lWuS/4I=;
- b=lSaAFcRJea9djUI5bd48xGqULJKtK9CztMeS8mpjW0ayv8vj7VZrWE6pl3zCkbTgTpYmD/ZaDz2Ofo7nUDzI24w/jYPM1L8r0dGGyVNDzfSGmYTJELa11QZgKd7KlQkGD3aNchy2K0bPgkMi9pk2r8/ShPvomfrGEIUMyfurjsjXouuQnqOu9LXGJ5N7gMTviN+cCWCmHzffk+IAbiznPG/K8/OezNAf8/RFPmkbjdMG55i5kKL8LnIy3yI924wh5iJWGFjZvOiWwvNfPGcdfs4GiXYn/Ot73KXl1NuckOovoynEsnXsGkod+CnJIwO2RRCeLfSmb5bfJ+ORMxhTFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RYY8jUcaZGyQVRO3EW9u4/m/uqBq/MYTjYB3lWuS/4I=;
- b=C3n91VwqQsuJa4cNdNfpeA4BYVBUAyZ8I2LeBIFq5Q4IRP9fl5jaDK08Ke7c/dc1hesu7TBghdpIiJAk5CHu0ywNjT4SeoV2K6+It7+UvXTE80A6A2mcC2yGyem7YTlDv2ex3adSGx2QRBAS/GblJvVfeaHBlDMX2wthEOrobsQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=labundy.com;
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by SJ0PR08MB7836.namprd08.prod.outlook.com
- (2603:10b6:a03:403::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.28; Thu, 14 Dec
- 2023 02:24:51 +0000
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::36f2:78d1:ad7d:66da]) by SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::36f2:78d1:ad7d:66da%4]) with mapi id 15.20.7091.028; Thu, 14 Dec 2023
- 02:24:51 +0000
-Date: Wed, 13 Dec 2023 20:24:46 -0600
-From: Jeff LaBundy <jeff@labundy.com>
-To: Tomas Mudrunka <tomas.mudrunka@gmail.com>
-Cc: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6] Fix freeze in lm8333 i2c keyboard driver
-Message-ID: <ZXpnbifDOQ/eF5jb@nixie71>
-References: <ZF53JVcb8UJQFmfP@nixie71>
- <20231114123023.95570-1-tomas.mudrunka@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231114123023.95570-1-tomas.mudrunka@gmail.com>
-X-ClientProxiedBy: DM6PR12CA0003.namprd12.prod.outlook.com
- (2603:10b6:5:1c0::16) To SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17E04F4
+	for <linux-input@vger.kernel.org>; Wed, 13 Dec 2023 20:23:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702527783; x=1734063783;
+  h=date:from:to:cc:subject:message-id;
+  bh=27BwEfaccRMcIFe99X+JJNUunpvN/F7Br3TrjeKcaUo=;
+  b=LK9oMgkpSuHSfSdfzv+VUxsplaBSyD3eiA45XBXKO/zJ3D2Cs3eaPpCb
+   4quVCIdWPskTKWPvb2YQJpCvtqaYIbkoyVicNtwC1a/FfjGVv9ccwt8Lo
+   cQ/q7JYzBvd+GVTC2fB6c6xIy3qB6N2IxuxXZ0nPXHCXLmSVxBQFRKq2B
+   o+qQemforrTnxIVgudq9gXV+WncRY7J3H06aCMAJnHlYB34JRrpg9z3Cr
+   cKEW9kRiTWe7JNTvcgFiyHkJhE78gJEvJEM4Ep+ols6H6NdTT6EjyeqPW
+   BQfwuIed80MWrv/zDsyQOA7vpKUa4JhrViAxgy0SRp7xwyLZObC7GrKSS
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="397851818"
+X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
+   d="scan'208";a="397851818"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 20:23:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="840135419"
+X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
+   d="scan'208";a="840135419"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 13 Dec 2023 20:23:01 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rDdFQ-000LWV-1Y;
+	Thu, 14 Dec 2023 04:22:56 +0000
+Date: Thu, 14 Dec 2023 12:22:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ c3d1610345b79cbe29ef6ca04a4780eff0d360c7
+Message-ID: <202312141208.euJEmUJX-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|SJ0PR08MB7836:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1f8c102b-339c-4699-4dfe-08dbfc4bda00
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	LsginHNWle95bViK7Y9lBAP+eUWYyNMwO3hQMb+xnNVaUQqAZ2FbO2LOufZE0AGYWpTrrRwa0WKAbziB/1TSv4KSzduFkKTzWl4/4Jkw14KPjNdAe+CK/FyKa+oWNFCquxZ/T46XxuCT3a5O29u9zGlSQHX8PNjzbUOWyI/OhzmZn7RkMDcXKzELCeJk3uVgecDjqyr9M99AOacwn95Z/vsKA39qxHDA+hw9ZQvFbedT4fp04km8ZX8Q+LREKW68H3aOFs1uqBl5EYJqPq2j84H+4nAHXGqMD4QEJs6oiPMEezzWRqyLGka9MVY/msG0EFRMywan6Bn5Y1OoUI9yDfzkKTjfmbB6grWTN5djgcIJ0y7YtkS3OYmamLQeUk919it7QZs407gR+t0OYoEJ1+huAWMRJNMRv5Ry/eMVKYGkHERzA5XNtjbHzI+LbW3Uaj8bPtJeNXO9GJhFLFXnvAn40kFGNjtyOQk+TGh+a1JPd70U0bTciI86wshquVJBtpwqgOOyGkPFF0bqfYN6hYdJ5wT3FRrimb8RN97h3wAHCUq+vvGdc+50ywwrKtRm
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(396003)(136003)(346002)(39830400003)(376002)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(316002)(8936002)(83380400001)(4326008)(6506007)(8676002)(6666004)(66946007)(6916009)(66476007)(66556008)(26005)(5660300002)(6486002)(9686003)(6512007)(478600001)(2906002)(38100700002)(86362001)(41300700001)(33716001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?7ZyDrTgTV6hiSabbr00726mz4dMXhTFzJxYThL4oj0mCP51G7RJg2eIvY4yT?=
- =?us-ascii?Q?x+Q/VIPrAa8/EkF3bHgwDf8ySfQpyRfXA7Jy+7HRFrmbX5/bHAxv2u49AQq/?=
- =?us-ascii?Q?6hTK6Z9xLMLrKHLonptooDEt+3trADSZreccpuwo5gaPqBDTqpnC0sp9TraV?=
- =?us-ascii?Q?AAU+5kgMUKmyUPoxF/p0H0ck6j7Uz/tw/iAJ+S4qJFjscSMjF7vc/rGRC2SM?=
- =?us-ascii?Q?aKspvlmG1s4D6LO6nbGZWU9FTZPMwEEdlIUQ1iGAwLrV/bh2uGzYVXo1LCkc?=
- =?us-ascii?Q?/pf/5EoAha37CCy1FO04pWMcVVMY3LDyuSuvy1PpN6D2E//G+p/5+zlnKDWL?=
- =?us-ascii?Q?Iv6r4MLf9Wvzy6rrBTa79RpD2kViyH0LZ9EDJY2lqKyW5Qj3/lq+t5pwVr/t?=
- =?us-ascii?Q?lwHxHS1kyg0ITznq+R0iGlK3Bhb+TaBDx2CxFTwnxDxdGNoldtXWFec6LkbL?=
- =?us-ascii?Q?2ssQnCm+4JjUiBQONUDOspuhNXvCENXgKCpC4/4h1QToZYRzNAz2T6a+oaLO?=
- =?us-ascii?Q?J5FvU2svI7FDvjQLykDFYEx+6PGZ4llflK+B9T09ucyS7ku9urpHaArv090x?=
- =?us-ascii?Q?T3BpHTHWa/jc/dI87APRcvZ1Nbw5qSP7O1vjlCkCUZBEIv8lkHny+LBoqTIZ?=
- =?us-ascii?Q?QMedk2Cck9+SFU6WKx07pGAlVimqr1wh43BVqg3p+PXCKRHP/RGrsfmuxoVi?=
- =?us-ascii?Q?ln4S5u059dpd6CeQZNWSVdrtA3UOCnoa5M30BmhlOgK3Vf0R+IovKcgv/UwA?=
- =?us-ascii?Q?WpNs25YpQRWPCT9YmI6bmEeNkJNtXM03OP2efMarA4nh80ybLwMLPzoJGJu7?=
- =?us-ascii?Q?X/TC/9QVPZHMnP4PpEWx7TxyTSjuiUbtvnjButPYOiJU3w4wsHD8SUWX1etv?=
- =?us-ascii?Q?bKNw+lh1voTDqB+iyU33GAkmdTxLH/CMm2UGuDATwbEvm5Dzcaah3qAxo7HA?=
- =?us-ascii?Q?ejv3ZvZgctKRyskywDkdOhbLS31Cwyhud+ZgCsHi2aRkMR7EdjpCkF1x4UKt?=
- =?us-ascii?Q?E3U8cdm7GO75+8tLIdhuHfQVkCgfCSTuboiZCcTwXy4yGfuiyNDM8nvXZg2h?=
- =?us-ascii?Q?mfyAFWwO4lMdegmayUEboryY23Ei2RaWxjrlbHffntU/HsNCdmVBUanjNOpy?=
- =?us-ascii?Q?o/9R1esrQgYWkFS0gtIZILJ1o+wGGenbsUzCpvHzFKPoQcEElUrN01qwFawf?=
- =?us-ascii?Q?5TInN5S8X4Jzg4Mw5ZvJhlLnJM2gInFrAcVXiRaCZbfEJbU0wD7rG9yo8AG3?=
- =?us-ascii?Q?ViVE46WhyeL/7D6LnRMbzRmzVArNkJoBTIHWC6gorMFVy0CTEL2UFVHj5RmO?=
- =?us-ascii?Q?4DA3MyokqnxpK0Y9oRR77IJaRy2Mraet4bgt82C7W9+U0TNihiMGBYFidavm?=
- =?us-ascii?Q?hTlFMzB9UEtN1bgDLxUE3Xum5IQDNqBMmEKRgbX8K7+LMrZV38Pjco720VQF?=
- =?us-ascii?Q?oRKLoOA2f7Ts5XKV1hGN7ilhOk9mk3MmDOHwHwBAqP1GuvkLotFG7+EdsBTc?=
- =?us-ascii?Q?5rqM/SGedpBmJeR8R8EMIQaopEr6baKK9NFQSVyXtTksFJnIrv41NtMnwevG?=
- =?us-ascii?Q?O4JhtExW5LMe0Q1BkVK85UKxr01mpewqrPHyGUqM?=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f8c102b-339c-4699-4dfe-08dbfc4bda00
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2023 02:24:51.4457
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j5NhFJcIqdIBlgkul8qVxEFeEPcZuHzG9QXftH8PN53KvTSyFNBsXsyZdK1CtYXm8TFalkCftvIspx/vXzPotw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR08MB7836
 
-Hi Tomas,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: c3d1610345b79cbe29ef6ca04a4780eff0d360c7  Input: xpad - add Razer Wolverine V2 support
 
-On Tue, Nov 14, 2023 at 01:30:23PM +0100, Tomas Mudrunka wrote:
-> LM8333 uses gpio interrupt line which is active-low.
-> When interrupt is set to FALLING edge and button is pressed
-> before driver loads, driver will miss the edge and never respond.
-> To fix this we should handle ONESHOT LOW interrupt rather than edge.
-> 
-> Rather than hardcoding this, we simply remove the override from
-> driver by calling request_threaded_irq() with IRQF_TRIGGER_NONE flag.
-> This will keep interrupt trigger configuration as per devicetree. eg.:
-> 
-> 	lm8333@51 {
-> 		compatible = "ti,lm8333";
-> 		interrupt-parent = <&gpio1>;
-> 		interrupts = <12 IRQ_TYPE_LEVEL_LOW>;
-> 		...
-> 	}
-> 
-> Signed-off-by: Tomas Mudrunka <tomas.mudrunka@gmail.com>
-> ---
->  drivers/input/keyboard/lm8333.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/keyboard/lm8333.c b/drivers/input/keyboard/lm8333.c
-> index 7457c3220..c5770ebb2 100644
-> --- a/drivers/input/keyboard/lm8333.c
-> +++ b/drivers/input/keyboard/lm8333.c
-> @@ -179,7 +179,7 @@ static int lm8333_probe(struct i2c_client *client)
->  	}
->  
->  	err = request_threaded_irq(client->irq, NULL, lm8333_irq_thread,
-> -				   IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-> +				   IRQF_TRIGGER_NONE | IRQF_ONESHOT,
+Warning ids grouped by kconfigs:
 
-This seems like the best approach; it solves the original problem, and
-adopts the correct design pattern of allowing the dts to specify details
-about the interrupt polarity and sensitivity.
+gcc_recent_errors
+|-- riscv-allmodconfig
+|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:xrv64i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0-(section:.text.unlikely.event_trigger_unlock_commit)-event_trace_file-(secti
+|   `-- WARNING:modpost:vmlinux:section-mismatch-in-reference:xrv64i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0-(section:.text.unlikely.set_bit)-numa_nodes_parsed-(section:.init.data)
+`-- riscv-allyesconfig
+    |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:xrv64i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0-(section:.text.unlikely.bitmap_copy)-bitmap-(section:.init.data)
+    |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:xrv64i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0-(section:.text.unlikely.bitmap_copy)-cp-(section:.init.data)
+    |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:xrv64i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0-(section:.text.unlikely.event_trigger_unlock_commit)-event_trace_file-(secti
+    `-- WARNING:modpost:vmlinux:section-mismatch-in-reference:xrv64i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zihintpause2p0_zmmul1p0-(section:.text.unlikely.set_bit)-numa_nodes_parsed-(section:.init.data)
 
-My only feedback is that I think you can simply drop IRQF_TRIGGER_FALLING
-altogether instead of replacing it with IRQF_TRIGGER_NONE; it is pointless
-to bitwise OR against zero, and almost no drivers do this. It really should
-only be used unless there are quite literally no flags to use. Passing only
-IRQF_ONESHOT is sufficient here.
+elapsed time: 1479m
 
-Assuming you agree with this change, please feel free to add the following
-for v7:
+configs tested: 178
+configs skipped: 2
 
-Reviewed-by: Jeff LaBundy <jeff@labundy.com>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
->  				   "lm8333", lm8333);
->  	if (err)
->  		goto free_mem;
-> -- 
-> 2.40.0
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20231213   gcc  
+arc                   randconfig-002-20231213   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                          ep93xx_defconfig   clang
+arm                   randconfig-001-20231213   clang
+arm                   randconfig-002-20231213   clang
+arm                   randconfig-003-20231213   clang
+arm                   randconfig-004-20231213   clang
+arm                        spear3xx_defconfig   clang
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20231213   clang
+arm64                 randconfig-002-20231213   clang
+arm64                 randconfig-003-20231213   clang
+arm64                 randconfig-004-20231213   clang
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20231213   gcc  
+csky                  randconfig-002-20231213   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20231213   clang
+hexagon               randconfig-002-20231213   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231213   clang
+i386         buildonly-randconfig-002-20231213   clang
+i386         buildonly-randconfig-003-20231213   clang
+i386         buildonly-randconfig-004-20231213   clang
+i386         buildonly-randconfig-005-20231213   clang
+i386         buildonly-randconfig-006-20231213   clang
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231213   clang
+i386                  randconfig-002-20231213   clang
+i386                  randconfig-003-20231213   clang
+i386                  randconfig-004-20231213   clang
+i386                  randconfig-005-20231213   clang
+i386                  randconfig-006-20231213   clang
+i386                  randconfig-011-20231213   gcc  
+i386                  randconfig-012-20231213   gcc  
+i386                  randconfig-013-20231213   gcc  
+i386                  randconfig-014-20231213   gcc  
+i386                  randconfig-015-20231213   gcc  
+i386                  randconfig-016-20231213   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231213   gcc  
+loongarch             randconfig-002-20231213   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                            mac_defconfig   gcc  
+m68k                        stmark2_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                        bcm63xx_defconfig   clang
+mips                    maltaup_xpa_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20231213   gcc  
+nios2                 randconfig-002-20231213   gcc  
+openrisc                         alldefconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20231213   gcc  
+parisc                randconfig-002-20231213   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                     asp8347_defconfig   gcc  
+powerpc                   bluestone_defconfig   clang
+powerpc                 mpc834x_itx_defconfig   gcc  
+powerpc               randconfig-001-20231213   clang
+powerpc               randconfig-002-20231213   clang
+powerpc               randconfig-003-20231213   clang
+powerpc                        warp_defconfig   gcc  
+powerpc64             randconfig-001-20231213   clang
+powerpc64             randconfig-002-20231213   clang
+powerpc64             randconfig-003-20231213   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231213   clang
+riscv                 randconfig-002-20231213   clang
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231213   gcc  
+s390                  randconfig-002-20231213   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                          lboxre2_defconfig   gcc  
+sh                            migor_defconfig   gcc  
+sh                    randconfig-001-20231213   gcc  
+sh                    randconfig-002-20231213   gcc  
+sh                           se7780_defconfig   gcc  
+sh                              ul2_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                       sparc32_defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20231213   gcc  
+sparc64               randconfig-002-20231213   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20231213   clang
+um                    randconfig-002-20231213   clang
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20231214   gcc  
+x86_64       buildonly-randconfig-002-20231214   gcc  
+x86_64       buildonly-randconfig-003-20231214   gcc  
+x86_64       buildonly-randconfig-004-20231214   gcc  
+x86_64       buildonly-randconfig-005-20231214   gcc  
+x86_64       buildonly-randconfig-006-20231214   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231214   clang
+x86_64                randconfig-002-20231214   clang
+x86_64                randconfig-003-20231214   clang
+x86_64                randconfig-004-20231214   clang
+x86_64                randconfig-005-20231214   clang
+x86_64                randconfig-006-20231214   clang
+x86_64                randconfig-011-20231214   gcc  
+x86_64                randconfig-012-20231214   gcc  
+x86_64                randconfig-013-20231214   gcc  
+x86_64                randconfig-014-20231214   gcc  
+x86_64                randconfig-015-20231214   gcc  
+x86_64                randconfig-016-20231214   gcc  
+x86_64                randconfig-071-20231214   gcc  
+x86_64                randconfig-072-20231214   gcc  
+x86_64                randconfig-073-20231214   gcc  
+x86_64                randconfig-074-20231214   gcc  
+x86_64                randconfig-075-20231214   gcc  
+x86_64                randconfig-076-20231214   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20231213   gcc  
+xtensa                randconfig-002-20231213   gcc  
 
-Kind regards,
-Jeff LaBundy
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
