@@ -1,198 +1,103 @@
-Return-Path: <linux-input+bounces-787-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-788-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F150812C78
-	for <lists+linux-input@lfdr.de>; Thu, 14 Dec 2023 11:06:38 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D81812C8A
+	for <lists+linux-input@lfdr.de>; Thu, 14 Dec 2023 11:11:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 345861C21260
-	for <lists+linux-input@lfdr.de>; Thu, 14 Dec 2023 10:06:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8751EB21041
+	for <lists+linux-input@lfdr.de>; Thu, 14 Dec 2023 10:11:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D10C39FF7;
-	Thu, 14 Dec 2023 10:06:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90D332F86B;
+	Thu, 14 Dec 2023 10:11:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h3oJWEYO"
+	dkim=pass (2048-bit key) header.d=mwa.re header.i=@mwa.re header.b="AAH5T3/r"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72656125;
-	Thu, 14 Dec 2023 02:06:28 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-50be24167efso9159240e87.3;
-        Thu, 14 Dec 2023 02:06:28 -0800 (PST)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EE99BD
+	for <linux-input@vger.kernel.org>; Thu, 14 Dec 2023 02:11:24 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40c2bb872e2so74438135e9.3
+        for <linux-input@vger.kernel.org>; Thu, 14 Dec 2023 02:11:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702548386; x=1703153186; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=5V4Zfz6XRU9uCFd234VmP4ICcrU9hXjNDlJGMb8vpTg=;
-        b=h3oJWEYOy6NBVWCdapTuL9EqUm4WzZ0HQI034vzVXUSVYdGCyxhR91WvTGLpjiShdK
-         8r0zottbvLHNuW3duz31ZFvFuMPMIeSh7+4qWBa10pjNMSNuCed7zBkGOb3ZaU/7aR+x
-         zTeEU/LRzsDm+pop+I11xCDhOgLfSH20iQ/DZDZPghpAIAqPjJv4kbb1WqENmWW6W2tv
-         280sOAf0UnBnoN6SfD9Nb1zVYnQdjNFB47rc9jAAk/9Imx29HCKhmykIYAHTX8qZywzR
-         2p7MWmIR+v5VHoQ7AShwFrhrGxienh1liYERkxN0cIWsVoDusR+jCsd+4Scf6vpiZFb0
-         mE2A==
+        d=mwa.re; s=google; t=1702548683; x=1703153483; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
+         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=DwJPwRC5n42ZUrIXnJ3iNJ62mEI4hAuX8AmnWt5GOxU=;
+        b=AAH5T3/rqEOq2dzaJ2Ufabe5Mk6VaPvprls3UoMcYTv3bRd2kHUJyazl7R9nr1vPWj
+         5ZUCc3fuGsOgDCOCFmc1+o6j+Ydd79pY7yi8VIg65Kk1fIDUlm3uKrq/2Vk10bTOjVTM
+         /4G/SxdXrDOhOnPCKjuC070BEjLNgO3j8jLtJ2W6ER8/JkTxT39VXK42aR7ohNzBmBRj
+         gYPaL3NwFw7I2y8gugnda4SgSqL2eDIAoYjft1emCBKqLLapFCHlvH2uPHSwI6IlFTPc
+         c1lUSiMohcKB8urIMmbh7r/4KPtRxbVfOR72xm7HXUbPE7lBnEa+TvVFA/j8uQ2Ow4QM
+         Vhew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702548386; x=1703153186;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5V4Zfz6XRU9uCFd234VmP4ICcrU9hXjNDlJGMb8vpTg=;
-        b=nEfjPsI0ocl+e+AxQZTCsx4dKK8FYiS4F+Vkm4skrKHOOm97z3dUUVhqHYQpnXaqMf
-         AiAaXpKQKWyaE4GUS5ZrL3tBPqPLEgbNMl0hYKoLMZMadJcwpfZOqHCM2u32yghluhRT
-         LFIQ7NaYW223F15EWeVe0zx/Dl7C57AmKgwXGqXI9+5It3q5SPWJnzOEQg7AbgKuTxoh
-         lx5QLj8hc7G9/PiG3tYAG7pfp3oi2kgnm7jR6RTLkHDm64ZvmQQ29LCQ9WT7JfyTQzl0
-         OG0y30vzhZoeCUboGVmw92GoXos68pQPRsWkZ+GfZsjMRxcC4YjFEKGFf/VqJuwRRN93
-         ZSGQ==
-X-Gm-Message-State: AOJu0YzbSxS8OWbqrePLSj1JYtkpV2ql56BMVrLpMQUWjxnWFKp8OjNq
-	6zX9POBAMWu73b1rLzbFMIg=
-X-Google-Smtp-Source: AGHT+IGopw4QyFfgA+rRb4sowL1hUkxX9gnIMDNKEAqTFmIs/F3tmFpZSM60D3lFcsprsv7XAhb4WQ==
-X-Received: by 2002:ac2:559a:0:b0:50b:e73c:ff55 with SMTP id v26-20020ac2559a000000b0050be73cff55mr1967278lfg.250.1702548386238;
-        Thu, 14 Dec 2023 02:06:26 -0800 (PST)
-Received: from mobilestation ([178.176.56.174])
-        by smtp.gmail.com with ESMTPSA id j4-20020a056512028400b0050e1b5304b2sm14508lfp.170.2023.12.14.02.06.25
+        d=1e100.net; s=20230601; t=1702548683; x=1703153483;
+        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
+         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DwJPwRC5n42ZUrIXnJ3iNJ62mEI4hAuX8AmnWt5GOxU=;
+        b=Uw1Hbum75jJfMIbt4rpRUEF2NbG0gHmpvkjZzcnPGAfYMmT45qQFcSGx+BmhfLQYO3
+         nqpgCnTDFeEkxnzHw56MycJgK0DrkBe53Bjl7Y9C7vl95B4yyt6Lbry4QEZx2ypTJtoL
+         AmndA+RI4mXDqTktgkyH4Xu5KhrOHhpboOMLV0rFsPV2LPrNY5SxVOMy5IQDSUsr2iey
+         oPWuQQVurxoNTmHqJKcZvx1eEn6JgFvv1pO5XrMybUTlaCiMQTdCMZA0f1Lpm32SrBkU
+         a5MEg1q7AqmDLEj4c55N+27sC57MTDsk5TkH1VkeKVcLfFZwjU+xXJcOftXrBRpWUakH
+         z5KQ==
+X-Gm-Message-State: AOJu0YxYCuImChSPyLSZtVM5060+qZNgAiG+ZZZwHjwnJ2M39XZp7BHR
+	1QXlU3eiXfM7yjLPSdOuDJBWnA==
+X-Google-Smtp-Source: AGHT+IEwCgUn9rve/eSSnIs2eQKl/d1mHCrM3llLrsOtX7YNvUUHF9eUP2ONysYZWLp41VSUnG0cLA==
+X-Received: by 2002:a05:600c:3b1f:b0:40b:5f03:b39b with SMTP id m31-20020a05600c3b1f00b0040b5f03b39bmr2857734wms.189.1702548682746;
+        Thu, 14 Dec 2023 02:11:22 -0800 (PST)
+Received: from 2001-4dd0-53c2-1-52b8-d67b-716b-9a96.ipv6dyn.netcologne.de (2001-4dd0-53c2-1-52b8-d67b-716b-9a96.ipv6dyn.netcologne.de. [2001:4dd0:53c2:1:52b8:d67b:716b:9a96])
+        by smtp.gmail.com with ESMTPSA id v6-20020a05600c444600b0040c4886f254sm14119157wmn.13.2023.12.14.02.11.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 02:06:25 -0800 (PST)
-Date: Thu, 14 Dec 2023 13:06:23 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: xiongxin <xiongxin@kylinos.cn>, Thomas Gleixner <tglx@linutronix.de>
-Cc: jikos@kernel.org, benjamin.tissoires@redhat.com, 
-	linux-input@vger.kernel.org, stable@vger.kernel.org, Riwen Lu <luriwen@kylinos.cn>, 
-	hoan@os.amperecomputing.com, linus.walleij@linaro.org, brgl@bgdev.pl, andy@kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] irq: Resolve that mask_irq/unmask_irq may not be called
- in pairs
-Message-ID: <f5vtfoqylht5ijj6tdvxee3f3u6ywps2it7kv3fhmfsx75od2y@ftjlt4t4z4dk>
-References: <20231207014003.12919-1-xiongxin@kylinos.cn>
- <87ttosssxd.ffs@tglx>
- <e125491c-4cdb-4870-924a-baeb7453bf78@kylinos.cn>
- <874jgnqwlo.ffs@tglx>
- <bf4004bf-4868-4953-8d8e-0c0e03be673e@kylinos.cn>
- <875y12p2r0.ffs@tglx>
- <1844c927-2dd4-49b4-a6c4-c4c176b1f75d@kylinos.cn>
+        Thu, 14 Dec 2023 02:11:22 -0800 (PST)
+Message-ID: <c812ea74dd02d1baf85dc6fb32701e103984d25d.camel@mwa.re>
+Subject: element sizes in input_event struct on riscv32
+From: Antonios Salios <antonios@mwa.re>
+To: dmitry.torokhov@gmail.com
+Cc: rydberg@bitmath.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Jan Henrik Weinstock <jan@mwa.re>, Lukas
+	=?ISO-8859-1?Q?J=FCnger?=
+	 <lukas@mwa.re>
+Date: Thu, 14 Dec 2023 11:11:18 +0100
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.2 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1844c927-2dd4-49b4-a6c4-c4c176b1f75d@kylinos.cn>
 
-Hi Thomas, Xiong
+Hi all.
 
-On Thu, Dec 14, 2023 at 09:54:06AM +0800, xiongxin wrote:
-> 在 2023/12/13 22:59, Thomas Gleixner 写道:
-> > On Wed, Dec 13 2023 at 10:29, xiongxin wrote:
-> > > 在 2023/12/12 23:17, Thomas Gleixner 写道:
-> > > Sorry, the previous reply may not have clarified the BUG process. I
-> > > re-debugged and confirmed it yesterday. The current BUG execution
-> > > sequence is described as follows:
-> > 
-> > It's the sequence how this works and it works correctly.
-> > 
-> > Just because it does not work on your machine it does not mean that this
-> > is incorrect and a BUG.
-> > 
-> > You are trying to fix a symptom and thereby violating guarantees of the
-> > core code.
-> > 
-> > > That is, there is a time between the 1:handle_level_irq() and
-> > > 3:irq_thread_fn() calls for the 2:disable_irq() call to acquire the lock
-> > > and then implement the irq_state_set_disabled() operation. When finally
-> > > call irq_thread_fn()->irq_finalize_oneshot(), it cannot enter the
-> > > unmask_thread_irq() process.
-> > 
-> > Correct, because the interrupt has been DISABLED in the mean time.
-> > 
-> > > In this case, the gpio irq_chip irq_mask()/irq_unmask() callback pairs
-> > > are not called in pairs, so I think this is a BUG, but not necessarily
-> > > fixed from the irq core code layer.
-> > 
-> > No. It is _NOT_ a BUG. unmask() is not allowed to be invoked when the
-> > interrupt is DISABLED. That's the last time I'm going to tell you that.
-> > Only enable_irq() can undo the effect of disable_irq(), period.
-> > 
-> > > Next, when the gpio controller driver calls the suspend/resume process,
-> > > it is as follows:
-> > > 
-> > > suspend process:
-> > > dwapb_gpio_suspend()
-> > >       ctx->int_mask   = dwapb_read(gpio, GPIO_INTMASK);
-> > > 
-> > > resume process:
-> > > dwapb_gpio_resume()
-> > >       dwapb_write(gpio, GPIO_INTMASK, ctx->int_mask);
-> > 
-> > Did you actually look at the sequence I gave you?
-> > 
-> >     Suspend:
-> > 
-> > 	  i2c_hid_core_suspend()
-> > 	     disable_irq();       <- Marks it disabled and eventually
-> > 				     masks it.
-> > 
-> > 	  gpio_irq_suspend()
-> > 	     save_registers();    <- Saves masked interrupt
-> > 
-> >     Resume:
-> > 
-> > 	  gpio_irq_resume()
-> > 	     restore_registers(); <- Restores masked interrupt
-> > 
-> > 	  i2c_hid_core_resume()
-> > 	     enable_irq();        <- Unmasks interrupt and removes the
-> > 				     disabled marker
-> > 
-> > 
-> > Have you verified that this order of invocations is what happens on
-> > your machine?
-> > 
-> > Thanks,
-> > 
-> >          tglx
-> 
-> As described earlier, in the current situation, the irq_mask() callback of
-> gpio irq_chip is called in mask_irq(), followed by the disable_irq() in
-> i2c_hid_core_suspend(), unmask_irq() will not be executed.
-> 
-> Then call enable_irq() in i2c_hid_core_resume(). Since gpio irq_chip does
-> not implement the irq_startup() callback, it ends up calling irq_enable().
-> 
-> The irq_enable() function is then implemented as follows:
-> 
-> irq_state_clr_disabled(desc);
-> if (desc->irq_data.chip->irq_enable) {
-> 	desc->irq_data.chip->irq_enable(&desc->irq_data);
-> 	irq_state_clr_masked(desc);
-> } else {
-> 	unmask_irq(desc);
-> }
-> 
-> Because gpio irq_chip implements irq_enable(), unmask_irq() is not executed,
-> and gpio irq_chip's irq_unmask() callback is not called. Instead,
-> irq_state_clr_masked() was called to clear the masked flag.
-> 
-> The irq masked behavior is actually controlled by the
-> irq_mask()/irq_unmask() callback function pairs in gpio irq_chip. When the
-> whole situation occurs, there is one more irq_mask() operation, or one less
-> irq_unmask() operation. This ends the i2c hid resume and the gpio
-> corresponding i2c hid interrupt is also masked.
-> 
-> Please help confirm whether the current situation is a BUG, or suggest other
-> solutions to fix it.
-> 
+I'm having trouble getting evdev to run in a simulated Buildroot
+environment on riscv32. Evtest (and the x11 driver) seems to be
+receiving garbage data from input devices.
 
-I has just been Cc'ed to this thread from the very start of the thread
-so not sure whether I fully understand the problem. But a while ago an
-IRQ disable/undisable-mask/unmask-unpairing problem was reported for
-DW APB GPIO driver implementation, but in a another context though:
-https://lore.kernel.org/linux-gpio/1606728979-44259-1-git-send-email-luojiaxing@huawei.com/
-We didn't come to a final conclusion back then, so the patch got lost
-in the emails archive. Xiong, is it related to the problem in your
-case?
+Analyzing the input_event struct shows that the kernel uses 32-bit (aka
+__kernel_ulong_t) values for __sec & __usec.
+Evtest on the other hand interprets these variables as 64-bit time_t
+values in a timeval struct, resulting in a mismatch between the kernel
+and userspace.
 
--Serge(y)
+What would be the correct size for these values on a 32-bit
+architecture that uses 64-bit time_t values?
+
+
+Kind regards
+
+--=20
+Antonios Salios
+Student Employee
+
+MachineWare GmbH | www.machineware.de
+H=C3=BChnermarkt 19, 52062 Aachen, Germany
+Amtsgericht Aachen HRB25734
+
+Gesch=C3=A4ftsf=C3=BChrung
+Lukas J=C3=BCnger
+Dr.-Ing. Jan Henrik Weinstock
 
