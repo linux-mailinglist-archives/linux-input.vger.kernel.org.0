@@ -1,75 +1,94 @@
-Return-Path: <linux-input+bounces-802-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-803-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79E9814CDB
-	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 17:20:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A196814EAE
+	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 18:29:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 471BC1F21EEA
-	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 16:20:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C2C011F2570D
+	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 17:29:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BDEE3AC01;
-	Fri, 15 Dec 2023 16:20:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B203946528;
+	Fri, 15 Dec 2023 17:22:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=t-8ch.de header.i=@t-8ch.de header.b="XnQLs3DJ"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="WKN6/BUa"
 X-Original-To: linux-input@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA17381C8;
-	Fri, 15 Dec 2023 16:20:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=t-8ch.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-8ch.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=t-8ch.de; s=mail;
-	t=1702657234; bh=gxIU+Cnud2j3bNARAoIX3HgvhIYjXRvzI1SwQ9YSFug=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XnQLs3DJk/8GvBEHSCEaONRRri1iImcp2JcuA3XM2XBIc6Xz+GTX00I+ZlGIyYmXE
-	 +k/eelNYt3bph8Mmnfr1FugHH3LeLbjYWVapfKVOnpmK2EZloshTt1MiLg393eYSUn
-	 CqLW+LvMLunnQf7VeHExvdKJQ+AZwXQsTJkNc+5c=
-Date: Fri, 15 Dec 2023 17:20:32 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: jikos@kernel.org, jic23@kernel.org, lars@metafoo.de, 
-	Basavaraj.Natikar@amd.com, linux-input@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] iio: light: hid-sensor-als: Avoid failure for
- chromaticity support
-Message-ID: <9be8369c-4e23-4fa0-bc26-b236de669c8c@t-8ch.de>
-References: <20231215160159.648963-1-srinivas.pandruvada@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C76D4653A;
+	Fri, 15 Dec 2023 17:22:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from wse.fritz.box (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 21AC52FC0069;
+	Fri, 15 Dec 2023 18:17:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1702660641;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=emSeRwB5Km6PkaGguDrYcERyaLJvSeKOzeu24umQgtQ=;
+	b=WKN6/BUaa0Wg/sW5MsX4jENv8+mBqmu6oMT79nA5Izc7mRY7u4/qDTohcsxzdZln9BInwW
+	LN+EOGoo0SSyz5Ci/a03b8q0sfxSM2n/Otv4tgJAtbsnKSPgVx1RGOhtdvNgUBXErhEVQT
+	Tbc92NnI5h8CFTgec0J+eRIZewRbgqg=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Christoffer Sandberg <cs@tuxedo.de>,
+	Werner Sembach <wse@tuxedocomputers.com>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: SoC button array: add mapping for airplane mode button
+Date: Fri, 15 Dec 2023 18:17:18 +0100
+Message-Id: <20231215171718.80229-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231215160159.648963-1-srinivas.pandruvada@linux.intel.com>
 
-On 2023-12-15 08:01:59-0800, Srinivas Pandruvada wrote:
-> With the commit ee3710f39f9d ("iio: hid-sensor-als: Add light chromaticity
-> support"), there is an assumption that the every HID ALS descriptor has
-> support of usage ids for chromaticity support. If they are not present,
-> probe fails for the driver . This breaks ALS functionality on majority of
-> platforms.
-> 
-> It is possible that chromaticity usage ids are not present. When not
-> present, restrict number of IIO channels to not include support for
-> chromaticity and continue.
-> 
-> Fixes: ee3710f39f9d ("iio: hid-sensor-als: Add light chromaticity support")
-> Reported-by: Thomas Weißschuh <thomas@t-8ch.de>
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218223
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Cc: stable@vger.kernel.org
-> ---
->  drivers/iio/light/hid-sensor-als.c | 24 ++++++++++++++++--------
->  1 file changed, 16 insertions(+), 8 deletions(-)
+From: Christoffer Sandberg <cs@tuxedo.de>
 
-Thanks!
+This add a mapping for the airplane mode button on the TUXEDO Pulse Gen3.
 
-Tested-by: Thomas Weißschuh <linux@weissschuh.net> # on Framework 13 AMD
+While it is physically a key it behaves more like a switch, sending a key
+down on first press and a key up on 2nd press. Therefor the switch event is
+used here. Besides this behaviour it uses the HID usage-id 0xc6 (Wireless
+Radio Button) and not 0xc8 (Wireless Radio Slider Switch), but since
+neither 0xc6 nor 0xc8 are currently implemented at all in soc_button_array
+this not to standard behaviour is not put behind a quirk for the moment.
+
+Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+---
+ drivers/input/misc/soc_button_array.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
+index 08bcee3d6bcca..f6d060377d189 100644
+--- a/drivers/input/misc/soc_button_array.c
++++ b/drivers/input/misc/soc_button_array.c
+@@ -299,6 +299,11 @@ static int soc_button_parse_btn_desc(struct device *dev,
+ 		info->name = "power";
+ 		info->event_code = KEY_POWER;
+ 		info->wakeup = true;
++	} else if (upage == 0x01 && usage == 0xc6) {
++		info->name = "airplane mode switch";
++		info->event_type = EV_SW;
++		info->event_code = SW_RFKILL_ALL;
++		info->active_low = false;
+ 	} else if (upage == 0x01 && usage == 0xca) {
+ 		info->name = "rotation lock switch";
+ 		info->event_type = EV_SW;
+-- 
+2.34.1
+
 
