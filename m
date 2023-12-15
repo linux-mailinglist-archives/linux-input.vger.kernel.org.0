@@ -1,149 +1,232 @@
-Return-Path: <linux-input+bounces-792-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-793-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B55813878
-	for <lists+linux-input@lfdr.de>; Thu, 14 Dec 2023 18:26:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D207A813FB0
+	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 03:24:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 48BBD1C20C5A
-	for <lists+linux-input@lfdr.de>; Thu, 14 Dec 2023 17:26:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B36881C22112
+	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 02:24:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 279DA65EC2;
-	Thu, 14 Dec 2023 17:26:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ezfQ/+fZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94421804;
+	Fri, 15 Dec 2023 02:24:31 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 623FB99
-	for <linux-input@vger.kernel.org>; Thu, 14 Dec 2023 09:26:24 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-1d08a924fcfso79382725ad.2
-        for <linux-input@vger.kernel.org>; Thu, 14 Dec 2023 09:26:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702574784; x=1703179584; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H+Ka8wxIsA35NAcpj2VpTkHi729lxrpm9tFastxUpXM=;
-        b=ezfQ/+fZg/1YYhBgu8d8YBhxtJ1MXg0pO29LQgiEPAoK2ma7OiDnnDgdlyqKYK8Gcf
-         pTIWweyHeEC+OWQbIsUX1vrY18ptdx4Dps4YdozLmEXF821UtnFaFprRpy+OJWJO0xkM
-         Xn1ADUtrDlmqxjSro6EKkZiHQ04/YPnaI8xQ5W1UiFOVYy+7Rq0fWgWXtqmXAbpFsscT
-         EM35ariIddwoj4iskGNA3O5A32SWsrlZNHnPXF/D8UvGWEJlMactPOCtfhCRoVDnsf+r
-         MJNLrTAxV8DjtgnPXjh8RUQuCYLB6FZkk1De61on6J83A1265yEUV3tc0emZlYFeZdos
-         gVqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702574784; x=1703179584;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=H+Ka8wxIsA35NAcpj2VpTkHi729lxrpm9tFastxUpXM=;
-        b=R1pVgsbHtBUL7p3gA4USUe+oni01qiNKkMxmtIFFJkuYP6ndcQaNFsV3AgK49TvQDc
-         CCvickEgBFPCiRZKKclaXC3wQOhmYMni8EYx3pFXjmqWTKeyAdJe3TPT0V2Ei7mGBgfa
-         YlxDo7ArIHmPV6Qz36oX/G1B7bHAnEEdd8P1aPXL80I8tuR80hPFVTeWoyj8A7hHCJv3
-         Befy2eFBK9Zg6lsOO35uD3mOHWvHzNakBt8ME3IDwLuLMCAuftIVzjZhlOM0vX5chowF
-         Y00Oty9AF2lhX7FnHblWDLv2q+fPDXv2Cr5BLcnGiPA1SXiVyKY9NSUmUQkdLDc5ZKgv
-         CRCQ==
-X-Gm-Message-State: AOJu0YxV2zTTWerAIDdOWiq4kp0jQtEDysVVrPMkNMSu+uQJBRXrcLHo
-	1pXV2UuPaUkpSRHJzqvBiJA=
-X-Google-Smtp-Source: AGHT+IHph1vaHVKrOP37Hvn4W8QinnzVQ9xW4IJ0io8VW9WP+ukmvN0XRG+NZNUtxhpdWi9wmOYmog==
-X-Received: by 2002:a17:90a:f0ce:b0:286:9cc1:a10 with SMTP id fa14-20020a17090af0ce00b002869cc10a10mr8036911pjb.8.1702574783701;
-        Thu, 14 Dec 2023 09:26:23 -0800 (PST)
-Received: from localhost.localdomain ([50.47.187.252])
-        by smtp.gmail.com with ESMTPSA id p17-20020a170903249100b001cfbe348ca5sm12688645plw.187.2023.12.14.09.26.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 09:26:22 -0800 (PST)
-From: Ryan McClelland <rymcclel@gmail.com>
-To: lkp@intel.com,
-	linux-input@vger.kernel.org
-Cc: jkosina@suse.com,
-	linux-mm@kvack.org,
-	oe-kbuild-all@lists.linux.dev,
-	djogorchock@gmail.com,
-	benjamin.tissoires@redhat.com,
-	jikos@kernel.org,
-	Ryan McClelland <rymcclel@gmail.com>
-Subject: [PATCH] HID: nintendo: fix initializer element is not constant error
-Date: Thu, 14 Dec 2023 09:25:41 -0800
-Message-Id: <20231214172541.48370-1-rymcclel@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <202312141227.C2h1IzfI-lkp@intel.com>
-References: <202312141227.C2h1IzfI-lkp@intel.com>
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8E57FC;
+	Fri, 15 Dec 2023 02:24:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 5f9506ed13284b069b9c8d4c3b12dcb9-20231215
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.33,REQID:6ba37212-3642-47fd-9174-d574b1e86a4f,IP:25,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:28,RULE:Release_Ham,ACT
+	ION:release,TS:38
+X-CID-INFO: VERSION:1.1.33,REQID:6ba37212-3642-47fd-9174-d574b1e86a4f,IP:25,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:28,RULE:Release_Ham,ACTIO
+	N:release,TS:38
+X-CID-META: VersionHash:364b77b,CLOUDID:717a32bd-2ac7-4da2-9f94-677a477649d9,B
+	ulkID:231212231719IH1VMLZ5,BulkQuantity:31,Recheck:0,SF:64|66|38|24|17|19|
+	44|102,TC:nil,Content:0,EDM:-3,IP:-2,URL:1,File:nil,Bulk:40|20,QS:nil,BEC:
+	nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,
+	TF_CID_SPAM_FSI,TF_CID_SPAM_OBB,TF_CID_SPAM_FCD
+X-UUID: 5f9506ed13284b069b9c8d4c3b12dcb9-20231215
+Received: from node4.com.cn [(39.156.73.12)] by mailgw
+	(envelope-from <xiongxin@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1143155449; Fri, 15 Dec 2023 10:18:59 +0800
+Received: from node4.com.cn (localhost [127.0.0.1])
+	by node4.com.cn (NSMail) with SMTP id B892B16001CD6;
+	Fri, 15 Dec 2023 10:18:58 +0800 (CST)
+X-ns-mid: postfix-657BB792-606681329
+Received: from [172.20.116.203] (unknown [172.20.116.203])
+	by node4.com.cn (NSMail) with ESMTPA id 6E1F516001CD6;
+	Fri, 15 Dec 2023 02:18:56 +0000 (UTC)
+Message-ID: <a6db4a82-3d04-47c0-8f29-0e2e5932face@kylinos.cn>
+Date: Fri, 15 Dec 2023 10:18:55 +0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] irq: Resolve that mask_irq/unmask_irq may not be called
+ in pairs
+Content-Language: en-US
+To: Andy Shevchenko <andy@kernel.org>, Serge Semin <fancer.lancer@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>
+Cc: jikos@kernel.org, benjamin.tissoires@redhat.com,
+ linux-input@vger.kernel.org, stable@vger.kernel.org,
+ Riwen Lu <luriwen@kylinos.cn>, hoan@os.amperecomputing.com,
+ linus.walleij@linaro.org, brgl@bgdev.pl, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20231207014003.12919-1-xiongxin@kylinos.cn> <87ttosssxd.ffs@tglx>
+ <e125491c-4cdb-4870-924a-baeb7453bf78@kylinos.cn> <874jgnqwlo.ffs@tglx>
+ <bf4004bf-4868-4953-8d8e-0c0e03be673e@kylinos.cn> <875y12p2r0.ffs@tglx>
+ <1844c927-2dd4-49b4-a6c4-c4c176b1f75d@kylinos.cn>
+ <f5vtfoqylht5ijj6tdvxee3f3u6ywps2it7kv3fhmfsx75od2y@ftjlt4t4z4dk>
+ <ZXspNGWszB9jAown@smile.fi.intel.com>
+From: xiongxin <xiongxin@kylinos.cn>
+In-Reply-To: <ZXspNGWszB9jAown@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-With gcc-7 builds, an error happens with the controller button values being
-defined as const. Change to a define.
+=E5=9C=A8 2023/12/15 00:11, Andy Shevchenko =E5=86=99=E9=81=93:
+> On Thu, Dec 14, 2023 at 01:06:23PM +0300, Serge Semin wrote:
+>> On Thu, Dec 14, 2023 at 09:54:06AM +0800, xiongxin wrote:
+>>> =E5=9C=A8 2023/12/13 22:59, Thomas Gleixner =E5=86=99=E9=81=93:
+>>>> On Wed, Dec 13 2023 at 10:29, xiongxin wrote:
+>>>>> =E5=9C=A8 2023/12/12 23:17, Thomas Gleixner =E5=86=99=E9=81=93:
+>>>>> Sorry, the previous reply may not have clarified the BUG process. I
+>>>>> re-debugged and confirmed it yesterday. The current BUG execution
+>>>>> sequence is described as follows:
+>>>>
+>>>> It's the sequence how this works and it works correctly.
+>>>>
+>>>> Just because it does not work on your machine it does not mean that =
+this
+>>>> is incorrect and a BUG.
+>>>>
+>>>> You are trying to fix a symptom and thereby violating guarantees of =
+the
+>>>> core code.
+>>>>
+>>>>> That is, there is a time between the 1:handle_level_irq() and
+>>>>> 3:irq_thread_fn() calls for the 2:disable_irq() call to acquire the=
+ lock
+>>>>> and then implement the irq_state_set_disabled() operation. When fin=
+ally
+>>>>> call irq_thread_fn()->irq_finalize_oneshot(), it cannot enter the
+>>>>> unmask_thread_irq() process.
+>>>>
+>>>> Correct, because the interrupt has been DISABLED in the mean time.
+>>>>
+>>>>> In this case, the gpio irq_chip irq_mask()/irq_unmask() callback pa=
+irs
+>>>>> are not called in pairs, so I think this is a BUG, but not necessar=
+ily
+>>>>> fixed from the irq core code layer.
+>>>>
+>>>> No. It is _NOT_ a BUG. unmask() is not allowed to be invoked when th=
+e
+>>>> interrupt is DISABLED. That's the last time I'm going to tell you th=
+at.
+>>>> Only enable_irq() can undo the effect of disable_irq(), period.
+>>>>
+>>>>> Next, when the gpio controller driver calls the suspend/resume proc=
+ess,
+>>>>> it is as follows:
+>>>>>
+>>>>> suspend process:
+>>>>> dwapb_gpio_suspend()
+>>>>>        ctx->int_mask   =3D dwapb_read(gpio, GPIO_INTMASK);
+>>>>>
+>>>>> resume process:
+>>>>> dwapb_gpio_resume()
+>>>>>        dwapb_write(gpio, GPIO_INTMASK, ctx->int_mask);
+>>>>
+>>>> Did you actually look at the sequence I gave you?
+>>>>
+>>>>      Suspend:
+>>>>
+>>>> 	  i2c_hid_core_suspend()
+>>>> 	     disable_irq();       <- Marks it disabled and eventually
+>>>> 				     masks it.
+>>>>
+>>>> 	  gpio_irq_suspend()
+>>>> 	     save_registers();    <- Saves masked interrupt
+>>>>
+>>>>      Resume:
+>>>>
+>>>> 	  gpio_irq_resume()
+>>>> 	     restore_registers(); <- Restores masked interrupt
+>>>>
+>>>> 	  i2c_hid_core_resume()
+>>>> 	     enable_irq();        <- Unmasks interrupt and removes the
+>>>> 				     disabled marker
+>>>>
+>>>>
+>>>> Have you verified that this order of invocations is what happens on
+>>>> your machine?
+>>>>
+>>>> Thanks,
+>>>>
+>>>>           tglx
+>>>
+>>> As described earlier, in the current situation, the irq_mask() callba=
+ck of
+>>> gpio irq_chip is called in mask_irq(), followed by the disable_irq() =
+in
+>>> i2c_hid_core_suspend(), unmask_irq() will not be executed.
+>>>
+>>> Then call enable_irq() in i2c_hid_core_resume(). Since gpio irq_chip =
+does
+>>> not implement the irq_startup() callback, it ends up calling irq_enab=
+le().
+>>>
+>>> The irq_enable() function is then implemented as follows:
+>>>
+>>> irq_state_clr_disabled(desc);
+>>> if (desc->irq_data.chip->irq_enable) {
+>>> 	desc->irq_data.chip->irq_enable(&desc->irq_data);
+>>> 	irq_state_clr_masked(desc);
+>>> } else {
+>>> 	unmask_irq(desc);
+>>> }
+>>>
+>>> Because gpio irq_chip implements irq_enable(), unmask_irq() is not ex=
+ecuted,
+>>> and gpio irq_chip's irq_unmask() callback is not called. Instead,
+>>> irq_state_clr_masked() was called to clear the masked flag.
+>>>
+>>> The irq masked behavior is actually controlled by the
+>>> irq_mask()/irq_unmask() callback function pairs in gpio irq_chip. Whe=
+n the
+>>> whole situation occurs, there is one more irq_mask() operation, or on=
+e less
+>>> irq_unmask() operation. This ends the i2c hid resume and the gpio
+>>> corresponding i2c hid interrupt is also masked.
+>>>
+>>> Please help confirm whether the current situation is a BUG, or sugges=
+t other
+>>> solutions to fix it.
+>>
+>> I has just been Cc'ed to this thread from the very start of the thread
+>> so not sure whether I fully understand the problem. But a while ago an
+>> IRQ disable/undisable-mask/unmask-unpairing problem was reported for
+>> DW APB GPIO driver implementation, but in a another context though:
+>> https://lore.kernel.org/linux-gpio/1606728979-44259-1-git-send-email-l=
+uojiaxing@huawei.com/
+>> We didn't come to a final conclusion back then, so the patch got lost
+>> in the emails archive. Xiong, is it related to the problem in your
+>> case?
+>=20
+>  From what explained it sounds to me that GPIO driver has missing part =
+and
+> this seems the missing patch (in one or another form). Perhaps we can g=
+et
+> a second round of review,
+>=20
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202312141227.C2h1IzfI-lkp@intel.com/
+Yes, the current case is exactly the situation described in the link,=20
+and the specific implementation process is as described in my previous=20
+email. After adding the patch for retest, the exception can be=20
+effectively solved. And at present, can the patch be incorporated?
 
-Signed-off-by: Ryan McClelland <rymcclel@gmail.com>
----
- drivers/hid/hid-nintendo.c | 44 +++++++++++++++++++-------------------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+Thank you Thomas for your kind advice!
 
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 47af111ef3a2..2987083785f9 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -336,28 +336,28 @@ struct joycon_imu_cal {
-  * All the controller's button values are stored in a u32.
-  * They can be accessed with bitwise ANDs.
-  */
--static const u32 JC_BTN_Y	= BIT(0);
--static const u32 JC_BTN_X	= BIT(1);
--static const u32 JC_BTN_B	= BIT(2);
--static const u32 JC_BTN_A	= BIT(3);
--static const u32 JC_BTN_SR_R	= BIT(4);
--static const u32 JC_BTN_SL_R	= BIT(5);
--static const u32 JC_BTN_R	= BIT(6);
--static const u32 JC_BTN_ZR	= BIT(7);
--static const u32 JC_BTN_MINUS	= BIT(8);
--static const u32 JC_BTN_PLUS	= BIT(9);
--static const u32 JC_BTN_RSTICK	= BIT(10);
--static const u32 JC_BTN_LSTICK	= BIT(11);
--static const u32 JC_BTN_HOME	= BIT(12);
--static const u32 JC_BTN_CAP	= BIT(13); /* capture button */
--static const u32 JC_BTN_DOWN	= BIT(16);
--static const u32 JC_BTN_UP	= BIT(17);
--static const u32 JC_BTN_RIGHT	= BIT(18);
--static const u32 JC_BTN_LEFT	= BIT(19);
--static const u32 JC_BTN_SR_L	= BIT(20);
--static const u32 JC_BTN_SL_L	= BIT(21);
--static const u32 JC_BTN_L	= BIT(22);
--static const u32 JC_BTN_ZL	= BIT(23);
-+#define JC_BTN_Y	 BIT(0)
-+#define JC_BTN_X	 BIT(1)
-+#define JC_BTN_B	 BIT(2)
-+#define JC_BTN_A	 BIT(3)
-+#define JC_BTN_SR_R	 BIT(4)
-+#define JC_BTN_SL_R	 BIT(5)
-+#define JC_BTN_R	 BIT(6)
-+#define JC_BTN_ZR	 BIT(7)
-+#define JC_BTN_MINUS	 BIT(8)
-+#define JC_BTN_PLUS	 BIT(9)
-+#define JC_BTN_RSTICK	 BIT(10)
-+#define JC_BTN_LSTICK	 BIT(11)
-+#define JC_BTN_HOME	 BIT(12)
-+#define JC_BTN_CAP	 BIT(13) /* capture button */
-+#define JC_BTN_DOWN	 BIT(16)
-+#define JC_BTN_UP	 BIT(17)
-+#define JC_BTN_RIGHT	 BIT(18)
-+#define JC_BTN_LEFT	 BIT(19)
-+#define JC_BTN_SR_L	 BIT(20)
-+#define JC_BTN_SL_L	 BIT(21)
-+#define JC_BTN_L	 BIT(22)
-+#define JC_BTN_ZL	 BIT(23)
- 
- struct joycon_ctlr_button_mapping {
- 	u32 code;
--- 
-2.25.1
+My previous focus has been locked until mask_irq()/unmask_irq() is not=20
+called in pairs, in fact, it can turn on the corresponding irq masked in=20
+enable_irq. Looking at the irq_enable() callback implementation of other=20
+GPIO interrupt controllers, there are indeed operations on masked registe=
+rs.
 
+Thank you all!
 
