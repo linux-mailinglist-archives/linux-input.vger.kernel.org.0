@@ -1,84 +1,167 @@
-Return-Path: <linux-input+bounces-801-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-800-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C8B1814C67
-	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 17:03:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E22B1814C5B
+	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 17:02:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E09DBB230DF
-	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 16:03:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 72EA8B227FF
+	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 16:02:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF91D39FF1;
-	Fri, 15 Dec 2023 16:03:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E923539FC7;
+	Fri, 15 Dec 2023 16:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EkTbs8Sv"
 X-Original-To: linux-input@vger.kernel.org
-Received: from harvie.cz (harvie.cz [77.87.242.242])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D88CF39FE4;
-	Fri, 15 Dec 2023 16:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
-Received: from anemophobia.amit.cz (unknown [31.30.84.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by harvie.cz (Postfix) with ESMTPSA id 13566180370;
-	Fri, 15 Dec 2023 16:56:51 +0100 (CET)
-From: Tomas Mudrunka <tomas.mudrunka@gmail.com>
-To: jeff@labundy.com
-Cc: dmitry.torokhov@gmail.com,
-	linux-input@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E95F36AE0;
+	Fri, 15 Dec 2023 16:02:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702656142; x=1734192142;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=T9RSzfQqw97u35cP02echEw6kn4/I1wBERkazpCYse0=;
+  b=EkTbs8SvvR7AaB51QsNZO88wzFpbWK5raXEw/acUXUV3+d3DjA1jgrk+
+   rmgNV49L3O87SFWyKtzk4qdGELRTCc//CjlAMp3aHWOv0AObN3OWqfaPJ
+   uJF5lsNU7AmFdAxnYdh5PZciJyOhH3EwPSlieYLRCxBYRBeKvCEidN7wO
+   o48T3FvxoqVgxp+8W/clSVr4nNd0oJ7iyWos+NldW8PcK0rPdTkL8ebZR
+   88b0gEpP72/eOOWXCtA91DzGst29IB0DgtnkBO0YjwvhX6VaKRks8KakH
+   tmxmneJ2X4zKUb4nHMu7aaxOF6UkwBjeWmRzm5FRkzCwVCrVvVSjEUJrK
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="13973685"
+X-IronPort-AV: E=Sophos;i="6.04,279,1695711600"; 
+   d="scan'208";a="13973685"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 08:02:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="948010121"
+X-IronPort-AV: E=Sophos;i="6.04,279,1695711600"; 
+   d="scan'208";a="948010121"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.14])
+  by orsmga005.jf.intel.com with ESMTP; 15 Dec 2023 08:02:20 -0800
+From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To: jikos@kernel.org,
+	jic23@kernel.org,
+	lars@metafoo.de,
+	Basavaraj.Natikar@amd.com
+Cc: linux-input@vger.kernel.org,
+	linux-iio@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	tomas.mudrunka@gmail.com
-Subject: [PATCH v7] Fix freeze in lm8333 i2c keyboard driver
-Date: Fri, 15 Dec 2023 16:56:43 +0100
-Message-ID: <20231215155643.705116-1-tomas.mudrunka@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <ZXpnbifDOQ/eF5jb@nixie71>
-References: <ZXpnbifDOQ/eF5jb@nixie71>
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
+	stable@vger.kernel.org
+Subject: [PATCH] iio: light: hid-sensor-als: Avoid failure for chromaticity support
+Date: Fri, 15 Dec 2023 08:01:59 -0800
+Message-Id: <20231215160159.648963-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-LM8333 uses gpio interrupt line which is active-low.
-When interrupt is set to FALLING edge and button is pressed
-before driver loads, driver will miss the edge and never respond.
-To fix this we should handle ONESHOT LOW interrupt rather than edge.
+With the commit ee3710f39f9d ("iio: hid-sensor-als: Add light chromaticity
+support"), there is an assumption that the every HID ALS descriptor has
+support of usage ids for chromaticity support. If they are not present,
+probe fails for the driver . This breaks ALS functionality on majority of
+platforms.
 
-Rather than hardcoding this, we simply remove the override from
-driver by calling request_threaded_irq() without specifying trigger.
-This will keep interrupt trigger configuration as per devicetree. eg.:
+It is possible that chromaticity usage ids are not present. When not
+present, restrict number of IIO channels to not include support for
+chromaticity and continue.
 
-	lm8333@51 {
-		compatible = "ti,lm8333";
-		interrupt-parent = <&gpio1>;
-		interrupts = <12 IRQ_TYPE_LEVEL_LOW>;
-		...
-	}
-
-Signed-off-by: Tomas Mudrunka <tomas.mudrunka@gmail.com>
-Reviewed-by: Jeff LaBundy <jeff@labundy.com>
+Fixes: ee3710f39f9d ("iio: hid-sensor-als: Add light chromaticity support")
+Reported-by: Thomas Weißschuh <thomas@t-8ch.de>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218223
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: stable@vger.kernel.org
 ---
- drivers/input/keyboard/lm8333.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/iio/light/hid-sensor-als.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/input/keyboard/lm8333.c b/drivers/input/keyboard/lm8333.c
-index 7457c3220..c5770ebb2 100644
---- a/drivers/input/keyboard/lm8333.c
-+++ b/drivers/input/keyboard/lm8333.c
-@@ -179,7 +179,7 @@ static int lm8333_probe(struct i2c_client *client)
+diff --git a/drivers/iio/light/hid-sensor-als.c b/drivers/iio/light/hid-sensor-als.c
+index f17304b54468..9941b0b927c7 100644
+--- a/drivers/iio/light/hid-sensor-als.c
++++ b/drivers/iio/light/hid-sensor-als.c
+@@ -303,11 +303,14 @@ static int als_parse_report(struct platform_device *pdev,
+ 				struct hid_sensor_hub_device *hsdev,
+ 				struct iio_chan_spec *channels,
+ 				unsigned usage_id,
+-				struct als_state *st)
++				struct als_state *st,
++				int *max_channels)
+ {
+ 	int ret;
+ 	int i;
+ 
++	*max_channels = CHANNEL_SCAN_INDEX_MAX;
++
+ 	for (i = 0; i <= CHANNEL_SCAN_INDEX_ILLUM; ++i) {
+ 		ret = sensor_hub_input_get_attribute_info(hsdev,
+ 						HID_INPUT_REPORT,
+@@ -326,8 +329,12 @@ static int als_parse_report(struct platform_device *pdev,
+ 				usage_id,
+ 				HID_USAGE_SENSOR_LIGHT_COLOR_TEMPERATURE,
+ 				&st->als[CHANNEL_SCAN_INDEX_COLOR_TEMP]);
+-	if (ret < 0)
+-		return ret;
++	if (ret < 0) {
++		*max_channels = CHANNEL_SCAN_INDEX_ILLUM;
++		ret = 0;
++		goto skip_color_chromaticity;
++	}
++
+ 	als_adjust_channel_bit_mask(channels, CHANNEL_SCAN_INDEX_COLOR_TEMP,
+ 				st->als[CHANNEL_SCAN_INDEX_COLOR_TEMP].size);
+ 
+@@ -354,6 +361,7 @@ static int als_parse_report(struct platform_device *pdev,
+ 			st->als[next_scan_index].report_id);
  	}
  
- 	err = request_threaded_irq(client->irq, NULL, lm8333_irq_thread,
--				   IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-+				   IRQF_ONESHOT,
- 				   "lm8333", lm8333);
- 	if (err)
- 		goto free_mem;
++skip_color_chromaticity:
+ 	st->scale_precision = hid_sensor_format_scale(usage_id,
+ 				&st->als[CHANNEL_SCAN_INDEX_INTENSITY],
+ 				&st->scale_pre_decml, &st->scale_post_decml);
+@@ -364,7 +372,7 @@ static int als_parse_report(struct platform_device *pdev,
+ /* Function to initialize the processing for usage id */
+ static int hid_als_probe(struct platform_device *pdev)
+ {
+-	int ret = 0;
++	int ret = 0, max_channels;
+ 	static const char *name = "als";
+ 	struct iio_dev *indio_dev;
+ 	struct als_state *als_state;
+@@ -398,15 +406,15 @@ static int hid_als_probe(struct platform_device *pdev)
+ 
+ 	ret = als_parse_report(pdev, hsdev,
+ 			       (struct iio_chan_spec *)indio_dev->channels,
+-			       hsdev->usage,
+-			       als_state);
++			       hsdev->usage, als_state, &max_channels);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "failed to setup attributes\n");
+ 		return ret;
+ 	}
+ 
+-	indio_dev->num_channels =
+-				ARRAY_SIZE(als_channels);
++	/* +1 to include time stamp */
++	indio_dev->num_channels = max_channels + 1;
++
+ 	indio_dev->info = &als_info;
+ 	indio_dev->name = name;
+ 	indio_dev->modes = INDIO_DIRECT_MODE;
 -- 
-2.40.0
+2.25.1
+
 
