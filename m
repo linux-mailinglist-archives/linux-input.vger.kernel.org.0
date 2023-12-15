@@ -1,127 +1,122 @@
-Return-Path: <linux-input+bounces-798-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-799-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E67814518
-	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 11:04:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0552A8146B0
+	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 12:20:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 28E001F22B9A
-	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 10:04:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 36D221C22510
+	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 11:20:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 826EE18C11;
-	Fri, 15 Dec 2023 10:04:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69CA31A5B0;
+	Fri, 15 Dec 2023 11:19:57 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4AE5182CC;
-	Fri, 15 Dec 2023 10:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rE53I-0005EG-VC; Fri, 15 Dec 2023 11:04:17 +0100
-Message-ID: <d3d6fe7a-d6e1-4ea6-a8f6-2430731691b2@leemhuis.info>
-Date: Fri, 15 Dec 2023 11:04:19 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A47B24B23;
+	Fri, 15 Dec 2023 11:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=artur-rojek.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=artur-rojek.eu
+Received: by mail.gandi.net (Postfix) with ESMTPA id 60F8D60005;
+	Fri, 15 Dec 2023 11:19:51 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/9] Support light color temperature and chromaticity
-Content-Language: en-US, de-DE
-To: Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?=
- <thomas@t-8ch.de>
-Cc: Basavaraj Natikar <Basavaraj.Natikar@amd.com>, jikos@kernel.org,
- benjamin.tissoires@redhat.com, lars@metafoo.de,
- srinivas.pandruvada@linux.intel.com, linux-input@vger.kernel.org,
- linux-iio@vger.kernel.org, regressions@lists.linux.dev
-References: <20230919081054.2050714-1-Basavaraj.Natikar@amd.com>
- <4441bd6b-01cd-4f26-bf85-bde2e1bf404e@t-8ch.de>
- <20231210110735.52f8dc53@jic23-huawei>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <20231210110735.52f8dc53@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1702634661;71de4177;
-X-HE-SMSGID: 1rE53I-0005EG-VC
+Date: Fri, 15 Dec 2023 12:19:51 +0100
+From: Artur Rojek <contact@artur-rojek.eu>
+To: Chris Morgan <macroalpha82@gmail.com>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+ dmitry.torokhov@gmail.com, Chris Morgan <macromorgan@hotmail.com>, Paul
+ Cercueil <paul@crapouillou.net>
+Subject: Re: [RFC] dt-bindings: input: Clarify that abs_min must be less than
+ abs_max
+In-Reply-To: <20231215024022.122022-1-macroalpha82@gmail.com>
+References: <20231215024022.122022-1-macroalpha82@gmail.com>
+Message-ID: <03a9a56362b0559234d4a21a4de3e32e@artur-rojek.eu>
+X-Sender: contact@artur-rojek.eu
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: contact@artur-rojek.eu
 
-Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
-for once, to make this easily accessible to everyone.
+On 2023-12-15 03:40, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
+> 
+> uinput refuses to work with abs devices where the min value is greater
+> than the max value. uinput_validate_absinfo() returns -EINVAL if this
+> is the case and prevents using uinput on such a device. Since uinput
+> has worked this way since at least kernel 2.6 (or prior) I presume that
+> this is the correct way of doing things, and that this documentation
+> needs to be clarified that min must always be less than max.
+> 
+> uinput is used in my use case to bind together adc-joystick devices
+> with gpio-keys devices to create a single unified gamepad for
+> userspace.
+> 
+> Note that there are several boards that will need to be corrected,
+> all but a few of them I maintain. Submitting as an RFC for now to get
+> comments from the input team and the original author in case there is
+> something I am missing.
+> 
+> Fixes: 7956b0d4694f ("dt-bindings: input: Add docs for ADC driven 
+> joystick")
+> 
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> ---
+>  Documentation/devicetree/bindings/input/adc-joystick.yaml | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> index 6c244d66f8ce..8f5cdd5ef190 100644
+> --- a/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> +++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> @@ -73,8 +73,9 @@ patternProperties:
+>          description: >
+>            Minimum and maximum values produced by the axis.
+>            For an ABS_X axis this will be the left-most and right-most
+> -          inclination of the joystick. If min > max, it is left to 
+> userspace to
+> -          treat the axis as inverted.
+> +          inclination of the joystick. The axis must always be 
+> expressed as
+> +          min < max, if the axis is inverted it is left to userspace 
+> to handle
+> +          the inversion.
 
-Thomas, Jonathan, was any progress made to resolve below regression?
+Hi Chris,
 
-Side note: vormally I would not prod you at this time of the cycle, but
-with the festive season coming up I thought it would be wise to ask a
-bit earlier for a status update.
+Device Tree is supposed to depict the actual state of the hardware.
+I worded the adc-joytick's adc-range property specifically, so that it
+covers a case of GCW Zero hardware [1], which has a joystick,  where the
+ABS_X axis reports increasing values for the left-wards inclination of
+the joystick, and decreasing values for the right-wards inclination. You
+are saying that there are even more boards that need to be corrected -
+those are all situations, where DT depicts the actual behavior of the
+hardware.
+What you are trying to do is change hardware description, because of how
+a driver in an OS works. You should instead fix behavior of said driver,
+even if nobody stumbled upon that issue since 2.6 :) We fixed libSDL [2]
+for the same reason.
 
-Ciao, Thorsten
+Cheers,
+Artur
 
-On 10.12.23 12:07, Jonathan Cameron wrote:
-> On Thu, 7 Dec 2023 00:39:28 +0100
-> Thomas Weißschuh <thomas@t-8ch.de> wrote:
->> On 2023-09-19 13:40:45+0530, Basavaraj Natikar wrote:
->>> This series adds support for light color temperature and chromaticity.
->[...]
->>> Basavaraj Natikar (9):
->>>   iio: hid-sensor-als: Use channel index to support more hub attributes
->>>   iio: Add channel type light color temperature
->>>   iio: hid-sensor-als: Add light color temperature support
->>>   HID: amd_sfh: Add support for light color temperature
->>>   HID: amd_sfh: Add support for SFH1.1 light color temperature
->>>   iio: Add channel type for chromaticity
->>>   iio: hid-sensor-als: Add light chromaticity support
->>>   HID: amd_sfh: Add light chromaticity support
->>>   HID: amd_sfh: Add light chromaticity for SFH1.1  
->>
->> This series is breaking probing of hid-sensor-als on Framework 13 AMD
->> laptops [0].
->> The problem is that the patches require hid-sensors-als sensors to also
->> report chromaticity and color temparature which they don't.
-> Gah.  Missed that in review.  Sorry about that and thanks for digging into
-> this.
->>
->> When I remove the 'if (ret < 0) return ret;' checks in
->> als_parse_report() probing works and the illuminance/intensity channels
->> that show up behave as expected.
->> Unfortunately this still leaves behind a bunch of unusable channels.
->> A nice fix would be to have something like sysfs/hwmon .is_visible()
->> callback but that's not supported by IIO.
+PS. cc'd Paul to the conversation.
+
+[1] 
+https://github.com/OpenDingux/linux/blob/jz-6.1/arch/mips/boot/dts/ingenic/gcw0.dts#L273C12-L273C12
+[2] https://github.com/libsdl-org/SDL-1.2/commit/46806790ad043
+
+>            This property is interpreted as two signed 32 bit values.
 > 
-> It's tricky to do because there is no simple association between
-> what is registered as channels and the resulting attribute.  We could probably
-> make it work, but not a simple thing to do.
-> 
->>
->> One aproach would be to detect the usable channels in als_parse_report()
->> and then adapt the indio_dev->channels based on that information.
->>
->> [0] https://bugzilla.kernel.org/show_bug.cgi?id=218223
-> 
-> Agreed that adapting the channels is the way to go.
-> Easiest option probably to set the relevant masks to 0 if the chromacity and
-> temp channels aren't there + set their scan index values to -1.
-> That 'should' suppress any attributes being created.
-> Having a gap in scan indexes is common anyway so any userspace should cope
-> with the timestamp being after a gap.
-> 
-> Alternatives would be to rebuild the chan_spec array to not have the entries,
-> or pass in and fill in two copies of the array, picking the relevant one only
-> on discovering if the temp and chromacity channels are present.
-> 
-> Jonathan
-> 
->>
->> #regzbot introduced: 5f05285df691b1e82108eead7165feae238c95ef
->> #regzbot monitor: https://bugzilla.kernel.org/show_bug.cgi?id=218223
->>
-> 
-> 
-> 
+>        abs-fuzz:
+
 
