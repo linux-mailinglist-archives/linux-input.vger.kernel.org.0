@@ -1,124 +1,113 @@
-Return-Path: <linux-input+bounces-794-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-795-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 830E5814025
-	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 03:44:52 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC1C1814070
+	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 04:09:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 744961C20362
-	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 02:44:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C7240B21261
+	for <lists+linux-input@lfdr.de>; Fri, 15 Dec 2023 03:09:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFD2610A34;
-	Fri, 15 Dec 2023 02:40:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C83B1FBC;
+	Fri, 15 Dec 2023 03:09:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="grjy6gBm"
+	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="ohaj/X9b"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from endrift.com (endrift.com [173.255.198.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491FF10787;
-	Fri, 15 Dec 2023 02:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-6d9f9fbfd11so213324a34.2;
-        Thu, 14 Dec 2023 18:40:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702608033; x=1703212833; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WAy9HOADki1NqzxPkJEnFDeCau+SL30IzKiPsljhsOY=;
-        b=grjy6gBmEhPYpDNVbXSw1h4Q/tJ2Xobu9HtlhnF5OJfF620f4lb/ed1rCtxD1xuD6a
-         ilraIbZ+7XvkY+d6u4epfVlT3rmN/tw2ibxU5ko8VqiKTxFkVs+EVIeqYb70OI4H36Vr
-         H/TxKl9CQnkmmKom1RHv4TbD6A3DqrPil62EhaRiPlvUyYZMvlj5dtEFj6Y8LQ/8rv75
-         oyG/b9AolXon4+s62ENLCLLK8NUdjOVd/w/2r+Um9W+uKdV5TwGGh4PYpQ2zBgAAGy1j
-         dEySFIzOh3sY6RHQQHzxcAeHg/Qj0Hxjl/uTB7isN3BGa1+m1KY8OilckGLYRfBcVaan
-         cIWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702608033; x=1703212833;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WAy9HOADki1NqzxPkJEnFDeCau+SL30IzKiPsljhsOY=;
-        b=nS5LB8+17+rWjvz+bG3ZmvLjc/oUhiyEFw6tfhouMfUjxLCXUj3bkehfAXODGsSc2g
-         6xy5zWGZi7awN35aapwNDUfq2655nqshQvAp1ZRmdxJtMxqeV+5kQ+smQ7RJjgsRH7XW
-         PhxweVhbHajnoROiM6jkjhtTHV1XuDctwL7MOIhcYvAxVozWrhQlylUkXhjQ1m8+7tdP
-         4p/xEHSWN24EcTJVAP6PX+MTWxWhlWOgb/RVcRuxHsGo+JwUOaVydtcLaKRqypynHIMp
-         wPySQyRgRa36KwsyHUYUh4SXUMt76GA4QcdU83TlWXc10pQs646ayNMZzMwxvVoYPfCO
-         XdvA==
-X-Gm-Message-State: AOJu0YxVlH3cldQkN9SG45EDQEJRk2l4xLIuM6P76lNnpssgUTgnRLwk
-	1/wOtEnQWr/Q84soaMx3kkFc5GHYvYc=
-X-Google-Smtp-Source: AGHT+IEA9H3uZWt5YJ+QSD4KHD/LU6YkzXNsV/MS3ZwCe+3kw1JIIISR0Tj/o6OFbOJJoaOQrpNR9A==
-X-Received: by 2002:a9d:4d94:0:b0:6d9:dbc6:1cea with SMTP id u20-20020a9d4d94000000b006d9dbc61ceamr10035639otk.39.1702608033037;
-        Thu, 14 Dec 2023 18:40:33 -0800 (PST)
-Received: from localhost.localdomain ([75.28.21.198])
-        by smtp.gmail.com with ESMTPSA id q11-20020a9d4b0b000000b006cdf9935af2sm3436407otf.53.2023.12.14.18.40.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 18:40:32 -0800 (PST)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: linux-input@vger.kernel.org
-Cc: devicetree@vger.kernel.org,
-	contact@artur-rojek.eu,
-	conor+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	robh+dt@kernel.org,
-	dmitry.torokhov@gmail.com,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: [RFC] dt-bindings: input: Clarify that abs_min must be less than abs_max
-Date: Thu, 14 Dec 2023 20:40:22 -0600
-Message-Id: <20231215024022.122022-1-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 204E91C16
+	for <linux-input@vger.kernel.org>; Fri, 15 Dec 2023 03:09:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=endrift.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
+Received: from [192.168.0.22] (71-212-26-68.tukw.qwest.net [71.212.26.68])
+	by endrift.com (Postfix) with ESMTPSA id A3F3CA080;
+	Thu, 14 Dec 2023 19:04:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
+	t=1702609450; bh=PVBORfjY2c8XtNxI7uHAmVZ1Y/kqc9LsOB6107UNxU8=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=ohaj/X9bveAQBp8jg2L+IC3W5+i2G7e0uy2ph+wL3tmNoNfM1E8T2T73gkVo1GFby
+	 9ECVRLdVv9+aWG7ew6euIhKGOrx9tRdP2Vjk1uXRZNXraw33rsxsKjmgNpRYSWPlRc
+	 m3sYI39kZ7ryaL+t6lx7z7cdR8AZcGVKcUW52Cwb1ajuzYNJp9z9QcbvcMbk8w3OOt
+	 ZWW0CFHGjhnSwidGSUQMCpLkYU1TdgctHhKo8YmxAS9pv9BLLWvJccqWw7XTmgdpy4
+	 xpwuajPUS+HIlESKg5OYSWFIqURDNNCgXAdZSkH5ATMDP9zHYL/T/HohxC3GamRliL
+	 jthONIBdiDKag==
+Message-ID: <853baa9e-1c76-4e61-b1f6-a1155ccb5dd7@endrift.com>
+Date: Thu, 14 Dec 2023 19:04:09 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] Input: uinput - Allow uinput_request_submit wait
+ interrupting
+Content-Language: en-US
+From: Vicki Pfau <vi@endrift.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+References: <20231207063406.556770-1-vi@endrift.com>
+ <20231207063406.556770-2-vi@endrift.com> <ZXNvQCFxPoH0-i-P@google.com>
+ <b54584c2-9db8-4715-966a-6fdf57fdee1a@endrift.com>
+In-Reply-To: <b54584c2-9db8-4715-966a-6fdf57fdee1a@endrift.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Chris Morgan <macromorgan@hotmail.com>
+Hi Dmitry
 
-uinput refuses to work with abs devices where the min value is greater
-than the max value. uinput_validate_absinfo() returns -EINVAL if this
-is the case and prevents using uinput on such a device. Since uinput
-has worked this way since at least kernel 2.6 (or prior) I presume that
-this is the correct way of doing things, and that this documentation
-needs to be clarified that min must always be less than max.
+On 12/8/23 19:24, Vicki Pfau wrote:
+> Hi Dmitry,
+> 
+> On 12/8/23 11:32, Dmitry Torokhov wrote:
+>> Hi Vicki,
+>>
+>> On Wed, Dec 06, 2023 at 10:34:05PM -0800, Vicki Pfau wrote:
+>>> Currently, uinput_request_submit will only fail if the request wait times out.
+>>> However, in other places this wait is interruptable, and in this specific
+>>> location it can lead to issues, such as causing system suspend to hang until
+>>> the request times out.
+>>
+>> Could you please explain how a sleeping process can cause suspend to
+>> hang?
+> 
+> While I'm not 100% sure how it happens, given I found this by reproducing it before I came up with a theory for why it happened, my guess is that as it's trying to suspend all of userspace programs, it suspends the process that owns the uinput handle, so it can't continue to service requests, while the other process hangs in the uninterruptable call, blocking suspend for 30 seconds until the call times out.
+> 
+>>
+>>> Since the timeout is so long, this can cause the
+>>> appearance of a total system freeze. Making the wait interruptable resolves
+>>> this and possibly further issues.
+>>
+>> I think you are trying to find a justification too hard and it does not
+>> make sense, however I agree that allowing to kill the process issuing
+>> the request without waiting for the timeout to expire if the other side
+>> is stuck might be desirable.
+> 
+> This isn't reaching. As I said above, I discovered the patched line of code *after* observing suspend hanging for 30 seconds while trying to reproduce another bug. I wrote this patch, retested, and found that it now suspended immediately, leading to a visible -ERESTARTSYS in strace on coming back from suspend.
+> 
+> I can post the reproduction case somewhere, but the test program is only the evdev client end, with the uinput side being Steam, which I don't have source code for.
+> 
+>>
+>> I think the best way to use wait_for_completion_killable_timeout()
+>> so that stray signals do not disturb userspace, but the processes can
+>> still be terminated.
+> 
+> There's already a mutex_lock_interruptable in uinput_request_send that could cause this to fall back to userspace under similar circumstances. The only difference I can find, which is admittedly a bug in this patch now that I look at it again, is that uinput_dev_event would get called twice, leading to the request getting duplicated.
 
-uinput is used in my use case to bind together adc-joystick devices
-with gpio-keys devices to create a single unified gamepad for
-userspace.
+After further investigation, it seems this would still be the case even if the request times out--an invalid request would get left in the buffer, which means that while this is a new way to trigger the issue, it's not actually a new issue.
 
-Note that there are several boards that will need to be corrected,
-all but a few of them I maintain. Submitting as an RFC for now to get
-comments from the input team and the original author in case there is
-something I am missing.
+It seems to me that this driver could use a lot of love to get it into better shape, which I could work on, but I'm not actually sure where to begin. Especially if we don't want to break ABI.
 
-Fixes: 7956b0d4694f ("dt-bindings: input: Add docs for ADC driven joystick")
+> 
+> If there's a better way to handle the suspend case let me know, but this is not a hypothetical issue.
+> 
+>>
+>> Thanks.
+>>
+> 
+> Vicki
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
----
- Documentation/devicetree/bindings/input/adc-joystick.yaml | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/input/adc-joystick.yaml b/Documentation/devicetree/bindings/input/adc-joystick.yaml
-index 6c244d66f8ce..8f5cdd5ef190 100644
---- a/Documentation/devicetree/bindings/input/adc-joystick.yaml
-+++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
-@@ -73,8 +73,9 @@ patternProperties:
-         description: >
-           Minimum and maximum values produced by the axis.
-           For an ABS_X axis this will be the left-most and right-most
--          inclination of the joystick. If min > max, it is left to userspace to
--          treat the axis as inverted.
-+          inclination of the joystick. The axis must always be expressed as
-+          min < max, if the axis is inverted it is left to userspace to handle
-+          the inversion.
-           This property is interpreted as two signed 32 bit values.
- 
-       abs-fuzz:
--- 
-2.34.1
-
+Vici
 
