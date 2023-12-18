@@ -1,105 +1,160 @@
-Return-Path: <linux-input+bounces-831-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-832-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 577A8816E57
-	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 13:47:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1635C81750E
+	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 16:18:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D1470B23562
-	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 12:47:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C85F1C23F2A
+	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 15:18:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 078F6138D49;
-	Mon, 18 Dec 2023 12:44:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11CA03D540;
+	Mon, 18 Dec 2023 15:17:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EOofPSKi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uH+hX3bx"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBAA383B04;
-	Mon, 18 Dec 2023 12:44:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEA5BC433C7;
-	Mon, 18 Dec 2023 12:44:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD15229411;
+	Mon, 18 Dec 2023 15:17:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49290C433C8;
+	Mon, 18 Dec 2023 15:17:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702903466;
-	bh=RoYQ+Ptszx7ik1lC1pQDKGAUjmuzsKC1juVKnHgxrrQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EOofPSKiCHCk+wttNhCZkjPmfJRmUlfEfxRQzxIB3DWhdrxJQSE3K+Eeg0EYxhiC5
-	 A+HK10BuXuEit6/2+LkVv+MBYmROdtpL2UwAdHWO5imgjhPaFqdJQurWSpAtrnTpmS
-	 q8CU7kxddPZ97Ti+tlILolUAfqD4eh8SMTY+wKIj9F2P8Sdm55GsdExsHDkHHBxp0q
-	 GlFufgjTTo8v2WyAGaxtc2mrM6fcFuA6gj+x6l6ZDpNHVFMp7e5ezKYqoTr6dmjN3k
-	 JsfMDAAabg0L82GdXtJ3WuGPtrQchXUq5mkEzS7Kxsmika/cDXOsOuhHc17HuCtvFn
-	 y1sxAAjW6v3BQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Sebastian Parschauer <s.parschauer@gmx.de>,
-	Jiri Kosina <jkosina@suse.com>,
-	Sasha Levin <sashal@kernel.org>,
-	jikos@kernel.org,
-	benjamin.tissoires@redhat.com,
-	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 06/18] HID: Add quirk for Labtec/ODDOR/aikeec handbrake
-Date: Mon, 18 Dec 2023 07:43:40 -0500
-Message-ID: <20231218124415.1379060-6-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231218124415.1379060-1-sashal@kernel.org>
-References: <20231218124415.1379060-1-sashal@kernel.org>
+	s=k20201202; t=1702912640;
+	bh=Y2AbD1zR1eP2E6YbgGaYlyb+Rv+NoXGbIguzY9TYF+M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uH+hX3bxsibP2IzdFAFraViSj2c3EKBA+vg98LMVTaanUWvaeDExoG7X8q6kCnBUm
+	 Dv1V29e4Ka1B8X2rf5pLY0zonx2asWLO2PoKzMi+80CKPSUEcc/GaX/F1A7bPESnM6
+	 A5TY6NDjHI0Zls6dip8zSZVCSs24lelmKL1D5zX1uJCEDBNroPdon06u5jRsmiIHhX
+	 Q0+ZSSs62ZBCtzKLQU7PumZc6OJp0U2VLiSqFXB1tl9wxE8u/K/X1uyKPaK4dNEd/H
+	 Mv8I9VEJI6gaV656NOSWtLlN/JKtGmaStqEm3y3muWyjTL3G0fiuJCNwDOwxVmoBth
+	 X8+hsU5pRBVJA==
+Received: (nullmailer pid 3834100 invoked by uid 1000);
+	Mon, 18 Dec 2023 15:17:18 -0000
+Date: Mon, 18 Dec 2023 09:17:18 -0600
+From: Rob Herring <robh@kernel.org>
+To: Karel Balej <karelb@gimli.ms.mff.cuni.cz>
+Cc: Karel Balej <balejk@matfyz.cz>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>, ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+Subject: Re: [RFC PATCH 1/5] dt-bindings: mfd: add entry for the Marvell
+ 88PM88X PMICs
+Message-ID: <20231218151718.GA3827526-robh@kernel.org>
+References: <20231217131838.7569-1-karelb@gimli.ms.mff.cuni.cz>
+ <20231217131838.7569-2-karelb@gimli.ms.mff.cuni.cz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.7
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231217131838.7569-2-karelb@gimli.ms.mff.cuni.cz>
 
-From: Sebastian Parschauer <s.parschauer@gmx.de>
+On Sun, Dec 17, 2023 at 02:16:59PM +0100, Karel Balej wrote:
+> From: Karel Balej <balejk@matfyz.cz>
+> 
+> Marvell 88PM880 and 88PM886 are two similar PMICs with mostly matching
+> register mapping and subdevices such as onkey, regulators or battery and
+> charger. Both seem to come in two revisions which seem to be handled
+> slightly differently in some subdevice drivers.
+> 
+> Signed-off-by: Karel Balej <balejk@matfyz.cz>
+> ---
+>  .../bindings/mfd/marvell,88pm88x.yaml         | 55 +++++++++++++++++++
+>  1 file changed, 55 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/marvell,88pm88x.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/marvell,88pm88x.yaml b/Documentation/devicetree/bindings/mfd/marvell,88pm88x.yaml
+> new file mode 100644
+> index 000000000000..e075729c360f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/marvell,88pm88x.yaml
+> @@ -0,0 +1,55 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/marvell,88pm88x.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Marvell 88PM88X PMIC core MFD
 
-[ Upstream commit 31e52523267faab5ed8569b9d5c22c9a2283872f ]
+Drop 'MFD'.
 
-This device needs ALWAYS_POLL quirk, otherwise it keeps reconnecting
-indefinitely. It is a handbrake for sim racing detected as joystick.
-Reported and tested by GitHub user N0th1ngM4tt3rs.
+> +
+> +maintainers:
+> +  - Karel Balej <balejk@matfyz.cz>
+> +
+> +description: |
 
-Link: https://github.com/sriemer/fix-linux-mouse issue 22
-Signed-off-by: Sebastian Parschauer <s.parschauer@gmx.de>
-Signed-off-by: Jiri Kosina <jkosina@suse.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 2 insertions(+)
+Don't need '|' as there is no formatting to preserve.
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index d10ccfa17e168..97ab317570dd3 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -744,6 +744,7 @@
- 
- #define USB_VENDOR_ID_LABTEC		0x1020
- #define USB_DEVICE_ID_LABTEC_WIRELESS_KEYBOARD	0x0006
-+#define USB_DEVICE_ID_LABTEC_ODDOR_HANDBRAKE	0x8888
- 
- #define USB_VENDOR_ID_LCPOWER		0x1241
- #define USB_DEVICE_ID_LCPOWER_LC1000	0xf767
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 5a48fcaa32f00..d9a4f8f7bbb07 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -120,6 +120,7 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M406XE), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_MOUSEPEN_I608X_V2), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_PENSKETCH_T609A), HID_QUIRK_MULTI_INPUT },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LABTEC, USB_DEVICE_ID_LABTEC_ODDOR_HANDBRAKE), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_OPTICAL_USB_MOUSE_600E), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_608D), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6019), HID_QUIRK_ALWAYS_POLL },
--- 
-2.43.0
+> +  Marvell 88PM880 and 88PM886 are two similar PMICs providing
+> +  several functions such as onkey, regulators or battery and
+> +  charger. Both seem to come in two revisions -- A0 and A1.
+> +
+> +properties:
+> +  compatible:
+> +    const: marvell,88pm886-a1
 
+The description talks about 4 different devices, but only 1 here. 
+
+Do you expect to need A0 support? Devices with these PMICs should be 
+known and few, right? 
+
+> +
+> +  reg:
+> +    description: I2C device address
+
+Drop.
+
+> +    maxItems: 1
+> +
+> +  interrupt-controller: true
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  "#interrupt-cells":
+> +    const: 2
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupt-controller
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +      pmic0: 88pm886@30 {
+
+pmic@30
+
+Drop the unused label.
+
+> +        compatible = "marvell,88pm886-a1";
+> +        reg = <0x30>;
+> +        interrupts = <0 4 IRQ_TYPE_LEVEL_HIGH>;
+
+You need the header for this.
+
+You'll find the input binding fails too. Please test your bindings 
+before sending.
+
+> +        interrupt-parent = <&gic>;
+> +        interrupt-controller;
+> +        #interrupt-cells = <1>;
+> +      };
+> +    };
+> +...
+> -- 
+> 2.43.0
+> 
 
