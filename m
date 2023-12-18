@@ -1,149 +1,115 @@
-Return-Path: <linux-input+bounces-844-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-845-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C54A0817C10
-	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 21:40:02 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 413FF817CEC
+	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 22:48:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A86591C21846
-	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 20:40:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E65CAB23CC5
+	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 21:48:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C1AE1DA29;
-	Mon, 18 Dec 2023 20:39:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFFB073487;
+	Mon, 18 Dec 2023 21:46:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="g7rHvnfT"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="Sergh8Ia"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9771B3034F
-	for <linux-input@vger.kernel.org>; Mon, 18 Dec 2023 20:39:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1702931993; x=1703191193;
-	bh=PMtpZMgq7Hm6xyDBas+E8oXkYML9aV6VQmK9h6ITKZ0=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=g7rHvnfT5DxK5uhoASnTfvxBgoEw1QZms1NeytRtcEV74UIi1ir8xH2lHbwRmjgyo
-	 uxO9OL1HRv8AxyguatDM40SsZl24PZ76XFjx6ZmufUHgzN2zYrlcid4RKIccevnyRB
-	 7E2CX+yDB3LsaLPUmkBu9AyHkPbL44z2+G9UdNsXPYy5fAy1lLFGro40/3t3SqXsBb
-	 JaefwO5WXXnPWCbFZLAonk4ZksqbuRchMrnO6D84KQP7EqgokZbke8UQkIL3gO0n92
-	 JgYxBdeejUO7LMTUNMlmDkW4yavzGdPkfC9+r0GnHKv5ugUbUNEAuifNVkEZYestKG
-	 X3tNbQhjFaSAw==
-Date: Mon, 18 Dec 2023 20:39:45 +0000
-To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc: djogorchock@gmail.com, linux-input@vger.kernel.org, jikos@kernel.org, benjamin.tissoires@redhat.com, kernel@gpiccoli.net, kernel-dev@igalia.com
-Subject: Re: [PATCH] HID: nintendo: Prevent divide-by-zero on code
-Message-ID: <87o7enxn1x.fsf@protonmail.com>
-In-Reply-To: <20231205211628.993129-1-gpiccoli@igalia.com>
-References: <20231205211628.993129-1-gpiccoli@igalia.com>
-Feedback-ID: 26003777:user:proton
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92065740AB
+	for <linux-input@vger.kernel.org>; Mon, 18 Dec 2023 21:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=7kBDAp8ZU1AgRO3Nw/HPGKErjmejmNvBagMEqhi5o48=; b=Sergh8IaIundnutG6N1pU/SkMa
+	Z0q7M8pgp5TwGELJUtwyBiXIG/Q9657vPz5g+CPeEVaZdgodR31R+Ztyt7H1yhqS4VPmOluq95BgX
+	/Vwdz6PJahitR44dYLL3mppDo4CNBl9fhqejyKEDYHe0Zhli/L8Wr9yfIP5p6C1Wq4p6RPc9GSLbW
+	OV+Koh9thsifehINEKW0Hbs42P/CtC8kEZIhmoZQHqBjS9HcfDas6Y1DXSGVRKvsaPcSliRIFp0D3
+	19Gz/SJ0p+UF4sLMA9DHNMzya7Hu37Lxw+bmcJKqnzolk5+UMat8trefcI8DpzIexx+u6LeOkQx8e
+	3vBhuuig==;
+Received: from [177.68.247.242] (helo=[192.168.1.60])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1rFLRI-00FNOY-Dh; Mon, 18 Dec 2023 22:46:16 +0100
+Message-ID: <dcd91e66-11ce-c576-5eb7-8756a1b6f222@igalia.com>
+Date: Mon, 18 Dec 2023 18:46:09 -0300
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH] HID: nintendo: Prevent divide-by-zero on code
+Content-Language: en-US
+To: Rahul Rameshbabu <sergeantsagara@protonmail.com>, jikos@kernel.org
+Cc: djogorchock@gmail.com, linux-input@vger.kernel.org,
+ benjamin.tissoires@redhat.com, kernel@gpiccoli.net, kernel-dev@igalia.com
+References: <20231205211628.993129-1-gpiccoli@igalia.com>
+ <87o7enxn1x.fsf@protonmail.com>
+From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <87o7enxn1x.fsf@protonmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 05 Dec, 2023 18:15:51 -0300 "Guilherme G. Piccoli" <gpiccoli@igalia=
-.com> wrote:
-> It was reported [0] that adding a generic joycon to the system caused
-> a kernel crash on Steam Deck, with the below panic spew:
->
-> divide error: 0000 [#1] PREEMPT SMP NOPTI
+On 18/12/2023 17:39, Rahul Rameshbabu wrote:
 > [...]
-> Hardware name: Valve Jupiter/Jupiter, BIOS F7A0119 10/24/2023
-> RIP: 0010:nintendo_hid_event+0x340/0xcc1 [hid_nintendo]
-> [...]
-> Call Trace:
->  [...]
->  ? exc_divide_error+0x38/0x50
->  ? nintendo_hid_event+0x340/0xcc1 [hid_nintendo]
->  ? asm_exc_divide_error+0x1a/0x20
->  ? nintendo_hid_event+0x307/0xcc1 [hid_nintendo]
->  hid_input_report+0x143/0x160
->  hidp_session_run+0x1ce/0x700 [hidp]
->
-> Since it's a divide-by-0 error, by tracking the code for potential
-> denominator issues, we've spotted 2 places in which this could happen;
-> so let's guard against the possibility and log in the kernel if the
-> condition happens. This is specially useful since some data that
-> fills some denominators are read from the joycon HW in some cases,
-> increasing the potential for flaws.
->
-> [0] https://github.com/ValveSoftware/SteamOS/issues/1070
->
-> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
-> ---
->  drivers/hid/hid-nintendo.c | 27 ++++++++++++++++++++-------
->  1 file changed, 20 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-> index 138f154fecef..23f3f96c8c85 100644
-> --- a/drivers/hid/hid-nintendo.c
-> +++ b/drivers/hid/hid-nintendo.c
+> 
+> Hi Guilherme,
+> 
+> I agree with the previous hunks you added and can see how those could
+> trigger the divide-by-zero issue you were seeing. However, I am not sure
+> if this hunk that I have left makes sense.
+> 
+> Reason being, is that the hid-nintendo driver has a special conditional
+> to prevent divide-by-zero in this case without this change.
+> 
+> 1. If the first packet has not been received by the IMU, set
+>    imu_avg_delta_ms to JC_IMU_DFLT_AVG_DELTA_MS.
+> 2. Only change imu_avg_delta_ms when imu_delta_samples_count >=
+>    JC_IMU_SAMPLES_PER_DELTA_AVG.
+> 3. If that change leads to imu_avg_delta_ms being 0, set it to 1.
+> 
+> With this logic as-is, I do not see how a divide by zero could have
+> occurred in this specific path without your change. I might be missing
+> something, but I wanted to make sure to avoid integrating a hunk that
+> does not help.
+> 
+> Would it be possible to retest without this hunk?
+> 
 
-[...]
+Hi Rahul, thanks for your review.
 
-> @@ -1163,16 +1176,16 @@ static void joycon_parse_imu_report(struct joycon=
-_ctlr *ctlr,
->  =09=09    JC_IMU_SAMPLES_PER_DELTA_AVG) {
->  =09=09=09ctlr->imu_avg_delta_ms =3D ctlr->imu_delta_samples_sum /
->  =09=09=09=09=09=09 ctlr->imu_delta_samples_count;
-> -=09=09=09/* don't ever want divide by zero shenanigans */
-> -=09=09=09if (ctlr->imu_avg_delta_ms =3D=3D 0) {
-> -=09=09=09=09ctlr->imu_avg_delta_ms =3D 1;
-> -=09=09=09=09hid_warn(ctlr->hdev,
-> -=09=09=09=09=09 "calculated avg imu delta of 0\n");
-> -=09=09=09}
->  =09=09=09ctlr->imu_delta_samples_count =3D 0;
->  =09=09=09ctlr->imu_delta_samples_sum =3D 0;
->  =09=09}
->
-> +=09=09/* don't ever want divide by zero shenanigans */
-> +=09=09if (ctlr->imu_avg_delta_ms =3D=3D 0) {
-> +=09=09=09ctlr->imu_avg_delta_ms =3D 1;
-> +=09=09=09hid_warn(ctlr->hdev, "calculated avg imu delta of 0\n");
-> +=09=09}
-> +
+I think I see ... I covered both bases in this patch, but IIUC after
+your points above and better looking the code:
 
-Hi Guilherme,
+(a) imu_avg_delta_ms is set to JC_IMU_DFLT_AVG_DELTA_MS and it can only
+change iff imu_delta_samples_count >= JC_IMU_SAMPLES_PER_DELTA_AVG.
 
-I agree with the previous hunks you added and can see how those could
-trigger the divide-by-zero issue you were seeing. However, I am not sure
-if this hunk that I have left makes sense.
+(b) But the if path related with the imu_delta_samples_count is the one
+that also guards the divide-by-zero, so effectively that error condition
+cannot happen outside that if path, i.e., my hunk changed nothing.
+Ugh...my bad.
 
-Reason being, is that the hid-nintendo driver has a special conditional
-to prevent divide-by-zero in this case without this change.
+At the same time, the hunk is harmless - it's up to Jiri to decide, we
+can drop it (either directly by git rebasing or I can send a V2 if Jiri
+prefers), or we can keep it.
 
-1. If the first packet has not been received by the IMU, set
-   imu_avg_delta_ms to JC_IMU_DFLT_AVG_DELTA_MS.
-2. Only change imu_avg_delta_ms when imu_delta_samples_count >=3D
-   JC_IMU_SAMPLES_PER_DELTA_AVG.
-3. If that change leads to imu_avg_delta_ms being 0, set it to 1.
+I can try to test internally, github testing may be a bit uncertain in
+the timeframe (specially during holidays season). If Jiri thinks the
+hunk is harmless and no change is necessary, I'd rather not bother
+people for testing now (I don't have the HW).
 
-With this logic as-is, I do not see how a divide by zero could have
-occurred in this specific path without your change. I might be missing
-something, but I wanted to make sure to avoid integrating a hunk that
-does not help.
-
-Would it be possible to retest without this hunk?
-
->  =09=09/* useful for debugging IMU sample rate */
->  =09=09hid_dbg(ctlr->hdev,
->  =09=09=09"imu_report: ms=3D%u last_ms=3D%u delta=3D%u avg_delta=3D%u\n",
-
---
-Thanks,
-
-Rahul Rameshbabu
+Cheers,
 
 
+Guilherme
 
