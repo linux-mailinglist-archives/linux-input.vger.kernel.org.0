@@ -1,218 +1,149 @@
-Return-Path: <linux-input+bounces-843-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-844-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB922817BEC
-	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 21:31:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C54A0817C10
+	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 21:40:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 77169281E3D
-	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 20:31:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A86591C21846
+	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 20:40:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99B7874E08;
-	Mon, 18 Dec 2023 20:30:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C1AE1DA29;
+	Mon, 18 Dec 2023 20:39:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VfKE9U+K"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="g7rHvnfT"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CED77348D;
-	Mon, 18 Dec 2023 20:30:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702931441; x=1734467441;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=D/z1pNX0oVmvs23LZ0KScjYRgJYnFouhSUNo7dpC3TA=;
-  b=VfKE9U+KXfJTGHuR0FR0gv9nAOaiex49H2cfkKnJK87KOOClaBu14Nbk
-   goBtEwUVyo6QjXxM2HjfsTTbw/PBzU4Phh/Z94ghunRSJnD1KCsamhP3D
-   pMJ8ekTWIeztnlkKl0tptlstPWwdRVOPciTtz2ZFBp5LHctjZy9L7JEpq
-   +MNNvJsGHCWzIg8XBCLtsyBYE3rFqrIM3gX+dy20J8o/UWOfRJa0VBEe3
-   /xtSAnRR4K/t5NNMcK/DV6KvBAERR533nBklCvAklC6LHyAY9EhoTS4rG
-   bhTHRiBlBr9A28AiHhteoTSy7uERLfd9linosmlfDJcs56ejIOgt6zcSO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="395289757"
-X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="395289757"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 12:30:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="751879654"
-X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="751879654"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.14])
-  by orsmga006.jf.intel.com with ESMTP; 18 Dec 2023 12:30:37 -0800
-From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To: jikos@kernel.org,
-	jic23@kernel.org,
-	lars@metafoo.de,
-	Basavaraj.Natikar@amd.com
-Cc: linux-input@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH v2 3/3] iio: hid-sensor-als: Add light chromaticity support
-Date: Mon, 18 Dec 2023 12:30:26 -0800
-Message-Id: <20231218203026.1156375-4-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231218203026.1156375-1-srinivas.pandruvada@linux.intel.com>
-References: <20231218203026.1156375-1-srinivas.pandruvada@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9771B3034F
+	for <linux-input@vger.kernel.org>; Mon, 18 Dec 2023 20:39:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1702931993; x=1703191193;
+	bh=PMtpZMgq7Hm6xyDBas+E8oXkYML9aV6VQmK9h6ITKZ0=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=g7rHvnfT5DxK5uhoASnTfvxBgoEw1QZms1NeytRtcEV74UIi1ir8xH2lHbwRmjgyo
+	 uxO9OL1HRv8AxyguatDM40SsZl24PZ76XFjx6ZmufUHgzN2zYrlcid4RKIccevnyRB
+	 7E2CX+yDB3LsaLPUmkBu9AyHkPbL44z2+G9UdNsXPYy5fAy1lLFGro40/3t3SqXsBb
+	 JaefwO5WXXnPWCbFZLAonk4ZksqbuRchMrnO6D84KQP7EqgokZbke8UQkIL3gO0n92
+	 JgYxBdeejUO7LMTUNMlmDkW4yavzGdPkfC9+r0GnHKv5ugUbUNEAuifNVkEZYestKG
+	 X3tNbQhjFaSAw==
+Date: Mon, 18 Dec 2023 20:39:45 +0000
+To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Cc: djogorchock@gmail.com, linux-input@vger.kernel.org, jikos@kernel.org, benjamin.tissoires@redhat.com, kernel@gpiccoli.net, kernel-dev@igalia.com
+Subject: Re: [PATCH] HID: nintendo: Prevent divide-by-zero on code
+Message-ID: <87o7enxn1x.fsf@protonmail.com>
+In-Reply-To: <20231205211628.993129-1-gpiccoli@igalia.com>
+References: <20231205211628.993129-1-gpiccoli@igalia.com>
+Feedback-ID: 26003777:user:proton
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+On Tue, 05 Dec, 2023 18:15:51 -0300 "Guilherme G. Piccoli" <gpiccoli@igalia=
+.com> wrote:
+> It was reported [0] that adding a generic joycon to the system caused
+> a kernel crash on Steam Deck, with the below panic spew:
+>
+> divide error: 0000 [#1] PREEMPT SMP NOPTI
+> [...]
+> Hardware name: Valve Jupiter/Jupiter, BIOS F7A0119 10/24/2023
+> RIP: 0010:nintendo_hid_event+0x340/0xcc1 [hid_nintendo]
+> [...]
+> Call Trace:
+>  [...]
+>  ? exc_divide_error+0x38/0x50
+>  ? nintendo_hid_event+0x340/0xcc1 [hid_nintendo]
+>  ? asm_exc_divide_error+0x1a/0x20
+>  ? nintendo_hid_event+0x307/0xcc1 [hid_nintendo]
+>  hid_input_report+0x143/0x160
+>  hidp_session_run+0x1ce/0x700 [hidp]
+>
+> Since it's a divide-by-0 error, by tracking the code for potential
+> denominator issues, we've spotted 2 places in which this could happen;
+> so let's guard against the possibility and log in the kernel if the
+> condition happens. This is specially useful since some data that
+> fills some denominators are read from the joycon HW in some cases,
+> increasing the potential for flaws.
+>
+> [0] https://github.com/ValveSoftware/SteamOS/issues/1070
+>
+> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+> ---
+>  drivers/hid/hid-nintendo.c | 27 ++++++++++++++++++++-------
+>  1 file changed, 20 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+> index 138f154fecef..23f3f96c8c85 100644
+> --- a/drivers/hid/hid-nintendo.c
+> +++ b/drivers/hid/hid-nintendo.c
 
-In most cases, ambient color sensors also support the x and y light
-colors, which represent the coordinates on the CIE 1931 chromaticity
-diagram. Thus, add light chromaticity x and y.
+[...]
 
-Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
-v2:
-Original patch from Basavaraj Natikar <Basavaraj.Natikar@amd.com> is
-modified to prevent failure when the new usage id is not found in the
-descriptor.
+> @@ -1163,16 +1176,16 @@ static void joycon_parse_imu_report(struct joycon=
+_ctlr *ctlr,
+>  =09=09    JC_IMU_SAMPLES_PER_DELTA_AVG) {
+>  =09=09=09ctlr->imu_avg_delta_ms =3D ctlr->imu_delta_samples_sum /
+>  =09=09=09=09=09=09 ctlr->imu_delta_samples_count;
+> -=09=09=09/* don't ever want divide by zero shenanigans */
+> -=09=09=09if (ctlr->imu_avg_delta_ms =3D=3D 0) {
+> -=09=09=09=09ctlr->imu_avg_delta_ms =3D 1;
+> -=09=09=09=09hid_warn(ctlr->hdev,
+> -=09=09=09=09=09 "calculated avg imu delta of 0\n");
+> -=09=09=09}
+>  =09=09=09ctlr->imu_delta_samples_count =3D 0;
+>  =09=09=09ctlr->imu_delta_samples_sum =3D 0;
+>  =09=09}
+>
+> +=09=09/* don't ever want divide by zero shenanigans */
+> +=09=09if (ctlr->imu_avg_delta_ms =3D=3D 0) {
+> +=09=09=09ctlr->imu_avg_delta_ms =3D 1;
+> +=09=09=09hid_warn(ctlr->hdev, "calculated avg imu delta of 0\n");
+> +=09=09}
+> +
 
- drivers/iio/light/hid-sensor-als.c | 68 +++++++++++++++++++++++++++++-
- include/linux/hid-sensor-ids.h     |  3 ++
- 2 files changed, 70 insertions(+), 1 deletion(-)
+Hi Guilherme,
 
-diff --git a/drivers/iio/light/hid-sensor-als.c b/drivers/iio/light/hid-sensor-als.c
-index 8d6beacc338a..6e2793fa515c 100644
---- a/drivers/iio/light/hid-sensor-als.c
-+++ b/drivers/iio/light/hid-sensor-als.c
-@@ -17,6 +17,8 @@ enum {
- 	CHANNEL_SCAN_INDEX_INTENSITY,
- 	CHANNEL_SCAN_INDEX_ILLUM,
- 	CHANNEL_SCAN_INDEX_COLOR_TEMP,
-+	CHANNEL_SCAN_INDEX_CHROMATICITY_X,
-+	CHANNEL_SCAN_INDEX_CHROMATICITY_Y,
- 	CHANNEL_SCAN_INDEX_MAX
- };
- 
-@@ -76,6 +78,30 @@ static const struct iio_chan_spec als_channels[] = {
- 		BIT(IIO_CHAN_INFO_HYSTERESIS_RELATIVE),
- 		.scan_index = CHANNEL_SCAN_INDEX_COLOR_TEMP,
- 	},
-+	{
-+		.type = IIO_CHROMATICITY,
-+		.modified = 1,
-+		.channel2 = IIO_MOD_X,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),
-+		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_OFFSET) |
-+		BIT(IIO_CHAN_INFO_SCALE) |
-+		BIT(IIO_CHAN_INFO_SAMP_FREQ) |
-+		BIT(IIO_CHAN_INFO_HYSTERESIS) |
-+		BIT(IIO_CHAN_INFO_HYSTERESIS_RELATIVE),
-+		.scan_index = CHANNEL_SCAN_INDEX_CHROMATICITY_X,
-+	},
-+	{
-+		.type = IIO_CHROMATICITY,
-+		.modified = 1,
-+		.channel2 = IIO_MOD_Y,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),
-+		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_OFFSET) |
-+		BIT(IIO_CHAN_INFO_SCALE) |
-+		BIT(IIO_CHAN_INFO_SAMP_FREQ) |
-+		BIT(IIO_CHAN_INFO_HYSTERESIS) |
-+		BIT(IIO_CHAN_INFO_HYSTERESIS_RELATIVE),
-+		.scan_index = CHANNEL_SCAN_INDEX_CHROMATICITY_Y,
-+	},
- 	IIO_CHAN_SOFT_TIMESTAMP(CHANNEL_SCAN_INDEX_TIMESTAMP)
- };
- 
-@@ -119,6 +145,16 @@ static int als_read_raw(struct iio_dev *indio_dev,
- 			min = als_state->als[chan->scan_index].logical_minimum;
- 			address = HID_USAGE_SENSOR_LIGHT_COLOR_TEMPERATURE;
- 			break;
-+		case  CHANNEL_SCAN_INDEX_CHROMATICITY_X:
-+			report_id = als_state->als[chan->scan_index].report_id;
-+			min = als_state->als[chan->scan_index].logical_minimum;
-+			address = HID_USAGE_SENSOR_LIGHT_CHROMATICITY_X;
-+			break;
-+		case  CHANNEL_SCAN_INDEX_CHROMATICITY_Y:
-+			report_id = als_state->als[chan->scan_index].report_id;
-+			min = als_state->als[chan->scan_index].logical_minimum;
-+			address = HID_USAGE_SENSOR_LIGHT_CHROMATICITY_Y;
-+			break;
- 		default:
- 			report_id = -1;
- 			break;
-@@ -243,6 +279,14 @@ static int als_capture_sample(struct hid_sensor_hub_device *hsdev,
- 		als_state->scan.illum[CHANNEL_SCAN_INDEX_COLOR_TEMP] = sample_data;
- 		ret = 0;
- 		break;
-+	case HID_USAGE_SENSOR_LIGHT_CHROMATICITY_X:
-+		als_state->scan.illum[CHANNEL_SCAN_INDEX_CHROMATICITY_X] = sample_data;
-+		ret = 0;
-+		break;
-+	case HID_USAGE_SENSOR_LIGHT_CHROMATICITY_Y:
-+		als_state->scan.illum[CHANNEL_SCAN_INDEX_CHROMATICITY_Y] = sample_data;
-+		ret = 0;
-+		break;
- 	case HID_USAGE_SENSOR_TIME_TIMESTAMP:
- 		als_state->timestamp = hid_sensor_convert_timestamp(&als_state->common_attributes,
- 								    *(s64 *)raw_data);
-@@ -303,11 +347,33 @@ static int als_parse_report(struct platform_device *pdev,
- 		st->als[CHANNEL_SCAN_INDEX_COLOR_TEMP].index,
- 		st->als[CHANNEL_SCAN_INDEX_COLOR_TEMP].report_id);
- 
-+skip_temp_channel:
-+	for (i = 0; i < 2; i++) {
-+		int next_scan_index = CHANNEL_SCAN_INDEX_CHROMATICITY_X + i;
-+
-+		ret = sensor_hub_input_get_attribute_info(hsdev,
-+				HID_INPUT_REPORT, usage_id,
-+				HID_USAGE_SENSOR_LIGHT_CHROMATICITY_X + i,
-+				&st->als[next_scan_index]);
-+		if (ret < 0)
-+			goto skip_chromaticity_channel;
-+
-+		channels[index++] = als_channels[CHANNEL_SCAN_INDEX_CHROMATICITY_X + i];
-+
-+		als_adjust_channel_bit_mask(channels,
-+					CHANNEL_SCAN_INDEX_CHROMATICITY_X + i,
-+					st->als[next_scan_index].size);
-+
-+		dev_dbg(&pdev->dev, "als %x:%x\n",
-+			st->als[next_scan_index].index,
-+			st->als[next_scan_index].report_id);
-+	}
-+
- 	st->scale_precision = hid_sensor_format_scale(usage_id,
- 				&st->als[CHANNEL_SCAN_INDEX_INTENSITY],
- 				&st->scale_pre_decml, &st->scale_post_decml);
- 
--skip_temp_channel:
-+skip_chromaticity_channel:
- 	*channels_out = channels;
- 	*size_channels_out = index;
- 
-diff --git a/include/linux/hid-sensor-ids.h b/include/linux/hid-sensor-ids.h
-index 8af4fb3e0254..6730ee900ee1 100644
---- a/include/linux/hid-sensor-ids.h
-+++ b/include/linux/hid-sensor-ids.h
-@@ -22,6 +22,9 @@
- #define HID_USAGE_SENSOR_DATA_LIGHT				0x2004d0
- #define HID_USAGE_SENSOR_LIGHT_ILLUM				0x2004d1
- #define HID_USAGE_SENSOR_LIGHT_COLOR_TEMPERATURE		0x2004d2
-+#define HID_USAGE_SENSOR_LIGHT_CHROMATICITY			0x2004d3
-+#define HID_USAGE_SENSOR_LIGHT_CHROMATICITY_X			0x2004d4
-+#define HID_USAGE_SENSOR_LIGHT_CHROMATICITY_Y			0x2004d5
- 
- /* PROX (200011) */
- #define HID_USAGE_SENSOR_PROX                                   0x200011
--- 
-2.43.0
+I agree with the previous hunks you added and can see how those could
+trigger the divide-by-zero issue you were seeing. However, I am not sure
+if this hunk that I have left makes sense.
+
+Reason being, is that the hid-nintendo driver has a special conditional
+to prevent divide-by-zero in this case without this change.
+
+1. If the first packet has not been received by the IMU, set
+   imu_avg_delta_ms to JC_IMU_DFLT_AVG_DELTA_MS.
+2. Only change imu_avg_delta_ms when imu_delta_samples_count >=3D
+   JC_IMU_SAMPLES_PER_DELTA_AVG.
+3. If that change leads to imu_avg_delta_ms being 0, set it to 1.
+
+With this logic as-is, I do not see how a divide by zero could have
+occurred in this specific path without your change. I might be missing
+something, but I wanted to make sure to avoid integrating a hunk that
+does not help.
+
+Would it be possible to retest without this hunk?
+
+>  =09=09/* useful for debugging IMU sample rate */
+>  =09=09hid_dbg(ctlr->hdev,
+>  =09=09=09"imu_report: ms=3D%u last_ms=3D%u delta=3D%u avg_delta=3D%u\n",
+
+--
+Thanks,
+
+Rahul Rameshbabu
+
 
 
