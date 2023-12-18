@@ -1,184 +1,158 @@
-Return-Path: <linux-input+bounces-823-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-824-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D839C8161ED
-	for <lists+linux-input@lfdr.de>; Sun, 17 Dec 2023 21:07:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEAE181676F
+	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 08:33:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 16DEF1C21145
-	for <lists+linux-input@lfdr.de>; Sun, 17 Dec 2023 20:07:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 83DAA1F22DE9
+	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 07:33:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1CD3481DB;
-	Sun, 17 Dec 2023 20:07:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E398BD272;
+	Mon, 18 Dec 2023 07:33:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UefXz/pT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JhPiC+tU"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486DC481B9;
-	Sun, 17 Dec 2023 20:07:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702843636; x=1734379636;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ysVCu8D1IX+AkHLJxM3YJ5xRnguUxX+A14T9pX7RtKQ=;
-  b=UefXz/pT8PFZHhoFSqe+Odl7jplt5Y17kpMPw+V9rvUKcbCWfoujDi50
-   sWy6MzMYv3nLXlo6oGZldXtm+vAHhDA2resetaVPvDeV7jCSataG7sWk8
-   FtQD1aA1/RBeu3DqtIcQk4AGrJXgPwCan5dknEonY9UU+9MwjhY4WO7/L
-   ALUuGXzfDNxddw1QXKeYqnVDJnIicMeti6d1NPazJag+JvHZMq90m2NAX
-   Sk9uX6TjVNefFDpm/OxwrHpEO8kMvXll9A1vjMfbEx9ET10xfcOj/hNGZ
-   /FzXHiBSRjdCus95cA1k9d0TSeV73nKVxfuA2CrF7KQ58Rjcv5TClN58F
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="398214909"
-X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="398214909"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 12:07:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="1022539231"
-X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="1022539231"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.14])
-  by fmsmga006.fm.intel.com with ESMTP; 17 Dec 2023 12:07:14 -0800
-From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To: jikos@kernel.org,
-	jic23@kernel.org,
-	lars@metafoo.de,
-	Basavaraj.Natikar@amd.com
-Cc: linux-input@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
-	stable@vger.kernel.org
-Subject: [PATCH 2/2] Revert "iio: hid-sensor-als: Add light color temperature support"
-Date: Sun, 17 Dec 2023 12:07:03 -0800
-Message-Id: <20231217200703.719876-3-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231217200703.719876-1-srinivas.pandruvada@linux.intel.com>
-References: <20231217200703.719876-1-srinivas.pandruvada@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2320379F7
+	for <linux-input@vger.kernel.org>; Mon, 18 Dec 2023 07:33:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2cc3f5e7451so31245851fa.2
+        for <linux-input@vger.kernel.org>; Sun, 17 Dec 2023 23:33:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702884812; x=1703489612; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZW35qmP+/wtz3L+npU/IJLY/6oTtrrAjtbp/uv7+Jys=;
+        b=JhPiC+tUgYIjonZ4Q+ZO8Y3SjXpPDgwvNoTsmiu10BVGunEJuVqkYxS9k3uLsHLF/F
+         K524PoSFfObZrCjdJFtRs0CQ/x+LNObvzQkucq4k2FWOti0km/4gIzvLrSoiq3T44xEd
+         i/oH9yKpnBfUFo8pe89OtO114F+7Pc35GA+VG56d+FQtYmc0gylRJ9zwwF9G3I+OZMzO
+         Whyc7Xm5SvQ306T5SVQwWtkg4C4n8Gpgj7ed8MjGsiQyaXYhdKniGTBvElQjxub/2zca
+         rR9ex2YsDahk0sRPsy+41pTV7yS3/lCmb67YV9f6ztGCWjiqFRy6QuiClWTdcZv2Ao45
+         J23w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702884812; x=1703489612;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZW35qmP+/wtz3L+npU/IJLY/6oTtrrAjtbp/uv7+Jys=;
+        b=h7Q15y4pRshRUB96lrMd2ix0j79yk6ZLeYIb92WroTk2sa6wI/ELjJ7jTnBxZ6ORwW
+         el7lFt0Pd0mWlNh31SyHiM4jyec3ESKKnMz9MblCYFY6WtdXVzjbDoSkgZb0ZuMFsM85
+         lEMtzmdr1GvfJ5gNKXUNlUjkP9591uqLU0g8pjdJ46zrJAyx/OmGfPOqeKvgq3v/zCcd
+         jpyGSgFS8gqNhkYj0jhjkFI91QZqGWrmnFKuarxeCkxHOyCGDNOLJlw1bnSp07ws5aFJ
+         c35VYn/9UzRel/NFbmAJlaUw6hXxirTQK54K2o4R0pfb5AjztymhteX2Ee94ErhGdYE5
+         7gYA==
+X-Gm-Message-State: AOJu0YwNQpPz1uplpHyl/6tcfw21S/IptgdbBo63nJ10B1HDA/e27Ie5
+	K08B6UuApXP5BFYNC6TLHgwolxNr87cJWV5J1x0=
+X-Google-Smtp-Source: AGHT+IE3jhEJQTtgRuyQSQT65Bnsv/gL+cwN9Cf6aIbtje89NRVtzKewiAEPwVWURaUWZGAQp+VdskvIfhqDCwU9FBU=
+X-Received: by 2002:a05:651c:1503:b0:2cc:1c71:aff8 with SMTP id
+ e3-20020a05651c150300b002cc1c71aff8mr7349269ljf.97.1702884811917; Sun, 17 Dec
+ 2023 23:33:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <202312141227.C2h1IzfI-lkp@intel.com> <20231214172541.48370-1-rymcclel@gmail.com>
+In-Reply-To: <20231214172541.48370-1-rymcclel@gmail.com>
+From: Daniel Ogorchock <djogorchock@gmail.com>
+Date: Mon, 18 Dec 2023 02:33:20 -0500
+Message-ID: <CAEVj2tn+=T5mSZ5bN=GMyh-dtxfdhMEEPPrXCJR+JfhNJ=Wa3w@mail.gmail.com>
+Subject: Re: [PATCH] HID: nintendo: fix initializer element is not constant error
+To: Ryan McClelland <rymcclel@gmail.com>
+Cc: lkp@intel.com, linux-input@vger.kernel.org, jkosina@suse.com, 
+	linux-mm@kvack.org, oe-kbuild-all@lists.linux.dev, 
+	benjamin.tissoires@redhat.com, jikos@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This reverts commit 5f05285df691b1e82108eead7165feae238c95ef.
+Hi Ryan,
 
-This commit assumes that every HID descriptor for ALS sensor has
-presence of usage id ID HID_USAGE_SENSOR_LIGHT_COLOR_TEMPERATURE.
-When the above usage id is absent,  driver probe fails. This breaks
-ALS sensor functionality on many platforms.
+On Thu, Dec 14, 2023 at 12:26=E2=80=AFPM Ryan McClelland <rymcclel@gmail.co=
+m> wrote:
+>
+> With gcc-7 builds, an error happens with the controller button values bei=
+ng
+> defined as const. Change to a define.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202312141227.C2h1IzfI-lkp@i=
+ntel.com/
+>
+> Signed-off-by: Ryan McClelland <rymcclel@gmail.com>
+> ---
+>  drivers/hid/hid-nintendo.c | 44 +++++++++++++++++++-------------------
+>  1 file changed, 22 insertions(+), 22 deletions(-)
+>
+> diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+> index 47af111ef3a2..2987083785f9 100644
+> --- a/drivers/hid/hid-nintendo.c
+> +++ b/drivers/hid/hid-nintendo.c
+> @@ -336,28 +336,28 @@ struct joycon_imu_cal {
+>   * All the controller's button values are stored in a u32.
+>   * They can be accessed with bitwise ANDs.
+>   */
+> -static const u32 JC_BTN_Y      =3D BIT(0);
+> -static const u32 JC_BTN_X      =3D BIT(1);
+> -static const u32 JC_BTN_B      =3D BIT(2);
+> -static const u32 JC_BTN_A      =3D BIT(3);
+> -static const u32 JC_BTN_SR_R   =3D BIT(4);
+> -static const u32 JC_BTN_SL_R   =3D BIT(5);
+> -static const u32 JC_BTN_R      =3D BIT(6);
+> -static const u32 JC_BTN_ZR     =3D BIT(7);
+> -static const u32 JC_BTN_MINUS  =3D BIT(8);
+> -static const u32 JC_BTN_PLUS   =3D BIT(9);
+> -static const u32 JC_BTN_RSTICK =3D BIT(10);
+> -static const u32 JC_BTN_LSTICK =3D BIT(11);
+> -static const u32 JC_BTN_HOME   =3D BIT(12);
+> -static const u32 JC_BTN_CAP    =3D BIT(13); /* capture button */
+> -static const u32 JC_BTN_DOWN   =3D BIT(16);
+> -static const u32 JC_BTN_UP     =3D BIT(17);
+> -static const u32 JC_BTN_RIGHT  =3D BIT(18);
+> -static const u32 JC_BTN_LEFT   =3D BIT(19);
+> -static const u32 JC_BTN_SR_L   =3D BIT(20);
+> -static const u32 JC_BTN_SL_L   =3D BIT(21);
+> -static const u32 JC_BTN_L      =3D BIT(22);
+> -static const u32 JC_BTN_ZL     =3D BIT(23);
+> +#define JC_BTN_Y        BIT(0)
+> +#define JC_BTN_X        BIT(1)
+> +#define JC_BTN_B        BIT(2)
+> +#define JC_BTN_A        BIT(3)
+> +#define JC_BTN_SR_R     BIT(4)
+> +#define JC_BTN_SL_R     BIT(5)
+> +#define JC_BTN_R        BIT(6)
+> +#define JC_BTN_ZR       BIT(7)
+> +#define JC_BTN_MINUS    BIT(8)
+> +#define JC_BTN_PLUS     BIT(9)
+> +#define JC_BTN_RSTICK   BIT(10)
+> +#define JC_BTN_LSTICK   BIT(11)
+> +#define JC_BTN_HOME     BIT(12)
+> +#define JC_BTN_CAP      BIT(13) /* capture button */
+> +#define JC_BTN_DOWN     BIT(16)
+> +#define JC_BTN_UP       BIT(17)
+> +#define JC_BTN_RIGHT    BIT(18)
+> +#define JC_BTN_LEFT     BIT(19)
+> +#define JC_BTN_SR_L     BIT(20)
+> +#define JC_BTN_SL_L     BIT(21)
+> +#define JC_BTN_L        BIT(22)
+> +#define JC_BTN_ZL       BIT(23)
+>
+>  struct joycon_ctlr_button_mapping {
+>         u32 code;
+> --
+> 2.25.1
+>
 
-Till we have a good solution, revert this commit.
+Thanks for the quick fix.
 
-Reported-by: Thomas Weißschuh <thomas@t-8ch.de>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218223
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: stable@vger.kernel.org
----
- drivers/iio/light/hid-sensor-als.c | 37 ++----------------------------
- include/linux/hid-sensor-ids.h     |  1 -
- 2 files changed, 2 insertions(+), 36 deletions(-)
+Reviewed-by: Daniel J. Ogorchock <djogorchock@gmail.com>
 
-diff --git a/drivers/iio/light/hid-sensor-als.c b/drivers/iio/light/hid-sensor-als.c
-index d44b3f30ae4a..5cd27f04b45e 100644
---- a/drivers/iio/light/hid-sensor-als.c
-+++ b/drivers/iio/light/hid-sensor-als.c
-@@ -14,9 +14,8 @@
- #include "../common/hid-sensors/hid-sensor-trigger.h"
- 
- enum {
--	CHANNEL_SCAN_INDEX_INTENSITY,
--	CHANNEL_SCAN_INDEX_ILLUM,
--	CHANNEL_SCAN_INDEX_COLOR_TEMP,
-+	CHANNEL_SCAN_INDEX_INTENSITY = 0,
-+	CHANNEL_SCAN_INDEX_ILLUM = 1,
- 	CHANNEL_SCAN_INDEX_MAX
- };
- 
-@@ -66,16 +65,6 @@ static const struct iio_chan_spec als_channels[] = {
- 		BIT(IIO_CHAN_INFO_HYSTERESIS_RELATIVE),
- 		.scan_index = CHANNEL_SCAN_INDEX_ILLUM,
- 	},
--	{
--		.type = IIO_COLORTEMP,
--		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),
--		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_OFFSET) |
--		BIT(IIO_CHAN_INFO_SCALE) |
--		BIT(IIO_CHAN_INFO_SAMP_FREQ) |
--		BIT(IIO_CHAN_INFO_HYSTERESIS) |
--		BIT(IIO_CHAN_INFO_HYSTERESIS_RELATIVE),
--		.scan_index = CHANNEL_SCAN_INDEX_COLOR_TEMP,
--	},
- 	IIO_CHAN_SOFT_TIMESTAMP(CHANNEL_SCAN_INDEX_TIMESTAMP)
- };
- 
-@@ -114,11 +103,6 @@ static int als_read_raw(struct iio_dev *indio_dev,
- 			min = als_state->als[chan->scan_index].logical_minimum;
- 			address = HID_USAGE_SENSOR_LIGHT_ILLUM;
- 			break;
--		case  CHANNEL_SCAN_INDEX_COLOR_TEMP:
--			report_id = als_state->als[chan->scan_index].report_id;
--			min = als_state->als[chan->scan_index].logical_minimum;
--			address = HID_USAGE_SENSOR_LIGHT_COLOR_TEMPERATURE;
--			break;
- 		default:
- 			report_id = -1;
- 			break;
-@@ -239,10 +223,6 @@ static int als_capture_sample(struct hid_sensor_hub_device *hsdev,
- 		als_state->scan.illum[CHANNEL_SCAN_INDEX_ILLUM] = sample_data;
- 		ret = 0;
- 		break;
--	case HID_USAGE_SENSOR_LIGHT_COLOR_TEMPERATURE:
--		als_state->scan.illum[CHANNEL_SCAN_INDEX_COLOR_TEMP] = sample_data;
--		ret = 0;
--		break;
- 	case HID_USAGE_SENSOR_TIME_TIMESTAMP:
- 		als_state->timestamp = hid_sensor_convert_timestamp(&als_state->common_attributes,
- 								    *(s64 *)raw_data);
-@@ -278,19 +258,6 @@ static int als_parse_report(struct platform_device *pdev,
- 			st->als[i].report_id);
- 	}
- 
--	ret = sensor_hub_input_get_attribute_info(hsdev, HID_INPUT_REPORT,
--				usage_id,
--				HID_USAGE_SENSOR_LIGHT_COLOR_TEMPERATURE,
--				&st->als[CHANNEL_SCAN_INDEX_COLOR_TEMP]);
--	if (ret < 0)
--		return ret;
--	als_adjust_channel_bit_mask(channels, CHANNEL_SCAN_INDEX_COLOR_TEMP,
--				st->als[CHANNEL_SCAN_INDEX_COLOR_TEMP].size);
--
--	dev_dbg(&pdev->dev, "als %x:%x\n",
--		st->als[CHANNEL_SCAN_INDEX_COLOR_TEMP].index,
--		st->als[CHANNEL_SCAN_INDEX_COLOR_TEMP].report_id);
--
- 	st->scale_precision = hid_sensor_format_scale(usage_id,
- 				&st->als[CHANNEL_SCAN_INDEX_INTENSITY],
- 				&st->scale_pre_decml, &st->scale_post_decml);
-diff --git a/include/linux/hid-sensor-ids.h b/include/linux/hid-sensor-ids.h
-index 8af4fb3e0254..13b1e65fbdcc 100644
---- a/include/linux/hid-sensor-ids.h
-+++ b/include/linux/hid-sensor-ids.h
-@@ -21,7 +21,6 @@
- #define HID_USAGE_SENSOR_ALS					0x200041
- #define HID_USAGE_SENSOR_DATA_LIGHT				0x2004d0
- #define HID_USAGE_SENSOR_LIGHT_ILLUM				0x2004d1
--#define HID_USAGE_SENSOR_LIGHT_COLOR_TEMPERATURE		0x2004d2
- 
- /* PROX (200011) */
- #define HID_USAGE_SENSOR_PROX                                   0x200011
--- 
-2.43.0
-
+-Daniel
 
