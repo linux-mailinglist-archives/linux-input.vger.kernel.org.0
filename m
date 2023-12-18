@@ -1,48 +1,47 @@
-Return-Path: <linux-input+bounces-832-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-833-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1635C81750E
-	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 16:18:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06BB581751E
+	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 16:19:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C85F1C23F2A
-	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 15:18:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 70C8928AC47
+	for <lists+linux-input@lfdr.de>; Mon, 18 Dec 2023 15:19:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11CA03D540;
-	Mon, 18 Dec 2023 15:17:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59DBB42383;
+	Mon, 18 Dec 2023 15:18:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uH+hX3bx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N8UASN/a"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD15229411;
-	Mon, 18 Dec 2023 15:17:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49290C433C8;
-	Mon, 18 Dec 2023 15:17:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3822742378;
+	Mon, 18 Dec 2023 15:18:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83396C433C8;
+	Mon, 18 Dec 2023 15:18:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702912640;
-	bh=Y2AbD1zR1eP2E6YbgGaYlyb+Rv+NoXGbIguzY9TYF+M=;
+	s=k20201202; t=1702912720;
+	bh=nQ9cMEOKFUeBWhJYdZZdQBOfkz4zr/KEjmxp1uEKoe4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uH+hX3bxsibP2IzdFAFraViSj2c3EKBA+vg98LMVTaanUWvaeDExoG7X8q6kCnBUm
-	 Dv1V29e4Ka1B8X2rf5pLY0zonx2asWLO2PoKzMi+80CKPSUEcc/GaX/F1A7bPESnM6
-	 A5TY6NDjHI0Zls6dip8zSZVCSs24lelmKL1D5zX1uJCEDBNroPdon06u5jRsmiIHhX
-	 Q0+ZSSs62ZBCtzKLQU7PumZc6OJp0U2VLiSqFXB1tl9wxE8u/K/X1uyKPaK4dNEd/H
-	 Mv8I9VEJI6gaV656NOSWtLlN/JKtGmaStqEm3y3muWyjTL3G0fiuJCNwDOwxVmoBth
-	 X8+hsU5pRBVJA==
-Received: (nullmailer pid 3834100 invoked by uid 1000);
-	Mon, 18 Dec 2023 15:17:18 -0000
-Date: Mon, 18 Dec 2023 09:17:18 -0600
+	b=N8UASN/awVVlAUG5eueaP46sORsYTxNftgVTRDCZ7ZBnWcfHG+UcRGzHd00cgHpcg
+	 4bZy3nb7WZml9lTJTEKD81WsVLC26jrNQaF3wqG0rST+45rxNlNX8Cm/OssNfQ2vDd
+	 +VL0nlA0o1srk/3Qzm3Kyx4ErxR57bfP9zJqOmFkbVpTC29jsccnfAdPl76fj1TwKw
+	 tTaI6Fdk/IoBILuOEKWVz0+VAGKMNP5MxJ2UwNe8ByNVTJa2638dbS29gVaVSKszbP
+	 rfRn7KE/Mli2Xjv2qvfSUIgSeZhE7SOOFBhGeDYBds7GlxWQcSaHUvg/8tZXeaIA4B
+	 Zh06W4yNEK3NQ==
+Received: (nullmailer pid 3835867 invoked by uid 1000);
+	Mon, 18 Dec 2023 15:18:38 -0000
+Date: Mon, 18 Dec 2023 09:18:38 -0600
 From: Rob Herring <robh@kernel.org>
 To: Karel Balej <karelb@gimli.ms.mff.cuni.cz>
 Cc: Karel Balej <balejk@matfyz.cz>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>, ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-Subject: Re: [RFC PATCH 1/5] dt-bindings: mfd: add entry for the Marvell
- 88PM88X PMICs
-Message-ID: <20231218151718.GA3827526-robh@kernel.org>
+Subject: Re: [RFC PATCH 3/5] dt-bindings: input: add entry for 88pm88x-onkey
+Message-ID: <20231218151838.GB3827526-robh@kernel.org>
 References: <20231217131838.7569-1-karelb@gimli.ms.mff.cuni.cz>
- <20231217131838.7569-2-karelb@gimli.ms.mff.cuni.cz>
+ <20231217131838.7569-4-karelb@gimli.ms.mff.cuni.cz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -51,110 +50,71 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231217131838.7569-2-karelb@gimli.ms.mff.cuni.cz>
+In-Reply-To: <20231217131838.7569-4-karelb@gimli.ms.mff.cuni.cz>
 
-On Sun, Dec 17, 2023 at 02:16:59PM +0100, Karel Balej wrote:
+On Sun, Dec 17, 2023 at 02:17:01PM +0100, Karel Balej wrote:
 > From: Karel Balej <balejk@matfyz.cz>
 > 
-> Marvell 88PM880 and 88PM886 are two similar PMICs with mostly matching
-> register mapping and subdevices such as onkey, regulators or battery and
-> charger. Both seem to come in two revisions which seem to be handled
-> slightly differently in some subdevice drivers.
+> Marvell 88PM88X PMICs provide onkey functionality. Document it.
 > 
 > Signed-off-by: Karel Balej <balejk@matfyz.cz>
 > ---
->  .../bindings/mfd/marvell,88pm88x.yaml         | 55 +++++++++++++++++++
->  1 file changed, 55 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/marvell,88pm88x.yaml
+>  .../bindings/input/marvell,88pm88x-onkey.yaml | 30 +++++++++++++++++++
+>  .../bindings/mfd/marvell,88pm88x.yaml         |  4 +++
+>  2 files changed, 34 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/marvell,88pm88x-onkey.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/marvell,88pm88x.yaml b/Documentation/devicetree/bindings/mfd/marvell,88pm88x.yaml
+> diff --git a/Documentation/devicetree/bindings/input/marvell,88pm88x-onkey.yaml b/Documentation/devicetree/bindings/input/marvell,88pm88x-onkey.yaml
 > new file mode 100644
-> index 000000000000..e075729c360f
+> index 000000000000..aeb7673189f8
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/marvell,88pm88x.yaml
-> @@ -0,0 +1,55 @@
+> +++ b/Documentation/devicetree/bindings/input/marvell,88pm88x-onkey.yaml
+> @@ -0,0 +1,30 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/mfd/marvell,88pm88x.yaml#
+> +$id: http://devicetree.org/schemas/input/marvell,88pm88x-onkey.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Marvell 88PM88X PMIC core MFD
-
-Drop 'MFD'.
-
+> +title: Onkey driver for Marvell 88PM88X PMICs.
 > +
 > +maintainers:
 > +  - Karel Balej <balejk@matfyz.cz>
 > +
 > +description: |
-
-Don't need '|' as there is no formatting to preserve.
-
-> +  Marvell 88PM880 and 88PM886 are two similar PMICs providing
-> +  several functions such as onkey, regulators or battery and
-> +  charger. Both seem to come in two revisions -- A0 and A1.
+> +  This module is part of the 88PM88X MFD device. For more details
+> +  see Documentation/devicetree/bindings/mfd/marvell,88pm88x.yaml.
+> +
+> +  The onkey controller is represented as a sub-node of the PMIC node in
+> +  the device tree.
+> +
+> +allOf:
+> +  - $ref: input.yaml#
 > +
 > +properties:
 > +  compatible:
-> +    const: marvell,88pm886-a1
-
-The description talks about 4 different devices, but only 1 here. 
-
-Do you expect to need A0 support? Devices with these PMICs should be 
-known and few, right? 
-
-> +
-> +  reg:
-> +    description: I2C device address
-
-Drop.
-
-> +    maxItems: 1
-> +
-> +  interrupt-controller: true
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  "#interrupt-cells":
-> +    const: 2
+> +    const: marvell,88pm88x-onkey
 > +
 > +required:
 > +  - compatible
-> +  - reg
-> +  - interrupt-controller
-> +  - interrupts
 > +
 > +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +      pmic0: 88pm886@30 {
-
-pmic@30
-
-Drop the unused label.
-
-> +        compatible = "marvell,88pm886-a1";
-> +        reg = <0x30>;
-> +        interrupts = <0 4 IRQ_TYPE_LEVEL_HIGH>;
-
-You need the header for this.
-
-You'll find the input binding fails too. Please test your bindings 
-before sending.
-
-> +        interrupt-parent = <&gic>;
-> +        interrupt-controller;
-> +        #interrupt-cells = <1>;
-> +      };
-> +    };
 > +...
-> -- 
-> 2.43.0
-> 
+> diff --git a/Documentation/devicetree/bindings/mfd/marvell,88pm88x.yaml b/Documentation/devicetree/bindings/mfd/marvell,88pm88x.yaml
+> index e075729c360f..115b41c9f22c 100644
+> --- a/Documentation/devicetree/bindings/mfd/marvell,88pm88x.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/marvell,88pm88x.yaml
+> @@ -50,6 +50,10 @@ examples:
+>          interrupt-parent = <&gic>;
+>          interrupt-controller;
+>          #interrupt-cells = <1>;
+> +
+> +        onkey {
+> +          compatible = "marvell,88pm88x-onkey";
+> +        };
+
+Why do you need this? You have no properties for it. The parent driver 
+can instantiate child drivers. You don't need a DT node for that.
+
+Rob
 
