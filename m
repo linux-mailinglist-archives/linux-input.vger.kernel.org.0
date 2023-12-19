@@ -1,83 +1,99 @@
-Return-Path: <linux-input+bounces-850-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-851-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A889E817E5E
-	for <lists+linux-input@lfdr.de>; Tue, 19 Dec 2023 01:04:10 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BCF3817F73
+	for <lists+linux-input@lfdr.de>; Tue, 19 Dec 2023 02:49:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57CF4285A69
-	for <lists+linux-input@lfdr.de>; Tue, 19 Dec 2023 00:04:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CC0CDB20F21
+	for <lists+linux-input@lfdr.de>; Tue, 19 Dec 2023 01:49:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B92E523B7;
-	Tue, 19 Dec 2023 00:04:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6E2F17CD;
+	Tue, 19 Dec 2023 01:49:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="YDZAyYu3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZNNTEK97"
 X-Original-To: linux-input@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFE3323C
-	for <linux-input@vger.kernel.org>; Tue, 19 Dec 2023 00:03:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=5FoCXDH0FpToHf4FeESO+/z/trCYFCtT+f9nDGr5UdQ=; b=YDZAyYu3FvJBQoKP+Jo4ugUSDn
-	vJofi29Vv4KJCe3f1v94BBDdcZEPHYVC9Wy+2+cDkU72qzKW7cW6iumjoVj33JK2GW6bLXOJwRwx/
-	tmE0LaFbMTBFJQE3Ke228I2vCtH3txxlSrpc95VGJBuCUGcVvRauO8fjTIvMvglNiXZETHdQBLvRd
-	xQZY+7jZ8kOcoIcmqgf5f5P/Qwl4PFTex91EZjIhA1J+kwGZJZrd8a88takNti/35y85N/YzHhJpU
-	5/mL6ddXHEjWZqEQKZrMRScGACCTAPz/u9OQdZUAggNDC6Zzk2qJFPmk5SQJ5QAZOYp3BEeUAUOlv
-	9NnsFXsg==;
-Received: from [177.68.247.242] (helo=[192.168.1.60])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1rFNaT-00FPvd-Ks; Tue, 19 Dec 2023 01:03:53 +0100
-Message-ID: <219661bc-6411-ec6e-86f8-82d62451fdea@igalia.com>
-Date: Mon, 18 Dec 2023 21:03:48 -0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D2015AC;
+	Tue, 19 Dec 2023 01:48:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-35f56f06142so32413785ab.1;
+        Mon, 18 Dec 2023 17:48:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702950538; x=1703555338; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oAfdz6TYpcKZiJ0o+hZkrgPkjQvOJe3nvTKDUlPpBWI=;
+        b=ZNNTEK97pKC0IFKvB1XtyLXhmvq2xKE8v9TUJ6ugJFDdHhD5dysLcb5UuXHp30D4kE
+         N583Zah+nsY9v24B25mp0a76Ga3Xssg6cjq0thCKK719kkH7t2ijheaYTT4XVsyuGBHP
+         35Vc+TvcMtL7/BWkFthlR8YmUkA7xLh+G2L+SVIqUwHrGPeBrBQLSVhUvOFhRvBrBQfO
+         Y5/WewSSBIzNsGTguZe7DdS0BNwLayOYhZAZPlC5mfBArx/rhO2KTSY7+XQyd/AEuaTX
+         uD1RCSUOgVJsrfdDEZkflqwbmlnu6eIBIR5oPFb0sEAdZfCJKg7FiNCrfKxB5QL5l9Yy
+         P+eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702950538; x=1703555338;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oAfdz6TYpcKZiJ0o+hZkrgPkjQvOJe3nvTKDUlPpBWI=;
+        b=ounz2M8YgsEKDOiheK4UjCPkqu6Ofzcjbx6pRcPrhrgnfWb+QcPIpymjvuz72m3F17
+         oETOZIrl1ySJNaflq3c1QOCsxSVz8yXygyb1PQXJvvQ3I1fnIZsq0VgnV2gDUbaXXMuJ
+         AuZ9zBFHuSA694WvLJ90s6LWP3HtZrBw/GohTt7WBXMNXgxAHlJ8lBuup9YHxYNr4tgv
+         2EIINgYilquDMSXai8mwjRjQ9vVAfOzLBwX2B2u199KAk4OW3RF3TylL5xypm3pkcpKN
+         icliQzxvLj+XfgAPKJQNCtdOnT1qTBe76AzMpHbAO109+wMqSJbBWC3BF3OspTIK8bfV
+         1CAA==
+X-Gm-Message-State: AOJu0Yxq7/xrZ5lu962Yg6UHHpxNpjr9W8MDl6xnqG7jbFxXA3EbXgif
+	BZe0K8hULmGN1Fs7VbsYlfY=
+X-Google-Smtp-Source: AGHT+IH/3GGs2xprqEs9H2Juu3eKP4zp4HK8MfoneXDso6Z7rVcRLtCk7SAFzR6tWbYDu+1ooXjW7Q==
+X-Received: by 2002:a92:c242:0:b0:35e:6ef0:6b04 with SMTP id k2-20020a92c242000000b0035e6ef06b04mr26844213ilo.68.1702950538271;
+        Mon, 18 Dec 2023 17:48:58 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:e0f5:2344:80e4:a1fc])
+        by smtp.gmail.com with ESMTPSA id b24-20020a170902b61800b001cfc68aca48sm19618161pls.135.2023.12.18.17.48.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Dec 2023 17:48:57 -0800 (PST)
+Date: Mon, 18 Dec 2023 17:48:55 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Support Opensource <support.opensource@diasemi.com>,
+	linux-input@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] Input: da9063 - Simplify obtaining OF match data
+Message-ID: <ZYD2h9slpF4mNcQ0@google.com>
+References: <20231213214803.9931-1-biju.das.jz@bp.renesas.com>
+ <20231213214803.9931-2-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH] HID: nintendo: Prevent divide-by-zero on code
-Content-Language: en-US
-To: Jiri Kosina <jkosina@suse.com>
-Cc: Rahul Rameshbabu <sergeantsagara@protonmail.com>, djogorchock@gmail.com,
- linux-input@vger.kernel.org, benjamin.tissoires@redhat.com,
- kernel@gpiccoli.net, kernel-dev@igalia.com
-References: <20231205211628.993129-1-gpiccoli@igalia.com>
- <87o7enxn1x.fsf@protonmail.com>
- <dcd91e66-11ce-c576-5eb7-8756a1b6f222@igalia.com>
- <nycvar.YFH.7.76.2312182325460.24250@cbobk.fhfr.pm>
- <59290abe-c780-5287-d27a-745f4f00ab8a@igalia.com>
- <nycvar.YFH.7.76.2312190048380.24250@cbobk.fhfr.pm>
-From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <nycvar.YFH.7.76.2312190048380.24250@cbobk.fhfr.pm>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231213214803.9931-2-biju.das.jz@bp.renesas.com>
 
-On 18/12/2023 20:49, Jiri Kosina wrote:
-> [...]
+On Wed, Dec 13, 2023 at 09:48:00PM +0000, Biju Das wrote:
+> Simplify probe() by replacing of_match_node() for retrieving match data by
+> device_get_match_data().
 > 
-> Not immediately, but if you are able to eventually remove that 
-> likely-superfluous hunk with a Tested-by: tag, I'll happily merge that 
-> patch.
+> Some minor cleanups:
+>  * Remove the trailing comma in the terminator entry for the OF
+>    table making code robust against (theoretical) misrebases or other
+>    similar things where the new entry goes _after_ the termination without
+>    the compiler noticing.
+>  * Move OF table near to the user.
+>  * Arrange variables in reverse xmas tree order in probe().
 > 
-> Thanks,
-> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Of course, I'll do that and mention that it was a suggestion from Rahul!
-Thanks,
+Applied, thank you.
 
-
-Guilherme
+-- 
+Dmitry
 
