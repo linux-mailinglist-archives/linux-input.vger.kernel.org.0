@@ -1,130 +1,137 @@
-Return-Path: <linux-input+bounces-857-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-858-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8DF781841D
-	for <lists+linux-input@lfdr.de>; Tue, 19 Dec 2023 10:07:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FF71818903
+	for <lists+linux-input@lfdr.de>; Tue, 19 Dec 2023 14:53:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 377F4281AA9
-	for <lists+linux-input@lfdr.de>; Tue, 19 Dec 2023 09:07:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 02D6F1F24D71
+	for <lists+linux-input@lfdr.de>; Tue, 19 Dec 2023 13:53:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68F1E12B69;
-	Tue, 19 Dec 2023 09:06:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C09671BDC0;
+	Tue, 19 Dec 2023 13:53:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SP6XpKFB"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="PjEiICY9";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="C5/p7dm1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08563134B2
-	for <linux-input@vger.kernel.org>; Tue, 19 Dec 2023 09:06:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3366e78d872so1462021f8f.3
-        for <linux-input@vger.kernel.org>; Tue, 19 Dec 2023 01:06:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702976815; x=1703581615; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RDqC8mlmI0zifdWF6zhA4HVQDLdCJIzhq2G0yUNbN+U=;
-        b=SP6XpKFBf/Dam36RWOlQ4c3JCjLJxLbrpWDOz2NvMfZ+5zMn2NRB3y0c+4CRa5PAbc
-         iWLqMKt7xvm8nMWjOz/9wRdX+epnyUPnrxIBCJTraQvUnoVGr5JcL0XBCNOxTRfMhhcc
-         Lz5k/GwayVjcPV5q6z1Zy0zyVf540R36xTsGTCaXjsC7K3kc7FcTeXPM5XVMYh4iFcCV
-         YR3Ag87mg1uzn1bWApKs5SCpJuYub98dku9Xt9Sgyv1IPZaDIKAs+Lf1safiIeNrlsHy
-         X+IqRZhQy9Uu+ERj8JxeClDd2iiT7lgzsE21sSnJwob8OFiDQ5vCnquFp3KV1sWHxA2l
-         lyhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702976815; x=1703581615;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=RDqC8mlmI0zifdWF6zhA4HVQDLdCJIzhq2G0yUNbN+U=;
-        b=fXep+9XcOioq5V5VMWmgdOJPk+2FV6ATs6KRcJcc+BjUs8KkqhswfMxT3SOk48KE/j
-         WP8z6/pl9PVTyYMhlqFLuFJY96etZuh4tfZOw1PKo7IAuxEEMhnwdDJo4tnr0s7d1Fdj
-         PViyHnRBJxj7qi3TmwxWsA2K5yysiHd0573e5EQdKCrSuXlgnPDoFzCFvfO2IpbzhJMS
-         9rMDIhDCQHOw5ojJZyUqr7ck5w7LHCx8t3OqbFkFuknHBdMQ64q/VTk0jXc7+14SWvTU
-         OgE3lkxS7Ox6aISFF6+7uiF+fD+6p3lJ2X2pbxczFLPa2dwBoqmR9YolwGn+FKGJUnZl
-         jlwg==
-X-Gm-Message-State: AOJu0YxJZ9gpYdV0lU6I5Fhgpn6E+xbDNbkoUYZGU8Ygw6umZieRbv7O
-	svaUy0W1E4R73wuIpxqMGZj/eg==
-X-Google-Smtp-Source: AGHT+IFN8G5/Lgsr+ycIlj6IKKA3b++uKO1oEZgohuUof2lngQpHf+MVMOCmZrneYpdXMAHqLDK7kA==
-X-Received: by 2002:adf:e58b:0:b0:336:4c3d:91e6 with SMTP id l11-20020adfe58b000000b003364c3d91e6mr2194897wrm.271.1702976815185;
-        Tue, 19 Dec 2023 01:06:55 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:e99:1baf:483a:7533? ([2a01:e0a:982:cbb0:e99:1baf:483a:7533])
-        by smtp.gmail.com with ESMTPSA id l17-20020a5d4bd1000000b00336607f6630sm7841873wrt.47.2023.12.19.01.06.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Dec 2023 01:06:54 -0800 (PST)
-Message-ID: <73b45f8b-f8a5-47cd-87f1-c522ae908769@linaro.org>
-Date: Tue, 19 Dec 2023 10:06:54 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E911BDC5;
+	Tue, 19 Dec 2023 13:53:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id F278B3200A1A;
+	Tue, 19 Dec 2023 08:53:25 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 19 Dec 2023 08:53:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1702994005; x=1703080405; bh=GrP0mRtGJr
+	zfoHpL2Av5Ll+A0UZ1SBEllqzx1qntSPk=; b=PjEiICY96bMM67IaxgvmSGHBTZ
+	UBnpc4zom9Mmbjvi5lbNj9dBIP6Gg+m2202t3kToxaf6GF24E6kg95p52IplWw32
+	JdRL5XH9Xni2vam5oJC9Si6EbYlJWDiiBMvgMtRJI5i97gqFe/wF2CX31hJN5KpF
+	sxeJSSxhLODSVtil/EzB/DsM8AFy/S6wOiHLNsOzzajm/j6sw6sFrcIXDIlm/1/e
+	98wHECCXm48UJantn3PV1SB/yE51MOjBBMA8Ofyv86MCogzNt1lRTTUtHA++xFvH
+	6WRtEwiBEdPK5AvJFfSaBIJlxKJ8xupkxflBLDOMohL5/8GIZ6QH+zLf5zYA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1702994005; x=1703080405; bh=GrP0mRtGJrzfoHpL2Av5Ll+A0UZ1
+	SBEllqzx1qntSPk=; b=C5/p7dm1NSW/24hewx6c+w703Qb1zJkHDw6e/IpXGlv6
+	rRKQuem/OnyebipspdjmJG/JDLhD8isUi3WJ97IClY18ShCc2v79tHNIYagzo5G2
+	FAmfx171ZlKeAqjOAAKaYC1dSkdNMq7TAj7AcJsDGE1eI7t6OYxXEJXZhmzW66aY
+	pEaFROgJSj111G2H7DX0WpxyXZKjwa/+e/b2AHBC8UfPNkhN3ZONS964TVoaPHAo
+	O6xO8xuIjsw5iUCwpyWsWjo+XJG6zQBBiHpYoKVBkyqtrTQslNek39RiD4j9ATqc
+	CcG6fqcFxUMbiIQahOPJh5cypTok+5QfywU3PlTAmg==
+X-ME-Sender: <xms:VaCBZRxuPtULKFqd7nIw5QACE8tKnUShCrwVNNnBQGMGZ8qCiJBxfw>
+    <xme:VaCBZRQmSPTqEIaTpgRUS_JxkaFQCDLqDZeHL41uNRCWmvRZSGiZ3XSpeABI-em1C
+    OWTx2ESSBRFKxF97mI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvddutddgheeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepkedugfegvdfggefffeefvdfflefgleduhfeufeejieevkedtveefheejffek
+    heevnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsthgvrh
+    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdgu
+    vg
+X-ME-Proxy: <xmx:VaCBZbWGvj4kJ7kX2jS0HaoKGY6NFG89qjiWrErjZhl4Wq64jBn-pA>
+    <xmx:VaCBZThl5U0td9x08lqpaUIq_ZRTR7eji3eRIbMsbwrLqv6cxa5KxQ>
+    <xmx:VaCBZTAtgF9-KUD1Fv433g8IkIPHk70KogOj2I4L79vf3vWI2a_B1g>
+    <xmx:VaCBZe5Q_agi4vH4sTbrQi_v84g1FT9vCLj2ppeyiJaFkFkawPUQpA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 0A481B6008F; Tue, 19 Dec 2023 08:53:25 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1350-g1d0a93a8fb-fm-20231218.001-g1d0a93a8
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH v13 0/4] Input: add initial support for Goodix Berlin
- touchscreen IC
-Content-Language: en-US, fr
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Bastien Nocera <hadess@hadess.net>,
- Hans de Goede <hdegoede@redhat.com>, Henrik Rydberg <rydberg@bitmath.org>,
- Jeff LaBundy <jeff@labundy.com>, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org, Rob Herring <robh@kernel.org>
-References: <20231213-topic-goodix-berlin-upstream-initial-v13-0-5d7a26a5eaa2@linaro.org>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <20231213-topic-goodix-berlin-upstream-initial-v13-0-5d7a26a5eaa2@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Message-Id: <9e97eb50-f9a6-4655-9422-fa1106fff97a@app.fastmail.com>
+In-Reply-To: <ZYEFCHBC75rjCE0n@google.com>
+References: <c812ea74dd02d1baf85dc6fb32701e103984d25d.camel@mwa.re>
+ <ZYEFCHBC75rjCE0n@google.com>
+Date: Tue, 19 Dec 2023 13:53:07 +0000
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ "Antonios Salios" <antonios@mwa.re>,
+ "Deepa Dinamani" <deepa.kernel@gmail.com>
+Cc: rydberg@bitmath.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Jan Henrik Weinstock" <jan@mwa.re>,
+ =?UTF-8?Q?Lukas_J=C3=BCnger?= <lukas@mwa.re>
+Subject: Re: element sizes in input_event struct on riscv32
+Content-Type: text/plain
 
-Hi Dmitry,
+On Tue, Dec 19, 2023, at 02:50, Dmitry Torokhov wrote:
+> Hi Antonious,
+>
+> On Thu, Dec 14, 2023 at 11:11:18AM +0100, Antonios Salios wrote:
+>> Hi all.
+>> 
+>> I'm having trouble getting evdev to run in a simulated Buildroot
+>> environment on riscv32. Evtest (and the x11 driver) seems to be
+>> receiving garbage data from input devices.
+>> 
+>> Analyzing the input_event struct shows that the kernel uses 32-bit (aka
+>> __kernel_ulong_t) values for __sec & __usec.
+>> Evtest on the other hand interprets these variables as 64-bit time_t
+>> values in a timeval struct, resulting in a mismatch between the kernel
+>> and userspace.
+>> 
+>> What would be the correct size for these values on a 32-bit
+>> architecture that uses 64-bit time_t values?
+>
+> I think there is misunderstanding - we do not have *2* 64-bit values on
+> 32-but architectures. Here is what was done:
+>
+>     Input: extend usable life of event timestamps to 2106 on 32 bit systems
 
-On 13/12/2023 18:13, Neil Armstrong wrote:
-> These touchscreen ICs support SPI, I2C and I3C interface, up to
-> 10 finger touch, stylus and gestures events.
-> 
+Thanks for forwarding this to me. You are definitely right that
+the user-space structure is intended to use a pair of __kernel_ulong_t
+for the timestamp. Usually if an application gets this wrong, it is the
+result of having copied old kernel headers the source directory that
+need to be updated.
 
-<snip>
+For evtest in particular, I don't see how that is possible, the source
+code at [1] shows that it just includes the global linux/input.h,
+which on riscv32 would have to be at least from linux-5.6 anyway
+because older versions are too old to build a time64 glibc.
 
-Gentle ping! Is there any chance this driver could land for v6.8-rc1 ?
+Antonios, can you check which header was used to build your copy
+of evtest, and in case this came from /usr/include/linux, which
+version it corresponds to?
 
-Thanks!
-Neil
+      Arnd
 
-<snip>
-
+[1] https://gitlab.freedesktop.org/libevdev/evtest/-/blob/master/evtest.c?ref_type=heads
 
