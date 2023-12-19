@@ -1,71 +1,45 @@
-Return-Path: <linux-input+bounces-855-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-856-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4CCF817FF3
-	for <lists+linux-input@lfdr.de>; Tue, 19 Dec 2023 03:50:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 297A38181FD
+	for <lists+linux-input@lfdr.de>; Tue, 19 Dec 2023 08:08:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA4741C22D05
-	for <lists+linux-input@lfdr.de>; Tue, 19 Dec 2023 02:50:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4FEA21C23057
+	for <lists+linux-input@lfdr.de>; Tue, 19 Dec 2023 07:08:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99569746A;
-	Tue, 19 Dec 2023 02:50:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C9B2848D;
+	Tue, 19 Dec 2023 07:08:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZVp2ouTD"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mJpKWc2V"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364CE6FAD;
-	Tue, 19 Dec 2023 02:50:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-28b6ea19368so1925915a91.1;
-        Mon, 18 Dec 2023 18:50:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702954251; x=1703559051; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=b6KMMB/HsazvvB+R5aNcKj6sbn+ODriqkPfyxArm1ds=;
-        b=ZVp2ouTDDkWlZK1WnUTctZ6P09xg0xEEpqsAI/MhzpiwdxNzl0dXlxC+4znxP9EDvq
-         ximgasFVpcjm5p1OrNxhJNrbuzeh8xuBoowG63oN46Niof8ciWT/ynxUcBnkHzz4WZ6o
-         2Ynx/YFNVHwOfCDkw/J2vFLCoNqj+L8gv36+CEvKb1486owxfje2XNfn8tDzqSqIJmpD
-         5tfsstNv5R92ns7i3RoxydqgUMADUYnZg36X94F06tk5RkoT0dSZWJzg39EEMLzdyP9N
-         BFV2wahk1iKuczT4LUTz+wPWhYPHvteOp6nawv3UXxwhGZ9znkDO3A8EY2lU0QaRn9Ji
-         CEKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702954251; x=1703559051;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b6KMMB/HsazvvB+R5aNcKj6sbn+ODriqkPfyxArm1ds=;
-        b=SQQYQ5sx9kOzn3ait4ghxsRKYxlNxuvj998NwdAdj0GDUKtzNbimHz37eJg/z9jPSK
-         JkHEv4FKEL88rt9Gs8Nqp5ZnxR6V5gQWsXA7MMtkwjEtU0uetqEvf3xdUJ3ir0lXBag/
-         B/cKaIhZH+TihyAiQFgaPZYTxIj4HOjBnwbLIcRtpv60NSTgpqZEUwpUfrPk/3D6aRio
-         aAX1F0Miln82pOudHygqoeLDSFLt5FSDPWtJbdf9aFSR4SImkgC5THLFG99yftx2kef5
-         Wb+yG/dVpTH07Ns4kfGg18WzLmlIScbS3JFTcckslpu1EoPYqO0vy+nkss3YigZP1lhG
-         zQrQ==
-X-Gm-Message-State: AOJu0YyHBE3U+Qd3B2nMKyvewPKEtbOm/LGshWHkSAs48nIwrTE8U5oH
-	062OF/+0wd8f+y3rinxz1sU=
-X-Google-Smtp-Source: AGHT+IE+lwry5NghZCyWmAqCQ2YE92qagSNsqtV0PaWtRYxGPjp7bhyPfdCAmxV43mYiQ5yU6PAe/A==
-X-Received: by 2002:a17:902:7ec8:b0:1d0:8cbf:39db with SMTP id p8-20020a1709027ec800b001d08cbf39dbmr15255381plb.88.1702954251261;
-        Mon, 18 Dec 2023 18:50:51 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:e0f5:2344:80e4:a1fc])
-        by smtp.gmail.com with ESMTPSA id l18-20020a170903245200b001d34126d64dsm3950852pls.222.2023.12.18.18.50.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Dec 2023 18:50:51 -0800 (PST)
-Date: Mon, 18 Dec 2023 18:50:48 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Antonios Salios <antonios@mwa.re>, Arnd Bergmann <arnd@arndb.de>,
-	Deepa Dinamani <deepa.kernel@gmail.com>
-Cc: rydberg@bitmath.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jan Henrik Weinstock <jan@mwa.re>,
-	Lukas =?iso-8859-1?Q?J=FCnger?= <lukas@mwa.re>
-Subject: Re: element sizes in input_event struct on riscv32
-Message-ID: <ZYEFCHBC75rjCE0n@google.com>
-References: <c812ea74dd02d1baf85dc6fb32701e103984d25d.camel@mwa.re>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A1EC150;
+	Tue, 19 Dec 2023 07:08:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0674DC433C7;
+	Tue, 19 Dec 2023 07:08:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1702969717;
+	bh=3J1O+eiA1WeesxQ7m8AkRVrzJ85o2jk2JQWk8IT0M2c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mJpKWc2VflhKk8sVK4UoWTmaXmsfkUBM2Sx0AkVvBlrE7dUjKL97BYX0dDQdNV/Tp
+	 xDXqpj+X+7gkMdgU0BMGK4WswbL21UhNAAeXQKAwZWlX3YFZ2jAPeKHaV/cSn/aJxK
+	 Il95StdTuB8X2HdzaYy/ITDRIfG4Bl32jQl1cEY0=
+Date: Tue, 19 Dec 2023 08:08:34 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	jikos@kernel.org, jic23@kernel.org, lars@metafoo.de,
+	Basavaraj.Natikar@amd.com, linux-input@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] Fix regression in ALS
+Message-ID: <2023121928-annotate-moody-e5b9@gregkh>
+References: <20231217200703.719876-1-srinivas.pandruvada@linux.intel.com>
+ <20231218162227.00002197@Huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -74,65 +48,45 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c812ea74dd02d1baf85dc6fb32701e103984d25d.camel@mwa.re>
+In-Reply-To: <20231218162227.00002197@Huawei.com>
 
-Hi Antonious,
-
-On Thu, Dec 14, 2023 at 11:11:18AM +0100, Antonios Salios wrote:
-> Hi all.
+On Mon, Dec 18, 2023 at 04:22:27PM +0000, Jonathan Cameron wrote:
+> On Sun, 17 Dec 2023 12:07:01 -0800
+> Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> wrote:
 > 
-> I'm having trouble getting evdev to run in a simulated Buildroot
-> environment on riscv32. Evtest (and the x11 driver) seems to be
-> receiving garbage data from input devices.
+> > Addition of color temperature and chromaticity support breaks ALS sensor
+> > on several platforms. Till we have a good solution, revert these commits
+> > for 6.7 cycle.
+> > 
+> > Srinivas Pandruvada (2):
+> >   Revert "iio: hid-sensor-als: Add light chromaticity support"
+> >   Revert "iio: hid-sensor-als: Add light color temperature support"
+> > 
+> >  drivers/iio/light/hid-sensor-als.c | 100 +----------------------------
+> >  include/linux/hid-sensor-ids.h     |   4 --
+> >  2 files changed, 2 insertions(+), 102 deletions(-)
 > 
-> Analyzing the input_event struct shows that the kernel uses 32-bit (aka
-> __kernel_ulong_t) values for __sec & __usec.
-> Evtest on the other hand interprets these variables as 64-bit time_t
-> values in a timeval struct, resulting in a mismatch between the kernel
-> and userspace.
+> +CC Greg KH.  (resent as I messed up Greg's address first time around)
 > 
-> What would be the correct size for these values on a 32-bit
-> architecture that uses 64-bit time_t values?
+> Hi Greg,
+> 
+> This is a regression fix that I'd like to get in asap. Currently light sensors
+> on a wide range of laptops are broken.  I was hoping we'd fix the the problem
+> rather than need to revert, but time is running out so revert it is.
+> 
+> I don't have anything else that needs to be rushed in before the merge cycle,
+> so if you are happy to pick these two reverts directly that would be great.
+> 
+> Message ID of the cover letter is
+> 
+> 20231217200703.719876-1-srinivas.pandruvada@linux.intel.com
+> 
+> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> 
+> If not I should be able to do a pull request in next couple of days
+> with these in.
 
-I think there is misunderstanding - we do not have *2* 64-bit values on
-32-but architectures. Here is what was done:
+Now queued up, thanks.
 
-commit 152194fe9c3f03232b9c0d0264793a7fa4af82f8
-Author: Deepa Dinamani <deepa.kernel@gmail.com>
-Date:   Sun Jan 7 17:44:42 2018 -0800
-
-    Input: extend usable life of event timestamps to 2106 on 32 bit systems
-
-    The input events use struct timeval to store event time, unfortunately
-    this structure is not y2038 safe and is being replaced in kernel with
-    y2038 safe structures.
-
-    Because of ABI concerns we can not change the size or the layout of
-    structure input_event, so we opt to re-interpreting the 'seconds' part
-    of timestamp as an unsigned value, effectively doubling the range of
-    values, to year 2106.
-
-    Newer glibc that has support for 32 bit applications to use 64 bit
-    time_t supplies __USE_TIME_BITS64 define [1], that we can use to present
-    the userspace with updated input_event layout. The updated layout will
-    cause the compile time breakage, alerting applications and distributions
-    maintainers to the issue. Existing 32 binaries will continue working
-    without any changes until 2038.
-
-    Ultimately userspace applications should switch to using monotonic or
-    boot time clocks, as realtime clock is not very well suited for input
-    event timestamps as it can go backwards (see a80b83b7b8 "Input: evdev -
-    add CLOCK_BOOTTIME support" by by John Stultz). With monotonic clock the
-    practical range of reported times will always fit into the pair of 32
-    bit values, as we do not expect any system to stay up for a hundred
-    years without a single reboot.
-
-    [1] https://sourceware.org/glibc/wiki/Y2038ProofnessDesign
-
-I'll let Arnd and Deepa to comment further.
-
-Thanks.
-
--- 
-Dmitry
+greg k-h
 
