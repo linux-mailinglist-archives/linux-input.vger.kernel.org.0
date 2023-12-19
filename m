@@ -1,70 +1,90 @@
-Return-Path: <linux-input+bounces-875-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-876-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 565F7819483
-	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 00:23:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3498194BD
+	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 00:48:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E55641F21CF2
-	for <lists+linux-input@lfdr.de>; Tue, 19 Dec 2023 23:23:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F0EE71F232AD
+	for <lists+linux-input@lfdr.de>; Tue, 19 Dec 2023 23:48:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA7543D0D4;
-	Tue, 19 Dec 2023 23:23:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A62993D3A0;
+	Tue, 19 Dec 2023 23:48:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lgIdbIZ7"
+	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="suLJfQvc";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="5EiWeIc0"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0F33D0CA;
-	Tue, 19 Dec 2023 23:23:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703028212; x=1734564212;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vS5AE7N9nQ3SlnVS08m4qPs43i9JpvyT0LdsYgBIZjI=;
-  b=lgIdbIZ7ew6czjd6kxX4fknJ0sYdBUk5SZu5eacEcjDShbkQd8L5aYGJ
-   k+LHxwz2cHuZZU3GbyRzPcyeNs/1XZ9/Ny/mdQzC06gOqbwPH7qEpMFHK
-   KG7hn9ntEsGbYtXqQ6R5mF3Eqi5a06E1CbBe474Vza+H42fzHVDkH8RCn
-   x3AyWVG1DgMAIRnsuW7yTBfbQ3jdMHji/uPrhTb/70Dc85QEoOQQUgFrC
-   yAcU+F+EKknS2khAsjqzB4xNdhKTA9JFhPEsXUJQ4m04ra3IeIw2s7Wwh
-   oujEbJYCY20N19eqjj3fjWntqAvC51FECYT9zGJbArHjglRY3keCfXaEh
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="9196787"
-X-IronPort-AV: E=Sophos;i="6.04,289,1695711600"; 
-   d="scan'208";a="9196787"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 15:23:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,289,1695711600"; 
-   d="scan'208";a="10561229"
-Received: from lveltman-mobl.ger.corp.intel.com (HELO box.shutemov.name) ([10.252.33.252])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 15:23:26 -0800
-Received: by box.shutemov.name (Postfix, from userid 1000)
-	id 1DC2210A43B; Wed, 20 Dec 2023 02:23:23 +0300 (+03)
-Date: Wed, 20 Dec 2023 02:23:23 +0300
-From: kirill.shutemov@linux.intel.com
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
-	bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
-	mingo@redhat.com, tglx@linutronix.de, x86@kernel.org,
-	netdev@vger.kernel.org, richardcochran@gmail.com,
-	linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
-	zackr@vmware.com, linux-graphics-maintainer@vmware.com,
-	pv-drivers@vmware.com, namit@vmware.com, timothym@vmware.com,
-	akaher@vmware.com, jsipek@vmware.com,
-	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
-	tzimmermann@suse.de, mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com, horms@kernel.org
-Subject: Re: [PATCH v3 6/6] x86/vmware: Add TDX hypercall support
-Message-ID: <20231219232323.euweerulgsgbodx5@box.shutemov.name>
-References: <20231219215751.9445-1-alexey.makhalov@broadcom.com>
- <20231219215751.9445-7-alexey.makhalov@broadcom.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176FA40BE3;
+	Tue, 19 Dec 2023 23:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 00D1F5C02F8;
+	Tue, 19 Dec 2023 18:48:13 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Tue, 19 Dec 2023 18:48:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1703029692; x=1703116092; bh=bP1eafqttP
+	PNGlylO0OzZEzWhoaL7qGOFOnf0iTuGWU=; b=suLJfQvcAFskhGMav5L/2wDRav
+	Dhq3pKjAlZsx6gpGiJWymdIklnUAmY9PkgaRlshybG4yPFhh8Vl3WPi7bz4SmyO6
+	nIs2askpSfEn9UoTXo3HQrSy56GyxIiHfWEAbiUMO/AXsc8DS0Tl4G9iP6yqwYet
+	z7h4o2UnyXw5OzcdxHdN5H0sVaAjXSgHxZyVN0uWkHNSvivhh6xFSkfQsJVM4mQX
+	gbwYFJ3WaQZs+52oSxTVafZlUjcZkaHVpKlCR0452jMhbJQDOnzEs4pkN7qWMk7y
+	38pFPROs60jUCxWfNw5mi0wIOXHxyJ/HGF1J5XqxKnhSQRh66cqe+9m31yFQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1703029692; x=1703116092; bh=bP1eafqttPPNGlylO0OzZEzWhoaL
+	7qGOFOnf0iTuGWU=; b=5EiWeIc0C25YmtvGz5FlOrPAZXfX8zl2tlmXYR6Az8tw
+	0eF+rXUtACI1PxhL5ZtZm1+j7OT77UVOFm7YCc26XgzXCmao4EUPQKjp8FCjx//4
+	momYr2j+/w/w0UEIAFXQ5J6WuY2U+4CjQCWe4Dhp9UgjYpprCyzi0hiDLsl996lG
+	uZkHwFAdem0R7tkryFgEkJli8Fx0PnNQxFn+s+itxYgtyuaY0KflkFD1ku1KM7zn
+	wMhTkRrxzY6tHHg6McLNXGzyOKqcrd7oKeNPz/F7/As+C5sQBu0080vgM+9Xe7KD
+	l99ygBOea4KgkjD6BB41cKUEfcLucLmmhAtpbi4Mkw==
+X-ME-Sender: <xms:vCuCZcYzn51Sk2aLgHDoxlZh__7ILGnGHZUtwejDPCChcYkZwFcEBA>
+    <xme:vCuCZXYLy9tdqGqME_GAegN49r_JtdWPKESfSmw0xgb7AjyqBYFZcuUNeAaAEBoWc
+    x4zEubbx0chmnGsyKg>
+X-ME-Received: <xmr:vCuCZW896N1OJ1k2c7UpsGZlLcoXVhB_1v6br0tZt1bwW2F78LWPzJ1oTRg7wVXPGMsESglSU1XzVTT0tSrMAB-kqKyQX82rLbCJ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdduuddgudegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgv
+    rhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvg
+    htqeenucggtffrrghtthgvrhhnpeekvdekgeehfeejgfdvudffhfevheejffevgfeigfek
+    hfduieefudfgtedugfetgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+    grihhlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+X-ME-Proxy: <xmx:vCuCZWpOS0yAjplB6LkwEI2sYX0ik5BAxFO-9YdF2QWMr1NTwEJEZw>
+    <xmx:vCuCZXpjf5ZFBVm8n-TGqOBs9X6Rqn3c3hdnsyFAKULCnUv9GYLU0w>
+    <xmx:vCuCZUST-4iFJhQsFjVpQaU3ytHZJuE59nh90-O8hXC58m4Eb9mkvQ>
+    <xmx:vCuCZbdfbdb9F_AhCQuWwHPgP1fGgrWTI001kIjA5BwVmFeKqBdrqA>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 19 Dec 2023 18:48:08 -0500 (EST)
+Date: Wed, 20 Dec 2023 09:48:03 +1000
+From: Peter Hutterer <peter.hutterer@who-t.net>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Artur Rojek <contact@artur-rojek.eu>,
+	Chris Morgan <macroalpha82@gmail.com>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, conor+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [RFC] dt-bindings: input: Clarify that abs_min must be less than
+ abs_max
+Message-ID: <20231219234803.GA3396969@quokka>
+References: <20231215024022.122022-1-macroalpha82@gmail.com>
+ <03a9a56362b0559234d4a21a4de3e32e@artur-rojek.eu>
+ <ZYH97KVDO4lFsbmi@google.com>
+ <ZYH-a3TCBuJ00GvG@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -73,51 +93,94 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231219215751.9445-7-alexey.makhalov@broadcom.com>
+In-Reply-To: <ZYH-a3TCBuJ00GvG@google.com>
 
-On Tue, Dec 19, 2023 at 01:57:51PM -0800, Alexey Makhalov wrote:
-> diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
-> index 3aa1adaed18f..ef07ab7a07e1 100644
-> --- a/arch/x86/kernel/cpu/vmware.c
-> +++ b/arch/x86/kernel/cpu/vmware.c
-> @@ -428,6 +428,30 @@ static bool __init vmware_legacy_x2apic_available(void)
->  		(eax & BIT(VCPU_LEGACY_X2APIC));
->  }
->  
-> +#ifdef CONFIG_INTEL_TDX_GUEST
-> +unsigned long vmware_tdx_hypercall(unsigned long cmd,
-> +				   struct tdx_module_args *args)
-> +{
-> +	if (!hypervisor_is_type(X86_HYPER_VMWARE))
-> +		return 0;
-> +
-> +	if (cmd & ~VMWARE_CMD_MASK) {
-> +		pr_warn("Out of range command %x\n", cmd);
-> +		return 0;
+On Tue, Dec 19, 2023 at 12:34:51PM -0800, Dmitry Torokhov wrote:
+> Sorry, meant to add Peter Hutterer to the conversation, but forgot
+> before hitting send...
 
-Is zero success? Shouldn't it be an error?
+Thx for the CC, I only saw the other patch and had missed this one. 
+ 
+> On Tue, Dec 19, 2023 at 12:32:44PM -0800, Dmitry Torokhov wrote:
+> > On Fri, Dec 15, 2023 at 12:19:51PM +0100, Artur Rojek wrote:
+> > > On 2023-12-15 03:40, Chris Morgan wrote:
+> > > > From: Chris Morgan <macromorgan@hotmail.com>
+> > > > 
+> > > > uinput refuses to work with abs devices where the min value is greater
+> > > > than the max value. uinput_validate_absinfo() returns -EINVAL if this
+> > > > is the case and prevents using uinput on such a device. Since uinput
+> > > > has worked this way since at least kernel 2.6 (or prior) I presume that
+> > > > this is the correct way of doing things, and that this documentation
+> > > > needs to be clarified that min must always be less than max.
+> > > > 
+> > > > uinput is used in my use case to bind together adc-joystick devices
+> > > > with gpio-keys devices to create a single unified gamepad for
+> > > > userspace.
+> > > > 
+> > > > Note that there are several boards that will need to be corrected,
+> > > > all but a few of them I maintain. Submitting as an RFC for now to get
+> > > > comments from the input team and the original author in case there is
+> > > > something I am missing.
+> > > > 
+> > > > Fixes: 7956b0d4694f ("dt-bindings: input: Add docs for ADC driven
+> > > > joystick")
+> > > > 
+> > > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > > > ---
+> > > >  Documentation/devicetree/bindings/input/adc-joystick.yaml | 5 +++--
+> > > >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> > > > b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> > > > index 6c244d66f8ce..8f5cdd5ef190 100644
+> > > > --- a/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> > > > +++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> > > > @@ -73,8 +73,9 @@ patternProperties:
+> > > >          description: >
+> > > >            Minimum and maximum values produced by the axis.
+> > > >            For an ABS_X axis this will be the left-most and right-most
+> > > > -          inclination of the joystick. If min > max, it is left to
+> > > > userspace to
+> > > > -          treat the axis as inverted.
+> > > > +          inclination of the joystick. The axis must always be
+> > > > expressed as
+> > > > +          min < max, if the axis is inverted it is left to userspace to
+> > > > handle
+> > > > +          the inversion.
+> > > 
+> > > Hi Chris,
+> > > 
+> > > Device Tree is supposed to depict the actual state of the hardware.
+> > > I worded the adc-joytick's adc-range property specifically, so that it
+> > > covers a case of GCW Zero hardware [1], which has a joystick,  where the
+> > > ABS_X axis reports increasing values for the left-wards inclination of
+> > > the joystick, and decreasing values for the right-wards inclination. You
+> > > are saying that there are even more boards that need to be corrected -
+> > > those are all situations, where DT depicts the actual behavior of the
+> > > hardware.
+> > > What you are trying to do is change hardware description, because of how
+> > > a driver in an OS works. You should instead fix behavior of said driver,
+> > > even if nobody stumbled upon that issue since 2.6 :) We fixed libSDL [2]
+> > > for the same reason.
+> > 
+> > We have several places in the kernel (such as mousedev and joydev) where
+> > we expect that max is greater or equal to min if they are specified. I
+> > am sure that at least some userspace components also have this
+> > assumption. In general, we expect min to be a minimum value reported and
+> > max being maximum value reported, and orientation expressed via
+> > different properties (see [1]).
+> > 
+> > Since we codified min > max as inversion for adc-joystick devices in the
+> > bindings, I think we need to handle this *in that driver* and leave the
+> > rest alone.
+> > 
+> > [1] Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
 
-> +	}
-> +
-> +	args->r10 = VMWARE_TDX_VENDOR_LEAF;
-> +	args->r11 = VMWARE_TDX_HCALL_FUNC;
-> +	args->r12 = VMWARE_HYPERVISOR_MAGIC;
-> +	args->r13 = cmd;
-> +
-> +	__tdx_hypercall(args);
-> +
-> +	return args->r12;
-> +}
-> +EXPORT_SYMBOL_GPL(vmware_tdx_hypercall);
-> +#endif
-> +
->  #ifdef CONFIG_AMD_MEM_ENCRYPT
->  static void vmware_sev_es_hcall_prepare(struct ghcb *ghcb,
->  					struct pt_regs *regs)
-> -- 
-> 2.39.0
-> 
+I quickly checked libevdev and libinput and neither of them have checks
+for min < max but the base assumption is there. So we'll get
+entertaining results if that stops being the case.
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Cheers,
+  Peter
+
 
