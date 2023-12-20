@@ -1,187 +1,136 @@
-Return-Path: <linux-input+bounces-880-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-881-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8EFF819536
-	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 01:28:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C748195C7
+	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 01:40:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CD3E71C235DF
-	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 00:28:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AC3C4289252
+	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 00:40:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37BAA5241;
-	Wed, 20 Dec 2023 00:27:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3606BB658;
+	Wed, 20 Dec 2023 00:38:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="gFFdU9YF"
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="QTDae2aO"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from aposti.net (aposti.net [89.234.176.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E2446AE
-	for <linux-input@vger.kernel.org>; Wed, 20 Dec 2023 00:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so3864694a12.1
-        for <linux-input@vger.kernel.org>; Tue, 19 Dec 2023 16:27:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1703032076; x=1703636876; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Qd1p4zVeoUamI2mjRUTIt+8BF9TE63HS8QpugOrL9t0=;
-        b=gFFdU9YFTQgy7BSWtR7/mQGdhcsxha/sS0K1wzbMsBtuTK93yQAoSbap+M5tnhSHMM
-         ji9ZEEJ0g+4QyzWv83vJMOncQDyhkq9XS//R8WFUKpZixPlYlyqeQoh5o5eiDXdnS+Jt
-         ptKqcqNERG1FubSn+RD8wZm8rLbfXDnNXxhFY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703032076; x=1703636876;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qd1p4zVeoUamI2mjRUTIt+8BF9TE63HS8QpugOrL9t0=;
-        b=jo3ZPEMqJbHK6t8HV6EVLx39BDuPOFpTB94U3LpnCO3Jxi1FlW+3ImOKoGld8RPLyw
-         bsgpS8ZUeYFm7q97y7Ic6bpLLzyIJUXIB0l3xd43V7WXFPxkc37/phW85l7VZGIOwdrI
-         zN4CA+hFhIaipz/Q29qeSz6FgvAfUSR24rSWbE/Wa+KRF36wPgbSdCXsBCt7QAsdcJCv
-         kFmsH0RCFLESLYb2MPYscb0pBS6pOeZzTMkXUpKVvThpAI2urR9kafFJGtl8dBnCVebf
-         0hfGXlVHhspyCITWnxR68upZb2Vn5cc2W6rlouH+xWvw4KrcwuDsBW3pzq0Ap+P/+pXt
-         kjiQ==
-X-Gm-Message-State: AOJu0Ywj7DEQSOGspT2bBq9fADhsHTyW/s4+nz2R+zqF870NjIB8h3M5
-	WSEVZshqu4LUpekIXmSuBc2kOg==
-X-Google-Smtp-Source: AGHT+IEGBZlYNFejsRyuZtJoOsR4NgZKkdzDMV/z5t+t3pGWJWTO/QXMqNBIsivcGeekCW+XGkzCxw==
-X-Received: by 2002:a17:902:6bc2:b0:1d0:6ffd:e2ea with SMTP id m2-20020a1709026bc200b001d06ffde2eamr17476654plt.132.1703032076209;
-        Tue, 19 Dec 2023 16:27:56 -0800 (PST)
-Received: from [192.168.0.111] (d-174-140-102-53.fl.cpe.atlanticbb.net. [174.140.102.53])
-        by smtp.gmail.com with ESMTPSA id d3-20020a170902854300b001d3ea8ad878sm522565plo.290.2023.12.19.16.27.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Dec 2023 16:27:55 -0800 (PST)
-Message-ID: <ba679460-827d-40b1-bc78-bcee1c013f36@broadcom.com>
-Date: Tue, 19 Dec 2023 16:27:51 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3CA8BEB
+	for <linux-input@vger.kernel.org>; Wed, 20 Dec 2023 00:38:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1703032721;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=YWh3YM95PfGapLaObaYkg5krptXBwvONTsKa1OQBHnU=;
+	b=QTDae2aOKOPYjzRkAAnWyGIRWoe1rptIo+yXvyOyAndVTwJ55BdPDWXmLQ5oI8pIE0Ki3z
+	C3EeYRbJxBR2erFkca0QTGTvrwhsgH/RCGy7h9B6KGUD5YgfYvlk8fs9SG0bKrJu7nBEGP
+	OzmK8vNnKlXp8LtX9MoIHH1FtBL/qLU=
+Message-ID: <f77b98bf015bf3f8716422ac70c4fd6051e66376.camel@crapouillou.net>
+Subject: Re: [PATCH] input: uinput: Drop checks for abs_min > abs_max
+From: Paul Cercueil <paul@crapouillou.net>
+To: Peter Hutterer <peter.hutterer@who-t.net>, Chris Morgan
+	 <macroalpha82@gmail.com>
+Cc: linux-input@vger.kernel.org, dmitry.torokhov@gmail.com, svv@google.com, 
+	biswarupp@google.com, contact@artur-rojek.eu, Chris Morgan
+	 <macromorgan@hotmail.com>
+Date: Wed, 20 Dec 2023 01:38:39 +0100
+In-Reply-To: <20231219235149.GA3401344@quokka>
+References: <20231218171653.141941-1-macroalpha82@gmail.com>
+	 <20231219235149.GA3401344@quokka>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 6/6] x86/vmware: Add TDX hypercall support
-Content-Language: en-US
-To: kirill.shutemov@linux.intel.com
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
- bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
- tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
- richardcochran@gmail.com, linux-input@vger.kernel.org,
- dmitry.torokhov@gmail.com, zackr@vmware.com,
- linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
- namit@vmware.com, timothym@vmware.com, akaher@vmware.com, jsipek@vmware.com,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
- tzimmermann@suse.de, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- horms@kernel.org
-References: <20231219215751.9445-1-alexey.makhalov@broadcom.com>
- <20231219215751.9445-7-alexey.makhalov@broadcom.com>
- <20231219232323.euweerulgsgbodx5@box.shutemov.name>
-From: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
- 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 EuY0
-In-Reply-To: <20231219232323.euweerulgsgbodx5@box.shutemov.name>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
+Hi Peter,
 
+Le mercredi 20 d=C3=A9cembre 2023 =C3=A0 09:51 +1000, Peter Hutterer a =C3=
+=A9crit=C2=A0:
+> On Mon, Dec 18, 2023 at 11:16:53AM -0600, Chris Morgan wrote:
+> > From: Chris Morgan <macromorgan@hotmail.com>
+> >=20
+> > Stop checking if the minimum abs value is greater than the maximum
+> > abs
+> > value. When the axis is inverted this condition is allowed. Without
+> > relaxing this check, it is not possible to use uinput on devices in
+> > userspace with an inverted axis, such as the adc-joystick found on
+> > many handheld gaming devices.
+>=20
+> As mentioned in the other thread [1] a fair bit of userspace relies
+> on
+> that general assumption so removing it will likely cause all sorts of
+> issues.
 
-On 12/19/23 3:23 PM, kirill.shutemov@linux.intel.com wrote:
-> On Tue, Dec 19, 2023 at 01:57:51PM -0800, Alexey Makhalov wrote:
->> diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
->> index 3aa1adaed18f..ef07ab7a07e1 100644
->> --- a/arch/x86/kernel/cpu/vmware.c
->> +++ b/arch/x86/kernel/cpu/vmware.c
->> @@ -428,6 +428,30 @@ static bool __init vmware_legacy_x2apic_available(void)
->>   		(eax & BIT(VCPU_LEGACY_X2APIC));
->>   }
->>   
->> +#ifdef CONFIG_INTEL_TDX_GUEST
->> +unsigned long vmware_tdx_hypercall(unsigned long cmd,
->> +				   struct tdx_module_args *args)
->> +{
->> +	if (!hypervisor_is_type(X86_HYPER_VMWARE))
->> +		return 0;
->> +
->> +	if (cmd & ~VMWARE_CMD_MASK) {
->> +		pr_warn("Out of range command %x\n", cmd);
->> +		return 0;
-> 
-> Is zero success? Shouldn't it be an error?
+There is some userspace that works with it though, so why restrict it
+artificially?
 
-VMware hypercalls do not have a standard way of signalling an error.
-To generalize expectations from the caller perspective of any existing 
-hypercalls: error (including hypercall is not supported or disabled) is 
-when return value is 0 and out1/2 are unchanged or equal to in1/in2.
+The fact that some other userspace code wouldn't work with it sounds a
+bit irrelevant. They just never encountered that min>max usage before.
 
-All existing vmware_hypercall callers will gracefully handle returned 0.
-But they should never hit this path, as 0 bail out was introduced as a 
-protection for the case where exported vmware_tdx_hypercall is used by 
-random caller (not following VMware hypercall ABI).
+And removing this check won't cause all sort of issues, why would it?
+It's not like the current software actively probes min>max and crash
+badly if it doesn't return -EINVAL...
 
-> 
->> +	}
->> +
->> +	args->r10 = VMWARE_TDX_VENDOR_LEAF;
->> +	args->r11 = VMWARE_TDX_HCALL_FUNC;
->> +	args->r12 = VMWARE_HYPERVISOR_MAGIC;
->> +	args->r13 = cmd;
->> +
->> +	__tdx_hypercall(args);
->> +
->> +	return args->r12;
->> +}
->> +EXPORT_SYMBOL_GPL(vmware_tdx_hypercall);
->> +#endif
->> +
->>   #ifdef CONFIG_AMD_MEM_ENCRYPT
->>   static void vmware_sev_es_hcall_prepare(struct ghcb *ghcb,
->>   					struct pt_regs *regs)
->> -- 
->> 2.39.0
->>
-> 
+Cheers,
+-Paul
+
+>=20
+> Cheers,
+> =C2=A0=C2=A0 Petre
+>=20
+> [1]
+> https://lore.kernel.org/linux-input/20231219234803.GA3396969@quokka/T/#t
+> >=20
+> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > ---
+> > =C2=A0drivers/input/misc/uinput.c | 9 +--------
+> > =C2=A01 file changed, 1 insertion(+), 8 deletions(-)
+> >=20
+> > diff --git a/drivers/input/misc/uinput.c
+> > b/drivers/input/misc/uinput.c
+> > index d98212d55108..e90dbf2c0b34 100644
+> > --- a/drivers/input/misc/uinput.c
+> > +++ b/drivers/input/misc/uinput.c
+> > @@ -403,14 +403,7 @@ static int uinput_validate_absinfo(struct
+> > input_dev *dev, unsigned int code,
+> > =C2=A0	min =3D abs->minimum;
+> > =C2=A0	max =3D abs->maximum;
+> > =C2=A0
+> > -	if ((min !=3D 0 || max !=3D 0) && max < min) {
+> > -		printk(KERN_DEBUG
+> > -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "%s: invalid abs[%02x] min:%d m=
+ax:%d\n",
+> > -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 UINPUT_NAME, code, min, max);
+> > -		return -EINVAL;
+> > -	}
+> > -
+> > -	if (!check_sub_overflow(max, min, &range) && abs->flat >
+> > range) {
+> > +	if (!check_sub_overflow(max, min, &range) && abs->flat >
+> > abs(range)) {
+> > =C2=A0		printk(KERN_DEBUG
+> > =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "%s: abs_flat #%02x out of=
+ range: %d
+> > (min:%d/max:%d)\n",
+> > =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 UINPUT_NAME, code, abs->fl=
+at, min, max);
+> > --=20
+> > 2.34.1
+> >=20
+> >=20
+
 
