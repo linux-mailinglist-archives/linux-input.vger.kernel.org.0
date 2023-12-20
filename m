@@ -1,61 +1,61 @@
-Return-Path: <linux-input+bounces-886-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-887-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EC681970E
-	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 04:02:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A54819729
+	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 04:30:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A0E79B25ADC
-	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 03:02:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B4E891C254EC
+	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 03:30:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB8CA1CAB3;
-	Wed, 20 Dec 2023 03:02:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 970488F42;
+	Wed, 20 Dec 2023 03:30:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="fOYB4t+w"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="cXVOzxbg"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9B01C680
-	for <linux-input@vger.kernel.org>; Wed, 20 Dec 2023 03:02:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B91E8BFC
+	for <linux-input@vger.kernel.org>; Wed, 20 Dec 2023 03:30:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3b9f111c114so3494727b6e.1
-        for <linux-input@vger.kernel.org>; Tue, 19 Dec 2023 19:02:33 -0800 (PST)
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-28b9e9e83b0so1556747a91.2
+        for <linux-input@vger.kernel.org>; Tue, 19 Dec 2023 19:30:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1703041352; x=1703646152; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1703043005; x=1703647805; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+SUgrFQfnU6UHwK7AW2rQ/gZgr4SsShcYa3n9nuWsGE=;
-        b=fOYB4t+w9nuuE6H4GUGEMG0O+mUhVvRW4ApRvDhziV009F0qmvPiSjy6nUcV4Cg9y+
-         nCJ3e/t+H5kKVLhUGeFqF9biLqm/6g/f02QCoJc4B0l9IHmO8R9ycDWP8UUM+JE8j+iL
-         oFCcHz9FDzp4rs+VAJrLLFmrfm40oOV2sOU+Q=
+        bh=sUq2OM1li7CxkIrkWDtdEiY2oiOCTUFA1jYnFMugiCM=;
+        b=cXVOzxbgih73++d5wcPrCVc2qsLgBxmovP11/hdJKm0a+YVR6sLiu64pug3jwsknkf
+         /HV/kphaJhQCMN+uYLD+s4R8+d7UYgj/jU38Pyf8U8jJSjXoYa+Is8WEeMfoDcdN50sf
+         kM1ZN6Ni5TJh2FKjzrT4+d4khQQ4X/xUewcyM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703041352; x=1703646152;
+        d=1e100.net; s=20230601; t=1703043005; x=1703647805;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+SUgrFQfnU6UHwK7AW2rQ/gZgr4SsShcYa3n9nuWsGE=;
-        b=pYbTUuxtyzRfmAbEwpL5R/C3T+1yhm3rQzmHKJ6qc7AQuEX021UlJttW/4N5q42Dgb
-         DlmsCAMwXZ3AQGLjurqb/bvacSDCGWzfrGl+AvsvrSK8w5NdkL66tMJRFkTFEdtV1z4f
-         bo1kAoYbEixbhvs/aWxobTbk+BkB+HdzHpsc2KF5Lz6dI9gughvflDvx2k0mQ4F5BORK
-         2xO4gNBSnGZNkU0cSFQWTYxm1wbQ28anlXf3c2+vgWrh7ncE3NDDTGRTaSjbTntyNII7
-         vh9EOUKZR+f0BDM3O+JGdaRGOClbXswINfURn8osZcs4XHz2m6EenZvHufQPn3viEzVn
-         H2Vg==
-X-Gm-Message-State: AOJu0YzkwWRPmGvKVsyd6a2YJnb7CEQNtPdCyQ4otaoNeJ/SatAEF10e
-	bK68Z6RsMSJVGjllqLyz41uyHQ==
-X-Google-Smtp-Source: AGHT+IEeRBgpy6L5tgvl+vCGq75Z6yngTrc/IJp/TT5cDbJOGiyV5Wb/G9KOxM1LcduixL5aaQnq1Q==
-X-Received: by 2002:a05:6808:198e:b0:3b8:bd7a:613f with SMTP id bj14-20020a056808198e00b003b8bd7a613fmr19780515oib.53.1703041352617;
-        Tue, 19 Dec 2023 19:02:32 -0800 (PST)
+        bh=sUq2OM1li7CxkIrkWDtdEiY2oiOCTUFA1jYnFMugiCM=;
+        b=dPruSNpybASf8UJ8v2LvsxqBAbWnbf8L9GkVnROE31FK9JJ2FlJj0SBho2jZNuGJsB
+         p+ptTSIBGMvQL+JilP5GHAEHQB0sUEJTTjil7Zvtqq/49U391eKK0tCkiO263Tp7NI2e
+         QZTgI0gO0EFeOBlagiYyEj80HENbSC4cgw0817YAJ3dYlaj4ZqJO+AlSgvhjn4TgY6qo
+         Z1e++WCs12pkhO4qlv5AItS2jfAKdVR5t+lxer2EDBqHaOzZxrItawv6/bqMJx9yXS5p
+         4eo+40yVsPc/nV2ya6YdGw/CfIow8V8N330opcy9zExmctRaRyzywcyvsvmUtt6jNnE5
+         TSAw==
+X-Gm-Message-State: AOJu0YyI54FbuJo2SNVNUOYnGdZhugBVzP5bg0ibP5nq5ib7Lo4XmOIJ
+	awKENm3cKwMGmFEUEVw9Rn07hA==
+X-Google-Smtp-Source: AGHT+IEyUAv+ITNtl62B1KaAoSR3d91Ea/PTHOO2rzx6Z7ZW3/qRzKUylZEstlP7OvWBD6PwHNK7xg==
+X-Received: by 2002:a17:902:d491:b0:1d3:6a11:1fbd with SMTP id c17-20020a170902d49100b001d36a111fbdmr7432822plg.118.1703043005517;
+        Tue, 19 Dec 2023 19:30:05 -0800 (PST)
 Received: from [192.168.0.111] (d-174-140-102-53.fl.cpe.atlanticbb.net. [174.140.102.53])
-        by smtp.gmail.com with ESMTPSA id d27-20020a631d5b000000b005b529d633b7sm19915254pgm.14.2023.12.19.19.02.28
+        by smtp.gmail.com with ESMTPSA id n16-20020a170903111000b001d3320f6143sm14934478plh.269.2023.12.19.19.30.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Dec 2023 19:02:32 -0800 (PST)
-Message-ID: <5169497a-e16c-402c-bbcd-4bdc7d063849@broadcom.com>
-Date: Tue, 19 Dec 2023 19:02:27 -0800
+        Tue, 19 Dec 2023 19:30:05 -0800 (PST)
+Message-ID: <e6a4d942-0711-4035-840b-9b2b116ae70c@broadcom.com>
+Date: Tue, 19 Dec 2023 19:30:00 -0800
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -63,7 +63,7 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 6/6] x86/vmware: Add TDX hypercall support
+Subject: Re: [PATCH v3 2/6] x86/vmware: Introduce vmware_hypercall API
 Content-Language: en-US
 To: kirill.shutemov@linux.intel.com
 Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
@@ -77,10 +77,10 @@ Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
  tzimmermann@suse.de, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
  horms@kernel.org
 References: <20231219215751.9445-1-alexey.makhalov@broadcom.com>
- <20231219215751.9445-7-alexey.makhalov@broadcom.com>
- <20231219232323.euweerulgsgbodx5@box.shutemov.name>
- <ba679460-827d-40b1-bc78-bcee1c013f36@broadcom.com>
- <20231220010000.y5ybey76xjckvh6y@box.shutemov.name>
+ <20231219215751.9445-3-alexey.makhalov@broadcom.com>
+ <20231219232023.u4dyuvbzbh565grk@box.shutemov.name>
+ <75eed318-2d22-429d-ab95-80610ba82934@broadcom.com>
+ <20231220005156.2rymnxu5bv6wdwlx@box.shutemov.name>
 From: Alexey Makhalov <alexey.makhalov@broadcom.com>
 Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
  xsFNBGVo9lkBEACeouRIm6Q3QTvjcnPczfBqgLffURstVJz5nqjnrNR4T+8dwNrZB8PTgOWA
@@ -125,93 +125,84 @@ Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
  fqqZgi3rxgu4sc5lmR846emZ/Tx85/nizqWCv7xUBxQwmhRPZRW+37vS2OLpyrTtBj3/tEM9
  m9GMmTZqaJFeK7WCpprJV4jNHpWZuNAsQrdK1MrceIxb0/6wYe0xK79lScxms+zs9pGTrO4U
  5RoS4gXK65ECcBH8/mumV6oBmLrNxKUrzTczdo9PnkmRyZcAa6AndbjmQDznwxvTZu2LjMPC EuY0
-In-Reply-To: <20231220010000.y5ybey76xjckvh6y@box.shutemov.name>
+In-Reply-To: <20231220005156.2rymnxu5bv6wdwlx@box.shutemov.name>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 12/19/23 5:00 PM, kirill.shutemov@linux.intel.com wrote:
-> On Tue, Dec 19, 2023 at 04:27:51PM -0800, Alexey Makhalov wrote:
+On 12/19/23 4:51 PM, kirill.shutemov@linux.intel.com wrote:
+> On Tue, Dec 19, 2023 at 04:17:40PM -0800, Alexey Makhalov wrote:
 >>
 >>
->> On 12/19/23 3:23 PM, kirill.shutemov@linux.intel.com wrote:
->>> On Tue, Dec 19, 2023 at 01:57:51PM -0800, Alexey Makhalov wrote:
->>>> diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
->>>> index 3aa1adaed18f..ef07ab7a07e1 100644
->>>> --- a/arch/x86/kernel/cpu/vmware.c
->>>> +++ b/arch/x86/kernel/cpu/vmware.c
->>>> @@ -428,6 +428,30 @@ static bool __init vmware_legacy_x2apic_available(void)
->>>>    		(eax & BIT(VCPU_LEGACY_X2APIC));
->>>>    }
->>>> +#ifdef CONFIG_INTEL_TDX_GUEST
->>>> +unsigned long vmware_tdx_hypercall(unsigned long cmd,
->>>> +				   struct tdx_module_args *args)
->>>> +{
->>>> +	if (!hypervisor_is_type(X86_HYPER_VMWARE))
->>>> +		return 0;
-> 
-> BTW, don't you want to warn here to? We don't expect vmware hypercalls to
-> be called by non-vmware guest, do we?
-
-The answer is below...
-
-> 
->>>> +
->>>> +	if (cmd & ~VMWARE_CMD_MASK) {
->>>> +		pr_warn("Out of range command %x\n", cmd);
->>>> +		return 0;
+>> On 12/19/23 3:20 PM, kirill.shutemov@linux.intel.com wrote:
+>>> On Tue, Dec 19, 2023 at 01:57:47PM -0800, Alexey Makhalov wrote:
+>>>> +static inline
+>>>> +unsigned long vmware_hypercall1(unsigned long cmd, unsigned long in1)
+>>> ...
+>>>> +static inline
+>>>> +unsigned long vmware_hypercall3(unsigned long cmd, unsigned long in1,
+>>>> +				uint32_t *out1, uint32_t *out2)
+>>> ...
+>>>> +static inline
+>>>> +unsigned long vmware_hypercall4(unsigned long cmd, unsigned long in1,
+>>>> +				uint32_t *out1, uint32_t *out2,
+>>>> +				uint32_t *out3)
+>>> ...
+>>>> +static inline
+>>>> +unsigned long vmware_hypercall5(unsigned long cmd, unsigned long in1,
+>>>> +				unsigned long in3, unsigned long in4,
+>>>> +				unsigned long in5, uint32_t *out2)
+>>> ...
+>>>> +static inline
+>>>> +unsigned long vmware_hypercall6(unsigned long cmd, unsigned long in1,
+>>>> +				unsigned long in3, uint32_t *out2,
+>>>> +				uint32_t *out3, uint32_t *out4,
+>>>> +				uint32_t *out5)
+>>> ...
+>>>> +static inline
+>>>> +unsigned long vmware_hypercall7(unsigned long cmd, unsigned long in1,
+>>>> +				unsigned long in3, unsigned long in4,
+>>>> +				unsigned long in5, uint32_t *out1,
+>>>> +				uint32_t *out2, uint32_t *out3)
 >>>
->>> Is zero success? Shouldn't it be an error?
+>>> Naming is weird. The number in the name doesn't help much as there seems
+>>> no system on how many of the parameters are ins and outs.
 >>
->> VMware hypercalls do not have a standard way of signalling an error.
->> To generalize expectations from the caller perspective of any existing
->> hypercalls: error (including hypercall is not supported or disabled) is when
->> return value is 0 and out1/2 are unchanged or equal to in1/in2.
+>> There was internal discussion on hypercall API naming. One of proposals was
+>> using 2 digits - number of input and number of output arguments.
+>> And it definitely looked weird. So, we agreed to have just single number  -
+>> total number of arguments excluding cmd.
 > 
-> You are talking about signaling errors over hypercall transport. But if
-> kernel can see that something is wrong why cannot it signal the issue
-> clearly to caller. It is going to be in-kernel convention.These "return 0" blocks were introduced to protect against non-vmware 
-guest or arbitrary modules trying to use __tdx_hypercall via exported 
-vmware_tdx_hypercall function. In this case, it will be NOOP behavior 
-with no or minor side effects.
-
- From valid vmware_hypercall callers point of view, there is no such 
-thing as a hypercall not available. Once guest detection code recognizes 
-VMWare hypervisor via cpuid, it will start using hypercalls in 
-accordance to per-call API.
-
-Valid VMware guest code will never go into first return, no warning 
-required.
-Second return can be hit in rare cases for example during development 
-phase, or, hypothetical case, when cmd was dynamically generated.
-That's why we have a warning warning only for the second condition.
-
-While speaking about it, I'm started to lean towards your 
-recommendation. Yes, we can return standard error code such as -EINVAL 
-or just -1 instead of "return 0" in this function. And it will be 
-algorithmically correct. As if Vmware guest caller provide out of range 
-cmd - it is not documented behavior.
-
-Speaking of additional in-kernel convention for passing additional 
-parameter if error happens, it does not makes sense for me because:
-1. existing caller codes analyze output argument to recognize error 
-error response from the hypervisor. Adding one additional check for 
-in-kernel errors just for TDX path which will be never hit by valid code 
-in production is an unnecessary overhead.
-2. It will definitely add an overhead as an error code will require one 
-more output value, or out0 should be moved from return in-register value 
-to return by pointer function argument.
-
-Summarizing, overloading vmware_tdx_hypercall return value by arg0 (from 
-the hypervisor) and kernel error (-1 or any other) seems like reasonable 
-change.
-
+> Have you considered naming them by number of input parameters? Number of
+> output parameters as demanded by users.
 > 
-> And to very least, it has to be pr_warn_once().
+> So vmware_hypercall4() will become vmware_hypercall1() and current
+> vmware_hypercall1() and vmware_hypercall3() will go away.
 > 
-Good catch! Will change it.
+> It is still awful, but /maybe/ better that this, I donno.
+> 
 
-Thanks,
+Deprecating vmware_hypercall1 and vmware_hypercall3 in favor of 
+vmware_hypercall4 will generate less efficient code for the caller of 
+first ones.
+Using current vmware_hypercall4 instead of vmware_hypercall1 will force 
+the caller to allocate additional variables (register or on stack 
+memory) for hypercall asm inline to put additional output registers on. 
+And specifically to 'usage' of *out3 - compiler will unnecessary 
+'clobber' useful rdx, when hypervisor will keep it unchanged.
+
+Unfortunately VMware hypercall ABI is not as beautiful as KVM one, 
+especially in number of output arguments and their ordering. rbp 
+register usage as an argument is a separate bummer((. So we have to work 
+with what we have.
+
+Current set of functions includes only 6 functions (for LB), which is 
+the optimum between readability, maintainability and performance. It 
+covers all current kernel callers and all new callers from yet to be 
+upstreamed patches that we have in Photon OS including 2 patches for x86 
+and arm64 guest support.
+
+Regards,
 --Alexey
 
