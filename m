@@ -1,267 +1,129 @@
-Return-Path: <linux-input+bounces-894-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-896-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3BD381973B
-	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 04:39:07 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1FC58198E8
+	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 08:01:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D63EEB23CD3
-	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 03:39:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5D15DB217CA
+	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 07:01:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BA12BE76;
-	Wed, 20 Dec 2023 03:38:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8284168B2;
+	Wed, 20 Dec 2023 07:01:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="K/xWmKdE"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="L8aI3fg1"
 X-Original-To: linux-input@vger.kernel.org
-Received: from endrift.com (endrift.com [173.255.198.10])
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2086.outbound.protection.outlook.com [40.107.101.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33D18F71
-	for <linux-input@vger.kernel.org>; Wed, 20 Dec 2023 03:38:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=endrift.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
-Received: from nebulosa.vulpes.eutheria.net (71-212-26-68.tukw.qwest.net [71.212.26.68])
-	by endrift.com (Postfix) with ESMTPSA id 165E6A44F;
-	Tue, 19 Dec 2023 19:38:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
-	t=1703043532; bh=8bCOUzUrQg9elX2FEtn+dfNwylvEX/QEcxzQDCLy9YM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=K/xWmKdEFtVq68G2Pa4O53H0lOsZ7P5KL7g9U3aNmjptqn3s39+oG7IsTN8vWvN3K
-	 60MIjAt7kA/jKsD0uWZUIKV6OtYzo4pCW0w+rhzOBXRDKUuva5HdWVLTSXfsX151s2
-	 UcxlPkmDT0XafHTMxIzZYsi8oRR2rMT33Nvi7hkhqEVS950B/7oely67rI0x7gP+ai
-	 eUPARqodhqbNHVO6GPFowj/jj2HNJZ/hju0u+ja9rHADMn+aMw8g+6VcGEthFxQTsc
-	 eFohiflUu42Jf6YFAkw6YSjvlTcLaWE4a375y1A/Mm1cj7Y9/aHmup3yUWW5rt8368
-	 yDebWzDopSwvw==
-From: Vicki Pfau <vi@endrift.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	linux-input@vger.kernel.org
-Cc: Vicki Pfau <vi@endrift.com>
-Subject: [PATCH 7/7] HID: hid-steam: Add gamepad-only mode switched to by holding options
-Date: Tue, 19 Dec 2023 19:38:37 -0800
-Message-ID: <20231220033837.2135194-7-vi@endrift.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231220033837.2135194-1-vi@endrift.com>
-References: <20231220033609.2132033-1-vi@endrift.com>
- <20231220033837.2135194-1-vi@endrift.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C35168A5
+	for <linux-input@vger.kernel.org>; Wed, 20 Dec 2023 07:01:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dNEVtenjHdWDtcgovyUYIr2JXQCELJfO28VtcVVyClOLSPadlpGC/DPxP6ixvCMgS2JWNXtTxNiVguqX2JDUeOBJZEDjNd/HmGh5mG3qudgZIQVCBuCDe/sDJz7pCSRm6A7XcJ+ozmqsn7I29nKZuPKnwA9TXSjRUCIxbIaFIsY5Kaw27h1a1MPnnjA56wQ+qdaQvlbCc4x1PQap8S7cuBZcI7MAazsQmyKaYkayPzbtdCbSklxBcPYu01En93hNJ+F4NQh05yTbRzP3KMr+dTZEgnSuzG0DX59dEnQaZNKvEgpw0m58s7OHTIEH2kWC9iD8AXOBHnQc9SlsQ9fkmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GRF+4ilsi/kVYkD6PWFo+q50soYum2jx87MQ/yEBK7U=;
+ b=PLClAL1khq7Ktibc9gCwSxUQQQp0NAqyGUcAKob6rDf8Oy4OIfbrYd7XnihwXFw9OcF/0R/kZN/DgpHpnxlUAh/LDs6vRBVZa1uiotXVn7cp1Sn8RKbmnz75CsIskeu3iD5aj3u1xfRRp/VH/p82JmQDtrzbATCYHFOkFIFqPz4y04iLoEvaPZRWBrW3bqU7z8s7NWpnfIfysS9c7J/WfmL8H8u9G4SHsDGg+go02PhWJQZmbFSjaOLmpES8e+ut+bLKYSUTZx2EgvVsG7Dio193LnaswA3hrWBFvXbMxJHXXMjNHsEAS6tC2Xw2VTa8ox3yTthPgf9OGwcNfXKRRg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GRF+4ilsi/kVYkD6PWFo+q50soYum2jx87MQ/yEBK7U=;
+ b=L8aI3fg19dLqGCiJKKjyrum12zUf2BIz9rAenwMfq0ANHn5WhRzYCtqqFqKwsB8xeH6p5rOuqSgqt7Mb5SVbeqZyLmZHxftdBOT2nbkvqcWN3baLJagqlf4H8Q6y+oWAargXoXzV4c2uUJxFb3MG3C9OgQVzp3q6pyeNyPkZNMc=
+Received: from DM6PR18CA0034.namprd18.prod.outlook.com (2603:10b6:5:15b::47)
+ by BN9PR12MB5113.namprd12.prod.outlook.com (2603:10b6:408:136::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.18; Wed, 20 Dec
+ 2023 07:01:12 +0000
+Received: from DS1PEPF0001708E.namprd03.prod.outlook.com
+ (2603:10b6:5:15b:cafe::67) by DM6PR18CA0034.outlook.office365.com
+ (2603:10b6:5:15b::47) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.18 via Frontend
+ Transport; Wed, 20 Dec 2023 07:01:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS1PEPF0001708E.mail.protection.outlook.com (10.167.17.134) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7113.14 via Frontend Transport; Wed, 20 Dec 2023 07:01:12 +0000
+Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Wed, 20 Dec
+ 2023 01:01:09 -0600
+From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+To: <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
+	<hdegoede@redhat.com>, <ilpo.jarvinen@linux.intel.com>,
+	<mario.limonciello@amd.com>, <Shyam-sundar.S-k@amd.com>,
+	<linux-input@vger.kernel.org>
+CC: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Subject: [PATCH 0/3] Add new SFH interfaces 
+Date: Wed, 20 Dec 2023 12:30:39 +0530
+Message-ID: <20231220070042.610455-1-Basavaraj.Natikar@amd.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF0001708E:EE_|BN9PR12MB5113:EE_
+X-MS-Office365-Filtering-Correlation-Id: 71d9c9c6-4509-4ef4-017e-08dc0129736a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	9vtg0xGj7MePq3RlynkFWRMn8bmYcbYUvhIOSdJ3UKvXsjagzyyusfvWsU/89hzvwfXvXvUhXt9I+pO1Gdf1sTOisHXfyxVvdndAmgauNOAsSq5vkwDRwqmkCihpqWf6E7YsS9U85OjsTv2+N6mLPj3lemXAWdSu+gqCguPyLPonZ1Z56kNz7Ca3LEcIpFrgv38hULhEMgRMryYKPi+BCeIDx88eMzhsF1WTTxMxd42YIggSqc3FLqblRFgqRg2/1NvJUWbpplqOurZX+RG1neD/TfqY3QNdvbKW2p+1SeCOveBPITAwY4ZPV3m37GSqgT/Ij4vjco97d6cAUFKIBHLSVIbyltKFOX+XHvb0+CZ2pznYWI9XyK408YUaXEbVPml3oufv7hh8i41oz2S5/6mc3lUvPMqXAS40k4Igd5wdMknZGsiPqamu/Fa5MoUnAJHDbWh/H8En4xAjbpRv/e/1hltMZzJY1Skkc/udY9mRfRqz7OHcKuPCU8r2+DPkAUwiv6nRInzCcacpeitGh+kOtMUPmT8wHbRMLXsdfDfMIDJoMJ8usdqZU4Jz+0tX+JJ0l66T/oYjgv0zgVQhMUpy5i2DU7OxEtoLlvwzwl5Dnutv9DCaXZWHlWUynqZMPEMv3L43y+1j4ERUIG2qluixvkfUhcobQLdNd94q/0AQNtT7bLSO78sRNnFF7v5SQwwdZ6Gn83zJxdf+orSBi2fociJGTMESQpsyCrb5rLE8BN2qeTKoD2mIucdN03bldYIXhiTOfFqvFggM1MVYEA==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(376002)(396003)(39860400002)(346002)(136003)(230922051799003)(186009)(64100799003)(82310400011)(451199024)(1800799012)(36840700001)(40470700004)(46966006)(40480700001)(86362001)(36756003)(40460700003)(70586007)(7696005)(70206006)(356005)(81166007)(26005)(6666004)(426003)(336012)(16526019)(4743002)(2616005)(316002)(47076005)(41300700001)(83380400001)(5660300002)(8676002)(4744005)(966005)(478600001)(1076003)(110136005)(8936002)(2906002)(36860700001)(4326008)(82740400003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2023 07:01:12.0600
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71d9c9c6-4509-4ef4-017e-08dc0129736a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS1PEPF0001708E.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5113
 
-This commit adds a hotkey to switch between "gamepad" mode (mouse and keyboard
-disabled) and "desktop" mode (gamepad disabled) by holding down the options
-button (mapped here as the start button). This mirrors the behavior of the
-official Steam client.
+This series adds new interfaces to export User presence information and
+Ambient light to other drivers within the kernel.
 
-This also adds and uses a function for generating haptic pulses, as Steam also
-does when engaging this hotkey.
+Link: https://lore.kernel.org/all/ad064333-48a4-4cfa-9428-69e8a7c44667@redhat.com/
 
-Signed-off-by: Vicki Pfau <vi@endrift.com>
----
- drivers/hid/hid-steam.c | 113 ++++++++++++++++++++++++++++++++++++----
- 1 file changed, 103 insertions(+), 10 deletions(-)
+Basavaraj Natikar (3):
+  HID: amd_sfh: rename float_to_int() to amd_sfh_float_to_int()
+  HID: amd_sfh: Add a new interface for exporting HPD data
+  HID: amd_sfh: Add a new interface for exporting ALS data
 
-diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
-index a0ed8812e7ea..b3c4e50e248a 100644
---- a/drivers/hid/hid-steam.c
-+++ b/drivers/hid/hid-steam.c
-@@ -273,6 +273,11 @@ enum {
- 	TRACKPAD_GESTURE_KEYBOARD,
- };
- 
-+/* Pad identifiers for the deck */
-+#define STEAM_PAD_LEFT 0
-+#define STEAM_PAD_RIGHT 1
-+#define STEAM_PAD_BOTH 2
-+
- /* Other random constants */
- #define STEAM_SERIAL_LEN 0x15
- 
-@@ -291,6 +296,9 @@ struct steam_device {
- 	struct power_supply __rcu *battery;
- 	u8 battery_charge;
- 	u16 voltage;
-+	struct delayed_work mode_switch;
-+	bool did_mode_switch;
-+	bool gamepad_mode;
- 	struct work_struct rumble_work;
- 	u16 rumble_left;
- 	u16 rumble_right;
-@@ -460,6 +468,37 @@ static inline int steam_request_conn_status(struct steam_device *steam)
- 	return ret;
- }
- 
-+/*
-+ * Send a haptic pulse to the trackpads
-+ * Duration and interval are measured in microseconds, count is the number
-+ * of pulses to send for duration time with interval microseconds between them
-+ * and gain is measured in decibels, ranging from -24 to +6
-+ */
-+static inline int steam_haptic_pulse(struct steam_device *steam, u8 pad,
-+				u16 duration, u16 interval, u16 count, u8 gain)
-+{
-+	int ret;
-+	u8 report[10] = {ID_TRIGGER_HAPTIC_PULSE, 8};
-+
-+	/* Left and right are swapped on this report for legacy reasons */
-+	if (pad < STEAM_PAD_BOTH)
-+		pad ^= 1;
-+
-+	report[2] = pad;
-+	report[3] = duration & 0xFF;
-+	report[4] = duration >> 8;
-+	report[5] = interval & 0xFF;
-+	report[6] = interval >> 8;
-+	report[7] = count & 0xFF;
-+	report[8] = count >> 8;
-+	report[9] = gain;
-+
-+	mutex_lock(&steam->report_mutex);
-+	ret = steam_send_report(steam, report, sizeof(report));
-+	mutex_unlock(&steam->report_mutex);
-+	return ret;
-+}
-+
- static inline int steam_haptic_rumble(struct steam_device *steam,
- 				u16 intensity, u16 left_speed, u16 right_speed,
- 				u8 left_gain, u8 right_gain)
-@@ -505,6 +544,9 @@ static int steam_play_effect(struct input_dev *dev, void *data,
- 
- static void steam_set_lizard_mode(struct steam_device *steam, bool enable)
- {
-+	if (steam->gamepad_mode)
-+		enable = false;
-+
- 	if (enable) {
- 		mutex_lock(&steam->report_mutex);
- 		/* enable esc, enter, cursors */
-@@ -542,11 +584,18 @@ static int steam_input_open(struct input_dev *dev)
- 	unsigned long flags;
- 	bool set_lizard_mode;
- 
--	spin_lock_irqsave(&steam->lock, flags);
--	set_lizard_mode = !steam->client_opened && lizard_mode;
--	spin_unlock_irqrestore(&steam->lock, flags);
--	if (set_lizard_mode)
--		steam_set_lizard_mode(steam, false);
-+	/*
-+	 * Disabling lizard mode automatically is only done on the Steam
-+	 * Controller. On the Steam Deck, this is toggled manually by holding
-+	 * the options button instead, handled by steam_mode_switch_cb.
-+	 */
-+	if (!(steam->quirks & STEAM_QUIRK_DECK)) {
-+		spin_lock_irqsave(&steam->lock, flags);
-+		set_lizard_mode = !steam->client_opened && lizard_mode;
-+		spin_unlock_irqrestore(&steam->lock, flags);
-+		if (set_lizard_mode)
-+			steam_set_lizard_mode(steam, false);
-+	}
- 
- 	return 0;
- }
-@@ -557,11 +606,13 @@ static void steam_input_close(struct input_dev *dev)
- 	unsigned long flags;
- 	bool set_lizard_mode;
- 
--	spin_lock_irqsave(&steam->lock, flags);
--	set_lizard_mode = !steam->client_opened && lizard_mode;
--	spin_unlock_irqrestore(&steam->lock, flags);
--	if (set_lizard_mode)
--		steam_set_lizard_mode(steam, true);
-+	if (!(steam->quirks & STEAM_QUIRK_DECK)) {
-+		spin_lock_irqsave(&steam->lock, flags);
-+		set_lizard_mode = !steam->client_opened && lizard_mode;
-+		spin_unlock_irqrestore(&steam->lock, flags);
-+		if (set_lizard_mode)
-+			steam_set_lizard_mode(steam, true);
-+	}
- }
- 
- static enum power_supply_property steam_battery_props[] = {
-@@ -886,6 +937,34 @@ static void steam_work_connect_cb(struct work_struct *work)
- 	}
- }
- 
-+static void steam_mode_switch_cb(struct work_struct *work)
-+{
-+	struct steam_device *steam = container_of(to_delayed_work(work),
-+							struct steam_device, mode_switch);
-+	unsigned long flags;
-+	bool client_opened;
-+	steam->gamepad_mode = !steam->gamepad_mode;
-+	if (!lizard_mode)
-+		return;
-+
-+	if (steam->gamepad_mode)
-+		steam_set_lizard_mode(steam, false);
-+	else {
-+		spin_lock_irqsave(&steam->lock, flags);
-+		client_opened = steam->client_opened;
-+		spin_unlock_irqrestore(&steam->lock, flags);
-+		if (!client_opened)
-+			steam_set_lizard_mode(steam, lizard_mode);
-+	}
-+
-+	steam_haptic_pulse(steam, STEAM_PAD_RIGHT, 0x190, 0, 1, 0);
-+	if (steam->gamepad_mode) {
-+		steam_haptic_pulse(steam, STEAM_PAD_LEFT, 0x14D, 0x14D, 0x2D, 0);
-+	} else {
-+		steam_haptic_pulse(steam, STEAM_PAD_LEFT, 0x1F4, 0x1F4, 0x1E, 0);
-+	}
-+}
-+
- static bool steam_is_valve_interface(struct hid_device *hdev)
- {
- 	struct hid_report_enum *rep_enum;
-@@ -1040,6 +1119,7 @@ static int steam_probe(struct hid_device *hdev,
- 	mutex_init(&steam->report_mutex);
- 	steam->quirks = id->driver_data;
- 	INIT_WORK(&steam->work_connect, steam_work_connect_cb);
-+	INIT_DELAYED_WORK(&steam->mode_switch, steam_mode_switch_cb);
- 	INIT_LIST_HEAD(&steam->list);
- 	INIT_WORK(&steam->rumble_work, steam_haptic_rumble_cb);
- 
-@@ -1097,6 +1177,7 @@ static int steam_probe(struct hid_device *hdev,
- hid_hw_open_fail:
- hid_hw_start_fail:
- 	cancel_work_sync(&steam->work_connect);
-+	cancel_delayed_work_sync(&steam->mode_switch);
- 	cancel_work_sync(&steam->rumble_work);
- steam_alloc_fail:
- 	hid_err(hdev, "%s: failed with error %d\n",
-@@ -1113,6 +1194,7 @@ static void steam_remove(struct hid_device *hdev)
- 		return;
- 	}
- 
-+	cancel_delayed_work_sync(&steam->mode_switch);
- 	cancel_work_sync(&steam->work_connect);
- 	hid_destroy_device(steam->client_hdev);
- 	steam->client_hdev = NULL;
-@@ -1398,6 +1480,17 @@ static void steam_do_deck_input_event(struct steam_device *steam,
- 	b13 = data[13];
- 	b14 = data[14];
- 
-+	if (!(b9 & BIT(6)) && steam->did_mode_switch) {
-+		steam->did_mode_switch = false;
-+		cancel_delayed_work_sync(&steam->mode_switch);
-+	} else if (!steam->client_opened && (b9 & BIT(6)) && !steam->did_mode_switch) {
-+		steam->did_mode_switch = true;
-+		schedule_delayed_work(&steam->mode_switch, 45 * HZ / 100);
-+	}
-+
-+	if (!steam->gamepad_mode)
-+		return;
-+
- 	lpad_touched = b10 & BIT(3);
- 	rpad_touched = b10 & BIT(4);
- 
+ drivers/hid/amd-sfh-hid/amd_sfh_common.h      |  6 ++
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c | 28 +++++----
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 20 +++++++
+ .../amd-sfh-hid/sfh1_1/amd_sfh_interface.c    | 59 +++++++++++++++++++
+ .../amd-sfh-hid/sfh1_1/amd_sfh_interface.h    |  2 +
+ include/linux/amd-pmf-io.h                    | 50 ++++++++++++++++
+ 6 files changed, 152 insertions(+), 13 deletions(-)
+ create mode 100644 include/linux/amd-pmf-io.h
+
 -- 
-2.42.0
+2.25.1
 
 
