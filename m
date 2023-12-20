@@ -1,212 +1,187 @@
-Return-Path: <linux-input+bounces-878-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-879-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF338819503
-	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 01:17:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 571CE81952F
+	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 01:26:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 33CF11F2576B
-	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 00:17:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0DAD82884D7
+	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 00:25:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51D16BA27;
-	Wed, 20 Dec 2023 00:17:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D80391DFD1;
+	Wed, 20 Dec 2023 00:23:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="PNHjnion"
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="EYyLb4pB"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from aposti.net (aposti.net [89.234.176.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8846BA34
-	for <linux-input@vger.kernel.org>; Wed, 20 Dec 2023 00:17:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5cdbc7bebecso567359a12.1
-        for <linux-input@vger.kernel.org>; Tue, 19 Dec 2023 16:17:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1703031466; x=1703636266; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=vOWpbpPDJWdl4peog2qHCPFpo/pUG5DQNuld5TpDu3Q=;
-        b=PNHjnionNwyihDrHAL4qHlwgGkCTTyUQwypUQeHMPlXZuL0htxg3ypm53IsVPq6j/V
-         qhzgGnY7tzT+LK+5KlLblC5DPWC8Q4r3w8qQcvXZUne9nT+qT1Uy8sruMOqtBiB4sRu0
-         Bj9+fUxssTo2jN1UYs2D4lG5mXGceiV4hYdpA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703031466; x=1703636266;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vOWpbpPDJWdl4peog2qHCPFpo/pUG5DQNuld5TpDu3Q=;
-        b=aPmmay7fjG7dMpdLTJjlyTbESpP3g8wq4ZSnUoqVeNe7vjX2/6+dwgWyi7X22CzhBr
-         /5j7EI6GQ1SYaduAFF1/tJ4bZIlTmE6vvG4UEZd22t+qsVil8F+HJQSl9Z26M0Kjgosc
-         zn5Oqa8OTFqhWRy74lpW67bp2ZBzB0av2DGBKMJyjQ33+3v3ADQppniY/AkcYulJRjyt
-         47Hdv48fUaAxVIiKGeheYt3iP+n5LDJY29a1V6Lsm2WBKuvP6lsJCzXp1bkR7GVZs39q
-         xg57qXHXk9Km/9A9kCphCjAMvBGEz3PvOdjIRvkDbQ/nYnSrDU/pH3dR8dp2qMsBA+2O
-         nq9g==
-X-Gm-Message-State: AOJu0YzDcvpszGXkYzER+792hye60bLKBaT3ZJJPEV8uypCl2BqzXqs1
-	/1oo3VUoFVwMbRReflSPpXxtAw==
-X-Google-Smtp-Source: AGHT+IHIuMekCRXvJUY/dSTCtVx5xTxiebzylcTaZ86KKFW45a58KJKBg/YJ3jHYGLae3yu3QQ0CvA==
-X-Received: by 2002:a17:902:d2cf:b0:1d0:6ffd:8352 with SMTP id n15-20020a170902d2cf00b001d06ffd8352mr8742191plc.93.1703031466096;
-        Tue, 19 Dec 2023 16:17:46 -0800 (PST)
-Received: from [192.168.0.111] (d-174-140-102-53.fl.cpe.atlanticbb.net. [174.140.102.53])
-        by smtp.gmail.com with ESMTPSA id c7-20020a170902d48700b001d0c1281ef5sm21587781plg.89.2023.12.19.16.17.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Dec 2023 16:17:45 -0800 (PST)
-Message-ID: <75eed318-2d22-429d-ab95-80610ba82934@broadcom.com>
-Date: Tue, 19 Dec 2023 16:17:40 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BECE1D543;
+	Wed, 20 Dec 2023 00:23:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1703031813;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=ofG5Can+ZciJ6C/R5Us91iUFRiF2X0DgCmjFbEUpMxg=;
+	b=EYyLb4pB85gKl1EUPfxOhFKSpWKlFXWhpCta0HdrQlXtMi4XLTd9fb6bl66fxc4chLuv53
+	CXLVMfJwoW1wQXsDyzgaQFZeQpt678SZ2TFsu/nCP48Jp0/3ZEAgIDQCMekopW3VE7HiQj
+	qqLdS/CcIZf9gdGvCqak8ZclwkTtj/Q=
+Message-ID: <fb38504f15148c78c7a91850daf8c247d592b0a0.camel@crapouillou.net>
+Subject: Re: [RFC] dt-bindings: input: Clarify that abs_min must be less
+ than abs_max
+From: Paul Cercueil <paul@crapouillou.net>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Artur Rojek
+	 <contact@artur-rojek.eu>
+Cc: Chris Morgan <macroalpha82@gmail.com>, linux-input@vger.kernel.org, 
+	devicetree@vger.kernel.org, conor+dt@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, Chris Morgan
+	 <macromorgan@hotmail.com>
+Date: Wed, 20 Dec 2023 01:23:31 +0100
+In-Reply-To: <ZYH97KVDO4lFsbmi@google.com>
+References: <20231215024022.122022-1-macroalpha82@gmail.com>
+	 <03a9a56362b0559234d4a21a4de3e32e@artur-rojek.eu>
+	 <ZYH97KVDO4lFsbmi@google.com>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/6] x86/vmware: Introduce vmware_hypercall API
-To: kirill.shutemov@linux.intel.com
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
- bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
- tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
- richardcochran@gmail.com, linux-input@vger.kernel.org,
- dmitry.torokhov@gmail.com, zackr@vmware.com,
- linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
- namit@vmware.com, timothym@vmware.com, akaher@vmware.com, jsipek@vmware.com,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
- tzimmermann@suse.de, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- horms@kernel.org
-References: <20231219215751.9445-1-alexey.makhalov@broadcom.com>
- <20231219215751.9445-3-alexey.makhalov@broadcom.com>
- <20231219232023.u4dyuvbzbh565grk@box.shutemov.name>
-Content-Language: en-US
-From: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
- 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 EuY0
-In-Reply-To: <20231219232023.u4dyuvbzbh565grk@box.shutemov.name>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
+Hi Dmitry,
 
+Le mardi 19 d=C3=A9cembre 2023 =C3=A0 12:32 -0800, Dmitry Torokhov a =C3=A9=
+crit=C2=A0:
+> On Fri, Dec 15, 2023 at 12:19:51PM +0100, Artur Rojek wrote:
+> > On 2023-12-15 03:40, Chris Morgan wrote:
+> > > From: Chris Morgan <macromorgan@hotmail.com>
+> > >=20
+> > > uinput refuses to work with abs devices where the min value is
+> > > greater
+> > > than the max value. uinput_validate_absinfo() returns -EINVAL if
+> > > this
+> > > is the case and prevents using uinput on such a device. Since
+> > > uinput
+> > > has worked this way since at least kernel 2.6 (or prior) I
+> > > presume that
+> > > this is the correct way of doing things, and that this
+> > > documentation
+> > > needs to be clarified that min must always be less than max.
+> > >=20
+> > > uinput is used in my use case to bind together adc-joystick
+> > > devices
+> > > with gpio-keys devices to create a single unified gamepad for
+> > > userspace.
+> > >=20
+> > > Note that there are several boards that will need to be
+> > > corrected,
+> > > all but a few of them I maintain. Submitting as an RFC for now to
+> > > get
+> > > comments from the input team and the original author in case
+> > > there is
+> > > something I am missing.
+> > >=20
+> > > Fixes: 7956b0d4694f ("dt-bindings: input: Add docs for ADC driven
+> > > joystick")
+> > >=20
+> > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > > ---
+> > > =C2=A0Documentation/devicetree/bindings/input/adc-joystick.yaml | 5
+> > > +++--
+> > > =C2=A01 file changed, 3 insertions(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/input/adc-
+> > > joystick.yaml
+> > > b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> > > index 6c244d66f8ce..8f5cdd5ef190 100644
+> > > --- a/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> > > +++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> > > @@ -73,8 +73,9 @@ patternProperties:
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 description: >
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Minimum =
+and maximum values produced by the axis.
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 For an A=
+BS_X axis this will be the left-most and
+> > > right-most
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 inclination o=
+f the joystick. If min > max, it is left
+> > > to
+> > > userspace to
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 treat the axi=
+s as inverted.
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 inclination o=
+f the joystick. The axis must always be
+> > > expressed as
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 min < max, if=
+ the axis is inverted it is left to
+> > > userspace to
+> > > handle
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the inversion=
+.
+> >=20
+> > Hi Chris,
+> >=20
+> > Device Tree is supposed to depict the actual state of the hardware.
+> > I worded the adc-joytick's adc-range property specifically, so that
+> > it
+> > covers a case of GCW Zero hardware [1], which has a joystick,=C2=A0
+> > where the
+> > ABS_X axis reports increasing values for the left-wards inclination
+> > of
+> > the joystick, and decreasing values for the right-wards
+> > inclination. You
+> > are saying that there are even more boards that need to be
+> > corrected -
+> > those are all situations, where DT depicts the actual behavior of
+> > the
+> > hardware.
+> > What you are trying to do is change hardware description, because
+> > of how
+> > a driver in an OS works. You should instead fix behavior of said
+> > driver,
+> > even if nobody stumbled upon that issue since 2.6 :) We fixed
+> > libSDL [2]
+> > for the same reason.
+>=20
+> We have several places in the kernel (such as mousedev and joydev)
+> where
+> we expect that max is greater or equal to min if they are specified.
+> I
+> am sure that at least some userspace components also have this
+> assumption. In general, we expect min to be a minimum value reported
+> and
+> max being maximum value reported, and orientation expressed via
+> different properties (see [1]).
 
-On 12/19/23 3:20 PM, kirill.shutemov@linux.intel.com wrote:
-> On Tue, Dec 19, 2023 at 01:57:47PM -0800, Alexey Makhalov wrote:
->> +static inline
->> +unsigned long vmware_hypercall1(unsigned long cmd, unsigned long in1)
-> ...
->> +static inline
->> +unsigned long vmware_hypercall3(unsigned long cmd, unsigned long in1,
->> +				uint32_t *out1, uint32_t *out2)
-> ...
->> +static inline
->> +unsigned long vmware_hypercall4(unsigned long cmd, unsigned long in1,
->> +				uint32_t *out1, uint32_t *out2,
->> +				uint32_t *out3)
-> ...
->> +static inline
->> +unsigned long vmware_hypercall5(unsigned long cmd, unsigned long in1,
->> +				unsigned long in3, unsigned long in4,
->> +				unsigned long in5, uint32_t *out2)
-> ...
->> +static inline
->> +unsigned long vmware_hypercall6(unsigned long cmd, unsigned long in1,
->> +				unsigned long in3, uint32_t *out2,
->> +				uint32_t *out3, uint32_t *out4,
->> +				uint32_t *out5)
-> ...
->> +static inline
->> +unsigned long vmware_hypercall7(unsigned long cmd, unsigned long in1,
->> +				unsigned long in3, unsigned long in4,
->> +				unsigned long in5, uint32_t *out1,
->> +				uint32_t *out2, uint32_t *out3)
-> 
-> Naming is weird. The number in the name doesn't help much as there seems
-> no system on how many of the parameters are ins and outs.
+You can express all you want in DT properties the orientation of the
+axis, it does not carry to userspace. As far as I can see there is
+absolutely no way to tell userspace that an axis is inverted.
 
-There was internal discussion on hypercall API naming. One of proposals 
-was using 2 digits - number of input and number of output arguments.
-And it definitely looked weird. So, we agreed to have just single number 
-  - total number of arguments excluding cmd.
+Cheers,
+-Paul
 
-> 
-> Why these combinations of ins/outs are supported?
-
-VMware hypercalls can use up to 6 ins and 6 outs for LB and 7 ins and 7 
-outs for HB calls. The mapping to x86 registers is below:
-in0/out0 - rax
-in1/out1 - rbx
-in2/out2 - rcx
-in3/out3 - rdx
-in4/out4 - rsi
-in5/out5 - rdi
-in6/out6 - rbp (only used in high bandwidth hypercalls)
-args 0, 2 and 6 are remapped to r12, r13 and r14 for TDX.
-
-There is a standard on some arguments such as cmd on in2, magic on in0 
-and output value is on out0. While other arguments are not standardized 
-across hypercall.
-
-Theoreticaly max hypercall, in term of number of arguments:
-vmware_hypercall9(cmd, in1, in3, in4, in5, *out1, *out2, *out3, *out4, 
-*out5)
-But there is no such called in a linux kernel.
-
-Current combination of hypercalls covers all current and future (not yet 
-upstreamed) callers, with round up to next number in some cases.
-
-
-> 
-> And as an outsider, I'm curious where in2 got lost :P
-> 
-'lost' arguments:
-in0 - indirectly initialized inside hypercall function.
-out0 - return value from the hypercall.
-[LB hypercalls] in2 <- input cmd
-[HB hypercalls] in1 <- input cmd
-
-
-Regards,
---Alexey
+>=20
+> Since we codified min > max as inversion for adc-joystick devices in
+> the
+> bindings, I think we need to handle this *in that driver* and leave
+> the
+> rest alone.
+>=20
+> [1]
+> Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
+>=20
+> Thanks.
+>=20
 
 
