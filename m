@@ -1,208 +1,76 @@
-Return-Path: <linux-input+bounces-887-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-888-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A54819729
-	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 04:30:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2441819734
+	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 04:37:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B4E891C254EC
-	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 03:30:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 02FCCB23BF3
+	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 03:37:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 970488F42;
-	Wed, 20 Dec 2023 03:30:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B37AB8BF6;
+	Wed, 20 Dec 2023 03:36:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="cXVOzxbg"
+	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="0R3Uow7F"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from endrift.com (endrift.com [173.255.198.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B91E8BFC
-	for <linux-input@vger.kernel.org>; Wed, 20 Dec 2023 03:30:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-28b9e9e83b0so1556747a91.2
-        for <linux-input@vger.kernel.org>; Tue, 19 Dec 2023 19:30:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1703043005; x=1703647805; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sUq2OM1li7CxkIrkWDtdEiY2oiOCTUFA1jYnFMugiCM=;
-        b=cXVOzxbgih73++d5wcPrCVc2qsLgBxmovP11/hdJKm0a+YVR6sLiu64pug3jwsknkf
-         /HV/kphaJhQCMN+uYLD+s4R8+d7UYgj/jU38Pyf8U8jJSjXoYa+Is8WEeMfoDcdN50sf
-         kM1ZN6Ni5TJh2FKjzrT4+d4khQQ4X/xUewcyM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703043005; x=1703647805;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sUq2OM1li7CxkIrkWDtdEiY2oiOCTUFA1jYnFMugiCM=;
-        b=dPruSNpybASf8UJ8v2LvsxqBAbWnbf8L9GkVnROE31FK9JJ2FlJj0SBho2jZNuGJsB
-         p+ptTSIBGMvQL+JilP5GHAEHQB0sUEJTTjil7Zvtqq/49U391eKK0tCkiO263Tp7NI2e
-         QZTgI0gO0EFeOBlagiYyEj80HENbSC4cgw0817YAJ3dYlaj4ZqJO+AlSgvhjn4TgY6qo
-         Z1e++WCs12pkhO4qlv5AItS2jfAKdVR5t+lxer2EDBqHaOzZxrItawv6/bqMJx9yXS5p
-         4eo+40yVsPc/nV2ya6YdGw/CfIow8V8N330opcy9zExmctRaRyzywcyvsvmUtt6jNnE5
-         TSAw==
-X-Gm-Message-State: AOJu0YyI54FbuJo2SNVNUOYnGdZhugBVzP5bg0ibP5nq5ib7Lo4XmOIJ
-	awKENm3cKwMGmFEUEVw9Rn07hA==
-X-Google-Smtp-Source: AGHT+IEyUAv+ITNtl62B1KaAoSR3d91Ea/PTHOO2rzx6Z7ZW3/qRzKUylZEstlP7OvWBD6PwHNK7xg==
-X-Received: by 2002:a17:902:d491:b0:1d3:6a11:1fbd with SMTP id c17-20020a170902d49100b001d36a111fbdmr7432822plg.118.1703043005517;
-        Tue, 19 Dec 2023 19:30:05 -0800 (PST)
-Received: from [192.168.0.111] (d-174-140-102-53.fl.cpe.atlanticbb.net. [174.140.102.53])
-        by smtp.gmail.com with ESMTPSA id n16-20020a170903111000b001d3320f6143sm14934478plh.269.2023.12.19.19.30.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Dec 2023 19:30:05 -0800 (PST)
-Message-ID: <e6a4d942-0711-4035-840b-9b2b116ae70c@broadcom.com>
-Date: Tue, 19 Dec 2023 19:30:00 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4218BF9
+	for <linux-input@vger.kernel.org>; Wed, 20 Dec 2023 03:36:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=endrift.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
+Received: from nebulosa.vulpes.eutheria.net (71-212-26-68.tukw.qwest.net [71.212.26.68])
+	by endrift.com (Postfix) with ESMTPSA id 547BEA080;
+	Tue, 19 Dec 2023 19:36:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
+	t=1703043407; bh=4YMznDT+DeclENjJKuL5DS0vv0OO+1neNhfdpbJgfqQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=0R3Uow7FcRDx8VNSeRQQoQee/COdL1isA7ygOk97plMZ6tN4cRX2RB4ONxrqFbFdZ
+	 3vmGduMj+y6M24OxaI9+RCKME18168P2nRCKwd+XdhcsLGo3RsIIrBWJTj0+Tb73+o
+	 35EKWcO/qh7d3o0aPYgawfgWDB5ikR4cl51zBiWvzJmE9NAsZQUakswH+ebdopUhv5
+	 vBYifO/9NSGzblK7UyBTU81bDaL3mLOl+0O5xo+6OX8AyYGDM/WTiNbNepLFNT0Ywd
+	 4cpR5q8VKUOHFynPrbSrcBRex6Dphuds1tmf5EYZttoNmT71LelI1B2nriiL7BDcQO
+	 BbDPI4tQ94pUw==
+From: Vicki Pfau <vi@endrift.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	linux-input@vger.kernel.org
+Cc: Vicki Pfau <vi@endrift.com>
+Subject: [PATCH 0/7] HID: hid-steam: Upstream more SteamOS patches
+Date: Tue, 19 Dec 2023 19:36:09 -0800
+Message-ID: <20231220033609.2132033-1-vi@endrift.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/6] x86/vmware: Introduce vmware_hypercall API
-Content-Language: en-US
-To: kirill.shutemov@linux.intel.com
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
- bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
- tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
- richardcochran@gmail.com, linux-input@vger.kernel.org,
- dmitry.torokhov@gmail.com, zackr@vmware.com,
- linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
- namit@vmware.com, timothym@vmware.com, akaher@vmware.com, jsipek@vmware.com,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
- tzimmermann@suse.de, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- horms@kernel.org
-References: <20231219215751.9445-1-alexey.makhalov@broadcom.com>
- <20231219215751.9445-3-alexey.makhalov@broadcom.com>
- <20231219232023.u4dyuvbzbh565grk@box.shutemov.name>
- <75eed318-2d22-429d-ab95-80610ba82934@broadcom.com>
- <20231220005156.2rymnxu5bv6wdwlx@box.shutemov.name>
-From: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
- 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 EuY0
-In-Reply-To: <20231220005156.2rymnxu5bv6wdwlx@box.shutemov.name>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+This is a slew of patches that have been in testing for a while in SteamOS
+betas in one form or another. Most of them are pretty straight-forward, though
+I expect the gamepad-only mode may be preferred to be offloaded to a userspace
+daemon. Right now, the gamepad-only mode is handled by Steam when it's running,
+but has utility when it's not running too, given the presence of Lizard Mode
+(the keyboard/mouse emulation system).
 
+Vicki Pfau (7):
+  HID: hid-steam: Avoid overwriting smoothing parameter
+  HID: hid-steam: Disable watchdog instead of using a heartbeat
+  HID: hid-steam: Clean up locking
+  HID: hid-steam: Make client_opened a counter
+  HID: hid-steam: Update list of identifiers from SDL
+  HID: hid-steam: Better handling of serial number length
+  HID: hid-steam: Add gamepad-only mode switched to by holding options
 
-On 12/19/23 4:51 PM, kirill.shutemov@linux.intel.com wrote:
-> On Tue, Dec 19, 2023 at 04:17:40PM -0800, Alexey Makhalov wrote:
->>
->>
->> On 12/19/23 3:20 PM, kirill.shutemov@linux.intel.com wrote:
->>> On Tue, Dec 19, 2023 at 01:57:47PM -0800, Alexey Makhalov wrote:
->>>> +static inline
->>>> +unsigned long vmware_hypercall1(unsigned long cmd, unsigned long in1)
->>> ...
->>>> +static inline
->>>> +unsigned long vmware_hypercall3(unsigned long cmd, unsigned long in1,
->>>> +				uint32_t *out1, uint32_t *out2)
->>> ...
->>>> +static inline
->>>> +unsigned long vmware_hypercall4(unsigned long cmd, unsigned long in1,
->>>> +				uint32_t *out1, uint32_t *out2,
->>>> +				uint32_t *out3)
->>> ...
->>>> +static inline
->>>> +unsigned long vmware_hypercall5(unsigned long cmd, unsigned long in1,
->>>> +				unsigned long in3, unsigned long in4,
->>>> +				unsigned long in5, uint32_t *out2)
->>> ...
->>>> +static inline
->>>> +unsigned long vmware_hypercall6(unsigned long cmd, unsigned long in1,
->>>> +				unsigned long in3, uint32_t *out2,
->>>> +				uint32_t *out3, uint32_t *out4,
->>>> +				uint32_t *out5)
->>> ...
->>>> +static inline
->>>> +unsigned long vmware_hypercall7(unsigned long cmd, unsigned long in1,
->>>> +				unsigned long in3, unsigned long in4,
->>>> +				unsigned long in5, uint32_t *out1,
->>>> +				uint32_t *out2, uint32_t *out3)
->>>
->>> Naming is weird. The number in the name doesn't help much as there seems
->>> no system on how many of the parameters are ins and outs.
->>
->> There was internal discussion on hypercall API naming. One of proposals was
->> using 2 digits - number of input and number of output arguments.
->> And it definitely looked weird. So, we agreed to have just single number  -
->> total number of arguments excluding cmd.
-> 
-> Have you considered naming them by number of input parameters? Number of
-> output parameters as demanded by users.
-> 
-> So vmware_hypercall4() will become vmware_hypercall1() and current
-> vmware_hypercall1() and vmware_hypercall3() will go away.
-> 
-> It is still awful, but /maybe/ better that this, I donno.
-> 
+ drivers/hid/hid-steam.c | 547 ++++++++++++++++++++++++++++------------
+ 1 file changed, 391 insertions(+), 156 deletions(-)
 
-Deprecating vmware_hypercall1 and vmware_hypercall3 in favor of 
-vmware_hypercall4 will generate less efficient code for the caller of 
-first ones.
-Using current vmware_hypercall4 instead of vmware_hypercall1 will force 
-the caller to allocate additional variables (register or on stack 
-memory) for hypercall asm inline to put additional output registers on. 
-And specifically to 'usage' of *out3 - compiler will unnecessary 
-'clobber' useful rdx, when hypervisor will keep it unchanged.
+-- 
+2.42.0
 
-Unfortunately VMware hypercall ABI is not as beautiful as KVM one, 
-especially in number of output arguments and their ordering. rbp 
-register usage as an argument is a separate bummer((. So we have to work 
-with what we have.
-
-Current set of functions includes only 6 functions (for LB), which is 
-the optimum between readability, maintainability and performance. It 
-covers all current kernel callers and all new callers from yet to be 
-upstreamed patches that we have in Photon OS including 2 patches for x86 
-and arm64 guest support.
-
-Regards,
---Alexey
 
