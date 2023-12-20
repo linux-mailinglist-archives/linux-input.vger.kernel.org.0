@@ -1,136 +1,133 @@
-Return-Path: <linux-input+bounces-881-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-882-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C748195C7
-	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 01:40:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 794D78195F8
+	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 01:52:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AC3C4289252
-	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 00:40:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 317A228532A
+	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 00:52:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3606BB658;
-	Wed, 20 Dec 2023 00:38:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 257F4443C;
+	Wed, 20 Dec 2023 00:52:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="QTDae2aO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CP5SS0u5"
 X-Original-To: linux-input@vger.kernel.org
-Received: from aposti.net (aposti.net [89.234.176.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3CA8BEB
-	for <linux-input@vger.kernel.org>; Wed, 20 Dec 2023 00:38:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1703032721;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=YWh3YM95PfGapLaObaYkg5krptXBwvONTsKa1OQBHnU=;
-	b=QTDae2aOKOPYjzRkAAnWyGIRWoe1rptIo+yXvyOyAndVTwJ55BdPDWXmLQ5oI8pIE0Ki3z
-	C3EeYRbJxBR2erFkca0QTGTvrwhsgH/RCGy7h9B6KGUD5YgfYvlk8fs9SG0bKrJu7nBEGP
-	OzmK8vNnKlXp8LtX9MoIHH1FtBL/qLU=
-Message-ID: <f77b98bf015bf3f8716422ac70c4fd6051e66376.camel@crapouillou.net>
-Subject: Re: [PATCH] input: uinput: Drop checks for abs_min > abs_max
-From: Paul Cercueil <paul@crapouillou.net>
-To: Peter Hutterer <peter.hutterer@who-t.net>, Chris Morgan
-	 <macroalpha82@gmail.com>
-Cc: linux-input@vger.kernel.org, dmitry.torokhov@gmail.com, svv@google.com, 
-	biswarupp@google.com, contact@artur-rojek.eu, Chris Morgan
-	 <macromorgan@hotmail.com>
-Date: Wed, 20 Dec 2023 01:38:39 +0100
-In-Reply-To: <20231219235149.GA3401344@quokka>
-References: <20231218171653.141941-1-macroalpha82@gmail.com>
-	 <20231219235149.GA3401344@quokka>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
-	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90DDA20FC;
+	Wed, 20 Dec 2023 00:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703033553; x=1734569553;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5ihFJyqQ2ix/Npm5ZpqxasGwhfpg78Kg+weGzieTxe8=;
+  b=CP5SS0u5Hamt33CNDs+VwVTBjTcN1pZBfaSuYb17l3cpb9D4IlEgu2nI
+   hpGhIG/j9HCu41TUB8lIqHI7J9kueNm3pyFS6xiBXzelLA9WOl0g65UB0
+   SOlwUifg2A1BEkhBSt8RnWLJeuUkdnhHIa2YKuo7keWHTU1q0/fhJTmAV
+   LIWGSJEA58xfAmDaccopy7UswRyMGR/bfdY1BFnlWDWvnnu1lZZzYB7a+
+   KBlRbf47NdxtPuk+2g0pjKJl4zr9Z3aR+9tGsl1L/i2WDk0dIRkJLTTob
+   HCu9CGtD8yryEtiPB8/JGH6FgsKe3X+SWR5b6dIY0uFu1X8tEkIJtjAF/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="2566084"
+X-IronPort-AV: E=Sophos;i="6.04,290,1695711600"; 
+   d="scan'208";a="2566084"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 16:52:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="842073028"
+X-IronPort-AV: E=Sophos;i="6.04,289,1695711600"; 
+   d="scan'208";a="842073028"
+Received: from lveltman-mobl.ger.corp.intel.com (HELO box.shutemov.name) ([10.252.33.252])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 16:51:59 -0800
+Received: by box.shutemov.name (Postfix, from userid 1000)
+	id 9AD0310A43B; Wed, 20 Dec 2023 03:51:56 +0300 (+03)
+Date: Wed, 20 Dec 2023 03:51:56 +0300
+From: kirill.shutemov@linux.intel.com
+To: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+	bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
+	mingo@redhat.com, tglx@linutronix.de, x86@kernel.org,
+	netdev@vger.kernel.org, richardcochran@gmail.com,
+	linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+	zackr@vmware.com, linux-graphics-maintainer@vmware.com,
+	pv-drivers@vmware.com, namit@vmware.com, timothym@vmware.com,
+	akaher@vmware.com, jsipek@vmware.com,
+	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
+	tzimmermann@suse.de, mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com, horms@kernel.org
+Subject: Re: [PATCH v3 2/6] x86/vmware: Introduce vmware_hypercall API
+Message-ID: <20231220005156.2rymnxu5bv6wdwlx@box.shutemov.name>
+References: <20231219215751.9445-1-alexey.makhalov@broadcom.com>
+ <20231219215751.9445-3-alexey.makhalov@broadcom.com>
+ <20231219232023.u4dyuvbzbh565grk@box.shutemov.name>
+ <75eed318-2d22-429d-ab95-80610ba82934@broadcom.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <75eed318-2d22-429d-ab95-80610ba82934@broadcom.com>
 
-Hi Peter,
+On Tue, Dec 19, 2023 at 04:17:40PM -0800, Alexey Makhalov wrote:
+> 
+> 
+> On 12/19/23 3:20 PM, kirill.shutemov@linux.intel.com wrote:
+> > On Tue, Dec 19, 2023 at 01:57:47PM -0800, Alexey Makhalov wrote:
+> > > +static inline
+> > > +unsigned long vmware_hypercall1(unsigned long cmd, unsigned long in1)
+> > ...
+> > > +static inline
+> > > +unsigned long vmware_hypercall3(unsigned long cmd, unsigned long in1,
+> > > +				uint32_t *out1, uint32_t *out2)
+> > ...
+> > > +static inline
+> > > +unsigned long vmware_hypercall4(unsigned long cmd, unsigned long in1,
+> > > +				uint32_t *out1, uint32_t *out2,
+> > > +				uint32_t *out3)
+> > ...
+> > > +static inline
+> > > +unsigned long vmware_hypercall5(unsigned long cmd, unsigned long in1,
+> > > +				unsigned long in3, unsigned long in4,
+> > > +				unsigned long in5, uint32_t *out2)
+> > ...
+> > > +static inline
+> > > +unsigned long vmware_hypercall6(unsigned long cmd, unsigned long in1,
+> > > +				unsigned long in3, uint32_t *out2,
+> > > +				uint32_t *out3, uint32_t *out4,
+> > > +				uint32_t *out5)
+> > ...
+> > > +static inline
+> > > +unsigned long vmware_hypercall7(unsigned long cmd, unsigned long in1,
+> > > +				unsigned long in3, unsigned long in4,
+> > > +				unsigned long in5, uint32_t *out1,
+> > > +				uint32_t *out2, uint32_t *out3)
+> > 
+> > Naming is weird. The number in the name doesn't help much as there seems
+> > no system on how many of the parameters are ins and outs.
+> 
+> There was internal discussion on hypercall API naming. One of proposals was
+> using 2 digits - number of input and number of output arguments.
+> And it definitely looked weird. So, we agreed to have just single number  -
+> total number of arguments excluding cmd.
 
-Le mercredi 20 d=C3=A9cembre 2023 =C3=A0 09:51 +1000, Peter Hutterer a =C3=
-=A9crit=C2=A0:
-> On Mon, Dec 18, 2023 at 11:16:53AM -0600, Chris Morgan wrote:
-> > From: Chris Morgan <macromorgan@hotmail.com>
-> >=20
-> > Stop checking if the minimum abs value is greater than the maximum
-> > abs
-> > value. When the axis is inverted this condition is allowed. Without
-> > relaxing this check, it is not possible to use uinput on devices in
-> > userspace with an inverted axis, such as the adc-joystick found on
-> > many handheld gaming devices.
->=20
-> As mentioned in the other thread [1] a fair bit of userspace relies
-> on
-> that general assumption so removing it will likely cause all sorts of
-> issues.
+Have you considered naming them by number of input parameters? Number of
+output parameters as demanded by users.
 
-There is some userspace that works with it though, so why restrict it
-artificially?
+So vmware_hypercall4() will become vmware_hypercall1() and current
+vmware_hypercall1() and vmware_hypercall3() will go away.
 
-The fact that some other userspace code wouldn't work with it sounds a
-bit irrelevant. They just never encountered that min>max usage before.
+It is still awful, but /maybe/ better that this, I donno.
 
-And removing this check won't cause all sort of issues, why would it?
-It's not like the current software actively probes min>max and crash
-badly if it doesn't return -EINVAL...
-
-Cheers,
--Paul
-
->=20
-> Cheers,
-> =C2=A0=C2=A0 Petre
->=20
-> [1]
-> https://lore.kernel.org/linux-input/20231219234803.GA3396969@quokka/T/#t
-> >=20
-> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> > ---
-> > =C2=A0drivers/input/misc/uinput.c | 9 +--------
-> > =C2=A01 file changed, 1 insertion(+), 8 deletions(-)
-> >=20
-> > diff --git a/drivers/input/misc/uinput.c
-> > b/drivers/input/misc/uinput.c
-> > index d98212d55108..e90dbf2c0b34 100644
-> > --- a/drivers/input/misc/uinput.c
-> > +++ b/drivers/input/misc/uinput.c
-> > @@ -403,14 +403,7 @@ static int uinput_validate_absinfo(struct
-> > input_dev *dev, unsigned int code,
-> > =C2=A0	min =3D abs->minimum;
-> > =C2=A0	max =3D abs->maximum;
-> > =C2=A0
-> > -	if ((min !=3D 0 || max !=3D 0) && max < min) {
-> > -		printk(KERN_DEBUG
-> > -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "%s: invalid abs[%02x] min:%d m=
-ax:%d\n",
-> > -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 UINPUT_NAME, code, min, max);
-> > -		return -EINVAL;
-> > -	}
-> > -
-> > -	if (!check_sub_overflow(max, min, &range) && abs->flat >
-> > range) {
-> > +	if (!check_sub_overflow(max, min, &range) && abs->flat >
-> > abs(range)) {
-> > =C2=A0		printk(KERN_DEBUG
-> > =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "%s: abs_flat #%02x out of=
- range: %d
-> > (min:%d/max:%d)\n",
-> > =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 UINPUT_NAME, code, abs->fl=
-at, min, max);
-> > --=20
-> > 2.34.1
-> >=20
-> >=20
-
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
 
