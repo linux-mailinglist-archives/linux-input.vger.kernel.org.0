@@ -1,54 +1,54 @@
-Return-Path: <linux-input+bounces-882-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-883-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794D78195F8
-	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 01:52:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16136819609
+	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 02:00:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 317A228532A
-	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 00:52:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4EFBA1C21EAC
+	for <lists+linux-input@lfdr.de>; Wed, 20 Dec 2023 01:00:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 257F4443C;
-	Wed, 20 Dec 2023 00:52:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49489ECC;
+	Wed, 20 Dec 2023 01:00:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CP5SS0u5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="er1d/tGh"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90DDA20FC;
-	Wed, 20 Dec 2023 00:52:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7723BA2B;
+	Wed, 20 Dec 2023 01:00:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703033553; x=1734569553;
+  t=1703034009; x=1734570009;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5ihFJyqQ2ix/Npm5ZpqxasGwhfpg78Kg+weGzieTxe8=;
-  b=CP5SS0u5Hamt33CNDs+VwVTBjTcN1pZBfaSuYb17l3cpb9D4IlEgu2nI
-   hpGhIG/j9HCu41TUB8lIqHI7J9kueNm3pyFS6xiBXzelLA9WOl0g65UB0
-   SOlwUifg2A1BEkhBSt8RnWLJeuUkdnhHIa2YKuo7keWHTU1q0/fhJTmAV
-   LIWGSJEA58xfAmDaccopy7UswRyMGR/bfdY1BFnlWDWvnnu1lZZzYB7a+
-   KBlRbf47NdxtPuk+2g0pjKJl4zr9Z3aR+9tGsl1L/i2WDk0dIRkJLTTob
-   HCu9CGtD8yryEtiPB8/JGH6FgsKe3X+SWR5b6dIY0uFu1X8tEkIJtjAF/
+  bh=gIKef6p2pnRwDgZPaAPbr3bSEyMzw577pOdpYRM0VGo=;
+  b=er1d/tGhfDLuuaPgN1BFWmLPqYWd7FGILvBsEizAPPXNHVu6+GLKPMjN
+   yl0qwNr1GBqKCn4SPAIZ7rEdzAKtv7yGdTXCykJ7gM2MIhJdb/SdrR0sZ
+   Lmgxezjm0W4nYCXUhf654ZJU33qz1lLPiJl1hCElZtkiyj7Eqp7Eg+Kfy
+   2CcVmVMDEwkKYhO8VWb4OnSgoSu3a0TGEXhsamUkBKCYYIqbZw2CUhH1g
+   W0slSN1ag56izcefMws8J75aUarRuL48y/VNLC6u3JEwVSvAs8LLd3heb
+   M322DR1W4FeHB0exJZBdJ9srxKmGlQhTy0e+w91GwWZ9MHyNIpYwXLytO
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="2566084"
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="392914596"
 X-IronPort-AV: E=Sophos;i="6.04,290,1695711600"; 
-   d="scan'208";a="2566084"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 16:52:05 -0800
+   d="scan'208";a="392914596"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 17:00:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="842073028"
-X-IronPort-AV: E=Sophos;i="6.04,289,1695711600"; 
-   d="scan'208";a="842073028"
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="846534858"
+X-IronPort-AV: E=Sophos;i="6.04,290,1695711600"; 
+   d="scan'208";a="846534858"
 Received: from lveltman-mobl.ger.corp.intel.com (HELO box.shutemov.name) ([10.252.33.252])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 16:51:59 -0800
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 17:00:03 -0800
 Received: by box.shutemov.name (Postfix, from userid 1000)
-	id 9AD0310A43B; Wed, 20 Dec 2023 03:51:56 +0300 (+03)
-Date: Wed, 20 Dec 2023 03:51:56 +0300
+	id 9C43A10A43B; Wed, 20 Dec 2023 04:00:00 +0300 (+03)
+Date: Wed, 20 Dec 2023 04:00:00 +0300
 From: kirill.shutemov@linux.intel.com
 To: Alexey Makhalov <alexey.makhalov@broadcom.com>
 Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
@@ -62,12 +62,12 @@ Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
 	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
 	tzimmermann@suse.de, mripard@kernel.org,
 	maarten.lankhorst@linux.intel.com, horms@kernel.org
-Subject: Re: [PATCH v3 2/6] x86/vmware: Introduce vmware_hypercall API
-Message-ID: <20231220005156.2rymnxu5bv6wdwlx@box.shutemov.name>
+Subject: Re: [PATCH v3 6/6] x86/vmware: Add TDX hypercall support
+Message-ID: <20231220010000.y5ybey76xjckvh6y@box.shutemov.name>
 References: <20231219215751.9445-1-alexey.makhalov@broadcom.com>
- <20231219215751.9445-3-alexey.makhalov@broadcom.com>
- <20231219232023.u4dyuvbzbh565grk@box.shutemov.name>
- <75eed318-2d22-429d-ab95-80610ba82934@broadcom.com>
+ <20231219215751.9445-7-alexey.makhalov@broadcom.com>
+ <20231219232323.euweerulgsgbodx5@box.shutemov.name>
+ <ba679460-827d-40b1-bc78-bcee1c013f36@broadcom.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -76,57 +76,47 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <75eed318-2d22-429d-ab95-80610ba82934@broadcom.com>
+In-Reply-To: <ba679460-827d-40b1-bc78-bcee1c013f36@broadcom.com>
 
-On Tue, Dec 19, 2023 at 04:17:40PM -0800, Alexey Makhalov wrote:
+On Tue, Dec 19, 2023 at 04:27:51PM -0800, Alexey Makhalov wrote:
 > 
 > 
-> On 12/19/23 3:20 PM, kirill.shutemov@linux.intel.com wrote:
-> > On Tue, Dec 19, 2023 at 01:57:47PM -0800, Alexey Makhalov wrote:
-> > > +static inline
-> > > +unsigned long vmware_hypercall1(unsigned long cmd, unsigned long in1)
-> > ...
-> > > +static inline
-> > > +unsigned long vmware_hypercall3(unsigned long cmd, unsigned long in1,
-> > > +				uint32_t *out1, uint32_t *out2)
-> > ...
-> > > +static inline
-> > > +unsigned long vmware_hypercall4(unsigned long cmd, unsigned long in1,
-> > > +				uint32_t *out1, uint32_t *out2,
-> > > +				uint32_t *out3)
-> > ...
-> > > +static inline
-> > > +unsigned long vmware_hypercall5(unsigned long cmd, unsigned long in1,
-> > > +				unsigned long in3, unsigned long in4,
-> > > +				unsigned long in5, uint32_t *out2)
-> > ...
-> > > +static inline
-> > > +unsigned long vmware_hypercall6(unsigned long cmd, unsigned long in1,
-> > > +				unsigned long in3, uint32_t *out2,
-> > > +				uint32_t *out3, uint32_t *out4,
-> > > +				uint32_t *out5)
-> > ...
-> > > +static inline
-> > > +unsigned long vmware_hypercall7(unsigned long cmd, unsigned long in1,
-> > > +				unsigned long in3, unsigned long in4,
-> > > +				unsigned long in5, uint32_t *out1,
-> > > +				uint32_t *out2, uint32_t *out3)
+> On 12/19/23 3:23 PM, kirill.shutemov@linux.intel.com wrote:
+> > On Tue, Dec 19, 2023 at 01:57:51PM -0800, Alexey Makhalov wrote:
+> > > diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
+> > > index 3aa1adaed18f..ef07ab7a07e1 100644
+> > > --- a/arch/x86/kernel/cpu/vmware.c
+> > > +++ b/arch/x86/kernel/cpu/vmware.c
+> > > @@ -428,6 +428,30 @@ static bool __init vmware_legacy_x2apic_available(void)
+> > >   		(eax & BIT(VCPU_LEGACY_X2APIC));
+> > >   }
+> > > +#ifdef CONFIG_INTEL_TDX_GUEST
+> > > +unsigned long vmware_tdx_hypercall(unsigned long cmd,
+> > > +				   struct tdx_module_args *args)
+> > > +{
+> > > +	if (!hypervisor_is_type(X86_HYPER_VMWARE))
+> > > +		return 0;
+
+BTW, don't you want to warn here to? We don't expect vmware hypercalls to
+be called by non-vmware guest, do we?
+
+> > > +
+> > > +	if (cmd & ~VMWARE_CMD_MASK) {
+> > > +		pr_warn("Out of range command %x\n", cmd);
+> > > +		return 0;
 > > 
-> > Naming is weird. The number in the name doesn't help much as there seems
-> > no system on how many of the parameters are ins and outs.
+> > Is zero success? Shouldn't it be an error?
 > 
-> There was internal discussion on hypercall API naming. One of proposals was
-> using 2 digits - number of input and number of output arguments.
-> And it definitely looked weird. So, we agreed to have just single number  -
-> total number of arguments excluding cmd.
+> VMware hypercalls do not have a standard way of signalling an error.
+> To generalize expectations from the caller perspective of any existing
+> hypercalls: error (including hypercall is not supported or disabled) is when
+> return value is 0 and out1/2 are unchanged or equal to in1/in2.
 
-Have you considered naming them by number of input parameters? Number of
-output parameters as demanded by users.
+You are talking about signaling errors over hypercall transport. But if
+kernel can see that something is wrong why cannot it signal the issue
+clearly to caller. It is going to be in-kernel convention.
 
-So vmware_hypercall4() will become vmware_hypercall1() and current
-vmware_hypercall1() and vmware_hypercall3() will go away.
-
-It is still awful, but /maybe/ better that this, I donno.
+And to very least, it has to be pr_warn_once().
 
 -- 
   Kiryl Shutsemau / Kirill A. Shutemov
