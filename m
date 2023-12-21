@@ -1,200 +1,142 @@
-Return-Path: <linux-input+bounces-930-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-931-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6027981BE43
-	for <lists+linux-input@lfdr.de>; Thu, 21 Dec 2023 19:33:58 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F8081BF95
+	for <lists+linux-input@lfdr.de>; Thu, 21 Dec 2023 21:32:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BCF828B522
-	for <lists+linux-input@lfdr.de>; Thu, 21 Dec 2023 18:33:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8BA7DB22571
+	for <lists+linux-input@lfdr.de>; Thu, 21 Dec 2023 20:32:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 423A48487;
-	Thu, 21 Dec 2023 18:33:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98F017690A;
+	Thu, 21 Dec 2023 20:32:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NWFSarlv"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mqQLeXHL"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF22BA30;
-	Thu, 21 Dec 2023 18:33:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so853913a12.1;
-        Thu, 21 Dec 2023 10:33:51 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16AAB168B1
+	for <linux-input@vger.kernel.org>; Thu, 21 Dec 2023 20:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3368ac0f74dso742676f8f.0
+        for <linux-input@vger.kernel.org>; Thu, 21 Dec 2023 12:32:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703183631; x=1703788431; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YkM0jC9/yHAO382d+ILawqQDBhBWk0KZJUHJnBoAQj8=;
-        b=NWFSarlvHM76cDXDO/8ThaS7uQnaGDt0OgXn+3ercda5p6Nh44iw8TAkeSt+1kWAi7
-         dEl2uNeq/1NGaksVhRFtrHb48jPFr5WRgH9zqW5bkL9x8MvlPcAeNuC3U7c5lD1xwPDC
-         N1kl1xPJZN56+GkbHtdFHKlbaVGgCJSOGuQvzqjAfN1FxjC3uRTJbKbvS+jgpLC3v+y6
-         GkN+/h9thmYephHbHGS+TlLqnVN+POHwcU5Q0JAFuh/nh2wUaXgcPYnz8SECjqO/BrMA
-         DJQeYsTjK+V5oOfgHuXdVubKPK0RKUvjW3IxcfWn5bemto0kjtfPTkilxPVzSVAnXmNm
-         5Gug==
+        d=linaro.org; s=google; t=1703190755; x=1703795555; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=2bUdXf5YveGeNB4eiA+NRpzkRyZtEj+Yh6Sv7n2PJ34=;
+        b=mqQLeXHLnAmmUNuSiA3McdE4onVEwxKfxA/03kNoAkjj49WNRM18Y6jqBlqZMsp/UY
+         OEy5SiC0fMokDtBfUiis/JrmEtW1pJILTDqwOCo/QhiSsSHcbIYwjpHEwWo8+iPTbIxT
+         6a/Zgp5T88adsi7AAOV0cpTtF2FyDdDDp+WjtIKy7VNMGKB+pnV53ExuFxyilP0OTU2F
+         kDwgXA50URD46S+gj8H3yyw1uSTL3CYzIK1kIDjUqveIEVVvcl9DcWxPAksyywGoYts0
+         xNSrazU4RjGAP30moAtBbCvgWRQIygAo60FYDgodh8DG1YlFfr7Muzq8Y5u1CoNG4h+r
+         42qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703183631; x=1703788431;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YkM0jC9/yHAO382d+ILawqQDBhBWk0KZJUHJnBoAQj8=;
-        b=uYWf00vl0q9KUh66yJmIiaZcb3bEDX5WlqZ4E7F1qz6AykDjnjRr3e11p4Ugz3BvA4
-         fZaWosy7ZE/nPDezeVKTxG261Sh1E9eOGgRUx6RszYmOQHhuuJq8MT1W6MxKuWRXksov
-         h+dAofPiRxXmD/2P3fW8SAHr65oUgzQpIfk61vmo0Csm5P93zSv4FReADy+EPGCdLOI6
-         ssUr01I4EvYZFABPW5Cs68jcqhxZ1WspXfB6BfiS9ysw7B7d2hJeO4k14Ln+0Pjo+IhE
-         nN18+IkPEyvcOivTS7F7Ujzwip4XFfMekzRwXb6Q+0l4QNhB/3ww2Q82roZvFbVtBONf
-         JtDg==
-X-Gm-Message-State: AOJu0YyBCrsKUrRZ5xRQm2nR90rcOM2ZPnV/ApoebIi58D3/aT5iyUPP
-	6adSqNDmI1yrD7aqXAwPMMbDY1dAf2hJTg==
-X-Google-Smtp-Source: AGHT+IHebS7pSf/c5UzumBrqxQMXdQsW1Z2LHz1hJZPTMqTvpsA5neH2P+pyHDHWYXbXY1GDik9frg==
-X-Received: by 2002:a05:6a20:a10a:b0:191:6028:c6cc with SMTP id q10-20020a056a20a10a00b001916028c6ccmr133280pzk.96.1703183630744;
-        Thu, 21 Dec 2023 10:33:50 -0800 (PST)
-Received: from localhost.localdomain ([2401:4900:5f28:c37d:9ad0:e7ae:52c2:c31a])
-        by smtp.gmail.com with ESMTPSA id u26-20020a63235a000000b005c2420fb198sm1926978pgm.37.2023.12.21.10.33.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Dec 2023 10:33:49 -0800 (PST)
-From: Anshul Dalal <anshulusr@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: Anshul Dalal <anshulusr@gmail.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v1] dt-bindings: input: convert drv266x to json-schema
-Date: Fri, 22 Dec 2023 00:01:08 +0530
-Message-ID: <20231221183109.684325-1-anshulusr@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1703190755; x=1703795555;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2bUdXf5YveGeNB4eiA+NRpzkRyZtEj+Yh6Sv7n2PJ34=;
+        b=mFQ4nrvt7qQtUfs86rkyd9lPnGi3/jgfE30RRaXc570Thz1lOWJhYUBy5G8HH0m8y5
+         WBY3cy0UYC2zBLaCdKyTFDY5WxKDhLQc412weY62AVzyQzHXY7fOel2rUSi6e/JEAU4o
+         cmLXUXU3cepK6uRSDld5TbnKY6Fq0C166/g5i0Vy4G+lAiRz+c6dhd8sAT9exKO6BZ1d
+         obOR45MjsiblHhIShU6G8OCK6547QP9UwaNWKMVx6OmXWJEQXCw2OCvWvEoRWYg2k4DL
+         4j8BD+zFO4Vo31f5Nrr2JOaDP6ZkW0Ki5reL8D7MnyGfVUQd02dQQtTHtX7pZN43Xaux
+         jEhg==
+X-Gm-Message-State: AOJu0YxZC5TWEWnfO2MGl9lvxiTABoBrKN0mH82ioJZnT/jG3qhKKvfJ
+	jkAxOhvI5K8JOk7+WihZxcMPzBGPZhKySg==
+X-Google-Smtp-Source: AGHT+IHMAZxtBC6sIvVnQPjdaOj9zeE1xqrCRw1GgHNhNRzTuvXslYBTQu+CRcsTekUMF7SPIvs1Lw==
+X-Received: by 2002:a5d:4fcd:0:b0:333:2fd2:8151 with SMTP id h13-20020a5d4fcd000000b003332fd28151mr244474wrw.110.1703190755164;
+        Thu, 21 Dec 2023 12:32:35 -0800 (PST)
+Received: from [192.168.0.22] ([78.10.206.178])
+        by smtp.gmail.com with ESMTPSA id u17-20020a05640207d100b005538d504793sm1614811edy.23.2023.12.21.12.32.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Dec 2023 12:32:34 -0800 (PST)
+Message-ID: <bc9ffc7b-cc2c-47d3-8835-4fa330a3cf4a@linaro.org>
+Date: Thu, 21 Dec 2023 21:32:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] dt-bindings: input: convert drv266x to json-schema
+To: Anshul Dalal <anshulusr@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20231221183109.684325-1-anshulusr@gmail.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231221183109.684325-1-anshulusr@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Convert devicetree binding documentation for ti drv2665 and drv2667
-haptics driver to json-schema. The previously two separate bindings have
-been merged into a single drv266x.yaml.
+On 21/12/2023 19:31, Anshul Dalal wrote:
+> Convert devicetree binding documentation for ti drv2665 and drv2667
+> haptics driver to json-schema. The previously two separate bindings have
+> been merged into a single drv266x.yaml.
+> 
+> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
 
-Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
----
- .../devicetree/bindings/input/ti,drv2665.txt  | 17 -------
- .../devicetree/bindings/input/ti,drv2667.txt  | 17 -------
- .../devicetree/bindings/input/ti,drv266x.yaml | 50 +++++++++++++++++++
- 3 files changed, 50 insertions(+), 34 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/ti,drv2665.txt
- delete mode 100644 Documentation/devicetree/bindings/input/ti,drv2667.txt
- create mode 100644 Documentation/devicetree/bindings/input/ti,drv266x.yaml
 
-diff --git a/Documentation/devicetree/bindings/input/ti,drv2665.txt b/Documentation/devicetree/bindings/input/ti,drv2665.txt
-deleted file mode 100644
-index 1ba97ac04305..000000000000
---- a/Documentation/devicetree/bindings/input/ti,drv2665.txt
-+++ /dev/null
-@@ -1,17 +0,0 @@
--* Texas Instruments - drv2665 Haptics driver
--
--Required properties:
--	- compatible - "ti,drv2665" - DRV2665
--	- reg -  I2C slave address
--	- vbat-supply - Required supply regulator
--
--Example:
--
--haptics: haptics@59 {
--	compatible = "ti,drv2665";
--	reg = <0x59>;
--	vbat-supply = <&vbat>;
--};
--
--For more product information please see the link below:
--http://www.ti.com/product/drv2665
-diff --git a/Documentation/devicetree/bindings/input/ti,drv2667.txt b/Documentation/devicetree/bindings/input/ti,drv2667.txt
-deleted file mode 100644
-index 996382cf994a..000000000000
---- a/Documentation/devicetree/bindings/input/ti,drv2667.txt
-+++ /dev/null
-@@ -1,17 +0,0 @@
--* Texas Instruments - drv2667 Haptics driver
--
--Required properties:
--	- compatible - "ti,drv2667" - DRV2667
--	- reg -  I2C slave address
--	- vbat-supply - Required supply regulator
--
--Example:
--
--haptics: haptics@59 {
--	compatible = "ti,drv2667";
--	reg = <0x59>;
--	vbat-supply = <&vbat>;
--};
--
--For more product information please see the link below:
--http://www.ti.com/product/drv2667
-diff --git a/Documentation/devicetree/bindings/input/ti,drv266x.yaml b/Documentation/devicetree/bindings/input/ti,drv266x.yaml
-new file mode 100644
-index 000000000000..da1818824373
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/ti,drv266x.yaml
-@@ -0,0 +1,50 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/ti,drv266x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Texas Instruments - drv266x Haptics driver
-+
-+description: |
-+  Product Page:
-+    http://www.ti.com/product/drv2665
-+    http://www.ti.com/product/drv2667
-+
-+maintainers:
-+  - Anshul Dalal <anshulusr@gmail.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - ti,drv2665
-+      - ti,drv2667
-+
-+  reg:
-+    maxItems: 1
-+
-+  vbat-supply:
-+    description: Required supply regulator
-+
-+required:
-+  - compatible
-+  - reg
-+  - vbat-supply
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        haptics@59 {
-+            compatible = "ti,drv2667";
-+            reg = <0x59>;
-+            vbat-supply = <&vbat>;
-+        };
-+    };
--- 
-2.43.0
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
 
 
