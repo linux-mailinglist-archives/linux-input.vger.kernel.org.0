@@ -1,225 +1,146 @@
-Return-Path: <linux-input+bounces-934-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-935-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E5181C7A5
-	for <lists+linux-input@lfdr.de>; Fri, 22 Dec 2023 10:53:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9C781CA22
+	for <lists+linux-input@lfdr.de>; Fri, 22 Dec 2023 13:43:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ADC0B1C24E20
-	for <lists+linux-input@lfdr.de>; Fri, 22 Dec 2023 09:53:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D72031C2138A
+	for <lists+linux-input@lfdr.de>; Fri, 22 Dec 2023 12:43:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F51212E67;
-	Fri, 22 Dec 2023 09:53:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13AE9179A5;
+	Fri, 22 Dec 2023 12:43:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UpGsTDGR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bHtSJWT7"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060D6FBE4;
-	Fri, 22 Dec 2023 09:53:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5545139bed4so560212a12.2;
-        Fri, 22 Dec 2023 01:53:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703238788; x=1703843588; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/MJR/JY0wBte1fc/3m6wZPMOWo6cUDvO9p3vgn75NkA=;
-        b=UpGsTDGRWIEYmd4IMnvpIuTf43oQUssTfd2eFgTlPx4BdMR99NtloFa+2YILyqwQuF
-         px17zNBN9Gs5FJ3ZOO0UYsrwr9Gw43xu22fs3nzrgF/yHC3MUOrnET54wStOnWG/848P
-         fB7ni3czKHbIS+5oLlCLJsNX7kb9uQ+TMiywA5TOFDCM/f0mDMVcvrkMN5bFeAXxebCa
-         DZkA08EfaeeqXzl1+pvvBjl27x3S3JYi/4Uvnucr9HI/SCEkdTG5klWc06dHOxLLHbQP
-         zDPjj7HksYySsUzFwcWxCKSp39qrtq//HAqkd8GhFr76i2yO33muRVihoJsbq5DkhAMg
-         0S+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703238788; x=1703843588;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/MJR/JY0wBte1fc/3m6wZPMOWo6cUDvO9p3vgn75NkA=;
-        b=PDWC6/1ifvWMqZ3kjc3kcslB2Ycewrap1607mqjQj6Vo2z8X2P5+wa+n6gc+Vt+DW4
-         m5GkZFRmLjIcg23b0l6OfzUmCSmy7DAta3GZtKHyMT8vhZh0I5vtJZHLWToebb5RN/E7
-         8k5+WwZIRAft0RC0NrIELNsbktyiQd8KaVDfd5bI0klDC9c07cAswTSnuZ1hSYjxuYUo
-         c1Gtb77dt83c8oxFc79CekCbxXFvggPAr0zY2hSlxwwQDDLnKlDFM0YiJjRQeuW6/KkU
-         CVG1toJm/Uiot9MIsukF4HjUN7Ysz1C8deZjaRUib7QhEq/EXORQzY/ToqccBjIQYNAD
-         maiw==
-X-Gm-Message-State: AOJu0YxNeepyXmBlFZ2Ww2nXx+kcvGX0mqihYiAc9ap9yQkbnWLqPdxM
-	2+Wc9io7NhtJgytiB+CvXtc=
-X-Google-Smtp-Source: AGHT+IGNZG6q+jBr/NjK3sVAaow4C1vwD4Ug2rmqwznnIuzhETk+TQFxXyO6gVVqYzj4smJwcg3xCQ==
-X-Received: by 2002:a17:906:7397:b0:a26:c595:62c7 with SMTP id f23-20020a170906739700b00a26c59562c7mr91716ejl.122.1703238788266;
-        Fri, 22 Dec 2023 01:53:08 -0800 (PST)
-Received: from eichest-laptop.lan ([2a02:168:af72:0:f05b:3f84:67d1:580])
-        by smtp.gmail.com with ESMTPSA id su24-20020a17090703d800b00a26ab41d0f7sm1311838ejb.26.2023.12.22.01.53.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 01:53:07 -0800 (PST)
-From: Stefan Eichenberger <eichest@gmail.com>
-To: nick@shmanahar.org,
-	dmitry.torokhov@gmail.com,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	nicolas.ferre@microchip.com,
-	alexandre.belloni@bootlin.com,
-	claudiu.beznea@tuxon.dev,
-	linus.walleij@linaro.org,
-	francesco.dolcini@toradex.com
-Cc: linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Stefan Eichenberger <stefan.eichenberger@toradex.com>
-Subject: [PATCH v2 2/2] Input: atmel_mxt_ts - support poweroff in suspend
-Date: Fri, 22 Dec 2023 10:52:58 +0100
-Message-Id: <20231222095258.33369-3-eichest@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231222095258.33369-1-eichest@gmail.com>
-References: <20231222095258.33369-1-eichest@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A41199A1;
+	Fri, 22 Dec 2023 12:43:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703249015; x=1734785015;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=P1X6gMeflE5Q6oi2eBhZQPWUJG5lhfXKzk+M36CKQbo=;
+  b=bHtSJWT7KvCn4r5dLXMV1qs7Qs+vKSiZlu+eJ38RV/O9vmaXKjRj3lfa
+   q1Vru/zn3nFF5N80nVSEsyT6WyDwUuiWXHTJbIcZVRNvMSVlDZBv1wAxb
+   XcN1OUNx1c+Q5BnvBjXFmNugqMGJcRI7nOpWhclfalRB+W/jZB0XIvDHs
+   JsvcrA563URXjBLt7Evwo4BODr92ETRx2UWf+pCW27IOibuUDWOYa+tjt
+   I36Fm4y2ml8JqSGN8Apa1h+9HQf6PXgmD3cLxPmfd8guYvMUa9PBaEG9m
+   KTv9JUykX3r0zyVIB74yiTgmPchN4Ln/0vhegI7URnhaOv+V7b+SNizPf
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="3367122"
+X-IronPort-AV: E=Sophos;i="6.04,296,1695711600"; 
+   d="scan'208";a="3367122"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 04:43:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,296,1695711600"; 
+   d="scan'208";a="25326182"
+Received: from spandruv-desk.jf.intel.com (HELO spandruv-desk.amr.corp.intel.com) ([10.54.75.14])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 04:43:35 -0800
+Message-ID: <38313826939a468ff8c7eee24e2cf07e9eef6768.camel@linux.intel.com>
+Subject: Re: [PATCH] HID: sensor-hub: Enable hid core report processing for
+ all devices
+From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To: Yauhen Kharuzhy <jekhor@gmail.com>, Jonathan Cameron <jic23@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-iio@vger.kernel.org, Daniel Thompson
+	 <daniel.thompson@linaro.org>, linux-kernel@vger.kernel.org, Jiri Kosina
+	 <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date: Fri, 22 Dec 2023 04:43:34 -0800
+In-Reply-To: <CAKWEGV50duj-TcKdQp1BtN_QgnBZyG0WgAqo8Y5UtCinqOAh_g@mail.gmail.com>
+References: <20231219231503.1506801-1-jekhor@gmail.com>
+	 <20231220145229.020abe62@jic23-huawei>
+	 <CAKWEGV50duj-TcKdQp1BtN_QgnBZyG0WgAqo8Y5UtCinqOAh_g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-3.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+On Wed, 2023-12-20 at 17:04 +0200, Yauhen Kharuzhy wrote:
+> =D1=81=D1=80, 20 =D0=B4=D0=B5=D0=BA. 2023=E2=80=AF=D0=B3. =D0=B2 16:52, J=
+onathan Cameron <jic23@kernel.org>:
+> >=20
+> > On Wed, 20 Dec 2023 01:15:03 +0200
+> > Yauhen Kharuzhy <jekhor@gmail.com> wrote:
+> >=20
+> > > After the commit 666cf30a589a ("HID: sensor-hub: Allow multi-
+> > > function
+> > > sensor devices") hub devices are claimed by hidraw driver in
+> > > hid_connect().
+> > > This causes stoppping of processing HID reports by hid core due
+> > > to
+> > > optimization.
+> > >=20
+> > > In such case, the hid-sensor-custom driver cannot match a known
+> > > custom
+> > > sensor in hid_sensor_custom_get_known() because it try to check
+> > > custom
+> > > properties which weren't filled from the report because hid core
+> > > didn't
+> > > parsed it.
+> > >=20
+> > > As result, custom sensors like hinge angle sensor and LISS
+> > > sensors
+> > > don't work.
+> > >=20
+> > > Mark the sensor hub devices claimed by some driver to avoid
+> > > hidraw-related
+> > > optimizations.
+> > >=20
+> > > Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
+> > Fixes tag?
+>=20
+> Fixes: 666cf30a589a ("HID: sensor-hub: Allow multi-function sensor
+> devices")
+>=20
+This flag causes
+ 		hdev->claimed |=3D HID_CLAIMED_DRIVER;
+I don't see the flag is used anywhere after this assignment in hid
+core. Only two other drivers are setting this flag. We need Jiri's help
+here why this is a special case.
 
-Add a new device tree property to indicate that the device should be
-powered off in suspend mode. We have a shared regulator that powers the
-display, a USB hub and some other peripherals. The maXTouch controller
-doesn't normally disable the regulator in suspend mode, so our extra
-peripherals stay powered on. This is not desirable as it consumes more
-power. With this patch we add the option to disable the regulator in
-suspend mode for the maXTouch and accept the longer initialisation time.
+Thanks,
+Srinivas
 
-Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
----
- drivers/input/touchscreen/atmel_mxt_ts.c | 72 ++++++++++++++++++------
- 1 file changed, 55 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 20094b9899f0..3f7f58f1c930 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -317,6 +317,7 @@ struct mxt_data {
- 	struct gpio_desc *reset_gpio;
- 	struct gpio_desc *wake_gpio;
- 	bool use_retrigen_workaround;
-+	bool poweroff_sleep;
- 
- 	/* Cached parameters from object table */
- 	u16 T5_address;
-@@ -2799,15 +2800,18 @@ static int mxt_configure_objects(struct mxt_data *data,
- 			dev_warn(dev, "Error %d updating config\n", error);
- 	}
- 
--	if (data->multitouch) {
--		error = mxt_initialize_input_device(data);
--		if (error)
--			return error;
--	} else {
--		dev_warn(dev, "No touch object detected\n");
--	}
-+	/* If input device is not already registered */
-+	if (!data->input_dev) {
-+		if (data->multitouch) {
-+			error = mxt_initialize_input_device(data);
-+			if (error)
-+				return error;
-+		} else {
-+			dev_warn(dev, "No touch object detected\n");
-+		}
- 
--	mxt_debug_init(data);
-+		mxt_debug_init(data);
-+	}
- 
- 	return 0;
- }
-@@ -3328,6 +3332,8 @@ static int mxt_probe(struct i2c_client *client)
- 		msleep(MXT_RESET_INVALID_CHG);
- 	}
- 
-+	data->poweroff_sleep = device_property_read_bool(&client->dev,
-+							 "atmel,poweroff-sleep");
- 	/*
- 	 * Controllers like mXT1386 have a dedicated WAKE line that could be
- 	 * connected to a GPIO or to I2C SCL pin, or permanently asserted low.
-@@ -3390,12 +3396,21 @@ static int mxt_suspend(struct device *dev)
- 	if (!input_dev)
- 		return 0;
- 
--	mutex_lock(&input_dev->mutex);
-+	if (!device_may_wakeup(dev) && data->poweroff_sleep) {
-+		if (data->reset_gpio)
-+			gpiod_set_value(data->reset_gpio, 1);
- 
--	if (input_device_enabled(input_dev))
--		mxt_stop(data);
-+		regulator_bulk_disable(ARRAY_SIZE(data->regulators),
-+				data->regulators);
-+		data->T44_address = 0;
-+	} else {
-+		mutex_lock(&input_dev->mutex);
-+
-+		if (input_device_enabled(input_dev))
-+			mxt_stop(data);
- 
--	mutex_unlock(&input_dev->mutex);
-+		mutex_unlock(&input_dev->mutex);
-+	}
- 
- 	disable_irq(data->irq);
- 
-@@ -3411,14 +3426,37 @@ static int mxt_resume(struct device *dev)
- 	if (!input_dev)
- 		return 0;
- 
--	enable_irq(data->irq);
-+	if (!device_may_wakeup(dev) && data->poweroff_sleep) {
-+		int ret;
- 
--	mutex_lock(&input_dev->mutex);
-+		ret = regulator_bulk_enable(ARRAY_SIZE(data->regulators),
-+				data->regulators);
-+		if (ret) {
-+			dev_err(dev, "failed to enable regulators: %d\n",
-+					ret);
-+			return ret;
-+		}
-+		msleep(MXT_BACKUP_TIME);
- 
--	if (input_device_enabled(input_dev))
--		mxt_start(data);
-+		if (data->reset_gpio) {
-+			/* Wait a while and then de-assert the RESET GPIO line */
-+			msleep(MXT_RESET_GPIO_TIME);
-+			gpiod_set_value(data->reset_gpio, 0);
-+			msleep(MXT_RESET_INVALID_CHG);
-+		}
- 
--	mutex_unlock(&input_dev->mutex);
-+		/* This also enables the irq again */
-+		mxt_initialize(data);
-+	} else {
-+		enable_irq(data->irq);
-+
-+		mutex_lock(&input_dev->mutex);
-+
-+		if (input_device_enabled(input_dev))
-+			mxt_start(data);
-+
-+		mutex_unlock(&input_dev->mutex);
-+	}
- 
- 	return 0;
- }
--- 
-2.40.1
+> >=20
+> > > ---
+> > > =C2=A0drivers/hid/hid-sensor-hub.c | 2 +-
+> > > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/drivers/hid/hid-sensor-hub.c b/drivers/hid/hid-
+> > > sensor-hub.c
+> > > index 2eba152e8b90..26e93a331a51 100644
+> > > --- a/drivers/hid/hid-sensor-hub.c
+> > > +++ b/drivers/hid/hid-sensor-hub.c
+> > > @@ -632,7 +632,7 @@ static int sensor_hub_probe(struct hid_device
+> > > *hdev,
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 INIT_LIST_HEAD(&hdev->inputs);
+> > >=20
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D hid_hw_start(hdev, HID_CONNECT_DEFA=
+ULT);
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D hid_hw_start(hdev, HID_CONNECT_DEFA=
+ULT |
+> > > HID_CONNECT_DRIVER);
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret) {
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 hid_err(hdev, "hw start failed\n");
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 return ret;
+> >=20
+>=20
+>=20
 
 
