@@ -1,108 +1,99 @@
-Return-Path: <linux-input+bounces-940-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-941-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290D781CD85
-	for <lists+linux-input@lfdr.de>; Fri, 22 Dec 2023 18:17:13 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 456EA81CD89
+	for <lists+linux-input@lfdr.de>; Fri, 22 Dec 2023 18:25:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5A1E41C2128A
-	for <lists+linux-input@lfdr.de>; Fri, 22 Dec 2023 17:17:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 01CB0285484
+	for <lists+linux-input@lfdr.de>; Fri, 22 Dec 2023 17:25:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16E8A28DC0;
-	Fri, 22 Dec 2023 17:17:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A643A28DBC;
+	Fri, 22 Dec 2023 17:25:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ain3UOoc"
+	dkim=pass (1024-bit key) header.d=gimli.ms.mff.cuni.cz header.i=@gimli.ms.mff.cuni.cz header.b="ZNZmAtXS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from nikam.ms.mff.cuni.cz (nikam.ms.mff.cuni.cz [195.113.20.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE3E28E06
-	for <linux-input@vger.kernel.org>; Fri, 22 Dec 2023 17:17:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40d12b56a38so20918205e9.2
-        for <linux-input@vger.kernel.org>; Fri, 22 Dec 2023 09:17:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703265421; x=1703870221; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mq4hw0QEMuAE36vGSIkC6Ps61LI2Ve4bHaG1hFDZ13Q=;
-        b=ain3UOoc4wEJaaHa7ZZEKan2qNhcinKrcxqyQ1dTwrrKTf7XwsSzGSTTe1OEsEONHP
-         6E4t1xsIzKpVYJ9RpeFNlHnlXwRRtpr6YOwSsetUcXrQjCcrBNj2T1wzC/Ug6+IA2st1
-         iCCjI16Znl7SgWUsu4eP2Nq8MfOKdO2h85x5q1dUCM4kjEErew33MUDsOgnBRjKHZ8VK
-         CxT3QPflRiKYn4oKv20IqTVqPz/jXDyceNJom1+e5GOq//qhr/2PnpSUYvMSaskTAV4U
-         t+8yTzenPKBmDG2vfkO811vOlLfDVDjKdPX7Qg8ORbQGykExg3eNNRxR3B4vbPnuO952
-         Fb+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703265421; x=1703870221;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mq4hw0QEMuAE36vGSIkC6Ps61LI2Ve4bHaG1hFDZ13Q=;
-        b=P2qjKjyYbye12k9ugrkqIsbNcVWCbRapDdIKtKZiBlFwScJyMB9pdXLkEZZ8v2aL46
-         1iE7Xcw2n6QEZIfu0FJMuZ0ETWO0FBHRWans9SgKvTBES5/T050+AaSWOGWYv04z/j92
-         d5yP1+XtfpbW8m46JM+m0OZRm8YHzYIRxc6ZMcZU81AXu4IhK1GqyNXQ6g89m8cXOI35
-         8nM5Mzq9L6suJbdMJNVZSJ8ZoG5bXS3cgiR/1ia+GxNnzIkSKgNDsTL8InuODXEecWgT
-         LBSUb0LpVRfmHloTLZboy2BffmPmtgKgH02OBVMHzoGuOA5TI9xhRuFGv1j9E78qXe+N
-         mYdQ==
-X-Gm-Message-State: AOJu0YyCaeuJnS2iI9txW7xFznl6F2G3emycDUl12atlL9It99Wo6XrQ
-	ebDetB3evZMAOm2aJlkf0jadEyEyEWK+gw==
-X-Google-Smtp-Source: AGHT+IFaN3v5QDgb99GGaLTsrTekLQJWsCsgqmcpdKm8JNeIDtdrU8yC3cSdFSgBABXMYnt8bkW5/Q==
-X-Received: by 2002:a05:600c:4e4b:b0:40d:44c6:6fc3 with SMTP id e11-20020a05600c4e4b00b0040d44c66fc3mr405225wmq.349.1703265420232;
-        Fri, 22 Dec 2023 09:17:00 -0800 (PST)
-Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
-        by smtp.gmail.com with ESMTPSA id v14-20020a05600c444e00b0040c58e410a3sm15458709wmn.14.2023.12.22.09.16.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 09:16:59 -0800 (PST)
-Date: Fri, 22 Dec 2023 17:16:57 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Yauhen Kharuzhy <jekhor@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH] HID: sensor-hub: Enable hid core report processing for
- all devices
-Message-ID: <20231222171657.GA78460@aspen.lan>
-References: <20231219231503.1506801-1-jekhor@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23EF525763;
+	Fri, 22 Dec 2023 17:25:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gimli.ms.mff.cuni.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gimli.ms.mff.cuni.cz
+Received: from gimli.ms.mff.cuni.cz (gimli.ms.mff.cuni.cz [195.113.20.176])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by nikam.ms.mff.cuni.cz (Postfix) with ESMTPS id D8F7B28C52C;
+	Fri, 22 Dec 2023 18:25:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gimli.ms.mff.cuni.cz;
+	s=gen1; t=1703265917;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o11YE5j79FN8PAmtNGUeQ/O6aLa108mHrEVJebvZVkA=;
+	b=ZNZmAtXS6ynEkqeZFfs1vx18Bm+f+bAqFuYywlmaEqdrOSPLxrCeoVuj8TxtJxkkHQyPwA
+	9uHFWxRcqi0HnHV7gVTvGDEV1UogKoEk5TvY1qgbgptZJNcmYvYvCbNC8FOHKLSN/FIP/t
+	Q1yR253z3c8GzhRICrHMIyFmNaceLE8=
+Received: from localhost (internet5.mraknet.com [185.200.108.250])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: karelb)
+	by gimli.ms.mff.cuni.cz (Postfix) with ESMTPSA id A9B2D447BF5;
+	Fri, 22 Dec 2023 18:25:17 +0100 (CET)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231219231503.1506801-1-jekhor@gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 22 Dec 2023 18:25:17 +0100
+Message-Id: <CXV1DK9TRFFE.2XFOC3C4K4N52@gimli.ms.mff.cuni.cz>
+Cc: "Karel Balej" <balejk@matfyz.cz>, "Dmitry Torokhov"
+ <dmitry.torokhov@gmail.com>, "Krzysztof Kozlowski"
+ <krzysztof.kozlowski+dt@linaro.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Lee Jones" <lee@kernel.org>, <linux-input@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+ <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>
+Subject: Re: [RFC PATCH 1/5] dt-bindings: mfd: add entry for the Marvell
+ 88PM88X PMICs
+To: "Rob Herring" <robh@kernel.org>
+From: "Karel Balej" <karelb@gimli.ms.mff.cuni.cz>
+References: <20231217131838.7569-1-karelb@gimli.ms.mff.cuni.cz>
+ <20231217131838.7569-2-karelb@gimli.ms.mff.cuni.cz>
+ <20231218151718.GA3827526-robh@kernel.org>
+In-Reply-To: <20231218151718.GA3827526-robh@kernel.org>
 
-On Wed, Dec 20, 2023 at 01:15:03AM +0200, Yauhen Kharuzhy wrote:
-> After the commit 666cf30a589a ("HID: sensor-hub: Allow multi-function
-> sensor devices") hub devices are claimed by hidraw driver in hid_connect().
-> This causes stoppping of processing HID reports by hid core due to
-> optimization.
->
-> In such case, the hid-sensor-custom driver cannot match a known custom
-> sensor in hid_sensor_custom_get_known() because it try to check custom
-> properties which weren't filled from the report because hid core didn't
-> parsed it.
->
-> As result, custom sensors like hinge angle sensor and LISS sensors
-> don't work.
->
-> Mark the sensor hub devices claimed by some driver to avoid hidraw-related
-> optimizations.
->
-> Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
+Rob,
 
-I dusted off the Yoga C630 that provoked me into posting
-666cf30a589a ("HID: sensor-hub: Allow multi-function sensor devices")
-in the first place. Keyboard is still going strong so isn't not
-comprehensive but for whatever it is worth this is:
-Tested-by: Daniel Thompson <daniel.thompson@linaro.org>
+thank you very much for your feedback.
 
+On Mon Dec 18, 2023 at 4:17 PM CET, Rob Herring wrote:
+> > +  Marvell 88PM880 and 88PM886 are two similar PMICs providing
+> > +  several functions such as onkey, regulators or battery and
+> > +  charger. Both seem to come in two revisions -- A0 and A1.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: marvell,88pm886-a1
+>
+> The description talks about 4 different devices, but only 1 here.=20
+>
+> Do you expect to need A0 support? Devices with these PMICs should be=20
+> known and few, right?=20
 
-Daniel.
+I know of three smartphones which have 88PM886 and all of them (at least
+the revisions that have been tested) seem to use A1. So no, I don't know
+of any device that would need A0, but I wanted have the driver ready in
+case somebody needed to add it later. What change do you then suggest?
+
+Thank you and kind regards,
+K. B.
 
