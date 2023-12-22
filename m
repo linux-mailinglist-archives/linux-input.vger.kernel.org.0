@@ -1,142 +1,113 @@
-Return-Path: <linux-input+bounces-931-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-932-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F8081BF95
-	for <lists+linux-input@lfdr.de>; Thu, 21 Dec 2023 21:32:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F3E781C79E
+	for <lists+linux-input@lfdr.de>; Fri, 22 Dec 2023 10:53:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8BA7DB22571
-	for <lists+linux-input@lfdr.de>; Thu, 21 Dec 2023 20:32:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 613EE1C248F5
+	for <lists+linux-input@lfdr.de>; Fri, 22 Dec 2023 09:53:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98F017690A;
-	Thu, 21 Dec 2023 20:32:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B0A9F9FF;
+	Fri, 22 Dec 2023 09:53:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mqQLeXHL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hHvi5Wy8"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16AAB168B1
-	for <linux-input@vger.kernel.org>; Thu, 21 Dec 2023 20:32:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3368ac0f74dso742676f8f.0
-        for <linux-input@vger.kernel.org>; Thu, 21 Dec 2023 12:32:36 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92AB7FBE5;
+	Fri, 22 Dec 2023 09:53:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a22deb95d21so203445266b.3;
+        Fri, 22 Dec 2023 01:53:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703190755; x=1703795555; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=2bUdXf5YveGeNB4eiA+NRpzkRyZtEj+Yh6Sv7n2PJ34=;
-        b=mqQLeXHLnAmmUNuSiA3McdE4onVEwxKfxA/03kNoAkjj49WNRM18Y6jqBlqZMsp/UY
-         OEy5SiC0fMokDtBfUiis/JrmEtW1pJILTDqwOCo/QhiSsSHcbIYwjpHEwWo8+iPTbIxT
-         6a/Zgp5T88adsi7AAOV0cpTtF2FyDdDDp+WjtIKy7VNMGKB+pnV53ExuFxyilP0OTU2F
-         kDwgXA50URD46S+gj8H3yyw1uSTL3CYzIK1kIDjUqveIEVVvcl9DcWxPAksyywGoYts0
-         xNSrazU4RjGAP30moAtBbCvgWRQIygAo60FYDgodh8DG1YlFfr7Muzq8Y5u1CoNG4h+r
-         42qA==
+        d=gmail.com; s=20230601; t=1703238787; x=1703843587; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0XSn0qtrctsj5NofJhols7aiVK9MkKubyEzCV4SaRbE=;
+        b=hHvi5Wy8kXHz5OwyaSAVTVQBFIyIN74Y/xQLA1vdt0O7nnW/RRhoHioAqPwza/LTSJ
+         7ZqXmTFmmAb2tgBop4RwuN0GCNzjaXs8cceips6S2f0rrEKmhLYh4u1aTg4uOA1PGwLL
+         wFa6zwqC/tadVHRV5tLh5plL9a4GpGdoqgjBS6zBwD3WqVWFEuYUOHKXZ5PAIVHac7oX
+         +qS/OQYd+teXSkA4ygiGEp9pkp9C7dbITTcObkqgJ0mRuA1oXbyOoShaJQqpGknstdDL
+         FY2Km2ku7vMrVoiAPqMqOsVgr/Lp3qlODXlVxwZLeE/XUP5WU271sEwaGIASa/Ay2Gf7
+         4Z4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703190755; x=1703795555;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2bUdXf5YveGeNB4eiA+NRpzkRyZtEj+Yh6Sv7n2PJ34=;
-        b=mFQ4nrvt7qQtUfs86rkyd9lPnGi3/jgfE30RRaXc570Thz1lOWJhYUBy5G8HH0m8y5
-         WBY3cy0UYC2zBLaCdKyTFDY5WxKDhLQc412weY62AVzyQzHXY7fOel2rUSi6e/JEAU4o
-         cmLXUXU3cepK6uRSDld5TbnKY6Fq0C166/g5i0Vy4G+lAiRz+c6dhd8sAT9exKO6BZ1d
-         obOR45MjsiblHhIShU6G8OCK6547QP9UwaNWKMVx6OmXWJEQXCw2OCvWvEoRWYg2k4DL
-         4j8BD+zFO4Vo31f5Nrr2JOaDP6ZkW0Ki5reL8D7MnyGfVUQd02dQQtTHtX7pZN43Xaux
-         jEhg==
-X-Gm-Message-State: AOJu0YxZC5TWEWnfO2MGl9lvxiTABoBrKN0mH82ioJZnT/jG3qhKKvfJ
-	jkAxOhvI5K8JOk7+WihZxcMPzBGPZhKySg==
-X-Google-Smtp-Source: AGHT+IHMAZxtBC6sIvVnQPjdaOj9zeE1xqrCRw1GgHNhNRzTuvXslYBTQu+CRcsTekUMF7SPIvs1Lw==
-X-Received: by 2002:a5d:4fcd:0:b0:333:2fd2:8151 with SMTP id h13-20020a5d4fcd000000b003332fd28151mr244474wrw.110.1703190755164;
-        Thu, 21 Dec 2023 12:32:35 -0800 (PST)
-Received: from [192.168.0.22] ([78.10.206.178])
-        by smtp.gmail.com with ESMTPSA id u17-20020a05640207d100b005538d504793sm1614811edy.23.2023.12.21.12.32.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Dec 2023 12:32:34 -0800 (PST)
-Message-ID: <bc9ffc7b-cc2c-47d3-8835-4fa330a3cf4a@linaro.org>
-Date: Thu, 21 Dec 2023 21:32:33 +0100
+        d=1e100.net; s=20230601; t=1703238787; x=1703843587;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0XSn0qtrctsj5NofJhols7aiVK9MkKubyEzCV4SaRbE=;
+        b=cwA+4atnj2nnlw5y9LW9SRu41FyNnpETBK0boJWp9yUIK99qi/IYJP2sqzviSb/6Pi
+         BjBGsboenx+/Qhu068JQcxrFo4Aqg6jXvnlURilM6AlXVEobBmyEHSOQqe22uEoF+09E
+         nJssaT8cKA1V1BU1UeIs9T7hAA4ST8J7IPPSOZJmtxLOtraNZkROxC22wL8lkfEcpHVw
+         kw02Wr0XpB7xMY6phnhhZrOswjyX5D83QVwUr3PUpFuUt3UqxqF8gprbx5Cl7myG3Xdr
+         q6seP6MGL66tUPaCjTDB3qFivCusBokdoArmgqGS9sbPPmo69pM9sK3c3OJUGbRfyEIx
+         WlFw==
+X-Gm-Message-State: AOJu0YwA6GSHqfyd3/SJVPXOgQA/1TPSY1md496X/GYY15VlrwoqPwJn
+	R4vctjKEMn3sYvDCJB4ZfsE=
+X-Google-Smtp-Source: AGHT+IH1WtUh4lLDLXG5IiblI45G3p6EXiy1nYiInTnkW1SJPSDVOYTwlRUoP94KmI9gaBCJDsAvhg==
+X-Received: by 2002:a17:906:198d:b0:a26:975b:a18d with SMTP id g13-20020a170906198d00b00a26975ba18dmr521736ejd.148.1703238786352;
+        Fri, 22 Dec 2023 01:53:06 -0800 (PST)
+Received: from eichest-laptop.lan ([2a02:168:af72:0:f05b:3f84:67d1:580])
+        by smtp.gmail.com with ESMTPSA id su24-20020a17090703d800b00a26ab41d0f7sm1311838ejb.26.2023.12.22.01.53.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Dec 2023 01:53:06 -0800 (PST)
+From: Stefan Eichenberger <eichest@gmail.com>
+To: nick@shmanahar.org,
+	dmitry.torokhov@gmail.com,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	nicolas.ferre@microchip.com,
+	alexandre.belloni@bootlin.com,
+	claudiu.beznea@tuxon.dev,
+	linus.walleij@linaro.org,
+	francesco.dolcini@toradex.com
+Cc: linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Stefan Eichenberger <stefan.eichenberger@toradex.com>
+Subject: [PATCH v2 0/2] Add a property to turn off the max touch controller in suspend mode
+Date: Fri, 22 Dec 2023 10:52:56 +0100
+Message-Id: <20231222095258.33369-1-eichest@gmail.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] dt-bindings: input: convert drv266x to json-schema
-To: Anshul Dalal <anshulusr@gmail.com>, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231221183109.684325-1-anshulusr@gmail.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231221183109.684325-1-anshulusr@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 21/12/2023 19:31, Anshul Dalal wrote:
-> Convert devicetree binding documentation for ti drv2665 and drv2667
-> haptics driver to json-schema. The previously two separate bindings have
-> been merged into a single drv266x.yaml.
-> 
-> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
 
+Our hardware has a shared regulator that powers various peripherals such
+as the display, touch, USB hub, etc. Since the Maxtouch controller
+doesn't currently allow it to be turned off, this regulator has to stay
+on in suspend mode. This increases the overall power consumption. In
+order to turn off the controller when the system goes into suspend mode,
+this series adds a device tree property to the maxtouch driver that
+allows the controller to be turned off completely and ensurs that it can
+resume from the power off state.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Changes since v1:
+- Rename the property and change the description (Krzysztof, Linus,
+  Dmitry, Conor)
 
-Best regards,
-Krzysztof
+Stefan Eichenberger (2):
+  dt-bindings: input: atmel,maxtouch: add poweroff-sleep property
+  Input: atmel_mxt_ts - support poweroff in suspend
+
+ .../bindings/input/atmel,maxtouch.yaml        |  6 ++
+ drivers/input/touchscreen/atmel_mxt_ts.c      | 72 ++++++++++++++-----
+ 2 files changed, 61 insertions(+), 17 deletions(-)
+
+-- 
+2.40.1
 
 
