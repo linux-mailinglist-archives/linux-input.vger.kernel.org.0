@@ -1,71 +1,104 @@
-Return-Path: <linux-input+bounces-958-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-959-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BF1A81D670
-	for <lists+linux-input@lfdr.de>; Sat, 23 Dec 2023 21:21:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F342B81D6BA
+	for <lists+linux-input@lfdr.de>; Sat, 23 Dec 2023 23:12:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 09326282BD4
-	for <lists+linux-input@lfdr.de>; Sat, 23 Dec 2023 20:21:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A39D1F21E02
+	for <lists+linux-input@lfdr.de>; Sat, 23 Dec 2023 22:12:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8A4815E93;
-	Sat, 23 Dec 2023 20:21:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FB34171A7;
+	Sat, 23 Dec 2023 22:12:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f+UCuHfa"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="SMOMG5yQ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A21D15EAC;
-	Sat, 23 Dec 2023 20:21:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0BA1BC433C7;
-	Sat, 23 Dec 2023 20:21:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703362870;
-	bh=Pp6Ff+44Gh4QtIn+FMTbYm+uXyY5nOGRCkalUw/K8YM=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=f+UCuHfaragTMr47SfN4rIS2PBoEziIB+M2HrbK2P/9GafT8ycQ8XlHf9XfsbSixs
-	 4JM3N3+GEsYCbLyApWOzy+bEP3PtSY2phIY0Mu6ejxkLcwhRM7FHu1rTqj078YOq+U
-	 WByuPLbYgRoWgbxN3AH/OTgKwyJfXiyr+dwTR2dOwPjn10JxB1j/hvmZGippQuf4Vn
-	 o/F0xq/bXiKT8m5I3B4p9cRVB7bVNsQHQgwm1sOjcXljAgVJqkfSzHmP+DvQAvs97O
-	 p+2fAgsojx/kc1AN2mpY8KOLoZDeETFWuRZZNvl8VfCE3rmMjx5dHC34iMa34DYTbq
-	 YCOwajEK7/oGA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id EE41DC561EE;
-	Sat, 23 Dec 2023 20:21:09 +0000 (UTC)
-Subject: Re: [git pull] Input updates for v6.7-rc6
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <ZYaQvgIr99ixMKBS@google.com>
-References: <ZYaQvgIr99ixMKBS@google.com>
-X-PR-Tracked-List-Id: <linux-input.vger.kernel.org>
-X-PR-Tracked-Message-Id: <ZYaQvgIr99ixMKBS@google.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.7-rc6
-X-PR-Tracked-Commit-Id: ea3715941a9b7d816a1e9096ac0577900af2a69e
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: fa655abe42c65e7e4ad52baf280dadfb571c110e
-Message-Id: <170336286996.28590.643465141376069811.pr-tracker-bot@kernel.org>
-Date: Sat, 23 Dec 2023 20:21:09 +0000
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DF617992;
+	Sat, 23 Dec 2023 22:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=WQqgGTEwuLhlIxmsY9OCm79lCP4c8fjqeivswo07Uss=; b=SMOMG5yQw5LmvcVevj3y9hKNjd
+	3ubyOctZi6yzf1g4UMsO9JkOV1rru8GDfB7jk+W0WHvXM5aKY9weUet+C5hGsoNpempy7wOSrk7nn
+	/jbPQzpTwlqjf9TKn9xxJYXLCXitBEvFb2Lc9ukh2UyCC0RHzjPMPPdxjWwwh4Fv36gjuPEGoUbuh
+	2U9S1XED1glSbQZxsQBWPI0SbDLk6mByt4VPvSxa652w1o4lNvIeFjlA0TB/Xkbul+cfVRwKpNo4W
+	+EEP3utuEdhOUzbCLmsu+UmnElaV0Fs5Rava1qVdq/bNAFFyULHqQZ2+s/AsFrWcgea1QhPUzrH8q
+	JdiAwywQ==;
+Received: from p200301077700c3001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:107:7700:c300:1a3d:a2ff:febf:d33a] helo=aktux)
+	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <andreas@kemnade.info>)
+	id 1rHAEJ-007f7W-3c; Sat, 23 Dec 2023 23:12:23 +0100
+Received: from andi by aktux with local (Exim 4.96)
+	(envelope-from <andreas@kemnade.info>)
+	id 1rHAEI-003Fa2-0E;
+	Sat, 23 Dec 2023 23:12:22 +0100
+From: Andreas Kemnade <andreas@kemnade.info>
+To: dmitry.torokhov@gmail.com,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	linux-imx@nxp.com,
+	rydberg@bitmath.org,
+	andreas@kemnade.info,
+	linus.walleij@linaro.org,
+	Jonathan.Cameron@huawei.com,
+	u.kleine-koenig@pengutronix.de,
+	heiko@sntech.de,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v3 0/4] Input: zforce_ts: standard properties
+Date: Sat, 23 Dec 2023 23:12:09 +0100
+Message-Id: <20231223221213.774868-1-andreas@kemnade.info>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Fri, 22 Dec 2023 23:48:14 -0800:
+Accept standard touchscreen properties to also enable specification
+of touchscreen orientation.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git tags/input-for-v6.7-rc6
+Changes in V3:
+- adding R-bys, no change in code
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/fa655abe42c65e7e4ad52baf280dadfb571c110e
+Changes in V2:
+- correct mail address in .yaml
 
-Thank you!
+Andreas Kemnade (4):
+  dt-bindings: touchscreen: convert neonode,zforce to json-schema
+  dt-bindings: touchscreen: neonode,zforce: Use standard properties
+  Input: zforce_ts: Accept standard touchscreen properties
+  ARM: dts: imx6sl-tolino-shine2hd: fix touchscreen rotation
+
+ .../input/touchscreen/neonode,zforce.yaml     | 72 +++++++++++++++++++
+ .../bindings/input/touchscreen/zforce_ts.txt  | 34 ---------
+ .../dts/nxp/imx/imx6sl-tolino-shine2hd.dts    |  6 +-
+ drivers/input/touchscreen/zforce_ts.c         | 36 +++++-----
+ 4 files changed, 94 insertions(+), 54 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/neonode,zforce.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/zforce_ts.txt
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.39.2
+
 
