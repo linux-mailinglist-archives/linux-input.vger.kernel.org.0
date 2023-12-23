@@ -1,80 +1,144 @@
-Return-Path: <linux-input+bounces-949-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-950-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E376181D333
-	for <lists+linux-input@lfdr.de>; Sat, 23 Dec 2023 09:40:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABB7081D343
+	for <lists+linux-input@lfdr.de>; Sat, 23 Dec 2023 10:13:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 785321F2264D
-	for <lists+linux-input@lfdr.de>; Sat, 23 Dec 2023 08:40:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CDFDF1C21CB8
+	for <lists+linux-input@lfdr.de>; Sat, 23 Dec 2023 09:13:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3014F8824;
-	Sat, 23 Dec 2023 08:40:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EA638F5B;
+	Sat, 23 Dec 2023 09:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=maquefel.me header.i=@maquefel.me header.b="I+mEfOTd"
 X-Original-To: linux-input@vger.kernel.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from forward501b.mail.yandex.net (forward501b.mail.yandex.net [178.154.239.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547278BEC;
-	Sat, 23 Dec 2023 08:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rGx9J-0005AO-V1; Sat, 23 Dec 2023 09:14:22 +0100
-Message-ID: <a59faf48-2a8a-41ce-8d59-b65a7cdfdf17@leemhuis.info>
-Date: Sat, 23 Dec 2023 09:14:31 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25728F4E;
+	Sat, 23 Dec 2023 09:13:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maquefel.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maquefel.me
+Received: from mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net [IPv6:2a02:6b8:c08:73a3:0:640:6804:0])
+	by forward501b.mail.yandex.net (Yandex) with ESMTP id 488EE60FFE;
+	Sat, 23 Dec 2023 12:13:02 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id tCMesXBc0Os0-V3hE6yzp;
+	Sat, 23 Dec 2023 12:13:00 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maquefel.me; s=mail;
+	t=1703322780; bh=wRrzZn5duH4w8JvE1tgyoLXGclY5mY0J/Xp8ep3wT7g=;
+	h=References:Date:In-Reply-To:Cc:To:From:Subject:Message-ID;
+	b=I+mEfOTd/HhVtsgLl8P4bJlmK+xe/BHC5G4qGEcK5yI9fE4yNAbvURJYd9ebsbNPL
+	 ELVCWnXzpctwGO9/5E6Lh3j51mRZlNunB6U0Mz9Ob7UmkE2sFrGQRvIiTXfqFCBTJB
+	 6hHC1txfBTVi+nHDb1JfUThgM9rSEbD1FlaR3i6c=
+Authentication-Results: mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net; dkim=pass header.i=@maquefel.me
+Message-ID: <d6e898200b96e816ea8c8c9a847307088ec5821c.camel@maquefel.me>
+Subject: Re: [PATCH v6 00/40] ep93xx device tree conversion
+From: Nikita Shubin <nikita.shubin@maquefel.me>
+To: Andy Shevchenko <andy@kernel.org>
+Cc: Hartley Sweeten <hsweeten@visionengravers.com>, Alexander Sverdlin
+ <alexander.sverdlin@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Lukasz Majewski <lukma@denx.de>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Sebastian
+ Reichel <sre@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley
+ <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>, Wim Van Sebroeck
+ <wim@linux-watchdog.org>,  Guenter Roeck <linux@roeck-us.net>, Thierry
+ Reding <thierry.reding@gmail.com>, Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
+ <u.kleine-koenig@pengutronix.de>, Mark Brown <broonie@kernel.org>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, Vignesh
+ Raghavendra <vigneshr@ti.com>, Damien Le Moal <dlemoal@kernel.org>, Sergey
+ Shtylyov <s.shtylyov@omp.ru>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org,  dmaengine@vger.kernel.org,
+ linux-watchdog@vger.kernel.org,  linux-pwm@vger.kernel.org,
+ linux-spi@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-mtd@lists.infradead.org, linux-ide@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-sound@vger.kernel.org, Arnd Bergmann
+ <arnd@arndb.de>, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Andrew Lunn
+ <andrew@lunn.ch>
+Date: Sat, 23 Dec 2023 12:12:56 +0300
+In-Reply-To: <ZXnxBtqbneUMbvwq@smile.fi.intel.com>
+References: <20231212-ep93xx-v6-0-c307b8ac9aa8@maquefel.me>
+	 <ZXnxBtqbneUMbvwq@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/9] Support light color temperature and chromaticity
-Content-Language: en-US, de-DE
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Cc: jikos@kernel.org, benjamin.tissoires@redhat.com, jic23@kernel.org,
- lars@metafoo.de, srinivas.pandruvada@linux.intel.com,
- linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
- regressions@lists.linux.dev
-References: <20230919081054.2050714-1-Basavaraj.Natikar@amd.com>
- <4441bd6b-01cd-4f26-bf85-bde2e1bf404e@t-8ch.de>
-From: "Linux regression tracking #update (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <4441bd6b-01cd-4f26-bf85-bde2e1bf404e@t-8ch.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1703320807;74558ded;
-X-HE-SMSGID: 1rGx9J-0005AO-V1
 
-[TLDR: This mail in primarily relevant for Linux regression tracking. A
-change or fix related to the regression discussed in this thread was
-posted or applied, but it did not use a Closes: tag to point to the
-report, as Linus and the documentation call for. Things happen, no
-worries -- but now the regression tracking bot needs to be told manually
-about the fix. See link in footer if these mails annoy you.]
+Hello Andy!
 
-On 07.12.23 00:39, Thomas Weißschuh wrote:
-> On 2023-09-19 13:40:45+0530, Basavaraj Natikar wrote:
-> [...]
-> This series is breaking probing of hid-sensor-als on Framework 13 AMD
-> laptops [0].
-> [...]
-> #regzbot introduced: 5f05285df691b1e82108eead7165feae238c95ef
-> #regzbot monitor: https://bugzilla.kernel.org/show_bug.cgi?id=218223
+On Wed, 2023-12-13 at 19:59 +0200, Andy Shevchenko wrote:
+> On Tue, Dec 12, 2023 at 11:20:17AM +0300, Nikita Shubin wrote:
+> > No major changes since last version all changes are cometic.
+> >=20
+> > Following patches require attention from Stephen Boyd, as they were
+> > converted to aux_dev as suggested:
+> >=20
+> > - ARM: ep93xx: add regmap aux_dev
+> > - clk: ep93xx: add DT support for Cirrus EP93xx
+> >=20
+> > DMA related patches still require Acked or Reviewed tags.
+> >=20
+> > got approval LGTM from Miquel:
+> > - mtd: rawnand: add support for ts72xx
+> > Link: https://lore.kernel.org/lkml/20231004103911.2aa65354@xps-13/
+> >=20
+> > new patches:
+> >=20
+> > ARM: ep93xx:=C2=A0 Add terminator to gpiod_lookup_table
+> > =C2=A0 - fixed terminator in gpiod_lockup_table
+> >=20
+> > So mostly all patches got approval.
+> >=20
+> > Patches should be now formated with '--histogram'
+>=20
+> It _feels_ like some tags might be missing.
+> In any case I suggest to use `b4` tool to retrieve tags when
+> preparing
+> the next version:
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0git checkout -b vXX v6.7-=
+rcX
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0b4 am -slt $MSG_ID_OF_v(X=
+X-1)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0git am ...
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0git rebase --interactive =
+... # to address comments
+>=20
 
-#regzbot fix: d4005431673929
-#regzbot ignore-activity
+I moved to b4 a few iterations ago:
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
+```
+Calculating patch-ids from commits, this may take a moment...
+Checking change-id "20230605-ep93xx-01c76317e2d2"
+Grabbing search results from lore.kernel.org
+Grabbing thread from lore.kernel.org/all/20230424123522.18302-1-
+nikita.shubin%40maquefel.me/t.mbox.gz
+---
+NOTE: some trailers ignored due to from/email mismatches:
+    ! Trailer: Tested-by: Michael Peters <mpeters@embeddedTS.com>
+     Msg From: Kris Bahnsen <kris@embeddedTS.com>
+NOTE: Rerun with -S to apply them anyway
+No trailer updates found.
+```
 
-
+I haven't found any missing tags, that b4 didn't apply, the ones above
+refer to a very old iteration and were given to cover letter and i
+don't feel like they need to be included.
 
