@@ -1,108 +1,97 @@
-Return-Path: <linux-input+bounces-962-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-964-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B0281D6C1
-	for <lists+linux-input@lfdr.de>; Sat, 23 Dec 2023 23:13:05 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E3081D81D
+	for <lists+linux-input@lfdr.de>; Sun, 24 Dec 2023 08:44:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F538281BD1
-	for <lists+linux-input@lfdr.de>; Sat, 23 Dec 2023 22:13:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 033D41C20D1C
+	for <lists+linux-input@lfdr.de>; Sun, 24 Dec 2023 07:44:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0390B1D6AA;
-	Sat, 23 Dec 2023 22:12:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA3141C13;
+	Sun, 24 Dec 2023 07:44:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="9VLlq4HG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QHCIcONJ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891B118053;
-	Sat, 23 Dec 2023 22:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:
-	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=b1HMz+ohMNl8A5LPDegcPK2gw7uCgp/vFwsqaqz/imM=; b=9VLlq4HGCfbmZy4/v3pcoPm62r
-	3S/m3nXnPC7Rnd9mF2GaAKPmFZS9SXBa4FDrLzxwoWKibvw+BEkYdvjqrwZAk3IyhsXbRpcqgULWg
-	xnnvZzGQlUDEZ9ByXJa3Hk9/LHabwdJGzEhFJYGFXXctzQ3Y0rQrAtnHYMAZQcDaviz814EGIb49C
-	NYOYCuGxOG6QfmYcxzqIXfQPf4a3Lnm7s4yfJ/KGeBd14L558JkdX4O/vz6161ML4zuNdp7Mzg8dr
-	2DOxgVk01ZSb66MHawHK3SJlsHttSbEqucaxnmvbz/JTo071Swd001FIt7uzFUufYuEkNhARVdG3l
-	hS2JwNBw==;
-Received: from p200301077700c3001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:107:7700:c300:1a3d:a2ff:febf:d33a] helo=aktux)
-	by mail.andi.de1.cc with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <andreas@kemnade.info>)
-	id 1rHAEL-007f7e-CM; Sat, 23 Dec 2023 23:12:25 +0100
-Received: from andi by aktux with local (Exim 4.96)
-	(envelope-from <andreas@kemnade.info>)
-	id 1rHAEK-003FaM-2N;
-	Sat, 23 Dec 2023 23:12:24 +0100
-From: Andreas Kemnade <andreas@kemnade.info>
-To: dmitry.torokhov@gmail.com,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	linux-imx@nxp.com,
-	rydberg@bitmath.org,
-	andreas@kemnade.info,
-	linus.walleij@linaro.org,
-	Jonathan.Cameron@huawei.com,
-	u.kleine-koenig@pengutronix.de,
-	heiko@sntech.de,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3 4/4] ARM: dts: imx6sl-tolino-shine2hd: fix touchscreen rotation
-Date: Sat, 23 Dec 2023 23:12:13 +0100
-Message-Id: <20231223221213.774868-5-andreas@kemnade.info>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231223221213.774868-1-andreas@kemnade.info>
-References: <20231223221213.774868-1-andreas@kemnade.info>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF461C14;
+	Sun, 24 Dec 2023 07:44:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-35ffb15244dso976465ab.1;
+        Sat, 23 Dec 2023 23:44:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703403872; x=1704008672; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BV6l+VzR8Otb6xxnCm5UaMRDcIu9it9fiR3os5Qmr84=;
+        b=QHCIcONJkYXEKw3IjaDeBRSGPTPNyDZXkUVdt6Ve32F0XufrSE86B8gX0hNOhAJSSZ
+         dxougsds3Tg2C15JX5wceJGS8CQBG2IT6wXTX4BAYKcFmecyqA+h3L/d1CJoKs5mTQUu
+         2Ep26vvi4qdubKC3NjRD2J6xr/d8LIEj3nB0xu41Pn2+1i6ZI8FftpJWPurQa5q4CGxW
+         bN7by3j1OqVhnDml02RPju28Brvh2JDU0R1EsMdKobzF5ZZDdf+HRwZLlcASLZ78hTx9
+         +jG2eTXAnK1G2nJZe1xNpU6xFcSh2uTJRNd0tlD0o2j8ejKX/JLeN9NYfTexxG6ZRGrH
+         yW6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703403872; x=1704008672;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BV6l+VzR8Otb6xxnCm5UaMRDcIu9it9fiR3os5Qmr84=;
+        b=VdwVqVWXVTc4uchqVs9XZdSgskooJJYqxfWTlcLXmP4FONfhbUTNLs6SfhYsqa6DZa
+         l+vMPejeIg1u0uCWIrT4old7uXfo6WGfNRyipUo0MxsuH4rvcV8OZwYQOCg+3vIKYddH
+         Qy2FkX4qgRcWp/rB2gMk6zjjGlRutrE1ur1vDL1siwpT+jF3dWjjv5nZxmWFvaTE4/p+
+         WcaSwxziirQjm11lzK8a5qLAS5oDQvMXDxIP4NQ3VrxQiQTPMTBNOBVNCsw/riK/PSE/
+         YdLA9aet2g6z/ep4YVZs8gin7u7EqbgwBRAl+FUmMaUrp+p5ZA1rq4Tv/IoHGaDUjVl/
+         sTKw==
+X-Gm-Message-State: AOJu0YxvSs3rm7tnM6ymTc53GoYKqGUPrMp29NMLGXOICFgjNO+lrk6i
+	jT+BHlfgUq3D7CLFyp09Hvk=
+X-Google-Smtp-Source: AGHT+IEluG3xWjBPWBwC7o4P+ek2duGQ8uD8ktVdwfOt+iVtcAp5BRLODXvEiyNTWir7Sa0qDGWjPg==
+X-Received: by 2002:a05:6e02:1581:b0:35f:ae07:53f8 with SMTP id m1-20020a056e02158100b0035fae0753f8mr5753177ilu.116.1703403872210;
+        Sat, 23 Dec 2023 23:44:32 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:765c:936e:ea43:6046])
+        by smtp.gmail.com with ESMTPSA id d9-20020a62f809000000b006d9aa51f0a3sm1653569pfh.171.2023.12.23.23.44.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Dec 2023 23:44:31 -0800 (PST)
+Date: Sat, 23 Dec 2023 23:44:28 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Werner Sembach <wse@tuxedocomputers.com>
+Cc: Christoffer Sandberg <cs@tuxedo.de>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: SoC button array: add mapping for airplane mode
+ button
+Message-ID: <ZYfhXJT8W6AkogLu@google.com>
+References: <20231215171718.80229-1-wse@tuxedocomputers.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231215171718.80229-1-wse@tuxedocomputers.com>
 
-The display is in landscape orientation, but the touchscreen is in portrait
-orientation. Specify that properly in the devicetree.
+On Fri, Dec 15, 2023 at 06:17:18PM +0100, Werner Sembach wrote:
+> From: Christoffer Sandberg <cs@tuxedo.de>
+> 
+> This add a mapping for the airplane mode button on the TUXEDO Pulse Gen3.
+> 
+> While it is physically a key it behaves more like a switch, sending a key
+> down on first press and a key up on 2nd press. Therefor the switch event is
+> used here. Besides this behaviour it uses the HID usage-id 0xc6 (Wireless
+> Radio Button) and not 0xc8 (Wireless Radio Slider Switch), but since
+> neither 0xc6 nor 0xc8 are currently implemented at all in soc_button_array
+> this not to standard behaviour is not put behind a quirk for the moment.
+> 
+> Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
 
-Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
----
- arch/arm/boot/dts/nxp/imx/imx6sl-tolino-shine2hd.dts | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Applied, thank you.
 
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6sl-tolino-shine2hd.dts b/arch/arm/boot/dts/nxp/imx/imx6sl-tolino-shine2hd.dts
-index 815119c12bd48..5636fb3661e8a 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6sl-tolino-shine2hd.dts
-+++ b/arch/arm/boot/dts/nxp/imx/imx6sl-tolino-shine2hd.dts
-@@ -141,8 +141,10 @@ zforce: touchscreen@50 {
- 		interrupts = <6 IRQ_TYPE_EDGE_FALLING>;
- 		vdd-supply = <&ldo1_reg>;
- 		reset-gpios = <&gpio5 9 GPIO_ACTIVE_LOW>;
--		x-size = <1072>;
--		y-size = <1448>;
-+		touchscreen-size-x = <1072>;
-+		touchscreen-size-y = <1448>;
-+		touchscreen-swapped-x-y;
-+		touchscreen-inverted-x;
- 	};
- 
- 	/* TODO: TPS65185 PMIC for E Ink at 0x68 */
 -- 
-2.39.2
-
+Dmitry
 
