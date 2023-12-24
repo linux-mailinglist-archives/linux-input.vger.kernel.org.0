@@ -1,301 +1,95 @@
-Return-Path: <linux-input+bounces-965-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-966-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5FD81D827
-	for <lists+linux-input@lfdr.de>; Sun, 24 Dec 2023 09:03:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D2281D856
+	for <lists+linux-input@lfdr.de>; Sun, 24 Dec 2023 09:31:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B6AD1282155
-	for <lists+linux-input@lfdr.de>; Sun, 24 Dec 2023 08:03:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 374311F2199B
+	for <lists+linux-input@lfdr.de>; Sun, 24 Dec 2023 08:31:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A961F15CA;
-	Sun, 24 Dec 2023 08:03:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFEF315C2;
+	Sun, 24 Dec 2023 08:31:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZgrRPerJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Whq0B/BM"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F18615A1
-	for <linux-input@vger.kernel.org>; Sun, 24 Dec 2023 08:03:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98451ED2;
+	Sun, 24 Dec 2023 08:31:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6d099d316a8so3013879b3a.0
-        for <linux-input@vger.kernel.org>; Sun, 24 Dec 2023 00:03:22 -0800 (PST)
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6dbaf12c866so2451390a34.3;
+        Sun, 24 Dec 2023 00:31:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703405002; x=1704009802; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=uCDB8yiSZqqwpytidP26pGCDGr8qafIhTITw38+hz1s=;
-        b=ZgrRPerJasG0R8h6jNaSITsD4bc1UtwmQJIwYnAxjca+6En9sOsvU26t/iPhwlIKmZ
-         jXEc5yMCnkP8hvHe26aCXPa54Wzk1nqJXGuOqz3xWGRr3szW5NSHZfDdQFdnAME7WyaW
-         raa0lG4vmy1vPuJDWcAZrtOJVXdXFj2JvC87IYWyOUoIi2wX7MvBupL8z4m5zWppSf+6
-         ig7hkCmDiBubQLI+S0G1qWP/gp2LdhImJTdP9pV/2Qv5iOimgn89GsgCUyRzR3xjTg83
-         Wd3Nn0olQCf4XEy6PCLssWeTbfi9GpDhx8H45kW6RRYMJBhb7SR1FtmRcf2WdJQWxW1B
-         f6GQ==
+        d=gmail.com; s=20230601; t=1703406674; x=1704011474; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=P7vRR4si7E//0jIMoSyRPsJ7pOTnjAoMpD8DGfwijuw=;
+        b=Whq0B/BMZw5xcM8oE31+WvLfF9UwA7Ap3dKY9JbLsJanzrvHzGGqmmxCDMC1kJz3vE
+         A1XdPpvKRrxzCMkoo/q8XTampCaCVZO87UGpWrBz7FYXth/IEgymePxFZ7V3cvGceYsl
+         2xbGSRmp2KcWMeJRbrfvHL1Ucm1sJYKl7OSbh5STP4+Ty08pwE8grJBhZcwEeQAX6o1l
+         bk7cgEyddW9MaFp7tJi2PmVsLgGmpOLUv3UlNwTvomwEUdUc+5zU37awCH22ONUC8Vxv
+         7yMRtV2GxgZyDvEbvDz0yXN64Nx+y8fiwicELRWFBCZPZuavKa7urVnK7W53e+FlGLnR
+         eBXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703405002; x=1704009802;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uCDB8yiSZqqwpytidP26pGCDGr8qafIhTITw38+hz1s=;
-        b=Hx0f1i3Ubpo4SAMdQS1TagG5Ue7otBm7PZnMa6Ic4K9ArWyrFfv9zwDnoPJf0pfTCq
-         9JCphLsrjYFiQtneWF48WTmyTyz9cBpSfdDYbV1HcVQ97kO4HGezJGHhh0FhfTulKTca
-         ZuanAtY/PL7JwcHenc9CSEt3+n8LjgqozbML5CmRy06RsXSrUBhV6aYVqwG77/v16ili
-         mXJ0UW1tpzDkyR+Wku8Y+aviNWoak0+vN1zOykpCIWppAeW0hceyZj7Yz5RMfjCfLQb1
-         gwTl7cwre6wWGl985hlkGZhACMON69rMN8thRZxOcdNyiLDcAyqOzaT8WpyNfaGTQPC+
-         hedA==
-X-Gm-Message-State: AOJu0Yxlcdx/gjLNHRIbKouJrXnX53qq1ytCIPbb2H2D8cYvFd1Txkm9
-	jKaHaREiOQU4JypPkN8nUjQ=
-X-Google-Smtp-Source: AGHT+IEJwsqaGTdYAstBNLa4Dn5tFKnvqyrkCAW3RhVyWQX5Rmp+3Abdc1IQliU7OG+7OnZOAurIPA==
-X-Received: by 2002:a05:6a20:160b:b0:195:88df:4fcf with SMTP id l11-20020a056a20160b00b0019588df4fcfmr1118365pzj.103.1703405002152;
-        Sun, 24 Dec 2023 00:03:22 -0800 (PST)
+        d=1e100.net; s=20230601; t=1703406674; x=1704011474;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P7vRR4si7E//0jIMoSyRPsJ7pOTnjAoMpD8DGfwijuw=;
+        b=fywswENLhDEMxeTdWnYpVzOmcibHUbMdaZ2X+0QAOlGsYt33FP9eRR4Ii7oSAMsJmd
+         Xi+LZfJJUbtyhpNzvPi+XgFn0AtDSj6HcocSl/jn8aPbh54025yZfspfq/IG76gyzcyF
+         NfOcPJqzRCITfjJvYc9E6DdWKqWngBJIFBORqIB1Cl+F3uGPn6PBm/gbPO2r83d58gki
+         QXtwMK1ONteTgphDgbXJvJVu4UBNMqQwT7HXR8NVyaNYQldZw9XwRrbe6Nqez+5tQiyc
+         bgbQWKs7j1W888Vm/O/id9/RfXqKxXyzASIXIQ+VT4XUP/qQ9OU4GfjBIU3pqKXHcfvg
+         7ELg==
+X-Gm-Message-State: AOJu0Yz9Mrzc2v8tGj+yWngy7kZ0ASHNHwBSFC+FUbTYOLUiKxdjKqOG
+	9gwla6iwbIx2B0QjO+mSSv8=
+X-Google-Smtp-Source: AGHT+IEiSfA6ELIfKEa0uToqVD5htaRTLuaCHPE1CPxbweKeTZHHAHxT6z18t+NqYE/7fjZpcAxt7A==
+X-Received: by 2002:a05:6808:2383:b0:3b9:defc:a171 with SMTP id bp3-20020a056808238300b003b9defca171mr5724565oib.5.1703406674458;
+        Sun, 24 Dec 2023 00:31:14 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:765c:936e:ea43:6046])
-        by smtp.gmail.com with ESMTPSA id x3-20020aa793a3000000b006d994c0e8b6sm3003853pff.74.2023.12.24.00.03.21
+        by smtp.gmail.com with ESMTPSA id b16-20020aa78710000000b006d9b2694b0csm708865pfo.200.2023.12.24.00.31.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Dec 2023 00:03:21 -0800 (PST)
-Date: Sun, 24 Dec 2023 00:03:18 -0800
+        Sun, 24 Dec 2023 00:31:13 -0800 (PST)
+Date: Sun, 24 Dec 2023 00:31:10 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Paul Cercueil <paul@crapouillou.net>,
-	Peter Hutterer <peter.hutterer@who-t.net>,
-	Chris Morgan <macroalpha82@gmail.com>, linux-input@vger.kernel.org,
-	svv@google.com, biswarupp@google.com, contact@artur-rojek.eu,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH] input: uinput: Drop checks for abs_min > abs_max
-Message-ID: <ZYflxnNC-72vh6De@google.com>
-References: <20231218171653.141941-1-macroalpha82@gmail.com>
- <20231219235149.GA3401344@quokka>
- <f77b98bf015bf3f8716422ac70c4fd6051e66376.camel@crapouillou.net>
- <ZYJJC-ID4SyHhuuA@google.com>
- <4e902e8ff60e21a74a87887e272f6751d3837c71.camel@crapouillou.net>
- <954f6537-15d5-42db-94b5-d148d4942870@redhat.com>
- <0ac9f339380ca3acd76eff065238599f39cde039.camel@crapouillou.net>
- <63ad6de2-8f24-47c1-b00d-588c22f6877f@redhat.com>
+To: Andreas Kemnade <andreas@kemnade.info>
+Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+	rydberg@bitmath.org, linus.walleij@linaro.org,
+	Jonathan.Cameron@huawei.com, u.kleine-koenig@pengutronix.de,
+	heiko@sntech.de, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v3 1/4] dt-bindings: touchscreen: convert neonode,zforce
+ to json-schema
+Message-ID: <ZYfsTsS8G8SdhFTn@google.com>
+References: <20231223221213.774868-1-andreas@kemnade.info>
+ <20231223221213.774868-2-andreas@kemnade.info>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <63ad6de2-8f24-47c1-b00d-588c22f6877f@redhat.com>
+In-Reply-To: <20231223221213.774868-2-andreas@kemnade.info>
 
-On Sat, Dec 23, 2023 at 04:16:46PM +0100, Hans de Goede wrote:
-> Hi,
+On Sat, Dec 23, 2023 at 11:12:10PM +0100, Andreas Kemnade wrote:
+> Convert Neonode infrared touchscreen controller binding to DT schema.
 > 
-> On 12/23/23 16:01, Paul Cercueil wrote:
-> > Hi Hans,
-> > 
-> > Le samedi 23 décembre 2023 à 15:29 +0100, Hans de Goede a écrit :
-> >> Hi Paul,
-> >>
-> >> On 12/20/23 14:39, Paul Cercueil wrote:
-> >>> Hi Dmitry,
-> >>>
-> >>> Le mardi 19 décembre 2023 à 17:53 -0800, Dmitry Torokhov a écrit :
-> >>>> Hi Paul,
-> >>>>
-> >>>> On Wed, Dec 20, 2023 at 01:38:39AM +0100, Paul Cercueil wrote:
-> >>>>> Hi Peter,
-> >>>>>
-> >>>>> Le mercredi 20 décembre 2023 à 09:51 +1000, Peter Hutterer a
-> >>>>> écrit :
-> >>>>>> On Mon, Dec 18, 2023 at 11:16:53AM -0600, Chris Morgan wrote:
-> >>>>>>> From: Chris Morgan <macromorgan@hotmail.com>
-> >>>>>>>
-> >>>>>>> Stop checking if the minimum abs value is greater than the
-> >>>>>>> maximum
-> >>>>>>> abs
-> >>>>>>> value. When the axis is inverted this condition is allowed.
-> >>>>>>> Without
-> >>>>>>> relaxing this check, it is not possible to use uinput on
-> >>>>>>> devices in
-> >>>>>>> userspace with an inverted axis, such as the adc-joystick
-> >>>>>>> found
-> >>>>>>> on
-> >>>>>>> many handheld gaming devices.
-> >>>>>>
-> >>>>>> As mentioned in the other thread [1] a fair bit of userspace
-> >>>>>> relies
-> >>>>>> on
-> >>>>>> that general assumption so removing it will likely cause all
-> >>>>>> sorts of
-> >>>>>> issues.
-> >>>>>
-> >>>>> There is some userspace that works with it though, so why
-> >>>>> restrict
-> >>>>> it
-> >>>>> artificially?
-> >>>>>
-> >>>>> The fact that some other userspace code wouldn't work with it
-> >>>>> sounds a
-> >>>>> bit irrelevant. They just never encountered that min>max usage
-> >>>>> before.
-> >>>>>
-> >>>>> And removing this check won't cause all sort of issues, why
-> >>>>> would
-> >>>>> it?
-> >>>>> It's not like the current software actively probes min>max and
-> >>>>> crash
-> >>>>> badly if it doesn't return -EINVAL...
-> >>>>
-> >>>> It will cause weird movements because calculations expect min be
-> >>>> the
-> >>>> minimum, and max the maximum, and not encode left/right or
-> >>>> up/down.
-> >>>> Putting this into adc joystick binding was a mistake.
-> >>>
-> >>> I don't see why it was a mistake, it's only one of the ways to
-> >>> specify
-> >>> that the axis is inverted. This information is between the firmware
-> >>> (DT) and the kernel, that doesn't mean the information has to be
-> >>> relayed as-is to the userspace.
-> >>>
-> >>> Unlike what you wrote in your other answer, when talking about
-> >>> input
-> >>> the kernel doesn't really normalize anything - it gives you the
-> >>> min/max
-> >>> values, and the raw samples, not normalized samples (they don't get
-> >>> translated to a pre-specified range, or even clamped).
-> >>>
-> >>> I don't really like the idea of having the driver tamper with the
-> >>> samples, but if the specification really is that max>min, then it
-> >>> would
-> >>> be up to evdev/joydev (if the individual drivers are allowed
-> >>> min>max)
-> >>> or adc-joystick (if they are not) to process the samples.
-> >>
-> >> I don't see why a driver, especially a userspace driver which
-> >> then injects things back into the kernel using uinput, would
-> >> not take care of inverting the samples itself and then just
-> >> present userspace with normalized data where min is simply 0
-> >> (as result of normalization as part of inversion) and
-> >> max is (original_max - original_min).
-> > 
-> > Yes, I totally agree.
-> > 
-> > What I was saying is, as Chris is only "piping" events from adc-
-> > joystick into uinput, that the problem is more that evdev/joydev don't
-> > handle axis inversion and provide min>max values that most of the
-> > userspace (and some kernel drivers e.g. uinput) don't support.
-> 
-> Ah I see, that sounds like a joydev adc-joystick / driver bug
-> to me then.
+> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-joydev/mousedev/evdev are simply consumers of events coming from the
-drivers that handle hardware. Even though they reside in the kernel,
-they still consumers of events, much like userspace is, and they operate
-under the same assumption that if min and max are specified then max is
-not less than min.
-
-We always had HW drivers invert the axis to match our coordinate system
-(for absolute coordinates 0,0 is in the lower left corner, for relative
-right and up are positive and left and down are negative). You can see
-that in psmouse (psmouse_report_standard_motion) and synaptics drivers,
-one of the earliest in the kernel.
-
-The rest of the stack operates under this assumption.
-
-> 
-> >> Note that this is exactly what is being done for touchscreens,
-> >> where having the touchscreen mounted e.g. upside-down is
-> >> a long standing issue and this is thus also a long solved issue,
-> >> see: drivers/input/touchscreen.c which contains generic
-> >> code for parsing device-properties including swapped / inverted
-> >> axis as well as generic code for reporting the position to the
-> >> input core, where the helpers from drivers/input/touchscreen.c
-> >> take care of the swap + invert including normalization when
-> >> doing inversion.
-> >>
-> >> Specifically this contains in touchscreen_parse_properties() :
-> >>
-> >>         prop->max_x = input_abs_get_max(input, axis_x);
-> >>         prop->max_y = input_abs_get_max(input, axis_y);
-> >>
-> >>         if (prop->invert_x) {
-> >>                 absinfo = &input->absinfo[axis_x];
-> >>                 absinfo->maximum -= absinfo->minimum;
-> >>                 absinfo->minimum = 0;
-> >>         }
-> >>
-> >>         if (prop->invert_y) {
-> >>                 absinfo = &input->absinfo[axis_y];
-> >>                 absinfo->maximum -= absinfo->minimum;
-> >>                 absinfo->minimum = 0;
-> >>         }
-> >>
-> >> and then when reporting touches:
-> >>
-> >> void touchscreen_report_pos(struct input_dev *input,
-> >>                             const struct touchscreen_properties
-> >> *prop,
-> >>                             unsigned int x, unsigned int y,
-> >>                             bool multitouch)
-> >> {
-> >>         if (prop->invert_x)
-> >>                 x = prop->max_x - x;
-> >>
-> >>         if (prop->invert_y)
-> >>                 y = prop->max_y - y;
-> >>
-> >>         if (prop->swap_x_y)
-> >>                 swap(x, y);
-> >>
-> >>         input_report_abs(input, multitouch ? ABS_MT_POSITION_X :
-> >> ABS_X, x);
-> >>         input_report_abs(input, multitouch ? ABS_MT_POSITION_Y :
-> >> ABS_Y, y);
-> >> }
-> >>
-> >> One of the tasks of a driver / the kernel is to provide some
-> >> level of hardware abstraction to isolate userspace from
-> >> hw details. IMHO taking care of the axis-inversion for userspace
-> >> with something like the above is part of the kernels' HAL task.
-> > 
-> > Totally agree, but this is not done anywhere, is it? evdev seems to
-> > just pass the hardware values alongside some basic meta-data (min/max
-> > values, fuzz etc.), it does not tamper with the data. Should evdev
-> > handle axis inversion? Should it be in adc-joystick (and every other
-> > driver that needs that) instead?
-> 
-> For touchcreens we have chosen to have a set of generic helpers
-> and then make using those helpers the responsibility of the driver.
-> 
-> Part of the reason for doing this is because some touchscreen drivers
-> already were doing axis inversion inside the driver triggering on
-> things like e.g. DMI matches, or maybe custom pre standardization
-> device properties, etc.
-> 
-> So the decision was made to add a set of helpers and convert drivers
-> one by one. Where drivers can e.g. still set prop->invert_x manually,
-> but then they also need to take care of the min/max adjustments
-> manually (min is typically 0 for touchscreens though).
-> 
-> I expect that there will also be enough existing special handling
-> in the joystick code that piece-meal conversion using helpers
-> is likely best.
-
-Not only touchscreens and joysticks. As I mentioned, PS/2 mice have
-their reported relative Y motion inverted since forever, touchpads like
-Synaptics or Elan invert Y axis as well, and so on.
-
-> 
-> With that said having axis inversion support in the evdev core
-> does sound interesting, but that means also storing the max-value
-> inside the core for abs axis and this will likely be a big
-> change / lots of work.
-
-evdev is not the only consumer, so if anything it should be in the input
-core, but there are enough quirks that I think touchscreen helpers are
-the best, at least for now.
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
