@@ -1,39 +1,39 @@
-Return-Path: <linux-input+bounces-977-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-978-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 439DB81E0DE
-	for <lists+linux-input@lfdr.de>; Mon, 25 Dec 2023 14:27:58 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0662981E0F1
+	for <lists+linux-input@lfdr.de>; Mon, 25 Dec 2023 14:40:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E976D1F21190
-	for <lists+linux-input@lfdr.de>; Mon, 25 Dec 2023 13:27:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3853D1C21075
+	for <lists+linux-input@lfdr.de>; Mon, 25 Dec 2023 13:40:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D50A51C4F;
-	Mon, 25 Dec 2023 13:27:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 203A6524A2;
+	Mon, 25 Dec 2023 13:40:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PLin5zpk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sqkC3lO/"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789F1524A0;
-	Mon, 25 Dec 2023 13:27:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D29D8C433C7;
-	Mon, 25 Dec 2023 13:27:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEAC15024B;
+	Mon, 25 Dec 2023 13:40:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5726EC433C7;
+	Mon, 25 Dec 2023 13:40:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703510872;
-	bh=I0avDanTaUcR08tw3tBSpCj9xrZXL7ZwJyBg52C2sbg=;
+	s=k20201202; t=1703511618;
+	bh=Pi3hf68wkmRW5iVjOg9KnHFpk41sKMXdNvmzTEg5PpE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=PLin5zpkqRP0i3uFEouLCaLLVfwSTqazTAXObB6/EFR4ztssYa2DVSxC/+4r11uUs
-	 7ra1nHZ+p293CQnKIuXpCSCMnRXDGV5LBTR8wexsCY2YQRxCn9rF9rTXlf6HrtX1mz
-	 jhyLaweCqRYJMnifsRQdNCvTtdkPK9ySuKkTx5T5gsEaCo5xgMHa8eiy20KsriYF5K
-	 mmgEBPGsMPuJYr/0Nu0PpFoO/UOEKLEhM2a7wNjEV84CsYfu3Fa3dBtb5DvKrzFhfe
-	 eDZrktrt6yCAeWVDsErBiL39kiEpV42KQw3eC8gLL6kRFeFPVar3Ot4n+6efz/nx/6
-	 R10/vUnfZ5ObQ==
-Message-ID: <f924d22a-56e7-4560-bea2-f00484de93bd@kernel.org>
-Date: Mon, 25 Dec 2023 14:27:46 +0100
+	b=sqkC3lO/UsAIGRYf28FSu2UfrQYylAkglnlnCqG1GW9w/UaU85SF7ZTCgnoWtzcR3
+	 snd63IXbJ4G92FcNGuynQMJ/mbE7mjLsfSndpl1KEwwmrtcGpFw3tgMGemuY/JdtFQ
+	 AVE+hlGtSSyxtfOlgpFMsGJhgPYUxjLS8Zd9RBLNqVHpw8b15XDtqXbwwex13yoEY1
+	 cCdTD6rOmu6nSZHJUeXi+XagFSGX9j0dhyR49EXq0vK3GyBZX0K/QzWzNID8a7QN4j
+	 RbOl1UOFcs52aJmZvzEMfVMWVFdQpDEjkRCBu51NvRwxUthhleNyryshrOM3W0zKUb
+	 RXUk3tOlQvD1A==
+Message-ID: <ff791151-cc3f-434b-bdf4-b8369683e35c@kernel.org>
+Date: Mon, 25 Dec 2023 14:40:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -44,13 +44,14 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [v1 1/2] dt-bindings: HID: i2c-hid: elan: Introduce bindings for
  Ilitek ili2901
 Content-Language: en-US
-To: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: dmitry.torokhov@gmail.com, robh+dt@kernel.org, jikos@kernel.org,
- benjamin.tissoires@redhat.com, dianders@chromium.org
+To: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+ jikos@kernel.org, benjamin.tissoires@redhat.com, dianders@chromium.org
 References: <20231225092843.5993-1-xiazhengqiao@huaqin.corp-partner.google.com>
  <20231225092843.5993-2-xiazhengqiao@huaqin.corp-partner.google.com>
+ <f924d22a-56e7-4560-bea2-f00484de93bd@kernel.org>
+ <CADYyEwTO0XDhM_5PLSiGUdugNx8jzCFpA6s2p1ATUpEVH4KzCg@mail.gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -95,35 +96,19 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20231225092843.5993-2-xiazhengqiao@huaqin.corp-partner.google.com>
+In-Reply-To: <CADYyEwTO0XDhM_5PLSiGUdugNx8jzCFpA6s2p1ATUpEVH4KzCg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 25/12/2023 10:28, xiazhengqiao wrote:
-> Because ilitek, ili2901 needs to use reset to pull down the time for 10ms,
-> so we need to control the reset, use this drive control.
-> 
-> Signed-off-by: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
-> ---
->  Documentation/devicetree/bindings/input/elan,ekth6915.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> index 3e2d216c6432..b9e51432b9e8 100644
-> --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> @@ -20,6 +20,7 @@ properties:
->    compatible:
->      items:
->        - const: elan,ekth6915
-> +      - const: ilitek,ili2901
+On 25/12/2023 14:38, Zhengqiao Xia wrote:
+> I am so sorry, I need to download an Linux Input code.
 
-1. You are adding fallback which was not explained in commit msg.
+Before sending further patches, please carefully read:
+1.
+https://elixir.bootlin.com/linux/v6.7-rc7/source/Documentation/process/submitting-patches.rst
 
-2. What's more, this was not tested. Please test your code before sending...
 
-3. Plus you did not Cc maintainers, so I suspect you work on some
-ancient tree...
+2. https://subspace.kernel.org/etiquette.html
 
 Best regards,
 Krzysztof
