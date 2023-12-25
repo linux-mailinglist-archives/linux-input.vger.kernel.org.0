@@ -1,122 +1,206 @@
-Return-Path: <linux-input+bounces-970-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-971-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40ACD81DB50
-	for <lists+linux-input@lfdr.de>; Sun, 24 Dec 2023 16:51:58 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 967A281DD6E
+	for <lists+linux-input@lfdr.de>; Mon, 25 Dec 2023 02:26:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 72C311C21673
-	for <lists+linux-input@lfdr.de>; Sun, 24 Dec 2023 15:51:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 98CEB1C20AFE
+	for <lists+linux-input@lfdr.de>; Mon, 25 Dec 2023 01:26:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B451ECA69;
-	Sun, 24 Dec 2023 15:51:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2EDA632;
+	Mon, 25 Dec 2023 01:25:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="cWzbjlDM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L3ohzVVS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4191C8C4;
-	Sun, 24 Dec 2023 15:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Sylrj4khsz9sWt;
-	Sun, 24 Dec 2023 16:51:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1703433093;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=EviEQ2BuQoPRdrEs2nwAH3M+cLPQSNn/nTwXHYXawaE=;
-	b=cWzbjlDMRycWQ9PJ8T4ZVMKHrQBI63u/jRUxfZUDx9gagVNJJ9x58C6CohuN3u//klVCmN
-	lPHGNII5PYv9Jb/n01Pq+k7/mBmf4RssrSlr/70Sxmh4SrF0w42ATKnY8vIWg9lyPDPekh
-	qW9lyahviASxe4hTnrOLYl2HbfufU/VaaNNmopvD+f3nUEg3YsfKvZrxohzLCzEYIlYhhV
-	o7kXeTQ8E94nofdls8xHFa/pLbgi5ryIIT0jXSVAl6WNVv9FLDK6w4+L4eH/PwhssJziON
-	GQOM+zU9a98gjynbgWNuPuq1S/NWlpOZdDvcdz88bLn1hUZypH9JUVKFZhKiHA==
-Message-ID: <d13694c9-4409-4566-919b-7a577afd583c@mailbox.org>
-Date: Sun, 24 Dec 2023 16:51:30 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9ED10EE
+	for <linux-input@vger.kernel.org>; Mon, 25 Dec 2023 01:25:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703467555; x=1735003555;
+  h=date:from:to:cc:subject:message-id;
+  bh=KjyufoIrfru+kEGS/y9njbkmGTlgtsD0i6rR+ILpNdI=;
+  b=L3ohzVVSsMWlfMD9LVN2i0weOoC9/2jxkh3VwGyOwKpFRUtpYGEClKHK
+   dE396KGwcINIvhk/FPuKY0o3qRvacD0+Zsm13Ek+isCUfcII4O9gYr9lQ
+   tYzTAwwEb8FDIoQkCFkH5jsi/eP7wX06fMA71uLeXRICy0Eoxiq6UUCLk
+   Ptj6gViPCFnfQbe1qs8jV2GTGSF/QCUPFRVsQ+haRCbHszLbfaDZLK/6A
+   fkfXczH6Io1/W33FG55CcXoZA6xj9K6nKUnakuXwfXQR2L80om99JY0MP
+   EvAUdZExoGTy6iVY78bdyvn9ZijXjU+r0GbCiE5zV+FO/8MWozIHuMaPy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="17824952"
+X-IronPort-AV: E=Sophos;i="6.04,302,1695711600"; 
+   d="scan'208";a="17824952"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2023 17:25:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,302,1695711600"; 
+   d="scan'208";a="12083564"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 24 Dec 2023 17:25:53 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rHZi0-000CoC-05;
+	Mon, 25 Dec 2023 01:25:42 +0000
+Date: Mon, 25 Dec 2023 09:22:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Subject: [dtor-input:for-linus] BUILD SUCCESS
+ ea3715941a9b7d816a1e9096ac0577900af2a69e
+Message-ID: <202312250920.cVxkxFjT-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-To: Mikhail Khvoinitsky <me@khvoinitsky.org>
-Cc: jkosina@suse.com, benjamin.tissoires@redhat.com, iam@valdikss.org.ru,
- jekhor@gmail.com, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <nycvar.YFH.7.76.2312121445510.24250@cbobk.fhfr.pm>
- <3a29c0a6-9b53-433d-a83d-5b68a87c1155@mailbox.org>
- <CAMMabwPd-m7a+EQV7zb=wU52=P1FkqFU1dg9=gyvaS1EP5tX3Q@mail.gmail.com>
-Content-Language: en-US
-From: "Uli v. d. Ohe" <u-v@mailbox.org>
-Autocrypt: addr=u-v@mailbox.org; keydata=
- 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
-Subject: Re: [PATCH] HID: lenovo: Restrict detection of patched firmware only
- to USB cptkbd
-In-Reply-To: <CAMMabwPd-m7a+EQV7zb=wU52=P1FkqFU1dg9=gyvaS1EP5tX3Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 542453eb079ead27204
-X-MBO-RS-META: 41c6fo1tznu8nfkgo56oisbjjyey7zgx
 
-> So this means that the only reliable way is to add a sysfs parameter.
-> I'll send a patch.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: ea3715941a9b7d816a1e9096ac0577900af2a69e  Input: soc_button_array - add mapping for airplane mode button
 
-Thank you for the quick action!
+elapsed time: 2463m
 
-Perhaps it would be possible to modify the firmware further in order to 
-facilitate reliable detection of this modified firmware? But for now the 
-solution with a sysfs parameter (and defaulting to the workaround) seems 
-good.
+configs tested: 125
+configs skipped: 1
 
-Best regards,
-Uli
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                               defconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20231224   gcc  
+arc                   randconfig-002-20231224   gcc  
+arm                               allnoconfig   gcc  
+arm                                 defconfig   clang
+arm                        keystone_defconfig   gcc  
+arm                       multi_v4t_defconfig   gcc  
+arm                   randconfig-001-20231224   gcc  
+arm                   randconfig-002-20231224   gcc  
+arm                   randconfig-003-20231224   gcc  
+arm                   randconfig-004-20231224   gcc  
+arm                             rpc_defconfig   gcc  
+arm                       versatile_defconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20231224   gcc  
+arm64                 randconfig-002-20231224   gcc  
+arm64                 randconfig-003-20231224   gcc  
+arm64                 randconfig-004-20231224   gcc  
+csky                              allnoconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20231224   gcc  
+csky                  randconfig-002-20231224   gcc  
+hexagon                           allnoconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20231224   clang
+hexagon               randconfig-002-20231224   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231224   gcc  
+i386         buildonly-randconfig-002-20231224   gcc  
+i386         buildonly-randconfig-003-20231224   gcc  
+i386         buildonly-randconfig-004-20231224   gcc  
+i386         buildonly-randconfig-005-20231224   gcc  
+i386         buildonly-randconfig-006-20231224   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231224   gcc  
+i386                  randconfig-002-20231224   gcc  
+i386                  randconfig-003-20231224   gcc  
+i386                  randconfig-004-20231224   gcc  
+i386                  randconfig-005-20231224   gcc  
+i386                  randconfig-006-20231224   gcc  
+i386                  randconfig-011-20231224   clang
+i386                  randconfig-012-20231224   clang
+i386                  randconfig-013-20231224   clang
+i386                  randconfig-014-20231224   clang
+i386                  randconfig-015-20231224   clang
+i386                  randconfig-016-20231224   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231224   gcc  
+loongarch             randconfig-002-20231224   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                        m5407c3_defconfig   gcc  
+m68k                        stmark2_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   clang
+mips                           ip22_defconfig   gcc  
+mips                         rt305x_defconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20231224   gcc  
+nios2                 randconfig-002-20231224   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           alldefconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20231224   gcc  
+parisc                randconfig-002-20231224   gcc  
+powerpc                   bluestone_defconfig   clang
+powerpc               randconfig-001-20231224   gcc  
+powerpc               randconfig-002-20231224   gcc  
+powerpc               randconfig-003-20231224   gcc  
+powerpc64             randconfig-001-20231224   gcc  
+powerpc64             randconfig-002-20231224   gcc  
+powerpc64             randconfig-003-20231224   gcc  
+riscv                 randconfig-001-20231224   gcc  
+riscv                 randconfig-002-20231224   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                  randconfig-001-20231224   clang
+s390                  randconfig-002-20231224   clang
+sh                               allmodconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                 kfr2r09-romimage_defconfig   gcc  
+sh                    randconfig-001-20231224   gcc  
+sh                    randconfig-002-20231224   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64               randconfig-001-20231224   gcc  
+sparc64               randconfig-002-20231224   gcc  
+um                               allmodconfig   clang
+um                               allyesconfig   clang
+um                    randconfig-001-20231224   gcc  
+um                    randconfig-002-20231224   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20231225   clang
+x86_64       buildonly-randconfig-002-20231225   clang
+x86_64       buildonly-randconfig-003-20231225   clang
+x86_64       buildonly-randconfig-004-20231225   clang
+x86_64       buildonly-randconfig-005-20231225   clang
+x86_64       buildonly-randconfig-006-20231225   clang
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231225   gcc  
+x86_64                randconfig-002-20231225   gcc  
+x86_64                randconfig-003-20231225   gcc  
+x86_64                randconfig-004-20231225   gcc  
+x86_64                randconfig-005-20231225   gcc  
+x86_64                randconfig-012-20231225   clang
+x86_64                          rhel-8.3-rust   clang
+xtensa                randconfig-001-20231224   gcc  
+xtensa                randconfig-002-20231224   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
