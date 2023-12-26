@@ -1,52 +1,51 @@
-Return-Path: <linux-input+bounces-984-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-985-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C207B81E336
-	for <lists+linux-input@lfdr.de>; Tue, 26 Dec 2023 01:24:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C655B81E33E
+	for <lists+linux-input@lfdr.de>; Tue, 26 Dec 2023 01:25:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5EF8B282780
-	for <lists+linux-input@lfdr.de>; Tue, 26 Dec 2023 00:24:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E5AC21C213C9
+	for <lists+linux-input@lfdr.de>; Tue, 26 Dec 2023 00:25:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45F52185E;
-	Tue, 26 Dec 2023 00:21:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E370C1FC1;
+	Tue, 26 Dec 2023 00:21:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oGFmlBCY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FuFsYUoO"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2705544364;
-	Tue, 26 Dec 2023 00:21:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0AD0C433C7;
-	Tue, 26 Dec 2023 00:21:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C7D45957;
+	Tue, 26 Dec 2023 00:21:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B340C433C8;
+	Tue, 26 Dec 2023 00:21:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703550063;
-	bh=8X+g9RsCMC6nzt8rXPY0VCMbF7HRPShdJl5Dr45PqbY=;
+	s=k20201202; t=1703550070;
+	bh=hSOYC86raFCUruKecjUDuLV7rYJdc7Qx4RnqsBfYoEY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oGFmlBCY0GAcckJIVVe6DQMvSAPHujEe0SPRHhLBW23B19VM2Gh5SlcLZ4gle/kXL
-	 jXQkm8VZeIl4aQWYFBAUjS1ynK1bpRN8P2gBir5kH4vUX8t8i33VH7cUih8WjrAZOV
-	 FpZrCcHRTR4knripIqCPHIeE2egwGubSu3Hy1MSwJzvXJXGFmdexautvPcDbOgqxHv
-	 IPrt/Ed+JtDySVZfxcqh+A/gYUSUxz0S3HtNyCddzpkHMh1j1xUOQn9gRlz/kJBlTG
-	 Z3tTDQGeJbLpfdBnyiHs9aikF1uap1sLLWMORbuql5l9bFPWQ9nFyzwhF/X6vppAm1
-	 AxpbKmpzwxveg==
+	b=FuFsYUoOH8Sv/y6/LK4ZIIPJVOqVcmb/ZvqBwP3wyUD2nHfKUvKGxjpmxGHGNHtFb
+	 0sCJz2G9IOwk8e9k7WXW4Bh0qWHUs6faBB7HhJAqDfnGGI4DLLMFpDft7go48WmPs0
+	 FtXqaK7KfBJrKhG8Oz/LniXhUHf6C//GoSPYlenGQFnXZ46b4+h20SaKMsPgWZfa6a
+	 gNMdn5+64Ovj/w7QMLFV4sx4jWnFmydafR2cRJFPkrqfOEx9P6qNCrU80U9i7agyYx
+	 xV6NpC6y/Rbta2bGxX6foaAEDQBmpggqZo4wwPQW5sdABo+z4EQeoN7psTyFT/vQqC
+	 OP8DV3Wkg64uQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Luca Weiss <luca@z3ntu.xyz>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+Cc: Ryan McClelland <rymcclel@gmail.com>,
+	kernel test robot <lkp@intel.com>,
+	"Daniel J . Ogorchock" <djogorchock@gmail.com>,
+	Jiri Kosina <jkosina@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
-	vi@endrift.com,
-	swyterzone@gmail.com,
-	slouken@libsdl.org,
-	carl.ng@hp.com,
-	radon86dev@gmail.com,
+	jikos@kernel.org,
+	benjamin.tissoires@redhat.com,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 15/39] Input: xpad - add Razer Wolverine V2 support
-Date: Mon, 25 Dec 2023 19:19:05 -0500
-Message-ID: <20231226002021.4776-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 18/39] HID: nintendo: fix initializer element is not constant error
+Date: Mon, 25 Dec 2023 19:19:08 -0500
+Message-ID: <20231226002021.4776-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231226002021.4776-1-sashal@kernel.org>
 References: <20231226002021.4776-1-sashal@kernel.org>
@@ -61,32 +60,79 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.8
 Content-Transfer-Encoding: 8bit
 
-From: Luca Weiss <luca@z3ntu.xyz>
+From: Ryan McClelland <rymcclel@gmail.com>
 
-[ Upstream commit c3d1610345b79cbe29ef6ca04a4780eff0d360c7 ]
+[ Upstream commit 0b7dd38c1c520b650a889a81919838671b689eb9 ]
 
-Add the VID and PID of Razer Wolverine V2 to xpad_device.
+With gcc-7 builds, an error happens with the controller button values being
+defined as const. Change to a define.
 
-Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-Link: https://lore.kernel.org/r/20231125-razer-wolverine-v2-v1-1-979fe9f9288e@z3ntu.xyz
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202312141227.C2h1IzfI-lkp@intel.com/
+
+Signed-off-by: Ryan McClelland <rymcclel@gmail.com>
+Reviewed-by: Daniel J. Ogorchock <djogorchock@gmail.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/joystick/xpad.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/hid/hid-nintendo.c | 44 +++++++++++++++++++-------------------
+ 1 file changed, 22 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index f5c21565bb3ce..e2c1848182de9 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -286,6 +286,7 @@ static const struct xpad_device {
- 	{ 0x146b, 0x0604, "Bigben Interactive DAIJA Arcade Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
- 	{ 0x1532, 0x0a00, "Razer Atrox Arcade Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
- 	{ 0x1532, 0x0a03, "Razer Wildcat", 0, XTYPE_XBOXONE },
-+	{ 0x1532, 0x0a29, "Razer Wolverine V2", 0, XTYPE_XBOXONE },
- 	{ 0x15e4, 0x3f00, "Power A Mini Pro Elite", 0, XTYPE_XBOX360 },
- 	{ 0x15e4, 0x3f0a, "Xbox Airflo wired controller", 0, XTYPE_XBOX360 },
- 	{ 0x15e4, 0x3f10, "Batarang Xbox 360 controller", 0, XTYPE_XBOX360 },
+diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+index 10468f727e5bb..7644edee996a7 100644
+--- a/drivers/hid/hid-nintendo.c
++++ b/drivers/hid/hid-nintendo.c
+@@ -325,28 +325,28 @@ struct joycon_imu_cal {
+  * All the controller's button values are stored in a u32.
+  * They can be accessed with bitwise ANDs.
+  */
+-static const u32 JC_BTN_Y	= BIT(0);
+-static const u32 JC_BTN_X	= BIT(1);
+-static const u32 JC_BTN_B	= BIT(2);
+-static const u32 JC_BTN_A	= BIT(3);
+-static const u32 JC_BTN_SR_R	= BIT(4);
+-static const u32 JC_BTN_SL_R	= BIT(5);
+-static const u32 JC_BTN_R	= BIT(6);
+-static const u32 JC_BTN_ZR	= BIT(7);
+-static const u32 JC_BTN_MINUS	= BIT(8);
+-static const u32 JC_BTN_PLUS	= BIT(9);
+-static const u32 JC_BTN_RSTICK	= BIT(10);
+-static const u32 JC_BTN_LSTICK	= BIT(11);
+-static const u32 JC_BTN_HOME	= BIT(12);
+-static const u32 JC_BTN_CAP	= BIT(13); /* capture button */
+-static const u32 JC_BTN_DOWN	= BIT(16);
+-static const u32 JC_BTN_UP	= BIT(17);
+-static const u32 JC_BTN_RIGHT	= BIT(18);
+-static const u32 JC_BTN_LEFT	= BIT(19);
+-static const u32 JC_BTN_SR_L	= BIT(20);
+-static const u32 JC_BTN_SL_L	= BIT(21);
+-static const u32 JC_BTN_L	= BIT(22);
+-static const u32 JC_BTN_ZL	= BIT(23);
++#define JC_BTN_Y	 BIT(0)
++#define JC_BTN_X	 BIT(1)
++#define JC_BTN_B	 BIT(2)
++#define JC_BTN_A	 BIT(3)
++#define JC_BTN_SR_R	 BIT(4)
++#define JC_BTN_SL_R	 BIT(5)
++#define JC_BTN_R	 BIT(6)
++#define JC_BTN_ZR	 BIT(7)
++#define JC_BTN_MINUS	 BIT(8)
++#define JC_BTN_PLUS	 BIT(9)
++#define JC_BTN_RSTICK	 BIT(10)
++#define JC_BTN_LSTICK	 BIT(11)
++#define JC_BTN_HOME	 BIT(12)
++#define JC_BTN_CAP	 BIT(13) /* capture button */
++#define JC_BTN_DOWN	 BIT(16)
++#define JC_BTN_UP	 BIT(17)
++#define JC_BTN_RIGHT	 BIT(18)
++#define JC_BTN_LEFT	 BIT(19)
++#define JC_BTN_SR_L	 BIT(20)
++#define JC_BTN_SL_L	 BIT(21)
++#define JC_BTN_L	 BIT(22)
++#define JC_BTN_ZL	 BIT(23)
+ 
+ enum joycon_msg_type {
+ 	JOYCON_MSG_TYPE_NONE,
 -- 
 2.43.0
 
