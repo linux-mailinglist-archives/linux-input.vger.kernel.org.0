@@ -1,159 +1,100 @@
-Return-Path: <linux-input+bounces-986-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-987-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6FC81E35A
-	for <lists+linux-input@lfdr.de>; Tue, 26 Dec 2023 01:27:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0AE881E37B
+	for <lists+linux-input@lfdr.de>; Tue, 26 Dec 2023 01:30:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C3C891F23E93
-	for <lists+linux-input@lfdr.de>; Tue, 26 Dec 2023 00:27:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D563A287DE2
+	for <lists+linux-input@lfdr.de>; Tue, 26 Dec 2023 00:30:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40E6E49F81;
-	Tue, 26 Dec 2023 00:21:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD79EA47;
+	Tue, 26 Dec 2023 00:22:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jlvx+Dqo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k9eMgqVn"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC0C54659;
-	Tue, 26 Dec 2023 00:21:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C73B7C433C8;
-	Tue, 26 Dec 2023 00:21:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03DDEDB;
+	Tue, 26 Dec 2023 00:22:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C171C433C7;
+	Tue, 26 Dec 2023 00:22:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703550095;
-	bh=XFgR0wnbznEwfyip30NlV4wRdm0ab5Uvh38oKCQxml0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jlvx+DqoAXSy9OXmzcvbya88gOE+iIX47IFS48f3v119Qechfrjzz7UPvuNPwsp1d
-	 p7IQW7SXKzfQXOchEFca5PmR/fpEUa0ZOPdLVGQ1ktp+3kntU0lmtjaG9HxEYKL2tP
-	 r5vpvrHmlIkTbGkJxKg78yv4xTFjUUgxafbbpUrr4AYsKH818sgAyd+ibrca4sJjc1
-	 jbizbKynfEMdrCGK6c84awDJ3jLh/EMWRz6+uyCxfO0UlqB7D4LDswlXiwVa3yBSX6
-	 elUQvN+1nAs4PnK1nrB7iIHrYR2Xnr2V+CTogmQeGh92VYfHKHGjvyAFZ1fe2x6Y+d
-	 ceDhYfQ8apaTw==
+	s=k20201202; t=1703550178;
+	bh=bUXXbpAUzKwZSW6AzFIb367DDnA0jXEe5R4SWVBJ8N4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=k9eMgqVnaSXJvv+/CfLik7XeE7YLvplUx+xQKqs1WSey1FkpFNUYemMoQLEkicFK5
+	 8qFz+gns9FaL/XhWNYm7G2TosIvW4Uzsr7x65GxIk7uP49uF6dZyMB+W36Z6/9YTYA
+	 mX9N5hAKoW45ZUF60Xwt1RYCkJHWmJX+jUc7xEfcta1P/5XwwaEU7b3BwdbSG9EHq+
+	 NrlPZ7rislFzszBNGGRfeuMTFMos2F9OFUXq31JEb8/lpM6sV75i/zxALjfZGFgmCJ
+	 FCFgnpEPkcoU32vsx3MLjP4hAgZjg5rVpTpU++xldkVdA+GjHGyG9ZJ7Wc+FRwvIw3
+	 EJgdNdSQxSUtA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Sam Lantinga <slouken@libsdl.org>,
-	Jiri Kosina <jkosina@suse.com>,
+Cc: =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
-	djogorchock@gmail.com,
-	jikos@kernel.org,
-	benjamin.tissoires@redhat.com,
+	rrangel@chromium.org,
+	jefferymiller@google.com,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 28/39] HID: nintendo: Prevent divide-by-zero on code
-Date: Mon, 25 Dec 2023 19:19:18 -0500
-Message-ID: <20231226002021.4776-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 01/24] Input: psmouse - enable Synaptics InterTouch for ThinkPad L14 G1
+Date: Mon, 25 Dec 2023 19:21:54 -0500
+Message-ID: <20231226002255.5730-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231226002021.4776-1-sashal@kernel.org>
-References: <20231226002021.4776-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.8
+X-stable-base: Linux 6.1.69
 Content-Transfer-Encoding: 8bit
 
-From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+From: José Pekkarinen <jose.pekkarinen@foxhound.fi>
 
-[ Upstream commit 6eb04ca8c52e3f8c8ea7102ade81d642eee87f4a ]
+[ Upstream commit c1f342f35f820b33390571293498c3e2e9bc77ec ]
 
-It was reported [0] that adding a generic joycon to the system caused
-a kernel crash on Steam Deck, with the below panic spew:
+Observed on dmesg of my laptop I see the following
+output:
 
-divide error: 0000 [#1] PREEMPT SMP NOPTI
-[...]
-Hardware name: Valve Jupiter/Jupiter, BIOS F7A0119 10/24/2023
-RIP: 0010:nintendo_hid_event+0x340/0xcc1 [hid_nintendo]
-[...]
-Call Trace:
- [...]
- ? exc_divide_error+0x38/0x50
- ? nintendo_hid_event+0x340/0xcc1 [hid_nintendo]
- ? asm_exc_divide_error+0x1a/0x20
- ? nintendo_hid_event+0x307/0xcc1 [hid_nintendo]
- hid_input_report+0x143/0x160
- hidp_session_run+0x1ce/0x700 [hidp]
+[   19.898700] psmouse serio1: synaptics: queried max coordinates: x [..5678], y [..4694]
+[   19.936057] psmouse serio1: synaptics: queried min coordinates: x [1266..], y [1162..]
+[   19.936076] psmouse serio1: synaptics: Your touchpad (PNP: LEN0411 PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi are not used, you might want to try setting psmouse.synaptics_intertouch to 1 and report this to linux-input@vger.kernel.org.
+[   20.008901] psmouse serio1: synaptics: Touchpad model: 1, fw: 10.32, id: 0x1e2a1, caps: 0xf014a3/0x940300/0x12e800/0x500000, board id: 3471, fw id: 2909640
+[   20.008925] psmouse serio1: synaptics: serio: Synaptics pass-through port at isa0060/serio1/input0
+[   20.053344] input: SynPS/2 Synaptics TouchPad as /devices/platform/i8042/serio1/input/input7
+[   20.397608] mousedev: PS/2 mouse device common for all mice
 
-Since it's a divide-by-0 error, by tracking the code for potential
-denominator issues, we've spotted 2 places in which this could happen;
-so let's guard against the possibility and log in the kernel if the
-condition happens. This is specially useful since some data that
-fills some denominators are read from the joycon HW in some cases,
-increasing the potential for flaws.
+This patch will add its pnp id to the smbus list to
+produce the setup of intertouch for the device.
 
-[0] https://github.com/ValveSoftware/SteamOS/issues/1070
-
-Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
-Tested-by: Sam Lantinga <slouken@libsdl.org>
-Signed-off-by: Jiri Kosina <jkosina@suse.com>
+Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
+Link: https://lore.kernel.org/r/20231114063607.71772-1-jose.pekkarinen@foxhound.fi
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-nintendo.c | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
+ drivers/input/mouse/synaptics.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 7644edee996a7..4850e915a57d4 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -896,14 +896,27 @@ static int joycon_request_calibration(struct joycon_ctlr *ctlr)
-  */
- static void joycon_calc_imu_cal_divisors(struct joycon_ctlr *ctlr)
- {
--	int i;
-+	int i, divz = 0;
- 
- 	for (i = 0; i < 3; i++) {
- 		ctlr->imu_cal_accel_divisor[i] = ctlr->accel_cal.scale[i] -
- 						ctlr->accel_cal.offset[i];
- 		ctlr->imu_cal_gyro_divisor[i] = ctlr->gyro_cal.scale[i] -
- 						ctlr->gyro_cal.offset[i];
-+
-+		if (ctlr->imu_cal_accel_divisor[i] == 0) {
-+			ctlr->imu_cal_accel_divisor[i] = 1;
-+			divz++;
-+		}
-+
-+		if (ctlr->imu_cal_gyro_divisor[i] == 0) {
-+			ctlr->imu_cal_gyro_divisor[i] = 1;
-+			divz++;
-+		}
- 	}
-+
-+	if (divz)
-+		hid_warn(ctlr->hdev, "inaccurate IMU divisors (%d)\n", divz);
- }
- 
- static const s16 DFLT_ACCEL_OFFSET /*= 0*/;
-@@ -1132,16 +1145,16 @@ static void joycon_parse_imu_report(struct joycon_ctlr *ctlr,
- 		    JC_IMU_SAMPLES_PER_DELTA_AVG) {
- 			ctlr->imu_avg_delta_ms = ctlr->imu_delta_samples_sum /
- 						 ctlr->imu_delta_samples_count;
--			/* don't ever want divide by zero shenanigans */
--			if (ctlr->imu_avg_delta_ms == 0) {
--				ctlr->imu_avg_delta_ms = 1;
--				hid_warn(ctlr->hdev,
--					 "calculated avg imu delta of 0\n");
--			}
- 			ctlr->imu_delta_samples_count = 0;
- 			ctlr->imu_delta_samples_sum = 0;
- 		}
- 
-+		/* don't ever want divide by zero shenanigans */
-+		if (ctlr->imu_avg_delta_ms == 0) {
-+			ctlr->imu_avg_delta_ms = 1;
-+			hid_warn(ctlr->hdev, "calculated avg imu delta of 0\n");
-+		}
-+
- 		/* useful for debugging IMU sample rate */
- 		hid_dbg(ctlr->hdev,
- 			"imu_report: ms=%u last_ms=%u delta=%u avg_delta=%u\n",
+diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+index e43e93ac2798a..b6749af462620 100644
+--- a/drivers/input/mouse/synaptics.c
++++ b/drivers/input/mouse/synaptics.c
+@@ -183,6 +183,7 @@ static const char * const smbus_pnp_ids[] = {
+ 	"LEN009b", /* T580 */
+ 	"LEN0402", /* X1 Extreme Gen 2 / P1 Gen 2 */
+ 	"LEN040f", /* P1 Gen 3 */
++	"LEN0411", /* L14 Gen 1 */
+ 	"LEN200f", /* T450s */
+ 	"LEN2044", /* L470  */
+ 	"LEN2054", /* E480 */
 -- 
 2.43.0
 
