@@ -1,116 +1,101 @@
-Return-Path: <linux-input+bounces-979-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-980-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E63481E22D
-	for <lists+linux-input@lfdr.de>; Mon, 25 Dec 2023 20:56:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D52381E307
+	for <lists+linux-input@lfdr.de>; Tue, 26 Dec 2023 01:20:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1463F1F21476
-	for <lists+linux-input@lfdr.de>; Mon, 25 Dec 2023 19:56:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E510728252A
+	for <lists+linux-input@lfdr.de>; Tue, 26 Dec 2023 00:20:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C63CC537FE;
-	Mon, 25 Dec 2023 19:55:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70F1B371;
+	Tue, 26 Dec 2023 00:20:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NxYtli9Z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jpEPLtvZ"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A9D537F1;
-	Mon, 25 Dec 2023 19:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-67f9fac086bso25831486d6.3;
-        Mon, 25 Dec 2023 11:55:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703534157; x=1704138957; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v+5mdzcIi0J0U/jyti3PngFAcX/L3/DjChGGJD4WjO0=;
-        b=NxYtli9ZFO+nMhFI9jJM7AmM0UEQP1AYBBIsOQxfutncfFzrXXCl15MO/db7qTycZK
-         E+BH/bT9aSglTtOFm3KR2+eZigo1JECteRjB+Lf6D4H+VUekocZzQOW9kNtiT6vNAEdu
-         eyULYF4OpMBf9aO1e3D6n6vle9kAczFQsb+PP3Gpcj0oNr7p6TzgdohHThbsm/UKZGkI
-         b7vElq1p6YB//aONShEDs/fdGYpRWY/CXq75zdr+SSC1pzI1Yeu71uwlTIlo01Fasmfd
-         zmN59m49OnC7ZyKAwFOtXPoIG+DlBtpEIU1qiuOKJ3GnObSqiIA8sdeJ/CFmjuNqHnfP
-         vTTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703534157; x=1704138957;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=v+5mdzcIi0J0U/jyti3PngFAcX/L3/DjChGGJD4WjO0=;
-        b=MfRAV5ecmWVJGgpiky0hi3GmiB0RSj+818pzkavsUq3u4xlw+Whbpcbc4NR5ck1qNu
-         mzcma0jmC70uzLWUrPKdfEreDwKq/4KUHcuv50N6x93Ea0w6D5niLKf+VqYbmmktx+dR
-         p/wzOi9BfKKdLdt4VCrQiHo7gACGfG9umiT0lEHhZ5QJd1G1H52wPrcp25SfIZSe3LJu
-         qsrKc7seUPyYM3N5xNz4c1jHqGLQbBsDPt3yFtFm9t9Evr+B6lr0lA9cg6lXJbFBJxGZ
-         N7io5fHfSC5x1GBHnVGrxyrUjEKl7ebN4OVw9EPlUrU//1Fuw8ySkFOPhyunRP3aN9l5
-         Q0KQ==
-X-Gm-Message-State: AOJu0YzROFql4ZIsbY1+HX9/cPP1tbA3e8CECrK5NuBBHPpoHCInyVBG
-	ikQqfEgCpEjx2AuIkPwvZPFRqML9CAnc1JlNO8I=
-X-Google-Smtp-Source: AGHT+IGXQ1DzDW/z7mbnW1aKOma9kP1mZ08AqBa7wFFHcRRfcWmagU8jQFFGhrorFhUOmpGd2hGTlBhrmy9h8xA7nx4=
-X-Received: by 2002:ad4:5c49:0:b0:67f:6982:edb4 with SMTP id
- a9-20020ad45c49000000b0067f6982edb4mr13149244qva.14.1703534157222; Mon, 25
- Dec 2023 11:55:57 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466C736E;
+	Tue, 26 Dec 2023 00:20:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDF05C433C7;
+	Tue, 26 Dec 2023 00:20:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1703550025;
+	bh=i4wXejtK3M6QlaHztWuWv4sXZWQ+aOYpR+7zI6fzdYA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jpEPLtvZSH64C3CtBeJUAk9p3YYf/T7KFJIOqT0W7L5VpZDMAwiXlk4EKcP2PTVRl
+	 loplfZXjxlzZ1eEzbx5TFpRIsvlbfDA6aRn8o94w/cTBWeIEe1r/Sl3rwoiK8LSC9z
+	 YS7sOAh6q8BQ6dY0IKhrKIK4CDzWnlGbY5Qg8Khcgt81KvyDyxAAyjnPWYZ+Yc2aVh
+	 KL3CuBwsNXWFj+f25kRQASp1QnoQZKC5ZXySJV1y49VZwW39caAoWkFxscLyGD270E
+	 9SFzGNGuyA6lD7PIjJN01j7REmO5Y5IsKwIG09j93AMp0Fg8+yCJ6zaynn/kuaFnmt
+	 URz1TlUudDUJQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Sasha Levin <sashal@kernel.org>,
+	jefferymiller@google.com,
+	rrangel@chromium.org,
+	linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.6 01/39] Input: psmouse - enable Synaptics InterTouch for ThinkPad L14 G1
+Date: Mon, 25 Dec 2023 19:18:51 -0500
+Message-ID: <20231226002021.4776-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231212-ep93xx-v6-0-c307b8ac9aa8@maquefel.me>
- <ZXnxBtqbneUMbvwq@smile.fi.intel.com> <d6e898200b96e816ea8c8c9a847307088ec5821c.camel@maquefel.me>
-In-Reply-To: <d6e898200b96e816ea8c8c9a847307088ec5821c.camel@maquefel.me>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 25 Dec 2023 21:55:20 +0200
-Message-ID: <CAHp75Vcx8oviLiCu=cnzKcdXjEq9wG=PCiBuPTBYe6FFfUcz7Q@mail.gmail.com>
-Subject: Re: [PATCH v6 00/40] ep93xx device tree conversion
-To: Nikita Shubin <nikita.shubin@maquefel.me>
-Cc: Andy Shevchenko <andy@kernel.org>, Hartley Sweeten <hsweeten@visionengravers.com>, 
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Lukasz Majewski <lukma@denx.de>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Sebastian Reichel <sre@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Vinod Koul <vkoul@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Thierry Reding <thierry.reding@gmail.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Mark Brown <broonie@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Damien Le Moal <dlemoal@kernel.org>, 
-	Sergey Shtylyov <s.shtylyov@omp.ru>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, linux-ide@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-sound@vger.kernel.org, 
-	Arnd Bergmann <arnd@arndb.de>, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Andrew Lunn <andrew@lunn.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6.8
+Content-Transfer-Encoding: 8bit
 
-On Sat, Dec 23, 2023 at 11:13=E2=80=AFAM Nikita Shubin
-<nikita.shubin@maquefel.me> wrote:
-> On Wed, 2023-12-13 at 19:59 +0200, Andy Shevchenko wrote:
+From: José Pekkarinen <jose.pekkarinen@foxhound.fi>
 
-...
+[ Upstream commit c1f342f35f820b33390571293498c3e2e9bc77ec ]
 
-> I haven't found any missing tags, that b4 didn't apply, the ones above
-> refer to a very old iteration and were given to cover letter and i
-> don't feel like they need to be included.
+Observed on dmesg of my laptop I see the following
+output:
 
-When somebody gives you a tag against a cover letter, it means the
-entire series (if not spelled differently). `b4` even has a parameter
--t for that IIRC.
+[   19.898700] psmouse serio1: synaptics: queried max coordinates: x [..5678], y [..4694]
+[   19.936057] psmouse serio1: synaptics: queried min coordinates: x [1266..], y [1162..]
+[   19.936076] psmouse serio1: synaptics: Your touchpad (PNP: LEN0411 PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi are not used, you might want to try setting psmouse.synaptics_intertouch to 1 and report this to linux-input@vger.kernel.org.
+[   20.008901] psmouse serio1: synaptics: Touchpad model: 1, fw: 10.32, id: 0x1e2a1, caps: 0xf014a3/0x940300/0x12e800/0x500000, board id: 3471, fw id: 2909640
+[   20.008925] psmouse serio1: synaptics: serio: Synaptics pass-through port at isa0060/serio1/input0
+[   20.053344] input: SynPS/2 Synaptics TouchPad as /devices/platform/i8042/serio1/input/input7
+[   20.397608] mousedev: PS/2 mouse device common for all mice
 
+This patch will add its pnp id to the smbus list to
+produce the setup of intertouch for the device.
 
---=20
-With Best Regards,
-Andy Shevchenko
+Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
+Link: https://lore.kernel.org/r/20231114063607.71772-1-jose.pekkarinen@foxhound.fi
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/input/mouse/synaptics.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+index 22d16d80efb93..7a303a9d6bf72 100644
+--- a/drivers/input/mouse/synaptics.c
++++ b/drivers/input/mouse/synaptics.c
+@@ -183,6 +183,7 @@ static const char * const smbus_pnp_ids[] = {
+ 	"LEN009b", /* T580 */
+ 	"LEN0402", /* X1 Extreme Gen 2 / P1 Gen 2 */
+ 	"LEN040f", /* P1 Gen 3 */
++	"LEN0411", /* L14 Gen 1 */
+ 	"LEN200f", /* T450s */
+ 	"LEN2044", /* L470  */
+ 	"LEN2054", /* E480 */
+-- 
+2.43.0
+
 
