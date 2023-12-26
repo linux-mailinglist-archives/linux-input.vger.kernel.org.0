@@ -1,47 +1,52 @@
-Return-Path: <linux-input+bounces-1008-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1009-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E3081E413
-	for <lists+linux-input@lfdr.de>; Tue, 26 Dec 2023 01:47:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4618081E41B
+	for <lists+linux-input@lfdr.de>; Tue, 26 Dec 2023 01:48:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F73E28127F
-	for <lists+linux-input@lfdr.de>; Tue, 26 Dec 2023 00:47:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D364E1F20F06
+	for <lists+linux-input@lfdr.de>; Tue, 26 Dec 2023 00:48:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80FC949F9E;
-	Tue, 26 Dec 2023 00:27:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E60225FF1A;
+	Tue, 26 Dec 2023 00:27:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fcMd1KMP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rjCRQJNW"
 X-Original-To: linux-input@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6EF5EE88;
-	Tue, 26 Dec 2023 00:27:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 476ACC433C7;
-	Tue, 26 Dec 2023 00:27:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C523E5FF19;
+	Tue, 26 Dec 2023 00:27:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D2C0C433C7;
+	Tue, 26 Dec 2023 00:27:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703550424;
-	bh=oa+jeY8QggxWots0Rz6Rd64iuGZY8wj+tpbT3/d4Fxs=;
+	s=k20201202; t=1703550432;
+	bh=ijfe7t0lftFncEzvO8g7YKkWfm0djqxRf56wkv4vblo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fcMd1KMPrBl6d6sz1665KnCggTeYSeREQ0gwFjUK8yMV0BOZZFc++Ea45yLVObHQJ
-	 j37jMxQHMp3mCvqtRm+bMmcHqjdtMynZChBneQbr1rZhDkfsnPTWSkiSqky8D+RV7j
-	 lJxKqUXtrF5ldKCabKsXqOopNh2wkiZFGh24b71aAlXsGmbBEukfL4BuIwF98IqLpX
-	 LtPn6955ebh3EqMnggYJxBl0tM455bbXmTLoXVdsQCUK/mCCxKCm9GxTv2SuZsUXvy
-	 rvxQgpX155gt4ZiAzWsQMVwS48us7FXd50yBiq8CR23vDhV/uxc6MKl40OcTCOKBA7
-	 uexu1I75DLgXA==
+	b=rjCRQJNWhCbTDOUvKnkGkrGmA242hQupiyI8WwWamtatASuvPRd9IIcjN7Brzhumc
+	 0GzGQE7jlg4YcXpN1DCPN37IUSeVBpYYPS9fddtVP5T4igVvVtLWAZx0n/fJyimF7d
+	 q1Ntyl+pX43CdNpS97T/7uXqid40vERFecPkS0zswALsnysQqbuu/nsPQAW3sVcWtS
+	 nIuMIQQcC351UE4DLP7RsnnrVA+pRucTme55fWsE/OT7bZTdfE05PnCsOgDYwwtveN
+	 EMoT1eus5DNTxeREsz0Pn9YimnphcUi4l+LsXZSLftKkrZLxSDdAIc2Zk6voYGE7co
+	 F8VqDZKIAEQog==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+Cc: Luca Weiss <luca@z3ntu.xyz>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
+	vi@endrift.com,
+	swyterzone@gmail.com,
+	maxwell.nguyen@hp.com,
+	lyude@redhat.com,
+	matthias.benkmann@gmail.com,
 	linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 4/7] Input: amimouse - convert to platform remove callback returning void
-Date: Mon, 25 Dec 2023 19:26:28 -0500
-Message-ID: <20231226002649.7290-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 7/7] Input: xpad - add Razer Wolverine V2 support
+Date: Mon, 25 Dec 2023 19:26:31 -0500
+Message-ID: <20231226002649.7290-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231226002649.7290-1-sashal@kernel.org>
 References: <20231226002649.7290-1-sashal@kernel.org>
@@ -51,60 +56,37 @@ List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 4.19.303
 Content-Transfer-Encoding: 8bit
 
-From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+From: Luca Weiss <luca@z3ntu.xyz>
 
-[ Upstream commit 42b8ff47720258d1f6a4412e780a480c139773a0 ]
+[ Upstream commit c3d1610345b79cbe29ef6ca04a4780eff0d360c7 ]
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is ignored (apart
-from emitting a warning) and this typically results in resource leaks.
+Add the VID and PID of Razer Wolverine V2 to xpad_device.
 
-To improve here there is a quest to make the remove callback return
-void. In the first step of this quest all drivers are converted to
-.remove_new(), which already returns void. Eventually after all drivers
-are converted, .remove_new() will be renamed to .remove().
-
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
-
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-Link: https://lore.kernel.org/r/20231201133747.1099286-2-u.kleine-koenig@pengutronix.de
+Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+Link: https://lore.kernel.org/r/20231125-razer-wolverine-v2-v1-1-979fe9f9288e@z3ntu.xyz
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/mouse/amimouse.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/input/joystick/xpad.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/input/mouse/amimouse.c b/drivers/input/mouse/amimouse.c
-index a33437c480e36..c93f9c03f7d73 100644
---- a/drivers/input/mouse/amimouse.c
-+++ b/drivers/input/mouse/amimouse.c
-@@ -129,16 +129,15 @@ static int __init amimouse_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int __exit amimouse_remove(struct platform_device *pdev)
-+static void __exit amimouse_remove(struct platform_device *pdev)
- {
- 	struct input_dev *dev = platform_get_drvdata(pdev);
- 
- 	input_unregister_device(dev);
--	return 0;
- }
- 
- static struct platform_driver amimouse_driver = {
--	.remove = __exit_p(amimouse_remove),
-+	.remove_new = __exit_p(amimouse_remove),
- 	.driver   = {
- 		.name	= "amiga-mouse",
- 	},
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index e330d28b59ec4..dffdd25b6fc94 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -280,6 +280,7 @@ static const struct xpad_device {
+ 	{ 0x146b, 0x0604, "Bigben Interactive DAIJA Arcade Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+ 	{ 0x1532, 0x0a00, "Razer Atrox Arcade Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
+ 	{ 0x1532, 0x0a03, "Razer Wildcat", 0, XTYPE_XBOXONE },
++	{ 0x1532, 0x0a29, "Razer Wolverine V2", 0, XTYPE_XBOXONE },
+ 	{ 0x15e4, 0x3f00, "Power A Mini Pro Elite", 0, XTYPE_XBOX360 },
+ 	{ 0x15e4, 0x3f0a, "Xbox Airflo wired controller", 0, XTYPE_XBOX360 },
+ 	{ 0x15e4, 0x3f10, "Batarang Xbox 360 controller", 0, XTYPE_XBOX360 },
 -- 
 2.43.0
 
