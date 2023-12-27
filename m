@@ -1,119 +1,141 @@
-Return-Path: <linux-input+bounces-1029-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1030-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331E981ED75
-	for <lists+linux-input@lfdr.de>; Wed, 27 Dec 2023 09:51:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F7181EE97
+	for <lists+linux-input@lfdr.de>; Wed, 27 Dec 2023 12:41:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 245EAB21F8D
-	for <lists+linux-input@lfdr.de>; Wed, 27 Dec 2023 08:51:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 452071F22E4A
+	for <lists+linux-input@lfdr.de>; Wed, 27 Dec 2023 11:41:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B29C8110B;
-	Wed, 27 Dec 2023 08:50:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FEED44392;
+	Wed, 27 Dec 2023 11:41:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="e7pUpx8j"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m+piDqQ7"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0C46FCF
-	for <linux-input@vger.kernel.org>; Wed, 27 Dec 2023 08:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=huaqin.corp-partner.google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaqin.corp-partner.google.com
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3bb907d28fcso2600702b6e.1
-        for <linux-input@vger.kernel.org>; Wed, 27 Dec 2023 00:50:32 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D8A446B0
+	for <linux-input@vger.kernel.org>; Wed, 27 Dec 2023 11:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33674f60184so5248738f8f.1
+        for <linux-input@vger.kernel.org>; Wed, 27 Dec 2023 03:41:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601; t=1703667032; x=1704271832; darn=vger.kernel.org;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=rg6+ljdZgixSWbRXWj3kXbuUdDrmIT/jkzTN+vEmTm0=;
-        b=e7pUpx8jpTVHfI+An8aR/60t2nc4uTFap1tWEBkB1Rf9G+yaPGg+D1SuPFC7oEAceL
-         YhtKt25EpqG0vTNhjUBKk5p0+WFTjlBC3H+5h0pi5WlbTczDUwHInafcCdNlhGZNY0Zj
-         k3KJUEZl+uZ/w/QW2z4GR8uLJHioyh6G4EKt2IEvTsAgHJWEBrEaf3jeB/+IjnHgY7g0
-         mYNb4iInnzdI/f2r22l8eLjYq/aQx7iMVL/uC9utU3WWQnXF2b0bXi3MWUegzDra4xGt
-         k7bLLCfFAVlQJsD0yfjdu5hySS3/kMIC/6BTUFidM52C/c75+6k6AAGWNgW3eUA4W09i
-         jF/Q==
+        d=linaro.org; s=google; t=1703677265; x=1704282065; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tzKcChpkwv+3nTiwyOxPF53DXcBE75/wsjZ3i5I4lGU=;
+        b=m+piDqQ7b5s6NrksXLWwqp80yFbeQgqK1Lm0Inukff1QxfFiVXpf7eolaGfO3rdh7o
+         qS0nfnnOeUyOYuFobuQTT6kT0qtE1Um1B8l0BAx6h9ax7z/B/5npzfPruOOW7gl2MxAX
+         /u5E1P7wkr+p2olJ+p72vF5OOeTxVZ+9Q3URDkbxnqSFUDCFCCNEvCMMXgZ+5oTnkT+l
+         DyDK0Cn6OB7UDI3KYCNbxz//3JyL+5E+DHRz8UwVIUCLRYLfmo1kH2eNBYFvAVdAYLYX
+         qBf7684ruIKUhtZVjjy2NxXN9Mkx1/uKNZle36pLO+3gor1BQI3zjwJoMkTgafhtkouC
+         2UsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703667032; x=1704271832;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
+        d=1e100.net; s=20230601; t=1703677265; x=1704282065;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rg6+ljdZgixSWbRXWj3kXbuUdDrmIT/jkzTN+vEmTm0=;
-        b=UdOiCE8UMn7PbDsODQN+9p+2Yd91iEgMM1JKguZD+/NXv0tKc9aMjbcriIFLS7KXQW
-         8tn5uMiCI8r1+euU9U25dO2r1D61EoE5jrH7LUnUCt17ihd5iMXajHaAa7opG85x/LLH
-         KTifWQ2B5GlN/iI5ZtJh6ou3r2W9VJYUDviClCNvj9gxxRzXpDJ1QGNTgDN7XEhdqiml
-         mH+h2rgyXXii0FYWUuMmYMDgrHV/cNumHt16ye5XVNabOfmwgfInmByEIZ0ik5CaJAn9
-         b8XOYz5DTBmSL4YEaSw0q86gcmI/IOisD73oV8VfwyN+guUPCVg8xPrM2G8DJNeUtxjT
-         CyVw==
-X-Gm-Message-State: AOJu0YzzUS3dSGzRIxdOEYshVjoPCErR8TXIpIKF7/l/RfS3/z6DQCNB
-	XEVs5O6JVRkHvZ7shXC7M+7sL1vieu8BxmsYEAc8utfDwiA=
-X-Google-Smtp-Source: AGHT+IEJyHe4ceLIVHZcj5qUbVaq6KZiQv8OtfJUHoIFiBOMhcirHT542PcOwmxn5pfhVafApPBDqA==
-X-Received: by 2002:a05:6808:1415:b0:3bb:6d9b:845 with SMTP id w21-20020a056808141500b003bb6d9b0845mr8824660oiv.44.1703667031736;
-        Wed, 27 Dec 2023 00:50:31 -0800 (PST)
-Received: from ubuntu.huaqin.com ([116.66.212.162])
-        by smtp.gmail.com with ESMTPSA id c26-20020aa781da000000b006d9d39354bcsm3157505pfn.74.2023.12.27.00.50.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Dec 2023 00:50:31 -0800 (PST)
-From: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
-To: linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: dmitry.torokhov@gmail.com,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	jikos@kernel.org,
-	benjamin.tissoires@redhat.com,
-	linus.walleij@linaro.org,
-	dianders@chromium.org,
-	xiazhengqiao@huaqin.corp-partner.google.com
-Subject: [PATCH v3 2/2] HID: i2c-hid: elan: Add ili2901 timing
-Date: Wed, 27 Dec 2023 16:50:13 +0800
-Message-Id: <20231227085013.1317-3-xiazhengqiao@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20231227085013.1317-1-xiazhengqiao@huaqin.corp-partner.google.com>
-References: <20231227085013.1317-1-xiazhengqiao@huaqin.corp-partner.google.com>
+        bh=tzKcChpkwv+3nTiwyOxPF53DXcBE75/wsjZ3i5I4lGU=;
+        b=R85mDyMUJ4jPdWQasMn+z9qGCk7O3D1rz667gBkStkNTenh48DThqC/2IJDaZ0vQ00
+         5mIhGmdZN89j3qTH80armWjugfDYDyKPDh2O3EEdqFEAxBbznKVVrQxv+1Nk5x9k3lsZ
+         sozGpk5KQDXl5yVfgfQelq1P9aNYd36zZGJfD8YY8pEn6SDKJrYPxVj6CwCsliTmLUHr
+         0xh2yoJtxcbbvED90DClk8WFJKwDxl8hqetVZ9jyOZlfagCpUF8n/JUsr8tANOGYF8f0
+         cJBcFzUHXEROLWUsCwAFljPiBVHfhKpkAbnCHh9fi0pbsBQ581tvYO7/FokSWLTe+f35
+         bzkw==
+X-Gm-Message-State: AOJu0Yxq8F2IZHTgLrDPkFcf/kis0xvMjxFgFb5JvUbfU9Bph79416da
+	WgY5TqGscjMwco0PxKyOhFcXWSajTZb8Xw==
+X-Google-Smtp-Source: AGHT+IHPlz00t9mgKJ9NFJMIghtnlnaK2+GbnhE2d7Vf1vGJAnzpvdyc6ee0j9Y8eQHhvQxvc7xVKA==
+X-Received: by 2002:a05:600c:1c22:b0:40d:5b89:7ec4 with SMTP id j34-20020a05600c1c2200b0040d5b897ec4mr946079wms.63.1703677264822;
+        Wed, 27 Dec 2023 03:41:04 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+        by smtp.gmail.com with ESMTPSA id b7-20020a5d45c7000000b00336c6b77584sm5652687wrs.91.2023.12.27.03.41.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Dec 2023 03:41:04 -0800 (PST)
+Message-ID: <e304aec7-5835-4f4f-89cb-bc3e1dfb78d4@linaro.org>
+Date: Wed, 27 Dec 2023 12:41:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] dt-bindings: HID: i2c-hid: elan: Introduce Ilitek
+ ili2901
+Content-Language: en-US
+To: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org,
+ benjamin.tissoires@redhat.com, linus.walleij@linaro.org,
+ dianders@chromium.org
+References: <20231227085013.1317-1-xiazhengqiao@huaqin.corp-partner.google.com>
+ <20231227085013.1317-2-xiazhengqiao@huaqin.corp-partner.google.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231227085013.1317-2-xiazhengqiao@huaqin.corp-partner.google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-ILI2901 requires reset to pull down time greater than 10ms,
-so the configuration post_power_delay_ms is 10, and the chipset
-initial time is required to be greater than 100ms,
-so the post_gpio_reset_on_delay_ms is set to 100.
+On 27/12/2023 09:50, Zhengqiao Xia wrote:
+> The Ilitek ili2901 touch screen chip same as Elan eKTH6915 controller
+> has a reset gpio. The difference is that they have different
+> post_power_delay_ms and post_gpio_reset_on_delay_ms.
+> Ilitek ili2901 also uses 3.3V power supply.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
----
- drivers/hid/i2c-hid/i2c-hid-of-elan.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-of-elan.c b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-index 31abab57ad44..5b91fb106cfc 100644
---- a/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-@@ -130,9 +130,17 @@ static const struct elan_i2c_hid_chip_data ilitek_ili9882t_chip_data = {
- 	.main_supply_name = NULL,
- };
- 
-+static const struct elan_i2c_hid_chip_data ilitek_ili2901_chip_data = {
-+	.post_power_delay_ms = 10,
-+	.post_gpio_reset_on_delay_ms = 100,
-+	.hid_descriptor_address = 0x0001,
-+	.main_supply_name = "vcc33",
-+};
-+
- static const struct of_device_id elan_i2c_hid_of_match[] = {
- 	{ .compatible = "elan,ekth6915", .data = &elan_ekth6915_chip_data },
- 	{ .compatible = "ilitek,ili9882t", .data = &ilitek_ili9882t_chip_data },
-+	{ .compatible = "ilitek,ili2901", .data = &ilitek_ili2901_chip_data },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, elan_i2c_hid_of_match);
--- 
-2.17.1
+Best regards,
+Krzysztof
 
 
