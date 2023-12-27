@@ -1,91 +1,138 @@
-Return-Path: <linux-input+bounces-1021-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1022-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A2A81EA24
-	for <lists+linux-input@lfdr.de>; Tue, 26 Dec 2023 22:22:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E69881EB39
+	for <lists+linux-input@lfdr.de>; Wed, 27 Dec 2023 02:14:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1E280282D38
-	for <lists+linux-input@lfdr.de>; Tue, 26 Dec 2023 21:22:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 168121F2162D
+	for <lists+linux-input@lfdr.de>; Wed, 27 Dec 2023 01:14:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B55C4C6F;
-	Tue, 26 Dec 2023 21:22:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o3VIqnLt"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8387F1C10;
+	Wed, 27 Dec 2023 01:14:07 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12304C7D
-	for <linux-input@vger.kernel.org>; Tue, 26 Dec 2023 21:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5e74b4d5445so36844247b3.1
-        for <linux-input@vger.kernel.org>; Tue, 26 Dec 2023 13:22:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703625767; x=1704230567; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EKXaXe5/aBY0WPXnTl0QRM2iwcbJuRjGywFUfxTWdAE=;
-        b=o3VIqnLtoSIFR0CLvp0uMP9Rn2X9iIfVcHxOnn5R/JsoYtObh/juMm4TDImYEEG1HC
-         Hr7I8kxG3nqTlKRjL9eQMheXD66X5cgVi8kIK6OS4PQ/xKBJQJvzK5vKSReLn5EYWwyV
-         7f8Tc+0bLz7UFznCUXiUbebujCuCldV5U2s8ROUJA6FsxoDKqirV2lpQgtXEahVN6DYC
-         uEz8rDjnscQkRAPG0lg7C3sBdC0yR4xFFt92N4dfzV5zSWHwzIDV+xADZtFeDrzNOvxf
-         RmLVP9FRE9un+zU/KgucwqR4w+soCXPCj6OBhw0z0K62/I3mb9SzQ7WKlCAsX+PqY9vn
-         YJ/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703625767; x=1704230567;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EKXaXe5/aBY0WPXnTl0QRM2iwcbJuRjGywFUfxTWdAE=;
-        b=ukQrfy1/bghGSsrgAKRBdRfnTLle6B/FVWXoJX4PDlspqRuQUVK8VG2nj8tbjnSEmf
-         h2ZIUW5vNE1Kp5nMZ46e17x5ExaiHnLfJ76snaQiVfHNJthnL1ashrxMjpDJT+suASQv
-         iQiXNMNrxK2+Ih8v4MCS6H4mJMXNn36ZcpF/g9Sw1PMEhdAUUAC/siZ/72ohjeqJhd9H
-         +iFP8eTgVb3h0BMBjtGau1R+DZHLF/h+bCWe50dVVAE3FQSBYNTSgkcu/xQc4kGoq3K2
-         Mf+PK9MJX5SJr8auqMuZZNtj7Ftvd3Oxc2nvXuQHo8e7JxrHxKr4d+/N4jM91kST8pec
-         VtIA==
-X-Gm-Message-State: AOJu0YymyGjBWOD1lai9FxJaRusaR45jteVJIsTCLyRaJoMHEyzNSo2M
-	VPNju35Lbc8Scw20DOtCNBXXhjFQdI8M0vauOIE462yHVWgqFw==
-X-Google-Smtp-Source: AGHT+IHs34mNu+SAplAd7KqkPTJF/zUdmIDD7/SO85Jsl+hfOQIrXGkgRgt2s+SO+1MoV/G8xoql+s3f67qHdsrmnS0=
-X-Received: by 2002:a05:690c:fc3:b0:5e8:8073:8fb3 with SMTP id
- dg3-20020a05690c0fc300b005e880738fb3mr4369443ywb.79.1703625766829; Tue, 26
- Dec 2023 13:22:46 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384C41C02;
+	Wed, 27 Dec 2023 01:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4T0DDk4Gxnz4f3jJB;
+	Wed, 27 Dec 2023 09:13:58 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id 1CA801A09EB;
+	Wed, 27 Dec 2023 09:14:00 +0800 (CST)
+Received: from [10.174.176.117] (unknown [10.174.176.117])
+	by APP1 (Coremail) with SMTP id cCh0CgBXpgxUeotlj6bvEg--.62105S2;
+	Wed, 27 Dec 2023 09:13:59 +0800 (CST)
+Subject: Re: [PATCH] HID: bpf: One function call less in
+ call_hid_bpf_rdesc_fixup() after error detection
+To: Markus Elfring <Markus.Elfring@web.de>, bpf@vger.kernel.org,
+ linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Alexei Starovoitov <ast@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ David Vernet <void@manifault.com>, Jiri Kosina <jikos@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
+References: <3203eb44-6e69-4bda-b585-426408cb75ee@web.de>
+From: Hou Tao <houtao@huaweicloud.com>
+Message-ID: <618f886f-b2ff-4d50-cf74-e8478a7e8547@huaweicloud.com>
+Date: Wed, 27 Dec 2023 09:13:56 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231225092843.5993-1-xiazhengqiao@huaqin.corp-partner.google.com>
- <20231225092843.5993-3-xiazhengqiao@huaqin.corp-partner.google.com>
-In-Reply-To: <20231225092843.5993-3-xiazhengqiao@huaqin.corp-partner.google.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 26 Dec 2023 22:22:35 +0100
-Message-ID: <CACRpkdYP4As4dFnMqWiUBSibbMaLCx9=tPpcZ=c2CkZr2jvTXg@mail.gmail.com>
-Subject: Re: [v1 2/2] HID: i2c-hid: elan: Add ili2901 timing
-To: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com, robh+dt@kernel.org, 
-	jikos@kernel.org, benjamin.tissoires@redhat.com, dianders@chromium.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <3203eb44-6e69-4bda-b585-426408cb75ee@web.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-CM-TRANSID:cCh0CgBXpgxUeotlj6bvEg--.62105S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kw1UWFyUWry7KrWUuFW5Awb_yoW8CFyxpw
+	s7JayYkF4UtryvgF17Kr4vy3Waqa18XrZ8CFyxKay3Zws0vFZ5Jr1av345Wa98JrWkuF42
+	kr40q3y7XF1jkaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
+	e2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
+	Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q
+	6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
+	kF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE
+	14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa
+	7IU1zuWJUUUUU==
+X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
 
-On Mon, Dec 25, 2023 at 10:29=E2=80=AFAM xiazhengqiao
-<xiazhengqiao@huaqin.corp-partner.google.com> wrote:
+Hi,
 
-> ILI2901 requires reset to pull down time greater than 10ms,
-> so the configuration post_power_delay_ms is 10, and the chipset
-> initial time is required to be greater than 100ms,
-> so the post_gpio_reset_on_delay_ms is set to 100.
+On 12/27/2023 2:24 AM, Markus Elfring wrote:
+> From: Markus Elfring <elfring@users.sourceforge.net>
+> Date: Tue, 26 Dec 2023 19:13:25 +0100
 >
-> Signed-off-by: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+> The kfree() function was called in one case by the
+> call_hid_bpf_rdesc_fixup() function during error handling
+> even if the passed data structure member contained a null pointer.
+> This issue was detected by using the Coccinelle software.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+It is totally OK to free a null pointer through kfree() and the ENOMEM
+case is an unlikely case, so I don't think the patch is necessary.
+>
+> Thus adjust jump targets.
+>
+> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+> ---
+>  drivers/hid/bpf/hid_bpf_dispatch.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf_dispatch.c
+> index d9ef45fcaeab..c84fe55be5ed 100644
+> --- a/drivers/hid/bpf/hid_bpf_dispatch.c
+> +++ b/drivers/hid/bpf/hid_bpf_dispatch.c
+> @@ -118,17 +118,17 @@ u8 *call_hid_bpf_rdesc_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *s
+>
+>  	ctx_kern.data = kzalloc(ctx_kern.ctx.allocated_size, GFP_KERNEL);
+>  	if (!ctx_kern.data)
+> -		goto ignore_bpf;
+> +		goto dup_mem;
+>
+>  	memcpy(ctx_kern.data, rdesc, min_t(unsigned int, *size, HID_MAX_DESCRIPTOR_SIZE));
+>
+>  	ret = hid_bpf_prog_run(hdev, HID_BPF_PROG_TYPE_RDESC_FIXUP, &ctx_kern);
+>  	if (ret < 0)
+> -		goto ignore_bpf;
+> +		goto free_data;
+>
+>  	if (ret) {
+>  		if (ret > ctx_kern.ctx.allocated_size)
+> -			goto ignore_bpf;
+> +			goto free_data;
+>
+>  		*size = ret;
+>  	}
+> @@ -137,8 +137,9 @@ u8 *call_hid_bpf_rdesc_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *s
+>
+>  	return rdesc;
+>
+> - ignore_bpf:
+> +free_data:
+>  	kfree(ctx_kern.data);
+> +dup_mem:
+>  	return kmemdup(rdesc, *size, GFP_KERNEL);
+>  }
+>  EXPORT_SYMBOL_GPL(call_hid_bpf_rdesc_fixup);
+> --
+> 2.43.0
+>
+>
+> .
 
-Yours,
-Linus Walleij
 
