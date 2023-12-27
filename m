@@ -1,138 +1,155 @@
-Return-Path: <linux-input+bounces-1022-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1023-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E69881EB39
-	for <lists+linux-input@lfdr.de>; Wed, 27 Dec 2023 02:14:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02AA881EC42
+	for <lists+linux-input@lfdr.de>; Wed, 27 Dec 2023 06:35:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 168121F2162D
-	for <lists+linux-input@lfdr.de>; Wed, 27 Dec 2023 01:14:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 41C261F21BA2
+	for <lists+linux-input@lfdr.de>; Wed, 27 Dec 2023 05:35:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8387F1C10;
-	Wed, 27 Dec 2023 01:14:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB5DB3FE1;
+	Wed, 27 Dec 2023 05:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="KeJnTNke"
 X-Original-To: linux-input@vger.kernel.org
-Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01olkn2012.outbound.protection.outlook.com [40.92.52.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384C41C02;
-	Wed, 27 Dec 2023 01:14:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.216])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4T0DDk4Gxnz4f3jJB;
-	Wed, 27 Dec 2023 09:13:58 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id 1CA801A09EB;
-	Wed, 27 Dec 2023 09:14:00 +0800 (CST)
-Received: from [10.174.176.117] (unknown [10.174.176.117])
-	by APP1 (Coremail) with SMTP id cCh0CgBXpgxUeotlj6bvEg--.62105S2;
-	Wed, 27 Dec 2023 09:13:59 +0800 (CST)
-Subject: Re: [PATCH] HID: bpf: One function call less in
- call_hid_bpf_rdesc_fixup() after error detection
-To: Markus Elfring <Markus.Elfring@web.de>, bpf@vger.kernel.org,
- linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Alexei Starovoitov <ast@kernel.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- David Vernet <void@manifault.com>, Jiri Kosina <jikos@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
-References: <3203eb44-6e69-4bda-b585-426408cb75ee@web.de>
-From: Hou Tao <houtao@huaweicloud.com>
-Message-ID: <618f886f-b2ff-4d50-cf74-e8478a7e8547@huaweicloud.com>
-Date: Wed, 27 Dec 2023 09:13:56 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505513D7A;
+	Wed, 27 Dec 2023 05:35:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XUHVF0j+3cIKZtrXzaPwbJe/EMfVYTOceyzIm8xVu73PGW2hr9E8Nda6Hmc1N7xHCa4GZvkYniLWzH9cAveClRoGjR7AQXsrQc0oW0Ziwl+rCgi6FuoOYxPJB81zDLcWl96V5FFG8rk4OdcB7unW4rycYSr6aQmxvSyqBtVRam2q9G/DJWNO6DszB6SVWExBSd6FNuEPRz9JJ4Y/GJYBD7jjmo995JMCEFGdIasA5ub9SpkHhB+d81Zgh+Z/i+4gNIrejm3JNdZAmsfxIUTMxfoQtDzi52co3dlIUf/snHn/StMPdBNE7niMrXEFYJYW0/PqnI/lJxzY8BhBPTlNqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Gb2AYUGcFuQ5czTHbaq9/vfUsxOl5J6XNnomTPkdZBg=;
+ b=j3G9HKFM9p7mXCuAucFjEpO8/E8OUrDXqWYMBmJ7SP1+Bmplc57WuACJiNkt6HDZAKzXbxg08zsQC5jz0PMGdhlj7cEv+ZkvFXS8kCUTRglQgtljsc5yNtYCEoBXMmOMgxqYDTuT5PCQHd+cAuCCYLxezPLXCE4k01ZovGBtO7xB5ey0Fctt5kI9bdLvhx0Fyzfo1hJGtezE8MolbDs85XTIzS24Lta0i7JHJHBSbFSK45xgGtYzjjC9/I7Gonq1diRb37NNCjGdOFam2Jtm/BV9jbKp9PZ7V/AJsDvtF1oRSOu2ZhmriNborFLNRR9G8BZM68ICQH3H2OgCHdmjZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Gb2AYUGcFuQ5czTHbaq9/vfUsxOl5J6XNnomTPkdZBg=;
+ b=KeJnTNkeQXRYxjWpbB6ngrp92O82mnOmP3xP9r9qrAwDGBhV8VI3fGQeajcnaOxIBh7pxCnzGI/tnEBcbP9Dk1Sjf8+AlsTh5mMcQkwwAYke+edeOvuqhEIWKrJSOfByzjybnxRTKO95qZVpwAqMS+TB2ypjOqNyoZrB1yhau/RqNS2sJYp85Bs9BgQUUk3uUOx9w2AcvznW7QjnMg8XN7o7r37ixRwnAu60lk1T7P36rLozX2SO/6234IelQLTdtuI9M5T/NQTYWH941BeeMBkZnofgHy8xlTT+zQJrwSFcetCRmLxE67f/D/mJQHceC2uBE0rAbxkrp97oU3nqDQ==
+Received: from SEZPR06MB5608.apcprd06.prod.outlook.com (2603:1096:101:c8::13)
+ by JH0PR06MB6977.apcprd06.prod.outlook.com (2603:1096:990:70::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.27; Wed, 27 Dec
+ 2023 05:35:22 +0000
+Received: from SEZPR06MB5608.apcprd06.prod.outlook.com
+ ([fe80::3786:2a86:9685:a19d]) by SEZPR06MB5608.apcprd06.prod.outlook.com
+ ([fe80::3786:2a86:9685:a19d%2]) with mapi id 15.20.7113.027; Wed, 27 Dec 2023
+ 05:35:22 +0000
+From: Allen_Lin <allencl_lin@hotmail.com>
+To: dmitry.torokhov@gmail.com,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	jikos@kernel.org,
+	benjamin.tissoires@redhat.com,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Allen_Lin <allencl_lin@hotmail.com>
+Subject: [PATCH v3 0/2] Add HX83102j driver for HIMAX HID touchscreen
+Date: Wed, 27 Dec 2023 13:35:07 +0800
+Message-ID:
+ <SEZPR06MB560853A09167B9C804F1C53B9E9FA@SEZPR06MB5608.apcprd06.prod.outlook.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [e/Nx10ubnAZlmJ2OqvIHmx2ml5pJJMqs]
+X-ClientProxiedBy: PS1PR01CA0021.apcprd01.prod.exchangelabs.com
+ (2603:1096:300:75::33) To SEZPR06MB5608.apcprd06.prod.outlook.com
+ (2603:1096:101:c8::13)
+X-Microsoft-Original-Message-ID:
+ <20231227053509.894642-1-allencl_lin@hotmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <3203eb44-6e69-4bda-b585-426408cb75ee@web.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-CM-TRANSID:cCh0CgBXpgxUeotlj6bvEg--.62105S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kw1UWFyUWry7KrWUuFW5Awb_yoW8CFyxpw
-	s7JayYkF4UtryvgF17Kr4vy3Waqa18XrZ8CFyxKay3Zws0vFZ5Jr1av345Wa98JrWkuF42
-	kr40q3y7XF1jkaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
-	e2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
-	Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q
-	6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
-	kF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE
-	14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa
-	7IU1zuWJUUUUU==
-X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB5608:EE_|JH0PR06MB6977:EE_
+X-MS-Office365-Filtering-Correlation-Id: 44033084-dd88-4d27-d227-08dc069d9e7f
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	5//2s10KFRWXq2KZhlYxLHPDkYobj2/hMQEl8MdYj+p9sWV2Iks6M+p8CtkSr3KnCVsabj0+/40wmuvJT+DotohkerGdsUhmbH+ONcgJJxKBxafPTQZ14mMZ6GYl2SqticqYS60Ezhd8gz6hgtwLGMk8bZyQLPCWqtNpbaaNIdrAhr1ik8VV9gh7md0XWovlxKrazdLxTR5tYUvvKXldbBc3hqaQj3u4l8xzNXV7hJLwvxSMzp77X6v1Xg8kdi5GuFUme9JAc3Q3BPoYc30b9cr8fC5y66XeJENuySSmGGzgZHCZj9eRGmVNjSwjw8PDvDgeMenA61hbgaVlm2qHNyWTE/3fNzqN7SNIskc89+ruKVGjw1ganDIsS6xZDh5wyqB2u2UmBhjR01omlflBmaLMk2b2j7+FWoUhgcp/3N7vcWfaahyEscoGtBeLJuBTVOLAKuzK+v2VNlheRecX0bhacueub0gUFlwnTRH733C+988UgwZpZ4OdnG5UHPm3egxGccY4zPWIBspjPAMwJZG0BkwVBqEtiSAu6UB+vTmBVjh8D48yONyHGRHlFqKambx3SF2Tmoi9r6DARl1XogLy9C/b0P1+Kp6o3d88DH1CzLZ8phwS4Nla7//ZAF29
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?iKd5O8GOtO8vKBd8UOJBzLH0rW1qQT6sCCsHq7Gf5LIVVihoOkEVoVyJznwU?=
+ =?us-ascii?Q?xtf5M8rOATDuXTAACPlZCa21JU4IW67cnVp+FVoTHjDQXg+K2ttEsstC4YM6?=
+ =?us-ascii?Q?gCWMJA2jxeKzI21WEpWWDxRJwpkpKqwC+Xalm+1nU+ryLVH8w8x4BHDBRKMO?=
+ =?us-ascii?Q?O/YPZ03MUlMxR1sg4j2Is+OsX8wbLJdaznUG2s8Qb6s4D7wyQ+XBKDZ7tzt4?=
+ =?us-ascii?Q?CHISygt2PU+IcNxvRAHrz2O2J8yOS3O/YtV3tJWAZKSUF/AjzOBb2/TcIeQ5?=
+ =?us-ascii?Q?4P9NEyftG4timfyUAAa9ltJ/tx2Xq3F8AeMaQiHec3J65DeItszVy9t2tt/K?=
+ =?us-ascii?Q?hWdcF2yZcVIVA9pDlZiiOsp8Mn3A+XAf5tiMyCFboH7ThLRyvWByUFJDFw+j?=
+ =?us-ascii?Q?hzfnla5619NBgJzDwM0nVyLOiwQNHtszDfhJLMNBmtgj0cx+nBxhEUPq55ii?=
+ =?us-ascii?Q?IwGWquFS9bhgn3wm2l8OhW1kGj8leTE71X52SpmVCn10Nrw6uc5Lx3XR0XGa?=
+ =?us-ascii?Q?OyKBYtJr39ThnjEbrU9/ul+ZE4eb0uB2Z8EAc48n2Lh0mpgNjaOt6En83rr3?=
+ =?us-ascii?Q?CGHR4y2jYPLoCfeGyuC6UF2lziFoS6BPAZFUfsfHwKYCcZZBO+pTJIKmOQXG?=
+ =?us-ascii?Q?Emxmae+h5HzvgH7XscHCXMy/8GuyWOQ0dZI+fk31LdVEGzv8EvCsskS8LCAz?=
+ =?us-ascii?Q?3eV6Bav9zsass/DuvAE/Nu2kMrCkvH9FbH7tC+evlvCTWOSsHPrDcixLGE/1?=
+ =?us-ascii?Q?+LdVPvTvF7yUhK/29dB8+87Al8KwOTNRdX15RAf6QZnUvAjTZEoloWFWsN7Z?=
+ =?us-ascii?Q?6s0Yn5gMQj96qxoUi2FhPADRiZS2HWxyWW+BvVKGBj+3eqGc00punXY5Coq7?=
+ =?us-ascii?Q?j4ce2CbDe0JyiH1UhDkNdvhqEiPXExUxbwmmfutyFzEmlvF0wQWAJlly1Zrb?=
+ =?us-ascii?Q?JFR7BEIWXQTerjOSEApEVI9R42+AiHOSEYSNDLYIFaIQAE2LeD317Hg2aFFE?=
+ =?us-ascii?Q?K4UHMtzUbzuTzIiu+1oU40jKqmT61RVQdRw8jnhx5yeBmJtzSBUxYh2OlQmO?=
+ =?us-ascii?Q?U5H6w5AJqx6Ms4s5EX2t6xH8YlfU+OJq6yXFKW0v/g92ozFPhTuSksdut0cr?=
+ =?us-ascii?Q?/GkojShSaNW+WvN3QG/0Fd7RwqfMrHgbNX8cTQtYZoK7fawF5nPlMznIbuJV?=
+ =?us-ascii?Q?L/jg4nsF1YMtAmxL/BBn9JeBGLfl5vEx52E+sw=3D=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-3208f.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44033084-dd88-4d27-d227-08dc069d9e7f
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5608.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Dec 2023 05:35:22.1867
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR06MB6977
 
 Hi,
+This driver implements for Himax HID touchscreen HX83102j. 
 
-On 12/27/2023 2:24 AM, Markus Elfring wrote:
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Tue, 26 Dec 2023 19:13:25 +0100
->
-> The kfree() function was called in one case by the
-> call_hid_bpf_rdesc_fixup() function during error handling
-> even if the passed data structure member contained a null pointer.
-> This issue was detected by using the Coccinelle software.
+Using SPI interface to receive/send HID packets. 
 
-It is totally OK to free a null pointer through kfree() and the ENOMEM
-case is an unlikely case, so I don't think the patch is necessary.
->
-> Thus adjust jump targets.
->
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-> ---
->  drivers/hid/bpf/hid_bpf_dispatch.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf_dispatch.c
-> index d9ef45fcaeab..c84fe55be5ed 100644
-> --- a/drivers/hid/bpf/hid_bpf_dispatch.c
-> +++ b/drivers/hid/bpf/hid_bpf_dispatch.c
-> @@ -118,17 +118,17 @@ u8 *call_hid_bpf_rdesc_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *s
->
->  	ctx_kern.data = kzalloc(ctx_kern.ctx.allocated_size, GFP_KERNEL);
->  	if (!ctx_kern.data)
-> -		goto ignore_bpf;
-> +		goto dup_mem;
->
->  	memcpy(ctx_kern.data, rdesc, min_t(unsigned int, *size, HID_MAX_DESCRIPTOR_SIZE));
->
->  	ret = hid_bpf_prog_run(hdev, HID_BPF_PROG_TYPE_RDESC_FIXUP, &ctx_kern);
->  	if (ret < 0)
-> -		goto ignore_bpf;
-> +		goto free_data;
->
->  	if (ret) {
->  		if (ret > ctx_kern.ctx.allocated_size)
-> -			goto ignore_bpf;
-> +			goto free_data;
->
->  		*size = ret;
->  	}
-> @@ -137,8 +137,9 @@ u8 *call_hid_bpf_rdesc_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *s
->
->  	return rdesc;
->
-> - ignore_bpf:
-> +free_data:
->  	kfree(ctx_kern.data);
-> +dup_mem:
->  	return kmemdup(rdesc, *size, GFP_KERNEL);
->  }
->  EXPORT_SYMBOL_GPL(call_hid_bpf_rdesc_fixup);
-> --
-> 2.43.0
->
->
-> .
+Patchs notes as below 
+1. Add the Maintainer and devicetree bindings document for driver
+2. Add the driver code and modify Kconfig/Makefile to support the driver
+
+change in v2 :
+- Fix kernel test robot build warnings.
+change in v3 :
+- Modify code according to review suggesions.
+
+Thanks.
+
+
+Allen_Lin (2):
+  dt-bindings: input: Add Himax HX83102J touchscreen
+  Input: Add Himax HX83102J touchscreen driver
+
+ .../bindings/input/himax,hx83102j.yaml        |   65 +
+ MAINTAINERS                                   |    7 +
+ drivers/hid/Kconfig                           |    8 +
+ drivers/hid/Makefile                          |    2 +
+ drivers/hid/hid-himax-83102j.c                | 1096 +++++++++++++++++
+ drivers/hid/hid-himax-83102j.h                |  202 +++
+ 6 files changed, 1380 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/himax,hx83102j.yaml
+ create mode 100644 drivers/hid/hid-himax-83102j.c
+ create mode 100644 drivers/hid/hid-himax-83102j.h
+
+-- 
+2.34.1
 
 
