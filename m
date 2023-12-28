@@ -1,174 +1,161 @@
-Return-Path: <linux-input+bounces-1037-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1038-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D883E81F6EA
-	for <lists+linux-input@lfdr.de>; Thu, 28 Dec 2023 11:36:26 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B27C81FAA3
+	for <lists+linux-input@lfdr.de>; Thu, 28 Dec 2023 20:24:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6B7052858AE
-	for <lists+linux-input@lfdr.de>; Thu, 28 Dec 2023 10:36:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E3F59B23291
+	for <lists+linux-input@lfdr.de>; Thu, 28 Dec 2023 19:24:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F092A6FBD;
-	Thu, 28 Dec 2023 10:36:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1879310781;
+	Thu, 28 Dec 2023 19:24:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="a5SOfthJ"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="HG39Iu9w"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDF86FB6
-	for <linux-input@vger.kernel.org>; Thu, 28 Dec 2023 10:36:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3369339f646so4865486f8f.0
-        for <linux-input@vger.kernel.org>; Thu, 28 Dec 2023 02:36:16 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95235101DD
+	for <linux-input@vger.kernel.org>; Thu, 28 Dec 2023 19:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6dbb7d80df8so4278246a34.1
+        for <linux-input@vger.kernel.org>; Thu, 28 Dec 2023 11:24:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703759774; x=1704364574; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/EnCFpXask+wrGeODC+ZosHkEJo+pMn4C1KjjQ/lxZ4=;
-        b=a5SOfthJ9RX/6qdWFbW3oVOLTWinJSSk+S83ot6OtTy4vrzFdDJXaq53NfHyRed4Bf
-         iJq6VFu9hOkxFhKT5PRhz8YFskffFRtqRWEUQACMWywsrdAnNOPVPG6WrsxPepZ2/RLj
-         CvZQY7o9IUkTlyZshrb8W+sN0gtRDzcPVstwyi2PFiDPTgbqM2V1ewamt9BQ9XBwOROo
-         WPb3Ow7tXV0SLSsXlU2bEEVCTZUCTPALosUgGSXvRArvWobABUEi8hGHahB3O9XYQV6J
-         oC4vjsh7Qr1AxHy2TZwFZlSfdMZ5eQKxJRgjPexMMXgm+pazQNLhkmPeCe+GkL7uqEgg
-         Jlsw==
+        d=broadcom.com; s=google; t=1703791475; x=1704396275; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4eXRhqd1yBwc+Z6yATNh3shIkHH9Y9LTIopAG5eguMQ=;
+        b=HG39Iu9wfJNJlG2EJFaiDDObdlNvScqp/sTLNdfakOy9kPod5vH0PA/vsjd+q0YE09
+         uAjuLhu9MRIBYMD1xbvPx818ZGYZ0Yc4sKE1S1FCch8ZwmG07r70LVbhj+5yLxRTj0tK
+         CcqbdUrS/BUdH/3T0tatxj0ZwoOG3ANvXafEw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703759774; x=1704364574;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/EnCFpXask+wrGeODC+ZosHkEJo+pMn4C1KjjQ/lxZ4=;
-        b=jTrGv0a8V7cbzEw+4JbM13qk6y4x9rTi2p+eTdK2t5umKCufDPsHqVhyRUjg0A5yp6
-         jwQ7JPZ8Vcj4jqB/HaO/tdXB6/Mxyn63HeePIehe8sUFzfmgapypdwxFwlGYHOeOn1YJ
-         TbhPLjL56gs8W73B2McvjqZfk6DIgmonqttv4ScVN5j3AFdhVg2w1sa9p/Y5fKIbbQ0C
-         71Y3fc48CidzfxLu2+skLg6YwgmXmDJUSyFMdUGobzga2HI9rH+rlCJ/GE3APncqif3z
-         NO6+8ds1AIuiczvE8SX7ixbbhpBpPqFN28KtZjlX3/zS560/aruBCK3YnPzSmFtz5jDX
-         +HiA==
-X-Gm-Message-State: AOJu0YwFh6eQCrQa0+pPoCyHrq8HoskVaWZFkDS8FsWijIx6ZbJInQJz
-	5h0GeWZaoYgQ7paHM3QzE2RtD3+oaf++zQ==
-X-Google-Smtp-Source: AGHT+IE8PY5YFJm8dqiMIFOl7s3utUyAOPOwC6e8mQL5HC/d9hHWw0BW/MG83dyRpZ7qM5Ol7vvACw==
-X-Received: by 2002:a5d:4288:0:b0:336:8848:e7e5 with SMTP id k8-20020a5d4288000000b003368848e7e5mr5254180wrq.15.1703759774630;
-        Thu, 28 Dec 2023 02:36:14 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id a6-20020adfed06000000b003366796301csm16899111wro.0.2023.12.28.02.36.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Dec 2023 02:36:14 -0800 (PST)
-Message-ID: <08623087-bf1c-411e-87de-d40ffab6e2bc@linaro.org>
-Date: Thu, 28 Dec 2023 11:36:12 +0100
+        d=1e100.net; s=20230601; t=1703791475; x=1704396275;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4eXRhqd1yBwc+Z6yATNh3shIkHH9Y9LTIopAG5eguMQ=;
+        b=Pu+4CjuQshkFaiR1+n4AJn1bpO81hs7BmJqicH3ERE8xZOze50YPSBGv1Za+Jg5XmN
+         SWASS8rFECX/oVYDR8B2boSEGSRiqJToSvNWORP1wwD9GnwnB5RnM4jCRWpfd6BeL0Fo
+         gJn+Ts+GbFcKEuK5ENs8LrY5qQHVFGMVezlwjrbzppjgKJ5iI2xl6E8ab1c5xc2WVMm7
+         vDKvusVIIWHl4U2E3W0zYaR7dnZ5aFTKAVGKi74WvT+z7k+mCnNlIuCxNdC5vg5hynS9
+         O2dNLzqIYdRx10PLVzMmZUFNwG8O//Ptt6MM7YEYvQCUcq6XwtcN7EjgkwGHZl5G8z7z
+         e8FQ==
+X-Gm-Message-State: AOJu0YwQdEyArzeeohW+1Y3FPovPMY8X2IioKuDE46RWIp0T5f0K2ibi
+	DEESIOdvcJefRMJnuSEZyKXnlcM56P5d
+X-Google-Smtp-Source: AGHT+IGbLBUPIfQHiKai+8RHWPNYuqXRw43QCHnGQB70v03pdYwtq9pCK3CZzd+u6yZat7Ii/tgXpQ==
+X-Received: by 2002:a05:6870:1490:b0:1fb:75b:131e with SMTP id k16-20020a056870149000b001fb075b131emr13111421oab.112.1703791475661;
+        Thu, 28 Dec 2023 11:24:35 -0800 (PST)
+Received: from amakhalov-build-vm.eng.vmware.com ([128.177.82.146])
+        by smtp.gmail.com with ESMTPSA id k16-20020aa79990000000b006d9aa04574csm9522987pfh.52.2023.12.28.11.24.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Dec 2023 11:24:35 -0800 (PST)
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+To: linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	bp@alien8.de,
+	hpa@zytor.com,
+	dave.hansen@linux.intel.com,
+	mingo@redhat.com,
+	tglx@linutronix.de
+Cc: x86@kernel.org,
+	netdev@vger.kernel.org,
+	richardcochran@gmail.com,
+	linux-input@vger.kernel.org,
+	dmitry.torokhov@gmail.com,
+	zackr@vmware.com,
+	linux-graphics-maintainer@vmware.com,
+	pv-drivers@vmware.com,
+	namit@vmware.com,
+	timothym@vmware.com,
+	akaher@vmware.com,
+	jsipek@vmware.com,
+	dri-devel@lists.freedesktop.org,
+	daniel@ffwll.ch,
+	airlied@gmail.com,
+	tzimmermann@suse.de,
+	mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com,
+	horms@kernel.org,
+	kirill.shutemov@linux.intel.com
+Subject: [PATCH v4 0/6] VMware hypercalls enhancements
+Date: Thu, 28 Dec 2023 11:24:15 -0800
+Message-Id: <20231228192421.29894-1-alexey.makhalov@broadcom.com>
+X-Mailer: git-send-email 2.39.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dt-bindings: input: Add Himax HX83102J touchscreen
-Content-Language: en-US
-To: Allen_Lin <allencl_lin@hotmail.com>, dmitry.torokhov@gmail.com,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- jikos@kernel.org, benjamin.tissoires@redhat.com,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20231227053509.894642-1-allencl_lin@hotmail.com>
- <SEZPR06MB56080820EE51CBAE9C6B6B3E9E9FA@SEZPR06MB5608.apcprd06.prod.outlook.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <SEZPR06MB56080820EE51CBAE9C6B6B3E9E9FA@SEZPR06MB5608.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 27/12/2023 06:35, Allen_Lin wrote:
-> Add the HX83102j touchscreen device tree bindings documents.
-> 
-> Signed-off-by: Allen_Lin <allencl_lin@hotmail.com>
-> ---
+VMware hypercalls invocations were all spread out across the kernel
+implementing same ABI as in-place asm-inline. With encrypted memory
+and confidential computing it became harder to maintain every changes
+in these hypercall implementations.
 
-Where is the changelog? There is no cover letter attached, so changelog
-is supposed to be here. There were several comments, so does it mean you
-ignored them?
+Intention of this patchset is to introduce arch independent VMware
+hypercall API layer other subsystems such as device drivers can call
+to, while hiding architecture specific implementation behind.
 
+Second patch introduces the vmware_hypercall low and high bandwidth
+families of functions, with little enhancements there.
+Sixth patch adds tdx hypercall support
 
->  .../bindings/input/himax,hx83102j.yaml        | 65 +++++++++++++++++++
->  MAINTAINERS                                   |  6 ++
->  2 files changed, 71 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/himax,hx83102j.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/himax,hx83102j.yaml b/Documentation/devicetree/bindings/input/himax,hx83102j.yaml
-> new file mode 100644
-> index 000000000000..872b478c5753
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/himax,hx83102j.yaml
-> @@ -0,0 +1,65 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/himax,hx83102j.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Himax hx83102j touchscreen
-> +
+arm64 implementation of vmware_hypercalls is in drivers/gpu/drm/
+vmwgfx/vmwgfx_msg_arm64.h and going to be moved to arch/arm64 with
+a separate patchset with the introduction of VMware Linux guest
+support for arm64.
 
-...
+No functional changes in drivers/input/mouse/vmmouse.c and
+drivers/ptp/ptp_vmw.c
 
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    spi {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +      hid-himax-spi@0 {
+v3->v4 changes: (no functional changes in patches 1-5)
+  [patch 2]:
+- Added the comment with VMware hypercall ABI description.
+  [patch 6]:
+- vmware_tdx_hypercall_args remove in6/out6 arguments as excessive.
+- vmware_tdx_hypercall return ULONG_MAX on error to mimic bad hypercall
+  command error from the hypervisor.
+- Replaced pr_warn by pr_warn_once as pointed by Kirill Shutemov.
+- Fixed the warning reported by Intel's kernel test robot.
+- Added the comment describing VMware TDX hypercall ABI.
 
-Still not the name I asked - it should be generic, like touchscreen.
+v2->v3 changes: (no functional changes in patches 1-5)
+- Improved commit message in patches 1, 2 and 5 as was suggested by
+  Borislav Petkov.
+- To address Dave Hansen's concern, patch 6 was reorganized to avoid
+  exporting bare __tdx_hypercall and to make exported vmware_tdx_hypercall
+  VMWare guest specific.
 
-Best regards,
-Krzysztof
+v1->v2 changes (no functional changes):
+- Improved commit message in patches 2 and 5.
+- Added Reviewed-by for all patches.
+- Added Ack from Dmitry Torokhov in patch 4. No fixes regarding reported
+  by Simon Horman gcc error in this patch.
+
+Alexey Makhalov (6):
+  x86/vmware: Move common macros to vmware.h
+  x86/vmware: Introduce VMware hypercall API
+  ptp/vmware: Use VMware hypercall API
+  input/vmmouse: Use VMware hypercall API
+  drm/vmwgfx: Use VMware hypercall API
+  x86/vmware: Add TDX hypercall support
+
+ arch/x86/include/asm/vmware.h             | 364 ++++++++++++++++++++--
+ arch/x86/kernel/cpu/vmware.c              | 116 +++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c       | 173 ++++------
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h | 197 ++++++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h   | 185 -----------
+ drivers/input/mouse/vmmouse.c             |  76 ++---
+ drivers/ptp/ptp_vmw.c                     |  12 +-
+ 7 files changed, 598 insertions(+), 525 deletions(-)
+
+-- 
+2.39.0
 
 
