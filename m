@@ -1,453 +1,191 @@
-Return-Path: <linux-input+bounces-1035-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1036-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B2981F1FF
-	for <lists+linux-input@lfdr.de>; Wed, 27 Dec 2023 21:54:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C2B981F5F2
+	for <lists+linux-input@lfdr.de>; Thu, 28 Dec 2023 09:31:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AC475283DD0
-	for <lists+linux-input@lfdr.de>; Wed, 27 Dec 2023 20:54:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B8A4F2823A4
+	for <lists+linux-input@lfdr.de>; Thu, 28 Dec 2023 08:30:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB76947F71;
-	Wed, 27 Dec 2023 20:53:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2955033FA;
+	Thu, 28 Dec 2023 08:30:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="VysMLFp1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hw7o0Lu9"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2082.outbound.protection.outlook.com [40.107.102.82])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6857D481A4;
-	Wed, 27 Dec 2023 20:53:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=labundy.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 778AD15B3;
+	Thu, 28 Dec 2023 08:30:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703752253; x=1735288253;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   mime-version;
+  bh=gmwumE3/01uRqBfQOKd+iMXqqji8zcxeyXn/0Y92BpM=;
+  b=Hw7o0Lu9alP5RghlvoLpOs3mi5EzfMli5AcTXOucf6F2k18e8G0Vnjw4
+   cuI/S1v0ubotI2wbO9enQNXhqhBiKAghTLn+FJOcrUZ8nCbE4J2aMbZeH
+   654jYbIt4iJC/q+wJ5ilSS6CCZkUdVjMQkBqd43DC/a9NTPTeOjpAoQJq
+   5bZ4TvqBnmCjIDtjNcioQxC4ih4R1U4Ei/oPG76i4i9L6IQSgHmERQymP
+   pep0jWXf0qCHUAx5dxZ1YbtllrLP68HBEPD/ZGxHOTuKP7utPiHsFi9tK
+   oRHrfJfMyEns8oV/Lrp4fUXLf9QxQY2CG0BaYuIOHB3QS4szNywZsmmMK
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="376013594"
+X-IronPort-AV: E=Sophos;i="6.04,311,1695711600"; 
+   d="scan'208";a="376013594"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2023 00:30:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="754684483"
+X-IronPort-AV: E=Sophos;i="6.04,311,1695711600"; 
+   d="scan'208";a="754684483"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by orsmga006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 28 Dec 2023 00:30:39 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 28 Dec 2023 00:30:38 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 28 Dec 2023 00:30:38 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Thu, 28 Dec 2023 00:30:38 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 28 Dec 2023 00:30:37 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JoSwVOmHNwTH1B8tBFn4yMPq0DiS0k01WkJDnA+bW9X6FmoJ1jtfYrKGXMzclI/bvC3nEm4ngcvSFIfBMh6vFrlHKJa2Cf+jFdp0PY8mEh2s8B7IjZZEarpRlZFQ8D9zZ33o38Tb6TGjGjVYsNet0qJSzw1WP9uO+SV42srTnciZftO8kxRk5klpiU4tNrmGfJfLJPhTDWTJeWAHW4H3aRZY8x0BrEPkIJZHpNJGzCW6xB8yO9UQXbnIrR/A2BB+ClBTU8qNkPrLyGk4D/fKdzpwWyyO6QMbwLbcX1JegNaXTuvD8MtyKibpHxSpEcnoHAa9HsqLkfVY4KNIQsn/lw==
+ b=kHStB4HoKY7pn/sY69D7f3Mw3r8UcNI0z+BSgUzMBnA/TORa8uySvw8DYhrLvKEUCcnV/w+05H5QI2EV/wsj7b1W7U11VAnBSZNsx9qbeVFeonV70QdTtKsHdDkfAo1Bo2wKcw0fe/g19slk2vxc6UPng1NQp15g8BhVfEDRDY9t6Dv2ZsgNOAoe31Gnh3iIT/55koHziujSToBKaY7qjbOx5zpXxPgrFXzCNHC/f9mGf0A73TsC2JqsayjsOyMJn3CjHW88DTI3VqNXJIKZw66I1cV7xJM4OXyGkFvnEzFsFErRIlOfwtZpCpBTPWGCeZg7PkoDq5+6IEKxnjNgIg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Itz+W7Yok0o6vZuofEM8ukXyJ78BNo5WEwXHZCmDN64=;
- b=LGBV0kZvBPxiHDA4HzOAtWKHXEV920cxepR2WVar6KQGdx5jtiecHAw2xhvK2mPP3gsbmhxa9doHCg6a445NOpCmauU/xI15njlrg3WVwSvCMDpOV2hNGEl0wmEUXjA54gHRWEbDH8LQ8ol811+Id4uiGIGHzwoGSceXmduVwPDhr41eZm5NA2tWpnMcObyZZLTm0NORGzWgcXh0eV2gqOA+CBVDpqM4v4G2xwZgU+v995WD9GcW8jBKDDOXN1vLYiuuoqpx5wNZ6D3yG2JH4WVuXdoH18x7/8ub1uuweuyQTkPOJpmBWx3TSRNEl+JvVpXdNTHhOAte5ajKi7aUvg==
+ bh=sq/My6RXglsvfq4z8gnAO2HYZTUwCaUNFoNDJNdu1qo=;
+ b=OhoD/w3H38caR5Y+yQwFr7gHaESqg2it8Jsk6mRK8V+s4/XCoWHfVdInEHKdIu2li3MMpun9V/8jcb3g7sGg+jpWqB987bUNyLF2DRLmCYTADoh79HBRkOz5oTHxU3rCgnfY57Dxe0UWOgrIgpRtMMZWaH5Y+FEoAFzqaxvNGolw1DNgTZdAgC1PZKwhHF6pm2OHWaAhWPUBQE4UCwnrFZavnN8Puod96YnvG+ctEj3RVygob3izU+1MEiezdszg8ssMIuhifK1xaiBXcXtbuH53n8UnEPEIaOq27P3dV/SPzsmtqvxdnEBuOcV2K3QhAq26fgihVtrZy4ag0pwT6w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Itz+W7Yok0o6vZuofEM8ukXyJ78BNo5WEwXHZCmDN64=;
- b=VysMLFp1LKmsDQPniGNSveEQqhMPPpFc8kC9PkzN7dvmjJzZNx5JaqtXo/BNw66XXjSfti11ZXtatuzpcY+qNWMQoGuUxa6LZQ4j/xdLWzMu/wTdFQvraSgQVquYV7VZE70z7gX73l6n6FU1F3U5y+wMEeyYdtj4PUh8WS+1PQY=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=labundy.com;
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by CO1PR08MB7256.namprd08.prod.outlook.com
- (2603:10b6:303:f2::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.20; Wed, 27 Dec
- 2023 20:53:49 +0000
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::36f2:78d1:ad7d:66da]) by SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::36f2:78d1:ad7d:66da%4]) with mapi id 15.20.7159.006; Wed, 27 Dec 2023
- 20:53:49 +0000
-Date: Wed, 27 Dec 2023 14:53:43 -0600
-From: Jeff LaBundy <jeff@labundy.com>
-To: Javier Carrasco <javier.carrasco@wolfvision.net>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>,
-	Bastian Hecht <hechtb@gmail.com>,
-	Michael Riesch <michael.riesch@wolfvision.net>,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 2/4] dt-bindings: touchscreen: add overlay-touchscreen
- and overlay-buttons properties
-Message-ID: <ZYyO1/kKGL3C9QAF@nixie71>
-References: <20230510-feature-ts_virtobj_patch-v5-0-ff6b5c4db693@wolfvision.net>
- <20230510-feature-ts_virtobj_patch-v5-2-ff6b5c4db693@wolfvision.net>
- <ZTp72LUXxr+Z9gn8@nixie71>
- <487555fa-72ad-4d1a-ac68-51826f56f1cd@wolfvision.net>
-Content-Type: text/plain; charset=utf-8
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+ by SN7PR11MB7668.namprd11.prod.outlook.com (2603:10b6:806:341::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.19; Thu, 28 Dec
+ 2023 08:30:35 +0000
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::2f1a:e62e:9fff:ae67]) by BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::2f1a:e62e:9fff:ae67%5]) with mapi id 15.20.7113.027; Thu, 28 Dec 2023
+ 08:30:35 +0000
+Date: Thu, 28 Dec 2023 16:30:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Allen_Lin <allencl_lin@hotmail.com>, <dmitry.torokhov@gmail.com>,
+	<robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+	<conor+dt@kernel.org>, <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
+	<linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>, Allen_Lin <allencl_lin@hotmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: input: Add Himax HX83102J touchscreen
+Message-ID: <ZY0yIVHXrQ17GqO3@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <487555fa-72ad-4d1a-ac68-51826f56f1cd@wolfvision.net>
-X-ClientProxiedBy: SA0PR11CA0210.namprd11.prod.outlook.com
- (2603:10b6:806:1bc::35) To SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21)
+In-Reply-To: <SEZPR06MB56080820EE51CBAE9C6B6B3E9E9FA@SEZPR06MB5608.apcprd06.prod.outlook.com>
+X-ClientProxiedBy: SG2PR04CA0170.apcprd04.prod.outlook.com (2603:1096:4::32)
+ To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|CO1PR08MB7256:EE_
-X-MS-Office365-Filtering-Correlation-Id: 469588da-23f0-473f-cfea-08dc071ded16
+X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|SN7PR11MB7668:EE_
+X-MS-Office365-Filtering-Correlation-Id: a7727e35-ad71-4adb-2f1b-08dc077f4328
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	/97aaVQvIP94oU4wgUGowgC8e4YQWo0BCq4f9ZPWb23hPTmWrc6EbYQmmUasdBsnO9/LtRaqXfJmLHnXFlomU7rJ3e+FdP8i8nffpBTpHTXgAsNVNhyG5XZr7xvgASfED3CGgOD8i4+0dq3SoYwVHfRMqT8bz9TyN56nDkwOMIFI450AN7aa4RM0RilHCKEVTMxF4ppdiOxn4dRz5x+2nfaJhzIFGUMTu5BT8cDEiPwkyigmttk/Yn3GxPrL9eQdo3UrqpfOTnfOAIUNxtUYa7k6H41rPKleOT7HQo2JnDTzVuNkLwqJZEfiix8X+uI3cl2KzrYsMkcTNeA7TDWsMW+mcy60SrSJEIh0rFzHnyfYBXZN32+N+jjhMCeCpVHcvXJigabPZoymA1Y0xHii6VcfBdmxRE5s+cjaPygJODji0eeL2Wal1EvOohTrxL2Aq0AXQDtgB9cuHDlk+pCu4Rg3sDU9Z70u1rZnXq4SbIqvINsb70Rsnqjg4DuAcSlKejiG5WdIMnQfyoYEP6vMTEsZyRCrfHikv2RwQd8ljgwDz2ufXsncJ5N5ycYrY4wi
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(136003)(396003)(366004)(346002)(376002)(39830400003)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(9686003)(6512007)(26005)(33716001)(66946007)(8676002)(4326008)(6916009)(66556008)(316002)(54906003)(66476007)(83380400001)(478600001)(6666004)(6506007)(53546011)(38100700002)(86362001)(8936002)(6486002)(5660300002)(7416002)(2906002)(30864003)(41300700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: tt8IjM1LjZ57aj8yqi7Abk63dtbgHlasagTepqK3V9MmeXRerPTFJH5/Q2/eyjvBGCJzOQvsjKA8qMs/GLGVLYqPtYj/56VOWMiofpL1QOI6Xz7B9zyaUzKqiXNiYVkp0aFBS/y/YLFgqWU+Hlk7FiMkl3Ng5WqsvEreMG8yYB76ifU6p4ib9ktgJReNRuarT7SE7qaP4w0Gh69cvarxgSN3lkrZ4/w/KMD/nNYt9uRlpG2aWA03LK6DAg8VMoMsCqOmO9Dx4mp0XhPBd5p9HtzyB9eSCSFPfyYtkXmganEcbuvohU0JohTFk1sybP6+xHzXrZWAM9qi1c2upZRCao3P8jkp/g+PYzq7M90uaBnlW/oRm0HYYUglLIMClpw7A6IYUwbiDpvy1nA+TgPBbdcGz/AIE18JCaceGg8BGV/ahxE/NfUqvuK6KlI9RdVNcNnZ+hdCZER6ZwhKk4tYoXJMaA5tqhjd1fesrUdUOroAYPZtL34gip5IXT+VOIPrzdt9abnA1lA1RXTILEGuM/x2gOs+VfF/RmzpQk2ozT8ZyA/j6aKpz8+cb+HK0EuY3GZE/QbFCIArycXuFXgzm6zY+M0Qu5oD6AgsYhmJgExv5VhpvcCx5bOun1tgJjo8iLVWM7xRhMdhuAfboP7szGlHMTmYieUNRmoo8lLtQww=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(376002)(39860400002)(346002)(396003)(136003)(230273577357003)(230173577357003)(230922051799003)(64100799003)(1800799012)(186009)(451199024)(921011)(4001150100001)(7416002)(2906002)(82960400001)(5660300002)(38100700002)(33716001)(86362001)(4326008)(8936002)(8676002)(41300700001)(316002)(66476007)(66556008)(66946007)(83380400001)(26005)(966005)(478600001)(6512007)(9686003)(6486002)(6506007)(6666004)(45080400002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ODNYZ1BVSC9QQ1JLOERzMXh5V1RtOUVwaXNFS1E4dE5OT05pWlhrdkplMU5N?=
- =?utf-8?B?ZXVyTEsrMmYxaFE0Q1VPeTVRRU1ZaHk0NG9uTXhvYm1hMU1XM0lwUHBoV2xG?=
- =?utf-8?B?cnlONFFueC9lYUVEMnBQTWdXbWF0M2Vpa21jM05LZUNrSk1rS3ZySzR1N2Zv?=
- =?utf-8?B?TTRMOTFQYWZwUjZVTTV4SUFkUU85SlJoaUMrSWRadjgreE1MbVJJZ0F5VW45?=
- =?utf-8?B?Z2pCckgyRXFiK3NyYm1UODRTL3Jsd2YrRTU5TG1IRzBDd3paS2pwamVvZkVG?=
- =?utf-8?B?L2xGaENGQnJXTHowRzFOZ1Q1Q2w2NU4xZEMrMDFrckd2NkYzblU3STN6VGcv?=
- =?utf-8?B?VTZURDRqNEJXTkdZNHA2NU5uUmR4dXN1bkthbUVwMGd5bFRyNFJIWlhqdHVh?=
- =?utf-8?B?ZVlRUUhVZUExM291SHBYZHhUVXRpalhpanJNVnJDVFpBckdDTWwrYUxQVkox?=
- =?utf-8?B?N1Q3VkxDbExtQ3k5OWNmMjFsNE9tVUZjTk4rcGJqdlRHK2ZhaHZRUEdOV3hZ?=
- =?utf-8?B?aUN3NnZUNkc5cldDR0k1NTE5UGhlcWN4R241NnJvRGZGbFFNTDN6U3I3Vjhk?=
- =?utf-8?B?MEV0alNPeVJjbFZwWlhLeS80NVZraGtDR21pZ09QdmZCMnJpa2k1ZC8zY3N5?=
- =?utf-8?B?M2MrY3BEelhiNzZUVXpsbm9rT3R4VGNyUDFIWGdwVkJ6ZitFK3F6VnREdkY2?=
- =?utf-8?B?OGpPdmpJdjJ6aERtejUyaGkzM3U2UVNYcTg3eHJ6dXhXc3ZNSUVvTVNFY0Y4?=
- =?utf-8?B?Ym1XSFd5ZWRUYjlQUDFuVVB5M0RmaXg0VjZkaGUvc2lQc3MyMkJUdTVyMGxD?=
- =?utf-8?B?Z09wZmVxS0htSUxHdFNyS01nWHprSHBzZ09YWWxqMGxmaHBQczlPeWVoaWZR?=
- =?utf-8?B?aFNhSlg4NTFGcDQ1RHRCSGJtN0VpL3BRUFp6Tmc2TDNrQnZ1ejd3VmNqcTM4?=
- =?utf-8?B?SlRDY1l1elFOenFMTGovT2g2S0FGY2xVVVcwSGRJSGNZRDFJa1ppSHRSTStn?=
- =?utf-8?B?ekZXZFdxMGdpWldPa0JMZHU1a0ZUTDUyMDlzQ1paWThrRDk4eU82OTU3K0pw?=
- =?utf-8?B?d09kdzJJd1pKYVhhaVFpZU44MU9vTnd3dXpLN3FpRnBrUGJGUWdIeWdxR3BC?=
- =?utf-8?B?KzRDT3pIM2dCM3lucGVzVUhxRCtBT0FZd0dvelY4dW5BR2lOdlloQjJZalJK?=
- =?utf-8?B?WjlXcDI3dW1Ua3RRK0JJWEV5MmZWMlJwZnFCOUZUb1QzNkppSkVXeGp5WTZt?=
- =?utf-8?B?QytYR3h0SnluTHpjZUVyNlN6OW8yc2l5Szh3dldybEtKVkcvVjl3TnR2ZE4v?=
- =?utf-8?B?R01Lc0FVRXpPeTdyNzc1eU9WeTBPbWRYaUJRNTRJOE5NWjRycUR3MDlTM24v?=
- =?utf-8?B?QXpaUG5BVk80N3RsSnE4RkZMTHRiWlNOazhxaVBtekNheE9Eamk2TFRqUUxX?=
- =?utf-8?B?Qy9DeHVtQ1VOUlNwUEZFUXpoeHJ2WWZ5LzJ5U1h6Snhoa0FQd1JnLy9xQmk3?=
- =?utf-8?B?S2dZTTNwRlY0Q2kvdExjbEtDVkdoSHlZd29SQkoyV2pUanl2aEFLQUFlSHQy?=
- =?utf-8?B?V1dZbFFNVGNlRkdmQUlMSU13SWJhdmFNak5rTVFFeWVSQnBJR1A5K01nUDh0?=
- =?utf-8?B?YnN5aEZnY2pCNlgvdno5ZW04THdkT3dmVWlMWENFMjlVcG9iRWFGNXdvZlFN?=
- =?utf-8?B?cnlTUUx3RTM2ekZBcXNGR3VhVS9vVzl4NzN3bUMxNVQ5VndtdkV4NjcvaUFh?=
- =?utf-8?B?elJWSmR3UEdMVFZkVlJFMGhCZDEyWnh6cTQwSmdvaUZTVzBDek90VzFacm01?=
- =?utf-8?B?cFpIUWpvNzRtMSswVmdzL3VNYjBjUXZCTGl1K0FLVDV1aXl1VjdCM3JKYTVh?=
- =?utf-8?B?LzhuZWJOcXhWcS9UVWkzendmS2xzUFl6eFVlVmVGZlRHSlZmTEw2WVYxajFR?=
- =?utf-8?B?TXQxa2swVDAvU1A0NmxibnRndjF0RndjbW1nVnlmU3gvTFp2RStBamdtaHhm?=
- =?utf-8?B?dmpYMHUxVVlpRThLOUthbjJwM0xFREhhWlFKeE5NN24waEFpOVZDUGp5NFU2?=
- =?utf-8?B?eG9VM3IxclI4cSs2dzIybjNzRnZpdktINFBlekd3UUllRmJtcWROS1RYeHpl?=
- =?utf-8?Q?QDfzvUpVGBkCNvcDg6UejZUer?=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 469588da-23f0-473f-cfea-08dc071ded16
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?//ZGreE/uFl+9sBpgqkQAGq78YPc6FhZEDHrwIuWUMvKQEzDbLV3wYkWXB9/?=
+ =?us-ascii?Q?dcmiMYBeVNzXWsxtvbrJmDm/IHUomnBNdQTp5M5Y+IZdcajh2z1naUNksGm0?=
+ =?us-ascii?Q?WCMYnwUge5Xv6VaRUfPRneTt1tmmEK/70biuFP1UFYIoGDSuIdzXe9zOxIXl?=
+ =?us-ascii?Q?GnQUN/Pgxf30kdd830Ibi25e6Z5OfosvruK5iu/w8ZYO5BZOiruXdVYKrW05?=
+ =?us-ascii?Q?283JCRQneeR+rj2xesWMe2hXHxd7p0MgyGqCG4VkSkrypCYWy1mqrv9i4C9Q?=
+ =?us-ascii?Q?SEeCm0vpZ/VHRdzr/IJyE58Ssp4qzFV7+fEUF/hYoiQWEi1AwAW48FrvUoL+?=
+ =?us-ascii?Q?x/L4k+YFPITLXnJvL2+6xKxPTMIzsSwzRve/0uMU/kc0l10ogpxWZ3irCFY4?=
+ =?us-ascii?Q?GcewtB+2kHv7KUhuZVnAm+BwHKse43BFpkZ2UgqU5j0ptuEcRiJjFD1Fd1dP?=
+ =?us-ascii?Q?A7jN6b7/x6CgWMqs3rIhc/7fMstELBKOeuEe/RcqtagPqVVIqxJaqIsMlL2s?=
+ =?us-ascii?Q?NTWLCTolRXaHjHydLai2R+zuCDBVmIz7e+SB/GCkPBuwz/wVyIMHFT0dxGQB?=
+ =?us-ascii?Q?D3xTaqkA5kGCyDM6gd6MmqZA/ZzLjv3/2tRnehZ/53aiOJZtclVwrIEQgfZA?=
+ =?us-ascii?Q?8IJh1lrAN7nph+wLQFsbtDkkHlRIW9Lk80IULUMuhsGzC0Njv8bBB+xfhxJA?=
+ =?us-ascii?Q?4fBCqC2vMwHU8sO+6Ry/2++00WOzjDQ64U4v5q/OnLVzuLrhgjkzYjEpyP4u?=
+ =?us-ascii?Q?PcKMy2cx5JTJPFQwLdHCipgqvscZsrRBr6R3vbm81QzcrOaochQCNbhffomf?=
+ =?us-ascii?Q?ZOip5WGpZlbCtkps6LuQU7U4gFE5zB3xOubgUd6EtenJdCE4FnqvBYMwx4HI?=
+ =?us-ascii?Q?qqPUBqCfhV2NUrTFhTDWuC7j7HMY7R6B1yr9Z0v7uuEQ97AfOUszHxukHB2U?=
+ =?us-ascii?Q?VtmsPKR3Qit+B0pGXfhNiP/CCrac7HGASyzrbIFOmlyNoj5j3jzFuReVbjDQ?=
+ =?us-ascii?Q?QpfkbNN+DFUPA9cgiikfhmYiezHGAwZUIZZEtpoACyp13k/BC4W8A7QajDi2?=
+ =?us-ascii?Q?OBIDX3GxzfKocyMzqNL6nfSptf6CVQ++0KLKd42aHmV0yrYsDUqDIoIiINIx?=
+ =?us-ascii?Q?01RjB/vSNdX8MzhtIylp2Gx8JEIUTg2dAUllWv67qUuBxwwQ7d2PzughvMj4?=
+ =?us-ascii?Q?CfPRvaAtMZzSCiatSM6Yyx6WHiSxnRBqr4ErmgKyWf2Bx8RshMYl0Y39z3Om?=
+ =?us-ascii?Q?iz7YWLBm9/hxRLZGh1aeQMkY86P1wn4BiBke0Q23JzmsC8BKPqh7q7KQsYeA?=
+ =?us-ascii?Q?liBscKuJOzDhmhbOqMVl7wvauyd7nMnCrtBKWSFCs5tVG5SmuWmaENUhVA4s?=
+ =?us-ascii?Q?3O0CnCvZBwGngD7Lz2x0hj/Cvp19d9UBNIgrRHmWMltIOj96lGvhUJRrnhP2?=
+ =?us-ascii?Q?PQIBi2Rh/SpSKUFjQBEVk4N1Vm1/fYqzktKZCd8DruhouIDOUUZOJ2vp6eFY?=
+ =?us-ascii?Q?1PxPqDf/vnhCYJMdLiD7mGEPv0RLut2U7V8OLZ/yBu+ckFgpl5nMMslPAiL7?=
+ =?us-ascii?Q?1pF3J67dCirjSWvxUwPUu4LVrOEVQ4LysPahijWr?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7727e35-ad71-4adb-2f1b-08dc077f4328
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Dec 2023 20:53:49.5304
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Dec 2023 08:30:35.4288
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xzU0tP2UbtyihW0qA0i/J9fvvCh9TfpH5WjDWbyiZ5I3NPWs5+ZTZKozH8RCnxYH3MoJ4R81N4nX7Nt70itXQQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR08MB7256
+X-MS-Exchange-CrossTenant-UserPrincipalName: OGOvIFiCQjSVwhwxvCqKCaR0ZnlbfdEBXsEUKbCGbvk9YiFGBvScDwGCCdxgM99FVzHxXQug54oMycJdezF07A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7668
+X-OriginatorOrg: intel.com
 
-Hi Javier,
+Hi Allen_Lin,
 
-I am so sorry for the delayed response.
+kernel test robot noticed the following build warnings:
 
-On Thu, Nov 23, 2023 at 08:48:56PM +0100, Javier Carrasco wrote:
-> Hi Jeff,
-> 
-> On 26.10.23 16:46, Jeff LaBundy wrote:
-> > Hi Javier,
-> > 
-> > Thank you for continuing to drive this high-quality work.
-> > 
-> > On Tue, Oct 17, 2023 at 01:00:08PM +0200, Javier Carrasco wrote:
-> >> The overlay-touchscreen object defines an area within the touchscreen
-> >> where touch events are reported and their coordinates get converted to
-> >> the overlay origin. This object avoids getting events from areas that
-> >> are physically hidden by overlay frames.
-> >>
-> >> For touchscreens where overlay buttons on the touchscreen surface are
-> >> provided, the overlay-buttons object contains a node for every button
-> >> and the key event that should be reported when pressed.
-> >>
-> >> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
-> >> ---
-> >>  .../bindings/input/touchscreen/touchscreen.yaml    | 143 +++++++++++++++++++++
-> >>  1 file changed, 143 insertions(+)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-> >> index 431c13335c40..5c58eb79ee9a 100644
-> >> --- a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-> >> +++ b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-> >> @@ -87,6 +87,129 @@ properties:
-> >>    touchscreen-y-plate-ohms:
-> >>      description: Resistance of the Y-plate in Ohms
-> >>  
-> >> +  overlay-touchscreen:
-> >> +    description: Clipped touchscreen area
-> >> +
-> >> +      This object can be used to describe a frame that restricts the area
-> >> +      within touch events are reported, ignoring the events that occur outside
-> >> +      this area. This is of special interest if the touchscreen is shipped
-> >> +      with a physical overlay on top of it with a frame that hides some part
-> >> +      of the original touchscreen area.
-> >> +
-> >> +      The x-origin and y-origin properties of this object define the offset of
-> >> +      a new origin from where the touchscreen events are referenced.
-> >> +      This offset is applied to the events accordingly. The x-size and y-size
-> >> +      properties define the size of the overlay-touchscreen (effective area).
-> >> +
-> >> +      The following example shows the new touchscreen area and the new origin
-> >> +      (0',0') for the touch events generated by the device.
-> >> +
-> >> +                   Touchscreen (full area)
-> >> +         ┌────────────────────────────────────────┐
-> >> +         │    ┌───────────────────────────────┐   │
-> >> +         │    │                               │   │
-> >> +         │    ├ y-size                        │   │
-> >> +         │    │                               │   │
-> >> +         │    │      overlay-touchscreen      │   │
-> >> +         │    │                               │   │
-> >> +         │    │                               │   │
-> >> +         │    │            x-size             │   │
-> >> +         │   ┌└──────────────┴────────────────┘   │
-> >> +         │(0',0')                                 │
-> >> +        ┌└────────────────────────────────────────┘
-> >> +      (0,0)
-> >> +
-> >> +     where (0',0') = (0+x-origin,0+y-origin)
-> >> +
-> >> +    type: object
-> >> +    $ref: '#/$defs/overlay-node'
-> >> +    unevaluatedProperties: false
-> >> +
-> >> +    required:
-> >> +      - x-origin
-> >> +      - y-origin
-> >> +      - x-size
-> >> +      - y-size
-> >> +
-> >> +  overlay-buttons:
-> >> +    description: list of nodes defining the buttons on the touchscreen
-> >> +
-> >> +      This object can be used to describe buttons on the touchscreen area,
-> >> +      reporting the touch events on their surface as key events instead of
-> >> +      the original touch events.
-> >> +
-> >> +      This is of special interest if the touchscreen is shipped with a
-> >> +      physical overlay on top of it where a number of buttons with some
-> >> +      predefined functionality are printed. In that case a specific behavior
-> >> +      is expected from those buttons instead of raw touch events.
-> >> +
-> >> +      The overlay-buttons properties define a per-button area as well as an
-> >> +      origin relative to the real touchscreen origin. Touch events within the
-> >> +      button area are reported as the key event defined in the linux,code
-> >> +      property. Given that the key events do not provide coordinates, the
-> >> +      button origin is only used to place the button area on the touchscreen
-> >> +      surface. Any event outside the overlay-buttons object is reported as a
-> >> +      touch event with no coordinate transformation.
-> >> +
-> >> +      The following example shows a touchscreen with a single button on it
-> >> +
-> >> +              Touchscreen (full area)
-> >> +        ┌───────────────────────────────────┐
-> >> +        │                                   │
-> >> +        │                                   │
-> >> +        │   ┌─────────┐                     │
-> >> +        │   │button 0 │                     │
-> >> +        │   │KEY_POWER│                     │
-> >> +        │   └─────────┘                     │
-> >> +        │                                   │
-> >> +        │                                   │
-> >> +       ┌└───────────────────────────────────┘
-> >> +     (0,0)
-> >> +
-> >> +      The overlay-buttons object can  be combined with the overlay-touchscreen
-> >> +      object as shown in the following example. In that case only the events
-> >> +      within the overlay-touchscreen object are reported as touch events.
-> >> +
-> >> +                  Touchscreen (full area)
-> >> +        ┌─────────┬──────────────────────────────┐
-> >> +        │         │                              │
-> >> +        │         │    ┌───────────────────────┐ │
-> >> +        │ button 0│    │                       │ │
-> >> +        │KEY_POWER│    │                       │ │
-> >> +        │         │    │                       │ │
-> >> +        ├─────────┤    │  overlay-touchscreen  │ │
-> >> +        │         │    │                       │ │
-> >> +        │         │    │                       │ │
-> >> +        │ button 1│    │                       │ │
-> >> +        │ KEY_INFO│   ┌└───────────────────────┘ │
-> >> +        │         │(0',0')                       │
-> >> +       ┌└─────────┴──────────────────────────────┘
-> >> +     (0,0)
-> >> +
-> >> +    type: object
-> > 
-> > I am still confused why the buttons need to live under an 'overlay-buttons'
-> > parent node, which seems like an imaginary boundary. In my view, the touch
-> > surface comprises the following types of rectangular areas:
-> > 
-> > 1. A touchscreen, wherein granular coordinates and pressure are reported.
-> > 2. A momentary button, wherein pressure is quantized into a binary value
-> >    (press or release), and coordinates are ignored.
-> > 
-> > Any contact that falls outside of (1) and (2) is presumed to be part of a
-> > border or matting, and is hence ignored.
-> > 
-> > Areas (1) and (2) exist in the same "plane", so why can they not reside
-> > under the same parent node? The following seems much more representative
-> > of the actual hardware we intend to describe in the device tree:
-> > 
-> > 	touchscreen {
-> > 		compatible = "...";
-> > 		reg = <...>;
-> > 
-> > 		/* raw coordinates reported here */
-> > 		touch-area-1 {
-> > 			x-origin = <...>;
-> > 			y-origin = <...>;
-> > 			x-size = <...>;
-> > 			y-size = <...>;
-> > 		};
-> > 
-> > 		/* a button */
-> > 		touch-area-2a {
-> > 			x-origin = <...>;
-> > 			y-origin = <...>;
-> > 			x-size = <...>;
-> > 			y-size = <...>;
-> > 			linux,code = <KEY_POWER>;
-> > 		};
-> > 
-> > 		/* another button */
-> > 		touch-area-2b {
-> > 			x-origin = <...>;
-> > 			y-origin = <...>;
-> > 			x-size = <...>;
-> > 			y-size = <...>;
-> > 			linux,code = <KEY_INFO>;
-> > 		};
-> > 	};
-> > 
-> Now that I am working on the approach you suggested, I see that some
-> things can get slightly more complicated. I still think that it is worth
-> a try, but I would like to discuss a couple of points.
-> 
-> The node parsing is not that simple anymore because the touch-area nodes
-> are only surrounded by the touchscreen node. Theoretically they could be
-> even be defined with other properties in between. The current approach
-> only needs to find the overlay-buttons parent and iterate over all the
-> inner nodes(simply by calling device_get_named_child_node() and
-> fwnode_for_each_child_node() the parsing is achieved in two lines +
-> error checking). So maybe even if we opt for the single-object approach,
-> an overlay node to group all the touch-areas could simplify the parsing.
-> Or did you have a different approach in mind? Your example would turn
-> into this one:
-> 
-> 	touchscreen {
-> 		compatible = "...";
-> 		reg = <...>;
-> 
-> 		touch-overlay {
-> 			/* raw coordinates reported here */
-> 			touch-area-1 {
-> 				x-origin = <...>;
-> 				y-origin = <...>;
-> 				x-size = <...>;
-> 				y-size = <...>;
-> 			};
-> 
-> 			/* a button */
-> 			touch-area-2a {
-> 				x-origin = <...>;
-> 				y-origin = <...>;
-> 				x-size = <...>;
-> 				y-size = <...>;
-> 				linux,code = <KEY_POWER>;
-> 			};
-> 
-> 			/* another button */
-> 			touch-area-2b {
-> 				x-origin = <...>;
-> 				y-origin = <...>;
-> 				x-size = <...>;
-> 				y-size = <...>;
-> 				linux,code = <KEY_INFO>;
-> 			};
-> 		};
-> 	};
-> In my opinion it looks cleaner as well because you are defining a
-> physical object: the overlay.
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on dtor-input/next dtor-input/for-linus robh/for-next linus/master v6.7-rc7 next-20231222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I like this idea. My original example assumes one would include any node
-that contains some magic substring (e.g. "touch") in the node name, but
-thinking about this more, that may be a bit presumptive. It seems safer
-to wrap all of the children in one newly introduced node as you have done
-here.
+url:    https://github.com/intel-lab-lkp/linux/commits/Allen_Lin/Input-Add-Himax-HX83102J-touchscreen-driver/20231227-133817
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/SEZPR06MB56080820EE51CBAE9C6B6B3E9E9FA%40SEZPR06MB5608.apcprd06.prod.outlook.com
+patch subject: [PATCH v3 1/2] dt-bindings: input: Add Himax HX83102J touchscreen
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231228/202312280837.b2PFmd9W-lkp@intel.com/reproduce)
 
-> 
-> > With this method, the driver merely stores a list head. The parsing code
-> > then walks the client device node; for each touch* child encountered, it
-> > allocates memory for a structure of five members, and adds it to the list.
-> > 
-> The button objects do not only store the keycode, but also the slot and
-> if they are pressed or not. I could allocate memory for these members as
-> well, but maybe an additional struct with the button-specific members
-> set to NULL for the touch areas with keycode = KEY_RESERVED would make
-> sense. I don't know if that's adding too much overhead for two members
-> though.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202312280837.b2PFmd9W-lkp@intel.com/
 
-It's still not clear to me why your code is responsible for storing button
-state; that's the job of the input subsystem. Your code is only responsible
-for reporting instantaneous state after you are told something interesting
-happened (e.g. interrupt). The input core is responsible for determining
-whether the most recently reported state is different than the last.
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/input/himax,hx83102j.yaml:1:58: [error] wrong new line character: expected \n (new-lines)
 
-> 
-> > The event handling code then simply iterates through the list and checks
-> > if the coordinates reported by the hardware fall within each rectangle. If
-> > so, and the keycode in the list element is equal to KEY_RESERVED (zero),
-> > we assume the rectangle is of type (1); the coordinates are passed to
-> > touchscreen_report_pos() and the pressure is reported as well.
-> 
-> There is another case to consider that might make the iteration less
-> optimal, but I don't think it will be critical.
-> 
-> A button could be defined inside an overlay-touchscreen (no keycode)
-> area. Given that the other way round (a touchscreen inside a button)
-> does not make much sense, the buttons have a higher priority.
-> 
-> Let's take your example: imagine that your third area
-> is a button inside the first one. We have to iterate through the whole
-> list until we are sure we checked if there are buttons in the given
-> position, but keeping in mind that the first object already has the
-> right coordinates to handle the touch event. Your approach even allows
-> for multiple no-key areas and we do not know if there are buttons when
-> we iterate (there could be none).
-> Therefore some iterations could be unnecessary, but this is probably an
-> edge case that would cost at most a couple of extra iterations compared
-> to a two-list approach.
+vim +1 Documentation/devicetree/bindings/input/himax,hx83102j.yaml
 
-I think we need to model the overlay as having only two dimensions, with
-nothing "on top of" or "inside" anything else. For this case of a button
-inside a touch surface, with the latter making a square doughnut shape of
-sorts, the 'touch-overlay' node would have five children: two tall
-rectangles (left and right), two shorter rectanges (above and below the
-button), and then finally a button in the center.
+b6f7a8833439cc Allen_Lin 2023-12-27 @1  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 
-Stated another way, the 'touch-overlay' node shall support an infinite
-number of infinitesimally small rectangles which comprise the entire touch
-surface. It shall be possible for a contact to be in zero rectangles, but
-impossible for any contact to be in more than one rectangle. I appreciate
-that the devil is in the details, but here we are defining the interface,
-independent of the implementation.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
-> 
-> I will keep on working on the next version with a single list while we
-> clarify these points, so maybe we can save an iteration.
-
-I see there is a v6 now; I'll take a look at that next. Thanks again for
-the productive discussion!
-
-> > Kind regards,
-> > Jeff LaBundy
-> 
-> Best regards,
-> Javier Carrasco
-
-Kind regards,
-Jeff LaBundy
 
