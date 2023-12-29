@@ -1,93 +1,86 @@
-Return-Path: <linux-input+bounces-1044-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1045-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4444481FABF
-	for <lists+linux-input@lfdr.de>; Thu, 28 Dec 2023 20:27:18 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F8C81FC5D
+	for <lists+linux-input@lfdr.de>; Fri, 29 Dec 2023 02:37:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EEF58282A25
-	for <lists+linux-input@lfdr.de>; Thu, 28 Dec 2023 19:27:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5FF351F21B3C
+	for <lists+linux-input@lfdr.de>; Fri, 29 Dec 2023 01:37:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A2E8125C5;
-	Thu, 28 Dec 2023 19:24:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F1EC15A2;
+	Fri, 29 Dec 2023 01:37:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="eEMZi1EL"
+	dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b="K1ekeHPm"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2075.outbound.protection.outlook.com [40.107.6.75])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC1CC11C97
-	for <linux-input@vger.kernel.org>; Thu, 28 Dec 2023 19:24:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-2041bb80cb3so4666836fac.2
-        for <linux-input@vger.kernel.org>; Thu, 28 Dec 2023 11:24:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1703791492; x=1704396292; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X6NHqoeKipmnRRrBtGGekIe1Ago4hx2yTydoB5DSv04=;
-        b=eEMZi1ELj49Ln0yTBgt7llYl1X3QSw+RwCpX890q3AKiaGOXJkDQlq3l5ai3xahFIU
-         vO4360huoav1roNykaT7oVwQbdUDlZ3k9oKi6ooM/WB6JTwDlWaSQbBVwDG271JyfyJ1
-         sIMiU8dJ2XaBe5qBHo6VXRCiCmag2J+uoYrBg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703791492; x=1704396292;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=X6NHqoeKipmnRRrBtGGekIe1Ago4hx2yTydoB5DSv04=;
-        b=b0Eon75+OnawtTYVcYPdIDuqqJj2AMKcb2P5D5vVFd20w3CDwUxavyUu1aef9yJM5j
-         /KwuMHuyd1lzarBEvJuTEjTAdaceqqNrltd8dHyxXFTSGWWO4KAwGjs2p3+NpHMZLoUg
-         CwGQo37pDT9GwxlT0SibJyQvY4eZ2dj9MyWRt4HN+PrkQZyc8yD+KnAWnNNQkzfNW7Ah
-         fy+tI6m0c4A9f7Xem0iDlTK7cLjZ1zs/EqlldEEM7iwvazzkW2qnk1zrwe2WQR5je8LO
-         djO5YZvnyP0EwYrXLUhAmMZvHgDAzeoctWyLMt78sFBmH9MlIkcE1yl2YTCAOxX8hDJf
-         HYig==
-X-Gm-Message-State: AOJu0YwvCMjsTWG7WFNag9uq6AjgI2Sp4TA7ELmCXgI6DxoKrlx9eoA2
-	TkuSo9jRoPx+9CanDeOqMmWeS7Ts5/l1
-X-Google-Smtp-Source: AGHT+IGJebG9JICRtVEUcH3Odb3+eLOWCUIwJ1rjVhgy8IuYbT6wze/ypQ5qNR6Xj+Jk0qDwouIr2w==
-X-Received: by 2002:a05:6870:9106:b0:204:792:8a55 with SMTP id o6-20020a056870910600b0020407928a55mr12289655oae.37.1703791491770;
-        Thu, 28 Dec 2023 11:24:51 -0800 (PST)
-Received: from amakhalov-build-vm.eng.vmware.com ([128.177.82.146])
-        by smtp.gmail.com with ESMTPSA id k16-20020aa79990000000b006d9aa04574csm9522987pfh.52.2023.12.28.11.24.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Dec 2023 11:24:51 -0800 (PST)
-From: Alexey Makhalov <alexey.makhalov@broadcom.com>
-To: linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	bp@alien8.de,
-	hpa@zytor.com,
-	dave.hansen@linux.intel.com,
-	mingo@redhat.com,
-	tglx@linutronix.de
-Cc: x86@kernel.org,
-	netdev@vger.kernel.org,
-	richardcochran@gmail.com,
-	linux-input@vger.kernel.org,
-	dmitry.torokhov@gmail.com,
-	zackr@vmware.com,
-	linux-graphics-maintainer@vmware.com,
-	pv-drivers@vmware.com,
-	namit@vmware.com,
-	timothym@vmware.com,
-	akaher@vmware.com,
-	jsipek@vmware.com,
-	dri-devel@lists.freedesktop.org,
-	daniel@ffwll.ch,
-	airlied@gmail.com,
-	tzimmermann@suse.de,
-	mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com,
-	horms@kernel.org,
-	kirill.shutemov@linux.intel.com
-Subject: [PATCH v4 6/6] x86/vmware: Add TDX hypercall support
-Date: Thu, 28 Dec 2023 11:24:21 -0800
-Message-Id: <20231228192421.29894-7-alexey.makhalov@broadcom.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20231228192421.29894-1-alexey.makhalov@broadcom.com>
-References: <20231228192421.29894-1-alexey.makhalov@broadcom.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637B215A3;
+	Fri, 29 Dec 2023 01:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axis.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Whxty1tIeVL0jrUPPPXuuowpKy2zZLsTI/VA6GIJ9d0JK3B92Oi3ty+TfKyh5iIampF1DTbmMN8joVmXfDaVZ7ED288psKisyWIguapfVRvWTrlTTwZse7WBEvrUNqYpOJaMMMKSvZOJ9nOv8aAJ4xGBhF9s3fY0YKXg20m+qu6QLZuBezO2Aoe6o591bDAfEvB7FknW8aGG2rcY8f6tzj1oGLEyKgrIVWPq2VDLMgtS/tt1KV88Fj7UdhZZ3pMBLVozwevp7+45yVI5M1cHLRwIM3/rw9RtWUUXKQaiQmRuETWcNQd7L+Af233pJOgko6PAr2Uxpiii3r5ZarS9rg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jK2ZnpN5j2umLuHVKefC2u/Tdshv7CiX5RJeEKgR6wk=;
+ b=Tr2EcxBi0QHyOdWndmKh5ScguX8CM94cQxxjAniaV8RJWAKnRXqLFVbMRG54+v79GgghpvMCP5oAzjHdKgYRd2J7XvOmbsM/yZ1XNT3rNG0xELqSD21Au3RNDrtOtrjHzSuKRo/htBtdX0gX8S2OTbKYKkdhFLSwihx1IIu/zomaS0sI+c+Qj/jqZrnCKDDh3ntOSGCIb0IJlpuLgcODHUc2Jj/mE3LQUsN5vkVZ2/r9e7fP9m88NYkC7FniQ74fcs4D+HY83MnXuFczLEJ7h11Yus34wpHr8Q1voww26Z1tS2ML1xtE3YA7B3/55XqIjbd7C1iBMl+pojPspCqCXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=gmail.com smtp.mailfrom=axis.com; dmarc=fail
+ (p=none sp=none pct=100) action=none header.from=axis.com; dkim=none (message
+ not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jK2ZnpN5j2umLuHVKefC2u/Tdshv7CiX5RJeEKgR6wk=;
+ b=K1ekeHPm9yJCopi2iCYDJ/uy3NHvlqQsX6L7I9fNjXuqG7c8R5tjKcEaDryMGk6C4FZ6SqyB8EV232h7KD/zX0yQ1wh9xr6gEckwW0D2WZwIAX6ZwPL8E4I3Tl2/ZK3M8H96Cy2D0ZDA2e9EOCSQOV4Iy74SkKN1u2jG/QPJ5Y4=
+Received: from AS4P190CA0030.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:5d0::20)
+ by DBAPR02MB6117.eurprd02.prod.outlook.com (2603:10a6:10:182::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.20; Fri, 29 Dec
+ 2023 01:37:14 +0000
+Received: from AM3PEPF0000A795.eurprd04.prod.outlook.com
+ (2603:10a6:20b:5d0:cafe::3f) by AS4P190CA0030.outlook.office365.com
+ (2603:10a6:20b:5d0::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.20 via Frontend
+ Transport; Fri, 29 Dec 2023 01:37:14 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=axis.com;
+Received-SPF: Fail (protection.outlook.com: domain of axis.com does not
+ designate 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com;
+Received: from mail.axis.com (195.60.68.100) by
+ AM3PEPF0000A795.mail.protection.outlook.com (10.167.16.100) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7135.14 via Frontend Transport; Fri, 29 Dec 2023 01:37:14 +0000
+Received: from se-mail02w.axis.com (10.20.40.8) by se-mail02w.axis.com
+ (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 29 Dec
+ 2023 02:37:09 +0100
+Received: from se-intmail01x.se.axis.com (10.0.5.60) by se-mail02w.axis.com
+ (10.20.40.8) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
+ Transport; Fri, 29 Dec 2023 02:37:09 +0100
+Received: from lnxchenhuiz2.sh.cn.axis.com (lnxchenhuiz2.sh.cn.axis.com [192.168.77.59])
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id A407510F4C;
+	Fri, 29 Dec 2023 02:37:08 +0100 (CET)
+Received: from lnxchenhuiz2.sh.cn.axis.com (localhost [127.0.0.1])
+	by lnxchenhuiz2.sh.cn.axis.com (8.17.1.9/8.17.1.9/Debian-2) with ESMTP id 3BT1b7sR692624;
+	Fri, 29 Dec 2023 09:37:07 +0800
+Received: (from chenhuiz@localhost)
+	by lnxchenhuiz2.sh.cn.axis.com (8.17.1.9/8.17.1.9/Submit) id 3BT1b7Ef692623;
+	Fri, 29 Dec 2023 09:37:07 +0800
+From: Hermes Zhang <Hermes.Zhang@axis.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC: <kernel@axis.com>, Hermes Zhang <chenhuiz@axis.com>,
+	<linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] Input: gpio-keys - filter gpio_keys -EPROBE_DEFER error messages
+Date: Fri, 29 Dec 2023 09:36:57 +0800
+Message-ID: <20231229013657.692600-1-Hermes.Zhang@axis.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -95,205 +88,63 @@ List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM3PEPF0000A795:EE_|DBAPR02MB6117:EE_
+X-MS-Office365-Filtering-Correlation-Id: 923d7470-e2c5-4274-3ed8-08dc080eaf64
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	GHVRUb9VdijZME1lvFpvC/k6xmOVWI9JecdFMFADRHUvmJsPJEYq4eO5gnFJkiF1lq78U5219kWPsSz+xV6+vmufEZeHUya6fxn7sONaxjZ1dTzROgxjaojeRuuOWNDIuz+rwJqRoantng4/NJ1Evr7iDuZC3I0k1LgUK+HbvZxUngC5XggArYPRIcfWXKFeiE2sVfU9ltMBztp4KUOofaflLFQv+gLgQ4dXukaaWC1CpSPS7ROHqpaNsCq819+laDyaBs5pPzvthslBFLGGb8Msw96/YkAn3h9F1hxgKz6K9XoFD8yCKdsJGURcv8pSEW/V/BYuM4Sqs4qR4JxYT8kdhBTaKzxbtjKA/ZY35UUOxM6mpwNQhMCaZrqkrcdgMv0N8+OYCKkXYaw9Mwy8J9f3EwBBQ0pWRh+PT7+DyezO138a8sL18CoSbFwUWg43WlC7Y7c0HygzodWmhSoTiwdnjqgPIXx11NN0QnsPzTluWAaSpC7+ixxg6/rKFC9F18oNmcB86H7fqzhbRB9jqnZgGSr0hyf06QxTHFhWh0GNyOyLYzHOpwoCwhH9SbHNuCIyEmMd53oPAXPT14jlCJ+zH0MECVKecZwsu9EcN2VNVTt1oaoAtauWlPtiqo/oTBrxqmDmE1IITlaDuQGvNUZ3aiQTco6XaOv6Pr9f9oJd7bTikSs+zxcXI3DS9b6/V7mVb0Q3il97I6jQ5Xxi6HM9dBkA8DzBPJF5F/Vl/90oZ/rQA6w0k/yYGR8S2QhLF9NL9HhhwxKvj6M1rfl7RQ==
+X-Forefront-Antispam-Report:
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(39850400004)(346002)(376002)(396003)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(82310400011)(46966006)(36840700001)(40470700004)(83380400001)(26005)(41300700001)(2616005)(1076003)(47076005)(426003)(82740400003)(336012)(81166007)(356005)(316002)(36860700001)(8676002)(42186006)(54906003)(8936002)(5660300002)(15650500001)(2906002)(4326008)(478600001)(6916009)(70206006)(70586007)(6666004)(86362001)(36756003)(40480700001)(40460700003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2023 01:37:14.4602
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 923d7470-e2c5-4274-3ed8-08dc080eaf64
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AM3PEPF0000A795.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR02MB6117
 
-From: Alexey Makhalov <amakhalov@vmware.com>
+From: Hermes Zhang <chenhuiz@axis.com>
 
-VMware hypercalls use I/O port, VMCALL or VMMCALL instructions.
-Add __tdx_hypercall path to support TDX guests.
+commit ae42f9288846 ("gpio: Return EPROBE_DEFER if gc->to_irq is NULL")
+make gpiod_to_irq() possible to return -EPROBE_DEFER when the racing
+happens. This causes the following error message to be printed:
 
-No change in high bandwidth hypercalls, as only low bandwidth
-ones are supported for TDX guests.
+    gpio-keys gpio_keys: Unable to get irq number for GPIO 0, error -517
 
-Co-developed-by: Tim Merrifield <timothym@vmware.com>
-Signed-off-by: Tim Merrifield <timothym@vmware.com>
-Signed-off-by: Alexey Makhalov <amakhalov@vmware.com>
-Reviewed-by: Nadav Amit <namit@vmware.com>
+Fix that by changing dev_err() to dev_err_probe()
+
+Signed-off-by: Hermes Zhang <chenhuiz@axis.com>
 ---
- arch/x86/include/asm/vmware.h | 79 +++++++++++++++++++++++++++++++++++
- arch/x86/kernel/cpu/vmware.c  | 24 +++++++++++
- 2 files changed, 103 insertions(+)
+ drivers/input/keyboard/gpio_keys.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/include/asm/vmware.h b/arch/x86/include/asm/vmware.h
-index 84a31f579a30..3bd593c6591d 100644
---- a/arch/x86/include/asm/vmware.h
-+++ b/arch/x86/include/asm/vmware.h
-@@ -18,6 +18,12 @@
-  * arg2 - Hypercall command
-  * arg3 bits [15:0] - Port number, LB and direction flags
-  *
-+ * - Low bandwidth TDX hypercalls (x86_64 only) are similar to LB
-+ * hypercalls. They also have up to 6 input and 6 output on registers
-+ * arguments, with different argument to register mapping:
-+ * %r12 (arg0), %rbx (arg1), %r13 (arg2), %rdx (arg3),
-+ * %rsi (arg4), %rdi (arg5).
-+ *
-  * - High bandwidth (HB) hypercalls are I/O port based only. They have
-  * up to 7 input and 7 output arguments passed and returned using
-  * registers: %eax (arg0), %ebx (arg1), %ecx (arg2), %edx (arg3),
-@@ -54,12 +60,61 @@
- #define VMWARE_CMD_GETHZ		45
- #define VMWARE_CMD_GETVCPU_INFO		68
- #define VMWARE_CMD_STEALCLOCK		91
-+/*
-+ * Hypercall command mask:
-+ *   bits [6:0] command, range [0, 127]
-+ *   bits [19:16] sub-command, range [0, 15]
-+ */
-+#define VMWARE_CMD_MASK			0xf007fU
- 
- #define CPUID_VMWARE_FEATURES_ECX_VMMCALL	BIT(0)
- #define CPUID_VMWARE_FEATURES_ECX_VMCALL	BIT(1)
- 
- extern u8 vmware_hypercall_mode;
- 
-+#define VMWARE_TDX_VENDOR_LEAF 0x1af7e4909ULL
-+#define VMWARE_TDX_HCALL_FUNC  1
-+
-+extern unsigned long vmware_tdx_hypercall(unsigned long cmd,
-+					  struct tdx_module_args *args);
-+
-+/*
-+ * TDCALL[TDG.VP.VMCALL] uses %rax (arg0) and %rcx (arg2). Therefore,
-+ * we remap those registers to %r12 and %r13, respectively.
-+ */
-+static inline
-+unsigned long vmware_tdx_hypercall_args(unsigned long cmd, unsigned long in1,
-+					unsigned long in3, unsigned long in4,
-+					unsigned long in5,
-+					uint32_t *out1, uint32_t *out2,
-+					uint32_t *out3, uint32_t *out4,
-+					uint32_t *out5)
-+{
-+	unsigned long ret;
-+
-+	struct tdx_module_args args = {
-+		.rbx = in1,
-+		.rdx = in3,
-+		.rsi = in4,
-+		.rdi = in5,
-+	};
-+
-+	ret = vmware_tdx_hypercall(cmd, &args);
-+
-+	if (out1)
-+		*out1 = args.rbx;
-+	if (out2)
-+		*out2 = args.r13;
-+	if (out3)
-+		*out3 = args.rdx;
-+	if (out4)
-+		*out4 = args.rsi;
-+	if (out5)
-+		*out5 = args.rdi;
-+
-+	return ret;
-+}
-+
- /*
-  * The low bandwidth call. The low word of %edx is presumed to have OUT bit
-  * set. The high word of %edx may contain input data from the caller.
-@@ -87,6 +142,10 @@ unsigned long vmware_hypercall1(unsigned long cmd, unsigned long in1)
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, 0, 0, 0,
-+						 NULL, NULL, NULL, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -105,6 +164,10 @@ unsigned long vmware_hypercall3(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, 0, 0, 0,
-+						 out1, out2, NULL, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=b" (*out1), "=c" (*out2)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -124,6 +187,10 @@ unsigned long vmware_hypercall4(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, 0, 0, 0,
-+						 out1, out2, out3, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=b" (*out1), "=c" (*out2), "=d" (*out3)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -143,6 +210,10 @@ unsigned long vmware_hypercall5(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, in3, in4, in5,
-+						 NULL, out2, NULL, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=c" (*out2)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -165,6 +236,10 @@ unsigned long vmware_hypercall6(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, in3, 0, 0,
-+						 NULL, out2, out3, out4, out5);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=c" (*out2), "=d" (*out3), "=S" (*out4),
- 		  "=D" (*out5)
-@@ -186,6 +261,10 @@ unsigned long vmware_hypercall7(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, in3, in4, in5,
-+						 out1, out2, out3, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=b" (*out1), "=c" (*out2), "=d" (*out3)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
-index 3aa1adaed18f..a88dcd25aefe 100644
---- a/arch/x86/kernel/cpu/vmware.c
-+++ b/arch/x86/kernel/cpu/vmware.c
-@@ -428,6 +428,30 @@ static bool __init vmware_legacy_x2apic_available(void)
- 		(eax & BIT(VCPU_LEGACY_X2APIC));
- }
- 
-+#ifdef CONFIG_INTEL_TDX_GUEST
-+unsigned long vmware_tdx_hypercall(unsigned long cmd,
-+				   struct tdx_module_args *args)
-+{
-+	if (!hypervisor_is_type(X86_HYPER_VMWARE))
-+		return ULONG_MAX;
-+
-+	if (cmd & ~VMWARE_CMD_MASK) {
-+		pr_warn_once("Out of range command %lx\n", cmd);
-+		return ULONG_MAX;
-+	}
-+
-+	args->r10 = VMWARE_TDX_VENDOR_LEAF;
-+	args->r11 = VMWARE_TDX_HCALL_FUNC;
-+	args->r12 = VMWARE_HYPERVISOR_MAGIC;
-+	args->r13 = cmd;
-+
-+	__tdx_hypercall(args);
-+
-+	return args->r12;
-+}
-+EXPORT_SYMBOL_GPL(vmware_tdx_hypercall);
-+#endif
-+
- #ifdef CONFIG_AMD_MEM_ENCRYPT
- static void vmware_sev_es_hcall_prepare(struct ghcb *ghcb,
- 					struct pt_regs *regs)
+diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
+index 2e7c2c046e67..193856599669 100644
+--- a/drivers/input/keyboard/gpio_keys.c
++++ b/drivers/input/keyboard/gpio_keys.c
+@@ -581,9 +581,9 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
+ 			irq = gpiod_to_irq(bdata->gpiod);
+ 			if (irq < 0) {
+ 				error = irq;
+-				dev_err(dev,
+-					"Unable to get irq number for GPIO %d, error %d\n",
+-					button->gpio, error);
++				dev_err_probe(dev, error,
++					      "Unable to get irq number for GPIO %d\n",
++					      button->gpio);
+ 				return error;
+ 			}
+ 			bdata->irq = irq;
 -- 
-2.39.0
+2.39.2
 
 
