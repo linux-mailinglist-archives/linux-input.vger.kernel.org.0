@@ -1,99 +1,94 @@
-Return-Path: <linux-input+bounces-1048-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1049-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8087881FDCB
-	for <lists+linux-input@lfdr.de>; Fri, 29 Dec 2023 08:43:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CDE481FDDC
+	for <lists+linux-input@lfdr.de>; Fri, 29 Dec 2023 08:47:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3CAB3284A8F
-	for <lists+linux-input@lfdr.de>; Fri, 29 Dec 2023 07:43:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B064C1F245AD
+	for <lists+linux-input@lfdr.de>; Fri, 29 Dec 2023 07:47:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 047CE53B6;
-	Fri, 29 Dec 2023 07:43:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2AE763D3;
+	Fri, 29 Dec 2023 07:46:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jKV44YdX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mvYR1fLp"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC20568F;
-	Fri, 29 Dec 2023 07:43:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5FB63BD;
+	Fri, 29 Dec 2023 07:46:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6d9af1f12d5so3378967b3a.3;
-        Thu, 28 Dec 2023 23:43:04 -0800 (PST)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1d4006b251aso54471235ad.0;
+        Thu, 28 Dec 2023 23:46:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703835784; x=1704440584; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=DSZUFKqdAkWuN/kPVFG1g+yNtSLVGaxATVMRCqbLdNs=;
-        b=jKV44YdXFPx1uMBe5JyXFF5LECn8O9/QwRrDHJqhVtsKujOz/PAEaKevt7r/+YI1It
-         G8FHeROxWs4rMnmP5wjeFs2hlKNDa8pKontRu1xCNbHZmVB7IyMMR8TA6KBKIRrymt2g
-         wYVJd22+/v+GmicR1s+PRzcMv3LMimuqn9uOliuEHn1o5IuPENTLD2crXOBW06PRsmc3
-         r0Xs/5XqkJy8o2qoS3HRR7MYdoTZPYFvb7RgxNDrfYPdeZ7Y2526NE0DriLrcHYRzDW8
-         9OX5IA2O7k3x5GSKEGTgyHDIRbFeZVL0l//B7u9pS6q9HAsNKNIP/1gnyyCBRSOXff0S
-         5d7g==
+        d=gmail.com; s=20230601; t=1703836012; x=1704440812; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EJFWJxAHzDVPnXxezr+IcCLPeTJ3qyaH1h5ca3yL3j4=;
+        b=mvYR1fLpXsM3nCzNXDAOsqhPeGcu9RwesVcgBQRNdgxQVhGZciSd6DvQm1272uujLz
+         CWlbhb00VjW4KUW6X1Dq36EmtpKBdXaO055LHKYdrV9Ut53wTWHiA3gHm2dp/XmzH1/B
+         rAPa9KLvOb7d/AxCgxKTG5aRc6PmKE13lxYVDe99aAan1xr2zWlkJ13DcCS+zgOvuAhq
+         SLnVX5+w4asClzGu+Iaqe7hSNLQG8Ejy/XaEU9WzYzfbGPBy0ewbcPEQgmvQ1BrT7bef
+         g/VyhmJXkLFRaPrXSwsce3J9zmDb4Jd7RRt6UzjSmN/sBvSmXG7F4doNekREIIRk9Z5p
+         rOLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703835784; x=1704440584;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DSZUFKqdAkWuN/kPVFG1g+yNtSLVGaxATVMRCqbLdNs=;
-        b=dnGklOZDq3qkC9GwlA3d/gWkN4ot9cEAKdSjlWgKzBBTf4ckWV1WGawCvle3oeGkzi
-         DHbza0KOjkJ1XX0JQsmvzMyoVmi9HaqwIWtAz3ebjrhxTGzBANsF5BWNGVi0Pqxkd1M2
-         GqFpu7nj99QqzYJW/5W+NOfFM3NjjlE+fDRjar2d7AKcv7mXxZEOgV84tvFVhJiT7+PT
-         9B73nYRvyebOrrUaNxDrwE4NnWHA6VQ7cJkvvJCBx7/7Av7gFkAQMNx9pov65m9zDw8g
-         9rwgURvPI55QXNGtEk7hbFuWZukjoV8IW/CJ06VK/C1HCEamJvwjr+NrjA0yCfrC4ZfS
-         VhqA==
-X-Gm-Message-State: AOJu0YzXLAqARmItK12B6P+YfY9pCqFF3MV7NEb7QwdnA9lVpuZ/J7OY
-	SH2TY2Vcc4JyeVRsDjHLWgc=
-X-Google-Smtp-Source: AGHT+IFM5AhGPzADe3gnfyREyBN6MsiZZESq7UvdeK1e3fzi201YAGnN2BZOARv04MvoLPghgBh3Kg==
-X-Received: by 2002:a05:6a20:9388:b0:196:60d8:187e with SMTP id x8-20020a056a20938800b0019660d8187emr1962378pzh.57.1703835783844;
-        Thu, 28 Dec 2023 23:43:03 -0800 (PST)
+        d=1e100.net; s=20230601; t=1703836012; x=1704440812;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EJFWJxAHzDVPnXxezr+IcCLPeTJ3qyaH1h5ca3yL3j4=;
+        b=Nj+szTIRnUpk4AQPYX3RWTpLu00pus5A0S+thr0Nmh06JHRk72zcNMYVGc5cztizyY
+         53yiNysSKxqzwUlTYnzK+WeqKGirQVTN8fAcZmq3XNwh4/Oxlb2ma9l2dsB1RiQ4bB8O
+         FdzT1oeuTpnUkFtyM0SEKZS96AtyQ5epCONcnvc5dFsrKitKBX9uR44rdGWbXHBkI2Bn
+         5QqzmfBFgW3Jyn40iTyzkhDXZAY9cCqSVm3XEasYY+viAQ4KuyOZ6Nim/teBbf5+rB2D
+         cilUoSCbYt1SHWYOj+c16qysnRcC8Rx38le59075dJi60PUKWXkSV5w/kSArxSGWQtmN
+         m3ZQ==
+X-Gm-Message-State: AOJu0YwDSZPdUV7D53mfc8VT78DAphNeu6hIphvVzWBex5pgBGYHnFwT
+	GvlEKz4MEdlQuOStR5WVWg8=
+X-Google-Smtp-Source: AGHT+IGcW2OzSf2MWS5bb2Bg2MOgbzD+aoHFVcD5msV+vYD8AK3vYLa7MvMRIIH3jUTi3e8iLM8reQ==
+X-Received: by 2002:a17:903:25cb:b0:1d3:c730:f0a2 with SMTP id jc11-20020a17090325cb00b001d3c730f0a2mr11773683plb.118.1703836012320;
+        Thu, 28 Dec 2023 23:46:52 -0800 (PST)
 Received: from google.com ([2620:15c:9d:2:1995:632f:ef1e:946e])
-        by smtp.gmail.com with ESMTPSA id f3-20020a17090a638300b0028c8149ac6esm6148076pjj.42.2023.12.28.23.43.03
+        by smtp.gmail.com with ESMTPSA id a4-20020a170902ecc400b001d058ad8770sm15064252plh.306.2023.12.28.23.46.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Dec 2023 23:43:03 -0800 (PST)
-Date: Thu, 28 Dec 2023 23:43:01 -0800
+        Thu, 28 Dec 2023 23:46:52 -0800 (PST)
+Date: Thu, 28 Dec 2023 23:46:49 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org,
-	Henrik Rydberg <rydberg@bitmath.org>,
-	LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
-Subject: Re: [PATCH] Input: MT - Return directly after a failed kzalloc() in
- input_mt_init_slots()
-Message-ID: <ZY54hX3VLswwKgMH@google.com>
-References: <5088a905-4f29-41d3-a96e-5b66aad551f1@web.de>
+To: Hermes Zhang <Hermes.Zhang@axis.com>
+Cc: kernel@axis.com, Hermes Zhang <chenhuiz@axis.com>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: gpio-keys - filter gpio_keys -EPROBE_DEFER error
+ messages
+Message-ID: <ZY55abKFwTLnVGtw@google.com>
+References: <20231229013657.692600-1-Hermes.Zhang@axis.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5088a905-4f29-41d3-a96e-5b66aad551f1@web.de>
+In-Reply-To: <20231229013657.692600-1-Hermes.Zhang@axis.com>
 
-On Tue, Dec 26, 2023 at 08:43:37PM +0100, Markus Elfring wrote:
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Tue, 26 Dec 2023 20:36:09 +0100
+On Fri, Dec 29, 2023 at 09:36:57AM +0800, Hermes Zhang wrote:
+> From: Hermes Zhang <chenhuiz@axis.com>
 > 
-> The kfree() function was called in one case by
-> the input_mt_init_slots() function during error handling
-> even if the passed variable contained a null pointer.
-> This issue was detected by using the Coccinelle software.
+> commit ae42f9288846 ("gpio: Return EPROBE_DEFER if gc->to_irq is NULL")
+> make gpiod_to_irq() possible to return -EPROBE_DEFER when the racing
+> happens. This causes the following error message to be printed:
 > 
-> Thus return directly after a call of the function “kzalloc” failed
-> at the beginning.
+>     gpio-keys gpio_keys: Unable to get irq number for GPIO 0, error -517
+> 
+> Fix that by changing dev_err() to dev_err_probe()
+> 
+> Signed-off-by: Hermes Zhang <chenhuiz@axis.com>
 
-This is not needed. The same arguments as on the patch to
-usbtouchscreen.c.
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
