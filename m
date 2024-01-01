@@ -1,68 +1,67 @@
-Return-Path: <linux-input+bounces-1065-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1066-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DAD1821532
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jan 2024 21:02:17 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 877BD821534
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jan 2024 21:02:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C27721F21542
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jan 2024 20:02:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DA943B21050
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jan 2024 20:02:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86F07DDC9;
-	Mon,  1 Jan 2024 20:02:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56393DDC6;
+	Mon,  1 Jan 2024 20:02:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="t2HLRW+I"
+	dkim=pass (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="maYgu2c7"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2056.outbound.protection.outlook.com [40.107.101.56])
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2059.outbound.protection.outlook.com [40.107.101.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A8BDDA3;
-	Mon,  1 Jan 2024 20:02:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503F2DDC5;
+	Mon,  1 Jan 2024 20:02:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labundy.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=labundy.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G6q5XOaWDx2BahuOkHbH4w3JU6txbeWuEaMZ7xkJH1Yx7unwgiJbqh6sA17WbPwtVJeqKSBhVUPbwgmnKXBsdW9I/rNVshf3mGBAgwhGXyLQkL2Xhe0AgLEp9EleBb6LYkWcnGDWJftqFUZ6FU51vHmr1MuFXVip6j3iRwNgvzc6wTh2v10Buj/1MEERct0bvyPuYwtkzH04Vsw0BAD0nvmtIcSqN7HuayUEz449Vcgv3CFf21OIwAm3S86FnRyhYEvfZw0ZxNmL+3zsKGfcdIgw1aKpWgoKOlTtDx0fDlX2RH+hSBUOJ8FkLu+Sw8COeBwv6tXRrpH1UwIrcGbuOQ==
+ b=L2bA1sTYRixOYFFFaTAWH2k+WYGAtpASRq72/0apWT5Eapkht+nRtfci1LGsWr3ilxXMvfPkiuWg/vXOiOLZyXhzXBRsWmr7qzTBkOWvcsES3Ng7AxE4qLWwJeDmxoxVccooKXKFEMvooRmfAxzg+vigJDcJEg0YBhkDSWmz4g0K+oBPEUEwo4oOZ0VfANct/5nXGh1dyFyofiDFKhYg63662cIEa8xS6pINGkyIMOLLD3WQ7vCARFIh2rCSUUdCBtVzbdaRJzjMclpACZqd06knLse1KE11aclde3OhW3RK3etFu1KJvOrxNMJogVtC1rM/MjY+Z2SsxDx9bFRURQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rml6F6bSp61M75Y1kvqxFht+16k+zS36AV938sxmSC4=;
- b=ke4VaLCYYn2RiS6YrSNM6dK2epemiK+/lSkMAKEuZaPnOlcxq6YT3Ix4LN6Zog3+yHnt4kGaFIuyVA6Ijfauan9cabPouUxA3GVjCwNsA7fA5cAnpm8K+eVm9qU9WNeLeSgpTcEqpMe1Wrju1FwwunCcLmRh7nRHEid9m5TQBepTeMFZGnpXwSjPo2Py3gMw51GDo3KVJYpNTrKrNTPdTK3ZxmSsgZ/DUmlzY3kr2eiBghL+VFJpTc5WcwxGHuMKE0iUtKKqsOD9RLMf3phS20v5lhzhfDA6ZjIOUE73PP65atjUvlkroUBOsN8sDys5gm07hTuM2cyJQbs594OE9Q==
+ bh=D42fcXg2ouTebvmsktgjE3fK0RK0Ht5CfeiinsnkWeQ=;
+ b=a3EaK+nyfVD0uK3p1V+J5LwxMHH0GrYHzzecakj/GILKuPGCpHsJRGewN6Zc6+0787vxDz/nYVDly1+la0/HeoBeCvhiPpErumT5KiZzS3SsEkCTxjZY8AFBKaZq2zn4a4BNQrPWeTKeyWXqXx6DseJSzBb0Qii0yEFt70MTnNA2czvtxm7mfQ9hNV+uh1ZmWr9EI61bvICUkW98h0hFylzNTSA69Z2NoONg+cO642bsvLSppfT3Ua5ipfvMnQKbvKatfs1hPwSiBQbZ571nEqYZGrUEzSHgDGoYpMkH9JrnrJ/z1IB2Wxt4Sz/QNA1/gg8NswIVUK6BTZrIT5oskw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rml6F6bSp61M75Y1kvqxFht+16k+zS36AV938sxmSC4=;
- b=t2HLRW+IKCY0+amPzTVaTJKYisXRqyanXCCUrkjTv8WV3RFRgj545f1AFZmXfWBetq6i3Wjav7ADs/7rLNhsdC0CcjcYPNuMSemq1ZWaHaIxYbKk6Hb3nPk6NOOjQm524EIRrQw/1tnXsVakkkpEnbKGAKsRatQaWNBkakpCkbA=
+ bh=D42fcXg2ouTebvmsktgjE3fK0RK0Ht5CfeiinsnkWeQ=;
+ b=maYgu2c72rkslrGhnRhCFGkvB5yGZ5aAMSmD10FSyX9s+zNl4TvWfau/0Y7fi5oL3cUQ9XWvn/ozbUAcOCDPfIZD/vJtSNwQ1ZmhMnCSVGVdK38NyOp34eMeOrzTaR6Q6ui5Xn8ye9purZfatjqTuR9NzZ64rO0u4E1xgcvX4qI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=labundy.com;
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  (2603:10b6:803:43::21) by BY5PR08MB6423.namprd08.prod.outlook.com
  (2603:10b6:a03:1e3::24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.12; Mon, 1 Jan
- 2024 20:02:08 +0000
+ 2024 20:02:26 +0000
 Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::36f2:78d1:ad7d:66da]) by SN4PR0801MB3774.namprd08.prod.outlook.com
  ([fe80::36f2:78d1:ad7d:66da%4]) with mapi id 15.20.7159.010; Mon, 1 Jan 2024
- 20:02:08 +0000
-Date: Mon, 1 Jan 2024 14:02:06 -0600
+ 20:02:26 +0000
+Date: Mon, 1 Jan 2024 14:02:23 -0600
 From: Jeff LaBundy <jeff@labundy.com>
 To: dmitry.torokhov@gmail.com, robh+dt@kernel.org,
 	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
 Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
 	jeff@labundy.com
-Subject: [PATCH v3 1/4] dt-bindings: input: iqs269a: Add bindings for slider
- gestures
-Message-ID: <ZZMaPrbSi4IrzwKF@nixie71>
+Subject: [PATCH v3 2/4] Input: iqs269a - add support for slider gestures
+Message-ID: <ZZMaT46WQq1/Nrsb@nixie71>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <ZZMZzeX77VeHdIeL@nixie71>
 References: <ZZMZzeX77VeHdIeL@nixie71>
-X-ClientProxiedBy: SN6PR04CA0103.namprd04.prod.outlook.com
- (2603:10b6:805:f2::44) To SN4PR0801MB3774.namprd08.prod.outlook.com
+X-ClientProxiedBy: SA9PR13CA0061.namprd13.prod.outlook.com
+ (2603:10b6:806:23::6) To SN4PR0801MB3774.namprd08.prod.outlook.com
  (2603:10b6:803:43::21)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
@@ -72,165 +71,439 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|BY5PR08MB6423:EE_
-X-MS-Office365-Filtering-Correlation-Id: 65b6ba11-4cd0-4ff3-1154-08dc0b0488e3
+X-MS-Office365-Filtering-Correlation-Id: ff5a9800-e739-4af0-5036-08dc0b049370
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	9BZ1W5T1EOUrT8reQe1uhqV7tPiMZWX5cdkXt/qVhfy/R6EyHB3yQbg4PeSghLpCkRTA4tXUjrq61BlWgy1FPnwXZ3nuskDPfEwMUh7TwWOHUHb5hdxPyk9CVckAChbkWNra7O+EfBefSjM5Ww11N/L2Vjr8FTy9M+9aHTMenWzJBIdAGJ0JQOnoRfhqguXlnBdLnrcbmfAZvHHz0WVvj6VxgFJarkdVLktdOVnzW5Pd9TTdC5c6mjdd/qZ1oUw05dj6unekk+ZRw6hSG5+OwwQ+LqNdXHFMbl8dJWHKRX8I1MgrkkycX4iOu9hyHXFh6nrt8Vfc7jtqoQpkSMXIw1lUXRMpxQcw3AfiD+7bI8cJPVtn0oLXRpOJ9BHTI4D66MIv2hh3IdeYAjnyTT2MrY/MlTQjwtavDiDGIPEahOKaGK6a2nmXuO3OmMGT0W3ura0lmXMURXRlbPHKe41vHNSoPOZEV47wXEkYhiBj+diR8quiLDvTgh30NC3i8PfzE/QfvVu9LWZkQxIMmLO7dES65bzo6OidnIKKOPfPB1eJSKaVgAmJC45vJP1hE3/w
+	WQeerdIPauRBiQ2hIqmy9WVMRhyDMsTD1ofN7D3lWd3sEBUgrzNiNPohzQCFAU0J5OSO894x0Wt/kgNEU6JD1RqJEu+L2IVaXzh61vEJNtDQfF1c65aKj2k1Yx6esj3UuapEsaMy1h/+5iYD/F6LRsUJBKo/9OByykDxETzkUBczbm1tV+egw8w5UTKfpFuf6H0KehQg1LH133LJY2/zmrNWQ2piMoHezRD14fj/4iQ1fh9C39Ixo7EWDludk6yQJVIJtzWDruaPf24y2mVN5iKa1G3NA7R/cPIQYZqyPFt/Vdk7TVnTGFG6Vb/KVXjluT8MszGecIsIfdctO5vTA7JBRbw1v44qF3H40a4h5aV3U32NGyqev5Yd13d1PNlIOZrmXog/Chdyvf5UGhSlgFr4wYwNX6GDBUA1J+ERxO+hcv2HhwdDPFe3slvNhT/CYtk39EC59gvoP0RaPSGoG5pVmhyVYn/Tdlo9YaDpo2c6m8hNBqkEM3ViCzP++1eHgpeclmyOK3ylH9W+DUnuEkjtLRFB4LY6j9IsMCuX+rAeDmezZG9EQ9srWy6WN1kB
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(396003)(39830400003)(366004)(346002)(376002)(136003)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(2906002)(5660300002)(41300700001)(33716001)(83380400001)(107886003)(26005)(478600001)(6486002)(6506007)(6512007)(9686003)(38100700002)(86362001)(66946007)(66476007)(66556008)(316002)(4326008)(8936002)(8676002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(396003)(39830400003)(366004)(346002)(376002)(136003)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(2906002)(30864003)(5660300002)(41300700001)(33716001)(83380400001)(107886003)(26005)(478600001)(6666004)(6486002)(6506007)(6512007)(9686003)(38100700002)(86362001)(66946007)(66476007)(66556008)(316002)(4326008)(8936002)(8676002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Fl/lAX1BJwnw340RBrR+ECvDRbhPnGjeymtSyv1mh8yJxU+/yKiw2UxCdPfl?=
- =?us-ascii?Q?VZXpbwEj0/XAN0FLZMX+/Yc9p51fLi46aRF/r22zcm3NYJrO1rdTOx8kOBVf?=
- =?us-ascii?Q?2sndcfaVfRdRrTEwcUPWSv1wkMn/axeq5GF8FOdzOvHk2DHZjl5TfsN4uN0s?=
- =?us-ascii?Q?ObFR9V4rF+j40oSKiEbKHneIu+i6yFZG982hQI2BHESdvKYy03czY/dwlB/I?=
- =?us-ascii?Q?WgvpjhUymHfukEneIhj0+2g0Ukgs0gVYj727K9KHIoJveeD1TMsWA3egLDc/?=
- =?us-ascii?Q?ou6uIgaL0Zp5RuM2z4YrKuJIe8VsA2aS29cJKfVjgeG0CrsrbznDyFBUFCy5?=
- =?us-ascii?Q?QazHNx3t566jiQmWYtLRt1MEygC4XrFFnrsRf7JH0D1/I/knOKcQz4QUVjJp?=
- =?us-ascii?Q?vA4+wOOXr4iEVArUvWRRhqwCETUaaAIbla5pt2W4+JpLBi32IVQueiDHYnVM?=
- =?us-ascii?Q?1xacz/1JsIYcJWpbNXq++Cv/qhxBUJqKBdvxOjrMYm64rsbi7BfUpJqN8820?=
- =?us-ascii?Q?6ggn8ToJ5RoR0Mzufookb/hzndiwwQqGZMLNwXMl85vgjhVTh6cTa4c42DZu?=
- =?us-ascii?Q?dZcocYPBFEYJ6b7GaQ4yFeO8cWmUUcfPbpdk/Ig6zifmD6tBG/nKhgCo8vq2?=
- =?us-ascii?Q?ZaR8Ue/dXmdzi7FN69bPRbxIKr67R8bGe6FpgycOIkoWeuSu/Nv14T3YJczD?=
- =?us-ascii?Q?Uq3u9VhEOWCb2CcrD4bCFMx1YpaVNcbB9O36zBokd9TWlPN8k529lCTbMwEY?=
- =?us-ascii?Q?Y4jfzo+DTe1gpQUYv1snR5Kl3KmxDacr+WTt7WXzc6qJtwU2MjoVwWSjz608?=
- =?us-ascii?Q?n+eLJl3oMq/n9PX3qZQ3F6rIA0Z9h/RJq7KEBG8HJYWnqNNSaEClEbOXDZ+/?=
- =?us-ascii?Q?4V+7MxaHPuwfbMvce5s0s/a+hiR8OGGVjR0LYspBEqYaxjFJEfz1CUk+PwwQ?=
- =?us-ascii?Q?Yk4KTYipKrnW9S7Q6PPjfehuLMx/0+kHH3C856zWptWZ4ah0zjm04a9SDHti?=
- =?us-ascii?Q?V5h0hO9UBeWcmRE2Gp2gfQXyaPQ4hdLhvIePirgtTS+VO9JMztGX0lRZ/1Pj?=
- =?us-ascii?Q?QSr4hoy7D+6TpELmBxSEthCIH1dm3TllpYzvsKEsNyH/B/7R4YK2HiJ0vmjc?=
- =?us-ascii?Q?gSCP5q0m4IvUPUdO+6G1tECS1KJOsB8AajqZlBkWD3ymhl5yObpz/63yZuut?=
- =?us-ascii?Q?ulavEeSU6MDflb9NtGGTr75Cw8CfQEkCWZEceyAmVDll0B6dL2claZqnKRFk?=
- =?us-ascii?Q?IPOBeMqfYlO8SQPpRg6lAjuVeWr4z8nyffIR0lIQIVt6jDRYQulgH+CkFOcE?=
- =?us-ascii?Q?4m+90p9lEqN8G0egY9PCOL8Vc64hzxkjVrHoKIY0rTrBenKRY0vbhKLchtis?=
- =?us-ascii?Q?Fkoo3aDCKGeZZe2/G41BDuf2WmLXtglVjGUnG4XtKBBlgUkaCRGKo1zymZ24?=
- =?us-ascii?Q?aC0m6n4ZW60wMKIyGPaco3I5N5+lPUzZDfhfcEJo1HwZYMWlFv5UehWrzrHv?=
- =?us-ascii?Q?sHQrqngCqGEeEXQ0XrVFfmcKBpFZm2FNbmThJ+RCbfAHfTJ7GYX5G5uZeBmo?=
- =?us-ascii?Q?03JnI1ePYduGcQSjGsz0vkFDRlG5CcvvmquadOVR?=
+	=?us-ascii?Q?VJGh3/NPA9SOoXiAnJKNrzmu0szQaG0MIz4ad4heMLsaxEhdXwHsBDm8M+C5?=
+ =?us-ascii?Q?+T3Xj12l7d42w/iQt9XIkoDUKMxnWyQmoRSfC2LxXEtvaqN4sFz/e4UDnJEo?=
+ =?us-ascii?Q?+eiunlbWz1rnYSc8VcZsZ8KG76o65s93cVZiVuQy6eUJN0xvImjfMHJfzrkf?=
+ =?us-ascii?Q?1AvEPMfjeTwBdX3WlCwh1hqJWT3Up9A8vISWXS9OnHZCg8SCFHweD2B/SJ+4?=
+ =?us-ascii?Q?tLzkl1MXoReczzWhZKuHWryYv14Wm3m8fG5lAsr26dU4z9a6cCj0GgUwPiN5?=
+ =?us-ascii?Q?jGJfPe87UNCO3XyWFVLTDfjdbvlnZOEWHFx12pEd2EYkxMqRI5fOTqilOVe6?=
+ =?us-ascii?Q?KsCQ0jzImUBMCZcTwXj3Upjq3t1/ktv/vYkap8Tjr0qVq0b7Y0JwJYjFnxm2?=
+ =?us-ascii?Q?oaUbFKO181zj/CB0/W043fNLgwf9qOfU/SqGoIEwdp4WrF8WcO50fBI685Iu?=
+ =?us-ascii?Q?JbJ9t+NpqoLKr7hVrYlE6xImoZLG6yrV3K0VdqAdL6bFxx7TPczckwHV004K?=
+ =?us-ascii?Q?81i8oS/mq/JrPGeR9OqoCpvWupiovCS9z2jhXP6hk2tKoYWBGhCR8k0AF+3d?=
+ =?us-ascii?Q?oU5qts+tfN3LjEihrSGgDSH3pyMj3fhemblEfMPM/yr1nRC56zT4yQb9/CP3?=
+ =?us-ascii?Q?sjgir7FjaZh0ZQ7gCwSsBmaTdpbTln+po1PcdSsLZtnKyQKIcx6vsRX4Sfty?=
+ =?us-ascii?Q?+h+3EoZhtVHz5nMMQq7tQ1q0fpXMCrnvwfoa8+bkK0xBSQBNCKBBpVOzYhan?=
+ =?us-ascii?Q?2J2/IwJh8t3yx+uRMiOKKXWbgP/UtTWc7Jx5TCb2EY1q5hRTvQu+o+60B8Pn?=
+ =?us-ascii?Q?DIGvGKQcG9aLOCtfiRqgifJIM4o2PUZzReRoMn+GXNZvXPX/Q6OiEYl5280b?=
+ =?us-ascii?Q?WvdGf1NE9k/gTBiH4OOk0LzMS1lM0ZyOrcHf8oEneJPbvMcTVnn+MfPZANlQ?=
+ =?us-ascii?Q?7Y8auwCyBNJrDjrXleAZzm9mjDpYzWz8lM9YZJCWid+gN6ELJrnV5O6JNpH/?=
+ =?us-ascii?Q?iRnE93RA/WHl5SCe/OlJb0ZUKo36kK8qEdyj2ukl7N6UhxbagsogZd0sBtIM?=
+ =?us-ascii?Q?AFr6+eiJpmm1OmNINQ9K9GGmPeh65qvnWFv/cEXn4kI5r7+Em6rimSRyLqWw?=
+ =?us-ascii?Q?USLdqFhM9Mu5Z6LOOyVFC9ZWrEV7NppqdpiBpXcaP0zCxEjCZZXgv2sJvjOc?=
+ =?us-ascii?Q?82nXAAy7+WPrEpb4jK9se9CK0izA4Ys9aSGIcv1p8EqI9uLkO+zdtpCHMP5u?=
+ =?us-ascii?Q?KhoHXx0gY+X7RwhkmZIdJPsMudHPo+EmQxIsyHlIMW1wy12wLmh+DQTWiWaL?=
+ =?us-ascii?Q?6m+87ADBsPkO7xL0JZd48t+SJdixoygt8Fk5HNw1uEC+xZ1gwTKLIxIMWSSX?=
+ =?us-ascii?Q?/5Zu3jowZ9HRO/N5+YvaLdqOVkunkv0wcphp8RxcF0XxKLpoxSHiwKcAilq0?=
+ =?us-ascii?Q?eJMqajqDPLqVSIB3USoxso3myOjV2SKgwBQMN3SvumGgvp+z5DSZVzvuLrxH?=
+ =?us-ascii?Q?r1lJwTlgpeN98PG08fY+lcI+5Oo1aLaaQhDtTSvUBvI0iC4VdNlTAJOlJwdK?=
+ =?us-ascii?Q?iffaXGJzNf6aXyfecmFculriwM+8zthjUnKAZY93?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65b6ba11-4cd0-4ff3-1154-08dc0b0488e3
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff5a9800-e739-4af0-5036-08dc0b049370
 X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jan 2024 20:02:08.5398
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jan 2024 20:02:26.2460
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5qoW0z+aUiWri/UL6j20ikt1UDgojx7MZIpJkLK/6XjOk4WpSYP/+G5ivIpavbvVcRECgVowC0znz0REWBmPWA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: V3yKGK7NcnUG5DtU5SqSSpwoCUBAn5Zb5Jtb0nYeMOU13wRRVmNope2+ALTuuBRFj6wzCWsCXDk6ftzR6L5PpQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR08MB6423
 
-This patch adds bindings for slider gestures that can be expressed
-by the device.
+This patch adds support for slider gestures that can be expressed
+by the device. Each gesture (e.g. tap or hold) can be mapped to a
+unique keycode for either slider 0 or 1.
+
+With this change, raw slider coordinates are reported only if the
+slider has no keycodes defined. This prevents unwanted mouse cur-
+sor movement when expressing axial gestures (e.g. swipe) and also
+eliminates some unnecessary I2C traffic.
+
+Different revisions of silicon use different tap and swipe timeout
+step sizes. Apply an appropriate scaling factor depending on which
+revision is found.
+
+To facilitate this change, store the iqs269_ver_info struct in the
+driver's private data so that other functions can use it after the
+driver has probed.
+
+Last but not least, a former reserved field in iqs269_ver_info now
+contains useful information; give it a name (fw_num).
 
 Signed-off-by: Jeff LaBundy <jeff@labundy.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 Changes in v3:
  - None
 
 Changes in v2:
- - Renamed 'azoteq,slider-swipe' to 'azoteq,gesture-swipe' to match IQS626A and
-   noted it as depending upon 'linux,keycodes'
- - Dropped the $ref declaration for 'linux,keycodes' and referenced input.yaml,
-   which has since been updated to define this property
+ - Rebased onto latest driver
+ - Renamed 'azoteq,slider-swipe' to 'azoteq,gesture-swipe' to match IQS626A
+ - Renamed 'gs_code' to 'sl_code'
 
- .../devicetree/bindings/input/iqs269a.yaml    | 68 +++++++++++++++++++
- 1 file changed, 68 insertions(+)
+ drivers/input/misc/iqs269a.c | 220 ++++++++++++++++++++++++++++++-----
+ 1 file changed, 191 insertions(+), 29 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/input/iqs269a.yaml b/Documentation/devicetree/bindings/input/iqs269a.yaml
-index 3c430d38594f..b42f07542d27 100644
---- a/Documentation/devicetree/bindings/input/iqs269a.yaml
-+++ b/Documentation/devicetree/bindings/input/iqs269a.yaml
-@@ -9,6 +9,9 @@ title: Azoteq IQS269A Capacitive Touch Controller
- maintainers:
-   - Jeff LaBundy <jeff@labundy.com>
+diff --git a/drivers/input/misc/iqs269a.c b/drivers/input/misc/iqs269a.c
+index 1abce35b955e..0d0b5cdc7830 100644
+--- a/drivers/input/misc/iqs269a.c
++++ b/drivers/input/misc/iqs269a.c
+@@ -9,6 +9,7 @@
+  * axial sliders presented by the device.
+  */
  
-+allOf:
-+  - $ref: input.yaml#
-+
- description: |
-   The Azoteq IQS269A is an 8-channel capacitive touch controller that features
-   additional Hall-effect and inductive sensing capabilities.
-@@ -204,6 +207,63 @@ properties:
-     default: 1
-     description: Specifies the slider coordinate filter strength.
++#include <linux/bits.h>
+ #include <linux/completion.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+@@ -26,6 +27,8 @@
  
-+  linux,keycodes:
-+    minItems: 1
-+    maxItems: 8
-+    description: |
-+      Specifies the numeric keycodes associated with each available gesture in
-+      the following order (enter 0 for unused gestures):
-+      0: Slider 0 tap
-+      1: Slider 0 hold
-+      2: Slider 0 positive flick or swipe
-+      3: Slider 0 negative flick or swipe
-+      4: Slider 1 tap
-+      5: Slider 1 hold
-+      6: Slider 1 positive flick or swipe
-+      7: Slider 1 negative flick or swipe
-+
-+  azoteq,gesture-swipe:
-+    type: boolean
-+    description:
-+      Directs the device to interpret axial gestures as a swipe (finger remains
-+      on slider) instead of a flick (finger leaves slider).
-+
-+  azoteq,timeout-tap-ms:
-+    multipleOf: 16
-+    minimum: 0
-+    maximum: 4080
-+    default: 400
-+    description:
-+      Specifies the length of time (in ms) within which a slider touch must be
-+      released in order to be interpreted as a tap. Default and maximum values
-+      as well as step size are reduced by a factor of 4 with device version 2.
-+
-+  azoteq,timeout-swipe-ms:
-+    multipleOf: 16
-+    minimum: 0
-+    maximum: 4080
-+    default: 2000
-+    description:
-+      Specifies the length of time (in ms) within which an axial gesture must be
-+      completed in order to be interpreted as a flick or swipe. Default and max-
-+      imum values as well as step size are reduced by a factor of 4 with device
-+      version 2.
-+
-+  azoteq,thresh-swipe:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 255
-+    default: 128
-+    description:
-+      Specifies the number of points across which an axial gesture must travel
-+      in order to be interpreted as a flick or swipe.
-+
-+dependencies:
-+  azoteq,gesture-swipe: ["linux,keycodes"]
-+  azoteq,timeout-tap-ms: ["linux,keycodes"]
-+  azoteq,timeout-swipe-ms: ["linux,keycodes"]
-+  azoteq,thresh-swipe: ["linux,keycodes"]
-+
- patternProperties:
-   "^channel@[0-7]$":
-     type: object
-@@ -484,6 +544,14 @@ examples:
-                     azoteq,hall-enable;
-                     azoteq,suspend-mode = <2>;
+ #define IQS269_VER_INFO				0x00
+ #define IQS269_VER_INFO_PROD_NUM		0x4F
++#define IQS269_VER_INFO_FW_NUM_2		0x03
++#define IQS269_VER_INFO_FW_NUM_3		0x10
  
-+                    linux,keycodes = <KEY_PLAYPAUSE>,
-+                                     <KEY_STOPCD>,
-+                                     <KEY_NEXTSONG>,
-+                                     <KEY_PREVIOUSSONG>;
+ #define IQS269_SYS_FLAGS			0x02
+ #define IQS269_SYS_FLAGS_SHOW_RESET		BIT(15)
+@@ -53,6 +56,7 @@
+ #define IQS269_SYS_SETTINGS_ULP_UPDATE_MASK	GENMASK(10, 8)
+ #define IQS269_SYS_SETTINGS_ULP_UPDATE_SHIFT	8
+ #define IQS269_SYS_SETTINGS_ULP_UPDATE_MAX	7
++#define IQS269_SYS_SETTINGS_SLIDER_SWIPE	BIT(7)
+ #define IQS269_SYS_SETTINGS_RESEED_OFFSET	BIT(6)
+ #define IQS269_SYS_SETTINGS_EVENT_MODE		BIT(5)
+ #define IQS269_SYS_SETTINGS_EVENT_MODE_LP	BIT(4)
+@@ -69,6 +73,7 @@
+ #define IQS269_FILT_STR_MAX			3
+ 
+ #define IQS269_EVENT_MASK_SYS			BIT(6)
++#define IQS269_EVENT_MASK_GESTURE		BIT(3)
+ #define IQS269_EVENT_MASK_DEEP			BIT(2)
+ #define IQS269_EVENT_MASK_TOUCH			BIT(1)
+ #define IQS269_EVENT_MASK_PROX			BIT(0)
+@@ -97,6 +102,10 @@
+ #define IQS269_MISC_B_TRACKING_UI_ENABLE	BIT(4)
+ #define IQS269_MISC_B_FILT_STR_SLIDER		GENMASK(1, 0)
+ 
++#define IQS269_TIMEOUT_TAP_MS_MAX		4080
++#define IQS269_TIMEOUT_SWIPE_MS_MAX		4080
++#define IQS269_THRESH_SWIPE_MAX			255
 +
-+                    azoteq,timeout-tap-ms = <400>;
-+                    azoteq,timeout-swipe-ms = <800>;
+ #define IQS269_CHx_ENG_A_MEAS_CAP_SIZE		BIT(15)
+ #define IQS269_CHx_ENG_A_RX_GND_INACTIVE	BIT(13)
+ #define IQS269_CHx_ENG_A_LOCAL_CAP_SIZE		BIT(12)
+@@ -175,6 +184,20 @@ enum iqs269_event_id {
+ 	IQS269_EVENT_DEEP_UP,
+ };
+ 
++enum iqs269_slider_id {
++	IQS269_SLIDER_NONE,
++	IQS269_SLIDER_KEY,
++	IQS269_SLIDER_RAW,
++};
 +
-                     channel@0 {
-                             reg = <0x0>;
++enum iqs269_gesture_id {
++	IQS269_GESTURE_TAP,
++	IQS269_GESTURE_HOLD,
++	IQS269_GESTURE_FLICK_POS,
++	IQS269_GESTURE_FLICK_NEG,
++	IQS269_NUM_GESTURES,
++};
++
+ struct iqs269_switch_desc {
+ 	unsigned int code;
+ 	bool enabled;
+@@ -234,7 +257,7 @@ struct iqs269_ver_info {
+ 	u8 prod_num;
+ 	u8 sw_num;
+ 	u8 hw_num;
+-	u8 padding;
++	u8 fw_num;
+ } __packed;
+ 
+ struct iqs269_ch_reg {
+@@ -285,16 +308,33 @@ struct iqs269_private {
+ 	struct regmap *regmap;
+ 	struct mutex lock;
+ 	struct iqs269_switch_desc switches[ARRAY_SIZE(iqs269_events)];
++	struct iqs269_ver_info ver_info;
+ 	struct iqs269_sys_reg sys_reg;
+ 	struct completion ati_done;
+ 	struct input_dev *keypad;
+ 	struct input_dev *slider[IQS269_NUM_SL];
+ 	unsigned int keycode[ARRAY_SIZE(iqs269_events) * IQS269_NUM_CH];
++	unsigned int sl_code[IQS269_NUM_SL][IQS269_NUM_GESTURES];
+ 	unsigned int ch_num;
+ 	bool hall_enable;
+ 	bool ati_current;
+ };
+ 
++static enum iqs269_slider_id iqs269_slider_type(struct iqs269_private *iqs269,
++						int slider_num)
++{
++	int i;
++
++	if (!iqs269->sys_reg.slider_select[slider_num])
++		return IQS269_SLIDER_NONE;
++
++	for (i = 0; i < IQS269_NUM_GESTURES; i++)
++		if (iqs269->sl_code[slider_num][i] != KEY_RESERVED)
++			return IQS269_SLIDER_KEY;
++
++	return IQS269_SLIDER_RAW;
++}
++
+ static int iqs269_ati_mode_set(struct iqs269_private *iqs269,
+ 			       unsigned int ch_num, unsigned int mode)
+ {
+@@ -1004,6 +1044,76 @@ static int iqs269_parse_prop(struct iqs269_private *iqs269)
+ 		general |= (val << IQS269_SYS_SETTINGS_ULP_UPDATE_SHIFT);
+ 	}
+ 
++	if (device_property_present(&client->dev, "linux,keycodes")) {
++		int scale = 1;
++		int count = device_property_count_u32(&client->dev,
++						      "linux,keycodes");
++		if (count > IQS269_NUM_GESTURES * IQS269_NUM_SL) {
++			dev_err(&client->dev, "Too many keycodes present\n");
++			return -EINVAL;
++		} else if (count < 0) {
++			dev_err(&client->dev, "Failed to count keycodes: %d\n",
++				count);
++			return count;
++		}
++
++		error = device_property_read_u32_array(&client->dev,
++						       "linux,keycodes",
++						       *iqs269->sl_code, count);
++		if (error) {
++			dev_err(&client->dev, "Failed to read keycodes: %d\n",
++				error);
++			return error;
++		}
++
++		if (device_property_present(&client->dev,
++					    "azoteq,gesture-swipe"))
++			general |= IQS269_SYS_SETTINGS_SLIDER_SWIPE;
++
++		/*
++		 * Early revisions of silicon use a more granular step size for
++		 * tap and swipe gesture timeouts; scale them appropriately.
++		 */
++		if (iqs269->ver_info.fw_num < IQS269_VER_INFO_FW_NUM_3)
++			scale = 4;
++
++		if (!device_property_read_u32(&client->dev,
++					      "azoteq,timeout-tap-ms", &val)) {
++			if (val > IQS269_TIMEOUT_TAP_MS_MAX / scale) {
++				dev_err(&client->dev, "Invalid timeout: %u\n",
++					val);
++				return -EINVAL;
++			}
++
++			sys_reg->timeout_tap = val / (16 / scale);
++		}
++
++		if (!device_property_read_u32(&client->dev,
++					      "azoteq,timeout-swipe-ms",
++					      &val)) {
++			if (val > IQS269_TIMEOUT_SWIPE_MS_MAX / scale) {
++				dev_err(&client->dev, "Invalid timeout: %u\n",
++					val);
++				return -EINVAL;
++			}
++
++			sys_reg->timeout_swipe = val / (16 / scale);
++		}
++
++		if (!device_property_read_u32(&client->dev,
++					      "azoteq,thresh-swipe", &val)) {
++			if (val > IQS269_THRESH_SWIPE_MAX) {
++				dev_err(&client->dev, "Invalid threshold: %u\n",
++					val);
++				return -EINVAL;
++			}
++
++			sys_reg->thresh_swipe = val;
++		}
++
++		sys_reg->event_mask &= ~IQS269_EVENT_MASK_GESTURE;
++	}
++
+ 	general &= ~IQS269_SYS_SETTINGS_RESEED_OFFSET;
+ 	if (device_property_present(&client->dev, "azoteq,reseed-offset"))
+ 		general |= IQS269_SYS_SETTINGS_RESEED_OFFSET;
+@@ -1012,10 +1122,11 @@ static int iqs269_parse_prop(struct iqs269_private *iqs269)
+ 
+ 	/*
+ 	 * As per the datasheet, enable streaming during normal-power mode if
+-	 * either slider is in use. In that case, the device returns to event
+-	 * mode during low-power mode.
++	 * raw coordinates will be read from either slider. In that case, the
++	 * device returns to event mode during low-power mode.
+ 	 */
+-	if (sys_reg->slider_select[0] || sys_reg->slider_select[1])
++	if (iqs269_slider_type(iqs269, 0) == IQS269_SLIDER_RAW ||
++	    iqs269_slider_type(iqs269, 1) == IQS269_SLIDER_RAW)
+ 		general |= IQS269_SYS_SETTINGS_EVENT_MODE_LP;
+ 
+ 	general |= IQS269_SYS_SETTINGS_REDO_ATI;
+@@ -1106,19 +1217,37 @@ static int iqs269_input_init(struct iqs269_private *iqs269)
+ 	}
+ 
+ 	for (i = 0; i < IQS269_NUM_SL; i++) {
+-		if (!iqs269->sys_reg.slider_select[i])
++		if (iqs269_slider_type(iqs269, i) == IQS269_SLIDER_NONE)
+ 			continue;
+ 
+ 		iqs269->slider[i] = devm_input_allocate_device(&client->dev);
+ 		if (!iqs269->slider[i])
+ 			return -ENOMEM;
+ 
++		iqs269->slider[i]->keycodemax = ARRAY_SIZE(iqs269->sl_code[i]);
++		iqs269->slider[i]->keycode = iqs269->sl_code[i];
++		iqs269->slider[i]->keycodesize = sizeof(**iqs269->sl_code);
++
+ 		iqs269->slider[i]->name = i ? "iqs269a_slider_1"
+ 					    : "iqs269a_slider_0";
+ 		iqs269->slider[i]->id.bustype = BUS_I2C;
+ 
+-		input_set_capability(iqs269->slider[i], EV_KEY, BTN_TOUCH);
+-		input_set_abs_params(iqs269->slider[i], ABS_X, 0, 255, 0, 0);
++		for (j = 0; j < IQS269_NUM_GESTURES; j++)
++			if (iqs269->sl_code[i][j] != KEY_RESERVED)
++				input_set_capability(iqs269->slider[i], EV_KEY,
++						     iqs269->sl_code[i][j]);
++
++		/*
++		 * Present the slider as a narrow trackpad if one or more chan-
++		 * nels have been selected to participate, but no gestures have
++		 * been mapped to a keycode.
++		 */
++		if (iqs269_slider_type(iqs269, i) == IQS269_SLIDER_RAW) {
++			input_set_capability(iqs269->slider[i],
++					     EV_KEY, BTN_TOUCH);
++			input_set_abs_params(iqs269->slider[i],
++					     ABS_X, 0, 255, 0, 0);
++		}
+ 
+ 		error = input_register_device(iqs269->slider[i]);
+ 		if (error) {
+@@ -1167,28 +1296,62 @@ static int iqs269_report(struct iqs269_private *iqs269)
+ 	if (be16_to_cpu(flags.system) & IQS269_SYS_FLAGS_IN_ATI)
+ 		return 0;
+ 
+-	error = regmap_raw_read(iqs269->regmap, IQS269_SLIDER_X, slider_x,
+-				sizeof(slider_x));
+-	if (error) {
+-		dev_err(&client->dev, "Failed to read slider position: %d\n",
+-			error);
+-		return error;
++	if (iqs269_slider_type(iqs269, 0) == IQS269_SLIDER_RAW ||
++	    iqs269_slider_type(iqs269, 1) == IQS269_SLIDER_RAW) {
++		error = regmap_raw_read(iqs269->regmap, IQS269_SLIDER_X,
++					slider_x, sizeof(slider_x));
++		if (error) {
++			dev_err(&client->dev,
++				"Failed to read slider position: %d\n", error);
++			return error;
++		}
+ 	}
+ 
+ 	for (i = 0; i < IQS269_NUM_SL; i++) {
+-		if (!iqs269->sys_reg.slider_select[i])
++		flags.gesture >>= (i * IQS269_NUM_GESTURES);
++
++		switch (iqs269_slider_type(iqs269, i)) {
++		case IQS269_SLIDER_NONE:
+ 			continue;
+ 
+-		/*
+-		 * Report BTN_TOUCH if any channel that participates in the
+-		 * slider is in a state of touch.
+-		 */
+-		if (flags.states[IQS269_ST_OFFS_TOUCH] &
+-		    iqs269->sys_reg.slider_select[i]) {
+-			input_report_key(iqs269->slider[i], BTN_TOUCH, 1);
+-			input_report_abs(iqs269->slider[i], ABS_X, slider_x[i]);
+-		} else {
+-			input_report_key(iqs269->slider[i], BTN_TOUCH, 0);
++		case IQS269_SLIDER_KEY:
++			for (j = 0; j < IQS269_NUM_GESTURES; j++)
++				input_report_key(iqs269->slider[i],
++						 iqs269->sl_code[i][j],
++						 flags.gesture & BIT(j));
++
++			if (!(flags.gesture & (BIT(IQS269_GESTURE_FLICK_NEG) |
++					       BIT(IQS269_GESTURE_FLICK_POS) |
++					       BIT(IQS269_GESTURE_TAP))))
++				break;
++
++			input_sync(iqs269->slider[i]);
++
++			/*
++			 * Momentary gestures are followed by a complementary
++			 * release cycle so as to emulate a full keystroke.
++			 */
++			for (j = 0; j < IQS269_NUM_GESTURES; j++)
++				if (j != IQS269_GESTURE_HOLD)
++					input_report_key(iqs269->slider[i],
++							 iqs269->sl_code[i][j],
++							 0);
++			break;
++
++		case IQS269_SLIDER_RAW:
++			/*
++			 * The slider is considered to be in a state of touch
++			 * if any selected channels are in a state of touch.
++			 */
++			state = flags.states[IQS269_ST_OFFS_TOUCH];
++			state &= iqs269->sys_reg.slider_select[i];
++
++			input_report_key(iqs269->slider[i], BTN_TOUCH, state);
++
++			if (state)
++				input_report_abs(iqs269->slider[i],
++						 ABS_X, slider_x[i]);
++			break;
+ 		}
+ 
+ 		input_sync(iqs269->slider[i]);
+@@ -1595,7 +1758,6 @@ static const struct regmap_config iqs269_regmap_config = {
+ 
+ static int iqs269_probe(struct i2c_client *client)
+ {
+-	struct iqs269_ver_info ver_info;
+ 	struct iqs269_private *iqs269;
+ 	int error;
+ 
+@@ -1617,14 +1779,14 @@ static int iqs269_probe(struct i2c_client *client)
+ 	mutex_init(&iqs269->lock);
+ 	init_completion(&iqs269->ati_done);
+ 
+-	error = regmap_raw_read(iqs269->regmap, IQS269_VER_INFO, &ver_info,
+-				sizeof(ver_info));
++	error = regmap_raw_read(iqs269->regmap, IQS269_VER_INFO,
++				&iqs269->ver_info, sizeof(iqs269->ver_info));
+ 	if (error)
+ 		return error;
+ 
+-	if (ver_info.prod_num != IQS269_VER_INFO_PROD_NUM) {
++	if (iqs269->ver_info.prod_num != IQS269_VER_INFO_PROD_NUM) {
+ 		dev_err(&client->dev, "Unrecognized product number: 0x%02X\n",
+-			ver_info.prod_num);
++			iqs269->ver_info.prod_num);
+ 		return -EINVAL;
+ 	}
  
 -- 
 2.34.1
