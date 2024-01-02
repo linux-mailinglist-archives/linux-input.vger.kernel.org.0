@@ -1,112 +1,168 @@
-Return-Path: <linux-input+bounces-1075-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1076-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51238219CE
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jan 2024 11:31:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2FD0821D0B
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jan 2024 14:48:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 486A6B21984
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jan 2024 10:31:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE39F1C220F0
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jan 2024 13:48:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 011F2DDA6;
-	Tue,  2 Jan 2024 10:31:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAFD9FC02;
+	Tue,  2 Jan 2024 13:48:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ABQ8F2tY"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="IJ7RiyOs"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2D3DDA7
-	for <linux-input@vger.kernel.org>; Tue,  2 Jan 2024 10:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a2830574764so74855066b.1
-        for <linux-input@vger.kernel.org>; Tue, 02 Jan 2024 02:31:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1704191493; x=1704796293; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:in-reply-to:subject
-         :cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3uo2Tlt5PNlFfytmy7IbupTsQFgsSvR2/VN09g7vDPo=;
-        b=ABQ8F2tYhEzyMB4bkJ/eKb75yEynWhT2YGW9eEX6bXFRJ4+Kd8zJSphu+jMU4+J8NG
-         2IHMfti5WOB1NDzq1vM7J8qL5Lc1D6S2QvINaGUQhV5HTl6Y2d2lsb3b71u/nXL70+0l
-         6poeVIsGRVvjp2cWUyhW4zED0sOW8C7cvALaq5fvlpCkK5V+aRBP0KxDx+x+ow5ylZAY
-         /P0yogiu2QG+CtYTD7349hIUz5YyKvSQhwEjjKkq2RWlufA4hq5eknzcSWZwCrnp35mH
-         Oq7Rx3goZswZoAXfdjzl0M1AFZaxmBrE/Rism/VT7ZXY2IhVIOJxpDKrBmVAGG1bP1XH
-         xtSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704191493; x=1704796293;
-        h=mime-version:user-agent:references:message-id:in-reply-to:subject
-         :cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3uo2Tlt5PNlFfytmy7IbupTsQFgsSvR2/VN09g7vDPo=;
-        b=TI8Njr2hXJq8TTf+FRZjXS70xfVxugUEYMwzJaLTKMT4Hjzs6/gV9tmiC3gJqPJ80c
-         MTunjbv5nPIP/5m5JxlATQg8BcOxZBA6Veo7u2o3c5QU+8FoqIKg9kDmu/9etU3Ss54C
-         euktnmvUirheUinKxIGU3zIVPcXjDvbvLSSBsTm24zfYXh/JKkmoMzNeQPcyrr5iA6L8
-         JyM1NOZdw4YAKnLk2NBqMiKEIHrE9lOHguuzKHBF6Gm6XrhXHzZnskbMioEDtqXpUpb/
-         hFPYulT1JrAi+1AZaHRbkAeI3k5znVpjk37+Ricg3UToAKViPmCAlc8u5sDL4moTERp+
-         e6dg==
-X-Gm-Message-State: AOJu0YxIQJNRDSuron/jBzMhH62VWYlTTSOyhk/om2YAzBoBsrYVdTI/
-	nZUdmsyRf2Kg6oDiH9QWFIsMkL7D3NmOuw==
-X-Google-Smtp-Source: AGHT+IHU2aJgBWBK6zf9NwXwlyAr52pOBalLA8+OerTHl4J+zRE6N0bDgnl9du9GMVED+x5KWRUA6g==
-X-Received: by 2002:a17:907:101b:b0:a23:1163:24be with SMTP id ox27-20020a170907101b00b00a23116324bemr7646706ejb.95.1704191493272;
-        Tue, 02 Jan 2024 02:31:33 -0800 (PST)
-Received: from localhost (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id rn28-20020a170906d93c00b00a26b036affbsm10706526ejb.96.2024.01.02.02.31.32
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 02 Jan 2024 02:31:33 -0800 (PST)
-From: Jiri Kosina <jkosina@suse.com>
-X-Google-Original-From: Jiri Kosina <jikos@kernel.org>
-Date: Tue, 2 Jan 2024 11:31:34 +0100 (CET)
-To: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
-cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com, 
-    robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-    benjamin.tissoires@redhat.com, linus.walleij@linaro.org, 
-    dianders@chromium.org
-Subject: Re: [PATCH v3 0/2] HID: i2c-hid: elan: Add ili2901 timing
-In-Reply-To: <20231227085013.1317-1-xiazhengqiao@huaqin.corp-partner.google.com>
-Message-ID: <nycvar.YFH.7.76.2401021131220.29548@cbobk.fhfr.pm>
-References: <20231227085013.1317-1-xiazhengqiao@huaqin.corp-partner.google.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EB8FBFC;
+	Tue,  2 Jan 2024 13:48:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Received: from wse.fritz.box (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id DA3822FC0048;
+	Tue,  2 Jan 2024 14:48:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1704203315;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xJNhvlNEbhz6wkYNou1HHqLAU/bd7n4aZ11XtrXYphc=;
+	b=IJ7RiyOsDKx4+ZQOgaBao2511oVmSJCygE7sKa/jJ/hpl4zzO1sI7iynQXe7+6WXxweu0W
+	SGj5cPtPvV/8FCZOdmyKGTT/l/PxVsEQJsZZqHlXKqZeajmxBewdvo9Sim/We0wEdYlPrw
+	KAscv0mcqWQmEiv3rey+p8b612BlZu8=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Werner Sembach <wse@tuxedocomputers.com>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] i8042: Add forcenorestore quirk to leave controller untouched even on s3
+Date: Tue,  2 Jan 2024 14:48:31 +0100
+Message-Id: <20240102134833.68646-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
-On Wed, 27 Dec 2023, Zhengqiao Xia wrote:
+On s3 resume the i8042 driver tries to restore the controller to a known
+state by reinitializing things, however can this confuses the controller
+with different effects. Mostly occasionally unresponsive keyboards after
+resume.
 
-> ILI2901 requires reset to pull down time greater than 10ms,
-> so the configuration post_power_delay_ms is 10, and the chipset
-> initial time is required to be greater than 100ms,
-> so the post_gpio_reset_on_delay_ms is set to 100.
-> 
-> Change in v3:
-> - PATCH 1/2: Modify title and commit
-> - PATCH 2/2: No change
-> - Link to v2: https://lore.kernel.org/all/20231226023737.25618-2-xiazhengqiao@huaqin.corp-partner.google.com/
-> 
-> Change in v2:
-> - PATCH 1/2: Modify compatible properties values
-> - PATCH 2/2: No change
-> - Link to v1: https://lore.kernel.org/all/20231225092843.5993-3-xiazhengqiao@huaqin.corp-partner.google.com/
-> 
-> xiazhengqiao (2):
->   dt-bindings: HID: i2c-hid: elan: Introduce Ilitek ili2901
->   HID: i2c-hid: elan: Add ili2901 timing
-> 
->  .../devicetree/bindings/input/elan,ekth6915.yaml          | 5 +++--
->  drivers/hid/i2c-hid/i2c-hid-of-elan.c                     | 8 ++++++++
->  2 files changed, 11 insertions(+), 2 deletions(-)
+These issues do not rise on s0ix resume as here the controller is assumed
+to preserved its state from before suspend.
 
-Now queued in hid.git#for-6.8/elan. Thanks,
+This patch adds a quirk for devices where the reinitialization on s3 resume
+is not needed and might be harmful as described above. It does this by
+using the s0ix resume code path at selected locations.
 
+This new quirk goes beyond what the preexisting reset=never quirk does,
+which only skips some reinitialization steps.
+
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/input/serio/i8042-acpipnpio.h | 10 +++++++---
+ drivers/input/serio/i8042.c           | 10 +++++++---
+ 2 files changed, 14 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
+index b585b1dab870e..10ec4534e5e14 100644
+--- a/drivers/input/serio/i8042-acpipnpio.h
++++ b/drivers/input/serio/i8042-acpipnpio.h
+@@ -83,6 +83,7 @@ static inline void i8042_write_command(int val)
+ #define SERIO_QUIRK_KBDRESET		BIT(12)
+ #define SERIO_QUIRK_DRITEK		BIT(13)
+ #define SERIO_QUIRK_NOPNP		BIT(14)
++#define SERIO_QUIRK_FORCENORESTORE	BIT(15)
+ 
+ /* Quirk table for different mainboards. Options similar or identical to i8042
+  * module parameters.
+@@ -1657,6 +1658,8 @@ static void __init i8042_check_quirks(void)
+ 	if (quirks & SERIO_QUIRK_NOPNP)
+ 		i8042_nopnp = true;
+ #endif
++	if (quirks & SERIO_QUIRK_FORCENORESTORE)
++		i8042_forcenorestore = true;
+ }
+ #else
+ static inline void i8042_check_quirks(void) {}
+@@ -1690,7 +1693,7 @@ static int __init i8042_platform_init(void)
+ 
+ 	i8042_check_quirks();
+ 
+-	pr_debug("Active quirks (empty means none):%s%s%s%s%s%s%s%s%s%s%s%s%s\n",
++	pr_debug("Active quirks (empty means none):%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n",
+ 		i8042_nokbd ? " nokbd" : "",
+ 		i8042_noaux ? " noaux" : "",
+ 		i8042_nomux ? " nomux" : "",
+@@ -1710,10 +1713,11 @@ static int __init i8042_platform_init(void)
+ 		"",
+ #endif
+ #ifdef CONFIG_PNP
+-		i8042_nopnp ? " nopnp" : "");
++		i8042_nopnp ? " nopnp" : "",
+ #else
+-		"");
++		"",
+ #endif
++		i8042_forcenorestore ? " forcenorestore" : "");
+ 
+ 	retval = i8042_pnp_init();
+ 	if (retval)
+diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+index 9fbb8d31575ae..2233d93f90e81 100644
+--- a/drivers/input/serio/i8042.c
++++ b/drivers/input/serio/i8042.c
+@@ -115,6 +115,10 @@ module_param_named(nopnp, i8042_nopnp, bool, 0);
+ MODULE_PARM_DESC(nopnp, "Do not use PNP to detect controller settings");
+ #endif
+ 
++static bool i8042_forcenorestore;
++module_param_named(forcenorestore, i8042_forcenorestore, bool, 0);
++MODULE_PARM_DESC(forcenorestore, "Force no restore on s3 resume, copying s2idle behaviour");
++
+ #define DEBUG
+ #ifdef DEBUG
+ static bool i8042_debug;
+@@ -1232,7 +1236,7 @@ static int i8042_pm_suspend(struct device *dev)
+ {
+ 	int i;
+ 
+-	if (pm_suspend_via_firmware())
++	if (!i8042_forcenorestore && pm_suspend_via_firmware())
+ 		i8042_controller_reset(true);
+ 
+ 	/* Set up serio interrupts for system wakeup. */
+@@ -1248,7 +1252,7 @@ static int i8042_pm_suspend(struct device *dev)
+ 
+ static int i8042_pm_resume_noirq(struct device *dev)
+ {
+-	if (!pm_resume_via_firmware())
++	if (i8042_forcenorestore || !pm_resume_via_firmware())
+ 		i8042_interrupt(0, NULL);
+ 
+ 	return 0;
+@@ -1271,7 +1275,7 @@ static int i8042_pm_resume(struct device *dev)
+ 	 * not restore the controller state to whatever it had been at boot
+ 	 * time, so we do not need to do anything.
+ 	 */
+-	if (!pm_suspend_via_firmware())
++	if (i8042_forcenorestore || !pm_suspend_via_firmware())
+ 		return 0;
+ 
+ 	/*
 -- 
-Jiri Kosina
-SUSE Labs
+2.34.1
 
 
