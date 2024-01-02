@@ -1,139 +1,107 @@
-Return-Path: <linux-input+bounces-1070-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1071-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD5B821684
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jan 2024 03:36:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0B84821848
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jan 2024 09:20:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 59AE01F2124A
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jan 2024 02:36:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 015001C215B4
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jan 2024 08:20:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93120EBC;
-	Tue,  2 Jan 2024 02:36:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93F2646B1;
+	Tue,  2 Jan 2024 08:19:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="krfe4pHj"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DMTcUzvu"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F005BEC0;
-	Tue,  2 Jan 2024 02:36:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50e9e5c97e1so505534e87.0;
-        Mon, 01 Jan 2024 18:36:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704163006; x=1704767806; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tZgJ/hO0BMuiFsKeH5YQSYQg6eAF+eBUJTKBunwuY4w=;
-        b=krfe4pHjnnk3NP8USotYLpIoQSJkvh1wvJ1VKmRAUHCLPEaOb/c1LuGwuoU1zISRUl
-         rOyjEyCWh8jZya0d7eqnTDlHjgXnn0xvwylj6c8x28pZAeu5dTQKG5liGppT5L8M+AfT
-         k0KUlnRezaq/mTO9FW98fsu73Nr4pN/O1Drbt0fuBncXBUvYFUoXU7sNxebbhfy2P/rc
-         ddeKEovMHhRrUnv6rfRlgj21g447Ax8Emj1jD2+IT4CrnYchlWB02lokqNqwDbq84iFv
-         Ybc9+isv3bDID5ju5l6mxiYiGiDC8bj+HPkludcFRe+V5DhYZWc5V8dHsNvZs7WUiRSy
-         RiMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704163006; x=1704767806;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tZgJ/hO0BMuiFsKeH5YQSYQg6eAF+eBUJTKBunwuY4w=;
-        b=XWf3a08kWKzjXINZQHNgQ+FTG7BubGzvmvSXn2EO1DcpW31C7pPswbSjHr3nYQ6OLG
-         8J++SSQcPCZZs5Si3RpHlg/l5HHOuW+6V5XLkW0Cx3B9lYv4JeEwFoO+7oannqFTMGaQ
-         uuYcrH3NlMbUQxQVkg5qry8xZBKmNdnSc6ISHbrGqyJmTLd3DjmtGhV9f3xI+hSjcN00
-         XVa8s24CP8PlR29VePjIZZHkYpWm8K3cYYKcxFkOyw2Omy4zFpMaD5geIdVALZUJL7na
-         WSXEy6T0puL+bRkdJloBkYIEOZA8mRJC6gj/iNcAd7bTQYNeRLj9daLLOKAMbEeYo84g
-         oTOQ==
-X-Gm-Message-State: AOJu0Yxjtp0+hvNbT03luC59pRIiqjHRNZFiRRtljibkoEkGW+FqTEwb
-	iiODW7Tt7lcCY2zNOQUaXijZpznw1nHrguxJzzo=
-X-Google-Smtp-Source: AGHT+IFQWwkDdfr7Zg4c6GAHGBte5cyFLdsroKWwL5kjddtoMkmRM7PTWR7k2nJpGsIf2S1vn9VuCo5fc468ckbX/CM=
-X-Received: by 2002:a05:6512:3d29:b0:50e:8ecf:4100 with SMTP id
- d41-20020a0565123d2900b0050e8ecf4100mr3309705lfv.112.1704163005510; Mon, 01
- Jan 2024 18:36:45 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF2D46AB;
+	Tue,  2 Jan 2024 08:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8DD151BF20B;
+	Tue,  2 Jan 2024 08:19:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1704183586;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=F7JhpyUgH4Jq+rXwdSiSSX32DA0GZkdALp7liQzCyVM=;
+	b=DMTcUzvuzO5wWZxzkxtkgpGfk4NtH/WHDgEF4W8hiKTuQ8I0j7k5PPvxXZ13G8VjZLPz0o
+	Ti7lAEzLQHF9EC7A0fuU/8vIooDBwkmz8Ji1AAghDNuB0V0v/FxkVqjHc4ceIidkDFuhKu
+	JSXbhy0n8VmhyZZhU0mWjJ/b2wZuaBXssd0i0NNjcNDMm1ChiA8l5MZoeQHOtZxel3E8p9
+	Q1V/pBtMbsOm7lo+xbY4VB7ZBhI0YpheVioufVRvMiHaY/2nj4eVOhVIUYIKzQUoef6GZn
+	IZsDZ8fY2KKd/xWVqHKtiePtsJvmThdBDhIpdfHSAIPKbbS9Hde5h6nG3/7Utw==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	devicetree@vger.kernel.org
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Jeff LaBundy <jeff@labundy.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH RESEND v2] dt-bindings: input: touchscreen: goodix: clarify irq-gpios misleading text
+Date: Tue,  2 Jan 2024 09:19:34 +0100
+Message-Id: <20240102081934.11293-1-luca.ceresoli@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231227053509.894642-1-allencl_lin@hotmail.com>
- <SEZPR06MB56080820EE51CBAE9C6B6B3E9E9FA@SEZPR06MB5608.apcprd06.prod.outlook.com>
- <08623087-bf1c-411e-87de-d40ffab6e2bc@linaro.org> <TY0PR06MB561188EBD127F8ECF4A7052B9E9DA@TY0PR06MB5611.apcprd06.prod.outlook.com>
- <0a817121-620c-4630-93a3-5cf3173b924f@linaro.org>
-In-Reply-To: <0a817121-620c-4630-93a3-5cf3173b924f@linaro.org>
-From: Allen Lin <mytest7890t@gmail.com>
-Date: Tue, 2 Jan 2024 10:36:38 +0800
-Message-ID: <CAEr79DXTLTsan3dQvCx-M6aUc4CAHJ6aJbp+GiC+MA4K=qdPew@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: input: Add Himax HX83102J touchscreen
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Allen Lin <allencl_lin@hotmail.com>, dmitry.torokhov@gmail.com, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org, 
-	benjamin.tissoires@redhat.com, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> =E6=96=BC 2023=E5=B9=
-=B412=E6=9C=8830=E6=97=A5 =E9=80=B1=E5=85=AD =E4=B8=8B=E5=8D=8810:19=E5=AF=
-=AB=E9=81=93=EF=BC=9A
->
-> On 29/12/2023 10:08, Allen Lin wrote:
-> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> =E6=96=BC 2023=E5=
-=B9=B412=E6=9C=8828=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=886:36=E5=
-=AF=AB=E9=81=93=EF=BC=9A
-> >>
-> >> On 27/12/2023 06:35, Allen_Lin wrote:
-> >>> Add the HX83102j touchscreen device tree bindings documents.
-> >>>
-> >>> Signed-off-by: Allen_Lin <allencl_lin@hotmail.com>
-> >>> ---
-> >>
-> >> Where is the changelog? There is no cover letter attached, so changelo=
-g
-> >> is supposed to be here. There were several comments, so does it mean y=
-ou
-> >> ignored them?
-> >>
-> > Cover letter is not in this mail but in the mail with this title
-> > "[PATCH v3 0/2] Add HX83102j driver for HIMAX HID touchscreen"
->
-> There was no cover letter attached to this thread. Don't send cover
-> letters in separate threads.
->
-> >
-> > Hi,
-> > This driver implements for Himax HID touchscreen HX83102j.
-> >
-> > Using SPI interface to receive/send HID packets.
-> >
-> > Patchs notes as below
-> > 1. Add the Maintainer and devicetree bindings document for driver
-> > 2. Add the driver code and modify Kconfig/Makefile to support the drive=
-r
-> >
-> > change in v2 :
-> > - Fix kernel test robot build warnings.
-> > change in v3 :
-> > - Modify code according to review suggesions.
->
-> Not detailed enough. What did you change exactly?
->
-1. Remove function pointer coding style
-2. Remove unused code/variable/structure
-3. Use devm_kzalloc() to allocate memory
-4. Use gpio descriptors to control gpio
-5. All functions are changed to static
-6. Drop all global variables.
+The irq-gpios description misleading, apparently saying that driving the
+IRQ GPIO resets the device, which is even more puzzling as there is a reset
+GPIO as well.
 
->
-> Best regards,
-> Krzysztof
->
+In reality the IRQ pin can be driven during the reset sequence to configure
+the client address, as it becomes clear after checking both the datasheet
+and the driver code. Improve the text to clarify that.
 
-Best regards
-Allen
+Also rephrase to remove reference to the driver, which is not appropriate
+in the bindings.
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Jeff LaBundy <jeff@labundy.com>
+---
+
+Changed in v2 resend:
+ - added ack/review tags
+
+Changed in v2:
+ - reworded to clarify even further
+---
+ .../devicetree/bindings/input/touchscreen/goodix.yaml        | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+index 3d016b87c8df..2a2d86cfd104 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
++++ b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+@@ -37,8 +37,9 @@ properties:
+     maxItems: 1
+ 
+   irq-gpios:
+-    description: GPIO pin used for IRQ. The driver uses the interrupt gpio pin
+-      as output to reset the device.
++    description: GPIO pin used for IRQ input. Additionally, this line is
++      sampled by the device on reset deassertion to select the I2C client
++      address, thus it can be driven by the host during the reset sequence.
+     maxItems: 1
+ 
+   reset-gpios:
+-- 
+2.34.1
+
 
