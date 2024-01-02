@@ -1,98 +1,90 @@
-Return-Path: <linux-input+bounces-1077-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1078-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12AAD821D0C
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jan 2024 14:48:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D49821D67
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jan 2024 15:08:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A14C32828E8
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jan 2024 13:48:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7FF3C1F22CD7
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jan 2024 14:08:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05FC9FC0D;
-	Tue,  2 Jan 2024 13:48:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DE9C10785;
+	Tue,  2 Jan 2024 14:08:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="UuRyNep9"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="IVaBv7+A"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201E4FBF8;
-	Tue,  2 Jan 2024 13:48:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC1510957;
+	Tue,  2 Jan 2024 14:08:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from wse.fritz.box (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
+Received: from [192.168.42.20] (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
 	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 9C1912FC006B;
-	Tue,  2 Jan 2024 14:48:36 +0100 (CET)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 28E662FC0048;
+	Tue,  2 Jan 2024 15:08:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1704203316;
+	s=default; t=1704204492;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JKQS4AwlSL17ZE3tRGxXuQK7iAc6fj3KFZMSPVfU4pw=;
-	b=UuRyNep9NfZM/8zonrzLnS7YmG9/nSlaQziA5tn8RR/y2gUh0bUPnfCpxq6af97CTYS8RE
-	sccRcKggbsuKCD4Gi++fWtpCKYBn8wJO8+ScY5FK+Y063hELEdwbmlb5jUHYg6OfwmRMk0
-	17X4CUJ6wAl2DxiWcIC7aLuHj0jm//Y=
+	bh=mvn3w4e1IYla2d0uIR1Jhj+rox2L3HFlMPKxi/ngIPQ=;
+	b=IVaBv7+AVQIlli4R2WJl8H0AqUmy+SSFYj9YGXlUaPETwL8dRJwyfOBDmsZVnUcut7F5xg
+	oPjN+8j3e4cFfUE6XtetJ0mMnxnl7EC7k1LRRY1cL70sbnUb1d4n3C5QgCRfUMuoLOiPyl
+	nzMBlYgMGcFEGKeEZJZ+Gg5F6EuODss=
 Authentication-Results: mail.tuxedocomputers.com;
 	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Werner Sembach <wse@tuxedocomputers.com>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] i8042: Use new forenorestore quirk to replace old buggy quirk combination
-Date: Tue,  2 Jan 2024 14:48:32 +0100
-Message-Id: <20240102134833.68646-2-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240102134833.68646-1-wse@tuxedocomputers.com>
-References: <20240102134833.68646-1-wse@tuxedocomputers.com>
+Message-ID: <19a39ca1-ca72-4ee1-96e9-c55541e67aa4@tuxedocomputers.com>
+Date: Tue, 2 Jan 2024 15:08:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] i8042: Use new forenorestore quirk to replace old
+ buggy quirk combination
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Hans de Goede <hdegoede@redhat.com>
+References: <20240102134833.68646-1-wse@tuxedocomputers.com>
+ <20240102134833.68646-2-wse@tuxedocomputers.com>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <20240102134833.68646-2-wse@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The old quirk combination sometimes cause a laggy keyboard after boot. With
-the new quirk the initial issue of an unresponsive keyboard after s3 resume
-is also fixed, but it doesn't have the negative side effect of the
-sometimes laggy keyboard.
+Hi,
 
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-Cc: stable@vger.kernel.org
----
- drivers/input/serio/i8042-acpipnpio.h | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+Am 02.01.24 um 14:48 schrieb Werner Sembach:
+> The old quirk combination sometimes cause a laggy keyboard after boot. With
+> the new quirk the initial issue of an unresponsive keyboard after s3 resume
+> is also fixed, but it doesn't have the negative side effect of the
+> sometimes laggy keyboard.
+>
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> Cc: stable@vger.kernel.org
 
-diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
-index 10ec4534e5e14..e631a26394e92 100644
---- a/drivers/input/serio/i8042-acpipnpio.h
-+++ b/drivers/input/serio/i8042-acpipnpio.h
-@@ -1142,18 +1142,10 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
- 	},
- 	{
--		/*
--		 * Setting SERIO_QUIRK_NOMUX or SERIO_QUIRK_RESET_ALWAYS makes
--		 * the keyboard very laggy for ~5 seconds after boot and
--		 * sometimes also after resume.
--		 * However both are required for the keyboard to not fail
--		 * completely sometimes after boot or resume.
--		 */
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_NAME, "N150CU"),
- 		},
--		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
--					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
- 	},
- 	{
- 		.matches = {
--- 
-2.34.1
+Added Hans to the loop.
+
+As mentioned in the one on one e-Mails with Hans I wrote a new quirk in [Patch 
+1/2] and tested it on the device in [Patch 2/2]
+
+At least one more device will follow which has negative side effects with the 
+old quirkls, but I currently don't have it at hand for testing.
+
+I wonder if devices where the old quirk combination did not cause issue should 
+also be switched to the new quirk, if, after testing, it also fixes the 
+unresponsive keyboard issues?
+
+Kind regards,
+
+Werner
 
 
