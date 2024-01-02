@@ -1,107 +1,105 @@
-Return-Path: <linux-input+bounces-1071-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1072-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0B84821848
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jan 2024 09:20:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6DD3821993
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jan 2024 11:21:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 015001C215B4
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jan 2024 08:20:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 763FE282DED
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jan 2024 10:21:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93F2646B1;
-	Tue,  2 Jan 2024 08:19:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B7E1D26A;
+	Tue,  2 Jan 2024 10:21:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DMTcUzvu"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="RYkvxhAp"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF2D46AB;
-	Tue,  2 Jan 2024 08:19:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8DD151BF20B;
-	Tue,  2 Jan 2024 08:19:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1704183586;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=F7JhpyUgH4Jq+rXwdSiSSX32DA0GZkdALp7liQzCyVM=;
-	b=DMTcUzvuzO5wWZxzkxtkgpGfk4NtH/WHDgEF4W8hiKTuQ8I0j7k5PPvxXZ13G8VjZLPz0o
-	Ti7lAEzLQHF9EC7A0fuU/8vIooDBwkmz8Ji1AAghDNuB0V0v/FxkVqjHc4ceIidkDFuhKu
-	JSXbhy0n8VmhyZZhU0mWjJ/b2wZuaBXssd0i0NNjcNDMm1ChiA8l5MZoeQHOtZxel3E8p9
-	Q1V/pBtMbsOm7lo+xbY4VB7ZBhI0YpheVioufVRvMiHaY/2nj4eVOhVIUYIKzQUoef6GZn
-	IZsDZ8fY2KKd/xWVqHKtiePtsJvmThdBDhIpdfHSAIPKbbS9Hde5h6nG3/7Utw==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	devicetree@vger.kernel.org
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Jeff LaBundy <jeff@labundy.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Rob Herring <robh@kernel.org>
-Subject: [PATCH RESEND v2] dt-bindings: input: touchscreen: goodix: clarify irq-gpios misleading text
-Date: Tue,  2 Jan 2024 09:19:34 +0100
-Message-Id: <20240102081934.11293-1-luca.ceresoli@bootlin.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09546D27E
+	for <linux-input@vger.kernel.org>; Tue,  2 Jan 2024 10:21:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-556ab26227cso41815a12.1
+        for <linux-input@vger.kernel.org>; Tue, 02 Jan 2024 02:21:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1704190883; x=1704795683; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=srpG0ery4V9Udddfug87nbICaLqD5vEisHypY/QUI/c=;
+        b=RYkvxhAp0tpl2dmoMcrMs7OPYw5pQKJDK2Pi3R4ZYKSzxwL7+/Bmmutl1LZQWP6URO
+         HNCqKGcZOMmP1BjgI8vOJpy35FsbjUwO6adCSt2Shm1ubUQs3xvky72VBYv/KAw/vf9e
+         2gsJYTlnemjJS57IAZuEl4M6CXijqdH2saio3+EyG+ToZaAK6zCRBa8i5SSv5Zh4fJat
+         NEK+5xM7auGL6wbthGRrPCp4+kUxGipatn1EyHZWzcDGxfMCO4NsvdjWegNXzT5G2D0t
+         /uFAYd/PPwXKZuqsWYKkU2hEJ72Ebr5+ovXxZ1CoCgfKF8oN0TUqt8edRvvExwcA836J
+         AB1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704190883; x=1704795683;
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=srpG0ery4V9Udddfug87nbICaLqD5vEisHypY/QUI/c=;
+        b=aJ4wvB861ZUj53ZKnLFb4muQQF4eDY8XPRNzwvBWGze19f510QcHHjEB40iEKr+f0h
+         4cqrHym13ovAN+m71QtkvEFrkf9bwyRn6Rj2p05m6swYHeD5RHy8u40hS8VUMqBCpTZp
+         SDEmFnlDHKe5L30wL+yGylkp8M4BJtiV6P1sVpPDqL0g13q34xWn0qQY84/YyqCE8Bdg
+         LdK8JCA63fdA+P47kNAFbNbt2vTgNJDjXtpiouIuhx7EijCIxkh7uzTOajcJcQofhRAv
+         MKo8GBmcIex2x6mYsr2oIq7iFy+nYVENAEKpj0TbG7AOIAQNvaAbcGgQzWNj12cIiYli
+         ScCA==
+X-Gm-Message-State: AOJu0YwM6GMZEiX1nyb7mIX2ac0uB2v0v9gk5JHV7vcca+qTiTcMWnwi
+	pe5DDVhOVKVzxrNQfhRcM8U9h4w2N/rDJQ==
+X-Google-Smtp-Source: AGHT+IE/ubc8BuhQOqRCmwYeZwqt3aocu1iV8enEmY9wNljdbZjXF45tpunhtTLZ7qWv6o2NFQH4Dw==
+X-Received: by 2002:a50:d74e:0:b0:554:877e:837 with SMTP id i14-20020a50d74e000000b00554877e0837mr7367564edj.64.1704190883286;
+        Tue, 02 Jan 2024 02:21:23 -0800 (PST)
+Received: from localhost (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id x7-20020a50ba87000000b005527cfaa2dfsm16238868ede.49.2024.01.02.02.21.22
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 02 Jan 2024 02:21:23 -0800 (PST)
+From: Jiri Kosina <jkosina@suse.com>
+X-Google-Original-From: Jiri Kosina <jikos@kernel.org>
+Date: Tue, 2 Jan 2024 11:21:24 +0100 (CET)
+To: Vicki Pfau <vi@endrift.com>
+cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+    linux-input@vger.kernel.org
+Subject: Re: [PATCH 0/7] HID: hid-steam: Upstream more SteamOS patches
+In-Reply-To: <20231220033609.2132033-1-vi@endrift.com>
+Message-ID: <nycvar.YFH.7.76.2401021121040.29548@cbobk.fhfr.pm>
+References: <20231220033609.2132033-1-vi@endrift.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=US-ASCII
 
-The irq-gpios description misleading, apparently saying that driving the
-IRQ GPIO resets the device, which is even more puzzling as there is a reset
-GPIO as well.
+On Tue, 19 Dec 2023, Vicki Pfau wrote:
 
-In reality the IRQ pin can be driven during the reset sequence to configure
-the client address, as it becomes clear after checking both the datasheet
-and the driver code. Improve the text to clarify that.
+> This is a slew of patches that have been in testing for a while in SteamOS
+> betas in one form or another. Most of them are pretty straight-forward, though
+> I expect the gamepad-only mode may be preferred to be offloaded to a userspace
+> daemon. Right now, the gamepad-only mode is handled by Steam when it's running,
+> but has utility when it's not running too, given the presence of Lizard Mode
+> (the keyboard/mouse emulation system).
+> 
+> Vicki Pfau (7):
+>   HID: hid-steam: Avoid overwriting smoothing parameter
+>   HID: hid-steam: Disable watchdog instead of using a heartbeat
+>   HID: hid-steam: Clean up locking
+>   HID: hid-steam: Make client_opened a counter
+>   HID: hid-steam: Update list of identifiers from SDL
+>   HID: hid-steam: Better handling of serial number length
+>   HID: hid-steam: Add gamepad-only mode switched to by holding options
+> 
+>  drivers/hid/hid-steam.c | 547 ++++++++++++++++++++++++++++------------
+>  1 file changed, 391 insertions(+), 156 deletions(-)
 
-Also rephrase to remove reference to the driver, which is not appropriate
-in the bindings.
+This is now queued in hid.git#for-6.8/steam.
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Acked-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Jeff LaBundy <jeff@labundy.com>
----
-
-Changed in v2 resend:
- - added ack/review tags
-
-Changed in v2:
- - reworded to clarify even further
----
- .../devicetree/bindings/input/touchscreen/goodix.yaml        | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
-index 3d016b87c8df..2a2d86cfd104 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
-+++ b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
-@@ -37,8 +37,9 @@ properties:
-     maxItems: 1
- 
-   irq-gpios:
--    description: GPIO pin used for IRQ. The driver uses the interrupt gpio pin
--      as output to reset the device.
-+    description: GPIO pin used for IRQ input. Additionally, this line is
-+      sampled by the device on reset deassertion to select the I2C client
-+      address, thus it can be driven by the host during the reset sequence.
-     maxItems: 1
- 
-   reset-gpios:
 -- 
-2.34.1
+Jiri Kosina
+SUSE Labs
 
 
