@@ -1,55 +1,39 @@
-Return-Path: <linux-input+bounces-1088-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1089-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E7D822CFB
-	for <lists+linux-input@lfdr.de>; Wed,  3 Jan 2024 13:26:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C79823133
+	for <lists+linux-input@lfdr.de>; Wed,  3 Jan 2024 17:24:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E7D471C23444
-	for <lists+linux-input@lfdr.de>; Wed,  3 Jan 2024 12:26:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AA7521C23AE5
+	for <lists+linux-input@lfdr.de>; Wed,  3 Jan 2024 16:24:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F368618ECA;
-	Wed,  3 Jan 2024 12:25:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9A6E1BDF1;
+	Wed,  3 Jan 2024 16:24:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UDMfLmqr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NKpfvShb"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A486619458;
-	Wed,  3 Jan 2024 12:25:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704284749; x=1735820749;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7NZPFuLqIaZYxF8kzjwORU+cPOyFb8rBNMttLqHxoyI=;
-  b=UDMfLmqrSvJ7f4Xfhg+a6pdId2N+iIJ76n+VkfdQVd2LdvWHWTNLpXu1
-   Z+T08AoSiE7mwNTeznB4hWiJpfBCFn4aHGbPV0iWLX1iWwg2aF6vbegFu
-   VG2GP2BQRYCkc7IMp2N+7V9NO9bGAllSK7tRDxn5McW1wdcewW7N/pW+/
-   WIEZvyxkwTGvDuVuetvklHiAkBUx7dNLwehTFs18429srWHdL+XWLQeul
-   joSWkPZwcUxeowXu9jpLdziPJLeOwv3YNVlvUsrNMTOdMX5Z42jXR7t1K
-   HEj55mVknwVEg9em94cqojKy7POQrnPqakvSdKe3xpdsp8VUlSPxpceCR
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="4085305"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
-   d="scan'208";a="4085305"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 04:25:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="783498077"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
-   d="scan'208";a="783498077"
-Received: from sharadav-mobl.amr.corp.intel.com (HELO box.shutemov.name) ([10.249.36.97])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 04:25:42 -0800
-Received: by box.shutemov.name (Postfix, from userid 1000)
-	id C10E610A567; Wed,  3 Jan 2024 15:25:39 +0300 (+03)
-Date: Wed, 3 Jan 2024 15:25:39 +0300
-From: kirill.shutemov@linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3C21BDC4;
+	Wed,  3 Jan 2024 16:24:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9D1FC433C7;
+	Wed,  3 Jan 2024 16:24:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704299050;
+	bh=oDxUJ0csC6lWNRIuyYFs6Gg2tiCMbVHu/gNkuWzoWzM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NKpfvShb6tkMIJpN0xEoI1S0zR4aLeaRArZwkobSudX3RkKpGjhNHy7iR044qE4HK
+	 zvd6GWk3J7PgtL/GHT0G+bH7zAu57/uWcaWQpl5nx7+3IBolmGkmWRh77k32S1xFb9
+	 xvQV48hg5VbrUz/0abaminyQw6+uu42GfcWgX792V6X4CooopX/mcrkaLa9KuEQK7a
+	 OCwGZ8d3eQJGe7BxWsFYgxw5etLbuRKscIsP8BJuXk6bD4qyHF2joQcWgyl9H5PftA
+	 syayVLlMizbNxE4C5uOh4kdVTMjdA5sia4spSl9GLJz4Mi8zT7Fg2MATiYcCUxvmij
+	 enitnIElliOow==
+Date: Wed, 3 Jan 2024 16:24:02 +0000
+From: Simon Horman <horms@kernel.org>
 To: Alexey Makhalov <alexey.makhalov@broadcom.com>
 Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
 	bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
@@ -61,11 +45,11 @@ Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
 	akaher@vmware.com, jsipek@vmware.com,
 	dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
 	tzimmermann@suse.de, mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com, horms@kernel.org
-Subject: Re: [PATCH v4 6/6] x86/vmware: Add TDX hypercall support
-Message-ID: <20240103122539.agoq7647bzwcgjep@box.shutemov.name>
+	maarten.lankhorst@linux.intel.com, kirill.shutemov@linux.intel.com
+Subject: Re: [PATCH v4 2/6] x86/vmware: Introduce VMware hypercall API
+Message-ID: <20240103162402.GA31813@kernel.org>
 References: <20231228192421.29894-1-alexey.makhalov@broadcom.com>
- <20231228192421.29894-7-alexey.makhalov@broadcom.com>
+ <20231228192421.29894-3-alexey.makhalov@broadcom.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -74,24 +58,46 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231228192421.29894-7-alexey.makhalov@broadcom.com>
+In-Reply-To: <20231228192421.29894-3-alexey.makhalov@broadcom.com>
 
-On Thu, Dec 28, 2023 at 11:24:21AM -0800, Alexey Makhalov wrote:
+On Thu, Dec 28, 2023 at 11:24:17AM -0800, Alexey Makhalov wrote:
 > From: Alexey Makhalov <amakhalov@vmware.com>
 > 
-> VMware hypercalls use I/O port, VMCALL or VMMCALL instructions.
-> Add __tdx_hypercall path to support TDX guests.
+> Introduce vmware_hypercall family of functions. It is a common
+> implementation to be used by the VMware guest code and virtual
+> device drivers in architecture independent manner.
 > 
-> No change in high bandwidth hypercalls, as only low bandwidth
-> ones are supported for TDX guests.
+> The API consists of vmware_hypercallX and vmware_hypercall_hb_{out,in}
+> set of functions by analogy with KVM hypercall API. Architecture
+> specific implementation is hidden inside.
 > 
-> Co-developed-by: Tim Merrifield <timothym@vmware.com>
-> Signed-off-by: Tim Merrifield <timothym@vmware.com>
+> It will simplify future enhancements in VMware hypercalls such
+> as SEV-ES and TDX related changes without needs to modify a
+> caller in device drivers code.
+> 
+> Current implementation extends an idea from commit bac7b4e84323
+> ("x86/vmware: Update platform detection code for VMCALL/VMMCALL
+> hypercalls") to have a slow, but safe path in VMWARE_HYPERCALL
+> earlier during the boot when alternatives are not yet applied.
+> This logic was inherited from VMWARE_CMD from the commit mentioned
+> above. Default alternative code was optimized by size to reduce
+> excessive nop alignment once alternatives are applied. Total
+> default code size is 26 bytes, in worse case (3 bytes alternative)
+> remaining 23 bytes will be aligned by only 3 long NOP instructions.
+> 
 > Signed-off-by: Alexey Makhalov <amakhalov@vmware.com>
 > Reviewed-by: Nadav Amit <namit@vmware.com>
+> Reviewed-by: Jeff Sipek <jsipek@vmware.com>
 
-Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Hi Alexey,
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+I'd like to flag that this breaks gcc-13 x86_64 allmodconfig builds of the
+following files. And although this is resolved by the subsequent 3 patches
+in this series, it does still break bisection.
+
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+ drivers/input/mouse/vmmouse.c
+ drivers/ptp/ptp_vmw.c
+
+...
 
