@@ -1,104 +1,101 @@
-Return-Path: <linux-input+bounces-1086-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1087-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27838225FD
-	for <lists+linux-input@lfdr.de>; Wed,  3 Jan 2024 01:34:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01CEC8226A4
+	for <lists+linux-input@lfdr.de>; Wed,  3 Jan 2024 02:50:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 34CE2284883
-	for <lists+linux-input@lfdr.de>; Wed,  3 Jan 2024 00:34:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB46A1C219CF
+	for <lists+linux-input@lfdr.de>; Wed,  3 Jan 2024 01:50:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93626651;
-	Wed,  3 Jan 2024 00:34:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6F8F4A1C;
+	Wed,  3 Jan 2024 01:50:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="T4vFW9ip"
+	dkim=pass (2048-bit key) header.d=bluemarch.art header.i=@bluemarch.art header.b="ABqcVnq7"
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
+Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A348562A;
-	Wed,  3 Jan 2024 00:34:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
-Received: from HP-EliteBook-x360-830-G8-Notebook-PC.. (unknown [10.101.196.174])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 9AC47413B9;
-	Wed,  3 Jan 2024 00:34:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1704242044;
-	bh=bdVOXVR9HgLgK32tp5+AqJGgXa6fNQRmR9sP0YJC1wo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-	b=T4vFW9ipd4QRFCmHAXmnf3xZO6GxdI1lBgC4Xo5Bni4kAzbyu0ytm0VpNmO3WSaaR
-	 5xHN6SQYixmJtyU8WPGXqRdL42n6cetIP/WsP6Odchdfswd/xg9fdgg6291yjIIt6Q
-	 FAH7U/altV3TOrJF9op3cibL6Z48YhNt7L+ycbUeG2avWgc+78/LDr7b/VwwXXQN0e
-	 DDTTD+AHWU+lH2ClFAg0xI3xWMcXACHLqNVIDXJsZmG69qaMz+OQu7pKPDqhLOK0vj
-	 OH2m08quqJgMTYbz5sSFEius7xtxDB+2GkRpTyBt3Dx63pR0l1Bn5dhCD1b9TJuJdr
-	 cEzg6uHQYFcdQ==
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-To: jikos@kernel.org,
-	benjamin.tissoires@redhat.com
-Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: i2c-hid: Remove SET_POWER SLEEP on system suspend
-Date: Wed,  3 Jan 2024 08:33:53 +0800
-Message-Id: <20240103003355.747335-1-kai.heng.feng@canonical.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F15446AC;
+	Wed,  3 Jan 2024 01:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bluemarch.art
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bluemarch.art
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bluemarch.art;
+	s=protonmail; t=1704246591; x=1704505791;
+	bh=Q2ByIq0f90rBeyvpz2j2wURUB6GA7Zy4cGsEAI5uqbo=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=ABqcVnq708VjHuBxuPotQlxFYa60VFLwp578XP0CXgeJ4M+wm8/ajgBp2YUqbG+dZ
+	 45N999H6oJgh1ddkehB1o7AREsFpA75HreMnWSW4J/7EqhkGflh5ulIq09j+wIMwx1
+	 nbodqszRh9QDiYOFTjt4xgoGganCOqdJTpQkTjphYHVhg2AQMgbZw6DFUZ8PK+pzc2
+	 vQ0bO8Gd2PAGOKarfyoqJdaCzuxD9XJEufVsXgAgLxSnNB606OAtPN97ZmtDyeEUgT
+	 yK0J/LDwix6qxBT1Q8Ln43SqU0rHsaHmRASspOjeyjRo+nlOMZfr4T490SiiG9vcJR
+	 WeKukAR/NZs6A==
+Date: Wed, 03 Jan 2024 01:49:39 +0000
+To: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, dmitry.torokhov@gmail.com
+From: Szilard Fabian <szfabian@bluemarch.art>
+Cc: Szilard Fabian <szfabian@bluemarch.art>
+Subject: [PATCH RESEND] Input: i8042 - add Fujitsu Lifebook U728 to i8042 quirk table
+Message-ID: <20240103014717.127307-2-szfabian@bluemarch.art>
+Feedback-ID: 87830438:user:proton
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-There's a Cirque touchpad that wakes system up without anything touched
-the touchpad. The input report is empty when this happens.
-The reason is stated in HID over I2C spec, 7.2.8.2:
-"If the DEVICE wishes to wake the HOST from its low power state, it can
-issue a wake by asserting the interrupt."
+Another Fujitsu-related patch.
 
-This is fine if OS can put system back to suspend by identifying input
-wakeup count stays the same on resume, like Chrome OS Dark Resume [0].
-But for regular distro such policy is lacking.
+In the initial boot stage the integrated keyboard of Fujitsu Lifebook U728
+refuses to work and it's not possible to type for example a dm-crypt
+passphrase without the help of an external keyboard.
 
-According to commit d9f448e3d71f ("HID: i2c-hid: set power sleep before
-shutdown"), SLEEP is required for shutdown, in addition to that, commit
-67b18dfb8cfc ("HID: i2c-hid: Remove runtime power management") didn't
-notice any power comsumption reduction from SET_POWER SLEEP, so also
-remove that to avoid the device asserting the interrupt.
+i8042.nomux kernel parameter resolves this issue but using that a PS/2
+mouse is detected. This input device is unused even when the i2c-hid-acpi
+kernel module is blacklisted making the integrated ELAN touchpad
+(04F3:3092) not working at all.
 
-[0] https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/power_manager/docs/dark_resume.md
+So this notebook uses a hid-over-i2c touchpad which is managed by the
+i2c_designware input driver. Since you can't find a PS/2 mouse port on this
+computer and you can't connect a PS/2 mouse to it even with an official
+port replicator I think it's safe to not use the PS/2 mouse port at all.
 
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Signed-off-by: Szilard Fabian <szfabian@bluemarch.art>
 ---
- drivers/hid/i2c-hid/i2c-hid-core.c | 3 ---
- 1 file changed, 3 deletions(-)
+I think the same configuration could be applied to Lifebook U748 and U758
+too but I can't test this theory on these machines.
+---
+ drivers/input/serio/i8042-acpipnpio.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 2735cd585af0..dd513dc75cb9 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -957,9 +957,6 @@ static int i2c_hid_core_suspend(struct i2c_hid *ihid, bool force_poweroff)
- 	if (ret < 0)
- 		return ret;
- 
--	/* Save some power */
--	i2c_hid_set_power(ihid, I2C_HID_PWR_SLEEP);
--
- 	disable_irq(client->irq);
- 
- 	if (force_poweroff || !device_may_wakeup(&client->dev))
--- 
-2.34.1
+diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8=
+042-acpipnpio.h
+index 028e45bd050b..983f31014330 100644
+--- a/drivers/input/serio/i8042-acpipnpio.h
++++ b/drivers/input/serio/i8042-acpipnpio.h
+@@ -618,6 +618,14 @@ static const struct dmi_system_id i8042_dmi_quirk_tabl=
+e[] __initconst =3D {
+ =09=09},
+ =09=09.driver_data =3D (void *)(SERIO_QUIRK_NOMUX)
+ =09},
++=09{
++=09=09/* Fujitsu Lifebook U728 */
++=09=09.matches =3D {
++=09=09=09DMI_MATCH(DMI_SYS_VENDOR, "FUJITSU"),
++=09=09=09DMI_MATCH(DMI_PRODUCT_NAME, "LIFEBOOK U728"),
++=09=09},
++=09=09.driver_data =3D (void *)(SERIO_QUIRK_NOAUX)
++=09},
+ =09{
+ =09=09/* Gigabyte M912 */
+ =09=09.matches =3D {
+--=20
+2.43.0
+
 
 
