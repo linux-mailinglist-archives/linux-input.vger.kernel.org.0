@@ -1,162 +1,120 @@
-Return-Path: <linux-input+bounces-1100-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1101-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 848718240CE
-	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 12:42:03 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id F4117824398
+	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 15:22:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 63DF61C21255
-	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 11:42:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 84253B2186C
+	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 14:22:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8A482110F;
-	Thu,  4 Jan 2024 11:41:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3742324216;
+	Thu,  4 Jan 2024 14:20:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eUsluLSF"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="JwasyGJY"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569EE20DFD;
-	Thu,  4 Jan 2024 11:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a28a6cef709so46494366b.1;
-        Thu, 04 Jan 2024 03:41:56 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33D724204
+	for <linux-input@vger.kernel.org>; Thu,  4 Jan 2024 14:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5570bef7cb8so519810a12.2
+        for <linux-input@vger.kernel.org>; Thu, 04 Jan 2024 06:20:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704368514; x=1704973314; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=li47kl6w5F7Kdkk2+B7xCgguinxHCXOI6fH+waqV0VM=;
-        b=eUsluLSFb0ZwCqSuyVR8w5deP1BLi3HKsdmEhwOD+U2V2K+dCE74ayLb5PD8CwLDm4
-         PlitD0rSdTsUY8541WXGMyQZI/P1hw4hBjimN0syFJEfrNNX+Z3xFQp2rSKy9ZN31wZD
-         3i3aht1bulhiNFpZYdpEnpYPN/oxH6quAMWDyj6YXkPT4n/543Sg+Rezh+niBwHs+stF
-         W3mVdZ+vtj+sRmpVQ3HUlaMJaMt62w5el9YRTU4Uwl6HfOx/xwXG938T5dGEFwA+99xC
-         RIzhvkxq0peup8MTESdCmVMBZipvpS0/OI0PiQabSOO9sO+JI/+JGffnz1CxeENqgVSQ
-         DFrQ==
+        d=suse.com; s=google; t=1704378014; x=1704982814; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=J2cY6zWShul1SIbFB6HGxgmdGVwD/4l6dAmhSfaYtSQ=;
+        b=JwasyGJY1D938UoYPKopm1KyCqNoTzV0BKSNgY8VQ03MGondmSCsI5kD56aVw3iWKy
+         yPDYdB4kMdDsXJ12SPXE1a5EEZGKI6VzmFN39h894bsNRNFmi4JW9Epzh2uvBnHPFROG
+         NZJp6b5iw54hfzoSq0fJ7Z1oGz4u5BABAGLpkKzwaLSkY+n/H2RBenHgyIHSuOdqcizq
+         7C4TpGkl+iAic6s3Hw+zNFrR1TOrE+hV0JgS5+GmivWtqJIvdJuC9+ASBVZLwx1dNQZj
+         sAo3rPGpnKwbJECw+XzK3rXuoe6EIXbC6r2EU4JhU17T5LlpZHz7NMhbbsJMuNp52iRh
+         6xpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704368514; x=1704973314;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1704378014; x=1704982814;
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=li47kl6w5F7Kdkk2+B7xCgguinxHCXOI6fH+waqV0VM=;
-        b=oJJozvXMOKnJzRLbLUdRsjeTBSjGu55s3eXPjtQCpbo+/E/TpP/0z6Lz8UCr89jejG
-         nW6cUSgDtCcWVItoW6UB7hjY6+L/4SvUEO05EhdZWilAAV/NFxysHY16jRi2Ka1bWp6J
-         F/iIwDK9M05pxP/NMg4ZbTufSuoEXwIst4yd2ZjgA1SL0H11SkoU/RgJWAZ1I/4ZcnJp
-         MMh5/ZNyT5a0q0PuM7IejEcZrjjggOgFRLfWAzfvHBSeYYFUFq5TC0iQR1avKbUJ8wjI
-         nii/geLrOg1uUgD48EvYio3db1yBA5WmZF07qnwRm7tuV+iww/bQLnkr7pYh0yseTbVQ
-         zL0g==
-X-Gm-Message-State: AOJu0YyAcliWHweOa+5w85bDGyuj0SaYbSeyK9oj/1mTDQ2+mg0JYYto
-	hXdieozXZ+cCTNTYY3EunDA=
-X-Google-Smtp-Source: AGHT+IFrFEjJWJoSGpDPpDjTuLdY+CFN4tGrhsg3QTmtjCcI4AMtsTnvEFP18v2XfpFjbFbUiq++MA==
-X-Received: by 2002:a17:906:231a:b0:a28:b774:62d9 with SMTP id l26-20020a170906231a00b00a28b77462d9mr261239eja.62.1704368514369;
-        Thu, 04 Jan 2024 03:41:54 -0800 (PST)
-Received: from krava (2001-1ae9-1c2-4c00-726e-c10f-8833-ff22.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:726e:c10f:8833:ff22])
-        by smtp.gmail.com with ESMTPSA id o16-20020a170906601000b00a26dc8ec78dsm10999304ejj.147.2024.01.04.03.41.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jan 2024 03:41:54 -0800 (PST)
-From: Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Thu, 4 Jan 2024 12:41:51 +0100
-To: Daniel Xu <dxu@dxuuu.xyz>
-Cc: benjamin.tissoires@redhat.com, hawk@kernel.org, edumazet@google.com,
-	alexandre.torgue@foss.st.com, ebiggers@kernel.org, tj@kernel.org,
-	rostedt@goodmis.org, shuah@kernel.org, martin.lau@linux.dev,
-	ast@kernel.org, fw@strlen.de, kuba@kernel.org, pablo@netfilter.org,
-	jikos@kernel.org, john.fastabend@gmail.com,
-	mcoquelin.stm32@gmail.com, mhiramat@kernel.org,
-	yonghong.song@linux.dev, Herbert Xu <herbert@gondor.apana.org.au>,
-	dsahern@kernel.org, hannes@cmpxchg.org, lizefan.x@bytedance.com,
-	pabeni@redhat.com, steffen.klassert@secunet.com,
-	daniel@iogearbox.net, tytso@mit.edu, andrii@kernel.org,
-	davem@davemloft.net, kadlec@netfilter.org, song@kernel.org,
-	alexei.starovoitov@gmail.com, olsajiri@gmail.com,
-	quentin@isovalent.com, alan.maguire@oracle.com, memxor@gmail.com,
-	kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
-	mathieu.desnoyers@efficios.com, mykolal@fb.com,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	fsverity@lists.linux.dev, bpf@vger.kernel.org,
-	cgroups@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org, linux-kselftest@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH bpf-next 2/2] bpf: treewide: Annotate BPF kfuncs in BTF
-Message-ID: <ZZaZf_8RuX2xqZGf@krava>
-References: <cover.1704324602.git.dxu@dxuuu.xyz>
- <68d5598e5708dfe3370406cd5c946565ca4b50f1.1704324602.git.dxu@dxuuu.xyz>
+        bh=J2cY6zWShul1SIbFB6HGxgmdGVwD/4l6dAmhSfaYtSQ=;
+        b=p+DRE3dy7qG0aduTZBBmP+Mwt8HaAmzSTAq6sNjCenGU55ygj+UkvM/u9CfUW3oxWZ
+         H7a+xOXRj91pXGfdWgQOTi8uw68ikBNqmrjuuXyhhdS5xjY4Pi8h4YJ+MyWAYv7LVHU0
+         vQhWkAmUdppSNwj9O4Ox2PBLxw+3MxGmNwio90stFslBbw1xbpDhh80hOKU8iy9XFfTW
+         TJV+hwGtICTiz1Weer2IGZNPxHYM9WEfLW1o37mgPBJYyTU6tbd0x3B4JL2HPFvv5w8+
+         KxOJLpRFcpRH+7XxhEIcbbKY+dJITFzb7Smt428mKpaX/7k3B3EXb+IEpAmVa1g0/Lvz
+         iG2w==
+X-Gm-Message-State: AOJu0YxuTD8RHDne8S0ojmoe3VbB3x4Tn4r4aiQKMVkWYRvI4XzdcQpi
+	+Cxko07ooA8QFQkFM8GtRMKMqwdlsfXpjQ==
+X-Google-Smtp-Source: AGHT+IEG9nXKk8rC3+RM8cy5cmvIsml2aOmCNRsY0QyKtk+dw0X1Hkvjef4+u27D3xVRvF11gdWPcw==
+X-Received: by 2002:a17:906:8412:b0:a27:45a2:e5f4 with SMTP id n18-20020a170906841200b00a2745a2e5f4mr346528ejx.14.1704378014046;
+        Thu, 04 Jan 2024 06:20:14 -0800 (PST)
+Received: from localhost (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id fp21-20020a1709069e1500b00a26ade46619sm13029321ejc.121.2024.01.04.06.20.13
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 04 Jan 2024 06:20:13 -0800 (PST)
+From: Jiri Kosina <jkosina@suse.com>
+X-Google-Original-From: Jiri Kosina <jikos@kernel.org>
+Date: Thu, 4 Jan 2024 15:20:15 +0100 (CET)
+To: Hans de Goede <hdegoede@redhat.com>
+cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
+    Basavaraj Natikar <Basavaraj.Natikar@amd.com>, 
+    benjamin.tissoires@redhat.com, ilpo.jarvinen@linux.intel.com, 
+    mario.limonciello@amd.com, linux-input@vger.kernel.org, 
+    Patil Rajesh <Patil.Reddy@amd.com>
+Subject: Re: [PATCH 0/3] Add new SFH interfaces
+In-Reply-To: <c4d8c0db-e125-4d2c-98d2-59cd9ca7ed11@redhat.com>
+Message-ID: <nycvar.YFH.7.76.2401041519390.29548@cbobk.fhfr.pm>
+References: <20231220070042.610455-1-Basavaraj.Natikar@amd.com> <nycvar.YFH.7.76.2401021122350.29548@cbobk.fhfr.pm> <71296fab-d6dd-490b-b29d-468f0eecb244@amd.com> <c4d8c0db-e125-4d2c-98d2-59cd9ca7ed11@redhat.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <68d5598e5708dfe3370406cd5c946565ca4b50f1.1704324602.git.dxu@dxuuu.xyz>
+Content-Type: text/plain; charset=US-ASCII
 
-On Wed, Jan 03, 2024 at 04:31:56PM -0700, Daniel Xu wrote:
+On Thu, 4 Jan 2024, Hans de Goede wrote:
 
-SNIP
-
-> diff --git a/include/linux/btf_ids.h b/include/linux/btf_ids.h
-> index 88f914579fa1..771e29762a2d 100644
-> --- a/include/linux/btf_ids.h
-> +++ b/include/linux/btf_ids.h
-> @@ -8,6 +8,9 @@ struct btf_id_set {
->  	u32 ids[];
->  };
->  
-> +/* This flag implies BTF_SET8 holds kfunc(s) */
-> +#define BTF_SET8_KFUNC		(1 << 0)
-> +
->  struct btf_id_set8 {
->  	u32 cnt;
->  	u32 flags;
-> diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
-> index 51e8b4bee0c8..b8ba00a4179f 100644
-> --- a/kernel/bpf/btf.c
-> +++ b/kernel/bpf/btf.c
-> @@ -7769,6 +7769,9 @@ static int __register_btf_kfunc_id_set(enum btf_kfunc_hook hook,
->  	struct btf *btf;
->  	int ret, i;
->  
-> +	/* All kfuncs need to be tagged as such in BTF */
-> +	WARN_ON(!(kset->set->flags & BTF_SET8_KFUNC));
-
-__register_btf_kfunc_id_set gets called also from the 'hooks' path:
-
-  bpf_mptcp_kfunc_init
-    register_btf_fmodret_id_set
-      __register_btf_kfunc_id_set
-
-so it will hit the warn.. it should be probably in the register_btf_kfunc_id_set ?
-
-also given that we can have modules calling register_btf_kfunc_id_set,
-should we just return error instead of the warn?
-
-SNIP
-
-> diff --git a/tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c b/tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c
-> index 91907b321f91..32972334cd50 100644
-> --- a/tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c
-> +++ b/tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c
-> @@ -341,7 +341,7 @@ static struct bin_attribute bin_attr_bpf_testmod_file __ro_after_init = {
->  	.write = bpf_testmod_test_write,
->  };
->  
-> -BTF_SET8_START(bpf_testmod_common_kfunc_ids)
-> +BTF_SET8_START(bpf_testmod_common_kfunc_ids, BTF_SET8_KFUNC)
->  BTF_ID_FLAGS(func, bpf_iter_testmod_seq_new, KF_ITER_NEW)
->  BTF_ID_FLAGS(func, bpf_iter_testmod_seq_next, KF_ITER_NEXT | KF_RET_NULL)
->  BTF_ID_FLAGS(func, bpf_iter_testmod_seq_destroy, KF_ITER_DESTROY)
-
-we need to change also bpf_testmod_check_kfunc_ids set
-
-jirka
-
-> -- 
-> 2.42.1
+> > I am yet to submit the patches that uses the new SFH interfaces
+> > defined in this series.
+> > 
+> > The suggestion from Hans is to have the SFH changes landed
+> > independently, so that Hans can take the PMF changes alone later
+> > during the rc's as fix. IMO, we can have this series merged first alone.
+> > 
+> > But I am OK to have both PMF and SFH changes together.
+> > 
+> > Hans, what is your feedback for Jiri's question?
 > 
+> Jiri, originally the drivers/hid/amd-sfh-hid/ changes
+> were posted as part of this series:
+> 
+> https://lore.kernel.org/platform-driver-x86/20231204101548.1458499-1-Shyam-sundar.S-k@amd.com/
+> 
+> specifically in these patches:
+> 
+> https://lore.kernel.org/platform-driver-x86/20231204101548.1458499-14-Shyam-sundar.S-k@amd.com/
+> https://lore.kernel.org/platform-driver-x86/20231204101548.1458499-15-Shyam-sundar.S-k@amd.com/
+> https://lore.kernel.org/platform-driver-x86/20231204101548.1458499-16-Shyam-sundar.S-k@amd.com/
+> 
+> Where the last 2 patches introduce both the HID changes and the drivers/platform/x86/amd/pmf/...
+> consumer of the HID changes in one go.
+> 
+> I have asked Shyam to split out the HID changes:
+> https://lore.kernel.org/platform-driver-x86/ad064333-48a4-4cfa-9428-69e8a7c44667@redhat.com/
+
+[ ... snip ... ]
+
+Thanks a lot to both of you for the background. I have now queued the 3 
+HID patches in hid.git#for-6.8/amd-sfh
+
+-- 
+Jiri Kosina
+SUSE Labs
+
 
