@@ -1,41 +1,40 @@
-Return-Path: <linux-input+bounces-1111-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1112-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD68824813
-	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 19:22:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE1982482F
+	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 19:31:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4F0661C2207C
-	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 18:22:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C05201C225FC
+	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 18:31:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E94E928E03;
-	Thu,  4 Jan 2024 18:22:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5376F28E18;
+	Thu,  4 Jan 2024 18:31:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="OkdMnE5y"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="itL4cqZW"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9964028DB0;
-	Thu,  4 Jan 2024 18:22:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C42D28E0F;
+	Thu,  4 Jan 2024 18:31:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Received: from wse.fritz.box (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
 	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 01BF82FC0073;
-	Thu,  4 Jan 2024 19:22:16 +0100 (CET)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id D951C2FC006B;
+	Thu,  4 Jan 2024 19:31:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1704392537;
+	s=default; t=1704393083;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JKQS4AwlSL17ZE3tRGxXuQK7iAc6fj3KFZMSPVfU4pw=;
-	b=OkdMnE5yYzSnkjr8qaei7lbEsVaM28faOqbY8ipEZAroqBo3Fkn/b222HVO7Tke+bt8h6v
-	V58kJzs2ay4dteIG5I/JuwwnqCL0C5xO6JX8ji2vy38+KRCvvGX7RrFafesc/xzM1oTzm9
-	OG6TCYy/ZMtR+zxoS3tfx/Fx7laPRlM=
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0aB5DFHEphhpzEsa8tEbbI+qGwZXi8iBkvBXj+lDk88=;
+	b=itL4cqZWuvSWeToyYGnn3rj/htJHZuwDEmm2IX48ktqILwyxgGtaS11AzWPnggn4ZUN59Q
+	plywXa09t3Ytq6p2ahMZq6u25DqzzARlBEZacfcALvyeUehl97Rc+vG+b/M8bSotbfffaI
+	DvPQrT0UNE0ojKE3THog63M9NXrYZ4c=
 Authentication-Results: mail.tuxedocomputers.com;
 	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
 From: Werner Sembach <wse@tuxedocomputers.com>
@@ -43,13 +42,11 @@ To: dmitry.torokhov@gmail.com
 Cc: hdegoede@redhat.com,
 	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Werner Sembach <wse@tuxedocomputers.com>
-Subject: [PATCH v3 2/2] i8042: Use new forcenorestore quirk to replace old buggy quirk combination
-Date: Thu,  4 Jan 2024 19:22:08 +0100
-Message-Id: <20240104182208.779486-3-wse@tuxedocomputers.com>
+	wse@tuxedocomputers.com
+Subject: [PATCH v4 0/2] i8042: Add forcenorestore quirk to leave controller
+Date: Thu,  4 Jan 2024 19:31:16 +0100
+Message-Id: <20240104183118.779778-1-wse@tuxedocomputers.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240104182208.779486-1-wse@tuxedocomputers.com>
-References: <20240104182208.779486-1-wse@tuxedocomputers.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -58,42 +55,9 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The old quirk combination sometimes cause a laggy keyboard after boot. With
-the new quirk the initial issue of an unresponsive keyboard after s3 resume
-is also fixed, but it doesn't have the negative side effect of the
-sometimes laggy keyboard.
+v2: Just a typo fix in commit message.
+v3: Another typo fix in commit message.
+v4: Spotted another typo. Note to self: Don't write commit messages when tired.
 
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-Cc: stable@vger.kernel.org
----
- drivers/input/serio/i8042-acpipnpio.h | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
-
-diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
-index 10ec4534e5e14..e631a26394e92 100644
---- a/drivers/input/serio/i8042-acpipnpio.h
-+++ b/drivers/input/serio/i8042-acpipnpio.h
-@@ -1142,18 +1142,10 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
- 	},
- 	{
--		/*
--		 * Setting SERIO_QUIRK_NOMUX or SERIO_QUIRK_RESET_ALWAYS makes
--		 * the keyboard very laggy for ~5 seconds after boot and
--		 * sometimes also after resume.
--		 * However both are required for the keyboard to not fail
--		 * completely sometimes after boot or resume.
--		 */
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_NAME, "N150CU"),
- 		},
--		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
--					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
- 	},
- 	{
- 		.matches = {
--- 
-2.34.1
 
 
