@@ -1,166 +1,181 @@
-Return-Path: <linux-input+bounces-1098-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1099-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E8D823D6F
-	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 09:30:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE9D6823E7C
+	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 10:21:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 948931C20951
-	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 08:30:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 73F0B2873EE
+	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 09:21:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33CAC20307;
-	Thu,  4 Jan 2024 08:29:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E87320314;
+	Thu,  4 Jan 2024 09:21:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="yhhWgghS"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="d1UeoY3/"
 X-Original-To: linux-input@vger.kernel.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2047.outbound.protection.outlook.com [40.107.92.47])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68EAB2030C
-	for <linux-input@vger.kernel.org>; Thu,  4 Jan 2024 08:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gH5M4HVnR7Cna+TUC8QBPcxFGQyvVkq/NcEEo+WKVU/VCLH9dJHESltEA92mQ6PGR61kafS/JacxoX5ulXOtVQynlciRX1OwUCAkiuzsZzvLjd73RzNZ/3n8tC5V+9X8AGxuj5ab0Su2CpTQ7IApX6mPgra4rLeG5RY8XzovWtx3sJ+1CBVqAmAywfG8r7CUFhRRzAVf9Uy8grJixE1f+H0KnwT5Olr4sSkfMuAY0ZFXRHGleU+xsAazOdMR1LUTyWGXfAPmZROS+fZUucCPs/GHINFrH+TShSAPV1Rro30wJpl+ayg1mNaQgeegSlmxi/g42WJL9XDObpjchDFZAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5XCdBr08T+3PPyVDhiah5hT+exlFaUn800xMuIOS+H8=;
- b=a8QMOr2fJqMfQtP0pEnkMO4CgQ8fTBhgCjDXzdJLsQtxDDrD98r6zi75BSF+riQ0srJ4Ex7z0GRcW6J0YIjiz6fAH1P7ehlcqxhVvhNsEqo7mDkpXW1uCvrxd0iFLIN7nNXYwzFoYZylI/L9+Z3AwCt7XhXChZ0Hd/wTWOhgV5eyTyghqTfjOSfDWNctMYjMn1sNiSegtMzjMpOZgwiR1xrwTvMXjtnEK1YLAhXvWFNNPHZplbd8YlCXXS35PyZsbm+Yxo9rxQyKGDTjDsGKXV8cylX5NKZWMKbiseK79QmgaxoMs9L77gnI5sGHKOdsSNcjjIL8C+clLVv0CID3iQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5XCdBr08T+3PPyVDhiah5hT+exlFaUn800xMuIOS+H8=;
- b=yhhWgghSh4cKLYDA6MXWQ3K8xMN7EXQ8IzNbdzWaXiLIx6xFkaqZ+RaNluMyp97YKaxxSNoUo057Ys2xtPlcZPkV1emHY+j89CJ/xqAnQGlvtIJJCLLP3jrbX1L4ZfGRAXer020+2FjNveapCN+df+QoB5zPfykpd1gd3fqWXNg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5176.namprd12.prod.outlook.com (2603:10b6:208:311::19)
- by DM6PR12MB4356.namprd12.prod.outlook.com (2603:10b6:5:2aa::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.16; Thu, 4 Jan
- 2024 08:29:53 +0000
-Received: from BL1PR12MB5176.namprd12.prod.outlook.com
- ([fe80::c82c:884a:3ca3:3319]) by BL1PR12MB5176.namprd12.prod.outlook.com
- ([fe80::c82c:884a:3ca3:3319%3]) with mapi id 15.20.7159.013; Thu, 4 Jan 2024
- 08:29:53 +0000
-Message-ID: <71296fab-d6dd-490b-b29d-468f0eecb244@amd.com>
-Date: Thu, 4 Jan 2024 13:59:45 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] Add new SFH interfaces
-To: Jiri Kosina <jkosina@suse.com>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Cc: benjamin.tissoires@redhat.com, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, mario.limonciello@amd.com,
- linux-input@vger.kernel.org, Patil Rajesh <Patil.Reddy@amd.com>
-References: <20231220070042.610455-1-Basavaraj.Natikar@amd.com>
- <nycvar.YFH.7.76.2401021122350.29548@cbobk.fhfr.pm>
-Content-Language: en-US
-From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-In-Reply-To: <nycvar.YFH.7.76.2401021122350.29548@cbobk.fhfr.pm>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0104.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:9b::6) To BL1PR12MB5176.namprd12.prod.outlook.com
- (2603:10b6:208:311::19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922C62030F
+	for <linux-input@vger.kernel.org>; Thu,  4 Jan 2024 09:21:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1704360097;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3DCNBHl6UaugjT3RT+JFYFMy3g1qTqNXJHP1js23EpI=;
+	b=d1UeoY3/kYjZ4S43P/OE+tip55L2JbrjQinw4wDU88UL2yWp9IyJieKnPZ/LU90vBc0DSa
+	1yN3sceQX6/iEOo7Q3xLZzNGXIQsmYUQjDuczQhhyI2LDbHbSoltzGf+z6vhhiHRXDtLZl
+	AzfU2SN/7UEKSAoxYN8N+TVbchPAQ5w=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-211-MFRwHT-oMWiZxkD8mabMlg-1; Thu, 04 Jan 2024 04:21:35 -0500
+X-MC-Unique: MFRwHT-oMWiZxkD8mabMlg-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a28ef2418d3so8883466b.0
+        for <linux-input@vger.kernel.org>; Thu, 04 Jan 2024 01:21:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704360094; x=1704964894;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3DCNBHl6UaugjT3RT+JFYFMy3g1qTqNXJHP1js23EpI=;
+        b=kH5zc32mTSULT8UhXunlAuuM0N21FIUBJaMGSDXkTLg9q1RDKO4xT4+Hl1jp9hvhdT
+         bCeOepqEHjsXvKKPefzYkLyZoITddz+1vKj4oRPV0klov18taCohS/y08BalfY5f66GI
+         5F/+nQXkoXyDbtmYWk6tx2RNU8ZAy1nv+cZxkPXDdt8XZink+lw8pt14I2mZN7zjREe2
+         srwfI5dfijRrdeGIIAuK2ixBvbTZ/eC/vYnj3hny1tuLKTYkAW/hMEOjYVY1JHx7yXDY
+         PHb9EV/eMS3ieaIKX79fwtDCBb9IT4GpqB3P+nc6OMeZIV6mppKAHBLuMnpH0kRY4PSA
+         RQGg==
+X-Gm-Message-State: AOJu0YwtoyjfSZGRCtuFLzUwc23rcEgpoqEpNixjDIElwXA8Rr/xilE9
+	H+kfNkfOpmKl4MDb/8bUFu/PLzHZEDdJdagNYe6jhuNZK5Ve3RBkNWn3TiKtkt/3ZUOqyNe/CcJ
+	B6RrO04HyQYb7WEQnOMJnR1wTkMaqKR0=
+X-Received: by 2002:a17:906:29d4:b0:a27:6570:5db4 with SMTP id y20-20020a17090629d400b00a2765705db4mr249456eje.1.1704360094552;
+        Thu, 04 Jan 2024 01:21:34 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IESj4WLYhJHuUGa1LUTWWp44t2akjrq3TncbYEbPxKsPY5ISl0+GAbCemrhOsw1dEb3ItlUSg==
+X-Received: by 2002:a17:906:29d4:b0:a27:6570:5db4 with SMTP id y20-20020a17090629d400b00a2765705db4mr249448eje.1.1704360094258;
+        Thu, 04 Jan 2024 01:21:34 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id fr20-20020a170906891400b00a28479fcb8esm2435041ejc.103.2024.01.04.01.21.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Jan 2024 01:21:33 -0800 (PST)
+Message-ID: <c4d8c0db-e125-4d2c-98d2-59cd9ca7ed11@redhat.com>
+Date: Thu, 4 Jan 2024 10:21:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5176:EE_|DM6PR12MB4356:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0d8d6045-670b-4df2-a127-08dc0cff534f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	Y4QZbyG/SzcpzJXBMq72/b+tgvugvMiNGBvkObvIlM4SW3HqZ1k/Djek0EmChhrUi2qpY/6GC3Rkb/a5DB1qR5adRTcJPbD1eqf8DbPXF59WqO1NiPIXTUPCj59PAVp8kGcQmO38JPOymScHu+IPFgXPIV1D00ksBDVNdPGIpJJstJLx8uWpxaS+XNMCvnb0+mtfRqo96xheI5aQiZpdlp9Zj/lVGsfj2Pzn0T8CnwOI9b4t2AxiMBZPi0rw2Y399A0SjzLh3uwyRw5cQyq63JGga/SAWt1WGftnfGlqu9/VTFWBsgJi61Hr2OvQDbcDnsfJ4XCHe1j/+zwpEbgVJcrfov8PMRSepEDH34orBzmDfEqVHSzb7r1xdnFUsd/zPRWF59fKYnwGURDgIR28wDhpua7o/EyU6xQrioIE3cBdpoplPFz8tzakFaabCbTujkFr36sYoaDVZpaaMEKbvQo+6O1hLeAMVYnRNbaH8xA+uKCEFb4fOZWyNqvtsV89XYJR6LvAk0rZ9eCvRnA1CJit4FTuZFpnJL8qaijjcDnVwJCL5tNa8ErMM1pqJ6kt/lzaSIG80sU3dg4QfxCSZNgKuCznCNjGpEGA1/7UrmUol6QFgLuk/eEeKwSuqjx4qkpXOHh5WrA3lJhfWRCBLg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5176.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(396003)(366004)(39860400002)(346002)(230922051799003)(1800799012)(64100799003)(186009)(451199024)(53546011)(26005)(6666004)(478600001)(6486002)(6512007)(6506007)(2616005)(5660300002)(2906002)(4744005)(41300700001)(66476007)(66556008)(66946007)(316002)(6636002)(110136005)(8936002)(8676002)(4326008)(38100700002)(36756003)(31696002)(86362001)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bURVc1dXVnRMcG50U3BYbnhqbGV2eUJsTFkraS9sR0o1SnhPekVkckRoTEV1?=
- =?utf-8?B?b3pPZlFjckJNOEl2TXZIRVEvYmZ4R2dqVlBVSWRvcU41R2s1L1BUUDUrcXNp?=
- =?utf-8?B?THlzb2d5Y294K01ubUFPT1hRNHVXYis2WmNkS1Z6eHo5R1pRZzZDUm8wY3Y2?=
- =?utf-8?B?Y1ZWOEpscWwzbTBvR2RZV1ZXTHZnM0lXMTd6YmxkeER5ajVSU0hXWHpSakJZ?=
- =?utf-8?B?V1hYQUlHVHFzbmNGcGNkSndsQlUyeEFKTU50UFdpcjNkWWd3cVpCQWlHeTZZ?=
- =?utf-8?B?WHNiR2RlcWhvYkpQQWxQR1dkZXdWbVluUXJUSE84Z1RSS1E3VnZHSzl4Ymor?=
- =?utf-8?B?NkV2LzZ4Und4YTZKTmxHSHV0dDA2d1FBOXRpRU9vT0JYb2FiR2g2dWpPaXo5?=
- =?utf-8?B?SVo4WWxpMUFobjRUMDBudGUzajhOemJTNnA0bUsxWFZ6cXFVZnJuQWVTQm1z?=
- =?utf-8?B?UTNaRm9ndjhaZHR4aTFvSnNvVFRXeGdzRVFUMUdMa01CSDNLUS9zd2FuOGJ5?=
- =?utf-8?B?cGFXV2hWbFBnbys5aWZ5eEJScFpyWHE5cVRJZFROVk0xcXZjNkIwMm5jNE5X?=
- =?utf-8?B?NzFTcUp3TFhtZFF2VzVnbTFKN2FOOVkwMndKMlRoQkhJcENoZjdhZVJKQzRR?=
- =?utf-8?B?RUhRNnBLUmtHeWVXSW9kUGQ5OHpudVpJOWxuRDNHcjIyT1cyYkJZSERBL0tV?=
- =?utf-8?B?Wnkyc1kxUmRUUGYwVElHNFNwVE1mRG1Odnkwcm8yTFc1Q1dNWk13d3RpSTRs?=
- =?utf-8?B?K1UyanZuTmQ4UVJHQmpQTTNKb2ZKaWFjbVBFL3d5TjY2OEw5dEsvT3dUU2k4?=
- =?utf-8?B?WmM5T1FBV0Y0TlBZaWg3dEZTMUdDS0NuNHZxcXVOSDFuTjZCa00wQ3UrRk1z?=
- =?utf-8?B?eCtOdmpzY0ZBM0tMWk9RNTF4ektLenJyMHBXQXUzRGxqTTR2RkZKVjdOVVNq?=
- =?utf-8?B?OXAycTcxYkZwV1IxalNNVWRPQ3pBOUM3MjNpa3RLeS9QUW0wcXgxN1hSNmls?=
- =?utf-8?B?QXppaTJSSlRFWWdaQkxvL25GUVA5MWI0eTl5RVpLaXdEQ014VHhBYW9Sd1hN?=
- =?utf-8?B?UnJubEVMMkVrSmtLL251VUsvM2ZHOU9vQzVOR3I4b2V2NFhhK3pTM3lsZG5p?=
- =?utf-8?B?djlwQlVuZXFHdlRGZTlOcWxOcEhGbm1SNS9oQkNxSmdJTjBzbWMwa3ZiM2ZH?=
- =?utf-8?B?YTd3Z3RRTFBuU2dpL0kydE9nY1hOb3NiMGpZUHJ4SVF1OW9LYnFXZnRLWk9J?=
- =?utf-8?B?Wm55MG1WdEQweUdSZC9Xc2VSVnQxT0hQbmJzV3Q0SWt0dEszbWVsUFdVMUw0?=
- =?utf-8?B?dHhLNEJKY2xLb0NsRk1RbGppYzJvZGMybWN6NlIrUUFOaThvSzBKZk8xN3Z6?=
- =?utf-8?B?OE5KMWhSUUc4ZGJqanNuMHVrYVAzUHNHQnRCTldUWjVpaDZmWURwVlVOZWVn?=
- =?utf-8?B?d0N2dmxwNHN5UkRjUnFDTGFCUWNad3FKMTZ4cnpwSHpwUldHWmZHR2hieTRh?=
- =?utf-8?B?WGtpY3p3cFVLM2psL0dJTGd6QVlHbXFTME10WU1YZjlxTGptSVZDRDB4dUdB?=
- =?utf-8?B?MUh4dC83Si9ReTZFZEg4OEozNlp5QzZvNnJSOHFIaWRobjFZTTVkc2NrdDlG?=
- =?utf-8?B?cVZBMGs2KzlVYmR1WXZYckxoM2Z2Nmcyekl4OHNRM29oM2JrTCs3djNOQ3lC?=
- =?utf-8?B?R0xkWS9PQ2NZMWVEMmlpb1JPVzhWaWhiNUJqald6ek90b0JYaUhTQm9xbzlw?=
- =?utf-8?B?Y3QrOUtBUm40VyszdkpTSTJrQ21Eb3k4L2dUb1dZMUNsbzRtbHc0YVRtYlpl?=
- =?utf-8?B?eFNTVzBoWkMzTXVBS0VOV01PT2Zha280c2NTbkFWZ3lSOWozcHNxU0NsSGk2?=
- =?utf-8?B?WmF6djV2S3ZYUFdCaytNQWdLUVNsclBJazN1Yk0yMzY0ZCs0MWVIYU5ZYWxM?=
- =?utf-8?B?dFd4SUhaYzFCbG12d0Qxa1JaSkIrbVp1QVFCNTdLUmlVd0I3YS94WldadG1i?=
- =?utf-8?B?ZFdnQjlZblpYbFV6dG1Va0cxZmd3ekdFSFl1YmlJL01IMWl6S21iS21tcitt?=
- =?utf-8?B?WlFVcHA0aWJkckRGL2NqY0lHVkthcDQ2dU14L0VxOWEyQ2JEUWk2MVBqcmx5?=
- =?utf-8?Q?B5gA+IIMNpBEAUEpx8UNNWTl5?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d8d6045-670b-4df2-a127-08dc0cff534f
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5176.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2024 08:29:53.7558
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B49eb7ewlXpjEGMlomI/Dwrxy+wz2oknXjzQ/wFMEPfRD1MlDf6cPXtYzjp8G/mlqXQaOrKEpwmsfJkwHXo3rQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4356
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] Add new SFH interfaces
+To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Jiri Kosina <jkosina@suse.com>, Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Cc: benjamin.tissoires@redhat.com, ilpo.jarvinen@linux.intel.com,
+ mario.limonciello@amd.com, linux-input@vger.kernel.org,
+ Patil Rajesh <Patil.Reddy@amd.com>
+References: <20231220070042.610455-1-Basavaraj.Natikar@amd.com>
+ <nycvar.YFH.7.76.2401021122350.29548@cbobk.fhfr.pm>
+ <71296fab-d6dd-490b-b29d-468f0eecb244@amd.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <71296fab-d6dd-490b-b29d-468f0eecb244@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Jiri,
+Hi all,
 
-On 1/2/2024 3:53 PM, Jiri Kosina wrote:
-> On Wed, 20 Dec 2023, Basavaraj Natikar wrote:
+On 1/4/24 09:29, Shyam Sundar S K wrote:
+> Hi Jiri,
 > 
->> This series adds new interfaces to export User presence information and
->> Ambient light to other drivers within the kernel.
+> On 1/2/2024 3:53 PM, Jiri Kosina wrote:
+>> On Wed, 20 Dec 2023, Basavaraj Natikar wrote:
+>>
+>>> This series adds new interfaces to export User presence information and
+>>> Ambient light to other drivers within the kernel.
+>>
+>> Hi,
+>>
+>> thanks for the patches. I'd like this to go in together with the actual 
+>> users of it on the PMF side. Does that code already exist?
 > 
-> Hi,
+> I am yet to submit the patches that uses the new SFH interfaces
+> defined in this series.
 > 
-> thanks for the patches. I'd like this to go in together with the actual 
-> users of it on the PMF side. Does that code already exist?
-
-I am yet to submit the patches that uses the new SFH interfaces
-defined in this series.
-
-The suggestion from Hans is to have the SFH changes landed
-independently, so that Hans can take the PMF changes alone later
-during the rc's as fix. IMO, we can have this series merged first alone.
-
-But I am OK to have both PMF and SFH changes together.
-
-Hans, what is your feedback for Jiri's question?
-
-Thanks,
-Shyam
-
-
+> The suggestion from Hans is to have the SFH changes landed
+> independently, so that Hans can take the PMF changes alone later
+> during the rc's as fix. IMO, we can have this series merged first alone.
 > 
-> Thanks,
+> But I am OK to have both PMF and SFH changes together.
 > 
+> Hans, what is your feedback for Jiri's question?
+
+Jiri, originally the drivers/hid/amd-sfh-hid/ changes
+were posted as part of this series:
+
+https://lore.kernel.org/platform-driver-x86/20231204101548.1458499-1-Shyam-sundar.S-k@amd.com/
+
+specifically in these patches:
+
+https://lore.kernel.org/platform-driver-x86/20231204101548.1458499-14-Shyam-sundar.S-k@amd.com/
+https://lore.kernel.org/platform-driver-x86/20231204101548.1458499-15-Shyam-sundar.S-k@amd.com/
+https://lore.kernel.org/platform-driver-x86/20231204101548.1458499-16-Shyam-sundar.S-k@amd.com/
+
+Where the last 2 patches introduce both the HID changes and the drivers/platform/x86/amd/pmf/...
+consumer of the HID changes in one go.
+
+I have asked Shyam to split out the HID changes:
+https://lore.kernel.org/platform-driver-x86/ad064333-48a4-4cfa-9428-69e8a7c44667@redhat.com/
+
+"""
+But this patch also needs to have its HID parts split out
+from the rest and the HID patches need to be merged
+separately.
+
+Since the merge-window is getting close I would like
+to propose the following:
+
+1. Send a v7 addressing review remarks consisting of
+only patches 1-12, assuming all review remarks are
+fixed in v7 I can merge that then.
+
+2. Send a 3 patch HID patch series separately:
+
+[PATCH 1/3] HID: amd_sfh: rename float_to_int() to amd_sfh_float_to_int()
+[PATCH 2/3] HID: amd_sfh: adding the HID hpd bits + amd_get_sfh_info() function
+[PATCH 3/3] HID: amd_sfh: adding the HID als bits
+
+3. Once v7 of patches 1-12 + hopefully the 3 patch HID series have
+landed in 6.8-rc1 then I would be willing to take a patch using
+amd_get_sfh_info() to implement hpd + als support in the spc code
+as a fix for 6.8-rc# .
+"""
+
+I have merged patches 1-12 of the AMD PMF series already.
+So assuming there are no other objections against the HID
+changes it would be great if these can still make it into
+6.8-rc1 then Shyam can re-send the AMD PMF changes which
+consume the new HID API as a separate patch and then I'll
+send that to Linus once the HID changes have been merged
+by Linus.
+
+Note I understand if the timing does not work out
+in that case the HID changes + the AMD PMF patches which
+consume the new HID API can wait for the next cycle.
+
+If this is going to wait for the next cycle, then please
+send me a pull-request for an immutable branch with
+the HID changes in there so that I can merge that
+into pdx86/for-next before merging the AMD PMF changes.
+
+Regards,
+
+Hans
+
+
+
 
