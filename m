@@ -1,133 +1,189 @@
-Return-Path: <linux-input+bounces-1121-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1122-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3105824AA3
-	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 23:01:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB54824AF2
+	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 23:38:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7FC12281FBF
-	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 22:01:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C6C9285456
+	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 22:38:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 947D62C855;
-	Thu,  4 Jan 2024 22:01:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65A622C681;
+	Thu,  4 Jan 2024 22:38:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f8oLuABc"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="VJach6FS"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0AB2C84F;
-	Thu,  4 Jan 2024 22:01:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704405688; x=1735941688;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=otgbQ7H1iBSZqJ3vnujFkHluxQ0XxaU4/8325jzHr+8=;
-  b=f8oLuABcGnWQNiIUZ1iv8qGbfDQyKucdHznj9Pfy7YnBT6UpgObxSKCu
-   NhMG+UrEkI04onGt1tsdKRq5Moc++HERqogZkUK/rN2Y2ozlNaqvNpR4j
-   Uq8v1gV8nT0mpmQSiCdrDAxC8O5pLlFLaJsq8yFP+x8+tTnNhBnb2jpJ0
-   4SmNGvLzAQE3Xv+SarvNXu2Ei4jAHsylTB1QV8/sTjLANkf6JkfmnFUqC
-   8q/LDIZ7CFF+WZjoTjEZFlquMR81vBAkytfQ85gayVVXTI9XQNNqHf4kH
-   ivchovDw72QSR14w+ojKp/+khMukDcsva2otXeSVWB4xYyM5hBugFozNM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="394553013"
-X-IronPort-AV: E=Sophos;i="6.04,331,1695711600"; 
-   d="scan'208";a="394553013"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 14:01:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="846378376"
-X-IronPort-AV: E=Sophos;i="6.04,331,1695711600"; 
-   d="scan'208";a="846378376"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 04 Jan 2024 14:01:21 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rLVmB-0000Sy-08;
-	Thu, 04 Jan 2024 22:01:19 +0000
-Date: Fri, 5 Jan 2024 06:01:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zack Rusin <zack.rusin@broadcom.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Zack Rusin <zack.rusin@broadcom.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Raul Rangel <rrangel@chromium.org>, linux-input@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] input/vmmouse: Fix device name copies
-Message-ID: <202401050506.N1aMF9sD-lkp@intel.com>
-References: <20240104050605.1773158-1-zack.rusin@broadcom.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A195328DB0;
+	Thu,  4 Jan 2024 22:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 404HdK1Z029968;
+	Thu, 4 Jan 2024 16:37:19 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=M
+	Shzt3LVhFxMMuG6ippnJ3aKDGhRinbXBUUZ94iQi08=; b=VJach6FSwwbzt9KmI
+	GWjCTzJzGjLLeGGhyU96URR9nObLd4F+tECWcYZVXnh9so3tG/UyD3OMzAekeJPR
+	yO/CLF3Cyt7sS9sZJyxiSlsdFeIczLXTD5+PjX+5DTlD0ryn/29hyd5YeCCMTar+
+	M/udBGMya454ibWyxn9mZERg12Gx+HFsP6vi67cBDnTcXnfDUQ4e5IDq+FZh07xm
+	2g4iFzL2z5yxYKuAfCFpe3VFVdbw7LwUZy0BJ72/MAisZP7A6Z1U4RqpguIX4THo
+	aixE2vx4Yx9W5aqLCMOJ1qbD5sAcq5X8nf12uir/DFeip6K2PC+GakcXUOR9tHSS
+	LIY4Q==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ve18src5a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 04 Jan 2024 16:37:18 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 4 Jan
+ 2024 22:37:16 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.40 via Frontend Transport; Thu, 4 Jan 2024 22:37:01 +0000
+Received: from aus-sw-rshr002.ad.cirrus.com (aus-sw-rshr002.ad.cirrus.com [141.131.145.53])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id E99CC474;
+	Thu,  4 Jan 2024 22:36:56 +0000 (UTC)
+From: James Ogletree <jogletre@opensource.cirrus.com>
+To: 
+CC: James Ogletree <jogletre@opensource.cirrus.com>,
+        James Ogletree
+	<james.ogletree@cirrus.com>,
+        Fred Treven <fred.treven@cirrus.com>,
+        Ben Bright
+	<ben.bright@cirrus.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "Rob
+ Herring" <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Simon Trimmer <simont@opensource.cirrus.com>,
+        Charles Keepax
+	<ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald
+	<rf@opensource.cirrus.com>,
+        Lee Jones <lee@kernel.org>, Liam Girdwood
+	<lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, Jaroslav Kysela
+	<perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        James Schulman
+	<james.schulman@cirrus.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Alexandre Belloni
+	<alexandre.belloni@bootlin.com>,
+        Peng Fan <peng.fan@nxp.com>, Jacky Bai
+	<ping.bai@nxp.com>,
+        Jeff LaBundy <jeff@labundy.com>,
+        Weidong Wang
+	<wangweidong.a@awinic.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        "Arnd
+ Bergmann" <arnd@arndb.de>, Shuming Fan <shumingf@realtek.com>,
+        Shenghao Ding
+	<13916275206@139.com>, Ryan Lee <ryans.lee@analog.com>,
+        Linus Walleij
+	<linus.walleij@linaro.org>,
+        Maxim Kochetkov <fido_max@inbox.ru>,
+        "open
+ list:CIRRUS LOGIC HAPTIC DRIVERS" <patches@opensource.cirrus.com>,
+        "open
+ list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..."
+	<linux-input@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE
+ TREE BINDINGS" <devicetree@vger.kernel.org>,
+        open list
+	<linux-kernel@vger.kernel.org>,
+        "open list:SOUND - SOC LAYER / DYNAMIC AUDIO
+ POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+        "moderated list:CIRRUS LOGIC
+ AUDIO CODEC DRIVERS" <alsa-devel@alsa-project.org>
+Subject: [PATCH v5 0/5] Add support for CS40L50
+Date: Thu, 4 Jan 2024 22:36:33 +0000
+Message-ID: <20240104223643.876292-1-jogletre@opensource.cirrus.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240104050605.1773158-1-zack.rusin@broadcom.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: rpOIz0vGtpWU2aw1DIz15-q1kEDNu-vQ
+X-Proofpoint-GUID: rpOIz0vGtpWU2aw1DIz15-q1kEDNu-vQ
+X-Proofpoint-Spam-Reason: safe
 
-Hi Zack,
+There is a massive delta from V4, so only the highlgihts are
+mentioned below. I intend for this version to address all
+feedback to-date, so if you find something left unaddressed
+then please let me know.
 
-kernel test robot noticed the following build errors:
+Changes in v5:
+- Added a codec sub-device to support I2S streaming
+- Moved write sequencer code from cirrus_haptics to cs_dsp
+- Reverted cirrus_haptics library; future Cirrus input
+  drivers will export and utilize cs40l50_vibra functions
+- Added more comments
+- Many small stylistic and logical improvements
 
-[auto build test ERROR on dtor-input/next]
-[also build test ERROR on dtor-input/for-linus linus/master v6.7-rc8 next-20240104]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Changes in v4:
+- Moved from Input to MFD
+- Moved common Cirrus haptic functions to a library
+- Incorporated runtime PM framework
+- Many style improvements
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zack-Rusin/input-vmmouse-Fix-device-name-copies/20240104-130724
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20240104050605.1773158-1-zack.rusin%40broadcom.com
-patch subject: [PATCH v2] input/vmmouse: Fix device name copies
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240105/202401050506.N1aMF9sD-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401050506.N1aMF9sD-lkp@intel.com/reproduce)
+Changes in v3:
+- YAML formatting corrections
+- Fixed typo in MAINTAINERS
+- Used generic node name "haptic-driver"
+- Fixed probe error code paths
+- Switched to "sizeof(*)"
+- Removed tree reference in MAINTAINERS
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401050506.N1aMF9sD-lkp@intel.com/
+Changes in v2:
+- Fixed checkpatch warnings
 
-All error/warnings (new ones prefixed by >>):
+James Ogletree (5):
+  firmware: cs_dsp: Add write sequencer interface
+  dt-bindings: input: cirrus,cs40l50: Add initial DT binding
+  mfd: cs40l50: Add support for CS40L50 core driver
+  Input: cs40l50 - Add support for the CS40L50 haptic driver
+  ASoC: cs40l50: Support I2S streaming to CS40L50
 
->> drivers/input/mouse/vmmouse.c:78:5: warning: variable length array used [-Wvla]
-      77 |         char phys[sizeof_field(struct serio, phys) +
-         |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      78 |                   strlen(VMMOUSE_PHYS_NAME_POSTFIX_STR)];
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/input/mouse/vmmouse.c:77:7: error: fields must have a constant size: 'variable length array in structure' extension will never be supported
-      77 |         char phys[sizeof_field(struct serio, phys) +
-         |              ^
-   1 warning and 1 error generated.
-
-
-vim +77 drivers/input/mouse/vmmouse.c
-
-    67	
-    68	/**
-    69	 * struct vmmouse_data - private data structure for the vmmouse driver
-    70	 *
-    71	 * @abs_dev: "Absolute" device used to report absolute mouse movement.
-    72	 * @phys: Physical path for the absolute device.
-    73	 * @dev_name: Name attribute name for the absolute device.
-    74	 */
-    75	struct vmmouse_data {
-    76		struct input_dev *abs_dev;
-  > 77		char phys[sizeof_field(struct serio, phys) +
-  > 78			  strlen(VMMOUSE_PHYS_NAME_POSTFIX_STR)];
-    79		char dev_name[128];
-    80	};
-    81	
+ .../bindings/input/cirrus,cs40l50.yaml        |  70 +++
+ MAINTAINERS                                   |  12 +
+ drivers/firmware/cirrus/cs_dsp.c              | 261 ++++++++
+ drivers/input/misc/Kconfig                    |  10 +
+ drivers/input/misc/Makefile                   |   1 +
+ drivers/input/misc/cs40l50-vibra.c            | 572 ++++++++++++++++++
+ drivers/mfd/Kconfig                           |  30 +
+ drivers/mfd/Makefile                          |   4 +
+ drivers/mfd/cs40l50-core.c                    | 536 ++++++++++++++++
+ drivers/mfd/cs40l50-i2c.c                     |  69 +++
+ drivers/mfd/cs40l50-spi.c                     |  69 +++
+ include/linux/firmware/cirrus/cs_dsp.h        |  28 +
+ include/linux/mfd/cs40l50.h                   | 128 ++++
+ sound/soc/codecs/Kconfig                      |  11 +
+ sound/soc/codecs/Makefile                     |   2 +
+ sound/soc/codecs/cs40l50-codec.c              | 304 ++++++++++
+ 16 files changed, 2107 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
+ create mode 100644 drivers/input/misc/cs40l50-vibra.c
+ create mode 100644 drivers/mfd/cs40l50-core.c
+ create mode 100644 drivers/mfd/cs40l50-i2c.c
+ create mode 100644 drivers/mfd/cs40l50-spi.c
+ create mode 100644 include/linux/mfd/cs40l50.h
+ create mode 100644 sound/soc/codecs/cs40l50-codec.c
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
 
