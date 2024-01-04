@@ -1,99 +1,82 @@
-Return-Path: <linux-input+bounces-1114-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1115-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D55824832
-	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 19:31:39 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF3FD82485C
+	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 19:46:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B291A1C23FC0
-	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 18:31:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 81BA81F25291
+	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 18:46:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3F0228E2C;
-	Thu,  4 Jan 2024 18:31:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DD8528E14;
+	Thu,  4 Jan 2024 18:46:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="bNKs1hZV"
+	dkim=pass (2048-bit key) header.d=bernhard-seibold.de header.i=@bernhard-seibold.de header.b="l+AzJt0Z"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2335328E14;
-	Thu,  4 Jan 2024 18:31:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
-Received: from wse.fritz.box (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 314832FC0073;
-	Thu,  4 Jan 2024 19:31:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1704393084;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FB828E21
+	for <linux-input@vger.kernel.org>; Thu,  4 Jan 2024 18:46:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bernhard-seibold.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bernhard-seibold.de
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4T5bCZ6h7Cz9sqn;
+	Thu,  4 Jan 2024 19:46:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bernhard-seibold.de;
+	s=MBO0001; t=1704393994;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JKQS4AwlSL17ZE3tRGxXuQK7iAc6fj3KFZMSPVfU4pw=;
-	b=bNKs1hZVPzTiBCJu5/UbORgoilZwORJKl/s1w907lfb/aLq+9p0WdGgAV0imchU4Oanpqz
-	ZaCXBiWBOQgaCqQpEIlQysRpXAJAcuo7n/CUsAYQjDwxOByO1KLvgUm5iItfCFh6Bty1vf
-	7YyAXFyl2zLMSxfLKk4Pb8eZ8t/39+g=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: dmitry.torokhov@gmail.com
-Cc: hdegoede@redhat.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	wse@tuxedocomputers.com
-Subject: [PATCH v4 2/2] i8042: Use new forcenorestore quirk to replace old buggy quirk combination
-Date: Thu,  4 Jan 2024 19:31:18 +0100
-Message-Id: <20240104183118.779778-3-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240104183118.779778-1-wse@tuxedocomputers.com>
-References: <20240104183118.779778-1-wse@tuxedocomputers.com>
+	bh=TqMBzj5PsQTbfKMApRhophd15qpAlTlwrtzZwBB4iRg=;
+	b=l+AzJt0ZBmLaNIh9rR1smLZxSTdxlZn6709Q3iLWnj51PIyeeJKGDafK0tcNYvTRKgeSI0
+	/YktLMiSlomEU3ryFcRbJWm44JqXYhdGuiyuc1HoVSoRxH7cIQQdHh+1MdnPvJkjzwtUI4
+	xoRmlAiC/aa/zBccUg7Cw+QK+bWIXC+qAcRPckUYOb9o2ump2iGYnCU4KTzNQUI0z6O3QJ
+	17Y4Si8HtjxzR1f0PkrCoENf2dgoLUwlUwWQEYkVXnT/EFdEuRRO6z0qHoseKeNtWND3BD
+	OdAjogsu2uBDWg2STo9JlJ7sMdAsDGdk8JtSjB3w+9ObU5EdoQN6lAbWTJWaCg==
+Date: Thu, 4 Jan 2024 19:46:32 +0100
+From: Bernhard Seibold <mail@bernhard-seibold.de>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Hans de Goede <hdegoede@redhat.com>, 
+	Jamie Lentin <jm@lentin.co.uk>
+Subject: Re: Re: [PATCH 1/3] HID: input - Add microphone mute LED support
+Message-ID: <fm6z2zok4ndbke3zqvrm7zbmkukul65n5unl5xkgmlccswz3hl@ycpnx2ii5wu4>
+References: <20240104154941.6919-1-mail@bernhard-seibold.de>
+ <ZZbxHpibdyNY_zUt@google.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZZbxHpibdyNY_zUt@google.com>
+X-Rspamd-Queue-Id: 4T5bCZ6h7Cz9sqn
 
-The old quirk combination sometimes cause a laggy keyboard after boot. With
-the new quirk the initial issue of an unresponsive keyboard after s3 resume
-is also fixed, but it doesn't have the negative side effect of the
-sometimes laggy keyboard.
+Hi Dmitri,
 
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-Cc: stable@vger.kernel.org
----
- drivers/input/serio/i8042-acpipnpio.h | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+On Thu, Jan 04, 2024 at 09:55:42AM -0800, Dmitry Torokhov wrote:
+> No, please do not add new LEDs to input subsystem, and instead use "new"
+> LED APIs that are much more flexible. That is why we built the input
+> leds bridge in direction of input->leds and on the other way around.
+> 
+> The existing input LED definitions are grandfathered because they are
+> exposed to userspace (via evdev), but we will not be adding new ones.
+> 
+> Thanks.
 
-diff --git a/drivers/input/serio/i8042-acpipnpio.h b/drivers/input/serio/i8042-acpipnpio.h
-index 10ec4534e5e14..e631a26394e92 100644
---- a/drivers/input/serio/i8042-acpipnpio.h
-+++ b/drivers/input/serio/i8042-acpipnpio.h
-@@ -1142,18 +1142,10 @@ static const struct dmi_system_id i8042_dmi_quirk_table[] __initconst = {
- 					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
- 	},
- 	{
--		/*
--		 * Setting SERIO_QUIRK_NOMUX or SERIO_QUIRK_RESET_ALWAYS makes
--		 * the keyboard very laggy for ~5 seconds after boot and
--		 * sometimes also after resume.
--		 * However both are required for the keyboard to not fail
--		 * completely sometimes after boot or resume.
--		 */
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_NAME, "N150CU"),
- 		},
--		.driver_data = (void *)(SERIO_QUIRK_NOMUX | SERIO_QUIRK_RESET_ALWAYS |
--					SERIO_QUIRK_NOLOOP | SERIO_QUIRK_NOPNP)
-+		.driver_data = (void *)(SERIO_QUIRK_FORCENORESTORE)
- 	},
- 	{
- 		.matches = {
--- 
-2.34.1
+Sorry, I'm completely new to this subsystem. Did I get it right that
+what you're suggesting is to add something that is similar to
+hidinput_setup_battery() and create the new LED there directly,
+skipping the input subsystem and input-leds completely?
 
+Regards,
+Bernhard
 
