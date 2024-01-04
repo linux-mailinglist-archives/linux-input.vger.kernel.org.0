@@ -1,120 +1,96 @@
-Return-Path: <linux-input+bounces-1101-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1102-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F4117824398
-	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 15:22:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9592F82455D
+	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 16:50:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 84253B2186C
-	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 14:22:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2DF842824EC
+	for <lists+linux-input@lfdr.de>; Thu,  4 Jan 2024 15:50:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3742324216;
-	Thu,  4 Jan 2024 14:20:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFEAA249F9;
+	Thu,  4 Jan 2024 15:49:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="JwasyGJY"
+	dkim=pass (2048-bit key) header.d=bernhard-seibold.de header.i=@bernhard-seibold.de header.b="M7vbTFJR"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33D724204
-	for <linux-input@vger.kernel.org>; Thu,  4 Jan 2024 14:20:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5570bef7cb8so519810a12.2
-        for <linux-input@vger.kernel.org>; Thu, 04 Jan 2024 06:20:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1704378014; x=1704982814; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:in-reply-to:subject
-         :cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=J2cY6zWShul1SIbFB6HGxgmdGVwD/4l6dAmhSfaYtSQ=;
-        b=JwasyGJY1D938UoYPKopm1KyCqNoTzV0BKSNgY8VQ03MGondmSCsI5kD56aVw3iWKy
-         yPDYdB4kMdDsXJ12SPXE1a5EEZGKI6VzmFN39h894bsNRNFmi4JW9Epzh2uvBnHPFROG
-         NZJp6b5iw54hfzoSq0fJ7Z1oGz4u5BABAGLpkKzwaLSkY+n/H2RBenHgyIHSuOdqcizq
-         7C4TpGkl+iAic6s3Hw+zNFrR1TOrE+hV0JgS5+GmivWtqJIvdJuC9+ASBVZLwx1dNQZj
-         sAo3rPGpnKwbJECw+XzK3rXuoe6EIXbC6r2EU4JhU17T5LlpZHz7NMhbbsJMuNp52iRh
-         6xpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704378014; x=1704982814;
-        h=mime-version:user-agent:references:message-id:in-reply-to:subject
-         :cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J2cY6zWShul1SIbFB6HGxgmdGVwD/4l6dAmhSfaYtSQ=;
-        b=p+DRE3dy7qG0aduTZBBmP+Mwt8HaAmzSTAq6sNjCenGU55ygj+UkvM/u9CfUW3oxWZ
-         H7a+xOXRj91pXGfdWgQOTi8uw68ikBNqmrjuuXyhhdS5xjY4Pi8h4YJ+MyWAYv7LVHU0
-         vQhWkAmUdppSNwj9O4Ox2PBLxw+3MxGmNwio90stFslBbw1xbpDhh80hOKU8iy9XFfTW
-         TJV+hwGtICTiz1Weer2IGZNPxHYM9WEfLW1o37mgPBJYyTU6tbd0x3B4JL2HPFvv5w8+
-         KxOJLpRFcpRH+7XxhEIcbbKY+dJITFzb7Smt428mKpaX/7k3B3EXb+IEpAmVa1g0/Lvz
-         iG2w==
-X-Gm-Message-State: AOJu0YxuTD8RHDne8S0ojmoe3VbB3x4Tn4r4aiQKMVkWYRvI4XzdcQpi
-	+Cxko07ooA8QFQkFM8GtRMKMqwdlsfXpjQ==
-X-Google-Smtp-Source: AGHT+IEG9nXKk8rC3+RM8cy5cmvIsml2aOmCNRsY0QyKtk+dw0X1Hkvjef4+u27D3xVRvF11gdWPcw==
-X-Received: by 2002:a17:906:8412:b0:a27:45a2:e5f4 with SMTP id n18-20020a170906841200b00a2745a2e5f4mr346528ejx.14.1704378014046;
-        Thu, 04 Jan 2024 06:20:14 -0800 (PST)
-Received: from localhost (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id fp21-20020a1709069e1500b00a26ade46619sm13029321ejc.121.2024.01.04.06.20.13
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 04 Jan 2024 06:20:13 -0800 (PST)
-From: Jiri Kosina <jkosina@suse.com>
-X-Google-Original-From: Jiri Kosina <jikos@kernel.org>
-Date: Thu, 4 Jan 2024 15:20:15 +0100 (CET)
-To: Hans de Goede <hdegoede@redhat.com>
-cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
-    Basavaraj Natikar <Basavaraj.Natikar@amd.com>, 
-    benjamin.tissoires@redhat.com, ilpo.jarvinen@linux.intel.com, 
-    mario.limonciello@amd.com, linux-input@vger.kernel.org, 
-    Patil Rajesh <Patil.Reddy@amd.com>
-Subject: Re: [PATCH 0/3] Add new SFH interfaces
-In-Reply-To: <c4d8c0db-e125-4d2c-98d2-59cd9ca7ed11@redhat.com>
-Message-ID: <nycvar.YFH.7.76.2401041519390.29548@cbobk.fhfr.pm>
-References: <20231220070042.610455-1-Basavaraj.Natikar@amd.com> <nycvar.YFH.7.76.2401021122350.29548@cbobk.fhfr.pm> <71296fab-d6dd-490b-b29d-468f0eecb244@amd.com> <c4d8c0db-e125-4d2c-98d2-59cd9ca7ed11@redhat.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0E6249EA
+	for <linux-input@vger.kernel.org>; Thu,  4 Jan 2024 15:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bernhard-seibold.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bernhard-seibold.de
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4T5WHY6LNwz9svV;
+	Thu,  4 Jan 2024 16:49:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bernhard-seibold.de;
+	s=MBO0001; t=1704383385;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=3ocmnRcbuvFQVKD+brebemDUKQhBnerstCOqxF24EiE=;
+	b=M7vbTFJRsdfvFdxKLGvVZasCaIxh10fsoTOhxghiQFtcn+2gQMx/gK6nRwBsyaGqXxiJ+d
+	JLLg58ypg36ojzRTuRaZwiyNgRLMW+z3TVKL4zi1785Omw2qVUtUyFrYuwhtLqEScmvCJ7
+	qtOSXhZ5pC6PI7zGOVmvZ7szYA5ha6tU5KU5B8oXHypajRbIyWwCl+d7J6Iba6QEeF3Bjs
+	LFpix2BAnSstk1/QmVBGXVbSp4cAlIJVMaFdo08tDLb1OYPnrw6nMyrf+i8vkNgjXG+yNH
+	6DCu2yCFysjd7itQYenLRkPXL9eyuorlbf+kIH87ZBFv2baKx4oCXQ279eta/w==
+From: Bernhard Seibold <mail@bernhard-seibold.de>
+To: linux-input@vger.kernel.org
+Cc: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jamie Lentin <jm@lentin.co.uk>,
+	Bernhard Seibold <mail@bernhard-seibold.de>
+Subject: [PATCH 1/3] HID: input - Add microphone mute LED support
+Date: Thu,  4 Jan 2024 16:49:39 +0100
+Message-ID: <20240104154941.6919-1-mail@bernhard-seibold.de>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
-On Thu, 4 Jan 2024, Hans de Goede wrote:
+Define an input event code for micmute led and enable sending it via HID
 
-> > I am yet to submit the patches that uses the new SFH interfaces
-> > defined in this series.
-> > 
-> > The suggestion from Hans is to have the SFH changes landed
-> > independently, so that Hans can take the PMF changes alone later
-> > during the rc's as fix. IMO, we can have this series merged first alone.
-> > 
-> > But I am OK to have both PMF and SFH changes together.
-> > 
-> > Hans, what is your feedback for Jiri's question?
-> 
-> Jiri, originally the drivers/hid/amd-sfh-hid/ changes
-> were posted as part of this series:
-> 
-> https://lore.kernel.org/platform-driver-x86/20231204101548.1458499-1-Shyam-sundar.S-k@amd.com/
-> 
-> specifically in these patches:
-> 
-> https://lore.kernel.org/platform-driver-x86/20231204101548.1458499-14-Shyam-sundar.S-k@amd.com/
-> https://lore.kernel.org/platform-driver-x86/20231204101548.1458499-15-Shyam-sundar.S-k@amd.com/
-> https://lore.kernel.org/platform-driver-x86/20231204101548.1458499-16-Shyam-sundar.S-k@amd.com/
-> 
-> Where the last 2 patches introduce both the HID changes and the drivers/platform/x86/amd/pmf/...
-> consumer of the HID changes in one go.
-> 
-> I have asked Shyam to split out the HID changes:
-> https://lore.kernel.org/platform-driver-x86/ad064333-48a4-4cfa-9428-69e8a7c44667@redhat.com/
+Signed-off-by: Bernhard Seibold <mail@bernhard-seibold.de>
+---
+ drivers/hid/hid-input.c                | 1 +
+ include/uapi/linux/input-event-codes.h | 1 +
+ 2 files changed, 2 insertions(+)
 
-[ ... snip ... ]
-
-Thanks a lot to both of you for the background. I have now queued the 3 
-HID patches in hid.git#for-6.8/amd-sfh
-
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index c8b20d44b147..96c595bb14ce 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -928,6 +928,7 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 		case 0x03:  map_led (LED_SCROLLL);  break;    /*   "Scroll Lock"              */
+ 		case 0x04:  map_led (LED_COMPOSE);  break;    /*   "Compose"                  */
+ 		case 0x05:  map_led (LED_KANA);     break;    /*   "Kana"                     */
++		case 0x21:  map_led (LED_MICMUTE);  break;    /*   "Microphone"               */
+ 		case 0x27:  map_led (LED_SLEEP);    break;    /*   "Stand-By"                 */
+ 		case 0x4c:  map_led (LED_SUSPEND);  break;    /*   "System Suspend"           */
+ 		case 0x09:  map_led (LED_MUTE);     break;    /*   "Mute"                     */
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index 022a520e31fc..f9a4f9040c59 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -952,6 +952,7 @@
+ #define LED_MISC		0x08
+ #define LED_MAIL		0x09
+ #define LED_CHARGING		0x0a
++#define LED_MICMUTE		0x0b
+ #define LED_MAX			0x0f
+ #define LED_CNT			(LED_MAX+1)
+ 
 -- 
-Jiri Kosina
-SUSE Labs
+2.43.0
 
 
