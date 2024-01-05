@@ -1,54 +1,54 @@
-Return-Path: <linux-input+bounces-1134-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1135-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2497882551C
-	for <lists+linux-input@lfdr.de>; Fri,  5 Jan 2024 15:26:22 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C21825647
+	for <lists+linux-input@lfdr.de>; Fri,  5 Jan 2024 16:02:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA1A92855FC
-	for <lists+linux-input@lfdr.de>; Fri,  5 Jan 2024 14:26:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0DC02B215A1
+	for <lists+linux-input@lfdr.de>; Fri,  5 Jan 2024 15:02:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DABA02D7BB;
-	Fri,  5 Jan 2024 14:26:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C0972E3F2;
+	Fri,  5 Jan 2024 15:02:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="AJrqeiCZ"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="OBU69Wcw"
 X-Original-To: linux-input@vger.kernel.org
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF272D7AB;
-	Fri,  5 Jan 2024 14:26:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85322E623;
+	Fri,  5 Jan 2024 15:02:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 405CoImA010379;
-	Fri, 5 Jan 2024 08:25:16 -0600
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 405Cpwp4012446;
+	Fri, 5 Jan 2024 09:01:21 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=PODMain02222019; bh=ZumaiG3tWqCqKwL
-	m2w2GskBu2Je61hqPZwFOilMwiIA=; b=AJrqeiCZvg6cBzkMrbWsGf4ZYzTxpLR
-	Aqqpkg+Y+XMxRBryAoyhNeP3dJIZezjOO0zGkvMntEV4AE9QzlSXzutTfl/n/AlQ
-	mttMcDrp0lmUASW0Oot3Yb/uYurB770O90FVhmF0+Ve6fBWosb7J7zsmXUziqiQj
-	I/Ht8LhH7UKwbWFXJY5Xzuq83aRfIXh5bRM+txI8Eu3XyAXQtsOhk6H2Qdr0Su9m
-	csHPRXIiVPgtaSzaCjickhZKe9Yno/hIHhWjiPyxS0JFmXuDnWTg8GgLwG9Ymxfm
-	7fieelw/d4XkZvfyXUGMpPny5j3JidLzVqzDYrKVpKxkPOlLP2MKDcg==
+	:content-type:in-reply-to; s=PODMain02222019; bh=hCR4EmcMYIBdHpq
+	zJzZE8aUhAR9GR9nB+1npMXbK+K4=; b=OBU69WcwJL0L7H1b4rm47LQphdjUCu6
+	TT9nJj8I2VcYIxXcXFNCjI92WD/6zgEd8dxGEC+u/tIvi2piWm39RRMBcd0xyrUO
+	5e8vDaUwDYLn66eEcspkfpEoLvdZP9shwQ4XaS5sQKL897NDRvAtQZ4SsnoqlFi/
+	8oO7VNws8qymx+sQ5UoGHyBZIAJlj0JyS/koXT0M21fOYChcnQGqd2o/tuTMXG5U
+	ih/yHp61QcvMZJ8q0PKOEDwvwWZEI82hb4RvP7K+6LLA4gvAeYbaFMrGYEgevoSP
+	4XRbQt7AyiG6QYgXVWSkEeeAMWhclGUMxKbb7EBErZeFcxhi7cr3QWQ==
 Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ve9e8gnu1-1
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ve9e8gqbg-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Jan 2024 08:25:16 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+	Fri, 05 Jan 2024 09:01:21 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
  (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 5 Jan
- 2024 14:25:13 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.40 via Frontend Transport; Fri, 5 Jan 2024 14:24:58 +0000
+ 2024 15:01:18 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.40 via Frontend
+ Transport; Fri, 5 Jan 2024 15:01:03 +0000
 Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id A6473468;
-	Fri,  5 Jan 2024 14:24:58 +0000 (UTC)
-Date: Fri, 5 Jan 2024 14:24:58 +0000
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 81A6615A2;
+	Fri,  5 Jan 2024 15:01:03 +0000 (UTC)
+Date: Fri, 5 Jan 2024 15:01:03 +0000
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: James Ogletree <jogletre@opensource.cirrus.com>
 CC: James Ogletree <james.ogletree@cirrus.com>,
@@ -73,13 +73,12 @@ CC: James Ogletree <james.ogletree@cirrus.com>,
         James Schulman
 	<james.schulman@cirrus.com>,
         David Rhodes <david.rhodes@cirrus.com>,
-        "Jacky
- Bai" <ping.bai@nxp.com>,
         Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jeff LaBundy <jeff@labundy.com>,
+        Peng Fan
+	<peng.fan@nxp.com>, Jeff LaBundy <jeff@labundy.com>,
         Sebastian Reichel
 	<sebastian.reichel@collabora.com>,
-        Peng Fan <peng.fan@nxp.com>, Weidong Wang
+        Jacky Bai <ping.bai@nxp.com>, Weidong Wang
 	<wangweidong.a@awinic.com>,
         Arnd Bergmann <arnd@arndb.de>,
         Herve Codina
@@ -89,24 +88,23 @@ CC: James Ogletree <james.ogletree@cirrus.com>,
 	<13916275206@139.com>, Ryan Lee <ryans.lee@analog.com>,
         Linus Walleij
 	<linus.walleij@linaro.org>,
-        Maxim Kochetkov <fido_max@inbox.ru>,
-        "open
- list:CIRRUS LOGIC HAPTIC DRIVERS" <patches@opensource.cirrus.com>,
-        "open
- list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..."
-	<linux-input@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE
- TREE BINDINGS" <devicetree@vger.kernel.org>,
+        "open list:CIRRUS LOGIC HAPTIC DRIVERS"
+	<patches@opensource.cirrus.com>,
+        "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK,
+ TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND
+ FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
         open list
 	<linux-kernel@vger.kernel.org>,
         "open list:SOUND - SOC LAYER / DYNAMIC AUDIO
  POWER MANAGEM..." <linux-sound@vger.kernel.org>,
         "moderated list:CIRRUS LOGIC
  AUDIO CODEC DRIVERS" <alsa-devel@alsa-project.org>
-Subject: Re: [PATCH v5 5/5] ASoC: cs40l50: Support I2S streaming to CS40L50
-Message-ID: <20240105142458.GH14858@ediswmail.ad.cirrus.com>
+Subject: Re: [PATCH v5 4/5] Input: cs40l50 - Add support for the CS40L50
+ haptic driver
+Message-ID: <20240105150103.GI14858@ediswmail.ad.cirrus.com>
 References: <20240104223643.876292-1-jogletre@opensource.cirrus.com>
- <20240104223643.876292-6-jogletre@opensource.cirrus.com>
+ <20240104223643.876292-5-jogletre@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
@@ -115,99 +113,28 @@ List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240104223643.876292-6-jogletre@opensource.cirrus.com>
+In-Reply-To: <20240104223643.876292-5-jogletre@opensource.cirrus.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-GUID: 0hqQg34txAQs78OTUD5wUFCbmWzwicQt
-X-Proofpoint-ORIG-GUID: 0hqQg34txAQs78OTUD5wUFCbmWzwicQt
+X-Proofpoint-GUID: nInpbhH6Gxayo2Puvzw74qxNoSGhXQlv
+X-Proofpoint-ORIG-GUID: nInpbhH6Gxayo2Puvzw74qxNoSGhXQlv
 X-Proofpoint-Spam-Reason: safe
 
-On Thu, Jan 04, 2024 at 10:36:38PM +0000, James Ogletree wrote:
+On Thu, Jan 04, 2024 at 10:36:37PM +0000, James Ogletree wrote:
 > Introduce support for Cirrus Logic Device CS40L50: a
 > haptic driver with waveform memory, integrated DSP,
 > and closed-loop algorithms.
 > 
-> The ASoC driver enables I2S streaming to the device.
+> The input driver provides the interface for control of
+> haptic effects through the device.
 > 
 > Signed-off-by: James Ogletree <jogletre@opensource.cirrus.com>
 > ---
+> +#include <linux/input.h>
 > +#include <linux/mfd/cs40l50.h>
+> +#include <linux/platform_device.h>
 > +#include <linux/pm_runtime.h>
-> +#include <sound/pcm_params.h>
-> +#include <sound/soc.h>
 
-Need to also include bitfield.h for FIELD_PREP etc.
-
-> +static int cs40l50_clk_en(struct snd_soc_dapm_widget *w,
-> +			  struct snd_kcontrol *kcontrol,
-> +			  int event)
-> +{
-> +	struct snd_soc_component *comp = snd_soc_dapm_to_component(w->dapm);
-> +	struct cs40l50_codec *codec = snd_soc_component_get_drvdata(comp);
-> +	int ret;
-> +
-> +	switch (event) {
-> +	case SND_SOC_DAPM_POST_PMU:
-> +		ret = regmap_write(codec->regmap, CS40L50_DSP_QUEUE, CS40L50_STOP_PLAYBACK);
-> +		if (ret)
-> +			return ret;
-> +
-> +		ret = regmap_write(codec->regmap, CS40L50_DSP_QUEUE, CS40L50_START_I2S);
-> +		if (ret)
-> +			return ret;
-> +
-
-Feels weird that we don't wait for these two commands to be
-acknowledged by the DSP before doing the clock swap. Is that
-intentional? Is the DSP just guaranteed to be so fast it doesn't
-matter, in which case a comment would be nice.
-
-> +static int cs40l50_set_dai_fmt(struct snd_soc_dai *codec_dai, unsigned int fmt)
-> +{
-> +	struct cs40l50_codec *codec = snd_soc_component_get_drvdata(codec_dai->component);
-> +
-> +	if ((fmt & SND_SOC_DAIFMT_MASTER_MASK) != SND_SOC_DAIFMT_CBS_CFS)
-> +		return -EINVAL;
-> +
-> +	switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
-> +	case SND_SOC_DAIFMT_NB_NF:
-> +		codec->daifmt = 0;
-> +		break;
-> +	case SND_SOC_DAIFMT_NB_IF:
-> +		codec->daifmt = CS40L50_ASP_FSYNC_INV_MASK;
-> +		break;
-> +	case SND_SOC_DAIFMT_IB_NF:
-> +		codec->daifmt = CS40L50_ASP_BCLK_INV_MASK;
-> +		break;
-> +	case SND_SOC_DAIFMT_IB_IF:
-> +		codec->daifmt = CS40L50_ASP_FSYNC_INV_MASK | CS40L50_ASP_BCLK_INV_MASK;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	if ((fmt & SND_SOC_DAIFMT_FORMAT_MASK) == SND_SOC_DAIFMT_I2S)
-> +		codec->daifmt |= FIELD_PREP(CS40L50_ASP_FMT_MASK, CS40L50_ASP_FMT_I2S);
-
-It feels unlikely the chip supports all formats with no
-additional settings? Probably should have a switch for the
-supported formats and return an error.
-
-> +static struct snd_soc_dai_driver cs40l50_dai[] = {
-> +	{
-> +		.name = "cs40l50-pcm",
-> +		.id = 0,
-> +		.playback = {
-> +			.stream_name = "ASP Playback",
-> +			.channels_min = 1,
-> +			.channels_max = 2,
-> +			.rates = SNDRV_PCM_RATE_48000,
-> +			.formats = CS40L50_FORMATS,
-> +		},
-> +		.ops = &cs40l50_dai_ops,
-> +		.symmetric_rate = 1,
-
-The symmetric_rate feels a bit redundant since we only have
-playback supported.
+Need bitfield.h
 
 Thanks,
 Charles
