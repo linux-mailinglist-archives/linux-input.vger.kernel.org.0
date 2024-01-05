@@ -1,674 +1,487 @@
-Return-Path: <linux-input+bounces-1132-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1133-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 805E8824D33
-	for <lists+linux-input@lfdr.de>; Fri,  5 Jan 2024 03:47:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B208254D2
+	for <lists+linux-input@lfdr.de>; Fri,  5 Jan 2024 15:05:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 860DF1C2223B
-	for <lists+linux-input@lfdr.de>; Fri,  5 Jan 2024 02:47:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 342A2B239FF
+	for <lists+linux-input@lfdr.de>; Fri,  5 Jan 2024 14:05:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15CA83D8F;
-	Fri,  5 Jan 2024 02:46:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E192A2D7A9;
+	Fri,  5 Jan 2024 14:05:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dxuuu.xyz header.i=@dxuuu.xyz header.b="ObGnf9kL";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="9SE88XOa"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="rF/0IQUd"
 X-Original-To: linux-input@vger.kernel.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA4420EE;
-	Fri,  5 Jan 2024 02:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dxuuu.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dxuuu.xyz
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.west.internal (Postfix) with ESMTP id 8FA212B00474;
-	Thu,  4 Jan 2024 21:46:14 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Thu, 04 Jan 2024 21:46:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1704422774; x=
-	1704429974; bh=AhBJTveChmuQiAtyMaNSM+RygugifTBNNVPVgl4mifc=; b=O
-	bGnf9kLwqiRXEBChfrpj7PwSxFyHI4s+L/hVhLk6RjV/nzcSUpcB/LAS8aep+GyK
-	rtm4VxDhuKom8b6Ao9wOY6ZVLpP3KIa2kkuHLFjCwKDNVwr5MNuQjVldLj/Z3GWg
-	yW9HoMYHx51AOY6ZOF3uXZpJFH5y8pLW4/w+9t8DKp9b3xD6mZodVIS8oMsW9Bby
-	CpEGgQLu9Y+xwuUKPwLcY8AvbHtHrQgCzwH2MP6SOkiPSsQlof90QxGhB6r5TzIz
-	T/ugOYv2WgcJMVL18ciEQt8IXf+WyJY9lBfMIn7ba1D+qwr8j82AWW4tq+biS6T3
-	AEjqDGNZugDNl2g635nAw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1704422774; x=
-	1704429974; bh=AhBJTveChmuQiAtyMaNSM+RygugifTBNNVPVgl4mifc=; b=9
-	SE88XOasO8167iEieiJPmeENdRaUgrRVj6BSqna5koQPuFoAkYPVf15CzH+56zZe
-	9BPqzt7PrW0a3epBRtOyqj8MDO/omJwooZlwSpOpht3+Nuk0MQAXE+tBpN7VnR1h
-	+a0KsjzOsrcm9CpIMPwaQCcV5SmEQD0t41cNv/I8I/1fePtjDp1TCRaZc1pG6J29
-	hh0dGG0rj0k+6jzhATvQ3XHMTw0JD+Ca2G3eqAnb9wXc6DdeigRqfq9jKHrjoE1u
-	fGXfW5LZvAb1jg1KrCSxOM85wwGKCRwq3PYfmAnmrAbCn79Zt2tiy2Bg8BLymTJ6
-	cZn3w3JyGRWX6iOIWG6Fg==
-X-ME-Sender: <xms:dG2XZc8Sd9EpRC0e36X5TLX6mtFr-K2eNk03opGCJ2XAxlKq1e1jhw>
-    <xme:dG2XZUsYY0s38kmyOqjc-IMsTunCbdYumkECE9XDV9yqY8AcqgZPQhp4xpZCfZXPo
-    gVPk1DCQNd3UPjawA>
-X-ME-Received: <xmr:dG2XZSASiYf95tSvNT53SiP_dVnE3EzivD7V4FuSeNDxvdZO7d06YNXfUZNWX1-OiYBiDNnYpKW_afcDNh-U8g0iURWsdl_QsEmChlm4d_K25g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdegkedgheduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    gfrhhlucfvnfffucdljedtmdenucfjughrpefhvfevufffkffojghfggfgsedtkeertder
-    tddtnecuhfhrohhmpeffrghnihgvlhcuighuuceougiguhesugiguhhuuhdrgiihiieqne
-    cuggftrfgrthhtvghrnhepgfefgfegjefhudeikedvueetffelieefuedvhfehjeeljeej
-    kefgffeghfdttdetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepugiguhesugiguhhuuhdrgiihii
-X-ME-Proxy: <xmx:dW2XZcfjCJaMGIgsmduOdc8Go0XmCRSqWsw-86yPcC0evgvBtASXKQ>
-    <xmx:dW2XZROKJagc7Ve_YzG2T5Z_yzaZBkjqV7Rwwkkwjo82itBWHYmFcg>
-    <xmx:dW2XZWl4c5bfoGreXE5j1xrqCZdvUAvD2urrC4rcBxs71hDpeLezeA>
-    <xmx:dm2XZcripSBNJ1s7sLfdaDWJT0WW1ZVkvRDNCfb4p1vqaIyPTrwt439RXAs>
-Feedback-ID: i6a694271:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 4 Jan 2024 21:46:09 -0500 (EST)
-From: Daniel Xu <dxu@dxuuu.xyz>
-To: alexandre.torgue@foss.st.com,
-	benjamin.tissoires@redhat.com,
-	lizefan.x@bytedance.com,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	dsahern@kernel.org,
-	hannes@cmpxchg.org,
-	rostedt@goodmis.org,
-	mcoquelin.stm32@gmail.com,
-	pablo@netfilter.org,
-	martin.lau@linux.dev,
-	edumazet@google.com,
-	daniel@iogearbox.net,
-	ebiggers@kernel.org,
-	yonghong.song@linux.dev,
-	john.fastabend@gmail.com,
-	hawk@kernel.org,
-	steffen.klassert@secunet.com,
-	jikos@kernel.org,
-	kuba@kernel.org,
-	fw@strlen.de,
-	ast@kernel.org,
-	song@kernel.org,
-	pabeni@redhat.com,
-	shuah@kernel.org,
-	tytso@mit.edu,
-	tj@kernel.org,
-	kadlec@netfilter.org,
-	davem@davemloft.net,
-	mhiramat@kernel.org,
-	andrii@kernel.org,
-	alexei.starovoitov@gmail.com,
-	olsajiri@gmail.com,
-	quentin@isovalent.com,
-	alan.maguire@oracle.com,
-	memxor@gmail.com
-Cc: kpsingh@kernel.org,
-	sdf@google.com,
-	haoluo@google.com,
-	jolsa@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	mykolal@fb.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	fsverity@lists.linux.dev,
-	bpf@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org,
-	linux-kselftest@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH bpf-next v2 3/3] bpf: treewide: Annotate BPF kfuncs in BTF
-Date: Thu,  4 Jan 2024 19:45:49 -0700
-Message-ID: <a923e3809955bdfd2bc8d6a103c20e01f1636dbc.1704422454.git.dxu@dxuuu.xyz>
-X-Mailer: git-send-email 2.42.1
-In-Reply-To: <cover.1704422454.git.dxu@dxuuu.xyz>
-References: <cover.1704422454.git.dxu@dxuuu.xyz>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC502D7A6;
+	Fri,  5 Jan 2024 14:05:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 405CRxc9029289;
+	Fri, 5 Jan 2024 08:04:25 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=NgK0ariODaAJM3u
+	rz57AUlxKnvsuFzT7i1lyaH/qe3g=; b=rF/0IQUdGm0Wd99Ij94Tkra47dqAYQz
+	UGL7T28kFbh9N5oq6IVFe4E6gU8n9KczZ7rnVg0BD/gWCalL+ihrEyh7A+ZumIHi
+	KKmgPlp7oFU3KQ05XhnvLZmWufI8fdzejd6SA6Hckobkld8GfsbPJJQYY9nyZMG1
+	nKMuZcsqdicAfddO5tyRM9C8hR0q4T9KTGRY1NItuS+OLq4MDibork6d+g9yWYqO
+	mppwJtpehHA5CtMtnzWZI0uqc6J0wNTq09hJtZTNLrNfj0DFksQN+7fMkrN0dgJh
+	ckfwTaMxidrgksrvgUc6Jq53quiiHuZC/qWBaMAoWe9JCp7k7evgU3Q==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ve9d00n13-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 05 Jan 2024 08:04:24 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 5 Jan
+ 2024 14:04:23 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.40 via Frontend
+ Transport; Fri, 5 Jan 2024 14:04:08 +0000
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 0008C468;
+	Fri,  5 Jan 2024 14:04:07 +0000 (UTC)
+Date: Fri, 5 Jan 2024 14:04:07 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: James Ogletree <jogletre@opensource.cirrus.com>
+CC: James Ogletree <james.ogletree@cirrus.com>,
+        Fred Treven
+	<fred.treven@cirrus.com>,
+        Ben Bright <ben.bright@cirrus.com>,
+        Dmitry Torokhov
+	<dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Simon Trimmer <simont@opensource.cirrus.com>,
+        "Richard
+ Fitzgerald" <rf@opensource.cirrus.com>,
+        Lee Jones <lee@kernel.org>, "Liam
+ Girdwood" <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, "Jaroslav
+ Kysela" <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        James Schulman
+	<james.schulman@cirrus.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Jacky Bai
+	<ping.bai@nxp.com>, Jeff LaBundy <jeff@labundy.com>,
+        Peng Fan
+	<peng.fan@nxp.com>, Weidong Wang <wangweidong.a@awinic.com>,
+        Herve Codina
+	<herve.codina@bootlin.com>,
+        Arnd Bergmann <arnd@arndb.de>, Shenghao Ding
+	<13916275206@139.com>,
+        Ryan Lee <ryans.lee@analog.com>,
+        Linus Walleij
+	<linus.walleij@linaro.org>,
+        Maxim Kochetkov <fido_max@inbox.ru>,
+        Shuming Fan
+	<shumingf@realtek.com>,
+        "open list:CIRRUS LOGIC HAPTIC DRIVERS"
+	<patches@opensource.cirrus.com>,
+        "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK,
+ TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND
+ FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+        open list
+	<linux-kernel@vger.kernel.org>,
+        "open list:SOUND - SOC LAYER / DYNAMIC AUDIO
+ POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+        "moderated list:CIRRUS LOGIC
+ AUDIO CODEC DRIVERS" <alsa-devel@alsa-project.org>
+Subject: Re: [PATCH v5 3/5] mfd: cs40l50: Add support for CS40L50 core driver
+Message-ID: <20240105140407.GG14858@ediswmail.ad.cirrus.com>
+References: <20240104223643.876292-1-jogletre@opensource.cirrus.com>
+ <20240104223643.876292-4-jogletre@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240104223643.876292-4-jogletre@opensource.cirrus.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-ORIG-GUID: pMkVg0owTryzh09Kt_vwlElCrMJXezxQ
+X-Proofpoint-GUID: pMkVg0owTryzh09Kt_vwlElCrMJXezxQ
+X-Proofpoint-Spam-Reason: safe
 
-This commit marks kfuncs as such inside the .BTF_ids section. The upshot
-of these annotations is that we'll be able to automatically generate
-kfunc prototypes for downstream users. The process is as follows:
+On Thu, Jan 04, 2024 at 10:36:36PM +0000, James Ogletree wrote:
+> Introduce support for Cirrus Logic Device CS40L50: a
+> haptic driver with waveform memory, integrated DSP,
+> and closed-loop algorithms.
+> 
+> The MFD component registers and initializes the device.
+> 
+> Signed-off-by: James Ogletree <jogletre@opensource.cirrus.com>
+> ---
+> +config MFD_CS40L50_CORE
+> +	tristate
+> +	select MFD_CORE
+> +	select FW_CS_DSP
+> +	select REGMAP_IRQ
+> +
+> +config MFD_CS40L50_I2C
+> +	tristate "Cirrus Logic CS40L50 (I2C)"
+> +	select REGMAP_I2C
+> +	select MFD_CS40L50_CORE
+> +	depends on I2C
+> +	help
+> +	  Select this to support the Cirrus Logic CS40L50 Haptic
+> +	  Driver over I2C.
+> +
+> +	  This driver can be built as a module. If built as a module it will be
+> +	  called "cs40l50-i2c".
+> +
+> +config MFD_CS40L50_SPI
+> +	tristate "Cirrus Logic CS40L50 (SPI)"
+> +	select REGMAP_SPI
+> +	select MFD_CS40L50_CORE
+> +	depends on SPI
+> +	help
+> +	  Select this to support the Cirrus Logic CS40L50 Haptic
+> +	  Driver over SPI.
+> +
+> +	  This driver can be built as a module. If built as a module it will be
+> +	  called "cs40l50-spi".
+> +
 
-1. In source, use BTF_KFUNCS_START/END macro pair to mark kfuncs
-2. During build, pahole injects into BTF a "bpf_kfunc" BTF_DECL_TAG for
-   each function inside BTF_KFUNCS sets
-3. At runtime, vmlinux or module BTF is made available in sysfs
-4. At runtime, bpftool (or similar) can look at provided BTF and
-   generate appropriate prototypes for functions with "bpf_kfunc" tag
+Generally the order in Kconfigs should be alphabetical, probably
+up around Cirrus Madera stuff would make most sense.
 
-To ensure future kfunc are similarly tagged, we now also return error
-and WARN() inside kfunc registration.
+> +static int cs40l50_dsp_init(struct cs40l50 *cs40l50)
+> +{
+> +	int err;
+> +
+> +	cs40l50->dsp.num = 1;
+> +	cs40l50->dsp.type = WMFW_HALO;
+> +	cs40l50->dsp.dev = cs40l50->dev;
+> +	cs40l50->dsp.regmap = cs40l50->regmap;
+> +	cs40l50->dsp.base = CS40L50_CORE_BASE;
+> +	cs40l50->dsp.base_sysinfo = CS40L50_SYS_INFO_ID;
+> +	cs40l50->dsp.mem = cs40l50_dsp_regions;
+> +	cs40l50->dsp.num_mems = ARRAY_SIZE(cs40l50_dsp_regions);
+> +	cs40l50->dsp.no_core_startstop = true;
+> +
+> +	err = cs_dsp_halo_init(&cs40l50->dsp);
+> +	if (err)
+> +		return err;
+> +
+> +	return devm_add_action_or_reset(cs40l50->dev, cs40l50_dsp_remove,
+> +					&cs40l50->dsp);
 
-Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
----
- drivers/hid/bpf/hid_bpf_dispatch.c               |  8 ++++----
- fs/verity/measure.c                              |  4 ++--
- kernel/bpf/btf.c                                 |  4 ++++
- kernel/bpf/cpumask.c                             |  4 ++--
- kernel/bpf/helpers.c                             |  8 ++++----
- kernel/bpf/map_iter.c                            |  4 ++--
- kernel/cgroup/rstat.c                            |  4 ++--
- kernel/trace/bpf_trace.c                         |  8 ++++----
- net/bpf/test_run.c                               |  8 ++++----
- net/core/filter.c                                | 16 ++++++++--------
- net/core/xdp.c                                   |  4 ++--
- net/ipv4/bpf_tcp_ca.c                            |  4 ++--
- net/ipv4/fou_bpf.c                               |  4 ++--
- net/ipv4/tcp_bbr.c                               |  4 ++--
- net/ipv4/tcp_cubic.c                             |  4 ++--
- net/ipv4/tcp_dctcp.c                             |  4 ++--
- net/netfilter/nf_conntrack_bpf.c                 |  4 ++--
- net/netfilter/nf_nat_bpf.c                       |  4 ++--
- net/xfrm/xfrm_interface_bpf.c                    |  4 ++--
- net/xfrm/xfrm_state_bpf.c                        |  4 ++--
- .../selftests/bpf/bpf_testmod/bpf_testmod.c      |  8 ++++----
- 21 files changed, 60 insertions(+), 56 deletions(-)
+Hmm... I notice you use this for both dsp_remove and
+dsp_power_down. Are you sure devm will guarantee those are called
+in the right order? Its not immediately clear to me that would be
+have to be the case.
 
-diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf_dispatch.c
-index d9ef45fcaeab..02c441aaa217 100644
---- a/drivers/hid/bpf/hid_bpf_dispatch.c
-+++ b/drivers/hid/bpf/hid_bpf_dispatch.c
-@@ -172,9 +172,9 @@ hid_bpf_get_data(struct hid_bpf_ctx *ctx, unsigned int offset, const size_t rdwr
-  * The following set contains all functions we agree BPF programs
-  * can use.
-  */
--BTF_SET8_START(hid_bpf_kfunc_ids)
-+BTF_KFUNCS_START(hid_bpf_kfunc_ids)
- BTF_ID_FLAGS(func, hid_bpf_get_data, KF_RET_NULL)
--BTF_SET8_END(hid_bpf_kfunc_ids)
-+BTF_KFUNCS_END(hid_bpf_kfunc_ids)
- 
- static const struct btf_kfunc_id_set hid_bpf_kfunc_set = {
- 	.owner = THIS_MODULE,
-@@ -440,12 +440,12 @@ static const struct btf_kfunc_id_set hid_bpf_fmodret_set = {
- };
- 
- /* for syscall HID-BPF */
--BTF_SET8_START(hid_bpf_syscall_kfunc_ids)
-+BTF_KFUNCS_START(hid_bpf_syscall_kfunc_ids)
- BTF_ID_FLAGS(func, hid_bpf_attach_prog)
- BTF_ID_FLAGS(func, hid_bpf_allocate_context, KF_ACQUIRE | KF_RET_NULL)
- BTF_ID_FLAGS(func, hid_bpf_release_context, KF_RELEASE)
- BTF_ID_FLAGS(func, hid_bpf_hw_request)
--BTF_SET8_END(hid_bpf_syscall_kfunc_ids)
-+BTF_KFUNCS_END(hid_bpf_syscall_kfunc_ids)
- 
- static const struct btf_kfunc_id_set hid_bpf_syscall_kfunc_set = {
- 	.owner = THIS_MODULE,
-diff --git a/fs/verity/measure.c b/fs/verity/measure.c
-index bf7a5f4cccaf..3969d54158d1 100644
---- a/fs/verity/measure.c
-+++ b/fs/verity/measure.c
-@@ -159,9 +159,9 @@ __bpf_kfunc int bpf_get_fsverity_digest(struct file *file, struct bpf_dynptr_ker
- 
- __bpf_kfunc_end_defs();
- 
--BTF_SET8_START(fsverity_set_ids)
-+BTF_KFUNCS_START(fsverity_set_ids)
- BTF_ID_FLAGS(func, bpf_get_fsverity_digest, KF_TRUSTED_ARGS)
--BTF_SET8_END(fsverity_set_ids)
-+BTF_KFUNCS_END(fsverity_set_ids)
- 
- static int bpf_get_fsverity_digest_filter(const struct bpf_prog *prog, u32 kfunc_id)
- {
-diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
-index 51e8b4bee0c8..8cc718f37a9d 100644
---- a/kernel/bpf/btf.c
-+++ b/kernel/bpf/btf.c
-@@ -7802,6 +7802,10 @@ int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
- {
- 	enum btf_kfunc_hook hook;
- 
-+	/* All kfuncs need to be tagged as such in BTF */
-+	if (WARN_ON(!(kset->set->flags & BTF_SET8_KFUNCS)))
-+		return -EINVAL;
-+
- 	hook = bpf_prog_type_to_kfunc_hook(prog_type);
- 	return __register_btf_kfunc_id_set(hook, kset);
- }
-diff --git a/kernel/bpf/cpumask.c b/kernel/bpf/cpumask.c
-index 2e73533a3811..dad0fb1c8e87 100644
---- a/kernel/bpf/cpumask.c
-+++ b/kernel/bpf/cpumask.c
-@@ -424,7 +424,7 @@ __bpf_kfunc u32 bpf_cpumask_weight(const struct cpumask *cpumask)
- 
- __bpf_kfunc_end_defs();
- 
--BTF_SET8_START(cpumask_kfunc_btf_ids)
-+BTF_KFUNCS_START(cpumask_kfunc_btf_ids)
- BTF_ID_FLAGS(func, bpf_cpumask_create, KF_ACQUIRE | KF_RET_NULL)
- BTF_ID_FLAGS(func, bpf_cpumask_release, KF_RELEASE)
- BTF_ID_FLAGS(func, bpf_cpumask_acquire, KF_ACQUIRE | KF_TRUSTED_ARGS)
-@@ -450,7 +450,7 @@ BTF_ID_FLAGS(func, bpf_cpumask_copy, KF_RCU)
- BTF_ID_FLAGS(func, bpf_cpumask_any_distribute, KF_RCU)
- BTF_ID_FLAGS(func, bpf_cpumask_any_and_distribute, KF_RCU)
- BTF_ID_FLAGS(func, bpf_cpumask_weight, KF_RCU)
--BTF_SET8_END(cpumask_kfunc_btf_ids)
-+BTF_KFUNCS_END(cpumask_kfunc_btf_ids)
- 
- static const struct btf_kfunc_id_set cpumask_kfunc_set = {
- 	.owner = THIS_MODULE,
-diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
-index be72824f32b2..277481eef361 100644
---- a/kernel/bpf/helpers.c
-+++ b/kernel/bpf/helpers.c
-@@ -2543,7 +2543,7 @@ __bpf_kfunc void bpf_throw(u64 cookie)
- 
- __bpf_kfunc_end_defs();
- 
--BTF_SET8_START(generic_btf_ids)
-+BTF_KFUNCS_START(generic_btf_ids)
- #ifdef CONFIG_KEXEC_CORE
- BTF_ID_FLAGS(func, crash_kexec, KF_DESTRUCTIVE)
- #endif
-@@ -2572,7 +2572,7 @@ BTF_ID_FLAGS(func, bpf_task_get_cgroup1, KF_ACQUIRE | KF_RCU | KF_RET_NULL)
- #endif
- BTF_ID_FLAGS(func, bpf_task_from_pid, KF_ACQUIRE | KF_RET_NULL)
- BTF_ID_FLAGS(func, bpf_throw)
--BTF_SET8_END(generic_btf_ids)
-+BTF_KFUNCS_END(generic_btf_ids)
- 
- static const struct btf_kfunc_id_set generic_kfunc_set = {
- 	.owner = THIS_MODULE,
-@@ -2588,7 +2588,7 @@ BTF_ID(struct, cgroup)
- BTF_ID(func, bpf_cgroup_release_dtor)
- #endif
- 
--BTF_SET8_START(common_btf_ids)
-+BTF_KFUNCS_START(common_btf_ids)
- BTF_ID_FLAGS(func, bpf_cast_to_kern_ctx)
- BTF_ID_FLAGS(func, bpf_rdonly_cast)
- BTF_ID_FLAGS(func, bpf_rcu_read_lock)
-@@ -2617,7 +2617,7 @@ BTF_ID_FLAGS(func, bpf_dynptr_is_null)
- BTF_ID_FLAGS(func, bpf_dynptr_is_rdonly)
- BTF_ID_FLAGS(func, bpf_dynptr_size)
- BTF_ID_FLAGS(func, bpf_dynptr_clone)
--BTF_SET8_END(common_btf_ids)
-+BTF_KFUNCS_END(common_btf_ids)
- 
- static const struct btf_kfunc_id_set common_kfunc_set = {
- 	.owner = THIS_MODULE,
-diff --git a/kernel/bpf/map_iter.c b/kernel/bpf/map_iter.c
-index 6abd7c5df4b3..9575314f40a6 100644
---- a/kernel/bpf/map_iter.c
-+++ b/kernel/bpf/map_iter.c
-@@ -213,9 +213,9 @@ __bpf_kfunc s64 bpf_map_sum_elem_count(const struct bpf_map *map)
- 
- __bpf_kfunc_end_defs();
- 
--BTF_SET8_START(bpf_map_iter_kfunc_ids)
-+BTF_KFUNCS_START(bpf_map_iter_kfunc_ids)
- BTF_ID_FLAGS(func, bpf_map_sum_elem_count, KF_TRUSTED_ARGS)
--BTF_SET8_END(bpf_map_iter_kfunc_ids)
-+BTF_KFUNCS_END(bpf_map_iter_kfunc_ids)
- 
- static const struct btf_kfunc_id_set bpf_map_iter_kfunc_set = {
- 	.owner = THIS_MODULE,
-diff --git a/kernel/cgroup/rstat.c b/kernel/cgroup/rstat.c
-index c0adb7254b45..127858046712 100644
---- a/kernel/cgroup/rstat.c
-+++ b/kernel/cgroup/rstat.c
-@@ -520,10 +520,10 @@ void cgroup_base_stat_cputime_show(struct seq_file *seq)
- }
- 
- /* Add bpf kfuncs for cgroup_rstat_updated() and cgroup_rstat_flush() */
--BTF_SET8_START(bpf_rstat_kfunc_ids)
-+BTF_KFUNCS_START(bpf_rstat_kfunc_ids)
- BTF_ID_FLAGS(func, cgroup_rstat_updated)
- BTF_ID_FLAGS(func, cgroup_rstat_flush, KF_SLEEPABLE)
--BTF_SET8_END(bpf_rstat_kfunc_ids)
-+BTF_KFUNCS_END(bpf_rstat_kfunc_ids)
- 
- static const struct btf_kfunc_id_set bpf_rstat_kfunc_set = {
- 	.owner          = THIS_MODULE,
-diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
-index 7ac6c52b25eb..d786738ae5fa 100644
---- a/kernel/trace/bpf_trace.c
-+++ b/kernel/trace/bpf_trace.c
-@@ -1412,14 +1412,14 @@ __bpf_kfunc int bpf_verify_pkcs7_signature(struct bpf_dynptr_kern *data_ptr,
- 
- __bpf_kfunc_end_defs();
- 
--BTF_SET8_START(key_sig_kfunc_set)
-+BTF_KFUNCS_START(key_sig_kfunc_set)
- BTF_ID_FLAGS(func, bpf_lookup_user_key, KF_ACQUIRE | KF_RET_NULL | KF_SLEEPABLE)
- BTF_ID_FLAGS(func, bpf_lookup_system_key, KF_ACQUIRE | KF_RET_NULL)
- BTF_ID_FLAGS(func, bpf_key_put, KF_RELEASE)
- #ifdef CONFIG_SYSTEM_DATA_VERIFICATION
- BTF_ID_FLAGS(func, bpf_verify_pkcs7_signature, KF_SLEEPABLE)
- #endif
--BTF_SET8_END(key_sig_kfunc_set)
-+BTF_KFUNCS_END(key_sig_kfunc_set)
- 
- static const struct btf_kfunc_id_set bpf_key_sig_kfunc_set = {
- 	.owner = THIS_MODULE,
-@@ -1475,9 +1475,9 @@ __bpf_kfunc int bpf_get_file_xattr(struct file *file, const char *name__str,
- 
- __bpf_kfunc_end_defs();
- 
--BTF_SET8_START(fs_kfunc_set_ids)
-+BTF_KFUNCS_START(fs_kfunc_set_ids)
- BTF_ID_FLAGS(func, bpf_get_file_xattr, KF_SLEEPABLE | KF_TRUSTED_ARGS)
--BTF_SET8_END(fs_kfunc_set_ids)
-+BTF_KFUNCS_END(fs_kfunc_set_ids)
- 
- static int bpf_get_file_xattr_filter(const struct bpf_prog *prog, u32 kfunc_id)
- {
-diff --git a/net/bpf/test_run.c b/net/bpf/test_run.c
-index dfd919374017..5535f9adc658 100644
---- a/net/bpf/test_run.c
-+++ b/net/bpf/test_run.c
-@@ -617,21 +617,21 @@ CFI_NOSEAL(bpf_kfunc_call_memb_release_dtor);
- 
- __bpf_kfunc_end_defs();
- 
--BTF_SET8_START(bpf_test_modify_return_ids)
-+BTF_KFUNCS_START(bpf_test_modify_return_ids)
- BTF_ID_FLAGS(func, bpf_modify_return_test)
- BTF_ID_FLAGS(func, bpf_modify_return_test2)
- BTF_ID_FLAGS(func, bpf_fentry_test1, KF_SLEEPABLE)
--BTF_SET8_END(bpf_test_modify_return_ids)
-+BTF_KFUNCS_END(bpf_test_modify_return_ids)
- 
- static const struct btf_kfunc_id_set bpf_test_modify_return_set = {
- 	.owner = THIS_MODULE,
- 	.set   = &bpf_test_modify_return_ids,
- };
- 
--BTF_SET8_START(test_sk_check_kfunc_ids)
-+BTF_KFUNCS_START(test_sk_check_kfunc_ids)
- BTF_ID_FLAGS(func, bpf_kfunc_call_test_release, KF_RELEASE)
- BTF_ID_FLAGS(func, bpf_kfunc_call_memb_release, KF_RELEASE)
--BTF_SET8_END(test_sk_check_kfunc_ids)
-+BTF_KFUNCS_END(test_sk_check_kfunc_ids)
- 
- static void *bpf_test_init(const union bpf_attr *kattr, u32 user_size,
- 			   u32 size, u32 headroom, u32 tailroom)
-diff --git a/net/core/filter.c b/net/core/filter.c
-index 24061f29c9dd..1f2303b9cce7 100644
---- a/net/core/filter.c
-+++ b/net/core/filter.c
-@@ -11853,17 +11853,17 @@ int bpf_dynptr_from_skb_rdonly(struct sk_buff *skb, u64 flags,
- 	return 0;
- }
- 
--BTF_SET8_START(bpf_kfunc_check_set_skb)
-+BTF_KFUNCS_START(bpf_kfunc_check_set_skb)
- BTF_ID_FLAGS(func, bpf_dynptr_from_skb)
--BTF_SET8_END(bpf_kfunc_check_set_skb)
-+BTF_KFUNCS_END(bpf_kfunc_check_set_skb)
- 
--BTF_SET8_START(bpf_kfunc_check_set_xdp)
-+BTF_KFUNCS_START(bpf_kfunc_check_set_xdp)
- BTF_ID_FLAGS(func, bpf_dynptr_from_xdp)
--BTF_SET8_END(bpf_kfunc_check_set_xdp)
-+BTF_KFUNCS_END(bpf_kfunc_check_set_xdp)
- 
--BTF_SET8_START(bpf_kfunc_check_set_sock_addr)
-+BTF_KFUNCS_START(bpf_kfunc_check_set_sock_addr)
- BTF_ID_FLAGS(func, bpf_sock_addr_set_sun_path)
--BTF_SET8_END(bpf_kfunc_check_set_sock_addr)
-+BTF_KFUNCS_END(bpf_kfunc_check_set_sock_addr)
- 
- static const struct btf_kfunc_id_set bpf_kfunc_set_skb = {
- 	.owner = THIS_MODULE,
-@@ -11936,9 +11936,9 @@ __bpf_kfunc int bpf_sock_destroy(struct sock_common *sock)
- 
- __bpf_kfunc_end_defs();
- 
--BTF_SET8_START(bpf_sk_iter_kfunc_ids)
-+BTF_KFUNCS_START(bpf_sk_iter_kfunc_ids)
- BTF_ID_FLAGS(func, bpf_sock_destroy, KF_TRUSTED_ARGS)
--BTF_SET8_END(bpf_sk_iter_kfunc_ids)
-+BTF_KFUNCS_END(bpf_sk_iter_kfunc_ids)
- 
- static int tracing_iter_filter(const struct bpf_prog *prog, u32 kfunc_id)
- {
-diff --git a/net/core/xdp.c b/net/core/xdp.c
-index 4869c1c2d8f3..034fb80f3fbe 100644
---- a/net/core/xdp.c
-+++ b/net/core/xdp.c
-@@ -771,11 +771,11 @@ __bpf_kfunc int bpf_xdp_metadata_rx_vlan_tag(const struct xdp_md *ctx,
- 
- __bpf_kfunc_end_defs();
- 
--BTF_SET8_START(xdp_metadata_kfunc_ids)
-+BTF_KFUNCS_START(xdp_metadata_kfunc_ids)
- #define XDP_METADATA_KFUNC(_, __, name, ___) BTF_ID_FLAGS(func, name, KF_TRUSTED_ARGS)
- XDP_METADATA_KFUNC_xxx
- #undef XDP_METADATA_KFUNC
--BTF_SET8_END(xdp_metadata_kfunc_ids)
-+BTF_KFUNCS_END(xdp_metadata_kfunc_ids)
- 
- static const struct btf_kfunc_id_set xdp_metadata_kfunc_set = {
- 	.owner = THIS_MODULE,
-diff --git a/net/ipv4/bpf_tcp_ca.c b/net/ipv4/bpf_tcp_ca.c
-index ae8b15e6896f..edecdf8229df 100644
---- a/net/ipv4/bpf_tcp_ca.c
-+++ b/net/ipv4/bpf_tcp_ca.c
-@@ -195,13 +195,13 @@ bpf_tcp_ca_get_func_proto(enum bpf_func_id func_id,
- 	}
- }
- 
--BTF_SET8_START(bpf_tcp_ca_check_kfunc_ids)
-+BTF_KFUNCS_START(bpf_tcp_ca_check_kfunc_ids)
- BTF_ID_FLAGS(func, tcp_reno_ssthresh)
- BTF_ID_FLAGS(func, tcp_reno_cong_avoid)
- BTF_ID_FLAGS(func, tcp_reno_undo_cwnd)
- BTF_ID_FLAGS(func, tcp_slow_start)
- BTF_ID_FLAGS(func, tcp_cong_avoid_ai)
--BTF_SET8_END(bpf_tcp_ca_check_kfunc_ids)
-+BTF_KFUNCS_END(bpf_tcp_ca_check_kfunc_ids)
- 
- static const struct btf_kfunc_id_set bpf_tcp_ca_kfunc_set = {
- 	.owner = THIS_MODULE,
-diff --git a/net/ipv4/fou_bpf.c b/net/ipv4/fou_bpf.c
-index 4da03bf45c9b..06e5572f296f 100644
---- a/net/ipv4/fou_bpf.c
-+++ b/net/ipv4/fou_bpf.c
-@@ -100,10 +100,10 @@ __bpf_kfunc int bpf_skb_get_fou_encap(struct __sk_buff *skb_ctx,
- 
- __bpf_kfunc_end_defs();
- 
--BTF_SET8_START(fou_kfunc_set)
-+BTF_KFUNCS_START(fou_kfunc_set)
- BTF_ID_FLAGS(func, bpf_skb_set_fou_encap)
- BTF_ID_FLAGS(func, bpf_skb_get_fou_encap)
--BTF_SET8_END(fou_kfunc_set)
-+BTF_KFUNCS_END(fou_kfunc_set)
- 
- static const struct btf_kfunc_id_set fou_bpf_kfunc_set = {
- 	.owner = THIS_MODULE,
-diff --git a/net/ipv4/tcp_bbr.c b/net/ipv4/tcp_bbr.c
-index 22358032dd48..05dc2d05bc7c 100644
---- a/net/ipv4/tcp_bbr.c
-+++ b/net/ipv4/tcp_bbr.c
-@@ -1155,7 +1155,7 @@ static struct tcp_congestion_ops tcp_bbr_cong_ops __read_mostly = {
- 	.set_state	= bbr_set_state,
- };
- 
--BTF_SET8_START(tcp_bbr_check_kfunc_ids)
-+BTF_KFUNCS_START(tcp_bbr_check_kfunc_ids)
- #ifdef CONFIG_X86
- #ifdef CONFIG_DYNAMIC_FTRACE
- BTF_ID_FLAGS(func, bbr_init)
-@@ -1168,7 +1168,7 @@ BTF_ID_FLAGS(func, bbr_min_tso_segs)
- BTF_ID_FLAGS(func, bbr_set_state)
- #endif
- #endif
--BTF_SET8_END(tcp_bbr_check_kfunc_ids)
-+BTF_KFUNCS_END(tcp_bbr_check_kfunc_ids)
- 
- static const struct btf_kfunc_id_set tcp_bbr_kfunc_set = {
- 	.owner = THIS_MODULE,
-diff --git a/net/ipv4/tcp_cubic.c b/net/ipv4/tcp_cubic.c
-index 0fd78ecb67e7..44869ea089e3 100644
---- a/net/ipv4/tcp_cubic.c
-+++ b/net/ipv4/tcp_cubic.c
-@@ -485,7 +485,7 @@ static struct tcp_congestion_ops cubictcp __read_mostly = {
- 	.name		= "cubic",
- };
- 
--BTF_SET8_START(tcp_cubic_check_kfunc_ids)
-+BTF_KFUNCS_START(tcp_cubic_check_kfunc_ids)
- #ifdef CONFIG_X86
- #ifdef CONFIG_DYNAMIC_FTRACE
- BTF_ID_FLAGS(func, cubictcp_init)
-@@ -496,7 +496,7 @@ BTF_ID_FLAGS(func, cubictcp_cwnd_event)
- BTF_ID_FLAGS(func, cubictcp_acked)
- #endif
- #endif
--BTF_SET8_END(tcp_cubic_check_kfunc_ids)
-+BTF_KFUNCS_END(tcp_cubic_check_kfunc_ids)
- 
- static const struct btf_kfunc_id_set tcp_cubic_kfunc_set = {
- 	.owner = THIS_MODULE,
-diff --git a/net/ipv4/tcp_dctcp.c b/net/ipv4/tcp_dctcp.c
-index bb23bb5b387a..e33fbe4933e4 100644
---- a/net/ipv4/tcp_dctcp.c
-+++ b/net/ipv4/tcp_dctcp.c
-@@ -260,7 +260,7 @@ static struct tcp_congestion_ops dctcp_reno __read_mostly = {
- 	.name		= "dctcp-reno",
- };
- 
--BTF_SET8_START(tcp_dctcp_check_kfunc_ids)
-+BTF_KFUNCS_START(tcp_dctcp_check_kfunc_ids)
- #ifdef CONFIG_X86
- #ifdef CONFIG_DYNAMIC_FTRACE
- BTF_ID_FLAGS(func, dctcp_init)
-@@ -271,7 +271,7 @@ BTF_ID_FLAGS(func, dctcp_cwnd_undo)
- BTF_ID_FLAGS(func, dctcp_state)
- #endif
- #endif
--BTF_SET8_END(tcp_dctcp_check_kfunc_ids)
-+BTF_KFUNCS_END(tcp_dctcp_check_kfunc_ids)
- 
- static const struct btf_kfunc_id_set tcp_dctcp_kfunc_set = {
- 	.owner = THIS_MODULE,
-diff --git a/net/netfilter/nf_conntrack_bpf.c b/net/netfilter/nf_conntrack_bpf.c
-index 475358ec8212..d2492d050fe6 100644
---- a/net/netfilter/nf_conntrack_bpf.c
-+++ b/net/netfilter/nf_conntrack_bpf.c
-@@ -467,7 +467,7 @@ __bpf_kfunc int bpf_ct_change_status(struct nf_conn *nfct, u32 status)
- 
- __bpf_kfunc_end_defs();
- 
--BTF_SET8_START(nf_ct_kfunc_set)
-+BTF_KFUNCS_START(nf_ct_kfunc_set)
- BTF_ID_FLAGS(func, bpf_xdp_ct_alloc, KF_ACQUIRE | KF_RET_NULL)
- BTF_ID_FLAGS(func, bpf_xdp_ct_lookup, KF_ACQUIRE | KF_RET_NULL)
- BTF_ID_FLAGS(func, bpf_skb_ct_alloc, KF_ACQUIRE | KF_RET_NULL)
-@@ -478,7 +478,7 @@ BTF_ID_FLAGS(func, bpf_ct_set_timeout, KF_TRUSTED_ARGS)
- BTF_ID_FLAGS(func, bpf_ct_change_timeout, KF_TRUSTED_ARGS)
- BTF_ID_FLAGS(func, bpf_ct_set_status, KF_TRUSTED_ARGS)
- BTF_ID_FLAGS(func, bpf_ct_change_status, KF_TRUSTED_ARGS)
--BTF_SET8_END(nf_ct_kfunc_set)
-+BTF_KFUNCS_END(nf_ct_kfunc_set)
- 
- static const struct btf_kfunc_id_set nf_conntrack_kfunc_set = {
- 	.owner = THIS_MODULE,
-diff --git a/net/netfilter/nf_nat_bpf.c b/net/netfilter/nf_nat_bpf.c
-index 6e3b2f58855f..481be15609b1 100644
---- a/net/netfilter/nf_nat_bpf.c
-+++ b/net/netfilter/nf_nat_bpf.c
-@@ -54,9 +54,9 @@ __bpf_kfunc int bpf_ct_set_nat_info(struct nf_conn___init *nfct,
- 
- __bpf_kfunc_end_defs();
- 
--BTF_SET8_START(nf_nat_kfunc_set)
-+BTF_KFUNCS_START(nf_nat_kfunc_set)
- BTF_ID_FLAGS(func, bpf_ct_set_nat_info, KF_TRUSTED_ARGS)
--BTF_SET8_END(nf_nat_kfunc_set)
-+BTF_KFUNCS_END(nf_nat_kfunc_set)
- 
- static const struct btf_kfunc_id_set nf_bpf_nat_kfunc_set = {
- 	.owner = THIS_MODULE,
-diff --git a/net/xfrm/xfrm_interface_bpf.c b/net/xfrm/xfrm_interface_bpf.c
-index 7d5e920141e9..5ea15037ebd1 100644
---- a/net/xfrm/xfrm_interface_bpf.c
-+++ b/net/xfrm/xfrm_interface_bpf.c
-@@ -93,10 +93,10 @@ __bpf_kfunc int bpf_skb_set_xfrm_info(struct __sk_buff *skb_ctx, const struct bp
- 
- __bpf_kfunc_end_defs();
- 
--BTF_SET8_START(xfrm_ifc_kfunc_set)
-+BTF_KFUNCS_START(xfrm_ifc_kfunc_set)
- BTF_ID_FLAGS(func, bpf_skb_get_xfrm_info)
- BTF_ID_FLAGS(func, bpf_skb_set_xfrm_info)
--BTF_SET8_END(xfrm_ifc_kfunc_set)
-+BTF_KFUNCS_END(xfrm_ifc_kfunc_set)
- 
- static const struct btf_kfunc_id_set xfrm_interface_kfunc_set = {
- 	.owner = THIS_MODULE,
-diff --git a/net/xfrm/xfrm_state_bpf.c b/net/xfrm/xfrm_state_bpf.c
-index 9e20d4a377f7..2248eda741f8 100644
---- a/net/xfrm/xfrm_state_bpf.c
-+++ b/net/xfrm/xfrm_state_bpf.c
-@@ -117,10 +117,10 @@ __bpf_kfunc void bpf_xdp_xfrm_state_release(struct xfrm_state *x)
- 
- __bpf_kfunc_end_defs();
- 
--BTF_SET8_START(xfrm_state_kfunc_set)
-+BTF_KFUNCS_START(xfrm_state_kfunc_set)
- BTF_ID_FLAGS(func, bpf_xdp_get_xfrm_state, KF_RET_NULL | KF_ACQUIRE)
- BTF_ID_FLAGS(func, bpf_xdp_xfrm_state_release, KF_RELEASE)
--BTF_SET8_END(xfrm_state_kfunc_set)
-+BTF_KFUNCS_END(xfrm_state_kfunc_set)
- 
- static const struct btf_kfunc_id_set xfrm_state_xdp_kfunc_set = {
- 	.owner = THIS_MODULE,
-diff --git a/tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c b/tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c
-index 91907b321f91..9faaefbe4a07 100644
---- a/tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c
-+++ b/tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c
-@@ -341,12 +341,12 @@ static struct bin_attribute bin_attr_bpf_testmod_file __ro_after_init = {
- 	.write = bpf_testmod_test_write,
- };
- 
--BTF_SET8_START(bpf_testmod_common_kfunc_ids)
-+BTF_KFUNCS_START(bpf_testmod_common_kfunc_ids)
- BTF_ID_FLAGS(func, bpf_iter_testmod_seq_new, KF_ITER_NEW)
- BTF_ID_FLAGS(func, bpf_iter_testmod_seq_next, KF_ITER_NEXT | KF_RET_NULL)
- BTF_ID_FLAGS(func, bpf_iter_testmod_seq_destroy, KF_ITER_DESTROY)
- BTF_ID_FLAGS(func, bpf_kfunc_common_test)
--BTF_SET8_END(bpf_testmod_common_kfunc_ids)
-+BTF_KFUNCS_END(bpf_testmod_common_kfunc_ids)
- 
- static const struct btf_kfunc_id_set bpf_testmod_common_kfunc_set = {
- 	.owner = THIS_MODULE,
-@@ -492,7 +492,7 @@ __bpf_kfunc static u32 bpf_kfunc_call_test_static_unused_arg(u32 arg, u32 unused
- 	return arg;
- }
- 
--BTF_SET8_START(bpf_testmod_check_kfunc_ids)
-+BTF_KFUNCS_START(bpf_testmod_check_kfunc_ids)
- BTF_ID_FLAGS(func, bpf_testmod_test_mod_kfunc)
- BTF_ID_FLAGS(func, bpf_kfunc_call_test1)
- BTF_ID_FLAGS(func, bpf_kfunc_call_test2)
-@@ -518,7 +518,7 @@ BTF_ID_FLAGS(func, bpf_kfunc_call_test_ref, KF_TRUSTED_ARGS | KF_RCU)
- BTF_ID_FLAGS(func, bpf_kfunc_call_test_destructive, KF_DESTRUCTIVE)
- BTF_ID_FLAGS(func, bpf_kfunc_call_test_static_unused_arg)
- BTF_ID_FLAGS(func, bpf_kfunc_call_test_offset)
--BTF_SET8_END(bpf_testmod_check_kfunc_ids)
-+BTF_KFUNCS_END(bpf_testmod_check_kfunc_ids)
- 
- static const struct btf_kfunc_id_set bpf_testmod_kfunc_set = {
- 	.owner = THIS_MODULE,
--- 
-2.42.1
+> +static irqreturn_t cs40l50_irq_handler(int irq, void *data)
+> +{
+> +	struct cs40l50 *cs40l50 = data;
+> +	int err;
+> +
+> +	mutex_lock(&cs40l50->lock);
+> +
+> +	if (irq == cs40l50_irqs[0].virq)
+> +		err = cs40l50_process_dsp_queue(cs40l50);
+> +	else
+> +		err = cs40l50_handle_hw_err(cs40l50, irq);
 
+Feels kinda weird to assign the same handler to every IRQ and
+then depending on which IRQ it was call a different function.
+Would it not be simpler just to assign a different handler?
+
+> +static int cs40l50_power_up_dsp(struct cs40l50 *cs40l50)
+> +{
+> +	int err;
+> +
+> +	mutex_lock(&cs40l50->lock);
+> +
+> +	if (cs40l50->patch) {
+> +		/* Stop core if loading patch file */
+> +		err = regmap_multi_reg_write(cs40l50->regmap, cs40l50_stop_core,
+> +					     ARRAY_SIZE(cs40l50_stop_core));
+> +		if (err)
+> +			goto err_mutex;
+> +	}
+> +
+> +	err = cs_dsp_power_up(&cs40l50->dsp, cs40l50->patch, "cs40l50.wmfw",
+> +			      cs40l50->bin, "cs40l50.bin", "cs40l50");
+> +	if (err)
+> +		goto err_mutex;
+> +
+> +	err = devm_add_action_or_reset(cs40l50->dev, cs40l50_dsp_power_down,
+> +				       &cs40l50->dsp);
+> +	if (err)
+> +		goto err_mutex;
+> +
+> +	if (cs40l50->patch) {
+> +		/* Resume core after loading patch file */
+> +		err = regmap_write(cs40l50->regmap, CS40L50_CCM_CORE_CONTROL,
+> +				   CS40L50_CLOCK_ENABLE);
+
+This feels like this needs a comment, why are we skipping the
+normal DSP init and doing it manually (this appears to be the
+same writes start_core would have done)? I assume its something to
+do with what you are really doing is you don't want lock_memory
+to run?
+
+> +static int cs40l50_configure_dsp(struct cs40l50 *cs40l50)
+> +{
+> +	u32 nwaves;
+> +	int err;
+> +
+> +	if (cs40l50->bin) {
+> +		/* Log number of effects if wavetable was loaded */
+> +		err = regmap_read(cs40l50->regmap, CS40L50_NUM_WAVES, &nwaves);
+> +		if (err)
+> +			return err;
+> +
+> +		dev_info(cs40l50->dev, "Loaded with %u RAM waveforms\n", nwaves);
+
+Kinda nervous about the fact we access all these DSP controls
+directly through address, rather than using the DSP control
+accessors, we have the accessors for a reason. They manage things
+like access permissions etc. and historically, the firmware
+guys have not been able to guarantee these remain in consistent
+locations between firmware versions.
+
+I guess this is so you can access them even in the case of the
+ROM firmware, but you could have a meta-data only firmware file
+that you load in that case to give you the controls.  I don't
+feel the need to NAK the driver based on this but please think
+about this very carefully it's a strange way to use the DSP
+controls, and feels likely to cause problems to me. It is also
+quite hostile to fixing it in the future since as you are not
+using the controls no one will be checking that things like the
+access flags in the firmware are set correctly, which is annoying
+if the decision has to be reversed later since there will likely
+be a bunch of broken firmwares already in the field.
+
+> +int cs40l50_probe(struct cs40l50 *cs40l50)
+> +{
+> +	struct device *dev = cs40l50->dev;
+> +	int err;
+> +
+> +	mutex_init(&cs40l50->lock);
+> +
+> +	cs40l50->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(cs40l50->reset_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(cs40l50->reset_gpio),
+> +				     "Failed getting reset GPIO\n");
+> +
+> +	err = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(cs40l50_supplies),
+> +					     cs40l50_supplies);
+> +	if (err)
+> +		return dev_err_probe(dev, err, "Failed getting supplies\n");
+> +
+> +	/* Ensure minimum reset pulse width */
+> +	usleep_range(CS40L50_RESET_PULSE_US, CS40L50_RESET_PULSE_US + 100);
+> +
+> +	gpiod_set_value_cansleep(cs40l50->reset_gpio, 0);
+> +
+> +	/* Wait for control port to be ready */
+> +	usleep_range(CS40L50_CP_READY_US, CS40L50_CP_READY_US + 100);
+> +
+> +	err = cs40l50_dsp_init(cs40l50);
+> +	if (err)
+> +		return dev_err_probe(dev, err, "Failed to initialize DSP\n");
+> +
+> +	cs40l50_pm_runtime_setup(dev);
+> +
+> +	err = cs40l50_get_model(cs40l50);
+> +	if (err)
+> +		return dev_err_probe(dev, err, "Failed to get part number\n");
+> +
+> +	err = cs40l50_irq_init(cs40l50);
+> +	if (err)
+> +		return dev_err_probe(dev, err, "Failed to initialize IRQs\n");
+> +
+> +	err = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT, CS40L50_FW,
+> +				      dev, GFP_KERNEL, cs40l50, cs40l50_request_patch);
+> +	if (err)
+> +		return dev_err_probe(dev, err, "Failed to request %s\n", CS40L50_FW);
+> +
+> +	err = devm_mfd_add_devices(dev, PLATFORM_DEVID_NONE, cs40l50_devs,
+> +				   ARRAY_SIZE(cs40l50_devs), NULL, 0, NULL);
+> +	if (err)
+> +		return dev_err_probe(dev, err, "Failed to add sub devices\n");
+> +
+
+Do you want to add the child devices here? Or after the firmware
+init has been done? If you do it here then the child devices may
+well probe and become available before all the setup you have in
+the DSP loading stuff is done. What happens if one of those
+drivers tries to do something before init is complete?
+
+> +static int cs40l50_runtime_resume(struct device *dev)
+> +{
+> +	struct cs40l50 *cs40l50 = dev_get_drvdata(dev);
+> +	int err, i;
+> +	u32 val;
+> +
+> +	/* Device NAKs when exiting hibernation, so optionally retry here. */
+> +	for (i = 0; i < CS40L50_DSP_TIMEOUT_COUNT; i++) {
+> +		err = regmap_write(cs40l50->regmap, CS40L50_DSP_QUEUE,
+> +				     CS40L50_PREVENT_HIBER);
+> +		if (!err)
+> +			break;
+> +
+> +		usleep_range(CS40L50_DSP_POLL_US, CS40L50_DSP_POLL_US + 100);
+> +	}
+
+Are you comfortable with the behaviour here? If the chip fails to
+respond before the TIMEOUT, you will proceed on and do the read
+loop. Since the read loop is just looking for a zero in the
+queue, it looks like if for some reason the chip was too slow to
+respond this function would succeed despite the chip never
+receiving the PREVENT_HIBER. Would it not be safer to skip the
+read loop if you fail to send the PREVENT_HIBER?
+
+> +
+> +	for (i = 0; i < CS40L50_DSP_TIMEOUT_COUNT; i++) {
+> +		err = regmap_read(cs40l50->regmap, CS40L50_DSP_QUEUE, &val);
+> +		if (!err && val == 0)
+> +			return 0;
+> +
+> +		usleep_range(CS40L50_DSP_POLL_US, CS40L50_DSP_POLL_US + 100);
+> +	}
+
+I am not sure if the ignoring errors is important here (as it is
+for the first loop), but if it is a comment should be added to
+say why, and if it isn't, couldn't this be a
+regmap_read_poll_timeout instead of a manual loop?
+
+> +++ b/drivers/mfd/cs40l50-spi.c
+> @@ -0,0 +1,69 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * CS40L50 Advanced Haptic Driver with waveform memory,
+> + * integrated DSP, and closed-loop algorithms
+> + *
+> + * Copyright 2023 Cirrus Logic, Inc.
+> + *
+> + * Author: James Ogletree <james.ogletree@cirrus.com>
+> + */
+> +
+> +#include <linux/mfd/cs40l50.h>
+> +#include <linux/mfd/spi.h>
+
+Should be linux/spi/spi.h, make sure your build testing the whole
+patch.
+
+> +#ifndef __CS40L50_H__
+> +#define __CS40L50_H__
+> +
+> +#include <linux/firmware/cirrus/cs_dsp.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/pm.h>
+> +#include <linux/regmap.h>
+> +
+> +/* Power Supply Configuration */
+> +#define CS40L50_BLOCK_ENABLES2			0x201C
+> +#define CS40L50_ERR_RLS				0x2034
+> +#define CS40L50_PWRMGT_CTL			0x2900
+> +#define CS40L50_BST_LPMODE_SEL			0x3810
+> +#define CS40L50_DCM_LOW_POWER		0x1
+> +#define CS40L50_OVERTEMP_WARN		0x4000010
+> +
+> +/* Interrupts */
+> +#define CS40L50_IRQ1_INT_1			0xE010
+> +#define CS40L50_IRQ1_MASK_1			0xE090
+> +#define CS40L50_IRQ1_MASK_2			0xE094
+> +#define CS40L50_IRQ1_MASK_20			0xE0DC
+> +#define CS40L50_IRQ_MASK_2_OVERRIDE	0xFFDF7FFF
+> +#define CS40L50_IRQ_MASK_20_OVERRIDE	0x15C01000
+> +#define CS40L50_IRQ1_INT_1_OFFSET	(4 * 0)
+> +#define CS40L50_IRQ1_INT_2_OFFSET	(4 * 1)
+> +#define CS40L50_IRQ1_INT_8_OFFSET	(4 * 7)
+> +#define CS40L50_IRQ1_INT_9_OFFSET	(4 * 8)
+> +#define CS40L50_IRQ1_INT_10_OFFSET	(4 * 9)
+> +#define CS40L50_IRQ1_INT_18_OFFSET	(4 * 17)
+> +#define CS40L50_GLOBAL_ERR_RLS_SET	BIT(11)
+> +#define CS40L50_GLOBAL_ERR_RLS_CLEAR	0
+> +#define CS40L50_AMP_SHORT_MASK		BIT(31)
+> +#define CS40L50_DSP_QUEUE_MASK		BIT(21)
+> +#define CS40L50_TEMP_ERR_MASK		BIT(31)
+> +#define CS40L50_BST_UVP_MASK		BIT(6)
+> +#define CS40L50_BST_SHORT_MASK		BIT(7)
+> +#define CS40L50_BST_ILIMIT_MASK		BIT(18)
+> +#define CS40L50_UVLO_VDDBATT_MASK	BIT(16)
+> +#define CS40L50_GLOBAL_ERROR_MASK	BIT(15)
+> +
+> +enum cs40l50_irq_list {
+> +	CS40L50_DSP_QUEUE_IRQ,
+> +	CS40L50_GLOBAL_ERROR_IRQ,
+> +	CS40L50_UVLO_VDDBATT_IRQ,
+> +	CS40L50_BST_ILIMIT_IRQ,
+> +	CS40L50_BST_SHORT_IRQ,
+> +	CS40L50_BST_UVP_IRQ,
+> +	CS40L50_TEMP_ERR_IRQ,
+> +	CS40L50_AMP_SHORT_IRQ,
+> +};
+> +
+> +/* DSP */
+> +#define CS40L50_XMEM_PACKED_0			0x2000000
+> +#define CS40L50_XMEM_UNPACKED24_0		0x2800000
+> +#define CS40L50_SYS_INFO_ID			0x25E0000
+> +#define CS40L50_RAM_INIT			0x28021DC
+> +#define CS40L50_DSP_QUEUE_WT			0x28042C8
+> +#define CS40L50_DSP_QUEUE_RD			0x28042CC
+> +#define CS40L50_POWER_ON_WSEQ			0x2804320
+> +#define CS40L50_NUM_WAVES			0x280CB4C
+> +#define CS40L50_CORE_BASE			0x2B80000
+> +#define CS40L50_CCM_CORE_CONTROL		0x2BC1000
+> +#define CS40L50_YMEM_PACKED_0			0x2C00000
+> +#define CS40L50_YMEM_UNPACKED24_0		0x3400000
+> +#define CS40L50_PMEM_0				0x3800000
+> +#define CS40L50_MEM_RDY_HW		0x2
+> +#define CS40L50_RAM_INIT_FLAG		0x1
+> +#define CS40L50_CLOCK_DISABLE		0x80
+> +#define CS40L50_CLOCK_ENABLE		0x281
+> +#define CS40L50_DSP_POLL_US		1000
+> +#define CS40L50_DSP_TIMEOUT_COUNT	100
+> +#define CS40L50_RESET_PULSE_US		2200
+> +#define CS40L50_CP_READY_US		3100
+> +#define CS40L50_AUTOSUSPEND_MS		2000
+> +#define CS40L50_PSEQ_SIZE		200
+> +
+> +/* DSP Commands */
+> +#define CS40L50_DSP_QUEUE_BASE		0x11004
+> +#define CS40L50_DSP_QUEUE_END		0x1101C
+> +#define CS40L50_DSP_QUEUE		0x11020
+> +#define CS40L50_PREVENT_HIBER	0x2000003
+> +#define CS40L50_ALLOW_HIBER	0x2000004
+> +#define CS40L50_START_I2S	0x3000002
+> +#define CS40L50_OWT_PUSH	0x3000008
+> +#define CS40L50_STOP_PLAYBACK	0x5000000
+> +#define CS40L50_OWT_DELETE	0xD000000
+> +
+> +/* Firmware files */
+> +#define CS40L50_FW	"cs40l50.wmfw"
+> +#define CS40L50_WT	"cs40l50.bin"
+> +
+> +/* Device */
+> +#define CS40L50_DEVID			0x0
+> +#define CS40L50_REVID			0x4
+> +#define CS40L50_DEVID_A		0x40A50
+> +#define CS40L50_REVID_B0	0xB0
+
+Admittedly a bit nitpicky but the tabbing here is all over the
+place, would be nicer to line up the values on these defines.
+
+Thanks,
+Charles
 
