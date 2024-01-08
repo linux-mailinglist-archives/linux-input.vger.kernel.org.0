@@ -1,229 +1,225 @@
-Return-Path: <linux-input+bounces-1160-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1161-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87EC6826BBE
-	for <lists+linux-input@lfdr.de>; Mon,  8 Jan 2024 11:45:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A0782700E
+	for <lists+linux-input@lfdr.de>; Mon,  8 Jan 2024 14:41:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8FDB8B209AE
-	for <lists+linux-input@lfdr.de>; Mon,  8 Jan 2024 10:45:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2965D1F22B0B
+	for <lists+linux-input@lfdr.de>; Mon,  8 Jan 2024 13:41:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3EA413FF5;
-	Mon,  8 Jan 2024 10:45:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07C3C44C94;
+	Mon,  8 Jan 2024 13:41:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="k21KExxp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UfdbhMYu"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C9113FEE
-	for <linux-input@vger.kernel.org>; Mon,  8 Jan 2024 10:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240108104513epoutp0102d770c5d0718025c6a65ec272d37433~oWVyyf7-d2767727677epoutp01c
-	for <linux-input@vger.kernel.org>; Mon,  8 Jan 2024 10:45:13 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240108104513epoutp0102d770c5d0718025c6a65ec272d37433~oWVyyf7-d2767727677epoutp01c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1704710713;
-	bh=VI35WOvM05mq91vKfs0YbsSGzl5OBL9IzJJ5SxDZlhM=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=k21KExxpFnxBlA9rBuzOesZwgWVi2+FR7d7yOTnzqjK9UfwPuuiwUQXxSpw4elGwf
-	 BYhJnKWJ4PNesJMVZOc0Q+ip9P5H8Bm6x2Q3A/K90XRpr2KUat9PeSMCjjf1XleJIm
-	 r4njCXloX5rVyLvvMGabPK+zshbDu5h4U7GzJ0gU=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20240108104513epcas5p42a391cf5e162601bcb85a685294342a3~oWVycyjPX3223932239epcas5p47;
-	Mon,  8 Jan 2024 10:45:13 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.180]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4T7rLH4QCKz4x9Q2; Mon,  8 Jan
-	2024 10:45:11 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	5E.F8.09634.732DB956; Mon,  8 Jan 2024 19:45:11 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20240108104511epcas5p33f0e99b590428da7c40fb613017fd656~oWVwhhRoD1632416324epcas5p3H;
-	Mon,  8 Jan 2024 10:45:11 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240108104511epsmtrp2309a415f95bbcc9b0599c86300935d96~oWVwg2k_z0363303633epsmtrp2U;
-	Mon,  8 Jan 2024 10:45:11 +0000 (GMT)
-X-AuditID: b6c32a49-159fd700000025a2-b3-659bd2375ced
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	C1.5E.08755.632DB956; Mon,  8 Jan 2024 19:45:11 +0900 (KST)
-Received: from SRIB7IJ5F5BM8F (unknown [107.108.206.9]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240108104509epsmtip1c4f449b93a7a96363ff0dd48efd556fd~oWVu2Ntpd0678306783epsmtip1X;
-	Mon,  8 Jan 2024 10:45:09 +0000 (GMT)
-From: "sandeep.cs" <sandeep.cs@samsung.com>
-To: "'Joe Perches'" <joe@perches.com>, "'Jiri Kosina'" <jikos@kernel.org>,
-	"'Benjamin Tissoires'" <benjamin.tissoires@redhat.com>
-Cc: <gaudium.lee@samsung.com>, <ih0923.kim@samsung.com>,
-	<suhyun_.kim@samsung.com>, <jitender.s21@samsung.com>,
-	<junwan.cho@samsung.com>, <linux-input@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-In-Reply-To: <486973921f89f70bcc5d42501eeca3fd105be2c4.camel@perches.com>
-Subject: RE: [HID Patchsets for Samsung driver v2 2/6] HID: Samsung : Fix
- the checkpatch complain.
-Date: Mon, 8 Jan 2024 16:14:58 +0530
-Message-ID: <020e01da421f$c0d20660$42761320$@samsung.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EFD944C89;
+	Mon,  8 Jan 2024 13:41:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-557bfc7f7b4so1006930a12.0;
+        Mon, 08 Jan 2024 05:41:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704721265; x=1705326065; darn=vger.kernel.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3r6g5z9Mx4IxtW42MMxxjM9D6NLe62syXKXuO2xxI40=;
+        b=UfdbhMYuz7Slksf7KjAEI3fNe+TuJvFAfDX6WyqgMQvjUSyuurAdWtLm62fryPbS5W
+         LAetMQObo4ihXyubJQaHTLMVHMFEDZJf0AsPgJv6FjEdm+oF2tE/08ARAC1URlQEviHl
+         wYiqlGkuc2WQL8sce2ALwlcN8X+WjKcmZV5qieIjg1DCsdD+7J7k44q4yzrPjCJyqQR7
+         AhJ+V1DGHolE/AzvTovns2qFtkqxwBCPUgP+N9AgBAkwP1IYkP12vAdIa0mbLAGl7wh4
+         XayWqm3W4PUcaPyqYBwTiZ3qmPUaBTCo4XMiWUzdi3vQbzloVJdxDOL4awJyoq86pT89
+         Ewow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704721265; x=1705326065;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3r6g5z9Mx4IxtW42MMxxjM9D6NLe62syXKXuO2xxI40=;
+        b=qryFBt/Sd0ydDO1rgO0FZicpd83H6aFc6SwV0iprbEg7kXG9vsEb9BkwjtiaciM4nB
+         wLjkeWGoZ9NbZ/GDLWDDQMwP5Kt60Ld0i2sUKjnY6Vsa3LDOCOpLHHrMXkzbeAsOSS8h
+         ncCWubdYKNInOVKFB6pjF2UCJvCaVWlm5KccE2GmboZuy9vrCdGpSQ+Cp1+pislnS5qt
+         lS9HjnuJYv26rl+7e45gdmnguHMJkjrTN9zcpK12M8bWgsh9o3/vRoBfq11m1uI+ejMa
+         KpoA5ioowVraITMt26n06dsBdIJnOFQFIKeM/FsqMnCOXAH8TWf9NoFFw5KNxMeiKMSP
+         uiJg==
+X-Gm-Message-State: AOJu0Yxbf1b8bUbQ0NDluszmNl4N2Bd8qxl9/1S81y2I7ggxTvSjwOa4
+	RQSWt0NrxM3hEbWvXYlz1pY=
+X-Google-Smtp-Source: AGHT+IHsSgTUHLYbaiUv5IWw6W2ekoAhScEgfGZkpNW1wQrT2vNPo2yxBdPLVFG/wdZpaBKadwDpqw==
+X-Received: by 2002:a17:906:2c53:b0:a27:fdc1:59c6 with SMTP id f19-20020a1709062c5300b00a27fdc159c6mr5492095ejh.26.1704721265272;
+        Mon, 08 Jan 2024 05:41:05 -0800 (PST)
+Received: from felia.fritz.box ([2a02:810d:7e40:14b0:a060:7056:782e:5e26])
+        by smtp.gmail.com with ESMTPSA id b1-20020a170906490100b00a26b36311ecsm4017896ejq.146.2024.01.08.05.41.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jan 2024 05:41:04 -0800 (PST)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	linux-serial@vger.kernel.org
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Helge Deller <deller@gmx.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-input@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] vt: remove superfluous CONFIG_HW_CONSOLE
+Date: Mon,  8 Jan 2024 14:41:02 +0100
+Message-Id: <20240108134102.601-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQGnAMfWRo+zFj79MMHZQSbz6pOJPAGgO/sIAfyMtNQBptQ1H7EMH2NA
-Content-Language: en-in
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrFJsWRmVeSWpSXmKPExsWy7bCmlq75pdmpBrP7ZC2uT9nManF7gafF
-	1iVzWS1uHW9ltHj5YAO7xez7j1ksNk9+xGJx89M3VovLu+awWTxasYnJgctj06pONo8vq64x
-	e7zfd5XNo2/LKkaPz5vkAlijsm0yUhNTUosUUvOS81My89JtlbyD453jTc0MDHUNLS3MlRTy
-	EnNTbZVcfAJ03TJzgI5SUihLzCkFCgUkFhcr6dvZFOWXlqQqZOQXl9gqpRak5BSYFOgVJ+YW
-	l+al6+WlllgZGhgYmQIVJmRn3H1ymrngj3TFn5mGDYzfRbsYOTkkBEwk5v19ytjFyMUhJLCb
-	UeLgpG/MEM4nRomf+7+yg1QJCXxjlNhxpA6m4/SxiawQ8b2MEhc2VEA0vGGUWLv6JgtIgk1A
-	W2LG32tgk0QEmhklbkyYBLaDWeAso8T5r71gVZwCnhJHfr0AWyEskCLx9eRDRhCbRUBFYmPD
-	LGYQm1fAUqJvch8ThC0ocXLmE7BeZgF5ie1v5zBDnKQg8fPpMrCTRATcJF7OmsMIUSMucfRn
-	D9gVEgJrOSS2b1rACtHgInFxfjMbhC0s8er4FnYIW0ri87u9bBAN3YwSS28fY4dwZjBKtOy8
-	CrXOXuLn6wlAVRxAKzQl1u/Sh9jGJ9H7+wkTSFhCgFeio00IolpF4mnXblaY+d9PbGSCsD0k
-	/v9YwTiBUXEWkt9mIfltFpIfZiEsW8DIsopRMrWgODc9tdi0wDAvtRwe48n5uZsYwYlWy3MH
-	490HH/QOMTJxMB5ilOBgVhLhlZwxO1WINyWxsiq1KD++qDQntfgQoykwwCcyS4km5wNTfV5J
-	vKGJpYGJmZmZiaWxmaGSOO/r1rkpQgLpiSWp2ampBalFMH1MHJxSDUxM0/g3JLmm/n5xT/H0
-	21TbDan2PhHVWRZfrL+F89y2MtFSutjtfY7/0Qyty4dbLie91l8V5MIyQ6J68gGvP1UXAuPu
-	t6W7yJruv7pb8fzjrrClT0+qTGUPvXcs4lvOkdzfz804mxMPNce/najxapnf2lVv3/tY5Mrt
-	sJJXMDBZt2fBC4EZGmFXNFf8YL3B6D/x2enpJd1Lj3I/PqpmyXb9vKBAx0dN0+sbJ1kujf5f
-	mf9Pls9rJeurxHaVn8VppgazFok0eB66/qLqy4psA4Oq23bfZ/WxpaxqynsidqzSy+h3UvfH
-	JX8vT+2yvRQfFX73wP6YXrYr2Uk72L8utVazeD77/YU1/ZwG017sClusxFKckWioxVxUnAgA
-	cpO3+j0EAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupjkeLIzCtJLcpLzFFi42LZdlhJTtf80uxUg/PlFtenbGa1uL3A02Lr
-	krmsFreOtzJavHywgd1i9v3HLBabJz9isbj56RurxeVdc9gsHq3YxOTA5bFpVSebx5dV15g9
-	3u+7yubRt2UVo8fnTXIBrFFcNimpOZllqUX6dglcGXefnGYu+CNd8WemYQPjd9EuRk4OCQET
-	idPHJrJ2MXJxCAnsZpTYs+oyO0RCSmLV9XuMELawxMp/z9khil4xSmx48oMJJMEmoC0x4+81
-	ZpCEiEAro8S95afAEswClxkl7q/OBbGFBP4xSuy7bQJicwp4Shz59QJsg7BAksT9D9PZQGwW
-	ARWJjQ2zmEFsXgFLib7JfUwQtqDEyZlPWLoYOYBm6km0bWSEGC8vsf3tHGaI4xQkfj5dxgpi
-	iwi4SbycNQeqRlzi6M8e5gmMwrOQTJqFMGkWkkmzkHQsYGRZxSiZWlCcm55bbFhgmJdarlec
-	mFtcmpeul5yfu4kRHGVamjsYt6/6oHeIkYmD8RCjBAezkgiv5IzZqUK8KYmVValF+fFFpTmp
-	xYcYpTlYlMR5xV/0pggJpCeWpGanphakFsFkmTg4pRqYVCZmrKy8+b4iKLSzMttv6plZe9hO
-	sy0w0O2711H3zOWbmKisy9Ni7jkGDkIpzzgqZkyZ+P3cvX+Tiu29l6kGFHTMOPD7ccQy6++f
-	P/qb5W/ibq/+GZ318rLl1SmsViolM6r8/NaYpvxL0F0vJrLtr3bShMerdj0qfyHa8i0pXbNB
-	z3PdnR/83emMm20KHX8+8BfsfHdO7a2Y0UebnzUP2NQkmr6bXGc877Sna4rZMR2FcvWsFBZt
-	me8XdjLvLdaaPd/vRJXqlRuc2tqb7t2JlFlUEjyjoqKp8NHTviVK4svs5zR9v37Db1ce/zuF
-	x+KvixKvWa5X/vWyslys/3NywPOzETM+Xdtu0b7y77FMJZbijERDLeai4kQAo1SRsSEDAAA=
-X-CMS-MailID: 20240108104511epcas5p33f0e99b590428da7c40fb613017fd656
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240108091959epcas5p2559b779424e2fb7c7e268d1b24612b4f
-References: <20240108091917.1552013-1-sandeep.cs@samsung.com>
-	<CGME20240108091959epcas5p2559b779424e2fb7c7e268d1b24612b4f@epcas5p2.samsung.com>
-	<20240108091917.1552013-3-sandeep.cs@samsung.com>
-	<486973921f89f70bcc5d42501eeca3fd105be2c4.camel@perches.com>
 
->On Mon, 2024-01-08 at 14:49 +0530, Sandeep C S wrote:
->> Warning found by checkpatch.pl script.
->[]
->> diff --git a/drivers/hid/hid-samsung.c b/drivers/hid/hid-samsung.c
->[]
->> @@ -67,20 +67,17 @@ static __u8 *samsung_irda_report_fixup(struct
->hid_device *hdev, __u8 *rdesc,
->>  		rdesc[178] = 0x08;
->>  		rdesc[180] = 0x06;
->>  		rdesc[182] = 0x42;
->> -	} else
->> -	if (*rsize == 203 && rdesc[192] == 0x15 && rdesc[193] == 0x0 &&
->> +	} else if (*rsize == 203 && rdesc[192] == 0x15 && rdesc[193] == 0x0
->> +&&
->>  			rdesc[194] == 0x25 && rdesc[195] == 0x12) {
->>  		samsung_irda_dev_trace(hdev, 203);
->>  		rdesc[193] = 0x1;
->>  		rdesc[195] = 0xf;
->> -	} else
->> -	if (*rsize == 135 && rdesc[124] == 0x15 && rdesc[125] == 0x0 &&
->> +	} else if (*rsize == 135 && rdesc[124] == 0x15 && rdesc[125] == 0x0
->> +&&
->>  			rdesc[126] == 0x25 && rdesc[127] == 0x11) {
->>  		samsung_irda_dev_trace(hdev, 135);
->>  		rdesc[125] = 0x1;
->>  		rdesc[127] = 0xe;
->> -	} else
->> -	if (*rsize == 171 && rdesc[160] == 0x15 && rdesc[161] == 0x0 &&
->> +	} else if (*rsize == 171 && rdesc[160] == 0x15 && rdesc[161] == 0x0
->> +&&
->>  			rdesc[162] == 0x25 && rdesc[163] == 0x01) {
->>  		samsung_irda_dev_trace(hdev, 171);
->>  		rdesc[161] = 0x1;
->
->For this block, I think a rewrite using memcmp would be clearer.
->Something like: 
-Okay . Thanks for your valuable feedback. We will promptly address your
-suggestions and enhance our code accordingly.
-And also please review other patch set as well.
-Thank you
->---
-> drivers/hid/hid-samsung.c | 34 +++++++++++++++-------------------
-> 1 file changed, 15 insertions(+), 19 deletions(-)
->
->diff --git a/drivers/hid/hid-samsung.c b/drivers/hid/hid-samsung.c index
->cf5992e970940..cd84fb5e68f69 100644
->--- a/drivers/hid/hid-samsung.c
->+++ b/drivers/hid/hid-samsung.c
->@@ -58,33 +58,29 @@ static inline void samsung_irda_dev_trace(struct
->hid_device *hdev,  static __u8 *samsung_irda_report_fixup(struct hid_device
->*hdev, __u8 *rdesc,
-> 		unsigned int *rsize)
-> {
->-	if (*rsize == 184 && rdesc[175] == 0x25 && rdesc[176] == 0x40 &&
->-			rdesc[177] == 0x75 && rdesc[178] == 0x30 &&
->-			rdesc[179] == 0x95 && rdesc[180] == 0x01 &&
->-			rdesc[182] == 0x40) {
->+	if (*rsize == 184 &&
->+	    !memcmp(&rdesc[175], "\x25\x40\x75\x30\x95\x01", 6) &&
->+	    rdesc[182] == 0x40) {
-> 		samsung_irda_dev_trace(hdev, 184);
-> 		rdesc[176] = 0xff;
-> 		rdesc[178] = 0x08;
-> 		rdesc[180] = 0x06;
-> 		rdesc[182] = 0x42;
->-	} else
->-	if (*rsize == 203 && rdesc[192] == 0x15 && rdesc[193] == 0x0 &&
->-			rdesc[194] == 0x25 && rdesc[195] == 0x12) {
->+	} else if (*rsize == 203 &&
->+		   !memcmp(&rdesc[192], "\x15\x00\x25\x12", 4)) {
-> 		samsung_irda_dev_trace(hdev, 203);
->-		rdesc[193] = 0x1;
->-		rdesc[195] = 0xf;
->-	} else
->-	if (*rsize == 135 && rdesc[124] == 0x15 && rdesc[125] == 0x0 &&
->-			rdesc[126] == 0x25 && rdesc[127] == 0x11) {
->+		rdesc[193] = 0x01;
->+		rdesc[195] = 0x0f;
->+	} else if (*rsize == 135 &&
->+		   !memcmp(&rdesc[124], "\x15\x00\x25\x11", 4)) {
-> 		samsung_irda_dev_trace(hdev, 135);
->-		rdesc[125] = 0x1;
->-		rdesc[127] = 0xe;
->-	} else
->-	if (*rsize == 171 && rdesc[160] == 0x15 && rdesc[161] == 0x0 &&
->-			rdesc[162] == 0x25 && rdesc[163] == 0x01) {
->+		rdesc[125] = 0x01;
->+		rdesc[127] = 0x0e;
->+	} else if (*rsize == 171 &&
->+		   !memcmp(&rdesc[160], "\x15\x00\x25\x01", 4)) {
-> 		samsung_irda_dev_trace(hdev, 171);
->-		rdesc[161] = 0x1;
->-		rdesc[163] = 0x3;
->+		rdesc[161] = 0x01;
->+		rdesc[163] = 0x03;
-> 	}
-> 	return rdesc;
-> }
+The config HW_CONSOLE is always identical to the config VT and is not
+visible in the kernel's build menuconfig. So, CONFIG_HW_CONSOLE is
+redundant.
 
+Replace all references to CONFIG_HW_CONSOLE with CONFIG_VT and remove
+CONFIG_HW_CONSOLE.
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+I think this patch is best picked up by Greg rather than splitting it
+in smaller pieces for m68k, amiga keyboard, fbdev etc.
+
+Greg, if that is fine, could you pick this for the next merge window?
+
+I was also considering to rename config VT_HW_CONSOLE_BINDING to
+VT_CONSOLE_BINDING, as the dependency is on VT, not HW_CONSOLE, but
+at the moment, that seemed more churn than value of clarification.
+
+ arch/m68k/amiga/config.c        | 2 +-
+ drivers/input/keyboard/amikbd.c | 6 +++---
+ drivers/tty/Kconfig             | 7 +------
+ drivers/tty/vt/Makefile         | 4 ++--
+ drivers/video/fbdev/tgafb.c     | 2 +-
+ include/linux/console.h         | 2 +-
+ lib/Kconfig.kgdb                | 2 +-
+ 7 files changed, 10 insertions(+), 15 deletions(-)
+
+diff --git a/arch/m68k/amiga/config.c b/arch/m68k/amiga/config.c
+index 7791673e547b..99718f3dc686 100644
+--- a/arch/m68k/amiga/config.c
++++ b/arch/m68k/amiga/config.c
+@@ -846,6 +846,6 @@ static void amiga_get_hardware_list(struct seq_file *m)
+  * The Amiga keyboard driver needs key_maps, but we cannot export it in
+  * drivers/char/defkeymap.c, as it is autogenerated
+  */
+-#ifdef CONFIG_HW_CONSOLE
++#ifdef CONFIG_VT
+ EXPORT_SYMBOL_GPL(key_maps);
+ #endif
+diff --git a/drivers/input/keyboard/amikbd.c b/drivers/input/keyboard/amikbd.c
+index e305c44cd0aa..ecfae0b0b6aa 100644
+--- a/drivers/input/keyboard/amikbd.c
++++ b/drivers/input/keyboard/amikbd.c
+@@ -26,7 +26,7 @@ MODULE_AUTHOR("Vojtech Pavlik <vojtech@ucw.cz>");
+ MODULE_DESCRIPTION("Amiga keyboard driver");
+ MODULE_LICENSE("GPL");
+ 
+-#ifdef CONFIG_HW_CONSOLE
++#ifdef CONFIG_VT
+ static unsigned char amikbd_keycode[0x78] __initdata = {
+ 	[0]	 = KEY_GRAVE,
+ 	[1]	 = KEY_1,
+@@ -148,9 +148,9 @@ static void __init amikbd_init_console_keymaps(void)
+ 		memcpy(key_maps[i], temp_map, sizeof(temp_map));
+ 	}
+ }
+-#else /* !CONFIG_HW_CONSOLE */
++#else /* !CONFIG_VT */
+ static inline void amikbd_init_console_keymaps(void) {}
+-#endif /* !CONFIG_HW_CONSOLE */
++#endif /* !CONFIG_VT */
+ 
+ static const char *amikbd_messages[8] = {
+ 	[0] = KERN_ALERT "amikbd: Ctrl-Amiga-Amiga reset warning!!\n",
+diff --git a/drivers/tty/Kconfig b/drivers/tty/Kconfig
+index 5646dc6242cd..a45d423ad10f 100644
+--- a/drivers/tty/Kconfig
++++ b/drivers/tty/Kconfig
+@@ -75,14 +75,9 @@ config VT_CONSOLE_SLEEP
+ 	def_bool y
+ 	depends on VT_CONSOLE && PM_SLEEP
+ 
+-config HW_CONSOLE
+-	bool
+-	depends on VT
+-	default y
+-
+ config VT_HW_CONSOLE_BINDING
+ 	bool "Support for binding and unbinding console drivers"
+-	depends on HW_CONSOLE
++	depends on VT
+ 	help
+ 	  The virtual terminal is the device that interacts with the physical
+ 	  terminal through console drivers. On these systems, at least one
+diff --git a/drivers/tty/vt/Makefile b/drivers/tty/vt/Makefile
+index b3dfe9d5717e..2c8ce8b592ed 100644
+--- a/drivers/tty/vt/Makefile
++++ b/drivers/tty/vt/Makefile
+@@ -5,9 +5,9 @@
+ FONTMAPFILE = cp437.uni
+ 
+ obj-$(CONFIG_VT)			+= vt_ioctl.o vc_screen.o \
+-					   selection.o keyboard.o
++					   selection.o keyboard.o \
++					   vt.o defkeymap.o
+ obj-$(CONFIG_CONSOLE_TRANSLATIONS)	+= consolemap.o consolemap_deftbl.o
+-obj-$(CONFIG_HW_CONSOLE)		+= vt.o defkeymap.o
+ 
+ # Files generated that shall be removed upon make clean
+ clean-files := consolemap_deftbl.c defkeymap.c
+diff --git a/drivers/video/fbdev/tgafb.c b/drivers/video/fbdev/tgafb.c
+index ca43774f3156..dccfc38cfbd5 100644
+--- a/drivers/video/fbdev/tgafb.c
++++ b/drivers/video/fbdev/tgafb.c
+@@ -380,7 +380,7 @@ tgafb_set_par(struct fb_info *info)
+ 		BT463_LOAD_ADDR(par, 0x0000);
+ 		TGA_WRITE_REG(par, BT463_PALETTE << 2, TGA_RAMDAC_SETUP_REG);
+ 
+-#ifdef CONFIG_HW_CONSOLE
++#ifdef CONFIG_VT
+ 		for (i = 0; i < 16; i++) {
+ 			int j = color_table[i];
+ 
+diff --git a/include/linux/console.h b/include/linux/console.h
+index 779d388af8a0..c129e4173dec 100644
+--- a/include/linux/console.h
++++ b/include/linux/console.h
+@@ -112,7 +112,7 @@ int con_is_bound(const struct consw *csw);
+ int do_unregister_con_driver(const struct consw *csw);
+ int do_take_over_console(const struct consw *sw, int first, int last, int deflt);
+ void give_up_console(const struct consw *sw);
+-#ifdef CONFIG_HW_CONSOLE
++#ifdef CONFIG_VT
+ int con_debug_enter(struct vc_data *vc);
+ int con_debug_leave(void);
+ #else
+diff --git a/lib/Kconfig.kgdb b/lib/Kconfig.kgdb
+index 3b9a44008433..b5c0e6576749 100644
+--- a/lib/Kconfig.kgdb
++++ b/lib/Kconfig.kgdb
+@@ -43,7 +43,7 @@ config KGDB_SERIAL_CONSOLE
+ 	tristate "KGDB: use kgdb over the serial console"
+ 	select CONSOLE_POLL
+ 	select MAGIC_SYSRQ
+-	depends on TTY && HW_CONSOLE
++	depends on TTY && VT
+ 	default y
+ 	help
+ 	  Share a serial console with kgdb. Sysrq-g must be used
+-- 
+2.17.1
 
 
