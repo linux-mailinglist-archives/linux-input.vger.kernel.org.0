@@ -1,78 +1,104 @@
-Return-Path: <linux-input+bounces-1162-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1163-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95C6F8270A4
-	for <lists+linux-input@lfdr.de>; Mon,  8 Jan 2024 15:06:11 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D07738270B7
+	for <lists+linux-input@lfdr.de>; Mon,  8 Jan 2024 15:08:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 31F801F231CB
-	for <lists+linux-input@lfdr.de>; Mon,  8 Jan 2024 14:06:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80632282820
+	for <lists+linux-input@lfdr.de>; Mon,  8 Jan 2024 14:08:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 644C446B88;
-	Mon,  8 Jan 2024 14:05:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lLAGiGzO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD5B44653F;
+	Mon,  8 Jan 2024 14:08:35 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270C846B81;
-	Mon,  8 Jan 2024 14:05:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA426C433D9;
-	Mon,  8 Jan 2024 14:05:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1704722749;
-	bh=A3MDVymzkdgqng/BpWHZNJl9Xi/zGuX7UtURlFIHjcc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lLAGiGzO4zQ8JbCEd7GIuEr3DXhV7Wc27/IHpeKUX8DuoHMbE9ecd4+AoAlGqmdyD
-	 uF35+eQJjIPw4bovTatU1wD9cie5BTxqzIigYWVU6pW+euMHc6YwqoVYxRby+VShTm
-	 wvVLWt5rNVlX3LabRTB8ADw7kE0E7mDWOEHQ1JKM=
-Date: Mon, 8 Jan 2024 15:05:46 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: Jiri Slaby <jirislaby@kernel.org>, linux-serial@vger.kernel.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Helge Deller <deller@gmx.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-input@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] vt: remove superfluous CONFIG_HW_CONSOLE
-Message-ID: <2024010822-cardstock-nebulizer-c9c9@gregkh>
-References: <20240108134102.601-1-lukas.bulwahn@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9C146B88;
+	Mon,  8 Jan 2024 14:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dbdd61d80a3so1332672276.0;
+        Mon, 08 Jan 2024 06:08:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704722912; x=1705327712;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MdHl7md1Zkmv60g30fUAOV7PYkRMYcjuuSdDFpSytAY=;
+        b=OGUKsnvckriOw3+AXBaO9KzCSJ0M5Zdpb6wBPtCZ0ESGzFGCwdAqeYnoU9+23ZbLOc
+         GTMQBAzAkzdI6DyHPU1SYFyPc4hXBcmdx7PCtgPSIfGl3e5YfMAtLZXKkthEwR3wrYcp
+         5mSmr9mEfrV+Ztgi/BeudQsWnNutKwkQH5cj6hUuAPGeHudZJFCKvDeXQpInEfF9BY1b
+         47kQiqMhHXU/SyGYdVNXmzakgwo7NClugkWrJ2DRfmY1oRQnOCpRWoQZAaYBYieB3lQq
+         EODigL+FTM69raGdrz6QJ+y9MDg7M8HjOVUVoqjYlnoTQwjmcHDgTdyTezXlmqMHMWzn
+         AmZg==
+X-Gm-Message-State: AOJu0YwYYNSIKIBzDmdtvOFd4IftAftC7BYblE0jsYABjVC71kf6xjkk
+	m22rYG0AKG3MEpi5VYykvx0EbAVS9DnOOg==
+X-Google-Smtp-Source: AGHT+IFaj1QXA6VxzzfaNdDvMYIOmWFtc5jFxlsdeCbGpNuOYIh1XDr7y3IsYUu0Ky1GCJ1GgVOR5A==
+X-Received: by 2002:a5b:11:0:b0:dbe:341b:d38 with SMTP id a17-20020a5b0011000000b00dbe341b0d38mr2309447ybp.49.1704722912648;
+        Mon, 08 Jan 2024 06:08:32 -0800 (PST)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id n185-20020a25d6c2000000b00db54cf1383esm2211679ybg.10.2024.01.08.06.08.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Jan 2024 06:08:32 -0800 (PST)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5e784ce9bb8so13430497b3.0;
+        Mon, 08 Jan 2024 06:08:32 -0800 (PST)
+X-Received: by 2002:a81:570b:0:b0:5f8:fc22:93f5 with SMTP id
+ l11-20020a81570b000000b005f8fc2293f5mr128986ywb.26.1704722911972; Mon, 08 Jan
+ 2024 06:08:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240108134102.601-1-lukas.bulwahn@gmail.com>
 In-Reply-To: <20240108134102.601-1-lukas.bulwahn@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 8 Jan 2024 15:08:20 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXW0bU3KO+-S+jZDGUDkb0Nxg6EQUdc_uKTCs8jj6VOLg@mail.gmail.com>
+Message-ID: <CAMuHMdXW0bU3KO+-S+jZDGUDkb0Nxg6EQUdc_uKTCs8jj6VOLg@mail.gmail.com>
+Subject: Re: [PATCH] vt: remove superfluous CONFIG_HW_CONSOLE
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	linux-serial@vger.kernel.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Helge Deller <deller@gmx.de>, Andrew Morton <akpm@linux-foundation.org>, linux-input@vger.kernel.org, 
+	linux-m68k@lists.linux-m68k.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 08, 2024 at 02:41:02PM +0100, Lukas Bulwahn wrote:
+On Mon, Jan 8, 2024 at 2:41=E2=80=AFPM Lukas Bulwahn <lukas.bulwahn@gmail.c=
+om> wrote:
 > The config HW_CONSOLE is always identical to the config VT and is not
 > visible in the kernel's build menuconfig. So, CONFIG_HW_CONSOLE is
 > redundant.
-> 
+>
 > Replace all references to CONFIG_HW_CONSOLE with CONFIG_VT and remove
 > CONFIG_HW_CONSOLE.
-> 
+>
 > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> I think this patch is best picked up by Greg rather than splitting it
-> in smaller pieces for m68k, amiga keyboard, fbdev etc.
-> 
-> Greg, if that is fine, could you pick this for the next merge window?
 
-Yes, the "next" one, it's too late for 6.8-rc1, sorry.
+Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-I'll look at it after -rc1 is out.
+>  arch/m68k/amiga/config.c        | 2 +-
 
-thanks,
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-greg k-h
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
