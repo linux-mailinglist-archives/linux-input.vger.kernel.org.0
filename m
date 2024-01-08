@@ -1,112 +1,119 @@
-Return-Path: <linux-input+bounces-1164-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1165-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42C7E8270CF
-	for <lists+linux-input@lfdr.de>; Mon,  8 Jan 2024 15:15:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA1DA82755D
+	for <lists+linux-input@lfdr.de>; Mon,  8 Jan 2024 17:36:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E355C283AED
-	for <lists+linux-input@lfdr.de>; Mon,  8 Jan 2024 14:15:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8199F2817F9
+	for <lists+linux-input@lfdr.de>; Mon,  8 Jan 2024 16:36:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C681346424;
-	Mon,  8 Jan 2024 14:15:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05A3C53E18;
+	Mon,  8 Jan 2024 16:36:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P5QuxNYH"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nT6tKgOu"
 X-Original-To: linux-input@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66AD645C08
-	for <linux-input@vger.kernel.org>; Mon,  8 Jan 2024 14:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704723349;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YxB4hJGUskiSNKv+s1TrmZMXKolMvHe6Ob3/kfn7C0U=;
-	b=P5QuxNYHhJLU3HIfzNVaEpyDPkTAAfWjFaisD96VD6PLrR8Q3wfCf4pinTrV2X9GbIJ2Ic
-	Z5DZxAdp80w+F4+w7AdQmHo0lkW8WTM3VEimm5tdCnbk3Mk+ShaL8N700Ei9VHuKKhJ/wZ
-	JwOzXLDMAQZ8vqMaIomvgxfcvD39k9A=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-536-uARcbkmUOeamDSMwInqP9g-1; Mon, 08 Jan 2024 09:15:46 -0500
-X-MC-Unique: uARcbkmUOeamDSMwInqP9g-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-40d8586c709so19159015e9.1
-        for <linux-input@vger.kernel.org>; Mon, 08 Jan 2024 06:15:46 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DB653E2A
+	for <linux-input@vger.kernel.org>; Mon,  8 Jan 2024 16:36:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2cd1ca52f31so21449441fa.3
+        for <linux-input@vger.kernel.org>; Mon, 08 Jan 2024 08:36:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1704731805; x=1705336605; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qnSQxvC9fJmnqbuFgQC12kF4flGjmQLQ6fFuqyK51SM=;
+        b=nT6tKgOuil3Ni03AII8y6gVu0HKiQCe3oJi9vmgWvANEuHqOARwq56FQ4vUuAUAxEE
+         pETXT3RbuJZ63HtdcQ6d62KFXdbqomv84xFzWRWSu1HRnB6HInTqpOR3cmkN1AObIBgL
+         VYwbRrIh4y4RNhIInCdTz+UPbivdKEk2rycVU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704723345; x=1705328145;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YxB4hJGUskiSNKv+s1TrmZMXKolMvHe6Ob3/kfn7C0U=;
-        b=cRi450DHIMYX0oTM95lGDxZSRplS7UXFcQ4byMKTjWqM7KoxzXbIthCS6Gow5YGkqc
-         UUBuR1RZyXmOCMlIFN4wushdCC73HWgUzH/24dDsSgu/a7tQxRE7TNzajXxtm8WdtxU+
-         dmGaq4seImund52SdPrqcHqFcloNXrJteNEK12fFYgVWs8P3qI0ndnRZSG8f7z25kM/U
-         XwNrJ/XnH1ud0XPzLYDBH2KCgItvMEiXzFTa7TjkkjBw18FW4HpC6N1eUpcBboA2ZX48
-         7z9X1LP2OSS/m7Gw/guDae5cYZmsm8Hty/2yQIm97oHYF3HExnp6tmIt1r/QVBT9aXUC
-         3t0w==
-X-Gm-Message-State: AOJu0YyKH7ITgghoZ4QKMbis3U3RM0U9YoUip0fI0H1MbSKrAcxZQKke
-	SqcvssOX64jjDw5IaTv+tmp8f7Ijn1dmRIpJp9lCiBDB872+52QMyLOD7YWrXBH7k0MSHGQmLZu
-	K/uCxylgu8K9NJ8jF5b5lf6ycZbP9id8=
-X-Received: by 2002:a1c:4b10:0:b0:40e:48b5:3349 with SMTP id y16-20020a1c4b10000000b0040e48b53349mr432185wma.25.1704723345536;
-        Mon, 08 Jan 2024 06:15:45 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH6B2nGNQDVdFDm3USpj0QhZ27T8ggPZi0nN4hlsNXsc4GJ1RmAnYI10aMq5+7l7vGing5psw==
-X-Received: by 2002:a1c:4b10:0:b0:40e:48b5:3349 with SMTP id y16-20020a1c4b10000000b0040e48b53349mr432170wma.25.1704723344860;
-        Mon, 08 Jan 2024 06:15:44 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id v10-20020a05600c470a00b0040d5c58c41dsm11210711wmo.24.2024.01.08.06.15.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jan 2024 06:15:44 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>,
- linux-serial@vger.kernel.org
-Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>, Dmitry
- Torokhov <dmitry.torokhov@gmail.com>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-m68k@lists.linux-m68k.org, Geert Uytterhoeven
- <geert@linux-m68k.org>, linux-input@vger.kernel.org, Lukas Bulwahn
- <lukas.bulwahn@gmail.com>, Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH] vt: remove superfluous CONFIG_HW_CONSOLE
-In-Reply-To: <20240108134102.601-1-lukas.bulwahn@gmail.com>
-References: <20240108134102.601-1-lukas.bulwahn@gmail.com>
-Date: Mon, 08 Jan 2024 15:15:43 +0100
-Message-ID: <87y1czdi7k.fsf@minerva.mail-host-address-is-not-set>
+        d=1e100.net; s=20230601; t=1704731805; x=1705336605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qnSQxvC9fJmnqbuFgQC12kF4flGjmQLQ6fFuqyK51SM=;
+        b=okHu9S7FjCREO3YYXoXpMadqsRdsiG5VNDSfqvWs+y/X+UUeA5IP0GTGtK3CvrbAWw
+         UqGRSA7eezS0JVOuayQDW8u6oHBSxdgSJ2cn25PTqgvOmcbOMVqy6T8xPPqZ1lm4GND5
+         Zw+C8U9ieqeEFfKKPncEA97VFQmd1BRtuNs8UIR3mVsxRFo0tNLc3TrSaTB/rbEX5f/m
+         AK2cg2dwc3BnkeOzWUN1vpYjc36euVkdFccTFaQ1qDIq2UqSkzS3+7a60RkNIhkF2sGI
+         Tl6qyXgtkSfevievcNYm4cYGXZdgAz7E4TBvMVFUydZnSjbfbaWMNgLq5lZZScbHk5h2
+         O5Pw==
+X-Gm-Message-State: AOJu0Yyywqive7cE9nKrFLrmc04HmNBoTMr1pKmW3assA+gKYkgQkkSM
+	0EKv2GNi9IXwhRYkPmStPAUSbISIIIs/GTQtPs08cmH/gsWquE12R+G+UJ3Z318+j/XYPw==
+X-Google-Smtp-Source: AGHT+IFNcz/f8d6/i9Di7K3T/2O29v6Q0dCbIStjQmwmAjSXnmKrhgOzGahPzLwlBtdzdMcSuHludjyE1e+YvrHK4ek=
+X-Received: by 2002:a2e:94cb:0:b0:2cc:7ba8:d756 with SMTP id
+ r11-20020a2e94cb000000b002cc7ba8d756mr1498622ljh.89.1704731805482; Mon, 08
+ Jan 2024 08:36:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230925163313.1.I55bfb5880d6755094a995d3ae44c13810ae98be4@changeid>
+ <ZWF76ALANQwP_9b1@google.com> <CALNJtpUHHaq6g0wSuyaNBxtOE9kt6vDzdAGGu6j=JJdJmerDWQ@mail.gmail.com>
+In-Reply-To: <CALNJtpUHHaq6g0wSuyaNBxtOE9kt6vDzdAGGu6j=JJdJmerDWQ@mail.gmail.com>
+From: Jonathan Denose <jdenose@chromium.org>
+Date: Mon, 8 Jan 2024 10:36:34 -0600
+Message-ID: <CALNJtpX3Yb=tzGYMwr6He27hc-MYjfwWtm4_LuhLThOfat_jiA@mail.gmail.com>
+Subject: Re: [PATCH] Input: i8042 - add quirk for Lenovo ThinkPad T14 Gen 1
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org, Jonathan Denose <jdenose@google.com>, 
+	Hans de Goede <hdegoede@redhat.com>, Huacai Chen <chenhuacai@kernel.org>, 
+	Mattijs Korpershoek <mkorpershoek@baylibre.com>, Takashi Iwai <tiwai@suse.de>, 
+	Werner Sembach <wse@tuxedocomputers.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
+Hi all,
 
-Hello Lukas,
-
-> The config HW_CONSOLE is always identical to the config VT and is not
-> visible in the kernel's build menuconfig. So, CONFIG_HW_CONSOLE is
-> redundant.
+On Mon, Nov 27, 2023 at 10:38=E2=80=AFAM Jonathan Denose <jdenose@chromium.=
+org> wrote:
 >
-> Replace all references to CONFIG_HW_CONSOLE with CONFIG_VT and remove
-> CONFIG_HW_CONSOLE.
+> Hi Dmitry
 >
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
+> On Fri, Nov 24, 2023 at 10:45=E2=80=AFPM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
+> >
+> > Hi Jonathan,
+> >
+> > On Mon, Sep 25, 2023 at 04:33:20PM -0500, Jonathan Denose wrote:
+> > > The ThinkPad T14 Gen 1 touchpad works fine except that clicking
+> > > and dragging by tapping the touchpad or depressing the touchpad
+> > > do not work. Disabling PNP for controller setting discovery enables
+> > > click and drag without negatively impacting other touchpad features.
+> >
+> > I would like to understand more on how enabling PnP discovery for i8042
+> > affects the touchpad. Do you see it using different interrupt or IO
+> > ports? What protocol does the touchpad use with/without PnP? If the
+> > protocol is the same, do you see difference in the ranges (pressure,
+> > etc) reported by the device?
+> >
+> > Thanks.
+> >
+> > --
+> > Dmitry
+>
+> Without PnP discovery the touchpad is using the SynPS/2 protocol, with
+> PnP discovery, the touchpad is using the rmi4 protocol. Since the
+> protocols are different, so are the ranges but let me know if you
+> still want to see them.
+>
+> Can you tell me how to check the interrupt/IO ports? I'm not sure how
+> to do that.
+>
+> Thanks,
+> Jonathan
 
-Makes sense to me.
+Do you require any more information from me?
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Thanks,
+Jonathan
 
