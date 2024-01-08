@@ -1,81 +1,95 @@
-Return-Path: <linux-input+bounces-1150-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1151-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A89826514
-	for <lists+linux-input@lfdr.de>; Sun,  7 Jan 2024 17:26:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C02EF826A77
+	for <lists+linux-input@lfdr.de>; Mon,  8 Jan 2024 10:16:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 26CE51C20B04
-	for <lists+linux-input@lfdr.de>; Sun,  7 Jan 2024 16:26:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6BE821F21254
+	for <lists+linux-input@lfdr.de>; Mon,  8 Jan 2024 09:16:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1006313ADF;
-	Sun,  7 Jan 2024 16:26:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECCD811709;
+	Mon,  8 Jan 2024 09:15:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="xWzza6Cq"
+	dkim=pass (2048-bit key) header.d=isovalent.com header.i=@isovalent.com header.b="MzNX37sC"
 X-Original-To: linux-input@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AD813ADD;
-	Sun,  7 Jan 2024 16:26:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=zfknrnCeFYxSjd2vcVFKSzQu+I7SQi+JYtABfxA+FSw=; b=xWzza6Cq/XLZ/FsfTLjcpG5Njo
-	cgv6dcceX/MFIKqdl8iHc3Oxgf7xEEW72jo8J9xrnu7bk9zAKaeuOKwL5GxlWgpwajejRvsfei9B3
-	MQPdPoXnZswLA0cGHSq3W9a9urUo4LFqQY1NMbUeiFo0f/vCGax1lpfsncZ78eJu3X7oxWiF7iSwg
-	NpTvFszsgpmAqOQiQDIKkYlZoKr7Qm2iG22DeqmlVRcq98DZfoWw7BYeZG37wjppGyBPGjpvnpMbY
-	O73vr0PnTli3ULMW11/sXB4cghZOFjjAQqz3AjL+Bn/onGnw3cu61yTziS/Gfu2mf7E5PMAr/skjJ
-	cgmps7aA==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rMVya-003GT3-1C;
-	Sun, 07 Jan 2024 16:26:16 +0000
-Message-ID: <7b840061-83a7-40b1-9220-309841b73c34@infradead.org>
-Date: Sun, 7 Jan 2024 08:26:15 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B166F12B94
+	for <linux-input@vger.kernel.org>; Mon,  8 Jan 2024 09:15:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=isovalent.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isovalent.com
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a28ee72913aso447698166b.1
+        for <linux-input@vger.kernel.org>; Mon, 08 Jan 2024 01:15:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=isovalent.com; s=google; t=1704705356; x=1705310156; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TQw0PBv7H3F9npAXhHpc/yO+0aZTdw3iW7XYRioBY9M=;
+        b=MzNX37sCftG06J7zDqRoVr0ASbCiDMbrmnnww9QwIfjHn6v305+3yC4sf5ZhItJ/P9
+         dWgD/FpnTIJwHE4ksSWe0LyKUd6OfMRRTu2GsW3LrzyYIlk1hIm1lWPPTQTB7KlqL7yN
+         TZ4o5IaKMtV94FWQY6kwJIi2YrmviStlCIrez+Ok7YKHBE61mw9794RlBmRCxk8r8RUL
+         VrdvaM3wBX128iDc7clv/XxbWwBql1tdTSo4hEdAuX6o0HA2yEC1qaVMYbdyxbkpNlPz
+         Usmp583j3JFO42mG5KGuZPz8LDrv6DbVyXe7CC8l1Vt6gXrWdave70ArygI0WAZ/X/pQ
+         wOmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704705356; x=1705310156;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TQw0PBv7H3F9npAXhHpc/yO+0aZTdw3iW7XYRioBY9M=;
+        b=acAzbkWhNm+eYY9sBSsCRJpcj92sN/wiqrivrEVIKUtA3IQGUug7uVdJxAcxpN2Pqs
+         xfBZkNh5e0XwA3rKcEOA2SHz4aYCLDHY+V6aNwUJLs1jMKpeyjN4/nRyfqRi6VjICBCu
+         HLLa3zaTJr+rxW8qX7b71tnJoYQ4yP5El1kLS/TTmbkqgHVYZKTyBkB0+Gz6WSu0oaOC
+         NPDc8lq7/6ytF7MZQa/D2yX/r85eRLYSXuQrJ3fDyS1iWC9qHRhXS8K77+pwJxo4LBzU
+         wgHC1tcsJdf21VGqaPuy2VWPvlNGXoaADsfFS92JHQHgasr+VFdRgRCMX61HAPp2ZYAb
+         zqow==
+X-Gm-Message-State: AOJu0YwQoX0rq59YQBx1xbCScqI6xYeFiw5pXSqHXWPrT3wTCENDDUJ7
+	Rtd5aDGyRdYdVULuGGmcfLWPkYZyx+Xe9ABruzz8OsHIZaUysw==
+X-Google-Smtp-Source: AGHT+IF5FdPBR02bei/X14Ub000OcoVXRo17m86hQ2MPBeQuC7hWG3H6v1jptH9g+ATyuoxWlGDUexOGIPMl6jmv1Ns=
+X-Received: by 2002:a17:906:1797:b0:a28:bd9c:8363 with SMTP id
+ t23-20020a170906179700b00a28bd9c8363mr3034170eje.57.1704705356043; Mon, 08
+ Jan 2024 01:15:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Mouse wheel resolution with kernel 6.6+
-Content-Language: en-US
-To: Klaus Ethgen <Klaus+lkml@ethgen.de>, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org
-References: <ZZqwmckYIS1rLEAP@ikki.ethgen.ch>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ZZqwmckYIS1rLEAP@ikki.ethgen.ch>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1704565248.git.dxu@dxuuu.xyz>
+In-Reply-To: <cover.1704565248.git.dxu@dxuuu.xyz>
+From: Lorenz Bauer <lorenz.bauer@isovalent.com>
+Date: Mon, 8 Jan 2024 10:15:45 +0100
+Message-ID: <CAN+4W8gPeQ2OjoYLKXsNPyhSVTB+vcSaS3Xzw=-M9Rf5MXfKPg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 0/3] Annotate kfuncs in .BTF_ids section
+To: Daniel Xu <dxu@dxuuu.xyz>
+Cc: linux-input@vger.kernel.org, coreteam@netfilter.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	netfilter-devel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, fsverity@lists.linux.dev, 
+	bpf@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, cgroups@vger.kernel.org, 
+	alexei.starovoitov@gmail.com, olsajiri@gmail.com, quentin@isovalent.com, 
+	alan.maguire@oracle.com, memxor@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[add linux-input mailing list]
+On Sat, Jan 6, 2024 at 7:25=E2=80=AFPM Daniel Xu <dxu@dxuuu.xyz> wrote:
+>
+> =3D=3D=3D Description =3D=3D=3D
+>
+> This is a bpf-treewide change that annotates all kfuncs as such inside
+> .BTF_ids. This annotation eventually allows us to automatically generate
+> kfunc prototypes from bpftool.
+>
+> We store this metadata inside a yet-unused flags field inside struct
+> btf_id_set8 (thanks Kumar!). pahole will be taught where to look.
 
-On 1/7/24 06:09, Klaus Ethgen wrote:
-> Hi,
-> 
-> I have another minor issue that I don't know how to fix. (And even don't
-> know which subsystem creates that issue.)
-> 
-> I use a Logitech MX3 via bluetooth, which work fine for kernel 6.5 and
-> under. But when using kernel 6.6+, the mouse wheel dropped the
-> resolution to not usable slow. Scrolling is not really useful that way.
-> It seems to me that only every second scroll event is forwarded to the X
-> server.
-> 
-> Any help to identify the source of this annoying bug is appreciated.
-> 
-> Regards
->    Klaus
-> 
-> Ps. Please keep me in Cc as I am not subscribed to the list.
-
--- 
-#Randy
+This is great, thanks for tackling this. With yout patches we can
+figure out the full set of kfuncs. Is there a way to extend it so that
+we can tell which program context a kfunc can be called from?
 
