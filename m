@@ -1,201 +1,137 @@
-Return-Path: <linux-input+bounces-1194-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1195-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE2A828C09
-	for <lists+linux-input@lfdr.de>; Tue,  9 Jan 2024 19:10:54 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F35FF828D65
+	for <lists+linux-input@lfdr.de>; Tue,  9 Jan 2024 20:29:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B17D41F263A3
-	for <lists+linux-input@lfdr.de>; Tue,  9 Jan 2024 18:01:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E896AB239C3
+	for <lists+linux-input@lfdr.de>; Tue,  9 Jan 2024 19:29:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8369F3C487;
-	Tue,  9 Jan 2024 18:00:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FFE43D384;
+	Tue,  9 Jan 2024 19:29:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ahhnHmr1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hQuoBpjn"
 X-Original-To: linux-input@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F633C062;
-	Tue,  9 Jan 2024 18:00:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704823223; x=1736359223;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=JBHTOFjS+8FeBiXrdcJULXAotQDo9K1j/BNorbGGqgc=;
-  b=ahhnHmr1uLg3V+ScKwwZaBajoVIaNVlybkLScZcJCZH9jMfTG09gqqJY
-   krg2emhwMJVCrjFS2ifSoCRB0DM7Qe4T+VE5DvSdAP6P3MPuV6/hiu8hA
-   ClTvGJxMpsSQct9WWM7EDnrCod4SJ6G4GkbCc5hyaAS2NA/7IK0GgDmD3
-   7K/IVQcGJS6kLP6TQiGHHQBf4ehrXcEH5+Xm9P4AY5uztTF0q8xqHgJ70
-   ZhqrUfU5xlFXcRAY9zaBH/uBdqzpdfKd2U1Zwrq/rcL9C3DDB4jbigwRw
-   M+FCGyoz3O+xPm/AxqFEaBRdrRs0O+n9QZHF2T/pICyR+FzPe2kz39lXU
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="429458629"
-X-IronPort-AV: E=Sophos;i="6.04,183,1695711600"; 
-   d="scan'208";a="429458629"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 10:00:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="852269571"
-X-IronPort-AV: E=Sophos;i="6.04,183,1695711600"; 
-   d="scan'208";a="852269571"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.14])
-  by fmsmga004.fm.intel.com with ESMTP; 09 Jan 2024 10:00:19 -0800
-From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To: jikos@kernel.org,
-	jic23@kernel.org,
-	lars@metafoo.de,
-	Basavaraj.Natikar@amd.com
-Cc: linux-input@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH v3 4/4] iio: hid-sensor-als: Add light chromaticity support
-Date: Tue,  9 Jan 2024 10:00:07 -0800
-Message-Id: <20240109180007.3373784-5-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240109180007.3373784-1-srinivas.pandruvada@linux.intel.com>
-References: <20240109180007.3373784-1-srinivas.pandruvada@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1433A1AF;
+	Tue,  9 Jan 2024 19:28:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-20400d5b54eso2252532fac.1;
+        Tue, 09 Jan 2024 11:28:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704828538; x=1705433338; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=fvSkB8NcbH6dCf0f6q6mmenWoRpDu3bkcddPRwNi4/Q=;
+        b=hQuoBpjn5fBYdyA4ubB+sgYUhsyFLpUAux38BczzN7e3BrKOpK3QaO06xeE1uzyPxf
+         je5B3ywhHP6uqRWR2ql+z+pZFsHjNjcr0msAcSMLyjwLwh++tN1wFI1S2GB07++wrQEa
+         CCMx1uQ9gesj9RoDjHSM5OidqobiBrfEhjYIWw+aIP2GUBWceVqEmmh+diwLZfctJW6e
+         oPIL5gSaIkXI35LMJG2oCP6yc1FgLdSrWbqBWONc8RDbfvn56upb/K6j8jMoQbQ2dEQ4
+         IoMkPbfyjRTTom2CQUQWH/vWAj6tJpq/XpCruorcJ79cZoSQ2Iq+S9o6AQ1dNlvn4ywB
+         XZ1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704828538; x=1705433338;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fvSkB8NcbH6dCf0f6q6mmenWoRpDu3bkcddPRwNi4/Q=;
+        b=C4q9zhMWNzHrgQjgprHOPwCOxkNlhiSQBDjVau7Gy8cw3svlRqFNfB69QDq0U1gOik
+         LQJ4yOO0+Czq68XrlG6xr5iX/0uLvPRc2b8N9HYl6FmFLVkPnyRqfzoFuIEcTFcpyhtb
+         d/4e+vsZl/36Qe3kGuVh0DS8CjwsdfU9og6gtHwdUshLeb5E2TzhKuk1geJECx9Jysqt
+         WrymjoM22OQeKT8zwMtTce1u3wwtWPDYpLf3Dmtb94yedXV9Wr7MPQLU48favzI4OumN
+         hTnLx/Va3dThjvJrp/K7DV9k5YXkBHyn5aewYaIG1YVPyyt0x/na/bq3Tm9/D7t+ZIu4
+         rIuA==
+X-Gm-Message-State: AOJu0YxVe+9n1mBhYo2WsfnNfdVFp83kzYVTYoFN8AFfEQOREV7nQuCu
+	4bPRAS1hbU2T0E+TSgP1UuI=
+X-Google-Smtp-Source: AGHT+IGFird2agEMQv/48+wpoPiULmWbtUHqrMLdGGWWdHYj7BlplRfptc67RPtPQPgsGTSfM2TYQA==
+X-Received: by 2002:a05:6870:5e4c:b0:1fa:1f3e:b8a7 with SMTP id ne12-20020a0568705e4c00b001fa1f3eb8a7mr6865965oac.20.1704828537642;
+        Tue, 09 Jan 2024 11:28:57 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:1135:ca4a:123c:5e53])
+        by smtp.gmail.com with ESMTPSA id m185-20020a6326c2000000b005bd627c05c3sm1978266pgm.19.2024.01.09.11.28.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jan 2024 11:28:57 -0800 (PST)
+Date: Tue, 9 Jan 2024 11:28:54 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Jonathan Denose <jdenose@chromium.org>
+Cc: linux-input@vger.kernel.org, Jonathan Denose <jdenose@google.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+	Takashi Iwai <tiwai@suse.de>,
+	Werner Sembach <wse@tuxedocomputers.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: i8042 - add quirk for Lenovo ThinkPad T14 Gen 1
+Message-ID: <ZZ2eduF_h7lcBrSL@google.com>
+References: <20230925163313.1.I55bfb5880d6755094a995d3ae44c13810ae98be4@changeid>
+ <ZWF76ALANQwP_9b1@google.com>
+ <CALNJtpUHHaq6g0wSuyaNBxtOE9kt6vDzdAGGu6j=JJdJmerDWQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALNJtpUHHaq6g0wSuyaNBxtOE9kt6vDzdAGGu6j=JJdJmerDWQ@mail.gmail.com>
 
-From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Hi Jonathan,
 
-On some platforms, ambient color sensors also support the x and y light
-colors, which represent the coordinates on the CIE 1931 chromaticity
-diagram. Add light chromaticity x and y.
+On Mon, Nov 27, 2023 at 10:38:57AM -0600, Jonathan Denose wrote:
+> Hi Dmitry
+> 
+> On Fri, Nov 24, 2023 at 10:45 PM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
+> >
+> > Hi Jonathan,
+> >
+> > On Mon, Sep 25, 2023 at 04:33:20PM -0500, Jonathan Denose wrote:
+> > > The ThinkPad T14 Gen 1 touchpad works fine except that clicking
+> > > and dragging by tapping the touchpad or depressing the touchpad
+> > > do not work. Disabling PNP for controller setting discovery enables
+> > > click and drag without negatively impacting other touchpad features.
+> >
+> > I would like to understand more on how enabling PnP discovery for i8042
+> > affects the touchpad. Do you see it using different interrupt or IO
+> > ports? What protocol does the touchpad use with/without PnP? If the
+> > protocol is the same, do you see difference in the ranges (pressure,
+> > etc) reported by the device?
+> >
+> > Thanks.
+> >
+> > --
+> > Dmitry
+> 
+> Without PnP discovery the touchpad is using the SynPS/2 protocol, with
+> PnP discovery, the touchpad is using the rmi4 protocol. Since the
+> protocols are different, so are the ranges but let me know if you
+> still want to see them.
 
-Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
-I don't have a system to test this patch.
-Hi Basavraj,
-Please test.
+Thank you for this information. So it is not PnP discovery that appears
+harmful in your case, but rather that legacy PS/2 mode appears to be
+working better than RMI4 for the device in question.
 
-v3:
-Simplilified as no special processing is required in als_parse_report()
+I will note that the original enablement of RMI4 for T14 was done by
+Hans in [1]. Later T14 with AMD were added to the list of devices that
+should use RMI4 [2], however this was reverted in [3].
 
-v2:
-Original patch from Basavaraj Natikar <Basavaraj.Natikar@amd.com> is
-modified to prevent failure when the new usage id is not found in the
-descriptor.
+Could you please tell me what exact device you are dealing with? What's
+it ACPI ID?
 
- drivers/iio/light/hid-sensor-als.c | 48 ++++++++++++++++++++++++++++++
- include/linux/hid-sensor-ids.h     |  3 ++
- 2 files changed, 51 insertions(+)
+[1] https://lore.kernel.org/all/20201005114919.371592-1-hdegoede@redhat.com/
+[2] https://lore.kernel.org/r/20220318113949.32722-1-snafu109@gmail.com
+[3] https://lore.kernel.org/r/20220920193936.8709-1-markpearson@lenovo.com
 
-diff --git a/drivers/iio/light/hid-sensor-als.c b/drivers/iio/light/hid-sensor-als.c
-index 0d54eb59e47d..9c31febc84b8 100644
---- a/drivers/iio/light/hid-sensor-als.c
-+++ b/drivers/iio/light/hid-sensor-als.c
-@@ -17,6 +17,8 @@ enum {
- 	CHANNEL_SCAN_INDEX_INTENSITY,
- 	CHANNEL_SCAN_INDEX_ILLUM,
- 	CHANNEL_SCAN_INDEX_COLOR_TEMP,
-+	CHANNEL_SCAN_INDEX_CHROMATICITY_X,
-+	CHANNEL_SCAN_INDEX_CHROMATICITY_Y,
- 	CHANNEL_SCAN_INDEX_MAX
- };
- 
-@@ -45,6 +47,8 @@ static const u32 als_usage_ids[] = {
- 	HID_USAGE_SENSOR_LIGHT_ILLUM,
- 	HID_USAGE_SENSOR_LIGHT_ILLUM,
- 	HID_USAGE_SENSOR_LIGHT_COLOR_TEMPERATURE,
-+	HID_USAGE_SENSOR_LIGHT_CHROMATICITY_X,
-+	HID_USAGE_SENSOR_LIGHT_CHROMATICITY_Y,
- };
- 
- static const u32 als_sensitivity_addresses[] = {
-@@ -86,6 +90,30 @@ static const struct iio_chan_spec als_channels[] = {
- 		BIT(IIO_CHAN_INFO_HYSTERESIS_RELATIVE),
- 		.scan_index = CHANNEL_SCAN_INDEX_COLOR_TEMP,
- 	},
-+	{
-+		.type = IIO_CHROMATICITY,
-+		.modified = 1,
-+		.channel2 = IIO_MOD_X,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),
-+		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_OFFSET) |
-+		BIT(IIO_CHAN_INFO_SCALE) |
-+		BIT(IIO_CHAN_INFO_SAMP_FREQ) |
-+		BIT(IIO_CHAN_INFO_HYSTERESIS) |
-+		BIT(IIO_CHAN_INFO_HYSTERESIS_RELATIVE),
-+		.scan_index = CHANNEL_SCAN_INDEX_CHROMATICITY_X,
-+	},
-+	{
-+		.type = IIO_CHROMATICITY,
-+		.modified = 1,
-+		.channel2 = IIO_MOD_Y,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),
-+		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_OFFSET) |
-+		BIT(IIO_CHAN_INFO_SCALE) |
-+		BIT(IIO_CHAN_INFO_SAMP_FREQ) |
-+		BIT(IIO_CHAN_INFO_HYSTERESIS) |
-+		BIT(IIO_CHAN_INFO_HYSTERESIS_RELATIVE),
-+		.scan_index = CHANNEL_SCAN_INDEX_CHROMATICITY_Y,
-+	},
- 	IIO_CHAN_SOFT_TIMESTAMP(CHANNEL_SCAN_INDEX_TIMESTAMP)
- };
- 
-@@ -129,6 +157,16 @@ static int als_read_raw(struct iio_dev *indio_dev,
- 			min = als_state->als[chan->scan_index].logical_minimum;
- 			address = HID_USAGE_SENSOR_LIGHT_COLOR_TEMPERATURE;
- 			break;
-+		case  CHANNEL_SCAN_INDEX_CHROMATICITY_X:
-+			report_id = als_state->als[chan->scan_index].report_id;
-+			min = als_state->als[chan->scan_index].logical_minimum;
-+			address = HID_USAGE_SENSOR_LIGHT_CHROMATICITY_X;
-+			break;
-+		case  CHANNEL_SCAN_INDEX_CHROMATICITY_Y:
-+			report_id = als_state->als[chan->scan_index].report_id;
-+			min = als_state->als[chan->scan_index].logical_minimum;
-+			address = HID_USAGE_SENSOR_LIGHT_CHROMATICITY_Y;
-+			break;
- 		default:
- 			report_id = -1;
- 			break;
-@@ -257,6 +295,16 @@ static int als_capture_sample(struct hid_sensor_hub_device *hsdev,
- 		als_state->scan.illum[scan_index] = sample_data;
- 		ret = 0;
- 		break;
-+	case HID_USAGE_SENSOR_LIGHT_CHROMATICITY_X:
-+		scan_index = als_state->scan.scan_index[CHANNEL_SCAN_INDEX_CHROMATICITY_X];
-+		als_state->scan.illum[scan_index] = sample_data;
-+		ret = 0;
-+		break;
-+	case HID_USAGE_SENSOR_LIGHT_CHROMATICITY_Y:
-+		scan_index = als_state->scan.scan_index[CHANNEL_SCAN_INDEX_CHROMATICITY_Y];
-+		als_state->scan.illum[scan_index] = sample_data;
-+		ret = 0;
-+		break;
- 	case HID_USAGE_SENSOR_TIME_TIMESTAMP:
- 		als_state->timestamp = hid_sensor_convert_timestamp(&als_state->common_attributes,
- 								    *(s64 *)raw_data);
-diff --git a/include/linux/hid-sensor-ids.h b/include/linux/hid-sensor-ids.h
-index 8af4fb3e0254..6730ee900ee1 100644
---- a/include/linux/hid-sensor-ids.h
-+++ b/include/linux/hid-sensor-ids.h
-@@ -22,6 +22,9 @@
- #define HID_USAGE_SENSOR_DATA_LIGHT				0x2004d0
- #define HID_USAGE_SENSOR_LIGHT_ILLUM				0x2004d1
- #define HID_USAGE_SENSOR_LIGHT_COLOR_TEMPERATURE		0x2004d2
-+#define HID_USAGE_SENSOR_LIGHT_CHROMATICITY			0x2004d3
-+#define HID_USAGE_SENSOR_LIGHT_CHROMATICITY_X			0x2004d4
-+#define HID_USAGE_SENSOR_LIGHT_CHROMATICITY_Y			0x2004d5
- 
- /* PROX (200011) */
- #define HID_USAGE_SENSOR_PROX                                   0x200011
+Thanks.
+
 -- 
-2.43.0
-
+Dmitry
 
