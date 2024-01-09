@@ -1,112 +1,121 @@
-Return-Path: <linux-input+bounces-1197-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1198-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08625828F23
-	for <lists+linux-input@lfdr.de>; Tue,  9 Jan 2024 22:48:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A44C9828F36
+	for <lists+linux-input@lfdr.de>; Tue,  9 Jan 2024 22:50:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 40051B21F27
-	for <lists+linux-input@lfdr.de>; Tue,  9 Jan 2024 21:48:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 575711F24486
+	for <lists+linux-input@lfdr.de>; Tue,  9 Jan 2024 21:50:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AF083DB93;
-	Tue,  9 Jan 2024 21:48:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W0v0lAOr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9453B3DBB7;
+	Tue,  9 Jan 2024 21:50:13 +0000 (UTC)
 X-Original-To: linux-input@vger.kernel.org
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53253C6BF;
-	Tue,  9 Jan 2024 21:48:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-595b208a050so2178394eaf.0;
-        Tue, 09 Jan 2024 13:48:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704836908; x=1705441708; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UvdJeq2ZBGjXZzlPb1uDy/+QxH7QbSi8cCkivdpW86k=;
-        b=W0v0lAOrjixCW3VBfB/7DyErQuGWnd/D5mF7Na1L2XUozE+qcFdIYhxfQvzxgBoWpH
-         BOCnFQGLP88N0ZbO7aSZ+4TuJ7Bs6x1txsS8F/7xXpbaPY9SBPYtopQ0jCBNjMbvGz2o
-         bgUPw9glYgVPXjdV2kAs3NrtFe2Fp1FX0kS6YB9Ex4H5awKzLUs/pbd/4cRHrl4W3jnR
-         NBROdZQGFyIRxfNbwlenftDjeVtKbMgQBSQVHFtheCwuLroghnCz7VLGnsAMjoRJg9co
-         esniL4esdNLuNjXfCq/l0mJATDKOJ1yz3oL09McveM2DebrHIXJpRwZZsplMD6f6Q7/9
-         lDyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704836908; x=1705441708;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UvdJeq2ZBGjXZzlPb1uDy/+QxH7QbSi8cCkivdpW86k=;
-        b=ITxYDhoH8PgMV698z5QTddAOw6fayDwssSXTFD18hz5Q7nL6JBGFwx1ghCffxJXHll
-         bebeG4tcnSjxKeGdDDR5u4vOdTRj7dkWENGD27yihp+zJ7hj6Fn8zQE62vjlSt3v02gq
-         sfL7m2Tncg62tXBEINxJLZinyiIKFi1oZkKKrx59xpM3AUlFSbS2nFMfMDWKMou2SH84
-         1alHU0+lLoYm/8d4xKSN2GEcgEbO4v3Kkbk0px6utKQEjJIhSM3DQl/D6SLK57cv7Lhs
-         KVEoQSxDeknaI3Q2pih6s0+oFkZNX7PzArHZF0AIjwRp9WK1h6HZfjL0mJnL8E3EzAJx
-         iXfA==
-X-Gm-Message-State: AOJu0YyIoVHgTDawDnLWFP0BO+u/9OHpYQg4umrWQvUM4IjokLiiZSFh
-	QP+yTuqaMU8IhS0CpKDDRTo=
-X-Google-Smtp-Source: AGHT+IHUwiTUiTbOOMgRI+gBgs9efvZk8PJoJM0uHPgr/GwHLKas07lU6aQ4pBFuYyzhVoGr8P65fw==
-X-Received: by 2002:a05:6358:5e1d:b0:175:a47b:6616 with SMTP id q29-20020a0563585e1d00b00175a47b6616mr21234rwn.24.1704836907570;
-        Tue, 09 Jan 2024 13:48:27 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:1135:ca4a:123c:5e53])
-        by smtp.gmail.com with ESMTPSA id u12-20020aa7848c000000b006d97cc5cc13sm2137072pfn.8.2024.01.09.13.48.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 13:48:27 -0800 (PST)
-Date: Tue, 9 Jan 2024 13:48:24 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: hdegoede@redhat.com, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] i8042: Add forcenorestore quirk to leave
- controller untouched even on s3
-Message-ID: <ZZ2_KMGdokHNWcNL@google.com>
-References: <20240104183118.779778-1-wse@tuxedocomputers.com>
- <20240104183118.779778-2-wse@tuxedocomputers.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2515A3DBB5
+	for <linux-input@vger.kernel.org>; Tue,  9 Jan 2024 21:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rNJz3-0001vm-5L; Tue, 09 Jan 2024 22:50:05 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rNJz2-001Z3k-Mt; Tue, 09 Jan 2024 22:50:04 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rNJz2-0066TS-1z;
+	Tue, 09 Jan 2024 22:50:04 +0100
+Date: Tue, 9 Jan 2024 22:50:04 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Pavel Machek <pavel@ucw.cz>
+Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	linux-input@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 4.19 4/7] Input: amimouse - convert to platform
+ remove callback returning void
+Message-ID: <qkb22czelncqf43vr2kuz6i6npuq4juyr3ggl3jkdbp6t2uzfs@ftbna3qj6qhq>
+References: <20231226002649.7290-1-sashal@kernel.org>
+ <20231226002649.7290-4-sashal@kernel.org>
+ <ZZ0xt75z/qSf5f8V@duo.ucw.cz>
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="z4dqfcfoobhdzq6r"
 Content-Disposition: inline
-In-Reply-To: <20240104183118.779778-2-wse@tuxedocomputers.com>
+In-Reply-To: <ZZ0xt75z/qSf5f8V@duo.ucw.cz>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 
-Hi Werner,
 
-On Thu, Jan 04, 2024 at 07:31:17PM +0100, Werner Sembach wrote:
-> On s3 resume the i8042 driver tries to restore the controller to a known
-> state by reinitializing things, however this can confuse the controller
-> with different effects. Mostly occasionally unresponsive keyboards after
-> resume.
-> 
-> These issues do not rise on s0ix resume as here the controller is assumed
-> to preserved its state from before suspend.
-> 
-> This patch adds a quirk for devices where the reinitialization on s3 resume
-> is not needed and might be harmful as described above. It does this by
-> using the s0ix resume code path at selected locations.
-> 
-> This new quirk goes beyond what the preexisting reset=never quirk does,
-> which only skips some reinitialization steps.
+--z4dqfcfoobhdzq6r
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I think the original change mentioned not only issues on resume, but
-also after boot, which this one does not address, at least directly, so
-I am not sure if this patch is the proper replacement.
+On Tue, Jan 09, 2024 at 12:44:55PM +0100, Pavel Machek wrote:
+> Hi!
+>=20
+> > From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> >=20
+> > [ Upstream commit 42b8ff47720258d1f6a4412e780a480c139773a0 ]
+> >=20
+> > The .remove() callback for a platform driver returns an int which makes
+> > many driver authors wrongly assume it's possible to do error handling by
+> > returning an error code. However the value returned is ignored (apart
+> > from emitting a warning) and this typically results in resource leaks.
+> >=20
+> > To improve here there is a quest to make the remove callback return
+> > void. In the first step of this quest all drivers are converted to
+> > .remove_new(), which already returns void. Eventually after all drivers
+> > are converted, .remove_new() will be renamed to .remove().
+> >=20
+> > Trivially convert this driver from always returning zero in the remove
+> > callback to the void returning variant.
+>=20
+> We don't really need this for -stable.
 
-I would also like to understand better what exact step is troublesome,
-as I would be surprised if any interaction with the keyboard
-controller while suspending causes the issue to manifest. Is it enough,
-by chance, to skip restoring MUX mode and reset?
+Agreed! These patches shouldn't get backported to stable. Even if they
+are a dependency (which isn't the case for this patch AFAICT),
+backporting of later patches isn't hard even when dropping these
+patches.
 
-Also, shoudl this system use s2idle by chance?
+Best regards
+Uwe
 
-Thanks.
 
--- 
-Dmitry
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--z4dqfcfoobhdzq6r
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmWdv4sACgkQj4D7WH0S
+/k7Ikgf9Ff56k8gPg9Rqm0wNd4bcxm3xlWSN6sjrtlYtZ7hUFMbbo9GjjHFzwMS8
+HxZm3aP5BMJx4BwkCGd01taCgJmANyrw6ZWZ9Um66my+592guOUVdEerXalMm9Yx
+bI6UjPrHNcEm9LhVdBhuEM7vXI3pvIESsfgJX/gMpUCgCkFfqSJKRwsvfavZ5pnS
+5SKkJ8LXgj9oMO7Kvehpyq71T6mLk7bhlz608Ns2euCY/plYxm8YYVtD0Y47wlhs
+N7LIUDpK42CgAbCpP1pI9gfkAdxR2IwX7x5cPT05lHj2UV+J9ofwo+hxvWPwlkzq
+ROZCoWdY52UhGFL4jRiZpnJ3VOnDjw==
+=FCqt
+-----END PGP SIGNATURE-----
+
+--z4dqfcfoobhdzq6r--
 
