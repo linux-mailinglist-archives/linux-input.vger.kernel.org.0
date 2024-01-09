@@ -1,120 +1,172 @@
-Return-Path: <linux-input+bounces-1168-lists+linux-input=lfdr.de@vger.kernel.org>
+Return-Path: <linux-input+bounces-1169-lists+linux-input=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7013827CF5
-	for <lists+linux-input@lfdr.de>; Tue,  9 Jan 2024 03:41:39 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AFBC827E1F
+	for <lists+linux-input@lfdr.de>; Tue,  9 Jan 2024 06:10:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 19D851C2326D
-	for <lists+linux-input@lfdr.de>; Tue,  9 Jan 2024 02:41:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CA2D7B234A6
+	for <lists+linux-input@lfdr.de>; Tue,  9 Jan 2024 05:10:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 806455686;
-	Tue,  9 Jan 2024 02:41:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA80D6138;
+	Tue,  9 Jan 2024 05:10:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Lu49z6Oe"
 X-Original-To: linux-input@vger.kernel.org
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E000E5665;
-	Tue,  9 Jan 2024 02:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf18.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id 8D1B040189;
-	Tue,  9 Jan 2024 02:34:34 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf18.hostedemail.com (Postfix) with ESMTPA id B02C930;
-	Tue,  9 Jan 2024 02:34:31 +0000 (UTC)
-Message-ID: <10aeef4ddd523b85ab34327bf384119d0d4b6567.camel@perches.com>
-Subject: Re: [HID Patchsets for Samsung driver v2 2/6] HID: Samsung : Fix
- the checkpatch complain.
-From: Joe Perches <joe@perches.com>
-To: "sandeep.cs" <sandeep.cs@samsung.com>, 'Jiri Kosina' <jikos@kernel.org>,
-  'Benjamin Tissoires' <benjamin.tissoires@redhat.com>
-Cc: gaudium.lee@samsung.com, ih0923.kim@samsung.com,
- suhyun_.kim@samsung.com,  jitender.s21@samsung.com, junwan.cho@samsung.com,
- linux-input@vger.kernel.org,  linux-kernel@vger.kernel.org
-Date: Mon, 08 Jan 2024 18:34:30 -0800
-In-Reply-To: <020e01da421f$c0d20660$42761320$@samsung.com>
-References: <20240108091917.1552013-1-sandeep.cs@samsung.com>
-	 <CGME20240108091959epcas5p2559b779424e2fb7c7e268d1b24612b4f@epcas5p2.samsung.com>
-	 <20240108091917.1552013-3-sandeep.cs@samsung.com>
-	 <486973921f89f70bcc5d42501eeca3fd105be2c4.camel@perches.com>
-	 <020e01da421f$c0d20660$42761320$@samsung.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD15184C
+	for <linux-input@vger.kernel.org>; Tue,  9 Jan 2024 05:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-28c179bf45cso2278238a91.1
+        for <linux-input@vger.kernel.org>; Mon, 08 Jan 2024 21:10:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1704777027; x=1705381827; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wlf90X0P+vhU5VZcrW3yZ6fVUCCORon75ZKxjDtkw8Q=;
+        b=Lu49z6OeN3jBfHdMxZJ4P/LnBNSDl+iPqlVeXQSZBWd1+HqQ5AqVECrACVG8SEiTxB
+         shA/N87rv7UlIlep18kBJekX+9YvuYHx/nTzc/lxTlBt3Os3hI7cDE3xV0clwDiKEMC8
+         9hcG3Rq5gMCqk4YqkpRM2LBxTI1U004s+hwyk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704777027; x=1705381827;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wlf90X0P+vhU5VZcrW3yZ6fVUCCORon75ZKxjDtkw8Q=;
+        b=sK0wu2NH4C1PB+4qm20Rwau8HRoBV3W2vLnctt4z/J9K3+ycNnRQ7YkMLV1ZrJgVPu
+         xkupAEwHO8Y7zEk0w+IOaLkdOMzvfQDWVHtBxbIJDkoBBu5rBTs4PStVhdmYZ32z1LWv
+         5yryjEkQw1xS9R3rJKnDG1/HQw11V/bn4WAx8j6LsIXq2o1Ff4h0il32PKtcm/tH/ynz
+         RA0qQHyX0836GLMv2EdNMVsy7My/pZuQWbLFkxumQKF3UXKlVaxOJQDJcVv2T9XzNCIf
+         olUmDsnkRDRwkdEZ+CJ4Md+YQ/PCBao8Icr5+6YJLvdjGHtV7AhDeHFFKMZlCD/+ePPo
+         l54Q==
+X-Gm-Message-State: AOJu0Yx8W9FXCmAkmBeKbuxD0FNJDuNjoNCAV4J5WSDXi4+P95MKyKx4
+	Jf+M7Nl+Rvvb3RUzJjkHXFCxNQ75b/hX
+X-Google-Smtp-Source: AGHT+IGUxIhi/Ohyh8UO7pb7HZLar6dLBl7zwZDR2s74XJO53hdYfENhj0xjsjxfEi8PSyjsYe/GXQ==
+X-Received: by 2002:a17:90b:1e03:b0:28d:1365:baff with SMTP id pg3-20020a17090b1e0300b0028d1365baffmr2647537pjb.32.1704777027291;
+        Mon, 08 Jan 2024 21:10:27 -0800 (PST)
+Received: from amakhalov-build-vm.eng.vmware.com ([128.177.82.146])
+        by smtp.gmail.com with ESMTPSA id u12-20020a17090ac88c00b0028aecd6b29fsm7344115pjt.3.2024.01.08.21.10.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jan 2024 21:10:27 -0800 (PST)
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+X-Google-Original-From: Alexey Makhalov <amakhalov@vmware.com>
+To: linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	bp@alien8.de,
+	hpa@zytor.com,
+	dave.hansen@linux.intel.com,
+	mingo@redhat.com,
+	tglx@linutronix.de
+Cc: x86@kernel.org,
+	netdev@vger.kernel.org,
+	richardcochran@gmail.com,
+	linux-input@vger.kernel.org,
+	dmitry.torokhov@gmail.com,
+	zackr@vmware.com,
+	linux-graphics-maintainer@vmware.com,
+	pv-drivers@vmware.com,
+	namit@vmware.com,
+	timothym@vmware.com,
+	akaher@vmware.com,
+	jsipek@vmware.com,
+	dri-devel@lists.freedesktop.org,
+	daniel@ffwll.ch,
+	airlied@gmail.com,
+	tzimmermann@suse.de,
+	mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com,
+	horms@kernel.org,
+	kirill.shutemov@linux.intel.com
+Subject: [PATCH v5 0/7] VMware hypercalls enhancements
+Date: Mon,  8 Jan 2024 21:10:10 -0800
+Message-Id: <20240109051017.58167-1-amakhalov@vmware.com>
+X-Mailer: git-send-email 2.39.0
 Precedence: bulk
 X-Mailing-List: linux-input@vger.kernel.org
 List-Id: <linux-input.vger.kernel.org>
 List-Subscribe: <mailto:linux-input+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-input+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Stat-Signature: 8px9nt77ak184m7pm8kydhce6yd95e4c
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: B02C930
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+WUbPlmxvZTf3rFTUAcrpyC10KPvDb1P0=
-X-HE-Tag: 1704767671-95191
-X-HE-Meta: U2FsdGVkX1+4BlMMN4VYkL7ubNmhBc7tEHFS823XnNWJbctipkN5qo8dsBAtnQBSM23x7/0gA+c8DqFScQmmes356bB6zgWnc166SzJh6NhxxHxLd/oflvJYO6wdUBRpZrsqTs9fHVHFE4aR6HcLkOMUyHyivl6/iqUq8StCgI6QnJy60+QidZoOUQ6mTK8wuSO2t2D/hpiFGb2/O7mWqHNs/HTkANXo1svYPcHmt3QzFNOb9z5+Te7v6GnJlS1ptztuqgvfq2b2y5ZMsA9SVU69XtgfQto4DCZitn84L4iEzAzoQpjADRhZp7TigHat
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2024-01-08 at 16:14 +0530, sandeep.cs wrote:
-> > On Mon, 2024-01-08 at 14:49 +0530, Sandeep C S wrote:
+VMware hypercalls invocations were all spread out across the kernel
+implementing same ABI as in-place asm-inline. With encrypted memory
+and confidential computing it became harder to maintain every changes
+in these hypercall implementations.
 
-Generally, it's better to refactor code that checkpatch
-bleats about than merely shutting up the warning.
+Intention of this patchset is to introduce arch independent VMware
+hypercall API layer other subsystems such as device drivers can call
+to, while hiding architecture specific implementation behind.
 
-> > For this block, I think a rewrite using memcmp would be clearer.
-> > Something like:=20
-> Okay . Thanks for your valuable feedback. We will promptly address your
-> suggestions and enhance our code accordingly.
-> And also please review other patch set as well.
+Second patch introduces the vmware_hypercall low and high bandwidth
+families of functions, with little enhancements there.
+Sixth patch adds tdx hypercall support
 
-Another way to write the input_mapping function is
-using a static const struct and a for loop like:
+arm64 implementation of vmware_hypercalls is in drivers/gpu/drm/
+vmwgfx/vmwgfx_msg_arm64.h and going to be moved to arch/arm64 with
+a separate patchset with the introduction of VMware Linux guest
+support for arm64.
 
-static int samsung_kbd_mouse_input_mapping(struct hid_device *hdev,
-	struct hid_input *hi, struct hid_field *field, struct hid_usage *usage,
-	unsigned long **bit, int *max)
-{
-	struct usb_interface *intf =3D to_usb_interface(hdev->dev.parent);
-	unsigned short ifnum =3D intf->cur_altsetting->desc.bInterfaceNumber;
-	static const struct {
-		unsigned hid;
-		__u16 map;
-	} samsung_hid_key_map[] =3D {
-		{0x183, KEY_MEDIA},
-		{0x195, KEY_EMAIL},
-		{0x196, KEY_CALC},
-		{0x197, KEY_COMPUTER},
-		{0x22b, KEY_SEARCH},
-		{0x22c, KEY_WWW},
-		{0x22d, KEY_BACK},
-		{0x22e, KEY_FORWARD},
-		{0x22f, KEY_FAVORITES},
-		{0x230, KEY_REFRESH},
-		{0x231, KEY_STOP},
-	};
-	int i;
-	unsigned hid;
+No functional changes in drivers/input/mouse/vmmouse.c and
+drivers/ptp/ptp_vmw.c
 
-	if (1 !=3D ifnum || HID_UP_CONSUMER !=3D (usage->hid & HID_USAGE_PAGE))
-		return 0;
+v4->v5 changes:
+  [patch 2]:
+- Fixed the problem reported by Simon Horman where build fails after
+  patch 2 application. Do not undefine VMWARE_HYPERCALL for now, and
+  update vmwgfx, vmmouse and ptp_vmw code for new VMWARE_HYPERCALL macro.
+- Introduce new patch 6 to undefine VMWARE_HYPERCALL, which is safe to do
+  after patches 3 to 5.
+- [patch 7 (former patch 6)]: Add missing r15 (CPL) initialization.
 
-	hid =3D usage->hid & HID_USAGE;
+v3->v4 changes: (no functional changes in patches 1-5)
+  [patch 2]:
+- Added the comment with VMware hypercall ABI description.
+  [patch 6]:
+- vmware_tdx_hypercall_args remove in6/out6 arguments as excessive.
+- vmware_tdx_hypercall return ULONG_MAX on error to mimic bad hypercall
+  command error from the hypervisor.
+- Replaced pr_warn by pr_warn_once as pointed by Kirill Shutemov.
+- Fixed the warning reported by Intel's kernel test robot.
+- Added the comment describing VMware TDX hypercall ABI.
 
-	dbg_hid("samsung wireless keyboard/mouse input mapping event [0x%x]\n",
-		hid);
+v2->v3 changes: (no functional changes in patches 1-5)
+- Improved commit message in patches 1, 2 and 5 as was suggested by
+  Borislav Petkov.
+- To address Dave Hansen's concern, patch 6 was reorganized to avoid
+  exporting bare __tdx_hypercall and to make exported vmware_tdx_hypercall
+  VMWare guest specific.
 
-	for (i =3D 0; i < ARRAY_SIZE(samsung_hid_key_map); i++) {
-		if (hid =3D=3D samsung_hid_key_map[i].hid) {
-			hid_map_usage_clear(hi, usage, bit, max, EV_KEY,
-					    samsung_hid_key_map[i].map);
-			return 1;
-		}
-	}
+v1->v2 changes (no functional changes):
+- Improved commit message in patches 2 and 5.
+- Added Reviewed-by for all patches.
+- Added Ack from Dmitry Torokhov in patch 4. No fixes regarding reported
+  by Simon Horman gcc error in this patch.
 
-	return 0;
-}
+Alexey Makhalov (7):
+  x86/vmware: Move common macros to vmware.h
+  x86/vmware: Introduce VMware hypercall API
+  ptp/vmware: Use VMware hypercall API
+  input/vmmouse: Use VMware hypercall API
+  drm/vmwgfx: Use VMware hypercall API
+  x86/vmware: Undefine VMWARE_HYPERCALL
+  x86/vmware: Add TDX hypercall support
+
+ arch/x86/include/asm/vmware.h             | 364 ++++++++++++++++++++--
+ arch/x86/kernel/cpu/vmware.c              | 117 +++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c       | 173 ++++------
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h | 197 ++++++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h   | 185 -----------
+ drivers/input/mouse/vmmouse.c             |  76 ++---
+ drivers/ptp/ptp_vmw.c                     |  12 +-
+ 7 files changed, 599 insertions(+), 525 deletions(-)
+
+-- 
+2.39.0
 
 
